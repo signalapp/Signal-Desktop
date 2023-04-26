@@ -598,7 +598,7 @@ export function openAndMigrateDatabase(filePath: string, key: string) {
     if (db) {
       db.close();
     }
-    console.log('migrateDatabase: Migration without cipher change failed', error);
+    console.log('migrateDatabase: Migration without cipher change failed', error.message);
   }
 
   // If that fails, we try to open the database with 3.x compatibility to extract the

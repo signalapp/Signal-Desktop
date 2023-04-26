@@ -1,11 +1,10 @@
 import { isEmpty, isNull } from 'lodash';
 import {
-  BaseConfigWrapper,
-  BaseConfigWrapperInsideWorker,
-  ContactsConfigWrapperInsideWorker,
-  ConvoInfoVolatileWrapperInsideWorker,
-  UserConfigWrapperInsideWorker,
-  UserGroupsWrapperInsideWorker,
+  BaseConfigWrapperNode,
+  ContactsConfigWrapperNode,
+  ConvoInfoVolatileWrapperNode,
+  UserConfigWrapperNode,
+  UserGroupsWrapperNode,
 } from 'libsession_util_nodejs';
 import { ConfigWrapperObjectTypes } from '../../browser/libsession_worker_functions';
 
@@ -23,12 +22,12 @@ function assertUnreachable(_x: never, message: string): never {
 /* eslint-disable strict */
 
 // we can only have one of those so don't worry about storing them in a map for now
-let userProfileWrapper: UserConfigWrapperInsideWorker | undefined;
-let contactsConfigWrapper: ContactsConfigWrapperInsideWorker | undefined;
-let userGroupsConfigWrapper: UserGroupsWrapperInsideWorker | undefined;
-let convoInfoVolatileConfigWrapper: ConvoInfoVolatileWrapperInsideWorker | undefined;
+let userProfileWrapper: UserConfigWrapperNode | undefined;
+let contactsConfigWrapper: ContactsConfigWrapperNode | undefined;
+let userGroupsConfigWrapper: UserGroupsWrapperNode | undefined;
+let convoInfoVolatileConfigWrapper: ConvoInfoVolatileWrapperNode | undefined;
 
-function getUserWrapper(type: ConfigWrapperObjectTypes): BaseConfigWrapperInsideWorker | undefined {
+function getUserWrapper(type: ConfigWrapperObjectTypes): BaseConfigWrapperNode | undefined {
   switch (type) {
     case 'UserConfig':
       return userProfileWrapper;
@@ -43,9 +42,7 @@ function getUserWrapper(type: ConfigWrapperObjectTypes): BaseConfigWrapperInside
   }
 }
 
-function getCorrespondingWrapper(
-  wrapperType: ConfigWrapperObjectTypes
-): BaseConfigWrapperInsideWorker {
+function getCorrespondingWrapper(wrapperType: ConfigWrapperObjectTypes): BaseConfigWrapperNode {
   switch (wrapperType) {
     case 'UserConfig':
     case 'ContactsConfig':
@@ -83,10 +80,7 @@ function assertUserWrapperType(wrapperType: ConfigWrapperObjectTypes): ConfigWra
 /**
  * This function can be used to initialize a wrapper which takes the private ed25519 key of the user and a dump as argument.
  */
-function initUserWrapper(
-  options: Array<any>,
-  wrapperType: ConfigWrapperObjectTypes
-): BaseConfigWrapper {
+function initUserWrapper(options: Array<any>, wrapperType: ConfigWrapperObjectTypes) {
   const userType = assertUserWrapperType(wrapperType);
 
   const wrapper = getUserWrapper(wrapperType);
@@ -107,17 +101,17 @@ function initUserWrapper(
   }
   switch (userType) {
     case 'UserConfig':
-      userProfileWrapper = new UserConfigWrapperInsideWorker(edSecretKey, dump);
-      return userProfileWrapper;
+      userProfileWrapper = new UserConfigWrapperNode(edSecretKey, dump);
+      break;
     case 'ContactsConfig':
-      contactsConfigWrapper = new ContactsConfigWrapperInsideWorker(edSecretKey, dump);
-      return contactsConfigWrapper;
+      contactsConfigWrapper = new ContactsConfigWrapperNode(edSecretKey, dump);
+      break;
     case 'UserGroupsConfig':
-      userGroupsConfigWrapper = new UserGroupsWrapperInsideWorker(edSecretKey, dump);
-      return userGroupsConfigWrapper;
+      userGroupsConfigWrapper = new UserGroupsWrapperNode(edSecretKey, dump);
+      break;
     case 'ConvoInfoVolatileConfig':
-      convoInfoVolatileConfigWrapper = new ConvoInfoVolatileWrapperInsideWorker(edSecretKey, dump);
-      return convoInfoVolatileConfigWrapper;
+      convoInfoVolatileConfigWrapper = new ConvoInfoVolatileWrapperNode(edSecretKey, dump);
+      break;
     default:
       assertUnreachable(userType, `initUserWrapper: Missing case error "${userType}"`);
   }
@@ -134,7 +128,6 @@ onmessage = async (e: { data: [number, ConfigWrapperObjectTypes, string, ...any]
       postMessage([jobId, null, null]);
       return;
     }
-
     const wrapper = getCorrespondingWrapper(config);
     const fn = (wrapper as any)[action];
 

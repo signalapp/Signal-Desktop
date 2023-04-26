@@ -75,8 +75,13 @@ async function initializeLibSessionUtilWrappers() {
 
   for (let index = 0; index < missingRequiredVariants.length; index++) {
     const missingVariant = missingRequiredVariants[index];
-    window.log.warn('initializeLibSessionUtilWrappers: missingRequiredVariants: ', missingVariant);
+    window.log.warn(
+      `initializeLibSessionUtilWrappers: missingRequiredVariants "${missingVariant}"`
+    );
     await GenericWrapperActions.init(missingVariant, privateKeyEd25519, null);
+    window.log.debug(
+      `initializeLibSessionUtilWrappers: missingRequiredVariants "${missingVariant}" created`
+    );
   }
 }
 

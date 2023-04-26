@@ -1,9 +1,9 @@
 import * as BetterSqlite3 from 'better-sqlite3';
 import {
-  ContactsConfigWrapperInsideWorker,
-  ConvoInfoVolatileWrapperInsideWorker,
-  UserConfigWrapperInsideWorker,
-  UserGroupsWrapperInsideWorker,
+  ContactsConfigWrapperNode,
+  ConvoInfoVolatileWrapperNode,
+  UserConfigWrapperNode,
+  UserGroupsWrapperNode,
 } from 'libsession_util_nodejs';
 import { compact, isArray, isEmpty, isNumber, isString, map, pick } from 'lodash';
 import {
@@ -1211,8 +1211,8 @@ function updateToSessionSchemaVersion29(currentVersion: number, db: BetterSqlite
 function insertContactIntoContactWrapper(
   contact: any,
   blockedNumbers: Array<string>,
-  contactsConfigWrapper: ContactsConfigWrapperInsideWorker | null, // set this to null to only insert into the convo volatile wrapper (i.e. for ourConvo case)
-  volatileConfigWrapper: ConvoInfoVolatileWrapperInsideWorker,
+  contactsConfigWrapper: ContactsConfigWrapperNode | null, // set this to null to only insert into the convo volatile wrapper (i.e. for ourConvo case)
+  volatileConfigWrapper: ConvoInfoVolatileWrapperNode,
   db: BetterSqlite3.Database
 ) {
   if (contactsConfigWrapper !== null) {
@@ -1296,8 +1296,8 @@ function insertContactIntoContactWrapper(
 
 function insertCommunityIntoWrapper(
   community: { id: string; priority: number },
-  userGroupConfigWrapper: UserGroupsWrapperInsideWorker,
-  volatileConfigWrapper: ConvoInfoVolatileWrapperInsideWorker,
+  userGroupConfigWrapper: UserGroupsWrapperNode,
+  volatileConfigWrapper: ConvoInfoVolatileWrapperNode,
   db: BetterSqlite3.Database
 ) {
   const priority = community.priority;
@@ -1366,8 +1366,8 @@ function insertLegacyGroupIntoWrapper(
     ConversationAttributes,
     'id' | 'priority' | 'expireTimer' | 'displayNameInProfile' | 'lastJoinedTimestamp'
   > & { members: string; groupAdmins: string }, // members and groupAdmins are still stringified here
-  userGroupConfigWrapper: UserGroupsWrapperInsideWorker,
-  volatileInfoConfigWrapper: ConvoInfoVolatileWrapperInsideWorker,
+  userGroupConfigWrapper: UserGroupsWrapperNode,
+  volatileInfoConfigWrapper: ConvoInfoVolatileWrapperNode,
   db: BetterSqlite3.Database
 ) {
   const {
@@ -1546,13 +1546,10 @@ function updateToSessionSchemaVersion30(currentVersion: number, db: BetterSqlite
       const blockedNumbers = getBlockedNumbersDuringMigration(db);
 
       const { privateEd25519, publicKeyHex } = keys;
-      const userProfileWrapper = new UserConfigWrapperInsideWorker(privateEd25519, null);
-      const contactsConfigWrapper = new ContactsConfigWrapperInsideWorker(privateEd25519, null);
-      const userGroupsConfigWrapper = new UserGroupsWrapperInsideWorker(privateEd25519, null);
-      const volatileInfoConfigWrapper = new ConvoInfoVolatileWrapperInsideWorker(
-        privateEd25519,
-        null
-      );
+      const userProfileWrapper = new UserConfigWrapperNode(privateEd25519, null);
+      const contactsConfigWrapper = new ContactsConfigWrapperNode(privateEd25519, null);
+      const userGroupsConfigWrapper = new UserGroupsWrapperNode(privateEd25519, null);
+      const volatileInfoConfigWrapper = new ConvoInfoVolatileWrapperNode(privateEd25519, null);
 
       /**
        * Setup up the User profile wrapper with what is stored in our own conversation
