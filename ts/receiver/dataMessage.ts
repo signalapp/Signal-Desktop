@@ -246,7 +246,7 @@ export async function handleSwarmDataMessage(
   if (expireUpdate && !isEmpty(expireUpdate)) {
     if (isSyncedMessage) {
       // TODO handle sync messages expiring separately?
-      window.log.info('WIP: Sync Message dropping');
+      window.log.debug('WIP: Sync Message dropping');
     } else {
       msgModel = handleExpireUpdate(convoToAddMessageTo, msgModel, expireUpdate);
     }

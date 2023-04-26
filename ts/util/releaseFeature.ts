@@ -36,9 +36,7 @@ export async function checkIsFeatureReleased(featureName: string): Promise<boole
       if (featureAlreadyReleased) {
         // Feature is already released and we don't need to update the db
       } else {
-        window.log.info(
-          `WIP: [releaseFeature]: It is time to release ${featureName}. Releasing it now`
-        );
+        window.log.info(`[releaseFeature]: It is time to release ${featureName}. Releasing it now`);
         await Data.createOrUpdateItem({
           id: 'featureReleased',
           value: true,
@@ -59,7 +57,7 @@ export async function checkIsFeatureReleased(featureName: string): Promise<boole
   }
 
   window.log.info(
-    `WIP: [releaseFeature]: ${featureName} ${
+    `[releaseFeature]: ${featureName} ${
       Boolean(isFeatureReleased) ? 'is released' : 'has not been released yet'
     }`
   );

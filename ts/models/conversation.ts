@@ -678,10 +678,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
           expireTimer: chatMessageParams.expireTimer,
         });
 
-        window.log.info(
-          'WIP: sendMessageJob() closedGroupVisibleMessage',
-          closedGroupVisibleMessage
-        );
+        window.log.debug('sendMessageJob() closedGroupVisibleMessage', closedGroupVisibleMessage);
 
         // we need the return await so that errors are caught in the catch {}
         await getMessageQueue().sendToGroup(closedGroupVisibleMessage);
@@ -1075,9 +1072,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     existingMessage?: MessageModel;
   }): Promise<void> {
     if (this.isPublic()) {
-      window.log.warning(
-        "WIP: updateExpireTimer() Disappearing messages aren't supported in communities"
-      );
+      window.log.warn("updateExpireTimer() Disappearing messages aren't supported in communities");
       return;
     }
 
@@ -1094,7 +1089,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     if (
       this.get('lastDisappearingMessageChangeTimestamp') > lastDisappearingMessageChangeTimestamp
     ) {
-      window.log.info('WIP: updateExpireTimer() This is an outdated disappearing message setting');
+      window.log.info('updateExpireTimer() This is an outdated disappearing message setting');
       return;
     }
 
@@ -1103,7 +1098,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       isEqual(expireTimer, this.get('expireTimer'))
     ) {
       window.log.info(
-        'WIP:updateExpireTimer()  Dropping ExpireTimerUpdate message as we already have the same one set.'
+        'updateExpireTimer()  Dropping ExpireTimerUpdate message as we already have the same one set.'
       );
       return;
     }
@@ -1126,7 +1121,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       lastDisappearingMessageChangeTimestamp,
     });
 
-    window?.log?.info('WIP: Updating conversation disappearing messages setting', {
+    window?.log?.debug('Updating conversation disappearing messages setting', {
       id: this.idForLogging(),
       expirationType,
       expireTimer,
@@ -1197,7 +1192,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       // TODO Check that the args are correct
       // This might be happening too late in the message pipeline. Maybe should be moved to handleExpirationTimerUpdateNoCommit()
       if (expireUpdate.expirationType === 'deleteAfterRead') {
-        window.log.info('WIP: Note to Self messages cannot be delete after read!');
+        window.log.info('Note to Self messages cannot be delete after read!');
         return;
       }
 

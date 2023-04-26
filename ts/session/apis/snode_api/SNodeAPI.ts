@@ -554,8 +554,6 @@ export async function retrieveNextMessages(
     handleTimestampOffset('retrieve', json.t);
     await handleHardforkResult(json);
 
-    // console.log(`WIP: retrieveNextMessages`, json.messages);
-
     return json.messages || [];
   } catch (e) {
     window?.log?.warn('exception while parsing json of nextMessage:', e);

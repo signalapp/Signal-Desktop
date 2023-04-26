@@ -184,7 +184,8 @@ export function useMessageReactsPropsById(messageId?: string) {
   });
 }
 
-// TODO remove 10 seconds timer
+// TODO use env variable to toggle test values?
+// https://github.com/oxen-io/session-desktop/pull/2660/files#r1174823750
 export function useTimerOptionsByMode(disappearingMessageMode?: string, hasOnlyOneMode?: boolean) {
   return useSelector((state: StateType) => {
     const options = state.timerOptions.timerOptions;
