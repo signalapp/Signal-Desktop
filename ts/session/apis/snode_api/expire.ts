@@ -91,7 +91,7 @@ async function verifySignature({
 
   const verificationString = `${pubkey.key}${expiryApplied}${hashes.join('')}`;
   const verificationData = StringUtils.encode(verificationString, 'utf8');
-  window.log.debug(`verifySignature verificationString`, verificationString);
+  window.log.debug('verifySignature verificationString', verificationString);
 
   const sodium = await getSodiumRenderer();
   try {
@@ -192,7 +192,7 @@ async function expireOnNodes(targetNode: Snode, params: ExpireParams) {
         parsed.swarm,
         params.messages
       );
-      window.log.debug(`expireOnNodes attempt complete. Here are the results`, expirationResults);
+      window.log.debug('expireOnNodes attempt complete. Here are the results', expirationResults);
 
       return true;
     } catch (e) {

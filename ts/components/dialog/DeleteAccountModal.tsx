@@ -71,7 +71,7 @@ async function deleteEverythingAndNetworkData() {
             throw Error(`Failed to clear inbox for ${roomInfo.conversationId}`);
           }
         } catch (error) {
-          window.log.info(`DeleteAccount =>`, error);
+          window.log.info('DeleteAccount =>', error);
           continue;
         }
       }
