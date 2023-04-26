@@ -41,7 +41,7 @@ async function handlePublicMessageSentSuccess(
   }
 }
 
-// tslint:disable-next-line:// tslint:disable-next-line: cyclomatic-complexity
+// tslint:disable-next-line: cyclomatic-complexity
 async function handleMessageSentSuccess(
   sentMessage: RawMessage,
   effectiveTimestamp: number,
