@@ -65,7 +65,15 @@ async function deleteEverythingAndNetworkData() {
       // clear each inbox per sogs
       for (const roomInfo of allRoomInfos.values()) {
         // TODO CONTINUE testing - use a dummy account with some message requests and then if we restore from seed there should be no message requests.
-        await clearInbox(roomInfo);
+        try {
+          const success = await clearInbox(roomInfo);
+          if (!success) {
+            throw Error(`Failed to clear inbox for ${roomInfo.conversationId}`);
+          }
+        } catch (error) {
+          window.log.info(`DeleteAccount =>`, error);
+          continue;
+        }
       }
     }
 
