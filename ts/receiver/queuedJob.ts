@@ -198,7 +198,7 @@ export type RegularMessageType = Pick<
   | 'reaction'
   | 'profile'
   | 'profileKey'
-  // TODO Will be removed 2 weeks after release
+  // TODO legacy messages support will be removed in a future release
   | 'expireTimer'
 > & { isRegularMessage: true };
 

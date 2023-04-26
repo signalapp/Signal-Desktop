@@ -291,7 +291,7 @@ export async function updateOrCreateClosedGroup(details: GroupInfo) {
   }
 
   await conversation.updateExpireTimer({
-    // TODO clean up 2 weeks after release?
+    // TODO legacy messages support will be removed in a future release
     // TODO What are we cleaning?
     providedExpirationType: expirationType || 'deleteAfterSend',
     providedExpireTimer: expireTimer,
