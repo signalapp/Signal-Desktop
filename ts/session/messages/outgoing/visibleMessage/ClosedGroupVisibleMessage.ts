@@ -8,8 +8,8 @@ import {
 } from '../controlMessage/group/ClosedGroupMessage';
 
 interface ClosedGroupVisibleMessageParams extends ClosedGroupMessageParams {
-  // TODO Do we need strings?
-  // groupId: string | PubKey;
+  // TODO Refactor closed groups typings so groupId is PubKey only
+  // groupId: PubKey;
   chatMessage: VisibleMessage;
 }
 
