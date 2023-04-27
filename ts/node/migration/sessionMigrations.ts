@@ -1571,14 +1571,10 @@ function updateToSessionSchemaVersion30(currentVersion: number, db: BetterSqlite
       const ourDbProfileKey = fromHexToArray(ourConversation.profileKey || '');
       const ourConvoPriority = ourConversation.priority;
       if (ourDbProfileUrl && !isEmpty(ourDbProfileKey)) {
-        userProfileWrapper.setUserInfo(
-          ourDbName,
-          ourConvoPriority,
-          ourDbProfileUrl || '',
-          ourDbProfileKey
-        );
-      } else {
-        userProfileWrapper.setUserInfo(ourDbName, ourConvoPriority, '', new Uint8Array());
+        userProfileWrapper.setUserInfo(ourDbName, ourConvoPriority, {
+          url: ourDbProfileUrl,
+          key: ourDbProfileKey,
+        });
       }
 
       insertContactIntoContactWrapper(

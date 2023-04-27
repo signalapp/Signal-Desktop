@@ -96,8 +96,12 @@ export const UserConfigWrapperActions: UserConfigWrapperActionsCalls = {
     callLibSessionWorker(['UserConfig', 'getUserInfo']) as Promise<
       ReturnType<UserConfigWrapperActionsCalls['getUserInfo']>
     >,
-  setUserInfo: async (name: string, priority: number, url: string, key: Uint8Array) =>
-    callLibSessionWorker(['UserConfig', 'setUserInfo', name, priority, url, key]) as Promise<
+  setUserInfo: async (
+    name: string,
+    priority: number,
+    profilePic: { url: string; key: Uint8Array } | null
+  ) =>
+    callLibSessionWorker(['UserConfig', 'setUserInfo', name, priority, profilePic]) as Promise<
       ReturnType<UserConfigWrapperActionsCalls['setUserInfo']>
     >,
 };

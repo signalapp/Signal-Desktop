@@ -24,15 +24,13 @@ async function insertUserProfileIntoWrapper(convoId: string) {
     await UserConfigWrapperActions.setUserInfo(
       dbName,
       ourConvo.get('priority') || CONVERSATION_PRIORITIES.default,
-      dbProfileUrl,
-      dbProfileKey
+      { url: dbProfileUrl, key: dbProfileKey }
     );
   } else {
     await UserConfigWrapperActions.setUserInfo(
       dbName,
       ourConvo.get('priority') || CONVERSATION_PRIORITIES.default,
-      '',
-      new Uint8Array()
+      null
     );
   }
 }
