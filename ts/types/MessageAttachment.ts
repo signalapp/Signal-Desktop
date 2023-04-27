@@ -10,7 +10,6 @@ import {
   autoOrientJPEGAttachment,
   captureDimensionsAndScreenshot,
   deleteData,
-  deleteDataSuccessful,
   loadData,
   replaceUnicodeV2,
 } from './attachments/migrations';
@@ -29,17 +28,6 @@ export const deleteExternalMessageFiles = async (message: {
 
   if (attachments && attachments.length) {
     await Promise.all(attachments.map(deleteData));
-    // test that the files were deleted successfully
-    try {
-      let results = await Promise.allSettled(attachments.map(deleteDataSuccessful));
-      results = results.filter(result => result.status === 'rejected');
-
-      if (results.length) {
-        throw Error;
-      }
-    } catch (err) {
-      window.log.warn('[deleteExternalMessageFiles]: Failed to delete attachments for', message);
-    }
   }
 
   if (quote && quote.attachments && quote.attachments.length) {

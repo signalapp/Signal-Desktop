@@ -2,7 +2,7 @@ import * as GoogleChrome from '../../../ts/util/GoogleChrome';
 import * as MIME from '../../../ts/types/MIME';
 import { toLogFormat } from './Errors';
 import { arrayBufferToBlob, blobToArrayBuffer } from 'blob-util';
-import fse from 'fs-extra';
+import { pathExists } from 'fs-extra';
 
 import { isString } from 'lodash';
 import {
@@ -143,6 +143,24 @@ export const loadData = async (attachment: any) => {
   return { ...attachment, data };
 };
 
+const handleDiskDeletion = async (path: string) => {
+  await deleteOnDisk(path);
+  try {
+    const exists = await pathExists(path);
+
+    // Note we want to confirm the path no longer exists
+    if (exists) {
+      throw Error('Error: File path still exists.');
+    }
+
+    window.log.debug(`deleteDataSuccessful: Deletion succeeded for attachment ${path}`);
+    return undefined;
+  } catch (err) {
+    window.log.warn(`deleteDataSuccessful: Deletion failed for attachment ${path} ${err}`);
+    return path;
+  }
+};
+
 //      deleteData :: (RelativePath -> IO Unit)
 //                    Attachment ->
 //                    IO Unit
@@ -154,42 +172,18 @@ export const deleteData = async (attachment: { path: string; thumbnail: any; scr
   const { path, thumbnail, screenshot } = attachment;
 
   if (isString(path)) {
-    await deleteOnDisk(path);
-    attachment.path = '';
+    attachment.path = String(await handleDiskDeletion(path));
   }
 
   if (thumbnail && isString(thumbnail.path)) {
-    await deleteOnDisk(thumbnail.path);
-    attachment.thumbnail = undefined;
+    attachment.thumbnail = await handleDiskDeletion(thumbnail.path);
   }
 
   if (screenshot && isString(screenshot.path)) {
-    await deleteOnDisk(screenshot.path);
-    attachment.screenshot = undefined;
+    attachment.screenshot = await handleDiskDeletion(screenshot.path);
   }
 
   return attachment;
-};
-
-export const deleteDataSuccessful = async (attachment: {
-  path: string;
-  thumbnail: any;
-  screenshot: any;
-}) => {
-  const errorMessage = `deleteDataSuccessful: Deletion failed for attachment ${attachment.path}`;
-  return fse.pathExists(attachment.path, (err, exists) => {
-    if (err) {
-      return Promise.reject(`${errorMessage} ${err}`);
-    }
-
-    // Note we want to confirm the path no longer exists
-    if (exists) {
-      return Promise.reject(errorMessage);
-    }
-
-    window.log.debug(`deleteDataSuccessful: Deletion succeeded for attachment ${attachment.path}`);
-    return true;
-  });
 };
 
 type CaptureDimensionType = { contentType: string; path: string };
