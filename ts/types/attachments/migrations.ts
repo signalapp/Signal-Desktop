@@ -2,6 +2,7 @@ import * as GoogleChrome from '../../../ts/util/GoogleChrome';
 import * as MIME from '../../../ts/types/MIME';
 import { toLogFormat } from './Errors';
 import { arrayBufferToBlob, blobToArrayBuffer } from 'blob-util';
+import fse from 'fs-extra';
 
 import { isString } from 'lodash';
 import {
@@ -168,6 +169,27 @@ export const deleteData = async (attachment: { path: string; thumbnail: any; scr
   }
 
   return attachment;
+};
+
+export const deleteDataSuccessful = async (attachment: {
+  path: string;
+  thumbnail: any;
+  screenshot: any;
+}) => {
+  const errorMessage = `deleteDataSuccessful: Deletion failed for attachment ${attachment.path}`;
+  return fse.pathExists(attachment.path, (err, exists) => {
+    if (err) {
+      return Promise.reject(`${errorMessage} ${err}`);
+    }
+
+    // Note we want to confirm the path no longer exists
+    if (exists) {
+      return Promise.reject(errorMessage);
+    }
+
+    window.log.debug(`deleteDataSuccessful: Deletion succeeded for attachment ${attachment.path}`);
+    return true;
+  });
 };
 
 type CaptureDimensionType = { contentType: string; path: string };

@@ -198,7 +198,7 @@ export type RegularMessageType = Pick<
   | 'reaction'
   | 'profile'
   | 'profileKey'
-  // TODO Will be removed 2 weeks after release
+  // TODO legacy messages support will be removed in a future release
   | 'expireTimer'
 > & { isRegularMessage: true };
 
@@ -361,7 +361,7 @@ export async function handleMessageJob(
         (!expirationTimerUpdate || isEmpty(expirationTimerUpdate))
       ) {
         window.log.info(
-          'WIP: There is a problem with the expiration timer update',
+          'There is a problem with the expiration timer update',
           messageModel,
           expirationTimerUpdate
         );
@@ -380,7 +380,7 @@ export async function handleMessageJob(
       ) {
         confirm?.();
         window?.log?.info(
-          'WIP: Dropping ExpireTimerUpdate message as we already have the same one set.'
+          'Dropping ExpireTimerUpdate message as we already have the same one set.'
         );
         return;
       }

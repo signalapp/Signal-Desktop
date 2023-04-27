@@ -235,8 +235,8 @@ export function setExpirationStartTimestamp(
 
   // TODO legacy messages support will be removed in a future release
   if (timestamp) {
-    window.log.info(
-      `WIP: We compare 2 timestamps for a disappear ${
+    window.log.debug(
+      `We compare 2 timestamps for a disappear ${
         isLegacyMode ? 'legacy' : mode === 'deleteAfterRead' ? 'after read' : 'after send'
       } message: \expirationStartTimestamp `,
       new Date(expirationStartTimestamp).toLocaleTimeString(),
@@ -248,22 +248,22 @@ export function setExpirationStartTimestamp(
 
   // TODO legacy messages support will be removed in a future release
   if (mode === 'deleteAfterRead') {
-    window.log.info(
-      `WIP: We set the start timestamp for a ${
+    window.log.debug(
+      `We set the start timestamp for a ${
         isLegacyMode ? 'legacy ' : ''
       }delete after read message to ${new Date(expirationStartTimestamp).toLocaleTimeString()}`
     );
   } else if (mode === 'deleteAfterSend') {
-    window.log.info(
-      `WIP: We set the start timestamp for a ${
+    window.log.debug(
+      `We set the start timestamp for a ${
         isLegacyMode ? 'legacy ' : ''
       }delete after send message to ${new Date(expirationStartTimestamp).toLocaleTimeString()}`
     );
   } else if (mode === 'off') {
-    window.log.info(`WIP: Disappearing message mode "${mode}" set. We can safely ignore this.`);
+    window.log.debug(`Disappearing message mode "${mode}" set. We can safely ignore this.`);
     expirationStartTimestamp = undefined;
   } else {
-    window.log.info(`WIP: Invalid disappearing message mode "${mode}" set. Ignoring`);
+    window.log.debug(`Invalid disappearing message mode "${mode}" set. Ignoring`);
     expirationStartTimestamp = undefined;
   }
 
@@ -332,7 +332,7 @@ export async function checkForExpireUpdate(
     isDisappearingMessagesV2Released &&
     (isLegacyDataMessage || isLegacyConversationSettingMessage || shouldDisappearButIsntMessage)
   ) {
-    window.log.info('WIP: received a legacy disappearing message after v2 was released.');
+    window.log.warn('Received a legacy disappearing message after v2 was released.', content);
     expirationType = convoToUpdate.get('expirationType');
     expirationTimer = convoToUpdate.get('expireTimer');
   }
@@ -346,8 +346,6 @@ export async function checkForExpireUpdate(
     isDisappearingMessagesV2Released,
   };
 
-  // window.log.info('WIP: checkForExpireUpdate', expireUpdate);
-
   return expireUpdate;
 }
 
@@ -358,9 +356,7 @@ export function handleExpireUpdate(
   expireUpdate: DisappearingMessageUpdate
 ) {
   if (converationModel.isPublic()) {
-    window.log.warning(
-      "WIP: updateExpireTimer() Disappearing messages aren't supported in communities"
-    );
+    window.log.warn("updateExpireTimer() Disappearing messages aren't supported in communities");
     return messageModel;
   }
 

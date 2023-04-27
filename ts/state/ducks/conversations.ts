@@ -23,11 +23,11 @@ import {
 
 export type CallNotificationType = 'missed-call' | 'started-call' | 'answered-a-call';
 
-export interface PropsForCallNotification extends PropsForExpiringMessage {
+export type PropsForCallNotification = PropsForExpiringMessage & {
   notificationType: CallNotificationType;
   receivedAt: number;
   isUnread: boolean;
-}
+};
 
 export type MessageModelPropsWithoutConvoProps = {
   propsForMessage: PropsForMessageWithoutConvoProps;
@@ -84,7 +84,7 @@ export type PropsForExpiringMessage = {
   isExpired?: boolean;
 };
 
-export interface PropsForExpirationTimer extends PropsForExpiringMessage {
+export type PropsForExpirationTimer = PropsForExpiringMessage & {
   expirationType: DisappearingMessageConversationType;
   timespan: string;
   disabled: boolean;
@@ -97,7 +97,7 @@ export interface PropsForExpirationTimer extends PropsForExpiringMessage {
   messageId: string;
   isUnread: boolean;
   receivedAt: number | undefined;
-}
+};
 
 export type PropsForGroupUpdateGeneral = {
   type: 'general';
@@ -130,21 +130,21 @@ export type PropsForGroupUpdateType =
   | PropsForGroupUpdateName
   | PropsForGroupUpdateLeft;
 
-export interface PropsForGroupUpdate extends PropsForExpiringMessage {
+export type PropsForGroupUpdate = PropsForExpiringMessage & {
   change: PropsForGroupUpdateType;
   messageId: string;
   receivedAt: number | undefined;
   isUnread: boolean;
-}
+};
 
-export interface PropsForGroupInvitation extends PropsForExpiringMessage {
+export type PropsForGroupInvitation = PropsForExpiringMessage & {
   serverName: string;
   url: string;
   acceptUrl: string;
   messageId: string;
   receivedAt?: number;
   isUnread: boolean;
-}
+};
 
 export type PropsForAttachment = {
   id: number;

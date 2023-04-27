@@ -417,7 +417,7 @@ export async function innerHandleSwarmContentMessage(
           expireUpdate
         );
         if (expireUpdate.isLegacyConversationSettingMessage) {
-          window.log.info('WIP: The legacy message is an expiration timer update. Ignoring it.');
+          window.log.info('The legacy message is an expiration timer update. Ignoring it.');
           return;
         }
       }

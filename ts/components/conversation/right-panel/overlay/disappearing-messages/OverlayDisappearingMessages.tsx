@@ -13,11 +13,15 @@ import {
   getSelectedConversationExpirationSettings,
   getSelectedConversationKey,
 } from '../../../../../state/selectors/conversations';
-import { DEFAULT_TIMER_OPTION } from '../../../../../util/expiringMessages';
+import {
+  DEFAULT_TIMER_OPTION,
+  DisappearingMessageConversationType,
+} from '../../../../../util/expiringMessages';
 import { useTimerOptionsByMode } from '../../../../../hooks/useParamSelector';
 import { Header } from './Header';
 import { DisappearingModes } from './DisappearingModes';
 import { TimeOptions } from './TimeOptions';
+import { getConversationController } from '../../../../../session/conversations';
 
 const StyledScrollContainer = styled.div`
   width: 100%;
@@ -112,6 +116,21 @@ export const OverlayDisappearingMessages = (props: OverlayDisappearingMessagesPr
       setTimeSelected(convoProps.expireTimer);
     }
   }, [convoProps.expirationType, convoProps.expireTimer]);
+
+  // TODO legacy messages support will be removed in a future
+  useEffect(() => {
+    if (unlockNewModes && modeSelected === 'legacy' && selectedConversationKey) {
+      const convo = getConversationController().get(selectedConversationKey);
+      if (convo) {
+        let defaultExpirationType: DisappearingMessageConversationType = 'deleteAfterRead';
+        if (convo.isMe() || convo.isMediumGroup()) {
+          defaultExpirationType = 'deleteAfterSend';
+        }
+        convo.set('expirationType', defaultExpirationType);
+        setModeSelected(defaultExpirationType);
+      }
+    }
+  }, [unlockNewModes, selectedConversationKey, modeSelected]);
 
   return (
     <StyledScrollContainer>

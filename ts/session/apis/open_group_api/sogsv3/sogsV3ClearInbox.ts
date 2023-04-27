@@ -1,5 +1,4 @@
 import AbortController from 'abort-controller';
-import { Data } from '../../../../data/data';
 import { OpenGroupRequestCommonType } from '../opengroupV2/ApiUtil';
 import { getOpenGroupV2ConversationId } from '../utils/OpenGroupUtils';
 import {
@@ -8,6 +7,7 @@ import {
   OpenGroupBatchRow,
   sogsBatchSend,
 } from './sogsV3BatchPoll';
+import { getConversationController } from '../../../conversations';
 
 type OpenGroupClearInboxResponse = {
   deleted: number;
@@ -16,11 +16,11 @@ type OpenGroupClearInboxResponse = {
 export const clearInbox = async (roomInfos: OpenGroupRequestCommonType): Promise<boolean> => {
   let success = false;
 
-  const converationId = getOpenGroupV2ConversationId(roomInfos.serverUrl, roomInfos.roomId);
-  const conversation = await Data.getConversationById(converationId);
+  const conversationId = getOpenGroupV2ConversationId(roomInfos.serverUrl, roomInfos.roomId);
+  const conversation = getConversationController().get(conversationId);
 
   if (!conversation) {
-    window.log.warn('clearInbox Matching conversation not found in db');
+    throw new Error(`clearInbox Matching conversation not found in db ${conversationId}`);
   } else {
     const options: Array<OpenGroupBatchRow> = [
       {
@@ -40,27 +40,27 @@ export const clearInbox = async (roomInfos: OpenGroupRequestCommonType): Promise
     );
 
     if (!result) {
-      throw new Error('Could not clearInbox, res is invalid');
+      throw new Error(`Could not clearInbox, res is invalid for ${conversationId}`);
     }
 
     const rawMessage =
       (result.body && (result.body[0].body as OpenGroupClearInboxResponse)) || null;
     if (!rawMessage) {
-      throw new Error('clearInbox parsing failed');
+      throw new Error(`clearInbox parsing failed for ${conversationId}`);
     }
 
     try {
       if (batchGlobalIsSuccess(result) && batchFirstSubIsSuccess(result)) {
         success = true;
-        window.log.info(`clearInbox ${rawMessage.deleted} messages deleted from ${converationId} `);
+        window.log.info(`clearInbox ${rawMessage.deleted} messages deleted for ${conversationId} `);
       }
     } catch (e) {
-      window?.log?.error("clearInbox Can't decode JSON body");
+      window?.log?.error(`clearInbox Can't decode JSON body for ${conversationId}`);
     }
   }
 
   if (!success) {
-    window.log.info(`clearInbox message deletion failed for ${converationId} `);
+    window.log.info(`clearInbox message deletion failed for ${conversationId}`);
   }
   return success;
 };

@@ -23,7 +23,7 @@ export const TimeOptions = (props: TimerOptionsProps) => {
     <>
       {!hasOnlyOneMode && <PanelLabel>{window.i18n('timer')}</PanelLabel>}
       <PanelButtonGroup>
-        {options.map((option: any) => {
+        {options.map(option => {
           return (
             <PanelRadioButton
               key={option.name}

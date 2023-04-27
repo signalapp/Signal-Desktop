@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useSelector } from 'react-redux';
 import { getRightOverlayMode } from '../../../state/selectors/section';
@@ -10,14 +10,9 @@ const ClosableOverlay = () => {
   const rightOverlayMode = useSelector(getRightOverlayMode);
   const [showNewDisppearingMessageModes, setShowNewDisppearingMessageModes] = useState(false);
 
-  const checkForFeatureRelease = useCallback(async () => {
-    const isReleased = await checkIsFeatureReleased('Disappearing Messages V2');
-    return isReleased;
-  }, []);
-
   useEffect(() => {
     let isCancelled = false;
-    checkForFeatureRelease()
+    checkIsFeatureReleased('Disappearing Messages V2')
       .then(result => {
         if (isCancelled) {
           return;
@@ -33,7 +28,7 @@ const ClosableOverlay = () => {
     return () => {
       isCancelled = true;
     };
-  }, [checkForFeatureRelease]);
+  }, []);
 
   switch (rightOverlayMode) {
     case 'disappearing-messages':
