@@ -349,6 +349,7 @@
       "!**/*.ts",
       "node_modules/spellchecker/build/Release/*.node",
       "node_modules/websocket/build/Release/*.node",
+      "node_modules/libsession_util_nodejs/build/Release/*.node",
       "node_modules/socks/build/*.js",
       "node_modules/socks/build/common/*.js",
       "node_modules/socks/build/client/*.js",
