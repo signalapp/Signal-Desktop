@@ -110,7 +110,7 @@ async function checkForUpdates(
 
     logger.info('[updater] checkForUpdates got github response back ');
 
-    if (!result.updateInfo) {
+    if (!result?.updateInfo) {
       logger.info('[updater] no update info received');
 
       return;
