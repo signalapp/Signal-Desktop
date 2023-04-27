@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-2019, macos-latest, ubuntu-20.04]
+        os: [windows-2022, macos-latest, ubuntu-20.04]
     env:
       SIGNAL_ENV: production
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -43,7 +43,7 @@ jobs:
 
       #Not having this will break the windows build because the PATH won't be set by msbuild.
       - name: Add msbuild to PATH
-        uses: microsoft/setup-msbuild@v1.1
+        uses: microsoft/setup-msbuild@v1.3.1
         if: runner.os == 'Windows'
 
       - name: Setup node for windows
