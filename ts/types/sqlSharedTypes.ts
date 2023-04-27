@@ -242,6 +242,7 @@ export function getLegacyGroupInfoFromDBValues({
  */
 export function assertUnreachable(_x: never, message: string): never {
   const msg = `assertUnreachable: Didn't expect to get here with "${message}"`;
+  // tslint:disable: no-console
   console.info(msg);
   throw new Error(msg);
 }

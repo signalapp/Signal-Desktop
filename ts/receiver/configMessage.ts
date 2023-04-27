@@ -885,7 +885,7 @@ async function handleConfigurationMessageLegacy(
     window?.log?.info(
       'useSharedUtilForUserConfig is set, not handling config messages with "handleConfigurationMessageLegacy()"'
     );
-    window.setSettingValue(SettingsKey.someDeviceOutdatedSyncing, true);
+    await window.setSettingValue(SettingsKey.someDeviceOutdatedSyncing, true);
     await removeFromCache(envelope);
     return;
   }

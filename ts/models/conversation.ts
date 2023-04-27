@@ -1217,8 +1217,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
    * When receiving a shared config message, we need to apply the change after the merge happened to our database.
    * This is done with this function.
    * There are other actions to change the priority from the UI (or from )
-   * @param priority
-   * @param shouldCommit
    */
   public async setPriorityFromWrapper(
     priority: number,
@@ -1709,7 +1707,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       }
 
       // we are trying to send a message to someone. Make sure this convo is not hidden
-      this.unhideIfNeeded(true);
+      await this.unhideIfNeeded(true);
 
       // an OpenGroupV2 message is just a visible message
       const chatMessageParams: VisibleMessageParams = {

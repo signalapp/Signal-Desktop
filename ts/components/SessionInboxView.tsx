@@ -117,7 +117,9 @@ const SomeDeviceOutdatedSyncingNotice = () => {
 export const SessionInboxView = () => {
   const update = useUpdate();
   // run only on mount
-  useEffect(() => setupLeftPane(update), []);
+  useEffect(() => {
+    setupLeftPane(update);
+  }, []);
 
   if (!window.inboxStore) {
     return null;

@@ -10,17 +10,9 @@ import { UserUtils } from '../../../../session/utils';
 import { SessionUtilContact } from '../../../../session/utils/libsession/libsession_utils_contacts';
 
 // tslint:disable: chai-vague-errors no-unused-expression no-http-string no-octal-literal whitespace no-require-imports variable-name
-// import * as SessionUtilWrapper from 'libsession_util_nodejs';
 
 // tslint:disable-next-line: max-func-body-length
 describe('libsession_contacts', () => {
-  // Note: To run this test, you need to compile the libsession wrapper for node (and not for electron).
-  // To do this, you can cd to the node_module/libsession_wrapper folder and do
-  // yarn configure && yarn build
-  // once that is done, you can rename this file and remove the _skip suffix so that test is run.
-
-  // We have to disable it by filename as nodejs tries to load the module during the import step above, and fails as it is not compiled for nodejs but for electron.
-
   describe('filter contacts for wrapper', () => {
     const ourNumber = '051234567890acbdef';
     const validArgs = {

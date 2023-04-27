@@ -8,18 +8,18 @@ import {
 } from 'libsession_util_nodejs';
 import { ConfigWrapperObjectTypes } from '../../browser/libsession_worker_functions';
 
+/* eslint-disable no-console */
+/* eslint-disable strict */
+// tslint:disable: no-console
+
 /**
  *
  * @param _x Looks like we need to duplicate this function here as we cannot import the existing one from a webworker context
- * @param message
  */
 function assertUnreachable(_x: never, message: string): never {
   console.info(`assertUnreachable: Didn't expect to get here with "${message}"`);
   throw new Error("Didn't expect to get here");
 }
-
-/* eslint-disable no-console */
-/* eslint-disable strict */
 
 // we can only have one of those so don't worry about storing them in a map for now
 let userProfileWrapper: UserConfigWrapperNode | undefined;

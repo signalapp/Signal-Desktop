@@ -27,6 +27,7 @@ import { stubData, stubOpenGroupData } from '../../../test-utils/utils';
 chai.use(chaiAsPromised as any);
 
 const { expect } = chai;
+// tslint:disable: no-implicit-dependencies no-unused-expression no-http-string  max-func-body-length
 
 describe('Message Utils', () => {
   afterEach(() => {

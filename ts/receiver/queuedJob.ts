@@ -311,10 +311,7 @@ async function handleExpirationTimerUpdateNoCommit(
   await conversation.updateExpireTimer(expireTimer, source, message.get('received_at'), {}, false);
 }
 
-async function markConvoAsReadIfOutgoingMessage(
-  conversation: ConversationModel,
-  message: MessageModel
-) {
+function markConvoAsReadIfOutgoingMessage(conversation: ConversationModel, message: MessageModel) {
   const isOutgoingMessage =
     message.get('type') === 'outgoing' || message.get('direction') === 'outgoing';
   if (isOutgoingMessage) {
@@ -400,7 +397,7 @@ export async function handleMessageJob(
       );
     }
 
-    await markConvoAsReadIfOutgoingMessage(conversation, messageModel);
+    markConvoAsReadIfOutgoingMessage(conversation, messageModel);
     if (messageModel.get('unread')) {
       conversation.throttledNotify(messageModel);
     }

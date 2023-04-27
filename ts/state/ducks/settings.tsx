@@ -49,15 +49,20 @@ const settingsSlice = createSlice({
     updateSettingsBoolValue(state, action: PayloadAction<{ id: string; value: boolean }>) {
       const { id, value } = action.payload;
 
-      if (!isTrackedBoolean(id) || !isBoolean(value)) return state;
+      if (!isTrackedBoolean(id) || !isBoolean(value)) {
+        return state;
+      }
 
       state.settingsBools[id] = value;
 
       return state;
     },
     deleteSettingsBoolValue(state, action: PayloadAction<string>) {
-      if (!isTrackedBoolean(action.payload)) return state;
+      if (!isTrackedBoolean(action.payload)) {
+        return state;
+      }
 
+      // tslint:disable-next-line: no-dynamic-delete
       delete state.settingsBools[action.payload];
       return state;
     },

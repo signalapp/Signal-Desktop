@@ -29,13 +29,7 @@
     "prefer-for-of": false,
     "chai-vague-errors": false,
     "no-useless-files": false,
-    "ordered-imports": [
-      true,
-      {
-        "import-sources-order": "any",
-        "named-imports-order": "case-insensitive"
-      }
-    ],
+    "ordered-imports": false,
     "quotemark": [true, "single", "jsx-double", "avoid-template", "avoid-escape"],
     "semicolon": [true, "always", "ignore-bound-class-methods"],
     "trailing-comma": [

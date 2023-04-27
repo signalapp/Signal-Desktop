@@ -63,7 +63,9 @@ const handleDeclineAndBlockConversationRequest = (
 
 const handleAcceptConversationRequest = async (convoId: string) => {
   const convo = getConversationController().get(convoId);
-  if (!convo) return;
+  if (!convo) {
+    return;
+  }
   await convo.setDidApproveMe(true, false);
   await convo.setIsApproved(true, false);
   await convo.commit();

@@ -64,6 +64,14 @@ jobs:
       - name: Generate and concat files
         run: yarn build-everything
 
+      - name: Lint Files
+        # no need to lint files on all platforms. Just do it once on the quicker one
+        if: runner.os == 'Linux'
+        run: yarn lint-full
+
+      - name: Unit Test
+        run: yarn test
+
       - name: Build windows production binaries
         if: runner.os == 'Windows'
         run: node_modules\.bin\electron-builder --config.extraMetadata.environment=%SIGNAL_ENV% --publish=never --config.directories.output=release

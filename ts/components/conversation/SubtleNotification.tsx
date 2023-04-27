@@ -77,7 +77,7 @@ export const NoMessageNoMessageInConversation = () => {
   return (
     <Container>
       <TextInner>
-        <SessionHtmlRenderer html={window.i18n(localizedKey, [nameToRender])}></SessionHtmlRenderer>
+        <SessionHtmlRenderer html={window.i18n(localizedKey, [nameToRender])} />
       </TextInner>
     </Container>
   );
