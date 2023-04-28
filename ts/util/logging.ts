@@ -135,8 +135,12 @@ window.log = {
 };
 
 window.onerror = (_message, _script, _line, _col, error) => {
-  const errorInfo = error && error.stack ? error.stack : JSON.stringify(error);
-  window.log.error(`Top-level unhandled error: ${errorInfo}`);
+  const errorInfo = JSON.stringify(error);
+
+  window.log.error(
+    `Top-level unhandled error: "${_message}";"${_script}";"${_line}";"${_col}" ${errorInfo}`,
+    error
+  );
 };
 
 window.addEventListener('unhandledrejection', rejectionEvent => {

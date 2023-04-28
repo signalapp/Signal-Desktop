@@ -54,7 +54,7 @@
     "build-release:macos": "yarn build-release-non-linux",
     "build-release:linux": "yarn sedtoDeb; yarn build-release-non-linux && yarn sedtoAppImage && yarn build-release-non-linux && yarn sedtoDeb",
     "build-release-publish": "run-script-os",
-    "build-release-publish-non-linux": "cross-env SIGNAL_ENV=production $(yarn bin)/electron-builder --config.extraMetadata.environment=$SIGNAL_ENV --publish=always",
+    "build-release-publish-non-linux": "yarn build-everything && cross-env SIGNAL_ENV=production $(yarn bin)/electron-builder --config.extraMetadata.environment=$SIGNAL_ENV --publish=always",
     "build-release-publish:win32": "yarn build-release-publish-non-linux",
     "build-release-publish:macos": "yarn build-release-publish-non-linux",
     "build-release-publish:linux": "yarn sedtoDeb; yarn build-release-publish-non-linux && yarn sedtoAppImage && yarn build-release-publish-non-linux && yarn sedtoDeb",
@@ -66,7 +66,7 @@
     "rebuild-curve25519-js": "cd node_modules/curve25519-js && yarn install && yarn build && cd ../../",
     "update-git-info": "node ./build/updateLocalConfig.js",
     "worker:utils": "webpack  --config=./utils.worker.config.js",
-    "worker:libsession": "webpack  --config=./libsession.worker.config.js"
+    "worker:libsession": "rimraf 'ts/webworker/workers/node/libsession/*.node' && webpack  --config=./libsession.worker.config.js"
   },
   "dependencies": {
     "@emoji-mart/data": "^1.0.6",
@@ -283,6 +283,8 @@
     },
     "asarUnpack": [
       "node_modules/better-sqlite3/build/Release/better_sqlite3.node",
+      "node_modules/libsession_util_nodejs/build/Release/libsession_util_nodejs.node",
+      "ts/webworker/workers/node/libsession/*.node",
       "ts/mains/main_node.js"
     ],
     "deb": {
@@ -362,6 +364,7 @@
       "!node_modules/better-sqlite3/deps/*",
       "!node_modules/better-sqlite3/src/*",
       "node_modules/better-sqlite3/build/Release/better_sqlite3.node",
+      "ts/webworker/workers/node/libsession/*.node",
       "!dev-app-update.yml"
     ]
   }
