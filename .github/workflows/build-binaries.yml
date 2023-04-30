@@ -27,23 +27,17 @@ jobs:
 
       # we stay on v2 even if there is a v3 because the v3 logic is less flexible for our usecase
       - name: Install node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: '16.13.0'
+          node-version-file: '.nvmrc'
 
       - name: Cache Desktop node_modules
         id: cache-desktop-modules
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         if: runner.os != 'Windows'
         with:
           path: node_modules
           key: ${{ runner.os }}-${{ hashFiles('package.json', 'yarn.lock', 'patches/**') }}
-
-      - name: Chocolatey Install Action
-        if: runner.os == 'Windows'
-        uses: crazy-max/ghaction-chocolatey@v1.4.2
-        with:
-          args: install python2 -y
 
       # Not having this will break the windows build because the PATH won't be set by msbuild.
       - name: Add msbuild to PATH
@@ -54,7 +48,6 @@ jobs:
         if: runner.os == 'Windows'
         run: |
           npm install --global node-gyp@latest
-          npm config set python python2.7
           npm config set msvs_version 2022
 
       - name: Install Desktop node_modules
