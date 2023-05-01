@@ -56,12 +56,15 @@ export function InstallScreenChoosingDeviceNameStep({
 
       <div className="module-InstallScreenChoosingDeviceNameStep__contents">
         <div className="module-InstallScreenChoosingDeviceNameStep__header">
-          <h1>{i18n('icu:chooseDeviceName')}</h1>
+          <label htmlFor="deviceName">
+            <h1>{i18n('icu:chooseDeviceName')}</h1>
+          </label>
           <h2>{i18n('icu:Install__choose-device-name__description')}</h2>
         </div>
         <div className="module-InstallScreenChoosingDeviceNameStep__inputs">
           <input
             className="module-InstallScreenChoosingDeviceNameStep__input"
+            id="deviceName"
             maxLength={MAX_DEVICE_NAME_LENGTH}
             onChange={event => {
               setDeviceName(event.target.value);
