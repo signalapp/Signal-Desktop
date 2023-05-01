@@ -289,6 +289,9 @@ export type ConversationsStateType = {
   selectedConversation?: string;
   // NOTE the messages that are in view
   messages: Array<MessageModelPropsWithoutConvoProps>;
+  // NOTE the quotes that are in view
+  // key is message [timestamp]-[author-pubkey]
+  quotes: Record<string, MessageModelPropsWithoutConvoProps>;
   firstUnreadMessageId: string | undefined;
   messageDetailProps?: MessagePropsDetails;
   showRightPanel: boolean;
@@ -340,26 +343,67 @@ async function getMessages({
 }: {
   conversationKey: string;
   messageId: string | null;
-}): Promise<Array<MessageModelPropsWithoutConvoProps>> {
+}): Promise<{
+  messagesProps: Array<MessageModelPropsWithoutConvoProps>;
+  quotesProps: Record<string, MessageModelPropsWithoutConvoProps>;
+}> {
   const beforeTimestamp = Date.now();
 
   const conversation = getConversationController().get(conversationKey);
   if (!conversation) {
     // no valid conversation, early return
     window?.log?.error('Failed to get convo on reducer.');
-    return [];
+    return { messagesProps: [], quotesProps: {} };
   }
 
   const messageSet = await Data.getMessagesByConversation(conversationKey, {
     messageId,
   });
 
-  const messageProps: Array<MessageModelPropsWithoutConvoProps> = messageSet.models.map(m =>
+  const messagesProps: Array<MessageModelPropsWithoutConvoProps> = messageSet.models.map(m =>
     m.getMessageModelProps()
   );
   const time = Date.now() - beforeTimestamp;
-  window?.log?.info(`Loading ${messageProps.length} messages took ${time}ms to load.`);
-  return messageProps;
+  window?.log?.info(`Loading ${messagesProps.length} messages took ${time}ms to load.`);
+
+  const quotesProps: Record<string, MessageModelPropsWithoutConvoProps> = {};
+  messagesProps
+    .filter(
+      message => message.propsForMessage?.quote?.messageId && message.propsForMessage.quote?.sender
+    )
+    .forEach(async message => {
+      const id = message.propsForMessage?.quote?.messageId;
+      const sender = message.propsForMessage.quote?.sender;
+
+      // TODO use this is the renderering process
+      // const contact = message.findAndFormatContact(author);
+      // const authorName = contact?.profileName || contact?.name || '';
+
+      if (id && sender) {
+        const timestamp = Number(id);
+        // See if message is already in memory if not lookup in db
+        let results = [];
+        results = messagesProps.filter(
+          message =>
+            message.propsForMessage.timestamp === timestamp &&
+            message.propsForMessage.sender === sender
+        );
+
+        if (results.length) {
+          message = results[0];
+        } else {
+          const dbResult = (
+            await Data.getMessageBySenderAndTimestamp({ source: sender, timestamp })
+          )?.getMessageModelProps();
+          if (dbResult) {
+            message = dbResult;
+          }
+        }
+        quotesProps[`${timestamp}-${sender}`] = message;
+      }
+    });
+
+  return { messagesProps, quotesProps };
 }
 
 export type SortedMessageModelProps = MessageModelPropsWithoutConvoProps & {
@@ -391,7 +435,7 @@ export const fetchTopMessagesForConversation = createAsyncThunk(
       window.log.info('fetchTopMessagesForConversation: we are already at the top');
       return null;
     }
-    const messagesProps = await getMessages({
+    const { messagesProps } = await getMessages({
       conversationKey,
       messageId: oldTopMessageId,
     });
@@ -428,7 +472,7 @@ export const fetchBottomMessagesForConversation = createAsyncThunk(
       window.log.info('fetchBottomMessagesForConversation: we are already at the bottom');
       return null;
     }
-    const messagesProps = await getMessages({
+    const { messagesProps } = await getMessages({
       conversationKey,
       messageId: oldBottomMessageId,
     });
@@ -448,6 +492,7 @@ export function getEmptyConversationState(): ConversationsStateType {
   return {
     conversationLookup: {},
     messages: [],
+    quotes: {},
     messageDetailProps: undefined,
     showRightPanel: false,
     selectedMessageIds: [],
@@ -753,6 +798,7 @@ const conversationsSlice = createSlice({
         firstUnreadIdOnOpen: string | undefined;
         mostRecentMessageIdOnOpen: string | null;
         initialMessages: Array<MessageModelPropsWithoutConvoProps>;
+        initialQuotes: Record<string, MessageModelPropsWithoutConvoProps>;
       }>
     ) {
       // this is quite hacky, but we don't want to show the showScrollButton if we have only a small amount of messages,
@@ -776,6 +822,7 @@ const conversationsSlice = createSlice({
         selectedConversation: action.payload.conversationKey,
         firstUnreadMessageId: action.payload.firstUnreadIdOnOpen,
         messages: action.payload.initialMessages,
+        quotes: action.payload.initialQuotes,
 
         areMoreMessagesBeingFetched: false,
         showRightPanel: false,
@@ -803,6 +850,7 @@ const conversationsSlice = createSlice({
         mostRecentMessageIdOnOpen: string | null;
 
         initialMessages: Array<MessageModelPropsWithoutConvoProps>;
+        initialQuotes: Record<string, MessageModelPropsWithoutConvoProps>;
       }>
     ) {
       return {
@@ -811,6 +859,7 @@ const conversationsSlice = createSlice({
         mostRecentMessageIdOnOpen: action.payload.mostRecentMessageIdOnOpen,
         areMoreMessagesBeingFetched: false,
         messages: action.payload.initialMessages,
+        quotes: action.payload.initialQuotes,
         showScrollButton: Boolean(
           action.payload.messageIdToNavigateTo !== action.payload.mostRecentMessageIdOnOpen
         ),
@@ -1040,7 +1089,7 @@ export async function openConversationWithMessages(args: {
   const firstUnreadIdOnOpen = await Data.getFirstUnreadMessageIdInConversation(conversationKey);
   const mostRecentMessageIdOnOpen = await Data.getLastMessageIdInConversation(conversationKey);
 
-  const initialMessages = await getMessages({
+  const { messagesProps: initialMessages, quotesProps: initialQuotes } = await getMessages({
     conversationKey,
     messageId: messageId || null,
   });
@@ -1051,6 +1100,7 @@ export async function openConversationWithMessages(args: {
       firstUnreadIdOnOpen,
       mostRecentMessageIdOnOpen,
       initialMessages,
+      initialQuotes,
     })
   );
 }
@@ -1062,7 +1112,10 @@ export async function openConversationToSpecificMessage(args: {
 }) {
   const { conversationKey, messageIdToNavigateTo, shouldHighlightMessage } = args;
 
-  const messagesAroundThisMessage = await getMessages({
+  const {
+    messagesProps: messagesAroundThisMessage,
+    quotesProps: quotesAroundThisMessage,
+  } = await getMessages({
     conversationKey,
     messageId: messageIdToNavigateTo,
   });
@@ -1077,6 +1130,7 @@ export async function openConversationToSpecificMessage(args: {
       mostRecentMessageIdOnOpen,
       shouldHighlightMessage,
       initialMessages: messagesAroundThisMessage,
+      initialQuotes: quotesAroundThisMessage,
     })
   );
 }
