@@ -1,5 +1,5 @@
 import { _electron, Page } from '@playwright/test';
-import { messageSent } from '../utilities/message';
+import { sendMessage } from '../utilities/message';
 import { sendNewMessage } from '../utilities/send_message';
 import {
   clickOnMatchingText,
@@ -56,7 +56,7 @@ export const createGroup = async (
   await clickOnMatchingText(windowB, group.userName);
   await waitForTestIdWithText(windowB, 'header-conversation-name', group.userName);
   // Send message in group chat from user A
-  await messageSent(windowA, msgAToGroup);
+  await sendMessage(windowA, msgAToGroup);
   // Focus screen
   await clickOnMatchingText(windowA, msgAToGroup);
   // Verify it was received by other two accounts
@@ -67,7 +67,7 @@ export const createGroup = async (
   // wait for selector 'test message' in chat window
   await waitForControlMessageWithText(windowB, msgAToGroup);
   // Send reply message
-  await messageSent(windowB, msgBToGroup);
+  await sendMessage(windowB, msgBToGroup);
   // Focus screen
   // await clickOnTestIdWithText(windowB, 'scroll-to-bottom-button');
   await clickOnMatchingText(windowB, msgBToGroup);
@@ -79,7 +79,7 @@ export const createGroup = async (
   await waitForControlMessageWithText(windowC, msgAToGroup);
   await waitForControlMessageWithText(windowC, msgBToGroup);
   // Send message from C to the group
-  await messageSent(windowC, msgCToGroup);
+  await sendMessage(windowC, msgCToGroup);
   // windowA should see the message from B and the message from C
   await waitForControlMessageWithText(windowA, msgBToGroup);
   await waitForControlMessageWithText(windowA, msgCToGroup);

@@ -1,6 +1,7 @@
-import { _electron, Page, test } from '@playwright/test';
-import { beforeAllClean, forceCloseAllWindows } from './setup/beforeEach';
-import { openAppsAndNewUsers } from './setup/new_user';
+import { test } from '@playwright/test';
+import { beforeAllClean } from './setup/beforeEach';
+import { newUser } from './setup/new_user';
+import { openApp } from './setup/open';
 import { sendNewMessage } from './utilities/send_message';
 import {
   clickOnMatchingText,
@@ -12,18 +13,14 @@ import {
 const testMessage = 'A -> B: ';
 const testReply = 'B -> A: ';
 
-let windows: Array<Page> = [];
 test.beforeEach(beforeAllClean);
 
-test.afterEach(() => forceCloseAllWindows(windows));
+// test.afterEach(() => forceCloseAllWindows(windows));
 
 test('Unsend message', async () => {
   // Open App
-  const windowLoggedIn = await openAppsAndNewUsers(2);
-  windows = windowLoggedIn.windows;
-  const users = windowLoggedIn.users;
-  const [windowA, windowB] = windows;
-  const [userA, userB] = users;
+  const [windowA, windowB] = await openApp(2);
+  const [userA, userB] = await Promise.all([newUser(windowA, 'Alice'), newUser(windowB, 'Bob')]);
   // Send message between two users
   await sendNewMessage(windowA, userB.sessionid, `${testMessage}${Date.now()}`);
   await sendNewMessage(windowB, userA.sessionid, `${testReply}${Date.now()}`);

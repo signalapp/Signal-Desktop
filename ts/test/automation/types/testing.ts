@@ -10,3 +10,5 @@ export type Group = {
   userTwo: User;
   userThree: User;
 };
+
+export type Strategy = 'data-testid' | 'class' | ':has-text';

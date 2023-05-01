@@ -128,6 +128,7 @@ export const SessionToggleWithDescription = (props: {
   onClickToggle: () => void;
   confirmationDialogParams?: SessionConfirmDialogProps;
   childrenDescription?: React.ReactNode; // if set, those elements will be appended next to description field (only used for typing message settings as of now)
+  dataTestId?: string;
 }) => {
   const {
     title,
@@ -136,6 +137,7 @@ export const SessionToggleWithDescription = (props: {
     onClickToggle,
     confirmationDialogParams,
     childrenDescription,
+    dataTestId,
   } = props;
 
   return (
@@ -149,6 +151,7 @@ export const SessionToggleWithDescription = (props: {
         active={active}
         onClick={onClickToggle}
         confirmationDialogParams={confirmationDialogParams}
+        dataTestId={dataTestId}
       />
     </SessionSettingsItemWrapper>
   );

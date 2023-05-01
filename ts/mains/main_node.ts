@@ -84,7 +84,7 @@ import { installPermissionsHandler } from '../node/permissions'; // checked - on
 
 let appStartInitialSpellcheckSetting = true;
 
-const enableTestIntegrationWiderWindow = true;
+const enableTestIntegrationWiderWindow = false;
 const isTestIntegration =
   enableTestIntegrationWiderWindow &&
   Boolean(

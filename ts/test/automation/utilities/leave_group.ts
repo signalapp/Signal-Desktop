@@ -9,5 +9,5 @@ export const leaveGroup = async (window: Page) => {
   // Confirm leave group
   await clickOnTestIdWithText(window, 'session-confirm-ok-button', 'OK');
   // check config message
-  await waitForTestIdWithText(window, 'readable-message', 'You have left the group.');
+  await waitForTestIdWithText(window, 'control-message', 'You have left the group.');
 };

@@ -129,6 +129,7 @@ export class SessionRecording extends React.Component<Props, State> {
                 iconSize="medium"
                 iconColor={'var(--danger-color)'}
                 onClick={actionPauseFn}
+                dataTestId="end-voice-message"
               />
             )}
             {actionPauseAudio && (
@@ -175,6 +176,7 @@ export class SessionRecording extends React.Component<Props, State> {
               iconRotation={90}
               onClick={this.onSendVoiceMessage}
               margin={'var(--margins-sm)'}
+              dataTestId="send-message-button"
             />
           </div>
         )}

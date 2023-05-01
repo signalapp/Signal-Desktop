@@ -1,16 +1,15 @@
-import { _electron, Page, test } from '@playwright/test';
+import { _electron, test } from '@playwright/test';
 import { beforeAllClean } from './setup/beforeEach';
-import { openApp } from './setup/new_user';
 import { sendNewMessage } from './utilities/send_message';
 import { logIn } from './setup/log_in';
 import { userA, userB, userC, userD, userE } from './setup/test_user';
+import { openApp } from './setup/open';
 
-let windows: Array<Page> = [];
 test.beforeEach(beforeAllClean);
 
 test.skip('Group upkeep', async () => {
   const [windowA, windowB, windowC, windowD, windowE] = await openApp(5);
-  windows = [windowA, windowB, windowC, windowD, windowE];
+
   await Promise.all([
     logIn(windowA, userA.recoveryPhrase),
     logIn(windowB, userB.recoveryPhrase),

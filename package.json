@@ -65,6 +65,8 @@
     "format-full": "prettier --list-different --write \"*.{css,js,json,scss,ts,tsx}\" \"./**/*.{css,js,json,scss,ts,tsx}\"",
 
     "integration-test": "npx playwright test",
+    "start-prod-test": "cross-env NODE_ENV=production NODE_APP_INSTANCE=$MULTI electron .",
+
     "integration-test-snapshots": "npx playwright test -g 'profile picture' --update-snapshots",
     "test": "mocha  -r jsdom-global/register --recursive --exit --timeout 10000  \"./ts/test/**/*_test.js\"",
     "coverage": "nyc --reporter=html mocha  -r jsdom-global/register --recursive --exit --timeout 10000  \"./ts/test/**/*_test.js\"",

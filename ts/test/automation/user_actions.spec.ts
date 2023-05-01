@@ -1,27 +1,25 @@
-import { _electron, Page, test } from '@playwright/test';
-import { beforeAllClean, forceCloseAllWindows } from './setup/beforeEach';
-
+import { expect, test } from '@playwright/test';
+import { beforeAllClean } from './setup/beforeEach';
+import { sleepFor } from '../../session/utils/Promise';
+import { newUser } from './setup/new_user';
 import { sendNewMessage } from './utilities/send_message';
-import { openAppsAndNewUsers } from './setup/new_user';
 import {
   clickOnMatchingText,
   clickOnTestIdWithText,
+  typeIntoInput,
   waitForMatchingText,
   waitForTestIdWithText,
 } from './utilities/utils';
+import { openApp } from './setup/open';
 
-let windows: Array<Page> = [];
 test.beforeEach(beforeAllClean);
 
 // test.afterEach(() => forceCloseAllWindows(windows));
 
 // Send message in one to one conversation with new contact
 test('Create contact', async () => {
-  const windowLoggedIn = await openAppsAndNewUsers(2);
-  windows = windowLoggedIn.windows;
-  const users = windowLoggedIn.users;
-  const [windowA, windowB] = windows;
-  const [userA, userB] = users;
+  const [windowA, windowB] = await openApp(2);
+  const [userA, userB] = await Promise.all([newUser(windowA, 'Alice'), newUser(windowB, 'Bob')]);
 
   const testMessage = `${userA.userName} to ${userB.userName}`;
   const testReply = `${userB.userName} to ${userA.userName}`;
@@ -39,13 +37,11 @@ test('Create contact', async () => {
   await clickOnTestIdWithText(windowA, 'new-conversation-button');
 });
 
-test('Block User', async () => {
+test('Block user in conversation options', async () => {
   // Open app and create user
-  const windowLoggedIn = await openAppsAndNewUsers(2);
-  windows = windowLoggedIn.windows;
-  const users = windowLoggedIn.users;
-  const [windowA, windowB] = windows;
-  const [userA, userB] = users;
+  const [windowA, windowB] = await openApp(2);
+  const [userA, userB] = await Promise.all([newUser(windowA, 'Alice'), newUser(windowB, 'Bob')]);
+
   const testMessage = `${userA.userName} to ${userB.userName}`;
   const testReply = `${userB.userName} to ${userA.userName}`;
   // Create contact and send new message
@@ -77,4 +73,52 @@ test('Block User', async () => {
   // Verify toast notification says unblocked
   await waitForTestIdWithText(windowA, 'session-toast', 'Unblocked');
   await waitForMatchingText(windowA, 'No blocked contacts');
+});
+
+test('Change username', async () => {
+  // Open App
+  const [window] = await openApp(1);
+  // Create user
+  const newUsername = 'Tiny bubble';
+  await newUser(window, 'Alice');
+  // Open Profile
+  await clickOnTestIdWithText(window, 'leftpane-primary-avatar');
+  // Click on current username to open edit field
+  await clickOnTestIdWithText(window, 'edit-profile-icon');
+  // Type in new username
+  await typeIntoInput(window, 'profile-name-input', newUsername);
+  // await window.fill('.profile-name-input', 'new username');
+  // Press enter to confirm username input
+  await window.keyboard.press('Enter');
+  // Wait for Copy button to appear to verify username change
+  await window.isVisible("'Copy'");
+  // verify name change
+  expect(await window.innerText('[data-testid=your-profile-name]')).toBe(newUsername);
+  // Exit profile module
+  await window.click('.session-icon-button.small');
+});
+
+test('Change avatar', async () => {
+  const [window] = await openApp(1);
+  await newUser(window, 'Alice');
+  // Open profile
+  await clickOnTestIdWithText(window, 'leftpane-primary-avatar');
+  // Click on current profile picture
+  await waitForTestIdWithText(window, 'copy-button-profile-update', 'Copy');
+
+  await clickOnTestIdWithText(window, 'image-upload-section');
+  await clickOnTestIdWithText(window, 'save-button-profile-update');
+  await waitForTestIdWithText(window, 'loading-spinner');
+
+  await waitForTestIdWithText(window, 'copy-button-profile-update', 'Copy');
+  await clickOnTestIdWithText(window, 'modal-close-button');
+
+  await sleepFor(500);
+  const leftpaneAvatarContainer = await waitForTestIdWithText(window, 'leftpane-primary-avatar');
+  await sleepFor(500);
+  const screenshot = await leftpaneAvatarContainer.screenshot({
+    type: 'jpeg',
+    // path: 'avatar-updated-blue',
+  });
+  expect(screenshot).toMatchSnapshot({ name: 'avatar-updated-blue.jpeg' });
 });

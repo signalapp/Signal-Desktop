@@ -1,8 +1,8 @@
-import { _electron, Page, test } from '@playwright/test';
+import { Page, test } from '@playwright/test';
+import { sleepFor } from '../../session/utils/Promise';
+import { beforeAllClean } from './setup/beforeEach';
 import { newUser } from './setup/new_user';
 import { openAppAndWait } from './setup/open';
-import { sleepFor } from '../../session/utils/Promise';
-import { beforeAllClean, forceCloseAllWindows } from './setup/beforeEach';
 import {
   clickOnMatchingText,
   clickOnTestIdWithText,

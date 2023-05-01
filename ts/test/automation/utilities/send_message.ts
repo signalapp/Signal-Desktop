@@ -1,5 +1,5 @@
 import { _electron, Page } from '@playwright/test';
-import { messageSent } from './message';
+import { sendMessage } from './message';
 import { clickOnTestIdWithText, typeIntoInput } from './utils';
 
 export const sendNewMessage = async (window: Page, sessionid: string, message: string) => {
@@ -9,5 +9,5 @@ export const sendNewMessage = async (window: Page, sessionid: string, message: s
   await typeIntoInput(window, 'new-session-conversation', sessionid);
   // click next
   await clickOnTestIdWithText(window, 'next-new-conversation-button', 'Next');
-  await messageSent(window, message);
+  await sendMessage(window, message);
 };

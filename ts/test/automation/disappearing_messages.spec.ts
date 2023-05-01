@@ -1,21 +1,21 @@
-import { _electron, Page, test } from '@playwright/test';
-import { beforeAllClean, forceCloseAllWindows } from './setup/beforeEach';
-import { messageSent } from './utilities/message';
-import { openAppsAndNewUsers } from './setup/new_user';
+import { test } from '@playwright/test';
+import { sleepFor } from '../../session/utils/Promise';
+import { beforeAllClean } from './setup/beforeEach';
+import { newUser } from './setup/new_user';
+import { openApp } from './setup/open';
+import { sendMessage } from './utilities/message';
 import { sendNewMessage } from './utilities/send_message';
 import {
   clickOnMatchingText,
   clickOnTestIdWithText,
+  waitForControlMessageWithText,
   waitForMatchingText,
-  waitForReadableMessageWithText,
   waitForTestIdWithText,
 } from './utilities/utils';
-import { sleepFor } from '../../session/utils/Promise';
 
-let windows: Array<Page> = [];
 test.beforeEach(beforeAllClean);
 
-test.afterEach(() => forceCloseAllWindows(windows));
+// test.afterEach(() => forceCloseAllWindows(windows));
 // tslint:disable: no-console
 
 const testMessage = 'Test-Message- (A -> B) ';
@@ -23,18 +23,15 @@ const testReply = 'Reply-Test-Message- (B -> A)';
 const sentMessage = `${testMessage}${Date.now()}`;
 const sentReplyMessage = `${testReply} :${Date.now()}`;
 
-test('Disappearing Messages', async () => {
+test('Disappearing messages', async () => {
   // Open App
   // Create User
-  const windowLoggedIn = await openAppsAndNewUsers(2);
-  windows = windowLoggedIn.windows;
-  const users = windowLoggedIn.users;
-  const [windowA, windowB] = windows;
-  const [userA, userB] = users;
+  const [windowA, windowB] = await openApp(2);
+  const [userA, userB] = await Promise.all([newUser(windowA, 'Alice'), newUser(windowB, 'Bob')]);
   // Create Contact
   await sendNewMessage(windowA, userB.sessionid, sentMessage);
   await sendNewMessage(windowB, userA.sessionid, sentReplyMessage);
-  await waitForReadableMessageWithText(windowA, 'Your message request has been accepted');
+  await waitForControlMessageWithText(windowA, 'Your message request has been accepted');
   // await waitForMatchingText(windowA, `You have accepted ${userA.userName}'s message request`);
   // await waitForMatchingText(windowB, 'Your message request has been accepted');
   // Click on user's avatar to open conversation options
@@ -48,7 +45,7 @@ test('Disappearing Messages', async () => {
   // Check config message
   await waitForTestIdWithText(
     windowA,
-    'readable-message',
+    'control-message',
     'You set the disappearing message timer to 5 seconds'
   );
   await sleepFor(2000);
@@ -57,7 +54,7 @@ test('Disappearing Messages', async () => {
   await waitForTestIdWithText(windowA, 'disappearing-messages-indicator', '5 seconds');
   // Send message
   // Wait for tick of confirmation
-  await messageSent(windowA, sentMessage);
+  await sendMessage(windowA, sentMessage);
   // Check timer is functioning
 
   // Verify message is deleted
@@ -82,7 +79,7 @@ test('Disappearing Messages', async () => {
   // Click chevron to close menu
   await clickOnTestIdWithText(windowA, 'back-button-conversation-options');
   // Check config message
-  await waitForTestIdWithText(windowA, 'readable-message', 'You disabled disappearing messages.');
+  await waitForTestIdWithText(windowA, 'control-message', 'You disabled disappearing messages.');
   // Verify message is deleted in windowB for receiver user
   // Check config message in windowB
   await waitForMatchingText(

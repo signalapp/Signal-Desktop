@@ -1,23 +1,19 @@
-import { _electron, Page, test } from '@playwright/test';
+import { _electron, test } from '@playwright/test';
 import { beforeAllClean, forceCloseAllWindows } from './setup/beforeEach';
-import { openAppsAndNewUsers, openAppsNoNewUsers } from './setup/new_user';
+import { newUser } from './setup/new_user';
 import { sendNewMessage } from './utilities/send_message';
 import { clickOnMatchingText, clickOnTestIdWithText, typeIntoInput } from './utilities/utils';
 import { sleepFor } from '../../session/utils/Promise';
+import { openApp } from './setup/open';
 // tslint:disable: no-console
 
-let windows: Array<Page> = [];
 test.beforeEach(beforeAllClean);
 
-test.afterEach(() => forceCloseAllWindows(windows));
-
 test('Delete account from swarm', async () => {
-  const testMessage = `A -> B: ${Date.now()}`;
-  const testReply = `B -> A: ${Date.now()}`;
-  const windowLoggedIn = await openAppsAndNewUsers(2);
-  windows = windowLoggedIn.windows;
-  const [windowA, windowB] = windows;
-  const [userA, userB] = windowLoggedIn.users;
+  const [windowA, windowB] = await openApp(2);
+  const [userA, userB] = await Promise.all([newUser(windowA, 'Alice'), newUser(windowB, 'Bob')]);
+  const testMessage = `${userA.userName} to ${userB.userName}`;
+  const testReply = `${userB.userName} to ${userA.userName}`;
   // Create contact and send new message
   await Promise.all([
     sendNewMessage(windowA, userB.sessionid, testMessage),
@@ -37,7 +33,7 @@ test('Delete account from swarm', async () => {
   // Wait for window to close and reopen
   await sleepFor(10000, true);
   // await windowA.close();
-  const restoringWindows = await openAppsNoNewUsers(1);
+  const restoringWindows = await openApp(1);
   const [restoringWindow] = restoringWindows;
   // Sign in with deleted account and check that nothing restores
   await clickOnTestIdWithText(restoringWindow, 'restore-using-recovery', 'Restore your account');
