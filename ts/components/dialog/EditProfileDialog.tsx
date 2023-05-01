@@ -357,9 +357,9 @@ async function commitProfileEdits(newName: string, scaledAvatarUrl: string | nul
 
   // might be good to not trigger a sync if the name did not change
   await conversation.commit();
+  await ConfigurationSync.queueNewJobIfNeeded();
 
   if (window.sessionFeatureFlags.useSharedUtilForUserConfig) {
-    await ConfigurationSync.queueNewJobIfNeeded();
     await setLastProfileUpdateTimestamp(Date.now());
   } else {
     await setLastProfileUpdateTimestamp(Date.now());

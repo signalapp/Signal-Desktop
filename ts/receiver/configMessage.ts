@@ -736,7 +736,7 @@ async function handleGroupsAndContactsFromConfigMessageLegacy(
     await handleClosedGroupsFromConfigLegacy(configMessage.closedGroups, envelope);
   }
 
-  handleOpenGroupsFromConfig(configMessage.openGroups);
+  handleOpenGroupsFromConfigLegacy(configMessage.openGroups);
 
   if (configMessage.contacts?.length) {
     await Promise.all(
@@ -749,7 +749,7 @@ async function handleGroupsAndContactsFromConfigMessageLegacy(
  * Trigger a join for all open groups we are not already in.
  * @param openGroups string array of open group urls
  */
-const handleOpenGroupsFromConfig = (openGroups: Array<string>) => {
+const handleOpenGroupsFromConfigLegacy = (openGroups: Array<string>) => {
   if (window.sessionFeatureFlags.useSharedUtilForUserConfig && Registration.isDone()) {
     return;
   }

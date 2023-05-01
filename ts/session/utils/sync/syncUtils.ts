@@ -44,6 +44,8 @@ const writeLastSyncTimestampToDb = async (timestamp: number) =>
  * Conditionally Syncs user configuration with other devices linked.
  */
 export const syncConfigurationIfNeeded = async () => {
+  await ConfigurationSync.queueNewJobIfNeeded();
+
   if (!window.sessionFeatureFlags.useSharedUtilForUserConfig) {
     const lastSyncedTimestamp = (await getLastSyncTimestampFromDb()) || 0;
     const now = Date.now();
@@ -70,8 +72,6 @@ export const syncConfigurationIfNeeded = async () => {
       return;
     }
     await writeLastSyncTimestampToDb(now);
-  } else {
-    await ConfigurationSync.queueNewJobIfNeeded();
   }
 };
 
@@ -83,22 +83,23 @@ export const forceSyncConfigurationNowIfNeeded = async (waitForMessageSent = fal
       resolve(false);
     }, 20000);
 
+    // the ConfigurationSync also handles dumping in to the DB if we do not need to push the data, but the dumping needs to be done even before the feature flag is true.
+    void ConfigurationSync.queueNewJobIfNeeded().catch(e => {
+      window.log.warn(
+        'forceSyncConfigurationNowIfNeeded scheduling of jobs ConfigurationSync.queueNewJobIfNeeded failed with: ',
+        e.message
+      );
+    });
     if (window.sessionFeatureFlags.useSharedUtilForUserConfig) {
-      void ConfigurationSync.queueNewJobIfNeeded().catch(e => {
-        window.log.warn(
-          'forceSyncConfigurationNowIfNeeded scheduling of jobs failed with',
-          e.message
-        );
-      });
       if (waitForMessageSent) {
         window.Whisper.events.once(ConfigurationSyncJobDone, () => {
           resolve(true);
+          return;
         });
       } else {
         resolve(true);
+        return;
       }
-
-      return;
     }
 
     void getCurrentConfigurationMessage(allConvos)

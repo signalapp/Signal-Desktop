@@ -148,15 +148,13 @@ export async function declineConversationWithoutConfirm({
   if (blockContact) {
     await blockConvoById(conversationId);
   }
-  if (window.sessionFeatureFlags.useSharedUtilForUserConfig) {
-    // when removing a message request, without blocking it, we actually have no need to store the conversation in the wrapper. So just remove the entry
+  // when removing a message request, without blocking it, we actually have no need to store the conversation in the wrapper. So just remove the entry
 
-    if (
-      conversationToDecline.isPrivate() &&
-      !SessionUtilContact.isContactToStoreInWrapper(conversationToDecline)
-    ) {
-      await SessionUtilContact.removeContactFromWrapper(conversationToDecline.id);
-    }
+  if (
+    conversationToDecline.isPrivate() &&
+    !SessionUtilContact.isContactToStoreInWrapper(conversationToDecline)
+  ) {
+    await SessionUtilContact.removeContactFromWrapper(conversationToDecline.id);
   }
 
   if (syncToDevices) {
@@ -462,9 +460,9 @@ export async function uploadOurAvatar(newAvatarDecrypted?: ArrayBuffer) {
 
   if (newAvatarDecrypted) {
     await setLastProfileUpdateTimestamp(Date.now());
-    if (window.sessionFeatureFlags.useSharedUtilForUserConfig) {
-      await ConfigurationSync.queueNewJobIfNeeded();
-    } else {
+    await ConfigurationSync.queueNewJobIfNeeded();
+
+    if (!window.sessionFeatureFlags.useSharedUtilForUserConfig) {
       await SyncUtils.forceSyncConfigurationNowIfNeeded(true);
     }
   } else {

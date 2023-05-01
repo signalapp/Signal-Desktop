@@ -280,9 +280,6 @@ class ConfigurationSyncJob extends PersistedJob<ConfigurationSyncPersistedData> 
  * A ConfigurationSyncJob can only be added if there is none of the same type queued already.
  */
 async function queueNewJobIfNeeded() {
-  if (!window.sessionFeatureFlags.useSharedUtilForUserConfig) {
-    return;
-  }
   if (
     !lastRunConfigSyncJobTimestamp ||
     lastRunConfigSyncJobTimestamp < Date.now() - defaultMsBetweenRetries
