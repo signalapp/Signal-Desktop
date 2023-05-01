@@ -27,7 +27,6 @@ import {
   VisibleMessage,
 } from '../../messages/outgoing/visibleMessage/VisibleMessage';
 import { PubKey } from '../../types';
-import { ConfigurationDumpSync } from '../job_runners/jobs/ConfigurationSyncDumpJob';
 import { ConfigurationSync } from '../job_runners/jobs/ConfigurationSyncJob';
 import { fromBase64ToArray, fromHexToArray } from '../String';
 import { getCompleteUrlFromRoom } from '../../apis/open_group_api/utils/OpenGroupUtils';
@@ -72,9 +71,7 @@ export const syncConfigurationIfNeeded = async () => {
     }
     await writeLastSyncTimestampToDb(now);
   } else {
-    await ConfigurationDumpSync.queueNewJobIfNeeded();
     await ConfigurationSync.queueNewJobIfNeeded();
-    await ConfigurationDumpSync.queueNewJobIfNeeded();
   }
 };
 
@@ -87,14 +84,12 @@ export const forceSyncConfigurationNowIfNeeded = async (waitForMessageSent = fal
     }, 20000);
 
     if (window.sessionFeatureFlags.useSharedUtilForUserConfig) {
-      void ConfigurationDumpSync.queueNewJobIfNeeded()
-        .then(ConfigurationSync.queueNewJobIfNeeded)
-        .catch(e => {
-          window.log.warn(
-            'forceSyncConfigurationNowIfNeeded scheduling of jobs failed with',
-            e.message
-          );
-        });
+      void ConfigurationSync.queueNewJobIfNeeded().catch(e => {
+        window.log.warn(
+          'forceSyncConfigurationNowIfNeeded scheduling of jobs failed with',
+          e.message
+        );
+      });
       if (waitForMessageSent) {
         window.Whisper.events.once(ConfigurationSyncJobDone, () => {
           resolve(true);

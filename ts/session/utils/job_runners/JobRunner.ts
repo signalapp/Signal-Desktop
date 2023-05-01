@@ -5,7 +5,6 @@ import { persistedJobFromData } from './JobDeserialization';
 import { JobRunnerType } from './jobs/JobRunnerType';
 import {
   AvatarDownloadPersistedData,
-  ConfigurationSyncDumpPersistedData,
   ConfigurationSyncPersistedData,
   PersistedJob,
   RunJobResult,
@@ -369,13 +368,7 @@ const avatarDownloadRunner = new PersistedJobRunner<AvatarDownloadPersistedData>
   null
 );
 
-const configurationSyncDumpRunner = new PersistedJobRunner<ConfigurationSyncDumpPersistedData>(
-  'ConfigurationSyncDumpJob',
-  null
-);
-
 export const runners = {
   configurationSyncRunner,
-  configurationSyncDumpRunner,
   avatarDownloadRunner,
 };

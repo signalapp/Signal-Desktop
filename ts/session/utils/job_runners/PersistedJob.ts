@@ -4,8 +4,7 @@ export type PersistedJobType =
   | 'ConfigurationSyncJobType'
   | 'AvatarDownloadJobType'
   | 'FakeSleepForJobType'
-  | 'FakeSleepForJobMultiType'
-  | 'ConfigurationSyncDumpJobType';
+  | 'FakeSleepForJobMultiType';
 
 interface PersistedJobData {
   jobType: PersistedJobType;
@@ -38,16 +37,11 @@ export interface ConfigurationSyncPersistedData extends PersistedJobData {
   jobType: 'ConfigurationSyncJobType';
 }
 
-export interface ConfigurationSyncDumpPersistedData extends PersistedJobData {
-  jobType: 'ConfigurationSyncDumpJobType';
-}
-
 export type TypeOfPersistedData =
   | ConfigurationSyncPersistedData
   | AvatarDownloadPersistedData
   | FakeSleepJobData
-  | FakeSleepForMultiJobData
-  | ConfigurationSyncDumpPersistedData;
+  | FakeSleepForMultiJobData;
 
 export type AddJobCheckReturn =
   | 'skipAddSameJobPresent'

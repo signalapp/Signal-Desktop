@@ -1,5 +1,5 @@
-import { isEmpty, uniq } from 'lodash';
 import { BaseConvoInfoVolatile, ConvoVolatileType } from 'libsession_util_nodejs';
+import { isEmpty } from 'lodash';
 import { Data } from '../../../data/data';
 import { OpenGroupData } from '../../../data/opengroups';
 import { ConversationModel } from '../../../models/conversation';
@@ -28,28 +28,6 @@ const mappedLegacyGroupWrapperValues = new Map<string, BaseConvoInfoVolatile>();
  * The key of this map is the convoId as stored in the database, so withoutpubkey
  */
 const mappedCommunityWrapperValues = new Map<string, BaseConvoInfoVolatile>();
-
-/**
- * Update the ConvoInfoVolatileWrapper with all the data is cares about from the database.
- */
-async function insertAllConvoInfoVolatileIntoWrapper() {
-  const convoIdsToInsert = uniq(
-    getConversationController()
-      .getConversations()
-      .filter(isConvoToStoreInWrapper)
-      .map(m => m.id)
-  );
-
-  window.log.debug(
-    `ConvoInfoVolatileWrapper keep tracks of ${convoIdsToInsert.length} convos in total.`
-  );
-
-  for (let index = 0; index < convoIdsToInsert.length; index++) {
-    const id = convoIdsToInsert[index];
-
-    await insertConvoFromDBIntoWrapperAndRefresh(id);
-  }
-}
 
 /**
  * Returns true if that conversation should be stored in the conversation volatile info wrapper.
@@ -278,7 +256,6 @@ function getConvoInfoVolatileTypes(): Array<ConvoVolatileType> {
 export const SessionUtilConvoInfoVolatile = {
   // shared
   isConvoToStoreInWrapper,
-  insertAllConvoInfoVolatileIntoWrapper,
   insertConvoFromDBIntoWrapperAndRefresh,
   refreshConvoVolatileCached,
   getConvoInfoVolatileTypes,

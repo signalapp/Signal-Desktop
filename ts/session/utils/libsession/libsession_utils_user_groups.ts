@@ -1,4 +1,3 @@
-import { uniq } from 'lodash';
 import { CommunityInfo, LegacyGroupInfo, UserGroupsType } from 'libsession_util_nodejs';
 import { Data } from '../../../data/data';
 import { OpenGroupData } from '../../../data/opengroups';
@@ -21,28 +20,6 @@ const mappedCommunityWrapperValues = new Map<string, CommunityInfo>();
  * The key of this map is the convoId as stored in the database. So the legacy group 05 sessionID
  */
 const mappedLegacyGroupWrapperValues = new Map<string, LegacyGroupInfo>();
-
-/**
- * Update the UserGroupsWrapper with all the data is cares about from the database.
- */
-async function insertAllUserGroupsIntoWrapper() {
-  const convoIdsToInsert = uniq(
-    getConversationController()
-      .getConversations()
-      .filter(isUserGroupToStoreInWrapper)
-      .map(m => m.id)
-  );
-
-  window.log.debug(
-    `UserGroupsWrapper keep tracks of ${convoIdsToInsert.length} usergroups including groups and communities`
-  );
-
-  for (let index = 0; index < convoIdsToInsert.length; index++) {
-    const id = convoIdsToInsert[index];
-
-    await insertGroupsFromDBIntoWrapperAndRefresh(id);
-  }
-}
 
 /**
  * Returns true if that conversation is an active group
@@ -268,7 +245,6 @@ function getUserGroupTypes(): Array<UserGroupsType> {
 export const SessionUtilUserGroups = {
   // shared
   isUserGroupToStoreInWrapper,
-  insertAllUserGroupsIntoWrapper,
   insertGroupsFromDBIntoWrapperAndRefresh,
   refreshCachedUserGroup,
   getUserGroupTypes,

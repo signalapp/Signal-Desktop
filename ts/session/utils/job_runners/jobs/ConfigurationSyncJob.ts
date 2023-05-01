@@ -3,7 +3,6 @@ import { v4 } from 'uuid';
 import { UserUtils } from '../..';
 import { ConfigDumpData } from '../../../../data/configDump/configDump';
 import { ConfigurationSyncJobDone } from '../../../../shims/events';
-import { assertUnreachable } from '../../../../types/sqlSharedTypes';
 import { GenericWrapperActions } from '../../../../webworker/workers/browser/libsession_worker_interface';
 import { NotEmptyArrayOfBatchResults } from '../../../apis/snode_api/SnodeRequestTypes';
 import { getConversationController } from '../../../conversations';
@@ -17,10 +16,6 @@ import {
   PersistedJob,
   RunJobResult,
 } from '../PersistedJob';
-import { SessionUtilUserProfile } from '../../libsession/libsession_utils_user_profile';
-import { SessionUtilContact } from '../../libsession/libsession_utils_contacts';
-import { SessionUtilUserGroups } from '../../libsession/libsession_utils_user_groups';
-import { SessionUtilConvoInfoVolatile } from '../../libsession/libsession_utils_convo_info_volatile';
 
 const defaultMsBetweenRetries = 3000;
 const defaultMaxAttempts = 3;
@@ -128,6 +123,23 @@ async function buildAndSaveDumpsToDB(
   }
 }
 
+async function saveDumpsNeededToDB(destination: string) {
+  for (let i = 0; i < LibSessionUtil.requiredUserVariants.length; i++) {
+    const variant = LibSessionUtil.requiredUserVariants[i];
+    const needsDump = await GenericWrapperActions.needsDump(variant);
+
+    if (!needsDump) {
+      continue;
+    }
+    const dump = await GenericWrapperActions.dump(variant);
+    await ConfigDumpData.saveConfigDump({
+      data: dump,
+      publicKey: destination,
+      variant,
+    });
+  }
+}
+
 class ConfigurationSyncJob extends PersistedJob<ConfigurationSyncPersistedData> {
   constructor({
     identifier,
@@ -154,10 +166,6 @@ class ConfigurationSyncJob extends PersistedJob<ConfigurationSyncPersistedData> 
     const start = Date.now();
 
     try {
-      if (!window.sessionFeatureFlags.useSharedUtilForUserConfig) {
-        this.triggerConfSyncJobDone();
-        return RunJobResult.Success;
-      }
       window.log.debug(`ConfigurationSyncJob starting ${this.persistedData.identifier}`);
 
       const us = UserUtils.getOurPubKeyStrFromCache();
@@ -169,29 +177,17 @@ class ConfigurationSyncJob extends PersistedJob<ConfigurationSyncPersistedData> 
         return RunJobResult.PermanentFailure;
       }
 
-      for (let index = 0; index < LibSessionUtil.requiredUserVariants.length; index++) {
-        const variant = LibSessionUtil.requiredUserVariants[index];
-        switch (variant) {
-          case 'UserConfig':
-            await SessionUtilUserProfile.insertUserProfileIntoWrapper(us);
-            break;
-          case 'ContactsConfig':
-            await SessionUtilContact.insertAllContactsIntoContactsWrapper();
-            break;
-          case 'UserGroupsConfig':
-            await SessionUtilUserGroups.insertAllUserGroupsIntoWrapper();
-            break;
-          case 'ConvoInfoVolatileConfig':
-            await SessionUtilConvoInfoVolatile.insertAllConvoInfoVolatileIntoWrapper();
-            break;
-          default:
-            assertUnreachable(variant, `ConfigurationSyncDumpJob unhandled variant: "${variant}"`);
-        }
-      }
-
       // TODOLATER add a way to have a few configuration sync jobs running at the same time, but only a single one per pubkey
       const thisJobDestination = us;
 
+      // save the dumps to DB even before trying to push them, so at least we have an up to date dumps in the DB in case of crash, no network etc
+      await saveDumpsNeededToDB(thisJobDestination);
+
+      // if the feature flag is not enabled, we want to keep updating the dumps, but just not sync them.
+      if (!window.sessionFeatureFlags.useSharedUtilForUserConfig) {
+        this.triggerConfSyncJobDone();
+        return RunJobResult.Success;
+      }
       const singleDestChanges = await retrieveSingleDestinationChanges(thisJobDestination);
 
       // If there are no pending changes then the job can just complete (next time something

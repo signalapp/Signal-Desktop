@@ -19,29 +19,9 @@ import { PubKey } from '../../types';
  * Also, to make sure that our wrapper is up to date, we schedule jobs to be run and fetch all contacts and update all the wrappers entries.
  * This is done in the
  *    - `ConfigurationSyncJob` (sending data to the network) and the
- *    - `ConfigurationSyncDumpJob` (just dumping locally the data)
- * with `insertAllContactsIntoContactsWrapper()`
  *
  */
 const mappedContactWrapperValues = new Map<string, ContactInfo>();
-
-/**
- * Update the ContactWrapper with all the data is cares about from the database.
- */
-async function insertAllContactsIntoContactsWrapper() {
-  const idsToInsert = getConversationController()
-    .getConversations()
-    .filter(isContactToStoreInWrapper)
-    .map(m => m.id);
-
-  window.log.debug(`ContactsWrapper keep tracks of ${idsToInsert.length} contacts: ${idsToInsert}`);
-
-  for (let index = 0; index < idsToInsert.length; index++) {
-    const id = idsToInsert[index];
-
-    await insertContactFromDBIntoWrapperAndRefresh(id);
-  }
-}
 
 /**
  * Returns true if that conversation is not us, is private, is not blinded.
@@ -147,7 +127,6 @@ async function removeContactFromWrapper(id: string) {
 }
 export const SessionUtilContact = {
   isContactToStoreInWrapper,
-  insertAllContactsIntoContactsWrapper,
   insertContactFromDBIntoWrapperAndRefresh,
   removeContactFromWrapper,
   getContactCached,

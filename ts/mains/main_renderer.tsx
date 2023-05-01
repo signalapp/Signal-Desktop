@@ -116,8 +116,6 @@ async function startJobRunners() {
   runners.avatarDownloadRunner.startProcessing();
   await runners.configurationSyncRunner.loadJobsFromDb();
   runners.configurationSyncRunner.startProcessing();
-  await runners.configurationSyncDumpRunner.loadJobsFromDb();
-  runners.configurationSyncDumpRunner.startProcessing();
 }
 
 // We need this 'first' check because we don't want to start the app up any other time

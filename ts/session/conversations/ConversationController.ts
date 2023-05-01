@@ -13,7 +13,6 @@ import { CONVERSATION_PRIORITIES, ConversationTypeEnum } from '../../models/conv
 import { assertUnreachable } from '../../types/sqlSharedTypes';
 import { UserGroupsWrapperActions } from '../../webworker/workers/browser/libsession_worker_interface';
 import { leaveClosedGroup } from '../group/closed-group';
-import { ConfigurationDumpSync } from '../utils/job_runners/jobs/ConfigurationSyncDumpJob';
 import { ConfigurationSync } from '../utils/job_runners/jobs/ConfigurationSyncJob';
 import { LibSessionUtil } from '../utils/libsession/libsession_utils';
 import { SessionUtilContact } from '../utils/libsession/libsession_utils_contacts';
@@ -299,7 +298,6 @@ export class ConversationController {
 
     if (!fromSyncMessage) {
       await ConfigurationSync.queueNewJobIfNeeded();
-      await ConfigurationDumpSync.queueNewJobIfNeeded();
     }
   }
 
