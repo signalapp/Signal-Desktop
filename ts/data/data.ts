@@ -142,7 +142,6 @@ export const Data = {
   removeMessagesByIds,
   getMessageIdsFromServerIds,
   getMessageById,
-  getMessageBySenderAndSentAt,
   getMessageByServerId,
   filterAlreadyFetchedOpengroupMessage,
   getMessageBySenderAndTimestamp,
@@ -425,24 +424,6 @@ async function getMessageById(
   }
 
   return new MessageModel(message);
-}
-
-async function getMessageBySenderAndSentAt({
-  source,
-  sentAt,
-}: {
-  source: string;
-  sentAt: number;
-}): Promise<MessageModel | null> {
-  const messages = await channels.getMessageBySenderAndSentAt({
-    source,
-    sentAt,
-  });
-  if (!messages || !messages.length) {
-    return null;
-  }
-
-  return new MessageModel(messages[0]);
 }
 
 async function getMessageByServerId(

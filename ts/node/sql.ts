@@ -1025,21 +1025,6 @@ function getMessageById(id: string) {
   return jsonToObject(row.json);
 }
 
-function getMessageBySenderAndSentAt({ source, sentAt }: { source: string; sentAt: number }) {
-  const rows = assertGlobalInstance()
-    .prepare(
-      `SELECT json FROM ${MESSAGES_TABLE} WHERE
-      source = $source AND
-      sent_at = $sent_at;`
-    )
-    .all({
-      source,
-      sent_at: sentAt,
-    });
-
-  return map(rows, row => jsonToObject(row.json));
-}
-
 // serverIds are not unique so we need the conversationId
 function getMessageByServerId(conversationId: string, serverId: number) {
   const row = assertGlobalInstance()
@@ -2474,7 +2459,6 @@ export const sqlNode = {
   getUnreadCountByConversation,
   getMessageCountByType,
 
-  getMessageBySenderAndSentAt,
   filterAlreadyFetchedOpengroupMessage,
   getMessageBySenderAndTimestamp,
   getMessageIdsFromServerIds,
