@@ -77,6 +77,19 @@ describe('libsession_contacts', () => {
       ).to.be.eq(false);
     });
 
+    it('excludes hidden but not active', () => {
+      expect(
+        SessionUtilContact.isContactToStoreInWrapper(
+          new ConversationModel({
+            ...validArgs,
+            type: ConversationTypeEnum.PRIVATE,
+            priority: CONVERSATION_PRIORITIES.hidden,
+            active_at: 0,
+          } as any)
+        )
+      ).to.be.eq(false);
+    });
+
     it('excludes non approved by us nor did approveme and not active', () => {
       expect(
         SessionUtilContact.isContactToStoreInWrapper(

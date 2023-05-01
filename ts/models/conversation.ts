@@ -229,15 +229,22 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   /**
-   * Returns true if this conversation is active
-   * i.e. the conversation is visibie on the left pane. (Either we or another user created this convo).
-   * This is useful because we do not want bumpTyping on the first message typing to a new convo to
-   *  send a message.
+   * Returns true if this conversation is active.
+   * i.e. the conversation is visible on the left pane. (Either we or another user created this convo).
+   * An active conversation is a user/group we interacted with directly, or they did, at some point.
+   * For instance, all of the conversations created when receiving a community are not active, until we start directly talking with them (or they do).
    */
   public isActive() {
     return Boolean(this.get('active_at'));
   }
 
+  /**
+   *
+   * @returns true if this conversation is private and hidden.
+   * A non-private conversation cannot be hidden currently.
+   *  - a community is removed straight away when we leave it and not marked hidden
+   *  - a legacy group is kept visible if we leave it, until we explicitely delete it. At that time, it is removed completely and not marked hidden
+   */
   public isHidden() {
     const priority = this.get('priority') || CONVERSATION_PRIORITIES.default;
     return this.isPrivate() && priority === CONVERSATION_PRIORITIES.hidden;

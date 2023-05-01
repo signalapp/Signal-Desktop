@@ -9,7 +9,8 @@ const updateLocalConfig = () => {
 
   var hash = '';
   try {
-    // TODO make sure that this works well on windows and macOS builds
+    // this was tested on windows, linux and macOS builds through the CI and works fine, but might require to make git available in the PATH when building unofficial builds.
+    // this is used to udpate the hash of the commit in the UI at the bottom of the settings screen, and in the about view
     var stdout = execSync('git rev-parse HEAD').toString();
     console.info('"git rev-parse HEAD" result: ', stdout && stdout.trim());
 

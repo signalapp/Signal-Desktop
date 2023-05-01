@@ -79,6 +79,14 @@ async function initializeLibSessionUtilWrappers() {
       `initializeLibSessionUtilWrappers: missingRequiredVariants "${missingVariant}"`
     );
     await GenericWrapperActions.init(missingVariant, privateKeyEd25519, null);
+    // save the newly created dump to the database even if it is empty, just so we do not need to recreate one next run
+
+    const dump = await GenericWrapperActions.dump(missingVariant);
+    await ConfigDumpData.saveConfigDump({
+      data: dump,
+      publicKey: UserUtils.getOurPubKeyStrFromCache(),
+      variant: missingVariant,
+    });
     window.log.debug(
       `initializeLibSessionUtilWrappers: missingRequiredVariants "${missingVariant}" created`
     );

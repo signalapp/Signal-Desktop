@@ -97,6 +97,7 @@ const LOKI_SCHEMA_VERSIONS = [
   updateToSessionSchemaVersion28,
   updateToSessionSchemaVersion29,
   updateToSessionSchemaVersion30,
+  updateToSessionSchemaVersion31,
 ];
 
 function updateToSessionSchemaVersion1(currentVersion: number, db: BetterSqlite3.Database) {
@@ -1452,7 +1453,11 @@ function updateToSessionSchemaVersion30(currentVersion: number, db: BetterSqlite
 
   console.log(`updateToSessionSchemaVersion${targetVersion}: starting...`);
   /**
-   * Create a table to store our sharedConfigMessage dumps
+   * Make all the changes required to the database structure to handle the user configs, in the next migration.
+   * I made two migrations because it was easier to separate
+   *  - the part needed a user to be logged in (creating the user dumps needs a private ed25519 key)
+   *  - from the part not requiring a change of user, but which absolutely needed to be happening nevertheless (database structure changes)
+   *
    */
   db.transaction(() => {
     // drop unused readCapability & uploadCapability columns. Also move `writeCapability` to memory only value.
@@ -1472,23 +1477,30 @@ function updateToSessionSchemaVersion30(currentVersion: number, db: BetterSqlite
       ALTER TABLE unprocessed DROP COLUMN serverTimestamp;
       `);
 
+    // for manually flagging conversations as unread"
+    db.exec(`ALTER TABLE ${CONVERSATIONS_TABLE} ADD COLUMN markedAsUnread BOOLEAN;`);
+
     // after the rename of isPinned to priority, we also need to hide any private conversation that is not active at all.
     // as they might be contacts, we did delete from the app already.
+
+    // The release of message requests from other platforms (17 april 2022) created a bunch of active, but not "real contacts" conversation.
+    // This `UPDATE` command makes sure to make any private conversation which have was inactive since the 1st may 2022 as inactive
+    db.prepare(
+      `UPDATE ${CONVERSATIONS_TABLE} SET
+            active_at = 0
+            WHERE type = 'private' AND active_at > 0 AND active_at < ${1000 * 1651363200};` // 1st may 2022 GMT
+    ).run({});
 
     db.prepare(
       `UPDATE ${CONVERSATIONS_TABLE} SET
         priority = ${CONVERSATION_PRIORITIES.hidden}
-        WHERE type = 'private' AND active_at IS NULL;`
+        WHERE type = 'private' AND (active_at IS NULL OR active_at = 0 );`
     ).run({});
 
-    db.exec(`CREATE TABLE ${CONFIG_DUMP_TABLE}(
-      variant TEXT NOT NULL,
-      publicKey TEXT NOT NULL,
-      data BLOB,
-      PRIMARY KEY (publicKey, variant)
-      );
-      `);
-
+    /**
+     * Remove the `publicChat` prefix from the communities, instead keep the full url+room in it, with the corresponding http or https prefix.
+     * This is easier to handle with the libsession wrappers
+     **/
     const allOpengroupsConvo = db
       .prepare(
         `SELECT id FROM ${CONVERSATIONS_TABLE} WHERE
@@ -1535,6 +1547,31 @@ function updateToSessionSchemaVersion30(currentVersion: number, db: BetterSqlite
       ).run({ newId });
     });
 
+    // create the table which is going to handle the wrappers, without any content in this migration.
+    db.exec(`CREATE TABLE ${CONFIG_DUMP_TABLE}(
+      variant TEXT NOT NULL,
+      publicKey TEXT NOT NULL,
+      data BLOB,
+      PRIMARY KEY (publicKey, variant)
+      );
+      `);
+
+    writeSessionSchemaVersion(targetVersion, db);
+  })();
+
+  console.log(`updateToSessionSchemaVersion${targetVersion}: success!`);
+}
+
+function updateToSessionSchemaVersion31(currentVersion: number, db: BetterSqlite3.Database) {
+  const targetVersion = 31;
+  if (currentVersion >= targetVersion) {
+    return;
+  }
+
+  console.log(`updateToSessionSchemaVersion${targetVersion}: starting...`);
+  db.transaction(() => {
+    // In the migration 30, we made all the changes which didn't require the user to be logged in yet.
+    // in this one, we check if a user is logged in, and if yes we build and save the config dumps for the current state of the database.
     try {
       const keys = getIdentityKeys(db);
 
@@ -1611,7 +1648,7 @@ function updateToSessionSchemaVersion30(currentVersion: number, db: BetterSqlite
       // this filter is based on the `isContactToStoreInWrapper` function. Note, blocked contacts won't be added to the wrapper at first, but will on the first start
       const contactsToWriteInWrapper = db
         .prepare(
-          `SELECT * FROM ${CONVERSATIONS_TABLE} WHERE type = 'private' AND active_at > 0 AND NOT hidden AND (didApproveMe OR isApproved) AND id <> '$us' AND id NOT LIKE '15%' ;`
+          `SELECT * FROM ${CONVERSATIONS_TABLE} WHERE type = 'private' AND active_at > 0 AND priority <> ${CONVERSATION_PRIORITIES.hidden} AND (didApproveMe OR isApproved) AND id <> '$us' AND id NOT LIKE '15%' ;`
         )
         .all({
           us: publicKeyHex,
@@ -1762,17 +1799,18 @@ function updateToSessionSchemaVersion30(currentVersion: number, db: BetterSqlite
 
       // we've just created the initial dumps. A ConfSyncJob is run when the app starts after 20 seconds
     } catch (e) {
-      console.error(`failed to create initial wrapper: `, e.stack);
+      console.error(
+        `failed to create initial wrapper. Might just not have a logged in user yet? `,
+        e.message,
+        e.stack,
+        e
+      );
       // if we get an exception here, most likely no users are logged in yet. We can just continue the transaction and the wrappers will be created when a user creates a new account.
     }
 
-    // for manually flagging conversations as :unread"
-    db.exec(`ALTER TABLE ${CONVERSATIONS_TABLE} ADD COLUMN markedAsUnread BOOLEAN;`);
-
+    // still, we update the schema version
     writeSessionSchemaVersion(targetVersion, db);
-  })();
-
-  console.log(`updateToSessionSchemaVersion${targetVersion}: success!`);
+  });
 }
 
 export function printTableColumns(table: string, db: BetterSqlite3.Database) {
