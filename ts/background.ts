@@ -543,19 +543,6 @@ export async function startApp(): Promise<void> {
 
   startInteractionMode();
 
-  // Load these images now to ensure that they don't flicker on first use
-  window.preloadedImages = [];
-  function preload(list: ReadonlyArray<string>) {
-    for (let index = 0, max = list.length; index < max; index += 1) {
-      const image = new Image();
-      image.src = `./images/${list[index]}`;
-      window.preloadedImages.push(image);
-    }
-  }
-
-  const builtInImages = await window.IPC.getBuiltInImages();
-  preload(builtInImages);
-
   // We add this to window here because the default Node context is erased at the end
   //   of preload.js processing
   window.setImmediate = window.nodeSetImmediate;

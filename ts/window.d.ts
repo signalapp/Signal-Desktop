@@ -70,7 +70,6 @@ export type IPCType = {
   };
   drawAttention: () => void;
   getAutoLaunch: () => Promise<boolean>;
-  getBuiltInImages: () => Promise<Array<string>>;
   getMediaCameraPermissions: () => Promise<boolean>;
   getMediaPermissions: () => Promise<boolean>;
   logAppLoadedEvent?: (options: { processedCount?: number }) => void;
