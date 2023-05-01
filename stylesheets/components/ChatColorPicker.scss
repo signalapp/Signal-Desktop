@@ -20,6 +20,10 @@
     }
   }
 
+  &__modal__body.module-Modal__body {
+    overflow-x: hidden;
+  }
+
   &__bubbles {
     align-items: center;
     display: grid;

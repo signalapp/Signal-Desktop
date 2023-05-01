@@ -244,17 +244,21 @@ export function GradientDial({
   };
 
   const handleKeyDown = (ev: KeyboardEvent) => {
-    let add = 1;
-
     if (ev.key === 'ArrowDown' || ev.key === arrow('start')) {
-      add = 1;
+      onChange(Math.min(360, Math.max(0, deg + 1)));
     }
 
     if (ev.key === 'ArrowUp' || ev.key === arrow('end')) {
-      add = -1;
+      onChange(Math.min(360, Math.max(0, deg - 1)));
     }
 
-    onChange(Math.min(360, Math.max(0, deg + add)));
+    if (ev.key === 'Enter' && ev.target instanceof HTMLElement) {
+      if (ev.target.ariaLabel === '0') {
+        onClick(KnobType.start);
+      } else if (ev.target.ariaLabel === '1') {
+        onClick(KnobType.end);
+      }
+    }
   };
 
   useEffect(() => {
