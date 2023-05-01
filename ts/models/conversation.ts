@@ -518,14 +518,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       }
     }
 
-    const { title, isMe } = quotedMessage.findAndFormatContact(msgSource);
-    msgSource = isMe ? window.i18n('you') : title ? title : msgSource;
-
     return {
       author: msgSource,
       id: `${quotedMessage.get('sent_at')}` || '',
-      // no need to quote the full message length.
-      text: sliceQuoteText(body),
+      // NOTE we send the entire body to be consistent with the other platforms
+      text: body,
       attachments: quotedAttachments,
       timestamp: quotedMessage.get('sent_at') || 0,
       convoId: this.id,

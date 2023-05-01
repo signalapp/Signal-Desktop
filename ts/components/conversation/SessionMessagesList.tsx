@@ -155,6 +155,8 @@ export const SessionMessagesList = (props: {
           return [<CallNotification key={messageId} {...msgProps} />, ...componentToMerge];
         }
 
+        // TODO Move Quote rendering logic here maybe?
+
         if (!messageProps) {
           return null;
         }
