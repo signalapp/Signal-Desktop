@@ -189,13 +189,12 @@
 
   &__nav-next,
   &__nav-prev {
+    --height: 224px;
     position: absolute;
-    top: 0;
-    display: flex;
-    flex-direction: column;
+    top: calc(50% - var(--height) / 2);
     width: 25%;
-    height: 100%;
-    justify-content: center;
+    max-width: 96px;
+    height: var(--height);
 
     // We need this so that the buttons stack above the container
     z-index: $z-index-above-base;
@@ -332,8 +331,6 @@
     &--next {
       width: 100%;
       height: 100%;
-      max-width: 96px;
-      max-height: 224px;
       opacity: 0;
       transition: opacity 200ms ease-in-out;
 
