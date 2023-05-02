@@ -3409,7 +3409,6 @@ export class ConversationModel extends window.Backbone
       default:
         throw missingCaseError(callHistoryDetails);
     }
-
     // This is sometimes called inside of another conversation queue job so if
     // awaited it would block on this forever.
     drop(
@@ -3466,6 +3465,7 @@ export class ConversationModel extends window.Backbone
 
         this.trigger('newmessage', model);
         void this.updateUnread();
+        this.set('active_at', timestamp);
 
         if (canConversationBeUnarchived(this.attributes)) {
           this.setArchived(false);
