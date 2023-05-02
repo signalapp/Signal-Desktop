@@ -8,6 +8,7 @@ import {
   MessageModelPropsWithConvoProps,
   MessageModelPropsWithoutConvoProps,
   MessagePropsDetails,
+  PropsForQuote,
   ReduxConversationType,
   SortedMessageModelProps,
 } from '../ducks/conversations';
@@ -25,7 +26,6 @@ import { MessageContentSelectorProps } from '../../components/conversation/messa
 import { MessageContentWithStatusSelectorProps } from '../../components/conversation/message/message-content/MessageContentWithStatus';
 import { MessageContextMenuSelectorProps } from '../../components/conversation/message/message-content/MessageContextMenu';
 import { MessageLinkPreviewSelectorProps } from '../../components/conversation/message/message-content/MessageLinkPreview';
-import { MessageQuoteSelectorProps } from '../../components/conversation/message/message-content/MessageQuote';
 import { MessageStatusSelectorProps } from '../../components/conversation/message/message-content/MessageStatus';
 import { MessageTextSelectorProps } from '../../components/conversation/message/message-content/MessageText';
 import { GenericReadableMessageSelectorProps } from '../../components/conversation/message/message-item/GenericReadableMessage';
@@ -37,6 +37,7 @@ import { ConversationTypeEnum } from '../../models/conversationAttributes';
 
 import { MessageReactsSelectorProps } from '../../components/conversation/message/message-content/MessageReactions';
 import { filter, isEmpty, pick, sortBy } from 'lodash';
+import { verifyQuote } from '../../models/message';
 
 export const getConversations = (state: StateType): ConversationsStateType => state.conversations;
 
@@ -967,17 +968,39 @@ export const getMessageLinkPreviewProps = createSelector(getMessagePropsByMessag
   return msgProps;
 });
 
-export const getMessageQuoteProps = createSelector(getMessagePropsByMessageId, (props):
-  | MessageQuoteSelectorProps
-  | undefined => {
-  if (!props || isEmpty(props)) {
-    return undefined;
+export const getMessageQuoteProps = createSelector(
+  getConversations,
+  getMessagePropsByMessageId,
+  (convosProps, msgProps) => {
+    if (!convosProps || isEmpty(convosProps) || !msgProps || isEmpty(msgProps)) {
+      return undefined;
+    }
+
+    const direction = msgProps.propsForMessage.direction;
+    const quote = msgProps.propsForQuote;
+    if (!direction || !quote || isEmpty(quote)) {
+      return undefined;
+    }
+
+    const { messageId, sender } = quote;
+    if (!messageId || !sender) {
+      return undefined;
+    }
+
+    let quoteProps: PropsForQuote = quote;
+
+    const conversationId = convosProps.selectedConversation;
+    const sourceMessage = convosProps.quotes[`${messageId}-${sender}`].propsForMessage;
+    if (conversationId && sourceMessage) {
+      const convo = getConversationController().get(conversationId);
+      quoteProps = verifyQuote(convo, sourceMessage);
+    }
+
+    window.log.debug(`WIP: quoteProps`, quoteProps);
+
+    return { direction, quote: quoteProps };
   }
-
-  const msgProps: MessageQuoteSelectorProps = pick(props.propsForMessage, ['direction', 'quote']);
-
-  return msgProps;
-});
+);
 
 export const getMessageStatusProps = createSelector(getMessagePropsByMessageId, (props):
   | MessageStatusSelectorProps

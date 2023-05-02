@@ -636,6 +636,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       if (quote.text) {
         // do not show text of not found messages.
         // if the message was deleted better not show it's text content in the message
+        // TODO this will be where we show message not found.
         quoteProps.text = sliceQuoteText(quote.text);
       }
 
@@ -1408,3 +1409,50 @@ const updatesToDispatch: Map<string, MessageModelPropsWithoutConvoProps> = new M
 export class MessageCollection extends Backbone.Collection<MessageModel> {}
 
 MessageCollection.prototype.model = MessageModel;
+
+// TODO rename and consolidate with getPropsForQuote
+export function verifyQuote(
+  convo: ConversationModel,
+  msg: PropsForMessageWithoutConvoProps | undefined
+) {
+  const referencedMessageNotFound = Boolean(msg);
+  const authorName = convo ? convo.getContactProfileNameOrShortenedPubKey() : null;
+  let isFromMe = convo ? convo.id === UserUtils.getOurPubKeyStrFromCache() : false;
+
+  // NOTE follows PropsForQuote except the sender can be undefined
+  let quoteProps: any = {
+    authorName: authorName || 'Unknown',
+    isFromMe,
+    referencedMessageNotFound,
+  };
+
+  if (!msg) {
+    return quoteProps;
+  }
+
+  const id = msg.id;
+  const author = msg.sender;
+
+  if (convo?.isPublic() && PubKey.hasBlindedPrefix(author)) {
+    const room = OpenGroupData.getV2OpenGroupRoom(msg.convoId);
+    if (room && roomHasBlindEnabled(room)) {
+      const usFromCache = findCachedBlindedIdFromUnblinded(
+        UserUtils.getOurPubKeyStrFromCache(),
+        room.serverPublicKey
+      );
+      if (usFromCache && usFromCache === author) {
+        isFromMe = true;
+      }
+    }
+  }
+
+  const attachment = msg.attachments && msg.attachments[0];
+  quoteProps = {
+    ...quoteProps,
+    sender: author,
+    messageId: id,
+    attachment: referencedMessageNotFound && attachment ? attachment : undefined,
+  };
+
+  return quoteProps;
+}
