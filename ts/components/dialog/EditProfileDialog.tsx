@@ -15,7 +15,6 @@ import { ConversationTypeEnum } from '../../models/conversationAttributes';
 import { MAX_USERNAME_BYTES } from '../../session/constants';
 import { getConversationController } from '../../session/conversations';
 import { sanitizeSessionUsername } from '../../session/utils/String';
-import { ConfigurationSync } from '../../session/utils/job_runners/jobs/ConfigurationSyncJob';
 import { editProfileModal } from '../../state/ducks/modalDialog';
 import { pickFileForAvatar } from '../../types/attachments/VisualAttachment';
 import { saveQRCode } from '../../util/saveQRCode';
@@ -357,12 +356,6 @@ async function commitProfileEdits(newName: string, scaledAvatarUrl: string | nul
 
   // might be good to not trigger a sync if the name did not change
   await conversation.commit();
-  await ConfigurationSync.queueNewJobIfNeeded();
-
-  if (window.sessionFeatureFlags.useSharedUtilForUserConfig) {
-    await setLastProfileUpdateTimestamp(Date.now());
-  } else {
-    await setLastProfileUpdateTimestamp(Date.now());
-    await SyncUtils.forceSyncConfigurationNowIfNeeded(true);
-  }
+  await setLastProfileUpdateTimestamp(Date.now());
+  await SyncUtils.forceSyncConfigurationNowIfNeeded(true);
 }

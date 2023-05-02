@@ -31,6 +31,7 @@ import { ConfigurationSync } from '../job_runners/jobs/ConfigurationSyncJob';
 import { fromBase64ToArray, fromHexToArray } from '../String';
 import { getCompleteUrlFromRoom } from '../../apis/open_group_api/utils/OpenGroupUtils';
 import { Storage } from '../../../util/storage';
+import { ReleasedFeatures } from '../../../util/releaseFeature';
 
 const ITEM_ID_LAST_SYNC_TIMESTAMP = 'lastSyncedTimestamp';
 
@@ -46,7 +47,8 @@ const writeLastSyncTimestampToDb = async (timestamp: number) =>
 export const syncConfigurationIfNeeded = async () => {
   await ConfigurationSync.queueNewJobIfNeeded();
 
-  if (!window.sessionFeatureFlags.useSharedUtilForUserConfig) {
+  const userConfigLibsession = await ReleasedFeatures.checkIsUserConfigFeatureReleased();
+  if (!userConfigLibsession) {
     const lastSyncedTimestamp = (await getLastSyncTimestampFromDb()) || 0;
     const now = Date.now();
 
@@ -75,9 +77,9 @@ export const syncConfigurationIfNeeded = async () => {
   }
 };
 
-export const forceSyncConfigurationNowIfNeeded = async (waitForMessageSent = false) =>
-  new Promise(resolve => {
-    const allConvos = getConversationController().getConversations();
+export const forceSyncConfigurationNowIfNeeded = async (waitForMessageSent = false) => {
+  await ReleasedFeatures.checkIsUserConfigFeatureReleased();
+  return new Promise(resolve => {
     // if we hang for more than 20sec, force resolve this promise.
     setTimeout(() => {
       resolve(false);
@@ -90,17 +92,19 @@ export const forceSyncConfigurationNowIfNeeded = async (waitForMessageSent = fal
         e.message
       );
     });
-    if (window.sessionFeatureFlags.useSharedUtilForUserConfig) {
+    if (ReleasedFeatures.isUserConfigFeatureReleasedCached()) {
       if (waitForMessageSent) {
         window.Whisper.events.once(ConfigurationSyncJobDone, () => {
           resolve(true);
           return;
         });
+        return;
       } else {
         resolve(true);
         return;
       }
     }
+    const allConvos = getConversationController().getConversations();
 
     void getCurrentConfigurationMessage(allConvos)
       .then(configMessage => {
@@ -128,6 +132,7 @@ export const forceSyncConfigurationNowIfNeeded = async (waitForMessageSent = fal
         resolve(false);
       });
   });
+};
 
 const getActiveOpenGroupV2CompleteUrls = async (
   convos: Array<ConversationModel>

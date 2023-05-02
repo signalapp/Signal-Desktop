@@ -43,6 +43,7 @@ import { SessionUtilUserGroups } from '../session/utils/libsession/libsession_ut
 import { leaveClosedGroup } from '../session/group/closed-group';
 import { SessionUtilContact } from '../session/utils/libsession/libsession_utils_contacts';
 import { SettingsKey } from '../data/settings-key';
+import { ReleasedFeatures } from '../util/releaseFeature';
 
 export function copyPublicKeyByConvoId(convoId: string) {
   if (OpenGroupUtils.isOpenGroupV2(convoId)) {
@@ -461,8 +462,9 @@ export async function uploadOurAvatar(newAvatarDecrypted?: ArrayBuffer) {
   if (newAvatarDecrypted) {
     await setLastProfileUpdateTimestamp(Date.now());
     await ConfigurationSync.queueNewJobIfNeeded();
+    const userConfigLibsession = await ReleasedFeatures.checkIsUserConfigFeatureReleased();
 
-    if (!window.sessionFeatureFlags.useSharedUtilForUserConfig) {
+    if (!userConfigLibsession) {
       await SyncUtils.forceSyncConfigurationNowIfNeeded(true);
     }
   } else {

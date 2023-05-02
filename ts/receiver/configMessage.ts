@@ -46,6 +46,7 @@ import { HexKeyPair } from './keypairs';
 import { queueAllCachedFromSource } from './receiver';
 import { EnvelopePlus } from './types';
 import { SettingsKey } from '../data/settings-key';
+import { ReleasedFeatures } from '../util/releaseFeature';
 
 function groupByVariant(
   incomingConfigs: Array<IncomingMessage<SignalService.ISharedConfigMessage>>
@@ -639,7 +640,9 @@ async function processMergingResults(results: Map<ConfigWrapperObjectTypes, Inco
 async function handleConfigMessagesViaLibSession(
   configMessages: Array<IncomingMessage<SignalService.ISharedConfigMessage>>
 ) {
-  if (!window.sessionFeatureFlags.useSharedUtilForUserConfig) {
+  const userConfigLibsession = await ReleasedFeatures.checkIsUserConfigFeatureReleased();
+
+  if (!userConfigLibsession) {
     return;
   }
 
@@ -678,8 +681,9 @@ async function handleOurProfileUpdateLegacy(
   sentAt: number | Long,
   configMessage: SignalService.ConfigurationMessage
 ) {
+  const userConfigLibsession = await ReleasedFeatures.checkIsUserConfigFeatureReleased();
   // we want to allow if we are not registered, as we might need to fetch an old config message (can be removed once we released for a weeks the libsession util)
-  if (window.sessionFeatureFlags.useSharedUtilForUserConfig && Registration.isDone()) {
+  if (userConfigLibsession && Registration.isDone()) {
     return;
   }
   const latestProfileUpdateTimestamp = getLastProfileUpdateTimestamp();
@@ -703,7 +707,9 @@ async function handleGroupsAndContactsFromConfigMessageLegacy(
   envelope: EnvelopePlus,
   configMessage: SignalService.ConfigurationMessage
 ) {
-  if (window.sessionFeatureFlags.useSharedUtilForUserConfig && Registration.isDone()) {
+  const userConfigLibsession = await ReleasedFeatures.checkIsUserConfigFeatureReleased();
+
+  if (userConfigLibsession && Registration.isDone()) {
     return;
   }
   const envelopeTimestamp = toNumber(envelope.timestamp);
@@ -736,7 +742,7 @@ async function handleGroupsAndContactsFromConfigMessageLegacy(
     await handleClosedGroupsFromConfigLegacy(configMessage.closedGroups, envelope);
   }
 
-  handleOpenGroupsFromConfigLegacy(configMessage.openGroups);
+  void handleOpenGroupsFromConfigLegacy(configMessage.openGroups);
 
   if (configMessage.contacts?.length) {
     await Promise.all(
@@ -749,8 +755,10 @@ async function handleGroupsAndContactsFromConfigMessageLegacy(
  * Trigger a join for all open groups we are not already in.
  * @param openGroups string array of open group urls
  */
-const handleOpenGroupsFromConfigLegacy = (openGroups: Array<string>) => {
-  if (window.sessionFeatureFlags.useSharedUtilForUserConfig && Registration.isDone()) {
+const handleOpenGroupsFromConfigLegacy = async (openGroups: Array<string>) => {
+  const userConfigLibsession = await ReleasedFeatures.checkIsUserConfigFeatureReleased();
+
+  if (userConfigLibsession && Registration.isDone()) {
     return;
   }
   const numberOpenGroup = openGroups?.length || 0;
@@ -778,7 +786,9 @@ const handleClosedGroupsFromConfigLegacy = async (
   closedGroups: Array<SignalService.ConfigurationMessage.IClosedGroup>,
   envelope: EnvelopePlus
 ) => {
-  if (window.sessionFeatureFlags.useSharedUtilForUserConfig && Registration.isDone()) {
+  const userConfigLibsession = await ReleasedFeatures.checkIsUserConfigFeatureReleased();
+
+  if (userConfigLibsession && Registration.isDone()) {
     return;
   }
   const numberClosedGroup = closedGroups?.length || 0;
@@ -813,7 +823,9 @@ const handleContactFromConfigLegacy = async (
   contactReceived: SignalService.ConfigurationMessage.IContact,
   envelope: EnvelopePlus
 ) => {
-  if (window.sessionFeatureFlags.useSharedUtilForUserConfig && Registration.isDone()) {
+  const userConfigLibsession = await ReleasedFeatures.checkIsUserConfigFeatureReleased();
+
+  if (userConfigLibsession && Registration.isDone()) {
     return;
   }
   try {
@@ -880,8 +892,9 @@ async function handleConfigurationMessageLegacy(
   // when the useSharedUtilForUserConfig flag is ON, we want only allow a legacy config message if we are registering a new user.
   // this is to allow users linking a device to find their config message if they do not have a shared config message yet.
   // the process of those messages is always done after the process of the shared config messages, so that's only a fallback.
+  const userConfigLibsession = await ReleasedFeatures.checkIsUserConfigFeatureReleased();
 
-  if (window.sessionFeatureFlags.useSharedUtilForUserConfig && Registration.isDone()) {
+  if (userConfigLibsession && Registration.isDone()) {
     window?.log?.info(
       'useSharedUtilForUserConfig is set, not handling config messages with "handleConfigurationMessageLegacy()"'
     );

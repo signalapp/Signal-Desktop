@@ -77,9 +77,9 @@ describe('JobRunner', () => {
         const job = getFakeSleepForJob(123);
 
         await runner.addJob(job);
-        throw new Error('PLOP'); // the line above should throw something else
+        throw new Error('fake error'); // the line above should throw something else
       } catch (e) {
-        expect(e.message).to.not.eq('PLOP');
+        expect(e.message).to.not.eq('fake error');
       }
     });
     it('unsorted list is sorted after loading', async () => {

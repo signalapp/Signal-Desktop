@@ -33,7 +33,6 @@ window.sessionFeatureFlags = {
   ),
   useDebugLogging: !_.isEmpty(process.env.SESSION_DEBUG),
   useClosedGroupV3: false || process.env.USE_CLOSED_GROUP_V3,
-  useSharedUtilForUserConfig: true,
   debug: {
     debugFileServerRequests: false,
     debugNonSnodeRequests: false,

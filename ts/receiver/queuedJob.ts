@@ -15,6 +15,7 @@ import { showMessageRequestBannerOutsideRedux } from '../state/ducks/userConfig'
 import { getHideMessageRequestBannerOutsideRedux } from '../state/selectors/userConfig';
 import { GoogleChrome } from '../util';
 import { LinkPreviews } from '../util/linkPreviews';
+import { ReleasedFeatures } from '../util/releaseFeature';
 
 function contentTypeSupported(type: string): boolean {
   const Chrome = GoogleChrome;
@@ -254,7 +255,9 @@ async function handleRegularMessage(
       await conversation.setDidApproveMe(true);
     }
   } else if (type === 'outgoing') {
-    if (!window.sessionFeatureFlags.useSharedUtilForUserConfig) {
+    const userConfigLibsession = await ReleasedFeatures.checkIsUserConfigFeatureReleased();
+
+    if (!userConfigLibsession) {
       // we want to do this for all types of conversations, not just private chats
       handleSyncedReceiptsNoCommit(message, conversation);
 

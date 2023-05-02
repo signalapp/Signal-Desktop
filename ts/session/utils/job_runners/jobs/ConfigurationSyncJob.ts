@@ -16,6 +16,8 @@ import {
   PersistedJob,
   RunJobResult,
 } from '../PersistedJob';
+import { ReleasedFeatures } from '../../../../util/releaseFeature';
+import { allowOnlyOneAtATime } from '../../Promise';
 
 const defaultMsBetweenRetries = 3000;
 const defaultMaxAttempts = 3;
@@ -182,9 +184,10 @@ class ConfigurationSyncJob extends PersistedJob<ConfigurationSyncPersistedData> 
 
       // save the dumps to DB even before trying to push them, so at least we have an up to date dumps in the DB in case of crash, no network etc
       await saveDumpsNeededToDB(thisJobDestination);
+      const userConfigLibsession = await ReleasedFeatures.checkIsUserConfigFeatureReleased();
 
       // if the feature flag is not enabled, we want to keep updating the dumps, but just not sync them.
-      if (!window.sessionFeatureFlags.useSharedUtilForUserConfig) {
+      if (!userConfigLibsession) {
         this.triggerConfSyncJobDone();
         return RunJobResult.Success;
       }
@@ -305,5 +308,6 @@ async function queueNewJobIfNeeded() {
 
 export const ConfigurationSync = {
   ConfigurationSyncJob,
-  queueNewJobIfNeeded,
+  queueNewJobIfNeeded: () =>
+    allowOnlyOneAtATime(`ConfigurationSyncJob-oneAtAtTime`, queueNewJobIfNeeded),
 };

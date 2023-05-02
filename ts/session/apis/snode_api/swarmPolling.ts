@@ -21,6 +21,7 @@ import { perfEnd, perfStart } from '../../utils/Performance';
 import { SnodeNamespace, SnodeNamespaces } from './namespaces';
 import { SnodeAPIRetrieve } from './retrieveRequest';
 import { RetrieveMessageItem, RetrieveMessagesResultsBatched } from './types';
+import { ReleasedFeatures } from '../../../util/releaseFeature';
 
 export function extractWebSocketContent(
   message: string,
@@ -151,9 +152,10 @@ export class SwarmPolling {
     }
     // we always poll as often as possible for our pubkey
     const ourPubkey = UserUtils.getOurPubKeyFromCache();
-    const directPromise = Promise.all([
-      this.pollOnceForKey(ourPubkey, false, this.getUserNamespacesPolled()),
-    ]).then(() => undefined);
+    const userNamespaces = await this.getUserNamespacesPolled();
+    const directPromise = Promise.all([this.pollOnceForKey(ourPubkey, false, userNamespaces)]).then(
+      () => undefined
+    );
 
     const now = Date.now();
     const groupPromises = this.groupPolling.map(async group => {
@@ -222,10 +224,11 @@ export class SwarmPolling {
     }
 
     let allNamespacesWithoutUserConfigIfNeeded: Array<RetrieveMessageItem> = [];
+    const userConfigLibsession = await ReleasedFeatures.checkIsUserConfigFeatureReleased();
 
     // check if we just fetched the details from the config namespaces.
     // If yes, merge them together and exclude them from the rest of the messages.
-    if (window.sessionFeatureFlags.useSharedUtilForUserConfig && resultsFromAllNamespaces) {
+    if (userConfigLibsession && resultsFromAllNamespaces) {
       const userConfigMessages = resultsFromAllNamespaces
         .filter(m => SnodeNamespace.isUserConfigNamespace(m.namespace))
         .map(r => r.messages.messages);
@@ -484,8 +487,9 @@ export class SwarmPolling {
     return newMessages;
   }
 
-  private getUserNamespacesPolled() {
-    return window.sessionFeatureFlags.useSharedUtilForUserConfig
+  private async getUserNamespacesPolled() {
+    const isUserConfigRelease = await ReleasedFeatures.checkIsUserConfigFeatureReleased();
+    return isUserConfigRelease
       ? [
           SnodeNamespaces.UserMessages,
           SnodeNamespaces.UserProfile,

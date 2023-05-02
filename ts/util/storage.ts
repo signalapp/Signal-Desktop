@@ -3,6 +3,7 @@ import { SessionKeyPair } from '../receiver/keypairs';
 import { DEFAULT_RECENT_REACTS } from '../session/constants';
 import { deleteSettingsBoolValue, updateSettingsBoolValue } from '../state/ducks/settings';
 import { isBoolean } from 'lodash';
+import { ReleasedFeatures } from './releaseFeature';
 
 let ready = false;
 
@@ -135,7 +136,7 @@ export function getLastProfileUpdateTimestamp() {
 }
 
 export async function setLastProfileUpdateTimestamp(lastUpdateTimestamp: number) {
-  if (window.sessionFeatureFlags.useSharedUtilForUserConfig) {
+  if (await ReleasedFeatures.checkIsUserConfigFeatureReleased()) {
     return;
   }
   await put('last_profile_update_timestamp', lastUpdateTimestamp);
