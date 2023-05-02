@@ -284,6 +284,10 @@ export type ConversationLookupType = {
   [key: string]: ReduxConversationType;
 };
 
+export type QuoteLookupType = {
+  [key: string]: MessageModelPropsWithoutConvoProps;
+};
+
 export type ConversationsStateType = {
   conversationLookup: ConversationLookupType;
   selectedConversation?: string;
@@ -291,7 +295,7 @@ export type ConversationsStateType = {
   messages: Array<MessageModelPropsWithoutConvoProps>;
   // NOTE the quotes that are in view
   // key is message [timestamp]-[author-pubkey]
-  quotes: Record<string, MessageModelPropsWithoutConvoProps>;
+  quotes: QuoteLookupType;
   firstUnreadMessageId: string | undefined;
   messageDetailProps?: MessagePropsDetails;
   showRightPanel: boolean;
@@ -345,7 +349,7 @@ async function getMessages({
   messageId: string | null;
 }): Promise<{
   messagesProps: Array<MessageModelPropsWithoutConvoProps>;
-  quotesProps: Record<string, MessageModelPropsWithoutConvoProps>;
+  quotesProps: QuoteLookupType;
 }> {
   const beforeTimestamp = Date.now();
 
@@ -366,42 +370,41 @@ async function getMessages({
   const time = Date.now() - beforeTimestamp;
   window?.log?.info(`Loading ${messagesProps.length} messages took ${time}ms to load.`);
 
-  const quotesProps: Record<string, MessageModelPropsWithoutConvoProps> = {};
-  messagesProps
-    .filter(
-      message => message.propsForMessage?.quote?.messageId && message.propsForMessage.quote?.sender
-    )
-    .forEach(async message => {
-      const id = message.propsForMessage?.quote?.messageId;
-      const sender = message.propsForMessage.quote?.sender;
+  const quotesProps: QuoteLookupType = {};
+  const quotes = messagesProps.filter(
+    message => message.propsForMessage?.quote?.messageId && message.propsForMessage.quote?.sender
+  );
 
-      // TODO use this is the renderering process
-      // const contact = message.findAndFormatContact(author);
-      // const authorName = contact?.profileName || contact?.name || '';
+  for (let i = 0; i < quotes.length; i++) {
+    const id = quotes[i].propsForMessage?.quote?.messageId;
+    const sender = quotes[i].propsForMessage.quote?.sender;
 
-      if (id && sender) {
-        const timestamp = Number(id);
-        // See if message is already in memory if not lookup in db
-        let results = [];
-        results = messagesProps.filter(
-          message =>
-            message.propsForMessage.timestamp === timestamp &&
-            message.propsForMessage.sender === sender
-        );
+    // TODO use this is the renderering process
+    // const contact = message.findAndFormatContact(author);
+    // const authorName = contact?.profileName || contact?.name || '';
 
-        if (results.length) {
-          message = results[0];
-        } else {
-          const dbResult = (
-            await Data.getMessageBySenderAndTimestamp({ source: sender, timestamp })
-          )?.getMessageModelProps();
-          if (dbResult) {
-            message = dbResult;
-          }
+    if (id && sender) {
+      const timestamp = Number(id);
+      // See if a quoted message is already in memory if not lookup in db
+      let results = messagesProps.filter(
+        message =>
+          message.propsForMessage.timestamp === timestamp &&
+          message.propsForMessage.sender === sender
+      );
+
+      if (!results.length) {
+        const dbResult = (
+          await Data.getMessageBySenderAndTimestamp({ source: sender, timestamp })
+        )?.getMessageModelProps();
+        if (dbResult) {
+          results = [dbResult];
         }
-        quotesProps[`${timestamp}-${sender}`] = message;
       }
-    });
+      quotesProps[`${timestamp}-${sender}`] = results[0];
+    }
+  }
+
+  window.log.debug(`WIP: quoteProps`, quotesProps);
 
   return { messagesProps, quotesProps };
 }
@@ -798,7 +801,7 @@ const conversationsSlice = createSlice({
         firstUnreadIdOnOpen: string | undefined;
         mostRecentMessageIdOnOpen: string | null;
         initialMessages: Array<MessageModelPropsWithoutConvoProps>;
-        initialQuotes: Record<string, MessageModelPropsWithoutConvoProps>;
+        initialQuotes: QuoteLookupType;
       }>
     ) {
       // this is quite hacky, but we don't want to show the showScrollButton if we have only a small amount of messages,
@@ -850,7 +853,7 @@ const conversationsSlice = createSlice({
         mostRecentMessageIdOnOpen: string | null;
 
         initialMessages: Array<MessageModelPropsWithoutConvoProps>;
-        initialQuotes: Record<string, MessageModelPropsWithoutConvoProps>;
+        initialQuotes: QuoteLookupType;
       }>
     ) {
       return {
