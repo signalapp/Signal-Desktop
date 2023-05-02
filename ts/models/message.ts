@@ -143,6 +143,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const propsForGroupUpdateMessage = this.getPropsForGroupUpdateMessage();
     const propsForTimerNotification = this.getPropsForTimerNotification();
     const propsForMessageRequestResponse = this.getPropsForMessageRequestResponse();
+    const propsForQuote = this.getPropsForQuote();
     const callNotificationType = this.get('callNotificationType');
     const messageProps: MessageModelPropsWithoutConvoProps = {
       propsForMessage: this.getPropsForMessage(),
@@ -161,6 +162,9 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     }
     if (propsForTimerNotification) {
       messageProps.propsForTimerNotification = propsForTimerNotification;
+    }
+    if (propsForQuote) {
+      messageProps.propsForQuote = propsForQuote;
     }
 
     if (callNotificationType) {

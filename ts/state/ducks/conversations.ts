@@ -33,6 +33,7 @@ export type MessageModelPropsWithoutConvoProps = {
   propsForGroupUpdateMessage?: PropsForGroupUpdate;
   propsForCallNotification?: PropsForCallNotification;
   propsForMessageRequestResponse?: PropsForMessageRequestResponse;
+  propsForQuote?: PropsForQuote;
 };
 
 export type MessageModelPropsWithConvoProps = SortedMessageModelProps & {
@@ -163,6 +164,17 @@ export type PropsForAttachment = {
   } | null;
 };
 
+export type PropsForQuote = {
+  text?: string;
+  attachment?: QuotedAttachmentType;
+  isFromMe?: boolean;
+  sender: string;
+  authorProfileName?: string;
+  authorName?: string;
+  messageId?: string;
+  referencedMessageNotFound?: boolean;
+};
+
 export type PropsForMessageWithoutConvoProps = {
   id: string; // messageId
   direction: MessageModelType;
@@ -179,16 +191,7 @@ export type PropsForMessageWithoutConvoProps = {
   reacts?: ReactionList;
   reactsIndex?: number;
   previews?: Array<any>;
-  quote?: {
-    text?: string;
-    attachment?: QuotedAttachmentType;
-    isFromMe?: boolean;
-    sender: string;
-    authorProfileName?: string;
-    authorName?: string;
-    messageId?: string;
-    referencedMessageNotFound?: boolean;
-  } | null;
+  quote?: PropsForQuote;
   messageHash?: string;
   isDeleted?: boolean;
   isUnread?: boolean;
@@ -404,7 +407,7 @@ async function getMessages({
     }
   }
 
-  window.log.debug(`WIP: quoteProps`, quotesProps);
+  window.log.debug(`WIP: duck quoteProps`, quotesProps);
 
   return { messagesProps, quotesProps };
 }
