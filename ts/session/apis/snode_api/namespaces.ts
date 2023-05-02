@@ -67,7 +67,12 @@ function isUserConfigNamespace(namespace: SnodeNamespaces) {
       return false;
 
     default:
-      assertUnreachable(namespace, `isUserConfigNamespace case not handled: ${namespace}`);
+      try {
+        assertUnreachable(namespace, `isUserConfigNamespace case not handled: ${namespace}`);
+      } catch (e) {
+        window.log.warn(`isUserConfigNamespace case not handled: ${namespace}: ${e.message}`);
+        return false;
+      }
   }
 }
 

@@ -50,7 +50,8 @@ export type RetrieveSubKeySubRequestType = {
 export type RetrieveSubRequestType =
   | RetrieveLegacyClosedGroupSubRequestType
   | RetrievePubkeySubRequestType
-  | RetrieveSubKeySubRequestType;
+  | RetrieveSubKeySubRequestType
+  | UpdateExpiryOnNodeSubRequest;
 
 /**
  * OXEND_REQUESTS
@@ -129,6 +130,21 @@ export type DeleteFromNodeSubRequest = {
   params: DeleteByHashesFromNodeParams;
 };
 
+export type UpdateExpireNodeParams = {
+  pubkey: string;
+  pubkey_ed25519: string;
+  messages: Array<string>;
+  expiry: number;
+  signature: string;
+  extend?: boolean;
+  shorten?: boolean;
+};
+
+export type UpdateExpiryOnNodeSubRequest = {
+  method: 'expire';
+  params: UpdateExpireNodeParams;
+};
+
 export type OxendSubRequest = OnsResolveSubRequest | GetServiceNodesSubRequest;
 
 export type SnodeApiSubRequests =
@@ -138,7 +154,8 @@ export type SnodeApiSubRequests =
   | StoreOnNodeSubRequest
   | NetworkTimeSubRequest
   | DeleteFromNodeSubRequest
-  | DeleteAllFromNodeSubRequest;
+  | DeleteAllFromNodeSubRequest
+  | UpdateExpiryOnNodeSubRequest;
 
 // tslint:disable: array-type
 export type NonEmptyArray<T> = [T, ...T[]];

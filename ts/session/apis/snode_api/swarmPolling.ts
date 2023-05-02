@@ -22,6 +22,8 @@ import { SnodeNamespace, SnodeNamespaces } from './namespaces';
 import { SnodeAPIRetrieve } from './retrieveRequest';
 import { RetrieveMessageItem, RetrieveMessagesResultsBatched } from './types';
 import { ReleasedFeatures } from '../../../util/releaseFeature';
+import { LibSessionUtil } from '../../utils/libsession/libsession_utils';
+import { GenericWrapperActions } from '../../../webworker/workers/browser/libsession_worker_interface';
 
 export function extractWebSocketContent(
   message: string,
@@ -215,7 +217,12 @@ export class SwarmPolling {
 
     let resultsFromAllNamespaces: RetrieveMessagesResultsBatched | null;
     try {
-      resultsFromAllNamespaces = await this.pollNodeForKey(toPollFrom, pubkey, namespaces);
+      resultsFromAllNamespaces = await this.pollNodeForKey(
+        toPollFrom,
+        pubkey,
+        namespaces,
+        !isGroup
+      );
     } catch (e) {
       window.log.warn(
         `pollNodeForKey of ${pubkey} namespaces: ${namespaces} failed with: ${e.message}`
@@ -371,39 +378,69 @@ export class SwarmPolling {
   private async pollNodeForKey(
     node: Snode,
     pubkey: PubKey,
-    namespaces: Array<SnodeNamespaces>
+    namespaces: Array<SnodeNamespaces>,
+    isUs: boolean
   ): Promise<RetrieveMessagesResultsBatched | null> {
     const namespaceLength = namespaces.length;
     if (namespaceLength <= 0) {
       throw new Error(`invalid number of retrieve namespace provided: ${namespaceLength}`);
     }
-    const edkey = node.pubkey_ed25519;
+    const snodeEdkey = node.pubkey_ed25519;
     const pkStr = pubkey.key;
 
     try {
       return await pRetry(
         async () => {
           const prevHashes = await Promise.all(
-            namespaces.map(namespace => this.getLastHash(edkey, pkStr, namespace))
+            namespaces.map(namespace => this.getLastHash(snodeEdkey, pkStr, namespace))
           );
-          const results = await SnodeAPIRetrieve.retrieveNextMessages(
+          const configHashesToBump: Array<string> = [];
+
+          if (await ReleasedFeatures.checkIsUserConfigFeatureReleased()) {
+            // TODOLATER add the logic to take care of the closed groups too once we have a way to do it with the wrappers
+            if (isUs) {
+              for (let index = 0; index < LibSessionUtil.requiredUserVariants.length; index++) {
+                const variant = LibSessionUtil.requiredUserVariants[index];
+                try {
+                  const toBump = await GenericWrapperActions.currentHashes(variant);
+
+                  if (toBump?.length) {
+                    configHashesToBump.push(...toBump);
+                  }
+                } catch (e) {
+                  window.log.warn(`failed to get currentHashes for user variant ${variant}`);
+                }
+              }
+              window.log.debug(`configHashesToBump: ${configHashesToBump}`);
+            }
+          }
+
+          let results = await SnodeAPIRetrieve.retrieveNextMessages(
             node,
             prevHashes,
             pkStr,
             namespaces,
-            UserUtils.getOurPubKeyStrFromCache()
+            UserUtils.getOurPubKeyStrFromCache(),
+            configHashesToBump
           );
+
           if (!results.length) {
             return [];
           }
-
-          if (results.length !== namespaceLength) {
-            window.log.error(
-              `pollNodeForKey asked for ${namespaceLength} namespaces but received only messages about ${results.length} namespaces`
-            );
-            throw new Error(
-              `pollNodeForKey asked for ${namespaceLength} namespaces but received only messages about ${results.length} namespaces`
-            );
+          // when we asked to extend the expiry of the config messages, exclude it from the list of results as we do not want to mess up the last hash tracking logic
+          if (configHashesToBump.length) {
+            try {
+              const lastResult = results[results.length - 1];
+              if (lastResult?.code !== 200) {
+                // the update expiry of our config messages didn't work.
+                window.log.warn(
+                  `the update expiry of our tracked config hashes didn't work: ${JSON.stringify(
+                    lastResult
+                  )}`
+                );
+              }
+            } catch (e) {}
+            results = results.slice(0, results.length - 1);
           }
 
           const lastMessages = results.map(r => {
@@ -416,7 +453,7 @@ export class SwarmPolling {
                 return;
               }
               return this.updateLastHash({
-                edkey: edkey,
+                edkey: snodeEdkey,
                 pubkey,
                 namespace: namespaces[index],
                 hash: lastMessage.hash,

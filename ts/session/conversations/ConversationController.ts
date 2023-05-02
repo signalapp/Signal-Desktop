@@ -238,13 +238,17 @@ export class ConversationController {
 
         try {
           const fromWrapper = await UserGroupsWrapperActions.getCommunityByFullUrl(conversation.id);
-
-          await SessionUtilConvoInfoVolatile.removeCommunityFromWrapper(
-            conversation.id,
-            fromWrapper?.fullUrl || ''
-          );
+          if (fromWrapper?.fullUrl) {
+            await SessionUtilConvoInfoVolatile.removeCommunityFromWrapper(
+              conversation.id,
+              fromWrapper.fullUrl
+            );
+          }
         } catch (e) {
-          window?.log?.info('SessionUtilConvoInfoVolatile.removeCommunityFromWrapper failed:', e);
+          window?.log?.info(
+            'SessionUtilConvoInfoVolatile.removeCommunityFromWrapper failed:',
+            e.message
+          );
         }
 
         // remove from the wrapper the entries before we remove the roomInfos, as we won't have the required community pubkey afterwards

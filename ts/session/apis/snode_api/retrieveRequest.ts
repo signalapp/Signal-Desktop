@@ -5,9 +5,12 @@ import { doSnodeBatchRequest } from './batchRequest';
 import { GetNetworkTime } from './getNetworkTime';
 import { SnodeNamespace, SnodeNamespaces } from './namespaces';
 
+import { DURATION } from '../../constants';
+import { UserUtils } from '../../utils';
 import {
   RetrieveLegacyClosedGroupSubRequestType,
   RetrieveSubRequestType,
+  UpdateExpiryOnNodeSubRequest,
 } from './SnodeRequestTypes';
 import { SnodeSignature } from './snodeSignatures';
 import { RetrieveMessagesResultsBatched, RetrieveMessagesResultsContent } from './types';
@@ -16,9 +19,10 @@ async function buildRetrieveRequest(
   lastHashes: Array<string>,
   pubkey: string,
   namespaces: Array<SnodeNamespaces>,
-  ourPubkey: string
+  ourPubkey: string,
+  configHashesToBump: Array<string> | null
 ): Promise<Array<RetrieveSubRequestType>> {
-  const retrieveRequestsParams = await Promise.all(
+  const retrieveRequestsParams: Array<RetrieveSubRequestType> = await Promise.all(
     namespaces.map(async (namespace, index) => {
       const retrieveParam = {
         pubkey,
@@ -65,6 +69,33 @@ async function buildRetrieveRequest(
       return retrieve;
     })
   );
+
+  if (configHashesToBump?.length) {
+    const expiry = GetNetworkTime.getNowWithNetworkOffset() + DURATION.DAYS * 30;
+    const signResult = await SnodeSignature.generateUpdateExpirySignature({
+      shortenOrExtend: '',
+      timestamp: expiry,
+      messageHashes: configHashesToBump,
+    });
+    if (!signResult) {
+      window.log.warn(
+        `SnodeSignature.generateUpdateExpirySignature returned result empty for hashes ${configHashesToBump}`
+      );
+    } else {
+      const expireParams: UpdateExpiryOnNodeSubRequest = {
+        method: 'expire',
+        params: {
+          messages: configHashesToBump,
+          pubkey: UserUtils.getOurPubKeyStrFromCache(),
+          expiry,
+          signature: signResult.signature,
+          pubkey_ed25519: signResult.pubkey_ed25519,
+        },
+      };
+
+      retrieveRequestsParams.push(expireParams);
+    }
+  }
   return retrieveRequestsParams;
 }
 
@@ -73,7 +104,8 @@ async function retrieveNextMessages(
   lastHashes: Array<string>,
   associatedWith: string,
   namespaces: Array<SnodeNamespaces>,
-  ourPubkey: string
+  ourPubkey: string,
+  configHashesToBump: Array<string> | null
 ): Promise<RetrieveMessagesResultsBatched> {
   if (namespaces.length !== lastHashes.length) {
     throw new Error('namespaces and lasthashes does not match');
@@ -83,7 +115,8 @@ async function retrieveNextMessages(
     lastHashes,
     associatedWith,
     namespaces,
-    ourPubkey
+    ourPubkey,
+    configHashesToBump
   );
   // let exceptions bubble up
   // no retry for this one as this a call we do every few seconds while polling for messages
@@ -99,7 +132,8 @@ async function retrieveNextMessages(
     );
   }
 
-  if (results.length !== namespaces.length) {
+  // the +1 is to take care of the extra `expire` method added once user config is released
+  if (results.length !== namespaces.length && results.length !== namespaces.length + 1) {
     throw new Error(
       `We asked for updates about ${namespaces.length} messages but got results of length ${results.length}`
     );

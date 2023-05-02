@@ -192,7 +192,11 @@ export class OpenGroupManagerV2 {
       );
       // here, the convo does not exist. Make sure the db & wrappers are clean too
       await OpenGroupData.removeV2OpenGroupRoom(conversationId);
-      await SessionUtilUserGroups.removeCommunityFromWrapper(conversationId, fullUrl);
+      try {
+        await SessionUtilUserGroups.removeCommunityFromWrapper(conversationId, fullUrl);
+      } catch (e) {
+        window.log.warn('failed to removeCommunityFromWrapper', conversationId);
+      }
 
       const room: OpenGroupV2Room = {
         serverUrl,

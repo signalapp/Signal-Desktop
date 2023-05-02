@@ -84,9 +84,9 @@ async function checkIsFeatureReleased(featureName: FeatureNameTracked): Promise<
   }
 
   const isReleased = Boolean(getIsFeatureReleasedCached(featureName));
-  window.log.debug(
-    `[releaseFeature]: "${featureName}" ${isReleased ? 'is released' : 'has not been released yet'}`
-  );
+  // window.log.debug(
+  //   `[releaseFeature]: "${featureName}" ${isReleased ? 'is released' : 'has not been released yet'}`
+  // );
   return isReleased;
 }
 

@@ -75,6 +75,10 @@ export const GenericWrapperActions = {
     callLibSessionWorker([wrapperId, 'storageNamespace']) as Promise<
       ReturnType<BaseWrapperActionsCalls['storageNamespace']>
     >,
+  currentHashes: async (wrapperId: ConfigWrapperObjectTypes) =>
+    callLibSessionWorker([wrapperId, 'currentHashes']) as Promise<
+      ReturnType<BaseWrapperActionsCalls['currentHashes']>
+    >,
 };
 
 export const UserConfigWrapperActions: UserConfigWrapperActionsCalls = {
@@ -90,6 +94,7 @@ export const UserConfigWrapperActions: UserConfigWrapperActionsCalls = {
   needsPush: async () => GenericWrapperActions.needsPush('UserConfig'),
   push: async () => GenericWrapperActions.push('UserConfig'),
   storageNamespace: async () => GenericWrapperActions.storageNamespace('UserConfig'),
+  currentHashes: async () => GenericWrapperActions.currentHashes('UserConfig'),
 
   /** UserConfig wrapper specific actions */
   getUserInfo: async () =>
@@ -119,6 +124,7 @@ export const ContactsWrapperActions: ContactsWrapperActionsCalls = {
   needsPush: async () => GenericWrapperActions.needsPush('ContactsConfig'),
   push: async () => GenericWrapperActions.push('ContactsConfig'),
   storageNamespace: async () => GenericWrapperActions.storageNamespace('ContactsConfig'),
+  currentHashes: async () => GenericWrapperActions.currentHashes('ContactsConfig'),
 
   /** ContactsConfig wrapper specific actions */
   get: async (pubkeyHex: string) =>
@@ -154,6 +160,7 @@ export const UserGroupsWrapperActions: UserGroupsWrapperActionsCalls = {
   needsPush: async () => GenericWrapperActions.needsPush('UserGroupsConfig'),
   push: async () => GenericWrapperActions.push('UserGroupsConfig'),
   storageNamespace: async () => GenericWrapperActions.storageNamespace('UserGroupsConfig'),
+  currentHashes: async () => GenericWrapperActions.currentHashes('UserGroupsConfig'),
 
   /** UserGroups wrapper specific actions */
 
@@ -226,6 +233,7 @@ export const ConvoInfoVolatileWrapperActions: ConvoInfoVolatileWrapperActionsCal
   needsPush: async () => GenericWrapperActions.needsPush('ConvoInfoVolatileConfig'),
   push: async () => GenericWrapperActions.push('ConvoInfoVolatileConfig'),
   storageNamespace: async () => GenericWrapperActions.storageNamespace('ConvoInfoVolatileConfig'),
+  currentHashes: async () => GenericWrapperActions.currentHashes('ConvoInfoVolatileConfig'),
 
   /** ConvoInfoVolatile wrapper specific actions */
   // 1o1
