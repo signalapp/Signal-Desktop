@@ -1324,10 +1324,10 @@ function SettingsRow({
   className?: string;
 }): JSX.Element {
   return (
-    <div className={classNames('Preferences__settings-row', className)}>
-      {title && <h3 className="Preferences__padding">{title}</h3>}
+    <fieldset className={classNames('Preferences__settings-row', className)}>
+      {title && <legend className="Preferences__padding">{title}</legend>}
       {children}
-    </div>
+    </fieldset>
   );
 }
 
