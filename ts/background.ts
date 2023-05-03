@@ -88,6 +88,7 @@ import type {
   ErrorEvent,
   FetchLatestEvent,
   GroupEvent,
+  InvalidPlaintextEvent,
   KeysEvent,
   MessageEvent,
   MessageEventData,
@@ -140,7 +141,11 @@ import * as Conversation from './types/Conversation';
 import * as Stickers from './types/Stickers';
 import * as Errors from './types/errors';
 import { SignalService as Proto } from './protobuf';
-import { onRetryRequest, onDecryptionError } from './util/handleRetry';
+import {
+  onRetryRequest,
+  onDecryptionError,
+  onInvalidPlaintextMessage,
+} from './util/handleRetry';
 import { themeChanged } from './shims/themeChanged';
 import { createIPCEvents } from './util/createIPCEvents';
 import { RemoveAllConfiguration } from './types/RemoveAllConfiguration';
@@ -388,6 +393,14 @@ export async function startApp(): Promise<void> {
       'decryption-error',
       queuedEventListener((event: DecryptionErrorEvent): void => {
         drop(onDecryptionErrorQueue.add(() => onDecryptionError(event)));
+      })
+    );
+    messageReceiver.addEventListener(
+      'invalid-plaintext',
+      queuedEventListener((event: InvalidPlaintextEvent): void => {
+        drop(
+          onDecryptionErrorQueue.add(() => onInvalidPlaintextMessage(event))
+        );
       })
     );
     messageReceiver.addEventListener(

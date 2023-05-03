@@ -96,6 +96,7 @@ import {
   DecryptionErrorEvent,
   SentEvent,
   ProfileKeyUpdateEvent,
+  InvalidPlaintextEvent,
   MessageEvent,
   RetryRequestEvent,
   ReadEvent,
@@ -158,6 +159,11 @@ type DecryptResult = Readonly<
 type DecryptSealedSenderResult = Readonly<{
   plaintext?: Uint8Array;
   unsealedPlaintext?: SealedSenderDecryptionResult;
+}>;
+
+type InnerDecryptResultType = Readonly<{
+  plaintext: Uint8Array;
+  wasEncrypted: boolean;
 }>;
 
 type CacheAddItemType = {
@@ -531,6 +537,11 @@ export default class MessageReceiver
   public override addEventListener(
     name: 'decryption-error',
     handler: (ev: DecryptionErrorEvent) => void
+  ): void;
+
+  public override addEventListener(
+    name: 'invalid-plaintext',
+    handler: (ev: InvalidPlaintextEvent) => void
   ): void;
 
   public override addEventListener(
@@ -1395,17 +1406,19 @@ export default class MessageReceiver
     }
 
     log.info(logId);
-    const plaintext = await this.decrypt(
+    const decryptResult = await this.decrypt(
       stores,
       envelope,
       ciphertext,
       uuidKind
     );
 
-    if (!plaintext) {
+    if (!decryptResult) {
       log.warn(`${logId}: plaintext was falsey`);
-      return { plaintext, envelope };
+      return { plaintext: undefined, envelope };
     }
+
+    const { plaintext, wasEncrypted } = decryptResult;
 
     // Note: we need to process this as part of decryption, because we might need this
     //   sender key to decrypt the next message in the queue!
@@ -1414,6 +1427,32 @@ export default class MessageReceiver
     let inProgressMessageType = '';
     try {
       const content = Proto.Content.decode(plaintext);
+      if (!wasEncrypted && Bytes.isEmpty(content.decryptionErrorMessage)) {
+        log.warn(
+          `${logId}: dropping plaintext envelope without decryption error message`
+        );
+
+        const event = new InvalidPlaintextEvent({
+          senderDevice: envelope.sourceDevice ?? 1,
+          senderUuid: envelope.sourceUuid,
+          timestamp: envelope.timestamp,
+        });
+
+        this.removeFromCache(envelope);
+
+        const envelopeId = getEnvelopeId(envelope);
+
+        // Avoid deadlocks by scheduling processing on decrypted queue
+        drop(
+          this.addToQueue(
+            async () => this.dispatchEvent(event),
+            `decrypted/dispatchEvent/InvalidPlaintextEvent(${envelopeId})`,
+            TaskType.Decrypted
+          )
+        );
+
+        return { plaintext: undefined, envelope };
+      }
 
       isGroupV2 =
         Boolean(content.dataMessage?.groupV2) ||
@@ -1742,7 +1781,7 @@ export default class MessageReceiver
     envelope: UnsealedEnvelope,
     ciphertext: Uint8Array,
     uuidKind: UUIDKind
-  ): Promise<Uint8Array | undefined> {
+  ): Promise<InnerDecryptResultType | undefined> {
     const { sessionStore, identityKeyStore, zone } = stores;
 
     const logId = getEnvelopeId(envelope);
@@ -1784,7 +1823,10 @@ export default class MessageReceiver
       const buffer = Buffer.from(ciphertext);
       const plaintextContent = PlaintextContent.deserialize(buffer);
 
-      return this.unpad(plaintextContent.body());
+      return {
+        plaintext: this.unpad(plaintextContent.body()),
+        wasEncrypted: false,
+      };
     }
     if (envelope.type === envelopeTypeEnum.CIPHERTEXT) {
       log.info(`decrypt/${logId}: ciphertext message`);
@@ -1813,7 +1855,7 @@ export default class MessageReceiver
           ),
         zone
       );
-      return plaintext;
+      return { plaintext, wasEncrypted: true };
     }
     if (envelope.type === envelopeTypeEnum.PREKEY_BUNDLE) {
       log.info(`decrypt/${logId}: prekey message`);
@@ -1846,7 +1888,7 @@ export default class MessageReceiver
           ),
         zone
       );
-      return plaintext;
+      return { plaintext, wasEncrypted: true };
     }
     if (envelope.type === envelopeTypeEnum.UNIDENTIFIED_SENDER) {
       log.info(`decrypt/${logId}: unidentified message`);
@@ -1857,7 +1899,7 @@ export default class MessageReceiver
       );
 
       if (plaintext) {
-        return this.unpad(plaintext);
+        return { plaintext: this.unpad(plaintext), wasEncrypted: false };
       }
 
       if (unsealedPlaintext) {
@@ -1871,7 +1913,7 @@ export default class MessageReceiver
 
         // Return just the content because that matches the signature of the other
         //   decrypt methods used above.
-        return this.unpad(content);
+        return { plaintext: this.unpad(content), wasEncrypted: true };
       }
 
       throw new Error('Unexpected lack of plaintext from unidentified sender');
@@ -1884,7 +1926,7 @@ export default class MessageReceiver
     envelope: UnsealedEnvelope,
     ciphertext: Uint8Array,
     uuidKind: UUIDKind
-  ): Promise<Uint8Array | undefined> {
+  ): Promise<InnerDecryptResultType | undefined> {
     try {
       return await this.innerDecrypt(stores, envelope, ciphertext, uuidKind);
     } catch (error) {

@@ -29,6 +29,7 @@ import type { ConversationModel } from '../models/conversations';
 import type {
   DecryptionErrorEvent,
   DecryptionErrorEventData,
+  InvalidPlaintextEvent,
   RetryRequestEvent,
   RetryRequestEventData,
 } from '../textsecure/messageReceiverEvents';
@@ -203,6 +204,23 @@ function maybeShowDecryptionToast(
     name,
     onShowDebugLog: () => window.IPC.showDebugLog(),
   });
+}
+
+export function onInvalidPlaintextMessage({
+  data,
+}: InvalidPlaintextEvent): void {
+  const { senderUuid, senderDevice, timestamp } = data;
+  const logId = `${senderUuid}.${senderDevice} ${timestamp}`;
+
+  log.info(`onInvalidPlaintextMessage/${logId}: Starting...`);
+
+  const conversation = window.ConversationController.getOrCreate(
+    senderUuid,
+    'private'
+  );
+
+  const name = conversation.getTitle();
+  maybeShowDecryptionToast(logId, name, senderDevice);
 }
 
 export async function onDecryptionError(

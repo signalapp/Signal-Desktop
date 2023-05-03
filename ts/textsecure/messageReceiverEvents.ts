@@ -161,6 +161,18 @@ export class DecryptionErrorEvent extends ConfirmableEvent {
   }
 }
 
+export type InvalidPlaintextEventData = Readonly<{
+  senderDevice: number;
+  senderUuid: string;
+  timestamp: number;
+}>;
+
+export class InvalidPlaintextEvent extends Event {
+  constructor(public readonly data: InvalidPlaintextEventData) {
+    super('invalid-plaintext');
+  }
+}
+
 export type RetryRequestEventData = Readonly<{
   groupId?: string;
   ratchetKey?: PublicKey;
