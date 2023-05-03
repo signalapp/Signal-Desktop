@@ -349,56 +349,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       toRet.isMarkedUnread = this.get('markedAsUnread');
     }
 
-    // const foundCommunity = SessionUtilUserGroups.getCommunityByConvoIdCached(this.id);
-    // const foundLegacyGroup = SessionUtilUserGroups.getLegacyGroupCached(this.id);
-    // const foundVolatileInfo = SessionUtilConvoInfoVolatile.getVolatileInfoCached(this.id);
-
-    // // rely on the wrapper values rather than the DB ones if they exist in the wrapper
-    // if (foundContact) {
-    //   if (foundContact.name) {
-    //     toRet.displayNameInProfile = foundContact.name;
-    //   }
-
-    //   if (foundContact.nickname) {
-    //     toRet.nickname = foundContact.nickname;
-    //   }
-
-    //   if (foundContact.blocked) {
-    //     toRet.isBlocked = foundContact.blocked;
-    //   }
-
-    //   if (foundContact.approvedMe) {
-    //     toRet.didApproveMe = foundContact.approvedMe;
-    //   }
-
-    //   if (foundContact.approved) {
-    //     toRet.isApproved = foundContact.approved;
-    //   }
-
-    //   if (foundContact.priority) {
-    //     toRet.priority = foundContact.priority;
-    //   }
-
-    //   if (foundContact.expirationTimerSeconds > 0) {
-    //     toRet.expireTimer = foundContact.expirationTimerSeconds;
-    //   }
-    // } else {
-
-    // // -- Handle the group fields from the wrapper and the database --
-    // if (foundLegacyGroup) {
-    //   toRet.members = foundLegacyGroup.members.map(m => m.pubkeyHex) || [];
-    //   toRet.groupAdmins =
-    //     foundLegacyGroup.members.filter(m => m.isAdmin).map(m => m.pubkeyHex) || [];
-    //   toRet.displayNameInProfile = isEmpty(foundLegacyGroup.name)
-    //     ? undefined
-    //     : foundLegacyGroup.name;
-    //   toRet.expireTimer = foundLegacyGroup.disappearingTimerSeconds;
-
-    //   if (foundLegacyGroup.priority) {
-    //     toRet.priority = foundLegacyGroup.priority;
-    //   }
-    // }
-
     // those are values coming only from both the DB or the wrapper. Currently we display the data from the DB
     if (this.isClosedGroup()) {
       toRet.members = this.get('members') || [];
@@ -419,19 +369,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         toRet.zombies = uniq(zombies);
       }
     }
-
-    // -- Handle the communities fields from the wrapper and the database --
-    // if (foundCommunity) {
-    //   if (foundCommunity.priority) {
-    //     toRet.priority = foundCommunity.priority;
-    //   } // the priorty field is the only one currently in the wrapper community. and we already pre apply the one from the DB on the top of this function
-    // }
-
-    // if (foundVolatileInfo) {
-    //   if (foundVolatileInfo.unread) {
-    //     toRet.isMarkedUnread = foundVolatileInfo.unread;
-    //   }
-    // }
 
     // -- Handle the field stored only in memory for all types of conversation--
     const inMemoryConvoInfo = inMemoryConvoInfos.get(this.id);

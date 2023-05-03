@@ -1,4 +1,4 @@
-import { CommunityInfo, LegacyGroupInfo, UserGroupsType } from 'libsession_util_nodejs';
+import { CommunityInfo, UserGroupsType } from 'libsession_util_nodejs';
 import { Data } from '../../../data/data';
 import { OpenGroupData } from '../../../data/opengroups';
 import { ConversationModel } from '../../../models/conversation';
@@ -15,11 +15,6 @@ import { getConversationController } from '../../conversations';
  * The key of this map is the convoId as stored in the database.
  */
 const mappedCommunityWrapperValues = new Map<string, CommunityInfo>();
-
-/**
- * The key of this map is the convoId as stored in the database. So the legacy group 05 sessionID
- */
-const mappedLegacyGroupWrapperValues = new Map<string, LegacyGroupInfo>();
 
 /**
  * Returns true if that conversation is an active group
@@ -164,13 +159,6 @@ async function refreshCachedUserGroup(convoId: string, duringAppStart = false) {
         mappedCommunityWrapperValues.set(convoId, fromWrapper);
       }
       refreshed = true;
-    } else if (convoId.startsWith('05')) {
-      // currently this should only be a legacy group here
-      const fromWrapper = await UserGroupsWrapperActions.getLegacyGroup(convoId);
-      if (fromWrapper) {
-        mappedLegacyGroupWrapperValues.set(convoId, fromWrapper);
-      }
-      refreshed = true;
     }
 
     if (refreshed && !duringAppStart) {
@@ -207,14 +195,6 @@ async function removeCommunityFromWrapper(convoId: string, fullUrlWithOrWithoutP
   mappedCommunityWrapperValues.delete(convoId);
 }
 
-function getLegacyGroupCached(convoId: string) {
-  return mappedLegacyGroupWrapperValues.get(convoId);
-}
-
-function getAllLegacyGroups(): Array<LegacyGroupInfo> {
-  return [...mappedLegacyGroupWrapperValues.values()];
-}
-
 /**
  * Remove the matching legacy group from the wrapper and from the cached list of legacy groups
  */
@@ -227,8 +207,6 @@ async function removeLegacyGroupFromWrapper(groupPk: string) {
       e.message
     );
   }
-
-  mappedLegacyGroupWrapperValues.delete(groupPk);
 }
 
 /**
@@ -258,7 +236,6 @@ export const SessionUtilUserGroups = {
   // legacy group
   isLegacyGroupToStoreInWrapper,
   isLegacyGroupToRemoveFromDBIfNotInWrapper,
-  getLegacyGroupCached,
-  getAllLegacyGroups,
+
   removeLegacyGroupFromWrapper, // a group can be removed but also just marked hidden, so only call this function when the group is completely removed // TODOLATER
 };
