@@ -587,7 +587,7 @@ const MessageContextMenu = ({
               }}
               onClick={onDownload}
             >
-              {i18n('icu:downloadAttachment')}
+              {i18n('icu:MessageContextMenu__download')}
             </MenuItem>
           )}
           {onReplyToMessage && (
@@ -603,7 +603,7 @@ const MessageContextMenu = ({
                 onReplyToMessage();
               }}
             >
-              {i18n('icu:replyToMessage')}
+              {i18n('icu:MessageContextMenu__reply')}
             </MenuItem>
           )}
           {onReact && (
@@ -619,11 +619,54 @@ const MessageContextMenu = ({
                 onReact();
               }}
             >
-              {i18n('icu:reactToMessage')}
+              {i18n('icu:MessageContextMenu__react')}
             </MenuItem>
           )}
         </>
       )}
+      {onForward && (
+        <MenuItem
+          attributes={{
+            className:
+              'module-message__context--icon module-message__context__forward-message',
+          }}
+          onClick={(event: React.MouseEvent) => {
+            event.stopPropagation();
+            event.preventDefault();
+
+            onForward();
+          }}
+        >
+          {i18n('icu:MessageContextMenu__forward')}
+        </MenuItem>
+      )}
+      {onEdit && (
+        <MenuItem
+          attributes={{
+            className:
+              'module-message__context--icon module-message__context__edit-message',
+          }}
+          onClick={(event: React.MouseEvent) => {
+            event.stopPropagation();
+            event.preventDefault();
+
+            onEdit();
+          }}
+        >
+          {i18n('icu:edit')}
+        </MenuItem>
+      )}
+      <MenuItem
+        attributes={{
+          className:
+            'module-message__context--icon module-message__context__select',
+        }}
+        onClick={() => {
+          onSelect();
+        }}
+      >
+        {i18n('icu:MessageContextMenu__select')}
+      </MenuItem>
       <MenuItem
         attributes={{
           className:
@@ -636,18 +679,21 @@ const MessageContextMenu = ({
           onMoreInfo();
         }}
       >
-        {i18n('icu:moreInfo')}
+        {i18n('icu:MessageContextMenu__info')}
       </MenuItem>
       <MenuItem
         attributes={{
           className:
-            'module-message__context--icon module-message__context__select',
+            'module-message__context--icon module-message__context__delete-message',
         }}
-        onClick={() => {
-          onSelect();
+        onClick={(event: React.MouseEvent) => {
+          event.stopPropagation();
+          event.preventDefault();
+
+          onDeleteMessage();
         }}
       >
-        {i18n('icu:MessageContextMenu__select')}
+        {i18n('icu:MessageContextMenu__deleteMessage')}
       </MenuItem>
       {onRetryMessageSend && (
         <MenuItem
@@ -681,52 +727,6 @@ const MessageContextMenu = ({
           {i18n('icu:retryDeleteForEveryone')}
         </MenuItem>
       )}
-      {onForward && (
-        <MenuItem
-          attributes={{
-            className:
-              'module-message__context--icon module-message__context__forward-message',
-          }}
-          onClick={(event: React.MouseEvent) => {
-            event.stopPropagation();
-            event.preventDefault();
-
-            onForward();
-          }}
-        >
-          {i18n('icu:forwardMessage')}
-        </MenuItem>
-      )}
-      {onEdit && (
-        <MenuItem
-          attributes={{
-            className:
-              'module-message__context--icon module-message__context__edit-message',
-          }}
-          onClick={(event: React.MouseEvent) => {
-            event.stopPropagation();
-            event.preventDefault();
-
-            onEdit();
-          }}
-        >
-          {i18n('icu:edit')}
-        </MenuItem>
-      )}
-      <MenuItem
-        attributes={{
-          className:
-            'module-message__context--icon module-message__context__delete-message',
-        }}
-        onClick={(event: React.MouseEvent) => {
-          event.stopPropagation();
-          event.preventDefault();
-
-          onDeleteMessage();
-        }}
-      >
-        {i18n('icu:MessageContextMenu__deleteMessage')}
-      </MenuItem>
     </ContextMenu>
   );
 

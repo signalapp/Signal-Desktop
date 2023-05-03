@@ -2400,9 +2400,29 @@
     "messageformat": "Delete message for everyone",
     "description": "(deleted 04/06/2023) Shown on the drop-down menu for an individual message, deletes single message for everyone"
   },
+  "icu:MessageContextMenu__reply": {
+    "messageformat": "Reply",
+    "description": "Shown on the drop-down menu for an individual message when there isnt room for a dedicated button, focuses the composer with a reply to the current message"
+  },
+  "icu:MessageContextMenu__react": {
+    "messageformat": "React",
+    "description": "Shown on the drop-down menu for an individual message when there isnt room for a dedicated button, opens the react picker for the current message"
+  },
+  "icu:MessageContextMenu__download": {
+    "messageformat": "Download",
+    "description": "Shown on the drop-down menu for an individual message when there isnt room for a dedicated button and when there's only a single attachment, downloads an attachment"
+  },
   "icu:MessageContextMenu__deleteMessage": {
-    "messageformat": "Delete message",
+    "messageformat": "Delete",
     "description": "Show on the drop-down menu for an individual message, opens a modal to select if you want to 'delete for me' or 'delete for everyone'"
+  },
+  "icu:MessageContextMenu__forward": {
+    "messageformat": "Forward",
+    "description": "Show on the drop-down menu for an individual message, opens a modal to forward a message"
+  },
+  "icu:MessageContextMenu__info": {
+    "messageformat": "Info",
+    "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
   },
   "deleteMessages": {
     "message": "Delete",
