@@ -3447,12 +3447,14 @@ export default class MessageReceiver
     const allIdentifiers = [];
     let changed = false;
 
+    const logId = `handleBlocked(${getEnvelopeId(envelope)})`;
+
     logUnexpectedUrgentValue(envelope, 'blockSync');
 
     if (blocked.numbers) {
       const previous = this.storage.get('blocked', []);
 
-      log.info('handleBlocked: Blocking these numbers:', blocked.numbers);
+      log.info(`${logId}: Blocking these numbers:`, blocked.numbers);
       await this.storage.put('blocked', blocked.numbers);
 
       if (!areArraysMatchingSets(previous, blocked.numbers)) {
@@ -3466,7 +3468,7 @@ export default class MessageReceiver
       const uuids = blocked.uuids.map((uuid, index) => {
         return normalizeUuid(uuid, `handleBlocked.uuids.${index}`);
       });
-      log.info('handleBlocked: Blocking these uuids:', uuids);
+      log.info(`${logId}: Blocking these uuids:`, uuids);
       await this.storage.put('blocked-uuids', uuids);
 
       if (!areArraysMatchingSets(previous, uuids)) {
@@ -3484,11 +3486,11 @@ export default class MessageReceiver
         if (groupId.byteLength === GROUPV2_ID_LENGTH) {
           groupIds.push(Bytes.toBase64(groupId));
         } else {
-          log.error('handleBlocked: Received invalid groupId value');
+          log.error(`${logId}: Received invalid groupId value`);
         }
       });
       log.info(
-        'handleBlocked: Blocking these groups - v2:',
+        `${logId}: Blocking these groups - v2:`,
         groupIds.map(groupId => `groupv2(${groupId})`)
       );
 
@@ -3504,7 +3506,7 @@ export default class MessageReceiver
     this.removeFromCache(envelope);
 
     if (changed) {
-      log.info('handleBlocked: Block list changed, forcing re-render.');
+      log.info(`${logId}: Block list changed, forcing re-render.`);
       const uniqueIdentifiers = Array.from(new Set(allIdentifiers));
       void window.ConversationController.forceRerender(uniqueIdentifiers);
     }
