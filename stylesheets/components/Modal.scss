@@ -66,22 +66,17 @@
       }
     }
 
-    @include light-theme {
-      &:hover,
-      &:focus {
-        background: $color-gray-02;
-      }
-      &:active {
-        background: $color-gray-05;
+    &:hover,
+    &:focus {
+      background: $color-gray-45;
+      &::before {
+        background-color: $color-ultramarine;
       }
     }
-    @include dark-theme {
-      &:hover,
-      &:focus {
-        background: $color-gray-80;
-      }
-      &:active {
-        background: $color-gray-75;
+    &:active {
+      background: $color-gray-45;
+      &::before {
+        background-color: $color-ultramarine;
       }
     }
   }
@@ -108,23 +103,9 @@
       }
     }
 
-    @include light-theme {
-      &:hover,
-      &:focus {
-        background: $color-gray-02;
-      }
-      &:active {
-        background: $color-gray-05;
-      }
-    }
-    @include dark-theme {
-      &:hover,
-      &:focus {
-        background: $color-gray-80;
-      }
-      &:active {
-        background: $color-gray-75;
-      }
+    &:hover,
+    &:focus {
+      box-shadow: 0 0 0 2px $color-ultramarine;
     }
   }
 
