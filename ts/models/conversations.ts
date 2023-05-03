@@ -1452,6 +1452,7 @@ export class ConversationModel extends window.Backbone
       this.set({
         removalStage: 'messageRequest',
       });
+      await this.maybeClearContactRemoved();
       window.Signal.Data.updateConversation(this.attributes);
     }
 
