@@ -1529,7 +1529,6 @@ const onDatabaseError = async (error: string) => {
   ready = false;
 
   if (mainWindow) {
-    drop(settingsChannel?.invokeCallbackInMainWindow('closeDB', []));
     mainWindow.close();
   }
   mainWindow = undefined;

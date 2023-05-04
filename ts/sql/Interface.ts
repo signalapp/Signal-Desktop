@@ -830,10 +830,6 @@ export type ServerInterface = DataInterface & {
     key: string;
     logger: LoggerType;
   }) => Promise<void>;
-  initializeRenderer: (options: {
-    configDir: string;
-    key: string;
-  }) => Promise<void>;
 
   getKnownMessageAttachments: (
     cursor?: MessageAttachmentsCursorType
@@ -913,11 +909,6 @@ export type ClientExclusiveInterface = {
   removeOtherData: () => Promise<void>;
   cleanupOrphanedAttachments: () => Promise<void>;
   ensureFilePermissions: () => Promise<void>;
-
-  // To decide whether to use IPC to use the database in the main process or
-  //   use the db already running in the renderer.
-  goBackToMainProcess: () => Promise<void>;
-  startInRendererProcess: (isTesting?: boolean) => Promise<void>;
 };
 
 export type ClientInterface = DataInterface & ClientExclusiveInterface;

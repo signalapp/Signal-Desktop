@@ -944,12 +944,6 @@ export async function startApp(): Promise<void> {
       void window.Signal.Data.ensureFilePermissions();
     }
 
-    try {
-      await window.Signal.Data.startInRendererProcess();
-    } catch (err) {
-      log.error('SQL failed to initialize', Errors.toLogFormat(err));
-    }
-
     setAppLoadingScreenMessage(window.i18n('icu:loading'), window.i18n);
 
     let isMigrationWithIndexComplete = false;
@@ -2589,9 +2583,6 @@ export async function startApp(): Promise<void> {
 
     // Start listeners here, after we get through our queue.
     RotateSignedPreKeyListener.init(window.Whisper.events, newVersion);
-
-    // Go back to main process before processing delayed actions
-    await window.Signal.Data.goBackToMainProcess();
 
     profileKeyResponseQueue.start();
     lightSessionResetQueue.start();

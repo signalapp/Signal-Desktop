@@ -365,7 +365,6 @@ const dataInterface: ServerInterface = {
   // Server-only
 
   initialize,
-  initializeRenderer,
 
   getKnownMessageAttachments,
   finishGetKnownMessageAttachments,
@@ -429,14 +428,6 @@ function rowToSticker(row: StickerRow): StickerType {
     isCoverOnly: Boolean(row.isCoverOnly),
     emoji: dropNull(row.emoji),
   };
-}
-
-function isRenderer() {
-  if (typeof process === 'undefined' || !process) {
-    return true;
-  }
-
-  return process.type === 'renderer';
 }
 
 function keyDatabase(db: Database, key: string): void {
@@ -522,7 +513,6 @@ function openAndSetUpSQLCipher(filePath: string, { key }: { key: string }) {
 
 let globalInstance: Database | undefined;
 let logger = consoleLogger;
-let globalInstanceRenderer: Database | undefined;
 let databaseFilePath: string | undefined;
 let indexedDBPath: string | undefined;
 
@@ -583,63 +573,13 @@ async function initialize({
   }
 }
 
-async function initializeRenderer({
-  configDir,
-  key,
-}: {
-  configDir: string;
-  key: string;
-}): Promise<void> {
-  if (!isRenderer()) {
-    throw new Error('Cannot call from main process.');
-  }
-  if (globalInstanceRenderer) {
-    throw new Error('Cannot initialize more than once!');
-  }
-  if (!isString(configDir)) {
-    throw new Error('initialize: configDir is required!');
-  }
-  if (!isString(key)) {
-    throw new Error('initialize: key is required!');
-  }
-
-  if (!indexedDBPath) {
-    indexedDBPath = join(configDir, 'IndexedDB');
-  }
-
-  const dbDir = join(configDir, 'sql');
-
-  if (!databaseFilePath) {
-    databaseFilePath = join(dbDir, 'db.sqlite');
-  }
-
-  let promisified: Database | undefined;
-
-  try {
-    promisified = openAndSetUpSQLCipher(databaseFilePath, { key });
-
-    // At this point we can allow general access to the database
-    globalInstanceRenderer = promisified;
-
-    // test database
-    getMessageCountSync();
-  } catch (error) {
-    log.error('Database startup error:', error.stack);
-    throw error;
-  }
-}
-
 async function close(): Promise<void> {
-  for (const dbRef of [globalInstanceRenderer, globalInstance]) {
-    // SQLLite documentation suggests that we run `PRAGMA optimize` right
-    // before closing the database connection.
-    dbRef?.pragma('optimize');
+  // SQLLite documentation suggests that we run `PRAGMA optimize` right
+  // before closing the database connection.
+  globalInstance?.pragma('optimize');
 
-    dbRef?.close();
-  }
-
+  globalInstance?.close();
   globalInstance = undefined;
-  globalInstanceRenderer = undefined;
 }
 
 async function removeDB(): Promise<void> {
@@ -676,13 +616,6 @@ async function removeIndexedDBFiles(): Promise<void> {
 }
 
 function getInstance(): Database {
-  if (isRenderer()) {
-    if (!globalInstanceRenderer) {
-      throw new Error('getInstance: globalInstanceRenderer not set!');
-    }
-    return globalInstanceRenderer;
-  }
-
   if (!globalInstance) {
     throw new Error('getInstance: globalInstance not set!');
   }

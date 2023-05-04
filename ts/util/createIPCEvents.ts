@@ -102,7 +102,6 @@ export type IPCEventsCallbacksType = {
   authorizeArtCreator: (data: AuthorizeArtCreatorDataType) => void;
   deleteAllData: () => Promise<void>;
   deleteAllMyStories: () => Promise<void>;
-  closeDB: () => Promise<void>;
   editCustomColor: (colorId: string, customColor: CustomColorType) => void;
   getConversationsWithCustomColor: (x: string) => Array<ConversationType>;
   installStickerPack: (packId: string, key: string) => Promise<void>;
@@ -477,13 +476,7 @@ export function createIPCEvents(
       window.reduxActions.globalModals.showShortcutGuideModal(),
 
     deleteAllData: async () => {
-      await window.Signal.Data.goBackToMainProcess();
-
       renderClearingDataView();
-    },
-
-    closeDB: async () => {
-      await window.Signal.Data.goBackToMainProcess();
     },
 
     showStickerPack: (packId, key) => {

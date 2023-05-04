@@ -23,17 +23,6 @@ before(async () => {
   window.testUtilities.installMessageController();
 
   await deleteIndexedDB();
-  try {
-    window.SignalContext.log.info('Initializing SQL in renderer');
-    const isTesting = true;
-    await window.Signal.Data.startInRenderer(isTesting);
-    window.SignalContext.log.info('SQL initialized in renderer');
-  } catch (err) {
-    window.SignalContext.log.error(
-      'SQL failed to initialize',
-      err && err.stack ? err.stack : err
-    );
-  }
   await window.testUtilities.initializeMessageCounter();
   await window.Signal.Data.removeAll();
   await window.storage.fetch();

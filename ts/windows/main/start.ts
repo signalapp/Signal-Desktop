@@ -20,6 +20,7 @@ import { start as startConversationController } from '../../ConversationControll
 import { MessageController } from '../../util/MessageController';
 import { Environment, getEnvironment } from '../../environment';
 import { isProduction } from '../../util/version';
+import { ipcInvoke } from '../../sql/channels';
 
 window.addEventListener('contextmenu', e => {
   const node = e.target as Element | null;
@@ -46,7 +47,6 @@ startConversationController();
 
 if (!isProduction(window.SignalContext.getVersion())) {
   const SignalDebug = {
-    Data: window.Signal.Data,
     cdsLookup: (options: CdsLookupOptionsType) =>
       window.textsecure.server?.cdsLookup(options),
     getConversation: (id: string) => window.ConversationController.get(id),
@@ -67,6 +67,8 @@ if (!isProduction(window.SignalContext.getVersion())) {
     setSfuUrl: (url: string) => {
       window.Signal.Services.calling._sfuUrl = url;
     },
+    sqlCall: (name: string, ...args: ReadonlyArray<unknown>) =>
+      ipcInvoke(name, args),
   };
 
   contextBridge.exposeInMainWorld('SignalDebug', SignalDebug);
