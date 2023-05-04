@@ -88,7 +88,7 @@ export type AttachmentType = {
 export type UploadedAttachmentType = Proto.IAttachmentPointer &
   Readonly<{
     // Required fields
-    cdnId: Long;
+    cdnKey: string;
     key: Uint8Array;
     size: number;
     digest: Uint8Array;

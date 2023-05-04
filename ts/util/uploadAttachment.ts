@@ -1,8 +1,6 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import Long from 'long';
-
 import type {
   AttachmentWithHydratedData,
   UploadedAttachmentType,
@@ -20,12 +18,11 @@ export async function uploadAttachment(
   const { server } = window.textsecure;
   strictAssert(server, 'WebAPI must be initialized');
 
-  const attachmentIdString = await server.putEncryptedAttachment(
-    encrypted.ciphertext
-  );
+  const cdnKey = await server.putEncryptedAttachment(encrypted.ciphertext);
 
   return {
-    cdnId: Long.fromString(attachmentIdString),
+    cdnKey,
+    cdnNumber: 2,
     key: keys,
     size: attachment.data.byteLength,
     digest: encrypted.digest,

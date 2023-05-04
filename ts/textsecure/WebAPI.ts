@@ -472,7 +472,7 @@ function makeHTTPError(
 const URL_CALLS = {
   accounts: 'v1/accounts',
   accountExistence: 'v1/accounts/account',
-  attachmentId: 'v2/attachments/form/upload',
+  attachmentId: 'v3/attachments/form/upload',
   attestation: 'v1/attestation',
   batchIdentityCheck: 'v1/profile/identity_check/batch',
   boostBadges: 'v1/subscription/boost/badges',
@@ -840,6 +840,15 @@ const artAuthZod = z.object({
 });
 
 export type ArtAuthType = z.infer<typeof artAuthZod>;
+
+const attachmentV3Response = z.object({
+  cdn: z.literal(2),
+  key: z.string(),
+  headers: z.record(z.string()),
+  signedUploadLocation: z.string(),
+});
+
+export type AttachmentV3ResponseType = z.infer<typeof attachmentV3Response>;
 
 export type WebAPIType = {
   startRegistration(): unknown;
@@ -2334,7 +2343,7 @@ export function initialize({
       );
     }
 
-    type ServerAttachmentType = {
+    type ServerV2AttachmentType = {
       key: string;
       credential: string;
       acl: string;
@@ -2353,7 +2362,7 @@ export function initialize({
         date,
         policy,
         signature,
-      }: ServerAttachmentType,
+      }: ServerV2AttachmentType,
       encryptedBin: Uint8Array
     ) {
       // Note: when using the boundary string in the POST body, it needs to be prefixed by
@@ -2416,8 +2425,8 @@ export function initialize({
         urlParameters: `/${encryptedStickers.length}`,
       })) as {
         packId: string;
-        manifest: ServerAttachmentType;
-        stickers: ReadonlyArray<ServerAttachmentType>;
+        manifest: ServerV2AttachmentType;
+        stickers: ReadonlyArray<ServerV2AttachmentType>;
       };
 
       // Upload manifest
@@ -2439,7 +2448,7 @@ export function initialize({
         throwOnTimeout: true,
       });
       await Promise.all(
-        stickers.map(async (sticker: ServerAttachmentType, index: number) => {
+        stickers.map(async (sticker: ServerV2AttachmentType, index: number) => {
           const stickerParams = makePutParams(
             sticker,
             encryptedStickers[index]
@@ -2503,32 +2512,48 @@ export function initialize({
       }
     }
 
-    type PutAttachmentResponseType = ServerAttachmentType & {
-      attachmentIdString: string;
-    };
-
     async function putEncryptedAttachment(encryptedBin: Uint8Array) {
-      const response = (await _ajax({
-        call: 'attachmentId',
-        httpType: 'GET',
-        responseType: 'json',
-      })) as PutAttachmentResponseType;
+      const response = attachmentV3Response.parse(
+        await _ajax({
+          call: 'attachmentId',
+          httpType: 'GET',
+          responseType: 'json',
+        })
+      );
 
-      const { attachmentIdString } = response;
-
-      const params = makePutParams(response, encryptedBin);
+      const { signedUploadLocation, key: cdnKey, headers } = response;
 
       // This is going to the CDN, not the service, so we use _outerAjax
-      await _outerAjax(`${cdnUrlObject['0']}/attachments/`, {
-        ...params,
+      const { response: uploadResponse } = await _outerAjax(
+        signedUploadLocation,
+        {
+          responseType: 'byteswithdetails',
+          certificateAuthority,
+          proxyUrl,
+          timeout: 0,
+          type: 'POST',
+          version,
+          headers,
+        }
+      );
+
+      const uploadLocation = uploadResponse.headers.get('location');
+      strictAssert(
+        uploadLocation,
+        'attachment v3 response header has no location'
+      );
+
+      // This is going to the CDN, not the service, so we use _outerAjax
+      await _outerAjax(uploadLocation, {
         certificateAuthority,
         proxyUrl,
         timeout: 0,
-        type: 'POST',
+        type: 'PUT',
         version,
+        data: encryptedBin,
       });
 
-      return attachmentIdString;
+      return cdnKey;
     }
 
     function getHeaderPadding() {
