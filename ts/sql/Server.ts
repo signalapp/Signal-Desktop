@@ -4090,7 +4090,15 @@ async function getAllStickerPacks(): Promise<Array<StickerPackType>> {
     )
     .all();
 
-  return rows || [];
+  return rows.map(row => {
+    return {
+      ...row,
+      // The columns have STRING type so if they have numeric value, sqlite
+      // will return integers.
+      author: String(row.author),
+      title: String(row.title),
+    };
+  });
 }
 function addUninstalledStickerPackSync(pack: UninstalledStickerPackType): void {
   const db = getInstance();
