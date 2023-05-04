@@ -7378,6 +7378,7 @@ button.module-image__border-overlay:focus {
   cursor: pointer;
   white-space: nowrap;
   display: flex;
+  width: 100%;
   align-items: center;
 
   @include font-body-2;
