@@ -191,6 +191,7 @@ import { RetryPlaceholders } from './util/retryPlaceholders';
 import { setBatchingStrategy } from './util/messageBatcher';
 import { parseRemoteClientExpiration } from './util/parseRemoteClientExpiration';
 import { makeLookup } from './util/makeLookup';
+import { focusableSelectors } from './util/focusableSelectors';
 
 export function isOverHourIntoPast(timestamp: number): boolean {
   const HOUR = 1000 * 60 * 60;
@@ -1350,6 +1351,52 @@ export async function startApp(): Promise<void> {
         event.preventDefault();
 
         return;
+      }
+
+      // Super tab :)
+      if (commandOrCtrl && key === 'F6') {
+        window.enterKeyboardMode();
+        const focusedElement = document.activeElement;
+        const targets: Array<HTMLElement> = Array.from(
+          document.querySelectorAll('[data-supertab="true"]')
+        );
+
+        const focusedIndex = targets.findIndex(target => {
+          if (!target || !focusedElement) {
+            return false;
+          }
+
+          if (target === focusedElement) {
+            return true;
+          }
+
+          if (target.contains(focusedElement)) {
+            return true;
+          }
+
+          return false;
+        });
+
+        const lastIndex = targets.length - 1;
+        const increment = shiftKey ? -1 : 1;
+
+        let index;
+        if (focusedIndex < 0 || focusedIndex >= lastIndex) {
+          index = 0;
+        } else {
+          index = focusedIndex + increment;
+        }
+
+        while (!targets[index]) {
+          index += increment;
+          if (index > lastIndex || index < 0) {
+            index = 0;
+          }
+        }
+
+        targets[index]
+          .querySelectorAll<HTMLElement>(focusableSelectors.join(','))[0]
+          ?.focus();
       }
 
       // Navigate by section

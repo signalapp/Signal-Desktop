@@ -3,7 +3,6 @@
 
 import type { AudioDevice } from '@signalapp/ringrtc';
 import type { ReactNode } from 'react';
-import focusableSelectors from 'focusable-selectors';
 import React, {
   useCallback,
   useEffect,
@@ -59,6 +58,7 @@ import { DurationInSeconds } from '../util/durations';
 import { useEscapeHandling } from '../hooks/useEscapeHandling';
 import { useUniqueId } from '../hooks/useUniqueId';
 import { useTheme } from '../hooks/useTheme';
+import { focusableSelectors } from '../util/focusableSelectors';
 
 type CheckboxChangeHandlerType = (value: boolean) => unknown;
 type SelectChangeHandlerType<T = string | number> = (value: T) => unknown;

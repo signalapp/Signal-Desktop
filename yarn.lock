@@ -9488,11 +9488,6 @@ focus-trap@^6.7.1:
   dependencies:
     tabbable "^5.2.1"
 
-focusable-selectors@0.8.0:
-  version "0.8.0"
-  resolved "https://registry.yarnpkg.com/focusable-selectors/-/focusable-selectors-0.8.0.tgz#aecfd7ce2ac369fd808289d4bcf474ac2bf03562"
-  integrity sha512-lKyq/Cth8mTEzJk2CLHLdMDYl2zmMicQflfrUMs0CZ3Boc5Ca/63d7z+GgKV3nKm79KqrPtCWrwTdoV9RTjVCA==
-
 follow-redirects@^1.0.0:
   version "1.14.9"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.14.9.tgz#dd4ea157de7bfaf9ea9b3fbd85aa16951f78d8d7"

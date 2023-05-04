@@ -63,7 +63,7 @@ export function useTabs(options: TabsOptionsType): TabsProps {
   }
 
   const tabsHeaderElement = (
-    <div className={getClassName('')}>
+    <div className={getClassName('')} data-supertab>
       {options.tabs.map(({ id, label }) => (
         <div
           className={classNames(

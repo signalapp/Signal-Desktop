@@ -96,76 +96,82 @@ export function CustomColorEditor({
               includeAnotherBubble
             />
             {selectedTab === TabViews.Gradient && (
-              <GradientDial
-                deg={color.deg}
-                knob1Style={{ backgroundColor: getHSL(color.start) }}
-                knob2Style={{
-                  backgroundColor: getHSL(color.end || ULTRAMARINE_ISH_VALUES),
-                }}
-                onChange={deg => {
-                  setColor({
-                    ...color,
-                    deg,
-                  });
-                }}
-                onClick={knob => setSelectedColorKnob(knob)}
-                selectedKnob={selectedColorKnob}
-              />
+              <div data-supertab>
+                <GradientDial
+                  deg={color.deg}
+                  knob1Style={{ backgroundColor: getHSL(color.start) }}
+                  knob2Style={{
+                    backgroundColor: getHSL(
+                      color.end || ULTRAMARINE_ISH_VALUES
+                    ),
+                  }}
+                  onChange={deg => {
+                    setColor({
+                      ...color,
+                      deg,
+                    });
+                  }}
+                  onClick={knob => setSelectedColorKnob(knob)}
+                  selectedKnob={selectedColorKnob}
+                />
+              </div>
             )}
           </div>
-          <div className="CustomColorEditor__slider-container">
-            {i18n('icu:CustomColorEditor__hue')}
-            <Slider
-              handleStyle={{
-                backgroundColor: getHSL({
-                  hue,
-                  saturation: 100,
-                }),
-              }}
-              label={i18n('icu:CustomColorEditor__hue')}
-              moduleClassName="CustomColorEditor__hue-slider"
-              onChange={(percentage: number) => {
-                setColor({
-                  ...color,
-                  [selectedColorKnob]: {
-                    ...ULTRAMARINE_ISH_VALUES,
-                    ...color[selectedColorKnob],
-                    hue: getValue(percentage, MAX_HUE),
-                  },
-                });
-              }}
-              value={getPercentage(hue, MAX_HUE)}
-            />
+          <div data-supertab>
+            <div className="CustomColorEditor__slider-container">
+              {i18n('icu:CustomColorEditor__hue')}
+              <Slider
+                handleStyle={{
+                  backgroundColor: getHSL({
+                    hue,
+                    saturation: 100,
+                  }),
+                }}
+                label={i18n('icu:CustomColorEditor__hue')}
+                moduleClassName="CustomColorEditor__hue-slider"
+                onChange={(percentage: number) => {
+                  setColor({
+                    ...color,
+                    [selectedColorKnob]: {
+                      ...ULTRAMARINE_ISH_VALUES,
+                      ...color[selectedColorKnob],
+                      hue: getValue(percentage, MAX_HUE),
+                    },
+                  });
+                }}
+                value={getPercentage(hue, MAX_HUE)}
+              />
+            </div>
+            <div className="CustomColorEditor__slider-container">
+              {i18n('icu:CustomColorEditor__saturation')}
+              <Slider
+                containerStyle={getCustomColorStyle({
+                  deg: 180,
+                  start: { hue, saturation: 0 },
+                  end: { hue, saturation: 100 },
+                })}
+                handleStyle={{
+                  backgroundColor: getHSL(
+                    color[selectedColorKnob] || ULTRAMARINE_ISH_VALUES
+                  ),
+                }}
+                label={i18n('icu:CustomColorEditor__saturation')}
+                moduleClassName="CustomColorEditor__saturation-slider"
+                onChange={(value: number) => {
+                  setColor({
+                    ...color,
+                    [selectedColorKnob]: {
+                      ...ULTRAMARINE_ISH_VALUES,
+                      ...color[selectedColorKnob],
+                      saturation: value,
+                    },
+                  });
+                }}
+                value={saturation}
+              />
+            </div>
           </div>
-          <div className="CustomColorEditor__slider-container">
-            {i18n('icu:CustomColorEditor__saturation')}
-            <Slider
-              containerStyle={getCustomColorStyle({
-                deg: 180,
-                start: { hue, saturation: 0 },
-                end: { hue, saturation: 100 },
-              })}
-              handleStyle={{
-                backgroundColor: getHSL(
-                  color[selectedColorKnob] || ULTRAMARINE_ISH_VALUES
-                ),
-              }}
-              label={i18n('icu:CustomColorEditor__saturation')}
-              moduleClassName="CustomColorEditor__saturation-slider"
-              onChange={(value: number) => {
-                setColor({
-                  ...color,
-                  [selectedColorKnob]: {
-                    ...ULTRAMARINE_ISH_VALUES,
-                    ...color[selectedColorKnob],
-                    saturation: value,
-                  },
-                });
-              }}
-              value={saturation}
-            />
-          </div>
-          <div className="CustomColorEditor__footer">
+          <div className="CustomColorEditor__footer" data-supertab>
             <Button variant={ButtonVariant.Secondary} onClick={onClose}>
               {i18n('icu:cancel')}
             </Button>
