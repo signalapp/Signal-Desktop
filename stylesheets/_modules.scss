@@ -1236,19 +1236,22 @@ $message-padding-horizontal: 12px;
   @include only-when-page-is-visible {
     animation: rotate 4s linear infinite;
   }
-  @include color-svg('../images/sending.svg', $color-white);
+  @include color-svg(
+    '../images/icons/v3/message_status/messagestatus-sending.svg',
+    $color-white
+  );
 }
 
 .module-message__metadata__status-icon--sent {
   @include light-theme {
     @include color-svg(
-      '../images/check-circle-outline.svg',
+      '../images/icons/v3/message_status/messagestatus-sent.svg',
       $color-white-alpha-80
     );
   }
   @include dark-theme {
     @include color-svg(
-      '../images/check-circle-outline.svg',
+      '../images/icons/v3/message_status/messagestatus-sent.svg',
       $color-white-alpha-80
     );
   }
@@ -1259,10 +1262,16 @@ $message-padding-horizontal: 12px;
   width: 18px;
 
   @include light-theme {
-    @include color-svg('../images/double-check.svg', $color-white-alpha-80);
+    @include color-svg(
+      '../images/icons/v3/message_status/messagestatus-delivered.svg',
+      $color-white-alpha-80
+    );
   }
   @include dark-theme {
-    @include color-svg('../images/double-check.svg', $color-white-alpha-80);
+    @include color-svg(
+      '../images/icons/v3/message_status/messagestatus-delivered.svg',
+      $color-white-alpha-80
+    );
   }
 }
 .module-message__metadata__status-icon--read,
@@ -1272,10 +1281,16 @@ $message-padding-horizontal: 12px;
   width: 18px;
 
   @include light-theme {
-    @include color-svg('../images/read.svg', $color-white-alpha-80);
+    @include color-svg(
+      '../images/icons/v3/message_status/messagestatus-read.svg',
+      $color-white-alpha-80
+    );
   }
   @include dark-theme {
-    @include color-svg('../images/read.svg', $color-white-alpha-80);
+    @include color-svg(
+      '../images/icons/v3/message_status/messagestatus-read.svg',
+      $color-white-alpha-80
+    );
   }
 }
 

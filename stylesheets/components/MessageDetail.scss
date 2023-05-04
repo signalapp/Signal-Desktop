@@ -109,23 +109,31 @@
   &--Read:after {
     // Viewed and read deliberately have the same icon.
     width: 18px;
-    @include normal-icon('../images/read.svg');
+    @include normal-icon(
+      '../images/icons/v3/message_status/messagestatus-read.svg'
+    );
   }
 
   &--Delivered:after {
     width: 18px;
-    @include normal-icon('../images/double-check.svg');
+    @include normal-icon(
+      '../images/icons/v3/message_status/messagestatus-delivered.svg'
+    );
   }
 
   &--Sent:after {
     width: 12px;
-    @include normal-icon('../images/check-circle-outline.svg');
+    @include normal-icon(
+      '../images/icons/v3/message_status/messagestatus-sent.svg'
+    );
   }
 
   &--Pending:after {
     width: 12px;
     animation: rotate 4s linear infinite;
-    @include normal-icon('../images/sending.svg');
+    @include normal-icon(
+      '../images/icons/v3/message_status/messagestatus-sending.svg'
+    );
   }
 }
 
