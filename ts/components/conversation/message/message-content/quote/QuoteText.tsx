@@ -3,7 +3,6 @@ import { QuotePropsWithoutListener } from './Quote';
 import { useSelector } from 'react-redux';
 import { getSelectedConversationKey } from '../../../../../state/selectors/conversations';
 import { useIsPrivate } from '../../../../../hooks/useParamSelector';
-import classNames from 'classnames';
 import { MessageBody } from '../MessageBody';
 import { MIME } from '../../../../../types';
 import { GoogleChrome } from '../../../../../util';
@@ -47,7 +46,7 @@ function getTypeLabel({
     return window.i18n('video');
   }
   if (GoogleChrome.isImageTypeSupported(contentType)) {
-    return window.i18n('photo');
+    return window.i18n('image');
   }
   if (MIME.isAudio(contentType) && isVoiceMessage) {
     return window.i18n('voiceMessage');
@@ -67,33 +66,23 @@ export const QuoteText = (
   const convoId = useSelector(getSelectedConversationKey);
   const isGroup = !useIsPrivate(convoId);
 
-  if (text) {
-    return (
-      <StyledQuoteText isIncoming={isIncoming} dir="auto">
-        <MessageBody text={text} disableLinks={true} disableJumbomoji={true} isGroup={isGroup} />
-      </StyledQuoteText>
-    );
+  if (attachment) {
+    const { contentType, isVoiceMessage } = attachment;
+
+    const typeLabel = getTypeLabel({ contentType, isVoiceMessage });
+    if (typeLabel) {
+      return <div>{typeLabel}</div>;
+    }
   }
 
-  if (!attachment) {
-    return null;
-  }
-
-  const { contentType, isVoiceMessage } = attachment;
-
-  const typeLabel = getTypeLabel({ contentType, isVoiceMessage });
-  if (typeLabel) {
-    return (
-      <div
-        className={classNames(
-          'module-quote__primary__type-label',
-          isIncoming ? 'module-quote__primary__type-label--incoming' : null
-        )}
-      >
-        {typeLabel}
-      </div>
-    );
-  }
-
-  return null;
+  return (
+    <StyledQuoteText isIncoming={isIncoming} dir="auto">
+      <MessageBody
+        text={text || window.i18n('originalMessageNotFound')}
+        disableLinks={true}
+        disableJumbomoji={true}
+        isGroup={isGroup}
+      />
+    </StyledQuoteText>
+  );
 };
