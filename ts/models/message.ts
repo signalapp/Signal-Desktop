@@ -94,6 +94,7 @@ import { Notifications } from '../util/notifications';
 import { Storage } from '../util/storage';
 import { ConversationModel } from './conversation';
 import { roomHasBlindEnabled } from '../types/sqlSharedTypes';
+import { READ_MESSAGE_STATE } from './conversationAttributes';
 // tslint:disable: cyclomatic-complexity
 
 /**
@@ -205,7 +206,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
     const { unread } = attributes;
     if (unread === undefined) {
-      this.set({ unread: 0 });
+      this.set({ unread: READ_MESSAGE_STATE.read });
     }
 
     this.set(attributes);
@@ -1100,7 +1101,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   }
 
   public markMessageReadNoCommit(readAt: number) {
-    this.set({ unread: 0 });
+    this.set({ unread: READ_MESSAGE_STATE.read });
 
     if (
       this.get('expireTimer') &&

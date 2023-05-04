@@ -29,6 +29,7 @@ import { PnServer } from '../../apis/push_notification_api';
 import { approveConvoAndSendResponse } from '../../../interactions/conversationInteractions';
 import { GetNetworkTime } from '../../apis/snode_api/getNetworkTime';
 import { SnodeNamespaces } from '../../apis/snode_api/namespaces';
+import { READ_MESSAGE_STATE } from '../../../models/conversationAttributes';
 
 // tslint:disable: function-name
 
@@ -860,7 +861,7 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
     received_at: networkTimestamp,
     expireTimer: 0,
     callNotificationType: 'answered-a-call',
-    unread: 0,
+    unread: READ_MESSAGE_STATE.read,
   });
   await buildAnswerAndSendIt(fromSender);
 
@@ -1199,7 +1200,7 @@ async function addMissedCallMessage(callerPubkey: string, sentAt: number) {
     received_at: GetNetworkTime.getNowWithNetworkOffset(),
     expireTimer: 0,
     callNotificationType: 'missed-call',
-    unread: 1,
+    unread: READ_MESSAGE_STATE.unread,
   });
 }
 

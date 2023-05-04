@@ -1,4 +1,6 @@
 import { UserUtils } from '../session/utils';
+import { SessionUtilConvoInfoVolatile } from '../session/utils/libsession/libsession_utils_convo_info_volatile';
+import { READ_MESSAGE_STATE } from './conversationAttributes';
 import { MessageModel } from './message';
 import { MessageAttributesOptionals, MessageModelType } from './messageType';
 
@@ -86,7 +88,7 @@ function getSharedAttributesForPublicMessage({
 function getSharedAttributesForOutgoingMessage() {
   return {
     source: UserUtils.getOurPubKeyStrFromCache(),
-    unread: 0,
+    unread: READ_MESSAGE_STATE.read,
     sent_to: [],
     sent: true,
     type: 'outgoing' as MessageModelType,
@@ -96,10 +98,27 @@ function getSharedAttributesForOutgoingMessage() {
 
 function getSharedAttributesForIncomingMessage() {
   return {
-    unread: 1,
+    unread: READ_MESSAGE_STATE.unread,
     type: 'incoming' as MessageModelType,
     direction: 'incoming' as MessageModelType,
   };
+}
+
+export function markAttributesAsReadIfNeeded(messageAttributes: MessageAttributesOptionals) {
+  // if the message is trying to be added unread, make sure that it shouldn't be already read from our other devices
+  if (messageAttributes.unread === READ_MESSAGE_STATE.unread) {
+    const latestUnreadForThisConvo = SessionUtilConvoInfoVolatile.getVolatileInfoCached(
+      messageAttributes.conversationId
+    );
+    const sentAt = messageAttributes.serverTimestamp || messageAttributes.sent_at;
+    if (
+      sentAt &&
+      latestUnreadForThisConvo?.lastRead &&
+      sentAt <= latestUnreadForThisConvo.lastRead
+    ) {
+      messageAttributes.unread = READ_MESSAGE_STATE.read;
+    }
+  }
 }
 
 /**
@@ -128,11 +147,12 @@ export function createPublicMessageSentFromNotUs(args: {
   serverTimestamp: number;
   conversationId: string;
 }): MessageModel {
-  const messageData: MessageAttributesOptionals = {
+  const messageAttributes: MessageAttributesOptionals = {
     ...getSharedAttributesForPublicMessage(args),
     ...getSharedAttributesForIncomingMessage(),
     source: args.sender,
   };
+  markAttributesAsReadIfNeeded(messageAttributes);
 
-  return new MessageModel(messageData);
+  return new MessageModel(messageAttributes);
 }

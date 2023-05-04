@@ -1,6 +1,7 @@
 import { compact, isEmpty, isNumber, toNumber } from 'lodash';
 import { ConfigDumpData } from '../data/configDump/configDump';
 import { Data } from '../data/data';
+import { SettingsKey } from '../data/settings-key';
 import { ConversationInteraction } from '../interactions';
 import { ConversationTypeEnum } from '../models/conversationAttributes';
 import { SignalService } from '../protobuf';
@@ -27,6 +28,7 @@ import { configurationMessageReceived, trigger } from '../shims/events';
 import { assertUnreachable } from '../types/sqlSharedTypes';
 import { BlockedNumberController } from '../util';
 import { Registration } from '../util/registration';
+import { ReleasedFeatures } from '../util/releaseFeature';
 import {
   Storage,
   getLastProfileUpdateTimestamp,
@@ -45,8 +47,6 @@ import { addKeyPairToCacheAndDBIfNeeded, handleNewClosedGroup } from './closedGr
 import { HexKeyPair } from './keypairs';
 import { queueAllCachedFromSource } from './receiver';
 import { EnvelopePlus } from './types';
-import { SettingsKey } from '../data/settings-key';
-import { ReleasedFeatures } from '../util/releaseFeature';
 
 function groupByVariant(
   incomingConfigs: Array<IncomingMessage<SignalService.ISharedConfigMessage>>
@@ -92,13 +92,14 @@ async function mergeConfigsWithIncomingUpdates(
         data: msg.message.data,
         hash: msg.messageHash,
       }));
-
-      await GenericWrapperActions.merge(variant, toMerge);
+      const mergedCount = await GenericWrapperActions.merge(variant, toMerge);
       const needsPush = await GenericWrapperActions.needsPush(variant);
       const needsDump = await GenericWrapperActions.needsDump(variant);
       const latestEnvelopeTimestamp = Math.max(...sameVariant.map(m => m.envelopeTimestamp));
 
-      window.log.debug(`${variant}: "${publicKey}" needsPush:${needsPush} needsDump:${needsDump} `);
+      window.log.debug(
+        `${variant}: "${publicKey}" needsPush:${needsPush} needsDump:${needsDump}; mergedCount:${mergedCount} `
+      );
 
       const incomingConfResult: IncomingConfResult = {
         needsDump,
@@ -118,9 +119,6 @@ async function mergeConfigsWithIncomingUpdates(
 }
 
 async function handleUserProfileUpdate(result: IncomingConfResult): Promise<IncomingConfResult> {
-  if (!result.needsDump) {
-    return result;
-  }
   const updateUserInfo = await UserConfigWrapperActions.getUserInfo();
   if (!updateUserInfo) {
     return result;
@@ -140,9 +138,6 @@ async function handleUserProfileUpdate(result: IncomingConfResult): Promise<Inco
 
 // tslint:disable-next-line: cyclomatic-complexity
 async function handleContactsUpdate(result: IncomingConfResult): Promise<IncomingConfResult> {
-  if (!result.needsDump) {
-    return result;
-  }
   const us = UserUtils.getOurPubKeyStrFromCache();
 
   const allContacts = await ContactsWrapperActions.getAll();
@@ -432,10 +427,6 @@ async function handleLegacyGroupUpdate(latestEnvelopeTimestamp: number) {
 }
 
 async function handleUserGroupsUpdate(result: IncomingConfResult): Promise<IncomingConfResult> {
-  if (!result.needsDump) {
-    return result;
-  }
-
   const toHandle = SessionUtilUserGroups.getUserGroupTypes();
   for (let index = 0; index < toHandle.length; index++) {
     const typeToHandle = toHandle[index];
@@ -494,10 +485,6 @@ async function applyConvoVolatileUpdateFromWrapper(
 async function handleConvoInfoVolatileUpdate(
   result: IncomingConfResult
 ): Promise<IncomingConfResult> {
-  if (!result.needsDump) {
-    return result;
-  }
-
   const types = SessionUtilConvoInfoVolatile.getConvoInfoVolatileTypes();
   for (let typeIndex = 0; typeIndex < types.length; typeIndex++) {
     const type = types[typeIndex];
@@ -508,6 +495,7 @@ async function handleConvoInfoVolatileUpdate(
           const wrapper1o1s = await ConvoInfoVolatileWrapperActions.getAll1o1();
           for (let index = 0; index < wrapper1o1s.length; index++) {
             const fromWrapper = wrapper1o1s[index];
+
             await applyConvoVolatileUpdateFromWrapper(
               fromWrapper.pubkeyHex,
               fromWrapper.unread,
@@ -650,8 +638,12 @@ async function handleConfigMessagesViaLibSession(
     return;
   }
 
-  window?.log?.info(
-    `Handling our sharedConfig message via libsession_util; count: ${configMessages.length}`
+  window?.log?.debug(
+    `Handling our sharedConfig message via libsession_util ${configMessages.map(m => ({
+      variant: LibSessionUtil.kindToVariant(m.message.kind),
+      hash: m.messageHash,
+      seqno: (m.message.seqno as Long).toNumber(),
+    }))}`
   );
 
   const incomingMergeResult = await mergeConfigsWithIncomingUpdates(configMessages);

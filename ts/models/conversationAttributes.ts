@@ -153,3 +153,8 @@ export const CONVERSATION_PRIORITIES = {
   hidden: -1,
   pinned: 1, // anything over 0 means pinned, but when our local users pins a conversation, we set the priority to 1
 };
+
+export const READ_MESSAGE_STATE = {
+  unread: 1,
+  read: 0,
+} as const;

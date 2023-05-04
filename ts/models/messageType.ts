@@ -7,6 +7,7 @@ import {
 } from '../state/ducks/conversations';
 import { AttachmentTypeWithPath } from '../types/Attachment';
 import { Reaction, ReactionList, SortedReactionList } from '../types/Reaction';
+import { READ_MESSAGE_STATE } from './conversationAttributes';
 
 export type MessageModelType = 'incoming' | 'outgoing';
 
@@ -44,6 +45,7 @@ export interface MessageAttributes {
   };
   /**
    * 1 means unread, 0 or anything else is read.
+   * You can use the values from READ_MESSAGE_STATE.unread and READ_MESSAGE_STATE.read
    */
   unread: number;
   group?: any;
@@ -224,7 +226,7 @@ export const fillMessageAttributesWithDefaults = (
   const defaulted = defaultsDeep(optAttributes, {
     expireTimer: 0, // disabled
     id: uuidv4(),
-    unread: 0, // if nothing is set, this message is considered read
+    unread: READ_MESSAGE_STATE.read, // if nothing is set, this message is considered read
   });
   // this is just to cleanup a bit the db. delivered and delivered_to were removed, so everytime we load a message
   // we make sure to clean those fields in the json.

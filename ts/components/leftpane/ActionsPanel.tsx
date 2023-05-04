@@ -38,12 +38,12 @@ import { ActionPanelOnionStatusLight } from '../dialog/OnionStatusPathDialog';
 import { SessionIconButton } from '../icon';
 import { LeftPaneSectionContainer } from './LeftPaneSectionContainer';
 
+import { SettingsKey } from '../../data/settings-key';
 import { getLatestReleaseFromFileServer } from '../../session/apis/file_server_api/FileServerApi';
 import { forceRefreshRandomSnodePool } from '../../session/apis/snode_api/snodePool';
 import { isDarkTheme } from '../../state/selectors/theme';
 import { ThemeStateType } from '../../themes/constants/colors';
 import { switchThemeTo } from '../../themes/switchTheme';
-import { SettingsKey } from '../../data/settings-key';
 
 const Section = (props: { type: SectionType }) => {
   const ourNumber = useSelector(getOurNumber);

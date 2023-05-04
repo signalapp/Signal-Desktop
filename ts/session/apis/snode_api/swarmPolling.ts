@@ -251,7 +251,7 @@ export class SwarmPolling {
 
       if (!isGroup && userConfigMessagesMerged.length) {
         window.log.info(
-          `received userConfigMessagesMerged: ${userConfigMessagesMerged.length} for key ${pubkey.key}`
+          `received userConfigMessages count: ${userConfigMessagesMerged.length} for key ${pubkey.key}`
         );
         try {
           await this.handleSharedConfigMessages(userConfigMessagesMerged);

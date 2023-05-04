@@ -12,7 +12,7 @@ import {
   deleteMessagesFromSwarmAndCompletelyLocally,
   deleteMessagesFromSwarmAndMarkAsDeletedLocally,
 } from '../interactions/conversations/unsendingInteractions';
-import { ConversationTypeEnum } from '../models/conversationAttributes';
+import { ConversationTypeEnum, READ_MESSAGE_STATE } from '../models/conversationAttributes';
 import { findCachedBlindedMatchOrLookupOnAllServers } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
 import { getConversationController } from '../session/conversations';
 import { concatUInt8Array, getSodiumRenderer } from '../session/crypto';
@@ -761,7 +761,7 @@ export async function handleDataExtractionNotification(
         referencedAttachmentTimestamp, // currently unused
         source,
       },
-      unread: 1, // 1 means unread
+      unread: READ_MESSAGE_STATE.unread, // 1 means unread
       expireTimer: 0,
     });
     convo.updateLastMessage();

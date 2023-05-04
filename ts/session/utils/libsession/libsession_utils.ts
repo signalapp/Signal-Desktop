@@ -126,6 +126,7 @@ async function pendingChangesForPubkey(pubkey: string): Promise<Array<OutgoingCo
     const { data, seqno, hashes } = await GenericWrapperActions.push(variant);
 
     const kind = variantToKind(variant);
+
     const namespace = await GenericWrapperActions.storageNamespace(variant);
     results.push({
       message: new SharedConfigMessage({

@@ -103,6 +103,7 @@ import {
   fillConvoAttributesWithDefaults,
   isDirectConversation,
   isOpenOrClosedGroup,
+  READ_MESSAGE_STATE,
 } from './conversationAttributes';
 
 import { LibSessionUtil } from '../session/utils/libsession/libsession_utils';
@@ -113,6 +114,7 @@ import {
   getModeratorsOutsideRedux,
   getSubscriberCountOutsideRedux,
 } from '../state/selectors/sogsRoomInfo';
+import { markAttributesAsReadIfNeeded } from './messageFactory';
 
 type InMemoryConvoInfos = {
   mentionedUs: boolean;
@@ -345,10 +347,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     if (this.get('expireTimer')) {
       toRet.expireTimer = this.get('expireTimer');
     }
-    if (this.get('markedAsUnread')) {
-      toRet.isMarkedUnread = this.get('markedAsUnread');
-    }
-
     // those are values coming only from both the DB or the wrapper. Currently we display the data from the DB
     if (this.isClosedGroup()) {
       toRet.members = this.get('members') || [];
@@ -682,7 +680,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       messageRequestResponse: {
         isApproved: 1,
       },
-      unread: 1, // 1 means unread
+      unread: READ_MESSAGE_STATE.unread, // 1 means unread
       expireTimer: 0,
     });
     this.updateLastMessage();
@@ -829,7 +827,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         ...commonAttributes,
         // Even though this isn't reflected to the user, we want to place the last seen
         //   indicator above it. We set it to 'unread' to trigger that placement.
-        unread: 1,
+        unread: READ_MESSAGE_STATE.unread,
         source,
         sent_at: timestamp,
         received_at: timestamp,
@@ -931,7 +929,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       source: sender,
       type: 'outgoing',
       direction: 'outgoing',
-      unread: 0, // an outgoing message must be already read
+      unread: READ_MESSAGE_STATE.read, // an outgoing message must be already read
       received_at: messageAttributes.sent_at, // make sure to set a received_at timestamp for an outgoing message, so the order are right.
     });
   }
@@ -944,12 +942,18 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       await this.setDidApproveMe(true);
     }
 
-    return this.addSingleMessage({
+    const toBeAddedAttributes: MessageAttributesOptionals = {
       ...messageAttributes,
       conversationId: this.id,
       type: 'incoming',
       direction: 'outgoing',
-    });
+    };
+
+    // if the message is trying to be added unread, make sure that it shouldn't be already read from our other devices
+
+    markAttributesAsReadIfNeeded(toBeAddedAttributes);
+
+    return this.addSingleMessage(toBeAddedAttributes);
   }
 
   /**

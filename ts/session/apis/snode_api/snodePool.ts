@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _, { shuffle } from 'lodash';
 
 import { Data, Snode } from '../../../data/data';
 
@@ -312,10 +312,11 @@ export async function getSwarmFor(pubkey: string): Promise<Array<Snode>> {
   }
 
   // Request new node list from the network
-  const freshNodes = _.shuffle(await requestSnodesForPubkeyFromNetwork(pubkey));
+  const swarm = await requestSnodesForPubkeyFromNetwork(pubkey);
+  const mixedSwarm = shuffle(swarm);
 
-  const edkeys = freshNodes.map((n: Snode) => n.pubkey_ed25519);
+  const edkeys = mixedSwarm.map((n: Snode) => n.pubkey_ed25519);
   await internalUpdateSwarmFor(pubkey, edkeys);
 
-  return freshNodes;
+  return mixedSwarm;
 }

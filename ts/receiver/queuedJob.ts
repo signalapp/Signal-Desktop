@@ -7,7 +7,7 @@ import { MessageModel, sliceQuoteText } from '../models/message';
 import { getConversationController } from '../session/conversations';
 import { Quote } from './types';
 
-import { ConversationTypeEnum } from '../models/conversationAttributes';
+import { ConversationTypeEnum, READ_MESSAGE_STATE } from '../models/conversationAttributes';
 import { MessageDirection } from '../models/messageType';
 import { SignalService } from '../protobuf';
 import { ProfileManager } from '../session/profile_manager/ProfileManager';
@@ -144,7 +144,7 @@ async function processProfileKeyNoCommit(
 
 function updateReadStatus(message: MessageModel) {
   if (message.isExpirationTimerUpdate()) {
-    message.set({ unread: 0 });
+    message.set({ unread: READ_MESSAGE_STATE.read });
   }
 }
 
@@ -307,7 +307,7 @@ async function handleExpirationTimerUpdateNoCommit(
       source,
       expireTimer,
     },
-    unread: 0, // mark the message as read.
+    unread: READ_MESSAGE_STATE.read, // mark the message as read.
   });
   conversation.set({ expireTimer });
 
