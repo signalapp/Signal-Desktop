@@ -73,6 +73,13 @@ const StyledQuote = styled.div<{
   cursor: ${props => (props.onClick ? 'pointer' : 'auto')};
 `;
 
+const StyledQuoteTextContent = styled.div`
+  flex-grow: 1;
+  padding-inline-start: 10px;
+  padding-inline-end: 10px;
+  max-width: 100%;
+`;
+
 export const Quote = (props: QuotePropsWithListener) => {
   const [imageBroken, setImageBroken] = useState(false);
   const handleImageErrorBound = () => {
@@ -93,14 +100,13 @@ export const Quote = (props: QuotePropsWithListener) => {
         hasAttachment={Boolean(!isEmpty(attachment))}
         isIncoming={isIncoming}
         onClick={onClick}
-        role="button"
       >
         <QuoteIconContainer
           attachment={attachment}
           handleImageErrorBound={handleImageErrorBound}
           imageBroken={imageBroken}
         />
-        <div className="module-quote__primary">
+        <StyledQuoteTextContent>
           <QuoteAuthor
             authorName={props.authorName}
             author={props.sender}
@@ -111,7 +117,7 @@ export const Quote = (props: QuotePropsWithListener) => {
           />
           <QuoteGenericFile {...props} />
           <QuoteText isIncoming={isIncoming} text={text} attachment={attachment} />
-        </div>
+        </StyledQuoteTextContent>
       </StyledQuote>
     </div>
   );

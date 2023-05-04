@@ -7,6 +7,7 @@ import { MessageBody } from '../MessageBody';
 import { MIME } from '../../../../../types';
 import { GoogleChrome } from '../../../../../util';
 import styled from 'styled-components';
+import { isEmpty } from 'lodash';
 
 const StyledQuoteText = styled.div<{ isIncoming: boolean }>`
   display: -webkit-box;
@@ -66,7 +67,7 @@ export const QuoteText = (
   const convoId = useSelector(getSelectedConversationKey);
   const isGroup = !useIsPrivate(convoId);
 
-  if (attachment) {
+  if (attachment && !isEmpty(attachment)) {
     const { contentType, isVoiceMessage } = attachment;
 
     const typeLabel = getTypeLabel({ contentType, isVoiceMessage });

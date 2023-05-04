@@ -39,8 +39,7 @@ export const MessageQuote = (props: Props) => {
   const {
     text,
     attachment,
-    // TODO
-    // isFromMe,
+    isFromMe,
     sender: quoteAuthor,
     authorProfileName,
     authorName,
@@ -106,10 +105,10 @@ export const MessageQuote = (props: Props) => {
       attachment={attachment}
       isIncoming={direction === 'incoming'}
       sender={displayedPubkey}
-      authorProfileName={quote.authorProfileName}
-      authorName={quote.authorName}
-      referencedMessageNotFound={quote.referencedMessageNotFound || false}
-      isFromMe={quote.isFromMe || false}
+      authorProfileName={authorProfileName}
+      authorName={authorName}
+      referencedMessageNotFound={referencedMessageNotFound || false}
+      isFromMe={isFromMe || false}
     />
   );
 };

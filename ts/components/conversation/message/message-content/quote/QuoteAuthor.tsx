@@ -11,7 +11,7 @@ const StyledQuoteAuthor = styled.div<{ isIncoming: boolean }>`
   font-size: 15px;
   font-weight: bold;
   line-height: 18px;
-  margin-bottom: 5px;
+  margin-bottom: 2px;
   overflow-x: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
