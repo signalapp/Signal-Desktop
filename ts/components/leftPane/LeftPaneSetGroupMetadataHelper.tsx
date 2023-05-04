@@ -237,7 +237,9 @@ export class LeftPaneSetGroupMetadataHelper extends LeftPaneHelper<LeftPaneSetGr
         }}
       >
         {this.isCreating ? (
-          <Spinner size="20px" svgSize="small" direction="on-avatar" />
+          <span aria-label={i18n('icu:loading')} role="status">
+            <Spinner size="20px" svgSize="small" direction="on-avatar" />
+          </span>
         ) : (
           i18n('icu:setGroupMetadata__create-group')
         )}
