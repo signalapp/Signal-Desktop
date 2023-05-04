@@ -2,6 +2,22 @@ import React from 'react';
 import classNames from 'classnames';
 import { useDisableDrag } from '../../../../../hooks/useDisableDrag';
 import { useEncryptedFileFetch } from '../../../../../hooks/useEncryptedFileFetch';
+import styled from 'styled-components';
+
+const StyledQuoteImage = styled.div`
+  flex: initial;
+  min-width: 54px;
+  width: 54px;
+  max-height: 54px;
+  position: relative;
+  border-radius: 4px;
+  overflow: hidden;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+`;
 
 export const QuoteImage = (props: {
   handleImageErrorBound: () => void;
@@ -29,7 +45,7 @@ export const QuoteImage = (props: {
   ) : null;
 
   return (
-    <div className="module-quote__icon-container">
+    <StyledQuoteImage>
       <img
         src={srcData}
         alt={window.i18n('quoteThumbnailAlt')}
@@ -37,6 +53,6 @@ export const QuoteImage = (props: {
         onError={handleImageErrorBound}
       />
       {iconElement}
-    </div>
+    </StyledQuoteImage>
   );
 };

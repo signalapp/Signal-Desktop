@@ -48,7 +48,7 @@ export const MessageQuote = (props: Props) => {
     referencedMessageNotFound,
   } = quote;
 
-  const quoteText = text || window.i18n('originalMessageNotFound');
+  const quoteText = text || null;
   const quoteNotFound = referencedMessageNotFound || false;
 
   const shortenedPubkey = PubKey.shorten(quoteAuthor);

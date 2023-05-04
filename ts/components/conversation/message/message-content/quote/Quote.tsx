@@ -11,6 +11,7 @@ import { QuoteGenericFile } from './QuoteGenericFile';
 import { QuoteText } from './QuoteText';
 import { QuoteIconContainer } from './QuoteIconContainer';
 import styled from 'styled-components';
+import { isEmpty } from 'lodash';
 
 export type QuotePropsWithoutListener = {
   attachment?: QuotedAttachmentType;
@@ -54,6 +55,7 @@ function validateQuote(quote: QuotePropsWithoutListener): boolean {
 }
 
 const StyledQuote = styled.div<{
+  hasAttachment: boolean;
   isIncoming: boolean;
   onClick: ((e: MouseEvent<HTMLDivElement>) => void) | undefined;
 }>`
@@ -63,11 +65,11 @@ const StyledQuote = styled.div<{
   flex-direction: row;
   align-items: stretch;
   overflow: hidden;
-  border-left: 4px solid
-    ${props =>
-      props.isIncoming
-        ? 'var(--message-bubbles-received-text-color)'
-        : 'var(--message-bubbles-sent-text-color)'};
+  ${props => !props.hasAttachment && 'border-left: 4px solid;'}
+  border-color: ${props =>
+    props.isIncoming
+      ? 'var(--message-bubbles-received-text-color)'
+      : 'var(--message-bubbles-sent-text-color)'};
   cursor: ${props => (props.onClick ? 'pointer' : 'auto')};
 `;
 
@@ -87,7 +89,12 @@ export const Quote = (props: QuotePropsWithListener) => {
 
   return (
     <div className={classNames('module-quote-container')}>
-      <StyledQuote isIncoming={isIncoming} onClick={onClick} role="button">
+      <StyledQuote
+        hasAttachment={Boolean(!isEmpty(attachment))}
+        isIncoming={isIncoming}
+        onClick={onClick}
+        role="button"
+      >
         <QuoteIconContainer
           attachment={attachment}
           handleImageErrorBound={handleImageErrorBound}
