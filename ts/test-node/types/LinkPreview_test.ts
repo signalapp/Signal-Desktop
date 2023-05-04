@@ -17,30 +17,40 @@ describe('Link previews', () => {
       assert.isFalse(shouldPreviewHref('https'));
       assert.isFalse(shouldPreviewHref('https://'));
       assert.isFalse(shouldPreviewHref('https://bad url'));
-      assert.isFalse(shouldPreviewHref('example.com'));
+      assert.isFalse(shouldPreviewHref('signal.com'));
+      assert.isFalse(shouldPreviewHref('signal.org'));
     });
 
     it('returns false for non-HTTPS URLs', () => {
-      assert.isFalse(shouldPreviewHref('http://example.com'));
-      assert.isFalse(shouldPreviewHref('ftp://example.com'));
-      assert.isFalse(shouldPreviewHref('file://example'));
+      assert.isFalse(shouldPreviewHref('http://signal.org'));
+      assert.isFalse(shouldPreviewHref('ftp://signal.org'));
+      assert.isFalse(shouldPreviewHref('file://signal'));
     });
 
     it('returns false if the link is "sneaky"', () => {
       // See `isLinkSneaky` tests below for more thorough checking.
-      assert.isFalse(shouldPreviewHref('https://user:pass@example.com'));
-      assert.isFalse(shouldPreviewHref('https://aquí.example'));
-      assert.isFalse(shouldPreviewHref('https://aqu%C3%AD.example'));
+      assert.isFalse(shouldPreviewHref('https://user:pass@signal.org'));
+      assert.isFalse(shouldPreviewHref('https://aquí.signal'));
+      assert.isFalse(shouldPreviewHref('https://aqu%C3%AD.signal'));
     });
 
     it('returns false for skipped domains', () => {
       assert.isFalse(shouldPreviewHref('https://debuglogs.org'));
+      assert.isFalse(shouldPreviewHref('https://example.com'));
+      assert.isFalse(shouldPreviewHref('https://new.example'));
+      assert.isFalse(shouldPreviewHref('https://onion'));
+      assert.isFalse(shouldPreviewHref('https://bloomin.onion'));
+      assert.isFalse(shouldPreviewHref('https://localhost'));
+      assert.isFalse(shouldPreviewHref('https://localhost:8080'));
+      assert.isFalse(shouldPreviewHref('https://abcd.test'));
     });
 
     it('returns true for "safe" urls', () => {
-      assert.isTrue(shouldPreviewHref('https://example.com'));
+      assert.isTrue(shouldPreviewHref('https://signal.org'));
+      assert.isTrue(shouldPreviewHref('https://example.signal.org'));
+      assert.isTrue(shouldPreviewHref('https://myexample.com'));
       assert.isTrue(
-        shouldPreviewHref('https://example.com/foo/bar?query=string#hash')
+        shouldPreviewHref('https://signal.org/foo/bar?query=string#hash')
       );
     });
   });

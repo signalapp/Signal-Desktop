@@ -48,9 +48,33 @@ export function shouldPreviewHref(href: string): boolean {
   return Boolean(
     url &&
       url.protocol === 'https:' &&
-      url.hostname !== 'debuglogs.org' &&
+      !isDomainExcluded(url) &&
       !isLinkSneaky(href)
   );
+}
+
+const EXCLUDED_DOMAINS = [
+  'debuglogs.org',
+  'example',
+  'example.com',
+  'example.net',
+  'example.org',
+  'invalid',
+  'localhost',
+  'onion',
+  'test',
+];
+
+function isDomainExcluded(url: URL): boolean {
+  for (const excludedDomain of EXCLUDED_DOMAINS) {
+    if (
+      url.hostname.endsWith(`.${excludedDomain}`) ||
+      url.hostname === excludedDomain
+    ) {
+      return true;
+    }
+  }
+  return false;
 }
 
 const DIRECTIONAL_OVERRIDES = /[\u202c\u202d\u202e]/;
