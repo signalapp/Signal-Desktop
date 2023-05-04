@@ -168,32 +168,44 @@
 
         &--bold {
           @include dark-theme {
-            @include color-svg('../images/icons/v3/bold.svg', $color-gray-25);
+            @include color-svg(
+              '../images/icons/v3/text_format/textformat-bold-bold.svg',
+              $color-gray-25
+            );
           }
           @include light-theme {
-            @include color-svg('../images/icons/v3/bold.svg', $color-gray-60);
+            @include color-svg(
+              '../images/icons/v3/text_format/textformat-bold-bold.svg',
+              $color-gray-60
+            );
           }
         }
 
         &--italic {
           @include dark-theme {
-            @include color-svg('../images/icons/v3/italic.svg', $color-gray-25);
+            @include color-svg(
+              '../images/icons/v3/text_format/textformat-italic.svg',
+              $color-gray-25
+            );
           }
           @include light-theme {
-            @include color-svg('../images/icons/v3/italic.svg', $color-gray-60);
+            @include color-svg(
+              '../images/icons/v3/text_format/textformat-italic.svg',
+              $color-gray-60
+            );
           }
         }
 
         &--strikethrough {
           @include dark-theme {
             @include color-svg(
-              '../images/icons/v3/strikethrough.svg',
+              '../images/icons/v3/text_format/textformat-strikethrough.svg',
               $color-gray-25
             );
           }
           @include light-theme {
             @include color-svg(
-              '../images/icons/v3/strikethrough.svg',
+              '../images/icons/v3/text_format/textformat-strikethrough.svg',
               $color-gray-60
             );
           }
@@ -202,13 +214,13 @@
         &--monospace {
           @include dark-theme {
             @include color-svg(
-              '../images/icons/v3/monospace.svg',
+              '../images/icons/v3/text_format/textformat-monospace.svg',
               $color-gray-25
             );
           }
           @include light-theme {
             @include color-svg(
-              '../images/icons/v3/monospace.svg',
+              '../images/icons/v3/text_format/textformat-monospace.svg',
               $color-gray-60
             );
           }
@@ -217,13 +229,13 @@
         &--spoiler {
           @include dark-theme {
             @include color-svg(
-              '../images/icons/v3/spoiler.svg',
+              '../images/icons/v3/text_format/textformat-spoiler.svg',
               $color-gray-25
             );
           }
           @include light-theme {
             @include color-svg(
-              '../images/icons/v3/spoiler.svg',
+              '../images/icons/v3/text_format/textformat-spoiler.svg',
               $color-gray-60
             );
           }
@@ -349,10 +361,10 @@
       width: 16px;
       vertical-align: middle;
 
-      @include color-svg('../images/icons/v3/edit.svg', $color-black);
+      @include color-svg('../images/icons/v3/edit/edit.svg', $color-black);
 
       @include dark-theme {
-        @include color-svg('../images/icons/v3/edit.svg', $color-gray-15);
+        @include color-svg('../images/icons/v3/edit/edit.svg', $color-gray-15);
       }
     }
 
@@ -412,7 +424,7 @@ button.CompositionInput__link-preview__close-button {
   width: 20px;
 
   &::before {
-    @include color-svg('../images/icons/v2/x-24.svg', $color-gray-75);
+    @include color-svg('../images/icons/v3/x/x.svg', $color-gray-75);
     content: '';
     height: 16px;
     width: 16px;

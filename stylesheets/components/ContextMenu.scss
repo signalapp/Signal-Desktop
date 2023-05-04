@@ -46,6 +46,7 @@
 
     &--container {
       display: flex;
+      align-items: center;
     }
 
     &--icon {
@@ -61,10 +62,10 @@
       width: 16px;
 
       @include light-theme {
-        @include color-svg('../images/icons/v2/check-24.svg', $color-black);
+        @include color-svg('../images/icons/v3/check/check.svg', $color-black);
       }
       @include dark-theme {
-        @include color-svg('../images/icons/v2/check-24.svg', $color-white);
+        @include color-svg('../images/icons/v3/check/check.svg', $color-white);
       }
     }
 

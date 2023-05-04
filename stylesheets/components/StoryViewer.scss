@@ -31,8 +31,10 @@
     @include button-reset;
     @include modal-close-button;
     @include light-theme {
-      @include color-svg('../images/icons/v2/x-24.svg', $color-gray-15);
+      @include color-svg('../images/icons/v3/x/x.svg', $color-gray-15);
     }
+    width: 20px;
+    height: 20px;
     top: var(--title-bar-drag-area-height);
     inset-inline-end: 28px;
     z-index: $z-index-above-above-base;
@@ -70,7 +72,7 @@
 
       &::before {
         @include color-svg(
-          '../images/icons/v2/stories-solid-16.svg',
+          '../images/icons/v3/stories/stories-fill-compact.svg',
           $color-white-alpha-80
         );
         content: '';
@@ -156,7 +158,7 @@
         margin-inline-end: 12px;
         width: 18px;
         @include color-svg(
-          '../images/icons/v2/error-outline-24.svg',
+          '../images/icons/v3/error/error-circle.svg',
           $color-accent-red
         );
       }
@@ -181,24 +183,26 @@
         height: 20px;
         margin-inline-end: 12px;
         width: 20px;
-        @include color-svg(
-          '../images/icons/v2/reply-outline-24.svg',
-          $color-white
-        );
+        @include color-svg('../images/icons/v3/reply/reply.svg', $color-white);
       }
     }
 
-    &__chevron::after {
-      content: '';
-      display: inline-block;
-      height: 20px;
-      margin-inline-start: 6px;
-      vertical-align: middle;
-      width: 12px;
-      @include color-svg(
-        '../images/icons/v2/chevron-right-20.svg',
-        $color-white
-      );
+    &__chevron {
+      display: flex;
+      align-items: center;
+
+      &::after {
+        content: '';
+        display: inline-block;
+        height: 16px;
+        margin-inline-start: 4px;
+        vertical-align: middle;
+        width: 16px;
+        @include color-svg(
+          '../images/icons/v3/chevron/chevron-right.svg',
+          $color-white
+        );
+      }
     }
   }
 
@@ -210,7 +214,7 @@
     width: 24px;
 
     &::after {
-      @include color-svg('../images/icons/v2/more-horiz-24.svg', $color-white);
+      @include color-svg('../images/icons/v3/more/more.svg', $color-white);
       content: '';
       height: 20px;
       width: 20px;
@@ -229,7 +233,7 @@
     margin-block: 0;
     margin-inline: 24px;
     width: 20px;
-    @include color-svg('../images/icons/v2/sound-on.svg', $color-white);
+    @include color-svg('../images/icons/v3/speaker/speaker.svg', $color-white);
     @include keyboard-mode {
       &:focus {
         background-color: $color-white-alpha-80;
@@ -241,7 +245,7 @@
     @include button-reset;
     height: 20px;
     width: 20px;
-    @include color-svg('../images/icons/v2/pause_solid_20.svg', $color-white);
+    @include color-svg('../images/icons/v3/pause/pause.svg', $color-white);
     @include keyboard-mode {
       &:focus {
         background-color: $color-white-alpha-80;
@@ -253,7 +257,7 @@
     @include button-reset;
     height: 20px;
     width: 20px;
-    @include color-svg('../images/icons/v2/play_solid_20.svg', $color-white);
+    @include color-svg('../images/icons/v3/play/play-fill.svg', $color-white);
     @include keyboard-mode {
       &:focus {
         background-color: $color-white-alpha-80;
@@ -267,7 +271,10 @@
     margin-block: 0;
     margin-inline: 24px;
     width: 20px;
-    @include color-svg('../images/icons/v2/sound-off.svg', $color-white);
+    @include color-svg(
+      '../images/icons/v3/speaker/speaker-slash.svg',
+      $color-white
+    );
     @include keyboard-mode {
       &:focus {
         background-color: $color-white-alpha-80;
@@ -281,7 +288,10 @@
     margin-block: 0;
     margin-inline: 24px;
     width: 20px;
-    @include color-svg('../images/icons/v2/sound-none.svg', $color-white);
+    @include color-svg(
+      '../images/icons/v3/speaker/speaker-x.svg',
+      $color-white
+    );
     @include keyboard-mode {
       &:focus {
         background-color: $color-white-alpha-80;
@@ -335,9 +345,9 @@
 
     &::before {
       content: '';
-      height: 24px;
+      height: 28px;
       opacity: 0;
-      width: 24px;
+      width: 28px;
       transition: opacity 200ms ease-in-out;
     }
 
@@ -346,9 +356,9 @@
       inset-inline-start: 0;
 
       &::before {
-        margin-inline-start: 24px;
+        margin-inline-start: 16px;
         @include color-svg(
-          '../images/icons/v2/arrow-left-32.svg',
+          '../images/icons/v3/chevron/chevron-left.svg',
           $color-white
         );
       }
@@ -359,9 +369,9 @@
       inset-inline-end: 0;
 
       &::before {
-        margin-inline-end: 24px;
+        margin-inline-end: 16px;
         @include color-svg(
-          '../images/icons/v2/arrow-right-32.svg',
+          '../images/icons/v3/chevron/chevron-right.svg',
           $color-white
         );
       }

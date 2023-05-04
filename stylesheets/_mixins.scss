@@ -219,6 +219,14 @@ $rtl-icon-map: (
   'arrow-left-32.svg': 'arrow-right-32.svg',
   'arrow-right-32.svg': 'arrow-left-32.svg',
 
+  // v3 icons
+  'chevron-left.svg': 'chevron-right.svg',
+  'chevron-right.svg': 'chevron-left.svg',
+  'chevron-left-compact-bold.svg': 'chevron-right-compact-bold.svg',
+  'chevron-right-compact-bold.svg': 'chevron-left-compact-bold.svg',
+  'arrow-left.svg': 'arrow-right.svg',
+  'arrow-right.svg': 'arrow-left.svg',
+
   // Ignored cases:
   'phone-right-outline-24.svg': '',
   'phone-right-solid-24.svg': '',
@@ -244,9 +252,15 @@ $rtl-icon-map: (
   @if $rtl-svg {
     :dir(ltr) & {
       -webkit-mask: url($svg) no-repeat center;
+      @if $stretch {
+        -webkit-mask-size: 100%;
+      }
     }
     :dir(rtl) & {
       -webkit-mask: url($rtl-svg) no-repeat center;
+      @if $stretch {
+        -webkit-mask-size: 100%;
+      }
     }
   } @else {
     -webkit-mask: url($svg) no-repeat center;
@@ -319,10 +333,10 @@ $rtl-icon-map: (
   @include button-reset;
 
   position: absolute;
-  top: 8px;
-  inset-inline-end: 8px;
-  width: 18px;
-  height: 18px;
+  top: 4px;
+  inset-inline-end: 4px;
+  width: 16px;
+  height: 16px;
   z-index: $z-index-above-base;
 }
 
@@ -615,11 +629,11 @@ $rtl-icon-map: (
   width: 24px;
 
   @include light-theme {
-    @include color-svg('../images/icons/v2/x-24.svg', $color-gray-75);
+    @include color-svg('../images/icons/v3/x/x.svg', $color-gray-75);
   }
 
   @include dark-theme {
-    @include color-svg('../images/icons/v2/x-24.svg', $color-gray-15);
+    @include color-svg('../images/icons/v3/x/x.svg', $color-gray-15);
   }
 
   &:focus {

@@ -42,7 +42,7 @@ export function TimerNotification(props: Props): JSX.Element {
   const { disabled, i18n, title, type } = props;
 
   let timespan: string;
-  if (props.disabled) {
+  if (disabled) {
     timespan = ''; // Set to the empty string to satisfy types
   } else {
     timespan = expirationTimer.format(i18n, props.expireTimer);
@@ -53,7 +53,7 @@ export function TimerNotification(props: Props): JSX.Element {
   let message: ReactNode;
   switch (type) {
     case 'fromOther':
-      message = props.disabled ? (
+      message = disabled ? (
         <Intl
           i18n={i18n}
           id="icu:disabledDisappearingMessages"

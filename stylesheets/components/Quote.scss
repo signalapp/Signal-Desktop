@@ -271,7 +271,7 @@
 
   @include position-absolute-center;
 
-  @include color-svg('../images/icons/v2/x-24.svg', $color-white);
+  @include color-svg('../images/icons/v3/x/x.svg', $color-white);
 }
 
 .module-quote__icon-container {
@@ -324,20 +324,20 @@
 }
 
 .module-quote__icon-container__icon--file {
-  @include color-svg('../images/file.svg', $color-ultramarine);
+  @include color-svg('../images/icons/v3/file/file.svg', $color-ultramarine);
 }
 .module-quote__icon-container__icon--image {
-  @include color-svg('../images/image.svg', $color-ultramarine);
-}
-.module-quote__icon-container__icon--microphone {
   @include color-svg(
-    '../images/icons/v2/mic-outline-24.svg',
+    '../images/icons/v3/photo/photo-square.svg',
     $color-ultramarine
   );
 }
+.module-quote__icon-container__icon--microphone {
+  @include color-svg('../images/icons/v3/mic/mic.svg', $color-ultramarine);
+}
 .module-quote__icon-container__icon--play {
   @include color-svg(
-    '../images/icons/v2/play-solid-24.svg',
+    '../images/icons/v3/play/play-fill.svg',
     $color-ultramarine
   );
 }
@@ -345,7 +345,10 @@
   @include color-svg('../images/movie.svg', $color-ultramarine);
 }
 .module-quote__icon-container__icon--view-once {
-  @include color-svg('../images/icons/v2/view-once-24.svg', $color-ultramarine);
+  @include color-svg(
+    '../images/icons/v3/view_once/view_once.svg',
+    $color-ultramarine
+  );
 }
 
 .module-quote__generic-file {
@@ -403,19 +406,31 @@
   width: 16px;
 
   @include light-theme {
-    @include color-svg('../images/icons/v2/link-broken-16.svg', $color-gray-90);
+    @include color-svg(
+      '../images/icons/v3/link/link-slash.svg',
+      $color-gray-90
+    );
   }
   @include dark-theme {
-    @include color-svg('../images/icons/v2/link-broken-16.svg', $color-gray-05);
+    @include color-svg(
+      '../images/icons/v3/link/link-slash.svg',
+      $color-gray-05
+    );
   }
 }
 
 .module-quote__reference-warning__icon--incoming {
   @include light-theme {
-    @include color-svg('../images/icons/v2/link-broken-16.svg', $color-gray-90);
+    @include color-svg(
+      '../images/icons/v3/link/link-slash.svg',
+      $color-gray-90
+    );
   }
   @include dark-theme {
-    @include color-svg('../images/icons/v2/link-broken-16.svg', $color-gray-05);
+    @include color-svg(
+      '../images/icons/v3/link/link-slash.svg',
+      $color-gray-05
+    );
   }
 }
 

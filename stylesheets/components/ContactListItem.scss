@@ -6,13 +6,13 @@
     &__chat-icon {
       @include dark-theme {
         @include color-svg(
-          '../images/icons/v3/chat--compact.svg',
+          '../images/icons/v3/chat/chat-compact.svg',
           $color-white
         );
       }
       @include light-theme {
         @include color-svg(
-          '../images/icons/v3/chat--compact.svg',
+          '../images/icons/v3/chat/chat-compact.svg',
           $color-black
         );
       }
@@ -21,13 +21,13 @@
     &__phone-icon {
       @include dark-theme {
         @include color-svg(
-          '../images/icons/v3/phone--compact.svg',
+          '../images/icons/v3/phone/phone-compact.svg',
           $color-white
         );
       }
       @include light-theme {
         @include color-svg(
-          '../images/icons/v3/phone--compact.svg',
+          '../images/icons/v3/phone/phone-compact.svg',
           $color-black
         );
       }
@@ -36,13 +36,13 @@
     &__video-icon {
       @include dark-theme {
         @include color-svg(
-          '../images/icons/v3/video--compact.svg',
+          '../images/icons/v3/video/video-compact.svg',
           $color-white
         );
       }
       @include light-theme {
         @include color-svg(
-          '../images/icons/v3/video--compact.svg',
+          '../images/icons/v3/video/video-compact.svg',
           $color-black
         );
       }
@@ -51,13 +51,13 @@
     &__delete-icon {
       @include dark-theme {
         @include color-svg(
-          '../images/icons/v3/minus--circle--compact.svg',
+          '../images/icons/v3/minus/minus-circle-compact.svg',
           $color-white
         );
       }
       @include light-theme {
         @include color-svg(
-          '../images/icons/v3/minus--circle--compact.svg',
+          '../images/icons/v3/minus/minus-circle-compact.svg',
           $color-black
         );
       }
@@ -66,13 +66,13 @@
     &__block-icon {
       @include dark-theme {
         @include color-svg(
-          '../images/icons/v3/block--compact.svg',
+          '../images/icons/v3/block/block-compact.svg',
           $color-white
         );
       }
       @include light-theme {
         @include color-svg(
-          '../images/icons/v3/block--compact.svg',
+          '../images/icons/v3/block/block-compact.svg',
           $color-black
         );
       }
@@ -112,16 +112,10 @@
         content: '';
 
         @include dark-theme {
-          @include color-svg(
-            '../images/icons/v2/more-horiz-24.svg',
-            $color-white
-          );
+          @include color-svg('../images/icons/v3/more/more.svg', $color-white);
         }
         @include light-theme {
-          @include color-svg(
-            '../images/icons/v2/more-horiz-24.svg',
-            $color-black
-          );
+          @include color-svg('../images/icons/v3/more/more.svg', $color-black);
         }
       }
     }

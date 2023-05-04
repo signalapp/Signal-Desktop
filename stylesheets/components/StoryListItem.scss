@@ -83,7 +83,7 @@
         width: 12px;
         margin-inline-end: 8px;
         @include color-svg(
-          '../images/icons/v2/error-outline-12.svg',
+          '../images/icons/v3/error/error-circle.svg',
           $color-accent-red
         );
       }
@@ -92,20 +92,20 @@
     &--replies {
       &--others {
         @include color-svg(
-          '../images/icons/v2/messages-solid-20.svg',
+          '../images/icons/v3/thread/thread-fill-compact.svg',
           $color-gray-25
         );
-        height: 20px;
-        width: 20px;
+        height: 16px;
+        width: 16px;
       }
 
       &--self {
         @include color-svg(
-          '../images/icons/v2/reply-solid-24.svg',
+          '../images/icons/v3/reply/reply-fill-compact.svg',
           $color-gray-25
         );
-        height: 20px;
-        width: 20px;
+        height: 16px;
+        width: 16px;
       }
     }
   }
@@ -149,23 +149,29 @@
 
   &__icon {
     &--chat {
-      @include color-svg('../images/icons/v2/open-24.svg', $color-white);
+      @include color-svg(
+        '../images/icons/v3/open/open-compact.svg',
+        $color-white
+      );
     }
 
     &--delete {
       @include color-svg(
-        '../images/icons/v2/trash-outline-24.svg',
+        '../images/icons/v3/trash/trash-compact.svg',
         $color-white
       );
     }
 
     &--hide {
-      @include color-svg('../images/icons/v2/x-24.svg', $color-white);
+      @include color-svg(
+        '../images/icons/v3/x/x-circle-compact.svg',
+        $color-white
+      );
     }
 
     &--info {
       @include color-svg(
-        '../images/icons/v2/info-outline-24.svg',
+        '../images/icons/v3/info/info-compact.svg',
         $color-white
       );
     }
@@ -174,10 +180,13 @@
   &__chevron::after {
     content: '';
     display: inline-block;
-    height: 20px;
-    margin-inline-start: 6px;
+    height: 16px;
+    margin-inline-start: 2px;
     vertical-align: middle;
-    width: 12px;
-    @include color-svg('../images/icons/v2/chevron-right-20.svg', $color-white);
+    width: 16px;
+    @include color-svg(
+      '../images/icons/v3/chevron/chevron-right-compact-bold.svg',
+      $color-white
+    );
   }
 }

@@ -35,14 +35,20 @@
       content: '';
       display: block;
       flex-shrink: 0;
-      height: 24px;
-      width: 24px;
+      height: 20px;
+      width: 20px;
 
       @include light-theme {
-        @include color-svg('../images/icons/v2/sq-24.svg', $color-gray-75);
+        @include color-svg(
+          '../images/icons/v3/quality/quality-standard.svg',
+          $color-gray-75
+        );
       }
       @include dark-theme {
-        @include color-svg('../images/icons/v2/sq-24.svg', $color-gray-15);
+        @include color-svg(
+          '../images/icons/v3/quality/quality-standard.svg',
+          $color-gray-15
+        );
       }
     }
 
@@ -50,13 +56,13 @@
       &::after {
         @include light-theme {
           @include color-svg(
-            '../images/icons/v2/hq-outline-24.svg',
+            '../images/icons/v3/quality/quality-high.svg',
             $color-gray-75
           );
         }
         @include dark-theme {
           @include color-svg(
-            '../images/icons/v2/hq-solid-24.svg',
+            '../images/icons/v3/quality/quality-high.svg',
             $color-gray-15
           );
         }
@@ -95,7 +101,10 @@
     }
 
     &--selected {
-      @include color-svg('../images/icons/v2/check-24.svg', $color-ultramarine);
+      @include color-svg(
+        '../images/icons/v3/check/check-compact.svg',
+        $color-ultramarine
+      );
     }
 
     &--title {

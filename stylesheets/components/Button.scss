@@ -255,53 +255,23 @@
     }
 
     &--audio::before {
-      @include light-theme {
-        @include button-icon('../images/icons/v2/phone-outline-24.svg');
-      }
-
-      @include dark-theme {
-        @include button-icon('../images/icons/v2/phone-solid-24.svg');
-      }
+      @include button-icon('../images/icons/v3/phone/phone-compact.svg');
     }
 
     &--muted::before {
-      @include light-theme {
-        @include button-icon('../images/icons/v2/bell-disabled-outline-24.svg');
-      }
-      @include dark-theme {
-        @include button-icon('../images/icons/v2/bell-disabled-solid-24.svg');
-      }
-    }
-
-    &--photo::before {
-      @include button-icon('../images/icons/v2/photo-album-outline-24.svg');
+      @include button-icon('../images/icons/v3/bell/bell-slash-compact.svg');
     }
 
     &--search::before {
-      @include button-icon('../images/icons/v2/search-16.svg');
-    }
-
-    &--text::before {
-      @include button-icon('../images/icons/v2/text-24.svg');
+      @include button-icon('../images/icons/v3/search/search-compact.svg');
     }
 
     &--unmuted::before {
-      @include light-theme {
-        @include button-icon('../images/icons/v2/bell-outline-24.svg');
-      }
-      @include dark-theme {
-        @include button-icon('../images/icons/v2/bell-solid-24.svg');
-      }
+      @include button-icon('../images/icons/v3/bell/bell-compact.svg');
     }
 
     &--video::before {
-      @include light-theme {
-        @include button-icon('../images/icons/v2/video-outline-24.svg');
-      }
-
-      @include dark-theme {
-        @include button-icon('../images/icons/v2/video-solid-24.svg');
-      }
+      @include button-icon('../images/icons/v3/video/video-compact.svg');
     }
   }
 }

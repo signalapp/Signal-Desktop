@@ -28,25 +28,19 @@
 
   &__copy-icon {
     @include dark-theme {
-      @include color-svg(
-        '../images/icons/v2/copy-outline-24.svg',
-        $color-white
-      );
+      @include color-svg('../images/icons/v3/copy/copy.svg', $color-white);
     }
     @include light-theme {
-      @include color-svg(
-        '../images/icons/v2/copy-outline-24.svg',
-        $color-black
-      );
+      @include color-svg('../images/icons/v3/copy/copy.svg', $color-black);
     }
   }
 
   &__download-icon {
     @include dark-theme {
-      @include color-svg('../images/icons/v2/arrow-down-24.svg', $color-white);
+      @include color-svg('../images/icons/v3/save/save.svg', $color-white);
     }
     @include light-theme {
-      @include color-svg('../images/icons/v2/arrow-down-24.svg', $color-black);
+      @include color-svg('../images/icons/v3/save/save.svg', $color-black);
     }
   }
 

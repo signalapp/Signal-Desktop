@@ -72,7 +72,7 @@
     }
 
     &--link::after {
-      @include color-svg('../images/icons/v2/link-24.svg', $color-white);
+      @include color-svg('../images/icons/v3/link/link.svg', $color-white);
     }
 
     &--text::after {
@@ -313,9 +313,9 @@
     flex-direction: column;
 
     &__icon {
-      @include color-svg('../images/icons/v2/link-24.svg', $color-gray-45);
-      height: 24px;
-      width: 24px;
+      @include color-svg('../images/icons/v3/link/link.svg', $color-gray-45);
+      height: 20px;
+      width: 20px;
     }
   }
 

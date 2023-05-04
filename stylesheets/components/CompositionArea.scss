@@ -35,7 +35,7 @@
 
   &__button-cell {
     margin-block: 0;
-    margin-inline: 6px;
+    margin-inline: 4px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -69,14 +69,14 @@
 
     &--discard {
       &::before {
-        @include color-svg('../images/icons/v3/x.svg', $color-white);
+        @include color-svg('../images/icons/v3/x/x.svg', $color-white);
       }
     }
     &--accept {
       background-color: $color-ultramarine;
       margin-inline-start: 16px;
       &::before {
-        @include color-svg('../images/icons/v3/check.svg', $color-white);
+        @include color-svg('../images/icons/v3/check/check.svg', $color-white);
       }
     }
   }
@@ -92,10 +92,13 @@
     &::after {
       display: block;
       content: '';
-      width: 24px;
-      height: 24px;
+      width: 20px;
+      height: 20px;
       flex-shrink: 0;
-      @include color-svg('../images/icons/v2/send-24.svg', $color-ultramarine);
+      @include color-svg(
+        '../images/icons/v3/send/send-fill.svg',
+        $color-ultramarine
+      );
     }
   }
   &__input {
@@ -146,7 +149,7 @@
 
       @include light-theme() {
         @include color-svg(
-          '../images/icons/v2/expand-up-20.svg',
+          '../images/icons/v3/chevron/chevron-shallow-up.svg',
           $color-gray-45,
           false
         );
@@ -154,7 +157,7 @@
 
       @include dark-theme() {
         @include color-svg(
-          '../images/icons/v2/expand-up-20.svg',
+          '../images/icons/v3/chevron/chevron-shallow-up.svg',
           $color-gray-45,
           false
         );
@@ -163,7 +166,7 @@
       &--large-active {
         @include light-theme() {
           @include color-svg(
-            '../images/icons/v2/collapse-down-20.svg',
+            '../images/icons/v3/chevron/chevron-shallow-down.svg',
             $color-gray-45,
             false
           );
@@ -171,7 +174,7 @@
 
         @include dark-theme() {
           @include color-svg(
-            '../images/icons/v2/collapse-down-20.svg',
+            '../images/icons/v3/chevron/chevron-shallow-down.svg',
             $color-gray-45,
             false
           );
@@ -251,14 +254,20 @@
     &:before {
       content: '';
       display: inline-block;
-      width: 24px;
-      height: 24px;
+      width: 20px;
+      height: 20px;
 
       @include light-theme {
-        @include color-svg('../images/icons/v2/plus-24.svg', $color-gray-75);
+        @include color-svg(
+          '../images/icons/v3/attach/attach.svg',
+          $color-gray-75
+        );
       }
       @include dark-theme {
-        @include color-svg('../images/icons/v2/plus-24.svg', $color-gray-15);
+        @include color-svg(
+          '../images/icons/v3/attach/attach.svg',
+          $color-gray-15
+        );
       }
     }
   }

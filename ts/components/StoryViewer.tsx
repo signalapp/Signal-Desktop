@@ -872,27 +872,29 @@ export function StoryViewer({
                 >
                   {isSent || replyCount > 0 ? (
                     <span className="StoryViewer__reply__chevron">
-                      {isSent && !hasViewReceiptSetting && !replyCount && (
-                        <>{i18n('icu:StoryViewer__views-off')}</>
-                      )}
-                      {isSent && hasViewReceiptSetting && (
-                        <Intl
-                          i18n={i18n}
-                          id="icu:MyStories__views--strong"
-                          components={{
-                            views: viewCount,
-                            strong: renderStrong,
-                          }}
-                        />
-                      )}
-                      {(isSent || viewCount > 0) && replyCount > 0 && ' '}
-                      {replyCount > 0 && (
-                        <Intl
-                          i18n={i18n}
-                          id="icu:MyStories__replies"
-                          components={{ replyCount, strong: renderStrong }}
-                        />
-                      )}
+                      <span>
+                        {isSent && !hasViewReceiptSetting && !replyCount && (
+                          <>{i18n('icu:StoryViewer__views-off')}</>
+                        )}
+                        {isSent && hasViewReceiptSetting && (
+                          <Intl
+                            i18n={i18n}
+                            id="icu:MyStories__views--strong"
+                            components={{
+                              views: viewCount,
+                              strong: renderStrong,
+                            }}
+                          />
+                        )}
+                        {(isSent || viewCount > 0) && replyCount > 0 && ' '}
+                        {replyCount > 0 && (
+                          <Intl
+                            i18n={i18n}
+                            id="icu:MyStories__replies"
+                            components={{ replyCount, strong: renderStrong }}
+                          />
+                        )}
+                      </span>
                     </span>
                   ) : null}
                   {!isSent && !replyCount && (

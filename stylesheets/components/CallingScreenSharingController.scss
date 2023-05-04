@@ -32,7 +32,7 @@
 
   &__close {
     @include button-reset;
-    @include color-svg('../images/icons/v2/x-24.svg', $color-gray-25);
+    @include color-svg('../images/icons/v3/x/x.svg', $color-gray-25);
     cursor: pointer;
     margin-inline-start: 12px;
     height: 20px;

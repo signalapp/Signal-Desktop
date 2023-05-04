@@ -21,7 +21,7 @@
     width: 74px;
 
     &::after {
-      @include color-svg('../images/icons/v2/link-24.svg', $color-black);
+      @include color-svg('../images/icons/v3/link/link.svg', $color-black);
       content: '';
       height: 44px;
       width: 44px;
@@ -127,21 +127,21 @@
   width: 16px;
 
   @include light-theme {
-    @include color-svg('../images/icons/v2/x-24.svg', $color-gray-60);
+    @include color-svg('../images/icons/v3/x/x.svg', $color-gray-60);
   }
   @include keyboard-mode {
     &:focus {
-      @include color-svg('../images/icons/v2/x-24.svg', $color-ultramarine);
+      @include color-svg('../images/icons/v3/x/x.svg', $color-ultramarine);
     }
   }
 
   @include dark-theme {
-    @include color-svg('../images/icons/v2/x-24.svg', $color-gray-25);
+    @include color-svg('../images/icons/v3/x/x.svg', $color-gray-25);
   }
   @include dark-keyboard-mode {
     &:focus {
       @include color-svg(
-        '../images/icons/v2/x-24.svg',
+        '../images/icons/v3/x/x.svg',
         $color-ultramarine-light
       );
     }

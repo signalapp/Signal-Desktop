@@ -105,29 +105,24 @@
         }
       }
 
-      &__dot {
-        border-radius: 50%;
-        height: 3px;
-        margin-inline-end: 4px;
-        width: 3px;
-
-        &:last-child {
-          margin-inline-end: 0;
-        }
+      &::before {
+        width: 20px;
+        height: 20px;
+        display: block;
+        content: '';
 
         @include light-theme {
-          background: $color-gray-45;
+          @include color-svg(
+            '../images/icons/v3/more/more.svg',
+            $color-gray-45
+          );
         }
 
         @include dark-theme {
-          background: $color-gray-15;
-        }
-
-        @media (forced-colors: active) {
-          background-color: WindowText;
-          @include dark-theme {
-            background: WindowText;
-          }
+          @include color-svg(
+            '../images/icons/v3/more/more.svg',
+            $color-gray-15
+          );
         }
       }
     }

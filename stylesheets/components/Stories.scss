@@ -22,12 +22,12 @@
     padding-top: calc(14px + var(--title-bar-drag-area-height));
 
     &__add-story__button {
-      @include color-svg('../images/icons/v2/plus-24.svg', $color-white);
-      height: 22px;
+      @include color-svg('../images/icons/v3/plus/plus.svg', $color-white);
+      height: 20px;
       position: absolute;
-      inset-inline-end: 63px;
+      inset-inline-end: 64px;
       top: 0px;
-      width: 22px;
+      width: 20px;
 
       &:focus {
         @include keyboard-mode {
@@ -38,18 +38,15 @@
 
     &__settings__button {
       @include dark-theme {
-        @include color-svg(
-          '../images/icons/v2/more-horiz-24.svg',
-          $color-white
-        );
+        @include color-svg('../images/icons/v3/more/more.svg', $color-white);
       }
-      height: 22px;
-      margin-inline-start: 24px;
+      height: 20px;
+      margin-inline-start: 20px;
       opacity: 1;
       position: absolute;
-      inset-inline-end: 16px;
+      inset-inline-end: 24px;
       top: 0px;
-      width: 22px;
+      width: 20px;
 
       &:focus {
         @include keyboard-mode {
@@ -86,19 +83,19 @@
       &--back {
         @include button-reset;
 
-        height: 24px;
+        height: 20px;
         position: absolute;
-        width: 24px;
+        width: 20px;
 
         @include color-svg(
-          '../images/icons/v2/chevron-left-24.svg',
+          '../images/icons/v3/chevron/chevron-left.svg',
           $color-white
         );
 
         @include keyboard-mode {
           &:hover {
             @include color-svg(
-              '../images/icons/v2/chevron-left-24.svg',
+              '../images/icons/v3/chevron/chevron-left.svg',
               $color-ultramarine-light
             );
           }
@@ -146,7 +143,7 @@
       width: 56px;
 
       @include color-svg(
-        '../images/icons/v2/stories-outline-56.svg',
+        '../images/icons/v3/stories/stories-display.svg',
         $color-gray-45
       );
     }
@@ -166,7 +163,7 @@
 
     &::after {
       @include color-svg(
-        '../images/icons/v2/chevron-right-24.svg',
+        '../images/icons/v3/chevron/chevron-right.svg',
         $color-gray-05
       );
       content: '';
@@ -175,9 +172,11 @@
     }
 
     &--expanded {
-      &::after {
+      // Override color-svg
+      :dir(ltr) &::after,
+      :dir(rtl) &::after {
         @include color-svg(
-          '../images/icons/v2/chevron-down-24.svg',
+          '../images/icons/v3/chevron/chevron-down.svg',
           $color-gray-05
         );
       }

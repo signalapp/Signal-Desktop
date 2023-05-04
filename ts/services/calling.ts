@@ -1276,7 +1276,7 @@ export class CallingClass {
     if (source) {
       ipcRenderer.send('show-screen-share', source.name);
       notificationService.notify({
-        icon: 'images/icons/v2/video-solid-24.svg',
+        icon: 'images/icons/v3/video/video-fill.svg',
         message: window.i18n('icu:calling__presenting--notification-body'),
         onNotificationClick: () => {
           if (this.reduxInterface) {
@@ -2287,7 +2287,7 @@ export class CallingClass {
     }
 
     notificationService.notify({
-      icon: 'images/icons/v2/video-solid-24.svg',
+      icon: 'images/icons/v3/video/video-fill.svg',
       message: notificationMessage,
       onNotificationClick: () => {
         this.reduxInterface?.startCallingLobby({

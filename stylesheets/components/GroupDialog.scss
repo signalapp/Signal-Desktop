@@ -35,11 +35,11 @@
     width: 24px;
 
     @include light-theme {
-      @include color-svg('../images/icons/v2/x-24.svg', $color-gray-75);
+      @include color-svg('../images/icons/v3/x/x.svg', $color-gray-75);
     }
 
     @include dark-theme {
-      @include color-svg('../images/icons/v2/x-24.svg', $color-gray-15);
+      @include color-svg('../images/icons/v3/x/x.svg', $color-gray-15);
     }
 
     &:focus {

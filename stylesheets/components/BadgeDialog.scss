@@ -63,13 +63,13 @@
     &--previous::before {
       @include light-theme {
         @include color-svg(
-          '../images/icons/v2/chevron-left-24.svg',
+          '../images/icons/v3/chevron/chevron-left.svg',
           $light-color
         );
       }
       @include dark-theme {
         @include color-svg(
-          '../images/icons/v2/chevron-left-24.svg',
+          '../images/icons/v3/chevron/chevron-left.svg',
           $dark-color
         );
       }
@@ -78,13 +78,13 @@
     &--next::before {
       @include light-theme {
         @include color-svg(
-          '../images/icons/v2/chevron-right-24.svg',
+          '../images/icons/v3/chevron/chevron-right.svg',
           $light-color
         );
       }
       @include dark-theme {
         @include color-svg(
-          '../images/icons/v2/chevron-right-24.svg',
+          '../images/icons/v3/chevron/chevron-right.svg',
           $dark-color
         );
       }

@@ -12,8 +12,8 @@
 
     &::before {
       content: '';
-      width: 13px;
-      height: 13px;
+      width: 14px;
+      height: 14px;
       display: block;
       margin-inline-end: $margin-right;
 
@@ -26,10 +26,10 @@
     }
   }
 
-  --button-spacing: 24px;
+  --button-spacing: 12px;
 
   &.module-ConversationHeader--narrow {
-    --button-spacing: 16px;
+    --button-spacing: 4px;
   }
 
   -webkit-app-region: var(--draggable-app-region);
@@ -52,10 +52,10 @@
     $transition: 250ms ease-out;
 
     display: inline-block;
-    width: 24px;
-    height: 24px;
-    min-width: 24px;
-    margin-inline-start: -24px;
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+    margin-inline-start: -20px;
     vertical-align: text-bottom;
     border: none;
     opacity: 0;
@@ -67,18 +67,18 @@
 
     &--show {
       opacity: 1;
-      margin-inline: 12px 6px;
+      margin-inline: 24px 6px;
     }
 
     @include light-theme {
       @include color-svg(
-        '../images/icons/v2/chevron-left-24.svg',
+        '../images/icons/v3/chevron/chevron-left.svg',
         $color-gray-90
       );
     }
     @include dark-theme {
       @include color-svg(
-        '../images/icons/v2/chevron-left-24.svg',
+        '../images/icons/v3/chevron/chevron-left.svg',
         $color-gray-02
       );
     }
@@ -145,6 +145,8 @@
 
       &__title {
         @include font-body-1-bold;
+        display: flex;
+        align-items: center;
 
         white-space: nowrap;
         overflow: hidden;
@@ -168,12 +170,12 @@
         }
 
         &__expiration {
-          @include icon-element('../images/icons/v2/timer-outline-24.svg');
+          @include icon-element('../images/icons/v3/timer/timer-compact.svg');
           margin-inline-end: 12px;
         }
 
         &__verified {
-          @include icon-element('../images/icons/v2/check-24.svg');
+          @include icon-element('../images/icons/v3/check/check-compact.svg');
         }
       }
     }
@@ -267,19 +269,20 @@
     }
 
     &--video {
-      @include normal-button('../images/icons/v2/video-outline-24.svg', 24px);
+      @include normal-button('../images/icons/v3/video/video.svg', 20px);
     }
 
     &--audio {
-      @include normal-button('../images/icons/v2/phone-outline-24.svg', 24px);
+      @include normal-button('../images/icons/v3/phone/phone.svg', 20px);
     }
 
     &--search {
-      @include normal-button('../images/icons/v2/search-24.svg', 24px);
+      @include normal-button('../images/icons/v3/search/search.svg', 20px);
     }
 
     &--more {
-      @include normal-button('../images/icons/v2/chevron-down-20.svg', 20px);
+      @include normal-button('../images/icons/v3/more/more.svg', 20px);
+      margin-inline-end: 16px;
     }
 
     &--join-call {
@@ -301,10 +304,10 @@
       width: auto;
 
       &:before {
-        $icon-size: 24px;
+        $icon-size: 16px;
 
         @include color-svg(
-          '../images/icons/v2/video-solid-24.svg',
+          '../images/icons/v3/video/video-compact-fill.svg',
           $color-white
         );
         content: '';
@@ -328,7 +331,7 @@
 
     &--active {
       padding-inline-start: 0px;
-      @include icon-element('../images/icons/v2/check-24.svg', 12px);
+      @include icon-element('../images/icons/v3/check/check-compact.svg', 12px);
     }
   }
 }

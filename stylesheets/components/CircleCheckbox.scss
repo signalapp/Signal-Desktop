@@ -86,13 +86,14 @@
         }
 
         &::after {
-          border: solid $color-white;
-          border-width: 0 2px 2px 0;
-          height: 11px;
-          inset-inline-start: 7px;
+          @include color-svg(
+            '../images/icons/v3/check/check-compact-bold.svg',
+            $color-white
+          );
+          width: 14px;
+          height: 14px;
           top: 3px;
-          transform: rotate(45deg);
-          width: 6px;
+          inset-inline-start: 3px;
         }
       }
     }

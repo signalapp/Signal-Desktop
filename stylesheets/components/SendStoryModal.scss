@@ -56,7 +56,7 @@
       padding-block: 5px;
       padding-inline: 10px;
       &::before {
-        @include color-svg('../images/icons/v2/plus-20.svg', $color-white);
+        @include color-svg('../images/icons/v3/plus/plus.svg', $color-white);
         content: '';
         height: 16px;
         width: 16px;
@@ -85,42 +85,32 @@
 
   &__icon {
     &--delete {
-      @include color-svg(
-        '../images/icons/v2/trash-outline-24.svg',
-        $color-white
-      );
+      @include color-svg('../images/icons/v3/trash/trash.svg', $color-white);
       height: 14px;
-      margin-top: 2px;
       width: 14px;
     }
 
     &--custom {
       @include color-svg(
-        '../images/icons/v2/stories-outline-24.svg',
+        '../images/icons/v3/stories/stories.svg',
         $color-white
       );
       height: 16px;
-      margin-top: 2px;
       width: 16px;
     }
 
     &--group {
-      @include color-svg(
-        '../images/icons/v2/group-outline-24.svg',
-        $color-white
-      );
+      @include color-svg('../images/icons/v3/group/group.svg', $color-white);
       height: 16px;
-      margin-top: 2px;
       width: 16px;
     }
 
     &--settings {
       @include color-svg(
-        '../images/icons/v2/settings-outline-16.svg',
+        '../images/icons/v3/settings/settings.svg',
         $color-white
       );
       height: 14px;
-      margin-top: 2px;
       width: 14px;
     }
   }
@@ -248,7 +238,7 @@
     }
 
     &::after {
-      @include color-svg('../images/icons/v2/check-24.svg', $color-white);
+      @include color-svg('../images/icons/v3/check/check.svg', $color-white);
       content: '';
       height: 18px;
       width: 18px;
@@ -270,7 +260,7 @@
     }
 
     &::after {
-      @include color-svg('../images/icons/v2/send-24.svg', $color-white);
+      @include color-svg('../images/icons/v3/send/send-fill.svg', $color-white);
       content: '';
       height: 18px;
       width: 18px;

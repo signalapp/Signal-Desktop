@@ -85,7 +85,7 @@
   &__icon {
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-position: center;
-    -webkit-mask-size: 62%;
+    -webkit-mask-size: 62.5%;
     background-color: var(--fg);
 
     @media (forced-colors: active) {
@@ -93,21 +93,19 @@
     }
 
     &--direct {
-      -webkit-mask-image: url('../images/icons/v2/profile-outline-20.svg');
-      -webkit-mask-size: 60%;
+      -webkit-mask-image: url('../images/icons/v3/person/person.svg');
     }
 
     &--group {
-      -webkit-mask-image: url('../images/icons/v2/group-outline-24.svg');
+      -webkit-mask-image: url('../images/icons/v3/group/group.svg');
     }
 
     &--note-to-self {
-      -webkit-mask-image: url('../images/icons/v2/note-24.svg');
+      -webkit-mask-image: url('../images/icons/v3/note/note.svg');
     }
 
     &--search-result {
-      -webkit-mask-image: url('../images/icons/v2/search-24.svg');
-      -webkit-mask-size: 50%;
+      -webkit-mask-image: url('../images/icons/v3/search/search.svg');
     }
   }
 

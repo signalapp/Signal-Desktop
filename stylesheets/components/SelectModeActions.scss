@@ -5,6 +5,7 @@
   display: flex;
   align-items: center;
   width: 100%;
+  padding-inline: 4px;
 }
 
 .SelectModeActions__selectedMessages {
@@ -22,15 +23,15 @@
 
 .SelectModeActions__button {
   appearance: none;
-  padding: 15px;
+  padding: 12px;
   border: none;
   background: transparent;
 }
 
 .SelectModeActions__icon {
   display: block;
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
   @include light-theme {
     color: $color-gray-75;
   }
@@ -49,14 +50,13 @@
 }
 
 .SelectModeActions__icon--exitSelectMode {
-  @include color-svg('../images/icons/v2/x-24.svg', currentColor);
+  @include color-svg('../images/icons/v3/x/x.svg', currentColor);
 }
 
 .SelectModeActions__icon--forwardSelectedMessages {
-  @include color-svg('../images/icons/v2/reply-outline-24.svg', currentColor);
-  transform: scaleX(-1);
+  @include color-svg('../images/icons/v3/forward/forward.svg', currentColor);
 }
 
 .SelectModeActions__icon--deleteSelectedMessages {
-  @include color-svg('../images/icons/v2/trash-outline-24.svg', currentColor);
+  @include color-svg('../images/icons/v3/trash/trash.svg', currentColor);
 }

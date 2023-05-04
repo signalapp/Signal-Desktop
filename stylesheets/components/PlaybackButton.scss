@@ -18,15 +18,15 @@
 
   @mixin audio-icon($name, $icon, $color) {
     &.PlaybackButton--#{$name}::before {
-      @include color-svg('../images/icons/v2/#{$icon}.svg', $color, false);
+      @include color-svg('../images/icons/#{$icon}.svg', $color, false);
     }
   }
 
   @mixin all-audio-icons($color) {
-    @include audio-icon(play, play-solid-20, $color);
-    @include audio-icon(pause, pause-solid-20, $color);
-    @include audio-icon(download, arrow-down-20, $color);
-    @include audio-icon(pending, audio-spinner-arc-22, $color);
+    @include audio-icon(play, v3/play/play-fill, $color);
+    @include audio-icon(pause, v3/pause/pause-fill, $color);
+    @include audio-icon(download, v3/arrow/arrow-down, $color);
+    @include audio-icon(pending, v2/audio-spinner-arc-22, $color);
   }
 
   &--variant-message {

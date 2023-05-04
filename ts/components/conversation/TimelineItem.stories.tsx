@@ -148,6 +148,15 @@ export function Notification(): JSX.Element {
       },
     },
     {
+      type: 'timerNotification',
+      data: {
+        phoneNumber: '(202) 555-0000',
+        disabled: true,
+        ...getDefaultConversation(),
+        type: 'fromOther',
+      },
+    },
+    {
       type: 'universalTimerNotification',
       data: null,
     },

@@ -59,20 +59,6 @@
           background: $color-ultramarine;
           border: 1.5px solid $color-ultramarine;
         }
-
-        &::after {
-          border: solid $color-white;
-          border-width: 0 2px 2px 0;
-          content: '';
-          display: block;
-          height: 11px;
-          /* stylelint-disable-next-line liberty/use-logical-spec */
-          left: 7px;
-          position: absolute;
-          top: 3px;
-          transform: rotate(45deg);
-          width: 6px;
-        }
       }
     }
   }
@@ -121,11 +107,11 @@
       }
 
       &--new {
-        @include avatar('../images/icons/v2/plus-20.svg');
+        @include avatar('../images/icons/v3/plus/plus.svg');
       }
 
       &--custom {
-        @include avatar('../images/icons/v2/stories-outline-24.svg');
+        @include avatar('../images/icons/v3/stories/stories.svg');
 
         &::after {
           height: 20px;
@@ -140,10 +126,7 @@
 
     &__delete {
       @include button-reset;
-      @include color-svg(
-        '../images/icons/v2/trash-outline-24.svg',
-        $color-gray-25
-      );
+      @include color-svg('../images/icons/v3/trash/trash.svg', $color-gray-25);
       height: 20px;
       width: 20px;
       visibility: hidden;
@@ -205,7 +188,7 @@
 
     &::before {
       @include color-svg(
-        '../images/icons/v2/trash-outline-24.svg',
+        '../images/icons/v3/trash/trash.svg',
         $color-accent-red
       );
       content: '';
@@ -303,7 +286,7 @@
 
     &::before {
       @include color-svg(
-        '../images/icons/v2/disable-outline-20.svg',
+        '../images/icons/v3/minus/minus-circle.svg',
         $color-accent-red
       );
       content: '';

@@ -77,11 +77,7 @@ export function ReactionPickerPickerMoreButton({
       tabIndex={0}
       title={i18n('icu:Reactions--more')}
       type="button"
-    >
-      <div className="module-ReactionPickerPicker__button--more__dot" />
-      <div className="module-ReactionPickerPicker__button--more__dot" />
-      <div className="module-ReactionPickerPicker__button--more__dot" />
-    </button>
+    />
   );
 }
 

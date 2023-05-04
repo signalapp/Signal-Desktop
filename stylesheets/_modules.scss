@@ -177,8 +177,8 @@
 
 @mixin module-message__buttons__button($light-icon, $dark-icon: $light-icon) {
   cursor: pointer;
-  height: 24px;
-  width: 24px;
+  height: 20px;
+  width: 20px;
 
   @include light-theme {
     @include color-svg($light-icon, $color-gray-45);
@@ -214,33 +214,27 @@
 }
 
 .module-message__buttons__download {
-  @include module-message__buttons__button(
-    '../images/icons/v2/save-outline-24.svg',
-    '../images/icons/v2/save-solid-24.svg'
-  );
+  @include module-message__buttons__button('../images/icons/v3/save/save.svg');
 }
 
 .module-message__buttons__react {
   @include module-message__buttons__button(
-    '../images/icons/v2/add-emoji-outline-24.svg'
+    '../images/icons/v3/heart/heart-plus.svg'
   );
 }
 
 .module-message__buttons__reply {
   @include module-message__buttons__button(
-    '../images/icons/v2/reply-outline-24.svg',
-    '../images/icons/v2/reply-solid-24.svg'
+    '../images/icons/v3/reply/reply.svg'
   );
 }
 
 .module-message__buttons__menu {
-  @include module-message__buttons__button(
-    '../images/icons/v2/more-horiz-24.svg'
-  );
+  @include module-message__buttons__button('../images/icons/v3/more/more.svg');
 
   &--container {
     border-radius: 4px;
-    height: 24px;
+    height: 20px;
     // the z-index here is so that this container is above the message and when
     // clicked on, doesn't propagate the click event to the message.
     z-index: $z-index-above-base;
@@ -261,13 +255,13 @@
 
   @include light-theme {
     @include color-svg(
-      '../images/icons/v2/error-outline-24.svg',
+      '../images/icons/v3/error/error-circle.svg',
       $color-accent-red
     );
   }
   @include dark-theme {
     @include color-svg(
-      '../images/icons/v2/error-solid-24.svg',
+      '../images/icons/v3/error/error-circle.svg',
       $color-accent-red
     );
   }
@@ -275,12 +269,15 @@
 .module-message__error--paused {
   @include light-theme {
     @include color-svg(
-      '../images/icons/v2/error-outline-24.svg',
+      '../images/icons/v3/error/error-circle.svg',
       $color-gray-60
     );
   }
   @include dark-theme {
-    @include color-svg('../images/icons/v2/error-solid-24.svg', $color-gray-45);
+    @include color-svg(
+      '../images/icons/v3/error/error-circle.svg',
+      $color-gray-45
+    );
   }
 }
 
@@ -395,8 +392,8 @@ $message-padding-horizontal: 12px;
   top: 50%;
   inset-inline-start: 16px;
   transform: translateY(-50%);
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
   border-radius: 9999px;
   background: transparent;
   border: 1px solid $color-gray-20;
@@ -406,10 +403,13 @@ $message-padding-horizontal: 12px;
   &::before {
     content: '';
     display: block;
-    width: 20px;
-    height: 20px;
-    margin: -2px;
-    @include color-svg('../images/icons/v2/check-20.svg', $color-white);
+    width: 14px;
+    height: 14px;
+    margin: 2px;
+    @include color-svg(
+      '../images/icons/v3/check/check-compact-bold.svg',
+      $color-white
+    );
     opacity: 0;
     transition: opacity 0.1s ease-out;
   }
@@ -580,18 +580,30 @@ $message-padding-horizontal: 12px;
   height: 20px;
 
   @include light-theme {
-    @include color-svg('../images/icons/v2/view-once-24.svg', $color-gray-90);
+    @include color-svg(
+      '../images/icons/v3/view_once/view_once.svg',
+      $color-gray-90
+    );
   }
   @include dark-theme {
-    @include color-svg('../images/icons/v2/view-once-24.svg', $color-gray-05);
+    @include color-svg(
+      '../images/icons/v3/view_once/view_once.svg',
+      $color-gray-05
+    );
   }
 }
 .module-message__tap-to-view__icon--expired {
   @include light-theme {
-    @include color-svg('../images/icons/v2/viewed-once-24.svg', $color-gray-75);
+    @include color-svg(
+      '../images/icons/v3/view_once/view_once-dash.svg',
+      $color-gray-75
+    );
   }
   @include dark-theme {
-    @include color-svg('../images/icons/v2/viewed-once-24.svg', $color-gray-05);
+    @include color-svg(
+      '../images/icons/v3/view_once/view_once-dash.svg',
+      $color-gray-05
+    );
   }
 }
 .module-message__tap-to-view__icon--outgoing {
@@ -1605,13 +1617,13 @@ $message-padding-horizontal: 12px;
     &--incoming {
       @include light-theme {
         @include color-svg(
-          '../images/icons/v2/check-circle-outline-24.svg',
+          '../images/icons/v3/check/check-circle.svg',
           $color-gray-90
         );
       }
       @include dark-theme {
         @include color-svg(
-          '../images/icons/v2/check-circle-outline-24.svg',
+          '../images/icons/v3/check/check-circle.svg',
           $color-gray-05
         );
       }
@@ -1620,13 +1632,13 @@ $message-padding-horizontal: 12px;
     &--outgoing {
       @include light-theme {
         @include color-svg(
-          '../images/icons/v2/check-circle-outline-24.svg',
+          '../images/icons/v3/check/check-circle.svg',
           $color-gray-90
         );
       }
       @include dark-theme {
         @include color-svg(
-          '../images/icons/v2/check-circle-outline-24.svg',
+          '../images/icons/v3/check/check-circle.svg',
           $color-gray-90
         );
       }
@@ -1744,13 +1756,13 @@ $message-padding-horizontal: 12px;
 
   @include dark-theme {
     @include color-svg(
-      '../images/icons/v2/timer-60-12.svg',
+      '../images/icons/v3/message_timer/messagetimer-60.svg',
       $color-white-alpha-80
     );
   }
   @include light-theme {
     @include color-svg(
-      '../images/icons/v2/timer-60-12.svg',
+      '../images/icons/v3/message_timer/messagetimer-60.svg',
       $color-white-alpha-80
     );
   }
@@ -1763,13 +1775,13 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   .module-expire-timer--#{$timer-icon} {
     @include dark-theme {
       @include color-svg(
-        '../images/icons/v2/timer-#{$timer-icon}-12.svg',
+        '../images/icons/v3/message_timer/messagetimer-#{$timer-icon}.svg',
         $color-white-alpha-80
       );
     }
     @include light-theme {
       @include color-svg(
-        '../images/icons/v2/timer-#{$timer-icon}-12.svg',
+        '../images/icons/v3/message_timer/messagetimer-#{$timer-icon}.svg',
         $color-white-alpha-80
       );
     }
@@ -2005,13 +2017,10 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   display: inline-block;
   margin-inline-end: 5px;
   @include light-theme {
-    @include color-svg(
-      '../images/icons/v2/message-outline-24.svg',
-      $color-white
-    );
+    @include color-svg('../images/icons/v3/chat/chat.svg', $color-white);
   }
   @include dark-theme {
-    @include color-svg('../images/icons/v2/message-solid-24.svg', $color-white);
+    @include color-svg('../images/icons/v3/chat/chat.svg', $color-white);
   }
 }
 
@@ -2129,127 +2138,25 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   margin-inline: auto;
 }
 
-// Module: Contact List Item
-
-.module-contact-list-item {
-  @include button-reset;
-
-  cursor: inherit;
-
-  padding: 8px;
-  width: 100%;
-
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-
-  @include light-theme {
-    color: $color-gray-60;
-
-    @include mouse-mode {
-      &:hover {
-        background-color: $color-gray-02;
-      }
-    }
-    @include keyboard-mode {
-      &:focus {
-        background-color: $color-gray-02;
-      }
-    }
-  }
-  @include dark-theme {
-    color: $color-gray-15;
-  }
-  @include dark-mouse-mode {
-    &:hover {
-      background-color: $color-gray-80;
-    }
-  }
-  @include dark-keyboard-mode {
-    &:focus {
-      background-color: $color-gray-80;
-    }
-  }
-}
-
-.module-contact-list-item--with-click-handler {
-  cursor: pointer;
-}
-
-.module-contact-list-item__text {
-  margin-inline-start: 8px;
-
-  align-items: center;
-  display: flex;
-  flex-direction: row;
-
-  flex-grow: 1;
-  justify-content: space-between;
-}
-
-.module-contact-list-item__left {
-  flex: 1;
-}
-
-.module-contact-list-item__text__name {
-  @include font-body-1-bold;
-  @include light-theme {
-    color: $color-gray-90;
-  }
-  @include dark-theme {
-    color: $color-gray-05;
-  }
-}
-
-.module-contact-list-item__text__additional-data {
-  @include font-body-2;
-
-  margin-top: 3p;
-}
-
-.module-contact-list-item__text__verified-icon {
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  vertical-align: text-bottom;
-
-  // Trying to account for the whitespace around the check mark
-  margin-bottom: -1px;
-
-  @include light-theme {
-    @include color-svg('../images/icons/v2/check-24.svg', $color-gray-60);
-  }
-  @include dark-theme {
-    @include color-svg('../images/icons/v2/check-24.svg', $color-gray-25);
-  }
-}
-
-.module-contact-list-item__admin {
-  text-align: end;
-  height: 100%;
-
-  @include font-body-2;
-}
-
 // Module: In Contacts Icon
 
 .module-in-contacts-icon__icon {
   display: inline-block;
-  height: 15px;
-  width: 15px;
+  height: 14px;
+  width: 14px;
 
   margin-bottom: 2px;
   vertical-align: middle;
 
   @include light-theme {
     @include color-svg(
-      '../images/icons/v2/profile-circle-outline-24.svg',
+      '../images/icons/v3/person/person-circle-compact.svg',
       $color-gray-60
     );
   }
   @include dark-theme {
     @include color-svg(
-      '../images/icons/v2/profile-circle-outline-24.svg',
+      '../images/icons/v3/person/person-circle-compact.svg',
       $color-gray-25
     );
   }
@@ -2257,7 +2164,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   @include keyboard-mode {
     &:focus {
       @include color-svg(
-        '../images/icons/v2/profile-circle-outline-24.svg',
+        '../images/icons/v3/person/person-circle-compact.svg',
         $color-ultramarine
       );
     }
@@ -2436,7 +2343,7 @@ button.ConversationDetails__action-button {
   height: 24px;
   width: 24px;
   @include color-svg(
-    '../images/icons/v2/play-solid-24.svg',
+    '../images/icons/v3/play/play-fill.svg',
     $color-ultramarine
   );
 }
@@ -2550,9 +2457,9 @@ button.ConversationDetails__action-button {
       position: relative;
 
       .module-left-pane--width-narrow & {
-        margin-bottom: 28px;
+        margin-bottom: 20px;
         margin-inline-end: 0;
-        margin-top: 16px;
+        margin-top: 12px;
       }
     }
 
@@ -2583,29 +2490,10 @@ button.ConversationDetails__action-button {
     border-radius: 4px;
     border: 2px solid transparent;
     display: inline-flex;
-    height: 32px;
+    height: 28px;
     justify-content: center;
-    padding: 2px;
-    width: 32px;
-
-    @include light-theme {
-      &:hover,
-      &:focus {
-        background: $color-gray-15;
-      }
-      &:active {
-        background: $color-gray-05;
-      }
-    }
-    @include dark-theme {
-      &:hover,
-      &:focus {
-        background: $color-gray-75;
-      }
-      &:active {
-        background: $color-gray-65;
-      }
-    }
+    width: 28px;
+    padding: 0px;
 
     @include keyboard-mode {
       &:focus {
@@ -2615,26 +2503,16 @@ button.ConversationDetails__action-button {
     }
 
     &::before {
-      $icon: '../images/icons/v2/compose-24.svg';
-      width: 24px;
-      height: 24px;
+      $icon: '../images/icons/v3/compose/compose.svg';
+      width: 20px;
+      height: 20px;
       content: '';
 
       @include light-theme {
         @include color-svg($icon, $color-gray-75);
-        &:hover,
-        &:active,
-        &:focus {
-          @include color-svg($icon, $color-gray-90);
-        }
       }
       @include dark-theme {
         @include color-svg($icon, $color-gray-15);
-        &:hover,
-        &:active,
-        &:focus {
-          @include color-svg($icon, $color-gray-02);
-        }
       }
     }
   }
@@ -2666,34 +2544,17 @@ button.ConversationDetails__action-button {
     border-radius: 4px;
     border: 2px solid transparent;
     display: inline-flex;
-    height: 32px;
+    height: 28px;
     justify-content: center;
-    margin-inline-end: 20px;
-    padding: 2px;
+    margin-inline-end: 12px;
     position: relative;
-    width: 32px;
+    width: 28px;
+    padding: 0px;
 
     .module-left-pane--width-narrow & {
       margin-inline-end: 0;
-      margin-top: 28px;
-      margin-bottom: 28px;
-    }
-
-    @include light-theme {
-      &:hover {
-        background: $color-gray-15;
-      }
-      &:active {
-        background: $color-gray-05;
-      }
-    }
-    @include dark-theme {
-      &:hover {
-        background: $color-gray-75;
-      }
-      &:active {
-        background: $color-gray-65;
-      }
+      margin-top: 16px;
+      margin-bottom: 20px;
     }
 
     @include keyboard-mode {
@@ -2704,26 +2565,16 @@ button.ConversationDetails__action-button {
     }
 
     &::before {
-      $icon: '../images/icons/v2/stories-outline-24.svg';
-      width: 24px;
-      height: 24px;
+      $icon: '../images/icons/v3/stories/stories.svg';
+      width: 20px;
+      height: 20px;
       content: '';
 
       @include light-theme {
         @include color-svg($icon, $color-gray-75);
-        &:hover,
-        &:active,
-        &:focus {
-          @include color-svg($icon, $color-gray-90);
-        }
       }
       @include dark-theme {
         @include color-svg($icon, $color-gray-15);
-        &:hover,
-        &:active,
-        &:focus {
-          @include color-svg($icon, $color-gray-02);
-        }
       }
     }
   }
@@ -2779,7 +2630,7 @@ button.ConversationDetails__action-button {
     height: 24px;
     width: 24px;
 
-    @include color-svg('../images/icons/v2/arrow-down-24.svg', $color-white);
+    @include color-svg('../images/icons/v3/arrow/arrow-down.svg', $color-white);
   }
 }
 
@@ -2979,7 +2830,7 @@ button.module-image__border-overlay:focus {
   height: 24px;
   width: 24px;
   @include color-svg(
-    '../images/icons/v2/play-solid-24.svg',
+    '../images/icons/v3/play/play-fill.svg',
     $color-ultramarine
   );
 }
@@ -3004,7 +2855,15 @@ button.module-image__border-overlay:focus {
 .module-image__close-button {
   @include staged-attachment-close-button;
 
-  background-image: url('../images/x-shadow-16.svg');
+  &::before {
+    content: '';
+    display: block;
+    width: 16px;
+    height: 16px;
+    @include color-svg('../images/icons/v3/x/x-compact.svg', $color-white);
+  }
+  background-image: url('../images/icons/v3/x/x-compact.svg');
+  filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.6));
 
   @include keyboard-mode {
     &:focus {
@@ -3157,7 +3016,10 @@ button.module-image__border-overlay:focus {
   width: 36px;
 
   &::after {
-    @include color-svg('../images/icons/v2/edit-solid-16.svg', $color-white);
+    @include color-svg(
+      '../images/icons/v3/edit/edit-compact.svg',
+      $color-white
+    );
     content: '';
     height: 20px;
     width: 20px;
@@ -3176,7 +3038,7 @@ button.module-image__border-overlay:focus {
 }
 
 .module-attachments__close-button {
-  $icon: '../images/icons/v2/x-24.svg';
+  $icon: '../images/icons/v3/x/x.svg';
 
   @include button-reset;
 
@@ -3263,10 +3125,10 @@ button.module-image__border-overlay:focus {
   @include staged-attachment-close-button;
 
   @include light-theme {
-    @include color-svg('../images/icons/v2/x-24.svg', $color-black);
+    @include color-svg('../images/icons/v3/x/x-compact.svg', $color-black);
   }
   @include dark-theme {
-    @include color-svg('../images/icons/v2/x-24.svg', $color-gray-45);
+    @include color-svg('../images/icons/v3/x/x-compact.svg', $color-gray-45);
   }
 }
 
@@ -3361,14 +3223,20 @@ button.module-image__border-overlay:focus {
 
 .module-staged-placeholder-attachment__plus-icon {
   @include position-absolute-center;
-  height: 36px;
-  width: 36px;
+  height: 28px;
+  width: 28px;
 
   @include light-theme {
-    @include color-svg('../images/icons/v2/plus-24.svg', $color-gray-45);
+    @include color-svg(
+      '../images/icons/v3/plus/plus-light.svg',
+      $color-gray-45
+    );
   }
   @include dark-theme {
-    @include color-svg('../images/icons/v2/plus-24.svg', $color-gray-60);
+    @include color-svg(
+      '../images/icons/v3/plus/plus-light.svg',
+      $color-gray-60
+    );
   }
 }
 
@@ -3417,7 +3285,7 @@ button.module-image__border-overlay:focus {
       flex-shrink: 0;
       width: 16px;
       height: 16px;
-      @include color-svg('../images/icons/v2/info-16.svg', currentcolor);
+      @include color-svg('../images/icons/v3/info/info.svg', currentcolor);
     }
   }
 
@@ -3814,7 +3682,7 @@ button.module-image__border-overlay:focus {
       content: '';
       display: block;
       @include color-svg(
-        '../images/icons/v2/video-off-solid-24.svg',
+        '../images/icons/v3/video/video-slash-fill.svg',
         $color-white
       );
       height: 24px;
@@ -3948,7 +3816,7 @@ button.module-image__border-overlay:focus {
         &__button {
           &::before {
             @include color-svg(
-              '../images/icons/v2/chevron-down-24.svg',
+              '../images/icons/v3/chevron/chevron-down.svg',
               $color-white
             );
 
@@ -4041,7 +3909,7 @@ button.module-image__border-overlay:focus {
     }
 
     &__blocked {
-      @include color-svg('../images/icons/v2/block-24.svg', $color-white);
+      @include color-svg('../images/icons/v3/block/block.svg', $color-white);
       height: 24px;
       margin-bottom: 16px;
       width: 24px;
@@ -4273,14 +4141,14 @@ button.module-image__border-overlay:focus {
   &__button {
     &--hangup {
       @include color-svg(
-        '../images/icons/v2/phone-down-28.svg',
+        '../images/icons/v3/phone/phone-down-fill-light.svg',
         $color-gray-75
       );
       height: 28px;
       width: 28px;
       @include dark-theme {
         @include color-svg(
-          '../images/icons/v2/phone-down-28.svg',
+          '../images/icons/v3/phone/phone-down-fill-light.svg',
           $color-gray-15
         );
       }
@@ -4288,14 +4156,14 @@ button.module-image__border-overlay:focus {
 
     &--pip {
       @include color-svg(
-        '../images/icons/v2/pip-maximize-24.svg',
+        '../images/icons/v3/maximize/maximize-square-light.svg',
         $color-gray-75
       );
       height: 24px;
       width: 24px;
       @include dark-theme {
         @include color-svg(
-          '../images/icons/v2/pip-maximize-24.svg',
+          '../images/icons/v3/maximize/maximize-square-light.svg',
           $color-gray-15
         );
       }
@@ -4385,10 +4253,10 @@ button.module-image__border-overlay:focus {
   &__close {
     @include button-reset;
 
-    @include color-svg('../images/x-shadow-16.svg', $color-gray-15);
+    @include color-svg('../images/icons/v3/x/x.svg', $color-gray-15);
 
-    height: 16px;
-    width: 16px;
+    height: 20px;
+    width: 20px;
     z-index: $z-index-above-base;
 
     @include keyboard-mode {
@@ -4401,33 +4269,36 @@ button.module-image__border-overlay:focus {
   &__muted {
     &--video {
       @include color-svg(
-        '../images/icons/v2/video-off-solid-28.svg',
+        '../images/icons/v3/video/video-slash-compact-light.svg',
         $color-white
       );
       display: inline-block;
       margin-inline-start: 18px;
-      height: 16px;
-      width: 16px;
+      height: 18px;
+      width: 18px;
     }
 
     &--audio {
       @include color-svg(
-        '../images/icons/v2/mic-off-solid-28.svg',
+        '../images/icons/v3/mic/mic-slash-compact-light.svg',
         $color-white
       );
       display: inline-block;
       margin-inline-start: 18px;
-      height: 16px;
-      width: 16px;
+      height: 18px;
+      width: 18px;
     }
   }
 
   &__presenting {
-    @include color-svg('../images/icons/v2/share-screen-26.svg', $color-white);
+    @include color-svg(
+      '../images/icons/v3/share_screen/share_screen-fill-light.svg',
+      $color-white
+    );
     display: inline-block;
     margin-inline-start: 18px;
-    height: 16px;
-    width: 16px;
+    height: 18px;
+    width: 18px;
   }
 }
 
@@ -4519,13 +4390,13 @@ button.module-image__border-overlay:focus {
 
           @include light-theme {
             @include color-svg(
-              '../images/icons/v2/archive-outline-16.svg',
+              '../images/icons/v3/archive/archive.svg',
               $color-gray-60
             );
           }
           @include dark-theme {
             @include color-svg(
-              '../images/icons/v2/archive-solid-16.svg',
+              '../images/icons/v3/archive/archive.svg',
               $color-gray-25
             );
           }
@@ -4758,6 +4629,11 @@ button.module-image__border-overlay:focus {
             &__contact-name {
               overflow: hidden;
               text-overflow: ellipsis;
+
+              .ContactModal__official-badge {
+                position: relative;
+                top: 1px;
+              }
             }
 
             &__mute-icon {
@@ -4770,14 +4646,14 @@ button.module-image__border-overlay:focus {
 
               @include light-theme {
                 @include color-svg(
-                  '../images/icons/v2/bell-disabled-outline-24.svg',
+                  '../images/icons/v3/bell/bell-slash-bold.svg',
                   $color-gray-45
                 );
               }
 
               @include dark-theme {
                 @include color-svg(
-                  '../images/icons/v2/bell-disabled-solid-24.svg',
+                  '../images/icons/v3/bell/bell-slash-bold.svg',
                   $color-gray-25
                 );
               }
@@ -4889,27 +4765,37 @@ button.module-image__border-overlay:focus {
                   animation: rotate 4s linear infinite;
                 }
                 @include light-theme {
-                  @include color-svg('../images/sending.svg', $color-gray-60);
+                  @include color-svg(
+                    '../images/icons/v3/message_status/messagestatus-sending.svg',
+                    $color-gray-60
+                  );
                 }
                 @include dark-theme {
-                  @include color-svg('../images/sending.svg', $color-gray-45);
+                  @include color-svg(
+                    '../images/icons/v3/message_status/messagestatus-sending.svg',
+                    $color-gray-45
+                  );
                 }
               }
 
               &--sent {
                 @include normal-status-icon(
-                  '../images/check-circle-outline.svg'
+                  '../images/icons/v3/message_status/messagestatus-sent.svg'
                 );
               }
 
               &--delivered {
-                @include normal-status-icon('../images/double-check.svg');
+                @include normal-status-icon(
+                  '../images/icons/v3/message_status/messagestatus-delivered.svg'
+                );
                 width: 18px;
               }
 
               &--read,
               &--viewed {
-                @include normal-status-icon('../images/read.svg');
+                @include normal-status-icon(
+                  '../images/icons/v3/message_status/messagestatus-read.svg'
+                );
                 width: 18px;
               }
 
@@ -4917,13 +4803,13 @@ button.module-image__border-overlay:focus {
               &--partial-sent {
                 @include light-theme {
                   @include color-svg(
-                    '../images/icons/v2/error-outline-12.svg',
+                    '../images/icons/v3/error/error-circle.svg',
                     $color-accent-red
                   );
                 }
                 @include dark-theme {
                   @include color-svg(
-                    '../images/icons/v2/error-solid-12.svg',
+                    '../images/icons/v3/error/error-circle.svg',
                     $color-accent-red
                   );
                 }
@@ -4932,13 +4818,13 @@ button.module-image__border-overlay:focus {
               &--paused {
                 @include light-theme {
                   @include color-svg(
-                    '../images/icons/v2/error-outline-12.svg',
+                    '../images/icons/v3/error/error-circle.svg',
                     $color-gray-60
                   );
                 }
                 @include dark-theme {
                   @include color-svg(
-                    '../images/icons/v2/error-solid-12.svg',
+                    '../images/icons/v3/error/error-circle.svg',
                     $color-gray-45
                   );
                 }
@@ -5005,7 +4891,7 @@ button.module-image__border-overlay:focus {
         }
 
         &:checked {
-          $icon: '../images/icons/v2/check-24.svg';
+          $icon: '../images/icons/v3/check/check.svg';
 
           background: $color-ultramarine;
           display: flex;
@@ -5165,7 +5051,7 @@ button.module-image__border-overlay:focus {
     width: 28px;
 
     &--icon {
-      $icon: '../images/icons/v2/compose-outline-24.svg';
+      $icon: '../images/icons/v3/compose/compose.svg';
       @include color-svg($icon, $color-gray-90);
       display: inline-block;
       height: 16px;
@@ -5191,10 +5077,10 @@ button.module-image__border-overlay:focus {
     &__back-button {
       @include button-reset;
 
-      margin-inline: 7px 5px;
+      margin-inline-start: 16px;
 
-      width: 24px;
-      height: 24px;
+      width: 20px;
+      height: 20px;
 
       &:disabled {
         cursor: not-allowed;
@@ -5203,13 +5089,13 @@ button.module-image__border-overlay:focus {
       @include light-theme {
         &:dir(ltr) {
           @include color-svg(
-            '../images/icons/v2/chevron-left-24.svg',
+            '../images/icons/v3/chevron/chevron-left.svg',
             $color-gray-60
           );
         }
         &:dir(rtl) {
           @include color-svg(
-            '../images/icons/v2/chevron-right-24.svg',
+            '../images/icons/v3/chevron/chevron-right.svg',
             $color-gray-60
           );
         }
@@ -5218,7 +5104,7 @@ button.module-image__border-overlay:focus {
         &:dir(ltr) {
           &:focus {
             @include color-svg(
-              '../images/icons/v2/chevron-left-24.svg',
+              '../images/icons/v3/chevron/chevron-left.svg',
               $color-ultramarine
             );
           }
@@ -5226,7 +5112,7 @@ button.module-image__border-overlay:focus {
         &:dir(rtl) {
           &:focus {
             @include color-svg(
-              '../images/icons/v2/chevron-right-24.svg',
+              '../images/icons/v3/chevron/chevron-right.svg',
               $color-ultramarine
             );
           }
@@ -5236,13 +5122,13 @@ button.module-image__border-overlay:focus {
       @include dark-theme {
         &:dir(ltr) {
           @include color-svg(
-            '../images/icons/v2/chevron-left-24.svg',
+            '../images/icons/v3/chevron/chevron-left.svg',
             $color-gray-25
           );
         }
         &:dir(rtl) {
           @include color-svg(
-            '../images/icons/v2/chevron-right-24.svg',
+            '../images/icons/v3/chevron/chevron-right.svg',
             $color-gray-25
           );
         }
@@ -5251,7 +5137,7 @@ button.module-image__border-overlay:focus {
         &:dir(ltr) {
           &:hover {
             @include color-svg(
-              '../images/icons/v2/chevron-left-24.svg',
+              '../images/icons/v3/chevron/chevron-left.svg',
               $color-ultramarine-light
             );
           }
@@ -5259,7 +5145,7 @@ button.module-image__border-overlay:focus {
         &:dir(rtl) {
           &:hover {
             @include color-svg(
-              '../images/icons/v2/chevron-right-24.svg',
+              '../images/icons/v3/chevron/chevron-right.svg',
               $color-ultramarine-light
             );
           }
@@ -5270,7 +5156,8 @@ button.module-image__border-overlay:focus {
     &__text {
       @include font-body-1-bold;
       flex-grow: 1;
-      padding-inline-end: 16px;
+      padding-inline-end: 36px;
+      text-align: center;
 
       @include light-theme {
         color: $color-gray-90;
@@ -5562,13 +5449,13 @@ button.module-image__border-overlay:focus {
     &::after {
       @include light-theme {
         @include color-svg(
-          '../images/icons/v2/recent-outline-20.svg',
+          '../images/icons/v3/recent/recent.svg',
           $color-gray-60
         );
       }
       @include dark-theme {
         @include color-svg(
-          '../images/icons/v2/recent-solid-20.svg',
+          '../images/icons/v3/recent/recent.svg',
           $color-gray-25
         );
       }
@@ -5578,10 +5465,10 @@ button.module-image__border-overlay:focus {
   &--add-pack {
     &::after {
       @include light-theme {
-        @include color-svg('../images/icons/v2/plus-20.svg', $color-gray-60);
+        @include color-svg('../images/icons/v3/plus/plus.svg', $color-gray-60);
       }
       @include dark-theme {
-        @include color-svg('../images/icons/v2/plus-20.svg', $color-gray-25);
+        @include color-svg('../images/icons/v3/plus/plus.svg', $color-gray-25);
       }
     }
   }
@@ -5616,13 +5503,13 @@ button.module-image__border-overlay:focus {
       &::after {
         @include light-theme {
           @include color-svg(
-            '../images/icons/v2/chevron-left-16.svg',
+            '../images/icons/v3/chevron/chevron-left.svg',
             $color-gray-60
           );
         }
         @include dark-theme {
           @include color-svg(
-            '../images/icons/v2/chevron-left-16.svg',
+            '../images/icons/v3/chevron/chevron-left.svg',
             $color-gray-25
           );
         }
@@ -5632,13 +5519,13 @@ button.module-image__border-overlay:focus {
       &::after {
         @include light-theme {
           @include color-svg(
-            '../images/icons/v2/chevron-right-16.svg',
+            '../images/icons/v3/chevron/chevron-right.svg',
             $color-gray-60
           );
         }
         @include dark-theme {
           @include color-svg(
-            '../images/icons/v2/chevron-right-16.svg',
+            '../images/icons/v3/chevron/chevron-right.svg',
             $color-gray-25
           );
         }
@@ -5654,13 +5541,13 @@ button.module-image__border-overlay:focus {
       &::after {
         @include light-theme {
           @include color-svg(
-            '../images/icons/v2/chevron-right-16.svg',
+            '../images/icons/v3/chevron/chevron-right.svg',
             $color-gray-60
           );
         }
         @include dark-theme {
           @include color-svg(
-            '../images/icons/v2/chevron-right-16.svg',
+            '../images/icons/v3/chevron/chevron-right.svg',
             $color-gray-25
           );
         }
@@ -5670,13 +5557,13 @@ button.module-image__border-overlay:focus {
       &::after {
         @include light-theme {
           @include color-svg(
-            '../images/icons/v2/chevron-left-16.svg',
+            '../images/icons/v3/chevron/chevron-left.svg',
             $color-gray-60
           );
         }
         @include dark-theme {
           @include color-svg(
-            '../images/icons/v2/chevron-left-16.svg',
+            '../images/icons/v3/chevron/chevron-left.svg',
             $color-gray-25
           );
         }
@@ -5696,7 +5583,7 @@ button.module-image__border-overlay:focus {
       inset-inline-start: 14px;
       top: 2px;
       @include color-svg(
-        '../images/icons/v2/error-solid-24.svg',
+        '../images/icons/v3/error/error-circle.svg',
         $color-accent-red
       );
     }
@@ -5917,19 +5804,19 @@ button.module-image__border-overlay:focus {
   &::after {
     display: block;
     content: '';
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
     flex-shrink: 0;
 
     @include light-theme {
       @include color-svg(
-        '../images/icons/v2/sticker-outline-24.svg',
+        '../images/icons/v3/sticker/sticker.svg',
         $color-gray-75
       );
     }
     @include dark-theme {
       @include color-svg(
-        '../images/icons/v2/sticker-outline-24.svg',
+        '../images/icons/v3/sticker/sticker.svg',
         $color-gray-15
       );
     }
@@ -6067,16 +5954,22 @@ button.module-image__border-overlay:focus {
       flex-shrink: 1;
       height: 100%;
       &__button {
-        width: 20px;
-        height: 20px;
+        width: 16px;
+        height: 16px;
         border: none;
 
         @include light-theme {
-          @include color-svg('../images/icons/v2/x-24.svg', $color-gray-60);
+          @include color-svg(
+            '../images/icons/v3/x/x-compact.svg',
+            $color-gray-60
+          );
         }
 
         @include dark-theme {
-          @include color-svg('../images/icons/v2/x-24.svg', $color-gray-05);
+          @include color-svg(
+            '../images/icons/v3/x/x-compact.svg',
+            $color-gray-05
+          );
         }
       }
     }
@@ -6123,13 +6016,13 @@ button.module-image__border-overlay:focus {
 
         @include light-theme {
           @include color-svg(
-            '../images/icons/v2/search-16.svg',
+            '../images/icons/v3/search/search-compact.svg',
             $color-gray-60
           );
         }
         @include dark-theme {
           @include color-svg(
-            '../images/icons/v2/search-16.svg',
+            '../images/icons/v3/search/search-compact.svg',
             $color-gray-25
           );
         }
@@ -6244,14 +6137,14 @@ button.module-image__border-overlay:focus {
 
         @include light-theme {
           @include color-svg(
-            '../images/icons/v2/settings-outline-16.svg',
+            '../images/icons/v3/settings/settings.svg',
             $color-gray-75
           );
         }
 
         @include dark-theme {
           @include color-svg(
-            '../images/icons/v2/settings-solid-16.svg',
+            '../images/icons/v3/settings/settings.svg',
             $color-gray-25
           );
         }
@@ -6284,13 +6177,13 @@ button.module-image__border-overlay:focus {
         &::after {
           @include light-theme {
             @include color-svg(
-              '../images/icons/v2/search-16.svg',
+              '../images/icons/v3/search/search.svg',
               $color-gray-60
             );
           }
           @include dark-theme {
             @include color-svg(
-              '../images/icons/v2/search-16.svg',
+              '../images/icons/v3/search/search.svg',
               $color-gray-25
             );
           }
@@ -6300,10 +6193,10 @@ button.module-image__border-overlay:focus {
       &--close {
         &::after {
           @include light-theme {
-            @include color-svg('../images/icons/v2/x-24.svg', $color-gray-60);
+            @include color-svg('../images/icons/v3/x/x.svg', $color-gray-60);
           }
           @include dark-theme {
-            @include color-svg('../images/icons/v2/x-24.svg', $color-gray-25);
+            @include color-svg('../images/icons/v3/x/x.svg', $color-gray-25);
           }
         }
       }
@@ -6312,13 +6205,13 @@ button.module-image__border-overlay:focus {
         &::after {
           @include light-theme {
             @include color-svg(
-              '../images/icons/v2/recent-outline-20.svg',
+              '../images/icons/v3/recent/recent.svg',
               $color-gray-60
             );
           }
           @include dark-theme {
             @include color-svg(
-              '../images/icons/v2/recent-solid-20.svg',
+              '../images/icons/v3/recent/recent.svg',
               $color-gray-25
             );
           }
@@ -6329,13 +6222,13 @@ button.module-image__border-overlay:focus {
         &::after {
           @include light-theme {
             @include color-svg(
-              '../images/icons/v2/emoji-smiley-outline-20.svg',
+              '../images/icons/v3/emoji/emoji.svg',
               $color-gray-60
             );
           }
           @include dark-theme {
             @include color-svg(
-              '../images/icons/v2/emoji-smiley-solid-20.svg',
+              '../images/icons/v3/emoji/emoji.svg',
               $color-gray-25
             );
           }
@@ -6349,13 +6242,13 @@ button.module-image__border-overlay:focus {
           &::after {
             @include light-theme {
               @include color-svg(
-                '../images/icons/v2/emoji-#{$cat}-outline-20.svg',
+                '../images/icons/v3/emoji/emoji-#{$cat}.svg',
                 $color-gray-60
               );
             }
             @include dark-theme {
               @include color-svg(
-                '../images/icons/v2/emoji-#{$cat}-solid-20.svg',
+                '../images/icons/v3/emoji/emoji-#{$cat}.svg',
                 $color-gray-25
               );
             }
@@ -6428,36 +6321,24 @@ button.module-image__border-overlay:focus {
   &::after {
     display: block;
     content: '';
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
     flex-shrink: 0;
 
     @include light-theme {
-      @include color-svg(
-        '../images/icons/v2/emoji-smiley-outline-24.svg',
-        $color-gray-75
-      );
+      @include color-svg('../images/icons/v3/emoji/emoji.svg', $color-gray-75);
     }
     @include dark-theme {
-      @include color-svg(
-        '../images/icons/v2/emoji-smiley-outline-24.svg',
-        $color-gray-15
-      );
+      @include color-svg('../images/icons/v3/emoji/emoji.svg', $color-gray-15);
     }
   }
 
   &--profile-editor::after {
     @include light-theme {
-      @include color-svg(
-        '../images/icons/v2/add-emoji-outline-24.svg',
-        $color-gray-75
-      );
+      @include color-svg('../images/icons/v3/emoji/emoji.svg', $color-gray-75);
     }
     @include dark-theme {
-      @include color-svg(
-        '../images/icons/v2/add-emoji-outline-24.svg',
-        $color-gray-15
-      );
+      @include color-svg('../images/icons/v3/emoji/emoji.svg', $color-gray-15);
     }
   }
 
@@ -6708,23 +6589,29 @@ button.module-image__border-overlay:focus {
 
   &--update {
     @include light-theme {
-      @include color-svg('../images/icons/v2/refresh-24.svg', $color-gray-75);
+      @include color-svg(
+        '../images/icons/v3/refresh/refresh.svg',
+        $color-gray-75
+      );
     }
     @include dark-theme {
-      @include color-svg('../images/icons/v2/refresh-24.svg', $color-gray-15);
+      @include color-svg(
+        '../images/icons/v3/refresh/refresh.svg',
+        $color-gray-15
+      );
     }
   }
 }
 .module-avatar-popup__item__icon-settings {
   @include light-theme {
     @include color-svg(
-      '../images/icons/v2/settings-outline-16.svg',
+      '../images/icons/v3/settings/settings-compact.svg',
       $color-gray-75
     );
   }
   @include dark-theme {
     @include color-svg(
-      '../images/icons/v2/settings-solid-16.svg',
+      '../images/icons/v3/settings/settings-compact.svg',
       $color-gray-15
     );
   }
@@ -6732,13 +6619,13 @@ button.module-image__border-overlay:focus {
 .module-avatar-popup__item__icon-archive {
   @include light-theme {
     @include color-svg(
-      '../images/icons/v2/archive-outline-16.svg',
+      '../images/icons/v3/archive/archive-compact.svg',
       $color-gray-75
     );
   }
   @include dark-theme {
     @include color-svg(
-      '../images/icons/v2/archive-solid-16.svg',
+      '../images/icons/v3/archive/archive-compact.svg',
       $color-gray-15
     );
   }
@@ -6829,19 +6716,19 @@ button.module-image__border-overlay:focus {
   width: 24px;
 
   @include light-theme {
-    @include color-svg('../images/icons/v2/x-24.svg', $color-gray-60);
+    @include color-svg('../images/icons/v3/x/x.svg', $color-gray-60);
   }
   @include dark-theme {
-    @include color-svg('../images/icons/v2/x-24.svg', $color-gray-05);
+    @include color-svg('../images/icons/v3/x/x.svg', $color-gray-05);
   }
 
   &:focus {
     @include keyboard-mode {
-      @include color-svg('../images/icons/v2/x-24.svg', $color-ultramarine);
+      @include color-svg('../images/icons/v3/x/x.svg', $color-ultramarine);
     }
     @include dark-keyboard-mode {
       @include color-svg(
-        '../images/icons/v2/x-24.svg',
+        '../images/icons/v3/x/x.svg',
         $color-ultramarine-light
       );
     }
@@ -6949,7 +6836,7 @@ button.module-image__border-overlay:focus {
 .module-calling-device-selection__close-button {
   @include button-reset;
 
-  @include color-svg('../images/icons/v2/x-24.svg', $color-gray-15);
+  @include color-svg('../images/icons/v3/x/x.svg', $color-gray-15);
 
   height: 24px;
   position: absolute;
@@ -7159,11 +7046,11 @@ button.module-image__border-overlay:focus {
   width: 24px;
 
   @include light-theme {
-    @include color-svg('../images/icons/v2/x-24.svg', $color-gray-75);
+    @include color-svg('../images/icons/v3/x/x.svg', $color-gray-75);
   }
 
   @include dark-theme {
-    @include color-svg('../images/icons/v2/x-24.svg', $color-gray-15);
+    @include color-svg('../images/icons/v3/x/x.svg', $color-gray-15);
   }
 
   &:focus {
@@ -7475,6 +7362,8 @@ button.module-image__border-overlay:focus {
   outline: none;
   cursor: pointer;
   white-space: nowrap;
+  display: flex;
+  align-items: center;
 
   @include font-body-2;
 
@@ -7538,13 +7427,13 @@ button.module-image__border-overlay:focus {
   @include light-theme {
     &:dir(ltr) {
       @include color-svg(
-        '../images/icons/v2/chevron-right-16.svg',
+        '../images/icons/v3/chevron/chevron-right.svg',
         $color-gray-75
       );
     }
     &:dir(rtl) {
       @include color-svg(
-        '../images/icons/v2/chevron-left-16.svg',
+        '../images/icons/v3/chevron/chevron-left.svg',
         $color-gray-75
       );
     }
@@ -7553,13 +7442,13 @@ button.module-image__border-overlay:focus {
   @include dark-theme {
     &:dir(ltr) {
       @include color-svg(
-        '../images/icons/v2/chevron-right-16.svg',
+        '../images/icons/v3/chevron/chevron-right.svg',
         $color-gray-15
       );
     }
     &:dir(rtl) {
       @include color-svg(
-        '../images/icons/v2/chevron-left-16.svg',
+        '../images/icons/v3/chevron/chevron-left.svg',
         $color-gray-15
       );
     }
@@ -7627,23 +7516,23 @@ button.module-image__border-overlay:focus {
   &--icon::before {
     content: ' ';
     display: inline-block;
-    height: 14px;
+    height: 16px;
     margin-inline-end: 8px;
-    width: 14px;
+    width: 16px;
     vertical-align: middle;
   }
 
   &__download::before {
     @include light-theme {
       @include color-svg(
-        '../images/icons/v2/save-outline-24.svg',
+        '../images/icons/v3/save/save-compact.svg',
         $color-black
       );
     }
 
     @include dark-theme {
       @include color-svg(
-        '../images/icons/v2/save-solid-24.svg',
+        '../images/icons/v3/save/save-compact.svg',
         $color-gray-15
       );
     }
@@ -7652,14 +7541,14 @@ button.module-image__border-overlay:focus {
   &__reply::before {
     @include light-theme {
       @include color-svg(
-        '../images/icons/v2/reply-outline-24.svg',
+        '../images/icons/v3/reply/reply-compact.svg',
         $color-black
       );
     }
 
     @include dark-theme {
       @include color-svg(
-        '../images/icons/v2/reply-solid-24.svg',
+        '../images/icons/v3/reply/reply-compact.svg',
         $color-gray-15
       );
     }
@@ -7668,14 +7557,14 @@ button.module-image__border-overlay:focus {
   &__react::before {
     @include light-theme {
       @include color-svg(
-        '../images/icons/v2/add-emoji-outline-24.svg',
+        '../images/icons/v3/heart/heart-plus-compact.svg',
         $color-black
       );
     }
 
     @include dark-theme {
       @include color-svg(
-        '../images/icons/v2/add-emoji-outline-24.svg',
+        '../images/icons/v3/heart/heart-plus-compact.svg',
         $color-gray-15
       );
     }
@@ -7684,14 +7573,14 @@ button.module-image__border-overlay:focus {
   &__more-info::before {
     @include light-theme {
       @include color-svg(
-        '../images/icons/v2/info-outline-24.svg',
+        '../images/icons/v3/info/info-compact.svg',
         $color-black
       );
     }
 
     @include dark-theme {
       @include color-svg(
-        '../images/icons/v2/info-outline-24.svg',
+        '../images/icons/v3/info/info-compact.svg',
         $color-gray-15
       );
     }
@@ -7700,14 +7589,14 @@ button.module-image__border-overlay:focus {
   &__select::before {
     @include light-theme {
       @include color-svg(
-        '../images/icons/v2/check-circle-outline-24.svg',
+        '../images/icons/v3/check/check-circle-compact.svg',
         $color-black
       );
     }
 
     @include dark-theme {
       @include color-svg(
-        '../images/icons/v2/check-circle-outline-24.svg',
+        '../images/icons/v3/check/check-circle-compact.svg',
         $color-gray-15
       );
     }
@@ -7715,26 +7604,25 @@ button.module-image__border-overlay:focus {
 
   &__retry-send::before {
     @include light-theme {
-      @include color-svg('../images/icons/v2/send-24.svg', $color-black);
+      @include color-svg('../images/icons/v3/send/send.svg', $color-black);
     }
 
     @include dark-theme {
-      @include color-svg('../images/icons/v2/send-24.svg', $color-gray-15);
+      @include color-svg('../images/icons/v3/send/send.svg', $color-gray-15);
     }
   }
 
   &__forward-message::before {
-    transform: scaleX(-1);
     @include light-theme {
       @include color-svg(
-        '../images/icons/v2/reply-outline-24.svg',
+        '../images/icons/v3/forward/forward-compact.svg',
         $color-black
       );
     }
 
     @include dark-theme {
       @include color-svg(
-        '../images/icons/v2/reply-solid-24.svg',
+        '../images/icons/v3/forward/forward-compact.svg',
         $color-gray-15
       );
     }
@@ -7742,44 +7630,32 @@ button.module-image__border-overlay:focus {
 
   &__edit-message::before {
     @include light-theme {
-      @include color-svg('../images/icons/v2/edit-16.svg', $color-black);
-    }
-
-    @include dark-theme {
       @include color-svg(
-        '../images/icons/v2/edit-solid-16.svg',
-        $color-gray-15
-      );
-    }
-  }
-
-  &__delete-message::before {
-    @include light-theme {
-      @include color-svg(
-        '../images/icons/v2/trash-outline-24.svg',
+        '../images/icons/v3/edit/edit-compact.svg',
         $color-black
       );
     }
 
     @include dark-theme {
       @include color-svg(
-        '../images/icons/v2/trash-solid-24.svg',
+        '../images/icons/v3/edit/edit-compact.svg',
         $color-gray-15
       );
     }
   }
 
+  &__delete-message::before,
   &__delete-message-for-everyone::before {
     @include light-theme {
       @include color-svg(
-        '../images/icons/v2/trash-outline-24.svg',
+        '../images/icons/v3/trash/trash-compact.svg',
         $color-black
       );
     }
 
     @include dark-theme {
       @include color-svg(
-        '../images/icons/v2/trash-solid-24.svg',
+        '../images/icons/v3/trash/trash-compact.svg',
         $color-gray-15
       );
     }
@@ -7788,14 +7664,14 @@ button.module-image__border-overlay:focus {
   &__copy-timestamp::before {
     @include light-theme {
       @include color-svg(
-        '../images/icons/v2/copy-outline-24.svg',
+        '../images/icons/v3/copy/copy-compact.svg',
         $color-black
       );
     }
 
     @include dark-theme {
       @include color-svg(
-        '../images/icons/v2/copy-outline-24.svg',
+        '../images/icons/v3/copy/copy-compact.svg',
         $color-gray-15
       );
     }

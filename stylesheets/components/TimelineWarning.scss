@@ -36,7 +36,7 @@
   }
 
   &__generic-icon {
-    @include icon('../images/icons/v2/info-outline-24.svg');
+    @include icon('../images/icons/v3/info/info.svg');
     width: 20px;
     height: 20px;
   }
@@ -65,7 +65,7 @@
     @include button-reset;
 
     &::after {
-      @include icon('../images/icons/v2/x-24.svg');
+      @include icon('../images/icons/v3/x/x.svg');
       content: '';
       display: block;
       height: 20px;

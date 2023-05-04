@@ -115,7 +115,7 @@
         @include button-reset;
         height: 24px;
         width: 24px;
-        @include color-svg('../images/icons/v2/x-24.svg', $color-gray-15);
+        @include color-svg('../images/icons/v3/x/x.svg', $color-gray-15);
       }
     }
 
@@ -198,7 +198,7 @@
 
       &__arrow {
         @include color-svg(
-          '../images/icons/v2/chevron-right-24.svg',
+          '../images/icons/v3/chevron/chevron-right.svg',
           $color-white
         );
         height: 24px;

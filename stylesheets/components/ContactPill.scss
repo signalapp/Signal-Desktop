@@ -2,11 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 .module-ContactPill {
-  @include rounded-corners;
   align-items: center;
   display: inline-flex;
   user-select: none;
   overflow: hidden;
+  padding-block: 4px;
+  padding-inline: 8px;
+  border-radius: 6px;
 
   @include light-theme {
     color: $color-gray-90;
@@ -27,21 +29,21 @@
   }
 
   &__remove {
-    $icon: '../images/icons/v2/x-24.svg';
+    $icon: '../images/icons/v3/x/x-compact-light.svg';
 
     @include button-reset;
     height: 100%;
     display: flex;
-    width: 28px;
+    width: 16px;
+    height: 16px;
     justify-content: center;
     align-items: center;
-    padding-block: 0;
-    padding-inline: 4px 6px;
+    padding: 0;
 
     &::before {
       content: '';
-      width: 12px;
-      height: 12px;
+      width: 100%;
+      height: 100%;
       display: block;
 
       @include light-theme {

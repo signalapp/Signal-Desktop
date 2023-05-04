@@ -306,7 +306,7 @@
     &--forward {
       &::before {
         @include color-svg(
-          '../images/icons/v2/forward-outline-24.svg',
+          '../images/icons/v3/forward/forward.svg',
           $color-gray-15
         );
       }
@@ -314,16 +314,13 @@
 
     &--save {
       &::before {
-        @include color-svg(
-          '../images/icons/v2/download-outline-24.svg',
-          $color-gray-15
-        );
+        @include color-svg('../images/icons/v3/save/save.svg', $color-gray-15);
       }
     }
 
     &--close {
       &::before {
-        @include color-svg('../images/icons/v2/x-24.svg', $color-gray-15);
+        @include color-svg('../images/icons/v3/x/x.svg', $color-gray-15);
       }
     }
 
@@ -366,7 +363,7 @@
 
       &::before {
         @include color-svg(
-          '../images/icons/v2/arrow-left-32.svg',
+          '../images/icons/v3/chevron/chevron-left.svg',
           $color-gray-05
         );
       }
@@ -378,7 +375,7 @@
 
       &::before {
         @include color-svg(
-          '../images/icons/v2/arrow-right-32.svg',
+          '../images/icons/v3/chevron/chevron-right.svg',
           $color-gray-05
         );
       }

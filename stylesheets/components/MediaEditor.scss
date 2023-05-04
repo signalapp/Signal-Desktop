@@ -50,18 +50,21 @@
     height: 32px;
     justify-content: center;
     margin-block: 0;
-    margin-inline: 15px;
+    margin-inline: 18px;
     opacity: 1;
     width: 32px;
 
     &::after {
       content: ' ';
-      height: 24px;
-      width: 24px;
+      height: 20px;
+      width: 20px;
     }
 
     &--crop::after {
-      @include color-svg('../images/icons/v2/crop-24.svg', $color-white);
+      @include color-svg(
+        '../images/icons/v3/crop/crop-rotate.svg',
+        $color-white
+      );
     }
 
     &--pen::after {
@@ -70,16 +73,16 @@
 
     &--redo {
       &::after {
-        @include color-svg('../images/icons/v2/redo-24.svg', $color-white);
+        @include color-svg('../images/icons/v3/redo/redo.svg', $color-white);
       }
       &:disabled::after {
-        @include color-svg('../images/icons/v2/redo-24.svg', $color-gray-45);
+        @include color-svg('../images/icons/v3/redo/redo.svg', $color-gray-45);
       }
     }
 
     &--sticker.module-sticker-button__button::after {
       @include color-svg(
-        '../images/icons/v2/sticker-smiley-24.svg',
+        '../images/icons/v3/sticker/sticker-smiley.svg',
         $color-white
       );
     }
@@ -90,10 +93,10 @@
 
     &--undo {
       &::after {
-        @include color-svg('../images/icons/v2/undo-24.svg', $color-white);
+        @include color-svg('../images/icons/v3/undo/undo.svg', $color-white);
       }
       &:disabled::after {
-        @include color-svg('../images/icons/v2/undo-24.svg', $color-gray-45);
+        @include color-svg('../images/icons/v3/undo/undo.svg', $color-gray-45);
       }
     }
 

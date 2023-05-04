@@ -13,43 +13,39 @@
 
   &__icon--verified {
     display: inline-block;
-    height: 1.25em;
+    height: 20px;
     margin-inline-end: 4px;
     vertical-align: text-bottom;
-    width: 1.25em;
+    width: 20px;
 
     @include light-theme {
-      -webkit-mask: url('../images/icons/v2/check-24.svg') no-repeat center;
-      -webkit-mask-size: 100%;
-      background-color: #121212;
+      @include color-svg('../images/icons/v3/check/check.svg', $color-gray-95);
     }
 
     @include dark-theme {
-      -webkit-mask: url('../images/icons/v2/check-24.svg') no-repeat center;
-      -webkit-mask-size: 100%;
-      background-color: #f6f6f6;
+      @include color-svg('../images/icons/v3/check/check.svg', $color-gray-02);
     }
   }
 
   &__icon--shield {
     display: inline-block;
-    height: 1.25em;
+    height: 20px;
     margin-inline-end: 4px;
     vertical-align: text-bottom;
-    width: 1.25em;
+    width: 20px;
 
     @include light-theme {
-      -webkit-mask: url('../images/icons/v2/safety-number-outline-24.svg')
-        no-repeat center;
-      -webkit-mask-size: 100%;
-      background-color: #121212;
+      @include color-svg(
+        '../images/icons/v3/safety_number/safety_number.svg',
+        $color-gray-95
+      );
     }
 
     @include dark-theme {
-      -webkit-mask: url('../images/icons/v2/safety-number-solid-24.svg')
-        no-repeat center;
-      -webkit-mask-size: 100%;
-      background-color: #f6f6f6;
+      @include color-svg(
+        '../images/icons/v3/safety_number/safety_number.svg',
+        $color-gray-02
+      );
     }
   }
 

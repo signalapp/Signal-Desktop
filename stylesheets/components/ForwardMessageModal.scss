@@ -55,18 +55,17 @@
     &--close {
       @include button-reset;
       position: absolute;
-      top: 8px;
       inset-inline-end: 16px;
 
-      height: 22px;
-      width: 22px;
+      height: 20px;
+      width: 20px;
 
       @include light-theme {
-        @include color-svg('../images/icons/v2/x-24.svg', $color-gray-75);
+        @include color-svg('../images/icons/v3/x/x.svg', $color-gray-75);
       }
 
       @include dark-theme {
-        @include color-svg('../images/icons/v2/x-24.svg', $color-gray-15);
+        @include color-svg('../images/icons/v3/x/x.svg', $color-gray-15);
       }
 
       @include keyboard-mode {
@@ -86,7 +85,7 @@
 
       @include light-theme {
         @include color-svg(
-          '../images/icons/v2/chevron-left-24.svg',
+          '../images/icons/v3/chevron/chevron-left.svg',
           $color-gray-60
         );
       }
@@ -94,7 +93,7 @@
       @include keyboard-mode {
         &:focus {
           @include color-svg(
-            '../images/icons/v2/chevron-left-24.svg',
+            '../images/icons/v3/chevron/chevron-left.svg',
             $color-ultramarine
           );
         }
@@ -102,14 +101,14 @@
 
       @include dark-theme {
         @include color-svg(
-          '../images/icons/v2/chevron-left-24.svg',
+          '../images/icons/v3/chevron/chevron-left.svg',
           $color-gray-25
         );
       }
       @include dark-keyboard-mode {
         &:hover {
           @include color-svg(
-            '../images/icons/v2/chevron-left-24.svg',
+            '../images/icons/v3/chevron/chevron-left.svg',
             $color-ultramarine-light
           );
         }
@@ -152,23 +151,27 @@
       content: '';
       display: block;
       flex-shrink: 0;
-      height: 24px;
-      width: 24px;
+      height: 20px;
+      width: 20px;
     }
 
     &--continue {
       &::after {
+        height: 24px;
+        width: 24px;
         @include color-svg(
-          '../images/icons/v2/arrow-down-24.svg',
+          '../images/icons/v3/arrow/arrow-right.svg',
           $color-white
         );
-        transform: rotate(270deg);
       }
     }
 
     &--forward {
       &::after {
-        @include color-svg('../images/icons/v2/send-24.svg', $color-white);
+        @include color-svg(
+          '../images/icons/v3/send/send-fill.svg',
+          $color-white
+        );
       }
     }
   }

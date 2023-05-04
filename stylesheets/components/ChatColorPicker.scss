@@ -59,10 +59,7 @@
         display: block;
         height: 24px;
         width: 24px;
-        @include color-svg(
-          '../images/icons/v2/more-horiz-24.svg',
-          $color-gray-05
-        );
+        @include color-svg('../images/icons/v3/more/more.svg', $color-gray-05);
       }
     }
 
@@ -72,7 +69,7 @@
   }
 
   &__add-icon {
-    @include color-svg('../images/icons/v2/plus-24.svg', $color-gray-90);
+    @include color-svg('../images/icons/v3/plus/plus.svg', $color-gray-90);
     display: block;
     height: 24px;
     width: 24px;

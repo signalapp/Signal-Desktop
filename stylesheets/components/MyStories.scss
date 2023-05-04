@@ -50,7 +50,7 @@
           margin-inline-end: 12px;
           width: 12px;
           @include color-svg(
-            '../images/icons/v2/error-outline-24.svg',
+            '../images/icons/v3/error/error-circle.svg',
             $color-accent-red
           );
         }
@@ -80,7 +80,7 @@
 
       &::after {
         @include color-svg(
-          '../images/icons/v2/save-outline-24.svg',
+          '../images/icons/v3/save/save-compact.svg',
           $color-gray-15
         );
         content: '';
@@ -105,7 +105,7 @@
 
       &::after {
         @include color-svg(
-          '../images/icons/v2/more-horiz-24.svg',
+          '../images/icons/v3/more/more-compact.svg',
           $color-gray-15
         );
         content: '';
@@ -120,24 +120,16 @@
   }
 
   &__icon {
-    &--save {
-      @include color-svg(
-        '../images/icons/v2/save-outline-24.svg',
-        $color-white
-      );
-    }
-
     &--forward {
       @include color-svg(
-        '../images/icons/v2/reply-outline-24.svg',
+        '../images/icons/v3/forward/forward-compact.svg',
         $color-white
       );
-      transform: scaleX(-1);
     }
 
     &--delete {
       @include color-svg(
-        '../images/icons/v2/trash-outline-24.svg',
+        '../images/icons/v3/trash/trash-compact.svg',
         $color-white
       );
     }
@@ -164,7 +156,10 @@
 
     &::after {
       content: '';
-      @include color-svg('../images/icons/v2/plus-20.svg', $color-white);
+      @include color-svg(
+        '../images/icons/v3/plus/plus-compact-bold.svg',
+        $color-white
+      );
       height: 10px;
       width: 10px;
     }

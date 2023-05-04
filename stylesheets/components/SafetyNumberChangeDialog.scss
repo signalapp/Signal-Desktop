@@ -22,13 +22,13 @@
     width: 24px;
     @include light-theme {
       @include color-svg(
-        '../images/icons/v2/safety-number-outline-24.svg',
+        '../images/icons/v3/safety_number/safety_number.svg',
         $color-gray-90
       );
     }
     @include dark-theme {
       @include color-svg(
-        '../images/icons/v2/safety-number-outline-24.svg',
+        '../images/icons/v3/safety_number/safety_number.svg',
         $color-white
       );
     }
@@ -196,13 +196,13 @@
 
         @include light-theme {
           @include color-svg(
-            '../images/icons/v2/chevron-down-16.svg',
+            '../images/icons/v3/chevron/chevron-down.svg',
             $color-gray-60
           );
         }
         @include dark-theme {
           @include color-svg(
-            '../images/icons/v2/chevron-down-16.svg',
+            '../images/icons/v3/chevron/chevron-down.svg',
             $color-gray-25
           );
         }
@@ -213,28 +213,22 @@
   &__menu-icon {
     &--delete {
       @include light-theme {
-        @include color-svg(
-          '../images/icons/v2/x-circle-16.svg',
-          $color-gray-90
-        );
+        @include color-svg('../images/icons/v3/x/x-circle.svg', $color-gray-90);
       }
       @include dark-theme {
-        @include color-svg(
-          '../images/icons/v2/x-circle-16.svg',
-          $color-gray-05
-        );
+        @include color-svg('../images/icons/v3/x/x-circle.svg', $color-gray-05);
       }
     }
     &--verify {
       @include light-theme {
         @include color-svg(
-          '../images/icons/v2/safety-number-outline-24.svg',
+          '../images/icons/v3/safety_number/safety_number.svg',
           $color-gray-90
         );
       }
       @include dark-theme {
         @include color-svg(
-          '../images/icons/v2/safety-number-outline-24.svg',
+          '../images/icons/v3/safety_number/safety_number.svg',
           $color-gray-05
         );
       }

@@ -67,7 +67,7 @@
 
       &::before {
         @include color-svg(
-          '../images/icons/v2/error-outline-24.svg',
+          '../images/icons/v3/error/error-circle.svg',
           $color-accent-red
         );
         content: '';
@@ -105,7 +105,10 @@
     vertical-align: middle;
 
     &::before {
-      @include color-svg('../images/icons/v2/plus-24.svg', $color-white);
+      @include color-svg(
+        '../images/icons/v3/plus/plus-compact.svg',
+        $color-white
+      );
       content: '';
       display: block;
       height: 12px;

@@ -84,13 +84,13 @@
     width: 12px;
     @include light-theme {
       @include color-svg(
-        '../images/icons/v2/error-outline-12.svg',
+        '../images/icons/v3/error/error-circle-compact.svg',
         $color-accent-red
       );
     }
     @include dark-theme {
       @include color-svg(
-        '../images/icons/v2/error-solid-12.svg',
+        '../images/icons/v3/error/error-circle-compact.svg',
         $color-accent-red
       );
     }

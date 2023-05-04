@@ -75,14 +75,14 @@
 
     @include light-theme {
       @include color-svg(
-        '../images/icons/v2/check-circle-solid-24.svg',
+        '../images/icons/v3/check/check-circle-fill.svg',
         $color-accent-blue
       );
     }
 
     @include dark-theme {
       @include color-svg(
-        '../images/icons/v2/check-circle-solid-24.svg',
+        '../images/icons/v3/check/check-circle-fill.svg',
         $color-accent-blue
       );
     }
@@ -162,13 +162,13 @@
           min-height: 24px;
           @include light-theme {
             @include color-svg(
-              '../images/icons/v2/more-horiz-24.svg',
+              '../images/icons/v3/more/more.svg',
               $color-gray-60
             );
           }
           @include dark-theme {
             @include color-svg(
-              '../images/icons/v2/more-horiz-24.svg',
+              '../images/icons/v3/more/more.svg',
               $color-gray-25
             );
           }

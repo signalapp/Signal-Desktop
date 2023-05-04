@@ -30,21 +30,49 @@
 
     &--name {
       &::after {
-        -webkit-mask: url(../images/icons/v2/profile-outline-20.svg) no-repeat
-          center;
+        @include light-theme {
+          @include color-svg(
+            '../images/icons/v3/person/person.svg',
+            $color-gray-75
+          );
+        }
+
+        @include dark-theme {
+          @include color-svg(
+            '../images/icons/v3/person/person.svg',
+            $color-gray-15
+          );
+        }
       }
     }
 
     &--username {
       &::after {
-        -webkit-mask: url(../images/icons/v2/at-24.svg) no-repeat center;
+        @include light-theme {
+          @include color-svg('../images/icons/v3/at/at.svg', $color-gray-75);
+        }
+
+        @include dark-theme {
+          @include color-svg('../images/icons/v3/at/at.svg', $color-gray-15);
+        }
       }
     }
 
     &--bio {
       &::after {
-        -webkit-mask: url(../images/icons/v2/compose-outline-24.svg) no-repeat
-          center;
+        @include light-theme {
+          @include color-svg(
+            '../images/icons/v3/compose/compose.svg',
+            $color-gray-75
+          );
+        }
+
+        @include dark-theme {
+          @include color-svg(
+            '../images/icons/v3/compose/compose.svg',
+            $color-gray-15
+          );
+        }
       }
     }
   }
@@ -92,13 +120,13 @@
 
       @include dark-theme {
         @include color-svg(
-          '../images/icons/v2/chevron-down-20.svg',
+          '../images/icons/v3/chevron/chevron-down.svg',
           $color-white
         );
       }
       @include light-theme {
         @include color-svg(
-          '../images/icons/v2/chevron-down-20.svg',
+          '../images/icons/v3/chevron/chevron-down.svg',
           $color-black
         );
       }
@@ -106,40 +134,28 @@
 
     &__copy-icon {
       @include dark-theme {
-        @include color-svg(
-          '../images/icons/v2/copy-outline-24.svg',
-          $color-white
-        );
+        @include color-svg('../images/icons/v3/copy/copy.svg', $color-white);
       }
       @include light-theme {
-        @include color-svg(
-          '../images/icons/v2/copy-outline-24.svg',
-          $color-black
-        );
+        @include color-svg('../images/icons/v3/copy/copy.svg', $color-black);
       }
     }
 
     &__copy-link-icon {
       @include dark-theme {
-        @include color-svg('../images/icons/v2/link-24.svg', $color-white);
+        @include color-svg('../images/icons/v3/link/link.svg', $color-white);
       }
       @include light-theme {
-        @include color-svg('../images/icons/v2/link-24.svg', $color-black);
+        @include color-svg('../images/icons/v3/link/link.svg', $color-black);
       }
     }
 
     &__trash-icon {
       @include dark-theme {
-        @include color-svg(
-          '../images/icons/v2/trash-outline-24.svg',
-          $color-white
-        );
+        @include color-svg('../images/icons/v3/trash/trash.svg', $color-white);
       }
       @include light-theme {
-        @include color-svg(
-          '../images/icons/v2/trash-outline-24.svg',
-          $color-black
-        );
+        @include color-svg('../images/icons/v3/trash/trash.svg', $color-black);
       }
     }
   }

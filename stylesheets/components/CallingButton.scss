@@ -3,9 +3,9 @@
 
 .CallingButton {
   @mixin icon($path) {
-    @include color-svg($path, $color-white, $mask-origin: padding-box);
-    height: 24px;
-    width: 24px;
+    @include color-svg($path, $color-white);
+    height: 20px;
+    width: 20px;
   }
 
   &__icon {
@@ -46,9 +46,11 @@
     // If the on/off states seem backwards, it's because this button reflects "is audio
     //   muted?", not "is audio on?".
     &--audio {
-      $icon: '../images/icons/v2/mic-off-solid-28.svg';
+      $icon: '../images/icons/v3/mic/mic-slash-fill-light.svg';
       &--on {
-        @include calling-button-icon-off($icon);
+        @include calling-button-icon-off(
+          '../images/icons/v3/mic/mic-fill-light.svg'
+        );
       }
       &--off {
         @include calling-button-icon-on($icon);
@@ -59,9 +61,11 @@
     }
 
     &--video {
-      $icon: '../images/icons/v2/video-solid-28.svg';
+      $icon: '../images/icons/v3/video/video-slash-fill-light.svg';
       &--on {
-        @include calling-button-icon-on($icon);
+        @include calling-button-icon-on(
+          '../images/icons/v3/video/video-fill-light.svg'
+        );
       }
       &--off {
         @include calling-button-icon-off($icon);
@@ -73,14 +77,14 @@
 
     &--hangup {
       @include calling-button-icon(
-        '../images/icons/v2/phone-down-28.svg',
+        '../images/icons/v3/phone/phone-down-fill-light.svg',
         $color-accent-red,
         $color-white
       );
     }
 
     &--ring {
-      $icon: '../images/icons/v2/ring-28.svg';
+      $icon: '../images/icons/v3/bell/bell-ring-fill-light.svg';
       &--on {
         @include calling-button-icon-on($icon);
       }
@@ -93,7 +97,7 @@
     }
 
     &--presenting {
-      $icon: '../images/icons/v2/share-screen-26.svg';
+      $icon: '../images/icons/v3/share_screen/share_screen-fill-light.svg';
       &--on {
         @include calling-button-icon-on($icon);
       }
@@ -107,7 +111,7 @@
   }
 
   &__participants {
-    @include icon('../images/icons/v2/group-solid-24.svg');
+    @include icon('../images/icons/v3/group/group.svg');
     display: inline-block;
 
     &--container {
@@ -121,9 +125,6 @@
       border-radius: 16px;
       padding-block: 6px;
       padding-inline: 8px;
-      padding-bottom: 2px;
-      margin-top: -6px;
-      margin-inline-end: -8px;
     }
 
     &--count {
@@ -134,23 +135,23 @@
   }
 
   &__settings {
-    @include icon('../images/icons/v2/settings-solid-16.svg');
+    @include icon('../images/icons/v3/tune/tune.svg');
   }
 
   &__grid-view {
-    @include icon('../images/icons/v2/grid-view-solid-24.svg');
+    @include icon('../images/icons/v3/grid/grid.svg');
   }
 
   &__speaker-view {
-    @include icon('../images/icons/v2/speaker-view-solid-24.svg');
+    @include icon('../images/icons/v3/speaker_view/speaker_view.svg');
   }
 
   &__pip {
-    @include icon('../images/icons/v2/pip-minimize-24.svg');
+    @include icon('../images/icons/v3/pip/pip.svg');
   }
 
   &__cancel {
-    @include icon('../images/icons/v2/x-24.svg');
+    @include icon('../images/icons/v3/x/x.svg');
   }
 
   &__container {

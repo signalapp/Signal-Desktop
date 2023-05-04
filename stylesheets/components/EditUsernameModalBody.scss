@@ -31,18 +31,15 @@
         display: block;
         width: 36px;
         height: 36px;
-        -webkit-mask-size: 100%;
         content: '';
 
         @include light-theme {
-          background-color: $color-gray-75;
+          @include color-svg('../images/icons/v3/at/at.svg', $color-gray-75);
         }
 
         @include dark-theme {
-          background-color: $color-gray-15;
+          @include color-svg('../images/icons/v3/at/at.svg', $color-gray-15);
         }
-
-        -webkit-mask: url(../images/icons/v2/at-24.svg) no-repeat center;
       }
     }
 

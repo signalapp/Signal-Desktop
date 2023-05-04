@@ -33,20 +33,14 @@
     &:before {
       content: '';
       display: inline-block;
-      height: 24px;
-      width: 24px;
+      height: 20px;
+      width: 20px;
 
       @include light-theme {
-        @include color-svg(
-          '../images/icons/v2/mic-outline-24.svg',
-          $color-gray-75
-        );
+        @include color-svg('../images/icons/v3/mic/mic.svg', $color-gray-75);
       }
       @include dark-theme {
-        @include color-svg(
-          '../images/icons/v2/mic-outline-24.svg',
-          $color-gray-15
-        );
+        @include color-svg('../images/icons/v3/mic/mic.svg', $color-gray-15);
       }
     }
   }
@@ -82,7 +76,7 @@
 
       .icon {
         @include color-svg(
-          '../images/icons/v2/check-24.svg',
+          '../images/icons/v3/check/check.svg',
           $color-accent-green
         );
       }
@@ -93,7 +87,7 @@
       border: 1px solid $color-accent-red;
 
       .icon {
-        @include color-svg('../images/icons/v2/x-24.svg', $color-accent-red);
+        @include color-svg('../images/icons/v3/x/x.svg', $color-accent-red);
       }
     }
   }

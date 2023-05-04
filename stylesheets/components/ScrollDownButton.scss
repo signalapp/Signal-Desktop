@@ -33,14 +33,14 @@
     &__icon {
       @include light-theme {
         @include color-svg(
-          '../images/icons/v2/chevron-down-20.svg',
+          '../images/icons/v3/chevron/chevron-down.svg',
           $color-gray-75
         );
       }
 
       @include dark-theme {
         @include color-svg(
-          '../images/icons/v2/chevron-down-20.svg',
+          '../images/icons/v3/chevron/chevron-down.svg',
           $color-gray-15
         );
       }

@@ -74,10 +74,7 @@ $footer-height: 36px;
 
     &::after {
       @include dark-theme {
-        @include color-svg(
-          '../images/icons/v2/emoji-smiley-outline-24.svg',
-          $color-white
-        );
+        @include color-svg('../images/icons/v3/emoji/emoji.svg', $color-white);
       }
     }
   }
@@ -236,7 +233,7 @@ $footer-height: 36px;
   }
 
   &__copy-icon {
-    @include color-svg('../images/icons/v2/copy-outline-24.svg', $color-white);
+    @include color-svg('../images/icons/v3/copy/copy.svg', $color-white);
   }
 
   &__read-receipts-off {

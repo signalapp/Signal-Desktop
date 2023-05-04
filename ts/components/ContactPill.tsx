@@ -59,7 +59,7 @@ export function ContactPill({
         profileName={profileName}
         title={title}
         sharedGroupNames={sharedGroupNames}
-        size={AvatarSize.TWENTY_EIGHT}
+        size={AvatarSize.TWENTY}
         unblurredAvatarPath={unblurredAvatarPath}
       />
       <ContactName

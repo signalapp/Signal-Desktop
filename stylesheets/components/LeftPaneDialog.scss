@@ -93,20 +93,22 @@
     }
 
     &--relink {
-      -webkit-mask: url('../images/icons/v2/link-broken-16.svg') no-repeat
+      -webkit-mask: url('../images/icons/v3/link/link-slash.svg') no-repeat
         center;
     }
 
     &--network {
-      -webkit-mask: url('../images/icons/v2/offline-22.svg') no-repeat center;
+      -webkit-mask: url('../images/icons/v3/wifi/wifi-error.svg') no-repeat
+        center;
     }
 
     &--update {
-      -webkit-mask: url('../images/icons/v2/refresh-24.svg') no-repeat center;
+      -webkit-mask: url('../images/icons/v3/refresh/refresh.svg') no-repeat
+        center;
     }
 
     &--warning {
-      -webkit-mask: url('../images/icons/v2/warning-outline-24.svg') no-repeat
+      -webkit-mask: url('../images/icons/v3/error/error-triangle.svg') no-repeat
         center;
     }
   }
@@ -126,7 +128,7 @@
     width: 20px;
 
     &::before {
-      -webkit-mask: url('../images/icons/v2/x-24.svg') no-repeat center;
+      -webkit-mask: url('../images/icons/v3/x/x.svg') no-repeat center;
       background-color: $color-white;
       content: '';
       display: block;

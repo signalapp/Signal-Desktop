@@ -57,7 +57,7 @@
     margin-inline: 52px;
 
     &::before {
-      @include color-svg('../images/icons/v2/link-24.svg', $color-gray-90);
+      @include color-svg('../images/icons/v3/link/link.svg', $color-gray-90);
       content: '';
       display: block;
       height: 48px;

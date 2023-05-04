@@ -34,24 +34,26 @@
   }
 
   &::after {
-    border: 2px solid $color-gray-60;
-    border-radius: 2px;
-    /* stylelint-disable-next-line liberty/use-logical-spec */
-    border-right: 0;
-    border-top: 0;
     content: ' ';
     display: block;
-    height: 10px;
+    height: 16px;
     pointer-events: none;
     position: absolute;
-    inset-inline-end: 15px;
-    top: 14px;
-    transform-origin: center;
-    transform: rotate(-45deg);
-    width: 10px;
+    inset-inline-end: 8px;
+    top: 11px;
+    width: 16px;
+    @include light-theme {
+      @include color-svg(
+        '../images/icons/v3/dropdown/dropdown-compact-light.svg',
+        $color-gray-60
+      );
+    }
 
     @include dark-theme {
-      border-color: $color-gray-15;
+      @include color-svg(
+        '../images/icons/v3/dropdown/dropdown-compact-light.svg',
+        $color-gray-15
+      );
     }
   }
 }
