@@ -409,6 +409,7 @@ export const EmojiPicker = React.memo(
                 categories.map(cat =>
                   cat === 'recents' && firstRecent.length === 0 ? null : (
                     <button
+                      aria-pressed={selectedCategory === cat}
                       type="button"
                       key={cat}
                       data-category={cat}
@@ -504,6 +505,7 @@ export const EmojiPicker = React.memo(
                 <div className="module-emoji-picker__footer__skin-tones">
                   {[0, 1, 2, 3, 4, 5].map(tone => (
                     <button
+                      aria-pressed={selectedTone === tone}
                       type="button"
                       key={tone}
                       data-tone={tone}
