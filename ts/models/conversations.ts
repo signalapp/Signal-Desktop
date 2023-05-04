@@ -3470,6 +3470,8 @@ export class ConversationModel extends window.Backbone
 
         if (canConversationBeUnarchived(this.attributes)) {
           this.setArchived(false);
+        } else {
+          window.Signal.Data.updateConversation(this.attributes);
         }
       })
     );
