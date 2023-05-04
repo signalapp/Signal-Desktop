@@ -11,12 +11,26 @@
   border-radius: 6px;
 
   @include light-theme {
+    background: $color-black-alpha-08;
     color: $color-gray-90;
-    background: $color-gray-05;
   }
   @include dark-theme {
-    color: $color-gray-02;
-    background: $color-gray-75;
+    background: $color-white-alpha-12;
+    color: $color-gray-05;
+  }
+
+  @include keyboard-mode {
+    &:focus-within {
+      @include light-theme {
+        background: $color-gray-45;
+        color: $color-white;
+      }
+
+      @include dark-theme {
+        background: $color-gray-25;
+        color: $color-gray-90;
+      }
+    }
   }
 
   &__contact-name {
@@ -56,19 +70,15 @@
 
     @include keyboard-mode {
       &:focus {
-        background: $color-gray-15;
-
         &::before {
-          @include color-svg($icon, $color-ultramarine);
+          @include color-svg($icon, $color-white);
         }
       }
     }
     @include dark-keyboard-mode {
       &:focus {
-        background: $color-gray-65;
-
         &::before {
-          @include color-svg($icon, $color-ultramarine-light);
+          @include color-svg($icon, $color-gray-90);
         }
       }
     }
