@@ -159,6 +159,7 @@ type DecryptResult = Readonly<
 type DecryptSealedSenderResult = Readonly<{
   plaintext?: Uint8Array;
   unsealedPlaintext?: SealedSenderDecryptionResult;
+  wasEncrypted: boolean;
 }>;
 
 type InnerDecryptResultType = Readonly<{
@@ -1700,6 +1701,7 @@ export default class MessageReceiver
 
       return {
         plaintext: plaintextContent.body(),
+        wasEncrypted: false,
       };
     }
 
@@ -1731,7 +1733,7 @@ export default class MessageReceiver
           ),
         zone
       );
-      return { plaintext };
+      return { plaintext, wasEncrypted: true };
     }
 
     log.info(
@@ -1773,7 +1775,7 @@ export default class MessageReceiver
       zone
     );
 
-    return { unsealedPlaintext };
+    return { unsealedPlaintext, wasEncrypted: true };
   }
 
   private async innerDecrypt(
@@ -1892,14 +1894,11 @@ export default class MessageReceiver
     }
     if (envelope.type === envelopeTypeEnum.UNIDENTIFIED_SENDER) {
       log.info(`decrypt/${logId}: unidentified message`);
-      const { plaintext, unsealedPlaintext } = await this.decryptSealedSender(
-        stores,
-        envelope,
-        ciphertext
-      );
+      const { plaintext, unsealedPlaintext, wasEncrypted } =
+        await this.decryptSealedSender(stores, envelope, ciphertext);
 
       if (plaintext) {
-        return { plaintext: this.unpad(plaintext), wasEncrypted: false };
+        return { plaintext: this.unpad(plaintext), wasEncrypted };
       }
 
       if (unsealedPlaintext) {
@@ -1913,7 +1912,7 @@ export default class MessageReceiver
 
         // Return just the content because that matches the signature of the other
         //   decrypt methods used above.
-        return { plaintext: this.unpad(content), wasEncrypted: true };
+        return { plaintext: this.unpad(content), wasEncrypted };
       }
 
       throw new Error('Unexpected lack of plaintext from unidentified sender');
