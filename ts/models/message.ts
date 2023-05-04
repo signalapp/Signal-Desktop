@@ -43,6 +43,7 @@ import {
   PropsForGroupUpdateLeft,
   PropsForGroupUpdateName,
   PropsForMessageWithoutConvoProps,
+  PropsForQuote,
 } from '../state/ducks/conversations';
 import {
   VisibleMessage,
@@ -286,7 +287,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const disabled = !expireTimer;
 
     const basicProps: PropsForExpirationTimer = {
-      ...this.findAndFormatContact(source),
+      ...findAndFormatContact(source),
       timespan,
       disabled,
       type: fromSync ? 'fromSync' : UserUtils.isUsFromCache(source) ? 'fromMe' : 'fromOther',
@@ -339,7 +340,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       return null;
     }
 
-    const contact = this.findAndFormatContact(dataExtractionNotification.source);
+    const contact = findAndFormatContact(dataExtractionNotification.source);
 
     return {
       ...dataExtractionNotification,
@@ -361,7 +362,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       return null;
     }
 
-    const contact = this.findAndFormatContact(messageRequestResponse.source);
+    const contact = findAndFormatContact(messageRequestResponse.source);
 
     return {
       ...messageRequestResponse,
@@ -537,26 +538,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     return props;
   }
 
-  public processQuoteAttachment(attachment: any) {
-    const { thumbnail } = attachment;
-    const path = thumbnail && thumbnail.path && getAbsoluteAttachmentPath(thumbnail.path);
-    const objectUrl = thumbnail && thumbnail.objectUrl;
-
-    const thumbnailWithObjectUrl =
-      !path && !objectUrl
-        ? null
-        : // tslint:disable: prefer-object-spread
-          Object.assign({}, attachment.thumbnail || {}, {
-            objectUrl: path || objectUrl,
-          });
-
-    return Object.assign({}, attachment, {
-      isVoiceMessage: isVoiceMessage(attachment),
-      thumbnail: thumbnailWithObjectUrl,
-    });
-    // tslint:enable: prefer-object-spread
-  }
-
   public getPropsForPreview(): Array<any> | null {
     const previews = this.get('preview') || null;
 
@@ -596,11 +577,12 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const { author, id, referencedMessageNotFound } = quote;
     const contact: ConversationModel = author && getConversationController().get(author);
 
-    const authorName = contact ? contact.getContactProfileNameOrShortenedPubKey() : null;
+    const authorName =
+      contact && contact.isPrivate() ? contact.getContactProfileNameOrShortenedPubKey() : null;
 
     let isFromMe = contact ? contact.id === UserUtils.getOurPubKeyStrFromCache() : false;
 
-    if (this.getConversation()?.isPublic() && PubKey.hasBlindedPrefix(author)) {
+    if (contact?.isPublic() && PubKey.hasBlindedPrefix(author)) {
       const room = OpenGroupData.getV2OpenGroupRoom(this.get('conversationId'));
       if (room && roomHasBlindEnabled(room)) {
         const usFromCache = findCachedBlindedIdFromUnblinded(
@@ -640,9 +622,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         quoteProps.text = sliceQuoteText(quote.text);
       }
 
-      const quoteAttachment = firstAttachment
-        ? this.processQuoteAttachment(firstAttachment)
-        : undefined;
+      const quoteAttachment = firstAttachment ? processQuoteAttachment(firstAttachment) : undefined;
       if (quoteAttachment) {
         // only set attachment if referencedMessageNotFound is false and we have one
         quoteProps.attachment = quoteAttachment;
@@ -729,7 +709,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         const errorsForContact = errorsGroupedById[id];
         const isOutgoingKeyError = false;
 
-        const contact = this.findAndFormatContact(id);
+        const contact = findAndFormatContact(id);
         return {
           ...contact,
           // fallback to the message status if we do not have a status with a user
@@ -1217,31 +1197,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     }
   }
 
-  public findAndFormatContact(pubkey: string): FindAndFormatContactType {
-    const contactModel = getConversationController().get(pubkey);
-    let profileName: string | null = null;
-    let isMe = false;
-
-    if (
-      pubkey === UserUtils.getOurPubKeyStrFromCache() ||
-      (pubkey && pubkey.startsWith('15') && isUsAnySogsFromCache(pubkey))
-    ) {
-      profileName = window.i18n('you');
-      isMe = true;
-    } else {
-      profileName = contactModel?.getNicknameOrRealUsername() || null;
-    }
-
-    return {
-      pubkey: pubkey,
-      avatarPath: contactModel ? contactModel.getAvatarPath() : null,
-      name: contactModel?.getRealSessionUsername() || null,
-      profileName,
-      title: contactModel?.getTitle() || null,
-      isMe,
-    };
-  }
-
   private dispatchMessageUpdate() {
     updatesToDispatch.set(this.id, this.getMessageModelProps());
     throttledAllMessagesDispatch();
@@ -1410,48 +1365,92 @@ export class MessageCollection extends Backbone.Collection<MessageModel> {}
 
 MessageCollection.prototype.model = MessageModel;
 
-// TODO rename and consolidate with getPropsForQuote
-export function verifyQuote(
-  convo: ConversationModel,
-  msg: PropsForMessageWithoutConvoProps | undefined
-) {
-  const referencedMessageNotFound = Boolean(msg);
-  const authorName = convo ? convo.getContactProfileNameOrShortenedPubKey() : null;
-  let isFromMe = convo ? convo.id === UserUtils.getOurPubKeyStrFromCache() : false;
+export function findAndFormatContact(pubkey: string): FindAndFormatContactType {
+  const contactModel = getConversationController().get(pubkey);
+  let profileName: string | null = null;
+  let isMe = false;
 
-  // NOTE follows PropsForQuote except the sender can be undefined
-  let quoteProps: any = {
-    authorName: authorName || 'Unknown',
-    isFromMe,
-    referencedMessageNotFound,
-  };
-
-  if (!msg) {
-    return quoteProps;
+  if (
+    pubkey === UserUtils.getOurPubKeyStrFromCache() ||
+    (pubkey && pubkey.startsWith('15') && isUsAnySogsFromCache(pubkey))
+  ) {
+    profileName = window.i18n('you');
+    isMe = true;
+  } else {
+    profileName = contactModel?.getNicknameOrRealUsername() || null;
   }
 
-  const id = msg.id;
-  const author = msg.sender;
+  return {
+    pubkey: pubkey,
+    avatarPath: contactModel ? contactModel.getAvatarPath() : null,
+    name: contactModel?.getRealSessionUsername() || null,
+    profileName,
+    title: contactModel?.getTitle() || null,
+    isMe,
+  };
+}
 
-  if (convo?.isPublic() && PubKey.hasBlindedPrefix(author)) {
-    const room = OpenGroupData.getV2OpenGroupRoom(msg.convoId);
+function processQuoteAttachment(attachment: any) {
+  const { thumbnail } = attachment;
+  const path = thumbnail && thumbnail.path && getAbsoluteAttachmentPath(thumbnail.path);
+  const objectUrl = thumbnail && thumbnail.objectUrl;
+
+  const thumbnailWithObjectUrl =
+    !path && !objectUrl
+      ? null
+      : // tslint:disable: prefer-object-spread
+        Object.assign({}, attachment.thumbnail || {}, {
+          objectUrl: path || objectUrl,
+        });
+
+  return Object.assign({}, attachment, {
+    isVoiceMessage: isVoiceMessage(attachment),
+    thumbnail: thumbnailWithObjectUrl,
+  });
+  // tslint:enable: prefer-object-spread
+}
+
+// TODO rename and consolidate with getPropsForQuote
+export function overrideWithSourceMessage(
+  quote: PropsForQuote,
+  msg: MessageModelPropsWithoutConvoProps
+): PropsForQuote {
+  const msgProps = msg.propsForMessage;
+  if (!msgProps || msgProps.isDeleted) {
+    return quote;
+  }
+
+  const convo = getConversationController().getOrThrow(String(msgProps?.convoId));
+
+  const sender = msgProps.sender && isEmpty(msgProps.sender) ? msgProps.sender : quote.sender;
+  const contact = findAndFormatContact(sender);
+  const authorName = contact?.profileName || contact?.name || 'Unknown';
+  const attachment =
+    msgProps.attachments && msgProps.attachments[0] ? msgProps.attachments[0] : quote.attachment;
+
+  let isFromMe = convo ? convo.id === UserUtils.getOurPubKeyStrFromCache() : false;
+
+  if (convo?.isPublic() && PubKey.hasBlindedPrefix(sender)) {
+    const room = OpenGroupData.getV2OpenGroupRoom(msgProps.convoId);
     if (room && roomHasBlindEnabled(room)) {
       const usFromCache = findCachedBlindedIdFromUnblinded(
         UserUtils.getOurPubKeyStrFromCache(),
         room.serverPublicKey
       );
-      if (usFromCache && usFromCache === author) {
+      if (usFromCache && usFromCache === sender) {
         isFromMe = true;
       }
     }
   }
 
-  const attachment = msg.attachments && msg.attachments[0];
-  quoteProps = {
-    ...quoteProps,
-    sender: author,
-    messageId: id,
-    attachment: referencedMessageNotFound && attachment ? attachment : undefined,
+  const quoteProps: PropsForQuote = {
+    text: msgProps.text || quote.text,
+    attachment: attachment ? processQuoteAttachment(attachment) : undefined,
+    isFromMe,
+    sender,
+    authorName,
+    messageId: msgProps.id || quote.messageId,
+    referencedMessageNotFound: false,
   };
 
   return quoteProps;

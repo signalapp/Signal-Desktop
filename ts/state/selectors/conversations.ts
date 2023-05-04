@@ -8,7 +8,6 @@ import {
   MessageModelPropsWithConvoProps,
   MessageModelPropsWithoutConvoProps,
   MessagePropsDetails,
-  PropsForQuote,
   ReduxConversationType,
   SortedMessageModelProps,
 } from '../ducks/conversations';
@@ -37,7 +36,7 @@ import { ConversationTypeEnum } from '../../models/conversationAttributes';
 
 import { MessageReactsSelectorProps } from '../../components/conversation/message/message-content/MessageReactions';
 import { filter, isEmpty, pick, sortBy } from 'lodash';
-import { verifyQuote } from '../../models/message';
+import { overrideWithSourceMessage } from '../../models/message';
 
 export const getConversations = (state: StateType): ConversationsStateType => state.conversations;
 
@@ -977,7 +976,7 @@ export const getMessageQuoteProps = createSelector(
     }
 
     const direction = msgProps.propsForMessage.direction;
-    const quote = msgProps.propsForQuote;
+    let quote = msgProps.propsForQuote;
     if (!direction || !quote || isEmpty(quote)) {
       return undefined;
     }
@@ -987,18 +986,13 @@ export const getMessageQuoteProps = createSelector(
       return undefined;
     }
 
-    let quoteProps: PropsForQuote = quote;
-
-    const conversationId = convosProps.selectedConversation;
-    const sourceMessage = convosProps.quotes[`${messageId}-${sender}`].propsForMessage;
-    if (conversationId && sourceMessage) {
-      const convo = getConversationController().get(conversationId);
-      quoteProps = verifyQuote(convo, sourceMessage);
+    const sourceMessage = convosProps.quotes[`${messageId}-${sender}`];
+    if (sourceMessage) {
+      quote = overrideWithSourceMessage(quote, sourceMessage);
     }
 
-    window.log.debug(`WIP: quoteProps`, quoteProps);
-
-    return { direction, quote: quoteProps };
+    window.log.debug(`WIP: quote`, quote);
+    return { direction, quote };
   }
 );
 
