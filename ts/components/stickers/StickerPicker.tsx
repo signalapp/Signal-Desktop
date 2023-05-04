@@ -176,6 +176,7 @@ export const StickerPicker = React.memo(
                 >
                   {hasPacks ? (
                     <button
+                      aria-pressed={currentTab === 'recents'}
                       type="button"
                       onClick={recentsHandler}
                       className={classNames({
@@ -189,6 +190,7 @@ export const StickerPicker = React.memo(
                   ) : null}
                   {packs.map((pack, i) => (
                     <button
+                      aria-pressed={currentTab === pack.id}
                       type="button"
                       key={pack.id}
                       onClick={packsHandlers[i]}
