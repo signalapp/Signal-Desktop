@@ -5,7 +5,7 @@ import { MIME } from '../../../../../types';
 
 import { noop } from 'lodash';
 import { QuoteImage } from './QuoteImage';
-import { QuoteIcon } from './QuoteIcon';
+import classNames from 'classnames';
 
 function getObjectUrl(thumbnail: Attachment | undefined): string | undefined {
   if (thumbnail && thumbnail.objectUrl) {
@@ -14,6 +14,25 @@ function getObjectUrl(thumbnail: Attachment | undefined): string | undefined {
 
   return;
 }
+
+const QuoteIcon = (props: any) => {
+  const { icon } = props;
+
+  return (
+    <div className="module-quote__icon-container">
+      <div className="module-quote__icon-container__inner">
+        <div className="module-quote__icon-container__circle-background">
+          <div
+            className={classNames(
+              'module-quote__icon-container__icon',
+              `module-quote__icon-container__icon--${icon}`
+            )}
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export const QuoteIconContainer = (
   props: Pick<QuotePropsWithoutListener, 'attachment'> & {
