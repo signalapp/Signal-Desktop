@@ -9,7 +9,7 @@ import {
   isMessageDetailView,
   isMessageSelectionMode,
 } from '../../../../state/selectors/conversations';
-import { Quote } from './Quote';
+import { Quote } from './quote/Quote';
 import { ToastUtils } from '../../../../session/utils';
 import { Data } from '../../../../data/data';
 import { MessageModel } from '../../../../models/message';
@@ -23,12 +23,36 @@ type Props = {
 export type MessageQuoteSelectorProps = Pick<MessageRenderingProps, 'quote' | 'direction'>;
 
 export const MessageQuote = (props: Props) => {
-  const selected = useSelector(state => getMessageQuoteProps(state as any, props.messageId));
   const multiSelectMode = useSelector(isMessageSelectionMode);
   const isMessageDetailViewMode = useSelector(isMessageDetailView);
 
-  const quote = selected ? selected.quote : undefined;
-  const direction = selected ? selected.direction : undefined;
+  const selected = useSelector(state => getMessageQuoteProps(state as any, props.messageId));
+  if (!selected) {
+    return null;
+  }
+
+  const { quote, direction } = selected;
+  if (!quote || !quote.sender || !quote.messageId) {
+    return null;
+  }
+
+  const {
+    text,
+    attachment,
+    // TODO
+    // isFromMe,
+    sender: quoteAuthor,
+    authorProfileName,
+    authorName,
+    messageId: quotedMessageSentAt,
+    referencedMessageNotFound,
+  } = quote;
+
+  const quoteText = text || window.i18n('originalMessageNotFound');
+  const quoteNotFound = referencedMessageNotFound || false;
+
+  const shortenedPubkey = PubKey.shorten(quoteAuthor);
+  const displayedPubkey = authorProfileName ? shortenedPubkey : quoteAuthor;
 
   const onQuoteClick = useCallback(
     async (event: React.MouseEvent<HTMLDivElement>) => {
@@ -45,18 +69,15 @@ export const MessageQuote = (props: Props) => {
         return;
       }
 
-      const {
-        referencedMessageNotFound,
-        messageId: quotedMessageSentAt,
-        sender: quoteAuthor,
-      } = quote;
       // For simplicity's sake, we show the 'not found' toast no matter what if we were
-      //   not able to find the referenced message when the quote was received.
-      if (referencedMessageNotFound || !quotedMessageSentAt || !quoteAuthor) {
+      // not able to find the referenced message when the quote was received.
+      if (quoteNotFound || !quotedMessageSentAt || !quoteAuthor) {
         ToastUtils.pushOriginalNotFound();
         return;
       }
 
+      // TODO Should no longer have to do this lookup?
+      // Can just use referencedMessageNotFound?
       const collection = await Data.getMessagesBySentAt(_.toNumber(quotedMessageSentAt));
       const foundInDb = collection.find((item: MessageModel) => {
         const messageAuthor = item.get('source');
@@ -68,6 +89,7 @@ export const MessageQuote = (props: Props) => {
         ToastUtils.pushOriginalNotFound();
         return;
       }
+
       void openConversationToSpecificMessage({
         conversationKey: foundInDb.get('conversationId'),
         messageIdToNavigateTo: foundInDb.get('id'),
@@ -76,22 +98,12 @@ export const MessageQuote = (props: Props) => {
     },
     [quote, multiSelectMode, props.messageId]
   );
-  if (!selected) {
-    return null;
-  }
-
-  if (!quote || !quote.sender || !quote.messageId) {
-    return null;
-  }
-  const shortenedPubkey = PubKey.shorten(quote.sender);
-
-  const displayedPubkey = quote.authorProfileName ? shortenedPubkey : quote.sender;
 
   return (
     <Quote
       onClick={onQuoteClick}
-      text={quote.text || ''}
-      attachment={quote.attachment}
+      text={quoteText}
+      attachment={attachment}
       isIncoming={direction === 'incoming'}
       sender={displayedPubkey}
       authorProfileName={quote.authorProfileName}

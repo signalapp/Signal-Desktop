@@ -159,34 +159,6 @@
     }
   }
 
-  /* Reference Warning */
-  &__reference {
-    &-warning {
-      height: 26px;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-
-      background-color: var(--message-link-preview-background-color);
-      padding-inline-start: 8px;
-      padding-inline-end: 8px;
-      margin-inline-end: 8px;
-    }
-
-    &-warning__icon {
-      height: 16px;
-      width: 16px;
-      @include color-svg('../images/broken-link.svg', var(--message-bubbles-received-text-color));
-    }
-
-    &-warning__text {
-      margin-inline-start: 6px;
-      color: var(--message-bubbles-received-text-color);
-      font-size: var(--font-size-sm);
-      line-height: 18px;
-    }
-  }
-
   /* Misc */
   &--no-click {
     cursor: auto;
@@ -225,14 +197,4 @@
   margin-top: var(--margins-xs);
   min-width: 300px; // if the quoted content is small it doesn't look very good so we set a minimum
   padding-right: var(--margins-xs);
-
-  /* This is not within the module-quote class so we handle it separately */
-  .module-quote__reference-warning--outgoing {
-    .module-quote__reference-warning__text {
-      color: var(--message-bubbles-sent-text-color);
-    }
-    .module-quote__reference-warning__icon {
-      @include color-svg('../images/broken-link.svg', var(--message-bubbles-sent-text-color));
-    }
-  }
 }

@@ -9,7 +9,7 @@ import {
 } from '../../models/messageType';
 import { omit } from 'lodash';
 import { ReplyingToMessageProps } from '../../components/conversation/composition/CompositionBox';
-import { QuotedAttachmentType } from '../../components/conversation/message/message-content/Quote';
+import { QuotedAttachmentType } from '../../components/conversation/message/message-content/quote/Quote';
 import { LightBoxOptions } from '../../components/conversation/SessionConversation';
 import {
   ConversationNotificationSettingType,
