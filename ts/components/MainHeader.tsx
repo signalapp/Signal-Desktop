@@ -121,6 +121,8 @@ export function MainHeader({
         ref={setTargetElement}
       >
         <Avatar
+          aria-expanded={showAvatarPopup}
+          aria-owns="MainHeader__AvatarPopup"
           acceptedMessageRequest
           avatarPath={avatarPath}
           badge={badge}
@@ -149,6 +151,7 @@ export function MainHeader({
         portalElement != null &&
         createPortal(
           <div
+            id="MainHeader__AvatarPopup"
             ref={setPopperElement}
             style={{ ...popper.styles.popper, zIndex: 10 }}
             {...popper.attributes.popper}

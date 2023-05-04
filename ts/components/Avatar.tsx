@@ -1,7 +1,13 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { CSSProperties, MouseEvent, ReactChild, ReactNode } from 'react';
+import type {
+  AriaAttributes,
+  CSSProperties,
+  MouseEvent,
+  ReactChild,
+  ReactNode,
+} from 'react';
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { noop } from 'lodash';
@@ -68,7 +74,8 @@ export type Props = {
   | { badge: undefined; theme?: ThemeType }
   | { badge: BadgeType; theme: ThemeType }
 ) &
-  Pick<React.HTMLProps<HTMLDivElement>, 'className'>;
+  Pick<React.HTMLProps<HTMLDivElement>, 'className'> &
+  AriaAttributes;
 
 const BADGE_PLACEMENT_BY_SIZE = new Map<number, BadgePlacementType>([
   [28, { bottom: -4, right: -2 }],
@@ -117,6 +124,7 @@ export function Avatar({
     sharedGroupNames,
     unblurredAvatarPath,
   }),
+  ...ariaProps
 }: Props): JSX.Element {
   const [imageBroken, setImageBroken] = useState(false);
 
@@ -230,7 +238,12 @@ export function Avatar({
   );
   if (onClick) {
     contents = (
-      <button className={contentsClassName} type="button" onClick={onClick}>
+      <button
+        {...ariaProps}
+        className={contentsClassName}
+        type="button"
+        onClick={onClick}
+      >
         {contentsChildren}
       </button>
     );
