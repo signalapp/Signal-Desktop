@@ -35,7 +35,9 @@ describe('locale', async () => {
       await testCase(['an', 'fr-FR'], 'fr'); // If we ever add support for Aragonese, this test will fail.
 
       // Specific cases we want to ensure work as expected
-      await testCase(['zh-Hant-TW'], 'zh-TW');
+      await testCase(['zh-TW'], 'zh-Hant');
+      await testCase(['zh-Hant-TW'], 'zh-Hant');
+      await testCase(['zh-Hant-CA'], 'zh-Hant');
       await testCase(['zh-Hant-HK'], 'zh-HK');
       await testCase(['zh'], 'zh-CN');
       await testCase(['yue'], 'yue');

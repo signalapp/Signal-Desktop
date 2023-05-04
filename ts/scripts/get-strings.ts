@@ -44,6 +44,13 @@ function rename(from: string, to: string) {
 // "zh-YU" actually implies "Chinese as spoken in Yugoslavia (canonicalized to Serbia)"
 rename('zh-YU', 'yue');
 
+// For most of the Chinese-speaking world, where we don't have a region specific
+// locale available (e.g. zh-HK), zh-TW is a suitable choice for "Traditional Chinese".
+//
+// However, Intl.LocaleMatcher won't match "zh-Hant-XX" to "zh-TW",
+// we need to rename it to "zh-Hant" explicitly to make it work.
+rename('zh-TW', 'zh-Hant');
+
 console.log('Formatting newly-downloaded strings!');
 console.log();
 execSync('yarn format', {
