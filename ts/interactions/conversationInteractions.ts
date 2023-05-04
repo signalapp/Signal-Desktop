@@ -39,28 +39,28 @@ import { BlockedNumberController } from '../util/blockedNumberController';
 import { encryptProfile } from '../util/crypto/profileEncrypter';
 import { Storage, setLastProfileUpdateTimestamp } from '../util/storage';
 import { OpenGroupUtils } from '../session/apis/open_group_api/utils';
-import { SessionUtilUserGroups } from '../session/utils/libsession/libsession_utils_user_groups';
 import { leaveClosedGroup } from '../session/group/closed-group';
 import { SessionUtilContact } from '../session/utils/libsession/libsession_utils_contacts';
 import { SettingsKey } from '../data/settings-key';
 import { ReleasedFeatures } from '../util/releaseFeature';
+import { UserGroupsWrapperActions } from '../webworker/workers/browser/libsession_worker_interface';
 
-export function copyPublicKeyByConvoId(convoId: string) {
+export async function copyPublicKeyByConvoId(convoId: string) {
   if (OpenGroupUtils.isOpenGroupV2(convoId)) {
-    const fromWrapper = SessionUtilUserGroups.getCommunityByConvoIdCached(convoId);
+    const fromWrapper = await UserGroupsWrapperActions.getCommunityByFullUrl(convoId);
 
     if (!fromWrapper) {
-      throw new Error('opengroup to copy was not found in the UserGroupsWrapper');
+      window.log.warn('opengroup to copy was not found in the UserGroupsWrapper');
+      return;
     }
 
-    if (fromWrapper.fullUrl) {
-      window.clipboard.writeText(fromWrapper.fullUrl);
+    if (fromWrapper.fullUrlWithPubkey) {
+      window.clipboard.writeText(fromWrapper.fullUrlWithPubkey);
+      ToastUtils.pushCopiedToClipBoard();
     }
   } else {
     window.clipboard.writeText(convoId);
   }
-
-  ToastUtils.pushCopiedToClipBoard();
 }
 
 export async function blockConvoById(conversationId: string) {

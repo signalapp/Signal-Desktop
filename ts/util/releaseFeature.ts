@@ -21,7 +21,7 @@ function getIsFeatureReleasedCached(featureName: FeatureNameTracked) {
     case 'user_config_libsession':
       return isUserConfigLibsessionFeatureReleased;
     default:
-      assertUnreachable(featureName, `case not handled for getIsFeatureReleasedCached`);
+      assertUnreachable(featureName, 'case not handled for getIsFeatureReleasedCached');
   }
 }
 
@@ -34,7 +34,7 @@ function setIsFeatureReleasedCached(featureName: FeatureNameTracked, value: bool
       isUserConfigLibsessionFeatureReleased = value;
       break;
     default:
-      assertUnreachable(featureName, `case not handled for setIsFeatureReleasedCached `);
+      assertUnreachable(featureName, 'case not handled for setIsFeatureReleasedCached');
   }
 }
 
@@ -47,11 +47,11 @@ function getFeatureReleaseTimestamp(featureName: FeatureNameTracked) {
     case 'user_config_libsession':
       // TODO update to agreed value between platforms for `user_config_libsession`
 
-      return 1706778000000; // unix 01/02/2024 09:00;
+      return (window as any).user_config_libsession || 1706778000000; // unix 01/02/2024 09:00;
     //   return 1677488400000; // testing: unix 27/02/2023 09:00
 
     default:
-      assertUnreachable(featureName, `case not handled for getFeatureReleaseTimestamp `);
+      assertUnreachable(featureName, 'case not handled for getFeatureReleaseTimestamp');
   }
 }
 
@@ -90,7 +90,7 @@ async function checkIsFeatureReleased(featureName: FeatureNameTracked): Promise<
   return isReleased;
 }
 
-function checkIsUserConfigFeatureReleased() {
+async function checkIsUserConfigFeatureReleased() {
   return checkIsFeatureReleased('user_config_libsession');
 }
 

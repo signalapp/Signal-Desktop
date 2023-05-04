@@ -34,7 +34,7 @@ function submitForOpenGroup(convoId: string, pubkeys: Array<string>) {
       throw new Error(`getCommunityByFullUrl returned no result for ${convo.id}`);
     }
     const groupInvitation = {
-      url: roomDetails?.fullUrl,
+      url: roomDetails?.fullUrlWithPubkey,
       name: convo.getNicknameOrRealUsernameOrPlaceholder(),
     };
     pubkeys.forEach(async pubkeyStr => {

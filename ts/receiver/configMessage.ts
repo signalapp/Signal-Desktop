@@ -214,7 +214,7 @@ async function handleCommunitiesUpdate() {
   const allCommunitiesInWrapper = await UserGroupsWrapperActions.getAllCommunities();
   window.log.debug(
     'allCommunitiesInWrapper',
-    allCommunitiesInWrapper.map(m => m.fullUrl)
+    allCommunitiesInWrapper.map(m => m.fullUrlWithPubkey)
   );
   const allCommunitiesConversation = getConversationController()
     .getConversations()
@@ -266,7 +266,7 @@ async function handleCommunitiesUpdate() {
   // this call can take quite a long time and should not cause issues to not be awaited
   void Promise.all(
     communitiesToJoinInDB.map(async toJoin => {
-      console.warn('joining community with convoId ', toJoin.fullUrl);
+      window.log.info('joining community with convoId ', toJoin.fullUrlWithPubkey);
       return getOpenGroupManager().attemptConnectionV2OneAtATime(
         toJoin.baseUrl,
         toJoin.roomCasePreserved,

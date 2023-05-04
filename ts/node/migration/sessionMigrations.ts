@@ -1500,7 +1500,7 @@ function updateToSessionSchemaVersion30(currentVersion: number, db: BetterSqlite
     /**
      * Remove the `publicChat` prefix from the communities, instead keep the full url+room in it, with the corresponding http or https prefix.
      * This is easier to handle with the libsession wrappers
-     **/
+     */
     const allOpengroupsConvo = db
       .prepare(
         `SELECT id FROM ${CONVERSATIONS_TABLE} WHERE

@@ -106,7 +106,7 @@ async function generateUpdateExpirySignature({
   const ourEd25519Key = await UserUtils.getUserED25519KeyPair();
 
   if (!ourEd25519Key) {
-    const err = `getSnodeSignatureParams "expiry": User has no getUserED25519KeyPair()`;
+    const err = 'getSnodeSignatureParams "expiry": User has no getUserED25519KeyPair()';
     window.log.warn(err);
     throw new Error(err);
   }

@@ -299,7 +299,6 @@ async function queueNewJobIfNeeded() {
     const leftBeforeNextTick = Math.max(defaultMsBetweenRetries - diff, 0);
     window.log.debug('Scheduling ConfSyncJob: LATER');
 
-    // TODO we need to make the addJob wait for the previous addJob to be done before it can be called.
     await runners.configurationSyncRunner.addJob(
       new ConfigurationSyncJob({ nextAttemptTimestamp: Date.now() + leftBeforeNextTick })
     );
@@ -309,5 +308,5 @@ async function queueNewJobIfNeeded() {
 export const ConfigurationSync = {
   ConfigurationSyncJob,
   queueNewJobIfNeeded: () =>
-    allowOnlyOneAtATime(`ConfigurationSyncJob-oneAtAtTime`, queueNewJobIfNeeded),
+    allowOnlyOneAtATime('ConfigurationSyncJob-oneAtAtTime', queueNewJobIfNeeded),
 };

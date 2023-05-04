@@ -149,9 +149,9 @@ function prepareErrorForPostMessage(error: any) {
     return null;
   }
 
-  if (error.stack) {
-    return error.stack;
-  }
+  // if (error.stack) {
+  //   return error.stack;
+  // }
 
   return error.message;
 }

@@ -238,10 +238,10 @@ export class ConversationController {
 
         try {
           const fromWrapper = await UserGroupsWrapperActions.getCommunityByFullUrl(conversation.id);
-          if (fromWrapper?.fullUrl) {
+          if (fromWrapper?.fullUrlWithPubkey) {
             await SessionUtilConvoInfoVolatile.removeCommunityFromWrapper(
               conversation.id,
-              fromWrapper.fullUrl
+              fromWrapper.fullUrlWithPubkey
             );
           }
         } catch (e) {

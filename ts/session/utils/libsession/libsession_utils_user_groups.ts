@@ -155,7 +155,7 @@ async function refreshCachedUserGroup(convoId: string, duringAppStart = false) {
     let refreshed = false;
     if (OpenGroupUtils.isOpenGroupV2(convoId)) {
       const fromWrapper = await UserGroupsWrapperActions.getCommunityByFullUrl(convoId);
-      if (fromWrapper && fromWrapper.fullUrl) {
+      if (fromWrapper && fromWrapper.fullUrlWithPubkey) {
         mappedCommunityWrapperValues.set(convoId, fromWrapper);
       }
       refreshed = true;
@@ -190,7 +190,7 @@ async function removeCommunityFromWrapper(convoId: string, fullUrlWithOrWithoutP
   );
 
   if (fromWrapper) {
-    await UserGroupsWrapperActions.eraseCommunityByFullUrl(fromWrapper.fullUrl);
+    await UserGroupsWrapperActions.eraseCommunityByFullUrl(fromWrapper.fullUrlWithPubkey);
   }
   mappedCommunityWrapperValues.delete(convoId);
 }

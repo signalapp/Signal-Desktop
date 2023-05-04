@@ -439,7 +439,9 @@ export class SwarmPolling {
                   )}`
                 );
               }
-            } catch (e) {}
+            } catch (e) {
+              // nothing to do I suppose here.
+            }
             results = results.slice(0, results.length - 1);
           }
 
