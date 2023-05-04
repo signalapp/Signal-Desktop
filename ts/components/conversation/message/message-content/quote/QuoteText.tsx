@@ -7,6 +7,34 @@ import classNames from 'classnames';
 import { MessageBody } from '../MessageBody';
 import { MIME } from '../../../../../types';
 import { GoogleChrome } from '../../../../../util';
+import styled from 'styled-components';
+
+const StyledQuoteText = styled.div<{ isIncoming: boolean }>`
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+
+  font-size: 15px;
+  line-height: 18px;
+  text-align: start;
+
+  overflow: hidden;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+  white-space: pre-wrap;
+
+  color: ${props =>
+    props.isIncoming
+      ? 'var(--message-bubbles-received-text-color)'
+      : 'var(--message-bubbles-sent-text-color)'};
+  a {
+    color: ${props =>
+      props.isIncoming
+        ? 'var(--color-received-message-text)'
+        : 'var(--message-bubbles-sent-text-color)'};
+  }
+`;
 
 function getTypeLabel({
   contentType,
@@ -41,15 +69,9 @@ export const QuoteText = (
 
   if (text) {
     return (
-      <div
-        dir="auto"
-        className={classNames(
-          'module-quote__primary__text',
-          isIncoming ? 'module-quote__primary__text--incoming' : null
-        )}
-      >
+      <StyledQuoteText isIncoming={isIncoming} dir="auto">
         <MessageBody text={text} disableLinks={true} disableJumbomoji={true} isGroup={isGroup} />
-      </div>
+      </StyledQuoteText>
     );
   }
 
