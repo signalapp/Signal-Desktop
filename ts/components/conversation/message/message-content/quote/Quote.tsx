@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, MouseEvent } from 'react';
 import classNames from 'classnames';
 
 import * as MIME from '../../../../../types/MIME';
@@ -10,6 +10,7 @@ import { QuoteAuthor } from './QuoteAuthor';
 import { QuoteGenericFile } from './QuoteGenericFile';
 import { QuoteText } from './QuoteText';
 import { QuoteIconContainer } from './QuoteIconContainer';
+import styled from 'styled-components';
 
 export type QuotePropsWithoutListener = {
   attachment?: QuotedAttachmentType;
@@ -52,6 +53,24 @@ function validateQuote(quote: QuotePropsWithoutListener): boolean {
   return false;
 }
 
+const StyledQuote = styled.div<{
+  isIncoming: boolean;
+  onClick: ((e: MouseEvent<HTMLDivElement>) => void) | undefined;
+}>`
+  position: relative;
+
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  overflow: hidden;
+  border-left: 4px solid
+    ${props =>
+      props.isIncoming
+        ? 'var(--message-bubbles-received-text-color)'
+        : 'var(--message-bubbles-sent-text-color)'};
+  cursor: ${props => (props.onClick ? 'pointer' : 'auto')};
+`;
+
 export const Quote = (props: QuotePropsWithListener) => {
   const [imageBroken, setImageBroken] = useState(false);
   const handleImageErrorBound = () => {
@@ -68,15 +87,12 @@ export const Quote = (props: QuotePropsWithListener) => {
 
   return (
     <div className={classNames('module-quote-container')}>
-      <div
-        onClick={onClick}
-        role="button"
-        className={classNames(
-          'module-quote',
-          isIncoming ? 'module-quote--incoming' : 'module-quote--outgoing',
-          !onClick ? 'module-quote--no-click' : null
-        )}
-      >
+      <StyledQuote isIncoming={isIncoming} onClick={onClick} role="button">
+        <QuoteIconContainer
+          attachment={attachment}
+          handleImageErrorBound={handleImageErrorBound}
+          imageBroken={imageBroken}
+        />
         <div className="module-quote__primary">
           <QuoteAuthor
             authorName={props.authorName}
@@ -89,12 +105,7 @@ export const Quote = (props: QuotePropsWithListener) => {
           <QuoteGenericFile {...props} />
           <QuoteText isIncoming={isIncoming} text={text} attachment={attachment} />
         </div>
-        <QuoteIconContainer
-          attachment={attachment}
-          handleImageErrorBound={handleImageErrorBound}
-          imageBroken={imageBroken}
-        />
-      </div>
+      </StyledQuote>
     </div>
   );
 };
