@@ -3687,6 +3687,7 @@ button.module-image__border-overlay:focus {
     @include font-body-1;
     color: $color-white;
     display: flex;
+    align-items: center;
     z-index: $z-index-base;
     margin-top: 10px;
 
@@ -3696,13 +3697,12 @@ button.module-image__border-overlay:focus {
     &::before {
       content: '';
       display: block;
-      @include color-svg(
-        '../images/icons/v3/video/video-slash-fill.svg',
-        $color-white
-      );
-      height: 24px;
+      background-image: url('../images/icons/v3/video/video-slash-fill-white.svg');
+      background-size: 100%;
+      -webkit-filter: drop-shadow(0 0 4px $color-black-alpha-40);
+      height: 20px;
       margin-inline-end: 10px;
-      width: 24px;
+      width: 20px;
     }
   }
 }
@@ -4156,14 +4156,15 @@ button.module-image__border-overlay:focus {
   &__button {
     &--hangup {
       @include color-svg(
-        '../images/icons/v3/phone/phone-down-fill-light.svg',
+        '../images/icons/v3/phone/phone-down-light.svg',
         $color-gray-75
       );
       height: 28px;
       width: 28px;
+      border: none;
       @include dark-theme {
         @include color-svg(
-          '../images/icons/v3/phone/phone-down-fill-light.svg',
+          '../images/icons/v3/phone/phone-down-light.svg',
           $color-gray-15
         );
       }
@@ -4176,6 +4177,7 @@ button.module-image__border-overlay:focus {
       );
       height: 24px;
       width: 24px;
+      border: none;
       @include dark-theme {
         @include color-svg(
           '../images/icons/v3/maximize/maximize-square-light.svg',
@@ -6350,10 +6352,16 @@ button.module-image__border-overlay:focus {
 
   &--profile-editor::after {
     @include light-theme {
-      @include color-svg('../images/icons/v3/emoji/emoji.svg', $color-gray-75);
+      @include color-svg(
+        '../images/icons/v3/emoji/emoji-plus.svg',
+        $color-gray-75
+      );
     }
     @include dark-theme {
-      @include color-svg('../images/icons/v3/emoji/emoji.svg', $color-gray-15);
+      @include color-svg(
+        '../images/icons/v3/emoji/emoji-plus.svg',
+        $color-gray-15
+      );
     }
   }
 

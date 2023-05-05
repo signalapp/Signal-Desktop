@@ -41,13 +41,12 @@
     &::before {
       content: '';
       display: block;
-      @include color-svg(
-        '../images/icons/v3/video/video-slash-fill-light.svg',
-        $color-white
-      );
-      height: 24px;
+      background-image: url('../images/icons/v3/video/video-slash-fill-light-white.svg');
+      background-size: 100%;
+      -webkit-filter: drop-shadow(0 0 4px $color-black-alpha-40);
+      height: 20px;
       margin-bottom: 8px;
-      width: 24px;
+      width: 20px;
     }
   }
 }

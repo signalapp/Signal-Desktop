@@ -62,14 +62,14 @@
       &::after {
         @include light-theme {
           @include color-svg(
-            '../images/icons/v3/compose/compose.svg',
+            '../images/icons/v3/edit/edit.svg',
             $color-gray-75
           );
         }
 
         @include dark-theme {
           @include color-svg(
-            '../images/icons/v3/compose/compose.svg',
+            '../images/icons/v3/edit/edit.svg',
             $color-gray-15
           );
         }

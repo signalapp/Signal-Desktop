@@ -6,6 +6,7 @@
     @include color-svg($path, $color-white);
     height: 20px;
     width: 20px;
+    border: none;
   }
 
   &__icon {
@@ -128,7 +129,7 @@
     }
 
     &--count {
-      @include font-body-2-bold;
+      @include font-body-2;
       margin-inline-start: 5px;
       vertical-align: top;
     }

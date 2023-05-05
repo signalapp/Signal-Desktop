@@ -145,25 +145,68 @@
     }
   }
 
-  &__official-badge {
-    @include color-svg(
-      '../images/icons/v3/official/official-compact.svg',
-      $color-ultramarine
-    );
+  &__official-badge,
+  &__official-badge__large {
     display: inline-block;
+    position: relative;
+
+    &::before,
+    &::after {
+      content: '';
+      display: block;
+      position: absolute;
+    }
+
+    // white background behind the icon
+    &::before {
+      top: 2px;
+      inset-inline-start: 2px;
+      width: 10px;
+      height: 10px;
+      border-radius: 5px;
+      background: $color-white;
+    }
+  }
+
+  &__official-badge {
     height: 14px;
     margin-inline-start: 4px;
     width: 14px;
+
+    &::after {
+      top: 0;
+      inset-inline-start: 0;
+      width: 100%;
+      height: 100%;
+      @include color-svg(
+        '../images/icons/v3/official/official-compact.svg',
+        $color-ultramarine
+      );
+    }
   }
 
   &__official-badge__large {
-    @include color-svg(
-      '../images/icons/v3/official/official.svg',
-      $color-ultramarine
-    );
-    display: inline-block;
     height: 24px;
     margin-inline-start: 9px;
     width: 24px;
+
+    &::before {
+      top: 4px;
+      inset-inline-start: 4px;
+      width: 16px;
+      height: 16px;
+      border-radius: 8px;
+    }
+
+    &::after {
+      top: 0;
+      inset-inline-start: 0;
+      width: 100%;
+      height: 100%;
+      @include color-svg(
+        '../images/icons/v3/official/official.svg',
+        $color-ultramarine
+      );
+    }
   }
 }

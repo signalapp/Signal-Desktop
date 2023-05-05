@@ -49,7 +49,7 @@
     }
 
     &--photo::before {
-      @include button-icon('../images/icons/v3/album/album.svg');
+      @include button-icon('../images/icons/v3/album/album-tilt.svg');
     }
 
     &--text::before {

@@ -87,8 +87,8 @@
     &:after {
       @include color-svg('../images/icons/v3/x/x-compact.svg', $color-gray-75);
       content: '';
-      height: 14px;
-      width: 14px;
+      height: 16px;
+      width: 16px;
     }
   }
 }
