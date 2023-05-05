@@ -216,7 +216,7 @@ describe('pnp/accept gv2 invite', function needsName() {
       )
       .click();
     await conversationStack
-      .locator('.ConversationDetails__tab >> text=Invites (1)')
+      .locator('.ConversationDetails__tabs__tab >> text=Invites (1)')
       .click();
     await conversationStack
       .locator(

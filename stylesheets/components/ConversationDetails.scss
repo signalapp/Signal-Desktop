@@ -118,24 +118,8 @@
   }
 
   &__tabs {
-    display: flex;
-    justify-content: space-around;
-  }
-
-  &__tab {
-    @include font-body-1;
-    cursor: pointer;
-    padding: 15px;
-
-    &:focus {
-      @include mouse-mode {
-        outline: none;
-      }
-    }
-
-    &--selected {
-      @include font-body-1-bold;
-      border-bottom: 2px solid $color-black;
+    &#{&} {
+      border-bottom: none;
     }
   }
 

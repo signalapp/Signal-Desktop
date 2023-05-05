@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import classNames from 'classnames';
 import _ from 'lodash';
 
 import type { ConversationType } from '../../../state/ducks/conversations';
@@ -15,6 +14,7 @@ import { PanelSection } from './PanelSection';
 import { PanelRow } from './PanelRow';
 import { ConversationDetailsIcon, IconType } from './ConversationDetailsIcon';
 import { isAccessControlEnabled } from '../../../groups/util';
+import { Tabs } from '../../Tabs';
 import { assertDev } from '../../../util/assert';
 
 export type PropsDataType = {
@@ -84,78 +84,56 @@ export function PendingInvites({
     );
   }
 
-  const [selectedTab, setSelectedTab] = React.useState(Tab.Requests);
   const [stagedMemberships, setStagedMemberships] =
     React.useState<Array<StagedMembershipType> | null>(null);
 
   return (
     <div className="conversation-details-panel">
-      <div className="ConversationDetails__tabs">
-        <div
-          className={classNames({
-            ConversationDetails__tab: true,
-            'ConversationDetails__tab--selected': selectedTab === Tab.Requests,
-          })}
-          onClick={() => {
-            setSelectedTab(Tab.Requests);
-          }}
-          onKeyUp={(e: React.KeyboardEvent) => {
-            if (e.target === e.currentTarget && e.keyCode === 13) {
-              setSelectedTab(Tab.Requests);
-            }
-          }}
-          role="tab"
-          tabIndex={0}
-        >
-          {i18n('icu:PendingInvites--tab-requests', {
-            count: pendingApprovalMemberships.length,
-          })}
-        </div>
-
-        <div
-          className={classNames({
-            ConversationDetails__tab: true,
-            'ConversationDetails__tab--selected': selectedTab === Tab.Pending,
-          })}
-          onClick={() => {
-            setSelectedTab(Tab.Pending);
-          }}
-          onKeyUp={(e: React.KeyboardEvent) => {
-            if (e.target === e.currentTarget && e.keyCode === 13) {
-              setSelectedTab(Tab.Pending);
-            }
-          }}
-          role="tab"
-          tabIndex={0}
-        >
-          {i18n('icu:PendingInvites--tab-invites', {
-            count: pendingMemberships.length,
-          })}
-        </div>
-      </div>
-
-      {selectedTab === Tab.Requests ? (
-        <MembersPendingAdminApproval
-          conversation={conversation}
-          getPreferredBadge={getPreferredBadge}
-          i18n={i18n}
-          memberships={pendingApprovalMemberships}
-          setStagedMemberships={setStagedMemberships}
-          theme={theme}
-        />
-      ) : null}
-      {selectedTab === Tab.Pending ? (
-        <MembersPendingProfileKey
-          conversation={conversation}
-          getPreferredBadge={getPreferredBadge}
-          i18n={i18n}
-          members={conversation.sortedGroupMembers || []}
-          memberships={pendingMemberships}
-          ourUuid={ourUuid}
-          setStagedMemberships={setStagedMemberships}
-          theme={theme}
-        />
-      ) : null}
+      <Tabs
+        moduleClassName="ConversationDetails__tabs"
+        initialSelectedTab={Tab.Requests}
+        tabs={[
+          {
+            id: Tab.Requests,
+            label: i18n('icu:PendingInvites--tab-requests', {
+              count: pendingApprovalMemberships.length,
+            }),
+          },
+          {
+            id: Tab.Pending,
+            label: i18n('icu:PendingInvites--tab-invites', {
+              count: pendingMemberships.length,
+            }),
+          },
+        ]}
+      >
+        {({ selectedTab }) => (
+          <>
+            {selectedTab === Tab.Requests ? (
+              <MembersPendingAdminApproval
+                conversation={conversation}
+                getPreferredBadge={getPreferredBadge}
+                i18n={i18n}
+                memberships={pendingApprovalMemberships}
+                setStagedMemberships={setStagedMemberships}
+                theme={theme}
+              />
+            ) : null}
+            {selectedTab === Tab.Pending ? (
+              <MembersPendingProfileKey
+                conversation={conversation}
+                getPreferredBadge={getPreferredBadge}
+                i18n={i18n}
+                members={conversation.sortedGroupMembers || []}
+                memberships={pendingMemberships}
+                ourUuid={ourUuid}
+                setStagedMemberships={setStagedMemberships}
+                theme={theme}
+              />
+            ) : null}
+          </>
+        )}
+      </Tabs>
 
       {stagedMemberships && stagedMemberships.length && (
         <MembershipActionConfirmation
