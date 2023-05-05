@@ -9810,6 +9810,14 @@
     "messageformat": "Custom Color",
     "description": "Modal title for the custom color editor"
   },
+  "icu:GradientDial__knob-start": {
+    "messageformat": "Gradient start",
+    "description": "aria-label for the custom color gradient creator knob"
+  },
+  "icu:GradientDial__knob-end": {
+    "messageformat": "Gradient end",
+    "description": "aria-label for the custom color gradient creator knob"
+  },
   "customDisappearingTimeOption": {
     "message": "Custom time...",
     "description": "(deleted 03/29/2023) Text for an option in Disappearing Messages menu and Conversation Details Disappearing Messages setting when no user value is available"

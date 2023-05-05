@@ -99,6 +99,7 @@ export function CustomColorEditor({
               <div data-supertab>
                 <GradientDial
                   deg={color.deg}
+                  i18n={i18n}
                   knob1Style={{ backgroundColor: getHSL(color.start) }}
                   knob2Style={{
                     backgroundColor: getHSL(
