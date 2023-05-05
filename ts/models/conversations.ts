@@ -5546,9 +5546,9 @@ export class ConversationModel extends window.Backbone
         });
 
     let notificationIconUrl;
-    const avatar = this.get('avatar') || this.get('profileAvatar');
-    if (avatar && avatar.path) {
-      notificationIconUrl = getAbsoluteAttachmentPath(avatar.path);
+    const avatarPath = this.getAvatarPath();
+    if (avatarPath) {
+      notificationIconUrl = getAbsoluteAttachmentPath(avatarPath);
     } else if (isMessageInDirectConversation) {
       notificationIconUrl = await this.getIdenticon();
     } else {
