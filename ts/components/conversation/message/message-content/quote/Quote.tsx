@@ -1,5 +1,4 @@
 import React, { useState, MouseEvent } from 'react';
-import classNames from 'classnames';
 
 import * as MIME from '../../../../../types/MIME';
 
@@ -7,7 +6,6 @@ import { useSelector } from 'react-redux';
 
 import { isPublicGroupConversation } from '../../../../../state/selectors/conversations';
 import { QuoteAuthor } from './QuoteAuthor';
-import { QuoteGenericFile } from './QuoteGenericFile';
 import { QuoteText } from './QuoteText';
 import { QuoteIconContainer } from './QuoteIconContainer';
 import styled from 'styled-components';
@@ -54,6 +52,11 @@ function validateQuote(quote: QuotePropsWithoutListener): boolean {
   return false;
 }
 
+const StyledQuoteContainer = styled.div`
+  min-width: 300px; // if the quoted content is small it doesn't look very good so we set a minimum
+  padding-right: var(--margins-xs);
+`;
+
 const StyledQuote = styled.div<{
   hasAttachment: boolean;
   isIncoming: boolean;
@@ -64,7 +67,7 @@ const StyledQuote = styled.div<{
   display: flex;
   flex-direction: row;
   align-items: stretch;
-  overflow: hidden;
+  margin: ${props => (props.hasAttachment ? 'var(--margins-md)' : 'var(--margins-xs)')} 0;
   ${props => !props.hasAttachment && 'border-left: 4px solid;'}
   border-color: ${props =>
     props.isIncoming
@@ -78,6 +81,10 @@ const StyledQuoteTextContent = styled.div`
   padding-inline-start: 10px;
   padding-inline-end: 10px;
   max-width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 `;
 
 export const Quote = (props: QuotePropsWithListener) => {
@@ -95,7 +102,7 @@ export const Quote = (props: QuotePropsWithListener) => {
   const { isIncoming, attachment, text, onClick } = props;
 
   return (
-    <div className={classNames('module-quote-container')}>
+    <StyledQuoteContainer>
       <StyledQuote
         hasAttachment={Boolean(!isEmpty(attachment))}
         isIncoming={isIncoming}
@@ -115,10 +122,9 @@ export const Quote = (props: QuotePropsWithListener) => {
             isIncoming={props.isIncoming}
             showPubkeyForAuthor={isPublic}
           />
-          <QuoteGenericFile {...props} />
           <QuoteText isIncoming={isIncoming} text={text} attachment={attachment} />
         </StyledQuoteTextContent>
       </StyledQuote>
-    </div>
+    </StyledQuoteContainer>
   );
 };

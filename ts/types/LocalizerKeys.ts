@@ -45,6 +45,7 @@ export type LocalizerKeys =
   | 'incomingError'
   | 'media'
   | 'mediaEmptyState'
+  | 'document'
   | 'documents'
   | 'documentsEmptyState'
   | 'today'

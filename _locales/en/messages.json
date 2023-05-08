@@ -45,6 +45,7 @@
   "incomingError": "Error handling incoming message",
   "media": "Media",
   "mediaEmptyState": "No media",
+  "document": "Document",
   "documents": "Documents",
   "documentsEmptyState": "No documents",
   "today": "Today",
