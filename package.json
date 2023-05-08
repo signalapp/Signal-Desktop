@@ -91,7 +91,7 @@
     "@react-spring/web": "9.5.5",
     "@signalapp/better-sqlite3": "8.4.3",
     "@signalapp/libsignal-client": "0.22.0",
-    "@signalapp/ringrtc": "2.26.3",
+    "@signalapp/ringrtc": "2.26.4",
     "@types/fabric": "4.5.3",
     "backbone": "1.4.0",
     "blob-util": "2.0.2",
