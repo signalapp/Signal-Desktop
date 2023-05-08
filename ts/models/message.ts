@@ -447,8 +447,10 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       return 'read';
     }
     const sent = this.get('sent');
+    // control messages we've sent, synced from the network appear to just have the sent_at field set.
+    const sentAt = this.get('sent_at');
     const sentTo = this.get('sent_to') || [];
-    if (sent || sentTo.length > 0) {
+    if (sent || sentTo.length > 0 || sentAt) {
       return 'sent';
     }
 

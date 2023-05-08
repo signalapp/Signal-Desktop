@@ -1431,7 +1431,7 @@ function getBlockedNumbersDuringMigration(db: BetterSqlite3.Database) {
   try {
     const blockedItem = sqlNode.getItemById('blocked', db);
     if (!blockedItem) {
-      throw new Error('no blocked contacts at all');
+      return [];
     }
     const foundBlocked = blockedItem?.value;
     console.info('foundBlockedNumbers during migration', foundBlocked);
@@ -1497,6 +1497,15 @@ function updateToSessionSchemaVersion30(currentVersion: number, db: BetterSqlite
         WHERE type = 'private' AND (active_at IS NULL OR active_at = 0 );`
     ).run({});
 
+    // create the table which is going to handle the wrappers, without any content in this migration.
+    db.exec(`CREATE TABLE ${CONFIG_DUMP_TABLE}(
+          variant TEXT NOT NULL,
+          publicKey TEXT NOT NULL,
+          data BLOB,
+          PRIMARY KEY (publicKey, variant)
+          );
+          `);
+
     /**
      * Remove the `publicChat` prefix from the communities, instead keep the full url+room in it, with the corresponding http or https prefix.
      * This is easier to handle with the libsession wrappers
@@ -1531,7 +1540,7 @@ function updateToSessionSchemaVersion30(currentVersion: number, db: BetterSqlite
         newId,
         oldId: convoDetails.oldConvoId,
       });
-      // do the same for messages and where else?
+      // do the same for messages
 
       db.prepare(
         `UPDATE ${MESSAGES_TABLE} SET
@@ -1543,18 +1552,10 @@ function updateToSessionSchemaVersion30(currentVersion: number, db: BetterSqlite
       db.prepare(
         `UPDATE ${OPEN_GROUP_ROOMS_V2_TABLE} SET
           conversationId = $newId,
-          json = json_set(json, '$.conversationId', $newId);`
-      ).run({ newId });
+          json = json_set(json, '$.conversationId', $newId)
+          WHERE conversationId = $oldConvoId;`
+      ).run({ newId, oldConvoId: convoDetails.oldConvoId });
     });
-
-    // create the table which is going to handle the wrappers, without any content in this migration.
-    db.exec(`CREATE TABLE ${CONFIG_DUMP_TABLE}(
-      variant TEXT NOT NULL,
-      publicKey TEXT NOT NULL,
-      data BLOB,
-      PRIMARY KEY (publicKey, variant)
-      );
-      `);
 
     writeSessionSchemaVersion(targetVersion, db);
   })();
@@ -1712,7 +1713,6 @@ function updateToSessionSchemaVersion31(currentVersion: number, db: BetterSqlite
 
         communitiesToWriteInWrapper.forEach(community => {
           try {
-            console.info('Writing community: ', JSON.stringify(community));
             insertCommunityIntoWrapper(
               community,
               userGroupsConfigWrapper,
@@ -1810,7 +1810,7 @@ function updateToSessionSchemaVersion31(currentVersion: number, db: BetterSqlite
 
     // still, we update the schema version
     writeSessionSchemaVersion(targetVersion, db);
-  });
+  })();
 }
 
 export function printTableColumns(table: string, db: BetterSqlite3.Database) {

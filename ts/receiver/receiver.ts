@@ -1,20 +1,20 @@
+import { v4 as uuidv4 } from 'uuid';
 import { EnvelopePlus } from './types';
 export { downloadAttachment } from './attachments';
-import { v4 as uuidv4 } from 'uuid';
 
 import { addToCache, getAllFromCache, getAllFromCacheForSource, removeFromCache } from './cache';
 
 // innerHandleSwarmContentMessage is only needed because of code duplication in handleDecryptedEnvelope...
-import { handleSwarmContentMessage, innerHandleSwarmContentMessage } from './contentMessage';
 import _ from 'lodash';
+import { handleSwarmContentMessage, innerHandleSwarmContentMessage } from './contentMessage';
 
-import { getEnvelopeId } from './common';
-import { StringUtils, UserUtils } from '../session/utils';
-import { SignalService } from '../protobuf';
 import { Data } from '../data/data';
-import { createTaskWithTimeout } from '../session/utils/TaskWithTimeout';
+import { SignalService } from '../protobuf';
+import { StringUtils, UserUtils } from '../session/utils';
 import { perfEnd, perfStart } from '../session/utils/Performance';
+import { createTaskWithTimeout } from '../session/utils/TaskWithTimeout';
 import { UnprocessedParameter } from '../types/sqlSharedTypes';
+import { getEnvelopeId } from './common';
 
 const incomingMessagePromises: Array<Promise<any>> = [];
 
@@ -147,9 +147,11 @@ export function handleRequest(
  */
 export async function queueAllCached() {
   const items = await getAllFromCache();
-  items.forEach(item => {
-    void queueCached(item);
-  });
+
+  await items.reduce(async (promise, item) => {
+    await promise;
+    await queueCached(item);
+  }, Promise.resolve());
 }
 
 export async function queueAllCachedFromSource(source: string) {

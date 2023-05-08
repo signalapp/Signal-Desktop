@@ -8,11 +8,7 @@ import { openConversationWithMessages } from '../../state/ducks/conversations';
 import { updateConfirmModal } from '../../state/ducks/modalDialog';
 import { getSwarmPollingInstance } from '../apis/snode_api';
 import { SnodeNamespaces } from '../apis/snode_api/namespaces';
-import {
-  generateClosedGroupPublicKey,
-  generateCurve25519KeyPairWithoutPrefix,
-  generateGroupV3Keypair,
-} from '../crypto';
+import { generateClosedGroupPublicKey, generateCurve25519KeyPairWithoutPrefix } from '../crypto';
 import {
   ClosedGroupNewMessage,
   ClosedGroupNewMessageParams,
@@ -31,13 +27,14 @@ export async function createClosedGroup(groupName: string, members: Array<string
 
   const us = UserUtils.getOurPubKeyStrFromCache();
 
-  const identityKeyPair = await generateGroupV3Keypair();
-  if (!identityKeyPair) {
-    throw new Error('Could not create identity keypair for new closed group v3');
-  }
+  // const identityKeyPair = await generateGroupV3Keypair();
+  // if (!identityKeyPair) {
+  //   throw new Error('Could not create identity keypair for new closed group v3');
+  // }
 
   // a v3 pubkey starts with 03 and an old one starts with 05
-  const groupPublicKey = isV3 ? identityKeyPair.pubkey : await generateClosedGroupPublicKey();
+  const groupPublicKey = await generateClosedGroupPublicKey();
+  // const groupPublicKey = isV3 ? identityKeyPair.pubkey : await generateClosedGroupPublicKey();
 
   // the first encryption keypair is generated the same for all versions of closed group
   const encryptionKeyPair = await generateCurve25519KeyPairWithoutPrefix();

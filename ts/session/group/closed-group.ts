@@ -2,34 +2,30 @@ import { PubKey } from '../types';
 
 import _ from 'lodash';
 
-import { fromHexToArray, toHex } from '../utils/String';
-import { BlockedNumberController } from '../../util/blockedNumberController';
-import { getConversationController } from '../conversations';
-import { Data } from '../../data/data';
 import { v4 as uuidv4 } from 'uuid';
-import { SignalService } from '../../protobuf';
-import { generateCurve25519KeyPairWithoutPrefix } from '../crypto';
-import { encryptUsingSessionProtocol } from '../crypto/MessageEncrypter';
-import { ECKeyPair } from '../../receiver/keypairs';
-import { UserUtils } from '../utils';
-import { ClosedGroupMemberLeftMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupMemberLeftMessage';
+import { getMessageQueue } from '..';
+import { Data } from '../../data/data';
 import { ConversationModel } from '../../models/conversation';
+import { ConversationAttributes, ConversationTypeEnum } from '../../models/conversationAttributes';
 import { MessageModel } from '../../models/message';
+import { SignalService } from '../../protobuf';
 import {
   addKeyPairToCacheAndDBIfNeeded,
   distributingClosedGroupEncryptionKeyPairs,
-  markGroupAsLeftOrKicked,
 } from '../../receiver/closedGroups';
-import { getMessageQueue } from '..';
+import { ECKeyPair } from '../../receiver/keypairs';
+import { BlockedNumberController } from '../../util/blockedNumberController';
+import { SnodeNamespaces } from '../apis/snode_api/namespaces';
+import { getConversationController } from '../conversations';
+import { generateCurve25519KeyPairWithoutPrefix } from '../crypto';
+import { encryptUsingSessionProtocol } from '../crypto/MessageEncrypter';
 import { ClosedGroupAddedMembersMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupAddedMembersMessage';
 import { ClosedGroupEncryptionPairMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupEncryptionPairMessage';
 import { ClosedGroupNameChangeMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupNameChangeMessage';
 import { ClosedGroupNewMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupNewMessage';
 import { ClosedGroupRemovedMembersMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupRemovedMembersMessage';
-import { getSwarmPollingInstance } from '../apis/snode_api';
-import { ConversationAttributes, ConversationTypeEnum } from '../../models/conversationAttributes';
-import { GetNetworkTime } from '../apis/snode_api/getNetworkTime';
-import { SnodeNamespaces } from '../apis/snode_api/namespaces';
+import { UserUtils } from '../utils';
+import { fromHexToArray, toHex } from '../utils/String';
 
 export type GroupInfo = {
   id: string;
@@ -256,66 +252,6 @@ export async function updateOrCreateClosedGroup(details: GroupInfo) {
       fromSync: true,
     }
   );
-}
-
-export async function leaveClosedGroup(groupId: string) {
-  const convo = getConversationController().get(groupId);
-
-  if (!convo || !convo.isClosedGroup()) {
-    window?.log?.error('Cannot leave non-existing group');
-    return;
-  }
-
-  const ourNumber = UserUtils.getOurPubKeyFromCache();
-  const isCurrentUserAdmin = convo.get('groupAdmins')?.includes(ourNumber.key);
-
-  let members: Array<string> = [];
-  let admins: Array<string> = [];
-
-  // if we are the admin, the group must be destroyed for every members
-  if (isCurrentUserAdmin) {
-    window?.log?.info('Admin left a closed group. We need to destroy it');
-    convo.set({ left: true });
-    members = [];
-    admins = [];
-  } else {
-    // otherwise, just the exclude ourself from the members and trigger an update with this
-    convo.set({ left: true });
-    members = (convo.get('members') || []).filter((m: string) => m !== ourNumber.key);
-    admins = convo.get('groupAdmins') || [];
-  }
-  convo.set({ members });
-  await convo.updateGroupAdmins(admins, false);
-  await convo.commit();
-
-  const source = UserUtils.getOurPubKeyStrFromCache();
-  const networkTimestamp = GetNetworkTime.getNowWithNetworkOffset();
-
-  const dbMessage = await convo.addSingleOutgoingMessage({
-    group_update: { left: [source] },
-    sent_at: networkTimestamp,
-    expireTimer: 0,
-  });
-  // Send the update to the group
-  const ourLeavingMessage = new ClosedGroupMemberLeftMessage({
-    timestamp: networkTimestamp,
-    groupId,
-    identifier: dbMessage.id as string,
-  });
-
-  window?.log?.info(`We are leaving the group ${groupId}. Sending our leaving message.`);
-  // sent the message to the group and once done, remove everything related to this group
-  getSwarmPollingInstance().removePubkey(groupId);
-  await getMessageQueue().sendToGroup({
-    message: ourLeavingMessage,
-    namespace: SnodeNamespaces.ClosedGroupMessage,
-    sentCb: async () => {
-      window?.log?.info(
-        `Leaving message sent ${groupId}. Removing everything related to this group.`
-      );
-      await markGroupAsLeftOrKicked(groupId, convo, false);
-    },
-  });
 }
 
 async function sendNewName(convo: ConversationModel, name: string, messageId: string) {

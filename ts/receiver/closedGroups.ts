@@ -342,6 +342,8 @@ export async function markGroupAsLeftOrKicked(
   groupConvo: ConversationModel,
   isKicked: boolean
 ) {
+  getSwarmPollingInstance().removePubkey(groupPublicKey);
+
   await innerRemoveAllClosedGroupEncryptionKeyPairs(groupPublicKey);
 
   if (isKicked) {
@@ -349,7 +351,6 @@ export async function markGroupAsLeftOrKicked(
   } else {
     groupConvo.set('left', true);
   }
-  getSwarmPollingInstance().removePubkey(groupPublicKey);
 }
 
 /**
@@ -547,13 +548,9 @@ async function performIfValid(
   } else if (groupUpdate.type === Type.MEMBER_LEFT) {
     await handleClosedGroupMemberLeft(envelope, convo);
   } else if (groupUpdate.type === Type.ENCRYPTION_KEY_PAIR_REQUEST) {
-    window?.log?.warn(
-      'Received ENCRYPTION_KEY_PAIR_REQUEST message but it is not enabled for now.'
-    );
     await removeFromCache(envelope);
-
-    // if you add a case here, remember to add it where performIfValid is called too.
   }
+  // if you add a case here, remember to add it where performIfValid is called too.
 
   return true;
 }

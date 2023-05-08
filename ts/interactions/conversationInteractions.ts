@@ -7,13 +7,16 @@ import { CallManager, SyncUtils, ToastUtils, UserUtils } from '../session/utils'
 import { SessionButtonColor } from '../components/basic/SessionButton';
 import { getCallMediaPermissionsSettings } from '../components/settings/SessionSettings';
 import { Data } from '../data/data';
+import { SettingsKey } from '../data/settings-key';
 import { uploadFileToFsWithOnionV4 } from '../session/apis/file_server_api/FileServerApi';
+import { OpenGroupUtils } from '../session/apis/open_group_api/utils';
 import { getConversationController } from '../session/conversations';
 import { getSodiumRenderer } from '../session/crypto';
 import { getDecryptedMediaUrl } from '../session/crypto/DecryptedAttachmentsManager';
-import { ConfigurationSync } from '../session/utils/job_runners/jobs/ConfigurationSyncJob';
 import { perfEnd, perfStart } from '../session/utils/Performance';
 import { fromHexToArray, toHex } from '../session/utils/String';
+import { ConfigurationSync } from '../session/utils/job_runners/jobs/ConfigurationSyncJob';
+import { SessionUtilContact } from '../session/utils/libsession/libsession_utils_contacts';
 import { forceSyncConfigurationNowIfNeeded } from '../session/utils/sync/syncUtils';
 import {
   conversationReset,
@@ -32,17 +35,13 @@ import {
   updateRemoveModeratorsModal,
 } from '../state/ducks/modalDialog';
 import { MIME } from '../types';
-import { urlToBlob } from '../types/attachments/VisualAttachment';
-import { processNewAttachment } from '../types/MessageAttachment';
 import { IMAGE_JPEG } from '../types/MIME';
+import { processNewAttachment } from '../types/MessageAttachment';
+import { urlToBlob } from '../types/attachments/VisualAttachment';
 import { BlockedNumberController } from '../util/blockedNumberController';
 import { encryptProfile } from '../util/crypto/profileEncrypter';
-import { Storage, setLastProfileUpdateTimestamp } from '../util/storage';
-import { OpenGroupUtils } from '../session/apis/open_group_api/utils';
-import { leaveClosedGroup } from '../session/group/closed-group';
-import { SessionUtilContact } from '../session/utils/libsession/libsession_utils_contacts';
-import { SettingsKey } from '../data/settings-key';
 import { ReleasedFeatures } from '../util/releaseFeature';
+import { Storage, setLastProfileUpdateTimestamp } from '../util/storage';
 import { UserGroupsWrapperActions } from '../webworker/workers/browser/libsession_worker_interface';
 
 export async function copyPublicKeyByConvoId(convoId: string) {
@@ -250,19 +249,19 @@ export function showLeaveGroupByConvoId(conversationId: string) {
         title,
         message,
         onClickOk: async () => {
-          await leaveClosedGroup(conversation.id);
+          await getConversationController().deleteContact(conversation.id, false);
           onClickClose();
         },
         onClickClose,
       })
     );
-  } else {
-    window.inboxStore?.dispatch(
-      adminLeaveClosedGroup({
-        conversationId,
-      })
-    );
+    return;
   }
+  window.inboxStore?.dispatch(
+    adminLeaveClosedGroup({
+      conversationId,
+    })
+  );
 }
 export function showInviteContactByConvoId(conversationId: string) {
   window.inboxStore?.dispatch(updateInviteContactModal({ conversationId }));

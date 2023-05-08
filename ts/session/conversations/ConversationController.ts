@@ -12,12 +12,18 @@ import { deleteAllMessagesByConvoIdNoConfirmation } from '../../interactions/con
 import { CONVERSATION_PRIORITIES, ConversationTypeEnum } from '../../models/conversationAttributes';
 import { assertUnreachable } from '../../types/sqlSharedTypes';
 import { UserGroupsWrapperActions } from '../../webworker/workers/browser/libsession_worker_interface';
-import { leaveClosedGroup } from '../group/closed-group';
 import { ConfigurationSync } from '../utils/job_runners/jobs/ConfigurationSyncJob';
 import { LibSessionUtil } from '../utils/libsession/libsession_utils';
 import { SessionUtilContact } from '../utils/libsession/libsession_utils_contacts';
 import { SessionUtilConvoInfoVolatile } from '../utils/libsession/libsession_utils_convo_info_volatile';
 import { SessionUtilUserGroups } from '../utils/libsession/libsession_utils_user_groups';
+import { GetNetworkTime } from '../apis/snode_api/getNetworkTime';
+import { getMessageQueue } from '..';
+import { markGroupAsLeftOrKicked } from '../../receiver/closedGroups';
+import { getSwarmPollingInstance } from '../apis/snode_api';
+import { SnodeNamespaces } from '../apis/snode_api/namespaces';
+import { ClosedGroupMemberLeftMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupMemberLeftMessage';
+import { UserUtils } from '../utils';
 
 let instance: ConversationController | null;
 
@@ -262,6 +268,7 @@ export class ConversationController {
         if (roomInfos) {
           getOpenGroupManager().removeRoomFromPolledRooms(roomInfos);
         }
+        await this.cleanUpGroupConversation(conversation.id);
 
         // remove the roomInfos locally for this open group room including the pubkey
         try {
@@ -272,32 +279,11 @@ export class ConversationController {
         break;
       case 'LegacyGroup':
         window.log.info(`deleteContact ClosedGroup case: ${conversation.id}`);
-        await leaveClosedGroup(conversation.id);
-        await SessionUtilUserGroups.removeLegacyGroupFromWrapper(conversation.id);
-        await SessionUtilConvoInfoVolatile.removeLegacyGroupFromWrapper(conversation.id);
-
+        await leaveClosedGroup(conversation.id, fromSyncMessage); // this removes the data from the group and convo volatile info
+        await this.cleanUpGroupConversation(conversation.id);
         break;
       default:
         assertUnreachable(convoType, `deleteContact: convoType ${convoType} not handled`);
-    }
-
-    if (conversation.isGroup()) {
-      window.log.info(`deleteContact isGroup, removing convo from DB: ${id}`);
-      // not a private conversation, so not a contact for the ContactWrapper
-      await Data.removeConversation(id);
-
-      window.log.info(`deleteContact isGroup, convo removed from DB: ${id}`);
-      this.conversations.remove(conversation);
-
-      window?.inboxStore?.dispatch(
-        conversationActions.conversationChanged({
-          id: conversation.id,
-          data: conversation.getConversationModelProps(),
-        })
-      );
-      window.inboxStore?.dispatch(conversationActions.conversationRemoved(conversation.id));
-
-      window.log.info(`deleteContact NOT private, convo removed from store: ${id}`);
     }
 
     if (!fromSyncMessage) {
@@ -399,5 +385,111 @@ export class ConversationController {
       window.inboxStore?.dispatch(conversationActions.removeAllConversations());
     }
     this.conversations.reset([]);
+  }
+
+  private async cleanUpGroupConversation(id: string) {
+    window.log.info(`deleteContact isGroup, removing convo from DB: ${id}`);
+    // not a private conversation, so not a contact for the ContactWrapper
+    await Data.removeConversation(id);
+
+    window.log.info(`deleteContact isGroup, convo removed from DB: ${id}`);
+    const conversation = this.conversations.get(id);
+
+    if (conversation) {
+      this.conversations.remove(conversation);
+
+      window?.inboxStore?.dispatch(
+        conversationActions.conversationChanged({
+          id: id,
+          data: conversation.getConversationModelProps(),
+        })
+      );
+    }
+    window.inboxStore?.dispatch(conversationActions.conversationRemoved(id));
+
+    window.log.info(`deleteContact NOT private, convo removed from store: ${id}`);
+  }
+}
+
+/**
+ * You most likely don't want to call this function directly, but instead use the deleteContact() from the ConversationController as it will take care of more cleaningup.
+ *
+ * Note: `fromSyncMessage` is used to know if we need to send a leave group message to the group first.
+ * So if the user made the action on this device, fromSyncMessage should be false, but if it happened from a linked device polled update, set this to true.
+ */
+async function leaveClosedGroup(groupId: string, fromSyncMessage: boolean) {
+  const convo = getConversationController().get(groupId);
+
+  if (!convo || !convo.isClosedGroup()) {
+    window?.log?.error('Cannot leave non-existing group');
+    return;
+  }
+
+  const ourNumber = UserUtils.getOurPubKeyStrFromCache();
+  const isCurrentUserAdmin = convo.get('groupAdmins')?.includes(ourNumber);
+
+  let members: Array<string> = [];
+  let admins: Array<string> = [];
+
+  // if we are the admin, the group must be destroyed for every members
+  if (isCurrentUserAdmin) {
+    window?.log?.info('Admin left a closed group. We need to destroy it');
+    convo.set({ left: true });
+    members = [];
+    admins = [];
+  } else {
+    // otherwise, just the exclude ourself from the members and trigger an update with this
+    convo.set({ left: true });
+    members = (convo.get('members') || []).filter((m: string) => m !== ourNumber);
+    admins = convo.get('groupAdmins') || [];
+  }
+  convo.set({ members });
+  await convo.updateGroupAdmins(admins, false);
+  await convo.commit();
+
+  const source = UserUtils.getOurPubKeyStrFromCache();
+  const networkTimestamp = GetNetworkTime.getNowWithNetworkOffset();
+
+  const dbMessage = await convo.addSingleOutgoingMessage({
+    group_update: { left: [source] },
+    sent_at: networkTimestamp,
+    expireTimer: 0,
+  });
+
+  getSwarmPollingInstance().removePubkey(groupId);
+
+  if (!fromSyncMessage) {
+    // Send the update to the group
+    const ourLeavingMessage = new ClosedGroupMemberLeftMessage({
+      timestamp: networkTimestamp,
+      groupId,
+      identifier: dbMessage.id as string,
+    });
+
+    window?.log?.info(`We are leaving the group ${groupId}. Sending our leaving message.`);
+    // sent the message to the group and once done, remove everything related to this group
+    const wasSent = await getMessageQueue().sendToPubKeyNonDurably({
+      message: ourLeavingMessage,
+      namespace: SnodeNamespaces.ClosedGroupMessage,
+      pubkey: PubKey.cast(groupId),
+    });
+    window?.log?.info(
+      `Leaving message sent ${groupId}. Removing everything related to this group.`
+    );
+    if (wasSent) {
+      await cleanUpFullyLeftLegacyGroup(groupId);
+    }
+  } else {
+    await cleanUpFullyLeftLegacyGroup(groupId);
+  }
+}
+
+async function cleanUpFullyLeftLegacyGroup(groupId: string) {
+  const convo = getConversationController().get(groupId);
+
+  await UserGroupsWrapperActions.eraseLegacyGroup(groupId);
+  await SessionUtilConvoInfoVolatile.removeLegacyGroupFromWrapper(groupId);
+  if (convo) {
+    await markGroupAsLeftOrKicked(groupId, convo, false);
   }
 }

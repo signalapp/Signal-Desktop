@@ -23,7 +23,10 @@ import { SnodeAPIRetrieve } from './retrieveRequest';
 import { RetrieveMessageItem, RetrieveMessagesResultsBatched } from './types';
 import { ReleasedFeatures } from '../../../util/releaseFeature';
 import { LibSessionUtil } from '../../utils/libsession/libsession_utils';
-import { GenericWrapperActions } from '../../../webworker/workers/browser/libsession_worker_interface';
+import {
+  GenericWrapperActions,
+  UserGroupsWrapperActions,
+} from '../../../webworker/workers/browser/libsession_worker_interface';
 
 export function extractWebSocketContent(
   message: string,
@@ -171,13 +174,13 @@ export class SwarmPolling {
           ?.idForLogging() || group.pubkey.key;
 
       if (diff >= convoPollingTimeout) {
-        window?.log?.info(
+        window?.log?.debug(
           `Polling for ${loggingId}; timeout: ${convoPollingTimeout}; diff: ${diff} `
         );
 
         return this.pollOnceForKey(group.pubkey, true, [SnodeNamespaces.ClosedGroupMessage]);
       }
-      window?.log?.info(
+      window?.log?.debug(
         `Not polling for ${loggingId}; timeout: ${convoPollingTimeout} ; diff: ${diff}`
       );
 
@@ -186,7 +189,7 @@ export class SwarmPolling {
     try {
       await Promise.all(concat([directPromise], groupPromises));
     } catch (e) {
-      window?.log?.info('pollForAllKeys exception: ', e);
+      window?.log?.warn('pollForAllKeys exception: ', e);
       throw e;
     } finally {
       setTimeout(this.pollForAllKeys.bind(this), SWARM_POLLING_TIMEOUT.ACTIVE);
@@ -270,7 +273,7 @@ export class SwarmPolling {
       );
     }
     if (allNamespacesWithoutUserConfigIfNeeded.length) {
-      window.log.info(
+      window.log.debug(
         `received allNamespacesWithoutUserConfigIfNeeded: ${allNamespacesWithoutUserConfigIfNeeded.length}`
       );
     }
@@ -280,7 +283,7 @@ export class SwarmPolling {
 
     // if all snodes returned an error (null), no need to update the lastPolledTimestamp
     if (isGroup) {
-      window?.log?.info(
+      window?.log?.debug(
         `Polled for group(${ed25519Str(pubkey.key)}):, got ${messages.length} messages back.`
       );
       let lastPolledTimestamp = Date.now();
@@ -306,15 +309,28 @@ export class SwarmPolling {
     const newMessages = await this.handleSeenMessages(messages);
     perfEnd(`handleSeenMessages-${polledPubkey}`, 'handleSeenMessages');
 
-    // trigger the handling of all the other messages, not shared config related
-    newMessages.forEach(m => {
-      const content = extractWebSocketContent(m.data, m.hash);
-      if (!content) {
-        return;
-      }
+    // don't handle incoming messages from group swarms when using the userconfig and the group is not one of the tracked group
+    const isUserConfigReleaseLive = await ReleasedFeatures.checkIsUserConfigFeatureReleased();
+    if (
+      isUserConfigReleaseLive &&
+      isGroup &&
+      polledPubkey.startsWith('05') &&
+      !(await UserGroupsWrapperActions.getLegacyGroup(polledPubkey)) // just check if a legacy group with that name exists
+    ) {
+      // that pubkey is not tracked in the wrapper anymore. Just discard those messages and make sure we are not polling
+      // TODOLATER we might need to do something like this for the new closed groups once released
+      await getSwarmPollingInstance().removePubkey(polledPubkey);
+    } else {
+      // trigger the handling of all the other messages, not shared config related
+      newMessages.forEach(m => {
+        const content = extractWebSocketContent(m.data, m.hash);
+        if (!content) {
+          return;
+        }
 
-      Receiver.handleRequest(content.body, isGroup ? polledPubkey : null, content.messageHash);
-    });
+        Receiver.handleRequest(content.body, isGroup ? polledPubkey : null, content.messageHash);
+      });
+    }
   }
 
   private async handleSharedConfigMessages(userConfigMessagesMerged: Array<RetrieveMessageItem>) {

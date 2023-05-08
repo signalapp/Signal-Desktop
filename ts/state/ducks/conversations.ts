@@ -377,7 +377,7 @@ export const fetchTopMessagesForConversation = createAsyncThunk(
     const mostRecentMessage = await Data.getLastMessageInConversation(conversationKey);
 
     if (!oldestMessage || oldestMessage.id === oldTopMessageId) {
-      window.log.debug('fetchTopMessagesForConversation: we are already at the top');
+      // window.log.debug('fetchTopMessagesForConversation: we are already at the top');
       return null;
     }
     const messagesProps = await getMessages({
@@ -414,7 +414,7 @@ export const fetchBottomMessagesForConversation = createAsyncThunk(
     const mostRecentMessage = await Data.getLastMessageInConversation(conversationKey);
 
     if (!mostRecentMessage || mostRecentMessage.id === oldBottomMessageId) {
-      window.log.debug('fetchBottomMessagesForConversation: we are already at the bottom');
+      // window.log.debug('fetchBottomMessagesForConversation: we are already at the bottom');
       return null;
     }
     const messagesProps = await getMessages({

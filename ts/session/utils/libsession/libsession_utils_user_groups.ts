@@ -10,6 +10,7 @@ import {
 import { UserGroupsWrapperActions } from '../../../webworker/workers/browser/libsession_worker_interface';
 import { OpenGroupUtils } from '../../apis/open_group_api/utils';
 import { getConversationController } from '../../conversations';
+import { isEmpty } from 'lodash';
 
 /**
  * The key of this map is the convoId as stored in the database.
@@ -129,9 +130,18 @@ async function insertGroupsFromDBIntoWrapperAndRefresh(convoId: string): Promise
 
       try {
         window.log.debug(`inserting into usergroup wrapper "${foundConvo.id}"... }`);
+
         // this does the create or the update of the matching existing legacy group
 
-        await UserGroupsWrapperActions.setLegacyGroup(wrapperLegacyGroup);
+        if (
+          !isEmpty(wrapperLegacyGroup.name) &&
+          !isEmpty(wrapperLegacyGroup.encPubkey) &&
+          !isEmpty(wrapperLegacyGroup.encSeckey)
+        ) {
+          console.warn('inserting into user wrapper', wrapperLegacyGroup);
+          await UserGroupsWrapperActions.setLegacyGroup(wrapperLegacyGroup);
+        }
+
         await refreshCachedUserGroup(convoId);
       } catch (e) {
         window.log.warn(`UserGroupsWrapperActions.set of ${convoId} failed with ${e.message}`);

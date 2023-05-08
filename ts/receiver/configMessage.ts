@@ -329,7 +329,15 @@ async function handleLegacyGroupUpdate(latestEnvelopeTimestamp: number) {
   for (let index = 0; index < legacyGroupsToLeaveInDB.length; index++) {
     const toLeave = legacyGroupsToLeaveInDB[index];
     console.warn('leaving legacy group from configuration sync message with convoId ', toLeave.id);
-    await getConversationController().deleteContact(toLeave.id, true);
+    const toLeaveFromDb = getConversationController().get(toLeave.id);
+
+    // if we were kicked from that group, leave it as is until the user manually deletes it
+    // otherwise, completely remove the conversation
+    if (!toLeaveFromDb?.get('isKickedFromGroup')) {
+      window.log.debug(`we were kicked from ${toLeave.id} so we keep it until manually deleted`);
+
+      await getConversationController().deleteContact(toLeave.id, true);
+    }
   }
 
   for (let index = 0; index < legacyGroupsToJoinInDB.length; index++) {
@@ -379,10 +387,6 @@ async function handleLegacyGroupUpdate(latestEnvelopeTimestamp: number) {
 
     let changes = await legacyGroupConvo.setPriorityFromWrapper(fromWrapper.priority, false);
 
-    if (legacyGroupConvo.get('priority') !== fromWrapper.priority) {
-      legacyGroupConvo.set({ priority: fromWrapper.priority });
-      changes = true;
-    }
     const existingTimestampMs = legacyGroupConvo.get('lastJoinedTimestamp');
     if (Math.floor(existingTimestampMs / 1000) !== fromWrapper.joinedAtSeconds) {
       legacyGroupConvo.set({ lastJoinedTimestamp: fromWrapper.joinedAtSeconds * 1000 });
@@ -400,29 +404,31 @@ async function handleLegacyGroupUpdate(latestEnvelopeTimestamp: number) {
       );
       changes = true;
     }
-    // start polling for this new group
-    getSwarmPollingInstance().addGroupId(PubKey.cast(fromWrapper.pubkeyHex));
+    // start polling for this group if we haven't left it yet. The wrapper does not store this info for legacy group so we check from the DB entry instead
+    if (!legacyGroupConvo.get('isKickedFromGroup') && !legacyGroupConvo.get('left')) {
+      getSwarmPollingInstance().addGroupId(PubKey.cast(fromWrapper.pubkeyHex));
 
-    // trigger decrypting of all this group messages we did not decrypt successfully yet.
-    await queueAllCachedFromSource(fromWrapper.pubkeyHex);
+      // save the encryption keypair if needed
+      if (!isEmpty(fromWrapper.encPubkey) && !isEmpty(fromWrapper.encSeckey)) {
+        try {
+          const inWrapperKeypair: HexKeyPair = {
+            publicHex: toHex(fromWrapper.encPubkey),
+            privateHex: toHex(fromWrapper.encSeckey),
+          };
+
+          await addKeyPairToCacheAndDBIfNeeded(fromWrapper.pubkeyHex, inWrapperKeypair);
+        } catch (e) {
+          window.log.warn('failed to save keypair for legacugroup', fromWrapper.pubkeyHex);
+        }
+      }
+    }
 
     if (changes) {
       await legacyGroupConvo.commit();
     }
 
-    // save the encryption keypair if needed
-    if (!isEmpty(fromWrapper.encPubkey) && !isEmpty(fromWrapper.encSeckey)) {
-      try {
-        const inWrapperKeypair: HexKeyPair = {
-          publicHex: toHex(fromWrapper.encPubkey),
-          privateHex: toHex(fromWrapper.encSeckey),
-        };
-
-        await addKeyPairToCacheAndDBIfNeeded(fromWrapper.pubkeyHex, inWrapperKeypair);
-      } catch (e) {
-        window.log.warn('failed to save keypair for legacugroup', fromWrapper.pubkeyHex);
-      }
-    }
+    // trigger decrypting of all this group messages we did not decrypt successfully yet.
+    await queueAllCachedFromSource(fromWrapper.pubkeyHex);
   }
 }
 
@@ -458,9 +464,9 @@ async function applyConvoVolatileUpdateFromWrapper(
   }
 
   try {
-    window.log.debug(
-      `applyConvoVolatileUpdateFromWrapper: ${convoId}: forcedUnread:${forcedUnread}, lastReadMessage:${lastReadMessageTimestamp}`
-    );
+    // window.log.debug(
+    //   `applyConvoVolatileUpdateFromWrapper: ${convoId}: forcedUnread:${forcedUnread}, lastReadMessage:${lastReadMessageTimestamp}`
+    // );
     // this should mark all the messages sent before fromWrapper.lastRead as read and update the unreadCount
     await foundConvo.markReadFromConfigMessage(lastReadMessageTimestamp);
     // this commits to the DB, if needed
@@ -639,11 +645,13 @@ async function handleConfigMessagesViaLibSession(
   }
 
   window?.log?.debug(
-    `Handling our sharedConfig message via libsession_util ${configMessages.map(m => ({
-      variant: LibSessionUtil.kindToVariant(m.message.kind),
-      hash: m.messageHash,
-      seqno: (m.message.seqno as Long).toNumber(),
-    }))}`
+    `Handling our sharedConfig message via libsession_util ${JSON.stringify(
+      configMessages.map(m => ({
+        variant: LibSessionUtil.kindToVariant(m.message.kind),
+        hash: m.messageHash,
+        seqno: (m.message.seqno as Long).toNumber(),
+      }))
+    )}`
   );
 
   const incomingMergeResult = await mergeConfigsWithIncomingUpdates(configMessages);
