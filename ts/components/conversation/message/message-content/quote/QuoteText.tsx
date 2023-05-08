@@ -55,7 +55,13 @@ function getTypeLabel({
   if (MIME.isAudio(contentType)) {
     return window.i18n('audio');
   }
-
+  if (
+    !GoogleChrome.isVideoTypeSupported(contentType) &&
+    !GoogleChrome.isImageTypeSupported(contentType) &&
+    !MIME.isAudio(contentType)
+  ) {
+    return window.i18n('document');
+  }
   return;
 }
 
@@ -71,7 +77,7 @@ export const QuoteText = (
     const { contentType, isVoiceMessage } = attachment;
 
     const typeLabel = getTypeLabel({ contentType, isVoiceMessage });
-    if (typeLabel) {
+    if (typeLabel && !text) {
       return <div>{typeLabel}</div>;
     }
   }

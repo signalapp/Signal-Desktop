@@ -24,7 +24,7 @@ const StyledQuoteIconContainer = styled.div`
   position: relative;
 `;
 
-const StyledQuoteIcon = styled.div`
+export const StyledQuoteIcon = styled.div`
   position: absolute;
   top: 0;
   right: 0;
@@ -37,7 +37,7 @@ const StyledQuoteIcon = styled.div`
   justify-content: center;
 `;
 
-const StyledQuoteIconBackground = styled.div`
+export const StyledQuoteIconBackground = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -58,11 +58,16 @@ const StyledQuoteIconBackground = styled.div`
   }
 `;
 
+export type QuoteIconTypes = Extract<
+  SessionIconType,
+  'file' | 'image' | 'play' | 'movie' | 'microphone'
+>;
+
 type QuoteIconProps = {
-  icon: Extract<SessionIconType, 'file' | 'image' | 'play' | 'movie' | 'microphone'>;
+  icon: QuoteIconTypes;
 };
 
-const QuoteIcon = (props: QuoteIconProps) => {
+export const QuoteIcon = (props: QuoteIconProps) => {
   const { icon } = props;
   const iconProps = icons[icon];
 
