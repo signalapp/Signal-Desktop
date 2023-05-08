@@ -80,6 +80,7 @@ export type PropsDataType = {
   hasLinkPreviews: boolean;
   hasMediaCameraPermissions: boolean;
   hasMediaPermissions: boolean;
+  hasMessageAudio: boolean;
   hasMinimizeToAndStartInSystemTray: boolean;
   hasMinimizeToSystemTray: boolean;
   hasNotificationAttention: boolean;
@@ -111,7 +112,6 @@ export type PropsDataType = {
   isFormattingFlagEnabled: boolean;
 
   // Limited support features
-  isAudioNotificationsSupported: boolean;
   isAutoDownloadUpdatesSupported: boolean;
   isAutoLaunchSupported: boolean;
   isHideMenuBarSupported: boolean;
@@ -163,6 +163,7 @@ type PropsFunctionType = {
   onLastSyncTimeChange: (time: number) => unknown;
   onMediaCameraPermissionsChange: CheckboxChangeHandlerType;
   onMediaPermissionsChange: CheckboxChangeHandlerType;
+  onMessageAudioChange: CheckboxChangeHandlerType;
   onMinimizeToAndStartInSystemTrayChange: CheckboxChangeHandlerType;
   onMinimizeToSystemTrayChange: CheckboxChangeHandlerType;
   onNotificationAttentionChange: CheckboxChangeHandlerType;
@@ -252,6 +253,7 @@ export function Preferences({
   hasLinkPreviews,
   hasMediaCameraPermissions,
   hasMediaPermissions,
+  hasMessageAudio,
   hasMinimizeToAndStartInSystemTray,
   hasMinimizeToSystemTray,
   hasNotificationAttention,
@@ -264,7 +266,6 @@ export function Preferences({
   hasTypingIndicators,
   i18n,
   initialSpellCheckSetting,
-  isAudioNotificationsSupported,
   isAutoDownloadUpdatesSupported,
   isAutoLaunchSupported,
   isFormattingFlagEnabled,
@@ -290,6 +291,7 @@ export function Preferences({
   onLastSyncTimeChange,
   onMediaCameraPermissionsChange,
   onMediaPermissionsChange,
+  onMessageAudioChange,
   onMinimizeToAndStartInSystemTrayChange,
   onMinimizeToSystemTrayChange,
   onNotificationAttentionChange,
@@ -857,15 +859,6 @@ export function Preferences({
               onChange={onNotificationAttentionChange}
             />
           )}
-          {isAudioNotificationsSupported && (
-            <Checkbox
-              checked={hasAudioNotifications}
-              label={i18n('icu:audioNotificationDescription')}
-              moduleClassName="Preferences__checkbox"
-              name="audioNotification"
-              onChange={onAudioNotificationsChange}
-            />
-          )}
           <Checkbox
             checked={hasCountMutedConversations}
             label={i18n('icu:countMutedConversationsDescription')}
@@ -899,6 +892,24 @@ export function Preferences({
                 value={notificationContent}
               />
             }
+          />
+        </SettingsRow>
+        <SettingsRow>
+          <Checkbox
+            checked={hasAudioNotifications}
+            label={i18n('icu:audioNotificationDescription')}
+            moduleClassName="Preferences__checkbox"
+            name="audioNotification"
+            onChange={onAudioNotificationsChange}
+          />
+          <Checkbox
+            checked={hasMessageAudio}
+            description={i18n('icu:Preferences__message-audio-description')}
+            disabled={!hasAudioNotifications}
+            label={i18n('icu:Preferences__message-audio-title')}
+            moduleClassName="Preferences__checkbox"
+            name="messageAudio"
+            onChange={onMessageAudioChange}
           />
         </SettingsRow>
       </>

@@ -13,7 +13,7 @@ import {
 import { globalMessageAudio } from '../../services/globalMessageAudio';
 import { strictAssert } from '../../util/assert';
 import * as log from '../../logging/log';
-import { Sound } from '../../util/Sound';
+import { Sound, SoundType } from '../../util/Sound';
 import { getConversations } from '../selectors/conversations';
 import { SeenStatus } from '../../MessageSeenStatus';
 import { markViewed } from '../ducks/conversations';
@@ -21,10 +21,10 @@ import * as Errors from '../../types/errors';
 import { usePrevious } from '../../hooks/usePrevious';
 
 const stateChangeConfirmUpSound = new Sound({
-  src: 'sounds/state-change_confirm-up.ogg',
+  soundType: SoundType.VoiceNoteStart,
 });
 const stateChangeConfirmDownSound = new Sound({
-  src: 'sounds/state-change_confirm-down.ogg',
+  soundType: SoundType.VoiceNoteEnd,
 });
 
 /**

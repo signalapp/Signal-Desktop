@@ -8,27 +8,6 @@ import { isProduction } from '../util/version';
 
 const MIN_WINDOWS_VERSION = '8.0.0';
 
-export enum AudioNotificationSupport {
-  None,
-  Native,
-  Custom,
-}
-
-export function getAudioNotificationSupport(
-  OS: OSType
-): AudioNotificationSupport {
-  if (OS.isWindows(MIN_WINDOWS_VERSION) || OS.isMacOS()) {
-    return AudioNotificationSupport.Native;
-  }
-  if (OS.isLinux()) {
-    return AudioNotificationSupport.Custom;
-  }
-  return AudioNotificationSupport.None;
-}
-
-export const isAudioNotificationSupported = (OS: OSType): boolean =>
-  getAudioNotificationSupport(OS) !== AudioNotificationSupport.None;
-
 // Using `Notification::tag` has a bug on Windows 7:
 // https://github.com/electron/electron/issues/11189
 export const isNotificationGroupingSupported = (OS: OSType): boolean =>

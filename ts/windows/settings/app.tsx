@@ -44,6 +44,7 @@ SettingsWindowProps.onRender(
     hasLinkPreviews,
     hasMediaCameraPermissions,
     hasMediaPermissions,
+    hasMessageAudio,
     hasMinimizeToAndStartInSystemTray,
     hasMinimizeToSystemTray,
     hasNotificationAttention,
@@ -55,7 +56,6 @@ SettingsWindowProps.onRender(
     hasTextFormatting,
     hasTypingIndicators,
     initialSpellCheckSetting,
-    isAudioNotificationsSupported,
     isAutoDownloadUpdatesSupported,
     isAutoLaunchSupported,
     isFormattingFlagEnabled,
@@ -80,6 +80,7 @@ SettingsWindowProps.onRender(
     onLastSyncTimeChange,
     onMediaCameraPermissionsChange,
     onMediaPermissionsChange,
+    onMessageAudioChange,
     onMinimizeToAndStartInSystemTrayChange,
     onMinimizeToSystemTrayChange,
     onNotificationAttentionChange,
@@ -141,6 +142,7 @@ SettingsWindowProps.onRender(
         hasLinkPreviews={hasLinkPreviews}
         hasMediaCameraPermissions={hasMediaCameraPermissions}
         hasMediaPermissions={hasMediaPermissions}
+        hasMessageAudio={hasMessageAudio}
         hasMinimizeToAndStartInSystemTray={hasMinimizeToAndStartInSystemTray}
         hasMinimizeToSystemTray={hasMinimizeToSystemTray}
         hasNotificationAttention={hasNotificationAttention}
@@ -153,7 +155,6 @@ SettingsWindowProps.onRender(
         hasTypingIndicators={hasTypingIndicators}
         i18n={i18n}
         initialSpellCheckSetting={initialSpellCheckSetting}
-        isAudioNotificationsSupported={isAudioNotificationsSupported}
         isAutoDownloadUpdatesSupported={isAutoDownloadUpdatesSupported}
         isAutoLaunchSupported={isAutoLaunchSupported}
         isFormattingFlagEnabled={isFormattingFlagEnabled}
@@ -180,6 +181,7 @@ SettingsWindowProps.onRender(
         onLastSyncTimeChange={onLastSyncTimeChange}
         onMediaCameraPermissionsChange={onMediaCameraPermissionsChange}
         onMediaPermissionsChange={onMediaPermissionsChange}
+        onMessageAudioChange={onMessageAudioChange}
         onMinimizeToAndStartInSystemTrayChange={
           onMinimizeToAndStartInSystemTrayChange
         }

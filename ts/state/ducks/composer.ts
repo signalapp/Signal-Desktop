@@ -89,6 +89,7 @@ import { strictAssert } from '../../util/assert';
 import { makeQuote } from '../../util/makeQuote';
 import { sendEditedMessage as doSendEditedMessage } from '../../util/sendEditedMessage';
 import { maybeBlockSendForFormattingModal } from '../../util/maybeBlockSendForFormattingModal';
+import { Sound, SoundType } from '../../util/Sound';
 
 // State
 // eslint-disable-next-line local-rules/type-alias-readonlydeep
@@ -616,6 +617,8 @@ function sendMultiMediaMessage(
               );
               dispatch(incrementSendCounter(conversationId));
               dispatch(setComposerDisabledState(conversationId, false));
+
+              drop(new Sound({ soundType: SoundType.Whoosh }).play());
             },
           }
         );

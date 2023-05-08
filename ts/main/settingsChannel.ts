@@ -81,6 +81,7 @@ export class SettingsChannel extends EventEmitter {
 
     this.installSetting('notificationSetting');
     this.installSetting('notificationDrawAttention');
+    this.installSetting('audioMessage');
     this.installSetting('audioNotification');
     this.installSetting('countMutedConversations');
 

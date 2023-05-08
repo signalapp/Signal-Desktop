@@ -2,14 +2,26 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as log from '../logging/log';
+import { missingCaseError } from './missingCaseError';
+
+export enum SoundType {
+  CallingHangUp,
+  CallingPresenting,
+  Pop,
+  Ringtone,
+  TriTone,
+  VoiceNoteEnd,
+  VoiceNoteStart,
+  Whoosh,
+}
 
 export type SoundOpts = {
   loop?: boolean;
-  src: string;
+  soundType: SoundType;
 };
 
 export class Sound {
-  static sounds = new Map();
+  static sounds = new Map<SoundType, AudioBuffer>();
 
   private static context: AudioContext | undefined;
 
@@ -17,26 +29,28 @@ export class Sound {
 
   private node?: AudioBufferSourceNode;
 
-  private readonly src: string;
+  private readonly soundType: SoundType;
 
   constructor(options: SoundOpts) {
     this.loop = Boolean(options.loop);
-    this.src = options.src;
+    this.soundType = options.soundType;
   }
 
   async play(): Promise<void> {
-    if (!Sound.sounds.has(this.src)) {
+    let soundBuffer = Sound.sounds.get(this.soundType);
+
+    if (!soundBuffer) {
       try {
-        const buffer = await Sound.loadSoundFile(this.src);
+        const src = Sound.getSrc(this.soundType);
+        const buffer = await Sound.loadSoundFile(src);
         const decodedBuffer = await this.context.decodeAudioData(buffer);
-        Sound.sounds.set(this.src, decodedBuffer);
+        Sound.sounds.set(this.soundType, decodedBuffer);
+        soundBuffer = decodedBuffer;
       } catch (err) {
         log.error(`Sound error: ${err}`);
         return;
       }
     }
-
-    const soundBuffer = Sound.sounds.get(this.src);
 
     const soundNode = this.context.createBufferSource();
     soundNode.buffer = soundBuffer;
@@ -86,5 +100,41 @@ export class Sound {
       };
       xhr.send();
     });
+  }
+
+  static getSrc(soundStyle: SoundType): string {
+    if (soundStyle === SoundType.CallingHangUp) {
+      return 'sounds/navigation-cancel.ogg';
+    }
+
+    if (soundStyle === SoundType.CallingPresenting) {
+      return 'sounds/navigation_selection-complete-celebration.ogg';
+    }
+
+    if (soundStyle === SoundType.Pop) {
+      return 'sounds/pop.wav';
+    }
+
+    if (soundStyle === SoundType.TriTone) {
+      return 'sounds/notification.ogg';
+    }
+
+    if (soundStyle === SoundType.Ringtone) {
+      return 'sounds/ringtone_minimal.ogg';
+    }
+
+    if (soundStyle === SoundType.VoiceNoteEnd) {
+      return 'sounds/state-change_confirm-down.ogg';
+    }
+
+    if (soundStyle === SoundType.VoiceNoteStart) {
+      return 'sounds/state-change_confirm-up.ogg';
+    }
+
+    if (soundStyle === SoundType.Whoosh) {
+      return 'sounds/whoosh.wav';
+    }
+
+    throw missingCaseError(soundStyle);
   }
 }

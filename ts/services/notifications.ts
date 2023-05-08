@@ -4,32 +4,30 @@
 import os from 'os';
 import { debounce } from 'lodash';
 import EventEmitter from 'events';
-import { Sound } from '../util/Sound';
-import {
-  AudioNotificationSupport,
-  getAudioNotificationSupport,
-  shouldHideExpiringMessageBody,
-} from '../types/Settings';
+import { Sound, SoundType } from '../util/Sound';
+import { shouldHideExpiringMessageBody } from '../types/Settings';
 import OS from '../util/os/osMain';
 import * as log from '../logging/log';
 import { makeEnumParser } from '../util/enum';
 import { missingCaseError } from '../util/missingCaseError';
 import type { StorageInterface } from '../types/Storage.d';
 import type { LocalizerType } from '../types/Util';
+import { drop } from '../util/drop';
 
 type NotificationDataType = Readonly<{
   conversationId: string;
-  storyId?: string;
+  isExpiringMessage: boolean;
   messageId: string;
-  senderTitle: string;
   message: string;
   notificationIconUrl?: undefined | string;
-  isExpiringMessage: boolean;
   reaction?: {
     emoji: string;
     targetAuthorUuid: string;
     targetTimestamp: number;
   };
+  senderTitle: string;
+  storyId?: string;
+  useTriToneSound?: boolean;
   wasShown?: boolean;
 }>;
 
@@ -133,6 +131,7 @@ class NotificationService extends EventEmitter {
     onNotificationClick,
     silent,
     title,
+    useTriToneSound,
   }: Readonly<{
     icon?: string;
     message: string;
@@ -140,28 +139,25 @@ class NotificationService extends EventEmitter {
     onNotificationClick: () => void;
     silent: boolean;
     title: string;
+    useTriToneSound?: boolean;
   }>): void {
     log.info('NotificationService: showing a notification');
 
     this.lastNotification?.close();
 
-    const audioNotificationSupport = getAudioNotificationSupport(OS);
-
     const notification = new window.Notification(title, {
       body: OS.isLinux() ? filterNotificationText(message) : message,
       icon,
-      silent:
-        silent || audioNotificationSupport !== AudioNotificationSupport.Native,
+      silent: true,
       tag: messageId,
     });
     notification.onclick = onNotificationClick;
 
-    if (
-      !silent &&
-      audioNotificationSupport === AudioNotificationSupport.Custom
-    ) {
+    if (!silent) {
+      const soundType =
+        messageId && !useTriToneSound ? SoundType.Pop : SoundType.TriTone;
       // We kick off the sound to be played. No need to await it.
-      void new Sound({ src: 'sounds/notification.ogg' }).play();
+      drop(new Sound({ soundType }).play());
     }
 
     this.lastNotification = notification;
@@ -273,12 +269,13 @@ class NotificationService extends EventEmitter {
 
     const {
       conversationId,
-      storyId,
-      messageId,
-      senderTitle,
-      message,
       isExpiringMessage,
+      message,
+      messageId,
       reaction,
+      senderTitle,
+      storyId,
+      useTriToneSound,
       wasShown,
     } = notificationData;
 
@@ -346,13 +343,15 @@ class NotificationService extends EventEmitter {
     };
 
     this.notify({
-      title: notificationTitle,
       icon: notificationIconUrl,
+      messageId,
       message: notificationMessage,
-      silent: !shouldPlayNotificationSound,
       onNotificationClick: () => {
         this.emit('click', conversationId, messageId, storyId);
       },
+      silent: !shouldPlayNotificationSound,
+      title: notificationTitle,
+      useTriToneSound,
     });
   }
 

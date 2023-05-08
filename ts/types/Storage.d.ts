@@ -62,6 +62,7 @@ export type StorageAccessType = {
   'spell-check': boolean;
   'system-tray-setting': SystemTraySetting;
   'theme-setting': ThemeSettingType;
+  audioMessage: boolean;
   attachmentMigration_isComplete: boolean;
   attachmentMigration_lastProcessedIndex: number;
   blocked: ReadonlyArray<string>;

@@ -89,7 +89,8 @@ async function notifyForCall(
     onNotificationClick: () => {
       window.IPC.showWindow();
     },
-    silent: false,
+    // The ringtone plays so we don't need sound for the notification
+    silent: true,
   });
 }
 

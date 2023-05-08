@@ -50,6 +50,7 @@ type NotificationSettingType = 'message' | 'name' | 'count' | 'off';
 export type IPCEventsValuesType = {
   alwaysRelayCalls: boolean | undefined;
   audioNotification: boolean | undefined;
+  audioMessage: boolean;
   autoDownloadUpdate: boolean;
   autoLaunch: boolean;
   callRingtoneNotification: boolean;
@@ -371,6 +372,8 @@ export function createIPCEvents(
       window.storage.get('notification-draw-attention', false),
     setNotificationDrawAttention: value =>
       window.storage.put('notification-draw-attention', value),
+    getAudioMessage: () => window.storage.get('audioMessage', false),
+    setAudioMessage: value => window.storage.put('audioMessage', value),
     getAudioNotification: () => window.storage.get('audio-notification'),
     setAudioNotification: value =>
       window.storage.put('audio-notification', value),

@@ -10434,6 +10434,14 @@
     "messageformat": "Group Avatar",
     "description": "Title for the avatar picker in the group creation flow"
   },
+  "icu:Preferences__message-audio-title": {
+    "messageformat": "In-chat message sound",
+    "description": "Title for message audio setting"
+  },
+  "icu:Preferences__message-audio-description": {
+    "messageformat": "Hear a notification sound for sent and received messages while in the chat.",
+    "description": "Description for message audio setting"
+  },
   "Preferences__button--general": {
     "message": "General",
     "description": "(deleted 03/29/2023) Button to switch the settings view"

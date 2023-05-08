@@ -20,6 +20,7 @@ function doneRendering() {
   ipcRenderer.send('settings-done-rendering');
 }
 
+const settingMessageAudio = createSetting('audioMessage');
 const settingAudioNotification = createSetting('audioNotification');
 const settingAutoDownloadUpdate = createSetting('autoDownloadUpdate');
 const settingAutoLaunch = createSetting('autoLaunch');
@@ -152,6 +153,7 @@ async function renderPreferences() {
     hasLinkPreviews,
     hasMediaCameraPermissions,
     hasMediaPermissions,
+    hasMessageAudio,
     hasNotificationAttention,
     hasReadReceipts,
     hasRelayCalls,
@@ -193,6 +195,7 @@ async function renderPreferences() {
     hasLinkPreviews: settingLinkPreview.getValue(),
     hasMediaCameraPermissions: settingMediaCameraPermissions.getValue(),
     hasMediaPermissions: settingMediaPermissions.getValue(),
+    hasMessageAudio: settingMessageAudio.getValue(),
     hasNotificationAttention: settingNotificationDrawAttention.getValue(),
     hasReadReceipts: settingReadReceipts.getValue(),
     hasRelayCalls: settingRelayCalls.getValue(),
@@ -253,6 +256,7 @@ async function renderPreferences() {
     hasLinkPreviews,
     hasMediaCameraPermissions,
     hasMediaPermissions,
+    hasMessageAudio,
     hasMinimizeToAndStartInSystemTray,
     hasMinimizeToSystemTray,
     hasNotificationAttention,
@@ -293,7 +297,6 @@ async function renderPreferences() {
     shouldShowStoriesSettings,
 
     // Limited support features
-    isAudioNotificationsSupported: Settings.isAudioNotificationSupported(OS),
     isAutoDownloadUpdatesSupported: Settings.isAutoDownloadUpdatesSupported(OS),
     isAutoLaunchSupported: Settings.isAutoLaunchSupported(OS),
     isHideMenuBarSupported: Settings.isHideMenuBarSupported(OS),
@@ -347,6 +350,7 @@ async function renderPreferences() {
     onMediaCameraPermissionsChange: attachRenderCallback(
       settingMediaCameraPermissions.setValue
     ),
+    onMessageAudioChange: attachRenderCallback(settingMessageAudio.setValue),
     onMinimizeToAndStartInSystemTrayChange: attachRenderCallback(
       async (value: boolean) => {
         await settingSystemTraySetting.setValue(

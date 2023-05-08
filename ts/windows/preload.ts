@@ -38,6 +38,7 @@ installCallback('shouldShowStoriesSettings');
 installCallback('syncRequest');
 
 installSetting('alwaysRelayCalls');
+installSetting('audioMessage');
 installSetting('audioNotification');
 installSetting('autoDownloadUpdate');
 installSetting('autoLaunch');
