@@ -231,7 +231,7 @@ export class Bootstrap {
     const desktopKey = await this.desktop.popSingleUseKey();
     await this.phone.addSingleUseKey(this.desktop, desktopKey);
 
-    for (const contact of this.contacts) {
+    for (const contact of this.allContacts) {
       for (const uuidKind of [UUIDKind.ACI, UUIDKind.PNI]) {
         // eslint-disable-next-line no-await-in-loop
         const contactKey = await this.desktop.popSingleUseKey(uuidKind);
@@ -348,6 +348,10 @@ export class Bootstrap {
       'Bootstrap has to be initialized first, see: bootstrap.init()'
     );
     return this.privContactsWithoutProfileKey;
+  }
+
+  public get allContacts(): ReadonlyArray<PrimaryDevice> {
+    return [...this.contacts, ...this.contactsWithoutProfileKey];
   }
 
   //
