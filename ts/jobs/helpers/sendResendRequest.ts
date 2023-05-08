@@ -45,7 +45,6 @@ export async function sendResendRequest(
     isFinalAttempt,
     messaging,
     shouldContinue,
-    timestamp,
     timeRemaining,
     log,
   }: ConversationQueueJobBundle,
@@ -57,6 +56,7 @@ export async function sendResendRequest(
     plaintext: plaintextBase64,
     receivedAtCounter,
     receivedAtDate,
+    timestamp,
   } = data;
 
   if (!shouldContinue) {
