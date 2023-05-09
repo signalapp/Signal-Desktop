@@ -16,14 +16,20 @@
     }
   }
 
+  &__description {
+    margin-top: 4px;
+  }
+
   h2 {
     @include font-body-1-bold;
+    margin-top: 28px;
+    margin-bottom: 20px;
   }
 
   hr {
     border: 0;
     height: 1px;
-    margin-block: 16px;
+    margin-block: 20px;
     margin-inline: 0;
 
     @include light-theme {
@@ -35,7 +41,7 @@
   }
 
   &__buttons {
-    margin-top: 8px;
+    margin-top: 12px;
 
     .module-Button:not(:last-child) {
       margin-inline-end: 12px;

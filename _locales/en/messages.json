@@ -9455,8 +9455,12 @@
     "description": "(deleted 04/04/2023) Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-name-in-group--link": {
-    "messageformat": "{count, plural, one {# group member has} other {# group members have}} the same name. <reviewRequestLink>Review request</reviewRequestLink>",
+    "messageformat": "{count, plural, one {# group member has} other {# group members have}} the same name. <reviewRequestLink>Review members</reviewRequestLink>",
     "description": "Shown in the timeline warning when you multiple group members have the same name"
+  },
+  "icu:ContactSpoofing__same-names-in-group--link": {
+    "messageformat": "{count, plural, one {# name conflict was} other {# name conflicts were}} found in this group. <reviewRequestLink>Review members</reviewRequestLink>",
+    "description": "Shown in the timeline warning when multiple names are shared by members of a group."
   },
   "ContactSpoofing__same-name__link": {
     "message": "Review request",
@@ -9472,7 +9476,7 @@
   },
   "icu:ContactSpoofing__same-name-in-group__link": {
     "messageformat": "Click to review",
-    "description": "Shown in the timeline warning when you multiple group members have the same name"
+    "description": "(deleted 05/04/2023) Shown in the timeline warning when you multiple group members have the same name"
   },
   "ContactSpoofingReviewDialog__title": {
     "message": "Review request",
@@ -9521,6 +9525,10 @@
   "icu:ContactSpoofingReviewDialog__group__description": {
     "messageformat": "{count, plural, one {# group member} other {# group members}} have similar names. Review the members below or choose to take action.",
     "description": "Description for the group contact spoofing review dialog"
+  },
+  "icu:ContactSpoofingReviewDialog__group__multiple-conflicts__description": {
+    "messageformat": "{count, plural, one {# name conflict was} other {# name conflicts were}} found in this group. Review the members below or choose to take action.",
+    "description": "Description for the group contact spoofing review dialog when there are multiple shared names"
   },
   "ContactSpoofingReviewDialog__group__members-header": {
     "message": "Members",

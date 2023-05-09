@@ -3,7 +3,6 @@
 
 import type { ReactChild, ReactNode } from 'react';
 import React, { useState } from 'react';
-import { concat, orderBy } from 'lodash';
 
 import type { LocalizerType, ThemeType } from '../../types/Util';
 import type { ConversationType } from '../../state/ducks/conversations';
@@ -235,115 +234,140 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
     }
     case ContactSpoofingType.MultipleGroupMembersWithSameTitle: {
       const { group, collisionInfoByTitle } = props;
-
-      const unsortedConversationInfos = concat(
-        // This empty array exists to appease Lodash's type definitions.
-        [],
-        ...Object.values(collisionInfoByTitle)
+      const sharedTitles = Object.keys(collisionInfoByTitle);
+      const numSharedTitles = sharedTitles.length;
+      const totalConversations = Object.values(collisionInfoByTitle).reduce(
+        (sum, conversationInfos) => sum + conversationInfos.length,
+        0
       );
-      const conversationInfos = orderBy(unsortedConversationInfos, [
-        // We normally use an `Intl.Collator` to sort by title. We do this instead, as
-        //   we only really care about stability (not perfect ordering).
-        'title',
-        'id',
-      ]);
 
       title = i18n('icu:ContactSpoofingReviewDialog__group__title');
       contents = (
         <>
-          <p>
-            {i18n('icu:ContactSpoofingReviewDialog__group__description', {
-              count: conversationInfos.length,
-            })}
+          <p className="module-ContactSpoofingReviewDialog__description">
+            {numSharedTitles > 1
+              ? i18n(
+                  'icu:ContactSpoofingReviewDialog__group__multiple-conflicts__description',
+                  {
+                    count: numSharedTitles,
+                  }
+                )
+              : i18n('icu:ContactSpoofingReviewDialog__group__description', {
+                  count: totalConversations,
+                })}
           </p>
-          <h2>
-            {i18n('icu:ContactSpoofingReviewDialog__group__members-header')}
-          </h2>
-          {conversationInfos.map((conversationInfo, index) => {
-            let button: ReactNode;
-            if (group.areWeAdmin) {
-              button = (
-                <Button
-                  variant={ButtonVariant.SecondaryAffirmative}
-                  onClick={() => {
-                    setConfirmationState({
-                      type: ConfirmationStateType.ConfirmingGroupRemoval,
-                      affectedConversation: conversationInfo.conversation,
-                      group,
-                    });
-                  }}
-                >
-                  {i18n('icu:RemoveGroupMemberConfirmation__remove-button')}
-                </Button>
-              );
-            } else if (conversationInfo.conversation.isBlocked) {
-              button = (
-                <Button
-                  variant={ButtonVariant.SecondaryAffirmative}
-                  onClick={() => {
-                    acceptConversation(conversationInfo.conversation.id);
-                  }}
-                >
-                  {i18n('icu:MessageRequests--unblock')}
-                </Button>
-              );
-            } else if (!isInSystemContacts(conversationInfo.conversation)) {
-              button = (
-                <Button
-                  variant={ButtonVariant.SecondaryDestructive}
-                  onClick={() => {
-                    setConfirmationState({
-                      type: ConfirmationStateType.ConfirmingBlock,
-                      affectedConversation: conversationInfo.conversation,
-                    });
-                  }}
-                >
-                  {i18n('icu:MessageRequests--block')}
-                </Button>
-              );
-            }
 
-            const { oldName } = conversationInfo;
-            const newName =
-              conversationInfo.conversation.profileName ||
-              conversationInfo.conversation.title;
+          {Object.values(collisionInfoByTitle).map(
+            (conversationInfos, titleIdx) => {
+              return (
+                <>
+                  <h2>
+                    {i18n(
+                      'icu:ContactSpoofingReviewDialog__group__members-header'
+                    )}
+                  </h2>
+                  {conversationInfos.map(
+                    (conversationInfo, conversationIdx) => {
+                      let button: ReactNode;
+                      if (group.areWeAdmin) {
+                        button = (
+                          <Button
+                            variant={ButtonVariant.SecondaryAffirmative}
+                            onClick={() => {
+                              setConfirmationState({
+                                type: ConfirmationStateType.ConfirmingGroupRemoval,
+                                affectedConversation:
+                                  conversationInfo.conversation,
+                                group,
+                              });
+                            }}
+                          >
+                            {i18n(
+                              'icu:RemoveGroupMemberConfirmation__remove-button'
+                            )}
+                          </Button>
+                        );
+                      } else if (conversationInfo.conversation.isBlocked) {
+                        button = (
+                          <Button
+                            variant={ButtonVariant.SecondaryAffirmative}
+                            onClick={() => {
+                              acceptConversation(
+                                conversationInfo.conversation.id
+                              );
+                            }}
+                          >
+                            {i18n('icu:MessageRequests--unblock')}
+                          </Button>
+                        );
+                      } else if (
+                        !isInSystemContacts(conversationInfo.conversation)
+                      ) {
+                        button = (
+                          <Button
+                            variant={ButtonVariant.SecondaryDestructive}
+                            onClick={() => {
+                              setConfirmationState({
+                                type: ConfirmationStateType.ConfirmingBlock,
+                                affectedConversation:
+                                  conversationInfo.conversation,
+                              });
+                            }}
+                          >
+                            {i18n('icu:MessageRequests--block')}
+                          </Button>
+                        );
+                      }
 
-            let callout: JSX.Element | undefined;
-            if (oldName && oldName !== newName) {
-              callout = (
-                <div className="module-ContactSpoofingReviewDialogPerson__info__property module-ContactSpoofingReviewDialogPerson__info__property--callout">
-                  <Intl
-                    i18n={i18n}
-                    id="icu:ContactSpoofingReviewDialog__group__name-change-info"
-                    components={{
-                      oldName: <UserText text={oldName} />,
-                      newName: <UserText text={newName} />,
-                    }}
-                  />
-                </div>
-              );
-            }
+                      const { oldName } = conversationInfo;
+                      const newName =
+                        conversationInfo.conversation.profileName ||
+                        conversationInfo.conversation.title;
 
-            return (
-              <>
-                {index !== 0 && <hr />}
-                <ContactSpoofingReviewDialogPerson
-                  key={conversationInfo.conversation.id}
-                  conversation={conversationInfo.conversation}
-                  getPreferredBadge={getPreferredBadge}
-                  i18n={i18n}
-                  theme={theme}
-                >
-                  {callout}
-                  {button && (
-                    <div className="module-ContactSpoofingReviewDialog__buttons">
-                      {button}
-                    </div>
+                      let callout: JSX.Element | undefined;
+                      if (oldName && oldName !== newName) {
+                        callout = (
+                          <div className="module-ContactSpoofingReviewDialogPerson__info__property module-ContactSpoofingReviewDialogPerson__info__property--callout">
+                            <Intl
+                              i18n={i18n}
+                              id="icu:ContactSpoofingReviewDialog__group__name-change-info"
+                              components={{
+                                oldName: <UserText text={oldName} />,
+                                newName: <UserText text={newName} />,
+                              }}
+                            />
+                          </div>
+                        );
+                      }
+
+                      return (
+                        <>
+                          <ContactSpoofingReviewDialogPerson
+                            key={conversationInfo.conversation.id}
+                            conversation={conversationInfo.conversation}
+                            getPreferredBadge={getPreferredBadge}
+                            i18n={i18n}
+                            theme={theme}
+                          >
+                            {callout}
+                            {button && (
+                              <div className="module-ContactSpoofingReviewDialog__buttons">
+                                {button}
+                              </div>
+                            )}
+                          </ContactSpoofingReviewDialogPerson>
+                          {titleIdx < sharedTitles.length - 1 ||
+                          conversationIdx < conversationInfos.length - 1 ? (
+                            <hr />
+                          ) : null}
+                        </>
+                      );
+                    }
                   )}
-                </ContactSpoofingReviewDialogPerson>
-              </>
-            );
-          })}
+                </>
+              );
+            }
+          )}
         </>
       );
       break;
