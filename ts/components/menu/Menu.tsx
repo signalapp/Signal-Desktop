@@ -324,7 +324,7 @@ export const CopyMenuItem = (): JSX.Element | null => {
     return (
       <Item
         onClick={() => {
-          copyPublicKeyByConvoId(convoId);
+          void copyPublicKeyByConvoId(convoId);
         }}
       >
         {copyIdLabel}

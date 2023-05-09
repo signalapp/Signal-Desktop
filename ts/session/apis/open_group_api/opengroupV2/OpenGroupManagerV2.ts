@@ -209,6 +209,7 @@ export class OpenGroupManagerV2 {
       // will need it and access it from the db
       await OpenGroupData.saveV2OpenGroupRoom(room);
 
+      // TODOLATER make the requests made here retry a few times (can fail when trying to join a group too soon after a restart)
       const roomInfos = await openGroupV2GetRoomInfoViaOnionV4({
         serverPubkey: serverPublicKey,
         serverUrl,

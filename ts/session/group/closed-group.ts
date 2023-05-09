@@ -26,6 +26,7 @@ import { ClosedGroupNewMessage } from '../messages/outgoing/controlMessage/group
 import { ClosedGroupRemovedMembersMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupRemovedMembersMessage';
 import { UserUtils } from '../utils';
 import { fromHexToArray, toHex } from '../utils/String';
+import { GetNetworkTime } from '../apis/snode_api/getNetworkTime';
 
 export type GroupInfo = {
   id: string;
@@ -419,7 +420,7 @@ async function generateAndSendNewEncryptionKeyPair(
 
   const keypairsMessage = new ClosedGroupEncryptionPairMessage({
     groupId: toHex(groupId),
-    timestamp: Date.now(),
+    timestamp: GetNetworkTime.getNowWithNetworkOffset(),
     encryptedKeyPairs: wrappers,
   });
 
@@ -433,7 +434,9 @@ async function generateAndSendNewEncryptionKeyPair(
     distributingClosedGroupEncryptionKeyPairs.delete(toHex(groupId));
 
     await addKeyPairToCacheAndDBIfNeeded(toHex(groupId), newKeyPair.toHexKeyPair());
+    await groupConvo?.commit(); // this makes sure to include the new encryption keypair in the libsession usergroup wrapper
   };
+
   // this is to be sent to the group pubkey adress
   await getMessageQueue().sendToGroup({
     message: keypairsMessage,

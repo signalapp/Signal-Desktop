@@ -296,7 +296,7 @@ async function queueNewJobIfNeeded() {
     // if we did run at t=100, and it is currently t=110, the difference is 10
     const diff = Math.max(Date.now() - lastRunConfigSyncJobTimestamp, 0);
     // but we want to run every 30, so what we need is actually `30-10` from now = 20
-    const leftBeforeNextTick = Math.max(defaultMsBetweenRetries - diff, 0);
+    const leftBeforeNextTick = Math.max(defaultMsBetweenRetries - diff, 1000);
     window.log.debug('Scheduling ConfSyncJob: LATER');
 
     await runners.configurationSyncRunner.addJob(

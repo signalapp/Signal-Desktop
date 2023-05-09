@@ -24,6 +24,7 @@ import { getSwarmPollingInstance } from '../apis/snode_api';
 import { SnodeNamespaces } from '../apis/snode_api/namespaces';
 import { ClosedGroupMemberLeftMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupMemberLeftMessage';
 import { UserUtils } from '../utils';
+import { isEmpty } from 'lodash';
 
 let instance: ConversationController | null;
 
@@ -458,30 +459,42 @@ async function leaveClosedGroup(groupId: string, fromSyncMessage: boolean) {
 
   getSwarmPollingInstance().removePubkey(groupId);
 
-  if (!fromSyncMessage) {
-    // Send the update to the group
-    const ourLeavingMessage = new ClosedGroupMemberLeftMessage({
-      timestamp: networkTimestamp,
-      groupId,
-      identifier: dbMessage.id as string,
-    });
+  if (fromSyncMessage) {
+    // no need to send our leave message as our other device should already have sent it.
+    await cleanUpFullyLeftLegacyGroup(groupId);
+    return;
+  }
 
-    window?.log?.info(`We are leaving the group ${groupId}. Sending our leaving message.`);
-    // sent the message to the group and once done, remove everything related to this group
-    const wasSent = await getMessageQueue().sendToPubKeyNonDurably({
-      message: ourLeavingMessage,
-      namespace: SnodeNamespaces.ClosedGroupMessage,
-      pubkey: PubKey.cast(groupId),
-    });
+  const keypair = await Data.getLatestClosedGroupEncryptionKeyPair(groupId);
+  if (!keypair || isEmpty(keypair) || isEmpty(keypair.publicHex) || isEmpty(keypair.privateHex)) {
+    // if we do not have a keypair, we won't be able to send our leaving message neither, so just skip sending it.
+    // this can happen when getting a group from a broken libsession usergroup wrapper, but not only.
+    await cleanUpFullyLeftLegacyGroup(groupId);
+    return;
+  }
+
+  // Send the update to the group
+  const ourLeavingMessage = new ClosedGroupMemberLeftMessage({
+    timestamp: networkTimestamp,
+    groupId,
+    identifier: dbMessage.id as string,
+  });
+
+  window?.log?.info(`We are leaving the group ${groupId}. Sending our leaving message.`);
+
+  // if we do not have a keypair for that group, we can't send our leave message, so just skip the message sending part
+  const wasSent = await getMessageQueue().sendToPubKeyNonDurably({
+    message: ourLeavingMessage,
+    namespace: SnodeNamespaces.ClosedGroupMessage,
+    pubkey: PubKey.cast(groupId),
+  });
+  if (wasSent) {
     window?.log?.info(
       `Leaving message sent ${groupId}. Removing everything related to this group.`
     );
-    if (wasSent) {
-      await cleanUpFullyLeftLegacyGroup(groupId);
-    }
-  } else {
     await cleanUpFullyLeftLegacyGroup(groupId);
   }
+  // if we failed to send our leaving message, don't remove everything yet as we might want to retry sending our leaving message later.
 }
 
 async function cleanUpFullyLeftLegacyGroup(groupId: string) {

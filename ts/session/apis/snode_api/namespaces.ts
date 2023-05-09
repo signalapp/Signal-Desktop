@@ -1,3 +1,4 @@
+import { last, orderBy } from 'lodash';
 import { assertUnreachable } from '../../../types/sqlSharedTypes';
 
 export enum SnodeNamespaces {
@@ -32,7 +33,7 @@ export enum SnodeNamespaces {
   /**
    * This is the namespace used to sync the closed group details for each of the closed groups we are polling
    */
-  ClosedGroupInfo = 1,
+  // ClosedGroupInfo = 1,
 }
 
 type PickEnum<T, K extends T> = {
@@ -41,7 +42,7 @@ type PickEnum<T, K extends T> = {
 
 export type SnodeNamespacesGroup = PickEnum<
   SnodeNamespaces,
-  SnodeNamespaces.ClosedGroupInfo | SnodeNamespaces.ClosedGroupMessage
+  SnodeNamespaces.ClosedGroupMessage // | SnodeNamespaces.ClosedGroupInfo
 >;
 
 export type SnodeNamespacesUser = PickEnum<
@@ -62,7 +63,7 @@ function isUserConfigNamespace(namespace: SnodeNamespaces) {
     case SnodeNamespaces.UserGroups:
     case SnodeNamespaces.ConvoInfoVolatile:
       return true;
-    case SnodeNamespaces.ClosedGroupInfo:
+    // case SnodeNamespaces.ClosedGroupInfo:
     case SnodeNamespaces.ClosedGroupMessage:
       return false;
 
@@ -76,6 +77,56 @@ function isUserConfigNamespace(namespace: SnodeNamespaces) {
   }
 }
 
+function namespacePriority(namespace: SnodeNamespaces): number {
+  switch (namespace) {
+    case SnodeNamespaces.UserMessages:
+      return 10;
+    case SnodeNamespaces.UserContacts:
+      return 1;
+    case SnodeNamespaces.UserProfile:
+      return 1;
+    case SnodeNamespaces.UserGroups:
+      return 1;
+    case SnodeNamespaces.ConvoInfoVolatile:
+      return 1;
+    case SnodeNamespaces.ClosedGroupMessage:
+      return 10;
+
+    default:
+      try {
+        assertUnreachable(namespace, `isUserConfigNamespace case not handled: ${namespace}`);
+      } catch (e) {
+        window.log.warn(`isUserConfigNamespace case not handled: ${namespace}: ${e.message}`);
+        return 1;
+      }
+  }
+}
+
+function maxSizeMap(namespaces: Array<SnodeNamespaces>) {
+  let lastSplit = 1;
+  const withPriorities = namespaces.map(namespace => {
+    return { namespace, priority: namespacePriority(namespace) };
+  });
+  const groupedByPriorities: Array<{ priority: number; namespaces: Array<SnodeNamespaces> }> = [];
+  withPriorities.forEach(item => {
+    if (!groupedByPriorities.find(p => p.priority === item.priority)) {
+      groupedByPriorities.push({ priority: item.priority, namespaces: [] });
+    }
+    groupedByPriorities.find(p => p.priority === item.priority)?.namespaces.push(item.namespace);
+  });
+
+  const sortedDescPriorities = orderBy(groupedByPriorities, ['priority'], ['desc']);
+  const lowestPriority = last(sortedDescPriorities)?.priority || 1;
+  const sizeMap = sortedDescPriorities.flatMap(m => {
+    const paddingForLowerPriority = m.priority === lowestPriority ? 0 : 1;
+    const splitsForPriority = paddingForLowerPriority + m.namespaces.length;
+    lastSplit *= splitsForPriority;
+    return m.namespaces.map(namespace => ({ namespace, maxSize: -lastSplit }));
+  });
+  return sizeMap;
+}
+
 export const SnodeNamespace = {
   isUserConfigNamespace,
+  maxSizeMap,
 };

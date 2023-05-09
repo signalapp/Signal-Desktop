@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import { ClosedGroup, getMessageQueue } from '..';
 import { ConversationTypeEnum } from '../../models/conversationAttributes';
-import { MessageModel } from '../../models/message';
 import { addKeyPairToCacheAndDBIfNeeded } from '../../receiver/closedGroups';
 import { ECKeyPair } from '../../receiver/keypairs';
 import { openConversationWithMessages } from '../../state/ducks/conversations';
@@ -64,13 +63,8 @@ export async function createClosedGroup(groupName: string, members: Array<string
     expireTimer: existingExpireTimer,
   };
 
-  // used for UI only, adding of a message to remind who is in the group and the name of the group
-  const groupDiff: ClosedGroup.GroupDiff = {
-    newName: groupName,
-    joiningMembers: listOfMembers,
-  };
+  // we don't want the initial "AAA and You joined the group"
 
-  const dbMessage = await ClosedGroup.addUpdateMessage(convo, groupDiff, us, Date.now());
   // be sure to call this before sending the message.
   // the sending pipeline needs to know from GroupUtils when a message is for a medium group
   await ClosedGroup.updateOrCreateClosedGroup(groupDetails);
@@ -89,18 +83,17 @@ export async function createClosedGroup(groupName: string, members: Array<string
     groupName,
     admins,
     encryptionKeyPair,
-    dbMessage,
     existingExpireTimer
   );
 
   if (allInvitesSent) {
     const newHexKeypair = encryptionKeyPair.toHexKeyPair();
-
     await addKeyPairToCacheAndDBIfNeeded(groupPublicKey, newHexKeypair);
-
     // Subscribe to this group id
     getSwarmPollingInstance().addGroupId(new PubKey(groupPublicKey));
   }
+  // commit again as now the keypair is saved and can be added to the libsession wrapper UserGroup
+  await convo.commit();
 
   await forceSyncConfigurationNowIfNeeded();
 
@@ -118,7 +111,6 @@ async function sendToGroupMembers(
   groupName: string,
   admins: Array<string>,
   encryptionKeyPair: ECKeyPair,
-  dbMessage: MessageModel,
   existingExpireTimer: number,
   isRetry: boolean = false
 ): Promise<any> {
@@ -128,7 +120,6 @@ async function sendToGroupMembers(
     groupName,
     admins,
     encryptionKeyPair,
-    dbMessage,
     existingExpireTimer
   );
   window?.log?.info(`Sending invites for group ${groupPublicKey} to ${listOfMembers}`);
@@ -184,7 +175,6 @@ async function sendToGroupMembers(
               groupName,
               admins,
               encryptionKeyPair,
-              dbMessage,
               existingExpireTimer,
               isRetrySend
             );
@@ -202,7 +192,6 @@ function createInvitePromises(
   groupName: string,
   admins: Array<string>,
   encryptionKeyPair: ECKeyPair,
-  dbMessage: MessageModel,
   existingExpireTimer: number
 ) {
   return listOfMembers.map(async m => {
@@ -213,7 +202,6 @@ function createInvitePromises(
       admins,
       keypair: encryptionKeyPair,
       timestamp: Date.now(),
-      identifier: dbMessage.id,
       expireTimer: existingExpireTimer,
     };
     const message = new ClosedGroupNewMessage(messageParams);

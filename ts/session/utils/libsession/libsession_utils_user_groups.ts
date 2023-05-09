@@ -132,14 +132,18 @@ async function insertGroupsFromDBIntoWrapperAndRefresh(convoId: string): Promise
         window.log.debug(`inserting into usergroup wrapper "${foundConvo.id}"... }`);
 
         // this does the create or the update of the matching existing legacy group
-
         if (
           !isEmpty(wrapperLegacyGroup.name) &&
           !isEmpty(wrapperLegacyGroup.encPubkey) &&
           !isEmpty(wrapperLegacyGroup.encSeckey)
         ) {
-          console.warn('inserting into user wrapper', wrapperLegacyGroup);
+          window.log.debug('inserting into user wrapper', wrapperLegacyGroup);
           await UserGroupsWrapperActions.setLegacyGroup(wrapperLegacyGroup);
+        } else {
+          window.log.debug(
+            'not inserting legacy group as name, or encryption keypair is empty',
+            foundConvo.id
+          );
         }
 
         await refreshCachedUserGroup(convoId);

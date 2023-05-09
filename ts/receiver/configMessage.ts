@@ -424,6 +424,7 @@ async function handleLegacyGroupUpdate(latestEnvelopeTimestamp: number) {
     }
 
     if (changes) {
+      // this commit will grab the latest encryption keypair and add it to the user group wrapper if needed
       await legacyGroupConvo.commit();
     }
 

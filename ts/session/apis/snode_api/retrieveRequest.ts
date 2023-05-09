@@ -22,13 +22,16 @@ async function buildRetrieveRequest(
   ourPubkey: string,
   configHashesToBump: Array<string> | null
 ): Promise<Array<RetrieveSubRequestType>> {
+  const maxSizeMap = SnodeNamespace.maxSizeMap(namespaces);
   const retrieveRequestsParams: Array<RetrieveSubRequestType> = await Promise.all(
     namespaces.map(async (namespace, index) => {
+      const foundMaxSize = maxSizeMap.find(m => m.namespace === namespace)?.maxSize;
       const retrieveParam = {
         pubkey,
         last_hash: lastHashes.at(index) || '',
         namespace,
         timestamp: GetNetworkTime.getNowWithNetworkOffset(),
+        max_size: foundMaxSize,
       };
 
       if (namespace === SnodeNamespaces.ClosedGroupMessage) {

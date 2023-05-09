@@ -319,7 +319,7 @@ export class SwarmPolling {
     ) {
       // that pubkey is not tracked in the wrapper anymore. Just discard those messages and make sure we are not polling
       // TODOLATER we might need to do something like this for the new closed groups once released
-      await getSwarmPollingInstance().removePubkey(polledPubkey);
+      getSwarmPollingInstance().removePubkey(polledPubkey);
     } else {
       // trigger the handling of all the other messages, not shared config related
       newMessages.forEach(m => {

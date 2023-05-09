@@ -289,12 +289,7 @@ export async function handleNewClosedGroup(
   // ***** Creating a new group *****
   window?.log?.info('Received a new ClosedGroup of id:', groupId);
 
-  await ClosedGroup.addUpdateMessage(
-    convo,
-    { newName: name, joiningMembers: members },
-    envelope.senderIdentity || envelope.source, // new group message are coming as session messages
-    envelopeTimestamp
-  );
+  // we don't want the initial "AAA,BBB and You joined the group"
 
   // We only set group admins on group creation
   const groupDetails: ClosedGroup.GroupInfo = {
