@@ -11,6 +11,7 @@ import { Image } from '../../../ts/components/conversation/Image';
 // tslint:disable-next-line: no-submodule-imports
 import useKey from 'react-use/lib/useKey';
 import { getAbsoluteAttachmentPath } from '../../types/MessageAttachment';
+import { GoogleChrome } from '../../util';
 
 const QuotedMessageComposition = styled(Flex)`
   border-top: 1px solid var(--border-color);
@@ -57,15 +58,26 @@ export const SessionQuotedMessageComposition = () => {
     hasAttachments && attachments[0].contentType !== AUDIO_MP3 && attachments[0].thumbnail
       ? attachments[0]
       : undefined;
-  const hasAudio = hasAttachments && isAudio(attachments);
-  const hasAudioAttachment = hasAudio !== false && hasAudio !== undefined && hasAudio !== '';
+  const isImage = Boolean(
+    firstImageAttachment && GoogleChrome.isImageTypeSupported(firstImageAttachment.contentType)
+  );
+  const isVideo = Boolean(
+    firstImageAttachment && GoogleChrome.isVideoTypeSupported(firstImageAttachment.contentType)
+  );
+  const hasAudioAttachment = Boolean(hasAttachments && isAudio(attachments));
+  const isGenericFile = !hasAudioAttachment && !isVideo && !isImage;
+
   const subtitleText =
-    hasAttachments && firstImageAttachment
-      ? window.i18n('image')
+    quoteText !== ''
+      ? quoteText
       : hasAudioAttachment
       ? window.i18n('audio')
-      : quoteText !== ''
-      ? quoteText
+      : isGenericFile
+      ? window.i18n('document')
+      : isVideo
+      ? window.i18n('video')
+      : isImage
+      ? window.i18n('image')
       : null;
 
   const removeQuotedMessage = () => {

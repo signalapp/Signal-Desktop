@@ -458,6 +458,7 @@ export async function uploadOurAvatar(newAvatarDecrypted?: ArrayBuffer) {
 }
 
 export async function replyToMessage(messageId: string) {
+  // TODO Use Quote Lookup Object here
   const quotedMessageModel = await Data.getMessageById(messageId);
   if (!quotedMessageModel) {
     window.log.warn('Failed to find message to reply to');
