@@ -607,7 +607,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     } = {
       sender: author,
       messageId: id,
-      authorName: authorName || 'Unknown',
+      authorName: authorName || window.i18n('unknown'),
     };
 
     if (referencedMessageNotFound) {
@@ -1424,7 +1424,7 @@ export function overrideWithSourceMessage(
 
   const sender = msgProps.sender && isEmpty(msgProps.sender) ? msgProps.sender : quote.sender;
   const contact = findAndFormatContact(sender);
-  const authorName = contact?.profileName || contact?.name || 'Unknown';
+  const authorName = contact?.profileName || contact?.name || window.i18n('unknown');
   const attachment =
     msgProps.attachments && msgProps.attachments[0] ? msgProps.attachments[0] : quote.attachment;
 

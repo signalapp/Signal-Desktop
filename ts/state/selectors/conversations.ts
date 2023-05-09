@@ -883,7 +883,7 @@ export const getMessagePropsByMessageId = createSelector(
         sender,
         authorAvatarPath: foundSenderConversation.avatarPath || null,
         isKickedFromGroup: foundMessageConversation.isKickedFromGroup || false,
-        authorProfileName: authorProfileName || 'Unknown',
+        authorProfileName: authorProfileName || window.i18n('unknown'),
         authorName,
       },
     };

@@ -12,6 +12,7 @@ import { Image } from '../../../ts/components/conversation/Image';
 import useKey from 'react-use/lib/useKey';
 import { getAbsoluteAttachmentPath } from '../../types/MessageAttachment';
 import { GoogleChrome } from '../../util';
+import { findAndFormatContact } from '../../models/message';
 
 const QuotedMessageComposition = styled(Flex)`
   border-top: 1px solid var(--border-color);
@@ -47,11 +48,23 @@ const StyledText = styled(Flex)`
 `;
 
 export const SessionQuotedMessageComposition = () => {
+  const dispatch = useDispatch();
   const quotedMessageProps = useSelector(getQuotedMessage);
 
-  const dispatch = useDispatch();
-
   const { author, attachments, text: quoteText } = quotedMessageProps || {};
+
+  const removeQuotedMessage = () => {
+    dispatch(quoteMessage(undefined));
+  };
+
+  useKey('Escape', removeQuotedMessage, undefined, []);
+
+  if (!author || !quotedMessageProps?.id) {
+    return null;
+  }
+
+  const contact = findAndFormatContact(author);
+  const authorName = contact?.profileName || contact?.name || author || window.i18n('unknown');
 
   const hasAttachments = attachments && attachments.length > 0 && attachments[0];
   const firstImageAttachment =
@@ -79,16 +92,6 @@ export const SessionQuotedMessageComposition = () => {
       : isImage
       ? window.i18n('image')
       : null;
-
-  const removeQuotedMessage = () => {
-    dispatch(quoteMessage(undefined));
-  };
-
-  useKey('Escape', removeQuotedMessage, undefined, []);
-
-  if (!author || !quotedMessageProps?.id) {
-    return null;
-  }
 
   return (
     <QuotedMessageComposition
@@ -129,7 +132,7 @@ export const SessionQuotedMessageComposition = () => {
           justifyContent={'center'}
           alignItems={'flex-start'}
         >
-          <p>{author}</p>
+          <p>{authorName}</p>
           {subtitleText && <Subtle>{subtitleText}</Subtle>}
         </StyledText>
       </QuotedMessageCompositionReply>
