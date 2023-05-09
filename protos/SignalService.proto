@@ -60,9 +60,9 @@ message Content {
   optional DataExtractionNotification dataExtractionNotification = 8;
   optional Unsend                     unsendMessage              = 9;
   optional MessageRequestResponse     messageRequestResponse     = 10;
-  optional ExpirationType             expirationType             = 11;
-  optional uint32                     expirationTimer            = 12;
-  optional uint64                     lastDisappearingMessageChangeTimestamp = 13;
+  optional ExpirationType             expirationType             = 12;
+  optional uint32                     expirationTimer            = 13;
+  optional uint64                     lastDisappearingMessageChangeTimestamp = 14;
 }
 
 message KeyPair {
