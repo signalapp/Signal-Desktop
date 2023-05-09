@@ -1563,6 +1563,10 @@
     "message": "Sticker pack creator",
     "description": "(deleted 03/15/2023) Title of the window that pops up with Signal Desktop preferences in it"
   },
+  "icu:signalDesktopStickerCreator": {
+    "messageformat": "Sticker pack creator",
+    "description": "Title of the window that pops up with Signal Desktop preferences in it"
+  },
   "aboutSignalDesktop": {
     "message": "About Signal Desktop",
     "description": "(deleted 03/29/2023) Item under the Help menu, which opens a small about window"
@@ -2157,6 +2161,9 @@
   },
   "icu:accept": {
     "messageformat": "Tanggapin"
+  },
+  "icu:edit": {
+    "messageformat": "I-edit"
   },
   "forward": {
     "message": "Ipasa",
@@ -3535,6 +3542,10 @@
     "messageformat": "Hindi nabura",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
   },
+  "icu:editFailed": {
+    "messageformat": "Failed ang pag-edit, mag-click para sa detalye",
+    "description": "Shown on a message which was edited if the edit wasn't successfully sent to anyone"
+  },
   "sendPaused": {
     "message": "Naka-pause ang pag-send",
     "description": "(deleted 03/29/2023) Shown on outgoing message if it cannot be sent immediately"
@@ -4098,6 +4109,10 @@
   "icu:Toast--failed-to-fetch-phone-number": {
     "messageformat": "Failed to fetch phone number. I-check ang iyong internet connection at subukan ulit.",
     "description": "Shown if request to Signal servers to find phone number fails"
+  },
+  "icu:ToastManager__CannotEditMessage": {
+    "messageformat": "Mayroon ka lang 3 oras para i-edit ang message pagkatapos mo itong i-send.",
+    "description": "Error message when you try to send an edit after message becomes too old"
   },
   "startConversation--username-not-found": {
     "message": "User not found. Si $atUsername$ ay hindi isang Signal user; siguraduhing nilagay mo ang complete username.",
@@ -4928,6 +4943,10 @@
     "message": "Mag-search ng emoji",
     "description": "(deleted 03/29/2023) Shown as a placeholder inside the emoji picker search field."
   },
+  "icu:EmojiPicker--search-close": {
+    "messageformat": "Isara ang emoji search",
+    "description": "Button title to cancel the emoji search."
+  },
   "icu:EmojiPicker--search-placeholder": {
     "messageformat": "Mag-search ng emoji",
     "description": "Shown as a placeholder inside the emoji picker search field."
@@ -5019,6 +5038,10 @@
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Kanselahin",
     "description": "Appears on the cancel button in confirmation dialogs."
+  },
+  "icu:Message__role-description": {
+    "messageformat": "Message",
+    "description": "aria-roledescription of a message"
   },
   "MessageBody--read-more": {
     "message": "Magbasa pa",
@@ -8351,6 +8374,18 @@
   "icu:CompositionArea--sms-only__spinner-label": {
     "messageformat": "Checking contact's registration status",
     "description": "Displayed while checking if the contact is SMS-only"
+  },
+  "icu:CompositionArea__edit-action--discard": {
+    "messageformat": "I-discard ang message",
+    "description": "aria-label for discard edit button"
+  },
+  "icu:CompositionArea__edit-action--send": {
+    "messageformat": "I-send ang edited message",
+    "description": "aria-label for send edit button"
+  },
+  "icu:CompositionInput__editing-message": {
+    "messageformat": "I-edit ang message",
+    "description": "Status text displayed above composition input when editing a message"
   },
   "countMutedConversationsDescription": {
     "message": "Isama ang muted conversations sa badge count",
@@ -12360,6 +12395,14 @@
     "messageformat": "History ng edits",
     "description": "Modal title for the edit history messages modal"
   },
+  "icu:ResendMessageEdit__body": {
+    "messageformat": "Hindi ma-send ang edit na ito. I-check ang iyong connection at subukan ulit",
+    "description": "Modal body for the confirmation dialog shown to user when attempting to resend message edit"
+  },
+  "icu:ResendMessageEdit__button": {
+    "messageformat": "I-send ulit",
+    "description": "Button text for the confirmation dialog shown to user when attempting to resend message edit"
+  },
   "WhatsNew__modal-title": {
     "message": "what's new",
     "description": "(deleted 03/29/2023) Title for the whats new modal"
@@ -12443,5 +12486,17 @@
   "icu:WhatsNew__v6.13--1": {
     "messageformat": "Naka-apply na rin ngayon ang theme preferences sa checkboxes sa Signal Settings. Maraming salamat kay {rakleed} ng GitHub na tumulong sa 'min sa pagkumpleto ng \" dark theme\" sa aming TO DO list.",
     "description": "Release notes for v6.13"
+  },
+  "icu:WhatsNew__v6.17--0": {
+    "messageformat": "Improved support para sa right-to-left (RTL) languages.",
+    "description": "Release notes for v6.17"
+  },
+  "icu:WhatsNew__v6.17--1": {
+    "messageformat": "Naka-match na ang mga lugar base sa iyong system preferences. Magiging mas maayos na ang default behavior kapag multiple languages ang naka-configure.",
+    "description": "Release notes for v6.17"
+  },
+  "icu:WhatsNew__v6.17--2": {
+    "messageformat": "Mayroon ring accessibility enhancements at bug fixes ang release na ito, at taos-puso naming pinasasalamatan ang komunidad sa kanilang feedback at suggestions.",
+    "description": "Release notes for v6.17"
   }
 }

@@ -1563,6 +1563,10 @@
     "message": "Креатор пакета налепница",
     "description": "(deleted 03/15/2023) Title of the window that pops up with Signal Desktop preferences in it"
   },
+  "icu:signalDesktopStickerCreator": {
+    "messageformat": "Креатор пакета налепница",
+    "description": "Title of the window that pops up with Signal Desktop preferences in it"
+  },
   "aboutSignalDesktop": {
     "message": "О Signal Desktop",
     "description": "(deleted 03/29/2023) Item under the Help menu, which opens a small about window"
@@ -2157,6 +2161,9 @@
   },
   "icu:accept": {
     "messageformat": "Прихвати"
+  },
+  "icu:edit": {
+    "messageformat": "Измени"
   },
   "forward": {
     "message": "Проследи",
@@ -3535,6 +3542,10 @@
     "messageformat": "Брисање неуспешно",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
   },
+  "icu:editFailed": {
+    "messageformat": "Измена није успела; кликните за више детаља",
+    "description": "Shown on a message which was edited if the edit wasn't successfully sent to anyone"
+  },
   "sendPaused": {
     "message": "Слање паузирано",
     "description": "(deleted 03/29/2023) Shown on outgoing message if it cannot be sent immediately"
@@ -4098,6 +4109,10 @@
   "icu:Toast--failed-to-fetch-phone-number": {
     "messageformat": "Није могуће налазити број телефона. Проверите да ли сте повезани на интернет и покушајте поново.",
     "description": "Shown if request to Signal servers to find phone number fails"
+  },
+  "icu:ToastManager__CannotEditMessage": {
+    "messageformat": "Измене се могу применити само у року од 3 сата од тренутка када сте послали ову поруку.",
+    "description": "Error message when you try to send an edit after message becomes too old"
   },
   "startConversation--username-not-found": {
     "message": "Корисник није нађен. $atUsername$ није Signal корисник; проверите да ли сте унели комплетно корисничко име.",
@@ -4928,6 +4943,10 @@
     "message": "Тражи емоџи",
     "description": "(deleted 03/29/2023) Shown as a placeholder inside the emoji picker search field."
   },
+  "icu:EmojiPicker--search-close": {
+    "messageformat": "Затворите претрагу емоџија",
+    "description": "Button title to cancel the emoji search."
+  },
   "icu:EmojiPicker--search-placeholder": {
     "messageformat": "Тражи емоџи",
     "description": "Shown as a placeholder inside the emoji picker search field."
@@ -5019,6 +5038,10 @@
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Одустани",
     "description": "Appears on the cancel button in confirmation dialogs."
+  },
+  "icu:Message__role-description": {
+    "messageformat": "Порука",
+    "description": "aria-roledescription of a message"
   },
   "MessageBody--read-more": {
     "message": "Прочитајте више",
@@ -8351,6 +8374,18 @@
   "icu:CompositionArea--sms-only__spinner-label": {
     "messageformat": "Провера статуса регистрације контаката",
     "description": "Displayed while checking if the contact is SMS-only"
+  },
+  "icu:CompositionArea__edit-action--discard": {
+    "messageformat": "Одбаци поруку",
+    "description": "aria-label for discard edit button"
+  },
+  "icu:CompositionArea__edit-action--send": {
+    "messageformat": "Пошаљи измењену поруку",
+    "description": "aria-label for send edit button"
+  },
+  "icu:CompositionInput__editing-message": {
+    "messageformat": "Измените поруку",
+    "description": "Status text displayed above composition input when editing a message"
   },
   "countMutedConversationsDescription": {
     "message": "Прикажи преписке са искљученим обавештењима у приказу броја обавештења",
@@ -12360,6 +12395,14 @@
     "messageformat": "Историја измена",
     "description": "Modal title for the edit history messages modal"
   },
+  "icu:ResendMessageEdit__body": {
+    "messageformat": "Слање ове измене није успело. Проверите везу и пробајте поново",
+    "description": "Modal body for the confirmation dialog shown to user when attempting to resend message edit"
+  },
+  "icu:ResendMessageEdit__button": {
+    "messageformat": "Пошаљи поново",
+    "description": "Button text for the confirmation dialog shown to user when attempting to resend message edit"
+  },
   "WhatsNew__modal-title": {
     "message": "Шта ново",
     "description": "(deleted 03/29/2023) Title for the whats new modal"
@@ -12443,5 +12486,17 @@
   "icu:WhatsNew__v6.13--1": {
     "messageformat": "Подешавања теме сада се такође примењују на поља за потврду у подешавањима Signal-а. Хвала програмеру {rakleed} са GitHub-а на помоћи да са дневног реда скинемо задатак „Боља тама у тамној теми“.",
     "description": "Release notes for v6.13"
+  },
+  "icu:WhatsNew__v6.17--0": {
+    "messageformat": "Побољшана подршка за језике који се пишу здесна налево.",
+    "description": "Release notes for v6.17"
+  },
+  "icu:WhatsNew__v6.17--1": {
+    "messageformat": "Језици се сада поклапају са вашим системским подешавањима. Тиме би требало да је побољшано подразумевано понашање када је конфигурисано више језика.",
+    "description": "Release notes for v6.17"
+  },
+  "icu:WhatsNew__v6.17--2": {
+    "messageformat": "Ово издање додатно уводи побољшања и исправке грешака у функцијама за олакшан приступ и ми желимо да се захвалимо заједници на коментарима и сугестијама у вези с тим.",
+    "description": "Release notes for v6.17"
   }
 }

@@ -1563,6 +1563,10 @@
     "message": "સ્ટીકર પૅક સર્જક",
     "description": "(deleted 03/15/2023) Title of the window that pops up with Signal Desktop preferences in it"
   },
+  "icu:signalDesktopStickerCreator": {
+    "messageformat": "સ્ટીકર પેક સર્જક",
+    "description": "Title of the window that pops up with Signal Desktop preferences in it"
+  },
   "aboutSignalDesktop": {
     "message": "Signal ડેસ્કટોપ વિશે",
     "description": "(deleted 03/29/2023) Item under the Help menu, which opens a small about window"
@@ -2157,6 +2161,9 @@
   },
   "icu:accept": {
     "messageformat": "સ્વીકાર"
+  },
+  "icu:edit": {
+    "messageformat": "ફેરફાર કરો"
   },
   "forward": {
     "message": "ફોરવર્ડ",
@@ -3535,6 +3542,10 @@
     "messageformat": "ડિલીટ કરવાનું નિષ્ફળ થયું",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
   },
+  "icu:editFailed": {
+    "messageformat": "ફેરફારો નિષ્ફળ થયાં, વિગતો મેળવવા માટે ક્લિક કરો",
+    "description": "Shown on a message which was edited if the edit wasn't successfully sent to anyone"
+  },
   "sendPaused": {
     "message": "મેસેજ મોકવાનુ અટકાવવામાં આવ્યુ છે",
     "description": "(deleted 03/29/2023) Shown on outgoing message if it cannot be sent immediately"
@@ -4098,6 +4109,10 @@
   "icu:Toast--failed-to-fetch-phone-number": {
     "messageformat": "ફોન નંબર લાવવાનું નિષ્ફળ. તમારું કનેક્શન તપાસો અને ફરી પ્રયાસ કરો.",
     "description": "Shown if request to Signal servers to find phone number fails"
+  },
+  "icu:ToastManager__CannotEditMessage": {
+    "messageformat": "તમે આ મેસેજ મોકલ્યો ત્યારથી માત્ર 3 કલાકની અંદર જ ફેરફારો લાગુ કરી શકાય છે.",
+    "description": "Error message when you try to send an edit after message becomes too old"
   },
   "startConversation--username-not-found": {
     "message": "ઉપયોગકર્તા ન મળ્યા. $atUsername$ એ Signal ઉપયોગકર્તા નથી; ખાતરી કરો કે તમે આખું ઉપયોગકર્તા નામ લખ્યું છે.",
@@ -4928,6 +4943,10 @@
     "message": "ઈમોજી શોધો",
     "description": "(deleted 03/29/2023) Shown as a placeholder inside the emoji picker search field."
   },
+  "icu:EmojiPicker--search-close": {
+    "messageformat": "ઇમોજી શોધ બંધ કરો",
+    "description": "Button title to cancel the emoji search."
+  },
   "icu:EmojiPicker--search-placeholder": {
     "messageformat": "ઈમોજી શોધો",
     "description": "Shown as a placeholder inside the emoji picker search field."
@@ -5019,6 +5038,10 @@
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "રદ કરો",
     "description": "Appears on the cancel button in confirmation dialogs."
+  },
+  "icu:Message__role-description": {
+    "messageformat": "મેસેજ",
+    "description": "aria-roledescription of a message"
   },
   "MessageBody--read-more": {
     "message": "વધુ વાંચો",
@@ -8352,6 +8375,18 @@
     "messageformat": "કોનટેક્ટનું રજીસ્ટ્રેશન સ્ટેટસ તપાસી રહ્યું છે",
     "description": "Displayed while checking if the contact is SMS-only"
   },
+  "icu:CompositionArea__edit-action--discard": {
+    "messageformat": "મેસેજ કાઢી નાખો",
+    "description": "aria-label for discard edit button"
+  },
+  "icu:CompositionArea__edit-action--send": {
+    "messageformat": "ફેરફાર કરેલો મેસેજ મોકલો",
+    "description": "aria-label for send edit button"
+  },
+  "icu:CompositionInput__editing-message": {
+    "messageformat": "મેસેજમાં ફેરફાર કરો",
+    "description": "Status text displayed above composition input when editing a message"
+  },
   "countMutedConversationsDescription": {
     "message": "બૅજ કાઉન્ટમાં મ્યૂટ કરેલી વાતચીતો શામેલ કરો",
     "description": "(deleted 03/29/2023) Description for counting muted conversations in badge setting"
@@ -9397,7 +9432,7 @@
     "description": "(deleted 04/04/2023) Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-name-in-group--link": {
-    "messageformat": "{count, plural, one {{count,number} ગ્રૂપના સભ્યનું નામ સમાન છે. <reviewRequestLink>વિનંતીને રિવ્યૂ કરો</reviewRequestLink>} other {{count,number} ગ્રૂપના સભ્યોનું નામ સમાન છે. <reviewRequestLink>વિનંતીને રિવ્યૂ કરો</reviewRequestLink>}}",
+    "messageformat": "{count, plural, one {{count,number} ગ્રૂપના સભ્યનું નામ સરખું છે. <reviewRequestLink>વિનંતીને રિવ્યૂ કરો</reviewRequestLink>} other {{count,number} ગ્રૂપના સભ્યોના નામ સરખા છે. <reviewRequestLink>વિનંતીને રિવ્યૂ કરો</reviewRequestLink>}}",
     "description": "Shown in the timeline warning when you multiple group members have the same name"
   },
   "ContactSpoofing__same-name__link": {
@@ -12360,6 +12395,14 @@
     "messageformat": "ફેરફારોની હિસ્ટ્રી",
     "description": "Modal title for the edit history messages modal"
   },
+  "icu:ResendMessageEdit__body": {
+    "messageformat": "આ ફેરફાર મોકલી શકાયો ન હતો. તમારું કનેક્શન તપાસો અને ફરી પ્રયાસ કરો",
+    "description": "Modal body for the confirmation dialog shown to user when attempting to resend message edit"
+  },
+  "icu:ResendMessageEdit__button": {
+    "messageformat": "ફરી થી મોકલો",
+    "description": "Button text for the confirmation dialog shown to user when attempting to resend message edit"
+  },
   "WhatsNew__modal-title": {
     "message": "નવું શું છે",
     "description": "(deleted 03/29/2023) Title for the whats new modal"
@@ -12443,5 +12486,17 @@
   "icu:WhatsNew__v6.13--1": {
     "messageformat": "થીમ પસંદગીઓ હવે Signal સેટિંગ્સમાં ચેકબોક્સ પર પણ લાગુ થાય છે. અમારી TODO સૂચિમાંથી \"ડાર્ક થીમમાં અંધકારને વધુ સંપૂર્ણ રીતે સ્વીકારો\" તપાસવામાં મદદ કરવા બદલ GitHub પર {rakleed}નો આભાર.",
     "description": "Release notes for v6.13"
+  },
+  "icu:WhatsNew__v6.17--0": {
+    "messageformat": "જમણે-થી-ડાબે (RTL) ભાષાઓ માટે બહેતર સપોર્ટ.",
+    "description": "Release notes for v6.17"
+  },
+  "icu:WhatsNew__v6.17--1": {
+    "messageformat": "લોકેલ હવે તમારી સિસ્ટમ પસંદગીઓના આધારે મેળ ખાય છે. જ્યારે બહુવિધ ભાષાઓ કન્ફિગર કરવામાં આવે ત્યારે આ વધુ સારી ડિફોલ્ટ વર્તણૂકમાં પરિણમવું જોઈએ.",
+    "description": "Release notes for v6.17"
+  },
+  "icu:WhatsNew__v6.17--2": {
+    "messageformat": "આ રિલીઝ વધુમાં કેટલાક ઍક્સેસિબિલિટી ઉન્નત્તિકરણો અને બગ ફિક્સ પ્રસ્તુત કરે છે, અને અમે કોમ્યુનિટીનો તેમના પ્રતિસાદ અને સૂચનો બદલ સ્નેહપૂર્વક આભાર માનીએ છીએ.",
+    "description": "Release notes for v6.17"
   }
 }

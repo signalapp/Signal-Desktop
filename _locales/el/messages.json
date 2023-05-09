@@ -1563,6 +1563,10 @@
     "message": "Δημιουργός πακέτου αυτοκολλήτων",
     "description": "(deleted 03/15/2023) Title of the window that pops up with Signal Desktop preferences in it"
   },
+  "icu:signalDesktopStickerCreator": {
+    "messageformat": "Δημιουργός πακέτου αυτοκολλήτων",
+    "description": "Title of the window that pops up with Signal Desktop preferences in it"
+  },
   "aboutSignalDesktop": {
     "message": "Σχετικά με το Signal Desktop",
     "description": "(deleted 03/29/2023) Item under the Help menu, which opens a small about window"
@@ -2157,6 +2161,9 @@
   },
   "icu:accept": {
     "messageformat": "Αποδοχή"
+  },
+  "icu:edit": {
+    "messageformat": "Eπεξεργασία"
   },
   "forward": {
     "message": "Προώθηση",
@@ -3535,6 +3542,10 @@
     "messageformat": "Η διαγραφή απέτυχε",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
   },
+  "icu:editFailed": {
+    "messageformat": "Η τροποποίηση απέτυχε, κλικ για λεπτομέρειες",
+    "description": "Shown on a message which was edited if the edit wasn't successfully sent to anyone"
+  },
   "sendPaused": {
     "message": "Η αποστολή βρίσκεται σε αναμονή",
     "description": "(deleted 03/29/2023) Shown on outgoing message if it cannot be sent immediately"
@@ -4098,6 +4109,10 @@
   "icu:Toast--failed-to-fetch-phone-number": {
     "messageformat": "Αποτυχία λήψης του τηλεφωνικού αριθμού. Έλεγξε τη σύνδεσή σου και προσπάθησε ξανά.",
     "description": "Shown if request to Signal servers to find phone number fails"
+  },
+  "icu:ToastManager__CannotEditMessage": {
+    "messageformat": "Οι τροποποιήσεις μπορούν να εφαρμοστούν μόνο εντός 3 ωρών από τη στιγμή που έστειλες αυτό το μήνυμα.",
+    "description": "Error message when you try to send an edit after message becomes too old"
   },
   "startConversation--username-not-found": {
     "message": "Δεν βρέθηκε ο χρήστης. Ο/Η $atUsername$ δεν είναι χρήστης/τρια του Signal, επιβεβαίωσε πως έχεις γράψει ολόκληρο το όνομα χρήστη.",
@@ -4928,6 +4943,10 @@
     "message": "Αναζήτηση emoji",
     "description": "(deleted 03/29/2023) Shown as a placeholder inside the emoji picker search field."
   },
+  "icu:EmojiPicker--search-close": {
+    "messageformat": "Κλείσιμο αναζήτησης emoji",
+    "description": "Button title to cancel the emoji search."
+  },
   "icu:EmojiPicker--search-placeholder": {
     "messageformat": "Αναζήτηση emoji",
     "description": "Shown as a placeholder inside the emoji picker search field."
@@ -5019,6 +5038,10 @@
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Ακύρωση",
     "description": "Appears on the cancel button in confirmation dialogs."
+  },
+  "icu:Message__role-description": {
+    "messageformat": "Μήνυμα",
+    "description": "aria-roledescription of a message"
   },
   "MessageBody--read-more": {
     "message": "Δες περισσότερα",
@@ -8352,6 +8375,18 @@
     "messageformat": "Έλεγχος της κατάστασης εγγραφής της επαφής",
     "description": "Displayed while checking if the contact is SMS-only"
   },
+  "icu:CompositionArea__edit-action--discard": {
+    "messageformat": "Απόρριψη μηνύματος",
+    "description": "aria-label for discard edit button"
+  },
+  "icu:CompositionArea__edit-action--send": {
+    "messageformat": "Αποστολή τροποποιημένου μηνύματος",
+    "description": "aria-label for send edit button"
+  },
+  "icu:CompositionInput__editing-message": {
+    "messageformat": "Επεξεργασία μηνύματος",
+    "description": "Status text displayed above composition input when editing a message"
+  },
   "countMutedConversationsDescription": {
     "message": "Να συμπεριλαμβάνονται οι συνομιλίες σε σίγαση στο μετρητή ειδοποιήσεων",
     "description": "(deleted 03/29/2023) Description for counting muted conversations in badge setting"
@@ -9385,7 +9420,7 @@
     "description": "(deleted 03/29/2023) Shown in the timeline warning when you have a message request from someone with the same name as someone else"
   },
   "icu:ContactSpoofing__same-name--link": {
-    "messageformat": "Εξέτασε τα αιτήματα προσεκτικά. Το Signal βρήκε και άλλη επαφή με το ίδιο όνομα. <reviewRequestLink>Εξέταση αιτήματος</reviewRequestLink>",
+    "messageformat": "Έλεγξε τα αιτήματα προσεκτικά. Το Signal βρήκε και άλλη επαφή με το ίδιο όνομα. <reviewRequestLink>Έλεγχος αιτήματος</reviewRequestLink>",
     "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else"
   },
   "ContactSpoofing__same-name-in-group": {
@@ -9397,7 +9432,7 @@
     "description": "(deleted 04/04/2023) Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-name-in-group--link": {
-    "messageformat": "{count, plural, one {{count,number} μέλος της ομάδας έχει το ίδιο όνομα. <reviewRequestLink>Εξέταση αιτήματος</reviewRequestLink>} other {{count,number} μέλη της ομάδας έχουν το ίδιο όνομα. <reviewRequestLink>Εξέταση αιτήματος</reviewRequestLink>}}",
+    "messageformat": "{count, plural, one {{count,number} μέλος της ομάδας έχει το ίδιο όνομα. <reviewRequestLink>Έλεγχος αιτήματος</reviewRequestLink>} other {{count,number} μέλη της ομάδας έχουν το ίδιο όνομα. <reviewRequestLink>Έλεγχος αιτήματος</reviewRequestLink>}}",
     "description": "Shown in the timeline warning when you multiple group members have the same name"
   },
   "ContactSpoofing__same-name__link": {
@@ -12360,6 +12395,14 @@
     "messageformat": "Ιστορικό επεξεργασίας",
     "description": "Modal title for the edit history messages modal"
   },
+  "icu:ResendMessageEdit__body": {
+    "messageformat": "Δεν ήταν δυνατή η αποστολή αυτής της τροποποίησης. Έλεγξε τη σύνδεσή σου και δοκίμασε ξανά",
+    "description": "Modal body for the confirmation dialog shown to user when attempting to resend message edit"
+  },
+  "icu:ResendMessageEdit__button": {
+    "messageformat": "Επαναποστολή",
+    "description": "Button text for the confirmation dialog shown to user when attempting to resend message edit"
+  },
   "WhatsNew__modal-title": {
     "message": "Νέες δυνατότητες",
     "description": "(deleted 03/29/2023) Title for the whats new modal"
@@ -12443,5 +12486,17 @@
   "icu:WhatsNew__v6.13--1": {
     "messageformat": "Στις Ρυθμίσεις του Signal ισχύουν πλέον οι προτιμήσεις θέματος που ισχύουν και για τα πλαίσια ελέγχου. Ευχαριστούμε τον χρήστη {rakleed} στο GitHub που μας βοήθησε να τσεκάρουμε το \"Περισσότερο σκοτάδι στο σκούρο θέμα\" από τη λίστα εργασιών μας.",
     "description": "Release notes for v6.13"
+  },
+  "icu:WhatsNew__v6.17--0": {
+    "messageformat": "Βελτιωμένη υποστήριξη για γλώσσες από δεξιά προς τα αριστερά (RTL).",
+    "description": "Release notes for v6.17"
+  },
+  "icu:WhatsNew__v6.17--1": {
+    "messageformat": "Οι τοπικές ρυθμίσεις αντιστοιχίζονται πλέον με βάση τις προτιμήσεις συστήματος. Αυτό θα έχει ως αποτέλεσμα καλύτερη προεπιλεγμένη συμπεριφορά όταν διαμορφώνονται πολλές γλώσσες.",
+    "description": "Release notes for v6.17"
+  },
+  "icu:WhatsNew__v6.17--2": {
+    "messageformat": "Επιπλέον, αυτή η έκδοση (a10y) εισάγει αρκετές βελτιώσεις προσβασιμότητας (a11y) και διορθώσεις σφαλμάτων, και θα θέλαμε να ευχαριστήσουμε θερμά (a12y) την κοινότητα για τα σχόλια και τις προτάσεις.",
+    "description": "Release notes for v6.17"
   }
 }

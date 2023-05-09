@@ -1563,6 +1563,10 @@
     "message": "스티커 팩 제조기",
     "description": "(deleted 03/15/2023) Title of the window that pops up with Signal Desktop preferences in it"
   },
+  "icu:signalDesktopStickerCreator": {
+    "messageformat": "스티커 팩 제조기",
+    "description": "Title of the window that pops up with Signal Desktop preferences in it"
+  },
   "aboutSignalDesktop": {
     "message": "Signal Desktop에 대하여",
     "description": "(deleted 03/29/2023) Item under the Help menu, which opens a small about window"
@@ -2157,6 +2161,9 @@
   },
   "icu:accept": {
     "messageformat": "수락"
+  },
+  "icu:edit": {
+    "messageformat": "수정"
   },
   "forward": {
     "message": "전달",
@@ -3535,6 +3542,10 @@
     "messageformat": "삭제 실패",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
   },
+  "icu:editFailed": {
+    "messageformat": "수정하지 못했습니다. 클릭하여 자세한 내용을 확인하세요.",
+    "description": "Shown on a message which was edited if the edit wasn't successfully sent to anyone"
+  },
   "sendPaused": {
     "message": "전송 일시 정지됨",
     "description": "(deleted 03/29/2023) Shown on outgoing message if it cannot be sent immediately"
@@ -4098,6 +4109,10 @@
   "icu:Toast--failed-to-fetch-phone-number": {
     "messageformat": "전화번호를 가져오지 못했습니다. 연결을 확인하고 다시 시도하세요.",
     "description": "Shown if request to Signal servers to find phone number fails"
+  },
+  "icu:ToastManager__CannotEditMessage": {
+    "messageformat": "메시지 수정은 발송 시간으로부터 3시간 이내로 제한됩니다.",
+    "description": "Error message when you try to send an edit after message becomes too old"
   },
   "startConversation--username-not-found": {
     "message": "사용자를 찾을 수 없습니다. $atUsername$ 님은 Signal 사용자가 아닙니다. 전체 사용자명을 입력했는지 확인하세요.",
@@ -4928,6 +4943,10 @@
     "message": "이모지 검색",
     "description": "(deleted 03/29/2023) Shown as a placeholder inside the emoji picker search field."
   },
+  "icu:EmojiPicker--search-close": {
+    "messageformat": "이모지 검색 닫기",
+    "description": "Button title to cancel the emoji search."
+  },
   "icu:EmojiPicker--search-placeholder": {
     "messageformat": "이모지 검색",
     "description": "Shown as a placeholder inside the emoji picker search field."
@@ -5019,6 +5038,10 @@
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "취소",
     "description": "Appears on the cancel button in confirmation dialogs."
+  },
+  "icu:Message__role-description": {
+    "messageformat": "메시지",
+    "description": "aria-roledescription of a message"
   },
   "MessageBody--read-more": {
     "message": "더 읽기",
@@ -8351,6 +8374,18 @@
   "icu:CompositionArea--sms-only__spinner-label": {
     "messageformat": "연락처 등록 상태 확인",
     "description": "Displayed while checking if the contact is SMS-only"
+  },
+  "icu:CompositionArea__edit-action--discard": {
+    "messageformat": "메시지 취소",
+    "description": "aria-label for discard edit button"
+  },
+  "icu:CompositionArea__edit-action--send": {
+    "messageformat": "수정한 메시지 보내기",
+    "description": "aria-label for send edit button"
+  },
+  "icu:CompositionInput__editing-message": {
+    "messageformat": "메시지 수정",
+    "description": "Status text displayed above composition input when editing a message"
   },
   "countMutedConversationsDescription": {
     "message": "배지 수에 알림이 꺼진 대화 포함",
@@ -12360,6 +12395,14 @@
     "messageformat": "수정 기록",
     "description": "Modal title for the edit history messages modal"
   },
+  "icu:ResendMessageEdit__body": {
+    "messageformat": "이 수정 사항을 보낼 수 없습니다. 연결을 확인하고 다시 시도하세요.",
+    "description": "Modal body for the confirmation dialog shown to user when attempting to resend message edit"
+  },
+  "icu:ResendMessageEdit__button": {
+    "messageformat": "다시 보내기",
+    "description": "Button text for the confirmation dialog shown to user when attempting to resend message edit"
+  },
   "WhatsNew__modal-title": {
     "message": "업데이트 내용",
     "description": "(deleted 03/29/2023) Title for the whats new modal"
@@ -12443,5 +12486,17 @@
   "icu:WhatsNew__v6.13--1": {
     "messageformat": "테마 기본 설정이 이제 Signal 설정 확인란에도 적용됩니다. 우리의 할 일 목록에서 '어둠 세계의 공식 멤버 되기 테마'를 지울 수 있도록 도와준 GitHub의 {rakleed}에 감사의 마음을 전합니다.",
     "description": "Release notes for v6.13"
+  },
+  "icu:WhatsNew__v6.17--0": {
+    "messageformat": "RTL(Right-to-Left) 언어에 대한 지원을 개선했습니다.",
+    "description": "Release notes for v6.17"
+  },
+  "icu:WhatsNew__v6.17--1": {
+    "messageformat": "이제 시스템 기본 설정에 따라 로캘이 매칭됩니다. 이 변경 사항은 여러 언어를 구성하는 경우 기본 동작에 도움이 됩니다.",
+    "description": "Release notes for v6.17"
+  },
+  "icu:WhatsNew__v6.17--2": {
+    "messageformat": "더불어 이 릴리스에는 다양한 접근성 향상과 버그 수정 내용이 포함되어 있으며, 이를 실현할 수 있도록 도와준 Signal 커뮤니티의 피드백과 추천에 감사를 표합니다.",
+    "description": "Release notes for v6.17"
   }
 }

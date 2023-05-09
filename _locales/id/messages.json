@@ -1563,6 +1563,10 @@
     "message": "Pembuat Paket Stiker",
     "description": "(deleted 03/15/2023) Title of the window that pops up with Signal Desktop preferences in it"
   },
+  "icu:signalDesktopStickerCreator": {
+    "messageformat": "Pembuat Paket Stiker",
+    "description": "Title of the window that pops up with Signal Desktop preferences in it"
+  },
   "aboutSignalDesktop": {
     "message": "Mengenai Signal Desktop",
     "description": "(deleted 03/29/2023) Item under the Help menu, which opens a small about window"
@@ -2157,6 +2161,9 @@
   },
   "icu:accept": {
     "messageformat": "Terima"
+  },
+  "icu:edit": {
+    "messageformat": "Edit"
   },
   "forward": {
     "message": "Teruskan",
@@ -3535,6 +3542,10 @@
     "messageformat": "Penghapusan gagal",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
   },
+  "icu:editFailed": {
+    "messageformat": "Pengeditan gagal, klik untuk detailnya",
+    "description": "Shown on a message which was edited if the edit wasn't successfully sent to anyone"
+  },
   "sendPaused": {
     "message": "Pengiriman ditunda",
     "description": "(deleted 03/29/2023) Shown on outgoing message if it cannot be sent immediately"
@@ -4098,6 +4109,10 @@
   "icu:Toast--failed-to-fetch-phone-number": {
     "messageformat": "Gagal mengambil nomor telepon. Periksa koneksi internet dan coba lagi.",
     "description": "Shown if request to Signal servers to find phone number fails"
+  },
+  "icu:ToastManager__CannotEditMessage": {
+    "messageformat": "Pengeditan hanya dapat diterapkan dalam rentang waktu 3 jam sejak Anda mengirimkan pesan ini.",
+    "description": "Error message when you try to send an edit after message becomes too old"
   },
   "startConversation--username-not-found": {
     "message": "Pengguna tidak ditemukan. $atUsername$ bukan pengguna Signal; pastikan Anda memasukkan nama pengguna yang lengkap.",
@@ -4928,6 +4943,10 @@
     "message": "Cari Emoji",
     "description": "(deleted 03/29/2023) Shown as a placeholder inside the emoji picker search field."
   },
+  "icu:EmojiPicker--search-close": {
+    "messageformat": "Tutup pencarian emoji",
+    "description": "Button title to cancel the emoji search."
+  },
   "icu:EmojiPicker--search-placeholder": {
     "messageformat": "Cari Emoji",
     "description": "Shown as a placeholder inside the emoji picker search field."
@@ -5019,6 +5038,10 @@
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Batal",
     "description": "Appears on the cancel button in confirmation dialogs."
+  },
+  "icu:Message__role-description": {
+    "messageformat": "Pesan",
+    "description": "aria-roledescription of a message"
   },
   "MessageBody--read-more": {
     "message": "Baca lebih lanjut",
@@ -8351,6 +8374,18 @@
   "icu:CompositionArea--sms-only__spinner-label": {
     "messageformat": "Memeriksa status pendaftaran kontak",
     "description": "Displayed while checking if the contact is SMS-only"
+  },
+  "icu:CompositionArea__edit-action--discard": {
+    "messageformat": "Buang pesan",
+    "description": "aria-label for discard edit button"
+  },
+  "icu:CompositionArea__edit-action--send": {
+    "messageformat": "Kirim pesan yang telah diedit",
+    "description": "aria-label for send edit button"
+  },
+  "icu:CompositionInput__editing-message": {
+    "messageformat": "Edit pesan",
+    "description": "Status text displayed above composition input when editing a message"
   },
   "countMutedConversationsDescription": {
     "message": "Sertakan percakapan yang dibisukan dalam jumlah lencana",
@@ -12360,6 +12395,14 @@
     "messageformat": "Riwayat pengeditan",
     "description": "Modal title for the edit history messages modal"
   },
+  "icu:ResendMessageEdit__body": {
+    "messageformat": "Editan ini tidak dapat dikirim. Periksa koneksi Anda dan coba lagi",
+    "description": "Modal body for the confirmation dialog shown to user when attempting to resend message edit"
+  },
+  "icu:ResendMessageEdit__button": {
+    "messageformat": "Kirimkan kembali",
+    "description": "Button text for the confirmation dialog shown to user when attempting to resend message edit"
+  },
   "WhatsNew__modal-title": {
     "message": "Yang Baru",
     "description": "(deleted 03/29/2023) Title for the whats new modal"
@@ -12443,5 +12486,17 @@
   "icu:WhatsNew__v6.13--1": {
     "messageformat": "Preferensi tema kini juga diterapkan untuk kotak centang di Pengaturan Signal. Ini berkat {rakleed} di GitHub yang membantu kami mencentang \"Lebih menerima sisi gelap dalam tema gelap\" dari \"To Do List\" kami.",
     "description": "Release notes for v6.13"
+  },
+  "icu:WhatsNew__v6.17--0": {
+    "messageformat": "Peningkatan dukungan untuk bahasa kanan-ke-kiri (RTL).",
+    "description": "Release notes for v6.17"
+  },
+  "icu:WhatsNew__v6.17--1": {
+    "messageformat": "Bahasa kini disesuaikan berdasarkan preferensi di sistem Anda. Hal ini membuat perilaku default jadi lebih baik saat beberapa bahasa dikonfigurasi.",
+    "description": "Release notes for v6.17"
+  },
+  "icu:WhatsNew__v6.17--2": {
+    "messageformat": "Rilis ini juga (a10y) memperkenalkan beberapa peningkatan aksesibilitas (a11y) dan perbaikan bug, dan kami dengan sepenuh hati (a12y) ingin berterima kasih kepada komunitas atas masukan dan saran yang telah diberikan.",
+    "description": "Release notes for v6.17"
   }
 }

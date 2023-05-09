@@ -1563,6 +1563,10 @@
     "message": "Eranskailuen paketeak sortzeko tresna",
     "description": "(deleted 03/15/2023) Title of the window that pops up with Signal Desktop preferences in it"
   },
+  "icu:signalDesktopStickerCreator": {
+    "messageformat": "Eranskailuen paketeak sortzeko tresna",
+    "description": "Title of the window that pops up with Signal Desktop preferences in it"
+  },
   "aboutSignalDesktop": {
     "message": "Signal Desktop-i buruz",
     "description": "(deleted 03/29/2023) Item under the Help menu, which opens a small about window"
@@ -2157,6 +2161,9 @@
   },
   "icu:accept": {
     "messageformat": "Onartu"
+  },
+  "icu:edit": {
+    "messageformat": "Editatu"
   },
   "forward": {
     "message": "Birbidali",
@@ -3535,6 +3542,10 @@
     "messageformat": "Ezin izan da ezabatu",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
   },
+  "icu:editFailed": {
+    "messageformat": "Ezin izan da editatu. Egin klik xehetasunak ikusteko.",
+    "description": "Shown on a message which was edited if the edit wasn't successfully sent to anyone"
+  },
   "sendPaused": {
     "message": "Bidalketa eten egin da",
     "description": "(deleted 03/29/2023) Shown on outgoing message if it cannot be sent immediately"
@@ -4098,6 +4109,10 @@
   "icu:Toast--failed-to-fetch-phone-number": {
     "messageformat": "Ezin izan da eskuratu telefono-zenbakia. Egiaztatu konektatuta zaudela eta saiatu berriro.",
     "description": "Shown if request to Signal servers to find phone number fails"
+  },
+  "icu:ToastManager__CannotEditMessage": {
+    "messageformat": "Mezu hau bidali eta 3 orduko epean soilik aplika daitezke aldaketak.",
+    "description": "Error message when you try to send an edit after message becomes too old"
   },
   "startConversation--username-not-found": {
     "message": "Ez da aurkitu erabiltzailea. $atUsername$ ez da Signal-eko erabiltzailea; ziurtatu erabiltzaile-izen osoa idatzi duzula.",
@@ -4928,6 +4943,10 @@
     "message": "Bilatu Emojia",
     "description": "(deleted 03/29/2023) Shown as a placeholder inside the emoji picker search field."
   },
+  "icu:EmojiPicker--search-close": {
+    "messageformat": "Itxi emojien bilaketa",
+    "description": "Button title to cancel the emoji search."
+  },
   "icu:EmojiPicker--search-placeholder": {
     "messageformat": "Bilatu Emojia",
     "description": "Shown as a placeholder inside the emoji picker search field."
@@ -5019,6 +5038,10 @@
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Utzi",
     "description": "Appears on the cancel button in confirmation dialogs."
+  },
+  "icu:Message__role-description": {
+    "messageformat": "Mezua",
+    "description": "aria-roledescription of a message"
   },
   "MessageBody--read-more": {
     "message": "Irakurri gehiago",
@@ -8352,6 +8375,18 @@
     "messageformat": "Kontaktuaren erregistro-egoera egiaztatzen",
     "description": "Displayed while checking if the contact is SMS-only"
   },
+  "icu:CompositionArea__edit-action--discard": {
+    "messageformat": "Baztertu mezua",
+    "description": "aria-label for discard edit button"
+  },
+  "icu:CompositionArea__edit-action--send": {
+    "messageformat": "Bidali editatutako mezua",
+    "description": "aria-label for send edit button"
+  },
+  "icu:CompositionInput__editing-message": {
+    "messageformat": "Editatu mezua",
+    "description": "Status text displayed above composition input when editing a message"
+  },
   "countMutedConversationsDescription": {
     "message": "Sartu jakinarazpenak desaktibatuta dauzkaten elkarrizketak irakurri gabekoen kopuruan",
     "description": "(deleted 03/29/2023) Description for counting muted conversations in badge setting"
@@ -9397,7 +9432,7 @@
     "description": "(deleted 04/04/2023) Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-name-in-group--link": {
-    "messageformat": "{count, plural, one {Taldekide batek izen bera du. <reviewRequestLink>Berrikusteko eskaera</reviewRequestLink>} other {{count,number} taldekidek izen bera dute. <reviewRequestLink>Berrikusi eskaera</reviewRequestLink>}}",
+    "messageformat": "{count, plural, one {{count,number} taldekidek izen bera du. <reviewRequestLink>Berrikusi eskaera</reviewRequestLink>} other {{count,number} taldekidek izen bera dute. <reviewRequestLink>Berrikusi eskaera</reviewRequestLink>}}",
     "description": "Shown in the timeline warning when you multiple group members have the same name"
   },
   "ContactSpoofing__same-name__link": {
@@ -12360,6 +12395,14 @@
     "messageformat": "Edizio-historia",
     "description": "Modal title for the edit history messages modal"
   },
+  "icu:ResendMessageEdit__body": {
+    "messageformat": "Ezin izan da bidali aldaketa hau. Egiaztatu konexioa eta saiatu berriro.",
+    "description": "Modal body for the confirmation dialog shown to user when attempting to resend message edit"
+  },
+  "icu:ResendMessageEdit__button": {
+    "messageformat": "Berriro Bidali",
+    "description": "Button text for the confirmation dialog shown to user when attempting to resend message edit"
+  },
   "WhatsNew__modal-title": {
     "message": "Zer berri",
     "description": "(deleted 03/29/2023) Title for the whats new modal"
@@ -12443,5 +12486,17 @@
   "icu:WhatsNew__v6.13--1": {
     "messageformat": "Gaiaren hobespenak Signal ezarpenetako kontrol-laukietan ere aplikatzen dira. Eskerrik asko GitHub-eko {rakleed}(r)i \"Gai ilunean gaua areagotzea\" gure EGITEKO zerrendatik kanpo egiaztatzen laguntzeagatik.",
     "description": "Release notes for v6.13"
+  },
+  "icu:WhatsNew__v6.17--0": {
+    "messageformat": "Eskuinetik ezkerrerako (RTL) hizkuntzetarako laguntza hobetua.",
+    "description": "Release notes for v6.17"
+  },
+  "icu:WhatsNew__v6.17--1": {
+    "messageformat": "Orain, sistemaren hobespenen arabera esleitzen dira lurralde-ezarpenak. Horrela, hainbat hizkuntza konfiguratzean, jokabide lehenetsiak hobea izan beharko luke.",
+    "description": "Release notes for v6.17"
+  },
+  "icu:WhatsNew__v6.17--2": {
+    "messageformat": "Argitalpen honek, gainera, erabilerraztasun-hobekuntza eta akats-konponketa ugari dakartza, eta bihotzez eskerrak eman nahi dizkiogu komunitateari haren iritzi eta iradokizunengatik.",
+    "description": "Release notes for v6.17"
   }
 }

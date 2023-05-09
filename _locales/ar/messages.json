@@ -1563,6 +1563,10 @@
     "message": "مُنشىء حزمة الملصقات",
     "description": "(deleted 03/15/2023) Title of the window that pops up with Signal Desktop preferences in it"
   },
+  "icu:signalDesktopStickerCreator": {
+    "messageformat": "مُنشيء حزمة الملصقات",
+    "description": "Title of the window that pops up with Signal Desktop preferences in it"
+  },
   "aboutSignalDesktop": {
     "message": "عن Signal Desktop",
     "description": "(deleted 03/29/2023) Item under the Help menu, which opens a small about window"
@@ -2157,6 +2161,9 @@
   },
   "icu:accept": {
     "messageformat": "قبول"
+  },
+  "icu:edit": {
+    "messageformat": "تعديل"
   },
   "forward": {
     "message": "إعادة التوجيه",
@@ -3535,6 +3542,10 @@
     "messageformat": "فشل الحذف",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
   },
+  "icu:editFailed": {
+    "messageformat": "فشل التعديل، اضغط للحصول على التفاصيل",
+    "description": "Shown on a message which was edited if the edit wasn't successfully sent to anyone"
+  },
   "sendPaused": {
     "message": "الإرسال متوقف مؤقتا",
     "description": "(deleted 03/29/2023) Shown on outgoing message if it cannot be sent immediately"
@@ -4098,6 +4109,10 @@
   "icu:Toast--failed-to-fetch-phone-number": {
     "messageformat": "‫لقد فشل جلب رقم الهاتف. يُرجى التأكد من اتصالك ثم المحاولة مرة أخرى.",
     "description": "Shown if request to Signal servers to find phone number fails"
+  },
+  "icu:ToastManager__CannotEditMessage": {
+    "messageformat": "لا يُمكن إحداث التعديلات إلا في غضون 3 ساعات من وقت إرسال هذه الرسالة.",
+    "description": "Error message when you try to send an edit after message becomes too old"
   },
   "startConversation--username-not-found": {
     "message": "المستخدم غير موجود. $atUsername$ لا يستخدم Signal. تأكّد من إدخال اسم المستخدم بالكامل.",
@@ -4928,6 +4943,10 @@
     "message": "البحث عن وجه مُعبِّر",
     "description": "(deleted 03/29/2023) Shown as a placeholder inside the emoji picker search field."
   },
+  "icu:EmojiPicker--search-close": {
+    "messageformat": "إغلاق البحث عن الوجوه المعبرة",
+    "description": "Button title to cancel the emoji search."
+  },
   "icu:EmojiPicker--search-placeholder": {
     "messageformat": "البحث عن وجه مُعبِّر",
     "description": "Shown as a placeholder inside the emoji picker search field."
@@ -5019,6 +5038,10 @@
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "إلغاء",
     "description": "Appears on the cancel button in confirmation dialogs."
+  },
+  "icu:Message__role-description": {
+    "messageformat": "مراسلة",
+    "description": "aria-roledescription of a message"
   },
   "MessageBody--read-more": {
     "message": "قراءة المزيد",
@@ -8352,6 +8375,18 @@
     "messageformat": "يجري التحقق من حالة تسجيل جهة الاتصال",
     "description": "Displayed while checking if the contact is SMS-only"
   },
+  "icu:CompositionArea__edit-action--discard": {
+    "messageformat": "تجاهل الرسالة",
+    "description": "aria-label for discard edit button"
+  },
+  "icu:CompositionArea__edit-action--send": {
+    "messageformat": "إرسال الرسالة المُعدلة",
+    "description": "aria-label for send edit button"
+  },
+  "icu:CompositionInput__editing-message": {
+    "messageformat": "تعديل الرسالة",
+    "description": "Status text displayed above composition input when editing a message"
+  },
   "countMutedConversationsDescription": {
     "message": "احتساب المحادثات المكتومة في شارة التعداد",
     "description": "(deleted 03/29/2023) Description for counting muted conversations in badge setting"
@@ -9397,7 +9432,7 @@
     "description": "(deleted 04/04/2023) Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-name-in-group--link": {
-    "messageformat": "{count, plural, zero {{count,number} عضو بالمجموعة لهم نفس الاسم. <reviewRequestLink>مراجعة الطلب</reviewRequestLink>} one {{count,number} عضو بالمجموعة لهم نفس الاسم. <reviewRequestLink>مراجعة الطلب</reviewRequestLink>} two {{count,number} عضوان بالمجموعة لهما نفس الاسم. <reviewRequestLink>مراجعة الطلب</reviewRequestLink>} few {{count,number} أعضاء بالمجموعة لهم نفس الاسم. <reviewRequestLink>مراجعة الطلب</reviewRequestLink>} many {{count,number} عضوا بالمجموعة لهم نفس الاسم. <reviewRequestLink>مراجعة الطلب</reviewRequestLink>} other {{count,number} عضو بالمجموعة لهم نفس الاسم. <reviewRequestLink>مراجعة الطلب</reviewRequestLink>}}",
+    "messageformat": "{count, plural, zero {{count,number} عضو بالمجموعة لهم نفس الاسم. <reviewRequestLink>مراجعة الطلب</reviewRequestLink>} one {{count,number} عضو بالمجموعة له نفس الاسم. <reviewRequestLink>مراجعة الطلب</reviewRequestLink>} two {{count,number} عضوان بالمجموعة لهما نفس الاسم. <reviewRequestLink>مراجعة الطلب</reviewRequestLink>} few {{count,number} أعضاء بالمجموعة لهم نفس الاسم. <reviewRequestLink>مراجعة الطلب</reviewRequestLink>} many {{count,number} عضوا بالمجموعة لهم نفس الاسم. <reviewRequestLink>مراجعة الطلب</reviewRequestLink>} other {{count,number} عضو بالمجموعة لهم نفس الاسم. <reviewRequestLink>مراجعة الطلب</reviewRequestLink>}}",
     "description": "Shown in the timeline warning when you multiple group members have the same name"
   },
   "ContactSpoofing__same-name__link": {
@@ -12360,6 +12395,14 @@
     "messageformat": "سجل التعديلات",
     "description": "Modal title for the edit history messages modal"
   },
+  "icu:ResendMessageEdit__body": {
+    "messageformat": "تعذر إرسال هذا التعديل. تحقّق من اتصالك بالشبكة ثم حاول مُجددًا",
+    "description": "Modal body for the confirmation dialog shown to user when attempting to resend message edit"
+  },
+  "icu:ResendMessageEdit__button": {
+    "messageformat": "إعادة الإرسال",
+    "description": "Button text for the confirmation dialog shown to user when attempting to resend message edit"
+  },
   "WhatsNew__modal-title": {
     "message": "ما الجديد",
     "description": "(deleted 03/29/2023) Title for the whats new modal"
@@ -12443,5 +12486,17 @@
   "icu:WhatsNew__v6.13--1": {
     "messageformat": "تنطبق تفضيلات النَسق الآن أيضًا على مربعات التحديد في إعدادات Signal. نشكر {rakleed} من GitHub على مساعدته. لقد أصبحت جميع سمات تطبيقنا تظهر الآن في النمط الداكن.",
     "description": "Release notes for v6.13"
+  },
+  "icu:WhatsNew__v6.17--0": {
+    "messageformat": "تم تحسين الدعم للغات التي تُكتب من اليمين إلى اليسار.",
+    "description": "Release notes for v6.17"
+  },
+  "icu:WhatsNew__v6.17--1": {
+    "messageformat": "تتم الآن مطابقة اللغات المحلية بناءً على تفضيلات نظامك. هذا من شأنه أن يُؤدي إلى تحسين سلوك اختيار اللغة الافتراضية عند تواجد عدة لغات.",
+    "description": "Release notes for v6.17"
+  },
+  "icu:WhatsNew__v6.17--2": {
+    "messageformat": "يُقدم هذا الإصدار أيضًا عدة تحسينات وتصويبات للأخطاء، ونتقدم بالشكر للمجتمع على تعليقاتهم واقتراحاتهم.",
+    "description": "Release notes for v6.17"
   }
 }

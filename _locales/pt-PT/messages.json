@@ -1563,6 +1563,10 @@
     "message": "Criador de pacotes de autocolantes",
     "description": "(deleted 03/15/2023) Title of the window that pops up with Signal Desktop preferences in it"
   },
+  "icu:signalDesktopStickerCreator": {
+    "messageformat": "Criador de pacotes de autocolantes",
+    "description": "Title of the window that pops up with Signal Desktop preferences in it"
+  },
   "aboutSignalDesktop": {
     "message": "Acerca do Signal Desktop",
     "description": "(deleted 03/29/2023) Item under the Help menu, which opens a small about window"
@@ -2157,6 +2161,9 @@
   },
   "icu:accept": {
     "messageformat": "Aceitar"
+  },
+  "icu:edit": {
+    "messageformat": "Editar"
   },
   "forward": {
     "message": "Reencaminhar",
@@ -3535,6 +3542,10 @@
     "messageformat": "Falha ao eliminar",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
   },
+  "icu:editFailed": {
+    "messageformat": "Falha ao editar, clique para mais detalhes",
+    "description": "Shown on a message which was edited if the edit wasn't successfully sent to anyone"
+  },
   "sendPaused": {
     "message": "Envio em pausa",
     "description": "(deleted 03/29/2023) Shown on outgoing message if it cannot be sent immediately"
@@ -4098,6 +4109,10 @@
   "icu:Toast--failed-to-fetch-phone-number": {
     "messageformat": "Falha ao procurar o número de telefone. Verifique a sua ligação e tente novamente.",
     "description": "Shown if request to Signal servers to find phone number fails"
+  },
+  "icu:ToastManager__CannotEditMessage": {
+    "messageformat": "As edições só podem ser aplicadas dentro de 3 horas a partir do momento em que enviou esta mensagem.",
+    "description": "Error message when you try to send an edit after message becomes too old"
   },
   "startConversation--username-not-found": {
     "message": "Utilizador não encontrado. $atUsername$ não é um nome de utilizador registado no Signal, certifique-se de que você introduziu o nome de utilizador completo.",
@@ -4928,6 +4943,10 @@
     "message": "Procurar emoji",
     "description": "(deleted 03/29/2023) Shown as a placeholder inside the emoji picker search field."
   },
+  "icu:EmojiPicker--search-close": {
+    "messageformat": "Fechar pesquisa de emojis",
+    "description": "Button title to cancel the emoji search."
+  },
   "icu:EmojiPicker--search-placeholder": {
     "messageformat": "Procurar emoji",
     "description": "Shown as a placeholder inside the emoji picker search field."
@@ -5019,6 +5038,10 @@
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Cancelar",
     "description": "Appears on the cancel button in confirmation dialogs."
+  },
+  "icu:Message__role-description": {
+    "messageformat": "Mensagem",
+    "description": "aria-roledescription of a message"
   },
   "MessageBody--read-more": {
     "message": "Ler mais",
@@ -8351,6 +8374,18 @@
   "icu:CompositionArea--sms-only__spinner-label": {
     "messageformat": "A verificar o estado de registo do seu contacto",
     "description": "Displayed while checking if the contact is SMS-only"
+  },
+  "icu:CompositionArea__edit-action--discard": {
+    "messageformat": "Descartar mensagem",
+    "description": "aria-label for discard edit button"
+  },
+  "icu:CompositionArea__edit-action--send": {
+    "messageformat": "Enviar mensagem editada",
+    "description": "aria-label for send edit button"
+  },
+  "icu:CompositionInput__editing-message": {
+    "messageformat": "Editar mensagem",
+    "description": "Status text displayed above composition input when editing a message"
   },
   "countMutedConversationsDescription": {
     "message": "Incluir as conversas silenciadas no crachá contador",
@@ -12360,6 +12395,14 @@
     "messageformat": "Histórico de edições",
     "description": "Modal title for the edit history messages modal"
   },
+  "icu:ResendMessageEdit__body": {
+    "messageformat": "Esta edição não pôde ser enviada. Verifique a sua ligação e tente novamente.",
+    "description": "Modal body for the confirmation dialog shown to user when attempting to resend message edit"
+  },
+  "icu:ResendMessageEdit__button": {
+    "messageformat": "Reenviar",
+    "description": "Button text for the confirmation dialog shown to user when attempting to resend message edit"
+  },
   "WhatsNew__modal-title": {
     "message": "Novidades",
     "description": "(deleted 03/29/2023) Title for the whats new modal"
@@ -12443,5 +12486,17 @@
   "icu:WhatsNew__v6.13--1": {
     "messageformat": "As preferências de temas agora também se aplicam às caixas de verificação nas Definições do Signal. Agradecemos a {rakleed} do GitHub por nos ajudar a riscar \"Abraçar a escuridão ainda mais no tema escuro\" da nossa lista de tarefas.",
     "description": "Release notes for v6.13"
+  },
+  "icu:WhatsNew__v6.17--0": {
+    "messageformat": "Suporte melhorado para línguas direita-para-a-esquerda (RTL).",
+    "description": "Release notes for v6.17"
+  },
+  "icu:WhatsNew__v6.17--1": {
+    "messageformat": "Os locais correspondem agora de acordo com as suas preferências de sistema. Isto deve resultar em melhores comportamentos predefinidos quando várias línguas estão configuradas.",
+    "description": "Release notes for v6.17"
+  },
+  "icu:WhatsNew__v6.17--2": {
+    "messageformat": "Adicionalmente, esta versão apresenta várias melhorias de acessibilidade e correções, e queremos agradecer carinhosamente à nossa comunidade pelos seus comentários e sugestões.",
+    "description": "Release notes for v6.17"
   }
 }

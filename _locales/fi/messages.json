@@ -1563,6 +1563,10 @@
     "message": "Tarrapaketin luonti",
     "description": "(deleted 03/15/2023) Title of the window that pops up with Signal Desktop preferences in it"
   },
+  "icu:signalDesktopStickerCreator": {
+    "messageformat": "Tarrapaketin luonti",
+    "description": "Title of the window that pops up with Signal Desktop preferences in it"
+  },
   "aboutSignalDesktop": {
     "message": "Tietoja Signal Desktopista",
     "description": "(deleted 03/29/2023) Item under the Help menu, which opens a small about window"
@@ -2157,6 +2161,9 @@
   },
   "icu:accept": {
     "messageformat": "Hyväksy"
+  },
+  "icu:edit": {
+    "messageformat": "Muokkaa"
   },
   "forward": {
     "message": "Välitä",
@@ -3535,6 +3542,10 @@
     "messageformat": "Poisto epäonnistui",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
   },
+  "icu:editFailed": {
+    "messageformat": "Muokkaus epäonnistui, katso lisätietoja napsauttamalla",
+    "description": "Shown on a message which was edited if the edit wasn't successfully sent to anyone"
+  },
   "sendPaused": {
     "message": "Lähetys keskeytetty",
     "description": "(deleted 03/29/2023) Shown on outgoing message if it cannot be sent immediately"
@@ -4098,6 +4109,10 @@
   "icu:Toast--failed-to-fetch-phone-number": {
     "messageformat": "Puhelinnumeron noutaminen epäonnistui. Tarkista verkkoyhteys ja yritä uudelleen.",
     "description": "Shown if request to Signal servers to find phone number fails"
+  },
+  "icu:ToastManager__CannotEditMessage": {
+    "messageformat": "Muokkauksia voidaan tehdä vain 3 tunnin kuluessa tämän viestin lähettämisestä.",
+    "description": "Error message when you try to send an edit after message becomes too old"
   },
   "startConversation--username-not-found": {
     "message": "Käyttäjää ei löydy. $atUsername$ ei ole Signal-käyttäjä. Varmista, että olet syöttänyt koko käyttäjätunnuksen.",
@@ -4928,6 +4943,10 @@
     "message": "Hae emojia",
     "description": "(deleted 03/29/2023) Shown as a placeholder inside the emoji picker search field."
   },
+  "icu:EmojiPicker--search-close": {
+    "messageformat": "Sulje emojihaku",
+    "description": "Button title to cancel the emoji search."
+  },
   "icu:EmojiPicker--search-placeholder": {
     "messageformat": "Hae emojia",
     "description": "Shown as a placeholder inside the emoji picker search field."
@@ -5019,6 +5038,10 @@
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Peruuta",
     "description": "Appears on the cancel button in confirmation dialogs."
+  },
+  "icu:Message__role-description": {
+    "messageformat": "Viesti",
+    "description": "aria-roledescription of a message"
   },
   "MessageBody--read-more": {
     "message": "Lue lisää",
@@ -8352,6 +8375,18 @@
     "messageformat": "Tarkistetaan yhteystietojen rekisteröityminen",
     "description": "Displayed while checking if the contact is SMS-only"
   },
+  "icu:CompositionArea__edit-action--discard": {
+    "messageformat": "Hylkää viesti",
+    "description": "aria-label for discard edit button"
+  },
+  "icu:CompositionArea__edit-action--send": {
+    "messageformat": "Lähetä muokattu viesti",
+    "description": "aria-label for send edit button"
+  },
+  "icu:CompositionInput__editing-message": {
+    "messageformat": "Muokkaa viestiä",
+    "description": "Status text displayed above composition input when editing a message"
+  },
   "countMutedConversationsDescription": {
     "message": "Sisällytä mykistetyt keskustelut uusien viestien määrään",
     "description": "(deleted 03/29/2023) Description for counting muted conversations in badge setting"
@@ -9385,7 +9420,7 @@
     "description": "(deleted 03/29/2023) Shown in the timeline warning when you have a message request from someone with the same name as someone else"
   },
   "icu:ContactSpoofing__same-name--link": {
-    "messageformat": "Tarkista pyynnöt huolellisesti. Signal löysi toisen yhteystiedon samalla nimellä. <reviewRequestLink>Tarkistuspyyntö</reviewRequestLink>",
+    "messageformat": "Tarkista pyynnöt huolellisesti. Signal löysi toisen yhteystiedon samalla nimellä. <reviewRequestLink>Tarkista pyyntö</reviewRequestLink>",
     "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else"
   },
   "ContactSpoofing__same-name-in-group": {
@@ -9397,7 +9432,7 @@
     "description": "(deleted 04/04/2023) Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-name-in-group--link": {
-    "messageformat": "{count, plural, one {Yhdellä ryhmän jäsenellä on sama nimi. <reviewRequestLink>Tarkistuspyyntö</reviewRequestLink>} other {{count,number} ryhmän jäsenellä on sama nimi. <reviewRequestLink>Tarkistuspyyntö</reviewRequestLink>}}",
+    "messageformat": "{count, plural, one {{count,number} ryhmän jäsenellä on sama nimi. <reviewRequestLink>Tarkista pyyntö</reviewRequestLink>} other {{count,number} ryhmän jäsenellä on sama nimi. <reviewRequestLink>Tarkista pyyntö</reviewRequestLink>}}",
     "description": "Shown in the timeline warning when you multiple group members have the same name"
   },
   "ContactSpoofing__same-name__link": {
@@ -12360,6 +12395,14 @@
     "messageformat": "Muokkaushistoria",
     "description": "Modal title for the edit history messages modal"
   },
+  "icu:ResendMessageEdit__body": {
+    "messageformat": "Muokkausta ei voitu lähettää. Tarkasta verkkoyhteys ja yritä uudelleen",
+    "description": "Modal body for the confirmation dialog shown to user when attempting to resend message edit"
+  },
+  "icu:ResendMessageEdit__button": {
+    "messageformat": "Lähetä uudelleen",
+    "description": "Button text for the confirmation dialog shown to user when attempting to resend message edit"
+  },
   "WhatsNew__modal-title": {
     "message": "Uudet ominaisuudet",
     "description": "(deleted 03/29/2023) Title for the whats new modal"
@@ -12443,5 +12486,17 @@
   "icu:WhatsNew__v6.13--1": {
     "messageformat": "Teema-asetukset koskevat nyt myös Signalin asetusten valintaruutuja. Kiitos käyttäjälle {rakleed} GitHubissa, että autoit meitä saamaan tämänkin valmiiksi TODO-listaltamme.",
     "description": "Release notes for v6.13"
+  },
+  "icu:WhatsNew__v6.17--0": {
+    "messageformat": "Parannettu oikealta vasemmalle kirjoitettavien kielten tukea.",
+    "description": "Release notes for v6.17"
+  },
+  "icu:WhatsNew__v6.17--1": {
+    "messageformat": "Kieliasetusten vastaavuus määritetään nyt järjestelmäasetusten mukaan. Tämä parantaa oletustoimintaa useita kieliä määritettäessä.",
+    "description": "Release notes for v6.17"
+  },
+  "icu:WhatsNew__v6.17--2": {
+    "messageformat": "Lisäksi tämä julkaisu sisältää useita helppokäyttöisyyden parannuksia ja virheenkorjauksia. Haluamme myös kiittää lämpimästi yhteisöä palautteesta ja ehdotuksista.",
+    "description": "Release notes for v6.17"
   }
 }

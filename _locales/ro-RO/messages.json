@@ -1563,6 +1563,10 @@
     "message": "Creator pachet cu autocolante",
     "description": "(deleted 03/15/2023) Title of the window that pops up with Signal Desktop preferences in it"
   },
+  "icu:signalDesktopStickerCreator": {
+    "messageformat": "Creator pachet cu autocolante",
+    "description": "Title of the window that pops up with Signal Desktop preferences in it"
+  },
   "aboutSignalDesktop": {
     "message": "Despre Signal Desktop",
     "description": "(deleted 03/29/2023) Item under the Help menu, which opens a small about window"
@@ -2157,6 +2161,9 @@
   },
   "icu:accept": {
     "messageformat": "Acceptă"
+  },
+  "icu:edit": {
+    "messageformat": "Editează"
   },
   "forward": {
     "message": "Redirecționează",
@@ -3535,6 +3542,10 @@
     "messageformat": "Ștergerea a eșuat",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
   },
+  "icu:editFailed": {
+    "messageformat": "Modificarea a eșuat, dă clic pentru detalii",
+    "description": "Shown on a message which was edited if the edit wasn't successfully sent to anyone"
+  },
   "sendPaused": {
     "message": "Trimiterea a fost întreruptă",
     "description": "(deleted 03/29/2023) Shown on outgoing message if it cannot be sent immediately"
@@ -4098,6 +4109,10 @@
   "icu:Toast--failed-to-fetch-phone-number": {
     "messageformat": "Nu s-a găsit numărul de telefon. Verifică conexiunea și încearcă din nou.",
     "description": "Shown if request to Signal servers to find phone number fails"
+  },
+  "icu:ToastManager__CannotEditMessage": {
+    "messageformat": "Modificările pot fi aplicate numai în termen de 3 de ore din momentul în care ai trimis acest mesaj.",
+    "description": "Error message when you try to send an edit after message becomes too old"
   },
   "startConversation--username-not-found": {
     "message": "Utilizatorul nu a fost găsit. $atUsername$ nu este un utilizator Signal, asigură-te că ai introdus numele de utilizator complet.",
@@ -4928,6 +4943,10 @@
     "message": "Căutare emoji",
     "description": "(deleted 03/29/2023) Shown as a placeholder inside the emoji picker search field."
   },
+  "icu:EmojiPicker--search-close": {
+    "messageformat": "Închide căutarea de emoji-uri",
+    "description": "Button title to cancel the emoji search."
+  },
   "icu:EmojiPicker--search-placeholder": {
     "messageformat": "Căutare emoji",
     "description": "Shown as a placeholder inside the emoji picker search field."
@@ -5019,6 +5038,10 @@
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Anulează",
     "description": "Appears on the cancel button in confirmation dialogs."
+  },
+  "icu:Message__role-description": {
+    "messageformat": "Mesaj",
+    "description": "aria-roledescription of a message"
   },
   "MessageBody--read-more": {
     "message": "Citește mai mult",
@@ -8351,6 +8374,18 @@
   "icu:CompositionArea--sms-only__spinner-label": {
     "messageformat": "Se verifică starea înregistrări persoanei de contact",
     "description": "Displayed while checking if the contact is SMS-only"
+  },
+  "icu:CompositionArea__edit-action--discard": {
+    "messageformat": "Renunță la mesaj",
+    "description": "aria-label for discard edit button"
+  },
+  "icu:CompositionArea__edit-action--send": {
+    "messageformat": "Trimite mesajul modificat",
+    "description": "aria-label for send edit button"
+  },
+  "icu:CompositionInput__editing-message": {
+    "messageformat": "Editează mesajul",
+    "description": "Status text displayed above composition input when editing a message"
   },
   "countMutedConversationsDescription": {
     "message": "Include conversațiile pe silențios în numărul de pe insignă",
@@ -12360,6 +12395,14 @@
     "messageformat": "Editează istoricul",
     "description": "Modal title for the edit history messages modal"
   },
+  "icu:ResendMessageEdit__body": {
+    "messageformat": "Această modificare nu a putut fi trimisă. Verifică-ți conexiunea și încearcă din nou",
+    "description": "Modal body for the confirmation dialog shown to user when attempting to resend message edit"
+  },
+  "icu:ResendMessageEdit__button": {
+    "messageformat": "Trimite din Nou",
+    "description": "Button text for the confirmation dialog shown to user when attempting to resend message edit"
+  },
   "WhatsNew__modal-title": {
     "message": "Ce este nou",
     "description": "(deleted 03/29/2023) Title for the whats new modal"
@@ -12443,5 +12486,17 @@
   "icu:WhatsNew__v6.13--1": {
     "messageformat": "Preferințele referitoare la temă se aplică acum la căsuțele de bifare din Setările Signal. Mulțumim {rakleed} de pe GitHub pentru că ne-a ajutat să rezolvăm și acest lucru.",
     "description": "Release notes for v6.13"
+  },
+  "icu:WhatsNew__v6.17--0": {
+    "messageformat": "Asistență îmbunătățită pentru limbile de la dreapta la stânga (RTL).",
+    "description": "Release notes for v6.17"
+  },
+  "icu:WhatsNew__v6.17--1": {
+    "messageformat": "Limbile sunt acum potrivite pe baza preferințelor tale de sistem. Acest lucru ar trebui să ducă la un comportament standard mai bun atunci când sunt configurate mai multe limbi.",
+    "description": "Release notes for v6.17"
+  },
+  "icu:WhatsNew__v6.17--2": {
+    "messageformat": "În plus, această versiune (a10y) introduce mai multe îmbunătățiri de accesibilitate (a11y) și remedieri de erori, și (a12y) am dori să mulțumim din suflet comunității pentru feedback și sugestii.",
+    "description": "Release notes for v6.17"
   }
 }

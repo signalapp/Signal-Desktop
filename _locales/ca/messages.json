@@ -1563,6 +1563,10 @@
     "message": "Creador de paquets d'adhesius",
     "description": "(deleted 03/15/2023) Title of the window that pops up with Signal Desktop preferences in it"
   },
+  "icu:signalDesktopStickerCreator": {
+    "messageformat": "Creador de paquets d'adhesius",
+    "description": "Title of the window that pops up with Signal Desktop preferences in it"
+  },
   "aboutSignalDesktop": {
     "message": "Quant al Signal Desktop",
     "description": "(deleted 03/29/2023) Item under the Help menu, which opens a small about window"
@@ -2157,6 +2161,9 @@
   },
   "icu:accept": {
     "messageformat": "Ho accepto"
+  },
+  "icu:edit": {
+    "messageformat": "Editar"
   },
   "forward": {
     "message": "Reenvia",
@@ -3535,6 +3542,10 @@
     "messageformat": "No s'ha pogut suprimir",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
   },
+  "icu:editFailed": {
+    "messageformat": "No s'ha pogut modificar. Fes clic per saber-ne més.",
+    "description": "Shown on a message which was edited if the edit wasn't successfully sent to anyone"
+  },
   "sendPaused": {
     "message": "Enviament interromput",
     "description": "(deleted 03/29/2023) Shown on outgoing message if it cannot be sent immediately"
@@ -4098,6 +4109,10 @@
   "icu:Toast--failed-to-fetch-phone-number": {
     "messageformat": "No s'ha pogut obtenir el número de telèfon. Comproveu la connexió i torneu-ho a provar.",
     "description": "Shown if request to Signal servers to find phone number fails"
+  },
+  "icu:ToastManager__CannotEditMessage": {
+    "messageformat": "Els canvis només es poden realitzar fins a 3 hores després d'enviar el missatge.",
+    "description": "Error message when you try to send an edit after message becomes too old"
   },
   "startConversation--username-not-found": {
     "message": "Usuari no trobat. $atUsername$ no és un usuari del Signal; assegureu-vos que heu introduït el nom d'usuari complet.",
@@ -4928,6 +4943,10 @@
     "message": "Cerca una emoticona",
     "description": "(deleted 03/29/2023) Shown as a placeholder inside the emoji picker search field."
   },
+  "icu:EmojiPicker--search-close": {
+    "messageformat": "Tanca la cerca d'emoticones",
+    "description": "Button title to cancel the emoji search."
+  },
   "icu:EmojiPicker--search-placeholder": {
     "messageformat": "Cerca una emoticona",
     "description": "Shown as a placeholder inside the emoji picker search field."
@@ -5019,6 +5038,10 @@
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Cancel·la",
     "description": "Appears on the cancel button in confirmation dialogs."
+  },
+  "icu:Message__role-description": {
+    "messageformat": "Missatge",
+    "description": "aria-roledescription of a message"
   },
   "MessageBody--read-more": {
     "message": "Llegiu-ne més.",
@@ -8351,6 +8374,18 @@
   "icu:CompositionArea--sms-only__spinner-label": {
     "messageformat": "Comprovació de l’estat de registre del contacte",
     "description": "Displayed while checking if the contact is SMS-only"
+  },
+  "icu:CompositionArea__edit-action--discard": {
+    "messageformat": "Descarta el missatge",
+    "description": "aria-label for discard edit button"
+  },
+  "icu:CompositionArea__edit-action--send": {
+    "messageformat": "Envia el missatge editat",
+    "description": "aria-label for send edit button"
+  },
+  "icu:CompositionInput__editing-message": {
+    "messageformat": "Editar missatge",
+    "description": "Status text displayed above composition input when editing a message"
   },
   "countMutedConversationsDescription": {
     "message": "Inclou les converses silenciades al recompte d'insígnies",
@@ -12360,6 +12395,14 @@
     "messageformat": "Historial de canvis",
     "description": "Modal title for the edit history messages modal"
   },
+  "icu:ResendMessageEdit__body": {
+    "messageformat": "No s'ha pogut enviar el missatge editat. Comprova la teva connexió i torna-ho a intentar",
+    "description": "Modal body for the confirmation dialog shown to user when attempting to resend message edit"
+  },
+  "icu:ResendMessageEdit__button": {
+    "messageformat": "Envieu de nou",
+    "description": "Button text for the confirmation dialog shown to user when attempting to resend message edit"
+  },
   "WhatsNew__modal-title": {
     "message": "Què hi ha de nou",
     "description": "(deleted 03/29/2023) Title for the whats new modal"
@@ -12443,5 +12486,17 @@
   "icu:WhatsNew__v6.13--1": {
     "messageformat": "Les preferències del tema ara també s'apliquen a les caselles de selecció dels Ajustos de Signal. Gràcies a {rakleed} de GitHub per ajudar-nos a esborrar \"Fer que el mode fosc faci honor al seu nom\" de la nostra llista de temes pendents.",
     "description": "Release notes for v6.13"
+  },
+  "icu:WhatsNew__v6.17--0": {
+    "messageformat": "Suport millorat per a idiomes de dreta a esquerra (RTL).",
+    "description": "Release notes for v6.17"
+  },
+  "icu:WhatsNew__v6.17--1": {
+    "messageformat": "Les configuracions regionals ara s'ajusten en funció de les teves preferències del sistema. Això hauria de resultar en un millor funcionament predeterminat quan es configuren diversos idiomes.",
+    "description": "Release notes for v6.17"
+  },
+  "icu:WhatsNew__v6.17--2": {
+    "messageformat": "A més a més, aquesta versió (a10y) introdueix diverses millores d'accessibilitat (a11y) i correccions d'errors, i des d'aquí (a12y) ens agradaria agrair a la comunitat els comentaris i suggeriments realitzats.",
+    "description": "Release notes for v6.17"
   }
 }

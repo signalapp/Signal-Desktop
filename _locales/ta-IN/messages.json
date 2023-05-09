@@ -1563,6 +1563,10 @@
     "message": "ஸ்டிக்கர் தொகுப்பு தயாரிப்பாளர்",
     "description": "(deleted 03/15/2023) Title of the window that pops up with Signal Desktop preferences in it"
   },
+  "icu:signalDesktopStickerCreator": {
+    "messageformat": "ஸ்டிக்கர் பேக் கிரியேட்டர்",
+    "description": "Title of the window that pops up with Signal Desktop preferences in it"
+  },
   "aboutSignalDesktop": {
     "message": "Signal Desktop பற்றி",
     "description": "(deleted 03/29/2023) Item under the Help menu, which opens a small about window"
@@ -2157,6 +2161,9 @@
   },
   "icu:accept": {
     "messageformat": "ஒப்புக்கொள்"
+  },
+  "icu:edit": {
+    "messageformat": "திருத்துக"
   },
   "forward": {
     "message": "முன்னனுப்புக",
@@ -3535,6 +3542,10 @@
     "messageformat": "நீக்குவது தோல்வியடைந்தது",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
   },
+  "icu:editFailed": {
+    "messageformat": "திருத்துவதில் தோல்வி, விவரங்களுக்குக் கிளிக் செய்யவும்",
+    "description": "Shown on a message which was edited if the edit wasn't successfully sent to anyone"
+  },
   "sendPaused": {
     "message": "அனுப்பு இடைநிறுத்தப்பட்டது",
     "description": "(deleted 03/29/2023) Shown on outgoing message if it cannot be sent immediately"
@@ -4098,6 +4109,10 @@
   "icu:Toast--failed-to-fetch-phone-number": {
     "messageformat": "தொலைபேசி எண்ணைப் பெறுவதில் தோல்வி. உங்கள் இணைப்பைச் சரிபார்த்து மீண்டும்முயற்சிக்கவும்.",
     "description": "Shown if request to Signal servers to find phone number fails"
+  },
+  "icu:ToastManager__CannotEditMessage": {
+    "messageformat": "நீங்கள் இந்த மெசேஜை அனுப்பியதிலிருந்து 3 மணிநேரத்திற்குள் மட்டுமே திருத்தங்களைப் பயன்படுத்த முடியும்.",
+    "description": "Error message when you try to send an edit after message becomes too old"
   },
   "startConversation--username-not-found": {
     "message": "பயனர் கிடைக்கவில்லை. $atUsername$ ஒரு சிக்னல் பயனர் அல்ல; முழுமையான பயனர் பெயரை உள்ளிட்டுள்ளீர்கள் என்பதை உறுதிப்படுத்தவும்.",
@@ -4928,6 +4943,10 @@
     "message": "ஈமோஜியைத் தேடுங்கள்",
     "description": "(deleted 03/29/2023) Shown as a placeholder inside the emoji picker search field."
   },
+  "icu:EmojiPicker--search-close": {
+    "messageformat": "ஈமோஜி தேடலை மூடுக",
+    "description": "Button title to cancel the emoji search."
+  },
   "icu:EmojiPicker--search-placeholder": {
     "messageformat": "ஈமோஜியைத் தேடுங்கள்",
     "description": "Shown as a placeholder inside the emoji picker search field."
@@ -5019,6 +5038,10 @@
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "ரத்துசெய்",
     "description": "Appears on the cancel button in confirmation dialogs."
+  },
+  "icu:Message__role-description": {
+    "messageformat": "மெசேஜ்",
+    "description": "aria-roledescription of a message"
   },
   "MessageBody--read-more": {
     "message": "மேலும் படிக்க",
@@ -8351,6 +8374,18 @@
   "icu:CompositionArea--sms-only__spinner-label": {
     "messageformat": "தொடர்புகளின் பதிவு நிலையை சரிபார்க்கிறது",
     "description": "Displayed while checking if the contact is SMS-only"
+  },
+  "icu:CompositionArea__edit-action--discard": {
+    "messageformat": "மெசேஜை நிராகரிக்கும்",
+    "description": "aria-label for discard edit button"
+  },
+  "icu:CompositionArea__edit-action--send": {
+    "messageformat": "திருத்தப்பட்ட மெசேஜை அனுப்பும்",
+    "description": "aria-label for send edit button"
+  },
+  "icu:CompositionInput__editing-message": {
+    "messageformat": "செய்தியைத் திருத்தவும்",
+    "description": "Status text displayed above composition input when editing a message"
   },
   "countMutedConversationsDescription": {
     "message": "பேட்ஜ் எண்ணிக்கையில் ஒலியடக்கப்பட்ட உரையாடல்களைச் சேர்க்கவும்",
@@ -12360,6 +12395,14 @@
     "messageformat": "திருத்தங்களின் வரலாறு",
     "description": "Modal title for the edit history messages modal"
   },
+  "icu:ResendMessageEdit__body": {
+    "messageformat": "இந்த திருத்தத்தை அனுப்ப முடியவில்லை. உங்கள் இணைப்பைச் சரிபார்த்து மீண்டும் முயலவும்",
+    "description": "Modal body for the confirmation dialog shown to user when attempting to resend message edit"
+  },
+  "icu:ResendMessageEdit__button": {
+    "messageformat": "மீண்டும் அனுப்புக",
+    "description": "Button text for the confirmation dialog shown to user when attempting to resend message edit"
+  },
   "WhatsNew__modal-title": {
     "message": "புதிதாக என்ன உள்ளது",
     "description": "(deleted 03/29/2023) Title for the whats new modal"
@@ -12443,5 +12486,17 @@
   "icu:WhatsNew__v6.13--1": {
     "messageformat": "தீம் விருப்பத்தேர்வுகள் இப்போது Signal அமைப்புகளில் உள்ள தேர்வுப்பெட்டிகளுக்கும் பொருந்தும். எங்கள் TODO பட்டியலில் இருந்து \"டார்க் தீமில் இருளை இன்னும் முழுமையாக ஏற்றுக்கொள்\" என்பதை சரிபார்க்க உதவிய GitHub இல் {rakleed} க்கு நன்றி.",
     "description": "Release notes for v6.13"
+  },
+  "icu:WhatsNew__v6.17--0": {
+    "messageformat": "வலது-இடது (RTL) மொழிகளுக்கான மேம்படுத்தப்பட்ட ஆதரவு.",
+    "description": "Release notes for v6.17"
+  },
+  "icu:WhatsNew__v6.17--1": {
+    "messageformat": "உங்கள் கணினி விருப்பத்தேர்வுகளின் அடிப்படையில் இப்போது மொழிகள் பொருந்துகின்றன. பல மொழிகள் உள்ளமைக்கப்படும் போது இது சிறந்த இயல்புநிலை நடத்தையை விளைவிக்கும்.",
+    "description": "Release notes for v6.17"
+  },
+  "icu:WhatsNew__v6.17--2": {
+    "messageformat": "இந்த வெளியீட்டில் கூடுதலாக பல அணுகல்தன்மை மேம்பாடுகள் மற்றும் பிழை திருத்தங்களை அறிமுகப்படுத்துகிறது, மேலும் சமூகத்தின் கருத்து மற்றும் பரிந்துரைகளுக்கு அன்புடன் நன்றி தெரிவிக்க விரும்புகிறோம்.",
+    "description": "Release notes for v6.17"
   }
 }

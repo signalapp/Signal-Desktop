@@ -1563,6 +1563,10 @@
     "message": "Skapare av klistermärkespaketet",
     "description": "(deleted 03/15/2023) Title of the window that pops up with Signal Desktop preferences in it"
   },
+  "icu:signalDesktopStickerCreator": {
+    "messageformat": "Skapare av klistermärkepaket",
+    "description": "Title of the window that pops up with Signal Desktop preferences in it"
+  },
   "aboutSignalDesktop": {
     "message": "Om Signal Desktop",
     "description": "(deleted 03/29/2023) Item under the Help menu, which opens a small about window"
@@ -2157,6 +2161,9 @@
   },
   "icu:accept": {
     "messageformat": "Acceptera"
+  },
+  "icu:edit": {
+    "messageformat": "Redigera"
   },
   "forward": {
     "message": "Vidarebefordra",
@@ -3535,6 +3542,10 @@
     "messageformat": "Det gick inte att ta bort",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
   },
+  "icu:editFailed": {
+    "messageformat": "Redigeringen misslyckades, klicka för mer information",
+    "description": "Shown on a message which was edited if the edit wasn't successfully sent to anyone"
+  },
   "sendPaused": {
     "message": "Sändningen pausad",
     "description": "(deleted 03/29/2023) Shown on outgoing message if it cannot be sent immediately"
@@ -4098,6 +4109,10 @@
   "icu:Toast--failed-to-fetch-phone-number": {
     "messageformat": "Det gick inte att hämta telefonnummer. Kontrollera din anslutning och försök igen.",
     "description": "Shown if request to Signal servers to find phone number fails"
+  },
+  "icu:ToastManager__CannotEditMessage": {
+    "messageformat": "Redigeringar kan bara tillämpas inom 3 timmar från det att du skickade det här meddelandet.",
+    "description": "Error message when you try to send an edit after message becomes too old"
   },
   "startConversation--username-not-found": {
     "message": "Användaren hittades inte. $atUsername$ är inte en Signal-användare; se till att du har angett hela användarnamnet.",
@@ -4928,6 +4943,10 @@
     "message": "Sök emoji",
     "description": "(deleted 03/29/2023) Shown as a placeholder inside the emoji picker search field."
   },
+  "icu:EmojiPicker--search-close": {
+    "messageformat": "Stäng emoji-sökning",
+    "description": "Button title to cancel the emoji search."
+  },
   "icu:EmojiPicker--search-placeholder": {
     "messageformat": "Sök emoji",
     "description": "Shown as a placeholder inside the emoji picker search field."
@@ -5019,6 +5038,10 @@
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Avbryt",
     "description": "Appears on the cancel button in confirmation dialogs."
+  },
+  "icu:Message__role-description": {
+    "messageformat": "Meddelande",
+    "description": "aria-roledescription of a message"
   },
   "MessageBody--read-more": {
     "message": "Läs mer",
@@ -8351,6 +8374,18 @@
   "icu:CompositionArea--sms-only__spinner-label": {
     "messageformat": "Kontrollerar kontaktens registreringsstatus",
     "description": "Displayed while checking if the contact is SMS-only"
+  },
+  "icu:CompositionArea__edit-action--discard": {
+    "messageformat": "Släng meddelande",
+    "description": "aria-label for discard edit button"
+  },
+  "icu:CompositionArea__edit-action--send": {
+    "messageformat": "Skicka redigerat meddelande",
+    "description": "aria-label for send edit button"
+  },
+  "icu:CompositionInput__editing-message": {
+    "messageformat": "Redigera meddelande",
+    "description": "Status text displayed above composition input when editing a message"
   },
   "countMutedConversationsDescription": {
     "message": "Inkludera tystade konversationer i märkesräkning",
@@ -12360,6 +12395,14 @@
     "messageformat": "Redigeringshistorik",
     "description": "Modal title for the edit history messages modal"
   },
+  "icu:ResendMessageEdit__body": {
+    "messageformat": "Denna redigering kunde inte skickas. Kontrollera din anslutning och försök igen",
+    "description": "Modal body for the confirmation dialog shown to user when attempting to resend message edit"
+  },
+  "icu:ResendMessageEdit__button": {
+    "messageformat": "Skicka igen",
+    "description": "Button text for the confirmation dialog shown to user when attempting to resend message edit"
+  },
   "WhatsNew__modal-title": {
     "message": "Vad är nytt",
     "description": "(deleted 03/29/2023) Title for the whats new modal"
@@ -12443,5 +12486,17 @@
   "icu:WhatsNew__v6.13--1": {
     "messageformat": "Temainställningar gäller nu också för kryssrutorna i Signal-inställningar. Tack till {rakleed} på GitHub som hjälpte oss att stryka \"Omfamna mörkret ännu mer i det mörka temat\" från vår att göra-lista.",
     "description": "Release notes for v6.13"
+  },
+  "icu:WhatsNew__v6.17--0": {
+    "messageformat": "Förbättrat stöd för höger till vänster-språk (RTL).",
+    "description": "Release notes for v6.17"
+  },
+  "icu:WhatsNew__v6.17--1": {
+    "messageformat": "Språkzon matchas nu baserat på dina systeminställningar. Detta bör resultera i bättre standardbeteende när flera språk är konfigurerade.",
+    "description": "Release notes for v6.17"
+  },
+  "icu:WhatsNew__v6.17--2": {
+    "messageformat": "Denna version introducerar dessutom flera förbättringar av tillgänglighet och buggfixar. Vi tackar vår kära community för deras feedback och förslag.",
+    "description": "Release notes for v6.17"
   }
 }

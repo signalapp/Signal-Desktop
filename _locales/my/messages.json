@@ -1563,6 +1563,10 @@
     "message": "စတစ်ကာတွဲ ဖန်တီးသူ",
     "description": "(deleted 03/15/2023) Title of the window that pops up with Signal Desktop preferences in it"
   },
+  "icu:signalDesktopStickerCreator": {
+    "messageformat": "စတစ်ကာတွဲ ဖန်တီးသူ",
+    "description": "Title of the window that pops up with Signal Desktop preferences in it"
+  },
   "aboutSignalDesktop": {
     "message": "Signal Desktop အကြောင်း",
     "description": "(deleted 03/29/2023) Item under the Help menu, which opens a small about window"
@@ -2157,6 +2161,9 @@
   },
   "icu:accept": {
     "messageformat": "လက်ခံသည်"
+  },
+  "icu:edit": {
+    "messageformat": "တည်းဖြတ်ရန်"
   },
   "forward": {
     "message": "ထပ်ဆင့် ပေးပို့မယ်",
@@ -3535,6 +3542,10 @@
     "messageformat": "ဖျက်ရန် မအောင်မြင်ပါ",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
   },
+  "icu:editFailed": {
+    "messageformat": "တည်းဖြတ်မှု မအောင်မြင်ပါ၊ အသေးစိတ်ကြည့်ရန် နှိပ်ပါ",
+    "description": "Shown on a message which was edited if the edit wasn't successfully sent to anyone"
+  },
   "sendPaused": {
     "message": "áá±áá­á¯á·áá¾á¯áá­á¯ áááºááá·áºáá²á·áááº",
     "description": "(deleted 03/29/2023) Shown on outgoing message if it cannot be sent immediately"
@@ -4098,6 +4109,10 @@
   "icu:Toast--failed-to-fetch-phone-number": {
     "messageformat": "ဖုန်းနံပါတ် ထည့်ခြင်း မအောင်မြင်ပါ။ သင့်ချိတ်ဆက်မှုကို စစ်ဆေးပြီး ထပ်ကြိုးစားပါ။",
     "description": "Shown if request to Signal servers to find phone number fails"
+  },
+  "icu:ToastManager__CannotEditMessage": {
+    "messageformat": "ထိုမက်ဆေ့ချ်ကို ပေးပို့ခဲ့ချိန်မှ 3 နာရီအတွင်း၌သာ တည်းဖြတ်မှု လုပ်နိုင်ပါသည်။",
+    "description": "Error message when you try to send an edit after message becomes too old"
   },
   "startConversation--username-not-found": {
     "message": "သုံးစွဲသူ ရှာမတွေ့ပါ။ $atUsername$ သည် Signal သုံးစွဲသူ မဟုတ်ပါ၊ မှန်ကန်သော သုံးစွဲသူအမည်ကို ရိုက်ထည့်ထားကြောင်း သေချာပါစေ။",
@@ -4928,6 +4943,10 @@
     "message": "အီမိုဂျိ ရှာရန်",
     "description": "(deleted 03/29/2023) Shown as a placeholder inside the emoji picker search field."
   },
+  "icu:EmojiPicker--search-close": {
+    "messageformat": "အီမိုဂျီ ရှာဖွေမှုကို ပိတ်ရန်",
+    "description": "Button title to cancel the emoji search."
+  },
   "icu:EmojiPicker--search-placeholder": {
     "messageformat": "အီမိုဂျိ ရှာရန်",
     "description": "Shown as a placeholder inside the emoji picker search field."
@@ -5019,6 +5038,10 @@
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "မလုပ်တော့ပါ",
     "description": "Appears on the cancel button in confirmation dialogs."
+  },
+  "icu:Message__role-description": {
+    "messageformat": "မက်ဆေ့ချ်",
+    "description": "aria-roledescription of a message"
   },
   "MessageBody--read-more": {
     "message": "ပိုမိုဖတ်ရှုရန်",
@@ -8352,6 +8375,18 @@
     "messageformat": "အဆက်အသွယ်၏ စာရင်းသွင်းမှု အခြေအနေကို စစ်ဆေးနေဆဲ",
     "description": "Displayed while checking if the contact is SMS-only"
   },
+  "icu:CompositionArea__edit-action--discard": {
+    "messageformat": "မက်ဆေ့ချ်ကို ဖယ်ရှားရန်",
+    "description": "aria-label for discard edit button"
+  },
+  "icu:CompositionArea__edit-action--send": {
+    "messageformat": "တည်းဖြတ်ထားသော မက်ဆေ့ချ်ကို ပို့ရန်",
+    "description": "aria-label for send edit button"
+  },
+  "icu:CompositionInput__editing-message": {
+    "messageformat": "မက်ဆေ့ချ် တည်းဖြတ်ရန်",
+    "description": "Status text displayed above composition input when editing a message"
+  },
   "countMutedConversationsDescription": {
     "message": "ဘဲ့ဂျ်ရေတွက်မှုတွင် အသံပိတ်ထားသော စကားဝိုင်းများ ထည့်ရန်",
     "description": "(deleted 03/29/2023) Description for counting muted conversations in badge setting"
@@ -9385,7 +9420,7 @@
     "description": "(deleted 03/29/2023) Shown in the timeline warning when you have a message request from someone with the same name as someone else"
   },
   "icu:ContactSpoofing__same-name--link": {
-    "messageformat": "တောင်းဆိုမှုများကို သေချာ ပြန်သုံးသပ်ပါ။ Signal သည် အမည်တူ အခြားအဆက်အသွယ်ကို ရှာဖွေတွေ့ရှိထားပါသည်။ <reviewRequestLink>တောင်းဆိုချက် ပြန်လည်သုံးသပ်ရန်</reviewRequestLink>",
+    "messageformat": "တောင်းဆိုမှုများကို သေချာ ပြန်သုံးသပ်ပါ။ Signal သည် အမည်တူ အခြားအဆက်အသွယ်ကို တွေ့ရှိထားပါသည်။ <reviewRequestLink>တောင်းဆိုမှုကို ပြန်လည်သုံးသပ်ရန်</reviewRequestLink>",
     "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else"
   },
   "ContactSpoofing__same-name-in-group": {
@@ -9397,7 +9432,7 @@
     "description": "(deleted 04/04/2023) Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-name-in-group--link": {
-    "messageformat": "{count, plural, other {အဖွဲ့မန်ဘာ {count,number} ဦးတွင် အမည်တူ ရှိနေပါသည်။ <reviewRequestLink>တောင်းဆိုချက် ပြန်လည်သုံးသပ်ရန်</reviewRequestLink>}}",
+    "messageformat": "{count, plural, other {အဖွဲ့မန်ဘာ {count,number} ဦးတွင် အမည်တူ ရှိနေပါသည်။ <reviewRequestLink>တောင်းဆိုမှုကို ပြန်လည်သုံးသပ်ရန်</reviewRequestLink>}}",
     "description": "Shown in the timeline warning when you multiple group members have the same name"
   },
   "ContactSpoofing__same-name__link": {
@@ -12360,6 +12395,14 @@
     "messageformat": "တည်းဖြတ်မှု မှတ်တမ်း",
     "description": "Modal title for the edit history messages modal"
   },
+  "icu:ResendMessageEdit__body": {
+    "messageformat": "ထိုတည်းဖြတ်မှုကို ပေးပို့၍ မရနိုင်ပါ။ ချိတ်ဆက်မှုကို စစ်ဆေးပြီး ထပ်ကြိုးစားကြည့်ပါ",
+    "description": "Modal body for the confirmation dialog shown to user when attempting to resend message edit"
+  },
+  "icu:ResendMessageEdit__button": {
+    "messageformat": "နောက်တစ်ကြိမ် ပို့ပါ",
+    "description": "Button text for the confirmation dialog shown to user when attempting to resend message edit"
+  },
   "WhatsNew__modal-title": {
     "message": "အသစ်များ",
     "description": "(deleted 03/29/2023) Title for the whats new modal"
@@ -12443,5 +12486,17 @@
   "icu:WhatsNew__v6.13--1": {
     "messageformat": "စိတ်ကြိုက်ဦးစားပေး Theme ကို Signal ဆက်တင်တွင် အမှန််ခြစ် ခြစ်ပြီး ယခုအခါရွေးနိုင်ပါပြီ။ GitHub တွင် \"အမှောင် Theme ကို အပြည့်အဝ ပိုမှောင်ပေးရန်\" ဟူသော လုပ်ရန်အလုပ်ကို ကူညီပေးသည့် {rakleed} ကို ကျေးဇူးတင်ပါသည်။",
     "description": "Release notes for v6.13"
+  },
+  "icu:WhatsNew__v6.17--0": {
+    "messageformat": "ညာဘက်ခြမ်းမှ စရေးရသော (RTL) ဘာသာစကားများအတွက် ပိုမိုကောင်းမွန်သော ပံ့ပိုးမှု။",
+    "description": "Release notes for v6.17"
+  },
+  "icu:WhatsNew__v6.17--1": {
+    "messageformat": "ယခုအခါ သင့်စနစ်ဦးစားပေးမှုများအပေါ် အခြေပြု၍ Locale များကို တွဲဖက်ထားပါသည်။ အကျိုးဆက်အဖြစ် ဘာသာစကားအများအပြားကို စီစဉ်သတ်မှတ်ထားသောအခါ ပိုကောင်းသော ပုံသေအပြုအမူကို ဖြစ်ပေါ်စေသင့်ပါသည်။",
+    "description": "Release notes for v6.17"
+  },
+  "icu:WhatsNew__v6.17--2": {
+    "messageformat": "ဤထုတ်ဝေမှုတွင် အများသုံးစွဲနိုင်ရေး (a11y) ဆိုင်ရာ မြှင့်တင်မှုနှင့် ချွတ်ယွင်းချက်ပြင်ဆင်မှု အများအပြားကို ထပ်ဆောင်း (a10y) မိတ်ဆက်ပေးထားပြီး လူမှုအသိုက်အဝန်းကို ၎င်းတို့၏ တုံ့ပြန်ချက်နှင့် အကြံပြုချက်များအတွက် ကျွန်ုပ်တို့ ခင်မင်ရင်းနှီးစွာ (a12y) ကျေးဇူးတင်ရှိပါသည်။",
+    "description": "Release notes for v6.17"
   }
 }

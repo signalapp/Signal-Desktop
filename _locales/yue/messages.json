@@ -1563,6 +1563,10 @@
     "message": "貼圖包製作工具",
     "description": "(deleted 03/15/2023) Title of the window that pops up with Signal Desktop preferences in it"
   },
+  "icu:signalDesktopStickerCreator": {
+    "messageformat": "貼圖包製作工具",
+    "description": "Title of the window that pops up with Signal Desktop preferences in it"
+  },
   "aboutSignalDesktop": {
     "message": "關於 Signal 桌面版",
     "description": "(deleted 03/29/2023) Item under the Help menu, which opens a small about window"
@@ -2157,6 +2161,9 @@
   },
   "icu:accept": {
     "messageformat": "接受"
+  },
+  "icu:edit": {
+    "messageformat": "編輯"
   },
   "forward": {
     "message": "轉寄",
@@ -3535,6 +3542,10 @@
     "messageformat": "刪除失敗",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
   },
+  "icu:editFailed": {
+    "messageformat": "編輯失敗，㩒一吓了解詳情",
+    "description": "Shown on a message which was edited if the edit wasn't successfully sent to anyone"
+  },
   "sendPaused": {
     "message": "傳送暫停",
     "description": "(deleted 03/29/2023) Shown on outgoing message if it cannot be sent immediately"
@@ -4098,6 +4109,10 @@
   "icu:Toast--failed-to-fetch-phone-number": {
     "messageformat": "搵唔到電話號碼。請檢查吓網絡連線然後再試過啦。",
     "description": "Shown if request to Signal servers to find phone number fails"
+  },
+  "icu:ToastManager__CannotEditMessage": {
+    "messageformat": "你只可以喺傳送訊息後 3 小時內套用編輯。",
+    "description": "Error message when you try to send an edit after message becomes too old"
   },
   "startConversation--username-not-found": {
     "message": "搵唔到呢個用戶。$atUsername$ 唔係 Signal 嘅用戶；請檢查吓你輸入嘅用戶名稱係咪完整。",
@@ -4928,6 +4943,10 @@
     "message": "搵表情符號",
     "description": "(deleted 03/29/2023) Shown as a placeholder inside the emoji picker search field."
   },
+  "icu:EmojiPicker--search-close": {
+    "messageformat": "閂咗表情符號搜尋",
+    "description": "Button title to cancel the emoji search."
+  },
   "icu:EmojiPicker--search-placeholder": {
     "messageformat": "搵表情符號",
     "description": "Shown as a placeholder inside the emoji picker search field."
@@ -5019,6 +5038,10 @@
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "取消",
     "description": "Appears on the cancel button in confirmation dialogs."
+  },
+  "icu:Message__role-description": {
+    "messageformat": "傳送訊息",
+    "description": "aria-roledescription of a message"
   },
   "MessageBody--read-more": {
     "message": "睇晒全文",
@@ -8352,6 +8375,18 @@
     "messageformat": "檢查緊聯絡人嘅註冊狀態",
     "description": "Displayed while checking if the contact is SMS-only"
   },
+  "icu:CompositionArea__edit-action--discard": {
+    "messageformat": "捨棄訊息",
+    "description": "aria-label for discard edit button"
+  },
+  "icu:CompositionArea__edit-action--send": {
+    "messageformat": "傳送編輯咗嘅訊息",
+    "description": "aria-label for send edit button"
+  },
+  "icu:CompositionInput__editing-message": {
+    "messageformat": "編輯訊息",
+    "description": "Status text displayed above composition input when editing a message"
+  },
   "countMutedConversationsDescription": {
     "message": "將靜咗音嘅對話計埋落標記數量",
     "description": "(deleted 03/29/2023) Description for counting muted conversations in badge setting"
@@ -9397,7 +9432,7 @@
     "description": "(deleted 04/04/2023) Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-name-in-group--link": {
-    "messageformat": "{count, plural, other {有 {count,number} 個同名嘅群組成員。<reviewRequestLink>審查請求</reviewRequestLink>}}",
+    "messageformat": "{count, plural, other {有 {count,number} 位同名嘅群組成員。<reviewRequestLink>審查請求</reviewRequestLink>}}",
     "description": "Shown in the timeline warning when you multiple group members have the same name"
   },
   "ContactSpoofing__same-name__link": {
@@ -12360,6 +12395,14 @@
     "messageformat": "編輯嘅記錄",
     "description": "Modal title for the edit history messages modal"
   },
+  "icu:ResendMessageEdit__body": {
+    "messageformat": "傳送唔到呢個編輯。請你檢查吓網絡連線，然後再試過啦",
+    "description": "Modal body for the confirmation dialog shown to user when attempting to resend message edit"
+  },
+  "icu:ResendMessageEdit__button": {
+    "messageformat": "再次傳送",
+    "description": "Button text for the confirmation dialog shown to user when attempting to resend message edit"
+  },
   "WhatsNew__modal-title": {
     "message": "最新消息",
     "description": "(deleted 03/29/2023) Title for the whats new modal"
@@ -12443,5 +12486,17 @@
   "icu:WhatsNew__v6.13--1": {
     "messageformat": "主題偏好設定宜家可以套用埋落「Signal 設定」入面嘅選框度。多謝 GitHub 嘅 {rakleed} 等我哋可以喺深色主題入面完全擁抱黑暗。",
     "description": "Release notes for v6.13"
+  },
+  "icu:WhatsNew__v6.17--0": {
+    "messageformat": "由右至左 (RTL) 語言嘅支援已經改善咗。",
+    "description": "Release notes for v6.17"
+  },
+  "icu:WhatsNew__v6.17--1": {
+    "messageformat": "系統宜家會根據你嘅系統偏好設定進行地區配對。咁當你設置多種語言嘅時候，預設行為就會有所改善。",
+    "description": "Release notes for v6.17"
+  },
+  "icu:WhatsNew__v6.17--2": {
+    "messageformat": "呢次版本另外加強咗幾項無障礙功能 (a11y)，同埋修復咗一啲錯誤。我哋衷心感謝社群提供嘅意見同建議。",
+    "description": "Release notes for v6.17"
   }
 }

@@ -1563,6 +1563,10 @@
     "message": "اسٹیکر پیک بنانے والا",
     "description": "(deleted 03/15/2023) Title of the window that pops up with Signal Desktop preferences in it"
   },
+  "icu:signalDesktopStickerCreator": {
+    "messageformat": "اسٹیکر پیک بنانے والا",
+    "description": "Title of the window that pops up with Signal Desktop preferences in it"
+  },
   "aboutSignalDesktop": {
     "message": "Signal Desktop کے بارے میں",
     "description": "(deleted 03/29/2023) Item under the Help menu, which opens a small about window"
@@ -2157,6 +2161,9 @@
   },
   "icu:accept": {
     "messageformat": "قبول کریں"
+  },
+  "icu:edit": {
+    "messageformat": "ترمیم کریں"
   },
   "forward": {
     "message": "آگے",
@@ -3535,6 +3542,10 @@
     "messageformat": "حذف کرنا ناکام ہو گیا",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
   },
+  "icu:editFailed": {
+    "messageformat": "ترمیم ناکام ہو گئی، تفصیلات کے لیے کلک کریں",
+    "description": "Shown on a message which was edited if the edit wasn't successfully sent to anyone"
+  },
   "sendPaused": {
     "message": "بھیجنا رک گیا ہے",
     "description": "(deleted 03/29/2023) Shown on outgoing message if it cannot be sent immediately"
@@ -4098,6 +4109,10 @@
   "icu:Toast--failed-to-fetch-phone-number": {
     "messageformat": "فون نمبر ڈھونڈنے میں ناکامی ہوئی۔ اپنا کنکشن چیک کریں اور دوبارہ کوشش کریں۔",
     "description": "Shown if request to Signal servers to find phone number fails"
+  },
+  "icu:ToastManager__CannotEditMessage": {
+    "messageformat": "آپ کی طرف سے اس میسج کو بھیجنے کے بعد ترامیم محض 3 گھنٹوں کے اندر کی جا سکتی ہیں۔",
+    "description": "Error message when you try to send an edit after message becomes too old"
   },
   "startConversation--username-not-found": {
     "message": "صارف نہیں ملا۔ $atUsername$ Signal کا صارف نہیں ہے؛ یقینی بنائیں کہ آپ نے مکمل صارفی نام درج کیا ہے۔",
@@ -4928,6 +4943,10 @@
     "message": "ایموجی تلاش کریں",
     "description": "(deleted 03/29/2023) Shown as a placeholder inside the emoji picker search field."
   },
+  "icu:EmojiPicker--search-close": {
+    "messageformat": "ایموجی کی تلاش بند کریں",
+    "description": "Button title to cancel the emoji search."
+  },
   "icu:EmojiPicker--search-placeholder": {
     "messageformat": "ایموجی تلاش کریں",
     "description": "Shown as a placeholder inside the emoji picker search field."
@@ -5019,6 +5038,10 @@
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "منسوخ کریں",
     "description": "Appears on the cancel button in confirmation dialogs."
+  },
+  "icu:Message__role-description": {
+    "messageformat": "میسج",
+    "description": "aria-roledescription of a message"
   },
   "MessageBody--read-more": {
     "message": "مزید پڑھیں",
@@ -8352,6 +8375,18 @@
     "messageformat": "رابطے کی رجسٹریشن کی حیثیت کی جانچ ہو رہی ہے",
     "description": "Displayed while checking if the contact is SMS-only"
   },
+  "icu:CompositionArea__edit-action--discard": {
+    "messageformat": "میسج کو مسترد کریں",
+    "description": "aria-label for discard edit button"
+  },
+  "icu:CompositionArea__edit-action--send": {
+    "messageformat": "ترمیم کردہ میسج بھیجیں",
+    "description": "aria-label for send edit button"
+  },
+  "icu:CompositionInput__editing-message": {
+    "messageformat": "میسج میں ترمیم کریں",
+    "description": "Status text displayed above composition input when editing a message"
+  },
   "countMutedConversationsDescription": {
     "message": "بیج کاؤنٹ میں خاموش کردہ گفتگو شامل کریں",
     "description": "(deleted 03/29/2023) Description for counting muted conversations in badge setting"
@@ -9385,7 +9420,7 @@
     "description": "(deleted 03/29/2023) Shown in the timeline warning when you have a message request from someone with the same name as someone else"
   },
   "icu:ContactSpoofing__same-name--link": {
-    "messageformat": "درخواستوں کا بغور جائزہ لیں۔ Signal کو اسی نام سے دوسرا رابطہ ملا۔ <reviewRequestLink>جائزے کی درخواست</reviewRequestLink>",
+    "messageformat": "درخواستوں کا بغور جائزہ لیں۔ Signal کو یکساں نام کا حامل ایک دوسرا رابطہ ملا ہے۔ <reviewRequestLink>جائزے کی درخواست</reviewRequestLink>",
     "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else"
   },
   "ContactSpoofing__same-name-in-group": {
@@ -9397,7 +9432,7 @@
     "description": "(deleted 04/04/2023) Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-name-in-group--link": {
-    "messageformat": "{count, plural, one {{count,number} گروپ کے ممبر کا نام یکساں ہے۔ <reviewRequestLink>جائزے کی درخواست</reviewRequestLink>} other {{count,number} گروپ کے ممبران کا نام یکساں ہے۔ <reviewRequestLink>جائزے کی درخواست</reviewRequestLink>}}",
+    "messageformat": "{count, plural, one {{count,number} گروپ کے ممبر کا نام یکساں ہے۔ <reviewRequestLink>جائزے کی درخواست</reviewRequestLink>} other {{count,number} گروپ کے ممبرز کا نام یکساں ہے۔ <reviewRequestLink>جائزے کی درخواست</reviewRequestLink>}}",
     "description": "Shown in the timeline warning when you multiple group members have the same name"
   },
   "ContactSpoofing__same-name__link": {
@@ -12360,6 +12395,14 @@
     "messageformat": "ترمیم کی ہسٹری",
     "description": "Modal title for the edit history messages modal"
   },
+  "icu:ResendMessageEdit__body": {
+    "messageformat": "یہ ترمیم نہیں بھیجی جا سکتی۔ اپنا کنکشن چیک کریں اور دوبارہ کوشش کریں",
+    "description": "Modal body for the confirmation dialog shown to user when attempting to resend message edit"
+  },
+  "icu:ResendMessageEdit__button": {
+    "messageformat": "دوبارہ بھیجیں",
+    "description": "Button text for the confirmation dialog shown to user when attempting to resend message edit"
+  },
   "WhatsNew__modal-title": {
     "message": "نیا کیا ہے",
     "description": "(deleted 03/29/2023) Title for the whats new modal"
@@ -12443,5 +12486,17 @@
   "icu:WhatsNew__v6.13--1": {
     "messageformat": "تھیم کی ترجیحات اب Signal کی ترتیبات میں چیک باکسز پر بھی لاگو ہوتی ہیں۔ ہمارے کرنے کے کاموں کی فہرست کو نشان زد \"ڈارک تھیم میں تاریکی کو پوری طرح قبول کریں\" کرنے میں مدد کرنے کے لیے {rakleed} پر GitHub کا شکریہ۔",
     "description": "Release notes for v6.13"
+  },
+  "icu:WhatsNew__v6.17--0": {
+    "messageformat": "دائیں سے بائیں (RTL) زبانوں کے لیے سپورٹ کو بہتر کیا گیا ہے۔",
+    "description": "Release notes for v6.17"
+  },
+  "icu:WhatsNew__v6.17--1": {
+    "messageformat": "لوکلز کو اب آپ کے سسٹم کی ترجیحات کے مطابق ہم آہنگ کیا جاتا ہے۔ جب متعدد زبانوں کو تشکیل دیا جاتا ہے تو اس کے نتیجے میں ڈیفالٹ رویے میں بہتری آنی چاہیئے۔",
+    "description": "Release notes for v6.17"
+  },
+  "icu:WhatsNew__v6.17--2": {
+    "messageformat": "اس ریلیز نے اضافی طور پر (a10y) حصول پذیری (a11y) سے متعلق کئی بہتریوں اور نقص کی درستگیوں کو متعارف کروایا ہے، اور ہم دوستانہ انداز میں (a12y) فیڈبیک اور تجاویز فراہم کرنے کے لیے کمیونٹی کا شکریہ ادا کرنا چاہیں گے۔",
+    "description": "Release notes for v6.17"
   }
 }

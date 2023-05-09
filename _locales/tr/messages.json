@@ -1563,6 +1563,10 @@
     "message": "Çıkartma paketi oluşturucusu",
     "description": "(deleted 03/15/2023) Title of the window that pops up with Signal Desktop preferences in it"
   },
+  "icu:signalDesktopStickerCreator": {
+    "messageformat": "Çıkartma paketi oluşturucu",
+    "description": "Title of the window that pops up with Signal Desktop preferences in it"
+  },
   "aboutSignalDesktop": {
     "message": "Signal Desktop Hakkında",
     "description": "(deleted 03/29/2023) Item under the Help menu, which opens a small about window"
@@ -2157,6 +2161,9 @@
   },
   "icu:accept": {
     "messageformat": "Kabul et"
+  },
+  "icu:edit": {
+    "messageformat": "Düzenle"
   },
   "forward": {
     "message": "Yönlendir",
@@ -3535,6 +3542,10 @@
     "messageformat": "Silme başarısız",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
   },
+  "icu:editFailed": {
+    "messageformat": "Düzenleme başarısız oldu, ayrıntılar için tıkla",
+    "description": "Shown on a message which was edited if the edit wasn't successfully sent to anyone"
+  },
   "sendPaused": {
     "message": "Gönderim duraklatıldı",
     "description": "(deleted 03/29/2023) Shown on outgoing message if it cannot be sent immediately"
@@ -4098,6 +4109,10 @@
   "icu:Toast--failed-to-fetch-phone-number": {
     "messageformat": "Telefon numarası alınamadı. Bağlantınızı kontrol edip tekrar deneyin.",
     "description": "Shown if request to Signal servers to find phone number fails"
+  },
+  "icu:ToastManager__CannotEditMessage": {
+    "messageformat": "Düzenlemeler yalnızca bu mesajı gönderdikten sonraki 3 saat içinde uygulanabilir.",
+    "description": "Error message when you try to send an edit after message becomes too old"
   },
   "startConversation--username-not-found": {
     "message": "Kullanıcı bulunamadı. $atUsername$ bir Signal kullanıcısı değil; tam kullanıcı adını girdiğinden emin ol.",
@@ -4928,6 +4943,10 @@
     "message": "Emoji Ara",
     "description": "(deleted 03/29/2023) Shown as a placeholder inside the emoji picker search field."
   },
+  "icu:EmojiPicker--search-close": {
+    "messageformat": "Emoji aramayı kapat",
+    "description": "Button title to cancel the emoji search."
+  },
   "icu:EmojiPicker--search-placeholder": {
     "messageformat": "Emoji Ara",
     "description": "Shown as a placeholder inside the emoji picker search field."
@@ -5019,6 +5038,10 @@
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "İptal",
     "description": "Appears on the cancel button in confirmation dialogs."
+  },
+  "icu:Message__role-description": {
+    "messageformat": "Mesaj",
+    "description": "aria-roledescription of a message"
   },
   "MessageBody--read-more": {
     "message": "Devamını oku",
@@ -8351,6 +8374,18 @@
   "icu:CompositionArea--sms-only__spinner-label": {
     "messageformat": "Kişinin kayıt durumu denetleniyor",
     "description": "Displayed while checking if the contact is SMS-only"
+  },
+  "icu:CompositionArea__edit-action--discard": {
+    "messageformat": "Mesajı sil",
+    "description": "aria-label for discard edit button"
+  },
+  "icu:CompositionArea__edit-action--send": {
+    "messageformat": "Düzenlenen mesajı gönder",
+    "description": "aria-label for send edit button"
+  },
+  "icu:CompositionInput__editing-message": {
+    "messageformat": "Mesajı düzenle",
+    "description": "Status text displayed above composition input when editing a message"
   },
   "countMutedConversationsDescription": {
     "message": "Sessize alınan konuşmaları rozet sayacına kat",
@@ -12360,6 +12395,14 @@
     "messageformat": "Düzenleme geçmişi",
     "description": "Modal title for the edit history messages modal"
   },
+  "icu:ResendMessageEdit__body": {
+    "messageformat": "Bu düzenleme gönderilemedi. Bağlantını kontrol edip tekrar dene",
+    "description": "Modal body for the confirmation dialog shown to user when attempting to resend message edit"
+  },
+  "icu:ResendMessageEdit__button": {
+    "messageformat": "Tekrar Gönder",
+    "description": "Button text for the confirmation dialog shown to user when attempting to resend message edit"
+  },
   "WhatsNew__modal-title": {
     "message": "Neler Yeni",
     "description": "(deleted 03/29/2023) Title for the whats new modal"
@@ -12443,5 +12486,17 @@
   "icu:WhatsNew__v6.13--1": {
     "messageformat": "Tema tercihleri artık Signal Ayarları'ndaki onay kutuları için de geçerlidir. \"Karanlık temada, karanlığın daha fazla kucaklanmasını sağla\" eylemini YAPILACAKLAR listemizden çıkarmamıza yardımcı olduğu için GitHub dostumuz {rakleed}'e teşekkür ediyoruz.",
     "description": "Release notes for v6.13"
+  },
+  "icu:WhatsNew__v6.17--0": {
+    "messageformat": "Sağdan sola (RTL) diller için geliştirilmiş destek.",
+    "description": "Release notes for v6.17"
+  },
+  "icu:WhatsNew__v6.17--1": {
+    "messageformat": "Yerel ayarlar artık sistem tercihlerine göre eşleştiriliyor. Bu, birden çok dil yapılandırıldığında daha iyi varsayılan davranışla sonuçlanmalıdır.",
+    "description": "Release notes for v6.17"
+  },
+  "icu:WhatsNew__v6.17--2": {
+    "messageformat": "Bu sürüm ayrıca çeşitli erişilebilirlik iyileştirmeleri ile hata düzeltmeleri sunuyor, topluluğumuza geri bildirimleri ve önerileri için tüm içtenliğimizle teşekkür etmek istiyoruz.",
+    "description": "Release notes for v6.17"
   }
 }

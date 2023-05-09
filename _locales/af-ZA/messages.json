@@ -1563,6 +1563,10 @@
     "message": "Plakkerpakket-skepper",
     "description": "(deleted 03/15/2023) Title of the window that pops up with Signal Desktop preferences in it"
   },
+  "icu:signalDesktopStickerCreator": {
+    "messageformat": "Plakkerpakket-skepper",
+    "description": "Title of the window that pops up with Signal Desktop preferences in it"
+  },
   "aboutSignalDesktop": {
     "message": "Oor Signal Desktop",
     "description": "(deleted 03/29/2023) Item under the Help menu, which opens a small about window"
@@ -2157,6 +2161,9 @@
   },
   "icu:accept": {
     "messageformat": "Aanvaar"
+  },
+  "icu:edit": {
+    "messageformat": "Wysig"
   },
   "forward": {
     "message": "Stuur aan",
@@ -3535,6 +3542,10 @@
     "messageformat": "Skrapping het misluk",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
   },
+  "icu:editFailed": {
+    "messageformat": "Wysiging het misluk, klik vir besonderhede",
+    "description": "Shown on a message which was edited if the edit wasn't successfully sent to anyone"
+  },
   "sendPaused": {
     "message": "Stuur is gepouseer",
     "description": "(deleted 03/29/2023) Shown on outgoing message if it cannot be sent immediately"
@@ -4098,6 +4109,10 @@
   "icu:Toast--failed-to-fetch-phone-number": {
     "messageformat": "Kon nie telefoonnommer herroep nie. Kontroleer jou verbinding en probeer weer.",
     "description": "Shown if request to Signal servers to find phone number fails"
+  },
+  "icu:ToastManager__CannotEditMessage": {
+    "messageformat": "Wysigings kan slegs aangebring word binne 3 uur vanaf die tyd wat jy hierdie boodskap gestuur het.",
+    "description": "Error message when you try to send an edit after message becomes too old"
   },
   "startConversation--username-not-found": {
     "message": "Gebruiker nie gevind nie. $atUsername$ is nie ’n Signal-gebruiker nie; maak seker jy het die volledige gebruikersnaam ingevoer.",
@@ -4928,6 +4943,10 @@
     "message": "Soek emoji",
     "description": "(deleted 03/29/2023) Shown as a placeholder inside the emoji picker search field."
   },
+  "icu:EmojiPicker--search-close": {
+    "messageformat": "Sluit emoji-soektog",
+    "description": "Button title to cancel the emoji search."
+  },
   "icu:EmojiPicker--search-placeholder": {
     "messageformat": "Soek emoji",
     "description": "Shown as a placeholder inside the emoji picker search field."
@@ -5019,6 +5038,10 @@
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Kanselleer",
     "description": "Appears on the cancel button in confirmation dialogs."
+  },
+  "icu:Message__role-description": {
+    "messageformat": "Boodskap",
+    "description": "aria-roledescription of a message"
   },
   "MessageBody--read-more": {
     "message": "Lees meer",
@@ -8351,6 +8374,18 @@
   "icu:CompositionArea--sms-only__spinner-label": {
     "messageformat": "Gaan tans kontak se registrasiestatus na",
     "description": "Displayed while checking if the contact is SMS-only"
+  },
+  "icu:CompositionArea__edit-action--discard": {
+    "messageformat": "Gooi boodskap weg",
+    "description": "aria-label for discard edit button"
+  },
+  "icu:CompositionArea__edit-action--send": {
+    "messageformat": "Stuur gewysigde boodskap",
+    "description": "aria-label for send edit button"
+  },
+  "icu:CompositionInput__editing-message": {
+    "messageformat": "Wysig boodskap",
+    "description": "Status text displayed above composition input when editing a message"
   },
   "countMutedConversationsDescription": {
     "message": "Sluit gedempte gesprekke by wapentelling in",
@@ -12360,6 +12395,14 @@
     "messageformat": "Wysigingsgeskiedenis",
     "description": "Modal title for the edit history messages modal"
   },
+  "icu:ResendMessageEdit__body": {
+    "messageformat": "Hierdie wysiging kon nie gestuur word nie. Gaan jou verbinding na en probeer weer",
+    "description": "Modal body for the confirmation dialog shown to user when attempting to resend message edit"
+  },
+  "icu:ResendMessageEdit__button": {
+    "messageformat": "Stuur weer",
+    "description": "Button text for the confirmation dialog shown to user when attempting to resend message edit"
+  },
   "WhatsNew__modal-title": {
     "message": "Wat is nuut",
     "description": "(deleted 03/29/2023) Title for the whats new modal"
@@ -12443,5 +12486,17 @@
   "icu:WhatsNew__v6.13--1": {
     "messageformat": "Temavoorkeure is nou ook van toepassing op die merkblokkies in Signal-instellings. Dankie aan {rakleed} by GitHub, wat ons gehelp het om die taak van \"Om ons dieper in die donker tema te begewe\" van ons lysie af te haal.",
     "description": "Release notes for v6.13"
+  },
+  "icu:WhatsNew__v6.17--0": {
+    "messageformat": "Verbeterde ondersteuning vir regs-na-links-tale (RNL-tale).",
+    "description": "Release notes for v6.17"
+  },
+  "icu:WhatsNew__v6.17--1": {
+    "messageformat": "Lokaliteite word nou by mekaar gepas op grond van jou stelselvoorkeure. Dit behoort beter verstekoptrede tot gevolg te hê wanneer veelvuldige tale opgestel word.",
+    "description": "Release notes for v6.17"
+  },
+  "icu:WhatsNew__v6.17--2": {
+    "messageformat": "Hierdie Signal-vrystelling stel ook verskeie toeganklikheidsverbeterings en foutoplossings bekend, en ons wil graag die gemeenskap vir hul terugvoer en voorstelle bedank.",
+    "description": "Release notes for v6.17"
   }
 }

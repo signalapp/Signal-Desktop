@@ -1563,6 +1563,10 @@
     "message": "Kleebisepaki looja",
     "description": "(deleted 03/15/2023) Title of the window that pops up with Signal Desktop preferences in it"
   },
+  "icu:signalDesktopStickerCreator": {
+    "messageformat": "Kleebisepaki looja",
+    "description": "Title of the window that pops up with Signal Desktop preferences in it"
+  },
   "aboutSignalDesktop": {
     "message": "Teave Signal Desktopi kohta",
     "description": "(deleted 03/29/2023) Item under the Help menu, which opens a small about window"
@@ -2157,6 +2161,9 @@
   },
   "icu:accept": {
     "messageformat": "Nõustun"
+  },
+  "icu:edit": {
+    "messageformat": "Muuda"
   },
   "forward": {
     "message": "Edasta",
@@ -3535,6 +3542,10 @@
     "messageformat": "Kustutamine nurjus",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
   },
+  "icu:editFailed": {
+    "messageformat": "Muutmine nurjus, klõpsa täpsema info nägemiseks",
+    "description": "Shown on a message which was edited if the edit wasn't successfully sent to anyone"
+  },
   "sendPaused": {
     "message": "Saatmine peatatud",
     "description": "(deleted 03/29/2023) Shown on outgoing message if it cannot be sent immediately"
@@ -4098,6 +4109,10 @@
   "icu:Toast--failed-to-fetch-phone-number": {
     "messageformat": "Telefoninumbriga ei saadud ühendust. Kontrolli oma ühendust ja proovi uuesti.",
     "description": "Shown if request to Signal servers to find phone number fails"
+  },
+  "icu:ToastManager__CannotEditMessage": {
+    "messageformat": "Muutmine on võimalik vaid 3 tunni jooksul alates sõnumi saatmisest.",
+    "description": "Error message when you try to send an edit after message becomes too old"
   },
   "startConversation--username-not-found": {
     "message": "Kasutajat ei leitud. $atUsername$ ei ole Signali kasutaja. Palun kontrolli sisestatud kasutajanime.",
@@ -4928,6 +4943,10 @@
     "message": "Otsi emojisid",
     "description": "(deleted 03/29/2023) Shown as a placeholder inside the emoji picker search field."
   },
+  "icu:EmojiPicker--search-close": {
+    "messageformat": "Sulge emoji otsing",
+    "description": "Button title to cancel the emoji search."
+  },
   "icu:EmojiPicker--search-placeholder": {
     "messageformat": "Otsi emojisid",
     "description": "Shown as a placeholder inside the emoji picker search field."
@@ -5019,6 +5038,10 @@
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Loobu",
     "description": "Appears on the cancel button in confirmation dialogs."
+  },
+  "icu:Message__role-description": {
+    "messageformat": "Sõnum",
+    "description": "aria-roledescription of a message"
   },
   "MessageBody--read-more": {
     "message": "Loe rohkem",
@@ -8352,6 +8375,18 @@
     "messageformat": "Kontakti registreerumisoleku kontrollimine",
     "description": "Displayed while checking if the contact is SMS-only"
   },
+  "icu:CompositionArea__edit-action--discard": {
+    "messageformat": "Loobu sõnumist",
+    "description": "aria-label for discard edit button"
+  },
+  "icu:CompositionArea__edit-action--send": {
+    "messageformat": "Saada muudetud sõnum",
+    "description": "aria-label for send edit button"
+  },
+  "icu:CompositionInput__editing-message": {
+    "messageformat": "Muuda sõnumit",
+    "description": "Status text displayed above composition input when editing a message"
+  },
   "countMutedConversationsDescription": {
     "message": "Arvesta vaigistatud vestlused märkide arvu hulka",
     "description": "(deleted 03/29/2023) Description for counting muted conversations in badge setting"
@@ -9397,7 +9432,7 @@
     "description": "(deleted 04/04/2023) Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-name-in-group--link": {
-    "messageformat": "{count, plural, one {{count,number} grupiliikmel on sama nimi. {1} <reviewRequestLink>Vaata taotlus üle</reviewRequestLink>} other {{count,number} grupiliikmel on sama nimi. {1} <reviewRequestLink>Vaata taotlus üle</reviewRequestLink>}}",
+    "messageformat": "{count, plural, one {{count,number} grupiliikmel on sama nimi. <reviewRequestLink>Vaata taotlus üle</reviewRequestLink>} other {{count,number} grupiliikmel on sama nimi. {1} <reviewRequestLink>Vaata taotlus üle</reviewRequestLink>}}",
     "description": "Shown in the timeline warning when you multiple group members have the same name"
   },
   "ContactSpoofing__same-name__link": {
@@ -12360,6 +12395,14 @@
     "messageformat": "Muutmiste ajalugu",
     "description": "Modal title for the edit history messages modal"
   },
+  "icu:ResendMessageEdit__body": {
+    "messageformat": "Seda muudatust ei saanud saata. Kontrolli oma ühendust ja proovi uuesti.",
+    "description": "Modal body for the confirmation dialog shown to user when attempting to resend message edit"
+  },
+  "icu:ResendMessageEdit__button": {
+    "messageformat": "Saada uuesti",
+    "description": "Button text for the confirmation dialog shown to user when attempting to resend message edit"
+  },
   "WhatsNew__modal-title": {
     "message": "Mis on uut",
     "description": "(deleted 03/29/2023) Title for the whats new modal"
@@ -12443,5 +12486,17 @@
   "icu:WhatsNew__v6.13--1": {
     "messageformat": "Režiimi eelistus laieneb nüüd ka Signali Sätete märkeruutudele. Aitäh, {rakleed} GitHubist. Tänu sinule saame teha linnukese, et ka meie oleme nüüd tumeda režiimi klubi täisliikmed.",
     "description": "Release notes for v6.13"
+  },
+  "icu:WhatsNew__v6.17--0": {
+    "messageformat": "Parandatud tugi paremalt vasakule kirjutatavate keelte jaoks.",
+    "description": "Release notes for v6.17"
+  },
+  "icu:WhatsNew__v6.17--1": {
+    "messageformat": "Asukohad vastavad nüüd sinu süsteemi eelistustele. See peaks andma paremaid vaikimisi tulemusi, kui oled seadistanud mitu keelt.",
+    "description": "Release notes for v6.17"
+  },
+  "icu:WhatsNew__v6.17--2": {
+    "messageformat": "See uuendus pakub mitmeid ligipääsetavuse alaseid parendusi ja vigade parandusi. Ütleme kogukonnale nende tagasiside ja soovituste eest suure aitäh.",
+    "description": "Release notes for v6.17"
   }
 }

@@ -1563,6 +1563,10 @@
     "message": "Uzlīmju komplekta izveides programma",
     "description": "(deleted 03/15/2023) Title of the window that pops up with Signal Desktop preferences in it"
   },
+  "icu:signalDesktopStickerCreator": {
+    "messageformat": "Uzlīmju komplekta izveides programma",
+    "description": "Title of the window that pops up with Signal Desktop preferences in it"
+  },
   "aboutSignalDesktop": {
     "message": "Par Signal Desktop versiju",
     "description": "(deleted 03/29/2023) Item under the Help menu, which opens a small about window"
@@ -2157,6 +2161,9 @@
   },
   "icu:accept": {
     "messageformat": "Apstiprināt"
+  },
+  "icu:edit": {
+    "messageformat": "Rediģēt"
   },
   "forward": {
     "message": "Pārsūtīt",
@@ -3535,6 +3542,10 @@
     "messageformat": "Neizdevās izdzēst",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
   },
+  "icu:editFailed": {
+    "messageformat": "Rediģēšana neizdevās, noklikšķiniet, lai redzētu detalizētāku informāciju",
+    "description": "Shown on a message which was edited if the edit wasn't successfully sent to anyone"
+  },
   "sendPaused": {
     "message": "Sūtīšana pārtraukta",
     "description": "(deleted 03/29/2023) Shown on outgoing message if it cannot be sent immediately"
@@ -4098,6 +4109,10 @@
   "icu:Toast--failed-to-fetch-phone-number": {
     "messageformat": "Neizdevās ielādēt tālruņa numuru. Pārbaudiet savienojumu un mēģiniet vēlreiz.",
     "description": "Shown if request to Signal servers to find phone number fails"
+  },
+  "icu:ToastManager__CannotEditMessage": {
+    "messageformat": "Labojumi var tikt piemēroti tikai 3 stundu laikā pēc šīs ziņas nosūtīšanas.",
+    "description": "Error message when you try to send an edit after message becomes too old"
   },
   "startConversation--username-not-found": {
     "message": "Lietotājs nav atrasts. $atUsername$ nav Signal lietotājs; pārbaudiet, vai ievadījāt visu lietotājvārdu.",
@@ -4928,6 +4943,10 @@
     "message": "Meklēt emocijzīmes",
     "description": "(deleted 03/29/2023) Shown as a placeholder inside the emoji picker search field."
   },
+  "icu:EmojiPicker--search-close": {
+    "messageformat": "Aizvērt emocijzīmju meklēšanu",
+    "description": "Button title to cancel the emoji search."
+  },
   "icu:EmojiPicker--search-placeholder": {
     "messageformat": "Meklēt emocijzīmes",
     "description": "Shown as a placeholder inside the emoji picker search field."
@@ -5019,6 +5038,10 @@
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Atcelt",
     "description": "Appears on the cancel button in confirmation dialogs."
+  },
+  "icu:Message__role-description": {
+    "messageformat": "Ziņa",
+    "description": "aria-roledescription of a message"
   },
   "MessageBody--read-more": {
     "message": "Lasīt vairāk",
@@ -8352,6 +8375,18 @@
     "messageformat": "Pārbauda kontaktpersonas reģistrācijas statusu",
     "description": "Displayed while checking if the contact is SMS-only"
   },
+  "icu:CompositionArea__edit-action--discard": {
+    "messageformat": "Atmest ziņu",
+    "description": "aria-label for discard edit button"
+  },
+  "icu:CompositionArea__edit-action--send": {
+    "messageformat": "Nosūtīt rediģēto ziņu",
+    "description": "aria-label for send edit button"
+  },
+  "icu:CompositionInput__editing-message": {
+    "messageformat": "Rediģēt ziņu",
+    "description": "Status text displayed above composition input when editing a message"
+  },
   "countMutedConversationsDescription": {
     "message": "Iekļaut apklusinātas sarunas nozīmītes skaitītājā",
     "description": "(deleted 03/29/2023) Description for counting muted conversations in badge setting"
@@ -9385,7 +9420,7 @@
     "description": "(deleted 03/29/2023) Shown in the timeline warning when you have a message request from someone with the same name as someone else"
   },
   "icu:ContactSpoofing__same-name--link": {
-    "messageformat": "Rūpīgi pārskatiet pieprasījumus. Signal atrada citu kontaktu ar tādu pašu vārdu. Pārskatīt pieprasījumu",
+    "messageformat": "Rūpīgi pārskatiet pieprasījumus. Signal atrada citu kontaktu ar tādu pašu vārdu. <reviewRequestLink>Pārskatīt pieprasījumu</reviewRequestLink>",
     "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else"
   },
   "ContactSpoofing__same-name-in-group": {
@@ -12360,6 +12395,14 @@
     "messageformat": "Rediģēšanas vēsture",
     "description": "Modal title for the edit history messages modal"
   },
+  "icu:ResendMessageEdit__body": {
+    "messageformat": "Rediģēto ziņu nevarēja nosūtīt. Pārbaudiet savienojumu un mēģiniet vēlreiz.",
+    "description": "Modal body for the confirmation dialog shown to user when attempting to resend message edit"
+  },
+  "icu:ResendMessageEdit__button": {
+    "messageformat": "Sūtīt vēlreiz",
+    "description": "Button text for the confirmation dialog shown to user when attempting to resend message edit"
+  },
   "WhatsNew__modal-title": {
     "message": "Jaunumi",
     "description": "(deleted 03/29/2023) Title for the whats new modal"
@@ -12443,5 +12486,17 @@
   "icu:WhatsNew__v6.13--1": {
     "messageformat": "Dizaina preferences tagad attiecas arī uz izvēles rūtiņām Signal iestatījumos. Paldies {rakleed} no GitHub, kas palīdzēja mums no mūsu paveicamo darbu saraksta izsvītrot uzdevumu “Plašāk izvērst tumsu tumšajā dizainā”.",
     "description": "Release notes for v6.13"
+  },
+  "icu:WhatsNew__v6.17--0": {
+    "messageformat": "Uzlabots atbalsts valodām ar lasīšanas virzienu no labās puses uz kreiso (RTL).",
+    "description": "Release notes for v6.17"
+  },
+  "icu:WhatsNew__v6.17--1": {
+    "messageformat": "Valodas tagad tiek piemērotas atbilstoši sistēmas iestatījumiem. Tam vajadzētu nodrošināt labāku noklusējuma darbību, ja ir konfigurētas vairākas valodas.",
+    "description": "Release notes for v6.17"
+  },
+  "icu:WhatsNew__v6.17--2": {
+    "messageformat": "Šajā laidienā (a10y) ir iekļauti arī vairāki pieejamības (a11y) uzlabojumi un kļūdu labojumi, un mēs (a12y) vēlamies sirsnīgi pateikties kopienai par atsauksmēm un ieteikumiem.",
+    "description": "Release notes for v6.17"
   }
 }

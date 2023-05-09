@@ -1563,6 +1563,10 @@
     "message": "სტიკერების ნაკრების შემქმნელი",
     "description": "(deleted 03/15/2023) Title of the window that pops up with Signal Desktop preferences in it"
   },
+  "icu:signalDesktopStickerCreator": {
+    "messageformat": "სტიკერების ნაკრების შემქმნელი",
+    "description": "Title of the window that pops up with Signal Desktop preferences in it"
+  },
   "aboutSignalDesktop": {
     "message": "Signal Desktop-ის შესახებ",
     "description": "(deleted 03/29/2023) Item under the Help menu, which opens a small about window"
@@ -2157,6 +2161,9 @@
   },
   "icu:accept": {
     "messageformat": "დასტური"
+  },
+  "icu:edit": {
+    "messageformat": "რედაქტირება"
   },
   "forward": {
     "message": "გადაგზავნა",
@@ -3535,6 +3542,10 @@
     "messageformat": "წაშლა ვერ მოხერხდა",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
   },
+  "icu:editFailed": {
+    "messageformat": "რედაქტირება ვერ მოხერხდა, დეტალებისთვის დააჭირე",
+    "description": "Shown on a message which was edited if the edit wasn't successfully sent to anyone"
+  },
   "sendPaused": {
     "message": "გაგზავნა შეჩერებულია",
     "description": "(deleted 03/29/2023) Shown on outgoing message if it cannot be sent immediately"
@@ -4098,6 +4109,10 @@
   "icu:Toast--failed-to-fetch-phone-number": {
     "messageformat": "მობილურის ნომრის მიღება ვერ მოხერხდა. შეამოწმე შენი ინტერნეტ კავშირი და თავიდან სცადე.",
     "description": "Shown if request to Signal servers to find phone number fails"
+  },
+  "icu:ToastManager__CannotEditMessage": {
+    "messageformat": "შეტყობინების რედაქტირება მისი გაგზავნიდან მხოლოდ 3 საათის განმავლობაშია შეგიძლია.",
+    "description": "Error message when you try to send an edit after message becomes too old"
   },
   "startConversation--username-not-found": {
     "message": "Მომხმარებელი ვერ მოიძებნა. $atUsername$ არ არის Signal-ის მომხმარებელი; დარწმუნდი, რომ მომხმარებლის სრული სახელი შეიყვანე.",
@@ -4928,6 +4943,10 @@
     "message": "Emoji-ს მოძებნა",
     "description": "(deleted 03/29/2023) Shown as a placeholder inside the emoji picker search field."
   },
+  "icu:EmojiPicker--search-close": {
+    "messageformat": "emoji-ის ძებნის დახურვა",
+    "description": "Button title to cancel the emoji search."
+  },
   "icu:EmojiPicker--search-placeholder": {
     "messageformat": "Emoji-ს მოძებნა",
     "description": "Shown as a placeholder inside the emoji picker search field."
@@ -5019,6 +5038,10 @@
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "გაუქმება",
     "description": "Appears on the cancel button in confirmation dialogs."
+  },
+  "icu:Message__role-description": {
+    "messageformat": "მიწერა",
+    "description": "aria-roledescription of a message"
   },
   "MessageBody--read-more": {
     "message": "წაიკითე მეტი",
@@ -8351,6 +8374,18 @@
   "icu:CompositionArea--sms-only__spinner-label": {
     "messageformat": "კონტაქტის რეგისტრაციის სტატუსის შემოწმება",
     "description": "Displayed while checking if the contact is SMS-only"
+  },
+  "icu:CompositionArea__edit-action--discard": {
+    "messageformat": "შეტყობინების წაშლა",
+    "description": "aria-label for discard edit button"
+  },
+  "icu:CompositionArea__edit-action--send": {
+    "messageformat": "დარედაქტირებული შეტყობინების გაგზავნა",
+    "description": "aria-label for send edit button"
+  },
+  "icu:CompositionInput__editing-message": {
+    "messageformat": "შეტყობინების რედაქტირება",
+    "description": "Status text displayed above composition input when editing a message"
   },
   "countMutedConversationsDescription": {
     "message": "დადუმებული მიმოწერების ემბლემის რაოდენობაში შეტანა",
@@ -12360,6 +12395,14 @@
     "messageformat": "რედაქტირების ისტორია",
     "description": "Modal title for the edit history messages modal"
   },
+  "icu:ResendMessageEdit__body": {
+    "messageformat": "ამ რედაქტირების გაგზავნა ვერ მოხერხდა. შეამოწმე ინტერნეტ კავშირი და თავიდან სცადე",
+    "description": "Modal body for the confirmation dialog shown to user when attempting to resend message edit"
+  },
+  "icu:ResendMessageEdit__button": {
+    "messageformat": "თავიდან გაგზავნა",
+    "description": "Button text for the confirmation dialog shown to user when attempting to resend message edit"
+  },
   "WhatsNew__modal-title": {
     "message": "რა არის ახალი",
     "description": "(deleted 03/29/2023) Title for the whats new modal"
@@ -12443,5 +12486,17 @@
   "icu:WhatsNew__v6.13--1": {
     "messageformat": "აპის ფონის პრეფერენციები ახლა ასევე ვრცელდება Signal-ის პარამეტრებში არსებულ მოსანიშნ ველებზეც. მადლობა {rakleed}-ს GitHub-ზე იმისთვის, რომ ჩვენი \"TO DO\" სიიდან „მუქ რეჟიმში სიბნელის კიდევ უფრო მეტად გამოკვეთის“ გადახაზვაში დაგვეხმარა.",
     "description": "Release notes for v6.13"
+  },
+  "icu:WhatsNew__v6.17--0": {
+    "messageformat": "მარჯვნიდან მარცხნივ (RTL) კითხვადი ენების უკეთესი მხარდაჭერა.",
+    "description": "Release notes for v6.17"
+  },
+  "icu:WhatsNew__v6.17--1": {
+    "messageformat": "ლოკალები ახლა უკვე შენს სისტემურ პრეფერენციებს ემთხვევა. ამან უნდა გააუმჯობესოს ნაგულისხმევი მოქმედება, როცა კონფიგურირებულია რამოდენიმე ენა.",
+    "description": "Release notes for v6.17"
+  },
+  "icu:WhatsNew__v6.17--2": {
+    "messageformat": "ეს გამოშვება დამატებით წარმოადგენს ხელმისაწვდომობის რამდენიმე გაუმჯობესებას და შეცდომების გამოსწორებას. გულწრფელად გვინდა მადლობა გადავუხადოთ საზოგადოებას უკუკავშირისა და შემოთავაზებებისთვის.",
+    "description": "Release notes for v6.17"
   }
 }

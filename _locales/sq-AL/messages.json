@@ -1563,6 +1563,10 @@
     "message": "Krijues pakete ngjitësish",
     "description": "(deleted 03/15/2023) Title of the window that pops up with Signal Desktop preferences in it"
   },
+  "icu:signalDesktopStickerCreator": {
+    "messageformat": "Krijues pakete ngjitësish",
+    "description": "Title of the window that pops up with Signal Desktop preferences in it"
+  },
   "aboutSignalDesktop": {
     "message": "Mbi Signal-in për Desktop",
     "description": "(deleted 03/29/2023) Item under the Help menu, which opens a small about window"
@@ -2157,6 +2161,9 @@
   },
   "icu:accept": {
     "messageformat": "Pranoje"
+  },
+  "icu:edit": {
+    "messageformat": "Përpuno"
   },
   "forward": {
     "message": "Përcjellje",
@@ -3535,6 +3542,10 @@
     "messageformat": "Fshirja dështoi",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
   },
+  "icu:editFailed": {
+    "messageformat": "Ndryshimi dështoi, kliko për detaje",
+    "description": "Shown on a message which was edited if the edit wasn't successfully sent to anyone"
+  },
   "sendPaused": {
     "message": "Dërgimi i ndal",
     "description": "(deleted 03/29/2023) Shown on outgoing message if it cannot be sent immediately"
@@ -4098,6 +4109,10 @@
   "icu:Toast--failed-to-fetch-phone-number": {
     "messageformat": "S’u arrit të sillej numër telefoni. Kontrolloni lidhjen tuaj dhe riprovoni.",
     "description": "Shown if request to Signal servers to find phone number fails"
+  },
+  "icu:ToastManager__CannotEditMessage": {
+    "messageformat": "Ndryshimet mund të zbatohen vetëm brenda 3 orëve nga momenti që dërgove këtë mesazh.",
+    "description": "Error message when you try to send an edit after message becomes too old"
   },
   "startConversation--username-not-found": {
     "message": "S’u gjet përdorues. $atUsername$ s’është përdorues Signal-i; sigurohuni se e keni dhënë të plotë emrin e përdoruesit.",
@@ -4928,6 +4943,10 @@
     "message": "Kërkoni Për Emoji",
     "description": "(deleted 03/29/2023) Shown as a placeholder inside the emoji picker search field."
   },
+  "icu:EmojiPicker--search-close": {
+    "messageformat": "Mbyll kërkimin për emoji",
+    "description": "Button title to cancel the emoji search."
+  },
   "icu:EmojiPicker--search-placeholder": {
     "messageformat": "Kërkoni Për Emoji",
     "description": "Shown as a placeholder inside the emoji picker search field."
@@ -5019,6 +5038,10 @@
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Anulo",
     "description": "Appears on the cancel button in confirmation dialogs."
+  },
+  "icu:Message__role-description": {
+    "messageformat": "Mesazh",
+    "description": "aria-roledescription of a message"
   },
   "MessageBody--read-more": {
     "message": "Lexoni më tepër",
@@ -8351,6 +8374,18 @@
   "icu:CompositionArea--sms-only__spinner-label": {
     "messageformat": "Po kontrollohet gjendje regjistrimi kontakti",
     "description": "Displayed while checking if the contact is SMS-only"
+  },
+  "icu:CompositionArea__edit-action--discard": {
+    "messageformat": "Hiq mesazhin",
+    "description": "aria-label for discard edit button"
+  },
+  "icu:CompositionArea__edit-action--send": {
+    "messageformat": "Dërgo mesazhin e ndryshuar",
+    "description": "aria-label for send edit button"
+  },
+  "icu:CompositionInput__editing-message": {
+    "messageformat": "Përpuno mesazhin",
+    "description": "Status text displayed above composition input when editing a message"
   },
   "countMutedConversationsDescription": {
     "message": "Përfshi bisedat pa zë në numërator",
@@ -12360,6 +12395,14 @@
     "messageformat": "Historiku i përpunimeve",
     "description": "Modal title for the edit history messages modal"
   },
+  "icu:ResendMessageEdit__body": {
+    "messageformat": "Ky ndryshim nuk mund të dërgohej. Kontrollo lidhjen e internetit dhe riprovo",
+    "description": "Modal body for the confirmation dialog shown to user when attempting to resend message edit"
+  },
+  "icu:ResendMessageEdit__button": {
+    "messageformat": "Ridërgoje",
+    "description": "Button text for the confirmation dialog shown to user when attempting to resend message edit"
+  },
   "WhatsNew__modal-title": {
     "message": "Ç’ka të Re",
     "description": "(deleted 03/29/2023) Title for the whats new modal"
@@ -12443,5 +12486,17 @@
   "icu:WhatsNew__v6.13--1": {
     "messageformat": "Preferencat e temave tani zbatohen edhe për kutitë e zgjedhjes në Parametrat e Signal. Faleminderit {rakleed} në GitHub që na ndihmon të heqim \"Përfshirjen e plotë të errësirës në temën e errët\" nga lista e gjërave për t'u bërë.",
     "description": "Release notes for v6.13"
+  },
+  "icu:WhatsNew__v6.17--0": {
+    "messageformat": "Mbështetje e përmirësuar për gjuhët nga e djathta në të majtë (RTL).",
+    "description": "Release notes for v6.17"
+  },
+  "icu:WhatsNew__v6.17--1": {
+    "messageformat": "Lokalet tani përputhen në bazë të preferencave të sistemit tënd. Kjo duhet të rezultojë në veprime më të mira të paracaktuar kur shumë gjuhë konfigurohen .",
+    "description": "Release notes for v6.17"
+  },
+  "icu:WhatsNew__v6.17--2": {
+    "messageformat": "Ky version shtesë (a10y) prezanton disa përmirësime të aksesueshmërisë (a11y) dhe rregullime të gabimeve, dhe ne me dashamirësi (a12y) dëshirojmë të falënderojmë komunitetin për komentet dhe sugjerimet e tij.",
+    "description": "Release notes for v6.17"
   }
 }

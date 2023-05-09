@@ -1563,6 +1563,10 @@
     "message": "Sticker Pack Creator",
     "description": "(deleted 03/15/2023) Title of the window that pops up with Signal Desktop preferences in it"
   },
+  "icu:signalDesktopStickerCreator": {
+    "messageformat": "Sticker Pack Creator",
+    "description": "Title of the window that pops up with Signal Desktop preferences in it"
+  },
   "aboutSignalDesktop": {
     "message": "Signal Desktopについて",
     "description": "(deleted 03/29/2023) Item under the Help menu, which opens a small about window"
@@ -2157,6 +2161,9 @@
   },
   "icu:accept": {
     "messageformat": "承認する"
+  },
+  "icu:edit": {
+    "messageformat": "編集"
   },
   "forward": {
     "message": "転送",
@@ -3535,6 +3542,10 @@
     "messageformat": "消去できませんでした",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
   },
+  "icu:editFailed": {
+    "messageformat": "編集できませんでした。クリックすると詳細が表示されます。",
+    "description": "Shown on a message which was edited if the edit wasn't successfully sent to anyone"
+  },
   "sendPaused": {
     "message": "送信を保留しました",
     "description": "(deleted 03/29/2023) Shown on outgoing message if it cannot be sent immediately"
@@ -4098,6 +4109,10 @@
   "icu:Toast--failed-to-fetch-phone-number": {
     "messageformat": "電話番号の取得に失敗しました。接続を確認して再度お試しください。",
     "description": "Shown if request to Signal servers to find phone number fails"
+  },
+  "icu:ToastManager__CannotEditMessage": {
+    "messageformat": "編集は、このメッセージを送信後 3 時間以内のみ可能です。",
+    "description": "Error message when you try to send an edit after message becomes too old"
   },
   "startConversation--username-not-found": {
     "message": "ユーザは見つかりませんでした。$atUsername$ はSignalユーザではありません。ユーザ名を確認してください。",
@@ -4928,6 +4943,10 @@
     "message": "絵文字を検索",
     "description": "(deleted 03/29/2023) Shown as a placeholder inside the emoji picker search field."
   },
+  "icu:EmojiPicker--search-close": {
+    "messageformat": "絵文字検索をキャンセルする",
+    "description": "Button title to cancel the emoji search."
+  },
   "icu:EmojiPicker--search-placeholder": {
     "messageformat": "絵文字を検索",
     "description": "Shown as a placeholder inside the emoji picker search field."
@@ -5019,6 +5038,10 @@
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "キャンセル",
     "description": "Appears on the cancel button in confirmation dialogs."
+  },
+  "icu:Message__role-description": {
+    "messageformat": "メッセージを送る",
+    "description": "aria-roledescription of a message"
   },
   "MessageBody--read-more": {
     "message": "続きを読む",
@@ -8352,6 +8375,18 @@
     "messageformat": "連絡先の登録状況を確認しています",
     "description": "Displayed while checking if the contact is SMS-only"
   },
+  "icu:CompositionArea__edit-action--discard": {
+    "messageformat": "メッセージを破棄する",
+    "description": "aria-label for discard edit button"
+  },
+  "icu:CompositionArea__edit-action--send": {
+    "messageformat": "編集したメッセージを送信する",
+    "description": "aria-label for send edit button"
+  },
+  "icu:CompositionInput__editing-message": {
+    "messageformat": "メッセージの編集",
+    "description": "Status text displayed above composition input when editing a message"
+  },
   "countMutedConversationsDescription": {
     "message": "ミュート中のチャットをバッジの数値に含める",
     "description": "(deleted 03/29/2023) Description for counting muted conversations in badge setting"
@@ -9385,7 +9420,7 @@
     "description": "(deleted 03/29/2023) Shown in the timeline warning when you have a message request from someone with the same name as someone else"
   },
   "icu:ContactSpoofing__same-name--link": {
-    "messageformat": "慎重に申請を確認してください。Signal は同じ名前で別の連絡先を見つけました。<reviewRequestLink>申請の確認</reviewRequestLink>",
+    "messageformat": "慎重に申請を確認してください。Signal は同じ名前で別の連絡先を見つけました。<reviewRequestLink>申請を確認する</reviewRequestLink>",
     "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else"
   },
   "ContactSpoofing__same-name-in-group": {
@@ -9397,7 +9432,7 @@
     "description": "(deleted 04/04/2023) Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-name-in-group--link": {
-    "messageformat": "{count, plural, other {{count,number} 人のグループメンバーが同じ名前です。<reviewRequestLink>申請の確認</reviewRequestLink>}}",
+    "messageformat": "{count, plural, other {{count,number} 人のグループメンバーが同じ名前です。<reviewRequestLink>申請を確認する</reviewRequestLink>}}",
     "description": "Shown in the timeline warning when you multiple group members have the same name"
   },
   "ContactSpoofing__same-name__link": {
@@ -12360,6 +12395,14 @@
     "messageformat": "編集履歴",
     "description": "Modal title for the edit history messages modal"
   },
+  "icu:ResendMessageEdit__body": {
+    "messageformat": "編集したメッセージを送信できませんでした。インターネット接続を確認して再度試してください",
+    "description": "Modal body for the confirmation dialog shown to user when attempting to resend message edit"
+  },
+  "icu:ResendMessageEdit__button": {
+    "messageformat": "再送",
+    "description": "Button text for the confirmation dialog shown to user when attempting to resend message edit"
+  },
   "WhatsNew__modal-title": {
     "message": "更新情報",
     "description": "(deleted 03/29/2023) Title for the whats new modal"
@@ -12443,5 +12486,17 @@
   "icu:WhatsNew__v6.13--1": {
     "messageformat": "テーマ設定が Signal 設定のチェックボックスにも適用されるようになりました。GitHub の {rakleed} のおかげで、私たちは、念願の (あの有名な映画でいうところの) ダークサイドの力を手に入れ、ダークのテーマ設定を拡張することができました。",
     "description": "Release notes for v6.13"
+  },
+  "icu:WhatsNew__v6.17--0": {
+    "messageformat": "RTL (右から左) に記述する言語のサポートが向上しました。",
+    "description": "Release notes for v6.17"
+  },
+  "icu:WhatsNew__v6.17--1": {
+    "messageformat": "ロケールがユーザーのシステム環境設定に基づいてマッチングされるようになったことで、複数の言語が設定されている場合のデフォルトの動作がさらに適切になりました。",
+    "description": "Release notes for v6.17"
+  },
+  "icu:WhatsNew__v6.17--2": {
+    "messageformat": "このリリースでは、アクセシビリティの強化やバグ修正をいくつか導入しました。コミュニティからのフィードバックや提案に心から感謝します。",
+    "description": "Release notes for v6.17"
   }
 }

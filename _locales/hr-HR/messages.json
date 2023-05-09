@@ -1563,6 +1563,10 @@
     "message": "Alat za izradu naljepnica",
     "description": "(deleted 03/15/2023) Title of the window that pops up with Signal Desktop preferences in it"
   },
+  "icu:signalDesktopStickerCreator": {
+    "messageformat": "Alat za izradu naljepnica",
+    "description": "Title of the window that pops up with Signal Desktop preferences in it"
+  },
   "aboutSignalDesktop": {
     "message": "O Signalu za Desktop",
     "description": "(deleted 03/29/2023) Item under the Help menu, which opens a small about window"
@@ -2157,6 +2161,9 @@
   },
   "icu:accept": {
     "messageformat": "Prihvati"
+  },
+  "icu:edit": {
+    "messageformat": "Uredi"
   },
   "forward": {
     "message": "Proslijedi",
@@ -3535,6 +3542,10 @@
     "messageformat": "Brisanje nije uspjelo",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
   },
+  "icu:editFailed": {
+    "messageformat": "Uređivanje nije uspjelo, kliknite za više detalja",
+    "description": "Shown on a message which was edited if the edit wasn't successfully sent to anyone"
+  },
   "sendPaused": {
     "message": "Slanje je zaustavljeno",
     "description": "(deleted 03/29/2023) Shown on outgoing message if it cannot be sent immediately"
@@ -4098,6 +4109,10 @@
   "icu:Toast--failed-to-fetch-phone-number": {
     "messageformat": "Dohvaćanje telefonskog broja nije uspjelo. Provjerite internetsku vezu i pokušajte ponovo.",
     "description": "Shown if request to Signal servers to find phone number fails"
+  },
+  "icu:ToastManager__CannotEditMessage": {
+    "messageformat": "Poruke je moguće uređivati samo u roku od 3 sata od trenutka slanja.",
+    "description": "Error message when you try to send an edit after message becomes too old"
   },
   "startConversation--username-not-found": {
     "message": "Korisnik nije pronađen. $atUsername$ nije korisnik Signala. Provjerite jeste li unijeli točno korisničko ime.",
@@ -4928,6 +4943,10 @@
     "message": "Pretraži smajliće",
     "description": "(deleted 03/29/2023) Shown as a placeholder inside the emoji picker search field."
   },
+  "icu:EmojiPicker--search-close": {
+    "messageformat": "Zatvori pretragu emotikona",
+    "description": "Button title to cancel the emoji search."
+  },
   "icu:EmojiPicker--search-placeholder": {
     "messageformat": "Pretraži smajliće",
     "description": "Shown as a placeholder inside the emoji picker search field."
@@ -5019,6 +5038,10 @@
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Odustani",
     "description": "Appears on the cancel button in confirmation dialogs."
+  },
+  "icu:Message__role-description": {
+    "messageformat": "Poruka",
+    "description": "aria-roledescription of a message"
   },
   "MessageBody--read-more": {
     "message": "Pročitaj više",
@@ -8352,6 +8375,18 @@
     "messageformat": "Provjera statusa registracije kontakta",
     "description": "Displayed while checking if the contact is SMS-only"
   },
+  "icu:CompositionArea__edit-action--discard": {
+    "messageformat": "Odbaci promjene",
+    "description": "aria-label for discard edit button"
+  },
+  "icu:CompositionArea__edit-action--send": {
+    "messageformat": "Pošalji uređenu poruku",
+    "description": "aria-label for send edit button"
+  },
+  "icu:CompositionInput__editing-message": {
+    "messageformat": "Uredi poruku",
+    "description": "Status text displayed above composition input when editing a message"
+  },
   "countMutedConversationsDescription": {
     "message": "Dodaj utišane razgovore u obavijesti o broju novih poruka",
     "description": "(deleted 03/29/2023) Description for counting muted conversations in badge setting"
@@ -9385,7 +9420,7 @@
     "description": "(deleted 03/29/2023) Shown in the timeline warning when you have a message request from someone with the same name as someone else"
   },
   "icu:ContactSpoofing__same-name--link": {
-    "messageformat": "Pažljivo pregledajte zahtjeve. Signal je pronašao drugi kontakt s istim imenom. <reviewRequestLink>Pregled zahtjeva</reviewRequestLink>",
+    "messageformat": "Pažljivo pregledajte zahtjeve. Signal je pronašao drugi kontakt s istim imenom. <reviewRequestLink>Pregledaj zahtjev</reviewRequestLink>",
     "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else"
   },
   "ContactSpoofing__same-name-in-group": {
@@ -9397,7 +9432,7 @@
     "description": "(deleted 04/04/2023) Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-name-in-group--link": {
-    "messageformat": "{count, plural, one {{count,number} član grupe ima isto ime. <reviewRequestLink>Pregled zahtjeva</reviewRequestLink>} few {{count,number} člana grupe imaju isto ime. <reviewRequestLink>Pregled zahtjeva</reviewRequestLink>} many {{count,number} članova grupe ima isto ime. <reviewRequestLink>Pregled zahtjeva</reviewRequestLink>} other {{count,number} članova grupe ima isto ime. <reviewRequestLink>Pregled zahtjeva</reviewRequestLink>}}",
+    "messageformat": "{count, plural, one {{count,number} član grupe ima isto ime. <reviewRequestLink>Pregledaj zahtjev</reviewRequestLink>} few {{count,number} člana grupe imaju isto ime. <reviewRequestLink>Pregledaj zahtjev</reviewRequestLink>} many {{count,number} članova grupe ima isto ime. <reviewRequestLink>Pregledaj zahtjev</reviewRequestLink>} other {{count,number} članova grupe ima isto ime. <reviewRequestLink>Pregledaj zahtjev</reviewRequestLink>}}",
     "description": "Shown in the timeline warning when you multiple group members have the same name"
   },
   "ContactSpoofing__same-name__link": {
@@ -12360,6 +12395,14 @@
     "messageformat": "Povijest uređivanja",
     "description": "Modal title for the edit history messages modal"
   },
+  "icu:ResendMessageEdit__body": {
+    "messageformat": "Nije moguće poslati uređenu poruku. Provjerite internetsku vezu i pokušajte ponovno",
+    "description": "Modal body for the confirmation dialog shown to user when attempting to resend message edit"
+  },
+  "icu:ResendMessageEdit__button": {
+    "messageformat": "Pošalji ponovo",
+    "description": "Button text for the confirmation dialog shown to user when attempting to resend message edit"
+  },
   "WhatsNew__modal-title": {
     "message": "Novosti",
     "description": "(deleted 03/29/2023) Title for the whats new modal"
@@ -12443,5 +12486,17 @@
   "icu:WhatsNew__v6.13--1": {
     "messageformat": "Postavke teme sada se primjenjuju i na potvrdne okvire u postavkama Signala. Hvala ti na doprinosu, {rakleed} s GitHuba. Sada možemo napokon skinuti \"Prelazak na mračnu stranu pomoću tamne teme\" s našeg popisa obaveza.",
     "description": "Release notes for v6.13"
+  },
+  "icu:WhatsNew__v6.17--0": {
+    "messageformat": "Poboljšana podrška za jezike koji se pišu zdesna nalijevo (RTL).",
+    "description": "Release notes for v6.17"
+  },
+  "icu:WhatsNew__v6.17--1": {
+    "messageformat": "Postavke jezika se sada podudaraju na temelju vaših postavki sustava. To bi trebalo dovesti do boljeg zadanog ponašanja u slučajevima kada je konfigurirano više jezika.",
+    "description": "Release notes for v6.17"
+  },
+  "icu:WhatsNew__v6.17--2": {
+    "messageformat": "Ovo izdanje dodatno uvodi nekoliko poboljšanja pristupačnosti i ispravke grešaka, a mi iz srca želimo zahvaliti zajednici na povratnim informacijama i prijedlozima.",
+    "description": "Release notes for v6.17"
   }
 }

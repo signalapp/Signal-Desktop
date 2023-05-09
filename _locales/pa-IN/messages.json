@@ -1563,6 +1563,10 @@
     "message": "ਸਟਿੱਕਰ ਪੈਕ ਨਿਰਮਾਤਾ",
     "description": "(deleted 03/15/2023) Title of the window that pops up with Signal Desktop preferences in it"
   },
+  "icu:signalDesktopStickerCreator": {
+    "messageformat": "ਸਟਿਕੱਰ ਪੈਕ ਨਿਰਮਾਤਾ",
+    "description": "Title of the window that pops up with Signal Desktop preferences in it"
+  },
   "aboutSignalDesktop": {
     "message": "Signal Desktop ਬਾਰੇ",
     "description": "(deleted 03/29/2023) Item under the Help menu, which opens a small about window"
@@ -2157,6 +2161,9 @@
   },
   "icu:accept": {
     "messageformat": "ਮਨਜ਼ੂਰ ਕਰੋ"
+  },
+  "icu:edit": {
+    "messageformat": "ਸੋਧੋ"
   },
   "forward": {
     "message": "ਅੱਗੇ ਭੇਜੋ ",
@@ -3535,6 +3542,10 @@
     "messageformat": "ਮਿਟਾਉਣਾ ਅਸਫਲ ਰਿਹਾ",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
   },
+  "icu:editFailed": {
+    "messageformat": "ਸੋਧਣਾ ਅਸਫਲ ਰਿਹਾ, ਵੇਰਵਿਆਂ ਲਈ ਕਲਿੱਕ ਕਰੋ",
+    "description": "Shown on a message which was edited if the edit wasn't successfully sent to anyone"
+  },
   "sendPaused": {
     "message": "ਭੇਜਣ ਨੂੰ ਰੋਕਿਆ ਗਿਆ",
     "description": "(deleted 03/29/2023) Shown on outgoing message if it cannot be sent immediately"
@@ -4098,6 +4109,10 @@
   "icu:Toast--failed-to-fetch-phone-number": {
     "messageformat": "ਫ਼ੋਨ ਨੰਬਰ ਹਾਸਲ ਕਰਨ ਵਿੱਚ ਅਸਫਲ ਰਹੇ। ਆਪਣੇ ਕਨੈਕਸ਼ਨ ਦੀ ਜਾਂਚ ਕਰੋ ਅਤੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।",
     "description": "Shown if request to Signal servers to find phone number fails"
+  },
+  "icu:ToastManager__CannotEditMessage": {
+    "messageformat": "ਇਸ ਸੁਨੇਹੇ ਨੂੰ ਭੇਜੇ ਜਾਣ ਤੋਂ 3 ਘੰਟੇ ਦੇ ਅੰਦਰ-ਅੰਦਰ ਹੀ ਸੋਧਿਆ ਜਾ ਸਕਦਾ ਹੈ।",
+    "description": "Error message when you try to send an edit after message becomes too old"
   },
   "startConversation--username-not-found": {
     "message": "ਵਰਤੋਂਕਾਰ ਨਹੀਂ ਲੱਭਿਆ। $atUsername$ Signal ਦੇ ਵਰਤੋਂਕਾਰ ਨਹੀਂ ਹਨ। ਯਕੀਨੀ ਬਣਾਓ ਕਿ ਤੁਸੀਂ ਵਰਤੋਂਕਾਰ ਦਾ ਪੂਰਾ ਨਾਮ ਦਰਜ ਕੀਤਾ ਹੈ।",
@@ -4928,6 +4943,10 @@
     "message": "ਇਮੋਜੀ ਖੋਜੋ",
     "description": "(deleted 03/29/2023) Shown as a placeholder inside the emoji picker search field."
   },
+  "icu:EmojiPicker--search-close": {
+    "messageformat": "ਇਮੋਜੀ ਖੋਜ ਬੰਦ ਕਰੋ",
+    "description": "Button title to cancel the emoji search."
+  },
   "icu:EmojiPicker--search-placeholder": {
     "messageformat": "ਇਮੋਜੀ ਖੋਜੋ",
     "description": "Shown as a placeholder inside the emoji picker search field."
@@ -5019,6 +5038,10 @@
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "ਰੱਦ ਕਰੋ",
     "description": "Appears on the cancel button in confirmation dialogs."
+  },
+  "icu:Message__role-description": {
+    "messageformat": "ਸੁਨੇਹਾ ਭੇਜੋ",
+    "description": "aria-roledescription of a message"
   },
   "MessageBody--read-more": {
     "message": "ਹੋਰ ਪੜ੍ਹੋ",
@@ -8351,6 +8374,18 @@
   "icu:CompositionArea--sms-only__spinner-label": {
     "messageformat": "ਸੰਪਰਕ ਦੇ ਰਜਿਸਟ੍ਰੇਸ਼ਨ ਦਰਜੇ ਦੀ ਜਾਂਚ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ",
     "description": "Displayed while checking if the contact is SMS-only"
+  },
+  "icu:CompositionArea__edit-action--discard": {
+    "messageformat": "ਸੁਨੇਹਾ ਖਾਰਜ ਕਰੋ",
+    "description": "aria-label for discard edit button"
+  },
+  "icu:CompositionArea__edit-action--send": {
+    "messageformat": "ਸੋਧਿਆ ਗਿਆ ਸੁਨੇਹਾ ਭੇਜੋ",
+    "description": "aria-label for send edit button"
+  },
+  "icu:CompositionInput__editing-message": {
+    "messageformat": "ਸੁਨੇਹੇ ਨੂੰ ਸੋਧੋ",
+    "description": "Status text displayed above composition input when editing a message"
   },
   "countMutedConversationsDescription": {
     "message": "ਬੈਜ ਗਿਣਤੀ ਵਿੱਚ ਮਿਊਟ ਕੀਤੀਆਂ ਚੈਟਾਂ ਨੂੰ ਸ਼ਾਮਲ ਕਰੋ",
@@ -12360,6 +12395,14 @@
     "messageformat": "ਸੋਧ ਦਾ ਇਤਿਹਾਸ",
     "description": "Modal title for the edit history messages modal"
   },
+  "icu:ResendMessageEdit__body": {
+    "messageformat": "ਇਹ ਸੋਧੇ ਗਏ ਸੁਨੇਹੇ ਨੂੰ ਭੇਜ ਨਹੀਂ ਸਕੇ। ਆਪਣੇ ਕਨੈਕਸ਼ਨ ਦੀ ਜਾਂਚ ਕਰੋ ਅਤੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।",
+    "description": "Modal body for the confirmation dialog shown to user when attempting to resend message edit"
+  },
+  "icu:ResendMessageEdit__button": {
+    "messageformat": "ਦੁਬਾਰਾ ਭੇਜੋ",
+    "description": "Button text for the confirmation dialog shown to user when attempting to resend message edit"
+  },
   "WhatsNew__modal-title": {
     "message": "ਨਵਾਂ ਕੀ ਹੈ",
     "description": "(deleted 03/29/2023) Title for the whats new modal"
@@ -12443,5 +12486,17 @@
   "icu:WhatsNew__v6.13--1": {
     "messageformat": "ਥੀਮ ਤਰਜੀਹਾਂ ਹੁਣ Signal ਸੈਟਿੰਗਾਂ ਵਿੱਚ ਚੈਕਬਾਕਸਾਂ 'ਤੇ ਵੀ ਲਾਗੂ ਹੁੰਦੀਆਂ ਹਨ। ਸਾਡੇ ਕੰਮਾਂ ਦੀ ਸੂਚੀ ਵਿੱਚੋਂ \"More fully embrace darkness in the dark theme\" ਨੂੰ ਪੂਰਾ ਕਰਨ ਵਿੱਚ ਸਾਡੀ ਮਦਦ ਕਰਨ ਲਈ GitHub 'ਤੇ {rakleed} ਦਾ ਧੰਨਵਾਦ।",
     "description": "Release notes for v6.13"
+  },
+  "icu:WhatsNew__v6.17--0": {
+    "messageformat": "ਸੱਜੇ-ਤੋਂ-ਖੱਬੇ (RTL) ਭਾਸ਼ਾਵਾਂ ਲਈ ਬਿਹਤਰ ਸਮਰਥਨ।",
+    "description": "Release notes for v6.17"
+  },
+  "icu:WhatsNew__v6.17--1": {
+    "messageformat": "ਲੋਕੇਲ ਨੂੰ ਹੁਣ ਤੁਹਾਡੇ ਸਿਸਟਮ ਦੀਆਂ ਤਰਜੀਹਾਂ ਦੇ ਆਧਾਰ 'ਤੇ ਮੇਲ ਕੀਤਾ ਜਾਂਦਾ ਹੈ। ਅਜਿਆ ਕਰਨ ਨਾਲ ਬਿਹਤਰ ਡਿਫੌਲਟ ਵਿਵਹਾਰ ਦੇਖਣ ਨੂੰ ਮਿਲੇਗਾ ਜਦੋਂ ਸਿਸਟਮ ਵਿੱਚ ਕਈ ਭਾਸ਼ਾਵਾਂ ਕੌਨਫਿਗਰ ਕੀਤੀਆਂ ਹੁੰਦੀਆਂ ਹਨ।",
+    "description": "Release notes for v6.17"
+  },
+  "icu:WhatsNew__v6.17--2": {
+    "messageformat": "ਇਸ ਰੀਲੀਜ਼ (a10y) ਵਿੱਚ ਕਈ ਪਹੁੰਚਯੋਗਤਾ (a11y) ਸੁਧਾਰ ਅਤੇ ਬੱਗ ਫਿਕਸ ਕੀਤੇ ਗਏ ਹਨ, ਅਤੇ ਅਸੀਂ ਪਿਆਰ ਨਾਲ (a12y) ਫੀਡਬੈਕ ਅਤੇ ਸੁਝਾਵਾਂ ਲਈ ਆਪਣੇ ਭਾਈਚਾਰੇ ਦਾ ਧੰਨਵਾਦ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹਾਂ।",
+    "description": "Release notes for v6.17"
   }
 }

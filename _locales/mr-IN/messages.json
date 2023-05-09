@@ -1563,6 +1563,10 @@
     "message": "स्टिकर पॅक उत्पादक",
     "description": "(deleted 03/15/2023) Title of the window that pops up with Signal Desktop preferences in it"
   },
+  "icu:signalDesktopStickerCreator": {
+    "messageformat": "स्टिकर पॅक उत्पादक",
+    "description": "Title of the window that pops up with Signal Desktop preferences in it"
+  },
   "aboutSignalDesktop": {
     "message": "Signal Desktop बद्दल",
     "description": "(deleted 03/29/2023) Item under the Help menu, which opens a small about window"
@@ -2157,6 +2161,9 @@
   },
   "icu:accept": {
     "messageformat": "स्वीकारा"
+  },
+  "icu:edit": {
+    "messageformat": "संपादन"
   },
   "forward": {
     "message": "फॉर्वर्ड करा",
@@ -3535,6 +3542,10 @@
     "messageformat": "हटवणे अयशस्वी",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
   },
+  "icu:editFailed": {
+    "messageformat": "संपादन अयशस्वी, तपशीलासाठी क्लिक करा",
+    "description": "Shown on a message which was edited if the edit wasn't successfully sent to anyone"
+  },
   "sendPaused": {
     "message": "विराम दिलेले पाठवा",
     "description": "(deleted 03/29/2023) Shown on outgoing message if it cannot be sent immediately"
@@ -4098,6 +4109,10 @@
   "icu:Toast--failed-to-fetch-phone-number": {
     "messageformat": "फोन नंबर ओढून काढण्यात अयशस्वी. आपले कनेक्शन तपासा आणि पुन्हा प्रयत्न करा.",
     "description": "Shown if request to Signal servers to find phone number fails"
+  },
+  "icu:ToastManager__CannotEditMessage": {
+    "messageformat": "आपण हा संदेश पाठवल्यापासून फक्त 3 तासांच्या आत संपादन करणे लागू केले जाऊ शकते.",
+    "description": "Error message when you try to send an edit after message becomes too old"
   },
   "startConversation--username-not-found": {
     "message": "वापरकर्ता सापडला नाही. $atUsername$ Signal वापरकर्ता नाहीये; आपण संपूर्ण वापरकर्तानाव प्रविष्ट केले आहे याची खात्री करा.",
@@ -4928,6 +4943,10 @@
     "message": "ईमोजी शोधा",
     "description": "(deleted 03/29/2023) Shown as a placeholder inside the emoji picker search field."
   },
+  "icu:EmojiPicker--search-close": {
+    "messageformat": "इमोजी शोध बंद करा",
+    "description": "Button title to cancel the emoji search."
+  },
   "icu:EmojiPicker--search-placeholder": {
     "messageformat": "ईमोजी शोधा",
     "description": "Shown as a placeholder inside the emoji picker search field."
@@ -5019,6 +5038,10 @@
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "रद्द करा",
     "description": "Appears on the cancel button in confirmation dialogs."
+  },
+  "icu:Message__role-description": {
+    "messageformat": "संदेश",
+    "description": "aria-roledescription of a message"
   },
   "MessageBody--read-more": {
     "message": "आणखी वाचा",
@@ -8352,6 +8375,18 @@
     "messageformat": "संपर्काची नोंदणी स्थिती तपासत आहे",
     "description": "Displayed while checking if the contact is SMS-only"
   },
+  "icu:CompositionArea__edit-action--discard": {
+    "messageformat": "संदेश नाकारा",
+    "description": "aria-label for discard edit button"
+  },
+  "icu:CompositionArea__edit-action--send": {
+    "messageformat": "संपादित केलेले संदेश पाठवा",
+    "description": "aria-label for send edit button"
+  },
+  "icu:CompositionInput__editing-message": {
+    "messageformat": "संदेश संपादित करा",
+    "description": "Status text displayed above composition input when editing a message"
+  },
   "countMutedConversationsDescription": {
     "message": "मूक असलेली संभाषणे बॅज गणनेत समाविष्ट करा",
     "description": "(deleted 03/29/2023) Description for counting muted conversations in badge setting"
@@ -9397,7 +9432,7 @@
     "description": "(deleted 04/04/2023) Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-name-in-group--link": {
-    "messageformat": "{count, plural, one {1 गट सदस्याचे नाव सारखे आहे. <reviewRequestLink>विनंतीचे पुनरावलोकन करा</reviewRequestLink>} other {{count,number} ग्रुप सदस्यांची नावं सारखी आहेत. <reviewRequestLink>विनंतीचे पुनरावलोकन करा</reviewRequestLink>}}",
+    "messageformat": "{count, plural, one {{count,number} गट सदस्याचे नाव सारखे आहे. <reviewRequestLink>विनंतीचे पुनरावलोकन करा</reviewRequestLink>} other {{count,number} ग्रुप सदस्यांची नावं सारखी आहेत. <reviewRequestLink>विनंतीचे पुनरावलोकन करा</reviewRequestLink>}}",
     "description": "Shown in the timeline warning when you multiple group members have the same name"
   },
   "ContactSpoofing__same-name__link": {
@@ -12360,6 +12395,14 @@
     "messageformat": "संपादनाचा इतिहास",
     "description": "Modal title for the edit history messages modal"
   },
+  "icu:ResendMessageEdit__body": {
+    "messageformat": "हे संपादन पाठवले जाऊ शकत नाही. आपले कनेक्शन तपासा आणि पुन्हा प्रयत्न करा",
+    "description": "Modal body for the confirmation dialog shown to user when attempting to resend message edit"
+  },
+  "icu:ResendMessageEdit__button": {
+    "messageformat": "पुन्हा पाठवा",
+    "description": "Button text for the confirmation dialog shown to user when attempting to resend message edit"
+  },
   "WhatsNew__modal-title": {
     "message": "नवीन काय आहे",
     "description": "(deleted 03/29/2023) Title for the whats new modal"
@@ -12443,5 +12486,17 @@
   "icu:WhatsNew__v6.13--1": {
     "messageformat": "थीम प्राधान्य आता Signal सेटिंग्ज मधील चेकबॉक्सेसना देखील लागू आहेत. आमच्या टुडू सूचीच्या \"गडद थीममध्ये अंधाराचा अधिक पूर्णपणे स्वीकार करा\" चिन्हांकित करण्यास मदत केल्याबद्दल, GitHub वरील {rakleed} चे धन्यवाद.",
     "description": "Release notes for v6.13"
+  },
+  "icu:WhatsNew__v6.17--0": {
+    "messageformat": "उजवी-कडून-डावीकडे (RTL) भाषांसाठी सुधारित समर्थन.",
+    "description": "Release notes for v6.17"
+  },
+  "icu:WhatsNew__v6.17--1": {
+    "messageformat": "आपल्या सिस्टिम प्राधान्यांच्या आधारावर आता भाषा जुळवल्या आहेत. एकाधिक भाषा कॉन्फिग्युअर केलेल्या असतील तेव्हा याचा चांगल्या डिफॉल्ट वर्तणुकीत परिणामिक होईल.",
+    "description": "Release notes for v6.17"
+  },
+  "icu:WhatsNew__v6.17--2": {
+    "messageformat": "या रिलिझ मध्ये अतिरिक्त (a10y) असंख्य प्रवेशाच्या सुधारणा (a11y) आणि दोष निवारणे करण्यात आलेली आहेत, आणि आम्ही समुदायाचे त्याच्या अभिप्रायासाठी आणि सूचनांसाठी प्रेमपूर्वक (a12y) आभार मानू इच्छितो.",
+    "description": "Release notes for v6.17"
   }
 }
