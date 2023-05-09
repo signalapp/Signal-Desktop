@@ -618,7 +618,9 @@ function sendMultiMediaMessage(
               dispatch(incrementSendCounter(conversationId));
               dispatch(setComposerDisabledState(conversationId, false));
 
-              drop(new Sound({ soundType: SoundType.Whoosh }).play());
+              if (state.items.audioMessage) {
+                drop(new Sound({ soundType: SoundType.Whoosh }).play());
+              }
             },
           }
         );

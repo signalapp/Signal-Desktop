@@ -160,6 +160,7 @@ import {
 } from './composer';
 import { ReceiptType } from '../../types/Receipt';
 import { sortByMessageOrder } from '../../util/maybeForwardMessages';
+import { Sound, SoundType } from '../../util/Sound';
 
 // State
 
@@ -2769,16 +2770,30 @@ function messagesAdded({
   isJustSent: boolean;
   isNewMessage: boolean;
   messages: ReadonlyArray<MessageAttributesType>;
-}): MessagesAddedActionType {
-  return {
-    type: 'MESSAGES_ADDED',
-    payload: {
-      conversationId,
-      isActive,
-      isJustSent,
-      isNewMessage,
-      messages,
-    },
+}): ThunkAction<void, RootStateType, unknown, MessagesAddedActionType> {
+  return (dispatch, getState) => {
+    const state = getState();
+    if (
+      isNewMessage &&
+      state.items.audioMessage &&
+      conversationId === state.conversations.selectedConversationId &&
+      isActive &&
+      !isJustSent &&
+      messages.some(isIncoming)
+    ) {
+      drop(new Sound({ soundType: SoundType.Pop }).play());
+    }
+
+    dispatch({
+      type: 'MESSAGES_ADDED',
+      payload: {
+        conversationId,
+        isActive,
+        isJustSent,
+        isNewMessage,
+        messages,
+      },
+    });
   };
 }
 

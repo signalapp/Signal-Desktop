@@ -112,7 +112,7 @@ export class Sound {
     }
 
     if (soundStyle === SoundType.Pop) {
-      return 'sounds/pop.wav';
+      return 'sounds/pop.ogg';
     }
 
     if (soundStyle === SoundType.TriTone) {
@@ -132,7 +132,7 @@ export class Sound {
     }
 
     if (soundStyle === SoundType.Whoosh) {
-      return 'sounds/whoosh.wav';
+      return 'sounds/whoosh.ogg';
     }
 
     throw missingCaseError(soundStyle);
