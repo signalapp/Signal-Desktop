@@ -1451,6 +1451,7 @@ export function overrideWithSourceMessage(
     authorName,
     messageId: msgProps.id || quote.messageId,
     referencedMessageNotFound: false,
+    convoId: convo.id,
   };
 
   return quoteProps;

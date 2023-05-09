@@ -11,8 +11,6 @@ import {
 } from '../../../../state/selectors/conversations';
 import { Quote } from './quote/Quote';
 import { ToastUtils } from '../../../../session/utils';
-import { Data } from '../../../../data/data';
-import { MessageModel } from '../../../../models/message';
 
 // tslint:disable: use-simple-attributes
 
@@ -43,8 +41,9 @@ export const MessageQuote = (props: Props) => {
     sender: quoteAuthor,
     authorProfileName,
     authorName,
-    messageId: quotedMessageSentAt,
+    messageId: quotedMessageId,
     referencedMessageNotFound,
+    convoId,
   } = quote;
 
   const quoteText = text || null;
@@ -70,32 +69,26 @@ export const MessageQuote = (props: Props) => {
 
       // For simplicity's sake, we show the 'not found' toast no matter what if we were
       // not able to find the referenced message when the quote was received.
-      if (quoteNotFound || !quotedMessageSentAt || !quoteAuthor) {
-        ToastUtils.pushOriginalNotFound();
-        return;
-      }
-
-      // TODO Should no longer have to do this lookup?
-      // Can just use referencedMessageNotFound?
-      const collection = await Data.getMessagesBySentAt(_.toNumber(quotedMessageSentAt));
-      const foundInDb = collection.find((item: MessageModel) => {
-        const messageAuthor = item.get('source');
-
-        return Boolean(messageAuthor && quoteAuthor === messageAuthor);
-      });
-
-      if (!foundInDb) {
+      if (quoteNotFound || !quotedMessageId || !quoteAuthor || !convoId) {
         ToastUtils.pushOriginalNotFound();
         return;
       }
 
       void openConversationToSpecificMessage({
-        conversationKey: foundInDb.get('conversationId'),
-        messageIdToNavigateTo: foundInDb.get('id'),
+        conversationKey: convoId,
+        messageIdToNavigateTo: quotedMessageId,
         shouldHighlightMessage: true,
       });
     },
-    [quote, multiSelectMode, props.messageId]
+    [
+      convoId,
+      isMessageDetailViewMode,
+      multiSelectMode,
+      quote,
+      quoteNotFound,
+      quotedMessageId,
+      quoteAuthor,
+    ]
   );
 
   return (

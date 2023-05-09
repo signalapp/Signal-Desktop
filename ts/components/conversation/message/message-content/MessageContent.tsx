@@ -16,7 +16,7 @@ import { MessageLinkPreview } from './MessageLinkPreview';
 import { MessageQuote } from './MessageQuote';
 import { MessageText } from './MessageText';
 import { ScrollToLoadedMessageContext } from '../../SessionMessagesListContainer';
-import styled, { css } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 
 export type MessageContentSelectorProps = Pick<
   MessageRenderingProps,
@@ -44,19 +44,7 @@ function onClickOnMessageInnerContainer(event: React.MouseEvent<HTMLDivElement>)
 
 const StyledMessageContent = styled.div``;
 
-const StyledMessageOpaqueContent = styled.div<{
-  messageDirection: MessageModelType;
-  highlight: boolean;
-}>`
-  background: ${props =>
-    props.messageDirection === 'incoming'
-      ? 'var(--message-bubbles-received-background-color)'
-      : 'var(--message-bubbles-sent-background-color)'};
-  align-self: ${props => (props.messageDirection === 'incoming' ? 'flex-start' : 'flex-end')};
-  padding: var(--padding-message-content);
-  border-radius: var(--border-radius-message-box);
-
-  @keyframes highlight {
+const opacityAnimation = keyframes`
     0% {
       opacity: 1;
     }
@@ -72,19 +60,29 @@ const StyledMessageOpaqueContent = styled.div<{
     100% {
       opacity: 1;
     }
-  }
+`;
 
-  ${props => {
-    return (
-      props.highlight &&
-      css`
-        animation-name: highlight;
-        animation-timing-function: linear;
-        animation-duration: 1s;
-        border-radius: 'var(--border-radius-message-box)';
-      `
-    );
-  }}
+const StyledMessageHighlighter = styled.div<{
+  highlight: boolean;
+}>`
+  ${props =>
+    props.highlight &&
+    css`
+      animation: ${opacityAnimation} 1s linear;
+    `}
+`;
+
+const StyledMessageOpaqueContent = styled(StyledMessageHighlighter)<{
+  messageDirection: MessageModelType;
+  highlight: boolean;
+}>`
+  background: ${props =>
+    props.messageDirection === 'incoming'
+      ? 'var(--message-bubbles-received-background-color)'
+      : 'var(--message-bubbles-sent-background-color)'};
+  align-self: ${props => (props.messageDirection === 'incoming' ? 'flex-start' : 'flex-end')};
+  padding: var(--padding-message-content);
+  border-radius: var(--border-radius-message-box);
 `;
 
 export const IsMessageVisibleContext = createContext(false);
@@ -195,11 +193,13 @@ export const MessageContent = (props: Props) => {
             </StyledMessageOpaqueContent>
           )}
           {!isDeleted && (
-            <MessageAttachment
-              messageId={props.messageId}
-              imageBroken={imageBroken}
-              handleImageError={handleImageError}
-            />
+            <StyledMessageHighlighter highlight={highlight}>
+              <MessageAttachment
+                messageId={props.messageId}
+                imageBroken={imageBroken}
+                handleImageError={handleImageError}
+              />
+            </StyledMessageHighlighter>
           )}
         </IsMessageVisibleContext.Provider>
       </InView>

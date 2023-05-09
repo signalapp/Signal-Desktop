@@ -991,7 +991,6 @@ export const getMessageQuoteProps = createSelector(
       quote = overrideWithSourceMessage(quote, sourceMessage);
     }
 
-    window.log.debug(`WIP: quote`, quote);
     return { direction, quote };
   }
 );

@@ -173,6 +173,7 @@ export type PropsForQuote = {
   authorName?: string;
   messageId?: string;
   referencedMessageNotFound?: boolean;
+  convoId?: string;
 };
 
 export type PropsForMessageWithoutConvoProps = {
@@ -381,10 +382,6 @@ async function getMessages({
   for (let i = 0; i < quotes.length; i++) {
     const id = quotes[i].propsForMessage?.quote?.messageId;
     const sender = quotes[i].propsForMessage.quote?.sender;
-
-    // TODO use this is the renderering process
-    // const contact = message.findAndFormatContact(author);
-    // const authorName = contact?.profileName || contact?.name || '';
 
     if (id && sender) {
       const timestamp = Number(id);
