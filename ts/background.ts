@@ -1354,13 +1354,15 @@ export async function startApp(): Promise<void> {
       }
 
       // Super tab :)
-      if (commandOrCtrl && key === 'F6') {
+      if (
+        (commandOrCtrl && key === 'F6') ||
+        (commandOrCtrl && !shiftKey && (key === 't' || key === 'T'))
+      ) {
         window.enterKeyboardMode();
         const focusedElement = document.activeElement;
         const targets: Array<HTMLElement> = Array.from(
           document.querySelectorAll('[data-supertab="true"]')
         );
-
         const focusedIndex = targets.findIndex(target => {
           if (!target || !focusedElement) {
             return false;
@@ -1394,65 +1396,30 @@ export async function startApp(): Promise<void> {
           }
         }
 
-        targets[index]
-          .querySelectorAll<HTMLElement>(focusableSelectors.join(','))[0]
-          ?.focus();
-      }
+        const node = targets[index];
+        const firstFocusableElement = node.querySelectorAll<HTMLElement>(
+          focusableSelectors.join(',')
+        )[0];
 
-      // Navigate by section
-      if (commandOrCtrl && !shiftKey && (key === 't' || key === 'T')) {
-        window.enterKeyboardMode();
-        const focusedElement = document.activeElement;
-
-        const targets: Array<HTMLElement | null> = [
-          document.querySelector('.module-main-header .module-avatar-button'),
-          document.querySelector(
-            '.module-left-pane__header__contents__back-button'
-          ),
-          document.querySelector('.LeftPaneSearchInput__input'),
-          document.querySelector('.module-main-header__compose-icon'),
-          document.querySelector(
-            '.module-left-pane__compose-search-form__input'
-          ),
-          document.querySelector(
-            '.module-conversation-list__item--contact-or-conversation'
-          ),
-          document.querySelector('.module-search-results'),
-          document.querySelector('.CompositionArea .ql-editor'),
-        ];
-        const focusedIndex = targets.findIndex(target => {
-          if (!target || !focusedElement) {
-            return false;
-          }
-
-          if (target === focusedElement) {
-            return true;
-          }
-
-          if (target.contains(focusedElement)) {
-            return true;
-          }
-
-          return false;
-        });
-        const lastIndex = targets.length - 1;
-
-        let index;
-        if (focusedIndex < 0 || focusedIndex >= lastIndex) {
-          index = 0;
+        if (firstFocusableElement) {
+          firstFocusableElement.focus();
         } else {
-          index = focusedIndex + 1;
-        }
-
-        while (!targets[index]) {
-          index += 1;
-          if (index > lastIndex) {
-            index = 0;
+          const nodeInfo = Array.from(node.attributes)
+            .map(attr => `${attr.name}=${attr.value}`)
+            .join(',');
+          log.warn(
+            `supertab: could not find focus for DOM node ${node.nodeName}<${nodeInfo}>`
+          );
+          window.enterMouseMode();
+          const { activeElement } = document;
+          if (
+            activeElement &&
+            'blur' in activeElement &&
+            typeof activeElement.blur === 'function'
+          ) {
+            activeElement.blur();
           }
         }
-
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        targets[index]!.focus();
       }
 
       // Cancel out of keyboard shortcut screen - has first precedence
@@ -1609,6 +1576,23 @@ export async function startApp(): Promise<void> {
         event.preventDefault();
         event.stopPropagation();
         return;
+      }
+
+      if (
+        conversation &&
+        commandOrCtrl &&
+        !shiftKey &&
+        (key === 'j' || key === 'J')
+      ) {
+        window.enterKeyboardMode();
+        const item: HTMLElement | null =
+          document.querySelector(
+            '.module-last-seen-indicator ~ div .module-message'
+          ) ||
+          document.querySelector(
+            '.module-timeline__last-message .module-message'
+          );
+        item?.focus();
       }
 
       // Open all media

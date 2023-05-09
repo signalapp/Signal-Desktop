@@ -118,6 +118,7 @@ export function MainHeader({
     <div className="module-main-header">
       <div
         className="module-main-header__avatar--container"
+        data-supertab
         ref={setTargetElement}
       >
         <Avatar
@@ -190,7 +191,7 @@ export function MainHeader({
           </div>,
           portalElement
         )}
-      <div className="module-main-header__icon-container">
+      <div className="module-main-header__icon-container" data-supertab>
         {areStoriesEnabled && (
           <button
             aria-label={i18n('icu:stories')}

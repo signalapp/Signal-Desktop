@@ -23,6 +23,7 @@ type KeyType =
   | 'enter'
   | 'tab'
   | 'ctrl'
+  | 'F6'
   | '↑'
   | '↓'
   | ','
@@ -60,7 +61,10 @@ function getNavigationShortcuts(i18n: LocalizerType): Array<ShortcutType> {
     {
       id: 'Keyboard--navigate-by-section',
       description: i18n('icu:Keyboard--navigate-by-section'),
-      keys: [['commandOrCtrl', 'T']],
+      keys: [
+        ['commandOrCtrl', 'T'],
+        ['commandOrCtrl', 'F6'],
+      ],
     },
     {
       id: 'Keyboard--previous-conversation',
@@ -92,6 +96,11 @@ function getNavigationShortcuts(i18n: LocalizerType): Array<ShortcutType> {
       id: 'Keyboard--conversation-by-index',
       description: i18n('icu:Keyboard--conversation-by-index'),
       keys: [['commandOrCtrl', '1 to 9']],
+    },
+    {
+      id: 'Keyboard--most-recent-message',
+      description: i18n('icu:Keyboard--focus-most-recent-message'),
+      keys: [['commandOrCtrl', 'J']],
     },
     {
       id: 'Keyboard--preferences',

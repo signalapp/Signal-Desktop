@@ -885,6 +885,15 @@ export class Timeline extends React.Component<
       messageNodes.push(
         <div
           key={messageId}
+          className={
+            itemIndex === items.length - 1
+              ? 'module-timeline__last-message'
+              : undefined
+          }
+          data-supertab={
+            oldestUnseenIndex === itemIndex ||
+            (!oldestUnseenIndex && itemIndex === items.length - 1)
+          }
           data-item-index={itemIndex}
           data-message-id={messageId}
           role="listitem"

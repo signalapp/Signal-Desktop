@@ -781,6 +781,7 @@ export function CompositionInput(props: Props): React.ReactElement {
         {({ ref }) => (
           <div
             className={getClassName('__input')}
+            data-supertab
             ref={ref}
             data-testid="CompositionInput"
             data-enabled={disabled ? 'false' : 'true'}

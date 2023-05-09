@@ -659,6 +659,7 @@ export function LeftPane({
               <div
                 aria-live="polite"
                 className="module-left-pane__list"
+                data-supertab
                 key={listKey}
                 role="presentation"
                 tabIndex={-1}

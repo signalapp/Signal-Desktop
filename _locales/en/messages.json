@@ -5182,6 +5182,10 @@
     "messageformat": "(draft)",
     "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
   },
+  "icu:Keyboard--focus-most-recent-message": {
+    "messageformat": "Focus oldest unread or last message",
+    "description": "Shown in shortcuts guide"
+  },
   "Keyboard--navigate-by-section": {
     "message": "Navigate by section",
     "description": "(deleted 03/29/2023) Shown in the shortcuts guide"

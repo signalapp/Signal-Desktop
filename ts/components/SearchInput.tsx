@@ -49,7 +49,7 @@ export const SearchInput = forwardRef<HTMLInputElement, PropTypes>(
   ) {
     const getClassName = getClassNamesFor(BASE_CLASS_NAME, moduleClassName);
     return (
-      <div className={getClassName('__container')}>
+      <div className={getClassName('__container')} data-supertab>
         {hasSearchIcon && <i className={getClassName('__icon')} />}
         {children}
         <input
