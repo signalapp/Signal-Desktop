@@ -24,7 +24,7 @@ const StyledQuoteIconContainer = styled.div`
   position: relative;
 `;
 
-export const StyledQuoteIcon = styled.div`
+const StyledQuoteIcon = styled.div`
   position: absolute;
   top: 0;
   right: 0;
@@ -37,7 +37,7 @@ export const StyledQuoteIcon = styled.div`
   justify-content: center;
 `;
 
-export const StyledQuoteIconBackground = styled.div`
+const StyledQuoteIconBackground = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -58,16 +58,13 @@ export const StyledQuoteIconBackground = styled.div`
   }
 `;
 
-export type QuoteIconTypes = Extract<
-  SessionIconType,
-  'file' | 'image' | 'play' | 'movie' | 'microphone'
->;
+type QuoteIconTypes = Extract<SessionIconType, 'file' | 'image' | 'play' | 'movie' | 'microphone'>;
 
 type QuoteIconProps = {
   icon: QuoteIconTypes;
 };
 
-export const QuoteIcon = (props: QuoteIconProps) => {
+const QuoteIcon = (props: QuoteIconProps) => {
   const { icon } = props;
   const iconProps = icons[icon];
 
@@ -113,8 +110,8 @@ export const QuoteIconContainer = (
       <QuoteImage
         url={objectUrl}
         contentType={MIME.IMAGE_JPEG}
-        icon="play"
         handleImageErrorBound={noop}
+        showPlayButton={true}
       />
     ) : (
       <QuoteIcon icon="movie" />

@@ -2,7 +2,7 @@ import React from 'react';
 import { useDisableDrag } from '../../../../../hooks/useDisableDrag';
 import { useEncryptedFileFetch } from '../../../../../hooks/useEncryptedFileFetch';
 import styled from 'styled-components';
-import { QuoteIcon, QuoteIconTypes } from './QuoteIconContainer';
+import { icons } from '../../../../icon';
 
 const StyledQuoteImage = styled.div`
   flex: initial;
@@ -19,19 +19,53 @@ const StyledQuoteImage = styled.div`
   }
 `;
 
+const StyledPlayButton = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 32px;
+    width: 32px;
+    border-radius: 50%;
+    background-color: var(--chat-buttons-background-color);
+
+    padding-left: 3px;
+
+    &:hover {
+      background-color: var(--chat-buttons-background-hover-color);
+    }
+  }
+
+  svg {
+    width: 14px;
+    height: 14px;
+    fill: var(--chat-buttons-icon-color);
+  }
+`;
+
 export const QuoteImage = (props: {
   handleImageErrorBound: () => void;
   url: string;
   contentType: string;
-  icon?: QuoteIconTypes;
+  showPlayButton?: boolean;
 }) => {
-  const { url, icon, contentType, handleImageErrorBound } = props;
+  const { url, showPlayButton, contentType, handleImageErrorBound } = props;
   const disableDrag = useDisableDrag();
 
   const { loading, urlToLoad } = useEncryptedFileFetch(url, contentType, false);
   const srcData = !loading ? urlToLoad : '';
-
-  const iconElement = icon ? <QuoteIcon icon={icon} /> : null;
 
   return (
     <StyledQuoteImage>
@@ -41,7 +75,15 @@ export const QuoteImage = (props: {
         onDragStart={disableDrag}
         onError={handleImageErrorBound}
       />
-      {iconElement}
+      {showPlayButton && (
+        <StyledPlayButton>
+          <div>
+            <svg viewBox={icons['play'].viewBox}>
+              <path d={icons['play'].path} />
+            </svg>
+          </div>
+        </StyledPlayButton>
+      )}
     </StyledQuoteImage>
   );
 };
