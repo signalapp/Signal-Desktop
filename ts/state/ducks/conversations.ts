@@ -404,7 +404,7 @@ async function getMessages({
     }
   }
 
-  window.log.debug(`WIP: duck quoteProps`, quotesProps);
+  // window.log.debug(`WIP: duck quoteProps`, quotesProps);
 
   return { messagesProps, quotesProps };
 }

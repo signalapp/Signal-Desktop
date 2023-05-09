@@ -64,7 +64,7 @@ type QuoteIconProps = {
   icon: QuoteIconTypes;
 };
 
-const QuoteIcon = (props: QuoteIconProps) => {
+export const QuoteIcon = (props: QuoteIconProps) => {
   const { icon } = props;
   const iconProps = icons[icon];
 
@@ -104,30 +104,29 @@ export const QuoteIconContainer = (
   }
 
   const objectUrl = getObjectUrl(thumbnail);
+  if (objectUrl) {
+    if (GoogleChrome.isVideoTypeSupported(contentType)) {
+      return (
+        <QuoteImage
+          url={objectUrl}
+          contentType={MIME.IMAGE_JPEG}
+          showPlayButton={true}
+          imageBroken={imageBroken}
+          handleImageErrorBound={noop}
+        />
+      );
+    }
 
-  if (GoogleChrome.isVideoTypeSupported(contentType)) {
-    return objectUrl && !imageBroken ? (
-      <QuoteImage
-        url={objectUrl}
-        contentType={MIME.IMAGE_JPEG}
-        handleImageErrorBound={noop}
-        showPlayButton={true}
-      />
-    ) : (
-      <QuoteIcon icon="movie" />
-    );
-  }
-
-  if (GoogleChrome.isImageTypeSupported(contentType)) {
-    return objectUrl && !imageBroken ? (
-      <QuoteImage
-        url={objectUrl}
-        contentType={contentType}
-        handleImageErrorBound={handleImageErrorBound}
-      />
-    ) : (
-      <QuoteIcon icon="image" />
-    );
+    if (GoogleChrome.isImageTypeSupported(contentType)) {
+      return (
+        <QuoteImage
+          url={objectUrl}
+          contentType={contentType}
+          imageBroken={imageBroken}
+          handleImageErrorBound={handleImageErrorBound}
+        />
+      );
+    }
   }
 
   if (MIME.isAudio(contentType)) {

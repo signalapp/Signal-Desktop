@@ -3,6 +3,8 @@ import { useDisableDrag } from '../../../../../hooks/useDisableDrag';
 import { useEncryptedFileFetch } from '../../../../../hooks/useEncryptedFileFetch';
 import styled from 'styled-components';
 import { icons } from '../../../../icon';
+import { isEmpty } from 'lodash';
+import { QuoteIcon } from './QuoteIconContainer';
 
 const StyledQuoteImage = styled.div`
   flex: initial;
@@ -56,18 +58,20 @@ const StyledPlayButton = styled.div`
 `;
 
 export const QuoteImage = (props: {
-  handleImageErrorBound: () => void;
   url: string;
   contentType: string;
   showPlayButton?: boolean;
+  imageBroken: boolean;
+  handleImageErrorBound: () => void;
 }) => {
-  const { url, showPlayButton, contentType, handleImageErrorBound } = props;
+  const { url, contentType, showPlayButton, imageBroken, handleImageErrorBound } = props;
+
   const disableDrag = useDisableDrag();
 
   const { loading, urlToLoad } = useEncryptedFileFetch(url, contentType, false);
   const srcData = !loading ? urlToLoad : '';
 
-  return (
+  return !isEmpty(srcData) && !imageBroken ? (
     <StyledQuoteImage>
       <img
         src={srcData}
@@ -85,5 +89,7 @@ export const QuoteImage = (props: {
         </StyledPlayButton>
       )}
     </StyledQuoteImage>
+  ) : (
+    <QuoteIcon icon={showPlayButton ? 'movie' : 'image'} />
   );
 };
