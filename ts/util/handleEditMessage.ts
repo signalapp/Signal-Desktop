@@ -221,7 +221,9 @@ export async function handleEditMessage(
     mainMessageModel.set(updatedFields);
   }
 
-  const conversation = window.ConversationController.get(editAttributes.fromId);
+  const conversation = window.ConversationController.get(
+    editAttributes.conversationId
+  );
 
   // Send delivery receipts, but only for non-story sealed sender messages
   // and not for messages from unaccepted conversations.
