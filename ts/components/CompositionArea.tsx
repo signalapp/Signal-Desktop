@@ -105,6 +105,7 @@ export type OwnProps = Readonly<{
   isSignalConversation?: boolean;
   recordingState: RecordingState;
   messageCompositionId: string;
+  shouldHidePopovers?: boolean;
   isSMSOnly?: boolean;
   left?: boolean;
   linkPreviewLoading: boolean;
@@ -225,7 +226,6 @@ export function CompositionArea({
   isDisabled,
   isSignalConversation,
   messageCompositionId,
-  showToast,
   pushPanelForConversation,
   platform,
   processAttachments,
@@ -234,6 +234,8 @@ export function CompositionArea({
   sendMultiMediaMessage,
   setComposerFocus,
   setQuoteByMessageId,
+  shouldHidePopovers,
+  showToast,
   theme,
 
   // AttachmentList
@@ -931,6 +933,7 @@ export function CompositionArea({
             onTextTooLong={onTextTooLong}
             platform={platform}
             sendCounter={sendCounter}
+            shouldHidePopovers={shouldHidePopovers}
             skinTone={skinTone}
             sortedGroupMembers={sortedGroupMembers}
             theme={theme}

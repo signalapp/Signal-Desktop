@@ -8,7 +8,6 @@ import classNames from 'classnames';
 import { Popper } from 'react-popper';
 import { createPortal } from 'react-dom';
 import type { VirtualElement } from '@popperjs/core';
-import { pick } from 'lodash';
 
 import * as log from '../../logging/log';
 import * as Errors from '../../types/errors';
@@ -16,7 +15,9 @@ import type { LocalizerType } from '../../types/Util';
 import { handleOutsideClick } from '../../util/handleOutsideClick';
 import { SECOND } from '../../util/durations/constants';
 
+const FADE_OUT_MS = 200;
 const BUTTON_HOVER_TIMEOUT = 2 * SECOND;
+const MENU_TEXT_BUFFER = 12; // pixels
 
 // Note: Keyboard shortcuts are defined in the constructor below, and when using
 //   <FormattingButton /> below. They're also referenced in ShortcutGuide.tsx.
@@ -29,6 +30,7 @@ const STRIKETHROUGH_CHAR = 'X';
 type FormattingPickerOptions = {
   i18n: LocalizerType;
   isMenuEnabled: boolean;
+  isMouseDown?: boolean;
   isEnabled: boolean;
   isSpoilersEnabled: boolean;
   platform: string;
@@ -43,40 +45,6 @@ export enum QuillFormattingStyle {
   spoiler = 'spoiler',
 }
 
-function findMaximumRect(rects: DOMRectList):
-  | {
-      x: number;
-      y: number;
-      height: number;
-      width: number;
-    }
-  | undefined {
-  const first = rects[0];
-  if (!first) {
-    return undefined;
-  }
-
-  let result = pick(first, ['top', 'left', 'right', 'bottom']);
-
-  for (let i = 1, max = rects.length; i < max; i += 1) {
-    const rect = rects[i];
-
-    result = {
-      top: Math.min(rect.top, result.top),
-      left: Math.min(rect.left, result.left),
-      bottom: Math.max(rect.bottom, result.bottom),
-      right: Math.max(rect.right, result.right),
-    };
-  }
-
-  return {
-    x: result.left,
-    y: result.top,
-    height: result.bottom - result.top,
-    width: result.right - result.left,
-  };
-}
-
 function getMetaKey(platform: string, i18n: LocalizerType) {
   const isMacOS = platform === 'darwin';
 
@@ -87,15 +55,26 @@ function getMetaKey(platform: string, i18n: LocalizerType) {
 }
 
 export class FormattingMenu {
+  // Cache the results of our virtual elements's last rect calculation
+  lastRect: DOMRect | undefined;
+
+  // Keep a references to our originally passed (or updated) options
   options: FormattingPickerOptions;
 
+  // Used to dismiss our menu if we click outside it
   outsideClickDestructor?: () => void;
 
+  // Maintaining a direct reference to quill
   quill: Quill;
 
+  // The element we hand to Popper to position the menu
   referenceElement: VirtualElement | undefined;
 
+  // The host for our portal
   root: HTMLDivElement;
+
+  // Timer to track an animated fade-out, then DOM removal
+  fadingOutTimeout?: NodeJS.Timeout;
 
   constructor(quill: Quill, options: FormattingPickerOptions) {
     this.quill = quill;
@@ -155,75 +134,105 @@ export class FormattingMenu {
     this.onEditorChange();
   }
 
+  scheduleRemoval(): void {
+    if (this.fadingOutTimeout) {
+      return;
+    }
+
+    this.fadingOutTimeout = setTimeout(() => {
+      this.referenceElement = undefined;
+      this.lastRect = undefined;
+      this.fadingOutTimeout = undefined;
+      this.render();
+    }, FADE_OUT_MS);
+
+    this.render();
+  }
+
+  cancelRemoval(): void {
+    if (this.fadingOutTimeout) {
+      clearTimeout(this.fadingOutTimeout);
+      this.fadingOutTimeout = undefined;
+    }
+  }
+
   onEditorChange(): void {
     if (!this.options.isMenuEnabled) {
-      this.referenceElement = undefined;
-      this.render();
-
+      this.scheduleRemoval();
       return;
     }
 
     const isFocused = this.quill.hasFocus();
     if (!isFocused) {
-      this.referenceElement = undefined;
-      this.render();
-
+      this.scheduleRemoval();
       return;
     }
 
     const quillSelection = this.quill.getSelection();
 
     if (!quillSelection || quillSelection.length === 0) {
-      this.referenceElement = undefined;
-    } else {
-      // a virtual reference to the text we are trying to format
-      this.referenceElement = {
-        getBoundingClientRect() {
-          const selection = window.getSelection();
+      this.scheduleRemoval();
+      return;
+    }
 
-          // there's a selection and at least one range
-          if (selection != null && selection.rangeCount !== 0) {
-            // grab the first range, the one the user is actually on right now
-            const range = selection.getRangeAt(0);
+    // a virtual reference to the text we are trying to format
+    this.cancelRemoval();
+    this.referenceElement = {
+      getBoundingClientRect: () => {
+        const selection = window.getSelection();
 
-            const { activeElement } = document;
-            const editorElement = activeElement?.closest(
-              '.module-composition-input__input'
-            );
-            const editorRect = editorElement?.getClientRects()[0];
-            if (!editorRect) {
-              log.warn('No editor rect when showing formatting menu');
-              return new DOMRect();
+        // there's a selection and at least one range
+        if (selection != null && selection.rangeCount !== 0) {
+          // grab the first range, the one the user is actually on right now
+          const range = selection.getRangeAt(0);
+
+          const { activeElement } = document;
+          const editorElement = activeElement?.closest(
+            '.module-composition-input__input'
+          );
+          const editorRect = editorElement?.getClientRects()[0];
+          if (!editorRect) {
+            // Note: this will happen when a user dismisses a panel; and if we don't
+            //   cache here, the formatting menu will show in the very top-left
+            if (this.lastRect) {
+              return this.lastRect;
             }
-
-            const rect = findMaximumRect(range.getClientRects());
-            if (!rect) {
-              log.warn('No maximum rect when showing formatting menu');
-              return new DOMRect();
-            }
-
-            // If we've scrolled down and the top of the composer text is invisible, above
-            //   where the editor ends, we fix the popover so it stays connected to the
-            //   visible editor. Important for the 'Cmd-A' scenario when scrolled down.
-            const updatedY = Math.max(
-              (editorRect.y || 0) - 10,
-              (rect.y || 0) - 10
-            );
-            const updatedHeight = rect.height + (rect.y - updatedY);
-
-            return DOMRect.fromRect({
-              x: rect.x,
-              y: updatedY,
-              height: updatedHeight,
-              width: rect.width,
-            });
+            log.warn('No editor rect when showing formatting menu');
+            return new DOMRect();
           }
 
-          log.warn('No selection range when showing formatting menu');
-          return new DOMRect();
-        },
-      };
-    }
+          const rect = range.getBoundingClientRect();
+          if (!rect) {
+            if (this.lastRect) {
+              return this.lastRect;
+            }
+            log.warn('No maximum rect when showing formatting menu');
+            return new DOMRect();
+          }
+
+          // If we've scrolled down and the top of the composer text is invisible, above
+          //   where the editor ends, we fix the popover so it stays connected to the
+          //   visible editor. Important for the 'Cmd-A' scenario when scrolled down.
+          const updatedY = Math.max(
+            (editorRect.y || 0) - MENU_TEXT_BUFFER,
+            (rect.y || 0) - MENU_TEXT_BUFFER
+          );
+          const updatedHeight = rect.height + (rect.y - updatedY);
+
+          this.lastRect = DOMRect.fromRect({
+            x: rect.x,
+            y: updatedY,
+            height: updatedHeight,
+            width: rect.width,
+          });
+
+          return this.lastRect;
+        }
+
+        log.warn('No selection range when showing formatting menu');
+        return new DOMRect();
+      },
+    };
 
     this.render();
   }
@@ -279,22 +288,15 @@ export class FormattingMenu {
     const isStyleEnabledInSelection = this.isStyleEnabledInSelection.bind(this);
     const toggleForStyle = this.toggleForStyle.bind(this);
     const element = createPortal(
-      <Popper
-        placement="top"
-        referenceElement={this.referenceElement}
-        modifiers={[
-          {
-            name: 'fadeIn',
-            enabled: true,
-            phase: 'write',
-            fn({ state }) {
-              // eslint-disable-next-line no-param-reassign
-              state.elements.popper.style.opacity = '1';
-            },
-          },
-        ]}
-      >
+      <Popper placement="top" referenceElement={this.referenceElement}>
         {({ ref, style }) => {
+          const opacity =
+            style.transform &&
+            !this.options.isMouseDown &&
+            !this.fadingOutTimeout
+              ? 1
+              : 0;
+
           const [hasLongHovered, setHasLongHovered] =
             React.useState<boolean>(false);
           const onLongHover = React.useCallback(
@@ -308,14 +310,14 @@ export class FormattingMenu {
             <div
               ref={ref}
               className="module-composition-input__format-menu"
-              style={style}
+              style={{ ...style, opacity }}
               role="menu"
               tabIndex={0}
               onMouseLeave={() => setHasLongHovered(false)}
             >
               <FormattingButton
                 hasLongHovered={hasLongHovered}
-                isStyleEnabledInSelection={isStyleEnabledInSelection}
+                isActive={isStyleEnabledInSelection(QuillFormattingStyle.bold)}
                 label={i18n('icu:Keyboard--composer--bold')}
                 onLongHover={onLongHover}
                 popupGuideShortcut={`${metaKey} + ${BOLD_CHAR}`}
@@ -325,7 +327,9 @@ export class FormattingMenu {
               />
               <FormattingButton
                 hasLongHovered={hasLongHovered}
-                isStyleEnabledInSelection={isStyleEnabledInSelection}
+                isActive={isStyleEnabledInSelection(
+                  QuillFormattingStyle.italic
+                )}
                 label={i18n('icu:Keyboard--composer--italic')}
                 onLongHover={onLongHover}
                 popupGuideShortcut={`${metaKey} + ${ITALIC_CHAR}`}
@@ -335,7 +339,9 @@ export class FormattingMenu {
               />
               <FormattingButton
                 hasLongHovered={hasLongHovered}
-                isStyleEnabledInSelection={isStyleEnabledInSelection}
+                isActive={isStyleEnabledInSelection(
+                  QuillFormattingStyle.strike
+                )}
                 label={i18n('icu:Keyboard--composer--strikethrough')}
                 onLongHover={onLongHover}
                 popupGuideShortcut={`${metaKey} + ${shiftKey} + ${STRIKETHROUGH_CHAR}`}
@@ -345,7 +351,9 @@ export class FormattingMenu {
               />
               <FormattingButton
                 hasLongHovered={hasLongHovered}
-                isStyleEnabledInSelection={isStyleEnabledInSelection}
+                isActive={isStyleEnabledInSelection(
+                  QuillFormattingStyle.monospace
+                )}
                 label={i18n('icu:Keyboard--composer--monospace')}
                 onLongHover={onLongHover}
                 popupGuideShortcut={`${metaKey} + ${MONOSPACE_CHAR}`}
@@ -356,7 +364,9 @@ export class FormattingMenu {
               {isSpoilersEnabled ? (
                 <FormattingButton
                   hasLongHovered={hasLongHovered}
-                  isStyleEnabledInSelection={isStyleEnabledInSelection}
+                  isActive={isStyleEnabledInSelection(
+                    QuillFormattingStyle.spoiler
+                  )}
                   onLongHover={onLongHover}
                   popupGuideShortcut={`${metaKey} + ${shiftKey} + ${SPOILER_CHAR}`}
                   popupGuideText={i18n('icu:FormatMenu--guide--spoiler')}
@@ -390,7 +400,7 @@ export class FormattingMenu {
 
 function FormattingButton({
   hasLongHovered,
-  isStyleEnabledInSelection,
+  isActive,
   label,
   onLongHover,
   popupGuideText,
@@ -399,9 +409,7 @@ function FormattingButton({
   toggleForStyle,
 }: {
   hasLongHovered: boolean;
-  isStyleEnabledInSelection: (
-    style: QuillFormattingStyle
-  ) => boolean | undefined;
+  isActive: boolean | undefined;
   label: string;
   onLongHover: (value: boolean) => unknown;
   popupGuideText: string;
@@ -412,6 +420,15 @@ function FormattingButton({
   const buttonRef = React.useRef<HTMLButtonElement | null>(null);
   const timerRef = React.useRef<NodeJS.Timeout | undefined>();
   const [isHovered, setIsHovered] = React.useState<boolean>(false);
+
+  React.useEffect(() => {
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+        timerRef.current = undefined;
+      }
+    };
+  }, []);
 
   return (
     <>
@@ -434,7 +451,12 @@ function FormattingButton({
       <button
         ref={buttonRef}
         type="button"
-        className="module-composition-input__format-menu__item"
+        className={classNames(
+          'module-composition-input__format-menu__item',
+          isActive
+            ? 'module-composition-input__format-menu__item--active'
+            : null
+        )}
         aria-label={label}
         onClick={event => {
           event.preventDefault();
@@ -467,7 +489,7 @@ function FormattingButton({
           className={classNames(
             'module-composition-input__format-menu__item__icon',
             `module-composition-input__format-menu__item__icon--${style}`,
-            isStyleEnabledInSelection(style)
+            isActive
               ? 'module-composition-input__format-menu__item__icon--active'
               : null
           )}

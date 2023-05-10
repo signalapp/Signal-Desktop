@@ -120,6 +120,12 @@ export const getConversationsByGroupId = createSelector(
     return state.conversationsByGroupId;
   }
 );
+export const getTargetedConversationsPanelsCount = createSelector(
+  getConversations,
+  (state: ConversationsStateType): number => {
+    return state.targetedConversationPanels.length;
+  }
+);
 export const getConversationsByUsername = createSelector(
   getConversations,
   (state: ConversationsStateType): ConversationLookupType => {

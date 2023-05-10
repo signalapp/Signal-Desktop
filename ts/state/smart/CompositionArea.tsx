@@ -26,6 +26,7 @@ import {
   getConversationSelector,
   getGroupAdminsSelector,
   getSelectedMessageIds,
+  getTargetedConversationsPanelsCount,
   isMissingRequiredProfileSharing,
 } from '../selectors/conversations';
 import { getPropsForQuote } from '../selectors/message';
@@ -58,6 +59,8 @@ export type CompositionAreaPropsType = ExternalProps & ComponentPropsType;
 const mapStateToProps = (state: StateType, props: ExternalProps) => {
   const { id } = props;
   const platform = getPlatform(state);
+
+  const shouldHidePopovers = getTargetedConversationsPanelsCount(state) > 0;
 
   const conversationSelector = getConversationSelector(state);
   const conversation = conversationSelector(id);
@@ -137,6 +140,7 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     messageCompositionId,
     platform,
     sendCounter,
+    shouldHidePopovers,
     theme: getTheme(state),
 
     // AudioCapture

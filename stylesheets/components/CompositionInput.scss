@@ -132,7 +132,8 @@
     opacity: 0;
     transition: opacity ease 200ms;
 
-    @include popper-shadow();
+    // The same box-shadow in popper-shadow mixin, just halved
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 30%), 0px 0px 4px rgba(0, 0, 0, 5%);
 
     @include light-theme() {
       background: $color-white;
@@ -162,6 +163,26 @@
       @include dark-mouse-mode {
         &:hover {
           background-color: $color-gray-60;
+        }
+      }
+
+      &--active {
+        @include light-theme {
+          background-color: $color-gray-05;
+        }
+        @include dark-theme {
+          background-color: rgba($color-gray-45, 30%);
+        }
+
+        @include mouse-mode {
+          &:hover {
+            background-color: $color-gray-15;
+          }
+        }
+        @include dark-mouse-mode {
+          &:hover {
+            background-color: rgba($color-gray-45, 50%);
+          }
         }
       }
 
@@ -217,13 +238,13 @@
         &--italic {
           @include dark-theme {
             @include color-svg(
-              '../images/icons/v3/text_format/textformat-italic.svg',
+              '../images/icons/v3/text_format/textformat-italic-bold.svg',
               $color-gray-25
             );
           }
           @include light-theme {
             @include color-svg(
-              '../images/icons/v3/text_format/textformat-italic.svg',
+              '../images/icons/v3/text_format/textformat-italic-bold.svg',
               $color-gray-60
             );
           }
@@ -232,13 +253,13 @@
         &--strike {
           @include dark-theme {
             @include color-svg(
-              '../images/icons/v3/text_format/textformat-strikethrough.svg',
+              '../images/icons/v3/text_format/textformat-strikethrough-bold.svg',
               $color-gray-25
             );
           }
           @include light-theme {
             @include color-svg(
-              '../images/icons/v3/text_format/textformat-strikethrough.svg',
+              '../images/icons/v3/text_format/textformat-strikethrough-bold.svg',
               $color-gray-60
             );
           }
@@ -247,13 +268,13 @@
         &--monospace {
           @include dark-theme {
             @include color-svg(
-              '../images/icons/v3/text_format/textformat-monospace.svg',
+              '../images/icons/v3/text_format/textformat-monospace-bold.svg',
               $color-gray-25
             );
           }
           @include light-theme {
             @include color-svg(
-              '../images/icons/v3/text_format/textformat-monospace.svg',
+              '../images/icons/v3/text_format/textformat-monospace-bold.svg',
               $color-gray-60
             );
           }
@@ -262,20 +283,20 @@
         &--spoiler {
           @include dark-theme {
             @include color-svg(
-              '../images/icons/v3/text_format/textformat-spoiler.svg',
+              '../images/icons/v3/text_format/textformat-spoiler-bold.svg',
               $color-gray-25
             );
           }
           @include light-theme {
             @include color-svg(
-              '../images/icons/v3/text_format/textformat-spoiler.svg',
+              '../images/icons/v3/text_format/textformat-spoiler-bold.svg',
               $color-gray-60
             );
           }
         }
 
-        // Here we look at hover for the parent so the 2px border in between is active
-        // We can't use the mixins because .mouse-mode would wend up after the >
+        // Here we look at hover for the parent so the 2px border is a hover target
+        // Note: We can't use the mixins because .mouse-mode would end up after the >
         .mouse-mode #{$parent}:hover & {
           background-color: $color-gray-90;
         }

@@ -14,6 +14,7 @@ import type {
 import { BodyRange } from '../types/BodyRange';
 import type { MentionBlot } from './mentions/blot';
 import { QuillFormattingStyle } from './formatting/menu';
+import { isNotNil } from '../util/isNotNil';
 
 export type MentionBlotValue = {
   uuid: string;
@@ -153,7 +154,7 @@ function extractAllFormats(
 export const getTextAndRangesFromOps = (
   ops: Array<Op>
 ): { text: string; bodyRanges: DraftBodyRanges } => {
-  const bodyRanges: Array<DraftBodyRange> = [];
+  const startingBodyRanges: Array<DraftBodyRange> = [];
   let formats: Record<BodyRange.Style, { start: number } | undefined> = {
     [BOLD]: undefined,
     [ITALIC]: undefined,
@@ -163,37 +164,78 @@ export const getTextAndRangesFromOps = (
     [NONE]: undefined,
   };
 
-  const text = ops
-    .reduce((acc, op, index) => {
-      // Start or finish format sections as needed
-      formats = extractAllFormats(bodyRanges, formats, acc.length, op);
+  const preTrimText = ops.reduce((acc, op) => {
+    // Start or finish format sections as needed
+    formats = extractAllFormats(startingBodyRanges, formats, acc.length, op);
 
-      if (typeof op.insert === 'string') {
-        const toAdd = index === 0 ? op.insert.trimStart() : op.insert;
-        return acc + toAdd;
-      }
+    if (typeof op.insert === 'string') {
+      return acc + op.insert;
+    }
 
-      if (isInsertEmojiOp(op)) {
-        return acc + op.insert.emoji;
-      }
+    if (isInsertEmojiOp(op)) {
+      return acc + op.insert.emoji;
+    }
 
-      if (isInsertMentionOp(op)) {
-        bodyRanges.push({
-          length: 1, // The length of `\uFFFC`
-          mentionUuid: op.insert.mention.uuid,
-          replacementText: op.insert.mention.title,
-          start: acc.length,
-        });
+    if (isInsertMentionOp(op)) {
+      startingBodyRanges.push({
+        length: 1, // The length of `\uFFFC`
+        mentionUuid: op.insert.mention.uuid,
+        replacementText: op.insert.mention.title,
+        start: acc.length,
+      });
 
-        return `${acc}\uFFFC`;
-      }
+      return `${acc}\uFFFC`;
+    }
 
-      return acc;
-    }, '')
-    .trimEnd(); // Trimming the start of this string will mess up mention indices
+    return acc;
+  }, '');
 
   // Close off any pending formats
-  extractAllFormats(bodyRanges, formats, text.length);
+  extractAllFormats(startingBodyRanges, formats, preTrimText.length);
+
+  // Now repair bodyRanges after trimming
+  const trimStart = preTrimText.trimStart();
+  const trimmedFromStart = preTrimText.length - trimStart.length;
+  const text = trimStart.trimEnd();
+  const textLength = text.length;
+
+  const bodyRanges = startingBodyRanges
+    .map(startingRange => {
+      let range = {
+        ...startingRange,
+        start: startingRange.start - trimmedFromStart,
+      };
+
+      if (range.start >= text.length) {
+        return null;
+      }
+
+      const underStartBy = -range.start;
+      if (underStartBy > 0) {
+        const length = range.length - underStartBy;
+        if (length <= 0) {
+          return null;
+        }
+
+        range = {
+          ...range,
+          start: 0,
+          length,
+        };
+      }
+
+      const end = range.start + range.length;
+      const overEndBy = end - textLength;
+      if (overEndBy > 0) {
+        range = {
+          ...range,
+          length: range.length - overEndBy,
+        };
+      }
+
+      return range;
+    })
+    .filter(isNotNil);
 
   return { text, bodyRanges };
 };

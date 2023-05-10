@@ -102,6 +102,29 @@ describe('getTextAndRangesFromOps', () => {
   });
 
   describe('given formatting', () => {
+    it('handles trimming with simple ops', () => {
+      const ops = [
+        {
+          insert: 'test test ',
+          attributes: { bold: true },
+        },
+        // This is something Quill does for some reason
+        {
+          insert: '\n',
+        },
+      ];
+      const { text, bodyRanges } = getTextAndRangesFromOps(ops);
+      assert.equal(text, 'test test');
+      assert.equal(bodyRanges.length, 1);
+      assert.deepEqual(bodyRanges, [
+        {
+          start: 0,
+          length: 9,
+          style: BodyRange.Style.BOLD,
+        },
+      ]);
+    });
+
     it('handles trimming at the end of the message', () => {
       const ops = [
         {
@@ -154,6 +177,52 @@ describe('getTextAndRangesFromOps', () => {
           start: 18,
           length: 12,
           style: BodyRange.Style.ITALIC,
+        },
+      ]);
+    });
+
+    it('handles formatting of whitespace at beginning/ending of message', () => {
+      const ops = [
+        {
+          insert: '  ',
+          attributes: { bold: true, italic: true, strike: true },
+        },
+        {
+          insert: '  ',
+          attributes: { italic: true, strike: true, spoiler: true },
+        },
+        {
+          insert: 'so much whitespace',
+          attributes: { strike: true, spoiler: true, monospace: true },
+        },
+        {
+          insert: '  ',
+          attributes: { spoiler: true, monospace: true, italic: true },
+        },
+        {
+          insert: '  ',
+          attributes: { monospace: true, italic: true, bold: true },
+        },
+        { insert: '\n' },
+      ];
+      const { text, bodyRanges } = getTextAndRangesFromOps(ops);
+      assert.equal(text, 'so much whitespace');
+      assert.equal(bodyRanges.length, 3);
+      assert.deepEqual(bodyRanges, [
+        {
+          start: 0,
+          length: 18,
+          style: BodyRange.Style.STRIKETHROUGH,
+        },
+        {
+          start: 0,
+          length: 18,
+          style: BodyRange.Style.SPOILER,
+        },
+        {
+          start: 0,
+          length: 18,
+          style: BodyRange.Style.MONOSPACE,
         },
       ]);
     });

@@ -47,6 +47,7 @@ import { SignalClipboard } from '../quill/signal-clipboard';
 import { DirectionalBlot } from '../quill/block/blot';
 import { getClassNamesFor } from '../util/getClassNamesFor';
 import * as log from '../logging/log';
+import * as Errors from '../types/errors';
 import { useRefMerger } from '../hooks/useRefMerger';
 import type { LinkPreviewType } from '../types/message/LinkPreviews';
 import { StagedLinkPreview } from './conversation/StagedLinkPreview';
@@ -126,6 +127,7 @@ export type Props = Readonly<{
   ): unknown;
   onScroll?: (ev: React.UIEvent<HTMLElement>) => void;
   platform: string;
+  shouldHidePopovers?: boolean;
   getQuotedMessage?(): unknown;
   clearQuotedMessage?(): unknown;
   linkPreviewLoading?: boolean;
@@ -162,6 +164,7 @@ export function CompositionInput(props: Props): React.ReactElement {
     onSubmit,
     placeholder,
     platform,
+    shouldHidePopovers,
     skinTone,
     sendCounter,
     sortedGroupMembers,
@@ -190,6 +193,8 @@ export function CompositionInput(props: Props): React.ReactElement {
   const memberRepositoryRef = React.useRef<MemberRepository>(
     new MemberRepository()
   );
+
+  const [isMouseDown, setIsMouseDown] = React.useState<boolean>(false);
 
   const generateDelta = (
     text: string,
@@ -393,6 +398,7 @@ export function CompositionInput(props: Props): React.ReactElement {
     isFormattingSpoilersFlagEnabled,
     isFormattingSpoilersFlagEnabled
   );
+  const previousIsMouseDown = usePrevious(isMouseDown, isMouseDown);
 
   React.useEffect(() => {
     const formattingChanged =
@@ -404,12 +410,18 @@ export function CompositionInput(props: Props): React.ReactElement {
     const spoilersFlagChanged =
       typeof previousFormattingSpoilersFlagEnabled === 'boolean' &&
       previousFormattingSpoilersFlagEnabled !== isFormattingSpoilersFlagEnabled;
+    const mouseDownChanged = previousIsMouseDown !== isMouseDown;
 
     const quill = quillRef.current;
-    const changed = formattingChanged || flagChanged || spoilersFlagChanged;
+    const changed =
+      formattingChanged ||
+      flagChanged ||
+      spoilersFlagChanged ||
+      mouseDownChanged;
     if (quill && changed) {
       quill.getModule('formattingMenu').updateOptions({
         isMenuEnabled: isFormattingEnabled,
+        isMouseDown,
         isEnabled: isFormattingFlagEnabled,
         isSpoilersEnabled: isFormattingSpoilersFlagEnabled,
       });
@@ -422,9 +434,11 @@ export function CompositionInput(props: Props): React.ReactElement {
     isFormattingEnabled,
     isFormattingFlagEnabled,
     isFormattingSpoilersFlagEnabled,
+    isMouseDown,
     previousFormattingEnabled,
     previousFormattingFlagEnabled,
     previousFormattingSpoilersFlagEnabled,
+    previousIsMouseDown,
     quillRef,
   ]);
 
@@ -813,6 +827,52 @@ export function CompositionInput(props: Props): React.ReactElement {
 
   const getClassName = getClassNamesFor(BASE_CLASS_NAME, moduleClassName);
 
+  const onMouseDown = React.useCallback(
+    event => {
+      const target = event.target as HTMLElement;
+      try {
+        // If the user is actually clicking the format menu, we drop this event
+        if (target.closest('.module-composition-input__format-menu')) {
+          return;
+        }
+        setIsMouseDown(true);
+      } catch (error) {
+        log.error(
+          'CompositionInput.onMouseDown: Failed to check event target',
+          Errors.toLogFormat(error)
+        );
+      }
+      setIsMouseDown(true);
+    },
+    [setIsMouseDown]
+  );
+  const onMouseUp = React.useCallback(
+    () => setIsMouseDown(false),
+    [setIsMouseDown]
+  );
+  const onMouseOut = React.useCallback(
+    event => {
+      const target = event.target as HTMLElement;
+      try {
+        // We get mouseout events for child objects of this one; filter 'em out!
+        if (!target.classList.contains(getClassName('__input'))) {
+          return;
+        }
+        setIsMouseDown(false);
+      } catch (error) {
+        log.error(
+          'CompositionInput.onMouseOut: Failed to check class list',
+          Errors.toLogFormat(error)
+        );
+      }
+    },
+    [getClassName, setIsMouseDown]
+  );
+  const onBlur = React.useCallback(
+    () => setIsMouseDown(false),
+    [setIsMouseDown]
+  );
+
   return (
     <Manager>
       <Reference>
@@ -823,6 +883,10 @@ export function CompositionInput(props: Props): React.ReactElement {
             ref={ref}
             data-testid="CompositionInput"
             data-enabled={disabled ? 'false' : 'true'}
+            onMouseDown={onMouseDown}
+            onMouseUp={onMouseUp}
+            onMouseOut={onMouseOut}
+            onBlur={onBlur}
           >
             {draftEditMessage && (
               <div className={getClassName('__editing-message')}>
@@ -866,9 +930,13 @@ export function CompositionInput(props: Props): React.ReactElement {
               )}
             >
               {reactQuill}
-              {emojiCompletionElement}
-              {formattingChooserElement}
-              {mentionCompletionElement}
+              {shouldHidePopovers ? null : (
+                <>
+                  {emojiCompletionElement}
+                  {mentionCompletionElement}
+                  {formattingChooserElement}
+                </>
+              )}
             </div>
           </div>
         )}

@@ -30,7 +30,6 @@ export class SignalClipboard {
     clipboard.matchers = clipboard.matchers.slice(11);
   }
 
-  // TODO: do we need this anymore, given that we aren't using signal/html?
   onCapturePaste(event: ClipboardEvent): void {
     if (event.clipboardData == null) {
       return;
