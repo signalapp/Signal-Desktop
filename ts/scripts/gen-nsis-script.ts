@@ -55,6 +55,9 @@ for (const lang of REQUIRED_LANGUAGES) {
   // We use "-" in folder names
   const folder = lang.replace(/_/g, '-');
   const fallbacks = [folder, folder.replace(/-.*/g, ''), 'en'];
+  if (lang === 'zh_TW') {
+    fallbacks.unshift('zh-Hant');
+  }
   let json: Buffer | undefined;
   for (const f of fallbacks) {
     try {
