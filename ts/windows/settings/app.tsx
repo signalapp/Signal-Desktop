@@ -160,7 +160,9 @@ SettingsWindowProps.onRender(
         isAutoLaunchSupported={isAutoLaunchSupported}
         isFormattingFlagEnabled={isFormattingFlagEnabled}
         isHideMenuBarSupported={isHideMenuBarSupported}
-        isMinimizeToAndStartInSystemTraySupported={isMinimizeToAndStartInSystemTraySupported}
+        isMinimizeToAndStartInSystemTraySupported={
+          isMinimizeToAndStartInSystemTraySupported
+        }
         isNotificationAttentionSupported={isNotificationAttentionSupported}
         isPhoneNumberSharingSupported={isPhoneNumberSharingSupported}
         isSyncSupported={isSyncSupported}
@@ -180,7 +182,9 @@ SettingsWindowProps.onRender(
         onLastSyncTimeChange={onLastSyncTimeChange}
         onMediaCameraPermissionsChange={onMediaCameraPermissionsChange}
         onMediaPermissionsChange={onMediaPermissionsChange}
-        onMinimizeToAndStartInSystemTrayChange={onMinimizeToAndStartInSystemTrayChange}
+        onMinimizeToAndStartInSystemTrayChange={
+          onMinimizeToAndStartInSystemTrayChange
+        }
         onMinimizeToSystemTrayChange={onMinimizeToSystemTrayChange}
         onNotificationAttentionChange={onNotificationAttentionChange}
         onNotificationContentChange={onNotificationContentChange}

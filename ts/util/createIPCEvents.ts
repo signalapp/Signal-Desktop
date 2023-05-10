@@ -405,7 +405,8 @@ export function createIPCEvents(
     setTextFormatting: value => window.storage.put('textFormatting', value),
 
     getExpandFullMessage: () => window.storage.get('expandFullMessage', false),
-    setExpandFullMessage: value => window.storage.put('expandFullMessage', value),
+    setExpandFullMessage: value =>
+      window.storage.put('expandFullMessage', value),
 
     getAlwaysRelayCalls: () => window.storage.get('always-relay-calls'),
     setAlwaysRelayCalls: value =>
