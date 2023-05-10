@@ -85,8 +85,14 @@ export function SmartStoryCreator(): JSX.Element | null {
   );
 
   const addStoryData = useSelector(getAddStoryData);
-  const file = addStoryData?.type === 'Media' ? addStoryData.file : undefined;
+  let file: File | undefined;
   const isSending = addStoryData?.sending || false;
+
+  if (addStoryData?.type === 'Media') {
+    // Note that the source type is ReadonlyDeep<File>, but browser APIs don't
+    // support that. Hence the cast.
+    file = addStoryData.file as File;
+  }
 
   const recentEmojis = useRecentEmojis();
   const skinTone = useSelector<StateType, number>(getEmojiSkinTone);

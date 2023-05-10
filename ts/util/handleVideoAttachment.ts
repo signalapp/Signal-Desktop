@@ -10,7 +10,7 @@ import type { InMemoryAttachmentDraftType } from '../types/Attachment';
 import { fileToBytes } from './fileToBytes';
 
 export async function handleVideoAttachment(
-  file: Readonly<File>
+  file: File
 ): Promise<InMemoryAttachmentDraftType> {
   const objectUrl = URL.createObjectURL(file);
   if (!objectUrl) {

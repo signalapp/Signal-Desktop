@@ -10,7 +10,7 @@ ManifestDPIAware true
   Var /Global OLD_SIGNAL_VERSION
 
   # Check minimum OS version
-  ${IfNot} ${AtLeastWin7}
+  ${IfNot} ${AtLeastWin10}
     MessageBox MB_OK|MB_ICONEXCLAMATION "$(signalMinWinVersionErr)"
     DetailPrint `Windows version check failed`
     Abort
