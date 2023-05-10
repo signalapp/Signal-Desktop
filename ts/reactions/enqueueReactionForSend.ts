@@ -43,9 +43,9 @@ export async function enqueueReactionForSend({
     'enqueueReactionForSend: No conversation extracted from target message'
   );
 
+  const isMessageAStory = isStory(message.attributes);
   const targetConversation =
-    isStory(message.attributes) &&
-    isDirectConversation(messageConversation.attributes)
+    isMessageAStory && isDirectConversation(messageConversation.attributes)
       ? window.ConversationController.get(targetAuthorUuid)
       : messageConversation;
   strictAssert(
@@ -53,6 +53,10 @@ export async function enqueueReactionForSend({
     'enqueueReactionForSend: Did not find a targetConversation'
   );
 
+  const expireTimer =
+    !isMessageAStory || isDirectConversation(targetConversation.attributes)
+      ? targetConversation.get('expireTimer')
+      : undefined;
   const storyMessage = isStory(message.attributes)
     ? message.attributes
     : undefined;
@@ -67,7 +71,7 @@ export async function enqueueReactionForSend({
         received_at: incrementMessageCounter(),
         received_at_ms: timestamp,
         timestamp,
-        expireTimer: targetConversation.get('expireTimer'),
+        expireTimer,
         sendStateByConversationId: zipObject(
           targetConversation.getMemberConversationIds(),
           repeat({
