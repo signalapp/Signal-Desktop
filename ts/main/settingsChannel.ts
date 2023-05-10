@@ -89,6 +89,7 @@ export class SettingsChannel extends EventEmitter {
       isEphemeral: true,
     });
     this.installSetting('textFormatting');
+    this.installSetting('expandFullMessage');
 
     this.installSetting('autoDownloadUpdate');
     this.installSetting('autoLaunch');

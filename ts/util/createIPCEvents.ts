@@ -68,6 +68,7 @@ export type IPCEventsValuesType = {
   spellCheck: boolean;
   systemTraySetting: SystemTraySetting;
   textFormatting: boolean;
+  expandFullMessage: boolean;
   themeSetting: ThemeType;
   universalExpireTimer: DurationInSeconds;
   zoomFactor: ZoomFactorType;
@@ -402,6 +403,9 @@ export function createIPCEvents(
     setSpellCheck: value => window.storage.put('spell-check', value),
     getTextFormatting: () => window.storage.get('textFormatting', true),
     setTextFormatting: value => window.storage.put('textFormatting', value),
+
+    getExpandFullMessage: () => window.storage.get('expandFullMessage', false),
+    setExpandFullMessage: value => window.storage.put('expandFullMessage', value),
 
     getAlwaysRelayCalls: () => window.storage.get('always-relay-calls'),
     setAlwaysRelayCalls: value =>

@@ -43,6 +43,7 @@ const settingRelayCalls = createSetting('alwaysRelayCalls');
 const settingSentMediaQuality = createSetting('sentMediaQualitySetting');
 const settingSpellCheck = createSetting('spellCheck');
 const settingTextFormatting = createSetting('textFormatting');
+const settingExpandFullMessage = createSetting('expandFullMessage');
 const settingTheme = createSetting('themeSetting');
 const settingSystemTraySetting = createSetting('systemTraySetting');
 
@@ -160,6 +161,7 @@ async function renderPreferences() {
     hasTextFormatting,
     hasTypingIndicators,
     isFormattingFlagEnabled,
+    expandFullMessage,
     isPhoneNumberSharingSupported,
     lastSyncTime,
     notificationContent,
@@ -199,6 +201,7 @@ async function renderPreferences() {
     hasSpellCheck: settingSpellCheck.getValue(),
     hasStoriesDisabled: settingHasStoriesDisabled.getValue(),
     hasTextFormatting: settingTextFormatting.getValue(),
+    expandFullMessage: settingExpandFullMessage.getValue(),
     hasTypingIndicators: settingTypingIndicators.getValue(),
     isPhoneNumberSharingSupported: ipcPNP(),
     lastSyncTime: settingLastSyncTime.getValue(),
@@ -262,6 +265,7 @@ async function renderPreferences() {
     hasSpellCheck,
     hasStoriesDisabled,
     hasTextFormatting,
+    expandFullMessage,
     hasTypingIndicators,
     lastSyncTime,
     notificationContent,
@@ -394,6 +398,9 @@ async function renderPreferences() {
     onSpellCheckChange: attachRenderCallback(settingSpellCheck.setValue),
     onTextFormattingChange: attachRenderCallback(
       settingTextFormatting.setValue
+    ),
+    onExpandFullMessageChange: attachRenderCallback(
+      settingExpandFullMessage.setValue
     ),
     onThemeChange: attachRenderCallback(settingTheme.setValue),
     onUniversalExpireTimerChange: (newValue: number): Promise<void> => {

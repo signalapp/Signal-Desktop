@@ -56,6 +56,7 @@ installSetting('spellCheck');
 installSetting('systemTraySetting');
 installSetting('sentMediaQualitySetting');
 installSetting('textFormatting');
+installSetting('expandFullMessage');
 installSetting('themeSetting');
 installSetting('universalExpireTimer');
 installSetting('zoomFactor');
