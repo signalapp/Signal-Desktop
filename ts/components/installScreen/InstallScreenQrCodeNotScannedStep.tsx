@@ -29,24 +29,23 @@ type PropsType = Readonly<{
   updates: UpdatesStateType;
   currentVersion: string;
   OS: string;
+  retryGetQrCode: () => void;
   startUpdate: () => void;
 }>;
-
-const QR_CODE_FAILED_LINK =
-  'https://support.signal.org/hc/articles/360007320451#desktop_multiple_device';
 
 const getQrCodeClassName = getClassNamesFor(
   'module-InstallScreenQrCodeNotScannedStep__qr-code'
 );
 
 export function InstallScreenQrCodeNotScannedStep({
-  i18n,
-  provisioningUrl,
-  hasExpired,
-  updates,
-  startUpdate,
   currentVersion,
+  hasExpired,
+  i18n,
   OS,
+  provisioningUrl,
+  retryGetQrCode,
+  startUpdate,
+  updates,
 }: Readonly<PropsType>): ReactElement {
   return (
     <div className="module-InstallScreenQrCodeNotScannedStep">
@@ -65,7 +64,11 @@ export function InstallScreenQrCodeNotScannedStep({
       )}
 
       <div className="module-InstallScreenQrCodeNotScannedStep__contents">
-        <InstallScreenQrCode i18n={i18n} {...provisioningUrl} />
+        <InstallScreenQrCode
+          i18n={i18n}
+          {...provisioningUrl}
+          retryGetQrCode={retryGetQrCode}
+        />
         <div className="module-InstallScreenQrCodeNotScannedStep__instructions">
           <h1>{i18n('icu:Install__scan-this-code')}</h1>
           <ol>
@@ -110,7 +113,7 @@ export function InstallScreenQrCodeNotScannedStep({
 }
 
 function InstallScreenQrCode(
-  props: Loadable<string> & { i18n: LocalizerType }
+  props: Loadable<string> & { i18n: LocalizerType; retryGetQrCode: () => void }
 ): ReactElement {
   const { i18n } = props;
 
@@ -124,11 +127,24 @@ function InstallScreenQrCode(
         <span className={classNames(getQrCodeClassName('__error-message'))}>
           <Intl
             i18n={i18n}
-            id="icu:Install__qr-failed"
+            id="icu:Install__qr-failed-load"
             components={{
               // eslint-disable-next-line react/no-unstable-nested-components
-              learnMoreLink: children => (
-                <a href={QR_CODE_FAILED_LINK}>{children}</a>
+              retry: children => (
+                <button
+                  className={getQrCodeClassName('__link')}
+                  onClick={props.retryGetQrCode}
+                  onKeyDown={ev => {
+                    if (ev.key === 'Enter') {
+                      props.retryGetQrCode();
+                      ev.preventDefault();
+                      ev.stopPropagation();
+                    }
+                  }}
+                  type="button"
+                >
+                  {children}
+                </button>
               ),
             }}
           />

@@ -2664,6 +2664,10 @@
     "message": "Scan this code in the Signal app on your phone",
     "description": "(deleted 03/29/2023) Title of the device link screen. Also used as alt text for the QR code on the device link screen"
   },
+  "icu:Install__learn-more": {
+    "messageformat": "Learn more",
+    "description": "Button text for learn more button during error screen"
+  },
   "icu:Install__scan-this-code": {
     "messageformat": "Scan this code in the Signal app on your phone",
     "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
@@ -2701,7 +2705,11 @@
     "description": "Instructions on the device link screen"
   },
   "icu:Install__qr-failed": {
-    "messageformat": "The QR code couldn't load. Check your internet and try again. <learnMoreLink>Learn more</learnMoreLink>",
+    "messageformat": "(deleted 05/09/2023) The QR code couldn't load. Check your internet and try again. <learnMoreLink>Learn more</learnMoreLink>",
+    "description": "Shown on the install screen if the QR code fails to load"
+  },
+  "icu:Install__qr-failed-load": {
+    "messageformat": "The QR code couldn't load. Check your internet and try again. <retry>Retry</retry>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {

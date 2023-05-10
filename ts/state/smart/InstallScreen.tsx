@@ -4,6 +4,7 @@
 import type { ComponentProps, ReactElement } from 'react';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
+import pTimeout, { TimeoutError } from 'p-timeout';
 
 import { getIntl } from '../selectors/user';
 import { getUpdatesState } from '../selectors/updates';
@@ -28,6 +29,9 @@ import { isRecord } from '../../util/isRecord';
 import * as Errors from '../../types/errors';
 import { normalizeDeviceName } from '../../util/normalizeDeviceName';
 import OS from '../../util/os/osMain';
+import { SECOND } from '../../util/durations';
+import { BackOff } from '../../util/BackOff';
+import { drop } from '../../util/drop';
 
 type PropsType = ComponentProps<typeof InstallScreen>;
 
@@ -52,6 +56,13 @@ const INITIAL_STATE: StateType = {
   step: InstallScreenStep.QrCodeNotScanned,
   provisioningUrl: { loadingState: LoadingState.Loading },
 };
+
+const qrCodeBackOff = new BackOff([
+  10 * SECOND,
+  20 * SECOND,
+  30 * SECOND,
+  60 * SECOND,
+]);
 
 function getInstallError(err: unknown): InstallError {
   if (err instanceof HTTPError) {
@@ -83,6 +94,7 @@ export function SmartInstallScreen(): ReactElement {
   const chooseDeviceNamePromiseWrapperRef = useRef(explodePromise<string>());
 
   const [state, setState] = useState<StateType>(INITIAL_STATE);
+  const [retryCounter, setRetryCounter] = useState(0);
 
   const setProvisioningUrl = useCallback(
     (value: string) => {
@@ -206,12 +218,16 @@ export function SmartInstallScreen(): ReactElement {
       return result;
     };
 
-    void (async () => {
+    async function getQRCode(): Promise<void> {
+      const sleepError = new TimeoutError();
       try {
-        await accountManager.registerSecondDevice(
+        const qrCodePromise = accountManager.registerSecondDevice(
           updateProvisioningUrl,
           confirmNumber
         );
+        const sleepMs = qrCodeBackOff.getAndIncrement();
+        log.info(`InstallScreen/getQRCode: race to ${sleepMs}ms`);
+        await pTimeout(qrCodePromise, sleepMs, sleepError);
 
         window.IPC.removeSetupMenuItems();
       } catch (error) {
@@ -222,17 +238,36 @@ export function SmartInstallScreen(): ReactElement {
         if (hasCleanedUp) {
           return;
         }
-        setState({
-          step: InstallScreenStep.Error,
-          error: getInstallError(error),
-        });
+
+        if (qrCodeBackOff.isFull()) {
+          log.error('InstallScreen/getQRCode: too many tries');
+          setState({
+            step: InstallScreenStep.Error,
+            error: InstallError.QRCodeFailed,
+          });
+          return;
+        }
+
+        if (error === sleepError) {
+          setState({
+            step: InstallScreenStep.QrCodeNotScanned,
+            provisioningUrl: { loadingState: LoadingState.LoadFailed, error },
+          });
+        } else {
+          setState({
+            step: InstallScreenStep.Error,
+            error: getInstallError(error),
+          });
+        }
       }
-    })();
+    }
+
+    drop(getQRCode());
 
     return () => {
       hasCleanedUp = true;
     };
-  }, [setProvisioningUrl, onQrCodeScanned]);
+  }, [setProvisioningUrl, retryCounter, onQrCodeScanned]);
 
   let props: PropsType;
 
@@ -258,6 +293,10 @@ export function SmartInstallScreen(): ReactElement {
           updates,
           currentVersion: window.getVersion(),
           startUpdate,
+          retryGetQrCode: () => {
+            setRetryCounter(count => count + 1);
+            setState(INITIAL_STATE);
+          },
           OS: OS.getName(),
         },
       };

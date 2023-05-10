@@ -9,12 +9,14 @@ import { openLinkInWebBrowser } from '../../util/openLinkInWebBrowser';
 import { Button, ButtonVariant } from '../Button';
 import { TitlebarDragArea } from '../TitlebarDragArea';
 import { InstallScreenSignalLogo } from './InstallScreenSignalLogo';
+import { LINK_SIGNAL_DESKTOP } from '../../types/support';
 
 export enum InstallError {
   TooManyDevices,
   TooOld,
   ConnectionFailed,
   UnknownError,
+  QRCodeFailed,
 }
 
 export function InstallScreenErrorStep({
@@ -50,6 +52,14 @@ export function InstallScreenErrorStep({
       break;
     case InstallError.UnknownError:
       errorMessage = i18n('icu:installUnknownError');
+      break;
+    case InstallError.QRCodeFailed:
+      buttonText = i18n('icu:Install__learn-more');
+      errorMessage = i18n('icu:installUnknownError');
+      onClickButton = () => {
+        openLinkInWebBrowser(LINK_SIGNAL_DESKTOP);
+      };
+      shouldShowQuitButton = true;
       break;
     default:
       throw missingCaseError(error);

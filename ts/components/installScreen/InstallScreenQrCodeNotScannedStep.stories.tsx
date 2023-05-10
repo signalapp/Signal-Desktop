@@ -56,6 +56,7 @@ function Simulation({ finalResult }: { finalResult: Loadable<string> }) {
       OS="macOS"
       startUpdate={action('startUpdate')}
       currentVersion="v6.0.0"
+      retryGetQrCode={action('retryGetQrCode')}
     />
   );
 }
@@ -71,6 +72,7 @@ export function QrCodeLoading(): JSX.Element {
       OS="macOS"
       startUpdate={action('startUpdate')}
       currentVersion="v6.0.0"
+      retryGetQrCode={action('retryGetQrCode')}
     />
   );
 }
@@ -91,6 +93,7 @@ export function QrCodeFailedToLoad(): JSX.Element {
       OS="macOS"
       startUpdate={action('startUpdate')}
       currentVersion="v6.0.0"
+      retryGetQrCode={action('retryGetQrCode')}
     />
   );
 }
@@ -108,6 +111,7 @@ export function QrCodeLoaded(): JSX.Element {
       OS="macOS"
       startUpdate={action('startUpdate')}
       currentVersion="v6.0.0"
+      retryGetQrCode={action('retryGetQrCode')}
     />
   );
 }
@@ -158,6 +162,7 @@ export function WithUpdateKnobs({
       OS="macOS"
       startUpdate={action('startUpdate')}
       currentVersion={currentVersion}
+      retryGetQrCode={action('retryGetQrCode')}
     />
   );
 }

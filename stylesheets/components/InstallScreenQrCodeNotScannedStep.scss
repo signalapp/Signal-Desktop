@@ -55,6 +55,11 @@
       color: $color-gray-60;
     }
 
+    &__link {
+      @include button-reset;
+      color: $color-ultramarine;
+    }
+
     &__code {
       height: $size;
       width: $size;
