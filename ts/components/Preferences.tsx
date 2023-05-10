@@ -564,13 +564,6 @@ export function Preferences({
               />
             }
           />
-          <Checkbox
-            checked={expandFullMessage}
-            label={i18n('icu:expandFullMessage')}
-            moduleClassName="Preferences__checkbox"
-            name="expandFullMessage"
-            onChange={onExpandFullMessageChange}
-          />
         </SettingsRow>
       </>
     );
@@ -617,6 +610,13 @@ export function Preferences({
             moduleClassName="Preferences__checkbox"
             name="linkPreviews"
             onChange={noop}
+          />
+          <Checkbox
+            checked={expandFullMessage}
+            label={i18n('icu:expandFullMessage')}
+            moduleClassName="Preferences__checkbox"
+            name="expandFullMessage"
+            onChange={onExpandFullMessageChange}
           />
           <Control
             left={i18n('icu:Preferences__sent-media-quality')}
