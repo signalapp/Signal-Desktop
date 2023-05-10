@@ -180,7 +180,7 @@ import { StartupQueue } from './util/StartupQueue';
 import { showConfirmationDialog } from './util/showConfirmationDialog';
 import { onCallEventSync } from './util/onCallEventSync';
 import { sleeper } from './util/sleeper';
-import { MINUTE } from './util/durations';
+import { DAY, HOUR, MINUTE } from './util/durations';
 import { copyDataMessageIntoMessage } from './util/copyDataMessageIntoMessage';
 import {
   flushMessageCounter,
@@ -194,7 +194,6 @@ import { makeLookup } from './util/makeLookup';
 import { focusableSelectors } from './util/focusableSelectors';
 
 export function isOverHourIntoPast(timestamp: number): boolean {
-  const HOUR = 1000 * 60 * 60;
   return isNumber(timestamp) && isOlderThan(timestamp, HOUR);
 }
 
@@ -1002,27 +1001,13 @@ export async function startApp(): Promise<void> {
 
     void window.Signal.RemoteConfig.initRemoteConfig(server);
 
-    let retryReceiptLifespan: number | undefined;
-    try {
-      retryReceiptLifespan = parseIntOrThrow(
-        window.Signal.RemoteConfig.getValue('desktop.retryReceiptLifespan'),
-        'retryReceiptLifeSpan'
-      );
-    } catch (error) {
-      log.warn(
-        'Failed to parse integer out of desktop.retryReceiptLifespan feature flag'
-      );
-    }
-
     const retryPlaceholders = new RetryPlaceholders({
-      retryReceiptLifespan,
+      retryReceiptLifespan: HOUR,
     });
     window.Signal.Services.retryPlaceholders = retryPlaceholders;
 
     setInterval(async () => {
       const now = Date.now();
-      const HOUR = 1000 * 60 * 60;
-      const DAY = 24 * HOUR;
       let sentProtoMaxAge = 14 * DAY;
 
       try {

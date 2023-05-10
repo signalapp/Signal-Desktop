@@ -28,7 +28,6 @@ export type ConfigKeyType =
   | 'desktop.messageCleanup'
   | 'desktop.messageRequests'
   | 'desktop.pnp'
-  | 'desktop.retryReceiptLifespan'
   | 'desktop.retryRespondMaxAge'
   | 'desktop.safetyNumberUUID.timestamp'
   | 'desktop.safetyNumberUUID'
