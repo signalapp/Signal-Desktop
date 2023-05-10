@@ -27,7 +27,7 @@ export type Props = Pick<
 };
 
 const INITIAL_LENGTH = 800;
-const INCREMENT_COUNT = 3000;
+const INCREMENT_COUNT = 80_000;
 const BUFFER = 100;
 
 export function doesMessageBodyOverflow(str: string): boolean {
