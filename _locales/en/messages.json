@@ -12538,26 +12538,6 @@
     "messageformat": "Small tweaks, bug fixes, and performance enhancements. Thanks for using Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.11--0": {
-    "messageformat": "Start talking to yourself even faster with a new icon that makes the “Note to Self” chat easier to find. Thanks to {hackerbirds} on GitHub for their contribution.",
-    "description": "Release notes for v6.11"
-  },
-  "icu:WhatsNew__v6.12--0": {
-    "messageformat": "Now you can select multiple messages and forward or delete them all at once.",
-    "description": "Release notes for v6.12"
-  },
-  "icu:WhatsNew__v6.12--1": {
-    "messageformat": "We updated the Sticker Creator with a few design tweaks and added some helpful tips for aspiring sticker artists. The Sticker Creator now opens in your web browser, which makes Signal Desktop a little smaller and leaves a bit more room on your hard drive for all of your favorite sticker packs.",
-    "description": "Release notes for v6.12"
-  },
-  "icu:WhatsNew__v6.13--0": {
-    "messageformat": "Progress report: The new progress bar is ready. Quickly see more information about the loading process whenever you launch Signal Desktop.",
-    "description": "Release notes for v6.13"
-  },
-  "icu:WhatsNew__v6.13--1": {
-    "messageformat": "Theme preferences now also apply to the checkboxes in Signal Settings. Thanks to {rakleed} on GitHub for helping us check \"More fully embrace darkness in the dark theme\" off of our TODO list.",
-    "description": "Release notes for v6.13"
-  },
   "icu:WhatsNew__v6.17--0": {
     "messageformat": "Improved support for right-to-left (RTL) languages.",
     "description": "Release notes for v6.17"
@@ -12569,5 +12549,25 @@
   "icu:WhatsNew__v6.17--2": {
     "messageformat": "This release additionally (a10y) introduces several accessibility (a11y) enhancements and bug fixes, and we affectionately (a12y) would like to thank the community for their feedback and suggestions.",
     "description": "Release notes for v6.17"
+  },
+  "icu:WhatsNew__v6.18--0": {
+    "messageformat": "Use the \"Navigate by section\" keyboard shortcuts (⌘/Ctrl+T & ⌘/Ctrl+F6) to quickly move between different areas of the app. It's like a superhero version of the Tab key that can fly further and faster than its mild-mannered alter ego.",
+    "description": "Release notes for v6.18"
+  },
+  "icu:WhatsNew__v6.18--1": {
+    "messageformat": "We added support for optional message sounds so that you can also hear notifications for sent and received messages while a chat is open (Settings > Notifications).",
+    "description": "Release notes for v6.18"
+  },
+  "icu:WhatsNew__v6.18--2": {
+    "messageformat": "Jump to the latest unread message in a chat (⌘/Ctrl+J) without touching the mouse or helping the touchpad live up to its name.",
+    "description": "Release notes for v6.18"
+  },
+  "icu:WhatsNew__v6.18--3": {
+    "messageformat": "Updated icons give the app a fresh look and help improve legibility.",
+    "description": "Release notes for v6.18"
+  },
+  "icu:WhatsNew__v6.18--4": {
+    "messageformat": "There's a new \"Copy text\" option in the triple-dot menu too. Thanks, {yusufsahinhamza}!",
+    "description": "Release notes for v6.18"
   }
 }

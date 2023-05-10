@@ -35,9 +35,20 @@ export function WhatsNewModal({
     date: new Date(window.getBuildCreation?.() || Date.now()),
     version: window.getVersion?.(),
     features: [
-      <Intl i18n={i18n} id="icu:WhatsNew__v6.17--0" renderText={renderText} />,
-      <Intl i18n={i18n} id="icu:WhatsNew__v6.17--1" renderText={renderText} />,
-      <Intl i18n={i18n} id="icu:WhatsNew__v6.17--2" renderText={renderText} />,
+      <Intl i18n={i18n} id="icu:WhatsNew__v6.18--0" renderText={renderText} />,
+      <Intl i18n={i18n} id="icu:WhatsNew__v6.18--1" renderText={renderText} />,
+      <Intl i18n={i18n} id="icu:WhatsNew__v6.18--2" renderText={renderText} />,
+      <Intl i18n={i18n} id="icu:WhatsNew__v6.18--3" renderText={renderText} />,
+      <Intl
+        i18n={i18n}
+        id="icu:WhatsNew__v6.18--4"
+        renderText={renderText}
+        components={{
+          yusufsahinhamza: (
+            <a href="https://github.com/yusufsahinhamza">@yusufsahinhamza</a>
+          ),
+        }}
+      />,
     ],
   };
 
