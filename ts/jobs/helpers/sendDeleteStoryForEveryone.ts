@@ -198,6 +198,8 @@ export async function sendDeleteStoryForEveryone(
             didSuccessfullySendOne = true;
 
             await updateMessageWithSuccessfulSends(message, {
+              dataMessage: undefined,
+              editMessage: undefined,
               successfulIdentifiers: [conversation.id],
             });
           } catch (error: unknown) {

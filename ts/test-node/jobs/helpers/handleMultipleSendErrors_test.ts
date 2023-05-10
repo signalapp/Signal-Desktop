@@ -22,13 +22,20 @@ describe('maybeExpandErrors', () => {
   });
 
   it('wraps the provided value if a SendMessageProtoError with no errors', () => {
-    const input = new SendMessageProtoError({});
+    const input = new SendMessageProtoError({
+      dataMessage: undefined,
+      editMessage: undefined,
+    });
     assert.sameMembers(expand(input), [input]);
   });
 
   it("uses a SendMessageProtoError's errors", () => {
     const errors = [new Error('one'), new Error('two')];
-    const input = new SendMessageProtoError({ errors });
+    const input = new SendMessageProtoError({
+      dataMessage: undefined,
+      editMessage: undefined,
+      errors,
+    });
     assert.strictEqual(expand(input), errors);
   });
 });

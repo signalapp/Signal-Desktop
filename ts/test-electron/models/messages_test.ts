@@ -158,6 +158,7 @@ describe('Message', () => {
           }),
         ],
         dataMessage: fakeDataMessage,
+        editMessage: undefined,
       });
 
       await message.send(promise);

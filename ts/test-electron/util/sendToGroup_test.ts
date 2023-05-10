@@ -315,7 +315,10 @@ describe('sendToGroup', () => {
     it('returns true for errors inside of SendMessageProtoError', () => {
       assert.isTrue(
         _shouldFailSend(
-          new SendMessageProtoError({}),
+          new SendMessageProtoError({
+            dataMessage: undefined,
+            editMessage: undefined,
+          }),
           'testing missing errors list'
         )
       );
@@ -326,7 +329,11 @@ describe('sendToGroup', () => {
 
       assert.isTrue(
         _shouldFailSend(
-          new SendMessageProtoError({ errors: [error] }),
+          new SendMessageProtoError({
+            dataMessage: undefined,
+            editMessage: undefined,
+            errors: [error],
+          }),
           'testing one error with code'
         )
       );
@@ -334,6 +341,8 @@ describe('sendToGroup', () => {
       assert.isTrue(
         _shouldFailSend(
           new SendMessageProtoError({
+            dataMessage: undefined,
+            editMessage: undefined,
             errors: [
               new Error('something'),
               new ConnectTimeoutError('something'),

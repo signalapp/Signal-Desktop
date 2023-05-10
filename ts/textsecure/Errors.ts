@@ -199,7 +199,9 @@ export class SendMessageProtoError extends Error implements CallbackResultType {
 
   public readonly unidentifiedDeliveries?: Array<string>;
 
-  public readonly dataMessage?: Uint8Array;
+  public readonly dataMessage: Uint8Array | undefined;
+
+  public readonly editMessage: Uint8Array | undefined;
 
   // Fields necessary for send log save
   public readonly contentHint?: number;
@@ -218,6 +220,7 @@ export class SendMessageProtoError extends Error implements CallbackResultType {
     errors,
     unidentifiedDeliveries,
     dataMessage,
+    editMessage,
     contentHint,
     contentProto,
     timestamp,
@@ -231,6 +234,7 @@ export class SendMessageProtoError extends Error implements CallbackResultType {
     this.errors = errors;
     this.unidentifiedDeliveries = unidentifiedDeliveries;
     this.dataMessage = dataMessage;
+    this.editMessage = editMessage;
     this.contentHint = contentHint;
     this.contentProto = contentProto;
     this.timestamp = timestamp;

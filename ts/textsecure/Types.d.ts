@@ -250,8 +250,8 @@ export type CallbackResultType = {
   failoverIdentifiers?: Array<string>;
   errors?: Array<CustomError>;
   unidentifiedDeliveries?: Array<string>;
-  dataMessage?: Uint8Array;
-  editMessage?: Uint8Array;
+  dataMessage: Uint8Array | undefined;
+  editMessage: Uint8Array | undefined;
 
   // If this send is not the final step in a multi-step send, we shouldn't treat its
   //   results we would treat a one-step send.

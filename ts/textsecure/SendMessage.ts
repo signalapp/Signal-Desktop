@@ -2027,8 +2027,13 @@ export default class MessageSender {
         ? Proto.DataMessage.encode(proto.dataMessage).finish()
         : undefined;
 
+      const editMessage = proto.editMessage
+        ? Proto.EditMessage.encode(proto.editMessage).finish()
+        : undefined;
+
       return Promise.resolve({
         dataMessage,
+        editMessage,
         errors: [],
         failoverIdentifiers: [],
         successfulIdentifiers: [],

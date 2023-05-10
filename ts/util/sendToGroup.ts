@@ -632,6 +632,9 @@ export async function sendToGroupViaSenderKey(options: {
       dataMessage: contentMessage.dataMessage
         ? Proto.DataMessage.encode(contentMessage.dataMessage).finish()
         : undefined,
+      editMessage: contentMessage.editMessage
+        ? Proto.EditMessage.encode(contentMessage.editMessage).finish()
+        : undefined,
       successfulIdentifiers: senderKeyRecipients,
       unidentifiedDeliveries: senderKeyRecipients,
 
