@@ -1563,6 +1563,10 @@
     "message": "چاپلاق بوغچىسى قۇرغۇچى",
     "description": "(deleted 03/15/2023) Title of the window that pops up with Signal Desktop preferences in it"
   },
+  "icu:signalDesktopStickerCreator": {
+    "messageformat": "چاپلاق بوغچىسى قۇرغۇچى",
+    "description": "Title of the window that pops up with Signal Desktop preferences in it"
+  },
   "aboutSignalDesktop": {
     "message": "Signal ئۈستەليۈزى نەشرى ھەققىدە",
     "description": "(deleted 03/29/2023) Item under the Help menu, which opens a small about window"
@@ -2158,6 +2162,9 @@
   "icu:accept": {
     "messageformat": "قوبۇل قىل"
   },
+  "icu:edit": {
+    "messageformat": "تەھرىرلەش"
+  },
   "forward": {
     "message": "ئۇلاپ يوللا",
     "description": "(deleted 03/29/2023)"
@@ -2346,6 +2353,10 @@
     "messageformat": "تېخىمۇ كۆپ ئۇچۇر",
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
   },
+  "icu:copy": {
+    "messageformat": "Copy text",
+    "description": "Shown on the drop-down menu for an individual message, copies the message text to the clipboard"
+  },
   "icu:MessageContextMenu__select": {
     "messageformat": "تاللاش",
     "description": "Shown on the drop-down menu for an individual message, opens the conversation in select mode with the current message selected"
@@ -2394,9 +2405,29 @@
     "messageformat": "ئۇچۇرنى ھەممەيلەن ئۈچۈن ئۆچۈرۈش",
     "description": "(deleted 04/06/2023) Shown on the drop-down menu for an individual message, deletes single message for everyone"
   },
+  "icu:MessageContextMenu__reply": {
+    "messageformat": "Reply",
+    "description": "Shown on the drop-down menu for an individual message when there isnt room for a dedicated button, focuses the composer with a reply to the current message"
+  },
+  "icu:MessageContextMenu__react": {
+    "messageformat": "React",
+    "description": "Shown on the drop-down menu for an individual message when there isnt room for a dedicated button, opens the react picker for the current message"
+  },
+  "icu:MessageContextMenu__download": {
+    "messageformat": "Download",
+    "description": "Shown on the drop-down menu for an individual message when there isnt room for a dedicated button and when there's only a single attachment, downloads an attachment"
+  },
   "icu:MessageContextMenu__deleteMessage": {
-    "messageformat": "ئۇچۇر ئۆچۈرۈش",
+    "messageformat": "Delete",
     "description": "Show on the drop-down menu for an individual message, opens a modal to select if you want to 'delete for me' or 'delete for everyone'"
+  },
+  "icu:MessageContextMenu__forward": {
+    "messageformat": "Forward",
+    "description": "Show on the drop-down menu for an individual message, opens a modal to forward a message"
+  },
+  "icu:MessageContextMenu__info": {
+    "messageformat": "Info",
+    "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
   },
   "deleteMessages": {
     "message": "ئۆچۈر",
@@ -3325,8 +3356,8 @@
     "messageformat": "ئۇچۇر يېزىش رامكىسىغا كىرگۈزگەن تېكىست ئىملاسىنى تەكشۈرۈش",
     "description": "Description of the spell check setting"
   },
-  "icu:textFormattingDescripton": {
-    "messageformat": "تېكىستنى تاللىغاندا فورماتلاش تاللاشلىرىنى كۆرسىتىش",
+  "icu:textFormattingDescription": {
+    "messageformat": "Show text formatting popover when text is selected",
     "description": "Description of the text-formatting popover menu setting"
   },
   "spellCheckWillBeEnabled": {
@@ -3534,6 +3565,10 @@
   "icu:deleteFailed": {
     "messageformat": "ئۆچۈرەلمىدى",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
+  },
+  "icu:editFailed": {
+    "messageformat": "تەھرىرلىيەلمىدى، چېكىپ تەپسىلاتىنى كۆرۈڭ",
+    "description": "Shown on a message which was edited if the edit wasn't successfully sent to anyone"
   },
   "sendPaused": {
     "message": "يوللاش ۋاقىتلىق توختىتىلدى",
@@ -4098,6 +4133,10 @@
   "icu:Toast--failed-to-fetch-phone-number": {
     "messageformat": "تېلېفون نومۇرىغا ئېرىشەلمىدى. تور ئۇلىنىشىڭىزنى تەكشۈرۈپ قايتا سىناڭ.",
     "description": "Shown if request to Signal servers to find phone number fails"
+  },
+  "icu:ToastManager__CannotEditMessage": {
+    "messageformat": "بۇ ئۇچۇرنى يوللاپ پەقەت 3 سائەت ئىچىدىلا تەھرىرلەشكە بولىدۇ.",
+    "description": "Error message when you try to send an edit after message becomes too old"
   },
   "startConversation--username-not-found": {
     "message": "ئىشلەتكۈچى تېپىلمىدى. $atUsername$ بولسا Signal ئىشلەتكۈچى ئەمەس. ئىشلەتكۈچى نامىنى تولۇق كىرگۈزۈڭ.",
@@ -4928,6 +4967,10 @@
     "message": "چىراي بەلگە ئىزدە",
     "description": "(deleted 03/29/2023) Shown as a placeholder inside the emoji picker search field."
   },
+  "icu:EmojiPicker--search-close": {
+    "messageformat": "emoji ئىزدەش رامكىسىنى تاقاش",
+    "description": "Button title to cancel the emoji search."
+  },
   "icu:EmojiPicker--search-placeholder": {
     "messageformat": "چىراي بەلگە ئىزدە",
     "description": "Shown as a placeholder inside the emoji picker search field."
@@ -5019,6 +5062,10 @@
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "بىكار قىلىش",
     "description": "Appears on the cancel button in confirmation dialogs."
+  },
+  "icu:Message__role-description": {
+    "messageformat": "ئۇچۇر",
+    "description": "aria-roledescription of a message"
   },
   "MessageBody--read-more": {
     "message": "تېخىمۇ كۆپ",
@@ -5135,6 +5182,10 @@
   "icu:Conversation--getDraftPreview--draft": {
     "messageformat": "(ئارگىنال)",
     "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
+  },
+  "icu:Keyboard--focus-most-recent-message": {
+    "messageformat": "Focus oldest unread or last message",
+    "description": "Shown in shortcuts guide"
   },
   "Keyboard--navigate-by-section": {
     "message": "بۆلەك بويىچە يېتەكچى",
@@ -5491,6 +5542,26 @@
   "icu:Keyboard--composer--spoiler": {
     "messageformat": "تاللىغان تېكىستنى غۇۋالاشتۇرۇش",
     "description": "Description of command to bold text in composer"
+  },
+  "icu:FormatMenu--guide--bold": {
+    "messageformat": "Bold",
+    "description": "Shown when you hover over the bold button in the popup formatting menu"
+  },
+  "icu:FormatMenu--guide--italic": {
+    "messageformat": "Italic",
+    "description": "Shown when you hover over the bold button in the popup formatting menu"
+  },
+  "icu:FormatMenu--guide--strikethrough": {
+    "messageformat": "Strikethrough",
+    "description": "Shown when you hover over the bold button in the popup formatting menu"
+  },
+  "icu:FormatMenu--guide--monospace": {
+    "messageformat": "Monospace",
+    "description": "Shown when you hover over the bold button in the popup formatting menu"
+  },
+  "icu:FormatMenu--guide--spoiler": {
+    "messageformat": "Spoiler",
+    "description": "Shown when you hover over the bold button in the popup formatting menu"
   },
   "Keyboard--scroll-to-top": {
     "message": "تىزىمنىڭ ئۈستىگە سۈرۈل",
@@ -8352,6 +8423,18 @@
     "messageformat": "ئالاقىداشنىڭ تىزىملىتىش ھالىتىنى تەكشۈرۈۋاتىدۇ",
     "description": "Displayed while checking if the contact is SMS-only"
   },
+  "icu:CompositionArea__edit-action--discard": {
+    "messageformat": "ئۇچۇرنى ساقىت قىلىش",
+    "description": "aria-label for discard edit button"
+  },
+  "icu:CompositionArea__edit-action--send": {
+    "messageformat": "تەھرىرلەنگەن ئۇچۇرنى يوللاش",
+    "description": "aria-label for send edit button"
+  },
+  "icu:CompositionInput__editing-message": {
+    "messageformat": "ئۇچۇر تەھرىرلەش",
+    "description": "Status text displayed above composition input when editing a message"
+  },
   "countMutedConversationsDescription": {
     "message": "ئىزنەك سانىغاندا ئۈنسىز پاراڭلارنىمۇ قوشۇش",
     "description": "(deleted 03/29/2023) Description for counting muted conversations in badge setting"
@@ -9397,8 +9480,12 @@
     "description": "(deleted 04/04/2023) Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-name-in-group--link": {
-    "messageformat": "{count, plural, other {{count,number} گۇرۇپپا ئەزاسىنىڭ نامى ئوخشاش. <reviewRequestLink>ئىلتىماسنى تەكشۈرۈش</reviewRequestLink>}}",
+    "messageformat": "{count, plural, one {{count,number} group member has the same name. <reviewRequestLink>Review members</reviewRequestLink>} other {{count,number} group members have the same name. <reviewRequestLink>Review members</reviewRequestLink>}}",
     "description": "Shown in the timeline warning when you multiple group members have the same name"
+  },
+  "icu:ContactSpoofing__same-names-in-group--link": {
+    "messageformat": "{count, plural, one {{count,number} name conflict was found in this group. <reviewRequestLink>Review members</reviewRequestLink>} other {{count,number} name conflicts were found in this group. <reviewRequestLink>Review members</reviewRequestLink>}}",
+    "description": "Shown in the timeline warning when multiple names are shared by members of a group."
   },
   "ContactSpoofing__same-name__link": {
     "message": "ئىلتىماسنى تەكشۈر",
@@ -9414,7 +9501,7 @@
   },
   "icu:ContactSpoofing__same-name-in-group__link": {
     "messageformat": "چېكىپ كۆرۈڭ",
-    "description": "Shown in the timeline warning when you multiple group members have the same name"
+    "description": "(deleted 05/04/2023) Shown in the timeline warning when you multiple group members have the same name"
   },
   "ContactSpoofingReviewDialog__title": {
     "message": "ئىلتىماسنى تەكشۈر",
@@ -9463,6 +9550,10 @@
   "icu:ContactSpoofingReviewDialog__group__description": {
     "messageformat": "{count, plural, other {گۇرۇپپىدىكى {count,number} ئەزانىڭ نامى ئوخشىشىپ كېتىدۇ. تۆۋەندىكى ئەزالارنى تەكشۈرۈڭ ياكى مەشغۇلات ئېلىپ بېرىڭ.}}",
     "description": "Description for the group contact spoofing review dialog"
+  },
+  "icu:ContactSpoofingReviewDialog__group__multiple-conflicts__description": {
+    "messageformat": "{count, plural, one {{count,number} name conflict was found in this group. Review the members below or choose to take action.} other {{count,number} name conflicts were found in this group. Review the members below or choose to take action.}}",
+    "description": "Description for the group contact spoofing review dialog when there are multiple shared names"
   },
   "ContactSpoofingReviewDialog__group__members-header": {
     "message": "ئەزالار",
@@ -9751,6 +9842,14 @@
   "icu:CustomColorEditor__title": {
     "messageformat": "ئىختىيارىچە رەڭ",
     "description": "Modal title for the custom color editor"
+  },
+  "icu:GradientDial__knob-start": {
+    "messageformat": "Gradient start",
+    "description": "aria-label for the custom color gradient creator knob"
+  },
+  "icu:GradientDial__knob-end": {
+    "messageformat": "Gradient end",
+    "description": "aria-label for the custom color gradient creator knob"
   },
   "customDisappearingTimeOption": {
     "message": "خاسلاشتۇرۇلغان ۋاقىت...",
@@ -10367,6 +10466,14 @@
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "گۇرۇپپا باش سۈرىتى",
     "description": "Title for the avatar picker in the group creation flow"
+  },
+  "icu:Preferences__message-audio-title": {
+    "messageformat": "In-chat message sound",
+    "description": "Title for message audio setting"
+  },
+  "icu:Preferences__message-audio-description": {
+    "messageformat": "Hear a notification sound for sent and received messages while in the chat.",
+    "description": "Description for message audio setting"
   },
   "Preferences__button--general": {
     "message": "ئادەتتىكى",
@@ -12360,6 +12467,14 @@
     "messageformat": "تەھرىرلەش تارىخى",
     "description": "Modal title for the edit history messages modal"
   },
+  "icu:ResendMessageEdit__body": {
+    "messageformat": "بۇ تەھرىرلەشنى يوللىغىلى بولمىدى. تور ئۇلىنىشىڭىزنى تەكشۈرۈپ قايتا سىناڭ",
+    "description": "Modal body for the confirmation dialog shown to user when attempting to resend message edit"
+  },
+  "icu:ResendMessageEdit__button": {
+    "messageformat": "قايتا يوللا",
+    "description": "Button text for the confirmation dialog shown to user when attempting to resend message edit"
+  },
   "WhatsNew__modal-title": {
     "message": "يېڭىلىقلار",
     "description": "(deleted 03/29/2023) Title for the whats new modal"
@@ -12424,24 +12539,36 @@
     "messageformat": "كىچىك ئۆزگەرتىشلەر كىرگۈزۈلدى، كاشىلا ھەل قىلىندى ۋە ئىقتىدار ئەلالاشتۇرۇلدى. Signal نى ئىشلەتكەنلىكىڭىزگە رەھمەت!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.11--0": {
-    "messageformat": "«ئۆزىڭىزگە ئەسكەرتىش» پاراڭ رامكىسىنى تېپىشنى تېخىمۇ قولايلاشتۇرىدىغان يېڭى سىنبەلگە ئارقىلىق ئۆزىڭىزگە تېزلا سۆز قالدۇرالايسىز. GitHub دىكى «{hackerbirds}» نىڭ قوشقان تۆھپىسىگە رەھمەت بىلدۈرىمىز.",
-    "description": "Release notes for v6.11"
+  "icu:WhatsNew__v6.17--0": {
+    "messageformat": "ئوڭدىن سولغا يېزىلىدىغان (RTL) تىللارنى قوللاش كۈچەيتىلدى.",
+    "description": "Release notes for v6.17"
   },
-  "icu:WhatsNew__v6.12--0": {
-    "messageformat": "ئەمدى كۆپلىگەن ئۇچۇرلارنى تاللاپ ئۇلارنى بىرلا قېتىمدا ئۇلاپ يوللىيالايسىز ياكى ئۆچۈرەلەيسىز.",
-    "description": "Release notes for v6.12"
+  "icu:WhatsNew__v6.17--1": {
+    "messageformat": "رايون تەڭشىكى ھازىر سىستېما مايىللىقىغا ماسلاشتۇرۇلغان بولۇپ، كۆپ خىل تىل سەپلەنگەن ۋاقىتتا سۈكۈتتىكى تەڭشەكلەر تېخىمۇ ياخشى تەڭشەلگەن بولىدۇ.",
+    "description": "Release notes for v6.17"
   },
-  "icu:WhatsNew__v6.12--1": {
-    "messageformat": "«چاپلاق قۇرغۇچى» غا لايىھە جەھەتتە ئۆزگەرتىش ئېلىپ بېرىپ، چاپلاق لايىھەلەش مەستانىلىرى ئۈچۈن پايدىلىق بەزى تەكلىپلەرنى كىرگۈزۈپ يېڭىلاش ئېلىپ باردۇق. ھازىر تور بېتىدە «چاپلاق قۇرغۇچى» نى ئاچسىڭىز، Signal ئۈستەليۈزى نەشرى كىچىكلەپ، قاتتىق دېسكىدا سىز ياقتۇرىدىغان چاپلاقلار ئۈچۈن تېخىمۇ كۆپ بوشلۇق ھازىرلاپ بېرىدۇ.",
-    "description": "Release notes for v6.12"
+  "icu:WhatsNew__v6.17--2": {
+    "messageformat": "بۇ نەشرىدە بىر قانچە قوشۇمچە ئىقتىدارلار ئىلغارلاشتۇرۇلغان ۋە كاشىلىلار ھەل قىلىنغان بولۇپ، بىز مەھەللە ئەزالىرىنىڭ تەكلىپ-پىكىر ۋە تەۋسىيەلىرىگە چىن كۆڭلىمىزدىن رەھمەت ئېيتىمىز.",
+    "description": "Release notes for v6.17"
   },
-  "icu:WhatsNew__v6.13--0": {
-    "messageformat": "ئىلگىرىلەش دوكلاتى: يېڭى ئىلگىرىلەش بالدىقى تەييار بولدى. Signal ئۈستەليۈزى نۇسخىسىنى قوزغاتقاندا يۈكلەش جەريانى توغرىسىدىكى تېخىمۇ كۆپ ئۇچۇرلارنى تېزلىكتە كۆرۈپ چىقىڭ.",
-    "description": "Release notes for v6.13"
+  "icu:WhatsNew__v6.18--0": {
+    "messageformat": "Use the \"Navigate by section\" keyboard shortcuts (⌘/Ctrl+T & ⌘/Ctrl+F6) to quickly move between different areas of the app. It's like a superhero version of the Tab key that can fly further and faster than its mild-mannered alter ego.",
+    "description": "Release notes for v6.18"
   },
-  "icu:WhatsNew__v6.13--1": {
-    "messageformat": "ئۇسلۇب مايىللىقلىرىنى ئەمدى Signal تەڭشەكلىرىدىكى تاللاش رامكىسىغىمۇ قوللىنىشقا بولىدىغان بولدى. GitHub دىكى {rakleed} نىڭ ياردىمىدە «قاراڭغۇ ئۇسلۇبتا قاراڭغۇلۇققا يۈزلىنىش» نى ئىشقا ئاشۇردۇق.",
-    "description": "Release notes for v6.13"
+  "icu:WhatsNew__v6.18--1": {
+    "messageformat": "We added support for optional message sounds so that you can also hear notifications for sent and received messages while a chat is open (Settings > Notifications).",
+    "description": "Release notes for v6.18"
+  },
+  "icu:WhatsNew__v6.18--2": {
+    "messageformat": "Jump to the latest unread message in a chat (⌘/Ctrl+J) without touching the mouse or helping the touchpad live up to its name.",
+    "description": "Release notes for v6.18"
+  },
+  "icu:WhatsNew__v6.18--3": {
+    "messageformat": "Updated icons give the app a fresh look and help improve legibility.",
+    "description": "Release notes for v6.18"
+  },
+  "icu:WhatsNew__v6.18--4": {
+    "messageformat": "There's a new \"Copy text\" option in the triple-dot menu too. Thanks, {yusufsahinhamza}!",
+    "description": "Release notes for v6.18"
   }
 }

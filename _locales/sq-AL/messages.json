@@ -1563,6 +1563,10 @@
     "message": "Krijues pakete ngjitësish",
     "description": "(deleted 03/15/2023) Title of the window that pops up with Signal Desktop preferences in it"
   },
+  "icu:signalDesktopStickerCreator": {
+    "messageformat": "Krijues pakete ngjitësish",
+    "description": "Title of the window that pops up with Signal Desktop preferences in it"
+  },
   "aboutSignalDesktop": {
     "message": "Mbi Signal-in për Desktop",
     "description": "(deleted 03/29/2023) Item under the Help menu, which opens a small about window"
@@ -2158,6 +2162,9 @@
   "icu:accept": {
     "messageformat": "Pranoje"
   },
+  "icu:edit": {
+    "messageformat": "Përpuno"
+  },
   "forward": {
     "message": "Përcjellje",
     "description": "(deleted 03/29/2023)"
@@ -2346,6 +2353,10 @@
     "messageformat": "Më Tepër të Dhëna",
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
   },
+  "icu:copy": {
+    "messageformat": "Copy text",
+    "description": "Shown on the drop-down menu for an individual message, copies the message text to the clipboard"
+  },
   "icu:MessageContextMenu__select": {
     "messageformat": "Përzgjidh",
     "description": "Shown on the drop-down menu for an individual message, opens the conversation in select mode with the current message selected"
@@ -2394,9 +2405,29 @@
     "messageformat": "Fshije mesazhin për të gjithë",
     "description": "(deleted 04/06/2023) Shown on the drop-down menu for an individual message, deletes single message for everyone"
   },
+  "icu:MessageContextMenu__reply": {
+    "messageformat": "Reply",
+    "description": "Shown on the drop-down menu for an individual message when there isnt room for a dedicated button, focuses the composer with a reply to the current message"
+  },
+  "icu:MessageContextMenu__react": {
+    "messageformat": "React",
+    "description": "Shown on the drop-down menu for an individual message when there isnt room for a dedicated button, opens the react picker for the current message"
+  },
+  "icu:MessageContextMenu__download": {
+    "messageformat": "Download",
+    "description": "Shown on the drop-down menu for an individual message when there isnt room for a dedicated button and when there's only a single attachment, downloads an attachment"
+  },
   "icu:MessageContextMenu__deleteMessage": {
-    "messageformat": "Fshi mesazhin",
+    "messageformat": "Delete",
     "description": "Show on the drop-down menu for an individual message, opens a modal to select if you want to 'delete for me' or 'delete for everyone'"
+  },
+  "icu:MessageContextMenu__forward": {
+    "messageformat": "Forward",
+    "description": "Show on the drop-down menu for an individual message, opens a modal to forward a message"
+  },
+  "icu:MessageContextMenu__info": {
+    "messageformat": "Info",
+    "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
   },
   "deleteMessages": {
     "message": "Fshije",
@@ -3325,8 +3356,8 @@
     "messageformat": "Te kuadrati i hartimit të mesazhit u dha tekst kontrollori drejtshkrimi",
     "description": "Description of the spell check setting"
   },
-  "icu:textFormattingDescripton": {
-    "messageformat": "Aktivizo menunë e formatimit të tekstit kur përzgjidhet teksti",
+  "icu:textFormattingDescription": {
+    "messageformat": "Show text formatting popover when text is selected",
     "description": "Description of the text-formatting popover menu setting"
   },
   "spellCheckWillBeEnabled": {
@@ -3534,6 +3565,10 @@
   "icu:deleteFailed": {
     "messageformat": "Fshirja dështoi",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
+  },
+  "icu:editFailed": {
+    "messageformat": "Ndryshimi dështoi, kliko për detaje",
+    "description": "Shown on a message which was edited if the edit wasn't successfully sent to anyone"
   },
   "sendPaused": {
     "message": "Dërgimi i ndal",
@@ -4098,6 +4133,10 @@
   "icu:Toast--failed-to-fetch-phone-number": {
     "messageformat": "S’u arrit të sillej numër telefoni. Kontrolloni lidhjen tuaj dhe riprovoni.",
     "description": "Shown if request to Signal servers to find phone number fails"
+  },
+  "icu:ToastManager__CannotEditMessage": {
+    "messageformat": "Ndryshimet mund të zbatohen vetëm brenda 3 orëve nga momenti që dërgove këtë mesazh.",
+    "description": "Error message when you try to send an edit after message becomes too old"
   },
   "startConversation--username-not-found": {
     "message": "S’u gjet përdorues. $atUsername$ s’është përdorues Signal-i; sigurohuni se e keni dhënë të plotë emrin e përdoruesit.",
@@ -4928,6 +4967,10 @@
     "message": "Kërkoni Për Emoji",
     "description": "(deleted 03/29/2023) Shown as a placeholder inside the emoji picker search field."
   },
+  "icu:EmojiPicker--search-close": {
+    "messageformat": "Mbyll kërkimin për emoji",
+    "description": "Button title to cancel the emoji search."
+  },
   "icu:EmojiPicker--search-placeholder": {
     "messageformat": "Kërkoni Për Emoji",
     "description": "Shown as a placeholder inside the emoji picker search field."
@@ -5019,6 +5062,10 @@
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Anulo",
     "description": "Appears on the cancel button in confirmation dialogs."
+  },
+  "icu:Message__role-description": {
+    "messageformat": "Mesazh",
+    "description": "aria-roledescription of a message"
   },
   "MessageBody--read-more": {
     "message": "Lexoni më tepër",
@@ -5135,6 +5182,10 @@
   "icu:Conversation--getDraftPreview--draft": {
     "messageformat": "(skicë)",
     "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
+  },
+  "icu:Keyboard--focus-most-recent-message": {
+    "messageformat": "Focus oldest unread or last message",
+    "description": "Shown in shortcuts guide"
   },
   "Keyboard--navigate-by-section": {
     "message": "Lëvizni sipas ndarjesh",
@@ -5491,6 +5542,26 @@
   "icu:Keyboard--composer--spoiler": {
     "messageformat": "Shëno si të fshehur tekstin e përzgjedhur",
     "description": "Description of command to bold text in composer"
+  },
+  "icu:FormatMenu--guide--bold": {
+    "messageformat": "Bold",
+    "description": "Shown when you hover over the bold button in the popup formatting menu"
+  },
+  "icu:FormatMenu--guide--italic": {
+    "messageformat": "Italic",
+    "description": "Shown when you hover over the bold button in the popup formatting menu"
+  },
+  "icu:FormatMenu--guide--strikethrough": {
+    "messageformat": "Strikethrough",
+    "description": "Shown when you hover over the bold button in the popup formatting menu"
+  },
+  "icu:FormatMenu--guide--monospace": {
+    "messageformat": "Monospace",
+    "description": "Shown when you hover over the bold button in the popup formatting menu"
+  },
+  "icu:FormatMenu--guide--spoiler": {
+    "messageformat": "Spoiler",
+    "description": "Shown when you hover over the bold button in the popup formatting menu"
   },
   "Keyboard--scroll-to-top": {
     "message": "Rrëshqitni drejt kryes së listës",
@@ -8352,6 +8423,18 @@
     "messageformat": "Po kontrollohet gjendje regjistrimi kontakti",
     "description": "Displayed while checking if the contact is SMS-only"
   },
+  "icu:CompositionArea__edit-action--discard": {
+    "messageformat": "Hiq mesazhin",
+    "description": "aria-label for discard edit button"
+  },
+  "icu:CompositionArea__edit-action--send": {
+    "messageformat": "Dërgo mesazhin e ndryshuar",
+    "description": "aria-label for send edit button"
+  },
+  "icu:CompositionInput__editing-message": {
+    "messageformat": "Përpuno mesazhin",
+    "description": "Status text displayed above composition input when editing a message"
+  },
   "countMutedConversationsDescription": {
     "message": "Përfshi bisedat pa zë në numërator",
     "description": "(deleted 03/29/2023) Description for counting muted conversations in badge setting"
@@ -9397,8 +9480,12 @@
     "description": "(deleted 04/04/2023) Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-name-in-group--link": {
-    "messageformat": "{count, plural, one {{count,number} anëtar grupi ka të njëjtin emër. <reviewRequestLink>Shqyrto kërkesën</reviewRequestLink>} other {{count,number} anëtarë grupi kanë të njëjtin emër. <reviewRequestLink>Shqyrto kërkesat</reviewRequestLink>}}",
+    "messageformat": "{count, plural, one {{count,number} group member has the same name. <reviewRequestLink>Review members</reviewRequestLink>} other {{count,number} group members have the same name. <reviewRequestLink>Review members</reviewRequestLink>}}",
     "description": "Shown in the timeline warning when you multiple group members have the same name"
+  },
+  "icu:ContactSpoofing__same-names-in-group--link": {
+    "messageformat": "{count, plural, one {{count,number} name conflict was found in this group. <reviewRequestLink>Review members</reviewRequestLink>} other {{count,number} name conflicts were found in this group. <reviewRequestLink>Review members</reviewRequestLink>}}",
+    "description": "Shown in the timeline warning when multiple names are shared by members of a group."
   },
   "ContactSpoofing__same-name__link": {
     "message": "Shqyrtoni kërkesë",
@@ -9414,7 +9501,7 @@
   },
   "icu:ContactSpoofing__same-name-in-group__link": {
     "messageformat": "Klikoni për shqyrtim",
-    "description": "Shown in the timeline warning when you multiple group members have the same name"
+    "description": "(deleted 05/04/2023) Shown in the timeline warning when you multiple group members have the same name"
   },
   "ContactSpoofingReviewDialog__title": {
     "message": "Shqyrtoni kërkesë",
@@ -9463,6 +9550,10 @@
   "icu:ContactSpoofingReviewDialog__group__description": {
     "messageformat": "{count, plural, one {{count,number} anëtar grupi ka emër të ngjashëm. Shqyrto anëtarët më poshtë ose zgjidh të ndërmerret një veprim.} other {{count,number} anëtarë grupi kanë emra të ngjashëm. Shqyrto anëtarët më poshtë ose zgjidh të ndërmerret një veprim.}}",
     "description": "Description for the group contact spoofing review dialog"
+  },
+  "icu:ContactSpoofingReviewDialog__group__multiple-conflicts__description": {
+    "messageformat": "{count, plural, one {{count,number} name conflict was found in this group. Review the members below or choose to take action.} other {{count,number} name conflicts were found in this group. Review the members below or choose to take action.}}",
+    "description": "Description for the group contact spoofing review dialog when there are multiple shared names"
   },
   "ContactSpoofingReviewDialog__group__members-header": {
     "message": "Anëtarë",
@@ -9751,6 +9842,14 @@
   "icu:CustomColorEditor__title": {
     "messageformat": "Ngjyrë Vetjake",
     "description": "Modal title for the custom color editor"
+  },
+  "icu:GradientDial__knob-start": {
+    "messageformat": "Gradient start",
+    "description": "aria-label for the custom color gradient creator knob"
+  },
+  "icu:GradientDial__knob-end": {
+    "messageformat": "Gradient end",
+    "description": "aria-label for the custom color gradient creator knob"
   },
   "customDisappearingTimeOption": {
     "message": "Kohë vetjake…",
@@ -10367,6 +10466,14 @@
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "Avatar Grupi",
     "description": "Title for the avatar picker in the group creation flow"
+  },
+  "icu:Preferences__message-audio-title": {
+    "messageformat": "In-chat message sound",
+    "description": "Title for message audio setting"
+  },
+  "icu:Preferences__message-audio-description": {
+    "messageformat": "Hear a notification sound for sent and received messages while in the chat.",
+    "description": "Description for message audio setting"
   },
   "Preferences__button--general": {
     "message": "Të përgjithshme",
@@ -12360,6 +12467,14 @@
     "messageformat": "Historiku i përpunimeve",
     "description": "Modal title for the edit history messages modal"
   },
+  "icu:ResendMessageEdit__body": {
+    "messageformat": "Ky ndryshim nuk mund të dërgohej. Kontrollo lidhjen e internetit dhe riprovo",
+    "description": "Modal body for the confirmation dialog shown to user when attempting to resend message edit"
+  },
+  "icu:ResendMessageEdit__button": {
+    "messageformat": "Ridërgoje",
+    "description": "Button text for the confirmation dialog shown to user when attempting to resend message edit"
+  },
   "WhatsNew__modal-title": {
     "message": "Ç’ka të Re",
     "description": "(deleted 03/29/2023) Title for the whats new modal"
@@ -12424,24 +12539,36 @@
     "messageformat": "Rregullme të vogla, riparime të gabimeve dhe përmirësime të mbarëvajtjes.  Faleminderit që përdorni Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.11--0": {
-    "messageformat": "Fillo të bisedosh me veten edhe më shpejt me një ikonë të re, që e bën më të lehtë gjetjen e bisedës \"Shënim për veten\". Faleminderit {hackerbirds} në GitHub për kontributin e tyre.",
-    "description": "Release notes for v6.11"
+  "icu:WhatsNew__v6.17--0": {
+    "messageformat": "Mbështetje e përmirësuar për gjuhët nga e djathta në të majtë (RTL).",
+    "description": "Release notes for v6.17"
   },
-  "icu:WhatsNew__v6.12--0": {
-    "messageformat": "Tani mund të përzgjedhësh disa mesazhe dhe t'i përcjellësh ose fshish të gjitha menjëherë.",
-    "description": "Release notes for v6.12"
+  "icu:WhatsNew__v6.17--1": {
+    "messageformat": "Lokalet tani përputhen në bazë të preferencave të sistemit tënd. Kjo duhet të rezultojë në veprime më të mira të paracaktuar kur shumë gjuhë konfigurohen .",
+    "description": "Release notes for v6.17"
   },
-  "icu:WhatsNew__v6.12--1": {
-    "messageformat": "Ne përditësuam Krijuesin e Ngjitësve me disa ndryshime në dizajn dhe shtuam disa këshilla të dobishme për artistët aspirues të ngjitësve. Krijuesi i Ngjitësve tani hapet në shfletuesin tënd të internetit, gjë që e bën Signal Desktop pak më të vogël dhe lë pak më shumë hapësirë në hard disk për të gjitha paketat e tua të preferuara të ngjitëseve.",
-    "description": "Release notes for v6.12"
+  "icu:WhatsNew__v6.17--2": {
+    "messageformat": "Ky version shtesë (a10y) prezanton disa përmirësime të aksesueshmërisë (a11y) dhe rregullime të gabimeve, dhe ne me dashamirësi (a12y) dëshirojmë të falënderojmë komunitetin për komentet dhe sugjerimet e tij.",
+    "description": "Release notes for v6.17"
   },
-  "icu:WhatsNew__v6.13--0": {
-    "messageformat": "Raporti i progresit: Shiriti i ri i progresit është gati. Shiko më shumë informacion rreth procesit të ngarkimit kurdo që hap Signal Desktop.",
-    "description": "Release notes for v6.13"
+  "icu:WhatsNew__v6.18--0": {
+    "messageformat": "Use the \"Navigate by section\" keyboard shortcuts (⌘/Ctrl+T & ⌘/Ctrl+F6) to quickly move between different areas of the app. It's like a superhero version of the Tab key that can fly further and faster than its mild-mannered alter ego.",
+    "description": "Release notes for v6.18"
   },
-  "icu:WhatsNew__v6.13--1": {
-    "messageformat": "Preferencat e temave tani zbatohen edhe për kutitë e zgjedhjes në Parametrat e Signal. Faleminderit {rakleed} në GitHub që na ndihmon të heqim \"Përfshirjen e plotë të errësirës në temën e errët\" nga lista e gjërave për t'u bërë.",
-    "description": "Release notes for v6.13"
+  "icu:WhatsNew__v6.18--1": {
+    "messageformat": "We added support for optional message sounds so that you can also hear notifications for sent and received messages while a chat is open (Settings > Notifications).",
+    "description": "Release notes for v6.18"
+  },
+  "icu:WhatsNew__v6.18--2": {
+    "messageformat": "Jump to the latest unread message in a chat (⌘/Ctrl+J) without touching the mouse or helping the touchpad live up to its name.",
+    "description": "Release notes for v6.18"
+  },
+  "icu:WhatsNew__v6.18--3": {
+    "messageformat": "Updated icons give the app a fresh look and help improve legibility.",
+    "description": "Release notes for v6.18"
+  },
+  "icu:WhatsNew__v6.18--4": {
+    "messageformat": "There's a new \"Copy text\" option in the triple-dot menu too. Thanks, {yusufsahinhamza}!",
+    "description": "Release notes for v6.18"
   }
 }

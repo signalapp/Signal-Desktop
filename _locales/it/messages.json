@@ -1563,6 +1563,10 @@
     "message": "Creatore di pacchetti di adesivi",
     "description": "(deleted 03/15/2023) Title of the window that pops up with Signal Desktop preferences in it"
   },
+  "icu:signalDesktopStickerCreator": {
+    "messageformat": "Creatore di pacchetti di adesivi",
+    "description": "Title of the window that pops up with Signal Desktop preferences in it"
+  },
   "aboutSignalDesktop": {
     "message": "Informazioni su Signal Desktop",
     "description": "(deleted 03/29/2023) Item under the Help menu, which opens a small about window"
@@ -2158,6 +2162,9 @@
   "icu:accept": {
     "messageformat": "Accetta"
   },
+  "icu:edit": {
+    "messageformat": "Modifica"
+  },
   "forward": {
     "message": "Inoltra",
     "description": "(deleted 03/29/2023)"
@@ -2346,6 +2353,10 @@
     "messageformat": "Informazioni",
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
   },
+  "icu:copy": {
+    "messageformat": "Copy text",
+    "description": "Shown on the drop-down menu for an individual message, copies the message text to the clipboard"
+  },
   "icu:MessageContextMenu__select": {
     "messageformat": "Seleziona",
     "description": "Shown on the drop-down menu for an individual message, opens the conversation in select mode with the current message selected"
@@ -2394,9 +2405,29 @@
     "messageformat": "Elimina messaggio per tutti",
     "description": "(deleted 04/06/2023) Shown on the drop-down menu for an individual message, deletes single message for everyone"
   },
+  "icu:MessageContextMenu__reply": {
+    "messageformat": "Reply",
+    "description": "Shown on the drop-down menu for an individual message when there isnt room for a dedicated button, focuses the composer with a reply to the current message"
+  },
+  "icu:MessageContextMenu__react": {
+    "messageformat": "React",
+    "description": "Shown on the drop-down menu for an individual message when there isnt room for a dedicated button, opens the react picker for the current message"
+  },
+  "icu:MessageContextMenu__download": {
+    "messageformat": "Download",
+    "description": "Shown on the drop-down menu for an individual message when there isnt room for a dedicated button and when there's only a single attachment, downloads an attachment"
+  },
   "icu:MessageContextMenu__deleteMessage": {
-    "messageformat": "Elimina messaggio",
+    "messageformat": "Delete",
     "description": "Show on the drop-down menu for an individual message, opens a modal to select if you want to 'delete for me' or 'delete for everyone'"
+  },
+  "icu:MessageContextMenu__forward": {
+    "messageformat": "Forward",
+    "description": "Show on the drop-down menu for an individual message, opens a modal to forward a message"
+  },
+  "icu:MessageContextMenu__info": {
+    "messageformat": "Info",
+    "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
   },
   "deleteMessages": {
     "message": "Elimina",
@@ -3325,8 +3356,8 @@
     "messageformat": "Controllo ortografico del testo inserito nella casella di composizione del messaggio",
     "description": "Description of the spell check setting"
   },
-  "icu:textFormattingDescripton": {
-    "messageformat": "Abilita il menu a comparsa per la formattazione quando il testo viene selezionato",
+  "icu:textFormattingDescription": {
+    "messageformat": "Show text formatting popover when text is selected",
     "description": "Description of the text-formatting popover menu setting"
   },
   "spellCheckWillBeEnabled": {
@@ -3534,6 +3565,10 @@
   "icu:deleteFailed": {
     "messageformat": "Eliminazione fallita",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
+  },
+  "icu:editFailed": {
+    "messageformat": "Modifica non riuscita, clicca per maggiori info",
+    "description": "Shown on a message which was edited if the edit wasn't successfully sent to anyone"
   },
   "sendPaused": {
     "message": "Invio in pausa",
@@ -4098,6 +4133,10 @@
   "icu:Toast--failed-to-fetch-phone-number": {
     "messageformat": "Impossibile recuperare il numero di telefono. Controlla la tua connessione e riprova.",
     "description": "Shown if request to Signal servers to find phone number fails"
+  },
+  "icu:ToastManager__CannotEditMessage": {
+    "messageformat": "Puoi modificare questo messaggio entro 3 ore dall'invio.",
+    "description": "Error message when you try to send an edit after message becomes too old"
   },
   "startConversation--username-not-found": {
     "message": "Utente non trovato. $atUsername$ non è un utente Signal user; assicurati di aver inserito il nome utente completo.",
@@ -4928,6 +4967,10 @@
     "message": "Cerca emoji",
     "description": "(deleted 03/29/2023) Shown as a placeholder inside the emoji picker search field."
   },
+  "icu:EmojiPicker--search-close": {
+    "messageformat": "Chiudi ricerca emoji",
+    "description": "Button title to cancel the emoji search."
+  },
   "icu:EmojiPicker--search-placeholder": {
     "messageformat": "Cerca emoji",
     "description": "Shown as a placeholder inside the emoji picker search field."
@@ -5019,6 +5062,10 @@
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Annulla",
     "description": "Appears on the cancel button in confirmation dialogs."
+  },
+  "icu:Message__role-description": {
+    "messageformat": "Messaggio",
+    "description": "aria-roledescription of a message"
   },
   "MessageBody--read-more": {
     "message": "Leggi tutto",
@@ -5135,6 +5182,10 @@
   "icu:Conversation--getDraftPreview--draft": {
     "messageformat": "(bozza)",
     "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
+  },
+  "icu:Keyboard--focus-most-recent-message": {
+    "messageformat": "Focus oldest unread or last message",
+    "description": "Shown in shortcuts guide"
   },
   "Keyboard--navigate-by-section": {
     "message": "Naviga per sezione",
@@ -5491,6 +5542,26 @@
   "icu:Keyboard--composer--spoiler": {
     "messageformat": "Contrassegna il testo selezionato come spoiler",
     "description": "Description of command to bold text in composer"
+  },
+  "icu:FormatMenu--guide--bold": {
+    "messageformat": "Bold",
+    "description": "Shown when you hover over the bold button in the popup formatting menu"
+  },
+  "icu:FormatMenu--guide--italic": {
+    "messageformat": "Italic",
+    "description": "Shown when you hover over the bold button in the popup formatting menu"
+  },
+  "icu:FormatMenu--guide--strikethrough": {
+    "messageformat": "Strikethrough",
+    "description": "Shown when you hover over the bold button in the popup formatting menu"
+  },
+  "icu:FormatMenu--guide--monospace": {
+    "messageformat": "Monospace",
+    "description": "Shown when you hover over the bold button in the popup formatting menu"
+  },
+  "icu:FormatMenu--guide--spoiler": {
+    "messageformat": "Spoiler",
+    "description": "Shown when you hover over the bold button in the popup formatting menu"
   },
   "Keyboard--scroll-to-top": {
     "message": "Scorri in cima all'elenco",
@@ -8352,6 +8423,18 @@
     "messageformat": "Verifica dello stato di registrazione del contatto",
     "description": "Displayed while checking if the contact is SMS-only"
   },
+  "icu:CompositionArea__edit-action--discard": {
+    "messageformat": "Annulla messaggio",
+    "description": "aria-label for discard edit button"
+  },
+  "icu:CompositionArea__edit-action--send": {
+    "messageformat": "Invia messaggio modificato",
+    "description": "aria-label for send edit button"
+  },
+  "icu:CompositionInput__editing-message": {
+    "messageformat": "Modifica messaggio",
+    "description": "Status text displayed above composition input when editing a message"
+  },
   "countMutedConversationsDescription": {
     "message": "Includi le chat silenziate nel conteggio totale delle chat non lette",
     "description": "(deleted 03/29/2023) Description for counting muted conversations in badge setting"
@@ -9397,8 +9480,12 @@
     "description": "(deleted 04/04/2023) Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-name-in-group--link": {
-    "messageformat": "{count, plural, one {{count,number} persona del gruppo ha lo stesso nome. <reviewRequestLink>Controlla la richiesta</reviewRequestLink>} other {{count,number} persone del gruppo hanno lo stesso nome. <reviewRequestLink>Controlla la richiesta</reviewRequestLink>}}",
+    "messageformat": "{count, plural, one {{count,number} group member has the same name. <reviewRequestLink>Review members</reviewRequestLink>} other {{count,number} group members have the same name. <reviewRequestLink>Review members</reviewRequestLink>}}",
     "description": "Shown in the timeline warning when you multiple group members have the same name"
+  },
+  "icu:ContactSpoofing__same-names-in-group--link": {
+    "messageformat": "{count, plural, one {{count,number} name conflict was found in this group. <reviewRequestLink>Review members</reviewRequestLink>} other {{count,number} name conflicts were found in this group. <reviewRequestLink>Review members</reviewRequestLink>}}",
+    "description": "Shown in the timeline warning when multiple names are shared by members of a group."
   },
   "ContactSpoofing__same-name__link": {
     "message": "Controlla richieste",
@@ -9414,7 +9501,7 @@
   },
   "icu:ContactSpoofing__same-name-in-group__link": {
     "messageformat": "Clicca per controllare",
-    "description": "Shown in the timeline warning when you multiple group members have the same name"
+    "description": "(deleted 05/04/2023) Shown in the timeline warning when you multiple group members have the same name"
   },
   "ContactSpoofingReviewDialog__title": {
     "message": "Controlla richieste",
@@ -9463,6 +9550,10 @@
   "icu:ContactSpoofingReviewDialog__group__description": {
     "messageformat": "{count, plural, one {{count,number} persona del gruppo ha un nome simile a un'altra. Controlla le persone qui segnalate per scegliere cosa fare.} other {{count,number} persone del gruppo hanno nomi simili ad altre. Controlla le persone qui segnalate per scegliere cosa fare.}}",
     "description": "Description for the group contact spoofing review dialog"
+  },
+  "icu:ContactSpoofingReviewDialog__group__multiple-conflicts__description": {
+    "messageformat": "{count, plural, one {{count,number} name conflict was found in this group. Review the members below or choose to take action.} other {{count,number} name conflicts were found in this group. Review the members below or choose to take action.}}",
+    "description": "Description for the group contact spoofing review dialog when there are multiple shared names"
   },
   "ContactSpoofingReviewDialog__group__members-header": {
     "message": "Membri",
@@ -9751,6 +9842,14 @@
   "icu:CustomColorEditor__title": {
     "messageformat": "Colore personalizzato",
     "description": "Modal title for the custom color editor"
+  },
+  "icu:GradientDial__knob-start": {
+    "messageformat": "Gradient start",
+    "description": "aria-label for the custom color gradient creator knob"
+  },
+  "icu:GradientDial__knob-end": {
+    "messageformat": "Gradient end",
+    "description": "aria-label for the custom color gradient creator knob"
   },
   "customDisappearingTimeOption": {
     "message": "Tempo personalizzato…",
@@ -10367,6 +10466,14 @@
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "Avatar del gruppo",
     "description": "Title for the avatar picker in the group creation flow"
+  },
+  "icu:Preferences__message-audio-title": {
+    "messageformat": "In-chat message sound",
+    "description": "Title for message audio setting"
+  },
+  "icu:Preferences__message-audio-description": {
+    "messageformat": "Hear a notification sound for sent and received messages while in the chat.",
+    "description": "Description for message audio setting"
   },
   "Preferences__button--general": {
     "message": "Generale",
@@ -12360,6 +12467,14 @@
     "messageformat": "Cronologia delle modifiche",
     "description": "Modal title for the edit history messages modal"
   },
+  "icu:ResendMessageEdit__body": {
+    "messageformat": "Impossibile inviare questa modifica. Controlla la tua connessione e riprova",
+    "description": "Modal body for the confirmation dialog shown to user when attempting to resend message edit"
+  },
+  "icu:ResendMessageEdit__button": {
+    "messageformat": "Invia di nuovo",
+    "description": "Button text for the confirmation dialog shown to user when attempting to resend message edit"
+  },
   "WhatsNew__modal-title": {
     "message": "Cosa c'è di nuovo",
     "description": "(deleted 03/29/2023) Title for the whats new modal"
@@ -12424,24 +12539,36 @@
     "messageformat": "Altre piccole modifiche e correzioni di bug per far funzionare l'app senza problemi. Grazie per usare Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.11--0": {
-    "messageformat": "Da ora è presente una nuova icona per le Note Personali: serviva una scorciatoia per la chat più stimolante di tutte. Grazie a {hackerbirds} per il suo contributo su GitHub.",
-    "description": "Release notes for v6.11"
+  "icu:WhatsNew__v6.17--0": {
+    "messageformat": "Supporto migliorato per lingue con scrittura da destra a sinistra.",
+    "description": "Release notes for v6.17"
   },
-  "icu:WhatsNew__v6.12--0": {
-    "messageformat": "Da ora puoi selezionare più messaggi e inoltrarli o eliminarli in un colpo solo.",
-    "description": "Release notes for v6.12"
+  "icu:WhatsNew__v6.17--1": {
+    "messageformat": "Le lingue di base vengono ora selezionate in base alle preferenze del tuo sistema. In tal modo, l'impostazione predefinita dovrebbe funzionare meglio quando vengono configurate più lingue.",
+    "description": "Release notes for v6.17"
   },
-  "icu:WhatsNew__v6.12--1": {
-    "messageformat": "Abbiamo aggiornato lo strumento per creare sticker migliorando l'interfaccia e aggiungendo dei consigli sull'antica arte di creazione di sticker. Da ora lo strumento per creare gli sticker verrà aperto sul tuo browser, rendendo così Signal Desktop più leggera e liberando la memoria sul tuo hard disk o SSD: più spazio per i tuoi sticker!",
-    "description": "Release notes for v6.12"
+  "icu:WhatsNew__v6.17--2": {
+    "messageformat": "Questo aggiornamento aggiunge anche molti miglioramenti lato accessibilità e risolve vari bug. Vogliamo quindi ringraziare di cuore tutta la community per il feedback e i consigli condivisi con noi!",
+    "description": "Release notes for v6.17"
   },
-  "icu:WhatsNew__v6.13--0": {
-    "messageformat": "Un nuovo look per la nostra barra di caricamento. Da ora potrai vedere più informazioni riportate nella barra di caricamento quando apri Signal Desktop.",
-    "description": "Release notes for v6.13"
+  "icu:WhatsNew__v6.18--0": {
+    "messageformat": "Use the \"Navigate by section\" keyboard shortcuts (⌘/Ctrl+T & ⌘/Ctrl+F6) to quickly move between different areas of the app. It's like a superhero version of the Tab key that can fly further and faster than its mild-mannered alter ego.",
+    "description": "Release notes for v6.18"
   },
-  "icu:WhatsNew__v6.13--1": {
-    "messageformat": "Da ora il tema scelto per Signal verrà applicato anche alle caselle di spunta nelle Impostazioni. Grazie a {rakleed} su GitHub per averci segnalato questo problema che ora è risolto!",
-    "description": "Release notes for v6.13"
+  "icu:WhatsNew__v6.18--1": {
+    "messageformat": "We added support for optional message sounds so that you can also hear notifications for sent and received messages while a chat is open (Settings > Notifications).",
+    "description": "Release notes for v6.18"
+  },
+  "icu:WhatsNew__v6.18--2": {
+    "messageformat": "Jump to the latest unread message in a chat (⌘/Ctrl+J) without touching the mouse or helping the touchpad live up to its name.",
+    "description": "Release notes for v6.18"
+  },
+  "icu:WhatsNew__v6.18--3": {
+    "messageformat": "Updated icons give the app a fresh look and help improve legibility.",
+    "description": "Release notes for v6.18"
+  },
+  "icu:WhatsNew__v6.18--4": {
+    "messageformat": "There's a new \"Copy text\" option in the triple-dot menu too. Thanks, {yusufsahinhamza}!",
+    "description": "Release notes for v6.18"
   }
 }
