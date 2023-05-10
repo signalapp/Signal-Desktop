@@ -63,13 +63,15 @@ export function WithCaption(): JSX.Element {
       renderCompositionTextArea={props => (
         <CompositionTextArea
           {...props}
+          getPreferredBadge={() => undefined}
           i18n={i18n}
-          isFormattingSpoilersEnabled
           isFormattingEnabled
+          isFormattingFlagEnabled
+          isFormattingSpoilersFlagEnabled
           onPickEmoji={action('onPickEmoji')}
           onSetSkinTone={action('onSetSkinTone')}
           onTextTooLong={action('onTextTooLong')}
-          getPreferredBadge={() => undefined}
+          platform="darwin"
         />
       )}
     />

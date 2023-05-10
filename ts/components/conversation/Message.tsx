@@ -218,7 +218,7 @@ export type PropsData = {
   isTargetedCounter?: number;
   isSelected: boolean;
   isSelectMode: boolean;
-  isSpoilerExpanded?: boolean;
+  isSpoilerExpanded?: Record<number, boolean>;
   direction: DirectionType;
   timestamp: number;
   status?: MessageStatusType;
@@ -324,7 +324,7 @@ export type PropsActions = {
   pushPanelForConversation: PushPanelForConversationActionType;
   retryMessageSend: (messageId: string) => unknown;
   showContactModal: (contactId: string, conversationId?: string) => void;
-  showSpoiler: (messageId: string) => void;
+  showSpoiler: (messageId: string, data: Record<number, boolean>) => void;
 
   kickOffAttachmentDownload: (options: {
     attachment: AttachmentType;
@@ -1803,7 +1803,7 @@ export class Message extends React.PureComponent<Props, State> {
           displayLimit={displayLimit}
           i18n={i18n}
           id={id}
-          isSpoilerExpanded={isSpoilerExpanded || false}
+          isSpoilerExpanded={isSpoilerExpanded || {}}
           kickOffBodyDownload={() => {
             if (!textAttachment) {
               return;
@@ -1816,7 +1816,7 @@ export class Message extends React.PureComponent<Props, State> {
           messageExpanded={messageExpanded}
           showConversation={showConversation}
           renderLocation={RenderLocation.Timeline}
-          onExpandSpoiler={() => showSpoiler(id)}
+          onExpandSpoiler={data => showSpoiler(id, data)}
           text={contents || ''}
           textAttachment={textAttachment}
         />

@@ -27,6 +27,8 @@ import { PaymentEventKind } from '../../types/Payment';
 import { getPaymentEventNotificationText } from '../../messages/helpers';
 import { RenderLocation } from './MessageTextRenderer';
 
+const EMPTY_OBJECT = Object.freeze(Object.create(null));
+
 export type Props = {
   authorTitle: string;
   conversationColor: ConversationColorType;
@@ -359,7 +361,7 @@ export function Quote(props: Props): JSX.Element | null {
             disableLinks
             disableJumbomoji
             i18n={i18n}
-            isSpoilerExpanded={false}
+            isSpoilerExpanded={EMPTY_OBJECT}
             renderLocation={RenderLocation.Quote}
             text={text}
           />

@@ -696,21 +696,27 @@ export default class MessageSender {
 
   async getStoryMessage({
     allowsReplies,
+    bodyRanges,
     fileAttachment,
     groupV2,
     profileKey,
     textAttachment,
   }: {
     allowsReplies?: boolean;
+    bodyRanges?: Array<RawBodyRange>;
     fileAttachment?: UploadedAttachmentType;
     groupV2?: GroupV2InfoType;
     profileKey: Uint8Array;
     textAttachment?: OutgoingTextAttachmentType;
   }): Promise<Proto.StoryMessage> {
     const storyMessage = new Proto.StoryMessage();
+
     storyMessage.profileKey = profileKey;
 
     if (fileAttachment) {
+      if (bodyRanges) {
+        storyMessage.bodyRanges = bodyRanges;
+      }
       try {
         storyMessage.fileAttachment = fileAttachment;
       } catch (error) {

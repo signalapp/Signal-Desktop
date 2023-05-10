@@ -42,7 +42,7 @@ const defaultMessage: MessageDataPropsType = {
   isMessageRequestAccepted: true,
   isSelected: false,
   isSelectMode: false,
-  isSpoilerExpanded: false,
+  isSpoilerExpanded: {},
   previews: [],
   readStatus: ReadStatus.Read,
   status: 'sent',

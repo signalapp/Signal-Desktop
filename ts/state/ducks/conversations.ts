@@ -185,7 +185,7 @@ export type MessageType = MessageAttributesType & {
 // eslint-disable-next-line local-rules/type-alias-readonlydeep
 export type MessageWithUIFieldsType = MessageAttributesType & {
   displayLimit?: number;
-  isSpoilerExpanded?: boolean;
+  isSpoilerExpanded?: Record<number, boolean>;
 };
 
 export const ConversationTypes = ['direct', 'group'] as const;
@@ -737,6 +737,7 @@ export type ShowSpoilerActionType = ReadonlyDeep<{
   type: typeof SHOW_SPOILER;
   payload: {
     id: string;
+    data: Record<number, boolean>;
   };
 }>;
 
@@ -2740,11 +2741,15 @@ function messageExpanded(
     },
   };
 }
-function showSpoiler(id: string): ShowSpoilerActionType {
+function showSpoiler(
+  id: string,
+  data: Record<number, boolean>
+): ShowSpoilerActionType {
   return {
     type: SHOW_SPOILER,
     payload: {
       id,
+      data,
     },
   };
 }
@@ -4981,7 +4986,7 @@ export function reducer(
     };
   }
   if (action.type === SHOW_SPOILER) {
-    const { id } = action.payload;
+    const { id, data } = action.payload;
 
     const existingMessage = state.messagesLookup[id];
     if (!existingMessage) {
@@ -4990,7 +4995,7 @@ export function reducer(
 
     const updatedMessage = {
       ...existingMessage,
-      isSpoilerExpanded: true,
+      isSpoilerExpanded: data,
     };
 
     return {

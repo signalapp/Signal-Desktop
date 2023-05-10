@@ -5,16 +5,18 @@ import React from 'react';
 import type { ReactElement } from 'react';
 import classNames from 'classnames';
 import emojiRegex from 'emoji-regex';
+import { sortBy } from 'lodash';
 
 import { linkify, SUPPORTED_PROTOCOLS } from './Linkify';
 import type {
-  BodyRange,
   BodyRangesForDisplayType,
   DisplayNode,
   HydratedBodyRangeMention,
   RangeNode,
 } from '../../types/BodyRange';
 import {
+  SPOILER_REPLACEMENT,
+  BodyRange,
   insertRange,
   collapseRangeTree,
   groupContiguousSpoilers,
@@ -30,6 +32,7 @@ const EMOJI_REGEXP = emojiRegex();
 export enum RenderLocation {
   ConversationList = 'ConversationList',
   Quote = 'Quote',
+  MediaEditor = 'MediaEditor',
   SearchResult = 'SearchResult',
   StoryViewer = 'StoryViewer',
   Timeline = 'Timeline',
@@ -41,9 +44,9 @@ type Props = {
   disableLinks: boolean;
   emojiSizeClass: SizeClassType | undefined;
   i18n: LocalizerType;
-  isSpoilerExpanded: boolean;
+  isSpoilerExpanded: Record<number, boolean>;
   messageText: string;
-  onExpandSpoiler?: () => void;
+  onExpandSpoiler?: (data: Record<number, boolean>) => void;
   onMentionTrigger: (conversationId: string) => void;
   renderLocation: RenderLocation;
   // Sometimes we're passed a string with a suffix (like '...'); we won't process that
@@ -63,19 +66,32 @@ export function MessageTextRenderer({
   renderLocation,
   textLength,
 }: Props): JSX.Element {
-  const links = disableLinks ? [] : extractLinks(messageText);
-  const tree = bodyRanges.reduce<ReadonlyArray<RangeNode>>(
-    (acc, range) => {
-      // Drop bodyRanges that don't apply. Read More means truncated strings.
-      if (range.start < textLength) {
-        return insertRange(range, acc);
-      }
-      return acc;
-    },
-    links.map(b => ({ ...b, ranges: [] }))
-  );
-  const nodes = collapseRangeTree({ tree, text: messageText });
-  const finalNodes = groupContiguousSpoilers(nodes);
+  const finalNodes = React.useMemo(() => {
+    const links = disableLinks ? [] : extractLinks(messageText);
+
+    // We need mentions to come last; they can't have children for proper rendering
+    const sortedRanges = sortBy(bodyRanges, range =>
+      BodyRange.isMention(range) ? 1 : 0
+    );
+
+    // Create range tree, dropping bodyRanges that don't apply. Read More means truncated
+    //   strings.
+    const tree = sortedRanges.reduce<ReadonlyArray<RangeNode>>(
+      (acc, range) => {
+        if (range.start < textLength) {
+          return insertRange(range, acc);
+        }
+        return acc;
+      },
+      links.map(b => ({ ...b, ranges: [] }))
+    );
+
+    // Turn tree into flat list for proper spoiler rendering
+    const nodes = collapseRangeTree({ tree, text: messageText });
+
+    // Group all contigusous spoilers to create one parent spoiler element in the DOM
+    return groupContiguousSpoilers(nodes);
+  }, [bodyRanges, disableLinks, messageText, textLength]);
 
   return (
     <>
@@ -114,16 +130,18 @@ function renderNode({
   emojiSizeClass: SizeClassType | undefined;
   i18n: LocalizerType;
   isInvisible: boolean;
-  isSpoilerExpanded: boolean;
+  isSpoilerExpanded: Record<number, boolean>;
   node: DisplayNode;
-  onExpandSpoiler?: () => void;
+  onExpandSpoiler?: (data: Record<number, boolean>) => void;
   onMentionTrigger: ((conversationId: string) => void) | undefined;
   renderLocation: RenderLocation;
 }): ReactElement {
   const key = node.start;
 
   if (node.isSpoiler && node.spoilerChildren?.length) {
-    const isSpoilerHidden = Boolean(node.isSpoiler && !isSpoilerExpanded);
+    const isSpoilerHidden = Boolean(
+      node.isSpoiler && !isSpoilerExpanded[node.spoilerIndex || 0]
+    );
     const content = node.spoilerChildren?.map(spoilerNode =>
       renderNode({
         direction,
@@ -174,7 +192,10 @@ function renderNode({
                 if (onExpandSpoiler) {
                   event.preventDefault();
                   event.stopPropagation();
-                  onExpandSpoiler();
+                  onExpandSpoiler({
+                    ...isSpoilerExpanded,
+                    [node.spoilerIndex || 0]: true,
+                  });
                 }
               }
         }
@@ -187,10 +208,19 @@ function renderNode({
                 }
                 event.preventDefault();
                 event.stopPropagation();
-                onExpandSpoiler?.();
+                onExpandSpoiler?.({
+                  ...isSpoilerExpanded,
+                  [node.spoilerIndex || 0]: true,
+                });
               }
         }
       >
+        <span
+          aria-hidden
+          className="MessageTextRenderer__formatting--spoiler--copy-target"
+        >
+          {SPOILER_REPLACEMENT}
+        </span>
         <span aria-hidden>{content}</span>
       </span>
     );

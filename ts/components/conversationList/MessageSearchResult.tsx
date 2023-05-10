@@ -3,6 +3,7 @@
 
 import type { FunctionComponent, ReactNode } from 'react';
 import React, { useCallback } from 'react';
+import { noop } from 'lodash';
 
 import { ContactName } from '../conversation/ContactName';
 
@@ -20,6 +21,8 @@ import {
   MessageTextRenderer,
   RenderLocation,
 } from '../conversation/MessageTextRenderer';
+
+const EMPTY_OBJECT = Object.freeze(Object.create(null));
 
 export type PropsDataType = {
   isSelected?: boolean;
@@ -166,8 +169,8 @@ export const MessageSearchResult: FunctionComponent<PropsType> = React.memo(
         disableLinks
         emojiSizeClass={undefined}
         i18n={i18n}
-        isSpoilerExpanded={false}
-        onMentionTrigger={() => null}
+        isSpoilerExpanded={EMPTY_OBJECT}
+        onMentionTrigger={noop}
         renderLocation={RenderLocation.SearchResult}
         textLength={cleanedSnippet.length}
       />

@@ -41,10 +41,11 @@ import {
 } from '../mediaEditor/util/getTextStyleAttributes';
 import { AddCaptionModal } from './AddCaptionModal';
 import type { SmartCompositionTextAreaProps } from '../state/smart/CompositionTextArea';
-import { Emojify } from './conversation/Emojify';
-import { AddNewLines } from './conversation/AddNewLines';
 import { useConfirmDiscard } from '../hooks/useConfirmDiscard';
 import { Spinner } from './Spinner';
+import type { HydratedBodyRangesType } from '../types/BodyRange';
+import { MessageBody } from './conversation/MessageBody';
+import { RenderLocation } from './conversation/MessageTextRenderer';
 import { arrow } from '../util/keyboard';
 
 export type MediaEditorResultType = Readonly<{
@@ -52,6 +53,7 @@ export type MediaEditorResultType = Readonly<{
   contentType: MIMEType;
   blurHash: string;
   caption?: string;
+  captionBodyRanges?: HydratedBodyRangesType;
 }>;
 
 export type PropsType = {
@@ -137,6 +139,9 @@ export function MediaEditor({
     useState<boolean>(false);
 
   const [caption, setCaption] = useState('');
+  const [captionBodyRanges, setCaptionBodyRanges] = useState<
+    HydratedBodyRangesType | undefined
+  >();
 
   const [showAddCaptionModal, setShowAddCaptionModal] = useState(false);
 
@@ -948,11 +953,12 @@ export function MediaEditor({
                 >
                   {caption !== '' ? (
                     <span>
-                      <AddNewLines
+                      <MessageBody
+                        renderLocation={RenderLocation.MediaEditor}
+                        bodyRanges={captionBodyRanges}
+                        i18n={i18n}
+                        isSpoilerExpanded={{}}
                         text={caption}
-                        renderNonNewLine={({ key, text }) => (
-                          <Emojify key={key} text={text} />
-                        )}
                       />
                     </span>
                   ) : (
@@ -964,8 +970,10 @@ export function MediaEditor({
                   <AddCaptionModal
                     i18n={i18n}
                     draftText={caption}
-                    onSubmit={messageText => {
+                    draftBodyRanges={captionBodyRanges}
+                    onSubmit={(messageText, bodyRanges) => {
                       setCaption(messageText.trim());
+                      setCaptionBodyRanges(bodyRanges);
                       setShowAddCaptionModal(false);
                     }}
                     onClose={() => setShowAddCaptionModal(false)}
@@ -1230,6 +1238,7 @@ export function MediaEditor({
                 contentType: IMAGE_PNG,
                 data,
                 caption: caption !== '' ? caption : undefined,
+                captionBodyRanges,
                 blurHash,
               });
             }}

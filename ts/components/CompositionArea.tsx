@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { get } from 'lodash';
 import classNames from 'classnames';
 import type { ReadonlyDeep } from 'type-fest';
 
@@ -99,7 +98,8 @@ export type OwnProps = Readonly<{
   isDisabled: boolean;
   isFetchingUUID?: boolean;
   isFormattingEnabled: boolean;
-  isFormattingSpoilersEnabled: boolean;
+  isFormattingFlagEnabled: boolean;
+  isFormattingSpoilersFlagEnabled: boolean;
   isGroupV1AndDisabled?: boolean;
   isMissingMandatoryProfileSharing?: boolean;
   isSignalConversation?: boolean;
@@ -112,6 +112,7 @@ export type OwnProps = Readonly<{
   messageRequestsEnabled?: boolean;
   onClearAttachments(conversationId: string): unknown;
   onCloseLinkPreview(conversationId: string): unknown;
+  platform: string;
   showToast: ShowToastAction;
   processAttachments: (options: {
     conversationId: string;
@@ -226,6 +227,7 @@ export function CompositionArea({
   messageCompositionId,
   showToast,
   pushPanelForConversation,
+  platform,
   processAttachments,
   removeAttachment,
   sendEditedMessage,
@@ -259,8 +261,9 @@ export function CompositionArea({
   draftText,
   getPreferredBadge,
   getQuotedMessage,
-  isFormattingSpoilersEnabled,
   isFormattingEnabled,
+  isFormattingFlagEnabled,
+  isFormattingSpoilersFlagEnabled,
   onEditorStateChange,
   onTextTooLong,
   sendCounter,
@@ -616,8 +619,8 @@ export function CompositionArea({
       const key = KeyboardLayout.lookup(e);
       // When using the ctrl key, `key` is `'K'`. When using the cmd key, `key` is `'k'`
       const targetKey = key === 'k' || key === 'K';
-      const commandKey = get(window, 'platform') === 'darwin' && metaKey;
-      const controlKey = get(window, 'platform') !== 'darwin' && ctrlKey;
+      const commandKey = platform === 'darwin' && metaKey;
+      const controlKey = platform !== 'darwin' && ctrlKey;
       const commandOrCtrl = commandKey || controlKey;
 
       // cmd/ctrl-shift-k
@@ -632,7 +635,7 @@ export function CompositionArea({
     return () => {
       document.removeEventListener('keydown', handler);
     };
-  }, [setLarge]);
+  }, [platform, setLarge]);
 
   const handleRecordingBeforeSend = useCallback(() => {
     emojiButtonRef.current?.close();
@@ -914,8 +917,9 @@ export function CompositionArea({
             getQuotedMessage={getQuotedMessage}
             i18n={i18n}
             inputApi={inputApiRef}
-            isFormattingSpoilersEnabled={isFormattingSpoilersEnabled}
             isFormattingEnabled={isFormattingEnabled}
+            isFormattingFlagEnabled={isFormattingFlagEnabled}
+            isFormattingSpoilersFlagEnabled={isFormattingSpoilersFlagEnabled}
             large={large}
             linkPreviewLoading={linkPreviewLoading}
             linkPreviewResult={linkPreviewResult}
@@ -925,6 +929,7 @@ export function CompositionArea({
             onPickEmoji={onPickEmoji}
             onSubmit={handleSubmit}
             onTextTooLong={onTextTooLong}
+            platform={platform}
             sendCounter={sendCounter}
             skinTone={skinTone}
             sortedGroupMembers={sortedGroupMembers}

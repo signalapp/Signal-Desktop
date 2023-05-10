@@ -125,6 +125,7 @@ export async function sendStory(
     }
 
     const attachments = originalMessage.get('attachments') || [];
+    const bodyRanges = originalMessage.get('bodyRanges')?.slice();
     const [attachment] = attachments;
 
     if (!attachment) {
@@ -180,6 +181,7 @@ export async function sendStory(
     // attributes inside it.
     originalStoryMessage = await messaging.getStoryMessage({
       allowsReplies: true,
+      bodyRanges,
       fileAttachment,
       groupV2,
       textAttachment,
@@ -317,6 +319,7 @@ export async function sendStory(
         );
 
         const storyMessage = new Proto.StoryMessage();
+        storyMessage.bodyRanges = originalStoryMessage.bodyRanges;
         storyMessage.profileKey = originalStoryMessage.profileKey;
         storyMessage.fileAttachment = originalStoryMessage.fileAttachment;
         storyMessage.textAttachment = originalStoryMessage.textAttachment;

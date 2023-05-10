@@ -94,12 +94,11 @@ export function SmartStoryViewer(): JSX.Element | null {
     getHasStoryViewReceiptSetting
   );
 
-  const isFormattingOptionEnabled = useSelector(getTextFormattingEnabled);
-  const isFormattingEnabled =
-    useSelector(getIsFormattingFlagEnabled) && isFormattingOptionEnabled;
-  const isFormattingSpoilersEnabled =
-    useSelector(getIsFormattingSpoilersFlagEnabled) &&
-    isFormattingOptionEnabled;
+  const isFormattingEnabled = useSelector(getTextFormattingEnabled);
+  const isFormattingFlagEnabled = useSelector(getIsFormattingFlagEnabled);
+  const isFormattingSpoilersFlagEnabled = useSelector(
+    getIsFormattingSpoilersFlagEnabled
+  );
 
   const { pauseVoiceNotePlayer } = useAudioPlayerActions();
 
@@ -127,7 +126,8 @@ export function SmartStoryViewer(): JSX.Element | null {
       platform={platform}
       isInternalUser={internalUser}
       isFormattingEnabled={isFormattingEnabled}
-      isFormattingSpoilersEnabled={isFormattingSpoilersEnabled}
+      isFormattingFlagEnabled={isFormattingFlagEnabled}
+      isFormattingSpoilersFlagEnabled={isFormattingSpoilersFlagEnabled}
       isSignalConversation={isSignalConversation({
         id: conversationStory.conversationId,
       })}

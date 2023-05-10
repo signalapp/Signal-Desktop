@@ -91,7 +91,8 @@ export type PropsType = {
   i18n: LocalizerType;
   platform: string;
   isFormattingEnabled: boolean;
-  isFormattingSpoilersEnabled: boolean;
+  isFormattingFlagEnabled: boolean;
+  isFormattingSpoilersFlagEnabled: boolean;
   isInternalUser?: boolean;
   onChangeViewTarget: (target: StoryViewTargetType) => unknown;
   onClose: () => unknown;
@@ -127,7 +128,8 @@ export function StoryViewsNRepliesModal({
   i18n,
   platform,
   isFormattingEnabled,
-  isFormattingSpoilersEnabled,
+  isFormattingFlagEnabled,
+  isFormattingSpoilersFlagEnabled,
   isInternalUser,
   onChangeViewTarget,
   onClose,
@@ -155,7 +157,7 @@ export function StoryViewsNRepliesModal({
 
   // These states aren't in redux; they are meant to last only as long as this dialog.
   const [revealedSpoilersById, setRevealedSpoilersById] = useState<
-    Record<string, boolean | undefined>
+    Record<string, Record<number, boolean> | undefined>
   >({});
   const [displayLimitById, setDisplayLimitById] = useState<
     Record<string, number | undefined>
@@ -239,7 +241,8 @@ export function StoryViewsNRepliesModal({
               i18n={i18n}
               inputApi={inputApiRef}
               isFormattingEnabled={isFormattingEnabled}
-              isFormattingSpoilersEnabled={isFormattingSpoilersEnabled}
+              isFormattingFlagEnabled={isFormattingFlagEnabled}
+              isFormattingSpoilersFlagEnabled={isFormattingSpoilersFlagEnabled}
               moduleClassName="StoryViewsNRepliesModal__input"
               onCloseLinkPreview={noop}
               onEditorStateChange={({ messageText }) => {
@@ -259,6 +262,7 @@ export function StoryViewsNRepliesModal({
                       firstName: authorTitle,
                     })
               }
+              platform={platform}
               sendCounter={0}
               sortedGroupMembers={sortedGroupMembers}
               theme={ThemeType.dark}
@@ -310,7 +314,7 @@ export function StoryViewsNRepliesModal({
               platform={platform}
               id={reply.id}
               isInternalUser={isInternalUser}
-              isSpoilerExpanded={revealedSpoilersById[reply.id] || false}
+              isSpoilerExpanded={revealedSpoilersById[reply.id] || {}}
               messageExpanded={(messageId, displayLimit) => {
                 const update = {
                   ...displayLimitById,
@@ -322,10 +326,10 @@ export function StoryViewsNRepliesModal({
               shouldCollapseAbove={shouldCollapse(reply, replies[index - 1])}
               shouldCollapseBelow={shouldCollapse(reply, replies[index + 1])}
               showContactModal={showContactModal}
-              showSpoiler={messageId => {
+              showSpoiler={(messageId, data) => {
                 const update = {
                   ...revealedSpoilersById,
-                  [messageId]: true,
+                  [messageId]: data,
                 };
                 setRevealedSpoilersById(update);
               }}
@@ -504,14 +508,14 @@ type ReplyOrReactionMessageProps = {
   platform: string;
   id: string;
   isInternalUser?: boolean;
-  isSpoilerExpanded: boolean;
+  isSpoilerExpanded: Record<number, boolean>;
   onContextMenu?: (ev: React.MouseEvent) => void;
   reply: ReplyType;
   shouldCollapseAbove: boolean;
   shouldCollapseBelow: boolean;
   showContactModal: (contactId: string, conversationId?: string) => void;
   messageExpanded: (messageId: string, displayLimit: number) => void;
-  showSpoiler: (messageId: string) => void;
+  showSpoiler: (messageId: string, data: Record<number, boolean>) => void;
 };
 
 function ReplyOrReactionMessage({

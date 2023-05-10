@@ -693,9 +693,8 @@
     "rule": "thenify-multiArgs",
     "path": "node_modules/default-browser-id/node_modules/pify/index.js",
     "line": "\t\t\t\t} else if (opts.multiArgs) {",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2023-04-20T16:43:40.643Z",
-    "reasonDetail": "<optional>"
+    "reasonCategory": "usageTrusted",
+    "updated": "2023-04-20T16:43:40.643Z"
   },
   {
     "rule": "DOM-outerHTML",
@@ -2370,9 +2369,8 @@
     "rule": "React-useRef",
     "path": "ts/components/conversation/InlineNotificationWrapper.tsx",
     "line": "  const focusRef = useRef<HTMLDivElement>(null);",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2023-04-12T15:51:28.066Z",
-    "reasonDetail": "<optional>"
+    "reasonCategory": "usageTrusted",
+    "updated": "2023-04-12T15:51:28.066Z"
   },
   {
     "rule": "React-createRef",
@@ -2402,17 +2400,15 @@
     "rule": "React-useRef",
     "path": "ts/components/conversation/MessageDetail.tsx",
     "line": "  const focusRef = useRef<HTMLDivElement>(null);",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2023-04-12T15:51:28.066Z",
-    "reasonDetail": "<optional>"
+    "reasonCategory": "usageTrusted",
+    "updated": "2023-04-12T15:51:28.066Z"
   },
   {
     "rule": "React-useRef",
     "path": "ts/components/conversation/MessageDetail.tsx",
     "line": "  const messageContainerRef = useRef<HTMLDivElement>(null);",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
-    "updated": "2023-04-12T15:51:28.066Z",
-    "reasonDetail": "<optional>"
+    "reasonCategory": "usageTrusted",
+    "updated": "2023-04-12T15:51:28.066Z"
   },
   {
     "rule": "React-useRef",
@@ -2546,12 +2542,20 @@
     "updated": "2021-10-22T00:52:39.251Z"
   },
   {
-    "rule": "DOM-innerHTML",
-    "path": "ts/quill/signal-clipboard/index.ts",
-    "line": "  return div.innerHTML;",
+    "rule": "React-useRef",
+    "path": "ts/quill/formatting/menu.tsx",
+    "line": "  const buttonRef = React.useRef<HTMLButtonElement | null>(null);",
     "reasonCategory": "usageTrusted",
-    "updated": "2020-11-06T17:43:07.381Z",
-    "reasonDetail": "used for figuring out clipboard contents"
+    "updated": "2023-04-22T00:07:56.294Z",
+    "reasonDetail": "Popper needs to reference the button"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/quill/formatting/menu.tsx",
+    "line": "  const timerRef = React.useRef<NodeJS.Timeout | undefined>();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2023-04-22T00:07:56.294Z",
+    "reasonDetail": "We need a persistent timer to track long-hovers"
   },
   {
     "rule": "React-useRef",

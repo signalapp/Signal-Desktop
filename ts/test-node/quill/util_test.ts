@@ -101,6 +101,64 @@ describe('getTextAndRangesFromOps', () => {
     });
   });
 
+  describe('given formatting', () => {
+    it('handles trimming at the end of the message', () => {
+      const ops = [
+        {
+          insert: 'Text with trailing ',
+          attributes: { bold: true },
+        },
+        {
+          insert: 'whitespace     ',
+          attributes: { bold: true, italic: true },
+        },
+      ];
+      const { text, bodyRanges } = getTextAndRangesFromOps(ops);
+      assert.equal(text, 'Text with trailing whitespace');
+      assert.equal(bodyRanges.length, 2);
+      assert.deepEqual(bodyRanges, [
+        {
+          start: 0,
+          length: 29,
+          style: BodyRange.Style.BOLD,
+        },
+        {
+          start: 19,
+          length: 10,
+          style: BodyRange.Style.ITALIC,
+        },
+      ]);
+    });
+
+    it('handles trimming at beginning of the message', () => {
+      const ops = [
+        {
+          insert: '    Text with leading ',
+          attributes: { bold: true },
+        },
+        {
+          insert: 'whitespace!!',
+          attributes: { bold: true, italic: true },
+        },
+      ];
+      const { text, bodyRanges } = getTextAndRangesFromOps(ops);
+      assert.equal(text, 'Text with leading whitespace!!');
+      assert.equal(bodyRanges.length, 2);
+      assert.deepEqual(bodyRanges, [
+        {
+          start: 0,
+          length: 30,
+          style: BodyRange.Style.BOLD,
+        },
+        {
+          start: 18,
+          length: 12,
+          style: BodyRange.Style.ITALIC,
+        },
+      ]);
+    });
+  });
+
   describe('given text, emoji, and mentions', () => {
     it('returns the trimmed text with placeholders and mentions', () => {
       const ops = [

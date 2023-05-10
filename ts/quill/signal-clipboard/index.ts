@@ -4,24 +4,6 @@
 import type Quill from 'quill';
 import Delta from 'quill-delta';
 
-import { getTextFromOps } from '../util';
-
-const getSelectionHTML = () => {
-  const selection = window.getSelection();
-
-  if (selection == null) {
-    return '';
-  }
-
-  const range = selection.getRangeAt(0);
-  const contents = range.cloneContents();
-  const div = document.createElement('div');
-
-  div.appendChild(contents);
-
-  return div.innerHTML;
-};
-
 const replaceAngleBrackets = (text: string) => {
   const entities: Array<[RegExp, string]> = [
     [/&/g, '&amp;'],
@@ -41,47 +23,14 @@ export class SignalClipboard {
   constructor(quill: Quill) {
     this.quill = quill;
 
-    this.quill.root.addEventListener('copy', e => this.onCaptureCopy(e, false));
-    this.quill.root.addEventListener('cut', e => this.onCaptureCopy(e, true));
     this.quill.root.addEventListener('paste', e => this.onCapturePaste(e));
+
+    const clipboard = this.quill.getModule('clipboard');
+    // We don't want any of the default matchers!
+    clipboard.matchers = clipboard.matchers.slice(11);
   }
 
-  onCaptureCopy(event: ClipboardEvent, isCut = false): void {
-    event.preventDefault();
-
-    if (event.clipboardData == null) {
-      return;
-    }
-
-    const range = this.quill.getSelection();
-
-    if (range == null) {
-      return;
-    }
-
-    const contents = this.quill.getContents(range.index, range.length);
-
-    if (contents == null) {
-      return;
-    }
-
-    const { ops } = contents;
-
-    if (!ops || !ops.length) {
-      return;
-    }
-
-    const text = getTextFromOps(ops);
-    const html = getSelectionHTML();
-
-    event.clipboardData.setData('text/plain', text);
-    event.clipboardData.setData('text/signal', html);
-
-    if (isCut) {
-      this.quill.deleteText(range.index, range.length, 'user');
-    }
-  }
-
+  // TODO: do we need this anymore, given that we aren't using signal/html?
   onCapturePaste(event: ClipboardEvent): void {
     if (event.clipboardData == null) {
       return;
@@ -97,7 +46,7 @@ export class SignalClipboard {
     }
 
     const text = event.clipboardData.getData('text/plain');
-    const html = event.clipboardData.getData('text/signal');
+    const html = event.clipboardData.getData('text/html');
 
     const clipboardDelta = html
       ? clipboard.convert(html)

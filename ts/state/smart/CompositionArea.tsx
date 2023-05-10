@@ -15,7 +15,12 @@ import { imageToBlurHash } from '../../util/imageToBlurHash';
 
 import { getPreferredBadgeSelector } from '../selectors/badges';
 import { selectRecentEmojis } from '../selectors/emojis';
-import { getIntl, getTheme, getUserConversationId } from '../selectors/user';
+import {
+  getIntl,
+  getPlatform,
+  getTheme,
+  getUserConversationId,
+} from '../selectors/user';
 import { getEmojiSkinTone, getTextFormattingEnabled } from '../selectors/items';
 import {
   getConversationSelector,
@@ -52,6 +57,7 @@ export type CompositionAreaPropsType = ExternalProps & ComponentPropsType;
 
 const mapStateToProps = (state: StateType, props: ExternalProps) => {
   const { id } = props;
+  const platform = getPlatform(state);
 
   const conversationSelector = getConversationSelector(state);
   const conversation = conversationSelector(id);
@@ -112,11 +118,10 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
 
   const selectedMessageIds = getSelectedMessageIds(state);
 
-  const isFormattingEnabled =
-    getIsFormattingFlagEnabled(state) && getTextFormattingEnabled(state);
-  const isFormattingSpoilersEnabled =
-    getIsFormattingSpoilersFlagEnabled(state) &&
-    getTextFormattingEnabled(state);
+  const isFormattingEnabled = getTextFormattingEnabled(state);
+  const isFormattingFlagEnabled = getIsFormattingFlagEnabled(state);
+  const isFormattingSpoilersFlagEnabled =
+    getIsFormattingSpoilersFlagEnabled(state);
 
   return {
     // Base
@@ -126,9 +131,11 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     getPreferredBadge: getPreferredBadgeSelector(state),
     i18n: getIntl(state),
     isDisabled,
-    isFormattingSpoilersEnabled,
     isFormattingEnabled,
+    isFormattingFlagEnabled,
+    isFormattingSpoilersFlagEnabled,
     messageCompositionId,
+    platform,
     sendCounter,
     theme: getTheme(state),
 

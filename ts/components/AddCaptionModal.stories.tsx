@@ -25,14 +25,16 @@ export default {
       defaultValue: (props: SmartCompositionTextAreaProps) => (
         <CompositionTextArea
           {...props}
+          getPreferredBadge={() => undefined}
           i18n={i18n}
-          isFormattingEnabled={false}
-          isFormattingSpoilersEnabled={false}
+          isFormattingEnabled
+          isFormattingFlagEnabled
+          isFormattingSpoilersFlagEnabled
           onPickEmoji={action('onPickEmoji')}
           onChange={action('onChange')}
           onTextTooLong={action('onTextTooLong')}
           onSetSkinTone={action('onSetSkinTone')}
-          getPreferredBadge={() => undefined}
+          platform="darwin"
         />
       ),
     },

@@ -25,7 +25,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   displayLimit: overrideProps.displayLimit,
   i18n,
   id: 'some-id',
-  isSpoilerExpanded: overrideProps.isSpoilerExpanded === true,
+  isSpoilerExpanded: overrideProps.isSpoilerExpanded || {},
   messageExpanded: action('messageExpanded'),
   onExpandSpoiler: overrideProps.onExpandSpoiler || action('onExpandSpoiler'),
   renderLocation: RenderLocation.Timeline,
@@ -39,8 +39,8 @@ function MessageBodyReadMoreTest({
   text: messageBodyText,
 }: {
   bodyRanges?: HydratedBodyRangesType;
-  isSpoilerExpanded?: boolean;
-  onExpandSpoiler?: () => void;
+  isSpoilerExpanded?: Record<number, boolean>;
+  onExpandSpoiler?: (data: Record<number, boolean>) => void;
   text: string;
 }): JSX.Element {
   const [displayLimit, setDisplayLimit] = useState<number | undefined>();
@@ -132,7 +132,7 @@ export function LongTextWithFormatting(): JSX.Element {
 }
 
 export function LongTextMostlySpoiler(): JSX.Element {
-  const [isSpoilerExpanded, setIsSpoilerExpanded] = React.useState(false);
+  const [isSpoilerExpanded, setIsSpoilerExpanded] = React.useState({});
   const bodyRanges = [
     {
       start: 7,
@@ -148,7 +148,7 @@ export function LongTextMostlySpoiler(): JSX.Element {
       bodyRanges={bodyRanges}
       text={text}
       isSpoilerExpanded={isSpoilerExpanded}
-      onExpandSpoiler={() => setIsSpoilerExpanded(true)}
+      onExpandSpoiler={data => setIsSpoilerExpanded(data)}
     />
   );
 }

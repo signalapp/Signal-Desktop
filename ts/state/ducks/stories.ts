@@ -617,7 +617,8 @@ function replyToStory(
 function sendStoryMessage(
   listIds: Array<UUIDStringType>,
   conversationIds: Array<string>,
-  attachment: AttachmentType
+  attachment: AttachmentType,
+  bodyRanges: DraftBodyRanges | undefined
 ): ThunkAction<
   void,
   RootStateType,
@@ -661,7 +662,12 @@ function sendStoryMessage(
     }
 
     try {
-      await doSendStoryMessage(listIds, conversationIds, attachment);
+      await doSendStoryMessage(
+        listIds,
+        conversationIds,
+        attachment,
+        bodyRanges
+      );
 
       // Note: Only when we've successfully queued the message do we dismiss the story
       //   composer view.

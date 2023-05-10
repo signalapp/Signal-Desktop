@@ -50,6 +50,7 @@ declare module 'quill' {
 
   interface ClipboardStatic {
     convert(html: string): UpdatedDelta;
+    matchers: Array<unknown>;
   }
 
   interface SelectionStatic {
@@ -80,13 +81,17 @@ declare module 'quill' {
     getModule(module: string): unknown;
 
     selection: SelectionStatic;
+    options: Record<string, unknown>;
   }
+
+  export type KeyboardContext = {
+    format: Record<string, unknown>;
+  };
 
   interface KeyboardStatic {
     addBinding(
       key: UpdatedKey,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      callback: (range: RangeStatic, context: any) => void
+      callback: (range: RangeStatic, context: KeyboardContext) => void
     ): void;
     // in-code reference missing in @types
     bindings: Record<string | number, Array<unknown>>;

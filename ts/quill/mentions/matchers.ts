@@ -13,7 +13,10 @@ export const matchMention =
     if (memberRepository) {
       const { title } = node.dataset;
 
-      if (node.classList.contains('MessageBody__at-mention')) {
+      if (
+        node.classList.contains('MessageBody__at-mention') &&
+        !node.classList.contains('MessageBody__at-mention--invisible')
+      ) {
         const { id } = node.dataset;
         const conversation = memberRepository.getMemberById(id);
 

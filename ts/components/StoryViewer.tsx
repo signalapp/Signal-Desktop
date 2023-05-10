@@ -86,7 +86,8 @@ export type PropsType = {
   hasViewReceiptSetting: boolean;
   i18n: LocalizerType;
   isFormattingEnabled: boolean;
-  isFormattingSpoilersEnabled: boolean;
+  isFormattingFlagEnabled: boolean;
+  isFormattingSpoilersFlagEnabled: boolean;
   isInternalUser?: boolean;
   isSignalConversation?: boolean;
   isWindowActive: boolean;
@@ -148,7 +149,8 @@ export function StoryViewer({
   hasViewReceiptSetting,
   i18n,
   isFormattingEnabled,
-  isFormattingSpoilersEnabled,
+  isFormattingFlagEnabled,
+  isFormattingSpoilersFlagEnabled,
   isInternalUser,
   isSignalConversation,
   isWindowActive,
@@ -242,7 +244,9 @@ export function StoryViewer({
 
   // Caption related hooks
   const [hasExpandedCaption, setHasExpandedCaption] = useState<boolean>(false);
-  const [isSpoilerExpanded, setIsSpoilerExpanded] = useState<boolean>(false);
+  const [isSpoilerExpanded, setIsSpoilerExpanded] = useState<
+    Record<number, boolean>
+  >({});
 
   const caption = useMemo(() => {
     if (!attachment?.caption) {
@@ -259,7 +263,7 @@ export function StoryViewer({
   // Reset expansion if messageId changes
   useEffect(() => {
     setHasExpandedCaption(false);
-    setIsSpoilerExpanded(false);
+    setIsSpoilerExpanded({});
   }, [messageId]);
 
   // messageId is set as a dependency so that we can reset the story duration
@@ -343,7 +347,7 @@ export function StoryViewer({
     setConfirmDeleteStory(undefined);
     setHasConfirmHideStory(false);
     setHasExpandedCaption(false);
-    setIsSpoilerExpanded(false);
+    setIsSpoilerExpanded({});
     setIsShowingContextMenu(false);
     setPauseStory(false);
 
@@ -692,7 +696,7 @@ export function StoryViewer({
                   bodyRanges={bodyRanges}
                   i18n={i18n}
                   isSpoilerExpanded={isSpoilerExpanded}
-                  onExpandSpoiler={() => setIsSpoilerExpanded(true)}
+                  onExpandSpoiler={data => setIsSpoilerExpanded(data)}
                   renderLocation={RenderLocation.StoryViewer}
                   text={caption.text}
                 />
@@ -941,7 +945,8 @@ export function StoryViewer({
             i18n={i18n}
             platform={platform}
             isFormattingEnabled={isFormattingEnabled}
-            isFormattingSpoilersEnabled={isFormattingSpoilersEnabled}
+            isFormattingFlagEnabled={isFormattingFlagEnabled}
+            isFormattingSpoilersFlagEnabled={isFormattingSpoilersFlagEnabled}
             isInternalUser={isInternalUser}
             group={group}
             onClose={() => setCurrentViewTarget(null)}

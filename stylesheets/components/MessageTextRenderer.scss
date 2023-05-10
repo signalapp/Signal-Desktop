@@ -12,6 +12,7 @@
     }
 
     // Note: only used in the left pane for search results, not in message bubbles
+    // Note: This is referenced in formatting/matchers.ts, to detect these styles on paste
     &--keywordHighlight {
       // Boldness of this is handled by <strong> element
 
@@ -26,8 +27,10 @@
 
     // Note: Spoiler must be last to override any other formatting applied to the section
     &--spoiler {
-      user-select: none;
       cursor: pointer;
+
+      // Prepare for our inner copy target
+      position: relative;
 
       // Lighten things up a bit
       opacity: 50%;
@@ -46,6 +49,23 @@
       }
     }
 
+    &--spoiler--copy-target {
+      // We don't want this thing to affect the layout of the message
+      position: absolute;
+      top: 0;
+      // We can use left here; this is not visible to the user
+      /* stylelint-disable liberty/use-logical-spec */
+      left: 0;
+
+      height: 1px;
+      width: 1px;
+
+      // Hide text
+      color: transparent;
+      overflow: hidden;
+    }
+
+    // Note: This is referenced in formatting/matchers.ts, to detect these styles on paste
     &--spoiler--noninteractive {
       cursor: inherit;
       box-shadow: none;
@@ -54,6 +74,9 @@
     // The simplest; always in dark mode
     &--spoiler-StoryViewer {
       background-color: $color-white;
+    }
+    &--spoiler-MediaEditor {
+      background-color: $color-gray-15;
     }
 
     // The left pane

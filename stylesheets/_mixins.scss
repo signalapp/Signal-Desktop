@@ -93,6 +93,10 @@
   line-height: 16px;
   letter-spacing: 0;
 }
+@mixin font-subtitle-bold {
+  @include font-subtitle;
+  font-weight: 600;
+}
 
 @mixin font-caption {
   @include font-family;

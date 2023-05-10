@@ -7,12 +7,17 @@ import { Button } from './Button';
 import { Modal } from './Modal';
 import type { LocalizerType, ThemeType } from '../types/Util';
 import type { SmartCompositionTextAreaProps } from '../state/smart/CompositionTextArea';
+import type { HydratedBodyRangesType } from '../types/BodyRange';
 
 export type Props = {
   i18n: LocalizerType;
   onClose: () => void;
-  onSubmit: (text: string) => void;
+  onSubmit: (
+    text: string,
+    bodyRanges: HydratedBodyRangesType | undefined
+  ) => void;
   draftText: string;
+  draftBodyRanges: HydratedBodyRangesType | undefined;
   theme: ThemeType;
   RenderCompositionTextArea: (
     props: SmartCompositionTextAreaProps
@@ -24,10 +29,14 @@ export function AddCaptionModal({
   onClose,
   onSubmit,
   draftText,
+  draftBodyRanges,
   RenderCompositionTextArea,
   theme,
 }: Props): JSX.Element {
   const [messageText, setMessageText] = React.useState('');
+  const [bodyRanges, setBodyRanges] = React.useState<
+    HydratedBodyRangesType | undefined
+  >();
 
   const [isScrolledTop, setIsScrolledTop] = React.useState(true);
   const [isScrolledBottom, setIsScrolledBottom] = React.useState(true);
@@ -51,8 +60,8 @@ export function AddCaptionModal({
   }, [updateScrollState]);
 
   const handleSubmit = React.useCallback(() => {
-    onSubmit(messageText);
-  }, [messageText, onSubmit]);
+    onSubmit(messageText, bodyRanges);
+  }, [bodyRanges, messageText, onSubmit]);
 
   return (
     <Modal
@@ -75,9 +84,13 @@ export function AddCaptionModal({
         maxLength={1500}
         whenToShowRemainingCount={1450}
         placeholder={i18n('icu:AddCaptionModal__placeholder')}
-        onChange={setMessageText}
+        onChange={(updatedMessageText, updatedBodyRanges) => {
+          setMessageText(updatedMessageText);
+          setBodyRanges(updatedBodyRanges);
+        }}
         scrollerRef={scrollerRef}
         draftText={draftText}
+        bodyRanges={draftBodyRanges}
         onSubmit={noop}
         onScroll={updateScrollState}
         theme={theme}

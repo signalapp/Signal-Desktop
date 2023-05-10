@@ -22,7 +22,8 @@ export type CompositionTextAreaProps = {
   bodyRanges?: HydratedBodyRangesType;
   i18n: LocalizerType;
   isFormattingEnabled: boolean;
-  isFormattingSpoilersEnabled: boolean;
+  isFormattingFlagEnabled: boolean;
+  isFormattingSpoilersFlagEnabled: boolean;
   maxLength?: number;
   placeholder?: string;
   whenToShowRemainingCount?: number;
@@ -41,6 +42,7 @@ export type CompositionTextAreaProps = {
     timestamp: number
   ) => void;
   onTextTooLong: () => void;
+  platform: string;
   getPreferredBadge: PreferredBadgeSelectorType;
   draftText: string;
   theme: ThemeType;
@@ -59,7 +61,8 @@ export function CompositionTextArea({
   getPreferredBadge,
   i18n,
   isFormattingEnabled,
-  isFormattingSpoilersEnabled,
+  isFormattingFlagEnabled,
+  isFormattingSpoilersFlagEnabled,
   maxLength,
   onChange,
   onPickEmoji,
@@ -68,6 +71,7 @@ export function CompositionTextArea({
   onSubmit,
   onTextTooLong,
   placeholder,
+  platform,
   recentEmojis,
   scrollerRef,
   skinTone,
@@ -140,7 +144,8 @@ export function CompositionTextArea({
         getQuotedMessage={noop}
         i18n={i18n}
         isFormattingEnabled={isFormattingEnabled}
-        isFormattingSpoilersEnabled={isFormattingSpoilersEnabled}
+        isFormattingFlagEnabled={isFormattingFlagEnabled}
+        isFormattingSpoilersFlagEnabled={isFormattingSpoilersFlagEnabled}
         inputApi={inputApiRef}
         large
         moduleClassName="CompositionTextArea__input"
@@ -150,6 +155,7 @@ export function CompositionTextArea({
         onSubmit={onSubmit}
         onTextTooLong={onTextTooLong}
         placeholder={placeholder}
+        platform={platform}
         scrollerRef={scrollerRef}
         sendCounter={0}
         theme={theme}

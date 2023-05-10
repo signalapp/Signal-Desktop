@@ -24,6 +24,7 @@ import { SendStoryModal } from './SendStoryModal';
 import { MediaEditor } from './MediaEditor';
 import { TextStoryCreator } from './TextStoryCreator';
 import type { SmartCompositionTextAreaProps } from '../state/smart/CompositionTextArea';
+import type { DraftBodyRanges } from '../types/BodyRange';
 
 export type PropsType = {
   debouncedMaybeGrabLinkPreview: (
@@ -38,7 +39,8 @@ export type PropsType = {
   onSend: (
     listIds: Array<UUIDStringType>,
     conversationIds: Array<string>,
-    attachment: AttachmentType
+    attachment: AttachmentType,
+    bodyRanges: DraftBodyRanges | undefined
   ) => unknown;
   imageToBlurHash: typeof imageToBlurHash;
   processAttachment: (
@@ -123,6 +125,7 @@ export function StoryCreator({
   >();
   const [isReadyToSend, setIsReadyToSend] = useState(false);
   const [attachmentUrl, setAttachmentUrl] = useState<string | undefined>();
+  const [bodyRanges, setBodyRanges] = useState<DraftBodyRanges | undefined>();
 
   useEffect(() => {
     let url: string | undefined;
@@ -192,7 +195,7 @@ export function StoryCreator({
           onRepliesNReactionsChanged={onRepliesNReactionsChanged}
           onSelectedStoryList={onSelectedStoryList}
           onSend={(listIds, groupIds) => {
-            onSend(listIds, groupIds, draftAttachment);
+            onSend(listIds, groupIds, draftAttachment, bodyRanges);
             setDraftAttachment(undefined);
           }}
           onViewersUpdated={onViewersUpdated}
@@ -219,7 +222,13 @@ export function StoryCreator({
           supportsCaption
           renderCompositionTextArea={renderCompositionTextArea}
           imageToBlurHash={imageToBlurHash}
-          onDone={({ contentType, data, blurHash, caption }) => {
+          onDone={({
+            contentType,
+            data,
+            blurHash,
+            caption,
+            captionBodyRanges,
+          }) => {
             setDraftAttachment({
               ...draftAttachment,
               contentType,
@@ -228,6 +237,7 @@ export function StoryCreator({
               blurHash,
               caption,
             });
+            setBodyRanges(captionBodyRanges);
             setIsReadyToSend(true);
           }}
           recentStickers={recentStickers}

@@ -594,7 +594,7 @@ export function Preferences({
           {isFormattingFlagEnabled && (
             <Checkbox
               checked={hasTextFormatting}
-              label={i18n('icu:textFormattingDescripton')}
+              label={i18n('icu:textFormattingDescription')}
               moduleClassName="Preferences__checkbox"
               name="textFormatting"
               onChange={onTextFormattingChange}

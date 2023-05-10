@@ -13,6 +13,8 @@ import type { AvatarColorType } from '../types/Colors';
 import type { BadgeType } from '../badges/types';
 import { handleOutsideClick } from '../util/handleOutsideClick';
 
+const EMPTY_OBJECT = Object.freeze(Object.create(null));
+
 export type PropsType = {
   areStoriesEnabled: boolean;
   avatarPath?: string;
@@ -186,7 +188,7 @@ export function MainHeader({
                 showArchivedConversations();
                 setShowAvatarPopup(false);
               }}
-              style={{}}
+              style={EMPTY_OBJECT}
             />
           </div>,
           portalElement

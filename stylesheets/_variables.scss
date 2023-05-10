@@ -5,6 +5,7 @@ $inter: Inter, 'Helvetica Neue', 'Source Sans Pro', 'Source Han Sans SC',
   'Source Han Sans CN', 'Hiragino Sans GB', 'Hiragino Kaku Gothic',
   'Microsoft Yahei UI', Helvetica, Arial, sans-serif;
 
+// Note: This font-family is checked for in matchMonospace, to support paste scenarios
 $monospace: 'SF Mono', SFMono-Regular, ui-monospace, 'DejaVu Sans Mono', Menlo,
   Consolas, monospace;
 

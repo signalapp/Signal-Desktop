@@ -119,6 +119,7 @@
     }
   }
 
+  // Note: This is referenced in ModalHost to ensure 'external' clicks on it still work
   &__format-menu {
     padding-block: 6px;
     padding-inline: 12px;
@@ -128,13 +129,16 @@
     display: flex;
     flex-direction: row;
 
+    opacity: 0;
+    transition: opacity ease 200ms;
+
     @include popper-shadow();
 
     @include light-theme() {
       background: $color-white;
     }
     @include dark-theme() {
-      background: $color-gray-80;
+      background: $color-gray-65;
     }
 
     &__item {
@@ -158,6 +162,35 @@
       @include dark-mouse-mode {
         &:hover {
           background-color: $color-gray-60;
+        }
+      }
+
+      &__popover {
+        @include font-subtitle-bold;
+        padding-block: 5px;
+        padding-inline: 8px;
+        text-align: center;
+        border-radius: 4px;
+        margin-bottom: 8px;
+
+        @include light-theme {
+          background-color: $color-black;
+          color: $color-gray-05;
+        }
+        @include dark-theme {
+          background-color: $color-gray-65;
+          color: $color-gray-05;
+        }
+
+        &__shortcut {
+          @include font-caption-bold;
+
+          @include light-theme {
+            color: $color-gray-15;
+          }
+          @include dark-theme {
+            color: $color-gray-25;
+          }
         }
       }
 
@@ -196,7 +229,7 @@
           }
         }
 
-        &--strikethrough {
+        &--strike {
           @include dark-theme {
             @include color-svg(
               '../images/icons/v3/text_format/textformat-strikethrough.svg',
@@ -252,7 +285,7 @@
 
         &--active {
           @include dark-theme {
-            background-color: $color-ultramarine;
+            background-color: $color-ultramarine-light;
           }
           @include light-theme {
             background-color: $color-ultramarine;
@@ -263,13 +296,14 @@
             background-color: $color-ultramarine;
           }
           .dark-theme.mouse-mode #{$parent}:hover & {
-            background-color: $color-ultramarine;
+            background-color: $color-ultramarine-light;
           }
         }
       }
     }
   }
 
+  // Note: This is referenced in ModalHost to ensure 'external' clicks on it still work
   &__suggestions {
     padding: 0;
     margin-bottom: 6px;
@@ -435,6 +469,7 @@ button.CompositionInput__link-preview__close-button {
   }
 }
 
+// Note: These are referenced in formatting/matchers.ts, to detect these styles on paste
 .quill {
   &--monospace {
     font-family: $monospace;

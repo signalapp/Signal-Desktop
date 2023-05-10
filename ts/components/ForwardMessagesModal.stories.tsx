@@ -58,14 +58,16 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   RenderCompositionTextArea: props => (
     <CompositionTextArea
       {...props}
+      getPreferredBadge={() => undefined}
       i18n={i18n}
-      isFormattingSpoilersEnabled
       isFormattingEnabled
+      isFormattingFlagEnabled
+      isFormattingSpoilersFlagEnabled
       onPickEmoji={action('onPickEmoji')}
-      skinTone={0}
       onSetSkinTone={action('onSetSkinTone')}
       onTextTooLong={action('onTextTooLong')}
-      getPreferredBadge={() => undefined}
+      platform="darwin"
+      skinTone={0}
     />
   ),
   showToast: action('showToast'),

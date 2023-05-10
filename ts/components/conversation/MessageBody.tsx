@@ -24,9 +24,9 @@ export type Props = {
   // If set, interactive elements will be left as plain text: links, mentions, spoilers
   disableLinks?: boolean;
   i18n: LocalizerType;
-  isSpoilerExpanded: boolean;
+  isSpoilerExpanded: Record<string, boolean>;
   kickOffBodyDownload?: () => void;
-  onExpandSpoiler?: () => unknown;
+  onExpandSpoiler?: (data: Record<number, boolean>) => unknown;
   onIncreaseTextLength?: () => unknown;
   prefix?: string;
   renderLocation: RenderLocation;

@@ -326,6 +326,7 @@ export type DisplayNode = {
   isKeywordHighlight?: boolean;
 
   // Only for spoilers, only to represent contiguous groupings
+  spoilerIndex?: number;
   spoilerChildren?: ReadonlyArray<DisplayNode>;
 };
 type PartialDisplayNode = Omit<
@@ -450,15 +451,18 @@ export function groupContiguousSpoilers(
   const result: Array<DisplayNode> = [];
 
   let spoilerContainer: DisplayNode | undefined;
+  let spoilerIndex = 0;
 
   nodes.forEach(node => {
     if (node.isSpoiler) {
       if (!spoilerContainer) {
         spoilerContainer = {
           ...node,
+          spoilerIndex,
           isSpoiler: true,
           spoilerChildren: [],
         };
+        spoilerIndex += 1;
         result.push(spoilerContainer);
       }
       if (spoilerContainer) {
@@ -567,7 +571,7 @@ export function processBodyRangesForSearchResult({
   };
 }
 
-const SPOILER_REPLACEMENT = '■■■■';
+export const SPOILER_REPLACEMENT = '■■■■';
 
 export function applyRangesForText({
   text,

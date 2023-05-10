@@ -4164,6 +4164,7 @@ export class ConversationModel extends window.Backbone
             draftTimestamp: null,
             quotedMessageId: undefined,
             lastMessageAuthor: message.getAuthorText(),
+            lastMessageBodyRanges: message.get('bodyRanges'),
             lastMessage: message.getNotificationText(),
             lastMessageStatus: 'sending' as const,
           };

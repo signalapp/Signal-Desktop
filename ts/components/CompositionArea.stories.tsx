@@ -39,9 +39,13 @@ const useProps = (overrideProps: Partial<Props> = {}): Props => ({
   sendCounter: 0,
   i18n,
   isDisabled: false,
-  isFormattingSpoilersEnabled:
-    overrideProps.isFormattingSpoilersEnabled === false
-      ? overrideProps.isFormattingSpoilersEnabled
+  isFormattingFlagEnabled:
+    overrideProps.isFormattingFlagEnabled === false
+      ? overrideProps.isFormattingFlagEnabled
+      : true,
+  isFormattingSpoilersFlagEnabled:
+    overrideProps.isFormattingSpoilersFlagEnabled === false
+      ? overrideProps.isFormattingSpoilersFlagEnabled
       : true,
   isFormattingEnabled:
     overrideProps.isFormattingEnabled === false
@@ -50,6 +54,7 @@ const useProps = (overrideProps: Partial<Props> = {}): Props => ({
   messageCompositionId: '456',
   sendEditedMessage: action('sendEditedMessage'),
   sendMultiMediaMessage: action('sendMultiMediaMessage'),
+  platform: 'darwin',
   processAttachments: action('processAttachments'),
   removeAttachment: action('removeAttachment'),
   theme: React.useContext(StorybookThemeContext),
@@ -290,12 +295,18 @@ QuoteWithPayment.story = {
   name: 'Quote with payment',
 };
 
-export function NoFormatting(): JSX.Element {
+export function NoFormattingMenu(): JSX.Element {
   return <CompositionArea {...useProps({ isFormattingEnabled: false })} />;
 }
 
-export function NoSpoilerFormatting(): JSX.Element {
+export function NoFormattingFlag(): JSX.Element {
+  return <CompositionArea {...useProps({ isFormattingFlagEnabled: false })} />;
+}
+
+export function NoSpoilerFormattingFlag(): JSX.Element {
   return (
-    <CompositionArea {...useProps({ isFormattingSpoilersEnabled: false })} />
+    <CompositionArea
+      {...useProps({ isFormattingSpoilersFlagEnabled: false })}
+    />
   );
 }

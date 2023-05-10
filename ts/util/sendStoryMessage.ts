@@ -28,11 +28,13 @@ import { isNotNil } from './isNotNil';
 import { collect } from './iterables';
 import { DurationInSeconds } from './durations';
 import { sanitizeLinkPreview } from '../services/LinkPreview';
+import type { DraftBodyRanges } from '../types/BodyRange';
 
 export async function sendStoryMessage(
   listIds: Array<string>,
   conversationIds: Array<string>,
-  attachment: AttachmentType
+  attachment: AttachmentType,
+  bodyRanges: DraftBodyRanges | undefined
 ): Promise<void> {
   if (getStoriesBlocked()) {
     log.warn('stories.sendStoryMessage: stories disabled, returning early');
@@ -171,6 +173,7 @@ export async function sendStoryMessage(
         //   on the receiver side.
         return window.Signal.Migrations.upgradeMessageSchema({
           attachments,
+          bodyRanges,
           conversationId: ourConversation.id,
           expireTimer: DurationInSeconds.DAY,
           expirationStartTimestamp: Date.now(),
@@ -277,6 +280,7 @@ export async function sendStoryMessage(
       const messageAttributes =
         await window.Signal.Migrations.upgradeMessageSchema({
           attachments,
+          bodyRanges,
           canReplyToStory: true,
           conversationId: group.id,
           expireTimer: DurationInSeconds.DAY,

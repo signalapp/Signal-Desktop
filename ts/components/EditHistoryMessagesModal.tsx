@@ -89,7 +89,7 @@ export function EditHistoryMessagesModal({
 
   // These states aren't in redux; they are meant to last only as long as this dialog.
   const [revealedSpoilersById, setRevealedSpoilersById] = useState<
-    Record<string, boolean | undefined>
+    Record<string, Record<number, boolean> | undefined>
   >({});
   const [displayLimitById, setDisplayLimitById] = useState<
     Record<string, number | undefined>
@@ -118,7 +118,7 @@ export function EditHistoryMessagesModal({
               displayLimit={displayLimitById[syntheticId]}
               getPreferredBadge={getPreferredBadge}
               i18n={i18n}
-              isSpoilerExpanded={revealedSpoilersById[syntheticId] || false}
+              isSpoilerExpanded={revealedSpoilersById[syntheticId] || {}}
               key={messageAttributes.timestamp}
               kickOffAttachmentDownload={kickOffAttachmentDownload}
               messageExpanded={(messageId, displayLimit) => {
@@ -130,10 +130,10 @@ export function EditHistoryMessagesModal({
               }}
               platform={platform}
               showLightbox={closeAndShowLightbox}
-              showSpoiler={messageId => {
+              showSpoiler={(messageId, data) => {
                 const update = {
                   ...revealedSpoilersById,
-                  [messageId]: true,
+                  [messageId]: data,
                 };
                 setRevealedSpoilersById(update);
               }}

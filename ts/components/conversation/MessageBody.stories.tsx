@@ -23,7 +23,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   disableLinks: overrideProps.disableLinks || false,
   direction: 'incoming',
   i18n,
-  isSpoilerExpanded: overrideProps.isSpoilerExpanded || false,
+  isSpoilerExpanded: overrideProps.isSpoilerExpanded || {},
   onExpandSpoiler: overrideProps.onExpandSpoiler || action('onExpandSpoiler'),
   renderLocation: RenderLocation.Timeline,
   showConversation:
@@ -216,7 +216,7 @@ ComplexMessageBody.story = {
 };
 
 export function FormattingBasic(): JSX.Element {
-  const [isSpoilerExpanded, setIsSpoilerExpanded] = React.useState(false);
+  const [isSpoilerExpanded, setIsSpoilerExpanded] = React.useState({});
 
   const props = createProps({
     bodyRanges: [
@@ -258,7 +258,7 @@ export function FormattingBasic(): JSX.Element {
       },
     ],
     isSpoilerExpanded,
-    onExpandSpoiler: () => setIsSpoilerExpanded(true),
+    onExpandSpoiler: data => setIsSpoilerExpanded(data),
     text: '… It’s in words that the magic is – Abracadabra, Open Sesame, and the rest – but the magic words in one story aren’t magical in the next. The real magic is to understand which words work, and when, and for what; the trick is to learn the trick. … And those words are made from the letters of our alphabet: a couple-dozen squiggles we can draw with the pen. This is the key! And the treasure, too, if we can only get our hands on it! It’s as if – as if the key to the treasure is the treasure!',
   });
 
@@ -272,7 +272,7 @@ export function FormattingBasic(): JSX.Element {
 }
 
 export function FormattingSpoiler(): JSX.Element {
-  const [isSpoilerExpanded, setIsSpoilerExpanded] = React.useState(false);
+  const [isSpoilerExpanded, setIsSpoilerExpanded] = React.useState({});
 
   const props = createProps({
     bodyRanges: [
@@ -312,7 +312,7 @@ export function FormattingSpoiler(): JSX.Element {
       },
     ],
     isSpoilerExpanded,
-    onExpandSpoiler: () => setIsSpoilerExpanded(true),
+    onExpandSpoiler: data => setIsSpoilerExpanded(data),
     text: "This is a very secret https://somewhere.com 💡 thing, \uFFFC and \uFFFC, that you shouldn't be able to read. Stay away!",
   });
 
@@ -322,9 +322,9 @@ export function FormattingSpoiler(): JSX.Element {
       <hr />
       <MessageBody {...props} disableLinks />
       <hr />
-      <MessageBody {...props} isSpoilerExpanded={false} />
+      <MessageBody {...props} isSpoilerExpanded={{}} />
       <hr />
-      <MessageBody {...props} disableLinks isSpoilerExpanded={false} />
+      <MessageBody {...props} disableLinks isSpoilerExpanded={{}} />
     </>
   );
 }
@@ -406,7 +406,7 @@ export function FormattingNesting(): JSX.Element {
 }
 
 export function FormattingComplex(): JSX.Element {
-  const [isSpoilerExpanded, setIsSpoilerExpanded] = React.useState(false);
+  const [isSpoilerExpanded, setIsSpoilerExpanded] = React.useState({});
   const text =
     'Computational processes \uFFFC are abstract beings that inhabit computers. ' +
     'As they evolve, processes manipulate other abstract things called data. ' +
@@ -461,7 +461,7 @@ export function FormattingComplex(): JSX.Element {
       },
     ],
     isSpoilerExpanded,
-    onExpandSpoiler: () => setIsSpoilerExpanded(true),
+    onExpandSpoiler: data => setIsSpoilerExpanded(data),
     text,
   });
 

@@ -21,6 +21,7 @@ import type { BadgeType } from '../../badges/types';
 import { isSignalConversation } from '../../util/isSignalConversation';
 import { RenderLocation } from '../conversation/MessageTextRenderer';
 
+const EMPTY_OBJECT = Object.freeze(Object.create(null));
 const MESSAGE_STATUS_ICON_CLASS_NAME = `${MESSAGE_TEXT_CLASS_NAME}__status-icon`;
 
 export const MessageStatuses = [
@@ -149,7 +150,7 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
             disableJumbomoji
             disableLinks
             i18n={i18n}
-            isSpoilerExpanded={false}
+            isSpoilerExpanded={{}}
             prefix={draftPreview.prefix}
             renderLocation={RenderLocation.ConversationList}
             text={draftPreview.text}
@@ -170,7 +171,7 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
           disableJumbomoji
           disableLinks
           i18n={i18n}
-          isSpoilerExpanded={false}
+          isSpoilerExpanded={EMPTY_OBJECT}
           prefix={lastMessage.prefix}
           renderLocation={RenderLocation.ConversationList}
           text={lastMessage.text}
