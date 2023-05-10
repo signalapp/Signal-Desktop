@@ -36,6 +36,7 @@ import {
   CONVERSATION_UNLOADED,
   TARGETED_CONVERSATION_CHANGED,
 } from './conversations';
+import { removeDiacritics } from '../../util/removeDiacritics';
 
 const {
   searchMessages: dataSearchMessages,
@@ -286,8 +287,14 @@ async function queryConversationsAndContacts(
   const { ourConversationId, noteToSelf, regionCode, allConversations } =
     options;
 
+  const normalizedQuery = removeDiacritics(query);
+
   const searchResults: Array<ConversationType> =
-    filterAndSortConversationsByRecent(allConversations, query, regionCode);
+    filterAndSortConversationsByRecent(
+      allConversations,
+      normalizedQuery,
+      regionCode
+    );
 
   // Split into two groups - active conversations and items just from address book
   let conversationIds: Array<string> = [];

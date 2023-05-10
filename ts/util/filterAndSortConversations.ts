@@ -6,6 +6,7 @@ import Fuse from 'fuse.js';
 import type { ConversationType } from '../state/ducks/conversations';
 import { parseAndFormatPhoneNumber } from './libphonenumberInstance';
 import { WEEK } from './durations';
+import { removeDiacritics } from './removeDiacritics';
 
 // Fuse.js scores have order of 0.01
 const ACTIVE_AT_SCORE_FACTOR = (1 / WEEK) * 0.01;
@@ -44,6 +45,18 @@ const FUSE_OPTIONS: Fuse.IFuseOptions<ConversationType> = {
       weight: 0.5,
     },
   ],
+  getFn: (...args) => {
+    const text = Fuse.config.getFn(...args);
+    if (!text) {
+      return text;
+    }
+
+    if (typeof text === 'string') {
+      return removeDiacritics(text);
+    }
+
+    return text.map(removeDiacritics);
+  },
 };
 
 const cachedIndices = new WeakMap<
