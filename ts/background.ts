@@ -2640,17 +2640,6 @@ export async function startApp(): Promise<void> {
 
       void routineProfileRefresher.start();
     }
-
-    // Make sure we have the PNI identity
-
-    const pni = storage.user.getCheckedUuid(UUIDKind.PNI);
-    const pniIdentity = await storage.protocol.getIdentityKeyPair(pni);
-    if (!pniIdentity) {
-      log.info('Requesting PNI identity sync');
-      await singleProtoJobQueue.add(
-        MessageSender.getRequestPniIdentitySyncMessage()
-      );
-    }
   }
 
   let initialStartupCount = 0;

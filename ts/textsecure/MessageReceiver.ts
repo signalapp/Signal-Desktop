@@ -1533,13 +1533,6 @@ export default class MessageReceiver
       // Some sync messages have to be fully processed in the middle of
       // decryption queue since subsequent envelopes use their key material.
       const { syncMessage } = content;
-      if (syncMessage?.pniIdentity) {
-        inProgressMessageType = 'pni identity';
-        await this.handlePNIIdentity(envelope, syncMessage.pniIdentity);
-        this.removeFromCache(envelope);
-        return { plaintext: undefined, envelope };
-      }
-
       if (syncMessage?.pniChangeNumber) {
         inProgressMessageType = 'pni change number';
         await this.handlePNIChangeNumber(envelope, syncMessage.pniChangeNumber);
@@ -2888,9 +2881,6 @@ export default class MessageReceiver
     if (envelope.sourceDevice == ourDeviceId) {
       throw new Error('Received sync message from our own device');
     }
-    if (syncMessage.pniIdentity) {
-      return;
-    }
     if (syncMessage.sent) {
       const sentMessage = syncMessage.sent;
 
@@ -3198,24 +3188,6 @@ export default class MessageReceiver
     );
 
     return this.dispatchAndWait(logId, ev);
-  }
-
-  // Runs on TaskType.Encrypted queue
-  private async handlePNIIdentity(
-    envelope: ProcessedEnvelope,
-    { publicKey, privateKey }: Proto.SyncMessage.IPniIdentity
-  ): Promise<void> {
-    log.info('MessageReceiver: got pni identity sync message');
-
-    logUnexpectedUrgentValue(envelope, 'pniIdentitySync');
-
-    if (!publicKey || !privateKey) {
-      log.warn('MessageReceiver: empty pni identity sync message');
-      return;
-    }
-
-    const manager = window.getAccountManager();
-    await manager.updatePNIIdentity({ privKey: privateKey, pubKey: publicKey });
   }
 
   // Runs on TaskType.Encrypted queue

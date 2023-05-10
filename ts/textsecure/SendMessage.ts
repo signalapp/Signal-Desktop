@@ -1384,30 +1384,6 @@ export default class MessageSender {
     };
   }
 
-  static getRequestPniIdentitySyncMessage(): SingleProtoJobData {
-    const myUuid = window.textsecure.storage.user.getCheckedUuid();
-
-    const request = new Proto.SyncMessage.Request();
-    request.type = Proto.SyncMessage.Request.Type.PNI_IDENTITY;
-    const syncMessage = this.createSyncMessage();
-    syncMessage.request = request;
-    const contentMessage = new Proto.Content();
-    contentMessage.syncMessage = syncMessage;
-
-    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-
-    return {
-      contentHint: ContentHint.RESENDABLE,
-      identifier: myUuid.toString(),
-      isSyncMessage: true,
-      protoBase64: Bytes.toBase64(
-        Proto.Content.encode(contentMessage).finish()
-      ),
-      type: 'pniIdentitySyncRequest',
-      urgent: true,
-    };
-  }
-
   static getFetchManifestSyncMessage(): SingleProtoJobData {
     const myUuid = window.textsecure.storage.user.getCheckedUuid();
 
