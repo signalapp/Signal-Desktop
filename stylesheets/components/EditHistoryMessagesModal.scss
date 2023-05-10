@@ -2,6 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 .EditHistoryMessagesModal {
+  &__divider {
+    margin-block: 24px;
+  }
+
+  &__title {
+    @include font-body-1-bold;
+  }
+
   .module-message {
     padding-inline: 0;
 

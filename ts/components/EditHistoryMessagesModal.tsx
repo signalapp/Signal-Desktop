@@ -95,6 +95,9 @@ export function EditHistoryMessagesModal({
     Record<string, number | undefined>
   >({});
 
+  const [currentMessage, ...pastEdits] = editHistoryMessages;
+  const currentMessageId = `${currentMessage.id}.${currentMessage.timestamp}`;
+
   return (
     <Modal
       hasXButton
@@ -102,11 +105,46 @@ export function EditHistoryMessagesModal({
       modalName="EditHistoryMessagesModal"
       moduleClassName="EditHistoryMessagesModal"
       onClose={closeEditHistoryModal}
-      title={i18n('icu:EditHistoryMessagesModal__title')}
       noTransform
     >
       <div ref={containerElementRef}>
-        {editHistoryMessages.map(messageAttributes => {
+        <Message
+          {...MESSAGE_DEFAULT_PROPS}
+          {...currentMessage}
+          id={currentMessageId}
+          containerElementRef={containerElementRef}
+          displayLimit={displayLimitById[currentMessageId]}
+          getPreferredBadge={getPreferredBadge}
+          i18n={i18n}
+          isSpoilerExpanded={revealedSpoilersById[currentMessageId] || {}}
+          key={currentMessage.timestamp}
+          kickOffAttachmentDownload={kickOffAttachmentDownload}
+          messageExpanded={(messageId, displayLimit) => {
+            const update = {
+              ...displayLimitById,
+              [messageId]: displayLimit,
+            };
+            setDisplayLimitById(update);
+          }}
+          platform={platform}
+          showLightbox={closeAndShowLightbox}
+          showSpoiler={(messageId, data) => {
+            const update = {
+              ...revealedSpoilersById,
+              [messageId]: data,
+            };
+            setRevealedSpoilersById(update);
+          }}
+          theme={theme}
+        />
+
+        <hr className="EditHistoryMessagesModal__divider" />
+
+        <h3 className="EditHistoryMessagesModal__title">
+          {i18n('icu:EditHistoryMessagesModal__title')}
+        </h3>
+
+        {pastEdits.map(messageAttributes => {
           const syntheticId = `${messageAttributes.id}.${messageAttributes.timestamp}`;
 
           return (
