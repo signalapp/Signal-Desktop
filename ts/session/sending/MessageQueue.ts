@@ -331,7 +331,7 @@ export class MessageQueue {
       // or a message with a syncTarget set.
 
       if (MessageSender.isSyncMessage(message)) {
-        window?.log?.warn('OutgoingMessageQueue: Processing sync message');
+        window?.log?.info('OutgoingMessageQueue: Processing sync message');
         isSyncMessage = true;
       } else {
         window?.log?.warn('Dropping message in process() to be sent to ourself');

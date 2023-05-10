@@ -139,7 +139,7 @@ async function pendingChangesForPubkey(pubkey: string): Promise<Array<OutgoingCo
       namespace,
     });
   }
-  window.log.debug(`those variants needs push: "${[...variantsNeedingPush]}"`);
+  window.log.info(`those variants needs push: "${[...variantsNeedingPush]}"`);
 
   return results;
 }

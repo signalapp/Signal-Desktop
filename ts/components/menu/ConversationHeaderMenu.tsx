@@ -29,7 +29,8 @@ import {
   BlockMenuItem,
   ChangeNicknameMenuItem,
   ClearNicknameMenuItem,
-  DeleteContactMenuItem,
+  DeletePrivateContactMenuItem,
+  DeleteGroupOrCommunityMenuItem,
   DeleteMessagesMenuItem,
   InviteContactMenuItem,
   LeaveGroupMenuItem,
@@ -38,6 +39,7 @@ import {
   ShowUserDetailsMenuItem,
   UnbanMenuItem,
   UpdateGroupNameMenuItem,
+  DeletePrivateConversationMenuItem,
 } from './Menu';
 import { ContextConversationProvider } from '../leftpane/conversation-list-item/ConvoIdContext';
 
@@ -71,7 +73,6 @@ export const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
           <MarkAllReadMenuItem />
           <ChangeNicknameMenuItem />
           <ClearNicknameMenuItem />
-          <DeleteMessagesMenuItem />
           <AddModeratorsMenuItem />
           <RemoveModeratorsMenuItem />
           <BanMenuItem />
@@ -79,7 +80,10 @@ export const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
           <UpdateGroupNameMenuItem />
           <LeaveGroupMenuItem />
           <InviteContactMenuItem />
-          <DeleteContactMenuItem />
+          <DeleteMessagesMenuItem />
+          <DeletePrivateConversationMenuItem />
+          <DeletePrivateContactMenuItem />
+          <DeleteGroupOrCommunityMenuItem />
           <ShowUserDetailsMenuItem />
         </Menu>
       </SessionContextMenuContainer>

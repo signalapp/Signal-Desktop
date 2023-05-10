@@ -68,7 +68,7 @@ export async function generateGroupV3Keypair() {
   preprendedPubkey.set(publicKey, 1);
   preprendedPubkey[0] = 3;
 
-  console.warn(`generateGroupV3Keypair: pubkey${toHex(preprendedPubkey)}`);
+  // console.warn(`generateGroupV3Keypair: pubkey${toHex(preprendedPubkey)}`);
 
   return { pubkey: toHex(preprendedPubkey), privateKey: toHex(ed25519KeyPair.privateKey) };
 }

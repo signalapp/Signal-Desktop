@@ -100,6 +100,7 @@ export type LocalizerKeys =
   | 'deleteMessagesQuestion'
   | 'deleteMessageQuestion'
   | 'deleteMessages'
+  | 'deleteConversation'
   | 'deleted'
   | 'messageDeletedPlaceholder'
   | 'from'

@@ -1055,3 +1055,7 @@ export const getIsSelectedConvoInitialLoadingInProgress = createSelector(
   getSelectedConversation,
   (convo: ReduxConversationType | undefined): boolean => Boolean(convo?.isInitialFetchingInProgress)
 );
+
+export function getCurrentlySelectedConversationOutsideRedux() {
+  return window?.inboxStore?.getState().conversations.selectedConversation as string | undefined;
+}

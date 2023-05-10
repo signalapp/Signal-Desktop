@@ -11,6 +11,7 @@ import {
   waitForTestIdWithText,
 } from './utils';
 let window: Page | undefined;
+// tslint:disable: no-console
 
 test.beforeEach(beforeAllClean);
 
@@ -61,7 +62,7 @@ test.describe('Password checks', () => {
     // Change password
     await clickOnTestIdWithText(window, 'change-password-settings-button', 'Change Password');
 
-    console.warn('clicked Change Password');
+    console.info('clicked Change Password');
     // Enter old password
     await typeIntoInput(window, 'password-input', testPassword);
     // Enter new password

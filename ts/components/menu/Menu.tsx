@@ -35,6 +35,7 @@ import {
   unblockConvoById,
 } from '../../interactions/conversationInteractions';
 import { getConversationController } from '../../session/conversations';
+import { PubKey } from '../../session/types';
 import {
   changeNickNameModal,
   updateConfirmModal,
@@ -44,39 +45,6 @@ import { getIsMessageSection } from '../../state/selectors/section';
 import { useSelectedConversationKey } from '../../state/selectors/selectedConversation';
 import { SessionButtonColor } from '../basic/SessionButton';
 import { useConvoIdFromContext } from '../leftpane/conversation-list-item/ConvoIdContext';
-import { PubKey } from '../../session/types';
-
-function showDeleteContact(
-  isGroup: boolean,
-  isPublic: boolean,
-  isGroupLeft: boolean,
-  isKickedFromGroup: boolean,
-  isRequest: boolean
-): boolean {
-  // you need to have left a closed group first to be able to delete it completely.
-  return (!isGroup && !isRequest) || (isGroup && (isGroupLeft || isKickedFromGroup || isPublic));
-}
-
-function showUpdateGroupName(
-  weAreAdmin: boolean,
-  isKickedFromGroup: boolean,
-  left: boolean
-): boolean {
-  return !isKickedFromGroup && !left && weAreAdmin;
-}
-
-function showLeaveGroup(
-  isKickedFromGroup: boolean,
-  left: boolean,
-  isGroup: boolean,
-  isPublic: boolean
-): boolean {
-  return !isKickedFromGroup && !left && isGroup && !isPublic;
-}
-
-function showInviteContact(isPublic: boolean): boolean {
-  return isPublic;
-}
 
 /** Menu items standardized */
 
@@ -84,7 +52,7 @@ export const InviteContactMenuItem = (): JSX.Element | null => {
   const convoId = useConvoIdFromContext();
   const isPublic = useIsPublic(convoId);
 
-  if (showInviteContact(isPublic)) {
+  if (isPublic) {
     return (
       <Item
         onClick={() => {
@@ -116,24 +84,21 @@ export const MarkConversationUnreadMenuItem = (): JSX.Element | null => {
   return null;
 };
 
-export const DeleteContactMenuItem = () => {
+/**
+ * This menu item can be used to completely remove a contact and reset the flags of that conversation.
+ * i.e. after confirmation is made, this contact will be removed from the ContactWrapper, and its blocked and approved state reset.
+ * Note: We keep the entry in the database as the user profile might still be needed for communities/groups where this user.
+ */
+export const DeletePrivateContactMenuItem = () => {
   const dispatch = useDispatch();
   const convoId = useConvoIdFromContext();
-  const isPublic = useIsPublic(convoId);
-  const isLeft = useIsLeft(convoId);
-  const isKickedFromGroup = useIsKickedFromGroup(convoId);
   const isPrivate = useIsPrivate(convoId);
   const isRequest = useIsIncomingRequest(convoId);
 
-  if (showDeleteContact(!isPrivate, isPublic, isLeft, isKickedFromGroup, isRequest)) {
+  if (isPrivate && !isRequest) {
     let menuItemText: string;
-    if (isPublic) {
-      menuItemText = window.i18n('leaveGroup');
-    } else {
-      menuItemText = isPrivate
-        ? window.i18n('editMenuDeleteContact')
-        : window.i18n('editMenuDeleteGroup');
-    }
+
+    menuItemText = window.i18n('editMenuDeleteContact');
 
     const onClickClose = () => {
       dispatch(updateConfirmModal(null));
@@ -143,13 +108,53 @@ export const DeleteContactMenuItem = () => {
       dispatch(
         updateConfirmModal({
           title: menuItemText,
-          message: isPrivate
-            ? window.i18n('deleteContactConfirmation')
-            : window.i18n('leaveGroupConfirmation'),
+          message: window.i18n('deleteContactConfirmation'),
           onClickClose,
           okTheme: SessionButtonColor.Danger,
           onClickOk: async () => {
-            await getConversationController().deleteContact(convoId, false);
+            await getConversationController().deleteContact(convoId, {
+              fromSyncMessage: false,
+              justHidePrivate: false,
+            });
+          },
+        })
+      );
+    };
+
+    return <Item onClick={showConfirmationModal}>{menuItemText}</Item>;
+  }
+  return null;
+};
+
+export const DeleteGroupOrCommunityMenuItem = () => {
+  const dispatch = useDispatch();
+  const convoId = useConvoIdFromContext();
+  const isPublic = useIsPublic(convoId);
+  const isLeft = useIsLeft(convoId);
+  const isKickedFromGroup = useIsKickedFromGroup(convoId);
+  const isPrivate = useIsPrivate(convoId);
+  const isGroup = !isPrivate && !isPublic;
+
+  // You need to have left a closed group first to be able to delete it completely as there is a leaving message to send first.
+  // A community can just be removed right away.
+  if (isPublic || (isGroup && (isLeft || isKickedFromGroup))) {
+    const menuItemText = isPublic ? window.i18n('leaveGroup') : window.i18n('editMenuDeleteGroup');
+
+    const onClickClose = () => {
+      dispatch(updateConfirmModal(null));
+    };
+
+    const showConfirmationModal = () => {
+      dispatch(
+        updateConfirmModal({
+          title: menuItemText,
+          message: window.i18n('leaveGroupConfirmation'),
+          onClickClose,
+          okTheme: SessionButtonColor.Danger,
+          onClickOk: async () => {
+            await getConversationController().deleteContact(convoId, {
+              fromSyncMessage: false,
+            });
           },
         })
       );
@@ -167,7 +172,7 @@ export const LeaveGroupMenuItem = () => {
   const isKickedFromGroup = useIsKickedFromGroup(convoId);
   const isPrivate = useIsPrivate(convoId);
 
-  if (showLeaveGroup(isKickedFromGroup, isLeft, !isPrivate, isPublic)) {
+  if (!isKickedFromGroup && !isLeft && !isPrivate && !isPublic) {
     return (
       <Item
         onClick={() => {
@@ -217,7 +222,7 @@ export const UpdateGroupNameMenuItem = () => {
   const isKickedFromGroup = useIsKickedFromGroup(convoId);
   const weAreAdmin = useWeAreAdmin(convoId);
 
-  if (showUpdateGroupName(weAreAdmin, isKickedFromGroup, left)) {
+  if (!isKickedFromGroup && !left && weAreAdmin) {
     return (
       <Item
         onClick={async () => {
@@ -406,13 +411,17 @@ export const ChangeNicknameMenuItem = () => {
   );
 };
 
+/**
+ * This menu is always available and can be used to clear the messages in the local database only.
+ * No messages are sent, no update are made in the wrappers.
+ * Note: Will ask for confirmation before processing.
+ */
 export const DeleteMessagesMenuItem = () => {
   const convoId = useConvoIdFromContext();
 
   if (!convoId) {
     return null;
   }
-
   return (
     <Item
       onClick={() => {
@@ -420,6 +429,34 @@ export const DeleteMessagesMenuItem = () => {
       }}
     >
       {window.i18n('deleteMessages')}
+    </Item>
+  );
+};
+
+/**
+ * This menu item can be used to delete a private conversation after confirmation.
+ * It does not reset the flags of that conversation, but just removes the messages locally and hide it from the left pane list.
+ * Note: A dialog is opened to ask for confirmation before processing.
+ */
+export const DeletePrivateConversationMenuItem = () => {
+  const convoId = useConvoIdFromContext();
+  const isRequest = useIsIncomingRequest(convoId);
+  const isPrivate = useIsPrivate(convoId);
+
+  if (!convoId || !isPrivate || isRequest) {
+    return null;
+  }
+
+  return (
+    <Item
+      onClick={async () => {
+        await getConversationController().deleteContact(convoId, {
+          fromSyncMessage: false,
+          justHidePrivate: true,
+        });
+      }}
+    >
+      {window.i18n('deleteConversation')}
     </Item>
   );
 };

@@ -249,7 +249,9 @@ export function showLeaveGroupByConvoId(conversationId: string) {
         title,
         message,
         onClickOk: async () => {
-          await getConversationController().deleteContact(conversation.id, false);
+          await getConversationController().deleteContact(conversation.id, {
+            fromSyncMessage: false,
+          });
           onClickClose();
         },
         onClickClose,

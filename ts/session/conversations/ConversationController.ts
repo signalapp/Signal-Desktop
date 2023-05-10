@@ -24,7 +24,7 @@ import { getSwarmPollingInstance } from '../apis/snode_api';
 import { SnodeNamespaces } from '../apis/snode_api/namespaces';
 import { ClosedGroupMemberLeftMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupMemberLeftMessage';
 import { UserUtils } from '../utils';
-import { isEmpty } from 'lodash';
+import { isEmpty, isNil } from 'lodash';
 
 let instance: ConversationController | null;
 
@@ -200,9 +200,12 @@ export class ConversationController {
     await conversation.commit();
   }
 
-  public async deleteContact(id: string, fromSyncMessage: boolean) {
+  public async deleteContact(
+    id: string,
+    options: { fromSyncMessage: boolean; justHidePrivate?: boolean }
+  ) {
     if (!this._initialFetchComplete) {
-      throw new Error('getConversationController().deleteContact() needs complete initial fetch');
+      throw new Error('getConversationController.deleteContact  needs complete initial fetch');
     }
 
     window.log.info(`deleteContact with ${id}`);
@@ -227,18 +230,31 @@ export class ConversationController {
     switch (convoType) {
       case '1o1':
         // if this conversation is a private conversation it's in fact a `contact` for desktop.
-        // we just set the hidden field to true
-        // so the conversation still exists (needed for that user's profile in groups) but is not shown on the list of conversation.
-        // We also keep the messages for now, as turning a contact as hidden might just be a temporary thing
-        window.log.info(`deleteContact isPrivate, marking as hidden: ${id}`);
-        conversation.set({
-          priority: CONVERSATION_PRIORITIES.hidden,
-        });
-        // we currently do not wish to reset the approved/approvedMe state when marking a private conversation as hidden
-        // await conversation.setIsApproved(false, false);
-        await conversation.commit(); // this updates the wrappers content to reflect the hidden state
 
-        // We don't remove entries from the contacts wrapper, so better keep corresponding convo volatile info for now (it will be pruned if needed)
+        if (options.justHidePrivate || isNil(options.justHidePrivate) || conversation.isMe()) {
+          // we just set the hidden field to true
+          // so the conversation still exists (needed for that user's profile in groups) but is not shown on the list of conversation.
+          // We also keep the messages for now, as turning a contact as hidden might just be a temporary thing
+          window.log.info(`deleteContact isPrivate, marking as hidden: ${id}`);
+          conversation.set({
+            priority: CONVERSATION_PRIORITIES.hidden,
+          });
+          // We don't remove entries from the contacts wrapper, so better keep corresponding convo volatile info for now (it will be pruned if needed)
+          await conversation.commit(); // this updates the wrappers content to reflect the hidden state
+        } else {
+          window.log.info(`deleteContact isPrivate, reset fields and removing from wrapper: ${id}`);
+
+          await conversation.setIsApproved(false, false);
+          await conversation.setDidApproveMe(false, false);
+          conversation.set('active_at', 0);
+          await BlockedNumberController.unblockAll([conversation.id]);
+          await conversation.commit(); // first commit to DB so the DB knows about the changes
+          if (SessionUtilContact.isContactToStoreInWrapper(conversation)) {
+            window.log.warn('isContactToStoreInWrapper still true for ', conversation.attributes);
+          }
+          await SessionUtilContact.removeContactFromWrapper(conversation.id); // then remove the entry alltogether from the wrapper
+        }
+
         break;
       case 'Community':
         window?.log?.info('leaving open group v2', conversation.id);
@@ -280,14 +296,14 @@ export class ConversationController {
         break;
       case 'LegacyGroup':
         window.log.info(`deleteContact ClosedGroup case: ${conversation.id}`);
-        await leaveClosedGroup(conversation.id, fromSyncMessage); // this removes the data from the group and convo volatile info
+        await leaveClosedGroup(conversation.id, options.fromSyncMessage); // this removes the data from the group and convo volatile info
         await this.cleanUpGroupConversation(conversation.id);
         break;
       default:
         assertUnreachable(convoType, `deleteContact: convoType ${convoType} not handled`);
     }
 
-    if (!fromSyncMessage) {
+    if (!options.fromSyncMessage) {
       await ConfigurationSync.queueNewJobIfNeeded();
     }
   }

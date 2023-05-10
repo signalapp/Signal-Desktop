@@ -106,7 +106,7 @@ describe('ReactionMessage', () => {
     expect(reaction, 'no reaction should be returned since we are over the rate limit').to.be
       .undefined;
 
-    clock = useFakeTimers(Date.now());
+    clock = useFakeTimers({ now: Date.now(), shouldAdvanceTime: true });
 
     // Wait a miniute for the rate limit to clear
     clock.tick(1 * 60 * 1000);

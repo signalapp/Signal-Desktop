@@ -33,7 +33,6 @@ function isContactToStoreInWrapper(convo: ConversationModel): boolean {
     !convo.isMe() && convo.isPrivate() && convo.isActive() && !PubKey.hasBlindedPrefix(convo.id)
   );
 }
-// TODOLATER should we allow a blinded pubkey to be in the contact wrapper when we blocked it (can we block a blinded message request?)
 
 /**
  * Fetches the specified convo and updates the required field in the wrapper.
@@ -47,9 +46,6 @@ async function insertContactFromDBIntoWrapperAndRefresh(id: string): Promise<voi
   }
 
   if (!isContactToStoreInWrapper(foundConvo)) {
-    console.warn(
-      `insertContactFromDBIntoWrapperAndRefresh: convo ${id} should not be saved. Skipping`
-    );
     return;
   }
 
@@ -124,6 +120,7 @@ async function removeContactFromWrapper(id: string) {
   } catch (e) {
     window.log.warn(`ContactsWrapperActions.erase of ${id} failed with ${e.message}`);
   }
+  await refreshMappedValue(id);
 }
 export const SessionUtilContact = {
   isContactToStoreInWrapper,

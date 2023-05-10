@@ -17,7 +17,8 @@ import {
   CopyMenuItem,
   DeclineAndBlockMsgRequestMenuItem,
   DeclineMsgRequestMenuItem,
-  DeleteContactMenuItem,
+  DeletePrivateContactMenuItem,
+  DeleteGroupOrCommunityMenuItem,
   DeleteMessagesMenuItem,
   InviteContactMenuItem,
   LeaveGroupMenuItem,
@@ -25,6 +26,7 @@ import {
   MarkConversationUnreadMenuItem,
   ShowUserDetailsMenuItem,
   UnbanMenuItem,
+  DeletePrivateConversationMenuItem,
 } from './Menu';
 
 export type PropsContextConversationItem = {
@@ -48,7 +50,6 @@ const ConversationListItemContextMenu = (props: PropsContextConversationItem) =>
         {/* Read state actions */}
         <MarkAllReadMenuItem />
         <MarkConversationUnreadMenuItem />
-        <DeleteMessagesMenuItem />
         {/* Nickname actions */}
         <ChangeNicknameMenuItem />
         <ClearNicknameMenuItem />
@@ -56,7 +57,10 @@ const ConversationListItemContextMenu = (props: PropsContextConversationItem) =>
         <BanMenuItem />
         <UnbanMenuItem />
         <InviteContactMenuItem />
-        <DeleteContactMenuItem />
+        <DeleteMessagesMenuItem />
+        <DeletePrivateConversationMenuItem />
+        <DeletePrivateContactMenuItem />
+        <DeleteGroupOrCommunityMenuItem />
         <LeaveGroupMenuItem />
         <ShowUserDetailsMenuItem />
       </Menu>

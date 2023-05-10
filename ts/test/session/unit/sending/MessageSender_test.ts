@@ -80,13 +80,10 @@ describe('MessageSender', () => {
       });
 
       it('should only retry the specified amount of times before throwing', async () => {
-        // const clock = sinon.useFakeTimers();
-
         sessionMessageAPISendStub.throws(new Error('API error'));
         const attempts = 2;
         const promise = MessageSender.send(rawMessage, attempts, 10);
         await expect(promise).is.rejectedWith('API error');
-        // clock.restore();
         expect(sessionMessageAPISendStub.callCount).to.equal(attempts);
       });
 

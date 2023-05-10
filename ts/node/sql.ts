@@ -595,7 +595,7 @@ function getUsBlindedInThatServerIfNeeded(
     const blindedId = found?.blindedId;
     return isString(blindedId) ? blindedId : usNaked;
   } catch (e) {
-    console.warn('getUsBlindedInThatServerIfNeeded failed with ', e.message);
+    console.error('getUsBlindedInThatServerIfNeeded failed with ', e.message);
   }
 
   return usNaked;
@@ -1621,7 +1621,7 @@ const unprocessed: UnprocessedDataNode = {
 
   removeUnprocessed: (id: string): void => {
     if (Array.isArray(id)) {
-      console.warn('removeUnprocessed only supports single ids at a time');
+      console.error('removeUnprocessed only supports single ids at a time');
       throw new Error('removeUnprocessed only supports single ids at a time');
     }
     assertGlobalInstance()

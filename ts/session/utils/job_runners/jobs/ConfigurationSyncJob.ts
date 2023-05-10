@@ -287,11 +287,12 @@ async function queueNewJobIfNeeded() {
     !lastRunConfigSyncJobTimestamp ||
     lastRunConfigSyncJobTimestamp < Date.now() - defaultMsBetweenRetries
   ) {
+    window.log.debug('Scheduling ConfSyncJob: ASAP');
+    // we postpone by 1000ms to make sure whoever is adding this job is done with what is needs to do first
     // this call will make sure that there is only one configuration sync job at all times
     await runners.configurationSyncRunner.addJob(
       new ConfigurationSyncJob({ nextAttemptTimestamp: Date.now() + 1000 })
     );
-    window.log.debug('Scheduling ConfSyncJob: ASAP'); // we postpone by 1000ms to make sure whoever is adding this job is done with what is needs to do first
   } else {
     // if we did run at t=100, and it is currently t=110, the difference is 10
     const diff = Math.max(Date.now() - lastRunConfigSyncJobTimestamp, 0);

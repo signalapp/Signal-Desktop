@@ -64,7 +64,7 @@ describe('SwarmPolling', () => {
     swarmPolling.resetSwarmPolling();
     pollOnceForKeySpy = Sinon.spy(swarmPolling, 'pollOnceForKey');
 
-    clock = sinon.useFakeTimers(Date.now());
+    clock = sinon.useFakeTimers({ now: Date.now(), shouldAdvanceTime: true });
   });
 
   afterEach(() => {
@@ -321,14 +321,16 @@ describe('SwarmPolling', () => {
         const groupConvoPubkey = PubKey.cast(convo.id as string);
         swarmPolling.addGroupId(groupConvoPubkey);
         await swarmPolling.start(true);
+        expect(pollOnceForKeySpy.callCount).to.eq(2);
+        expect(pollOnceForKeySpy.firstCall.args).to.deep.eq([ourPubkey, false, [0]]);
+        expect(pollOnceForKeySpy.secondCall.args).to.deep.eq([groupConvoPubkey, true, [-10]]);
         clock.tick(9000);
         // no need to do that as the tick will trigger a call in all cases after 5 secs await swarmPolling.pollForAllKeys();
         /** this is not easy to explain, but
-         * - during the swarmPolling.start, we get two calls to pollOnceForKeySpy (one for our id and one for group od)
+         * - during the swarmPolling.start, we get two calls to pollOnceForKeySpy (one for our id and one for group id)
          * - the clock ticks 9sec, and another call of pollOnceForKeySpy get started, but as we do not await them, this test fails.
          * the only fix is to restore the clock and force the a small sleep to let the thing run in bg
          */
-        clock.restore();
         await sleepFor(10);
 
         expect(pollOnceForKeySpy.callCount).to.eq(4);
@@ -360,7 +362,6 @@ describe('SwarmPolling', () => {
          * - the clock ticks 9sec, and another call of pollOnceForKeySpy get started, but as we do not await them, this test fails.
          * the only fix is to restore the clock and force the a small sleep to let the thing run in bg
          */
-        clock.restore();
         await sleepFor(10);
         // we should have two more calls here, so 4 total.
         expect(pollOnceForKeySpy.callCount).to.eq(4);
@@ -386,6 +387,7 @@ describe('SwarmPolling', () => {
         convo.set('active_at', Date.now() - 7 * 24 * 3600 * 1000 - 3600 * 1000);
 
         clock.tick(1 * 60 * 1000);
+        await sleepFor(10);
 
         // we should have only one more call here, the one for our direct pubkey fetch
         expect(pollOnceForKeySpy.callCount).to.eq(3);

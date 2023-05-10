@@ -63,7 +63,7 @@ export async function doSnodeBatchRequest(
  */
 function decodeBatchRequest(snodeResponse: SnodeResponse): NotEmptyArrayOfBatchResults {
   try {
-    // console.warn('decodeBatch: ', snodeResponse);
+    // console.error('decodeBatch: ', snodeResponse);
     if (snodeResponse.status !== 200) {
       throw new Error(`decodeBatchRequest invalid status code: ${snodeResponse.status}`);
     }

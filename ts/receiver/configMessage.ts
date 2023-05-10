@@ -1,4 +1,4 @@
-import { compact, isEmpty, isNumber, toNumber } from 'lodash';
+import { compact, difference, isEmpty, isNumber, toNumber } from 'lodash';
 import { ConfigDumpData } from '../data/configDump/configDump';
 import { Data } from '../data/data';
 import { SettingsKey } from '../data/settings-key';
@@ -47,6 +47,9 @@ import { addKeyPairToCacheAndDBIfNeeded, handleNewClosedGroup } from './closedGr
 import { HexKeyPair } from './keypairs';
 import { queueAllCachedFromSource } from './receiver';
 import { EnvelopePlus } from './types';
+import { SessionUtilContact } from '../session/utils/libsession/libsession_utils_contacts';
+import { ContactInfo } from 'libsession_util_nodejs';
+import { getCurrentlySelectedConversationOutsideRedux } from '../state/selectors/conversations';
 
 function groupByVariant(
   incomingConfigs: Array<IncomingMessage<SignalService.ISharedConfigMessage>>
@@ -136,14 +139,77 @@ async function handleUserProfileUpdate(result: IncomingConfResult): Promise<Inco
   return result;
 }
 
+function getContactsToRemoveFromDB(contactsInWrapper: Array<ContactInfo>) {
+  const allContactsInDBWhichShouldBeInWrapperIds = getConversationController()
+    .getConversations()
+    .filter(SessionUtilContact.isContactToStoreInWrapper)
+    .map(m => m.id as string);
+
+  const currentlySelectedConversationId = getCurrentlySelectedConversationOutsideRedux();
+  const currentlySelectedConvo = currentlySelectedConversationId
+    ? getConversationController().get(currentlySelectedConversationId)
+    : undefined;
+
+  // we might have some contacts not in the wrapper anymore, so let's clean things up.
+
+  const convoIdsInDbButNotWrapper = difference(
+    allContactsInDBWhichShouldBeInWrapperIds,
+    contactsInWrapper.map(m => m.id)
+  );
+
+  // When starting a conversation with a new user, it is not in the wrapper yet, only when we send the first message.
+  // We do not want to forcefully remove that contact as the user might be typing a message to him.
+  // So let's check if that currently selected conversation should be forcefully closed or not
+  if (
+    currentlySelectedConversationId &&
+    currentlySelectedConvo &&
+    convoIdsInDbButNotWrapper.includes(currentlySelectedConversationId)
+  ) {
+    if (
+      currentlySelectedConvo.isPrivate() &&
+      !currentlySelectedConvo.isApproved() &&
+      !currentlySelectedConvo.didApproveMe()
+    ) {
+      const foundIndex = convoIdsInDbButNotWrapper.findIndex(
+        m => m === currentlySelectedConversationId
+      );
+      if (foundIndex !== -1) {
+        convoIdsInDbButNotWrapper.splice(foundIndex, 1);
+      }
+    }
+  }
+  return convoIdsInDbButNotWrapper;
+}
+
+async function deleteContactsFromDB(contactsToRemove: Array<string>) {
+  window.log.debug('contacts to fully remove after wrapper merge', contactsToRemove);
+  for (let index = 0; index < contactsToRemove.length; index++) {
+    const contactToRemove = contactsToRemove[index];
+    try {
+      await getConversationController().deleteContact(contactToRemove, {
+        fromSyncMessage: true,
+        justHidePrivate: false,
+      });
+    } catch (e) {
+      window.log.warn(
+        `after merge: deleteContactsFromDB ${contactToRemove} failed with `,
+        e.message
+      );
+    }
+  }
+}
+
 // tslint:disable-next-line: cyclomatic-complexity
 async function handleContactsUpdate(result: IncomingConfResult): Promise<IncomingConfResult> {
   const us = UserUtils.getOurPubKeyStrFromCache();
 
-  const allContacts = await ContactsWrapperActions.getAll();
+  const allContactsInWrapper = await ContactsWrapperActions.getAll();
+  const contactsToRemoveFromDB = getContactsToRemoveFromDB(allContactsInWrapper);
+  await deleteContactsFromDB(contactsToRemoveFromDB);
 
-  for (let index = 0; index < allContacts.length; index++) {
-    const wrapperConvo = allContacts[index];
+  // create new contact conversation here, and update their state with what is part of the wrapper
+  for (let index = 0; index < allContactsInWrapper.length; index++) {
+    const wrapperConvo = allContactsInWrapper[index];
 
     if (wrapperConvo.id === us) {
       // our profile update comes from our userProfile, not from the contacts wrapper.
@@ -259,8 +325,10 @@ async function handleCommunitiesUpdate() {
 
   for (let index = 0; index < communitiesToLeaveInDB.length; index++) {
     const toLeave = communitiesToLeaveInDB[index];
-    console.warn('leaving community with convoId ', toLeave.id);
-    await getConversationController().deleteContact(toLeave.id, true);
+    window.log.info('leaving community with convoId ', toLeave.id);
+    await getConversationController().deleteContact(toLeave.id, {
+      fromSyncMessage: true,
+    });
   }
 
   // this call can take quite a long time and should not cause issues to not be awaited
@@ -328,7 +396,10 @@ async function handleLegacyGroupUpdate(latestEnvelopeTimestamp: number) {
 
   for (let index = 0; index < legacyGroupsToLeaveInDB.length; index++) {
     const toLeave = legacyGroupsToLeaveInDB[index];
-    console.warn('leaving legacy group from configuration sync message with convoId ', toLeave.id);
+    window.log.info(
+      'leaving legacy group from configuration sync message with convoId ',
+      toLeave.id
+    );
     const toLeaveFromDb = getConversationController().get(toLeave.id);
 
     // if we were kicked from that group, leave it as is until the user manually deletes it
@@ -336,13 +407,15 @@ async function handleLegacyGroupUpdate(latestEnvelopeTimestamp: number) {
     if (!toLeaveFromDb?.get('isKickedFromGroup')) {
       window.log.debug(`we were kicked from ${toLeave.id} so we keep it until manually deleted`);
 
-      await getConversationController().deleteContact(toLeave.id, true);
+      await getConversationController().deleteContact(toLeave.id, {
+        fromSyncMessage: true,
+      });
     }
   }
 
   for (let index = 0; index < legacyGroupsToJoinInDB.length; index++) {
     const toJoin = legacyGroupsToJoinInDB[index];
-    console.warn(
+    window.log.info(
       'joining legacy group from configuration sync message with convoId ',
       toJoin.pubkeyHex
     );

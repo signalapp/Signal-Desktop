@@ -152,7 +152,9 @@ export class OpenGroupManagerV2 {
 
             await OpenGroupData.removeV2OpenGroupRoom(roomConvoId);
             getOpenGroupManager().removeRoomFromPolledRooms(infos);
-            await getConversationController().deleteContact(roomConvoId, false);
+            await getConversationController().deleteContact(roomConvoId, {
+              fromSyncMessage: false,
+            });
           }
         } catch (e) {
           window?.log?.warn('cleanup roomInfos error', e);
