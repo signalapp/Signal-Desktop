@@ -112,6 +112,7 @@ export type StorageAccessType = {
   // updated whenever we receive a new storage manifest
   accountE164: string;
   textFormatting: boolean;
+  expandFullMessage: boolean;
   typingIndicators: boolean;
   sealedSenderIndicators: boolean;
   storageFetchComplete: boolean;

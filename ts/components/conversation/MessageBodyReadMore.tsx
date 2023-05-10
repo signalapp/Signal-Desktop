@@ -2,10 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 import type { Props as MessageBodyPropsType } from './MessageBody';
 import { MessageBody } from './MessageBody';
 import { graphemeAndLinkAwareSlice } from '../../util/graphemeAndLinkAwareSlice';
+import { getExpandFullMessage } from '../../state/selectors/items';
 
 export type Props = Pick<
   MessageBodyPropsType,
@@ -27,7 +29,7 @@ export type Props = Pick<
 };
 
 const INITIAL_LENGTH = 800;
-const INCREMENT_COUNT = 80_000;
+const INCREMENT_COUNT = 3000;
 const BUFFER = 100;
 
 export function doesMessageBodyOverflow(str: string): boolean {
@@ -52,6 +54,8 @@ export function MessageBodyReadMore({
 }: Props): JSX.Element {
   const maxLength = displayLimit || INITIAL_LENGTH;
 
+  const expandFullMessage = useSelector(getExpandFullMessage);
+
   const { hasReadMore, text: slicedText } = graphemeAndLinkAwareSlice(
     text,
     maxLength,
@@ -60,7 +64,10 @@ export function MessageBodyReadMore({
 
   const onIncreaseTextLength = hasReadMore
     ? () => {
-        messageExpanded(id, maxLength + INCREMENT_COUNT);
+        messageExpanded(
+          id,
+          expandFullMessage ? text.length : maxLength + INCREMENT_COUNT
+        );
       }
     : undefined;
 

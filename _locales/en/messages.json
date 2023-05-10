@@ -87,6 +87,10 @@
     "messageformat": "Adding {contact}...",
     "description": "Shown in toast while a user is being added to a group"
   },
+  "icu:expandFullMessage": {
+    "messageformat": "Expand long messages fully",
+    "description": "Whether the 'Read more' button on long messages should fully expand them"
+  },
   "icu:RecordingComposer__cancel": {
     "messageformat": "Cancel",
     "description": "Label of cancel button on voice note recording UI"

@@ -92,6 +92,7 @@ SettingsWindowProps.onRender(
     onSentMediaQualityChange,
     onSpellCheckChange,
     onTextFormattingChange,
+    onExpandFullMessageChange,
     onThemeChange,
     onUniversalExpireTimerChange,
     onWhoCanFindMeChange,
@@ -112,6 +113,7 @@ SettingsWindowProps.onRender(
     whoCanFindMe,
     whoCanSeeMe,
     zoomFactor,
+    expandFullMessage,
   }: PropsPreloadType) => {
     ReactDOM.render(
       <Preferences
@@ -158,9 +160,7 @@ SettingsWindowProps.onRender(
         isAutoLaunchSupported={isAutoLaunchSupported}
         isFormattingFlagEnabled={isFormattingFlagEnabled}
         isHideMenuBarSupported={isHideMenuBarSupported}
-        isMinimizeToAndStartInSystemTraySupported={
-          isMinimizeToAndStartInSystemTraySupported
-        }
+        isMinimizeToAndStartInSystemTraySupported={isMinimizeToAndStartInSystemTraySupported}
         isNotificationAttentionSupported={isNotificationAttentionSupported}
         isPhoneNumberSharingSupported={isPhoneNumberSharingSupported}
         isSyncSupported={isSyncSupported}
@@ -180,9 +180,7 @@ SettingsWindowProps.onRender(
         onLastSyncTimeChange={onLastSyncTimeChange}
         onMediaCameraPermissionsChange={onMediaCameraPermissionsChange}
         onMediaPermissionsChange={onMediaPermissionsChange}
-        onMinimizeToAndStartInSystemTrayChange={
-          onMinimizeToAndStartInSystemTrayChange
-        }
+        onMinimizeToAndStartInSystemTrayChange={onMinimizeToAndStartInSystemTrayChange}
         onMinimizeToSystemTrayChange={onMinimizeToSystemTrayChange}
         onNotificationAttentionChange={onNotificationAttentionChange}
         onNotificationContentChange={onNotificationContentChange}
@@ -194,6 +192,7 @@ SettingsWindowProps.onRender(
         onSentMediaQualityChange={onSentMediaQualityChange}
         onSpellCheckChange={onSpellCheckChange}
         onTextFormattingChange={onTextFormattingChange}
+        onExpandFullMessageChange={onExpandFullMessageChange}
         onThemeChange={onThemeChange}
         onUniversalExpireTimerChange={onUniversalExpireTimerChange}
         onWhoCanFindMeChange={onWhoCanFindMeChange}
@@ -214,6 +213,7 @@ SettingsWindowProps.onRender(
         whoCanFindMe={whoCanFindMe}
         whoCanSeeMe={whoCanSeeMe}
         zoomFactor={zoomFactor}
+        expandFullMessage={expandFullMessage}
       />,
       document.getElementById('app')
     );

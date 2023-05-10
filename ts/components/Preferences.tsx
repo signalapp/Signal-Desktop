@@ -109,6 +109,7 @@ export type PropsDataType = {
 
   // Feature flags
   isFormattingFlagEnabled: boolean;
+  expandFullMessage: boolean;
 
   // Limited support features
   isAudioNotificationsSupported: boolean;
@@ -157,6 +158,7 @@ type PropsFunctionType = {
   onCallNotificationsChange: CheckboxChangeHandlerType;
   onCallRingtoneNotificationChange: CheckboxChangeHandlerType;
   onCountMutedConversationsChange: CheckboxChangeHandlerType;
+  onExpandFullMessageChange: CheckboxChangeHandlerType;
   onHasStoriesDisabledChanged: SelectChangeHandlerType<boolean>;
   onHideMenuBarChange: CheckboxChangeHandlerType;
   onIncomingCallNotificationsChange: CheckboxChangeHandlerType;
@@ -239,6 +241,7 @@ export function Preferences({
   doDeleteAllData,
   doneRendering,
   editCustomColor,
+  expandFullMessage,
   executeMenuRole,
   getConversationsWithCustomColor,
   hasAudioNotifications,
@@ -284,6 +287,7 @@ export function Preferences({
   onCallNotificationsChange,
   onCallRingtoneNotificationChange,
   onCountMutedConversationsChange,
+  onExpandFullMessageChange,
   onHasStoriesDisabledChanged,
   onHideMenuBarChange,
   onIncomingCallNotificationsChange,
@@ -559,6 +563,13 @@ export function Preferences({
                 value={zoomFactor}
               />
             }
+          />
+          <Checkbox
+            checked={expandFullMessage}
+            label={i18n('icu:expandFullMessage')}
+            moduleClassName="Preferences__checkbox"
+            name="expandFullMessage"
+            onChange={onExpandFullMessageChange}
           />
         </SettingsRow>
       </>

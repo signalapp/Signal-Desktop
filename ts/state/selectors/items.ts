@@ -255,3 +255,8 @@ export const getTextFormattingEnabled = createSelector(
   getItems,
   (state: ItemsStateType): boolean => Boolean(state.textFormatting ?? true)
 );
+
+export const getExpandFullMessage = createSelector(
+  getItems,
+  (state: ItemsStateType): boolean => Boolean(state.expandFullMessage ?? false)
+);
