@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { omit } from 'lodash';
+import { omit, isNumber } from 'lodash';
 
 import type { ConversationAttributesType } from '../model-types.d';
 import { hasErrors } from '../state/selectors/message';
@@ -13,6 +13,8 @@ import { isGroup, isDirectConversation } from './whatTypeOfConversation';
 import * as log from '../logging/log';
 import { getConversationIdForLogging } from './idForLogging';
 import { drop } from './drop';
+import { isNotNil } from './isNotNil';
+import { assertDev } from './assert';
 import { isConversationAccepted } from './isConversationAccepted';
 import { ReadStatus } from '../messages/MessageReadStatus';
 import {
@@ -52,8 +54,10 @@ export async function markConversationRead(
       }),
     ]);
 
-  log.info('markConversationRead', {
-    conversationId: getConversationIdForLogging(conversationAttrs),
+  const convoId = getConversationIdForLogging(conversationAttrs);
+  const logId = `markConversationRead(${convoId})`;
+
+  log.info(logId, {
     newestSentAt: options.newestSentAt,
     newestUnreadAt,
     unreadMessages: unreadMessages.length,
@@ -94,29 +98,46 @@ export async function markConversationRead(
 
   const allUnreadMessages = [...unreadMessages, ...unreadEditedMessages];
 
-  const allReadMessagesSync = allUnreadMessages.map(messageSyncData => {
-    const message = window.MessageController.getById(messageSyncData.id);
-    // we update the in-memory MessageModel with the fresh database call data
-    if (message) {
-      message.set(omit(messageSyncData, 'originalReadStatus'));
-    }
+  const allReadMessagesSync = allUnreadMessages
+    .map(messageSyncData => {
+      const message = window.MessageController.getById(messageSyncData.id);
+      // we update the in-memory MessageModel with the fresh database call data
+      if (message) {
+        message.set(omit(messageSyncData, 'originalReadStatus'));
+      }
 
-    return {
-      messageId: messageSyncData.id,
-      conversationId: conversationAttrs.id,
-      originalReadStatus: messageSyncData.originalReadStatus,
-      senderE164: messageSyncData.source,
-      senderUuid: messageSyncData.sourceUuid,
-      senderId: window.ConversationController.lookupOrCreate({
-        e164: messageSyncData.source,
-        uuid: messageSyncData.sourceUuid,
-        reason: 'markConversationRead',
-      })?.id,
-      timestamp: messageSyncData.sent_at,
-      isDirectConversation: isDirectConversation(conversationAttrs),
-      hasErrors: message ? hasErrors(message.attributes) : false,
-    };
-  });
+      const {
+        sent_at: timestamp,
+        source: senderE164,
+        sourceUuid: senderUuid,
+      } = messageSyncData;
+
+      if (!isNumber(timestamp)) {
+        assertDev(
+          false,
+          `${logId}: message sent_at timestamp is not number` +
+            `type=${messageSyncData.type}`
+        );
+        return undefined;
+      }
+
+      return {
+        messageId: messageSyncData.id,
+        conversationId: conversationAttrs.id,
+        originalReadStatus: messageSyncData.originalReadStatus,
+        senderE164,
+        senderUuid,
+        senderId: window.ConversationController.lookupOrCreate({
+          e164: senderE164,
+          uuid: senderUuid,
+          reason: 'markConversationRead',
+        })?.id,
+        timestamp,
+        isDirectConversation: isDirectConversation(conversationAttrs),
+        hasErrors: message ? hasErrors(message.attributes) : false,
+      };
+    })
+    .filter(isNotNil);
 
   // Some messages we're marking read are local notifications with no sender or were just
   //   unseen and not unread.
