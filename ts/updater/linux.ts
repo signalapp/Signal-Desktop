@@ -5,7 +5,7 @@ import { version as osVersion } from 'os';
 
 import type { LoggerType } from '../types/Logging';
 
-const MIN_UBUNTU_VERSION = '16.04';
+const MIN_UBUNTU_VERSION = '20.04';
 
 export function getUbuntuVersion(): string | undefined {
   if (process.platform !== 'linux') {
