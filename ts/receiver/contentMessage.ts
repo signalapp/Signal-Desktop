@@ -565,7 +565,7 @@ async function handleUnsendMessage(envelope: EnvelopePlus, unsendMessage: Signal
 
     return;
   }
-  const messageToDelete = await Data.getMessageBySenderAndTimestamp({
+  const messageToDelete = await Data.getMessageBySenderAndSentAt({
     source: messageAuthor,
     timestamp: toNumber(timestamp),
   });

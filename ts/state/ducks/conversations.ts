@@ -394,7 +394,7 @@ async function getMessages({
 
       if (!results.length) {
         const dbResult = (
-          await Data.getMessageBySenderAndTimestamp({ source: sender, timestamp })
+          await Data.getMessageBySenderAndSentAt({ source: sender, timestamp })
         )?.getMessageModelProps();
         if (dbResult) {
           results = [dbResult];

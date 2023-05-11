@@ -144,7 +144,7 @@ export const Data = {
   getMessageById,
   getMessageByServerId,
   filterAlreadyFetchedOpengroupMessage,
-  getMessageBySenderAndTimestamp,
+  getMessageBySenderAndSentAt,
   getUnreadByConversation,
   getUnreadCountByConversation,
   markAllAsReadByConversationNoExpiration,
@@ -454,14 +454,14 @@ async function filterAlreadyFetchedOpengroupMessage(
  * @param source senders id
  * @param timestamp the timestamp of the message - not to be confused with the serverTimestamp. This is equivalent to sent_at
  */
-async function getMessageBySenderAndTimestamp({
+async function getMessageBySenderAndSentAt({
   source,
   timestamp,
 }: {
   source: string;
   timestamp: number;
 }): Promise<MessageModel | null> {
-  const messages = await channels.getMessageBySenderAndTimestamp({
+  const messages = await channels.getMessageBySenderAndSentAt({
     source,
     timestamp,
   });

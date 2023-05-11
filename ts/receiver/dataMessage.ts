@@ -258,7 +258,7 @@ export async function isSwarmMessageDuplicate({
   sentAt: number;
 }) {
   try {
-    const result = await Data.getMessageBySenderAndTimestamp({
+    const result = await Data.getMessageBySenderAndSentAt({
       source,
       timestamp: sentAt,
     });

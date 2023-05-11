@@ -1062,13 +1062,7 @@ function getMessagesCountBySender({ source }: { source: string }) {
   return count['count(*)'] || 0;
 }
 
-function getMessageBySenderAndTimestamp({
-  source,
-  timestamp,
-}: {
-  source: string;
-  timestamp: number;
-}) {
+function getMessageBySenderAndSentAt({ source, timestamp }: { source: string; timestamp: number }) {
   const rows = assertGlobalInstance()
     .prepare(
       `SELECT json FROM ${MESSAGES_TABLE} WHERE
@@ -2460,7 +2454,7 @@ export const sqlNode = {
   getMessageCountByType,
 
   filterAlreadyFetchedOpengroupMessage,
-  getMessageBySenderAndTimestamp,
+  getMessageBySenderAndSentAt,
   getMessageIdsFromServerIds,
   getMessageById,
   getMessagesBySentAt,
