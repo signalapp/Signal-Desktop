@@ -1806,12 +1806,17 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       const timestamp =
         this.get('editMessageTimestamp') || mainMessageTimestamp;
 
+      const encodedContent = isEditedMessage
+        ? {
+            encodedEditMessage: dataMessage,
+          }
+        : {
+            encodedDataMessage: dataMessage,
+          };
+
       return handleMessageSend(
         messaging.sendSyncMessage({
-          encodedDataMessage: dataMessage,
-          editedMessageTimestamp: isEditedMessage
-            ? mainMessageTimestamp
-            : undefined,
+          ...encodedContent,
           timestamp,
           destination: conv.get('e164'),
           destinationUuid: conv.get('uuid'),

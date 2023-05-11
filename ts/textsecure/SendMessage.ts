@@ -1181,8 +1181,8 @@ export default class MessageSender {
   // Note: this is used for sending real messages to your other devices after sending a
   //   message to others.
   async sendSyncMessage({
-    editedMessageTimestamp,
     encodedDataMessage,
+    encodedEditMessage,
     timestamp,
     destination,
     destinationUuid,
@@ -1195,8 +1195,8 @@ export default class MessageSender {
     storyMessage,
     storyMessageRecipients,
   }: Readonly<{
-    editedMessageTimestamp?: number;
     encodedDataMessage?: Uint8Array;
+    encodedEditMessage?: Uint8Array;
     timestamp: number;
     destination: string | undefined;
     destinationUuid: string | null | undefined;
@@ -1214,11 +1214,8 @@ export default class MessageSender {
     const sentMessage = new Proto.SyncMessage.Sent();
     sentMessage.timestamp = Long.fromNumber(timestamp);
 
-    if (editedMessageTimestamp && encodedDataMessage) {
-      const dataMessage = Proto.DataMessage.decode(encodedDataMessage);
-      const editMessage = new Proto.EditMessage();
-      editMessage.dataMessage = dataMessage;
-      editMessage.targetSentTimestamp = Long.fromNumber(editedMessageTimestamp);
+    if (encodedEditMessage) {
+      const editMessage = Proto.EditMessage.decode(encodedEditMessage);
       sentMessage.editMessage = editMessage;
     } else if (encodedDataMessage) {
       const dataMessage = Proto.DataMessage.decode(encodedDataMessage);
