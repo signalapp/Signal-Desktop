@@ -17,6 +17,7 @@ import {
   isString,
   last,
   map,
+  uniq,
 } from 'lodash';
 import { redactAll } from '../util/privacy'; // checked - only node
 import { LocaleMessagesType } from './locale'; // checked - only node
@@ -55,6 +56,7 @@ import {
   updateSchema,
 } from './migration/signalMigrations';
 import { SettingsKey } from '../data/settings-key';
+import { Quote } from '../receiver/types';
 
 // tslint:disable: no-console function-name non-literal-fs-path
 
@@ -1062,19 +1064,32 @@ function getMessagesCountBySender({ source }: { source: string }) {
   return count['count(*)'] || 0;
 }
 
-function getMessageBySenderAndSentAt({ source, timestamp }: { source: string; timestamp: number }) {
-  const rows = assertGlobalInstance()
-    .prepare(
-      `SELECT json FROM ${MESSAGES_TABLE} WHERE
+function getMessagesBySenderAndSentAt(
+  propsList: Array<{
+    source: string;
+    timestamp: number;
+  }>
+) {
+  const db = assertGlobalInstance();
+  const rows = [];
+
+  for (let i = 0; i < propsList.length; i++) {
+    const { source, timestamp } = propsList[i];
+
+    const _rows = db
+      .prepare(
+        `SELECT json FROM ${MESSAGES_TABLE} WHERE
       source = $source AND
       sent_at = $timestamp;`
-    )
-    .all({
-      source,
-      timestamp,
-    });
+      )
+      .all({
+        source,
+        timestamp,
+      });
+    rows.push(..._rows);
+  }
 
-  return map(rows, row => jsonToObject(row.json));
+  return uniq(map(rows, row => jsonToObject(row.json)));
 }
 
 function filterAlreadyFetchedOpengroupMessage(
@@ -1203,7 +1218,10 @@ function getMessageCountByType(conversationId: string, type = '%') {
 const orderByClause = 'ORDER BY COALESCE(serverTimestamp, sent_at, received_at) DESC';
 const orderByClauseASC = 'ORDER BY COALESCE(serverTimestamp, sent_at, received_at) ASC';
 
-function getMessagesByConversation(conversationId: string, { messageId = null } = {}) {
+function getMessagesByConversation(
+  conversationId: string,
+  { messageId = null, returnQuotes = false } = {}
+): { messages: Array<Record<string, any>>; quotes: Array<Quote> } {
   const absLimit = 30;
   // If messageId is given it means we are opening the conversation to that specific messageId,
   // or that we just scrolled to it by a quote click and needs to load around it.
@@ -1212,6 +1230,9 @@ function getMessagesByConversation(conversationId: string, { messageId = null } 
 
   const numberOfMessagesInConvo = getMessagesCountByConversation(conversationId, globalInstance);
   const floorLoadAllMessagesInConvo = 70;
+
+  let messages: Array<Record<string, any>> = [];
+  let quotes = [];
 
   if (messageId || firstUnread) {
     const messageFound = getMessageById(messageId || firstUnread);
@@ -1244,33 +1265,39 @@ function getMessagesByConversation(conversationId: string, { messageId = null } 
               : absLimit,
         });
 
-      return map(rows, row => jsonToObject(row.json));
+      messages = map(rows, row => jsonToObject(row.json));
     }
     console.info(
       `getMessagesByConversation: Could not find messageId ${messageId} in db with conversationId: ${conversationId}. Just fetching the convo as usual.`
     );
-  }
+  } else {
+    const limit =
+      numberOfMessagesInConvo < floorLoadAllMessagesInConvo
+        ? floorLoadAllMessagesInConvo
+        : absLimit * 2;
 
-  const limit =
-    numberOfMessagesInConvo < floorLoadAllMessagesInConvo
-      ? floorLoadAllMessagesInConvo
-      : absLimit * 2;
-
-  const rows = assertGlobalInstance()
-    .prepare(
-      `
+    const rows = assertGlobalInstance()
+      .prepare(
+        `
     SELECT json FROM ${MESSAGES_TABLE} WHERE
       conversationId = $conversationId
       ${orderByClause}
     LIMIT $limit;
     `
-    )
-    .all({
-      conversationId,
-      limit,
-    });
+      )
+      .all({
+        conversationId,
+        limit,
+      });
 
-  return map(rows, row => jsonToObject(row.json));
+    messages = map(rows, row => jsonToObject(row.json));
+  }
+
+  if (returnQuotes) {
+    quotes = messages.filter(message => message.quote).map(message => message.quote);
+  }
+
+  return { messages, quotes };
 }
 
 function getLastMessagesByConversation(conversationId: string, limit: number) {
@@ -2454,7 +2481,7 @@ export const sqlNode = {
   getMessageCountByType,
 
   filterAlreadyFetchedOpengroupMessage,
-  getMessageBySenderAndSentAt,
+  getMessagesBySenderAndSentAt,
   getMessageIdsFromServerIds,
   getMessageById,
   getMessagesBySentAt,

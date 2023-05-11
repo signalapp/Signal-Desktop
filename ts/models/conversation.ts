@@ -1773,7 +1773,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
             );
           }).length === 1;
       const isFirstMessageOfConvo =
-        (await Data.getMessagesByConversation(this.id, { messageId: null })).length === 1;
+        (await Data.getMessagesByConversation(this.id, { messageId: null })).messages.length === 1;
       if (hadNoRequestsPrior && isFirstMessageOfConvo) {
         friendRequestText = window.i18n('youHaveANewFriendRequest');
       } else {

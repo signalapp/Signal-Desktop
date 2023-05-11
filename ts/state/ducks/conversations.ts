@@ -289,6 +289,7 @@ export type ConversationLookupType = {
 };
 
 export type QuoteLookupType = {
+  // key is message [timestamp]-[author-pubkey]
   [key: string]: MessageModelPropsWithoutConvoProps;
 };
 
@@ -298,7 +299,6 @@ export type ConversationsStateType = {
   // NOTE the messages that are in view
   messages: Array<MessageModelPropsWithoutConvoProps>;
   // NOTE the quotes that are in view
-  // key is message [timestamp]-[author-pubkey]
   quotes: QuoteLookupType;
   firstUnreadMessageId: string | undefined;
   messageDetailProps?: MessagePropsDetails;
@@ -364,48 +364,45 @@ async function getMessages({
     return { messagesProps: [], quotesProps: {} };
   }
 
-  const messageSet = await Data.getMessagesByConversation(conversationKey, {
+  const {
+    messages: messagesCollection,
+    quotes: quotesCollection,
+  } = await Data.getMessagesByConversation(conversationKey, {
     messageId,
+    returnQuotes: true,
   });
 
-  const messagesProps: Array<MessageModelPropsWithoutConvoProps> = messageSet.models.map(m =>
-    m.getMessageModelProps()
+  const messagesProps: Array<MessageModelPropsWithoutConvoProps> = messagesCollection.models.map(
+    m => m.getMessageModelProps()
   );
   const time = Date.now() - beforeTimestamp;
   window?.log?.info(`Loading ${messagesProps.length} messages took ${time}ms to load.`);
 
   const quotesProps: QuoteLookupType = {};
-  const quotes = messagesProps.filter(
-    message => message.propsForMessage?.quote?.messageId && message.propsForMessage.quote?.sender
-  );
 
-  for (let i = 0; i < quotes.length; i++) {
-    const id = quotes[i].propsForMessage?.quote?.messageId;
-    const sender = quotes[i].propsForMessage.quote?.sender;
+  if (quotesCollection?.length) {
+    const quotePropsList = quotesCollection.map(quote => ({
+      timestamp: Number(quote?.id),
+      source: String(quote?.author),
+    }));
 
-    if (id && sender) {
-      const timestamp = Number(id);
-      // See if a quoted message is already in memory if not lookup in db
-      let results = messagesProps.filter(
-        message =>
-          message.propsForMessage.timestamp === timestamp &&
-          message.propsForMessage.sender === sender
-      );
+    const quotedMessagesCollection = await Data.getMessagesBySenderAndSentAt(quotePropsList);
 
-      if (!results.length) {
-        const dbResult = (
-          await Data.getMessageBySenderAndSentAt({ source: sender, timestamp })
-        )?.getMessageModelProps();
-        if (dbResult) {
-          results = [dbResult];
+    if (quotedMessagesCollection?.length) {
+      for (let i = 0; i < quotedMessagesCollection.length; i++) {
+        const quotedMessage = quotedMessagesCollection.models.at(i)?.getMessageModelProps();
+        if (quotedMessage) {
+          const timestamp = Number(quotedMessage.propsForMessage.timestamp);
+          const sender = quotedMessage.propsForMessage.sender;
+          if (timestamp && sender) {
+            quotesProps[`${timestamp}-${sender}`] = quotedMessage;
+          }
         }
       }
-      quotesProps[`${timestamp}-${sender}`] = results[0];
     }
   }
 
-  // window.log.debug(`WIP: duck quoteProps`, quotesProps);
-
+  // window.log.debug(`WIP: duck quotesProps`, quotesProps);
   return { messagesProps, quotesProps };
 }
 
@@ -563,7 +560,26 @@ function handleMessageExpiredOrDeleted(
     // search if we find this message id.
     // we might have not loaded yet, so this case might not happen
     const messageInStoreIndex = state?.messages.findIndex(m => m.propsForMessage.id === messageId);
+    const editedQuotes = { ...state.quotes };
     if (messageInStoreIndex >= 0) {
+      // Check if the message is quoted somewhere, and if so, remove it from the quotes
+      const msgProps = state.messages[messageInStoreIndex].propsForMessage;
+      // TODO check if message is a group or public group because we will need to use the server timestamp
+      const { timestamp, sender } = msgProps;
+      if (timestamp && sender) {
+        const message2Delete = editedQuotes[`${timestamp}-${sender}`];
+        window.log.debug(
+          `WIP: deleting quote {${timestamp}-${sender}} ${JSON.stringify(message2Delete)}`
+        );
+        window.log.debug(
+          `WIP: editedQuotes count before delete ${Object.keys(editedQuotes).length}`
+        );
+        delete editedQuotes[`${timestamp}-${sender}`];
+        window.log.debug(
+          `WIP: editedQuotes count after delete ${Object.keys(editedQuotes).length}`
+        );
+      }
+
       // we cannot edit the array directly, so slice the first part, and slice the second part,
       // keeping the index removed out
       const editedMessages = [
@@ -578,6 +594,7 @@ function handleMessageExpiredOrDeleted(
       return {
         ...state,
         messages: editedMessages,
+        quotes: editedQuotes,
         firstUnreadMessageId:
           state.firstUnreadMessageId === messageId ? undefined : state.firstUnreadMessageId,
       };
