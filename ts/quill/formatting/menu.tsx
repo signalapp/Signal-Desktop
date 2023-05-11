@@ -135,6 +135,12 @@ export class FormattingMenu {
   }
 
   scheduleRemoval(): void {
+    // Nothing to do
+    if (!this.referenceElement) {
+      return;
+    }
+
+    // Already scheduled
     if (this.fadingOutTimeout) {
       return;
     }
@@ -157,7 +163,7 @@ export class FormattingMenu {
   }
 
   onEditorChange(): void {
-    if (!this.options.isMenuEnabled) {
+    if (!this.options.isMenuEnabled || !this.options.isEnabled) {
       this.scheduleRemoval();
       return;
     }
