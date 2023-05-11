@@ -620,7 +620,7 @@
     "description": "Shown in a context menu for a contact, allows the user to start the conversation with the contact"
   },
   "icu:ContactListItem__menu__audio-call": {
-    "messageformat": "Audio call",
+    "messageformat": "Voice call",
     "description": "Shown in a context menu for a contact, allows the user to start the audio call with the contact"
   },
   "icu:ContactListItem__menu__video-call": {
