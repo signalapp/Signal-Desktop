@@ -2260,16 +2260,6 @@ export class ConversationModel extends window.Backbone
     return undefined;
   }
 
-  decrementMessageCount(numberOfMessages = 1): void {
-    this.set({
-      messageCount: Math.max(
-        (this.get('messageCount') || 0) - numberOfMessages,
-        0
-      ),
-    });
-    window.Signal.Data.updateConversation(this.attributes);
-  }
-
   incrementSentMessageCount({ dry = false }: { dry?: boolean } = {}):
     | Partial<ConversationAttributesType>
     | undefined {
@@ -2285,20 +2275,6 @@ export class ConversationModel extends window.Backbone
     window.Signal.Data.updateConversation(this.attributes);
 
     return undefined;
-  }
-
-  decrementSentMessageCount(numberOfMessages = 1): void {
-    this.set({
-      messageCount: Math.max(
-        (this.get('messageCount') || 0) - numberOfMessages,
-        0
-      ),
-      sentMessageCount: Math.max(
-        (this.get('sentMessageCount') || 0) - numberOfMessages,
-        0
-      ),
-    });
-    window.Signal.Data.updateConversation(this.attributes);
   }
 
   /**
@@ -3464,7 +3440,17 @@ export class ConversationModel extends window.Backbone
           })
         );
 
+        if (
+          detailsToSave.callMode === CallMode.Direct &&
+          !detailsToSave.wasIncoming
+        ) {
+          this.incrementSentMessageCount();
+        } else {
+          this.incrementMessageCount();
+        }
+
         this.trigger('newmessage', model);
+
         void this.updateUnread();
         this.set('active_at', timestamp);
 

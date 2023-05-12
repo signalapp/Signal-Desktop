@@ -53,17 +53,9 @@ class ExpiringMessagesDeletionService {
           sentAt: message.get('sent_at'),
         });
 
-        const conversation = message.getConversation();
-
         // We do this to update the UI, if this message is being displayed somewhere
         message.trigger('expired');
         window.reduxActions.conversations.messageExpired(message.id);
-
-        if (conversation) {
-          // An expired message only counts as decrementing the message count, not
-          // the sent message count
-          conversation.decrementMessageCount();
-        }
       });
 
       if (messages.length > 0) {

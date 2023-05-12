@@ -94,7 +94,6 @@ const mapStateToProps = (
 
   const maxGroupSize = getGroupSizeHardLimit(1001);
   const maxRecommendedGroupSize = getGroupSizeRecommendedLimit(151);
-
   return {
     ...props,
     areWeASubscriber: getAreWeASubscriber(state),

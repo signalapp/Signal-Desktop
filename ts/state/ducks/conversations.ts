@@ -111,11 +111,7 @@ import {
 import { missingCaseError } from '../../util/missingCaseError';
 import { viewSyncJobQueue } from '../../jobs/viewSyncJobQueue';
 import { ReadStatus } from '../../messages/MessageReadStatus';
-import {
-  isIncoming,
-  isOutgoing,
-  processBodyRanges,
-} from '../selectors/message';
+import { isIncoming, processBodyRanges } from '../selectors/message';
 import { getActiveCallState } from '../selectors/calling';
 import { sendDeleteForEveryoneMessage } from '../../util/sendDeleteForEveryoneMessage';
 import type { ShowToastActionType } from './toast';
@@ -1638,9 +1634,6 @@ function deleteMessages({
       throw new Error('deleteMessage: No conversation found');
     }
 
-    let outgoingDeleted = 0;
-    let incomingDeleted = 0;
-
     await Promise.all(
       messageIds.map(async messageId => {
         const message = await getMessageById(messageId);
@@ -1653,12 +1646,6 @@ function deleteMessages({
           throw new Error(
             `deleteMessages: message conversation ${messageConversationId} doesn't match provided conversation ${conversationId}`
           );
-        }
-
-        if (isOutgoing(message.attributes)) {
-          outgoingDeleted += 1;
-        } else {
-          incomingDeleted += 1;
         }
       })
     );
@@ -1682,12 +1669,6 @@ function deleteMessages({
 
     await window.Signal.Data.removeMessages(messageIds);
 
-    if (outgoingDeleted > 0) {
-      conversation.decrementSentMessageCount(outgoingDeleted);
-    }
-    if (incomingDeleted > 0) {
-      conversation.decrementMessageCount(incomingDeleted);
-    }
     popPanelForConversation()(dispatch, getState, undefined);
 
     if (nearbyMessageId != null) {
