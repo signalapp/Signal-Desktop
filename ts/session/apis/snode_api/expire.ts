@@ -224,7 +224,7 @@ export async function expireMessageOnSnode(props: ExpireMessageOnSnodeProps) {
 
   try {
     // TODO make this whole function `expireMessageOnSnode` retry
-    const successfulSend = await expireOnNodes(snode, params);
+    await expireOnNodes(snode, params);
   } catch (e) {
     const snodeStr = snode ? `${snode.ip}:${snode.port}` : 'null';
     window?.log?.warn(

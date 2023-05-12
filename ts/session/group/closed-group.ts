@@ -14,7 +14,7 @@ import {
   distributingClosedGroupEncryptionKeyPairs,
 } from '../../receiver/closedGroups';
 import { ECKeyPair } from '../../receiver/keypairs';
-import { BlockedNumberController } from '../../util/blockedNumberController';
+import { GetNetworkTime } from '../apis/snode_api/getNetworkTime';
 import { SnodeNamespaces } from '../apis/snode_api/namespaces';
 import { getConversationController } from '../conversations';
 import { generateCurve25519KeyPairWithoutPrefix } from '../crypto';
@@ -26,7 +26,6 @@ import { ClosedGroupNewMessage } from '../messages/outgoing/controlMessage/group
 import { ClosedGroupRemovedMembersMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupRemovedMembersMessage';
 import { UserUtils } from '../utils';
 import { fromHexToArray, toHex } from '../utils/String';
-import { GetNetworkTime } from '../apis/snode_api/getNetworkTime';
 
 export type GroupInfo = {
   id: string;
@@ -35,9 +34,7 @@ export type GroupInfo = {
   zombies?: Array<string>;
   activeAt?: number;
   expireTimer?: number | null;
-  blocked?: boolean;
   admins?: Array<string>;
-  weWereJustAdded?: boolean;
 };
 
 export interface GroupDiff extends MemberChanges {
@@ -208,7 +205,7 @@ function buildGroupDiff(convo: ConversationModel, update: GroupInfo): GroupDiff 
 }
 
 export async function updateOrCreateClosedGroup(details: GroupInfo) {
-  const { id, weWereJustAdded, expireTimer } = details;
+  const { id, expireTimer } = details;
 
   const conversation = await getConversationController().getOrCreateAndWait(
     id,
@@ -217,7 +214,7 @@ export async function updateOrCreateClosedGroup(details: GroupInfo) {
 
   const updates: Pick<
     ConversationAttributes,
-    'type' | 'members' | 'displayNameInProfile' | 'active_at' | 'left' | 'lastJoinedTimestamp'
+    'type' | 'members' | 'displayNameInProfile' | 'active_at' | 'left'
   > = {
     displayNameInProfile: details.name,
     members: details.members,
@@ -225,16 +222,10 @@ export async function updateOrCreateClosedGroup(details: GroupInfo) {
     type: ConversationTypeEnum.GROUP,
     active_at: details.activeAt ? details.activeAt : 0,
     left: details.activeAt ? false : true,
-    lastJoinedTimestamp: details.activeAt && weWereJustAdded ? Date.now() : details.activeAt || 0,
   };
 
   conversation.set(updates);
   await conversation.unhideIfNeeded(false);
-
-  const isBlocked = details.blocked || false;
-  if (conversation.isClosedGroup()) {
-    await BlockedNumberController.setBlocked(conversation.id as string, isBlocked);
-  }
 
   if (details.admins?.length) {
     await conversation.updateGroupAdmins(details.admins, false);

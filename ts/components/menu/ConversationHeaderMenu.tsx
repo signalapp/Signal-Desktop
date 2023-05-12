@@ -42,6 +42,7 @@ import {
   DeletePrivateConversationMenuItem,
 } from './Menu';
 import { ContextConversationProvider } from '../leftpane/conversation-list-item/ConvoIdContext';
+import { isSearching } from '../../state/selectors/search';
 
 export type PropsConversationHeaderMenu = {
   triggerId: string;
@@ -53,9 +54,13 @@ export const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
   const convoId = useSelectedConversationKey();
   const isPrivateFriend = useSelectedIsPrivateFriend();
   const isPrivate = useSelectedIsPrivate();
+  const isSearchingMode = useSelector(isSearching);
 
   if (!convoId) {
     throw new Error('convoId must be set for a header to be visible!');
+  }
+  if (isSearchingMode) {
+    return null;
   }
 
   // we do not want the triple dots menu at all if this is not a friend at all

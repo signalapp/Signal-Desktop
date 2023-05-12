@@ -172,7 +172,7 @@ export function getCommunityInfoFromDBValues({
 }) {
   const community = {
     fullUrl,
-    priority,
+    priority: priority || 0,
   };
 
   return community;

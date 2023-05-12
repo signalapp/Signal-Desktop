@@ -298,7 +298,6 @@ export async function handleNewClosedGroup(
     members: members,
     admins,
     activeAt: envelopeTimestamp,
-    weWereJustAdded: true,
   };
 
   // be sure to call this before sending the message.

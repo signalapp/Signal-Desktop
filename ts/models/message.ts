@@ -447,10 +447,12 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       return 'read';
     }
     const sent = this.get('sent');
-    // control messages we've sent, synced from the network appear to just have the sent_at field set.
-    const sentAt = this.get('sent_at');
+    // control messages we've sent, synced from the network appear to just have the sent_at field set, but our current devices also have this field set when we are just sending it... So idk how to have behavior work fine.,
+    // TODOLATER
+    // const sentAt = this.get('sent_at');
     const sentTo = this.get('sent_to') || [];
-    if (sent || sentTo.length > 0 || sentAt) {
+
+    if (sent || sentTo.length > 0) {
       return 'sent';
     }
 

@@ -98,7 +98,7 @@
     "glob": "7.1.2",
     "image-type": "^4.1.0",
     "ip2country": "1.0.1",
-    "libsession_util_nodejs": "https://github.com/oxen-io/libsession-util-nodejs/releases/download/v0.1.14/libsession_util_nodejs-v0.1.14.tar.gz",
+    "libsession_util_nodejs": "https://github.com/oxen-io/libsession-util-nodejs/releases/download/v0.1.15/libsession_util_nodejs-v0.1.15.tar.gz",
     "libsodium-wrappers-sumo": "^0.7.9",
     "linkify-it": "3.0.2",
     "lodash": "^4.17.20",

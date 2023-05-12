@@ -256,6 +256,11 @@ export const ConvoInfoVolatileWrapperActions: ConvoInfoVolatileWrapperActionsCal
       unread,
     ]) as Promise<ReturnType<ConvoInfoVolatileWrapperActionsCalls['set1o1']>>,
 
+  erase1o1: async (pubkeyHex: string) =>
+    callLibSessionWorker(['ConvoInfoVolatileConfig', 'erase1o1', pubkeyHex]) as Promise<
+      ReturnType<ConvoInfoVolatileWrapperActionsCalls['erase1o1']>
+    >,
+
   // legacy groups
   getLegacyGroup: async (pubkeyHex: string) =>
     callLibSessionWorker(['ConvoInfoVolatileConfig', 'getLegacyGroup', pubkeyHex]) as Promise<

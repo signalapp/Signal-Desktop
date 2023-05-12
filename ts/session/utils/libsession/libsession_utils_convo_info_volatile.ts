@@ -78,7 +78,7 @@ async function insertConvoFromDBIntoWrapperAndRefresh(convoId: string): Promise<
       : 0;
 
   window.log.debug(
-    `convoInfoVolatile:insert "${convoId}";lastMessageReadTimestamp:${lastReadMessageTimestamp};forcedUnread:${isForcedUnread}...`
+    `inserting into convoVolatile wrapper: ${convoId} lastMessageReadTimestamp:${lastReadMessageTimestamp} forcedUnread:${isForcedUnread}...`
   );
 
   const convoType = getConvoType(foundConvo);
@@ -243,6 +243,18 @@ async function removeLegacyGroupFromWrapper(convoId: string) {
 }
 
 /**
+ * Removes the matching legacy group from the wrapper and from the cached list of legacy groups
+ */
+async function removeContactFromWrapper(convoId: string) {
+  try {
+    await ConvoInfoVolatileWrapperActions.erase1o1(convoId);
+  } catch (e) {
+    window.log.warn('removeContactFromWrapper failed with ', e.message);
+  }
+  mapped1o1WrapperValues.delete(convoId);
+}
+
+/**
  * This function can be used where there are things to do for all the types handled by this wrapper.
  * You can do a loop on all the types handled by this wrapper and have a switch using assertUnreachable to get errors when not every case is handled.
  *
@@ -262,7 +274,7 @@ export const SessionUtilConvoInfoVolatile = {
   getVolatileInfoCached,
 
   // 1o1
-  // at the moment, we cannot remove a contact from the conversation volatile info so there is nothing here
+  removeContactFromWrapper,
 
   // legacy group
   removeLegacyGroupFromWrapper, // a group can be removed but also just marked hidden, so only call this function when the group is completely removed // TODOLATER

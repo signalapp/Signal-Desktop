@@ -19,19 +19,20 @@ async function insertUserProfileIntoWrapper(convoId: string) {
   const dbName = ourConvo.get('displayNameInProfile') || '';
   const dbProfileUrl = ourConvo.get('avatarPointer') || '';
   const dbProfileKey = fromHexToArray(ourConvo.get('profileKey') || '');
+  const priority = ourConvo.get('priority') || CONVERSATION_PRIORITIES.default;
 
-  if (dbProfileUrl && !isEmpty(dbProfileKey)) {
-    await UserConfigWrapperActions.setUserInfo(
-      dbName,
-      ourConvo.get('priority') || CONVERSATION_PRIORITIES.default,
+  window.log.debug(
+    `inserting into userprofile wrapper: username:"${dbName}", priority:${priority} image:${JSON.stringify(
       { url: dbProfileUrl, key: dbProfileKey }
-    );
+    )} `
+  );
+  if (dbProfileUrl && !isEmpty(dbProfileKey)) {
+    await UserConfigWrapperActions.setUserInfo(dbName, priority, {
+      url: dbProfileUrl,
+      key: dbProfileKey,
+    });
   } else {
-    await UserConfigWrapperActions.setUserInfo(
-      dbName,
-      ourConvo.get('priority') || CONVERSATION_PRIORITIES.default,
-      null
-    );
+    await UserConfigWrapperActions.setUserInfo(dbName, priority, null);
   }
 }
 

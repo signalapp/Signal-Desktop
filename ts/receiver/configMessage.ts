@@ -1,9 +1,10 @@
+import { ContactInfo } from 'libsession_util_nodejs';
 import { compact, difference, isEmpty, isNumber, toNumber } from 'lodash';
 import { ConfigDumpData } from '../data/configDump/configDump';
 import { Data } from '../data/data';
 import { SettingsKey } from '../data/settings-key';
 import { ConversationInteraction } from '../interactions';
-import { ConversationTypeEnum } from '../models/conversationAttributes';
+import { CONVERSATION_PRIORITIES, ConversationTypeEnum } from '../models/conversationAttributes';
 import { SignalService } from '../protobuf';
 import { ClosedGroup } from '../session';
 import {
@@ -22,9 +23,11 @@ import { UserUtils } from '../session/utils';
 import { toHex } from '../session/utils/String';
 import { ConfigurationSync } from '../session/utils/job_runners/jobs/ConfigurationSyncJob';
 import { IncomingConfResult, LibSessionUtil } from '../session/utils/libsession/libsession_utils';
+import { SessionUtilContact } from '../session/utils/libsession/libsession_utils_contacts';
 import { SessionUtilConvoInfoVolatile } from '../session/utils/libsession/libsession_utils_convo_info_volatile';
 import { SessionUtilUserGroups } from '../session/utils/libsession/libsession_utils_user_groups';
 import { configurationMessageReceived, trigger } from '../shims/events';
+import { getCurrentlySelectedConversationOutsideRedux } from '../state/selectors/conversations';
 import { assertUnreachable } from '../types/sqlSharedTypes';
 import { BlockedNumberController } from '../util';
 import { Registration } from '../util/registration';
@@ -47,9 +50,7 @@ import { addKeyPairToCacheAndDBIfNeeded, handleNewClosedGroup } from './closedGr
 import { HexKeyPair } from './keypairs';
 import { queueAllCachedFromSource } from './receiver';
 import { EnvelopePlus } from './types';
-import { SessionUtilContact } from '../session/utils/libsession/libsession_utils_contacts';
-import { ContactInfo } from 'libsession_util_nodejs';
-import { getCurrentlySelectedConversationOutsideRedux } from '../state/selectors/conversations';
+import { deleteAllMessagesByConvoIdNoConfirmation } from '../interactions/conversationInteractions';
 
 function groupByVariant(
   incomingConfigs: Array<IncomingMessage<SignalService.ISharedConfigMessage>>
@@ -228,7 +229,14 @@ async function handleContactsUpdate(result: IncomingConfResult): Promise<Incomin
         changes = true;
       }
 
-      if (wrapperConvo.priority !== contactConvo.get('priority')) {
+      const currentPriority = contactConvo.get('priority');
+      if (wrapperConvo.priority !== currentPriority) {
+        if (wrapperConvo.priority === CONVERSATION_PRIORITIES.hidden) {
+          window.log.info(
+            'contact marked as hidden and was not before. Deleting all messages from that user'
+          );
+          await deleteAllMessagesByConvoIdNoConfirmation(wrapperConvo.id);
+        }
         await contactConvo.setPriorityFromWrapper(wrapperConvo.priority);
         changes = true;
       }
@@ -426,6 +434,7 @@ async function handleLegacyGroupUpdate(latestEnvelopeTimestamp: number) {
       ConversationTypeEnum.GROUP
     );
   }
+
   for (let index = 0; index < allLegacyGroupsInWrapper.length; index++) {
     const fromWrapper = allLegacyGroupsInWrapper[index];
 
@@ -453,7 +462,6 @@ async function handleLegacyGroupUpdate(latestEnvelopeTimestamp: number) {
         legacyGroupConvo.get('active_at') < latestEnvelopeTimestamp
           ? legacyGroupConvo.get('active_at')
           : latestEnvelopeTimestamp,
-      weWereJustAdded: false, // TODOLATER to remove once legacy groups support is dropped
     };
 
     await ClosedGroup.updateOrCreateClosedGroup(groupDetails);
@@ -461,8 +469,11 @@ async function handleLegacyGroupUpdate(latestEnvelopeTimestamp: number) {
     let changes = await legacyGroupConvo.setPriorityFromWrapper(fromWrapper.priority, false);
 
     const existingTimestampMs = legacyGroupConvo.get('lastJoinedTimestamp');
-    if (Math.floor(existingTimestampMs / 1000) !== fromWrapper.joinedAtSeconds) {
-      legacyGroupConvo.set({ lastJoinedTimestamp: fromWrapper.joinedAtSeconds * 1000 });
+    const existingJoinedAtSeconds = Math.floor(existingTimestampMs / 1000);
+    if (existingJoinedAtSeconds !== fromWrapper.joinedAtSeconds) {
+      legacyGroupConvo.set({
+        lastJoinedTimestamp: fromWrapper.joinedAtSeconds * 1000,
+      });
       changes = true;
     }
 
@@ -729,7 +740,6 @@ async function handleConfigMessagesViaLibSession(
   );
 
   const incomingMergeResult = await mergeConfigsWithIncomingUpdates(configMessages);
-
   await processMergingResults(incomingMergeResult);
 }
 

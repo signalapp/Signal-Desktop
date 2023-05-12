@@ -1,7 +1,10 @@
 import { Data } from '../../data/data';
 import { OpenGroupData } from '../../data/opengroups';
 import { ConversationCollection, ConversationModel } from '../../models/conversation';
-import { actions as conversationActions } from '../../state/ducks/conversations';
+import {
+  actions as conversationActions,
+  resetConversationExternal,
+} from '../../state/ducks/conversations';
 import { BlockedNumberController } from '../../util';
 import { getOpenGroupManager } from '../apis/open_group_api/opengroupV2/OpenGroupManagerV2';
 import { getSwarmFor } from '../apis/snode_api/snodePool';
@@ -25,6 +28,7 @@ import { SnodeNamespaces } from '../apis/snode_api/namespaces';
 import { ClosedGroupMemberLeftMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupMemberLeftMessage';
 import { UserUtils } from '../utils';
 import { isEmpty, isNil } from 'lodash';
+import { getCurrentlySelectedConversationOutsideRedux } from '../../state/selectors/conversations';
 
 let instance: ConversationController | null;
 
@@ -252,7 +256,14 @@ export class ConversationController {
           if (SessionUtilContact.isContactToStoreInWrapper(conversation)) {
             window.log.warn('isContactToStoreInWrapper still true for ', conversation.attributes);
           }
-          await SessionUtilContact.removeContactFromWrapper(conversation.id); // then remove the entry alltogether from the wrapper
+          if (conversation.id.startsWith('05')) {
+            // make sure to filter blinded contacts as it will throw otherwise
+            await SessionUtilContact.removeContactFromWrapper(conversation.id); // then remove the entry alltogether from the wrapper
+            await SessionUtilConvoInfoVolatile.removeContactFromWrapper(conversation.id);
+          }
+          if (getCurrentlySelectedConversationOutsideRedux() === conversation.id) {
+            window.inboxStore?.dispatch(resetConversationExternal());
+          }
         }
 
         break;

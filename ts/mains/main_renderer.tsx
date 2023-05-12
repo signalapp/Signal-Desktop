@@ -198,7 +198,6 @@ Storage.onready(async () => {
     }
     await initialiseEmojiData(nativeEmojiData);
     await AttachmentDownloads.initAttachmentPaths();
-    await startJobRunners();
 
     await Promise.all([
       getConversationController().load(),
@@ -206,6 +205,7 @@ Storage.onready(async () => {
       OpenGroupData.opengroupRoomsLoad(),
       loadKnownBlindedKeys(),
     ]);
+    await startJobRunners();
   } catch (error) {
     window.log.error(
       'main_renderer: ConversationController failed to load:',

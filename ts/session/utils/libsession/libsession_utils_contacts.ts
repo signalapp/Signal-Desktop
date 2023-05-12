@@ -73,6 +73,7 @@ async function insertContactFromDBIntoWrapperAndRefresh(id: string): Promise<voi
   });
 
   try {
+    window.log.debug('inserting into contact wrapper: ', JSON.stringify(wrapperContact));
     await ContactsWrapperActions.set(wrapperContact);
   } catch (e) {
     window.log.warn(`ContactsWrapperActions.set of ${id} failed with ${e.message}`);

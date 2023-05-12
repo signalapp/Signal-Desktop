@@ -34,7 +34,9 @@ import {
 
 import { getIdentityKeys, sqlNode } from '../sql';
 
-// tslint:disable: no-console quotemark one-variable-per-declaration
+const hasDebugEnvVariable = Boolean(process.env.SESSION_DEBUG);
+
+// tslint:disable: no-console quotemark one-variable-per-declaration no-unused-expression
 
 function getSessionSchemaVersion(db: BetterSqlite3.Database) {
   const result = db
@@ -1237,7 +1239,7 @@ function insertContactIntoContactWrapper(
     });
 
     try {
-      console.info('Inserting contact into wrapper: ', wrapperContact);
+      hasDebugEnvVariable && console.info('Inserting contact into wrapper: ', wrapperContact);
       contactsConfigWrapper.set(wrapperContact);
     } catch (e) {
       console.error(
@@ -1245,7 +1247,7 @@ function insertContactIntoContactWrapper(
       );
       // the wrapper did not like something. Try again with just the boolean fields as it's most likely the issue is with one of the strings (which could be recovered)
       try {
-        console.info('Inserting edited contact into wrapper: ', contact.id);
+        hasDebugEnvVariable && console.info('Inserting edited contact into wrapper: ', contact.id);
         contactsConfigWrapper.set(
           getContactInfoFromDBValues({
             id: contact.id,
@@ -1286,7 +1288,8 @@ function insertContactIntoContactWrapper(
 
     const maxRead = rows?.max_sent_at;
     const lastRead = isNumber(maxRead) && isFinite(maxRead) ? maxRead : 0;
-    console.info(`Inserting contact into volatile wrapper maxread: ${contact.id} :${lastRead}`);
+    hasDebugEnvVariable &&
+      console.info(`Inserting contact into volatile wrapper maxread: ${contact.id} :${lastRead}`);
     volatileConfigWrapper.set1o1(contact.id, lastRead, false);
   } catch (e) {
     console.error(
@@ -1305,6 +1308,7 @@ function insertCommunityIntoWrapper(
   const convoId = community.id; // the id of a conversation has the prefix, the serverUrl and the roomToken already present, but not the pubkey
 
   const roomDetails = sqlNode.getV2OpenGroupRoom(convoId, db);
+  hasDebugEnvVariable && console.info('insertCommunityIntoWrapper: ', community);
 
   if (
     !roomDetails ||
@@ -1320,9 +1324,10 @@ function insertCommunityIntoWrapper(
     );
     return;
   }
-  console.info(
-    `building fullUrl from serverUrl:"${roomDetails.serverUrl}" roomId:"${roomDetails.roomId}" pubkey:"${roomDetails.serverPublicKey}"`
-  );
+  hasDebugEnvVariable ??
+    console.info(
+      `building fullUrl from serverUrl:"${roomDetails.serverUrl}" roomId:"${roomDetails.roomId}" pubkey:"${roomDetails.serverPublicKey}"`
+    );
 
   const fullUrl = userGroupConfigWrapper.buildFullUrlFromDetails(
     roomDetails.serverUrl,
@@ -1335,7 +1340,7 @@ function insertCommunityIntoWrapper(
   });
 
   try {
-    console.info('Inserting community into group wrapper: ', wrapperComm);
+    hasDebugEnvVariable && console.info('Inserting community into group wrapper: ', wrapperComm);
     userGroupConfigWrapper.setCommunityByFullUrl(wrapperComm.fullUrl, wrapperComm.priority);
     const rows = db
       .prepare(
@@ -1353,7 +1358,10 @@ function insertCommunityIntoWrapper(
 
     const maxRead = rows?.max_sent_at;
     const lastRead = isNumber(maxRead) && isFinite(maxRead) ? maxRead : 0;
-    console.info(`Inserting community into volatile wrapper: ${wrapperComm.fullUrl} :${lastRead}`);
+    hasDebugEnvVariable &&
+      console.info(
+        `Inserting community into volatile wrapper: ${wrapperComm.fullUrl} :${lastRead}`
+      );
     volatileConfigWrapper.setCommunityByFullUrl(wrapperComm.fullUrl, lastRead, false);
   } catch (e) {
     console.error(
@@ -1399,7 +1407,8 @@ function insertLegacyGroupIntoWrapper(
   });
 
   try {
-    console.info('Inserting legacy group into wrapper: ', wrapperLegacyGroup);
+    hasDebugEnvVariable &&
+      console.info('Inserting legacy group into wrapper: ', wrapperLegacyGroup);
     userGroupConfigWrapper.setLegacyGroup(wrapperLegacyGroup);
 
     const rows = db
@@ -1418,7 +1427,8 @@ function insertLegacyGroupIntoWrapper(
 
     const maxRead = rows?.max_sent_at;
     const lastRead = isNumber(maxRead) && isFinite(maxRead) ? maxRead : 0;
-    console.info(`Inserting legacy group into volatile wrapper maxread: ${id} :${lastRead}`);
+    hasDebugEnvVariable &&
+      console.info(`Inserting legacy group into volatile wrapper maxread: ${id} :${lastRead}`);
     volatileInfoConfigWrapper.setLegacyGroup(id, lastRead, false);
   } catch (e) {
     console.error(
@@ -1434,7 +1444,7 @@ function getBlockedNumbersDuringMigration(db: BetterSqlite3.Database) {
       return [];
     }
     const foundBlocked = blockedItem?.value;
-    console.info('foundBlockedNumbers during migration', foundBlocked);
+    hasDebugEnvVariable && console.info('foundBlockedNumbers during migration', foundBlocked);
     if (isArray(foundBlocked)) {
       return foundBlocked;
     }
@@ -1557,6 +1567,13 @@ function updateToSessionSchemaVersion30(currentVersion: number, db: BetterSqlite
       ).run({ newId, oldConvoId: convoDetails.oldConvoId });
     });
 
+    // priority was isPinned before. Make sure that it was set to something, rather than allowing null values.
+    db.prepare(
+      `UPDATE ${CONVERSATIONS_TABLE} SET
+        priority = ${CONVERSATION_PRIORITIES.default}
+        WHERE priority IS NULL;`
+    ).run({});
+
     writeSessionSchemaVersion(targetVersion, db);
   })();
 
@@ -1657,12 +1674,7 @@ function updateToSessionSchemaVersion31(currentVersion: number, db: BetterSqlite
 
       if (isArray(contactsToWriteInWrapper) && contactsToWriteInWrapper.length) {
         console.info(
-          '===================== Starting contact inserting into wrapper ======================='
-        );
-
-        console.info(
-          'Writing contacts to wrapper during migration. length: ',
-          contactsToWriteInWrapper?.length
+          `===================== Starting contact inserting into wrapper ${contactsToWriteInWrapper?.length} =======================`
         );
 
         contactsToWriteInWrapper.forEach(contact => {
@@ -1743,7 +1755,8 @@ function updateToSessionSchemaVersion31(currentVersion: number, db: BetterSqlite
 
         legacyGroupsToWriteInWrapper.forEach(legacyGroup => {
           try {
-            console.info('Writing legacy group: ', JSON.stringify(legacyGroup));
+            hasDebugEnvVariable &&
+              console.info('Writing legacy group: ', JSON.stringify(legacyGroup));
 
             insertLegacyGroupIntoWrapper(
               legacyGroup,

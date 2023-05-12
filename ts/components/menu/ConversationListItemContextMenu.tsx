@@ -28,6 +28,7 @@ import {
   UnbanMenuItem,
   DeletePrivateConversationMenuItem,
 } from './Menu';
+import { isSearching } from '../../state/selectors/search';
 
 export type PropsContextConversationItem = {
   triggerId: string;
@@ -35,7 +36,11 @@ export type PropsContextConversationItem = {
 
 const ConversationListItemContextMenu = (props: PropsContextConversationItem) => {
   const { triggerId } = props;
+  const isSearchingMode = useSelector(isSearching);
 
+  if (isSearchingMode) {
+    return null;
+  }
   return (
     <SessionContextMenuContainer>
       <Menu id={triggerId} animation={animation.fade}>
