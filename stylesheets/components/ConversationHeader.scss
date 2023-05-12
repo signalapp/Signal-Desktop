@@ -68,6 +68,7 @@
     &--show {
       opacity: 1;
       margin-inline: 24px 6px;
+      -webkit-app-region: no-drag;
     }
 
     @include light-theme {
