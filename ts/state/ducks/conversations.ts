@@ -161,6 +161,7 @@ import {
 import { ReceiptType } from '../../types/Receipt';
 import { sortByMessageOrder } from '../../util/maybeForwardMessages';
 import { Sound, SoundType } from '../../util/Sound';
+import { canEditMessage } from '../../util/canEditMessage';
 
 // State
 
@@ -1763,7 +1764,7 @@ function setMessageToEdit(
       return;
     }
 
-    if (!message.body) {
+    if (!canEditMessage(message) || !message.body) {
       return;
     }
 

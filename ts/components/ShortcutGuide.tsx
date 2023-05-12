@@ -256,6 +256,11 @@ function getComposerShortcuts(
       description: i18n('icu:Keyboard--remove-draft-attachments'),
       keys: [['commandOrCtrl', 'shift', 'P']],
     },
+    {
+      id: 'Keyboard--edit-last-message',
+      description: i18n('icu:Keyboard--edit-last-message'),
+      keys: [['↑']],
+    },
   ];
 
   if (isFormattingFlagEnabled) {

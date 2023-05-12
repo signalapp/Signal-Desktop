@@ -25,6 +25,7 @@ import { getEmojiSkinTone, getTextFormattingEnabled } from '../selectors/items';
 import {
   getConversationSelector,
   getGroupAdminsSelector,
+  getLastEditableMessageId,
   getSelectedMessageIds,
   getTargetedConversationsPanelsCount,
   isMissingRequiredProfileSharing,
@@ -126,6 +127,8 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
   const isFormattingSpoilersFlagEnabled =
     getIsFormattingSpoilersFlagEnabled(state);
 
+  const lastEditableMessageId = getLastEditableMessageId(state);
+
   return {
     // Base
     conversationId: id,
@@ -137,6 +140,7 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     isFormattingEnabled,
     isFormattingFlagEnabled,
     isFormattingSpoilersFlagEnabled,
+    lastEditableMessageId,
     messageCompositionId,
     platform,
     sendCounter,

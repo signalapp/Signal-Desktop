@@ -181,6 +181,29 @@ export function useToggleReactionPicker(
   );
 }
 
+export function useEditLastMessageSent(
+  maybeEditMessage: () => boolean
+): KeyboardShortcutHandlerType {
+  return useCallback(
+    ev => {
+      const key = KeyboardLayout.lookup(ev);
+
+      if (key === 'ArrowUp') {
+        const value = maybeEditMessage();
+        if (value) {
+          ev.preventDefault();
+          ev.stopPropagation();
+        }
+
+        return value;
+      }
+
+      return false;
+    },
+    [maybeEditMessage]
+  );
+}
+
 export function useKeyboardShortcuts(
   ...eventHandlers: Array<KeyboardShortcutHandlerType>
 ): void {

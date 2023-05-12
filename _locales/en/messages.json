@@ -5454,6 +5454,10 @@
     "messageformat": "Jump to chat",
     "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
   },
+  "icu:Keyboard--edit-last-message": {
+    "messageformat": "Edit the previous message",
+    "description": "Shown in the shortcuts guide"
+  },
   "Keyboard--Key--ctrl": {
     "message": "Ctrl",
     "description": "(deleted 03/29/2023) Key shown in shortcut combination in shortcuts guide"

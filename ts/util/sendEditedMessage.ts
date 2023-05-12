@@ -13,7 +13,7 @@ import { ErrorWithToast } from '../types/ErrorWithToast';
 import { SendStatus } from '../messages/MessageSendState';
 import { ToastType } from '../types/Toast';
 import { UUID } from '../types/UUID';
-import { canEditMessage } from '../state/selectors/message';
+import { canEditMessage } from './canEditMessage';
 import {
   conversationJobQueue,
   conversationQueueJobEnum,

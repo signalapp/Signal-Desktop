@@ -59,6 +59,7 @@ const useProps = (overrideProps: Partial<Props> = {}): Props => ({
   removeAttachment: action('removeAttachment'),
   theme: React.useContext(StorybookThemeContext),
   setComposerFocus: action('setComposerFocus'),
+  setMessageToEdit: action('setMessageToEdit'),
   setQuoteByMessageId: action('setQuoteByMessageId'),
   showToast: action('showToast'),
 

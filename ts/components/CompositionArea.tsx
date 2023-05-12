@@ -53,6 +53,7 @@ import { Quote } from './conversation/Quote';
 import { countStickers } from './stickers/lib';
 import {
   useAttachFileShortcut,
+  useEditLastMessageSent,
   useKeyboardShortcuts,
 } from '../hooks/useKeyboardShortcuts';
 import { MediaEditor } from './MediaEditor';
@@ -103,6 +104,7 @@ export type OwnProps = Readonly<{
   isGroupV1AndDisabled?: boolean;
   isMissingMandatoryProfileSharing?: boolean;
   isSignalConversation?: boolean;
+  lastEditableMessageId?: string;
   recordingState: RecordingState;
   messageCompositionId: string;
   shouldHidePopovers?: boolean;
@@ -157,6 +159,7 @@ export type OwnProps = Readonly<{
   removeAttachment: (conversationId: string, filePath: string) => unknown;
   scrollToMessage: (conversationId: string, messageId: string) => unknown;
   setComposerFocus: (conversationId: string) => unknown;
+  setMessageToEdit(conversationId: string, messageId: string): unknown;
   setQuoteByMessageId(
     conversationId: string,
     messageId: string | undefined
@@ -225,6 +228,7 @@ export function CompositionArea({
   imageToBlurHash,
   isDisabled,
   isSignalConversation,
+  lastEditableMessageId,
   messageCompositionId,
   pushPanelForConversation,
   platform,
@@ -233,6 +237,7 @@ export function CompositionArea({
   sendEditedMessage,
   sendMultiMediaMessage,
   setComposerFocus,
+  setMessageToEdit,
   setQuoteByMessageId,
   shouldHidePopovers,
   showToast,
@@ -394,8 +399,26 @@ export function CompositionArea({
     setAttachmentToEdit(attachment);
   }
 
+  const isComposerEmpty =
+    !draftAttachments.length && !draftText && !draftEditMessage;
+
+  const maybeEditMessage = useCallback(() => {
+    if (!isComposerEmpty || !lastEditableMessageId) {
+      return false;
+    }
+
+    setMessageToEdit(conversationId, lastEditableMessageId);
+    return true;
+  }, [
+    conversationId,
+    isComposerEmpty,
+    lastEditableMessageId,
+    setMessageToEdit,
+  ]);
+
   const attachFileShortcut = useAttachFileShortcut(launchAttachmentPicker);
-  useKeyboardShortcuts(attachFileShortcut);
+  const editLastMessageSent = useEditLastMessageSent(maybeEditMessage);
+  useKeyboardShortcuts(attachFileShortcut, editLastMessageSent);
 
   // Focus input on first mount
   const previousFocusCounter = usePrevious<number | undefined>(
@@ -495,8 +518,7 @@ export function CompositionArea({
     setLarge(l => !l);
   }, [setLarge]);
 
-  const shouldShowMicrophone =
-    !large && !draftAttachments.length && !draftText && !draftEditMessage;
+  const shouldShowMicrophone = !large && isComposerEmpty;
 
   const showMediaQualitySelector = draftAttachments.some(isImageAttachment);
 
