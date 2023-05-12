@@ -412,7 +412,6 @@
   "trustThisContactDialogTitle": "Trust $name$?",
   "trustThisContactDialogDescription": "Are you sure you want to download media sent by $name$?",
   "pinConversation": "Pin Conversation",
-
   "unpinConversation": "Unpin Conversation",
   "markUnread": "Mark Unread",
   "showUserDetails": "Show User Details",
