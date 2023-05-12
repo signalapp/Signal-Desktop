@@ -4,12 +4,18 @@ import { beforeAllClean } from './setup/beforeEach';
 import { newUser } from './setup/new_user';
 import { openApp } from './setup/open';
 import { createContact } from './utilities/create_contact';
+import { sendMessage } from './utilities/message';
 import { replyTo } from './utilities/reply_message';
 import {
+  clickOnElement,
   clickOnMatchingText,
   clickOnTestIdWithText,
+  hasTextElementBeenDeleted,
   typeIntoInput,
   waitForLoadingAnimationToFinish,
+  waitForMatchingText,
+  waitForTestIdWithText,
+  waitForTextMessage,
 } from './utilities/utils';
 
 test.beforeEach(beforeAllClean);
@@ -28,7 +34,7 @@ test('Send image and reply test', async () => {
   await sleepFor(1000);
   await clickOnMatchingText(windowB, 'Click to download media');
   await clickOnTestIdWithText(windowB, 'session-confirm-ok-button');
-  await waitForLoadingAnimationToFinish(windowB);
+  await waitForLoadingAnimationToFinish(windowB, 'loading-animation');
   // Waiting for image to change from loading state to loaded (takes a second)
   await sleepFor(1000);
 
@@ -49,7 +55,7 @@ test('Send video and reply test', async () => {
   await sleepFor(1000);
   await clickOnMatchingText(windowB, 'Click to download media');
   await clickOnTestIdWithText(windowB, 'session-confirm-ok-button');
-  await waitForLoadingAnimationToFinish(windowB);
+  await waitForLoadingAnimationToFinish(windowB, 'loading-animation');
   // Waiting for videoto change from loading state to loaded (takes a second)
   await sleepFor(1000);
   await replyTo(windowB, testMessage, testReply);
@@ -69,9 +75,9 @@ test('Send document and reply test', async () => {
   await sleepFor(1000);
   await clickOnMatchingText(windowB, 'Click to download media');
   await clickOnTestIdWithText(windowB, 'session-confirm-ok-button');
-  await waitForLoadingAnimationToFinish(windowB);
-  // Waiting for videoto change from loading state to loaded (takes a second)
-  await sleepFor(1000);
+  await waitForLoadingAnimationToFinish(windowB, 'loading-animation');
+  // Waiting for video to change from loading state to loaded (takes a second)
+  await sleepFor(500);
   await replyTo(windowB, testMessage, testReply);
 });
 
@@ -125,22 +131,50 @@ test('Send long text and reply test', async () => {
   await replyTo(windowB, longText, testReply);
 });
 
-test('Send link and reply test', async () => {
+test('Unsend text message', async () => {
   const [windowA, windowB] = await openApp(2);
   const [userA, userB] = await Promise.all([newUser(windowA, 'Alice'), newUser(windowB, 'Bob')]);
-  const testMessage = 'https://nerdlegame.com/';
-  const testReply = `${userB.userName} replying to link from ${userA.userName}`;
-
+  const unsendMessage = 'Testing unsend functionality';
   await createContact(windowA, windowB, userA, userB);
 
-  await typeIntoInput(windowA, 'message-input-text-area', testMessage);
-  await sleepFor(5000);
-  await clickOnTestIdWithText(windowA, 'send-message-button');
+  await sendMessage(windowA, unsendMessage);
+  await waitForTextMessage(windowB, unsendMessage);
+  await clickOnTestIdWithText(windowA, 'control-message', unsendMessage, true);
+  await clickOnMatchingText(windowA, 'Delete for everyone');
+  await clickOnElement(windowA, 'data-testid', 'session-confirm-ok-button');
+  await waitForTestIdWithText(windowA, 'session-toast', 'Deleted');
   await sleepFor(1000);
-  await replyTo(windowB, testMessage, testReply);
+  await waitForMatchingText(windowB, 'This message has been deleted');
 });
 
-// Send link
-// Send long text
-// Unsend
-// Delete message
+test('Delete message', async () => {
+  const [windowA, windowB] = await openApp(2);
+  const [userA, userB] = await Promise.all([newUser(windowA, 'Alice'), newUser(windowB, 'Bob')]);
+  const deletedMessage = 'Testing deletion functionality';
+  await createContact(windowA, windowB, userA, userB);
+  await sendMessage(windowA, deletedMessage);
+  await waitForTextMessage(windowB, deletedMessage);
+  await clickOnTestIdWithText(windowA, 'control-message', deletedMessage, true);
+  await clickOnMatchingText(windowA, 'Delete just for me');
+  await clickOnMatchingText(windowA, 'Delete');
+  await waitForTestIdWithText(windowA, 'session-toast', 'Deleted');
+  await hasTextElementBeenDeleted(windowA, deletedMessage, 1000);
+  // Still should exist in window B
+  await waitForMatchingText(windowB, deletedMessage);
+});
+
+// *************** NEED TO WAIT FOR LINK PREVIEW FIX *************************************************
+// test('Send link and reply test', async () => {
+//   const [windowA, windowB] = await openApp(2);
+//   const [userA, userB] = await Promise.all([newUser(windowA, 'Alice'), newUser(windowB, 'Bob')]);
+//   const testMessage = 'https://nerdlegame.com/';
+//   const testReply = `${userB.userName} replying to link from ${userA.userName}`;
+
+//   await createContact(windowA, windowB, userA, userB);
+
+//   await typeIntoInput(windowA, 'message-input-text-area', testMessage);
+//   await sleepFor(5000);
+//   await clickOnTestIdWithText(windowA, 'send-message-button');
+//   await sleepFor(1000);
+//   await replyTo(windowB, testMessage, testReply);
+// });

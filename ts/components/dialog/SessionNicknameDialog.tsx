@@ -67,6 +67,7 @@ export const SessionNicknameDialog = (props: Props) => {
         onKeyUp={e => {
           void onNicknameInput(_.cloneDeep(e));
         }}
+        data-testid="nickname-input"
       />
 
       <div className="session-modal__button-group">
@@ -74,6 +75,7 @@ export const SessionNicknameDialog = (props: Props) => {
           text={window.i18n('ok')}
           buttonType={SessionButtonType.Simple}
           onClick={saveNickname}
+          dataTestId="confirm-nickname"
         />
         <SessionButton
           text={window.i18n('cancel')}

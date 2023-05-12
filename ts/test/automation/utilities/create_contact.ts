@@ -7,9 +7,9 @@ export const createContact = async (windowA: Page, windowB: Page, userA: User, u
   const testMessage = `${userA.userName} to ${userB.userName}`;
   const testReply = `${userB.userName} to ${userA.userName}`;
   // User A sends message to User B
-  await sendNewMessage(windowA, userB.sessionid, `${testMessage}`);
+  await sendNewMessage(windowA, userB.sessionid, testMessage);
   // User B sends message to User B to USER A
-  await sendNewMessage(windowB, userA.sessionid, `${testReply}`);
+  await sendNewMessage(windowB, userA.sessionid, testReply);
 
   await clickOnTestIdWithText(windowA, 'new-conversation-button');
   await windowA.waitForTimeout(2000);

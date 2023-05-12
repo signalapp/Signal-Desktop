@@ -7,10 +7,12 @@ import {
   clickOnMatchingText,
   clickOnTestIdWithText,
   typeIntoInput,
+  typeIntoInputSlow,
   waitForMatchingText,
   waitForTestIdWithText,
 } from './utilities/utils';
 import { openApp } from './setup/open';
+import { createContact } from './utilities/create_contact';
 
 test.beforeEach(beforeAllClean);
 
@@ -55,6 +57,49 @@ test('Block user in conversation options', async () => {
   await clickOnTestIdWithText(windowA, 'message-section');
 
   await clickOnTestIdWithText(windowA, 'three-dots-conversation-options');
+  // Select block
+  await clickOnMatchingText(windowA, 'Block');
+  // Verify toast notification 'blocked'
+  await waitForTestIdWithText(windowA, 'session-toast', 'Blocked');
+  // Verify the user was moved to the blocked contact list
+  // Click on settings tab
+  await clickOnTestIdWithText(windowA, 'settings-section');
+  // click on settings section 'conversation'
+  await clickOnTestIdWithText(windowA, 'conversations-settings-menu-item');
+  // Navigate to blocked users tab'
+  await clickOnTestIdWithText(windowA, 'reveal-blocked-user-settings');
+  // select the contact to unblock by clicking on it by name
+  await clickOnMatchingText(windowA, userB.userName);
+  // Unblock user by clicking on unblock
+  await clickOnTestIdWithText(windowA, 'unblock-button-settings-screen');
+  // Verify toast notification says unblocked
+  await waitForTestIdWithText(windowA, 'session-toast', 'Unblocked');
+  await waitForMatchingText(windowA, 'No blocked contacts');
+});
+
+test('Block user in conversation list', async () => {
+  // Open app and create user
+  const [windowA, windowB] = await openApp(2);
+  const [userA, userB] = await Promise.all([newUser(windowA, 'Alice'), newUser(windowB, 'Bob')]);
+
+  const testMessage = `${userA.userName} to ${userB.userName}`;
+  const testReply = `${userB.userName} to ${userA.userName}`;
+  // Create contact and send new message
+
+  await sendNewMessage(windowA, userB.sessionid, `${testMessage} Time: '${Date.now()}'`);
+  await sendNewMessage(windowB, userA.sessionid, `${testReply} Time: '${Date.now()}'`);
+  // Check to see if User B is a contact
+  await clickOnTestIdWithText(windowA, 'new-conversation-button');
+  await waitForTestIdWithText(windowA, 'module-conversation__user__profile-name', userB.userName);
+  //Click on three dots menu
+  await clickOnTestIdWithText(windowA, 'message-section');
+
+  await clickOnTestIdWithText(
+    windowA,
+    'module-conversation__user__profile-name',
+    userB.userName,
+    true
+  );
   // Select block
   await clickOnMatchingText(windowA, 'Block');
   // Verify toast notification 'blocked'
@@ -121,4 +166,32 @@ test('Change avatar', async () => {
     // path: 'avatar-updated-blue',
   });
   expect(screenshot).toMatchSnapshot({ name: 'avatar-updated-blue.jpeg' });
+});
+
+test('Set nickname', async () => {
+  const [windowA, windowB] = await openApp(2);
+  const [userA, userB] = await Promise.all([newUser(windowA, 'Alice'), newUser(windowB, 'Bob')]);
+  const nickname = 'new nickname for Bob';
+
+  await createContact(windowA, windowB, userA, userB);
+  await sleepFor(100);
+  await clickOnTestIdWithText(windowA, 'three-dots-conversation-options');
+  await clickOnMatchingText(windowA, 'Change Nickname');
+  await sleepFor(1000);
+
+  await typeIntoInputSlow(windowA, 'nickname-input', nickname);
+  await sleepFor(100);
+  await clickOnTestIdWithText(windowA, 'confirm-nickname', 'OK');
+  const headerUsername = await waitForTestIdWithText(windowA, 'header-conversation-name');
+  const headerUsernameText = await headerUsername.innerText();
+  console.warn('Innertext ', headerUsernameText);
+
+  expect(headerUsernameText).toBe(nickname);
+  // Check conversation list name also
+  const conversationListUsernameText = await waitForTestIdWithText(
+    windowA,
+    'module-conversation__user__profile-name'
+  );
+  const conversationListUsername = await conversationListUsernameText.innerText();
+  expect(conversationListUsername).toBe(nickname);
 });

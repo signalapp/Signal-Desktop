@@ -12,3 +12,5 @@ export type Group = {
 };
 
 export type Strategy = 'data-testid' | 'class' | ':has-text';
+
+export type loaderType = 'loading-animation' | 'loading-spinner';

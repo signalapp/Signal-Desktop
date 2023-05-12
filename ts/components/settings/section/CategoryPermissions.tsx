@@ -74,7 +74,7 @@ export const SettingsCategoryPermissions = (props: { hasPassword: boolean | null
           title={window.i18n('callMediaPermissionsTitle')}
           description={window.i18n('callMediaPermissionsDescription')}
           active={Boolean(window.getCallMediaPermissions())}
-          data-dataTestId="enable-calls"
+          dataTestId="enable-calls"
         />
         <SessionToggleWithDescription
           onClickToggle={async () => {

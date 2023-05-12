@@ -255,6 +255,7 @@ const CallButton = () => {
       onClick={() => {
         void callRecipient(selectedConvoKey, canCall);
       }}
+      dataTestId="call-button"
     />
   );
 };

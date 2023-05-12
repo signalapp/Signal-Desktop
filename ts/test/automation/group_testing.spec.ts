@@ -1,8 +1,10 @@
 import { expect, test } from '@playwright/test';
 import { beforeAllClean } from './setup/beforeEach';
 import {
+  clickOnElement,
   clickOnMatchingText,
   clickOnTestIdWithText,
+  doesTextIncludeString,
   typeIntoInput,
   waitForControlMessageWithText,
   waitForMatchingText,
@@ -15,6 +17,7 @@ import { newUser } from './setup/new_user';
 import { leaveGroup } from './utilities/leave_group';
 import { openApp } from './setup/open';
 import { sleepFor } from '../../session/utils/Promise';
+import { createContact } from './utilities/create_contact';
 
 test.beforeEach(beforeAllClean);
 
@@ -28,8 +31,8 @@ test('Create group', async () => {
     newUser(windowB, 'Bob'),
     newUser(windowC, 'Chloe'),
   ]);
-  const testGroupName = 'Tiny Bubble Gang';
-  await createGroup(testGroupName, userA, windowA, userB, windowB, userC, windowC);
+
+  await createGroup('Tiny Bubble Gang', userA, windowA, userB, windowB, userC, windowC);
   // Check config messages in all windows
   await sleepFor(1000);
   // await waitForTestIdWithText(windowA, 'control-message');
@@ -49,6 +52,48 @@ test('Create group', async () => {
   ]);
 });
 
+test('Add contact to group', async () => {
+  const [windowA, windowB, windowC, windowD] = await openApp(4);
+  const [userA, userB, userC, userD] = await Promise.all([
+    newUser(windowA, 'Alice'),
+    newUser(windowB, 'Bob'),
+    newUser(windowC, 'Chloe'),
+    newUser(windowD, 'Dracula'),
+  ]);
+  const testGroup = await createGroup(
+    'Tiny Bubble Gang',
+    userA,
+    windowA,
+    userB,
+    windowB,
+    userC,
+    windowC
+  );
+  // Check config messages in all windows
+  await sleepFor(1000);
+  await createContact(windowA, windowD, userA, userD);
+  await clickOnTestIdWithText(
+    windowA,
+    'module-conversation__user__profile-name',
+    testGroup.userName
+  );
+  await clickOnElement(windowA, 'data-testid', 'conversation-options-avatar');
+  await clickOnElement(windowA, 'data-testid', 'add-user-button');
+  // Waiting for animation of right panel to appear
+  await sleepFor(1000);
+  await clickOnMatchingText(windowA, userD.userName);
+  await clickOnMatchingText(windowA, 'OK');
+  await waitForControlMessageWithText(windowA, `"${userD.userName}" joined the group.`);
+  await waitForControlMessageWithText(windowB, `${userD.sessionid} joined the group.`);
+  await waitForControlMessageWithText(windowC, `${userD.sessionid} joined the group.`);
+  await clickOnTestIdWithText(
+    windowD,
+    'module-conversation__user__profile-name',
+    testGroup.userName
+  );
+  await doesTextIncludeString(windowD, 'control-message', 'You joined the group.');
+});
+
 test('Change group name', async () => {
   const [windowA, windowB, windowC] = await openApp(3);
   const [userA, userB, userC] = await Promise.all([
@@ -56,9 +101,16 @@ test('Change group name', async () => {
     newUser(windowB, 'Bob'),
     newUser(windowC, 'Chloe'),
   ]);
-  const testGroupName = 'Tiny Bubble Gang';
   const newGroupName = 'Otter lovers';
-  const group = await createGroup(testGroupName, userA, windowA, userB, windowB, userC, windowC);
+  const group = await createGroup(
+    'Tiny Bubble Gang',
+    userA,
+    windowA,
+    userB,
+    windowB,
+    userC,
+    windowC
+  );
   // Change the name of the group and check that it syncs to all devices (config messages)
   // Click on already created group
   // Check that renaming a group is working
@@ -85,8 +137,15 @@ test('Test mentions', async () => {
     newUser(windowB, 'Bob'),
     newUser(windowC, 'Chloe'),
   ]);
-  const testGroupName = 'Tiny Bubble Gang';
-  const group = await createGroup(testGroupName, userA, windowA, userB, windowB, userC, windowC);
+  const group = await createGroup(
+    'Tiny Bubble Gang',
+    userA,
+    windowA,
+    userB,
+    windowB,
+    userC,
+    windowC
+  );
 
   // in windowA we should be able to mentions userB and userC
 
@@ -121,8 +180,7 @@ test('Leave group', async () => {
     newUser(windowB, 'Bob'),
     newUser(windowC, 'Chloe'),
   ]);
-  const testGroupName = 'Tiny Bubble Gang';
-  await createGroup(testGroupName, userA, windowA, userB, windowB, userC, windowC);
+  await createGroup('Tiny Bubble Gang', userA, windowA, userB, windowB, userC, windowC);
 
   await leaveGroup(windowC);
 });
