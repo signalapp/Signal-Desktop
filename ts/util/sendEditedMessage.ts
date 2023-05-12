@@ -82,8 +82,11 @@ export async function sendEditedMessage(
   }
 
   const timestamp = Date.now();
+  const targetSentTimestamp =
+    targetMessage.attributes.editMessageTimestamp ??
+    targetMessage.attributes.timestamp;
 
-  log.info(`${idLog}: sending ${timestamp}`);
+  log.info(`${idLog}: edited(${timestamp}) original(${targetSentTimestamp})`);
 
   conversation.clearTypingTimers();
 
@@ -192,9 +195,7 @@ export async function sendEditedMessage(
     conversationId,
     fromId,
     message: tmpMessage,
-    targetSentTimestamp:
-      targetMessage.attributes.editMessageTimestamp ??
-      targetMessage.attributes.timestamp,
+    targetSentTimestamp,
   };
 
   // Takes care of putting the message in the edit history, replacing the
