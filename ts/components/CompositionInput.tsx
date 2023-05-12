@@ -836,6 +836,12 @@ export function CompositionInput(props: Props): React.ReactElement {
           return;
         }
         setIsMouseDown(true);
+
+        const onMouseUp = () => {
+          setIsMouseDown(false);
+          window.removeEventListener('mouseup', onMouseUp);
+        };
+        window.addEventListener('mouseup', onMouseUp);
       } catch (error) {
         log.error(
           'CompositionInput.onMouseDown: Failed to check event target',
@@ -844,32 +850,6 @@ export function CompositionInput(props: Props): React.ReactElement {
       }
       setIsMouseDown(true);
     },
-    [setIsMouseDown]
-  );
-  const onMouseUp = React.useCallback(
-    () => setIsMouseDown(false),
-    [setIsMouseDown]
-  );
-  const onMouseOut = React.useCallback(
-    event => {
-      const target = event.target as HTMLElement;
-      try {
-        // We get mouseout events for child objects of this one; filter 'em out!
-        if (!target.classList.contains(getClassName('__input'))) {
-          return;
-        }
-        setIsMouseDown(false);
-      } catch (error) {
-        log.error(
-          'CompositionInput.onMouseOut: Failed to check class list',
-          Errors.toLogFormat(error)
-        );
-      }
-    },
-    [getClassName, setIsMouseDown]
-  );
-  const onBlur = React.useCallback(
-    () => setIsMouseDown(false),
     [setIsMouseDown]
   );
 
@@ -884,9 +864,6 @@ export function CompositionInput(props: Props): React.ReactElement {
             data-testid="CompositionInput"
             data-enabled={disabled ? 'false' : 'true'}
             onMouseDown={onMouseDown}
-            onMouseUp={onMouseUp}
-            onMouseOut={onMouseOut}
-            onBlur={onBlur}
           >
             {draftEditMessage && (
               <div className={getClassName('__editing-message')}>

@@ -249,7 +249,11 @@ export class FormattingMenu {
       return;
     }
     const contents = this.quill.getContents(selection.index, selection.length);
-    return contents.ops.every(op => op.attributes?.[style]);
+
+    // Note: we special-case single \n ops because Quill doesn't apply formatting to them
+    return contents.ops.every(
+      op => op.attributes?.[style] || op.insert === '\n'
+    );
   }
 
   toggleForStyle(style: QuillFormattingStyle, context?: KeyboardContext): void {

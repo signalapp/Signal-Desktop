@@ -165,6 +165,11 @@ export const getTextAndRangesFromOps = (
   };
 
   const preTrimText = ops.reduce((acc, op) => {
+    // We special-case single-newline ops because Quill doesn't apply styles to them
+    if (op.insert === '\n') {
+      return acc + op.insert;
+    }
+
     // Start or finish format sections as needed
     formats = extractAllFormats(startingBodyRanges, formats, acc.length, op);
 
