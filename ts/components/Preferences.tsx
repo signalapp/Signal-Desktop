@@ -905,7 +905,6 @@ export function Preferences({
           <Checkbox
             checked={hasMessageAudio}
             description={i18n('icu:Preferences__message-audio-description')}
-            disabled={!hasAudioNotifications}
             label={i18n('icu:Preferences__message-audio-title')}
             moduleClassName="Preferences__checkbox"
             name="messageAudio"

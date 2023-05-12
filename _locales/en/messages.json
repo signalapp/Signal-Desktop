@@ -3894,7 +3894,7 @@
     "description": "(deleted 03/29/2023) Description for audio notification setting"
   },
   "icu:audioNotificationDescription": {
-    "messageformat": "Play notification sounds",
+    "messageformat": "Push notification sounds",
     "description": "Description for audio notification setting"
   },
   "callRingtoneNotificationDescription": {
