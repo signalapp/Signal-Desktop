@@ -347,9 +347,9 @@ export type MentionsMembersType = Array<{
 
 /**
  * Fetches the messages for a conversation to put into redux.
- * @param {string} conversationKey - the id of the conversation
- * @param {string} messageId - the id of the message in view so we can fetch the messages around it
- * @returns
+ * @param conversationKey - the id of the conversation
+ * @param messageId - the id of the message in view so we can fetch the messages around it
+ * @returns the fetched models for messages and quoted messages
  */
 async function getMessages({
   conversationKey,
@@ -408,7 +408,6 @@ async function getMessages({
     }
   }
 
-  // window.log.debug(`WIP: duck quotesProps`, quotesProps);
   return { messagesProps, quotesProps };
 }
 
@@ -575,15 +574,11 @@ function handleMessageExpiredOrDeleted(
       if (timestamp && sender) {
         const message2Delete = editedQuotes[`${timestamp}-${sender}`];
         window.log.debug(
-          `WIP: deleting quote {${timestamp}-${sender}} ${JSON.stringify(message2Delete)}`
+          `Deleting quote {${timestamp}-${sender}} ${JSON.stringify(message2Delete)}`
         );
-        window.log.debug(
-          `WIP: editedQuotes count before delete ${Object.keys(editedQuotes).length}`
-        );
+
+        // tslint:disable-next-line: no-dynamic-delete
         delete editedQuotes[`${timestamp}-${sender}`];
-        window.log.debug(
-          `WIP: editedQuotes count after delete ${Object.keys(editedQuotes).length}`
-        );
       }
 
       // we cannot edit the array directly, so slice the first part, and slice the second part,

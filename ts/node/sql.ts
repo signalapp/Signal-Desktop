@@ -1073,8 +1073,8 @@ function getMessagesBySenderAndSentAt(
   const db = assertGlobalInstance();
   const rows = [];
 
-  for (let i = 0; i < propsList.length; i++) {
-    const { source, timestamp } = propsList[i];
+  for (const msgProps of propsList) {
+    const { source, timestamp } = msgProps;
 
     const _rows = db
       .prepare(

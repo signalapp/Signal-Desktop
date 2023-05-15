@@ -6,7 +6,7 @@ import { MIME } from '../../../../../types';
 import { isEmpty, noop } from 'lodash';
 import { QuoteImage } from './QuoteImage';
 import styled from 'styled-components';
-import { SessionIconType, icons } from '../../../../icon';
+import { icons, SessionIconType } from '../../../../icon';
 
 function getObjectUrl(thumbnail: Attachment | undefined): string | undefined {
   if (thumbnail && thumbnail.objectUrl) {

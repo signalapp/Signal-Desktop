@@ -1,4 +1,4 @@
-import React = require('react');
+import React from 'react';
 import { ContactName } from '../../../ContactName';
 import { PubKey } from '../../../../../session/types';
 import styled from 'styled-components';

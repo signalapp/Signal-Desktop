@@ -452,8 +452,8 @@ async function filterAlreadyFetchedOpengroupMessage(
 
 /**
  * Fetch all messages that match the sender pubkey and sent_at timestamp
- * @param {Object[]} propsList An array of objects containing a source (the sender id) and timestamp of the message - not to be confused with the serverTimestamp. This is equivalent to sent_at
- * @returns
+ * @param propsList An array of objects containing a source (the sender id) and timestamp of the message - not to be confused with the serverTimestamp. This is equivalent to sent_at
+ * @returns the fetched messageModels
  */
 async function getMessagesBySenderAndSentAt(
   propsList: Array<{

@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { MouseEvent } from 'react';
 import styled from 'styled-components';
+// tslint:disable: react-unused-props-and-state
 
 interface Props {
-  onClick: () => void;
+  onClick: (e: MouseEvent<HTMLDivElement>) => void;
 }
 
 const StyledStagedPlaceholderAttachment = styled.div`
@@ -21,7 +22,7 @@ const StyledStagedPlaceholderAttachment = styled.div`
   }
 `;
 
-export function StagedPlaceholderAttachment(props: Props) {
+export const StagedPlaceholderAttachment = (props: Props) => {
   const { onClick } = props;
 
   return (
@@ -29,4 +30,4 @@ export function StagedPlaceholderAttachment(props: Props) {
       <div className="module-staged-placeholder-attachment__plus-icon" />
     </StyledStagedPlaceholderAttachment>
   );
-}
+};

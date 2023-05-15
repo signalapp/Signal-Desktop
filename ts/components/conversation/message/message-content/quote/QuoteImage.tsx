@@ -82,8 +82,8 @@ export const QuoteImage = (props: {
       {showPlayButton && (
         <StyledPlayButton>
           <div>
-            <svg viewBox={icons['play'].viewBox}>
-              <path d={icons['play'].path} />
+            <svg viewBox={icons.play.viewBox}>
+              <path d={icons.play.path} />
             </svg>
           </div>
         </StyledPlayButton>

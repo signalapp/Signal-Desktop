@@ -980,6 +980,7 @@ export const getMessageLinkPreviewProps = createSelector(getMessagePropsByMessag
   return msgProps;
 });
 
+// tslint:disable: cyclomatic-complexity
 export const getMessageQuoteProps = createSelector(
   getConversationQuotes,
   getMessagePropsByMessageId,
@@ -1050,6 +1051,7 @@ export const getMessageQuoteProps = createSelector(
     return { direction, quote };
   }
 );
+// tslint:enable: cyclomatic-complexity
 
 export const getMessageStatusProps = createSelector(getMessagePropsByMessageId, (props):
   | MessageStatusSelectorProps

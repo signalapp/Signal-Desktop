@@ -47,6 +47,38 @@ const StyledText = styled(Flex)`
   }
 `;
 
+function checkHasAttachments(attachments: Array<any> | undefined) {
+  const hasAttachments = attachments && attachments.length > 0 && attachments[0];
+
+  // NOTE could be a video as well which will load a thumbnail
+  const firstImageLikeAttachment =
+    hasAttachments && attachments[0].contentType !== AUDIO_MP3 && attachments[0].thumbnail
+      ? attachments[0]
+      : undefined;
+
+  return { hasAttachments, firstImageLikeAttachment };
+}
+
+function renderSubtitleText(
+  quoteText: string | undefined,
+  hasAudioAttachment: boolean,
+  isGenericFile: boolean,
+  isVideo: boolean,
+  isImage: boolean
+): string | null {
+  return quoteText && quoteText !== ''
+    ? quoteText
+    : hasAudioAttachment
+    ? window.i18n('audio')
+    : isGenericFile
+    ? window.i18n('document')
+    : isVideo
+    ? window.i18n('video')
+    : isImage
+    ? window.i18n('image')
+    : null;
+}
+
 export const SessionQuotedMessageComposition = () => {
   const dispatch = useDispatch();
   const quotedMessageProps = useSelector(getQuotedMessage);
@@ -66,32 +98,25 @@ export const SessionQuotedMessageComposition = () => {
   const contact = findAndFormatContact(author);
   const authorName = contact?.profileName || contact?.name || author || window.i18n('unknown');
 
-  const hasAttachments = attachments && attachments.length > 0 && attachments[0];
-  const firstImageAttachment =
-    hasAttachments && attachments[0].contentType !== AUDIO_MP3 && attachments[0].thumbnail
-      ? attachments[0]
-      : undefined;
+  const { hasAttachments, firstImageLikeAttachment } = checkHasAttachments(attachments);
   const isImage = Boolean(
-    firstImageAttachment && GoogleChrome.isImageTypeSupported(firstImageAttachment.contentType)
+    firstImageLikeAttachment &&
+      GoogleChrome.isImageTypeSupported(firstImageLikeAttachment.contentType)
   );
   const isVideo = Boolean(
-    firstImageAttachment && GoogleChrome.isVideoTypeSupported(firstImageAttachment.contentType)
+    firstImageLikeAttachment &&
+      GoogleChrome.isVideoTypeSupported(firstImageLikeAttachment.contentType)
   );
   const hasAudioAttachment = Boolean(hasAttachments && isAudio(attachments));
   const isGenericFile = !hasAudioAttachment && !isVideo && !isImage;
 
-  const subtitleText =
-    quoteText !== ''
-      ? quoteText
-      : hasAudioAttachment
-      ? window.i18n('audio')
-      : isGenericFile
-      ? window.i18n('document')
-      : isVideo
-      ? window.i18n('video')
-      : isImage
-      ? window.i18n('image')
-      : null;
+  const subtitleText = renderSubtitleText(
+    quoteText,
+    hasAudioAttachment,
+    isGenericFile,
+    isVideo,
+    isImage
+  );
 
   return (
     <QuotedMessageComposition
@@ -110,13 +135,13 @@ export const SessionQuotedMessageComposition = () => {
       >
         {hasAttachments && (
           <StyledImage>
-            {firstImageAttachment ? (
+            {firstImageLikeAttachment ? (
               <Image
-                alt={getAlt(firstImageAttachment)}
-                attachment={firstImageAttachment}
+                alt={getAlt(firstImageLikeAttachment)}
+                attachment={firstImageLikeAttachment}
                 height={100}
                 width={100}
-                url={getAbsoluteAttachmentPath((firstImageAttachment as any).thumbnail.path)}
+                url={getAbsoluteAttachmentPath((firstImageLikeAttachment as any).thumbnail.path)}
                 softCorners={true}
               />
             ) : hasAudioAttachment ? (
