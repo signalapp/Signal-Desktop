@@ -48,8 +48,8 @@ function getFeatureReleaseTimestamp(featureName: FeatureNameTracked) {
     case 'user_config_libsession':
       // TODO update to agreed value between platforms for `user_config_libsession`
       // FIXME once we are done with testing the user config over libsession feature
-      return (window as any).user_config_libsession || 1706778000000; // unix 01/02/2024 09:00;
-    //   return 1677488400000; // testing: unix 27/02/2023 09:00
+      // return (window as any).user_config_libsession || 1706778000000; // unix 01/02/2024 09:00;
+      return 1677488400000; // testing: unix 27/02/2023 09:00
 
     default:
       assertUnreachable(featureName, 'case not handled for getFeatureReleaseTimestamp');
