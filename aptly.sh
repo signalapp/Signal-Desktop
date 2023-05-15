@@ -22,23 +22,12 @@ APTLY_SOURCE=${APTLY_SOURCE:-desktop/apt}
 
 FIRST_RUN=false
 
-if [ ! -d ~/.aptly ] ; then
+if [ ! -d ~/.aptly/public ] ; then
   echo
-  echo "aptly.sh: Detected first run"
+  echo "aptly.sh: Detected first run, creating repo"
+  aptly repo create signal-desktop
   FIRST_RUN=true
 fi
-
-if [ "$FIRST_RUN" = true ] ; then
-  echo
-  echo "aptly.sh: (first run) Setting up repo and mirror"
-  aptly repo create signal-desktop
-  aptly mirror create -ignore-signatures backfill-mirror "https://updates.signal.org/$APTLY_SOURCE" xenial
-fi
-
-echo
-echo "aptly.sh: Fetching latest released files so we don't erase anything"
-aptly mirror update -ignore-signatures backfill-mirror
-aptly repo import backfill-mirror signal-desktop signal-desktop signal-desktop-beta
 
 echo
 echo "aptly.sh: Adding newly-built deb to repo"
