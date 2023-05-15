@@ -1,7 +1,8 @@
 import { Page } from '@playwright/test';
 import { readdirSync, rmdirSync } from 'fs-extra';
 import { join } from 'path';
-import { isMacOS } from '../../../OS';
+import { homedir } from 'os';
+import { isLinux, isMacOS } from '../../../OS';
 import { MULTI_PREFIX, NODE_ENV } from './open';
 // tslint:disable: no-console
 
@@ -23,13 +24,17 @@ function cleanUpOtherTest() {
 
   alreadyCleanedWaiting = true;
 
-  const parentFolderOfAllDataPath = isMacOS() ? '~/Library/Application Support/' : null;
+  const parentFolderOfAllDataPath = isMacOS()
+    ? '~/Library/Application Support/'
+    : isLinux()
+    ? homedir() + '/.config/'
+    : null;
   if (!parentFolderOfAllDataPath) {
     throw new Error('Only macOS is currrently supported ');
   }
 
-  if (!parentFolderOfAllDataPath || parentFolderOfAllDataPath.length < 20) {
-    throw new Error('parentFolderOfAllDataPath not found or invalid');
+  if (!parentFolderOfAllDataPath || parentFolderOfAllDataPath.length < 9) {
+    throw new Error('parentFolderOfAllDataPath not found or invalid:' + parentFolderOfAllDataPath);
   }
   console.info('cleaning other tests leftovers...', parentFolderOfAllDataPath);
 
