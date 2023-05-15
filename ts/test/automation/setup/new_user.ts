@@ -21,30 +21,3 @@ export const newUser = async (window: Page, userName: string): Promise<User> => 
   await window.click('.session-icon-button.small');
   return { userName, sessionid, recoveryPhrase };
 };
-
-// const openAppAndNewUser = async (multi: string): Promise<User & { window: Page }> => {
-//   const window = await openAppAndWait(multi);
-
-//   const userName = `${multi}-user`;
-//   const loggedIn = await newUser(window, userName);
-//   return { window, ...loggedIn };
-// };
-
-// export async function openAppsAndNewUsers(windowToCreate: number) {
-//   if (windowToCreate >= multisAvailable.length) {
-//     throw new Error(`Do you really need ${multisAvailable.length} windows?!`);
-//   }
-//   // if windowToCreate = 3, this array will be ABC. If windowToCreate = 5, this array will be ABCDE
-//   const multisToUse = multisAvailable.slice(0, windowToCreate);
-//   const loggedInDetails = await Promise.all(
-//     [...multisToUse].map(async m => {
-//       return openAppAndNewUser(m);
-//     })
-//   );
-
-//   const windows = loggedInDetails.map(w => w.window);
-//   const users = loggedInDetails.map(w => {
-//     return _.pick(w, ['sessionid', 'recoveryPhrase', 'userName']);
-//   });
-//   return { windows, users };
-// }

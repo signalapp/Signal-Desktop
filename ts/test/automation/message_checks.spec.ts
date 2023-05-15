@@ -1,8 +1,6 @@
-import { test } from '@playwright/test';
 import { sleepFor } from '../../session/utils/Promise';
-import { beforeAllClean } from './setup/beforeEach';
 import { newUser } from './setup/new_user';
-import { openApp } from './setup/open';
+import { sessionTestTwoWindows } from './setup/sessionTest';
 import { createContact } from './utilities/create_contact';
 import { sendMessage } from './utilities/message';
 import { replyTo } from './utilities/reply_message';
@@ -18,10 +16,7 @@ import {
   waitForTextMessage,
 } from './utilities/utils';
 
-test.beforeEach(beforeAllClean);
-
-test('Send image and reply test', async () => {
-  const [windowA, windowB] = await openApp(2);
+sessionTestTwoWindows('Send image and reply test', async ([windowA, windowB]) => {
   const [userA, userB] = await Promise.all([newUser(windowA, 'Alice'), newUser(windowB, 'Bob')]);
   const testMessage = `${userA.userName} sending image to ${userB.userName}`;
   const testReply = `${userB.userName} replying to image from ${userA.userName}`;
@@ -41,8 +36,7 @@ test('Send image and reply test', async () => {
   await replyTo(windowB, testMessage, testReply);
 });
 
-test('Send video and reply test', async () => {
-  const [windowA, windowB] = await openApp(2);
+sessionTestTwoWindows('Send video and reply test', async ([windowA, windowB]) => {
   const [userA, userB] = await Promise.all([newUser(windowA, 'Alice'), newUser(windowB, 'Bob')]);
   const testMessage = `${userA.userName} sending video to ${userB.userName}`;
   const testReply = `${userB.userName} replying to video from ${userA.userName}`;
@@ -61,8 +55,7 @@ test('Send video and reply test', async () => {
   await replyTo(windowB, testMessage, testReply);
 });
 
-test('Send document and reply test', async () => {
-  const [windowA, windowB] = await openApp(2);
+sessionTestTwoWindows('Send document and reply test', async ([windowA, windowB]) => {
   const [userA, userB] = await Promise.all([newUser(windowA, 'Alice'), newUser(windowB, 'Bob')]);
   const testMessage = `${userA.userName} sending document to ${userB.userName}`;
   const testReply = `${userB.userName} replying to document from ${userA.userName}`;
@@ -81,8 +74,7 @@ test('Send document and reply test', async () => {
   await replyTo(windowB, testMessage, testReply);
 });
 
-test('Send voice message and reply test', async () => {
-  const [windowA, windowB] = await openApp(2);
+sessionTestTwoWindows('Send voice message and reply test', async ([windowA, windowB]) => {
   const [userA, userB] = await Promise.all([newUser(windowA, 'Alice'), newUser(windowB, 'Bob')]);
   // const testReply = `${userB.userName} to ${userA.userName}`;
   await createContact(windowA, windowB, userA, userB);
@@ -101,8 +93,7 @@ test('Send voice message and reply test', async () => {
   await clickOnTestIdWithText(windowB, 'session-confirm-ok-button');
 });
 
-test('Send GIF and reply test', async () => {
-  const [windowA, windowB] = await openApp(2);
+sessionTestTwoWindows('Send GIF and reply test', async ([windowA, windowB]) => {
   const [userA, userB] = await Promise.all([newUser(windowA, 'Alice'), newUser(windowB, 'Bob')]);
   // const testReply = `${userB.userName} to ${userA.userName}`;
   await createContact(windowA, windowB, userA, userB);
@@ -114,8 +105,7 @@ test('Send GIF and reply test', async () => {
   await clickOnMatchingText(windowB, 'Click to download media');
 });
 
-test('Send long text and reply test', async () => {
-  const [windowA, windowB] = await openApp(2);
+sessionTestTwoWindows('Send long text and reply test', async ([windowA, windowB]) => {
   const [userA, userB] = await Promise.all([newUser(windowA, 'Alice'), newUser(windowB, 'Bob')]);
 
   const testReply = `${userB.userName} replying to long text message from ${userA.userName}`;
@@ -131,8 +121,7 @@ test('Send long text and reply test', async () => {
   await replyTo(windowB, longText, testReply);
 });
 
-test('Unsend text message', async () => {
-  const [windowA, windowB] = await openApp(2);
+sessionTestTwoWindows('Unsend text message', async ([windowA, windowB]) => {
   const [userA, userB] = await Promise.all([newUser(windowA, 'Alice'), newUser(windowB, 'Bob')]);
   const unsendMessage = 'Testing unsend functionality';
   await createContact(windowA, windowB, userA, userB);
@@ -147,8 +136,7 @@ test('Unsend text message', async () => {
   await waitForMatchingText(windowB, 'This message has been deleted');
 });
 
-test('Delete message', async () => {
-  const [windowA, windowB] = await openApp(2);
+sessionTestTwoWindows('Delete message', async ([windowA, windowB]) => {
   const [userA, userB] = await Promise.all([newUser(windowA, 'Alice'), newUser(windowB, 'Bob')]);
   const deletedMessage = 'Testing deletion functionality';
   await createContact(windowA, windowB, userA, userB);
@@ -164,8 +152,7 @@ test('Delete message', async () => {
 });
 
 // *************** NEED TO WAIT FOR LINK PREVIEW FIX *************************************************
-// test('Send link and reply test', async () => {
-//   const [windowA, windowB] = await openApp(2);
+// sessionTestTwoWindows('Send link and reply test', async ([windowA, windowB]) => {
 //   const [userA, userB] = await Promise.all([newUser(windowA, 'Alice'), newUser(windowB, 'Bob')]);
 //   const testMessage = 'https://nerdlegame.com/';
 //   const testReply = `${userB.userName} replying to link from ${userA.userName}`;

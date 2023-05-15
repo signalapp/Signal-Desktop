@@ -1,8 +1,6 @@
-import { Page, test } from '@playwright/test';
 import { sleepFor } from '../../session/utils/Promise';
-import { beforeAllClean } from './setup/beforeEach';
 import { newUser } from './setup/new_user';
-import { openAppAndWait } from './setup/open';
+import { sessionTestOneWindow } from './setup/sessionTest';
 import {
   clickOnMatchingText,
   clickOnTestIdWithText,
@@ -10,17 +8,12 @@ import {
   waitForMatchingText,
   waitForTestIdWithText,
 } from './utilities/utils';
-let window: Page | undefined;
 // tslint:disable: no-console
-
-test.beforeEach(beforeAllClean);
 
 const testPassword = '123456';
 const newTestPassword = '789101112';
 
-test('Set Password', async () => {
-  // open Electron
-  window = await openAppAndWait('1');
+sessionTestOneWindow('Set Password', async ([window]) => {
   // Create user
   await newUser(window, 'userA');
   // Click on settings tab
@@ -73,9 +66,8 @@ test('Set Password', async () => {
   );
 });
 
-test('Wrong password', async () => {
+sessionTestOneWindow('Wrong password', async ([window]) => {
   // Check if incorrect password works
-  window = await openAppAndWait('1');
   // Create user
   await newUser(window, 'userA');
   // Click on settings tab

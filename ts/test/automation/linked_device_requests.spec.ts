@@ -1,8 +1,5 @@
-import { test } from '@playwright/test';
-import { beforeAllClean } from './setup/beforeEach';
-// import { leaveGroup } from './utilities/leave_group';
 import { newUser } from './setup/new_user';
-import { openApp } from './setup/open';
+import { sessionTestTwoWindows } from './setup/sessionTest';
 import { linkedDevice } from './utilities/linked_device';
 import { sendMessage } from './utilities/message';
 import { sendNewMessage } from './utilities/send_message';
@@ -13,10 +10,7 @@ import {
   waitForTextMessage,
 } from './utilities/utils';
 
-test.beforeEach(beforeAllClean);
-
-test('Accept request syncs', async () => {
-  const [windowA, windowB] = await openApp(2);
+sessionTestTwoWindows('Accept request syncs', async ([windowA, windowB]) => {
   const [userA, userB] = await Promise.all([newUser(windowA, 'Alice'), newUser(windowB, 'Bob')]);
   const [windowC] = await linkedDevice(userB.recoveryPhrase);
 
@@ -41,8 +35,7 @@ test('Accept request syncs', async () => {
   await waitForTestIdWithText(windowC, 'module-conversation__user__profile-name', userA.userName);
 });
 
-test('Decline request syncs', async () => {
-  const [windowA, windowB] = await openApp(2);
+sessionTestTwoWindows('Decline request syncs', async ([windowA, windowB]) => {
   const [userA, userB] = await Promise.all([newUser(windowA, 'Alice'), newUser(windowB, 'Bob')]);
   const [windowC] = await linkedDevice(userB.recoveryPhrase);
 

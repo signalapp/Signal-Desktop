@@ -10,7 +10,7 @@ import { openApp } from './setup/open';
 test.beforeEach(beforeAllClean);
 
 test('Delete account from swarm', async () => {
-  const [windowA, windowB] = await openApp(2);
+  const [windowA, windowB] = await openApp(2); // not using sessionTest here as we need to close and reopen one of the window
   const [userA, userB] = await Promise.all([newUser(windowA, 'Alice'), newUser(windowB, 'Bob')]);
   const testMessage = `${userA.userName} to ${userB.userName}`;
   const testReply = `${userB.userName} to ${userA.userName}`;
@@ -33,7 +33,7 @@ test('Delete account from swarm', async () => {
   // Wait for window to close and reopen
   await sleepFor(10000, true);
   // await windowA.close();
-  const restoringWindows = await openApp(1);
+  const restoringWindows = await openApp(1); // not using sessionTest here as we need to close and reopen one of the window
   const [restoringWindow] = restoringWindows;
   // Sign in with deleted account and check that nothing restores
   await clickOnTestIdWithText(restoringWindow, 'restore-using-recovery', 'Restore your account');

@@ -1,5 +1,6 @@
-import { expect, test } from '@playwright/test';
-import { beforeAllClean } from './setup/beforeEach';
+import { expect } from '@playwright/test';
+import { createGroup } from './setup/create_group';
+import { renameGroup } from './utilities/rename_group';
 import {
   clickOnElement,
   clickOnMatchingText,
@@ -10,22 +11,15 @@ import {
   waitForMatchingText,
   waitForTestIdWithText,
 } from './utilities/utils';
-import { renameGroup } from './utilities/rename_group';
-import { createGroup } from './setup/create_group';
 // import { leaveGroup } from './utilities/leave_group';
-import { newUser } from './setup/new_user';
-import { leaveGroup } from './utilities/leave_group';
-import { openApp } from './setup/open';
 import { sleepFor } from '../../session/utils/Promise';
+import { newUser } from './setup/new_user';
+import { sessionTestFourWindows, sessionTestThreeWindows } from './setup/sessionTest';
 import { createContact } from './utilities/create_contact';
+import { leaveGroup } from './utilities/leave_group';
 
-test.beforeEach(beforeAllClean);
-
-// test.afterEach(() => forceCloseAllWindows(windows));
-
-test('Create group', async () => {
+sessionTestThreeWindows('Create group', async ([windowA, windowB, windowC]) => {
   // Open Electron
-  const [windowA, windowB, windowC] = await openApp(3);
   const [userA, userB, userC] = await Promise.all([
     newUser(windowA, 'Alice'),
     newUser(windowB, 'Bob'),
@@ -52,8 +46,7 @@ test('Create group', async () => {
   ]);
 });
 
-test('Add contact to group', async () => {
-  const [windowA, windowB, windowC, windowD] = await openApp(4);
+sessionTestFourWindows('Add contact to group', async ([windowA, windowB, windowC, windowD]) => {
   const [userA, userB, userC, userD] = await Promise.all([
     newUser(windowA, 'Alice'),
     newUser(windowB, 'Bob'),
@@ -94,8 +87,7 @@ test('Add contact to group', async () => {
   await doesTextIncludeString(windowD, 'control-message', 'You joined the group.');
 });
 
-test('Change group name', async () => {
-  const [windowA, windowB, windowC] = await openApp(3);
+sessionTestThreeWindows('Change group name', async ([windowA, windowB, windowC]) => {
   const [userA, userB, userC] = await Promise.all([
     newUser(windowA, 'Alice'),
     newUser(windowB, 'Bob'),
@@ -130,8 +122,7 @@ test('Change group name', async () => {
   await clickOnTestIdWithText(windowA, 'back-button-conversation-options');
 });
 
-test('Test mentions', async () => {
-  const [windowA, windowB, windowC] = await openApp(3);
+sessionTestThreeWindows('Test mentions', async ([windowA, windowB, windowC]) => {
   const [userA, userB, userC] = await Promise.all([
     newUser(windowA, 'Alice'),
     newUser(windowB, 'Bob'),
@@ -173,8 +164,7 @@ test('Test mentions', async () => {
   await waitForTestIdWithText(windowC, 'mentions-popup-row', userB.userName);
 });
 
-test('Leave group', async () => {
-  const [windowA, windowB, windowC] = await openApp(3);
+sessionTestThreeWindows('Leave group', async ([windowA, windowB, windowC]) => {
   const [userA, userB, userC] = await Promise.all([
     newUser(windowA, 'Alice'),
     newUser(windowB, 'Bob'),

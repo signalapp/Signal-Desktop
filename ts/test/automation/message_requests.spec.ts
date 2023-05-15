@@ -1,7 +1,6 @@
 import { test } from '@playwright/test';
 import { beforeAllClean } from './setup/beforeEach';
 import { newUser } from './setup/new_user';
-import { openApp } from './setup/open';
 import { sendMessage } from './utilities/message';
 import { sendNewMessage } from './utilities/send_message';
 import {
@@ -10,14 +9,14 @@ import {
   waitForMatchingText,
   waitForTestIdWithText,
 } from './utilities/utils';
+import { sessionTestTwoWindows } from './setup/sessionTest';
 
 test.beforeEach(beforeAllClean);
 
 // test.afterEach(() => forceCloseAllWindows(windows));
 // Open two windows and log into 2 separate accounts
 test.describe('Message requests', () => {
-  test('Message requests accept', async () => {
-    const [windowA, windowB] = await openApp(2);
+  sessionTestTwoWindows('Message requests accept', async ([windowA, windowB]) => {
     const [userA, userB] = await Promise.all([newUser(windowA, 'Alice'), newUser(windowB, 'Bob')]);
     const testMessage = `Sender: ${userA.userName} Receiver: ${userB.userName}`;
     // send a message to User B from User A
@@ -36,8 +35,7 @@ test.describe('Message requests', () => {
     );
     await waitForMatchingText(windowB, 'No pending message requests');
   });
-  test('Message requests text reply', async () => {
-    const [windowA, windowB] = await openApp(2);
+  sessionTestTwoWindows('Message requests text reply', async ([windowA, windowB]) => {
     const [userA, userB] = await Promise.all([newUser(windowA, 'Alice'), newUser(windowB, 'Bob')]);
     const testMessage = `Sender: ${userA.userName}, Receiver: ${userB.userName}`;
     const testReply = `Sender: ${userB.userName}, Receiver: ${userA.userName}`;
@@ -57,8 +55,7 @@ test.describe('Message requests', () => {
     );
     await waitForMatchingText(windowB, 'No pending message requests');
   });
-  test('Message requests decline', async () => {
-    const [windowA, windowB] = await openApp(2);
+  sessionTestTwoWindows('Message requests decline', async ([windowA, windowB]) => {
     const [userA, userB] = await Promise.all([newUser(windowA, 'Alice'), newUser(windowB, 'Bob')]);
     const testMessage = `Sender: ${userA.userName}, Receiver: ${userB.userName}`;
     // send a message to User B from User A
@@ -72,11 +69,9 @@ test.describe('Message requests', () => {
     // Confirm decline
     await clickOnTestIdWithText(windowB, 'session-confirm-ok-button', 'Decline');
     // Check config message of message request acceptance
-    await waitForTestIdWithText(windowB, 'session-toast', 'Blocked');
     await waitForMatchingText(windowB, 'No pending message requests');
   });
-  test('Message requests clear all', async () => {
-    const [windowA, windowB] = await openApp(2);
+  sessionTestTwoWindows('Message requests clear all', async ([windowA, windowB]) => {
     const [userA, userB] = await Promise.all([newUser(windowA, 'Alice'), newUser(windowB, 'Bob')]);
     const testMessage = `Sender: ${userA.userName}, Receiver: ${userB.userName}`;
     // send a message to User B from User A

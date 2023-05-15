@@ -1,8 +1,6 @@
-import { test } from '@playwright/test';
 import { sleepFor } from '../../session/utils/Promise';
-import { beforeAllClean } from './setup/beforeEach';
 import { newUser } from './setup/new_user';
-import { openApp } from './setup/open';
+import { sessionTestTwoWindows } from './setup/sessionTest';
 import { sendMessage } from './utilities/message';
 import { sendNewMessage } from './utilities/send_message';
 import {
@@ -13,9 +11,6 @@ import {
   waitForTestIdWithText,
 } from './utilities/utils';
 
-test.beforeEach(beforeAllClean);
-
-// test.afterEach(() => forceCloseAllWindows(windows));
 // tslint:disable: no-console
 
 const testMessage = 'Test-Message- (A -> B) ';
@@ -23,10 +18,9 @@ const testReply = 'Reply-Test-Message- (B -> A)';
 const sentMessage = `${testMessage}${Date.now()}`;
 const sentReplyMessage = `${testReply} :${Date.now()}`;
 
-test('Disappearing messages', async () => {
+sessionTestTwoWindows('Disappearing messages', async ([windowA, windowB]) => {
   // Open App
   // Create User
-  const [windowA, windowB] = await openApp(2);
   const [userA, userB] = await Promise.all([newUser(windowA, 'Alice'), newUser(windowB, 'Bob')]);
   // Create Contact
   await sendNewMessage(windowA, userB.sessionid, sentMessage);

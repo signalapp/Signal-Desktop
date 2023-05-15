@@ -1,7 +1,7 @@
-import { expect, test } from '@playwright/test';
-import { beforeAllClean } from './setup/beforeEach';
+import { expect } from '@playwright/test';
 import { sleepFor } from '../../session/utils/Promise';
 import { newUser } from './setup/new_user';
+import { createContact } from './utilities/create_contact';
 import { sendNewMessage } from './utilities/send_message';
 import {
   clickOnMatchingText,
@@ -11,16 +11,10 @@ import {
   waitForMatchingText,
   waitForTestIdWithText,
 } from './utilities/utils';
-import { openApp } from './setup/open';
-import { createContact } from './utilities/create_contact';
-
-test.beforeEach(beforeAllClean);
-
-// test.afterEach(() => forceCloseAllWindows(windows));
+import { sessionTestOneWindow, sessionTestTwoWindows } from './setup/sessionTest';
 
 // Send message in one to one conversation with new contact
-test('Create contact', async () => {
-  const [windowA, windowB] = await openApp(2);
+sessionTestTwoWindows('Create contact', async ([windowA, windowB]) => {
   const [userA, userB] = await Promise.all([newUser(windowA, 'Alice'), newUser(windowB, 'Bob')]);
 
   const testMessage = `${userA.userName} to ${userB.userName}`;
@@ -39,9 +33,8 @@ test('Create contact', async () => {
   await clickOnTestIdWithText(windowA, 'new-conversation-button');
 });
 
-test('Block user in conversation options', async () => {
+sessionTestTwoWindows('Block user in conversation options', async ([windowA, windowB]) => {
   // Open app and create user
-  const [windowA, windowB] = await openApp(2);
   const [userA, userB] = await Promise.all([newUser(windowA, 'Alice'), newUser(windowB, 'Bob')]);
 
   const testMessage = `${userA.userName} to ${userB.userName}`;
@@ -77,9 +70,8 @@ test('Block user in conversation options', async () => {
   await waitForMatchingText(windowA, 'No blocked contacts');
 });
 
-test('Block user in conversation list', async () => {
+sessionTestTwoWindows('Block user in conversation list', async ([windowA, windowB]) => {
   // Open app and create user
-  const [windowA, windowB] = await openApp(2);
   const [userA, userB] = await Promise.all([newUser(windowA, 'Alice'), newUser(windowB, 'Bob')]);
 
   const testMessage = `${userA.userName} to ${userB.userName}`;
@@ -119,10 +111,7 @@ test('Block user in conversation list', async () => {
   await waitForTestIdWithText(windowA, 'session-toast', 'Unblocked');
   await waitForMatchingText(windowA, 'No blocked contacts');
 });
-
-test('Change username', async () => {
-  // Open App
-  const [window] = await openApp(1);
+sessionTestOneWindow('Change username', async ([window]) => {
   // Create user
   const newUsername = 'Tiny bubble';
   await newUser(window, 'Alice');
@@ -143,8 +132,7 @@ test('Change username', async () => {
   await window.click('.session-icon-button.small');
 });
 
-test('Change avatar', async () => {
-  const [window] = await openApp(1);
+sessionTestOneWindow('Change avatar', async ([window]) => {
   await newUser(window, 'Alice');
   // Open profile
   await clickOnTestIdWithText(window, 'leftpane-primary-avatar');
@@ -168,8 +156,7 @@ test('Change avatar', async () => {
   expect(screenshot).toMatchSnapshot({ name: 'avatar-updated-blue.jpeg' });
 });
 
-test('Set nickname', async () => {
-  const [windowA, windowB] = await openApp(2);
+sessionTestTwoWindows('Set nickname', async ([windowA, windowB]) => {
   const [userA, userB] = await Promise.all([newUser(windowA, 'Alice'), newUser(windowB, 'Bob')]);
   const nickname = 'new nickname for Bob';
 

@@ -3,7 +3,7 @@ import { sleepFor } from '../../session/utils/Promise';
 import { beforeAllClean } from './setup/beforeEach';
 import { createGroup } from './setup/create_group';
 import { newUser } from './setup/new_user';
-import { openApp } from './setup/open';
+import { sessionTestThreeWindows } from './setup/sessionTest';
 import { leaveGroup } from './utilities/leave_group';
 import { linkedDevice } from './utilities/linked_device';
 import {
@@ -14,8 +14,7 @@ import {
 
 test.beforeEach(beforeAllClean);
 
-test('Check group syncs', async () => {
-  const [windowA, windowC, windowD] = await openApp(3);
+sessionTestThreeWindows('Check group syncs', async ([windowA, windowC, windowD]) => {
   const [userA, userB, userC] = await Promise.all([
     newUser(windowA, 'Alice'),
     newUser(windowC, 'Bob'),
@@ -36,8 +35,7 @@ test('Check group syncs', async () => {
   await waitForTestIdWithText(windowB, 'module-conversation__user__profile-name', group.userName);
 });
 
-test('Check leaving group syncs', async () => {
-  const [windowA, windowC, windowD] = await openApp(3);
+sessionTestThreeWindows('Check leaving group syncs', async ([windowA, windowC, windowD]) => {
   const [userA, userB, userC] = await Promise.all([
     newUser(windowA, 'Alice'),
     newUser(windowC, 'Bob'),

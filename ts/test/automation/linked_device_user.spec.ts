@@ -25,9 +25,9 @@ test.afterEach(() => forceCloseAllWindows(windows));
 // tslint:disable: no-console
 
 test('Link a device', async () => {
-  const [windowA] = await openApp(1);
+  const [windowA] = await openApp(1); // not using sessionTest here as we need to close and reopen one of the window
   const userA = await newUser(windowA, 'Alice');
-  const [windowB] = await linkedDevice(userA.recoveryPhrase);
+  const [windowB] = await linkedDevice(userA.recoveryPhrase); // not using sessionTest here as we need to close and reopen one of the window
   await clickOnTestIdWithText(windowA, 'leftpane-primary-avatar');
   // Verify Username
   await waitForTestIdWithText(windowA, 'your-profile-name', userA.userName);
@@ -72,9 +72,9 @@ test('Check changed username syncs', async () => {
 });
 
 test('Check profile picture syncs', async () => {
-  const [windowA] = await openApp(1);
+  const [windowA] = await openApp(1); // not using sessionTest here as we need to close and reopen one of the window
   const userA = await newUser(windowA, 'Alice');
-  const [windowB] = await linkedDevice(userA.recoveryPhrase);
+  const [windowB] = await linkedDevice(userA.recoveryPhrase); // not using sessionTest here as we need to close and reopen one of the window
   await clickOnTestIdWithText(windowA, 'leftpane-primary-avatar');
   // Click on current profile picture
   await waitForTestIdWithText(windowA, 'copy-button-profile-update', 'Copy');
@@ -97,9 +97,9 @@ test('Check profile picture syncs', async () => {
 });
 
 test('Check contacts sync', async () => {
-  const [windowA, windowC] = await openApp(2);
+  const [windowA, windowC] = await openApp(2); // not using sessionTest here as we need to close and reopen one of the window
   const [userA, userB] = await Promise.all([newUser(windowA, 'Alice'), newUser(windowC, 'Bob')]);
-  const [windowB] = await linkedDevice(userA.recoveryPhrase);
+  const [windowB] = await linkedDevice(userA.recoveryPhrase); // not using sessionTest here as we need to close and reopen one of the window
   // Waiting for linked device to finish loading
   await waitForLoadingAnimationToFinish(windowB, 'loading-spinner');
   await createContact(windowA, windowC, userA, userB);

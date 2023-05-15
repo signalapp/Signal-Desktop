@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 // tslint:disable: no-submodule-imports use-simple-attributes
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,9 +6,8 @@ import useKey from 'react-use/lib/useKey';
 import styled from 'styled-components';
 import { declineConversationWithoutConfirm } from '../../../interactions/conversationInteractions';
 import { forceSyncConfigurationNowIfNeeded } from '../../../session/utils/sync/syncUtils';
-import { resetConversationExternal } from '../../../state/ducks/conversations';
 import { updateConfirmModal } from '../../../state/ducks/modalDialog';
-import { SectionType, resetOverlayMode, showLeftPaneSection } from '../../../state/ducks/section';
+import { resetOverlayMode } from '../../../state/ducks/section';
 import { getConversationRequests } from '../../../state/selectors/conversations';
 import { useSelectedConversationKey } from '../../../state/selectors/selectedConversation';
 import { SessionButton, SessionButtonColor } from '../../basic/SessionButton';
@@ -51,17 +50,6 @@ export const OverlayMessageRequest = () => {
   const currentlySelectedConvo = useSelectedConversationKey();
   const convoRequestCount = useSelector(getConversationRequests).length;
   const messageRequests = useSelector(getConversationRequests);
-
-  useEffect(() => {
-    // if no more requests, return to placeholder screen
-
-    if (convoRequestCount === 0) {
-      dispatch(resetOverlayMode());
-      dispatch(showLeftPaneSection(SectionType.Message));
-      dispatch(resetConversationExternal());
-    }
-  }, [dispatch, convoRequestCount]);
-
   const buttonText = window.i18n('clearAll');
 
   /**

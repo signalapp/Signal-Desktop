@@ -497,7 +497,10 @@ async function buildNewOnionPathsWorker() {
       for (let i = 0; i < maxPath; i += 1) {
         const path = [guards[i]];
         for (let j = 0; j < nodesNeededPerPaths; j += 1) {
-          const randomWinner = _.sample(otherNodes) as Snode;
+          const randomWinner = _.sample(otherNodes);
+          if (!randomWinner) {
+            throw new Error('randomWinner unset during path building task');
+          }
           otherNodes = otherNodes.filter(n => {
             return n.pubkey_ed25519 !== randomWinner?.pubkey_ed25519;
           });

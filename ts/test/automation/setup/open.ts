@@ -32,7 +32,7 @@ export const openElectronAppOnly = async (multi: string) => {
   return electronApp;
 };
 
-export const openAppAndWait = async (multi: string) => {
+const openAppAndWait = async (multi: string) => {
   const electronApp = await openElectronAppOnly(multi);
   // Get the first window that the app opens, wait if necessary.
   const window = await electronApp.firstWindow();

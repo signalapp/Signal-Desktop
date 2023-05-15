@@ -79,8 +79,8 @@ export async function waitForLoadingAnimationToFinish(
   do {
     try {
       loadingAnimation = await waitForElement(window, 'data-testid', `${loader}`, 100);
-      await sleepFor(100);
-      console.info('loading-animation was found, waiting for it to be gone');
+      await sleepFor(500);
+      console.info(`${loader} was found, waiting for it to be gone`);
     } catch (e) {
       loadingAnimation = undefined;
     }
