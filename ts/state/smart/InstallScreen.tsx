@@ -167,6 +167,7 @@ export function SmartInstallScreen(): ReactElement {
 
   useEffect(() => {
     let hasCleanedUp = false;
+    const qrCodeResolution = explodePromise<void>();
 
     const accountManager = window.getAccountManager();
     assertDev(accountManager, 'Expected an account manager');
@@ -175,6 +176,7 @@ export function SmartInstallScreen(): ReactElement {
       if (hasCleanedUp) {
         return;
       }
+      qrCodeResolution.resolve();
       setProvisioningUrl(value);
     };
 
@@ -227,7 +229,8 @@ export function SmartInstallScreen(): ReactElement {
         );
         const sleepMs = qrCodeBackOff.getAndIncrement();
         log.info(`InstallScreen/getQRCode: race to ${sleepMs}ms`);
-        await pTimeout(qrCodePromise, sleepMs, sleepError);
+        await pTimeout(qrCodeResolution.promise, sleepMs, sleepError);
+        await qrCodePromise;
 
         window.IPC.removeSetupMenuItems();
       } catch (error) {
