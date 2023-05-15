@@ -38,11 +38,12 @@ import { ConversationTypeEnum } from '../../models/conversationAttributes';
 
 import { MessageReactsSelectorProps } from '../../components/conversation/message/message-content/MessageReactions';
 import { filter, isEmpty, pick, sortBy } from 'lodash';
-import { findAndFormatContact, processQuoteAttachment } from '../../models/message';
+import { processQuoteAttachment } from '../../models/message';
 import { PubKey } from '../../session/types';
 import { OpenGroupData } from '../../data/opengroups';
 import { roomHasBlindEnabled } from '../../session/apis/open_group_api/sogsv3/sogsV3Capabilities';
 import { findCachedBlindedIdFromUnblinded } from '../../session/apis/open_group_api/sogsv3/knownBlindedkeys';
+import { MessageModelType } from '../../models/messageType';
 
 export const getConversations = (state: StateType): ConversationsStateType => state.conversations;
 
@@ -984,45 +985,45 @@ export const getMessageLinkPreviewProps = createSelector(getMessagePropsByMessag
 export const getMessageQuoteProps = createSelector(
   getConversationQuotes,
   getMessagePropsByMessageId,
-  (quotesProps, msgProps) => {
-    if (!msgProps || isEmpty(msgProps)) {
+  (quotesProps, msgModel): { direction: MessageModelType; quote: PropsForQuote } | undefined => {
+    if (!msgModel || isEmpty(msgModel)) {
       return undefined;
     }
 
-    const direction = msgProps.propsForMessage.direction;
-    if (!msgProps.propsForQuote || isEmpty(msgProps.propsForQuote)) {
+    const msgProps = msgModel.propsForMessage;
+    const direction = msgProps.direction;
+
+    if (!msgProps.quote || isEmpty(msgProps.quote)) {
       return undefined;
     }
 
-    const { messageId, sender } = msgProps.propsForQuote;
-    if (!messageId || !sender) {
+    const { id, author, authorName: _authorName } = msgProps.quote;
+    if (!id || !author) {
       return undefined;
     }
 
     // NOTE: if the message is not found, we still want to render the quote
     if (!quotesProps || isEmpty(quotesProps)) {
-      return { direction, quote: { sender, referencedMessageNotFound: true } };
+      return { direction, quote: { author, referencedMessageNotFound: true } };
     }
 
-    const sourceMessage = quotesProps[`${messageId}-${sender}`];
+    const sourceMessage = quotesProps[`${id}-${author}`];
     if (!sourceMessage) {
-      return { direction, quote: { sender, referencedMessageNotFound: true } };
+      return { direction, quote: { author, referencedMessageNotFound: true } };
     }
 
     const sourceMsgProps = sourceMessage.propsForMessage;
     if (!sourceMsgProps || sourceMsgProps.isDeleted) {
-      return { direction, quote: { sender, referencedMessageNotFound: true } };
+      return { direction, quote: { author, referencedMessageNotFound: true } };
     }
 
     const convo = getConversationController().get(sourceMsgProps.convoId);
     if (!convo) {
-      return { direction, quote: { sender, referencedMessageNotFound: true } };
+      return { direction, quote: { author, referencedMessageNotFound: true } };
     }
 
-    const contact = findAndFormatContact(sourceMsgProps.sender);
-    const authorName = contact?.profileName || contact?.name || window.i18n('unknown');
     const attachment = sourceMsgProps.attachments && sourceMsgProps.attachments[0];
-    let isFromMe = convo ? convo.id === UserUtils.getOurPubKeyStrFromCache() : false;
+    let isFromMe = convo ? UserUtils.isUsFromCache(author) : false;
 
     if (convo.isPublic() && PubKey.hasBlindedPrefix(sourceMsgProps.sender)) {
       const room = OpenGroupData.getV2OpenGroupRoom(sourceMsgProps.convoId);
@@ -1037,13 +1038,17 @@ export const getMessageQuoteProps = createSelector(
       }
     }
 
+    const authorName = isFromMe
+      ? window.i18n('you')
+      : convo.getNicknameOrRealUsernameOrPlaceholder();
+
     const quote: PropsForQuote = {
       text: sourceMsgProps.text,
       attachment: attachment ? processQuoteAttachment(attachment) : undefined,
       isFromMe,
-      sender: sourceMsgProps.sender,
+      author: sourceMsgProps.sender,
       authorName,
-      messageId: sourceMsgProps.id,
+      id: sourceMsgProps.id,
       referencedMessageNotFound: false,
       convoId: convo.id,
     };

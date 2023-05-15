@@ -21,30 +21,15 @@ const StyledQuoteAuthor = styled.div<{ isIncoming: boolean }>`
   }
 `;
 
-type QuoteAuthorProps = Pick<
-  QuoteProps,
-  | 'authorName'
-  | 'authorProfileName'
-  | 'isFromMe'
-  | 'isIncoming'
-  | 'referencedMessageNotFound'
-  | 'sender'
-> & {
-  showPubkeyForAuthor?: boolean;
+type QuoteAuthorProps = Pick<QuoteProps, 'author' | 'authorName' | 'isFromMe' | 'isIncoming'> & {
+  showPubkeyForAuthor: boolean;
 };
 
 export const QuoteAuthor = (props: QuoteAuthorProps) => {
-  const {
-    authorProfileName,
-    authorName,
-    isFromMe,
-    isIncoming,
-    referencedMessageNotFound,
-    sender,
-    showPubkeyForAuthor,
-  } = props;
+  const { author, authorName, isFromMe, isIncoming, showPubkeyForAuthor } = props;
+  debugger;
 
-  if (referencedMessageNotFound) {
+  if (author === '' || authorName === '') {
     return null;
   }
 
@@ -54,11 +39,10 @@ export const QuoteAuthor = (props: QuoteAuthorProps) => {
         window.i18n('you')
       ) : (
         <ContactName
-          pubkey={PubKey.shorten(sender)}
+          pubkey={PubKey.shorten(author)}
           name={authorName}
-          profileName={authorProfileName}
           compact={true}
-          shouldShowPubkey={Boolean(showPubkeyForAuthor)}
+          shouldShowPubkey={showPubkeyForAuthor}
         />
       )}
     </StyledQuoteAuthor>

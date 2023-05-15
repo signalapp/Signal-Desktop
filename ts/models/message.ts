@@ -43,6 +43,7 @@ import {
   PropsForGroupUpdateLeft,
   PropsForGroupUpdateName,
   PropsForMessageWithoutConvoProps,
+  PropsForQuote,
 } from '../state/ducks/conversations';
 import {
   VisibleMessage,
@@ -87,7 +88,6 @@ import { LinkPreviews } from '../util/linkPreviews';
 import { roomHasBlindEnabled } from '../session/apis/open_group_api/sogsv3/sogsV3Capabilities';
 import { getNowWithNetworkOffset } from '../session/apis/snode_api/SNodeAPI';
 import {
-  findCachedBlindedIdFromUnblinded,
   getUsBlindedInThatServer,
   isUsAnySogsFromCache,
 } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
@@ -459,7 +459,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   }
 
   // tslint:disable-next-line: cyclomatic-complexity
-  public getPropsForMessage(options: any = {}): PropsForMessageWithoutConvoProps {
+  public getPropsForMessage(): PropsForMessageWithoutConvoProps {
     const sender = this.getSource();
     const expirationLength = this.get('expireTimer') * 1000;
     const expireTimerStart = this.get('expirationStartTimestamp');
@@ -520,7 +520,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     if (reacts && Object.keys(reacts).length) {
       props.reacts = reacts;
     }
-    const quote = this.getPropsForQuote(options);
+    const quote = this.getPropsForQuote();
     if (quote) {
       props.quote = quote;
     }
@@ -566,72 +566,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     return this.get('reacts') || null;
   }
 
-  public getPropsForQuote(_options: any = {}) {
-    const quote = this.get('quote');
-
-    if (!quote) {
-      return null;
-    }
-
-    const { author, id, referencedMessageNotFound } = quote;
-    const contact: ConversationModel = author && getConversationController().get(author);
-
-    const authorName =
-      contact && contact.isPrivate() ? contact.getContactProfileNameOrShortenedPubKey() : null;
-
-    let isFromMe = contact ? contact.id === UserUtils.getOurPubKeyStrFromCache() : false;
-
-    if (contact?.isPublic() && PubKey.hasBlindedPrefix(author)) {
-      const room = OpenGroupData.getV2OpenGroupRoom(this.get('conversationId'));
-      if (room && roomHasBlindEnabled(room)) {
-        const usFromCache = findCachedBlindedIdFromUnblinded(
-          UserUtils.getOurPubKeyStrFromCache(),
-          room.serverPublicKey
-        );
-        if (usFromCache && usFromCache === author) {
-          isFromMe = true;
-        }
-      }
-    }
-
-    const firstAttachment = quote.attachments && quote.attachments[0];
-    const quoteProps: {
-      referencedMessageNotFound?: boolean;
-      sender: string;
-      messageId: string;
-      authorName: string;
-      text?: string;
-      attachment?: any;
-      isFromMe?: boolean;
-    } = {
-      sender: author,
-      messageId: id,
-      authorName: authorName || window.i18n('unknown'),
-    };
-
-    if (referencedMessageNotFound) {
-      quoteProps.referencedMessageNotFound = true;
-    }
-
-    if (!referencedMessageNotFound) {
-      if (quote.text) {
-        // do not show text of not found messages.
-        // if the message was deleted better not show it's text content in the message
-        // TODO this will be where we show message not found.
-        quoteProps.text = sliceQuoteText(quote.text);
-      }
-
-      const quoteAttachment = firstAttachment ? processQuoteAttachment(firstAttachment) : undefined;
-      if (quoteAttachment) {
-        // only set attachment if referencedMessageNotFound is false and we have one
-        quoteProps.attachment = quoteAttachment;
-      }
-    }
-    if (isFromMe) {
-      quoteProps.isFromMe = true;
-    }
-
-    return quoteProps;
+  public getPropsForQuote(): PropsForQuote | null {
+    return this.get('quote') || null;
   }
 
   public getPropsForAttachment(attachment: AttachmentTypeWithPath): PropsForAttachment | null {

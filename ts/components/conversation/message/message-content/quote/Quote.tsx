@@ -48,7 +48,7 @@ const StyledQuoteTextContent = styled.div`
 
 export type QuoteProps = {
   attachment?: QuotedAttachmentType;
-  sender: string;
+  author: string;
   authorProfileName?: string;
   authorName?: string;
   isFromMe: boolean;
@@ -97,13 +97,11 @@ export const Quote = (props: QuoteProps) => {
         />
         <StyledQuoteTextContent>
           <QuoteAuthor
-            sender={props.sender}
+            author={props.author}
             authorName={props.authorName}
-            authorProfileName={props.authorProfileName}
             isFromMe={props.isFromMe}
             isIncoming={isIncoming}
             showPubkeyForAuthor={isPublic}
-            referencedMessageNotFound={referencedMessageNotFound}
           />
           <QuoteText
             isIncoming={isIncoming}

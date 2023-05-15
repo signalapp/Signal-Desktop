@@ -60,7 +60,7 @@ import { FixedBaseEmoji } from '../../../types/Reaction';
 
 export interface ReplyingToMessageProps {
   convoId: string;
-  id: string; // this is the message timestamp
+  id: string; // this is the quoted message timestamp
   author: string;
   timestamp: number;
   text?: string;

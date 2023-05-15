@@ -2,7 +2,6 @@ import React, { useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import _, { isEmpty } from 'lodash';
 import { MessageModelType, MessageRenderingProps } from '../../../../models/messageType';
-import { PubKey } from '../../../../session/types';
 import { openConversationToSpecificMessage } from '../../../../state/ducks/conversations';
 import {
   getMessageQuoteProps,
@@ -39,12 +38,10 @@ export const MessageQuote = (props: Props) => {
   }
 
   const quoteNotFound = Boolean(
-    !quote?.sender || !quote.messageId || !quote.convoId || quote.referencedMessageNotFound
+    !quote?.author || !quote.id || !quote.convoId || quote.referencedMessageNotFound
   );
 
   const quoteText = quote?.text || null;
-  const shortenedPubkey = quote?.sender ? PubKey.shorten(quote?.sender) : undefined;
-  const displayedPubkey = String(quote?.authorProfileName ? shortenedPubkey : quote?.sender);
 
   const onQuoteClick = useCallback(
     async (event: React.MouseEvent<HTMLDivElement>) => {
@@ -70,7 +67,7 @@ export const MessageQuote = (props: Props) => {
       } else {
         void openConversationToSpecificMessage({
           conversationKey: String(quote.convoId),
-          messageIdToNavigateTo: String(quote.messageId),
+          messageIdToNavigateTo: String(quote.id),
           shouldHighlightMessage: true,
         });
       }
@@ -84,11 +81,10 @@ export const MessageQuote = (props: Props) => {
       text={quoteText}
       attachment={quote?.attachment}
       isIncoming={direction === 'incoming'}
-      sender={displayedPubkey}
-      authorProfileName={quote?.authorProfileName}
+      author={quote.author}
       authorName={quote?.authorName}
       referencedMessageNotFound={quoteNotFound}
-      isFromMe={quote?.isFromMe || false}
+      isFromMe={Boolean(quote.isFromMe)}
     />
   );
 };

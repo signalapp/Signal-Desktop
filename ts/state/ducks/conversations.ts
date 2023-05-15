@@ -168,10 +168,9 @@ export type PropsForQuote = {
   text?: string;
   attachment?: QuotedAttachmentType;
   isFromMe?: boolean;
-  sender: string;
-  authorProfileName?: string;
+  author: string;
   authorName?: string;
-  messageId?: string;
+  id?: string; // this is the quoted message timestamp
   referencedMessageNotFound?: boolean;
   convoId?: string;
 };
