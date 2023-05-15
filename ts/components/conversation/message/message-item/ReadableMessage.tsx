@@ -185,7 +185,7 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
       triggerOnce={false}
       trackVisibility={true}
       key={`inview-msg-${messageId}`}
-      data-testid="readable-message"
+      data-testid="control-message"
     >
       {props.children}
     </InView>

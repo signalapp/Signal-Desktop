@@ -46,6 +46,7 @@ type Props = {
   active: boolean;
   onClick: () => void;
   confirmationDialogParams?: any | undefined;
+  dataTestId?: string;
 };
 
 export const SessionToggle = (props: Props) => {
@@ -84,7 +85,12 @@ export const SessionToggle = (props: Props) => {
   };
 
   return (
-    <StyledSessionToggle role="button" onClick={clickHandler} active={props.active}>
+    <StyledSessionToggle
+      role="button"
+      onClick={clickHandler}
+      active={props.active}
+      data-testid={props.dataTestId}
+    >
       <StyledKnob active={props.active} />
     </StyledSessionToggle>
   );

@@ -1,19 +1,18 @@
-import { _electron, expect, Page, test } from '@playwright/test';
-import { beforeAllClean, forceCloseAllWindows } from './setup/beforeEach';
-import { openAppsAndNewUsers } from './setup/new_user';
-import { clickOnTestIdWithText } from './utils';
+import { expect, test } from '@playwright/test';
+import { beforeAllClean } from './setup/beforeEach';
+import { newUser } from './setup/new_user';
+import { openApp } from './setup/open';
+import { clickOnTestIdWithText } from './utilities/utils';
 
-let windows: Array<Page> = [];
 test.beforeEach(beforeAllClean);
 
-test.afterEach(() => forceCloseAllWindows(windows));
+// test.afterEach(() => forceCloseAllWindows(windows));
 
 test('Switch themes', async () => {
   // Open App
+  const [windowA] = await openApp(1);
   // Create User
-  const windowLoggedIn = await openAppsAndNewUsers(1);
-  windows = windowLoggedIn.windows;
-  const [windowA] = windows;
+  await newUser(windowA, 'Alice');
   // Check light theme colour is correct
   const darkThemeColor = windowA.locator('.inbox.index');
   await expect(darkThemeColor).toHaveCSS('background-color', 'rgb(27, 27, 27)');

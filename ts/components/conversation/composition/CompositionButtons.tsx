@@ -25,6 +25,7 @@ export const AddStagedAttachmentButton = (props: { onClick: () => void }) => {
         borderRadius="300px"
         iconPadding="8px"
         onClick={props.onClick}
+        dataTestId="attachments-button"
       />
     </StyledChatButtonContainer>
   );
@@ -41,6 +42,7 @@ export const StartRecordingButton = (props: { onClick: () => void }) => {
         borderRadius="300px"
         iconPadding="6px"
         onClick={props.onClick}
+        dataTestId="microphone-button"
       />
     </StyledChatButtonContainer>
   );
@@ -59,6 +61,7 @@ export const ToggleEmojiButton = React.forwardRef<HTMLDivElement, { onClick: () 
           borderRadius="300px"
           iconPadding="6px"
           onClick={props.onClick}
+          dataTestId="emoji-button"
         />
       </StyledChatButtonContainer>
     );

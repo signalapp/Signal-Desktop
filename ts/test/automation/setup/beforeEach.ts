@@ -1,7 +1,8 @@
-import { _electron, Page } from '@playwright/test';
+import { Page } from '@playwright/test';
 import { readdirSync, rmdirSync } from 'fs-extra';
-import { dirname, join } from 'path';
-import { MULTI_PREFIX, NODE_ENV, openElectronAppOnly } from './open';
+import { join } from 'path';
+import { isMacOS } from '../../../OS';
+import { MULTI_PREFIX, NODE_ENV } from './open';
 // tslint:disable: no-console
 
 const getDirectoriesOfSessionDataPath = (source: string) =>
@@ -12,32 +13,20 @@ const getDirectoriesOfSessionDataPath = (source: string) =>
     })
     .filter(n => n.includes(`${NODE_ENV}-${MULTI_PREFIX}`));
 
-let alreadyCleaned = false;
+const alreadyCleaned = false;
 let alreadyCleanedWaiting = false;
 
-const cleanUpOtherTest = async () => {
+function cleanUpOtherTest() {
   if (alreadyCleaned || alreadyCleanedWaiting) {
     return;
   }
-  alreadyCleaned = true;
 
-  const electronApp = await openElectronAppOnly('start');
-
-  const appPath = await electronApp.evaluate(async ({ app }) => {
-    return app.getPath('userData');
-  });
-  const window = await electronApp.firstWindow();
-  await window.close();
-  if (alreadyCleaned && alreadyCleanedWaiting) {
-    return;
-  }
   alreadyCleanedWaiting = true;
 
-  if (!appPath.length) {
-    throw new Error('appDataPath unset');
+  const parentFolderOfAllDataPath = isMacOS() ? '~/Library/Application Support/' : null;
+  if (!parentFolderOfAllDataPath) {
+    throw new Error('Only macOS is currrently supported ');
   }
-
-  const parentFolderOfAllDataPath = dirname(appPath);
 
   if (!parentFolderOfAllDataPath || parentFolderOfAllDataPath.length < 20) {
     throw new Error('parentFolderOfAllDataPath not found or invalid');
@@ -48,14 +37,11 @@ const cleanUpOtherTest = async () => {
   console.info('allAppDataPath', allAppDataPath);
 
   allAppDataPath.map(folder => {
-    if (!appPath) {
-      throw new Error('parentFolderOfAllDataPath unset');
-    }
     const pathToRemove = join(parentFolderOfAllDataPath, folder);
     rmdirSync(pathToRemove, { recursive: true });
   });
   console.info('...done');
-};
+}
 
 export const beforeAllClean = cleanUpOtherTest;
 

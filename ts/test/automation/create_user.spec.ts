@@ -1,18 +1,22 @@
-import { _electron, Page, test } from '@playwright/test';
+import { Page, test } from '@playwright/test';
+import { sleepFor } from '../../session/utils/Promise';
+import { beforeAllClean } from './setup/beforeEach';
 import { newUser } from './setup/new_user';
 import { openAppAndWait } from './setup/open';
-import { sleepFor } from '../../session/utils/Promise';
-import { beforeAllClean, forceCloseAllWindows } from './setup/beforeEach';
-import { clickOnMatchingText, clickOnTestIdWithText, waitForTestIdWithText } from './utils';
+import {
+  clickOnMatchingText,
+  clickOnTestIdWithText,
+  waitForTestIdWithText,
+} from './utilities/utils';
 
 let window: Page | undefined;
 test.beforeEach(beforeAllClean);
 
-test.afterEach(async () => {
-  if (window) {
-    await forceCloseAllWindows([window]);
-  }
-});
+// test.afterEach(async () => {
+//   if (window) {
+//     await forceCloseAllWindows([window]);
+//   }
+// });
 test('Create User', async () => {
   // Launch Electron app.
   window = await openAppAndWait('1');
