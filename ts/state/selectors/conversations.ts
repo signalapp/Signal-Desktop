@@ -9,6 +9,7 @@ import {
   MessageModelPropsWithoutConvoProps,
   MessagePropsDetails,
   PropsForQuote,
+  QuoteLookupType,
   ReduxConversationType,
   SortedMessageModelProps,
 } from '../ducks/conversations';
@@ -55,6 +56,13 @@ export const getConversationLookup = createSelector(
 export const getConversationsCount = createSelector(getConversationLookup, (state): number => {
   return Object.values(state).length;
 });
+
+export const getConversationQuotes = createSelector(
+  getConversations,
+  (state: ConversationsStateType): QuoteLookupType | undefined => {
+    return state.quotes;
+  }
+);
 
 export const getSelectedConversationKey = createSelector(
   getConversations,
@@ -973,10 +981,10 @@ export const getMessageLinkPreviewProps = createSelector(getMessagePropsByMessag
 });
 
 export const getMessageQuoteProps = createSelector(
-  getConversations,
+  getConversationQuotes,
   getMessagePropsByMessageId,
-  (convosProps, msgProps) => {
-    if (!convosProps || isEmpty(convosProps) || !msgProps || isEmpty(msgProps)) {
+  (quotesProps, msgProps) => {
+    if (!msgProps || isEmpty(msgProps)) {
       return undefined;
     }
 
@@ -990,7 +998,12 @@ export const getMessageQuoteProps = createSelector(
       return undefined;
     }
 
-    const sourceMessage = convosProps.quotes[`${messageId}-${sender}`];
+    // NOTE: if the message is not found, we still want to render the quote
+    if (!quotesProps || isEmpty(quotesProps)) {
+      return { direction, quote: { sender, referencedMessageNotFound: true } };
+    }
+
+    const sourceMessage = quotesProps[`${messageId}-${sender}`];
     if (!sourceMessage) {
       return { direction, quote: { sender, referencedMessageNotFound: true } };
     }
