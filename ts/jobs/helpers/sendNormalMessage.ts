@@ -68,7 +68,7 @@ export async function sendNormalMessage(
 ): Promise<void> {
   const { Message } = window.Signal.Types;
 
-  const { messageId, revision } = data;
+  const { messageId, revision, editedMessageTimestamp } = data;
   const message = await getMessageById(messageId);
   if (!message) {
     log.info(
@@ -164,7 +164,6 @@ export async function sendNormalMessage(
       body,
       contact,
       deletedForEveryoneTimestamp,
-      editedMessageTimestamp,
       expireTimer,
       bodyRanges,
       messageTimestamp,
@@ -489,7 +488,6 @@ async function getMessageSendData({
   body: undefined | string;
   contact?: Array<EmbeddedContactWithUploadedAvatar>;
   deletedForEveryoneTimestamp: undefined | number;
-  editedMessageTimestamp: number | undefined;
   expireTimer: undefined | DurationInSeconds;
   bodyRanges: undefined | ReadonlyArray<RawBodyRange>;
   messageTimestamp: number;
@@ -571,8 +569,6 @@ async function getMessageSendData({
 
   const storyReaction = message.get('storyReaction');
 
-  const isEditedMessage = Boolean(message.get('editHistory'));
-
   return {
     attachments: [
       ...(maybeUploadedLongAttachment ? [maybeUploadedLongAttachment] : []),
@@ -581,7 +577,6 @@ async function getMessageSendData({
     body,
     contact,
     deletedForEveryoneTimestamp: message.get('deletedForEveryoneTimestamp'),
-    editedMessageTimestamp: isEditedMessage ? mainMessageTimestamp : undefined,
     expireTimer: message.get('expireTimer'),
     // TODO: we want filtration here if feature flag doesn't allow format/spoiler sends
     bodyRanges: message.get('bodyRanges'),

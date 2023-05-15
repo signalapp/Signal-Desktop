@@ -118,6 +118,8 @@ const normalMessageSendJobDataSchema = z.object({
   messageId: z.string(),
   // Note: recipients are baked into the message itself
   revision: z.number().optional(),
+  // See sendEditedMessage
+  editedMessageTimestamp: z.number().optional(),
 });
 export type NormalMessageSendJobData = z.infer<
   typeof normalMessageSendJobDataSchema

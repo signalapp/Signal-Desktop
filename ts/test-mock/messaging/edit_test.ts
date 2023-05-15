@@ -212,4 +212,98 @@ describe('editing', function needsName() {
       );
     }
   });
+
+  it('sends edited messages with correct timestamps', async () => {
+    const { contacts, desktop } = bootstrap;
+
+    const window = await app.getWindow();
+
+    const [friend] = contacts;
+
+    debug('incoming message');
+    await friend.sendText(desktop, 'hello', {
+      timestamp: bootstrap.getTimestamp(),
+    });
+
+    debug('opening conversation');
+    const leftPane = window.locator('.left-pane-wrapper');
+    await leftPane
+      .locator('.module-conversation-list__item--contact-or-conversation')
+      .first()
+      .click();
+    await window.locator('.module-conversation-hero').waitFor();
+
+    debug('checking for message');
+    await window.locator('.module-message__text >> "hello"').waitFor();
+
+    debug('finding composition input and clicking it');
+    {
+      const input = await app.waitForEnabledComposer();
+
+      debug('entering original message text');
+      await input.type('edit message 1');
+      await input.press('Enter');
+    }
+
+    debug('waiting for the original message from the app');
+    const { dataMessage: originalMessage } = await friend.waitForMessage();
+    assert.strictEqual(originalMessage.body, 'edit message 1');
+
+    const message = window.locator(
+      `.module-message[data-testid="${originalMessage.timestamp}"]`
+    );
+    await message.waitFor();
+
+    debug('opening context menu');
+    await message.locator('[aria-label="More actions"]').click();
+
+    debug('starting message edit');
+    await window.locator('.module-message__context__edit-message').click();
+
+    {
+      const input = await app.waitForEnabledComposer();
+      await input.press('Backspace');
+      await input.type('2');
+      await input.press('Enter');
+    }
+
+    const { editMessage: firstEdit } = await friend.waitForEditMessage();
+    assert.strictEqual(
+      firstEdit.targetSentTimestamp?.toNumber(),
+      originalMessage.timestamp?.toNumber()
+    );
+    assert.strictEqual(firstEdit.dataMessage?.body, 'edit message 2');
+
+    debug('opening context menu again');
+    await message.locator('[aria-label="More actions"]').click();
+
+    debug('starting second message edit');
+    await window.locator('.module-message__context__edit-message').click();
+
+    {
+      const input = await app.waitForEnabledComposer();
+      await input.press('Backspace');
+      await input.type('3');
+      await input.press('Enter');
+    }
+
+    const { editMessage: secondEdit } = await friend.waitForEditMessage();
+    assert.strictEqual(
+      secondEdit.targetSentTimestamp?.toNumber(),
+      firstEdit.dataMessage?.timestamp?.toNumber()
+    );
+    assert.strictEqual(secondEdit.dataMessage?.body, 'edit message 3');
+
+    debug('opening edit history');
+    await message.locator('.module-message__metadata__edited').click();
+
+    const history = await window.locator(
+      '.EditHistoryMessagesModal .module-message'
+    );
+    assert.strictEqual(await history.count(), 3);
+
+    assert.isTrue(await history.locator('"edit message 1"').isVisible());
+    assert.isTrue(await history.locator('"edit message 2"').isVisible());
+    assert.isTrue(await history.locator('"edit message 3"').isVisible());
+  });
 });

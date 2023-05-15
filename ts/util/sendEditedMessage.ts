@@ -212,6 +212,7 @@ export async function sendEditedMessage(
           conversationId,
           messageId: targetMessageId,
           revision: conversation.get('revision'),
+          editedMessageTimestamp: targetSentTimestamp,
         },
         async jobToInsert => {
           log.info(

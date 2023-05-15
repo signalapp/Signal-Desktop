@@ -4,5 +4,7 @@
 import { isEnabled } from '../RemoteConfig';
 
 export function canEditMessages(): boolean {
-  return isEnabled('desktop.editMessageSend');
+  return (
+    isEnabled('desktop.internalUser') || isEnabled('desktop.editMessageSend')
+  );
 }
