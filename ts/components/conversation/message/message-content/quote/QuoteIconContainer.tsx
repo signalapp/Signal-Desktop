@@ -1,5 +1,5 @@
 import React from 'react';
-import { Attachment, QuotePropsWithoutListener } from './Quote';
+import { Attachment, QuoteProps } from './Quote';
 import { GoogleChrome } from '../../../../../util';
 import { MIME } from '../../../../../types';
 
@@ -82,14 +82,14 @@ export const QuoteIcon = (props: QuoteIconProps) => {
 };
 
 export const QuoteIconContainer = (
-  props: Pick<QuotePropsWithoutListener, 'attachment'> & {
+  props: Pick<QuoteProps, 'attachment' | 'referencedMessageNotFound'> & {
     handleImageErrorBound: () => void;
     imageBroken: boolean;
   }
 ) => {
-  const { attachment, imageBroken, handleImageErrorBound } = props;
+  const { attachment, imageBroken, handleImageErrorBound, referencedMessageNotFound } = props;
 
-  if (!attachment || isEmpty(attachment)) {
+  if (referencedMessageNotFound || !attachment || isEmpty(attachment)) {
     return null;
   }
 

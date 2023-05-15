@@ -182,7 +182,7 @@ export const MessageContent = (props: Props) => {
             <StyledMessageOpaqueContent messageDirection={direction} highlight={highlight}>
               {!isDeleted && (
                 <>
-                  <MessageQuote messageId={props.messageId} />
+                  <MessageQuote messageId={props.messageId} direction={direction} />
                   <MessageLinkPreview
                     messageId={props.messageId}
                     handleImageError={handleImageError}

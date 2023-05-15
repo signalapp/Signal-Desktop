@@ -1089,7 +1089,7 @@ function getMessagesBySenderAndSentAt(
     rows.push(..._rows);
   }
 
-  return uniq(map(rows, row => jsonToObject(row.json)));
+  return map(rows, row => jsonToObject(row.json));
 }
 
 function filterAlreadyFetchedOpengroupMessage(
@@ -1294,7 +1294,7 @@ function getMessagesByConversation(
   }
 
   if (returnQuotes) {
-    quotes = messages.filter(message => message.quote).map(message => message.quote);
+    quotes = uniq(messages.filter(message => message.quote).map(message => message.quote));
   }
 
   return { messages, quotes };

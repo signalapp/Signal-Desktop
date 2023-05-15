@@ -8,6 +8,7 @@ import {
   MessageModelPropsWithConvoProps,
   MessageModelPropsWithoutConvoProps,
   MessagePropsDetails,
+  PropsForQuote,
   ReduxConversationType,
   SortedMessageModelProps,
 } from '../ducks/conversations';
@@ -36,7 +37,11 @@ import { ConversationTypeEnum } from '../../models/conversationAttributes';
 
 import { MessageReactsSelectorProps } from '../../components/conversation/message/message-content/MessageReactions';
 import { filter, isEmpty, pick, sortBy } from 'lodash';
-import { overrideWithSourceMessage } from '../../models/message';
+import { findAndFormatContact, processQuoteAttachment } from '../../models/message';
+import { PubKey } from '../../session/types';
+import { OpenGroupData } from '../../data/opengroups';
+import { roomHasBlindEnabled } from '../../session/apis/open_group_api/sogsv3/sogsV3Capabilities';
+import { findCachedBlindedIdFromUnblinded } from '../../session/apis/open_group_api/sogsv3/knownBlindedkeys';
 
 export const getConversations = (state: StateType): ConversationsStateType => state.conversations;
 
@@ -976,20 +981,58 @@ export const getMessageQuoteProps = createSelector(
     }
 
     const direction = msgProps.propsForMessage.direction;
-    let quote = msgProps.propsForQuote;
-    if (!direction || !quote || isEmpty(quote)) {
+    if (!msgProps.propsForQuote || isEmpty(msgProps.propsForQuote)) {
       return undefined;
     }
 
-    const { messageId, sender } = quote;
+    const { messageId, sender } = msgProps.propsForQuote;
     if (!messageId || !sender) {
       return undefined;
     }
 
     const sourceMessage = convosProps.quotes[`${messageId}-${sender}`];
-    if (sourceMessage) {
-      quote = overrideWithSourceMessage(quote, sourceMessage);
+    if (!sourceMessage) {
+      return { direction, quote: { sender, referencedMessageNotFound: true } };
     }
+
+    const sourceMsgProps = sourceMessage.propsForMessage;
+    if (!sourceMsgProps || sourceMsgProps.isDeleted) {
+      return { direction, quote: { sender, referencedMessageNotFound: true } };
+    }
+
+    const convo = getConversationController().get(sourceMsgProps.convoId);
+    if (!convo) {
+      return { direction, quote: { sender, referencedMessageNotFound: true } };
+    }
+
+    const contact = findAndFormatContact(sourceMsgProps.sender);
+    const authorName = contact?.profileName || contact?.name || window.i18n('unknown');
+    const attachment = sourceMsgProps.attachments && sourceMsgProps.attachments[0];
+    let isFromMe = convo ? convo.id === UserUtils.getOurPubKeyStrFromCache() : false;
+
+    if (convo.isPublic() && PubKey.hasBlindedPrefix(sourceMsgProps.sender)) {
+      const room = OpenGroupData.getV2OpenGroupRoom(sourceMsgProps.convoId);
+      if (room && roomHasBlindEnabled(room)) {
+        const usFromCache = findCachedBlindedIdFromUnblinded(
+          UserUtils.getOurPubKeyStrFromCache(),
+          room.serverPublicKey
+        );
+        if (usFromCache && usFromCache === sourceMsgProps.sender) {
+          isFromMe = true;
+        }
+      }
+    }
+
+    const quote: PropsForQuote = {
+      text: sourceMsgProps.text,
+      attachment: attachment ? processQuoteAttachment(attachment) : undefined,
+      isFromMe,
+      sender: sourceMsgProps.sender,
+      authorName,
+      messageId: sourceMsgProps.id,
+      referencedMessageNotFound: false,
+      convoId: convo.id,
+    };
 
     return { direction, quote };
   }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { QuotePropsWithoutListener } from './Quote';
+import { QuoteProps } from './Quote';
 import { useSelector } from 'react-redux';
 import { getSelectedConversationKey } from '../../../../../state/selectors/conversations';
 import { useIsPrivate } from '../../../../../hooks/useParamSelector';
@@ -66,14 +66,14 @@ function getTypeLabel({
 }
 
 export const QuoteText = (
-  props: Pick<QuotePropsWithoutListener, 'text' | 'attachment' | 'isIncoming'>
+  props: Pick<QuoteProps, 'text' | 'attachment' | 'isIncoming' | 'referencedMessageNotFound'>
 ) => {
-  const { text, attachment, isIncoming } = props;
+  const { text, attachment, isIncoming, referencedMessageNotFound } = props;
 
   const convoId = useSelector(getSelectedConversationKey);
   const isGroup = !useIsPrivate(convoId);
 
-  if (attachment && !isEmpty(attachment)) {
+  if (!referencedMessageNotFound && attachment && !isEmpty(attachment)) {
     const { contentType, isVoiceMessage } = attachment;
 
     const typeLabel = getTypeLabel({ contentType, isVoiceMessage });

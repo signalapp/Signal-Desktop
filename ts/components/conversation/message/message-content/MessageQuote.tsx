@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import _ from 'lodash';
-import { MessageRenderingProps } from '../../../../models/messageType';
+import _, { isEmpty } from 'lodash';
+import { MessageModelType, MessageRenderingProps } from '../../../../models/messageType';
 import { PubKey } from '../../../../session/types';
 import { openConversationToSpecificMessage } from '../../../../state/ducks/conversations';
 import {
@@ -16,41 +16,35 @@ import { ToastUtils } from '../../../../session/utils';
 
 type Props = {
   messageId: string;
+  // Note: this is the direction of the quote in case the quoted message is not found
+  direction: MessageModelType;
 };
 
 export type MessageQuoteSelectorProps = Pick<MessageRenderingProps, 'quote' | 'direction'>;
 
 export const MessageQuote = (props: Props) => {
+  const selected = useSelector(state => getMessageQuoteProps(state as any, props.messageId));
   const multiSelectMode = useSelector(isMessageSelectionMode);
   const isMessageDetailViewMode = useSelector(isMessageDetailView);
 
-  const selected = useSelector(state => getMessageQuoteProps(state as any, props.messageId));
-  if (!selected) {
+  if (!selected || isEmpty(selected)) {
     return null;
   }
 
-  const { quote, direction } = selected;
-  if (!quote || !quote.sender || !quote.messageId) {
+  const quote = selected ? selected.quote : undefined;
+  const direction = selected ? selected.direction : props.direction ? props.direction : undefined;
+
+  if (!quote || isEmpty(quote)) {
     return null;
   }
 
-  const {
-    text,
-    attachment,
-    isFromMe,
-    sender: quoteAuthor,
-    authorProfileName,
-    authorName,
-    messageId: quotedMessageId,
-    referencedMessageNotFound,
-    convoId,
-  } = quote;
+  const quoteNotFound = Boolean(
+    !quote?.sender || !quote.messageId || !quote.convoId || quote.referencedMessageNotFound
+  );
 
-  const quoteText = text || null;
-  const quoteNotFound = referencedMessageNotFound || false;
-
-  const shortenedPubkey = PubKey.shorten(quoteAuthor);
-  const displayedPubkey = authorProfileName ? shortenedPubkey : quoteAuthor;
+  const quoteText = quote?.text || null;
+  const shortenedPubkey = quote?.sender ? PubKey.shorten(quote?.sender) : undefined;
+  const displayedPubkey = String(quote?.authorProfileName ? shortenedPubkey : quote?.sender);
 
   const onQuoteClick = useCallback(
     async (event: React.MouseEvent<HTMLDivElement>) => {
@@ -58,6 +52,7 @@ export const MessageQuote = (props: Props) => {
       event.stopPropagation();
 
       if (!quote) {
+        ToastUtils.pushOriginalNotFound();
         window.log.warn('onQuoteClick: quote not valid');
         return;
       }
@@ -68,40 +63,32 @@ export const MessageQuote = (props: Props) => {
       }
 
       // For simplicity's sake, we show the 'not found' toast no matter what if we were
-      // not able to find the referenced message when the quote was received.
-      if (quoteNotFound || !quotedMessageId || !quoteAuthor || !convoId) {
+      // not able to find the referenced message when the quote was received or if the conversation no longer exists.
+      if (quoteNotFound) {
         ToastUtils.pushOriginalNotFound();
         return;
+      } else {
+        void openConversationToSpecificMessage({
+          conversationKey: String(quote.convoId),
+          messageIdToNavigateTo: String(quote.messageId),
+          shouldHighlightMessage: true,
+        });
       }
-
-      void openConversationToSpecificMessage({
-        conversationKey: convoId,
-        messageIdToNavigateTo: quotedMessageId,
-        shouldHighlightMessage: true,
-      });
     },
-    [
-      convoId,
-      isMessageDetailViewMode,
-      multiSelectMode,
-      quote,
-      quoteNotFound,
-      quotedMessageId,
-      quoteAuthor,
-    ]
+    [isMessageDetailViewMode, multiSelectMode, quote, quoteNotFound]
   );
 
   return (
     <Quote
       onClick={onQuoteClick}
       text={quoteText}
-      attachment={attachment}
+      attachment={quote?.attachment}
       isIncoming={direction === 'incoming'}
       sender={displayedPubkey}
-      authorProfileName={authorProfileName}
-      authorName={authorName}
-      referencedMessageNotFound={referencedMessageNotFound || false}
-      isFromMe={isFromMe || false}
+      authorProfileName={quote?.authorProfileName}
+      authorName={quote?.authorName}
+      referencedMessageNotFound={quoteNotFound}
+      isFromMe={quote?.isFromMe || false}
     />
   );
 };

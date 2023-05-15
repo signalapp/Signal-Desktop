@@ -2,6 +2,7 @@ import React = require('react');
 import { ContactName } from '../../../ContactName';
 import { PubKey } from '../../../../../session/types';
 import styled from 'styled-components';
+import { QuoteProps } from './Quote';
 
 const StyledQuoteAuthor = styled.div<{ isIncoming: boolean }>`
   color: ${props =>
@@ -20,17 +21,32 @@ const StyledQuoteAuthor = styled.div<{ isIncoming: boolean }>`
   }
 `;
 
-type QuoteAuthorProps = {
-  author: string;
-  authorProfileName?: string;
-  authorName?: string;
-  isFromMe: boolean;
-  isIncoming: boolean;
+type QuoteAuthorProps = Pick<
+  QuoteProps,
+  | 'authorName'
+  | 'authorProfileName'
+  | 'isFromMe'
+  | 'isIncoming'
+  | 'referencedMessageNotFound'
+  | 'sender'
+> & {
   showPubkeyForAuthor?: boolean;
 };
 
 export const QuoteAuthor = (props: QuoteAuthorProps) => {
-  const { authorProfileName, author, authorName, isFromMe, isIncoming } = props;
+  const {
+    authorProfileName,
+    authorName,
+    isFromMe,
+    isIncoming,
+    referencedMessageNotFound,
+    sender,
+    showPubkeyForAuthor,
+  } = props;
+
+  if (referencedMessageNotFound) {
+    return null;
+  }
 
   return (
     <StyledQuoteAuthor isIncoming={isIncoming}>
@@ -38,11 +54,11 @@ export const QuoteAuthor = (props: QuoteAuthorProps) => {
         window.i18n('you')
       ) : (
         <ContactName
-          pubkey={PubKey.shorten(author)}
+          pubkey={PubKey.shorten(sender)}
           name={authorName}
           profileName={authorProfileName}
           compact={true}
-          shouldShowPubkey={Boolean(props.showPubkeyForAuthor)}
+          shouldShowPubkey={Boolean(showPubkeyForAuthor)}
         />
       )}
     </StyledQuoteAuthor>

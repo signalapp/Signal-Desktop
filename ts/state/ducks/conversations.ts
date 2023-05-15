@@ -345,6 +345,12 @@ export type MentionsMembersType = Array<{
   authorProfileName: string;
 }>;
 
+/**
+ * Fetches the messages for a conversation to put into redux.
+ * @param {string} conversationKey - the id of the conversation
+ * @param {string} messageId - the id of the message in view so we can fetch the messages around it
+ * @returns
+ */
 async function getMessages({
   conversationKey,
   messageId,
@@ -382,8 +388,8 @@ async function getMessages({
 
   if (quotesCollection?.length) {
     const quotePropsList = quotesCollection.map(quote => ({
-      timestamp: Number(quote?.id),
-      source: String(quote?.author),
+      timestamp: Number(quote.id),
+      source: String(quote.author),
     }));
 
     const quotedMessagesCollection = await Data.getMessagesBySenderAndSentAt(quotePropsList);

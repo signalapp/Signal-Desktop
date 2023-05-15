@@ -43,7 +43,6 @@ import {
   PropsForGroupUpdateLeft,
   PropsForGroupUpdateName,
   PropsForMessageWithoutConvoProps,
-  PropsForQuote,
 } from '../state/ducks/conversations';
 import {
   VisibleMessage,
@@ -1390,7 +1389,7 @@ export function findAndFormatContact(pubkey: string): FindAndFormatContactType {
   };
 }
 
-function processQuoteAttachment(attachment: any) {
+export function processQuoteAttachment(attachment: any) {
   const { thumbnail } = attachment;
   const path = thumbnail && thumbnail.path && getAbsoluteAttachmentPath(thumbnail.path);
   const objectUrl = thumbnail && thumbnail.objectUrl;
@@ -1408,51 +1407,4 @@ function processQuoteAttachment(attachment: any) {
     thumbnail: thumbnailWithObjectUrl,
   });
   // tslint:enable: prefer-object-spread
-}
-
-// TODO rename and consolidate with getPropsForQuote
-export function overrideWithSourceMessage(
-  quote: PropsForQuote,
-  msg: MessageModelPropsWithoutConvoProps
-): PropsForQuote {
-  const msgProps = msg.propsForMessage;
-  if (!msgProps || msgProps.isDeleted) {
-    return quote;
-  }
-
-  const convo = getConversationController().getOrThrow(String(msgProps?.convoId));
-
-  const sender = msgProps.sender && isEmpty(msgProps.sender) ? msgProps.sender : quote.sender;
-  const contact = findAndFormatContact(sender);
-  const authorName = contact?.profileName || contact?.name || window.i18n('unknown');
-  const attachment =
-    msgProps.attachments && msgProps.attachments[0] ? msgProps.attachments[0] : quote.attachment;
-
-  let isFromMe = convo ? convo.id === UserUtils.getOurPubKeyStrFromCache() : false;
-
-  if (convo?.isPublic() && PubKey.hasBlindedPrefix(sender)) {
-    const room = OpenGroupData.getV2OpenGroupRoom(msgProps.convoId);
-    if (room && roomHasBlindEnabled(room)) {
-      const usFromCache = findCachedBlindedIdFromUnblinded(
-        UserUtils.getOurPubKeyStrFromCache(),
-        room.serverPublicKey
-      );
-      if (usFromCache && usFromCache === sender) {
-        isFromMe = true;
-      }
-    }
-  }
-
-  const quoteProps: PropsForQuote = {
-    text: msgProps.text || quote.text,
-    attachment: attachment ? processQuoteAttachment(attachment) : undefined,
-    isFromMe,
-    sender,
-    authorName,
-    messageId: msgProps.id || quote.messageId,
-    referencedMessageNotFound: false,
-    convoId: convo.id,
-  };
-
-  return quoteProps;
 }

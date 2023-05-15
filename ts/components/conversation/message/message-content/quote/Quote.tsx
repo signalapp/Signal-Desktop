@@ -11,47 +11,6 @@ import { QuoteIconContainer } from './QuoteIconContainer';
 import styled from 'styled-components';
 import { isEmpty } from 'lodash';
 
-export type QuotePropsWithoutListener = {
-  attachment?: QuotedAttachmentType;
-  sender: string;
-  authorProfileName?: string;
-  authorName?: string;
-  isFromMe: boolean;
-  isIncoming: boolean;
-  text: string | null;
-  referencedMessageNotFound: boolean;
-};
-
-export type QuotePropsWithListener = QuotePropsWithoutListener & {
-  onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
-};
-
-export interface Attachment {
-  contentType: MIME.MIMEType;
-  /** Not included in protobuf, and is loaded asynchronously */
-  objectUrl?: string;
-}
-
-export interface QuotedAttachmentType {
-  contentType: MIME.MIMEType;
-  fileName: string;
-  /** Not included in protobuf */
-  isVoiceMessage: boolean;
-  thumbnail?: Attachment;
-}
-
-function validateQuote(quote: QuotePropsWithoutListener): boolean {
-  if (quote.text) {
-    return true;
-  }
-
-  if (quote.attachment) {
-    return true;
-  }
-
-  return false;
-}
-
 const StyledQuoteContainer = styled.div`
   min-width: 300px; // if the quoted content is small it doesn't look very good so we set a minimum
   padding-right: var(--margins-xs);
@@ -87,19 +46,41 @@ const StyledQuoteTextContent = styled.div`
   justify-content: center;
 `;
 
-export const Quote = (props: QuotePropsWithListener) => {
+export type QuoteProps = {
+  attachment?: QuotedAttachmentType;
+  sender: string;
+  authorProfileName?: string;
+  authorName?: string;
+  isFromMe: boolean;
+  isIncoming: boolean;
+  text: string | null;
+  referencedMessageNotFound: boolean;
+  onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
+};
+
+export interface Attachment {
+  contentType: MIME.MIMEType;
+  /** Not included in protobuf, and is loaded asynchronously */
+  objectUrl?: string;
+}
+
+export interface QuotedAttachmentType {
+  contentType: MIME.MIMEType;
+  fileName: string;
+  /** Not included in protobuf */
+  isVoiceMessage: boolean;
+  thumbnail?: Attachment;
+}
+
+export const Quote = (props: QuoteProps) => {
+  const isPublic = useSelector(isPublicGroupConversation);
+
+  const { isIncoming, attachment, text, referencedMessageNotFound, onClick } = props;
+
   const [imageBroken, setImageBroken] = useState(false);
   const handleImageErrorBound = () => {
     setImageBroken(true);
   };
-
-  const isPublic = useSelector(isPublicGroupConversation);
-
-  if (!validateQuote(props)) {
-    return null;
-  }
-
-  const { isIncoming, attachment, text, onClick } = props;
 
   return (
     <StyledQuoteContainer>
@@ -112,17 +93,24 @@ export const Quote = (props: QuotePropsWithListener) => {
           attachment={attachment}
           handleImageErrorBound={handleImageErrorBound}
           imageBroken={imageBroken}
+          referencedMessageNotFound={referencedMessageNotFound}
         />
         <StyledQuoteTextContent>
           <QuoteAuthor
+            sender={props.sender}
             authorName={props.authorName}
-            author={props.sender}
             authorProfileName={props.authorProfileName}
             isFromMe={props.isFromMe}
-            isIncoming={props.isIncoming}
+            isIncoming={isIncoming}
             showPubkeyForAuthor={isPublic}
+            referencedMessageNotFound={referencedMessageNotFound}
           />
-          <QuoteText isIncoming={isIncoming} text={text} attachment={attachment} />
+          <QuoteText
+            isIncoming={isIncoming}
+            text={text}
+            attachment={attachment}
+            referencedMessageNotFound={referencedMessageNotFound}
+          />
         </StyledQuoteTextContent>
       </StyledQuote>
     </StyledQuoteContainer>
