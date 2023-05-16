@@ -52,7 +52,7 @@ import { InConversationCallContainer } from '../calling/InConversationCallContai
 import { LightboxGallery, MediaItemType } from '../lightbox/LightboxGallery';
 import { ConversationHeaderWithDetails } from './ConversationHeader';
 import { SessionRightPanelWithDetails } from './SessionRightPanel';
-import { NoMessageNoMessageInConversation } from './SubtleNotification';
+import { NoMessageInConversation } from './SubtleNotification';
 import { MessageDetail } from './message/message-item/MessageDetail';
 
 import styled from 'styled-components';
@@ -271,7 +271,7 @@ export class SessionConversation extends React.Component<Props, State> {
               {lightBoxOptions?.media && this.renderLightBox(lightBoxOptions)}
 
               <div className="conversation-messages">
-                <NoMessageNoMessageInConversation />
+                <NoMessageInConversation />
 
                 <SplitViewContainer
                   top={<InConversationCallContainer />}

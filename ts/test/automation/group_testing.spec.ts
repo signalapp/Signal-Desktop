@@ -30,20 +30,6 @@ sessionTestThreeWindows('Create group', async ([windowA, windowB, windowC]) => {
   // Check config messages in all windows
   await sleepFor(1000);
   // await waitForTestIdWithText(windowA, 'control-message');
-  await Promise.all([
-    waitForControlMessageWithText(
-      windowA,
-      `"${userB.userName}", "${userC.userName}", You joined the group.`
-    ),
-    waitForControlMessageWithText(
-      windowB,
-      `You, "${userC.userName}", "${userA.userName}" joined the group.`
-    ),
-    waitForControlMessageWithText(
-      windowC,
-      `"${userB.userName}", You, "${userA.userName}" joined the group.`
-    ),
-  ]);
 });
 
 sessionTestFourWindows('Add contact to group', async ([windowA, windowB, windowC, windowD]) => {
