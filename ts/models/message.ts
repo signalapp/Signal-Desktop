@@ -91,7 +91,6 @@ import {
   getUsBlindedInThatServer,
   isUsAnySogsFromCache,
 } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
-import { QUOTED_TEXT_MAX_LENGTH } from '../session/constants';
 import { ReactionList } from '../types/Reaction';
 import { getAttachmentMetadata } from '../types/message/initializeAttachmentMetadata';
 // tslint:disable: cyclomatic-complexity
@@ -1273,14 +1272,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     }
     return this.get('body');
   }
-}
-
-// this is to avoid saving 2k chars for just the quote object inside a message
-export function sliceQuoteText(quotedText: string | undefined | null) {
-  if (!quotedText || isEmpty(quotedText)) {
-    return '';
-  }
-  return quotedText.slice(0, QUOTED_TEXT_MAX_LENGTH);
 }
 
 const throttledAllMessagesDispatch = debounce(
