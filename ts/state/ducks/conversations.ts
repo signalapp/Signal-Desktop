@@ -567,7 +567,6 @@ function handleMessageExpiredOrDeleted(
     if (messageInStoreIndex >= 0) {
       // Check if the message is quoted somewhere, and if so, remove it from the quotes
       const msgProps = state.messages[messageInStoreIndex].propsForMessage;
-      // TODO check if message is a group or public group because we will need to use the server timestamp
       const { timestamp, sender } = msgProps;
       if (timestamp && sender) {
         const message2Delete = editedQuotes[`${timestamp}-${sender}`];
