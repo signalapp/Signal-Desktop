@@ -41,12 +41,12 @@ if [ "$FIRST_RUN" = true ] ; then
   # https://www.aptly.info/doc/aptly/publish/snapshot/
   echo
   echo "aptly.sh: (first run) Setting up local publish with current snapshot"
-  aptly publish snapshot -gpg-key="$GPG_KEYID" -distribution="$CURRENT" "$SNAPSHOT"
+  aptly publish snapshot -passphrase-file=gpg-passphrase.txt -batch=true -gpg-key="$GPG_KEYID" -distribution="$CURRENT" "$SNAPSHOT"
 else
   # https://www.aptly.info/doc/aptly/publish/switch/
   echo
   echo "aptly.sh: (later runs) Switching local publish to current snapshot"
-  aptly publish switch -gpg-key="$GPG_KEYID" "$CURRENT" "$SNAPSHOT"
+  aptly publish switch -passphrase-file=gpg-passphrase.txt -batch=true -gpg-key="$GPG_KEYID" "$CURRENT" "$SNAPSHOT"
 fi
 
 echo
