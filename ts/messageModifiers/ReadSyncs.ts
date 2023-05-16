@@ -13,6 +13,7 @@ import * as log from '../logging/log';
 import * as Errors from '../types/errors';
 import { StartupQueue } from '../util/StartupQueue';
 import { queueUpdateMessage } from '../util/messageBatcher';
+import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp';
 
 export type ReadSyncAttributesType = {
   senderId: string;
@@ -66,10 +67,13 @@ export class ReadSyncs extends Collection {
       uuid: message.get('sourceUuid'),
       reason: 'ReadSyncs.forMessage',
     });
+    const messageTimestamp = getMessageSentTimestamp(message.attributes, {
+      log,
+    });
     const sync = this.find(item => {
       return (
         item.get('senderId') === sender?.id &&
-        item.get('timestamp') === message.get('sent_at')
+        item.get('timestamp') === messageTimestamp
       );
     });
     if (sync) {

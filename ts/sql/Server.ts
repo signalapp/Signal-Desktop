@@ -5630,7 +5630,7 @@ async function removeAllProfileKeyCredentials(): Promise<void> {
 async function saveEditedMessage(
   mainMessage: MessageType,
   ourUuid: UUIDStringType,
-  { fromId, messageId, readStatus, sentAt }: EditedMessageType
+  { conversationId, messageId, readStatus, sentAt }: EditedMessageType
 ): Promise<void> {
   const db = getInstance();
 
@@ -5644,12 +5644,12 @@ async function saveEditedMessage(
 
     const [query, params] = sql`
       INSERT INTO edited_messages (
-        fromId,
+        conversationId,
         messageId,
         sentAt,
         readStatus
       ) VALUES (
-        ${fromId},
+        ${conversationId},
         ${messageId},
         ${sentAt},
         ${readStatus}
@@ -5675,10 +5675,10 @@ async function _getAllEditedMessages(): Promise<
 }
 
 async function getUnreadEditedMessagesAndMarkRead({
-  fromId,
+  conversationId,
   newestUnreadAt,
 }: {
-  fromId: string;
+  conversationId: string;
   newestUnreadAt: number;
 }): Promise<GetUnreadByConversationAndMarkReadResultType> {
   const db = getInstance();
@@ -5695,7 +5695,7 @@ async function getUnreadEditedMessagesAndMarkRead({
         ON messages.id = edited_messages.messageId
       WHERE
         edited_messages.readStatus = ${ReadStatus.Unread} AND
-        edited_messages.fromId = ${fromId} AND
+        edited_messages.conversationId = ${conversationId} AND
         received_at <= ${newestUnreadAt}
       ORDER BY messages.received_at DESC, messages.sent_at DESC;
     `;
@@ -5711,7 +5711,7 @@ async function getUnreadEditedMessagesAndMarkRead({
             readStatus = ${ReadStatus.Read}
           WHERE
             readStatus = ${ReadStatus.Unread} AND
-            fromId = ${fromId} AND
+            conversationId = ${conversationId} AND
             sentAt <= ${newestSentAt};
       `;
 

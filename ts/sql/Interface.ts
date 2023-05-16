@@ -389,7 +389,7 @@ export type FTSOptimizationStateType = Readonly<{
 }>;
 
 export type EditedMessageType = Readonly<{
-  fromId: string;
+  conversationId: string;
   messageId: string;
   sentAt: number;
   readStatus: MessageType['readStatus'];
@@ -523,7 +523,7 @@ export type DataInterface = {
     storyId?: string;
   }) => Promise<GetUnreadByConversationAndMarkReadResultType>;
   getUnreadEditedMessagesAndMarkRead: (options: {
-    fromId: string;
+    conversationId: string;
     newestUnreadAt: number;
   }) => Promise<GetUnreadByConversationAndMarkReadResultType>;
   getUnreadReactionsAndMarkRead: (options: {

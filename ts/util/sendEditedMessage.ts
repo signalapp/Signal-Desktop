@@ -30,6 +30,7 @@ import { isSignalConversation } from './isSignalConversation';
 import { strictAssert } from './assert';
 import { timeAndLogIfTooLong } from './timeAndLogIfTooLong';
 import { makeQuote } from './makeQuote';
+import { getMessageSentTimestamp } from './getMessageSentTimestamp';
 
 const SEND_REPORT_THRESHOLD_MS = 25;
 
@@ -82,9 +83,12 @@ export async function sendEditedMessage(
   }
 
   const timestamp = Date.now();
-  const targetSentTimestamp =
-    targetMessage.attributes.editMessageTimestamp ??
-    targetMessage.attributes.timestamp;
+  const targetSentTimestamp = getMessageSentTimestamp(
+    targetMessage.attributes,
+    {
+      log,
+    }
+  );
 
   log.info(`${idLog}: edited(${timestamp}) original(${targetSentTimestamp})`);
 

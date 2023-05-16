@@ -9,8 +9,10 @@ import { strictAssert } from '../util/assert';
 import { isDirectConversation } from '../util/whatTypeOfConversation';
 import { incrementMessageCounter } from '../util/incrementMessageCounter';
 import { repeat, zipObject } from '../util/iterables';
+import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp';
 import { SendStatus } from '../messages/MessageSendState';
 import { UUID } from '../types/UUID';
+import * as log from '../logging/log';
 
 export async function enqueueReactionForSend({
   emoji,
@@ -30,7 +32,9 @@ export async function enqueueReactionForSend({
     `enqueueReactionForSend: message ${message.idForLogging()} had no source UUID`
   );
 
-  const targetTimestamp = message.get('sent_at') || message.get('timestamp');
+  const targetTimestamp = getMessageSentTimestamp(message.attributes, {
+    log,
+  });
   strictAssert(
     targetTimestamp,
     `enqueueReactionForSend: message ${message.idForLogging()} had no timestamp`

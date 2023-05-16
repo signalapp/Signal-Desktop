@@ -10,6 +10,7 @@ import * as log from '../logging/log';
 import * as Errors from '../types/errors';
 import { deleteForEveryone } from '../util/deleteForEveryone';
 import { drop } from '../util/drop';
+import { getMessageSentTimestampSet } from '../util/getMessageSentTimestampSet';
 
 export type DeleteAttributesType = {
   targetSentTimestamp: number;
@@ -31,10 +32,11 @@ export class Deletes extends Collection<DeleteModel> {
   }
 
   forMessage(message: MessageModel): Array<DeleteModel> {
+    const sentTimestamps = getMessageSentTimestampSet(message.attributes);
     const matchingDeletes = this.filter(item => {
       return (
-        item.get('targetSentTimestamp') === message.get('sent_at') &&
-        item.get('fromId') === getContactId(message.attributes)
+        item.get('fromId') === getContactId(message.attributes) &&
+        sentTimestamps.has(item.get('targetSentTimestamp'))
       );
     });
 

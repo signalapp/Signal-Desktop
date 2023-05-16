@@ -29,6 +29,7 @@ import { memoizeByThis } from '../util/memoizeByThis';
 import { getInitials } from '../util/getInitials';
 import { normalizeUuid } from '../util/normalizeUuid';
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
+import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp';
 import type { AttachmentType, ThumbnailType } from '../types/Attachment';
 import { toDayMillis } from '../util/timestamp';
 import { isVoiceMessage } from '../types/Attachment';
@@ -2321,7 +2322,7 @@ export class ConversationModel extends window.Backbone
             conversationId,
             senderE164: m.source,
             senderUuid: m.sourceUuid,
-            timestamp: m.sent_at,
+            timestamp: getMessageSentTimestamp(m, { log }),
             isDirectConversation: isDirectConversation(this.attributes),
           })),
         });

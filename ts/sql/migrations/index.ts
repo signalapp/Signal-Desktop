@@ -57,6 +57,7 @@ import updateToSchemaVersion78 from './78-merge-receipt-jobs';
 import updateToSchemaVersion79 from './79-paging-lightbox';
 import updateToSchemaVersion80 from './80-edited-messages';
 import updateToSchemaVersion81 from './81-contact-removed-notification';
+import updateToSchemaVersion82 from './82-edited-messages-read-index';
 
 function updateToSchemaVersion1(
   currentVersion: number,
@@ -1984,6 +1985,7 @@ export const SCHEMA_VERSIONS = [
 
   updateToSchemaVersion80,
   updateToSchemaVersion81,
+  updateToSchemaVersion82,
 ];
 
 export function updateSchema(db: Database, logger: LoggerType): void {

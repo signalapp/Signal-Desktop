@@ -240,7 +240,7 @@ export async function handleEditMessage(
       window.Whisper.deliveryReceiptQueue.add(() => {
         window.Whisper.deliveryReceiptBatcher.add({
           messageId: mainMessage.id,
-          conversationId: editAttributes.fromId,
+          conversationId: editAttributes.conversationId,
           senderE164: editAttributes.message.source,
           senderUuid: editAttributes.message.sourceUuid,
           timestamp: editAttributes.message.timestamp,
@@ -263,7 +263,7 @@ export async function handleEditMessage(
       mainMessageModel.attributes,
       window.textsecure.storage.user.getCheckedUuid().toString(),
       {
-        fromId: editAttributes.fromId,
+        conversationId: editAttributes.conversationId,
         messageId: mainMessage.id,
         readStatus,
         sentAt: upgradedEditedMessageData.timestamp,

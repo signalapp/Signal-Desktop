@@ -16,6 +16,7 @@ import { getContactId, getContact } from '../messages/helpers';
 import { isDirectConversation, isMe } from '../util/whatTypeOfConversation';
 import { isOutgoing, isStory } from '../state/selectors/message';
 import { strictAssert } from '../util/assert';
+import { getMessageSentTimestampSet } from '../util/getMessageSentTimestampSet';
 
 export class ReactionModel extends Model<ReactionAttributesType> {}
 
@@ -31,9 +32,10 @@ export class Reactions extends Collection<ReactionModel> {
   }
 
   forMessage(message: MessageModel): Array<ReactionModel> {
+    const sentTimestamps = getMessageSentTimestampSet(message.attributes);
     if (isOutgoing(message.attributes)) {
-      const outgoingReactions = this.filter(
-        item => item.get('targetTimestamp') === message.get('sent_at')
+      const outgoingReactions = this.filter(item =>
+        sentTimestamps.has(item.get('targetTimestamp'))
       );
 
       if (outgoingReactions.length > 0) {
@@ -44,14 +46,15 @@ export class Reactions extends Collection<ReactionModel> {
     }
 
     const senderId = getContactId(message.attributes);
-    const sentAt = message.get('sent_at');
     const reactionsBySource = this.filter(re => {
       const targetSender = window.ConversationController.lookupOrCreate({
         uuid: re.get('targetAuthorUuid'),
         reason: 'Reactions.forMessage',
       });
       const targetTimestamp = re.get('targetTimestamp');
-      return targetSender?.id === senderId && targetTimestamp === sentAt;
+      return (
+        targetSender?.id === senderId && sentTimestamps.has(targetTimestamp)
+      );
     });
 
     if (reactionsBySource.length > 0) {

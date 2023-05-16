@@ -48,6 +48,7 @@ import type {
 import { SendMessageProtoError } from '../textsecure/Errors';
 import * as expirationTimer from '../util/expirationTimer';
 import { getUserLanguages } from '../util/userLanguages';
+import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp';
 
 import type { ReactionType } from '../types/Reactions';
 import { UUID, UUIDKind } from '../types/UUID';
@@ -1802,9 +1803,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       );
 
       const isEditedMessage = Boolean(this.get('editHistory'));
-      const mainMessageTimestamp = this.get('sent_at') || this.get('timestamp');
-      const timestamp =
-        this.get('editMessageTimestamp') || mainMessageTimestamp;
+      const timestamp = getMessageSentTimestamp(this.attributes, { log });
 
       const encodedContent = isEditedMessage
         ? {

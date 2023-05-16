@@ -45,7 +45,7 @@ export async function markConversationRead(
         includeStoryReplies: !isGroup(conversationAttrs),
       }),
       window.Signal.Data.getUnreadEditedMessagesAndMarkRead({
-        fromId: conversationId,
+        conversationId,
         newestUnreadAt,
       }),
       window.Signal.Data.getUnreadReactionsAndMarkRead({

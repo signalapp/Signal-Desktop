@@ -138,6 +138,7 @@ import { DAY } from '../../util/durations';
 import { isNotNil } from '../../util/isNotNil';
 import { PanelType } from '../../types/Panels';
 import { startConversation } from '../../util/startConversation';
+import { getMessageSentTimestamp } from '../../util/getMessageSentTimestamp';
 import { UUIDKind } from '../../types/UUID';
 import { removeLinkPreview } from '../../services/LinkPreview';
 import type {
@@ -1822,7 +1823,7 @@ export const markViewed = (messageId: string): void => {
 
   const senderE164 = message.get('source');
   const senderUuid = message.get('sourceUuid');
-  const timestamp = message.get('sent_at');
+  const timestamp = getMessageSentTimestamp(message.attributes, { log });
 
   message.set(messageUpdaterMarkViewed(message.attributes, Date.now()));
 
@@ -2985,7 +2986,7 @@ function deleteMessagesForEveryone(
 
           await sendDeleteForEveryoneMessage(conversation.attributes, {
             id: message.id,
-            timestamp: message.get('sent_at'),
+            timestamp: getMessageSentTimestamp(message.attributes, { log }),
           });
         } catch (error) {
           hasError = true;

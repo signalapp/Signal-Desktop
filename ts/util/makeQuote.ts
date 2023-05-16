@@ -14,8 +14,10 @@ import { getContact } from '../messages/helpers';
 import { getQuoteBodyText } from './getQuoteBodyText';
 import { isGIF } from '../types/Attachment';
 import { isGiftBadge, isTapToView } from '../state/selectors/message';
+import * as log from '../logging/log';
 import { map, take, collect } from './iterables';
 import { strictAssert } from './assert';
+import { getMessageSentTimestamp } from './getMessageSentTimestamp';
 
 export async function makeQuote(
   quotedMessage: MessageAttributesType
@@ -27,14 +29,13 @@ export async function makeQuote(
   const {
     attachments,
     bodyRanges,
-    editMessageTimestamp,
     id: messageId,
     payment,
     preview,
     sticker,
   } = quotedMessage;
 
-  const quoteId = editMessageTimestamp || quotedMessage.sent_at;
+  const quoteId = getMessageSentTimestamp(quotedMessage, { log });
 
   return {
     authorUuid: contact.get('uuid'),

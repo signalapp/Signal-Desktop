@@ -16,6 +16,7 @@ import { queueAttachmentDownloads } from '../util/queueAttachmentDownloads';
 import * as log from '../logging/log';
 import { GiftBadgeStates } from '../components/conversation/Message';
 import { queueUpdateMessage } from '../util/messageBatcher';
+import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp';
 
 export type ViewSyncAttributesType = {
   senderId: string;
@@ -44,17 +45,18 @@ export class ViewSyncs extends Collection {
       uuid: message.get('sourceUuid'),
       reason: 'ViewSyncs.forMessage',
     });
+    const messageTimestamp = getMessageSentTimestamp(message.attributes, {
+      log,
+    });
     const syncs = this.filter(item => {
       return (
         item.get('senderId') === sender?.id &&
-        item.get('timestamp') === message.get('sent_at')
+        item.get('timestamp') === messageTimestamp
       );
     });
     if (syncs.length) {
       log.info(
-        `Found ${syncs.length} early view sync(s) for message ${message.get(
-          'sent_at'
-        )}`
+        `Found ${syncs.length} early view sync(s) for message ${messageTimestamp}`
       );
       this.remove(syncs);
     }

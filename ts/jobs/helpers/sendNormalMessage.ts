@@ -15,6 +15,7 @@ import { SignalService as Proto } from '../../protobuf';
 import { handleMessageSend } from '../../util/handleMessageSend';
 import { findAndFormatContact } from '../../util/findAndFormatContact';
 import { uploadAttachment } from '../../util/uploadAttachment';
+import { getMessageSentTimestamp } from '../../util/getMessageSentTimestamp';
 import type { CallbackResultType } from '../../textsecure/Types.d';
 import { isSent } from '../../messages/MessageSendState';
 import { isOutgoing, canReact } from '../../state/selectors/message';
@@ -499,22 +500,11 @@ async function getMessageSendData({
   storyContext?: StoryContextType;
 }> {
   const editMessageTimestamp = message.get('editMessageTimestamp');
-  const sentAt = message.get('sent_at');
-  const timestamp = message.get('timestamp');
 
-  let mainMessageTimestamp: number;
-  if (sentAt) {
-    mainMessageTimestamp = sentAt;
-  } else if (timestamp) {
-    log.error('message lacked sent_at. Falling back to timestamp');
-    mainMessageTimestamp = timestamp;
-  } else {
-    log.error(
-      'message lacked sent_at and timestamp. Falling back to current time'
-    );
-    mainMessageTimestamp = Date.now();
-  }
-
+  const mainMessageTimestamp = getMessageSentTimestamp(message.attributes, {
+    includeEdits: false,
+    log,
+  });
   const messageTimestamp = editMessageTimestamp || mainMessageTimestamp;
 
   const storyId = message.get('storyId');

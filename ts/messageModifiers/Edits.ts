@@ -9,6 +9,7 @@ import { drop } from '../util/drop';
 import { filter, size } from '../util/iterables';
 import { getContactId } from '../messages/helpers';
 import { handleEditMessage } from '../util/handleEditMessage';
+import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp';
 
 export type EditAttributesType = {
   conversationId: string;
@@ -20,9 +21,10 @@ export type EditAttributesType = {
 const edits = new Set<EditAttributesType>();
 
 export function forMessage(message: MessageModel): Array<EditAttributesType> {
+  const sentAt = getMessageSentTimestamp(message.attributes, { log });
   const matchingEdits = filter(edits, item => {
     return (
-      item.targetSentTimestamp === message.get('sent_at') &&
+      item.targetSentTimestamp === sentAt &&
       item.fromId === getContactId(message.attributes)
     );
   });
