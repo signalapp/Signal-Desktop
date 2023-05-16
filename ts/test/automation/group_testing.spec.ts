@@ -5,7 +5,6 @@ import {
   clickOnElement,
   clickOnMatchingText,
   clickOnTestIdWithText,
-  doesTextIncludeString,
   typeIntoInput,
   waitForControlMessageWithText,
   waitForMatchingText,
@@ -70,7 +69,8 @@ sessionTestFourWindows('Add contact to group', async ([windowA, windowB, windowC
     'module-conversation__user__profile-name',
     testGroup.userName
   );
-  await doesTextIncludeString(windowD, 'control-message', 'You joined the group.');
+  const emptyStateGroupText = `You have no messages from ${testGroup.userName}. Send a message to start the conversation!`;
+  await waitForTestIdWithText(windowD, 'empty-conversation-notification', emptyStateGroupText);
 });
 
 sessionTestThreeWindows('Change group name', async ([windowA, windowB, windowC]) => {

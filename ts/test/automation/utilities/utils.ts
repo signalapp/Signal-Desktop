@@ -161,7 +161,7 @@ export async function doesTextIncludeString(window: Page, dataTestId: string, te
   if (builtSelector) {
     console.info('Text found:', text);
   } else {
-    throw new Error(`Text not found: , ${text}`);
+    throw new Error(`Text not found: "${text}"`);
   }
 }
 
