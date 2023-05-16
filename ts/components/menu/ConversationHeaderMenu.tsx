@@ -40,6 +40,7 @@ import {
   UnbanMenuItem,
   UpdateGroupNameMenuItem,
   DeletePrivateConversationMenuItem,
+  CopyMenuItem,
 } from './Menu';
 import { ContextConversationProvider } from '../leftpane/conversation-list-item/ConvoIdContext';
 import { isSearching } from '../../state/selectors/search';
@@ -75,6 +76,7 @@ export const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
           <DisappearingMessageMenuItem />
           <NotificationForConvoMenuItem />
           <BlockMenuItem />
+          <CopyMenuItem />
           <MarkAllReadMenuItem />
           <ChangeNicknameMenuItem />
           <ClearNicknameMenuItem />
