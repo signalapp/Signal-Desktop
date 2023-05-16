@@ -29,7 +29,7 @@ sessionTestTwoWindows('Disappearing messages', async ([windowA, windowB]) => {
   // await waitForMatchingText(windowA, `You have accepted ${userA.userName}'s message request`);
   // await waitForMatchingText(windowB, 'Your message request has been accepted');
   // Click on user's avatar to open conversation options
-  await clickOnTestIdWithText(windowA, 'conversation-options-avatar');
+  await clickOnTestIdWithText(windowA, 'conversation-options-avatar')
   // Select disappearing messages drop down
   await clickOnMatchingText(windowA, 'Disappearing messages');
   // Select 5 seconds
