@@ -22,8 +22,9 @@ export type DisappearingMessageType = typeof DisappearingMessageMode[number] | n
 export const DisappearingMessageConversationSetting = ['off', ...DisappearingMessageMode, 'legacy'];
 export type DisappearingMessageConversationType = typeof DisappearingMessageConversationSetting[number];
 export const DEFAULT_TIMER_OPTION = {
-  PRIVATE_CONVERSATION: 86400, // 1 day
-  GROUP: 43200, // 12 hours
+  DELETE_AFTER_READ: 43200, // 12 hours
+  DELETE_AFTER_SEND: 86400, // 1 day
+  LEGACY: 86400, // 1 day
 };
 
 export type DisappearingMessageUpdate = {
@@ -353,8 +354,12 @@ export async function checkForExpireUpdate(
 export function handleExpireUpdate(
   converationModel: ConversationModel,
   messageModel: MessageModel,
-  expireUpdate: DisappearingMessageUpdate
+  expireUpdate?: DisappearingMessageUpdate
 ) {
+  if (!expireUpdate) {
+    return messageModel;
+  }
+
   if (converationModel.isPublic()) {
     window.log.warn("updateExpireTimer() Disappearing messages aren't supported in communities");
     return messageModel;

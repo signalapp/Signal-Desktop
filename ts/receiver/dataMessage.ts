@@ -243,13 +243,11 @@ export async function handleSwarmDataMessage(
           sentAt: sentAtTimestamp,
         });
 
-  if (expireUpdate && !isEmpty(expireUpdate)) {
-    if (isSyncedMessage) {
-      // TODO handle sync messages expiring separately?
-      window.log.debug('WIP: Sync Message dropping');
-    } else {
-      msgModel = handleExpireUpdate(convoToAddMessageTo, msgModel, expireUpdate);
-    }
+  if (isSyncedMessage) {
+    // TODO handle sync messages expiring separately?
+    window.log.debug('WIP: Sync Message dropping');
+  } else {
+    msgModel = handleExpireUpdate(convoToAddMessageTo, msgModel, expireUpdate);
   }
 
   await handleSwarmMessage(
