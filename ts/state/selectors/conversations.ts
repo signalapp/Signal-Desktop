@@ -1004,12 +1004,16 @@ export const getMessageQuoteProps = createSelector(
 
     let isFromMe = UserUtils.isUsFromCache(author) || false;
 
+    // NOTE: if the message is not found, we still want to render the quote
     const quoteNotFound = {
       direction,
-      quote: { author, isFromMe, referencedMessageNotFound: true },
+      quote: {
+        author,
+        isFromMe,
+        referencedMessageNotFound: true,
+      },
     };
 
-    // NOTE: if the message is not found, we still want to render the quote
     if (!quotesProps || isEmpty(quotesProps)) {
       return quoteNotFound;
     }
@@ -1054,7 +1058,10 @@ export const getMessageQuoteProps = createSelector(
       convoId: convo.id,
     };
 
-    return { direction, quote };
+    return {
+      direction,
+      quote,
+    };
   }
 );
 // tslint:enable: cyclomatic-complexity
