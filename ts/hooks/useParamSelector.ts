@@ -37,7 +37,7 @@ export function useConversationUsernameOrShorten(convoId?: string) {
 }
 
 /**
- * Returns the name if that conversation.
+ * Returns the name of that conversation.
  * This is the group name, or the realName of a user for a private conversation with a recent nickname set
  */
 export function useConversationRealName(convoId?: string) {
@@ -182,4 +182,13 @@ export function useMessageReactsPropsById(messageId?: string) {
     }
     return messageReactsProps;
   });
+}
+
+export function useQuoteAuthorName(authorId?: string) {
+  const convoProps = useConversationPropsById(authorId);
+  return authorId === UserUtils.getOurPubKeyStrFromCache()
+    ? window.i18n('you')
+    : convoProps?.nickname || convoProps?.isPrivate
+    ? convoProps?.displayNameInProfile
+    : undefined;
 }

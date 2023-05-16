@@ -82,7 +82,6 @@ export const MessageQuote = (props: Props) => {
       attachment={quote?.attachment}
       isIncoming={direction === 'incoming'}
       author={quote.author}
-      authorName={quote?.authorName}
       referencedMessageNotFound={quoteNotFound}
       isFromMe={Boolean(quote.isFromMe)}
     />

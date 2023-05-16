@@ -2,9 +2,6 @@ import React, { MouseEvent, useState } from 'react';
 
 import * as MIME from '../../../../../types/MIME';
 
-import { useSelector } from 'react-redux';
-
-import { isPublicGroupConversation } from '../../../../../state/selectors/conversations';
 import { QuoteAuthor } from './QuoteAuthor';
 import { QuoteText } from './QuoteText';
 import { QuoteIconContainer } from './QuoteIconContainer';
@@ -49,12 +46,11 @@ const StyledQuoteTextContent = styled.div`
 export type QuoteProps = {
   attachment?: QuotedAttachmentType;
   author: string;
-  authorProfileName?: string;
-  authorName?: string;
   isFromMe: boolean;
   isIncoming: boolean;
-  text: string | null;
   referencedMessageNotFound: boolean;
+  text: string | null;
+
   onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
 };
 
@@ -73,8 +69,6 @@ export interface QuotedAttachmentType {
 }
 
 export const Quote = (props: QuoteProps) => {
-  const isPublic = useSelector(isPublicGroupConversation);
-
   const { isIncoming, attachment, text, referencedMessageNotFound, onClick } = props;
 
   const [imageBroken, setImageBroken] = useState(false);
@@ -96,13 +90,7 @@ export const Quote = (props: QuoteProps) => {
           referencedMessageNotFound={referencedMessageNotFound}
         />
         <StyledQuoteTextContent>
-          <QuoteAuthor
-            author={props.author}
-            authorName={props.authorName}
-            isFromMe={props.isFromMe}
-            isIncoming={isIncoming}
-            showPubkeyForAuthor={isPublic}
-          />
+          <QuoteAuthor author={props.author} isIncoming={isIncoming} />
           <QuoteText
             isIncoming={isIncoming}
             text={text}

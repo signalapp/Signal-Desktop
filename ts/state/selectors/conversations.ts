@@ -997,33 +997,39 @@ export const getMessageQuoteProps = createSelector(
       return undefined;
     }
 
-    const { id, author, authorName: _authorName } = msgProps.quote;
+    const { id, author } = msgProps.quote;
     if (!id || !author) {
       return undefined;
     }
 
+    let isFromMe = UserUtils.isUsFromCache(author) || false;
+
+    const quoteNotFound = {
+      direction,
+      quote: { author, isFromMe, referencedMessageNotFound: true },
+    };
+
     // NOTE: if the message is not found, we still want to render the quote
     if (!quotesProps || isEmpty(quotesProps)) {
-      return { direction, quote: { author, referencedMessageNotFound: true } };
+      return quoteNotFound;
     }
 
     const sourceMessage = quotesProps[`${id}-${author}`];
     if (!sourceMessage) {
-      return { direction, quote: { author, referencedMessageNotFound: true } };
+      return quoteNotFound;
     }
 
     const sourceMsgProps = sourceMessage.propsForMessage;
     if (!sourceMsgProps || sourceMsgProps.isDeleted) {
-      return { direction, quote: { author, referencedMessageNotFound: true } };
+      return quoteNotFound;
     }
 
     const convo = getConversationController().get(sourceMsgProps.convoId);
     if (!convo) {
-      return { direction, quote: { author, referencedMessageNotFound: true } };
+      return quoteNotFound;
     }
 
     const attachment = sourceMsgProps.attachments && sourceMsgProps.attachments[0];
-    let isFromMe = convo ? UserUtils.isUsFromCache(author) : false;
 
     if (convo.isPublic() && PubKey.hasBlindedPrefix(sourceMsgProps.sender)) {
       const room = OpenGroupData.getV2OpenGroupRoom(sourceMsgProps.convoId);
@@ -1038,16 +1044,11 @@ export const getMessageQuoteProps = createSelector(
       }
     }
 
-    const authorName = isFromMe
-      ? window.i18n('you')
-      : convo.getNicknameOrRealUsernameOrPlaceholder();
-
     const quote: PropsForQuote = {
       text: sourceMsgProps.text,
       attachment: attachment ? processQuoteAttachment(attachment) : undefined,
       isFromMe,
       author: sourceMsgProps.sender,
-      authorName,
       id: sourceMsgProps.id,
       referencedMessageNotFound: false,
       convoId: convo.id,

@@ -165,14 +165,13 @@ export type PropsForAttachment = {
 };
 
 export type PropsForQuote = {
-  text?: string;
   attachment?: QuotedAttachmentType;
-  isFromMe?: boolean;
   author: string;
-  authorName?: string;
-  id?: string; // this is the quoted message timestamp
-  referencedMessageNotFound?: boolean;
   convoId?: string;
+  id?: string; // this is the quoted message timestamp
+  isFromMe?: boolean;
+  referencedMessageNotFound?: boolean;
+  text?: string;
 };
 
 export type PropsForMessageWithoutConvoProps = {
