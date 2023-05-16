@@ -319,7 +319,7 @@ async function sendAddedMembers(
     await getMessageQueue().sendToPubKey(
       memberPubKey,
       newClosedGroupUpdate,
-      SnodeNamespaces.ClosedGroupMessage
+      SnodeNamespaces.UserMessages
     );
   });
   await Promise.all(promises);
