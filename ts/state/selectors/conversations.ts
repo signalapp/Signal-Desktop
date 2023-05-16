@@ -38,6 +38,7 @@ import { MessageReactsSelectorProps } from '../../components/conversation/messag
 import { filter, isEmpty, pick, sortBy } from 'lodash';
 import { DisappearingMessageConversationSetting } from '../../util/expiringMessages';
 import { ConversationHeaderTitleProps } from '../../components/conversation/header/ConversationHeaderTitle';
+import { PropsForExpirationSettings } from '../../components/conversation/right-panel/overlay/disappearing-messages/OverlayDisappearingMessages';
 
 export const getConversations = (state: StateType): ConversationsStateType => state.conversations;
 
@@ -1235,9 +1236,10 @@ export const getSelectedConversationExpirationModesWithLegacy = createSelector(
 
 export const getSelectedConversationExpirationSettings = createSelector(
   getSelectedConversation,
-  (convo: ReduxConversationType | undefined) => ({
+  (convo: ReduxConversationType | undefined): PropsForExpirationSettings => ({
     expirationType: convo?.expirationType,
     expireTimer: convo?.expireTimer,
+    isMe: convo?.isMe,
     isGroup: convo?.isGroup,
     weAreAdmin: convo?.weAreAdmin,
   })

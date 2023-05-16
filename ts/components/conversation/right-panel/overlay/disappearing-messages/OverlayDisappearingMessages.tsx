@@ -49,6 +49,14 @@ const StyledNonAdminDescription = styled.div`
   line-height: 15px;
 `;
 
+export type PropsForExpirationSettings = {
+  expirationType: string | undefined;
+  expireTimer: number | undefined;
+  isMe: boolean | undefined;
+  isGroup: boolean | undefined;
+  weAreAdmin: boolean | undefined;
+};
+
 type OverlayDisappearingMessagesProps = { unlockNewModes: boolean };
 
 export const OverlayDisappearingMessages = (props: OverlayDisappearingMessagesProps) => {
@@ -81,8 +89,8 @@ export const OverlayDisappearingMessages = (props: OverlayDisappearingMessagesPr
     convoProps.expireTimer && convoProps.expireTimer > -1
       ? convoProps.expireTimer
       : isGroup
-      ? DEFAULT_TIMER_OPTION.GROUP
-      : DEFAULT_TIMER_OPTION.PRIVATE_CONVERSATION
+      ? DEFAULT_TIMER_OPTION.DELETE_AFTER_SEND
+      : DEFAULT_TIMER_OPTION.DELETE_AFTER_READ
   );
 
   // TODO verify that this if fine compared to updating in the useEffect
