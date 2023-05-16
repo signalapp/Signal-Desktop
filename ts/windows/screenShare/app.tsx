@@ -13,12 +13,14 @@ const { ScreenShareWindowProps } = window.Signal;
 strictAssert(ScreenShareWindowProps, 'window values not provided');
 
 ReactDOM.render(
-  <CallingScreenSharingController
-    i18n={i18n}
-    onCloseController={() => window.SignalContext.executeMenuRole('close')}
-    onStopSharing={ScreenShareWindowProps.onStopSharing}
-    presentedSourceName={ScreenShareWindowProps.presentedSourceName}
-  />,
+  <div className="App dark-theme">
+    <CallingScreenSharingController
+      i18n={i18n}
+      onCloseController={() => window.SignalContext.executeMenuRole('close')}
+      onStopSharing={ScreenShareWindowProps.onStopSharing}
+      presentedSourceName={ScreenShareWindowProps.presentedSourceName}
+    />
+  </div>,
 
   document.getElementById('app')
 );

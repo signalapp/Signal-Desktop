@@ -11,7 +11,6 @@
 
   &__text {
     @include font-body-2;
-    color: $color-gray-05;
     overflow: hidden;
     text-overflow: ellipsis;
     user-select: none;
