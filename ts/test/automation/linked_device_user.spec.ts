@@ -12,10 +12,9 @@ import {
   clickOnTestIdWithText,
   hasTextElementBeenDeleted,
   typeIntoInput,
-  waitForLoadingAnimationToFinish,
   waitForMatchingText,
   waitForTestIdWithText,
-  waitForTextMessage,
+  waitForTextMessage
 } from './utilities/utils';
 
 const windows: Array<Page> = [];
@@ -96,12 +95,10 @@ test('Check profile picture syncs', async () => {
   expect(screenshot).toMatchSnapshot({ name: 'avatar-updated-blue.jpeg' });
 });
 
-test('Check contacts sync', async () => {
+test('Check contacts syncs', async () => {
   const [windowA, windowC] = await openApp(2); // not using sessionTest here as we need to close and reopen one of the window
   const [userA, userB] = await Promise.all([newUser(windowA, 'Alice'), newUser(windowC, 'Bob')]);
   const [windowB] = await linkedDevice(userA.recoveryPhrase); // not using sessionTest here as we need to close and reopen one of the window
-  // Waiting for linked device to finish loading
-  await waitForLoadingAnimationToFinish(windowB, 'loading-spinner');
   await createContact(windowA, windowC, userA, userB);
   // Check linked device (windowB)
   await waitForTestIdWithText(windowB, 'module-conversation__user__profile-name', userB.userName);
@@ -113,7 +110,6 @@ test('Check deleted message syncs', async () => {
   const [userA, userB] = await Promise.all([newUser(windowA, 'Alice'), newUser(windowC, 'Bob')]);
   const [windowB] = await linkedDevice(userA.recoveryPhrase);
   const deletedMessage = 'Testing deletion functionality for linked device';
-  await waitForLoadingAnimationToFinish(windowB, 'loading-spinner');
   await createContact(windowA, windowC, userA, userB);
   await sendMessage(windowA, deletedMessage);
   // Navigate to conversation on linked device and check for message from user A to user B
@@ -138,7 +134,6 @@ test('Check unsent message syncs', async () => {
   const [userA, userB] = await Promise.all([newUser(windowA, 'Alice'), newUser(windowC, 'Bob')]);
   const [windowB] = await linkedDevice(userA.recoveryPhrase);
   const unsentMessage = 'Testing unsending functionality for linked device';
-  await waitForLoadingAnimationToFinish(windowB, 'loading-spinner');
   await createContact(windowA, windowC, userA, userB);
   await sendMessage(windowA, unsentMessage);
   // Navigate to conversation on linked device and check for message from user A to user B
@@ -155,24 +150,23 @@ test('Check unsent message syncs', async () => {
   await hasTextElementBeenDeleted(windowB, unsentMessage, 1000);
 });
 
-// test('Check blocked user syncs', async () => {
-//   const [windowA, windowC] = await openApp(2);
-//   const [userA, userB] = await Promise.all([newUser(windowA, 'Alice'), newUser(windowC, 'Bob')]);
-//   const [windowB] = await linkedDevice(userA.recoveryPhrase);
-//   const testMessage = 'Testing blocking functionality for linked device';
-//   await waitForLoadingAnimationToFinish(windowB, 'loading-spinner');
-//   await createContact(windowA, windowC, userA, userB);
-//   await sendMessage(windowA, testMessage);
-//   // Navigate to conversation on linked device and check for message from user A to user B
-//   await clickOnTestIdWithText(windowB, 'module-conversation__user__profile-name', userB.userName);
-//   await clickOnElement(windowA, 'data-testid', 'three-dots-conversation-options');
-//   await clickOnMatchingText(windowA, 'Block');
-//   await waitForTestIdWithText(windowA, 'session-toast', 'Blocked');
-//   await waitForMatchingText(windowA, 'Unblock this contact to send a message.');
-//   // Check linked device for blocked contact in settings screen
-//   await clickOnTestIdWithText(windowB, 'settings-section');
-//   await clickOnTestIdWithText(windowB, 'conversations-settings-menu-item');
-//   await clickOnTestIdWithText(windowB, 'reveal-blocked-user-settings');
-//   // Check if user B is in blocked contact list
-//   await waitForMatchingText(windowB, userB.userName);
-// });
+test('Check blocked user syncs', async () => {
+  const [windowA, windowC] = await openApp(2);
+  const [userA, userB] = await Promise.all([newUser(windowA, 'Alice'), newUser(windowC, 'Bob')]);
+  const [windowB] = await linkedDevice(userA.recoveryPhrase);
+  const testMessage = 'Testing blocking functionality for linked device';
+  await createContact(windowA, windowC, userA, userB);
+  await sendMessage(windowA, testMessage);
+  // Navigate to conversation on linked device and check for message from user A to user B
+  await clickOnTestIdWithText(windowB, 'module-conversation__user__profile-name', userB.userName);
+  await clickOnElement(windowA, 'data-testid', 'three-dots-conversation-options');
+  await clickOnMatchingText(windowA, 'Block');
+  await waitForTestIdWithText(windowA, 'session-toast', 'Blocked');
+  // await waitForMatchingText(windowA, 'Unblock this contact to send a message.');
+  // Check linked device for blocked contact in settings screen
+  await clickOnTestIdWithText(windowB, 'settings-section');
+  await clickOnTestIdWithText(windowB, 'conversations-settings-menu-item');
+  await clickOnTestIdWithText(windowB, 'reveal-blocked-user-settings');
+  // Check if user B is in blocked contact list
+  await waitForMatchingText(windowB, userB.userName);
+});
