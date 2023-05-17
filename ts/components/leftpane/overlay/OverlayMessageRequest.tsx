@@ -50,6 +50,7 @@ export const OverlayMessageRequest = () => {
   const currentlySelectedConvo = useSelectedConversationKey();
   const convoRequestCount = useSelector(getConversationRequests).length;
   const messageRequests = useSelector(getConversationRequests);
+
   const buttonText = window.i18n('clearAll');
 
   /**
