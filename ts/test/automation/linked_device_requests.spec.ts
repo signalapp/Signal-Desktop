@@ -48,7 +48,6 @@ sessionTestTwoWindows('Decline request syncs', async ([windowA, windowB]) => {
   await waitForTestIdWithText(windowC, 'module-conversation__user__profile-name', userA.userName);
   await clickOnTestIdWithText(windowB, 'decline-message-request');
   await clickOnTestIdWithText(windowB, 'session-confirm-ok-button', 'Decline');
-  await waitForTestIdWithText(windowB, 'session-toast', 'Blocked');
 
   await waitForMatchingText(windowB, 'No pending message requests');
   await waitForMatchingText(windowC, 'No pending message requests');

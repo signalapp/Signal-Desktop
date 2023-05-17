@@ -1,33 +1,26 @@
 import { sleepFor } from '../../session/utils/Promise';
 import { newUser } from './setup/new_user';
 import { sessionTestTwoWindows } from './setup/sessionTest';
+import { createContact } from './utilities/create_contact';
 import { sendMessage } from './utilities/message';
-import { sendNewMessage } from './utilities/send_message';
 import {
   clickOnMatchingText,
   clickOnTestIdWithText,
-  waitForControlMessageWithText,
   waitForMatchingText,
-  waitForTestIdWithText,
+  waitForTestIdWithText
 } from './utilities/utils';
 
 // tslint:disable: no-console
 
 const testMessage = 'Test-Message- (A -> B) ';
-const testReply = 'Reply-Test-Message- (B -> A)';
 const sentMessage = `${testMessage}${Date.now()}`;
-const sentReplyMessage = `${testReply} :${Date.now()}`;
 
 sessionTestTwoWindows('Disappearing messages', async ([windowA, windowB]) => {
   // Open App
   // Create User
   const [userA, userB] = await Promise.all([newUser(windowA, 'Alice'), newUser(windowB, 'Bob')]);
   // Create Contact
-  await sendNewMessage(windowA, userB.sessionid, sentMessage);
-  await sendNewMessage(windowB, userA.sessionid, sentReplyMessage);
-  await waitForControlMessageWithText(windowA, 'Your message request has been accepted');
-  // await waitForMatchingText(windowA, `You have accepted ${userA.userName}'s message request`);
-  // await waitForMatchingText(windowB, 'Your message request has been accepted');
+  await createContact(windowA, windowB, userA, userB)
   // Click on user's avatar to open conversation options
   await clickOnTestIdWithText(windowA, 'conversation-options-avatar')
   // Select disappearing messages drop down
@@ -81,6 +74,7 @@ sessionTestTwoWindows('Disappearing messages', async ([windowA, windowB]) => {
     `${userA.userName} set the disappearing message timer to 5 seconds`
   );
   // Wait 5 seconds
+  await sleepFor(5000)
   await waitForMatchingText(windowB, `${userA.userName} has turned off disappearing messages.`);
   // verify message is deleted in windowB
   const errorDesc2 = 'Should not be found';
