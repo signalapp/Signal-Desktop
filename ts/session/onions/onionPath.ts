@@ -431,7 +431,9 @@ export async function getGuardNodeOrSelectNewOnes() {
   // If guard nodes is still empty (the old nodes are now invalid), select new ones:
   if (guardNodes.length < desiredGuardCount) {
     // if an error is thrown, the caller must take care of it.
+    const start = Date.now();
     guardNodes = await OnionPaths.selectGuardNodes();
+    window.log.info(`OnionPaths.selectGuardNodes took ${Date.now() - start}ms`);
   }
 }
 

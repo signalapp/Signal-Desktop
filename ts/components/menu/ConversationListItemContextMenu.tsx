@@ -41,6 +41,7 @@ const ConversationListItemContextMenu = (props: PropsContextConversationItem) =>
   if (isSearchingMode) {
     return null;
   }
+
   return (
     <SessionContextMenuContainer>
       <Menu id={triggerId} animation={animation.fade}>

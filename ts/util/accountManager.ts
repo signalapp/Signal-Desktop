@@ -176,8 +176,13 @@ async function createAccount(identityKeyPair: SessionKeyPair) {
   await setLocalPubKey(pubKeyString);
 }
 
+/**
+ *
+ * @param ourPubkey the pubkey recovered from the seed
+ * @param displayName the display name entered by the user, if any. This is not a display name found from a config message in the network.
+ */
 async function registrationDone(ourPubkey: string, displayName: string) {
-  window?.log?.info('registration done');
+  window?.log?.info(`registration done with user provided displayName "${displayName}"`);
 
   // initializeLibSessionUtilWrappers needs our publicKey to be set
   await Storage.put('primaryDevicePubKey', ourPubkey);
@@ -208,5 +213,6 @@ async function registrationDone(ourPubkey: string, displayName: string) {
   window.inboxStore?.dispatch(userActions.userChanged(user));
 
   window?.log?.info('dispatching registration event');
+  // this will make the poller start fetching messages, needed to find a configuration message
   trigger('registration_done');
 }

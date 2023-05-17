@@ -35,6 +35,7 @@ import { ReleasedFeatures } from '../util/releaseFeature';
 import {
   Storage,
   getLastProfileUpdateTimestamp,
+  isSignInByLinking,
   setLastProfileUpdateTimestamp,
 } from '../util/storage';
 import { ConfigWrapperObjectTypes } from '../webworker/workers/browser/libsession_worker_functions';
@@ -767,7 +768,7 @@ async function handleOurProfileUpdateLegacy(
 ) {
   const userConfigLibsession = await ReleasedFeatures.checkIsUserConfigFeatureReleased();
   // we want to allow if we are not registered, as we might need to fetch an old config message (can be removed once we released for a weeks the libsession util)
-  if (userConfigLibsession && Registration.isDone()) {
+  if (userConfigLibsession && !isSignInByLinking()) {
     return;
   }
   const latestProfileUpdateTimestamp = getLastProfileUpdateTimestamp();
@@ -978,7 +979,7 @@ async function handleConfigurationMessageLegacy(
   // the process of those messages is always done after the process of the shared config messages, so that's only a fallback.
   const userConfigLibsession = await ReleasedFeatures.checkIsUserConfigFeatureReleased();
 
-  if (userConfigLibsession && Registration.isDone()) {
+  if (userConfigLibsession && !isSignInByLinking()) {
     window?.log?.info(
       'useSharedUtilForUserConfig is set, not handling config messages with "handleConfigurationMessageLegacy()"'
     );
@@ -987,7 +988,7 @@ async function handleConfigurationMessageLegacy(
     return;
   }
 
-  window?.log?.info('Handling configuration message');
+  window?.log?.info('Handling legacy configuration message');
   const ourPubkey = UserUtils.getOurPubKeyStrFromCache();
   if (!ourPubkey) {
     return;
