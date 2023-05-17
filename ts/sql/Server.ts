@@ -2435,26 +2435,27 @@ function getAdjacentMessagesByConversationSync(
 ): Array<MessageTypeUnhydrated> {
   const db = getInstance();
 
-  const timeFilter =
-    direction === AdjacentDirection.Older
-      ? sqlFragment`
-        (received_at = ${receivedAt} AND sent_at < ${sentAt}) OR
-        received_at < ${receivedAt}
-      `
-      : sqlFragment`
-        (received_at = ${receivedAt} AND sent_at > ${sentAt}) OR
-        received_at > ${receivedAt}
-      `;
+  let timeFilters: { first: QueryFragment; second: QueryFragment };
+  let timeOrder: QueryFragment;
 
-  const timeOrder =
-    direction === AdjacentDirection.Older
-      ? sqlFragment`DESC`
-      : sqlFragment`ASC`;
+  if (direction === AdjacentDirection.Older) {
+    timeFilters = {
+      first: sqlFragment`received_at = ${receivedAt} AND sent_at < ${sentAt}`,
+      second: sqlFragment`received_at < ${receivedAt}`,
+    };
+    timeOrder = sqlFragment`DESC`;
+  } else {
+    timeFilters = {
+      first: sqlFragment`received_at = ${receivedAt} AND sent_at > ${sentAt}`,
+      second: sqlFragment`received_at > ${receivedAt}`,
+    };
+    timeOrder = sqlFragment`ASC`;
+  }
 
   const requireDifferentMessage =
     direction === AdjacentDirection.Older || requireVisualMediaAttachments;
 
-  let template = sqlFragment`
+  const createQuery = (timeFilter: QueryFragment): QueryFragment => sqlFragment`
     SELECT json FROM messages WHERE
       conversationId = ${conversationId} AND
       ${
@@ -2472,7 +2473,13 @@ function getAdjacentMessagesByConversationSync(
       (
         ${timeFilter}
       )
-    ORDER BY received_at ${timeOrder}, sent_at ${timeOrder}
+      ORDER BY received_at ${timeOrder}, sent_at ${timeOrder}
+  `;
+
+  let template = sqlFragment`
+    SELECT first.json FROM (${createQuery(timeFilters.first)}) as first
+    UNION ALL
+    SELECT second.json FROM (${createQuery(timeFilters.second)}) as second
   `;
 
   // See `filterValidAttachments` in ts/state/ducks/lightbox.ts
