@@ -85,6 +85,15 @@ function finalize(
   };
 }
 
+export function _getAvailableLocales(): Array<string> {
+  return JSON.parse(
+    readFileSync(
+      join(__dirname, '..', 'build', 'available-locales.json'),
+      'utf-8'
+    )
+  ) as Array<string>;
+}
+
 export function load({
   preferredSystemLocales,
   logger,
@@ -100,12 +109,7 @@ export function load({
     logger.warn('locale: `preferredSystemLocales` was empty');
   }
 
-  const availableLocales = JSON.parse(
-    readFileSync(
-      join(__dirname, '..', 'build', 'available-locales.json'),
-      'utf-8'
-    )
-  ) as Array<string>;
+  const availableLocales = _getAvailableLocales();
 
   logger.info('locale: Supported locales:', availableLocales.join(', '));
   logger.info('locale: Preferred locales: ', preferredSystemLocales.join(', '));

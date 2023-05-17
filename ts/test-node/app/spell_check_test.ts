@@ -52,5 +52,12 @@ describe('SpellCheck', () => {
         'en',
       ]);
     });
+
+    it('matches en along with other languages', () => {
+      assert.deepEqual(getLanguages(['en', 'fr'], ['fr', 'en'], 'en'), [
+        'en',
+        'fr',
+      ]);
+    });
   });
 });
