@@ -54,7 +54,7 @@ export const ConversationRequestExplanation = () => {
 /**
  * This component is used to display a warning when the user is looking at an empty conversation.
  */
-export const NoMessageNoMessageInConversation = () => {
+export const NoMessageInConversation = () => {
   const selectedConversation = useSelectedConversationKey();
 
   const hasMessage = useSelector(getSelectedHasMessages);
