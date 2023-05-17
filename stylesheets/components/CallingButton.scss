@@ -30,31 +30,29 @@
       }
     }
 
-    @mixin calling-button-icon-on($icon) {
-      @include calling-button-icon($icon, $color-white, $color-gray-75);
+    @mixin calling-button-icon-highlighted($icon) {
+      @include calling-button-icon($icon, $color-gray-15, $color-gray-90);
     }
 
-    @mixin calling-button-icon-off($icon) {
-      @include calling-button-icon($icon, $color-white-alpha-40, $color-white);
+    @mixin calling-button-icon-regular($icon) {
+      @include calling-button-icon($icon, $color-gray-60, $color-gray-15);
       backdrop-filter: blur(10px);
     }
 
     @mixin calling-button-icon-disabled($icon) {
-      @include calling-button-icon($icon, $color-gray-45, $color-white);
-      opacity: 0.2;
+      @include calling-button-icon($icon, $color-gray-60, $color-gray-15);
+      opacity: 0.4;
     }
 
-    // If the on/off states seem backwards, it's because this button reflects "is audio
-    //   muted?", not "is audio on?".
     &--audio {
       $icon: '../images/icons/v3/mic/mic-slash-fill-light.svg';
       &--on {
-        @include calling-button-icon-off(
+        @include calling-button-icon-regular(
           '../images/icons/v3/mic/mic-fill-light.svg'
         );
       }
       &--off {
-        @include calling-button-icon-on($icon);
+        @include calling-button-icon-highlighted($icon);
       }
       &--disabled {
         @include calling-button-icon-disabled($icon);
@@ -64,12 +62,12 @@
     &--video {
       $icon: '../images/icons/v3/video/video-slash-fill-light.svg';
       &--on {
-        @include calling-button-icon-on(
+        @include calling-button-icon-regular(
           '../images/icons/v3/video/video-fill-light.svg'
         );
       }
       &--off {
-        @include calling-button-icon-off($icon);
+        @include calling-button-icon-highlighted($icon);
       }
       &--disabled {
         @include calling-button-icon-disabled($icon);
@@ -85,12 +83,14 @@
     }
 
     &--ring {
-      $icon: '../images/icons/v3/bell/bell-ring-fill-light.svg';
+      $icon: '../images/icons/v3/bell/bell-slash-fill.svg';
       &--on {
-        @include calling-button-icon-on($icon);
+        @include calling-button-icon-regular(
+          '../images/icons/v3/bell/bell-ring-fill-light.svg'
+        );
       }
       &--off {
-        @include calling-button-icon-off($icon);
+        @include calling-button-icon-highlighted($icon);
       }
       &--disabled {
         @include calling-button-icon-disabled($icon);
@@ -100,10 +100,10 @@
     &--presenting {
       $icon: '../images/icons/v3/share_screen/share_screen-fill-light.svg';
       &--on {
-        @include calling-button-icon-on($icon);
+        @include calling-button-icon-highlighted($icon);
       }
       &--off {
-        @include calling-button-icon-off($icon);
+        @include calling-button-icon-regular($icon);
       }
       &--disabled {
         @include calling-button-icon-disabled($icon);
