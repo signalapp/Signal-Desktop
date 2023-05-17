@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useConversationUsername } from '../../../hooks/useParamSelector';
 import { ConversationNotificationSettingType } from '../../../models/conversationAttributes';
 import { closeRightPanel, openRightPanel } from '../../../state/ducks/conversations';
-import { setRightOverlayMode } from '../../../state/ducks/section';
+import { resetRightOverlayMode, setRightOverlayMode } from '../../../state/ducks/section';
 import {
   getConversationHeaderTitleProps,
   getCurrentNotificationSettingText,
@@ -127,7 +127,7 @@ export const ConversationHeaderTitle = () => {
       if (visibleSubtitle === 'disappearingMessages') {
         dispatch(setRightOverlayMode('disappearing-messages'));
       } else {
-        dispatch(setRightOverlayMode('panel-settings'));
+        dispatch(resetRightOverlayMode());
       }
       dispatch(openRightPanel());
     }
