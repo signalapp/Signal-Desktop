@@ -181,6 +181,16 @@ export class FormattingMenu {
       return;
     }
 
+    // Note: we special-case single \n ops because Quill doesn't apply formatting to them
+    const contents = this.quill.getContents(
+      quillSelection.index,
+      quillSelection.length
+    );
+    if (contents.length() === 1 && contents.ops[0].insert === '\n') {
+      this.scheduleRemoval();
+      return;
+    }
+
     // a virtual reference to the text we are trying to format
     this.cancelRemoval();
     this.referenceElement = {
@@ -251,6 +261,11 @@ export class FormattingMenu {
     const contents = this.quill.getContents(selection.index, selection.length);
 
     // Note: we special-case single \n ops because Quill doesn't apply formatting to them
+    if (contents.length() === 1 && contents.ops[0].insert === '\n') {
+      this.scheduleRemoval();
+      return false;
+    }
+
     return contents.ops.every(
       op => op.attributes?.[style] || op.insert === '\n'
     );

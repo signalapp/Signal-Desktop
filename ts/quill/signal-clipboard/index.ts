@@ -34,6 +34,9 @@ export class SignalClipboard {
   }
 
   onCapturePaste(event: ClipboardEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+
     if (event.clipboardData == null) {
       return;
     }
@@ -62,13 +65,12 @@ export class SignalClipboard {
       setTimeout(() => {
         const delta = new Delta()
           .retain(selection.index)
+          .delete(selection.length)
           .concat(clipboardDelta);
         this.quill.updateContents(delta, 'user');
         this.quill.setSelection(delta.length(), 0, 'silent');
         this.quill.scrollingContainer.scrollTop = scrollTop;
       }, 1);
     }
-
-    event.preventDefault();
   }
 }
