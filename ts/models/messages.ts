@@ -2055,6 +2055,10 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
     // eslint-disable-next-line no-param-reassign
     quote.text = getQuoteBodyText(originalMessage.attributes, quote.id);
+
+    // eslint-disable-next-line no-param-reassign
+    quote.bodyRanges = originalMessage.attributes.bodyRanges;
+
     if (firstAttachment) {
       firstAttachment.thumbnail = null;
     }
