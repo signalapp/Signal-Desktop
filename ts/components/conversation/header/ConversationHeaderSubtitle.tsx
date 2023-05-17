@@ -2,10 +2,10 @@ import React from 'react';
 import styled, { CSSProperties } from 'styled-components';
 import { Flex } from '../../basic/Flex';
 import { SessionIconButton } from '../../icon';
+import { SubtitleStrings, SubtitleStringsType } from './ConversationHeaderTitle';
 
-// NOTE the subtitle toggling logic needs improvment
-function loadDataTestId(subtitles: Array<string>, currentIndex: number) {
-  if (currentIndex === subtitles.length - 1) {
+function loadDataTestId(currentSubtitle: SubtitleStringsType) {
+  if (currentSubtitle === 'disappearingMessages') {
     return 'disappear-messages-type-and-time';
   } else {
     return 'conversation-header-subtitle';
@@ -63,34 +63,36 @@ const SubtitleDotMenu = ({
 );
 
 type ConversationHeaderSubitleProps = {
-  subtitles: Array<string>;
-  currentIndex: number;
-  setCurrentIndex: (index: number) => void;
+  subtitlesArray: Array<SubtitleStringsType>;
+  subtitleStrings: SubtitleStrings;
+  currentSubtitle: SubtitleStringsType;
+  setCurrentSubtitle: (index: SubtitleStringsType) => void;
   onClickFunction: () => void;
   showDisappearingMessageIcon: boolean;
 };
 
 export const ConversationHeaderSubitle = (props: ConversationHeaderSubitleProps) => {
   const {
-    subtitles,
-    currentIndex,
-    setCurrentIndex,
+    subtitlesArray,
+    subtitleStrings,
+    currentSubtitle,
+    setCurrentSubtitle,
     onClickFunction,
     showDisappearingMessageIcon,
   } = props;
 
   const handleTitleCycle = (direction: 1 | -1) => {
-    let newIndex = currentIndex + direction;
-    if (newIndex > subtitles.length - 1) {
+    let newIndex = subtitlesArray.indexOf(currentSubtitle) + direction;
+    if (newIndex > subtitlesArray.length - 1) {
       newIndex = 0;
     }
 
     if (newIndex < 0) {
-      newIndex = subtitles.length - 1;
+      newIndex = subtitlesArray.length - 1;
     }
 
-    if (subtitles[newIndex]) {
-      setCurrentIndex(newIndex);
+    if (subtitlesArray[newIndex]) {
+      setCurrentSubtitle(subtitlesArray[newIndex]);
     }
   };
 
@@ -99,7 +101,7 @@ export const ConversationHeaderSubitle = (props: ConversationHeaderSubitleProps)
       <Flex
         container={true}
         flexDirection={'row'}
-        justifyContent={subtitles.length < 2 ? 'center' : 'space-between'}
+        justifyContent={subtitlesArray.length < 2 ? 'center' : 'space-between'}
         alignItems={'center'}
         width={'100%'}
       >
@@ -112,7 +114,7 @@ export const ConversationHeaderSubitle = (props: ConversationHeaderSubitleProps)
           onClick={() => {
             handleTitleCycle(-1);
           }}
-          isHidden={subtitles.length < 2}
+          isHidden={subtitlesArray.length < 2}
           tabIndex={0}
         />
         {showDisappearingMessageIcon && (
@@ -134,9 +136,9 @@ export const ConversationHeaderSubitle = (props: ConversationHeaderSubitleProps)
             }
           }}
           tabIndex={0}
-          data-testid={loadDataTestId(subtitles, currentIndex)}
+          data-testid={loadDataTestId(currentSubtitle)}
         >
-          {subtitles[currentIndex]}
+          {subtitleStrings[currentSubtitle]}
         </span>
         <SessionIconButton
           iconColor={'var(--button-icon-stroke-selected-color)'}
@@ -147,14 +149,14 @@ export const ConversationHeaderSubitle = (props: ConversationHeaderSubitleProps)
           onClick={() => {
             handleTitleCycle(1);
           }}
-          isHidden={subtitles.length < 2}
+          isHidden={subtitlesArray.length < 2}
           tabIndex={0}
         />
       </Flex>
       <SubtitleDotMenu
-        options={subtitles}
-        selectedOptionIndex={currentIndex}
-        style={{ display: subtitles.length < 2 ? 'none' : undefined, margin: '8px 0' }}
+        options={subtitlesArray}
+        selectedOptionIndex={subtitlesArray.indexOf(currentSubtitle)}
+        style={{ display: subtitlesArray.length < 2 ? 'none' : undefined, margin: '8px 0' }}
       />
     </StyledSubtitleContainer>
   );

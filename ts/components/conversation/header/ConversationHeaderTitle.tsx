@@ -15,6 +15,16 @@ import {
 } from '../../../util/expiringMessages';
 import { ConversationHeaderSubitle } from './ConversationHeaderSubtitle';
 
+export type SubtitleStrings = Record<string, string> & {
+  notifications?: string;
+  members?: string;
+  disappearingMessages?: string;
+};
+export type SubtitleStringsType = keyof Pick<
+  SubtitleStrings,
+  'notifications' | 'members' | 'disappearingMessages'
+>;
+
 export type ConversationHeaderTitleProps = {
   conversationKey: string;
   isMe: boolean;
@@ -37,7 +47,7 @@ export const ConversationHeaderTitle = () => {
   const convoName = useConversationUsername(headerTitleProps?.conversationKey);
   const dispatch = useDispatch();
 
-  const [visibleTitleIndex, setVisibleTitleIndex] = useState(0);
+  const [visibleSubtitle, setVisibleSubtitle] = useState<SubtitleStringsType>('notifications');
 
   if (!headerTitleProps) {
     return null;
@@ -56,12 +66,15 @@ export const ConversationHeaderTitle = () => {
 
   const { i18n } = window;
 
-  const subtitles: Array<string> = [];
+  const subtitleStrings: SubtitleStrings = {};
+  const subtitleArray: Array<SubtitleStringsType> = [];
+
   const notificationSubtitle = notificationSetting
     ? i18n('notificationSubtitle', [notificationSetting])
     : null;
   if (notificationSubtitle) {
-    subtitles.push(notificationSubtitle);
+    subtitleStrings.notifications = notificationSubtitle;
+    subtitleArray.push('notifications');
   }
 
   let memberCount = 0;
@@ -79,7 +92,8 @@ export const ConversationHeaderTitle = () => {
     memberCountSubtitle = isPublic ? i18n('activeMembers', [count]) : i18n('members', [count]);
   }
   if (memberCountSubtitle) {
-    subtitles.push(memberCountSubtitle);
+    subtitleStrings.members = memberCountSubtitle;
+    subtitleArray.push('members');
   }
 
   const disappearingMessageSettingText =
@@ -102,14 +116,15 @@ export const ConversationHeaderTitle = () => {
       }`
     : null;
   if (disappearingMessageSubtitle) {
-    subtitles.push(disappearingMessageSubtitle);
+    subtitleStrings.disappearingMessages = disappearingMessageSubtitle;
+    subtitleArray.push('disappearingMessages');
   }
 
   const handleRightPanelToggle = () => {
     if (isRightPanelOn) {
       dispatch(closeRightPanel());
     } else {
-      if (visibleTitleIndex === subtitles.length - 1) {
+      if (visibleSubtitle === 'disappearingMessages') {
         dispatch(setRightOverlayMode('disappearing-messages'));
       } else {
         dispatch(setRightOverlayMode('panel-settings'));
@@ -119,14 +134,14 @@ export const ConversationHeaderTitle = () => {
   };
 
   useEffect(() => {
-    setVisibleTitleIndex(0);
+    setVisibleSubtitle('notifications');
   }, [convoName]);
 
   useEffect(() => {
-    if (!subtitles[visibleTitleIndex]) {
-      setVisibleTitleIndex(0);
+    if (subtitleArray.indexOf(visibleSubtitle) < 0) {
+      setVisibleSubtitle('notifications');
     }
-  }, [visibleTitleIndex, subtitles]);
+  }, [subtitleArray, visibleSubtitle]);
 
   return (
     <div className="module-conversation-header__title-container">
@@ -150,13 +165,16 @@ export const ConversationHeaderTitle = () => {
               {convoName}
             </span>
           )}
-          {subtitles && subtitles[visibleTitleIndex] && (
+          {subtitleArray.length && subtitleArray.indexOf(visibleSubtitle) > -1 && (
             <ConversationHeaderSubitle
-              currentIndex={visibleTitleIndex}
-              setCurrentIndex={setVisibleTitleIndex}
-              subtitles={subtitles}
+              currentSubtitle={visibleSubtitle}
+              setCurrentSubtitle={setVisibleSubtitle}
+              subtitlesArray={subtitleArray}
+              subtitleStrings={subtitleStrings}
               onClickFunction={handleRightPanelToggle}
-              showDisappearingMessageIcon={visibleTitleIndex === 2 && expirationType !== 'off'}
+              showDisappearingMessageIcon={
+                visibleSubtitle === 'disappearingMessages' && expirationType !== 'off'
+              }
             />
           )}
         </div>
