@@ -133,7 +133,11 @@ export const ConversationHeaderTitle = () => {
       <div className="module-conversation-header__title-flex">
         <div className="module-conversation-header__title">
           {isMe ? (
-            <span onClick={handleRightPanelToggle} role="button">
+            <span
+              onClick={handleRightPanelToggle}
+              role="button"
+              data-testid="header-conversation-name"
+            >
               {i18n('noteToSelf')}
             </span>
           ) : (

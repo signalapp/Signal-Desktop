@@ -76,6 +76,7 @@ export const TimerNotification = (props: PropsForExpirationTimer) => {
       marginInlineStart={'calc(var(--margins-lg) + 6px)'}
       marginInlineEnd={'calc(var(--margins-lg) + 6px)'}
       key={`readable-message-${messageId}`}
+      dataTestId={'disappear-control-message'}
     >
       <StyledTimerNotification
         container={true}

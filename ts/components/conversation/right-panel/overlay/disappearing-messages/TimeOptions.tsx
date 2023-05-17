@@ -35,6 +35,7 @@ export const TimeOptions = (props: TimerOptionsProps) => {
               }}
               noBackgroundColor={true}
               disabled={disabled}
+              dataTestId={`disappear-time-${option.name.replace(' ', '-')}-option`}
             />
           );
         })}

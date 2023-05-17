@@ -3,6 +3,26 @@ import { DisappearingMessageConversationType } from '../../../../../util/expirin
 import { PanelButtonGroup, PanelLabel } from '../../../../buttons/PanelButton';
 import { PanelRadioButton } from '../../../../buttons/PanelRadioButton';
 
+function loadDataTestId(mode: DisappearingMessageConversationType) {
+  let dataTestId = 'disappear-%-option';
+  switch (mode) {
+    case 'legacy':
+      dataTestId = dataTestId.replace('%', 'legacy');
+      break;
+    case 'deleteAfterRead':
+      dataTestId = dataTestId.replace('%', 'after-read');
+      break;
+    case 'deleteAfterSend':
+      dataTestId = dataTestId.replace('%', 'after-send');
+      break;
+    case 'off':
+    default:
+      dataTestId = dataTestId.replace('%', 'off');
+  }
+
+  return dataTestId;
+}
+
 type DisappearingModesProps = {
   options: Record<DisappearingMessageConversationType, boolean>;
   selected?: DisappearingMessageConversationType;
@@ -52,6 +72,7 @@ export const DisappearingModes = (props: DisappearingModesProps) => {
               }}
               disabled={options[mode]}
               noBackgroundColor={true}
+              dataTestId={loadDataTestId(mode)}
             />
           );
         })}

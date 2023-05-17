@@ -3,6 +3,15 @@ import styled, { CSSProperties } from 'styled-components';
 import { Flex } from '../../basic/Flex';
 import { SessionIconButton } from '../../icon';
 
+// NOTE the subtitle toggling logic needs improvment
+function loadDataTestId(subtitles: Array<string>, currentIndex: number) {
+  if (currentIndex === subtitles.length - 1) {
+    return 'disappear-messages-type-and-time';
+  } else {
+    return 'conversation-header-subtitle';
+  }
+}
+
 export const StyledSubtitleContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -125,6 +134,7 @@ export const ConversationHeaderSubitle = (props: ConversationHeaderSubitleProps)
             }
           }}
           tabIndex={0}
+          data-testid={loadDataTestId(subtitles, currentIndex)}
         >
           {subtitles[currentIndex]}
         </span>

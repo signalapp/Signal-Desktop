@@ -196,6 +196,7 @@ export const OverlayDisappearingMessages = (props: OverlayDisappearingMessagesPr
               ? disappearingModeOptions[modeSelected]
               : undefined
           }
+          dataTestId={'disappear-set-button'}
         >
           {window.i18n('set')}
         </SessionButton>

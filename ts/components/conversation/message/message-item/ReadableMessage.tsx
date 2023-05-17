@@ -30,6 +30,7 @@ export type ReadableMessageProps = {
   className?: string;
   receivedAt: number | undefined;
   isUnread: boolean;
+  dataTestId?: string;
   onContextMenu?: (e: React.MouseEvent<HTMLElement>) => void;
 };
 
@@ -58,7 +59,7 @@ const debouncedTriggerLoadMoreBottom = debounce(
 );
 
 export const ReadableMessage = (props: ReadableMessageProps) => {
-  const { messageId, onContextMenu, className, receivedAt, isUnread } = props;
+  const { messageId, onContextMenu, className, receivedAt, isUnread, dataTestId } = props;
 
   const isAppFocused = useSelector(getIsAppFocused);
   const dispatch = useDispatch();
@@ -186,7 +187,7 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
       triggerOnce={false}
       trackVisibility={true}
       key={`inview-msg-${messageId}`}
-      data-testid="readable-message"
+      data-testid={dataTestId || 'readable-message'}
     >
       {props.children}
     </InView>
