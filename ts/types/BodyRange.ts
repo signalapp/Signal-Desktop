@@ -131,6 +131,11 @@ export type RangeNode = BodyRange<
   }
 >;
 
+const { BOLD, ITALIC, MONOSPACE, SPOILER, STRIKETHROUGH, NONE } =
+  BodyRange.Style;
+const MAX_PER_TYPE = 250;
+const MENTION_NAME = 'mention';
+
 // We drop unknown bodyRanges and remove extra stuff so they serialize properly
 export function filterAndClean(
   ranges: ReadonlyArray<Proto.DataMessage.IBodyRange> | undefined | null
@@ -138,6 +143,19 @@ export function filterAndClean(
   if (!ranges) {
     return undefined;
   }
+
+  const countByTypeRecord: Record<
+    BodyRange.Style | typeof MENTION_NAME,
+    number
+  > = {
+    [MENTION_NAME]: 0,
+    [BOLD]: 0,
+    [ITALIC]: 0,
+    [MONOSPACE]: 0,
+    [SPOILER]: 0,
+    [STRIKETHROUGH]: 0,
+    [NONE]: 0,
+  };
 
   return ranges
     .filter((range: Proto.DataMessage.IBodyRange): range is RawBodyRange => {
@@ -151,9 +169,17 @@ export function filterAndClean(
       }
 
       if (range.mentionUuid) {
+        countByTypeRecord[MENTION_NAME] += 1;
+        if (countByTypeRecord[MENTION_NAME] > MAX_PER_TYPE) {
+          return false;
+        }
         return true;
       }
       if (range.style) {
+        countByTypeRecord[range.style] += 1;
+        if (countByTypeRecord[range.style] > MAX_PER_TYPE) {
+          return false;
+        }
         return true;
       }
 
@@ -171,7 +197,7 @@ export function hydrateRanges(
     return undefined;
   }
 
-  return ranges.filter(BodyRange.isRawRange).map(range => {
+  return filterAndClean(ranges)?.map(range => {
     if (BodyRange.isMention(range)) {
       const conversation = conversationSelector(range.mentionUuid);
 
