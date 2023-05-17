@@ -173,11 +173,14 @@ export function MainHeader({
               title={title}
               avatarPath={avatarPath}
               hasPendingUpdate={hasPendingUpdate}
-              startUpdate={startUpdate}
               // See the comment above about `sharedGroupNames`.
               sharedGroupNames={[]}
               onEditProfile={() => {
                 toggleProfileEditor();
+                setShowAvatarPopup(false);
+              }}
+              onStartUpdate={() => {
+                startUpdate();
                 setShowAvatarPopup(false);
               }}
               onViewPreferences={() => {

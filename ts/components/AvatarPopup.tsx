@@ -16,9 +16,9 @@ export type Props = {
   readonly theme: ThemeType;
 
   hasPendingUpdate: boolean;
-  startUpdate: () => unknown;
 
   onEditProfile: () => unknown;
+  onStartUpdate: () => unknown;
   onViewPreferences: () => unknown;
   onViewArchive: () => unknown;
 
@@ -34,11 +34,11 @@ export function AvatarPopup(props: Props): JSX.Element {
     i18n,
     name,
     onEditProfile,
+    onStartUpdate,
     onViewArchive,
     onViewPreferences,
     phoneNumber,
     profileName,
-    startUpdate,
     style,
     title,
   } = props;
@@ -105,7 +105,7 @@ export function AvatarPopup(props: Props): JSX.Element {
         <button
           type="button"
           className="module-avatar-popup__item"
-          onClick={startUpdate}
+          onClick={onStartUpdate}
         >
           <div
             className={classNames(
