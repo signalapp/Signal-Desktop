@@ -200,10 +200,14 @@ export default class WebSocketResource extends EventTarget {
     strictAssert(!this.shuttingDown, 'Cannot send request, shutting down');
     this.addActive(idString);
     const promise = new Promise<SendRequestResult>((resolve, reject) => {
+      const sentAt = Date.now();
+      let timedOut = false;
+
       let timer = options.timeout
         ? Timers.setTimeout(() => {
+            timedOut = true;
             this.removeActive(idString);
-            reject(new Error('Request timed out'));
+            reject(new Error(`Request timed out; id: [${idString}]`));
           }, options.timeout)
         : undefined;
 
@@ -212,7 +216,13 @@ export default class WebSocketResource extends EventTarget {
           Timers.clearTimeout(timer);
           timer = undefined;
         }
-
+        if (timedOut) {
+          log.warn(
+            `Response received after timeout; id: [${idString}], path: [${
+              options.path
+            }], response time: [${Date.now() - sentAt}]`
+          );
+        }
         this.removeActive(idString);
         resolve(result);
       });
@@ -390,6 +400,7 @@ export type KeepAliveOptionsType = {
 // 30 seconds + 5 seconds for closing the socket above.
 const KEEPALIVE_INTERVAL_MS = 30 * durations.SECOND;
 const MAX_KEEPALIVE_INTERVAL_MS = 5 * durations.MINUTE;
+const LOG_KEEPALIVE_AFTER_MS = 500;
 
 class KeepAlive {
   private keepAliveTimer: Timers.Timeout | undefined;
@@ -446,10 +457,19 @@ class KeepAlive {
     }
 
     log.info('WebSocketResources: Sending a keepalive message');
+    const sentAt = Date.now();
+
     const { status } = await this.wsr.sendRequest({
       verb: 'GET',
       path: this.path,
     });
+
+    const responseTime = Date.now() - sentAt;
+    if (responseTime > LOG_KEEPALIVE_AFTER_MS) {
+      log.warn(
+        `Delayed response to keepalive request, response time: [${responseTime}]`
+      );
+    }
 
     if (status >= 200 || status < 300) {
       this.reset();
