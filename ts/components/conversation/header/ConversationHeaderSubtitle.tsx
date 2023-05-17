@@ -117,6 +117,7 @@ export const ConversationHeaderSubitle = (props: ConversationHeaderSubitleProps)
         <span
           role="button"
           className="module-conversation-header__title-text"
+          onClick={onClickFunction}
           onKeyPress={(e: any) => {
             if (e.key === 'Enter') {
               e.preventDefault();

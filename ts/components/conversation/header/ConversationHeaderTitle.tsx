@@ -109,7 +109,7 @@ export const ConversationHeaderTitle = () => {
     if (isRightPanelOn) {
       dispatch(closeRightPanel());
     } else {
-      if (visibleTitleIndex === 2) {
+      if (visibleTitleIndex === subtitles.length - 1) {
         dispatch(setRightOverlayMode('disappearing-messages'));
       } else {
         dispatch(setRightOverlayMode('panel-settings'));
@@ -131,16 +131,16 @@ export const ConversationHeaderTitle = () => {
   return (
     <div className="module-conversation-header__title-container">
       <div className="module-conversation-header__title-flex">
-        <div
-          className="module-conversation-header__title"
-          onClick={handleRightPanelToggle}
-          role="button"
-        >
+        <div className="module-conversation-header__title">
           {isMe ? (
-            <span>{i18n('noteToSelf')}</span>
+            <span onClick={handleRightPanelToggle} role="button">
+              {i18n('noteToSelf')}
+            </span>
           ) : (
             <span
               className="module-contact-name__profile-name"
+              onClick={handleRightPanelToggle}
+              role="button"
               data-testid="header-conversation-name"
             >
               {convoName}
