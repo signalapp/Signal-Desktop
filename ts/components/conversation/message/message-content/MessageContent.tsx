@@ -145,7 +145,7 @@ export const MessageContent = (props: Props) => {
     return null;
   }
 
-  const { direction, text, timestamp, serverTimestamp, previews } = contentProps;
+  const { direction, text, timestamp, serverTimestamp, previews, quote } = contentProps;
 
   const selectedMsg = useSelector(state => getMessageTextProps(state as any, props.messageId));
 
@@ -154,7 +154,7 @@ export const MessageContent = (props: Props) => {
     isDeleted = selectedMsg.isDeleted;
   }
 
-  const hasContentAfterAttachmentAndQuote = !isEmpty(previews) || !isEmpty(text);
+  const hasContentBeforeAttachment = !isEmpty(previews) || !isEmpty(quote) || !isEmpty(text);
 
   const toolTipTitle = moment(serverTimestamp || timestamp).format('llll');
 
@@ -178,7 +178,7 @@ export const MessageContent = (props: Props) => {
         }}
       >
         <IsMessageVisibleContext.Provider value={isMessageVisible}>
-          {hasContentAfterAttachmentAndQuote && (
+          {hasContentBeforeAttachment && (
             <StyledMessageOpaqueContent messageDirection={direction} highlight={highlight}>
               {!isDeleted && (
                 <>
