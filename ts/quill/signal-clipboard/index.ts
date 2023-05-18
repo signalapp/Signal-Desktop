@@ -34,9 +34,6 @@ export class SignalClipboard {
   }
 
   onCapturePaste(event: ClipboardEvent): void {
-    event.preventDefault();
-    event.stopPropagation();
-
     if (event.clipboardData == null) {
       return;
     }
@@ -52,6 +49,13 @@ export class SignalClipboard {
 
     const text = event.clipboardData.getData('text/plain');
     const html = event.clipboardData.getData('text/html');
+
+    if (!text && !html) {
+      return;
+    }
+
+    event.preventDefault();
+    event.stopPropagation();
 
     const clipboardDelta = html
       ? clipboard.convert(html)
