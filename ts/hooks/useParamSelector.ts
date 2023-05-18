@@ -5,6 +5,7 @@ import { PubKey } from '../session/types';
 import { UserUtils } from '../session/utils';
 import { StateType } from '../state/reducer';
 import { getMessageReactsProps } from '../state/selectors/conversations';
+import { isUsAnySogsFromCache } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
 
 export function useAvatarPath(convoId: string | undefined) {
   const convoProps = useConversationPropsById(convoId);
@@ -186,7 +187,7 @@ export function useMessageReactsPropsById(messageId?: string) {
 
 export function useQuoteAuthorName(authorId?: string) {
   const convoProps = useConversationPropsById(authorId);
-  return authorId === UserUtils.getOurPubKeyStrFromCache()
+  return authorId && isUsAnySogsFromCache(authorId)
     ? window.i18n('you')
     : convoProps?.nickname || convoProps?.isPrivate
     ? convoProps?.displayNameInProfile
