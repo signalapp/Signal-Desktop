@@ -156,7 +156,9 @@ const handleDiskDeletion = async (path: string) => {
     window.log.debug(`deleteDataSuccessful: Deletion succeeded for attachment ${path}`);
     return undefined;
   } catch (err) {
-    window.log.warn(`deleteDataSuccessful: Deletion failed for attachment ${path} ${err}`);
+    window.log.warn(
+      `deleteDataSuccessful: Deletion failed for attachment ${path} ${err.message || err}`
+    );
     return path;
   }
 };
