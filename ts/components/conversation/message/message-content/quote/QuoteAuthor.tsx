@@ -32,7 +32,7 @@ export const QuoteAuthor = (props: QuoteAuthorProps) => {
   const isPublic = useSelector(isPublicGroupConversation);
   const authorName = useQuoteAuthorName(author);
 
-  if (!author || author === '' || !authorName) {
+  if (!author || !authorName) {
     return null;
   }
 
