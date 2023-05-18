@@ -173,7 +173,7 @@ export const deleteData = async (attachment: { path: string; thumbnail: any; scr
 
   const { path, thumbnail, screenshot } = attachment;
 
-  if (isString(path)) {
+  if (path && isString(path)) {
     attachment.path = String(await handleDiskDeletion(path));
   }
 
