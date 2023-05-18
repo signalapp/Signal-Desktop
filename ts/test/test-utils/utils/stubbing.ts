@@ -5,6 +5,7 @@ import { OpenGroupData } from '../../../data/opengroups';
 import { ConfigDumpData } from '../../../data/configDump/configDump';
 
 import * as utilWorker from '../../../webworker/workers/browser/util_worker_interface';
+import * as libsessionWorker from '../../../webworker/workers/browser/libsession_worker_interface';
 
 const globalAny: any = global;
 
@@ -38,6 +39,11 @@ export function stubUtilWorker(fnName: string, returnedValue: any): sinon.SinonS
     .withArgs(fnName as any)
     .resolves(returnedValue);
 }
+
+export function stubLibSessionWorker(value: any) {
+  Sinon.stub(libsessionWorker, 'callLibSessionWorker').resolves(value);
+}
+
 export function stubCreateObjectUrl() {
   // tslint:disable-next-line: no-empty no-function-expression
   (global as any).URL = function() {};

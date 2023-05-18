@@ -27,14 +27,14 @@ function cleanUpOtherTest() {
   const parentFolderOfAllDataPath = isMacOS()
     ? '~/Library/Application Support/'
     : isLinux()
-    ? homedir() + '/.config/'
+    ? `${homedir()}/.config/`
     : null;
   if (!parentFolderOfAllDataPath) {
     throw new Error('Only macOS is currrently supported ');
   }
 
   if (!parentFolderOfAllDataPath || parentFolderOfAllDataPath.length < 9) {
-    throw new Error('parentFolderOfAllDataPath not found or invalid:' + parentFolderOfAllDataPath);
+    throw new Error(`parentFolderOfAllDataPath not found or invalid: ${parentFolderOfAllDataPath}`);
   }
   console.info('cleaning other tests leftovers...', parentFolderOfAllDataPath);
 

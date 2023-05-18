@@ -94,11 +94,4 @@ describe('filterDuplicatesFromDbAndIncomingV4', () => {
       expect(filtered[0]).to.be.deep.eq(msg1);
     });
   });
-
-  describe('filters duplicated message from database', () => {
-    //sadly better-sqlite3 does not allow us to easily create an in memory db for now (issues with sqlite binary)
-    // so testing this part is not easy as all the logic is made in sqlite
-    // tslint:disable-next-line: no-empty
-    it.skip('in memory database', () => {});
-  });
 });

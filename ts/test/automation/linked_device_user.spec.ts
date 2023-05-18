@@ -14,7 +14,7 @@ import {
   typeIntoInput,
   waitForMatchingText,
   waitForTestIdWithText,
-  waitForTextMessage
+  waitForTextMessage,
 } from './utilities/utils';
 
 const windows: Array<Page> = [];

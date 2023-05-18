@@ -7,7 +7,7 @@ import {
   clickOnMatchingText,
   clickOnTestIdWithText,
   waitForMatchingText,
-  waitForTestIdWithText
+  waitForTestIdWithText,
 } from './utilities/utils';
 
 // tslint:disable: no-console
@@ -20,9 +20,9 @@ sessionTestTwoWindows('Disappearing messages', async ([windowA, windowB]) => {
   // Create User
   const [userA, userB] = await Promise.all([newUser(windowA, 'Alice'), newUser(windowB, 'Bob')]);
   // Create Contact
-  await createContact(windowA, windowB, userA, userB)
+  await createContact(windowA, windowB, userA, userB);
   // Click on user's avatar to open conversation options
-  await clickOnTestIdWithText(windowA, 'conversation-options-avatar')
+  await clickOnTestIdWithText(windowA, 'conversation-options-avatar');
   // Select disappearing messages drop down
   await clickOnMatchingText(windowA, 'Disappearing messages');
   // Select 5 seconds
@@ -74,7 +74,7 @@ sessionTestTwoWindows('Disappearing messages', async ([windowA, windowB]) => {
     `${userA.userName} set the disappearing message timer to 5 seconds`
   );
   // Wait 5 seconds
-  await sleepFor(5000)
+  await sleepFor(5000);
   await waitForMatchingText(windowB, `${userA.userName} has turned off disappearing messages.`);
   // verify message is deleted in windowB
   const errorDesc2 = 'Should not be found';

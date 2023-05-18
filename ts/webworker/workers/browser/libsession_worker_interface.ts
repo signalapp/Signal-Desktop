@@ -314,6 +314,8 @@ export const ConvoInfoVolatileWrapperActions: ConvoInfoVolatileWrapperActionsCal
     ]) as Promise<ReturnType<ConvoInfoVolatileWrapperActionsCalls['eraseCommunityByFullUrl']>>,
 };
 
-const callLibSessionWorker = async (callToMake: LibSessionWorkerFunctions): Promise<unknown> => {
+export const callLibSessionWorker = async (
+  callToMake: LibSessionWorkerFunctions
+): Promise<unknown> => {
   return internalCallLibSessionWorker(callToMake);
 };

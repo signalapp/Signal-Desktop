@@ -17,7 +17,7 @@ type _TupleOf<T, N extends number, R extends unknown[]> = R['length'] extends N
 
 type CountWindows = 1 | 2 | 3 | 4 | 5;
 
-async function sessionTest<T extends CountWindows, N extends Tuple<Page, T>>(
+function sessionTest<T extends CountWindows, N extends Tuple<Page, T>>(
   testName: string,
   testCallback: (windows: N) => Promise<void>,
   count: T
@@ -43,35 +43,35 @@ async function sessionTest<T extends CountWindows, N extends Tuple<Page, T>>(
   });
 }
 
-export async function sessionTestOneWindow(
+export function sessionTestOneWindow(
   testName: string,
   testCallback: (windows: Tuple<Page, 1>) => Promise<void>
 ) {
   return sessionTest(testName, testCallback, 1);
 }
 
-export async function sessionTestTwoWindows(
+export function sessionTestTwoWindows(
   testName: string,
   testCallback: ([windowA, windowB]: [Page, Page]) => Promise<void>
 ) {
   return sessionTest(testName, testCallback, 2);
 }
 
-export async function sessionTestThreeWindows(
+export function sessionTestThreeWindows(
   testName: string,
   testCallback: ([windowA, windowB, windowC]: [Page, Page, Page]) => Promise<void>
 ) {
   return sessionTest(testName, testCallback, 3);
 }
 
-export async function sessionTestFourWindows(
+export function sessionTestFourWindows(
   testName: string,
   testCallback: ([windowA, windowB, windowC, windowD]: [Page, Page, Page, Page]) => Promise<void>
 ) {
   return sessionTest(testName, testCallback, 4);
 }
 
-export async function sessionTestFiveWindows(
+export function sessionTestFiveWindows(
   testName: string,
   testCallback: ([windowA, windowB, windowC, windowD]: [Page, Page, Page, Page, Page]) => Promise<
     void

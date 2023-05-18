@@ -1000,9 +1000,7 @@ async function handleConfigurationMessageLegacy(
   }
 
   await handleOurProfileUpdateLegacy(envelope.timestamp, configurationMessage);
-
   await handleGroupsAndContactsFromConfigMessageLegacy(envelope, configurationMessage);
-
   await removeFromCache(envelope);
 }
 

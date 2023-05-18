@@ -172,7 +172,6 @@ export class SwarmPolling {
         getConversationController()
           .get(group.pubkey.key)
           ?.idForLogging() || group.pubkey.key;
-
       if (diff >= convoPollingTimeout) {
         window?.log?.debug(
           `Polling for ${loggingId}; timeout: ${convoPollingTimeout}; diff: ${diff} `

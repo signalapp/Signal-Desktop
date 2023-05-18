@@ -16,7 +16,7 @@ export enum SnodeNamespaces {
    */
   UserContacts = 3,
   /**
-   * This is the namespace used to sync our contacts
+   * This is the namespace used to sync our volatile info (currently read status only)
    */
   ConvoInfoVolatile = 4,
 
@@ -94,9 +94,9 @@ function namespacePriority(namespace: SnodeNamespaces): number {
 
     default:
       try {
-        assertUnreachable(namespace, `isUserConfigNamespace case not handled: ${namespace}`);
+        assertUnreachable(namespace, `namespacePriority case not handled: ${namespace}`);
       } catch (e) {
-        window.log.warn(`isUserConfigNamespace case not handled: ${namespace}: ${e.message}`);
+        window.log.warn(`namespacePriority case not handled: ${namespace}: ${e.message}`);
         return 1;
       }
   }
