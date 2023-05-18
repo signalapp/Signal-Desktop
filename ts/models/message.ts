@@ -296,7 +296,9 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         : null;
 
     const direction =
-      this.get('direction') || this.get('type') === 'outgoing' ? 'outgoing' : 'incoming';
+      this.get('direction') === 'outgoing' || this.get('type') === 'outgoing'
+        ? 'outgoing'
+        : 'incoming';
 
     return {
       convoId: this.get('conversationId'),
