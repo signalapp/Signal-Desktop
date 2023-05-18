@@ -1470,8 +1470,6 @@ function getSeenMessagesByHashList(hashes: Array<string>) {
 
 function getExpiredMessages() {
   const now = Date.now();
-
-  // TODO probably need to update and also add functions to find specific kinds of disappearing messages
   const rows = assertGlobalInstance()
     .prepare(
       `SELECT json FROM ${MESSAGES_TABLE} WHERE
@@ -1503,7 +1501,6 @@ function getOutgoingWithoutExpiresAt() {
   return map(rows, row => jsonToObject(row.json));
 }
 
-// TODO Maybe we need different queries for the different modes?
 function getNextExpiringMessage() {
   const rows = assertGlobalInstance()
     .prepare(

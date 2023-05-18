@@ -1243,6 +1243,7 @@ function updateToSessionSchemaVersion30(currentVersion: number, db: BetterSqlite
       WHERE type = 'private' AND expireTimer > 0;`
       ).run({ expirationType: 'deleteAfterRead' });
 
+      // TODO Audric update this to support model changes for closed groups
       db.prepare(
         `UPDATE ${CONVERSATIONS_TABLE} SET
       expirationType = $expirationType
