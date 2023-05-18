@@ -12,7 +12,7 @@ const StyledQuoteAuthor = styled.div<{ isIncoming: boolean }>`
     props.isIncoming
       ? 'var(--message-bubbles-received-text-color)'
       : 'var(--message-bubbles-sent-text-color)'};
-  font-size: 15px;
+  font-size: var(--font-size-md);
   font-weight: bold;
   line-height: 18px;
   margin-bottom: 2px;
