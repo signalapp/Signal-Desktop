@@ -60,8 +60,8 @@ async function onReadReceipt(receipt: { source: string; timestamp: number; readA
       sent: true,
     });
 
-    // I think this is redundent since expirationStartTimestamp is always undefined and this the function will null return
-    if (message.isExpiring() && expirationStartTimestamp) {
+    // TODO this needs verification through qa once merged that it works
+    if (message.isExpiring() && !expirationStartTimestamp) {
       // This will save the message for us while starting the timer
       await message.setToExpire();
     } else {
