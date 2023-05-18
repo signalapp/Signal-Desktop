@@ -1089,7 +1089,7 @@ function getMessagesBySenderAndSentAt(
     rows.push(..._rows);
   }
 
-  return map(rows, row => jsonToObject(row.json));
+  return uniq(map(rows, row => jsonToObject(row.json)));
 }
 
 function filterAlreadyFetchedOpengroupMessage(
