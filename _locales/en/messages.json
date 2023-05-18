@@ -12562,18 +12562,7 @@
     "messageformat": "Small tweaks, bug fixes, and performance enhancements. Thanks for using Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.17--0": {
-    "messageformat": "Improved support for right-to-left (RTL) languages.",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--1": {
-    "messageformat": "Locales are now matched based on your system preferences. This should result in better default behavior when multiple languages are configured.",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--2": {
-    "messageformat": "This release additionally (a10y) introduces several accessibility (a11y) enhancements and bug fixes, and we affectionately (a12y) would like to thank the community for their feedback and suggestions.",
-    "description": "Release notes for v6.17"
-  },
+
   "icu:WhatsNew__v6.18--0": {
     "messageformat": "Use the \"Navigate by section\" keyboard shortcuts (⌘/Ctrl+T & ⌘/Ctrl+F6) to quickly move between different areas of the app. It's like a superhero version of the Tab key that can fly further and faster than its mild-mannered alter ego.",
     "description": "Release notes for v6.18"
@@ -12593,5 +12582,17 @@
   "icu:WhatsNew__v6.18--4": {
     "messageformat": "There's a new \"Copy text\" option in the triple-dot menu too. Thanks, {yusufsahinhamza}!",
     "description": "Release notes for v6.18"
+  },
+  "icu:WhatsNew__v6.19--0": {
+    "messageformat": "Silence isn’t always golden, but it does have a new icon. We updated the Camera and Mute buttons in voice and video calls so it’s even easier to see when they are enabled or disabled.",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--1": {
+    "messageformat": "Localization improvements, and better handling of right-to-left languages in the message composition field. Thanks, {sha265}!",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--2": {
+    "messageformat": "If you are on a version of Windows before Windows 10, or a version of Ubuntu before 20.04 LTS, you will need to update your operating system to continue using Signal: {supportLink}",
+    "description": "Release notes for v6.19"
   }
 }

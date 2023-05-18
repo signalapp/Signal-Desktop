@@ -2354,7 +2354,7 @@
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
   },
   "icu:copy": {
-    "messageformat": "Copy text",
+    "messageformat": "Kopírovať text",
     "description": "Shown on the drop-down menu for an individual message, copies the message text to the clipboard"
   },
   "icu:MessageContextMenu__select": {
@@ -2406,23 +2406,23 @@
     "description": "(deleted 04/06/2023) Shown on the drop-down menu for an individual message, deletes single message for everyone"
   },
   "icu:MessageContextMenu__reply": {
-    "messageformat": "Reply",
+    "messageformat": "Odpovedať",
     "description": "Shown on the drop-down menu for an individual message when there isnt room for a dedicated button, focuses the composer with a reply to the current message"
   },
   "icu:MessageContextMenu__react": {
-    "messageformat": "React",
+    "messageformat": "Reagovať",
     "description": "Shown on the drop-down menu for an individual message when there isnt room for a dedicated button, opens the react picker for the current message"
   },
   "icu:MessageContextMenu__download": {
-    "messageformat": "Download",
+    "messageformat": "Stiahnuť",
     "description": "Shown on the drop-down menu for an individual message when there isnt room for a dedicated button and when there's only a single attachment, downloads an attachment"
   },
   "icu:MessageContextMenu__deleteMessage": {
-    "messageformat": "Delete",
+    "messageformat": "Vymazať",
     "description": "Show on the drop-down menu for an individual message, opens a modal to select if you want to 'delete for me' or 'delete for everyone'"
   },
   "icu:MessageContextMenu__forward": {
-    "messageformat": "Forward",
+    "messageformat": "Preposlať",
     "description": "Show on the drop-down menu for an individual message, opens a modal to forward a message"
   },
   "icu:MessageContextMenu__info": {
@@ -3357,7 +3357,7 @@
     "description": "Description of the spell check setting"
   },
   "icu:textFormattingDescription": {
-    "messageformat": "Show text formatting popover when text is selected",
+    "messageformat": "Po výbere textu zobraziť vyskakovacie okno s formátovaním",
     "description": "Description of the text-formatting popover menu setting"
   },
   "spellCheckWillBeEnabled": {
@@ -5184,7 +5184,7 @@
     "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
   },
   "icu:Keyboard--focus-most-recent-message": {
-    "messageformat": "Focus oldest unread or last message",
+    "messageformat": "Zobrazovať najstaršiu neprečítanú alebo poslednú správu",
     "description": "Shown in shortcuts guide"
   },
   "Keyboard--navigate-by-section": {
@@ -5544,15 +5544,15 @@
     "description": "Description of command to bold text in composer"
   },
   "icu:FormatMenu--guide--bold": {
-    "messageformat": "Bold",
+    "messageformat": "Tučné",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
   },
   "icu:FormatMenu--guide--italic": {
-    "messageformat": "Italic",
+    "messageformat": "Kurzíva",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
   },
   "icu:FormatMenu--guide--strikethrough": {
-    "messageformat": "Strikethrough",
+    "messageformat": "Prečiarknuté",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
   },
   "icu:FormatMenu--guide--monospace": {
@@ -9480,11 +9480,11 @@
     "description": "(deleted 04/04/2023) Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-name-in-group--link": {
-    "messageformat": "{count, plural, one {{count,number} group member has the same name. <reviewRequestLink>Review members</reviewRequestLink>} other {{count,number} group members have the same name. <reviewRequestLink>Review members</reviewRequestLink>}}",
+    "messageformat": "{count, plural, one {{count,number} člen skupiny má rovnaké meno. <reviewRequestLink>Overiť členov</reviewRequestLink>} few {{count,number} členovia skupiny majú rovnaké meno. <reviewRequestLink>Overiť členov</reviewRequestLink>} many {{count,number} člena skupiny má rovnaké meno. <reviewRequestLink>Overiť členov</reviewRequestLink>} other {{count,number} členov skupiny má rovnaké meno. <reviewRequestLink>Overiť členov</reviewRequestLink>}}",
     "description": "Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-names-in-group--link": {
-    "messageformat": "{count, plural, one {{count,number} name conflict was found in this group. <reviewRequestLink>Review members</reviewRequestLink>} other {{count,number} name conflicts were found in this group. <reviewRequestLink>Review members</reviewRequestLink>}}",
+    "messageformat": "{count, plural, one {V tejto skupine sa vyskytol {count,number} konflikt mien. <reviewRequestLink>Overiť členov</reviewRequestLink>} few {V tejto skupine sa vyskytli {count,number} konflikty mien. <reviewRequestLink>Overiť členov</reviewRequestLink>} many {V tejto skupine sa vyskytlo {count,number} konfliktu mien. <reviewRequestLink>Overiť členov</reviewRequestLink>} other {V tejto skupine sa vyskytlo {count,number} konfliktov mien. <reviewRequestLink>Overiť členov</reviewRequestLink>}}",
     "description": "Shown in the timeline warning when multiple names are shared by members of a group."
   },
   "ContactSpoofing__same-name__link": {
@@ -9552,7 +9552,7 @@
     "description": "Description for the group contact spoofing review dialog"
   },
   "icu:ContactSpoofingReviewDialog__group__multiple-conflicts__description": {
-    "messageformat": "{count, plural, one {{count,number} name conflict was found in this group. Review the members below or choose to take action.} other {{count,number} name conflicts were found in this group. Review the members below or choose to take action.}}",
+    "messageformat": "{count, plural, one {V tejto skupine sa vyskytol {count,number} konflikt mien. Overte členov nižšie alebo vykonajte akciu.} few {V tejto skupine sa vyskytli {count,number} konflikty mien. Overte členov nižšie alebo vykonajte akciu.} many {V tejto skupine sa vyskytlo {count,number} konfliktu mien. Overte členov nižšie alebo vykonajte akciu.} other {V tejto skupine sa vyskytlo {count,number} konfliktov mien. Overte členov nižšie alebo vykonajte akciu.}}",
     "description": "Description for the group contact spoofing review dialog when there are multiple shared names"
   },
   "ContactSpoofingReviewDialog__group__members-header": {
@@ -9844,11 +9844,11 @@
     "description": "Modal title for the custom color editor"
   },
   "icu:GradientDial__knob-start": {
-    "messageformat": "Gradient start",
+    "messageformat": "Začiatok prechodu",
     "description": "aria-label for the custom color gradient creator knob"
   },
   "icu:GradientDial__knob-end": {
-    "messageformat": "Gradient end",
+    "messageformat": "Koniec prechodu",
     "description": "aria-label for the custom color gradient creator knob"
   },
   "customDisappearingTimeOption": {
@@ -10468,11 +10468,11 @@
     "description": "Title for the avatar picker in the group creation flow"
   },
   "icu:Preferences__message-audio-title": {
-    "messageformat": "In-chat message sound",
+    "messageformat": "Zvuk správ v čete",
     "description": "Title for message audio setting"
   },
   "icu:Preferences__message-audio-description": {
-    "messageformat": "Hear a notification sound for sent and received messages while in the chat.",
+    "messageformat": "V čete zaznie zvuk upozornenia na odoslané a prijaté správy.",
     "description": "Description for message audio setting"
   },
   "Preferences__button--general": {
@@ -12552,23 +12552,23 @@
     "description": "Release notes for v6.17"
   },
   "icu:WhatsNew__v6.18--0": {
-    "messageformat": "Use the \"Navigate by section\" keyboard shortcuts (⌘/Ctrl+T & ⌘/Ctrl+F6) to quickly move between different areas of the app. It's like a superhero version of the Tab key that can fly further and faster than its mild-mannered alter ego.",
+    "messageformat": "Pomocou nových klávesových skratiek „Navigovať podľa sekcie“ (⌘/Ctrl+T a ⌘/Ctrl+F6) môžete rýchlo prechádzať z jednej časti aplikácie do inej. Je to niečo ako super verzia klávesu Tab, ktorá dokáže zaletieť ďalej a rýchlejšie než jej obyčajné alter ego.",
     "description": "Release notes for v6.18"
   },
   "icu:WhatsNew__v6.18--1": {
-    "messageformat": "We added support for optional message sounds so that you can also hear notifications for sent and received messages while a chat is open (Settings > Notifications).",
+    "messageformat": "Pridali sme možnosť prehrávania zvuku upozornenia na odoslané a prijaté správy, aby vám nič neušlo ani vtedy, keď máte rozpísaný čet (Nastavenia > Upozornenia).",
     "description": "Release notes for v6.18"
   },
   "icu:WhatsNew__v6.18--2": {
-    "messageformat": "Jump to the latest unread message in a chat (⌘/Ctrl+J) without touching the mouse or helping the touchpad live up to its name.",
+    "messageformat": "Prejdite na poslednú neprečítanú správu v čete pomocou novej klávesovej skratky ⌘/Ctrl+J bez toho, aby ste sa čo i len dotkli myši či touchpadu.",
     "description": "Release notes for v6.18"
   },
   "icu:WhatsNew__v6.18--3": {
-    "messageformat": "Updated icons give the app a fresh look and help improve legibility.",
+    "messageformat": "Aktualizované ikony dodávajú aplikácii modernejší vzhľad a zlepšujú čitateľnosť.",
     "description": "Release notes for v6.18"
   },
   "icu:WhatsNew__v6.18--4": {
-    "messageformat": "There's a new \"Copy text\" option in the triple-dot menu too. Thanks, {yusufsahinhamza}!",
+    "messageformat": "V ponuke s tromi bodkami odteraz nájdete aj novú možnosť „Kopírovať text“. Ďakujeme, {yusufsahinhamza}!",
     "description": "Release notes for v6.18"
   }
 }

@@ -2354,7 +2354,7 @@
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
   },
   "icu:copy": {
-    "messageformat": "Copy text",
+    "messageformat": "कॉपी टेक्स्ट",
     "description": "Shown on the drop-down menu for an individual message, copies the message text to the clipboard"
   },
   "icu:MessageContextMenu__select": {
@@ -2406,27 +2406,27 @@
     "description": "(deleted 04/06/2023) Shown on the drop-down menu for an individual message, deletes single message for everyone"
   },
   "icu:MessageContextMenu__reply": {
-    "messageformat": "Reply",
+    "messageformat": "उत्तर",
     "description": "Shown on the drop-down menu for an individual message when there isnt room for a dedicated button, focuses the composer with a reply to the current message"
   },
   "icu:MessageContextMenu__react": {
-    "messageformat": "React",
+    "messageformat": "प्रतिक्रिया दें",
     "description": "Shown on the drop-down menu for an individual message when there isnt room for a dedicated button, opens the react picker for the current message"
   },
   "icu:MessageContextMenu__download": {
-    "messageformat": "Download",
+    "messageformat": "डाउनलोड",
     "description": "Shown on the drop-down menu for an individual message when there isnt room for a dedicated button and when there's only a single attachment, downloads an attachment"
   },
   "icu:MessageContextMenu__deleteMessage": {
-    "messageformat": "Delete",
+    "messageformat": "डिलीट करें",
     "description": "Show on the drop-down menu for an individual message, opens a modal to select if you want to 'delete for me' or 'delete for everyone'"
   },
   "icu:MessageContextMenu__forward": {
-    "messageformat": "Forward",
+    "messageformat": "आगे भेजें",
     "description": "Show on the drop-down menu for an individual message, opens a modal to forward a message"
   },
   "icu:MessageContextMenu__info": {
-    "messageformat": "Info",
+    "messageformat": "जानकारी",
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
   },
   "deleteMessages": {
@@ -3357,7 +3357,7 @@
     "description": "Description of the spell check setting"
   },
   "icu:textFormattingDescription": {
-    "messageformat": "Show text formatting popover when text is selected",
+    "messageformat": "टेक्स्ट का चयन होने पर टेक्स्ट फ़ॉर्मेटिंग पॉपओवर दिखाएं",
     "description": "Description of the text-formatting popover menu setting"
   },
   "spellCheckWillBeEnabled": {
@@ -5184,7 +5184,7 @@
     "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
   },
   "icu:Keyboard--focus-most-recent-message": {
-    "messageformat": "Focus oldest unread or last message",
+    "messageformat": "सबसे पुराने अपठित या अंतिम संदेश पर ध्यान दें",
     "description": "Shown in shortcuts guide"
   },
   "Keyboard--navigate-by-section": {
@@ -5544,23 +5544,23 @@
     "description": "Description of command to bold text in composer"
   },
   "icu:FormatMenu--guide--bold": {
-    "messageformat": "Bold",
+    "messageformat": "बोल्ड",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
   },
   "icu:FormatMenu--guide--italic": {
-    "messageformat": "Italic",
+    "messageformat": "इटैलिक",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
   },
   "icu:FormatMenu--guide--strikethrough": {
-    "messageformat": "Strikethrough",
+    "messageformat": "स्ट्राइकथ्रू",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
   },
   "icu:FormatMenu--guide--monospace": {
-    "messageformat": "Monospace",
+    "messageformat": "मोनोस्पेस",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
   },
   "icu:FormatMenu--guide--spoiler": {
-    "messageformat": "Spoiler",
+    "messageformat": "स्पॉइलर",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
   },
   "Keyboard--scroll-to-top": {
@@ -9480,11 +9480,11 @@
     "description": "(deleted 04/04/2023) Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-name-in-group--link": {
-    "messageformat": "{count, plural, one {{count,number} group member has the same name. <reviewRequestLink>Review members</reviewRequestLink>} other {{count,number} group members have the same name. <reviewRequestLink>Review members</reviewRequestLink>}}",
+    "messageformat": "{count, plural, one {{count,number} ग्रुप सदस्य का एक ही नाम है। <reviewRequestLink>सदस्य की समीक्षा करें</reviewRequestLink>} other {{count,number} ग्रुप सदस्य का एक ही नाम है। <reviewRequestLink>सदस्य की समीक्षा करें</reviewRequestLink>}}",
     "description": "Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-names-in-group--link": {
-    "messageformat": "{count, plural, one {{count,number} name conflict was found in this group. <reviewRequestLink>Review members</reviewRequestLink>} other {{count,number} name conflicts were found in this group. <reviewRequestLink>Review members</reviewRequestLink>}}",
+    "messageformat": "{count, plural, one {इस समूह में {count,number} नाम संबंधी संघर्ष पाया गया। <reviewRequestLink>सदस्य की समीक्षा करें</reviewRequestLink>} other {इस समूह में {count,number} नाम संबंधी संघर्ष पाए गए। <reviewRequestLink>सदस्य की समीक्षा करें</reviewRequestLink>}}",
     "description": "Shown in the timeline warning when multiple names are shared by members of a group."
   },
   "ContactSpoofing__same-name__link": {
@@ -9552,7 +9552,7 @@
     "description": "Description for the group contact spoofing review dialog"
   },
   "icu:ContactSpoofingReviewDialog__group__multiple-conflicts__description": {
-    "messageformat": "{count, plural, one {{count,number} name conflict was found in this group. Review the members below or choose to take action.} other {{count,number} name conflicts were found in this group. Review the members below or choose to take action.}}",
+    "messageformat": "{count, plural, one {इस समूह में {count,number} नाम संबंधी संघर्ष पाया गया। नीचे दिए सदस्यों की समीक्षा करें या कार्रवाई करना चुनें।} other {इस समूह में {count,number} नाम संबंधी संघर्ष पाया गया। नीचे दिए सदस्यों की समीक्षा करें या कार्रवाई करना चुनें।}}",
     "description": "Description for the group contact spoofing review dialog when there are multiple shared names"
   },
   "ContactSpoofingReviewDialog__group__members-header": {
@@ -9844,11 +9844,11 @@
     "description": "Modal title for the custom color editor"
   },
   "icu:GradientDial__knob-start": {
-    "messageformat": "Gradient start",
+    "messageformat": "ग्रेडिएंट शुरू",
     "description": "aria-label for the custom color gradient creator knob"
   },
   "icu:GradientDial__knob-end": {
-    "messageformat": "Gradient end",
+    "messageformat": "ग्रेडिएंट बंद",
     "description": "aria-label for the custom color gradient creator knob"
   },
   "customDisappearingTimeOption": {
@@ -10468,11 +10468,11 @@
     "description": "Title for the avatar picker in the group creation flow"
   },
   "icu:Preferences__message-audio-title": {
-    "messageformat": "In-chat message sound",
+    "messageformat": "इन-चैट संदेश साउंड",
     "description": "Title for message audio setting"
   },
   "icu:Preferences__message-audio-description": {
-    "messageformat": "Hear a notification sound for sent and received messages while in the chat.",
+    "messageformat": "चैट के दौरान भेजे गए और प्राप्त संदेश के लिए नोटिफिकेशन साउंड सुनें।",
     "description": "Description for message audio setting"
   },
   "Preferences__button--general": {
@@ -12552,23 +12552,23 @@
     "description": "Release notes for v6.17"
   },
   "icu:WhatsNew__v6.18--0": {
-    "messageformat": "Use the \"Navigate by section\" keyboard shortcuts (⌘/Ctrl+T & ⌘/Ctrl+F6) to quickly move between different areas of the app. It's like a superhero version of the Tab key that can fly further and faster than its mild-mannered alter ego.",
+    "messageformat": "तेजी से ऐप के अलग-अलग हिस्सों में जाने के लिए “चयन द्वारा नेविगेट” कीबोर्ड शॉर्टकट्स (⌘/Ctrl+T & ⌘/Ctrl+F6) इस्तेमाल करें। यह टैब कुंजी के एक सुपर हीरो वर्जन की तरह है, जो अपने माइल्ड-मैनर्ड ऑल्टर ईगो की तुलना में ज्यादा और तेजी से उड़ सकता है।",
     "description": "Release notes for v6.18"
   },
   "icu:WhatsNew__v6.18--1": {
-    "messageformat": "We added support for optional message sounds so that you can also hear notifications for sent and received messages while a chat is open (Settings > Notifications).",
+    "messageformat": "हमने वैकल्पिक संदेश साउंड्स के लिए सहायता जोड़ी है, ताकि आप चैट के खुले रहने के दौरान भेजे गए और प्राप्त संदेश के लिए नोटिफिकेशन भी सुन सकें (सेटिंग > नोटिफिकेशन)।",
     "description": "Release notes for v6.18"
   },
   "icu:WhatsNew__v6.18--2": {
-    "messageformat": "Jump to the latest unread message in a chat (⌘/Ctrl+J) without touching the mouse or helping the touchpad live up to its name.",
+    "messageformat": "माउस को छुए बिना या टचपैड को लाइव रखे बिना चैट में नवीनतम अपठित संदेश (⌘/Ctrl+J) पर सीधे जाएं।",
     "description": "Release notes for v6.18"
   },
   "icu:WhatsNew__v6.18--3": {
-    "messageformat": "Updated icons give the app a fresh look and help improve legibility.",
+    "messageformat": "अपडेट किए गए आइकन ऐप को एक नया रूप देते हैं और स्पष्टता में सुधार करते हैं।",
     "description": "Release notes for v6.18"
   },
   "icu:WhatsNew__v6.18--4": {
-    "messageformat": "There's a new \"Copy text\" option in the triple-dot menu too. Thanks, {yusufsahinhamza}!",
+    "messageformat": "ट्रिपल-डॉट मेनू में एक नया \"कॉपी टेक्स्ट\" विकल्प भी है। धन्यवाद, {yusufsahinhamza}!",
     "description": "Release notes for v6.18"
   }
 }

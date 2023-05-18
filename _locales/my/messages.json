@@ -2354,7 +2354,7 @@
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
   },
   "icu:copy": {
-    "messageformat": "Copy text",
+    "messageformat": "စာသား ကူးမယ်",
     "description": "Shown on the drop-down menu for an individual message, copies the message text to the clipboard"
   },
   "icu:MessageContextMenu__select": {
@@ -2406,27 +2406,27 @@
     "description": "(deleted 04/06/2023) Shown on the drop-down menu for an individual message, deletes single message for everyone"
   },
   "icu:MessageContextMenu__reply": {
-    "messageformat": "Reply",
+    "messageformat": "စာပြန်မည်",
     "description": "Shown on the drop-down menu for an individual message when there isnt room for a dedicated button, focuses the composer with a reply to the current message"
   },
   "icu:MessageContextMenu__react": {
-    "messageformat": "React",
+    "messageformat": "တုံ့ပြန်ရန်",
     "description": "Shown on the drop-down menu for an individual message when there isnt room for a dedicated button, opens the react picker for the current message"
   },
   "icu:MessageContextMenu__download": {
-    "messageformat": "Download",
+    "messageformat": "ကူးဆွဲသည်",
     "description": "Shown on the drop-down menu for an individual message when there isnt room for a dedicated button and when there's only a single attachment, downloads an attachment"
   },
   "icu:MessageContextMenu__deleteMessage": {
-    "messageformat": "Delete",
+    "messageformat": "ဖျက်ရန်",
     "description": "Show on the drop-down menu for an individual message, opens a modal to select if you want to 'delete for me' or 'delete for everyone'"
   },
   "icu:MessageContextMenu__forward": {
-    "messageformat": "Forward",
+    "messageformat": "ထပ်ဆင့် ပေးပို့မယ်",
     "description": "Show on the drop-down menu for an individual message, opens a modal to forward a message"
   },
   "icu:MessageContextMenu__info": {
-    "messageformat": "Info",
+    "messageformat": "အချက်အလက်",
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
   },
   "deleteMessages": {
@@ -3357,7 +3357,7 @@
     "description": "Description of the spell check setting"
   },
   "icu:textFormattingDescription": {
-    "messageformat": "Show text formatting popover when text is selected",
+    "messageformat": "စာသားကို ရွေးချယ်လိုက်သောအခါ စာသားဖောမတ်လုပ်သည့် မီနူးကို ပြသမည်",
     "description": "Description of the text-formatting popover menu setting"
   },
   "spellCheckWillBeEnabled": {
@@ -5184,7 +5184,7 @@
     "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
   },
   "icu:Keyboard--focus-most-recent-message": {
-    "messageformat": "Focus oldest unread or last message",
+    "messageformat": "အစောဆုံး သို့မဟုတ် နောက်ဆုံး မဖတ်ရသေးသည့် မက်ဆေ့ချ်ကို အာရုံစိုက်ပါ",
     "description": "Shown in shortcuts guide"
   },
   "Keyboard--navigate-by-section": {
@@ -5548,11 +5548,11 @@
     "description": "Shown when you hover over the bold button in the popup formatting menu"
   },
   "icu:FormatMenu--guide--italic": {
-    "messageformat": "Italic",
+    "messageformat": "စာလုံးအစောင်း",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
   },
   "icu:FormatMenu--guide--strikethrough": {
-    "messageformat": "Strikethrough",
+    "messageformat": "ခါးဖြတ်မျဉ်း",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
   },
   "icu:FormatMenu--guide--monospace": {
@@ -5560,7 +5560,7 @@
     "description": "Shown when you hover over the bold button in the popup formatting menu"
   },
   "icu:FormatMenu--guide--spoiler": {
-    "messageformat": "Spoiler",
+    "messageformat": "စာကို ဝါးထားရန်",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
   },
   "Keyboard--scroll-to-top": {
@@ -9480,11 +9480,11 @@
     "description": "(deleted 04/04/2023) Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-name-in-group--link": {
-    "messageformat": "{count, plural, one {{count,number} group member has the same name. <reviewRequestLink>Review members</reviewRequestLink>} other {{count,number} group members have the same name. <reviewRequestLink>Review members</reviewRequestLink>}}",
+    "messageformat": "{count, plural, other {အဖွဲ့မန်ဘာ {count,number} ဦးတွင် အမည်တူ ရှိနေပါသည်။ <reviewRequestLink>မန်ဘာများကို ပြန်လည်သုံးသပ်ရန်</reviewRequestLink>}}",
     "description": "Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-names-in-group--link": {
-    "messageformat": "{count, plural, one {{count,number} name conflict was found in this group. <reviewRequestLink>Review members</reviewRequestLink>} other {{count,number} name conflicts were found in this group. <reviewRequestLink>Review members</reviewRequestLink>}}",
+    "messageformat": "{count, plural, other {ဤအဖွဲ့တွင် အမည်ကွဲလွဲမှု {count,number} ခုကို တွေ့ရှိခဲ့ပါသည်။ <reviewRequestLink>မန်ဘာများကို ပြန်လည်သုံးသပ်ရန်</reviewRequestLink>}}",
     "description": "Shown in the timeline warning when multiple names are shared by members of a group."
   },
   "ContactSpoofing__same-name__link": {
@@ -9552,7 +9552,7 @@
     "description": "Description for the group contact spoofing review dialog"
   },
   "icu:ContactSpoofingReviewDialog__group__multiple-conflicts__description": {
-    "messageformat": "{count, plural, one {{count,number} name conflict was found in this group. Review the members below or choose to take action.} other {{count,number} name conflicts were found in this group. Review the members below or choose to take action.}}",
+    "messageformat": "{count, plural, other {ဤအဖွဲ့တွင် အမည်ကွဲလွဲမှု {count,number} ခုကို တွေ့ရှိခဲ့ပါသည်။ အောက်တွင် မန်ဘာများကို ပြန်လည်သုံးသပ်ပါ သို့မဟုတ် အရေးယူဆောင်ရွက်ရန် ရွေးချယ်ပါ။}}",
     "description": "Description for the group contact spoofing review dialog when there are multiple shared names"
   },
   "ContactSpoofingReviewDialog__group__members-header": {
@@ -9844,11 +9844,11 @@
     "description": "Modal title for the custom color editor"
   },
   "icu:GradientDial__knob-start": {
-    "messageformat": "Gradient start",
+    "messageformat": "Gradient အစ",
     "description": "aria-label for the custom color gradient creator knob"
   },
   "icu:GradientDial__knob-end": {
-    "messageformat": "Gradient end",
+    "messageformat": "Gradient အဆုံး",
     "description": "aria-label for the custom color gradient creator knob"
   },
   "customDisappearingTimeOption": {
@@ -10468,11 +10468,11 @@
     "description": "Title for the avatar picker in the group creation flow"
   },
   "icu:Preferences__message-audio-title": {
-    "messageformat": "In-chat message sound",
+    "messageformat": "ချက်(တ်)အတွင်း မက်ဆေ့ချ်အသံ",
     "description": "Title for message audio setting"
   },
   "icu:Preferences__message-audio-description": {
-    "messageformat": "Hear a notification sound for sent and received messages while in the chat.",
+    "messageformat": "ချက်(တ်)အတွင်း ရှိနေစဉ် ပေးပို့လိုက်သော မက်ဆေ့ချ်နှင့် လက်ခံရရှိသော မက်ဆေ့ချ်များအတွက် အသိပေးချက်အသံကို ကြားရမည်။",
     "description": "Description for message audio setting"
   },
   "Preferences__button--general": {
@@ -12552,23 +12552,23 @@
     "description": "Release notes for v6.17"
   },
   "icu:WhatsNew__v6.18--0": {
-    "messageformat": "Use the \"Navigate by section\" keyboard shortcuts (⌘/Ctrl+T & ⌘/Ctrl+F6) to quickly move between different areas of the app. It's like a superhero version of the Tab key that can fly further and faster than its mild-mannered alter ego.",
+    "messageformat": "အက်ပ်၏ ဧရိယာမျိုးစုံသို့ အလျင်အမြန် ရွေ့လျားရန် ကီးဘုတ်ရှော့တ်ကတ် အသစ်များ (⌘/Ctrl+T & ⌘/Ctrl+F6) ကိုအသုံးပြုပါ။ ၎င်းသည် တက်ဘ်ခလုတ်၏ သိမ်မွေ့သော ကိုယ်ခွဲထက် အဝေးကိုပိုပျံသန်းနိုင်ပြီး ပိုမြန်ဆန်သော စူပါဟီးရိုးဗားရှင်းတစ်ခုနှင့် တူပါသည်။",
     "description": "Release notes for v6.18"
   },
   "icu:WhatsNew__v6.18--1": {
-    "messageformat": "We added support for optional message sounds so that you can also hear notifications for sent and received messages while a chat is open (Settings > Notifications).",
+    "messageformat": "ချက်(တ်)တစ်ခုကို ဖွင့်ထားစဉ် ပေးပို့လိုက်သော မက်ဆေ့ချ်နှင့် လက်ခံရရှိသော မက်ဆေ့ချ်များအတွက် အသိပေးချက်အသံကို ဖွင့်ရန် ရွေးချယ်နိုင်သော ဆက်တင်တစ်ခုကို ထည့်သွင်းပေးထားပါသည် (ဆက်တင် > အသိပေးချက်များ)။",
     "description": "Release notes for v6.18"
   },
   "icu:WhatsNew__v6.18--2": {
-    "messageformat": "Jump to the latest unread message in a chat (⌘/Ctrl+J) without touching the mouse or helping the touchpad live up to its name.",
+    "messageformat": "အခြား ကီးဘုတ်ရှော့တ်ကတ်အသစ် (⌘/Ctrl+J) ကို အသုံးပြုလျက် ချက်(တ်)တစ်ခုအတွင်း နောက်ဆုံး မဖတ်ရသေးသည့် မက်ဆေ့ချ်သို့ သွားပါ။",
     "description": "Release notes for v6.18"
   },
   "icu:WhatsNew__v6.18--3": {
-    "messageformat": "Updated icons give the app a fresh look and help improve legibility.",
+    "messageformat": "အပ်ဒိတ်လုပ်ထားသော အိုင်ကွန်များသည် အက်ပ်ကို အသွင်သစ်အမြင်သစ် ဖြစ်စေပါသည်။",
     "description": "Release notes for v6.18"
   },
   "icu:WhatsNew__v6.18--4": {
-    "messageformat": "There's a new \"Copy text\" option in the triple-dot menu too. Thanks, {yusufsahinhamza}!",
+    "messageformat": "အစက်သုံးစက်ပါ မီနူးထဲတွင် \"စာသားကူးရန်\" ရွေးချယ်စရာအသစ်လည်း ရှိပါသည်။ ကျေးဇူးပါ {yusufsahinhamza}။",
     "description": "Release notes for v6.18"
   }
 }

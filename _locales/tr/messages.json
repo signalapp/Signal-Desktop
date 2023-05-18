@@ -2354,7 +2354,7 @@
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
   },
   "icu:copy": {
-    "messageformat": "Copy text",
+    "messageformat": "Metni kopyala",
     "description": "Shown on the drop-down menu for an individual message, copies the message text to the clipboard"
   },
   "icu:MessageContextMenu__select": {
@@ -2406,27 +2406,27 @@
     "description": "(deleted 04/06/2023) Shown on the drop-down menu for an individual message, deletes single message for everyone"
   },
   "icu:MessageContextMenu__reply": {
-    "messageformat": "Reply",
+    "messageformat": "Cevapla",
     "description": "Shown on the drop-down menu for an individual message when there isnt room for a dedicated button, focuses the composer with a reply to the current message"
   },
   "icu:MessageContextMenu__react": {
-    "messageformat": "React",
+    "messageformat": "Tepki ver",
     "description": "Shown on the drop-down menu for an individual message when there isnt room for a dedicated button, opens the react picker for the current message"
   },
   "icu:MessageContextMenu__download": {
-    "messageformat": "Download",
+    "messageformat": "İndir",
     "description": "Shown on the drop-down menu for an individual message when there isnt room for a dedicated button and when there's only a single attachment, downloads an attachment"
   },
   "icu:MessageContextMenu__deleteMessage": {
-    "messageformat": "Delete",
+    "messageformat": "Sil",
     "description": "Show on the drop-down menu for an individual message, opens a modal to select if you want to 'delete for me' or 'delete for everyone'"
   },
   "icu:MessageContextMenu__forward": {
-    "messageformat": "Forward",
+    "messageformat": "Yönlendir",
     "description": "Show on the drop-down menu for an individual message, opens a modal to forward a message"
   },
   "icu:MessageContextMenu__info": {
-    "messageformat": "Info",
+    "messageformat": "Bilgi",
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
   },
   "deleteMessages": {
@@ -3357,7 +3357,7 @@
     "description": "Description of the spell check setting"
   },
   "icu:textFormattingDescription": {
-    "messageformat": "Show text formatting popover when text is selected",
+    "messageformat": "Metin seçildiğinde metin biçimlendirme açılır penceresini göster",
     "description": "Description of the text-formatting popover menu setting"
   },
   "spellCheckWillBeEnabled": {
@@ -5184,7 +5184,7 @@
     "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
   },
   "icu:Keyboard--focus-most-recent-message": {
-    "messageformat": "Focus oldest unread or last message",
+    "messageformat": "En eski okunmamış veya son mesaja odaklan",
     "description": "Shown in shortcuts guide"
   },
   "Keyboard--navigate-by-section": {
@@ -5544,19 +5544,19 @@
     "description": "Description of command to bold text in composer"
   },
   "icu:FormatMenu--guide--bold": {
-    "messageformat": "Bold",
+    "messageformat": "Kalın",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
   },
   "icu:FormatMenu--guide--italic": {
-    "messageformat": "Italic",
+    "messageformat": "İtalik",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
   },
   "icu:FormatMenu--guide--strikethrough": {
-    "messageformat": "Strikethrough",
+    "messageformat": "Üstü çizili",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
   },
   "icu:FormatMenu--guide--monospace": {
-    "messageformat": "Monospace",
+    "messageformat": "Tek aralıklı",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
   },
   "icu:FormatMenu--guide--spoiler": {
@@ -9480,11 +9480,11 @@
     "description": "(deleted 04/04/2023) Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-name-in-group--link": {
-    "messageformat": "{count, plural, one {{count,number} group member has the same name. <reviewRequestLink>Review members</reviewRequestLink>} other {{count,number} group members have the same name. <reviewRequestLink>Review members</reviewRequestLink>}}",
+    "messageformat": "{count, plural, one {{count,number} grup üyesi aynı ada sahip. <reviewRequestLink>Üyeleri incele</reviewRequestLink>} other {{count,number} grup üyesi aynı ada sahip. <reviewRequestLink>Üyeleri incele</reviewRequestLink>}}",
     "description": "Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-names-in-group--link": {
-    "messageformat": "{count, plural, one {{count,number} name conflict was found in this group. <reviewRequestLink>Review members</reviewRequestLink>} other {{count,number} name conflicts were found in this group. <reviewRequestLink>Review members</reviewRequestLink>}}",
+    "messageformat": "{count, plural, one {Bu grupta {count,number} ad çakışması bulundu. <reviewRequestLink>Üyeleri incele</reviewRequestLink>} other {Bu grupta {count,number} ad çakışması bulundu. <reviewRequestLink>Üyeleri incele</reviewRequestLink>}}",
     "description": "Shown in the timeline warning when multiple names are shared by members of a group."
   },
   "ContactSpoofing__same-name__link": {
@@ -9552,7 +9552,7 @@
     "description": "Description for the group contact spoofing review dialog"
   },
   "icu:ContactSpoofingReviewDialog__group__multiple-conflicts__description": {
-    "messageformat": "{count, plural, one {{count,number} name conflict was found in this group. Review the members below or choose to take action.} other {{count,number} name conflicts were found in this group. Review the members below or choose to take action.}}",
+    "messageformat": "{count, plural, one {Bu grupta {count,number} ad çakışması bulundu. Aşağıdaki üyeleri incele veya işlem yapmayı seç.} other {Bu grupta {count,number} ad çakışması bulundu. Aşağıdaki üyeleri incele veya işlem yapmayı seç.}}",
     "description": "Description for the group contact spoofing review dialog when there are multiple shared names"
   },
   "ContactSpoofingReviewDialog__group__members-header": {
@@ -9844,11 +9844,11 @@
     "description": "Modal title for the custom color editor"
   },
   "icu:GradientDial__knob-start": {
-    "messageformat": "Gradient start",
+    "messageformat": "Geçiş başı",
     "description": "aria-label for the custom color gradient creator knob"
   },
   "icu:GradientDial__knob-end": {
-    "messageformat": "Gradient end",
+    "messageformat": "Geçiş sonu",
     "description": "aria-label for the custom color gradient creator knob"
   },
   "customDisappearingTimeOption": {
@@ -10468,11 +10468,11 @@
     "description": "Title for the avatar picker in the group creation flow"
   },
   "icu:Preferences__message-audio-title": {
-    "messageformat": "In-chat message sound",
+    "messageformat": "Sohbet içi mesaj sesi",
     "description": "Title for message audio setting"
   },
   "icu:Preferences__message-audio-description": {
-    "messageformat": "Hear a notification sound for sent and received messages while in the chat.",
+    "messageformat": "Sohbet sırasında gönderilen ve alınan mesajlar için bir bildirim sesi duyarsın.",
     "description": "Description for message audio setting"
   },
   "Preferences__button--general": {
@@ -12552,23 +12552,23 @@
     "description": "Release notes for v6.17"
   },
   "icu:WhatsNew__v6.18--0": {
-    "messageformat": "Use the \"Navigate by section\" keyboard shortcuts (⌘/Ctrl+T & ⌘/Ctrl+F6) to quickly move between different areas of the app. It's like a superhero version of the Tab key that can fly further and faster than its mild-mannered alter ego.",
+    "messageformat": "Uygulamanın farklı alanları arasında hızla hareket etmek için \"Bölüme göre gezin\" klavye kısayollarını (⌘/Ctrl+T ve ⌘/Ctrl+F6) kullan. Sekme tuşunun, daha uzağa ve daha hızlı uçabilen bir süper kahraman versiyonu gibi.",
     "description": "Release notes for v6.18"
   },
   "icu:WhatsNew__v6.18--1": {
-    "messageformat": "We added support for optional message sounds so that you can also hear notifications for sent and received messages while a chat is open (Settings > Notifications).",
+    "messageformat": "Bir sohbet açıkken (Ayarlar > Bildirimler) gönderilen ve alınan mesajlar için bildirimleri de duyabilmen için isteğe bağlı mesaj sesleri için destek ekledik.",
     "description": "Release notes for v6.18"
   },
   "icu:WhatsNew__v6.18--2": {
-    "messageformat": "Jump to the latest unread message in a chat (⌘/Ctrl+J) without touching the mouse or helping the touchpad live up to its name.",
+    "messageformat": "Bir sohbette fareye veya dokunmatik yüzeye dokunmadan en sonki okunmamış mesaja atla (⌘/Ctrl+J).",
     "description": "Release notes for v6.18"
   },
   "icu:WhatsNew__v6.18--3": {
-    "messageformat": "Updated icons give the app a fresh look and help improve legibility.",
+    "messageformat": "Güncellenen simgeler, uygulamaya yeni bir görünüm verir ve okunabilirliği artırmaya yardımcı olur.",
     "description": "Release notes for v6.18"
   },
   "icu:WhatsNew__v6.18--4": {
-    "messageformat": "There's a new \"Copy text\" option in the triple-dot menu too. Thanks, {yusufsahinhamza}!",
+    "messageformat": "Üç noktalı menüde de yeni bir \"Metni kopyala\" seçeneği bulunuyor. Teşekkürler {yusufsahinhamza}!",
     "description": "Release notes for v6.18"
   }
 }

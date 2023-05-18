@@ -2354,7 +2354,7 @@
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
   },
   "icu:copy": {
-    "messageformat": "Copy text",
+    "messageformat": "Kopyahin ang text",
     "description": "Shown on the drop-down menu for an individual message, copies the message text to the clipboard"
   },
   "icu:MessageContextMenu__select": {
@@ -2406,23 +2406,23 @@
     "description": "(deleted 04/06/2023) Shown on the drop-down menu for an individual message, deletes single message for everyone"
   },
   "icu:MessageContextMenu__reply": {
-    "messageformat": "Reply",
+    "messageformat": "Tugon",
     "description": "Shown on the drop-down menu for an individual message when there isnt room for a dedicated button, focuses the composer with a reply to the current message"
   },
   "icu:MessageContextMenu__react": {
-    "messageformat": "React",
+    "messageformat": "Mag-react",
     "description": "Shown on the drop-down menu for an individual message when there isnt room for a dedicated button, opens the react picker for the current message"
   },
   "icu:MessageContextMenu__download": {
-    "messageformat": "Download",
+    "messageformat": "I-download",
     "description": "Shown on the drop-down menu for an individual message when there isnt room for a dedicated button and when there's only a single attachment, downloads an attachment"
   },
   "icu:MessageContextMenu__deleteMessage": {
-    "messageformat": "Delete",
+    "messageformat": "Burahin",
     "description": "Show on the drop-down menu for an individual message, opens a modal to select if you want to 'delete for me' or 'delete for everyone'"
   },
   "icu:MessageContextMenu__forward": {
-    "messageformat": "Forward",
+    "messageformat": "Ipasa",
     "description": "Show on the drop-down menu for an individual message, opens a modal to forward a message"
   },
   "icu:MessageContextMenu__info": {
@@ -3357,7 +3357,7 @@
     "description": "Description of the spell check setting"
   },
   "icu:textFormattingDescription": {
-    "messageformat": "Show text formatting popover when text is selected",
+    "messageformat": "Ipakita ang text formatting popover kapag may piniling text",
     "description": "Description of the text-formatting popover menu setting"
   },
   "spellCheckWillBeEnabled": {
@@ -5184,7 +5184,7 @@
     "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
   },
   "icu:Keyboard--focus-most-recent-message": {
-    "messageformat": "Focus oldest unread or last message",
+    "messageformat": "Mag-focus sa oldest unread o pinakahuling message",
     "description": "Shown in shortcuts guide"
   },
   "Keyboard--navigate-by-section": {
@@ -9480,11 +9480,11 @@
     "description": "(deleted 04/04/2023) Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-name-in-group--link": {
-    "messageformat": "{count, plural, one {{count,number} group member has the same name. <reviewRequestLink>Review members</reviewRequestLink>} other {{count,number} group members have the same name. <reviewRequestLink>Review members</reviewRequestLink>}}",
+    "messageformat": "{count, plural, one {{count,number} group member ang may magkaparehong pangalan. <reviewRequestLink>I-review ang member</reviewRequestLink>} other {{count,number} group members ang may magkaparehong pangalan. <reviewRequestLink>I-review ang members</reviewRequestLink>}}",
     "description": "Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-names-in-group--link": {
-    "messageformat": "{count, plural, one {{count,number} name conflict was found in this group. <reviewRequestLink>Review members</reviewRequestLink>} other {{count,number} name conflicts were found in this group. <reviewRequestLink>Review members</reviewRequestLink>}}",
+    "messageformat": "{count, plural, one {{count,number} name conflict ang nakita sa group. <reviewRequestLink>I-review ang members</reviewRequestLink>} other {{count,number} name conflicts ang nakita sa group. <reviewRequestLink>I-review ang members</reviewRequestLink>}}",
     "description": "Shown in the timeline warning when multiple names are shared by members of a group."
   },
   "ContactSpoofing__same-name__link": {
@@ -9552,7 +9552,7 @@
     "description": "Description for the group contact spoofing review dialog"
   },
   "icu:ContactSpoofingReviewDialog__group__multiple-conflicts__description": {
-    "messageformat": "{count, plural, one {{count,number} name conflict was found in this group. Review the members below or choose to take action.} other {{count,number} name conflicts were found in this group. Review the members below or choose to take action.}}",
+    "messageformat": "{count, plural, one {{count,number} name conflict ang nakita sa group. I-review ang members sa baba at pumili ng aksyon na nais mong gawin.} other {{count,number} name conflicts ang nakita sa group. I-review ang members sa baba at pumili ng aksyon na nais mong gawin.}}",
     "description": "Description for the group contact spoofing review dialog when there are multiple shared names"
   },
   "ContactSpoofingReviewDialog__group__members-header": {
@@ -10472,7 +10472,7 @@
     "description": "Title for message audio setting"
   },
   "icu:Preferences__message-audio-description": {
-    "messageformat": "Hear a notification sound for sent and received messages while in the chat.",
+    "messageformat": "Makarinig ng notification sound para sa sent at received messages habang nasa chat.",
     "description": "Description for message audio setting"
   },
   "Preferences__button--general": {
@@ -12552,23 +12552,23 @@
     "description": "Release notes for v6.17"
   },
   "icu:WhatsNew__v6.18--0": {
-    "messageformat": "Use the \"Navigate by section\" keyboard shortcuts (⌘/Ctrl+T & ⌘/Ctrl+F6) to quickly move between different areas of the app. It's like a superhero version of the Tab key that can fly further and faster than its mild-mannered alter ego.",
+    "messageformat": "Gamitin ang \"Navigate by section\" keyboard shortcuts (⌘/Ctrl+T & ⌘/Ctrl+F6) para makalipat agad sa iba't ibang areas ng app. Parang turbo version ito ng Tab key.",
     "description": "Release notes for v6.18"
   },
   "icu:WhatsNew__v6.18--1": {
-    "messageformat": "We added support for optional message sounds so that you can also hear notifications for sent and received messages while a chat is open (Settings > Notifications).",
+    "messageformat": "Nagdagdag rin kami ng suporta para sa optional message sounds para marinig mo rin ang notifications ng sent at received messages habang nakabukas ang chat (Settings > Notifications).",
     "description": "Release notes for v6.18"
   },
   "icu:WhatsNew__v6.18--2": {
-    "messageformat": "Jump to the latest unread message in a chat (⌘/Ctrl+J) without touching the mouse or helping the touchpad live up to its name.",
+    "messageformat": "Pumunta sa latest unread message sa chat (⌘/Ctrl+J) nang hindi hinahawakan ang iyong mouse o touchpad.",
     "description": "Release notes for v6.18"
   },
   "icu:WhatsNew__v6.18--3": {
-    "messageformat": "Updated icons give the app a fresh look and help improve legibility.",
+    "messageformat": "Ang updated icons ay nagbibigay ng fresh look sa app at ginagawang mas madaling basahin ang text.",
     "description": "Release notes for v6.18"
   },
   "icu:WhatsNew__v6.18--4": {
-    "messageformat": "There's a new \"Copy text\" option in the triple-dot menu too. Thanks, {yusufsahinhamza}!",
+    "messageformat": "Meron na ring bagong option na \"Kopyahin ang text\" sa triple-dot menu. Maraming salamat, {yusufsahinhamza}!",
     "description": "Release notes for v6.18"
   }
 }
