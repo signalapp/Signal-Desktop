@@ -21,6 +21,11 @@ export type DisappearingMessageType = typeof DisappearingMessageMode[number] | n
 // TODO legacy messages support will be removed in a future release
 export const DisappearingMessageConversationSetting = ['off', ...DisappearingMessageMode, 'legacy'];
 export type DisappearingMessageConversationType = typeof DisappearingMessageConversationSetting[number];
+export type DisappearingMessageModesWithState = Record<
+  DisappearingMessageConversationType,
+  boolean
+>;
+
 export const DEFAULT_TIMER_OPTION = {
   DELETE_AFTER_READ: 43200, // 12 hours
   DELETE_AFTER_SEND: 86400, // 1 day

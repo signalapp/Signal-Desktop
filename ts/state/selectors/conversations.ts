@@ -37,7 +37,10 @@ import { ConversationTypeEnum } from '../../models/conversationAttributes';
 
 import { MessageReactsSelectorProps } from '../../components/conversation/message/message-content/MessageReactions';
 import { filter, isEmpty, pick, sortBy } from 'lodash';
-import { DisappearingMessageConversationSetting } from '../../util/expiringMessages';
+import {
+  DisappearingMessageConversationSetting,
+  DisappearingMessageModesWithState,
+} from '../../util/expiringMessages';
 import { ConversationHeaderTitleProps } from '../../components/conversation/header/ConversationHeaderTitle';
 import { PropsForExpirationSettings } from '../../components/conversation/right-panel/overlay/disappearing-messages/OverlayDisappearingMessages';
 
@@ -1214,7 +1217,7 @@ export const getSelectedConversationExpirationModes = createSelector(
       modes = [modes[0], modes[2]];
     }
 
-    const modesWithDisabledState: any = {};
+    const modesWithDisabledState: DisappearingMessageModesWithState = {};
     if (modes && modes.length > 1) {
       modes.forEach(mode => {
         modesWithDisabledState[mode] = isClosedGroup ? !convo.weAreAdmin : false;
@@ -1240,7 +1243,7 @@ export const getSelectedConversationExpirationModesWithLegacy = createSelector(
     // Legacy mode is the 2nd option in the UI
     modes = [modes[0], modes[modes.length - 1], ...modes.slice(1, modes.length - 1)];
 
-    const modesWithDisabledState: any = {};
+    const modesWithDisabledState: DisappearingMessageModesWithState = {};
     // The new modes are disabled by default
     if (modes && modes.length > 1) {
       modes.forEach(mode => {
