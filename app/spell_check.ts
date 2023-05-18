@@ -10,6 +10,14 @@ import { maybeParseUrl } from '../ts/util/url';
 
 import type { MenuListType } from '../ts/types/menu';
 import type { LocalizerType } from '../ts/types/Util';
+import { strictAssert } from '../ts/util/assert';
+
+export const FAKE_DEFAULT_LOCALE = 'en-x-ignore'; // -x- is an extension space for attaching other metadata to the locale
+
+strictAssert(
+  new Intl.Locale(FAKE_DEFAULT_LOCALE).toString() === FAKE_DEFAULT_LOCALE,
+  "Ensure Intl doesn't change our fake locale ever"
+);
 
 export function getLanguages(
   preferredSystemLocales: ReadonlyArray<string>,
@@ -19,17 +27,20 @@ export function getLanguages(
   const matchedLocales = [];
 
   preferredSystemLocales.forEach(preferredSystemLocale => {
-    if (preferredSystemLocale === defaultLocale) {
-      matchedLocales.push(defaultLocale);
-      return;
-    }
     const matchedLocale = LocaleMatcher.match(
       [preferredSystemLocale],
       availableLocales as Array<string>, // bad types
-      defaultLocale,
+      // We don't want to fallback to the default locale right away in case we might
+      // match some other locales first.
+      //
+      // However, we do want to match the default locale in case the user's locales
+      // actually matches it.
+      //
+      // This fake locale allows us to reliably filter it out within the loop.
+      FAKE_DEFAULT_LOCALE,
       { algorithm: 'best fit' }
     );
-    if (matchedLocale !== defaultLocale) {
+    if (matchedLocale !== FAKE_DEFAULT_LOCALE) {
       matchedLocales.push(matchedLocale);
     }
   });
