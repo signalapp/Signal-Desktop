@@ -55,14 +55,7 @@ function getTypeLabel({
   if (MIME.isAudio(contentType)) {
     return window.i18n('audio');
   }
-  if (
-    !GoogleChrome.isVideoTypeSupported(contentType) &&
-    !GoogleChrome.isImageTypeSupported(contentType) &&
-    !MIME.isAudio(contentType)
-  ) {
-    return window.i18n('document');
-  }
-  return;
+  return window.i18n('document');
 }
 
 export const QuoteText = (
