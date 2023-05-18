@@ -983,9 +983,14 @@ export const getMessageLinkPreviewProps = createSelector(getMessagePropsByMessag
 
 // tslint:disable: cyclomatic-complexity
 export const getMessageQuoteProps = createSelector(
+  getConversationLookup,
   getConversationQuotes,
   getMessagePropsByMessageId,
-  (quotesProps, msgModel): { direction: MessageModelType; quote: PropsForQuote } | undefined => {
+  (
+    conversationLookup,
+    quotesProps,
+    msgModel
+  ): { direction: MessageModelType; quote: PropsForQuote } | undefined => {
     if (!msgModel || isEmpty(msgModel)) {
       return undefined;
     }
@@ -1028,14 +1033,14 @@ export const getMessageQuoteProps = createSelector(
       return quoteNotFound;
     }
 
-    const convo = getConversationController().get(sourceMsgProps.convoId);
+    const convo = conversationLookup[sourceMsgProps.convoId];
     if (!convo) {
       return quoteNotFound;
     }
 
     const attachment = sourceMsgProps.attachments && sourceMsgProps.attachments[0];
 
-    if (convo.isPublic() && PubKey.hasBlindedPrefix(sourceMsgProps.sender)) {
+    if (convo.isPublic && PubKey.hasBlindedPrefix(sourceMsgProps.sender)) {
       const room = OpenGroupData.getV2OpenGroupRoom(sourceMsgProps.convoId);
       if (room && roomHasBlindEnabled(room)) {
         const usFromCache = findCachedBlindedIdFromUnblinded(
