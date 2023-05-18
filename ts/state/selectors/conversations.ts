@@ -8,6 +8,7 @@ import {
   MessageModelPropsWithConvoProps,
   MessageModelPropsWithoutConvoProps,
   MessagePropsDetails,
+  PropsForExpiringMessage,
   ReduxConversationType,
   SortedMessageModelProps,
 } from '../ducks/conversations';
@@ -1089,6 +1090,29 @@ export const getMessageAttachmentProps = createSelector(getMessagePropsByMessage
   return msgProps;
 });
 
+export const getMessageExpirationProps = createSelector(getMessagePropsByMessageId, (props):
+  | PropsForExpiringMessage
+  | undefined => {
+  if (!props || isEmpty(props)) {
+    return undefined;
+  }
+
+  const msgProps: PropsForExpiringMessage = {
+    ...pick(props.propsForMessage, [
+      'convoId',
+      'direction',
+      'receivedAt',
+      'isUnread',
+      'expirationTimestamp',
+      'expirationLength',
+      'isExpired',
+    ]),
+    messageId: props.propsForMessage.id,
+  };
+
+  return msgProps;
+});
+
 export const getIsMessageSelected = createSelector(
   getMessagePropsByMessageId,
   getSelectedMessageIds,
@@ -1151,10 +1175,6 @@ export const getGenericReadableMessageSelectorProps = createSelector(
       'convoId',
       'direction',
       'conversationType',
-      'expirationType',
-      'expirationLength',
-      'expirationTimestamp',
-      'isExpired',
       'isUnread',
       'receivedAt',
       'isKickedFromGroup',

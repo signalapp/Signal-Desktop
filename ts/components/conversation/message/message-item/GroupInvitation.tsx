@@ -12,7 +12,7 @@ const StyledIconContainer = styled.div`
 `;
 
 export const GroupInvitation = (props: PropsForGroupInvitation) => {
-  const { messageId, receivedAt, isUnread } = props;
+  const { messageId } = props;
   const classes = ['group-invitation'];
 
   if (props.direction === 'outgoing') {
@@ -21,17 +21,7 @@ export const GroupInvitation = (props: PropsForGroupInvitation) => {
   const openGroupInvitation = window.i18n('openGroupInvitation');
 
   return (
-    <ExpirableReadableMessage
-      convoId={props.convoId}
-      messageId={messageId}
-      direction={props.direction}
-      receivedAt={receivedAt}
-      isUnread={Boolean(isUnread)}
-      expirationLength={props.expirationLength}
-      expirationTimestamp={props.expirationTimestamp}
-      isExpired={props.isExpired}
-      key={`readable-message-${messageId}`}
-    >
+    <ExpirableReadableMessage messageId={messageId} key={`readable-message-${messageId}`}>
       <div className="group-invitation-container" id={`msg-${props.messageId}`}>
         <div className={classNames(classes)}>
           <div className="contents">

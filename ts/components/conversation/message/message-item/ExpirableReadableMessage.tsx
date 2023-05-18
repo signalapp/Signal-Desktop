@@ -1,14 +1,15 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useInterval } from 'react-use';
 import styled from 'styled-components';
 import { Data } from '../../../../data/data';
-import { MessageModelType } from '../../../../models/messageType';
 import { getConversationController } from '../../../../session/conversations';
 import { messagesExpired, PropsForExpiringMessage } from '../../../../state/ducks/conversations';
 import { getIncrement } from '../../../../util/timer';
 import { ExpireTimer } from '../../ExpireTimer';
 import { ReadableMessage, ReadableMessageProps } from './ReadableMessage';
+import { getMessageExpirationProps } from '../../../../state/selectors/conversations';
+import { MessageModelType } from '../../../../models/messageType';
 
 const EXPIRATION_CHECK_MINIMUM = 2000;
 
@@ -74,42 +75,56 @@ const StyledReadableMessage = styled(ReadableMessage)<{
 `;
 
 export interface ExpirableReadableMessageProps
-  extends ReadableMessageProps,
-    PropsForExpiringMessage {
-  direction: MessageModelType;
+  extends Omit<ReadableMessageProps, 'receivedAt' | 'isUnread'> {
+  messageId: string;
+  // Note: this direction is used to override the message model direction in cases where it isn't set i.e. Timer Notifications rely on the 'type' prop to determine direction
+  direction?: MessageModelType;
   isCentered?: boolean;
   marginInlineStart?: string;
   marginInlineEnd?: string;
 }
 
 export const ExpirableReadableMessage = (props: ExpirableReadableMessageProps) => {
+  const selected = useSelector(state => getMessageExpirationProps(state as any, props.messageId));
+
+  if (!selected) {
+    return null;
+  }
+
   const {
-    convoId,
-    messageId,
-    direction,
-    receivedAt,
-    isUnread,
-    expirationLength,
-    expirationTimestamp,
+    direction: overrideDirection,
     isCentered,
     marginInlineStart = '6px',
     marginInlineEnd = '6px',
   } = props;
 
-  const expiringProps: PropsForExpiringMessage = {
+  const {
     convoId,
     messageId,
+    direction: selectedDirection,
+    receivedAt,
+    isUnread,
     expirationLength,
     expirationTimestamp,
-    isExpired: props.isExpired,
+    isExpired: _isExpired,
+  } = selected;
+
+  const direction = overrideDirection || selectedDirection;
+
+  const { isExpired } = useIsExpired({
+    convoId,
+    messageId,
     direction,
-  };
-  const { isExpired } = useIsExpired(expiringProps);
-  const isIncoming = direction === 'incoming';
+    expirationTimestamp,
+    expirationLength,
+    isExpired: _isExpired,
+  });
 
   if (isExpired) {
     return null;
   }
+
+  const isIncoming = direction === 'incoming';
 
   return (
     <StyledReadableMessage

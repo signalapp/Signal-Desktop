@@ -23,14 +23,14 @@ import {
 
 export type CallNotificationType = 'missed-call' | 'started-call' | 'answered-a-call';
 
-export type PropsForCallNotification = PropsForExpiringMessage & {
+export type PropsForCallNotification = {
   notificationType: CallNotificationType;
-  receivedAt: number;
-  isUnread: boolean;
+  messageId: string;
 };
 
 export type MessageModelPropsWithoutConvoProps = {
   propsForMessage: PropsForMessageWithoutConvoProps;
+  propsForExpiringMessage?: PropsForExpiringMessage;
   propsForGroupInvitation?: PropsForGroupInvitation;
   propsForTimerNotification?: PropsForExpirationTimer;
   propsForDataExtractionNotification?: PropsForDataExtractionNotification;
@@ -79,12 +79,14 @@ export type PropsForExpiringMessage = {
   convoId?: string;
   messageId: string;
   direction: MessageModelType;
+  receivedAt?: number;
+  isUnread?: boolean;
   expirationTimestamp?: number | null;
   expirationLength?: number | null;
   isExpired?: boolean;
 };
 
-export type PropsForExpirationTimer = PropsForExpiringMessage & {
+export type PropsForExpirationTimer = {
   expirationType: DisappearingMessageConversationType;
   timespan: string;
   disabled: boolean;
@@ -95,8 +97,6 @@ export type PropsForExpirationTimer = PropsForExpiringMessage & {
   title: string | null;
   type: 'fromMe' | 'fromSync' | 'fromOther';
   messageId: string;
-  isUnread: boolean;
-  receivedAt: number | undefined;
 };
 
 export type PropsForGroupUpdateGeneral = {
@@ -130,20 +130,17 @@ export type PropsForGroupUpdateType =
   | PropsForGroupUpdateName
   | PropsForGroupUpdateLeft;
 
-export type PropsForGroupUpdate = PropsForExpiringMessage & {
+export type PropsForGroupUpdate = {
   change: PropsForGroupUpdateType;
   messageId: string;
-  receivedAt: number | undefined;
-  isUnread: boolean;
 };
 
-export type PropsForGroupInvitation = PropsForExpiringMessage & {
+export type PropsForGroupInvitation = {
   serverName: string;
   url: string;
+  direction: MessageModelType;
   acceptUrl: string;
   messageId: string;
-  receivedAt?: number;
-  isUnread: boolean;
 };
 
 export type PropsForAttachment = {

@@ -36,16 +36,7 @@ const style: StyleType = {
 };
 
 export const CallNotification = (props: PropsForCallNotification) => {
-  const {
-    messageId,
-    receivedAt,
-    isUnread,
-    notificationType,
-    direction,
-    expirationLength,
-    expirationTimestamp,
-    isExpired,
-  } = props;
+  const { messageId, notificationType } = props;
 
   const selectedConvoProps = useSelector(getSelectedConversation);
 
@@ -63,16 +54,7 @@ export const CallNotification = (props: PropsForCallNotification) => {
   const iconColor = styleItem.iconColor;
 
   return (
-    <ExpirableReadableMessage
-      messageId={messageId}
-      receivedAt={receivedAt}
-      direction={direction}
-      isUnread={isUnread}
-      expirationLength={expirationLength}
-      expirationTimestamp={expirationTimestamp}
-      isExpired={isExpired}
-      key={`readable-message-${messageId}`}
-    >
+    <ExpirableReadableMessage messageId={messageId} key={`readable-message-${messageId}`}>
       <NotificationBubble
         notificationText={notificationText}
         iconType={iconType}

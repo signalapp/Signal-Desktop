@@ -22,10 +22,7 @@ export type GenericReadableMessageSelectorProps = Pick<
   | 'conversationType'
   | 'receivedAt'
   | 'isUnread'
-  | 'expirationLength'
-  | 'expirationTimestamp'
   | 'isKickedFromGroup'
-  | 'isExpired'
   | 'convoId'
   | 'isDeleted'
 >;
@@ -152,16 +149,7 @@ export const GenericReadableMessage = (props: Props) => {
       isUnread={!!isUnread}
       key={`readable-message-${messageId}`}
     >
-      <ExpirableReadableMessage
-        convoId={msgProps.convoId}
-        messageId={messageId}
-        direction={msgProps.direction}
-        receivedAt={receivedAt}
-        isUnread={Boolean(isUnread)}
-        expirationLength={msgProps.expirationLength}
-        expirationTimestamp={msgProps.expirationTimestamp}
-        isExpired={msgProps.isExpired}
-      >
+      <ExpirableReadableMessage messageId={messageId}>
         <MessageContentWithStatuses
           ctxMenuID={ctxMenuID}
           messageId={messageId}

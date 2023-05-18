@@ -7,18 +7,7 @@ import { SessionIcon } from '../../../icon';
 import { ExpirableReadableMessage } from './ExpirableReadableMessage';
 
 export const DataExtractionNotification = (props: PropsForDataExtractionNotification) => {
-  const {
-    name,
-    type,
-    source,
-    messageId,
-    isUnread,
-    receivedAt,
-    direction,
-    expirationLength,
-    expirationTimestamp,
-    isExpired,
-  } = props;
+  const { name, type, source, messageId } = props;
 
   let contentText: string;
   if (type === SignalService.DataExtractionNotification.Type.MEDIA_SAVED) {
@@ -28,16 +17,7 @@ export const DataExtractionNotification = (props: PropsForDataExtractionNotifica
   }
 
   return (
-    <ExpirableReadableMessage
-      messageId={messageId}
-      receivedAt={receivedAt}
-      isUnread={isUnread}
-      direction={direction}
-      expirationLength={expirationLength}
-      expirationTimestamp={expirationTimestamp}
-      isExpired={isExpired}
-      key={`readable-message-${messageId}`}
-    >
+    <ExpirableReadableMessage messageId={messageId} key={`readable-message-${messageId}`}>
       <Flex
         container={true}
         flexDirection="row"

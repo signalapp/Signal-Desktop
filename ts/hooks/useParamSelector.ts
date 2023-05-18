@@ -4,7 +4,7 @@ import { ConversationModel } from '../models/conversation';
 import { PubKey } from '../session/types';
 import { UserUtils } from '../session/utils';
 import { StateType } from '../state/reducer';
-import { getMessageReactsProps } from '../state/selectors/conversations';
+import { getMessageExpirationProps, getMessageReactsProps } from '../state/selectors/conversations';
 
 export function useAvatarPath(convoId: string | undefined) {
   const convoProps = useConversationPropsById(convoId);
@@ -181,6 +181,19 @@ export function useMessageReactsPropsById(messageId?: string) {
       return null;
     }
     return messageReactsProps;
+  });
+}
+
+export function useMessageExpirationPropsById(messageId?: string) {
+  return useSelector((state: StateType) => {
+    if (!messageId) {
+      return null;
+    }
+    const messageExpirationProps = getMessageExpirationProps(state, messageId);
+    if (!messageExpirationProps) {
+      return null;
+    }
+    return messageExpirationProps;
   });
 }
 

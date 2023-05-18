@@ -14,19 +14,7 @@ const StyledTimerNotification = styled(Flex)`
 `;
 
 export const TimerNotification = (props: PropsForExpirationTimer) => {
-  const {
-    messageId,
-    receivedAt,
-    isUnread,
-    pubkey,
-    profileName,
-    expirationType,
-    expirationLength,
-    expirationTimestamp,
-    timespan,
-    type,
-    disabled,
-  } = props;
+  const { messageId, pubkey, profileName, expirationType, timespan, type, disabled } = props;
 
   const contact = profileName || pubkey;
   // TODO legacy messages support will be removed in a future release
@@ -64,14 +52,8 @@ export const TimerNotification = (props: PropsForExpirationTimer) => {
 
   return (
     <ExpirableReadableMessage
-      convoId={props.convoId}
       messageId={messageId}
       direction={type === 'fromOther' ? 'incoming' : 'outgoing'}
-      receivedAt={receivedAt}
-      isUnread={isUnread}
-      expirationLength={expirationLength}
-      expirationTimestamp={expirationTimestamp}
-      isExpired={props.isExpired}
       isCentered={true}
       marginInlineStart={'calc(var(--margins-lg) + 6px)'}
       marginInlineEnd={'calc(var(--margins-lg) + 6px)'}

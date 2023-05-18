@@ -71,28 +71,10 @@ const ChangeItem = (change: PropsForGroupUpdateType): string => {
 };
 
 export const GroupUpdateMessage = (props: PropsForGroupUpdate) => {
-  const {
-    change,
-    messageId,
-    receivedAt,
-    isUnread,
-    direction,
-    expirationLength,
-    expirationTimestamp,
-    isExpired,
-  } = props;
+  const { change, messageId } = props;
 
   return (
-    <ExpirableReadableMessage
-      messageId={messageId}
-      receivedAt={receivedAt}
-      isUnread={isUnread}
-      direction={direction}
-      expirationLength={expirationLength}
-      expirationTimestamp={expirationTimestamp}
-      isExpired={isExpired}
-      key={`readable-message-${messageId}`}
-    >
+    <ExpirableReadableMessage messageId={messageId} key={`readable-message-${messageId}`}>
       <NotificationBubble notificationText={ChangeItem(change)} iconType="users" />
     </ExpirableReadableMessage>
   );

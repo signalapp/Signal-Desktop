@@ -149,6 +149,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const propsForGroupInvitation = this.getPropsForGroupInvitation();
     const propsForGroupUpdateMessage = this.getPropsForGroupUpdateMessage();
     const propsForTimerNotification = this.getPropsForTimerNotification();
+    const propsForExpiringMessage = this.getPropsForExpiringMessage();
     const propsForMessageRequestResponse = this.getPropsForMessageRequestResponse();
     const callNotificationType = this.get('callNotificationType');
     const messageProps: MessageModelPropsWithoutConvoProps = {
@@ -170,10 +171,13 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       messageProps.propsForTimerNotification = propsForTimerNotification;
     }
 
+    if (propsForExpiringMessage) {
+      messageProps.propsForExpiringMessage = propsForExpiringMessage;
+    }
+
     if (callNotificationType) {
       messageProps.propsForCallNotification = {
         notificationType: callNotificationType,
-        messageId: this.id,
         receivedAt: this.get('received_at') || Date.now(),
         isUnread: this.isUnread(),
         ...this.getPropsForExpiringMessage(),
@@ -278,7 +282,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     await deleteExternalMessageFiles(this.attributes);
   }
 
-  public getPropsForExpiringMessage(): PropsForExpiringMessage | { direction: MessageModelType } {
+  public getPropsForExpiringMessage(): PropsForExpiringMessage {
     const expirationType = this.get('expirationType');
     const expirationLength = this.get('expireTimer')
       ? this.get('expireTimer') * DURATION.SECONDS
@@ -323,7 +327,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       timespan,
       disabled,
       type: fromSync ? 'fromSync' : UserUtils.isUsFromCache(source) ? 'fromMe' : 'fromOther',
-      messageId: this.id,
       receivedAt: this.get('received_at'),
       isUnread: this.isUnread(),
       expirationType: expirationType || 'off',
@@ -351,7 +354,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       serverName: invitation.name,
       url: serverAddress,
       acceptUrl: invitation.url,
-      messageId: this.id as string,
       receivedAt: this.get('received_at'),
       isUnread: this.isUnread(),
       ...this.getPropsForExpiringMessage(),
@@ -374,7 +376,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     return {
       ...dataExtractionNotification,
       name: contact.profileName || contact.name || dataExtractionNotification.source,
-      messageId: this.id,
       receivedAt: this.get('received_at'),
       isUnread: this.isUnread(),
       ...this.getPropsForExpiringMessage(),
@@ -414,7 +415,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     }
 
     const sharedProps = {
-      messageId: this.id,
       isUnread: this.isUnread(),
       receivedAt: this.get('received_at'),
       ...this.getPropsForExpiringMessage(),
