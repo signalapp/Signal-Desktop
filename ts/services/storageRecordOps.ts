@@ -1583,36 +1583,20 @@ export async function mergeStoryDistributionListRecord(
       uuid => !remoteMemberListSet.has(uuid)
     );
 
-  const needsUpdate = Boolean(
-    needsToClearUnknownFields || hasConflict || toAdd.length || toRemove.length
-  );
-
-  if (!needsUpdate) {
-    details.push('not updated');
-    return {
-      details: [...details, ...conflictDetails],
-      hasConflict,
-      oldStorageID,
-      oldStorageVersion,
-    };
-  }
-
-  if (needsUpdate) {
-    details.push('updated');
-    await dataInterface.modifyStoryDistributionWithMembers(storyDistribution, {
-      toAdd,
-      toRemove,
-    });
-    window.reduxActions.storyDistributionLists.modifyDistributionList({
-      allowsReplies: Boolean(storyDistribution.allowsReplies),
-      deletedAtTimestamp: storyDistribution.deletedAtTimestamp,
-      id: storyDistribution.id,
-      isBlockList: Boolean(storyDistribution.isBlockList),
-      membersToAdd: toAdd,
-      membersToRemove: toRemove,
-      name: storyDistribution.name,
-    });
-  }
+  details.push('updated');
+  await dataInterface.modifyStoryDistributionWithMembers(storyDistribution, {
+    toAdd,
+    toRemove,
+  });
+  window.reduxActions.storyDistributionLists.modifyDistributionList({
+    allowsReplies: Boolean(storyDistribution.allowsReplies),
+    deletedAtTimestamp: storyDistribution.deletedAtTimestamp,
+    id: storyDistribution.id,
+    isBlockList: Boolean(storyDistribution.isBlockList),
+    membersToAdd: toAdd,
+    membersToRemove: toRemove,
+    name: storyDistribution.name,
+  });
 
   return {
     details: [...details, ...conflictDetails],
