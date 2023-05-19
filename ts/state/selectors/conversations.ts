@@ -1262,7 +1262,6 @@ export const getSelectedConversationExpirationSettings = createSelector(
   (convo: ReduxConversationType | undefined): PropsForExpirationSettings => ({
     expirationType: convo?.expirationType,
     expireTimer: convo?.expireTimer,
-    isMe: convo?.isMe,
     isGroup: convo?.isGroup,
     weAreAdmin: convo?.weAreAdmin,
   })

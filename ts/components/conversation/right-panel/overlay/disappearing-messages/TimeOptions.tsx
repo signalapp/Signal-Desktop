@@ -6,7 +6,7 @@ import { PanelRadioButton } from '../../../../buttons/PanelRadioButton';
 
 type TimerOptionsProps = {
   options: TimerOptionsArray | null;
-  selected?: number;
+  selected: number;
   setSelected: (value: number) => void;
   hasOnlyOneMode?: boolean;
   disabled?: boolean;

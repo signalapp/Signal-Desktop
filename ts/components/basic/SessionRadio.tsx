@@ -25,6 +25,7 @@ const StyledInput = styled.input<{
 `;
 // tslint:disable: use-simple-attributes
 
+// NOTE (Will): We don't use a transition because it's too slow and creates flickering when changing buttons.
 const StyledLabel = styled.label<{
   disabled: boolean;
   filledSize: number;
@@ -39,7 +40,6 @@ const StyledLabel = styled.label<{
     display: inline-block;
     border-radius: 100%;
 
-    transition: var(--default-duration);
     padding: ${props => props.filledSize}px;
     border: none;
     outline: 1px solid currentColor; /* CSS variables don't work here */

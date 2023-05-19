@@ -49,10 +49,20 @@ const StyledNonAdminDescription = styled.div`
   line-height: 15px;
 `;
 
+// TODO legacy messages support will be removed in a future release
+function loadDefaultTimeValue(modeSelected: DisappearingMessageConversationType | undefined) {
+  return modeSelected !== 'off'
+    ? modeSelected !== 'legacy'
+      ? modeSelected === 'deleteAfterSend'
+        ? DEFAULT_TIMER_OPTION.DELETE_AFTER_SEND
+        : DEFAULT_TIMER_OPTION.DELETE_AFTER_READ
+      : DEFAULT_TIMER_OPTION.LEGACY
+    : 0;
+}
+
 export type PropsForExpirationSettings = {
   expirationType: string | undefined;
   expireTimer: number | undefined;
-  isMe: boolean | undefined;
   isGroup: boolean | undefined;
   weAreAdmin: boolean | undefined;
 };
@@ -84,16 +94,10 @@ export const OverlayDisappearingMessages = (props: OverlayDisappearingMessagesPr
 
   const { isGroup, weAreAdmin } = convoProps;
 
-  const [modeSelected, setModeSelected] = useState(convoProps.expirationType);
-  const [timeSelected, setTimeSelected] = useState(
-    convoProps.expireTimer && convoProps.expireTimer > -1
-      ? convoProps.expireTimer
-      : isGroup
-      ? DEFAULT_TIMER_OPTION.DELETE_AFTER_SEND
-      : DEFAULT_TIMER_OPTION.DELETE_AFTER_READ
+  const [modeSelected, setModeSelected] = useState<DisappearingMessageConversationType | undefined>(
+    convoProps.expirationType
   );
-
-  // TODO verify that this if fine compared to updating in the useEffect
+  const [timeSelected, setTimeSelected] = useState<number>(0);
   const timerOptions = useTimerOptionsByMode(modeSelected, hasOnlyOneMode);
 
   const handleSetMode = async () => {
@@ -108,7 +112,7 @@ export const OverlayDisappearingMessages = (props: OverlayDisappearingMessagesPr
         dispatch(resetRightOverlayMode());
       }
     } else {
-      if (selectedConversationKey && modeSelected && timeSelected) {
+      if (selectedConversationKey && modeSelected) {
         await setDisappearingMessagesByConvoId(selectedConversationKey, modeSelected, timeSelected);
         dispatch(closeRightPanel());
         dispatch(resetRightOverlayMode());
@@ -116,14 +120,20 @@ export const OverlayDisappearingMessages = (props: OverlayDisappearingMessagesPr
     }
   };
 
+  const handleSetTime = (value: number) => {
+    setTimeSelected(value);
+  };
+
   useEffect(() => {
-    if (modeSelected !== convoProps.expirationType) {
-      setModeSelected(convoProps.expirationType);
-    }
-    if (convoProps.expireTimer && timeSelected !== convoProps.expireTimer) {
-      setTimeSelected(convoProps.expireTimer);
-    }
-  }, [convoProps.expirationType, convoProps.expireTimer]);
+    // NOTE loads a time value from the conversation model or the default
+    handleSetTime(
+      modeSelected === convoProps.expirationType &&
+        convoProps.expireTimer &&
+        convoProps.expireTimer > -1
+        ? convoProps.expireTimer
+        : loadDefaultTimeValue(modeSelected)
+    );
+  }, [convoProps.expirationType, convoProps.expireTimer, modeSelected]);
 
   // TODO legacy messages support will be removed in a future
   useEffect(() => {
@@ -165,7 +175,7 @@ export const OverlayDisappearingMessages = (props: OverlayDisappearingMessagesPr
             <TimeOptions
               options={timerOptions}
               selected={timeSelected}
-              setSelected={setTimeSelected}
+              setSelected={handleSetTime}
               hasOnlyOneMode={hasOnlyOneMode}
               disabled={
                 singleMode
