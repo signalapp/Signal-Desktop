@@ -40,9 +40,7 @@ import { MessageReactsSelectorProps } from '../../components/conversation/messag
 import { filter, isEmpty, pick, sortBy } from 'lodash';
 import { processQuoteAttachment } from '../../models/message';
 import { PubKey } from '../../session/types';
-import { OpenGroupData } from '../../data/opengroups';
-import { roomHasBlindEnabled } from '../../session/apis/open_group_api/sogsv3/sogsV3Capabilities';
-import { findCachedBlindedIdFromUnblinded } from '../../session/apis/open_group_api/sogsv3/knownBlindedkeys';
+import { isUsAnySogsFromCache } from '../../session/apis/open_group_api/sogsv3/knownBlindedkeys';
 import { MessageModelType } from '../../models/messageType';
 
 export const getConversations = (state: StateType): ConversationsStateType => state.conversations;
@@ -1038,20 +1036,11 @@ export const getMessageQuoteProps = createSelector(
       return quoteNotFound;
     }
 
-    const attachment = sourceMsgProps.attachments && sourceMsgProps.attachments[0];
-
     if (convo.isPublic && PubKey.hasBlindedPrefix(sourceMsgProps.sender)) {
-      const room = OpenGroupData.getV2OpenGroupRoom(sourceMsgProps.convoId);
-      if (room && roomHasBlindEnabled(room)) {
-        const usFromCache = findCachedBlindedIdFromUnblinded(
-          UserUtils.getOurPubKeyStrFromCache(),
-          room.serverPublicKey
-        );
-        if (usFromCache && usFromCache === sourceMsgProps.sender) {
-          isFromMe = true;
-        }
-      }
+      isFromMe = isUsAnySogsFromCache(sourceMsgProps.sender);
     }
+
+    const attachment = sourceMsgProps.attachments && sourceMsgProps.attachments[0];
 
     const quote: PropsForQuote = {
       text: sourceMsgProps.text,
