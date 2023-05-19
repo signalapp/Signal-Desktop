@@ -1013,7 +1013,9 @@ const sendOnionRequestNoRetries = async ({
       destCtx = useV4
         ? await encryptOnionV4RequestForPubkey(
             destX25519hex,
-            throwIfInvalidV4RequestInfos(finalDestOptions)
+            throwIfInvalidV4RequestInfos(
+              finalDestOptions as FinalDestSnodeOptions | FinalDestNonSnodeOptions // FIXME fix this type
+            )
           )
         : await encryptForPubKey(destX25519hex, finalDestOptions);
     }

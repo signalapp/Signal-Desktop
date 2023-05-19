@@ -45,7 +45,9 @@ function cleanAttachments(decrypted: SignalService.DataMessage) {
 
   decrypted.group = null;
 
-  decrypted.attachments = (decrypted.attachments || []).map(cleanAttachment);
+  // when receiving a message we get keys of attachment as buffer, but we override the data with the decrypted string instead.
+  // TODO it would be nice to get rid of that as any here, but not in this PR
+  decrypted.attachments = (decrypted.attachments || []).map(cleanAttachment) as any;
   decrypted.preview = (decrypted.preview || []).map((item: any) => {
     const { image } = item;
 

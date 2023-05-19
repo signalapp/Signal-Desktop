@@ -52,10 +52,10 @@ const capabilitiesFetchForServer = async (
  * @returns the sorted list of capabilities contained in that response, or null
  */
 export function parseCapabilities(body: any): null | Array<string> {
-  if (!body || isEmpty(body) || !isObject(body) || !isArray(body.capabilities)) {
+  if (!body || isEmpty(body) || !isObject(body) || !isArray((body as any).capabilities)) {
     return null;
   }
-  return ((body.capabilities as Array<string>) || []).sort();
+  return (((body as any).capabilities as Array<string>) || []).sort(); // FIXME fix this type
 }
 
 export type ParsedBase64Avatar = {

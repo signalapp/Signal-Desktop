@@ -1099,10 +1099,10 @@
   resolved "https://registry.yarnpkg.com/@types/linkify-it/-/linkify-it-2.0.3.tgz#5352a2d7a35d7c77b527483cd6e68da9148bd780"
   integrity sha512-WRj1rJPkj3fyDME63xUkWvcWzq0XjpiqjJGNCH4Y6Fbiv2fVMDCqeIA6ch/UUG3VYrfGq1VNFLsz6Sat6FjsPw==
 
-"@types/lodash@4.14.106":
-  version "4.14.106"
-  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.106.tgz#6093e9a02aa567ddecfe9afadca89e53e5dce4dd"
-  integrity sha512-tOSvCVrvSqFZ4A/qrqqm6p37GZoawsZtoR0SJhlF7EonNZUgrn8FfT+RNQ11h+NUpMt6QVe36033f3qEKBwfWA==
+"@types/lodash@^4.14.194":
+  version "4.14.194"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.194.tgz#b71eb6f7a0ff11bff59fc987134a093029258a76"
+  integrity sha512-r22s9tAS7imvBt2lyHC9B8AGwWnXaYb1tY09oyLkXDs4vArpYJzw09nj8MLx5VfciBPGIb+ZwG0ssYnEPJxn/g==
 
 "@types/long@*", "@types/long@^4.0.1":
   version "4.0.2"
@@ -2854,7 +2854,7 @@ csstype@^3.0.2, csstype@^3.0.6:
 
 "curve25519-js@https://github.com/oxen-io/curve25519-js":
   version "0.0.4"
-  resolved "https://github.com/oxen-io/curve25519-js#f36559e591fec0849166bbf1b22a6a39180b10c8"
+  resolved "https://github.com/oxen-io/curve25519-js#102f8c0a31b5c58bad8606979036cf763be9f4f6"
 
 data-urls@^3.0.1:
   version "3.0.2"

@@ -401,7 +401,7 @@ const _getUnreadConversationRequests = (
   sortedConversationRequests: Array<ReduxConversationType>
 ): Array<ReduxConversationType> => {
   return filter(sortedConversationRequests, conversation => {
-    return conversation && conversation.unreadCount && conversation.unreadCount > 0;
+    return Boolean(conversation && conversation.unreadCount && conversation.unreadCount > 0);
   });
 };
 
