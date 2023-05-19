@@ -56,13 +56,17 @@ function getFeatureReleaseTimestamp(featureName: FeatureNameTracked) {
   }
 }
 
+function featureStorageItemId(featureName: FeatureNameTracked) {
+  return `featureReleased-${featureName}`;
+}
+
 export async function getIsFeatureReleased(featureName: FeatureNameTracked): Promise<boolean> {
   if (getIsFeatureReleasedCached(featureName) === undefined) {
     // read values from db and cache them as it looks like we did not
-    const oldIsFeatureReleased = Boolean(Storage.get(`featureReleased-${featureName}`));
+    const oldIsFeatureReleased = Boolean(Storage.get(featureStorageItemId(featureName)));
     // values do not exist in the db yet. Let's store false for now in the db and update our cached value.
     if (oldIsFeatureReleased === undefined) {
-      await Storage.put(`featureReleased-${featureName}`, false);
+      await Storage.put(featureStorageItemId(featureName), false);
       setIsFeatureReleasedCached(featureName, false);
     } else {
       setIsFeatureReleasedCached(featureName, oldIsFeatureReleased);
@@ -77,10 +81,11 @@ async function checkIsFeatureReleased(featureName: FeatureNameTracked): Promise<
   // Is it time to release the feature based on the network timestamp?
   if (
     !featureAlreadyReleased &&
-    GetNetworkTime.getNowWithNetworkOffset() >= getFeatureReleaseTimestamp(featureName)
+    (GetNetworkTime.getNowWithNetworkOffset() >= getFeatureReleaseTimestamp(featureName) ||
+      featureName === 'user_config_libsession') // we want to make a build which has user config enabled by default for internal testing // TODO to remove for official build
   ) {
     window.log.info(`[releaseFeature]: It is time to release ${featureName}. Releasing it now`);
-    await Storage.put(`featureReleased-${featureName}`, true);
+    await Storage.put(featureStorageItemId(featureName), true);
     setIsFeatureReleasedCached(featureName, true);
     // trigger a sync right away so our user data is online
     await ConfigurationSync.queueNewJobIfNeeded();
