@@ -5459,6 +5459,16 @@ export function reducer(
     const { payload } = action;
     const { conversationId, messageId, switchToAssociatedView } = payload;
 
+    let conversation: ConversationType | undefined;
+
+    if (conversationId) {
+      conversation = getOwn(state.conversationLookup, conversationId);
+      if (!conversation) {
+        log.error(`Unknown conversation selected, id: [${conversationId}]`);
+        return state;
+      }
+    }
+
     const nextState = {
       ...omit(state, 'contactSpoofingReview'),
       selectedConversationId: conversationId,
@@ -5466,11 +5476,7 @@ export function reducer(
       targetedMessageSource: TargetedMessageSource.NavigateToMessage,
     };
 
-    if (switchToAssociatedView && conversationId) {
-      const conversation = getOwn(state.conversationLookup, conversationId);
-      if (!conversation) {
-        return nextState;
-      }
+    if (switchToAssociatedView && conversation) {
       return {
         ...omit(nextState, 'composer', 'selectedMessageIds'),
         showArchived: Boolean(conversation.isArchived),

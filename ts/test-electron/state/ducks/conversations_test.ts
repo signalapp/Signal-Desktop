@@ -372,9 +372,32 @@ describe('both/state/ducks/conversations', () => {
     }
 
     describe('showConversation', () => {
-      it('selects a conversation id', () => {
+      it('does not select a conversation if it does not exist', () => {
         const state = {
           ...getEmptyState(),
+        };
+        const dispatch = sinon.spy();
+        showConversation({ conversationId: 'abc123' })(
+          dispatch,
+          getEmptyRootState,
+          null
+        );
+        const action = dispatch.getCall(0).args[0];
+        const nextState = reducer(state, action);
+
+        assert.isUndefined(nextState.selectedConversationId);
+        assert.isUndefined(nextState.targetedMessage);
+      });
+
+      it('selects a conversation id', () => {
+        const conversation = getDefaultConversation({
+          id: 'abc123',
+        });
+        const state = {
+          ...getEmptyState(),
+          conversationLookup: {
+            [conversation.id]: conversation,
+          },
         };
         const dispatch = sinon.spy();
         showConversation({ conversationId: 'abc123' })(
@@ -390,9 +413,16 @@ describe('both/state/ducks/conversations', () => {
       });
 
       it('selects a conversation and a message', () => {
+        const conversation = getDefaultConversation({
+          id: 'abc123',
+        });
         const state = {
           ...getEmptyState(),
+          conversationLookup: {
+            [conversation.id]: conversation,
+          },
         };
+
         const dispatch = sinon.spy();
         showConversation({
           conversationId: 'abc123',
