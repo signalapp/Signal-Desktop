@@ -163,6 +163,9 @@ export function formatRowOfConversation(
   };
 }
 
+/**
+ * Those attributes are the one we are sending to the sql call as we want to save them when saving a conversation row.
+ */
 const allowedKeysOfConversationAttributes = [
   'groupAdmins',
   'members',
@@ -192,28 +195,34 @@ const allowedKeysOfConversationAttributes = [
 ];
 
 /**
+ * Those attributes are the one we know the renderer is sending back but which we do not want to save to the database.
+ * They are fetched when getting the conversation from the DB and in anything returning a SaveConversationReturn
+ */
+const allowedKeysButNotSavedToDb = ['mentionedUs', 'unreadCount'];
+
+/**
+ * This one merges each list together, and must be used for the log statement only.
+ */
+const allowedKeysTogether = [...allowedKeysOfConversationAttributes, ...allowedKeysButNotSavedToDb];
+
+/**
  * assertValidConversationAttributes is used to make sure that only the keys stored in the database are sent from the renderer.
  * We could also add some type checking here to make sure what is sent by the renderer matches what we expect to store in the DB
  */
 export function assertValidConversationAttributes(
   data: ConversationAttributes
 ): ConversationAttributes {
-  // first make sure all keys of the object data are expected to be there
-  const foundInAttributesButNotInAllowed = difference(
-    Object.keys(data),
-    allowedKeysOfConversationAttributes
-  );
+  // first make sure all keys of the object data are expected to be there, or expected to not be saved to the DB
+  const foundInAttributesButNotInAllowed = difference(Object.keys(data), allowedKeysTogether);
 
   if (foundInAttributesButNotInAllowed?.length) {
     // tslint:disable-next-line: no-console
     console.error(
       `assertValidConversationAttributes: an invalid key was given in the record: ${foundInAttributesButNotInAllowed}`
     );
-    // throw new Error(
-    //   `assertValidConversationAttributes: found a not allowed key: ${foundInAttributesButNotInAllowed[0]}`
-    // );
   }
 
+  // we only ever want to save the allowedKeysOfConversationAttributes here, not the one part of allowedKeysButNotSavedToDb
   return pick(data, allowedKeysOfConversationAttributes) as ConversationAttributes;
 }
 
