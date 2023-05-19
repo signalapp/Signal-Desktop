@@ -64,13 +64,13 @@ export const MessageQuote = (props: Props) => {
       if (quoteNotFound) {
         ToastUtils.pushOriginalNotFound();
         return;
-      } else {
-        void openConversationToSpecificMessage({
-          conversationKey: String(quote.convoId),
-          messageIdToNavigateTo: String(quote.id),
-          shouldHighlightMessage: true,
-        });
       }
+
+      void openConversationToSpecificMessage({
+        conversationKey: String(quote.convoId),
+        messageIdToNavigateTo: String(quote.id),
+        shouldHighlightMessage: true,
+      });
     },
     [isMessageDetailViewMode, multiSelectMode, quote, quoteNotFound]
   );
