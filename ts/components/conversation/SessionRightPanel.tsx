@@ -1,9 +1,10 @@
+import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { SessionIconButton } from '../icon';
-import _ from 'lodash';
 // tslint:disable-next-line: no-submodule-imports
-import useInterval from 'react-use/lib/useInterval';
 import { useDispatch, useSelector } from 'react-redux';
+import useInterval from 'react-use/lib/useInterval';
+import styled from 'styled-components';
 import { Data } from '../../data/data';
 import {
   deleteAllMessagesByConvoIdWithConfirmation,
@@ -18,16 +19,6 @@ import {
 import { Constants } from '../../session';
 import { closeRightPanel } from '../../state/ducks/conversations';
 import { isRightPanelShowing } from '../../state/selectors/conversations';
-import { getTimerOptions } from '../../state/selectors/timerOptions';
-import { AttachmentTypeWithPath } from '../../types/Attachment';
-import { Avatar, AvatarSize } from '../avatar/Avatar';
-import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
-import { SessionDropdown } from '../basic/SessionDropdown';
-import { SpacerLG } from '../basic/Text';
-import { MediaItemType } from '../lightbox/LightboxGallery';
-import { MediaGallery } from './media-gallery/MediaGallery';
-import { getAbsoluteAttachmentPath } from '../../types/MessageAttachment';
-import styled from 'styled-components';
 import {
   useSelectedConversationKey,
   useSelectedDisplayNameInProfile,
@@ -40,6 +31,15 @@ import {
   useSelectedSubscriberCount,
   useSelectedWeAreAdmin,
 } from '../../state/selectors/selectedConversation';
+import { getTimerOptions } from '../../state/selectors/timerOptions';
+import { AttachmentTypeWithPath } from '../../types/Attachment';
+import { getAbsoluteAttachmentPath } from '../../types/MessageAttachment';
+import { Avatar, AvatarSize } from '../avatar/Avatar';
+import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
+import { SessionDropdown } from '../basic/SessionDropdown';
+import { SpacerLG } from '../basic/Text';
+import { MediaItemType } from '../lightbox/LightboxGallery';
+import { MediaGallery } from './media-gallery/MediaGallery';
 
 async function getMediaGalleryProps(
   conversationId: string
