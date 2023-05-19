@@ -9,6 +9,7 @@ import { UserUtils } from '../session/utils';
 import { StateType } from '../state/reducer';
 import { getMessageReactsProps } from '../state/selectors/conversations';
 import { isPrivateAndFriend } from '../state/selectors/selectedConversation';
+import { CONVERSATION } from '../session/constants';
 
 export function useAvatarPath(convoId: string | undefined) {
   const convoProps = useConversationPropsById(convoId);
@@ -232,9 +233,14 @@ export function useMessageReactsPropsById(messageId?: string) {
   });
 }
 
+/**
+ * Returns the unread count of that conversation, or 0 if none are found.
+ * Note: returned value is capped at a max of CONVERSATION.MAX_UNREAD_COUNT
+ */
 export function useUnreadCount(conversationId?: string): number {
   const convoProps = useConversationPropsById(conversationId);
-  return convoProps?.unreadCount || 0;
+  const convoUnreadCount = convoProps?.unreadCount || 0;
+  return Math.min(CONVERSATION.MAX_UNREAD_COUNT, convoUnreadCount);
 }
 
 export function useHasUnread(conversationId?: string): boolean {
