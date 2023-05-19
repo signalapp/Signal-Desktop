@@ -1,5 +1,5 @@
 import React from 'react';
-import { Attachment, QuoteProps } from './Quote';
+import { QuotedAttachmentThumbnailType, QuoteProps } from './Quote';
 import { GoogleChrome } from '../../../../../util';
 import { MIME } from '../../../../../types';
 
@@ -8,7 +8,7 @@ import { QuoteImage } from './QuoteImage';
 import styled from 'styled-components';
 import { icons, SessionIconType } from '../../../../icon';
 
-function getObjectUrl(thumbnail: Attachment | undefined): string | undefined {
+function getObjectUrl(thumbnail: QuotedAttachmentThumbnailType | undefined): string | undefined {
   if (thumbnail && thumbnail.objectUrl) {
     return thumbnail.objectUrl;
   }

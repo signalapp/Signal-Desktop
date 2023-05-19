@@ -54,7 +54,7 @@ export type QuoteProps = {
   onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
 };
 
-export interface Attachment {
+export interface QuotedAttachmentThumbnailType {
   contentType: MIME.MIMEType;
   /** Not included in protobuf, and is loaded asynchronously */
   objectUrl?: string;
@@ -65,7 +65,7 @@ export interface QuotedAttachmentType {
   fileName: string;
   /** Not included in protobuf */
   isVoiceMessage: boolean;
-  thumbnail?: Attachment;
+  thumbnail?: QuotedAttachmentThumbnailType;
 }
 
 export const Quote = (props: QuoteProps) => {
