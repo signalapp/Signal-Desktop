@@ -111,6 +111,7 @@ function setMappedValue(info: ContactInfo) {
   mappedContactWrapperValues.set(info.id, info);
 }
 
+// TODO we should probably update the returned type as we only use the createdAt from the wrapper returned data
 function getContactCached(id: string) {
   return mappedContactWrapperValues.get(id);
 }
