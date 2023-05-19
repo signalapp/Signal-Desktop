@@ -12,7 +12,7 @@ const ClosableOverlay = () => {
 
   useEffect(() => {
     let isCancelled = false;
-    checkIsFeatureReleased('Disappearing Messages V2')
+    checkIsFeatureReleased('DISAPPEARING_MESSAGES_V2')
       .then(result => {
         if (isCancelled) {
           return;

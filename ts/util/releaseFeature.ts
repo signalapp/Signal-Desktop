@@ -1,8 +1,6 @@
+import { FEATURE_RELEASE_TIMESTAMPS } from '../session/constants';
 import { Storage } from './storage';
 
-// TODO update to agreed value between platforms
-const featureReleaseTimestamp = 1706778000000; // unix 01/02/2024 09:00
-// const featureReleaseTimestamp = 1677488400000; // unix 27/02/2023 09:00
 let isFeatureReleased: boolean | undefined;
 
 /**
@@ -32,7 +30,7 @@ export async function checkIsFeatureReleased(featureName: string): Promise<boole
     const featureAlreadyReleased = await getIsFeatureReleased();
 
     // Is it time to release the feature?
-    if (Date.now() >= featureReleaseTimestamp) {
+    if (Date.now() >= FEATURE_RELEASE_TIMESTAMPS[`${featureName}`]) {
       if (featureAlreadyReleased) {
         // Feature is already released and we don't need to update the db
       } else {

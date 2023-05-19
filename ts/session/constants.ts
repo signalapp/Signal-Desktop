@@ -66,3 +66,10 @@ export const QUOTED_TEXT_MAX_LENGTH = 150;
 export const DEFAULT_RECENT_REACTS = ['😂', '🥰', '😢', '😡', '😮', '😈'];
 
 export const MAX_USERNAME_BYTES = 64;
+
+export const FEATURE_RELEASE_TIMESTAMPS: Record<string, number> = {
+  // TODO update to agreed value between platforms
+  DISAPPEARING_MESSAGES_V2: 1706778000000, // unix 01/02/2024 09:00
+  // NOTE for testing purposes only
+  // DISAPPEARING_MESSAGES_V2: 1677488400000, // unix 27/02/2023 09:00
+};

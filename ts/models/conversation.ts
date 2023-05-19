@@ -1105,7 +1105,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     // We will only support legacy disappearing messages for a short period before disappearing messages v2 is unlocked
     const isDisappearingMessagesV2Released = await checkIsFeatureReleased(
-      'Disappearing Messages V2'
+      'DISAPPEARING_MESSAGES_V2'
     );
 
     const isOutgoing = Boolean(!receivedAt);

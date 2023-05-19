@@ -16,6 +16,7 @@ import {
 } from '../database_utility';
 
 import { sqlNode } from '../sql';
+import { FEATURE_RELEASE_TIMESTAMPS } from '../../session/constants';
 
 // tslint:disable: no-console quotemark one-variable-per-declaration
 
@@ -1225,12 +1226,8 @@ function updateToSessionSchemaVersion30(currentVersion: number, db: BetterSqlite
 
     db.prepare(`ALTER TABLE ${CONVERSATIONS_TABLE} ADD COLUMN hasOutdatedClient TEXT;`).run();
 
-    // TODO update to agreed value between platforms
-    const disappearingMessagesV2ReleaseTimestamp = 1706778000000; // unix 01/02/2024 09:00
-    // const disappearingMessagesV2ReleaseTimestamp = 1677488400000; // unix 27/02/2023 09:00
-
     // support disppearing messages legacy mode until after the platform agreed timestamp
-    if (Date.now() < disappearingMessagesV2ReleaseTimestamp) {
+    if (Date.now() < FEATURE_RELEASE_TIMESTAMPS.DISAPPEARING_MESSAGES_V2) {
       db.prepare(
         `UPDATE ${CONVERSATIONS_TABLE} SET
       expirationType = $expirationType
