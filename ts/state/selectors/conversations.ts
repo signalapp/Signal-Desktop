@@ -4,6 +4,7 @@ import { StateType } from '../reducer';
 import {
   ConversationLookupType,
   ConversationsStateType,
+  lookupQuote,
   MentionsMembersType,
   MessageModelPropsWithConvoProps,
   MessageModelPropsWithoutConvoProps,
@@ -1021,7 +1022,7 @@ export const getMessageQuoteProps = createSelector(
       return quoteNotFound;
     }
 
-    const sourceMessage = quotesProps[`${id}-${author}`];
+    const sourceMessage = lookupQuote(quotesProps, Number(id), author);
     if (!sourceMessage) {
       return quoteNotFound;
     }

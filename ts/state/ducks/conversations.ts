@@ -569,7 +569,7 @@ function handleMessageExpiredOrDeleted(
       const msgProps = state.messages[messageInStoreIndex].propsForMessage;
       const { timestamp, sender } = msgProps;
       if (timestamp && sender) {
-        const message2Delete = editedQuotes[`${timestamp}-${sender}`];
+        const message2Delete = lookupQuote(editedQuotes, timestamp, sender);
         window.log.debug(
           `Deleting quote {${timestamp}-${sender}} ${JSON.stringify(message2Delete)}`
         );
@@ -1151,4 +1151,19 @@ export async function openConversationToSpecificMessage(args: {
       initialQuotes: quotesAroundThisMessage,
     })
   );
+}
+
+/**
+ * Look for quote matching the timestamp and author in the quote lookup map
+ * @param quotes - the lookup map of the selected conversations quotes
+ * @param author - the pubkey of the quoted author
+ * @param timestamp - usually the id prop on the quote object of a message
+ * @returns - the message model if found, undefined otherwise
+ */
+export function lookupQuote(
+  quotes: QuoteLookupType,
+  timestamp: number,
+  author: string
+): MessageModelPropsWithoutConvoProps | undefined {
+  return quotes[`${timestamp}-${author}`];
 }
