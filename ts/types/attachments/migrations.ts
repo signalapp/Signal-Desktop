@@ -166,7 +166,11 @@ const handleDiskDeletion = async (path: string) => {
 //      deleteData :: (RelativePath -> IO Unit)
 //                    Attachment ->
 //                    IO Unit
-export const deleteData = async (attachment: { path: string; thumbnail: any; screenshot: any }) => {
+export const deleteData = async (attachment: {
+  path: string | undefined;
+  thumbnail: any;
+  screenshot: any;
+}) => {
   if (!isValid(attachment)) {
     throw new TypeError('deleteData: attachment is not valid');
   }
@@ -174,15 +178,18 @@ export const deleteData = async (attachment: { path: string; thumbnail: any; scr
   const { path, thumbnail, screenshot } = attachment;
 
   if (path && isString(path)) {
-    attachment.path = String(await handleDiskDeletion(path));
+    const pathAfterDelete = await handleDiskDeletion(path);
+    attachment.path = isString(pathAfterDelete) ? pathAfterDelete : undefined;
   }
 
   if (thumbnail && isString(thumbnail.path)) {
-    attachment.thumbnail = await handleDiskDeletion(thumbnail.path);
+    const pathAfterDelete = await handleDiskDeletion(thumbnail.path);
+    attachment.thumbnail = isString(pathAfterDelete) ? pathAfterDelete : undefined;
   }
 
   if (screenshot && isString(screenshot.path)) {
-    attachment.screenshot = await handleDiskDeletion(screenshot.path);
+    const pathAfterDelete = await handleDiskDeletion(screenshot.path);
+    attachment.screenshot = isString(pathAfterDelete) ? pathAfterDelete : undefined;
   }
 
   return attachment;
