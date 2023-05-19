@@ -29,6 +29,24 @@ if [ ! -d ~/.aptly/public ] ; then
   FIRST_RUN=true
 fi
 
+if [ "${DISABLE_APTLY_DOWNLOAD}" != "true" ] ; then
+  echo
+  echo "aptly.sh: Fetching latest released files so we don't erase anything"
+  
+  if ! aptly mirror show backfill-mirror; then
+    echo "aptly.sh: No existing mirror, setting it up"
+    aptly mirror create -ignore-signatures backfill-mirror "https://updates.signal.org/$APTLY_SOURCE" xenial
+  else
+    echo "aptly.sh: Mirror is already in place"
+  fi
+
+  echo "aptly.sh: Updating mirror"
+  aptly mirror update -ignore-signatures backfill-mirror
+
+  echo "aptly.sh: Importing existing releases"
+  aptly repo import backfill-mirror signal-desktop signal-desktop signal-desktop-beta
+fi
+
 echo
 echo "aptly.sh: Adding newly-built deb to repo"
 aptly repo add "$REPO" release/"$NAME"_"$VERSION"_*.deb
