@@ -38,7 +38,7 @@ export const MessageQuote = (props: Props) => {
   }
 
   const quoteNotFound = Boolean(
-    !quote?.author || !quote.id || !quote.convoId || quote.referencedMessageNotFound
+    quote.referencedMessageNotFound || !quote?.author || !quote.id || !quote.convoId
   );
 
   const quoteText = quote?.text || null;
