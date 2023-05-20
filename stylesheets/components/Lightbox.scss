@@ -191,7 +191,6 @@
   &__nav-prev {
     --height: 224px;
     position: absolute;
-    top: calc(50% - var(--height) / 2);
     width: 25%;
     max-width: 96px;
     height: var(--height);
