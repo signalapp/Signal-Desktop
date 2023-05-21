@@ -72,7 +72,6 @@ export class SignalClipboard {
         this.quill.updateContents(delta, 'user');
         this.quill.setSelection(delta.length() - selection.length, 0, 'silent');
         this.quill.scrollingContainer.scrollTop = scrollTop;
-
         this.quill.focus();
       }, 1);
     }
