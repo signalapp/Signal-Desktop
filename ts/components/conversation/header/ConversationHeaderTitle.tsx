@@ -165,7 +165,7 @@ export const ConversationHeaderTitle = () => {
               {convoName}
             </span>
           )}
-          {subtitleArray.length && subtitleArray.indexOf(visibleSubtitle) > -1 && (
+          {subtitleArray.indexOf(visibleSubtitle) > -1 && (
             <ConversationHeaderSubitle
               currentSubtitle={visibleSubtitle}
               setCurrentSubtitle={setVisibleSubtitle}
