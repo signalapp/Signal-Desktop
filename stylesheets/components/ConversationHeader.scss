@@ -298,11 +298,12 @@
       outline: none;
       overflow: hidden;
       padding-block: 5px;
-      padding-inline: 18px;
+      padding-inline: 10px;
       text-overflow: ellipsis;
       white-space: nowrap;
       user-select: none;
       width: auto;
+      height: 28px;
 
       &:before {
         $icon-size: 16px;
@@ -314,7 +315,7 @@
         content: '';
         display: block;
         height: $icon-size;
-        margin-inline-end: 5px;
+        margin-inline-end: 4px;
         min-width: $icon-size;
         width: $icon-size;
       }
