@@ -38,8 +38,6 @@ export class SignalClipboard {
       return;
     }
 
-    this.quill.focus();
-
     const clipboard = this.quill.getModule('clipboard');
     const selection = this.quill.getSelection();
 
@@ -72,8 +70,10 @@ export class SignalClipboard {
           .delete(selection.length)
           .concat(clipboardDelta);
         this.quill.updateContents(delta, 'user');
-        this.quill.setSelection(delta.length(), 0, 'silent');
+        this.quill.setSelection(delta.length() - selection.length, 0, 'silent');
         this.quill.scrollingContainer.scrollTop = scrollTop;
+
+        this.quill.focus();
       }, 1);
     }
   }
