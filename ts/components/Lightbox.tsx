@@ -484,7 +484,6 @@ export function Lightbox({
   const caption = attachment?.caption;
 
   let content: JSX.Element;
-  let hasControls = false;
   if (!contentType) {
     content = <>{children}</>;
   } else {
@@ -551,8 +550,6 @@ export function Lightbox({
           <source src={objectURL} />
         </video>
       );
-
-      hasControls = true;
     } else if (isUnsupportedImageType || isUnsupportedVideoType) {
       content = (
         <button
@@ -590,7 +587,6 @@ export function Lightbox({
         <div
           className={classNames('Lightbox Lightbox__container', {
             'Lightbox__container--zoom': isZoomed,
-            'Lightbox__container--has-controls': hasControls,
           })}
           onClick={(event: React.MouseEvent<HTMLDivElement>) => {
             event.stopPropagation();
