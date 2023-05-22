@@ -4,23 +4,18 @@ import { PanelButtonGroup, PanelLabel } from '../../../../buttons/PanelButton';
 import { PanelRadioButton } from '../../../../buttons/PanelRadioButton';
 
 function loadDataTestId(mode: DisappearingMessageConversationType) {
-  let dataTestId = 'disappear-%-option';
+  const dataTestId = 'disappear-%-option';
   switch (mode) {
     case 'legacy':
-      dataTestId = dataTestId.replace('%', 'legacy');
-      break;
+      return dataTestId.replace('%', 'legacy');
     case 'deleteAfterRead':
-      dataTestId = dataTestId.replace('%', 'after-read');
-      break;
+      return dataTestId.replace('%', 'after-read');
     case 'deleteAfterSend':
-      dataTestId = dataTestId.replace('%', 'after-send');
-      break;
+      return dataTestId.replace('%', 'after-send');
     case 'off':
     default:
-      dataTestId = dataTestId.replace('%', 'off');
+      return dataTestId.replace('%', 'off');
   }
-
-  return dataTestId;
 }
 
 type DisappearingModesProps = {
