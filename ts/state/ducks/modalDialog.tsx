@@ -34,6 +34,8 @@ export type ReactModalsState = {
   messageId: string;
 } | null;
 
+export type DisplayPictureModalState = {} | null;
+
 export type ModalState = {
   confirmModal: ConfirmModalState;
   inviteContactModal: InviteContactModalState;
@@ -52,6 +54,7 @@ export type ModalState = {
   deleteAccountModal: DeleteAccountModalState;
   reactListModalState: ReactModalsState;
   reactClearAllModalState: ReactModalsState;
+  displayPictureModalState: DisplayPictureModalState;
 };
 
 export const initialModalState: ModalState = {
@@ -72,6 +75,7 @@ export const initialModalState: ModalState = {
   deleteAccountModal: null,
   reactListModalState: null,
   reactClearAllModalState: null,
+  displayPictureModalState: null,
 };
 
 const ModalSlice = createSlice({
@@ -129,6 +133,9 @@ const ModalSlice = createSlice({
     updateReactClearAllModal(state, action: PayloadAction<ReactModalsState>) {
       return { ...state, reactClearAllModalState: action.payload };
     },
+    updateDisplayPictureModel(state, action: PayloadAction<DisplayPictureModalState>) {
+      return { ...state, displayPictureModalState: action.payload };
+    },
   },
 });
 
@@ -151,5 +158,6 @@ export const {
   updateBanOrUnbanUserModal,
   updateReactListModal,
   updateReactClearAllModal,
+  updateDisplayPictureModel,
 } = actions;
 export const modalReducer = reducer;

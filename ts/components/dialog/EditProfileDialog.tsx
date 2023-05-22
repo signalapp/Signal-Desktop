@@ -5,12 +5,10 @@ import { Avatar, AvatarSize } from '../avatar/Avatar';
 
 import { SyncUtils, ToastUtils, UserUtils } from '../../session/utils';
 import { YourSessionIDPill, YourSessionIDSelectable } from '../basic/YourSessionIDPill';
-import styled from 'styled-components';
-import { uploadOurAvatar } from '../../interactions/conversationInteractions';
-import { ConversationTypeEnum } from '../../models/conversationAttributes';
-import { MAX_USERNAME_BYTES } from '../../session/constants';
+import { SyncUtils, ToastUtils, UserUtils } from '../../session/utils';
+
 import { getConversationController } from '../../session/conversations';
-import { editProfileModal } from '../../state/ducks/modalDialog';
+import { editProfileModal, updateDisplayPictureModel } from '../../state/ducks/modalDialog';
 import { pickFileForAvatar } from '../../types/attachments/VisualAttachment';
 import { saveQRCode } from '../../util/saveQRCode';
 import { setLastProfileUpdateTimestamp } from '../../util/storage';
@@ -21,6 +19,7 @@ import { SessionIconButton } from '../icon';
 import { sanitizeSessionUsername } from '../../session/utils/String';
 import { useOurConversationUsername } from '../../hooks/useParamSelector';
 import { useOurAvatarPath } from '../../hooks/useParamSelector';
+import { useDispatch } from 'react-redux';
 
 const handleSaveQRCode = (event: MouseEvent) => {
   event.preventDefault();
@@ -110,6 +109,8 @@ type ProfileHeaderProps = ProfileAvatarProps & {
 const ProfileHeader = (props: ProfileHeaderProps): ReactElement => {
   const { newAvatarObjectUrl, oldAvatarPath, profileName, ourId, fireInputEvent, setMode } = props;
 
+  const dispatch = useDispatch();
+
   return (
     <div className="avatar-center">
       <div className="avatar-center-inner">
@@ -123,7 +124,8 @@ const ProfileHeader = (props: ProfileHeaderProps): ReactElement => {
           className="image-upload-section"
           role="button"
           onClick={async () => {
-            void fireInputEvent();
+            // void fireInputEvent();
+            dispatch(updateDisplayPictureModel({}));
           }}
           data-testid="image-upload-section"
         />
