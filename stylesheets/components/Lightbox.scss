@@ -256,17 +256,6 @@
     }
   }
 
-  &__container--has-controls {
-    .Lightbox__nav-next,
-    .Lightbox__nav-prev {
-      // Give some room for <video/>'s controls.
-      $controls-height: 64px;
-
-      padding-top: $controls-height;
-      height: calc(100% - $controls-height);
-    }
-  }
-
   &__controls {
     display: flex;
     gap: 32px;
