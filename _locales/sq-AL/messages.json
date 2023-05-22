@@ -621,7 +621,7 @@
     "description": "Shown in a context menu for a contact, allows the user to start the conversation with the contact"
   },
   "icu:ContactListItem__menu__audio-call": {
-    "messageformat": "Thirrje me audio",
+    "messageformat": "Thirrje zanore",
     "description": "Shown in a context menu for a contact, allows the user to start the audio call with the contact"
   },
   "icu:ContactListItem__menu__video-call": {
@@ -2354,7 +2354,7 @@
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
   },
   "icu:copy": {
-    "messageformat": "Copy text",
+    "messageformat": "Kopjo tekstin",
     "description": "Shown on the drop-down menu for an individual message, copies the message text to the clipboard"
   },
   "icu:MessageContextMenu__select": {
@@ -2406,23 +2406,23 @@
     "description": "(deleted 04/06/2023) Shown on the drop-down menu for an individual message, deletes single message for everyone"
   },
   "icu:MessageContextMenu__reply": {
-    "messageformat": "Reply",
+    "messageformat": "Përgjigju",
     "description": "Shown on the drop-down menu for an individual message when there isnt room for a dedicated button, focuses the composer with a reply to the current message"
   },
   "icu:MessageContextMenu__react": {
-    "messageformat": "React",
+    "messageformat": "Reago",
     "description": "Shown on the drop-down menu for an individual message when there isnt room for a dedicated button, opens the react picker for the current message"
   },
   "icu:MessageContextMenu__download": {
-    "messageformat": "Download",
+    "messageformat": "Shkarkoje",
     "description": "Shown on the drop-down menu for an individual message when there isnt room for a dedicated button and when there's only a single attachment, downloads an attachment"
   },
   "icu:MessageContextMenu__deleteMessage": {
-    "messageformat": "Delete",
+    "messageformat": "Fshije",
     "description": "Show on the drop-down menu for an individual message, opens a modal to select if you want to 'delete for me' or 'delete for everyone'"
   },
   "icu:MessageContextMenu__forward": {
-    "messageformat": "Forward",
+    "messageformat": "Përcjellje",
     "description": "Show on the drop-down menu for an individual message, opens a modal to forward a message"
   },
   "icu:MessageContextMenu__info": {
@@ -2665,6 +2665,10 @@
     "message": "Skanojeni këtë kod te aplikacioni Signal në telefonin tuaj",
     "description": "(deleted 03/29/2023) Title of the device link screen. Also used as alt text for the QR code on the device link screen"
   },
+  "icu:Install__learn-more": {
+    "messageformat": "Mësoni më tepër",
+    "description": "Button text for learn more button during error screen"
+  },
   "icu:Install__scan-this-code": {
     "messageformat": "Skanojeni këtë kod te aplikacioni Signal në telefonin tuaj",
     "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
@@ -2702,7 +2706,11 @@
     "description": "Instructions on the device link screen"
   },
   "icu:Install__qr-failed": {
-    "messageformat": "Kodi QR nuk mundi të ngarkohej. Kontrollo internetin dhe provo sërish. <learnMoreLink>Mëso më shumë</learnMoreLink>",
+    "messageformat": "(deleted 05/09/2023) The QR code couldn't load. Check your internet and try again. <learnMoreLink>Learn more</learnMoreLink>",
+    "description": "Shown on the install screen if the QR code fails to load"
+  },
+  "icu:Install__qr-failed-load": {
+    "messageformat": "Kodi QR nuk mundi të ngarkohej. Kontrollo internetin dhe provo sërish. <retry>Riprovo</retry>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -3357,7 +3365,7 @@
     "description": "Description of the spell check setting"
   },
   "icu:textFormattingDescription": {
-    "messageformat": "Show text formatting popover when text is selected",
+    "messageformat": "Shfaq menynë e formatimit të tekstit kur përzgjidhet teksti",
     "description": "Description of the text-formatting popover menu setting"
   },
   "spellCheckWillBeEnabled": {
@@ -3887,7 +3895,7 @@
     "description": "(deleted 03/29/2023) Description for audio notification setting"
   },
   "icu:audioNotificationDescription": {
-    "messageformat": "Luaj tinguj njoftimi",
+    "messageformat": "Çaktivizo tingujt e njoftimeve",
     "description": "Description for audio notification setting"
   },
   "callRingtoneNotificationDescription": {
@@ -5063,6 +5071,18 @@
     "messageformat": "Anulo",
     "description": "Appears on the cancel button in confirmation dialogs."
   },
+  "icu:Message__reaction-emoji-label--you": {
+    "messageformat": "Reagove me {emoji}",
+    "description": "aria-label for reaction emoji (you)"
+  },
+  "icu:Message__reaction-emoji-label--single": {
+    "messageformat": "{title} reagoi me {emoji}",
+    "description": "aria-label for reaction emoji when one person reacts with an emoji"
+  },
+  "icu:Message__reaction-emoji-label--many": {
+    "messageformat": "{count} persona reaguan me {emoji}",
+    "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
+  },
   "icu:Message__role-description": {
     "messageformat": "Mesazh",
     "description": "aria-roledescription of a message"
@@ -5184,7 +5204,7 @@
     "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
   },
   "icu:Keyboard--focus-most-recent-message": {
-    "messageformat": "Focus oldest unread or last message",
+    "messageformat": "Fokuso mesazhin më të vjetër të palexuar ose të fundit",
     "description": "Shown in shortcuts guide"
   },
   "Keyboard--navigate-by-section": {
@@ -5435,6 +5455,10 @@
     "messageformat": "Kalo te biseda",
     "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
   },
+  "icu:Keyboard--edit-last-message": {
+    "messageformat": "Përpuno mesazhin e mëparshëm",
+    "description": "Shown in the shortcuts guide"
+  },
   "Keyboard--Key--ctrl": {
     "message": "Ctrl",
     "description": "(deleted 03/29/2023) Key shown in shortcut combination in shortcuts guide"
@@ -5548,19 +5572,19 @@
     "description": "Shown when you hover over the bold button in the popup formatting menu"
   },
   "icu:FormatMenu--guide--italic": {
-    "messageformat": "Italic",
+    "messageformat": "Kursiv",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
   },
   "icu:FormatMenu--guide--strikethrough": {
-    "messageformat": "Strikethrough",
+    "messageformat": "Mesvijëzuar",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
   },
   "icu:FormatMenu--guide--monospace": {
-    "messageformat": "Monospace",
+    "messageformat": "Njëhapësirëshe",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
   },
   "icu:FormatMenu--guide--spoiler": {
-    "messageformat": "Spoiler",
+    "messageformat": "Fsheh",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
   },
   "Keyboard--scroll-to-top": {
@@ -9480,11 +9504,11 @@
     "description": "(deleted 04/04/2023) Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-name-in-group--link": {
-    "messageformat": "{count, plural, one {{count,number} group member has the same name. <reviewRequestLink>Review members</reviewRequestLink>} other {{count,number} group members have the same name. <reviewRequestLink>Review members</reviewRequestLink>}}",
+    "messageformat": "{count, plural, one {{count,number} anëtar grupi ka të njëjtin emër. <reviewRequestLink>Shqyrto anëtarët</reviewRequestLink>} other {{count,number} anëtarë grupi kanë të njëjtin emër. <reviewRequestLink>Shqyrto anëtarët</reviewRequestLink>}}",
     "description": "Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-names-in-group--link": {
-    "messageformat": "{count, plural, one {{count,number} name conflict was found in this group. <reviewRequestLink>Review members</reviewRequestLink>} other {{count,number} name conflicts were found in this group. <reviewRequestLink>Review members</reviewRequestLink>}}",
+    "messageformat": "{count, plural, one {{count,number} përplasje emrash u gjet në këtë grup. <reviewRequestLink>Shqyrto anëtarët</reviewRequestLink>} other {{count,number} përplasje emrash u gjetën në këtë grup. <reviewRequestLink>Shqyrto anëtarët</reviewRequestLink>}}",
     "description": "Shown in the timeline warning when multiple names are shared by members of a group."
   },
   "ContactSpoofing__same-name__link": {
@@ -9552,7 +9576,7 @@
     "description": "Description for the group contact spoofing review dialog"
   },
   "icu:ContactSpoofingReviewDialog__group__multiple-conflicts__description": {
-    "messageformat": "{count, plural, one {{count,number} name conflict was found in this group. Review the members below or choose to take action.} other {{count,number} name conflicts were found in this group. Review the members below or choose to take action.}}",
+    "messageformat": "{count, plural, one {{count,number} përplasje emri u gjet në këtë grup. Shqyrto anëtarët më poshtë ose zgjidh kryerjen e një veprimi.} other {{count,number} përplasje emrash u gjetën në këtë grup. Shqyrto anëtarët më poshtë ose zgjidh kryerjen e një veprimi.}}",
     "description": "Description for the group contact spoofing review dialog when there are multiple shared names"
   },
   "ContactSpoofingReviewDialog__group__members-header": {
@@ -9844,11 +9868,11 @@
     "description": "Modal title for the custom color editor"
   },
   "icu:GradientDial__knob-start": {
-    "messageformat": "Gradient start",
+    "messageformat": "Fillimi i nuancave",
     "description": "aria-label for the custom color gradient creator knob"
   },
   "icu:GradientDial__knob-end": {
-    "messageformat": "Gradient end",
+    "messageformat": "Fundi i nuancave",
     "description": "aria-label for the custom color gradient creator knob"
   },
   "customDisappearingTimeOption": {
@@ -10468,11 +10492,11 @@
     "description": "Title for the avatar picker in the group creation flow"
   },
   "icu:Preferences__message-audio-title": {
-    "messageformat": "In-chat message sound",
+    "messageformat": "Tingulli i mesazhit në bisedë",
     "description": "Title for message audio setting"
   },
   "icu:Preferences__message-audio-description": {
-    "messageformat": "Hear a notification sound for sent and received messages while in the chat.",
+    "messageformat": "Dëgjo një tingull njoftimi për mesazhet e dërguara dhe të marra gjatë bisedës.",
     "description": "Description for message audio setting"
   },
   "Preferences__button--general": {
@@ -12539,36 +12563,36 @@
     "messageformat": "Rregullme të vogla, riparime të gabimeve dhe përmirësime të mbarëvajtjes.  Faleminderit që përdorni Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.17--0": {
-    "messageformat": "Mbështetje e përmirësuar për gjuhët nga e djathta në të majtë (RTL).",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--1": {
-    "messageformat": "Lokalet tani përputhen në bazë të preferencave të sistemit tënd. Kjo duhet të rezultojë në veprime më të mira të paracaktuar kur shumë gjuhë konfigurohen .",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--2": {
-    "messageformat": "Ky version shtesë (a10y) prezanton disa përmirësime të aksesueshmërisë (a11y) dhe rregullime të gabimeve, dhe ne me dashamirësi (a12y) dëshirojmë të falënderojmë komunitetin për komentet dhe sugjerimet e tij.",
-    "description": "Release notes for v6.17"
-  },
   "icu:WhatsNew__v6.18--0": {
-    "messageformat": "Use the \"Navigate by section\" keyboard shortcuts (⌘/Ctrl+T & ⌘/Ctrl+F6) to quickly move between different areas of the app. It's like a superhero version of the Tab key that can fly further and faster than its mild-mannered alter ego.",
+    "messageformat": "Përdor shkurtoret e tastierës \"Lundro sipas seksionit\" (⌘/Ctrl+T & ⌘/Ctrl+F6) për të lëvizur shpejt ndërmjet zonave të ndryshme të aplikacionit. Është si një version superhero i tastit Tab që mund të fluturojë më tej dhe më shpejt se vetja e tij e butë.",
     "description": "Release notes for v6.18"
   },
   "icu:WhatsNew__v6.18--1": {
-    "messageformat": "We added support for optional message sounds so that you can also hear notifications for sent and received messages while a chat is open (Settings > Notifications).",
+    "messageformat": "Ne shtuam mbështetje për tingujt e mesazheve opsionale, në mënyrë që të mund të dëgjosh gjithashtu njoftimet për mesazhet e dërguara dhe të marra, ndërkohë që një bisedë është e hapur (Parametrat > Njoftimet).",
     "description": "Release notes for v6.18"
   },
   "icu:WhatsNew__v6.18--2": {
-    "messageformat": "Jump to the latest unread message in a chat (⌘/Ctrl+J) without touching the mouse or helping the touchpad live up to its name.",
+    "messageformat": "Shko te mesazhi më i fundit i palexuar në një bisedë (⌘/Ctrl+J) pa prekur mausin ose pa ndihmuar tastierën me prekje të përmbushë emrin e saj.",
     "description": "Release notes for v6.18"
   },
   "icu:WhatsNew__v6.18--3": {
-    "messageformat": "Updated icons give the app a fresh look and help improve legibility.",
+    "messageformat": "Ikonat e përditësuara i japin aplikacionit një pamje të re dhe ndihmojnë në përmirësimin e lexueshmërisë.",
     "description": "Release notes for v6.18"
   },
   "icu:WhatsNew__v6.18--4": {
-    "messageformat": "There's a new \"Copy text\" option in the triple-dot menu too. Thanks, {yusufsahinhamza}!",
+    "messageformat": "Ekziston gjithashtu një opsion i ri \"Kopjo tekstin\" në menynë me tri pika. Faleminderit, {yusufsahinhamza}!",
     "description": "Release notes for v6.18"
+  },
+  "icu:WhatsNew__v6.19--0": {
+    "messageformat": "Heshtja nuk është gjithmonë e artë, por e ka një ikonë të re. Ne përditësuam butonat e \"Kamerës\" dhe \"Pa zë\" në thirrjet zanore dhe video, në mënyrë që të jetë edhe më e lehtë të shihen kur aktivizohen ose çaktivizohen.",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--1": {
+    "messageformat": "Përmirësimet e lokalizimit dhe trajtim më i mirë i gjuhëve nga e djathta në të majtë në fushën e shkruarjes të mesazhit. Faleminderit, {sha265}!",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--2": {
+    "messageformat": "Nëse ke një version të Windows para Windows 10, ose një version të Ubuntu para 20.04 LTS, do të të duhet të përditësosh sistemin tënd operativ për të vazhduar përdorimin e Signal: {supportLink}",
+    "description": "Release notes for v6.19"
   }
 }

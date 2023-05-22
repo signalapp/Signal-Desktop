@@ -621,7 +621,7 @@
     "description": "Shown in a context menu for a contact, allows the user to start the conversation with the contact"
   },
   "icu:ContactListItem__menu__audio-call": {
-    "messageformat": "Аудиоқоңырау",
+    "messageformat": "Дауыстық қоңырау",
     "description": "Shown in a context menu for a contact, allows the user to start the audio call with the contact"
   },
   "icu:ContactListItem__menu__video-call": {
@@ -2354,7 +2354,7 @@
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
   },
   "icu:copy": {
-    "messageformat": "Copy text",
+    "messageformat": "Мәтінді көшіру",
     "description": "Shown on the drop-down menu for an individual message, copies the message text to the clipboard"
   },
   "icu:MessageContextMenu__select": {
@@ -2406,27 +2406,27 @@
     "description": "(deleted 04/06/2023) Shown on the drop-down menu for an individual message, deletes single message for everyone"
   },
   "icu:MessageContextMenu__reply": {
-    "messageformat": "Reply",
+    "messageformat": "Жауап беру",
     "description": "Shown on the drop-down menu for an individual message when there isnt room for a dedicated button, focuses the composer with a reply to the current message"
   },
   "icu:MessageContextMenu__react": {
-    "messageformat": "React",
+    "messageformat": "Реакция қалдыру",
     "description": "Shown on the drop-down menu for an individual message when there isnt room for a dedicated button, opens the react picker for the current message"
   },
   "icu:MessageContextMenu__download": {
-    "messageformat": "Download",
+    "messageformat": "Жүктеп алу",
     "description": "Shown on the drop-down menu for an individual message when there isnt room for a dedicated button and when there's only a single attachment, downloads an attachment"
   },
   "icu:MessageContextMenu__deleteMessage": {
-    "messageformat": "Delete",
+    "messageformat": "Жою",
     "description": "Show on the drop-down menu for an individual message, opens a modal to select if you want to 'delete for me' or 'delete for everyone'"
   },
   "icu:MessageContextMenu__forward": {
-    "messageformat": "Forward",
+    "messageformat": "Алға",
     "description": "Show on the drop-down menu for an individual message, opens a modal to forward a message"
   },
   "icu:MessageContextMenu__info": {
-    "messageformat": "Info",
+    "messageformat": "Ақпарат",
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
   },
   "deleteMessages": {
@@ -2665,6 +2665,10 @@
     "message": "Телефоныңыздағы Signal қолданбасында осы кодты сканерлеңіз",
     "description": "(deleted 03/29/2023) Title of the device link screen. Also used as alt text for the QR code on the device link screen"
   },
+  "icu:Install__learn-more": {
+    "messageformat": "Толық ақпарат",
+    "description": "Button text for learn more button during error screen"
+  },
   "icu:Install__scan-this-code": {
     "messageformat": "Телефоныңыздағы Signal қолданбасында осы кодты сканерлеңіз",
     "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
@@ -2702,7 +2706,11 @@
     "description": "Instructions on the device link screen"
   },
   "icu:Install__qr-failed": {
-    "messageformat": "QR коды жүктелмеді. Интернетті тексеріп, қайталап көріңіз. <learnMoreLink>Толық ақпарат</learnMoreLink>",
+    "messageformat": "(deleted 05/09/2023) The QR code couldn't load. Check your internet and try again. <learnMoreLink>Learn more</learnMoreLink>",
+    "description": "Shown on the install screen if the QR code fails to load"
+  },
+  "icu:Install__qr-failed-load": {
+    "messageformat": "QR коды жүктелмеді. Интернетті тексеріп, қайталап көріңіз. <retry>Қайталап көру</retry>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -3357,7 +3365,7 @@
     "description": "Description of the spell check setting"
   },
   "icu:textFormattingDescription": {
-    "messageformat": "Show text formatting popover when text is selected",
+    "messageformat": "Мәтін таңдалғанда, мәтінді форматтаудың қалқымалы мәзірін көрсету",
     "description": "Description of the text-formatting popover menu setting"
   },
   "spellCheckWillBeEnabled": {
@@ -3887,7 +3895,7 @@
     "description": "(deleted 03/29/2023) Description for audio notification setting"
   },
   "icu:audioNotificationDescription": {
-    "messageformat": "Хабарландыру дауыстарын ойнату",
+    "messageformat": "Push хабарландыру дауыстары",
     "description": "Description for audio notification setting"
   },
   "callRingtoneNotificationDescription": {
@@ -5063,6 +5071,18 @@
     "messageformat": "Бас тарту",
     "description": "Appears on the cancel button in confirmation dialogs."
   },
+  "icu:Message__reaction-emoji-label--you": {
+    "messageformat": "{emoji} деген эмодзимен реакция қалдырдыңыз",
+    "description": "aria-label for reaction emoji (you)"
+  },
+  "icu:Message__reaction-emoji-label--single": {
+    "messageformat": "{title} деген пайдаланушы {emoji} деп реакция қалдырды",
+    "description": "aria-label for reaction emoji when one person reacts with an emoji"
+  },
+  "icu:Message__reaction-emoji-label--many": {
+    "messageformat": "{count} адам {emoji} деп реакция қалдырды",
+    "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
+  },
   "icu:Message__role-description": {
     "messageformat": "Хат",
     "description": "aria-roledescription of a message"
@@ -5184,7 +5204,7 @@
     "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
   },
   "icu:Keyboard--focus-most-recent-message": {
-    "messageformat": "Focus oldest unread or last message",
+    "messageformat": "Ескі оқылмаған немесе соңғы хаттарға назар аудару",
     "description": "Shown in shortcuts guide"
   },
   "Keyboard--navigate-by-section": {
@@ -5435,6 +5455,10 @@
     "messageformat": "Чатқа өту",
     "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
   },
+  "icu:Keyboard--edit-last-message": {
+    "messageformat": "Алдыңғы хатты өңдеу",
+    "description": "Shown in the shortcuts guide"
+  },
   "Keyboard--Key--ctrl": {
     "message": "Ctrl",
     "description": "(deleted 03/29/2023) Key shown in shortcut combination in shortcuts guide"
@@ -5544,23 +5568,23 @@
     "description": "Description of command to bold text in composer"
   },
   "icu:FormatMenu--guide--bold": {
-    "messageformat": "Bold",
+    "messageformat": "Қалың",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
   },
   "icu:FormatMenu--guide--italic": {
-    "messageformat": "Italic",
+    "messageformat": "Қиғаш",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
   },
   "icu:FormatMenu--guide--strikethrough": {
-    "messageformat": "Strikethrough",
+    "messageformat": "Үстінен сызылған мәтін",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
   },
   "icu:FormatMenu--guide--monospace": {
-    "messageformat": "Monospace",
+    "messageformat": "Monospace қарпі",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
   },
   "icu:FormatMenu--guide--spoiler": {
-    "messageformat": "Spoiler",
+    "messageformat": "Спойлер",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
   },
   "Keyboard--scroll-to-top": {
@@ -9480,11 +9504,11 @@
     "description": "(deleted 04/04/2023) Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-name-in-group--link": {
-    "messageformat": "{count, plural, one {{count,number} group member has the same name. <reviewRequestLink>Review members</reviewRequestLink>} other {{count,number} group members have the same name. <reviewRequestLink>Review members</reviewRequestLink>}}",
+    "messageformat": "{count, plural, one {{count,number} топ мүшесінің аты дәл осындай. <reviewRequestLink>Топ мүшелерін қарап шығу</reviewRequestLink>} other {{count,number} топ мүшесінің аты дәл осындай. <reviewRequestLink>Топ мүшелерін қарап шығу</reviewRequestLink>}}",
     "description": "Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-names-in-group--link": {
-    "messageformat": "{count, plural, one {{count,number} name conflict was found in this group. <reviewRequestLink>Review members</reviewRequestLink>} other {{count,number} name conflicts were found in this group. <reviewRequestLink>Review members</reviewRequestLink>}}",
+    "messageformat": "{count, plural, one {Бұл топта {count,number} аттың бір-біріне қайшы келетіні анықталды. <reviewRequestLink>Топ мүшелерін қарап шығу</reviewRequestLink>} other {Бұл топта {count,number} аттың бір-біріне қайшы келетіні анықталды. <reviewRequestLink>Топ мүшелерін қарап шығу</reviewRequestLink>}}",
     "description": "Shown in the timeline warning when multiple names are shared by members of a group."
   },
   "ContactSpoofing__same-name__link": {
@@ -9552,7 +9576,7 @@
     "description": "Description for the group contact spoofing review dialog"
   },
   "icu:ContactSpoofingReviewDialog__group__multiple-conflicts__description": {
-    "messageformat": "{count, plural, one {{count,number} name conflict was found in this group. Review the members below or choose to take action.} other {{count,number} name conflicts were found in this group. Review the members below or choose to take action.}}",
+    "messageformat": "{count, plural, one {Бұл топта {count,number} аттың бір-біріне қайшы келетіні анықталды. Төмендегі топ мүшелерін қарап шығыңыз немесе шара қолданыңыз.} other {Бұл топта {count,number} аттың бір-біріне қайшы келетіні анықталды. Төмендегі топ мүшелерін қарап шығыңыз немесе шара қолданыңыз.}}",
     "description": "Description for the group contact spoofing review dialog when there are multiple shared names"
   },
   "ContactSpoofingReviewDialog__group__members-header": {
@@ -9844,11 +9868,11 @@
     "description": "Modal title for the custom color editor"
   },
   "icu:GradientDial__knob-start": {
-    "messageformat": "Gradient start",
+    "messageformat": "Градиентті бастау",
     "description": "aria-label for the custom color gradient creator knob"
   },
   "icu:GradientDial__knob-end": {
-    "messageformat": "Gradient end",
+    "messageformat": "Градиентті аяқтау",
     "description": "aria-label for the custom color gradient creator knob"
   },
   "customDisappearingTimeOption": {
@@ -10468,11 +10492,11 @@
     "description": "Title for the avatar picker in the group creation flow"
   },
   "icu:Preferences__message-audio-title": {
-    "messageformat": "In-chat message sound",
+    "messageformat": "Чаттағы хаттардың дауысы",
     "description": "Title for message audio setting"
   },
   "icu:Preferences__message-audio-description": {
-    "messageformat": "Hear a notification sound for sent and received messages while in the chat.",
+    "messageformat": "Чатты қолданып жатқанда, жіберілген немесе алынған хаттар туралы хабарландыру дауыстарын естіңіз.",
     "description": "Description for message audio setting"
   },
   "Preferences__button--general": {
@@ -12539,36 +12563,36 @@
     "messageformat": "Кішігірім түзетпелер жасалды, ақаулар жөнделді және жұмысы жақсартылды. Signal-ды қолданғаныңыз үшін рақмет!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.17--0": {
-    "messageformat": "Оң жақтан сол жаққа қарай жазылатын (RTL) тілдерге қолдау жақсартылды.",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--1": {
-    "messageformat": "Тілдер енді жүйе параметрлеріне сәйкестендіріледі. Бірнеше тіл конфигурацияланғанда, әдепкі жұмыс тәртібі жақсаруы керек.",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--2": {
-    "messageformat": "Бұл шығарылымда қосымша (a10y) бірнеше арнайы мүмкіндіктер (a11y) жақсартылды және ақаулар түзетілді. Қауымдастық мүшелерінің пікірлері мен ұсыныстары үшін алғыс (a12y) білдіргіміз келеді.",
-    "description": "Release notes for v6.17"
-  },
   "icu:WhatsNew__v6.18--0": {
-    "messageformat": "Use the \"Navigate by section\" keyboard shortcuts (⌘/Ctrl+T & ⌘/Ctrl+F6) to quickly move between different areas of the app. It's like a superhero version of the Tab key that can fly further and faster than its mild-mannered alter ego.",
+    "messageformat": "Қолданбаның бір аймағынан екінші бір аймағына жылдам ауысу үшін \"Бөлімдер бойынша шарлау\" пернелер тіркесімін (⌘/Ctrl+T және ⌘/Ctrl+F6) пайдаланыңыз. Бұл – Tab пернесінің әлдеқайда жылдам жетілдірілген нұсқасы.",
     "description": "Release notes for v6.18"
   },
   "icu:WhatsNew__v6.18--1": {
-    "messageformat": "We added support for optional message sounds so that you can also hear notifications for sent and received messages while a chat is open (Settings > Notifications).",
+    "messageformat": "Енді қосымша хат дауыстарын да ести аласыз, яғни чат ашық тұрғанда, жіберілген және алынған хаттар туралы хабарландырулардың дауыстары шығады (Параметрлер > Хабарландырулар).",
     "description": "Release notes for v6.18"
   },
   "icu:WhatsNew__v6.18--2": {
-    "messageformat": "Jump to the latest unread message in a chat (⌘/Ctrl+J) without touching the mouse or helping the touchpad live up to its name.",
+    "messageformat": "Тінтуірді ұстамай-ақ немесе сенсорлық панельді пайдаланып, чаттағы оқылмаған ең соңғы хатқа өтіңіз (⌘/Ctrl+J).",
     "description": "Release notes for v6.18"
   },
   "icu:WhatsNew__v6.18--3": {
-    "messageformat": "Updated icons give the app a fresh look and help improve legibility.",
+    "messageformat": "Жаңартылған белгішелер қолданбаның өңін ашып, оңай оқылуына мүмкіндік береді.",
     "description": "Release notes for v6.18"
   },
   "icu:WhatsNew__v6.18--4": {
-    "messageformat": "There's a new \"Copy text\" option in the triple-dot menu too. Thanks, {yusufsahinhamza}!",
+    "messageformat": "Үш нүктелі мәзірде \"Мәтінді көшіру\" деп аталатын жаңа опция бар. Рақмет, {yusufsahinhamza}!",
     "description": "Release notes for v6.18"
+  },
+  "icu:WhatsNew__v6.19--0": {
+    "messageformat": "Үнсіздік үнемі пайдалы бола бермейді, дегенмен енді оның жаңа белгішесі пайда болды. Дауыстық және видеоқоңыраулардағы Камера және Дыбысын өшіру түймелерін жаңарттық, енді олардың қосылып немесе өшіп тұрғанын оңай байқауға болады.",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--1": {
+    "messageformat": "Локализация бойынша бірқатар функция жақсартылды, оңнан солға қарай жазатын тілдерде хат жазу өрісі жақсартылды. Рақмет, {sha265}!",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--2": {
+    "messageformat": "Windows 10-ға дейінгі Windows жүйесін немесе 20.04 LTS-ке дейінгі Ubuntu жүйесін қолданып жүрсеңіз, Signal-ды қолдана алуыңыз үшін операциялық жүйені жаңартуыңызға тура келеді: {supportLink}",
+    "description": "Release notes for v6.19"
   }
 }

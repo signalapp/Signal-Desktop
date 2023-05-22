@@ -621,7 +621,7 @@
     "description": "Shown in a context menu for a contact, allows the user to start the conversation with the contact"
   },
   "icu:ContactListItem__menu__audio-call": {
-    "messageformat": "ஆடியோ அழைப்பு",
+    "messageformat": "குரல் அழைப்பு",
     "description": "Shown in a context menu for a contact, allows the user to start the audio call with the contact"
   },
   "icu:ContactListItem__menu__video-call": {
@@ -2354,7 +2354,7 @@
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
   },
   "icu:copy": {
-    "messageformat": "Copy text",
+    "messageformat": "உரை நகலெடு",
     "description": "Shown on the drop-down menu for an individual message, copies the message text to the clipboard"
   },
   "icu:MessageContextMenu__select": {
@@ -2406,27 +2406,27 @@
     "description": "(deleted 04/06/2023) Shown on the drop-down menu for an individual message, deletes single message for everyone"
   },
   "icu:MessageContextMenu__reply": {
-    "messageformat": "Reply",
+    "messageformat": "பதில்",
     "description": "Shown on the drop-down menu for an individual message when there isnt room for a dedicated button, focuses the composer with a reply to the current message"
   },
   "icu:MessageContextMenu__react": {
-    "messageformat": "React",
+    "messageformat": "ரியாக்ட் செய்க",
     "description": "Shown on the drop-down menu for an individual message when there isnt room for a dedicated button, opens the react picker for the current message"
   },
   "icu:MessageContextMenu__download": {
-    "messageformat": "Download",
+    "messageformat": "பதிவிறக்க",
     "description": "Shown on the drop-down menu for an individual message when there isnt room for a dedicated button and when there's only a single attachment, downloads an attachment"
   },
   "icu:MessageContextMenu__deleteMessage": {
-    "messageformat": "Delete",
+    "messageformat": "நீக்கு",
     "description": "Show on the drop-down menu for an individual message, opens a modal to select if you want to 'delete for me' or 'delete for everyone'"
   },
   "icu:MessageContextMenu__forward": {
-    "messageformat": "Forward",
+    "messageformat": "முன்னனுப்புக",
     "description": "Show on the drop-down menu for an individual message, opens a modal to forward a message"
   },
   "icu:MessageContextMenu__info": {
-    "messageformat": "Info",
+    "messageformat": "தகவல்",
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
   },
   "deleteMessages": {
@@ -2665,6 +2665,10 @@
     "message": "உங்கள் மொபைலில் உள்ள சிக்னல் பயன்பாட்டில் இந்தக் குறியீட்டை ஸ்கேன் செய்யவும்",
     "description": "(deleted 03/29/2023) Title of the device link screen. Also used as alt text for the QR code on the device link screen"
   },
+  "icu:Install__learn-more": {
+    "messageformat": "மேலும் அறிக",
+    "description": "Button text for learn more button during error screen"
+  },
   "icu:Install__scan-this-code": {
     "messageformat": "உங்கள் மொபைலில் உள்ள சிக்னல் பயன்பாட்டில் இந்தக் குறியீட்டை ஸ்கேன் செய்யவும்",
     "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
@@ -2702,7 +2706,11 @@
     "description": "Instructions on the device link screen"
   },
   "icu:Install__qr-failed": {
-    "messageformat": "QR குறியீட்டை ஏற்ற முடியவில்லை. உங்கள் இணையத்தைச் சரிபார்த்து மீண்டும் முயற்சிக்கவும். <learnMoreLink>மேலும் அறிக</learnMoreLink>",
+    "messageformat": "(deleted 05/09/2023) The QR code couldn't load. Check your internet and try again. <learnMoreLink>Learn more</learnMoreLink>",
+    "description": "Shown on the install screen if the QR code fails to load"
+  },
+  "icu:Install__qr-failed-load": {
+    "messageformat": "QR குறியீட்டை ஏற்ற முடியவில்லை. உங்கள் இணையத்தைச் சரிபார்த்து மீண்டும் முயலவும். <retry>மீண்டும் முயல்க</retry>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -3357,7 +3365,7 @@
     "description": "Description of the spell check setting"
   },
   "icu:textFormattingDescription": {
-    "messageformat": "Show text formatting popover when text is selected",
+    "messageformat": "உரை தேர்ந்தெடுக்கப்படும் போது உரை வடிவமைப்பு பாப்ஓவரைக் காட்டும்",
     "description": "Description of the text-formatting popover menu setting"
   },
   "spellCheckWillBeEnabled": {
@@ -3887,7 +3895,7 @@
     "description": "(deleted 03/29/2023) Description for audio notification setting"
   },
   "icu:audioNotificationDescription": {
-    "messageformat": "அறிவிப்பு ஒலிகளை இயக்கவும்",
+    "messageformat": "புஷ் அறிவிப்பு ஒலிகள்",
     "description": "Description for audio notification setting"
   },
   "callRingtoneNotificationDescription": {
@@ -5063,6 +5071,18 @@
     "messageformat": "ரத்துசெய்",
     "description": "Appears on the cancel button in confirmation dialogs."
   },
+  "icu:Message__reaction-emoji-label--you": {
+    "messageformat": "நீங்கள் {emoji} என்று எதிர்வினையாற்றுனீர்கள்",
+    "description": "aria-label for reaction emoji (you)"
+  },
+  "icu:Message__reaction-emoji-label--single": {
+    "messageformat": "{title} {emoji} என்று எதிர்வினையாற்றினார்",
+    "description": "aria-label for reaction emoji when one person reacts with an emoji"
+  },
+  "icu:Message__reaction-emoji-label--many": {
+    "messageformat": "{count} நபர்கள் {emoji} என்று எதிர்வினையாற்றினார்கள்",
+    "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
+  },
   "icu:Message__role-description": {
     "messageformat": "மெசேஜ்",
     "description": "aria-roledescription of a message"
@@ -5184,7 +5204,7 @@
     "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
   },
   "icu:Keyboard--focus-most-recent-message": {
-    "messageformat": "Focus oldest unread or last message",
+    "messageformat": "பழைய படிக்காத அல்லது கடைசி மெசேஜில் கவனம் செலுத்துங்கள்",
     "description": "Shown in shortcuts guide"
   },
   "Keyboard--navigate-by-section": {
@@ -5435,6 +5455,10 @@
     "messageformat": "சாட்டிற்குச் செல்லவும்",
     "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
   },
+  "icu:Keyboard--edit-last-message": {
+    "messageformat": "முந்தைய மெசேஜைத் திருத்தவும்",
+    "description": "Shown in the shortcuts guide"
+  },
   "Keyboard--Key--ctrl": {
     "message": "Ctrl பொத்தான்",
     "description": "(deleted 03/29/2023) Key shown in shortcut combination in shortcuts guide"
@@ -5544,23 +5568,23 @@
     "description": "Description of command to bold text in composer"
   },
   "icu:FormatMenu--guide--bold": {
-    "messageformat": "Bold",
+    "messageformat": "போல்ட்",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
   },
   "icu:FormatMenu--guide--italic": {
-    "messageformat": "Italic",
+    "messageformat": "இத்தாலிக்",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
   },
   "icu:FormatMenu--guide--strikethrough": {
-    "messageformat": "Strikethrough",
+    "messageformat": "ஸ்ட்ரைக் த்ரூ",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
   },
   "icu:FormatMenu--guide--monospace": {
-    "messageformat": "Monospace",
+    "messageformat": "மோனோஸ்பேஸ்",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
   },
   "icu:FormatMenu--guide--spoiler": {
-    "messageformat": "Spoiler",
+    "messageformat": "ஸ்பாய்லர்",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
   },
   "Keyboard--scroll-to-top": {
@@ -9480,11 +9504,11 @@
     "description": "(deleted 04/04/2023) Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-name-in-group--link": {
-    "messageformat": "{count, plural, one {{count,number} group member has the same name. <reviewRequestLink>Review members</reviewRequestLink>} other {{count,number} group members have the same name. <reviewRequestLink>Review members</reviewRequestLink>}}",
+    "messageformat": "{count, plural, one {{count,number} குழு உறுப்பினர் அதே பெயரைக் கொண்டுள்ளார். <reviewRequestLink>உறுப்பினர்களை மதிப்பாய்வு செய்யவும்</reviewRequestLink>} other {{count,number} குழு உறுப்பினர்கள் அதே பெயரைக் கொண்டுள்ளனர். <reviewRequestLink>உறுப்பினர்களை மதிப்பாய்வு செய்யவும்</reviewRequestLink>}}",
     "description": "Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-names-in-group--link": {
-    "messageformat": "{count, plural, one {{count,number} name conflict was found in this group. <reviewRequestLink>Review members</reviewRequestLink>} other {{count,number} name conflicts were found in this group. <reviewRequestLink>Review members</reviewRequestLink>}}",
+    "messageformat": "{count, plural, one {இந்தக் குழுவில் {count,number} பெயர் முரண்பாடு காணப்பட்டது. <reviewRequestLink>உறுப்பினர்களை மதிப்பாய்வு செய்யவும்</reviewRequestLink>} other {இந்தக் குழுவில் {count,number} பெயர் முரண்பாடுகள் காணப்பட்டது. <reviewRequestLink>உறுப்பினர்களை மதிப்பாய்வு செய்யவும்</reviewRequestLink>}}",
     "description": "Shown in the timeline warning when multiple names are shared by members of a group."
   },
   "ContactSpoofing__same-name__link": {
@@ -9552,7 +9576,7 @@
     "description": "Description for the group contact spoofing review dialog"
   },
   "icu:ContactSpoofingReviewDialog__group__multiple-conflicts__description": {
-    "messageformat": "{count, plural, one {{count,number} name conflict was found in this group. Review the members below or choose to take action.} other {{count,number} name conflicts were found in this group. Review the members below or choose to take action.}}",
+    "messageformat": "{count, plural, one {இந்தக் குழுவில் {count,number} பெயர் முரண்பாடு காணப்பட்டது. கீழே உள்ள உறுப்பினர்களை மதிப்பாய்வு செய்யவும் அல்லது நடவடிக்கை எடுக்க தேர்வு செய்யவும்.} other {இந்தக் குழுவில் {count,number} பெயர் முரண்பாடுகள் காணப்பட்டது. கீழே உள்ள உறுப்பினர்களை மதிப்பாய்வு செய்யவும் அல்லது நடவடிக்கை எடுக்க தேர்வு செய்யவும்.}}",
     "description": "Description for the group contact spoofing review dialog when there are multiple shared names"
   },
   "ContactSpoofingReviewDialog__group__members-header": {
@@ -9844,11 +9868,11 @@
     "description": "Modal title for the custom color editor"
   },
   "icu:GradientDial__knob-start": {
-    "messageformat": "Gradient start",
+    "messageformat": "கலர் கிரேடியண்ட் தொடக்கம்",
     "description": "aria-label for the custom color gradient creator knob"
   },
   "icu:GradientDial__knob-end": {
-    "messageformat": "Gradient end",
+    "messageformat": "கலர் கிரேடியண்ட் முடிவு",
     "description": "aria-label for the custom color gradient creator knob"
   },
   "customDisappearingTimeOption": {
@@ -10468,11 +10492,11 @@
     "description": "Title for the avatar picker in the group creation flow"
   },
   "icu:Preferences__message-audio-title": {
-    "messageformat": "In-chat message sound",
+    "messageformat": "உள்-சாட்டின் மெசேஜ் ஒலிகள்",
     "description": "Title for message audio setting"
   },
   "icu:Preferences__message-audio-description": {
-    "messageformat": "Hear a notification sound for sent and received messages while in the chat.",
+    "messageformat": "சாட்டில் இருக்கும்போது அனுப்பப்பட்ட மற்றும் பெறப்பட்ட மெசேஜ்களுக்கான அறிவிப்பு ஒலியைக் கேட்கவும்.",
     "description": "Description for message audio setting"
   },
   "Preferences__button--general": {
@@ -12539,36 +12563,36 @@
     "messageformat": "சிறு மாற்றங்கள், பிழை திருத்தங்கள் மற்றும் செயல்திறன் மேம்பாடுகள். சிக்னலைப் பயன்படுத்தியதற்கு நன்றி!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.17--0": {
-    "messageformat": "வலது-இடது (RTL) மொழிகளுக்கான மேம்படுத்தப்பட்ட ஆதரவு.",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--1": {
-    "messageformat": "உங்கள் கணினி விருப்பத்தேர்வுகளின் அடிப்படையில் இப்போது மொழிகள் பொருந்துகின்றன. பல மொழிகள் உள்ளமைக்கப்படும் போது இது சிறந்த இயல்புநிலை நடத்தையை விளைவிக்கும்.",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--2": {
-    "messageformat": "இந்த வெளியீட்டில் கூடுதலாக பல அணுகல்தன்மை மேம்பாடுகள் மற்றும் பிழை திருத்தங்களை அறிமுகப்படுத்துகிறது, மேலும் சமூகத்தின் கருத்து மற்றும் பரிந்துரைகளுக்கு அன்புடன் நன்றி தெரிவிக்க விரும்புகிறோம்.",
-    "description": "Release notes for v6.17"
-  },
   "icu:WhatsNew__v6.18--0": {
-    "messageformat": "Use the \"Navigate by section\" keyboard shortcuts (⌘/Ctrl+T & ⌘/Ctrl+F6) to quickly move between different areas of the app. It's like a superhero version of the Tab key that can fly further and faster than its mild-mannered alter ego.",
+    "messageformat": "புதிய கீபோர்ட் குறுக்குவழிகளான (⌘/Ctrl+T & ⌘/Ctrl+F6) செயலியின் வெவ்வேறு பகுதிகளுக்கு இடையே விரைவாகச் செல்ல பயன்படுத்தவும். இது டேப் கீயின் சூப்பர் ஹீரோ பதிப்பைப் போன்றது, அதன் லேசான நடத்தை கொண்ட மாற்று ஈகோவை விட மேலும் வேகமாக பறக்க முடியும்.",
     "description": "Release notes for v6.18"
   },
   "icu:WhatsNew__v6.18--1": {
-    "messageformat": "We added support for optional message sounds so that you can also hear notifications for sent and received messages while a chat is open (Settings > Notifications).",
+    "messageformat": "ஒரு சாட் திறந்திருக்கும் போது அனுப்பப்பட்ட மற்றும் பெறப்பட்ட மெசேஜ்களுக்கு அறிவிப்பு ஒலிகளை இயக்க விருப்ப அமைப்பைச் சேர்த்துள்ளோம் (அமைப்புகள் > அறிவிப்புகள்).",
     "description": "Release notes for v6.18"
   },
   "icu:WhatsNew__v6.18--2": {
-    "messageformat": "Jump to the latest unread message in a chat (⌘/Ctrl+J) without touching the mouse or helping the touchpad live up to its name.",
+    "messageformat": "மவுஸைத் தொடாமல் சாட்டின் (⌘/Ctrl+J) சமீபத்திய படிக்காத மெசேஜ்களுக்குச் செல்லவும்.",
     "description": "Release notes for v6.18"
   },
   "icu:WhatsNew__v6.18--3": {
-    "messageformat": "Updated icons give the app a fresh look and help improve legibility.",
+    "messageformat": "புதுப்பிக்கப்பட்ட ஐகான்கள் செயலிக்கு ஒரு புதிய தோற்றத்தை அளிக்கின்றன மற்றும் தெளிவை மேம்படுத்த உதவுகின்றன.",
     "description": "Release notes for v6.18"
   },
   "icu:WhatsNew__v6.18--4": {
-    "messageformat": "There's a new \"Copy text\" option in the triple-dot menu too. Thanks, {yusufsahinhamza}!",
+    "messageformat": "டிரிபிள்-டாட் மெனுவிலும் புதிய \"உரையை நகலெடு\" விருப்பம் உள்ளது. நன்றி, {yusufsahinhamza}!",
     "description": "Release notes for v6.18"
+  },
+  "icu:WhatsNew__v6.19--0": {
+    "messageformat": "மௌனம் எப்போதும் பொன்னானது அல்ல, ஆனால் அது ஒரு புதிய ஐகானைக் கொண்டுள்ளது. குரல் மற்றும் வீடியோ அழைப்புகளில் கேமரா மற்றும் மியூட் பட்டன்களை நாங்கள் புதுப்பித்துள்ளோம், எனவே அவை எப்போது இயக்கப்படுகின்றன அல்லது முடக்கப்பட்டுள்ளன என்பதைப் பார்ப்பது இன்னும் எளிதாக இருக்கும்.",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--1": {
+    "messageformat": "உள்ளூர்மயமாக்கல் மேம்பாடுகள் மற்றும் மெசேஜ் தொகுப்பு துறையில் வலமிருந்து இடமாக மொழிகளை சிறப்பாக கையாளுதல். நன்றி, {sha265}!",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--2": {
+    "messageformat": "நீங்கள் Windows 10 க்கு முன் Windows பதிப்பில் இருந்தால் அல்லது 20.04 LTS க்கு முன் Ubuntu பதிப்பில் இருந்தால், Signalஐத் தொடர்ந்து பயன்படுத்த உங்கள் இயங்குதளத்தைப் புதுப்பிக்க வேண்டும்: {supportLink}",
+    "description": "Release notes for v6.19"
   }
 }

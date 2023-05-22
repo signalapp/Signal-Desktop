@@ -793,7 +793,7 @@
     "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
   },
   "selectedLocation": {
-    "message": "الموقع الجغرافي المختار",
+    "message": "الموقع المختار",
     "description": "(deleted 03/29/2023) Message shown as the export location if we didn't capture the target directory"
   },
   "icu:selectedLocation": {
@@ -2354,7 +2354,7 @@
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
   },
   "icu:copy": {
-    "messageformat": "Copy text",
+    "messageformat": "نسخ النص",
     "description": "Shown on the drop-down menu for an individual message, copies the message text to the clipboard"
   },
   "icu:MessageContextMenu__select": {
@@ -2406,27 +2406,27 @@
     "description": "(deleted 04/06/2023) Shown on the drop-down menu for an individual message, deletes single message for everyone"
   },
   "icu:MessageContextMenu__reply": {
-    "messageformat": "Reply",
+    "messageformat": "الرَّدّ",
     "description": "Shown on the drop-down menu for an individual message when there isnt room for a dedicated button, focuses the composer with a reply to the current message"
   },
   "icu:MessageContextMenu__react": {
-    "messageformat": "React",
+    "messageformat": "تفاعل",
     "description": "Shown on the drop-down menu for an individual message when there isnt room for a dedicated button, opens the react picker for the current message"
   },
   "icu:MessageContextMenu__download": {
-    "messageformat": "Download",
+    "messageformat": "تنزيل",
     "description": "Shown on the drop-down menu for an individual message when there isnt room for a dedicated button and when there's only a single attachment, downloads an attachment"
   },
   "icu:MessageContextMenu__deleteMessage": {
-    "messageformat": "Delete",
+    "messageformat": "حذف",
     "description": "Show on the drop-down menu for an individual message, opens a modal to select if you want to 'delete for me' or 'delete for everyone'"
   },
   "icu:MessageContextMenu__forward": {
-    "messageformat": "Forward",
+    "messageformat": "إعادة التوجيه",
     "description": "Show on the drop-down menu for an individual message, opens a modal to forward a message"
   },
   "icu:MessageContextMenu__info": {
-    "messageformat": "Info",
+    "messageformat": "معلومات",
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
   },
   "deleteMessages": {
@@ -2665,6 +2665,10 @@
     "message": "امسح هذا الرمز ضوئيًا في تطبيق Signal على هاتفك",
     "description": "(deleted 03/29/2023) Title of the device link screen. Also used as alt text for the QR code on the device link screen"
   },
+  "icu:Install__learn-more": {
+    "messageformat": "لمعرفة المزيد",
+    "description": "Button text for learn more button during error screen"
+  },
   "icu:Install__scan-this-code": {
     "messageformat": "امسح هذا الرمز ضوئيًا في تطبيق Signal على هاتفك",
     "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
@@ -2702,7 +2706,11 @@
     "description": "Instructions on the device link screen"
   },
   "icu:Install__qr-failed": {
-    "messageformat": "لقد تعذر تحميل رمز الاستجابة السريعة. يُرجى التحقق من اتصالك بالأنترنت ثم المحاولة مرة أخرى. <learnMoreLink>معرفة المزيد</learnMoreLink>",
+    "messageformat": "(deleted 05/09/2023) The QR code couldn't load. Check your internet and try again. <learnMoreLink>Learn more</learnMoreLink>",
+    "description": "Shown on the install screen if the QR code fails to load"
+  },
+  "icu:Install__qr-failed-load": {
+    "messageformat": "لقد تعذر تحميل رمز الاستجابة السريعة. يُرجى التحقق من اتصالك بالأنترنت ثم المحاولة مرة أخرى. <retry>إعادة المُحاولة</retry>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -3357,7 +3365,7 @@
     "description": "Description of the spell check setting"
   },
   "icu:textFormattingDescription": {
-    "messageformat": "Show text formatting popover when text is selected",
+    "messageformat": "إظهار تنبيه تنسيق النص عند تحديد النص",
     "description": "Description of the text-formatting popover menu setting"
   },
   "spellCheckWillBeEnabled": {
@@ -3887,7 +3895,7 @@
     "description": "(deleted 03/29/2023) Description for audio notification setting"
   },
   "icu:audioNotificationDescription": {
-    "messageformat": "تشغيل أصوات الإشعارات",
+    "messageformat": "أصوات الإشعارات الفورية",
     "description": "Description for audio notification setting"
   },
   "callRingtoneNotificationDescription": {
@@ -5063,6 +5071,18 @@
     "messageformat": "إلغاء",
     "description": "Appears on the cancel button in confirmation dialogs."
   },
+  "icu:Message__reaction-emoji-label--you": {
+    "messageformat": "لقد تفاعلت بـ {emoji}",
+    "description": "aria-label for reaction emoji (you)"
+  },
+  "icu:Message__reaction-emoji-label--single": {
+    "messageformat": "{title} تفاعل بـ {emoji}",
+    "description": "aria-label for reaction emoji when one person reacts with an emoji"
+  },
+  "icu:Message__reaction-emoji-label--many": {
+    "messageformat": "{count} شخصًا تفاعلوا بـ {emoji}",
+    "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
+  },
   "icu:Message__role-description": {
     "messageformat": "مراسلة",
     "description": "aria-roledescription of a message"
@@ -5184,7 +5204,7 @@
     "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
   },
   "icu:Keyboard--focus-most-recent-message": {
-    "messageformat": "Focus oldest unread or last message",
+    "messageformat": "ركّز على أقدم رسالة غير مقروءة أو آخر رسالة",
     "description": "Shown in shortcuts guide"
   },
   "Keyboard--navigate-by-section": {
@@ -5435,6 +5455,10 @@
     "messageformat": "الانتقال إلى الدردشة",
     "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
   },
+  "icu:Keyboard--edit-last-message": {
+    "messageformat": "تعديل الرسالة السابقة",
+    "description": "Shown in the shortcuts guide"
+  },
   "Keyboard--Key--ctrl": {
     "message": "Ctrl",
     "description": "(deleted 03/29/2023) Key shown in shortcut combination in shortcuts guide"
@@ -5544,23 +5568,23 @@
     "description": "Description of command to bold text in composer"
   },
   "icu:FormatMenu--guide--bold": {
-    "messageformat": "Bold",
+    "messageformat": "خط Bold",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
   },
   "icu:FormatMenu--guide--italic": {
-    "messageformat": "Italic",
+    "messageformat": "خط Italic",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
   },
   "icu:FormatMenu--guide--strikethrough": {
-    "messageformat": "Strikethrough",
+    "messageformat": "تنسيق يتوسطه خط",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
   },
   "icu:FormatMenu--guide--monospace": {
-    "messageformat": "Monospace",
+    "messageformat": "خط Monospace",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
   },
   "icu:FormatMenu--guide--spoiler": {
-    "messageformat": "Spoiler",
+    "messageformat": "تنسيق نص سبويلر",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
   },
   "Keyboard--scroll-to-top": {
@@ -9480,11 +9504,11 @@
     "description": "(deleted 04/04/2023) Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-name-in-group--link": {
-    "messageformat": "{count, plural, one {{count,number} group member has the same name. <reviewRequestLink>Review members</reviewRequestLink>} other {{count,number} group members have the same name. <reviewRequestLink>Review members</reviewRequestLink>}}",
+    "messageformat": "{count, plural, zero {{count,number} عضو بالمجموعة لهم نفس الاسم. <reviewRequestLink>راجع الأعضاء</reviewRequestLink>} one {{count,number} عضو بالمجموعة له نفس الاسم. <reviewRequestLink>راجع الأعضاء</reviewRequestLink>} two {{count,number} عضوان بالمجموعة لهما نفس الاسم. <reviewRequestLink>راجع الأعضاء</reviewRequestLink>} few {{count,number} أعضاء بالمجموعة لهم نفس الاسم. <reviewRequestLink>راجع الأعضاء</reviewRequestLink>} many {{count,number} عضو بالمجموعة لهم نفس الاسم. <reviewRequestLink>راجع الأعضاء</reviewRequestLink>} other {{count,number} عضو بالمجموعة لهم نفس الاسم. <reviewRequestLink>راجع الأعضاء</reviewRequestLink>}}",
     "description": "Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-names-in-group--link": {
-    "messageformat": "{count, plural, one {{count,number} name conflict was found in this group. <reviewRequestLink>Review members</reviewRequestLink>} other {{count,number} name conflicts were found in this group. <reviewRequestLink>Review members</reviewRequestLink>}}",
+    "messageformat": "{count, plural, zero {تم العثور على {count,number} تضاربات أسماء في هذه المجموعة. <reviewRequestLink>راجع الأعضاء</reviewRequestLink>} one {تم العثور على {count,number} تضارب اسم في هذه المجموعة. <reviewRequestLink>راجع الأعضاء</reviewRequestLink>} two {تم العثور على {count,number} تضاربيْ أسماء في هذه المجموعة. <reviewRequestLink>راجع الأعضاء</reviewRequestLink>} few {تم العثور على {count,number} تضاربات أسماء في هذه المجموعة. <reviewRequestLink>مراجعة الأعضاء</reviewRequestLink>} many {تم العثور على {count,number} تضارب أسماء في هذه المجموعة. <reviewRequestLink>راجع الأعضاء</reviewRequestLink>} other {تم العثور على {count,number} تضارب أسماء في هذه المجموعة. <reviewRequestLink>راجع الأعضاء</reviewRequestLink>}}",
     "description": "Shown in the timeline warning when multiple names are shared by members of a group."
   },
   "ContactSpoofing__same-name__link": {
@@ -9552,7 +9576,7 @@
     "description": "Description for the group contact spoofing review dialog"
   },
   "icu:ContactSpoofingReviewDialog__group__multiple-conflicts__description": {
-    "messageformat": "{count, plural, one {{count,number} name conflict was found in this group. Review the members below or choose to take action.} other {{count,number} name conflicts were found in this group. Review the members below or choose to take action.}}",
+    "messageformat": "{count, plural, zero {تم العثور على {count,number} تضاربات أسماء في هذه المجموعة. راجع الأعضاء أسفله أو اختر اتخاذ إجراء.} one {تم العثور على {count,number} تضارب اسم في هذه المجموعة. راجع الأعضاء أسفله أو اختر اتخاذ إجراء.} two {تم العثور على {count,number} تضاربي أسماء في هذه المجموعة. راجع الأعضاء أسفله أو اختر اتخاذ إجراء.} few {تم العثور على {count,number} تضاربات أسماء في هذه المجموعة. راجع الأعضاء أسفله أو اختر اتخاذ إجراء.} many {تم العثور على {count,number} تضارب أسماء في هذه المجموعة. راجع الأعضاء أسفله أو اختر اتخاذ إجراء.} other {تم العثور على {count,number} تضارب أسماء في هذه المجموعة. راجع الأعضاء أسفله أو اختر اتخاذ إجراء.}}",
     "description": "Description for the group contact spoofing review dialog when there are multiple shared names"
   },
   "ContactSpoofingReviewDialog__group__members-header": {
@@ -9844,11 +9868,11 @@
     "description": "Modal title for the custom color editor"
   },
   "icu:GradientDial__knob-start": {
-    "messageformat": "Gradient start",
+    "messageformat": "بداية المتدرج",
     "description": "aria-label for the custom color gradient creator knob"
   },
   "icu:GradientDial__knob-end": {
-    "messageformat": "Gradient end",
+    "messageformat": "نهاية المتدرج",
     "description": "aria-label for the custom color gradient creator knob"
   },
   "customDisappearingTimeOption": {
@@ -10468,11 +10492,11 @@
     "description": "Title for the avatar picker in the group creation flow"
   },
   "icu:Preferences__message-audio-title": {
-    "messageformat": "In-chat message sound",
+    "messageformat": "صوت الرسالة داخل المحادثة",
     "description": "Title for message audio setting"
   },
   "icu:Preferences__message-audio-description": {
-    "messageformat": "Hear a notification sound for sent and received messages while in the chat.",
+    "messageformat": "اسمع صوت تنبيه للرسائل المرسلة والمتوصل بها بينما تكون داخل المحادثة.",
     "description": "Description for message audio setting"
   },
   "Preferences__button--general": {
@@ -12539,36 +12563,36 @@
     "messageformat": "تعديلات صغيرة، تصليح الأعطال، وتحسينات للأداء. شكرًا على استخدامكم Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.17--0": {
-    "messageformat": "تم تحسين الدعم للغات التي تُكتب من اليمين إلى اليسار.",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--1": {
-    "messageformat": "تتم الآن مطابقة اللغات المحلية بناءً على تفضيلات نظامك. هذا من شأنه أن يُؤدي إلى تحسين سلوك اختيار اللغة الافتراضية عند تواجد عدة لغات.",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--2": {
-    "messageformat": "يُقدم هذا الإصدار أيضًا عدة تحسينات وتصويبات للأخطاء، ونتقدم بالشكر للمجتمع على تعليقاتهم واقتراحاتهم.",
-    "description": "Release notes for v6.17"
-  },
   "icu:WhatsNew__v6.18--0": {
-    "messageformat": "Use the \"Navigate by section\" keyboard shortcuts (⌘/Ctrl+T & ⌘/Ctrl+F6) to quickly move between different areas of the app. It's like a superhero version of the Tab key that can fly further and faster than its mild-mannered alter ego.",
+    "messageformat": "استخدم اختصارات \"انتقل حسب القسم\" (⌘/Ctrl+T & ⌘/Ctrl+F6) للتنقل بسرعة بين مختلف مناطق التطبيق. إنها مثل نسخة خارقة لمفتاح Tab يمكنها أن تطير أبعد وأسرع.",
     "description": "Release notes for v6.18"
   },
   "icu:WhatsNew__v6.18--1": {
-    "messageformat": "We added support for optional message sounds so that you can also hear notifications for sent and received messages while a chat is open (Settings > Notifications).",
+    "messageformat": "أضفنا دعمًا لأصوات الرسائل الاختيارية حتى تتمكن من سماع إشعارات للرسائل المُرسلة والمتوصل بها بينما تكون هناك محادثة مفتوحة (الإعدادات > الإشعارات).",
     "description": "Release notes for v6.18"
   },
   "icu:WhatsNew__v6.18--2": {
-    "messageformat": "Jump to the latest unread message in a chat (⌘/Ctrl+J) without touching the mouse or helping the touchpad live up to its name.",
+    "messageformat": "انتقل إلى آخر رسالة غير مقروءة في محادثة (⌘/Ctrl+J) دون لمس الفأرة أو لوحة اللمس.",
     "description": "Release notes for v6.18"
   },
   "icu:WhatsNew__v6.18--3": {
-    "messageformat": "Updated icons give the app a fresh look and help improve legibility.",
+    "messageformat": "تمنح الرموز المُحدثة التطبيق مظهرًا جديدًا وتساعد على الرفع من الوضوح.",
     "description": "Release notes for v6.18"
   },
   "icu:WhatsNew__v6.18--4": {
-    "messageformat": "There's a new \"Copy text\" option in the triple-dot menu too. Thanks, {yusufsahinhamza}!",
+    "messageformat": "هناك خيار \"نسخ النص\" جديد في قائمة النقاط الثلاثة أيضًا. شكرًا، {yusufsahinhamza}!",
     "description": "Release notes for v6.18"
+  },
+  "icu:WhatsNew__v6.19--0": {
+    "messageformat": "ليس السكوت دائمًا من علامات الرضى، لكن لديه الآن أيقونة جديدة. لقد قمنا بتحديث زري الكاميرا وكتم الصوت في المكالمات الصوتية ومكالمات الفيديو لتصبح رؤيتهما أسهل عندما يكونان مفعّلين أو غير مفعّلين.",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--1": {
+    "messageformat": "تحسينات للترجمة المحلية ومناولة أفضل للغات التي تُكتب من اليمين إلى اليسار في مجال تأليف الرسائل. شكرًا، {sha265}!",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--2": {
+    "messageformat": "إذا كنت تستخدم إصدار Windows قبل Windows 10، أو إصدار Ubuntu قبل 20.04 LTS، سَيتعين عليك تحديث نظام تشغيلك لمواصلة استخدام Signal: {supportLink}",
+    "description": "Release notes for v6.19"
   }
 }

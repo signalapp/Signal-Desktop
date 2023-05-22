@@ -621,7 +621,7 @@
     "description": "Shown in a context menu for a contact, allows the user to start the conversation with the contact"
   },
   "icu:ContactListItem__menu__audio-call": {
-    "messageformat": "ઓડિયો કૉલ",
+    "messageformat": "વૉઇસ કૉલ",
     "description": "Shown in a context menu for a contact, allows the user to start the audio call with the contact"
   },
   "icu:ContactListItem__menu__video-call": {
@@ -2015,7 +2015,7 @@
     "description": "(deleted 03/29/2023) Button shown in popup asking to enable microphone/video permissions to send audio messages"
   },
   "icu:allowAccess": {
-    "messageformat": "ઍક્સેસની મંજૂરી આપો",
+    "messageformat": "ઍક્સેસ આપો",
     "description": "Button shown in popup asking to enable microphone/video permissions to send audio messages"
   },
   "showSettings": {
@@ -2354,7 +2354,7 @@
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
   },
   "icu:copy": {
-    "messageformat": "Copy text",
+    "messageformat": "લખાણ કોપી કરો",
     "description": "Shown on the drop-down menu for an individual message, copies the message text to the clipboard"
   },
   "icu:MessageContextMenu__select": {
@@ -2406,27 +2406,27 @@
     "description": "(deleted 04/06/2023) Shown on the drop-down menu for an individual message, deletes single message for everyone"
   },
   "icu:MessageContextMenu__reply": {
-    "messageformat": "Reply",
+    "messageformat": "જવાબ",
     "description": "Shown on the drop-down menu for an individual message when there isnt room for a dedicated button, focuses the composer with a reply to the current message"
   },
   "icu:MessageContextMenu__react": {
-    "messageformat": "React",
+    "messageformat": "પ્રતિક્રિયા આપો",
     "description": "Shown on the drop-down menu for an individual message when there isnt room for a dedicated button, opens the react picker for the current message"
   },
   "icu:MessageContextMenu__download": {
-    "messageformat": "Download",
+    "messageformat": "ડાઉનલોડ",
     "description": "Shown on the drop-down menu for an individual message when there isnt room for a dedicated button and when there's only a single attachment, downloads an attachment"
   },
   "icu:MessageContextMenu__deleteMessage": {
-    "messageformat": "Delete",
+    "messageformat": "ડિલીટ કરો",
     "description": "Show on the drop-down menu for an individual message, opens a modal to select if you want to 'delete for me' or 'delete for everyone'"
   },
   "icu:MessageContextMenu__forward": {
-    "messageformat": "Forward",
+    "messageformat": "ફોરવર્ડ",
     "description": "Show on the drop-down menu for an individual message, opens a modal to forward a message"
   },
   "icu:MessageContextMenu__info": {
-    "messageformat": "Info",
+    "messageformat": "માહિતી",
     "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
   },
   "deleteMessages": {
@@ -2665,6 +2665,10 @@
     "message": "આ કોડને તમારા ફોન પરની Signal એપ્લિકેશન પર સ્કેન કરો",
     "description": "(deleted 03/29/2023) Title of the device link screen. Also used as alt text for the QR code on the device link screen"
   },
+  "icu:Install__learn-more": {
+    "messageformat": "વધુ શીખો",
+    "description": "Button text for learn more button during error screen"
+  },
   "icu:Install__scan-this-code": {
     "messageformat": "આ કોડને તમારા ફોન પરની Signal એપ્લિકેશન પર સ્કેન કરો",
     "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
@@ -2702,7 +2706,11 @@
     "description": "Instructions on the device link screen"
   },
   "icu:Install__qr-failed": {
-    "messageformat": "QR કોડ લોડ ન થઈ શક્યો. તમારું ઇન્ટરનેટ તપાસો અને ફરી પ્રયાસ કરો. <learnMoreLink>વધુ જાણો</learnMoreLink>",
+    "messageformat": "(deleted 05/09/2023) The QR code couldn't load. Check your internet and try again. <learnMoreLink>Learn more</learnMoreLink>",
+    "description": "Shown on the install screen if the QR code fails to load"
+  },
+  "icu:Install__qr-failed-load": {
+    "messageformat": "QR કોડ લોડ ન થઈ શક્યો. તમારું ઇન્ટરનેટ તપાસો અને ફરી પ્રયાસ કરો. <retry>ફરી પ્રયાસ કરો</retry>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -3325,7 +3333,7 @@
     "description": "Header for permissions section of settings"
   },
   "mediaPermissionsDescription": {
-    "message": "માઇક્રોફોનની ઍક્સેસની મંજૂરી આપો",
+    "message": "માઇક્રોફોનનો ઍક્સેસ આપો",
     "description": "(deleted 03/29/2023) Description of the media permission description"
   },
   "icu:mediaPermissionsDescription": {
@@ -3333,7 +3341,7 @@
     "description": "Description of the media permission description"
   },
   "mediaCameraPermissionsDescription": {
-    "message": "કૅમેરા ઍક્સેસની મંજૂરી આપો",
+    "message": "કૅમેરાનો ઍક્સેસ આપો",
     "description": "(deleted 03/29/2023) Description of the media permission description"
   },
   "icu:mediaCameraPermissionsDescription": {
@@ -3357,7 +3365,7 @@
     "description": "Description of the spell check setting"
   },
   "icu:textFormattingDescription": {
-    "messageformat": "Show text formatting popover when text is selected",
+    "messageformat": "ટેક્સ્ટ પસંદ કરવામાં આવે ત્યારે ટેક્સ્ટ ફોર્મેટિંગ પોપ-ઓવર બતાવો",
     "description": "Description of the text-formatting popover menu setting"
   },
   "spellCheckWillBeEnabled": {
@@ -3887,7 +3895,7 @@
     "description": "(deleted 03/29/2023) Description for audio notification setting"
   },
   "icu:audioNotificationDescription": {
-    "messageformat": "નોટિફિકેશન અવાજ વગાડો",
+    "messageformat": "પુશ નોટિફિકેશનનો અવાજ",
     "description": "Description for audio notification setting"
   },
   "callRingtoneNotificationDescription": {
@@ -5063,6 +5071,18 @@
     "messageformat": "રદ કરો",
     "description": "Appears on the cancel button in confirmation dialogs."
   },
+  "icu:Message__reaction-emoji-label--you": {
+    "messageformat": "તમે {emoji} પ્રતિક્રિયા આપી",
+    "description": "aria-label for reaction emoji (you)"
+  },
+  "icu:Message__reaction-emoji-label--single": {
+    "messageformat": "{title} એ {emoji} પ્રતિક્રિયા આપી",
+    "description": "aria-label for reaction emoji when one person reacts with an emoji"
+  },
+  "icu:Message__reaction-emoji-label--many": {
+    "messageformat": "{count} લોકોએ {emoji} પ્રતિક્રિયા આપી",
+    "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
+  },
   "icu:Message__role-description": {
     "messageformat": "મેસેજ",
     "description": "aria-roledescription of a message"
@@ -5184,7 +5204,7 @@
     "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
   },
   "icu:Keyboard--focus-most-recent-message": {
-    "messageformat": "Focus oldest unread or last message",
+    "messageformat": "સૌથી જૂના ન વાંચેલા અથવા છેલ્લા મેસેજ પર ફોકસ કરો",
     "description": "Shown in shortcuts guide"
   },
   "Keyboard--navigate-by-section": {
@@ -5435,6 +5455,10 @@
     "messageformat": "ચેટ પર જાઓ",
     "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
   },
+  "icu:Keyboard--edit-last-message": {
+    "messageformat": "અગાઉના મેસેજમાં ફેરફાર કરો",
+    "description": "Shown in the shortcuts guide"
+  },
   "Keyboard--Key--ctrl": {
     "message": "Ctrl",
     "description": "(deleted 03/29/2023) Key shown in shortcut combination in shortcuts guide"
@@ -5544,23 +5568,23 @@
     "description": "Description of command to bold text in composer"
   },
   "icu:FormatMenu--guide--bold": {
-    "messageformat": "Bold",
+    "messageformat": "ઘાટા",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
   },
   "icu:FormatMenu--guide--italic": {
-    "messageformat": "Italic",
+    "messageformat": "ત્રાંસા",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
   },
   "icu:FormatMenu--guide--strikethrough": {
-    "messageformat": "Strikethrough",
+    "messageformat": "વચ્ચે લીટી",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
   },
   "icu:FormatMenu--guide--monospace": {
-    "messageformat": "Monospace",
+    "messageformat": "મોનોસ્પેસ",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
   },
   "icu:FormatMenu--guide--spoiler": {
-    "messageformat": "Spoiler",
+    "messageformat": "મેસેજ ઝાંખો કરનાર",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
   },
   "Keyboard--scroll-to-top": {
@@ -9480,11 +9504,11 @@
     "description": "(deleted 04/04/2023) Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-name-in-group--link": {
-    "messageformat": "{count, plural, one {{count,number} group member has the same name. <reviewRequestLink>Review members</reviewRequestLink>} other {{count,number} group members have the same name. <reviewRequestLink>Review members</reviewRequestLink>}}",
+    "messageformat": "{count, plural, one {{count,number} ગ્રૂપના સભ્યનું નામ સરખું છે. <reviewRequestLink>સભ્યોને રિવ્યૂ કરો</reviewRequestLink>} other {{count,number} ગ્રૂપના સભ્યોના નામ સરખા છે. <reviewRequestLink>સભ્યોને રિવ્યૂ કરો</reviewRequestLink>}}",
     "description": "Shown in the timeline warning when you multiple group members have the same name"
   },
   "icu:ContactSpoofing__same-names-in-group--link": {
-    "messageformat": "{count, plural, one {{count,number} name conflict was found in this group. <reviewRequestLink>Review members</reviewRequestLink>} other {{count,number} name conflicts were found in this group. <reviewRequestLink>Review members</reviewRequestLink>}}",
+    "messageformat": "{count, plural, one {આ ગ્રૂપમાં {count,number} નામનો વિરોધાભાસ જોવા મળ્યો હતો. <reviewRequestLink>સભ્યોને રિવ્યૂ કરો</reviewRequestLink>} other {આ ગ્રૂપમાં {count,number} નામના વિરોધાભાસ જોવા મળ્યા હતા. <reviewRequestLink>સભ્યોને રિવ્યૂ કરો</reviewRequestLink>}}",
     "description": "Shown in the timeline warning when multiple names are shared by members of a group."
   },
   "ContactSpoofing__same-name__link": {
@@ -9552,7 +9576,7 @@
     "description": "Description for the group contact spoofing review dialog"
   },
   "icu:ContactSpoofingReviewDialog__group__multiple-conflicts__description": {
-    "messageformat": "{count, plural, one {{count,number} name conflict was found in this group. Review the members below or choose to take action.} other {{count,number} name conflicts were found in this group. Review the members below or choose to take action.}}",
+    "messageformat": "{count, plural, one {આ ગ્રૂપમાં {count,number} નામનો વિરોધાભાસ જોવા મળ્યો હતો. નીચેના સભ્યોને રિવ્યૂ કરો અથવા પગલાં લેવાનું પસંદ કરો.} other {આ ગ્રૂપમાં {count,number} નામના વિરોધાભાસ જોવા મળ્યા હતા. નીચેના સભ્યોને રિવ્યૂ કરો અથવા પગલાં લેવાનું પસંદ કરો.}}",
     "description": "Description for the group contact spoofing review dialog when there are multiple shared names"
   },
   "ContactSpoofingReviewDialog__group__members-header": {
@@ -9844,11 +9868,11 @@
     "description": "Modal title for the custom color editor"
   },
   "icu:GradientDial__knob-start": {
-    "messageformat": "Gradient start",
+    "messageformat": "ગ્રેડિયન્ટ શરૂઆત",
     "description": "aria-label for the custom color gradient creator knob"
   },
   "icu:GradientDial__knob-end": {
-    "messageformat": "Gradient end",
+    "messageformat": "ગ્રેડિયન્ટ અંત",
     "description": "aria-label for the custom color gradient creator knob"
   },
   "customDisappearingTimeOption": {
@@ -10468,11 +10492,11 @@
     "description": "Title for the avatar picker in the group creation flow"
   },
   "icu:Preferences__message-audio-title": {
-    "messageformat": "In-chat message sound",
+    "messageformat": "ચેટની અંદરના મેસેજનો અવાજ",
     "description": "Title for message audio setting"
   },
   "icu:Preferences__message-audio-description": {
-    "messageformat": "Hear a notification sound for sent and received messages while in the chat.",
+    "messageformat": "ચેટમાં હોય ત્યારે મોકલેલા અને પ્રાપ્ત થયેલા મેસેજ માટે નોટિફિકેશન સાઉન્ડ સાંભળો.",
     "description": "Description for message audio setting"
   },
   "Preferences__button--general": {
@@ -12539,36 +12563,36 @@
     "messageformat": "નાના ફેરફારો, ભૂલ સુધારા અને પ્રદર્શનમાં વધારો. Signalનો ઉપયોગ કરવા બદલ આભાર!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.17--0": {
-    "messageformat": "જમણે-થી-ડાબે (RTL) ભાષાઓ માટે બહેતર સપોર્ટ.",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--1": {
-    "messageformat": "લોકેલ હવે તમારી સિસ્ટમ પસંદગીઓના આધારે મેળ ખાય છે. જ્યારે બહુવિધ ભાષાઓ કન્ફિગર કરવામાં આવે ત્યારે આ વધુ સારી ડિફોલ્ટ વર્તણૂકમાં પરિણમવું જોઈએ.",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--2": {
-    "messageformat": "આ રિલીઝ વધુમાં કેટલાક ઍક્સેસિબિલિટી ઉન્નત્તિકરણો અને બગ ફિક્સ પ્રસ્તુત કરે છે, અને અમે કોમ્યુનિટીનો તેમના પ્રતિસાદ અને સૂચનો બદલ સ્નેહપૂર્વક આભાર માનીએ છીએ.",
-    "description": "Release notes for v6.17"
-  },
   "icu:WhatsNew__v6.18--0": {
-    "messageformat": "Use the \"Navigate by section\" keyboard shortcuts (⌘/Ctrl+T & ⌘/Ctrl+F6) to quickly move between different areas of the app. It's like a superhero version of the Tab key that can fly further and faster than its mild-mannered alter ego.",
+    "messageformat": "ઍપના વિવિધ ક્ષેત્રો વચ્ચે ઝડપથી આગળ-પાછળ જવા માટે \"વિભાગ અનુસાર નેવિગેટ કરો\" કીબોર્ડ શોર્ટકટ (⌘/Ctrl+T & ⌘/Ctrl+F6)નો ઉપયોગ કરો. તે ટેબ કીના સુપરહીરો વર્ઝન જેવું છે જે તેના હળવા સ્વભાવના અલ્ટર ઈગો કરતાં વધુ આગળ અને ઝડપથી ઉડી શકે છે.",
     "description": "Release notes for v6.18"
   },
   "icu:WhatsNew__v6.18--1": {
-    "messageformat": "We added support for optional message sounds so that you can also hear notifications for sent and received messages while a chat is open (Settings > Notifications).",
+    "messageformat": "અમે વૈકલ્પિક મેસેજ સાઉન્ડ માટે સપોર્ટ ઉમેર્યો છે જેથી જ્યારે ચેટ ખુલ્લી હોય ત્યારે તમે મોકલેલા અને પ્રાપ્ત કરેલા મેસેજ માટે નોટિફિકેશન પણ સાંભળી શકો (સેટિંગ્સ > નોટિફિકેશન).",
     "description": "Release notes for v6.18"
   },
   "icu:WhatsNew__v6.18--2": {
-    "messageformat": "Jump to the latest unread message in a chat (⌘/Ctrl+J) without touching the mouse or helping the touchpad live up to its name.",
+    "messageformat": "ચેટમાં માઉસને ટચ કર્યા વિના અથવા ટચપેડને તેના નામ પ્રમાણે બનાવવામાં મદદ કરીને લેટેસ્ટ ન વાંચેલા મેસેજ પર જાઓ (⌘/Ctrl+J).",
     "description": "Release notes for v6.18"
   },
   "icu:WhatsNew__v6.18--3": {
-    "messageformat": "Updated icons give the app a fresh look and help improve legibility.",
+    "messageformat": "અપડેટ કરેલા આઇકન ઍપને નવો દેખાવ આપે છે અને સુવાચ્યતા સુધારવામાં મદદ કરે છે.",
     "description": "Release notes for v6.18"
   },
   "icu:WhatsNew__v6.18--4": {
-    "messageformat": "There's a new \"Copy text\" option in the triple-dot menu too. Thanks, {yusufsahinhamza}!",
+    "messageformat": "ટ્રિપલ-ડોટ મેનૂમાં પણ એક નવો \"ટેક્સ્ટ કૉપિ કરો\" વિકલ્પ છે. આભાર, {yusufsahinhamza}!",
     "description": "Release notes for v6.18"
+  },
+  "icu:WhatsNew__v6.19--0": {
+    "messageformat": "મૌન હંમેશા સુંદર નથી હોતું, પરંતુ તેમાં એક નવો આઇકન છે. અમે વૉઇસ અને વીડિયો કૉલમાં કૅમેરા અને મ્યૂટ બટનોને અપડેટ કર્યા છે જેથી તેઓ ક્યારે સક્ષમ અથવા અક્ષમ છે તે જોવાનું વધુ સરળ બને.",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--1": {
+    "messageformat": "સ્થાનિકીકરણ સુધારણા, અને મેસેજ લખવાના ફીલ્ડમાં જમણે-થી-ડાબે ભાષાઓનું બહેતર સંચાલન. આભાર, {sha265}!",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--2": {
+    "messageformat": "જો તમે Windows 10 પહેલાંના Windowsના વર્ઝન પર હો અથવા 20.04 LTS પહેલાંના Ubuntuના વર્ઝન પર હો, તો તમારે Signalનો ઉપયોગ ચાલુ રાખવા માટે તમારી ઓપરેટિંગ સિસ્ટમ અપડેટ કરવાની જરૂર પડશે: {supportLink}",
+    "description": "Release notes for v6.19"
   }
 }
