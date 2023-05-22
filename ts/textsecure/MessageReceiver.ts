@@ -3,7 +3,7 @@
 
 /* eslint-disable no-bitwise */
 
-import { isBoolean, isNumber, omit } from 'lodash';
+import { isBoolean, isNumber, isString, omit } from 'lodash';
 import PQueue from 'p-queue';
 import { v4 as getGuid } from 'uuid';
 
@@ -3197,6 +3197,7 @@ export default class MessageReceiver
       identityKeyPair,
       signedPreKey,
       registrationId,
+      newE164,
     }: Proto.SyncMessage.IPniChangeNumber
   ): Promise<void> {
     log.info('MessageReceiver: got pni change number sync message');
@@ -3212,7 +3213,8 @@ export default class MessageReceiver
     if (
       !Bytes.isNotEmpty(identityKeyPair) ||
       !Bytes.isNotEmpty(signedPreKey) ||
-      !isNumber(registrationId)
+      !isNumber(registrationId) ||
+      !isString(newE164)
     ) {
       log.warn('MessageReceiver: empty pni change number sync message');
       return;
@@ -3224,6 +3226,7 @@ export default class MessageReceiver
       signedPreKey,
       registrationId,
     });
+    await window.storage.user.setNumber(newE164);
   }
 
   private async handleStickerPackOperation(

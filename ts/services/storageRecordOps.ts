@@ -1199,7 +1199,9 @@ export async function mergeAccountRecord(
 
   if (typeof accountE164 === 'string' && accountE164) {
     await window.storage.put('accountE164', accountE164);
-    await window.storage.user.setNumber(accountE164);
+    if (!RemoteConfig.isEnabled('desktop.pnp')) {
+      await window.storage.user.setNumber(accountE164);
+    }
   }
 
   if (preferredReactionEmoji.canBeSynced(rawPreferredReactionEmoji)) {
