@@ -13,7 +13,7 @@ import {
   DisappearingMessageConversationType,
   ExpirationTimerOptions,
 } from '../../../util/expiringMessages';
-import { ConversationHeaderSubitle } from './ConversationHeaderSubtitle';
+import { ConversationHeaderSubtitle } from './ConversationHeaderSubtitle';
 
 export type SubtitleStrings = Record<string, string> & {
   notifications?: string;
@@ -166,7 +166,7 @@ export const ConversationHeaderTitle = () => {
             </span>
           )}
           {subtitleArray.indexOf(visibleSubtitle) > -1 && (
-            <ConversationHeaderSubitle
+            <ConversationHeaderSubtitle
               currentSubtitle={visibleSubtitle}
               setCurrentSubtitle={setVisibleSubtitle}
               subtitlesArray={subtitleArray}

@@ -62,7 +62,7 @@ const SubtitleDotMenu = ({
   </Flex>
 );
 
-type ConversationHeaderSubitleProps = {
+type ConversationHeaderSubtitleProps = {
   subtitlesArray: Array<SubtitleStringsType>;
   subtitleStrings: SubtitleStrings;
   currentSubtitle: SubtitleStringsType;
@@ -71,7 +71,7 @@ type ConversationHeaderSubitleProps = {
   showDisappearingMessageIcon: boolean;
 };
 
-export const ConversationHeaderSubitle = (props: ConversationHeaderSubitleProps) => {
+export const ConversationHeaderSubtitle = (props: ConversationHeaderSubtitleProps) => {
   const {
     subtitlesArray,
     subtitleStrings,
