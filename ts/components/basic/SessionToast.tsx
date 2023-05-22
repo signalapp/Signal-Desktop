@@ -25,7 +25,7 @@ type Props = {
 
 const TitleDiv = styled.div`
   font-size: var(--font-size-md);
-  line-height: var(--font-size-md);
+  line-height: 1.5;
   font-family: var(--font-default);
   color: var(--text-primary-color);
   text-overflow: ellipsis;
@@ -42,7 +42,7 @@ const DescriptionDiv = styled.div`
 const IconDiv = styled.div`
   flex-shrink: 0;
   padding-inline-end: var(--margins-xs);
-  margin: 0 var(--margins-xs);
+  margin: 0 var(--margins-sm) 0 var(--margins-xs);
 `;
 
 // tslint:disable: use-simple-attributes

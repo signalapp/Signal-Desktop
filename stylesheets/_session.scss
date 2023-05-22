@@ -176,20 +176,6 @@ label {
   visibility: hidden;
 }
 
-.Toastify__toast {
-  background: var(--toast-background-color);
-  color: var(--toast-text-color);
-  border-left: 4px solid var(--toast-color-strip-color);
-
-  .Toastify__close-button {
-    color: var(--toast-text-color);
-  }
-
-  .Toastify__progress-bar {
-    background-color: var(--toast-progress-color);
-  }
-}
-
 .session-modal {
   animation: fadein var(--default-duration);
   z-index: 150;
