@@ -25,6 +25,10 @@ export const matchEmojiBlot = (node: HTMLElement, delta: Delta): Delta => {
 };
 
 export const matchEmojiText = (node: Text): Delta => {
+  if (node.data.replace(/(\n|\r\n)/g, '') === '') {
+    return new Delta();
+  }
+
   const nodeAsInsert = { insert: node.data };
 
   return new Delta(insertEmojiOps([nodeAsInsert]));
