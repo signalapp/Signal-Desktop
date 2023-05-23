@@ -5,11 +5,9 @@ import { Avatar, AvatarSize } from '../avatar/Avatar';
 
 import { SyncUtils, ToastUtils, UserUtils } from '../../session/utils';
 import { YourSessionIDPill, YourSessionIDSelectable } from '../basic/YourSessionIDPill';
-import { SyncUtils, ToastUtils, UserUtils } from '../../session/utils';
 
 import { getConversationController } from '../../session/conversations';
 import { editProfileModal, updateDisplayPictureModel } from '../../state/ducks/modalDialog';
-import { pickFileForAvatar } from '../../types/attachments/VisualAttachment';
 import { saveQRCode } from '../../util/saveQRCode';
 import { setLastProfileUpdateTimestamp } from '../../util/storage';
 import { SessionWrapperModal } from '../SessionWrapperModal';
@@ -20,6 +18,9 @@ import { sanitizeSessionUsername } from '../../session/utils/String';
 import { useOurConversationUsername } from '../../hooks/useParamSelector';
 import { useOurAvatarPath } from '../../hooks/useParamSelector';
 import { useDispatch } from 'react-redux';
+import styled from 'styled-components';
+import { ConversationTypeEnum } from '../../models/conversationAttributes';
+import { MAX_USERNAME_BYTES } from '../../session/constants';
 
 const handleSaveQRCode = (event: MouseEvent) => {
   event.preventDefault();
@@ -48,32 +49,12 @@ const QRView = ({ sessionID }: { sessionID: string }) => {
   );
 };
 
-const commitProfileEdits = async (newName: string, scaledAvatarUrl: string | null) => {
+const updateDisplayName = async (newName: string) => {
   const ourNumber = UserUtils.getOurPubKeyStrFromCache();
   const conversation = await getConversationController().getOrCreateAndWait(
     ourNumber,
     ConversationTypeEnum.PRIVATE
   );
-
-  if (scaledAvatarUrl?.length) {
-    try {
-      const blobContent = await (await fetch(scaledAvatarUrl)).blob();
-      if (!blobContent || !blobContent.size) {
-        throw new Error('Failed to fetch blob content from scaled avatar');
-      }
-      await uploadOurAvatar(await blobContent.arrayBuffer());
-    } catch (error) {
-      if (error.message && error.message.length) {
-        ToastUtils.pushToastError('edit-profile', error.message);
-      }
-      window.log.error(
-        'showEditProfileDialog Error ensuring that image is properly sized:',
-        error && error.stack ? error.stack : error
-      );
-    }
-    return;
-  }
-  // do not update the avatar if it did not change
   conversation.setSessionDisplayNameNoCommit(newName);
 
   // might be good to not trigger a sync if the name did not change
@@ -82,8 +63,8 @@ const commitProfileEdits = async (newName: string, scaledAvatarUrl: string | nul
   await SyncUtils.forceSyncConfigurationNowIfNeeded(true);
 };
 
-export type ProfileAvatarProps = {
-  newAvatarObjectUrl: string | null;
+type ProfileAvatarProps = {
+  newAvatarObjectUrl?: string | null;
   oldAvatarPath: string | null;
   profileName: string | undefined;
   ourId: string;
@@ -107,17 +88,12 @@ type ProfileHeaderProps = ProfileAvatarProps & {
 };
 
 const ProfileHeader = (props: ProfileHeaderProps): ReactElement => {
-  const { newAvatarObjectUrl, oldAvatarPath, profileName, ourId, onClick, setMode } = props;
+  const { oldAvatarPath, profileName, ourId, onClick, setMode } = props;
 
   return (
     <div className="avatar-center">
       <div className="avatar-center-inner">
-        <ProfileAvatar
-          newAvatarObjectUrl={newAvatarObjectUrl}
-          oldAvatarPath={oldAvatarPath}
-          profileName={profileName}
-          ourId={ourId}
-        />
+        <ProfileAvatar oldAvatarPath={oldAvatarPath} profileName={profileName} ourId={ourId} />
         <div
           className="image-upload-section"
           role="button"
@@ -147,7 +123,6 @@ export const EditProfileDialog = (): ReactElement => {
   const [profileName, setProfileName] = useState(_profileName);
   const [updatedProfileName, setUpdateProfileName] = useState(profileName);
   const oldAvatarPath = useOurAvatarPath() || '';
-  const [newAvatarObjectUrl, setNewAvatarObjectUrl] = useState<string | null>(null);
 
   const [mode, setMode] = useState<ProfileDialogModes>('default');
   const [loading, setLoading] = useState(false);
@@ -190,7 +165,7 @@ export const EditProfileDialog = (): ReactElement => {
       setUpdateProfileName(trimName);
       setLoading(true);
 
-      await commitProfileEdits(newName, newAvatarObjectUrl);
+      await updateDisplayName(newName);
       setMode('default');
       setUpdateProfileName(profileName);
       setLoading(false);
@@ -214,25 +189,13 @@ export const EditProfileDialog = (): ReactElement => {
     }
   };
 
-  const fireInputEvent = async () => {
-    const scaledAvatarUrl = await pickFileForAvatar();
-    if (scaledAvatarUrl) {
-      setNewAvatarObjectUrl(scaledAvatarUrl);
-      setMode('edit');
-    }
-
-    return scaledAvatarUrl;
-  };
-
   const handleProfileHeaderClick = () => {
     closeDialog();
     dispatch(
       updateDisplayPictureModel({
-        newAvatarObjectUrl,
         oldAvatarPath,
         profileName,
         ourId,
-        avatarAction: fireInputEvent,
       })
     );
   };
@@ -260,7 +223,6 @@ export const EditProfileDialog = (): ReactElement => {
         {mode === 'default' && (
           <>
             <ProfileHeader
-              newAvatarObjectUrl={newAvatarObjectUrl}
               oldAvatarPath={oldAvatarPath}
               profileName={profileName}
               ourId={ourId}
@@ -283,7 +245,6 @@ export const EditProfileDialog = (): ReactElement => {
         {mode === 'edit' && (
           <>
             <ProfileHeader
-              newAvatarObjectUrl={newAvatarObjectUrl}
               oldAvatarPath={oldAvatarPath}
               profileName={profileName}
               ourId={ourId}

@@ -3,13 +3,14 @@ import { SessionWrapperModal } from '../SessionWrapperModal';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { SpacerLG } from '../basic/Text';
 import { useDispatch } from 'react-redux';
-import { updateDisplayPictureModel } from '../../state/ducks/modalDialog';
-import { ProfileAvatar, ProfileAvatarProps } from './EditProfileDialog';
+import { editProfileModal, updateDisplayPictureModel } from '../../state/ducks/modalDialog';
+import { ProfileAvatar } from './EditProfileDialog';
 import styled from 'styled-components';
 import { clearOurAvatar, uploadOurAvatar } from '../../interactions/conversationInteractions';
 import { ToastUtils } from '../../session/utils';
 import { SessionSpinner } from '../basic/SessionSpinner';
 import { SessionIconButton } from '../icon';
+import { pickFileForAvatar } from '../../types/attachments/VisualAttachment';
 
 const StyledAvatarContainer = styled.div`
   cursor: pointer;
@@ -59,8 +60,10 @@ const uploadProfileAvatar = async (scaledAvatarUrl: string | null) => {
   }
 };
 
-export type DisplayPictureModalProps = ProfileAvatarProps & {
-  avatarAction: () => Promise<string | null>;
+export type DisplayPictureModalProps = {
+  oldAvatarPath: string | null;
+  profileName: string | undefined;
+  ourId: string;
 };
 
 export const DisplayPictureModal = (props: DisplayPictureModalProps) => {
@@ -70,41 +73,41 @@ export const DisplayPictureModal = (props: DisplayPictureModalProps) => {
     return null;
   }
 
-  const {
-    newAvatarObjectUrl: _newAvatarObjectUrl,
-    oldAvatarPath: _oldAvatarPath,
-    profileName,
-    ourId,
-    avatarAction,
-  } = props;
+  const { oldAvatarPath, profileName, ourId } = props;
 
-  const [newAvatarObjectUrl, setNewAvatarObjectUrl] = useState<string | null>(_newAvatarObjectUrl);
-  const [oldAvatarPath, setOldAvatarPath] = useState<string | null>(_oldAvatarPath);
+  const [newAvatarObjectUrl, setNewAvatarObjectUrl] = useState<string | null>(oldAvatarPath);
   const [loading, setLoading] = useState(false);
 
   const closeDialog = () => {
     dispatch(updateDisplayPictureModel(null));
+    dispatch(editProfileModal({}));
+  };
+
+  const handleAvatarClick = async () => {
+    const updatedAvatarObjectUrl = await pickFileForAvatar();
+    if (updatedAvatarObjectUrl) {
+      setNewAvatarObjectUrl(updatedAvatarObjectUrl);
+    }
   };
 
   const handleUpload = async () => {
     setLoading(true);
-    if (newAvatarObjectUrl === _newAvatarObjectUrl) {
+    if (newAvatarObjectUrl === oldAvatarPath) {
       window.log.debug(`Avatar Object URL has not changed!`);
       return;
     }
 
     await uploadProfileAvatar(newAvatarObjectUrl);
     setLoading(false);
-    closeDialog();
+    dispatch(updateDisplayPictureModel(null));
   };
 
   const handleRemove = async () => {
     setLoading(true);
     await clearOurAvatar();
     setNewAvatarObjectUrl(null);
-    setOldAvatarPath(null);
     setLoading(false);
-    closeDialog();
+    dispatch(updateDisplayPictureModel(null));
   };
 
   return (
@@ -114,15 +117,7 @@ export const DisplayPictureModal = (props: DisplayPictureModalProps) => {
       showHeader={true}
       showExitIcon={true}
     >
-      <div
-        className="avatar-center"
-        onClick={async () => {
-          const updatedAvatarObjectUrl = await avatarAction();
-          if (updatedAvatarObjectUrl) {
-            setNewAvatarObjectUrl(updatedAvatarObjectUrl);
-          }
-        }}
-      >
+      <div className="avatar-center" onClick={handleAvatarClick}>
         <StyledAvatarContainer className="avatar-center-inner">
           {newAvatarObjectUrl || oldAvatarPath ? (
             <ProfileAvatar
@@ -145,7 +140,7 @@ export const DisplayPictureModal = (props: DisplayPictureModalProps) => {
           text={window.i18n('save')}
           buttonType={SessionButtonType.Simple}
           onClick={handleUpload}
-          disabled={loading || _newAvatarObjectUrl === newAvatarObjectUrl}
+          disabled={loading || newAvatarObjectUrl === oldAvatarPath}
         />
         <SessionButton
           text={window.i18n('remove')}
