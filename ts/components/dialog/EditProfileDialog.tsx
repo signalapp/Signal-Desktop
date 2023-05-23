@@ -64,17 +64,17 @@ const updateDisplayName = async (newName: string) => {
 };
 
 type ProfileAvatarProps = {
+  avatarPath: string | null;
   newAvatarObjectUrl?: string | null;
-  oldAvatarPath: string | null;
   profileName: string | undefined;
   ourId: string;
 };
 
 export const ProfileAvatar = (props: ProfileAvatarProps): ReactElement => {
-  const { newAvatarObjectUrl, oldAvatarPath, profileName, ourId } = props;
+  const { newAvatarObjectUrl, avatarPath, profileName, ourId } = props;
   return (
     <Avatar
-      forcedAvatarPath={newAvatarObjectUrl || oldAvatarPath}
+      forcedAvatarPath={newAvatarObjectUrl || avatarPath}
       forcedName={profileName || ourId}
       size={AvatarSize.XL}
       pubkey={ourId}
@@ -88,12 +88,12 @@ type ProfileHeaderProps = ProfileAvatarProps & {
 };
 
 const ProfileHeader = (props: ProfileHeaderProps): ReactElement => {
-  const { oldAvatarPath, profileName, ourId, onClick, setMode } = props;
+  const { avatarPath, profileName, ourId, onClick, setMode } = props;
 
   return (
     <div className="avatar-center">
       <div className="avatar-center-inner">
-        <ProfileAvatar oldAvatarPath={oldAvatarPath} profileName={profileName} ourId={ourId} />
+        <ProfileAvatar avatarPath={avatarPath} profileName={profileName} ourId={ourId} />
         <div
           className="image-upload-section"
           role="button"
@@ -122,12 +122,11 @@ export const EditProfileDialog = (): ReactElement => {
   const _profileName = useOurConversationUsername() || '';
   const [profileName, setProfileName] = useState(_profileName);
   const [updatedProfileName, setUpdateProfileName] = useState(profileName);
-  const oldAvatarPath = useOurAvatarPath() || '';
+  const avatarPath = useOurAvatarPath() || '';
+  const ourId = UserUtils.getOurPubKeyStrFromCache();
 
   const [mode, setMode] = useState<ProfileDialogModes>('default');
   const [loading, setLoading] = useState(false);
-
-  const ourId = UserUtils.getOurPubKeyStrFromCache();
 
   const closeDialog = () => {
     window.removeEventListener('keyup', handleOnKeyUp);
@@ -193,7 +192,7 @@ export const EditProfileDialog = (): ReactElement => {
     closeDialog();
     dispatch(
       updateDisplayPictureModel({
-        oldAvatarPath,
+        avatarPath,
         profileName,
         ourId,
       })
@@ -223,7 +222,7 @@ export const EditProfileDialog = (): ReactElement => {
         {mode === 'default' && (
           <>
             <ProfileHeader
-              oldAvatarPath={oldAvatarPath}
+              avatarPath={avatarPath}
               profileName={profileName}
               ourId={ourId}
               onClick={handleProfileHeaderClick}
@@ -245,7 +244,7 @@ export const EditProfileDialog = (): ReactElement => {
         {mode === 'edit' && (
           <>
             <ProfileHeader
-              oldAvatarPath={oldAvatarPath}
+              avatarPath={avatarPath}
               profileName={profileName}
               ourId={ourId}
               onClick={handleProfileHeaderClick}

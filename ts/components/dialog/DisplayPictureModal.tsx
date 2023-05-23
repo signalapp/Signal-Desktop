@@ -61,7 +61,7 @@ const uploadProfileAvatar = async (scaledAvatarUrl: string | null) => {
 };
 
 export type DisplayPictureModalProps = {
-  oldAvatarPath: string | null;
+  avatarPath: string | null;
   profileName: string | undefined;
   ourId: string;
 };
@@ -73,9 +73,9 @@ export const DisplayPictureModal = (props: DisplayPictureModalProps) => {
     return null;
   }
 
-  const { oldAvatarPath, profileName, ourId } = props;
+  const { avatarPath, profileName, ourId } = props;
 
-  const [newAvatarObjectUrl, setNewAvatarObjectUrl] = useState<string | null>(oldAvatarPath);
+  const [newAvatarObjectUrl, setNewAvatarObjectUrl] = useState<string | null>(avatarPath);
   const [loading, setLoading] = useState(false);
 
   const closeDialog = () => {
@@ -92,7 +92,7 @@ export const DisplayPictureModal = (props: DisplayPictureModalProps) => {
 
   const handleUpload = async () => {
     setLoading(true);
-    if (newAvatarObjectUrl === oldAvatarPath) {
+    if (newAvatarObjectUrl === avatarPath) {
       window.log.debug(`Avatar Object URL has not changed!`);
       return;
     }
@@ -119,10 +119,10 @@ export const DisplayPictureModal = (props: DisplayPictureModalProps) => {
     >
       <div className="avatar-center" onClick={handleAvatarClick}>
         <StyledAvatarContainer className="avatar-center-inner">
-          {newAvatarObjectUrl || oldAvatarPath ? (
+          {newAvatarObjectUrl || avatarPath ? (
             <ProfileAvatar
               newAvatarObjectUrl={newAvatarObjectUrl}
-              oldAvatarPath={oldAvatarPath}
+              avatarPath={avatarPath}
               profileName={profileName}
               ourId={ourId}
             />
@@ -132,24 +132,28 @@ export const DisplayPictureModal = (props: DisplayPictureModalProps) => {
         </StyledAvatarContainer>
       </div>
 
-      <SpacerLG />
-      <SessionSpinner loading={loading} />
-
-      <div className="session-modal__button-group">
-        <SessionButton
-          text={window.i18n('save')}
-          buttonType={SessionButtonType.Simple}
-          onClick={handleUpload}
-          disabled={loading || newAvatarObjectUrl === oldAvatarPath}
-        />
-        <SessionButton
-          text={window.i18n('remove')}
-          buttonColor={SessionButtonColor.Danger}
-          buttonType={SessionButtonType.Simple}
-          onClick={handleRemove}
-          disabled={loading || !oldAvatarPath}
-        />
-      </div>
+      {loading ? (
+        <SessionSpinner loading={loading} />
+      ) : (
+        <>
+          <SpacerLG />
+          <div className="session-modal__button-group">
+            <SessionButton
+              text={window.i18n('save')}
+              buttonType={SessionButtonType.Simple}
+              onClick={handleUpload}
+              disabled={newAvatarObjectUrl === avatarPath}
+            />
+            <SessionButton
+              text={window.i18n('remove')}
+              buttonColor={SessionButtonColor.Danger}
+              buttonType={SessionButtonType.Simple}
+              onClick={handleRemove}
+              disabled={!avatarPath}
+            />
+          </div>
+        </>
+      )}
     </SessionWrapperModal>
   );
 };
