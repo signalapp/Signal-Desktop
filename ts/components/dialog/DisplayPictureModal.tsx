@@ -9,10 +9,35 @@ import styled from 'styled-components';
 import { clearOurAvatar, uploadOurAvatar } from '../../interactions/conversationInteractions';
 import { ToastUtils } from '../../session/utils';
 import { SessionSpinner } from '../basic/SessionSpinner';
+import { SessionIconButton } from '../icon';
 
 const StyledAvatarContainer = styled.div`
   cursor: pointer;
 `;
+
+const UploadImageButton = () => {
+  return (
+    <div style={{ position: 'relative' }}>
+      <div style={{ borderRadius: '50%', overflow: 'hidden' }}>
+        <SessionIconButton
+          iconType="thumbnail"
+          iconSize="max"
+          iconPadding="16px"
+          backgroundColor="var(--chat-buttons-background-color)"
+        />
+      </div>
+      <SessionIconButton
+        iconType="plusFat"
+        iconSize="medium"
+        iconColor="var(--modal-background-content-color)"
+        iconPadding="4.5px"
+        borderRadius="50%"
+        backgroundColor="var(--primary-color)"
+        style={{ position: 'absolute', bottom: 0, right: 0 }}
+      />
+    </div>
+  );
+};
 
 const uploadProfileAvatar = async (scaledAvatarUrl: string | null) => {
   if (scaledAvatarUrl?.length) {
@@ -99,12 +124,16 @@ export const DisplayPictureModal = (props: DisplayPictureModalProps) => {
         }}
       >
         <StyledAvatarContainer className="avatar-center-inner">
-          <ProfileAvatar
-            newAvatarObjectUrl={newAvatarObjectUrl}
-            oldAvatarPath={oldAvatarPath}
-            profileName={profileName}
-            ourId={ourId}
-          />
+          {newAvatarObjectUrl || oldAvatarPath ? (
+            <ProfileAvatar
+              newAvatarObjectUrl={newAvatarObjectUrl}
+              oldAvatarPath={oldAvatarPath}
+              profileName={profileName}
+              ourId={ourId}
+            />
+          ) : (
+            <UploadImageButton />
+          )}
         </StyledAvatarContainer>
       </div>
 
@@ -113,7 +142,7 @@ export const DisplayPictureModal = (props: DisplayPictureModalProps) => {
 
       <div className="session-modal__button-group">
         <SessionButton
-          text={window.i18n('upload')}
+          text={window.i18n('save')}
           buttonType={SessionButtonType.Simple}
           onClick={handleUpload}
           disabled={loading || _newAvatarObjectUrl === newAvatarObjectUrl}
