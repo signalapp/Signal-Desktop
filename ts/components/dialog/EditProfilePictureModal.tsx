@@ -5,17 +5,16 @@ import { SpacerLG } from '../basic/Text';
 import { useDispatch } from 'react-redux';
 import { editProfileModal, updateEditProfilePictureModel } from '../../state/ducks/modalDialog';
 import { ProfileAvatar } from './EditProfileDialog';
-import styled from 'styled-components';
 import { clearOurAvatar, uploadOurAvatar } from '../../interactions/conversationInteractions';
 import { ToastUtils } from '../../session/utils';
 import { SessionSpinner } from '../basic/SessionSpinner';
 import { SessionIconButton } from '../icon';
 import { pickFileForAvatar } from '../../types/attachments/VisualAttachment';
+import styled from 'styled-components';
 
 const StyledAvatarContainer = styled.div`
   cursor: pointer;
 `;
-
 const UploadImageButton = () => {
   return (
     <div style={{ position: 'relative' }}>
@@ -93,7 +92,7 @@ export const EditProfilePictureModal = (props: EditProfilePictureModalProps) => 
   const handleUpload = async () => {
     setLoading(true);
     if (newAvatarObjectUrl === avatarPath) {
-      window.log.debug(`Avatar Object URL has not changed!`);
+      window.log.debug('Avatar Object URL has not changed!');
       return;
     }
 
@@ -117,7 +116,7 @@ export const EditProfilePictureModal = (props: EditProfilePictureModalProps) => 
       showHeader={true}
       showExitIcon={true}
     >
-      <div className="avatar-center" onClick={handleAvatarClick}>
+      <div className="avatar-center" role="button" onClick={handleAvatarClick}>
         <StyledAvatarContainer className="avatar-center-inner">
           {newAvatarObjectUrl || avatarPath ? (
             <ProfileAvatar

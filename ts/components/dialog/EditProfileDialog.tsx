@@ -15,8 +15,12 @@ import { SessionButton, SessionButtonType } from '../basic/SessionButton';
 import { SessionSpinner } from '../basic/SessionSpinner';
 import { SessionIconButton } from '../icon';
 import { sanitizeSessionUsername } from '../../session/utils/String';
-import { useOurConversationUsername } from '../../hooks/useParamSelector';
-import { useOurAvatarPath } from '../../hooks/useParamSelector';
+import { setLastProfileUpdateTimestamp } from '../../util/storage';
+import { ConversationTypeEnum } from '../../models/conversationAttributes';
+import { MAX_USERNAME_BYTES } from '../../session/constants';
+import styled from 'styled-components';
+import { saveQRCode } from '../../util/saveQRCode';
+import { useOurAvatarPath, useOurConversationUsername } from '../../hooks/useParamSelector';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { ConversationTypeEnum } from '../../models/conversationAttributes';
@@ -116,6 +120,7 @@ const ProfileHeader = (props: ProfileHeaderProps): ReactElement => {
 
 type ProfileDialogModes = 'default' | 'edit' | 'qr';
 
+// tslint:disable-next-line: max-func-body-length
 export const EditProfileDialog = (): ReactElement => {
   const dispatch = useDispatch();
 
@@ -177,7 +182,7 @@ export const EditProfileDialog = (): ReactElement => {
     switch (event.key) {
       case 'Enter':
         if (mode === 'edit') {
-          onClickOK();
+          void onClickOK();
         }
         break;
       case 'Esc':
@@ -211,6 +216,8 @@ export const EditProfileDialog = (): ReactElement => {
   };
 
   return (
+    /* The <div> element has a child <input> element that allows keyboard interaction */
+    /* tslint:disable-next-line: react-a11y-event-has-role */
     <div className="edit-profile-dialog" data-testid="edit-profile-dialog" onKeyUp={handleOnKeyUp}>
       <SessionWrapperModal
         title={window.i18n('editProfileModalTitle')}
