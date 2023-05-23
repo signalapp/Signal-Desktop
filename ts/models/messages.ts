@@ -2575,6 +2575,14 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           );
         }
 
+        const ourPNI = window.textsecure.storage.user.getCheckedUuid(
+          UUIDKind.PNI
+        );
+        const ourUuids: Set<string> = new Set([
+          ourACI.toString(),
+          ourPNI.toString(),
+        ]);
+
         message.set({
           id: messageId,
           attachments: dataMessage.attachments,
@@ -2590,6 +2598,12 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           hasFileAttachments: dataMessage.hasFileAttachments,
           hasVisualMediaAttachments: dataMessage.hasVisualMediaAttachments,
           isViewOnce: Boolean(dataMessage.isViewOnce),
+          mentionsMe: (dataMessage.bodyRanges ?? []).some(bodyRange => {
+            if (!BodyRange.isMention(bodyRange)) {
+              return false;
+            }
+            return ourUuids.has(bodyRange.mentionUuid);
+          }),
           preview,
           requiredProtocolVersion:
             dataMessage.requiredProtocolVersion ||

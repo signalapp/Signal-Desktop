@@ -236,7 +236,11 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
 
   return {
     id,
-    ...pick(conversation, ['unreadCount', 'isGroupV1AndDisabled']),
+    ...pick(conversation, [
+      'unreadCount',
+      'unreadMentionsCount',
+      'isGroupV1AndDisabled',
+    ]),
     isConversationSelected: state.conversations.selectedConversationId === id,
     isIncomingMessageRequest: Boolean(
       conversation.messageRequestsEnabled &&

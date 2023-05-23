@@ -17,6 +17,8 @@ const {
   getMessageMetricsForConversation,
   getNewerMessagesByConversation,
   getOlderMessagesByConversation,
+  getTotalUnreadMentionsOfMeForConversation,
+  getOldestUnreadMentionOfMeForConversation,
 } = dataInterface;
 
 function getUuid(): UUIDStringType {
@@ -822,6 +824,74 @@ describe('sql/timelineFetches', () => {
         'oldestStoryUnread'
       );
       assert.strictEqual(metricsInStory?.totalUnseen, 1, 'totalUnseen');
+    });
+  });
+
+  describe('mentionsCount & oldestUnreadMention', () => {
+    it('returns unread mentions count and oldest unread mention', async () => {
+      assert.lengthOf(await _getAllMessages(), 0);
+
+      const target = Date.now();
+      const conversationId = getUuid();
+      const ourUuid = getUuid();
+
+      const readMentionsMe: Partial<MessageAttributesType> = {
+        id: 'readMentionsMe',
+        readStatus: ReadStatus.Read,
+        mentionsMe: true,
+      };
+      const unreadMentionsMe: Partial<MessageAttributesType> = {
+        id: 'unreadMentionsMe',
+        readStatus: ReadStatus.Unread,
+        mentionsMe: true,
+      };
+      const unreadNoMention: Partial<MessageAttributesType> = {
+        id: 'unreadNoMention',
+        readStatus: ReadStatus.Unread,
+      };
+      const unreadMentionsMeAgain: Partial<MessageAttributesType> = {
+        id: 'unreadMentionsMeAgain',
+        readStatus: ReadStatus.Unread,
+        mentionsMe: true,
+      };
+
+      const messages = [
+        readMentionsMe,
+        unreadMentionsMe,
+        unreadNoMention,
+        unreadMentionsMeAgain,
+      ];
+
+      const formattedMessages = messages.map<MessageAttributesType>(
+        (message, idx) => {
+          return {
+            id: getUuid(),
+            body: 'body',
+            type: 'incoming',
+            sent_at: target - messages.length + idx,
+            received_at: target - messages.length + idx,
+            timestamp: target - messages.length + idx,
+            conversationId,
+            ...message,
+          };
+        }
+      );
+
+      await saveMessages(formattedMessages, { forceSave: true, ourUuid });
+
+      assert.lengthOf(await _getAllMessages(), 4);
+
+      const unreadMentions = await getTotalUnreadMentionsOfMeForConversation(
+        conversationId,
+        { includeStoryReplies: false }
+      );
+      const oldestUnreadMention =
+        await getOldestUnreadMentionOfMeForConversation(conversationId, {
+          includeStoryReplies: false,
+        });
+
+      assert.strictEqual(unreadMentions, 2);
+      assert.strictEqual(oldestUnreadMention?.id, 'unreadMentionsMe');
     });
   });
 });

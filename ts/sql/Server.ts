@@ -266,7 +266,9 @@ const dataInterface: ServerInterface = {
   getOlderMessagesByConversation,
   getAllStories,
   getNewerMessagesByConversation,
+  getOldestUnreadMentionOfMeForConversation,
   getTotalUnreadForConversation,
+  getTotalUnreadMentionsOfMeForConversation,
   getMessageMetricsForConversation,
   getConversationRangeCenteredOnMessage,
   getConversationMessageStats,
@@ -1800,6 +1802,7 @@ function saveMessageSync(
     id,
     isErased,
     isViewOnce,
+    mentionsMe,
     received_at,
     schemaVersion,
     sent_at,
@@ -1850,6 +1853,7 @@ function saveMessageSync(
     isChangeCreatedByUs: groupV2Change?.from === ourUuid ? 1 : 0,
     isErased: isErased ? 1 : 0,
     isViewOnce: isViewOnce ? 1 : 0,
+    mentionsMe: mentionsMe ? 1 : 0,
     received_at: received_at || null,
     schemaVersion: schemaVersion || 0,
     serverGuid: serverGuid || null,
@@ -1881,6 +1885,7 @@ function saveMessageSync(
         isChangeCreatedByUs = $isChangeCreatedByUs,
         isErased = $isErased,
         isViewOnce = $isViewOnce,
+        mentionsMe = $mentionsMe,
         received_at = $received_at,
         schemaVersion = $schemaVersion,
         serverGuid = $serverGuid,
@@ -1925,6 +1930,7 @@ function saveMessageSync(
       isChangeCreatedByUs,
       isErased,
       isViewOnce,
+      mentionsMe,
       received_at,
       schemaVersion,
       serverGuid,
@@ -1950,6 +1956,7 @@ function saveMessageSync(
       $isChangeCreatedByUs,
       $isErased,
       $isViewOnce,
+      $mentionsMe,
       $received_at,
       $schemaVersion,
       $serverGuid,
@@ -2885,6 +2892,38 @@ function getOldestUnseenMessageForConversation(
   return row;
 }
 
+async function getOldestUnreadMentionOfMeForConversation(
+  conversationId: string,
+  options: {
+    storyId?: string;
+    includeStoryReplies: boolean;
+  }
+): Promise<MessageMetricsType | undefined> {
+  return getOldestUnreadMentionOfMeForConversationSync(conversationId, options);
+}
+
+export function getOldestUnreadMentionOfMeForConversationSync(
+  conversationId: string,
+  options: {
+    storyId?: string;
+    includeStoryReplies: boolean;
+  }
+): MessageMetricsType | undefined {
+  const db = getInstance();
+  const [query, params] = sql`
+      SELECT received_at, sent_at, id FROM messages WHERE
+        conversationId = ${conversationId} AND
+        readStatus = ${ReadStatus.Unread} AND
+        mentionsMe IS 1 AND
+        isStory IS 0 AND
+        (${_storyIdPredicate(options.storyId, options.includeStoryReplies)})
+      ORDER BY received_at ASC, sent_at ASC
+      LIMIT 1;
+      `;
+
+  return db.prepare(query).get(params);
+}
+
 async function getTotalUnreadForConversation(
   conversationId: string,
   options: {
@@ -2911,6 +2950,40 @@ function getTotalUnreadForConversationSync(
     WHERE
       conversationId = ${conversationId} AND
       readStatus = ${ReadStatus.Unread} AND
+      isStory IS 0 AND
+      (${_storyIdPredicate(storyId, includeStoryReplies)})
+  `;
+  const row = db.prepare(query).pluck().get(params);
+
+  return row;
+}
+async function getTotalUnreadMentionsOfMeForConversation(
+  conversationId: string,
+  options: {
+    storyId?: string;
+    includeStoryReplies: boolean;
+  }
+): Promise<number> {
+  return getTotalUnreadMentionsOfMeForConversationSync(conversationId, options);
+}
+function getTotalUnreadMentionsOfMeForConversationSync(
+  conversationId: string,
+  {
+    storyId,
+    includeStoryReplies,
+  }: {
+    storyId?: string;
+    includeStoryReplies: boolean;
+  }
+): number {
+  const db = getInstance();
+  const [query, params] = sql`
+    SELECT count(1)
+    FROM messages
+    WHERE
+      conversationId = ${conversationId} AND
+      readStatus = ${ReadStatus.Unread} AND
+      mentionsMe IS 1 AND
       isStory IS 0 AND
       (${_storyIdPredicate(storyId, includeStoryReplies)})
   `;

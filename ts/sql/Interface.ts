@@ -514,6 +514,20 @@ export type DataInterface = {
       includeStoryReplies: boolean;
     }
   ) => Promise<number>;
+  getTotalUnreadMentionsOfMeForConversation: (
+    conversationId: string,
+    options: {
+      storyId?: string;
+      includeStoryReplies: boolean;
+    }
+  ) => Promise<number>;
+  getOldestUnreadMentionOfMeForConversation(
+    conversationId: string,
+    options: {
+      storyId?: string;
+      includeStoryReplies: boolean;
+    }
+  ): Promise<MessageMetricsType | undefined>;
   getUnreadByConversationAndMarkRead: (options: {
     conversationId: string;
     includeStoryReplies: boolean;

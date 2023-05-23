@@ -8,7 +8,7 @@ import React from 'react';
 import Measure from 'react-measure';
 
 import type { ReadonlyDeep } from 'type-fest';
-import { ScrollDownButton } from './ScrollDownButton';
+import { ScrollDownButton, ScrollDownButtonVariant } from './ScrollDownButton';
 
 import type { LocalizerType, ThemeType } from '../../types/Util';
 import type { ConversationType } from '../../state/ducks/conversations';
@@ -100,6 +100,7 @@ type PropsHousekeepingType = {
   isIncomingMessageRequest: boolean;
   isSomeoneTyping: boolean;
   unreadCount?: number;
+  unreadMentionsCount?: number;
 
   targetedMessageId?: string;
   invitedContactsForNewlyCreatedGroup: Array<ConversationType>;
@@ -168,6 +169,7 @@ export type PropsActionsType = {
       safeConversationId: string;
     }>
   ) => void;
+  scrollToOldestUnreadMention: (conversationId: string) => unknown;
 };
 
 export type PropsType = PropsDataType &
@@ -776,10 +778,12 @@ export class Timeline extends React.Component<
       renderTypingBubble,
       reviewGroupMemberNameCollision,
       reviewMessageRequestNameCollision,
+      scrollToOldestUnreadMention,
       shouldShowMiniPlayer,
       theme,
       totalUnseen,
       unreadCount,
+      unreadMentionsCount,
     } = this.props;
     const {
       hasRecentlyScrolled,
@@ -815,7 +819,7 @@ export class Timeline extends React.Component<
         areAnyMessagesUnread &&
         areAnyMessagesBelowCurrentPosition
     );
-    const shouldShowScrollDownButton = Boolean(
+    const shouldShowScrollDownButtons = Boolean(
       areThereAnyMessages &&
         (areUnreadBelowCurrentPosition || areSomeMessagesBelowCurrentPosition)
     );
@@ -1127,14 +1131,24 @@ export class Timeline extends React.Component<
                   />
                 </div>
               </main>
+              {shouldShowScrollDownButtons ? (
+                <div className="module-timeline__scrolldown-buttons">
+                  {unreadMentionsCount ? (
+                    <ScrollDownButton
+                      variant={ScrollDownButtonVariant.UNREAD_MENTIONS}
+                      count={unreadMentionsCount}
+                      onClick={() => scrollToOldestUnreadMention(id)}
+                      i18n={i18n}
+                    />
+                  ) : null}
 
-              {shouldShowScrollDownButton ? (
-                <ScrollDownButton
-                  conversationId={id}
-                  unreadCount={areUnreadBelowCurrentPosition ? unreadCount : 0}
-                  scrollDown={this.onClickScrollDownButton}
-                  i18n={i18n}
-                />
+                  <ScrollDownButton
+                    variant={ScrollDownButtonVariant.UNREAD_MESSAGES}
+                    count={areUnreadBelowCurrentPosition ? unreadCount : 0}
+                    onClick={this.onClickScrollDownButton}
+                    i18n={i18n}
+                  />
+                </div>
               ) : null}
             </div>
           )}

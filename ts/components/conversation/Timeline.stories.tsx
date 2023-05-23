@@ -277,6 +277,7 @@ const actions = () => ({
   markMessageRead: action('markMessageRead'),
   toggleSelectMessage: action('toggleSelectMessage'),
   targetMessage: action('targetMessage'),
+  scrollToOldestUnreadMention: action('scrollToOldestUnreadMention'),
   clearTargetedMessage: action('clearTargetedMessage'),
   updateSharedGroups: action('updateSharedGroups'),
 

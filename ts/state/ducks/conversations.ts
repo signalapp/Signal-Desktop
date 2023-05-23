@@ -286,6 +286,7 @@ export type ConversationType = ReadonlyDeep<
     titleNoDefault?: string;
     searchableTitle?: string;
     unreadCount?: number;
+    unreadMentionsCount?: number;
     isSelected?: boolean;
     isFetchingUUID?: boolean;
     typingContactId?: string;
@@ -1059,6 +1060,7 @@ export const actions = {
   saveAttachmentFromMessage,
   saveAvatarToDisk,
   scrollToMessage,
+  scrollToOldestUnreadMention,
   showSpoiler,
   targetMessage,
   setAccessControlAddFromInviteLinkSetting,
@@ -1258,6 +1260,7 @@ function loadNewestMessages(
     payload: null,
   };
 }
+
 function loadOlderMessages(
   conversationId: string,
   oldestMessageId: string
@@ -1304,6 +1307,7 @@ function markMessageRead(
     });
   };
 }
+
 function removeMember(
   conversationId: string,
   memberConversationId: string
@@ -3469,6 +3473,36 @@ function closeMaximumGroupSizeModal(): CloseMaximumGroupSizeModalActionType {
 }
 function closeRecommendedGroupSizeModal(): CloseRecommendedGroupSizeModalActionType {
   return { type: 'CLOSE_RECOMMENDED_GROUP_SIZE_MODAL' };
+}
+
+export function scrollToOldestUnreadMention(
+  conversationId: string
+): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+  return async (dispatch, getState) => {
+    const conversation = getOwn(
+      getState().conversations.conversationLookup,
+      conversationId
+    );
+    if (!conversation) {
+      log.warn(`No conversation found: [${conversationId}]`);
+      return;
+    }
+
+    const oldestUnreadMention =
+      await window.Signal.Data.getOldestUnreadMentionOfMeForConversation(
+        conversationId,
+        {
+          includeStoryReplies: !isGroup(conversation),
+        }
+      );
+
+    if (!oldestUnreadMention) {
+      log.warn(`No unread mention found for conversation: [${conversationId}]`);
+      return;
+    }
+
+    dispatch(scrollToMessage(conversationId, oldestUnreadMention.id));
+  };
 }
 
 export function scrollToMessage(

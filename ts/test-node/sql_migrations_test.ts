@@ -9,9 +9,9 @@ import { v4 as generateGuid } from 'uuid';
 import { SCHEMA_VERSIONS } from '../sql/migrations';
 import { consoleLogger } from '../util/consoleLogger';
 import {
+  _storyIdPredicate,
   getJobsInQueueSync,
   insertJobSync,
-  _storyIdPredicate,
 } from '../sql/Server';
 import { ReadStatus } from '../messages/MessageReadStatus';
 import { SeenStatus } from '../MessageSeenStatus';
@@ -3080,6 +3080,110 @@ describe('SQL migrations test', () => {
           },
         },
       ]);
+    });
+  });
+
+  describe('updateToSchemaVersion83', () => {
+    beforeEach(() => updateToVersion(83));
+
+    it('ensures that index is used for getTotalUnreadMentionsOfMeForConversation, no storyId', () => {
+      const { detail } = db
+        .prepare(
+          `
+          EXPLAIN QUERY PLAN
+          SELECT count(1)
+          FROM messages
+          WHERE
+            conversationId = 'conversationId' AND
+            readStatus = ${ReadStatus.Unread} AND
+            mentionsMe IS 1 AND
+            isStory IS 0 AND
+            NULL IS NULL
+          `
+        )
+        .get();
+
+      assert.notInclude(detail, 'B-TREE');
+      assert.notInclude(detail, 'SCAN');
+      assert.include(
+        detail,
+        'SEARCH messages USING INDEX messages_unread_mentions_no_story_id (conversationId=? AND readStatus=? AND mentionsMe=? AND isStory=?)'
+      );
+    });
+
+    it('ensures that index is used for getTotalUnreadMentionsOfMeForConversation, with storyId', () => {
+      const { detail } = db
+        .prepare(
+          `
+          EXPLAIN QUERY PLAN
+          SELECT count(1)
+          FROM messages
+          WHERE
+            conversationId = 'conversationId' AND
+            readStatus = ${ReadStatus.Unread} AND
+            mentionsMe IS 1 AND
+            isStory IS 0 AND
+            storyId IS 'storyId'
+          `
+        )
+        .get();
+
+      assert.notInclude(detail, 'B-TREE');
+      assert.notInclude(detail, 'SCAN');
+      assert.include(
+        detail,
+        'SEARCH messages USING INDEX messages_unread_mentions (conversationId=? AND readStatus=? AND mentionsMe=? AND isStory=? AND storyId=?)'
+      );
+    });
+
+    it('ensures that index is used for getOldestUnreadMentionOfMeForConversation, no storyId', () => {
+      const { detail } = db
+        .prepare(
+          `
+          EXPLAIN QUERY PLAN
+          SELECT received_at, sent_at, id FROM messages WHERE
+            conversationId = 'conversationId' AND
+            readStatus = ${ReadStatus.Unread} AND
+            mentionsMe IS 1 AND
+            isStory IS 0 AND
+            NULL is NULL
+          ORDER BY received_at ASC, sent_at ASC
+          LIMIT 1;
+          `
+        )
+        .get();
+
+      assert.notInclude(detail, 'B-TREE');
+      assert.notInclude(detail, 'SCAN');
+      assert.include(
+        detail,
+        'SEARCH messages USING INDEX messages_unread_mentions_no_story_id (conversationId=? AND readStatus=? AND mentionsMe=? AND isStory=?)'
+      );
+    });
+
+    it('ensures that index is used for getOldestUnreadMentionOfMeForConversation, with storyId', () => {
+      const { detail } = db
+        .prepare(
+          `
+          EXPLAIN QUERY PLAN
+          SELECT received_at, sent_at, id FROM messages WHERE
+            conversationId = 'conversationId' AND
+            readStatus = ${ReadStatus.Unread} AND
+            mentionsMe IS 1 AND
+            isStory IS 0 AND
+            storyId IS 'storyId'
+          ORDER BY received_at ASC, sent_at ASC
+          LIMIT 1;
+          `
+        )
+        .get();
+
+      assert.notInclude(detail, 'B-TREE');
+      assert.notInclude(detail, 'SCAN');
+      assert.include(
+        detail,
+        'SEARCH messages USING INDEX messages_unread_mentions (conversationId=? AND readStatus=? AND mentionsMe=? AND isStory=? AND storyId=?)'
+      );
     });
   });
 });

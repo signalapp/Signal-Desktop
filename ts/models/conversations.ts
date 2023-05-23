@@ -2056,6 +2056,7 @@ export class ConversationModel extends window.Backbone
         ? window.i18n('icu:noteToSelf')
         : this.getTitle(),
       unreadCount: this.get('unreadCount') || 0,
+      unreadMentionsCount: this.get('unreadMentionsCount'),
       ...(isDirectConversation(this.attributes)
         ? {
             type: 'direct' as const,
@@ -4913,17 +4914,28 @@ export class ConversationModel extends window.Backbone
   }
 
   async updateUnread(): Promise<void> {
-    const unreadCount = await window.Signal.Data.getTotalUnreadForConversation(
-      this.id,
-      {
-        storyId: undefined,
-        includeStoryReplies: !isGroup(this.attributes),
-      }
-    );
+    const options = {
+      storyId: undefined,
+      includeStoryReplies: !isGroup(this.attributes),
+    };
+    const [unreadCount, unreadMentionsCount] = await Promise.all([
+      window.Signal.Data.getTotalUnreadForConversation(this.id, options),
+      window.Signal.Data.getTotalUnreadMentionsOfMeForConversation(
+        this.id,
+        options
+      ),
+    ]);
 
     const prevUnreadCount = this.get('unreadCount');
-    if (prevUnreadCount !== unreadCount) {
-      this.set({ unreadCount });
+    const prevUnreadMentionsCount = this.get('unreadMentionsCount');
+    if (
+      prevUnreadCount !== unreadCount ||
+      prevUnreadMentionsCount !== unreadMentionsCount
+    ) {
+      this.set({
+        unreadCount,
+        unreadMentionsCount,
+      });
       window.Signal.Data.updateConversation(this.attributes);
     }
   }

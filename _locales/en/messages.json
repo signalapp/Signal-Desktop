@@ -863,6 +863,10 @@
     "messageformat": "New messages below",
     "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
   },
+  "icu:mentionsBelow": {
+    "messageformat": "New mentions below",
+    "description": "Alt text for button to take user down to next mention of them further down the message list (currently out of screen)"
+  },
   "unreadMessage": {
     "message": "1 Unread Message",
     "description": "(deleted 03/29/2023) Text for unread message separator, just one message"

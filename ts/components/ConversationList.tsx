@@ -369,6 +369,7 @@ export function ConversationList({
             'typingContactId',
             'unblurredAvatarPath',
             'unreadCount',
+            'unreadMentionsCount',
             'uuid',
           ]);
           const { badges, title, unreadCount, lastMessage } = itemProps;

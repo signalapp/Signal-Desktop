@@ -63,6 +63,7 @@ export type PropsData = Pick<
   | 'typingContactId'
   | 'unblurredAvatarPath'
   | 'unreadCount'
+  | 'unreadMentionsCount'
   | 'uuid'
 > & {
   badge?: BadgeType;
@@ -106,6 +107,7 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
     typingContactId,
     unblurredAvatarPath,
     unreadCount,
+    unreadMentionsCount,
     uuid,
   }) {
     const isMuted = Boolean(muteExpiresAt && Date.now() < muteExpiresAt);
@@ -217,6 +219,7 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
         theme={theme}
         title={title}
         unreadCount={unreadCount}
+        unreadMentionsCount={unreadMentionsCount}
         unblurredAvatarPath={unblurredAvatarPath}
         uuid={uuid}
       />

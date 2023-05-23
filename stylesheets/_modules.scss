@@ -4460,8 +4460,7 @@ button.module-image__border-overlay:focus {
     }
 
     &--contact-or-conversation {
-      $unread-indicator-selector: '#{&}__unread-indicator';
-      $avatar-container-unread-indicator-selector: '#{&}__avatar-container #{$unread-indicator-selector}';
+      $unread-indicator: '#{&}__unread-indicator';
 
       @include button-reset;
 
@@ -4482,6 +4481,42 @@ button.module-image__border-overlay:focus {
         padding-inline: 14px 0;
       }
 
+      #{$unread-indicator} {
+        $size: 18px;
+        height: $size;
+        min-width: $size;
+        border-radius: 10px;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .module-conversation-list--width-narrow & {
+          display: none;
+        }
+
+        @include light-theme {
+          background-color: $color-ultramarine;
+        }
+        @include dark-theme {
+          background-color: $color-ultramarine-dawn;
+        }
+        &--unread-messages {
+          @include font-caption-bold;
+          text-align: center;
+          word-break: normal;
+          padding-inline: 4px;
+          line-height: 100%;
+          color: $color-white;
+          font-weight: 500;
+        }
+        &--unread-mentions__icon {
+          @include color-svg('../images/icons/v3/at/at.svg', $color-white);
+          width: 12px;
+          height: 12px;
+        }
+      }
+
       &--is-button {
         cursor: pointer;
 
@@ -4492,10 +4527,16 @@ button.module-image__border-overlay:focus {
         &:hover:not(:disabled),
         &:focus:not(:disabled) {
           @include light-theme {
-            background-color: $color-black-alpha-06;
+            background-color: $color-gray-05;
+            #{$unread-indicator} {
+              border-color: $color-gray-05;
+            }
           }
           @include dark-theme {
-            background-color: $color-white-alpha-06;
+            background-color: $color-gray-75;
+            #{$unread-indicator} {
+              border-color: $color-gray-75;
+            }
           }
         }
       }
@@ -4521,17 +4562,22 @@ button.module-image__border-overlay:focus {
 
       &--is-selected {
         @include light-theme {
-          $background-color: $color-gray-15;
-          background-color: $background-color;
-          #{$avatar-container-unread-indicator-selector} {
-            border-color: $background-color;
+          background-color: $color-gray-15;
+        }
+        @include dark-theme {
+          background-color: $color-gray-65;
+        }
+      }
+
+      &--is-selected &__avatar-container {
+        @include light-theme {
+          #{$unread-indicator} {
+            border-color: $color-gray-15;
           }
         }
         @include dark-theme {
-          $background-color: $color-gray-65;
-          background-color: $background-color;
-          #{$avatar-container-unread-indicator-selector} {
-            border-color: $background-color;
+          #{$unread-indicator} {
+            border-color: $color-gray-65;
           }
         }
       }
@@ -4539,22 +4585,21 @@ button.module-image__border-overlay:focus {
       &__avatar-container {
         position: relative;
 
-        #{$unread-indicator-selector} {
+        #{$unread-indicator} {
           $border-width: 3px;
           $size: 21px + $border-width;
 
           @include rounded-corners;
           border: $border-width solid transparent;
-          display: none;
           height: $size;
           margin: 0;
           min-width: $size;
           position: absolute;
-          inset-inline-end: -(5px + $border-width);
           top: -(1px + $border-width);
+          display: none;
 
           .module-conversation-list--width-narrow & {
-            display: block;
+            display: flex;
           }
 
           @include light-theme {
@@ -4563,39 +4608,21 @@ button.module-image__border-overlay:focus {
           @include dark-theme {
             border-color: $color-gray-80;
           }
-        }
-      }
 
-      // We want this to just be the unread indicator selector, not a child of the parent.
-      @at-root #{$unread-indicator-selector} {
-        $size: 18px;
-        flex-shrink: 0;
-
-        @include font-caption-bold;
-        border-radius: 10px;
-        color: $color-white;
-        font-weight: 500;
-        height: $size;
-        line-height: $size;
-        margin-inline-start: 10px;
-        margin-top: 1px;
-        min-width: $size;
-        padding-inline: 4px;
-        text-align: center;
-        word-break: normal;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        .module-conversation-list--width-narrow & {
-          display: none;
-        }
-
-        @include light-theme {
-          background-color: $color-ultramarine;
-        }
-        @include dark-theme {
-          background-color: $color-ultramarine-dawn;
+          &--unread-messages {
+            inset-inline-end: -(5px + $border-width);
+          }
+          &--unread-mentions {
+            inset-inline-start: -(5px + $border-width);
+          }
+          &--is-selected {
+            @include light-theme {
+              border-color: $color-gray-15;
+            }
+            @include dark-theme {
+              border-color: $color-gray-65;
+            }
+          }
         }
       }
 
@@ -4860,6 +4887,15 @@ button.module-image__border-overlay:focus {
             }
           }
         }
+
+        &__unread-indicators {
+          display: flex;
+          flex-direction: row;
+          gap: 4px;
+          flex-shrink: 0;
+          margin-inline-start: 10px;
+          margin-top: 1px;
+        }
       }
 
       &__checkbox {
@@ -5012,11 +5048,6 @@ button.module-image__border-overlay:focus {
     ::-webkit-scrollbar-thumb {
       border: 2px solid $color-gray-02;
     }
-
-    .module-conversation-list__item--contact-or-conversation:hover
-      .module-conversation-list__item--contact-or-conversation__unread-indicator {
-      border-color: mix($color-black, $background-color, 6%);
-    }
   }
 
   @include dark-theme {
@@ -5027,11 +5058,6 @@ button.module-image__border-overlay:focus {
 
     ::-webkit-scrollbar-thumb {
       border: 2px solid $color-gray-80;
-    }
-
-    .module-conversation-list__item--contact-or-conversation:hover
-      .module-conversation-list__item--contact-or-conversation__unread-indicator {
-      border-color: mix($color-white, $background-color, 6%);
     }
   }
 }
@@ -5349,6 +5375,17 @@ button.module-image__border-overlay:focus {
     position: absolute;
     bottom: 0;
   }
+}
+
+.module-timeline__scrolldown-buttons {
+  z-index: $z-index-scroll-down-button;
+  position: absolute;
+  inset-inline-end: 16px;
+  bottom: 12px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
 .ReactVirtualized__List {
