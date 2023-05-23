@@ -4,7 +4,7 @@
 .SignalConnectionsModal {
   &__icon {
     @include color-svg(
-      '../images/icons/v2/signal-connections.svg',
+      '../images/icons/v3/connections/connections-display.svg',
       $color-ultramarine-light
     );
     display: block;

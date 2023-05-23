@@ -5,7 +5,7 @@
   $tools-height: 44px;
 
   @mixin svg($icon) {
-    @include color-svg('../images/icons/v2/#{$icon}', $color-white);
+    @include color-svg('../images/icons/#{$icon}', $color-white);
   }
 
   background: $color-gray-95;
@@ -165,47 +165,47 @@
       padding: 8px;
 
       &--bg {
-        @include icon('text-effect-on-24.svg');
+        @include icon('v2/text-effect-on-24.svg');
       }
       &--bg-inverse {
-        @include icon('text-effect-on-24.svg');
+        @include icon('v2/text-effect-on-24.svg');
       }
       &--bg-none {
-        @include icon('text-effect-off-24.svg');
+        @include icon('v2/text-effect-off-24.svg');
       }
       &--font-regular__button {
-        @include icon('font-regular.svg');
+        @include icon('v3/font/font-regular-compact.svg');
       }
       &--font-bold__button {
-        @include icon('font-bold.svg');
+        @include icon('v3/font/font-bold-compact.svg');
       }
       &--font-serif__button {
-        @include icon('font-serif.svg');
+        @include icon('v3/font/font-serif-compact.svg');
       }
       &--font-script__button {
-        @include icon('font-script.svg');
+        @include icon('v3/font/font-script-compact.svg');
       }
       &--font-condensed__button {
-        @include icon('font-condensed.svg');
+        @include icon('v3/font/font-condensed-compact.svg');
       }
     }
   }
 
   &__icon {
     &--font-regular {
-      @include svg('font-regular.svg');
+      @include svg('v3/font/font-regular-compact.svg');
     }
     &--font-bold {
-      @include svg('font-bold.svg');
+      @include svg('v3/font/font-bold-compact.svg');
     }
     &--font-serif {
-      @include svg('font-serif.svg');
+      @include svg('v3/font/font-serif-compact.svg');
     }
     &--font-script {
-      @include svg('font-script.svg');
+      @include svg('v3/font/font-script-compact.svg');
     }
     &--font-condensed {
-      @include svg('font-condensed.svg');
+      @include svg('v3/font/font-condensed-compact.svg');
     }
   }
 

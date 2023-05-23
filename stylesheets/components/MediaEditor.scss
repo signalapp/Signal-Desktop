@@ -187,7 +187,7 @@
 
     &__button {
       @mixin icon($icon) {
-        @include color-svg('../images/icons/v2/#{$icon}', $color-white);
+        @include color-svg('../images/icons/#{$icon}', $color-white);
         opacity: 1;
         height: 20px;
         width: 20px;
@@ -212,94 +212,109 @@
       }
 
       &--draw-pen__button {
-        @include icon('pen-20.svg');
+        @include icon('v3/brush/brush-pen-compact.svg');
       }
       &--draw-highlighter__button {
-        @include icon('pen-highlighter-20.svg');
+        @include icon('v3/brush/brush-highlighter-compact.svg');
       }
       &--width-thin__button {
-        @include icon('pen-light-20.svg');
+        @include icon('v3/brush_size/brush_size-thin-compact.svg');
       }
       &--width-regular__button {
-        @include icon('pen-regular-20.svg');
+        @include icon('v3/brush_size/brush_size-regular-compact.svg');
       }
       &--width-medium__button {
-        @include icon('pen-medium-20.svg');
+        @include icon('v3/brush_size/brush_size-medium-compact.svg');
       }
       &--width-heavy__button {
-        @include icon('pen-heavy-20.svg');
+        @include icon('v3/brush_size/brush_size-heavy-compact.svg');
       }
       &--text-regular__button {
-        @include icon('text-regular-20.svg');
+        @include icon('v3/text/text-square-compact.svg');
       }
       &--text-highlight__button {
-        @include icon('text-highlight-20.svg');
+        @include icon('v3/text/text-square-fill-compact.svg');
       }
       &--text-outline__button {
-        @include icon('text-outline-20.svg');
+        @include icon('v3/text/text-outline-compact.svg');
       }
       &--rotate {
-        @include icon('rotate-outline-24.svg');
+        @include icon('v2/rotate-outline-24.svg');
       }
       &--flip {
-        @include icon('flip-outline-24.svg');
+        @include icon('v2/flip-outline-24.svg');
       }
       &--crop-locked {
-        @include icon('crop-lock-24.svg');
+        @include icon('v3/crop/crop-lock.svg');
       }
       &--crop-unlocked {
-        @include icon('crop-unlock-24.svg');
+        @include icon('v3/crop/crop-unlock.svg');
       }
     }
   }
 
   &__icon {
     &--draw-pen {
-      @include color-svg('../images/icons/v2/pen-20.svg', $color-white);
+      @include color-svg(
+        '../images/icons/v3/brush/brush-pen-compact.svg',
+        $color-white
+      );
     }
 
     &--draw-highlighter {
       @include color-svg(
-        '../images/icons/v2/pen-highlighter-20.svg',
+        '../images/icons/v3/brush/brush-highlighter-compact.svg',
         $color-white
       );
     }
 
     &--text-regular {
       @include color-svg(
-        '../images/icons/v2/text-regular-20.svg',
+        '../images/icons/v3/text/text-square-compact.svg',
         $color-white
       );
     }
 
     &--text-highlight {
       @include color-svg(
-        '../images/icons/v2/text-highlight-20.svg',
+        '../images/icons/v3/text/text-square-fill-compact.svg',
         $color-white
       );
     }
 
     &--text-outline {
       @include color-svg(
-        '../images/icons/v2/text-outline-20.svg',
+        '../images/icons/v3/text/text-outline-compact.svg',
         $color-white
       );
     }
 
     &--width-thin {
-      @include color-svg('../images/icons/v2/pen-light-20.svg', $color-white);
+      @include color-svg(
+        '../images/icons/v3/brush_size/brush_size-thin-compact.svg',
+        $color-white
+      );
     }
 
     &--width-regular {
-      @include color-svg('../images/icons/v2/pen-regular-20.svg', $color-white);
+      @include color-svg(
+        '../images/icons/v3/brush_size/brush_size-regular-compact.svg',
+        $color-white
+      );
     }
 
     &--width-medium {
-      @include color-svg('../images/icons/v2/pen-medium-20.svg', $color-white);
+      @include color-svg(
+        '../images/icons/v3/brush_size/brush_size-medium-compact.svg',
+        $color-white
+      );
     }
 
     &--width-heavy {
-      @include color-svg('../images/icons/v2/pen-heavy-20.svg', $color-white);
+      @include color-svg(
+        '../images/icons/v3/brush_size/brush_size-heavy-compact.svg',
+        $color-white
+      );
     }
   }
 }

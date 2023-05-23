@@ -4172,7 +4172,7 @@ button.module-image__border-overlay:focus {
 
     &--pip {
       @include color-svg(
-        '../images/icons/v3/maximize/maximize-square-light.svg',
+        '../images/icons/v3/pip/pip-maximize-light.svg',
         $color-gray-75
       );
       height: 24px;
@@ -4180,7 +4180,7 @@ button.module-image__border-overlay:focus {
       border: none;
       @include dark-theme {
         @include color-svg(
-          '../images/icons/v3/maximize/maximize-square-light.svg',
+          '../images/icons/v3/pip/pip-maximize-light.svg',
           $color-gray-15
         );
       }

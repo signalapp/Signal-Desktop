@@ -545,6 +545,14 @@ export function Notification(): JSX.Element {
         contact: getDefaultConversation(),
       },
     },
+    {
+      type: 'conversationMerge',
+      data: {
+        conversationTitle: 'Alice',
+        obsoleteConversationTitle: 'Nancy',
+        obsoleteConversationNumber: '+121255501234',
+      },
+    },
   ];
 
   return (

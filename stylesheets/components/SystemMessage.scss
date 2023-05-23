@@ -278,8 +278,8 @@
 
     &--icon-merge::before {
       @include system-message-icon(
-        '../images/icons/v2/merge-16.svg',
-        '../images/icons/v2/merge-16.svg'
+        '../images/icons/v3/merge/merge-compact.svg',
+        '../images/icons/v3/merge/merge-compact.svg'
       );
     }
   }
