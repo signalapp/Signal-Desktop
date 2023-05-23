@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import { updateDisplayPictureModel } from '../../state/ducks/modalDialog';
 import { ProfileAvatar, ProfileAvatarProps } from './EditProfileDialog';
 import styled from 'styled-components';
-import { uploadOurAvatar } from '../../interactions/conversationInteractions';
+import { clearOurAvatar, uploadOurAvatar } from '../../interactions/conversationInteractions';
 import { ToastUtils } from '../../session/utils';
 import { SessionSpinner } from '../basic/SessionSpinner';
 
@@ -36,7 +36,6 @@ const uploadProfileAvatar = async (scaledAvatarUrl: string | null) => {
 
 export type DisplayPictureModalProps = ProfileAvatarProps & {
   avatarAction: () => Promise<string | null>;
-  removeAction: () => void;
 };
 
 export const DisplayPictureModal = (props: DisplayPictureModalProps) => {
@@ -48,14 +47,14 @@ export const DisplayPictureModal = (props: DisplayPictureModalProps) => {
 
   const {
     newAvatarObjectUrl: _newAvatarObjectUrl,
-    oldAvatarPath,
+    oldAvatarPath: _oldAvatarPath,
     profileName,
     ourId,
     avatarAction,
-    removeAction,
   } = props;
 
   const [newAvatarObjectUrl, setNewAvatarObjectUrl] = useState<string | null>(_newAvatarObjectUrl);
+  const [oldAvatarPath, setOldAvatarPath] = useState<string | null>(_oldAvatarPath);
   const [loading, setLoading] = useState(false);
 
   const closeDialog = () => {
@@ -112,8 +111,12 @@ export const DisplayPictureModal = (props: DisplayPictureModalProps) => {
           text={window.i18n('remove')}
           buttonColor={SessionButtonColor.Danger}
           buttonType={SessionButtonType.Simple}
-          onClick={() => {
-            removeAction();
+          onClick={async () => {
+            setLoading(true);
+            await clearOurAvatar();
+            setNewAvatarObjectUrl(null);
+            setOldAvatarPath(null);
+            setLoading(false);
           }}
           disabled={!oldAvatarPath}
         />

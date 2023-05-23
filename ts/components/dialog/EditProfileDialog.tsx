@@ -233,7 +233,6 @@ export const EditProfileDialog = (): ReactElement => {
         profileName,
         ourId,
         avatarAction: fireInputEvent,
-        removeAction: () => {},
       })
     );
   };
