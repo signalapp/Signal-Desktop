@@ -7379,6 +7379,7 @@ button.module-image__border-overlay:focus {
   opacity: 1;
   visibility: visible;
   z-index: $z-index-context-menu;
+  -webkit-app-region: no-drag;
 }
 
 .react-contextmenu-item {
