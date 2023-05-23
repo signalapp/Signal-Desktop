@@ -64,8 +64,8 @@ export const matchMonospace = (node: HTMLElement, delta: Delta): Delta => {
 export const matchSpoiler = (node: HTMLElement, delta: Delta): Delta => {
   const classes = [
     'quill--spoiler',
+    'MessageTextRenderer__formatting--spoiler',
     'MessageTextRenderer__formatting--spoiler--revealed',
-    // Note: we don't match on hidden spoilers in message body; we use copy-target text
   ];
 
   if (

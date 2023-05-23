@@ -188,6 +188,7 @@ import { setBatchingStrategy } from './util/messageBatcher';
 import { parseRemoteClientExpiration } from './util/parseRemoteClientExpiration';
 import { makeLookup } from './util/makeLookup';
 import { addGlobalKeyboardShortcuts } from './services/addGlobalKeyboardShortcuts';
+import { handleCopyEvent } from './quill/signal-clipboard/util';
 
 export function isOverHourIntoPast(timestamp: number): boolean {
   return isNumber(timestamp) && isOlderThan(timestamp, HOUR);
@@ -549,6 +550,9 @@ export async function startApp(): Promise<void> {
     },
     false
   );
+
+  // Intercept clipboard copies to add our custom text/signal data
+  document.addEventListener('copy', handleCopyEvent);
 
   startInteractionMode();
 

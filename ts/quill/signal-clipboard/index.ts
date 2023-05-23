@@ -46,17 +46,17 @@ export class SignalClipboard {
     }
 
     const text = event.clipboardData.getData('text/plain');
-    const html = event.clipboardData.getData('text/html');
+    const signal = event.clipboardData.getData('text/signal');
 
-    if (!text && !html) {
+    if (!text && !signal) {
       return;
     }
 
     event.preventDefault();
     event.stopPropagation();
 
-    const clipboardDelta = html
-      ? clipboard.convert(html)
+    const clipboardDelta = signal
+      ? clipboard.convert(signal)
       : clipboard.convert(replaceAngleBrackets(text));
 
     const { scrollTop } = this.quill.scrollingContainer;

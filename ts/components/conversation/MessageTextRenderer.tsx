@@ -15,7 +15,6 @@ import type {
   RangeNode,
 } from '../../types/BodyRange';
 import {
-  SPOILER_REPLACEMENT,
   BodyRange,
   insertRange,
   collapseRangeTree,
@@ -215,12 +214,6 @@ function renderNode({
               }
         }
       >
-        <span
-          aria-hidden
-          className="MessageTextRenderer__formatting--spoiler--copy-target"
-        >
-          {SPOILER_REPLACEMENT}
-        </span>
         <span aria-hidden>{content}</span>
       </span>
     );

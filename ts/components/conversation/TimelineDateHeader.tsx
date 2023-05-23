@@ -29,15 +29,15 @@ export function TimelineDateHeader({
   }, [i18n, timestamp]);
 
   return (
-    <Time
+    <div
       className={classNames(
         'TimelineDateHeader',
         `TimelineDateHeader--${floating ? 'floating' : 'inline'}`
       )}
-      dateOnly
-      timestamp={timestamp}
     >
-      {text}
-    </Time>
+      <Time dateOnly timestamp={timestamp}>
+        {text}
+      </Time>
+    </div>
   );
 }
