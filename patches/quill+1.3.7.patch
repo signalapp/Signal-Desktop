@@ -1,5 +1,5 @@
 diff --git a/node_modules/quill/dist/quill.js b/node_modules/quill/dist/quill.js
-index 811b3d0..313f301 100644
+index 811b3d0..b31c7fd 100644
 --- a/node_modules/quill/dist/quill.js
 +++ b/node_modules/quill/dist/quill.js
 @@ -8916,10 +8916,10 @@ var Clipboard = function (_Module) {
@@ -72,7 +72,20 @@ index 811b3d0..313f301 100644
    var style = computeStyle(node);
 -  return ['block', 'list-item'].indexOf(style.display) > -1;
 +  // return ['block', 'list-item'].indexOf(style.display) > -1;
-+  return ['block', 'list-item'].indexOf(style.display) > -1 || node.nodeName === 'DIV' || node.nodeName === 'P';
++  return ['block', 'list-item'].indexOf(style.display) > -1 || node.nodeName === 'DIV' || node.nodeName === 'P' || node.nodeName === 'TIME';
  }
  
  function traverse(node, elementMatchers, textMatchers) {
+@@ -9177,8 +9183,10 @@ function matchIndent(node, delta) {
+ }
+ 
+ function matchNewline(node, delta) {
+-  if (!deltaEndsWith(delta, '\n')) {
+-    if (isLine(node) || delta.length() > 0 && node.nextSibling && isLine(node.nextSibling)) {
++  // if (!deltaEndsWith(delta, '\n')) {
++  if (!deltaEndsWith(delta, '\n\n')) { 
++    // if (isLine(node) || delta.length() > 0 && node.nextSibling && isLine(node.nextSibling)) {
++    if (delta.length() > 0 && isLine(node)) {
+       delta.insert('\n');
+     }
+   }

@@ -6,9 +6,8 @@ import { insertEmojiOps } from '../util';
 
 export const matchEmojiImage = (node: Element, delta: Delta): Delta => {
   if (
-    (node.classList.contains('emoji') ||
-      node.classList.contains('module-emoji__image--16px')) &&
-    !node.classList.contains('emoji--invisible')
+    node.classList.contains('emoji') ||
+    node.classList.contains('module-emoji__image--16px')
   ) {
     const emoji = node.getAttribute('aria-label');
     return new Delta().insert({ emoji });

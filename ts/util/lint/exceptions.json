@@ -2553,6 +2553,14 @@
     "reasonDetail": "We need a persistent timer to track long-hovers"
   },
   {
+    "rule": "DOM-innerHTML",
+    "path": "ts/quill/signal-clipboard/util.ts",
+    "line": "  event.clipboardData?.setData('text/signal', container.innerHTML);",
+    "reasonCategory": "regexMatchedSafeCode",
+    "updated": "2023-05-22T23:45:02.074Z",
+    "reasonDetail": "Reading from innerHTML, not setting it"
+  },
+  {
     "rule": "React-useRef",
     "path": "ts/state/smart/InstallScreen.tsx",
     "line": "  const chooseDeviceNamePromiseWrapperRef = useRef(explodePromise<string>());",
