@@ -755,12 +755,14 @@ export class ConversationModel extends window.Backbone
     extraConversationsForSend,
     inviteLinkPassword,
     name,
+    syncMessageOnly,
   }: {
     usingCredentialsFrom: ReadonlyArray<ConversationModel>;
     createGroupChange: () => Promise<Proto.GroupChange.Actions | undefined>;
     extraConversationsForSend?: ReadonlyArray<string>;
     inviteLinkPassword?: string;
     name: string;
+    syncMessageOnly?: boolean;
   }): Promise<void> {
     await window.Signal.Groups.modifyGroupV2({
       conversation: this,
@@ -769,6 +771,7 @@ export class ConversationModel extends window.Backbone
       extraConversationsForSend,
       inviteLinkPassword,
       name,
+      syncMessageOnly,
     });
   }
 
@@ -2597,6 +2600,7 @@ export class ConversationModel extends window.Backbone
         name: 'delete',
         usingCredentialsFrom: [],
         createGroupChange: () => this.removePendingMember([ourPNI]),
+        syncMessageOnly: true,
       });
     } else {
       const logId = this.idForLogging();

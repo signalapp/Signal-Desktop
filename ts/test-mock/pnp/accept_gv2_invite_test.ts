@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 import type { Group } from '@signalapp/mock-server';
-import { UUIDKind } from '@signalapp/mock-server';
+import { Proto, UUIDKind } from '@signalapp/mock-server';
 import createDebug from 'debug';
 
 import * as durations from '../../util/durations';
@@ -159,6 +159,21 @@ describe('pnp/accept gv2 invite', function needsName() {
     assert(!group.getMemberByUUID(desktop.pni));
     assert(!group.getPendingMemberByUUID(desktop.uuid));
     assert(!group.getPendingMemberByUUID(desktop.pni));
+
+    // Verify that sync message was sent.
+    const { syncMessage } = await phone.waitForSyncMessage(entry =>
+      Boolean(entry.syncMessage.sent?.message?.groupV2?.groupChange)
+    );
+    const groupChangeBuffer = syncMessage.sent?.message?.groupV2?.groupChange;
+    assert.notEqual(groupChangeBuffer, null);
+    const groupChange = Proto.GroupChange.decode(
+      groupChangeBuffer ?? new Uint8Array(0)
+    );
+    assert.notEqual(groupChange.actions, null);
+    const actions = Proto.GroupChange.Actions.decode(
+      groupChange?.actions ?? new Uint8Array(0)
+    );
+    assert.strictEqual(actions.deletePendingMembers.length, 1);
   });
 
   it('should accept ACI invite with extra PNI on the invite list', async () => {

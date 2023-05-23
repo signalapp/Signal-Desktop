@@ -1455,6 +1455,7 @@ export async function modifyGroupV2({
   extraConversationsForSend,
   inviteLinkPassword,
   name,
+  syncMessageOnly = false,
 }: {
   conversation: ConversationModel;
   usingCredentialsFrom: ReadonlyArray<ConversationModel>;
@@ -1462,6 +1463,7 @@ export async function modifyGroupV2({
   extraConversationsForSend?: ReadonlyArray<string>;
   inviteLinkPassword?: string;
   name: string;
+  syncMessageOnly?: boolean;
 }): Promise<void> {
   const logId = `${name}/${conversation.idForLogging()}`;
 
@@ -1561,7 +1563,7 @@ export async function modifyGroupV2({
           type: conversationQueueJobEnum.enum.GroupUpdate,
           conversationId: conversation.id,
           groupChangeBase64,
-          recipients: groupV2Info.members.slice(),
+          recipients: syncMessageOnly ? [] : groupV2Info.members.slice(),
           revision: groupV2Info.revision,
         });
       });
