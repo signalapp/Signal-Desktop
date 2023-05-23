@@ -7,7 +7,7 @@ import { SyncUtils, ToastUtils, UserUtils } from '../../session/utils';
 import { YourSessionIDPill, YourSessionIDSelectable } from '../basic/YourSessionIDPill';
 
 import { getConversationController } from '../../session/conversations';
-import { editProfileModal, updateDisplayPictureModel } from '../../state/ducks/modalDialog';
+import { editProfileModal, updateEditProfilePictureModel } from '../../state/ducks/modalDialog';
 import { saveQRCode } from '../../util/saveQRCode';
 import { setLastProfileUpdateTimestamp } from '../../util/storage';
 import { SessionWrapperModal } from '../SessionWrapperModal';
@@ -191,7 +191,7 @@ export const EditProfileDialog = (): ReactElement => {
   const handleProfileHeaderClick = () => {
     closeDialog();
     dispatch(
-      updateDisplayPictureModel({
+      updateEditProfilePictureModel({
         avatarPath,
         profileName,
         ourId,

@@ -3,7 +3,7 @@ import { SessionWrapperModal } from '../SessionWrapperModal';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { SpacerLG } from '../basic/Text';
 import { useDispatch } from 'react-redux';
-import { editProfileModal, updateDisplayPictureModel } from '../../state/ducks/modalDialog';
+import { editProfileModal, updateEditProfilePictureModel } from '../../state/ducks/modalDialog';
 import { ProfileAvatar } from './EditProfileDialog';
 import styled from 'styled-components';
 import { clearOurAvatar, uploadOurAvatar } from '../../interactions/conversationInteractions';
@@ -60,13 +60,13 @@ const uploadProfileAvatar = async (scaledAvatarUrl: string | null) => {
   }
 };
 
-export type DisplayPictureModalProps = {
+export type EditProfilePictureModalProps = {
   avatarPath: string | null;
   profileName: string | undefined;
   ourId: string;
 };
 
-export const DisplayPictureModal = (props: DisplayPictureModalProps) => {
+export const EditProfilePictureModal = (props: EditProfilePictureModalProps) => {
   const dispatch = useDispatch();
 
   if (!props) {
@@ -79,7 +79,7 @@ export const DisplayPictureModal = (props: DisplayPictureModalProps) => {
   const [loading, setLoading] = useState(false);
 
   const closeDialog = () => {
-    dispatch(updateDisplayPictureModel(null));
+    dispatch(updateEditProfilePictureModel(null));
     dispatch(editProfileModal({}));
   };
 
@@ -99,7 +99,7 @@ export const DisplayPictureModal = (props: DisplayPictureModalProps) => {
 
     await uploadProfileAvatar(newAvatarObjectUrl);
     setLoading(false);
-    dispatch(updateDisplayPictureModel(null));
+    dispatch(updateEditProfilePictureModel(null));
   };
 
   const handleRemove = async () => {
@@ -107,7 +107,7 @@ export const DisplayPictureModal = (props: DisplayPictureModalProps) => {
     await clearOurAvatar();
     setNewAvatarObjectUrl(null);
     setLoading(false);
-    dispatch(updateDisplayPictureModel(null));
+    dispatch(updateEditProfilePictureModel(null));
   };
 
   return (

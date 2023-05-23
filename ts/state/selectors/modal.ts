@@ -8,7 +8,7 @@ import {
   ChangeNickNameModalState,
   ConfirmModalState,
   DeleteAccountModalState,
-  DisplayPictureModalState,
+  EditProfilePictureModalState,
   EditProfileModalState,
   InviteContactModalState,
   ModalState,
@@ -111,7 +111,7 @@ export const getReactClearAllDialog = createSelector(
   (state: ModalState): ReactModalsState => state.reactClearAllModalState
 );
 
-export const getDisplayPictureModalState = createSelector(
+export const getEditProfilePictureModalState = createSelector(
   getModal,
-  (state: ModalState): DisplayPictureModalState => state.displayPictureModalState
+  (state: ModalState): EditProfilePictureModalState => state.displayPictureModalState
 );
