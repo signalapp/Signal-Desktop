@@ -79,6 +79,7 @@ export const DisplayPictureModal = (props: DisplayPictureModalProps) => {
     setNewAvatarObjectUrl(null);
     setOldAvatarPath(null);
     setLoading(false);
+    closeDialog();
   };
 
   return (
@@ -115,14 +116,14 @@ export const DisplayPictureModal = (props: DisplayPictureModalProps) => {
           text={window.i18n('upload')}
           buttonType={SessionButtonType.Simple}
           onClick={handleUpload}
-          disabled={_newAvatarObjectUrl === newAvatarObjectUrl}
+          disabled={loading || _newAvatarObjectUrl === newAvatarObjectUrl}
         />
         <SessionButton
           text={window.i18n('remove')}
           buttonColor={SessionButtonColor.Danger}
           buttonType={SessionButtonType.Simple}
           onClick={handleRemove}
-          disabled={!oldAvatarPath}
+          disabled={loading || !oldAvatarPath}
         />
       </div>
     </SessionWrapperModal>

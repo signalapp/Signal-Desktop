@@ -490,23 +490,23 @@ export async function uploadOurAvatar(newAvatarDecrypted?: ArrayBuffer) {
 /**
  * This function can be used for clearing our avatar.
  */
-export async function clearOurAvatar() {
+export async function clearOurAvatar(commit: boolean = true) {
   const ourConvo = getConversationController().get(UserUtils.getOurPubKeyStrFromCache());
   if (!ourConvo) {
     window.log.warn('ourConvo not found... This is not a valid case');
     return;
   }
 
-  // TODO check if defined first
   ourConvo.set('avatarPointer', undefined);
   ourConvo.set('avatarInProfile', undefined);
   ourConvo.set('profileKey', undefined);
 
-  await ourConvo.commit();
   await setLastProfileUpdateTimestamp(Date.now());
-  await SyncUtils.forceSyncConfigurationNowIfNeeded(true);
 
-  // TODO send messages to opengroups to clear avatar from there
+  if (commit) {
+    await ourConvo.commit();
+    await SyncUtils.forceSyncConfigurationNowIfNeeded(true);
+  }
 }
 
 export async function replyToMessage(messageId: string) {
