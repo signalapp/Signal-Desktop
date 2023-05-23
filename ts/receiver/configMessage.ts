@@ -19,7 +19,7 @@ import { getConversationController } from '../session/conversations';
 import { IncomingMessage } from '../session/messages/incoming/IncomingMessage';
 import { ProfileManager } from '../session/profile_manager/ProfileManager';
 import { PubKey } from '../session/types';
-import { UserUtils } from '../session/utils';
+import { StringUtils, UserUtils } from '../session/utils';
 import { toHex } from '../session/utils/String';
 import { ConfigurationSync } from '../session/utils/job_runners/jobs/ConfigurationSyncJob';
 import { IncomingConfResult, LibSessionUtil } from '../session/utils/libsession/libsession_utils';
@@ -52,6 +52,8 @@ import { HexKeyPair } from './keypairs';
 import { queueAllCachedFromSource } from './receiver';
 import { EnvelopePlus } from './types';
 import { deleteAllMessagesByConvoIdNoConfirmation } from '../interactions/conversationInteractions';
+
+const printDumpsForDebugging = false;
 
 function groupByVariant(
   incomingConfigs: Array<IncomingMessage<SignalService.ISharedConfigMessage>>
@@ -97,6 +99,12 @@ async function mergeConfigsWithIncomingUpdates(
         data: msg.message.data,
         hash: msg.messageHash,
       }));
+      if (printDumpsForDebugging) {
+        window.log.info(
+          `printDumpsForDebugging: before merge of ${variant}:`,
+          StringUtils.toHex(await GenericWrapperActions.dump(variant))
+        );
+      }
       const mergedCount = await GenericWrapperActions.merge(variant, toMerge);
       const needsPush = await GenericWrapperActions.needsPush(variant);
       const needsDump = await GenericWrapperActions.needsDump(variant);
@@ -106,6 +114,12 @@ async function mergeConfigsWithIncomingUpdates(
         `${variant}: "${publicKey}" needsPush:${needsPush} needsDump:${needsDump}; mergedCount:${mergedCount} `
       );
 
+      if (printDumpsForDebugging) {
+        window.log.info(
+          `printDumpsForDebugging: after merge of ${variant}:`,
+          StringUtils.toHex(await GenericWrapperActions.dump(variant))
+        );
+      }
       const incomingConfResult: IncomingConfResult = {
         needsDump,
         needsPush,

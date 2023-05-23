@@ -29,8 +29,6 @@ export interface FakeSleepForMultiJobData extends PersistedJobData {
 export interface AvatarDownloadPersistedData extends PersistedJobData {
   jobType: 'AvatarDownloadJobType';
   conversationId: string;
-  profileKeyHex: string | null;
-  profilePictureUrl: string | null;
 }
 
 export interface ConfigurationSyncPersistedData extends PersistedJobData {
@@ -43,11 +41,7 @@ export type TypeOfPersistedData =
   | FakeSleepJobData
   | FakeSleepForMultiJobData;
 
-export type AddJobCheckReturn =
-  | 'skipAddSameJobPresent'
-  | 'removeJobsFromQueue'
-  | 'sameJobDataAlreadyInQueue'
-  | null;
+export type AddJobCheckReturn = 'skipAddSameJobPresent' | 'sameJobDataAlreadyInQueue' | null;
 
 export enum RunJobResult {
   Success = 1,

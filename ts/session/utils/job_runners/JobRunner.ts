@@ -98,16 +98,6 @@ export class PersistedJobRunner<T extends TypeOfPersistedData> {
       return 'type_exists';
     }
 
-    // if addJobCheck returned 'removeJobsFromQueue it means that job logic estimates some jobs have to remove before adding that one.
-    // so let's grab the jobs to remove, remove them, and then add that new job nevertheless
-    if (addJobChecks === 'removeJobsFromQueue') {
-      // fetch all the jobs which we should remove and remove them
-      const toRemove = job.nonRunningJobsToRemove(serializedNonRunningJobs);
-      this.deleteJobsByIdentifier(toRemove.map(m => m.identifier));
-      this.sortJobsList();
-      await this.writeJobsToDB();
-    }
-
     // make sure there is no job with that same identifier already .
 
     window.log.info(`job runner adding type :"${job.persistedData.jobType}" `);

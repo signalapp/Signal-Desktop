@@ -1,8 +1,8 @@
 import { isEmpty } from 'lodash';
 import { getConversationController } from '../conversations';
 import { UserUtils } from '../utils';
-import { AvatarDownload } from '../utils/job_runners/jobs/AvatarDownloadJob';
 import { toHex } from '../utils/String';
+import { AvatarDownload } from '../utils/job_runners/jobs/AvatarDownloadJob';
 
 /**
  * This can be used to update our conversation display name with the given name right away, and plan an AvatarDownloadJob to retrieve the new avatar if needed to download it
@@ -42,21 +42,45 @@ async function updateProfileOfContact(
     window.log.warn('updateProfileOfContact can only be used for existing and private convos');
     return;
   }
-
+  let changes = false;
   const existingDisplayName = conversation.get('displayNameInProfile');
 
   // avoid setting the display name to an invalid value
   if (existingDisplayName !== displayName && !isEmpty(displayName)) {
     conversation.set('displayNameInProfile', displayName || undefined);
+    changes = true;
+  }
+
+  const profileKeyHex = !profileKey || isEmpty(profileKey) ? null : toHex(profileKey);
+
+  let avatarChanged = false;
+  // trust whatever we get as an update. It either comes from a shared config wrapper or one of that user's message. But in any case we should trust it, even if it gets resetted.
+  const prevPointer = conversation.get('avatarPointer');
+  const prevProfileKey = conversation.get('profileKey');
+
+  // we have to set it right away and not in the async download job, as the next .commit will save it to the
+  // database and wrapper (and we do not want to override anything in the wrapper's content
+  // with what we have locally, so we need the commit to have already the right values in pointer and profileKey)
+  if (prevPointer !== profileUrl || prevProfileKey !== profileKeyHex) {
+    conversation.set({
+      avatarPointer: profileUrl || undefined,
+      profileKey: profileKeyHex || undefined,
+    });
+
+    // if the avatar data we had before is not the same of what we received, we need to schedule a new avatar download job.
+    avatarChanged = true; // allow changes from strings to null/undefined to trigger a AvatarDownloadJob. If that happens, we want to remove the local attachment file.
+  }
+
+  if (changes) {
     await conversation.commit();
   }
-  // add an avatar download job only if needed
-  const profileKeyHex = !profileKey || isEmpty(profileKey) ? null : toHex(profileKey);
-  await AvatarDownload.addAvatarDownloadJobIfNeeded({
-    profileKeyHex,
-    profileUrl,
-    pubkey,
-  });
+
+  if (avatarChanged) {
+    // this call will download the new avatar or reset the local filepath if needed
+    await AvatarDownload.addAvatarDownloadJob({
+      conversationId: pubkey,
+    });
+  }
 }
 
 export const ProfileManager = {
