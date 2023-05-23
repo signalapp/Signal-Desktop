@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { SessionConfirmDialogProps } from '../../components/dialog/SessionConfirm';
 import { PasswordAction } from '../../components/dialog/SessionPasswordDialog';
+import { DisplayPictureModalProps } from '../../components/dialog/DisplayPictureModal';
 export type BanType = 'ban' | 'unban';
 
 export type ConfirmModalState = SessionConfirmDialogProps | null;
@@ -34,7 +35,7 @@ export type ReactModalsState = {
   messageId: string;
 } | null;
 
-export type DisplayPictureModalState = {} | null;
+export type DisplayPictureModalState = DisplayPictureModalProps | null;
 
 export type ModalState = {
   confirmModal: ConfirmModalState;

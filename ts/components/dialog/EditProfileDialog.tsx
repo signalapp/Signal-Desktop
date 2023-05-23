@@ -82,14 +82,14 @@ const commitProfileEdits = async (newName: string, scaledAvatarUrl: string | nul
   await SyncUtils.forceSyncConfigurationNowIfNeeded(true);
 };
 
-type ProfileAvatarProps = {
+export type ProfileAvatarProps = {
   newAvatarObjectUrl: string | null;
   oldAvatarPath: string | null;
   profileName: string | undefined;
   ourId: string;
 };
 
-const ProfileAvatar = (props: ProfileAvatarProps): ReactElement => {
+export const ProfileAvatar = (props: ProfileAvatarProps): ReactElement => {
   const { newAvatarObjectUrl, oldAvatarPath, profileName, ourId } = props;
   return (
     <Avatar
@@ -102,14 +102,12 @@ const ProfileAvatar = (props: ProfileAvatarProps): ReactElement => {
 };
 
 type ProfileHeaderProps = ProfileAvatarProps & {
-  fireInputEvent: () => void;
+  onClick: () => void;
   setMode: (mode: ProfileDialogModes) => void;
 };
 
 const ProfileHeader = (props: ProfileHeaderProps): ReactElement => {
-  const { newAvatarObjectUrl, oldAvatarPath, profileName, ourId, fireInputEvent, setMode } = props;
-
-  const dispatch = useDispatch();
+  const { newAvatarObjectUrl, oldAvatarPath, profileName, ourId, onClick, setMode } = props;
 
   return (
     <div className="avatar-center">
@@ -123,10 +121,7 @@ const ProfileHeader = (props: ProfileHeaderProps): ReactElement => {
         <div
           className="image-upload-section"
           role="button"
-          onClick={async () => {
-            // void fireInputEvent();
-            dispatch(updateDisplayPictureModel({}));
-          }}
+          onClick={onClick}
           data-testid="image-upload-section"
         />
         <div
@@ -146,6 +141,8 @@ const ProfileHeader = (props: ProfileHeaderProps): ReactElement => {
 type ProfileDialogModes = 'default' | 'edit' | 'qr';
 
 export const EditProfileDialog = (): ReactElement => {
+  const dispatch = useDispatch();
+
   const _profileName = useOurConversationUsername() || '';
   const [profileName, setProfileName] = useState(_profileName);
   const [updatedProfileName, setUpdateProfileName] = useState(profileName);
@@ -223,6 +220,22 @@ export const EditProfileDialog = (): ReactElement => {
       setNewAvatarObjectUrl(scaledAvatarUrl);
       setMode('edit');
     }
+
+    return scaledAvatarUrl;
+  };
+
+  const handleProfileHeaderClick = () => {
+    closeDialog();
+    dispatch(
+      updateDisplayPictureModel({
+        newAvatarObjectUrl,
+        oldAvatarPath,
+        profileName,
+        ourId,
+        avatarAction: fireInputEvent,
+        removeAction: () => {},
+      })
+    );
   };
 
   const onNameEdited = (event: ChangeEvent<HTMLInputElement>) => {
@@ -252,7 +265,7 @@ export const EditProfileDialog = (): ReactElement => {
               oldAvatarPath={oldAvatarPath}
               profileName={profileName}
               ourId={ourId}
-              fireInputEvent={fireInputEvent}
+              onClick={handleProfileHeaderClick}
               setMode={setMode}
             />
             <div className="profile-name-uneditable">
@@ -275,7 +288,7 @@ export const EditProfileDialog = (): ReactElement => {
               oldAvatarPath={oldAvatarPath}
               profileName={profileName}
               ourId={ourId}
-              fireInputEvent={fireInputEvent}
+              onClick={handleProfileHeaderClick}
               setMode={setMode}
             />
             <div className="profile-name">
