@@ -83,6 +83,7 @@
       &--back {
         @include button-reset;
 
+        -webkit-app-region: no-drag;
         height: 20px;
         position: absolute;
         width: 20px;
