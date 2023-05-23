@@ -487,6 +487,9 @@ export async function uploadOurAvatar(newAvatarDecrypted?: ArrayBuffer) {
   };
 }
 
+/**
+ * This function can be used for clearing our avatar.
+ */
 export async function clearOurAvatar() {
   const ourConvo = getConversationController().get(UserUtils.getOurPubKeyStrFromCache());
   if (!ourConvo) {
@@ -500,6 +503,7 @@ export async function clearOurAvatar() {
   ourConvo.set('profileKey', undefined);
 
   await ourConvo.commit();
+  await setLastProfileUpdateTimestamp(Date.now());
   await SyncUtils.forceSyncConfigurationNowIfNeeded(true);
 
   // TODO send messages to opengroups to clear avatar from there

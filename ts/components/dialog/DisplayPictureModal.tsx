@@ -61,6 +61,26 @@ export const DisplayPictureModal = (props: DisplayPictureModalProps) => {
     dispatch(updateDisplayPictureModel(null));
   };
 
+  const handleUpload = async () => {
+    setLoading(true);
+    if (newAvatarObjectUrl === _newAvatarObjectUrl) {
+      window.log.debug(`Avatar Object URL has not changed!`);
+      return;
+    }
+
+    await uploadProfileAvatar(newAvatarObjectUrl);
+    setLoading(false);
+    closeDialog();
+  };
+
+  const handleRemove = async () => {
+    setLoading(true);
+    await clearOurAvatar();
+    setNewAvatarObjectUrl(null);
+    setOldAvatarPath(null);
+    setLoading(false);
+  };
+
   return (
     <SessionWrapperModal
       title={window.i18n('setDisplayPicture')}
@@ -94,30 +114,14 @@ export const DisplayPictureModal = (props: DisplayPictureModalProps) => {
         <SessionButton
           text={window.i18n('upload')}
           buttonType={SessionButtonType.Simple}
-          onClick={async () => {
-            setLoading(true);
-            if (newAvatarObjectUrl === _newAvatarObjectUrl) {
-              window.log.debug(`Avatar Object URL has not changed!`);
-              return;
-            }
-
-            await uploadProfileAvatar(newAvatarObjectUrl);
-            setLoading(false);
-            closeDialog();
-          }}
+          onClick={handleUpload}
           disabled={_newAvatarObjectUrl === newAvatarObjectUrl}
         />
         <SessionButton
           text={window.i18n('remove')}
           buttonColor={SessionButtonColor.Danger}
           buttonType={SessionButtonType.Simple}
-          onClick={async () => {
-            setLoading(true);
-            await clearOurAvatar();
-            setNewAvatarObjectUrl(null);
-            setOldAvatarPath(null);
-            setLoading(false);
-          }}
+          onClick={handleRemove}
           disabled={!oldAvatarPath}
         />
       </div>
