@@ -113,5 +113,5 @@ export const getReactClearAllDialog = createSelector(
 
 export const getEditProfilePictureModalState = createSelector(
   getModal,
-  (state: ModalState): EditProfilePictureModalState => state.displayPictureModalState
+  (state: ModalState): EditProfilePictureModalState => state.editProfilePictureModalState
 );

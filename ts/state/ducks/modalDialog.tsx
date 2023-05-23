@@ -55,7 +55,7 @@ export type ModalState = {
   deleteAccountModal: DeleteAccountModalState;
   reactListModalState: ReactModalsState;
   reactClearAllModalState: ReactModalsState;
-  displayPictureModalState: EditProfilePictureModalState;
+  editProfilePictureModalState: EditProfilePictureModalState;
 };
 
 export const initialModalState: ModalState = {
@@ -76,7 +76,7 @@ export const initialModalState: ModalState = {
   deleteAccountModal: null,
   reactListModalState: null,
   reactClearAllModalState: null,
-  displayPictureModalState: null,
+  editProfilePictureModalState: null,
 };
 
 const ModalSlice = createSlice({
@@ -135,7 +135,7 @@ const ModalSlice = createSlice({
       return { ...state, reactClearAllModalState: action.payload };
     },
     updateEditProfilePictureModel(state, action: PayloadAction<EditProfilePictureModalState>) {
-      return { ...state, displayPictureModalState: action.payload };
+      return { ...state, editProfilePictureModalState: action.payload };
     },
   },
 });
