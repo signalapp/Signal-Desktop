@@ -10,38 +10,13 @@ describe('Username', () => {
     const { getUsernameFromSearch } = Username;
 
     it('matches invalid username searches', () => {
-      assert.strictEqual(getUsernameFromSearch('use'), 'use');
-      assert.strictEqual(
-        getUsernameFromSearch('username9012345678901234567'),
-        'username9012345678901234567'
-      );
+      assert.isUndefined(getUsernameFromSearch('use'));
+      assert.isUndefined(getUsernameFromSearch('username9012345678901234567'));
     });
 
     it('matches valid username searches', () => {
-      assert.strictEqual(getUsernameFromSearch('username_34'), 'username_34');
-      assert.strictEqual(getUsernameFromSearch('u5ername'), 'u5ername');
       assert.strictEqual(getUsernameFromSearch('username.12'), 'username.12');
-      assert.strictEqual(getUsernameFromSearch('user'), 'user');
-      assert.strictEqual(
-        getUsernameFromSearch('username901234567890123456'),
-        'username901234567890123456'
-      );
-    });
-
-    it('matches valid and invalid usernames with @ prefix', () => {
-      assert.strictEqual(getUsernameFromSearch('@username!'), 'username!');
-      assert.strictEqual(getUsernameFromSearch('@1username'), '1username');
-      assert.strictEqual(getUsernameFromSearch('@username_34'), 'username_34');
-      assert.strictEqual(getUsernameFromSearch('@username.34'), 'username.34');
-      assert.strictEqual(getUsernameFromSearch('@u5ername'), 'u5ername');
-    });
-
-    it('matches valid and invalid usernames with @ suffix', () => {
-      assert.strictEqual(getUsernameFromSearch('username!@'), 'username!');
-      assert.strictEqual(getUsernameFromSearch('1username@'), '1username');
-      assert.strictEqual(getUsernameFromSearch('username_34@'), 'username_34');
-      assert.strictEqual(getUsernameFromSearch('username.34@'), 'username.34');
-      assert.strictEqual(getUsernameFromSearch('u5ername@'), 'u5ername');
+      assert.strictEqual(getUsernameFromSearch('xyz.568'), 'xyz.568');
     });
 
     it('does not match something that looks like a phone number', () => {

@@ -91,13 +91,13 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
       isShowingRecommendedGroupSizeModal;
     this.searchTerm = searchTerm;
 
-    if (isUsernamesEnabled) {
-      const username = getUsernameFromSearch(searchTerm);
-      const isVisible = this.candidateContacts.every(
-        contact => contact.username !== username
-      );
+    const username = getUsernameFromSearch(searchTerm);
+    const isUsernameVisible =
+      username !== undefined &&
+      this.candidateContacts.every(contact => contact.username !== username);
 
-      if (isVisible) {
+    if (isUsernamesEnabled) {
+      if (isUsernameVisible) {
         this.username = username;
       }
 
@@ -109,7 +109,7 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
     }
 
     const phoneNumber = parseAndFormatPhoneNumber(searchTerm, regionCode);
-    if (!this.username && phoneNumber) {
+    if (!isUsernameVisible && phoneNumber) {
       this.isPhoneNumberChecked =
         phoneNumber.isValid &&
         selectedContacts.some(contact => contact.e164 === phoneNumber.e164);

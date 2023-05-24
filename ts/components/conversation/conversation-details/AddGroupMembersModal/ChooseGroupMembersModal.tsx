@@ -98,11 +98,12 @@ export function ChooseGroupMembersModal({
 }: PropsType): JSX.Element {
   const [focusRef] = useRestoreFocus();
 
+  const parsedUsername = getUsernameFromSearch(searchTerm);
   let username: string | undefined;
   let isUsernameChecked = false;
   let isUsernameVisible = false;
   if (isUsernamesEnabled) {
-    username = getUsernameFromSearch(searchTerm);
+    username = parsedUsername;
 
     isUsernameChecked = selectedContacts.some(
       contact => contact.username === username
@@ -114,7 +115,7 @@ export function ChooseGroupMembersModal({
   }
 
   let phoneNumber: ParsedE164Type | undefined;
-  if (!username) {
+  if (!parsedUsername) {
     phoneNumber = parseAndFormatPhoneNumber(searchTerm, regionCode);
   }
 

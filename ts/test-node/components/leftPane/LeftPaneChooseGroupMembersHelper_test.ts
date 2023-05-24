@@ -185,7 +185,7 @@ describe('LeftPaneChooseGroupMembersHelper', () => {
       const helper = new LeftPaneChooseGroupMembersHelper({
         ...defaults,
         candidateContacts: [],
-        searchTerm: 'signal',
+        searchTerm: 'signal.01',
         selectedContacts: [],
       });
 
@@ -195,7 +195,7 @@ describe('LeftPaneChooseGroupMembersHelper', () => {
       );
       assert.deepEqual(helper.getRow(1), {
         type: RowType.UsernameCheckbox,
-        username: 'signal',
+        username: 'signal.01',
         isChecked: false,
         isFetching: false,
       });

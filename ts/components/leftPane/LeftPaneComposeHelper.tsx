@@ -68,20 +68,20 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
     this.searchTerm = searchTerm;
     this.uuidFetchState = uuidFetchState;
 
+    const username = getUsernameFromSearch(this.searchTerm);
+
     if (isUsernamesEnabled) {
-      this.username = getUsernameFromSearch(this.searchTerm);
+      this.username = username;
       this.isUsernameVisible =
         isUsernamesEnabled &&
-        Boolean(this.username) &&
-        this.composeContacts.every(
-          contact => contact.username !== this.username
-        );
+        Boolean(username) &&
+        this.composeContacts.every(contact => contact.username !== username);
     } else {
       this.isUsernameVisible = false;
     }
 
     const phoneNumber = parseAndFormatPhoneNumber(searchTerm, regionCode);
-    if (!this.username && phoneNumber) {
+    if (!username && phoneNumber) {
       this.phoneNumber = phoneNumber;
       this.isPhoneNumberVisible = this.composeContacts.every(
         contact => contact.e164 !== phoneNumber.e164

@@ -1,6 +1,8 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { usernames } from '@signalapp/libsignal-client';
+
 export type UsernameReservationType = Readonly<{
   username: string;
   previousUsername: string | undefined;
@@ -24,23 +26,12 @@ export enum ConfirmUsernameResult {
 }
 
 export function getUsernameFromSearch(searchTerm: string): string | undefined {
-  // Search term contains username if it:
-  // - Is a valid username with or without a discriminator
-  // - Starts with @
-  // - Ends with @
-  const match = searchTerm.match(
-    /^(?:(?<valid>[a-z_][0-9a-z_]*(?:\.\d*)?)|@(?<start>.*?)@?|@?(?<end>.*?)?@)$/
-  );
-  if (!match) {
+  try {
+    usernames.hash(searchTerm);
+    return searchTerm;
+  } catch {
     return undefined;
   }
-
-  const { groups } = match;
-  if (!groups) {
-    return undefined;
-  }
-
-  return (groups.valid || groups.start || groups.end) ?? undefined;
 }
 
 export function getNickname(username: string): string | undefined {

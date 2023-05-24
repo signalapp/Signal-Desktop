@@ -258,7 +258,7 @@ describe('pnp/username', function needsName() {
     await window.locator('button[aria-label="New chat"]').click();
 
     const searchInput = window.locator('.module-SearchInput__container input');
-    await searchInput.type(`@${CARL_USERNAME}`);
+    await searchInput.type(CARL_USERNAME);
 
     debug('starting lookup');
     await window.locator(`div.ListTile >> "${CARL_USERNAME}"`).click();

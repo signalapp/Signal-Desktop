@@ -88,7 +88,7 @@ describe('LeftPaneComposeHelper', () => {
           composeContacts: [getDefaultConversation(), getDefaultConversation()],
           composeGroups: [getDefaultGroupListItem(), getDefaultGroupListItem()],
           regionCode: 'US',
-          searchTerm: 'someone',
+          searchTerm: 'someone.01',
           isUsernamesEnabled: true,
           uuidFetchState: {},
         }).getRowCount(),
@@ -102,7 +102,7 @@ describe('LeftPaneComposeHelper', () => {
           composeContacts: [getDefaultConversation(), getDefaultConversation()],
           composeGroups: [getDefaultGroupListItem(), getDefaultGroupListItem()],
           regionCode: 'US',
-          searchTerm: 'someone',
+          searchTerm: 'someone.54321',
           isUsernamesEnabled: false,
           uuidFetchState: {},
         }).getRowCount(),
@@ -116,7 +116,7 @@ describe('LeftPaneComposeHelper', () => {
           composeContacts: [],
           composeGroups: [],
           regionCode: 'US',
-          searchTerm: 'foobar',
+          searchTerm: 'foobar.01',
           isUsernamesEnabled: true,
           uuidFetchState: {},
         }).getRowCount(),
@@ -127,7 +127,7 @@ describe('LeftPaneComposeHelper', () => {
           composeContacts: [getDefaultConversation(), getDefaultConversation()],
           composeGroups: [],
           regionCode: 'US',
-          searchTerm: 'foobar',
+          searchTerm: 'foobar.01',
           isUsernamesEnabled: true,
           uuidFetchState: {},
         }).getRowCount(),
@@ -138,7 +138,7 @@ describe('LeftPaneComposeHelper', () => {
           composeContacts: [getDefaultConversation(), getDefaultConversation()],
           composeGroups: [getDefaultGroupListItem()],
           regionCode: 'US',
-          searchTerm: 'foobar',
+          searchTerm: 'foobar.01',
           isUsernamesEnabled: true,
           uuidFetchState: {},
         }).getRowCount(),
@@ -166,7 +166,7 @@ describe('LeftPaneComposeHelper', () => {
           composeContacts: [],
           composeGroups: [],
           regionCode: 'US',
-          searchTerm: 'someone',
+          searchTerm: 'someone.02',
           isUsernamesEnabled: true,
           uuidFetchState: {},
         }).getRowCount(),
@@ -346,7 +346,7 @@ describe('LeftPaneComposeHelper', () => {
     });
 
     it('returns just a "find by username" header if no results', () => {
-      const username = 'someone';
+      const username = 'someone.02';
 
       const helper = new LeftPaneComposeHelper({
         composeContacts: [],
