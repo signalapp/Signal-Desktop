@@ -182,7 +182,9 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
               variant={UnreadIndicatorVariant.UNREAD_MESSAGES}
               count={unreadCount}
             />
-          ) : null}
+          ) : (
+            <UnreadIndicator variant={UnreadIndicatorVariant.MARKED_UNREAD} />
+          )}
         </div>
       );
     })();
@@ -337,11 +339,15 @@ function Timestamp({
 }
 
 enum UnreadIndicatorVariant {
+  MARKED_UNREAD = 'marked-unread',
   UNREAD_MESSAGES = 'unread-messages',
   UNREAD_MENTIONS = 'unread-mentions',
 }
 
 type UnreadIndicatorPropsType =
+  | {
+      variant: UnreadIndicatorVariant.MARKED_UNREAD;
+    }
   | {
       variant: UnreadIndicatorVariant.UNREAD_MESSAGES;
       count: number;
@@ -352,6 +358,9 @@ function UnreadIndicator(props: UnreadIndicatorPropsType) {
   let content: React.ReactNode;
 
   switch (props.variant) {
+    case UnreadIndicatorVariant.MARKED_UNREAD:
+      content = null;
+      break;
     case UnreadIndicatorVariant.UNREAD_MESSAGES:
       content = props.count > 0 && props.count;
       break;

@@ -4501,7 +4501,8 @@ button.module-image__border-overlay:focus {
         @include dark-theme {
           background-color: $color-ultramarine-dawn;
         }
-        &--unread-messages {
+        &--unread-messages,
+        &--marked-unread {
           @include font-caption-bold;
           text-align: center;
           word-break: normal;
