@@ -1,7 +1,7 @@
 name: 🚀 Feature request
 description: Suggest an idea for Session
 title: '[Feature] <title>'
-labels: [feature-request]
+labels: [enhancement]
 body:
   - type: checkboxes
     attributes:
