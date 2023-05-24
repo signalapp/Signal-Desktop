@@ -65,7 +65,6 @@ import type { ConversationModel } from './models/conversations';
 import { getContact, isIncoming } from './messages/helpers';
 import { migrateMessageData } from './messages/migrateMessageData';
 import { createBatcher } from './util/batcher';
-import { updateConversationsWithUuidLookup } from './updateConversationsWithUuidLookup';
 import {
   initializeAllJobQueues,
   shutdownAllJobQueues,
@@ -1750,30 +1749,6 @@ export async function startApp(): Promise<void> {
         } catch (error) {
           log.error(
             'connect: Error refreshing remote config:',
-            Errors.toLogFormat(error)
-          );
-        }
-
-        try {
-          const lonelyE164Conversations = window
-            .getConversations()
-            .filter(c =>
-              Boolean(
-                isDirectConversation(c.attributes) &&
-                  c.get('e164') &&
-                  !c.get('uuid') &&
-                  !c.isEverUnregistered()
-              )
-            );
-          strictAssert(window.textsecure.server, 'server must be initialized');
-          await updateConversationsWithUuidLookup({
-            conversationController: window.ConversationController,
-            conversations: lonelyE164Conversations,
-            server: window.textsecure.server,
-          });
-        } catch (error) {
-          log.error(
-            'connect: Error fetching UUIDs for lonely e164s:',
             Errors.toLogFormat(error)
           );
         }
