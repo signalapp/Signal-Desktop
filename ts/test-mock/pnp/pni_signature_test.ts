@@ -358,6 +358,8 @@ describe('pnp/PNI Signature', function needsName() {
       // No notifications
       const notifications = window.locator('.SystemMessage');
       assert.strictEqual(await notifications.count(), 0, 'notifications');
+
+      assert.isEmpty(await phone.getOrphanedStorageKeys());
     }
   });
 });

@@ -30,6 +30,7 @@ import { MINUTE, SECOND } from './util/durations';
 import { getUuidsForE164s } from './util/getUuidsForE164s';
 import { SIGNAL_ACI, SIGNAL_AVATAR_PATH } from './types/SignalConversation';
 import { getTitleNoDefault } from './util/getTitle';
+import * as StorageService from './services/storage';
 
 type ConvoMatchType =
   | {
@@ -1087,6 +1088,20 @@ export class ConversationController {
 
     log.warn(`${logId}: Delete the obsolete conversation from the database`);
     await removeConversation(obsoleteId);
+
+    const obsoleteStorageID = obsolete.get('storageID');
+
+    if (obsoleteStorageID) {
+      log.warn(
+        `${logId}: Obsolete conversation was in storage service, scheduling removal`
+      );
+
+      const obsoleteStorageVersion = obsolete.get('storageVersion');
+      StorageService.addPendingDelete({
+        storageID: obsoleteStorageID,
+        storageVersion: obsoleteStorageVersion,
+      });
+    }
 
     log.warn(`${logId}: Update cached messages in MessageController`);
     window.MessageController.update((message: MessageModel) => {

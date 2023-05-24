@@ -1999,3 +1999,16 @@ export const runStorageServiceSyncJob = debounce(() => {
     }, `sync v${window.storage.get('manifestVersion')}`)
   );
 }, 500);
+
+export const addPendingDelete = (item: ExtendedStorageID): void => {
+  void storageJobQueue(async () => {
+    const storedPendingDeletes = window.storage.get(
+      'storage-service-pending-deletes',
+      []
+    );
+    await window.storage.put('storage-service-pending-deletes', [
+      ...storedPendingDeletes,
+      item,
+    ]);
+  }, `addPendingDelete(${redactExtendedStorageID(item)})`);
+};
