@@ -2290,6 +2290,7 @@ export class CallingClass {
       icon: 'images/icons/v3/video/video-fill.svg',
       message: notificationMessage,
       onNotificationClick: () => {
+        window.IPC.showWindow();
         this.reduxInterface?.startCallingLobby({
           conversationId: conversation.id,
           isVideoCall: true,
