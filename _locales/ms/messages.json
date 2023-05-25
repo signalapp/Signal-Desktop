@@ -621,7 +621,7 @@
     "description": "Shown in a context menu for a contact, allows the user to start the conversation with the contact"
   },
   "icu:ContactListItem__menu__audio-call": {
-    "messageformat": "Panggilan audio",
+    "messageformat": "Panggilan suara",
     "description": "Shown in a context menu for a contact, allows the user to start the audio call with the contact"
   },
   "icu:ContactListItem__menu__video-call": {
@@ -2665,6 +2665,10 @@
     "message": "Semak imbas kod ini dalam aplikasi Signal di telefon anda",
     "description": "(deleted 03/29/2023) Title of the device link screen. Also used as alt text for the QR code on the device link screen"
   },
+  "icu:Install__learn-more": {
+    "messageformat": "Ketahui lebih lanjut",
+    "description": "Button text for learn more button during error screen"
+  },
   "icu:Install__scan-this-code": {
     "messageformat": "Semak imbas kod ini dalam aplikasi Signal di telefon anda",
     "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
@@ -2702,7 +2706,11 @@
     "description": "Instructions on the device link screen"
   },
   "icu:Install__qr-failed": {
-    "messageformat": "Kod QR tidak boleh dimuatkan. Periksa internet anda dan cuba lagi. <learnMoreLink>Ketahui lebih lanjut</learnMoreLink>",
+    "messageformat": "(deleted 05/09/2023) The QR code couldn't load. Check your internet and try again. <learnMoreLink>Learn more</learnMoreLink>",
+    "description": "Shown on the install screen if the QR code fails to load"
+  },
+  "icu:Install__qr-failed-load": {
+    "messageformat": "Kod QR tidak boleh dimuatkan. Periksa internet anda dan cuba lagi. <retry>Cuba Semula</retry>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -3887,7 +3895,7 @@
     "description": "(deleted 03/29/2023) Description for audio notification setting"
   },
   "icu:audioNotificationDescription": {
-    "messageformat": "Mainkan bunyi notifikasi",
+    "messageformat": "Bunyi pemberitahuan tolak",
     "description": "Description for audio notification setting"
   },
   "callRingtoneNotificationDescription": {
@@ -5063,6 +5071,18 @@
     "messageformat": "Batal",
     "description": "Appears on the cancel button in confirmation dialogs."
   },
+  "icu:Message__reaction-emoji-label--you": {
+    "messageformat": "Anda beri reaksi dengan {emoji}",
+    "description": "aria-label for reaction emoji (you)"
+  },
+  "icu:Message__reaction-emoji-label--single": {
+    "messageformat": "{title} beri reaksi dengan {emoji}",
+    "description": "aria-label for reaction emoji when one person reacts with an emoji"
+  },
+  "icu:Message__reaction-emoji-label--many": {
+    "messageformat": "{count} orang beri reaksi dengan {emoji}",
+    "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
+  },
   "icu:Message__role-description": {
     "messageformat": "Mesej",
     "description": "aria-roledescription of a message"
@@ -5434,6 +5454,10 @@
   "icu:Keyboard--conversation-by-index": {
     "messageformat": "Lompat ke sembang",
     "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
+  },
+  "icu:Keyboard--edit-last-message": {
+    "messageformat": "Edit mesej sebelumnya",
+    "description": "Shown in the shortcuts guide"
   },
   "Keyboard--Key--ctrl": {
     "message": "Ctrl",
@@ -12539,18 +12563,6 @@
     "messageformat": "Sedikit pengubahsuaian, pembaikan pepijat dan peningkatan prestasi. Terima kasih kerana menggunakan Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.17--0": {
-    "messageformat": "Sokongan yang lebih baik untuk bahasa kanan-ke-kiri (RTL).",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--1": {
-    "messageformat": "Orang tempatan kini dipadankan berdasarkan pilihan sistem anda. Ini sepatutnya menghasilkan tingkah laku lalai yang lebih baik apabila berbilang bahasa dikonfigurasikan.",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--2": {
-    "messageformat": "Keluaran ini secara tambahannya memperkenalkan beberapa peningkatan ketercapaian dan pembetulan pepijat, dan kami dengan berbesar hati ingin berterima kasih kepada komuniti atas maklum balas dan cadangan mereka.",
-    "description": "Release notes for v6.17"
-  },
   "icu:WhatsNew__v6.18--0": {
     "messageformat": "Gunakan pintasan papan kekunci \"Navigasi mengikut bahagian\" (⌘/Ctrl+T & ⌘/Ctrl+F6) untuk bergerak dengan cepat antara kawasan yang berbeza pada aplikasi. Ia seperti versi 'superhero' kunci Tab yang boleh terbang lebih jauh dan lebih pantas berbanding alter ego yang berbudi bahasa.",
     "description": "Release notes for v6.18"
@@ -12570,5 +12582,17 @@
   "icu:WhatsNew__v6.18--4": {
     "messageformat": "Terdapat juga pilihan \"Salin teks\" baharu dalam menu tiga titik. Terima kasih, {yusufsahinhamza}!",
     "description": "Release notes for v6.18"
+  },
+  "icu:WhatsNew__v6.19--0": {
+    "messageformat": "Kadang-kadang diam lebih baik, tetapi ia mempunyai ikon baharu. Kami mengemas kini butang Kamera dan Redam dalam panggilan suara dan video supaya lebih mudah dilihat apabila ia didayakan atau dinyahdayakan.",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--1": {
+    "messageformat": "Penambahbaikan penyetempatan dan pengendalian bahasa kanan ke kiri yang lebih baik dalam medan gubahan mesej. Terima kasih, {sha265}!",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--2": {
+    "messageformat": "Jika anda menggunakan versi Windows sebelum Windows 10, atau versi Ubuntu sebelum 20.04 LTS, anda perlu mengemas kini sistem pengendalian anda untuk terus menggunakan Signal: {supportLink}",
+    "description": "Release notes for v6.19"
   }
 }

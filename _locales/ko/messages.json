@@ -2665,6 +2665,10 @@
     "message": "휴대전화의 Signal 앱에서 이 코드를 스캔하세요.",
     "description": "(deleted 03/29/2023) Title of the device link screen. Also used as alt text for the QR code on the device link screen"
   },
+  "icu:Install__learn-more": {
+    "messageformat": "더 알아보기",
+    "description": "Button text for learn more button during error screen"
+  },
   "icu:Install__scan-this-code": {
     "messageformat": "휴대전화의 Signal 앱에서 이 코드를 스캔하세요.",
     "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
@@ -2702,7 +2706,11 @@
     "description": "Instructions on the device link screen"
   },
   "icu:Install__qr-failed": {
-    "messageformat": "QR 코드를 로드할 수 없습니다. 인터넷 연결을 확인하고 다시 시도하세요. <learnMoreLink>자세히 알아보기</learnMoreLink>",
+    "messageformat": "(deleted 05/09/2023) The QR code couldn't load. Check your internet and try again. <learnMoreLink>Learn more</learnMoreLink>",
+    "description": "Shown on the install screen if the QR code fails to load"
+  },
+  "icu:Install__qr-failed-load": {
+    "messageformat": "QR 코드를 로드할 수 없습니다. 인터넷 연결을 확인하고 다시 시도하세요. <retry>다시 시도하기</retry>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -3887,7 +3895,7 @@
     "description": "(deleted 03/29/2023) Description for audio notification setting"
   },
   "icu:audioNotificationDescription": {
-    "messageformat": "알림 소리 재생",
+    "messageformat": "푸시 알림 사운드",
     "description": "Description for audio notification setting"
   },
   "callRingtoneNotificationDescription": {
@@ -5063,6 +5071,18 @@
     "messageformat": "취소",
     "description": "Appears on the cancel button in confirmation dialogs."
   },
+  "icu:Message__reaction-emoji-label--you": {
+    "messageformat": "{emoji} 이모지로 반응했습니다.",
+    "description": "aria-label for reaction emoji (you)"
+  },
+  "icu:Message__reaction-emoji-label--single": {
+    "messageformat": "{title} 님이 {emoji} 이모지로 반응했습니다.",
+    "description": "aria-label for reaction emoji when one person reacts with an emoji"
+  },
+  "icu:Message__reaction-emoji-label--many": {
+    "messageformat": "{count}명이 {emoji} 이모지로 반응했습니다.",
+    "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
+  },
   "icu:Message__role-description": {
     "messageformat": "메시지",
     "description": "aria-roledescription of a message"
@@ -5434,6 +5454,10 @@
   "icu:Keyboard--conversation-by-index": {
     "messageformat": "대화로 이동",
     "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
+  },
+  "icu:Keyboard--edit-last-message": {
+    "messageformat": "이전 메시지를 수정하세요.",
+    "description": "Shown in the shortcuts guide"
   },
   "Keyboard--Key--ctrl": {
     "message": "Ctrl",
@@ -10468,7 +10492,7 @@
     "description": "Title for the avatar picker in the group creation flow"
   },
   "icu:Preferences__message-audio-title": {
-    "messageformat": "대화 내 사운드",
+    "messageformat": "대화 내 메시지 사운드",
     "description": "Title for message audio setting"
   },
   "icu:Preferences__message-audio-description": {
@@ -12539,18 +12563,6 @@
     "messageformat": "사소한 변경 사항과 버그 수정 및 성능 개선. Signal을 이용해 주셔서 감사합니다!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.17--0": {
-    "messageformat": "RTL(Right-to-Left) 언어에 대한 지원을 개선했습니다.",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--1": {
-    "messageformat": "이제 시스템 기본 설정에 따라 로캘이 매칭됩니다. 이 변경 사항은 여러 언어를 구성하는 경우 기본 동작에 도움이 됩니다.",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--2": {
-    "messageformat": "더불어 이 릴리스에는 다양한 접근성 향상과 버그 수정 내용이 포함되어 있으며, 이를 실현할 수 있도록 도와준 Signal 커뮤니티의 피드백과 추천에 감사를 표합니다.",
-    "description": "Release notes for v6.17"
-  },
   "icu:WhatsNew__v6.18--0": {
     "messageformat": "'섹션별 탐색' 바로 가기 키(⌘/Ctrl+T & ⌘/Ctrl+F6)를 사용하여 앱의 서로 다른 영역을 빠르게 이동하세요. 평범한 사람인 척 군중 속에 숨어 사는 영웅의 숨겨진 자아보다 더 빨리, 더 멀리 날 수 있는 탭의 슈퍼히어로 버전이라고 볼 수 있죠.",
     "description": "Release notes for v6.18"
@@ -12570,5 +12582,17 @@
   "icu:WhatsNew__v6.18--4": {
     "messageformat": "이제 줄임표 메뉴에서도 '텍스트 복사' 옵션을 사용할 수 있습니다. 고마워요, {yusufsahinhamza}!",
     "description": "Release notes for v6.18"
+  },
+  "icu:WhatsNew__v6.19--0": {
+    "messageformat": "침묵이 항상 금은 아니죠. 하지만 이 새 아이콘을 사용하여 침묵을 대변할 수는 있어요. 음성과 영상 통화 중 카메라와 음소거 사용 여부를 더 확실히 알 수 있도록 버튼 디자인을 업데이트했습니다.",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--1": {
+    "messageformat": "지역화와 메시지 작성란의 RTL(Right-to-Left) 언어 처리 방식을 개선했습니다. 고마워요, {sha265}!",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--2": {
+    "messageformat": "Windows 10보다 이전 버전 Windows를 사용하거나, 20.04 LTS보다 이전 버전 Ubuntu를 사용하는 경우 Signal을 계속 사용하려면 운영 체제를 업데이트해야 합니다. {supportLink}",
+    "description": "Release notes for v6.19"
   }
 }

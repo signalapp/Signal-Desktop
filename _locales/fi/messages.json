@@ -2665,6 +2665,10 @@
     "message": "Skannaa tämä koodi puhelimesi Signal-sovelluksessa.",
     "description": "(deleted 03/29/2023) Title of the device link screen. Also used as alt text for the QR code on the device link screen"
   },
+  "icu:Install__learn-more": {
+    "messageformat": "Lue lisää",
+    "description": "Button text for learn more button during error screen"
+  },
   "icu:Install__scan-this-code": {
     "messageformat": "Skannaa tämä koodi puhelimesi Signal-sovelluksessa.",
     "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
@@ -2702,7 +2706,11 @@
     "description": "Instructions on the device link screen"
   },
   "icu:Install__qr-failed": {
-    "messageformat": "QR-koodin lataaminen ei onnistunut. Tarkista yhteytesi ja yritä uudelleen. <learnMoreLink>Lue lisää</learnMoreLink>",
+    "messageformat": "(deleted 05/09/2023) The QR code couldn't load. Check your internet and try again. <learnMoreLink>Learn more</learnMoreLink>",
+    "description": "Shown on the install screen if the QR code fails to load"
+  },
+  "icu:Install__qr-failed-load": {
+    "messageformat": "QR-koodin lataaminen epäonnistui. Tarkista internetyhteys ja yritä uudelleen. <retry>Yritä uudelleen</retry>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -3887,7 +3895,7 @@
     "description": "(deleted 03/29/2023) Description for audio notification setting"
   },
   "icu:audioNotificationDescription": {
-    "messageformat": "Toista ilmoitusten äänimerkki",
+    "messageformat": "Pikailmoitusäänet",
     "description": "Description for audio notification setting"
   },
   "callRingtoneNotificationDescription": {
@@ -5063,6 +5071,18 @@
     "messageformat": "Peruuta",
     "description": "Appears on the cancel button in confirmation dialogs."
   },
+  "icu:Message__reaction-emoji-label--you": {
+    "messageformat": "Lähetit reaktion {emoji}",
+    "description": "aria-label for reaction emoji (you)"
+  },
+  "icu:Message__reaction-emoji-label--single": {
+    "messageformat": "{title} lähetti reaktion {emoji}",
+    "description": "aria-label for reaction emoji when one person reacts with an emoji"
+  },
+  "icu:Message__reaction-emoji-label--many": {
+    "messageformat": "{count} henkilöä lähetti reaktion {emoji}",
+    "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
+  },
   "icu:Message__role-description": {
     "messageformat": "Viesti",
     "description": "aria-roledescription of a message"
@@ -5434,6 +5454,10 @@
   "icu:Keyboard--conversation-by-index": {
     "messageformat": "Siirry keskusteluun",
     "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
+  },
+  "icu:Keyboard--edit-last-message": {
+    "messageformat": "Muokkaa edellistä viestiä",
+    "description": "Shown in the shortcuts guide"
   },
   "Keyboard--Key--ctrl": {
     "message": "Ctrl",
@@ -10468,7 +10492,7 @@
     "description": "Title for the avatar picker in the group creation flow"
   },
   "icu:Preferences__message-audio-title": {
-    "messageformat": "Viestin ääni keskustelussa",
+    "messageformat": "Viestiäänet keskustelussa",
     "description": "Title for message audio setting"
   },
   "icu:Preferences__message-audio-description": {
@@ -12539,18 +12563,6 @@
     "messageformat": "Pieniä säätöjä, virheenkorjauksia ja suorituskykyparannuksia. Kiitos, että käytät Signalia!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.17--0": {
-    "messageformat": "Parannettu oikealta vasemmalle kirjoitettavien kielten tukea.",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--1": {
-    "messageformat": "Kieliasetusten vastaavuus määritetään nyt järjestelmäasetusten mukaan. Tämä parantaa oletustoimintaa useita kieliä määritettäessä.",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--2": {
-    "messageformat": "Lisäksi tämä julkaisu sisältää useita helppokäyttöisyyden parannuksia ja virheenkorjauksia. Haluamme myös kiittää lämpimästi yhteisöä palautteesta ja ehdotuksista.",
-    "description": "Release notes for v6.17"
-  },
   "icu:WhatsNew__v6.18--0": {
     "messageformat": "Uudet pikanäppäimet (⌘/Ctrl+T ja ⌘/Ctrl+F6) auttavat siirtymään nopeasti sovelluksen eri osioiden välillä. Ne ovat ikään kuin sarkainnäppäimen supersankariversioita, jotka lentävät pidemmälle ja nopeammin kuin rauhallisempi alter egonsa.",
     "description": "Release notes for v6.18"
@@ -12570,5 +12582,17 @@
   "icu:WhatsNew__v6.18--4": {
     "messageformat": "Kolmen pisteen valikossa on myös uusi Kopioi teksti -vaihtoehto. Kiitos {yusufsahinhamza}!",
     "description": "Release notes for v6.18"
+  },
+  "icu:WhatsNew__v6.19--0": {
+    "messageformat": "Hiljaisuus ei ole aina kultaa, mutta ainakin sillä on uusi kuvake. Päivitimme ääni- ja videopuheluiden kamera- ja mykistyspainikkeet, joten nyt on entistä helpompi nähdä, ovatko ne käytössä vai poissa käytöstä.",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--1": {
+    "messageformat": "Lokalisointiparannuksia ja oikealta vasemmalle -kielten parempi käsittely viestinkirjoituskentässä. Kiitos {sha265}!",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--2": {
+    "messageformat": "Jos käytät aiempaa Windows-versiota kuin Windows 10 tai aiempaa Ubuntu-versiota kuin 20.04 LTS, sinun on päivitettävä käyttöjärjestelmäsi, jos haluat jatkaa Signalin käyttöä: {supportLink}",
+    "description": "Release notes for v6.19"
   }
 }

@@ -621,7 +621,7 @@
     "description": "Shown in a context menu for a contact, allows the user to start the conversation with the contact"
   },
   "icu:ContactListItem__menu__audio-call": {
-    "messageformat": "Аудиоқоңырау",
+    "messageformat": "Дауыстық қоңырау",
     "description": "Shown in a context menu for a contact, allows the user to start the audio call with the contact"
   },
   "icu:ContactListItem__menu__video-call": {
@@ -2665,6 +2665,10 @@
     "message": "Телефоныңыздағы Signal қолданбасында осы кодты сканерлеңіз",
     "description": "(deleted 03/29/2023) Title of the device link screen. Also used as alt text for the QR code on the device link screen"
   },
+  "icu:Install__learn-more": {
+    "messageformat": "Толық ақпарат",
+    "description": "Button text for learn more button during error screen"
+  },
   "icu:Install__scan-this-code": {
     "messageformat": "Телефоныңыздағы Signal қолданбасында осы кодты сканерлеңіз",
     "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
@@ -2702,7 +2706,11 @@
     "description": "Instructions on the device link screen"
   },
   "icu:Install__qr-failed": {
-    "messageformat": "QR коды жүктелмеді. Интернетті тексеріп, қайталап көріңіз. <learnMoreLink>Толық ақпарат</learnMoreLink>",
+    "messageformat": "(deleted 05/09/2023) The QR code couldn't load. Check your internet and try again. <learnMoreLink>Learn more</learnMoreLink>",
+    "description": "Shown on the install screen if the QR code fails to load"
+  },
+  "icu:Install__qr-failed-load": {
+    "messageformat": "QR коды жүктелмеді. Интернетті тексеріп, қайталап көріңіз. <retry>Қайталап көру</retry>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -3887,7 +3895,7 @@
     "description": "(deleted 03/29/2023) Description for audio notification setting"
   },
   "icu:audioNotificationDescription": {
-    "messageformat": "Хабарландыру дауыстарын ойнату",
+    "messageformat": "Push хабарландыру дауыстары",
     "description": "Description for audio notification setting"
   },
   "callRingtoneNotificationDescription": {
@@ -5063,6 +5071,18 @@
     "messageformat": "Бас тарту",
     "description": "Appears on the cancel button in confirmation dialogs."
   },
+  "icu:Message__reaction-emoji-label--you": {
+    "messageformat": "{emoji} деген эмодзимен реакция қалдырдыңыз",
+    "description": "aria-label for reaction emoji (you)"
+  },
+  "icu:Message__reaction-emoji-label--single": {
+    "messageformat": "{title} деген пайдаланушы {emoji} деп реакция қалдырды",
+    "description": "aria-label for reaction emoji when one person reacts with an emoji"
+  },
+  "icu:Message__reaction-emoji-label--many": {
+    "messageformat": "{count} адам {emoji} деп реакция қалдырды",
+    "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
+  },
   "icu:Message__role-description": {
     "messageformat": "Хат",
     "description": "aria-roledescription of a message"
@@ -5434,6 +5454,10 @@
   "icu:Keyboard--conversation-by-index": {
     "messageformat": "Чатқа өту",
     "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
+  },
+  "icu:Keyboard--edit-last-message": {
+    "messageformat": "Алдыңғы хатты өңдеу",
+    "description": "Shown in the shortcuts guide"
   },
   "Keyboard--Key--ctrl": {
     "message": "Ctrl",
@@ -12539,18 +12563,6 @@
     "messageformat": "Кішігірім түзетпелер жасалды, ақаулар жөнделді және жұмысы жақсартылды. Signal-ды қолданғаныңыз үшін рақмет!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.17--0": {
-    "messageformat": "Оң жақтан сол жаққа қарай жазылатын (RTL) тілдерге қолдау жақсартылды.",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--1": {
-    "messageformat": "Тілдер енді жүйе параметрлеріне сәйкестендіріледі. Бірнеше тіл конфигурацияланғанда, әдепкі жұмыс тәртібі жақсаруы керек.",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--2": {
-    "messageformat": "Бұл шығарылымда қосымша (a10y) бірнеше арнайы мүмкіндіктер (a11y) жақсартылды және ақаулар түзетілді. Қауымдастық мүшелерінің пікірлері мен ұсыныстары үшін алғыс (a12y) білдіргіміз келеді.",
-    "description": "Release notes for v6.17"
-  },
   "icu:WhatsNew__v6.18--0": {
     "messageformat": "Қолданбаның бір аймағынан екінші бір аймағына жылдам ауысу үшін \"Бөлімдер бойынша шарлау\" пернелер тіркесімін (⌘/Ctrl+T және ⌘/Ctrl+F6) пайдаланыңыз. Бұл – Tab пернесінің әлдеқайда жылдам жетілдірілген нұсқасы.",
     "description": "Release notes for v6.18"
@@ -12570,5 +12582,17 @@
   "icu:WhatsNew__v6.18--4": {
     "messageformat": "Үш нүктелі мәзірде \"Мәтінді көшіру\" деп аталатын жаңа опция бар. Рақмет, {yusufsahinhamza}!",
     "description": "Release notes for v6.18"
+  },
+  "icu:WhatsNew__v6.19--0": {
+    "messageformat": "Үнсіздік үнемі пайдалы бола бермейді, дегенмен енді оның жаңа белгішесі пайда болды. Дауыстық және видеоқоңыраулардағы Камера және Дыбысын өшіру түймелерін жаңарттық, енді олардың қосылып немесе өшіп тұрғанын оңай байқауға болады.",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--1": {
+    "messageformat": "Локализация бойынша бірқатар функция жақсартылды, оңнан солға қарай жазатын тілдерде хат жазу өрісі жақсартылды. Рақмет, {sha265}!",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--2": {
+    "messageformat": "Windows 10-ға дейінгі Windows жүйесін немесе 20.04 LTS-ке дейінгі Ubuntu жүйесін қолданып жүрсеңіз, Signal-ды қолдана алуыңыз үшін операциялық жүйені жаңартуыңызға тура келеді: {supportLink}",
+    "description": "Release notes for v6.19"
   }
 }

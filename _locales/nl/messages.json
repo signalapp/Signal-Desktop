@@ -2665,6 +2665,10 @@
     "message": "Scan deze code met de Signal-app op je telefoon",
     "description": "(deleted 03/29/2023) Title of the device link screen. Also used as alt text for the QR code on the device link screen"
   },
+  "icu:Install__learn-more": {
+    "messageformat": "Meer leren hierover",
+    "description": "Button text for learn more button during error screen"
+  },
   "icu:Install__scan-this-code": {
     "messageformat": "Scan deze code met de Signal-app op je telefoon",
     "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
@@ -2702,7 +2706,11 @@
     "description": "Instructions on the device link screen"
   },
   "icu:Install__qr-failed": {
-    "messageformat": "De QR-code kon niet geladen worden. Controleer je internetverbinding en probeer het opnieuw. <learnMoreLink>Meer informatie</learnMoreLink>",
+    "messageformat": "(deleted 05/09/2023) The QR code couldn't load. Check your internet and try again. <learnMoreLink>Learn more</learnMoreLink>",
+    "description": "Shown on the install screen if the QR code fails to load"
+  },
+  "icu:Install__qr-failed-load": {
+    "messageformat": "De QR-code kon niet geladen worden. Controleer je internetverbinding en probeer het opnieuw. <retry>Opnieuw proberen</retry>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -3887,7 +3895,7 @@
     "description": "(deleted 03/29/2023) Description for audio notification setting"
   },
   "icu:audioNotificationDescription": {
-    "messageformat": "Bij nieuwe meldingen geluid afspelen",
+    "messageformat": "Pushmeldinggeluid",
     "description": "Description for audio notification setting"
   },
   "callRingtoneNotificationDescription": {
@@ -5063,6 +5071,18 @@
     "messageformat": "Annuleren",
     "description": "Appears on the cancel button in confirmation dialogs."
   },
+  "icu:Message__reaction-emoji-label--you": {
+    "messageformat": "Je hebt gereageerd met {emoji}",
+    "description": "aria-label for reaction emoji (you)"
+  },
+  "icu:Message__reaction-emoji-label--single": {
+    "messageformat": "{title} reageerde met {emoji}",
+    "description": "aria-label for reaction emoji when one person reacts with an emoji"
+  },
+  "icu:Message__reaction-emoji-label--many": {
+    "messageformat": "{count} mensen reageerden met {emoji}",
+    "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
+  },
   "icu:Message__role-description": {
     "messageformat": "Bericht versturen",
     "description": "aria-roledescription of a message"
@@ -5434,6 +5454,10 @@
   "icu:Keyboard--conversation-by-index": {
     "messageformat": "Ga naar chat",
     "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
+  },
+  "icu:Keyboard--edit-last-message": {
+    "messageformat": "Pas het vorige bericht aan",
+    "description": "Shown in the shortcuts guide"
   },
   "Keyboard--Key--ctrl": {
     "message": "Ctrl",
@@ -10536,7 +10560,7 @@
     "description": "(deleted 03/29/2023) Title for system type settings"
   },
   "icu:Preferences--system": {
-    "messageformat": "Systeemstandaard volgen",
+    "messageformat": "Systeemvoorkeuren",
     "description": "Title for system type settings"
   },
   "Preferences--zoom": {
@@ -12539,18 +12563,6 @@
     "messageformat": "Kleine aanpassingen, bugfixes en prestatieverbeteringen. Bedankt dat je Signal gebruikt!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.17--0": {
-    "messageformat": "Verbeterde ondersteuning voor talen van rechts naar links.",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--1": {
-    "messageformat": "Talen worden nu ingesteld op basis van je systeemvoorkeuren. Dit geeft sneller de juiste taal weer als er meerdere talen zijn geconfigureerd.",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--2": {
-    "messageformat": "Deze update introduceert bovendien verschillende toegankelijkheidsverbeteringen en bugfixes. We willen de community bedanken voor hun feedback en suggesties.",
-    "description": "Release notes for v6.17"
-  },
   "icu:WhatsNew__v6.18--0": {
     "messageformat": "Gebruik de sneltoetsen Navigeren per sectie (⌘/Ctrl+T & ⌘/Ctrl+F6) om snel te schakelen tussen verschillende delen van de app. Het is als een superheldenversie van de Tab-toets die verder en sneller kan vliegen dan zijn zachtaardige alter ego.",
     "description": "Release notes for v6.18"
@@ -12570,5 +12582,17 @@
   "icu:WhatsNew__v6.18--4": {
     "messageformat": "Er is ook een nieuwe optie Tekst kopiëren in het menu met drie stippen. Bedankt, {yusufsahinhamza}!",
     "description": "Release notes for v6.18"
+  },
+  "icu:WhatsNew__v6.19--0": {
+    "messageformat": "Zwijgen is niet altijd goud... maar het heeft wel een nieuw icoontje. We hebben de knoppen Camera en Dempen in spraak- en videogesprekken bijgewerkt, zodat het nog gemakkelijker is om te zien wanneer ze aan of uit staan.",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--1": {
+    "messageformat": "Lokalisatieverbeteringen en betere verwerking van talen die van rechts naar links worden geschreven in het veld voor de samenstelling van berichten. Bedankt, {sha265}!",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--2": {
+    "messageformat": "Als je een versie van Windows gebruikt die ouder is dan Windows 10, of een versie van Ubuntu die ouder is dan 20.04 LTS, moet je je besturingssysteem bijwerken om Signal te blijven gebruiken: {supportLink}",
+    "description": "Release notes for v6.19"
   }
 }

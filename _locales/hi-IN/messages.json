@@ -621,7 +621,7 @@
     "description": "Shown in a context menu for a contact, allows the user to start the conversation with the contact"
   },
   "icu:ContactListItem__menu__audio-call": {
-    "messageformat": "ऑडियो कॉल",
+    "messageformat": "वॉयस कॉल",
     "description": "Shown in a context menu for a contact, allows the user to start the audio call with the contact"
   },
   "icu:ContactListItem__menu__video-call": {
@@ -2665,6 +2665,10 @@
     "message": "इस कोड को अपने फ़ोन के Signal ऐप में स्कैन करें",
     "description": "(deleted 03/29/2023) Title of the device link screen. Also used as alt text for the QR code on the device link screen"
   },
+  "icu:Install__learn-more": {
+    "messageformat": "अधिक जानें",
+    "description": "Button text for learn more button during error screen"
+  },
   "icu:Install__scan-this-code": {
     "messageformat": "इस कोड को अपने फ़ोन के Signal ऐप में स्कैन करें",
     "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
@@ -2702,7 +2706,11 @@
     "description": "Instructions on the device link screen"
   },
   "icu:Install__qr-failed": {
-    "messageformat": "QR कोड लोड नहीं हो सका। अपना इंटरनेट जाँचें और फिर से प्रयास करें। <learnMoreLink>अधिक जानें</learnMoreLink>",
+    "messageformat": "(deleted 05/09/2023) The QR code couldn't load. Check your internet and try again. <learnMoreLink>Learn more</learnMoreLink>",
+    "description": "Shown on the install screen if the QR code fails to load"
+  },
+  "icu:Install__qr-failed-load": {
+    "messageformat": "QR कोड लोड नहीं हो सका। अपना इंटरनेट जाँचें और फिर से कोशिश करें। दोबारा कोशिश करें",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -3887,7 +3895,7 @@
     "description": "(deleted 03/29/2023) Description for audio notification setting"
   },
   "icu:audioNotificationDescription": {
-    "messageformat": "नोटिफ़िकेशन साउंड प्ले करें",
+    "messageformat": "पुश नोटिफिकेशन की साउंड",
     "description": "Description for audio notification setting"
   },
   "callRingtoneNotificationDescription": {
@@ -5063,6 +5071,18 @@
     "messageformat": "रद्द करें",
     "description": "Appears on the cancel button in confirmation dialogs."
   },
+  "icu:Message__reaction-emoji-label--you": {
+    "messageformat": "आपने {emoji} के साथ प्रतिक्रिया दी",
+    "description": "aria-label for reaction emoji (you)"
+  },
+  "icu:Message__reaction-emoji-label--single": {
+    "messageformat": "{title} ने {emoji} के साथ प्रतिक्रिया दी",
+    "description": "aria-label for reaction emoji when one person reacts with an emoji"
+  },
+  "icu:Message__reaction-emoji-label--many": {
+    "messageformat": "{count} लोगों ने {emoji} के साथ प्रतिक्रिया दी",
+    "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
+  },
   "icu:Message__role-description": {
     "messageformat": "संदेश",
     "description": "aria-roledescription of a message"
@@ -5434,6 +5454,10 @@
   "icu:Keyboard--conversation-by-index": {
     "messageformat": "चैट पर जाएँ",
     "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
+  },
+  "icu:Keyboard--edit-last-message": {
+    "messageformat": "पिछले संदेश को संपादित करें",
+    "description": "Shown in the shortcuts guide"
   },
   "Keyboard--Key--ctrl": {
     "message": "Ctrl",
@@ -12539,18 +12563,6 @@
     "messageformat": "छोटे-छोटे ट्वीक, बग फ़िक्स, और प्रदर्शन में सुधार। Signal इस्तेमाल करने के लिए धन्यवाद।",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.17--0": {
-    "messageformat": "दाएं-से-बाएं (RTL) भाषाओं के लिए बेहतर समर्थन।",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--1": {
-    "messageformat": "लोकल अब आपकी सिस्टम प्राथमिकताओं के आधार पर मेल खाते हैं। एक से ज्यादा भाषाएं कॉन्फ़िगर होने पर इसका परिणाम बेहतर डिफ़ॉल्ट व्यवहार में होना चाहिए।",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--2": {
-    "messageformat": "यह रिलीज़ अतिरिक्त रूप से (a10y) कई एक्सेसिबिलिटी (a11y) एनहांसमेंट और बग फिक्स पेश करती है, और हम (a12y) समुदाय को उनके फीडबैक और सुझावों के लिए धन्यवाद देना चाहते हैं।",
-    "description": "Release notes for v6.17"
-  },
   "icu:WhatsNew__v6.18--0": {
     "messageformat": "तेजी से ऐप के अलग-अलग हिस्सों में जाने के लिए “चयन द्वारा नेविगेट” कीबोर्ड शॉर्टकट्स (⌘/Ctrl+T & ⌘/Ctrl+F6) इस्तेमाल करें। यह टैब कुंजी के एक सुपर हीरो वर्जन की तरह है, जो अपने माइल्ड-मैनर्ड ऑल्टर ईगो की तुलना में ज्यादा और तेजी से उड़ सकता है।",
     "description": "Release notes for v6.18"
@@ -12570,5 +12582,17 @@
   "icu:WhatsNew__v6.18--4": {
     "messageformat": "ट्रिपल-डॉट मेनू में एक नया \"कॉपी टेक्स्ट\" विकल्प भी है। धन्यवाद, {yusufsahinhamza}!",
     "description": "Release notes for v6.18"
+  },
+  "icu:WhatsNew__v6.19--0": {
+    "messageformat": "खामोशी हमेशा अच्छी नहीं होती, लेकिन इसका एक नया आइकन है। हमने वॉयस और वीडियो कॉल में कैमरा और म्यूट बटन को अपडेट किया है, ताकि यह देखना और भी आसान हो जाए कि वे कब सक्षम या अक्षम होते हैं।",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--1": {
+    "messageformat": "स्थानीय स्तर पर सुधार, और मैसेज कम्पोजीशन फील्ड में दाएं-से-बाएं भाषाओं का बेहतर संचालन। धन्यवाद, {sha265}!",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--2": {
+    "messageformat": "यदि आप Windows 10 से पहले का Windows संस्करण, या 20.04 LTS से पहले का Ubuntu संस्करण इस्तेमाल कर रहे हैं, तो आपको Signal का इस्तेमाल जारी रखने के लिए अपने ऑपरेटिंग सिस्टम को अपडेट करना होगा: {supportLink}",
+    "description": "Release notes for v6.19"
   }
 }

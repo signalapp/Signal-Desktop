@@ -2665,6 +2665,10 @@
     "message": "ใช้แอป Signal บนโทรศัพท์ของคุณสแกนรหัสนี้",
     "description": "(deleted 03/29/2023) Title of the device link screen. Also used as alt text for the QR code on the device link screen"
   },
+  "icu:Install__learn-more": {
+    "messageformat": "เรียนรู้เพิ่มเติม",
+    "description": "Button text for learn more button during error screen"
+  },
   "icu:Install__scan-this-code": {
     "messageformat": "ใช้แอป Signal บนโทรศัพท์ของคุณสแกนรหัสนี้",
     "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
@@ -2702,7 +2706,11 @@
     "description": "Instructions on the device link screen"
   },
   "icu:Install__qr-failed": {
-    "messageformat": "ไม่สามารถโหลด QR Code ได้ ตรวจสอบอินเทอร์เน็ตแล้วลองอีกครั้ง <learnMoreLink>เรียนรู้เพิ่มเติม</learnMoreLink>",
+    "messageformat": "(deleted 05/09/2023) The QR code couldn't load. Check your internet and try again. <learnMoreLink>Learn more</learnMoreLink>",
+    "description": "Shown on the install screen if the QR code fails to load"
+  },
+  "icu:Install__qr-failed-load": {
+    "messageformat": "ไม่สามารถโหลดคิวอาร์โค้ดได้ ตรวจสอบอินเทอร์เน็ตแล้วลองอีกครั้ง <retry>ลองอีกครั้ง</retry>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -3887,7 +3895,7 @@
     "description": "(deleted 03/29/2023) Description for audio notification setting"
   },
   "icu:audioNotificationDescription": {
-    "messageformat": "เล่นเสียงแจ้งเตือน",
+    "messageformat": "เสียงการแจ้งเตือนแบบพุช",
     "description": "Description for audio notification setting"
   },
   "callRingtoneNotificationDescription": {
@@ -5063,6 +5071,18 @@
     "messageformat": "ยกเลิก",
     "description": "Appears on the cancel button in confirmation dialogs."
   },
+  "icu:Message__reaction-emoji-label--you": {
+    "messageformat": "คุณแสดงความรู้สึกด้วย {emoji}",
+    "description": "aria-label for reaction emoji (you)"
+  },
+  "icu:Message__reaction-emoji-label--single": {
+    "messageformat": "{title} แสดงความรู้สึกด้วย {emoji}",
+    "description": "aria-label for reaction emoji when one person reacts with an emoji"
+  },
+  "icu:Message__reaction-emoji-label--many": {
+    "messageformat": "ผู้ใช้ {count} คนแสดงความรู้สึกด้วย {emoji}",
+    "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
+  },
   "icu:Message__role-description": {
     "messageformat": "ส่งข้อความ",
     "description": "aria-roledescription of a message"
@@ -5434,6 +5454,10 @@
   "icu:Keyboard--conversation-by-index": {
     "messageformat": "ไปที่แชท",
     "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
+  },
+  "icu:Keyboard--edit-last-message": {
+    "messageformat": "แก้ไขข้อความก่อนหน้า",
+    "description": "Shown in the shortcuts guide"
   },
   "Keyboard--Key--ctrl": {
     "message": "Ctrl",
@@ -12539,18 +12563,6 @@
     "messageformat": "มีการปรับเปลี่ยนเล็กน้อย พร้อมแก้ไขบั๊ก และการพัฒนาประสิทธิภาพให้ดียิ่งขึ้น ขอขอบคุณที่เลือกใช้ Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.17--0": {
-    "messageformat": "พัฒนาการรองรับภาษาประเภท RTL (ภาษาที่อ่านจากขวาไปซ้าย)",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--1": {
-    "messageformat": "จากนี้ไป แอปจะใช้พิกัดที่ตั้งตามการตั้งค่าบนอุปกรณ์ของคุณ นี่จะทำให้รูปแบบการใช้งานเบื้องต้นราบรื่นยิ่งขึ้นในกรณีที่มีการกำหนดค่าภาษามากกว่าหนึ่งรายการ",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--2": {
-    "messageformat": "เวอร์ชันนี้ยังมาพร้อมการเพิ่มหลากหลายฟังก์ชันด้านการช่วยเหลือพิเศษและการแก้ไขบั๊ก เราขอขอบคุณสมาชิกชุมชน Signal จากใจสำหรับข้อเสนอแนะและความคิดเห็นดีๆ รวมถึงแรงสนับสนุนที่มีให้เสมอมา",
-    "description": "Release notes for v6.17"
-  },
   "icu:WhatsNew__v6.18--0": {
     "messageformat": "ขอแนะนำปุ่มลัดใหม่บนแป้นพิมพ์ (⌘/Ctrl+T และ ⌘/Ctrl+F6) ซึ่งทำหน้าที่ \"นำทางทีละส่วน\" คีย์ลัดนี้จะช่วยให้คุณเคลื่อนที่ไปมาตามส่วนสำคัญต่างๆ ของแอปได้อย่างรวดเร็ว สะดวกและตอบโจทย์กว่าเดิมเป็นไหนๆ จะเรียกว่าเป็นร่างที่พัฒนาแล้วของปุ่ม Tab ก็ไม่ผิด",
     "description": "Release notes for v6.18"
@@ -12570,5 +12582,17 @@
   "icu:WhatsNew__v6.18--4": {
     "messageformat": "เพิ่มฟังก์ชัน \"คัดลอกข้อความ\" มาเป็นอีกหนึ่งตัวเลือกใหม่ในเมนูสามจุด ขอบคุณ {yusufsahinhamza} สำหรับการปรับปรุงครั้งนี้!",
     "description": "Release notes for v6.18"
+  },
+  "icu:WhatsNew__v6.19--0": {
+    "messageformat": "เงียบเหมือนเดิม เพิ่มเติมคือไอคอนใหม่! เราอัปเดตปุ่มปิดเสียงและปุ่มกล้องในหน้าการโทรด้วยเสียงและวิดีโอคอลให้ชัดเจนโดดเด่นกว่าที่เคย จึงมองเห็นการเปิด-ปิดใช้งานได้สะดวกยิ่งขึ้น",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--1": {
+    "messageformat": "ปรับปรุงการใช้งานให้ตอบโจทย์ภาษาต้นทางมากขึ้น ทั้งยังพัฒนาการรองรับภาษาที่อ่านจากขวาไปซ้ายในกล่องเขียนข้อความอีกด้วย ขอบคุณ {sha265} สำหรับการปรับปรุงครั้งนี้!",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--2": {
+    "messageformat": "หากคุณใช้ Windows เวอร์ชันที่เก่ากว่า Windows 10 หรือ Ubuntu ที่เก่ากว่า 20.04 LTS คุณจำเป็นต้องอัปเดตระบบปฏิบัติการเพื่อใช้งาน Signal ต่อไป: {supportLink}",
+    "description": "Release notes for v6.19"
   }
 }

@@ -621,7 +621,7 @@
     "description": "Shown in a context menu for a contact, allows the user to start the conversation with the contact"
   },
   "icu:ContactListItem__menu__audio-call": {
-    "messageformat": "Cuộc gọi âm thanh",
+    "messageformat": "Gọi thoại",
     "description": "Shown in a context menu for a contact, allows the user to start the audio call with the contact"
   },
   "icu:ContactListItem__menu__video-call": {
@@ -2665,6 +2665,10 @@
     "message": "Quét mã này trong ứng dụng Signal trên điện thoại của bạn.",
     "description": "(deleted 03/29/2023) Title of the device link screen. Also used as alt text for the QR code on the device link screen"
   },
+  "icu:Install__learn-more": {
+    "messageformat": "Tìm hiểu thêm",
+    "description": "Button text for learn more button during error screen"
+  },
   "icu:Install__scan-this-code": {
     "messageformat": "Quét mã này trong ứng dụng Signal trên điện thoại của bạn.",
     "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
@@ -2702,7 +2706,11 @@
     "description": "Instructions on the device link screen"
   },
   "icu:Install__qr-failed": {
-    "messageformat": "Không thể tải mã QR. Kiểm tra đường truyền internet của bạn và thử lại. <learnMoreLink>Tìm hiểu thêm</learnMoreLink>",
+    "messageformat": "(deleted 05/09/2023) The QR code couldn't load. Check your internet and try again. <learnMoreLink>Learn more</learnMoreLink>",
+    "description": "Shown on the install screen if the QR code fails to load"
+  },
+  "icu:Install__qr-failed-load": {
+    "messageformat": "Không thể tải mã QR. Kiểm tra đường truyền internet của bạn và thử lại. Thử lại",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -3887,7 +3895,7 @@
     "description": "(deleted 03/29/2023) Description for audio notification setting"
   },
   "icu:audioNotificationDescription": {
-    "messageformat": "Phát âm thanh thông báo",
+    "messageformat": "Âm thanh thông báo",
     "description": "Description for audio notification setting"
   },
   "callRingtoneNotificationDescription": {
@@ -5063,6 +5071,18 @@
     "messageformat": "Hủy",
     "description": "Appears on the cancel button in confirmation dialogs."
   },
+  "icu:Message__reaction-emoji-label--you": {
+    "messageformat": "Bạn đã bày tỏ cảm xúc với {emoji}",
+    "description": "aria-label for reaction emoji (you)"
+  },
+  "icu:Message__reaction-emoji-label--single": {
+    "messageformat": "{title} đã bày tỏ cảm xúc với {emoji}",
+    "description": "aria-label for reaction emoji when one person reacts with an emoji"
+  },
+  "icu:Message__reaction-emoji-label--many": {
+    "messageformat": "{count} người đã bày tỏ cảm xúc với {emoji}",
+    "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
+  },
   "icu:Message__role-description": {
     "messageformat": "Tin nhắn",
     "description": "aria-roledescription of a message"
@@ -5434,6 +5454,10 @@
   "icu:Keyboard--conversation-by-index": {
     "messageformat": "Nhảy đến cuộc trò chuyện",
     "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
+  },
+  "icu:Keyboard--edit-last-message": {
+    "messageformat": "Chỉnh sửa tin nhắn trước đó",
+    "description": "Shown in the shortcuts guide"
   },
   "Keyboard--Key--ctrl": {
     "message": "Ctrl",
@@ -12539,18 +12563,6 @@
     "messageformat": "Các tinh chỉnh, sửa lỗi, và cải thiện hiệu năng. Cảm ơn bạn đã sử dụng Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.17--0": {
-    "messageformat": "Hỗ trợ tốt hơn cho các ngôn ngữ viết từ phải sang trái (RTL).",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--1": {
-    "messageformat": "Ngôn ngữ giờ đây được hiển thị theo lựa chọn ngôn ngữ trên hệ thống của bạn. Điều này giúp việc thiết lập ngôn ngữ mặc định được chuẩn hơn.",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--2": {
-    "messageformat": "Bản cập nhật này cũng bổ sung thêm nhiều cải tiến cho tính năng trợ năng và sửa lỗi, và chúng tôi chân thành cảm ơn cộng đồng vì các phản hồi và gợi ý.",
-    "description": "Release notes for v6.17"
-  },
   "icu:WhatsNew__v6.18--0": {
     "messageformat": "Các phím tắt mới (⌘/Ctrl+T & ⌘/Ctrl+F6) giúp bạn di chuyển nhanh giữa các mục khác nhau của ứng dụng. Đây là một phiên bản nâng cấp của phím Tab, có thể di chuyển bạn nhanh hơn, xa hơn.",
     "description": "Release notes for v6.18"
@@ -12570,5 +12582,17 @@
   "icu:WhatsNew__v6.18--4": {
     "messageformat": "Tùy chọn mới \"Sao chép văn bản\" trong menu ba dấu chấm. Cảm ơn, {yusufsahinhamza}!",
     "description": "Release notes for v6.18"
+  },
+  "icu:WhatsNew__v6.19--0": {
+    "messageformat": "Im lặng không phải luôn là vàng, nhưng nó vừa có một biểu tượng mới. Chúng tôi đã cập nhật các nút Camera và Tắt tiếng trong cuộc gọi thoại và video để dễ dàng biết được thời điểm chúng được bật hoặc tắt.",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--1": {
+    "messageformat": "Cải thiện công tác bản địa hóa và xử lý tốt hơn các ngôn ngữ viết từ phải sang trái trong ô soạn tin nhắn. Xin cảm ơn, {sha265}!",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--2": {
+    "messageformat": "Nếu bạn đang sử dụng phiên bản Windows trước Windows 10, hoặc phiên bản Ubuntu trước 20.04 LTS, bạn sẽ cần cập nhật hệ điều hành của mình để tiếp tục sử dụng Signal: {supportLink}",
+    "description": "Release notes for v6.19"
   }
 }

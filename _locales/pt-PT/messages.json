@@ -621,7 +621,7 @@
     "description": "Shown in a context menu for a contact, allows the user to start the conversation with the contact"
   },
   "icu:ContactListItem__menu__audio-call": {
-    "messageformat": "Chamada de áudio",
+    "messageformat": "Chamada de voz",
     "description": "Shown in a context menu for a contact, allows the user to start the audio call with the contact"
   },
   "icu:ContactListItem__menu__video-call": {
@@ -2665,6 +2665,10 @@
     "message": "Digitalize este código na aplicação do Signal no seu telemóvel",
     "description": "(deleted 03/29/2023) Title of the device link screen. Also used as alt text for the QR code on the device link screen"
   },
+  "icu:Install__learn-more": {
+    "messageformat": "Saber mais",
+    "description": "Button text for learn more button during error screen"
+  },
   "icu:Install__scan-this-code": {
     "messageformat": "Digitalize este código na aplicação do Signal no seu telemóvel",
     "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
@@ -2702,7 +2706,11 @@
     "description": "Instructions on the device link screen"
   },
   "icu:Install__qr-failed": {
-    "messageformat": "Não foi possível carregar o código QR. Verifique a sua internet e tente novamente. <learnMoreLink>Saber mais</learnMoreLink>",
+    "messageformat": "(deleted 05/09/2023) The QR code couldn't load. Check your internet and try again. <learnMoreLink>Learn more</learnMoreLink>",
+    "description": "Shown on the install screen if the QR code fails to load"
+  },
+  "icu:Install__qr-failed-load": {
+    "messageformat": "Não foi possível carregar o código QR. Verifique a sua internet e tente novamente. <retry>Tentar novamente</retry>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -3887,7 +3895,7 @@
     "description": "(deleted 03/29/2023) Description for audio notification setting"
   },
   "icu:audioNotificationDescription": {
-    "messageformat": "Reproduzir sons de notificação",
+    "messageformat": "Sounds de notificações push",
     "description": "Description for audio notification setting"
   },
   "callRingtoneNotificationDescription": {
@@ -5063,6 +5071,18 @@
     "messageformat": "Cancelar",
     "description": "Appears on the cancel button in confirmation dialogs."
   },
+  "icu:Message__reaction-emoji-label--you": {
+    "messageformat": "Reagiu com {emoji}",
+    "description": "aria-label for reaction emoji (you)"
+  },
+  "icu:Message__reaction-emoji-label--single": {
+    "messageformat": "{title} reagiu com {emoji}",
+    "description": "aria-label for reaction emoji when one person reacts with an emoji"
+  },
+  "icu:Message__reaction-emoji-label--many": {
+    "messageformat": "{count} pessoas reagiram com {emoji}",
+    "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
+  },
   "icu:Message__role-description": {
     "messageformat": "Mensagem",
     "description": "aria-roledescription of a message"
@@ -5434,6 +5454,10 @@
   "icu:Keyboard--conversation-by-index": {
     "messageformat": "Saltar para o chat",
     "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
+  },
+  "icu:Keyboard--edit-last-message": {
+    "messageformat": "Editar a mensagem anterior",
+    "description": "Shown in the shortcuts guide"
   },
   "Keyboard--Key--ctrl": {
     "message": "Ctrl",
@@ -10468,7 +10492,7 @@
     "description": "Title for the avatar picker in the group creation flow"
   },
   "icu:Preferences__message-audio-title": {
-    "messageformat": "Som de mensagem no chat",
+    "messageformat": "Sons de mensagem no chat",
     "description": "Title for message audio setting"
   },
   "icu:Preferences__message-audio-description": {
@@ -12539,18 +12563,6 @@
     "messageformat": "Pequenos ajustes adicionais, correções de bugs e melhorias de desempenho. Obrigado por usar o Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.17--0": {
-    "messageformat": "Suporte melhorado para línguas direita-para-a-esquerda (RTL).",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--1": {
-    "messageformat": "Os locais correspondem agora de acordo com as suas preferências de sistema. Isto deve resultar em melhores comportamentos predefinidos quando várias línguas estão configuradas.",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--2": {
-    "messageformat": "Adicionalmente, esta versão apresenta várias melhorias de acessibilidade e correções, e queremos agradecer carinhosamente à nossa comunidade pelos seus comentários e sugestões.",
-    "description": "Release notes for v6.17"
-  },
   "icu:WhatsNew__v6.18--0": {
     "messageformat": "Utilize os atalhos de teclado \"Navegar por secção\" (⌘/Ctrl+T & ⌘/Ctrl+F6) para se deslocar rapidemente entre diferentes áreas da app. É como uma versão super-herói da tecla Tab, que consegue voar mais e mais depressa do que o seu alter-ego educadinho.",
     "description": "Release notes for v6.18"
@@ -12570,5 +12582,17 @@
   "icu:WhatsNew__v6.18--4": {
     "messageformat": "Há também uma nova opção de \"Copiar texto\" no menu de três pontos. Obrigado, {yusufsahinhamza}!",
     "description": "Release notes for v6.18"
+  },
+  "icu:WhatsNew__v6.19--0": {
+    "messageformat": "O silêncio nem sempre é de ouro, mas tem um novo ícone. Atualizámos os botões de Câmara e Silenciar em chamadas de voz e vídeo, para que seja ainda mais fácil ver quando estão ativados ou desativados.",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--1": {
+    "messageformat": "Melhorias de tradução e maior compatibilidade com línguas da direita para a esquerda no campo de composição de mensagens. Obrigado, {sha265}!",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--2": {
+    "messageformat": "Se estiver a utilizar uma versão do Windows anterior ao Windows 10, ou uma versão do Ubuntu anterior à 20.04 LTS, vai precisar de atualizar o seu sistema operativo para continuar a usar o Signal: {supportLink}",
+    "description": "Release notes for v6.19"
   }
 }

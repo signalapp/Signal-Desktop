@@ -2665,6 +2665,10 @@
     "message": "Scansiona questo codice nell'app Signal sul tuo telefono",
     "description": "(deleted 03/29/2023) Title of the device link screen. Also used as alt text for the QR code on the device link screen"
   },
+  "icu:Install__learn-more": {
+    "messageformat": "Scopri di più",
+    "description": "Button text for learn more button during error screen"
+  },
   "icu:Install__scan-this-code": {
     "messageformat": "Scansiona questo codice nell'app Signal sul tuo telefono",
     "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
@@ -2702,7 +2706,11 @@
     "description": "Instructions on the device link screen"
   },
   "icu:Install__qr-failed": {
-    "messageformat": "Impossibile caricare il codice QR. Controlla la tua connessione Internet e riprova. <learnMoreLink>Per saperne di più</learnMoreLink>",
+    "messageformat": "(deleted 05/09/2023) The QR code couldn't load. Check your internet and try again. <learnMoreLink>Learn more</learnMoreLink>",
+    "description": "Shown on the install screen if the QR code fails to load"
+  },
+  "icu:Install__qr-failed-load": {
+    "messageformat": "Impossibile caricare il codice QR. Controlla la tua connessione Internet e riprova. <retry>Riprova</retry>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -3887,7 +3895,7 @@
     "description": "(deleted 03/29/2023) Description for audio notification setting"
   },
   "icu:audioNotificationDescription": {
-    "messageformat": "Riprodurre suoni di notifica",
+    "messageformat": "Suono delle notifiche push",
     "description": "Description for audio notification setting"
   },
   "callRingtoneNotificationDescription": {
@@ -5063,6 +5071,18 @@
     "messageformat": "Annulla",
     "description": "Appears on the cancel button in confirmation dialogs."
   },
+  "icu:Message__reaction-emoji-label--you": {
+    "messageformat": "Hai reagito con {emoji}",
+    "description": "aria-label for reaction emoji (you)"
+  },
+  "icu:Message__reaction-emoji-label--single": {
+    "messageformat": "{title} ha reagito con {emoji}",
+    "description": "aria-label for reaction emoji when one person reacts with an emoji"
+  },
+  "icu:Message__reaction-emoji-label--many": {
+    "messageformat": "{count} persone hanno reagito con {emoji}",
+    "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
+  },
   "icu:Message__role-description": {
     "messageformat": "Messaggio",
     "description": "aria-roledescription of a message"
@@ -5434,6 +5454,10 @@
   "icu:Keyboard--conversation-by-index": {
     "messageformat": "Vai alla chat",
     "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
+  },
+  "icu:Keyboard--edit-last-message": {
+    "messageformat": "Modifica il messaggio precedente",
+    "description": "Shown in the shortcuts guide"
   },
   "Keyboard--Key--ctrl": {
     "message": "Ctrl",
@@ -12539,18 +12563,6 @@
     "messageformat": "Altre piccole modifiche e correzioni di bug per far funzionare l'app senza problemi. Grazie per usare Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.17--0": {
-    "messageformat": "Supporto migliorato per lingue con scrittura da destra a sinistra.",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--1": {
-    "messageformat": "Le lingue di base vengono ora selezionate in base alle preferenze del tuo sistema. In tal modo, l'impostazione predefinita dovrebbe funzionare meglio quando vengono configurate più lingue.",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--2": {
-    "messageformat": "Questo aggiornamento aggiunge anche molti miglioramenti lato accessibilità e risolve vari bug. Vogliamo quindi ringraziare di cuore tutta la community per il feedback e i consigli condivisi con noi!",
-    "description": "Release notes for v6.17"
-  },
   "icu:WhatsNew__v6.18--0": {
     "messageformat": "Usa la shortcut da tastiera \"Navigare per sezione\" (⌘/Ctrl+T & ⌘/Ctrl+F6) per spostarti rapidamente tra le varie sezioni dell'app. In pratica è come usare una funzione (mooolto) avanzata del tasto Tab: sblocca tutto il potenziale della navigazione rapida e non tornerai più indietro!",
     "description": "Release notes for v6.18"
@@ -12570,5 +12582,17 @@
   "icu:WhatsNew__v6.18--4": {
     "messageformat": "Abbiamo inserito una nuova opzione chiamata \"Copia testo\" nel menu a tre punti. Grazie, {yusufsahinhamza}!",
     "description": "Release notes for v6.18"
+  },
+  "icu:WhatsNew__v6.19--0": {
+    "messageformat": "Ai dubbi preferiamo sempre la chiarezza. Ecco perché abbiamo aggiornato i pulsanti per la fotocamera e per il muto nelle chiamate vocali e video: da ora è più semplice capire quando queste opzioni sono attivate o meno!",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--1": {
+    "messageformat": "Miglioramenti nella localizzazione dell'app e nella gestione delle lingue da destra a sinistra quando si scrivono messaggi. Grazie, {sha265}!",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--2": {
+    "messageformat": "Se stai usando una versione di Windows precedente a Windows 10 oppure una versione di Ubuntu precedente alla 20.04 LTS, dovrai aggiornare il tuo sistema operativo per continuare a usare Signal: {supportLink}",
+    "description": "Release notes for v6.19"
   }
 }

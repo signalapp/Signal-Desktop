@@ -621,7 +621,7 @@
     "description": "Shown in a context menu for a contact, allows the user to start the conversation with the contact"
   },
   "icu:ContactListItem__menu__audio-call": {
-    "messageformat": "Ηχητική κλήση",
+    "messageformat": "Βιντεοκλήση",
     "description": "Shown in a context menu for a contact, allows the user to start the audio call with the contact"
   },
   "icu:ContactListItem__menu__video-call": {
@@ -2665,6 +2665,10 @@
     "message": "Σκάναρε αυτό τον κωδικό στην εφαρμογή Signal στη συσκευή σου",
     "description": "(deleted 03/29/2023) Title of the device link screen. Also used as alt text for the QR code on the device link screen"
   },
+  "icu:Install__learn-more": {
+    "messageformat": "Μάθε περισσότερα",
+    "description": "Button text for learn more button during error screen"
+  },
   "icu:Install__scan-this-code": {
     "messageformat": "Σκάναρε αυτό τον κωδικό στην εφαρμογή Signal στη συσκευή σου",
     "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
@@ -2702,7 +2706,11 @@
     "description": "Instructions on the device link screen"
   },
   "icu:Install__qr-failed": {
-    "messageformat": "Δεν ήταν δυνατή η φόρτωση του κωδικού QR. Έλεγξε τη σύνδεσή σου στο διαδίκτυο και προσπάθησε ξανά. <learnMoreLink>Μάθε περισσότερα</learnMoreLink>",
+    "messageformat": "(deleted 05/09/2023) The QR code couldn't load. Check your internet and try again. <learnMoreLink>Learn more</learnMoreLink>",
+    "description": "Shown on the install screen if the QR code fails to load"
+  },
+  "icu:Install__qr-failed-load": {
+    "messageformat": "Δεν ήταν δυνατή η φόρτωση του κωδικού QR. Έλεγξε τη σύνδεσή σου στο διαδίκτυο και προσπάθησε ξανά. <retry>Επανάληψη</retry>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -3887,7 +3895,7 @@
     "description": "(deleted 03/29/2023) Description for audio notification setting"
   },
   "icu:audioNotificationDescription": {
-    "messageformat": "Αναπαραγωγή ήχων ειδοποιήσεων",
+    "messageformat": "Αναπαραγωγή ήχων ειδοποιήσεων push",
     "description": "Description for audio notification setting"
   },
   "callRingtoneNotificationDescription": {
@@ -5063,6 +5071,18 @@
     "messageformat": "Ακύρωση",
     "description": "Appears on the cancel button in confirmation dialogs."
   },
+  "icu:Message__reaction-emoji-label--you": {
+    "messageformat": "Αντέδρασες με {emoji}",
+    "description": "aria-label for reaction emoji (you)"
+  },
+  "icu:Message__reaction-emoji-label--single": {
+    "messageformat": "Ο/Η {title} αντέδρασε με {emoji}",
+    "description": "aria-label for reaction emoji when one person reacts with an emoji"
+  },
+  "icu:Message__reaction-emoji-label--many": {
+    "messageformat": "{count} άτομα αντέδρασαν με {emoji}",
+    "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
+  },
   "icu:Message__role-description": {
     "messageformat": "Μήνυμα",
     "description": "aria-roledescription of a message"
@@ -5434,6 +5454,10 @@
   "icu:Keyboard--conversation-by-index": {
     "messageformat": "Μετάβαση στη συνομιλία",
     "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
+  },
+  "icu:Keyboard--edit-last-message": {
+    "messageformat": "Επεξεργασία του προηγούμενου μηνύματος",
+    "description": "Shown in the shortcuts guide"
   },
   "Keyboard--Key--ctrl": {
     "message": "Ctrl",
@@ -10468,7 +10492,7 @@
     "description": "Title for the avatar picker in the group creation flow"
   },
   "icu:Preferences__message-audio-title": {
-    "messageformat": "Ήχος μηνύματος σε συνομιλία",
+    "messageformat": "Ήχοι μηνύματος σε συνομιλία",
     "description": "Title for message audio setting"
   },
   "icu:Preferences__message-audio-description": {
@@ -12539,18 +12563,6 @@
     "messageformat": "Μικρές τροποποιήσεις, επιδιορθώσεις σφαλμάτων και βελτιώσεις απόδοσης. Ευχαριστούμε που χρησιμοποιείς το Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.17--0": {
-    "messageformat": "Βελτιωμένη υποστήριξη για γλώσσες από δεξιά προς τα αριστερά (RTL).",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--1": {
-    "messageformat": "Οι τοπικές ρυθμίσεις αντιστοιχίζονται πλέον με βάση τις προτιμήσεις συστήματος. Αυτό θα έχει ως αποτέλεσμα καλύτερη προεπιλεγμένη συμπεριφορά όταν διαμορφώνονται πολλές γλώσσες.",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--2": {
-    "messageformat": "Επιπλέον, αυτή η έκδοση (a10y) εισάγει αρκετές βελτιώσεις προσβασιμότητας (a11y) και διορθώσεις σφαλμάτων, και θα θέλαμε να ευχαριστήσουμε θερμά (a12y) την κοινότητα για τα σχόλια και τις προτάσεις.",
-    "description": "Release notes for v6.17"
-  },
   "icu:WhatsNew__v6.18--0": {
     "messageformat": "Χρησιμοποίησε τις συντομεύσεις πληκτρολογίου \"Περιήγηση ανά ενότητα\" (⌘/Ctrl+T & ⌘/Ctrl+F6) για γρήγορη μετακίνηση μεταξύ διαφορετικών περιοχών της εφαρμογής. Είναι σαν μια τρελή έκδοση του πλήκτρου Tab που μπορεί να σε πάει πολύ πιο γρήγορα εκεί που θες απ' ότι το alter ego του.",
     "description": "Release notes for v6.18"
@@ -12570,5 +12582,17 @@
   "icu:WhatsNew__v6.18--4": {
     "messageformat": "Υπάρχει επίσης μια νέα επιλογή \"Αντιγραφή κειμένου\" στο μενού με τις τρεις κουκκίδες. Ευχαριστούμε, {yusufsahinhamza}!",
     "description": "Release notes for v6.18"
+  },
+  "icu:WhatsNew__v6.19--0": {
+    "messageformat": "Η σιωπή δεν είναι πάντα χρυσός, αλλά τώρα έχει ένα νέο εικονίδιο. Ενημερώσαμε τα κουμπιά Κάμερα και Σίγαση στις φωνητικές κλήσεις και τις βιντεοκλήσεις, ώστε να είναι ακόμα πιο εύκολο να δεις πότε είναι ενεργοποιημένα ή απενεργοποιημένα.",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--1": {
+    "messageformat": "Βελτιώσεις τοπικής προσαρμογής και καλύτερος χειρισμός γλωσσών από δεξιά προς τα αριστερά στο πεδίο σύνθεσης μηνυμάτων. Ευχαριστούμε, {sha265}!",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--2": {
+    "messageformat": "Εάν χρησιμοποιείς μια έκδοση των Windows νεότερη από τα Windows 10 ή μια έκδοση του Ubuntu νεότερη από την 20.04 LTS, θα πρέπει να ενημερώσεις το λειτουργικό σου σύστημα για να συνεχίσεις να χρησιμοποιείς το Signal: {supportLink}",
+    "description": "Release notes for v6.19"
   }
 }

@@ -621,7 +621,7 @@
     "description": "Shown in a context menu for a contact, allows the user to start the conversation with the contact"
   },
   "icu:ContactListItem__menu__audio-call": {
-    "messageformat": "Audio-deia",
+    "messageformat": "Ahots-deia",
     "description": "Shown in a context menu for a contact, allows the user to start the audio call with the contact"
   },
   "icu:ContactListItem__menu__video-call": {
@@ -2665,6 +2665,10 @@
     "message": "Eskaneatu kode hau telefonoko Signal aplikazioan",
     "description": "(deleted 03/29/2023) Title of the device link screen. Also used as alt text for the QR code on the device link screen"
   },
+  "icu:Install__learn-more": {
+    "messageformat": "Gehiago jakin",
+    "description": "Button text for learn more button during error screen"
+  },
   "icu:Install__scan-this-code": {
     "messageformat": "Eskaneatu kode hau telefonoko Signal aplikazioan",
     "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
@@ -2702,7 +2706,11 @@
     "description": "Instructions on the device link screen"
   },
   "icu:Install__qr-failed": {
-    "messageformat": "Ezin izan da kargatu QR kodea. Egiaztatu Internetera konektatuta zaudela eta saiatu berriro. <learnMoreLink>Informazio gehiago</learnMoreLink>",
+    "messageformat": "(deleted 05/09/2023) The QR code couldn't load. Check your internet and try again. <learnMoreLink>Learn more</learnMoreLink>",
+    "description": "Shown on the install screen if the QR code fails to load"
+  },
+  "icu:Install__qr-failed-load": {
+    "messageformat": "Ezin izan da kargatu QR kodea. Egiaztatu Internetera konektatuta zaudela eta saiatu berriro. <retry>Saiatu berriro</retry>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -3887,7 +3895,7 @@
     "description": "(deleted 03/29/2023) Description for audio notification setting"
   },
   "icu:audioNotificationDescription": {
-    "messageformat": "Erreproduzitu jakinarazpen-soinuak",
+    "messageformat": "Push jakinarazpenen soinuak",
     "description": "Description for audio notification setting"
   },
   "callRingtoneNotificationDescription": {
@@ -5063,6 +5071,18 @@
     "messageformat": "Utzi",
     "description": "Appears on the cancel button in confirmation dialogs."
   },
+  "icu:Message__reaction-emoji-label--you": {
+    "messageformat": "{emoji} emojiarekin erreakzionatu duzu",
+    "description": "aria-label for reaction emoji (you)"
+  },
+  "icu:Message__reaction-emoji-label--single": {
+    "messageformat": "{title} erabiltzaileak {emoji} emojiarekin erreakzionatu du",
+    "description": "aria-label for reaction emoji when one person reacts with an emoji"
+  },
+  "icu:Message__reaction-emoji-label--many": {
+    "messageformat": "{count} pertsonak {emoji} emojiarekin erreakzionatu dute",
+    "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
+  },
   "icu:Message__role-description": {
     "messageformat": "Mezua",
     "description": "aria-roledescription of a message"
@@ -5434,6 +5454,10 @@
   "icu:Keyboard--conversation-by-index": {
     "messageformat": "Joan txatera",
     "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
+  },
+  "icu:Keyboard--edit-last-message": {
+    "messageformat": "Editatu aurreko mezua",
+    "description": "Shown in the shortcuts guide"
   },
   "Keyboard--Key--ctrl": {
     "message": "Ctrl",
@@ -12539,18 +12563,6 @@
     "messageformat": "Doikuntza txikiak, akats-konponketak eta errendimendu-hobekuntzak. Eskerrik asko Signal erabiltzeagatik!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.17--0": {
-    "messageformat": "Eskuinetik ezkerrerako (RTL) hizkuntzetarako laguntza hobetua.",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--1": {
-    "messageformat": "Orain, sistemaren hobespenen arabera esleitzen dira lurralde-ezarpenak. Horrela, hainbat hizkuntza konfiguratzean, jokabide lehenetsiak hobea izan beharko luke.",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--2": {
-    "messageformat": "Argitalpen honek, gainera, erabilerraztasun-hobekuntza eta akats-konponketa ugari dakartza, eta bihotzez eskerrak eman nahi dizkiogu komunitateari haren iritzi eta iradokizunengatik.",
-    "description": "Release notes for v6.17"
-  },
   "icu:WhatsNew__v6.18--0": {
     "messageformat": "Erabili \"Nabigatu atalaren arabera\" teklatuko lasterbideak (⌘/Ktrl+T eta ⌘/Ktrl+F6) aplikazioaren eremu desberdinetatik azkar mugitzeko. Tabulazio-teklen superheroi moduko bat da: bere alter ego ahulak baino urrunago eta azkarrago hegan egin dezake.",
     "description": "Release notes for v6.18"
@@ -12570,5 +12582,17 @@
   "icu:WhatsNew__v6.18--4": {
     "messageformat": "Hiru puntuko menuan \"Kopiatu testua\" aukera berri bat ere badago. Eskerrik asko, {yusufsahinhamza}!",
     "description": "Release notes for v6.18"
+  },
+  "icu:WhatsNew__v6.19--0": {
+    "messageformat": "Isiltasuna ez da beti urrezkoa, baina ikono berri bat du. Ahots-dei eta bideodeietan \"Kamera\" eta \"Desaktibatu audioa\" botoiak eguneratu ditugu, gaituta edo desgaituta daudenean are errazago ikusteko.",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--1": {
+    "messageformat": "Lokalizazio-hobekuntzak, eta eskuinetik ezkerreko hizkuntzen kudeaketa hobea mezuak idazteko eremuan. Eskerrik asko, {sha265}!",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--2": {
+    "messageformat": "Windows 10 baino zaharragoa den Windows-en bertsio bat badarabilzu, edo 20.04 LTS baino zaharragoa den Ubuntu-ren bertsio bat, sistema eragilea eguneratu beharko duzu Signal erabiltzen jarraitzeko: {supportLink}",
+    "description": "Release notes for v6.19"
   }
 }

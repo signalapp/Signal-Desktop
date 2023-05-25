@@ -2665,6 +2665,10 @@
     "message": "スマートフォンのSignalアプリで、\nこのQRコードを読み取ってください。",
     "description": "(deleted 03/29/2023) Title of the device link screen. Also used as alt text for the QR code on the device link screen"
   },
+  "icu:Install__learn-more": {
+    "messageformat": "さらに詳しく",
+    "description": "Button text for learn more button during error screen"
+  },
   "icu:Install__scan-this-code": {
     "messageformat": "スマートフォンのSignalアプリで、\nこのQRコードを読み取ってください。",
     "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
@@ -2702,7 +2706,11 @@
     "description": "Instructions on the device link screen"
   },
   "icu:Install__qr-failed": {
-    "messageformat": "QR コードを読み込めませんでした。インターネット接続を確認して再度試してください。<learnMoreLink>詳細を見る</learnMoreLink>",
+    "messageformat": "(deleted 05/09/2023) The QR code couldn't load. Check your internet and try again. <learnMoreLink>Learn more</learnMoreLink>",
+    "description": "Shown on the install screen if the QR code fails to load"
+  },
+  "icu:Install__qr-failed-load": {
+    "messageformat": "QR コードを読み込めませんでした。インターネット接続を確認して再度お試しください。<retry>再試行</retry>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -3887,7 +3895,7 @@
     "description": "(deleted 03/29/2023) Description for audio notification setting"
   },
   "icu:audioNotificationDescription": {
-    "messageformat": "通知音を鳴らす",
+    "messageformat": "プッシュ通知音",
     "description": "Description for audio notification setting"
   },
   "callRingtoneNotificationDescription": {
@@ -5063,6 +5071,18 @@
     "messageformat": "キャンセル",
     "description": "Appears on the cancel button in confirmation dialogs."
   },
+  "icu:Message__reaction-emoji-label--you": {
+    "messageformat": "{emoji}でリアクションしました",
+    "description": "aria-label for reaction emoji (you)"
+  },
+  "icu:Message__reaction-emoji-label--single": {
+    "messageformat": "{title}さんが{emoji}でリアクションしました",
+    "description": "aria-label for reaction emoji when one person reacts with an emoji"
+  },
+  "icu:Message__reaction-emoji-label--many": {
+    "messageformat": "{count} 人が {emoji}でリアクションしました",
+    "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
+  },
   "icu:Message__role-description": {
     "messageformat": "メッセージを送る",
     "description": "aria-roledescription of a message"
@@ -5434,6 +5454,10 @@
   "icu:Keyboard--conversation-by-index": {
     "messageformat": "チャットへ飛ぶ",
     "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
+  },
+  "icu:Keyboard--edit-last-message": {
+    "messageformat": "直前のメッセージを編集する",
+    "description": "Shown in the shortcuts guide"
   },
   "Keyboard--Key--ctrl": {
     "message": "Ctrl",
@@ -12539,18 +12563,6 @@
     "messageformat": "細かな微調整、バグ修正、パフォーマンスの向上。 Signalをご利用いただきありがとうございます。",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.17--0": {
-    "messageformat": "RTL (右から左) に記述する言語のサポートが向上しました。",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--1": {
-    "messageformat": "ロケールがユーザーのシステム環境設定に基づいてマッチングされるようになったことで、複数の言語が設定されている場合のデフォルトの動作がさらに適切になりました。",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--2": {
-    "messageformat": "このリリースでは、アクセシビリティの強化やバグ修正をいくつか導入しました。コミュニティからのフィードバックや提案に心から感謝します。",
-    "description": "Release notes for v6.17"
-  },
   "icu:WhatsNew__v6.18--0": {
     "messageformat": "キーボードショートカット (⌘ / Ctrl+T & ⌘ / Ctrl+F6) を使用すると、アプリのさまざまなセクションをすばやく移動できます。Tab キーのスーパーヒーロー版のようなもので、通常よりも遠く、そして速く移動ことができます。",
     "description": "Release notes for v6.18"
@@ -12570,5 +12582,17 @@
   "icu:WhatsNew__v6.18--4": {
     "messageformat": "その他メニューにも新しく「テキストのコピー」を追加しました。ありがとう、{yusufsahinhamza}！",
     "description": "Release notes for v6.18"
+  },
+  "icu:WhatsNew__v6.19--0": {
+    "messageformat": "常に「沈黙は金」だとは限りませんが、沈黙を保つための新しいアイコンを作りました。音声通話とビデオ通話のカメラとミュートのボタンを更新しました。この更新で、ボタンが有効か無効かを確認するのがさらに簡単になりました。",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--1": {
+    "messageformat": "ローカリゼーションが改良され、メッセージ作成フィールドで右から左へ記述する言語処理がより適切になりました。ありがとう、{sha265}！",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--2": {
+    "messageformat": "Windows 10 より前のバージョンの Windows、20.04LTS より前のバージョンの Ubuntu を使用しているユーザーの皆様は、Signal を引き続きご利用になるためにオペレーティングシステムを更新する必要があります。{supportLink}をご参照ください。",
+    "description": "Release notes for v6.19"
   }
 }

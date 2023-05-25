@@ -621,7 +621,7 @@
     "description": "Shown in a context menu for a contact, allows the user to start the conversation with the contact"
   },
   "icu:ContactListItem__menu__audio-call": {
-    "messageformat": "Apel audio",
+    "messageformat": "Apel vocal",
     "description": "Shown in a context menu for a contact, allows the user to start the audio call with the contact"
   },
   "icu:ContactListItem__menu__video-call": {
@@ -2665,6 +2665,10 @@
     "message": "Scanează acest cod în aplicația Signal de pe telefonul tău",
     "description": "(deleted 03/29/2023) Title of the device link screen. Also used as alt text for the QR code on the device link screen"
   },
+  "icu:Install__learn-more": {
+    "messageformat": "Află mai multe",
+    "description": "Button text for learn more button during error screen"
+  },
   "icu:Install__scan-this-code": {
     "messageformat": "Scanează acest cod în aplicația Signal de pe telefonul tău",
     "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
@@ -2702,7 +2706,11 @@
     "description": "Instructions on the device link screen"
   },
   "icu:Install__qr-failed": {
-    "messageformat": "Codul QR nu a putut fi încărcat. Verifică internetul și încearcă din nou. <learnMoreLink>Află mai multe</learnMoreLink>",
+    "messageformat": "(deleted 05/09/2023) The QR code couldn't load. Check your internet and try again. <learnMoreLink>Learn more</learnMoreLink>",
+    "description": "Shown on the install screen if the QR code fails to load"
+  },
+  "icu:Install__qr-failed-load": {
+    "messageformat": "Codul QR nu a putut fi încărcat. Verifică internetul și încearcă din nou. <retry>Încearcă din nou</retry>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -3887,7 +3895,7 @@
     "description": "(deleted 03/29/2023) Description for audio notification setting"
   },
   "icu:audioNotificationDescription": {
-    "messageformat": "Redă sunete de notificare",
+    "messageformat": "Sunetele notificărilor push",
     "description": "Description for audio notification setting"
   },
   "callRingtoneNotificationDescription": {
@@ -5063,6 +5071,18 @@
     "messageformat": "Anulează",
     "description": "Appears on the cancel button in confirmation dialogs."
   },
+  "icu:Message__reaction-emoji-label--you": {
+    "messageformat": "Ai reacționat cu {emoji}",
+    "description": "aria-label for reaction emoji (you)"
+  },
+  "icu:Message__reaction-emoji-label--single": {
+    "messageformat": "{title} a reacționat cu {emoji}",
+    "description": "aria-label for reaction emoji when one person reacts with an emoji"
+  },
+  "icu:Message__reaction-emoji-label--many": {
+    "messageformat": "{count} persoane au reacționat cu {emoji}",
+    "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
+  },
   "icu:Message__role-description": {
     "messageformat": "Mesaj",
     "description": "aria-roledescription of a message"
@@ -5434,6 +5454,10 @@
   "icu:Keyboard--conversation-by-index": {
     "messageformat": "Sari la conversație",
     "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
+  },
+  "icu:Keyboard--edit-last-message": {
+    "messageformat": "Editează mesajul anterior",
+    "description": "Shown in the shortcuts guide"
   },
   "Keyboard--Key--ctrl": {
     "message": "Ctrl",
@@ -12539,18 +12563,6 @@
     "messageformat": "Mici ajustări, soluționări de bug-uri și îmbunătățiri ale performanței. Mersi că folosești Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.17--0": {
-    "messageformat": "Asistență îmbunătățită pentru limbile de la dreapta la stânga (RTL).",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--1": {
-    "messageformat": "Limbile sunt acum potrivite pe baza preferințelor tale de sistem. Acest lucru ar trebui să ducă la un comportament standard mai bun atunci când sunt configurate mai multe limbi.",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--2": {
-    "messageformat": "În plus, această versiune (a10y) introduce mai multe îmbunătățiri de accesibilitate (a11y) și remedieri de erori, și (a12y) am dori să mulțumim din suflet comunității pentru feedback și sugestii.",
-    "description": "Release notes for v6.17"
-  },
   "icu:WhatsNew__v6.18--0": {
     "messageformat": "Folosește comenzile rapide de la tastatură „Navighează după secțiune” (⌘/Ctrl+T & ⌘/Ctrl+F6) pentru a te deplasa rapid între diferite zone ale aplicației. Este ca o versiune de super erou a tastei Tab care poate zbura mai departe și mai repede decât alter ego-ul său manierat.",
     "description": "Release notes for v6.18"
@@ -12570,5 +12582,17 @@
   "icu:WhatsNew__v6.18--4": {
     "messageformat": "Există și o nouă opțiune „Copiere text” în meniul cu trei puncte. Mersi, {yusufsahinhamza}!",
     "description": "Release notes for v6.18"
+  },
+  "icu:WhatsNew__v6.19--0": {
+    "messageformat": "Tăcerea nu este întotdeauna de aur, dar are o nouă pictogramă. Am actualizat butoanele Camera și Silențios în apeluri video și vocale ca să fie și mai ușor să vezi când sunt activate sau dezactivate.",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--1": {
+    "messageformat": "Îmbunătățiri ale localizării și o gestionare mai bună a limbilor de la dreapta la stânga în câmpul de compunere al mesajelor. Mersi, {sha265}!",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--2": {
+    "messageformat": "Dacă ești pe o versiune de Windows înainte de Windows 10 sau o versiune de Ubuntu înainte de 20.04 LTS, va trebui să actualizezi sistemul de operare ca să continui să folosești Signal: {supportLink}",
+    "description": "Release notes for v6.19"
   }
 }

@@ -621,7 +621,7 @@
     "description": "Shown in a context menu for a contact, allows the user to start the conversation with the contact"
   },
   "icu:ContactListItem__menu__audio-call": {
-    "messageformat": "ការហៅជាសំឡេង",
+    "messageformat": "ហៅជាសំឡេង",
     "description": "Shown in a context menu for a contact, allows the user to start the audio call with the contact"
   },
   "icu:ContactListItem__menu__video-call": {
@@ -2665,6 +2665,10 @@
     "message": "ស្គែនកូដនេះនៅក្នុងកម្មវិធី Signal នៅលើទូរសព្ទរបស់អ្នក",
     "description": "(deleted 03/29/2023) Title of the device link screen. Also used as alt text for the QR code on the device link screen"
   },
+  "icu:Install__learn-more": {
+    "messageformat": "សិក្សាបន្ថែម",
+    "description": "Button text for learn more button during error screen"
+  },
   "icu:Install__scan-this-code": {
     "messageformat": "ស្គែនកូដនេះនៅក្នុងកម្មវិធី Signal នៅលើទូរសព្ទរបស់អ្នក",
     "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
@@ -2702,7 +2706,11 @@
     "description": "Instructions on the device link screen"
   },
   "icu:Install__qr-failed": {
-    "messageformat": "កូដ QR មិនអាចផ្ទុកបានទេ។ សូមមើលសេវាអ៊ីនធឺណិតរបស់អ្នក រួចព្យាយាមម្តងទៀត។ <learnMoreLink>ស្វែងយល់បន្ថែម</learnMoreLink>",
+    "messageformat": "(deleted 05/09/2023) The QR code couldn't load. Check your internet and try again. <learnMoreLink>Learn more</learnMoreLink>",
+    "description": "Shown on the install screen if the QR code fails to load"
+  },
+  "icu:Install__qr-failed-load": {
+    "messageformat": "កូដ QR មិនអាចផ្ទុកបានទេ។ សូមមើលសេវាអ៊ីនធឺណិតរបស់អ្នក រួចព្យាយាមម្តងទៀត។ <retry>ព្យាយាមម្តងទៀត</retry>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -3887,7 +3895,7 @@
     "description": "(deleted 03/29/2023) Description for audio notification setting"
   },
   "icu:audioNotificationDescription": {
-    "messageformat": "ចាក់សំឡេងសារជូនដំណឹង",
+    "messageformat": "សំឡេងការជូនដំណឹងរុញ",
     "description": "Description for audio notification setting"
   },
   "callRingtoneNotificationDescription": {
@@ -5063,6 +5071,18 @@
     "messageformat": "បោះបង់",
     "description": "Appears on the cancel button in confirmation dialogs."
   },
+  "icu:Message__reaction-emoji-label--you": {
+    "messageformat": "អ្នកបានប្រតិកម្មជាមួយ {emoji}",
+    "description": "aria-label for reaction emoji (you)"
+  },
+  "icu:Message__reaction-emoji-label--single": {
+    "messageformat": "{title} បានប្រតិកម្មជាមួយ {emoji}",
+    "description": "aria-label for reaction emoji when one person reacts with an emoji"
+  },
+  "icu:Message__reaction-emoji-label--many": {
+    "messageformat": "មនុស្ស {count} នាក់បានប្រតិកម្មជាមួយ {emoji}",
+    "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
+  },
   "icu:Message__role-description": {
     "messageformat": "សារ",
     "description": "aria-roledescription of a message"
@@ -5434,6 +5454,10 @@
   "icu:Keyboard--conversation-by-index": {
     "messageformat": "ទៅកាន់ការជជែក",
     "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
+  },
+  "icu:Keyboard--edit-last-message": {
+    "messageformat": "កែសារពីមុន",
+    "description": "Shown in the shortcuts guide"
   },
   "Keyboard--Key--ctrl": {
     "message": "Ctrl",
@@ -12539,18 +12563,6 @@
     "messageformat": "ការកែប្រែបន្តិចបន្តួច ការដោះស្រាយបញ្ហា និងការបង្កើនប្រតិបត្តិការ។ សូមអរគុណចំពោះការប្រើប្រាស់ Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.17--0": {
-    "messageformat": "បានកែលម្អការគាំទ្រសម្រាប់ភាសាពីស្តាំទៅឆ្វេង (RTL)។",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--1": {
-    "messageformat": "ឥឡូវនេះទីតាំងត្រូវបានផ្គូផ្គងដោយផ្អែកលើចំណូលចិត្តប្រព័ន្ធរបស់អ្នក។ វាគួរតែបណ្តាលឲ្យមានអាកប្បកិរិយាតាមលំនាំដើមប្រសើរជាងមុន នៅពេលដែលភាសាជាច្រើនត្រូវបានកំណត់រចនាសម្ព័ន្ធ។",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--2": {
-    "messageformat": "ការចេញផ្សាយនេះថែមទាំងណែនាំការកែលម្អភាពងាយស្រួលប្រើប្រាស់ជាច្រើន និងការកែបញ្ហាផ្សេងៗ ហើយយើងសូមថ្លែងអំណរគុណយ៉ាងស្មោះស្ម័គ្រដល់សហគមន៍ចំពោះមតិកែលម្អ និងការផ្ដល់យោបល់របស់ពួកគេ។",
-    "description": "Release notes for v6.17"
-  },
   "icu:WhatsNew__v6.18--0": {
     "messageformat": "ប្រើផ្លូវកាត់ថ្មីលើក្តារចុច \"រុករកតាមផ្នែក\" (⌘/Ctrl+T & ⌘/Ctrl+F6) ដើម្បីផ្លាស់ទីឲ្យលឿនពីចំណុចមួយទៅចំណុចមួយទៀតនៅក្នុងកម្មវិធី។ វាប្រៀបដូចជាកំណែថ្មីមួយដ៏អស្ចារ្យបំផុតរបស់គ្រាប់ចុច Tab ដែលអាចចុចបានកាន់តែលឿនរហ័សជាងមុន។",
     "description": "Release notes for v6.18"
@@ -12570,5 +12582,17 @@
   "icu:WhatsNew__v6.18--4": {
     "messageformat": "មានជម្រើស \"ចម្លងអត្ថបទ\" ថ្មីនៅក្នុងម៉ឺនុយចំណុចបីផងដែរ។ អរគុណ {yusufsahinhamza}!",
     "description": "Release notes for v6.18"
+  },
+  "icu:WhatsNew__v6.19--0": {
+    "messageformat": "ភាពស្ងប់ស្ងាត់មិនមែនសុទ្ធតែជារឿងល្អរហូតទេ ប៉ុន្តែវាមានរូបតំណាងថ្មីមួយ។ យើងបានធ្វើបច្ចុប្បន្នភាពប៊ូតុងកាមេរ៉ា និងប៊ូតុងបិទសំឡេងនៅក្នុងការហៅជាសំឡេង និងជាវីដេអូ ដើម្បីឲ្យកាន់តែស្រួលមើលនៅពេលដែលពួកវាត្រូវបានបើក ឬបិទ។",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--1": {
+    "messageformat": "ការកែលម្អនូវការប្រែសម្រួល និងការចាត់ចែងរៀបចំឲ្យកាន់តែប្រសើរជាងមុននូវបណ្តាភាសាដែលអាននិងសរសេរពីស្តាំទៅឆ្វេង នៅក្នុងប្រអប់សរសេរសារ។ អរគុណ {sha265}!",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--2": {
+    "messageformat": "ប្រសិនបើអ្នកប្រើប្រាស់កំណែណាមួយរបស់ Windows មុន Windows 10 ឬកំណែណាមួយរបស់ Ubuntu មុន 20.04 LTS អ្នកនឹងត្រូវដំឡើងកំណែប្រព័ន្ធប្រតិបត្តិការរបស់អ្នកដើម្បីបន្តប្រើប្រាស់ Signal៖ {supportLink}",
+    "description": "Release notes for v6.19"
   }
 }

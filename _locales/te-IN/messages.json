@@ -621,7 +621,7 @@
     "description": "Shown in a context menu for a contact, allows the user to start the conversation with the contact"
   },
   "icu:ContactListItem__menu__audio-call": {
-    "messageformat": "ఆడియో కాల్",
+    "messageformat": "స్వర కాల్",
     "description": "Shown in a context menu for a contact, allows the user to start the audio call with the contact"
   },
   "icu:ContactListItem__menu__video-call": {
@@ -2665,6 +2665,10 @@
     "message": "మీ ఫోన్ మీద Signal యాప్‌లో ఈ కోడ్‌ని స్కాన్ చేయండి",
     "description": "(deleted 03/29/2023) Title of the device link screen. Also used as alt text for the QR code on the device link screen"
   },
+  "icu:Install__learn-more": {
+    "messageformat": "ఇంకా నేర్చుకో",
+    "description": "Button text for learn more button during error screen"
+  },
   "icu:Install__scan-this-code": {
     "messageformat": "మీ ఫోన్ మీద Signal యాప్‌లో ఈ కోడ్‌ని స్కాన్ చేయండి",
     "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
@@ -2702,7 +2706,11 @@
     "description": "Instructions on the device link screen"
   },
   "icu:Install__qr-failed": {
-    "messageformat": "QR కోడ్ లోడ్ కాలేకపోయింది. మీ ఇంటర్నెట్‌ను తనిఖీ చేయండి మరియు మళ్లీ ప్రయత్నించండి. <learnMoreLink>మరింత తెలుసుకోండి</learnMoreLink>",
+    "messageformat": "(deleted 05/09/2023) The QR code couldn't load. Check your internet and try again. <learnMoreLink>Learn more</learnMoreLink>",
+    "description": "Shown on the install screen if the QR code fails to load"
+  },
+  "icu:Install__qr-failed-load": {
+    "messageformat": "QR కోడ్ లోడ్ కాలేకపోయింది. మీ ఇంటర్నెట్‌ను తనిఖీ చేయండి మరియు మళ్ళీ ప్రయత్నించండి. <retry>మళ్ళీ ప్రయత్నించండి</retry>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -3887,7 +3895,7 @@
     "description": "(deleted 03/29/2023) Description for audio notification setting"
   },
   "icu:audioNotificationDescription": {
-    "messageformat": "నోటిఫికేషన్ సౌండ్‌లను ప్లే చేయండి",
+    "messageformat": "పుష్ నోటిఫికేషన్ ధ్వనులు",
     "description": "Description for audio notification setting"
   },
   "callRingtoneNotificationDescription": {
@@ -5063,6 +5071,18 @@
     "messageformat": "రద్దు",
     "description": "Appears on the cancel button in confirmation dialogs."
   },
+  "icu:Message__reaction-emoji-label--you": {
+    "messageformat": "మీరు {emoji} తో ప్రతిస్పందించారు",
+    "description": "aria-label for reaction emoji (you)"
+  },
+  "icu:Message__reaction-emoji-label--single": {
+    "messageformat": "{title} {emoji} తో ప్రతిస్పందించారు",
+    "description": "aria-label for reaction emoji when one person reacts with an emoji"
+  },
+  "icu:Message__reaction-emoji-label--many": {
+    "messageformat": "{count} వ్యక్తులు {emoji} తో ప్రతిస్పందించారు",
+    "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
+  },
   "icu:Message__role-description": {
     "messageformat": "సందేశం",
     "description": "aria-roledescription of a message"
@@ -5434,6 +5454,10 @@
   "icu:Keyboard--conversation-by-index": {
     "messageformat": "చాట్‌కు వెళ్లండి",
     "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
+  },
+  "icu:Keyboard--edit-last-message": {
+    "messageformat": "మునుపటి సందేశాన్ని సవరించండి",
+    "description": "Shown in the shortcuts guide"
   },
   "Keyboard--Key--ctrl": {
     "message": "క్టర్ల",
@@ -10468,7 +10492,7 @@
     "description": "Title for the avatar picker in the group creation flow"
   },
   "icu:Preferences__message-audio-title": {
-    "messageformat": "చాట్‌లో సందేశం ధ్వని",
+    "messageformat": "చాట్‌లో సందేశ ధ్వనులు",
     "description": "Title for message audio setting"
   },
   "icu:Preferences__message-audio-description": {
@@ -12539,18 +12563,6 @@
     "messageformat": "చిన్న ట్వీక్‌లు, బగ్ ఫిక్స్‌లు, మరియు పనితీరు మెరుగుదలలు. Signal ఉపయోగించినందుకు మీకు ధన్యవాదాలు!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.17--0": {
-    "messageformat": "కుడి నుంచి ఎడమ (RTL) భాషలకు మెరుగైన మద్దతు.",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--1": {
-    "messageformat": "మీ సిస్టమ్ ప్రాధాన్యతల ఆధారంగా ఇప్పుడు లోకల్స్ సరిపోలినవి. బహుళ భాషలను కాన్ఫిగర్ చేసినప్పుడు ఇది మెరుగైన డిఫాల్ట్ ప్రవర్తనకు దారి తీయాలి.",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--2": {
-    "messageformat": "ఈ విడుదల అనేక యాక్సెసబిలిటీ (a11y) మెరుగుదలలు మరియు బగ్ పరిష్కారాలను అదనంగా (a10y) పరిచయం చేస్తుంది, మరియు వారి ఫీడ్‌బ్యాక్ మరియు సూచనలకు మేము ఆప్యాయంగా (a12y) కమ్యూనిటీకి కృతజ్ఞతలు తెలియజేయాలని అనుకుంటున్నాము.",
-    "description": "Release notes for v6.17"
-  },
   "icu:WhatsNew__v6.18--0": {
     "messageformat": "యాప్ యొక్క విభిన్న విభాగాల గుండా త్వరగా నావిగేట్ చేయడానికి కొత్త కీబోర్డ్ షార్ట్‌కట్‌లు (⌘/Ctrl+T & ⌘/Ctrl+F6) మీకు సహాయపడగలవు. ఇది ట్యాబ్ కీ యొక్క సూపర్‌హీరో వెర్షన్ లాంటిది, ఇది దాని తేలికపాటి ప్రవర్తన కలిగిన ఆల్టర్ ఇగో కంటే మరింత ఎక్కువ మరియు వేగంగా ఎగరగలదు.",
     "description": "Release notes for v6.18"
@@ -12570,5 +12582,17 @@
   "icu:WhatsNew__v6.18--4": {
     "messageformat": "మూడు-చుక్కల మెనూలోనూ ఒక కొత్త \"టెక్స్ట్ కాపీ\" ఐచ్ఛికం ఉంది. ధన్యవాదాలు, {yusufsahinhamza}!",
     "description": "Release notes for v6.18"
+  },
+  "icu:WhatsNew__v6.19--0": {
+    "messageformat": "నిశ్శబ్ధం ఎప్పుడూ బంగారం కాదు, కానీ దానికి ఒక కొత్త ఐకాన్ ఉంది. మేము స్వర మరియు వీడియో కాల్స్‌లో కెమెరా మరియు మ్యూట్ బటన్‌లను అప్‌డేట్ చేశాము తద్వారా అవి ప్రారంభించబడినప్పుడు లేదా నిలిపివేయబడినప్పుడు చూడటం మరింత సులభం.",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--1": {
+    "messageformat": "స్థానికీకరణ మెరుగుదలలు, మరియు సందేశం కంపోజ్ చేసే ఫీల్డ్‌లో కుడి-నుంచి-ఎడమ భాషలను మెరుగ్గా నిర్వహించడం. ధన్యవాదాలు, {sha265}!",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--2": {
+    "messageformat": "మీరు Windows 10 కంటే ముందు Windows వెర్షన్ లేదా 20.04 LTS కంటే ముందు Ubuntu వెర్షన్‌లో ఉంటే, Signal ఉపయోగించడాన్ని కొనసాగించడానికి మీరు మీ ఆపరేటింగ్ సిస్టమ్‌ను అప్‌డేట్ చేయాల్సి ఉంటుంది: {supportLink}",
+    "description": "Release notes for v6.19"
   }
 }
