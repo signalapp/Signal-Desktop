@@ -160,6 +160,7 @@ import { stripNewlinesForLeftPane } from '../util/stripNewlinesForLeftPane';
 import { findAndFormatContact } from '../util/findAndFormatContact';
 import { deriveProfileKeyVersion } from '../util/zkgroup';
 import { incrementMessageCounter } from '../util/incrementMessageCounter';
+import { validateTransition } from '../util/callHistoryDetails';
 
 const EMPTY_ARRAY: Readonly<[]> = [];
 const EMPTY_GROUP_COLLISIONS: GroupNameCollisionsWithIdsByTitle = {};
@@ -3396,21 +3397,9 @@ export class ConversationModel extends window.Backbone
     // awaited it would block on this forever.
     drop(
       this.queueJob('addCallHistory', async () => {
-        const message: MessageAttributesType = {
-          id: generateGuid(),
-          conversationId: this.id,
-          type: 'call-history',
-          sent_at: timestamp,
-          timestamp,
-          received_at: receivedAtCounter || incrementMessageCounter(),
-          received_at_ms: timestamp,
-          readStatus: unread ? ReadStatus.Unread : ReadStatus.Read,
-          seenStatus: unread ? SeenStatus.Unseen : SeenStatus.NotApplicable,
-          callHistoryDetails: detailsToSave,
-        };
-
         // Force save if we're adding a new call history message for a direct call
         let forceSave = true;
+        let previousMessage: MessageAttributesType | void;
         if (callHistoryDetails.callMode === CallMode.Direct) {
           const messageId =
             await window.Signal.Data.getCallHistoryMessageByCallId(
@@ -3421,15 +3410,41 @@ export class ConversationModel extends window.Backbone
             log.info(
               `addCallHistory: Found existing call history message (Call ID: ${callHistoryDetails.callId}, Message ID: ${messageId})`
             );
-            message.id = messageId;
             // We don't want to force save if we're updating an existing message
             forceSave = false;
+            previousMessage = await window.Signal.Data.getMessageById(
+              messageId
+            );
           } else {
             log.info(
               `addCallHistory: No existing call history message found (Call ID: ${callHistoryDetails.callId})`
             );
           }
         }
+
+        if (
+          !validateTransition(
+            previousMessage?.callHistoryDetails,
+            callHistoryDetails,
+            log
+          )
+        ) {
+          log.info("addCallHistory: Transition isn't valid, not saving");
+          return;
+        }
+
+        const message: MessageAttributesType = {
+          id: previousMessage?.id ?? generateGuid(),
+          conversationId: this.id,
+          type: 'call-history',
+          sent_at: timestamp,
+          timestamp,
+          received_at: receivedAtCounter || incrementMessageCounter(),
+          received_at_ms: timestamp,
+          readStatus: unread ? ReadStatus.Unread : ReadStatus.Read,
+          seenStatus: unread ? SeenStatus.Unseen : SeenStatus.NotApplicable,
+          callHistoryDetails,
+        };
 
         const id = await window.Signal.Data.saveMessage(message, {
           ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
