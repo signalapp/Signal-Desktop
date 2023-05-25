@@ -5,6 +5,7 @@ import type { Moment } from 'moment';
 import moment from 'moment';
 import type { LocalizerType } from '../types/Util';
 import { DAY, HOUR, MINUTE, MONTH, WEEK } from './durations';
+import { formatTimestamp } from './formatTimestamp';
 
 type RawTimestamp = Readonly<number | Date | Moment>;
 
@@ -46,8 +47,6 @@ export function formatDateTimeShort(
   const now = Date.now();
   const diff = now - timestamp;
 
-  const locale = window.getPreferredSystemLocales();
-
   if (diff < HOUR || isToday(timestamp)) {
     return formatTime(i18n, rawTimestamp, now);
   }
@@ -55,23 +54,21 @@ export function formatDateTimeShort(
   const m = moment(timestamp);
 
   if (diff < WEEK && m.isSame(now, 'month')) {
-    return new Intl.DateTimeFormat(locale, { weekday: 'short' }).format(
-      timestamp
-    );
+    return formatTimestamp(timestamp, { weekday: 'short' });
   }
 
   if (m.isSame(now, 'year')) {
-    return new Intl.DateTimeFormat(locale, {
+    return formatTimestamp(timestamp, {
       day: 'numeric',
       month: 'short',
-    }).format(timestamp);
+    });
   }
 
-  return new Intl.DateTimeFormat(locale, {
+  return formatTimestamp(timestamp, {
     day: 'numeric',
     month: 'short',
     year: 'numeric',
-  }).format(timestamp);
+  });
 }
 
 export function formatDateTimeForAttachment(
@@ -83,8 +80,6 @@ export function formatDateTimeForAttachment(
   const now = Date.now();
   const diff = now - timestamp;
 
-  const locale = window.getPreferredSystemLocales();
-
   if (diff < HOUR || isToday(timestamp)) {
     return formatTime(i18n, rawTimestamp, now);
   }
@@ -92,63 +87,62 @@ export function formatDateTimeForAttachment(
   const m = moment(timestamp);
 
   if (diff < WEEK && m.isSame(now, 'month')) {
-    return new Intl.DateTimeFormat(locale, {
+    return formatTimestamp(timestamp, {
       weekday: 'short',
       hour: 'numeric',
       minute: 'numeric',
-    }).format(timestamp);
+    });
   }
 
   if (m.isSame(now, 'year')) {
-    return new Intl.DateTimeFormat(locale, {
+    return formatTimestamp(timestamp, {
       day: 'numeric',
       month: 'short',
       hour: 'numeric',
       minute: 'numeric',
-    }).format(timestamp);
+    });
   }
 
-  return new Intl.DateTimeFormat(locale, {
+  return formatTimestamp(timestamp, {
     day: 'numeric',
     month: 'short',
     year: 'numeric',
     hour: 'numeric',
     minute: 'numeric',
-  }).format(timestamp);
+  });
 }
 
 export function formatDateTimeLong(
   i18n: LocalizerType,
   rawTimestamp: RawTimestamp
 ): string {
-  const locale = window.getPreferredSystemLocales();
   const timestamp = rawTimestamp.valueOf();
 
   if (isToday(rawTimestamp)) {
     return i18n('icu:timestampFormat__long--today', {
-      time: new Intl.DateTimeFormat(locale, {
+      time: formatTimestamp(timestamp, {
         hour: 'numeric',
         minute: 'numeric',
-      }).format(timestamp),
+      }),
     });
   }
 
   if (isYesterday(rawTimestamp)) {
     return i18n('icu:timestampFormat__long--yesterday', {
-      time: new Intl.DateTimeFormat(locale, {
+      time: formatTimestamp(timestamp, {
         hour: 'numeric',
         minute: 'numeric',
-      }).format(timestamp),
+      }),
     });
   }
 
-  return new Intl.DateTimeFormat(locale, {
+  return formatTimestamp(timestamp, {
     day: 'numeric',
     hour: 'numeric',
     minute: 'numeric',
     month: 'short',
     year: 'numeric',
-  }).format(timestamp);
+  });
 }
 
 export function formatTime(
@@ -194,22 +188,21 @@ export function formatDate(
     return i18n('icu:yesterday');
   }
 
-  const locale = window.getPreferredSystemLocales();
   const m = moment(rawTimestamp);
 
   const timestamp = rawTimestamp.valueOf();
 
   if (Math.abs(m.diff(Date.now())) < 6 * MONTH) {
-    return new Intl.DateTimeFormat(locale, {
+    return formatTimestamp(timestamp, {
       day: 'numeric',
       month: 'short',
       weekday: 'short',
-    }).format(timestamp);
+    });
   }
 
-  return new Intl.DateTimeFormat(locale, {
+  return formatTimestamp(timestamp, {
     day: 'numeric',
     month: 'short',
     year: 'numeric',
-  }).format(timestamp);
+  });
 }
