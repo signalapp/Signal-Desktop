@@ -5,22 +5,22 @@ import type { MessageAttributesType } from '../model-types.d';
 import type { MessageModel } from '../models/messages';
 import type { SignalService as Proto } from '../protobuf';
 import * as log from '../logging/log';
-import { find } from './iterables';
+import { filter } from './iterables';
 import { getContactId } from '../messages/helpers';
 import { getTimestampFromLong } from './timestampLongUtils';
 
-export async function findStoryMessage(
+export async function findStoryMessages(
   conversationId: string,
   storyContext?: Proto.DataMessage.IStoryContext
-): Promise<MessageModel | undefined> {
+): Promise<Array<MessageModel>> {
   if (!storyContext) {
-    return;
+    return [];
   }
 
   const { authorUuid, sentTimestamp } = storyContext;
 
   if (!authorUuid || !sentTimestamp) {
-    return;
+    return [];
   }
 
   const sentAt = getTimestampFromLong(sentTimestamp);
@@ -28,33 +28,37 @@ export async function findStoryMessage(
     window.ConversationController.getOurConversationIdOrThrow();
 
   const inMemoryMessages = window.MessageController.filterBySentAt(sentAt);
-  const matchingMessage = find(inMemoryMessages, item =>
-    isStoryAMatch(
-      item.attributes,
-      conversationId,
-      ourConversationId,
-      authorUuid,
-      sentAt
-    )
-  );
+  const matchingMessages = [
+    ...filter(inMemoryMessages, item =>
+      isStoryAMatch(
+        item.attributes,
+        conversationId,
+        ourConversationId,
+        authorUuid,
+        sentAt
+      )
+    ),
+  ];
 
-  if (matchingMessage) {
-    return matchingMessage;
+  if (matchingMessages.length > 0) {
+    return matchingMessages;
   }
 
-  log.info('findStoryMessage: db lookup needed', sentAt);
+  log.info('findStoryMessages: db lookup needed', sentAt);
   const messages = await window.Signal.Data.getMessagesBySentAt(sentAt);
-  const found = messages.find(item =>
+  const found = messages.filter(item =>
     isStoryAMatch(item, conversationId, ourConversationId, authorUuid, sentAt)
   );
 
-  if (!found) {
-    log.info('findStoryMessage: message not found', sentAt);
-    return;
+  if (found.length !== 0) {
+    log.info('findStoryMessages: message not found', sentAt);
+    return [];
   }
 
-  const message = window.MessageController.register(found.id, found);
-  return message;
+  const result = found.map(attributes =>
+    window.MessageController.register(attributes.id, attributes)
+  );
+  return result;
 }
 
 function isStoryAMatch(

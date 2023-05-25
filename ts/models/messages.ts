@@ -156,7 +156,7 @@ import { viewOnceOpenJobQueue } from '../jobs/viewOnceOpenJobQueue';
 import { getMessageIdForLogging } from '../util/idForLogging';
 import { hasAttachmentDownloads } from '../util/hasAttachmentDownloads';
 import { queueAttachmentDownloads } from '../util/queueAttachmentDownloads';
-import { findStoryMessage } from '../util/findStoryMessage';
+import { findStoryMessages } from '../util/findStoryMessage';
 import { getStoryDataFromMessageAttributes } from '../services/storyLoader';
 import type { ConversationQueueJobData } from '../jobs/conversationJobQueue';
 import { getMessageById } from '../messages/getMessageById';
@@ -2453,58 +2453,65 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         );
       }
 
-      const [quote, storyQuote] = await Promise.all([
+      const { storyContext } = initialMessage;
+      let storyContextLogId = 'no storyContext';
+      if (storyContext) {
+        storyContextLogId =
+          `storyContext(${storyContext.sentTimestamp}, ` +
+          `${storyContext.authorUuid})`;
+      }
+
+      const [quote, storyQuotes] = await Promise.all([
         this.copyFromQuotedMessage(initialMessage.quote, conversation.id),
-        findStoryMessage(conversation.id, initialMessage.storyContext),
+        findStoryMessages(conversation.id, storyContext),
       ]);
 
-      if (initialMessage.storyContext && !storyQuote) {
+      const storyQuote = storyQuotes.find(candidateQuote => {
+        const sendStateByConversationId =
+          candidateQuote.get('sendStateByConversationId') || {};
+        const sendState = sendStateByConversationId[sender.id];
+
+        const storyQuoteIsFromSelf =
+          candidateQuote.get('sourceUuid') ===
+          window.storage.user.getCheckedUuid().toString();
+
+        if (!storyQuoteIsFromSelf) {
+          return true;
+        }
+        if (sendState === undefined) {
+          return false;
+        }
+        if (!isDirectConversation(conversation.attributes)) {
+          return false;
+        }
+        return sendState.isAllowedToReplyToStory !== false;
+      });
+
+      if (storyContext && !storyQuote) {
         if (!isDirectConversation(conversation.attributes)) {
           log.warn(
-            `${idLog}: Received storyContext message in group but no matching story. Dropping.`
+            `${idLog}: Received ${storyContextLogId} message in group but no matching story. Dropping.`
           );
 
           confirm();
           return;
         }
-        log.warn(
-          `${idLog}: Received 1:1 storyContext message but no matching story. We'll try processing this message again later.`
-        );
 
+        if (storyQuotes.length === 0) {
+          log.warn(
+            `${idLog}: Received ${storyContextLogId} message but no matching story. We'll try processing this message again later.`
+          );
+          return;
+        }
+
+        log.warn(
+          `${idLog}: Received ${storyContextLogId} message in 1:1 conversation but no matching story. Dropping.`
+        );
+        confirm();
         return;
       }
 
       if (storyQuote) {
-        const sendStateByConversationId =
-          storyQuote.get('sendStateByConversationId') || {};
-        const sendState = sendStateByConversationId[sender.id];
-
-        const storyQuoteIsFromSelf =
-          storyQuote.get('sourceUuid') ===
-          window.storage.user.getCheckedUuid().toString();
-
-        if (storyQuoteIsFromSelf && !sendState) {
-          log.warn(
-            `${idLog}: Received storyContext message but sender was not in sendStateByConversationId. Dropping.`
-          );
-
-          confirm();
-          return;
-        }
-
-        if (
-          storyQuoteIsFromSelf &&
-          sendState.isAllowedToReplyToStory === false &&
-          isDirectConversation(conversation.attributes)
-        ) {
-          log.warn(
-            `${idLog}: Received 1:1 storyContext message but sender is not allowed to reply. Dropping.`
-          );
-
-          confirm();
-          return;
-        }
-
         const storyDistributionListId = storyQuote.get(
           'storyDistributionListId'
         );
@@ -2517,7 +2524,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
           if (!storyDistribution) {
             log.warn(
-              `${idLog}: Received storyContext message for story with no associated distribution list. Dropping.`
+              `${idLog}: Received ${storyContextLogId} message for story with no associated distribution list. Dropping.`
             );
 
             confirm();
@@ -2526,7 +2533,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
           if (!storyDistribution.allowsReplies) {
             log.warn(
-              `${idLog}: Received storyContext message but distribution list does not allow replies. Dropping.`
+              `${idLog}: Received ${storyContextLogId} message but distribution list does not allow replies. Dropping.`
             );
 
             confirm();

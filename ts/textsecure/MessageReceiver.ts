@@ -38,7 +38,7 @@ import {
   SignedPreKeys,
 } from '../LibSignalStores';
 import { verifySignature } from '../Curve';
-import { strictAssert } from '../util/assert';
+import { strictAssert, assertDev } from '../util/assert';
 import type { BatcherType } from '../util/batcher';
 import { createBatcher } from '../util/batcher';
 import { drop } from '../util/drop';
@@ -2213,12 +2213,20 @@ export default class MessageReceiver
           'handleStoryMessage.destinationUuid'
         );
 
-        recipient.distributionListIds?.forEach(listId => {
-          const sentUuids: Set<string> =
-            distributionListToSentUuid.get(listId) || new Set();
-          sentUuids.add(normalizedDestinationUuid);
-          distributionListToSentUuid.set(listId, sentUuids);
-        });
+        if (recipient.distributionListIds) {
+          recipient.distributionListIds.forEach(listId => {
+            const sentUuids: Set<string> =
+              distributionListToSentUuid.get(listId) || new Set();
+            sentUuids.add(normalizedDestinationUuid);
+            distributionListToSentUuid.set(listId, sentUuids);
+          });
+        } else {
+          assertDev(
+            false,
+            `MessageReceiver.handleStoryMessage(${logId}): missing ` +
+              `distribution list id for: ${destinationUuid}`
+          );
+        }
 
         isAllowedToReply.set(
           normalizedDestinationUuid,
