@@ -12598,5 +12598,9 @@
   "icu:WhatsNew__v6.19--2": {
     "messageformat": "If you are on a version of Windows before Windows 10, or a version of Ubuntu before 20.04 LTS, you will need to update your operating system to continue using Signal: {supportLink}",
     "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.20--0": {
+    "messageformat": "If someone mentions you in a chat (like @ Your Name Goes Here), now you can quickly scroll to that mention and read all of the wonderful things that they said about you. You’re simply the best.",
+    "description": "Release notes for v6.20"
   }
 }
