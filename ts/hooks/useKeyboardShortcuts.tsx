@@ -3,8 +3,15 @@
 
 import { useCallback, useEffect } from 'react';
 import { get } from 'lodash';
+import { useSelector } from 'react-redux';
 
+import type { PanelRenderType } from '../types/Panels';
+import type { StateType } from '../state/reducer';
 import * as KeyboardLayout from '../services/keyboardLayout';
+import { getTopPanel } from '../state/selectors/conversations';
+import { isInFullScreenCall } from '../state/selectors/calling';
+import { isShowingAnyModal } from '../state/selectors/globalModals';
+import { shouldShowStoriesView } from '../state/selectors/stories';
 
 type KeyboardShortcutHandlerType = (ev: KeyboardEvent) => boolean;
 
@@ -20,6 +27,34 @@ function isCtrlOrAlt(ev: KeyboardEvent): boolean {
   const controlKey = get(window, 'platform') === 'darwin' && ctrlKey;
   const theAltKey = get(window, 'platform') !== 'darwin' && altKey;
   return controlKey || theAltKey;
+}
+
+function useHasPanels(): boolean {
+  const topPanel = useSelector<StateType, PanelRenderType | undefined>(
+    getTopPanel
+  );
+  return Boolean(topPanel);
+}
+
+function useHasGlobalModal(): boolean {
+  return useSelector<StateType, boolean>(isShowingAnyModal);
+}
+
+function useHasStories(): boolean {
+  return useSelector<StateType, boolean>(shouldShowStoriesView);
+}
+
+function useHasCalling(): boolean {
+  return useSelector<StateType, boolean>(isInFullScreenCall);
+}
+
+function useHasAnyOverlay(): boolean {
+  const panels = useHasPanels();
+  const globalModal = useHasGlobalModal();
+  const stories = useHasStories();
+  const calling = useHasCalling();
+
+  return panels || globalModal || stories || calling;
 }
 
 export function useActiveCallShortcuts(
@@ -118,8 +153,14 @@ export function useStartCallShortcuts(
 export function useStartRecordingShortcut(
   startAudioRecording: () => unknown
 ): KeyboardShortcutHandlerType {
+  const hasOverlay = useHasAnyOverlay();
+
   return useCallback(
     ev => {
+      if (hasOverlay) {
+        return false;
+      }
+
       const { shiftKey } = ev;
       const key = KeyboardLayout.lookup(ev);
 
@@ -133,15 +174,21 @@ export function useStartRecordingShortcut(
 
       return false;
     },
-    [startAudioRecording]
+    [hasOverlay, startAudioRecording]
   );
 }
 
 export function useAttachFileShortcut(
   attachFile: () => unknown
 ): KeyboardShortcutHandlerType {
+  const hasOverlay = useHasAnyOverlay();
+
   return useCallback(
     ev => {
+      if (hasOverlay) {
+        return false;
+      }
+
       const { shiftKey } = ev;
       const key = KeyboardLayout.lookup(ev);
 
@@ -155,15 +202,21 @@ export function useAttachFileShortcut(
 
       return false;
     },
-    [attachFile]
+    [attachFile, hasOverlay]
   );
 }
 
 export function useToggleReactionPicker(
   handleReact: () => unknown
 ): KeyboardShortcutHandlerType {
+  const hasOverlay = useHasAnyOverlay();
+
   return useCallback(
     ev => {
+      if (hasOverlay) {
+        return false;
+      }
+
       const { shiftKey } = ev;
       const key = KeyboardLayout.lookup(ev);
 
@@ -177,15 +230,21 @@ export function useToggleReactionPicker(
 
       return false;
     },
-    [handleReact]
+    [handleReact, hasOverlay]
   );
 }
 
 export function useEditLastMessageSent(
   maybeEditMessage: () => boolean
 ): KeyboardShortcutHandlerType {
+  const hasOverlay = useHasAnyOverlay();
+
   return useCallback(
     ev => {
+      if (hasOverlay) {
+        return false;
+      }
+
       const key = KeyboardLayout.lookup(ev);
 
       if (key === 'ArrowUp') {
@@ -200,7 +259,7 @@ export function useEditLastMessageSent(
 
       return false;
     },
-    [maybeEditMessage]
+    [hasOverlay, maybeEditMessage]
   );
 }
 
