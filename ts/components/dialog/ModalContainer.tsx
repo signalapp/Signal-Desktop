@@ -57,7 +57,7 @@ export const ModalContainer = () => {
   const banOrUnbanUserModalState = useSelector(getBanOrUnbanUserModalState);
   const reactListModalState = useSelector(getReactListDialog);
   const reactClearAllModalState = useSelector(getReactClearAllDialog);
-  const EditProfilePictureModalState = useSelector(getEditProfilePictureModalState);
+  const editProfilePictureModalState = useSelector(getEditProfilePictureModalState);
 
   return (
     <>
@@ -82,8 +82,8 @@ export const ModalContainer = () => {
       {confirmModalState && <SessionConfirm {...confirmModalState} />}
       {reactListModalState && <ReactListModal {...reactListModalState} />}
       {reactClearAllModalState && <ReactClearAllModal {...reactClearAllModalState} />}
-      {EditProfilePictureModalState && (
-        <EditProfilePictureModal {...EditProfilePictureModalState} />
+      {editProfilePictureModalState && (
+        <EditProfilePictureModal {...editProfilePictureModalState} />
       )}
     </>
   );
