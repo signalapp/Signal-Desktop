@@ -2665,6 +2665,10 @@
     "message": "این کد را در برنامه سیگنال روی گوشی خود اسکن کنید",
     "description": "(deleted 03/29/2023) Title of the device link screen. Also used as alt text for the QR code on the device link screen"
   },
+  "icu:Install__learn-more": {
+    "messageformat": "بیشتر یاد بگیرید",
+    "description": "Button text for learn more button during error screen"
+  },
   "icu:Install__scan-this-code": {
     "messageformat": "این کد را در برنامه سیگنال روی گوشی خود اسکن کنید",
     "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
@@ -2702,7 +2706,11 @@
     "description": "Instructions on the device link screen"
   },
   "icu:Install__qr-failed": {
-    "messageformat": "کد QR بارگیری نشد. اینترنت خود را بررسی کنید و دوباره امتحان کنید. <learnMoreLink>بیشتر بدانید</learnMoreLink>",
+    "messageformat": "(deleted 05/09/2023) The QR code couldn't load. Check your internet and try again. <learnMoreLink>Learn more</learnMoreLink>",
+    "description": "Shown on the install screen if the QR code fails to load"
+  },
+  "icu:Install__qr-failed-load": {
+    "messageformat": "کد QR بارگیری نشد. اینترنت خود را بررسی کنید و دوباره امتحان کنید. <retry>تلاش مجدد</retry>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -3887,7 +3895,7 @@
     "description": "(deleted 03/29/2023) Description for audio notification setting"
   },
   "icu:audioNotificationDescription": {
-    "messageformat": "پخش صداهای اعلان",
+    "messageformat": "صدای اعلان فوری",
     "description": "Description for audio notification setting"
   },
   "callRingtoneNotificationDescription": {
@@ -5063,6 +5071,18 @@
     "messageformat": "لغو",
     "description": "Appears on the cancel button in confirmation dialogs."
   },
+  "icu:Message__reaction-emoji-label--you": {
+    "messageformat": "شما با {emoji} واکنش نشان دادید",
+    "description": "aria-label for reaction emoji (you)"
+  },
+  "icu:Message__reaction-emoji-label--single": {
+    "messageformat": "{title} با {emoji} واکنش نشان داد",
+    "description": "aria-label for reaction emoji when one person reacts with an emoji"
+  },
+  "icu:Message__reaction-emoji-label--many": {
+    "messageformat": "{count} نفر با {emoji} واکنش نشان دادند",
+    "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
+  },
   "icu:Message__role-description": {
     "messageformat": "پیام",
     "description": "aria-roledescription of a message"
@@ -5434,6 +5454,10 @@
   "icu:Keyboard--conversation-by-index": {
     "messageformat": "پرش به گفتگو",
     "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
+  },
+  "icu:Keyboard--edit-last-message": {
+    "messageformat": "ویرایش پیام قبلی",
+    "description": "Shown in the shortcuts guide"
   },
   "Keyboard--Key--ctrl": {
     "message": "Ctrl",
@@ -10468,7 +10492,7 @@
     "description": "Title for the avatar picker in the group creation flow"
   },
   "icu:Preferences__message-audio-title": {
-    "messageformat": "صدای پیام داخل گفتگو",
+    "messageformat": "صداهای پیام داخل گفتگو",
     "description": "Title for message audio setting"
   },
   "icu:Preferences__message-audio-description": {
@@ -12539,18 +12563,6 @@
     "messageformat": "تغییرات کوچک، رفع اشکالات و بهبود عملکرد. بابت استفاده از سیگنال سپاسگزاریم!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.17--0": {
-    "messageformat": "پشتیبانی بهبودیافته برای زبان‌های راست‌چین (RTL).",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--1": {
-    "messageformat": "زبان‌های محلی اکنون با ترجیحات سیستم تطبیق داده می‌شوند. این تغییر در زمانی که زبان‌های متعددی تنظیم شده‌اند به رفتار بهتر برنامه منجر خواهد شد.",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--2": {
-    "messageformat": "این نسخه جدید چندین مورد دسترسی‌پذیری و اشکال‌های دیگر را حل کرده است و ما بسیار قدردان بازخوردها و پیشنهادهای جامعه کاربرانمان هستیم.",
-    "description": "Release notes for v6.17"
-  },
   "icu:WhatsNew__v6.18--0": {
     "messageformat": "برای جابجایی سریع بین قسمت‌های مختلف برنامه، از میان‌برهای صفحه‌کلید (⌘/Ctrl+T و ⌘/Ctrl+F6) برای «پیمایش بر اساس بخش» استفاده کنید. این شبیه نسخه بی‌نقصی از کلید Tab عمل می‌کند که می‌تواند حتی از همتای خود هم بالاتر و سریع‌تر باشد.",
     "description": "Release notes for v6.18"
@@ -12570,5 +12582,17 @@
   "icu:WhatsNew__v6.18--4": {
     "messageformat": "گزینه جدیدی برای «کپی متن» نیز در منوی سه‌نقطه گنجانده شده است. سپاس، {yusufsahinhamza}!",
     "description": "Release notes for v6.18"
+  },
+  "icu:WhatsNew__v6.19--0": {
+    "messageformat": "سکوت همیشه سرشار از ناگفته‌ها نیست، اما حالا نماد جدیدی دارد. ما دکمه‌های «دوربین» و «قطع صدا» را در تماس‌های صوتی و تصویری به‌روز کرده‌ایم و حالا راحت‌تر از قبل می‌توانید ببینید که فعال یا غیرفعال هستند.",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--1": {
+    "messageformat": "بهبود محلی‌سازی و پردازش بهتر زبان‌های راست‌چین در کادر نگارش پیام. سپاس، {sha265}!",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--2": {
+    "messageformat": "اگر نسخه ویندوز شما قدیمی‌تر از ویندوز ۱۰ یا نسخه Ubuntu شما قبل از ۲۰.۰۴ LTS است، برای ادامه استفاده از سیگنال باید سیستم‌عامل خود را به‌روز کنید: {supportLink}",
+    "description": "Release notes for v6.19"
   }
 }

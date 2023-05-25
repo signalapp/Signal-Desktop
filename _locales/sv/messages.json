@@ -621,7 +621,7 @@
     "description": "Shown in a context menu for a contact, allows the user to start the conversation with the contact"
   },
   "icu:ContactListItem__menu__audio-call": {
-    "messageformat": "Ljudsamtal",
+    "messageformat": "Röstsamtal",
     "description": "Shown in a context menu for a contact, allows the user to start the audio call with the contact"
   },
   "icu:ContactListItem__menu__video-call": {
@@ -2665,6 +2665,10 @@
     "message": "Skanna den här koden i Signal-appen på din telefon",
     "description": "(deleted 03/29/2023) Title of the device link screen. Also used as alt text for the QR code on the device link screen"
   },
+  "icu:Install__learn-more": {
+    "messageformat": "Läs mer",
+    "description": "Button text for learn more button during error screen"
+  },
   "icu:Install__scan-this-code": {
     "messageformat": "Skanna den här koden i Signal-appen på din telefon",
     "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
@@ -2702,7 +2706,11 @@
     "description": "Instructions on the device link screen"
   },
   "icu:Install__qr-failed": {
-    "messageformat": "QR-koden kunde inte läsas in. Kontrollera ditt internet och försök igen. <learnMoreLink>Läs mer</learnMoreLink>",
+    "messageformat": "(deleted 05/09/2023) The QR code couldn't load. Check your internet and try again. <learnMoreLink>Learn more</learnMoreLink>",
+    "description": "Shown on the install screen if the QR code fails to load"
+  },
+  "icu:Install__qr-failed-load": {
+    "messageformat": "QR-koden kunde inte läsas in. Kontrollera ditt internet och försök igen. <retry>Försök igen</retry>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -3887,7 +3895,7 @@
     "description": "(deleted 03/29/2023) Description for audio notification setting"
   },
   "icu:audioNotificationDescription": {
-    "messageformat": "Spela aviseringsljud",
+    "messageformat": "Push-aviseringsljud",
     "description": "Description for audio notification setting"
   },
   "callRingtoneNotificationDescription": {
@@ -5063,6 +5071,18 @@
     "messageformat": "Avbryt",
     "description": "Appears on the cancel button in confirmation dialogs."
   },
+  "icu:Message__reaction-emoji-label--you": {
+    "messageformat": "Du reagerade med {emoji}",
+    "description": "aria-label for reaction emoji (you)"
+  },
+  "icu:Message__reaction-emoji-label--single": {
+    "messageformat": "{title} reagerade med {emoji}",
+    "description": "aria-label for reaction emoji when one person reacts with an emoji"
+  },
+  "icu:Message__reaction-emoji-label--many": {
+    "messageformat": "{count} personer reagerade med {emoji}",
+    "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
+  },
   "icu:Message__role-description": {
     "messageformat": "Meddelande",
     "description": "aria-roledescription of a message"
@@ -5434,6 +5454,10 @@
   "icu:Keyboard--conversation-by-index": {
     "messageformat": "Hoppa till chatt",
     "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
+  },
+  "icu:Keyboard--edit-last-message": {
+    "messageformat": "Redigera föregående meddelande",
+    "description": "Shown in the shortcuts guide"
   },
   "Keyboard--Key--ctrl": {
     "message": "Ctrl",
@@ -12539,18 +12563,6 @@
     "messageformat": "Små justeringer, buggfixar och prestandaförbättringar. Tack för att du använder Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.17--0": {
-    "messageformat": "Förbättrat stöd för höger till vänster-språk (RTL).",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--1": {
-    "messageformat": "Språkzon matchas nu baserat på dina systeminställningar. Detta bör resultera i bättre standardbeteende när flera språk är konfigurerade.",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--2": {
-    "messageformat": "Denna version introducerar dessutom flera förbättringar av tillgänglighet och buggfixar. Vi tackar vår kära community för deras feedback och förslag.",
-    "description": "Release notes for v6.17"
-  },
   "icu:WhatsNew__v6.18--0": {
     "messageformat": "Med de nya kortkommandona \"Navigera efter avsnitt\" (⌘/Ctrl + T och ⌘/Ctrl + F6) kan du snabbt flytta mellan olika delar av appen. Det är som en superhjälteversion av tabbtangenten som kan flyga längre och snabbare än dess vänliga alter ego.",
     "description": "Release notes for v6.18"
@@ -12570,5 +12582,17 @@
   "icu:WhatsNew__v6.18--4": {
     "messageformat": "Det finns även ett nytt Kopiera text-alternativ i trepunktsmenyn. Tack {yusufsahinhamza}!",
     "description": "Release notes for v6.18"
+  },
+  "icu:WhatsNew__v6.19--0": {
+    "messageformat": "Tystnad är inte alltid guld värt, men den har en ny ikon. Vi uppdaterade Kamera- och Tysta-knapparna i röst- och videosamtal så att det blir ännu enklare att se när de är aktiverade eller inaktiverade.",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--1": {
+    "messageformat": "Lokaliseringsförbättringar och bättre hantering av höger-till-vänster-språk i fältet för meddelandekomposition. Tack {sha265}!",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--2": {
+    "messageformat": "Om du använder en tidigare version av Windows än Windows 10, eller en version av Ubuntu före 20.04 LTS, måste du uppdatera ditt operativsystem för att fortsätta använda Signal: {supportLink}",
+    "description": "Release notes for v6.19"
   }
 }

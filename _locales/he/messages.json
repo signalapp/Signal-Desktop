@@ -2665,6 +2665,10 @@
     "message": "סרוק קוד זה ביישום Signal בטלפון שלך",
     "description": "(deleted 03/29/2023) Title of the device link screen. Also used as alt text for the QR code on the device link screen"
   },
+  "icu:Install__learn-more": {
+    "messageformat": "למד עוד",
+    "description": "Button text for learn more button during error screen"
+  },
   "icu:Install__scan-this-code": {
     "messageformat": "סרוק קוד זה ביישום Signal בטלפון שלך",
     "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
@@ -2702,7 +2706,11 @@
     "description": "Instructions on the device link screen"
   },
   "icu:Install__qr-failed": {
-    "messageformat": "קוד ה–QR לא הצליח להיטען. כדאי לבדוק את חיבור האינטרנט ולנסות שוב. <learnMoreLink>למידע נוסף</learnMoreLink>",
+    "messageformat": "(deleted 05/09/2023) The QR code couldn't load. Check your internet and try again. <learnMoreLink>Learn more</learnMoreLink>",
+    "description": "Shown on the install screen if the QR code fails to load"
+  },
+  "icu:Install__qr-failed-load": {
+    "messageformat": "קוד ה–QR לא הצליח להיטען. כדאי לבדוק את חיבור האינטרנט ולנסות שוב. <retry>ניסיון חוזר</retry>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -3887,7 +3895,7 @@
     "description": "(deleted 03/29/2023) Description for audio notification setting"
   },
   "icu:audioNotificationDescription": {
-    "messageformat": "נגן צלילי התראה",
+    "messageformat": "צלילי התראות דחיפה",
     "description": "Description for audio notification setting"
   },
   "callRingtoneNotificationDescription": {
@@ -5063,6 +5071,18 @@
     "messageformat": "ביטול",
     "description": "Appears on the cancel button in confirmation dialogs."
   },
+  "icu:Message__reaction-emoji-label--you": {
+    "messageformat": "הגבת עם {emoji}",
+    "description": "aria-label for reaction emoji (you)"
+  },
+  "icu:Message__reaction-emoji-label--single": {
+    "messageformat": "{title} הגיב/ה עם {emoji}",
+    "description": "aria-label for reaction emoji when one person reacts with an emoji"
+  },
+  "icu:Message__reaction-emoji-label--many": {
+    "messageformat": "{count} אנשים הגיבו עם {emoji}",
+    "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
+  },
   "icu:Message__role-description": {
     "messageformat": "שליחת הודעה",
     "description": "aria-roledescription of a message"
@@ -5434,6 +5454,10 @@
   "icu:Keyboard--conversation-by-index": {
     "messageformat": "קפיצה לצ'אט",
     "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
+  },
+  "icu:Keyboard--edit-last-message": {
+    "messageformat": "עריכת הודעה קודמת",
+    "description": "Shown in the shortcuts guide"
   },
   "Keyboard--Key--ctrl": {
     "message": "Ctrl",
@@ -10468,7 +10492,7 @@
     "description": "Title for the avatar picker in the group creation flow"
   },
   "icu:Preferences__message-audio-title": {
-    "messageformat": "צליל הודעות בתוך צ׳אט",
+    "messageformat": "צלילי הודעות בתוך צ׳אט",
     "description": "Title for message audio setting"
   },
   "icu:Preferences__message-audio-description": {
@@ -12539,18 +12563,6 @@
     "messageformat": "התאמות קטנות, תיקוני באגים ושיפורי ביצועים. תודה על השימוש ב-Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.17--0": {
-    "messageformat": "תמיכה משופרת בשפות מימין–לשמאל (RTL).",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--1": {
-    "messageformat": "המיקומים מותאמים כעת על סמך העדפות המערכת שלך. זה אמור לגרום להתנהלות ברירת מחדל טובה יותר כאשר מוגדרות מספר שפות.",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--2": {
-    "messageformat": "הגרסה הזו מציגה בנוסף מספר שיפורי נגישות ותיקוני באגים, ואנחנו רוצים להודות מכל הלב לחברי וחברות הקהילה על המשוב וההצעות.",
-    "description": "Release notes for v6.17"
-  },
   "icu:WhatsNew__v6.18--0": {
     "messageformat": "קיצורי מקלדת חדשים (⌘/Ctrl+T & ⌘/Ctrl+F6) יכולים לעזור לך לעבור במהירות בין חלקים שונים של האפליקציה. זו כמו גרסת גיבורי העל של מקש Tab שיכולה לעוף רחוק יותר ומהר יותר מהאלטר–אגו המתון שלה.",
     "description": "Release notes for v6.18"
@@ -12570,5 +12582,17 @@
   "icu:WhatsNew__v6.18--4": {
     "messageformat": "יש גם אפשרות ״העתקת טקסט״ חדשה בתפריט שלוש הנקודות. תודה, {yusufsahinhamza}!",
     "description": "Release notes for v6.18"
+  },
+  "icu:WhatsNew__v6.19--0": {
+    "messageformat": "שתיקה לא תמיד שווה זהב, אבל כן יש לה סמל חדש. עדכנו את כפתורי המצלמה וההשתקה בשיחות קוליות ושיחות וידאו, כך שעכשיו אפילו יותר קל לראות כשהם מופעלים או מושבתים.",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--1": {
+    "messageformat": "שיפורי לוקליזציה וטיפול טוב יותר בשפות מימין–לשמאל בשדה חיבור ההודעה. תודה, {sha265}!",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--2": {
+    "messageformat": "אם יש לך גרסה של Windows שהיא ישנה יותר מ–Windows 10, או גרסה של Ubuntu שהיא ישנה יותר מ–20.04 LTS, צריך לעדכן את מערכת ההפעלה שלך כדי להמשיך להשתמש ב–Signal: {supportLink}",
+    "description": "Release notes for v6.19"
   }
 }

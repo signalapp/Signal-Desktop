@@ -621,7 +621,7 @@
     "description": "Shown in a context menu for a contact, allows the user to start the conversation with the contact"
   },
   "icu:ContactListItem__menu__audio-call": {
-    "messageformat": "Thirrje me audio",
+    "messageformat": "Thirrje zanore",
     "description": "Shown in a context menu for a contact, allows the user to start the audio call with the contact"
   },
   "icu:ContactListItem__menu__video-call": {
@@ -2665,6 +2665,10 @@
     "message": "Skanojeni këtë kod te aplikacioni Signal në telefonin tuaj",
     "description": "(deleted 03/29/2023) Title of the device link screen. Also used as alt text for the QR code on the device link screen"
   },
+  "icu:Install__learn-more": {
+    "messageformat": "Mësoni më tepër",
+    "description": "Button text for learn more button during error screen"
+  },
   "icu:Install__scan-this-code": {
     "messageformat": "Skanojeni këtë kod te aplikacioni Signal në telefonin tuaj",
     "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
@@ -2702,7 +2706,11 @@
     "description": "Instructions on the device link screen"
   },
   "icu:Install__qr-failed": {
-    "messageformat": "Kodi QR nuk mundi të ngarkohej. Kontrollo internetin dhe provo sërish. <learnMoreLink>Mëso më shumë</learnMoreLink>",
+    "messageformat": "(deleted 05/09/2023) The QR code couldn't load. Check your internet and try again. <learnMoreLink>Learn more</learnMoreLink>",
+    "description": "Shown on the install screen if the QR code fails to load"
+  },
+  "icu:Install__qr-failed-load": {
+    "messageformat": "Kodi QR nuk mundi të ngarkohej. Kontrollo internetin dhe provo sërish. <retry>Riprovo</retry>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -3887,7 +3895,7 @@
     "description": "(deleted 03/29/2023) Description for audio notification setting"
   },
   "icu:audioNotificationDescription": {
-    "messageformat": "Luaj tinguj njoftimi",
+    "messageformat": "Çaktivizo tingujt e njoftimeve",
     "description": "Description for audio notification setting"
   },
   "callRingtoneNotificationDescription": {
@@ -5063,6 +5071,18 @@
     "messageformat": "Anulo",
     "description": "Appears on the cancel button in confirmation dialogs."
   },
+  "icu:Message__reaction-emoji-label--you": {
+    "messageformat": "Reagove me {emoji}",
+    "description": "aria-label for reaction emoji (you)"
+  },
+  "icu:Message__reaction-emoji-label--single": {
+    "messageformat": "{title} reagoi me {emoji}",
+    "description": "aria-label for reaction emoji when one person reacts with an emoji"
+  },
+  "icu:Message__reaction-emoji-label--many": {
+    "messageformat": "{count} persona reaguan me {emoji}",
+    "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
+  },
   "icu:Message__role-description": {
     "messageformat": "Mesazh",
     "description": "aria-roledescription of a message"
@@ -5434,6 +5454,10 @@
   "icu:Keyboard--conversation-by-index": {
     "messageformat": "Kalo te biseda",
     "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
+  },
+  "icu:Keyboard--edit-last-message": {
+    "messageformat": "Përpuno mesazhin e mëparshëm",
+    "description": "Shown in the shortcuts guide"
   },
   "Keyboard--Key--ctrl": {
     "message": "Ctrl",
@@ -12539,18 +12563,6 @@
     "messageformat": "Rregullme të vogla, riparime të gabimeve dhe përmirësime të mbarëvajtjes.  Faleminderit që përdorni Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.17--0": {
-    "messageformat": "Mbështetje e përmirësuar për gjuhët nga e djathta në të majtë (RTL).",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--1": {
-    "messageformat": "Lokalet tani përputhen në bazë të preferencave të sistemit tënd. Kjo duhet të rezultojë në veprime më të mira të paracaktuar kur shumë gjuhë konfigurohen .",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--2": {
-    "messageformat": "Ky version shtesë (a10y) prezanton disa përmirësime të aksesueshmërisë (a11y) dhe rregullime të gabimeve, dhe ne me dashamirësi (a12y) dëshirojmë të falënderojmë komunitetin për komentet dhe sugjerimet e tij.",
-    "description": "Release notes for v6.17"
-  },
   "icu:WhatsNew__v6.18--0": {
     "messageformat": "Përdor shkurtoret e tastierës \"Lundro sipas seksionit\" (⌘/Ctrl+T & ⌘/Ctrl+F6) për të lëvizur shpejt ndërmjet zonave të ndryshme të aplikacionit. Është si një version superhero i tastit Tab që mund të fluturojë më tej dhe më shpejt se vetja e tij e butë.",
     "description": "Release notes for v6.18"
@@ -12570,5 +12582,17 @@
   "icu:WhatsNew__v6.18--4": {
     "messageformat": "Ekziston gjithashtu një opsion i ri \"Kopjo tekstin\" në menynë me tri pika. Faleminderit, {yusufsahinhamza}!",
     "description": "Release notes for v6.18"
+  },
+  "icu:WhatsNew__v6.19--0": {
+    "messageformat": "Heshtja nuk është gjithmonë e artë, por e ka një ikonë të re. Ne përditësuam butonat e \"Kamerës\" dhe \"Pa zë\" në thirrjet zanore dhe video, në mënyrë që të jetë edhe më e lehtë të shihen kur aktivizohen ose çaktivizohen.",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--1": {
+    "messageformat": "Përmirësimet e lokalizimit dhe trajtim më i mirë i gjuhëve nga e djathta në të majtë në fushën e shkruarjes të mesazhit. Faleminderit, {sha265}!",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--2": {
+    "messageformat": "Nëse ke një version të Windows para Windows 10, ose një version të Ubuntu para 20.04 LTS, do të të duhet të përditësosh sistemin tënd operativ për të vazhduar përdorimin e Signal: {supportLink}",
+    "description": "Release notes for v6.19"
   }
 }

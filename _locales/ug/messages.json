@@ -2665,6 +2665,10 @@
     "message": "تېلېفونىڭىزدىكى Signal ئەپىدە بۇ كودنى سىكاننېرلاڭ",
     "description": "(deleted 03/29/2023) Title of the device link screen. Also used as alt text for the QR code on the device link screen"
   },
+  "icu:Install__learn-more": {
+    "messageformat": "كۆپرەك ئۆگىنىش",
+    "description": "Button text for learn more button during error screen"
+  },
   "icu:Install__scan-this-code": {
     "messageformat": "تېلېفونىڭىزدىكى Signal ئەپىدە بۇ كودنى سىكاننېرلاڭ",
     "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
@@ -2702,7 +2706,11 @@
     "description": "Instructions on the device link screen"
   },
   "icu:Install__qr-failed": {
-    "messageformat": "QR كودىنى يۈكلىيەلمىدى. تور ئۇلىنىشىڭىزنى تەكشۈرۈپ قايتا سىناڭ. <learnMoreLink>تەپسىلاتى</learnMoreLink>",
+    "messageformat": "(deleted 05/09/2023) The QR code couldn't load. Check your internet and try again. <learnMoreLink>Learn more</learnMoreLink>",
+    "description": "Shown on the install screen if the QR code fails to load"
+  },
+  "icu:Install__qr-failed-load": {
+    "messageformat": "QR كودىنى يۈكلىيەلمىدى. تور ئۇلىنىشىڭىزنى تەكشۈرۈپ قايتا سىناڭ. <retry>قايتا سىناش</retry>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -3887,7 +3895,7 @@
     "description": "(deleted 03/29/2023) Description for audio notification setting"
   },
   "icu:audioNotificationDescription": {
-    "messageformat": "ئۇقتۇرۇش ئاۋازىنى قويۇش",
+    "messageformat": "ئىتتىرمە ئۇقتۇرۇش ئاۋازى",
     "description": "Description for audio notification setting"
   },
   "callRingtoneNotificationDescription": {
@@ -5063,6 +5071,18 @@
     "messageformat": "بىكار قىلىش",
     "description": "Appears on the cancel button in confirmation dialogs."
   },
+  "icu:Message__reaction-emoji-label--you": {
+    "messageformat": "{emoji} بىلەن ئىنكاس قايتۇردىڭىز",
+    "description": "aria-label for reaction emoji (you)"
+  },
+  "icu:Message__reaction-emoji-label--single": {
+    "messageformat": "{title} {emoji} بىلەن ئىنكاس قايتۇردى",
+    "description": "aria-label for reaction emoji when one person reacts with an emoji"
+  },
+  "icu:Message__reaction-emoji-label--many": {
+    "messageformat": "{count} كىشى {emoji} بىلەن ئىنكاس قايتۇردى",
+    "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
+  },
   "icu:Message__role-description": {
     "messageformat": "ئۇچۇر",
     "description": "aria-roledescription of a message"
@@ -5434,6 +5454,10 @@
   "icu:Keyboard--conversation-by-index": {
     "messageformat": "پاراڭغا ئۆتۈش",
     "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
+  },
+  "icu:Keyboard--edit-last-message": {
+    "messageformat": "ئالدىنقى ئۇچۇرنى تەھرىرلەش",
+    "description": "Shown in the shortcuts guide"
   },
   "Keyboard--Key--ctrl": {
     "message": "Ctrl",
@@ -12539,18 +12563,6 @@
     "messageformat": "كىچىك ئۆزگەرتىشلەر كىرگۈزۈلدى، كاشىلا ھەل قىلىندى ۋە ئىقتىدار ئەلالاشتۇرۇلدى. Signal نى ئىشلەتكەنلىكىڭىزگە رەھمەت!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.17--0": {
-    "messageformat": "ئوڭدىن سولغا يېزىلىدىغان (RTL) تىللارنى قوللاش كۈچەيتىلدى.",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--1": {
-    "messageformat": "رايون تەڭشىكى ھازىر سىستېما مايىللىقىغا ماسلاشتۇرۇلغان بولۇپ، كۆپ خىل تىل سەپلەنگەن ۋاقىتتا سۈكۈتتىكى تەڭشەكلەر تېخىمۇ ياخشى تەڭشەلگەن بولىدۇ.",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--2": {
-    "messageformat": "بۇ نەشرىدە بىر قانچە قوشۇمچە ئىقتىدارلار ئىلغارلاشتۇرۇلغان ۋە كاشىلىلار ھەل قىلىنغان بولۇپ، بىز مەھەللە ئەزالىرىنىڭ تەكلىپ-پىكىر ۋە تەۋسىيەلىرىگە چىن كۆڭلىمىزدىن رەھمەت ئېيتىمىز.",
-    "description": "Release notes for v6.17"
-  },
   "icu:WhatsNew__v6.18--0": {
     "messageformat": "يېڭى كۇنۇپكا تېزلەتمىسى (⌘/Ctrl+T & ⌘/Ctrl+F6) ئارقىلىق ئەپنىڭ ئوخشىمىغان بۆلەكلىرىگە تېخىمۇ تېز يۆتكىلەلەيسىز.",
     "description": "Release notes for v6.18"
@@ -12570,5 +12582,17 @@
   "icu:WhatsNew__v6.18--4": {
     "messageformat": "باشقا يەنە ئۈچ نۇقتىلىق تىزىملىككە «تېكىست كۆچۈرۈش» تاللىشىمۇ قوشۇلدى. رەھمەت، {yusufsahinhamza}!",
     "description": "Release notes for v6.18"
+  },
+  "icu:WhatsNew__v6.19--0": {
+    "messageformat": "چاقىرىقتا ئۈنسىز قىلىنغاندا ياكى كامېرا ئېتىلگەندە، مۇناسىۋەتلىك سىنبەلگە كۆرۈنىدۇ. ئاۋازلىق ۋە ۋىدېيولۇق چاقىرىقتىكى كامېرا ۋە ئۈنسىز قىلىش كۇنۇپكىلىرىنى يېڭىلىدۇق، شۇنىڭ بىلەن ئۇلارنىڭ قاچان قوزغىتىلغانلىقى ۋە ئېتىلگەنلىكىنى بىلىش ئاسانلاشتى.",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--1": {
+    "messageformat": "يەرلىكلەشتۈرۈش تېخىمۇ ياخشىلانغان بولۇپ، ئۇچۇر گۇرۇپپا رايونىدا ئوڭدىن سولغا يېزىلىدىغان تىللارنى بىر تەرەپ قىلىش تېخىمۇ قولايلاشتى. رەھمەت، {sha265}!",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--2": {
+    "messageformat": "ئەگەر سىزنىڭ Windows سىستېمىڭىز Windows 10 دىن بۇرۇنقى سىستېما ياكى 20.04 LTS دىن بۇرۇنقى Ubuntu نەشرى بولسا، Signal نى داۋاملىق ئىشلىتىش ئۈچۈن مەشغۇلات سىستېمىڭىزنى يېڭىلىشىڭىز لازىم: {supportLink}",
+    "description": "Release notes for v6.19"
   }
 }

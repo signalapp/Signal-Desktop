@@ -621,7 +621,7 @@
     "description": "Shown in a context menu for a contact, allows the user to start the conversation with the contact"
   },
   "icu:ContactListItem__menu__audio-call": {
-    "messageformat": "Lydopkald",
+    "messageformat": "Taleopkald",
     "description": "Shown in a context menu for a contact, allows the user to start the audio call with the contact"
   },
   "icu:ContactListItem__menu__video-call": {
@@ -2665,6 +2665,10 @@
     "message": "Scan denne kode i Signal-appen på din telefon",
     "description": "(deleted 03/29/2023) Title of the device link screen. Also used as alt text for the QR code on the device link screen"
   },
+  "icu:Install__learn-more": {
+    "messageformat": "Læs mere",
+    "description": "Button text for learn more button during error screen"
+  },
   "icu:Install__scan-this-code": {
     "messageformat": "Scan denne kode i Signal-appen på din telefon",
     "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
@@ -2702,7 +2706,11 @@
     "description": "Instructions on the device link screen"
   },
   "icu:Install__qr-failed": {
-    "messageformat": "QR-koden kunne ikke indlæses. Tjek din internetforbindelse, og prøv igen. <learnMoreLink>Få mere at vide</learnMoreLink>",
+    "messageformat": "(deleted 05/09/2023) The QR code couldn't load. Check your internet and try again. <learnMoreLink>Learn more</learnMoreLink>",
+    "description": "Shown on the install screen if the QR code fails to load"
+  },
+  "icu:Install__qr-failed-load": {
+    "messageformat": "QR-koden kunne ikke indlæses. Tjek din internetforbindelse, og prøv igen. <retry>Prøv igen</retry>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -3887,7 +3895,7 @@
     "description": "(deleted 03/29/2023) Description for audio notification setting"
   },
   "icu:audioNotificationDescription": {
-    "messageformat": "Afspil notifikationslyde",
+    "messageformat": "Push-notifikationslyd",
     "description": "Description for audio notification setting"
   },
   "callRingtoneNotificationDescription": {
@@ -5063,6 +5071,18 @@
     "messageformat": "Annullér",
     "description": "Appears on the cancel button in confirmation dialogs."
   },
+  "icu:Message__reaction-emoji-label--you": {
+    "messageformat": "Du reagerede med {emoji}",
+    "description": "aria-label for reaction emoji (you)"
+  },
+  "icu:Message__reaction-emoji-label--single": {
+    "messageformat": "{title} reagerede med {emoji}",
+    "description": "aria-label for reaction emoji when one person reacts with an emoji"
+  },
+  "icu:Message__reaction-emoji-label--many": {
+    "messageformat": "{count} mennesker reagerede med {emoji}",
+    "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
+  },
   "icu:Message__role-description": {
     "messageformat": "Send besked",
     "description": "aria-roledescription of a message"
@@ -5434,6 +5454,10 @@
   "icu:Keyboard--conversation-by-index": {
     "messageformat": "Spring til chat",
     "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
+  },
+  "icu:Keyboard--edit-last-message": {
+    "messageformat": "Rediger forrige besked",
+    "description": "Shown in the shortcuts guide"
   },
   "Keyboard--Key--ctrl": {
     "message": "Ctrl",
@@ -10468,7 +10492,7 @@
     "description": "Title for the avatar picker in the group creation flow"
   },
   "icu:Preferences__message-audio-title": {
-    "messageformat": "Beskedlyd i chat",
+    "messageformat": "Beskedlyde i chat",
     "description": "Title for message audio setting"
   },
   "icu:Preferences__message-audio-description": {
@@ -12539,18 +12563,6 @@
     "messageformat": "Små tweaks, rettelser og forbedringer af appens præstation. Tak fordi du bruger Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.17--0": {
-    "messageformat": "Forbedret understøttelse af højre-til-venstre-sprog (RTL).",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--1": {
-    "messageformat": "Lokale sprog identificeres nu ud fra på dine systempræferencer. Dette burde give forbedret standardadfærd, når der er konfigureret flere sprog.",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--2": {
-    "messageformat": "Denne version introducerer desuden (a10y) adskillige tilgængelighedsforbedringer (a11y) og fejlrettelser, og vi (a12y) vil gerne takke fællesskabet for deres feedback og forslag.",
-    "description": "Release notes for v6.17"
-  },
   "icu:WhatsNew__v6.18--0": {
     "messageformat": "Brug tastaturgenvejene \"Naviger efter afsnit\" (⌘/Ctrl + T og ⌘/Ctrl + F6) til hurtigt at gå mellem forskellige områder i appen. Det er som en superhelteudgave af Tab-tasten, der kan flyve længere og hurtigere end dens milde alter ego.",
     "description": "Release notes for v6.18"
@@ -12570,5 +12582,17 @@
   "icu:WhatsNew__v6.18--4": {
     "messageformat": "Der er også en ny \"Kopiér tekst\"-mulighed i menuen med tre prikker. Tak, {yusufsahinhamza}!",
     "description": "Release notes for v6.18"
+  },
+  "icu:WhatsNew__v6.19--0": {
+    "messageformat": "Stilheden er ikke altid guld værd, men den har fået et nyt ikon. Vi har opdateret knapperne Kamera og Lydløs i tale- og videoopkald, så det er endnu nemmere at se, hvornår de er aktiveret eller deaktiveret.",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--1": {
+    "messageformat": "Forbedret lokalisering og bedre håndtering af sprog fra højre til venstre i feltet for sammensætning af meddelelser. Tak, {sha265}!",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--2": {
+    "messageformat": "Hvis du bruger en tidligere version af Windows end Windows 10 eller en tidligere version af Ubuntu end 20.04 LTS, skal du opdatere dit operativsystem for fortsat at kunne bruge Signal: {supportLink}",
+    "description": "Release notes for v6.19"
   }
 }

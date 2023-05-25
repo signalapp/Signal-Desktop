@@ -2665,6 +2665,10 @@
     "message": "Skanni see kood enda telefonis oleva Signal rakendusega",
     "description": "(deleted 03/29/2023) Title of the device link screen. Also used as alt text for the QR code on the device link screen"
   },
+  "icu:Install__learn-more": {
+    "messageformat": "Rohkem infot",
+    "description": "Button text for learn more button during error screen"
+  },
   "icu:Install__scan-this-code": {
     "messageformat": "Skanni see kood enda telefonis oleva Signal rakendusega",
     "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
@@ -2702,7 +2706,11 @@
     "description": "Instructions on the device link screen"
   },
   "icu:Install__qr-failed": {
-    "messageformat": "QR-koodi ei saanud lugeda. Kontrolli oma internetiühendust ja proovi uuesti. <learnMoreLink>Rohkem teavet</learnMoreLink>",
+    "messageformat": "(deleted 05/09/2023) The QR code couldn't load. Check your internet and try again. <learnMoreLink>Learn more</learnMoreLink>",
+    "description": "Shown on the install screen if the QR code fails to load"
+  },
+  "icu:Install__qr-failed-load": {
+    "messageformat": "QR-koodi ei saanud laadida. Kontrolli oma internetiühendust ja proovi uuesti. <retry>Proovi uuesti</retry>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -3887,7 +3895,7 @@
     "description": "(deleted 03/29/2023) Description for audio notification setting"
   },
   "icu:audioNotificationDescription": {
-    "messageformat": "Esita teavituste helisid",
+    "messageformat": "Tõuketeavituste helid",
     "description": "Description for audio notification setting"
   },
   "callRingtoneNotificationDescription": {
@@ -5063,6 +5071,18 @@
     "messageformat": "Loobu",
     "description": "Appears on the cancel button in confirmation dialogs."
   },
+  "icu:Message__reaction-emoji-label--you": {
+    "messageformat": "Sinu reaktsioon: {emoji}",
+    "description": "aria-label for reaction emoji (you)"
+  },
+  "icu:Message__reaction-emoji-label--single": {
+    "messageformat": "{title} reaktsioon: {emoji}",
+    "description": "aria-label for reaction emoji when one person reacts with an emoji"
+  },
+  "icu:Message__reaction-emoji-label--many": {
+    "messageformat": "{count} inimese reaktsioon: {emoji}",
+    "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
+  },
   "icu:Message__role-description": {
     "messageformat": "Sõnum",
     "description": "aria-roledescription of a message"
@@ -5434,6 +5454,10 @@
   "icu:Keyboard--conversation-by-index": {
     "messageformat": "Mine vestlusse",
     "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
+  },
+  "icu:Keyboard--edit-last-message": {
+    "messageformat": "Muuda eelmist sõnumit",
+    "description": "Shown in the shortcuts guide"
   },
   "Keyboard--Key--ctrl": {
     "message": "Ctrl",
@@ -10468,7 +10492,7 @@
     "description": "Title for the avatar picker in the group creation flow"
   },
   "icu:Preferences__message-audio-title": {
-    "messageformat": "Vestlusesisese sõnumi heli",
+    "messageformat": "Vestlusesiseste sõnumite helid",
     "description": "Title for message audio setting"
   },
   "icu:Preferences__message-audio-description": {
@@ -12539,18 +12563,6 @@
     "messageformat": "Väikesed muudatused, vigade parandused ja jõudluse täiustused. Aitäh, et kasutad Signalit!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.17--0": {
-    "messageformat": "Parandatud tugi paremalt vasakule kirjutatavate keelte jaoks.",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--1": {
-    "messageformat": "Asukohad vastavad nüüd sinu süsteemi eelistustele. See peaks andma paremaid vaikimisi tulemusi, kui oled seadistanud mitu keelt.",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--2": {
-    "messageformat": "See uuendus pakub mitmeid ligipääsetavuse alaseid parendusi ja vigade parandusi. Ütleme kogukonnale nende tagasiside ja soovituste eest suure aitäh.",
-    "description": "Release notes for v6.17"
-  },
   "icu:WhatsNew__v6.18--0": {
     "messageformat": "Uued klaviatuuri otseteed (⌘/Ctrl+T & ⌘/Ctrl+F6) aitavad sul kiiresti äpi erinevate osade vahel liikuda. See on nagu Tab klahv, kuid veel kiirem ja mugavam.",
     "description": "Release notes for v6.18"
@@ -12570,5 +12582,17 @@
   "icu:WhatsNew__v6.18--4": {
     "messageformat": "Kolme punkti menüü all on ka „teksti kopeerimise“ valik. Aitäh, {yusufsahinhamza}!",
     "description": "Release notes for v6.18"
+  },
+  "icu:WhatsNew__v6.19--0": {
+    "messageformat": "Vaikus ei ole alati kuld, kuid uus ikoon on tal olemas. Uuendasime heli- ja videokõnede kaamera- ja vaigistusnuppe, et oleks lihtsam näha, millal need on sisse või välja lülitatud.",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--1": {
+    "messageformat": "Lokaliseerimise parendused ja paremalt vasakule loetavate keelte parem kuvamine sõnumi koostamise alas. Aitäh, {sha265}!",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--2": {
+    "messageformat": "Kui kasutad Windowsi versiooni, mis on vanem kui Windows 10, või Ubuntu versiooni, mis on vanem kui 20.04 LTS, pead Signali kasutamise jätkamiseks uuendama oma operatsioonisüsteemi: {supportLink}",
+    "description": "Release notes for v6.19"
   }
 }

@@ -2665,6 +2665,10 @@
     "message": "用手機嘅 Signal 應用程式掃瞄呢個二維碼",
     "description": "(deleted 03/29/2023) Title of the device link screen. Also used as alt text for the QR code on the device link screen"
   },
+  "icu:Install__learn-more": {
+    "messageformat": "了解多啲",
+    "description": "Button text for learn more button during error screen"
+  },
   "icu:Install__scan-this-code": {
     "messageformat": "用手機嘅 Signal 應用程式掃瞄呢個二維碼",
     "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
@@ -2702,7 +2706,11 @@
     "description": "Instructions on the device link screen"
   },
   "icu:Install__qr-failed": {
-    "messageformat": "載入唔到二維碼。請檢查吓你嘅互聯網，然後再試一次。<learnMoreLink>了解詳情</learnMoreLink>",
+    "messageformat": "(deleted 05/09/2023) The QR code couldn't load. Check your internet and try again. <learnMoreLink>Learn more</learnMoreLink>",
+    "description": "Shown on the install screen if the QR code fails to load"
+  },
+  "icu:Install__qr-failed-load": {
+    "messageformat": "載入唔到 QR code。請檢查你嘅互聯網，然後再試一次。<retry>再試一次</retry>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -3887,7 +3895,7 @@
     "description": "(deleted 03/29/2023) Description for audio notification setting"
   },
   "icu:audioNotificationDescription": {
-    "messageformat": "播放通知提示聲",
+    "messageformat": "推送通知音效",
     "description": "Description for audio notification setting"
   },
   "callRingtoneNotificationDescription": {
@@ -5063,6 +5071,18 @@
     "messageformat": "取消",
     "description": "Appears on the cancel button in confirmation dialogs."
   },
+  "icu:Message__reaction-emoji-label--you": {
+    "messageformat": "你對 {emoji} 傳送咗心情回應",
+    "description": "aria-label for reaction emoji (you)"
+  },
+  "icu:Message__reaction-emoji-label--single": {
+    "messageformat": "{title} 對 {title} 傳送咗心情回應",
+    "description": "aria-label for reaction emoji when one person reacts with an emoji"
+  },
+  "icu:Message__reaction-emoji-label--many": {
+    "messageformat": "{count} 人對 {emoji} 傳送咗心情回應",
+    "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
+  },
   "icu:Message__role-description": {
     "messageformat": "傳送訊息",
     "description": "aria-roledescription of a message"
@@ -5434,6 +5454,10 @@
   "icu:Keyboard--conversation-by-index": {
     "messageformat": "跳去聊天",
     "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
+  },
+  "icu:Keyboard--edit-last-message": {
+    "messageformat": "編輯上一個訊息",
+    "description": "Shown in the shortcuts guide"
   },
   "Keyboard--Key--ctrl": {
     "message": "Ctrl",
@@ -12539,18 +12563,6 @@
     "messageformat": "我哋做咗啲調整、修復咗一啲錯誤，同埋加強咗程式功能。多謝你使用 Signal！",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.17--0": {
-    "messageformat": "由右至左 (RTL) 語言嘅支援已經改善咗。",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--1": {
-    "messageformat": "系統宜家會根據你嘅系統偏好設定進行地區配對。咁當你設置多種語言嘅時候，預設行為就會有所改善。",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--2": {
-    "messageformat": "呢次版本另外加強咗幾項無障礙功能 (a11y)，同埋修復咗一啲錯誤。我哋衷心感謝社群提供嘅意見同建議。",
-    "description": "Release notes for v6.17"
-  },
   "icu:WhatsNew__v6.18--0": {
     "messageformat": "你可以用全新嘅鍵盤快捷鍵 (⌘/Ctrl+T 同 ⌘/Ctrl+F6)，快速跳去應用程式入面嘅唔同部分，就好似「Tab」掣嘅超人版本咁，比起未變身之前飛得更快更遠。",
     "description": "Release notes for v6.18"
@@ -12570,5 +12582,17 @@
   "icu:WhatsNew__v6.18--4": {
     "messageformat": "另外，三點選單入面亦都新增咗「複製文字」選項。{yusufsahinhamza}，多謝你！",
     "description": "Release notes for v6.18"
+  },
+  "icu:WhatsNew__v6.19--0": {
+    "messageformat": "沉默是金唔一定啱，但係時候轉吓新形象。我哋更新咗語音同視像通話入面嘅「相機」同「靜音」掣，當啟用或者停用時就更容易睇到。",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--1": {
+    "messageformat": "改善本地化功能，而且喺訊息撰寫欄位度由右至左嘅語言處理得更好。{sha265}，多謝你！",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--2": {
+    "messageformat": "如果你用緊 Window 10 之前嘅版本，或者 Ubuntu 嘅 20.04 LTS 之前嘅版本，你需要更新操作系統先可以繼續用 Signal：{supportLink}",
+    "description": "Release notes for v6.19"
   }
 }

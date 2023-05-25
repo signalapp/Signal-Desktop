@@ -793,7 +793,7 @@
     "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
   },
   "selectedLocation": {
-    "message": "الموقع الجغرافي المختار",
+    "message": "الموقع المختار",
     "description": "(deleted 03/29/2023) Message shown as the export location if we didn't capture the target directory"
   },
   "icu:selectedLocation": {
@@ -2665,6 +2665,10 @@
     "message": "امسح هذا الرمز ضوئيًا في تطبيق Signal على هاتفك",
     "description": "(deleted 03/29/2023) Title of the device link screen. Also used as alt text for the QR code on the device link screen"
   },
+  "icu:Install__learn-more": {
+    "messageformat": "لمعرفة المزيد",
+    "description": "Button text for learn more button during error screen"
+  },
   "icu:Install__scan-this-code": {
     "messageformat": "امسح هذا الرمز ضوئيًا في تطبيق Signal على هاتفك",
     "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
@@ -2702,7 +2706,11 @@
     "description": "Instructions on the device link screen"
   },
   "icu:Install__qr-failed": {
-    "messageformat": "لقد تعذر تحميل رمز الاستجابة السريعة. يُرجى التحقق من اتصالك بالأنترنت ثم المحاولة مرة أخرى. <learnMoreLink>معرفة المزيد</learnMoreLink>",
+    "messageformat": "(deleted 05/09/2023) The QR code couldn't load. Check your internet and try again. <learnMoreLink>Learn more</learnMoreLink>",
+    "description": "Shown on the install screen if the QR code fails to load"
+  },
+  "icu:Install__qr-failed-load": {
+    "messageformat": "لقد تعذر تحميل رمز الاستجابة السريعة. يُرجى التحقق من اتصالك بالأنترنت ثم المحاولة مرة أخرى. <retry>إعادة المُحاولة</retry>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -3887,7 +3895,7 @@
     "description": "(deleted 03/29/2023) Description for audio notification setting"
   },
   "icu:audioNotificationDescription": {
-    "messageformat": "تشغيل أصوات الإشعارات",
+    "messageformat": "أصوات الإشعارات الفورية",
     "description": "Description for audio notification setting"
   },
   "callRingtoneNotificationDescription": {
@@ -5063,6 +5071,18 @@
     "messageformat": "إلغاء",
     "description": "Appears on the cancel button in confirmation dialogs."
   },
+  "icu:Message__reaction-emoji-label--you": {
+    "messageformat": "لقد تفاعلت بـ {emoji}",
+    "description": "aria-label for reaction emoji (you)"
+  },
+  "icu:Message__reaction-emoji-label--single": {
+    "messageformat": "{title} تفاعل بـ {emoji}",
+    "description": "aria-label for reaction emoji when one person reacts with an emoji"
+  },
+  "icu:Message__reaction-emoji-label--many": {
+    "messageformat": "{count} شخصًا تفاعلوا بـ {emoji}",
+    "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
+  },
   "icu:Message__role-description": {
     "messageformat": "مراسلة",
     "description": "aria-roledescription of a message"
@@ -5434,6 +5454,10 @@
   "icu:Keyboard--conversation-by-index": {
     "messageformat": "الانتقال إلى الدردشة",
     "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
+  },
+  "icu:Keyboard--edit-last-message": {
+    "messageformat": "تعديل الرسالة السابقة",
+    "description": "Shown in the shortcuts guide"
   },
   "Keyboard--Key--ctrl": {
     "message": "Ctrl",
@@ -12539,18 +12563,6 @@
     "messageformat": "تعديلات صغيرة، تصليح الأعطال، وتحسينات للأداء. شكرًا على استخدامكم Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.17--0": {
-    "messageformat": "تم تحسين الدعم للغات التي تُكتب من اليمين إلى اليسار.",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--1": {
-    "messageformat": "تتم الآن مطابقة اللغات المحلية بناءً على تفضيلات نظامك. هذا من شأنه أن يُؤدي إلى تحسين سلوك اختيار اللغة الافتراضية عند تواجد عدة لغات.",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--2": {
-    "messageformat": "يُقدم هذا الإصدار أيضًا عدة تحسينات وتصويبات للأخطاء، ونتقدم بالشكر للمجتمع على تعليقاتهم واقتراحاتهم.",
-    "description": "Release notes for v6.17"
-  },
   "icu:WhatsNew__v6.18--0": {
     "messageformat": "استخدم اختصارات \"انتقل حسب القسم\" (⌘/Ctrl+T & ⌘/Ctrl+F6) للتنقل بسرعة بين مختلف مناطق التطبيق. إنها مثل نسخة خارقة لمفتاح Tab يمكنها أن تطير أبعد وأسرع.",
     "description": "Release notes for v6.18"
@@ -12570,5 +12582,17 @@
   "icu:WhatsNew__v6.18--4": {
     "messageformat": "هناك خيار \"نسخ النص\" جديد في قائمة النقاط الثلاثة أيضًا. شكرًا، {yusufsahinhamza}!",
     "description": "Release notes for v6.18"
+  },
+  "icu:WhatsNew__v6.19--0": {
+    "messageformat": "ليس السكوت دائمًا من علامات الرضى، لكن لديه الآن أيقونة جديدة. لقد قمنا بتحديث زري الكاميرا وكتم الصوت في المكالمات الصوتية ومكالمات الفيديو لتصبح رؤيتهما أسهل عندما يكونان مفعّلين أو غير مفعّلين.",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--1": {
+    "messageformat": "تحسينات للترجمة المحلية ومناولة أفضل للغات التي تُكتب من اليمين إلى اليسار في مجال تأليف الرسائل. شكرًا، {sha265}!",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--2": {
+    "messageformat": "إذا كنت تستخدم إصدار Windows قبل Windows 10، أو إصدار Ubuntu قبل 20.04 LTS، سَيتعين عليك تحديث نظام تشغيلك لمواصلة استخدام Signal: {supportLink}",
+    "description": "Release notes for v6.19"
   }
 }

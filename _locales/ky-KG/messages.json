@@ -2665,6 +2665,10 @@
     "message": "Бул кодду телефонуңуздагы Signal колдонмосунан скандаңыз",
     "description": "(deleted 03/29/2023) Title of the device link screen. Also used as alt text for the QR code on the device link screen"
   },
+  "icu:Install__learn-more": {
+    "messageformat": "Кененирээк маалымат",
+    "description": "Button text for learn more button during error screen"
+  },
   "icu:Install__scan-this-code": {
     "messageformat": "Бул кодду телефонуңуздагы Signal колдонмосунан скандаңыз",
     "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
@@ -2702,7 +2706,11 @@
     "description": "Instructions on the device link screen"
   },
   "icu:Install__qr-failed": {
-    "messageformat": "QR код жүктөлгөн жок. Интернетти текшерип, кайталап көрүңүз. <learnMoreLink>Кененирээк маалымат</learnMoreLink>",
+    "messageformat": "(deleted 05/09/2023) The QR code couldn't load. Check your internet and try again. <learnMoreLink>Learn more</learnMoreLink>",
+    "description": "Shown on the install screen if the QR code fails to load"
+  },
+  "icu:Install__qr-failed-load": {
+    "messageformat": "QR код жүктөлгөн жок. Интернетти текшерип, кайталап көрүңүз. <retry>Кайталап көрүү</retry>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -3887,7 +3895,7 @@
     "description": "(deleted 03/29/2023) Description for audio notification setting"
   },
   "icu:audioNotificationDescription": {
-    "messageformat": "Билдирме үндөрүн ойнотуу",
+    "messageformat": "Push билдирмелеринин үндөрү",
     "description": "Description for audio notification setting"
   },
   "callRingtoneNotificationDescription": {
@@ -5063,6 +5071,18 @@
     "messageformat": "Жок",
     "description": "Appears on the cancel button in confirmation dialogs."
   },
+  "icu:Message__reaction-emoji-label--you": {
+    "messageformat": "Сезимиңизди билдирдиңиз: {emoji}",
+    "description": "aria-label for reaction emoji (you)"
+  },
+  "icu:Message__reaction-emoji-label--single": {
+    "messageformat": "{title} сезимин билдирди: {emoji}",
+    "description": "aria-label for reaction emoji when one person reacts with an emoji"
+  },
+  "icu:Message__reaction-emoji-label--many": {
+    "messageformat": "{count} адам сезимдерин билдиришти: {emoji}",
+    "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
+  },
   "icu:Message__role-description": {
     "messageformat": "Билдирүү",
     "description": "aria-roledescription of a message"
@@ -5434,6 +5454,10 @@
   "icu:Keyboard--conversation-by-index": {
     "messageformat": "Маекке өтүү",
     "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
+  },
+  "icu:Keyboard--edit-last-message": {
+    "messageformat": "Мурунку билдирүүнү оңдоо",
+    "description": "Shown in the shortcuts guide"
   },
   "Keyboard--Key--ctrl": {
     "message": "Ctrl",
@@ -12539,18 +12563,6 @@
     "messageformat": "Майда-барат өзгөрүүлөрдү киргизип, мүчүлүштүктөрдү оңдоп, колдонмонун иштешин жакшыртып жатабыз. Signal'ды колдонгонуңуз үчүн чоң рахмат!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.17--0": {
-    "messageformat": "Оңдон солго жазылган тилдер жакшыраак иштей баштады.",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--1": {
-    "messageformat": "Тилдер эми системанын параметрлерине жараша дал келет. Бир нече тил тандалганда, демейки аракет жакшыраак иштей баштайт.",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--2": {
-    "messageformat": "Бул жаңы версияда атайын мүмкүнчүлүктөрдүн (a10y) функциялары өркүндөтүлүп, мүчүлүштүктөр оңдолуп (a11y), билдирген пикирлери жана сунуштары үчүн коомчулукка (a12y) терең ыраазычылыгыбызды билдиргибиз келет.",
-    "description": "Release notes for v6.17"
-  },
   "icu:WhatsNew__v6.18--0": {
     "messageformat": "Колдонмонун ар кайсы жерине тез өткүңүз келсе, \"Бөлүмдөр боюнча чабыттоо\" бөлүмүндөгү ыкчам баскычтарды колдонуңуз (⌘/Ctrl+T & ⌘/Ctrl+F6). Бул качанкы Tab баскычынын укмуштуудай тездик менен алыска секире алган версиясы.",
     "description": "Release notes for v6.18"
@@ -12570,5 +12582,17 @@
   "icu:WhatsNew__v6.18--4": {
     "messageformat": "Үч чекиттүү менюда да \"Текстти көчүрүү\" мүмкүнчүлүгү пайда болду. Чоң рахмат {yusufsahinhamza}!",
     "description": "Release notes for v6.18"
+  },
+  "icu:WhatsNew__v6.19--0": {
+    "messageformat": "Унчукпоо дайыма эле алтын боло бербейт, бирок анын жаңы сүрөтчөсү бар. Аудио жана видео чалуулардагы Камера менен Үндү басуу/чыгаруу баскычтарын жаңырттык. Эми алардын күйгүзүлгөнү же өчүрүлгөнү дароо көрүнөт.",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--1": {
+    "messageformat": "Башка тилдер ыңгайлаштырылып, оңдон солго жазылган тилдерде билдирүүлөрдү жазуу кыйла оңой болуп калды. Чоң рахмат {sha265}!",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--2": {
+    "messageformat": "Windows 10 чейинки версияны же 20.04 LTS чейинки Ubuntu версиясын колдонуп жатсаңыз, Signal кызматын пайдалана берүү үчүн операциялар системасын жаңыртышыңыз керек: {supportLink}",
+    "description": "Release notes for v6.19"
   }
 }

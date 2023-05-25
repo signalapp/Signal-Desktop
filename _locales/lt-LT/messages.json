@@ -621,7 +621,7 @@
     "description": "Shown in a context menu for a contact, allows the user to start the conversation with the contact"
   },
   "icu:ContactListItem__menu__audio-call": {
-    "messageformat": "Garso skambutis",
+    "messageformat": "Balso skambutis",
     "description": "Shown in a context menu for a contact, allows the user to start the audio call with the contact"
   },
   "icu:ContactListItem__menu__video-call": {
@@ -2665,6 +2665,10 @@
     "message": "Nuskenuokite šį kodą naudodami telefone įdiegtą Signal programėlę",
     "description": "(deleted 03/29/2023) Title of the device link screen. Also used as alt text for the QR code on the device link screen"
   },
+  "icu:Install__learn-more": {
+    "messageformat": "Sužinoti daugiau",
+    "description": "Button text for learn more button during error screen"
+  },
   "icu:Install__scan-this-code": {
     "messageformat": "Nuskenuokite šį kodą naudodami telefone įdiegtą Signal programėlę",
     "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
@@ -2702,7 +2706,11 @@
     "description": "Instructions on the device link screen"
   },
   "icu:Install__qr-failed": {
-    "messageformat": "Nepavyko įkelti QR kodo. Patikrink interneto ryšį ir bandyk dar kartą. <learnMoreLink>Sužinoti daugiau</learnMoreLink>",
+    "messageformat": "(deleted 05/09/2023) The QR code couldn't load. Check your internet and try again. <learnMoreLink>Learn more</learnMoreLink>",
+    "description": "Shown on the install screen if the QR code fails to load"
+  },
+  "icu:Install__qr-failed-load": {
+    "messageformat": "Nepavyko įkelti QR kodo. Patikrink interneto ryšį ir bandyk dar kartą. <retry>Bandyti dar kartą</retry>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -3887,7 +3895,7 @@
     "description": "(deleted 03/29/2023) Description for audio notification setting"
   },
   "icu:audioNotificationDescription": {
-    "messageformat": "Atkurti pranešimų garsus",
+    "messageformat": "Iššokančiųjų pranešimų garsas",
     "description": "Description for audio notification setting"
   },
   "callRingtoneNotificationDescription": {
@@ -5063,6 +5071,18 @@
     "messageformat": "Atšaukti",
     "description": "Appears on the cancel button in confirmation dialogs."
   },
+  "icu:Message__reaction-emoji-label--you": {
+    "messageformat": "Tu sureagavai {emoji}",
+    "description": "aria-label for reaction emoji (you)"
+  },
+  "icu:Message__reaction-emoji-label--single": {
+    "messageformat": "{title} sureagavo {emoji}",
+    "description": "aria-label for reaction emoji when one person reacts with an emoji"
+  },
+  "icu:Message__reaction-emoji-label--many": {
+    "messageformat": "{count} žmonės sureagavo {emoji}",
+    "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
+  },
   "icu:Message__role-description": {
     "messageformat": "Siųsk žinutę",
     "description": "aria-roledescription of a message"
@@ -5434,6 +5454,10 @@
   "icu:Keyboard--conversation-by-index": {
     "messageformat": "Peršokti į pokalbį",
     "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
+  },
+  "icu:Keyboard--edit-last-message": {
+    "messageformat": "Redaguoti ankstesnę žinutę",
+    "description": "Shown in the shortcuts guide"
   },
   "Keyboard--Key--ctrl": {
     "message": "Vald (Ctrl)",
@@ -12539,18 +12563,6 @@
     "messageformat": "Smulkūs patobulinimai, klaidų pataisymai ir veikimo pagerinimas. Ačiū, kad naudoji „Signal“!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.17--0": {
-    "messageformat": "Patobulintas rašto krypties iš dešinės į kairę kalbų (RTL) palaikymas.",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--1": {
-    "messageformat": "Kalbos dabar pritaikomos pagal sistemos parinktis. Tai turėtų pagerinti numatytąjį veikimą, kai sukonfigūruotos kelios kalbos.",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--2": {
-    "messageformat": "Šiame leidime (a10y) dar yra keletas patobulinimų dėl pritaikymo neįgaliesiems (a11y) bei klaidų taisinių. Nuoširdžiai (a12y) dėkojame bendruomenei už atsiliepimus ir pasiūlymus.",
-    "description": "Release notes for v6.17"
-  },
   "icu:WhatsNew__v6.18--0": {
     "messageformat": "Nauji spartieji klavišai (⌘/Ctrl+T & ⌘/Ctrl+F6) padės greitai pereiti iš vienos programėlės srities į kitą. Tai tarsi senas geras tabuliavimo klavišas, įgavęs superherojaus galių ir skrendantis toliau bei greičiau.",
     "description": "Release notes for v6.18"
@@ -12570,5 +12582,17 @@
   "icu:WhatsNew__v6.18--4": {
     "messageformat": "Trijų taškelių meniu taip pat turi naują teksto kopijavimo parinktį. Ačiū, {yusufsahinhamza}!",
     "description": "Release notes for v6.18"
+  },
+  "icu:WhatsNew__v6.19--0": {
+    "messageformat": "Tyla – gera byla, o dabar ji turi ir naują piktogramą. Atnaujinome kameros ir nutildymo mygtukus balso bei vaizdo skambučiuose, taigi dar lengviau pamatyti, kai jie įjungti ar išjungti.",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--1": {
+    "messageformat": "Lokalizavimo patobulinimai ir geresnis kalbų, kuriomis rašoma iš dešinės į kairę, valdymas žinučių kūrimo laukelyje. Ačiū, {sha265}!",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--2": {
+    "messageformat": "Jei naudoji ankstesnę nei „Windows 10“ ar ankstesnę nei „Ubuntu 20.04 LTS“ versiją, tau teks atnaujinti operacinę sistemą, kad galėtum toliau naudoti „Signal“: {supportLink}",
+    "description": "Release notes for v6.19"
   }
 }

@@ -621,7 +621,7 @@
     "description": "Shown in a context menu for a contact, allows the user to start the conversation with the contact"
   },
   "icu:ContactListItem__menu__audio-call": {
-    "messageformat": "Аудио повикване",
+    "messageformat": "Гласово обаждане",
     "description": "Shown in a context menu for a contact, allows the user to start the audio call with the contact"
   },
   "icu:ContactListItem__menu__video-call": {
@@ -2665,6 +2665,10 @@
     "message": "Сканирайте този код в приложението Signal на телефона си",
     "description": "(deleted 03/29/2023) Title of the device link screen. Also used as alt text for the QR code on the device link screen"
   },
+  "icu:Install__learn-more": {
+    "messageformat": "Научете повече",
+    "description": "Button text for learn more button during error screen"
+  },
   "icu:Install__scan-this-code": {
     "messageformat": "Сканирайте този код в приложението Signal на телефона си",
     "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
@@ -2702,7 +2706,11 @@
     "description": "Instructions on the device link screen"
   },
   "icu:Install__qr-failed": {
-    "messageformat": "QR кодът не успя да се зареди. Проверете интернета си и опитайте отново. <learnMoreLink>Научете повече</learnMoreLink>",
+    "messageformat": "(deleted 05/09/2023) The QR code couldn't load. Check your internet and try again. <learnMoreLink>Learn more</learnMoreLink>",
+    "description": "Shown on the install screen if the QR code fails to load"
+  },
+  "icu:Install__qr-failed-load": {
+    "messageformat": "QR кодът не успя да се зареди. Проверете интернет връзката си и опитайте отново. <retry>Опитай отново</retry>",
     "description": "Shown on the install screen if the QR code fails to load"
   },
   "Install__support-link": {
@@ -3887,7 +3895,7 @@
     "description": "(deleted 03/29/2023) Description for audio notification setting"
   },
   "icu:audioNotificationDescription": {
-    "messageformat": "Пускане на звуци за известия",
+    "messageformat": "Звуци на насочени известия",
     "description": "Description for audio notification setting"
   },
   "callRingtoneNotificationDescription": {
@@ -5063,6 +5071,18 @@
     "messageformat": "Отказ",
     "description": "Appears on the cancel button in confirmation dialogs."
   },
+  "icu:Message__reaction-emoji-label--you": {
+    "messageformat": "Вие реагирахте с {emoji}",
+    "description": "aria-label for reaction emoji (you)"
+  },
+  "icu:Message__reaction-emoji-label--single": {
+    "messageformat": "{title} реагира с {emoji}",
+    "description": "aria-label for reaction emoji when one person reacts with an emoji"
+  },
+  "icu:Message__reaction-emoji-label--many": {
+    "messageformat": "{count} души реагираха с {emoji}",
+    "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
+  },
   "icu:Message__role-description": {
     "messageformat": "Съобщение",
     "description": "aria-roledescription of a message"
@@ -5434,6 +5454,10 @@
   "icu:Keyboard--conversation-by-index": {
     "messageformat": "Прескачане към чата",
     "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
+  },
+  "icu:Keyboard--edit-last-message": {
+    "messageformat": "Редактиране на предишното съобщение",
+    "description": "Shown in the shortcuts guide"
   },
   "Keyboard--Key--ctrl": {
     "message": "Ctrl",
@@ -10468,7 +10492,7 @@
     "description": "Title for the avatar picker in the group creation flow"
   },
   "icu:Preferences__message-audio-title": {
-    "messageformat": "Звук за съобщения в чата",
+    "messageformat": "Звуци за съобщения в чата",
     "description": "Title for message audio setting"
   },
   "icu:Preferences__message-audio-description": {
@@ -12539,18 +12563,6 @@
     "messageformat": "Дребни корекции, поправки на бъгове и подобрения на работата. Благодарим ви, че използвате Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.17--0": {
-    "messageformat": "Подобрена поддръжка за езици с четене от дясно наляво (RTL).",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--1": {
-    "messageformat": "Езиковата променлива вече се напасва към системните ви предпочитания. Това би следвало да доведе до по-добро поведение по подразбиране, когато са конфигурирани няколко езика.",
-    "description": "Release notes for v6.17"
-  },
-  "icu:WhatsNew__v6.17--2": {
-    "messageformat": "Тази версия освен това въвежда и няколко подобрения на достъпността и корекции на грешки. Бихме искали сърдечно да благодарим на общността за получените отзиви и предложения.",
-    "description": "Release notes for v6.17"
-  },
   "icu:WhatsNew__v6.18--0": {
     "messageformat": "Използвайте клавишните комбинации „Навигиране по раздел“ (⌘/Ctrl+T и ⌘/Ctrl+F6), за да се придвижвате бързо между различни области на приложението. Това е като супергероична версия на клавиша Tab, която може да лети по-далеч и по-бързо от своето скромно братче.",
     "description": "Release notes for v6.18"
@@ -12570,5 +12582,17 @@
   "icu:WhatsNew__v6.18--4": {
     "messageformat": "В менюто с три точки има и нова опция „Копиране на текст“. Благодарим, {yusufsahinhamza}!",
     "description": "Release notes for v6.18"
+  },
+  "icu:WhatsNew__v6.19--0": {
+    "messageformat": "Мълчанието не винаги е злато, но пък си има нова икона. Обновихме бутоните за камерата и заглушаването в гласови и видеоразговори, така че е още по-лесно да видите кога са активирани или деактивирани.",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--1": {
+    "messageformat": "Подобрения в локализацията и по-добра работа с езици с четене от дясно наляво в полето за съставяне на съобщение. Благодарим, {sha265}!",
+    "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.19--2": {
+    "messageformat": "Ако използвате версия на Windows преди Windows 10 или версия на Ubuntu преди 20.04 LTS, ще трябва да актуализирате операционната си система, за да продължите да използвате Signal: {supportLink}",
+    "description": "Release notes for v6.19"
   }
 }
