@@ -53,8 +53,6 @@ import { queueAllCachedFromSource } from './receiver';
 import { EnvelopePlus } from './types';
 import { deleteAllMessagesByConvoIdNoConfirmation } from '../interactions/conversationInteractions';
 
-const printDumpsForDebugging = false;
-
 function groupByVariant(
   incomingConfigs: Array<IncomingMessage<SignalService.ISharedConfigMessage>>
 ) {
@@ -99,7 +97,7 @@ async function mergeConfigsWithIncomingUpdates(
         data: msg.message.data,
         hash: msg.messageHash,
       }));
-      if (printDumpsForDebugging) {
+      if (window.sessionFeatureFlags.debug.debugLibsessionDumps) {
         window.log.info(
           `printDumpsForDebugging: before merge of ${variant}:`,
           StringUtils.toHex(await GenericWrapperActions.dump(variant))
@@ -125,7 +123,7 @@ async function mergeConfigsWithIncomingUpdates(
         `${variant}: "${publicKey}" needsPush:${needsPush} needsDump:${needsDump}; mergedCount:${mergedCount} `
       );
 
-      if (printDumpsForDebugging) {
+      if (window.sessionFeatureFlags.debug.debugLibsessionDumps) {
         window.log.info(
           `printDumpsForDebugging: after merge of ${variant}:`,
           StringUtils.toHex(await GenericWrapperActions.dump(variant))
@@ -213,7 +211,7 @@ async function deleteContactsFromDB(contactsToRemove: Array<string>) {
   for (let index = 0; index < contactsToRemove.length; index++) {
     const contactToRemove = contactsToRemove[index];
     try {
-      await getConversationController().deleteContact(contactToRemove, {
+      await getConversationController().delete1o1(contactToRemove, {
         fromSyncMessage: true,
         justHidePrivate: false,
       });
@@ -360,7 +358,7 @@ async function handleCommunitiesUpdate() {
   for (let index = 0; index < communitiesToLeaveInDB.length; index++) {
     const toLeave = communitiesToLeaveInDB[index];
     window.log.info('leaving community with convoId ', toLeave.id);
-    await getConversationController().deleteContact(toLeave.id, {
+    await getConversationController().deleteCommunity(toLeave.id, {
       fromSyncMessage: true,
     });
   }
@@ -442,16 +440,11 @@ async function handleLegacyGroupUpdate(latestEnvelopeTimestamp: number) {
       toLeave.id
     );
     const toLeaveFromDb = getConversationController().get(toLeave.id);
-
-    // if we were kicked from that group, leave it as is until the user manually deletes it
-    // otherwise, completely remove the conversation
-    if (!toLeaveFromDb?.get('isKickedFromGroup')) {
-      window.log.debug(`we were kicked from ${toLeave.id} so we keep it until manually deleted`);
-
-      await getConversationController().deleteContact(toLeave.id, {
-        fromSyncMessage: true,
-      });
-    }
+    // the wrapper told us that this group is not tracked, so even if we left/got kicked from it, remove it from the DB completely
+    await getConversationController().deleteClosedGroup(toLeaveFromDb.id, {
+      fromSyncMessage: true,
+      sendLeaveMessage: false, // this comes from the wrapper, so we must have left/got kicked from that group already and our device already handled it.
+    });
   }
 
   for (let index = 0; index < legacyGroupsToJoinInDB.length; index++) {

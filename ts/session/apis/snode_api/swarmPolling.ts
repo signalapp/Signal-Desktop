@@ -109,8 +109,10 @@ export class SwarmPolling {
 
   public removePubkey(pk: PubKey | string) {
     const pubkey = PubKey.cast(pk);
-    window?.log?.info('Swarm removePubkey: removing pubkey from polling', pubkey.key);
-    this.groupPolling = this.groupPolling.filter(group => !pubkey.isEqual(group.pubkey));
+    if (this.groupPolling.some(group => pubkey.key === group.pubkey.key)) {
+      window?.log?.info('Swarm removePubkey: removing pubkey from polling', pubkey.key);
+      this.groupPolling = this.groupPolling.filter(group => !pubkey.isEqual(group.pubkey));
+    }
   }
 
   /**

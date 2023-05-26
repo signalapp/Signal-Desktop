@@ -31,9 +31,10 @@ window.sessionFeatureFlags = {
   useTestNet: Boolean(
     process.env.NODE_APP_INSTANCE && process.env.NODE_APP_INSTANCE.includes('testnet')
   ),
-  useDebugLogging: !_.isEmpty(process.env.SESSION_DEBUG),
   useClosedGroupV3: false || process.env.USE_CLOSED_GROUP_V3,
   debug: {
+    debugLogging: !_.isEmpty(process.env.SESSION_DEBUG),
+    debugLibsessionDumps: !_.isEmpty(process.env.SESSION_DEBUG_LIBSESSION_DUMPS),
     debugFileServerRequests: false,
     debugNonSnodeRequests: false,
     debugOnionRequests: false,

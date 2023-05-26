@@ -404,6 +404,7 @@ async function sendMessagesToSnode(
         retries: 2,
         factor: 1,
         minTimeout: MessageSender.getMinRetryTimeout(),
+        maxTimeout: 1000,
       }
     );
 

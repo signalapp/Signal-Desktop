@@ -38,11 +38,12 @@ declare global {
       useTestNet: boolean;
       useClosedGroupV3: boolean;
       debug: {
+        debugLogging: boolean;
+        debugLibsessionDumps: boolean;
         debugFileServerRequests: boolean;
         debugNonSnodeRequests: boolean;
         debugOnionRequests: boolean;
       };
-      useDebugLogging: boolean;
     };
     SessionSnodeAPI: SessionSnodeAPI;
     onLogin: (pw: string) => Promise<void>;

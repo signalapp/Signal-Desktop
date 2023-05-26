@@ -238,9 +238,10 @@ export function showLeaveGroupByConvoId(conversationId: string) {
     UserUtils.getOurPubKeyStrFromCache()
   );
   const isClosedGroup = conversation.isClosedGroup() || false;
+  const isPublic = conversation.isPublic() || false;
 
-  // if this is not a closed group, or we are not admin, we can just show a confirmation dialog
-  if (!isClosedGroup || (isClosedGroup && !isAdmin)) {
+  // if this is a community, or we legacy group are not admin, we can just show a confirmation dialog
+  if (isPublic || (isClosedGroup && !isAdmin)) {
     const onClickClose = () => {
       window.inboxStore?.dispatch(updateConfirmModal(null));
     };
@@ -249,9 +250,16 @@ export function showLeaveGroupByConvoId(conversationId: string) {
         title,
         message,
         onClickOk: async () => {
-          await getConversationController().deleteContact(conversation.id, {
-            fromSyncMessage: false,
-          });
+          if (isPublic) {
+            await getConversationController().deleteCommunity(conversation.id, {
+              fromSyncMessage: false,
+            });
+          } else {
+            await getConversationController().deleteClosedGroup(conversation.id, {
+              fromSyncMessage: false,
+              sendLeaveMessage: true,
+            });
+          }
           onClickClose();
         },
         onClickClose,

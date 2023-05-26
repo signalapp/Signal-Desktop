@@ -152,7 +152,7 @@ export class OpenGroupManagerV2 {
 
             await OpenGroupData.removeV2OpenGroupRoom(roomConvoId);
             getOpenGroupManager().removeRoomFromPolledRooms(infos);
-            await getConversationController().deleteContact(roomConvoId, {
+            await getConversationController().deleteCommunity(roomConvoId, {
               fromSyncMessage: false,
             });
           }

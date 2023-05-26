@@ -22,13 +22,14 @@ import { SessionUtilConvoInfoVolatile } from '../utils/libsession/libsession_uti
 import { SessionUtilUserGroups } from '../utils/libsession/libsession_utils_user_groups';
 import { GetNetworkTime } from '../apis/snode_api/getNetworkTime';
 import { getMessageQueue } from '..';
-import { markGroupAsLeftOrKicked } from '../../receiver/closedGroups';
 import { getSwarmPollingInstance } from '../apis/snode_api';
 import { SnodeNamespaces } from '../apis/snode_api/namespaces';
 import { ClosedGroupMemberLeftMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupMemberLeftMessage';
 import { UserUtils } from '../utils';
 import { isEmpty, isNil } from 'lodash';
 import { getCurrentlySelectedConversationOutsideRedux } from '../../state/selectors/conversations';
+import { removeAllClosedGroupEncryptionKeyPairs } from '../../receiver/closedGroups';
+import { OpenGroupUtils } from '../apis/open_group_api/utils';
 
 let instance: ConversationController | null;
 
@@ -204,114 +205,88 @@ export class ConversationController {
     await conversation.commit();
   }
 
-  public async deleteContact(
-    id: string,
-    options: { fromSyncMessage: boolean; justHidePrivate?: boolean }
+  public async deleteClosedGroup(
+    groupId: string,
+    options: { fromSyncMessage: boolean; sendLeaveMessage: boolean }
   ) {
-    if (!this._initialFetchComplete) {
-      throw new Error('getConversationController.deleteContact  needs complete initial fetch');
+    const conversation = await this.deleteConvoInitialChecks(groupId, 'LegacyGroup');
+    if (!conversation || !conversation.isClosedGroup()) {
+      return;
+    }
+    window.log.info(`deleteClosedGroup: ${groupId}, sendLeaveMessage?:${options.sendLeaveMessage}`);
+    getSwarmPollingInstance().removePubkey(groupId); // we don't need to keep polling anymore.
+
+    if (options.sendLeaveMessage) {
+      await leaveClosedGroup(groupId, options.fromSyncMessage);
     }
 
-    window.log.info(`deleteContact with ${id}`);
+    // if we were kicked or sent our left message, we have nothing to do more with that group.
+    // Just delete everything related to it, not trying to add update message or send a left message.
+    await this.removeGroupOrCommunityFromDBAndRedux(groupId);
+    await removeLegacyGroupFromWrappers(groupId);
 
-    const conversation = this.conversations.get(id);
-    if (!conversation) {
-      window.log.warn(`deleteContact no such convo ${id}`);
+    if (!options.fromSyncMessage) {
+      await ConfigurationSync.queueNewJobIfNeeded();
+    }
+  }
+
+  public async deleteCommunity(convoId: string, options: { fromSyncMessage: boolean }) {
+    const conversation = await this.deleteConvoInitialChecks(convoId, 'Community');
+    if (!conversation || !conversation.isPublic()) {
       return;
     }
 
-    // those are the stuff to do for all conversation types
-    window.log.info(`deleteContact destroyingMessages: ${id}`);
-    await deleteAllMessagesByConvoIdNoConfirmation(id);
-    window.log.info(`deleteContact messages destroyed: ${id}`);
+    window?.log?.info('leaving community: ', conversation.id);
+    const roomInfos = OpenGroupData.getV2OpenGroupRoom(conversation.id);
+    if (roomInfos) {
+      getOpenGroupManager().removeRoomFromPolledRooms(roomInfos);
+    }
+    await removeCommunityFromWrappers(conversation.id); // this call needs to fetch the pubkey
+    await this.removeGroupOrCommunityFromDBAndRedux(conversation.id);
 
-    const convoType: ConvoVolatileType = conversation.isClosedGroup()
-      ? 'LegacyGroup'
-      : conversation.isPublic()
-      ? 'Community'
-      : '1o1';
+    if (!options.fromSyncMessage) {
+      await ConfigurationSync.queueNewJobIfNeeded();
+    }
+  }
 
-    switch (convoType) {
-      case '1o1':
-        // if this conversation is a private conversation it's in fact a `contact` for desktop.
+  public async delete1o1(
+    id: string,
+    options: { fromSyncMessage: boolean; justHidePrivate?: boolean }
+  ) {
+    const conversation = await this.deleteConvoInitialChecks(id, '1o1');
+    if (!conversation || !conversation.isPrivate()) {
+      return;
+    }
 
-        if (options.justHidePrivate || isNil(options.justHidePrivate) || conversation.isMe()) {
-          // we just set the hidden field to true
-          // so the conversation still exists (needed for that user's profile in groups) but is not shown on the list of conversation.
-          // We also keep the messages for now, as turning a contact as hidden might just be a temporary thing
-          window.log.info(`deleteContact isPrivate, marking as hidden: ${id}`);
-          conversation.set({
-            priority: CONVERSATION_PRIORITIES.hidden,
-          });
-          // We don't remove entries from the contacts wrapper, so better keep corresponding convo volatile info for now (it will be pruned if needed)
-          await conversation.commit(); // this updates the wrappers content to reflect the hidden state
-        } else {
-          window.log.info(`deleteContact isPrivate, reset fields and removing from wrapper: ${id}`);
+    if (options.justHidePrivate || isNil(options.justHidePrivate) || conversation.isMe()) {
+      // we just set the hidden field to true
+      // so the conversation still exists (needed for that user's profile in groups) but is not shown on the list of conversation.
+      // We also keep the messages for now, as turning a contact as hidden might just be a temporary thing
+      window.log.info(`deleteContact isPrivate, marking as hidden: ${id}`);
+      conversation.set({
+        priority: CONVERSATION_PRIORITIES.hidden,
+      });
+      // We don't remove entries from the contacts wrapper, so better keep corresponding convo volatile info for now (it will be pruned if needed)
+      await conversation.commit(); // this updates the wrappers content to reflect the hidden state
+    } else {
+      window.log.info(`deleteContact isPrivate, reset fields and removing from wrapper: ${id}`);
 
-          await conversation.setIsApproved(false, false);
-          await conversation.setDidApproveMe(false, false);
-          conversation.set('active_at', 0);
-          await BlockedNumberController.unblockAll([conversation.id]);
-          await conversation.commit(); // first commit to DB so the DB knows about the changes
-          if (SessionUtilContact.isContactToStoreInWrapper(conversation)) {
-            window.log.warn('isContactToStoreInWrapper still true for ', conversation.attributes);
-          }
-          if (conversation.id.startsWith('05')) {
-            // make sure to filter blinded contacts as it will throw otherwise
-            await SessionUtilContact.removeContactFromWrapper(conversation.id); // then remove the entry alltogether from the wrapper
-            await SessionUtilConvoInfoVolatile.removeContactFromWrapper(conversation.id);
-          }
-          if (getCurrentlySelectedConversationOutsideRedux() === conversation.id) {
-            window.inboxStore?.dispatch(resetConversationExternal());
-          }
-        }
-
-        break;
-      case 'Community':
-        window?.log?.info('leaving open group v2', conversation.id);
-
-        try {
-          const fromWrapper = await UserGroupsWrapperActions.getCommunityByFullUrl(conversation.id);
-          if (fromWrapper?.fullUrlWithPubkey) {
-            await SessionUtilConvoInfoVolatile.removeCommunityFromWrapper(
-              conversation.id,
-              fromWrapper.fullUrlWithPubkey
-            );
-          }
-        } catch (e) {
-          window?.log?.info(
-            'SessionUtilConvoInfoVolatile.removeCommunityFromWrapper failed:',
-            e.message
-          );
-        }
-
-        // remove from the wrapper the entries before we remove the roomInfos, as we won't have the required community pubkey afterwards
-        try {
-          await SessionUtilUserGroups.removeCommunityFromWrapper(conversation.id, conversation.id);
-        } catch (e) {
-          window?.log?.info('SessionUtilUserGroups.removeCommunityFromWrapper failed:', e);
-        }
-
-        const roomInfos = OpenGroupData.getV2OpenGroupRoom(conversation.id);
-        if (roomInfos) {
-          getOpenGroupManager().removeRoomFromPolledRooms(roomInfos);
-        }
-        await this.cleanUpGroupConversation(conversation.id);
-
-        // remove the roomInfos locally for this open group room including the pubkey
-        try {
-          await OpenGroupData.removeV2OpenGroupRoom(conversation.id);
-        } catch (e) {
-          window?.log?.info('removeV2OpenGroupRoom failed:', e);
-        }
-        break;
-      case 'LegacyGroup':
-        window.log.info(`deleteContact ClosedGroup case: ${conversation.id}`);
-        await leaveClosedGroup(conversation.id, options.fromSyncMessage); // this removes the data from the group and convo volatile info
-        await this.cleanUpGroupConversation(conversation.id);
-        break;
-      default:
-        assertUnreachable(convoType, `deleteContact: convoType ${convoType} not handled`);
+      await conversation.setIsApproved(false, false);
+      await conversation.setDidApproveMe(false, false);
+      conversation.set('active_at', 0);
+      await BlockedNumberController.unblockAll([conversation.id]);
+      await conversation.commit(); // first commit to DB so the DB knows about the changes
+      if (SessionUtilContact.isContactToStoreInWrapper(conversation)) {
+        window.log.warn('isContactToStoreInWrapper still true for ', conversation.attributes);
+      }
+      if (conversation.id.startsWith('05')) {
+        // make sure to filter blinded contacts as it will throw otherwise
+        await SessionUtilContact.removeContactFromWrapper(conversation.id); // then remove the entry alltogether from the wrapper
+        await SessionUtilConvoInfoVolatile.removeContactFromWrapper(conversation.id);
+      }
+      if (getCurrentlySelectedConversationOutsideRedux() === conversation.id) {
+        window.inboxStore?.dispatch(resetConversationExternal());
+      }
     }
 
     if (!options.fromSyncMessage) {
@@ -415,32 +390,62 @@ export class ConversationController {
     this.conversations.reset([]);
   }
 
-  private async cleanUpGroupConversation(id: string) {
-    window.log.info(`deleteContact isGroup, removing convo from DB: ${id}`);
-    // not a private conversation, so not a contact for the ContactWrapper
-    await Data.removeConversation(id);
+  private async deleteConvoInitialChecks(convoId: string, deleteType: ConvoVolatileType) {
+    if (!this._initialFetchComplete) {
+      throw new Error(`getConversationController.${deleteType}  needs complete initial fetch`);
+    }
 
-    window.log.info(`deleteContact isGroup, convo removed from DB: ${id}`);
-    const conversation = this.conversations.get(id);
+    window.log.info(`${deleteType} with ${convoId}`);
+
+    const conversation = this.conversations.get(convoId);
+    if (!conversation) {
+      window.log.warn(`${deleteType} no such convo ${convoId}`);
+      return null;
+    }
+
+    // those are the stuff to do for all conversation types
+    window.log.info(`${deleteType} destroyingMessages: ${convoId}`);
+    await deleteAllMessagesByConvoIdNoConfirmation(convoId);
+    window.log.info(`${deleteType} messages destroyed: ${convoId}`);
+    return conversation;
+  }
+
+  private async removeGroupOrCommunityFromDBAndRedux(convoId: string) {
+    window.log.info(`cleanUpGroupConversation, removing convo from DB: ${convoId}`);
+    // not a private conversation, so not a contact for the ContactWrapper
+    await Data.removeConversation(convoId);
+
+    // remove the data from the opengrouprooms table too if needed
+    if (convoId && OpenGroupUtils.isOpenGroupV2(convoId)) {
+      // remove the roomInfos locally for this open group room including the pubkey
+      try {
+        await OpenGroupData.removeV2OpenGroupRoom(convoId);
+      } catch (e) {
+        window?.log?.info('removeV2OpenGroupRoom failed:', e);
+      }
+    }
+
+    window.log.info(`cleanUpGroupConversation, convo removed from DB: ${convoId}`);
+    const conversation = this.conversations.get(convoId);
 
     if (conversation) {
       this.conversations.remove(conversation);
 
       window?.inboxStore?.dispatch(
         conversationActions.conversationChanged({
-          id: id,
+          id: convoId,
           data: conversation.getConversationModelProps(),
         })
       );
     }
-    window.inboxStore?.dispatch(conversationActions.conversationRemoved(id));
+    window.inboxStore?.dispatch(conversationActions.conversationRemoved(convoId));
 
-    window.log.info(`deleteContact NOT private, convo removed from store: ${id}`);
+    window.log.info(`cleanUpGroupConversation, convo removed from store: ${convoId}`);
   }
 }
 
 /**
- * You most likely don't want to call this function directly, but instead use the deleteContact() from the ConversationController as it will take care of more cleaningup.
+ * You most likely don't want to call this function directly, but instead use the deleteLegacyGroup() from the ConversationController as it will take care of more cleaningup.
  *
  * Note: `fromSyncMessage` is used to know if we need to send a leave group message to the group first.
  * So if the user made the action on this device, fromSyncMessage should be false, but if it happened from a linked device polled update, set this to true.
@@ -475,20 +480,12 @@ async function leaveClosedGroup(groupId: string, fromSyncMessage: boolean) {
   await convo.updateGroupAdmins(admins, false);
   await convo.commit();
 
-  const source = UserUtils.getOurPubKeyStrFromCache();
   const networkTimestamp = GetNetworkTime.getNowWithNetworkOffset();
-
-  const dbMessage = await convo.addSingleOutgoingMessage({
-    group_update: { left: [source] },
-    sent_at: networkTimestamp,
-    expireTimer: 0,
-  });
 
   getSwarmPollingInstance().removePubkey(groupId);
 
   if (fromSyncMessage) {
     // no need to send our leave message as our other device should already have sent it.
-    await cleanUpFullyLeftLegacyGroup(groupId);
     return;
   }
 
@@ -496,7 +493,6 @@ async function leaveClosedGroup(groupId: string, fromSyncMessage: boolean) {
   if (!keypair || isEmpty(keypair) || isEmpty(keypair.publicHex) || isEmpty(keypair.privateHex)) {
     // if we do not have a keypair, we won't be able to send our leaving message neither, so just skip sending it.
     // this can happen when getting a group from a broken libsession usergroup wrapper, but not only.
-    await cleanUpFullyLeftLegacyGroup(groupId);
     return;
   }
 
@@ -504,7 +500,6 @@ async function leaveClosedGroup(groupId: string, fromSyncMessage: boolean) {
   const ourLeavingMessage = new ClosedGroupMemberLeftMessage({
     timestamp: networkTimestamp,
     groupId,
-    identifier: dbMessage.id as string,
   });
 
   window?.log?.info(`We are leaving the group ${groupId}. Sending our leaving message.`);
@@ -521,17 +516,42 @@ async function leaveClosedGroup(groupId: string, fromSyncMessage: boolean) {
     window?.log?.info(
       `Leaving message sent ${groupId}. Removing everything related to this group.`
     );
-    await cleanUpFullyLeftLegacyGroup(groupId);
+  } else {
+    window?.log?.info(
+      `Leaving message failed to be sent for ${groupId}. But still removing everything related to this group....`
+    );
   }
-  // if we failed to send our leaving message, don't remove everything yet as we might want to retry sending our leaving message later.
+  // the rest of the cleaning of that conversation is done in the `deleteClosedGroup()`
 }
 
-async function cleanUpFullyLeftLegacyGroup(groupId: string) {
-  const convo = getConversationController().get(groupId);
+async function removeLegacyGroupFromWrappers(groupId: string) {
+  getSwarmPollingInstance().removePubkey(groupId);
 
   await UserGroupsWrapperActions.eraseLegacyGroup(groupId);
   await SessionUtilConvoInfoVolatile.removeLegacyGroupFromWrapper(groupId);
-  if (convo) {
-    await markGroupAsLeftOrKicked(groupId, convo, false);
+  await removeAllClosedGroupEncryptionKeyPairs(groupId);
+}
+
+async function removeCommunityFromWrappers(conversationId: string) {
+  if (!conversationId || !OpenGroupUtils.isOpenGroupV2(conversationId)) {
+    return;
+  }
+  try {
+    const fromWrapper = await UserGroupsWrapperActions.getCommunityByFullUrl(conversationId);
+    if (fromWrapper?.fullUrlWithPubkey) {
+      await SessionUtilConvoInfoVolatile.removeCommunityFromWrapper(
+        conversationId,
+        fromWrapper.fullUrlWithPubkey
+      );
+    }
+  } catch (e) {
+    window?.log?.info('SessionUtilConvoInfoVolatile.removeCommunityFromWrapper failed:', e.message);
+  }
+
+  // remove from the wrapper the entries before we remove the roomInfos, as we won't have the required community pubkey afterwards
+  try {
+    await SessionUtilUserGroups.removeCommunityFromWrapper(conversationId, conversationId);
+  } catch (e) {
+    window?.log?.info('SessionUtilUserGroups.removeCommunityFromWrapper failed:', e.message);
   }
 }

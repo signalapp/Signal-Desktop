@@ -64,7 +64,7 @@ export async function addKeyPairToCacheAndDBIfNeeded(
   return true;
 }
 
-export async function innerRemoveAllClosedGroupEncryptionKeyPairs(groupPubKey: string) {
+export async function removeAllClosedGroupEncryptionKeyPairs(groupPubKey: string) {
   cacheOfClosedGroupKeyPairs.set(groupPubKey, []);
   await Data.removeAllClosedGroupEncryptionKeyPairs(groupPubKey);
 }
@@ -325,26 +325,6 @@ export async function handleNewClosedGroup(
   await removeFromCache(envelope);
   // trigger decrypting of all this group messages we did not decrypt successfully yet.
   await queueAllCachedFromSource(groupId);
-}
-
-/**
- *
- * @param isKicked if true, we mark the reason for leaving as a we got kicked
- */
-export async function markGroupAsLeftOrKicked(
-  groupPublicKey: string,
-  groupConvo: ConversationModel,
-  isKicked: boolean
-) {
-  getSwarmPollingInstance().removePubkey(groupPublicKey);
-
-  await innerRemoveAllClosedGroupEncryptionKeyPairs(groupPublicKey);
-
-  if (isKicked) {
-    groupConvo.set('isKickedFromGroup', true);
-  } else {
-    groupConvo.set('left', true);
-  }
 }
 
 /**
@@ -681,34 +661,39 @@ async function handleClosedGroupMembersRemoved(
   // • Stop polling for the group
   // • Remove the key pairs associated with the group
   const ourPubKey = UserUtils.getOurPubKeyFromCache();
-  const wasCurrentUserRemoved = !membersAfterUpdate.includes(ourPubKey.key);
-  if (wasCurrentUserRemoved) {
-    await markGroupAsLeftOrKicked(groupPubKey, convo, true);
+  const wasCurrentUserKicked = !membersAfterUpdate.includes(ourPubKey.key);
+  if (wasCurrentUserKicked) {
+    // we now want to remove everything related to a group when we get kicked from it.
+    await getConversationController().deleteClosedGroup(groupPubKey, {
+      fromSyncMessage: false,
+      sendLeaveMessage: false,
+    });
+  } else {
+    // Note: we don't want to send a new encryption keypair when we get a member removed.
+    // this is only happening when the admin gets a MEMBER_LEFT message
+
+    // Only add update message if we have something to show
+    if (membersAfterUpdate.length !== currentMembers.length) {
+      const groupDiff: ClosedGroup.GroupDiff = {
+        kickedMembers: effectivelyRemovedMembers,
+      };
+      await ClosedGroup.addUpdateMessage(
+        convo,
+        groupDiff,
+        envelope.senderIdentity,
+        _.toNumber(envelope.timestamp)
+      );
+      convo.updateLastMessage();
+    }
+
+    // Update the group
+    const zombies = convo.get('zombies').filter(z => membersAfterUpdate.includes(z));
+
+    convo.set({ members: membersAfterUpdate });
+    convo.set({ zombies });
+
+    await convo.commit();
   }
-  // Note: we don't want to send a new encryption keypair when we get a member removed.
-  // this is only happening when the admin gets a MEMBER_LEFT message
-
-  // Only add update message if we have something to show
-  if (membersAfterUpdate.length !== currentMembers.length) {
-    const groupDiff: ClosedGroup.GroupDiff = {
-      kickedMembers: effectivelyRemovedMembers,
-    };
-    await ClosedGroup.addUpdateMessage(
-      convo,
-      groupDiff,
-      envelope.senderIdentity,
-      _.toNumber(envelope.timestamp)
-    );
-    convo.updateLastMessage();
-  }
-
-  // Update the group
-  const zombies = convo.get('zombies').filter(z => membersAfterUpdate.includes(z));
-
-  convo.set({ members: membersAfterUpdate });
-  convo.set({ zombies });
-
-  await convo.commit();
   await removeFromCache(envelope);
 }
 
@@ -758,56 +743,21 @@ function removeMemberFromZombies(
   return true;
 }
 
-async function handleClosedGroupAdminMemberLeft(
-  groupPublicKey: string,
-  isCurrentUserAdmin: boolean,
-  convo: ConversationModel,
-  envelope: EnvelopePlus
-) {
+async function handleClosedGroupAdminMemberLeft(groupPublicKey: string, envelope: EnvelopePlus) {
   // if the admin was remove and we are the admin, it can only be voluntary
-  await markGroupAsLeftOrKicked(groupPublicKey, convo, !isCurrentUserAdmin);
-
-  // everybody left ! this is how we disable a group when the admin left
-  const groupDiff: ClosedGroup.GroupDiff = {
-    kickedMembers: convo.get('members'),
-  };
-  convo.set('members', []);
-
-  await ClosedGroup.addUpdateMessage(
-    convo,
-    groupDiff,
-    envelope.senderIdentity,
-    _.toNumber(envelope.timestamp)
-  );
-  convo.updateLastMessage();
-
-  await convo.commit();
+  await getConversationController().deleteClosedGroup(groupPublicKey, {
+    fromSyncMessage: false,
+    sendLeaveMessage: false,
+  });
   await removeFromCache(envelope);
 }
 
-async function handleClosedGroupLeftOurself(
-  groupPublicKey: string,
-  convo: ConversationModel,
-  envelope: EnvelopePlus
-) {
-  await markGroupAsLeftOrKicked(groupPublicKey, convo, false);
-  const groupDiff: ClosedGroup.GroupDiff = {
-    leavingMembers: [envelope.senderIdentity],
-  };
-  await ClosedGroup.addUpdateMessage(
-    convo,
-    groupDiff,
-    envelope.senderIdentity,
-    _.toNumber(envelope.timestamp)
-  );
-  convo.updateLastMessage();
-  // remove ourself from the list of members
-  convo.set(
-    'members',
-    convo.get('members').filter(m => !UserUtils.isUsFromCache(m))
-  );
-
-  await convo.commit();
+async function handleClosedGroupLeftOurself(groupId: string, envelope: EnvelopePlus) {
+  // if we ourself left. It can only mean that another of our device left the group and we just synced that message through the swarm
+  await getConversationController().deleteClosedGroup(groupId, {
+    fromSyncMessage: false,
+    sendLeaveMessage: false,
+  });
   await removeFromCache(envelope);
 }
 
@@ -827,18 +777,17 @@ async function handleClosedGroupMemberLeft(envelope: EnvelopePlus, convo: Conver
   }
   const ourPubkey = UserUtils.getOurPubKeyStrFromCache();
 
-  // if the admin leaves, the group is disabled for every members
-  const isCurrentUserAdmin = convo.get('groupAdmins')?.includes(ourPubkey) || false;
+  // if the admin leaves, the group is disabled for everyone
 
   if (didAdminLeave) {
-    await handleClosedGroupAdminMemberLeft(groupPublicKey, isCurrentUserAdmin, convo, envelope);
+    await handleClosedGroupAdminMemberLeft(groupPublicKey, envelope);
     return;
   }
 
   // if we are no longer a member, we LEFT from another device
   if (!newMembers.includes(ourPubkey)) {
-    // stop polling, remove all stored pubkeys and make sure the UI does not let us write messages
-    await handleClosedGroupLeftOurself(groupPublicKey, convo, envelope);
+    // stop polling, remove everything from this closed group and the corresponding conversation
+    await handleClosedGroupLeftOurself(groupPublicKey, envelope);
     return;
   }
 

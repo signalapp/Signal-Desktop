@@ -112,5 +112,5 @@ export function getOpenGroupV2FromConversationId(
  * Check if this conversation id corresponds to an OpenGroupV2 conversation.
  */
 export function isOpenGroupV2(conversationId: string) {
-  return Boolean(conversationId.startsWith(openGroupPrefix));
+  return Boolean(conversationId?.startsWith(openGroupPrefix));
 }

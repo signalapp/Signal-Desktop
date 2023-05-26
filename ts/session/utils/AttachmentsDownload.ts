@@ -238,7 +238,7 @@ async function _runJob(job: any) {
     if (currentAttempt >= 3 || was404Error(error)) {
       logger.error(
         `_runJob: ${currentAttempt} failed attempts, marking attachment ${id} from message ${found?.idForLogging()} as permanent error:`,
-        error && error.stack ? error.stack : error
+        error && error.message ? error.message : error
       );
 
       // Make sure to fetch the message from DB here right before writing it.

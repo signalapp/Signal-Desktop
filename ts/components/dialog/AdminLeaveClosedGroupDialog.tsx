@@ -29,8 +29,9 @@ export const AdminLeaveClosedGroupDialog = (props: { conversationId: string }) =
     }
     setLoading(true);
     // we know want to delete a closed group right after we've left it, so we can call the deleteContact which takes care of it all
-    await getConversationController().deleteContact(props.conversationId, {
+    await getConversationController().deleteClosedGroup(props.conversationId, {
       fromSyncMessage: false,
+      sendLeaveMessage: true,
     });
     setLoading(false);
     closeDialog();

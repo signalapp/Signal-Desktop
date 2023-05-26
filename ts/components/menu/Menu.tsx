@@ -112,7 +112,7 @@ export const DeletePrivateContactMenuItem = () => {
           onClickClose,
           okTheme: SessionButtonColor.Danger,
           onClickOk: async () => {
-            await getConversationController().deleteContact(convoId, {
+            await getConversationController().delete1o1(convoId, {
               fromSyncMessage: false,
               justHidePrivate: false,
             });
@@ -152,9 +152,16 @@ export const DeleteGroupOrCommunityMenuItem = () => {
           onClickClose,
           okTheme: SessionButtonColor.Danger,
           onClickOk: async () => {
-            await getConversationController().deleteContact(convoId, {
-              fromSyncMessage: false,
-            });
+            if (isPublic) {
+              await getConversationController().deleteCommunity(convoId, {
+                fromSyncMessage: false,
+              });
+            } else {
+              await getConversationController().deleteClosedGroup(convoId, {
+                fromSyncMessage: false,
+                sendLeaveMessage: true,
+              });
+            }
           },
         })
       );
@@ -450,7 +457,7 @@ export const DeletePrivateConversationMenuItem = () => {
   return (
     <Item
       onClick={async () => {
-        await getConversationController().deleteContact(convoId, {
+        await getConversationController().delete1o1(convoId, {
           fromSyncMessage: false,
           justHidePrivate: true,
         });
