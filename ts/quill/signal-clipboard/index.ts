@@ -52,8 +52,11 @@ export class SignalClipboard {
       return;
     }
 
-    event.preventDefault();
-    event.stopPropagation();
+    const clipboardContainsFiles = event.clipboardData.files?.length > 0;
+    if (!clipboardContainsFiles) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
 
     const clipboardDelta = signal
       ? clipboard.convert(signal)
