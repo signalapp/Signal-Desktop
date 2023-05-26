@@ -188,6 +188,7 @@ import {
   queueUpdateMessage,
   saveNewMessageBatcher,
 } from '../util/messageBatcher';
+import { normalizeUuid } from '../util/normalizeUuid';
 
 /* eslint-disable more/no-then */
 
@@ -2609,7 +2610,12 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
             if (!BodyRange.isMention(bodyRange)) {
               return false;
             }
-            return ourUuids.has(bodyRange.mentionUuid);
+            return ourUuids.has(
+              normalizeUuid(
+                bodyRange.mentionUuid,
+                'handleDataMessage: mentionsMe check'
+              )
+            );
           }),
           preview,
           requiredProtocolVersion:

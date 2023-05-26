@@ -5535,10 +5535,25 @@ export class ConversationModel extends window.Backbone
         return;
       }
 
-      const ourUuid = window.textsecure.storage.user.getUuid()?.toString();
-      const mentionsMe = (message.get('bodyRanges') || []).some(
-        range => BodyRange.isMention(range) && range.mentionUuid === ourUuid
+      const ourACI = window.textsecure.storage.user.getCheckedUuid(
+        UUIDKind.ACI
       );
+      const ourPNI = window.textsecure.storage.user.getCheckedUuid(
+        UUIDKind.PNI
+      );
+      const ourUuids: Set<string> = new Set([
+        ourACI.toString(),
+        ourPNI.toString(),
+      ]);
+
+      const mentionsMe = (message.get('bodyRanges') || []).some(bodyRange => {
+        if (!BodyRange.isMention(bodyRange)) {
+          return false;
+        }
+        return ourUuids.has(
+          normalizeUuid(bodyRange.mentionUuid, 'notify: mentionsMe check')
+        );
+      });
       if (!mentionsMe) {
         return;
       }
