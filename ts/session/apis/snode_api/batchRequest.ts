@@ -18,7 +18,7 @@ export async function doSnodeBatchRequest(
   subRequests: Array<SnodeApiSubRequests>,
   targetNode: Snode,
   timeout: number,
-  associatedWith?: string,
+  associatedWith: string | null,
   method: 'batch' | 'sequence' = 'batch'
 ): Promise<NotEmptyArrayOfBatchResults> {
   // console.warn(
@@ -49,7 +49,7 @@ export async function doSnodeBatchRequest(
       await processOnionRequestErrorAtDestination({
         statusCode: resultRow.code,
         body: JSON.stringify(resultRow.body),
-        associatedWith,
+        associatedWith: associatedWith || undefined,
         destinationSnodeEd25519: targetNode.pubkey_ed25519,
       });
     }

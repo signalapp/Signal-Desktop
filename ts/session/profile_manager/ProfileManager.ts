@@ -71,6 +71,13 @@ async function updateProfileOfContact(
     avatarChanged = true; // allow changes from strings to null/undefined to trigger a AvatarDownloadJob. If that happens, we want to remove the local attachment file.
   }
 
+  // if we have a local path to an downloaded  avatar, but no corresponding url/key for it, it means that
+  // the avatar was most likely removed so let's remove our link to that file.
+  if ((!profileUrl || !profileKeyHex) && conversation.get('avatarInProfile')) {
+    conversation.set({ avatarInProfile: undefined });
+    changes = true;
+  }
+
   if (changes) {
     await conversation.commit();
   }

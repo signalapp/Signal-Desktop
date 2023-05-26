@@ -40,7 +40,10 @@ import { LeftPaneSectionContainer } from './LeftPaneSectionContainer';
 
 import { SettingsKey } from '../../data/settings-key';
 import { getLatestReleaseFromFileServer } from '../../session/apis/file_server_api/FileServerApi';
-import { forceRefreshRandomSnodePool } from '../../session/apis/snode_api/snodePool';
+import {
+  forceRefreshRandomSnodePool,
+  getFreshSwarmFor,
+} from '../../session/apis/snode_api/snodePool';
 import { isDarkTheme } from '../../state/selectors/theme';
 import { ThemeStateType } from '../../themes/constants/colors';
 import { switchThemeTo } from '../../themes/switchTheme';
@@ -198,6 +201,7 @@ const doAppStartUp = async () => {
   void triggerSyncIfNeeded();
   void getSwarmPollingInstance().start();
   void loadDefaultRooms();
+  void getFreshSwarmFor(UserUtils.getOurPubKeyStrFromCache()); // refresh our swarm on start to speed up the first message fetching event
 
   // TODOLATER make this a job of the JobRunner
   debounce(triggerAvatarReUploadIfNeeded, 200);

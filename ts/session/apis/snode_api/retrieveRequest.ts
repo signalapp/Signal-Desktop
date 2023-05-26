@@ -124,7 +124,12 @@ async function retrieveNextMessages(
   // let exceptions bubble up
   // no retry for this one as this a call we do every few seconds while polling for messages
 
-  const results = await doSnodeBatchRequest(retrieveRequestsParams, targetNode, 4000);
+  const results = await doSnodeBatchRequest(
+    retrieveRequestsParams,
+    targetNode,
+    4000,
+    associatedWith
+  );
 
   if (!results || !results.length) {
     window?.log?.warn(

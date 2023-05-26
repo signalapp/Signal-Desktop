@@ -312,7 +312,7 @@ export async function testGuardNode(snode: Snode) {
     response = await insecureNodeFetch(url, fetchOptions);
   } catch (e) {
     if (e.type === 'request-timeout') {
-      window?.log?.warn('test timeout for node,', ed25519Str(snode.pubkey_ed25519));
+      window?.log?.warn('test :,', ed25519Str(snode.pubkey_ed25519));
     }
     if (e.code === 'ENETUNREACH') {
       window?.log?.warn('no network on node,', snode);

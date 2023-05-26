@@ -104,7 +104,18 @@ async function mergeConfigsWithIncomingUpdates(
           `printDumpsForDebugging: before merge of ${variant}:`,
           StringUtils.toHex(await GenericWrapperActions.dump(variant))
         );
+
+        for (let index = 0; index < toMerge.length; index++) {
+          const element = toMerge[index];
+          window.log.info(
+            `printDumpsForDebugging: toMerge of ${index}:${element.hash}:  ${StringUtils.toHex(
+              element.data
+            )} `,
+            StringUtils.toHex(await GenericWrapperActions.dump(variant))
+          );
+        }
       }
+
       const mergedCount = await GenericWrapperActions.merge(variant, toMerge);
       const needsPush = await GenericWrapperActions.needsPush(variant);
       const needsDump = await GenericWrapperActions.needsDump(variant);
@@ -354,17 +365,24 @@ async function handleCommunitiesUpdate() {
     });
   }
 
-  // this call can take quite a long time and should not cause issues to not be awaited
-  void Promise.all(
-    communitiesToJoinInDB.map(async toJoin => {
-      window.log.info('joining community with convoId ', toJoin.fullUrlWithPubkey);
-      return getOpenGroupManager().attemptConnectionV2OneAtATime(
-        toJoin.baseUrl,
-        toJoin.roomCasePreserved,
-        toJoin.pubkeyHex
-      );
-    })
-  );
+  // this call can take quite a long time but must be awaited (as it is async and create the entry in the DB, used as a diff)
+  try {
+    await Promise.all(
+      communitiesToJoinInDB.map(async toJoin => {
+        window.log.info('joining community with convoId ', toJoin.fullUrlWithPubkey);
+        return getOpenGroupManager().attemptConnectionV2OneAtATime(
+          toJoin.baseUrl,
+          toJoin.roomCasePreserved,
+          toJoin.pubkeyHex
+        );
+      })
+    );
+  } catch (e) {
+    window.log.warn(
+      `joining community with failed with one of ${communitiesToJoinInDB}`,
+      e.message
+    );
+  }
 
   // if the convos already exists, make sure to update the fields if needed
   for (let index = 0; index < allCommunitiesInWrapper.length; index++) {

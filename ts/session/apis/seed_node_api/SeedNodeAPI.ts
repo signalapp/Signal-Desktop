@@ -303,7 +303,7 @@ async function getSnodesFromSeedUrl(urlObj: URL): Promise<Array<any>> {
     }
     return validNodes;
   } catch (e) {
-    window?.log?.error('Invalid json response');
+    window?.log?.error('Invalid json response. error:', e.message);
     throw new Error(`getSnodesFromSeedUrl: cannot parse content as JSON from ${urlObj.href}`);
   }
 }

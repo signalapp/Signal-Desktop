@@ -236,7 +236,7 @@ async function sendMessagesDataToSnode(
       signedDeleteOldHashesRequest
     );
 
-    if (snode) {
+    if (!isEmpty(storeResults)) {
       window?.log?.info(
         `sendMessagesToSnode - Successfully stored messages to ${ed25519Str(destination)} via ${
           snode.ip

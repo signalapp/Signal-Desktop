@@ -29,7 +29,7 @@ async function doRequest({
   url: string;
   options: LokiFetchOptions;
   targetNode?: Snode;
-  associatedWith?: string;
+  associatedWith: string | null;
   timeout: number;
 }): Promise<undefined | SnodeResponse> {
   const method = options.method || 'GET';
@@ -52,7 +52,7 @@ async function doRequest({
         targetNode,
         body: fetchOptions.body,
         headers: fetchOptions.headers,
-        associatedWith,
+        associatedWith: associatedWith || undefined,
       });
       if (!fetchResult) {
         return undefined;
@@ -117,7 +117,7 @@ export async function snodeRpc(
     method: string;
     params: Record<string, any> | Array<Record<string, any>>;
     targetNode: Snode;
-    associatedWith?: string;
+    associatedWith: string | null;
     timeout?: number;
   } //the user pubkey this call is for. if the onion request fails, this is used to handle the error for this user swarm for instance
 ): Promise<undefined | SnodeResponse> {

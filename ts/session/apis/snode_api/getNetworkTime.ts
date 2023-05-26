@@ -18,7 +18,7 @@ function getNetworkTimeSubRequests(): Array<NetworkTimeSubRequest> {
 // tslint:disable-next-line: variable-name
 const getNetworkTime = async (snode: Snode): Promise<string | number> => {
   const subRequests = getNetworkTimeSubRequests();
-  const result = await doSnodeBatchRequest(subRequests, snode, 4000);
+  const result = await doSnodeBatchRequest(subRequests, snode, 4000, null);
   if (!result || !result.length) {
     window?.log?.warn(`getNetworkTime on ${snode.ip}:${snode.port} returned falsish value`, result);
     throw new Error('getNetworkTime: Invalid result');

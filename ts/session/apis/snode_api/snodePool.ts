@@ -313,12 +313,27 @@ export async function getSwarmFor(pubkey: string): Promise<Array<Snode>> {
     return goodNodes;
   }
 
+  // Request new node list from the network and save it
+  return getSwarmFromNetworkAndSave(pubkey);
+}
+
+/**
+ * Force a request to be made to the network to fetch the swarm of the specificied pubkey, and cache the result.
+ * Note: should not be called directly unless you know what you are doing. Use the cached `getSwarmFor()` function instead
+ * @param pubkey the pubkey to request the swarm for
+ * @returns the fresh swarm, shuffled
+ */
+export async function getFreshSwarmFor(pubkey: string): Promise<Array<Snode>> {
+  return getSwarmFromNetworkAndSave(pubkey);
+}
+
+async function getSwarmFromNetworkAndSave(pubkey: string) {
   // Request new node list from the network
   const swarm = await requestSnodesForPubkeyFromNetwork(pubkey);
-  const mixedSwarm = shuffle(swarm);
+  const shuffledSwarm = shuffle(swarm);
 
-  const edkeys = mixedSwarm.map((n: Snode) => n.pubkey_ed25519);
+  const edkeys = shuffledSwarm.map((n: Snode) => n.pubkey_ed25519);
   await internalUpdateSwarmFor(pubkey, edkeys);
 
-  return mixedSwarm;
+  return shuffledSwarm;
 }

@@ -6,27 +6,26 @@ import { PubKey } from '../../types';
 import { ERROR_CODE_NO_CONNECT } from './SNodeAPI';
 import * as snodePool from './snodePool';
 
-import pRetry from 'p-retry';
 import { ConversationModel } from '../../../models/conversation';
 import { ConfigMessageHandler } from '../../../receiver/configMessage';
 import { decryptEnvelopeWithOurKey } from '../../../receiver/contentMessage';
 import { EnvelopePlus } from '../../../receiver/types';
 import { updateIsOnline } from '../../../state/ducks/onion';
+import { ReleasedFeatures } from '../../../util/releaseFeature';
+import {
+  GenericWrapperActions,
+  UserGroupsWrapperActions,
+} from '../../../webworker/workers/browser/libsession_worker_interface';
 import { DURATION, SWARM_POLLING_TIMEOUT } from '../../constants';
 import { getConversationController } from '../../conversations';
 import { IncomingMessage } from '../../messages/incoming/IncomingMessage';
 import { ed25519Str } from '../../onions/onionPath';
 import { StringUtils, UserUtils } from '../../utils';
 import { perfEnd, perfStart } from '../../utils/Performance';
+import { LibSessionUtil } from '../../utils/libsession/libsession_utils';
 import { SnodeNamespace, SnodeNamespaces } from './namespaces';
 import { SnodeAPIRetrieve } from './retrieveRequest';
 import { RetrieveMessageItem, RetrieveMessagesResultsBatched } from './types';
-import { ReleasedFeatures } from '../../../util/releaseFeature';
-import { LibSessionUtil } from '../../utils/libsession/libsession_utils';
-import {
-  GenericWrapperActions,
-  UserGroupsWrapperActions,
-} from '../../../webworker/workers/browser/libsession_worker_interface';
 
 export function extractWebSocketContent(
   message: string,
@@ -404,93 +403,80 @@ export class SwarmPolling {
     const pkStr = pubkey.key;
 
     try {
-      return await pRetry(
-        async () => {
-          const prevHashes = await Promise.all(
-            namespaces.map(namespace => this.getLastHash(snodeEdkey, pkStr, namespace))
-          );
-          const configHashesToBump: Array<string> = [];
+      const prevHashes = await Promise.all(
+        namespaces.map(namespace => this.getLastHash(snodeEdkey, pkStr, namespace))
+      );
+      const configHashesToBump: Array<string> = [];
 
-          if (await ReleasedFeatures.checkIsUserConfigFeatureReleased()) {
-            // TODOLATER add the logic to take care of the closed groups too once we have a way to do it with the wrappers
-            if (isUs) {
-              for (let index = 0; index < LibSessionUtil.requiredUserVariants.length; index++) {
-                const variant = LibSessionUtil.requiredUserVariants[index];
-                try {
-                  const toBump = await GenericWrapperActions.currentHashes(variant);
-
-                  if (toBump?.length) {
-                    configHashesToBump.push(...toBump);
-                  }
-                } catch (e) {
-                  window.log.warn(`failed to get currentHashes for user variant ${variant}`);
-                }
-              }
-              window.log.debug(`configHashesToBump: ${configHashesToBump}`);
-            }
-          }
-
-          let results = await SnodeAPIRetrieve.retrieveNextMessages(
-            node,
-            prevHashes,
-            pkStr,
-            namespaces,
-            UserUtils.getOurPubKeyStrFromCache(),
-            configHashesToBump
-          );
-
-          if (!results.length) {
-            return [];
-          }
-          // when we asked to extend the expiry of the config messages, exclude it from the list of results as we do not want to mess up the last hash tracking logic
-          if (configHashesToBump.length) {
+      if (await ReleasedFeatures.checkIsUserConfigFeatureReleased()) {
+        // TODOLATER add the logic to take care of the closed groups too once we have a way to do it with the wrappers
+        if (isUs) {
+          for (let index = 0; index < LibSessionUtil.requiredUserVariants.length; index++) {
+            const variant = LibSessionUtil.requiredUserVariants[index];
             try {
-              const lastResult = results[results.length - 1];
-              if (lastResult?.code !== 200) {
-                // the update expiry of our config messages didn't work.
-                window.log.warn(
-                  `the update expiry of our tracked config hashes didn't work: ${JSON.stringify(
-                    lastResult
-                  )}`
-                );
+              const toBump = await GenericWrapperActions.currentHashes(variant);
+
+              if (toBump?.length) {
+                configHashesToBump.push(...toBump);
               }
             } catch (e) {
-              // nothing to do I suppose here.
+              window.log.warn(`failed to get currentHashes for user variant ${variant}`);
             }
-            results = results.slice(0, results.length - 1);
           }
-
-          const lastMessages = results.map(r => {
-            return last(r.messages.messages);
-          });
-
-          await Promise.all(
-            lastMessages.map(async (lastMessage, index) => {
-              if (!lastMessage) {
-                return;
-              }
-              return this.updateLastHash({
-                edkey: snodeEdkey,
-                pubkey,
-                namespace: namespaces[index],
-                hash: lastMessage.hash,
-                expiration: lastMessage.expiration,
-              });
-            })
-          );
-
-          return results;
-        },
-        {
-          minTimeout: 100,
-          retries: 1,
-          onFailedAttempt: e => {
-            window?.log?.warn(
-              `retrieveNextMessages attempt #${e.attemptNumber} failed. ${e.retriesLeft} retries left... ${e.name}`
-            );
-          },
+          window.log.debug(`configHashesToBump: ${configHashesToBump}`);
         }
+      }
+
+      let results = await SnodeAPIRetrieve.retrieveNextMessages(
+        node,
+        prevHashes,
+        pkStr,
+        namespaces,
+        UserUtils.getOurPubKeyStrFromCache(),
+        configHashesToBump
       );
+
+      if (!results.length) {
+        return [];
+      }
+      // when we asked to extend the expiry of the config messages, exclude it from the list of results as we do not want to mess up the last hash tracking logic
+      if (configHashesToBump.length) {
+        try {
+          const lastResult = results[results.length - 1];
+          if (lastResult?.code !== 200) {
+            // the update expiry of our config messages didn't work.
+            window.log.warn(
+              `the update expiry of our tracked config hashes didn't work: ${JSON.stringify(
+                lastResult
+              )}`
+            );
+          }
+        } catch (e) {
+          // nothing to do I suppose here.
+        }
+        results = results.slice(0, results.length - 1);
+      }
+
+      const lastMessages = results.map(r => {
+        return last(r.messages.messages);
+      });
+
+      await Promise.all(
+        lastMessages.map(async (lastMessage, index) => {
+          if (!lastMessage) {
+            return;
+          }
+          return this.updateLastHash({
+            edkey: snodeEdkey,
+            pubkey,
+            namespace: namespaces[index],
+            hash: lastMessage.hash,
+            expiration: lastMessage.expiration,
+          });
+        })
+      );
+
+      return results;
     } catch (e) {
       if (e.message === ERROR_CODE_NO_CONNECT) {
         if (window.inboxStore?.getState().onionPaths.isOnline) {

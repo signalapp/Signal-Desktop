@@ -708,7 +708,7 @@ async function handle421InvalidSwarm({
     if (parsedBody?.snodes?.length) {
       // the snode gave us the new swarm. Save it for the next retry
       window?.log?.warn(
-        'Wrong swarm, now looking at snodes',
+        `Wrong swarm, now looking for pk ${ed25519Str(associatedWith)} at snodes: `,
         parsedBody.snodes.map((s: any) => ed25519Str(s.pubkey_ed25519))
       );
 

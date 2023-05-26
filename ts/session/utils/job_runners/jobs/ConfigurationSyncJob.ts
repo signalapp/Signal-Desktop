@@ -223,6 +223,7 @@ class ConfigurationSyncJob extends PersistedJob<ConfigurationSyncPersistedData> 
         window.log.info(
           `ConfigurationSyncJob: unexpected result length: expected ${expectedReplyLength} but got ${result?.length}`
         );
+        // this might be a 421 error (already handled) so let's retry this request a little bit later
         return RunJobResult.RetryJobIfPossible;
       }
 

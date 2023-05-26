@@ -41,7 +41,7 @@ async function getSessionIDForOnsName(onsNameCase: string) {
   const promises = range(0, validationCount).map(async () => {
     const targetNode = await getRandomSnode();
 
-    const results = await doSnodeBatchRequest(onsResolveRequests, targetNode, 4000);
+    const results = await doSnodeBatchRequest(onsResolveRequests, targetNode, 4000, null);
     const firstResult = results[0];
     if (!firstResult || firstResult.code !== 200 || !firstResult.body) {
       throw new Error('ONSresolve:Failed to resolve ONS');

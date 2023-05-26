@@ -32,7 +32,7 @@ function buildSnodeListRequests(): Array<GetServiceNodesSubRequest> {
  */
 async function getSnodePoolFromSnode(targetNode: Snode): Promise<Array<Snode>> {
   const requests = buildSnodeListRequests();
-  const results = await doSnodeBatchRequest(requests, targetNode, 4000);
+  const results = await doSnodeBatchRequest(requests, targetNode, 4000, null);
 
   const firstResult = results[0];
 

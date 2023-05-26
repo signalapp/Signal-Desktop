@@ -515,6 +515,8 @@ async function leaveClosedGroup(groupId: string, fromSyncMessage: boolean) {
     namespace: SnodeNamespaces.ClosedGroupMessage,
     pubkey: PubKey.cast(groupId),
   });
+  // TODO our leaving message might fail to be sent for some specific reason we want to still delete the group.
+  // for instance, if we do not have the encryption keypair anymore, we cannot send our left message, but we should still delete it's content
   if (wasSent) {
     window?.log?.info(
       `Leaving message sent ${groupId}. Removing everything related to this group.`
