@@ -33,6 +33,6 @@ module.exports = {
   },
   target: 'node',
   optimization: {
-    minimize: false,
+    minimize: true,
   },
 };
