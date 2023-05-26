@@ -37,7 +37,6 @@
     "prepare-alpha-version": "node scripts/prepare_alpha_version.js",
     "prepare-staging-build": "node scripts/prepare_staging_build.js",
     "prepare-windows-cert": "node scripts/prepare_windows_cert.js",
-    "publish-to-apt": "NAME=$npm_package_name VERSION=$npm_package_version ./aptly.sh",
     "test": "yarn test-node && yarn test-electron && yarn test-lint-intl && yarn test-eslint",
     "test-electron": "node ts/scripts/test-electron.js",
     "test-release": "node ts/scripts/test-release.js",
