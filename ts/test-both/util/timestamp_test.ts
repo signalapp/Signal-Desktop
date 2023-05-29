@@ -121,6 +121,20 @@ describe('timestamp', () => {
         'Yesterday 21:56'
       );
     });
+
+    it('should return 12h format for times older than yesterday', () => {
+      assert.equal(
+        formatDateTimeLong(i18n, new Date('2020-01-21T21:56:00.000'), true),
+        'Jan 21, 2020, 9:56 PM'
+      );
+    });
+
+    it('should return 24h format for times older than yesterday', () => {
+      assert.equal(
+        formatDateTimeLong(i18n, new Date('2020-01-21T21:56:00.000'), false),
+        'Jan 21, 2020, 21:56'
+      );
+    });
   });
 
   describe('formatDateTimeShort', () => {

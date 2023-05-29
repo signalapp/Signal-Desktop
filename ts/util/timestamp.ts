@@ -151,6 +151,7 @@ export function formatDateTimeLong(
     minute: 'numeric',
     month: 'short',
     year: 'numeric',
+    hour12: isHour24,
   }).format(timestamp);
 }
 
