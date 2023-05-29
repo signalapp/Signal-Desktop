@@ -93,7 +93,7 @@ describe('timestamp', () => {
       assert.isTrue(rx.test(datetime));
     });
 
-    // 4 TESTS TENDENCIAS
+    // TESTS TENDENCIAS DE ARQUITECTURA
     it('should return 12h format for times Today', () => {
       assert.equal(
         formatDateTimeLong(i18n, new Date('2020-01-23T01:56:00.000'), true),
@@ -137,6 +137,8 @@ describe('timestamp', () => {
     });
   });
 
+  // FIN DE TEST TENDENCIAS DE ARQUITECTURA
+  
   describe('formatDateTimeShort', () => {
     useFakeTimers();
 
@@ -222,7 +224,7 @@ describe('timestamp', () => {
     });
 
     it('returns hh:mm-like times for times older than 1 hour from now', () => {
-      const rx = /\d+:\d+ [A|P]M/;
+      const rx = /\d+:\d+ [a|p]\.m\./;  // Regex only checked for AM/PM format. Fixed it to match a.m. and p.m. format from formatTime string.
       const oneHourAgo = new Date('2020-01-23T03:56:00.000');
       assert.isTrue(rx.test(formatTime(i18n, oneHourAgo, FAKE_NOW)));
 
