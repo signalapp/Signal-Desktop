@@ -120,7 +120,7 @@ export function formatDateTimeForAttachment(
 export function formatDateTimeLong(
   i18n: LocalizerType,
   rawTimestamp: RawTimestamp,
-  isRelativeTime?: boolean
+  isHour24?: boolean
 ): string {
   const locale = window.getPreferredSystemLocales();
   const timestamp = rawTimestamp.valueOf();
@@ -130,7 +130,7 @@ export function formatDateTimeLong(
       time: new Intl.DateTimeFormat(locale, {
         hour: 'numeric',
         minute: 'numeric',
-        hour12: isRelativeTime,
+        hour12: isHour24,
       }).format(timestamp),
     });
   }
@@ -140,7 +140,7 @@ export function formatDateTimeLong(
       time: new Intl.DateTimeFormat(locale, {
         hour: 'numeric',
         minute: 'numeric',
-        hour12: isRelativeTime,
+        hour12: isHour24,
       }).format(timestamp),
     });
   }

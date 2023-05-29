@@ -92,6 +92,35 @@ describe('timestamp', () => {
       const datetime = formatDateTimeLong(i18n, new Date(956216013000));
       assert.isTrue(rx.test(datetime));
     });
+
+    // 4 TESTS TENDENCIAS
+    it('should return 12h format for times Today', () => {
+      assert.equal(
+        formatDateTimeLong(i18n, new Date('2020-01-23T01:56:00.000'), true),
+        'Today 1:56 AM'
+      );
+    });
+  
+    it('should return 24h format for times Today', () => {
+      assert.equal(
+        formatDateTimeLong(i18n, new Date('2020-01-23T01:56:00.000'), false),
+        'Today 01:56'
+      );
+    });
+
+    it('should return 12h format for times Yesterday', () => {
+      assert.equal(
+        formatDateTimeLong(i18n, new Date('2020-01-22T21:56:00.000'), true),
+        'Yesterday 9:56 PM'
+      );
+    });
+  
+    it('should return 24h format for times Yesterday', () => {
+      assert.equal(
+        formatDateTimeLong(i18n, new Date('2020-01-22T21:56:00.000'), false),
+        'Yesterday 21:56'
+      );
+    });
   });
 
   describe('formatDateTimeShort', () => {
