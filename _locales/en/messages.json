@@ -4045,6 +4045,10 @@
     "message": "Hide menu bar",
     "description": "(deleted 03/29/2023) Label text for menu bar visibility setting"
   },
+  "icu:changeFormat": {
+    "message": "Change time format",
+    "description": "Change time format"
+  },
   "icu:hideMenuBar": {
     "messageformat": "Hide menu bar",
     "description": "Label text for menu bar visibility setting"

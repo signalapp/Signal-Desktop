@@ -4038,6 +4038,10 @@
     "message": "Menüleiste ausblenden",
     "description": "(deleted 03/29/2023) Label text for menu bar visibility setting"
   },
+  "icu:changeFormat": {
+    "message": "Zeitformat ändern",
+    "description": "Zeitformat ändern"
+  },
   "icu:hideMenuBar": {
     "messageformat": "Menüleiste ausblenden",
     "description": "Label text for menu bar visibility setting"

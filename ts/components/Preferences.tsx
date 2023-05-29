@@ -395,6 +395,19 @@ export function Preferences({
     [onSelectedSpeakerChange, availableSpeakers]
   );
 
+  const [dateFormat, setDateFormat] = useState<string>('0');
+  const [isChecked, setIsChecked] = useState<boolean>(true);
+
+  const onChangeDateFormat = () => {
+    const newDateFormat = dateFormat === '0' ? '1' : '0';
+    setDateFormat(newDateFormat);
+    localStorage.setItem('dateFormat', newDateFormat);
+  };
+
+  useEffect(() => {
+    setIsChecked(prevVa => !prevVa);
+  }, [dateFormat]);
+
   let settings: JSX.Element | undefined;
   if (page === Page.General) {
     settings = (
@@ -429,6 +442,13 @@ export function Preferences({
               onChange={onHideMenuBarChange}
             />
           )}
+          <Checkbox
+            checked={isChecked}
+            label={i18n('icu:changeFormat')}
+            moduleClassName="Preferences__checkbox"
+            name="changeFormat"
+            onChange={onChangeDateFormat}
+          />
           {isSystemTraySupported && (
             <>
               <Checkbox

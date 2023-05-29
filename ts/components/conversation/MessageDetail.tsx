@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactChild, ReactNode } from 'react';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 import { noop } from 'lodash';
 
@@ -143,6 +143,22 @@ export function MessageDetail({
 }: Props): JSX.Element {
   const focusRef = useRef<HTMLDivElement>(null);
   const messageContainerRef = useRef<HTMLDivElement>(null);
+  const [option, setOption] = useState<boolean>(false);
+
+  const handleDateFormat = (format: string | null) => {
+    setOption(format === '1');
+  };
+
+  const [update, setUpdate] = useState<boolean>(false);
+
+  setInterval(() => {
+    setUpdate(!update);
+  }, 100);
+
+  useEffect(() => {
+    const format = localStorage.getItem('dateFormat');
+    handleDateFormat(format);
+  }, [update]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -230,7 +246,7 @@ export function MessageDetail({
             className="module-message-detail__status-timestamp"
             timestamp={contact.statusTimestamp}
           >
-            {formatDateTimeLong(i18n, contact.statusTimestamp)}
+            {formatDateTimeLong(i18n, contact.statusTimestamp, option)}
           </Time>
         )}
       </div>
@@ -399,7 +415,7 @@ export function MessageDetail({
               >
                 <>
                   <Time timestamp={sentAt}>
-                    {formatDateTimeLong(i18n, sentAt)}
+                    {formatDateTimeLong(i18n, sentAt, option)}
                   </Time>{' '}
                   <span className="module-message-detail__unix-timestamp">
                     ({sentAt})
@@ -415,7 +431,7 @@ export function MessageDetail({
               </td>
               <td>
                 <Time timestamp={receivedAt}>
-                  {formatDateTimeLong(i18n, receivedAt)}
+                  {formatDateTimeLong(i18n, receivedAt, option)}
                 </Time>{' '}
                 <span className="module-message-detail__unix-timestamp">
                   ({receivedAt})

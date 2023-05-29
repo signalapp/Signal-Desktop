@@ -4034,9 +4034,9 @@
     "messageformat": "Cambiar el foco a esta ventana cuando llega una notificación",
     "description": "Label text for the setting that controls whether new notifications draw attention to the window"
   },
-  "hideMenuBar": {
-    "message": "Ocultar barra de menú",
-    "description": "(deleted 03/29/2023) Label text for menu bar visibility setting"
+  "icu:changeFormat": {
+    "message": "Cambiar formato de hora",
+    "description": "Cambiar formato de hora"
   },
   "icu:hideMenuBar": {
     "messageformat": "Ocultar barra de menú",
