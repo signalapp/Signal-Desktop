@@ -342,13 +342,19 @@ export function CallScreen({
       throw missingCaseError(activeCall);
   }
 
-  let lonelyInGroupNode: ReactNode;
+  let lonelyInCallNode: ReactNode;
   let localPreviewNode: ReactNode;
-  if (
+
+  const isLonelyInGroup =
     activeCall.callMode === CallMode.Group &&
-    !activeCall.remoteParticipants.length
-  ) {
-    lonelyInGroupNode = (
+    !activeCall.remoteParticipants.length;
+
+  const isLonelyInDirectCall =
+    activeCall.callMode === CallMode.Direct &&
+    activeCall.callState !== CallState.Accepted;
+
+  if (isLonelyInGroup || isLonelyInDirectCall) {
+    lonelyInCallNode = (
       <div
         className={classNames(
           'module-ongoing-call__local-preview-fullsize',
@@ -506,7 +512,7 @@ export function CallScreen({
         />
       )}
       {remoteParticipantsElement}
-      {lonelyInGroupNode}
+      {lonelyInCallNode}
       <div className="module-ongoing-call__footer">
         {/* This layout-only element is not ideal.
             See the comment in _modules.css for more. */}
