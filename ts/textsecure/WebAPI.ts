@@ -9,7 +9,7 @@
 import type { Response } from 'node-fetch';
 import fetch from 'node-fetch';
 import ProxyAgent from 'proxy-agent';
-import { Agent } from 'https';
+import type { Agent } from 'https';
 import { escapeRegExp, isNumber, isString, isObject } from 'lodash';
 import PQueue from 'p-queue';
 import { v4 as getGuid } from 'uuid';
@@ -28,7 +28,7 @@ import { formatAcceptLanguageHeader } from '../util/userLanguages';
 import { toWebSafeBase64, fromWebSafeBase64 } from '../util/webSafeBase64';
 import { getBasicAuth } from '../util/getBasicAuth';
 import { isPnpEnabled } from '../util/isPnpEnabled';
-import { lookupWithFallback } from '../util/dns';
+import { createHTTPSAgent } from '../util/createHTTPSAgent';
 import type { SocketStatus } from '../types/SocketStatus';
 import { toLogFormat } from '../types/errors';
 import { isPackIdValid, redactPackId } from '../types/Stickers';
@@ -243,15 +243,15 @@ async function _promiseAjax(
     agents[cacheKey] = {
       agent: proxyUrl
         ? new ProxyAgent(proxyUrl)
-        : new Agent({
-            lookup: lookupWithFallback,
+        : createHTTPSAgent({
             keepAlive: !options.disableSessionResumption,
             maxCachedSessions: options.disableSessionResumption ? 0 : undefined,
           }),
       timestamp: Date.now(),
     };
   }
-  const { agent } = agents[cacheKey];
+  const agentEntry = agents[cacheKey];
+  const agent = agentEntry?.agent ?? null;
 
   const fetchOptions = {
     method: options.type,
