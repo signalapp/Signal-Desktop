@@ -768,11 +768,13 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     const giftBadge = this.get('giftBadge');
     if (giftBadge) {
       const emoji = '✨';
-      const fromContact = getContact(this.attributes);
 
       if (isOutgoing(this.attributes)) {
+        const toContact = window.ConversationController.get(
+          this.attributes.conversationId
+        );
         const recipient =
-          fromContact?.getTitle() ?? window.i18n('icu:unknownContact');
+          toContact?.getTitle() ?? window.i18n('icu:unknownContact');
         return {
           emoji,
           text: window.i18n('icu:message--donation--preview--sent', {
@@ -781,6 +783,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         };
       }
 
+      const fromContact = getContact(this.attributes);
       const sender =
         fromContact?.getTitle() ?? window.i18n('icu:unknownContact');
       return {
