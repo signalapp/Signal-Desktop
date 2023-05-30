@@ -4610,7 +4610,8 @@ button.module-image__border-overlay:focus {
             border-color: $color-gray-80;
           }
 
-          &--unread-messages {
+          &--unread-messages,
+          &--marked-unread {
             inset-inline-end: -(5px + $border-width);
           }
           &--unread-mentions {
