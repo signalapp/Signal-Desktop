@@ -4162,6 +4162,7 @@ export class ConversationModel extends window.Backbone
       if (!dontAddMessage) {
         this.doAddSingleMessage(message, { isJustSent: true });
       }
+      const notificationData = message.getNotificationData();
       const draftProperties = dontClearDraft
         ? {}
         : {
@@ -4172,7 +4173,8 @@ export class ConversationModel extends window.Backbone
             quotedMessageId: undefined,
             lastMessageAuthor: message.getAuthorText(),
             lastMessageBodyRanges: message.get('bodyRanges'),
-            lastMessage: message.getNotificationText(),
+            lastMessage:
+              notificationData?.text || message.getNotificationText() || '',
             lastMessageStatus: 'sending' as const,
           };
 
