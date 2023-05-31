@@ -23,6 +23,7 @@ import {
   CallState,
   CanvasVideoRenderer,
   ConnectionState,
+  DataMode,
   JoinState,
   HttpMethod,
   GroupCall,
@@ -36,7 +37,6 @@ import {
   RingCancelReason,
   RingRTC,
   RingUpdate,
-  BandwidthMode,
 } from '@signalapp/ringrtc';
 import { uniqBy, noop } from 'lodash';
 import Long from 'long';
@@ -2116,7 +2116,7 @@ export class CallingClass {
         urls: iceServer.urls.slice(),
       },
       hideIp: shouldRelayCalls || isContactUnknown,
-      bandwidthMode: BandwidthMode.Normal,
+      dataMode: DataMode.Normal,
       // TODO: DESKTOP-3101
       // audioLevelsIntervalMillis: AUDIO_LEVEL_INTERVAL_MS,
     };
