@@ -221,7 +221,7 @@ export async function sendNormalMessage(
       // or sending a story to a group where all other users don't have the stories
       // capabilities (effectively a 'lonely group' in the context of stories)
       log.info('sending sync message only');
-      const dataMessage = await messaging.getDataMessage({
+      const dataMessage = await messaging.getDataOrEditMessage({
         attachments,
         body,
         bodyRanges,

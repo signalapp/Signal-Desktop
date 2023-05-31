@@ -566,10 +566,6 @@ class Message {
     this.dataMessage = proto;
     return proto;
   }
-
-  encode(): Uint8Array {
-    return Proto.DataMessage.encode(this.toProto()).finish();
-  }
 }
 
 type AddPniSignatureMessageToProtoOptionsType = Readonly<{
@@ -687,11 +683,21 @@ export default class MessageSender {
     return textAttachment;
   }
 
-  async getDataMessage(
+  async getDataOrEditMessage(
     options: Readonly<MessageOptionsType>
   ): Promise<Uint8Array> {
     const message = await this.getHydratedMessage(options);
-    return message.encode();
+    const dataMessage = message.toProto();
+
+    if (options.editedMessageTimestamp) {
+      const editMessage = new Proto.EditMessage();
+      editMessage.dataMessage = dataMessage;
+      editMessage.targetSentTimestamp = Long.fromNumber(
+        options.editedMessageTimestamp
+      );
+      return Proto.EditMessage.encode(editMessage).finish();
+    }
+    return Proto.DataMessage.encode(dataMessage).finish();
   }
 
   async getStoryMessage({
