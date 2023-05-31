@@ -2001,10 +2001,6 @@ app.on('before-quit', () => {
 
   systemTrayService?.markShouldQuit();
   windowState.markShouldQuit();
-
-  if (mainWindow) {
-    mainWindow.webContents.send('quit');
-  }
 });
 
 // Quit when all windows are closed.

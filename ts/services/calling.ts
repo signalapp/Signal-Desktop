@@ -359,12 +359,6 @@ export class CallingClass {
       reduxInterface.setPresenting();
     });
 
-    ipcRenderer.on('quit', () => {
-      for (const conversationId of Object.keys(this.callsByConversation)) {
-        this.hangup(conversationId, 'ipcRenderer quit');
-      }
-    });
-
     void this.cleanExpiredGroupCallRingsAndLoop();
   }
 
@@ -1164,6 +1158,12 @@ export class CallingClass {
     });
 
     log.info('hangup: Done.');
+  }
+
+  hangupAllCalls(reason: string): void {
+    for (const conversationId of Object.keys(this.callsByConversation)) {
+      this.hangup(conversationId, reason);
+    }
   }
 
   setOutgoingAudio(conversationId: string, enabled: boolean): void {

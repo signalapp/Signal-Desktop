@@ -730,6 +730,11 @@ export async function startApp(): Promise<void> {
 
         flushMessageCounter();
 
+        // Hangup active calls
+        window.Signal.Services.calling.hangupAllCalls(
+          'background/shutdown: shutdown requested'
+        );
+
         // Stop background processing
         void AttachmentDownloads.stop();
         idleDetector.stop();
