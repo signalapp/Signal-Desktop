@@ -168,7 +168,7 @@ export async function sendReaction(
 
     if (recipientIdentifiersWithoutMe.length === 0) {
       log.info('sending sync reaction message only');
-      const dataMessage = await messaging.getDataMessage({
+      const dataMessage = await messaging.getDataOrEditMessage({
         attachments: [],
         expireTimer,
         groupV2: conversation.getGroupV2Info({
