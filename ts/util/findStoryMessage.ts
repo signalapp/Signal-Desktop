@@ -50,7 +50,7 @@ export async function findStoryMessages(
     isStoryAMatch(item, conversationId, ourConversationId, authorUuid, sentAt)
   );
 
-  if (found.length !== 0) {
+  if (found.length === 0) {
     log.info('findStoryMessages: message not found', sentAt);
     return [];
   }

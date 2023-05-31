@@ -2482,12 +2482,18 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         if (!storyQuoteIsFromSelf) {
           return true;
         }
+
+        // The sender is not a recipient for this story
         if (sendState === undefined) {
           return false;
         }
+
+        // Group replies are always allowed
         if (!isDirectConversation(conversation.attributes)) {
-          return false;
+          return true;
         }
+
+        // For 1:1 stories, we need to check if they can be replied to
         return sendState.isAllowedToReplyToStory !== false;
       });
 
