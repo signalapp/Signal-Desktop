@@ -406,7 +406,7 @@
         "libnss3",
         "libasound2",
         "libxss1",
-        "libc6 (>= 2.28)"
+        "libc6 (>= 2.31)"
       ]
     },
     "protocols": {
