@@ -1,8 +1,18 @@
 diff --git a/node_modules/quill/dist/quill.js b/node_modules/quill/dist/quill.js
-index 811b3d0..b31c7fd 100644
+index 811b3d0..1082f2a 100644
 --- a/node_modules/quill/dist/quill.js
 +++ b/node_modules/quill/dist/quill.js
-@@ -8916,10 +8916,10 @@ var Clipboard = function (_Module) {
+@@ -8896,7 +8896,8 @@ var debug = (0, _logger2.default)('quill:clipboard');
+ 
+ var DOM_KEY = '__ql-matcher';
+ 
+-var CLIPBOARD_CONFIG = [[Node.TEXT_NODE, matchText], [Node.TEXT_NODE, matchNewline], ['br', matchBreak], [Node.ELEMENT_NODE, matchNewline], [Node.ELEMENT_NODE, matchBlot], [Node.ELEMENT_NODE, matchSpacing], [Node.ELEMENT_NODE, matchAttributor], [Node.ELEMENT_NODE, matchStyles], ['li', matchIndent], ['b', matchAlias.bind(matchAlias, 'bold')], ['i', matchAlias.bind(matchAlias, 'italic')], ['style', matchIgnore]];
++// var CLIPBOARD_CONFIG = [[Node.TEXT_NODE, matchText], [Node.TEXT_NODE, matchNewline], ['br', matchBreak], [Node.ELEMENT_NODE, matchNewline], [Node.ELEMENT_NODE, matchBlot], [Node.ELEMENT_NODE, matchSpacing], [Node.ELEMENT_NODE, matchAttributor], [Node.ELEMENT_NODE, matchStyles], ['li', matchIndent], ['b', matchAlias.bind(matchAlias, 'bold')], ['i', matchAlias.bind(matchAlias, 'italic')], ['style', matchIgnore]];
++var CLIPBOARD_CONFIG = [[Node.TEXT_NODE, matchText], [Node.TEXT_NODE, matchNewline], ['br', matchBreak], [Node.ELEMENT_NODE, matchNewline], [Node.ELEMENT_NODE, matchSpacing]];
+ 
+ var ATTRIBUTE_ATTRIBUTORS = [_align.AlignAttribute, _direction.DirectionAttribute].reduce(function (memo, attr) {
+   memo[attr.keyName] = attr;
+@@ -8916,10 +8917,10 @@ var Clipboard = function (_Module) {
  
      var _this = _possibleConstructorReturn(this, (Clipboard.__proto__ || Object.getPrototypeOf(Clipboard)).call(this, quill, options));
  
@@ -17,7 +27,7 @@ index 811b3d0..b31c7fd 100644
      _this.matchers = [];
      CLIPBOARD_CONFIG.concat(_this.options.matchers).forEach(function (_ref) {
        var _ref2 = _slicedToArray(_ref, 2),
-@@ -8941,15 +8941,18 @@ var Clipboard = function (_Module) {
+@@ -8941,15 +8942,18 @@ var Clipboard = function (_Module) {
      key: 'convert',
      value: function convert(html) {
        if (typeof html === 'string') {
@@ -42,7 +52,7 @@ index 811b3d0..b31c7fd 100644
  
        var _prepareMatching = this.prepareMatching(),
            _prepareMatching2 = _slicedToArray(_prepareMatching, 2),
-@@ -8962,7 +8965,8 @@ var Clipboard = function (_Module) {
+@@ -8962,7 +8966,8 @@ var Clipboard = function (_Module) {
          delta = delta.compose(new _quillDelta2.default().retain(delta.length() - 1).delete(1));
        }
        debug.log('convert', this.container.innerHTML, delta);
@@ -52,7 +62,7 @@ index 811b3d0..b31c7fd 100644
        return delta;
      }
    }, {
-@@ -9056,9 +9060,10 @@ function applyFormat(delta, format, value) {
+@@ -9056,9 +9061,10 @@ function applyFormat(delta, format, value) {
  }
  
  function computeStyle(node) {
@@ -66,7 +76,7 @@ index 811b3d0..b31c7fd 100644
  }
  
  function deltaEndsWith(delta, text) {
-@@ -9074,7 +9079,8 @@ function deltaEndsWith(delta, text) {
+@@ -9074,7 +9080,8 @@ function deltaEndsWith(delta, text) {
  function isLine(node) {
    if (node.childNodes.length === 0) return false; // Exclude embed blocks
    var style = computeStyle(node);
@@ -76,7 +86,7 @@ index 811b3d0..b31c7fd 100644
  }
  
  function traverse(node, elementMatchers, textMatchers) {
-@@ -9177,8 +9183,10 @@ function matchIndent(node, delta) {
+@@ -9177,8 +9184,10 @@ function matchIndent(node, delta) {
  }
  
  function matchNewline(node, delta) {
