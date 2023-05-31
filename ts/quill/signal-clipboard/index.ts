@@ -24,13 +24,6 @@ export class SignalClipboard {
     this.quill = quill;
 
     this.quill.root.addEventListener('paste', e => this.onCapturePaste(e));
-
-    const clipboard = this.quill.getModule('clipboard');
-
-    // We keep just the first few matchers (for spacing) then drop the rest!
-    clipboard.matchers = clipboard.matchers
-      .slice(0, 4)
-      .concat(clipboard.matchers.slice(11));
   }
 
   onCapturePaste(event: ClipboardEvent): void {

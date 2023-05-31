@@ -1,36 +1,51 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-export function handleCopyEvent(event: ClipboardEvent): void {
-  if (!event.clipboardData) {
-    return;
-  }
+const QUILL_EMBED_GUARD = '\uFEFF';
 
-  const selection = window.getSelection();
-  if (!selection) {
-    return;
-  }
+export function createEventHandler({
+  deleteSelection,
+}: {
+  deleteSelection: boolean;
+}) {
+  return (event: ClipboardEvent): void => {
+    if (!event.clipboardData) {
+      return;
+    }
 
-  // Create synthetic html with the full selection we can put into clipboard
-  const container = document.createElement('div');
-  for (let i = 0, max = selection.rangeCount; i < max; i += 1) {
-    const range = selection.getRangeAt(i);
-    container.appendChild(range.cloneContents());
-  }
+    const selection = window.getSelection();
+    if (!selection) {
+      return;
+    }
 
-  // Note: we can't leave text/plain alone and just add text/signal; if we update
-  //   clipboardData at all, all other data is reset.
-  const plaintext = getStringFromNode(container);
-  event.clipboardData?.setData('text/plain', plaintext);
+    // Create synthetic html with the full selection we can put into clipboard
+    const container = document.createElement('div');
+    for (let i = 0, max = selection.rangeCount; i < max; i += 1) {
+      const range = selection.getRangeAt(i);
+      container.appendChild(range.cloneContents());
+    }
 
-  event.clipboardData?.setData('text/signal', container.innerHTML);
+    // Note: we can't leave text/plain alone and just add text/signal; if we update
+    //   clipboardData at all, all other data is reset.
+    const plaintext = getStringFromNode(container);
+    event.clipboardData?.setData('text/plain', plaintext);
 
-  event.preventDefault();
-  event.stopPropagation();
+    event.clipboardData?.setData('text/signal', container.innerHTML);
+
+    if (deleteSelection) {
+      selection.deleteFromDocument();
+    }
+
+    event.preventDefault();
+    event.stopPropagation();
+  };
 }
 
 function getStringFromNode(node: Node): string {
   if (node.nodeType === Node.TEXT_NODE) {
+    if (node.textContent === QUILL_EMBED_GUARD) {
+      return '';
+    }
     return node.textContent || '';
   }
   if (node.nodeType !== Node.ELEMENT_NODE) {
@@ -38,7 +53,11 @@ function getStringFromNode(node: Node): string {
   }
 
   const element = node as Element;
-  if (element.nodeName === 'IMG' && element.classList.contains('emoji')) {
+  if (
+    element.nodeName === 'IMG' &&
+    (element.classList.contains('emoji') ||
+      element.classList.contains('emoji-blot'))
+  ) {
     return element.ariaLabel || '';
   }
   if (element.nodeName === 'BR') {
