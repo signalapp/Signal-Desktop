@@ -122,7 +122,8 @@
 @each $color, $value in $conversation-colors-gradient {
   .module-quote--compose-#{$color},
   .module-quote--incoming-#{$color} {
-    .module-quote__primary {
+    .module-quote__primary,
+    &.module-quote__reference-warning {
       border-inline-start-color: map-get($value, 'start');
     }
   }
@@ -147,7 +148,8 @@
     }
   }
   .module-quote--outgoing-#{$color} {
-    .module-quote__primary {
+    .module-quote__primary,
+    &.module-quote__reference-warning {
       border-inline-start-color: $color-white;
     }
   }
