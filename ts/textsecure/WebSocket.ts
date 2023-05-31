@@ -10,7 +10,7 @@ import { strictAssert } from '../util/assert';
 import { explodePromise } from '../util/explodePromise';
 import { getUserAgent } from '../util/getUserAgent';
 import * as durations from '../util/durations';
-import { lookupWithFallback } from '../util/dns';
+import { createHTTPSAgent } from '../util/createHTTPSAgent';
 import * as log from '../logging/log';
 import * as Timers from '../Timers';
 import { ConnectTimeoutError, HTTPError } from './Errors';
@@ -55,8 +55,7 @@ export function connect<Resource extends IResource>({
   const client = new WebSocketClient({
     tlsOptions: {
       ca: certificateAuthority,
-      agent: proxyAgent,
-      lookup: lookupWithFallback,
+      agent: proxyAgent ?? createHTTPSAgent(),
     },
     maxReceivedFrameSize: 0x210000,
   });

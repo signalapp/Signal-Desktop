@@ -20,6 +20,7 @@ import {
   ipcMain as ipc,
   Menu,
   nativeTheme,
+  net,
   powerSaveBlocker,
   screen,
   session,
@@ -2621,6 +2622,15 @@ ipc.handle('executeMenuAction', async (_event, action: MenuActionType) => {
     throw missingCaseError(action);
   }
 });
+
+ipc.handle(
+  'net.resolveHost',
+  (_event, hostname: string, queryType?: 'A' | 'AAAA') => {
+    return net.resolveHost(hostname, {
+      queryType,
+    });
+  }
+);
 
 let stickerCreatorWindow: BrowserWindow | undefined;
 async function showStickerCreatorWindow() {

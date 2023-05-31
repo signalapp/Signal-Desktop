@@ -4,11 +4,12 @@
 import type { StrictOptions as GotOptions } from 'got';
 import config from 'config';
 import ProxyAgent from 'proxy-agent';
+import { Agent as HTTPAgent } from 'http';
 
 import * as packageJson from '../../package.json';
 import { getUserAgent } from '../util/getUserAgent';
 import * as durations from '../util/durations';
-import { lookupWithFallback } from '../util/dns';
+import { createHTTPSAgent } from '../util/createHTTPSAgent';
 
 export const GOT_CONNECT_TIMEOUT = durations.MINUTE;
 export const GOT_LOOKUP_TIMEOUT = durations.MINUTE;
@@ -31,14 +32,16 @@ export function getGotOptions(): GotOptions {
         http: new ProxyAgent(proxyUrl),
         https: new ProxyAgent(proxyUrl),
       }
-    : undefined;
+    : {
+        http: new HTTPAgent(),
+        https: createHTTPSAgent(),
+      };
 
   return {
     agent,
     https: {
       certificateAuthority,
     },
-    lookup: lookupWithFallback as GotOptions['lookup'],
     headers: {
       'Cache-Control': 'no-cache',
       'User-Agent': getUserAgent(packageJson.version),
