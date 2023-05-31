@@ -4,6 +4,7 @@
 import createDebug from 'debug';
 import Long from 'long';
 import { Proto, StorageState } from '@signalapp/mock-server';
+import type { Group } from '@signalapp/mock-server';
 
 import * as durations from '../../util/durations';
 import { uuidToBytes } from '../../util/uuidToBytes';
@@ -24,6 +25,7 @@ describe('story/messaging', function unknownContacts() {
 
   let bootstrap: Bootstrap;
   let app: App;
+  let group: Group;
 
   beforeEach(async () => {
     bootstrap = new Bootstrap();
@@ -80,6 +82,20 @@ describe('story/messaging', function unknownContacts() {
         },
       },
     });
+
+    // Add a group for story send
+    const members = [...contacts].slice(0, 10);
+    group = await phone.createGroup({
+      title: 'Mock Group',
+      members: [phone, ...members],
+    });
+
+    state = state
+      .addGroup(group, {
+        whitelisted: true,
+        storySendMode: Proto.GroupV2Record.StorySendMode.ENABLED,
+      })
+      .pinGroup(group);
 
     // Finally whitelist and pin contacts
     for (const contact of [first, second]) {
@@ -191,5 +207,70 @@ describe('story/messaging', function unknownContacts() {
     await leftPane
       .locator(`[data-testid="${second.device.uuid}"] >> "second reply"`)
       .waitFor();
+  });
+
+  it('allows replies to groups', async () => {
+    const { desktop, contacts } = bootstrap;
+
+    const window = await app.getWindow();
+
+    debug('waiting for storage service sync to complete');
+    await app.waitForStorageService();
+
+    const leftPane = window.locator('.left-pane-wrapper');
+
+    debug('Create and send a story to the group');
+    await leftPane.getByRole('button', { name: 'Stories' }).click();
+    await window.getByRole('button', { name: 'Add a story' }).first().click();
+    await window.getByRole('button', { name: 'Text story' }).click();
+    await window.locator('.TextAttachment').click();
+    await window.getByRole('textbox', { name: 'Add text' }).type('hello');
+    await window.getByRole('button', { name: 'Next' }).click();
+    await window
+      .locator('.Checkbox__container')
+      .getByText('Mock Group')
+      .click();
+    await window.getByRole('button', { name: 'Send story' }).click();
+
+    // Grab the time the story was sent at
+    const time = await window.locator('time').nth(1).getAttribute('datetime');
+    if (!time) {
+      throw new Error('Cannot locate story time');
+    }
+    const sentAt = new Date(time).valueOf();
+
+    debug('Contact sends reply to group story');
+    await contacts[0].sendRaw(
+      desktop,
+      {
+        dataMessage: {
+          body: 'first reply',
+          storyContext: {
+            authorUuid: desktop.uuid,
+            sentTimestamp: Long.fromNumber(sentAt),
+          },
+          groupV2: {
+            masterKey: group.masterKey,
+          },
+          timestamp: Long.fromNumber(sentAt + 1),
+        },
+      },
+      { timestamp: sentAt + 1 }
+    );
+
+    debug('Ensure sender sees the reply');
+    await window
+      .locator('.StoryListItem__button')
+      .getByText('Mock Group')
+      .click();
+    // For some reason we need to click the story & exit before the reply shows up
+    await window.getByRole('button', { name: 'Close' }).click();
+    await window
+      .locator('.StoryListItem__button')
+      .getByText('Mock Group')
+      .click();
+
+    await window.getByText('1 reply').click();
+    await window.getByText('first reply').waitFor();
   });
 });
