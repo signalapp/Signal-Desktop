@@ -14,6 +14,7 @@ import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp';
 export type EditAttributesType = {
   conversationId: string;
   fromId: string;
+  fromDevice: number;
   message: MessageAttributesType;
   targetSentTimestamp: number;
 };

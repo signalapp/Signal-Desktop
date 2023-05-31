@@ -198,6 +198,7 @@ export async function sendEditedMessage(
   const editAttributes = {
     conversationId,
     fromId,
+    fromDevice: window.storage.user.getDeviceId() ?? 1,
     message: tmpMessage,
     targetSentTimestamp,
   };

@@ -2589,6 +2589,7 @@ export async function startApp(): Promise<void> {
       const editAttributes: EditAttributesType = {
         conversationId: message.attributes.conversationId,
         fromId: fromConversation.id,
+        fromDevice: data.sourceDevice ?? 1,
         message: copyDataMessageIntoMessage(data.message, message.attributes),
         targetSentTimestamp: editedMessageTimestamp,
       };
@@ -2912,6 +2913,7 @@ export async function startApp(): Promise<void> {
       const editAttributes: EditAttributesType = {
         conversationId: message.attributes.conversationId,
         fromId: window.ConversationController.getOurConversationIdOrThrow(),
+        fromDevice: window.storage.user.getDeviceId() ?? 1,
         message: copyDataMessageIntoMessage(data.message, message.attributes),
         targetSentTimestamp: editedMessageTimestamp,
       };
