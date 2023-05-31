@@ -272,9 +272,12 @@ export async function handleEditMessage(
   );
 
   drop(mainMessageModel.getConversation()?.updateLastMessage());
-
-  // Update notifications
   if (conversation) {
+    // Clear typing indicator
+    const typingToken = `${editAttributes.fromId}.${editAttributes.fromDevice}`;
+    conversation.clearContactTypingTimer(typingToken);
+
+    // Update notifications
     if (await shouldReplyNotifyUser(mainMessageModel, conversation)) {
       await conversation.notify(mainMessageModel);
     }
