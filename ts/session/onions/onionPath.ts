@@ -1,6 +1,6 @@
 import { Data, Snode } from '../../../ts/data/data';
 import * as SnodePool from '../apis/snode_api/snodePool';
-import _ from 'lodash';
+import _, { compact } from 'lodash';
 import { default as insecureNodeFetch } from 'node-fetch';
 import { UserUtils } from '../utils';
 import { Onions, snodeHttpsAgent } from '../apis/snode_api/onions';
@@ -150,6 +150,7 @@ export async function getOnionPath({ toExclude }: { toExclude?: Snode }): Promis
       throw new Error(`Failed to build enough onion paths, current count: ${onionPaths.length}`);
     }
   }
+  onionPaths = onionPaths.map(compact)
 
   if (onionPaths.length === 0) {
     if (!_.isEmpty(window.inboxStore?.getState().onionPaths.snodePaths)) {
@@ -182,6 +183,7 @@ export async function getOnionPath({ toExclude }: { toExclude?: Snode }): Promis
   const onionPathsWithoutExcluded = onionPaths.filter(
     path => !_.some(path, node => node.pubkey_ed25519 === toExclude.pubkey_ed25519)
   );
+
   if (!onionPathsWithoutExcluded || onionPathsWithoutExcluded.length === 0) {
     throw new Error('No onion paths available after filtering');
   }

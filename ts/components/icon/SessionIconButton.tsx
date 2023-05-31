@@ -12,6 +12,7 @@ interface SProps extends SessionIconProps {
   isHidden?: boolean;
   margin?: string;
   dataTestId?: string;
+  dataTestIdIcon?: string;
   id?: string;
   style?: object;
 }
@@ -54,6 +55,7 @@ const SessionIconButtonInner = React.forwardRef<HTMLDivElement, SProps>((props, 
     margin,
     id,
     dataTestId,
+    dataTestIdIcon,
     style,
   } = props;
   const clickHandler = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -86,7 +88,7 @@ const SessionIconButtonInner = React.forwardRef<HTMLDivElement, SProps>((props, 
         backgroundColor={backgroundColor}
         borderRadius={borderRadius}
         iconPadding={iconPadding}
-        data-testid={dataTestId}
+        dataTestId={dataTestIdIcon}
       />
       {Boolean(notificationCount) && <SessionNotificationCount count={notificationCount} />}
     </StyledSessionIconButton>

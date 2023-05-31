@@ -88,6 +88,31 @@ export async function waitForLoadingAnimationToFinish(
   console.info('Loading animation has finished');
 }
 
+export async function checkPathLight(window: Page, maxWait?: number) {
+  let pathLight: ElementHandle<SVGElement | HTMLElement> | undefined;
+  const maxWaitTime = maxWait || 100000;
+  const waitPerLoop = 100;
+  let start = Date.now();
+
+  pathLight = await waitForElement(window, 'data-testid', "path-light-container", maxWait);
+  let pathColor = await pathLight.getAttribute('color');
+
+  while(pathColor === 'var(--button-path-error-color)') {
+    await sleepFor(waitPerLoop) 
+    pathLight = await waitForElement(window, 'data-testid', "path-light-container", maxWait);
+    pathColor = await pathLight.getAttribute('color');
+    start += waitPerLoop 
+    if(Date.now() - start >= (maxWaitTime / 2)) {
+      console.log('Path building...')
+    }
+
+    if(Date.now() - start >= maxWaitTime) { 
+      throw new Error('Timed out waiting for path')
+    }
+  }
+  console.log('Path built correctly, Yay!', pathColor)
+}
+
 // ACTIONS
 
 export async function clickOnElement(

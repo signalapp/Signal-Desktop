@@ -6,7 +6,7 @@ import { openAppAndWait } from './setup/open';
 import {
   clickOnMatchingText,
   clickOnTestIdWithText,
-  waitForTestIdWithText,
+  waitForTestIdWithText
 } from './utilities/utils';
 
 let window: Page | undefined;

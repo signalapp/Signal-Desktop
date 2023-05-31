@@ -14,6 +14,7 @@ export type SessionIconProps = {
   glowStartDelay?: number;
   noScale?: boolean;
   backgroundColor?: string;
+  dataTestId?: string
 };
 
 const getIconDimensionFromIconSize = (iconSize: SessionIconSize | number) => {
@@ -122,7 +123,7 @@ const animation = (props: {
 };
 
 //tslint:disable no-unnecessary-callback-wrapper
-const Svg = React.memo(styled.svg<StyledSvgProps>`
+const Svg = styled.svg<StyledSvgProps>`
   width: ${props => props.width};
   transform: ${props => `rotate(${props.iconRotation}deg)`};
   animation: ${props => animation(props)};
@@ -134,7 +135,7 @@ const Svg = React.memo(styled.svg<StyledSvgProps>`
   fill: ${props => (props.iconColor ? props.iconColor : '--button-icon-stroke-color')};
   padding: ${props => (props.iconPadding ? props.iconPadding : '')};
   transition: inherit;
-`);
+`;
 // tslint:enable no-unnecessary-callback-wrapper
 
 const SessionSvg = (props: {
@@ -151,6 +152,7 @@ const SessionSvg = (props: {
   borderRadius?: string;
   backgroundColor?: string;
   iconPadding?: string;
+  dataTestId?: string
 }) => {
   const colorSvg = props.iconColor ? props.iconColor : '--button-icon-stroke-color';
   const pathArray = props.path instanceof Array ? props.path : [props.path];
@@ -167,10 +169,11 @@ const SessionSvg = (props: {
     backgroundColor: props.backgroundColor,
     borderRadius: props.borderRadius,
     iconPadding: props.iconPadding,
+    dataTestId: props.dataTestId
   };
 
   return (
-    <Svg {...propsToPick}>
+    <Svg data-testid={props.dataTestId} {...propsToPick}>
       {pathArray.map((path, index) => {
         return <path key={index} fill={colorSvg} d={path} />;
       })}
@@ -189,6 +192,8 @@ export const SessionIcon = (props: SessionIconProps) => {
     noScale,
     backgroundColor,
     iconPadding,
+    dataTestId
+
   } = props;
   let { iconSize, iconRotation } = props;
   iconSize = iconSize || 'medium';
@@ -197,6 +202,9 @@ export const SessionIcon = (props: SessionIconProps) => {
   const iconDimensions = getIconDimensionFromIconSize(iconSize);
   const iconDef = icons[iconType];
   const ratio = iconDef?.ratio || 1;
+  if(iconType === 'circle') {
+    console.warn("props",props)
+  }
 
   return (
     <SessionSvg
@@ -213,6 +221,7 @@ export const SessionIcon = (props: SessionIconProps) => {
       iconColor={iconColor}
       backgroundColor={backgroundColor}
       iconPadding={iconPadding}
+      dataTestId={dataTestId}
     />
   );
 };
