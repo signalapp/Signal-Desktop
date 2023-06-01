@@ -25,6 +25,7 @@ const forceNetworkDeletion = async (): Promise<Array<string> | null> => {
     return null;
   }
   const method = 'delete_all' as const;
+  const namespace = 'all' as const;
 
   try {
     const maliciousSnodes = await pRetry(
@@ -41,12 +42,12 @@ const forceNetworkDeletion = async (): Promise<Array<string> | null> => {
           async () => {
             const signOpts = await SnodeSignature.getSnodeSignatureParams({
               method,
-              namespace: null,
+              namespace,
               pubkey: userX25519PublicKey,
             });
 
             const ret = await doSnodeBatchRequest(
-              [{ method, params: signOpts }],
+              [{ method, params: { ...signOpts, namespace } }],
               snodeToMakeRequestTo,
               10000,
               userX25519PublicKey
@@ -112,12 +113,18 @@ const forceNetworkDeletion = async (): Promise<Array<string> | null> => {
                     return snodePubkey;
                   }
 
-                  const hashes = snodeJson.deleted as Array<string>;
+                  const deletedObj = snodeJson.deleted as Record<number, Array<string>>;
+                  const hashes: Array<string> = [];
+                  for (const key in deletedObj) {
+                    hashes.push(...deletedObj[key]);
+                  }
+                  const sortedHashes = hashes.sort();
                   const signatureSnode = snodeJson.signature as string;
-                  // The signature format is ( PUBKEY_HEX || TIMESTAMP || DELETEDHASH[0] || ... || DELETEDHASH[N] )
-                  const dataToVerify = `${userX25519PublicKey}${signOpts.timestamp}${hashes.join(
-                    ''
-                  )}`;
+                  // The signature format is (with sortedHashes) ( PUBKEY_HEX || TIMESTAMP || DELETEDHASH[0] || ... || DELETEDHASH[N] )
+                  const dataToVerify = `${userX25519PublicKey}${
+                    signOpts.timestamp
+                  }${sortedHashes.join('')}`;
+
                   const dataToVerifyUtf8 = StringUtils.encode(dataToVerify, 'utf8');
                   const isValid = sodium.crypto_sign_verify_detached(
                     fromBase64ToArray(signatureSnode),

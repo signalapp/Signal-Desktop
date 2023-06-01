@@ -393,8 +393,8 @@ async function generateAndSendNewEncryptionKeyPair(
     return;
   }
 
-  const ourNumber = UserUtils.getOurPubKeyFromCache();
-  if (!groupConvo.get('groupAdmins')?.includes(ourNumber.key)) {
+  const ourNumber = UserUtils.getOurPubKeyStrFromCache();
+  if (!groupConvo.get('groupAdmins')?.includes(ourNumber)) {
     window?.log?.warn('generateAndSendNewEncryptionKeyPair: cannot send it as a non admin');
     return;
   }

@@ -146,6 +146,50 @@ async function mergeConfigsWithIncomingUpdates(
   }
 }
 
+export function getSettingsKeyFromLibsessionWrapper(
+  wrapperType: ConfigWrapperObjectTypes
+): string | null {
+  switch (wrapperType) {
+    case 'UserConfig':
+      return SettingsKey.latestUserProfileEnvelopeTimestamp;
+    case 'ContactsConfig':
+      return SettingsKey.latestUserContactsEnvelopeTimestamp;
+    case 'UserGroupsConfig':
+      return SettingsKey.latestUserGroupEnvelopeTimestamp;
+    case 'ConvoInfoVolatileConfig':
+      return null; // we don't really care about the convo info volatile one
+    default:
+      try {
+        assertUnreachable(
+          wrapperType,
+          `getSettingsKeyFromLibsessionWrapper unknown type: ${wrapperType}`
+        );
+      } catch (e) {
+        window.log.warn('assertUnreachable:', e.message);
+      }
+      return null;
+  }
+}
+
+async function updateLibsessionLatestProcessedUserTimestamp(
+  wrapperType: ConfigWrapperObjectTypes,
+  latestEnvelopeTimestamp: number
+) {
+  const settingsKey = getSettingsKeyFromLibsessionWrapper(wrapperType);
+  if (!settingsKey) {
+    return;
+  }
+  const currentLatestEnvelopeProcessed = Storage.get(settingsKey) || 0;
+
+  const newLatestProcessed = Math.max(
+    latestEnvelopeTimestamp,
+    isNumber(currentLatestEnvelopeProcessed) ? currentLatestEnvelopeProcessed : 0
+  );
+  if (newLatestProcessed !== currentLatestEnvelopeProcessed || currentLatestEnvelopeProcessed) {
+    await Storage.put(settingsKey, newLatestProcessed);
+  }
+}
+
 async function handleUserProfileUpdate(result: IncomingConfResult): Promise<IncomingConfResult> {
   const updateUserInfo = await UserConfigWrapperActions.getUserInfo();
   if (!updateUserInfo) {
@@ -160,6 +204,17 @@ async function handleUserProfileUpdate(result: IncomingConfResult): Promise<Inco
     picUpdate ? updateUserInfo.key : null,
     updateUserInfo.priority
   );
+
+  const settingsKey = SettingsKey.latestUserProfileEnvelopeTimestamp;
+  const currentLatestEnvelopeProcessed = Storage.get(settingsKey) || 0;
+
+  const newLatestProcessed = Math.max(
+    result.latestEnvelopeTimestamp,
+    isNumber(currentLatestEnvelopeProcessed) ? currentLatestEnvelopeProcessed : 0
+  );
+  if (newLatestProcessed !== currentLatestEnvelopeProcessed) {
+    await Storage.put(settingsKey, newLatestProcessed);
+  }
 
   return result;
 }
@@ -715,6 +770,14 @@ async function processMergingResults(results: Map<ConfigWrapperObjectTypes, Inco
           }
       }
       const variant = LibSessionUtil.kindToVariant(kind);
+      try {
+        await updateLibsessionLatestProcessedUserTimestamp(
+          variant,
+          incomingResult.latestEnvelopeTimestamp
+        );
+      } catch (e) {
+        window.log.error(`updateLibsessionLatestProcessedUserTimestamp failed with "${e.message}"`);
+      }
 
       if (incomingResult.needsDump) {
         // The config data had changes so regenerate the dump and save it
@@ -917,7 +980,7 @@ const handleClosedGroupsFromConfigLegacy = async (
         publicKey: c.publicKey,
       });
       try {
-        await handleNewClosedGroup(envelope, groupUpdate);
+        await handleNewClosedGroup(envelope, groupUpdate, true);
       } catch (e) {
         window?.log?.warn('failed to handle a new closed group from configuration message');
       }

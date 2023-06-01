@@ -12,7 +12,11 @@ import {
   deleteMessagesFromSwarmAndCompletelyLocally,
   deleteMessagesFromSwarmAndMarkAsDeletedLocally,
 } from '../interactions/conversations/unsendingInteractions';
-import { ConversationTypeEnum, READ_MESSAGE_STATE } from '../models/conversationAttributes';
+import {
+  CONVERSATION_PRIORITIES,
+  ConversationTypeEnum,
+  READ_MESSAGE_STATE,
+} from '../models/conversationAttributes';
 import { findCachedBlindedMatchOrLookupOnAllServers } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
 import { getConversationController } from '../session/conversations';
 import { concatUInt8Array, getSodiumRenderer } from '../session/crypto';
@@ -26,9 +30,10 @@ import { BlockedNumberController } from '../util';
 import { ReadReceipts } from '../util/readReceipts';
 import { Storage } from '../util/storage';
 import { handleCallMessage } from './callMessage';
-import { getAllCachedECKeyPair } from './closedGroups';
+import { getAllCachedECKeyPair, sentAtMoreRecentThanWrapper } from './closedGroups';
 import { ConfigMessageHandler } from './configMessage';
 import { ECKeyPair } from './keypairs';
+import { ContactsWrapperActions } from '../webworker/workers/browser/libsession_worker_interface';
 
 export async function handleSwarmContentMessage(envelope: EnvelopePlus, messageHash: string) {
   try {
@@ -287,6 +292,38 @@ async function decrypt(envelope: EnvelopePlus): Promise<any> {
   }
 }
 
+async function shouldDropIncomingPrivateMessage(sentAtTimestamp: number, envelope: EnvelopePlus) {
+  // sentAtMoreRecentThanWrapper is going to be true, if the latest contact wrapper we processed was roughly more recent that this message timestamp
+  const moreRecentOrNah = await sentAtMoreRecentThanWrapper(sentAtTimestamp, 'ContactsConfig');
+
+  if (moreRecentOrNah === 'wrapper_more_recent') {
+    // we need to check if that conversation is already in the wrapper, and if yes
+    try {
+      const privateConvoInWrapper = await ContactsWrapperActions.get(envelope.source);
+      if (
+        !privateConvoInWrapper ||
+        privateConvoInWrapper.priority <= CONVERSATION_PRIORITIES.hidden
+      ) {
+        // the wrapper is more recent that this message and there is no such private conversation. Just drop this incoming message.
+        window.log.info(
+          `received message from contact ${envelope.source} which appears to be hidden/removed in our most recent libsession contactconfig, sentAt: ${sentAtTimestamp}. Dropping it`
+        );
+        return true;
+      } else {
+        window.log.info(
+          `received message from contact ${envelope.source} which appears to NOT be hidden/removed in our most recent libsession contactconfig, sentAt: ${sentAtTimestamp}. `
+        );
+      }
+    } catch (e) {
+      window.log.warn(
+        'ContactsWrapperActions.get in handleSwarmDataMessage failed with',
+        e.message
+      );
+    }
+  }
+  return false;
+}
+
 function shouldDropBlockedUserMessage(
   content: SignalService.Content,
   groupPubkey: string
@@ -373,6 +410,12 @@ export async function innerHandleSwarmContentMessage(
     // if this is a closed group message, envelope.senderIdentity is the sender's pubkey and envelope.source is the closed group's pubkey
     const isPrivateConversationMessage = !envelope.senderIdentity;
 
+    if (isPrivateConversationMessage) {
+      if (await shouldDropIncomingPrivateMessage(sentAtTimestamp, envelope)) {
+        return removeFromCache(envelope);
+      }
+    }
+
     /**
      * For a closed group message, this holds the conversation with that specific user outside of the closed group.
      * For a private conversation message, this is just the conversation with that user
@@ -396,7 +439,7 @@ export async function innerHandleSwarmContentMessage(
 
     if (content.dataMessage) {
       // because typescript is funky with incoming protobufs
-      if (content.dataMessage.profileKey && content.dataMessage.profileKey.length === 0) {
+      if (isEmpty(content.dataMessage.profileKey)) {
         content.dataMessage.profileKey = null;
       }
       perfStart(`handleSwarmDataMessage-${envelope.id}`);

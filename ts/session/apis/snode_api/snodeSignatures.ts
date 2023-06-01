@@ -54,7 +54,7 @@ async function getSnodeSignatureByHashesParams({
 
 async function getSnodeSignatureParams(params: {
   pubkey: string;
-  namespace: number | null;
+  namespace: number | null | 'all'; // 'all' can be used to clear all namespaces (during account deletion)
   method: 'retrieve' | 'store' | 'delete_all';
 }): Promise<SnodeSignatureResult> {
   const ourEd25519Key = await UserUtils.getUserED25519KeyPair();
@@ -69,10 +69,12 @@ async function getSnodeSignatureParams(params: {
 
   const signatureTimestamp = GetNetworkTime.getNowWithNetworkOffset();
 
+  const withoutNamespace = `${params.method}${signatureTimestamp}`;
+  const withNamespace = `${params.method}${namespace}${signatureTimestamp}`;
   const verificationData =
     namespace === 0
-      ? StringUtils.encode(`${params.method}${signatureTimestamp}`, 'utf8')
-      : StringUtils.encode(`${params.method}${namespace}${signatureTimestamp}`, 'utf8');
+      ? StringUtils.encode(withoutNamespace, 'utf8')
+      : StringUtils.encode(withNamespace, 'utf8');
 
   const message = new Uint8Array(verificationData);
 

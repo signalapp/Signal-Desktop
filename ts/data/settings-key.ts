@@ -14,6 +14,11 @@ const hasSyncedInitialConfigurationItem = 'hasSyncedInitialConfigurationItem';
 const lastAvatarUploadTimestamp = 'lastAvatarUploadTimestamp';
 const hasLinkPreviewPopupBeenDisplayed = 'hasLinkPreviewPopupBeenDisplayed';
 
+// user config tracking timestamps (to discard incoming messages which would make a change we reverted in the last config message we merged)
+const latestUserProfileEnvelopeTimestamp = 'latestUserProfileEnvelopeTimestamp';
+const latestUserGroupEnvelopeTimestamp = 'latestUserGroupEnvelopeTimestamp';
+const latestUserContactsEnvelopeTimestamp = 'latestUserContactsEnvelopeTimestamp';
+
 export const SettingsKey = {
   settingsReadReceipt,
   settingsTypingIndicator,
@@ -29,6 +34,9 @@ export const SettingsKey = {
   hasSyncedInitialConfigurationItem,
   lastAvatarUploadTimestamp,
   hasLinkPreviewPopupBeenDisplayed,
+  latestUserProfileEnvelopeTimestamp,
+  latestUserGroupEnvelopeTimestamp,
+  latestUserContactsEnvelopeTimestamp,
 } as const;
 
 export const KNOWN_BLINDED_KEYS_ITEM = 'KNOWN_BLINDED_KEYS_ITEM';

@@ -1,25 +1,29 @@
+import { Data } from '../../ts/data/data';
 import { SignalService } from '../protobuf';
-import { removeFromCache } from './cache';
-import { EnvelopePlus } from './types';
-import { PubKey } from '../session/types';
-import { toHex } from '../session/utils/String';
+import { getMessageQueue } from '../session';
 import { getConversationController } from '../session/conversations';
 import * as ClosedGroup from '../session/group/closed-group';
+import { PubKey } from '../session/types';
+import { toHex } from '../session/utils/String';
 import { BlockedNumberController } from '../util';
-import { getMessageQueue } from '../session';
+import { removeFromCache } from './cache';
 import { decryptWithSessionProtocol } from './contentMessage';
-import { Data } from '../../ts/data/data';
+import { EnvelopePlus } from './types';
 
-import { ECKeyPair, HexKeyPair } from './keypairs';
-import { UserUtils } from '../session/utils';
+import _, { isNumber, toNumber } from 'lodash';
 import { ConversationModel } from '../models/conversation';
-import _ from 'lodash';
-import { ClosedGroupEncryptionPairReplyMessage } from '../session/messages/outgoing/controlMessage/group/ClosedGroupEncryptionPairReplyMessage';
-import { queueAllCachedFromSource } from './receiver';
-import { getSwarmPollingInstance } from '../session/apis/snode_api';
-import { perfEnd, perfStart } from '../session/utils/Performance';
 import { ConversationTypeEnum } from '../models/conversationAttributes';
+import { getSwarmPollingInstance } from '../session/apis/snode_api';
 import { SnodeNamespaces } from '../session/apis/snode_api/namespaces';
+import { ClosedGroupEncryptionPairReplyMessage } from '../session/messages/outgoing/controlMessage/group/ClosedGroupEncryptionPairReplyMessage';
+import { UserUtils } from '../session/utils';
+import { perfEnd, perfStart } from '../session/utils/Performance';
+import { ReleasedFeatures } from '../util/releaseFeature';
+import { Storage } from '../util/storage';
+import { ConfigWrapperObjectTypes } from '../webworker/workers/browser/libsession_worker_functions';
+import { getSettingsKeyFromLibsessionWrapper } from './configMessage';
+import { ECKeyPair, HexKeyPair } from './keypairs';
+import { queueAllCachedFromSource } from './receiver';
 
 export const distributingClosedGroupEncryptionKeyPairs = new Map<string, ECKeyPair>();
 
@@ -113,7 +117,7 @@ export async function handleClosedGroupControlMessage(
       );
       return;
     }
-    await handleNewClosedGroup(envelope, groupUpdate);
+    await handleNewClosedGroup(envelope, groupUpdate, false);
     return;
   }
 
@@ -199,9 +203,48 @@ function sanityCheckNewGroup(
   return true;
 }
 
+/**
+ * If we merged a more recent wrapper, we must not apply the changes from some incoming messages as it would override a change already set in the wrapper.
+ *
+ * This is mostly to take care of the link a device logic, where we apply the changes from a wrapper, and then start polling from our swarm namespace 0.
+ * Some messages on our swarm might unhide a contact which was marked hidden after that message was already received on another device. Same for groups left/joined etc.
+ *
+ * @returns true if the user config release is live AND the latest processed corresponding wrapper is supposed to have already included the changes this message did.
+ * So if that message should not make any changes to the ata tracked in the wrappers (just add messages if needed, but don't set members, unhide contact etc).
+ */
+export async function sentAtMoreRecentThanWrapper(
+  envelopeSentAtMs: number,
+  variant: ConfigWrapperObjectTypes
+): Promise<'unknown' | 'wrapper_more_recent' | 'envelope_more_recent'> {
+  const userConfigReleased = await ReleasedFeatures.checkIsUserConfigFeatureReleased();
+  if (!userConfigReleased) {
+    return 'unknown';
+  }
+
+  const settingsKey = getSettingsKeyFromLibsessionWrapper(variant);
+  if (!settingsKey) {
+    return 'unknown';
+  }
+  const latestProcessedEnvelope = Storage.get(settingsKey);
+  if (!isNumber(latestProcessedEnvelope) || !latestProcessedEnvelope) {
+    // We want to process the message if we do not have valid data in the db.
+    // Also, we DO want to process a message if we DO NOT have a latest processed timestamp for that wrapper yet
+    return 'envelope_more_recent';
+  }
+
+  // this must return true if the message we are considering should have already been handled based on our `latestProcessedEnvelope`.
+  // so if that message was sent before `latestProcessedEnvelope - 2 mins`, we must return true;
+  const latestProcessedEnvelopeLess2Mins = latestProcessedEnvelope - 2 * 60 * 1000;
+
+  return envelopeSentAtMs > latestProcessedEnvelopeLess2Mins
+    ? 'envelope_more_recent'
+    : 'wrapper_more_recent';
+}
+
 export async function handleNewClosedGroup(
   envelope: EnvelopePlus,
-  groupUpdate: SignalService.DataMessage.ClosedGroupControlMessage
+  groupUpdate: SignalService.DataMessage.ClosedGroupControlMessage,
+  fromLegacyConfig: boolean
 ) {
   if (groupUpdate.type !== SignalService.DataMessage.ClosedGroupControlMessage.Type.NEW) {
     return;
@@ -229,9 +272,20 @@ export async function handleNewClosedGroup(
   const groupId = toHex(publicKey);
   const members = membersAsData.map(toHex);
   const admins = adminsAsData.map(toHex);
-  const envelopeTimestamp = _.toNumber(envelope.timestamp);
+  const envelopeTimestamp = toNumber(envelope.timestamp);
   // a type new is sent and received on one to one so do not use envelope.senderIdentity here
   const sender = envelope.source;
+
+  if (
+    !fromLegacyConfig &&
+    (await sentAtMoreRecentThanWrapper(envelopeTimestamp, 'UserGroupsConfig')) ===
+      'wrapper_more_recent'
+  ) {
+    // not from legacy config, so this is a new closed group deposited on our swarm by a user.
+    // we do not want to process it if our wrapper is more recent that that invite to group envelope.
+    window.log.info('dropping invite to legacy group because our wrapper is more recent');
+    return removeFromCache(envelope);
+  }
 
   if (!members.includes(ourNumber.key)) {
     window?.log?.info(
@@ -276,7 +330,7 @@ export async function handleNewClosedGroup(
     groupConvo.set({
       left: false,
       isKickedFromGroup: false,
-      lastJoinedTimestamp: _.toNumber(envelope.timestamp),
+      lastJoinedTimestamp: toNumber(envelope.timestamp),
       // we just got readded. Consider the zombie list to have been cleared
 
       zombies: [],
@@ -493,7 +547,7 @@ async function performIfValid(
     lastJoinedTimestamp = aYearAgo;
   }
 
-  const envelopeTimestamp = _.toNumber(envelope.timestamp);
+  const envelopeTimestamp = toNumber(envelope.timestamp);
   if (envelopeTimestamp <= lastJoinedTimestamp) {
     window?.log?.warn(
       'Got a group update with an older timestamp than when we joined this group last time. Dropping it.'
@@ -513,26 +567,28 @@ async function performIfValid(
   // make sure the conversation with this user exist (even if it's just hidden)
   await getConversationController().getOrCreateAndWait(sender, ConversationTypeEnum.PRIVATE);
 
+  const moreRecentOrNah = await sentAtMoreRecentThanWrapper(envelopeTimestamp, 'UserGroupsConfig');
+  const shouldNotApplyGroupChange = moreRecentOrNah === 'wrapper_more_recent';
+
   if (groupUpdate.type === Type.NAME_CHANGE) {
-    await handleClosedGroupNameChanged(envelope, groupUpdate, convo);
+    await handleClosedGroupNameChanged(envelope, groupUpdate, convo, shouldNotApplyGroupChange);
   } else if (groupUpdate.type === Type.MEMBERS_ADDED) {
-    await handleClosedGroupMembersAdded(envelope, groupUpdate, convo);
+    await handleClosedGroupMembersAdded(envelope, groupUpdate, convo, shouldNotApplyGroupChange);
   } else if (groupUpdate.type === Type.MEMBERS_REMOVED) {
-    await handleClosedGroupMembersRemoved(envelope, groupUpdate, convo);
+    await handleClosedGroupMembersRemoved(envelope, groupUpdate, convo, shouldNotApplyGroupChange);
   } else if (groupUpdate.type === Type.MEMBER_LEFT) {
-    await handleClosedGroupMemberLeft(envelope, convo);
+    await handleClosedGroupMemberLeft(envelope, convo, shouldNotApplyGroupChange);
   } else if (groupUpdate.type === Type.ENCRYPTION_KEY_PAIR_REQUEST) {
     await removeFromCache(envelope);
   }
   // if you add a case here, remember to add it where performIfValid is called too.
-
-  return true;
 }
 
 async function handleClosedGroupNameChanged(
   envelope: EnvelopePlus,
   groupUpdate: SignalService.DataMessage.ClosedGroupControlMessage,
-  convo: ConversationModel
+  convo: ConversationModel,
+  shouldOnlyAddUpdateMessage: boolean // set this to true to not apply the change to the convo itself, just add the update in the conversation
 ) {
   // Only add update message if we have something to show
   const newName = groupUpdate.name;
@@ -546,9 +602,11 @@ async function handleClosedGroupNameChanged(
       convo,
       groupDiff,
       envelope.senderIdentity,
-      _.toNumber(envelope.timestamp)
+      toNumber(envelope.timestamp)
     );
-    convo.set({ displayNameInProfile: newName });
+    if (!shouldOnlyAddUpdateMessage) {
+      convo.set({ displayNameInProfile: newName });
+    }
     convo.updateLastMessage();
     await convo.commit();
   }
@@ -559,7 +617,8 @@ async function handleClosedGroupNameChanged(
 async function handleClosedGroupMembersAdded(
   envelope: EnvelopePlus,
   groupUpdate: SignalService.DataMessage.ClosedGroupControlMessage,
-  convo: ConversationModel
+  convo: ConversationModel,
+  shouldOnlyAddUpdateMessage: boolean // set this to true to not apply the change to the convo itself, just add the update in the conversation
 ) {
   const { members: addedMembersBinary } = groupUpdate;
   const addedMembers = (addedMembersBinary || []).map(toHex);
@@ -602,10 +661,12 @@ async function handleClosedGroupMembersAdded(
     convo,
     groupDiff,
     envelope.senderIdentity,
-    _.toNumber(envelope.timestamp)
+    toNumber(envelope.timestamp)
   );
 
-  convo.set({ members });
+  if (!shouldOnlyAddUpdateMessage) {
+    convo.set({ members });
+  }
 
   convo.updateLastMessage();
   await convo.commit();
@@ -625,7 +686,8 @@ async function areWeAdmin(groupConvo: ConversationModel) {
 async function handleClosedGroupMembersRemoved(
   envelope: EnvelopePlus,
   groupUpdate: SignalService.DataMessage.ClosedGroupControlMessage,
-  convo: ConversationModel
+  convo: ConversationModel,
+  shouldOnlyAddUpdateMessage: boolean // set this to true to not apply the change to the convo itself, just add the update in the conversation
 ) {
   // Check that the admin wasn't removed
   const currentMembers = convo.get('members');
@@ -681,7 +743,7 @@ async function handleClosedGroupMembersRemoved(
         convo,
         groupDiff,
         envelope.senderIdentity,
-        _.toNumber(envelope.timestamp)
+        toNumber(envelope.timestamp)
       );
       convo.updateLastMessage();
     }
@@ -689,9 +751,10 @@ async function handleClosedGroupMembersRemoved(
     // Update the group
     const zombies = convo.get('zombies').filter(z => membersAfterUpdate.includes(z));
 
-    convo.set({ members: membersAfterUpdate });
-    convo.set({ zombies });
-
+    if (!shouldOnlyAddUpdateMessage) {
+      convo.set({ members: membersAfterUpdate });
+      convo.set({ zombies });
+    }
     await convo.commit();
   }
   await removeFromCache(envelope);
@@ -761,7 +824,11 @@ async function handleClosedGroupLeftOurself(groupId: string, envelope: EnvelopeP
   await removeFromCache(envelope);
 }
 
-async function handleClosedGroupMemberLeft(envelope: EnvelopePlus, convo: ConversationModel) {
+async function handleClosedGroupMemberLeft(
+  envelope: EnvelopePlus,
+  convo: ConversationModel,
+  shouldOnlyAddUpdateMessage: boolean // set this to true to not apply the change to the convo itself, just add the update in the conversation
+) {
   const sender = envelope.senderIdentity;
   const groupPublicKey = envelope.source;
   const didAdminLeave = convo.get('groupAdmins')?.includes(sender) || false;
@@ -778,7 +845,6 @@ async function handleClosedGroupMemberLeft(envelope: EnvelopePlus, convo: Conver
   const ourPubkey = UserUtils.getOurPubKeyStrFromCache();
 
   // if the admin leaves, the group is disabled for everyone
-
   if (didAdminLeave) {
     await handleClosedGroupAdminMemberLeft(groupPublicKey, envelope);
     return;
@@ -801,14 +867,16 @@ async function handleClosedGroupMemberLeft(envelope: EnvelopePlus, convo: Conver
     convo,
     groupDiff,
     envelope.senderIdentity,
-    _.toNumber(envelope.timestamp)
+    toNumber(envelope.timestamp)
   );
   convo.updateLastMessage();
   // if a user just left and we are the admin, we remove him right away for everyone by sending a MEMBERS_REMOVED message so no need to add him as a zombie
   if (oldMembers.includes(sender)) {
     addMemberToZombies(envelope, PubKey.cast(sender), convo);
   }
-  convo.set('members', newMembers);
+  if (!shouldOnlyAddUpdateMessage) {
+    convo.set('members', newMembers);
+  }
 
   await convo.commit();
 

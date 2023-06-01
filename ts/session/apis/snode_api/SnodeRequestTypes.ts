@@ -101,6 +101,7 @@ export type StoreOnNodeParamsNoSig = Pick<
 
 export type DeleteFromNodeWithTimestampParams = {
   timestamp: string | number;
+  namespace: number | null | 'all';
 } & DeleteSigParameters;
 export type DeleteByHashesFromNodeParams = { messages: Array<string> } & DeleteSigParameters;
 

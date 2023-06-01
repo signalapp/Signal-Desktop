@@ -1,5 +1,6 @@
 import { last, orderBy } from 'lodash';
 import { assertUnreachable } from '../../../types/sqlSharedTypes';
+import { PickEnum } from '../../../types/Enums';
 
 export enum SnodeNamespaces {
   /**
@@ -35,10 +36,6 @@ export enum SnodeNamespaces {
    */
   // ClosedGroupInfo = 1,
 }
-
-type PickEnum<T, K extends T> = {
-  [P in keyof K]: P extends K ? P : never;
-};
 
 export type SnodeNamespacesGroup = PickEnum<
   SnodeNamespaces,

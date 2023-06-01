@@ -71,7 +71,6 @@ async function insertContactFromDBIntoWrapperAndRefresh(id: string): Promise<voi
     priority,
     expirationTimerSeconds,
   });
-
   try {
     window.log.debug('inserting into contact wrapper: ', JSON.stringify(wrapperContact));
     await ContactsWrapperActions.set(wrapperContact);

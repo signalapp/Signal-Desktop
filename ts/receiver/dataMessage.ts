@@ -1,28 +1,28 @@
 import { SignalService } from './../protobuf';
 import { removeFromCache } from './cache';
-import { EnvelopePlus } from './types';
 import { getEnvelopeId } from './common';
+import { EnvelopePlus } from './types';
 
-import { PubKey } from '../session/types';
-import { handleMessageJob, toRegularMessage } from './queuedJob';
 import { isEmpty, isFinite, noop, omit, toNumber } from 'lodash';
-import { StringUtils, UserUtils } from '../session/utils';
-import { getConversationController } from '../session/conversations';
-import { handleClosedGroupControlMessage } from './closedGroups';
 import { Data } from '../../ts/data/data';
 import { ConversationModel } from '../models/conversation';
+import { getConversationController } from '../session/conversations';
+import { PubKey } from '../session/types';
+import { StringUtils, UserUtils } from '../session/utils';
+import { handleClosedGroupControlMessage } from './closedGroups';
+import { handleMessageJob, toRegularMessage } from './queuedJob';
 
+import { ConversationTypeEnum } from '../models/conversationAttributes';
+import { MessageModel } from '../models/message';
 import {
   createSwarmMessageSentFromNotUs,
   createSwarmMessageSentFromUs,
 } from '../models/messageFactory';
-import { MessageModel } from '../models/message';
-import { isUsFromCache } from '../session/utils/User';
-import { toLogFormat } from '../types/attachments/Errors';
-import { ConversationTypeEnum } from '../models/conversationAttributes';
-import { Reactions } from '../util/reactions';
-import { Action, Reaction } from '../types/Reaction';
 import { ProfileManager } from '../session/profile_manager/ProfileManager';
+import { isUsFromCache } from '../session/utils/User';
+import { Action, Reaction } from '../types/Reaction';
+import { toLogFormat } from '../types/attachments/Errors';
+import { Reactions } from '../util/reactions';
 
 function cleanAttachment(attachment: any) {
   return {
@@ -185,8 +185,6 @@ export async function handleSwarmDataMessage(
   if (isSyncedMessage && !isMe) {
     window?.log?.warn('Got a sync message from someone else than me. Dropping it.');
     return removeFromCache(envelope);
-  } else if (isSyncedMessage) {
-    // we should create the synTarget convo but I have no idea how to know if this is a private or closed group convo?
   }
   const convoIdToAddTheMessageTo = PubKey.removeTextSecurePrefixIfNeeded(
     isSyncedMessage ? cleanDataMessage.syncTarget : envelope.source
@@ -201,15 +199,15 @@ export async function handleSwarmDataMessage(
     typeOfConvo = ConversationTypeEnum.GROUP;
   }
 
+  window?.log?.info(
+    `Handle dataMessage about convo ${convoIdToAddTheMessageTo} from user: ${convoIdOfSender}`
+  );
+
+  // remove the prefix from the source object so this is correct for all other
   const convoToAddMessageTo = await getConversationController().getOrCreateAndWait(
     convoIdToAddTheMessageTo,
     typeOfConvo
   );
-
-  window?.log?.info(
-    `Handle dataMessage about convo ${convoIdToAddTheMessageTo} from user: ${convoIdOfSender}`
-  );
-  // remove the prefix from the source object so this is correct for all other
 
   // Check if we need to update any profile names
   if (
