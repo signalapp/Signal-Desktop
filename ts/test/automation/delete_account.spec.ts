@@ -2,7 +2,7 @@ import { _electron, test } from '@playwright/test';
 import { beforeAllClean, forceCloseAllWindows } from './setup/beforeEach';
 import { newUser } from './setup/new_user';
 import { sendNewMessage } from './utilities/send_message';
-import { clickOnMatchingText, clickOnTestIdWithText, typeIntoInput } from './utilities/utils';
+import { clickOnMatchingText, clickOnTestIdWithText, hasElementBeenDeleted, typeIntoInput } from './utilities/utils';
 import { sleepFor } from '../../session/utils/Promise';
 import { openApp } from './setup/open';
 // tslint:disable: no-console
@@ -46,32 +46,9 @@ test('Delete account from swarm', async () => {
   console.log('sleeping for 20000ms');
   await sleepFor(20000); // just to allow any messages from our swarm to show up
   // Check if message from user B is restored (we don't want it to be)
-  const errorDesc = 'Test Message should not be found';
-  try {
-    const elemShouldNotBeFound = restoringWindow.locator(testMessage);
-    if (elemShouldNotBeFound) {
-      console.error('Test message was not found');
-      throw new Error(errorDesc);
-    }
-  } catch (e) {
-    if (e.message !== errorDesc) {
-      throw e;
-    }
-  }
-
+  await hasElementBeenDeleted(restoringWindow, "data-testid", 'module-conversation-list-item');
   await clickOnTestIdWithText(restoringWindow, 'new-conversation-button'); // Expect contacts list to be empty
-
-  const errorDesc2 = 'Should not be found';
-  try {
-    const elemShouldNotBeFound = restoringWindow.locator(userB.userName);
-    if (elemShouldNotBeFound) {
-      console.error('Contact not found');
-      throw new Error(errorDesc2);
-    }
-  } catch (e) {
-    if (e.message !== errorDesc2) {
-      throw e;
-    }
-  }
+  await hasElementBeenDeleted(restoringWindow, 'data-testid', 'module-conversation__user__profile-name');
+  
   await forceCloseAllWindows(restoringWindows);
 });
