@@ -417,6 +417,7 @@ export type SortedMessageModelProps = MessageModelPropsWithoutConvoProps & {
 type FetchedTopMessageResults = {
   conversationKey: string;
   messagesProps: Array<MessageModelPropsWithoutConvoProps>;
+  quotesProps: QuoteLookupType;
   oldTopMessageId: string | null;
   newMostRecentMessageIdInConversation: string | null;
 } | null;
@@ -438,7 +439,7 @@ export const fetchTopMessagesForConversation = createAsyncThunk(
       window.log.info('fetchTopMessagesForConversation: we are already at the top');
       return null;
     }
-    const { messagesProps } = await getMessages({
+    const { messagesProps, quotesProps } = await getMessages({
       conversationKey,
       messageId: oldTopMessageId,
     });
@@ -446,6 +447,7 @@ export const fetchTopMessagesForConversation = createAsyncThunk(
     return {
       conversationKey,
       messagesProps,
+      quotesProps,
       oldTopMessageId,
       newMostRecentMessageIdInConversation: mostRecentMessage?.id || null,
     };
@@ -455,6 +457,7 @@ export const fetchTopMessagesForConversation = createAsyncThunk(
 type FetchedBottomMessageResults = {
   conversationKey: string;
   messagesProps: Array<MessageModelPropsWithoutConvoProps>;
+  quotesProps: QuoteLookupType;
   oldBottomMessageId: string | null;
   newMostRecentMessageIdInConversation: string | null;
 } | null;
@@ -475,7 +478,7 @@ export const fetchBottomMessagesForConversation = createAsyncThunk(
       window.log.info('fetchBottomMessagesForConversation: we are already at the bottom');
       return null;
     }
-    const { messagesProps } = await getMessages({
+    const { messagesProps, quotesProps } = await getMessages({
       conversationKey,
       messageId: oldBottomMessageId,
     });
@@ -483,6 +486,7 @@ export const fetchBottomMessagesForConversation = createAsyncThunk(
     return {
       conversationKey,
       messagesProps,
+      quotesProps,
       oldBottomMessageId,
       newMostRecentMessageIdInConversation: mostRecentMessage.id,
     };
