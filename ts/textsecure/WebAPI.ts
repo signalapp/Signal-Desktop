@@ -2534,6 +2534,12 @@ export function initialize({
           type: 'POST',
           version,
           headers,
+          redactUrl: () => {
+            const tmp = new URL(signedUploadLocation);
+            tmp.search = '';
+            tmp.pathname = '';
+            return `${tmp}[REDACTED]`;
+          },
         }
       );
 
