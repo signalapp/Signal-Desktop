@@ -569,11 +569,18 @@ function handleMessageExpiredOrDeleted(
     const messageInStoreIndex = state?.messages.findIndex(m => m.propsForMessage.id === messageId);
     const editedQuotes = { ...state.quotes };
     if (messageInStoreIndex >= 0) {
+      // we cannot edit the array directly, so slice the first part, and slice the second part,
+      // keeping the index removed out
+      const editedMessages = [
+        ...state.messages.slice(0, messageInStoreIndex),
+        ...state.messages.slice(messageInStoreIndex + 1),
+      ];
+
       // Check if the message is quoted somewhere, and if so, remove it from the quotes
       const msgProps = state.messages[messageInStoreIndex].propsForMessage;
       const { timestamp, sender } = msgProps;
       if (timestamp && sender) {
-        const message2Delete = lookupQuote(editedQuotes, timestamp, sender);
+        const message2Delete = lookupQuote(editedQuotes, editedMessages, timestamp, sender);
         window.log.debug(
           `Deleting quote {${timestamp}-${sender}} ${JSON.stringify(message2Delete)}`
         );
@@ -581,13 +588,6 @@ function handleMessageExpiredOrDeleted(
         // tslint:disable-next-line: no-dynamic-delete
         delete editedQuotes[`${timestamp}-${sender}`];
       }
-
-      // we cannot edit the array directly, so slice the first part, and slice the second part,
-      // keeping the index removed out
-      const editedMessages = [
-        ...state.messages.slice(0, messageInStoreIndex),
-        ...state.messages.slice(messageInStoreIndex + 1),
-      ];
 
       // FIXME two other thing we have to do:
       // * update the last message text if the message deleted was the last one
@@ -1166,8 +1166,27 @@ export async function openConversationToSpecificMessage(args: {
  */
 export function lookupQuote(
   quotes: QuoteLookupType,
+  messages: Array<MessageModelPropsWithoutConvoProps>,
   timestamp: number,
   author: string
 ): MessageModelPropsWithoutConvoProps | undefined {
-  return quotes[`${timestamp}-${author}`];
+  let sourceMessage = quotes[`${timestamp}-${author}`];
+
+  // NOTE If a quote is processed but we haven't triggered a render, the quote might not be in the lookup map yet so we check the messages in memory.
+  if (!sourceMessage) {
+    const quotedMessages = messages.filter(message => {
+      const msgProps = message.propsForMessage;
+      return msgProps.timestamp === timestamp && msgProps.sender === author;
+    });
+
+    if (quotedMessages?.length) {
+      for (const quotedMessage of quotedMessages) {
+        if (quotedMessage) {
+          sourceMessage = quotedMessage;
+        }
+      }
+    }
+  }
+
+  return sourceMessage;
 }

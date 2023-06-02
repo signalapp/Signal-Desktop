@@ -10,6 +10,7 @@ import {
 } from '../../../../state/selectors/conversations';
 import { Quote } from './quote/Quote';
 import { ToastUtils } from '../../../../session/utils';
+import { Data } from '../../../../data/data';
 
 // tslint:disable: use-simple-attributes
 
@@ -41,8 +42,6 @@ export const MessageQuote = (props: Props) => {
     quote.referencedMessageNotFound || !quote?.author || !quote.id || !quote.convoId
   );
 
-  const quoteText = quote?.text || null;
-
   const onQuoteClick = useCallback(
     async (event: React.MouseEvent<HTMLDivElement>) => {
       event.preventDefault();
@@ -59,16 +58,38 @@ export const MessageQuote = (props: Props) => {
         return;
       }
 
+      let conversationKey = String(quote.convoId);
+      let messageIdToNavigateTo = String(quote.id);
+      let quoteNotFoundInDB = false;
+
+      // If the quote is not found in memory, we try to find it in the DB
+      if (quoteNotFound && quote.id && quote.author) {
+        const quotedMessagesCollection = await Data.getMessagesBySenderAndSentAt([
+          { timestamp: Number(quote.id), source: quote.author },
+        ]);
+
+        if (quotedMessagesCollection?.length) {
+          const quotedMessage = quotedMessagesCollection.at(0);
+          // If found, we navigate to the quoted message which also refreshes the message quote component
+          if (quotedMessage) {
+            conversationKey = String(quotedMessage.get('conversationId'));
+            messageIdToNavigateTo = String(quotedMessage.id);
+          } else {
+            quoteNotFoundInDB = true;
+          }
+        }
+      }
+
       // For simplicity's sake, we show the 'not found' toast no matter what if we were
       // not able to find the referenced message when the quote was received or if the conversation no longer exists.
-      if (quoteNotFound) {
+      if (quoteNotFoundInDB) {
         ToastUtils.pushOriginalNotFound();
         return;
       }
 
       void openConversationToSpecificMessage({
-        conversationKey: String(quote.convoId),
-        messageIdToNavigateTo: String(quote.id),
+        conversationKey,
+        messageIdToNavigateTo,
         shouldHighlightMessage: true,
       });
     },
@@ -78,7 +99,7 @@ export const MessageQuote = (props: Props) => {
   return (
     <Quote
       onClick={onQuoteClick}
-      text={quoteText}
+      text={quote?.text}
       attachment={quote?.attachment}
       isIncoming={direction === 'incoming'}
       author={quote.author}

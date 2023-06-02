@@ -44,12 +44,12 @@ const StyledQuoteTextContent = styled.div`
 `;
 
 export type QuoteProps = {
-  attachment?: QuotedAttachmentType;
   author: string;
   isFromMe: boolean;
   isIncoming: boolean;
   referencedMessageNotFound: boolean;
-  text: string | null;
+  text?: string;
+  attachment?: QuotedAttachmentType;
 
   onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
 };

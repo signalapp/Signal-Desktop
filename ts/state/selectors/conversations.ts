@@ -983,10 +983,12 @@ export const getMessageLinkPreviewProps = createSelector(getMessagePropsByMessag
 // tslint:disable: cyclomatic-complexity
 export const getMessageQuoteProps = createSelector(
   getConversationLookup,
+  getMessagesOfSelectedConversation,
   getConversationQuotes,
   getMessagePropsByMessageId,
   (
     conversationLookup,
+    messagesProps,
     quotesProps,
     msgModel
   ): { direction: MessageModelType; quote: PropsForQuote } | undefined => {
@@ -1001,7 +1003,9 @@ export const getMessageQuoteProps = createSelector(
       return undefined;
     }
 
-    let { id, author } = msgProps.quote;
+    const id = msgProps.quote.id;
+    let author = msgProps.quote.author;
+
     if (!id || !author) {
       return undefined;
     }
@@ -1017,6 +1021,7 @@ export const getMessageQuoteProps = createSelector(
     const quoteNotFound = {
       direction,
       quote: {
+        id,
         author,
         isFromMe,
         referencedMessageNotFound: true,
@@ -1027,7 +1032,7 @@ export const getMessageQuoteProps = createSelector(
       return quoteNotFound;
     }
 
-    const sourceMessage = lookupQuote(quotesProps, Number(id), author);
+    const sourceMessage = lookupQuote(quotesProps, messagesProps, Number(id), author);
     if (!sourceMessage) {
       return quoteNotFound;
     }
