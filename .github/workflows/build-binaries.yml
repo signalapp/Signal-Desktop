@@ -47,7 +47,7 @@ jobs:
       - name: Setup node for windows
         if: runner.os == 'Windows'
         run: |
-          npm install --global node-gyp@latest
+          npm install --global yarn node-gyp@latest
           npm config set msvs_version 2022
 
       - name: Install Desktop node_modules

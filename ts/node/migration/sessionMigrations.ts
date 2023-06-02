@@ -1625,11 +1625,17 @@ function updateToSessionSchemaVersion31(currentVersion: number, db: BetterSqlite
       const ourDbProfileUrl = ourConversation.avatarPointer || '';
       const ourDbProfileKey = fromHexToArray(ourConversation.profileKey || '');
       const ourConvoPriority = ourConversation.priority;
+      const ourConvoExpire = ourConversation.expireTimer || 0;
       if (ourDbProfileUrl && !isEmpty(ourDbProfileKey)) {
-        userProfileWrapper.setUserInfo(ourDbName, ourConvoPriority, {
-          url: ourDbProfileUrl,
-          key: ourDbProfileKey,
-        });
+        userProfileWrapper.setUserInfo(
+          ourDbName,
+          ourConvoPriority,
+          {
+            url: ourDbProfileUrl,
+            key: ourDbProfileKey,
+          },
+          ourConvoExpire
+        );
       }
 
       insertContactIntoContactWrapper(

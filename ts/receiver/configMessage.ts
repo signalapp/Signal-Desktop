@@ -103,10 +103,10 @@ async function mergeConfigsWithIncomingUpdates(
           StringUtils.toHex(await GenericWrapperActions.dump(variant))
         );
 
-        for (let index = 0; index < toMerge.length; index++) {
-          const element = toMerge[index];
+        for (let dumpIndex = 0; dumpIndex < toMerge.length; dumpIndex++) {
+          const element = toMerge[dumpIndex];
           window.log.info(
-            `printDumpsForDebugging: toMerge of ${index}:${element.hash}:  ${StringUtils.toHex(
+            `printDumpsForDebugging: toMerge of ${dumpIndex}:${element.hash}:  ${StringUtils.toHex(
               element.data
             )} `,
             StringUtils.toHex(await GenericWrapperActions.dump(variant))

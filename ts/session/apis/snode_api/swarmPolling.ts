@@ -64,6 +64,7 @@ export const getSwarmPollingInstance = () => {
 export class SwarmPolling {
   private groupPolling: Array<{ pubkey: PubKey; lastPolledTimestamp: number }>;
   private readonly lastHashes: Record<string, Record<string, Record<number, string>>>;
+  private hasStarted = false;
 
   constructor() {
     this.groupPolling = [];
@@ -71,6 +72,11 @@ export class SwarmPolling {
   }
 
   public async start(waitForFirstPoll = false): Promise<void> {
+    // when restoring from seed we have to start polling before we get on the mainPage, hence this check here to make sure we do not start twice
+    if (this.hasStarted) {
+      return;
+    }
+    this.hasStarted = true;
     this.loadGroupIds();
     if (waitForFirstPoll) {
       await this.pollForAllKeys();
@@ -86,6 +92,7 @@ export class SwarmPolling {
    */
   public resetSwarmPolling() {
     this.groupPolling = [];
+    this.hasStarted = false;
   }
 
   public forcePolledTimestamp(pubkey: PubKey, lastPoll: number) {

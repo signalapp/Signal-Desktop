@@ -115,12 +115,16 @@ const forceNetworkDeletion = async (): Promise<Array<string> | null> => {
 
                   const deletedObj = snodeJson.deleted as Record<number, Array<string>>;
                   const hashes: Array<string> = [];
+
+                  // tslint:disable: no-for-in
                   for (const key in deletedObj) {
-                    hashes.push(...deletedObj[key]);
+                    if (deletedObj.hasOwnProperty(key)) {
+                      hashes.push(...deletedObj[key]);
+                    }
                   }
                   const sortedHashes = hashes.sort();
                   const signatureSnode = snodeJson.signature as string;
-                  // The signature format is (with sortedHashes) ( PUBKEY_HEX || TIMESTAMP || DELETEDHASH[0] || ... || DELETEDHASH[N] )
+                  // The signature format is (with sortedHashes accross all namespaces) ( PUBKEY_HEX || TIMESTAMP || DELETEDHASH[0] || ... || DELETEDHASH[N] )
                   const dataToVerify = `${userX25519PublicKey}${
                     signOpts.timestamp
                   }${sortedHashes.join('')}`;
