@@ -1,15 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import {
-  compact,
-  has,
-  isNumber,
-  throttle,
-  debounce,
-  head,
-  sortBy,
-} from 'lodash';
+import { compact, has, isNumber, throttle, debounce } from 'lodash';
 import { batch as batchDispatch } from 'react-redux';
 import { v4 as generateGuid } from 'uuid';
 import PQueue from 'p-queue';
@@ -23,16 +15,21 @@ import type {
   QuotedMessageType,
   SenderKeyInfoType,
 } from '../model-types.d';
+import { getConversation } from '../util/getConversation';
 import { drop } from '../util/drop';
 import { isShallowEqual } from '../util/isShallowEqual';
-import { memoizeByThis } from '../util/memoizeByThis';
 import { getInitials } from '../util/getInitials';
 import { normalizeUuid } from '../util/normalizeUuid';
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
 import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp';
 import type { AttachmentType, ThumbnailType } from '../types/Attachment';
 import { toDayMillis } from '../util/timestamp';
-import { isVoiceMessage } from '../types/Attachment';
+import { areWeAdmin } from '../util/areWeAdmin';
+import { isBlocked } from '../util/isBlocked';
+import { getAboutText } from '../util/getAboutText';
+import { getAvatarPath } from '../util/avatarUtils';
+import { getDraftPreview } from '../util/getDraftPreview';
+import { hasDraft } from '../util/hasDraft';
 import type { CallHistoryDetailsType } from '../types/Calling';
 import { CallMode } from '../types/Calling';
 import * as Conversation from '../types/Conversation';
@@ -50,7 +47,6 @@ import type {
 import type {
   ConversationType,
   DraftPreviewType,
-  LastMessageType,
 } from '../state/ducks/conversations';
 import type {
   AvatarColorType,
@@ -83,10 +79,9 @@ import {
 } from '../Crypto';
 import * as Bytes from '../Bytes';
 import type { DraftBodyRanges } from '../types/BodyRange';
-import { BodyRange, hydrateRanges } from '../types/BodyRange';
+import { BodyRange } from '../types/BodyRange';
 import { migrateColor } from '../util/migrateColor';
 import { isNotNil } from '../util/isNotNil';
-import { dropNull } from '../util/dropNull';
 import { notificationService } from '../services/notifications';
 import { storageServiceUploadJob } from '../services/storage';
 import { scheduleOptimizeFTS } from '../services/ftsOptimizer';
@@ -135,7 +130,6 @@ import type { ReactionModel } from '../messageModifiers/Reactions';
 import { isAnnouncementGroupReady } from '../util/isAnnouncementGroupReady';
 import { getProfile } from '../util/getProfile';
 import { SEALED_SENDER } from '../types/SealedSender';
-import { getAvatarData } from '../util/getAvatarData';
 import { createIdenticon } from '../util/createIdenticon';
 import * as log from '../logging/log';
 import * as Errors from '../types/errors';
@@ -150,20 +144,20 @@ import { getSendTarget } from '../util/getSendTarget';
 import { getRecipients } from '../util/getRecipients';
 import { validateConversation } from '../util/validateConversation';
 import { isSignalConversation } from '../util/isSignalConversation';
-import { isMemberRequestingToJoin } from '../util/isMemberRequestingToJoin';
 import { removePendingMember } from '../util/removePendingMember';
-import { isMemberPending } from '../util/isMemberPending';
+import {
+  isMember,
+  isMemberAwaitingApproval,
+  isMemberBanned,
+  isMemberPending,
+  isMemberRequestingToJoin,
+} from '../util/groupMembershipUtils';
 import { imageToBlurHash } from '../util/imageToBlurHash';
 import { ReceiptType } from '../types/Receipt';
 import { getQuoteAttachment } from '../util/makeQuote';
-import { stripNewlinesForLeftPane } from '../util/stripNewlinesForLeftPane';
-import { findAndFormatContact } from '../util/findAndFormatContact';
 import { deriveProfileKeyVersion } from '../util/zkgroup';
 import { incrementMessageCounter } from '../util/incrementMessageCounter';
 import { validateTransition } from '../util/callHistoryDetails';
-
-const EMPTY_ARRAY: Readonly<[]> = [];
-const EMPTY_GROUP_COLLISIONS: GroupNameCollisionsWithIdsByTitle = {};
 
 /* eslint-disable more/no-then */
 window.Whisper = window.Whisper || {};
@@ -260,7 +254,7 @@ export class ConversationModel extends window.Backbone
 
   private cachedIdenticon?: CachedIdenticon;
 
-  private isFetchingUUID?: boolean;
+  public isFetchingUUID?: boolean;
 
   private lastIsTyping?: boolean;
 
@@ -465,45 +459,12 @@ export class ConversationModel extends window.Backbone
     return isMemberPending(this.attributes, uuid);
   }
 
-  private isMemberBanned(uuid: UUID): boolean {
-    if (!isGroupV2(this.attributes)) {
-      return false;
-    }
-    const bannedMembersV2 = this.get('bannedMembersV2');
-
-    if (!bannedMembersV2 || !bannedMembersV2.length) {
-      return false;
-    }
-
-    return bannedMembersV2.some(member => member.uuid === uuid.toString());
-  }
-
   isMemberAwaitingApproval(uuid: UUID): boolean {
-    if (!isGroupV2(this.attributes)) {
-      return false;
-    }
-    const pendingAdminApprovalV2 = this.get('pendingAdminApprovalV2');
-
-    if (!pendingAdminApprovalV2 || !pendingAdminApprovalV2.length) {
-      return false;
-    }
-
-    return pendingAdminApprovalV2.some(
-      member => member.uuid === uuid.toString()
-    );
+    return isMemberAwaitingApproval(this.attributes, uuid);
   }
 
   isMember(uuid: UUID): boolean {
-    if (!isGroupV2(this.attributes)) {
-      return false;
-    }
-    const membersV2 = this.get('membersV2');
-
-    if (!membersV2 || !membersV2.length) {
-      return false;
-    }
-
-    return membersV2.some(item => item.uuid === uuid.toString());
+    return isMember(this.attributes, uuid);
   }
 
   async updateExpirationTimerInGroupV2(
@@ -898,22 +859,7 @@ export class ConversationModel extends window.Backbone
   }
 
   isBlocked(): boolean {
-    const uuid = this.get('uuid');
-    if (uuid) {
-      return window.storage.blocked.isUuidBlocked(uuid);
-    }
-
-    const e164 = this.get('e164');
-    if (e164) {
-      return window.storage.blocked.isBlocked(e164);
-    }
-
-    const groupId = this.get('groupId');
-    if (groupId) {
-      return window.storage.blocked.isGroupBlocked(groupId);
-    }
-
-    return false;
+    return isBlocked(this.attributes);
   }
 
   block({ viaStorageServiceSync = false } = {}): void {
@@ -1090,49 +1036,11 @@ export class ConversationModel extends window.Backbone
   }
 
   hasDraft(): boolean {
-    const draftAttachments = this.get('draftAttachments') || [];
-
-    return (this.get('draft') ||
-      this.get('quotedMessageId') ||
-      draftAttachments.length > 0) as boolean;
+    return hasDraft(this.attributes);
   }
 
   getDraftPreview(): DraftPreviewType {
-    const draft = this.get('draft');
-
-    const rawBodyRanges = this.get('draftBodyRanges') || [];
-    const bodyRanges = hydrateRanges(rawBodyRanges, findAndFormatContact);
-
-    if (draft) {
-      return {
-        text: stripNewlinesForLeftPane(draft),
-        bodyRanges,
-      };
-    }
-
-    const draftAttachments = this.get('draftAttachments') || [];
-    if (draftAttachments.length > 0) {
-      if (isVoiceMessage(draftAttachments[0])) {
-        return {
-          text: window.i18n('icu:message--getNotificationText--voice-message'),
-          prefix: '🎤',
-        };
-      }
-      return {
-        text: window.i18n('icu:Conversation--getDraftPreview--attachment'),
-      };
-    }
-
-    const quotedMessageId = this.get('quotedMessageId');
-    if (quotedMessageId) {
-      return {
-        text: window.i18n('icu:Conversation--getDraftPreview--quote'),
-      };
-    }
-
-    return {
-      text: window.i18n('icu:Conversation--getDraftPreview--draft'),
-    };
+    return getDraftPreview(this.attributes);
   }
 
   bumpTyping(): void {
@@ -1891,7 +1799,7 @@ export class ConversationModel extends window.Backbone
 
     try {
       const { oldCachedProps } = this;
-      const newCachedProps = this.getProps();
+      const newCachedProps = getConversation(this);
 
       if (oldCachedProps && isShallowEqual(oldCachedProps, newCachedProps)) {
         this.cachedProps = oldCachedProps;
@@ -1903,179 +1811,6 @@ export class ConversationModel extends window.Backbone
     } finally {
       this.format = oldFormat;
     }
-  }
-
-  // Note: this should never be called directly. Use conversation.format() instead, which
-  //   maintains a cache, and protects against reentrant calls.
-  // Note: When writing code inside this function, do not call .format() on a conversation
-  //   unless you are sure that it's not this very same conversation.
-  // Note: If you start relying on an attribute that is in
-  //   `ATTRIBUTES_THAT_DONT_INVALIDATE_PROPS_CACHE`, remove it from that list.
-  private getProps(): ConversationType {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const color = this.getColor()!;
-
-    const typingValues = Object.values(this.contactTypingTimers || {});
-    const typingMostRecent = head(sortBy(typingValues, 'timestamp'));
-
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const timestamp = this.get('timestamp')!;
-    const draftTimestamp = this.get('draftTimestamp');
-    const draftPreview = this.getDraftPreview();
-    const draftText = dropNull(this.get('draft'));
-    const draftEditMessage = this.get('draftEditMessage');
-    const shouldShowDraft = Boolean(
-      this.hasDraft() && draftTimestamp && draftTimestamp >= timestamp
-    );
-    const inboxPosition = this.get('inbox_position');
-    const messageRequestsEnabled = window.Signal.RemoteConfig.isEnabled(
-      'desktop.messageRequests'
-    );
-    const ourConversationId =
-      window.ConversationController.getOurConversationId();
-
-    let groupVersion: undefined | 1 | 2;
-    if (isGroupV1(this.attributes)) {
-      groupVersion = 1;
-    } else if (isGroupV2(this.attributes)) {
-      groupVersion = 2;
-    }
-
-    const sortedGroupMembers = isGroupV2(this.attributes)
-      ? this.getMembers()
-          .sort((left, right) =>
-            sortConversationTitles(left, right, this.intlCollator)
-          )
-          .map(member => member.format())
-          .filter(isNotNil)
-      : undefined;
-
-    const { customColor, customColorId } = this.getCustomColorData();
-
-    const ourACI = window.textsecure.storage.user.getUuid(UUIDKind.ACI);
-    const ourPNI = window.textsecure.storage.user.getUuid(UUIDKind.PNI);
-
-    // TODO: DESKTOP-720
-    return {
-      id: this.id,
-      uuid: this.get('uuid'),
-      pni: this.get('pni'),
-      e164: this.get('e164'),
-
-      // We had previously stored `null` instead of `undefined` in some cases. We should
-      //   be able to remove this `dropNull` once usernames have gone to production.
-      username: canHaveUsername(this.attributes, ourConversationId)
-        ? dropNull(this.get('username'))
-        : undefined,
-
-      about: this.getAboutText(),
-      aboutText: this.get('about'),
-      aboutEmoji: this.get('aboutEmoji'),
-      acceptedMessageRequest: this.getAccepted(),
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      activeAt: this.get('active_at')!,
-      areWePending:
-        ourACI &&
-        (this.isMemberPending(ourACI) ||
-          Boolean(
-            ourPNI && !this.isMember(ourACI) && this.isMemberPending(ourPNI)
-          )),
-      areWePendingApproval: Boolean(
-        ourConversationId && ourACI && this.isMemberAwaitingApproval(ourACI)
-      ),
-      areWeAdmin: this.areWeAdmin(),
-      avatars: getAvatarData(this.attributes),
-      badges: this.get('badges') ?? EMPTY_ARRAY,
-      canChangeTimer: this.canChangeTimer(),
-      canEditGroupInfo: this.canEditGroupInfo(),
-      canAddNewMembers: this.canAddNewMembers(),
-      avatarPath: this.getAbsoluteAvatarPath(),
-      avatarHash: this.getAvatarHash(),
-      unblurredAvatarPath: this.getAbsoluteUnblurredAvatarPath(),
-      profileAvatarPath: this.getAbsoluteProfileAvatarPath(),
-      color,
-      conversationColor: this.getConversationColor(),
-      customColor,
-      customColorId,
-      discoveredUnregisteredAt: this.get('discoveredUnregisteredAt'),
-      draftBodyRanges: this.getDraftBodyRanges(),
-      draftPreview,
-      draftText,
-      draftEditMessage,
-      familyName: this.get('profileFamilyName'),
-      firstName: this.get('profileName'),
-      groupDescription: this.get('description'),
-      groupVersion,
-      groupId: this.get('groupId'),
-      groupLink: this.getGroupLink(),
-      hideStory: Boolean(this.get('hideStory')),
-      inboxPosition,
-      isArchived: this.get('isArchived'),
-      isBlocked: this.isBlocked(),
-      removalStage: this.get('removalStage'),
-      isMe: isMe(this.attributes),
-      isGroupV1AndDisabled: this.isGroupV1AndDisabled(),
-      isPinned: this.get('isPinned'),
-      isUntrusted: this.isUntrusted(),
-      isVerified: this.isVerified(),
-      isFetchingUUID: this.isFetchingUUID,
-      lastMessage: this.getLastMessage(),
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      lastUpdated: this.get('timestamp')!,
-      left: Boolean(this.get('left')),
-      markedUnread: this.get('markedUnread'),
-      membersCount: this.getMembersCount(),
-      memberships: this.getMemberships(),
-      hasMessages: (this.get('messageCount') ?? 0) > 0,
-      pendingMemberships: this.getPendingMemberships(),
-      pendingApprovalMemberships: this.getPendingApprovalMemberships(),
-      bannedMemberships: this.getBannedMemberships(),
-      profileKey: this.get('profileKey'),
-      messageRequestsEnabled,
-      accessControlAddFromInviteLink:
-        this.get('accessControl')?.addFromInviteLink,
-      accessControlAttributes: this.get('accessControl')?.attributes,
-      accessControlMembers: this.get('accessControl')?.members,
-      announcementsOnly: Boolean(this.get('announcementsOnly')),
-      announcementsOnlyReady: this.canBeAnnouncementGroup(),
-      expireTimer: this.get('expireTimer'),
-      muteExpiresAt: this.get('muteExpiresAt'),
-      dontNotifyForMentionsIfMuted: this.get('dontNotifyForMentionsIfMuted'),
-      name: this.get('name'),
-      systemGivenName: this.get('systemGivenName'),
-      systemFamilyName: this.get('systemFamilyName'),
-      systemNickname: this.get('systemNickname'),
-      phoneNumber: this.getNumber(),
-      profileName: this.getProfileName(),
-      profileSharing: this.get('profileSharing'),
-      publicParams: this.get('publicParams'),
-      secretParams: this.get('secretParams'),
-      shouldShowDraft,
-      sortedGroupMembers,
-      timestamp,
-      title: this.getTitle(),
-      titleNoDefault: this.getTitleNoDefault(),
-      typingContactId: typingMostRecent?.senderId,
-      searchableTitle: isMe(this.attributes)
-        ? window.i18n('icu:noteToSelf')
-        : this.getTitle(),
-      unreadCount: this.get('unreadCount') || 0,
-      unreadMentionsCount: this.get('unreadMentionsCount'),
-      ...(isDirectConversation(this.attributes)
-        ? {
-            type: 'direct' as const,
-            sharedGroupNames: this.get('sharedGroupNames') || EMPTY_ARRAY,
-          }
-        : {
-            type: 'group' as const,
-            acknowledgedGroupNameCollisions:
-              this.get('acknowledgedGroupNameCollisions') ||
-              EMPTY_GROUP_COLLISIONS,
-            sharedGroupNames: EMPTY_ARRAY,
-            storySendMode: this.getGroupStorySendMode(),
-          }),
-      voiceNotePlaybackRate: this.get('voiceNotePlaybackRate'),
-    };
   }
 
   updateE164(e164?: string | null): void {
@@ -2244,26 +1979,6 @@ export class ConversationModel extends window.Backbone
       messageCount: (this.get('messageCount') || 0) + 1,
     });
     window.Signal.Data.updateConversation(this.attributes);
-  }
-
-  getMembersCount(): number | undefined {
-    if (isDirectConversation(this.attributes)) {
-      return undefined;
-    }
-
-    const memberList = this.get('membersV2') || this.get('members');
-
-    // We'll fail over if the member list is empty
-    if (memberList && memberList.length) {
-      return memberList.length;
-    }
-
-    const temporaryMemberCount = this.get('temporaryMemberCount');
-    if (isNumber(temporaryMemberCount)) {
-      return temporaryMemberCount;
-    }
-
-    return undefined;
   }
 
   incrementSentMessageCount({ dry = false }: { dry?: boolean } = {}):
@@ -2627,7 +2342,7 @@ export class ConversationModel extends window.Backbone
       return;
     }
 
-    if (this.isMemberBanned(uuid)) {
+    if (isMemberBanned(this.attributes, uuid)) {
       log.warn('addBannedMember: Member is already banned!');
 
       return;
@@ -3037,21 +2752,7 @@ export class ConversationModel extends window.Backbone
   }
 
   getAboutText(): string | undefined {
-    if (!this.get('about')) {
-      return undefined;
-    }
-
-    const emoji = this.get('aboutEmoji');
-    const text = this.get('about');
-
-    if (!emoji) {
-      return text;
-    }
-
-    return window.i18n('icu:message--getNotificationText--text-with-emoji', {
-      text,
-      emoji,
-    });
+    return getAboutText(this.attributes);
   }
 
   /**
@@ -3859,54 +3560,6 @@ export class ConversationModel extends window.Backbone
     return result;
   }
 
-  private getDraftBodyRanges = memoizeByThis(
-    (): DraftBodyRanges | undefined => {
-      return this.get('draftBodyRanges');
-    }
-  );
-
-  private getLastMessage = memoizeByThis((): LastMessageType | undefined => {
-    if (this.get('lastMessageDeletedForEveryone')) {
-      return { deletedForEveryone: true };
-    }
-    const lastMessageText = this.get('lastMessage');
-    if (!lastMessageText) {
-      return undefined;
-    }
-
-    const rawBodyRanges = this.get('lastMessageBodyRanges') || [];
-    const bodyRanges = hydrateRanges(rawBodyRanges, findAndFormatContact);
-
-    const text = stripNewlinesForLeftPane(lastMessageText);
-    const prefix = this.get('lastMessagePrefix');
-
-    return {
-      author: dropNull(this.get('lastMessageAuthor')),
-      bodyRanges,
-      deletedForEveryone: false,
-      prefix,
-      status: dropNull(this.get('lastMessageStatus')),
-      text,
-    };
-  });
-
-  private getMemberships = memoizeByThis(
-    (): ReadonlyArray<{
-      uuid: UUIDStringType;
-      isAdmin: boolean;
-    }> => {
-      if (!isGroupV2(this.attributes)) {
-        return EMPTY_ARRAY;
-      }
-
-      const members = this.get('membersV2') || [];
-      return members.map(member => ({
-        isAdmin: member.role === Proto.Member.Role.ADMINISTRATOR,
-        uuid: member.uuid,
-      }));
-    }
-  );
-
   getGroupLink(): string | undefined {
     if (!isGroupV2(this.attributes)) {
       return undefined;
@@ -3916,48 +3569,8 @@ export class ConversationModel extends window.Backbone
       return undefined;
     }
 
-    return window.Signal.Groups.buildGroupLink(this);
+    return window.Signal.Groups.buildGroupLink(this.attributes);
   }
-
-  private getPendingMemberships = memoizeByThis(
-    (): ReadonlyArray<{
-      addedByUserId?: UUIDStringType;
-      uuid: UUIDStringType;
-    }> => {
-      if (!isGroupV2(this.attributes)) {
-        return EMPTY_ARRAY;
-      }
-
-      const members = this.get('pendingMembersV2') || [];
-      return members.map(member => ({
-        addedByUserId: member.addedByUserId,
-        uuid: member.uuid,
-      }));
-    }
-  );
-
-  private getPendingApprovalMemberships = memoizeByThis(
-    (): ReadonlyArray<{ uuid: UUIDStringType }> => {
-      if (!isGroupV2(this.attributes)) {
-        return EMPTY_ARRAY;
-      }
-
-      const members = this.get('pendingAdminApprovalV2') || [];
-      return members.map(member => ({
-        uuid: member.uuid,
-      }));
-    }
-  );
-
-  private getBannedMemberships = memoizeByThis(
-    (): ReadonlyArray<UUIDStringType> => {
-      if (!isGroupV2(this.attributes)) {
-        return EMPTY_ARRAY;
-      }
-
-      return (this.get('bannedMembersV2') || []).map(member => member.uuid);
-    }
-  );
 
   getMembers(
     options: { includePendingMembers?: boolean } = {}
@@ -5324,45 +4937,8 @@ export class ConversationModel extends window.Backbone
     };
   }
 
-  private getAvatarPath(): undefined | string {
-    const shouldShowProfileAvatar =
-      isMe(this.attributes) ||
-      window.storage.get('preferContactAvatars') === false;
-    const avatar = shouldShowProfileAvatar
-      ? this.get('profileAvatar') || this.get('avatar')
-      : this.get('avatar') || this.get('profileAvatar');
-    return avatar?.path || undefined;
-  }
-
-  private getAvatarHash(): undefined | string {
-    const avatar = isMe(this.attributes)
-      ? this.get('profileAvatar') || this.get('avatar')
-      : this.get('avatar') || this.get('profileAvatar');
-    return avatar?.hash || undefined;
-  }
-
-  getAbsoluteAvatarPath(): string | undefined {
-    const avatarPath = this.getAvatarPath();
-    if (isSignalConversation(this.attributes)) {
-      return avatarPath;
-    }
-    return avatarPath ? getAbsoluteAttachmentPath(avatarPath) : undefined;
-  }
-
-  getAbsoluteProfileAvatarPath(): string | undefined {
-    const avatarPath = this.get('profileAvatar')?.path;
-    return avatarPath ? getAbsoluteAttachmentPath(avatarPath) : undefined;
-  }
-
-  getAbsoluteUnblurredAvatarPath(): string | undefined {
-    const unblurredAvatarPath = this.get('unblurredAvatarPath');
-    return unblurredAvatarPath
-      ? getAbsoluteAttachmentPath(unblurredAvatarPath)
-      : undefined;
-  }
-
   unblurAvatar(): void {
-    const avatarPath = this.getAvatarPath();
+    const avatarPath = getAvatarPath(this.attributes);
     if (avatarPath) {
       this.set('unblurredAvatarPath', avatarPath);
     } else {
@@ -5370,78 +4946,8 @@ export class ConversationModel extends window.Backbone
     }
   }
 
-  private canChangeTimer(): boolean {
-    if (isDirectConversation(this.attributes)) {
-      return true;
-    }
-
-    if (this.isGroupV1AndDisabled()) {
-      return false;
-    }
-
-    if (!isGroupV2(this.attributes)) {
-      return true;
-    }
-
-    const accessControlEnum = Proto.AccessControl.AccessRequired;
-    const accessControl = this.get('accessControl');
-    const canAnyoneChangeTimer =
-      accessControl &&
-      (accessControl.attributes === accessControlEnum.ANY ||
-        accessControl.attributes === accessControlEnum.MEMBER);
-    if (canAnyoneChangeTimer) {
-      return true;
-    }
-
-    return this.areWeAdmin();
-  }
-
-  canEditGroupInfo(): boolean {
-    if (!isGroupV2(this.attributes)) {
-      return false;
-    }
-
-    if (this.get('left')) {
-      return false;
-    }
-
-    return (
-      this.areWeAdmin() ||
-      this.get('accessControl')?.attributes ===
-        Proto.AccessControl.AccessRequired.MEMBER
-    );
-  }
-
-  canAddNewMembers(): boolean {
-    if (!isGroupV2(this.attributes)) {
-      return false;
-    }
-
-    if (this.get('left')) {
-      return false;
-    }
-
-    return (
-      this.areWeAdmin() ||
-      this.get('accessControl')?.members ===
-        Proto.AccessControl.AccessRequired.MEMBER
-    );
-  }
-
   areWeAdmin(): boolean {
-    if (!isGroupV2(this.attributes)) {
-      return false;
-    }
-
-    const memberEnum = Proto.Member.Role;
-    const members = this.get('membersV2') || [];
-    const ourUuid = window.textsecure.storage.user.getUuid()?.toString();
-    const me = members.find(item => item.uuid === ourUuid);
-    if (!me) {
-      return false;
-    }
-
-    return me.role === memberEnum.ADMINISTRATOR;
+    return areWeAdmin(this.attributes);
   }
 
   // Set of items to captureChanges on:
@@ -5582,7 +5088,7 @@ export class ConversationModel extends window.Backbone
         });
 
     let notificationIconUrl;
-    const avatarPath = this.getAvatarPath();
+    const avatarPath = getAvatarPath(this.attributes);
     if (avatarPath) {
       notificationIconUrl = getAbsoluteAttachmentPath(avatarPath);
     } else if (isMessageInDirectConversation) {
@@ -6034,15 +5540,3 @@ window.Whisper.ConversationCollection = window.Backbone.Collection.extend({
     return -(m.get('active_at') || 0);
   },
 });
-
-type SortableByTitle = {
-  getTitle: () => string;
-};
-
-const sortConversationTitles = (
-  left: SortableByTitle,
-  right: SortableByTitle,
-  collator: Intl.Collator
-) => {
-  return collator.compare(left.getTitle(), right.getTitle());
-};

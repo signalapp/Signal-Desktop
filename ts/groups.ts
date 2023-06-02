@@ -68,6 +68,7 @@ import { getGroupSizeHardLimit } from './groups/limits';
 import {
   isGroupV1 as getIsGroupV1,
   isGroupV2 as getIsGroupV2,
+  isGroupV2,
   isMe,
 } from './util/whatTypeOfConversation';
 import * as Bytes from './Bytes';
@@ -356,14 +357,20 @@ export async function getPreJoinGroupInfo(
   });
 }
 
-export function buildGroupLink(conversation: ConversationModel): string {
-  const { masterKey, groupInviteLinkPassword } = conversation.attributes;
+export function buildGroupLink(
+  conversation: ConversationAttributesType
+): string | undefined {
+  if (!isGroupV2(conversation)) {
+    return undefined;
+  }
+
+  const { masterKey, groupInviteLinkPassword } = conversation;
+
+  if (!groupInviteLinkPassword) {
+    return undefined;
+  }
 
   strictAssert(masterKey, 'buildGroupLink requires the master key!');
-  strictAssert(
-    groupInviteLinkPassword,
-    'buildGroupLink requires the groupInviteLinkPassword!'
-  );
 
   const bytes = Proto.GroupInviteLink.encode({
     v1Contents: {

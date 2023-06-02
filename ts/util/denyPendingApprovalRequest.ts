@@ -7,7 +7,7 @@ import type { UUID } from '../types/UUID';
 import * as log from '../logging/log';
 import { UUIDKind } from '../types/UUID';
 import { getConversationIdForLogging } from './idForLogging';
-import { isMemberRequestingToJoin } from './isMemberRequestingToJoin';
+import { isMemberRequestingToJoin } from './groupMembershipUtils';
 
 export async function denyPendingApprovalRequest(
   conversationAttributes: ConversationAttributesType,

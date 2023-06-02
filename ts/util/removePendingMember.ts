@@ -6,7 +6,7 @@ import type { SignalService as Proto } from '../protobuf';
 import type { UUID } from '../types/UUID';
 import * as log from '../logging/log';
 import { getConversationIdForLogging } from './idForLogging';
-import { isMemberPending } from './isMemberPending';
+import { isMemberPending } from './groupMembershipUtils';
 import { isNotNil } from './isNotNil';
 
 export async function removePendingMember(

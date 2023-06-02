@@ -117,7 +117,7 @@ import { sendDeleteForEveryoneMessage } from '../../util/sendDeleteForEveryoneMe
 import type { ShowToastActionType } from './toast';
 import { SHOW_TOAST } from './toast';
 import { ToastType } from '../../types/Toast';
-import { isMemberRequestingToJoin } from '../../util/isMemberRequestingToJoin';
+import { isMemberRequestingToJoin } from '../../util/groupMembershipUtils';
 import { removePendingMember } from '../../util/removePendingMember';
 import { denyPendingApprovalRequest } from '../../util/denyPendingApprovalRequest';
 import { SignalService as Proto } from '../../protobuf';
