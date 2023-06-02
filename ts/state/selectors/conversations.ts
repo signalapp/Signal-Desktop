@@ -40,9 +40,9 @@ import { ConversationTypeEnum } from '../../models/conversationAttributes';
 import { MessageReactsSelectorProps } from '../../components/conversation/message/message-content/MessageReactions';
 import { filter, isEmpty, pick, sortBy } from 'lodash';
 import { processQuoteAttachment } from '../../models/message';
-import { PubKey } from '../../session/types';
 import { isUsAnySogsFromCache } from '../../session/apis/open_group_api/sogsv3/knownBlindedkeys';
 import { MessageModelType } from '../../models/messageType';
+import { PubKey } from '../../session/types';
 
 export const getConversations = (state: StateType): ConversationsStateType => state.conversations;
 
@@ -1001,12 +1001,17 @@ export const getMessageQuoteProps = createSelector(
       return undefined;
     }
 
-    const { id, author } = msgProps.quote;
+    let { id, author } = msgProps.quote;
     if (!id || !author) {
       return undefined;
     }
 
-    let isFromMe = UserUtils.isUsFromCache(author) || false;
+    const isFromMe = isUsAnySogsFromCache(author) || false;
+
+    // NOTE the quote lookup map always stores our messages using the unblinded pubkey
+    if (isFromMe && PubKey.hasBlindedPrefix(author)) {
+      author = UserUtils.getOurPubKeyStrFromCache();
+    }
 
     // NOTE: if the message is not found, we still want to render the quote
     const quoteNotFound = {
@@ -1035,10 +1040,6 @@ export const getMessageQuoteProps = createSelector(
     const convo = conversationLookup[sourceMsgProps.convoId];
     if (!convo) {
       return quoteNotFound;
-    }
-
-    if (convo.isPublic && PubKey.hasBlindedPrefix(sourceMsgProps.sender)) {
-      isFromMe = isUsAnySogsFromCache(sourceMsgProps.sender);
     }
 
     const attachment = sourceMsgProps.attachments && sourceMsgProps.attachments[0];
