@@ -225,48 +225,90 @@ export async function showUpdateGroupMembersByConvoId(conversationId: string) {
   window.inboxStore?.dispatch(updateGroupMembersModal({ conversationId }));
 }
 
-export function showLeaveGroupByConvoId(conversationId: string) {
+export function showLeavePrivateConversationbyConvoId(conversationId: string, name: string) {
+  const conversation = getConversationController().get(conversationId);
+
+  if (!conversation.isPrivate()) {
+    throw new Error('showLeavePrivateConversationDialog() called with a non private convo.');
+  }
+
+  const onClickClose = () => {
+    window?.inboxStore?.dispatch(updateConfirmModal(null));
+  };
+
+  const onClickOk = async () => {
+    await getConversationController().delete1o1(conversationId, {
+      fromSyncMessage: false,
+      justHidePrivate: true,
+    });
+    onClickClose();
+  };
+
+  window?.inboxStore?.dispatch(
+    updateConfirmModal({
+      title: window.i18n('deleteConversation'),
+      message: window.i18n('deleteConversationConfirmation', [name]),
+      onClickOk,
+      okText: window.i18n('delete'),
+      okTheme: SessionButtonColor.Danger,
+      onClickClose,
+      confirmationType: 'delete-conversation',
+      conversationId,
+    })
+  );
+}
+
+export function showLeaveGroupByConvoId(conversationId: string, name?: string) {
   const conversation = getConversationController().get(conversationId);
 
   if (!conversation.isGroup()) {
     throw new Error('showLeaveGroupDialog() called with a non group convo.');
   }
 
-  const title = window.i18n('leaveGroup');
-  const message = window.i18n('leaveGroupConfirmation');
+  const isClosedGroup = conversation.isClosedGroup() || false;
+  const isPublic = conversation.isPublic() || false;
   const isAdmin = (conversation.get('groupAdmins') || []).includes(
     UserUtils.getOurPubKeyStrFromCache()
   );
-  const isClosedGroup = conversation.isClosedGroup() || false;
-  const isPublic = conversation.isPublic() || false;
 
   // if this is a community, or we legacy group are not admin, we can just show a confirmation dialog
+
+  const onClickClose = () => {
+    window?.inboxStore?.dispatch(updateConfirmModal(null));
+  };
+
+  const onClickOk = async () => {
+    if (isPublic) {
+      await getConversationController().deleteCommunity(conversation.id, {
+        fromSyncMessage: false,
+      });
+    } else {
+      await getConversationController().deleteClosedGroup(conversation.id, {
+        fromSyncMessage: false,
+        sendLeaveMessage: true,
+      });
+    }
+    onClickClose();
+  };
+
+  // TODO Communities don't need confirmation modal and have different logic
   if (isPublic || (isClosedGroup && !isAdmin)) {
-    const onClickClose = () => {
-      window.inboxStore?.dispatch(updateConfirmModal(null));
-    };
     window.inboxStore?.dispatch(
       updateConfirmModal({
-        title,
-        message,
-        onClickOk: async () => {
-          if (isPublic) {
-            await getConversationController().deleteCommunity(conversation.id, {
-              fromSyncMessage: false,
-            });
-          } else {
-            await getConversationController().deleteClosedGroup(conversation.id, {
-              fromSyncMessage: false,
-              sendLeaveMessage: true,
-            });
-          }
-          onClickClose();
-        },
+        title: isPublic ? window.i18n('leaveCommunity') : window.i18n('leaveGroup'),
+        message: window.i18n('leaveGroupConfirmation', name ? [name] : undefined),
+        onClickOk,
+        okText: window.i18n('delete'),
+        okTheme: SessionButtonColor.Danger,
         onClickClose,
+        confirmationType: 'delete-conversation',
+        conversationId,
       })
     );
     return;
   }
+
+  // TODO use different admin modal from figma with add another admin option
   window.inboxStore?.dispatch(
     adminLeaveClosedGroup({
       conversationId,
@@ -354,7 +396,7 @@ export function deleteAllMessagesByConvoIdWithConfirmation(conversationId: strin
   window?.inboxStore?.dispatch(
     updateConfirmModal({
       title: window.i18n('deleteMessages'),
-      message: window.i18n('deleteConversationConfirmation'),
+      message: window.i18n('deleteMessagesConfirmation'),
       onClickOk,
       okTheme: SessionButtonColor.Danger,
       onClickClose,

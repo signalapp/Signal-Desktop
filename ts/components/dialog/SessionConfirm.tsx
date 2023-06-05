@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SessionHtmlRenderer } from '../basic/SessionHTMLRenderer';
 import { updateConfirmModal } from '../../state/ducks/modalDialog';
 import { SpacerLG } from '../basic/Text';
@@ -9,6 +9,10 @@ import { SessionWrapperModal } from '../SessionWrapperModal';
 import { Dispatch } from '@reduxjs/toolkit';
 import { shell } from 'electron';
 import { MessageInteraction } from '../../interactions';
+
+export type ConfirmationStatus = 'loading' | 'success' | 'error';
+// TODO expand support for other confirmation actions
+export type ConfirmationType = 'delete-conversation';
 
 export interface SessionConfirmDialogProps {
   message?: string;
@@ -29,6 +33,7 @@ export interface SessionConfirmDialogProps {
    * function to run on close click. Closes modal after execution by default
    */
   onClickCancel?: () => any;
+
   okText?: string;
   cancelText?: string;
   hideCancel?: boolean;
@@ -38,6 +43,9 @@ export interface SessionConfirmDialogProps {
   iconSize?: SessionIconSize;
   shouldShowConfirm?: boolean | undefined;
   showExitIcon?: boolean | undefined;
+  status?: ConfirmationStatus;
+  confirmationType?: ConfirmationType;
+  conversationId?: string;
 }
 
 export const SessionConfirm = (props: SessionConfirmDialogProps) => {
@@ -73,8 +81,10 @@ export const SessionConfirm = (props: SessionConfirmDialogProps) => {
         await onClickOk();
       } catch (e) {
         window.log.warn(e);
+        window.inboxStore?.dispatch(updateConfirmModal({ ...props, status: 'error' }));
       } finally {
         setIsLoading(false);
+        window.inboxStore?.dispatch(updateConfirmModal({ ...props, status: 'success' }));
       }
     }
 
@@ -101,6 +111,12 @@ export const SessionConfirm = (props: SessionConfirmDialogProps) => {
 
     window.inboxStore?.dispatch(updateConfirmModal(null));
   };
+
+  useEffect(() => {
+    if (isLoading) {
+      window.inboxStore?.dispatch(updateConfirmModal({ ...props, status: 'loading' }));
+    }
+  }, [isLoading]);
 
   return (
     <SessionWrapperModal

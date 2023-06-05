@@ -266,6 +266,7 @@ export class ConversationController {
       conversation.set({
         priority: CONVERSATION_PRIORITIES.hidden,
       });
+      // TODO based on some sort of arg we should remove the contacts messages
       // We don't remove entries from the contacts wrapper, so better keep corresponding convo volatile info for now (it will be pruned if needed)
       await conversation.commit(); // this updates the wrappers content to reflect the hidden state
     } else {

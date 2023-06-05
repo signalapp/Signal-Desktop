@@ -29,6 +29,7 @@ import {
   showBanUserByConvoId,
   showInviteContactByConvoId,
   showLeaveGroupByConvoId,
+  showLeavePrivateConversationbyConvoId,
   showRemoveModeratorsByConvoId,
   showUnbanUserByConvoId,
   showUpdateGroupNameByConvoId,
@@ -174,6 +175,7 @@ export const DeleteGroupOrCommunityMenuItem = () => {
 
 export const LeaveGroupMenuItem = () => {
   const convoId = useConvoIdFromContext();
+  const username = useConversationUsername(convoId) || convoId;
   const isPublic = useIsPublic(convoId);
   const isLeft = useIsLeft(convoId);
   const isKickedFromGroup = useIsKickedFromGroup(convoId);
@@ -183,7 +185,7 @@ export const LeaveGroupMenuItem = () => {
     return (
       <Item
         onClick={() => {
-          showLeaveGroupByConvoId(convoId);
+          showLeaveGroupByConvoId(convoId, username);
         }}
       >
         {window.i18n('leaveGroup')}
@@ -447,6 +449,7 @@ export const DeleteMessagesMenuItem = () => {
  */
 export const DeletePrivateConversationMenuItem = () => {
   const convoId = useConvoIdFromContext();
+  const username = useConversationUsername(convoId) || convoId;
   const isRequest = useIsIncomingRequest(convoId);
   const isPrivate = useIsPrivate(convoId);
 
@@ -456,11 +459,8 @@ export const DeletePrivateConversationMenuItem = () => {
 
   return (
     <Item
-      onClick={async () => {
-        await getConversationController().delete1o1(convoId, {
-          fromSyncMessage: false,
-          justHidePrivate: true,
-        });
+      onClick={() => {
+        showLeavePrivateConversationbyConvoId(convoId, username);
       }}
     >
       {window.i18n('deleteConversation')}

@@ -267,3 +267,14 @@ export function useMentionedUs(conversationId?: string): boolean {
 export function useIsTyping(conversationId?: string): boolean {
   return useConversationPropsById(conversationId)?.isTyping || false;
 }
+
+export function useConfirmModalStatusAndType() {
+  return useSelector((state: StateType) => {
+    if (!state.modals.confirmModal) {
+      return null;
+    }
+
+    const { status, confirmationType: type, conversationId } = state.modals.confirmModal;
+    return { status, type, conversationId };
+  });
+}

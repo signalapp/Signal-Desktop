@@ -40,6 +40,7 @@ import { SessionDropdown } from '../basic/SessionDropdown';
 import { SpacerLG } from '../basic/Text';
 import { MediaItemType } from '../lightbox/LightboxGallery';
 import { MediaGallery } from './media-gallery/MediaGallery';
+import { useConversationUsername } from '../../hooks/useParamSelector';
 
 async function getMediaGalleryProps(
   conversationId: string
@@ -208,6 +209,8 @@ export const SessionRightPanelWithDetails = () => {
   const [media, setMedia] = useState<Array<MediaItemType>>([]);
 
   const selectedConvoKey = useSelectedConversationKey();
+  // TODO we need to test what happens to the localisad string without a group name
+  const selectedUsername = useConversationUsername(selectedConvoKey) || selectedConvoKey;
   const isShowing = useSelector(isRightPanelShowing);
   const subscriberCount = useSelectedSubscriberCount();
 

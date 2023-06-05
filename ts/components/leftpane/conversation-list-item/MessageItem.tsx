@@ -3,9 +3,11 @@ import { isEmpty } from 'lodash';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import {
+  useConfirmModalStatusAndType,
   useConversationPropsById,
   useHasUnread,
   useIsPrivate,
+  useIsPublic,
   useIsTyping,
 } from '../../../hooks/useParamSelector';
 import { isSearching } from '../../../state/selectors/search';
@@ -14,6 +16,7 @@ import { TypingAnimation } from '../../conversation/TypingAnimation';
 import { MessageBody } from '../../conversation/message/message-content/MessageBody';
 import { OutgoingMessageStatus } from '../../conversation/message/message-content/OutgoingMessageStatus';
 import { useConvoIdFromContext } from './ConvoIdContext';
+import { assertUnreachable } from '../../../types/sqlSharedTypes';
 
 function useLastMessageFromConvo(convoId: string) {
   const convoProps = useConversationPropsById(convoId);
@@ -27,6 +30,7 @@ export const MessageItem = () => {
   const conversationId = useConvoIdFromContext();
   const lastMessage = useLastMessageFromConvo(conversationId);
   const isGroup = !useIsPrivate(conversationId);
+  const isCommunity = useIsPublic(conversationId);
 
   const hasUnread = useHasUnread(conversationId);
   const isConvoTyping = useIsTyping(conversationId);
@@ -34,10 +38,37 @@ export const MessageItem = () => {
 
   const isSearchingMode = useSelector(isSearching);
 
+  const confirmModal = useConfirmModalStatusAndType();
+
   if (!lastMessage && !isConvoTyping) {
     return null;
   }
-  const text = lastMessage?.text || '';
+
+  let text = lastMessage?.text || '';
+  if (confirmModal?.conversationId === conversationId && confirmModal?.type) {
+    window.log.debug(`WIP: updating status for ${confirmModal?.type} ${confirmModal.status}`);
+    switch (confirmModal?.type) {
+      case 'delete-conversation':
+        const failText = isCommunity
+          ? ''
+          : isGroup
+          ? window.i18n('leaveGroupFailed')
+          : window.i18n('deleteConversationFailed');
+
+        text =
+          confirmModal.status === 'error'
+            ? failText
+            : confirmModal.status === 'loading'
+            ? window.i18n('leaving')
+            : '';
+        break;
+      default:
+        assertUnreachable(
+          confirmModal?.type,
+          `MessageItem: Missing case error "${confirmModal?.type}"`
+        );
+    }
+  }
 
   if (isEmpty(text)) {
     return null;
