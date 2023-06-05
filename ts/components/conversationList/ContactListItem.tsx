@@ -101,7 +101,7 @@ export const ContactListItem: FunctionComponent<PropsType> = React.memo(
               },
             ]
           : []),
-        ...(onAudioCall
+        ...(!isMe && onAudioCall
           ? [
               {
                 icon: 'ContactListItem__context-menu__phone-icon',
@@ -110,7 +110,7 @@ export const ContactListItem: FunctionComponent<PropsType> = React.memo(
               },
             ]
           : []),
-        ...(onVideoCall
+        ...(!isMe && onVideoCall
           ? [
               {
                 icon: 'ContactListItem__context-menu__video-icon',
@@ -119,7 +119,7 @@ export const ContactListItem: FunctionComponent<PropsType> = React.memo(
               },
             ]
           : []),
-        ...(onRemove
+        ...(!isMe && onRemove
           ? [
               {
                 icon: 'ContactListItem__context-menu__delete-icon',
@@ -128,7 +128,7 @@ export const ContactListItem: FunctionComponent<PropsType> = React.memo(
               },
             ]
           : []),
-        ...(onBlock
+        ...(!isMe && onBlock
           ? [
               {
                 icon: 'ContactListItem__context-menu__block-icon',
@@ -138,7 +138,7 @@ export const ContactListItem: FunctionComponent<PropsType> = React.memo(
             ]
           : []),
       ],
-      [id, i18n, onClick, onAudioCall, onVideoCall, onRemove, onBlock]
+      [id, i18n, isMe, onClick, onAudioCall, onVideoCall, onRemove, onBlock]
     );
 
     const headerName = isMe ? (
