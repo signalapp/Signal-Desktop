@@ -60,6 +60,8 @@ test('Disappearing messages', async () => {
   // Verify message is deleted
   await hasTextElementBeenDeleted(windowA, sentMessage, 3000);
   // focus window B
+  await windowA.close();
+  await windowB.bringToFront();
   await clickOnTestIdWithText(windowB, "control-message", `${userA.userName} set the disappearing message timer to 5 seconds`);
-  await hasTextElementBeenDeleted(windowB, sentMessage, 4000);
+  await hasTextElementBeenDeleted(windowB, sentMessage, 5000);
 });

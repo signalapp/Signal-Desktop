@@ -1,7 +1,7 @@
 import { ElementHandle } from '@playwright/test';
 import { Page } from 'playwright-core';
 import { sleepFor } from '../../../session/utils/Promise';
-import { loaderType, Strategy } from '../types/testing';
+import { DataTestId, loaderType, Strategy } from '../types/testing';
 // tslint:disable: no-console
 
 // WAIT FOR FUNCTIONS
@@ -29,9 +29,12 @@ export async function waitForElement(
   window: Page,
   strategy: Strategy,
   selector: string,
-  maxWaitMs?: number
+  maxWaitMs?: number, 
+  text?: string
 ) {
-  const builtSelector = `css=[${strategy}=${selector}]`;
+  const builtSelector = !text
+    ? `css=[${strategy}=${selector}]`
+    : `css=[${strategy}=${selector}]:has-text("${text.replace(/"/g, '\\"')}")`;
 
   return window.waitForSelector(builtSelector, { timeout: maxWaitMs });
 }
@@ -134,7 +137,7 @@ export async function clickOnMatchingText(window: Page, text: string, rightButto
 
 export async function clickOnTestIdWithText(
   window: Page,
-  dataTestId: string,
+  dataTestId: DataTestId,
   text?: string,
   rightButton?: boolean
 ) {
@@ -152,13 +155,13 @@ export function getMessageTextContentNow() {
   return `Test message timestamp: ${Date.now()}`;
 }
 
-export async function typeIntoInput(window: Page, dataTestId: string, text: string) {
+export async function typeIntoInput(window: Page, dataTestId: DataTestId, text: string) {
   console.info(`typeIntoInput testId: ${dataTestId} : "${text}"`);
   const builtSelector = `css=[data-testid=${dataTestId}]`;
   return window.fill(builtSelector, text);
 }
 
-export async function typeIntoInputSlow(window: Page, dataTestId: string, text: string) {
+export async function typeIntoInputSlow(window: Page, dataTestId: DataTestId, text: string) {
   console.info(`typeIntoInput testId: ${dataTestId} : "${text}"`);
   const builtSelector = `css=[data-testid=${dataTestId}]`;
   await window.waitForSelector(builtSelector);
@@ -178,7 +181,7 @@ export async function hasTextElementBeenDeleted(window: Page, text: string, maxW
   console.info('Element has not been found, congratulations', text);
 }
 
-export async function doesTextIncludeString(window: Page, dataTestId: string, text: string) {
+export async function doesTextIncludeString(window: Page, dataTestId: DataTestId, text: string) {
   const element = await waitForTestIdWithText(window, dataTestId);
   const el = await element.innerText();
 

@@ -4,6 +4,7 @@ import { sleepFor } from '../../session/utils/Promise';
 import { newUser } from './setup/new_user';
 import { sendNewMessage } from './utilities/send_message';
 import {
+  clickOnElement,
   clickOnMatchingText,
   clickOnTestIdWithText,
   typeIntoInput,
@@ -194,4 +195,12 @@ test('Set nickname', async () => {
   );
   const conversationListUsername = await conversationListUsernameText.innerText();
   expect(conversationListUsername).toBe(nickname);
+});
+
+
+test('Read status', async () => {
+  const [windowA, windowB] = await openApp(2);
+  const [userA, userB] = await Promise.all([newUser(windowA, 'Alice'), newUser(windowB, 'Bob')]);
+  await createContact(windowA, windowB, userA, userB);
+  await clickOnElement(windowA, 'data-testid' , "setting-section")
 });
