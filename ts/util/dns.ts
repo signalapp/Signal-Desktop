@@ -5,7 +5,6 @@ import type { LookupOneOptions, LookupAllOptions, LookupAddress } from 'dns';
 import { lookup as nodeLookup } from 'dns';
 import { ipcRenderer, net } from 'electron';
 import type { ResolvedHost } from 'electron';
-import { shuffle } from 'lodash';
 
 import { strictAssert } from './assert';
 import { drop } from './drop';
@@ -87,29 +86,9 @@ function lookupAll(
         };
       });
 
-      const v4 = shuffle(addresses.filter(({ family }) => family === 4));
-      const v6 = shuffle(addresses.filter(({ family }) => family === 6));
-
-      // Node.js should interleave v4 and v6 addresses when trying them with
-      // Happy Eyeballs, but it does not do it yet.
-      //
-      // See: https://github.com/nodejs/node/pull/48258
-      const interleaved = new Array<LookupAddress>();
-      while (v4.length !== 0 || v6.length !== 0) {
-        const v4Entry = v4.pop();
-        // Prioritize v4 over v6
-        if (v4Entry !== undefined) {
-          interleaved.push(v4Entry);
-        }
-        const v6Entry = v6.pop();
-        if (v6Entry !== undefined) {
-          interleaved.push(v6Entry);
-        }
-      }
-
       if (!opts.all) {
-        const random = interleaved.at(
-          Math.floor(Math.random() * interleaved.length)
+        const random = addresses.at(
+          Math.floor(Math.random() * addresses.length)
         );
         if (random === undefined) {
           callback(
@@ -123,7 +102,7 @@ function lookupAll(
         return;
       }
 
-      callback(null, interleaved);
+      callback(null, addresses);
     } catch (error) {
       callback(error, []);
     }
