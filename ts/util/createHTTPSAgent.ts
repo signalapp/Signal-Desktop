@@ -7,7 +7,6 @@ import type { LookupAddress } from 'dns';
 import net from 'net';
 import tls from 'tls';
 import { callbackify, promisify } from 'util';
-import { shuffle } from 'lodash';
 import pTimeout from 'p-timeout';
 
 import * as log from '../logging/log';
@@ -55,8 +54,8 @@ export class Agent extends HTTPSAgent {
         throw new Error(`Agent.createConnection: failed to resolve ${host}`);
       }
 
-      const v4 = shuffle(addresses.filter(({ family }) => family === 4));
-      const v6 = shuffle(addresses.filter(({ family }) => family === 6));
+      const v4 = addresses.filter(({ family }) => family === 4);
+      const v6 = addresses.filter(({ family }) => family === 6);
 
       // Interleave addresses for Happy Eyeballs, but keep the first address
       // type from the DNS response first in the list.
