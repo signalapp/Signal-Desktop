@@ -27,6 +27,7 @@
   padding-inline: 16px;
   text-align: center;
   user-select: none;
+  -webkit-app-region: no-drag;
 
   @include keyboard-mode {
     @include focus-box-shadow($color-white, $color-ultramarine);

@@ -13,6 +13,8 @@
   top: var(--titlebar-height);
   position: absolute;
   user-select: none;
+  -webkit-app-region: no-drag;
+
   z-index: $z-index-popup-overlay;
 
   &__container {

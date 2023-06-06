@@ -59,6 +59,8 @@
     vertical-align: text-bottom;
     border: none;
     opacity: 0;
+    // while it is invisible, allow it to be draggable
+    -webkit-app-region: drag;
     transition: margin-inline-start $transition, opacity $transition;
 
     &:disabled {

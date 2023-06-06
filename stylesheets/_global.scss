@@ -111,6 +111,7 @@ audio {
 button {
   cursor: pointer;
   font-size: inherit;
+  -webkit-app-region: no-drag;
 }
 button.grey {
   border-radius: 5px;

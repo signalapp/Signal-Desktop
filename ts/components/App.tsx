@@ -171,6 +171,7 @@ export function App({
           'dark-theme': theme === ThemeType.dark,
         })}
       >
+        {contents}
         <ToastManager
           OS={OS}
           hideToast={hideToast}
@@ -185,7 +186,6 @@ export function App({
         {isShowingStoriesView && renderStories(toggleStoriesView)}
         {hasSelectedStoryData &&
           renderStoryViewer(() => viewStory({ closeViewer: true }))}
-        {contents}
       </div>
     </TitleBarContainer>
   );
