@@ -7489,33 +7489,17 @@ button.module-image__border-overlay:focus {
   width: 12px;
 
   @include light-theme {
-    &:dir(ltr) {
-      @include color-svg(
-        '../images/icons/v3/chevron/chevron-right.svg',
-        $color-gray-75
-      );
-    }
-    &:dir(rtl) {
-      @include color-svg(
-        '../images/icons/v3/chevron/chevron-left.svg',
-        $color-gray-75
-      );
-    }
+    @include color-svg(
+      '../images/icons/v3/chevron/chevron-right.svg',
+      $color-gray-75
+    );
     color: $color-gray-90;
   }
   @include dark-theme {
-    &:dir(ltr) {
-      @include color-svg(
-        '../images/icons/v3/chevron/chevron-right.svg',
-        $color-gray-15
-      );
-    }
-    &:dir(rtl) {
-      @include color-svg(
-        '../images/icons/v3/chevron/chevron-left.svg',
-        $color-gray-15
-      );
-    }
+    @include color-svg(
+      '../images/icons/v3/chevron/chevron-right.svg',
+      $color-gray-15
+    );
     color: $color-gray-02;
   }
 }
