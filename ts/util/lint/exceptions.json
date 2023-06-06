@@ -2555,9 +2555,9 @@
   {
     "rule": "DOM-innerHTML",
     "path": "ts/quill/signal-clipboard/util.ts",
-    "line": "  event.clipboardData?.setData('text/signal', container.innerHTML);",
+    "line": "    event.clipboardData?.setData('text/signal', container.innerHTML);",
     "reasonCategory": "regexMatchedSafeCode",
-    "updated": "2023-05-22T23:45:02.074Z",
+    "updated": "2023-06-02T00:37:19.861Z",
     "reasonDetail": "Reading from innerHTML, not setting it"
   },
   {
