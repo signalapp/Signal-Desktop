@@ -9,6 +9,19 @@ export function createEventHandler({
   deleteSelection: boolean;
 }) {
   return (event: ClipboardEvent): void => {
+    // If we're attempting to cut, and focus is not in one of our composer elements, we
+    //   let the browser do its default behavior. We don't need formatting from them.
+    if (deleteSelection) {
+      const { activeElement } = document;
+      if (
+        !activeElement ||
+        activeElement.matches('input, textarea') ||
+        !activeElement.closest('[contenteditable=true]')
+      ) {
+        return;
+      }
+    }
+
     if (!event.clipboardData) {
       return;
     }
@@ -25,9 +38,11 @@ export function createEventHandler({
       container.appendChild(range.cloneContents());
     }
 
+    // We fail over to selection.toString() because we can't pull values from the DOM if
+    //   the selection is within an <input/> or <textarea/>. But the browser can!
+    const plaintext = getStringFromNode(container) || selection.toString();
     // Note: we can't leave text/plain alone and just add text/signal; if we update
     //   clipboardData at all, all other data is reset.
-    const plaintext = getStringFromNode(container);
     event.clipboardData?.setData('text/plain', plaintext);
 
     event.clipboardData?.setData('text/signal', container.innerHTML);
