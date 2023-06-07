@@ -296,7 +296,7 @@ export type ConversationsStateType = {
   selectedConversation?: string;
   // NOTE the messages that are in view
   messages: Array<MessageModelPropsWithoutConvoProps>;
-  // NOTE the quotes that are in view
+  // NOTE the messages quoted by other messages which are in view
   quotes: QuoteLookupType;
   firstUnreadMessageId: string | undefined;
   messageDetailProps?: MessagePropsDetails;
