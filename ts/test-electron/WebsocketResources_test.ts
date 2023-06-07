@@ -68,6 +68,7 @@ describe('WebSocket-Resource', () => {
 
       // actual test
       new WebSocketResource(socket as WebSocket, {
+        name: 'test',
         handleRequest(request: any) {
           assert.strictEqual(request.verb, 'PUT');
           assert.strictEqual(request.path, '/some/path');
@@ -106,7 +107,9 @@ describe('WebSocket-Resource', () => {
       });
 
       // actual test
-      const resource = new WebSocketResource(socket as WebSocket);
+      const resource = new WebSocketResource(socket as WebSocket, {
+        name: 'test',
+      });
       const promise = resource.sendRequest({
         verb: 'PUT',
         path: '/some/path',
@@ -134,14 +137,18 @@ describe('WebSocket-Resource', () => {
 
       sinon.stub(socket, 'close').callsFake(() => done());
 
-      const resource = new WebSocketResource(socket as WebSocket);
+      const resource = new WebSocketResource(socket as WebSocket, {
+        name: 'test',
+      });
       resource.close();
     });
 
     it('force closes the connection', function test(done) {
       const socket = new FakeSocket();
 
-      const resource = new WebSocketResource(socket as WebSocket);
+      const resource = new WebSocketResource(socket as WebSocket, {
+        name: 'test',
+      });
       resource.close();
 
       resource.addEventListener('close', () => done());
@@ -164,25 +171,8 @@ describe('WebSocket-Resource', () => {
       });
 
       new WebSocketResource(socket as WebSocket, {
+        name: 'test',
         keepalive: { path: '/v1/keepalive' },
-      });
-
-      this.clock.next();
-    });
-
-    it('uses / as a default path', function test(done) {
-      const socket = new FakeSocket();
-
-      sinon.stub(socket, 'sendBytes').callsFake(data => {
-        const message = Proto.WebSocketMessage.decode(data);
-        assert.strictEqual(message.type, Proto.WebSocketMessage.Type.REQUEST);
-        assert.strictEqual(message.request?.verb, 'GET');
-        assert.strictEqual(message.request?.path, '/');
-        done();
-      });
-
-      new WebSocketResource(socket as WebSocket, {
-        keepalive: true,
       });
 
       this.clock.next();
@@ -194,7 +184,8 @@ describe('WebSocket-Resource', () => {
       sinon.stub(socket, 'close').callsFake(() => done());
 
       new WebSocketResource(socket as WebSocket, {
-        keepalive: true,
+        name: 'test',
+        keepalive: { path: '/' },
       });
 
       // One to trigger send
@@ -210,7 +201,8 @@ describe('WebSocket-Resource', () => {
       sinon.stub(socket, 'close').callsFake(() => done());
 
       new WebSocketResource(socket as WebSocket, {
-        keepalive: true,
+        name: 'test',
+        keepalive: { path: '/' },
       });
 
       // Just skip one hour immediately
@@ -237,7 +229,8 @@ describe('WebSocket-Resource', () => {
       });
 
       const resource = new WebSocketResource(socket as WebSocket, {
-        keepalive: true,
+        name: 'test',
+        keepalive: { path: '/' },
       });
 
       setTimeout(() => {

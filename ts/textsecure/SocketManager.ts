@@ -142,6 +142,7 @@ export class SocketManager extends EventListener {
       path: '/v1/websocket/',
       query: { login: username, password },
       resourceOptions: {
+        name: 'authenticated',
         keepalive: { path: '/v1/keepalive' },
         handleRequest: (req: IncomingWebSocketRequest): void => {
           this.queueOrHandleRequest(req);
@@ -269,6 +270,7 @@ export class SocketManager extends EventListener {
       name: 'provisioning',
       path: '/v1/websocket/provisioning/',
       resourceOptions: {
+        name: 'provisioning',
         handleRequest: (req: IncomingWebSocketRequest): void => {
           handler.handleRequest(req);
         },
@@ -483,6 +485,7 @@ export class SocketManager extends EventListener {
       name: 'unauthenticated',
       path: '/v1/websocket/',
       resourceOptions: {
+        name: 'unauthenticated',
         keepalive: { path: '/v1/keepalive' },
       },
     });
