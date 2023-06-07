@@ -39,6 +39,17 @@ export function generateOpenGroupMessageV2(): OpenGroupMessageV2 {
     base64EncodedData: 'whatever',
   });
 }
+export function generateOpenGroupMessageV4(): OpenGroupMessageV4 {
+  return {
+    posted: Date.now(),
+    reactions: {},
+    seqno: 0,
+    session_id: TestUtils.generateFakePubKey().key,
+    // tslint:disable-next-line: insecure-random
+    id: Math.floor(Math.random() * 100000),
+    data: 'whatever',
+  };
+}
 
 // this is for test purposes only
 type OpenGroupMessageV2WithServerId = Omit<OpenGroupMessageV2, 'sender' | 'serverId'> & {

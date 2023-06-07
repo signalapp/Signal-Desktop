@@ -1,39 +1,40 @@
 import classNames from 'classnames';
-import React, { useContext } from 'react';
 import { isEmpty } from 'lodash';
-import { useConversationPropsById, useIsPrivate } from '../../../hooks/useParamSelector';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import {
+  useConversationPropsById,
+  useHasUnread,
+  useIsPrivate,
+  useIsTyping,
+} from '../../../hooks/useParamSelector';
+import { isSearching } from '../../../state/selectors/search';
+import { getIsMessageRequestOverlayShown } from '../../../state/selectors/section';
+import { TypingAnimation } from '../../conversation/TypingAnimation';
 import { MessageBody } from '../../conversation/message/message-content/MessageBody';
 import { OutgoingMessageStatus } from '../../conversation/message/message-content/OutgoingMessageStatus';
-import { TypingAnimation } from '../../conversation/TypingAnimation';
-import { ContextConversationId } from './ConversationListItem';
-import { useSelector } from 'react-redux';
-import { isSearching } from '../../../state/selectors/search';
+import { useConvoIdFromContext } from './ConvoIdContext';
 
-function useMessageItemProps(convoId: string) {
+function useLastMessageFromConvo(convoId: string) {
   const convoProps = useConversationPropsById(convoId);
   if (!convoProps) {
     return null;
   }
-  return {
-    isTyping: !!convoProps.isTyping,
-    lastMessage: convoProps.lastMessage,
-    unreadCount: convoProps.unreadCount || 0,
-  };
+  return convoProps.lastMessage;
 }
 
-export const MessageItem = (props: { isMessageRequest: boolean }) => {
-  const conversationId = useContext(ContextConversationId);
-  const convoProps = useMessageItemProps(conversationId);
-
+export const MessageItem = () => {
+  const conversationId = useConvoIdFromContext();
+  const lastMessage = useLastMessageFromConvo(conversationId);
   const isGroup = !useIsPrivate(conversationId);
 
-  const isSearchingMode = useSelector(isSearching);
-  if (!convoProps) {
-    return null;
-  }
-  const { lastMessage, isTyping, unreadCount } = convoProps;
+  const hasUnread = useHasUnread(conversationId);
+  const isConvoTyping = useIsTyping(conversationId);
+  const isMessageRequest = useSelector(getIsMessageRequestOverlayShown);
 
-  if (!lastMessage && !isTyping) {
+  const isSearchingMode = useSelector(isSearching);
+
+  if (!lastMessage && !isConvoTyping) {
     return null;
   }
   const text = lastMessage?.text || '';
@@ -47,16 +48,16 @@ export const MessageItem = (props: { isMessageRequest: boolean }) => {
       <div
         className={classNames(
           'module-conversation-list-item__message__text',
-          unreadCount > 0 ? 'module-conversation-list-item__message__text--has-unread' : null
+          hasUnread ? 'module-conversation-list-item__message__text--has-unread' : null
         )}
       >
-        {isTyping ? (
+        {isConvoTyping ? (
           <TypingAnimation />
         ) : (
           <MessageBody text={text} disableJumbomoji={true} disableLinks={true} isGroup={isGroup} />
         )}
       </div>
-      {!isSearchingMode && lastMessage && lastMessage.status && !props.isMessageRequest ? (
+      {!isSearchingMode && lastMessage && lastMessage.status && !isMessageRequest ? (
         <OutgoingMessageStatus status={lastMessage.status} />
       ) : null}
     </div>

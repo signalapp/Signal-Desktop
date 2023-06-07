@@ -1,21 +1,21 @@
 import React from 'react';
 
-import { isImageTypeSupported, isVideoTypeSupported } from '../../util/GoogleChrome';
-import { Image } from './Image';
-import { StagedGenericAttachment } from './StagedGenericAttachment';
-import { StagedPlaceholderAttachment } from './StagedPlaceholderAttachment';
+import { useDispatch } from 'react-redux';
+import {
+  removeAllStagedAttachmentsInConversation,
+  removeStagedAttachmentInConversation,
+} from '../../state/ducks/stagedAttachments';
+import { useSelectedConversationKey } from '../../state/selectors/selectedConversation';
 import {
   areAllAttachmentsVisual,
   AttachmentType,
   getUrl,
   isVideoAttachment,
 } from '../../types/Attachment';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  removeAllStagedAttachmentsInConversation,
-  removeStagedAttachmentInConversation,
-} from '../../state/ducks/stagedAttachments';
-import { getSelectedConversationKey } from '../../state/selectors/conversations';
+import { isImageTypeSupported, isVideoTypeSupported } from '../../util/GoogleChrome';
+import { Image } from './Image';
+import { StagedGenericAttachment } from './StagedGenericAttachment';
+import { StagedPlaceholderAttachment } from './StagedPlaceholderAttachment';
 
 type Props = {
   attachments: Array<AttachmentType>;
@@ -30,7 +30,7 @@ export const StagedAttachmentList = (props: Props) => {
   const { attachments, onAddAttachment, onClickAttachment } = props;
 
   const dispatch = useDispatch();
-  const conversationKey = useSelector(getSelectedConversationKey);
+  const conversationKey = useSelectedConversationKey();
 
   const onRemoveAllStaged = () => {
     if (!conversationKey) {

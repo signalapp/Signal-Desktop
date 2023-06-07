@@ -225,7 +225,7 @@ export async function deleteExternalFilesOfConversation(
 
   const { avatarInProfile } = conversationAttributes;
 
-  if (isString(avatarInProfile)) {
+  if (isString(avatarInProfile) && avatarInProfile.length) {
     await deleteOnDisk(avatarInProfile);
   }
 }

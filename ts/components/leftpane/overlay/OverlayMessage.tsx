@@ -9,8 +9,6 @@ import { OverlayHeader } from './OverlayHeader';
 import { resetOverlayMode } from '../../../state/ducks/section';
 import { PubKey } from '../../../session/types';
 import { ConversationTypeEnum } from '../../../models/conversationAttributes';
-import { SNodeAPI } from '../../../session/apis/snode_api';
-import { onsNameRegex } from '../../../session/apis/snode_api/SNodeAPI';
 import { getConversationController } from '../../../session/conversations';
 import { ToastUtils, UserUtils } from '../../../session/utils';
 import { openConversationWithMessages } from '../../../state/ducks/conversations';
@@ -20,6 +18,7 @@ import { Flex } from '../../basic/Flex';
 import { SessionIconButton } from '../../icon';
 import { SpacerMD } from '../../basic/Text';
 import styled from 'styled-components';
+import { ONSResolve } from '../../../session/apis/snode_api/onsResolve';
 
 const SessionIDDescription = styled.div`
   color: var(--text-secondary-color);
@@ -64,8 +63,13 @@ export const OverlayMessage = () => {
     );
 
     // we now want to show a conversation we just started on the leftpane, even if we did not send a message to it yet
-    if (!convo.isActive() || !convo.isApproved()) {
-      convo.set({ active_at: Date.now(), isApproved: true });
+    if (!convo.isActive() || convo.isHidden()) {
+      // bump the timestamp only if we were not active before
+      if (!convo.isActive()) {
+        convo.set({ active_at: Date.now() });
+      }
+      await convo.unhideIfNeeded(false);
+
       await convo.commit();
     }
 
@@ -87,14 +91,14 @@ export const OverlayMessage = () => {
     }
 
     // this might be an ONS, validate the regex first
-    const mightBeOnsName = new RegExp(onsNameRegex, 'g').test(pubkeyorOnsTrimmed);
+    const mightBeOnsName = new RegExp(ONSResolve.onsNameRegex, 'g').test(pubkeyorOnsTrimmed);
     if (!mightBeOnsName) {
       ToastUtils.pushToastError('invalidPubKey', window.i18n('invalidNumberError'));
       return;
     }
     setLoading(true);
     try {
-      const resolvedSessionID = await SNodeAPI.getSessionIDForOnsName(pubkeyorOnsTrimmed);
+      const resolvedSessionID = await ONSResolve.getSessionIDForOnsName(pubkeyorOnsTrimmed);
       if (PubKey.validateWithErrorNoBlinding(resolvedSessionID)) {
         throw new Error('Got a resolved ONS but the returned entry is not a vlaid SessionID');
       }

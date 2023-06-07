@@ -1,10 +1,7 @@
 import { Storage } from './storage';
 
-async function markEverDone() {
-  await Storage.put('chromiumRegistrationDoneEver', '');
-}
 async function markDone() {
-  await markEverDone();
+  await Storage.put('chromiumRegistrationDoneEver', '');
   await Storage.put('chromiumRegistrationDone', '');
 }
 function isDone() {
@@ -20,4 +17,4 @@ async function remove() {
   await Storage.remove('chromiumRegistrationDone');
 }
 
-export const Registration = { markEverDone, markDone, isDone, everDone, remove };
+export const Registration = { markDone, isDone, everDone, remove };

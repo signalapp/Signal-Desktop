@@ -20,6 +20,7 @@ export type ByteKeyPair = {
 
 /**
  * Check if this pubkey is us, using the cache.
+ * This does not check for us blinded. To check for us or us blinded, use isUsAnySogsFromCache()
  * Throws an error if our pubkey is not set
  */
 export function isUsFromCache(pubKey: string | PubKey | undefined): boolean {

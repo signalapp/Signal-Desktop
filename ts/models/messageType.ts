@@ -1,11 +1,15 @@
 import { defaultsDeep } from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
-import { CallNotificationType, PropsForMessageWithConvoProps } from '../state/ducks/conversations';
+import {
+  CallNotificationType,
+  LastMessageStatusType,
+  PropsForMessageWithConvoProps,
+} from '../state/ducks/conversations';
 import { AttachmentTypeWithPath } from '../types/Attachment';
 import { Reaction, ReactionList, SortedReactionList } from '../types/Reaction';
+import { READ_MESSAGE_STATE } from './conversationAttributes';
 
 export type MessageModelType = 'incoming' | 'outgoing';
-export type MessageDeliveryStatus = 'sending' | 'sent' | 'read' | 'error';
 
 export interface MessageAttributes {
   // the id of the message
@@ -41,6 +45,7 @@ export interface MessageAttributes {
   };
   /**
    * 1 means unread, 0 or anything else is read.
+   * You can use the values from READ_MESSAGE_STATE.unread and READ_MESSAGE_STATE.read
    */
   unread: number;
   group?: any;
@@ -48,7 +53,7 @@ export interface MessageAttributes {
    * timestamp is the sent_at timestamp, which is the envelope.timestamp
    */
   timestamp?: number;
-  status?: MessageDeliveryStatus;
+  status?: LastMessageStatusType;
   sent_to: Array<string>;
   sent: boolean;
 
@@ -196,7 +201,7 @@ export interface MessageAttributesOptionals {
   unread?: number;
   group?: any;
   timestamp?: number;
-  status?: MessageDeliveryStatus;
+  status?: LastMessageStatusType;
   sent_to?: Array<string>;
   sent?: boolean;
   serverId?: number;
@@ -221,7 +226,7 @@ export const fillMessageAttributesWithDefaults = (
   const defaulted = defaultsDeep(optAttributes, {
     expireTimer: 0, // disabled
     id: uuidv4(),
-    unread: 0, // if nothing is set, this message is considered read
+    unread: READ_MESSAGE_STATE.read, // if nothing is set, this message is considered read
   });
   // this is just to cleanup a bit the db. delivered and delivered_to were removed, so everytime we load a message
   // we make sure to clean those fields in the json.

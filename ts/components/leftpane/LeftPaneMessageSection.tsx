@@ -27,8 +27,6 @@ export interface Props {
   contacts: Array<ReduxConversationType>;
   conversations?: Array<ConversationListItemProps>;
   searchResults?: SearchResultsProps;
-
-  messageRequestsEnabled?: boolean;
   overlayMode: OverlayMode | undefined;
 }
 
@@ -70,7 +68,6 @@ const ClosableOverlay = () => {
 export class LeftPaneMessageSection extends React.Component<Props> {
   public constructor(props: Props) {
     super(props);
-
     autoBind(this);
   }
 
@@ -87,7 +84,7 @@ export class LeftPaneMessageSection extends React.Component<Props> {
       throw new Error('renderRow: conversations selector returned element containing falsy value.');
     }
 
-    return <MemoConversationListItemWithDetails key={key} style={style} {...conversation} />;
+    return <MemoConversationListItemWithDetails key={key} style={style} {...conversation} />; // TODO there should not be a need for the ...conversation here?
   };
 
   public renderList(): JSX.Element {
@@ -104,7 +101,7 @@ export class LeftPaneMessageSection extends React.Component<Props> {
     const length = conversations.length;
 
     // Note: conversations is not a known prop for List, but it is required to ensure that
-    //   it re-renders when our conversation data changes. Otherwise it would just render
+    //   it re-renders when our conversations data changes. Otherwise it would just render
     //   on startup and scroll.
 
     return (

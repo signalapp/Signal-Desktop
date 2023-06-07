@@ -1,55 +1,62 @@
 import React from 'react';
 
+import _ from 'lodash';
+import { useDispatch, useSelector } from 'react-redux';
+import { ConversationTypeEnum } from '../../models/conversationAttributes';
+import { VALIDATION } from '../../session/constants';
 import { getConversationController } from '../../session/conversations';
 import { ToastUtils, UserUtils } from '../../session/utils';
-import { ConversationTypeEnum } from '../../models/conversationAttributes';
-import { getCompleteUrlForV2ConvoId } from '../../interactions/conversationInteractions';
-import _ from 'lodash';
-import { VALIDATION } from '../../session/constants';
-import { SpacerLG } from '../basic/Text';
-import { useDispatch, useSelector } from 'react-redux';
 import { updateInviteContactModal } from '../../state/ducks/modalDialog';
+import { SpacerLG } from '../basic/Text';
 // tslint:disable-next-line: no-submodule-imports
 import useKey from 'react-use/lib/useKey';
-import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
-import { MemberListItem } from '../MemberListItem';
-import { SessionWrapperModal } from '../SessionWrapperModal';
-import { getPrivateContactsPubkeys } from '../../state/selectors/conversations';
 import { useConversationPropsById } from '../../hooks/useParamSelector';
 import { useSet } from '../../hooks/useSet';
 import { initiateClosedGroupUpdate } from '../../session/group/closed-group';
+import { getPrivateContactsPubkeys } from '../../state/selectors/conversations';
+import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
+import { MemberListItem } from '../MemberListItem';
+import { SessionWrapperModal } from '../SessionWrapperModal';
+import { SessionUtilUserGroups } from '../../session/utils/libsession/libsession_utils_user_groups';
 
 type Props = {
   conversationId: string;
 };
 
-const submitForOpenGroup = async (conversationId: string, pubkeys: Array<string>) => {
-  const completeUrl = await getCompleteUrlForV2ConvoId(conversationId);
-  const convo = getConversationController().get(conversationId);
+function submitForOpenGroup(convoId: string, pubkeys: Array<string>) {
+  const convo = getConversationController().get(convoId);
   if (!convo || !convo.isPublic()) {
     throw new Error('submitForOpenGroup group not found');
   }
-  const groupInvitation = {
-    url: completeUrl,
-    name: convo.getNicknameOrRealUsernameOrPlaceholder(),
-  };
-  pubkeys.forEach(async pubkeyStr => {
-    const privateConvo = await getConversationController().getOrCreateAndWait(
-      pubkeyStr,
-      ConversationTypeEnum.PRIVATE
-    );
-
-    if (privateConvo) {
-      void privateConvo.sendMessage({
-        body: '',
-        attachments: undefined,
-        groupInvitation,
-        preview: undefined,
-        quote: undefined,
-      });
+  try {
+    const roomDetails = SessionUtilUserGroups.getCommunityByConvoIdCached(convo.id);
+    if (!roomDetails) {
+      throw new Error(`getCommunityByFullUrl returned no result for ${convo.id}`);
     }
-  });
-};
+    const groupInvitation = {
+      url: roomDetails?.fullUrlWithPubkey,
+      name: convo.getNicknameOrRealUsernameOrPlaceholder(),
+    };
+    pubkeys.forEach(async pubkeyStr => {
+      const privateConvo = await getConversationController().getOrCreateAndWait(
+        pubkeyStr,
+        ConversationTypeEnum.PRIVATE
+      );
+
+      if (privateConvo) {
+        void privateConvo.sendMessage({
+          body: '',
+          attachments: undefined,
+          groupInvitation,
+          preview: undefined,
+          quote: undefined,
+        });
+      }
+    });
+  } catch (e) {
+    window.log.warn('submitForOpenGroup failed with:', e.message);
+  }
+}
 
 const submitForClosedGroup = async (convoId: string, pubkeys: Array<string>) => {
   const convo = getConversationController().get(convoId);
@@ -104,7 +111,7 @@ const InviteContactsDialogInner = (props: Props) => {
   if (!convoProps) {
     throw new Error('InviteContactsDialogInner not a valid convoId given');
   }
-  if (!convoProps.isGroup) {
+  if (convoProps.isPrivate) {
     throw new Error('InviteContactsDialogInner must be a group');
   }
   if (!convoProps.isPublic) {
@@ -126,7 +133,7 @@ const InviteContactsDialogInner = (props: Props) => {
   const onClickOK = () => {
     if (selectedContacts.length > 0) {
       if (isPublicConvo) {
-        void submitForOpenGroup(conversationId, selectedContacts);
+        submitForOpenGroup(conversationId, selectedContacts);
       } else {
         void submitForClosedGroup(conversationId, selectedContacts);
       }

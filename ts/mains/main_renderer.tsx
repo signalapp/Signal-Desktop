@@ -22,6 +22,9 @@ import { loadKnownBlindedKeys } from '../session/apis/open_group_api/sogsv3/know
 import nativeEmojiData from '@emoji-mart/data';
 import { initialiseEmojiData } from '../util/emoji';
 import { switchPrimaryColorTo } from '../themes/switchPrimaryColor';
+import { LibSessionUtil } from '../session/utils/libsession/libsession_utils';
+import { runners } from '../session/utils/job_runners/JobRunner';
+import { SettingsKey } from '../data/settings-key';
 // tslint:disable: max-classes-per-file
 
 // Globally disable drag and drop
@@ -107,6 +110,14 @@ function mapOldThemeToNew(theme: string) {
   }
 }
 
+async function startJobRunners() {
+  // start the job runners
+  await runners.avatarDownloadRunner.loadJobsFromDb();
+  runners.avatarDownloadRunner.startProcessing();
+  await runners.configurationSyncRunner.loadJobsFromDb();
+  runners.configurationSyncRunner.startProcessing();
+}
+
 // We need this 'first' check because we don't want to start the app up any other time
 //   than the first time. And storage.fetch() will cause onready() to fire.
 let first = true;
@@ -151,7 +162,7 @@ Storage.onready(async () => {
       // Stop background processing
       AttachmentDownloads.stop();
       // Stop processing incoming messages
-      // FIXME audric stop polling opengroupv2 and swarm nodes
+      // TODOLATER stop polling opengroupv2 and swarm nodes
 
       // Shut down the data interface cleanly
       await Data.shutdown();
@@ -176,6 +187,15 @@ Storage.onready(async () => {
   await window.Events.setThemeSetting(newThemeSetting);
 
   try {
+    if (Registration.isDone()) {
+      try {
+        await LibSessionUtil.initializeLibSessionUtilWrappers();
+      } catch (e) {
+        window.log.warn('LibSessionUtil.initializeLibSessionUtilWrappers failed with', e.message);
+        // I don't think there is anything we can do if this happens
+        throw e;
+      }
+    }
     await initialiseEmojiData(nativeEmojiData);
     await AttachmentDownloads.initAttachmentPaths();
 
@@ -185,9 +205,10 @@ Storage.onready(async () => {
       OpenGroupData.opengroupRoomsLoad(),
       loadKnownBlindedKeys(),
     ]);
+    await startJobRunners();
   } catch (error) {
     window.log.error(
-      'main_start.js: ConversationController failed to load:',
+      'main_renderer: ConversationController failed to load:',
       error && error.stack ? error.stack : error
     );
   } finally {
@@ -240,11 +261,6 @@ async function start() {
   WhisperEvents.on('registration_done', async () => {
     window.log.info('handling registration event');
 
-    // Disable link previews as default per Kee
-    Storage.onready(async () => {
-      await Storage.put('link-preview-setting', false);
-    });
-
     await connect();
   });
 
@@ -265,7 +281,7 @@ async function start() {
       });
   }
 
-  function openStandAlone() {
+  function showRegistrationView() {
     ReactDOM.render(<SessionRegistrationView />, document.getElementById('root'));
   }
   ExpirationTimerOptions.initExpiringMessageListener();
@@ -276,7 +292,7 @@ async function start() {
   } else {
     const primaryColor = window.Events.getPrimaryColorSetting();
     await switchPrimaryColorTo(primaryColor);
-    openStandAlone();
+    showRegistrationView();
   }
 
   window.addEventListener('focus', () => {
@@ -364,7 +380,7 @@ async function start() {
   if (launchCount === 1) {
     // Initialise default settings
     await window.setSettingValue('hide-menu-bar', true);
-    await window.setSettingValue('link-preview-setting', false);
+    await window.setSettingValue(SettingsKey.settingsLinkPreview, false);
   }
 
   WhisperEvents.on('openInbox', () => {
@@ -440,7 +456,9 @@ async function connect() {
     Notifications.enable();
   }, 10 * 1000); // 10 sec
 
-  await queueAllCached();
+  setTimeout(() => {
+    void queueAllCached();
+  }, 10 * 1000); // 10 sec
   await AttachmentDownloads.start({
     logger: window.log,
   });

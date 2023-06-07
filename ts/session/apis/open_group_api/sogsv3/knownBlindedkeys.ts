@@ -11,15 +11,15 @@ import { ConversationModel } from '../../../../models/conversation';
 import { UserUtils } from '../../../utils';
 import { SogsBlinding } from './sogsBlinding';
 import { fromHexToArray } from '../../../utils/String';
-import { roomHasBlindEnabled } from './sogsV3Capabilities';
+import { KNOWN_BLINDED_KEYS_ITEM } from '../../../../data/settings-key';
+import { roomHasBlindEnabled } from '../../../../types/sqlSharedTypes';
+import { Storage } from '../../../../util/storage';
 
 export type BlindedIdMapping = {
   blindedId: string;
   serverPublicKey: string;
   realSessionId: string;
 };
-
-export const KNOWN_BLINDED_KEYS_ITEM = 'KNOWN_BLINDED_KEYS_ITEM';
 
 // for now, we assume we won't find a lot of blinded keys.
 // So we can store all of those in a single JSON string in the db.
@@ -66,10 +66,7 @@ export async function loadKnownBlindedKeys() {
  */
 export async function writeKnownBlindedKeys() {
   if (cachedKnownMapping && cachedKnownMapping.length) {
-    await Data.createOrUpdateItem({
-      id: KNOWN_BLINDED_KEYS_ITEM,
-      value: JSON.stringify(cachedKnownMapping),
-    });
+    await Storage.put(KNOWN_BLINDED_KEYS_ITEM, JSON.stringify(cachedKnownMapping));
   }
 }
 

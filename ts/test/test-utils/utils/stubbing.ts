@@ -2,8 +2,10 @@ import { expect } from 'chai';
 import Sinon from 'sinon';
 import { Data } from '../../../../ts/data/data';
 import { OpenGroupData } from '../../../data/opengroups';
+import { ConfigDumpData } from '../../../data/configDump/configDump';
 
-import * as utilWorker from '../../../webworker/workers/util_worker_interface';
+import * as utilWorker from '../../../webworker/workers/browser/util_worker_interface';
+import * as libsessionWorker from '../../../webworker/workers/browser/libsession_worker_interface';
 
 const globalAny: any = global;
 
@@ -12,6 +14,7 @@ const globalAny: any = global;
 // tslint:disable: no-require-imports no-var-requires
 type DataFunction = typeof Data;
 type OpenGroupDataFunction = typeof OpenGroupData;
+type ConfigDumpDataFunction = typeof ConfigDumpData;
 
 /**
  * Stub a function inside Data.
@@ -27,11 +30,20 @@ export function stubOpenGroupData<K extends keyof OpenGroupDataFunction>(fn: K):
   return Sinon.stub(OpenGroupData, fn);
 }
 
+export function stubConfigDumpData<K extends keyof ConfigDumpDataFunction>(fn: K): sinon.SinonStub {
+  return Sinon.stub(ConfigDumpData, fn);
+}
+
 export function stubUtilWorker(fnName: string, returnedValue: any): sinon.SinonStub {
   return Sinon.stub(utilWorker, 'callUtilsWorker')
     .withArgs(fnName as any)
     .resolves(returnedValue);
 }
+
+export function stubLibSessionWorker(value: any) {
+  Sinon.stub(libsessionWorker, 'callLibSessionWorker').resolves(value);
+}
+
 export function stubCreateObjectUrl() {
   // tslint:disable-next-line: no-empty no-function-expression
   (global as any).URL = function() {};
@@ -78,6 +90,10 @@ export const stubWindowLog = () => {
     error: (...args: any) => (enableLogRedirect ? console.error(...args) : {}),
     debug: (...args: any) => (enableLogRedirect ? console.debug(...args) : {}),
   });
+};
+
+export const stubWindowFeatureFlags = () => {
+  stubWindow('sessionFeatureFlags', { debug: {} } as any);
 };
 
 export async function expectAsyncToThrow(toAwait: () => Promise<any>, errorMessageToCatch: string) {

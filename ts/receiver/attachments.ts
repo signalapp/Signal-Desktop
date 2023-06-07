@@ -7,7 +7,7 @@ import { ConversationModel } from '../models/conversation';
 import { OpenGroupRequestCommonType } from '../session/apis/open_group_api/opengroupV2/ApiUtil';
 import { getUnpaddedAttachment } from '../session/crypto/BufferPadding';
 import { decryptAttachment } from '../util/crypto/attachmentsEncrypter';
-import { callUtilsWorker } from '../webworker/workers/util_worker_interface';
+import { callUtilsWorker } from '../webworker/workers/browser/util_worker_interface';
 import { sogsV3FetchFileByFileID } from '../session/apis/open_group_api/sogsv3/sogsV3FetchFile';
 import { OpenGroupData } from '../data/opengroups';
 import {
@@ -135,7 +135,7 @@ export async function downloadAttachmentSogsV3(
   } else {
     // nothing to do, the attachment has already the correct size.
     // There is just no padding included, which is what we agreed on
-    window?.log?.info('Received opengroupv2 unpadded attachment size:', attachment.size);
+    // window?.log?.info('Received opengroupv2 unpadded attachment size:', attachment.size);
   }
 
   return {

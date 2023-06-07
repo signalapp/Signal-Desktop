@@ -1,20 +1,20 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { getConversationController } from '../../session/conversations';
-import { Data } from '../../data/data';
-import {
-  MessageDeliveryStatus,
-  MessageModelType,
-  PropsForDataExtractionNotification,
-  PropsForMessageRequestResponse,
-} from '../../models/messageType';
 import { omit } from 'lodash';
 import { ReplyingToMessageProps } from '../../components/conversation/composition/CompositionBox';
 import { QuotedAttachmentType } from '../../components/conversation/message/message-content/Quote';
 import { LightBoxOptions } from '../../components/conversation/SessionConversation';
+import { Data } from '../../data/data';
 import {
+  CONVERSATION_PRIORITIES,
   ConversationNotificationSettingType,
   ConversationTypeEnum,
 } from '../../models/conversationAttributes';
+import {
+  MessageModelType,
+  PropsForDataExtractionNotification,
+  PropsForMessageRequestResponse,
+} from '../../models/messageType';
+import { getConversationController } from '../../session/conversations';
 import { ReactionList } from '../../types/Reaction';
 
 export type CallNotificationType = 'missed-call' | 'started-call' | 'answered-a-call';
@@ -45,8 +45,6 @@ export type ContactPropsMessageDetail = {
   name?: string | null;
   profileName?: string | null;
   avatarPath?: string | null;
-  isOutgoingKeyError: boolean;
-
   errors?: Array<Error>;
 };
 
@@ -60,7 +58,7 @@ export type MessagePropsDetails = {
   direction: MessageModelType;
 };
 
-export type LastMessageStatusType = MessageDeliveryStatus | undefined;
+export type LastMessageStatusType = 'sending' | 'sent' | 'read' | 'error' | undefined;
 
 export type FindAndFormatContactType = {
   pubkey: string;
@@ -231,15 +229,13 @@ export interface ReduxConversationType {
    */
   displayNameInProfile?: string;
   nickname?: string;
-  hasNickname?: boolean;
 
   activeAt?: number;
   lastMessage?: LastMessageType;
   type: ConversationTypeEnum;
   isMe?: boolean;
   isPublic?: boolean;
-  isGroup?: boolean;
-  isPrivate?: boolean;
+  isPrivate?: boolean; // !isPrivate means isGroup (group or community)
   weAreAdmin?: boolean;
   weAreModerator?: boolean;
   unreadCount?: number;
@@ -250,11 +246,9 @@ export interface ReduxConversationType {
   isTyping?: boolean;
   isBlocked?: boolean;
   isKickedFromGroup?: boolean;
-  subscriberCount?: number;
   left?: boolean;
   avatarPath?: string | null; // absolute filepath to the avatar
   groupAdmins?: Array<string>; // admins for closed groups and admins for open groups
-  groupModerators?: Array<string>; // only for opengroups: moderators
   members?: Array<string>; // members for closed groups only
   zombies?: Array<string>; // members for closed groups only
 
@@ -263,16 +257,12 @@ export interface ReduxConversationType {
    */
   currentNotificationSetting?: ConversationNotificationSettingType;
 
-  isPinned?: boolean;
+  priority?: number; // undefined means 0
   isInitialFetchingInProgress?: boolean;
   isApproved?: boolean;
   didApproveMe?: boolean;
 
-  // Should only be present on opengroups - the capabilities we have on this room.
-  capabilities?: Array<string>;
-  readCapability?: boolean;
-  writeCapability?: boolean;
-  uploadCapability?: boolean;
+  isMarkedUnread?: boolean;
 }
 
 export interface NotificationForConvoOption {
@@ -387,7 +377,7 @@ export const fetchTopMessagesForConversation = createAsyncThunk(
     const mostRecentMessage = await Data.getLastMessageInConversation(conversationKey);
 
     if (!oldestMessage || oldestMessage.id === oldTopMessageId) {
-      window.log.info('fetchTopMessagesForConversation: we are already at the top');
+      // window.log.debug('fetchTopMessagesForConversation: we are already at the top');
       return null;
     }
     const messagesProps = await getMessages({
@@ -424,7 +414,7 @@ export const fetchBottomMessagesForConversation = createAsyncThunk(
     const mostRecentMessage = await Data.getLastMessageInConversation(conversationKey);
 
     if (!mostRecentMessage || mostRecentMessage.id === oldBottomMessageId) {
-      window.log.info('fetchBottomMessagesForConversation: we are already at the bottom');
+      // window.log.debug('fetchBottomMessagesForConversation: we are already at the bottom');
       return null;
     }
     const messagesProps = await getMessages({
@@ -522,10 +512,6 @@ function handleMessageExpiredOrDeleted(
         ...state.messages.slice(messageInStoreIndex + 1),
       ];
 
-      // FIXME two other thing we have to do:
-      // * update the last message text if the message deleted was the last one
-      // * update the unread count of the convo if the message was the one counted as an unread
-
       return {
         ...state,
         messages: editedMessages,
@@ -585,7 +571,20 @@ const conversationsSlice = createSlice({
     },
 
     openRightPanel(state: ConversationsStateType) {
-      return { ...state, showRightPanel: true };
+      if (
+        state.selectedConversation === undefined ||
+        !state.conversationLookup[state.selectedConversation]
+      ) {
+        return state;
+      }
+      const selected = state.conversationLookup[state.selectedConversation];
+
+      // we can open the right panel always for non private chats. and also when the chat is private, and we are friends with the other person
+      if (!selected.isPrivate || (selected.isApproved && selected.didApproveMe)) {
+        return { ...state, showRightPanel: true };
+      }
+
+      return state;
     },
     closeRightPanel(state: ConversationsStateType) {
       return { ...state, showRightPanel: false };
@@ -987,9 +986,22 @@ function applyConversationChanged(
     return state;
   }
 
+  let selected = selectedConversation;
+  if (
+    data &&
+    data.isPrivate &&
+    data.id === selectedConversation &&
+    data.priority &&
+    data.priority < CONVERSATION_PRIORITIES.default
+  ) {
+    // A private conversation hidden cannot be a selected.
+    // When opening a hidden conversation, we unhide it so it can be selected again.
+    selected = undefined;
+  }
+
   return {
     ...state,
-    selectedConversation,
+    selectedConversation: selected,
     conversationLookup: {
       ...conversationLookup,
       [id]: { ...data, isInitialFetchingInProgress: existing.isInitialFetchingInProgress },
@@ -997,7 +1009,6 @@ function applyConversationChanged(
   };
 }
 
-// destructures
 export const { actions, reducer } = conversationsSlice;
 export const {
   // conversation and messages list
@@ -1031,11 +1042,22 @@ export const {
   markConversationInitialLoadingInProgress,
 } = actions;
 
+async function unmarkAsForcedUnread(convoId: string) {
+  const convo = getConversationController().get(convoId);
+  if (convo && convo.isMarkedUnread()) {
+    // we just opened it and it was forced "Unread", so we reset the unread state here
+    await convo.markAsUnread(false, true);
+  }
+}
+
 export async function openConversationWithMessages(args: {
   conversationKey: string;
   messageId: string | null;
 }) {
   const { conversationKey, messageId } = args;
+
+  await unmarkAsForcedUnread(conversationKey);
+
   const firstUnreadIdOnOpen = await Data.getFirstUnreadMessageIdInConversation(conversationKey);
   const mostRecentMessageIdOnOpen = await Data.getLastMessageIdInConversation(conversationKey);
 
@@ -1060,6 +1082,7 @@ export async function openConversationToSpecificMessage(args: {
   shouldHighlightMessage: boolean;
 }) {
   const { conversationKey, messageIdToNavigateTo, shouldHighlightMessage } = args;
+  await unmarkAsForcedUnread(conversationKey);
 
   const messagesAroundThisMessage = await getMessages({
     conversationKey,

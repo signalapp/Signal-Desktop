@@ -1,5 +1,6 @@
 import React from 'react';
 import { useMembersAvatars } from '../../../hooks/useMembersAvatars';
+import { assertUnreachable } from '../../../types/sqlSharedTypes';
 import { Avatar, AvatarSize } from '../Avatar';
 
 type Props = {
@@ -11,6 +12,8 @@ type Props = {
 function getClosedGroupAvatarsSize(size: AvatarSize): AvatarSize {
   // Always use the size directly under the one requested
   switch (size) {
+    case AvatarSize.XS:
+      throw new Error('AvatarSize.XS is not supported for closed group avatar sizes');
     case AvatarSize.S:
       return AvatarSize.XS;
     case AvatarSize.M:
@@ -22,7 +25,7 @@ function getClosedGroupAvatarsSize(size: AvatarSize): AvatarSize {
     case AvatarSize.HUGE:
       return AvatarSize.XL;
     default:
-      throw new Error(`Invalid size request for closed group avatar: ${size}`);
+      assertUnreachable(size, `Invalid size request for closed group avatar "${size}"`);
   }
 }
 

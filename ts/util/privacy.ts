@@ -1,8 +1,8 @@
 /* eslint-env node */
 
 // tslint:disable-next-line: no-submodule-imports
+import { escapeRegExp, isEmpty, isRegExp, isString } from 'lodash';
 import { compose } from 'lodash/fp';
-import { escapeRegExp, isRegExp, isString } from 'lodash';
 import { getAppRootPath } from '../node/getRootPath';
 
 const APP_ROOT_PATH = getAppRootPath();
@@ -98,9 +98,16 @@ const removeNewlines = (text: string) => text.replace(/\r?\n|\r/g, '');
 //      redactSensitivePaths :: String -> String
 const redactSensitivePaths = redactPath(APP_ROOT_PATH);
 
-const isDev = (process.env.NODE_APP_INSTANCE || '').startsWith('devprod');
+function shouldNotRedactLogs() {
+  // if featureFlag is set to true, trust it
+  if (!isEmpty(process.env.SESSION_DEBUG_DISABLE_REDACTED)) {
+    return true;
+  }
+  // otherwise we don't want to redact logs when running on the devprod env
+  return (process.env.NODE_APP_INSTANCE || '').startsWith('devprod');
+}
 
 //      redactAll :: String -> String
-export const redactAll = !isDev
+export const redactAll = !shouldNotRedactLogs()
   ? compose(redactSensitivePaths, redactGroupIds, redactSessionID, redactSnodeIP, redactServerUrl)
   : (text: string) => text;

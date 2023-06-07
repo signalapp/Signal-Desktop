@@ -1,21 +1,20 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
-import { Item, Submenu } from 'react-contexify';
+import { Item } from 'react-contexify';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   useAvatarPath,
   useConversationUsername,
   useHasNickname,
-  useIsActive,
   useIsBlinded,
   useIsBlocked,
+  useIsIncomingRequest,
   useIsKickedFromGroup,
   useIsLeft,
   useIsMe,
   useIsPrivate,
+  useIsPrivateAndFriend,
   useIsPublic,
-  useIsRequest,
-  useNotificationSetting,
   useWeAreAdmin,
 } from '../../hooks/useParamSelector';
 import {
@@ -26,8 +25,6 @@ import {
   declineConversationWithConfirm,
   deleteAllMessagesByConvoIdWithConfirmation,
   markAllReadByConvoId,
-  setDisappearingMessagesByConvoId,
-  setNotificationForConvoId,
   showAddModeratorsByConvoId,
   showBanUserByConvoId,
   showInviteContactByConvoId,
@@ -37,129 +34,25 @@ import {
   showUpdateGroupNameByConvoId,
   unblockConvoById,
 } from '../../interactions/conversationInteractions';
-import {
-  ConversationNotificationSetting,
-  ConversationNotificationSettingType,
-} from '../../models/conversationAttributes';
 import { getConversationController } from '../../session/conversations';
+import { PubKey } from '../../session/types';
 import {
   changeNickNameModal,
   updateConfirmModal,
   updateUserDetailsModal,
 } from '../../state/ducks/modalDialog';
-import { SectionType } from '../../state/ducks/section';
-import { hideMessageRequestBanner } from '../../state/ducks/userConfig';
-import { getFocusedSection } from '../../state/selectors/section';
-import { getTimerOptions } from '../../state/selectors/timerOptions';
-import { LocalizerKeys } from '../../types/LocalizerKeys';
+import { getIsMessageSection } from '../../state/selectors/section';
+import { useSelectedConversationKey } from '../../state/selectors/selectedConversation';
 import { SessionButtonColor } from '../basic/SessionButton';
-import { ContextConversationId } from '../leftpane/conversation-list-item/ConversationListItem';
-
-function showTimerOptions(
-  isPublic: boolean,
-  isKickedFromGroup: boolean,
-  left: boolean,
-  isBlocked: boolean,
-  isRequest: boolean,
-  isActive: boolean
-): boolean {
-  return !isPublic && !left && !isKickedFromGroup && !isBlocked && !isRequest && isActive;
-}
-
-function showNotificationConvo(
-  isKickedFromGroup: boolean,
-  left: boolean,
-  isBlocked: boolean,
-  isRequest: boolean
-): boolean {
-  return !left && !isKickedFromGroup && !isBlocked && !isRequest;
-}
-
-function showBlock(isMe: boolean, isPrivate: boolean, isRequest: boolean): boolean {
-  return !isMe && isPrivate && !isRequest;
-}
-
-function showClearNickname(
-  isMe: boolean,
-  hasNickname: boolean,
-  isPrivate: boolean,
-  isRequest: boolean
-): boolean {
-  return !isMe && hasNickname && isPrivate && !isRequest;
-}
-
-function showChangeNickname(isMe: boolean, isPrivate: boolean, isRequest: boolean) {
-  return !isMe && isPrivate && !isRequest;
-}
-
-// we want to show the copyId for open groups and private chats only
-function showCopyId(isPublic: boolean, isPrivate: boolean, isBlinded: boolean): boolean {
-  return (isPrivate && !isBlinded) || isPublic;
-}
-
-function showDeleteContact(
-  isGroup: boolean,
-  isPublic: boolean,
-  isGroupLeft: boolean,
-  isKickedFromGroup: boolean,
-  isRequest: boolean
-): boolean {
-  // you need to have left a closed group first to be able to delete it completely.
-  return (!isGroup && !isRequest) || (isGroup && (isGroupLeft || isKickedFromGroup || isPublic));
-}
-
-const showUnbanUser = (weAreAdmin: boolean, isPublic: boolean, isKickedFromGroup: boolean) => {
-  return !isKickedFromGroup && weAreAdmin && isPublic;
-};
-
-const showBanUser = (weAreAdmin: boolean, isPublic: boolean, isKickedFromGroup: boolean) => {
-  return !isKickedFromGroup && weAreAdmin && isPublic;
-};
-
-function showAddModerators(
-  weAreAdmin: boolean,
-  isPublic: boolean,
-  isKickedFromGroup: boolean
-): boolean {
-  return !isKickedFromGroup && weAreAdmin && isPublic;
-}
-
-function showRemoveModerators(
-  weAreAdmin: boolean,
-  isPublic: boolean,
-  isKickedFromGroup: boolean
-): boolean {
-  return !isKickedFromGroup && weAreAdmin && isPublic;
-}
-
-function showUpdateGroupName(
-  weAreAdmin: boolean,
-  isKickedFromGroup: boolean,
-  left: boolean
-): boolean {
-  return !isKickedFromGroup && !left && weAreAdmin;
-}
-
-function showLeaveGroup(
-  isKickedFromGroup: boolean,
-  left: boolean,
-  isGroup: boolean,
-  isPublic: boolean
-): boolean {
-  return !isKickedFromGroup && !left && isGroup && !isPublic;
-}
-
-function showInviteContact(isPublic: boolean): boolean {
-  return isPublic;
-}
+import { useConvoIdFromContext } from '../leftpane/conversation-list-item/ConvoIdContext';
 
 /** Menu items standardized */
 
 export const InviteContactMenuItem = (): JSX.Element | null => {
-  const convoId = useContext(ContextConversationId);
+  const convoId = useConvoIdFromContext();
   const isPublic = useIsPublic(convoId);
 
-  if (showInviteContact(isPublic)) {
+  if (isPublic) {
     return (
       <Item
         onClick={() => {
@@ -173,43 +66,39 @@ export const InviteContactMenuItem = (): JSX.Element | null => {
   return null;
 };
 
-export const PinConversationMenuItem = (): JSX.Element | null => {
-  const conversationId = useContext(ContextConversationId);
-  const isMessagesSection = useSelector(getFocusedSection) === SectionType.Message;
-  const isRequest = useIsRequest(conversationId);
+export const MarkConversationUnreadMenuItem = (): JSX.Element | null => {
+  const conversationId = useConvoIdFromContext();
+  const isMessagesSection = useSelector(getIsMessageSection);
+  const isPrivate = useIsPrivate(conversationId);
+  const isPrivateAndFriend = useIsPrivateAndFriend(conversationId);
 
-  if (isMessagesSection && !isRequest) {
+  if (isMessagesSection && (!isPrivate || (isPrivate && isPrivateAndFriend))) {
     const conversation = getConversationController().get(conversationId);
-    const isPinned = conversation?.isPinned() || false;
 
-    const togglePinConversation = async () => {
-      await conversation?.setIsPinned(!isPinned);
+    const markUnread = async () => {
+      await conversation?.markAsUnread(true);
     };
 
-    const menuText = isPinned ? window.i18n('unpinConversation') : window.i18n('pinConversation');
-    return <Item onClick={togglePinConversation}>{menuText}</Item>;
+    return <Item onClick={markUnread}>{window.i18n('markUnread')}</Item>;
   }
   return null;
 };
 
-export const DeleteContactMenuItem = () => {
+/**
+ * This menu item can be used to completely remove a contact and reset the flags of that conversation.
+ * i.e. after confirmation is made, this contact will be removed from the ContactWrapper, and its blocked and approved state reset.
+ * Note: We keep the entry in the database as the user profile might still be needed for communities/groups where this user.
+ */
+export const DeletePrivateContactMenuItem = () => {
   const dispatch = useDispatch();
-  const convoId = useContext(ContextConversationId);
-  const isPublic = useIsPublic(convoId);
-  const isLeft = useIsLeft(convoId);
-  const isKickedFromGroup = useIsKickedFromGroup(convoId);
+  const convoId = useConvoIdFromContext();
   const isPrivate = useIsPrivate(convoId);
-  const isRequest = useIsRequest(convoId);
+  const isRequest = useIsIncomingRequest(convoId);
 
-  if (showDeleteContact(!isPrivate, isPublic, isLeft, isKickedFromGroup, isRequest)) {
+  if (isPrivate && !isRequest) {
     let menuItemText: string;
-    if (isPublic) {
-      menuItemText = window.i18n('leaveGroup');
-    } else {
-      menuItemText = isPrivate
-        ? window.i18n('editMenuDeleteContact')
-        : window.i18n('editMenuDeleteGroup');
-    }
+
+    menuItemText = window.i18n('editMenuDeleteContact');
 
     const onClickClose = () => {
       dispatch(updateConfirmModal(null));
@@ -219,13 +108,60 @@ export const DeleteContactMenuItem = () => {
       dispatch(
         updateConfirmModal({
           title: menuItemText,
-          message: isPrivate
-            ? window.i18n('deleteContactConfirmation')
-            : window.i18n('leaveGroupConfirmation'),
+          message: window.i18n('deleteContactConfirmation'),
           onClickClose,
           okTheme: SessionButtonColor.Danger,
           onClickOk: async () => {
-            await getConversationController().deleteContact(convoId);
+            await getConversationController().delete1o1(convoId, {
+              fromSyncMessage: false,
+              justHidePrivate: false,
+            });
+          },
+        })
+      );
+    };
+
+    return <Item onClick={showConfirmationModal}>{menuItemText}</Item>;
+  }
+  return null;
+};
+
+export const DeleteGroupOrCommunityMenuItem = () => {
+  const dispatch = useDispatch();
+  const convoId = useConvoIdFromContext();
+  const isPublic = useIsPublic(convoId);
+  const isLeft = useIsLeft(convoId);
+  const isKickedFromGroup = useIsKickedFromGroup(convoId);
+  const isPrivate = useIsPrivate(convoId);
+  const isGroup = !isPrivate && !isPublic;
+
+  // You need to have left a closed group first to be able to delete it completely as there is a leaving message to send first.
+  // A community can just be removed right away.
+  if (isPublic || (isGroup && (isLeft || isKickedFromGroup))) {
+    const menuItemText = isPublic ? window.i18n('leaveGroup') : window.i18n('editMenuDeleteGroup');
+
+    const onClickClose = () => {
+      dispatch(updateConfirmModal(null));
+    };
+
+    const showConfirmationModal = () => {
+      dispatch(
+        updateConfirmModal({
+          title: menuItemText,
+          message: window.i18n('leaveGroupConfirmation'),
+          onClickClose,
+          okTheme: SessionButtonColor.Danger,
+          onClickOk: async () => {
+            if (isPublic) {
+              await getConversationController().deleteCommunity(convoId, {
+                fromSyncMessage: false,
+              });
+            } else {
+              await getConversationController().deleteClosedGroup(convoId, {
+                fromSyncMessage: false,
+                sendLeaveMessage: true,
+              });
+            }
           },
         })
       );
@@ -237,13 +173,13 @@ export const DeleteContactMenuItem = () => {
 };
 
 export const LeaveGroupMenuItem = () => {
-  const convoId = useContext(ContextConversationId);
+  const convoId = useConvoIdFromContext();
   const isPublic = useIsPublic(convoId);
   const isLeft = useIsLeft(convoId);
   const isKickedFromGroup = useIsKickedFromGroup(convoId);
   const isPrivate = useIsPrivate(convoId);
 
-  if (showLeaveGroup(isKickedFromGroup, isLeft, !isPrivate, isPublic)) {
+  if (!isKickedFromGroup && !isLeft && !isPrivate && !isPublic) {
     return (
       <Item
         onClick={() => {
@@ -260,7 +196,7 @@ export const LeaveGroupMenuItem = () => {
 
 export const ShowUserDetailsMenuItem = () => {
   const dispatch = useDispatch();
-  const convoId = useContext(ContextConversationId);
+  const convoId = useConvoIdFromContext();
   const isPrivate = useIsPrivate(convoId);
   const avatarPath = useAvatarPath(convoId);
   const userName = useConversationUsername(convoId) || convoId;
@@ -288,12 +224,12 @@ export const ShowUserDetailsMenuItem = () => {
 };
 
 export const UpdateGroupNameMenuItem = () => {
-  const convoId = useContext(ContextConversationId);
+  const convoId = useConvoIdFromContext();
   const left = useIsLeft(convoId);
   const isKickedFromGroup = useIsKickedFromGroup(convoId);
   const weAreAdmin = useWeAreAdmin(convoId);
 
-  if (showUpdateGroupName(weAreAdmin, isKickedFromGroup, left)) {
+  if (!isKickedFromGroup && !left && weAreAdmin) {
     return (
       <Item
         onClick={async () => {
@@ -308,12 +244,12 @@ export const UpdateGroupNameMenuItem = () => {
 };
 
 export const RemoveModeratorsMenuItem = (): JSX.Element | null => {
-  const convoId = useContext(ContextConversationId);
+  const convoId = useConvoIdFromContext();
   const isPublic = useIsPublic(convoId);
   const isKickedFromGroup = useIsKickedFromGroup(convoId);
   const weAreAdmin = useWeAreAdmin(convoId);
 
-  if (showRemoveModerators(weAreAdmin, Boolean(isPublic), Boolean(isKickedFromGroup))) {
+  if (!isKickedFromGroup && weAreAdmin && isPublic) {
     return (
       <Item
         onClick={() => {
@@ -328,12 +264,12 @@ export const RemoveModeratorsMenuItem = (): JSX.Element | null => {
 };
 
 export const AddModeratorsMenuItem = (): JSX.Element | null => {
-  const convoId = useContext(ContextConversationId);
+  const convoId = useConvoIdFromContext();
   const isPublic = useIsPublic(convoId);
   const isKickedFromGroup = useIsKickedFromGroup(convoId);
   const weAreAdmin = useWeAreAdmin(convoId);
 
-  if (showAddModerators(weAreAdmin, isPublic, isKickedFromGroup)) {
+  if (!isKickedFromGroup && weAreAdmin && isPublic) {
     return (
       <Item
         onClick={() => {
@@ -348,12 +284,12 @@ export const AddModeratorsMenuItem = (): JSX.Element | null => {
 };
 
 export const UnbanMenuItem = (): JSX.Element | null => {
-  const convoId = useContext(ContextConversationId);
+  const convoId = useConvoIdFromContext();
   const isPublic = useIsPublic(convoId);
   const isKickedFromGroup = useIsKickedFromGroup(convoId);
   const weAreAdmin = useWeAreAdmin(convoId);
 
-  if (showUnbanUser(weAreAdmin, isPublic, isKickedFromGroup)) {
+  if (isPublic && !isKickedFromGroup && weAreAdmin) {
     return (
       <Item
         onClick={() => {
@@ -368,12 +304,12 @@ export const UnbanMenuItem = (): JSX.Element | null => {
 };
 
 export const BanMenuItem = (): JSX.Element | null => {
-  const convoId = useContext(ContextConversationId);
+  const convoId = useConvoIdFromContext();
   const isPublic = useIsPublic(convoId);
   const isKickedFromGroup = useIsKickedFromGroup(convoId);
   const weAreAdmin = useWeAreAdmin(convoId);
 
-  if (showBanUser(weAreAdmin, isPublic, isKickedFromGroup)) {
+  if (isPublic && !isKickedFromGroup && weAreAdmin) {
     return (
       <Item
         onClick={() => {
@@ -388,127 +324,38 @@ export const BanMenuItem = (): JSX.Element | null => {
 };
 
 export const CopyMenuItem = (): JSX.Element | null => {
-  const convoId = useContext(ContextConversationId);
+  const convoId = useConvoIdFromContext();
   const isPublic = useIsPublic(convoId);
   const isPrivate = useIsPrivate(convoId);
   const isBlinded = useIsBlinded(convoId);
 
-  if (showCopyId(isPublic, isPrivate, isBlinded)) {
+  // we want to show the copyId for open groups and private chats only
+
+  if ((isPrivate && !isBlinded) || isPublic) {
     const copyIdLabel = isPublic ? window.i18n('copyOpenGroupURL') : window.i18n('copySessionID');
-    return <Item onClick={() => copyPublicKeyByConvoId(convoId)}>{copyIdLabel}</Item>;
+    return (
+      <Item
+        onClick={() => {
+          void copyPublicKeyByConvoId(convoId);
+        }}
+      >
+        {copyIdLabel}
+      </Item>
+    );
   }
   return null;
 };
 
 export const MarkAllReadMenuItem = (): JSX.Element | null => {
-  const convoId = useContext(ContextConversationId);
-  const isRequest = useIsRequest(convoId);
-  if (!isRequest) {
+  const convoId = useConvoIdFromContext();
+  const isIncomingRequest = useIsIncomingRequest(convoId);
+  if (!isIncomingRequest && !PubKey.hasBlindedPrefix(convoId)) {
     return (
       <Item onClick={() => markAllReadByConvoId(convoId)}>{window.i18n('markAllAsRead')}</Item>
     );
   } else {
     return null;
   }
-};
-
-export const DisappearingMessageMenuItem = (): JSX.Element | null => {
-  const convoId = useContext(ContextConversationId);
-  const isBlocked = useIsBlocked(convoId);
-  const isActive = useIsActive(convoId);
-  const isPublic = useIsPublic(convoId);
-  const isLeft = useIsLeft(convoId);
-  const isKickedFromGroup = useIsKickedFromGroup(convoId);
-  const timerOptions = useSelector(getTimerOptions).timerOptions;
-  const isRequest = useIsRequest(convoId);
-
-  if (
-    showTimerOptions(
-      Boolean(isPublic),
-      Boolean(isKickedFromGroup),
-      Boolean(isLeft),
-      Boolean(isBlocked),
-      isRequest,
-      isActive
-    )
-  ) {
-    // const isRtlMode = isRtlBody();
-
-    return (
-      // Remove the && false to make context menu work with RTL support
-      <Submenu
-        label={window.i18n('disappearingMessages')}
-        // rtl={isRtlMode && false}
-      >
-        {timerOptions.map(item => (
-          <Item
-            key={item.value}
-            onClick={async () => {
-              await setDisappearingMessagesByConvoId(convoId, item.value);
-            }}
-          >
-            {item.name}
-          </Item>
-        ))}
-      </Submenu>
-    );
-  }
-  return null;
-};
-
-export const NotificationForConvoMenuItem = (): JSX.Element | null => {
-  const convoId = useContext(ContextConversationId);
-  const isKickedFromGroup = useIsKickedFromGroup(convoId);
-  const left = useIsLeft(convoId);
-  const isBlocked = useIsBlocked(convoId);
-  const isPrivate = useIsPrivate(convoId);
-  const isRequest = useIsRequest(convoId);
-  const currentNotificationSetting = useNotificationSetting(convoId);
-
-  if (
-    showNotificationConvo(Boolean(isKickedFromGroup), Boolean(left), Boolean(isBlocked), isRequest)
-  ) {
-    // const isRtlMode = isRtlBody();'
-
-    // exclude mentions_only settings for private chats as this does not make much sense
-    const notificationForConvoOptions = ConversationNotificationSetting.filter(n =>
-      isPrivate ? n !== 'mentions_only' : true
-    ).map((n: ConversationNotificationSettingType) => {
-      // do this separately so typescript's compiler likes it
-      const keyToUse: LocalizerKeys =
-        n === 'all' || !n
-          ? 'notificationForConvo_all'
-          : n === 'disabled'
-          ? 'notificationForConvo_disabled'
-          : 'notificationForConvo_mentions_only';
-      return { value: n, name: window.i18n(keyToUse) };
-    });
-
-    return (
-      // Remove the && false to make context menu work with RTL support
-      <Submenu
-        label={window.i18n('notificationForConvo') as any}
-        // rtl={isRtlMode && false}
-      >
-        {(notificationForConvoOptions || []).map(item => {
-          const disabled = item.value === currentNotificationSetting;
-
-          return (
-            <Item
-              key={item.value}
-              onClick={async () => {
-                await setNotificationForConvoId(convoId, item.value);
-              }}
-              disabled={disabled}
-            >
-              {item.name}
-            </Item>
-          );
-        })}
-      </Submenu>
-    );
-  }
-  return null;
 };
 
 export function isRtlBody(): boolean {
@@ -518,14 +365,14 @@ export function isRtlBody(): boolean {
 }
 
 export const BlockMenuItem = (): JSX.Element | null => {
-  const convoId = useContext(ContextConversationId);
+  const convoId = useConvoIdFromContext();
   const isMe = useIsMe(convoId);
   const isBlocked = useIsBlocked(convoId);
   const isPrivate = useIsPrivate(convoId);
-  const isRequest = useIsRequest(convoId);
+  const isIncomingRequest = useIsIncomingRequest(convoId);
 
-  if (showBlock(Boolean(isMe), Boolean(isPrivate), Boolean(isRequest))) {
-    const blockTitle = isBlocked ? window.i18n('unblockUser') : window.i18n('blockUser');
+  if (!isMe && isPrivate && !isIncomingRequest && !PubKey.hasBlindedPrefix(convoId)) {
+    const blockTitle = isBlocked ? window.i18n('unblock') : window.i18n('block');
     const blockHandler = isBlocked
       ? () => unblockConvoById(convoId)
       : () => blockConvoById(convoId);
@@ -535,49 +382,53 @@ export const BlockMenuItem = (): JSX.Element | null => {
 };
 
 export const ClearNicknameMenuItem = (): JSX.Element | null => {
-  const convoId = useContext(ContextConversationId);
+  const convoId = useConvoIdFromContext();
   const isMe = useIsMe(convoId);
   const hasNickname = useHasNickname(convoId);
   const isPrivate = useIsPrivate(convoId);
-  const isRequest = Boolean(useIsRequest(convoId)); // easier to copy paste
+  const isPrivateAndFriend = useIsPrivateAndFriend(convoId);
 
-  if (showClearNickname(Boolean(isMe), Boolean(hasNickname), Boolean(isPrivate), isRequest)) {
-    return (
-      <Item onClick={() => clearNickNameByConvoId(convoId)}>{window.i18n('clearNickname')}</Item>
-    );
-  }
-  return null;
-};
-
-export const ChangeNicknameMenuItem = () => {
-  const convoId = useContext(ContextConversationId);
-  const isMe = useIsMe(convoId);
-  const isPrivate = useIsPrivate(convoId);
-  const isRequest = useIsRequest(convoId);
-
-  const dispatch = useDispatch();
-  if (showChangeNickname(isMe, isPrivate, isRequest)) {
-    return (
-      <Item
-        onClick={() => {
-          dispatch(changeNickNameModal({ conversationId: convoId }));
-        }}
-      >
-        {window.i18n('changeNickname')}
-      </Item>
-    );
-  }
-  return null;
-};
-
-export const DeleteMessagesMenuItem = () => {
-  const convoId = useContext(ContextConversationId);
-  const isRequest = useIsRequest(convoId);
-
-  if (isRequest) {
+  if (isMe || !hasNickname || !isPrivate || !isPrivateAndFriend) {
     return null;
   }
 
+  return (
+    <Item onClick={() => clearNickNameByConvoId(convoId)}>{window.i18n('clearNickname')}</Item>
+  );
+};
+
+export const ChangeNicknameMenuItem = () => {
+  const convoId = useConvoIdFromContext();
+  const isMe = useIsMe(convoId);
+  const isPrivate = useIsPrivate(convoId);
+  const isPrivateAndFriend = useIsPrivateAndFriend(convoId);
+  const dispatch = useDispatch();
+
+  if (isMe || !isPrivate || !isPrivateAndFriend) {
+    return null;
+  }
+  return (
+    <Item
+      onClick={() => {
+        dispatch(changeNickNameModal({ conversationId: convoId }));
+      }}
+    >
+      {window.i18n('changeNickname')}
+    </Item>
+  );
+};
+
+/**
+ * This menu is always available and can be used to clear the messages in the local database only.
+ * No messages are sent, no update are made in the wrappers.
+ * Note: Will ask for confirmation before processing.
+ */
+export const DeleteMessagesMenuItem = () => {
+  const convoId = useConvoIdFromContext();
+
+  if (!convoId) {
+    return null;
+  }
   return (
     <Item
       onClick={() => {
@@ -589,25 +440,41 @@ export const DeleteMessagesMenuItem = () => {
   );
 };
 
-export const HideBannerMenuItem = (): JSX.Element => {
-  const dispatch = useDispatch();
+/**
+ * This menu item can be used to delete a private conversation after confirmation.
+ * It does not reset the flags of that conversation, but just removes the messages locally and hide it from the left pane list.
+ * Note: A dialog is opened to ask for confirmation before processing.
+ */
+export const DeletePrivateConversationMenuItem = () => {
+  const convoId = useConvoIdFromContext();
+  const isRequest = useIsIncomingRequest(convoId);
+  const isPrivate = useIsPrivate(convoId);
+
+  if (!convoId || !isPrivate || isRequest) {
+    return null;
+  }
+
   return (
     <Item
-      onClick={() => {
-        dispatch(hideMessageRequestBanner());
+      onClick={async () => {
+        await getConversationController().delete1o1(convoId, {
+          fromSyncMessage: false,
+          justHidePrivate: true,
+        });
       }}
     >
-      {window.i18n('hideBanner')}
+      {window.i18n('deleteConversation')}
     </Item>
   );
 };
 
-export const AcceptMenuItem = () => {
-  const convoId = useContext(ContextConversationId);
-  const isRequest = useIsRequest(convoId);
+export const AcceptMsgRequestMenuItem = () => {
+  const convoId = useConvoIdFromContext();
+  const isRequest = useIsIncomingRequest(convoId);
   const convo = getConversationController().get(convoId);
+  const isPrivate = useIsPrivate(convoId);
 
-  if (isRequest) {
+  if (isRequest && isPrivate) {
     return (
       <Item
         onClick={async () => {
@@ -623,18 +490,50 @@ export const AcceptMenuItem = () => {
   return null;
 };
 
-export const DeclineMenuItem = () => {
-  const convoId = useContext(ContextConversationId);
-  const isRequest = useIsRequest(convoId);
+export const DeclineMsgRequestMenuItem = () => {
+  const convoId = useConvoIdFromContext();
+  const isRequest = useIsIncomingRequest(convoId);
+  const isPrivate = useIsPrivate(convoId);
+  const selected = useSelectedConversationKey();
 
-  if (isRequest) {
+  if (isPrivate && isRequest) {
     return (
       <Item
         onClick={() => {
-          declineConversationWithConfirm(convoId, true);
+          declineConversationWithConfirm({
+            conversationId: convoId,
+            syncToDevices: true,
+            blockContact: false,
+            currentlySelectedConvo: selected || undefined,
+          });
         }}
       >
         {window.i18n('decline')}
+      </Item>
+    );
+  }
+  return null;
+};
+
+export const DeclineAndBlockMsgRequestMenuItem = () => {
+  const convoId = useConvoIdFromContext();
+  const isRequest = useIsIncomingRequest(convoId);
+  const selected = useSelectedConversationKey();
+  const isPrivate = useIsPrivate(convoId);
+
+  if (isRequest && isPrivate) {
+    return (
+      <Item
+        onClick={() => {
+          declineConversationWithConfirm({
+            conversationId: convoId,
+            syncToDevices: true,
+            blockContact: true,
+            currentlySelectedConvo: selected || undefined,
+          });
+        }}
+      >
+        {window.i18n('block')}
       </Item>
     );
   }

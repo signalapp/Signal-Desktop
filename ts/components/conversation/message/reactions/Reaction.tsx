@@ -76,7 +76,7 @@ export const Reaction = (props: ReactionProps): ReactElement => {
   const reactionRef = useRef<HTMLDivElement>(null);
   const { docX, elW } = useMouse(reactionRef);
 
-  const gutterWidth = 380;
+  const gutterWidth = 380; // TODOLATER make this a variable which can be shared in CSS and JS
   const tooltipMidPoint = POPUP_WIDTH / 2; // px
   const [tooltipPosition, setTooltipPosition] = useState<TipPosition>('center');
 

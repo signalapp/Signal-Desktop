@@ -12,7 +12,7 @@ export function useMembersAvatars(closedGroupPubkey: string | undefined) {
     }
     const groupConvo = state.conversations.conversationLookup[closedGroupPubkey];
 
-    if (groupConvo.isPrivate || groupConvo.isPublic || !groupConvo.isGroup) {
+    if (groupConvo.isPrivate || groupConvo.isPublic) {
       return undefined;
     }
     // this must be a closed group

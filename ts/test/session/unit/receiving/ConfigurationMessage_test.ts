@@ -1,7 +1,7 @@
 // tslint:disable: no-implicit-dependencies
 
-import { SignalService } from '../../../../protobuf';
 import chai from 'chai';
+import { SignalService } from '../../../../protobuf';
 
 import { ConfigurationMessage } from '../../../../session/messages/outgoing/controlMessage/ConfigurationMessage';
 import { UserUtils } from '../../../../session/utils';
@@ -12,14 +12,16 @@ import * as cache from '../../../../receiver/cache';
 import { EnvelopePlus } from '../../../../receiver/types';
 
 import chaiAsPromised from 'chai-as-promised';
-import { handleConfigurationMessage } from '../../../../receiver/configMessage';
+import { ConfigMessageHandler } from '../../../../receiver/configMessage';
+import { ConfigurationSync } from '../../../../session/utils/job_runners/jobs/ConfigurationSyncJob';
+import { ReleasedFeatures } from '../../../../util/releaseFeature';
 import { stubData } from '../../../test-utils/utils';
 chai.use(chaiAsPromised as any);
 chai.should();
 
 const { expect } = chai;
 
-describe('ConfigurationMessage_receiving', () => {
+describe('handleConfigurationMessageLegacy_receiving', () => {
   let createOrUpdateStub: Sinon.SinonStub<any>;
   let getItemByIdStub: Sinon.SinonStub<any>;
   let sender: string;
@@ -28,6 +30,7 @@ describe('ConfigurationMessage_receiving', () => {
   let config: ConfigurationMessage;
 
   beforeEach(() => {
+    TestUtils.stubWindowFeatureFlags();
     Sinon.stub(cache, 'removeFromCache').resolves();
     sender = TestUtils.generateFakePubKey().key;
     config = new ConfigurationMessage({
@@ -38,6 +41,8 @@ describe('ConfigurationMessage_receiving', () => {
       displayName: 'displayName',
       contacts: [],
     });
+    Sinon.stub(ConfigurationSync, 'queueNewJobIfNeeded').resolves();
+    TestUtils.stubWindow('setSettingValue', () => undefined);
   });
 
   afterEach(() => {
@@ -45,18 +50,26 @@ describe('ConfigurationMessage_receiving', () => {
   });
 
   it('should not be processed if we do not have a pubkey', async () => {
+    TestUtils.stubWindowLog();
     Sinon.stub(UserUtils, 'getOurPubKeyStrFromCache').resolves(undefined);
+
     envelope = TestUtils.generateEnvelopePlus(sender);
 
     const proto = config.contentProto();
     createOrUpdateStub = stubData('createOrUpdateItem').resolves();
     getItemByIdStub = stubData('getItemById').resolves();
-    await handleConfigurationMessage(
+    const checkIsUserConfigFeatureReleasedStub = Sinon.stub(
+      ReleasedFeatures,
+      'checkIsUserConfigFeatureReleased'
+    ).resolves(false);
+    await ConfigMessageHandler.handleConfigurationMessageLegacy(
       envelope,
       proto.configurationMessage as SignalService.ConfigurationMessage
     );
+
     expect(createOrUpdateStub.callCount).to.equal(0);
     expect(getItemByIdStub.callCount).to.equal(0);
+    expect(checkIsUserConfigFeatureReleasedStub.callCount).to.be.eq(1); // should only have the one as part of the global legacy check, but none for the smaller handlers
   });
 
   describe('with ourNumber set', () => {
@@ -70,25 +83,15 @@ describe('ConfigurationMessage_receiving', () => {
       const proto = config.contentProto();
       // sender !== ourNumber
       envelope = TestUtils.generateEnvelopePlus(sender);
-
+      Sinon.stub(ReleasedFeatures, 'checkIsUserConfigFeatureReleased').resolves(false);
       createOrUpdateStub = stubData('createOrUpdateItem').resolves();
       getItemByIdStub = stubData('getItemById').resolves();
-      await handleConfigurationMessage(
+      await ConfigMessageHandler.handleConfigurationMessageLegacy(
         envelope,
         proto.configurationMessage as SignalService.ConfigurationMessage
       );
       expect(createOrUpdateStub.callCount).to.equal(0);
       expect(getItemByIdStub.callCount).to.equal(0);
     });
-
-    // it('should be processed if the message is coming from our number', async () => {
-    //     const proto = config.contentProto();
-    //     envelope = TestUtils.generateEnvelopePlus(ourNumber);
-
-    //     createOrUpdateStub = sandbox.stub(data, 'createOrUpdateItem').resolves();
-    //     getItemByIdStub = sandbox.stub(data, 'getItemById').resolves();
-    //     await handleConfigurationMessage(envelope, proto.configurationMessage as SignalService.ConfigurationMessage);
-    //     expect(getItemByIdStub.callCount).to.equal(1);
-    // });
   });
 });

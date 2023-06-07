@@ -16,6 +16,7 @@ import {
 } from '../../util/accountManager';
 import { fromHex } from '../../session/utils/String';
 import { setSignInByLinking, setSignWithRecoveryPhrase, Storage } from '../../util/storage';
+import { SettingsKey } from '../../data/settings-key';
 
 // tslint:disable: use-simple-attributes
 
@@ -59,11 +60,7 @@ export async function signUp(signUpDetails: {
   try {
     await resetRegistration();
     await registerSingleDevice(generatedRecoveryPhrase, 'english', trimName);
-    await Data.createOrUpdateItem({
-      id: 'hasSyncedInitialConfigurationItem',
-      value: true,
-      timestamp: Date.now(),
-    });
+    await Storage.put(SettingsKey.hasSyncedInitialConfigurationItem, Date.now());
     await setSignWithRecoveryPhrase(false);
     trigger('openInbox');
   } catch (e) {
@@ -131,7 +128,7 @@ export async function signInWithLinking(signInDetails: { userRecoveryPhrase: str
     }, 60000);
     if (displayNameFromNetwork.length) {
       // display name, avatars, groups and contacts should already be handled when this event was triggered.
-      window?.log?.info('We got a displayName from network: ');
+      window?.log?.info(`We got a displayName from network: "${displayNameFromNetwork}"`);
     } else {
       window?.log?.info('Got a config message from network but without a displayName...');
       throw new Error('Got a config message from network but without a displayName...');

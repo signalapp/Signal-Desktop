@@ -13,7 +13,6 @@ import { OnionSending } from '../../../onions/onionSend';
 import { ToastUtils, UserUtils } from '../../../utils';
 import { OpenGroupPollingUtils } from '../opengroupV2/OpenGroupPollingUtils';
 import { getOpenGroupV2ConversationId } from '../utils/OpenGroupUtils';
-import { getUsBlindedInThatServer } from './knownBlindedkeys';
 import { batchGlobalIsSuccess, parseBatchGlobalStatusCode } from './sogsV3BatchPoll';
 
 export const hasReactionSupport = async (
@@ -85,7 +84,7 @@ export const sendSogsReactionOnionV4 = async (
   const me = UserUtils.getOurPubKeyStrFromCache();
   await Reactions.handleMessageReaction({
     reaction,
-    sender: blinded ? getUsBlindedInThatServer(conversation) || me : me,
+    sender: blinded ? conversation.getUsInThatConversation() || me : me,
     you: true,
     openGroupConversationId: getOpenGroupV2ConversationId(serverUrl, room),
   });

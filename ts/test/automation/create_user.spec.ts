@@ -1,21 +1,13 @@
-import { _electron, Page, test } from '@playwright/test';
-import { newUser } from './setup/new_user';
-import { openAppAndWait } from './setup/open';
 import { sleepFor } from '../../session/utils/Promise';
-import { beforeAllClean, forceCloseAllWindows } from './setup/beforeEach';
-import { clickOnMatchingText, clickOnTestIdWithText, waitForTestIdWithText } from './utils';
+import { newUser } from './setup/new_user';
+import {
+  clickOnMatchingText,
+  clickOnTestIdWithText,
+  waitForTestIdWithText,
+} from './utilities/utils';
+import { sessionTestOneWindow } from './setup/sessionTest';
 
-let window: Page | undefined;
-test.beforeEach(beforeAllClean);
-
-test.afterEach(async () => {
-  if (window) {
-    await forceCloseAllWindows([window]);
-  }
-});
-test('Create User', async () => {
-  // Launch Electron app.
-  window = await openAppAndWait('1');
+sessionTestOneWindow('Create User', async ([window]) => {
   // // Create User
   const userA = await newUser(window, 'userA');
   // Open profile tab

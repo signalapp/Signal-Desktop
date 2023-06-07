@@ -9,8 +9,10 @@ const config: PlaywrightTestConfig = {
   testDir: './ts/test/automation',
   testIgnore: '*.js',
   outputDir: './ts/test/automation/test-results',
-  retries: 1,
-  repeatEach: 1,
+  retries: process.env.PLAYWRIGHT_RETRIES_COUNT
+    ? toNumber(process.env.PLAYWRIGHT_RETRIES_COUNT)
+    : 1,
+
   workers: toNumber(process.env.PLAYWRIGHT_WORKER_COUNT) || 1,
   reportSlowTests: null,
 };

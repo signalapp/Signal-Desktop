@@ -4,7 +4,21 @@ import { getAppRootPath } from '../../../node/getRootPath';
 
 export const NODE_ENV = 'production';
 export const MULTI_PREFIX = 'test-integration-testnet-';
+const multisAvailable = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 // tslint:disable: no-console
+
+export async function openApp(windowsToCreate: number) {
+  if (windowsToCreate >= multisAvailable.length) {
+    throw new Error(`Do you really need ${multisAvailable.length} windows?!`);
+  }
+  // if windowToCreate = 3, this array will be ABC. If windowToCreate = 5, this array will be ABCDE
+  const multisToUse = multisAvailable.slice(0, windowsToCreate);
+  return Promise.all(
+    [...multisToUse].map(async m => {
+      return openAppAndWait(`${m}`);
+    })
+  );
+}
 
 export const openElectronAppOnly = async (multi: string) => {
   process.env.NODE_APP_INSTANCE = `${MULTI_PREFIX}-${Date.now()}-${multi}`;
@@ -18,7 +32,7 @@ export const openElectronAppOnly = async (multi: string) => {
   return electronApp;
 };
 
-export const openAppAndWait = async (multi: string) => {
+const openAppAndWait = async (multi: string) => {
   const electronApp = await openElectronAppOnly(multi);
   // Get the first window that the app opens, wait if necessary.
   const window = await electronApp.firstWindow();

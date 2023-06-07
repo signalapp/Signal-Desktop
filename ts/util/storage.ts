@@ -1,10 +1,13 @@
 import { Data } from '../data/data';
 import { SessionKeyPair } from '../receiver/keypairs';
 import { DEFAULT_RECENT_REACTS } from '../session/constants';
+import { deleteSettingsBoolValue, updateSettingsBoolValue } from '../state/ducks/settings';
+import { isBoolean } from 'lodash';
+import { ReleasedFeatures } from './releaseFeature';
 
 let ready = false;
 
-type ValueType = string | number | boolean | SessionKeyPair;
+type ValueType = string | number | boolean | SessionKeyPair | Array<string>;
 type InsertedValueType = { id: string; value: ValueType };
 let items: Record<string, InsertedValueType>;
 let callbacks: Array<() => void> = [];
@@ -23,6 +26,10 @@ async function put(key: string, value: ValueType) {
 
   items[key] = data;
   await Data.createOrUpdateItem(data);
+
+  if (isBoolean(value)) {
+    window?.inboxStore?.dispatch(updateSettingsBoolValue({ id: key, value }));
+  }
 }
 
 function get(key: string, defaultValue?: ValueType) {
@@ -45,6 +52,9 @@ async function remove(key: string) {
 
   // tslint:disable-next-line: no-dynamic-delete
   delete items[key];
+
+  window?.inboxStore?.dispatch(deleteSettingsBoolValue(key));
+
   await Data.removeItemById(key);
 }
 
@@ -126,6 +136,9 @@ export function getLastProfileUpdateTimestamp() {
 }
 
 export async function setLastProfileUpdateTimestamp(lastUpdateTimestamp: number) {
+  if (await ReleasedFeatures.checkIsUserConfigFeatureReleased()) {
+    return;
+  }
   await put('last_profile_update_timestamp', lastUpdateTimestamp);
 }
 

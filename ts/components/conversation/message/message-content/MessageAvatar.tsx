@@ -9,11 +9,11 @@ import { getSodiumRenderer } from '../../../../session/crypto';
 import { PubKey } from '../../../../session/types';
 import { openConversationWithMessages } from '../../../../state/ducks/conversations';
 import { updateUserDetailsModal } from '../../../../state/ducks/modalDialog';
+import { getMessageAvatarProps } from '../../../../state/selectors/conversations';
 import {
-  getIsTypingEnabled,
-  getMessageAvatarProps,
-  getSelectedConversationKey,
-} from '../../../../state/selectors/conversations';
+  getSelectedCanWrite,
+  useSelectedConversationKey,
+} from '../../../../state/selectors/selectedConversation';
 import { Avatar, AvatarSize, CrownIcon } from '../../../avatar/Avatar';
 // tslint:disable: use-simple-attributes
 
@@ -42,9 +42,9 @@ export const MessageAvatar = (props: Props) => {
 
   const dispatch = useDispatch();
   const avatarProps = useSelector(state => getMessageAvatarProps(state as any, messageId));
-  const selectedConvoKey = useSelector(getSelectedConversationKey);
+  const selectedConvoKey = useSelectedConversationKey();
 
-  const isTypingEnabled = useSelector(getIsTypingEnabled);
+  const isTypingEnabled = useSelector(getSelectedCanWrite);
 
   if (!avatarProps) {
     return null;
@@ -85,7 +85,7 @@ export const MessageAvatar = (props: Props) => {
     }
 
     if (isPublic && !isTypingEnabled) {
-      window.log.info('onMessageAvatarClick: no typing enabled. Dropping...');
+      window.log.info('onMessageAvatarClick: typing is disabled...');
       return;
     }
 

@@ -1,7 +1,7 @@
 // tslint:disable: no-implicit-dependencies max-func-body-length no-unused-expression
 import { expect } from 'chai';
 import Sinon from 'sinon';
-import { ConversationCollection } from '../../../../models/conversation';
+import { KNOWN_BLINDED_KEYS_ITEM } from '../../../../data/settings-key';
 import { ConversationTypeEnum } from '../../../../models/conversationAttributes';
 import { getSodiumNode } from '../../../../node/sodiumNode';
 import {
@@ -13,7 +13,6 @@ import {
   getCachedNakedKeyFromBlindedNoServerPubkey,
   isNonBlindedKey,
   isUsAnySogsFromCache,
-  KNOWN_BLINDED_KEYS_ITEM,
   loadKnownBlindedKeys,
   TEST_getCachedBlindedKeys,
   TEST_resetCachedBlindedKeys,
@@ -24,6 +23,7 @@ import { getConversationController } from '../../../../session/conversations';
 import { LibSodiumWrappers } from '../../../../session/crypto';
 import { UserUtils } from '../../../../session/utils';
 import { expectAsyncToThrow, stubData, stubWindowLog } from '../../../test-utils/utils';
+import { TestUtils } from '../../../test-utils';
 
 // tslint:disable: chai-vague-errors
 
@@ -73,7 +73,7 @@ describe('knownBlindedKeys', () => {
     });
 
     it('loadFromDb with invalid json', async () => {
-      getItemById.resolves({ id: '', value: 'plop invalid json' });
+      getItemById.resolves({ id: '', value: 'invalid json content' });
       await loadKnownBlindedKeys();
       expect(TEST_getCachedBlindedKeys()).to.deep.eq([]);
     });
@@ -482,14 +482,17 @@ describe('knownBlindedKeys', () => {
     describe('when not in cache', () => {
       beforeEach(async () => {
         getConversationController().reset();
+        getItemById.resolves();
 
-        stubData('getAllConversations').resolves(new ConversationCollection([]));
+        stubData('getAllConversations').resolves([]);
         stubData('saveConversation').resolves();
+        Sinon.stub(UserUtils, 'getOurPubKeyStrFromCache').returns(
+          TestUtils.generateFakePubKeyStr()
+        );
         await getConversationController().load();
       });
 
       it('does iterate over all the conversations and find the first one matching (fails)', async () => {
-        getItemById.resolves();
         await loadKnownBlindedKeys();
         const shouldBeWrittenToDb = {
           blindedId: knownBlindingMatch.blindedId,
@@ -511,7 +514,6 @@ describe('knownBlindedKeys', () => {
       });
 
       it('does iterate over all the conversations and find the first one matching (passes)', async () => {
-        getItemById.resolves();
         await loadKnownBlindedKeys();
         // adding a private conversation with a known match of the blinded pubkey we have
         await getConversationController().getOrCreateAndWait(
@@ -544,7 +546,6 @@ describe('knownBlindedKeys', () => {
       });
 
       it('does iterate over all the conversations but is not approved so must fail', async () => {
-        getItemById.resolves();
         await loadKnownBlindedKeys();
         // adding a private conversation with a known match of the blinded pubkey we have
         const convo = await getConversationController().getOrCreateAndWait(
@@ -562,8 +563,7 @@ describe('knownBlindedKeys', () => {
         expect(real).to.eq(undefined);
       });
 
-      it('does iterate over all the conversations but is not private so must fail', async () => {
-        getItemById.resolves();
+      it('does iterate over all the conversations but is not private so must fail: group', async () => {
         await loadKnownBlindedKeys();
         // adding a private conversation with a known match of the blinded pubkey we have
         const convo = await getConversationController().getOrCreateAndWait(
@@ -579,6 +579,9 @@ describe('knownBlindedKeys', () => {
         expect(createOrUpdateItem.callCount).to.eq(0);
 
         expect(real).to.eq(undefined);
+      });
+      it('does iterate over all the conversations but is not private so must fail: groupv3', () => {
+        // we actually cannot test this one as we would need to create  a conversation with groupv3 as type but 05 as prefix, and the conversation controller denies it, as expected
       });
     });
   });

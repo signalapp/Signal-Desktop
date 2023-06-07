@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import Draggable, { DraggableData, DraggableEvent } from 'react-draggable';
 
 import styled from 'styled-components';
-import { getSelectedConversationKey } from '../../state/selectors/conversations';
 import { getHasOngoingCall, getHasOngoingCallWith } from '../../state/selectors/call';
 import { openConversationWithMessages } from '../../state/ducks/conversations';
 import { Avatar, AvatarSize } from '../avatar/Avatar';
@@ -11,6 +10,7 @@ import { useVideoCallEventsListener } from '../../hooks/useVideoEventListener';
 import { VideoLoadingSpinner } from './InConversationCallContainer';
 import { getSection } from '../../state/selectors/section';
 import { SectionType } from '../../state/ducks/section';
+import { useSelectedConversationKey } from '../../state/selectors/selectedConversation';
 
 export const DraggableCallWindow = styled.div`
   position: absolute;
@@ -58,7 +58,7 @@ const CenteredAvatarInDraggable = styled.div`
 
 export const DraggableCallContainer = () => {
   const ongoingCallProps = useSelector(getHasOngoingCallWith);
-  const selectedConversationKey = useSelector(getSelectedConversationKey);
+  const selectedConversationKey = useSelectedConversationKey();
   const hasOngoingCall = useSelector(getHasOngoingCall);
   const selectedSection = useSelector(getSection);
 

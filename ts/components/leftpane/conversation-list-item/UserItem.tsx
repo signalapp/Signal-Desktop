@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import {
   useConversationRealName,
@@ -9,10 +9,10 @@ import {
 import { PubKey } from '../../../session/types';
 import { isSearching } from '../../../state/selectors/search';
 import { ContactName } from '../../conversation/ContactName';
-import { ContextConversationId } from './ConversationListItem';
+import { useConvoIdFromContext } from './ConvoIdContext';
 
 export const UserItem = () => {
-  const conversationId = useContext(ContextConversationId);
+  const conversationId = useConvoIdFromContext();
 
   // we want to show the nickname in brackets if a nickname is set for search results
   const isSearchResultsMode = useSelector(isSearching);

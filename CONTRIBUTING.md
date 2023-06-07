@@ -73,7 +73,7 @@ is no automatic restart mechanism. Alternatively, keep the developer tools open
 
 ```
 yarn build-everything:watch # runs until you stop it, re-generating built assets on file changes
-# Once this command is waiting for changes, you will need to run in another terminal `yarn parcel-util-worker` to fix the "exports undefined" error on start.
+# Once this command is waiting for changes, you will need to run in another terminal `yarn worker:utils && yarn worker:libsession` to fix the "exports undefined" error on start.
 # If you do change the sass while this command is running, it won't pick it up. You need to either run `yarn sass` or have `yarn sass:watch` running in a separate terminal.
 ```
 

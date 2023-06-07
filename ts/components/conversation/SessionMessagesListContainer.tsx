@@ -1,12 +1,12 @@
 import React from 'react';
 
-import { SessionScrollButton } from '../SessionScrollButton';
 import { contextMenu } from 'react-contexify';
+import { SessionScrollButton } from '../SessionScrollButton';
 
 import { connect } from 'react-redux';
 
-import { SessionMessagesList } from './SessionMessagesList';
 import autoBind from 'auto-bind';
+import styled from 'styled-components';
 import {
   quotedMessageToAnimate,
   ReduxConversationType,
@@ -17,17 +17,19 @@ import {
 import { StateType } from '../../state/reducer';
 import {
   getQuotedMessageToAnimate,
-  getSelectedConversation,
-  getSelectedConversationKey,
   getSortedMessagesOfSelectedConversation,
 } from '../../state/selectors/conversations';
+import {
+  getSelectedConversation,
+  getSelectedConversationKey,
+} from '../../state/selectors/selectedConversation';
+import { SessionMessagesList } from './SessionMessagesList';
 import { TypingBubble } from './TypingBubble';
-import styled from 'styled-components';
+import { ConversationMessageRequestButtons } from './MessageRequestButtons';
 
 export type SessionMessageListProps = {
   messageContainerRef: React.RefObject<HTMLDivElement>;
 };
-
 export const messageContainerDomID = 'messages-container';
 
 export type ScrollToLoadedReasons =
@@ -125,6 +127,7 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
           isTyping={!!conversation.isTyping}
           key="typing-bubble"
         />
+        <ConversationMessageRequestButtons />
 
         <ScrollToLoadedMessageContext.Provider value={this.scrollToLoadedMessage}>
           <SessionMessagesList

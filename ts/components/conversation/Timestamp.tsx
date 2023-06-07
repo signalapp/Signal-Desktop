@@ -1,9 +1,10 @@
-import React, { useCallback, useState } from 'react';
+import React from 'react';
 import moment from 'moment';
 
 // tslint:disable-next-line: no-submodule-imports
 import useInterval from 'react-use/lib/useInterval';
 import styled from 'styled-components';
+import useUpdate from 'react-use/lib/useUpdate';
 
 type Props = {
   timestamp?: number;
@@ -31,13 +32,7 @@ const TimestampContainerListItem = styled(TimestampContainerNotListItem)`
 `;
 
 export const Timestamp = (props: Props) => {
-  const [_lastUpdated, setLastUpdated] = useState(Date.now());
-  // this is kind of a hack, but we use lastUpdated just to trigger a refresh.
-  // formatRelativeTime() will print the correct moment.
-  const update = useCallback(() => {
-    setLastUpdated(Date.now());
-  }, [setLastUpdated]);
-
+  const update = useUpdate();
   useInterval(update, UPDATE_FREQUENCY);
 
   const { timestamp, momentFromNow } = props;
@@ -47,14 +42,14 @@ export const Timestamp = (props: Props) => {
   }
 
   const momentValue = moment(timestamp);
-  let dateString: string = '';
-  if (momentFromNow) {
-    dateString = momentValue.fromNow();
-  } else {
-    dateString = momentValue.format('lll');
-  }
+  // this is a hack to make the date string shorter, looks like moment does not have a localized way of doing this for now.
 
-  dateString = dateString.replace('minutes', 'mins').replace('minute', 'min');
+  const dateString = momentFromNow
+    ? momentValue
+        .fromNow()
+        .replace('minutes', 'mins')
+        .replace('minute', 'min')
+    : momentValue.format('lll');
 
   const title = moment(timestamp).format('llll');
   if (props.isConversationListItem) {

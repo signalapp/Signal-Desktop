@@ -25,13 +25,11 @@
     "object-literal-key-quotes": [true, "as-needed"],
     "object-literal-sort-keys": false,
     "no-async-without-await": true,
-    "ordered-imports": [
-      true,
-      {
-        "import-sources-order": "any",
-        "named-imports-order": "case-insensitive"
-      }
-    ],
+    "no-empty-interface": false,
+    "prefer-for-of": false,
+    "chai-vague-errors": false,
+    "no-useless-files": false,
+    "ordered-imports": false,
     "quotemark": [true, "single", "jsx-double", "avoid-template", "avoid-escape"],
     "semicolon": [true, "always", "ignore-bound-class-methods"],
     "trailing-comma": [
@@ -95,7 +93,7 @@
         "comment": "Usage has been approved by Maxim on 13 Dec 2019"
       }
     ],
-    "max-func-body-length": [true, 150]
+    "max-func-body-length": [true, 350]
   },
   "rulesDirectory": ["node_modules/tslint-microsoft-contrib"]
 }
