@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import _, { isEmpty } from 'lodash';
+import _, { isEmpty, toNumber } from 'lodash';
 import { MessageModelType, MessageRenderingProps } from '../../../../models/messageType';
 import { openConversationToSpecificMessage } from '../../../../state/ducks/conversations';
 import {
@@ -65,7 +65,7 @@ export const MessageQuote = (props: Props) => {
       // If the quote is not found in memory, we try to find it in the DB
       if (quoteNotFound && quote.id && quote.author) {
         const quotedMessagesCollection = await Data.getMessagesBySenderAndSentAt([
-          { timestamp: Number(quote.id), source: quote.author },
+          { timestamp: toNumber(quote.id), source: quote.author },
         ]);
 
         if (quotedMessagesCollection?.length) {
@@ -77,6 +77,8 @@ export const MessageQuote = (props: Props) => {
           } else {
             quoteNotFoundInDB = true;
           }
+        } else {
+          quoteNotFoundInDB = true;
         }
       }
 

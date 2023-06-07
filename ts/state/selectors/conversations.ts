@@ -38,7 +38,7 @@ import { Storage } from '../../util/storage';
 import { ConversationTypeEnum } from '../../models/conversationAttributes';
 
 import { MessageReactsSelectorProps } from '../../components/conversation/message/message-content/MessageReactions';
-import { filter, isEmpty, pick, sortBy } from 'lodash';
+import { filter, isEmpty, pick, sortBy, toNumber } from 'lodash';
 import { processQuoteAttachment } from '../../models/message';
 import { isUsAnySogsFromCache } from '../../session/apis/open_group_api/sogsv3/knownBlindedkeys';
 import { MessageModelType } from '../../models/messageType';
@@ -1032,7 +1032,7 @@ export const getMessageQuoteProps = createSelector(
       return quoteNotFound;
     }
 
-    const sourceMessage = lookupQuote(quotesProps, messagesProps, Number(id), author);
+    const sourceMessage = lookupQuote(quotesProps, messagesProps, toNumber(id), author);
     if (!sourceMessage) {
       return quoteNotFound;
     }

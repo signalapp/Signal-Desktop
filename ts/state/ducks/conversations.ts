@@ -7,7 +7,7 @@ import {
   PropsForDataExtractionNotification,
   PropsForMessageRequestResponse,
 } from '../../models/messageType';
-import { omit } from 'lodash';
+import { omit, toNumber } from 'lodash';
 import { ReplyingToMessageProps } from '../../components/conversation/composition/CompositionBox';
 import { QuotedAttachmentType } from '../../components/conversation/message/message-content/quote/Quote';
 import { LightBoxOptions } from '../../components/conversation/SessionConversation';
@@ -386,7 +386,7 @@ async function getMessages({
 
   if (quotesCollection?.length) {
     const quotePropsList = quotesCollection.map(quote => ({
-      timestamp: Number(quote.id),
+      timestamp: toNumber(quote.id),
       source: String(quote.author),
     }));
 
@@ -396,7 +396,7 @@ async function getMessages({
       for (let i = 0; i < quotedMessagesCollection.length; i++) {
         const quotedMessage = quotedMessagesCollection.models.at(i)?.getMessageModelProps();
         if (quotedMessage) {
-          const timestamp = Number(quotedMessage.propsForMessage.timestamp);
+          const timestamp = quotedMessage.propsForMessage.timestamp;
           const sender = quotedMessage.propsForMessage.sender;
           if (timestamp && sender) {
             quotesProps[`${timestamp}-${sender}`] = quotedMessage;
