@@ -115,6 +115,10 @@ import {
   getSubscriberCountOutsideRedux,
 } from '../state/selectors/sogsRoomInfo';
 import { markAttributesAsReadIfNeeded } from './messageFactory';
+import {
+  ConversationInteractionStatus,
+  ConversationInteractionType,
+} from '../interactions/conversationInteractions';
 
 type InMemoryConvoInfos = {
   mentionedUs: boolean;
@@ -366,6 +370,13 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       if (zombies?.length) {
         toRet.zombies = uniq(zombies);
       }
+    }
+
+    if (this.get('interactionType')) {
+      toRet.interactionType = this.get('interactionType');
+    }
+    if (this.get('interactionStatus')) {
+      toRet.interactionStatus = this.get('interactionStatus');
     }
 
     // -- Handle the field stored only in memory for all types of conversation--
@@ -2172,6 +2183,26 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
 
     return [];
+  }
+
+  public getInteractionState() {
+    return { type: this.get('interactionType'), status: this.get('interactionStatus') };
+  }
+
+  public async setInteractionState({
+    type,
+    status,
+    shouldCommit,
+  }: {
+    type: ConversationInteractionType;
+    status: ConversationInteractionStatus;
+    shouldCommit: boolean;
+  }) {
+    this.set({ interactionType: type, interactionStatus: status });
+
+    if (shouldCommit) {
+      await this.commit();
+    }
   }
 }
 

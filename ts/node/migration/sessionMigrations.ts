@@ -100,6 +100,7 @@ const LOKI_SCHEMA_VERSIONS = [
   updateToSessionSchemaVersion29,
   updateToSessionSchemaVersion30,
   updateToSessionSchemaVersion31,
+  updateToSessionSchemaVersion32,
 ];
 
 function updateToSessionSchemaVersion1(currentVersion: number, db: BetterSqlite3.Database) {
@@ -1830,6 +1831,25 @@ function updateToSessionSchemaVersion31(currentVersion: number, db: BetterSqlite
     // still, we update the schema version
     writeSessionSchemaVersion(targetVersion, db);
   })();
+}
+
+function updateToSessionSchemaVersion32(currentVersion: number, db: BetterSqlite3.Database) {
+  const targetVersion = 32;
+  if (currentVersion >= targetVersion) {
+    return;
+  }
+
+  console.log(`updateToSessionSchemaVersion${targetVersion}: starting...`);
+
+  db.transaction(() => {
+    db.prepare(`ALTER TABLE ${CONVERSATIONS_TABLE} ADD COLUMN interactionType TEXT;`).run();
+
+    db.prepare(`ALTER TABLE ${CONVERSATIONS_TABLE} ADD COLUMN interactionStatus TEXT;`).run();
+
+    writeSessionSchemaVersion(targetVersion, db);
+  })();
+
+  console.log(`updateToSessionSchemaVersion${targetVersion}: success!`);
 }
 
 export function printTableColumns(table: string, db: BetterSqlite3.Database) {

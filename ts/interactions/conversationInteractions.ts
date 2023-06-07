@@ -44,6 +44,16 @@ import { ReleasedFeatures } from '../util/releaseFeature';
 import { Storage, setLastProfileUpdateTimestamp } from '../util/storage';
 import { UserGroupsWrapperActions } from '../webworker/workers/browser/libsession_worker_interface';
 
+export enum ConversationInteractionStatus {
+  Success = 'success',
+  Error = 'error',
+  Loading = 'loading',
+}
+
+export enum ConversationInteractionType {
+  Leave = 'leave',
+}
+
 export async function copyPublicKeyByConvoId(convoId: string) {
   if (OpenGroupUtils.isOpenGroupV2(convoId)) {
     const fromWrapper = await UserGroupsWrapperActions.getCommunityByFullUrl(convoId);
@@ -237,6 +247,8 @@ export function showLeavePrivateConversationbyConvoId(conversationId: string, na
   };
 
   const onClickOk = async () => {
+    window.log.debug(`WIP: onClickOk ran`);
+    return;
     await getConversationController().delete1o1(conversationId, {
       fromSyncMessage: false,
       justHidePrivate: true,
@@ -252,7 +264,7 @@ export function showLeavePrivateConversationbyConvoId(conversationId: string, na
       okText: window.i18n('delete'),
       okTheme: SessionButtonColor.Danger,
       onClickClose,
-      confirmationType: 'delete-conversation',
+      confirmationType: ConversationInteractionType.Leave,
       conversationId,
     })
   );
@@ -278,6 +290,8 @@ export function showLeaveGroupByConvoId(conversationId: string, name?: string) {
   };
 
   const onClickOk = async () => {
+    window.log.debug(`WIP: onClickOk ran`);
+    return;
     if (isPublic) {
       await getConversationController().deleteCommunity(conversation.id, {
         fromSyncMessage: false,
@@ -293,7 +307,7 @@ export function showLeaveGroupByConvoId(conversationId: string, name?: string) {
 
   // TODO Communities don't need confirmation modal and have different logic
   if (isPublic || (isClosedGroup && !isAdmin)) {
-    window.inboxStore?.dispatch(
+    window?.inboxStore?.dispatch(
       updateConfirmModal({
         title: isPublic ? window.i18n('leaveCommunity') : window.i18n('leaveGroup'),
         message: window.i18n('leaveGroupConfirmation', name ? [name] : undefined),
@@ -301,20 +315,20 @@ export function showLeaveGroupByConvoId(conversationId: string, name?: string) {
         okText: window.i18n('delete'),
         okTheme: SessionButtonColor.Danger,
         onClickClose,
-        confirmationType: 'delete-conversation',
+        confirmationType: ConversationInteractionType.Leave,
         conversationId,
       })
     );
-    return;
+  } else {
+    // TODO use different admin modal from figma with add another admin option
+    window.inboxStore?.dispatch(
+      adminLeaveClosedGroup({
+        conversationId,
+      })
+    );
   }
-
-  // TODO use different admin modal from figma with add another admin option
-  window.inboxStore?.dispatch(
-    adminLeaveClosedGroup({
-      conversationId,
-    })
-  );
 }
+
 export function showInviteContactByConvoId(conversationId: string) {
   window.inboxStore?.dispatch(updateInviteContactModal({ conversationId }));
 }

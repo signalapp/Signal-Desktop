@@ -16,6 +16,10 @@ import {
 } from '../../models/messageType';
 import { getConversationController } from '../../session/conversations';
 import { ReactionList } from '../../types/Reaction';
+import {
+  ConversationInteractionStatus,
+  ConversationInteractionType,
+} from '../../interactions/conversationInteractions';
 
 export type CallNotificationType = 'missed-call' | 'started-call' | 'answered-a-call';
 export type PropsForCallNotification = {
@@ -263,6 +267,9 @@ export interface ReduxConversationType {
   didApproveMe?: boolean;
 
   isMarkedUnread?: boolean;
+
+  interactionType?: ConversationInteractionType;
+  interactionStatus?: ConversationInteractionStatus;
 }
 
 export interface NotificationForConvoOption {
@@ -1102,3 +1109,5 @@ export async function openConversationToSpecificMessage(args: {
     })
   );
 }
+
+// export async function updateActionConfirmationStatus

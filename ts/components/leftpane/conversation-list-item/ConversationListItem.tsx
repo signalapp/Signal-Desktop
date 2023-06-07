@@ -15,6 +15,7 @@ import { updateUserDetailsModal } from '../../../state/ducks/modalDialog';
 import _, { isNil } from 'lodash';
 import {
   useAvatarPath,
+  useConfirmModalStatusAndType,
   useConversationUsername,
   useHasUnread,
   useIsBlocked,
@@ -27,6 +28,7 @@ import { MemoConversationListItemContextMenu } from '../../menu/ConversationList
 import { ContextConversationProvider, useConvoIdFromContext } from './ConvoIdContext';
 import { ConversationListItemHeaderItem } from './HeaderItem';
 import { MessageItem } from './MessageItem';
+import { InteractionItem } from './InteractionItem';
 
 // tslint:disable-next-line: no-empty-interface
 export type ConversationListItemProps = Pick<ReduxConversationType, 'id'>;
@@ -80,6 +82,7 @@ const ConversationListItem = (props: Props) => {
   let isBlocked = useIsBlocked(conversationId);
   const isSearch = useSelector(isSearching);
   const selectedConvo = useSelectedConversationKey();
+  const confirmModal = useConfirmModalStatusAndType();
 
   const isSelectedConvo = conversationId === selectedConvo && !isNil(selectedConvo);
 
@@ -129,7 +132,11 @@ const ConversationListItem = (props: Props) => {
           <AvatarItem />
           <div className="module-conversation-list-item__content">
             <ConversationListItemHeaderItem />
-            <MessageItem />
+            {confirmModal?.conversationId === conversationId && confirmModal?.type ? (
+              <InteractionItem {...confirmModal} />
+            ) : (
+              <MessageItem />
+            )}
           </div>
         </div>
         <Portal>

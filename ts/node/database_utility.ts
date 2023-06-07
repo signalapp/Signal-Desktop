@@ -75,6 +75,8 @@ const allowedKeysFormatRowOfConversation = [
   'conversationIdOrigin',
   'markedAsUnread',
   'priority',
+  'interactionType',
+  'interactionStatus',
 ];
 // tslint:disable: cyclomatic-complexity
 export function formatRowOfConversation(
@@ -192,6 +194,8 @@ const allowedKeysOfConversationAttributes = [
   'conversationIdOrigin',
   'markedAsUnread',
   'priority',
+  'interactionType',
+  'interactionStatus',
 ];
 
 /**

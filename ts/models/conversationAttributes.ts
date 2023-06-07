@@ -1,5 +1,9 @@
 import { defaults } from 'lodash';
 import { LastMessageStatusType } from '../state/ducks/conversations';
+import {
+  ConversationInteractionStatus,
+  ConversationInteractionType,
+} from '../interactions/conversationInteractions';
 
 /**
  * Private chats have always the type `Private`
@@ -101,6 +105,10 @@ export interface ConversationAttributes {
   didApproveMe: boolean; // if our message request was approved already (or they've sent us a message request/message themselves). If isApproved & didApproveMe, a message request becomes a contact
 
   markedAsUnread: boolean; // Force the conversation as unread even if all the messages are read. Used to highlight a conversation the user wants to check again later, synced.
+
+  // the last interaction we had with this conversation e.g. failed to leave a group
+  interactionType?: ConversationInteractionType; // e.g. Leave
+  interactionStatus?: ConversationInteractionStatus; // e.g. Error
 }
 
 /**

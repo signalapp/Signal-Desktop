@@ -443,6 +443,8 @@ function saveConversation(data: ConversationAttributes): SaveConversationReturn 
     conversationIdOrigin,
     priority,
     markedAsUnread,
+    interactionType,
+    interactionStatus,
   } = formatted;
 
   const omited = omit(formatted);
@@ -492,6 +494,8 @@ function saveConversation(data: ConversationAttributes): SaveConversationReturn 
       displayNameInProfile,
       conversationIdOrigin,
       markedAsUnread: toSqliteBoolean(markedAsUnread),
+      interactionType,
+      interactionStatus,
     });
 
   return fetchConvoMemoryDetails(id);
