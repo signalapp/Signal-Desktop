@@ -864,6 +864,10 @@
     "messageformat": "New messages below",
     "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
   },
+  "icu:mentionsBelow": {
+    "messageformat": "May bagong mentions sa ibaba",
+    "description": "Alt text for button to take user down to next mention of them further down the message list (currently out of screen)"
+  },
   "unreadMessage": {
     "message": "1 Unread Message",
     "description": "(deleted 03/29/2023) Text for unread message separator, just one message"
@@ -5080,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count} tao ang nag-react ng {emoji}",
+    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12594,5 +12598,9 @@
   "icu:WhatsNew__v6.19--2": {
     "messageformat": "Kung nasa mas lumang version ka ng Windows kaysa sa Windows 10, o version ng Ubuntu bago ang 20.04 LTS, kinakailangan mong i-update ang iyong operating system para patuloy na magamit ang Signal:{supportLink}",
     "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.20--0": {
+    "messageformat": "Kung may nag-mention sa'yo sa chat (gaya ng @ Pangalan/Username Mo), pwede ka nang mag-scroll agad papunta sa mention na 'yun para basahin ang message nila sa'yo. The best ka.",
+    "description": "Release notes for v6.20"
   }
 }

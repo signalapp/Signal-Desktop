@@ -864,6 +864,10 @@
     "messageformat": "New messages below",
     "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
   },
+  "icu:mentionsBelow": {
+    "messageformat": "အောက်တွင် မန်းရှင်းအသစ်များ ရှိသည်",
+    "description": "Alt text for button to take user down to next mention of them further down the message list (currently out of screen)"
+  },
   "unreadMessage": {
     "message": "1 Unread Message",
     "description": "(deleted 03/29/2023) Text for unread message separator, just one message"
@@ -5080,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "လူ {count} ဦးသည် {emoji} ဖြင့် တုံ့ပြန်ခဲ့ပါသည်",
+    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12594,5 +12598,9 @@
   "icu:WhatsNew__v6.19--2": {
     "messageformat": "သင့်အနေဖြင့် Windows 10 မတိုင်မီက Windows ဗားရှင်းတစ်ခု သို့မဟုတ် 20.04 LTS မတိုင်မီက Ubuntu ဗားရှင်းတစ်ခုကို အသုံးပြုနေပါက Signal ကို ဆက်လက်အသုံးပြုနိုင်ရန်အတွက် စက်လည်ပတ်မှုစနစ်ကို အပ်ဒိတ်လုပ်ရန် လိုပါမည်- {supportLink}",
     "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.20--0": {
+    "messageformat": "ချက်(တ်)တစ်ခုထဲတွင် တစ်စုံတစ်ဦးက သင့်ကို (@ သင့်အမည် ကဲ့သို့) မန်းရှင်းခေါ်ပါက ယခုအခါ အဆိုပါမန်းရှင်းသို့ လျင်မြန်စွာ ဆွဲသွားနိုင်ပြီဖြစ်ပြီး သင့်အကြောင်း ၎င်းတို့ပြောထားသည့် ထူးခြားကောင်းမွန်သော အကြောင်းအရာအားလုံးကို ဖတ်ရှုနိုင်ပါပြီ။ သင်သည်သာ အကောင်းဆုံးပါ။",
+    "description": "Release notes for v6.20"
   }
 }

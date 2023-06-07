@@ -864,6 +864,10 @@
     "messageformat": "క్రింద క్రొత్త సందేశం",
     "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
   },
+  "icu:mentionsBelow": {
+    "messageformat": "దిగువ కొత్త ప్రస్తావనలు",
+    "description": "Alt text for button to take user down to next mention of them further down the message list (currently out of screen)"
+  },
   "unreadMessage": {
     "message": "1 చదవని సందేశం",
     "description": "(deleted 03/29/2023) Text for unread message separator, just one message"
@@ -5080,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count} వ్యక్తులు {emoji} తో ప్రతిస్పందించారు",
+    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12594,5 +12598,9 @@
   "icu:WhatsNew__v6.19--2": {
     "messageformat": "మీరు Windows 10 కంటే ముందు Windows వెర్షన్ లేదా 20.04 LTS కంటే ముందు Ubuntu వెర్షన్‌లో ఉంటే, Signal ఉపయోగించడాన్ని కొనసాగించడానికి మీరు మీ ఆపరేటింగ్ సిస్టమ్‌ను అప్‌డేట్ చేయాల్సి ఉంటుంది: {supportLink}",
     "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.20--0": {
+    "messageformat": "ఒక చాట్‌లో ఒకవేళ ఎవరైనా మిమ్మల్ని ప్రస్తావిస్తే (@ మీ పేరు ఇక్కడ ఉంటుంది లాంటిది), ఇప్పుడు మీరు వెంటనే ఆ ప్రస్తావనకు స్క్రోల్ చేయవచ్చు మరియు వారు మీ గురించి చెప్పిన అన్ని అద్భుతమైన విషయాలను చదవవచ్చు. మీరు సాధారణంగానే అత్యుత్తమం.",
+    "description": "Release notes for v6.20"
   }
 }

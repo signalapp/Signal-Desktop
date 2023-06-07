@@ -864,6 +864,10 @@
     "messageformat": "கீழே புதிய செய்திகள்",
     "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
   },
+  "icu:mentionsBelow": {
+    "messageformat": "புதிய குறிப்புகள் கீழே உள்ளன",
+    "description": "Alt text for button to take user down to next mention of them further down the message list (currently out of screen)"
+  },
   "unreadMessage": {
     "message": "1 படிக்காத செய்தி",
     "description": "(deleted 03/29/2023) Text for unread message separator, just one message"
@@ -5080,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count} நபர்கள் {emoji} என்று எதிர்வினையாற்றினார்கள்",
+    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12594,5 +12598,9 @@
   "icu:WhatsNew__v6.19--2": {
     "messageformat": "நீங்கள் Windows 10 க்கு முன் Windows பதிப்பில் இருந்தால் அல்லது 20.04 LTS க்கு முன் Ubuntu பதிப்பில் இருந்தால், Signalஐத் தொடர்ந்து பயன்படுத்த உங்கள் இயங்குதளத்தைப் புதுப்பிக்க வேண்டும்: {supportLink}",
     "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.20--0": {
+    "messageformat": "யாரேனும் உங்களை சாட்டில் குறிப்பிட்டால் (@ உங்கள் பெயர் இங்கே போன்றவை), இப்போது நீங்கள் அந்தக் குறிப்புக்கு விரைவாக ஸ்க்ரோல் செய்து, அவர்கள் உங்களைப் பற்றி கூறியுள்ள அனைத்து அற்புதமான விஷயங்களையும் படிக்கலாம். நீங்கள் தான் சிறந்தவர்.",
+    "description": "Release notes for v6.20"
   }
 }

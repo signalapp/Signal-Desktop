@@ -864,6 +864,10 @@
     "messageformat": "下方有新訊息",
     "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
   },
+  "icu:mentionsBelow": {
+    "messageformat": "下方有新的提及資訊",
+    "description": "Alt text for button to take user down to next mention of them further down the message list (currently out of screen)"
+  },
   "unreadMessage": {
     "message": "1 則未讀訊息",
     "description": "(deleted 03/29/2023) Text for unread message separator, just one message"
@@ -5080,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count} 人用 {emoji} 傳送了心情回應",
+    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12594,5 +12598,9 @@
   "icu:WhatsNew__v6.19--2": {
     "messageformat": "如果你正在使用 Window 10 之前的版本，或 Ubuntu 的 20.04 LTS 之前的版本，你將需要更新操作系統以繼續使用 Signal{supportLink}",
     "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.20--0": {
+    "messageformat": "如果有人在聊天中提到你（例如 @你的名字），現在你可以快速滑動到該則提及的訊息，並閱讀他們對你的所有讚美。你就是最棒的。",
+    "description": "Release notes for v6.20"
   }
 }

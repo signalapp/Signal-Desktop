@@ -35,7 +35,17 @@ export function WhatsNewModal({
     date: new Date(window.getBuildCreation?.() || Date.now()),
     version: window.getVersion?.(),
     features: [
-      <Intl i18n={i18n} id="icu:WhatsNew__v6.20--0" renderText={renderText} />,
+      <Intl i18n={i18n} id="icu:WhatsNew__v6.21--0" renderText={renderText} />,
+      <Intl
+        i18n={i18n}
+        id="icu:WhatsNew__v6.21--1"
+        renderText={renderText}
+        components={{
+          complexspaces: (
+            <a href="https://github.com/complexspaces">@complexspaces</a>
+          ),
+        }}
+      />,
     ],
   };
 

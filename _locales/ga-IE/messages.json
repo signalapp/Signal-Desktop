@@ -864,6 +864,10 @@
     "messageformat": "Teachtaireachtaí nua thíos",
     "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
   },
+  "icu:mentionsBelow": {
+    "messageformat": "Tráchtanna nua thíos",
+    "description": "Alt text for button to take user down to next mention of them further down the message list (currently out of screen)"
+  },
   "unreadMessage": {
     "message": "1 Teachtaireacht Neamhléite",
     "description": "(deleted 03/29/2023) Text for unread message separator, just one message"
@@ -5080,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "Thug an líon seo daoine freagairt le {emoji}: {count}",
+    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12594,5 +12598,9 @@
   "icu:WhatsNew__v6.19--2": {
     "messageformat": "Má tá leagan Windows roimh Windows 10 á úsáid agat, nó leagan Ubuntu roimh 20.04 LTS, beidh ort do chóras oibriúcháin a nuashonrú le leanúint le Signal a úsáid: {supportLink}",
     "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.20--0": {
+    "messageformat": "Má dhéanann duine éigin trácht ort i gcomhrá (amhail @ D'ainm Luaite Anseo), is féidir leat scrollú chuig an trácht sin go gasta anois agus an rud a dúradh fút a léamh. Is tusa is fearr gan aon amhras.",
+    "description": "Release notes for v6.20"
   }
 }

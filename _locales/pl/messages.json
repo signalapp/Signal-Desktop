@@ -864,6 +864,10 @@
     "messageformat": "Nowe wiadomości poniżej",
     "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
   },
+  "icu:mentionsBelow": {
+    "messageformat": "Nowe wzmianki poniżej",
+    "description": "Alt text for button to take user down to next mention of them further down the message list (currently out of screen)"
+  },
   "unreadMessage": {
     "message": "1 nieprzeczytana wiadomość",
     "description": "(deleted 03/29/2023) Text for unread message separator, just one message"
@@ -5080,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count} osoby zareagowały tak {emoji}",
+    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12594,5 +12598,9 @@
   "icu:WhatsNew__v6.19--2": {
     "messageformat": "Jeśli korzystasz z systemu starszego niż Windows 10 lub Ubuntu 20.04 LTS, musisz zaktualizować swój system, aby móc dalej korzystać z aplikacji Signal: {supportLink}",
     "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.20--0": {
+    "messageformat": "Jeśli ktoś oznaczy Cię wzmianką w czacie (przykładowa wzmianka: @Twoje Imię), możesz szybko przewinąć do wzmianki i natychmiast przeczytać wszystkie ciepłe słowa, jakie padły na Twój temat. Ot, taka (w)zmiana na lepsze.",
+    "description": "Release notes for v6.20"
   }
 }

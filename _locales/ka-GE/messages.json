@@ -864,6 +864,10 @@
     "messageformat": "New messages below",
     "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
   },
+  "icu:mentionsBelow": {
+    "messageformat": "ქვემოთ ახალი მონიშვნებია",
+    "description": "Alt text for button to take user down to next mention of them further down the message list (currently out of screen)"
+  },
   "unreadMessage": {
     "message": "1 Unread Message",
     "description": "(deleted 03/29/2023) Text for unread message separator, just one message"
@@ -5080,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count} ადამაინი {emoji}-ით გამოეხმაურა",
+    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12594,5 +12598,9 @@
   "icu:WhatsNew__v6.19--2": {
     "messageformat": "თუ შენ გაქვს Windows 10-ზე ძველი ვერსია, ან Ubuntu-ს ვერსია 20.04 LTS-მდე, საოპერაციო სისტემა უნდა უნდა განაახლო, რათა Signal-ის გამოყენება გააგრძელო: {supportLink}",
     "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.20--0": {
+    "messageformat": "თუ ვინმე ჩატში მოგნიშნავს (მაგალითად, @ შენი სახელი იქნება აქ), უკვე შეგიძლია, ამ მონიშვნაზე მარტივად გადახვიდე და ყველა ის შესანიშნავი რამ წაიკითხო, რაც შენზე თქვეს. შენ უბრალოდ საუკეთესო ხარ.",
+    "description": "Release notes for v6.20"
   }
 }

@@ -864,6 +864,10 @@
     "messageformat": "Aşağıdakı yeni mesajlar",
     "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
   },
+  "icu:mentionsBelow": {
+    "messageformat": "Aşağıda yeni xatırlatmalar var",
+    "description": "Alt text for button to take user down to next mention of them further down the message list (currently out of screen)"
+  },
   "unreadMessage": {
     "message": "1 Oxunmamış mesaj",
     "description": "(deleted 03/29/2023) Text for unread message separator, just one message"
@@ -4023,7 +4027,7 @@
     "description": "(deleted 03/29/2023) Name for the conversation with your own phone number"
   },
   "icu:noteToSelf": {
-    "messageformat": "Özümə qeyd",
+    "messageformat": "Özüm üçün qeyd",
     "description": "Name for the conversation with your own phone number"
   },
   "noteToSelfHero": {
@@ -5080,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count} istifadəçi {emoji} reaksiyası verdi",
+    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12594,5 +12598,9 @@
   "icu:WhatsNew__v6.19--2": {
     "messageformat": "Əgər Windows 10-dan əvvəlki versiyadan, yaxud da Ubuntu-nun 20.04 LTS-dən əvvəlki versiyasından istifadə edirsinizsə, Signal-dan istifadəyə davam etmək üçün əməliyyat sistemini yeniləməlisiniz: {supportLink}",
     "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.20--0": {
+    "messageformat": "Çatda adınız xatırladıldıqda (məsələn, @ adınız), tezliklə həmin xatırlatmaya keçə və insanların sizin haqqınızda söylədiyi hər şeyi oxuya bilərsiniz. Siz sadəcə ən yaxşısısınız.",
+    "description": "Release notes for v6.20"
   }
 }

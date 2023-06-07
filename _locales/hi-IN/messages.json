@@ -864,6 +864,10 @@
     "messageformat": "नीचे नया मेसेज",
     "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
   },
+  "icu:mentionsBelow": {
+    "messageformat": "नए मेंशन नीचे दिए गए हैं",
+    "description": "Alt text for button to take user down to next mention of them further down the message list (currently out of screen)"
+  },
   "unreadMessage": {
     "message": "1 अपठित मेसेज",
     "description": "(deleted 03/29/2023) Text for unread message separator, just one message"
@@ -5080,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count} लोगों ने {emoji} के साथ प्रतिक्रिया दी",
+    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12594,5 +12598,9 @@
   "icu:WhatsNew__v6.19--2": {
     "messageformat": "यदि आप Windows 10 से पहले का Windows संस्करण, या 20.04 LTS से पहले का Ubuntu संस्करण इस्तेमाल कर रहे हैं, तो आपको Signal का इस्तेमाल जारी रखने के लिए अपने ऑपरेटिंग सिस्टम को अपडेट करना होगा: {supportLink}",
     "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.20--0": {
+    "messageformat": "यदि कोई चैट में आपको मेंशन करता है (जैसे कि @ आपका नाम यहां आता है), तो अब आप जल्दी से स्क्रॉल करके उस उल्लेख तक पहुंच सकते हैं और उन सभी अद्भुत चीजों को पढ़ सकते हैं जो उन्होंने आपके बारे में कही हैं। आप सबसे अच्छे हैं।",
+    "description": "Release notes for v6.20"
   }
 }

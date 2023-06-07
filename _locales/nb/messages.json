@@ -864,6 +864,10 @@
     "messageformat": "Nye meldinger nedenfor",
     "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
   },
+  "icu:mentionsBelow": {
+    "messageformat": "Hopp ned til nye omtaler",
+    "description": "Alt text for button to take user down to next mention of them further down the message list (currently out of screen)"
+  },
   "unreadMessage": {
     "message": "1 ulest melding",
     "description": "(deleted 03/29/2023) Text for unread message separator, just one message"
@@ -5080,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count} personer reagerte med {emoji}",
+    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12594,5 +12598,9 @@
   "icu:WhatsNew__v6.19--2": {
     "messageformat": "Hvis du bruker en versjon av Windows som er eldre enn Windows 10, eller en versjon av Ubuntu som er eldre enn 20.04 LTS, må du oppdatere operativsystemet for å fortsette å bruke Signal: {supportLink}",
     "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.20--0": {
+    "messageformat": "Hvis noen nevner deg i en samtale (som i @navnet ditt HER), kan du hoppe ned til den meldingen kjapt og lese alt det fine personen skrev om deg. Du er «simply the best».",
+    "description": "Release notes for v6.20"
   }
 }

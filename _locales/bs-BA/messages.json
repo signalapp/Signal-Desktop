@@ -864,6 +864,10 @@
     "messageformat": "Nove poruke ispod",
     "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
   },
+  "icu:mentionsBelow": {
+    "messageformat": "Neko vas je spomenuo ispod",
+    "description": "Alt text for button to take user down to next mention of them further down the message list (currently out of screen)"
+  },
   "unreadMessage": {
     "message": "1 nepročitna poruka",
     "description": "(deleted 03/29/2023) Text for unread message separator, just one message"
@@ -5080,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "Drugi (njih {count}) su reagirali sa {emoji}",
+    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12594,5 +12598,9 @@
   "icu:WhatsNew__v6.19--2": {
     "messageformat": "Ako koristite verziju Windowsa prije Windows 10 ili verziju Ubuntua prije 20.04 LTS, morat ćete ažurirati svoj operativni sistem da nastavite koristiti Signal: {supportLink}",
     "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.20--0": {
+    "messageformat": "Ako vas neko spomene u chatu (kao što je @ Your Name Goes Here), sada možete brzo vidjeti to spominjanje i pročitati sve divne stvari koje su rekli o vama. Jednostavno si najbolji/a.",
+    "description": "Release notes for v6.20"
   }
 }

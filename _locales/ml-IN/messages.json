@@ -864,6 +864,10 @@
     "messageformat": "പുതിയ സന്ദേശങ്ങൾ താഴെ",
     "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
   },
+  "icu:mentionsBelow": {
+    "messageformat": "പുതിയ പരാമർശങ്ങൾ ചുവടെ",
+    "description": "Alt text for button to take user down to next mention of them further down the message list (currently out of screen)"
+  },
   "unreadMessage": {
     "message": "1 വായിക്കാത്ത സന്ദേശം",
     "description": "(deleted 03/29/2023) Text for unread message separator, just one message"
@@ -5080,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count} പേർ {emoji} നൽകി പ്രതികരിച്ചു",
+    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12594,5 +12598,9 @@
   "icu:WhatsNew__v6.19--2": {
     "messageformat": "നിങ്ങൾ Windows 10-ന് മുമ്പുള്ള Windows പതിപ്പോ, 20.04 LTS-ന് മുമ്പുള്ള Ubuntu പതിപ്പോ ആണ് ഉപയോഗിക്കുന്നതെങ്കിൽ, Signal ഉപയോഗിക്കുന്നത് തുടരാൻ നിങ്ങൾ ഓപ്പറേറ്റിംഗ് സിസ്റ്റം അപ്ഡേറ്റ് ചെയ്യേണ്ടതുണ്ട്: {supportLink}",
     "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.20--0": {
+    "messageformat": "നിങ്ങളെ ആരെങ്കിലും ചാറ്റിൽ പരാമർശിച്ചാൽ (@ നിങ്ങളുടെ പേര് ഇവിടെ), നിങ്ങൾക്കിപ്പോൾ ആ പരാമർശത്തിലേക്ക് സ്ക്രോൾ ചെയ്‌ത് അവർ നിങ്ങളെക്കുറിച്ച് പറഞ്ഞ കാര്യങ്ങൾ വായിക്കാം. നിങ്ങൾ ഒരു രക്ഷയുമില്ല.",
+    "description": "Release notes for v6.20"
   }
 }

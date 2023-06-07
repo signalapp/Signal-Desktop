@@ -864,6 +864,10 @@
     "messageformat": "新着メッセージ",
     "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
   },
+  "icu:mentionsBelow": {
+    "messageformat": "以下に新しいメンションがあります",
+    "description": "Alt text for button to take user down to next mention of them further down the message list (currently out of screen)"
+  },
   "unreadMessage": {
     "message": "1件の未読メッセージ",
     "description": "(deleted 03/29/2023) Text for unread message separator, just one message"
@@ -5080,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count} 人が {emoji}でリアクションしました",
+    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12594,5 +12598,9 @@
   "icu:WhatsNew__v6.19--2": {
     "messageformat": "Windows 10 より前のバージョンの Windows、20.04LTS より前のバージョンの Ubuntu を使用しているユーザーの皆様は、Signal を引き続きご利用になるためにオペレーティングシステムを更新する必要があります。{supportLink}をご参照ください。",
     "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.20--0": {
+    "messageformat": "チャット内で誰かがあなたをメンション (あなたの名前の前に @ をつける) したら、その会話まで素早く移動して、そこに書かれているあなたについての素敵なことをすべて読むことができます。とにかく、あなたが一番ってこと。",
+    "description": "Release notes for v6.20"
   }
 }

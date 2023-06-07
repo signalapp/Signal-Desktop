@@ -864,6 +864,10 @@
     "messageformat": "Нови съобщения по-долу",
     "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
   },
+  "icu:mentionsBelow": {
+    "messageformat": "Нови споменавания по-долу",
+    "description": "Alt text for button to take user down to next mention of them further down the message list (currently out of screen)"
+  },
   "unreadMessage": {
     "message": "1 Непрочетено Съобщение",
     "description": "(deleted 03/29/2023) Text for unread message separator, just one message"
@@ -5080,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count} души реагираха с {emoji}",
+    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12594,5 +12598,9 @@
   "icu:WhatsNew__v6.19--2": {
     "messageformat": "Ако използвате версия на Windows преди Windows 10 или версия на Ubuntu преди 20.04 LTS, ще трябва да актуализирате операционната си система, за да продължите да използвате Signal: {supportLink}",
     "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.20--0": {
+    "messageformat": "Ако някой ви спомене в чат (като @ВашетоИме), вече можете бързо да превъртите до въпросното споменаване и да прочетете всички прекрасни неща, казани за вас. Вие сте номер едно.",
+    "description": "Release notes for v6.20"
   }
 }

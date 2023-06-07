@@ -864,6 +864,10 @@
     "messageformat": "Missatges nous a continuació",
     "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
   },
+  "icu:mentionsBelow": {
+    "messageformat": "Noves mencions a continuació",
+    "description": "Alt text for button to take user down to next mention of them further down the message list (currently out of screen)"
+  },
   "unreadMessage": {
     "message": "1 missatge per llegir",
     "description": "(deleted 03/29/2023) Text for unread message separator, just one message"
@@ -5080,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count} persones han reaccionat amb {emoji}",
+    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12594,5 +12598,9 @@
   "icu:WhatsNew__v6.19--2": {
     "messageformat": "Si tens una versió de Windows anterior a Windows 10 o una versió d'Ubuntu anterior a la 20.04 LTS, hauràs d'actualitzar el teu sistema operatiu per continuar utilitzant Signal: {supportLink}",
     "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.20--0": {
+    "messageformat": "Si algú et menciona en un xat (com ara @ el teu nom), ara podràs desplaçar-te ràpidament fins a aquesta menció i llegir totes les coses meravelloses que han dit sobre tu. Tu ets el protagonista.",
+    "description": "Release notes for v6.20"
   }
 }

@@ -864,6 +864,10 @@
     "messageformat": "Aşağıda yeni iletiler var",
     "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
   },
+  "icu:mentionsBelow": {
+    "messageformat": "Aşağıda yeni bahsetmeler var",
+    "description": "Alt text for button to take user down to next mention of them further down the message list (currently out of screen)"
+  },
   "unreadMessage": {
     "message": "1 Okunmamış İleti",
     "description": "(deleted 03/29/2023) Text for unread message separator, just one message"
@@ -5080,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count} kişi {emoji} ile tepki verdi",
+    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12594,5 +12598,9 @@
   "icu:WhatsNew__v6.19--2": {
     "messageformat": "Windows 10'dan önceki bir Windows sürümünü veya 20.04 LTS'den önceki bir Ubuntu sürümünü kullanıyorsan, Signal'i kullanmaya devam etmek için işletim sistemini güncellemen gerekiyor: {supportLink}",
     "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.20--0": {
+    "messageformat": "Birisi bir sohbette senden bahsederse (@Adın Buraya Gelir gibi), artık hızlıca o bahsetmeye gidebilir ve hakkında söylenen tüm harika şeyleri okuyabilirsin. Harika olduğunu duymayı hak ediyorsun.",
+    "description": "Release notes for v6.20"
   }
 }

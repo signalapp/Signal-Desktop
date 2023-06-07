@@ -864,6 +864,10 @@
     "messageformat": "Tin nhắn mới bên dưới",
     "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
   },
+  "icu:mentionsBelow": {
+    "messageformat": "Các đề cập mới bên dưới",
+    "description": "Alt text for button to take user down to next mention of them further down the message list (currently out of screen)"
+  },
   "unreadMessage": {
     "message": "1 Tin nhắn Chưa đọc",
     "description": "(deleted 03/29/2023) Text for unread message separator, just one message"
@@ -5080,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count} người đã bày tỏ cảm xúc với {emoji}",
+    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12594,5 +12598,9 @@
   "icu:WhatsNew__v6.19--2": {
     "messageformat": "Nếu bạn đang sử dụng phiên bản Windows trước Windows 10, hoặc phiên bản Ubuntu trước 20.04 LTS, bạn sẽ cần cập nhật hệ điều hành của mình để tiếp tục sử dụng Signal: {supportLink}",
     "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.20--0": {
+    "messageformat": "Nếu ai đó đề cập đến bạn trong một cuộc trò chuyện (chẳng hạn như @Tên Của Bạn), giờ đây bạn có thể nhanh chóng cuộn đến đề cập đó và đọc tất cả những điều tuyệt vời mà họ đã nói về bạn. Bạn quả là người tuyệt nhất.",
+    "description": "Release notes for v6.20"
   }
 }

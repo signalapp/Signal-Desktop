@@ -864,6 +864,10 @@
     "messageformat": "សារថ្មីខាងក្រោម",
     "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
   },
+  "icu:mentionsBelow": {
+    "messageformat": "ការលើកឈ្មោះថ្មីៗនៅខាងក្រោម",
+    "description": "Alt text for button to take user down to next mention of them further down the message list (currently out of screen)"
+  },
   "unreadMessage": {
     "message": "សារមិនទាន់អាន 1 ",
     "description": "(deleted 03/29/2023) Text for unread message separator, just one message"
@@ -5080,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "មនុស្ស {count} នាក់បានប្រតិកម្មជាមួយ {emoji}",
+    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12594,5 +12598,9 @@
   "icu:WhatsNew__v6.19--2": {
     "messageformat": "ប្រសិនបើអ្នកប្រើប្រាស់កំណែណាមួយរបស់ Windows មុន Windows 10 ឬកំណែណាមួយរបស់ Ubuntu មុន 20.04 LTS អ្នកនឹងត្រូវដំឡើងកំណែប្រព័ន្ធប្រតិបត្តិការរបស់អ្នកដើម្បីបន្តប្រើប្រាស់ Signal៖ {supportLink}",
     "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.20--0": {
+    "messageformat": "ប្រសិនបើនរណាម្នាក់លើកឈ្មោះអ្នកនៅក្នុងការជជែក (ដូចជា @ ឈ្មោះរបស់អ្នកនៅទីនេះ) ឥឡូវនេះអ្នកអាចរំកិលទៅកាន់ការលើកឈ្មោះនោះបានយ៉ាងរហ័ស ហើយអាចអានរឿងសព្វគ្រប់ទាំងអស់ថាតើពួកគេនិយាយល្អៗអ្វីខ្លះអំពីអ្នក។ អ្នកពិតជាអស្ចារ្យខ្លាំងណាស់។",
+    "description": "Release notes for v6.20"
   }
 }

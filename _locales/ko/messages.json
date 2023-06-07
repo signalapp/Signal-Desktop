@@ -864,6 +864,10 @@
     "messageformat": "새 메시지",
     "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
   },
+  "icu:mentionsBelow": {
+    "messageformat": "새 멘션 확인",
+    "description": "Alt text for button to take user down to next mention of them further down the message list (currently out of screen)"
+  },
   "unreadMessage": {
     "message": "읽지 않은 메시지 1개",
     "description": "(deleted 03/29/2023) Text for unread message separator, just one message"
@@ -5080,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count}명이 {emoji} 이모지로 반응했습니다.",
+    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12594,5 +12598,9 @@
   "icu:WhatsNew__v6.19--2": {
     "messageformat": "Windows 10보다 이전 버전 Windows를 사용하거나, 20.04 LTS보다 이전 버전 Ubuntu를 사용하는 경우 Signal을 계속 사용하려면 운영 체제를 업데이트해야 합니다. {supportLink}",
     "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.20--0": {
+    "messageformat": "이제 채팅에서 누군가가 나를 멘션(@ 사용자 이름)하면 멘션으로 빠르게 이동하여 메시지를 확인할 수 있습니다. 여러분은 소중하니까요.",
+    "description": "Release notes for v6.20"
   }
 }

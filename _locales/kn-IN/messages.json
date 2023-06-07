@@ -864,6 +864,10 @@
     "messageformat": "ಹೊಸ ಸಂದೇಶಗಳು ಕೆಳಗಿವೆ",
     "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
   },
+  "icu:mentionsBelow": {
+    "messageformat": "ಹೊಸ ಉಲ್ಲೇಖಗಳು ಕೆಳಗಿವೆ",
+    "description": "Alt text for button to take user down to next mention of them further down the message list (currently out of screen)"
+  },
   "unreadMessage": {
     "message": "1 ಓದದಿರುವ ಸಂದೇಶ",
     "description": "(deleted 03/29/2023) Text for unread message separator, just one message"
@@ -5080,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count} ಜನರು {emoji} ಮೂಲಕ ಪ್ರತಿಕ್ರಿಯಿಸಿದ್ದಾರೆ",
+    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12594,5 +12598,9 @@
   "icu:WhatsNew__v6.19--2": {
     "messageformat": "ನೀವು Windows 10 ಕ್ಕಿಂತ ಹಿಂದಿನ Windows ಆವೃತ್ತಿ ಹೊಂದಿದ್ದರೆ ಅಥವಾ 20.04 LTS ಗಿಂತ ಹಿಂದಿನ Ubuntu ಆವೃತ್ತಿಯನ್ನು ಹೊಂದಿದ್ದರೆ, Signal ಬಳಕೆಯನ್ನು ಮುಂದುವರಿಸಲು ನಿಮ್ಮ ಆಪರೇಟಿಂಗ್ ಸಿಸ್ಟಮ್ ಅನ್ನು ನೀವು ಅಪ್ಡೇಟ್ ಮಾಡಬೇಕಾಗುತ್ತದೆ: {supportLink}",
     "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.20--0": {
+    "messageformat": "ಚಾಟ್‌ನಲ್ಲಿ ನಿಮ್ಮನ್ನು ಯಾರಾದರೂ ಉಲ್ಲೇಖಿಸಿದರೆ (ಅಂದರೆ @ ನಿಮ್ಮ ಹೆಸರು ಇಲ್ಲಿದ್ದರೆ), ನೀವೀಗ ಆ ಉಲ್ಲೇಖಕ್ಕೆ ತ್ವರಿತವಾಗಿ ಸ್ಕ್ರೋಲ್ ಮಾಡಬಹುದು ಮತ್ತು ನಿಮ್ಮ ಕುರಿತಾಗಿ ಹೇಳಿದ ಅದ್ಭುತ ಸಂಗತಿಗಳನ್ನು ಓದಬಹುದು. ನೀವು ನಿಜಕ್ಕೂ ಸೂಪರ್ಬ್.",
+    "description": "Release notes for v6.20"
   }
 }

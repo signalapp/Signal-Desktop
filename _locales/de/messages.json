@@ -864,6 +864,10 @@
     "messageformat": "Neue Nachrichten weiter unten",
     "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
   },
+  "icu:mentionsBelow": {
+    "messageformat": "Neue Erwähnungen weiter unten",
+    "description": "Alt text for button to take user down to next mention of them further down the message list (currently out of screen)"
+  },
   "unreadMessage": {
     "message": "1 ungelesene Nachricht",
     "description": "(deleted 03/29/2023) Text for unread message separator, just one message"
@@ -5080,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count} Personen haben mit {emoji} reagiert",
+    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12594,5 +12598,9 @@
   "icu:WhatsNew__v6.19--2": {
     "messageformat": "Wenn du eine Windows-Version hast, die älter als Windows 10 ist, oder eine Ubuntu-Version, die älter als 20.04 LTS ist, musst du dein Betriebssystem aktualisieren, um Signal weiterhin nutzen zu können: {supportLink}",
     "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.20--0": {
+    "messageformat": "Wenn dich jemand in einem Chat erwähnt (z. B. @ Dein Name), kannst du jetzt schnell zu dieser Erwähnung scrollen und all die wunderbaren Dinge lesen, die er*/sie über dich gesagt hat. Du bist einfach der Hit.",
+    "description": "Release notes for v6.20"
   }
 }

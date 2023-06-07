@@ -864,6 +864,10 @@
     "messageformat": "Mezu berriak azpian",
     "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
   },
+  "icu:mentionsBelow": {
+    "messageformat": "Aipamen berriak behean",
+    "description": "Alt text for button to take user down to next mention of them further down the message list (currently out of screen)"
+  },
   "unreadMessage": {
     "message": "Irakurri gabeko mezu bat",
     "description": "(deleted 03/29/2023) Text for unread message separator, just one message"
@@ -5080,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count} pertsonak {emoji} emojiarekin erreakzionatu dute",
+    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12594,5 +12598,9 @@
   "icu:WhatsNew__v6.19--2": {
     "messageformat": "Windows 10 baino zaharragoa den Windows-en bertsio bat badarabilzu, edo 20.04 LTS baino zaharragoa den Ubuntu-ren bertsio bat, sistema eragilea eguneratu beharko duzu Signal erabiltzen jarraitzeko: {supportLink}",
     "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.20--0": {
+    "messageformat": "Norbaitek txat batean aipatzen bazaitu (@ Zure izena), bizkor batean joan zaitezke aipamen horretara, eta zuri buruz esandako gauza zoragarri guztiak irakurri. Besterik gabe, onena zara.",
+    "description": "Release notes for v6.20"
   }
 }

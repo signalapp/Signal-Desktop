@@ -864,6 +864,10 @@
     "messageformat": "ਨਵੇਂ ਸੁਨੇਹੇ ਹੇਠਾਂ",
     "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
   },
+  "icu:mentionsBelow": {
+    "messageformat": "ਹੇਠਾਂ ਨਵੇਂ ਸੁਨੇਹੇ ਵਿੱਚ ਤੁਹਾਡਾ ਜ਼ਿਕਰ ਹੋਇਆ ਹੈ",
+    "description": "Alt text for button to take user down to next mention of them further down the message list (currently out of screen)"
+  },
   "unreadMessage": {
     "message": "1 ਨਾ-ਪੜ੍ਹਿਆ ਸੁਨੇਹਾ",
     "description": "(deleted 03/29/2023) Text for unread message separator, just one message"
@@ -5080,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count} ਲੋਕਾਂ ਨੇ {emoji} ਰਿਐਕਸ਼ਨ ਦਿੱਤਾ",
+    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12594,5 +12598,9 @@
   "icu:WhatsNew__v6.19--2": {
     "messageformat": "ਜੇਕਰ ਤੁਸੀਂ Windows 10 ਤੋਂ ਪਹਿਲਾਂ ਦਾ ਕੋਈ ਵਰਜ਼ਨ ਜਾਂ Ubuntu ਦਾ 20.04 LTS ਤੋਂ ਪਹਿਲਾਂ ਦਾ ਕੋਈ ਵਰਜ਼ਨ ਵਰਤ ਰਹੇ ਹੋ, ਤਾਂ Signal ਦੀ ਵਰਤੋਂ ਜਾਰੀ ਰੱਖਣ ਲਈ ਤੁਹਾਨੂੰ ਆਪਣੇ ਓਪਰੇਟਿੰਗ ਸਿਸਟਮ ਨੂੰ ਅੱਪਡੇਟ ਕਰਨਾ ਪਵੇਗਾ: {supportLink}",
     "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.20--0": {
+    "messageformat": "ਜੇਕਰ ਕੋਈ ਵਿਅਕਤੀ ਚੈਟ ਵਿੱਚ ਤੁਹਾਡਾ ਜ਼ਿਕਰ ਕਰਦਾ ਹੈ (ਜਿਵੇਂ @ ਤੁਹਾਡਾ ਨਾਮ ਇੱਥੇ ਆਉਂਦਾ ਹੈ), ਤਾਂ ਹੁਣ ਤੁਸੀਂ ਉਸ ਸੁਨੇਹੇ ਤੱਕ ਤੇਜ਼ੀ ਨਾਲ ਸਕ੍ਰੋਲ ਕਰ ਸਕਦੇ ਹੋ ਜਿਸ ਵਿੱਚ ਤੁਹਾਡਾ ਜ਼ਿਕਰ ਹੋਇਆ ਹੈ ਅਤੇ ਉਹਨਾਂ ਸਾਰੀਆਂ ਸ਼ਾਨਦਾਰ ਗੱਲਾਂ ਨੂੰ ਪੜ੍ਹ ਸਕਦੇ ਹੋ ਜੋ ਉਹਨਾਂ ਨੇ ਤੁਹਾਡੇ ਬਾਰੇ ਕਹੀਆਂ ਹਨ। ਤੁਸੀਂ ਸਭ ਤੋਂ ਵਧੀਆ ਹੋ।",
+    "description": "Release notes for v6.20"
   }
 }

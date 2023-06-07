@@ -864,6 +864,10 @@
     "messageformat": "Nieuwe berichten hieronder",
     "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
   },
+  "icu:mentionsBelow": {
+    "messageformat": "Nieuwe vermeldingen hieronder",
+    "description": "Alt text for button to take user down to next mention of them further down the message list (currently out of screen)"
+  },
   "unreadMessage": {
     "message": "1 ongelezen bericht",
     "description": "(deleted 03/29/2023) Text for unread message separator, just one message"
@@ -5080,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count} mensen reageerden met {emoji}",
+    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12594,5 +12598,9 @@
   "icu:WhatsNew__v6.19--2": {
     "messageformat": "Als je een versie van Windows gebruikt die ouder is dan Windows 10, of een versie van Ubuntu die ouder is dan 20.04 LTS, moet je je besturingssysteem bijwerken om Signal te blijven gebruiken: {supportLink}",
     "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.20--0": {
+    "messageformat": "Als iemand je vermeldt in een chat (zoals @jenaam), kun je nu snel naar die vermelding scrollen en alle geweldige dingen lezen die ze over je hebben gezegd. Je bent ook gewoon superleuk.",
+    "description": "Release notes for v6.20"
   }
 }

@@ -864,6 +864,10 @@
     "messageformat": "Allpool on uued sõnumid",
     "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
   },
+  "icu:mentionsBelow": {
+    "messageformat": "Allpool on uusi märkimisi",
+    "description": "Alt text for button to take user down to next mention of them further down the message list (currently out of screen)"
+  },
   "unreadMessage": {
     "message": "1 lugemata sõnum",
     "description": "(deleted 03/29/2023) Text for unread message separator, just one message"
@@ -5080,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count} inimese reaktsioon: {emoji}",
+    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12594,5 +12598,9 @@
   "icu:WhatsNew__v6.19--2": {
     "messageformat": "Kui kasutad Windowsi versiooni, mis on vanem kui Windows 10, või Ubuntu versiooni, mis on vanem kui 20.04 LTS, pead Signali kasutamise jätkamiseks uuendama oma operatsioonisüsteemi: {supportLink}",
     "description": "Release notes for v6.19"
+  },
+  "icu:WhatsNew__v6.20--0": {
+    "messageformat": "Kui keegi sind sõnumis märgib (st @ Sinu Nimi), saad nüüd kiiresti selle märkimise juurde kerida ja lugeda kõiki toredaid asju, mida ta sinu kohta ütles. Sa oled parim.",
+    "description": "Release notes for v6.20"
   }
 }
