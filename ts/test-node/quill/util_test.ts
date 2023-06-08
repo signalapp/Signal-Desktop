@@ -125,6 +125,43 @@ describe('getTextAndRangesFromOps', () => {
       ]);
     });
 
+    it('handles trimming with no-formatting single- and multi-newline ops', () => {
+      const ops = [
+        {
+          insert: 'line1',
+          attributes: { bold: true },
+        },
+        // quill doesn't put formatting on all-newline ops
+        {
+          insert: '\n',
+        },
+        {
+          insert: 'line2',
+          attributes: { bold: true },
+        },
+        {
+          insert: '\n\n',
+        },
+        {
+          insert: 'line4',
+          attributes: { bold: true },
+        },
+        {
+          insert: '\n\n',
+        },
+      ];
+      const { text, bodyRanges } = getTextAndRangesFromOps(ops);
+      assert.equal(text, 'line1\nline2\n\nline4');
+      assert.equal(bodyRanges.length, 1);
+      assert.deepEqual(bodyRanges, [
+        {
+          start: 0,
+          length: 18,
+          style: BodyRange.Style.BOLD,
+        },
+      ]);
+    });
+
     it('handles trimming at the end of the message', () => {
       const ops = [
         {
