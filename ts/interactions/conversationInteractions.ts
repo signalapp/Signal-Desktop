@@ -45,14 +45,21 @@ import { Storage, setLastProfileUpdateTimestamp } from '../util/storage';
 import { UserGroupsWrapperActions } from '../webworker/workers/browser/libsession_worker_interface';
 
 export enum ConversationInteractionStatus {
-  Success = 'success',
-  Error = 'error',
+  Start = 'start',
   Loading = 'loading',
+  Error = 'error',
+  Complete = 'complete',
 }
 
 export enum ConversationInteractionType {
   Leave = 'leave',
 }
+
+export type ConversationInteractionProps = {
+  conversationId: string;
+  interactionType: ConversationInteractionType;
+  interactionStatus: ConversationInteractionStatus;
+};
 
 export async function copyPublicKeyByConvoId(convoId: string) {
   if (OpenGroupUtils.isOpenGroupV2(convoId)) {
@@ -251,18 +258,16 @@ export function showLeavePrivateConversationbyConvoId(conversationId: string, na
       await updateConversationInteractionState({
         conversationId,
         type: ConversationInteractionType.Leave,
+        status: ConversationInteractionStatus.Start,
       });
       await getConversationController().delete1o1(conversationId, {
         fromSyncMessage: false,
         justHidePrivate: true,
       });
       onClickClose();
+
       // Note (Will): This is probably redundant since this is a destructive interaction and therefore the conversation will be undefined
-      await updateConversationInteractionState({
-        conversationId,
-        type: ConversationInteractionType.Leave,
-        status: ConversationInteractionStatus.Success,
-      });
+      await clearConversationInteractionState({ conversationId });
     } catch (err) {
       window.log.warn(`showLeavePrivateConversationbyConvoId error: ${err}`);
       await updateConversationInteractionState({
@@ -310,6 +315,7 @@ export function showLeaveGroupByConvoId(conversationId: string, name?: string) {
       await updateConversationInteractionState({
         conversationId,
         type: ConversationInteractionType.Leave,
+        status: ConversationInteractionStatus.Start,
       });
       if (isPublic) {
         await getConversationController().deleteCommunity(conversation.id, {
@@ -322,12 +328,9 @@ export function showLeaveGroupByConvoId(conversationId: string, name?: string) {
         });
       }
       onClickClose();
+
       // Note (Will): This is probably redundant since this is a destructive interaction and therefore the conversation will be undefined
-      await updateConversationInteractionState({
-        conversationId,
-        type: ConversationInteractionType.Leave,
-        status: ConversationInteractionStatus.Success,
-      });
+      await clearConversationInteractionState({ conversationId });
     } catch (err) {
       window.log.warn(`showLeaveGroupByConvoId error: ${err}`);
       await updateConversationInteractionState({
@@ -653,6 +656,12 @@ export async function callRecipient(pubkey: string, canCall: boolean) {
   }
 }
 
+/**
+ * Updates the interaction state for a conversation. Remember to run clearConversationInteractionState() when the interaction is complete and we don't want to show it in the UI anymore.
+ * @param conversationId
+ * @param type the type of conversation interaciton we are doing
+ * @param status the status of that interaction
+ */
 export async function updateConversationInteractionState({
   conversationId,
   type,
@@ -660,18 +669,35 @@ export async function updateConversationInteractionState({
 }: {
   conversationId: string;
   type: ConversationInteractionType;
-  status?: ConversationInteractionStatus;
+  status: ConversationInteractionStatus;
 }) {
   const convo = getConversationController().get(conversationId);
   if (convo) {
     convo.set('interactionType', type);
-    convo.set('interactionStatus', status ? status : undefined);
+    convo.set('interactionStatus', status);
 
     await convo.commit();
     window.log.debug(
-      `WIP: updateConversationInteractionState for ${conversationId} to ${type}${
-        status ? ` ${status}` : ''
-      }`
+      `WIP: updateConversationInteractionState for ${conversationId} to ${type} ${status}`
     );
+  }
+}
+
+/**
+ * Clears the interaction state for a conversation. We would use this when we don't need to show anything in the UI once an action is complete.
+ * @param conversationId
+ */
+export async function clearConversationInteractionState({
+  conversationId,
+}: {
+  conversationId: string;
+}) {
+  const convo = getConversationController().get(conversationId);
+  if (convo) {
+    convo.set('interactionType', undefined);
+    convo.set('interactionStatus', undefined);
+
+    await convo.commit();
+    window.log.debug(`WIP: clearConversationInteractionState() for ${conversationId}`);
   }
 }

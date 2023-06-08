@@ -82,7 +82,7 @@ const ConversationListItem = (props: Props) => {
   let isBlocked = useIsBlocked(conversationId);
   const isSearch = useSelector(isSearching);
   const selectedConvo = useSelectedConversationKey();
-  const conversationInteractionProps = useConversationInteractionState(conversationId);
+  const interactionProps = useConversationInteractionState(conversationId);
 
   const isSelectedConvo = conversationId === selectedConvo && !isNil(selectedConvo);
 
@@ -132,11 +132,7 @@ const ConversationListItem = (props: Props) => {
           <AvatarItem />
           <div className="module-conversation-list-item__content">
             <ConversationListItemHeaderItem />
-            {conversationInteractionProps?.interactionType ? (
-              <InteractionItem {...conversationInteractionProps} />
-            ) : (
-              <MessageItem />
-            )}
+            {interactionProps ? <InteractionItem {...interactionProps} /> : <MessageItem />}
           </div>
         </div>
         <Portal>

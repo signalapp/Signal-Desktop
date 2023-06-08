@@ -10,10 +10,7 @@ import { StateType } from '../state/reducer';
 import { getMessageReactsProps } from '../state/selectors/conversations';
 import { isPrivateAndFriend } from '../state/selectors/selectedConversation';
 import { CONVERSATION } from '../session/constants';
-import {
-  ConversationInteractionStatus,
-  ConversationInteractionType,
-} from '../interactions/conversationInteractions';
+import { ConversationInteractionProps } from '../interactions/conversationInteractions';
 
 export function useAvatarPath(convoId: string | undefined) {
   const convoProps = useConversationPropsById(convoId);
@@ -274,11 +271,7 @@ export function useIsTyping(conversationId?: string): boolean {
 
 export function useConversationInteractionState(
   conversationId?: string
-): {
-  conversationId?: string;
-  interactionStatus?: ConversationInteractionStatus;
-  interactionType?: ConversationInteractionType;
-} | null {
+): ConversationInteractionProps | null {
   if (!conversationId) {
     return null;
   }
@@ -291,9 +284,12 @@ export function useConversationInteractionState(
   const interactionType = convoProps.interactionType;
   const interactionStatus = convoProps.interactionStatus;
 
-  window.log.debug(
-    `WIP: useConversationInteractionState: ${conversationId} ${interactionType} ${interactionStatus}`
-  );
+  if (!interactionType || !interactionStatus) {
+    window.log.warn(
+      `useConversationInteractionState() missing interactionType or interactionStatus`
+    );
+    return null;
+  }
 
   return { conversationId, interactionType, interactionStatus };
 }

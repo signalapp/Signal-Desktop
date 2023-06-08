@@ -5,6 +5,7 @@ import { useIsPrivate, useIsPublic } from '../../../hooks/useParamSelector';
 import { MessageBody } from '../../conversation/message/message-content/MessageBody';
 import { assertUnreachable } from '../../../types/sqlSharedTypes';
 import {
+  ConversationInteractionProps,
   ConversationInteractionStatus,
   ConversationInteractionType,
 } from '../../../interactions/conversationInteractions';
@@ -14,23 +15,16 @@ const StyledInteractionItemText = styled.div<{ isError: boolean }>`
   ${props => props.isError && 'color: var(--danger-color) !important;'}
 `;
 
-export type InteractionItemProps = {
-  conversationId?: string;
-  interactionType?: ConversationInteractionType;
-  interactionStatus?: ConversationInteractionStatus;
-};
-
-export const InteractionItem = (props: InteractionItemProps) => {
+export const InteractionItem = (props: ConversationInteractionProps) => {
   const { conversationId, interactionStatus, interactionType } = props;
   const isGroup = !useIsPrivate(conversationId);
   const isCommunity = useIsPublic(conversationId);
 
-  if (!conversationId || !interactionType) {
+  if (isEmpty(conversationId) || isEmpty(interactionType) || isEmpty(interactionStatus)) {
     return null;
   }
 
   let text = '';
-
   switch (interactionType) {
     case ConversationInteractionType.Leave:
       const failText = isCommunity
