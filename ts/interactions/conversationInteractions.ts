@@ -247,13 +247,30 @@ export function showLeavePrivateConversationbyConvoId(conversationId: string, na
   };
 
   const onClickOk = async () => {
-    window.log.debug(`WIP: onClickOk ran`);
-    return;
-    await getConversationController().delete1o1(conversationId, {
-      fromSyncMessage: false,
-      justHidePrivate: true,
-    });
-    onClickClose();
+    try {
+      await updateConversationInteractionState({
+        conversationId,
+        type: ConversationInteractionType.Leave,
+      });
+      await getConversationController().delete1o1(conversationId, {
+        fromSyncMessage: false,
+        justHidePrivate: true,
+      });
+      onClickClose();
+      // Note (Will): This is probably redundant since this is a destructive interaction and therefore the conversation will be undefined
+      await updateConversationInteractionState({
+        conversationId,
+        type: ConversationInteractionType.Leave,
+        status: ConversationInteractionStatus.Success,
+      });
+    } catch (err) {
+      window.log.warn(`showLeavePrivateConversationbyConvoId error: ${err}`);
+      await updateConversationInteractionState({
+        conversationId,
+        type: ConversationInteractionType.Leave,
+        status: ConversationInteractionStatus.Error,
+      });
+    }
   };
 
   window?.inboxStore?.dispatch(
@@ -264,7 +281,6 @@ export function showLeavePrivateConversationbyConvoId(conversationId: string, na
       okText: window.i18n('delete'),
       okTheme: SessionButtonColor.Danger,
       onClickClose,
-      confirmationType: ConversationInteractionType.Leave,
       conversationId,
     })
   );
@@ -290,19 +306,36 @@ export function showLeaveGroupByConvoId(conversationId: string, name?: string) {
   };
 
   const onClickOk = async () => {
-    window.log.debug(`WIP: onClickOk ran`);
-    return;
-    if (isPublic) {
-      await getConversationController().deleteCommunity(conversation.id, {
-        fromSyncMessage: false,
+    try {
+      await updateConversationInteractionState({
+        conversationId,
+        type: ConversationInteractionType.Leave,
       });
-    } else {
-      await getConversationController().deleteClosedGroup(conversation.id, {
-        fromSyncMessage: false,
-        sendLeaveMessage: true,
+      if (isPublic) {
+        await getConversationController().deleteCommunity(conversation.id, {
+          fromSyncMessage: false,
+        });
+      } else {
+        await getConversationController().deleteClosedGroup(conversation.id, {
+          fromSyncMessage: false,
+          sendLeaveMessage: true,
+        });
+      }
+      onClickClose();
+      // Note (Will): This is probably redundant since this is a destructive interaction and therefore the conversation will be undefined
+      await updateConversationInteractionState({
+        conversationId,
+        type: ConversationInteractionType.Leave,
+        status: ConversationInteractionStatus.Success,
+      });
+    } catch (err) {
+      window.log.warn(`showLeaveGroupByConvoId error: ${err}`);
+      await updateConversationInteractionState({
+        conversationId,
+        type: ConversationInteractionType.Leave,
+        status: ConversationInteractionStatus.Error,
       });
     }
-    onClickClose();
   };
 
   // TODO Communities don't need confirmation modal and have different logic
@@ -315,7 +348,6 @@ export function showLeaveGroupByConvoId(conversationId: string, name?: string) {
         okText: window.i18n('delete'),
         okTheme: SessionButtonColor.Danger,
         onClickClose,
-        confirmationType: ConversationInteractionType.Leave,
         conversationId,
       })
     );
@@ -618,5 +650,28 @@ export async function callRecipient(pubkey: string, canCall: boolean) {
 
   if (convo && convo.isPrivate() && !convo.isMe()) {
     await CallManager.USER_callRecipient(convo.id);
+  }
+}
+
+export async function updateConversationInteractionState({
+  conversationId,
+  type,
+  status,
+}: {
+  conversationId: string;
+  type: ConversationInteractionType;
+  status?: ConversationInteractionStatus;
+}) {
+  const convo = getConversationController().get(conversationId);
+  if (convo) {
+    convo.set('interactionType', type);
+    convo.set('interactionStatus', status ? status : undefined);
+
+    await convo.commit();
+    window.log.debug(
+      `WIP: updateConversationInteractionState for ${conversationId} to ${type}${
+        status ? ` ${status}` : ''
+      }`
+    );
   }
 }

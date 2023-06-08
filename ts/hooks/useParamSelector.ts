@@ -10,6 +10,10 @@ import { StateType } from '../state/reducer';
 import { getMessageReactsProps } from '../state/selectors/conversations';
 import { isPrivateAndFriend } from '../state/selectors/selectedConversation';
 import { CONVERSATION } from '../session/constants';
+import {
+  ConversationInteractionStatus,
+  ConversationInteractionType,
+} from '../interactions/conversationInteractions';
 
 export function useAvatarPath(convoId: string | undefined) {
   const convoProps = useConversationPropsById(convoId);
@@ -268,13 +272,28 @@ export function useIsTyping(conversationId?: string): boolean {
   return useConversationPropsById(conversationId)?.isTyping || false;
 }
 
-export function useConfirmModalStatusAndType() {
-  return useSelector((state: StateType) => {
-    if (!state.modals.confirmModal) {
-      return null;
-    }
+export function useConversationInteractionState(
+  conversationId?: string
+): {
+  conversationId?: string;
+  interactionStatus?: ConversationInteractionStatus;
+  interactionType?: ConversationInteractionType;
+} | null {
+  if (!conversationId) {
+    return null;
+  }
 
-    const { status, confirmationType: type, conversationId } = state.modals.confirmModal;
-    return { status, type, conversationId };
-  });
+  const convoProps = useConversationPropsById(conversationId);
+  if (!convoProps) {
+    return null;
+  }
+
+  const interactionType = convoProps.interactionType;
+  const interactionStatus = convoProps.interactionStatus;
+
+  window.log.debug(
+    `WIP: useConversationInteractionState: ${conversationId} ${interactionType} ${interactionStatus}`
+  );
+
+  return { conversationId, interactionType, interactionStatus };
 }

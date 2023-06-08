@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { SessionHtmlRenderer } from '../basic/SessionHTMLRenderer';
-import { updateConfirmModal, updateConfirmModalStatus } from '../../state/ducks/modalDialog';
+import { updateConfirmModal } from '../../state/ducks/modalDialog';
 import { SpacerLG } from '../basic/Text';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { SessionSpinner } from '../basic/SessionSpinner';
@@ -12,7 +12,9 @@ import { MessageInteraction } from '../../interactions';
 import {
   ConversationInteractionStatus,
   ConversationInteractionType,
+  updateConversationInteractionState,
 } from '../../interactions/conversationInteractions';
+import { useConversationInteractionState } from '../../hooks/useParamSelector';
 
 // NOTE could be other confirmation statuses and types in future
 export type ConfirmationStatus = ConversationInteractionStatus | undefined;
@@ -47,8 +49,6 @@ export interface SessionConfirmDialogProps {
   iconSize?: SessionIconSize;
   shouldShowConfirm?: boolean | undefined;
   showExitIcon?: boolean | undefined;
-  status?: ConfirmationStatus;
-  confirmationType?: ConfirmationType;
   conversationId?: string;
 }
 
@@ -68,7 +68,10 @@ export const SessionConfirm = (props: SessionConfirmDialogProps) => {
     onClickCancel,
     showExitIcon,
     closeAfterInput = true,
+    conversationId,
   } = props;
+
+  const interactionProps = useConversationInteractionState(conversationId);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -85,12 +88,8 @@ export const SessionConfirm = (props: SessionConfirmDialogProps) => {
         await onClickOk();
       } catch (e) {
         window.log.warn(e);
-        window.inboxStore?.dispatch(updateConfirmModalStatus(ConversationInteractionStatus.Error));
       } finally {
         setIsLoading(false);
-        window.inboxStore?.dispatch(
-          updateConfirmModalStatus(ConversationInteractionStatus.Success)
-        );
       }
     }
 
@@ -114,22 +113,19 @@ export const SessionConfirm = (props: SessionConfirmDialogProps) => {
     if (onClickClose) {
       onClickClose();
     }
-
-    // We clear and close the modal but maintain the confirmation status
-    window.inboxStore?.dispatch(updateConfirmModal({ status: props.status }));
   };
 
   useEffect(() => {
     if (isLoading) {
-      window.inboxStore?.dispatch(updateConfirmModalStatus(ConversationInteractionStatus.Loading));
+      if (conversationId && interactionProps?.interactionType) {
+        void updateConversationInteractionState({
+          conversationId,
+          type: interactionProps?.interactionType,
+          status: ConversationInteractionStatus.Loading,
+        });
+      }
     }
-  }, [isLoading]);
-
-  useEffect(() => {
-    window.log.debug(
-      `WIP: SessionConfirm updating status for ${props.conversationId} to ${props.confirmationType} ${props.status}`
-    );
-  }, [props.conversationId, props.confirmationType, props.status]);
+  }, [isLoading, conversationId, interactionProps?.interactionType]);
 
   return (
     <SessionWrapperModal

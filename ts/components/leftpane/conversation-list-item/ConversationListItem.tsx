@@ -15,7 +15,7 @@ import { updateUserDetailsModal } from '../../../state/ducks/modalDialog';
 import _, { isNil } from 'lodash';
 import {
   useAvatarPath,
-  useConfirmModalStatusAndType,
+  useConversationInteractionState,
   useConversationUsername,
   useHasUnread,
   useIsBlocked,
@@ -82,7 +82,7 @@ const ConversationListItem = (props: Props) => {
   let isBlocked = useIsBlocked(conversationId);
   const isSearch = useSelector(isSearching);
   const selectedConvo = useSelectedConversationKey();
-  const confirmModal = useConfirmModalStatusAndType();
+  const conversationInteractionProps = useConversationInteractionState(conversationId);
 
   const isSelectedConvo = conversationId === selectedConvo && !isNil(selectedConvo);
 
@@ -132,8 +132,8 @@ const ConversationListItem = (props: Props) => {
           <AvatarItem />
           <div className="module-conversation-list-item__content">
             <ConversationListItemHeaderItem />
-            {confirmModal?.conversationId === conversationId && confirmModal?.type ? (
-              <InteractionItem {...confirmModal} />
+            {conversationInteractionProps?.interactionType ? (
+              <InteractionItem {...conversationInteractionProps} />
             ) : (
               <MessageItem />
             )}

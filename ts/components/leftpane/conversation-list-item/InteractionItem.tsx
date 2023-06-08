@@ -4,30 +4,34 @@ import { isEmpty } from 'lodash';
 import { useIsPrivate, useIsPublic } from '../../../hooks/useParamSelector';
 import { MessageBody } from '../../conversation/message/message-content/MessageBody';
 import { assertUnreachable } from '../../../types/sqlSharedTypes';
-import { ConfirmationStatus } from '../../dialog/SessionConfirm';
 import {
   ConversationInteractionStatus,
   ConversationInteractionType,
 } from '../../../interactions/conversationInteractions';
+import styled from 'styled-components';
 
-type InteractionItemProps = {
-  status: ConfirmationStatus | undefined;
-  type: ConversationInteractionType | undefined;
-  conversationId: string | undefined;
+const StyledInteractionItemText = styled.div<{ isError: boolean }>`
+  ${props => props.isError && 'color: var(--danger-color) !important;'}
+`;
+
+export type InteractionItemProps = {
+  conversationId?: string;
+  interactionType?: ConversationInteractionType;
+  interactionStatus?: ConversationInteractionStatus;
 };
 
 export const InteractionItem = (props: InteractionItemProps) => {
-  const { status, type, conversationId } = props;
+  const { conversationId, interactionStatus, interactionType } = props;
   const isGroup = !useIsPrivate(conversationId);
   const isCommunity = useIsPublic(conversationId);
 
-  if (!type) {
+  if (!conversationId || !interactionType) {
     return null;
   }
 
   let text = '';
-  window.log.debug(`WIP: InteractionItem updating status for ${type} ${status}`);
-  switch (type) {
+
+  switch (interactionType) {
     case ConversationInteractionType.Leave:
       const failText = isCommunity
         ? ''
@@ -36,14 +40,14 @@ export const InteractionItem = (props: InteractionItemProps) => {
         : window.i18n('deleteConversationFailed');
 
       text =
-        status === ConversationInteractionStatus.Error
+        interactionStatus === ConversationInteractionStatus.Error
           ? failText
-          : status === ConversationInteractionStatus.Loading
+          : interactionStatus === ConversationInteractionStatus.Loading
           ? window.i18n('leaving')
           : '';
       break;
     default:
-      assertUnreachable(type, `MessageItem: Missing case error "${type}"`);
+      assertUnreachable(interactionType, `MessageItem: Missing case error "${interactionType}"`);
   }
 
   if (isEmpty(text)) {
@@ -52,9 +56,12 @@ export const InteractionItem = (props: InteractionItemProps) => {
 
   return (
     <div className="module-conversation-list-item__message">
-      <div className="module-conversation-list-item__message__text">
+      <StyledInteractionItemText
+        className="module-conversation-list-item__message__text"
+        isError={Boolean(interactionStatus === ConversationInteractionStatus.Error)}
+      >
         <MessageBody text={text} disableJumbomoji={true} disableLinks={true} isGroup={isGroup} />
-      </div>
+      </StyledInteractionItemText>
     </div>
   );
 };

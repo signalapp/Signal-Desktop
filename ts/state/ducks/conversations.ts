@@ -1109,5 +1109,3 @@ export async function openConversationToSpecificMessage(args: {
     })
   );
 }
-
-// export async function updateActionConfirmationStatus
