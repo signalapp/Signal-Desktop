@@ -3,11 +3,13 @@
 
 import type Quill from 'quill';
 import type { KeyboardContext } from 'quill';
+import type Op from 'quill-delta/dist/Op';
 import React from 'react';
 import classNames from 'classnames';
 import { Popper } from 'react-popper';
 import { createPortal } from 'react-dom';
 import type { VirtualElement } from '@popperjs/core';
+import { isString } from 'lodash';
 
 import * as log from '../../logging/log';
 import * as Errors from '../../types/errors';
@@ -52,6 +54,14 @@ function getMetaKey(platform: string, i18n: LocalizerType) {
     return '⌘';
   }
   return i18n('icu:Keyboard--Key--ctrl');
+}
+
+function isAllNewlines(ops: Array<Op>): boolean {
+  return ops.every(isNewlineOnlyOp);
+}
+
+export function isNewlineOnlyOp(op: Op): boolean {
+  return isString(op.insert) && /^\n+$/gm.test(op.insert);
 }
 
 export class FormattingMenu {
@@ -181,12 +191,12 @@ export class FormattingMenu {
       return;
     }
 
-    // Note: we special-case single \n ops because Quill doesn't apply formatting to them
+    // Note: we special-case all-newline ops because Quill doesn't apply styles to them
     const contents = this.quill.getContents(
       quillSelection.index,
       quillSelection.length
     );
-    if (contents.length() === 1 && contents.ops[0].insert === '\n') {
+    if (isAllNewlines(contents.ops)) {
       this.scheduleRemoval();
       return;
     }
@@ -261,13 +271,12 @@ export class FormattingMenu {
     const contents = this.quill.getContents(selection.index, selection.length);
 
     // Note: we special-case single \n ops because Quill doesn't apply formatting to them
-    if (contents.length() === 1 && contents.ops[0].insert === '\n') {
-      this.scheduleRemoval();
+    if (isAllNewlines(contents.ops)) {
       return false;
     }
 
     return contents.ops.every(
-      op => op.attributes?.[style] || op.insert === '\n'
+      op => op.attributes?.[style] || isNewlineOnlyOp(op)
     );
   }
 

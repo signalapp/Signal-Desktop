@@ -13,7 +13,7 @@ import type {
 } from '../types/BodyRange';
 import { BodyRange } from '../types/BodyRange';
 import type { MentionBlot } from './mentions/blot';
-import { QuillFormattingStyle } from './formatting/menu';
+import { isNewlineOnlyOp, QuillFormattingStyle } from './formatting/menu';
 import { isNotNil } from '../util/isNotNil';
 
 export type MentionBlotValue = {
@@ -165,8 +165,8 @@ export const getTextAndRangesFromOps = (
   };
 
   const preTrimText = ops.reduce((acc, op) => {
-    // We special-case single-newline ops because Quill doesn't apply styles to them
-    if (op.insert === '\n') {
+    // We special-case all-newline ops because Quill doesn't apply styles to them
+    if (isNewlineOnlyOp(op)) {
       return acc + op.insert;
     }
 
