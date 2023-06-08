@@ -91,8 +91,7 @@ export class Agent extends HTTPSAgent {
         port,
         tlsOptions: {
           ca: options.ca,
-          host: dropNull(options.host),
-          servername: options.servername,
+          servername: options.servername ?? dropNull(options.host),
         },
       });
 
