@@ -269,7 +269,15 @@ export function useIsTyping(conversationId?: string): boolean {
   return useConversationPropsById(conversationId)?.isTyping || false;
 }
 
-export function useConversationInteractionState(
+export function useLastMessage(convoId: string) {
+  const convoProps = useConversationPropsById(convoId);
+  if (!convoProps) {
+    return null;
+  }
+  return convoProps.lastMessage;
+}
+
+export function useConversationInteractionPropsById(
   conversationId?: string
 ): ConversationInteractionProps | null {
   if (!conversationId) {
@@ -277,19 +285,13 @@ export function useConversationInteractionState(
   }
 
   const convoProps = useConversationPropsById(conversationId);
-  if (!convoProps) {
+
+  if (!convoProps || !convoProps.interactionType || !convoProps.interactionStatus) {
     return null;
   }
 
   const interactionType = convoProps.interactionType;
   const interactionStatus = convoProps.interactionStatus;
-
-  if (!interactionType || !interactionStatus) {
-    window.log.warn(
-      `useConversationInteractionState() missing interactionType or interactionStatus`
-    );
-    return null;
-  }
 
   return { conversationId, interactionType, interactionStatus };
 }

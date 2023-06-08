@@ -14,7 +14,7 @@ import {
   ConversationInteractionType,
   updateConversationInteractionState,
 } from '../../interactions/conversationInteractions';
-import { useConversationInteractionState } from '../../hooks/useParamSelector';
+import { useConversationInteractionPropsById } from '../../hooks/useParamSelector';
 
 // NOTE could be other confirmation statuses and types in future
 export type ConfirmationStatus = ConversationInteractionStatus | undefined;
@@ -71,7 +71,7 @@ export const SessionConfirm = (props: SessionConfirmDialogProps) => {
     conversationId,
   } = props;
 
-  const interactionProps = useConversationInteractionState(conversationId);
+  const interactionProps = useConversationInteractionPropsById(conversationId);
 
   const [isLoading, setIsLoading] = useState(false);
 
