@@ -4,8 +4,9 @@
 import { Agent as HTTPSAgent } from 'https';
 import type { AgentOptions, RequestOptions } from 'https';
 import type { LookupAddress } from 'dns';
-import net from 'net';
+import type net from 'net';
 import tls from 'tls';
+import type { ConnectionOptions } from 'tls';
 import { callbackify, promisify } from 'util';
 import pTimeout from 'p-timeout';
 
@@ -16,9 +17,11 @@ import { parseIntOrThrow } from './parseIntOrThrow';
 import { sleep } from './sleep';
 import { SECOND } from './durations';
 import { dropNull } from './dropNull';
+import { explodePromise } from './explodePromise';
 
-// See https://www.rfc-editor.org/rfc/rfc8305#section-8
-const DELAY_MS = 250;
+// https://www.rfc-editor.org/rfc/rfc8305#section-8 recommends 250ms, but since
+// we also try to establish a TLS session - use higher value.
+const DELAY_MS = 500;
 
 // Warning threshold
 const CONNECT_THRESHOLD_MS = SECOND;
@@ -83,16 +86,21 @@ export class Agent extends HTTPSAgent {
 
       const start = Date.now();
 
-      const { socket, address, v4Attempts, v6Attempts } = await happyEyeballs(
-        interleaved,
-        port
-      );
+      const { socket, address, v4Attempts, v6Attempts } = await happyEyeballs({
+        addrs: interleaved,
+        port,
+        tlsOptions: {
+          ca: options.ca,
+          host: dropNull(options.host),
+          servername: options.servername,
+        },
+      });
 
       const duration = Date.now() - start;
       const logLine =
         `createHTTPSAgent.createConnection(${host}): connected to ` +
         `IPv${address.family} addr after ${duration}ms ` +
-        `(v4_attempts=${v4Attempts} v6_attempts=${v6Attempts})`;
+        `(attempts v4=${v4Attempts} v6=${v6Attempts})`;
 
       if (v4Attempts + v6Attempts > 1 || duration > CONNECT_THRESHOLD_MS) {
         log.warn(logLine);
@@ -100,15 +108,16 @@ export class Agent extends HTTPSAgent {
         log.info(logLine);
       }
 
-      return tls.connect({
-        socket,
-        ca: options.ca,
-        host: dropNull(options.host),
-        servername: options.servername,
-      });
+      return socket;
     }
   );
 }
+
+export type HappyEyeballsOptions = Readonly<{
+  addrs: ReadonlyArray<LookupAddress>;
+  port?: number;
+  tlsOptions: ConnectionOptions;
+}>;
 
 export type HappyEyeballsResult = Readonly<{
   socket: net.Socket;
@@ -117,10 +126,11 @@ export type HappyEyeballsResult = Readonly<{
   v6Attempts: number;
 }>;
 
-export async function happyEyeballs(
-  addrs: ReadonlyArray<LookupAddress>,
-  port = 443
-): Promise<HappyEyeballsResult> {
+export async function happyEyeballs({
+  addrs,
+  port = 443,
+  tlsOptions,
+}: HappyEyeballsOptions): Promise<HappyEyeballsResult> {
   const abortControllers = addrs.map(() => new AbortController());
 
   let v4Attempts = 0;
@@ -142,8 +152,13 @@ export async function happyEyeballs(
       const socket = await connect({
         address: addr.address,
         port,
+        tlsOptions,
         abortSignal: abortController.signal,
       });
+
+      if (abortController.signal.aborted) {
+        throw new Error('Aborted');
+      }
 
       // Abort other connection attempts
       for (const otherController of abortControllers) {
@@ -186,6 +201,7 @@ export async function happyEyeballs(
 type DelayedConnectOptionsType = Readonly<{
   port: number;
   address: string;
+  tlsOptions: ConnectionOptions;
   abortSignal?: AbortSignal;
   timeout?: number;
 }>;
@@ -193,20 +209,31 @@ type DelayedConnectOptionsType = Readonly<{
 async function connect({
   port,
   address,
+  tlsOptions,
   abortSignal,
   timeout = CONNECT_TIMEOUT_MS,
 }: DelayedConnectOptionsType): Promise<net.Socket> {
-  const socket = new net.Socket({
+  const socket = tls.connect(port, address, {
+    ...tlsOptions,
     signal: abortSignal,
   });
 
   return pTimeout(
-    new Promise((resolve, reject) => {
-      socket.once('connect', () => resolve(socket));
-      socket.once('error', err => reject(err));
+    (async () => {
+      const { promise: onHandshake, resolve, reject } = explodePromise<void>();
 
-      socket.connect(port, address);
-    }),
+      socket.once('secureConnect', resolve);
+      socket.once('error', reject);
+
+      try {
+        await onHandshake;
+      } finally {
+        socket.removeListener('secureConnect', resolve);
+        socket.removeListener('error', reject);
+      }
+
+      return socket;
+    })(),
     timeout,
     'createHTTPSAgent.connect: connection timed out'
   );
