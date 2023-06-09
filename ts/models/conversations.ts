@@ -4908,7 +4908,7 @@ export class ConversationModel extends window.Backbone
     return getProfileName(this.attributes);
   }
 
-  getNumber(): string {
+  getNumber(): string | undefined {
     return getNumber(this.attributes);
   }
 
