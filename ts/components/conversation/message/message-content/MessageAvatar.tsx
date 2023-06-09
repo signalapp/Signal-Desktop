@@ -35,10 +35,10 @@ export type MessageAvatarSelectorProps = Pick<
   | 'lastMessageOfSeries'
 >;
 
-type Props = { messageId: string; hideAvatar: boolean };
+type Props = { messageId: string; hideAvatar: boolean; isPrivate: boolean };
 
 export const MessageAvatar = (props: Props) => {
-  const { messageId, hideAvatar } = props;
+  const { messageId, hideAvatar, isPrivate } = props;
 
   const dispatch = useDispatch();
   const avatarProps = useSelector(state => getMessageAvatarProps(state as any, messageId));
@@ -126,7 +126,10 @@ export const MessageAvatar = (props: Props) => {
   return (
     <StyledAvatar
       key={`msg-avatar-${sender}`}
-      style={{ visibility: hideAvatar ? 'hidden' : undefined }}
+      style={{
+        visibility: hideAvatar ? 'hidden' : undefined,
+        display: isPrivate && hideAvatar ? 'none' : undefined,
+      }}
     >
       <Avatar size={AvatarSize.S} onAvatarClick={onMessageAvatarClick} pubkey={sender} />
       {isSenderAdmin && <CrownIcon />}

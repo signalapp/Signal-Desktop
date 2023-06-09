@@ -94,7 +94,9 @@ export const MessageContentWithStatuses = (props: Props) => {
   }
   const { conversationType, direction, isDeleted } = contentProps;
   const isIncoming = direction === 'incoming';
-  const hideAvatar = conversationType !== 'group' || direction === 'outgoing';
+
+  const isPrivate = conversationType === 'private';
+  const hideAvatar = isPrivate || direction === 'outgoing';
 
   const [popupReaction, setPopupReaction] = useState('');
 
@@ -120,7 +122,7 @@ export const MessageContentWithStatuses = (props: Props) => {
         onDoubleClickCapture={onDoubleClickReplyToMessage}
         data-testid={dataTestId}
       >
-        <MessageAvatar messageId={messageId} hideAvatar={hideAvatar} />
+        <MessageAvatar messageId={messageId} hideAvatar={hideAvatar} isPrivate={isPrivate} />
         <MessageStatus
           dataTestId="msg-status-incoming"
           messageId={messageId}
