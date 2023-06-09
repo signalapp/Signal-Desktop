@@ -326,13 +326,20 @@ export default class AccountManager extends EventTarget {
   async refreshPreKeys(uuidKind: UUIDKind): Promise<void> {
     return this.queueTask(async () => {
       const preKeyCount = await this.server.getMyKeys(uuidKind);
-      log.info(`prekey count ${preKeyCount}`);
+      log.info(
+        `refreshPreKeys(${uuidKind}): Server prekey count is ${preKeyCount}`
+      );
       if (preKeyCount >= 10) {
         return;
       }
+
       const keys = await this.generateKeys(SIGNED_KEY_GEN_BATCH_SIZE, uuidKind);
       await this.server.registerKeys(keys, uuidKind);
-      await this.confirmKeys(keys, uuidKind);
+
+      const updatedCount = await this.server.getMyKeys(uuidKind);
+      log.info(
+        `refreshPreKeys(${uuidKind}): Successfully updated; server count is now ${updatedCount}`
+      );
     });
   }
 

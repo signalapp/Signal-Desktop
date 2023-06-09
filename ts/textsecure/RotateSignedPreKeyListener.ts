@@ -58,6 +58,13 @@ export class RotateSignedPreKeyListener {
         accountManager.rotateSignedPreKey(UUIDKind.ACI),
         accountManager.rotateSignedPreKey(UUIDKind.PNI),
       ]);
+
+      // We try to update this whenever we remove a preKey; this is a fail-safe to ensure
+      //   we're always in good shape
+      await Promise.all([
+        accountManager.refreshPreKeys(UUIDKind.ACI),
+        accountManager.refreshPreKeys(UUIDKind.PNI),
+      ]);
       this.scheduleNextRotation();
       this.setTimeoutForNextRun();
     } catch (error) {
