@@ -31,7 +31,7 @@ export const MessageItem = () => {
   const interactionProps = useConversationInteractionPropsById(conversationId);
 
   if (!isConvoTyping && interactionProps) {
-    return <InteractionItem {...interactionProps} />;
+    return <InteractionItem lastMessage={lastMessage} {...interactionProps} />;
   }
 
   if (!lastMessage && !isConvoTyping) {
