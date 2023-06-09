@@ -119,6 +119,10 @@ export const MessageAvatar = (props: Props) => {
     );
   }, [userName, sender, isPublic, authorAvatarPath, selectedConvoKey]);
 
+  if (isPrivate) {
+    return null;
+  }
+
   if (!lastMessageOfSeries) {
     return <div style={{ marginInlineEnd: '60px' }} key={`msg-avatar-${sender}`} />;
   }
@@ -128,7 +132,6 @@ export const MessageAvatar = (props: Props) => {
       key={`msg-avatar-${sender}`}
       style={{
         visibility: hideAvatar ? 'hidden' : undefined,
-        display: isPrivate && hideAvatar ? 'none' : undefined,
       }}
     >
       <Avatar size={AvatarSize.S} onAvatarClick={onMessageAvatarClick} pubkey={sender} />
