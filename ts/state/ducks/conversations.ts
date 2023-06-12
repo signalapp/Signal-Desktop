@@ -3887,7 +3887,6 @@ function showConversation({
 
     // notify composer in case we need to stop recording a voice note
     if (conversations.selectedConversationId) {
-      log.error('conversations - handleLeave');
       dispatch(handleLeaveConversation(conversations.selectedConversationId));
     }
 
