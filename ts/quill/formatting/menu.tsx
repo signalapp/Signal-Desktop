@@ -61,7 +61,7 @@ function isAllNewlines(ops: Array<Op>): boolean {
 }
 
 export function isNewlineOnlyOp(op: Op): boolean {
-  return isString(op.insert) && /^\n+$/gm.test(op.insert);
+  return isString(op.insert) && /^\n+$/g.test(op.insert);
 }
 
 export class FormattingMenu {
