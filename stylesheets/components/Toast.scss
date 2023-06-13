@@ -6,68 +6,55 @@
 
   @include font-body-2;
 
-  align-items: center;
+  position: absolute;
+  align-items: stretch;
   border-radius: $border-radius-px;
   box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.05), 0px 4px 12px rgba(0, 0, 0, 0.3);
   display: flex;
   justify-content: space-between;
-  @include position-absolute-center-x;
-  text-align: center;
   user-select: none;
   overflow: hidden;
   z-index: $z-index-toast;
   bottom: 62px;
+  max-width: 280px;
+  background-color: $color-gray-75;
+  color: $color-gray-05;
+  outline: none;
 
-  @include light-theme {
-    background-color: $color-gray-80;
-    color: $color-white;
+  &:focus:focus-visible {
+    box-shadow: inset 0px 0px 0px 2px $color-ultramarine;
   }
-  @include dark-theme {
-    background-color: $color-gray-75;
-    color: $color-gray-05;
+
+  &--align-center {
+    @include position-absolute-center-x;
+    text-align: center;
   }
 
   &--align-left {
     inset-inline-start: 20px;
     bottom: 18px;
+    text-align: start;
   }
 
   &__content {
-    padding-block: 8px;
-    padding-inline: 12px;
+    padding-block: 13px;
+    padding-inline: 16px;
   }
 
   &__button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     @include font-body-2-bold;
     cursor: pointer;
-    padding-block: 8px;
-    padding-inline: 12px;
+    padding-block: 13px;
+    padding-inline: 16px;
     white-space: nowrap;
-
-    @include light-theme {
-      border-inline-start: 1px solid $color-gray-65;
-    }
-    @include dark-theme {
-      border-inline-start: 1px solid $color-gray-60;
-    }
-
+    color: $color-ultramarine-light;
     outline: none;
 
-    &:hover {
-      @include light-theme {
-        background-color: $color-gray-65;
-      }
-      @include dark-theme {
-        background-color: $color-gray-60;
-      }
-    }
-    &:focus {
-      @include keyboard-mode {
-        background-color: $color-gray-65;
-      }
-      @include dark-keyboard-mode {
-        background-color: $color-gray-60;
-      }
+    &:focus:focus-visible {
+      box-shadow: inset 0px 0px 0px 2px $color-ultramarine;
     }
   }
 }

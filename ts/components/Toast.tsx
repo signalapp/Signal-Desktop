@@ -11,7 +11,6 @@ import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
 export type PropsType = {
   autoDismissDisabled?: boolean;
   children: ReactNode;
-  align?: 'left' | 'center';
   className?: string;
   disableCloseOnClick?: boolean;
   onClose: () => unknown;
@@ -26,7 +25,6 @@ export type PropsType = {
 export const Toast = memo(function ToastInner({
   autoDismissDisabled = false,
   children,
-  align = 'center',
   className,
   disableCloseOnClick = false,
   onClose,
@@ -36,6 +34,31 @@ export const Toast = memo(function ToastInner({
 }: PropsType): JSX.Element | null {
   const [root, setRoot] = React.useState<HTMLElement | null>(null);
   const [focusRef] = useRestoreFocus();
+  const [align, setAlign] = React.useState<'left' | 'center'>('left');
+
+  useEffect(() => {
+    function updateAlign() {
+      const leftPane = document.querySelector('.module-left-pane');
+      const composer = document.querySelector(
+        '.ConversationView__composition-area'
+      );
+
+      if (
+        leftPane != null &&
+        composer != null &&
+        leftPane.classList.contains('module-left-pane--width-narrow')
+      ) {
+        setAlign('center');
+        return;
+      }
+
+      setAlign('left');
+    }
+
+    updateAlign();
+
+    return window.reduxStore.subscribe(updateAlign);
+  }, []);
 
   useEffect(() => {
     const div = document.createElement('div');
