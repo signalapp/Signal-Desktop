@@ -127,68 +127,22 @@ export const DeletePrivateContactMenuItem = () => {
   return null;
 };
 
-export const DeleteGroupOrCommunityMenuItem = () => {
-  const dispatch = useDispatch();
-  const convoId = useConvoIdFromContext();
-  const isPublic = useIsPublic(convoId);
-  const isLeft = useIsLeft(convoId);
-  const isKickedFromGroup = useIsKickedFromGroup(convoId);
-  const isPrivate = useIsPrivate(convoId);
-  const isGroup = !isPrivate && !isPublic;
-
-  // You need to have left a closed group first to be able to delete it completely as there is a leaving message to send first.
-  // A community can just be removed right away.
-  if (isPublic || (isGroup && (isLeft || isKickedFromGroup))) {
-    const menuItemText = isPublic ? window.i18n('leaveGroup') : window.i18n('editMenuDeleteGroup');
-
-    const onClickClose = () => {
-      dispatch(updateConfirmModal(null));
-    };
-
-    const showConfirmationModal = () => {
-      dispatch(
-        updateConfirmModal({
-          title: menuItemText,
-          message: window.i18n('leaveGroupConfirmation'),
-          onClickClose,
-          okTheme: SessionButtonColor.Danger,
-          onClickOk: async () => {
-            if (isPublic) {
-              await getConversationController().deleteCommunity(convoId, {
-                fromSyncMessage: false,
-              });
-            } else {
-              await getConversationController().deleteClosedGroup(convoId, {
-                fromSyncMessage: false,
-                sendLeaveMessage: true,
-              });
-            }
-          },
-        })
-      );
-    };
-
-    return <Item onClick={showConfirmationModal}>{menuItemText}</Item>;
-  }
-  return null;
-};
-
-export const LeaveGroupMenuItem = () => {
+export const LeaveGroupOrCommunityMenuItem = () => {
   const convoId = useConvoIdFromContext();
   const username = useConversationUsername(convoId) || convoId;
-  const isPublic = useIsPublic(convoId);
   const isLeft = useIsLeft(convoId);
   const isKickedFromGroup = useIsKickedFromGroup(convoId);
   const isPrivate = useIsPrivate(convoId);
+  const isPublic = useIsPublic(convoId);
 
-  if (!isKickedFromGroup && !isLeft && !isPrivate && !isPublic) {
+  if (!isKickedFromGroup && !isLeft && !isPrivate) {
     return (
       <Item
         onClick={() => {
           showLeaveGroupByConvoId(convoId, username);
         }}
       >
-        {window.i18n('leaveGroup')}
+        {isPublic ? window.i18n('leaveCommunity') : window.i18n('leaveGroup')}
       </Item>
     );
   }
