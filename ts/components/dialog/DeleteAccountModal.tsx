@@ -12,6 +12,8 @@ import { SessionWrapperModal } from '../SessionWrapperModal';
 import { Data } from '../../data/data';
 import { deleteAllLogs } from '../../node/logs';
 import { SessionRadioGroup } from '../basic/SessionRadioGroup';
+import { clearInbox } from '../../session/apis/open_group_api/sogsv3/sogsV3ClearInbox';
+import { getAllValidOpenGroupV2ConversationRoomInfos } from '../../session/apis/open_group_api/utils/OpenGroupUtils';
 
 const deleteDbLocally = async () => {
   window?.log?.info('last message sent successfully. Deleting everything');
@@ -56,6 +58,24 @@ async function deleteEverythingAndNetworkData() {
   try {
     // DELETE EVERYTHING ON NETWORK, AND THEN STUFF LOCALLY STORED
     // a bit of duplicate code below, but it's easier to follow every case like that (helped with returns)
+
+    // clear all sogs inboxes (includes message requests)
+    const allRoomInfos = await getAllValidOpenGroupV2ConversationRoomInfos();
+    if (allRoomInfos && allRoomInfos.size > 0) {
+      // clear each inbox per sogs
+      for (const roomInfo of allRoomInfos.values()) {
+        // TODO CONTINUE testing - use a dummy account with some message requests and then if we restore from seed there should be no message requests.
+        try {
+          const success = await clearInbox(roomInfo);
+          if (!success) {
+            throw Error(`Failed to clear inbox for ${roomInfo.conversationId}`);
+          }
+        } catch (error) {
+          window.log.info('DeleteAccount =>', error);
+          continue;
+        }
+      }
+    }
 
     // send deletion message to the network
     const potentiallyMaliciousSnodes = await SnodeAPI.forceNetworkDeletion();
@@ -192,6 +212,7 @@ export const DeleteAccountModal = () => {
       }
     }
   };
+
   const onDeleteEverythingAndNetworkData = async () => {
     if (!isLoading) {
       setIsLoading(true);

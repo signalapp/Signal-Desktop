@@ -2,12 +2,14 @@
 
 import { AbortController } from 'abort-controller';
 import ByteBuffer from 'bytebuffer';
-import _, { isEmpty, isNil, isString, sample } from 'lodash';
+import _, { isEmpty, isNil, isString, sample, toNumber } from 'lodash';
 import pRetry from 'p-retry';
 import { Data } from '../../../ts/data/data';
 import { SignalService } from '../../protobuf';
 import { OpenGroupRequestCommonType } from '../apis/open_group_api/opengroupV2/ApiUtil';
 import { OpenGroupMessageV2 } from '../apis/open_group_api/opengroupV2/OpenGroupMessageV2';
+import { fromUInt8ArrayToBase64 } from '../utils/String';
+import { EmptySwarmError } from '../utils/errors';
 import {
   sendMessageOnionV4BlindedRequest,
   sendSogsMessageOnionV4,
@@ -35,8 +37,6 @@ import { OpenGroupVisibleMessage } from '../messages/outgoing/visibleMessage/Ope
 import { ed25519Str } from '../onions/onionPath';
 import { PubKey } from '../types';
 import { RawMessage } from '../types/RawMessage';
-import { EmptySwarmError } from '../utils/errors';
-import { fromUInt8ArrayToBase64 } from '../utils/String';
 
 // ================ SNODE STORE ================
 
@@ -47,7 +47,7 @@ function overwriteOutgoingTimestampWithNetworkTimestamp(message: { plainTextBuff
   const contentDecoded = SignalService.Content.decode(plainTextBuffer);
 
   const { dataMessage, dataExtractionNotification, typingMessage } = contentDecoded;
-  if (dataMessage && dataMessage.timestamp && dataMessage.timestamp > 0) {
+  if (dataMessage && dataMessage.timestamp && toNumber(dataMessage.timestamp) > 0) {
     // this is a sync message, do not overwrite the message timestamp
     if (dataMessage.syncTarget) {
       return {
@@ -60,11 +60,11 @@ function overwriteOutgoingTimestampWithNetworkTimestamp(message: { plainTextBuff
   if (
     dataExtractionNotification &&
     dataExtractionNotification.timestamp &&
-    dataExtractionNotification.timestamp > 0
+    toNumber(dataExtractionNotification.timestamp) > 0
   ) {
     dataExtractionNotification.timestamp = networkTimestamp;
   }
-  if (typingMessage && typingMessage.timestamp && typingMessage.timestamp > 0) {
+  if (typingMessage && typingMessage.timestamp && toNumber(typingMessage.timestamp) > 0) {
     typingMessage.timestamp = networkTimestamp;
   }
   const overRiddenTimestampBuffer = SignalService.Content.encode(contentDecoded).finish();

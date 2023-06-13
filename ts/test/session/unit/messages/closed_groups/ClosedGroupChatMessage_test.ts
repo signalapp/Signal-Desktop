@@ -14,12 +14,14 @@ describe('ClosedGroupVisibleMessage', () => {
     groupId = TestUtils.generateFakePubKey();
   });
   it('can create empty message with timestamp, groupId and chatMessage', () => {
+    const timestamp = Date.now();
     const chatMessage = new VisibleMessage({
-      timestamp: Date.now(),
+      timestamp,
       body: 'body',
     });
     const message = new ClosedGroupVisibleMessage({
       groupId,
+      timestamp,
       chatMessage,
     });
     const plainText = message.plainTextBuffer();
@@ -43,22 +45,26 @@ describe('ClosedGroupVisibleMessage', () => {
   });
 
   it('correct ttl', () => {
+    const timestamp = Date.now();
     const chatMessage = new VisibleMessage({
-      timestamp: Date.now(),
+      timestamp,
     });
     const message = new ClosedGroupVisibleMessage({
       groupId,
+      timestamp,
       chatMessage,
     });
     expect(message.ttl()).to.equal(Constants.TTL_DEFAULT.TTL_MAX);
   });
 
   it('has an identifier', () => {
+    const timestamp = Date.now();
     const chatMessage = new VisibleMessage({
-      timestamp: Date.now(),
+      timestamp,
     });
     const message = new ClosedGroupVisibleMessage({
       groupId,
+      timestamp,
       chatMessage,
     });
     expect(message.identifier).to.not.equal(null, 'identifier cannot be null');
@@ -66,13 +72,15 @@ describe('ClosedGroupVisibleMessage', () => {
   });
 
   it('should use the identifier passed into it over the one set in chatMessage', () => {
+    const timestamp = Date.now();
     const chatMessage = new VisibleMessage({
-      timestamp: Date.now(),
+      timestamp,
       body: 'body',
       identifier: 'chatMessage',
     });
     const message = new ClosedGroupVisibleMessage({
       groupId,
+      timestamp,
       chatMessage,
       identifier: 'closedGroupMessage',
     });
@@ -80,13 +88,15 @@ describe('ClosedGroupVisibleMessage', () => {
   });
 
   it('should use the identifier of the chatMessage if one is not specified on the closed group message', () => {
+    const timestamp = Date.now();
     const chatMessage = new VisibleMessage({
-      timestamp: Date.now(),
+      timestamp,
       body: 'body',
       identifier: 'chatMessage',
     });
     const message = new ClosedGroupVisibleMessage({
       groupId,
+      timestamp,
       chatMessage,
     });
     expect(message.identifier).to.be.equal('chatMessage');

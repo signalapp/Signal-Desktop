@@ -33,6 +33,7 @@ import {
 } from '../database_utility';
 
 import { getIdentityKeys, sqlNode } from '../sql';
+import { FEATURE_RELEASE_TIMESTAMPS } from '../../session/constants';
 
 const hasDebugEnvVariable = Boolean(process.env.SESSION_DEBUG);
 
@@ -100,6 +101,7 @@ const LOKI_SCHEMA_VERSIONS = [
   updateToSessionSchemaVersion29,
   updateToSessionSchemaVersion30,
   updateToSessionSchemaVersion31,
+  updateToSessionSchemaVersion32,
 ];
 
 function updateToSessionSchemaVersion1(currentVersion: number, db: BetterSqlite3.Database) {
@@ -1832,8 +1834,62 @@ function updateToSessionSchemaVersion31(currentVersion: number, db: BetterSqlite
   })();
 }
 
-export function printTableColumns(table: string, db: BetterSqlite3.Database) {
-  console.info(db.pragma(`table_info('${table}');`));
+function updateToSessionSchemaVersion32(currentVersion: number, db: BetterSqlite3.Database) {
+  const targetVersion = 32;
+  if (currentVersion >= targetVersion) {
+    return;
+  }
+
+  console.log(`updateToSessionSchemaVersion${targetVersion}: starting...`);
+  db.transaction(() => {
+    // Conversation changes
+    db.prepare(
+      `ALTER TABLE ${CONVERSATIONS_TABLE} ADD COLUMN expirationType TEXT DEFAULT "off";`
+    ).run();
+
+    db.prepare(
+      `ALTER TABLE ${CONVERSATIONS_TABLE} ADD COLUMN lastDisappearingMessageChangeTimestamp INTEGER DEFAULT 0;`
+    ).run();
+
+    db.prepare(`ALTER TABLE ${CONVERSATIONS_TABLE} ADD COLUMN hasOutdatedClient TEXT;`).run();
+
+    // support disppearing messages legacy mode until after the platform agreed timestamp
+    if (Date.now() < FEATURE_RELEASE_TIMESTAMPS.DISAPPEARING_MESSAGES_V2) {
+      db.prepare(
+        `UPDATE ${CONVERSATIONS_TABLE} SET
+      expirationType = $expirationType
+      WHERE expireTimer > 0;`
+      ).run({ expirationType: 'legacy' });
+    } else {
+      db.prepare(
+        `UPDATE ${CONVERSATIONS_TABLE} SET
+      expirationType = $expirationType
+      WHERE type = 'private' AND expireTimer > 0;`
+      ).run({ expirationType: 'deleteAfterRead' });
+
+      // TODO Audric update this to support model changes for closed groups
+      db.prepare(
+        `UPDATE ${CONVERSATIONS_TABLE} SET
+      expirationType = $expirationType
+      WHERE type = 'group' AND is_medium_group = 1 AND expireTimer > 0;`
+      ).run({ expirationType: 'deleteAfterSend' });
+    }
+
+    // TODO After testing -> rename expireTimer column to expirationTimer everywhere.
+    // Update Conversation Model expireTimer calls everywhere
+    //  db.exec(
+    //    `ALTER TABLE ${CONVERSATIONS_TABLE} RENAME COLUMN expireTimer TO expirationTimer;`
+    //  );
+
+    // Message changes
+    db.prepare(`ALTER TABLE ${MESSAGES_TABLE} ADD COLUMN expirationType TEXT;`).run();
+
+    // TODO After testing -> rename expireTimer column to expirationTimer everywhere.
+    //  db.exec(
+    //    `ALTER TABLE ${MESSAGES_TABLE} RENAME COLUMN expireTimer TO expirationTimer;`
+    //  );
+    writeSessionSchemaVersion(targetVersion, db);
+  })();
 }
 
 function writeSessionSchemaVersion(newVersion: number, db: BetterSqlite3.Database) {

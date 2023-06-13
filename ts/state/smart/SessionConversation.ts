@@ -14,6 +14,7 @@ import {
 import {
   getSelectedConversation,
   getSelectedConversationKey,
+  getSelectedConversationExpirationSettings,
 } from '../selectors/selectedConversation';
 import { getStagedAttachmentsForCurrentConversation } from '../selectors/stagedAttachments';
 import { getTheme } from '../selectors/theme';
@@ -33,6 +34,7 @@ const mapStateToProps = (state: StateType) => {
     stagedAttachments: getStagedAttachmentsForCurrentConversation(state),
     hasOngoingCallWithFocusedConvo: getHasOngoingCallWithFocusedConvo(state),
     isSelectedConvoInitialLoadingInProgress: getIsSelectedConvoInitialLoadingInProgress(state),
+    selectedConversationExpirationSettings: getSelectedConversationExpirationSettings(state),
   };
 };
 

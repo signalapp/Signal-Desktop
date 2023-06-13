@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import { Data } from '../../data/data';
 import { SignalService } from '../../protobuf';
+import { setExpirationStartTimestamp } from '../../util/expiringMessages';
 import { PnServer } from '../apis/push_notification_api';
 import { OpenGroupVisibleMessage } from '../messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
 import { RawMessage } from '../types';
@@ -102,10 +103,7 @@ async function handleMessageSentSuccess(
   if (shouldTriggerSyncMessage) {
     if (dataMessage) {
       try {
-        await fetchedMessage.sendSyncMessage(
-          dataMessage as SignalService.DataMessage,
-          effectiveTimestamp
-        );
+        await fetchedMessage.sendSyncMessage(contentDecoded, effectiveTimestamp);
         const tempFetchMessage = await fetchHandleMessageSentData(sentMessage.identifier);
         if (!tempFetchMessage) {
           window?.log?.warn(
@@ -124,12 +122,42 @@ async function handleMessageSentSuccess(
 
   sentTo = _.union(sentTo, [sentMessage.device]);
 
+  const expirationType = fetchedMessage.get('expirationType');
+  // TODO legacy messages support will be removed in a future release
+  const convo = fetchedMessage.getConversation();
+  const isLegacyReadMode =
+    convo && !convo.isMe() && convo.isPrivate() && expirationType === 'legacy';
+  const isLegacySentMode =
+    convo && (convo.isMe() || convo.isMediumGroup()) && expirationType === 'legacy';
+
   fetchedMessage.set({
     sent_to: sentTo,
     sent: true,
-    expirationStartTimestamp: Date.now(),
     sent_at: effectiveTimestamp,
   });
+
+  // TODO legacy messages support will be removed in a future release
+  // NOTE we treat all outbound disappearing messages as read as soon as they are sent.
+  if (
+    (isLegacyReadMode ||
+      isLegacySentMode ||
+      expirationType === 'deleteAfterRead' ||
+      expirationType === 'deleteAfterSend') &&
+    Boolean(fetchedMessage.get('expirationStartTimestamp')) === false
+  ) {
+    const expirationMode =
+      isLegacyReadMode || expirationType === 'deleteAfterRead'
+        ? 'deleteAfterRead'
+        : 'deleteAfterSend';
+
+    fetchedMessage.set({
+      expirationStartTimestamp: setExpirationStartTimestamp(
+        expirationMode,
+        fetchedMessage.get('sent_at'),
+        isLegacyReadMode || isLegacySentMode
+      ),
+    });
+  }
 
   await fetchedMessage.commit();
   fetchedMessage.getConversation()?.updateLastMessage();
@@ -156,10 +184,6 @@ async function handleMessageSentFailure(
     if (isOurDevice && !fetchedMessage.get('sync')) {
       fetchedMessage.set({ sentSync: false });
     }
-
-    fetchedMessage.set({
-      expirationStartTimestamp: Date.now(),
-    });
   }
 
   // always mark the message as sent.
@@ -167,6 +191,8 @@ async function handleMessageSentFailure(
   fetchedMessage.set({
     sent: true,
   });
+
+  // We don't set the expirationStartTimestamp on a disappearing message here incase the user wishes to try and resend the message
 
   await fetchedMessage.commit();
   await fetchedMessage.getConversation()?.updateLastMessage();

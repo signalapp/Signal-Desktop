@@ -1,4 +1,4 @@
-.group-settings {
+.right-panel {
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -90,10 +90,10 @@
         .module-media-grid-item {
           height: calc(
             22vw / 4
-          ); //.group-settings is 22vw and we want three rows with some space so divide it by 4
+          ); //.right-panel is 22vw and we want three rows with some space so divide it by 4
           width: calc(
             22vw / 4
-          ); //.group-settings is 22vw and we want three rows with some space so divide it by 4
+          ); //.right-panel is 22vw and we want three rows with some space so divide it by 4
           margin: auto;
         }
       }

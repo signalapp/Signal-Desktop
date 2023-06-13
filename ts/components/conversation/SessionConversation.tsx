@@ -50,13 +50,14 @@ import { SplitViewContainer } from '../SplitViewContainer';
 import { SessionButtonColor } from '../basic/SessionButton';
 import { InConversationCallContainer } from '../calling/InConversationCallContainer';
 import { LightboxGallery, MediaItemType } from '../lightbox/LightboxGallery';
-import { ConversationHeaderWithDetails } from './ConversationHeader';
-import { SessionRightPanelWithDetails } from './SessionRightPanel';
 import { NoMessageInConversation } from './SubtleNotification';
+import { ConversationHeaderWithDetails } from './header/ConversationHeader';
 import { MessageDetail } from './message/message-item/MessageDetail';
 
 import styled from 'styled-components';
+import { NoticeBanner } from '../NoticeBanner';
 import { SessionSpinner } from '../basic/SessionSpinner';
+import { RightPanel } from './right-panel/RightPanel';
 // tslint:disable: jsx-curly-spacing
 
 interface State {
@@ -253,6 +254,19 @@ export class SessionConversation extends React.Component<Props, State> {
       <SessionTheme>
         <div className="conversation-header">
           <ConversationHeaderWithDetails />
+          {selectedConversation?.hasOutdatedClient &&
+            selectedConversation.hasOutdatedClient.length > 0 && (
+              <NoticeBanner
+                text={window.i18n('disappearingMessagesModeOutdated', [
+                  selectedConversation.hasOutdatedClient,
+                ])}
+                dismissCallback={async () => {
+                  const conversation = getConversationController().get(selectedConversation.id);
+                  conversation.set({ hasOutdatedClient: undefined });
+                  await conversation.commit();
+                }}
+              />
+            )}
         </div>
         {isSelectedConvoInitialLoadingInProgress ? (
           <ConvoLoadingSpinner />
@@ -298,7 +312,7 @@ export class SessionConversation extends React.Component<Props, State> {
                 isRightPanelShowing && 'show'
               )}
             >
-              <SessionRightPanelWithDetails />
+              <RightPanel />
             </div>
           </>
         )}

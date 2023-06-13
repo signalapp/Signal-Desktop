@@ -10,5 +10,6 @@ export abstract class ContentMessage extends Message {
   public ttl(): number {
     return TTL_DEFAULT.TTL_MAX;
   }
+
   public abstract contentProto(): SignalService.Content;
 }

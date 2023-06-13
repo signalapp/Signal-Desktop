@@ -37,7 +37,7 @@ async function updateProfileOfContact(
   profileKey: Uint8Array | null | undefined
 ) {
   const conversation = getConversationController().get(pubkey);
-
+  // TODO we should make sure that this function does not get call directly when `updateOurProfileSync` should be called instead. I.e. for avatars received in messages from ourself
   if (!conversation || !conversation.isPrivate()) {
     window.log.warn('updateProfileOfContact can only be used for existing and private convos');
     return;

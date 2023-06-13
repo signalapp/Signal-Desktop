@@ -4,30 +4,10 @@ import { getTimerBucketIcon } from '../../util/timer';
 
 // tslint:disable-next-line: no-submodule-imports
 import useInterval from 'react-use/lib/useInterval';
-import styled from 'styled-components';
+import styled, { CSSProperties } from 'styled-components';
 import { SessionIcon } from '../icon/SessionIcon';
 
-type Props = {
-  expirationLength: number;
-  expirationTimestamp: number | null;
-  isCorrectSide: boolean;
-};
-
-const ExpireTimerCount = styled.div<{
-  color: string;
-}>`
-  margin-inline-start: 6px;
-  font-size: var(--font-size-xs);
-  line-height: 16px;
-  letter-spacing: 0.3px;
-  text-transform: uppercase;
-  user-select: none;
-  color: ${props => props.color};
-  flex-shrink: 0;
-`;
-
 const ExpireTimerBucket = styled.div`
-  margin-inline-start: 6px;
   font-size: var(--font-size-xs);
   line-height: 16px;
   letter-spacing: 0.3px;
@@ -36,8 +16,14 @@ const ExpireTimerBucket = styled.div`
   color: var(--text-primary-color);
 `;
 
+type Props = {
+  expirationLength: number; // should be in milliseconds
+  expirationTimestamp: number | null;
+  style: CSSProperties;
+};
+
 export const ExpireTimer = (props: Props) => {
-  const { expirationLength, expirationTimestamp, isCorrectSide } = props;
+  const { expirationLength, expirationTimestamp, style } = props;
 
   const initialTimeLeft = Math.max(Math.round(((expirationTimestamp || 0) - Date.now()) / 1000), 0);
   const [timeLeft, setTimeLeft] = useState(initialTimeLeft);
@@ -54,19 +40,16 @@ export const ExpireTimer = (props: Props) => {
   const updateFrequency = 500;
   useInterval(update, updateFrequency);
 
-  if (!(isCorrectSide && expirationLength && expirationTimestamp)) {
+  if (!(expirationLength && expirationTimestamp)) {
     return null;
   }
 
   const expireTimerColor = 'var(--primary-text-color)';
 
-  if (timeLeft <= 60) {
-    return <ExpireTimerCount color={expireTimerColor}>{timeLeft}</ExpireTimerCount>;
-  }
   const bucket = getTimerBucketIcon(expirationTimestamp, expirationLength);
 
   return (
-    <ExpireTimerBucket>
+    <ExpireTimerBucket style={style}>
       <SessionIcon iconType={bucket} iconSize="tiny" iconColor={expireTimerColor} />
     </ExpireTimerBucket>
   );

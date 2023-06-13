@@ -34,6 +34,11 @@ import { getAllCachedECKeyPair, sentAtMoreRecentThanWrapper } from './closedGrou
 import { ConfigMessageHandler } from './configMessage';
 import { ECKeyPair } from './keypairs';
 import { ContactsWrapperActions } from '../webworker/workers/browser/libsession_worker_interface';
+import {
+  checkForExpireUpdate,
+  checkHasOutdatedClient,
+  setExpirationStartTimestamp,
+} from '../util/expiringMessages';
 
 export async function handleSwarmContentMessage(envelope: EnvelopePlus, messageHash: string) {
   try {
@@ -369,7 +374,7 @@ function shouldDropBlockedUserMessage(
   return !isControlDataMessageOnly;
 }
 
-// tslint:disable-next-line: cyclomatic-complexity
+// tslint:disable-next-line: cyclomatic-complexity max-func-body-length
 export async function innerHandleSwarmContentMessage(
   envelope: EnvelopePlus,
   sentAtTimestamp: number,
@@ -425,13 +430,16 @@ export async function innerHandleSwarmContentMessage(
       ConversationTypeEnum.PRIVATE
     );
 
+    // We need to make sure that we trigger the outdated client banner ui on the correct model for the conversation and not the author (for closed groups)
+    let conversationModelForUIUpdate = senderConversationModel;
+
     /**
      * For a closed group message, this holds the closed group's conversation.
      * For a private conversation message, this is just the conversation with that user
      */
     if (!isPrivateConversationMessage) {
       // this is a closed group message, we have a second conversation to make sure exists
-      await getConversationController().getOrCreateAndWait(
+      conversationModelForUIUpdate = await getConversationController().getOrCreateAndWait(
         envelope.source,
         ConversationTypeEnum.GROUP
       );
@@ -442,13 +450,30 @@ export async function innerHandleSwarmContentMessage(
       if (isEmpty(content.dataMessage.profileKey)) {
         content.dataMessage.profileKey = null;
       }
+
+      const expireUpdate = await checkForExpireUpdate(conversationModelForUIUpdate, content);
+
+      // TODO legacy messages support will be removed in a future release
+      if (expireUpdate && !isEmpty(expireUpdate) && expireUpdate.isDisappearingMessagesV2Released) {
+        await checkHasOutdatedClient(
+          conversationModelForUIUpdate,
+          senderConversationModel,
+          expireUpdate
+        );
+        if (expireUpdate.isLegacyConversationSettingMessage) {
+          window.log.info('The legacy message is an expiration timer update. Ignoring it.');
+          return;
+        }
+      }
+
       perfStart(`handleSwarmDataMessage-${envelope.id}`);
       await handleSwarmDataMessage(
         envelope,
         sentAtTimestamp,
         content.dataMessage as SignalService.DataMessage,
         messageHash,
-        senderConversationModel
+        senderConversationModel,
+        expireUpdate
       );
       perfEnd(`handleSwarmDataMessage-${envelope.id}`, 'handleSwarmDataMessage');
       return;
@@ -795,6 +820,9 @@ export async function handleDataExtractionNotification(
   if (timestamp) {
     const envelopeTimestamp = toNumber(timestamp);
     const referencedAttachmentTimestamp = toNumber(referencedAttachment);
+    const expirationType = convo.get('expirationType');
+    // TODO legacy messages support will be removed in a future release
+    const isLegacyMode = convo && convo.isPrivate() && expirationType === 'legacy';
 
     await convo.addSingleIncomingMessage({
       source,
@@ -804,9 +832,17 @@ export async function handleDataExtractionNotification(
         referencedAttachmentTimestamp, // currently unused
         source,
       },
+
       unread: READ_MESSAGE_STATE.unread, // 1 means unread
-      expireTimer: 0,
+      expirationType: expirationType !== 'off' ? expirationType : undefined,
+      expireTimer: convo.get('expireTimer') ? convo.get('expireTimer') : 0,
+      // TODO should this only be for delete after send?
+      expirationStartTimestamp:
+        isLegacyMode || expirationType === 'deleteAfterSend'
+          ? setExpirationStartTimestamp('deleteAfterSend', undefined, isLegacyMode)
+          : undefined,
     });
+
     convo.updateLastMessage();
   }
 }

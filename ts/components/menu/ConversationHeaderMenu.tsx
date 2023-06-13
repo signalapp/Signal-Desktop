@@ -1,14 +1,12 @@
 import React from 'react';
 import { animation, Item, Menu, Submenu } from 'react-contexify';
 import { useSelector } from 'react-redux';
-import {
-  setDisappearingMessagesByConvoId,
-  setNotificationForConvoId,
-} from '../../interactions/conversationInteractions';
+import { setNotificationForConvoId } from '../../interactions/conversationInteractions';
 import {
   ConversationNotificationSetting,
   ConversationNotificationSettingType,
 } from '../../models/conversationAttributes';
+import { isSearching } from '../../state/selectors/search';
 import {
   useSelectedConversationKey,
   useSelectedIsActive,
@@ -17,11 +15,10 @@ import {
   useSelectedIsLeft,
   useSelectedIsPrivate,
   useSelectedIsPrivateFriend,
-  useSelectedIsPublic,
   useSelectedNotificationSetting,
 } from '../../state/selectors/selectedConversation';
-import { getTimerOptions } from '../../state/selectors/timerOptions';
 import { LocalizerKeys } from '../../types/LocalizerKeys';
+import { ContextConversationProvider } from '../leftpane/conversation-list-item/ConvoIdContext';
 import { SessionContextMenuContainer } from '../SessionContextMenuContainer';
 import {
   AddModeratorsMenuItem,
@@ -29,9 +26,11 @@ import {
   BlockMenuItem,
   ChangeNicknameMenuItem,
   ClearNicknameMenuItem,
-  DeletePrivateContactMenuItem,
+  CopyMenuItem,
   DeleteGroupOrCommunityMenuItem,
   DeleteMessagesMenuItem,
+  DeletePrivateContactMenuItem,
+  DeletePrivateConversationMenuItem,
   InviteContactMenuItem,
   LeaveGroupMenuItem,
   MarkAllReadMenuItem,
@@ -39,11 +38,7 @@ import {
   ShowUserDetailsMenuItem,
   UnbanMenuItem,
   UpdateGroupNameMenuItem,
-  DeletePrivateConversationMenuItem,
-  CopyMenuItem,
 } from './Menu';
-import { ContextConversationProvider } from '../leftpane/conversation-list-item/ConvoIdContext';
-import { isSearching } from '../../state/selectors/search';
 
 export type PropsConversationHeaderMenu = {
   triggerId: string;
@@ -73,7 +68,6 @@ export const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
     <ContextConversationProvider value={convoId}>
       <SessionContextMenuContainer>
         <Menu id={triggerId} animation={animation.fade}>
-          <DisappearingMessageMenuItem />
           <NotificationForConvoMenuItem />
           <BlockMenuItem />
           <CopyMenuItem />
@@ -95,54 +89,6 @@ export const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
         </Menu>
       </SessionContextMenuContainer>
     </ContextConversationProvider>
-  );
-};
-
-/**
- * Only accessible through the triple dots menu on the conversation header. Not on the Conversation list item, because there is too much to check for before showing it
- */
-const DisappearingMessageMenuItem = (): JSX.Element | null => {
-  const selectedConvoId = useSelectedConversationKey();
-  const isBlocked = useSelectedIsBlocked();
-  const isActive = useSelectedIsActive();
-  const isPublic = useSelectedIsPublic();
-  const isLeft = useSelectedIsLeft();
-  const isKickedFromGroup = useSelectedIsKickedFromGroup();
-  const timerOptions = useSelector(getTimerOptions).timerOptions;
-  const isFriend = useSelectedIsPrivateFriend();
-  const isPrivate = useSelectedIsPrivate();
-
-  if (
-    !selectedConvoId ||
-    isPublic ||
-    isLeft ||
-    isKickedFromGroup ||
-    isBlocked ||
-    !isActive ||
-    (isPrivate && !isFriend)
-  ) {
-    return null;
-  }
-
-  // const isRtlMode = isRtlBody();
-
-  return (
-    // Remove the && false to make context menu work with RTL support
-    <Submenu
-      label={window.i18n('disappearingMessages')}
-      // rtl={isRtlMode && false}
-    >
-      {timerOptions.map(item => (
-        <Item
-          key={item.value}
-          onClick={async () => {
-            await setDisappearingMessagesByConvoId(selectedConvoId, item.value);
-          }}
-        >
-          {item.name}
-        </Item>
-      ))}
-    </Submenu>
   );
 };
 

@@ -67,3 +67,16 @@ export const QUOTED_TEXT_MAX_LENGTH = 150;
 export const DEFAULT_RECENT_REACTS = ['😂', '🥰', '😢', '😡', '😮', '😈'];
 
 export const MAX_USERNAME_BYTES = 64;
+
+export const FEATURE_RELEASE_TIMESTAMPS = {
+  // TODO update to agreed value between platforms for `disappearing_messages`
+  DISAPPEARING_MESSAGES_V2: 1706778000000, // unix 01/02/2024 09:00
+  // NOTE for testing purposes only
+  // DISAPPEARING_MESSAGES_V2: 1677488400000, // unix 27/02/2023 09:00
+
+  // TODO update to agreed value between platforms for `user_config_libsession`
+  // FIXME once we are done with testing the user config over libsession feature
+  // FIXME the flag is forced on currently in releaseFeature.ts
+  USER_CONFIG: 1677488400000, // testing: unix 27/02/2023 09:00
+  // return 1706778000000; // unix 01/02/2024 09:00;
+};

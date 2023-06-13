@@ -79,10 +79,14 @@ export function generateOpenGroupV2RoomInfos(): OpenGroupRequestCommonType {
   return { roomId: 'main', serverUrl: 'http://open.getsession.org' };
 }
 
-export function generateClosedGroupMessage(groupId?: string): ClosedGroupVisibleMessage {
+export function generateClosedGroupMessage(
+  groupId?: string,
+  timestamp?: number
+): ClosedGroupVisibleMessage {
   return new ClosedGroupVisibleMessage({
     identifier: uuid(),
     groupId: groupId ?? generateFakePubKey().key,
+    timestamp: timestamp || Date.now(),
     chatMessage: generateVisibleMessage(),
   });
 }

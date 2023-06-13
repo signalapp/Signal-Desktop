@@ -4,6 +4,12 @@ import { ReduxConversationType } from '../ducks/conversations';
 import { StateType } from '../reducer';
 import { getCanWrite, getSubscriberCount } from './sogsRoomInfo';
 import { PubKey } from '../../session/types';
+import {
+  DisappearingMessageConversationSetting,
+  DisappearingMessageModesWithState,
+} from '../../util/expiringMessages';
+import { createSelector } from '@reduxjs/toolkit';
+import { PropsForExpirationSettings } from '../../components/conversation/right-panel/overlay/disappearing-messages/OverlayDisappearingMessages';
 
 /**
  * Returns the formatted text for notification setting.
@@ -188,7 +194,7 @@ export function useSelectedIsActive() {
   return useSelector(getIsSelectedActive);
 }
 
-export function useSelectedisNoteToSelf() {
+export function useSelectedIsNoteToSelf() {
   return useSelector(getIsSelectedNoteToSelf);
 }
 
@@ -208,6 +214,14 @@ export function useSelectedIsKickedFromGroup() {
   return useSelector(
     (state: StateType) => Boolean(getSelectedConversation(state)?.isKickedFromGroup) || false
   );
+}
+
+export function useSelectedExpireTimer(): number | undefined {
+  return useSelector((state: StateType) => getSelectedConversation(state)?.expireTimer);
+}
+
+export function useSelectedExpirationType(): string | undefined {
+  return useSelector((state: StateType) => getSelectedConversation(state)?.expirationType);
 }
 
 export function useSelectedIsLeft() {
@@ -247,7 +261,7 @@ export function useSelectedNicknameOrProfileNameOrShortenedPubkey() {
   const nickname = useSelectedNickname();
   const profileName = useSelectedDisplayNameInProfile();
   const shortenedPubkey = useSelectedShortenedPubkeyOrFallback();
-  const isMe = useSelectedisNoteToSelf();
+  const isMe = useSelectedIsNoteToSelf();
   if (isMe) {
     return window.i18n('noteToSelf');
   }
@@ -257,3 +271,74 @@ export function useSelectedNicknameOrProfileNameOrShortenedPubkey() {
 export function useSelectedWeAreAdmin() {
   return useSelector((state: StateType) => getSelectedConversation(state)?.weAreAdmin || false);
 }
+
+export const getSelectedConversationExpirationModes = createSelector(
+  getSelectedConversation,
+  (convo: ReduxConversationType | undefined) => {
+    let modes = DisappearingMessageConversationSetting;
+    // TODO legacy messages support will be removed in a future release
+    // TODO remove legacy mode
+    modes = modes.slice(0, -1);
+
+    if (!convo) {
+      return DisappearingMessageConversationSetting;
+    }
+    // Note to Self and Closed Groups only support deleteAfterSend
+    const isClosedGroup = !convo.isPrivate && !convo.isPublic;
+    if (convo?.isMe || isClosedGroup) {
+      modes = [modes[0], modes[2]];
+    }
+
+    const modesWithDisabledState: DisappearingMessageModesWithState = {};
+    if (modes && modes.length > 1) {
+      modes.forEach(mode => {
+        modesWithDisabledState[mode] = isClosedGroup ? !convo.weAreAdmin : false;
+      });
+    }
+
+    return modesWithDisabledState;
+  }
+);
+
+// TODO legacy messages support will be removed in a future release
+export const getSelectedConversationExpirationModesWithLegacy = createSelector(
+  getSelectedConversation,
+  (convo: ReduxConversationType | undefined) => {
+    let modes = DisappearingMessageConversationSetting;
+
+    // this just won't happen
+    if (!convo) {
+      return DisappearingMessageConversationSetting;
+    }
+    // Note to Self and Closed Groups only support deleteAfterSend and legacy modes
+    const isClosedGroup = !convo.isPrivate && !convo.isPublic;
+    if (convo?.isMe || isClosedGroup) {
+      modes = [modes[0], ...modes.slice(2)];
+    }
+
+    // Legacy mode is the 2nd option in the UI
+    modes = [modes[0], modes[modes.length - 1], ...modes.slice(1, modes.length - 1)];
+
+    const modesWithDisabledState: DisappearingMessageModesWithState = {};
+    // The new modes are disabled by default
+    if (modes && modes.length > 1) {
+      modes.forEach(mode => {
+        modesWithDisabledState[mode] = Boolean(
+          (mode !== 'legacy' && mode !== 'off') || (isClosedGroup && !convo.weAreAdmin)
+        );
+      });
+    }
+
+    return modesWithDisabledState;
+  }
+);
+
+export const getSelectedConversationExpirationSettings = createSelector(
+  getSelectedConversation,
+  (convo: ReduxConversationType | undefined): PropsForExpirationSettings => ({
+    expirationType: convo?.expirationType,
+    expireTimer: convo?.expireTimer,
+    isGroup: !convo?.isPrivate,
+    weAreAdmin: convo?.weAreAdmin,
+  })
+);

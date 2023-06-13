@@ -3,8 +3,8 @@ import classNames from 'classnames';
 import { PropsForGroupInvitation } from '../../../../state/ducks/conversations';
 import { acceptOpenGroupInvitation } from '../../../../interactions/messageInteractions';
 import { SessionIconButton } from '../../../icon';
-import { ReadableMessage } from './ReadableMessage';
 import styled from 'styled-components';
+import { ExpirableReadableMessage } from './ExpirableReadableMessage';
 
 const StyledIconContainer = styled.div`
   background-color: var(--message-link-preview-background-color);
@@ -12,7 +12,7 @@ const StyledIconContainer = styled.div`
 `;
 
 export const GroupInvitation = (props: PropsForGroupInvitation) => {
-  const { messageId, receivedAt, isUnread } = props;
+  const { messageId } = props;
   const classes = ['group-invitation'];
 
   if (props.direction === 'outgoing') {
@@ -21,12 +21,7 @@ export const GroupInvitation = (props: PropsForGroupInvitation) => {
   const openGroupInvitation = window.i18n('openGroupInvitation');
 
   return (
-    <ReadableMessage
-      messageId={messageId}
-      receivedAt={receivedAt}
-      isUnread={isUnread}
-      key={`readable-message-${messageId}`}
-    >
+    <ExpirableReadableMessage messageId={messageId} key={`readable-message-${messageId}`}>
       <div className="group-invitation-container" id={`msg-${props.messageId}`}>
         <div className={classNames(classes)}>
           <div className="contents">
@@ -52,6 +47,6 @@ export const GroupInvitation = (props: PropsForGroupInvitation) => {
           </div>
         </div>
       </div>
-    </ReadableMessage>
+    </ExpirableReadableMessage>
   );
 };

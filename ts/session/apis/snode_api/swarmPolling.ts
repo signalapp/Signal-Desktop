@@ -527,6 +527,7 @@ export class SwarmPolling {
     const newMessages = messages.filter((m: RetrieveMessageItem) => !dupHashes.includes(m.hash));
 
     if (newMessages.length) {
+      // NOTE setting expiresAt will trigger the global function destroyExpiredMessages() on it's next interval
       const newHashes = newMessages.map((m: RetrieveMessageItem) => ({
         expiresAt: m.expiration,
         hash: m.hash,

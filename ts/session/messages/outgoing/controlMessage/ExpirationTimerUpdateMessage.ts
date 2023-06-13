@@ -1,31 +1,48 @@
-import { DataMessage } from '..';
 import { SignalService } from '../../../../protobuf';
 import { PubKey } from '../../../types';
 import { StringUtils } from '../../../utils';
-import { MessageParams } from '../Message';
+import { DataMessage } from '../DataMessage';
+import { ExpirableMessageParams } from '../ExpirableMessage';
 
-interface ExpirationTimerUpdateMessageParams extends MessageParams {
+interface ExpirationTimerUpdateMessageParams extends ExpirableMessageParams {
   groupId?: string | PubKey;
   syncTarget?: string | PubKey;
-  expireTimer: number | null;
+  lastDisappearingMessageChangeTimestamp?: number;
 }
+
+// NOTE legacy messages used a data message for the expireTimer.
+// The new ones use properties on the Content Message
 
 export class ExpirationTimerUpdateMessage extends DataMessage {
   public readonly groupId?: PubKey;
   public readonly syncTarget?: string;
-  public readonly expireTimer: number | null;
+  public readonly lastDisappearingMessageChangeTimestamp?: number;
 
   constructor(params: ExpirationTimerUpdateMessageParams) {
-    super({ timestamp: params.timestamp, identifier: params.identifier });
-    this.expireTimer = params.expireTimer;
+    super({
+      timestamp: params.timestamp,
+      identifier: params.identifier,
+      expirationType: params.expirationType,
+      expireTimer: params.expireTimer,
+    });
 
-    const { groupId, syncTarget } = params;
+    this.lastDisappearingMessageChangeTimestamp = params.lastDisappearingMessageChangeTimestamp;
+
+    const { groupId } = params;
     this.groupId = groupId ? PubKey.cast(groupId) : undefined;
-    this.syncTarget = syncTarget ? PubKey.cast(syncTarget).key : undefined;
+    this.syncTarget = params.syncTarget ? PubKey.cast(params.syncTarget).key : undefined;
+  }
+
+  public contentProto(): SignalService.Content {
+    return new SignalService.Content({
+      ...super.contentProto(),
+      dataMessage: this.dataProto(),
+      lastDisappearingMessageChangeTimestamp: this.lastDisappearingMessageChangeTimestamp,
+    });
   }
 
   public dataProto(): SignalService.DataMessage {
-    const data = new SignalService.DataMessage();
+    const data = super.dataProto();
 
     data.flags = SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
 
@@ -44,10 +61,6 @@ export class ExpirationTimerUpdateMessage extends DataMessage {
 
     if (this.syncTarget) {
       data.syncTarget = this.syncTarget;
-    }
-
-    if (this.expireTimer) {
-      data.expireTimer = this.expireTimer;
     }
 
     return data;

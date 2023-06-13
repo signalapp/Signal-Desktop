@@ -9,7 +9,7 @@ import {
   getSelectedCanWrite,
   useSelectedConversationKey,
   useSelectedNicknameOrProfileNameOrShortenedPubkey,
-  useSelectedisNoteToSelf,
+  useSelectedIsNoteToSelf,
 } from '../../state/selectors/selectedConversation';
 import { LocalizerKeys } from '../../types/LocalizerKeys';
 import { SessionHtmlRenderer } from '../basic/SessionHTMLRenderer';
@@ -59,7 +59,7 @@ export const NoMessageInConversation = () => {
 
   const hasMessage = useSelector(getSelectedHasMessages);
 
-  const isMe = useSelectedisNoteToSelf();
+  const isMe = useSelectedIsNoteToSelf();
   const canWrite = useSelector(getSelectedCanWrite);
   // TODOLATER use this selector accross the whole application (left pane excluded)
   const nameToRender = useSelectedNicknameOrProfileNameOrShortenedPubkey();

@@ -1,5 +1,6 @@
 import { defaults } from 'lodash';
 import { LastMessageStatusType } from '../state/ducks/conversations';
+import { DisappearingMessageConversationType } from '../util/expiringMessages';
 
 /**
  * Private chats have always the type `Private`
@@ -101,6 +102,10 @@ export interface ConversationAttributes {
   didApproveMe: boolean; // if our message request was approved already (or they've sent us a message request/message themselves). If isApproved & didApproveMe, a message request becomes a contact
 
   markedAsUnread: boolean; // Force the conversation as unread even if all the messages are read. Used to highlight a conversation the user wants to check again later, synced.
+
+  expirationType: DisappearingMessageConversationType; // the type of expiring messages for this conversation
+  lastDisappearingMessageChangeTimestamp: number; // to avoid applying a change of disappear change when our current one was applied more recently
+  hasOutdatedClient?: string; // to warn the user that the person he is talking to is using an old client which might cause issues
 }
 
 /**
@@ -118,7 +123,10 @@ export const fillConvoAttributesWithDefaults = (
     groupAdmins: [],
 
     lastJoinedTimestamp: 0,
+    expirationType: 'off',
     expireTimer: 0,
+    lastDisappearingMessageChangeTimestamp: 0,
+
     active_at: 0,
 
     lastMessageStatus: undefined,

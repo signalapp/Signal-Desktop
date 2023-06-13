@@ -7,9 +7,9 @@ import {
 import { PubKey } from '../session/types';
 import { UserUtils } from '../session/utils';
 import { StateType } from '../state/reducer';
-import { getMessageReactsProps } from '../state/selectors/conversations';
 import { isPrivateAndFriend } from '../state/selectors/selectedConversation';
 import { CONVERSATION } from '../session/constants';
+import { getMessageExpirationProps, getMessageReactsProps } from '../state/selectors/conversations';
 
 export function useAvatarPath(convoId: string | undefined) {
   const convoProps = useConversationPropsById(convoId);
@@ -151,11 +151,6 @@ export function useWeAreModerator(convoId?: string) {
   return Boolean(convoProps && (convoProps.weAreAdmin || convoProps.weAreModerator));
 }
 
-export function useExpireTimer(convoId?: string) {
-  const convoProps = useConversationPropsById(convoId);
-  return convoProps && convoProps.expireTimer;
-}
-
 export function useIsPinned(convoId?: string) {
   const convoProps = useConversationPropsById(convoId);
   return Boolean(
@@ -266,4 +261,75 @@ export function useMentionedUs(conversationId?: string): boolean {
 
 export function useIsTyping(conversationId?: string): boolean {
   return useConversationPropsById(conversationId)?.isTyping || false;
+}
+export function useMessageExpirationPropsById(messageId?: string) {
+  return useSelector((state: StateType) => {
+    if (!messageId) {
+      return null;
+    }
+    const messageExpirationProps = getMessageExpirationProps(state, messageId);
+    if (!messageExpirationProps) {
+      return null;
+    }
+    return messageExpirationProps;
+  });
+}
+
+// TODO use env variable to toggle test values?
+// https://github.com/oxen-io/session-desktop/pull/2660/files#r1174823750
+export function useTimerOptionsByMode(disappearingMessageMode?: string, hasOnlyOneMode?: boolean) {
+  return useSelector((state: StateType) => {
+    const options = state.timerOptions.timerOptions;
+
+    switch (disappearingMessageMode) {
+      // TODO legacy messages support will be removed in a future release
+      case 'legacy':
+        return options.filter(option => {
+          return (
+            (hasOnlyOneMode && option.value === 0) ||
+            option.value === 5 || // 5 seconds
+            option.value === 10 || // 10 seconds
+            option.value === 30 || // 30 seconds
+            option.value === 60 || // 1 minute
+            option.value === 300 || // 5 minutes
+            option.value === 1800 || // 30 minutes
+            option.value === 3600 || // 1 hour
+            option.value === 21600 || // 6 hours
+            option.value === 43200 || // 12 hours
+            option.value === 86400 || // 1 day
+            option.value === 604800 // 1 week
+          );
+        });
+      case 'deleteAfterSend':
+        return options.filter(option => {
+          return (
+            (hasOnlyOneMode && option.value === 0) ||
+            // option.value === 10 || // 10 seconds (for development)
+            // option.value === 30 || // 30 seconds (for development)
+            option.value === 60 || // 1 minute (for testing)
+            option.value === 43200 || // 12 hours
+            option.value === 86400 || // 1 day
+            option.value === 604800 || // 1 week
+            option.value === 1209600 // 2 weeks
+          );
+        });
+      case 'deleteAfterRead':
+        return options.filter(option => {
+          return (
+            (hasOnlyOneMode && option.value === 0) ||
+            // option.value === 10 || // 10 seconds (for development)
+            // option.value === 30 || // 30 seconds (for development)
+            option.value === 60 || // 1 minute (for testing)
+            option.value === 300 || // 5 minutes
+            option.value === 3600 || // 1 hour
+            option.value === 43200 || // 12 hours
+            option.value === 86400 || // 1 day
+            option.value === 604800 || // 1 week
+            option.value === 1209600 // 2 weeks
+          );
+        });
+      default:
+        return options;
+    }
+  });
 }

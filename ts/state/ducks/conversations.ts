@@ -16,17 +16,21 @@ import {
 } from '../../models/messageType';
 import { getConversationController } from '../../session/conversations';
 import { ReactionList } from '../../types/Reaction';
+import {
+  DisappearingMessageConversationType,
+  DisappearingMessageType,
+} from '../../util/expiringMessages';
 
 export type CallNotificationType = 'missed-call' | 'started-call' | 'answered-a-call';
+
 export type PropsForCallNotification = {
   notificationType: CallNotificationType;
   messageId: string;
-  receivedAt: number;
-  isUnread: boolean;
 };
 
 export type MessageModelPropsWithoutConvoProps = {
   propsForMessage: PropsForMessageWithoutConvoProps;
+  propsForExpiringMessage?: PropsForExpiringMessage;
   propsForGroupInvitation?: PropsForGroupInvitation;
   propsForTimerNotification?: PropsForExpirationTimer;
   propsForDataExtractionNotification?: PropsForDataExtractionNotification;
@@ -69,7 +73,19 @@ export type FindAndFormatContactType = {
   isMe: boolean;
 };
 
+export type PropsForExpiringMessage = {
+  convoId?: string;
+  messageId: string;
+  direction: MessageModelType;
+  receivedAt?: number;
+  isUnread?: boolean;
+  expirationTimestamp?: number | null;
+  expirationLength?: number | null;
+  isExpired?: boolean;
+};
+
 export type PropsForExpirationTimer = {
+  expirationType: DisappearingMessageConversationType;
   timespan: string;
   disabled: boolean;
   pubkey: string;
@@ -79,8 +95,6 @@ export type PropsForExpirationTimer = {
   title: string | null;
   type: 'fromMe' | 'fromSync' | 'fromOther';
   messageId: string;
-  isUnread: boolean;
-  receivedAt: number | undefined;
 };
 
 export type PropsForGroupUpdateGeneral = {
@@ -117,8 +131,6 @@ export type PropsForGroupUpdateType =
 export type PropsForGroupUpdate = {
   change: PropsForGroupUpdateType;
   messageId: string;
-  receivedAt: number | undefined;
-  isUnread: boolean;
 };
 
 export type PropsForGroupInvitation = {
@@ -127,8 +139,6 @@ export type PropsForGroupInvitation = {
   direction: MessageModelType;
   acceptUrl: string;
   messageId: string;
-  receivedAt?: number;
-  isUnread: boolean;
 };
 
 export type PropsForAttachment = {
@@ -190,6 +200,7 @@ export type PropsForMessageWithoutConvoProps = {
   messageHash?: string;
   isDeleted?: boolean;
   isUnread?: boolean;
+  expirationType?: DisappearingMessageType;
   expirationLength?: number;
   expirationTimestamp?: number | null;
   isExpired?: boolean;
@@ -241,8 +252,10 @@ export interface ReduxConversationType {
   unreadCount?: number;
   mentionedUs?: boolean;
   isSelected?: boolean;
+  expirationType?: DisappearingMessageConversationType;
   expireTimer?: number;
-
+  lastDisappearingMessageChangeTimestamp?: number;
+  hasOutdatedClient?: string;
   isTyping?: boolean;
   isBlocked?: boolean;
   isKickedFromGroup?: boolean;

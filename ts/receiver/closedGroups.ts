@@ -13,6 +13,7 @@ import { EnvelopePlus } from './types';
 import _, { isNumber, toNumber } from 'lodash';
 import { ConversationModel } from '../models/conversation';
 import { ConversationTypeEnum } from '../models/conversationAttributes';
+
 import { getSwarmPollingInstance } from '../session/apis/snode_api';
 import { SnodeNamespaces } from '../session/apis/snode_api/namespaces';
 import { ClosedGroupEncryptionPairReplyMessage } from '../session/messages/outgoing/controlMessage/group/ClosedGroupEncryptionPairReplyMessage';
@@ -24,6 +25,7 @@ import { ConfigWrapperObjectTypes } from '../webworker/workers/browser/libsessio
 import { getSettingsKeyFromLibsessionWrapper } from './configMessage';
 import { ECKeyPair, HexKeyPair } from './keypairs';
 import { queueAllCachedFromSource } from './receiver';
+import { GetNetworkTime } from '../session/apis/snode_api/getNetworkTime';
 
 export const distributingClosedGroupEncryptionKeyPairs = new Map<string, ECKeyPair>();
 
@@ -295,7 +297,8 @@ export async function handleNewClosedGroup(
     return;
   }
   const groupConvo = getConversationController().get(groupId);
-  const expireTimer = groupUpdate.expireTimer;
+  // TODO Rename to expirationTimer
+  const expireTimer = groupUpdate.expirationTimer;
 
   if (groupConvo) {
     // if we did not left this group, just add the keypair we got if not already there
@@ -310,7 +313,14 @@ export async function handleNewClosedGroup(
         ecKeyPairAlreadyExistingConvo.toHexKeyPair()
       );
 
-      await groupConvo.updateExpireTimer(expireTimer, sender, Date.now());
+      // TODO This is only applicable for old closed groups - will be removed in future
+      await groupConvo.updateExpireTimer({
+        providedExpirationType: expireTimer === 0 ? 'off' : 'deleteAfterSend',
+        providedExpireTimer: expireTimer,
+        providedChangeTimestamp: GetNetworkTime.getNowWithNetworkOffset(),
+        providedSource: sender,
+        receivedAt: Date.now(),
+      });
 
       if (isKeyPairAlreadyHere) {
         window.log.info('Dropping already saved keypair for group', groupId);
@@ -352,6 +362,7 @@ export async function handleNewClosedGroup(
     members: members,
     admins,
     activeAt: envelopeTimestamp,
+    expirationType: 'off',
   };
 
   // be sure to call this before sending the message.
@@ -363,7 +374,14 @@ export async function handleNewClosedGroup(
   // Having that timestamp set will allow us to pickup incoming group update which were sent between
   // envelope.timestamp and Date.now(). And we need to listen to those (some might even remove us)
   convo.set('lastJoinedTimestamp', envelopeTimestamp);
-  await convo.updateExpireTimer(expireTimer, sender, envelopeTimestamp);
+  // TODO This is only applicable for old closed groups - will be removed in future
+  await convo.updateExpireTimer({
+    providedExpirationType: expireTimer === 0 ? 'off' : 'deleteAfterSend',
+    providedExpireTimer: expireTimer,
+    providedChangeTimestamp: GetNetworkTime.getNowWithNetworkOffset(),
+    providedSource: sender,
+    receivedAt: envelopeTimestamp,
+  });
   convo.updateLastMessage();
 
   await convo.commit();

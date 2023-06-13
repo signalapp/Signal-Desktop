@@ -21,6 +21,7 @@ export type ThemeGlobals = {
   '--margins-sm': string;
   '--margins-md': string;
   '--margins-lg': string;
+  '--margins-xl': string;
 
   /* Padding */
   '--padding-message-content': string;
@@ -101,6 +102,7 @@ export const THEME_GLOBALS: ThemeGlobals = {
   '--margins-sm': '10px',
   '--margins-md': '15px',
   '--margins-lg': '20px',
+  '--margins-xl': '25px',
 
   '--padding-message-content': '7px 13px',
   '--padding-link-preview': '-7px -13px 7px -13px', // bottom has positive value because a link preview has always a body below
@@ -108,7 +110,7 @@ export const THEME_GLOBALS: ThemeGlobals = {
   '--border-radius': '5px',
   '--border-radius-message-box': '16px',
 
-  '--main-view-header-height': '63px',
+  '--main-view-header-height': '68px',
   '--composition-container-height': '60px',
   '--search-input-height': '34px',
 

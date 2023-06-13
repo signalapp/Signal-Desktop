@@ -23,6 +23,7 @@ import { isUsFromCache } from '../session/utils/User';
 import { Action, Reaction } from '../types/Reaction';
 import { toLogFormat } from '../types/attachments/Errors';
 import { Reactions } from '../util/reactions';
+import { DisappearingMessageUpdate, handleExpireUpdate } from '../util/expiringMessages';
 
 function cleanAttachment(attachment: any) {
   return {
@@ -110,6 +111,7 @@ export function cleanIncomingDataMessage(
   if (rawDataMessage.flags == null) {
     rawDataMessage.flags = 0;
   }
+  // TODO This should be removed 2 weeks after the release
   if (rawDataMessage.expireTimer == null) {
     rawDataMessage.expireTimer = 0;
   }
@@ -154,7 +156,8 @@ export async function handleSwarmDataMessage(
   sentAtTimestamp: number,
   rawDataMessage: SignalService.DataMessage,
   messageHash: string,
-  senderConversationModel: ConversationModel
+  senderConversationModel: ConversationModel,
+  expireUpdate?: DisappearingMessageUpdate
 ): Promise<void> {
   window.log.info('handleSwarmDataMessage');
 
@@ -235,7 +238,7 @@ export async function handleSwarmDataMessage(
     return;
   }
 
-  const msgModel =
+  let msgModel =
     isSyncedMessage || (envelope.senderIdentity && isUsFromCache(envelope.senderIdentity))
       ? createSwarmMessageSentFromUs({
           conversationId: convoIdToAddTheMessageTo,
@@ -248,6 +251,13 @@ export async function handleSwarmDataMessage(
           sender: senderConversationModel.id,
           sentAt: sentAtTimestamp,
         });
+
+  if (isSyncedMessage) {
+    // TODO handle sync messages expiring separately?
+    window.log.debug('WIP: Sync Message dropping');
+  } else {
+    msgModel = handleExpireUpdate(convoToAddMessageTo, msgModel, expireUpdate);
+  }
 
   await handleSwarmMessage(
     msgModel,
@@ -319,6 +329,7 @@ async function handleSwarmMessage(
         sender: msgModel.get('source'),
         you: isUsFromCache(msgModel.get('source')),
       });
+
       if (
         convoToAddMessageTo.isPrivate() &&
         msgModel.get('unread') &&
@@ -331,6 +342,7 @@ async function handleSwarmMessage(
       confirm();
       return;
     }
+
     const isDuplicate = await isSwarmMessageDuplicate({
       source: msgModel.get('source'),
       sentAt,

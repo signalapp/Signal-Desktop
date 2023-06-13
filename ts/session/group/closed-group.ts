@@ -26,6 +26,10 @@ import { ClosedGroupNewMessage } from '../messages/outgoing/controlMessage/group
 import { ClosedGroupRemovedMembersMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupRemovedMembersMessage';
 import { UserUtils } from '../utils';
 import { fromHexToArray, toHex } from '../utils/String';
+import {
+  DisappearingMessageConversationType,
+  setExpirationStartTimestamp,
+} from '../../util/expiringMessages';
 
 export type GroupInfo = {
   id: string;
@@ -33,6 +37,7 @@ export type GroupInfo = {
   members: Array<string>;
   zombies?: Array<string>;
   activeAt?: number;
+  expirationType?: DisappearingMessageConversationType[0] | DisappearingMessageConversationType[2];
   expireTimer?: number | null;
   admins?: Array<string>;
 };
@@ -76,7 +81,8 @@ export async function initiateClosedGroupUpdate(
     // remove from the zombies list the zombies not which are not in the group anymore
     zombies: convo.get('zombies')?.filter(z => members.includes(z)),
     activeAt: Date.now(),
-    expireTimer: convo.get('expireTimer'),
+    expirationType: convo.get('expirationType') || undefined,
+    expireTimer: convo.get('expireTimer') || 0,
   };
 
   const diff = buildGroupDiff(convo, groupDetails);
@@ -88,7 +94,6 @@ export async function initiateClosedGroupUpdate(
     name: groupName,
     members,
     admins: convo.get('groupAdmins'),
-    expireTimer: convo.get('expireTimer'),
   };
 
   if (diff.newName?.length) {
@@ -158,23 +163,32 @@ export async function addUpdateMessage(
     groupUpdate.kicked = diff.kickedMembers;
   }
 
-  if (UserUtils.isUsFromCache(sender)) {
-    const outgoingMessage = await convo.addSingleOutgoingMessage({
-      sent_at: sentAt,
-      group_update: groupUpdate,
-      expireTimer: 0,
-    });
-    return outgoingMessage;
-  }
-  // addSingleIncomingMessage also takes care of updating the unreadCount
+  const expirationType = convo.get('expirationType');
+  const expireTimer = convo.get('expireTimer');
 
-  const incomingMessage = await convo.addSingleIncomingMessage({
+  const msgModel = {
     sent_at: sentAt,
     group_update: groupUpdate,
-    expireTimer: 0,
+    expirationType: expirationType || undefined,
+    expireTimer: expireTimer || 0,
+    // closed groups are always deleteAfterSend
+    expirationStartTimestamp: expirationType
+      ? setExpirationStartTimestamp('deleteAfterSend', sentAt, expirationType === 'legacy')
+      : undefined,
+  };
+
+  if (UserUtils.isUsFromCache(sender)) {
+    const outgoingMessage = await convo.addSingleOutgoingMessage(msgModel);
+    return outgoingMessage;
+  }
+
+  const incomingMessage = await convo.addSingleIncomingMessage({
+    ...msgModel,
     source: sender,
   });
+
   await convo.commit();
+
   return incomingMessage;
 }
 
@@ -205,7 +219,7 @@ function buildGroupDiff(convo: ConversationModel, update: GroupInfo): GroupDiff 
 }
 
 export async function updateOrCreateClosedGroup(details: GroupInfo) {
-  const { id, expireTimer } = details;
+  const { id, expirationType, expireTimer } = details;
 
   const conversation = await getConversationController().getOrCreateAndWait(
     id,
@@ -214,7 +228,13 @@ export async function updateOrCreateClosedGroup(details: GroupInfo) {
 
   const updates: Pick<
     ConversationAttributes,
-    'type' | 'members' | 'displayNameInProfile' | 'active_at' | 'left'
+    | 'type'
+    | 'members'
+    | 'displayNameInProfile'
+    | 'active_at'
+    | 'left'
+    | 'expirationType'
+    | 'expireTimer'
   > = {
     displayNameInProfile: details.name,
     members: details.members,
@@ -222,6 +242,8 @@ export async function updateOrCreateClosedGroup(details: GroupInfo) {
     type: ConversationTypeEnum.GROUP,
     active_at: details.activeAt ? details.activeAt : 0,
     left: details.activeAt ? false : true,
+    expirationType: details.expirationType || 'off',
+    expireTimer: details.expireTimer || 0,
   };
 
   conversation.set(updates);
@@ -233,17 +255,25 @@ export async function updateOrCreateClosedGroup(details: GroupInfo) {
 
   await conversation.commit();
 
-  if (expireTimer === undefined || typeof expireTimer !== 'number') {
+  if (
+    expirationType === undefined ||
+    expirationType === 'off' ||
+    expireTimer === undefined ||
+    typeof expireTimer !== 'number'
+  ) {
     return;
   }
-  await conversation.updateExpireTimer(
-    expireTimer,
-    UserUtils.getOurPubKeyStrFromCache(),
-    Date.now(),
-    {
-      fromSync: true,
-    }
-  );
+
+  await conversation.updateExpireTimer({
+    // TODO legacy messages support will be removed in a future release
+    // TODO What are we cleaning?
+    providedExpirationType: expirationType || 'deleteAfterSend',
+    providedExpireTimer: expireTimer,
+    providedChangeTimestamp: getNowWithNetworkOffset(),
+    providedSource: UserUtils.getOurPubKeyStrFromCache(),
+    receivedAt: Date.now(),
+    fromSync: true,
+  });
 }
 
 async function sendNewName(convo: ConversationModel, name: string, messageId: string) {

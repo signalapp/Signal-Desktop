@@ -1,6 +1,9 @@
 import _, { isEmpty } from 'lodash';
-import { OpenGroupV2Room } from '../../../../data/opengroups';
+import { OpenGroupData, OpenGroupV2Room } from '../../../../data/opengroups';
 import { OpenGroupRequestCommonType } from '../opengroupV2/ApiUtil';
+import { getOpenGroupManager } from '../opengroupV2/OpenGroupManagerV2';
+import { SessionUtilUserGroups } from '../../../utils/libsession/libsession_utils_user_groups';
+import { getConversationController } from '../../../conversations';
 
 const protocolRegex = new RegExp('https?://');
 
@@ -113,4 +116,47 @@ export function getOpenGroupV2FromConversationId(
  */
 export function isOpenGroupV2(conversationId: string) {
   return Boolean(conversationId?.startsWith(openGroupPrefix));
+}
+
+/**
+ * Fetches all roomInfos for all of our opengroup conversations.
+ * We consider the conversations as our source-of-truth, so if there is a roomInfo without an associated convo, we remove it before returning.
+ * @returns A map of conversationIds to roomInfos for all valid open group conversations or undefined
+ */
+export async function getAllValidOpenGroupV2ConversationRoomInfos() {
+  const inWrapperCommunities = SessionUtilUserGroups.getAllCommunitiesCached();
+
+  const inWrapperIds = inWrapperCommunities.map(m =>
+    getOpenGroupV2ConversationId(m.baseUrl, m.roomCasePreserved)
+  );
+
+  let allRoomInfos = OpenGroupData.getAllV2OpenGroupRoomsMap();
+
+  // It is time for some cleanup!
+  // We consider the wrapper to be our source-of-truth,
+  // so if there is a roomInfos without an associated entry in the wrapper, we remove it from the map of opengroups rooms
+  if (allRoomInfos?.size) {
+    const roomInfosAsArray = [...allRoomInfos.values()];
+    for (let index = 0; index < roomInfosAsArray.length; index++) {
+      const infos = roomInfosAsArray[index];
+      try {
+        const roomConvoId = getOpenGroupV2ConversationId(infos.serverUrl, infos.roomId);
+        if (!inWrapperIds.includes(roomConvoId)) {
+          // remove the roomInfos locally for this open group room.
+
+          await OpenGroupData.removeV2OpenGroupRoom(roomConvoId);
+          getOpenGroupManager().removeRoomFromPolledRooms(infos);
+          await getConversationController().deleteCommunity(roomConvoId, {
+            fromSyncMessage: false,
+          });
+        }
+      } catch (e) {
+        window?.log?.warn('cleanup roomInfos error', e);
+      }
+    }
+  }
+
+  // refresh our roomInfos list
+  allRoomInfos = OpenGroupData.getAllV2OpenGroupRoomsMap();
+  return allRoomInfos;
 }

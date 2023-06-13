@@ -1,31 +1,46 @@
 import React from 'react';
 
 import { PropsForExpirationTimer } from '../../state/ducks/conversations';
-import { NotificationBubble } from './message/message-item/notification-bubble/NotificationBubble';
-import { ReadableMessage } from './message/message-item/ReadableMessage';
 import { assertUnreachable } from '../../types/sqlSharedTypes';
 
+import { ExpirableReadableMessage } from './message/message-item/ExpirableReadableMessage';
+import { SessionIcon } from '../icon';
+import { SpacerSM, Text } from '../basic/Text';
+import { Flex } from '../basic/Flex';
+import styled from 'styled-components';
+
+const StyledTimerNotification = styled(Flex)`
+  text-align: center;
+`;
+
 export const TimerNotification = (props: PropsForExpirationTimer) => {
-  const { messageId, receivedAt, isUnread, pubkey, profileName, timespan, type, disabled } = props;
+  const { messageId, pubkey, profileName, expirationType, timespan, type, disabled } = props;
 
   const contact = profileName || pubkey;
+  // TODO legacy messages support will be removed in a future release
+  const mode =
+    expirationType === 'legacy'
+      ? null
+      : expirationType === 'deleteAfterRead'
+      ? window.i18n('timerModeRead')
+      : window.i18n('timerModeSent');
 
   let textToRender: string | undefined;
   switch (type) {
     case 'fromOther':
       textToRender = disabled
         ? window.i18n('disabledDisappearingMessages', [contact, timespan])
-        : window.i18n('theyChangedTheTimer', [contact, timespan]);
+        : mode
+        ? window.i18n('theyChangedTheTimer', [contact, timespan, mode])
+        : window.i18n('theyChangedTheTimerLegacy', [contact, timespan]);
       break;
     case 'fromMe':
-      textToRender = disabled
-        ? window.i18n('youDisabledDisappearingMessages')
-        : window.i18n('youChangedTheTimer', [timespan]);
-      break;
     case 'fromSync':
       textToRender = disabled
-        ? window.i18n('disappearingMessagesDisabled')
-        : window.i18n('timerSetOnSync', [timespan]);
+        ? window.i18n('youDisabledDisappearingMessages')
+        : mode
+        ? window.i18n('youChangedTheTimer', [timespan, mode])
+        : window.i18n('youChangedTheTimerLegacy', [timespan]);
       break;
     default:
       assertUnreachable(type, `TimerNotification: Missing case error "${type}"`);
@@ -34,18 +49,31 @@ export const TimerNotification = (props: PropsForExpirationTimer) => {
   if (!textToRender || textToRender.length === 0) {
     throw new Error('textToRender invalid key used TimerNotification');
   }
+
   return (
-    <ReadableMessage
+    <ExpirableReadableMessage
       messageId={messageId}
-      receivedAt={receivedAt}
-      isUnread={isUnread}
+      direction={type === 'fromOther' ? 'incoming' : 'outgoing'}
+      isCentered={true}
+      marginInlineStart={'calc(var(--margins-lg) + 6px)'}
+      marginInlineEnd={'calc(var(--margins-lg) + 6px)'}
       key={`readable-message-${messageId}`}
+      dataTestId={'disappear-control-message'}
     >
-      <NotificationBubble
-        iconType="stopwatch"
-        iconColor="inherit"
-        notificationText={textToRender}
-      />
-    </ReadableMessage>
+      <StyledTimerNotification
+        container={true}
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="center"
+        width="90%"
+        maxWidth="700px"
+        margin="10px auto"
+        padding="5px 10px"
+      >
+        <SessionIcon iconType="stopwatch" iconColor="inherit" iconSize="medium" />
+        <SpacerSM />
+        <Text text={textToRender} />
+      </StyledTimerNotification>
+    </ExpirableReadableMessage>
   );
 };

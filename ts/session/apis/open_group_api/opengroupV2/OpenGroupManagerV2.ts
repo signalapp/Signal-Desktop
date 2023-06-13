@@ -2,7 +2,10 @@ import { OpenGroupData, OpenGroupV2Room } from '../../../../data/opengroups';
 import { ConversationModel } from '../../../../models/conversation';
 import { getConversationController } from '../../../conversations';
 import { allowOnlyOneAtATime } from '../../../utils/Promise';
-import { getOpenGroupV2ConversationId } from '../utils/OpenGroupUtils';
+import {
+  getAllValidOpenGroupV2ConversationRoomInfos,
+  getOpenGroupV2ConversationId,
+} from '../utils/OpenGroupUtils';
 import {
   OpenGroupRequestCommonType,
   ourSogsDomainName,
@@ -129,41 +132,8 @@ export class OpenGroupManagerV2 {
     if (this.isPolling) {
       return;
     }
-
-    const inWrapperCommunities = SessionUtilUserGroups.getAllCommunitiesCached();
-
-    const inWrapperIds = inWrapperCommunities.map(m =>
-      getOpenGroupV2ConversationId(m.baseUrl, m.roomCasePreserved)
-    );
-
-    let allRoomInfos = OpenGroupData.getAllV2OpenGroupRoomsMap();
-
-    // Itis time for some cleanup!
-    // We consider the wrapper to be our source-of-truth,
-    // so if there is a roomInfos without an associated entry in the wrapper, we remove it from the map of opengroups rooms
-    if (allRoomInfos?.size) {
-      const roomInfosAsArray = [...allRoomInfos.values()];
-      for (let index = 0; index < roomInfosAsArray.length; index++) {
-        const infos = roomInfosAsArray[index];
-        try {
-          const roomConvoId = getOpenGroupV2ConversationId(infos.serverUrl, infos.roomId);
-          if (!inWrapperIds.includes(roomConvoId)) {
-            // remove the roomInfos locally for this open group room.
-
-            await OpenGroupData.removeV2OpenGroupRoom(roomConvoId);
-            getOpenGroupManager().removeRoomFromPolledRooms(infos);
-            await getConversationController().deleteCommunity(roomConvoId, {
-              fromSyncMessage: false,
-            });
-          }
-        } catch (e) {
-          window?.log?.warn('cleanup roomInfos error', e);
-        }
-      }
-    }
-    // refresh our roomInfos list
-    allRoomInfos = OpenGroupData.getAllV2OpenGroupRoomsMap();
-    if (allRoomInfos?.size) {
+    const allRoomInfos = await getAllValidOpenGroupV2ConversationRoomInfos();
+    if (allRoomInfos) {
       this.addRoomToPolledRooms([...allRoomInfos.values()]);
     }
 

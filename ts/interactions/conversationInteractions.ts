@@ -43,6 +43,8 @@ import { encryptProfile } from '../util/crypto/profileEncrypter';
 import { ReleasedFeatures } from '../util/releaseFeature';
 import { Storage, setLastProfileUpdateTimestamp } from '../util/storage';
 import { UserGroupsWrapperActions } from '../webworker/workers/browser/libsession_worker_interface';
+import { DisappearingMessageConversationType } from '../util/expiringMessages';
+import { GetNetworkTime } from '../session/apis/snode_api/getNetworkTime';
 
 export async function copyPublicKeyByConvoId(convoId: string) {
   if (OpenGroupUtils.isOpenGroupV2(convoId)) {
@@ -364,7 +366,8 @@ export function deleteAllMessagesByConvoIdWithConfirmation(conversationId: strin
 
 export async function setDisappearingMessagesByConvoId(
   conversationId: string,
-  seconds: number | undefined
+  expirationType: DisappearingMessageConversationType,
+  seconds?: number
 ) {
   const conversation = getConversationController().get(conversationId);
 
@@ -375,10 +378,20 @@ export async function setDisappearingMessagesByConvoId(
     return;
   }
 
-  if (!seconds || seconds <= 0) {
-    await conversation.updateExpireTimer(null);
+  const providedChangeTimestamp = GetNetworkTime.getNowWithNetworkOffset();
+
+  if (!expirationType || expirationType === 'off' || !seconds || seconds <= 0) {
+    await conversation.updateExpireTimer({
+      providedExpirationType: 'off',
+      providedExpireTimer: 0,
+      providedChangeTimestamp,
+    });
   } else {
-    await conversation.updateExpireTimer(seconds);
+    await conversation.updateExpireTimer({
+      providedExpirationType: expirationType,
+      providedExpireTimer: seconds,
+      providedChangeTimestamp,
+    });
   }
 }
 

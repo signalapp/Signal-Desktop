@@ -9,7 +9,7 @@ import { getShowRecoveryPhrasePrompt } from '../../state/selectors/userConfig';
 import { isSignWithRecoveryPhrase } from '../../util/storage';
 import { Flex } from '../basic/Flex';
 import { SessionButton } from '../basic/SessionButton';
-import { MenuButton } from '../button/MenuButton';
+import { MenuButton } from '../buttons';
 
 const SectionTitle = styled.h1`
   padding-top: var(--margins-xs);

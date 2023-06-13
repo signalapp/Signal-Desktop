@@ -26,16 +26,8 @@ export async function createClosedGroup(groupName: string, members: Array<string
 
   const us = UserUtils.getOurPubKeyStrFromCache();
 
-  // const identityKeyPair = await generateGroupV3Keypair();
-  // if (!identityKeyPair) {
-  //   throw new Error('Could not create identity keypair for new closed group v3');
-  // }
-
-  // a v3 pubkey starts with 03 and an old one starts with 05
   const groupPublicKey = await generateClosedGroupPublicKey();
-  // const groupPublicKey = isV3 ? identityKeyPair.pubkey : await generateClosedGroupPublicKey();
 
-  // the first encryption keypair is generated the same for all versions of closed group
   const encryptionKeyPair = await generateCurve25519KeyPairWithoutPrefix();
   if (!encryptionKeyPair) {
     throw new Error('Could not create encryption keypair for new closed group');
@@ -44,7 +36,7 @@ export async function createClosedGroup(groupName: string, members: Array<string
   // Create the group
   const convo = await getConversationController().getOrCreateAndWait(
     groupPublicKey,
-    isV3 ? ConversationTypeEnum.GROUPV3 : ConversationTypeEnum.GROUP
+    ConversationTypeEnum.GROUP
   );
   await convo.setIsApproved(true, false);
 
@@ -60,21 +52,18 @@ export async function createClosedGroup(groupName: string, members: Array<string
     members: listOfMembers,
     admins,
     activeAt: Date.now(),
+    // TODO This is only applicable for old closed groups - will be removed in future
+    expirationType: existingExpireTimer === 0 ? 'off' : 'deleteAfterSend',
     expireTimer: existingExpireTimer,
   };
 
-  // we don't want the initial "AAA and You joined the group"
+  // we don't want the initial "AAA and You joined the group" anymore
 
   // be sure to call this before sending the message.
   // the sending pipeline needs to know from GroupUtils when a message is for a medium group
   await ClosedGroup.updateOrCreateClosedGroup(groupDetails);
   await convo.commit();
   convo.updateLastMessage();
-
-  if (isV3) {
-    // we need to send a group info and encryption keys message to the batch endpoint with both seqno being 0
-    throw new Error('fixme');
-  }
 
   // Send a closed group update message to all members individually
   const allInvitesSent = await sendToGroupMembers(
@@ -103,7 +92,7 @@ export async function createClosedGroup(groupName: string, members: Array<string
 /**
  * Sends a group invite message to each member of the group.
  * @returns Array of promises for group invite messages sent to group members.
- * This function takes care of the groupv3 specificities
+
  */
 async function sendToGroupMembers(
   listOfMembers: Array<string>,

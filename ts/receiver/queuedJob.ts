@@ -1,10 +1,10 @@
 import { queueAttachmentDownloads } from './attachments';
 
-import _ from 'lodash';
 import { Data } from '../../ts/data/data';
+import _, { isEmpty, isEqual } from 'lodash';
+import { getConversationController } from '../session/conversations';
 import { ConversationModel } from '../models/conversation';
 import { MessageModel, sliceQuoteText } from '../models/message';
-import { getConversationController } from '../session/conversations';
 import { Quote } from './types';
 
 import { ConversationTypeEnum, READ_MESSAGE_STATE } from '../models/conversationAttributes';
@@ -16,6 +16,8 @@ import { getHideMessageRequestBannerOutsideRedux } from '../state/selectors/user
 import { GoogleChrome } from '../util';
 import { LinkPreviews } from '../util/linkPreviews';
 import { ReleasedFeatures } from '../util/releaseFeature';
+import { setExpirationStartTimestamp } from '../util/expiringMessages';
+import { GetNetworkTime } from '../session/apis/snode_api/getNetworkTime';
 
 function contentTypeSupported(type: string): boolean {
   const Chrome = GoogleChrome;
@@ -145,6 +147,19 @@ async function processProfileKeyNoCommit(
 function updateReadStatus(message: MessageModel) {
   if (message.isExpirationTimerUpdate()) {
     message.set({ unread: READ_MESSAGE_STATE.read });
+    const expirationType = message.get('expirationType');
+    // TODO legacy messages support will be removed in a future release
+    const convo = message.getConversation();
+    const isLegacyMode = convo && !convo.isMe() && convo.isPrivate() && expirationType === 'legacy';
+    if ((isLegacyMode || expirationType === 'deleteAfterRead') && message.get('expireTimer')) {
+      message.set({
+        expirationStartTimestamp: setExpirationStartTimestamp(
+          'deleteAfterRead',
+          undefined,
+          isLegacyMode
+        ),
+      });
+    }
   }
 }
 
@@ -167,6 +182,7 @@ export type RegularMessageType = Pick<
   | 'reaction'
   | 'profile'
   | 'profileKey'
+  // TODO legacy messages support will be removed in a future release
   | 'expireTimer'
 > & { isRegularMessage: true };
 
@@ -208,8 +224,6 @@ async function handleRegularMessage(
   }
 
   handleLinkPreviews(rawDataMessage.body, rawDataMessage.preview, message);
-  const existingExpireTimer = conversation.get('expireTimer');
-
   message.set({
     flags: rawDataMessage.flags,
     // quote: rawDataMessage.quote, // do not do this copy here, it must be done only in copyFromQuotedMessage()
@@ -219,10 +233,6 @@ async function handleRegularMessage(
     messageHash,
     errors: [],
   });
-
-  if (existingExpireTimer) {
-    message.set({ expireTimer: existingExpireTimer });
-  }
 
   // Expire timer updates are now explicit.
   // We don't handle an expire timer from a incoming message except if it is an ExpireTimerUpdate message.
@@ -296,24 +306,6 @@ async function handleRegularMessage(
   });
 }
 
-async function handleExpirationTimerUpdateNoCommit(
-  conversation: ConversationModel,
-  message: MessageModel,
-  source: string,
-  expireTimer: number
-) {
-  message.set({
-    expirationTimerUpdate: {
-      source,
-      expireTimer,
-    },
-    unread: READ_MESSAGE_STATE.read, // mark the message as read.
-  });
-  conversation.set({ expireTimer });
-
-  await conversation.updateExpireTimer(expireTimer, source, message.get('received_at'), {}, false);
-}
-
 function markConvoAsReadIfOutgoingMessage(conversation: ConversationModel, message: MessageModel) {
   const isOutgoingMessage =
     message.get('type') === 'outgoing' || message.get('direction') === 'outgoing';
@@ -325,6 +317,7 @@ function markConvoAsReadIfOutgoingMessage(conversation: ConversationModel, messa
   }
 }
 
+// tslint:disable: max-func-body-length cyclomatic-complexity
 export async function handleMessageJob(
   messageModel: MessageModel,
   conversation: ConversationModel,
@@ -345,17 +338,66 @@ export async function handleMessageJob(
   );
   try {
     messageModel.set({ flags: regularDataMessage.flags });
+
+    // TODO legacy messages support will be removed in a future release
+    if (
+      messageModel.isIncoming() &&
+      Boolean(messageModel.get('expirationStartTimestamp')) === false &&
+      ((messageModel.get('expirationType') === 'legacy' &&
+        (conversation.isMe() || conversation.isMediumGroup())) ||
+        messageModel.get('expirationType') === 'deleteAfterSend')
+    ) {
+      messageModel.set({
+        expirationStartTimestamp: setExpirationStartTimestamp(
+          'deleteAfterSend',
+          messageModel.get('sent_at'),
+          messageModel.get('expirationType') === 'legacy'
+        ),
+      });
+    }
+
     if (messageModel.isExpirationTimerUpdate()) {
-      const { expireTimer } = regularDataMessage;
-      const oldValue = conversation.get('expireTimer');
-      if (expireTimer === oldValue) {
+      // NOTE if we turn off disappearing messages from a legacy client expirationTimerUpdate can be undefined but the flags value is correctly set
+      const expirationTimerUpdate = messageModel.get('expirationTimerUpdate');
+      if (
+        messageModel.get('flags') !== SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE &&
+        (!expirationTimerUpdate || isEmpty(expirationTimerUpdate))
+      ) {
+        window.log.info(
+          'There is a problem with the expiration timer update',
+          messageModel,
+          expirationTimerUpdate
+        );
+        return;
+      }
+
+      const expirationType = expirationTimerUpdate?.expirationType || 'off';
+      const expireTimer = expirationTimerUpdate?.expireTimer || 0;
+      const lastDisappearingMessageChangeTimestamp =
+        expirationTimerUpdate?.lastDisappearingMessageChangeTimestamp ||
+        GetNetworkTime.getNowWithNetworkOffset();
+
+      // Compare mode and timestamp
+      if (
+        isEqual(expirationType, conversation.get('expirationType')) &&
+        isEqual(expireTimer, conversation.get('expireTimer'))
+      ) {
         confirm?.();
         window?.log?.info(
           'Dropping ExpireTimerUpdate message as we already have the same one set.'
         );
         return;
       }
-      await handleExpirationTimerUpdateNoCommit(conversation, messageModel, source, expireTimer);
+
+      await conversation.updateExpireTimer({
+        providedExpirationType: expirationType,
+        providedExpireTimer: expireTimer,
+        providedChangeTimestamp: lastDisappearingMessageChangeTimestamp,
+        providedSource: source,
+        receivedAt: messageModel.get('received_at'),
+        shouldCommit: false,
+        existingMessage: messageModel,
+      });
     } else {
       // this does not commit to db nor UI unless we need to approve a convo
       await handleRegularMessage(

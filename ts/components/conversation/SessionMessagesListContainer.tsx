@@ -73,6 +73,10 @@ const StyledMessagesContainer = styled.div<{}>`
   }
 `;
 
+const StyledTypingBubble = styled(TypingBubble)`
+  margin: var(--margins-xs) var(--margins-lg) 0;
+`;
+
 class SessionMessagesListContainerInner extends React.Component<Props> {
   private timeoutResetQuotedScroll: NodeJS.Timeout | null = null;
 
@@ -122,7 +126,7 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
         ref={this.props.messageContainerRef}
         data-testid="messages-container"
       >
-        <TypingBubble
+        <StyledTypingBubble
           conversationType={conversation.type}
           isTyping={!!conversation.isTyping}
           key="typing-bubble"

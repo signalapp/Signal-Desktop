@@ -16,19 +16,19 @@ export class ClosedGroupNewMessage extends ClosedGroupMessage {
   private readonly members: Array<string>;
   private readonly admins: Array<string>;
   private readonly keypair: ECKeyPair;
-  private readonly expireTimer: number;
 
   constructor(params: ClosedGroupNewMessageParams) {
     super({
       timestamp: params.timestamp,
       identifier: params.identifier,
       groupId: params.groupId,
+      expirationType: params.expirationType,
+      expireTimer: params.expireTimer,
     });
     this.name = params.name;
     this.members = params.members;
     this.admins = params.admins;
     this.keypair = params.keypair;
-    this.expireTimer = params.expireTimer;
 
     if (!params.admins || params.admins.length === 0) {
       throw new Error('Admins must be set');
@@ -63,7 +63,7 @@ export class ClosedGroupNewMessage extends ClosedGroupMessage {
 
     dataMessage.closedGroupControlMessage.admins = this.admins.map(fromHexToArray);
     dataMessage.closedGroupControlMessage.members = this.members.map(fromHexToArray);
-    dataMessage.closedGroupControlMessage.expireTimer = this.expireTimer;
+    dataMessage.closedGroupControlMessage.expirationTimer = this.expireTimer;
     try {
       dataMessage.closedGroupControlMessage.encryptionKeyPair = new SignalService.KeyPair();
       dataMessage.closedGroupControlMessage.encryptionKeyPair.privateKey = new Uint8Array(

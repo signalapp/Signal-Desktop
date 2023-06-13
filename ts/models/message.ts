@@ -4,7 +4,7 @@ import filesize from 'filesize';
 import { SignalService } from '../../ts/protobuf';
 import { getMessageQueue } from '../../ts/session';
 import { getConversationController } from '../../ts/session/conversations';
-import { DataMessage } from '../../ts/session/messages/outgoing';
+import { ContentMessage } from '../../ts/session/messages/outgoing';
 import { PubKey } from '../../ts/session/types';
 import {
   uploadAttachmentsToFileServer,
@@ -30,11 +30,11 @@ import {
   debounce,
   groupBy,
   isEmpty,
+  size as lodashSize,
   map,
   partition,
   pick,
   reject,
-  size as lodashSize,
   sortBy,
   uniq,
 } from 'lodash';
@@ -45,9 +45,10 @@ import {
   findCachedBlindedIdFromUnblinded,
   isUsAnySogsFromCache,
 } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
+import { expireMessageOnSnode } from '../session/apis/snode_api/expire';
 import { GetNetworkTime } from '../session/apis/snode_api/getNetworkTime';
 import { SnodeNamespaces } from '../session/apis/snode_api/namespaces';
-import { QUOTED_TEXT_MAX_LENGTH } from '../session/constants';
+import { DURATION, QUOTED_TEXT_MAX_LENGTH } from '../session/constants';
 import { OpenGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
 import {
   VisibleMessage,
@@ -69,6 +70,7 @@ import {
   messagesChanged,
   PropsForAttachment,
   PropsForExpirationTimer,
+  PropsForExpiringMessage,
   PropsForGroupInvitation,
   PropsForGroupUpdate,
   PropsForGroupUpdateAdd,
@@ -88,12 +90,17 @@ import {
   loadQuoteData,
 } from '../types/MessageAttachment';
 import { ReactionList } from '../types/Reaction';
-import { ExpirationTimerOptions } from '../util/expiringMessages';
+import { roomHasBlindEnabled } from '../types/sqlSharedTypes';
+import {
+  DisappearingMessageConversationSetting,
+  DisappearingMessageUpdate,
+  ExpirationTimerOptions,
+  setExpirationStartTimestamp,
+} from '../util/expiringMessages';
 import { LinkPreviews } from '../util/linkPreviews';
 import { Notifications } from '../util/notifications';
 import { Storage } from '../util/storage';
 import { ConversationModel } from './conversation';
-import { roomHasBlindEnabled } from '../types/sqlSharedTypes';
 import { READ_MESSAGE_STATE } from './conversationAttributes';
 // tslint:disable: cyclomatic-complexity
 
@@ -143,6 +150,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const propsForGroupInvitation = this.getPropsForGroupInvitation();
     const propsForGroupUpdateMessage = this.getPropsForGroupUpdateMessage();
     const propsForTimerNotification = this.getPropsForTimerNotification();
+    const propsForExpiringMessage = this.getPropsForExpiringMessage();
     const propsForMessageRequestResponse = this.getPropsForMessageRequestResponse();
     const callNotificationType = this.get('callNotificationType');
     const messageProps: MessageModelPropsWithoutConvoProps = {
@@ -164,12 +172,16 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       messageProps.propsForTimerNotification = propsForTimerNotification;
     }
 
+    if (propsForExpiringMessage) {
+      messageProps.propsForExpiringMessage = propsForExpiringMessage;
+    }
+
     if (callNotificationType) {
       messageProps.propsForCallNotification = {
         notificationType: callNotificationType,
-        messageId: this.id,
         receivedAt: this.get('received_at') || Date.now(),
         isUnread: this.isUnread(),
+        ...this.getPropsForExpiringMessage(),
       };
     }
     perfEnd(`getPropsMessage-${this.id}`, 'getPropsMessage');
@@ -249,7 +261,9 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     }
     if (this.isExpirationTimerUpdate()) {
       const expireTimerUpdate = this.get('expirationTimerUpdate');
-      if (!expireTimerUpdate || !expireTimerUpdate.expireTimer) {
+      const expirationType = expireTimerUpdate?.expirationType;
+      const expireTimer = expireTimerUpdate?.expireTimer;
+      if (!expireTimerUpdate || expirationType === 'off' || !expireTimer || expireTimer === 0) {
         return window.i18n('disappearingMessagesDisabled');
       }
 
@@ -269,16 +283,45 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     await deleteExternalMessageFiles(this.attributes);
   }
 
+  public getPropsForExpiringMessage(): PropsForExpiringMessage {
+    const expirationType = this.get('expirationType');
+    const expirationLength = this.get('expireTimer')
+      ? this.get('expireTimer') * DURATION.SECONDS
+      : null;
+
+    const expireTimerStart = this.get('expirationStartTimestamp') || null;
+
+    const expirationTimestamp =
+      expirationType && expireTimerStart && expirationLength
+        ? expireTimerStart + expirationLength
+        : null;
+
+    const direction =
+      this.get('direction') === 'outgoing' || this.get('type') === 'outgoing'
+        ? 'outgoing'
+        : 'incoming';
+
+    return {
+      convoId: this.get('conversationId'),
+      messageId: this.get('id'),
+      direction,
+      expirationLength,
+      expirationTimestamp,
+      isExpired: this.isExpired(),
+    };
+  }
+
   public getPropsForTimerNotification(): PropsForExpirationTimer | null {
     if (!this.isExpirationTimerUpdate()) {
       return null;
     }
+
     const timerUpdate = this.get('expirationTimerUpdate');
     if (!timerUpdate || !timerUpdate.source) {
       return null;
     }
 
-    const { expireTimer, fromSync, source } = timerUpdate;
+    const { expirationType, expireTimer, fromSync, source } = timerUpdate;
     const timespan = ExpirationTimerOptions.getName(expireTimer || 0);
     const disabled = !expireTimer;
 
@@ -287,9 +330,10 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       timespan,
       disabled,
       type: fromSync ? 'fromSync' : UserUtils.isUsFromCache(source) ? 'fromMe' : 'fromOther',
-      messageId: this.id,
       receivedAt: this.get('received_at'),
       isUnread: this.isUnread(),
+      expirationType: expirationType || 'off',
+      ...this.getPropsForExpiringMessage(),
     };
 
     return basicProps;
@@ -300,13 +344,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       return null;
     }
     const invitation = this.get('groupInvitation');
-
-    let direction = this.get('direction');
-    if (!direction) {
-      direction = this.get('type') === 'outgoing' ? 'outgoing' : 'incoming';
-    }
-
     let serverAddress = '';
+
     try {
       const url = new URL(invitation.url);
       serverAddress = url.origin;
@@ -317,11 +356,10 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     return {
       serverName: invitation.name,
       url: serverAddress,
-      direction,
       acceptUrl: invitation.url,
-      messageId: this.id as string,
       receivedAt: this.get('received_at'),
       isUnread: this.isUnread(),
+      ...this.getPropsForExpiringMessage(),
     };
   }
 
@@ -341,9 +379,9 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     return {
       ...dataExtractionNotification,
       name: contact.profileName || contact.name || dataExtractionNotification.source,
-      messageId: this.id,
       receivedAt: this.get('received_at'),
       isUnread: this.isUnread(),
+      ...this.getPropsForExpiringMessage(),
     };
   }
 
@@ -380,9 +418,9 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     }
 
     const sharedProps = {
-      messageId: this.id,
       isUnread: this.isUnread(),
       receivedAt: this.get('received_at'),
+      ...this.getPropsForExpiringMessage(),
     };
 
     if (groupUpdate.joined?.length) {
@@ -462,10 +500,13 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   // tslint:disable-next-line: cyclomatic-complexity
   public getPropsForMessage(options: any = {}): PropsForMessageWithoutConvoProps {
     const sender = this.getSource();
-    const expirationLength = this.get('expireTimer') * 1000;
+    const expirationType = this.get('expirationType');
+    const expirationLength = this.get('expireTimer') * DURATION.SECONDS;
     const expireTimerStart = this.get('expirationStartTimestamp');
     const expirationTimestamp =
-      expirationLength && expireTimerStart ? expireTimerStart + expirationLength : null;
+      expirationType && expirationLength && expireTimerStart
+        ? expireTimerStart + expirationLength
+        : null;
 
     const attachments = this.get('attachments') || [];
     const isTrustedForAttachmentDownload = this.isTrustedForAttachmentDownload();
@@ -495,6 +536,9 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     }
     if (this.get('serverId')) {
       props.serverId = this.get('serverId');
+    }
+    if (expirationType) {
+      props.expirationType = expirationType;
     }
     if (expirationLength) {
       props.expirationLength = expirationLength;
@@ -899,10 +943,12 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         });
       }
 
+      const timestamp = Date.now(); // force a new timestamp to handle user fixed his clock;
+
       const chatParams = {
         identifier: this.id,
         body,
-        timestamp: Date.now(), // force a new timestamp to handle user fixed his clock
+        timestamp,
         expireTimer: this.get('expireTimer'),
         attachments,
         preview: preview ? [preview] : [],
@@ -940,8 +986,9 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
       const closedGroupVisibleMessage = new ClosedGroupVisibleMessage({
         identifier: this.id,
-        chatMessage,
         groupId: this.get('conversationId'),
+        timestamp,
+        chatMessage,
       });
 
       return getMessageQueue().sendToGroup({
@@ -1010,42 +1057,82 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     await this.commit();
   }
 
-  public async sendSyncMessageOnly(dataMessage: DataMessage) {
+  public async sendSyncMessageOnly(contentMessage: ContentMessage) {
     const now = Date.now();
+
     this.set({
       sent_to: [UserUtils.getOurPubKeyStrFromCache()],
       sent: true,
-      expirationStartTimestamp: now,
     });
 
     await this.commit();
 
-    const data = dataMessage instanceof DataMessage ? dataMessage.dataProto() : dataMessage;
-    await this.sendSyncMessage(data, now);
+    const content =
+      contentMessage instanceof ContentMessage ? contentMessage.contentProto() : contentMessage;
+    await this.sendSyncMessage(content, now);
   }
 
-  public async sendSyncMessage(dataMessage: SignalService.DataMessage, sentTimestamp: number) {
+  public async sendSyncMessage(content: SignalService.Content, sentTimestamp: number) {
     if (this.get('synced') || this.get('sentSync')) {
       return;
     }
+    const { dataMessage } = content;
 
-    // if this message needs to be synced
+    // TODO maybe we need to account for lastDisappearingMessageChangeTimestamp?
     if (
-      dataMessage.body?.length ||
-      dataMessage.attachments.length ||
-      dataMessage.flags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE
+      dataMessage &&
+      (dataMessage.body?.length ||
+        dataMessage.attachments?.length ||
+        dataMessage.flags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE)
     ) {
       const conversation = this.getConversation();
       if (!conversation) {
         throw new Error('Cannot trigger syncMessage with unknown convo.');
       }
-      const syncMessage = buildSyncMessage(this.id, dataMessage, conversation.id, sentTimestamp);
+
+      // TODO legacy messages support will be removed in a future release
+      const isLegacyDataMessage = Boolean(
+        (dataMessage.expireTimer && dataMessage.expireTimer > -1) ||
+          (!content.expirationTimer &&
+            dataMessage.flags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE)
+      );
+
+      const expirationType = content.expirationType
+        ? DisappearingMessageConversationSetting[content.expirationType]
+        : isLegacyDataMessage
+        ? DisappearingMessageConversationSetting[3]
+        : 'off';
+      const expirationTimer = isLegacyDataMessage
+        ? Number(dataMessage.expireTimer)
+        : content.expirationTimer;
+      const lastDisappearingMessageChangeTimestamp = content.lastDisappearingMessageChangeTimestamp
+        ? Number(content.lastDisappearingMessageChangeTimestamp)
+        : undefined;
+
+      let expireUpdate: DisappearingMessageUpdate | null = null;
+      if (expirationType && expirationTimer !== undefined) {
+        expireUpdate = {
+          expirationType,
+          expirationTimer,
+          lastDisappearingMessageChangeTimestamp,
+        };
+      }
+
+      const syncMessage = buildSyncMessage(
+        this.id,
+        dataMessage as SignalService.DataMessage,
+        conversation.id,
+        sentTimestamp,
+        expireUpdate || undefined
+      );
       await getMessageQueue().sendSyncMessage({
         namespace: SnodeNamespaces.UserMessages,
         message: syncMessage,
       });
     }
-    this.set({ sentSync: true });
+    this.set({
+      sentSync: true,
+    });
     await this.commit();
   }
 
@@ -1107,21 +1194,18 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   public markMessageReadNoCommit(readAt: number) {
     this.set({ unread: READ_MESSAGE_STATE.read });
 
-    if (
-      this.get('expireTimer') &&
-      !this.get('expirationStartTimestamp') &&
-      !this.get('expires_at')
-    ) {
-      const expirationStartTimestamp = Math.min(Date.now(), readAt || Date.now());
-      this.set({ expirationStartTimestamp });
-      const start = this.get('expirationStartTimestamp');
-      const delta = this.get('expireTimer') * 1000;
-      if (!start) {
-        return;
-      }
-      const expiresAt = start + delta;
-      // based on `setToExpire()`
-      this.set({ expires_at: expiresAt });
+    const expirationType = this.get('expirationType');
+    // TODO legacy messages support will be removed in a future release
+    const convo = this.getConversation();
+    const isLegacyMode = convo && !convo.isMe() && convo.isPrivate() && expirationType === 'legacy';
+    if ((isLegacyMode || expirationType === 'deleteAfterRead') && this.get('expireTimer')) {
+      this.set({
+        expirationStartTimestamp: setExpirationStartTimestamp(
+          'deleteAfterRead',
+          readAt,
+          isLegacyMode
+        ),
+      });
     }
 
     Notifications.clearByMessageId(this.id);
@@ -1161,16 +1245,27 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       }
       const expiresAt = start + delta;
 
-      this.set({ expires_at: expiresAt });
+      this.set({
+        expires_at: expiresAt,
+      });
       const id = this.get('id');
       if (id) {
         await this.commit();
       }
 
-      window?.log?.info('Set message expiration', {
+      window?.log?.debug('Set message expiration', {
         expiresAt,
         sentAt: this.get('sent_at'),
       });
+
+      const messageHash = this.get('messageHash');
+      if (messageHash) {
+        await expireMessageOnSnode({
+          messageHash,
+          expireTimer: this.get('expireTimer'),
+          shorten: true,
+        });
+      }
     }
   }
 

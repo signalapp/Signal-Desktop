@@ -426,7 +426,11 @@ function saveConversation(data: ConversationAttributes): SaveConversationReturn 
     profileKey,
     zombies,
     left,
+    expirationType,
+    // TODO rename expireTimer to expirationTimer
     expireTimer,
+    lastDisappearingMessageChangeTimestamp,
+    hasOutdatedClient,
     lastMessageStatus,
     lastMessage,
     lastJoinedTimestamp,
@@ -474,7 +478,10 @@ function saveConversation(data: ConversationAttributes): SaveConversationReturn 
       profileKey,
       zombies: zombies && zombies.length ? arrayStrToJson(zombies) : '[]',
       left: toSqliteBoolean(left),
+      expirationType,
       expireTimer,
+      lastDisappearingMessageChangeTimestamp,
+      hasOutdatedClient: hasOutdatedClient,
       lastMessageStatus,
       lastMessage: shortenedLastMessage,
 
@@ -777,6 +784,7 @@ function saveMessage(data: any) {
     source,
     type,
     unread,
+    expirationType,
     expireTimer,
     expirationStartTimestamp,
   } = data;
@@ -799,6 +807,7 @@ function saveMessage(data: any) {
     conversationId,
     expirationStartTimestamp,
     expires_at,
+    expirationType,
     expireTimer,
     hasAttachments,
     hasFileAttachments,
@@ -822,6 +831,7 @@ function saveMessage(data: any) {
     conversationId,
     expirationStartTimestamp,
     expires_at,
+    expirationType,
     expireTimer,
     hasAttachments,
     hasFileAttachments,
@@ -841,6 +851,7 @@ function saveMessage(data: any) {
     $conversationId,
     $expirationStartTimestamp,
     $expires_at,
+    $expirationType,
     $expireTimer,
     $hasAttachments,
     $hasFileAttachments,
@@ -1475,7 +1486,6 @@ function getSeenMessagesByHashList(hashes: Array<string>) {
 
 function getExpiredMessages() {
   const now = Date.now();
-
   const rows = assertGlobalInstance()
     .prepare(
       `SELECT json FROM ${MESSAGES_TABLE} WHERE

@@ -12,7 +12,7 @@ import {
 } from '../../../../../state/selectors/selectedConversation';
 import { LocalizerKeys } from '../../../../../types/LocalizerKeys';
 import { SessionIconType } from '../../../../icon';
-import { ReadableMessage } from '../ReadableMessage';
+import { ExpirableReadableMessage } from '../ExpirableReadableMessage';
 import { NotificationBubble } from './NotificationBubble';
 
 type StyleType = Record<
@@ -39,7 +39,7 @@ const style: StyleType = {
 };
 
 export const CallNotification = (props: PropsForCallNotification) => {
-  const { messageId, receivedAt, isUnread, notificationType } = props;
+  const { messageId, notificationType } = props;
   const selectedConvoId = useSelectedConversationKey();
 
   const displayNameInProfile = useSelectedDisplayNameInProfile();
@@ -57,17 +57,12 @@ export const CallNotification = (props: PropsForCallNotification) => {
   const iconColor = styleItem.iconColor;
 
   return (
-    <ReadableMessage
-      messageId={messageId}
-      receivedAt={receivedAt}
-      isUnread={isUnread}
-      key={`readable-message-${messageId}`}
-    >
+    <ExpirableReadableMessage messageId={messageId} key={`readable-message-${messageId}`}>
       <NotificationBubble
         notificationText={notificationText}
         iconType={iconType}
         iconColor={iconColor}
       />
-    </ReadableMessage>
+    </ExpirableReadableMessage>
   );
 };

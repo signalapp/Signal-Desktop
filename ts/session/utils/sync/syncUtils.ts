@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
 import { UserUtils } from '..';
 import { getMessageQueue } from '../..';
@@ -16,22 +15,25 @@ import {
   ConfigurationMessageClosedGroup,
   ConfigurationMessageContact,
 } from '../../messages/outgoing/controlMessage/ConfigurationMessage';
-import { ExpirationTimerUpdateMessage } from '../../messages/outgoing/controlMessage/ExpirationTimerUpdateMessage';
 import { MessageRequestResponse } from '../../messages/outgoing/controlMessage/MessageRequestResponse';
 import { SharedConfigMessage } from '../../messages/outgoing/controlMessage/SharedConfigMessage';
-import { UnsendMessage } from '../../messages/outgoing/controlMessage/UnsendMessage';
+import _, { isEmpty } from 'lodash';
 import {
   AttachmentPointerWithUrl,
   PreviewWithAttachmentUrl,
   Quote,
   VisibleMessage,
 } from '../../messages/outgoing/visibleMessage/VisibleMessage';
-import { PubKey } from '../../types';
 import { ConfigurationSync } from '../job_runners/jobs/ConfigurationSyncJob';
 import { fromBase64ToArray, fromHexToArray } from '../String';
-import { getCompleteUrlFromRoom } from '../../apis/open_group_api/utils/OpenGroupUtils';
 import { Storage } from '../../../util/storage';
 import { ReleasedFeatures } from '../../../util/releaseFeature';
+import { getCompleteUrlFromRoom } from '../../apis/open_group_api/utils/OpenGroupUtils';
+import { PubKey } from '../../types';
+import { DisappearingMessageUpdate } from '../../../util/expiringMessages';
+import { ExpirationTimerUpdateMessage } from '../../messages/outgoing/controlMessage/ExpirationTimerUpdateMessage';
+import { UnsendMessage } from '../../messages/outgoing/controlMessage/UnsendMessage';
+import { DataMessage } from '../../messages/outgoing';
 
 const ITEM_ID_LAST_SYNC_TIMESTAMP = 'lastSyncedTimestamp';
 
@@ -335,16 +337,23 @@ const buildSyncVisibleMessage = (
 
 const buildSyncExpireTimerMessage = (
   identifier: string,
-  dataMessage: SignalService.DataMessage,
+  expireUpdate: DisappearingMessageUpdate,
   timestamp: number,
   syncTarget: string
 ) => {
-  const expireTimer = dataMessage.expireTimer;
+  const {
+    expirationType,
+    // TODO rename expireTimer to expirationTimer
+    expirationTimer: expireTimer,
+    lastDisappearingMessageChangeTimestamp,
+  } = expireUpdate;
 
   return new ExpirationTimerUpdateMessage({
     identifier,
     timestamp,
+    expirationType,
     expireTimer,
+    lastDisappearingMessageChangeTimestamp,
     syncTarget,
   });
 };
@@ -359,16 +368,19 @@ export type SyncMessageType =
 
 export const buildSyncMessage = (
   identifier: string,
-  dataMessage: SignalService.DataMessage,
+  data: DataMessage | SignalService.DataMessage,
   syncTarget: string,
-  sentTimestamp: number
+  sentTimestamp: number,
+  expireUpdate?: DisappearingMessageUpdate
 ): VisibleMessage | ExpirationTimerUpdateMessage => {
   if (
-    (dataMessage as any).constructor.name !== 'DataMessage' &&
-    !(dataMessage instanceof SignalService.DataMessage)
+    (data as any).constructor.name !== 'DataMessage' &&
+    !(data instanceof SignalService.DataMessage)
   ) {
     window?.log?.warn('buildSyncMessage with something else than a DataMessage');
   }
+
+  const dataMessage = data instanceof DataMessage ? data.dataProto() : data;
 
   if (!sentTimestamp || !_.isNumber(sentTimestamp)) {
     throw new Error('Tried to build a sync message without a sentTimestamp');
@@ -376,7 +388,11 @@ export const buildSyncMessage = (
   // don't include our profileKey on syncing message. This is to be done by a ConfigurationMessage now
   const timestamp = _.toNumber(sentTimestamp);
   if (dataMessage.flags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE) {
-    return buildSyncExpireTimerMessage(identifier, dataMessage, timestamp, syncTarget);
+    if (expireUpdate && !isEmpty(expireUpdate)) {
+      return buildSyncExpireTimerMessage(identifier, expireUpdate, timestamp, syncTarget);
+    } else {
+      window.log.warn('Building Sync Expire Timer Message failed', dataMessage, expireUpdate);
+    }
   }
   return buildSyncVisibleMessage(identifier, dataMessage, timestamp, syncTarget);
 };

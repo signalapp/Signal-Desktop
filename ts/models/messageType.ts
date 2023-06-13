@@ -8,6 +8,7 @@ import {
 import { AttachmentTypeWithPath } from '../types/Attachment';
 import { Reaction, ReactionList, SortedReactionList } from '../types/Reaction';
 import { READ_MESSAGE_STATE } from './conversationAttributes';
+import { DisappearingMessageType } from '../util/expiringMessages';
 
 export type MessageModelType = 'incoming' | 'outgoing';
 
@@ -17,7 +18,6 @@ export interface MessageAttributes {
   id: string;
   source: string;
   quote?: any;
-  expireTimer: number;
   received_at?: number;
   sent_at?: number;
   preview?: any;
@@ -25,9 +25,20 @@ export interface MessageAttributes {
   reacts?: ReactionList;
   reactsIndex?: number;
   body?: string;
+  // NOTE this is used for the logic
+  expirationType?: DisappearingMessageType;
+  expireTimer: number;
   expirationStartTimestamp: number;
-  read_by: Array<string>; // we actually only care about the length of this. values are not used for anything
   expires_at?: number;
+  // NOTE this is used for conversation setting
+  expirationTimerUpdate?: {
+    expirationType: DisappearingMessageType;
+    expireTimer: number;
+    lastDisappearingMessageChangeTimestamp: number;
+    source: string;
+    fromSync?: boolean;
+  };
+  read_by: Array<string>; // we actually only care about the length of this. values are not used for anything
   type: MessageModelType;
   group_update?: MessageGroupUpdate;
   groupInvitation?: any;
@@ -38,11 +49,6 @@ export interface MessageAttributes {
   hasAttachments: 1 | 0;
   hasFileAttachments: 1 | 0;
   hasVisualMediaAttachments: 1 | 0;
-  expirationTimerUpdate?: {
-    expireTimer: number;
-    source: string;
-    fromSync?: boolean;
-  };
   /**
    * 1 means unread, 0 or anything else is read.
    * You can use the values from READ_MESSAGE_STATE.unread and READ_MESSAGE_STATE.read
@@ -134,12 +140,10 @@ export enum MessageDirection {
   any = '%',
 }
 
-export type PropsForDataExtractionNotification = DataExtractionNotificationMsg & {
+export interface PropsForDataExtractionNotification extends DataExtractionNotificationMsg {
   name: string;
   messageId: string;
-  receivedAt?: number;
-  isUnread: boolean;
-};
+}
 
 export type PropsForMessageRequestResponse = MessageRequestResponseMsg & {
   conversationId?: string;
@@ -162,7 +166,6 @@ export interface MessageAttributesOptionals {
   id?: string;
   source: string;
   quote?: any;
-  expireTimer?: number;
   received_at?: number;
   sent_at?: number;
   preview?: any;
@@ -170,9 +173,20 @@ export interface MessageAttributesOptionals {
   reacts?: ReactionList;
   reactsIndex?: number;
   body?: string;
+  expirationType?: DisappearingMessageType;
+  expireTimer?: number;
   expirationStartTimestamp?: number;
-  read_by?: Array<string>; // we actually only care about the length of this. values are not used for anything
   expires_at?: number;
+  // TODO legacy messages support will be removed in a future release
+  // types will no longer have an undefined option
+  expirationTimerUpdate?: {
+    expirationType: DisappearingMessageType | undefined;
+    expireTimer: number;
+    lastDisappearingMessageChangeTimestamp: number | undefined;
+    source: string;
+    fromSync?: boolean;
+  };
+  read_by?: Array<string>; // we actually only care about the length of this. values are not used for anything
   type: MessageModelType;
   group_update?: MessageGroupUpdate;
   groupInvitation?: any;
@@ -184,11 +198,6 @@ export interface MessageAttributesOptionals {
   hasAttachments?: boolean;
   hasFileAttachments?: boolean;
   hasVisualMediaAttachments?: boolean;
-  expirationTimerUpdate?: {
-    expireTimer: number;
-    source: string;
-    fromSync?: boolean;
-  };
   dataExtractionNotification?: {
     type: number;
     source: string;

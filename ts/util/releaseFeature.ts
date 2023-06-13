@@ -2,6 +2,7 @@ import { GetNetworkTime } from '../session/apis/snode_api/getNetworkTime';
 import { ConfigurationSync } from '../session/utils/job_runners/jobs/ConfigurationSyncJob';
 import { assertUnreachable } from '../types/sqlSharedTypes';
 import { Storage } from './storage';
+import { FEATURE_RELEASE_TIMESTAMPS } from '../session/constants';
 
 let isDisappearingMessageFeatureReleased: boolean | undefined;
 let isUserConfigLibsessionFeatureReleased: boolean | undefined;
@@ -42,15 +43,9 @@ function setIsFeatureReleasedCached(featureName: FeatureNameTracked, value: bool
 function getFeatureReleaseTimestamp(featureName: FeatureNameTracked) {
   switch (featureName) {
     case 'disappearing_messages':
-      // TODO update to agreed value between platforms for `disappearing_messages`
-      return 1706778000000; // unix 01/02/2024 09:00;
-    //   return 1677488400000; // testing:  unix 27/02/2023 09:00
+      return FEATURE_RELEASE_TIMESTAMPS.DISAPPEARING_MESSAGES_V2;
     case 'user_config_libsession':
-      // TODO update to agreed value between platforms for `user_config_libsession`
-      // FIXME once we are done with testing the user config over libsession feature
-      // return (window as any).user_config_libsession || 1706778000000; // unix 01/02/2024 09:00;
-      return 1677488400000; // testing: unix 27/02/2023 09:00
-
+      return FEATURE_RELEASE_TIMESTAMPS.USER_CONFIG;
     default:
       assertUnreachable(featureName, 'case not handled for getFeatureReleaseTimestamp');
   }
@@ -102,11 +97,16 @@ async function checkIsUserConfigFeatureReleased() {
   return checkIsFeatureReleased('user_config_libsession');
 }
 
+async function checkIsDisappearMessageV2FeatureReleased() {
+  return checkIsFeatureReleased('disappearing_messages');
+}
+
 function isUserConfigFeatureReleasedCached(): boolean {
   return !!isUserConfigLibsessionFeatureReleased;
 }
 
 export const ReleasedFeatures = {
   checkIsUserConfigFeatureReleased,
+  checkIsDisappearMessageV2FeatureReleased,
   isUserConfigFeatureReleasedCached,
 };

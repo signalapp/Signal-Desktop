@@ -2,6 +2,7 @@ import * as GoogleChrome from '../../../ts/util/GoogleChrome';
 import * as MIME from '../../../ts/types/MIME';
 import { toLogFormat } from './Errors';
 import { arrayBufferToBlob, blobToArrayBuffer } from 'blob-util';
+import { pathExists } from 'fs-extra';
 
 import { isString } from 'lodash';
 import {
@@ -142,29 +143,58 @@ export const loadData = async (attachment: any) => {
   return { ...attachment, data };
 };
 
+const handleDiskDeletion = async (path: string) => {
+  await deleteOnDisk(path);
+  try {
+    const exists = await pathExists(path);
+
+    // Note we want to confirm the path no longer exists
+    if (exists) {
+      throw Error('Error: File path still exists.');
+    }
+
+    window.log.debug(`deleteDataSuccessful: Deletion succeeded for attachment ${path}`);
+    return undefined;
+  } catch (err) {
+    window.log.warn(
+      `deleteDataSuccessful: Deletion failed for attachment ${path} ${err.message || err}`
+    );
+    return path;
+  }
+};
+
 //      deleteData :: (RelativePath -> IO Unit)
 //                    Attachment ->
 //                    IO Unit
-export const deleteData = () => {
-  return async (attachment: { path: string; thumbnail: any; screenshot: any }) => {
-    if (!isValid(attachment)) {
-      throw new TypeError('deleteData: attachment is not valid');
-    }
+export const deleteData = async (attachment: {
+  path: string | undefined;
+  thumbnail: any;
+  screenshot: any;
+}) => {
+  if (!isValid(attachment)) {
+    throw new TypeError('deleteData: attachment is not valid');
+  }
 
-    const { path, thumbnail, screenshot } = attachment;
-    if (isString(path)) {
-      await deleteOnDisk(path);
-    }
+  const { path, thumbnail, screenshot } = attachment;
 
-    if (thumbnail && isString(thumbnail.path)) {
-      await deleteOnDisk(thumbnail.path);
-    }
+  if (path && isString(path)) {
+    const pathAfterDelete = await handleDiskDeletion(path);
+    attachment.path = isString(pathAfterDelete) ? pathAfterDelete : undefined;
+  }
 
-    if (screenshot && isString(screenshot.path)) {
-      await deleteOnDisk(screenshot.path);
-    }
-  };
+  if (thumbnail && isString(thumbnail.path)) {
+    const pathAfterDelete = await handleDiskDeletion(thumbnail.path);
+    attachment.thumbnail = isString(pathAfterDelete) ? pathAfterDelete : undefined;
+  }
+
+  if (screenshot && isString(screenshot.path)) {
+    const pathAfterDelete = await handleDiskDeletion(screenshot.path);
+    attachment.screenshot = isString(pathAfterDelete) ? pathAfterDelete : undefined;
+  }
+
+  return attachment;
 };
+
 type CaptureDimensionType = { contentType: string; path: string };
 
 export const captureDimensionsAndScreenshot = async (

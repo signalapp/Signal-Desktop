@@ -24,12 +24,13 @@ import { getIsAppFocused } from '../../../../state/selectors/section';
 import { useSelectedConversationKey } from '../../../../state/selectors/selectedConversation';
 import { ScrollToLoadedMessageContext } from '../../SessionMessagesListContainer';
 
-type ReadableMessageProps = {
+export type ReadableMessageProps = {
   children: React.ReactNode;
   messageId: string;
   className?: string;
   receivedAt: number | undefined;
   isUnread: boolean;
+  dataTestId?: string;
   onContextMenu?: (e: React.MouseEvent<HTMLElement>) => void;
 };
 
@@ -58,7 +59,7 @@ const debouncedTriggerLoadMoreBottom = debounce(
 );
 
 export const ReadableMessage = (props: ReadableMessageProps) => {
-  const { messageId, onContextMenu, className, receivedAt, isUnread } = props;
+  const { messageId, onContextMenu, className, receivedAt, isUnread, dataTestId } = props;
 
   const isAppFocused = useSelector(getIsAppFocused);
   const dispatch = useDispatch();
@@ -185,7 +186,8 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
       triggerOnce={false}
       trackVisibility={true}
       key={`inview-msg-${messageId}`}
-      data-testid="control-message"
+      // TODO We will need to update the integration tests to use that new value, or update the values given in the `dataTestId` props to match what they expect
+      data-testid={dataTestId || 'readable-message'}
     >
       {props.children}
     </InView>

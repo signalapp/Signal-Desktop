@@ -41,6 +41,9 @@ export const deleteExternalMessageFiles = async (message: {
         if (thumbnail && thumbnail.path && !thumbnail.copied) {
           await deleteOnDisk(thumbnail.path);
         }
+
+        attachment.thumbnail = undefined;
+        return attachment;
       })
     );
   }
@@ -53,6 +56,9 @@ export const deleteExternalMessageFiles = async (message: {
         if (image && image.path) {
           await deleteOnDisk(image.path);
         }
+
+        item.image = undefined;
+        return image;
       })
     );
   }

@@ -7,11 +7,13 @@ import {
   MessageModelPropsWithConvoProps,
   MessageModelPropsWithoutConvoProps,
   MessagePropsDetails,
+  PropsForExpiringMessage,
   ReduxConversationType,
   SortedMessageModelProps,
 } from '../ducks/conversations';
 import { StateType } from '../reducer';
 
+import { LightBoxOptions } from '../../components/conversation/SessionConversation';
 import { ReplyingToMessageProps } from '../../components/conversation/composition/CompositionBox';
 import { MessageAttachmentSelectorProps } from '../../components/conversation/message/message-content/MessageAttachment';
 import { MessageAuthorSelectorProps } from '../../components/conversation/message/message-content/MessageAuthorText';
@@ -24,7 +26,6 @@ import { MessageQuoteSelectorProps } from '../../components/conversation/message
 import { MessageStatusSelectorProps } from '../../components/conversation/message/message-content/MessageStatus';
 import { MessageTextSelectorProps } from '../../components/conversation/message/message-content/MessageText';
 import { GenericReadableMessageSelectorProps } from '../../components/conversation/message/message-item/GenericReadableMessage';
-import { LightBoxOptions } from '../../components/conversation/SessionConversation';
 import { hasValidIncomingRequestValues } from '../../models/conversation';
 import {
   CONVERSATION_PRIORITIES,
@@ -39,10 +40,10 @@ import { Storage } from '../../util/storage';
 import { getIntl } from './user';
 
 import { filter, isEmpty, isNumber, pick, sortBy } from 'lodash';
-import { MessageReactsSelectorProps } from '../../components/conversation/message/message-content/MessageReactions';
-import { getModeratorsOutsideRedux } from './sogsRoomInfo';
-import { getSelectedConversation, getSelectedConversationKey } from './selectedConversation';
 import { useSelector } from 'react-redux';
+import { MessageReactsSelectorProps } from '../../components/conversation/message/message-content/MessageReactions';
+import { getSelectedConversation, getSelectedConversationKey } from './selectedConversation';
+import { getModeratorsOutsideRedux } from './sogsRoomInfo';
 
 export const getConversations = (state: StateType): ConversationsStateType => state.conversations;
 
@@ -964,6 +965,29 @@ export const getMessageAttachmentProps = createSelector(getMessagePropsByMessage
   return msgProps;
 });
 
+export const getMessageExpirationProps = createSelector(getMessagePropsByMessageId, (props):
+  | PropsForExpiringMessage
+  | undefined => {
+  if (!props || isEmpty(props)) {
+    return undefined;
+  }
+
+  const msgProps: PropsForExpiringMessage = {
+    ...pick(props.propsForMessage, [
+      'convoId',
+      'direction',
+      'receivedAt',
+      'isUnread',
+      'expirationTimestamp',
+      'expirationLength',
+      'isExpired',
+    ]),
+    messageId: props.propsForMessage.id,
+  };
+
+  return msgProps;
+});
+
 export const getIsMessageSelected = createSelector(
   getMessagePropsByMessageId,
   getSelectedMessageIds,
@@ -1026,9 +1050,6 @@ export const getGenericReadableMessageSelectorProps = createSelector(
       'convoId',
       'direction',
       'conversationType',
-      'expirationLength',
-      'expirationTimestamp',
-      'isExpired',
       'isUnread',
       'receivedAt',
       'isKickedFromGroup',

@@ -144,6 +144,14 @@ export type SubRequestPollInfoType = {
 
 export type SubRequestInboxType = {
   type: 'inbox';
+  inbox?: {
+    /**
+     * Deletes all of the user's received messages.
+     * @returns a JSON object with one key "deleted" set to the number of
+     * deleted messages.
+     */
+    type: 'delete';
+  };
   inboxSince?: {
     id?: number;
   };
@@ -248,6 +256,14 @@ const makeBatchRequestPayload = (
       break;
 
     case 'inbox':
+      const isDelete = Boolean(options.inbox?.type === 'delete');
+      if (isDelete) {
+        return {
+          method: 'DELETE',
+          path: '/inbox',
+        };
+      }
+
       return {
         method: 'GET',
         path:
