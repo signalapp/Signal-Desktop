@@ -960,15 +960,18 @@ function onEditorStateChange({
 
     // If we have attachments, don't add link preview
     if (
-      !hasDraftAttachments(conversation.attributes.draftAttachments, {
+      hasDraftAttachments(conversation.attributes.draftAttachments, {
         includePending: true,
-      })
+      }) ||
+      Boolean(conversation.attributes.draftEditMessage?.attachmentThumbnail)
     ) {
-      maybeGrabLinkPreview(messageText, LinkPreviewSourceType.Composer, {
-        caretLocation,
-        conversationId,
-      });
+      return;
     }
+
+    maybeGrabLinkPreview(messageText, LinkPreviewSourceType.Composer, {
+      caretLocation,
+      conversationId,
+    });
 
     dispatch({
       type: 'NOOP',
