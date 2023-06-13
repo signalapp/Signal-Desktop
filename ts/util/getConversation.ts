@@ -222,6 +222,7 @@ export function getConversation(model: ConversationModel): ConversationType {
       ? window.i18n('icu:noteToSelf')
       : getTitle(attributes),
     unreadCount: attributes.unreadCount || 0,
+    unreadMentionsCount: attributes.unreadMentionsCount || 0,
     ...(isDirectConversation(attributes)
       ? {
           type: 'direct' as const,
