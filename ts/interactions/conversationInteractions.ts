@@ -426,6 +426,7 @@ export async function deleteAllMessagesByConvoIdNoConfirmation(conversationId: s
   // conversation still appears on the conversation list but is empty
   conversation.set({
     lastMessage: null,
+    lastMessageId: null,
   });
 
   await conversation.commit();

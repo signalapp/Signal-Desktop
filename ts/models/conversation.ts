@@ -389,9 +389,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     // -- Handle the last message status, if present --
     const lastMessageText = this.get('lastMessage');
     if (lastMessageText && lastMessageText.length) {
+      const lastMessageId = this.get('lastMessageId');
       const lastMessageStatus = this.get('lastMessageStatus');
 
       toRet.lastMessage = {
+        id: lastMessageId,
         status: lastMessageStatus,
         text: lastMessageText,
       };
@@ -753,6 +755,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     this.set({
       lastMessage: messageModel.getNotificationText(),
+      lastMessageId: messageModel.get('id'),
       lastMessageStatus: 'sending',
       active_at: networkTimestamp,
     });
@@ -1853,6 +1856,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       return;
     }
     const lastMessageModel = messages.at(0);
+    const lastMessageId = lastMessageModel.get('id');
     const lastMessageStatus = lastMessageModel.getMessagePropStatus() || undefined;
     const lastMessageNotificationText = lastMessageModel.getNotificationText() || undefined;
     // we just want to set the `status` to `undefined` if there are no `lastMessageNotificationText`
@@ -1860,17 +1864,21 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       !!lastMessageNotificationText && !isEmpty(lastMessageNotificationText)
         ? {
             lastMessage: lastMessageNotificationText || '',
+            lastMessageId,
             lastMessageStatus,
           }
-        : { lastMessage: '', lastMessageStatus: undefined };
+        : { lastMessage: '', lastMessageId: '', lastMessageStatus: undefined };
     const existingLastMessageAttribute = this.get('lastMessage');
+    const existingLastMessageId = this.get('lastMessageId');
     const existingLastMessageStatus = this.get('lastMessageStatus');
 
     if (
       lastMessageUpdate.lastMessage !== existingLastMessageAttribute ||
-      lastMessageUpdate.lastMessageStatus !== existingLastMessageStatus
+      lastMessageUpdate.lastMessageStatus !== existingLastMessageStatus ||
+      lastMessageUpdate.lastMessageId !== existingLastMessageId
     ) {
       if (
+        lastMessageUpdate.lastMessageId === existingLastMessageId &&
         lastMessageUpdate.lastMessageStatus === existingLastMessageStatus &&
         lastMessageUpdate.lastMessage &&
         lastMessageUpdate.lastMessage.length > 40 &&

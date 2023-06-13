@@ -27,7 +27,8 @@ export const InteractionItem = (props: InteractionItemProps) => {
   const isGroup = !useIsPrivate(conversationId);
   const isCommunity = useIsPublic(conversationId);
 
-  const [storedLastMessage, setStoredLastMessage] = useState(lastMessage?.text);
+  const [storedLastMessageId, setStoredLastMessageId] = useState(lastMessage?.id);
+  const [storedLastMessageText, setStoredLastMessageText] = useState(lastMessage?.text);
 
   // NOTE we want to reset the interaction state when the last message changes
   useEffect(() => {
@@ -35,23 +36,24 @@ export const InteractionItem = (props: InteractionItemProps) => {
       const convo = getConversationController().get(conversationId);
 
       window.log.debug(
-        `WIP: storedLastMessage "${storedLastMessage}" convo.get('lastMessage') "${convo.get(
-          'lastMessage'
-        )}'`
+        `WIP: storedLastMessageId "${storedLastMessageId}" convo.get('lastMessageId') "${convo.get(
+          'lastMessageId'
+        )}' lastMessageId ${JSON.stringify(lastMessage)}`
       );
 
-      if (storedLastMessage !== convo.get('lastMessage')) {
-        setStoredLastMessage(convo.get('lastMessage'));
+      if (storedLastMessageId !== convo.get('lastMessageId')) {
+        setStoredLastMessageId(convo.get('lastMessageId'));
+        setStoredLastMessageText(convo.get('lastMessage'));
         void clearConversationInteractionState({ conversationId });
       }
     }
-  }, [conversationId, interactionStatus, lastMessage?.text]);
+  }, [conversationId, interactionStatus, lastMessage?.id]);
 
   if (isEmpty(conversationId) || isEmpty(interactionType) || isEmpty(interactionStatus)) {
     return null;
   }
 
-  let text = storedLastMessage || '';
+  let text = storedLastMessageText || '';
   switch (interactionType) {
     case ConversationInteractionType.Leave:
       const failText = isCommunity

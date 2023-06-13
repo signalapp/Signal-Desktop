@@ -58,6 +58,7 @@ const allowedKeysFormatRowOfConversation = [
   'isKickedFromGroup',
   'left',
   'lastMessage',
+  'lastMessageId',
   'lastMessageStatus',
   'triggerNotificationsFor',
   'unreadCount',
@@ -138,6 +139,10 @@ export function formatRowOfConversation(
     convo.lastMessage = null;
   }
 
+  if (!convo.lastMessageId) {
+    convo.lastMessageId = null;
+  }
+
   if (!convo.lastMessageStatus) {
     convo.lastMessageStatus = undefined;
   }
@@ -178,6 +183,7 @@ const allowedKeysOfConversationAttributes = [
   'isKickedFromGroup',
   'left',
   'lastMessage',
+  'lastMessageId',
   'lastMessageStatus',
   'triggerNotificationsFor',
   'lastJoinedTimestamp',

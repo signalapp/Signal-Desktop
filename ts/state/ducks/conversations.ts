@@ -217,6 +217,7 @@ export type PropsForMessageWithConvoProps = PropsForMessageWithoutConvoProps & {
 };
 
 export type LastMessageType = {
+  id: string | null;
   status: LastMessageStatusType;
   text: string | null;
 };
