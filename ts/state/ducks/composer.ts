@@ -963,7 +963,10 @@ function onEditorStateChange({
       hasDraftAttachments(conversation.attributes.draftAttachments, {
         includePending: true,
       }) ||
-      Boolean(conversation.attributes.draftEditMessage?.attachmentThumbnail)
+      Boolean(conversation.attributes.draftEditMessage?.attachmentThumbnail) ||
+      // If we already didn't have a preview attached, don't fetch another one
+      (conversation.attributes.draftEditMessage &&
+        !conversation.attributes.draftEditMessage.preview)
     ) {
       return;
     }
