@@ -726,7 +726,6 @@ function callStateChange(
     } = payload;
 
     if (callState === CallState.Ended) {
-      await callingTones.playEndCall();
       ipcRenderer.send('close-screen-share-controller');
     }
 
@@ -747,6 +746,18 @@ function callStateChange(
     const isIncomingLocalHangup = isIncoming && isLocalHangup && notAnswered;
     const isOutgoingRemoteHangup = isOutgoing && isRemoteHangup && notAnswered;
     const isIncomingRemoteHangup = isIncoming && isRemoteHangup && notAnswered;
+
+    // Play the hangup noise if:
+    if (
+      // 1. I hungup (or declined)
+      (isEnded && isLocalHangup) ||
+      // 2. I answered and then the call ended
+      (isEnded && wasAccepted) ||
+      // 3. I called and they declined
+      (isEnded && !wasAccepted && isRemoteHangup)
+    ) {
+      await callingTones.playEndCall();
+    }
 
     if (isIncomingRemoteHangup) {
       // This is considered just another "missed" event
