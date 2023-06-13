@@ -51,6 +51,7 @@ export enum ConversationInteractionStatus {
 }
 
 export enum ConversationInteractionType {
+  Hide = 'hide',
   Leave = 'leave',
 }
 
@@ -243,6 +244,7 @@ export async function showUpdateGroupMembersByConvoId(conversationId: string) {
 
 export function showLeavePrivateConversationbyConvoId(conversationId: string, name: string) {
   const conversation = getConversationController().get(conversationId);
+  const isMe = conversation.isMe();
 
   if (!conversation.isPrivate()) {
     throw new Error('showLeavePrivateConversationDialog() called with a non private convo.');
@@ -256,12 +258,12 @@ export function showLeavePrivateConversationbyConvoId(conversationId: string, na
     try {
       await updateConversationInteractionState({
         conversationId,
-        type: ConversationInteractionType.Leave,
+        type: isMe ? ConversationInteractionType.Hide : ConversationInteractionType.Leave,
         status: ConversationInteractionStatus.Start,
       });
       await getConversationController().delete1o1(conversationId, {
         fromSyncMessage: false,
-        justHidePrivate: true,
+        justHidePrivate: isMe,
       });
       onClickClose();
 
@@ -271,7 +273,7 @@ export function showLeavePrivateConversationbyConvoId(conversationId: string, na
       window.log.warn(`showLeavePrivateConversationbyConvoId error: ${err}`);
       await updateConversationInteractionState({
         conversationId,
-        type: ConversationInteractionType.Leave,
+        type: isMe ? ConversationInteractionType.Hide : ConversationInteractionType.Leave,
         status: ConversationInteractionStatus.Error,
       });
     }
@@ -279,10 +281,12 @@ export function showLeavePrivateConversationbyConvoId(conversationId: string, na
 
   window?.inboxStore?.dispatch(
     updateConfirmModal({
-      title: window.i18n('deleteConversation'),
-      message: window.i18n('deleteConversationConfirmation', [name]),
+      title: isMe ? window.i18n('hideConversation') : window.i18n('deleteConversation'),
+      message: isMe
+        ? window.i18n('hideNoteToSelfConfirmation')
+        : window.i18n('deleteConversationConfirmation', [name]),
       onClickOk,
-      okText: window.i18n('delete'),
+      okText: isMe ? window.i18n('hide') : window.i18n('delete'),
       okTheme: SessionButtonColor.Danger,
       onClickClose,
       conversationId,

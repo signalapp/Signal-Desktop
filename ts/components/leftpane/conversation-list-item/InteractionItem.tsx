@@ -54,14 +54,23 @@ export const InteractionItem = (props: InteractionItemProps) => {
   }
 
   let text = storedLastMessageText || '';
+  let failText = '';
   switch (interactionType) {
+    case ConversationInteractionType.Hide:
+      failText = window.i18n('hideConversationFailed');
+      text =
+        interactionStatus === ConversationInteractionStatus.Error
+          ? failText
+          : interactionStatus === ConversationInteractionStatus.Loading
+          ? window.i18n('hiding')
+          : text;
+      break;
     case ConversationInteractionType.Leave:
-      const failText = isCommunity
+      failText = isCommunity
         ? ''
         : isGroup
         ? window.i18n('leaveGroupFailed')
         : window.i18n('deleteConversationFailed');
-
       text =
         interactionStatus === ConversationInteractionStatus.Error
           ? failText

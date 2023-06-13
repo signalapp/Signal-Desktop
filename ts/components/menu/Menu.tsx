@@ -452,6 +452,7 @@ export const DeletePrivateConversationMenuItem = () => {
   const username = useConversationUsername(convoId) || convoId;
   const isRequest = useIsIncomingRequest(convoId);
   const isPrivate = useIsPrivate(convoId);
+  const isMe = useIsMe(convoId);
 
   if (!convoId || !isPrivate || isRequest) {
     return null;
@@ -463,7 +464,7 @@ export const DeletePrivateConversationMenuItem = () => {
         showLeavePrivateConversationbyConvoId(convoId, username);
       }}
     >
-      {window.i18n('deleteConversation')}
+      {isMe ? window.i18n('hideConversation') : window.i18n('deleteConversation')}
     </Item>
   );
 };
