@@ -1754,6 +1754,12 @@ function setMessageToEdit(
       return;
     }
 
+    setQuoteByMessageId(conversationId, undefined)(
+      dispatch,
+      getState,
+      undefined
+    );
+
     let attachmentThumbnail: string | undefined;
     if (message.attachments) {
       const thumbnailPath = message.attachments[0]?.thumbnail?.path;
