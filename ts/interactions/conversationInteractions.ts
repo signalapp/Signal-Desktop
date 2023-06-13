@@ -24,7 +24,6 @@ import {
   resetConversationExternal,
 } from '../state/ducks/conversations';
 import {
-  adminLeaveClosedGroup,
   changeNickNameModal,
   updateAddModeratorsModal,
   updateBanOrUnbanUserModal,
@@ -300,9 +299,9 @@ export function showLeaveGroupByConvoId(conversationId: string, name?: string) {
 
   const isClosedGroup = conversation.isClosedGroup() || false;
   const isPublic = conversation.isPublic() || false;
-  const isAdmin = (conversation.get('groupAdmins') || []).includes(
-    UserUtils.getOurPubKeyStrFromCache()
-  );
+  const admins = conversation.get('groupAdmins') || [];
+  const isAdmin = admins.includes(UserUtils.getOurPubKeyStrFromCache());
+  const showOnlyGroupAdminWarning = isClosedGroup && isAdmin && admins.length === 1;
 
   // if this is a community, or we legacy group are not admin, we can just show a confirmation dialog
 
@@ -341,26 +340,52 @@ export function showLeaveGroupByConvoId(conversationId: string, name?: string) {
     }
   };
 
-  // TODO Communities don't need confirmation modal and have different logic
-  if (isPublic || (isClosedGroup && !isAdmin)) {
+  if (showOnlyGroupAdminWarning) {
+    // NOTE For legacy closed groups
     window?.inboxStore?.dispatch(
       updateConfirmModal({
-        title: isPublic ? window.i18n('leaveCommunity') : window.i18n('leaveGroup'),
-        message: window.i18n('leaveGroupConfirmation', name ? [name] : undefined),
+        title: window.i18n('leaveGroup'),
+        message: window.i18n('leaveGroupConrirmationOnlyAdminLegacy', name ? [name] : undefined),
         onClickOk,
-        okText: window.i18n('delete'),
+        okText: window.i18n('leave'),
         okTheme: SessionButtonColor.Danger,
         onClickClose,
         conversationId,
       })
     );
+    // TODO Only to be used after the closed group rebuild
+    // const onClickOkLastAdmin = () => { // TODO };
+    // const onClickCloseLastAdmin = () => { // TODO };
+    // window?.inboxStore?.dispatch(
+    //   updateConfirmModal({
+    //     title: window.i18n('leaveGroup'),
+    //     message: window.i18n('leaveGroupConfirmationOnlyAdmin', name ? [name] : undefined),
+    //     messageSub: window.i18n('leaveGroupConfirmationOnlyAdminWarning'),
+    //     onClickOk: onClickOkLastAdmin,
+    //     okText: window.i18n('addModerator'),
+    //     cancelText: window.i18n('leave'),
+    //     onClickCancel: onClickCloseLastAdmin,
+    //     closeTheme: SessionButtonColor.Danger,
+    //     onClickClose,
+    //     showExitIcon: true,
+    //     headerReverse: true,
+    //     conversationId,
+    //   })
+    // );
   } else {
-    // TODO use different admin modal from figma with add another admin option
-    window.inboxStore?.dispatch(
-      adminLeaveClosedGroup({
-        conversationId,
-      })
-    );
+    if (isPublic || (isClosedGroup && !isAdmin)) {
+      window?.inboxStore?.dispatch(
+        updateConfirmModal({
+          title: isPublic ? window.i18n('leaveCommunity') : window.i18n('leaveGroup'),
+          message: window.i18n('leaveGroupConfirmation', name ? [name] : undefined),
+          onClickOk,
+          okText: window.i18n('leave'),
+          okTheme: SessionButtonColor.Danger,
+          onClickClose,
+          conversationId,
+        })
+      );
+    }
   }
 }
 
