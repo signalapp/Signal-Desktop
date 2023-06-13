@@ -15,6 +15,17 @@ import {
   updateConversationInteractionState,
 } from '../../interactions/conversationInteractions';
 import { useConversationInteractionPropsById } from '../../hooks/useParamSelector';
+import styled from 'styled-components';
+
+const StyledMessageText = styled(SessionHtmlRenderer)`
+  margin-bottom: var(--margins-lg);
+`;
+
+const StyledSubMessageText = styled(SessionHtmlRenderer)`
+  // Overrides SASS in this one case
+  margin-top: 0;
+  margin-bottom: var(--margins-md);
+`;
 
 // NOTE could be other confirmation statuses and types in future
 export type ConfirmationStatus = ConversationInteractionStatus | undefined;
@@ -49,6 +60,7 @@ export interface SessionConfirmDialogProps {
   iconSize?: SessionIconSize;
   shouldShowConfirm?: boolean | undefined;
   showExitIcon?: boolean | undefined;
+  headerReverse?: boolean;
   conversationId?: string;
 }
 
@@ -67,6 +79,7 @@ export const SessionConfirm = (props: SessionConfirmDialogProps) => {
     shouldShowConfirm,
     onClickCancel,
     showExitIcon,
+    headerReverse,
     closeAfterInput = true,
     conversationId,
   } = props;
@@ -133,6 +146,7 @@ export const SessionConfirm = (props: SessionConfirmDialogProps) => {
       onClose={onClickClose}
       showExitIcon={showExitIcon}
       showHeader={showHeader}
+      headerReverse={headerReverse}
     >
       {!showHeader && <SpacerLG />}
 
@@ -144,8 +158,14 @@ export const SessionConfirm = (props: SessionConfirmDialogProps) => {
           </>
         )}
 
-        <SessionHtmlRenderer tag="span" className={messageSubText} html={message} />
-        <SessionHtmlRenderer tag="span" className="session-confirm-sub-message" html={messageSub} />
+        <StyledMessageText tag="span" className={messageSubText} html={message} />
+        {messageSub && (
+          <StyledSubMessageText
+            tag="span"
+            className="session-confirm-sub-message"
+            html={messageSub}
+          />
+        )}
 
         <SessionSpinner loading={isLoading} />
       </div>
