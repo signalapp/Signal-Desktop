@@ -18,6 +18,7 @@ import type {
 } from '../../types/Attachment';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import type { DraftBodyRanges } from '../../types/BodyRange';
+import { BodyRange } from '../../types/BodyRange';
 import type { LinkPreviewType } from '../../types/message/LinkPreviews';
 import type { MessageAttributesType } from '../../model-types.d';
 import type { NoopActionType } from './noop';
@@ -431,8 +432,9 @@ async function withPreSendChecks(
     }
 
     try {
-      if (bodyRanges?.length && !window.storage.get('formattingWarningShown')) {
-        const sendAnyway = await maybeBlockSendForFormattingModal(bodyRanges);
+      const hasFormatting = bodyRanges?.some(BodyRange.isFormatting);
+      if (hasFormatting && !window.storage.get('formattingWarningShown')) {
+        const sendAnyway = await maybeBlockSendForFormattingModal();
         if (!sendAnyway) {
           dispatch(setComposerDisabledState(conversationId, false));
           return;

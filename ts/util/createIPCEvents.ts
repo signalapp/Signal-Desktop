@@ -414,7 +414,7 @@ export function createIPCEvents(
       return window.IPC.setAutoLaunch(value);
     },
 
-    isFormattingFlagEnabled: () => isEnabled('desktop.internalUser'),
+    isFormattingFlagEnabled: () => isEnabled('desktop.textFormatting'),
     isPhoneNumberSharingEnabled: () => isPhoneNumberSharingEnabled(),
     isPrimary: () => window.textsecure.storage.user.getDeviceId() === 1,
     shouldShowStoriesSettings: () => getStoriesAvailable(),
