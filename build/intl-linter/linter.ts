@@ -14,6 +14,7 @@ import { deepEqual } from 'assert';
 import type { Rule } from './utils/rule';
 
 import icuPrefix from './rules/icuPrefix';
+import wrapEmoji from './rules/wrapEmoji';
 import onePlural from './rules/onePlural';
 import noLegacyVariables from './rules/noLegacyVariables';
 import noNestedChoice from './rules/noNestedChoice';
@@ -24,6 +25,7 @@ import pluralPound from './rules/pluralPound';
 
 const RULES = [
   icuPrefix,
+  wrapEmoji,
   noLegacyVariables,
   noNestedChoice,
   noOffset,
@@ -73,6 +75,26 @@ const tests: Record<string, Test> = {
   'icu:err6': {
     messageformat: '$a$',
     expectErrors: ['noLegacyVariables'],
+  },
+  'icu:wrapEmoji:1': {
+    messageformat: '👩',
+    expectErrors: ['wrapEmoji'],
+  },
+  'icu:wrapEmoji:2': {
+    messageformat: '<emoji>👩 extra</emoji>',
+    expectErrors: ['wrapEmoji'],
+  },
+  'icu:wrapEmoji:3': {
+    messageformat: '<emoji>👩👩</emoji>',
+    expectErrors: ['wrapEmoji'],
+  },
+  'icu:wrapEmoji:4': {
+    messageformat: '<emoji>{emoji}</emoji>',
+    expectErrors: ['wrapEmoji'],
+  },
+  'icu:wrapEmoji:5': {
+    messageformat: '<emoji>👩</emoji>',
+    expectErrors: [],
   },
 };
 

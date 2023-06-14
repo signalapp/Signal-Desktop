@@ -7,8 +7,7 @@ import moment from 'moment';
 
 import { Modal } from './Modal';
 import { Intl } from './Intl';
-import { Emojify } from './conversation/Emojify';
-import type { LocalizerType, RenderTextCallbackType } from '../types/Util';
+import type { LocalizerType } from '../types/Util';
 
 export type PropsType = {
   hideWhatsNewModal: () => unknown;
@@ -21,10 +20,6 @@ type ReleaseNotesType = {
   features: Array<JSX.Element>;
 };
 
-const renderText: RenderTextCallbackType = ({ key, text }) => (
-  <Emojify key={key} text={text} />
-);
-
 export function WhatsNewModal({
   i18n,
   hideWhatsNewModal,
@@ -35,11 +30,10 @@ export function WhatsNewModal({
     date: new Date(window.getBuildCreation?.() || Date.now()),
     version: window.getVersion?.(),
     features: [
-      <Intl i18n={i18n} id="icu:WhatsNew__v6.21--0" renderText={renderText} />,
+      <Intl i18n={i18n} id="icu:WhatsNew__v6.21--0" />,
       <Intl
         i18n={i18n}
         id="icu:WhatsNew__v6.21--1"
-        renderText={renderText}
         components={{
           complexspaces: (
             <a href="https://github.com/complexspaces">@complexspaces</a>

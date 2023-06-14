@@ -20,7 +20,6 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   i18n,
   id: overrideProps.id || '',
   components: overrideProps.components,
-  renderText: overrideProps.renderText,
 });
 
 // eslint-disable-next-line max-len
@@ -29,18 +28,18 @@ const Template: Story<Props> = args => <Intl {...args} />;
 
 export const NoReplacements = Template.bind({});
 NoReplacements.args = createProps({
-  id: 'deleteAndRestart',
+  id: 'icu:deleteAndRestart',
 });
 
 export const SingleStringReplacement = Template.bind({});
 SingleStringReplacement.args = createProps({
-  id: 'leftTheGroup',
+  id: 'icu:leftTheGroup',
   components: { name: 'Theodora' },
 });
 
 export const SingleTagReplacement = Template.bind({});
 SingleTagReplacement.args = createProps({
-  id: 'leftTheGroup',
+  id: 'icu:leftTheGroup',
   components: {
     name: (
       <button type="button" key="a-button">
@@ -52,7 +51,7 @@ SingleTagReplacement.args = createProps({
 
 export const MultipleStringReplacement = Template.bind({});
 MultipleStringReplacement.args = createProps({
-  id: 'changedRightAfterVerify',
+  id: 'icu:changedRightAfterVerify',
   components: {
     name1: 'Fred',
     name2: 'The Fredster',
@@ -61,19 +60,22 @@ MultipleStringReplacement.args = createProps({
 
 export const MultipleTagReplacement = Template.bind({});
 MultipleTagReplacement.args = createProps({
-  id: 'changedRightAfterVerify',
+  id: 'icu:changedRightAfterVerify',
   components: {
     name1: <b>Fred</b>,
     name2: <b>The Fredster</b>,
   },
 });
 
-export const CustomRender = Template.bind({});
-CustomRender.args = createProps({
-  id: 'deleteAndRestart',
-  renderText: ({ text: theText, key }) => (
-    <div style={{ backgroundColor: 'purple', color: 'orange' }} key={key}>
-      {theText}
-    </div>
-  ),
-});
+export function Emoji(): JSX.Element {
+  const customI18n = setupI18n('en', {
+    'icu:emoji': {
+      messageformat: '<emoji>👋</emoji> Hello, world!',
+    },
+  });
+
+  return (
+    // eslint-disable-next-line local-rules/valid-i18n-keys
+    <Intl i18n={customI18n} id="icu:emoji" />
+  );
+}

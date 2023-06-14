@@ -14,9 +14,18 @@ describe('setupI18n', () => {
   });
 
   describe('i18n', () => {
-    it('returns empty string for unknown string', () => {
-      // eslint-disable-next-line local-rules/valid-i18n-keys
-      assert.strictEqual(i18n('random'), '');
+    it('throws an error for legacy strings', () => {
+      assert.throws(() => {
+        // eslint-disable-next-line local-rules/valid-i18n-keys
+        i18n('legacystring');
+      }, /Legacy message format is no longer supported/);
+    });
+
+    it('throws an error for unknown string', () => {
+      assert.throws(() => {
+        // eslint-disable-next-line local-rules/valid-i18n-keys
+        assert.strictEqual(i18n('icu:random'), '');
+      }, /missing translation/);
     });
     it('returns message for given string', () => {
       assert.strictEqual(i18n('icu:reportIssue'), 'Contact Support');

@@ -1,66 +1,104 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import fs from 'fs';
+import chalk from 'chalk';
+import execa from 'execa';
+import fs from 'fs/promises';
+import pLimit from 'p-limit';
 import path from 'path';
-import { spawnSync } from 'child_process';
-import type { StdioOptions } from 'child_process';
 
 import { MONTH } from '../util/durations';
 import { isOlderThan } from '../util/timestamp';
 
 const ROOT_DIR = path.join(__dirname, '..', '..');
 const MESSAGES_FILE = path.join(ROOT_DIR, '_locales', 'en', 'messages.json');
-const SPAWN_OPTS = {
-  cwd: ROOT_DIR,
-  stdio: [null, 'pipe', 'inherit'] as StdioOptions,
-};
 
-const messages = JSON.parse(fs.readFileSync(MESSAGES_FILE).toString());
+const limitter = pLimit(10);
 
-const stillUsed = new Set<string>();
+async function main() {
+  const messages = JSON.parse(await fs.readFile(MESSAGES_FILE, 'utf-8'));
 
-for (const [key, value] of Object.entries(messages)) {
-  const match = (value as Record<string, string>).description?.match(
-    /\(\s*deleted\s+(\d{4}\/\d{2}\/\d{2})\s*\)/
+  const stillUsed = new Set<string>();
+
+  await Promise.all(
+    Object.keys(messages).map(key =>
+      limitter(async () => {
+        const value = messages[key];
+
+        const match = (value as Record<string, string>).description?.match(
+          /\(\s*deleted\s+(\d{2,4}\/\d{2}\/\d{2,4})\s*\)/
+        );
+        if (!match) {
+          return;
+        }
+
+        const deletedAt = new Date(match[1]).getTime();
+        if (!isOlderThan(deletedAt, MONTH)) {
+          return;
+        }
+
+        // Find uses in either:
+        // - `i18n('key')`
+        // - `<Intl id="key"/>`
+
+        try {
+          const result = await execa(
+            'git',
+            // prettier-ignore
+            [
+              'grep',
+              '--extended-regexp',
+              `'${key}'|id="${key}"`,
+              '--',
+              '**',
+              ':!\\_locales/**',
+              ':!\\sticker-creator/**',
+            ],
+            {
+              cwd: ROOT_DIR,
+              stdin: 'ignore',
+              stdout: 'pipe',
+              stderr: 'inherit',
+            }
+          );
+
+          // Match found
+          console.error(
+            chalk.red(
+              `ERROR: String is still used: "${key}", deleted on ${match[1]}`
+            )
+          );
+          console.error(result.stdout.trim());
+          console.error('');
+          stillUsed.add(key);
+        } catch (error) {
+          if (error.exitCode === 1) {
+            console.log(
+              chalk.dim(`Removing string: "${key}", deleted on ${match[1]}`)
+            );
+            delete messages[key];
+          } else {
+            throw error;
+          }
+        }
+      })
+    )
   );
-  if (!match) {
-    continue;
-  }
 
-  const deletedAt = new Date(match[1]).getTime();
-  if (!isOlderThan(deletedAt, MONTH)) {
-    continue;
-  }
-
-  // Find uses in either:
-  // - `i18n('key')`
-  // - `<Intl id="key"/>`
-  const { status, stdout } = spawnSync(
-    'git',
-    ['grep', '--extended-regexp', `'${key}'|id="${key}"`],
-    SPAWN_OPTS
-  );
-
-  // Match found
-  if (status === 0) {
+  if (stillUsed.size !== 0) {
     console.error(
-      `ERROR: String is still used: "${key}", deleted on ${match[1]}`
+      `ERROR: Didn't remove ${stillUsed.size} strings because of errors above`,
+      Array.from(stillUsed)
+        .map(str => `- ${str}`)
+        .join('\n')
     );
-    console.error(stdout.toString().trim());
-    console.error('');
-    stillUsed.add(key);
-  } else {
-    console.log(`Removing string: "${key}", deleted on ${match[1]}`);
-    delete messages[key];
+    console.error('ERROR: Not saving changes');
+    process.exit(1);
   }
+  await fs.writeFile(MESSAGES_FILE, `${JSON.stringify(messages, null, 2)}\n`);
 }
 
-if (stillUsed.size !== 0) {
-  console.error(
-    `ERROR: Didn't remove ${[...stillUsed]} strings because of errors above`
-  );
-  console.error('ERROR: Not saving changes');
+main().catch(err => {
+  console.error(err);
   process.exit(1);
-}
-fs.writeFileSync(MESSAGES_FILE, `${JSON.stringify(messages, null, 2)}\n`);
+});
