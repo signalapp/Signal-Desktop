@@ -5114,6 +5114,7 @@ export class ConversationModel extends window.Backbone
       message: message.getNotificationText(),
       messageId,
       reaction: reaction ? reaction.toJSON() : null,
+      sentAt: message.get('timestamp'),
     });
   }
 

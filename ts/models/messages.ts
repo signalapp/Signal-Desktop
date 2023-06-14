@@ -1453,6 +1453,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         ? window.i18n('icu:Stories__failed-send--partial')
         : window.i18n('icu:Stories__failed-send--full'),
       isExpiringMessage: false,
+      sentAt: this.get('timestamp'),
     });
   }
 

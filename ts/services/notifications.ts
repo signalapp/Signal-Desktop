@@ -26,6 +26,7 @@ type NotificationDataType = Readonly<{
     targetTimestamp: number;
   };
   senderTitle: string;
+  sentAt: number;
   storyId?: string;
   useTriToneSound?: boolean;
   wasShown?: boolean;
@@ -129,6 +130,7 @@ class NotificationService extends EventEmitter {
     message,
     messageId,
     onNotificationClick,
+    sentAt,
     silent,
     title,
     useTriToneSound,
@@ -137,11 +139,12 @@ class NotificationService extends EventEmitter {
     message: string;
     messageId?: string;
     onNotificationClick: () => void;
+    sentAt: number;
     silent: boolean;
     title: string;
     useTriToneSound?: boolean;
   }>): void {
-    log.info('NotificationService: showing a notification');
+    log.info('NotificationService: showing a notification', sentAt);
 
     this.lastNotification?.close();
 
@@ -275,6 +278,7 @@ class NotificationService extends EventEmitter {
       reaction,
       senderTitle,
       storyId,
+      sentAt,
       useTriToneSound,
       wasShown,
     } = notificationData;
@@ -349,6 +353,7 @@ class NotificationService extends EventEmitter {
       onNotificationClick: () => {
         this.emit('click', conversationId, messageId, storyId);
       },
+      sentAt,
       silent: !shouldPlayNotificationSound,
       title: notificationTitle,
       useTriToneSound,

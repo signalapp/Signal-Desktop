@@ -1283,6 +1283,7 @@ export class CallingClass {
             this.reduxInterface.setPresenting();
           }
         },
+        sentAt: 0,
         silent: true,
         title: window.i18n('icu:calling__presenting--notification-title'),
       });
@@ -2295,6 +2296,7 @@ export class CallingClass {
           isVideoCall: true,
         });
       },
+      sentAt: 0,
       silent: false,
       title: notificationTitle,
     });
