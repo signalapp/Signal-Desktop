@@ -7,6 +7,7 @@ import classNames from 'classnames';
 import { createPortal } from 'react-dom';
 import { useRestoreFocus } from '../hooks/useRestoreFocus';
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
+import * as log from '../logging/log';
 
 export type PropsType = {
   autoDismissDisabled?: boolean;
@@ -57,6 +58,10 @@ export const Toast = memo(function ToastInner({
 
     updateAlign();
 
+    if (window.reduxStore == null) {
+      log.warn('Toast: No redux store');
+      return;
+    }
     return window.reduxStore.subscribe(updateAlign);
   }, []);
 
