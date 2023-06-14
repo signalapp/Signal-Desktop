@@ -62,6 +62,9 @@ export type SafetyNumberChangedBlockingDataType = ReadonlyDeep<{
 export type FormattingWarningDataType = ReadonlyDeep<{
   explodedPromise: ExplodePromiseResultType<boolean>;
 }>;
+export type SendEditWarningDataType = ReadonlyDeep<{
+  explodedPromise: ExplodePromiseResultType<boolean>;
+}>;
 export type AuthorizeArtCreatorDataType =
   ReadonlyDeep<AuthorizeArtCreatorOptionsType>;
 
@@ -96,6 +99,7 @@ export type GlobalModalsStateType = ReadonlyDeep<{
   profileEditorHasError: boolean;
   safetyNumberChangedBlockingData?: SafetyNumberChangedBlockingDataType;
   safetyNumberModalContactId?: string;
+  sendEditWarningData?: SendEditWarningDataType;
   stickerPackPreviewId?: string;
   userNotFoundModalState?: UserNotFoundModalStateType;
 }>;
@@ -132,6 +136,8 @@ const CLOSE_ERROR_MODAL = 'globalModals/CLOSE_ERROR_MODAL';
 const SHOW_ERROR_MODAL = 'globalModals/SHOW_ERROR_MODAL';
 const SHOW_FORMATTING_WARNING_MODAL =
   'globalModals/SHOW_FORMATTING_WARNING_MODAL';
+const SHOW_SEND_EDIT_WARNING_MODAL =
+  'globalModals/SHOW_SEND_EDIT_WARNING_MODAL';
 const CLOSE_SHORTCUT_GUIDE_MODAL = 'globalModals/CLOSE_SHORTCUT_GUIDE_MODAL';
 const SHOW_SHORTCUT_GUIDE_MODAL = 'globalModals/SHOW_SHORTCUT_GUIDE_MODAL';
 const SHOW_AUTH_ART_CREATOR = 'globalModals/SHOW_AUTH_ART_CREATOR';
@@ -229,6 +235,13 @@ type ShowStoriesSettingsActionType = ReadonlyDeep<{
 
 type ShowFormattingWarningModalActionType = ReadonlyDeep<{
   type: typeof SHOW_FORMATTING_WARNING_MODAL;
+  payload: {
+    explodedPromise: ExplodePromiseResultType<boolean> | undefined;
+  };
+}>;
+
+type ShowSendEditWarningModalActionType = ReadonlyDeep<{
+  type: typeof SHOW_SEND_EDIT_WARNING_MODAL;
   payload: {
     explodedPromise: ExplodePromiseResultType<boolean> | undefined;
   };
@@ -338,6 +351,7 @@ export type GlobalModalsActionType = ReadonlyDeep<
   | ShowErrorModalActionType
   | ShowFormattingWarningModalActionType
   | ShowSendAnywayDialogActionType
+  | ShowSendEditWarningModalActionType
   | ShowShortcutGuideModalActionType
   | ShowStickerPackPreviewActionType
   | ShowStoriesSettingsActionType
@@ -375,6 +389,7 @@ export const actions = {
   showEditHistoryModal,
   showErrorModal,
   showFormattingWarningModal,
+  showSendEditWarningModal,
   showGV2MigrationDialog,
   showShortcutGuideModal,
   showStickerPackPreview,
@@ -453,6 +468,12 @@ function showFormattingWarningModal(
   explodedPromise: ExplodePromiseResultType<boolean> | undefined
 ): ShowFormattingWarningModalActionType {
   return { type: SHOW_FORMATTING_WARNING_MODAL, payload: { explodedPromise } };
+}
+
+function showSendEditWarningModal(
+  explodedPromise: ExplodePromiseResultType<boolean> | undefined
+): ShowSendEditWarningModalActionType {
+  return { type: SHOW_SEND_EDIT_WARNING_MODAL, payload: { explodedPromise } };
 }
 
 function showGV2MigrationDialog(
@@ -981,6 +1002,21 @@ export function reducer(
     return {
       ...state,
       formattingWarningData: { explodedPromise },
+    };
+  }
+
+  if (action.type === SHOW_SEND_EDIT_WARNING_MODAL) {
+    const { explodedPromise } = action.payload;
+    if (!explodedPromise) {
+      return {
+        ...state,
+        sendEditWarningData: undefined,
+      };
+    }
+
+    return {
+      ...state,
+      sendEditWarningData: { explodedPromise },
     };
   }
 

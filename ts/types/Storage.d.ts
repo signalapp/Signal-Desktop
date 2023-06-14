@@ -88,6 +88,7 @@ export type StorageAccessType = {
   regionCode: string;
   registrationIdMap: Record<string, number>;
   remoteBuildExpiration: number;
+  sendEditWarningShown: boolean;
   sessionResets: SessionResetsType;
   showStickerPickerHint: boolean;
   showStickersIntroduction: boolean;

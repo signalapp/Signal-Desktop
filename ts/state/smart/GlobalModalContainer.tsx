@@ -64,12 +64,14 @@ export function SmartGlobalModalContainer(): JSX.Element {
 
   const {
     addUserToAnotherGroupModalContactId,
+    authArtCreatorData,
     contactModalState,
+    deleteMessagesProps,
     editHistoryMessages,
     errorModalProps,
-    deleteMessagesProps,
     formattingWarningData,
     forwardMessagesProps,
+    isAuthorizingArtCreator,
     isProfileEditorVisible,
     isShortcutGuideModalVisible,
     isSignalConnectionsVisible,
@@ -77,10 +79,9 @@ export function SmartGlobalModalContainer(): JSX.Element {
     isWhatsNewVisible,
     safetyNumberChangedBlockingData,
     safetyNumberModalContactId,
+    sendEditWarningData,
     stickerPackPreviewId,
     userNotFoundModalState,
-    isAuthorizingArtCreator,
-    authArtCreatorData,
   } = useSelector<StateType, GlobalModalsStateType>(
     state => state.globalModals
   );
@@ -92,6 +93,7 @@ export function SmartGlobalModalContainer(): JSX.Element {
     hideUserNotFoundModal,
     hideWhatsNewModal,
     showFormattingWarningModal,
+    showSendEditWarningModal,
     toggleSignalConnectionsModal,
   } = useGlobalModalActions();
 
@@ -162,7 +164,9 @@ export function SmartGlobalModalContainer(): JSX.Element {
       renderStoriesSettings={renderStoriesSettings}
       safetyNumberChangedBlockingData={safetyNumberChangedBlockingData}
       safetyNumberModalContactId={safetyNumberModalContactId}
+      sendEditWarningData={sendEditWarningData}
       showFormattingWarningModal={showFormattingWarningModal}
+      showSendEditWarningModal={showSendEditWarningModal}
       stickerPackPreviewId={stickerPackPreviewId}
       theme={theme}
       toggleSignalConnectionsModal={toggleSignalConnectionsModal}

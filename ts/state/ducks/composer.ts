@@ -90,6 +90,7 @@ import { strictAssert } from '../../util/assert';
 import { makeQuote } from '../../util/makeQuote';
 import { sendEditedMessage as doSendEditedMessage } from '../../util/sendEditedMessage';
 import { maybeBlockSendForFormattingModal } from '../../util/maybeBlockSendForFormattingModal';
+import { maybeBlockSendForEditWarningModal } from '../../util/maybeBlockSendForEditWarningModal';
 import { Sound, SoundType } from '../../util/Sound';
 
 // State
@@ -386,6 +387,7 @@ export function handleLeaveConversation(
 type WithPreSendChecksOptions = Readonly<{
   bodyRanges?: DraftBodyRanges;
   message?: string;
+  isEditedMessage?: boolean;
   voiceNoteAttachment?: InMemoryAttachmentDraftType;
 }>;
 
@@ -409,7 +411,7 @@ async function withPreSendChecks(
     conversation.attributes,
   ]);
 
-  const { bodyRanges, message, voiceNoteAttachment } = options;
+  const { bodyRanges, isEditedMessage, message, voiceNoteAttachment } = options;
 
   try {
     dispatch(setComposerDisabledState(conversationId, true));
@@ -444,6 +446,27 @@ async function withPreSendChecks(
     } catch (error) {
       log.error(
         'withPreSendChecks block for formatting modal:',
+        Errors.toLogFormat(error)
+      );
+      return;
+    }
+
+    try {
+      if (
+        isEditedMessage &&
+        !window.storage.get('sendEditWarningShown') &&
+        !window.SignalCI
+      ) {
+        const sendAnyway = await maybeBlockSendForEditWarningModal();
+        if (!sendAnyway) {
+          dispatch(setComposerDisabledState(conversationId, false));
+          return;
+        }
+        drop(window.storage.put('sendEditWarningShown', true));
+      }
+    } catch (error) {
+      log.error(
+        'withPreSendChecks block for send edit warning modal:',
         Errors.toLogFormat(error)
       );
       return;
@@ -506,28 +529,33 @@ function sendEditedMessage(
       targetMessageId,
     } = options;
 
-    await withPreSendChecks(conversationId, options, dispatch, async () => {
-      try {
-        await doSendEditedMessage(conversationId, {
-          body: message,
-          bodyRanges,
-          preview: getLinkPreviewForSend(message),
-          quoteAuthorUuid,
-          quoteSentAt,
-          targetMessageId,
-        });
-      } catch (error) {
-        log.error('sendEditedMessage', Errors.toLogFormat(error));
-        if (error.toastType) {
-          dispatch({
-            type: SHOW_TOAST,
-            payload: {
-              toastType: error.toastType,
-            },
+    await withPreSendChecks(
+      conversationId,
+      { ...options, isEditedMessage: true },
+      dispatch,
+      async () => {
+        try {
+          await doSendEditedMessage(conversationId, {
+            body: message,
+            bodyRanges,
+            preview: getLinkPreviewForSend(message),
+            quoteAuthorUuid,
+            quoteSentAt,
+            targetMessageId,
           });
+        } catch (error) {
+          log.error('sendEditedMessage', Errors.toLogFormat(error));
+          if (error.toastType) {
+            dispatch({
+              type: SHOW_TOAST,
+              payload: {
+                toastType: error.toastType,
+              },
+            });
+          }
         }
       }
-    });
+    );
   };
 }
 

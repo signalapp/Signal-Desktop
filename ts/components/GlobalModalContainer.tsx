@@ -10,6 +10,7 @@ import type {
   FormattingWarningDataType,
   ForwardMessagesPropsType,
   SafetyNumberChangedBlockingDataType,
+  SendEditWarningDataType,
   UserNotFoundModalStateType,
 } from '../state/ducks/globalModals';
 import type { LocalizerType, ThemeType } from '../types/Util';
@@ -19,6 +20,7 @@ import { missingCaseError } from '../util/missingCaseError';
 import { ButtonVariant } from './Button';
 import { ConfirmationDialog } from './ConfirmationDialog';
 import { FormattingWarningModal } from './FormattingWarningModal';
+import { SendEditWarningModal } from './SendEditWarningModal';
 import { SignalConnectionsModal } from './SignalConnectionsModal';
 import { WhatsNewModal } from './WhatsNewModal';
 
@@ -59,6 +61,11 @@ export type PropsType = {
   // SafetyNumberModal
   safetyNumberModalContactId: string | undefined;
   renderSafetyNumber: () => JSX.Element;
+  // SendEditWarningModal
+  showSendEditWarningModal: (
+    explodedPromise: ExplodePromiseResultType<boolean> | undefined
+  ) => void;
+  sendEditWarningData: SendEditWarningDataType | undefined;
   // ShortcutGuideModal
   isShortcutGuideModalVisible: boolean;
   renderShortcutGuideModal: () => JSX.Element;
@@ -119,6 +126,9 @@ export function GlobalModalContainer({
   // SafetyNumberModal
   safetyNumberModalContactId,
   renderSafetyNumber,
+  // SendEditWarningDataType
+  showSendEditWarningModal,
+  sendEditWarningData,
   // ShortcutGuideModal
   isShortcutGuideModalVisible,
   renderShortcutGuideModal,
@@ -203,6 +213,23 @@ export function GlobalModalContainer({
 
   if (isProfileEditorVisible) {
     return renderProfileEditor();
+  }
+
+  if (sendEditWarningData) {
+    const { resolve } = sendEditWarningData.explodedPromise;
+    return (
+      <SendEditWarningModal
+        i18n={i18n}
+        onSendAnyway={() => {
+          showSendEditWarningModal(undefined);
+          resolve(true);
+        }}
+        onCancel={() => {
+          showSendEditWarningModal(undefined);
+          resolve(false);
+        }}
+      />
+    );
   }
 
   if (isShortcutGuideModalVisible) {
