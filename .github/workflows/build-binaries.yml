@@ -5,9 +5,11 @@ on:
   push:
     branches:
       - clearnet
+      - unstable
   pull_request:
     branches:
       - clearnet
+      - unstable
 
 jobs:
   build:
