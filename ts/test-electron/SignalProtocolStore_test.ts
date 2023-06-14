@@ -1542,7 +1542,7 @@ describe('SignalProtocolStore', () => {
         id: '1-one',
         version: 2,
 
-        attempts: 3,
+        attempts: 10,
         envelope: 'first',
         receivedAtCounter: 0,
         timestamp: NOW + 1,

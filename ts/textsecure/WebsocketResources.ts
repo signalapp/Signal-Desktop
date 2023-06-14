@@ -126,6 +126,8 @@ export default class WebSocketResource extends EventTarget {
 
   private readonly logId: string;
 
+  public readonly localPort: number | undefined;
+
   // Public for tests
   public readonly keepalive?: KeepAlive;
 
@@ -136,6 +138,7 @@ export default class WebSocketResource extends EventTarget {
     super();
 
     this.logId = `WebSocketResource(${options.name})`;
+    this.localPort = socket.socket.localPort;
 
     this.boundOnMessage = this.onMessage.bind(this);
 

@@ -225,7 +225,9 @@ export class SocketManager extends EventListener {
       return;
     }
 
-    log.info('SocketManager: connected authenticated socket');
+    log.info(
+      `SocketManager: connected authenticated socket (localPort: ${authenticated.localPort})`
+    );
 
     window.logAuthenticatedConnect?.();
     this.backOff.reset();
@@ -503,7 +505,9 @@ export class SocketManager extends EventListener {
       throw error;
     }
 
-    log.info('SocketManager: connected unauthenticated socket');
+    log.info(
+      `SocketManager: connected unauthenticated socket (localPort: ${unauthenticated.localPort})`
+    );
 
     unauthenticated.addEventListener('close', ({ code, reason }): void => {
       if (this.unauthenticated !== process) {

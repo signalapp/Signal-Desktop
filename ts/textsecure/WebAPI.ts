@@ -130,6 +130,7 @@ type PromiseAjaxOptionsType = {
   certificateAuthority?: string;
   contentType?: string;
   data?: Uint8Array | string;
+  disableRetries?: boolean;
   disableSessionResumption?: boolean;
   headers?: HeaderListType;
   host?: string;
@@ -450,6 +451,10 @@ async function _outerAjax(
   options: PromiseAjaxOptionsType
 ): Promise<unknown> {
   options.stack = new Error().stack; // just in case, save stack here.
+
+  if (options.disableRetries) {
+    return _promiseAjax(url, options);
+  }
 
   return _retryAjax(url, options);
 }
@@ -868,7 +873,14 @@ export type WebAPIType = {
     imageFiles: Array<string>
   ) => Promise<Array<Uint8Array>>;
   getArtAuth: () => Promise<ArtAuthType>;
-  getAttachment: (cdnKey: string, cdnNumber?: number) => Promise<Uint8Array>;
+  getAttachment: (
+    cdnKey: string,
+    cdnNumber?: number,
+    options?: {
+      disableRetries?: boolean;
+      timeout?: number;
+    }
+  ) => Promise<Uint8Array>;
   getAvatar: (path: string) => Promise<Uint8Array>;
   getDevices: () => Promise<GetDevicesResultType>;
   getHasSubscription: (subscriberId: Uint8Array) => Promise<boolean>;
@@ -2473,7 +2485,14 @@ export function initialize({
       return packId;
     }
 
-    async function getAttachment(cdnKey: string, cdnNumber?: number) {
+    async function getAttachment(
+      cdnKey: string,
+      cdnNumber?: number,
+      options?: {
+        disableRetries?: boolean;
+        timeout?: number;
+      }
+    ) {
       const abortController = new AbortController();
 
       const cdnUrl = isNumber(cdnNumber)
@@ -2482,9 +2501,10 @@ export function initialize({
       // This is going to the CDN, not the service, so we use _outerAjax
       const stream = await _outerAjax(`${cdnUrl}/attachments/${cdnKey}`, {
         certificateAuthority,
+        disableRetries: options?.disableRetries,
         proxyUrl,
         responseType: 'stream',
-        timeout: 0,
+        timeout: options?.timeout || 0,
         type: 'GET',
         redactUrl: _createRedactor(cdnKey),
         version,

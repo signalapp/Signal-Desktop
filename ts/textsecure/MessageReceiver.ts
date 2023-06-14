@@ -47,7 +47,7 @@ import { normalizeUuid } from '../util/normalizeUuid';
 import { parseIntOrThrow } from '../util/parseIntOrThrow';
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
 import { Zone } from '../util/Zone';
-import { DurationInSeconds } from '../util/durations';
+import { DurationInSeconds, SECOND } from '../util/durations';
 import { bytesToUuid } from '../Crypto';
 import type { DownloadedAttachmentType } from '../types/Attachment';
 import { Address } from '../types/Address';
@@ -1752,6 +1752,7 @@ export default class MessageReceiver
     );
     const unsealedPlaintext = await this.storage.protocol.enqueueSessionJob(
       address,
+      `sealedSenderDecryptMessage(${address.toString()})`,
       () =>
         sealedSenderDecryptMessage(
           Buffer.from(ciphertext),
@@ -1839,6 +1840,7 @@ export default class MessageReceiver
 
       const plaintext = await this.storage.protocol.enqueueSessionJob(
         address,
+        `signalDecrypt(${address.toString()})`,
         async () =>
           this.unpad(
             await signalDecrypt(
@@ -1870,6 +1872,7 @@ export default class MessageReceiver
 
       const plaintext = await this.storage.protocol.enqueueSessionJob(
         address,
+        `signalDecryptPreKey(${address.toString()})`,
         async () =>
           this.unpad(
             await signalDecryptPreKey(
@@ -3397,7 +3400,10 @@ export default class MessageReceiver
 
     this.removeFromCache(envelope);
 
-    const attachmentPointer = await this.handleAttachment(blob);
+    const attachmentPointer = await this.handleAttachment(blob, {
+      disableRetries: true,
+      timeout: 90 * SECOND,
+    });
     const contactBuffer = new ContactBuffer(attachmentPointer.data);
 
     const contactSync = new ContactSyncEvent(
@@ -3430,7 +3436,10 @@ export default class MessageReceiver
 
     // Note: we do not return here because we don't want to block the next message on
     //   this attachment download and a lot of processing of that attachment.
-    const attachmentPointer = await this.handleAttachment(blob);
+    const attachmentPointer = await this.handleAttachment(blob, {
+      disableRetries: true,
+      timeout: 90 * SECOND,
+    });
     const groupBuffer = new GroupBuffer(attachmentPointer.data);
     let groupDetails = groupBuffer.next();
     const promises = [];
@@ -3550,10 +3559,11 @@ export default class MessageReceiver
   }
 
   private async handleAttachment(
-    attachment: Proto.IAttachmentPointer
+    attachment: Proto.IAttachmentPointer,
+    options?: { timeout?: number; disableRetries?: boolean }
   ): Promise<DownloadedAttachmentType> {
     const cleaned = processAttachment(attachment);
-    return downloadAttachment(this.server, cleaned);
+    return downloadAttachment(this.server, cleaned, options);
   }
 
   private async handleEndSession(

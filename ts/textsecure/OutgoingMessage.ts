@@ -440,6 +440,7 @@ export default class OutgoingMessage {
 
         return window.textsecure.storage.protocol.enqueueSessionJob<MessageType>(
           address,
+          `doSendMessage(${address.toString()})`,
           async () => {
             const protocolAddress = ProtocolAddress.new(
               theirUuid.toString(),

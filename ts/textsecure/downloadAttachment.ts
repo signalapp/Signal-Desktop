@@ -15,7 +15,11 @@ import type { WebAPIType } from './WebAPI';
 
 export async function downloadAttachment(
   server: WebAPIType,
-  attachment: ProcessedAttachment
+  attachment: ProcessedAttachment,
+  options?: {
+    disableRetries?: boolean;
+    timeout?: number;
+  }
 ): Promise<DownloadedAttachmentType> {
   const cdnId = attachment.cdnId || attachment.cdnKey;
   const { cdnNumber } = attachment;
@@ -25,7 +29,11 @@ export async function downloadAttachment(
   }
 
   strictAssert(cdnId, 'attachment without cdnId');
-  const encrypted = await server.getAttachment(cdnId, dropNull(cdnNumber));
+  const encrypted = await server.getAttachment(
+    cdnId,
+    dropNull(cdnNumber),
+    options
+  );
   const { key, digest, size, contentType } = attachment;
 
   if (!digest) {

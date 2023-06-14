@@ -21,7 +21,9 @@ import WebSocketResource from '../textsecure/WebsocketResources';
 describe('WebSocket-Resource', () => {
   class FakeSocket extends EventEmitter {
     public sendBytes(_: Uint8Array) {}
-
+    public socket = {
+      localPort: 5678,
+    };
     public close() {}
   }
 
