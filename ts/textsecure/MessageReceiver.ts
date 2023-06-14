@@ -2309,7 +2309,8 @@ export default class MessageReceiver
     if (isOlderThan(envelope.serverTimestamp, durations.DAY)) {
       log.info(
         'MessageReceiver.handleEditMessage: cannot edit message older than 24h',
-        logId
+        logId,
+        envelope.serverTimestamp
       );
       this.removeFromCache(envelope);
       return;
