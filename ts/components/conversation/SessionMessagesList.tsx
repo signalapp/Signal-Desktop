@@ -11,6 +11,7 @@ import {
   PropsForExpirationTimer,
   PropsForGroupInvitation,
   PropsForGroupUpdate,
+  PropsForInteractionNotification,
 } from '../../state/ducks/conversations';
 import {
   getOldBottomMessageId,
@@ -28,6 +29,7 @@ import { useSelectedConversationKey } from '../../state/selectors/selectedConver
 import { DataExtractionNotification } from './message/message-item/DataExtractionNotification';
 import { SessionLastSeenIndicator } from './SessionLastSeenIndicator';
 import { TimerNotification } from './TimerNotification';
+import { InteractionNotification } from './message/message-item/InteractionNotification';
 
 function isNotTextboxEvent(e: KeyboardEvent) {
   return (e?.target as any)?.type === undefined;
@@ -153,6 +155,12 @@ export const SessionMessagesList = (props: {
           const msgProps = messageProps.message.props as PropsForCallNotification;
 
           return [<CallNotification key={messageId} {...msgProps} />, ...componentToMerge];
+        }
+
+        if (messageProps.message?.messageType === 'interaction-notification') {
+          const msgProps = messageProps.message.props as PropsForInteractionNotification;
+
+          return [<InteractionNotification key={messageId} {...msgProps} />, ...componentToMerge];
         }
 
         if (!messageProps) {

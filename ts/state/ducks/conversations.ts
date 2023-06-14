@@ -37,6 +37,7 @@ export type MessageModelPropsWithoutConvoProps = {
   propsForGroupUpdateMessage?: PropsForGroupUpdate;
   propsForCallNotification?: PropsForCallNotification;
   propsForMessageRequestResponse?: PropsForMessageRequestResponse;
+  propsForInteractionNotification?: PropsForInteractionNotification;
 };
 
 export type MessageModelPropsWithConvoProps = SortedMessageModelProps & {
@@ -165,6 +166,14 @@ export type PropsForAttachment = {
   } | null;
 };
 
+export type PropsForInteractionNotification = {
+  notificationType: InteractionNotificationType;
+  convoId: string;
+  messageId: string;
+  receivedAt: number;
+  isUnread: boolean;
+};
+
 export type PropsForMessageWithoutConvoProps = {
   id: string; // messageId
   direction: MessageModelType;
@@ -220,6 +229,11 @@ export type LastMessageType = {
   id: string | null;
   status: LastMessageStatusType;
   text: string | null;
+};
+
+export type InteractionNotificationType = {
+  interactionType: ConversationInteractionType;
+  interactionStatus: ConversationInteractionStatus;
 };
 
 /**

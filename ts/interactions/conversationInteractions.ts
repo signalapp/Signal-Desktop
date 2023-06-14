@@ -1,6 +1,7 @@
 import {
   ConversationNotificationSettingType,
   ConversationTypeEnum,
+  READ_MESSAGE_STATE,
 } from '../models/conversationAttributes';
 import { CallManager, SyncUtils, ToastUtils, UserUtils } from '../session/utils';
 
@@ -42,6 +43,7 @@ import { encryptProfile } from '../util/crypto/profileEncrypter';
 import { ReleasedFeatures } from '../util/releaseFeature';
 import { Storage, setLastProfileUpdateTimestamp } from '../util/storage';
 import { UserGroupsWrapperActions } from '../webworker/workers/browser/libsession_worker_interface';
+import { ConversationModel } from '../models/conversation';
 
 export enum ConversationInteractionStatus {
   Start = 'start',
@@ -274,10 +276,11 @@ export function showLeavePrivateConversationbyConvoId(
       await clearConversationInteractionState({ conversationId });
     } catch (err) {
       window.log.warn(`showLeavePrivateConversationbyConvoId error: ${err}`);
-      await updateConversationInteractionState({
+      await handleConversationInteractionError({
         conversationId,
-        type: isMe ? ConversationInteractionType.Hide : ConversationInteractionType.Leave,
-        status: ConversationInteractionStatus.Error,
+        interactionType: isMe
+          ? ConversationInteractionType.Hide
+          : ConversationInteractionType.Leave,
       });
     }
   };
@@ -339,10 +342,9 @@ export function showLeaveGroupByConvoId(conversationId: string, name: string | u
       await clearConversationInteractionState({ conversationId });
     } catch (err) {
       window.log.warn(`showLeaveGroupByConvoId error: ${err}`);
-      await updateConversationInteractionState({
+      await handleConversationInteractionError({
         conversationId,
-        type: ConversationInteractionType.Leave,
-        status: ConversationInteractionStatus.Error,
+        interactionType: ConversationInteractionType.Leave,
       });
     }
   };
@@ -733,4 +735,39 @@ export async function clearConversationInteractionState({
     await convo.commit();
     window.log.debug(`WIP: clearConversationInteractionState() for ${conversationId}`);
   }
+}
+
+async function handleConversationInteractionError({
+  conversationId,
+  interactionType,
+}: {
+  conversationId: string;
+  interactionType: ConversationInteractionType;
+}) {
+  const conversation = getConversationController().get(conversationId);
+  if (!conversation) {
+    return;
+  }
+
+  const interactionStatus = ConversationInteractionStatus.Error;
+
+  await updateConversationInteractionState({
+    conversationId,
+    type: interactionType,
+    status: interactionStatus,
+  });
+
+  // Add an error message to the database so we can view it in the message history
+  await conversation?.addSingleIncomingMessage({
+    source: UserUtils.getOurPubKeyStrFromCache(),
+    sent_at: Date.now(),
+    interactionNotification: {
+      interactionType,
+      interactionStatus,
+    },
+    unread: READ_MESSAGE_STATE.read,
+    expireTimer: 0,
+  });
+
+  conversation.updateLastMessage();
 }
