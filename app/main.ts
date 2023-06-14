@@ -6,6 +6,7 @@ import { pathToFileURL } from 'url';
 import * as os from 'os';
 import { chmod, realpath, writeFile } from 'fs-extra';
 import { randomBytes } from 'crypto';
+import { createParser } from 'dashdash';
 
 import normalizePath from 'normalize-path';
 import fastGlob from 'fast-glob';
@@ -174,6 +175,18 @@ nativeThemeNotifier.initialize();
 
 let appStartInitialSpellcheckSetting = true;
 
+const cliParser = createParser({
+  allowUnknown: true,
+  options: [
+    {
+      name: 'lang',
+      type: 'string',
+    },
+  ],
+});
+
+const cliOptions = cliParser.parse(process.argv);
+
 const defaultWebPrefs = {
   devTools:
     process.argv.some(arg => arg === '--enable-dev-tools') ||
@@ -189,6 +202,8 @@ const DISABLE_GPU =
 const FORCE_ENABLE_CRASH_REPORTS = process.argv.some(
   arg => arg === '--enable-crash-reports'
 );
+
+const CLI_LANG = cliOptions.lang as string | undefined;
 
 setupCrashReports(getLogger, FORCE_ENABLE_CRASH_REPORTS);
 
@@ -1576,9 +1591,20 @@ ipc.on('database-readonly', (_event: Electron.Event, error: string) => {
 });
 
 function loadPreferredSystemLocales(): Array<string> {
-  return getEnvironment() === Environment.Test
-    ? ['en']
-    : app.getPreferredSystemLanguages();
+  if (CLI_LANG != null) {
+    try {
+      // Normalizes locales so its safe to pass them into Intl apis.
+      return Intl.getCanonicalLocales(CLI_LANG);
+    } catch {
+      // Ignore, totally invalid locale, fallback to system languages.
+    }
+  }
+
+  if (getEnvironment() === Environment.Test) {
+    return ['en'];
+  }
+
+  return app.getPreferredSystemLanguages();
 }
 
 async function getDefaultLoginItemSettings(): Promise<LoginItemSettingsOptions> {
