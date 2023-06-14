@@ -79,7 +79,10 @@ export const InteractionItem = (props: InteractionItemProps) => {
           : text;
       break;
     default:
-      assertUnreachable(interactionType, `MessageItem: Missing case error "${interactionType}"`);
+      assertUnreachable(
+        interactionType,
+        `InteractionItem: Missing case error "${interactionType}"`
+      );
   }
 
   if (isEmpty(text)) {
