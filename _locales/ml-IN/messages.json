@@ -5084,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
+    "messageformat": "{count,number} പേർ {emoji} നൽകി പ്രതികരിച്ചു",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12567,40 +12567,16 @@
     "messageformat": "ചെറിയ മാറ്റങ്ങളും ബഗ് പരിഹരിക്കലുകളും പ്രകടന മെച്ചപ്പെടുത്തലുകളും. Signal ഉപയോഗിക്കുന്നതിന് നന്ദി!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.18--0": {
-    "messageformat": "ആപ്പിലെ വിവിധ സ്ഥലങ്ങളിലൂടെ വേഗത്തിൽ നീങ്ങാൻ \"വിഭാഗം അനുസരിച്ച് നാവിഗേറ്റ് ചെയ്യുക\" കീബോർഡ് കുറുക്കുവഴികൾ (⌘/Ctrl+T & ⌘/Ctrl+F6) ഉപയോഗിക്കുക. ടാബ് കീയുടെ സൂപ്പർഹീറോ പതിപ്പാണിത്. ശാന്തസ്വഭാവമുള്ള മറ്റേ കക്ഷിയേക്കാൾ പറന്നു നിൽക്കാൻ ശേഷിയുള്ളതാണിത്.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--1": {
-    "messageformat": "ചാറ്റ് തുറന്നിരിക്കുമ്പോൾ അയച്ചതും ലഭിക്കുന്നതുമായ സന്ദേശങ്ങൾക്ക് അറിയിപ്പുകൾ കേൾക്കുന്നതിനായി ഞങ്ങൾ ഓപ്ഷണൽ സന്ദേശ ശബ്ദങ്ങൾക്കുള്ള പിന്തുണ ചേർത്തു (ക്രമീകരണം > അറിയിപ്പുകൾ).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--2": {
-    "messageformat": "മൗസിലോ ടച്ച്പാഡിലോ കൈവെക്കാതെ ചാറ്റിലെ വായിക്കാത്ത ഏറ്റവും പുതിയ സന്ദേശത്തിലേക്ക് പോകൂ (⌘/Ctrl+J).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--3": {
-    "messageformat": "അപ്ഡേറ്റ് ചെയ്‌ത ഐക്കണുകൾ ആപ്പിന് ഫ്രഷ് ലുക്ക് നൽകുന്നു, കാഴ്ച്ചാഭംഗിയും വർദ്ധിപ്പിക്കുന്നു.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--4": {
-    "messageformat": "മൂന്ന് കുത്തുള്ള മെനുവിൽ \"ടെക്‌സ്റ്റ് പകർത്തുക\" എന്നൊരു ഓപ്ഷനുമുണ്ട്. നന്ദി, {yusufsahinhamza}!",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.19--0": {
-    "messageformat": "നിശബ്ദത പൊന്നല്ല, പക്ഷെ അതിന് പുതിയൊരു ഐക്കണുണ്ട്. വോയ്‌സ്, വീഡിയോ കോളുകളിലെ ക്യാമറ, മ്യൂട്ട് ബട്ടണുകൾ ഞങ്ങൾ അപ്ഡേറ്റ് ചെയ്‌തു, അവ പ്രവർത്തനക്ഷമമാണോ പ്രവർത്തനരഹിതമാണോ എന്ന് കണ്ടെത്താൻ ഇപ്പോൾ മുമ്പത്തെക്കാൾ ഏറെ എളുപ്പമാണ്.",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--1": {
-    "messageformat": "സന്ദേശം എഴുതാനുള്ള ഫീൽഡിൽ പ്രാദേശികവത്ക്കരണ മെച്ചപ്പെടുത്തലുകളും വലത്ത് നിന്ന് ഇടത്തേക്ക് എഴുതുന്ന ഭാഷകളുടെ മെച്ചപ്പെട്ട കൈകാര്യം ചെയ്യലും. നന്ദി, {sha265}!",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--2": {
-    "messageformat": "നിങ്ങൾ Windows 10-ന് മുമ്പുള്ള Windows പതിപ്പോ, 20.04 LTS-ന് മുമ്പുള്ള Ubuntu പതിപ്പോ ആണ് ഉപയോഗിക്കുന്നതെങ്കിൽ, Signal ഉപയോഗിക്കുന്നത് തുടരാൻ നിങ്ങൾ ഓപ്പറേറ്റിംഗ് സിസ്റ്റം അപ്ഡേറ്റ് ചെയ്യേണ്ടതുണ്ട്: {supportLink}",
-    "description": "Release notes for v6.19"
-  },
   "icu:WhatsNew__v6.20--0": {
     "messageformat": "നിങ്ങളെ ആരെങ്കിലും ചാറ്റിൽ പരാമർശിച്ചാൽ (@ നിങ്ങളുടെ പേര് ഇവിടെ), നിങ്ങൾക്കിപ്പോൾ ആ പരാമർശത്തിലേക്ക് സ്ക്രോൾ ചെയ്‌ത് അവർ നിങ്ങളെക്കുറിച്ച് പറഞ്ഞ കാര്യങ്ങൾ വായിക്കാം. നിങ്ങൾ ഒരു രക്ഷയുമില്ല.",
     "description": "Release notes for v6.20"
+  },
+  "icu:WhatsNew__v6.21--0": {
+    "messageformat": "മറ്റൊരാളുമായുള്ള കോൾ റിംഗ് ചെയ്യുമ്പോൾ തന്നെ നിങ്ങളുടെ രൂപം എങ്ങനെയുണ്ടെന്ന് നോക്കൂ. പുതിയ ഗ്രൂപ്പ് കോളിന്റെ തുടക്കത്തിൽ മാത്രം പ്രത്യക്ഷപ്പെട്ടിരുന്ന ഫുൾ സ്ക്രീൻ കാഴ്‌ച ഇപ്പോൾ വ്യക്തിഗത വീഡിയോ കോളുകളിലും ഉപയോഗിക്കുന്നു. സ്ഥിരതയുടെ കാര്യത്തിൽ ഞങ്ങൾ ശാഠ്യക്കാരാണ് (പ്രതിരോധിക്കാറില്ല), ഇക്കാര്യത്തിൽ ഇപ്പോൾ വൈരുദ്ധ്യങ്ങൾക്ക് ഇടവുമില്ല.",
+    "description": "Release notes for v6.21"
+  },
+  "icu:WhatsNew__v6.21--1": {
+    "messageformat": "ഈ റിലീസിനായി സഹായിക്കുകയും ഫീഡ്ബാക്ക് നൽകുകയും ചെയ്‌ത {complexspaces} എന്നതിന് ഞങ്ങൾ നന്ദി അറിയിക്കുന്നു.",
+    "description": "Release notes for v6.21"
   }
 }

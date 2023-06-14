@@ -5084,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
+    "messageformat": "{count,number} ljudi se je odzvalo z {emoji}",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12567,40 +12567,16 @@
     "messageformat": "Majhne prilagoditve, popravki napak in izboljšave zmogljivosti. Hvala, da uporabljate Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.18--0": {
-    "messageformat": "Za hitro premikanje med različnimi deli aplikacije uporabite nove bližnjice na tipkovnici (⌘/Ctrl+T & ⌘/Ctrl+F6). Je kot superjunaška različica tipke Tab, ki lahko leti dlje in hitreje od svojega blagega alter ega.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--1": {
-    "messageformat": "Dodali smo izbirno nastavitev za predvajanje zvokov obvestil za poslana in prejeta sporočila, ko je klepet odprt (Nastavitve > Obvestila).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--2": {
-    "messageformat": "Premaknite se na zadnje neprebrano sporočilo v klepetu s še eno novo bližnjico na tipkovnici (⌘/Ctrl+J).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--3": {
-    "messageformat": "Posodobljene ikone dajejo aplikaciji svež videz.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--4": {
-    "messageformat": "V meniju s tremi pikami je tudi nova možnost »Kopiraj besedilo«. Hvala, {yusufsahinhamza}!",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.19--0": {
-    "messageformat": "Tišina ni vedno zlata, vendar ima novo ikono. Posodobili smo gumba za kamero in izklop zvoka v zvočnih in video klicih, tako da je še lažje videti, kdaj sta omogočena ali onemogočena.",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--1": {
-    "messageformat": "Izboljšave lokalizacije in lažje rokovanje z jeziki, ki se pišejo od desne proti levi, v polju za sestavo sporočila. Hvala, {sha265}!",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--2": {
-    "messageformat": "Če uporabljate različico sistema Windows pred Windows 10 ali različico Ubuntu pred 20.04 LTS, boste morali posodobiti svoj operacijski sistem, da bi lahko še naprej uporabljali Signal: {supportLink}",
-    "description": "Release notes for v6.19"
-  },
   "icu:WhatsNew__v6.20--0": {
     "messageformat": "Če vas nekdo omeni v klepetu (na primer @ vaše ime), se lahko zdaj hitro pomaknete do te omembe in preberete vse čudovite stvari, ki jih je povedal o vas. Enostavno najboljši ste.",
     "description": "Release notes for v6.20"
+  },
+  "icu:WhatsNew__v6.21--0": {
+    "messageformat": "Bolje si oglej svoj obraz, medtem ko zvoni klic 1 na 1. Individualni video klici zdaj uporabljajo isti celozaslonski pogled, ki se je prej prikazal le na začetku novega skupinskega klica. Ko gre za doslednost, poskušamo biti vztrajni (ne odklonilni), in zdaj odstopanj ni več, ker te stvari niso več drugačne.",
+    "description": "Release notes for v6.21"
+  },
+  "icu:WhatsNew__v6.21--1": {
+    "messageformat": "Zahvaljujemo se tudi uporabniku_ci {complexspaces} za njegovo_no pomoč in povratne informacije pri delu na tej izdaji.",
+    "description": "Release notes for v6.21"
   }
 }

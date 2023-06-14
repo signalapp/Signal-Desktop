@@ -5084,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
+    "messageformat": "{count,number} ਲੋਕਾਂ ਨੇ {emoji} ਰਿਐਕਸ਼ਨ ਦਿੱਤਾ",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12567,40 +12567,16 @@
     "messageformat": "ਛੋਟੇ-ਮੋਟੇ ਸੁਧਾਰ, ਖ਼ਰਾਬੀਆਂ ਨੂੰ ਦਰੁਸਤ ਅਤੇ ਪ੍ਰਦਰਸ਼ਨ ਨੂੰ ਬਿਹਤਰ ਬਣਾਇਆ ਗਿਆ ਹੈ। Signal ਦੀ ਵਰਤੋਂ ਕਰਨ ਲਈ ਤੁਹਾਡਾ ਧੰਨਵਾਦ!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.18--0": {
-    "messageformat": "ਐਪ ਦੇ ਵੱਖ-ਵੱਖ ਖੇਤਰਾਂ ਵਿੱਚ ਤੇਜ਼ੀ ਨਾਲ ਜਾਣ ਲਈ \"ਸੈਕਸ਼ਨ ਅਨੁਸਾਰ ਨੈਵੀਗੇਟ ਕਰੋ\" ਕੀਬੋਰਡ ਸ਼ਾਰਟਕੱਟ (⌘/Ctrl+T ਅਤੇ ⌘/Ctrl+F6) ਦੀ ਵਰਤੋਂ ਕਰੋ। ਇਹ ਟੈਬ ਬਟਨ ਦੇ ਇੱਕ ਸੁਪਰਹੀਰੋ ਵਰਜ਼ਨ ਵਰਗਾ ਹੈ ਜੋ ਇਸਦੇ ਵਿਕਲਪ ਤੋਂ ਵਧੀਆ ਅਤੇ ਤੇਜ਼ ਹੈ।",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--1": {
-    "messageformat": "ਅਸੀਂ ਸੁਨੇਹਿਆਂ ਲਈ ਧੁਨੀਆਂ ਦੇ ਹੋਰ ਵਿਕਲਪ ਸ਼ਾਮਲ ਕੀਤੇ ਹਨ ਤਾਂ ਜੋ ਕਿਸੇ ਚੈਟ ਵਿੱਚ ਹੋਣ ਦੌਰਾਨ ਤੁਸੀਂ ਸੁਨੇਹੇ ਭੇਜਣ ਅਤੇ ਪ੍ਰਾਪਤ ਹੋਣ 'ਤੇ ਸੂਚਨਾਵਾਂ ਦੀ ਧੁਨੀ ਸੁਣ ਸਕੋ (ਸੈਟਿੰਗਾਂ > ਸੂਚਨਾਵਾਂ)।",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--2": {
-    "messageformat": "ਮਾਊਸ ਜਾਂ ਟੱਚਪੈਡ ਨੂੰ ਛੂਹੇ ਬਿਨਾਂ ਚੈਟ ਦੇ ਵਿੱਚ ਆਏ ਨਵੇਂ, ਨਹੀਂ-ਪੜ੍ਹੇ ਗਏ ਸੁਨੇਹਿਆਂ ਉੱਤੇ ਜਾਓ (⌘/Ctrl+J)।",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--3": {
-    "messageformat": "ਅੱਪਡੇਟ ਕੀਤੇ ਆਈਕਨ ਐਪ ਨੂੰ ਇੱਕ ਨਵੀਂ ਦਿੱਖ ਦਿੰਦੇ ਹਨ ਅਤੇ ਸਪਸ਼ਟਤਾ ਨੂੰ ਬਿਹਤਰ ਬਣਾਉਣ ਵਿੱਚ ਮਦਦ ਕਰਦੇ ਹਨ।",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--4": {
-    "messageformat": "ਤਿੰਨ-ਬਿੰਦੂਆਂ ਵਾਲੇ ਮੀਨੂ ਵਿੱਚ ਇੱਕ ਨਵਾਂ \"ਟੈਕਸਟ ਕਾਪੀ\" ਕਰਨ ਵਾਲਾ ਵਿਕਲਪ ਮੌਜੂਦ ਹੈ। ਧੰਨਵਾਦ, {yusufsahinhamza}!",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.19--0": {
-    "messageformat": "ਚੁੱਪੀ ਹਮੇਸ਼ਾ ਵਧੀਆ ਨਹੀਂ ਹੁੰਦੀ, ਪਰ ਇਸ ਲਈ ਇੱਕ ਨਵਾਂ ਆਈਕਨ ਜ਼ਰੂਰ ਹੈ। ਅਸੀਂ ਵੌਇਸ ਅਤੇ ਵੀਡੀਓ ਕਾਲਾਂ ਵਿੱਚ ਕੈਮਰਾ ਅਤੇ ਮਿਊਟ ਬਟਨਾਂ ਨੂੰ ਅੱਪਡੇਟ ਕੀਤਾ ਹੈ ਤਾਂ ਜੋ ਤੁਸੀਂ ਆਸਾਨੀ ਨਾਲ ਦੇਖ ਸਕੋ ਕਿ ਇਹ ਚਾਲੂ ਹਨ ਜਾਂ ਬੰਦ।",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--1": {
-    "messageformat": "ਅਨੁਵਾਦ ਵਿੱਚ ਸੁਧਾਰ ਕੀਤਾ ਗਿਆ ਹੈ, ਅਤੇ ਸੁਨੇਹੇ ਲਿਖਣ ਵਾਲੇ ਖੇਤਰ ਵਿੱਚ ਸੱਜੇ-ਤੋਂ-ਖੱਬੇ ਪਾਸੇ ਵੱਲ ਲਿਖੀਆਂ ਜਾਣ ਵਾਲੀਆਂ ਭਾਸ਼ਾਵਾਂ ਦਾ ਬਿਹਤਰ ਪ੍ਰਬੰਧਨ ਕੀਤਾ ਗਿਆ ਹੈ। ਧੰਨਵਾਦ, {sha265}!",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--2": {
-    "messageformat": "ਜੇਕਰ ਤੁਸੀਂ Windows 10 ਤੋਂ ਪਹਿਲਾਂ ਦਾ ਕੋਈ ਵਰਜ਼ਨ ਜਾਂ Ubuntu ਦਾ 20.04 LTS ਤੋਂ ਪਹਿਲਾਂ ਦਾ ਕੋਈ ਵਰਜ਼ਨ ਵਰਤ ਰਹੇ ਹੋ, ਤਾਂ Signal ਦੀ ਵਰਤੋਂ ਜਾਰੀ ਰੱਖਣ ਲਈ ਤੁਹਾਨੂੰ ਆਪਣੇ ਓਪਰੇਟਿੰਗ ਸਿਸਟਮ ਨੂੰ ਅੱਪਡੇਟ ਕਰਨਾ ਪਵੇਗਾ: {supportLink}",
-    "description": "Release notes for v6.19"
-  },
   "icu:WhatsNew__v6.20--0": {
     "messageformat": "ਜੇਕਰ ਕੋਈ ਵਿਅਕਤੀ ਚੈਟ ਵਿੱਚ ਤੁਹਾਡਾ ਜ਼ਿਕਰ ਕਰਦਾ ਹੈ (ਜਿਵੇਂ @ ਤੁਹਾਡਾ ਨਾਮ ਇੱਥੇ ਆਉਂਦਾ ਹੈ), ਤਾਂ ਹੁਣ ਤੁਸੀਂ ਉਸ ਸੁਨੇਹੇ ਤੱਕ ਤੇਜ਼ੀ ਨਾਲ ਸਕ੍ਰੋਲ ਕਰ ਸਕਦੇ ਹੋ ਜਿਸ ਵਿੱਚ ਤੁਹਾਡਾ ਜ਼ਿਕਰ ਹੋਇਆ ਹੈ ਅਤੇ ਉਹਨਾਂ ਸਾਰੀਆਂ ਸ਼ਾਨਦਾਰ ਗੱਲਾਂ ਨੂੰ ਪੜ੍ਹ ਸਕਦੇ ਹੋ ਜੋ ਉਹਨਾਂ ਨੇ ਤੁਹਾਡੇ ਬਾਰੇ ਕਹੀਆਂ ਹਨ। ਤੁਸੀਂ ਸਭ ਤੋਂ ਵਧੀਆ ਹੋ।",
     "description": "Release notes for v6.20"
+  },
+  "icu:WhatsNew__v6.21--0": {
+    "messageformat": "ਕਿਸੇ ਇੱਕ ਵਿਅਕਤੀ ਨੂੰ ਵੀਡੀਓ ਕਾਲਾਂ ਕਰਨ ਵੇਲੇ, ਹੁਣ ਰਿੰਗ ਹੋਣ ਦੌਰਾਨ ਤੁਹਾਨੂੰ ਉਵੇਂ ਦੀ ਹੀ ਪੂਰੀ-ਸਕ੍ਰੀਨ ਦਿਖਾਈ ਦੇਵੇਗੀ ਜਿਵੇਂ ਦੀ ਗਰੁੱਪ ਕਾਲਾਂ ਵਿੱਚ ਦਿਖਦੀ ਹੈ। ਵਿਅਕਤੀਗਤ ਵੀਡੀਓ ਕਾਲਾਂ ਵੀ ਹੁਣ ਉਸੇ ਪੂਰੀ-ਸਕ੍ਰੀਨ ਵਾਲੇ ਵਿਊ ਦੀ ਵਰਤੋਂ ਕਰਦੀਆਂ ਹਨ ਜੋ ਪਹਿਲਾਂ ਸਿਰਫ਼ ਨਵੀਂ ਗਰੁੱਪ ਕਾਲ ਦੀ ਸ਼ੁਰੂਆਤ ਵਿੱਚ ਦਿਖਾਈ ਦਿੰਦਾ ਸੀ। ਸਾਨੂੰ ਪੂਰਾ ਯਕੀਨ ਹੈ ਕਿ ਤੁਹਾਨੂੰ ਇਹ ਇਕਸਾਰ ਵਿਊ ਪਸੰਦ ਆਵੇਗਾ।",
+    "description": "Release notes for v6.21"
+  },
+  "icu:WhatsNew__v6.21--1": {
+    "messageformat": "ਇਸ ਰਿਲੀਜ਼ 'ਤੇ ਕੰਮ ਕਰਨ ਦੌਰਾਨ {complexspaces} ਵੱਲੋਂ ਕੀਤੀ ਗਈ ਮਦਦ ਅਤੇ ਉਹਨਾਂ ਦੇ ਫੀਡਬੈਕ ਦੇ ਲਈ ਅਸੀਂ ਉਹਨਾਂ ਦੀ ਸ਼ਲਾਘਾ ਕਰਦੇ ਹਾਂ।",
+    "description": "Release notes for v6.21"
   }
 }

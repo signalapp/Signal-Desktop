@@ -5084,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
+    "messageformat": "{count,number} persona reaguan me {emoji}",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12567,40 +12567,16 @@
     "messageformat": "Rregullme të vogla, riparime të gabimeve dhe përmirësime të mbarëvajtjes.  Faleminderit që përdorni Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.18--0": {
-    "messageformat": "Përdor shkurtoret e tastierës \"Lundro sipas seksionit\" (⌘/Ctrl+T & ⌘/Ctrl+F6) për të lëvizur shpejt ndërmjet zonave të ndryshme të aplikacionit. Është si një version superhero i tastit Tab që mund të fluturojë më tej dhe më shpejt se vetja e tij e butë.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--1": {
-    "messageformat": "Ne shtuam mbështetje për tingujt e mesazheve opsionale, në mënyrë që të mund të dëgjosh gjithashtu njoftimet për mesazhet e dërguara dhe të marra, ndërkohë që një bisedë është e hapur (Parametrat > Njoftimet).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--2": {
-    "messageformat": "Shko te mesazhi më i fundit i palexuar në një bisedë (⌘/Ctrl+J) pa prekur mausin ose pa ndihmuar tastierën me prekje të përmbushë emrin e saj.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--3": {
-    "messageformat": "Ikonat e përditësuara i japin aplikacionit një pamje të re dhe ndihmojnë në përmirësimin e lexueshmërisë.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--4": {
-    "messageformat": "Ekziston gjithashtu një opsion i ri \"Kopjo tekstin\" në menynë me tri pika. Faleminderit, {yusufsahinhamza}!",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.19--0": {
-    "messageformat": "Heshtja nuk është gjithmonë e artë, por e ka një ikonë të re. Ne përditësuam butonat e \"Kamerës\" dhe \"Pa zë\" në thirrjet zanore dhe video, në mënyrë që të jetë edhe më e lehtë të shihen kur aktivizohen ose çaktivizohen.",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--1": {
-    "messageformat": "Përmirësimet e lokalizimit dhe trajtim më i mirë i gjuhëve nga e djathta në të majtë në fushën e shkruarjes të mesazhit. Faleminderit, {sha265}!",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--2": {
-    "messageformat": "Nëse ke një version të Windows para Windows 10, ose një version të Ubuntu para 20.04 LTS, do të të duhet të përditësosh sistemin tënd operativ për të vazhduar përdorimin e Signal: {supportLink}",
-    "description": "Release notes for v6.19"
-  },
   "icu:WhatsNew__v6.20--0": {
     "messageformat": "Nëse dikush të ka përmendur në një bisedë (si @ Emri yt vendoset këtu), tani mund të shkosh drejt e te ajo përmendje dhe të lexosh të gjitha gjërat e mrekullueshme që kanë thënë për ty. Je thjesht, njësh!",
     "description": "Release notes for v6.20"
+  },
+  "icu:WhatsNew__v6.21--0": {
+    "messageformat": "Shiko më mirë veten ndërkohë që bie zilja për një thirrje kokë më kokë. Telefonatat individuale me video tani përdorin të njëjtën pamje në ekran të plotë që më parë shfaqej vetëm në fillim të një telefonate të re në grup. Kur flitet për qëndrueshmëri, ne përpiqemi të jemi këmbëngulës (jo rezistentë) dhe tani nuk ka mospërputhje, sepse mes tyre tani nuk ka më ndryshim.",
+    "description": "Release notes for v6.21"
+  },
+  "icu:WhatsNew__v6.21--1": {
+    "messageformat": "Ne dëshirojmë të shprehim vlerësimin tonë edhe për {complexspaces} për ndihmën dhe raportimet gjatë punës për këtë version.",
+    "description": "Release notes for v6.21"
   }
 }

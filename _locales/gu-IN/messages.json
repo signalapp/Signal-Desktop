@@ -5084,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
+    "messageformat": "{count,number} લોકોએ {emoji} પ્રતિક્રિયા આપી",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12567,40 +12567,16 @@
     "messageformat": "નાના ફેરફારો, ભૂલ સુધારા અને પ્રદર્શનમાં વધારો. Signalનો ઉપયોગ કરવા બદલ આભાર!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.18--0": {
-    "messageformat": "ઍપના વિવિધ ક્ષેત્રો વચ્ચે ઝડપથી આગળ-પાછળ જવા માટે \"વિભાગ અનુસાર નેવિગેટ કરો\" કીબોર્ડ શોર્ટકટ (⌘/Ctrl+T & ⌘/Ctrl+F6)નો ઉપયોગ કરો. તે ટેબ કીના સુપરહીરો વર્ઝન જેવું છે જે તેના હળવા સ્વભાવના અલ્ટર ઈગો કરતાં વધુ આગળ અને ઝડપથી ઉડી શકે છે.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--1": {
-    "messageformat": "અમે વૈકલ્પિક મેસેજ સાઉન્ડ માટે સપોર્ટ ઉમેર્યો છે જેથી જ્યારે ચેટ ખુલ્લી હોય ત્યારે તમે મોકલેલા અને પ્રાપ્ત કરેલા મેસેજ માટે નોટિફિકેશન પણ સાંભળી શકો (સેટિંગ્સ > નોટિફિકેશન).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--2": {
-    "messageformat": "ચેટમાં માઉસને ટચ કર્યા વિના અથવા ટચપેડને તેના નામ પ્રમાણે બનાવવામાં મદદ કરીને લેટેસ્ટ ન વાંચેલા મેસેજ પર જાઓ (⌘/Ctrl+J).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--3": {
-    "messageformat": "અપડેટ કરેલા આઇકન ઍપને નવો દેખાવ આપે છે અને સુવાચ્યતા સુધારવામાં મદદ કરે છે.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--4": {
-    "messageformat": "ટ્રિપલ-ડોટ મેનૂમાં પણ એક નવો \"ટેક્સ્ટ કૉપિ કરો\" વિકલ્પ છે. આભાર, {yusufsahinhamza}!",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.19--0": {
-    "messageformat": "મૌન હંમેશા સુંદર નથી હોતું, પરંતુ તેમાં એક નવો આઇકન છે. અમે વૉઇસ અને વીડિયો કૉલમાં કૅમેરા અને મ્યૂટ બટનોને અપડેટ કર્યા છે જેથી તેઓ ક્યારે સક્ષમ અથવા અક્ષમ છે તે જોવાનું વધુ સરળ બને.",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--1": {
-    "messageformat": "સ્થાનિકીકરણ સુધારણા, અને મેસેજ લખવાના ફીલ્ડમાં જમણે-થી-ડાબે ભાષાઓનું બહેતર સંચાલન. આભાર, {sha265}!",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--2": {
-    "messageformat": "જો તમે Windows 10 પહેલાંના Windowsના વર્ઝન પર હો અથવા 20.04 LTS પહેલાંના Ubuntuના વર્ઝન પર હો, તો તમારે Signalનો ઉપયોગ ચાલુ રાખવા માટે તમારી ઓપરેટિંગ સિસ્ટમ અપડેટ કરવાની જરૂર પડશે: {supportLink}",
-    "description": "Release notes for v6.19"
-  },
   "icu:WhatsNew__v6.20--0": {
     "messageformat": "જો કોઈ વ્યક્તિ ચેટમાં તમારો ઉલ્લેખ કરે છે (જેમ કે @ તમારું નામ અહીં દેખાશે), તો હવે તમે ઝડપથી તે ઉલ્લેખ પર સ્ક્રોલ કરી શકો છો અને તેઓએ તમારા વિશે કહેલી બધી અદ્ભુત વસ્તુઓ વાંચી શકો છો. તમે ખરેખર શ્રેષ્ઠ છો.",
     "description": "Release notes for v6.20"
+  },
+  "icu:WhatsNew__v6.21--0": {
+    "messageformat": "જ્યારે 1-ઓન-1 કૉલ રિંગ થઈ રહ્યો હોય ત્યારે પોતાને વધુ સારી રીતે જુઓ. વ્યક્તિગત વીડિયો કૉલ હવે તે જ ફૂલ-સ્ક્રીન વ્યૂનો ઉપયોગ કરે છે જે અગાઉ ફક્ત નવા ગ્રૂપ કૉલની શરૂઆતમાં જ દેખાતા હતા. જ્યારે સુસંગત રહેવાની વાત આવે છે, ત્યારે અમે એકસરખા (પ્રતિરોધક નહીં) રહેવાનો પ્રયત્ન કરીએ છીએ અને હવે વિસંગતતા અસ્તિત્વમાં નથી કારણ કે આ વસ્તુઓ હવે અલગ નથી.",
+    "description": "Release notes for v6.21"
+  },
+  "icu:WhatsNew__v6.21--1": {
+    "messageformat": "અમે આ રિલીઝ પર કામ કરતી વખતે {complexspaces}ની મદદ અને પ્રતિસાદ બદલ તેમના માટે અમારી પ્રશંસા પણ વ્યક્ત કરવા માગીએ છીએ.",
+    "description": "Release notes for v6.21"
   }
 }

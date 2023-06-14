@@ -5084,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
+    "messageformat": "{count,number} istifadəçi {emoji} reaksiyası verdi",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12567,40 +12567,16 @@
     "messageformat": "Kiçik spesifik tənzimləmələr, xəta düzəlişləri və məhsuldarlığın artırılması. Signal istifadə etdiyiniz üçün təşəkkürlər!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.18--0": {
-    "messageformat": "Tətbiqin müxtəlif bölmələri arasında cəld keçiş etmək üçün \"Bölmələrarası naviqasiya\" klaviatura qısayolundan (⌘/Ctrl+T & ⌘/Ctrl+F6) istifadə edin. Bu Tab klaviatura düyməsinin super qəhraman versiyası kimidir, özünün mükəmməl bir alternativi olaraq daha uzağa və daha tez hərəkət edə bilər.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--1": {
-    "messageformat": "Biz çat açıq olduqda göndərilən və qəbul edilən mesaj bildirişlərinin səsini dəyişdirməniz üçün yeni parametr əlavə etdik (Parametrlər > Bildirişlər).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--2": {
-    "messageformat": "Bir çatda ikən digər yeni klaviatura qısayolundan (⌘/Ctrl+J) istifadə etməklə, ən son oxunmamış mesaja keçin.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--3": {
-    "messageformat": "Yenilənmiş piktoqramlar tətbiqə yeni bir görünüş verir.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--4": {
-    "messageformat": "Həmçinin üçnöqtəli menyuda yeni \"Mətni kopyala\" seçimi var. Təşəkkürlər {yusufsahinhamza}!",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.19--0": {
-    "messageformat": "\"Susmaq həmişə qızıl deyil\", amma artıq səsi bağlamaq üçün də yeni bir piktoqramımız var. Audio və video zənglərdə \"Kamera\" və \"Səsi bağla\" düymələri yeniləndi, artıq bu funksiyanı yandırıb-söndürmək daha asandır.",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--1": {
-    "messageformat": "Lokallaşdırma təkmilləşdirildi və mesaj yazma bölməsində dildən-dilə keçid daha da asanlaşdı. Təşəkkürlər {sha265}!",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--2": {
-    "messageformat": "Əgər Windows 10-dan əvvəlki versiyadan, yaxud da Ubuntu-nun 20.04 LTS-dən əvvəlki versiyasından istifadə edirsinizsə, Signal-dan istifadəyə davam etmək üçün əməliyyat sistemini yeniləməlisiniz: {supportLink}",
-    "description": "Release notes for v6.19"
-  },
   "icu:WhatsNew__v6.20--0": {
     "messageformat": "Çatda adınız xatırladıldıqda (məsələn, @ adınız), tezliklə həmin xatırlatmaya keçə və insanların sizin haqqınızda söylədiyi hər şeyi oxuya bilərsiniz. Siz sadəcə ən yaxşısısınız.",
     "description": "Release notes for v6.20"
+  },
+  "icu:WhatsNew__v6.21--0": {
+    "messageformat": "Birə-bir zənglərdə indi özünüzü daha yaxşı görəcəksiniz. Artıq zəng zamanı fərdi video zənglər üçün də qrup zənglərindəki kimi tam ekran görüntüsü istifadə olunur. Uyğunluğu qorumaq üçün davamlı deyil israrlı olmağa çalışırıq, indi sizi narahat edən uyğunsuzluqlara məruz qalmayacaqsanız, çünki bu xüsusiyyətlər artıq fərqli deyil.",
+    "description": "Release notes for v6.21"
+  },
+  "icu:WhatsNew__v6.21--1": {
+    "messageformat": "Həmçinin bu buraxılış üzərində işləyərkən, göstərdikləri kömək və verdikləri rəy üçün {complexspaces} çox minnətdarıq.",
+    "description": "Release notes for v6.21"
   }
 }

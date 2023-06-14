@@ -5084,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
+    "messageformat": "{count,number} mense het gereageer met {emoji}",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12567,40 +12567,16 @@
     "messageformat": "Klein veranderings, foutregstellings en prestasieverbeterings. Dankie dat jy Signal gebruik!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.18--0": {
-    "messageformat": "Gebruik die \"Navigeer volgens afdeling\"-sleutelbordkortpaaie (⌘/Ctrl+T en ⌘/Ctrl+F6) om vinnig tussen verskillende areas van die toepassing te beweeg. Dit is soos 'n superheld-weergawe van die Tab-sleutel wat verder en vinniger as sy saggeaarde alter ego kan vlieg.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--1": {
-    "messageformat": "Ons het 'n opsionele instelling bygevoeg om kennisgewingklanke vir gestuurde en ontvangde boodskappe te speel terwyl 'n klets oop is (Instellings > Kennisgewings).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--2": {
-    "messageformat": "Gaan na die jongste ongeleesde boodskap in 'n klets (⌘/Ctrl+J) sonder om jou muis of vingerpaneeltjie te gebruik.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--3": {
-    "messageformat": "Opgedateerde ikone gee die toepassing 'n vars voorkoms en help om leesbaarheid te verbeter.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--4": {
-    "messageformat": "Daar is ook 'n nuwe \"Kopieer teks\"-opsie in die driekolletjie-kieslys. Dankie, {yusufsahinhamza}!",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.19--0": {
-    "messageformat": "Stilbly is nie altyd 'n antwoord nie, maar daar is 'n nuwe ikoon daarvoor. Ons het die Kamera- en Demp-knoppies in stem- en video-oproepe opgedateer sodat dit selfs makliker is om te sien wanneer hulle geaktiveer of gedeaktiveer is.",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--1": {
-    "messageformat": "Lokaliseringverbeterings, en beter hantering van regs-na-links-tale in die boodskapskryfveld. Dankie, {sha265}!",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--2": {
-    "messageformat": "As jy op 'n weergawe van Windows voor Windows 10 is, of 'n weergawe van Ubuntu voor 20.04 LTS, sal jy jou bedryfstelsel moet opdateer om voort te gaan om Signal te gebruik: {supportLink}",
-    "description": "Release notes for v6.19"
-  },
   "icu:WhatsNew__v6.20--0": {
     "messageformat": "As iemand jou in 'n klets noem (soos @Met Jou Naam Hier), kan jy nou vinnig na daardie vermelding toe blaai en al die wonderlike dinge lees wat hulle oor jou gesê het. Jy's eenvoudig die beste.",
     "description": "Release notes for v6.20"
+  },
+  "icu:WhatsNew__v6.21--0": {
+    "messageformat": "Kyk goed hoe jy lyk terwyl 'n 1-tot-1-oproep lui. Individuele video-oproepe gebruik nou dieselfde volskerm-aansig wat voorheen slegs aan die begin van 'n nuwe groepoproep verskyn het. Kom dit by konsekwentheid, is ons hardnekkig (maar nie hardekwas nie), en nou is die inkonsekwentheid weg en is alles eenvormig.",
+    "description": "Release notes for v6.21"
+  },
+  "icu:WhatsNew__v6.21--1": {
+    "messageformat": "Ons wil ook graag ons waardering uitspreek teenoor {complexspaces} vir hul hulp en terugvoer terwyl ons aan hierdie vrystelling gewerk het.",
+    "description": "Release notes for v6.21"
   }
 }

@@ -5084,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
+    "messageformat": "{count,number} személy {emoji} hangulatjellel reagált",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12567,40 +12567,16 @@
     "messageformat": "Apró finomítások, hibajavítások és teljesítménynövelések. Köszönjük, hogy a Signalt használod!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.18--0": {
-    "messageformat": "Használd a vadiúj „Navigáció szakasz szerint” billentyűparancsokat (⌘/Ctrl+T és ⌘/Ctrl+F6) az alkalmazás különböző területei közötti gyors váltáshoz. Olyan, mint a Tab billentyű szuperhős változata, amely messzebbre és gyorsabban tud repülni, mint visszafogottabb alteregója.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--1": {
-    "messageformat": "Mostantól támogatjuk az opcionális üzenethangokat, így akkor is hallhatod az elküldött és fogadott üzenetekről szóló értesítéseket, miközben meg van nyitva a csevegés (Beállítások > Értesítések).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--2": {
-    "messageformat": "Ugorj a legutóbbi olvasatlan üzenetre a csevegésben (⌘/Ctrl+J) anélkül, hogy megérintenéd az egeret vagy az érintőpadot.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--3": {
-    "messageformat": "A frissített ikonok új megjelenést kölcsönöznek az alkalmazásnak, és javítják az olvashatóságot.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--4": {
-    "messageformat": "Valamint a három ponttal elérhető menüben található egy új „Szöveg másolása” opció is. Köszi, {yusufsahinhamza}!",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.19--0": {
-    "messageformat": "Hallgatni nem mindig arany, most mégis új ikont kapott. Frissítettük a Kamera és a Némítás gombokat a hang- és videohívásokban, így még könnyebben láthatod, mikor vannak be- vagy kikapcsolva.",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--1": {
-    "messageformat": "Lokalizációs fejlesztések és a jobbról balra írt nyelvek jobb kezelése az üzenetírás mezőben. Köszi, {sha265}!",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--2": {
-    "messageformat": "Ha Windows 10 előtti verziót vagy az Ubuntu 20.04 LTS előtti verzióját használod, frissítened kell az operációs rendszered a Signal használatának folytatásához: {supportLink}",
-    "description": "Release notes for v6.19"
-  },
   "icu:WhatsNew__v6.20--0": {
     "messageformat": "Ha valaki megemlít téged egy csevegésben (például @a_neved_ide_jön), mostantól gyorsan görgethetsz a megemlítéshez, és elolvashatod, hogy milyen csodálatos dolgokat mondtak rólad. Egyszerűen te vagy a legjobb!",
     "description": "Release notes for v6.20"
+  },
+  "icu:WhatsNew__v6.21--0": {
+    "messageformat": "Nézd meg magad jobban, amikor valaki hív téged. Az egyéni videohívásoknál mostantól ugyanaz a teljes képernyős nézet érhető el, amely korábban csak az új csoportos hívások elején jelent meg. Ami a következetességet illeti, megpróbálunk kitartóak (nem pedig ellenállók) lenni, és ez az eltérés már nem létezik, mivel már nincs különbség a kettő között.",
+    "description": "Release notes for v6.21"
+  },
+  "icu:WhatsNew__v6.21--1": {
+    "messageformat": "Ezúton is szeretnénk kifejezni köszönetünket {complexspaces} felé a kiadáson végzett munkája során nyújtott segítségért és visszajelzésért.",
+    "description": "Release notes for v6.21"
   }
 }

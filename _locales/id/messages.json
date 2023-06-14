@@ -5084,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
+    "messageformat": "{count,number} orang menanggapi dengan {emoji}",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12567,40 +12567,16 @@
     "messageformat": "Tambahan penyesuaian kecil, perbaikan bug, dan peningkatan performa. Terima kasih telah menggunakan Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.18--0": {
-    "messageformat": "Pintasan keyboard (⌘/Ctrl+T & ⌘/Ctrl+F6) yang baru dapat membantu Anda berpindah dengan cepat di antara berbagai bagian dalam aplikasi. Dengan tombol Tab ini, Anda bisa mengoperasikan aplikasi dengan lebih cepat dan mudah.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--1": {
-    "messageformat": "Kami menambahkan pengaturan opsional membunyikan notifikasi untuk pesan yang dikirim dan diterima saat obrolan terbuka (Pengaturan > Notifikasi).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--2": {
-    "messageformat": "Lompat ke pesan terbaru yang belum dibaca dalam obrolan menggunakan pintasan keyboard (⌘/Ctrl+J) yang baru.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--3": {
-    "messageformat": "Ikon yang diperbarui memberikan tampilan baru pada aplikasi.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--4": {
-    "messageformat": "Ada juga opsi baru \"Salin teks\" di menu tiga titik. Terima kasih, {yusufsahinhamza}!",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.19--0": {
-    "messageformat": "Kami memperbarui tombol Kamera dan Bisukan pada panggilan suara dan video. Jadi, kini lebih mudah untuk melihat apakah tombol diaktifkan atau dinonaktifkan.",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--1": {
-    "messageformat": "Penyempurnaan dari sisi pelokalan, dan perbaikan pada kolom penulisan pesan untuk bahasa dengan penulisan kanan ke kiri. Terima kasih, {sha265}!",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--2": {
-    "messageformat": "Jika Anda menggunakan versi Windows sebelum Windows 10, atau versi Ubuntu sebelum 20.04 LTS, Anda perlu memperbarui sistem operasi agar dapat terus menggunakan Signal: {supportLink}",
-    "description": "Release notes for v6.19"
-  },
   "icu:WhatsNew__v6.20--0": {
     "messageformat": "Jika seseorang menyebut nama Anda dalam sebuah obrolan (mis. @NamaAnda), kini Anda bisa langsung menggulir ke penyebutan tersebut dan membaca pesan yang berkaitan dengan Anda. Semua jadi lebih mudah.",
     "description": "Release notes for v6.20"
+  },
+  "icu:WhatsNew__v6.21--0": {
+    "messageformat": "Panggilan video individual kini menggunakan tampilan layar penuh yang sama seperti panggilan grup saat sedang berdering.",
+    "description": "Release notes for v6.21"
+  },
+  "icu:WhatsNew__v6.21--1": {
+    "messageformat": "Kami juga ingin menyampaikan apresiasi kepada {complexspaces} atas bantuan dan masukannya selama pengerjaan rilis ini.",
+    "description": "Release notes for v6.21"
   }
 }

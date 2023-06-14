@@ -5084,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
+    "messageformat": "{count,number} адам сезимдерин билдиришти: {emoji}",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12567,40 +12567,16 @@
     "messageformat": "Майда-барат өзгөрүүлөрдү киргизип, мүчүлүштүктөрдү оңдоп, колдонмонун иштешин жакшыртып жатабыз. Signal'ды колдонгонуңуз үчүн чоң рахмат!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.18--0": {
-    "messageformat": "Колдонмонун ар кайсы жерине тез өткүңүз келсе, \"Бөлүмдөр боюнча чабыттоо\" бөлүмүндөгү ыкчам баскычтарды колдонуңуз (⌘/Ctrl+T & ⌘/Ctrl+F6). Бул качанкы Tab баскычынын укмуштуудай тездик менен алыска секире алган версиясы.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--1": {
-    "messageformat": "Билдирүүлөрдүн үндөрүн кошуп койдук. Эми маектешип жатып, жөнөтүлгөн жана алынган билдирүүлөрдүн үндөрүн угуп турасыз (Параметрлер > Билдирмелер).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--2": {
-    "messageformat": "Чычканга же сенсор тактасына тийбей туруп маектеги эң соңку окула элек билдирүүгө секиресиз (⌘/Ctrl+J).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--3": {
-    "messageformat": "Жаңы сүрөтчөлөр менен колдонмонун көрүнүшү жаңырып, андагы нерселер даанараак көрүнүп калды.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--4": {
-    "messageformat": "Үч чекиттүү менюда да \"Текстти көчүрүү\" мүмкүнчүлүгү пайда болду. Чоң рахмат {yusufsahinhamza}!",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.19--0": {
-    "messageformat": "Унчукпоо дайыма эле алтын боло бербейт, бирок анын жаңы сүрөтчөсү бар. Аудио жана видео чалуулардагы Камера менен Үндү басуу/чыгаруу баскычтарын жаңырттык. Эми алардын күйгүзүлгөнү же өчүрүлгөнү дароо көрүнөт.",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--1": {
-    "messageformat": "Башка тилдер ыңгайлаштырылып, оңдон солго жазылган тилдерде билдирүүлөрдү жазуу кыйла оңой болуп калды. Чоң рахмат {sha265}!",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--2": {
-    "messageformat": "Windows 10 чейинки версияны же 20.04 LTS чейинки Ubuntu версиясын колдонуп жатсаңыз, Signal кызматын пайдалана берүү үчүн операциялар системасын жаңыртышыңыз керек: {supportLink}",
-    "description": "Release notes for v6.19"
-  },
   "icu:WhatsNew__v6.20--0": {
     "messageformat": "Эгер маекте кимдир бирөө сиз тууралуу айтып өтсө (@сиздин атыңызды айтып), өзүңүз тууралуу сонун сөздөрдү окуу үчүн ошол жерге тез өтө аласыз. Сизден өткөн мыкты адам жок!",
     "description": "Release notes for v6.20"
+  },
+  "icu:WhatsNew__v6.21--0": {
+    "messageformat": "Жекеме-жеке чалышуу функциясы өркүндөтүлдү. Буга чейин жекеме-жеке видео чалуусу жаңы топтук чалуунун башында гана толук экранда көрүнсө, эми андай эмес. Туруктуулук талап кылынган жерде, өжөр болгонго аракет кылабыз (кежир эмес), бирок чындап келсе, азыр өжөрлүк менен кежирликтин ортосундагы айырма жоголуп деле калды.",
+    "description": "Release notes for v6.21"
+  },
+  "icu:WhatsNew__v6.21--1": {
+    "messageformat": "Ушул версиянын үстүнөн иштеп, бизге кол кабыл кылган {complexspaces} терең ыраазычылыгыбызды билдиргибиз келет.",
+    "description": "Release notes for v6.21"
   }
 }

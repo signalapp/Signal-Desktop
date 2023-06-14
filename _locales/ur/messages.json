@@ -5084,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
+    "messageformat": "{count,number} لوگوں نے {emoji} کے ساتھ ری ایکٹ کیا",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12567,40 +12567,16 @@
     "messageformat": "معمولی تبدیلیاں کی گئیں، بگ ٹھیک کیے گئے، اور کارکردگی اور بھی بہتر بنائی گئی ہے۔ Signal استعمال کرنے کے لیے شکریہ!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.18--0": {
-    "messageformat": "ایپ کی مختلف جگہوں کے درمیان تیزی سے حرکت کرنے کے لیے \"سیکشن کے ذریعے نیویگیٹ کریں\" کیی بورڈ شارٹ کٹس (⌘/Ctrl+T & ⌘/Ctrl+F6) استعمال کریں۔ یہ ٹیب کیی کے ایک سپر ہیرو ورژن جیسا ہے جو اپنی شائستہ ثانوی شخصیت کی نسبت زیادہ دور تک اور تیز ترین حرکت کر سکتا ہے۔",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--1": {
-    "messageformat": "ہم نے اختیاری میسج کی آوازوں کے لیے سپورٹ کو شامل کیا ہے تاکہ آپ چیٹ کھلی ہونے کے دوران بھیجے گئے اور موصول ہونے والے میسجز کی اطلاعات بھی سن سکیں (سیٹنگز > اطلاعات)۔",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--2": {
-    "messageformat": "ماؤس کا استعمال کیے بغیر یا ٹچ پیڈ کو اس کے نام کے مطابق استعمال کیے بغیر چیٹ میں (⌘/Ctrl+J) سب سے حالیہ بغیر پڑھے ہوئے میسج پر جائیں۔",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--3": {
-    "messageformat": "اپ ڈیٹ کردہ آئیکنز ایپ کو ایک خوش نما شکل دیتے ہیں اور قابلیت کو بہتر بنانے میں مدد کرتے ہیں۔",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--4": {
-    "messageformat": "تین نقطی مینو میں بھی ایک نیا \"متن کاپی کریں\" آپشن موجود ہے۔ شکریہ، {yusufsahinhamza}!",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.19--0": {
-    "messageformat": "خاموشی ہمیشہ اچھی چیز نہیں ہوتی ہے، تاہم اس کے لیے ایک نیا آئیکن شامل کیا گیا ہے۔ ہم نے وائس اور ویڈیو کالز میں کیمرہ اور میوٹ بٹنز کو اپ ڈیٹ کیا ہے تاکہ یہ دیکھنا اور بھی زیادہ آسان ہو جائے کہ وہ کب فعال یا غیر فعال ہوتے ہيں۔",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--1": {
-    "messageformat": "میسج کمپوزیشن فیلڈ میں لوکلائزیشن میں بہتریاں، اور دائیں سے بائیں زبانوں کی بہترین ہینڈلنگ۔ شکریہ، {sha265}!",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--2": {
-    "messageformat": "اگر آپ Windows کا Windows 10 سے پہلے والا ورژن استعمال کرتے ہیں، یا Ubuntu کا 20.04 LTS سے پہلے والا ورژن استعمال کرتے ہیں، تو آپ کو Signal کا استعمال جاری رکھنے کے لیے اپنے آپریٹنگ سسٹم کو اپ ڈیٹ کرنے کی ضرورت ہو گی: {supportLink}",
-    "description": "Release notes for v6.19"
-  },
   "icu:WhatsNew__v6.20--0": {
     "messageformat": "اگر کوئی شخص آپ کو کسی چیٹ میں مینشن کرتا ہے (مثلاً، @ Your Name Goes Here)، تو اب آپ تیزی سے اس مینشن تک اسکرول کر سکتے ہیں اور وہ تمام حیرت انگیز باتیں پڑھ سکتے ہیں جو انہوں نے آپ کے بارے میں کہی ہیں۔ آپ بلاشبہ بہترین ہیں۔",
     "description": "Release notes for v6.20"
+  },
+  "icu:WhatsNew__v6.21--0": {
+    "messageformat": "بالمشافہ کال بجنے کے دورن اپنی ظاہری شکل کو زیادہ بہتر بنائیں۔ وہی مکمل اسکرین ویو جو پہلے صرف ایک نئی گروپ کال کے آغاز پر ظاہر ہوتا تھا اب انفرادی ویڈیو کالز کے لیے استعمال کیا جاتا ہے۔ جب بات مستقل مزاجی کی ہوتی ہے، تو ہم (مزاحمت کے بجائے) ثابت قدم رہنے کی کوشش کرتے ہیں اور تضاد اب موجود نہیں ہے کیونکہ یہ چیزیں اب مزید مختلف نہیں رہیں۔",
+    "description": "Release notes for v6.21"
+  },
+  "icu:WhatsNew__v6.21--1": {
+    "messageformat": "نیز، ہم اس ریلیز پر کام کرنے کے دوران {complexspaces} کی مدد اور فیڈبیک کے لیے ان کا شکریہ ادا کرنا چاہیں گے۔",
+    "description": "Release notes for v6.21"
   }
 }

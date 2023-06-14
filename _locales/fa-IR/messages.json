@@ -5084,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
+    "messageformat": "{count,number} نفر با {emoji} واکنش نشان دادند",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12567,40 +12567,16 @@
     "messageformat": "تغییرات کوچک، رفع اشکالات و بهبود عملکرد. بابت استفاده از سیگنال سپاسگزاریم!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.18--0": {
-    "messageformat": "برای جابجایی سریع بین قسمت‌های مختلف برنامه، از میان‌برهای صفحه‌کلید (⌘/Ctrl+T و ⌘/Ctrl+F6) برای «پیمایش بر اساس بخش» استفاده کنید. این شبیه نسخه بی‌نقصی از کلید Tab عمل می‌کند که می‌تواند حتی از همتای خود هم بالاتر و سریع‌تر باشد.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--1": {
-    "messageformat": "ما پشتیبانی برای صداهای انتخابی پیام اضافه کردیم تا وقتی گفتگویی باز است نیز بتوانید اعلان‌ها را برای پیام‌های ارسالی و دریافتی بشنوید (تنظیمات > اعلان‌ها).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--2": {
-    "messageformat": "بدون لمس ماوس یا تلاش مضاعف روی صفحه لمسی، به آخرین پیام خوانده‌نشده در گفتگو بپرید (‎⌘/Ctrl+J).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--3": {
-    "messageformat": "نمادهای به‌روزرسانی‌شده، چهره تازه‌ای به برنامه می‌بخشند و در عین حال به خوانایی بهتر کمک می‌کنند.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--4": {
-    "messageformat": "گزینه جدیدی برای «کپی متن» نیز در منوی سه‌نقطه گنجانده شده است. سپاس، {yusufsahinhamza}!",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.19--0": {
-    "messageformat": "سکوت همیشه سرشار از ناگفته‌ها نیست، اما حالا نماد جدیدی دارد. ما دکمه‌های «دوربین» و «قطع صدا» را در تماس‌های صوتی و تصویری به‌روز کرده‌ایم و حالا راحت‌تر از قبل می‌توانید ببینید که فعال یا غیرفعال هستند.",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--1": {
-    "messageformat": "بهبود محلی‌سازی و پردازش بهتر زبان‌های راست‌چین در کادر نگارش پیام. سپاس، {sha265}!",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--2": {
-    "messageformat": "اگر نسخه ویندوز شما قدیمی‌تر از ویندوز ۱۰ یا نسخه Ubuntu شما قبل از ۲۰.۰۴ LTS است، برای ادامه استفاده از سیگنال باید سیستم‌عامل خود را به‌روز کنید: {supportLink}",
-    "description": "Release notes for v6.19"
-  },
   "icu:WhatsNew__v6.20--0": {
     "messageformat": "اگر کسی در گفتگویی به شما اشاره کند (مثلاً با @نام شما)، اکنون می‌توانید به‌سرعت به آن اشاره بروید و همه حرف‌های خوبی را که درباره شما گفته‌اند بخوانید. شما بهترین هستید.",
     "description": "Release notes for v6.20"
+  },
+  "icu:WhatsNew__v6.21--0": {
+    "messageformat": "در تماس‌های فرد به فرد، تصویر بهتری از خودتان داشته باشید. حالا دیگر تماس‌های تصویری انفرادی همان نمای تمام‌صفحه‌ای را دارند که پیش از این فقط در ابتدای تماس‌های گروهی جدید ظاهر می‌شد. وقتی حرف از یکدست بودن در میان باشد، ما همواره برای بهبود تلاش می‌کنیم (و مقاومتی در برابر تغییر نداریم)؛ حالا دیگر تفاوتی بین دو نوع تماس وجود ندارد، چون هر دو را یکدست کرده‌ایم.",
+    "description": "Release notes for v6.21"
+  },
+  "icu:WhatsNew__v6.21--1": {
+    "messageformat": "همچنین از {complexspaces} بابت کمک و بازخوردشان در حین کار کردن روی این نسخه جدید سپاس‌گزاریم.",
+    "description": "Release notes for v6.21"
   }
 }

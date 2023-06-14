@@ -5084,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
+    "messageformat": "{count,number} kişi {emoji} ile tepki verdi",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12567,40 +12567,16 @@
     "messageformat": "Küçük ince ayarlar, hata düzeltmeleri ve performans geliştirmeleri yaptık. Signal'i kullandığın için teşekkürler!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.18--0": {
-    "messageformat": "Uygulamanın farklı alanları arasında hızla hareket etmek için \"Bölüme göre gezin\" klavye kısayollarını (⌘/Ctrl+T ve ⌘/Ctrl+F6) kullan. Sekme tuşunun, daha uzağa ve daha hızlı uçabilen bir süper kahraman versiyonu gibi.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--1": {
-    "messageformat": "Bir sohbet açıkken (Ayarlar > Bildirimler) gönderilen ve alınan mesajlar için bildirimleri de duyabilmen için isteğe bağlı mesaj sesleri için destek ekledik.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--2": {
-    "messageformat": "Bir sohbette fareye veya dokunmatik yüzeye dokunmadan en sonki okunmamış mesaja atla (⌘/Ctrl+J).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--3": {
-    "messageformat": "Güncellenen simgeler, uygulamaya yeni bir görünüm verir ve okunabilirliği artırmaya yardımcı olur.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--4": {
-    "messageformat": "Üç noktalı menüde de yeni bir \"Metni kopyala\" seçeneği bulunuyor. Teşekkürler {yusufsahinhamza}!",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.19--0": {
-    "messageformat": "Sessizlik her zaman iyi değildir ancak yeni bir simgesi var. Sesli ve görüntülü aramalarda Kamera ve Sessiz düğmelerini güncelledik böylece ne zaman etkinleştirildiklerini veya devre dışı bırakıldıklarını görmek artık daha da kolay.",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--1": {
-    "messageformat": "Yerelleştirme iyileştirmeleri ve mesaj oluşturma alanında sağdan sola yazılan dillerin daha iyi işlenmesi. Teşekkürler {sha265}!",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--2": {
-    "messageformat": "Windows 10'dan önceki bir Windows sürümünü veya 20.04 LTS'den önceki bir Ubuntu sürümünü kullanıyorsan, Signal'i kullanmaya devam etmek için işletim sistemini güncellemen gerekiyor: {supportLink}",
-    "description": "Release notes for v6.19"
-  },
   "icu:WhatsNew__v6.20--0": {
     "messageformat": "Birisi bir sohbette senden bahsederse (@Adın Buraya Gelir gibi), artık hızlıca o bahsetmeye gidebilir ve hakkında söylenen tüm harika şeyleri okuyabilirsin. Harika olduğunu duymayı hak ediyorsun.",
     "description": "Release notes for v6.20"
+  },
+  "icu:WhatsNew__v6.21--0": {
+    "messageformat": "Bire bir arama gerçekleştirirken nasıl gözüktüğünü artık çaldırma sırasında daha iyi görebilirsin. Bireysel görüntülü aramalar artık yeni grup aramaları çaldırmasıyla aynı tam ekran görünümünü kullanıyor. İş tutarlı olmaya gelince, dirençli değil ısrarcı olmaya çalışıyoruz ve artık uyuşmazlık yaşanmıyoruz çünkü bu iki kavram artık herhangi bir fark taşımıyor.",
+    "description": "Release notes for v6.21"
+  },
+  "icu:WhatsNew__v6.21--1": {
+    "messageformat": "Ayrıca bu sürüm üzerinde çalışırken {complexspaces} şirketine yardımları ve geri bildirimleri için minnettarlığımızı ifade etmek istiyoruz.",
+    "description": "Release notes for v6.21"
   }
 }

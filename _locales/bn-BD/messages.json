@@ -5084,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
+    "messageformat": "{count,number} জন {emoji} দিয়ে রিঅ্যাক্ট করেছেন",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12567,40 +12567,16 @@
     "messageformat": "ছোট ছোট কিছু পরিবর্তন, বাগ সংশোধন এবং পারফর্মেন্স সমৃদ্ধ করা হয়েছে। Signal ব্যবহার করার জন্য ধন্যবাদ!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.18--0": {
-    "messageformat": "নতুন কীবোর্ড শর্টকাট (⌘/Ctrl+T & ⌘/Ctrl+F6) আপনাকে অ্যাপের বিভিন্ন অংশে দ্রুত নেভিগেট করতে সাহায্য করতে পারে। এটি ট্যাব কী-এর একটি সুপারহিরো সংস্করণের মতো যা এর শান্ত ব্যক্তিত্বের চেয়ে আরো বেশি ও দ্রুত উড়তে পারে।",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--1": {
-    "messageformat": "কোনো চ্যাট খোলা থাকা অবস্থায় পাঠানো ও প্রাপ্ত ম্যাসেজের জন্য নোটিফিকেশনের শব্দ বাজাতে আমরা একটি ঐচ্ছিক সেটিংস যোগ করেছি (সেটিংস > বিজ্ঞপ্তি)।",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--2": {
-    "messageformat": "আরেকটি নতুন কীবোর্ড শর্টকাট (⌘/Ctrl+J) ব্যবহার করে একটি চ্যাটের সর্বশেষ অপঠিত ম্যাসেজে যান।",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--3": {
-    "messageformat": "আপডেটকৃত আইকনগুলো অ্যাপটিকে একটি নতুন রূপ দেয় এবং স্পষ্টতা উন্নত করতে সাহায্য করে।",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--4": {
-    "messageformat": "ট্রিপল-ডট মেন্যুতেও একটি নতুন \"টেক্সট কপি করুন\" অপশন রয়েছে। ধন্যবাদ, {yusufsahinhamza}!",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.19--0": {
-    "messageformat": "নীরবতা অবলম্বন করা সবসময় ঠিক নয়, কিন্তু এর একটি নতুন আইকন আছে। আমরা ভয়েস ও ভিডিও কলে ক্যামেরা ও মিউট বাটন আপডেট করেছি, যাতে সেগুলো কখন সচল বা বন্ধ করা হয় তা দেখা আরো সহজ হবে।",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--1": {
-    "messageformat": "আছে উন্নত স্থানীয়করণের উন্নতি, এবং ম্যাসেজ লিখার ক্ষেত্রে ডান-থেকে-বামে লিখা হয় এমন ভাষার জন্য আরো ভালো সমাধান। ধন্যবাদ, {sha265}!",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--2": {
-    "messageformat": "আপনি যদি Windows 10-এর আগের কোনো Windows সংস্করণে থাকেন, অথবা 20.04 LTS-এর আগের কোনো Ubuntu সংস্করণে থাকেন, তাহলে Signal ব্যবহার চালিয়ে যেতে আপনাকে অপারেটিং সিস্টেম আপডেট করতে হবে: {supportLink}",
-    "description": "Release notes for v6.19"
-  },
   "icu:WhatsNew__v6.20--0": {
     "messageformat": "কেউ যদি আপনাকে কোনো চ্যাটে উল্লেখ করেন (যেমন @ আপনার নাম), তাহলে আপনি এখন দ্রুত সেই উল্লেখটিতে স্ক্রল করে যেতে পারবেন এবং তারা আপনার সম্পর্কে যা বলেছেন তা পড়তে পারবেন। আপনিই সেরা।",
     "description": "Release notes for v6.20"
+  },
+  "icu:WhatsNew__v6.21--0": {
+    "messageformat": "1-অন-1 কল রিং হওয়ার সময় নিজেকে আরো ভালোভাবে দেখুন। ব্যক্তিগত ভিডিও কল এখন একই ফুল-স্ক্রিন ভিউ ব্যবহার করে, পূর্বে যা শুধুমাত্র গ্রুপ কলের ক্ষেত্রেই দেখা যেতো। সামঞ্জস্য রক্ষার্থে আমরা অবিচল থাকার চেষ্টা করি (প্রতিরোধী নয়) এবং এখন এই অমিলটি আর নেই, কারণ এই জিনিসগুলো আর আলাদা নয়।",
+    "description": "Release notes for v6.21"
+  },
+  "icu:WhatsNew__v6.21--1": {
+    "messageformat": "এই রিলিজে কাজ করার সময় {complexspaces}-এর সাহায্য ও প্রতিক্রিয়ার জন্য আমরা তাদের প্রতি আমাদের কৃতজ্ঞতা প্রকাশ করতে চাই।",
+    "description": "Release notes for v6.21"
   }
 }

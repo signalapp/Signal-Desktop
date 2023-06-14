@@ -5084,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
+    "messageformat": "{count,number} persones han reaccionat amb {emoji}",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12567,40 +12567,16 @@
     "messageformat": "Petits ajustos, correccions d'errors i tasques de millora de rendiment. Gràcies per utilitzar Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.18--0": {
-    "messageformat": "Les noves combinacions de tecles de drecera (⌘/Ctrl+T i ⌘/Ctrl+F6) t'ajudaran a moure't ràpidament entre les diferents àrees de l'app. És com la versió de superheroi de la tecla Tab, que pot volar més lluny i més ràpid que el seu alter ego.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--1": {
-    "messageformat": "Hem afegit suport per a sons opcionals de missatge, per tal que puguis escoltar les notificacions dels missatges enviats i rebuts mentre hi hagi un xat obert (Ajustos > Notificacions).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--2": {
-    "messageformat": "Ves a l'últim missatge no llegit en un xat (⌘/Ctrl+J) sense haver de tocar el ratolí ni el touchpad.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--3": {
-    "messageformat": "Les icones actualitzades donen a l'app un nou aspecte i ajuden a millorar la llegibilitat.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--4": {
-    "messageformat": "També hi ha una nova opció \"Copia el text\" al menú de tres punts. Gràcies, {yusufsahinhamza}!",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.19--0": {
-    "messageformat": "El silenci no sempre és or, però té una nova icona. Hem actualitzat els botons Càmera i Silenciar a les trucades de veu i de vídeo perquè sigui encara més fàcil veure quan estan activats o desactivats.",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--1": {
-    "messageformat": "Millores de localització i millor maneig dels idiomes de dreta a esquerra al camp de composició de missatges. Gràcies, {sha265}!",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--2": {
-    "messageformat": "Si tens una versió de Windows anterior a Windows 10 o una versió d'Ubuntu anterior a la 20.04 LTS, hauràs d'actualitzar el teu sistema operatiu per continuar utilitzant Signal: {supportLink}",
-    "description": "Release notes for v6.19"
-  },
   "icu:WhatsNew__v6.20--0": {
     "messageformat": "Si algú et menciona en un xat (com ara @ el teu nom), ara podràs desplaçar-te ràpidament fins a aquesta menció i llegir totes les coses meravelloses que han dit sobre tu. Tu ets el protagonista.",
     "description": "Release notes for v6.20"
+  },
+  "icu:WhatsNew__v6.21--0": {
+    "messageformat": "Comprova que no t'has despentinat mentre sona una trucada individual! Les videotrucades individuals ara utilitzen la mateixa vista de pantalla completa que abans només apareixia al començament d'una nova trucada grupal. A l'hora de ser coherents, intentem ser persistents (no resistents) i ara la discrepància és inexistent perquè aquestes coses ja no són diferents.",
+    "description": "Release notes for v6.21"
+  },
+  "icu:WhatsNew__v6.21--1": {
+    "messageformat": "També volem donar les gràcies a {complexspaces} per la seva ajuda i els seus comentaris mentre treballàvem en aquesta versió.",
+    "description": "Release notes for v6.21"
   }
 }

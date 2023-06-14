@@ -5084,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
+    "messageformat": "{count,number} osoby zareagowały tak {emoji}",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12567,40 +12567,16 @@
     "messageformat": "Małe ulepszenia, poprawki błędów i zwiększona funkcjonalność. Dzięki za korzystanie z Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.18--0": {
-    "messageformat": "Nowe skróty klawiszowe (⌘/Ctrl+T & ⌘/Ctrl+F6) pomogą Ci szybko przełączać się pomiędzy poszczególnymi sekcjami aplikacji. To takie superbohaterskie alter ego klawisza Tab, które potrafi latać jeszcze wyżej i jeszcze szybciej.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--1": {
-    "messageformat": "Dodaliśmy opcjonalne ustawienie umożliwiające odtwarzanie powiadomień dźwiękowych przy wysyłaniu i odbieraniu wiadomości w otwartym czacie (Ustawienia > Powiadomienia).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--2": {
-    "messageformat": "Przeskocz do ostatniej nieprzeczytanej wiadomości w czacie za pomocą nowego skrótu klawiszy (⌘/Ctrl+J).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--3": {
-    "messageformat": "Aplikacja została odświeżona za pomocą nowych ikonek.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--4": {
-    "messageformat": "Dodaliśmy też nową opcję „Kopiuj tekst” w menu z trzema kropkami. Dzięki, {yusufsahinhamza}!",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.19--0": {
-    "messageformat": "Milczenie nie zawsze jest złotem, ale ma nową ikonę. Zaktualizowaliśmy przyciski aparatu i wyciszenia w połączeniach głosowych i wideo. Od teraz wyraźniej pokazują, kiedy są włączone i wyłączone.",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--1": {
-    "messageformat": "Poprawki językowe i ulepszone wsparcie dla języków czytanych od prawej do lewej w polu pisania wiadomości. Dzięki, {sha265}!",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--2": {
-    "messageformat": "Jeśli korzystasz z systemu starszego niż Windows 10 lub Ubuntu 20.04 LTS, musisz zaktualizować swój system, aby móc dalej korzystać z aplikacji Signal: {supportLink}",
-    "description": "Release notes for v6.19"
-  },
   "icu:WhatsNew__v6.20--0": {
     "messageformat": "Jeśli ktoś oznaczy Cię wzmianką w czacie (przykładowa wzmianka: @Twoje Imię), możesz szybko przewinąć do wzmianki i natychmiast przeczytać wszystkie ciepłe słowa, jakie padły na Twój temat. Ot, taka (w)zmiana na lepsze.",
     "description": "Release notes for v6.20"
+  },
+  "icu:WhatsNew__v6.21--0": {
+    "messageformat": "Napatrz się na swoją piękną buźkę podczas rozmowy 1 na 1. Indywidualne połączenia wideo wykorzystują teraz ten sam widok pełnoekranowy, który poprzednio pokazywał się tylko na początku nowego połączenia grupowego. Robimy, co tylko możemy, bo spójną aplikację mieć chcemy, więc do roboty się bierzemy i rozbieżności eliminujemy.",
+    "description": "Release notes for v6.21"
+  },
+  "icu:WhatsNew__v6.21--1": {
+    "messageformat": "Pragniemy również wyrazić wdzięczność użytkownikowi {complexspaces} za pomoc i sugestie podczas pracy nad tą aktualizacją.",
+    "description": "Release notes for v6.21"
   }
 }

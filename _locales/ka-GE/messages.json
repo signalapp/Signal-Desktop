@@ -5084,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
+    "messageformat": "{count,number} ადამაინი {emoji}-ით გამოეხმაურა",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12567,40 +12567,16 @@
     "messageformat": "მცირე შესწორებები, ბაგების გამოსწორება და წარმადობის გაუმჯობესება. მადლობას გიხდით სიგნალის გამოყენებისთვის!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.18--0": {
-    "messageformat": "გამოიყენე \"ნავიგაცია განყოფილების მიხედვით\" კლავიატურის მალსახმობები (⌘/Ctrl+T & ⌘/Ctrl+F6), რათა სწრაფად გადაადგილდე აპის სხვადასხვა ზონებს შორის. ესTab კლავიშის სუპერგმირულ ვერსიას ჰგავს, რომელსაც შეუძლია უფრო შორს და უფრო სწრაფად ფრენა, ვიდრე მის მშვიდ ალტერ ეგოს.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--1": {
-    "messageformat": "ჩვენ დავამატეთ არასავალდებულო შეტყობინებების ხმების მხარდაჭერა, ასე რომ შენ შეგიძლია გაიგო ხმა გაგზავნილი და მიღებული შეტყობინებების შესახებ, სანამ ჩატი ღიაა (პარამეტრები > შეტყობინებები).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--2": {
-    "messageformat": "გადადი უახლეს წაუკითხავ შეტყობინებაზე ჩათში (⌘/Ctrl+J) მაუსის შეხების ან სენსორული პანელის გააქტიურების გარეშე.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--3": {
-    "messageformat": "განახლებული ხატულები აპს ახალ იერს სძენს და ხელს უწყობს კითხვადობის გაუმჯობესებას.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--4": {
-    "messageformat": "ასევე ახალი ოფცია \"ტექსტის კოპირება\"უკვე სამ-წერტილიან მენიუშია. მადლობა, {yusufsahinhamza}!",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.19--0": {
-    "messageformat": "დუმილი ყოველთვის ოქრო არ არის, მაგრამ მას ახალი ხატულა აქვს. ჩვენ განვაახლეთ კამერის და დადუმების ღილაკები ხმოვან და ვიდეო ზარებში, ასე რომ, კიდევ უფრო ადვილია, დაინახო როდისაა ის ჩართული ან გამორთული.",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--1": {
-    "messageformat": "ლოკალიზაციის გაუმჯობესება და შეტყობინებების კომპოზიციის ველში მარჯვნიდან მარცხნივ ენების უკეთესი მართვა. მადლობა, {sha265}!",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--2": {
-    "messageformat": "თუ შენ გაქვს Windows 10-ზე ძველი ვერსია, ან Ubuntu-ს ვერსია 20.04 LTS-მდე, საოპერაციო სისტემა უნდა უნდა განაახლო, რათა Signal-ის გამოყენება გააგრძელო: {supportLink}",
-    "description": "Release notes for v6.19"
-  },
   "icu:WhatsNew__v6.20--0": {
     "messageformat": "თუ ვინმე ჩატში მოგნიშნავს (მაგალითად, @ შენი სახელი იქნება აქ), უკვე შეგიძლია, ამ მონიშვნაზე მარტივად გადახვიდე და ყველა ის შესანიშნავი რამ წაიკითხო, რაც შენზე თქვეს. შენ უბრალოდ საუკეთესო ხარ.",
     "description": "Release notes for v6.20"
+  },
+  "icu:WhatsNew__v6.21--0": {
+    "messageformat": "უკეთ დაინახე საკუთარი თავი, სანამ 1-1-ზე ზარი ირეკება. ინდივიდუალური ვიდეოზარები ახლა იმავე სრულეკრანიან ხედით მიმდინარეობს, რომელიც ადრე მხოლოდ ახალი ჯგუფური ზარის დასაწყისში ჩანდა. როცა თანმიმდევრულობას ეხება საქმე, ვცდილობთ, დაჟინებულები ვიყოთ (არა მტკიცეები), ამიტომაც შეუსაბამობა აღარ არსებობს, და შესაბამისად მიდგომები აღარ განსხვავდება.",
+    "description": "Release notes for v6.21"
+  },
+  "icu:WhatsNew__v6.21--1": {
+    "messageformat": "ასევე გვსურს მადლობა გადავუხადოთ {complexspaces} ამ გამოშვებაზე მუშაობისას დახმარებისა და უკუკავშირისთვის.",
+    "description": "Release notes for v6.21"
   }
 }

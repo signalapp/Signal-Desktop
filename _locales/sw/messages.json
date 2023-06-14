@@ -5084,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
+    "messageformat": "watu {count,number} wame-react kwa {emoji}",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12567,40 +12567,16 @@
     "messageformat": "Mabadiliko madogo, marekebisho ya bugs na uboreshaji wa utendaji. Asante kwa kutumia Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.18--0": {
-    "messageformat": "Tumia mikato ya kibodi ya \"Ongoza kwa kipengele\" (⌘/Ctrl+T & ⌘/Ctrl+F6) ili kuhama kwa haraka kati ya maeneo tofauti ya programu. Ni kama toleo la kishujaa la kitufe cha Kichupo ambacho kinaweza kupaa zaidi na kwenda kwa kasi kuliko ndugu yake mpole.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--1": {
-    "messageformat": "Tumeongeza msaada kwa jumbe za hiari ili uweze kusikia arifa za jumbe zinazotumwa na kupokewa wakati gumzo linaendelea (Mipangilio > Arifa).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--2": {
-    "messageformat": "Ruka kwenye ujumbe wa hivi karibuni ambao haujasomwa kwenye gumzo (⌘/Ctrl+J) bila kugusa kipanya au kusaidia padi ya kugusa kuonyesha uwezo wake.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--3": {
-    "messageformat": "Ikoni zilizosasishwa zinaipa programu muonekano mpya na kusaidia usomekaji wake.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--4": {
-    "messageformat": "Pia kuna chaguo jipya la \"Nakili maandishi\" kwenye menyu ya nukta tatu. Asante, {yusufsahinhamza}!",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.19--0": {
-    "messageformat": "Si mara zote ukimya ni dhahabu, lakini una ikoni mpya. Tumesasisha vitufe vya Kamera na Kuzima sauti katika simu za kawaida na za video hivyo ni rahisi kuona vinapowashwa au kuzimwa.",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--1": {
-    "messageformat": "Maboresho ya ujanibishaji, na namna bora ya kumudu lugha za kutoka upande wa kulia kwenda kushoto kwenye tasnia ya utungaji jumbe. Asante, {sha265}!",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--2": {
-    "messageformat": "Ikiwa unatumia toleo la Windows la awali la Windows 10, au toleo la Ubuntu kabla ya 20.04 LTS, utahitaji kusasisha mfumo wako wa uendeshaji ili uendelee kutumia Signal:{supportLink}",
-    "description": "Release notes for v6.19"
-  },
   "icu:WhatsNew__v6.20--0": {
     "messageformat": "Ikiwa mtu anakutaja kwenye gumzo (mfano @ Jina Lako Linaingia Hapa), sasa unaweza kusogea haraka kwa mtajo ule na kusoma mambo yote mazuri waliyoyasema kukuhusu. Wewe ni bomba sana.",
     "description": "Release notes for v6.20"
+  },
+  "icu:WhatsNew__v6.21--0": {
+    "messageformat": "Jiangalie vizuri pale simu ya moja kwa moja inapopiga. Simu binafsi za video sasa zinatumia mwonekano ule ule wa skrini nzima ambao hapo awali ulionekana mwanzoni simu mpya ya kikundi. Linapokuja kwa suala la kuwa thabiti, tunajaribu kuwa ving'ang'anizi (sio wapinzani) na sasa utofauti haupo kwa sababu mambo haya sio tofauti tena.",
+    "description": "Release notes for v6.21"
+  },
+  "icu:WhatsNew__v6.21--1": {
+    "messageformat": "Tungependa pia kutoa shukrani zetu kwa {complexspaces} kwa usaidizi wao na maoni tulipokuwa tukishughulikia toleo hili.",
+    "description": "Release notes for v6.21"
   }
 }

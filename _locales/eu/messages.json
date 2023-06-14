@@ -5084,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
+    "messageformat": "{count,number} pertsonak {emoji} emojiarekin erreakzionatu dute",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12567,40 +12567,16 @@
     "messageformat": "Doikuntza txikiak, akats-konponketak eta errendimendu-hobekuntzak. Eskerrik asko Signal erabiltzeagatik!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.18--0": {
-    "messageformat": "Erabili \"Nabigatu atalaren arabera\" teklatuko lasterbideak (⌘/Ktrl+T eta ⌘/Ktrl+F6) aplikazioaren eremu desberdinetatik azkar mugitzeko. Tabulazio-teklen superheroi moduko bat da: bere alter ego ahulak baino urrunago eta azkarrago hegan egin dezake.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--1": {
-    "messageformat": "Aukerako mezu-soinuak entzuteko aukera gehitu dugu, bidalitako eta jasotako mezuen jakinarazpenak ere entzun ahal izateko txat bat irekita dagoen bitartean (Ezarpenak > Jakinarazpenak).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--2": {
-    "messageformat": "Joan txat bateko irakurri gabeko azken mezura (⌘/Ktrl+J) sagua ukitu gabe.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--3": {
-    "messageformat": "Ikono eguneratuek itxura berria ematen diote aplikazioari eta irakurgarritasuna hobetzen dute.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--4": {
-    "messageformat": "Hiru puntuko menuan \"Kopiatu testua\" aukera berri bat ere badago. Eskerrik asko, {yusufsahinhamza}!",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.19--0": {
-    "messageformat": "Isiltasuna ez da beti urrezkoa, baina ikono berri bat du. Ahots-dei eta bideodeietan \"Kamera\" eta \"Desaktibatu audioa\" botoiak eguneratu ditugu, gaituta edo desgaituta daudenean are errazago ikusteko.",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--1": {
-    "messageformat": "Lokalizazio-hobekuntzak, eta eskuinetik ezkerreko hizkuntzen kudeaketa hobea mezuak idazteko eremuan. Eskerrik asko, {sha265}!",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--2": {
-    "messageformat": "Windows 10 baino zaharragoa den Windows-en bertsio bat badarabilzu, edo 20.04 LTS baino zaharragoa den Ubuntu-ren bertsio bat, sistema eragilea eguneratu beharko duzu Signal erabiltzen jarraitzeko: {supportLink}",
-    "description": "Release notes for v6.19"
-  },
   "icu:WhatsNew__v6.20--0": {
     "messageformat": "Norbaitek txat batean aipatzen bazaitu (@ Zure izena), bizkor batean joan zaitezke aipamen horretara, eta zuri buruz esandako gauza zoragarri guztiak irakurri. Besterik gabe, onena zara.",
     "description": "Release notes for v6.20"
+  },
+  "icu:WhatsNew__v6.21--0": {
+    "messageformat": "Begiratu hobeto zeure buruari buruz buruzko deietan. Orain, taldeko deien hasieran bakarrik agertzen zen pantaila osoko ikuspegi bera erabiltzen dute buruz buruko bideodeiek. Koherentziari dagokionez, ekinak izaten saiatzen gara (baina ez tematiak), eta orain ez dago inkoherentziarik, dei mota horiek jada ez direlako desberdinak.",
+    "description": "Release notes for v6.21"
+  },
+  "icu:WhatsNew__v6.21--1": {
+    "messageformat": "Gainera, gure esker ona adierazi nahi diogu {complexspaces} erabiltzaileari, bertsio honetan lan egin bitartean emandako laguntzagatik eta iritziengatik.",
+    "description": "Release notes for v6.21"
   }
 }

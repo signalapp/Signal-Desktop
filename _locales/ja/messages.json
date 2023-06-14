@@ -5084,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
+    "messageformat": "{count,number} 人が {emoji}でリアクションしました",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12567,40 +12567,16 @@
     "messageformat": "細かな微調整、バグ修正、パフォーマンスの向上。 Signalをご利用いただきありがとうございます。",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.18--0": {
-    "messageformat": "キーボードショートカット (⌘ / Ctrl+T & ⌘ / Ctrl+F6) を使用すると、アプリのさまざまなセクションをすばやく移動できます。Tab キーのスーパーヒーロー版のようなもので、通常よりも遠く、そして速く移動ことができます。",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--1": {
-    "messageformat": "チャットを開いているときでも、送受信されたメッセージの通知音が再生されるようにオプションのサポートを追加しました (設定 > 通知)。",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--2": {
-    "messageformat": "(⌘/Ctrl+J) で、マウスやタッチパッドを使用せずにチャット内の最新の未読メッセージに移動できます。",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--3": {
-    "messageformat": "アイコンをアップデートしてアプリのデザインを一新し、文字を見やすくしました。",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--4": {
-    "messageformat": "その他メニューにも新しく「テキストのコピー」を追加しました。ありがとう、{yusufsahinhamza}！",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.19--0": {
-    "messageformat": "常に「沈黙は金」だとは限りませんが、沈黙を保つための新しいアイコンを作りました。音声通話とビデオ通話のカメラとミュートのボタンを更新しました。この更新で、ボタンが有効か無効かを確認するのがさらに簡単になりました。",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--1": {
-    "messageformat": "ローカリゼーションが改良され、メッセージ作成フィールドで右から左へ記述する言語処理がより適切になりました。ありがとう、{sha265}！",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--2": {
-    "messageformat": "Windows 10 より前のバージョンの Windows、20.04LTS より前のバージョンの Ubuntu を使用しているユーザーの皆様は、Signal を引き続きご利用になるためにオペレーティングシステムを更新する必要があります。{supportLink}をご参照ください。",
-    "description": "Release notes for v6.19"
-  },
   "icu:WhatsNew__v6.20--0": {
     "messageformat": "チャット内で誰かがあなたをメンション (あなたの名前の前に @ をつける) したら、その会話まで素早く移動して、そこに書かれているあなたについての素敵なことをすべて読むことができます。とにかく、あなたが一番ってこと。",
     "description": "Release notes for v6.20"
+  },
+  "icu:WhatsNew__v6.21--0": {
+    "messageformat": "1対1の通話で呼び出し音が鳴っている間、ご自分の姿が大きく見えるようになりました。新しいグループ通話の開始時にのみ表示されていた全画面表示が、1対1のビデオ通話でも使用されるようになりました。一貫性を保つことに対して、私たちは反発せず粘り強く努力をしてきました。そしてやっと達成することができました。もう1対1でもグループ通話でも表示に違いはありません。",
+    "description": "Release notes for v6.21"
+  },
+  "icu:WhatsNew__v6.21--1": {
+    "messageformat": "また、このリリースに取り組んでいる間、ヘルプとフィードバックをお寄せいただいた {complexspaces} に感謝いたします。",
+    "description": "Release notes for v6.21"
   }
 }

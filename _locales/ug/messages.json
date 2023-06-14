@@ -5084,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
+    "messageformat": "{count,number} كىشى {emoji} بىلەن ئىنكاس قايتۇردى",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12567,40 +12567,16 @@
     "messageformat": "كىچىك ئۆزگەرتىشلەر كىرگۈزۈلدى، كاشىلا ھەل قىلىندى ۋە ئىقتىدار ئەلالاشتۇرۇلدى. Signal نى ئىشلەتكەنلىكىڭىزگە رەھمەت!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.18--0": {
-    "messageformat": "يېڭى كۇنۇپكا تېزلەتمىسى (⌘/Ctrl+T & ⌘/Ctrl+F6) ئارقىلىق ئەپنىڭ ئوخشىمىغان بۆلەكلىرىگە تېخىمۇ تېز يۆتكىلەلەيسىز.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--1": {
-    "messageformat": "تاللانما ئۇچۇر ئاۋازنى قوللاش ئىقتىدارى قوشۇلغان بولۇپ، پاراڭ ئوچۇق ۋاقىتتىمۇ ئۇچۇرنىڭ يوللانغانلىق ۋە تاپشۇرۇۋالغانلىق ئۇقتۇرۇش ئاۋازىنى ئاڭلىيالايسىز. (تەڭشەك > ئۇقتۇرۇش).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--2": {
-    "messageformat": "يېڭى كۇنۇپكا تېزلەتمىسى (⌘/Ctrl+J) ئارقىلىق ئەڭ ئاخىرقى ئوقۇلمىغان ئۇچۇرغا بىۋاسىتە يۆتكىلەلەيسىز.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--3": {
-    "messageformat": "يېڭى سىنبەلگە ئەپ كۆرۈنۈشىگە يېڭى قىياپەت ئاتا قىلغان بولۇپ، ئوقۇشچانلىقنى زور دەرىجىدە ئاشۇرغان.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--4": {
-    "messageformat": "باشقا يەنە ئۈچ نۇقتىلىق تىزىملىككە «تېكىست كۆچۈرۈش» تاللىشىمۇ قوشۇلدى. رەھمەت، {yusufsahinhamza}!",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.19--0": {
-    "messageformat": "چاقىرىقتا ئۈنسىز قىلىنغاندا ياكى كامېرا ئېتىلگەندە، مۇناسىۋەتلىك سىنبەلگە كۆرۈنىدۇ. ئاۋازلىق ۋە ۋىدېيولۇق چاقىرىقتىكى كامېرا ۋە ئۈنسىز قىلىش كۇنۇپكىلىرىنى يېڭىلىدۇق، شۇنىڭ بىلەن ئۇلارنىڭ قاچان قوزغىتىلغانلىقى ۋە ئېتىلگەنلىكىنى بىلىش ئاسانلاشتى.",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--1": {
-    "messageformat": "يەرلىكلەشتۈرۈش تېخىمۇ ياخشىلانغان بولۇپ، ئۇچۇر گۇرۇپپا رايونىدا ئوڭدىن سولغا يېزىلىدىغان تىللارنى بىر تەرەپ قىلىش تېخىمۇ قولايلاشتى. رەھمەت، {sha265}!",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--2": {
-    "messageformat": "ئەگەر سىزنىڭ Windows سىستېمىڭىز Windows 10 دىن بۇرۇنقى سىستېما ياكى 20.04 LTS دىن بۇرۇنقى Ubuntu نەشرى بولسا، Signal نى داۋاملىق ئىشلىتىش ئۈچۈن مەشغۇلات سىستېمىڭىزنى يېڭىلىشىڭىز لازىم: {supportLink}",
-    "description": "Release notes for v6.19"
-  },
   "icu:WhatsNew__v6.20--0": {
     "messageformat": "پاراڭدا بىرەر كىشى سىزنى تىلغا ئالغاندا (مەسىلەن @ بۇ يەردە ئىسمىڭىز بولىدۇ)، تېزلىكتە ئۆرۈپ سىز توغرۇلۇق قانداق مەزمۇنلارنى ئېيتقانلىقىنى كۆرەلەيسىز. سىز ئەڭ قالتىس.",
     "description": "Release notes for v6.20"
+  },
+  "icu:WhatsNew__v6.21--0": {
+    "messageformat": "بىرگە بىر ئۇدۇل چاقىرىق قوڭغۇرىقى سايراۋاتقاندا ئۆزىڭىزنى تۈزەشتۈرۋېلىڭ. بۇرۇن يېڭى گۇرۇپپا چاقىرىقىنىڭ باشلىنىشىدىلا چىقىدىغان تولۇق ئېكرانلىق كۆرۈنۈش ھازىر شەخسىي ۋىدېيولۇق چاقىرىقتىمۇ ئىشلىتىلدى. ئىزچىل بولۇش مەسلىسىدە بىز ئىزچىللىققا ئىگە بولۇپ، ئوخشىماسلىق سەۋەبىدىن كېلىپ چىققان پەرقلەر ھازىر تۈگىتىلدى.",
+    "description": "Release notes for v6.21"
+  },
+  "icu:WhatsNew__v6.21--1": {
+    "messageformat": "بۇ نەشرىنى ئېلان قىلىش جەريانىدا {complexspaces} بەرگەن ياردەم ۋە تەكلىپ-پىكىرلەرگە مىننەتدارلىقىمىزنى بىلدۈرىمىز.",
+    "description": "Release notes for v6.21"
   }
 }

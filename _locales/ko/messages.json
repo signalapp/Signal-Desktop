@@ -5084,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
+    "messageformat": "{count,number}명이 {emoji} 이모지로 반응했습니다.",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12567,40 +12567,16 @@
     "messageformat": "사소한 변경 사항과 버그 수정 및 성능 개선. Signal을 이용해 주셔서 감사합니다!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.18--0": {
-    "messageformat": "'섹션별 탐색' 바로 가기 키(⌘/Ctrl+T & ⌘/Ctrl+F6)를 사용하여 앱의 서로 다른 영역을 빠르게 이동하세요. 평범한 사람인 척 군중 속에 숨어 사는 영웅의 숨겨진 자아보다 더 빨리, 더 멀리 날 수 있는 탭의 슈퍼히어로 버전이라고 볼 수 있죠.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--1": {
-    "messageformat": "대화를 연 상태에서 메시지를 보내고 받을 때 알림 사운드를 들을 수 있도록 메시지 사운드 옵션 지원(설정 > 알림)을 추가했습니다.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--2": {
-    "messageformat": "마우스나 터치 패드를 사용하지 않고 읽지 않은 최신 메시지로 단숨에 이동하세요(⌘/Ctrl+J).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--3": {
-    "messageformat": "아이콘을 업데이트하여 디자인과 가독성을 개선했습니다.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--4": {
-    "messageformat": "이제 줄임표 메뉴에서도 '텍스트 복사' 옵션을 사용할 수 있습니다. 고마워요, {yusufsahinhamza}!",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.19--0": {
-    "messageformat": "침묵이 항상 금은 아니죠. 하지만 이 새 아이콘을 사용하여 침묵을 대변할 수는 있어요. 음성과 영상 통화 중 카메라와 음소거 사용 여부를 더 확실히 알 수 있도록 버튼 디자인을 업데이트했습니다.",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--1": {
-    "messageformat": "지역화와 메시지 작성란의 RTL(Right-to-Left) 언어 처리 방식을 개선했습니다. 고마워요, {sha265}!",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--2": {
-    "messageformat": "Windows 10보다 이전 버전 Windows를 사용하거나, 20.04 LTS보다 이전 버전 Ubuntu를 사용하는 경우 Signal을 계속 사용하려면 운영 체제를 업데이트해야 합니다. {supportLink}",
-    "description": "Release notes for v6.19"
-  },
   "icu:WhatsNew__v6.20--0": {
     "messageformat": "이제 채팅에서 누군가가 나를 멘션(@ 사용자 이름)하면 멘션으로 빠르게 이동하여 메시지를 확인할 수 있습니다. 여러분은 소중하니까요.",
     "description": "Release notes for v6.20"
+  },
+  "icu:WhatsNew__v6.21--0": {
+    "messageformat": "이제 개인 영상 통화에서 통화 중 그룹 통화와 동일한 전체 화면 보기를 사용할 수 있습니다.",
+    "description": "Release notes for v6.21"
+  },
+  "icu:WhatsNew__v6.21--1": {
+    "messageformat": "더불어 이번 릴리스 작업에 피드백을 제공하고 도움을 준 {complexspaces}에 감사를 표합니다.",
+    "description": "Release notes for v6.21"
   }
 }

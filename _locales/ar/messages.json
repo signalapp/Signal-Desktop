@@ -5084,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
+    "messageformat": "{count,number} شخصًا تفاعلوا بـ {emoji}",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12567,40 +12567,16 @@
     "messageformat": "تعديلات صغيرة، تصليح الأعطال، وتحسينات للأداء. شكرًا على استخدامكم Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.18--0": {
-    "messageformat": "استخدم اختصارات \"انتقل حسب القسم\" (⌘/Ctrl+T & ⌘/Ctrl+F6) للتنقل بسرعة بين مختلف مناطق التطبيق. إنها مثل نسخة خارقة لمفتاح Tab يمكنها أن تطير أبعد وأسرع.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--1": {
-    "messageformat": "أضفنا دعمًا لأصوات الرسائل الاختيارية حتى تتمكن من سماع إشعارات للرسائل المُرسلة والمتوصل بها بينما تكون هناك محادثة مفتوحة (الإعدادات > الإشعارات).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--2": {
-    "messageformat": "انتقل إلى آخر رسالة غير مقروءة في محادثة (⌘/Ctrl+J) دون لمس الفأرة أو لوحة اللمس.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--3": {
-    "messageformat": "تمنح الرموز المُحدثة التطبيق مظهرًا جديدًا وتساعد على الرفع من الوضوح.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--4": {
-    "messageformat": "هناك خيار \"نسخ النص\" جديد في قائمة النقاط الثلاثة أيضًا. شكرًا، {yusufsahinhamza}!",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.19--0": {
-    "messageformat": "ليس السكوت دائمًا من علامات الرضى، لكن لديه الآن أيقونة جديدة. لقد قمنا بتحديث زري الكاميرا وكتم الصوت في المكالمات الصوتية ومكالمات الفيديو لتصبح رؤيتهما أسهل عندما يكونان مفعّلين أو غير مفعّلين.",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--1": {
-    "messageformat": "تحسينات للترجمة المحلية ومناولة أفضل للغات التي تُكتب من اليمين إلى اليسار في مجال تأليف الرسائل. شكرًا، {sha265}!",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--2": {
-    "messageformat": "إذا كنت تستخدم إصدار Windows قبل Windows 10، أو إصدار Ubuntu قبل 20.04 LTS، سَيتعين عليك تحديث نظام تشغيلك لمواصلة استخدام Signal: {supportLink}",
-    "description": "Release notes for v6.19"
-  },
   "icu:WhatsNew__v6.20--0": {
     "messageformat": "إذا ذكرك شخص ما في محادثة (مثل @ Your Name Goes Here)، يُمكنك الآن التمرير بسرعة إلى تلك الإشارة وقراءة كل الأشياء الرائعة التي قالوها عنك. أنت الأفضل ببساطة.",
     "description": "Release notes for v6.20"
+  },
+  "icu:WhatsNew__v6.21--0": {
+    "messageformat": "شاهد نفسك بوضوح أثناء رنين الهاتف خلال مكالمة فردية. تستخدم مكالمات الفيديو الفردية الآن نمط عرض ملء الشاشة الذي كان يظهر سابقًا فقط في بداية مكالمة جماعية جديدة. عندما يتعلق الأمر بالاستمرارية فإننا نُحاول أن نكون مثابرين (غير مقاومين) والآن لم يعد هذا الاختلاف قائمًا لأننا نريد توحيد الرُؤى.",
+    "description": "Release notes for v6.21"
+  },
+  "icu:WhatsNew__v6.21--1": {
+    "messageformat": "نودّ أيضًا أن نُعرب عن تقديرنا لـ {complexspaces} لمُساعدتهم وملاحظاتهم أثناء العمل على هذا الإصدار.",
+    "description": "Release notes for v6.21"
   }
 }

@@ -5084,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
+    "messageformat": "{count,number} personer reagerte med {emoji}",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12567,40 +12567,16 @@
     "messageformat": "Noen små justeringer, feilrettinger og ytelsesforbedringer. Takk for at du bruker Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.18--0": {
-    "messageformat": "De nye snarveiene (⌘/Ctrl+T og ⌘/Ctrl+F6) gjør det lett å bevege seg gjennom de forskjellige delene av appen. Det er superheltversjonen av Tab-tasten, som beveger seg både raskere og lengre enn originalen.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--1": {
-    "messageformat": "Nå kan du tilpasse meldingslydene dine slik at du også kan få varsler om meldinger når du er inne i en samtale (Innstillinger > Varsler).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--2": {
-    "messageformat": "Hopp til den siste uleste meldingen i samtalen med en ny snarvei (⌘/Ctrl+J).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--3": {
-    "messageformat": "De nye ikonene gir appen en helt ny look.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--4": {
-    "messageformat": "Det finnes også et nytt «Kopier tekst»-valg i appmenyen. Takk, {yusufsahinhamza}!",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.19--0": {
-    "messageformat": "Nå har det kommet et nytt ikon for å få et øyeblikks stillhet (eller bryte den). Vi har endret kamera- og dempeknappene i anrop slik at det blir lettere å se om de er slått på eller ikke.",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--1": {
-    "messageformat": "Bedre utforming av meldingsfeltet for språk som skriver fra høyre til venstre, i tillegg til andre lokaliseringsforbedringer. Takk, {sha265}!",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--2": {
-    "messageformat": "Hvis du bruker en versjon av Windows som er eldre enn Windows 10, eller en versjon av Ubuntu som er eldre enn 20.04 LTS, må du oppdatere operativsystemet for å fortsette å bruke Signal: {supportLink}",
-    "description": "Release notes for v6.19"
-  },
   "icu:WhatsNew__v6.20--0": {
     "messageformat": "Hvis noen nevner deg i en samtale (som i @navnet ditt HER), kan du hoppe ned til den meldingen kjapt og lese alt det fine personen skrev om deg. Du er «simply the best».",
     "description": "Release notes for v6.20"
+  },
+  "icu:WhatsNew__v6.21--0": {
+    "messageformat": "Få et bedre bilde av deg selv når du snakker med noen på tomannshånd. Nå vises også individuelle videosamtaler i fullskjermsmodus, akkurat som gruppesamtaler. Når det kommer til å sikre at funksjonene er konsekvente, prøver vi å være konsistente (og ikke resistente), og nå er de ikke lenger inkonsekvente fordi forskjellene er absente.",
+    "description": "Release notes for v6.21"
+  },
+  "icu:WhatsNew__v6.21--1": {
+    "messageformat": "Vi vil også takke {complexspaces} for god hjelp og tilbakemeldinger under arbeidet med denne utgivelsen.",
+    "description": "Release notes for v6.21"
   }
 }

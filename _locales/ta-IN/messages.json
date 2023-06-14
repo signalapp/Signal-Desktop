@@ -5084,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
+    "messageformat": "{count,number} நபர்கள் {emoji} என்று எதிர்வினையாற்றினார்கள்",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12567,40 +12567,16 @@
     "messageformat": "சிறு மாற்றங்கள், பிழை திருத்தங்கள் மற்றும் செயல்திறன் மேம்பாடுகள். சிக்னலைப் பயன்படுத்தியதற்கு நன்றி!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.18--0": {
-    "messageformat": "புதிய கீபோர்ட் குறுக்குவழிகளான (⌘/Ctrl+T & ⌘/Ctrl+F6) செயலியின் வெவ்வேறு பகுதிகளுக்கு இடையே விரைவாகச் செல்ல பயன்படுத்தவும். இது டேப் கீயின் சூப்பர் ஹீரோ பதிப்பைப் போன்றது, அதன் லேசான நடத்தை கொண்ட மாற்று ஈகோவை விட மேலும் வேகமாக பறக்க முடியும்.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--1": {
-    "messageformat": "ஒரு சாட் திறந்திருக்கும் போது அனுப்பப்பட்ட மற்றும் பெறப்பட்ட மெசேஜ்களுக்கு அறிவிப்பு ஒலிகளை இயக்க விருப்ப அமைப்பைச் சேர்த்துள்ளோம் (அமைப்புகள் > அறிவிப்புகள்).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--2": {
-    "messageformat": "மவுஸைத் தொடாமல் சாட்டின் (⌘/Ctrl+J) சமீபத்திய படிக்காத மெசேஜ்களுக்குச் செல்லவும்.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--3": {
-    "messageformat": "புதுப்பிக்கப்பட்ட ஐகான்கள் செயலிக்கு ஒரு புதிய தோற்றத்தை அளிக்கின்றன மற்றும் தெளிவை மேம்படுத்த உதவுகின்றன.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--4": {
-    "messageformat": "டிரிபிள்-டாட் மெனுவிலும் புதிய \"உரையை நகலெடு\" விருப்பம் உள்ளது. நன்றி, {yusufsahinhamza}!",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.19--0": {
-    "messageformat": "மௌனம் எப்போதும் பொன்னானது அல்ல, ஆனால் அது ஒரு புதிய ஐகானைக் கொண்டுள்ளது. குரல் மற்றும் வீடியோ அழைப்புகளில் கேமரா மற்றும் மியூட் பட்டன்களை நாங்கள் புதுப்பித்துள்ளோம், எனவே அவை எப்போது இயக்கப்படுகின்றன அல்லது முடக்கப்பட்டுள்ளன என்பதைப் பார்ப்பது இன்னும் எளிதாக இருக்கும்.",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--1": {
-    "messageformat": "உள்ளூர்மயமாக்கல் மேம்பாடுகள் மற்றும் மெசேஜ் தொகுப்பு துறையில் வலமிருந்து இடமாக மொழிகளை சிறப்பாக கையாளுதல். நன்றி, {sha265}!",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--2": {
-    "messageformat": "நீங்கள் Windows 10 க்கு முன் Windows பதிப்பில் இருந்தால் அல்லது 20.04 LTS க்கு முன் Ubuntu பதிப்பில் இருந்தால், Signalஐத் தொடர்ந்து பயன்படுத்த உங்கள் இயங்குதளத்தைப் புதுப்பிக்க வேண்டும்: {supportLink}",
-    "description": "Release notes for v6.19"
-  },
   "icu:WhatsNew__v6.20--0": {
     "messageformat": "யாரேனும் உங்களை சாட்டில் குறிப்பிட்டால் (@ உங்கள் பெயர் இங்கே போன்றவை), இப்போது நீங்கள் அந்தக் குறிப்புக்கு விரைவாக ஸ்க்ரோல் செய்து, அவர்கள் உங்களைப் பற்றி கூறியுள்ள அனைத்து அற்புதமான விஷயங்களையும் படிக்கலாம். நீங்கள் தான் சிறந்தவர்.",
     "description": "Release notes for v6.20"
+  },
+  "icu:WhatsNew__v6.21--0": {
+    "messageformat": "1-ஆன்-1 அழைப்பு ஒலிக்கும்போது உங்களை மேம்பட்ட தோற்றத்தில் பாருங்கள். தனிப்பட்ட வீடியோ அழைப்புகள் இப்போது புதிய குழு அழைப்பின் தொடக்கத்தில் மட்டும் தோன்றிய அதே முழுத்திரை காட்சியைப் பயன்படுத்துகின்றன. தொடர்ந்து ஒரே சீராக இருக்க வேண்டிய நிலையில், நாங்கள் தொடர் முயற்சியை மேற்கொள்கிறோம் (தடையாக இருப்பதில்லை), இப்போது இவை இனி வித்தியாசமாக இருக்காது என்பதால் இல்லாமல் இருப்பதே முரண்பாடாக உள்ளது.",
+    "description": "Release notes for v6.21"
+  },
+  "icu:WhatsNew__v6.21--1": {
+    "messageformat": "இந்த வெளியீட்டில் பணிபுரியும் போது {complexspaces} வழங்கிய உதவி மற்றும் கருத்துக்காக அவர்களுக்கு எங்கள் பாராட்டுகளைத் தெரிவிக்க விரும்புகிறோம்.",
+    "description": "Release notes for v6.21"
   }
 }

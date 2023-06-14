@@ -5084,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
+    "messageformat": "{count,number} cilvēki reaģēja ar {emoji}",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12567,40 +12567,16 @@
     "messageformat": "Nelielas izmaiņas, kļūdu labojumi un darbības uzlabojumi. Paldies, ka lietojat Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.18--0": {
-    "messageformat": "Izmantojiet īsinājumtaustiņus “Pārvietošanās pa sadaļām” (⌘/Ctrl+T un ⌘/Ctrl+F6), lai ātri pārvietotos starp dažādām lietotnes daļām. Tas ir kā Tab taustiņa supervaroņa versija, kas var lidot tālāk un ātrāk nekā tā piezemētais alter ego.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--1": {
-    "messageformat": "Mēs pievienojām papildu ziņu skaņu atbalstu, lai jūs varētu dzirdēt arī paziņojumus par nosūtītām un saņemtām ziņām, kamēr ir atvērta saruna (Iestatījumi > Paziņojumi).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--2": {
-    "messageformat": "Pārejiet uz jaunāko nelasīto ziņu sarunā (⌘/Ctrl+J), nepieskaroties pelei un nepalīdzot skārienpaliktnim atbilst tā nosaukumam.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--3": {
-    "messageformat": "Atjauninātās ikonas piešķir lietotnei jaunu izskatu un palīdz uzlabot salasāmību.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--4": {
-    "messageformat": "Trīs punktu izvēlnē ir arī jauna opcija “Kopēt tekstu”. Paldies, {yusufsahinhamza}!",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.19--0": {
-    "messageformat": "Klusums ne vienmēr ir zelts, taču tam ir jauna ikona. Mēs atjauninājām kameras un skaņas izslēgšanas pogas balss un videozvanos, lai būtu vēl vieglāk redzēt, kad tās ir ieslēgtas vai izslēgtas.",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--1": {
-    "messageformat": "Lokalizācijas uzlabojumi un labāka apstrāde valodām ar lasīšanas virzienu no labās uz kreiso pusi ziņu sastādīšanas laukā. Paldies, {sha265}!",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--2": {
-    "messageformat": "Ja izmantojat Windows versiju, kas vecāka par Windows 10, vai Ubuntu versiju, kas vecāka par 20.04 LTS, jums būs jāatjaunina operētājsistēma, lai turpinātu lietot Signal: {supportLink}",
-    "description": "Release notes for v6.19"
-  },
   "icu:WhatsNew__v6.20--0": {
     "messageformat": "Ja kāds jūs piemin sarunā (piemēram, @ jūsu vārds), tagad varat ātri ritināt līdz šim pieminējumam un izlasīt visus brīnišķīgos vārdus, kas veltīti jums. Jūs gluži vienkārši esat labākais.",
     "description": "Release notes for v6.20"
+  },
+  "icu:WhatsNew__v6.21--0": {
+    "messageformat": "Redziet sevi labāk individuālo sarunu laikā. Individuālie videozvani tagad izmanto tādu pašu pilnekrāna skatu kā grupas zvani. Mēs cenšamies būt konsekventi, un tagad šie zvani vairs neatšķiras viens no otra.",
+    "description": "Release notes for v6.21"
+  },
+  "icu:WhatsNew__v6.21--1": {
+    "messageformat": "Mēs vēlamies arī pateikties {complexspaces} par sniegto palīdzību un atsauksmēm, strādājot pie šī versijas.",
+    "description": "Release notes for v6.21"
   }
 }

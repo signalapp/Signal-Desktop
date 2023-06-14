@@ -5084,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
+    "messageformat": "{count,number} лица реагираа со {emoji}",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12567,40 +12567,16 @@
     "messageformat": "Mали подобрувања, решени багови и подобрувања на перформансот. Ви благодариме што користите Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.18--0": {
-    "messageformat": "Новите кратенки на тастатурата за (⌘/Ctrl+T & ⌘/Ctrl+F6) ќе ви помогнат брзо да се движите низ различните делови на апликацијата. Ова е како суперхеројска верзија на копчето Tab што може да лета подалеку и побрзо од неговото љубезно алтер его.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--1": {
-    "messageformat": "Додадовме опционално поставување за да се слушаат звуци за известувања за испратени и примени пораки во отворен разговор (Поставувања > Известувања).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--2": {
-    "messageformat": "Скокнете до последната непрочитана порака во еден разговор со уште една нова кратенка на тастатурата (⌘/Ctrl+J).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--3": {
-    "messageformat": "Апликацијата доби нов изглед со ажурираните икони.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--4": {
-    "messageformat": "Има и нова опција за „копирај текст“ во менито со три точки. Благодариме, {yusufsahinhamza}!",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.19--0": {
-    "messageformat": "Не секогаш е подобро да молчиш, но сега молкот има нова икона. Ги ажуриравме копчињата за камера и исклучување на звук во гласовните и видео повиците, па сега е уште полесно да видите дали се овозможени или не.",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--1": {
-    "messageformat": "Подобрувања на локализацијата и подобро справување со јазиците во кои се пишува од десно кон лево во полето за составување пораки. Благодариме, {sha265}!",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--2": {
-    "messageformat": "Ако имате постара верзија од Windows 10 или верзија на Ubuntu постара од 20.04 LTS, ќе треба да го ажурирате оперативниот систем пред да користите Signal: {supportLink}",
-    "description": "Release notes for v6.19"
-  },
   "icu:WhatsNew__v6.20--0": {
     "messageformat": "Ако некој ве спомне во разговор (на пример @ Вашето име), сега можете брзо да лизгате до тоа спомнување и да ги прочитате сите прекрасни работи напишани за вас. Едноставно најдобри сте.",
     "description": "Release notes for v6.20"
+  },
+  "icu:WhatsNew__v6.21--0": {
+    "messageformat": "Погледнете се подобро додека имате повик еден на еден. Индивидуалните видео повици сега го имаат истиот преглед на целосен екран што претходно го имаше само на почетотокот на групните повици. Кога станува збор за доследност, пробуваме да бидеме истрајни (а не да пружаме отпор) и сега не постои разлика.",
+    "description": "Release notes for v6.21"
+  },
+  "icu:WhatsNew__v6.21--1": {
+    "messageformat": "Исто така сакаме да изразиме благодарност до {complexspaces} за помошта и фидбекот додека работевме на оваа верзија.",
+    "description": "Release notes for v6.21"
   }
 }

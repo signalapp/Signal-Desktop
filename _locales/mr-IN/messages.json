@@ -5084,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
+    "messageformat": "{count,number} लोकांनी {emoji} सह प्रतिक्रिया दिली",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12567,40 +12567,16 @@
     "messageformat": "लहान ट्विक्स, दोष निवारण, आणि कामगिरी सुधारणा. Signal वापरल्याबद्दल आभारी आहोत!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.18--0": {
-    "messageformat": "ॲपच्या वेगवेगळ्या भागात जलद फिरण्यासाठी कीबोर्ड शॉर्टकट \"विभागाद्वारे नॅव्हिगेट करा\" (⌘/Ctrl+T & ⌘/Ctrl+F6) वापरा. ते टॅब की च्या सुपरहिराे आवृत्ती प्रमाणे आहे जे त्याच्या साैम्य स्वरुपाच्या बदली इगोपेक्षा आणखी पुढे आणि वेगाने पळू शकते.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--1": {
-    "messageformat": "आम्ही पर्यायी संदेश ध्वनीसाठी सपोर्ट जाेडला आहे ज्यामुळे आपण देखील चॅट उघडे असताना पाठवलेल्या आणि प्राप्त झालेल्या संदेशांसाठी अधिसूचना ध्वनी ऐकू शकता (Settings > Notifications).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--2": {
-    "messageformat": "चॅट मधील नवीनतम न वाचलेल्या संदेशांवर (⌘/Ctrl+J) माऊसला स्पर्श न करता किंवा टचपॅडचे नाव घेऊन त्याला मदत करु द्यात.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--3": {
-    "messageformat": "अद्यतनित चिन्हे ॲपला एक नवे रूप देतात आणि सुवाच्यता सुधारण्यास मदत करतात.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--4": {
-    "messageformat": "तिहेरी-बिंदू मेनू मध्ये देखील नवीन \"मजकूर कॉपी करा\" पर्याय आहे. धन्यवाद, {yusufsahinhamza}!",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.19--0": {
-    "messageformat": "मौन नेहमीच चांगले नसते, मात्र त्याला एक नवीन चिन्ह असू शकते. आम्ही व्हाईस आणि व्हिडीओ कॉलमध्ये कॅमेरा आणि म्यूट बटणे अद्ययावत केली आहेत त्यामुळे ते सक्षम किंवा अक्षम केले आहेत हे पाहणे अगदी सोपे झाले आहे.",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--1": {
-    "messageformat": "स्थानिकीकरणामधील सुधारणा, आणि संदेश रचना फिल्डमध्ये उजवी-कडून-डावी कडील भाषांची चांगल्या प्रकारे हाताळणी. धन्यवाद, {sha265}!",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--2": {
-    "messageformat": "आपण जर Windows 10 च्या आधीच्या आवृत्तीवर असल्यास, किंवा 20.04 LTS पूर्वीच्या Ubuntu आवृत्तीवर असल्यास, आपणाला Signal यापुढे वापरणे सुरू ठेवण्यासाठी आपली ऑपरेटिंग सिस्टम अद्ययावत करण्याची गरज असेल: {supportLink}",
-    "description": "Release notes for v6.19"
-  },
   "icu:WhatsNew__v6.20--0": {
     "messageformat": "जर कोणीतरी चॅट मध्ये आपला (जसे की @ आपले नाव येथे येते) उल्लेख केला, तर आता आपण त्या उल्लेखावर त्वरितपणे स्क्रोल करू शकता आणि ते आपणाबद्दल काय बोलतात त्या सर्व अद्भूत गोष्टी वाचू शकता. तुम्ही सर्वोत्तम आहात.",
     "description": "Release notes for v6.20"
+  },
+  "icu:WhatsNew__v6.21--0": {
+    "messageformat": "1-ऑन-1 कॉल रिंग करत असताना स्वतःचा एक चांगला लुक मिळवा. पूर्वी जे फक्त एका नवीन गट कॉलच्या सुरूवातीला दृश्यमान होत होते तेच पूर्ण-स्क्रीन दृश्य वैयक्तिक व्हिडीओ कॉलच्या वेळी वापरा. कायम सातत्यपूर्ण असण्याची बात येते, तेव्हा आम्ही कायमस्वरूपी (रोधक नाही) असण्याचा प्रयत्न केला आणि या गोष्टी यापुढे वेगवेगळ्या नसल्यामुळे आता विसंगती अस्तित्वात नाही.",
+    "description": "Release notes for v6.21"
+  },
+  "icu:WhatsNew__v6.21--1": {
+    "messageformat": "आम्ही {complexspaces} यांचे या रिलीझ वर काम करताना त्यांच्या मदतीबद्दल आणि अभिप्रायाबद्दल आमच्याकडून त्यांची प्रशंसा करतो.",
+    "description": "Release notes for v6.21"
   }
 }

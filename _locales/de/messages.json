@@ -5084,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
+    "messageformat": "{count,number} Personen haben mit {emoji} reagiert",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12567,40 +12567,16 @@
     "messageformat": "Kleine Optimierungen, Fehlerbehebungen und Leistungsverbesserungen. Danke, dass du Signal nutzt!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.18--0": {
-    "messageformat": "Neue Tastenkombinationen (⌘/Strg+T & ⌘/Strg+F6) helfen dir, schnell durch verschiedene Bereiche der App zu navigieren. Das ist wie eine Superheldenversion der Tabulatortaste, die weiter und schneller fliegen kann als ihr sanftmütiges Alter Ego.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--1": {
-    "messageformat": "Wir haben eine optionale Einstellung hinzugefügt, um Benachrichtigungstöne für gesendete und empfangene Nachrichten abzuspielen, während ein Chat geöffnet ist (Einstellungen > Benachrichtigungen).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--2": {
-    "messageformat": "Mit einem weiteren neuen Tastaturkürzel (⌘/Strg+J) kannst du zur letzten ungelesenen Nachricht in einem Chat wechseln.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--3": {
-    "messageformat": "Aktualisierte Icons verleihen der App einen neuen Look.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--4": {
-    "messageformat": "Außerdem bietet das Drei-Punkte-Menü die neue Option »Text kopieren«. Danke, {yusufsahinhamza}!",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.19--0": {
-    "messageformat": "Schweigen ist nicht immer Gold, aber dafür gibt's jetzt ein neues Icon. Wir haben die Schaltflächen »Kamera« und »Stummschaltung« in Sprach- und Videoanrufen aktualisiert, damit du noch besser erkennen kannst, wann sie aktiviert oder deaktiviert sind.",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--1": {
-    "messageformat": "Verbesserungen bei der Lokalisierung und eine bessere Handhabung von Rechts-nach-Links-Sprachen im Eingabefeld. Danke, {sha265}!",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--2": {
-    "messageformat": "Wenn du eine Windows-Version hast, die älter als Windows 10 ist, oder eine Ubuntu-Version, die älter als 20.04 LTS ist, musst du dein Betriebssystem aktualisieren, um Signal weiterhin nutzen zu können: {supportLink}",
-    "description": "Release notes for v6.19"
-  },
   "icu:WhatsNew__v6.20--0": {
     "messageformat": "Wenn dich jemand in einem Chat erwähnt (z. B. @ Dein Name), kannst du jetzt schnell zu dieser Erwähnung scrollen und all die wunderbaren Dinge lesen, die er*/sie über dich gesagt hat. Du bist einfach der Hit.",
     "description": "Release notes for v6.20"
+  },
+  "icu:WhatsNew__v6.21--0": {
+    "messageformat": "Hab dich besser im Blick bei Einzelgesprächen. Einzelvideoanrufe nutzen jetzt die gleiche Vollbildschirm-Anzeige, die bisher nur zu Beginn eines neuen Gruppenanrufs angezeigt wurde. Wir haben es gern einheitlich, da sind wir uns ganz einig, und jetzt sind wir nicht mehr zweiheitlich, das macht uns freilich freudig, und zwar ganzheitlich.",
+    "description": "Release notes for v6.21"
+  },
+  "icu:WhatsNew__v6.21--1": {
+    "messageformat": "Und wir möchten uns herzlich bei {complexspaces} für ihre Hilfe und ihr Feedback bei der Arbeit an dieser Version bedanken.",
+    "description": "Release notes for v6.21"
   }
 }

@@ -5084,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
+    "messageformat": "{count,number} ಜನರು {emoji} ಮೂಲಕ ಪ್ರತಿಕ್ರಿಯಿಸಿದ್ದಾರೆ",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12567,40 +12567,16 @@
     "messageformat": "ಸಣ್ಣ ಟ್ವೀಕ್‌ಗಳು, ಬಗ್ ಫಿಕ್ಸ್‌ಗಳು ಮತ್ತು ಕಾರ್ಯಕ್ಷಮತೆ ವರ್ಧನೆಗಳು. Signal ಬಳಸುತ್ತಿರುವುದಕ್ಕಾಗಿ ಧನ್ಯವಾದಗಳು!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.18--0": {
-    "messageformat": "ಆ್ಯಪ್‌ನ ವಿವಿಧ ಪ್ರದೇಶಗಳ ನಡುವೆ ತ್ವರಿತವಾಗಿ ಸಾಗಲು \"ವಿಭಾಗವಾರು ನ್ಯಾವಿಗೇಟ್ ಮಾಡಿ\" ಕೀಬೋರ್ಡ್ ಶಾರ್ಟ್‌ಕಟ್‌ಗಳನ್ನು (⌘/Ctrl+T & ⌘/Ctrl+F6) ಬಳಸಿ. ಇದೊಂಥರಾ ಟ್ಯಾಬ್ ಕೀಯ ಸೂಪರ್‌ಹೀರೋ ಆವೃತ್ತಿಯಂತಿದ್ದು, ಇದರ ಲಘು ಸ್ವರೂಪದ ಇನ್ನೊಂದು ವ್ಯಕ್ತಿತ್ವಕ್ಕಿಂತ ಮತ್ತಷ್ಟು ವೇಗವಾಗಿ ಹಾರಬಲ್ಲುದು.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--1": {
-    "messageformat": "ಐಚ್ಛಿಕ ಮೆಸೇಜ್‌ ಶಬ್ದಗಳಿಗೆ ನಾವು ಬೆಂಬಲವನ್ನು ಸೇರಿಸಿದ್ದೇವೆ, ಇದರಿಂದಾಗಿ ನೀವು ಚಾಟ್ ತೆರೆದಿದ್ದಾಗ ಕಳುಹಿಸಿದ ಮತ್ತು ಸ್ವೀಕರಿಸಿದ ಮೆಸೇಜ್‌ಗಳಿಗೆ ಅಧಿಸೂಚನೆಗಳನ್ನು ಕೂಡಾ ಆಲಿಸಬಹುದು (ಸೆಟ್ಟಿಂಗ್‌ಗಳು > ಅಧಿಸೂಚನೆಗಳು).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--2": {
-    "messageformat": "ಮೌಸ್ ಮುಟ್ಟದೆ ಅಥವಾ ಟಚ್‌ಪ್ಯಾಡ್ ನೆರವಿಲ್ಲದೆ ಚಾಟ್‌ನಲ್ಲಿ ಅದರ ಹೆಸರಿನಲ್ಲಿರುವ ಹೊಚ್ಚಹೊಸ ಓದದ ಮೆಸೇಜ್‌ಗೆ ಜಿಗಿಯಿರಿ (⌘/Ctrl+J).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--3": {
-    "messageformat": "ನವೀಕರಿಸಿದ ಐಕಾನ್‌ಗಳು ಆ್ಯಪ್‌ಗೆ ತಾಜಾ ಲುಕ್ ನೀಡುತ್ತವೆ ಮತ್ತು ಸ್ಫುಟತೆಯನ್ನು ಸುಧಾರಿಸಲು ನೆರವಾಗುತ್ತವೆ.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--4": {
-    "messageformat": "ಮೂರು ಚುಕ್ಕಿ ಮೆನುವಿನಲ್ಲಿ ಕೂಡ ಹೊಸ \"ಪಠ್ಯವನ್ನು ನಕಲಿಸಿ\" ಆಯ್ಕೆಯಿದೆ. ಧನ್ಯವಾದಗಳು, {yusufsahinhamza}!",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.19--0": {
-    "messageformat": "ಮೌನ ಯಾವಾಗಲೂ ಒಳ್ಳೆಯದಲ್ಲ, ಆದರೆ ಇದಕ್ಕಾಗಿಯೂ ಒಂದು ಹೊಸ ಐಕಾನ್ ಇದೆ. ನಾವು ಧ್ವನಿ ಮತ್ತು ವೀಡಿಯೋ ಕರೆಗಳಲ್ಲಿ ಕ್ಯಾಮೆರಾ ಮತ್ತು ಮ್ಯೂಟ್ ಬಟನ್ ಅನ್ನು ಅಪ್ಡೇಟ್ ಮಾಡಿದ್ದೇವೆ, ಈಗ ಅವುಗಳನ್ನು ಯಾವಾಗ ಸಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ ಅಥವಾ ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ ಎಂದು ನೋಡುವುದು ಇನ್ನೂ ಸುಲಭ.",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--1": {
-    "messageformat": "ಲೋಕಲೈಜೇಷನ್ ಸುಧಾರಣೆಗಳು ಮತ್ತು ಮೆಸೇಜ್ ಸಂಯೋಜನೆ ಕ್ಷೇತ್ರದಲ್ಲಿ ಬಲದಿಂದ ಎಡಕ್ಕೆ ಓದುವ ಭಾಷೆಗಳ ಉತ್ತಮ ನಿಭಾಯಿಸುವಿಕೆ. ಧನ್ಯವಾದಗಳು, {sha265}!",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--2": {
-    "messageformat": "ನೀವು Windows 10 ಕ್ಕಿಂತ ಹಿಂದಿನ Windows ಆವೃತ್ತಿ ಹೊಂದಿದ್ದರೆ ಅಥವಾ 20.04 LTS ಗಿಂತ ಹಿಂದಿನ Ubuntu ಆವೃತ್ತಿಯನ್ನು ಹೊಂದಿದ್ದರೆ, Signal ಬಳಕೆಯನ್ನು ಮುಂದುವರಿಸಲು ನಿಮ್ಮ ಆಪರೇಟಿಂಗ್ ಸಿಸ್ಟಮ್ ಅನ್ನು ನೀವು ಅಪ್ಡೇಟ್ ಮಾಡಬೇಕಾಗುತ್ತದೆ: {supportLink}",
-    "description": "Release notes for v6.19"
-  },
   "icu:WhatsNew__v6.20--0": {
     "messageformat": "ಚಾಟ್‌ನಲ್ಲಿ ನಿಮ್ಮನ್ನು ಯಾರಾದರೂ ಉಲ್ಲೇಖಿಸಿದರೆ (ಅಂದರೆ @ ನಿಮ್ಮ ಹೆಸರು ಇಲ್ಲಿದ್ದರೆ), ನೀವೀಗ ಆ ಉಲ್ಲೇಖಕ್ಕೆ ತ್ವರಿತವಾಗಿ ಸ್ಕ್ರೋಲ್ ಮಾಡಬಹುದು ಮತ್ತು ನಿಮ್ಮ ಕುರಿತಾಗಿ ಹೇಳಿದ ಅದ್ಭುತ ಸಂಗತಿಗಳನ್ನು ಓದಬಹುದು. ನೀವು ನಿಜಕ್ಕೂ ಸೂಪರ್ಬ್.",
     "description": "Release notes for v6.20"
+  },
+  "icu:WhatsNew__v6.21--0": {
+    "messageformat": "1-ಆನ್-1 ಕರೆ ರಿಂಗ್ ಆಗುತ್ತಿರುವಾಗ ನಿಮ್ಮ ಉತ್ತಮ ನೋಟ ಪಡೆಯಿರಿ. ಈ ಮೊದಲು ಹೊಸ ಗ್ರೂಪ್ ಕರೆಗಳ ಆರಂಭದಲ್ಲಷ್ಟೇ ಕಾಣಿಸಿಕೊಳ್ಳುತ್ತಿದ್ದ ಅದೇ ಫುಲ್-ಸ್ಕ್ರೀನ್ ವೀಕ್ಷಣೆಯನ್ನು ಈಗ ವೈಯಕ್ತಿಕ ವೀಡಿಯೋ ಕರೆಗಳು ಈಗ ಬಳಸುತ್ತವೆ. ಸ್ಥಿರವಾಗಿರುವ ವಿಷಯಕ್ಕೆ ಬಂದಾಗ, ನಾವು ನಿರಂತರತೆಯನ್ನು (ನಿರೋಧಕವಲ್ಲ) ಕಾಪಾಡಲು ಪ್ರಯತ್ನಿಸುತ್ತೇವೆ ಮತ್ತು ವ್ಯತ್ಯಾಸಗಳು ದೂರವಾದ ಕಾರಣ ತಾರತಮ್ಯ ಇನ್ನಿರುವುದಿಲ್ಲ.",
+    "description": "Release notes for v6.21"
+  },
+  "icu:WhatsNew__v6.21--1": {
+    "messageformat": "ಈ ಬಿಡುಗಡೆಗಾಗಿ ಕಾರ್ಯನಿರ್ವಹಿಸುತ್ತಿರುವಾಗ ನೆರವು ನೀಡಿದ ಮತ್ತು ಪ್ರತಿಕ್ರಿಯೆ ನೀಡಿದ {complexspaces} ಅವರಿಗೆ ನಾವು ಮೆಚ್ಚುಗೆಯನ್ನು ವ್ಯಕ್ತಪಡಿಸಲು ಬಯಸುತ್ತೇವೆ.",
+    "description": "Release notes for v6.21"
   }
 }

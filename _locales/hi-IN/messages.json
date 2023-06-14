@@ -5084,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
+    "messageformat": "{count,number} लोगों ने {emoji} के साथ प्रतिक्रिया दी",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12567,40 +12567,16 @@
     "messageformat": "छोटे-छोटे ट्वीक, बग फ़िक्स, और प्रदर्शन में सुधार। Signal इस्तेमाल करने के लिए धन्यवाद।",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.18--0": {
-    "messageformat": "तेजी से ऐप के अलग-अलग हिस्सों में जाने के लिए “चयन द्वारा नेविगेट” कीबोर्ड शॉर्टकट्स (⌘/Ctrl+T & ⌘/Ctrl+F6) इस्तेमाल करें। यह टैब कुंजी के एक सुपर हीरो वर्जन की तरह है, जो अपने माइल्ड-मैनर्ड ऑल्टर ईगो की तुलना में ज्यादा और तेजी से उड़ सकता है।",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--1": {
-    "messageformat": "हमने वैकल्पिक संदेश साउंड्स के लिए सहायता जोड़ी है, ताकि आप चैट के खुले रहने के दौरान भेजे गए और प्राप्त संदेश के लिए नोटिफिकेशन भी सुन सकें (सेटिंग > नोटिफिकेशन)।",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--2": {
-    "messageformat": "माउस को छुए बिना या टचपैड को लाइव रखे बिना चैट में नवीनतम अपठित संदेश (⌘/Ctrl+J) पर सीधे जाएं।",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--3": {
-    "messageformat": "अपडेट किए गए आइकन ऐप को एक नया रूप देते हैं और स्पष्टता में सुधार करते हैं।",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--4": {
-    "messageformat": "ट्रिपल-डॉट मेनू में एक नया \"कॉपी टेक्स्ट\" विकल्प भी है। धन्यवाद, {yusufsahinhamza}!",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.19--0": {
-    "messageformat": "खामोशी हमेशा अच्छी नहीं होती, लेकिन इसका एक नया आइकन है। हमने वॉयस और वीडियो कॉल में कैमरा और म्यूट बटन को अपडेट किया है, ताकि यह देखना और भी आसान हो जाए कि वे कब सक्षम या अक्षम होते हैं।",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--1": {
-    "messageformat": "स्थानीय स्तर पर सुधार, और मैसेज कम्पोजीशन फील्ड में दाएं-से-बाएं भाषाओं का बेहतर संचालन। धन्यवाद, {sha265}!",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--2": {
-    "messageformat": "यदि आप Windows 10 से पहले का Windows संस्करण, या 20.04 LTS से पहले का Ubuntu संस्करण इस्तेमाल कर रहे हैं, तो आपको Signal का इस्तेमाल जारी रखने के लिए अपने ऑपरेटिंग सिस्टम को अपडेट करना होगा: {supportLink}",
-    "description": "Release notes for v6.19"
-  },
   "icu:WhatsNew__v6.20--0": {
     "messageformat": "यदि कोई चैट में आपको मेंशन करता है (जैसे कि @ आपका नाम यहां आता है), तो अब आप जल्दी से स्क्रॉल करके उस उल्लेख तक पहुंच सकते हैं और उन सभी अद्भुत चीजों को पढ़ सकते हैं जो उन्होंने आपके बारे में कही हैं। आप सबसे अच्छे हैं।",
     "description": "Release notes for v6.20"
+  },
+  "icu:WhatsNew__v6.21--0": {
+    "messageformat": "1 ऑन 1 कॉल के दौरान खुद को ज्यादा बेहतर रूप दें व्यक्तिगत वीडियो कॉल अब उसी फुल-स्क्रीन व्यू में नजर आते हैं, जो पहले केवल नए ग्रुप कॉल की शुरुआत में दिखाई देता था। जब सुसंगत होने की बात आती है, तो हम लगातार सही दिशा में आगे बढ़ने का प्रयास करते हैं, और अब कोई विसंगति नहीं है, क्योंकि ये चीजें अब अलग नहीं हैं।",
+    "description": "Release notes for v6.21"
+  },
+  "icu:WhatsNew__v6.21--1": {
+    "messageformat": "हम इस रिलीज पर काम करते समय {complexspaces} की मदद और फीडबैक के लिए उसकी सराहना भी करना चाहते हैं।",
+    "description": "Release notes for v6.21"
   }
 }

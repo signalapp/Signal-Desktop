@@ -5084,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
+    "messageformat": "មនុស្ស {count,number} នាក់បានប្រតិកម្មជាមួយ {emoji}",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12567,40 +12567,16 @@
     "messageformat": "ការកែប្រែបន្តិចបន្តួច ការដោះស្រាយបញ្ហា និងការបង្កើនប្រតិបត្តិការ។ សូមអរគុណចំពោះការប្រើប្រាស់ Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.18--0": {
-    "messageformat": "ប្រើផ្លូវកាត់ថ្មីលើក្តារចុច \"រុករកតាមផ្នែក\" (⌘/Ctrl+T & ⌘/Ctrl+F6) ដើម្បីផ្លាស់ទីឲ្យលឿនពីចំណុចមួយទៅចំណុចមួយទៀតនៅក្នុងកម្មវិធី។ វាប្រៀបដូចជាកំណែថ្មីមួយដ៏អស្ចារ្យបំផុតរបស់គ្រាប់ចុច Tab ដែលអាចចុចបានកាន់តែលឿនរហ័សជាងមុន។",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--1": {
-    "messageformat": "យើងបានបន្ថែមជំនួយសម្រាប់សំឡេងសារតាមជម្រើស ដើម្បីឲ្យអ្នកអាចស្តាប់ឮការជូនដំណឹងសម្រាប់សារដែលបានផ្ញើ និងទទួល ពេលកំពុងបើកការជជែក (ការកំណត់ > ការជូនដំណឹង)។",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--2": {
-    "messageformat": "ចូលទៅកាន់សារមិនទាន់អានចុងក្រោយបង្អស់នៅក្នុងការជជែក (⌘/Ctrl+J) ដោយមិនចាំបាច់ប៉ះកណ្ដុរ ឬប្រើបន្ទះប៉ះ។",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--3": {
-    "messageformat": "រូបតំណាងដែលបានធ្វើបច្ចុប្បន្នភាពធ្វើឲ្យកម្មវិធីមានរូបរាងថ្មី និងជួយបង្កើនភាពងាយស្រួល។",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--4": {
-    "messageformat": "មានជម្រើស \"ចម្លងអត្ថបទ\" ថ្មីនៅក្នុងម៉ឺនុយចំណុចបីផងដែរ។ អរគុណ {yusufsahinhamza}!",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.19--0": {
-    "messageformat": "ភាពស្ងប់ស្ងាត់មិនមែនសុទ្ធតែជារឿងល្អរហូតទេ ប៉ុន្តែវាមានរូបតំណាងថ្មីមួយ។ យើងបានធ្វើបច្ចុប្បន្នភាពប៊ូតុងកាមេរ៉ា និងប៊ូតុងបិទសំឡេងនៅក្នុងការហៅជាសំឡេង និងជាវីដេអូ ដើម្បីឲ្យកាន់តែស្រួលមើលនៅពេលដែលពួកវាត្រូវបានបើក ឬបិទ។",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--1": {
-    "messageformat": "ការកែលម្អនូវការប្រែសម្រួល និងការចាត់ចែងរៀបចំឲ្យកាន់តែប្រសើរជាងមុននូវបណ្តាភាសាដែលអាននិងសរសេរពីស្តាំទៅឆ្វេង នៅក្នុងប្រអប់សរសេរសារ។ អរគុណ {sha265}!",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--2": {
-    "messageformat": "ប្រសិនបើអ្នកប្រើប្រាស់កំណែណាមួយរបស់ Windows មុន Windows 10 ឬកំណែណាមួយរបស់ Ubuntu មុន 20.04 LTS អ្នកនឹងត្រូវដំឡើងកំណែប្រព័ន្ធប្រតិបត្តិការរបស់អ្នកដើម្បីបន្តប្រើប្រាស់ Signal៖ {supportLink}",
-    "description": "Release notes for v6.19"
-  },
   "icu:WhatsNew__v6.20--0": {
     "messageformat": "ប្រសិនបើនរណាម្នាក់លើកឈ្មោះអ្នកនៅក្នុងការជជែក (ដូចជា @ ឈ្មោះរបស់អ្នកនៅទីនេះ) ឥឡូវនេះអ្នកអាចរំកិលទៅកាន់ការលើកឈ្មោះនោះបានយ៉ាងរហ័ស ហើយអាចអានរឿងសព្វគ្រប់ទាំងអស់ថាតើពួកគេនិយាយល្អៗអ្វីខ្លះអំពីអ្នក។ អ្នកពិតជាអស្ចារ្យខ្លាំងណាស់។",
     "description": "Release notes for v6.20"
+  },
+  "icu:WhatsNew__v6.21--0": {
+    "messageformat": "មើលឃើញខ្លួនឯងបានកាន់តែច្បាស់ជាងមុន ពេលកំពុងមានសំឡេងរោទ៍ហៅទូរសព្ទនិយាយគ្នាមួយទល់មួយ។ ឥឡូវនេះ ការហៅជាវីដេអូជាលក្ខណៈបុគ្គលប្រើទិដ្ឋភាពអេក្រង់ពេញដូចគ្នាដែលពីមុនបង្ហាញតែនៅពេលចាប់ផ្ដើមការហៅជាក្រុមថ្មីប៉ុណ្ណោះ។ នៅពេលនិយាយអំពីភាពស៊ីសង្វាក់គ្នា យើងបានព្យាយាមតស៊ូខ្នះខ្នែង (មិនមែនរឹងទទឹងទេ) ហើយឥឡូវនេះមិនមានភាពខុសគ្នាទេ ដោយសារចំណុចទាំងនេះលែងខុសគ្នាទៀតហើយ។",
+    "description": "Release notes for v6.21"
+  },
+  "icu:WhatsNew__v6.21--1": {
+    "messageformat": "យើងក៏សូមសម្តែងនូវអំណរគុណចំពោះ {complexspaces} ផងដែរដែលបានផ្តល់ជំនួយ និងមតិកែលម្អរបស់ពួកគេ ខណៈពេលដែលកំពុងធ្វើការលើការចេញផ្សាយនេះ។",
+    "description": "Release notes for v6.21"
   }
 }

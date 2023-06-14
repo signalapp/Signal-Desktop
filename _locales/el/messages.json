@@ -5084,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
+    "messageformat": "{count,number} άτομα αντέδρασαν με {emoji}",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12567,40 +12567,16 @@
     "messageformat": "Μικρές τροποποιήσεις, επιδιορθώσεις σφαλμάτων και βελτιώσεις απόδοσης. Ευχαριστούμε που χρησιμοποιείς το Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.18--0": {
-    "messageformat": "Χρησιμοποίησε τις συντομεύσεις πληκτρολογίου \"Περιήγηση ανά ενότητα\" (⌘/Ctrl+T & ⌘/Ctrl+F6) για γρήγορη μετακίνηση μεταξύ διαφορετικών περιοχών της εφαρμογής. Είναι σαν μια τρελή έκδοση του πλήκτρου Tab που μπορεί να σε πάει πολύ πιο γρήγορα εκεί που θες απ' ότι το alter ego του.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--1": {
-    "messageformat": "Προσθέσαμε υποστήριξη για προαιρετικούς ήχους μηνυμάτων, ώστε να μπορείς επίσης να ακούς ειδοποιήσεις για απεσταλμένα και ληφθέντα μηνύματα ενώ είναι ανοιχτή μια συνομιλία (Ρυθμίσεις > Ειδοποιήσεις).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--2": {
-    "messageformat": "Πήγαινε στο πιο πρόσφατο μη αναγνωσμένο μήνυμα σε μια συνομιλία (⌘/Ctrl+J) χωρίς να αγγίξεις το ποντίκι ή το touchpad.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--3": {
-    "messageformat": "Τα ενημερωμένα εικονίδια προσφέρουν στην εφαρμογή μια νέα εμφάνιση και συμβάλλουν στη βελτίωση της αναγνωσιμότητας.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--4": {
-    "messageformat": "Υπάρχει επίσης μια νέα επιλογή \"Αντιγραφή κειμένου\" στο μενού με τις τρεις κουκκίδες. Ευχαριστούμε, {yusufsahinhamza}!",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.19--0": {
-    "messageformat": "Η σιωπή δεν είναι πάντα χρυσός, αλλά τώρα έχει ένα νέο εικονίδιο. Ενημερώσαμε τα κουμπιά Κάμερα και Σίγαση στις φωνητικές κλήσεις και τις βιντεοκλήσεις, ώστε να είναι ακόμα πιο εύκολο να δεις πότε είναι ενεργοποιημένα ή απενεργοποιημένα.",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--1": {
-    "messageformat": "Βελτιώσεις τοπικής προσαρμογής και καλύτερος χειρισμός γλωσσών από δεξιά προς τα αριστερά στο πεδίο σύνθεσης μηνυμάτων. Ευχαριστούμε, {sha265}!",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--2": {
-    "messageformat": "Εάν χρησιμοποιείς μια έκδοση των Windows νεότερη από τα Windows 10 ή μια έκδοση του Ubuntu νεότερη από την 20.04 LTS, θα πρέπει να ενημερώσεις το λειτουργικό σου σύστημα για να συνεχίσεις να χρησιμοποιείς το Signal: {supportLink}",
-    "description": "Release notes for v6.19"
-  },
   "icu:WhatsNew__v6.20--0": {
     "messageformat": "Εάν κάποιο άτομο σε αναφέρει σε μια συνομιλία (όπως @ Το όνομά σου), θα μπορείς πλέον να μετακινηθείς γρήγορα σε αυτήν την αναφορά και να διαβάσεις όλα τα υπέροχα πράγματα που είπε για εσένα. Είσαι απλά ό,τι καλύτερο.",
     "description": "Release notes for v6.20"
+  },
+  "icu:WhatsNew__v6.21--0": {
+    "messageformat": "Εμφάνιση πλήρους οθόνης πριν από ιδιωτική κλήση Οι ιδιωτικές βιντεοκλήσεις χρησιμοποιούν πλέον την ίδια εμφάνιση πλήρους οθόνης που πριν εμφανιζόταν μόνο στην αρχή μιας ομαδικής κλήσης. Έχουμε αγάπη για τη συνέπεια (όχι την απροθυμία), και γι' αυτό οι ομαδικές και ιδιωτικές βιντεοκλήσεις δεν έχουν πλέον διαφορά (πέρα από τον αριθμό συμμετεχόντων).",
+    "description": "Release notes for v6.21"
+  },
+  "icu:WhatsNew__v6.21--1": {
+    "messageformat": "{complexspaces}: Θερμές ευχαριστίες για τη βοήθεια και τα πολύτιμα σχόλια ενώ εργαζόμαστε σε αυτή την έκδοση.",
+    "description": "Release notes for v6.21"
   }
 }

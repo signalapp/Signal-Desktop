@@ -5084,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
+    "messageformat": "{count,number} inimese reaktsioon: {emoji}",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12567,40 +12567,16 @@
     "messageformat": "Väikesed muudatused, vigade parandused ja jõudluse täiustused. Aitäh, et kasutad Signalit!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.18--0": {
-    "messageformat": "Uued klaviatuuri otseteed (⌘/Ctrl+T & ⌘/Ctrl+F6) aitavad sul kiiresti äpi erinevate osade vahel liikuda. See on nagu Tab klahv, kuid veel kiirem ja mugavam.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--1": {
-    "messageformat": "Lisasime valikulise sätte, mis võimaldab kuulda saadetud ja vastuvõetud sõnumite heli, kui äpp parasjagu avatud on (Sätted > Teavitused).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--2": {
-    "messageformat": "Liigu vestluse viimase lugemata sõnumi juurde järgmise uue klaviatuuri otsetee abil (⌘/Ctrl+J).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--3": {
-    "messageformat": "Uuendatud ikoonid annavad rakendusele värske välimuse ja aitavad parandada loetavust.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--4": {
-    "messageformat": "Kolme punkti menüü all on ka „teksti kopeerimise“ valik. Aitäh, {yusufsahinhamza}!",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.19--0": {
-    "messageformat": "Vaikus ei ole alati kuld, kuid uus ikoon on tal olemas. Uuendasime heli- ja videokõnede kaamera- ja vaigistusnuppe, et oleks lihtsam näha, millal need on sisse või välja lülitatud.",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--1": {
-    "messageformat": "Lokaliseerimise parendused ja paremalt vasakule loetavate keelte parem kuvamine sõnumi koostamise alas. Aitäh, {sha265}!",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--2": {
-    "messageformat": "Kui kasutad Windowsi versiooni, mis on vanem kui Windows 10, või Ubuntu versiooni, mis on vanem kui 20.04 LTS, pead Signali kasutamise jätkamiseks uuendama oma operatsioonisüsteemi: {supportLink}",
-    "description": "Release notes for v6.19"
-  },
   "icu:WhatsNew__v6.20--0": {
     "messageformat": "Kui keegi sind sõnumis märgib (st @ Sinu Nimi), saad nüüd kiiresti selle märkimise juurde kerida ja lugeda kõiki toredaid asju, mida ta sinu kohta ütles. Sa oled parim.",
     "description": "Release notes for v6.20"
+  },
+  "icu:WhatsNew__v6.21--0": {
+    "messageformat": "Heida üks-ühele kõne helisemise ajal endale parem pilk. Üks-ühele videokõnedes kasutatakse nüüd sedasama täisekraanivaadet, mis ilmus varem ainult uue grupikõne alguses. Meile meeldivad ühtlased lahendused, seega nüüd näevad ka eri tüüpi kõned välja samasugused.",
+    "description": "Release notes for v6.21"
+  },
+  "icu:WhatsNew__v6.21--1": {
+    "messageformat": "Tahaksine tänada kasutajat {complexspaces} tema abi ja tagasiside eest selle uuenduse väljatöötamisel.",
+    "description": "Release notes for v6.21"
   }
 }

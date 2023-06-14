@@ -5084,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
+    "messageformat": "{count,number} 人對 {emoji} 傳送咗心情回應",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12567,40 +12567,16 @@
     "messageformat": "我哋做咗啲調整、修復咗一啲錯誤，同埋加強咗程式功能。多謝你使用 Signal！",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.18--0": {
-    "messageformat": "你可以用全新嘅鍵盤快捷鍵 (⌘/Ctrl+T 同 ⌘/Ctrl+F6)，快速跳去應用程式入面嘅唔同部分，就好似「Tab」掣嘅超人版本咁，比起未變身之前飛得更快更遠。",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--1": {
-    "messageformat": "我哋加入咗一項自選設定，等你可以喺聊天入面收發訊息嘅時候，聽到通知音效 (設定 > 通知)。",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--2": {
-    "messageformat": "你可以用另一個鍵盤快捷鍵 (⌘/Ctrl+J)，喺聊天入面跳去最新嘅未讀訊息。",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--3": {
-    "messageformat": "更新咗嘅圖示令應用程式望落煥然一新。",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--4": {
-    "messageformat": "另外，三點選單入面亦都新增咗「複製文字」選項。{yusufsahinhamza}，多謝你！",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.19--0": {
-    "messageformat": "沉默是金唔一定啱，但係時候轉吓新形象。我哋更新咗語音同視像通話入面嘅「相機」同「靜音」掣，當啟用或者停用時就更容易睇到。",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--1": {
-    "messageformat": "改善本地化功能，而且喺訊息撰寫欄位度由右至左嘅語言處理得更好。{sha265}，多謝你！",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--2": {
-    "messageformat": "如果你用緊 Window 10 之前嘅版本，或者 Ubuntu 嘅 20.04 LTS 之前嘅版本，你需要更新操作系統先可以繼續用 Signal：{supportLink}",
-    "description": "Release notes for v6.19"
-  },
   "icu:WhatsNew__v6.20--0": {
     "messageformat": "如果有人喺聊天入面提及你 (例如：@你個名)，宜家你就可以即刻碌去，睇吓佢哋講咗你啲咩好嘢。你係最好㗎。",
     "description": "Release notes for v6.20"
+  },
+  "icu:WhatsNew__v6.21--0": {
+    "messageformat": "喺一對一通話鈴聲響緊嘅時候，睇真啲自己個靚樣。個人視像通話宜家會同群組通話一樣，喺鈴聲響起嗰刻開始，就會用全螢幕檢視。我哋持續努力追求一致性，宜家就成功消除呢個差異喇。",
+    "description": "Release notes for v6.21"
+  },
+  "icu:WhatsNew__v6.21--1": {
+    "messageformat": "另外，我哋都想就呢個版本嘅製作多謝 {complexspaces} 幫手同提供意見。",
+    "description": "Release notes for v6.21"
   }
 }

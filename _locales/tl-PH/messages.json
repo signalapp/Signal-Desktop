@@ -5084,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
+    "messageformat": "{count,number} tao ang nag-react ng {emoji}",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12567,40 +12567,16 @@
     "messageformat": "Dagdag na maliliit na pag-aayos, pag-alis ng bugs, at pagpapaganda ng takbo ng app. Maraming salamat sa paggamit ng Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.18--0": {
-    "messageformat": "Gamitin ang \"Navigate by section\" keyboard shortcuts (⌘/Ctrl+T & ⌘/Ctrl+F6) para makalipat agad sa iba't ibang areas ng app. Parang turbo version ito ng Tab key.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--1": {
-    "messageformat": "Nagdagdag rin kami ng suporta para sa optional message sounds para marinig mo rin ang notifications ng sent at received messages habang nakabukas ang chat (Settings > Notifications).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--2": {
-    "messageformat": "Pumunta sa latest unread message sa chat (⌘/Ctrl+J) nang hindi hinahawakan ang iyong mouse o touchpad.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--3": {
-    "messageformat": "Ang updated icons ay nagbibigay ng fresh look sa app at ginagawang mas madaling basahin ang text.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--4": {
-    "messageformat": "Meron na ring bagong option na \"Kopyahin ang text\" sa triple-dot menu. Maraming salamat, {yusufsahinhamza}!",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.19--0": {
-    "messageformat": "Silence isn't always golden, pero meron itong bagong icon. In-update namin ang Camera at Mute buttons sa voice at video calls para mas makita mo agad kung naka-enable o disable ang mga ito.",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--1": {
-    "messageformat": "Localization improvements, at mas pinagandang pag-handle ng right-to-left languages sa message composition field. Maraming salamat, {sha265}!",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--2": {
-    "messageformat": "Kung nasa mas lumang version ka ng Windows kaysa sa Windows 10, o version ng Ubuntu bago ang 20.04 LTS, kinakailangan mong i-update ang iyong operating system para patuloy na magamit ang Signal:{supportLink}",
-    "description": "Release notes for v6.19"
-  },
   "icu:WhatsNew__v6.20--0": {
     "messageformat": "Kung may nag-mention sa'yo sa chat (gaya ng @ Pangalan/Username Mo), pwede ka nang mag-scroll agad papunta sa mention na 'yun para basahin ang message nila sa'yo. The best ka.",
     "description": "Release notes for v6.20"
+  },
+  "icu:WhatsNew__v6.21--0": {
+    "messageformat": "I-check ang itsura mo habang nagri-ring ang 1-on-1 call. Ang individual video calls ay gumagamit na ngayon ng full-screen view na dati'y lumalabas lamang sa umpisa ng bagong group call. Sa pagiging consistent, sinusubukan naming maging persistent (at hindi resistant) kaya ngayo'y wala na ang discrepancy dahil hindi na magkaiba ang mga bagay na ito.",
+    "description": "Release notes for v6.21"
+  },
+  "icu:WhatsNew__v6.21--1": {
+    "messageformat": "Gusto naming pasalamatan ang {complexspaces} sa kanilang tulong at pagbibigay ng feedback para sa release na ito.",
+    "description": "Release notes for v6.21"
   }
 }

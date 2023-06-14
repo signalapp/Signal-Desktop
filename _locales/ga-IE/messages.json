@@ -5084,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
+    "messageformat": "Thug an líon seo daoine freagairt le {emoji}: {count,number}",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12567,40 +12567,16 @@
     "messageformat": "Mionathruithe, paistí fabhtanna agus feabhsuithe ar fheidhmíocht. Go raibh maith agat as Signal a úsáid!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.18--0": {
-    "messageformat": "Is féidir leis na haicearraí nua méarchláir (⌘/Ctrl+T & ⌘/Ctrl+F6) cabhrú leat bogadh go gasta idir réimsí difriúla den aip. Oibríonn siad mar a bheadh leagan sárlaoich den eochair Táb atá in ann feidhmiú níos faide agus níos gasta.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--1": {
-    "messageformat": "Chuireamar socrú roghnach leis chun fuaimeanna fógra a sheinm ar theachtaireachtaí a sheoltar agus a fhaightear agus comhrá ar oscailt (Socruithe> Fógraí).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--2": {
-    "messageformat": "Bog chuig an teachtaireacht neamhléite is déanaí i gcomhrá (⌘/Ctrl+J).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--3": {
-    "messageformat": "Cuireann deilbhíní nuashonraithe cuma úr ar an aip.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--4": {
-    "messageformat": "Tá rogha nua ann, \"Cóipeáil téacs\", sa roghchlár trí phonc freisin. Le buíochas, {yusufsahinhamza}!",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.19--0": {
-    "messageformat": "Ní binn béal ina thost i gcónaí, ach tá deilbhín nua aige. Nuashonraíomar na cnaipí Ceamara agus Balbhaigh i nguthghlaonna agus físghlaonna, tá a gcumasú agus díchumasú níos sofheicthe dá réir.",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--1": {
-    "messageformat": "Feabhsuithe ar logánú, agus láimhseáil níos fearr ar theangacha deas go clé i réimse chumadh na dteachtaireachtaí. Le buíochas, {sha265}!",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--2": {
-    "messageformat": "Má tá leagan Windows roimh Windows 10 á úsáid agat, nó leagan Ubuntu roimh 20.04 LTS, beidh ort do chóras oibriúcháin a nuashonrú le leanúint le Signal a úsáid: {supportLink}",
-    "description": "Release notes for v6.19"
-  },
   "icu:WhatsNew__v6.20--0": {
     "messageformat": "Má dhéanann duine éigin trácht ort i gcomhrá (amhail @ D'ainm Luaite Anseo), is féidir leat scrollú chuig an trácht sin go gasta anois agus an rud a dúradh fút a léamh. Is tusa is fearr gan aon amhras.",
     "description": "Release notes for v6.20"
+  },
+  "icu:WhatsNew__v6.21--0": {
+    "messageformat": "Faigh radharc níos fearr ort féin agus glao 1 le 1 á bhualadh. Faigheann tú an t-amharc lánscáileáin céanna i bhfísghlaonna anois agus a fuair tú roimhe ag tús grúpghlao nua. Ar mhaithe le comhsheasmhacht, iarraimid a bheith dianseasmhach (ní frithsheasmhach) agus tá an neamhréiteach imithe anois toisc go bhfuil cúrsaí mar an gceanna faoi dheireadh.",
+    "description": "Release notes for v6.21"
+  },
+  "icu:WhatsNew__v6.21--1": {
+    "messageformat": "Ba mhaith linn freisin ár mbuíochas a ghabháil le {complexspaces} as an gcabhair agus aiseolas agus muid ag obair ar an eisiúint seo.",
+    "description": "Release notes for v6.21"
   }
 }

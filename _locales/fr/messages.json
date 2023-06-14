@@ -5084,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
+    "messageformat": "{count,number} personnes ont réagi par {emoji}",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12567,40 +12567,16 @@
     "messageformat": "Petits ajustements, corrections de bugs et améliorations des performances. Nous vous remercions d’utiliser Signal !",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.18--0": {
-    "messageformat": "Les nouveaux raccourcis claviers (⌘/Ctrl+T & ⌘/Ctrl+F6) vous permettent de naviguer rapidement entre les différentes sections de l’appli. C’est comme la version 2.0 de la touche de tabulation !",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--1": {
-    "messageformat": "Nous avons ajouté une nouvelle fonctionnalité qui vous informera de l’envoi et la réception de messages par des notifications sonores même lorsque les conversations sont ouvertes (Paramètres > Notifications).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--2": {
-    "messageformat": "Accédez au dernier message non lu d’une conversation grâce au nouveau raccourci clavier (⌘/Ctrl+J).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--3": {
-    "messageformat": "Les nouvelles icônes donnent un nouveau look à l’appli.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--4": {
-    "messageformat": "Une nouvelle option « copier le texte » est disponible dans le menu à trois points. Merci, {yusufsahinhamza} !",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.19--0": {
-    "messageformat": "Le silence n’est pas toujours d’or… mais une nouvelle icône lui a été associée ! Nous avons amélioré les boutons de l’appareil photo et du mode silencieux visibles lors des appels vocaux et vidéo. Vous pouvez désormais les activer ou les désactiver encore plus facilement.",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--1": {
-    "messageformat": "Amélioration des paramètres de localisation et meilleure gestion des langues de droite à gauche en ce qui concerne la composition des messages. Merci, {sha265} !",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--2": {
-    "messageformat": "Si vous utilisez une version de Windows antérieure à Windows 10, ou une version d’Ubuntu antérieure à 20.04 LTS, vous devrez mettre à jour votre système d’exploitation pour continuer à utiliser Signal : {supportLink}",
-    "description": "Release notes for v6.19"
-  },
   "icu:WhatsNew__v6.20--0": {
     "messageformat": "Si une personne vous tague dans une conversation (en tapant @VotreNom), vous pouvez désormais rapidement faire défiler votre écran pour découvrir toutes les belles choses qui ont été dites sur vous (parce que vous méritez tous les compliments du monde !).",
     "description": "Release notes for v6.20"
+  },
+  "icu:WhatsNew__v6.21--0": {
+    "messageformat": "Les appels vidéo individuels sortants bénéficient désormais du même affichage plein écran que les appels de groupe.",
+    "description": "Release notes for v6.21"
+  },
+  "icu:WhatsNew__v6.21--1": {
+    "messageformat": "Nous tenons également à exprimer notre gratitude envers {complexspaces} pour son aide et ses commentaires lors de la création de cette nouvelle version.",
+    "description": "Release notes for v6.21"
   }
 }

@@ -5084,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
+    "messageformat": "{count,number} אנשים הגיבו עם {emoji}",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12567,40 +12567,16 @@
     "messageformat": "התאמות קטנות, תיקוני באגים ושיפורי ביצועים. תודה על השימוש ב-Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.18--0": {
-    "messageformat": "קיצורי מקלדת חדשים (⌘/Ctrl+T & ⌘/Ctrl+F6) יכולים לעזור לך לעבור במהירות בין חלקים שונים של האפליקציה. זו כמו גרסת גיבורי העל של מקש Tab שיכולה לעוף רחוק יותר ומהר יותר מהאלטר–אגו המתון שלה.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--1": {
-    "messageformat": "הוספנו תמיכה בצלילי הודעות אופציונליים כך שתהיה לך אפשרות לשמוע התראות עבור הודעות שנשלחו והתקבלו בזמן שהצ׳אט פתוח (הגדרות > התראות).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--2": {
-    "messageformat": "פשוט קופצים להודעה האחרונה שלא נקראה בצ׳אט (⌘/Ctrl+J) בלי לגעת בעכבר או במסך המגע.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--3": {
-    "messageformat": "הסמלים המעודכנים מעניקים לאפליקציה מראה רענן ועוזרים בשיפור הקריאוּת.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--4": {
-    "messageformat": "יש גם אפשרות ״העתקת טקסט״ חדשה בתפריט שלוש הנקודות. תודה, {yusufsahinhamza}!",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.19--0": {
-    "messageformat": "שתיקה לא תמיד שווה זהב, אבל כן יש לה סמל חדש. עדכנו את כפתורי המצלמה וההשתקה בשיחות קוליות ושיחות וידאו, כך שעכשיו אפילו יותר קל לראות כשהם מופעלים או מושבתים.",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--1": {
-    "messageformat": "שיפורי לוקליזציה וטיפול טוב יותר בשפות מימין–לשמאל בשדה חיבור ההודעה. תודה, {sha265}!",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--2": {
-    "messageformat": "אם יש לך גרסה של Windows שהיא ישנה יותר מ–Windows 10, או גרסה של Ubuntu שהיא ישנה יותר מ–20.04 LTS, צריך לעדכן את מערכת ההפעלה שלך כדי להמשיך להשתמש ב–Signal: {supportLink}",
-    "description": "Release notes for v6.19"
-  },
   "icu:WhatsNew__v6.20--0": {
     "messageformat": "אם מישהו או מישהי יזכירו אותך בצ׳אט (יעני, @השם שלך כאן), עכשיו אפשר לגלול במהירות לאזכור הזה כדי לקרוא את כל הדברים המהממים שהם אמרו עליך. אין כמוך.",
     "description": "Release notes for v6.20"
+  },
+  "icu:WhatsNew__v6.21--0": {
+    "messageformat": "אפשר לראות את עצמך יותר טוב בזמן ששיחות 1–על–1 מצלצלות. שיחות וידאו של 1–על–1 משתמשות עכשיו באותה תצוגת מסך–מלא שקודם הופיעה רק בתחילת שיחה קבוצתית חדשה. בכל מה שנוגע לעקביות, אנחנו מנסים להיות… נו, עקביים.",
+    "description": "Release notes for v6.21"
+  },
+  "icu:WhatsNew__v6.21--1": {
+    "messageformat": "בנוסף, נרצה להביע את הערכתנו ל{complexspaces} על העזרה והמשוב בזמן העבודה על הגרסה הזו.",
+    "description": "Release notes for v6.21"
   }
 }

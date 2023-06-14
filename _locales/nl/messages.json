@@ -5084,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
+    "messageformat": "{count,number} mensen reageerden met {emoji}",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12567,40 +12567,16 @@
     "messageformat": "Kleine aanpassingen, bugfixes en prestatieverbeteringen. Bedankt dat je Signal gebruikt!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.18--0": {
-    "messageformat": "Gebruik de sneltoetsen Navigeren per sectie (⌘/Ctrl+T & ⌘/Ctrl+F6) om snel te schakelen tussen verschillende delen van de app. Het is als een superheldenversie van de Tab-toets die verder en sneller kan vliegen dan zijn zachtaardige alter ego.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--1": {
-    "messageformat": "We hebben ondersteuning toegevoegd voor optionele berichtgeluiden, zodat je ook meldingen kunt horen voor verstuurde en ontvangen berichten terwijl een chat is geopend (Instellingen > Meldingen).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--2": {
-    "messageformat": "Spring naar het laatste ongelezen bericht in een chat (⌘/Ctrl+J) zonder de muis aan te raken of het touchpad te helpen zijn naam eer aan te doen.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--3": {
-    "messageformat": "Bijgewerkte iconen geven de app een frisse uitstraling en helpen de leesbaarheid te verbeteren.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--4": {
-    "messageformat": "Er is ook een nieuwe optie Tekst kopiëren in het menu met drie stippen. Bedankt, {yusufsahinhamza}!",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.19--0": {
-    "messageformat": "Zwijgen is niet altijd goud... maar het heeft wel een nieuw icoontje. We hebben de knoppen Camera en Dempen in spraak- en videogesprekken bijgewerkt, zodat het nog gemakkelijker is om te zien wanneer ze aan of uit staan.",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--1": {
-    "messageformat": "Lokalisatieverbeteringen en betere verwerking van talen die van rechts naar links worden geschreven in het veld voor de samenstelling van berichten. Bedankt, {sha265}!",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--2": {
-    "messageformat": "Als je een versie van Windows gebruikt die ouder is dan Windows 10, of een versie van Ubuntu die ouder is dan 20.04 LTS, moet je je besturingssysteem bijwerken om Signal te blijven gebruiken: {supportLink}",
-    "description": "Release notes for v6.19"
-  },
   "icu:WhatsNew__v6.20--0": {
     "messageformat": "Als iemand je vermeldt in een chat (zoals @jenaam), kun je nu snel naar die vermelding scrollen en alle geweldige dingen lezen die ze over je hebben gezegd. Je bent ook gewoon superleuk.",
     "description": "Release notes for v6.20"
+  },
+  "icu:WhatsNew__v6.21--0": {
+    "messageformat": "Individuele videogesprekken gebruiken nu dezelfde schermvullende weergave als groepsgesprekken terwijl ze overgaan. Individuele videogesprekken gebruiken nu dezelfde schermvullende weergave die voorheen alleen aan het begin van een nieuw groepsgesprek verscheen. Tja, we proberen natuurlijk altijd consistent te blijven, dus nu is alles hetzelfde. Lekker overzichtelijk!",
+    "description": "Release notes for v6.21"
+  },
+  "icu:WhatsNew__v6.21--1": {
+    "messageformat": "We willen ook onze dank uitspreken aan {complexspaces} voor hun hulp en feedback tijdens het werken aan deze release.",
+    "description": "Release notes for v6.21"
   }
 }

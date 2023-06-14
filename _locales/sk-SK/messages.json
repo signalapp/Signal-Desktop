@@ -5084,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
+    "messageformat": "Počet ľudí, ktorí reagovali pomocou {emoji}: {count,number}",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12567,40 +12567,16 @@
     "messageformat": "Malé úpravy, opravy chýb a vylepšenia výkonu. Ďakujeme, že používate Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.18--0": {
-    "messageformat": "Pomocou nových klávesových skratiek „Navigovať podľa sekcie“ (⌘/Ctrl+T a ⌘/Ctrl+F6) môžete rýchlo prechádzať z jednej časti aplikácie do inej. Je to niečo ako super verzia klávesu Tab, ktorá dokáže zaletieť ďalej a rýchlejšie než jej obyčajné alter ego.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--1": {
-    "messageformat": "Pridali sme možnosť prehrávania zvuku upozornenia na odoslané a prijaté správy, aby vám nič neušlo ani vtedy, keď máte rozpísaný čet (Nastavenia > Upozornenia).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--2": {
-    "messageformat": "Prejdite na poslednú neprečítanú správu v čete pomocou novej klávesovej skratky ⌘/Ctrl+J bez toho, aby ste sa čo i len dotkli myši či touchpadu.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--3": {
-    "messageformat": "Aktualizované ikony dodávajú aplikácii modernejší vzhľad a zlepšujú čitateľnosť.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--4": {
-    "messageformat": "V ponuke s tromi bodkami odteraz nájdete aj novú možnosť „Kopírovať text“. Ďakujeme, {yusufsahinhamza}!",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.19--0": {
-    "messageformat": "Mlčanie nie je vždy zlato, no teraz má novú ikonu. Aktualizovali sme tlačidlá Fotoaparát a Stlmiť v hlasových hovoroch a videohovoroch, vďaka čomu ľahšie uvidíte, kedy sú zapnuté a kedy vypnuté.",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--1": {
-    "messageformat": "Vylepšená lokalizácia a jednoduchšia manipulácia s jazykmi so zápisom sprava doľava v poli pre vytváranie správy. Ďakujeme, {sha265}!",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--2": {
-    "messageformat": "Ak chcete aj naďalej používať Signal a používate verziu systému Windows staršiu ako Windows 10 alebo verziu Ubuntu staršiu ako 20.04 LTS, budete musieť aktualizovať svoj operačný systém: {supportLink}",
-    "description": "Release notes for v6.19"
-  },
   "icu:WhatsNew__v6.20--0": {
     "messageformat": "Ak sa o vás niekto zmieni v čete (napríklad @ vaše meno), teraz môžete rýchlo prejsť na túto zmienku a prečítať si všetky úžasné veci, ktoré o vás napísali. Ste jednoducho najlepší.",
     "description": "Release notes for v6.20"
+  },
+  "icu:WhatsNew__v6.21--0": {
+    "messageformat": "Pri prichádzajúcom hovore sa teraz budete vidieť ešte lepšie. Jednotlivé videohovory teraz počas zvonenia používajú rovnaké zobrazenie na celú obrazovku ako skupinové hovory. Pokiaľ ide o konzistentnosť, naše motto je vytrvalosť (nie nevšímavosť), práve preto sme zachytili túto odlišnosť a odstránili akúkoľvek nezrovnalosť.",
+    "description": "Release notes for v6.21"
+  },
+  "icu:WhatsNew__v6.21--1": {
+    "messageformat": "Radi by sme tiež vyjadrili naše uznanie používateľovi {complexspaces} za pomoc a spätnú väzbu pri práci na tomto vydaní.",
+    "description": "Release notes for v6.21"
   }
 }

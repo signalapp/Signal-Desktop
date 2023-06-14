@@ -5084,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
+    "messageformat": "{count,number} žmonės sureagavo {emoji}",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12567,40 +12567,16 @@
     "messageformat": "Smulkūs patobulinimai, klaidų pataisymai ir veikimo pagerinimas. Ačiū, kad naudoji „Signal“!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.18--0": {
-    "messageformat": "Nauji spartieji klavišai (⌘/Ctrl+T & ⌘/Ctrl+F6) padės greitai pereiti iš vienos programėlės srities į kitą. Tai tarsi senas geras tabuliavimo klavišas, įgavęs superherojaus galių ir skrendantis toliau bei greičiau.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--1": {
-    "messageformat": "Pridėjome nustatymą, kurį gali pasirinkti, jei nori girdėti pranešimus, kai atvertame pokalbyje išsiunčiamos ar gaunamos žinutės (Nustatymai > Pranešimai).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--2": {
-    "messageformat": "Peršok į paskutinę neskaitytą žinutę pokalbyje sparčiaisiais klavišais (⌘/Ctrl+J), kad nereikėtų pelytės ar kitokios pagalbos.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--3": {
-    "messageformat": "Atnaujintos piktogramos = nauja išvaizda = geresnis įskaitomumas.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--4": {
-    "messageformat": "Trijų taškelių meniu taip pat turi naują teksto kopijavimo parinktį. Ačiū, {yusufsahinhamza}!",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.19--0": {
-    "messageformat": "Tyla – gera byla, o dabar ji turi ir naują piktogramą. Atnaujinome kameros ir nutildymo mygtukus balso bei vaizdo skambučiuose, taigi dar lengviau pamatyti, kai jie įjungti ar išjungti.",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--1": {
-    "messageformat": "Lokalizavimo patobulinimai ir geresnis kalbų, kuriomis rašoma iš dešinės į kairę, valdymas žinučių kūrimo laukelyje. Ačiū, {sha265}!",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--2": {
-    "messageformat": "Jei naudoji ankstesnę nei „Windows 10“ ar ankstesnę nei „Ubuntu 20.04 LTS“ versiją, tau teks atnaujinti operacinę sistemą, kad galėtum toliau naudoti „Signal“: {supportLink}",
-    "description": "Release notes for v6.19"
-  },
   "icu:WhatsNew__v6.20--0": {
     "messageformat": "Jei kas nors paminės tave pokalbyje (pvz., @tavovardas), nuo šiol galėsi greitai nuslinkti iki tos pokalbio vietos ir paskaityti, ką gero apie tave prikalbėjo. Juk apie tave – tik gerai arba nieko.",
     "description": "Release notes for v6.20"
+  },
+  "icu:WhatsNew__v6.21--0": {
+    "messageformat": "Nuo šiol dar geriau matysi save skambučio metu, kol jungiame su pašnekovu. Asmeniniai vaizdo skambučiai dabar turi tokį patį viso ekrano vaizdą, koks anksčiau atsirasdavo tik pradedant naują grupės skambutį. Mes siekiame nuoseklumo, tad neprarandame atkaklumo. Šis trūkumas nepatiko, todėl jo ir nebeliko.",
+    "description": "Release notes for v6.21"
+  },
+  "icu:WhatsNew__v6.21--1": {
+    "messageformat": "Taip pat norime išreikšti dėkingumą tau, {complexspaces}, už pagalbą ir atsiliepimus dirbant ties šiuo leidimu.",
+    "description": "Release notes for v6.21"
   }
 }

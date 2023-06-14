@@ -5084,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
+    "messageformat": "{count,number} orang beri reaksi dengan {emoji}",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12567,40 +12567,16 @@
     "messageformat": "Sedikit pengubahsuaian, pembaikan pepijat dan peningkatan prestasi. Terima kasih kerana menggunakan Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.18--0": {
-    "messageformat": "Gunakan pintasan papan kekunci \"Navigasi mengikut bahagian\" (⌘/Ctrl+T & ⌘/Ctrl+F6) untuk bergerak dengan cepat antara kawasan yang berbeza pada aplikasi. Ia seperti versi 'superhero' kunci Tab yang boleh terbang lebih jauh dan lebih pantas berbanding alter ego yang berbudi bahasa.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--1": {
-    "messageformat": "Kami menambah sokongan untuk bunyi mesej pilihan supaya anda juga boleh mendengar pemberitahuan untuk mesej yang dihantar dan diterima semasa sembang dibuka (Tetapan > Pemberitahuan).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--2": {
-    "messageformat": "Pergi ke mesej terbaru yang belum dibaca dalam sembang (⌘/Ctrl+J) tanpa menyentuh tetikus atau menggunakan pad sentuh.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--3": {
-    "messageformat": "Ikon yang dikemas kini memberikan aplikasi rupa baharu dan membantu meningkatkan kebolehbacaan.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--4": {
-    "messageformat": "Terdapat juga pilihan \"Salin teks\" baharu dalam menu tiga titik. Terima kasih, {yusufsahinhamza}!",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.19--0": {
-    "messageformat": "Kadang-kadang diam lebih baik, tetapi ia mempunyai ikon baharu. Kami mengemas kini butang Kamera dan Redam dalam panggilan suara dan video supaya lebih mudah dilihat apabila ia didayakan atau dinyahdayakan.",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--1": {
-    "messageformat": "Penambahbaikan penyetempatan dan pengendalian bahasa kanan ke kiri yang lebih baik dalam medan gubahan mesej. Terima kasih, {sha265}!",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--2": {
-    "messageformat": "Jika anda menggunakan versi Windows sebelum Windows 10, atau versi Ubuntu sebelum 20.04 LTS, anda perlu mengemas kini sistem pengendalian anda untuk terus menggunakan Signal: {supportLink}",
-    "description": "Release notes for v6.19"
-  },
   "icu:WhatsNew__v6.20--0": {
     "messageformat": "Jika seseorang menyebut anda dalam sembang (seperti @ Nama Anda Di Sini), kini anda boleh menatal dengan pantas ke sebutan itu dan membaca semua perkara menarik yang mereka katakan tentang anda. Anda terbaik.",
     "description": "Release notes for v6.20"
+  },
+  "icu:WhatsNew__v6.21--0": {
+    "messageformat": "Lihat diri anda dengan lebih baik semasa panggilan bersemuka berdering. Panggilan video individu kini menggunakan paparan skrin penuh sama seperti panggilan kumpulan semasa berdering. Apabila bercakap tentang konsisten, kita sentiasa berusaha untuk menjadi lebih baik, supaya tiada lagi yang berbeza.",
+    "description": "Release notes for v6.21"
+  },
+  "icu:WhatsNew__v6.21--1": {
+    "messageformat": "Kami juga ingin merakamkan penghargaan kepada {complexspaces} atas bantuan dan maklum balas mereka semasa mengusahakan keluaran ini.",
+    "description": "Release notes for v6.21"
   }
 }

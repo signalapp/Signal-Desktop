@@ -5084,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
+    "messageformat": "{count,number} 人用 {emoji} 进行了回应",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12567,40 +12567,16 @@
     "messageformat": "我们进行了功能微调、漏洞修复和性能强化。感谢使用 Signal！",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.18--0": {
-    "messageformat": "新快捷键（⌘/Ctrl+T & ⌘/Ctrl+F6）可以让您轻松前往应用中的不同分区。这就像超级英雄版的 Tab 键，样子低调却蕴含巨大能量，可以让您更快抵达目的地。",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--1": {
-    "messageformat": "我们添加了一个设置选项，让您在打开的聊天页面中可以听到收发消息的通知音效（设置 > 通知）。",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--2": {
-    "messageformat": "我们新推出的另一个快捷键（(⌘/Ctrl+J)）可以让您跳转到聊天页面中的最新未读消息处。",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--3": {
-    "messageformat": "更新的图标让应用拥有了焕然一新的外观。",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--4": {
-    "messageformat": "三点菜单中新增了一个“复制文本”选项。谢谢，{yusufsahinhamza}！",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.19--0": {
-    "messageformat": "沉默并非永远金贵，但这次它确实有一个新图标。我们更新了语音和视频通话中的相机和静音按钮，方便大家更轻松地判断它们处于启用还是禁用状态。",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--1": {
-    "messageformat": "我们对本地化功能进行了优化，能够在消息编辑字段中更好地处理右对齐语言。谢谢，{sha265}！",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--2": {
-    "messageformat": "如果您使用的是 Windows 10 之前的 Windows 版本，或者是 20.04 LTS 之前的 Ubuntu 版本，那么您需要更新操作系统才能继续使用 Signal： {supportLink}",
-    "description": "Release notes for v6.19"
-  },
   "icu:WhatsNew__v6.20--0": {
     "messageformat": "如果有人在聊天中提及了您（即 @ 了您），现在您可以快速滚动到提及您的消息处，了解对方跟您说了什么。有人 @ 您的话，一定是有好事发生吧。",
     "description": "Release notes for v6.20"
+  },
+  "icu:WhatsNew__v6.21--0": {
+    "messageformat": "现在个人视频通话在响铃时会像群组通话一样使用全屏视图。",
+    "description": "Release notes for v6.21"
+  },
+  "icu:WhatsNew__v6.21--1": {
+    "messageformat": "此外我们还要感谢{complexspaces}对此版本提供的帮助和反馈。",
+    "description": "Release notes for v6.21"
   }
 }

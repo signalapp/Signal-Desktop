@@ -5084,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
+    "messageformat": "{count,number} người đã bày tỏ cảm xúc với {emoji}",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12567,40 +12567,16 @@
     "messageformat": "Các tinh chỉnh, sửa lỗi, và cải thiện hiệu năng. Cảm ơn bạn đã sử dụng Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.18--0": {
-    "messageformat": "Các phím tắt mới (⌘/Ctrl+T & ⌘/Ctrl+F6) giúp bạn di chuyển nhanh giữa các mục khác nhau của ứng dụng. Đây là một phiên bản nâng cấp của phím Tab, có thể di chuyển bạn nhanh hơn, xa hơn.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--1": {
-    "messageformat": "Chúng tôi đã thêm một tùy chọn phát âm thanh thông báo cho tin nhắn gửi đi hoặc nhận được khi bạn đang trong giao diện trò chuyện (Cài đặt > Thông báo).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--2": {
-    "messageformat": "Chuyển đến tin nhắn chưa đọc mới nhất trong giao diện trò chuyện bằng phím tắt mới (⌘/Ctrl+J).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--3": {
-    "messageformat": "Các biểu tượng đã được cập nhật mang đến cho ứng dụng một giao diện mới mẻ.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--4": {
-    "messageformat": "Tùy chọn mới \"Sao chép văn bản\" trong menu ba dấu chấm. Cảm ơn, {yusufsahinhamza}!",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.19--0": {
-    "messageformat": "Im lặng không phải luôn là vàng, nhưng nó vừa có một biểu tượng mới. Chúng tôi đã cập nhật các nút Camera và Tắt tiếng trong cuộc gọi thoại và video để dễ dàng biết được thời điểm chúng được bật hoặc tắt.",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--1": {
-    "messageformat": "Cải thiện công tác bản địa hóa và xử lý tốt hơn các ngôn ngữ viết từ phải sang trái trong ô soạn tin nhắn. Xin cảm ơn, {sha265}!",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--2": {
-    "messageformat": "Nếu bạn đang sử dụng phiên bản Windows trước Windows 10, hoặc phiên bản Ubuntu trước 20.04 LTS, bạn sẽ cần cập nhật hệ điều hành của mình để tiếp tục sử dụng Signal: {supportLink}",
-    "description": "Release notes for v6.19"
-  },
   "icu:WhatsNew__v6.20--0": {
     "messageformat": "Nếu ai đó đề cập đến bạn trong một cuộc trò chuyện (chẳng hạn như @Tên Của Bạn), giờ đây bạn có thể nhanh chóng cuộn đến đề cập đó và đọc tất cả những điều tuyệt vời mà họ đã nói về bạn. Bạn quả là người tuyệt nhất.",
     "description": "Release notes for v6.20"
+  },
+  "icu:WhatsNew__v6.21--0": {
+    "messageformat": "Nhìn bản thân bạn rõ hơn khi cuộc gọi trực tiếp 1-1 đang đổ chuông. Cuộc gọi video cá nhân hiện nay cũng sử dụng chế độ xem toàn màn hình, vốn trước đây chỉ xuất hiện khi bắt đầu một cuộc gọi nhóm mới. Chúng tôi hướng tới sự nhất quán, và giờ có thể nhất chí rằng sự khác biệt đã không còn tồn tại vì những điểm bên trên đã được đồng nhất.",
+    "description": "Release notes for v6.21"
+  },
+  "icu:WhatsNew__v6.21--1": {
+    "messageformat": "Chúng tôi cũng muốn thể hiện sự trân trọng tới {complexspaces} vì sự giúp đỡ và phản hồi khi chúng tôi thực hiện bản cập nhật này.",
+    "description": "Release notes for v6.21"
   }
 }

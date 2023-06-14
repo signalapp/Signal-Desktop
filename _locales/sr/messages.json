@@ -5084,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
+    "messageformat": "Реакција њих {count,number}: {emoji}",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12567,40 +12567,16 @@
     "messageformat": "Obavili smo manja fina prilagođavanja, ispravke grešaka i poboljšanja performansi. Hvala što koristite Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.18--0": {
-    "messageformat": "Нове пречице на тастатури (⌘/Ctrl+T & ⌘/Ctrl+F6) вам омогућавају да се брзо крећете међу различитим деловима апликације. То је као суперхеројска верзија тастера „Tab“ који може да лети даље и брже од свог нежног алтер ега.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--1": {
-    "messageformat": "Додали смо подршку за опционе звукове порука, тако да можете чути обавештења за послате и примљене поруке и док је ћаскање отворено (Подешавања > Обавештења).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--2": {
-    "messageformat": "Пређите на најновију непрочитану поруку у ћаскању (⌘/Ctrl+J) без додиривања миша или тачпеда.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--3": {
-    "messageformat": "Ажуриране иконе пружају апликацији свеж изглед и побољшавају читљивост.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--4": {
-    "messageformat": "Постоји и нова опција за копирање текста у менију са три тачке. Хвала, {yusufsahinhamza}!",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.19--0": {
-    "messageformat": "Тишина није увек златна, али има нову икону. Ажурирали смо дугмад за камеру и искључивање звука у гласовним и видео позивима, тако да је сада још лакше видети када су укључени или искључени.",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--1": {
-    "messageformat": "Побољшања локализације и боље руковање језицима који се пишу здесна налево у пољу за унос поруке. Хвала, {sha265}!",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--2": {
-    "messageformat": "Ако користите верзију Windows-а пре верзије Windows 10 или верзију Ubuntu-а пре верзије 20.04 LTS, мораћете да ажурирате оперативни систем да бисте наставили да користите Signal: {supportLink}",
-    "description": "Release notes for v6.19"
-  },
   "icu:WhatsNew__v6.20--0": {
     "messageformat": "Ако вас неко помене у ћаскању (као што је @ ваше име), сада можете брзо да скролујете до тог помињања и прочитате све дивне ствари које је та особа рекла о вама. Ви сте просто најбољи.",
     "description": "Release notes for v6.20"
+  },
+  "icu:WhatsNew__v6.21--0": {
+    "messageformat": "Боље видите себе док сте у позиву 1 на 1. У појединачним видео позивима се сада користи исти приказ преко целог екрана који се раније појављивао само на почетку новог групног позива. Да бисмо били доследни, морали смо да будемо упорни и сада дискрепанца више не постоји.",
+    "description": "Release notes for v6.21"
+  },
+  "icu:WhatsNew__v6.21--1": {
+    "messageformat": "Такође бисмо желели да изразимо захвалност кориснику {complexspaces} за помоћ и повратне информације током рада на овом издању.",
+    "description": "Release notes for v6.21"
   }
 }

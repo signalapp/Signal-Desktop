@@ -5084,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
+    "messageformat": "{count,number} человек(-а) отреагировали {emoji}",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12567,40 +12567,16 @@
     "messageformat": "Небольшие изменения, исправления ошибок и улучшения производительности. Спасибо за то, что пользуетесь Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.18--0": {
-    "messageformat": "Используйте сочетания клавиш «Навигация по разделам» (⌘/Ctrl+T & ⌘/Ctrl+F6) для быстрого перемещения между различными областями приложения. Это как супергеройская версия клавиши Tab, которая летает дальше и быстрее, чем её более сдержанный вариант.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--1": {
-    "messageformat": "Мы добавили поддержку дополнительных звуковых сигналов сообщений, чтобы вы могли слышать уведомления об отправленных и полученных сообщениях, когда чат открыт (Настройки > Уведомления).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--2": {
-    "messageformat": "Перейдите к последнему непрочитанному сообщению в чате (⌘/Ctrl+J), не касаясь мыши и не помогая тачпаду оправдать своё название.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--3": {
-    "messageformat": "Обновленные иконки освежают внешний вид приложения и помогают улучшить читаемость.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--4": {
-    "messageformat": "В меню с тремя точками появилась новая опция «Копировать текст». Спасибо, {yusufsahinhamza}!",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.19--0": {
-    "messageformat": "Молчание не всегда золото, но зато у него есть новый значок. Мы обновили кнопки камеры и отключения звука в аудио- и видеозвонках, чтобы было проще понять, включены они или отключены.",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--1": {
-    "messageformat": "Улучшения языковых стандартов, а также улучшенная обработка языков с письмом справа налево в поле сообщения. Спасибо, {sha265}!",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--2": {
-    "messageformat": "Если у вас установлена версия Windows до Windows 10 или версия Ubuntu до 20.04 LTS, вам необходимо обновить операционную систему, чтобы пользоваться Signal и далее: {supportLink}",
-    "description": "Release notes for v6.19"
-  },
   "icu:WhatsNew__v6.20--0": {
     "messageformat": "Если кто-то упомянул вас в чате (например, @ Здесь Ваше Имя), то теперь вы можете быстро прокрутить страницу до этого места и прочесть все замечательные слова в вашу честь. Вы просто лучшие.",
     "description": "Release notes for v6.20"
+  },
+  "icu:WhatsNew__v6.21--0": {
+    "messageformat": "Выглядите на все сто во время звонка в формате один на один. Индивидуальные видеозвонки теперь доступны в том же полноэкранном режиме, который раньше появлялся только в начале нового группового звонка. Мы знаем, что значит быть последовательными и настойчивыми, и теперь эти звонки не отличаются друг от друга.",
+    "description": "Release notes for v6.21"
+  },
+  "icu:WhatsNew__v6.21--1": {
+    "messageformat": "А ещё мы хотим поблагодарить {complexspaces} за помощь и отзывы во время работы над этим релизом.",
+    "description": "Release notes for v6.21"
   }
 }

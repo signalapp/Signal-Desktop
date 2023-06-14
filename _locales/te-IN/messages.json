@@ -5084,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
+    "messageformat": "{count,number} వ్యక్తులు {emoji} తో ప్రతిస్పందించారు",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12567,40 +12567,16 @@
     "messageformat": "చిన్న ట్వీక్‌లు, బగ్ ఫిక్స్‌లు, మరియు పనితీరు మెరుగుదలలు. Signal ఉపయోగించినందుకు మీకు ధన్యవాదాలు!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.18--0": {
-    "messageformat": "యాప్ యొక్క విభిన్న విభాగాల గుండా త్వరగా నావిగేట్ చేయడానికి కొత్త కీబోర్డ్ షార్ట్‌కట్‌లు (⌘/Ctrl+T & ⌘/Ctrl+F6) మీకు సహాయపడగలవు. ఇది ట్యాబ్ కీ యొక్క సూపర్‌హీరో వెర్షన్ లాంటిది, ఇది దాని తేలికపాటి ప్రవర్తన కలిగిన ఆల్టర్ ఇగో కంటే మరింత ఎక్కువ మరియు వేగంగా ఎగరగలదు.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--1": {
-    "messageformat": "చాట్ తెరిచి ఉన్నప్పుడు పంపిన మరియు అందుకున్న సందేశాల కోసం నోటిఫికేషన్ ధ్వనులను ప్లే చేయడానికి మేము ఒక ఐచ్ఛిక సెట్టింగ్‌ను జోడించాము (సెట్టింగ్స్ > నోటిఫికేషన్‌లు).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--2": {
-    "messageformat": "మరొక కొత్త కీబోర్డ్ షార్ట్‌కట్‌ను (⌘/Ctrl+J) ఉపయోగించి చాట్‌లో తాజా చదవని సందేశానికి వెళ్ళండి.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--3": {
-    "messageformat": "అప్‌డేట్ చేయబడిన ఐకాన్లు యాప్‌కు కొత్త రూపాన్ని అందిస్తాయి.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--4": {
-    "messageformat": "మూడు-చుక్కల మెనూలోనూ ఒక కొత్త \"టెక్స్ట్ కాపీ\" ఐచ్ఛికం ఉంది. ధన్యవాదాలు, {yusufsahinhamza}!",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.19--0": {
-    "messageformat": "నిశ్శబ్ధం ఎప్పుడూ బంగారం కాదు, కానీ దానికి ఒక కొత్త ఐకాన్ ఉంది. మేము స్వర మరియు వీడియో కాల్స్‌లో కెమెరా మరియు మ్యూట్ బటన్‌లను అప్‌డేట్ చేశాము తద్వారా అవి ప్రారంభించబడినప్పుడు లేదా నిలిపివేయబడినప్పుడు చూడటం మరింత సులభం.",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--1": {
-    "messageformat": "స్థానికీకరణ మెరుగుదలలు, మరియు సందేశం కంపోజ్ చేసే ఫీల్డ్‌లో కుడి-నుంచి-ఎడమ భాషలను మెరుగ్గా నిర్వహించడం. ధన్యవాదాలు, {sha265}!",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--2": {
-    "messageformat": "మీరు Windows 10 కంటే ముందు Windows వెర్షన్ లేదా 20.04 LTS కంటే ముందు Ubuntu వెర్షన్‌లో ఉంటే, Signal ఉపయోగించడాన్ని కొనసాగించడానికి మీరు మీ ఆపరేటింగ్ సిస్టమ్‌ను అప్‌డేట్ చేయాల్సి ఉంటుంది: {supportLink}",
-    "description": "Release notes for v6.19"
-  },
   "icu:WhatsNew__v6.20--0": {
     "messageformat": "ఒక చాట్‌లో ఒకవేళ ఎవరైనా మిమ్మల్ని ప్రస్తావిస్తే (@ మీ పేరు ఇక్కడ ఉంటుంది లాంటిది), ఇప్పుడు మీరు వెంటనే ఆ ప్రస్తావనకు స్క్రోల్ చేయవచ్చు మరియు వారు మీ గురించి చెప్పిన అన్ని అద్భుతమైన విషయాలను చదవవచ్చు. మీరు సాధారణంగానే అత్యుత్తమం.",
     "description": "Release notes for v6.20"
+  },
+  "icu:WhatsNew__v6.21--0": {
+    "messageformat": "1-ఆన్-1 కాల్ రింగ్ అయ్యేటప్పుడు మీ యొక్క మెరుగైన రూపంతో కనిపించండి. గతంలో కొత్త గ్రూప్ కాల్ ప్రారంభంలో మాత్రమే కనిపించిన అదే పూర్తి స్క్రీన్ వీక్షణను వ్యక్తిగత వీడియో కాల్స్ ఇప్పుడు ఉపయోగిస్తాయి. స్థిరంగా ఉండే విషయానికి వస్తే, మేము పట్టువిడవకుండా ఉండేందుకు ప్రయత్నిస్తాము (నిరోధకం కాదు) మరియు ఇప్పుడు వైరుధ్యం ఉనికిలో లేదు ఎందుకంటే ఈ విషయాలు ఇకపై భిన్నంగా లేవు.",
+    "description": "Release notes for v6.21"
+  },
+  "icu:WhatsNew__v6.21--1": {
+    "messageformat": "ఈ విడుదలపై పనిచేసేటప్పుడు వారి సహాయం మరియు ఫీడ్‌బ్యాక్ అందించినందుకు {complexspaces} కు మేము మా ప్రశంసలను తెలియజేయాలని కూడా కోరుకుంటున్నాం.",
+    "description": "Release notes for v6.21"
   }
 }

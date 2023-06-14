@@ -5084,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
+    "messageformat": "{count,number} mennesker reagerede med {emoji}",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12567,40 +12567,16 @@
     "messageformat": "Små tweaks, rettelser og forbedringer af appens præstation. Tak fordi du bruger Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.18--0": {
-    "messageformat": "Brug tastaturgenvejene \"Naviger efter afsnit\" (⌘/Ctrl + T og ⌘/Ctrl + F6) til hurtigt at gå mellem forskellige områder i appen. Det er som en superhelteudgave af Tab-tasten, der kan flyve længere og hurtigere end dens milde alter ego.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--1": {
-    "messageformat": "Vi har tilføjet understøttelse af valgfrie beskedlyde, så du også kan få notifikationer om sendte og modtagne beskeder, mens chatten er åben (Indstillinger > Notifikationer).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--2": {
-    "messageformat": "Gå til den seneste ulæste besked i en chat (⌘/Ctrl + J) uden at røre musen eller hjælpe pegefeltet med at leve op til navnet.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--3": {
-    "messageformat": "Opdaterede ikoner giver appen et nyt udseende og forbedrer læsbarheden.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--4": {
-    "messageformat": "Der er også en ny \"Kopiér tekst\"-mulighed i menuen med tre prikker. Tak, {yusufsahinhamza}!",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.19--0": {
-    "messageformat": "Stilheden er ikke altid guld værd, men den har fået et nyt ikon. Vi har opdateret knapperne Kamera og Lydløs i tale- og videoopkald, så det er endnu nemmere at se, hvornår de er aktiveret eller deaktiveret.",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--1": {
-    "messageformat": "Forbedret lokalisering og bedre håndtering af sprog fra højre til venstre i feltet for sammensætning af meddelelser. Tak, {sha265}!",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--2": {
-    "messageformat": "Hvis du bruger en tidligere version af Windows end Windows 10 eller en tidligere version af Ubuntu end 20.04 LTS, skal du opdatere dit operativsystem for fortsat at kunne bruge Signal: {supportLink}",
-    "description": "Release notes for v6.19"
-  },
   "icu:WhatsNew__v6.20--0": {
     "messageformat": "Hvis nogen nævner dig i en chat (som @Ditnavn), kan du nu hurtigt scrolle til beskeden og læse alle de vidunderlige ting, vedkommende har sagt om dig. Du er det bedste vi ved.",
     "description": "Release notes for v6.20"
+  },
+  "icu:WhatsNew__v6.21--0": {
+    "messageformat": "Få et bedre syn på dig selv, når du tager et 1-til-1-opkald. Individuelle videoopkald bruger nu den samme fuldskærmsvisning, som tidligere kun blev vist i begyndelsen af et nyt gruppeopkald. Når det handler om at være konsekvent, forsøger vi at være vedholdende (og ikke imod det), og nu er uoverensstemmelsen ikke-eksisterende, fordi disse ting ikke længere er forskellige.",
+    "description": "Release notes for v6.21"
+  },
+  "icu:WhatsNew__v6.21--1": {
+    "messageformat": "Vi vil også gerne sige tak til {complexspaces} for deres hjælp og feedback under arbejdet med denne udgivelse.",
+    "description": "Release notes for v6.21"
   }
 }

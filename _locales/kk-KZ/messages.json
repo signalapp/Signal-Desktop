@@ -5084,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
+    "messageformat": "{count,number} адам {emoji} деп реакция қалдырды",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12567,40 +12567,16 @@
     "messageformat": "Кішігірім түзетпелер жасалды, ақаулар жөнделді және жұмысы жақсартылды. Signal-ды қолданғаныңыз үшін рақмет!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.18--0": {
-    "messageformat": "Қолданбаның бір аймағынан екінші бір аймағына жылдам ауысу үшін \"Бөлімдер бойынша шарлау\" пернелер тіркесімін (⌘/Ctrl+T және ⌘/Ctrl+F6) пайдаланыңыз. Бұл – Tab пернесінің әлдеқайда жылдам жетілдірілген нұсқасы.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--1": {
-    "messageformat": "Енді қосымша хат дауыстарын да ести аласыз, яғни чат ашық тұрғанда, жіберілген және алынған хаттар туралы хабарландырулардың дауыстары шығады (Параметрлер > Хабарландырулар).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--2": {
-    "messageformat": "Тінтуірді ұстамай-ақ немесе сенсорлық панельді пайдаланып, чаттағы оқылмаған ең соңғы хатқа өтіңіз (⌘/Ctrl+J).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--3": {
-    "messageformat": "Жаңартылған белгішелер қолданбаның өңін ашып, оңай оқылуына мүмкіндік береді.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--4": {
-    "messageformat": "Үш нүктелі мәзірде \"Мәтінді көшіру\" деп аталатын жаңа опция бар. Рақмет, {yusufsahinhamza}!",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.19--0": {
-    "messageformat": "Үнсіздік үнемі пайдалы бола бермейді, дегенмен енді оның жаңа белгішесі пайда болды. Дауыстық және видеоқоңыраулардағы Камера және Дыбысын өшіру түймелерін жаңарттық, енді олардың қосылып немесе өшіп тұрғанын оңай байқауға болады.",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--1": {
-    "messageformat": "Локализация бойынша бірқатар функция жақсартылды, оңнан солға қарай жазатын тілдерде хат жазу өрісі жақсартылды. Рақмет, {sha265}!",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--2": {
-    "messageformat": "Windows 10-ға дейінгі Windows жүйесін немесе 20.04 LTS-ке дейінгі Ubuntu жүйесін қолданып жүрсеңіз, Signal-ды қолдана алуыңыз үшін операциялық жүйені жаңартуыңызға тура келеді: {supportLink}",
-    "description": "Release notes for v6.19"
-  },
   "icu:WhatsNew__v6.20--0": {
     "messageformat": "Егер әлдебіреу сізді чатта белгілесе (мысалы, @ атыңыз осы жерде жазылады), сізді белгілеген хатқа жылдам түсіп, сіз туралы айтылған керемет сөздердің барлығын оқи аласыз. Сіз расымен де ерекше адамсыз.",
     "description": "Release notes for v6.20"
+  },
+  "icu:WhatsNew__v6.21--0": {
+    "messageformat": "Бетпе-бет қоңырау шалынып жатқанда, өзіңіздің бейнеңізді жақсырақ көріңіз. Жеке видео қоңырауларда енді толық экранды көріністі қолдануға болады, бұрын ол жаңа топтық қоңыраудың басында ғана пайда болатын. Бірізділікті сақтауға келгенде, біз қарсылық танытудың орнына табанды болуға тырысамыз. Енді сәйкессіздік деген ұғымды ұмытуға болады, себебі олардың бір-бірінен еш айырмашылығы жоқ.",
+    "description": "Release notes for v6.21"
+  },
+  "icu:WhatsNew__v6.21--1": {
+    "messageformat": "Осы шығарылыммен жұмыс істеп, көрсеткен көмектері мен пікірлері үшін {complexspaces} деген пайдаланушыға алғысымызды білдіргіміз келеді.",
+    "description": "Release notes for v6.21"
   }
 }

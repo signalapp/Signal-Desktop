@@ -5084,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
+    "messageformat": "{count,number} persone hanno reagito con {emoji}",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12567,40 +12567,16 @@
     "messageformat": "Altre piccole modifiche e correzioni di bug per far funzionare l'app senza problemi. Grazie per usare Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.18--0": {
-    "messageformat": "Usa la shortcut da tastiera \"Navigare per sezione\" (⌘/Ctrl+T & ⌘/Ctrl+F6) per spostarti rapidamente tra le varie sezioni dell'app. In pratica è come usare una funzione (mooolto) avanzata del tasto Tab: sblocca tutto il potenziale della navigazione rapida e non tornerai più indietro!",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--1": {
-    "messageformat": "Abbiamo aggiunto un'impostazione opzionale per quanto riguarda le notifiche sonore: è possibile ricevere una notifica sonora per ogni messaggio inviato o ricevuto quando si è dentro una chat (Impostazioni > Notifiche).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--2": {
-    "messageformat": "Vai subito al sodo: apri l'ultimo messaggio non letto in una chat (⌘/Ctrl+J) senza dover usare il mouse o il touchpad.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--3": {
-    "messageformat": "Abbiamo aggiornato le icone per dare all'app un nuovo look.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--4": {
-    "messageformat": "Abbiamo inserito una nuova opzione chiamata \"Copia testo\" nel menu a tre punti. Grazie, {yusufsahinhamza}!",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.19--0": {
-    "messageformat": "Ai dubbi preferiamo sempre la chiarezza. Ecco perché abbiamo aggiornato i pulsanti per la fotocamera e per il muto nelle chiamate vocali e video: da ora è più semplice capire quando queste opzioni sono attivate o meno!",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--1": {
-    "messageformat": "Miglioramenti nella localizzazione dell'app e nella gestione delle lingue da destra a sinistra quando si scrivono messaggi. Grazie, {sha265}!",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--2": {
-    "messageformat": "Se stai usando una versione di Windows precedente a Windows 10 oppure una versione di Ubuntu precedente alla 20.04 LTS, dovrai aggiornare il tuo sistema operativo per continuare a usare Signal: {supportLink}",
-    "description": "Release notes for v6.19"
-  },
   "icu:WhatsNew__v6.20--0": {
     "messageformat": "Se una persona ti menziona in una chat (usando la @ seguita dal tuo nome), da ora puoi scorrere direttamente al messaggio di chi ti ha menzionato. Comodo, no?",
     "description": "Release notes for v6.20"
+  },
+  "icu:WhatsNew__v6.21--0": {
+    "messageformat": "Che ne dici di avere una panoramica più \"ampia\" quando fai le chiamate su Signal? Le videochiamate uno a uno ora usano la stessa modalità di visione a schermo intero mentre squillano, prima disponibile solo per le chiamate di gruppo. Perché le videochiamate di gruppo non sono meglio di quelle individuali, ecco.",
+    "description": "Release notes for v6.21"
+  },
+  "icu:WhatsNew__v6.21--1": {
+    "messageformat": "Vorremmo anche ringraziare {complexspaces} per il suo aiuto e il feedback fornito durante il nostro lavoro per questo aggiornamento.",
+    "description": "Release notes for v6.21"
   }
 }

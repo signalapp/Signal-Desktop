@@ -5084,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
+    "messageformat": "{count,number} persoane au reacționat cu {emoji}",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12567,40 +12567,16 @@
     "messageformat": "Mici ajustări, soluționări de bug-uri și îmbunătățiri ale performanței. Mersi că folosești Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.18--0": {
-    "messageformat": "Folosește comenzile rapide de la tastatură „Navighează după secțiune” (⌘/Ctrl+T & ⌘/Ctrl+F6) pentru a te deplasa rapid între diferite zone ale aplicației. Este ca o versiune de super erou a tastei Tab care poate zbura mai departe și mai repede decât alter ego-ul său manierat.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--1": {
-    "messageformat": "Am adăugat suport pentru sunete opționale ale mesajelor, astfel încât să poți auzi și notificări pentru mesajele trimise și primite în timp ce un chat este deschis (Setări > Notificări).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--2": {
-    "messageformat": "Treci la cel mai recent mesaj necitit dintr-un chat (⌘/Ctrl+J) fără să atingi mouse-ul sau touchpad-ul.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--3": {
-    "messageformat": "Pictogramele actualizate oferă aplicației un aspect nou și ajută la lizibilitate.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--4": {
-    "messageformat": "Există și o nouă opțiune „Copiere text” în meniul cu trei puncte. Mersi, {yusufsahinhamza}!",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.19--0": {
-    "messageformat": "Tăcerea nu este întotdeauna de aur, dar are o nouă pictogramă. Am actualizat butoanele Camera și Silențios în apeluri video și vocale ca să fie și mai ușor să vezi când sunt activate sau dezactivate.",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--1": {
-    "messageformat": "Îmbunătățiri ale localizării și o gestionare mai bună a limbilor de la dreapta la stânga în câmpul de compunere al mesajelor. Mersi, {sha265}!",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--2": {
-    "messageformat": "Dacă ești pe o versiune de Windows înainte de Windows 10 sau o versiune de Ubuntu înainte de 20.04 LTS, va trebui să actualizezi sistemul de operare ca să continui să folosești Signal: {supportLink}",
-    "description": "Release notes for v6.19"
-  },
   "icu:WhatsNew__v6.20--0": {
     "messageformat": "Dacă cineva te menționează într-o conversație (cum ar fi @ Aici e Numele Tău), acum poți să derulezi rapid până la menționare și să citești toate lucrurile minunate pe care le-a spus persoana respectivă despre tine. Ești cel mai tare.",
     "description": "Release notes for v6.20"
+  },
+  "icu:WhatsNew__v6.21--0": {
+    "messageformat": "Vezi cum arăți înainte să răspunzi la un apel 1-la-1. Apelurile video individuale folosesc acum aceeași previzualizare ecran complect care înainte apărea doar la începutul unui nou apel de grup. Când vine vorba de a fi consistent, încercăm să fim persistenți (nu încăpățânați) și acum diferența nu mai există pentru că aceste lucruri nu mai sunt diferite.",
+    "description": "Release notes for v6.21"
+  },
+  "icu:WhatsNew__v6.21--1": {
+    "messageformat": "Dorim să ne arătăm aprecierea către {complexspaces} pentru ajutorul lor și feedback-ul lor în timp ce lucram la această lansare.",
+    "description": "Release notes for v6.21"
   }
 }

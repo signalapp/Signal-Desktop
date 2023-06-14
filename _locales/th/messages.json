@@ -5084,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
+    "messageformat": "ผู้ใช้ {count,number} คนแสดงความรู้สึกด้วย {emoji}",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12567,40 +12567,16 @@
     "messageformat": "มีการปรับเปลี่ยนเล็กน้อย พร้อมแก้ไขบั๊ก และการพัฒนาประสิทธิภาพให้ดียิ่งขึ้น ขอขอบคุณที่เลือกใช้ Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.18--0": {
-    "messageformat": "ขอแนะนำปุ่มลัดใหม่บนแป้นพิมพ์ (⌘/Ctrl+T และ ⌘/Ctrl+F6) ซึ่งทำหน้าที่ \"นำทางทีละส่วน\" คีย์ลัดนี้จะช่วยให้คุณเคลื่อนที่ไปมาตามส่วนสำคัญต่างๆ ของแอปได้อย่างรวดเร็ว สะดวกและตอบโจทย์กว่าเดิมเป็นไหนๆ จะเรียกว่าเป็นร่างที่พัฒนาแล้วของปุ่ม Tab ก็ไม่ผิด",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--1": {
-    "messageformat": "เราเพิ่มตัวเลือกให้คุณสามารถตั้งเปิดหรือปิดเสียงแจ้งเตือนสำหรับส่งหรือรับข้อความในระหว่างที่แชทเปิดอยู่ (ไปที่การตั้งค่า > การแจ้งเตือน)",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--2": {
-    "messageformat": "ลองใช้งานอีกหนึ่งปุ่มลัดใหม่ (⌘/Ctrl+J) ที่จะนำทางคุณไปยังข้อความที่ยังไม่ได้อ่านล่าสุดในแชท ไม่ต้องง้อเมาส์หรือทัชแพดอีกต่อไป",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--3": {
-    "messageformat": "อัปเดตไอคอนต่างๆ เพื่อเปลี่ยนลุคของแอป แถมยังใช้งานง่ายขึ้นอีกด้วย",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--4": {
-    "messageformat": "เพิ่มฟังก์ชัน \"คัดลอกข้อความ\" มาเป็นอีกหนึ่งตัวเลือกใหม่ในเมนูสามจุด ขอบคุณ {yusufsahinhamza} สำหรับการปรับปรุงครั้งนี้!",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.19--0": {
-    "messageformat": "เงียบเหมือนเดิม เพิ่มเติมคือไอคอนใหม่! เราอัปเดตปุ่มปิดเสียงและปุ่มกล้องในหน้าการโทรด้วยเสียงและวิดีโอคอลให้ชัดเจนโดดเด่นกว่าที่เคย จึงมองเห็นการเปิด-ปิดใช้งานได้สะดวกยิ่งขึ้น",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--1": {
-    "messageformat": "ปรับปรุงการใช้งานให้ตอบโจทย์ภาษาต้นทางมากขึ้น ทั้งยังพัฒนาการรองรับภาษาที่อ่านจากขวาไปซ้ายในกล่องเขียนข้อความอีกด้วย ขอบคุณ {sha265} สำหรับการปรับปรุงครั้งนี้!",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--2": {
-    "messageformat": "หากคุณใช้ Windows เวอร์ชันที่เก่ากว่า Windows 10 หรือ Ubuntu ที่เก่ากว่า 20.04 LTS คุณจำเป็นต้องอัปเดตระบบปฏิบัติการเพื่อใช้งาน Signal ต่อไป: {supportLink}",
-    "description": "Release notes for v6.19"
-  },
   "icu:WhatsNew__v6.20--0": {
     "messageformat": "จากนี้ไป เมื่อคุณถูกกล่าวถึงในแชท (@ชื่อคุณ) ก็จะสามารถกดดูข้อความนั้นได้ทันที ทีนี้ไม่ว่าจะถูกเรียกถามหรือโดนเพื่อนแกล้งเมาท์กลางห้อง คุณก็พร้อมตอบ/แก้ข่าวเสมอ …เพราะเราเข้าใจคนฮ็อตแบบคุณ!",
     "description": "Release notes for v6.20"
+  },
+  "icu:WhatsNew__v6.21--0": {
+    "messageformat": "คุณสามารถเช็คความเรียบร้อยของตัวเองในระหว่างรอสายวิดีโอคอลส่วนตัวได้แล้ว เพราะตอนนี้เราปรับให้แอปแสดงมุมมองแบบเต็มจอสำหรับสายวิดีโอคอลส่วนตัว ซึ่งแต่เดิมปรากฏขึ้นเฉพาะตอนเริ่มต้นสายโทรกลุ่มเท่านั้น …ที่ Signal เราสนับสนุนและให้คุณค่ากับความแตกต่าง แต่ถ้าเป็นเรื่องระบบและรูปแบบการใช้งานของแอป ความเหมือนและการทำงานที่สอดคล้องกันย่อมสำคัญกว่าแน่นอน",
+    "description": "Release notes for v6.21"
+  },
+  "icu:WhatsNew__v6.21--1": {
+    "messageformat": "เราต้องขอขอบคุณ {complexspaces} สำหรับความช่วยเหลือและข้อเสนอแนะในการอัปเดตครั้งนี้ด้วย",
+    "description": "Release notes for v6.21"
   }
 }

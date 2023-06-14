@@ -5084,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
+    "messageformat": "{count,number} personer reagerade med {emoji}",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12567,40 +12567,16 @@
     "messageformat": "Små justeringer, buggfixar och prestandaförbättringar. Tack för att du använder Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.18--0": {
-    "messageformat": "Med de nya kortkommandona \"Navigera efter avsnitt\" (⌘/Ctrl + T och ⌘/Ctrl + F6) kan du snabbt flytta mellan olika delar av appen. Det är som en superhjälteversion av tabbtangenten som kan flyga längre och snabbare än dess vänliga alter ego.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--1": {
-    "messageformat": "Vi har lagt till stöd för valfria meddelandeljud så att du även kan höra aviseringar för skickade och mottagna meddelanden medan en chatt är öppen (Inställningar > Aviseringar).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--2": {
-    "messageformat": "Hoppa till det senaste olästa meddelandet i en chatt (⌘/Ctrl + J) utan att röra musen eller peka på pekplattan.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--3": {
-    "messageformat": "Uppdaterade ikoner ger appen ett nytt utseende och hjälper till att förbättra läsbarheten.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--4": {
-    "messageformat": "Det finns även ett nytt Kopiera text-alternativ i trepunktsmenyn. Tack {yusufsahinhamza}!",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.19--0": {
-    "messageformat": "Tystnad är inte alltid guld värt, men den har en ny ikon. Vi uppdaterade Kamera- och Tysta-knapparna i röst- och videosamtal så att det blir ännu enklare att se när de är aktiverade eller inaktiverade.",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--1": {
-    "messageformat": "Lokaliseringsförbättringar och bättre hantering av höger-till-vänster-språk i fältet för meddelandekomposition. Tack {sha265}!",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--2": {
-    "messageformat": "Om du använder en tidigare version av Windows än Windows 10, eller en version av Ubuntu före 20.04 LTS, måste du uppdatera ditt operativsystem för att fortsätta använda Signal: {supportLink}",
-    "description": "Release notes for v6.19"
-  },
   "icu:WhatsNew__v6.20--0": {
     "messageformat": "Om någon nämner dig i en chatt (som @ Ditt namn här) kan du snabbt bläddra till det omnämnandet och läsa alla underbara saker som de sagt om dig. För du är bäst.",
     "description": "Release notes for v6.20"
+  },
+  "icu:WhatsNew__v6.21--0": {
+    "messageformat": "Individuella videosamtal använder nu samma helskärmsvy som gruppsamtal medan de ringer.",
+    "description": "Release notes for v6.21"
+  },
+  "icu:WhatsNew__v6.21--1": {
+    "messageformat": "Vi vill också tacka {complexspaces} för deras hjälp och feedback med den här versionen.",
+    "description": "Release notes for v6.21"
   }
 }

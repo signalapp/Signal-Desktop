@@ -5084,7 +5084,7 @@
     "description": "aria-label for reaction emoji when one person reacts with an emoji"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {# people}} reacted with {emoji}",
+    "messageformat": "{count,number} pessoas reagiram com {emoji}",
     "description": "Used as an aria-label for when many people react to a message. Count is always greater than 1"
   },
   "icu:Message__role-description": {
@@ -12567,40 +12567,16 @@
     "messageformat": "Pequenas alterações adicionais, correções de bugs e melhorias de desempenho. Agradecemos por usar o Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.18--0": {
-    "messageformat": "Use os atalhos do teclado em \"Navegar por seção\" (⌘/Ctrl+T & ⌘/Ctrl+F6) para ir para outras áreas do app rapidamente. Essa versão da tecla Tab te dá superpoderes, assim você pode fazer o que quiser rapidamente.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--1": {
-    "messageformat": "Adicionamos suporte para sons de mensagens opcionais para que você possa ouvir notificações para mensagens enviadas e recebidas enquanto um chat estiver aberto (Configurações > Notificações).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--2": {
-    "messageformat": "Vá para a última mensagem não lida em um chat usando o atalho (⌘/Ctrl+J).",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--3": {
-    "messageformat": "Os ícones atualizados dão um novo look ao app.",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.18--4": {
-    "messageformat": "Há uma nova opção \"Copiar texto\" no menu de três pontos. Valeu, {yusufsahinhamza}!",
-    "description": "Release notes for v6.18"
-  },
-  "icu:WhatsNew__v6.19--0": {
-    "messageformat": "O silêncio nem sempre vale ouro, mas tem um ícone novo! Atualizamos os botões da Câmera e Mudo nas chamadas de voz e vídeo, assim, fica mais fácil saber quanto eles estão ativados ou não.",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--1": {
-    "messageformat": "Melhorias de localização e uma melhor experiência no campo de composição de mensagens nos idiomas em que se escreve da direita para a esquerda. Valeu, {sha265}!",
-    "description": "Release notes for v6.19"
-  },
-  "icu:WhatsNew__v6.19--2": {
-    "messageformat": "Se estiver usando uma versão do Windows anterior ao Windows 10 ou uma versão do Ubuntu antes de 20.04 LTS, você terá que atualizar o sistema operacional para continuar a usar o Signal: {supportLink}",
-    "description": "Release notes for v6.19"
-  },
   "icu:WhatsNew__v6.20--0": {
     "messageformat": "Se alguém te mencionar em um chat com o sinal de @, você poderá rolar a tela rapidinho e ler todas as coisas maravilhosas que estão dizendo sobre você. Você manda muito bem.",
     "description": "Release notes for v6.20"
+  },
+  "icu:WhatsNew__v6.21--0": {
+    "messageformat": "Veja sua imagem melhor quando o telefone estiver tocando em chamadas entre duas pessoas. As videochamadas individuais agora usam a mesma visualização em tela cheia que antes só aparecia nas novas chamadas em grupo. A gente se esforça pra ser consistente, somos persistentes! A discrepância agora não existe, as chamadas individuais e em grupo são iguais.",
+    "description": "Release notes for v6.21"
+  },
+  "icu:WhatsNew__v6.21--1": {
+    "messageformat": "Também gostaríamos de agradecer a {complexspaces} pela ajuda e feedback no desenvolvimento desta versão.",
+    "description": "Release notes for v6.21"
   }
 }
