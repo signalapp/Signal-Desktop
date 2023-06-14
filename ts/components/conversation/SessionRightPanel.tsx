@@ -7,7 +7,6 @@ import useInterval from 'react-use/lib/useInterval';
 import styled from 'styled-components';
 import { Data } from '../../data/data';
 import {
-  deleteAllMessagesByConvoIdWithConfirmation,
   setDisappearingMessagesByConvoId,
   showAddModeratorsByConvoId,
   showInviteContactByConvoId,
@@ -209,7 +208,6 @@ export const SessionRightPanelWithDetails = () => {
   const [media, setMedia] = useState<Array<MediaItemType>>([]);
 
   const selectedConvoKey = useSelectedConversationKey();
-  // TODO we need to test what happens to the localisad string without a group name
   const selectedUsername = useConversationUsername(selectedConvoKey) || selectedConvoKey;
   const isShowing = useSelector(isRightPanelShowing);
   const subscriberCount = useSelectedSubscriberCount();
@@ -264,7 +262,7 @@ export const SessionRightPanelWithDetails = () => {
   const commonNoShow = isKickedFromGroup || left || isBlocked || !isActive;
   const hasDisappearingMessages = !isPublic && !commonNoShow;
   const leaveGroupString = isPublic
-    ? window.i18n('leaveGroup')
+    ? window.i18n('leaveCommunity')
     : isKickedFromGroup
     ? window.i18n('youGotKickedFromGroup')
     : left
@@ -287,13 +285,10 @@ export const SessionRightPanelWithDetails = () => {
   const showAddRemoveModeratorsButton = weAreAdmin && !commonNoShow && isPublic;
   const showUpdateGroupMembersButton = !isPublic && isGroup && !commonNoShow;
 
-  const deleteConvoAction = isPublic
-    ? () => {
-        deleteAllMessagesByConvoIdWithConfirmation(selectedConvoKey); // TODOLATER this does not delete the public group and showLeaveGroupByConvoId is not only working for closed groups
-      }
-    : () => {
-        showLeaveGroupByConvoId(selectedConvoKey);
-      };
+  const deleteConvoAction = () => {
+    showLeaveGroupByConvoId(selectedConvoKey, selectedUsername);
+  };
+
   return (
     <div className="group-settings">
       <HeaderItem />

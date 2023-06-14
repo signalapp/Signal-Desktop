@@ -38,7 +38,7 @@ export const InteractionItem = (props: InteractionItemProps) => {
       window.log.debug(
         `WIP: storedLastMessageId "${storedLastMessageId}" convo.get('lastMessageId') "${convo.get(
           'lastMessageId'
-        )}' lastMessageId ${JSON.stringify(lastMessage)}`
+        )}' storedLastMessageText ${storedLastMessageText} text ${text}`
       );
 
       if (storedLastMessageId !== convo.get('lastMessageId')) {
@@ -67,7 +67,7 @@ export const InteractionItem = (props: InteractionItemProps) => {
       break;
     case ConversationInteractionType.Leave:
       failText = isCommunity
-        ? ''
+        ? window.i18n('leaveCommunityFailed')
         : isGroup
         ? window.i18n('leaveGroupFailed')
         : window.i18n('deleteConversationFailed');

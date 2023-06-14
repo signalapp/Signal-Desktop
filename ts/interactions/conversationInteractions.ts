@@ -242,7 +242,10 @@ export async function showUpdateGroupMembersByConvoId(conversationId: string) {
   window.inboxStore?.dispatch(updateGroupMembersModal({ conversationId }));
 }
 
-export function showLeavePrivateConversationbyConvoId(conversationId: string, name: string) {
+export function showLeavePrivateConversationbyConvoId(
+  conversationId: string,
+  name: string | undefined
+) {
   const conversation = getConversationController().get(conversationId);
   const isMe = conversation.isMe();
 
@@ -284,7 +287,7 @@ export function showLeavePrivateConversationbyConvoId(conversationId: string, na
       title: isMe ? window.i18n('hideConversation') : window.i18n('deleteConversation'),
       message: isMe
         ? window.i18n('hideNoteToSelfConfirmation')
-        : window.i18n('deleteConversationConfirmation', [name]),
+        : window.i18n('deleteConversationConfirmation', name ? [name] : ['']),
       onClickOk,
       okText: isMe ? window.i18n('hide') : window.i18n('delete'),
       okTheme: SessionButtonColor.Danger,
@@ -294,7 +297,7 @@ export function showLeavePrivateConversationbyConvoId(conversationId: string, na
   );
 }
 
-export function showLeaveGroupByConvoId(conversationId: string, name?: string) {
+export function showLeaveGroupByConvoId(conversationId: string, name: string | undefined) {
   const conversation = getConversationController().get(conversationId);
 
   if (!conversation.isGroup()) {
@@ -349,7 +352,7 @@ export function showLeaveGroupByConvoId(conversationId: string, name?: string) {
     window?.inboxStore?.dispatch(
       updateConfirmModal({
         title: window.i18n('leaveGroup'),
-        message: window.i18n('leaveGroupConrirmationOnlyAdminLegacy', name ? [name] : undefined),
+        message: window.i18n('leaveGroupConrirmationOnlyAdminLegacy', name ? [name] : ['']),
         onClickOk,
         okText: window.i18n('leave'),
         okTheme: SessionButtonColor.Danger,
@@ -363,7 +366,7 @@ export function showLeaveGroupByConvoId(conversationId: string, name?: string) {
     // window?.inboxStore?.dispatch(
     //   updateConfirmModal({
     //     title: window.i18n('leaveGroup'),
-    //     message: window.i18n('leaveGroupConfirmationOnlyAdmin', name ? [name] : undefined),
+    //     message: window.i18n('leaveGroupConfirmationOnlyAdmin', name ? [name] : ['']),
     //     messageSub: window.i18n('leaveGroupConfirmationOnlyAdminWarning'),
     //     onClickOk: onClickOkLastAdmin,
     //     okText: window.i18n('addModerator'),
@@ -381,7 +384,7 @@ export function showLeaveGroupByConvoId(conversationId: string, name?: string) {
       window?.inboxStore?.dispatch(
         updateConfirmModal({
           title: isPublic ? window.i18n('leaveCommunity') : window.i18n('leaveGroup'),
-          message: window.i18n('leaveGroupConfirmation', name ? [name] : undefined),
+          message: window.i18n('leaveGroupConfirmation', name ? [name] : ['']),
           onClickOk,
           okText: window.i18n('leave'),
           okTheme: SessionButtonColor.Danger,
