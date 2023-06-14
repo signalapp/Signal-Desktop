@@ -6478,10 +6478,6 @@
     "messageformat": "Small tweaks, bug fixes, and performance enhancements. Thanks for using Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.20--0": {
-    "messageformat": "If someone mentions you in a chat (like @ Your Name Goes Here), now you can quickly scroll to that mention and read all of the wonderful things that they said about you. You’re simply the best.",
-    "description": "Release notes for v6.20"
-  },
   "icu:WhatsNew__v6.21--0": {
     "messageformat": "Get a better look at yourself while a 1-on-1 call is ringing. Individual video calls now use the same full-screen view that previously only appeared at the beginning of a new group call. When it comes to being consistent, we try to be persistent (not resistant) and now the discrepancy is nonexistent because these things are no longer different.",
     "description": "Release notes for v6.21"
@@ -6489,5 +6485,13 @@
   "icu:WhatsNew__v6.21--1": {
     "messageformat": "We'd also like to express our appreciation to {complexspaces} for their help and feedback while working on this release.",
     "description": "Release notes for v6.21"
+  },
+  "icu:WhatsNew__v6.22--0": {
+    "messageformat": "Format text in your messages by selecting any text in the message composition field. Make a bold statement that's actually bold, send M. Night Shyamalan a twist ending with a spoiler effect, emphasize a name by writing \"Alex\" in italics, put a line through a rejected dinner idea with strikethrough, or share code in monospace.",
+    "description": "Release notes for v6.22"
+  },
+  "icu:WhatsNew__v6.22--1": {
+    "messageformat": "We added support for the latest emoji characters, so now you can express your excitement with \"Shaking Face\" (<emoji>🫨</emoji>) or react with a \"Pea Pod\" (<emoji>🫛</emoji>) when someone asks you how close you are to your friends.",
+    "description": "Release notes for v6.22"
   }
 }
