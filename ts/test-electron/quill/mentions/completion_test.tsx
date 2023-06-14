@@ -28,6 +28,7 @@ const me: ConversationType = getDefaultConversationWithUuid({
   isMe: true,
 });
 
+// TODO diacritic
 const members: Array<ConversationType> = [
   getDefaultConversationWithUuid({
     id: '555444',
@@ -48,6 +49,16 @@ const members: Array<ConversationType> = [
     lastUpdated: Date.now(),
     markedUnread: false,
     areWeAdmin: false,
+  }),
+  getDefaultConversationWithUuid({
+    areWeAdmin: false,
+    firstName: 'Zoë',
+    id: '999977',
+    lastUpdated: Date.now(),
+    markedUnread: false,
+    profileName: 'Zoë A',
+    title: 'Zoë Aurélien',
+    type: 'direct',
   }),
   me,
 ];
@@ -244,6 +255,23 @@ describe('MentionCompletion', () => {
           assert.equal(distanceFromCursor, 0);
           assert.equal(adjustCursorAfterBy, 3);
           assert.equal(withTrailingSpace, true);
+        });
+      });
+
+      describe('diacritics', () => {
+        it('finds a member with diacritics using non-diacritic chars', () => {
+          const text = '@zoe';
+          const index = text.length;
+          mockQuill.getSelection?.returns({ index });
+          const blot = {
+            text,
+          };
+          mockQuill.getLeaf?.returns([blot, index]);
+          mentionCompletion.completeMention(2);
+
+          const [member] = insertMentionStub.getCall(0).args;
+
+          assert.equal(member, members[2]);
         });
       });
     });

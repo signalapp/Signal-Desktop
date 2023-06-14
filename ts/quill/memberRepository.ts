@@ -6,6 +6,7 @@ import { get } from 'lodash';
 
 import type { ConversationType } from '../state/ducks/conversations';
 import { filter, map } from '../util/iterables';
+import { removeDiacritics } from '../util/removeDiacritics';
 
 const FUSE_OPTIONS = {
   location: 0,
@@ -30,7 +31,7 @@ const FUSE_OPTIONS = {
     }
 
     const segmenter = new Intl.Segmenter(undefined, { granularity: 'word' });
-    const segments = segmenter.segment(rawValue);
+    const segments = segmenter.segment(removeDiacritics(rawValue));
     const wordlikeSegments = filter(segments, segment => segment.isWordLike);
     const wordlikes = map(wordlikeSegments, segment => segment.segment);
     return Array.from(wordlikes);
@@ -81,7 +82,9 @@ export class MemberRepository {
       this.isFuseReady = true;
     }
 
-    const results = this.fuse.search(pattern).map(result => result.item);
+    const results = this.fuse
+      .search(removeDiacritics(pattern))
+      .map(result => result.item);
 
     if (omit) {
       return results.filter(({ id }) => id !== omit.id);
