@@ -269,10 +269,11 @@ export async function updateOrCreateClosedGroup(details: GroupInfo) {
     // TODO What are we cleaning?
     providedExpirationType: expirationType || 'deleteAfterSend',
     providedExpireTimer: expireTimer,
-    providedChangeTimestamp: getNowWithNetworkOffset(),
+    providedChangeTimestamp: GetNetworkTime.getNowWithNetworkOffset(),
     providedSource: UserUtils.getOurPubKeyStrFromCache(),
     receivedAt: Date.now(),
     fromSync: true,
+    fromConfigMessage: false,
   });
 }
 

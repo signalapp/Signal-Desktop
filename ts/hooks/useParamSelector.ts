@@ -262,6 +262,7 @@ export function useMentionedUs(conversationId?: string): boolean {
 export function useIsTyping(conversationId?: string): boolean {
   return useConversationPropsById(conversationId)?.isTyping || false;
 }
+
 export function useMessageExpirationPropsById(messageId?: string) {
   return useSelector((state: StateType) => {
     if (!messageId) {

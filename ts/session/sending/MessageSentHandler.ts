@@ -128,7 +128,7 @@ async function handleMessageSentSuccess(
   const isLegacyReadMode =
     convo && !convo.isMe() && convo.isPrivate() && expirationType === 'legacy';
   const isLegacySentMode =
-    convo && (convo.isMe() || convo.isMediumGroup()) && expirationType === 'legacy';
+    convo && (convo.isMe() || convo.isClosedGroup()) && expirationType === 'legacy';
 
   fetchedMessage.set({
     sent_to: sentTo,

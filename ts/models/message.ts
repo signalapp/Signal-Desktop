@@ -93,6 +93,7 @@ import { ReactionList } from '../types/Reaction';
 import { roomHasBlindEnabled } from '../types/sqlSharedTypes';
 import {
   DisappearingMessageConversationSetting,
+  DisappearingMessageConversationType,
   DisappearingMessageUpdate,
   ExpirationTimerOptions,
   setExpirationStartTimestamp,
@@ -1097,7 +1098,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
             dataMessage.flags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE)
       );
 
-      const expirationType = content.expirationType
+      const expirationType: DisappearingMessageConversationType = content.expirationType
         ? DisappearingMessageConversationSetting[content.expirationType]
         : isLegacyDataMessage
         ? DisappearingMessageConversationSetting[3]

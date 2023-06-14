@@ -8,7 +8,8 @@ import { OverlayRightPanelSettings } from './overlay/OverlayRightPanelSettings';
 
 const ClosableOverlay = () => {
   const rightOverlayMode = useSelector(getRightOverlayMode);
-  const [showNewDisppearingMessageModes, setShowNewDisppearingMessageModes] = useState(false);
+  // TODO we can probably use the ReleasedFeatures.isDisappearMessageV2FeatureReleased instead here so we can remove the state.
+  const [showNewDisappearingMessageModes, setShowNewDisappearingMessageModes] = useState(false);
 
   useEffect(() => {
     let isCancelled = false;
@@ -17,7 +18,7 @@ const ClosableOverlay = () => {
         if (isCancelled) {
           return;
         }
-        setShowNewDisppearingMessageModes(result);
+        setShowNewDisappearingMessageModes(result);
       })
       .catch(() => {
         if (isCancelled) {
@@ -33,7 +34,7 @@ const ClosableOverlay = () => {
   switch (rightOverlayMode) {
     case 'disappearing-messages':
       // TODO legacy messages support will be removed in a future release
-      return <OverlayDisappearingMessages unlockNewModes={showNewDisppearingMessageModes} />;
+      return <OverlayDisappearingMessages unlockNewModes={showNewDisappearingMessageModes} />;
     default:
       return <OverlayRightPanelSettings />;
   }

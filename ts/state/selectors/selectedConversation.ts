@@ -1,15 +1,12 @@
 import { useSelector } from 'react-redux';
 import { ConversationTypeEnum, isOpenOrClosedGroup } from '../../models/conversationAttributes';
+import { PubKey } from '../../session/types';
 import { ReduxConversationType } from '../ducks/conversations';
 import { StateType } from '../reducer';
 import { getCanWrite, getSubscriberCount } from './sogsRoomInfo';
-import { PubKey } from '../../session/types';
-import {
-  DisappearingMessageConversationSetting,
-  DisappearingMessageModesWithState,
-} from '../../util/expiringMessages';
+
 import { createSelector } from '@reduxjs/toolkit';
-import { PropsForExpirationSettings } from '../../components/conversation/right-panel/overlay/disappearing-messages/OverlayDisappearingMessages';
+import { DisappearingMessageConversationSetting } from '../../util/expiringMessages';
 
 /**
  * Returns the formatted text for notification setting.
@@ -275,21 +272,21 @@ export function useSelectedWeAreAdmin() {
 export const getSelectedConversationExpirationModes = createSelector(
   getSelectedConversation,
   (convo: ReduxConversationType | undefined) => {
+    if (!convo) {
+      return null;
+    }
     let modes = DisappearingMessageConversationSetting;
     // TODO legacy messages support will be removed in a future release
     // TODO remove legacy mode
     modes = modes.slice(0, -1);
 
-    if (!convo) {
-      return DisappearingMessageConversationSetting;
-    }
     // Note to Self and Closed Groups only support deleteAfterSend
     const isClosedGroup = !convo.isPrivate && !convo.isPublic;
     if (convo?.isMe || isClosedGroup) {
       modes = [modes[0], modes[2]];
     }
 
-    const modesWithDisabledState: DisappearingMessageModesWithState = {};
+    const modesWithDisabledState: Record<string, boolean> = {};
     if (modes && modes.length > 1) {
       modes.forEach(mode => {
         modesWithDisabledState[mode] = isClosedGroup ? !convo.weAreAdmin : false;
@@ -304,12 +301,12 @@ export const getSelectedConversationExpirationModes = createSelector(
 export const getSelectedConversationExpirationModesWithLegacy = createSelector(
   getSelectedConversation,
   (convo: ReduxConversationType | undefined) => {
-    let modes = DisappearingMessageConversationSetting;
-
     // this just won't happen
     if (!convo) {
-      return DisappearingMessageConversationSetting;
+      return null;
     }
+    let modes = DisappearingMessageConversationSetting;
+
     // Note to Self and Closed Groups only support deleteAfterSend and legacy modes
     const isClosedGroup = !convo.isPrivate && !convo.isPublic;
     if (convo?.isMe || isClosedGroup) {
@@ -319,7 +316,8 @@ export const getSelectedConversationExpirationModesWithLegacy = createSelector(
     // Legacy mode is the 2nd option in the UI
     modes = [modes[0], modes[modes.length - 1], ...modes.slice(1, modes.length - 1)];
 
-    const modesWithDisabledState: DisappearingMessageModesWithState = {};
+    // TODO it would be nice to type those with something else that string but it causes a lot of issues
+    const modesWithDisabledState: Record<string, boolean> = {};
     // The new modes are disabled by default
     if (modes && modes.length > 1) {
       modes.forEach(mode => {
@@ -331,14 +329,4 @@ export const getSelectedConversationExpirationModesWithLegacy = createSelector(
 
     return modesWithDisabledState;
   }
-);
-
-export const getSelectedConversationExpirationSettings = createSelector(
-  getSelectedConversation,
-  (convo: ReduxConversationType | undefined): PropsForExpirationSettings => ({
-    expirationType: convo?.expirationType,
-    expireTimer: convo?.expireTimer,
-    isGroup: !convo?.isPrivate,
-    weAreAdmin: convo?.weAreAdmin,
-  })
 );

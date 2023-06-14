@@ -344,7 +344,7 @@ export async function handleMessageJob(
       messageModel.isIncoming() &&
       Boolean(messageModel.get('expirationStartTimestamp')) === false &&
       ((messageModel.get('expirationType') === 'legacy' &&
-        (conversation.isMe() || conversation.isMediumGroup())) ||
+        (conversation.isMe() || conversation.isClosedGroup())) ||
         messageModel.get('expirationType') === 'deleteAfterSend')
     ) {
       messageModel.set({
@@ -397,6 +397,7 @@ export async function handleMessageJob(
         receivedAt: messageModel.get('received_at'),
         shouldCommit: false,
         existingMessage: messageModel,
+        fromConfigMessage: false,
       });
     } else {
       // this does not commit to db nor UI unless we need to approve a convo

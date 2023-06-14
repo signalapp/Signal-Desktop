@@ -331,7 +331,14 @@ async function handleContactsUpdate(result: IncomingConfResult): Promise<Incomin
       }
 
       if (wrapperConvo.expirationTimerSeconds !== contactConvo.get('expireTimer')) {
-        await contactConvo.updateExpireTimer(wrapperConvo.expirationTimerSeconds);
+        await contactConvo.updateExpireTimer({
+          providedExpireTimer: wrapperConvo.expirationTimerSeconds,
+          fromSync: true,
+          providedExpirationType: wrapperConvo.expirationMode,
+          shouldCommit: false,
+          providedChangeTimestamp: result.latestEnvelopeTimestamp,
+          fromConfigMessage: true,
+        });
         changes = true;
       }
 
@@ -559,14 +566,15 @@ async function handleLegacyGroupUpdate(latestEnvelopeTimestamp: number) {
     }
 
     if (legacyGroupConvo.get('expireTimer') !== fromWrapper.disappearingTimerSeconds) {
-      await legacyGroupConvo.updateExpireTimer(
-        fromWrapper.disappearingTimerSeconds,
-        undefined,
-        latestEnvelopeTimestamp,
-        {
-          fromSync: true,
-        }
-      );
+      await legacyGroupConvo.updateExpireTimer({
+        providedExpireTimer: fromWrapper.disappearingTimerSeconds,
+        shouldCommit: false,
+        fromSync: true,
+        providedChangeTimestamp: latestEnvelopeTimestamp,
+        fromConfigMessage: true,
+        providedExpirationType:
+          fromWrapper.disappearingTimerSeconds === 0 ? 'off' : 'deleteAfterSend',
+      });
       changes = true;
     }
     // start polling for this group if we haven't left it yet. The wrapper does not store this info for legacy group so we check from the DB entry instead

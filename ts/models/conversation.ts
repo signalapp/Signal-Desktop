@@ -793,6 +793,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     providedChangeTimestamp,
     providedSource,
     receivedAt, // is set if it comes from outside
+    fromConfigMessage,
     fromSync = false,
     shouldCommit = true,
     existingMessage,
@@ -803,6 +804,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     providedSource?: string;
     receivedAt?: number; // is set if it comes from outside
     fromSync?: boolean;
+    fromConfigMessage: boolean;
     shouldCommit?: boolean;
     existingMessage?: MessageModel;
   }): Promise<void> {
@@ -861,41 +863,43 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       lastDisappearingMessageChangeTimestamp,
       source,
     });
-
-    const commonAttributes = {
-      flags: SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
-      expirationTimerUpdate: {
-        expirationType,
-        expireTimer,
-        lastDisappearingMessageChangeTimestamp,
-        source,
-        fromSync,
-      },
-      // TODO legacy messages support will be removed in a future release
-      expirationType:
-        expirationType !== 'off' || isDisappearingMessagesV2Released ? expirationType : undefined,
-      expireTimer:
-        expirationType !== 'off' || isDisappearingMessagesV2Released ? expireTimer : undefined,
-    };
-
     let message: MessageModel | undefined = existingMessage || undefined;
 
-    if (!message) {
-      if (isOutgoing) {
-        message = await this.addSingleOutgoingMessage({
-          ...commonAttributes,
-          sent_at: timestamp,
-        });
-      } else {
-        message = await this.addSingleIncomingMessage({
-          ...commonAttributes,
-          // Even though this isn't reflected to the user, we want to place the last seen
-          //   indicator above it. We set it to 'unread' to trigger that placement.
-          unread: READ_MESSAGE_STATE.unread,
+    // we don't have info about who made the change and when, when we get a change from a config message, so do not add a control message
+    if (!fromConfigMessage) {
+      const commonAttributes = {
+        flags: SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
+        expirationTimerUpdate: {
+          expirationType,
+          expireTimer,
+          lastDisappearingMessageChangeTimestamp,
           source,
-          sent_at: timestamp,
-          received_at: timestamp,
-        });
+          fromSync,
+        },
+        // TODO legacy messages support will be removed in a future release
+        expirationType:
+          expirationType !== 'off' || isDisappearingMessagesV2Released ? expirationType : undefined,
+        expireTimer:
+          expirationType !== 'off' || isDisappearingMessagesV2Released ? expireTimer : undefined,
+      };
+
+      if (!message) {
+        if (isOutgoing) {
+          message = await this.addSingleOutgoingMessage({
+            ...commonAttributes,
+            sent_at: timestamp,
+          });
+        } else {
+          message = await this.addSingleIncomingMessage({
+            ...commonAttributes,
+            // Even though this isn't reflected to the user, we want to place the last seen
+            //   indicator above it. We set it to 'unread' to trigger that placement.
+            unread: READ_MESSAGE_STATE.unread,
+            source,
+            sent_at: timestamp,
+            received_at: timestamp,
+          });
+        }
       }
     }
 
@@ -908,8 +912,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       await this.commit();
     }
 
-    // if change was made remotely, don't send it to the number/group
-    if (receivedAt) {
+    // if change was made remotely, don't send it to the contact/group
+    if (receivedAt || fromSync || fromConfigMessage) {
       return;
     }
 
@@ -930,7 +934,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       }
 
       const expirationTimerMessage = new ExpirationTimerUpdateMessage(expireUpdate);
-      return message.sendSyncMessageOnly(expirationTimerMessage);
+      return message?.sendSyncMessageOnly(expirationTimerMessage);
     }
 
     if (this.isPrivate()) {

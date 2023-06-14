@@ -13,18 +13,13 @@ import { MessageModel } from '../models/message';
 import { GetNetworkTime } from '../session/apis/snode_api/getNetworkTime';
 import { ReleasedFeatures } from './releaseFeature';
 
-// TODO Might need to be improved by using an enum
-// TODO do we need to add legacy here now that it's explicitly in the protbuf?
+// TODO do we need to add legacy here now that it's explicitly in the protobuf?
 export const DisappearingMessageMode = ['deleteAfterRead', 'deleteAfterSend'];
 export type DisappearingMessageType = typeof DisappearingMessageMode[number] | null;
 
 // TODO legacy messages support will be removed in a future release
 export const DisappearingMessageConversationSetting = ['off', ...DisappearingMessageMode, 'legacy'];
 export type DisappearingMessageConversationType = typeof DisappearingMessageConversationSetting[number]; // TODO we should make this type a bit more hardcoded than being just resolved as a string
-export type DisappearingMessageModesWithState = Record<
-  DisappearingMessageConversationType,
-  boolean
->;
 
 export const DEFAULT_TIMER_OPTION = {
   DELETE_AFTER_READ: 43200, // 12 hours

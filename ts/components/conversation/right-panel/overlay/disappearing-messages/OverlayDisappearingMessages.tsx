@@ -1,27 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { useTimerOptionsByMode } from '../../../../../hooks/useParamSelector';
 import { setDisappearingMessagesByConvoId } from '../../../../../interactions/conversationInteractions';
+import { getConversationController } from '../../../../../session/conversations';
 import { closeRightPanel } from '../../../../../state/ducks/conversations';
 import { resetRightOverlayMode } from '../../../../../state/ducks/section';
-import { Flex } from '../../../../basic/Flex';
-import { SessionButton } from '../../../../basic/SessionButton';
-import { SpacerLG, SpacerXL } from '../../../../basic/Text';
 import {
   getSelectedConversationExpirationModes,
   getSelectedConversationExpirationModesWithLegacy,
-  getSelectedConversationExpirationSettings,
-  getSelectedConversationKey,
-} from '../../../../../state/selectors/conversations';
+  useSelectedConversationKey,
+  useSelectedExpirationType,
+  useSelectedExpireTimer,
+  useSelectedIsGroup,
+  useSelectedWeAreAdmin,
+} from '../../../../../state/selectors/selectedConversation';
 import {
   DEFAULT_TIMER_OPTION,
   DisappearingMessageConversationType,
 } from '../../../../../util/expiringMessages';
-import { useTimerOptionsByMode } from '../../../../../hooks/useParamSelector';
-import { Header } from './Header';
+import { Flex } from '../../../../basic/Flex';
+import { SessionButton } from '../../../../basic/SessionButton';
+import { SpacerLG, SpacerXL } from '../../../../basic/Text';
 import { DisappearingModes } from './DisappearingModes';
+import { Header } from './Header';
 import { TimeOptions } from './TimeOptions';
-import { getConversationController } from '../../../../../session/conversations';
 
 const StyledScrollContainer = styled.div`
   width: 100%;
@@ -67,12 +70,9 @@ export type PropsForExpirationSettings = {
   weAreAdmin: boolean | undefined;
 };
 
-type OverlayDisappearingMessagesProps = { unlockNewModes: boolean };
-
-export const OverlayDisappearingMessages = (props: OverlayDisappearingMessagesProps) => {
-  const { unlockNewModes } = props;
+export const OverlayDisappearingMessages = ({ unlockNewModes }: { unlockNewModes: boolean }) => {
   const dispatch = useDispatch();
-  const selectedConversationKey = useSelector(getSelectedConversationKey);
+  const selectedConversationKey = useSelectedConversationKey();
   const disappearingModeOptions = useSelector(
     unlockNewModes
       ? getSelectedConversationExpirationModes
@@ -81,21 +81,20 @@ export const OverlayDisappearingMessages = (props: OverlayDisappearingMessagesPr
 
   // NOTE if there is only 'off' and one disappearing message mode then we trigger single mode
   const singleMode =
-    disappearingModeOptions.off !== undefined && Object.keys(disappearingModeOptions).length === 2
+    disappearingModeOptions &&
+    disappearingModeOptions.off !== undefined &&
+    Object.keys(disappearingModeOptions).length === 2
       ? Object.keys(disappearingModeOptions)[1]
       : undefined;
   const hasOnlyOneMode = Boolean(singleMode && singleMode.length > 0);
 
-  const convoProps = useSelector(getSelectedConversationExpirationSettings);
-
-  if (!convoProps) {
-    return null;
-  }
-
-  const { isGroup, weAreAdmin } = convoProps;
+  const isGroup = useSelectedIsGroup();
+  const expirationType = useSelectedExpirationType();
+  const expireTimer = useSelectedExpireTimer();
+  const weAreAdmin = useSelectedWeAreAdmin();
 
   const [modeSelected, setModeSelected] = useState<DisappearingMessageConversationType | undefined>(
-    convoProps.expirationType
+    expirationType
   );
   const [timeSelected, setTimeSelected] = useState<number>(0);
   const timerOptions = useTimerOptionsByMode(modeSelected, hasOnlyOneMode);
@@ -127,13 +126,11 @@ export const OverlayDisappearingMessages = (props: OverlayDisappearingMessagesPr
   useEffect(() => {
     // NOTE loads a time value from the conversation model or the default
     handleSetTime(
-      modeSelected === convoProps.expirationType &&
-        convoProps.expireTimer &&
-        convoProps.expireTimer > -1
-        ? convoProps.expireTimer
+      modeSelected === expirationType && expireTimer && expireTimer > -1
+        ? expireTimer
         : loadDefaultTimeValue(modeSelected)
     );
-  }, [convoProps.expirationType, convoProps.expireTimer, modeSelected]);
+  }, [expirationType, expireTimer, modeSelected]);
 
   // TODO legacy messages support will be removed in a future
   useEffect(() => {
@@ -141,7 +138,7 @@ export const OverlayDisappearingMessages = (props: OverlayDisappearingMessagesPr
       const convo = getConversationController().get(selectedConversationKey);
       if (convo) {
         let defaultExpirationType: DisappearingMessageConversationType = 'deleteAfterRead';
-        if (convo.isMe() || convo.isMediumGroup()) {
+        if (convo.isMe() || convo.isClosedGroup()) {
           defaultExpirationType = 'deleteAfterSend';
         }
         convo.set('expirationType', defaultExpirationType);
@@ -150,6 +147,13 @@ export const OverlayDisappearingMessages = (props: OverlayDisappearingMessagesPr
     }
   }, [unlockNewModes, selectedConversationKey, modeSelected]);
 
+  if (!disappearingModeOptions) {
+    return null;
+  }
+
+  if (!selectedConversationKey) {
+    return null;
+  }
   return (
     <StyledScrollContainer>
       <StyledContainer container={true} flexDirection={'column'} alignItems={'center'}>

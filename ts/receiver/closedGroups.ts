@@ -320,6 +320,7 @@ export async function handleNewClosedGroup(
         providedChangeTimestamp: GetNetworkTime.getNowWithNetworkOffset(),
         providedSource: sender,
         receivedAt: Date.now(),
+        fromConfigMessage: false,
       });
 
       if (isKeyPairAlreadyHere) {
@@ -381,6 +382,7 @@ export async function handleNewClosedGroup(
     providedChangeTimestamp: GetNetworkTime.getNowWithNetworkOffset(),
     providedSource: sender,
     receivedAt: envelopeTimestamp,
+    fromConfigMessage: fromLegacyConfig,
   });
   convo.updateLastMessage();
 

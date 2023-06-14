@@ -385,12 +385,14 @@ export async function setDisappearingMessagesByConvoId(
       providedExpirationType: 'off',
       providedExpireTimer: 0,
       providedChangeTimestamp,
+      fromConfigMessage: false,
     });
   } else {
     await conversation.updateExpireTimer({
       providedExpirationType: expirationType,
       providedExpireTimer: seconds,
       providedChangeTimestamp,
+      fromConfigMessage: false,
     });
   }
 }
