@@ -1700,6 +1700,10 @@ function canReplyOrReact(
     return false;
   }
 
+  if (conversation.isBlocked) {
+    return false;
+  }
+
   if (deletedForEveryone) {
     return false;
   }
