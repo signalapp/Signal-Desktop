@@ -259,11 +259,11 @@ export function showLeavePrivateConversationbyConvoId(
         type: isMe ? ConversationInteractionType.Hide : ConversationInteractionType.Leave,
         status: ConversationInteractionStatus.Start,
       });
+      onClickClose();
       await getConversationController().delete1o1(conversationId, {
         fromSyncMessage: false,
         justHidePrivate: isMe,
       });
-      onClickClose();
       await clearConversationInteractionState({ conversationId });
     } catch (err) {
       window.log.warn(`showLeavePrivateConversationbyConvoId error: ${err}`);
@@ -317,6 +317,7 @@ export function showLeaveGroupByConvoId(conversationId: string, name: string | u
         type: ConversationInteractionType.Leave,
         status: ConversationInteractionStatus.Start,
       });
+      onClickClose();
       if (isPublic) {
         await getConversationController().deleteCommunity(conversation.id, {
           fromSyncMessage: false,
@@ -327,7 +328,6 @@ export function showLeaveGroupByConvoId(conversationId: string, name: string | u
           sendLeaveMessage: true,
         });
       }
-      onClickClose();
       await clearConversationInteractionState({ conversationId });
     } catch (err) {
       window.log.warn(`showLeaveGroupByConvoId error: ${err}`);
