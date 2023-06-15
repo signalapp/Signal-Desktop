@@ -179,11 +179,13 @@ function updateSearchTerm(
       'updateSearchTerm our conversation is missing'
     );
 
+    const i18n = getIntl(state);
+
     doSearch({
       dispatch,
       allConversations: getAllConversations(state),
       regionCode: getRegionCode(state),
-      noteToSelf: getIntl(state)('noteToSelf').toLowerCase(),
+      noteToSelf: i18n('icu:noteToSelf').toLowerCase(),
       ourConversationId,
       query: getQuery(state),
       searchConversationId: getSearchConversation(state)?.id,
