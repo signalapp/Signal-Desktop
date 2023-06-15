@@ -23,6 +23,9 @@ const __mockMessages__ = {
   'icu:nested': {
     messageformat: '{one, select, other {{two, plural, other {{three}}}}}}',
   },
+  'icu:emojify': {
+    messageformat: '<emojify>👩</emojify>',
+  },
 };
 
 // Need to load so mocha doesn't complain about polluting the global namespace
@@ -63,6 +66,14 @@ ruleTester.run('valid-i18n-keys', rule, {
     },
     {
       code: `i18n("icu:nested", { one: "1", two: "2", three: "3" })`,
+      options: [{ messagesCacheKey, __mockMessages__ }],
+    },
+    {
+      code: `i18n("icu:emojify")`,
+      options: [{ messagesCacheKey, __mockMessages__ }],
+    },
+    {
+      code: `let jsx = <Intl id="icu:emojify"/>`,
       options: [{ messagesCacheKey, __mockMessages__ }],
     },
   ],

@@ -81,19 +81,19 @@ const tests: Record<string, Test> = {
     expectErrors: ['wrapEmoji'],
   },
   'icu:wrapEmoji:2': {
-    messageformat: '<emoji>👩 extra</emoji>',
+    messageformat: '<emojify>👩 extra</emojify>',
     expectErrors: ['wrapEmoji'],
   },
   'icu:wrapEmoji:3': {
-    messageformat: '<emoji>👩👩</emoji>',
+    messageformat: '<emojify>👩👩</emojify>',
     expectErrors: ['wrapEmoji'],
   },
   'icu:wrapEmoji:4': {
-    messageformat: '<emoji>{emoji}</emoji>',
+    messageformat: '<emojify>{emoji}</emojify>',
     expectErrors: ['wrapEmoji'],
   },
   'icu:wrapEmoji:5': {
-    messageformat: '<emoji>👩</emoji>',
+    messageformat: '<emojify>👩</emojify>',
     expectErrors: [],
   },
 };

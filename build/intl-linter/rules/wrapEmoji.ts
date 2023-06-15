@@ -12,24 +12,26 @@ import {
 } from '@formatjs/icu-messageformat-parser';
 import { rule } from '../utils/rule';
 
-function isEmojiTag(
+function isEmojifyTag(
   element: MessageFormatElement | null
 ): element is TagElement {
-  return element != null && isTagElement(element) && element.value === 'emoji';
+  return (
+    element != null && isTagElement(element) && element.value === 'emojify'
+  );
 }
 
 export default rule('wrapEmoji', context => {
   const emojiRegex = getEmojiRegex();
   return {
     enterTag(element) {
-      if (!isEmojiTag(element)) {
+      if (!isEmojifyTag(element)) {
         return;
       }
 
       if (element.children.length !== 1) {
         // multiple children
         context.report(
-          'Only use a single literal emoji in <emoji> tags with no additional text.',
+          'Only use a single literal emoji in <emojify> tags with no additional text.',
           element.location
         );
         return;
@@ -39,7 +41,7 @@ export default rule('wrapEmoji', context => {
       if (!isLiteralElement(child)) {
         // non-literal
         context.report(
-          'Only use a single literal emoji in <emoji> tags with no additional text.',
+          'Only use a single literal emoji in <emojify> tags with no additional text.',
           child.location
         );
       }
@@ -51,10 +53,10 @@ export default rule('wrapEmoji', context => {
         return;
       }
 
-      if (!isEmojiTag(parent)) {
+      if (!isEmojifyTag(parent)) {
         // unwrapped
         context.report(
-          'Use <emoji> to wrap emoji in translation strings.',
+          'Use <emojify> to wrap emoji in translation strings.',
           element.location
         );
         return;
@@ -64,7 +66,7 @@ export default rule('wrapEmoji', context => {
       if (emoji !== element.value) {
         // extra text other than emoji
         context.report(
-          'Only use a single literal emoji in <emoji> tags with no additional text.',
+          'Only use a single literal emoji in <emojify> tags with no additional text.',
           element.location
         );
       }

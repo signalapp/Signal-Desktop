@@ -70,7 +70,7 @@ MultipleTagReplacement.args = createProps({
 export function Emoji(): JSX.Element {
   const customI18n = setupI18n('en', {
     'icu:emoji': {
-      messageformat: '<emoji>👋</emoji> Hello, world!',
+      messageformat: '<emojify>👋</emojify> Hello, world!',
     },
   });
 

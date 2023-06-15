@@ -8,6 +8,7 @@ const globalMessages = require('../../_locales/en/messages.json');
 const messageKeys = Object.keys(globalMessages).sort((a, b) => {
   return a.localeCompare(b);
 });
+
 const allIcuParams = messageKeys
   .filter(key => {
     return isIcuMessageKey(globalMessages, key);
@@ -18,9 +19,12 @@ const allIcuParams = messageKeys
     ).join('\n');
   });
 
+const DEFAULT_RICH_TEXT_ELEMENT_NAMES = ['emojify'];
+
 const hashSum = crypto.createHash('sha256');
 hashSum.update(messageKeys.join('\n'));
 hashSum.update(allIcuParams.join('\n'));
+hashSum.update(DEFAULT_RICH_TEXT_ELEMENT_NAMES.join('\n'));
 const messagesCacheKey = hashSum.digest('hex');
 
 function isI18nCall(node) {
@@ -129,7 +133,7 @@ function isDeletedMessageKey(messages, key) {
   return description?.toLowerCase().startsWith('(deleted ');
 }
 
-function getIcuMessageParams(message) {
+function getIcuMessageParams(message, defaultRichTextElementNames = []) {
   const params = new Set();
 
   function visitOptions(options) {
@@ -176,6 +180,10 @@ function getIcuMessageParams(message) {
   }
 
   visit(icuParser.parse(message));
+
+  for (const defaultRichTextElementName of defaultRichTextElementNames) {
+    params.delete(defaultRichTextElementName);
+  }
 
   return params;
 }
@@ -286,7 +294,10 @@ module.exports = {
           return;
         }
 
-        const params = getIcuMessageParams(messages[key].messageformat);
+        const params = getIcuMessageParams(
+          messages[key].messageformat,
+          DEFAULT_RICH_TEXT_ELEMENT_NAMES
+        );
         const components = getIntlElementComponents(node);
 
         if (params.size === 0) {
@@ -389,7 +400,10 @@ module.exports = {
           return;
         }
 
-        const params = getIcuMessageParams(messages[key].messageformat);
+        const params = getIcuMessageParams(
+          messages[key].messageformat,
+          DEFAULT_RICH_TEXT_ELEMENT_NAMES
+        );
         const values = getI18nCallValues(node);
 
         if (params.size === 0) {
