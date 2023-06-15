@@ -29,7 +29,6 @@ import {
   BlockMenuItem,
   ChangeNicknameMenuItem,
   ClearNicknameMenuItem,
-  DeletePrivateContactMenuItem,
   DeleteMessagesMenuItem,
   InviteContactMenuItem,
   LeaveGroupOrCommunityMenuItem,
@@ -84,11 +83,10 @@ export const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
           <BanMenuItem />
           <UnbanMenuItem />
           <UpdateGroupNameMenuItem />
-          <LeaveGroupOrCommunityMenuItem />
           <InviteContactMenuItem />
           <DeleteMessagesMenuItem />
           <DeletePrivateConversationMenuItem />
-          <DeletePrivateContactMenuItem />
+          <LeaveGroupOrCommunityMenuItem />
           <ShowUserDetailsMenuItem />
         </Menu>
       </SessionContextMenuContainer>
