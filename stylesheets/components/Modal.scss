@@ -41,6 +41,7 @@
 
   &__back-button {
     @include button-reset;
+
     border-radius: 4px;
     height: 20px;
     width: 20px;
@@ -68,16 +69,7 @@
 
     &:hover,
     &:focus {
-      background: $color-gray-45;
-      &::before {
-        background-color: $color-ultramarine;
-      }
-    }
-    &:active {
-      background: $color-gray-45;
-      &::before {
-        background-color: $color-ultramarine;
-      }
+      box-shadow: 0 0 0 2px $color-ultramarine;
     }
   }
 

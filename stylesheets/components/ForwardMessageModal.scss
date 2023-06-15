@@ -2,26 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 .module-ForwardMessageModal {
-  $padding: 16px;
-  @include popper-shadow();
-  border-radius: 8px;
-  display: flex;
   flex-direction: column;
   margin-block: 0;
   margin-inline: auto;
-  max-height: 90vh;
   max-width: 360px;
   width: 95%;
-
-  @include light-theme() {
-    background: $color-white;
-    color: $color-gray-90;
-  }
-
-  @include dark-theme() {
-    background: $color-gray-75;
-    color: $color-gray-05;
-  }
 
   .module-conversation-list {
     // remove horizontal padding so ListTiles extend to the edges
@@ -43,6 +28,7 @@
     display: flex;
     justify-content: center;
     position: relative;
+    @include font-body-1-bold;
 
     &--edit {
       border-bottom: 1px solid $color-gray-15;
@@ -50,73 +36,6 @@
       @include dark-theme() {
         border-color: $color-gray-60;
       }
-    }
-
-    &--close {
-      @include button-reset;
-      position: absolute;
-      inset-inline-end: 16px;
-
-      height: 20px;
-      width: 20px;
-
-      @include light-theme {
-        @include color-svg('../images/icons/v3/x/x.svg', $color-gray-75);
-      }
-
-      @include dark-theme {
-        @include color-svg('../images/icons/v3/x/x.svg', $color-gray-15);
-      }
-
-      @include keyboard-mode {
-        &:focus {
-          background-color: $color-ultramarine;
-        }
-      }
-    }
-
-    &--back {
-      @include button-reset;
-
-      height: 24px;
-      inset-inline-start: 16px;
-      position: absolute;
-      width: 24px;
-
-      @include light-theme {
-        @include color-svg(
-          '../images/icons/v3/chevron/chevron-left.svg',
-          $color-gray-60
-        );
-      }
-
-      @include keyboard-mode {
-        &:focus {
-          @include color-svg(
-            '../images/icons/v3/chevron/chevron-left.svg',
-            $color-ultramarine
-          );
-        }
-      }
-
-      @include dark-theme {
-        @include color-svg(
-          '../images/icons/v3/chevron/chevron-left.svg',
-          $color-gray-25
-        );
-      }
-      @include dark-keyboard-mode {
-        &:hover {
-          @include color-svg(
-            '../images/icons/v3/chevron/chevron-left.svg',
-            $color-ultramarine-light
-          );
-        }
-      }
-    }
-
-    h1 {
-      @include font-body-1-bold;
     }
   }
 
@@ -176,26 +95,18 @@
     }
   }
 
+  // Disable vertical scrolling on the modal pages
+  // since the elements inside are scrollable themselves
+  .module-Modal__body {
+    overflow-y: hidden;
+  }
+
   &__footer {
     @include font-body-2;
-    align-items: center;
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
     display: flex;
+    align-items: center;
+    flex-grow: 1;
     justify-content: space-between;
-    margin-top: 0;
-    padding: $padding;
-    position: relative;
-
-    @include light-theme {
-      background-color: $color-gray-02;
-      color: $color-gray-60;
-    }
-
-    @include dark-theme() {
-      background: $color-gray-65;
-      color: $color-gray-25;
-    }
   }
 
   // Disable cursor since images are non-clickable
