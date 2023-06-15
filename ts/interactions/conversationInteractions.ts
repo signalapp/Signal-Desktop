@@ -264,8 +264,6 @@ export function showLeavePrivateConversationbyConvoId(
         justHidePrivate: isMe,
       });
       onClickClose();
-
-      // Note (Will): This is probably redundant since this is a destructive interaction and therefore the conversation will be undefined
       await clearConversationInteractionState({ conversationId });
     } catch (err) {
       window.log.warn(`showLeavePrivateConversationbyConvoId error: ${err}`);
@@ -330,8 +328,6 @@ export function showLeaveGroupByConvoId(conversationId: string, name: string | u
         });
       }
       onClickClose();
-
-      // Note (Will): This is probably redundant since this is a destructive interaction and therefore the conversation will be undefined
       await clearConversationInteractionState({ conversationId });
     } catch (err) {
       window.log.warn(`showLeaveGroupByConvoId error: ${err}`);
@@ -356,8 +352,12 @@ export function showLeaveGroupByConvoId(conversationId: string, name: string | u
       })
     );
     // TODO Only to be used after the closed group rebuild
-    // const onClickOkLastAdmin = () => { // TODO };
-    // const onClickCloseLastAdmin = () => { // TODO };
+    // const onClickOkLastAdmin = () => {
+    //   /* TODO */
+    // };
+    // const onClickCloseLastAdmin = () => {
+    //   /* TODO */
+    // };
     // window?.inboxStore?.dispatch(
     //   updateConfirmModal({
     //     title: window.i18n('leaveGroup'),
