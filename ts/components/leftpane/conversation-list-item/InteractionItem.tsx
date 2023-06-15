@@ -51,30 +51,33 @@ export const InteractionItem = (props: InteractionItemProps) => {
         setStoredLastMessageText(convo.get('lastMessage'));
       }
     }
-  }, [conversationId, interactionStatus, lastMessage?.interactionStatus]);
+  }, [conversationId]);
 
   let text = storedLastMessageText || '';
-  let failText = '';
+  let errorText = '';
+
   switch (interactionType) {
     case ConversationInteractionType.Hide:
-      failText = window.i18n('hideConversationFailed');
+      errorText = window.i18n('hideConversationFailed');
       text =
         interactionStatus === ConversationInteractionStatus.Error
-          ? failText
-          : interactionStatus === ConversationInteractionStatus.Loading
+          ? errorText
+          : interactionStatus === ConversationInteractionStatus.Start ||
+            interactionStatus === ConversationInteractionStatus.Loading
           ? window.i18n('hiding')
           : text;
       break;
     case ConversationInteractionType.Leave:
-      failText = isCommunity
+      errorText = isCommunity
         ? window.i18n('leaveCommunityFailed')
         : isGroup
         ? window.i18n('leaveGroupFailed')
         : window.i18n('deleteConversationFailed');
       text =
         interactionStatus === ConversationInteractionStatus.Error
-          ? failText
-          : interactionStatus === ConversationInteractionStatus.Loading
+          ? errorText
+          : interactionStatus === ConversationInteractionStatus.Start ||
+            interactionStatus === ConversationInteractionStatus.Loading
           ? window.i18n('leaving')
           : text;
       break;

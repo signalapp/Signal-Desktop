@@ -11,7 +11,6 @@ import { shell } from 'electron';
 import { MessageInteraction } from '../../interactions';
 import {
   ConversationInteractionStatus,
-  ConversationInteractionType,
   updateConversationInteractionState,
 } from '../../interactions/conversationInteractions';
 import { useLastMessage } from '../../hooks/useParamSelector';
@@ -26,10 +25,6 @@ const StyledSubMessageText = styled(SessionHtmlRenderer)`
   margin-top: 0;
   margin-bottom: var(--margins-md);
 `;
-
-// NOTE could be other confirmation statuses and types in future
-export type ConfirmationStatus = ConversationInteractionStatus | undefined;
-export type ConfirmationType = ConversationInteractionType | undefined;
 
 export interface SessionConfirmDialogProps {
   message?: string;

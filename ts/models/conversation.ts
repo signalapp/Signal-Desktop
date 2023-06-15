@@ -380,11 +380,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
 
     // -- Handle the last message status, if present --
+    const lastMessageInteractionType = this.get('lastMessageInteractionType');
+    const lastMessageInteractionStatus = this.get('lastMessageInteractionStatus');
     const lastMessageText = this.get('lastMessage');
     if (lastMessageText && lastMessageText.length) {
       const lastMessageStatus = this.get('lastMessageStatus');
-      const lastMessageInteractionType = this.get('lastMessageInteractionType');
-      const lastMessageInteractionStatus = this.get('lastMessageInteractionStatus');
 
       toRet.lastMessage = {
         status: lastMessageStatus,
@@ -392,6 +392,16 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         interactionType: lastMessageInteractionType,
         interactionStatus: lastMessageInteractionStatus,
       };
+    } else {
+      // if there is no last message, we still want to display the interaction status
+      if (lastMessageInteractionType && lastMessageInteractionStatus) {
+        toRet.lastMessage = {
+          text: '',
+          status: 'sent',
+          interactionType: lastMessageInteractionType,
+          interactionStatus: lastMessageInteractionStatus,
+        };
+      }
     }
     return toRet;
   }

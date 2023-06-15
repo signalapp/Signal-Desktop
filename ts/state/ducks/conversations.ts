@@ -232,7 +232,6 @@ export type LastMessageType = {
   interactionStatus: ConversationInteractionStatus | null;
 };
 
-// NOTE This is used for failed interactions that are saved as messages to the db and rendered in a conversation
 export type InteractionNotificationType = {
   interactionType: ConversationInteractionType;
   interactionStatus: ConversationInteractionStatus;

@@ -269,7 +269,7 @@ export function showLeavePrivateConversationbyConvoId(
       await clearConversationInteractionState({ conversationId });
     } catch (err) {
       window.log.warn(`showLeavePrivateConversationbyConvoId error: ${err}`);
-      await handleConversationInteractionError({
+      await saveConversationInteractionErrorAsMessage({
         conversationId,
         interactionType: isMe
           ? ConversationInteractionType.Hide
@@ -335,7 +335,7 @@ export function showLeaveGroupByConvoId(conversationId: string, name: string | u
       await clearConversationInteractionState({ conversationId });
     } catch (err) {
       window.log.warn(`showLeaveGroupByConvoId error: ${err}`);
-      await handleConversationInteractionError({
+      await saveConversationInteractionErrorAsMessage({
         conversationId,
         interactionType: ConversationInteractionType.Leave,
       });
@@ -731,7 +731,7 @@ export async function clearConversationInteractionState({
   }
 }
 
-async function handleConversationInteractionError({
+async function saveConversationInteractionErrorAsMessage({
   conversationId,
   interactionType,
 }: {
