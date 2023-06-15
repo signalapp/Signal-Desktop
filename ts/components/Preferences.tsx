@@ -652,6 +652,10 @@ export function Preferences({
               right={
                 <div className="Preferences__right-button">
                   <Button
+                    aria-label={
+                      nowSyncing ? i18n('icu:syncing') : i18n('icu:syncNow')
+                    }
+                    aria-live="polite"
                     disabled={nowSyncing}
                     onClick={async () => {
                       setShowSyncFailed(false);
