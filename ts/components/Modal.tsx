@@ -108,6 +108,7 @@ export function Modal({
       moduleClassName={moduleClassName}
       noMouseClose={noMouseClose}
       onClose={close}
+      onEscape={onBackButtonClick}
       overlayStyles={overlayStyles}
       theme={theme}
       useFocusTrap={useFocusTrap}
