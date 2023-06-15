@@ -11,9 +11,6 @@ import React, {
 } from 'react';
 import type { MeasuredComponentProps } from 'react-measure';
 import Measure from 'react-measure';
-import { animated } from '@react-spring/web';
-
-import classNames from 'classnames';
 import { AttachmentList } from './conversation/AttachmentList';
 import type { AttachmentType } from '../types/Attachment';
 import { Button } from './Button';
@@ -25,11 +22,9 @@ import type { ConversationType } from '../state/ducks/conversations';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
 import type { LocalizerType, ThemeType } from '../types/Util';
 import type { SmartCompositionTextAreaProps } from '../state/smart/CompositionTextArea';
-import { ModalHost } from './ModalHost';
 import { SearchInput } from './SearchInput';
 import { StagedLinkPreview } from './conversation/StagedLinkPreview';
 import { filterAndSortConversationsByRecent } from '../util/filterAndSortConversations';
-import { useAnimated } from '../hooks/useAnimated';
 import {
   shouldNeverBeCalled,
   asyncShouldNeverBeCalled,
@@ -46,6 +41,7 @@ import type { ShowToastAction } from '../state/ducks/toast';
 import type { HydratedBodyRangesType } from '../types/BodyRange';
 import { BodyRange } from '../types/BodyRange';
 import { UserText } from './UserText';
+import { Modal } from './Modal';
 
 export type DataPropsType = {
   candidateConversations: ReadonlyArray<ConversationType>;
@@ -212,24 +208,13 @@ export function ForwardMessagesModal({
     [contactLookup, selectedContacts, setSelectedContacts]
   );
 
-  const { close, modalStyles, overlayStyles } = useAnimated(onClose, {
-    getFrom: () => ({ opacity: 0, transform: 'translateY(48px)' }),
-    getTo: isOpen =>
-      isOpen
-        ? { opacity: 1, transform: 'translateY(0px)' }
-        : {
-            opacity: 0,
-            transform: 'translateY(48px)',
-          },
-  });
-
   const handleBackOrClose = useCallback(() => {
     if (isEditingMessage) {
       setIsEditingMessage(false);
     } else {
-      close();
+      onClose();
     }
-  }, [isEditingMessage, close, setIsEditingMessage]);
+  }, [isEditingMessage, onClose, setIsEditingMessage]);
 
   const rowCount = filteredConversations.length;
   const getRow = (index: number): undefined | Row => {
@@ -263,6 +248,38 @@ export function ForwardMessagesModal({
     };
   }, []);
 
+  const footer = (
+    <div className="module-ForwardMessageModal__footer">
+      <div>
+        {selectedContacts.map((contact, index) => {
+          return (
+            <Fragment key={contact.id}>
+              <UserText text={contact.title} />
+              {index < selectedContacts.length - 1 ? ', ' : ''}
+            </Fragment>
+          );
+        })}
+      </div>
+      <div>
+        {isEditingMessage || !isLonelyDraftEditable ? (
+          <Button
+            aria-label={i18n('icu:ForwardMessageModal--continue')}
+            className="module-ForwardMessageModal__send-button module-ForwardMessageModal__send-button--forward"
+            aria-disabled={!canForwardMessages}
+            onClick={forwardMessages}
+          />
+        ) : (
+          <Button
+            aria-label={i18n('icu:forwardMessage')}
+            className="module-ForwardMessageModal__send-button module-ForwardMessageModal__send-button--continue"
+            disabled={!hasContactsSelected}
+            onClick={() => setIsEditingMessage(true)}
+          />
+        )}
+      </div>
+    </div>
+  );
+
   return (
     <>
       {cannotMessage && (
@@ -275,155 +292,101 @@ export function ForwardMessagesModal({
           {i18n('icu:GroupV2--cannot-send')}
         </ConfirmationDialog>
       )}
-      <ModalHost
+      <Modal
         modalName="ForwardMessageModal"
-        noMouseClose
-        onEscape={handleBackOrClose}
-        onClose={close}
-        overlayStyles={overlayStyles}
+        hasXButton
+        i18n={i18n}
+        onClose={onClose}
+        onBackButtonClick={isEditingMessage ? handleBackOrClose : undefined}
+        moduleClassName="module-ForwardMessageModal"
+        title={i18n('icu:ForwardMessageModal__title')}
         useFocusTrap={false}
+        padded={false}
+        modalFooter={footer}
       >
-        <animated.div
-          className="module-ForwardMessageModal"
-          style={modalStyles}
-        >
-          <div
-            className={classNames('module-ForwardMessageModal__header', {
-              'module-ForwardMessageModal__header--edit': isEditingMessage,
-            })}
-          >
-            {isEditingMessage ? (
-              <button
-                aria-label={i18n('icu:back')}
-                className="module-ForwardMessageModal__header--back"
-                onClick={() => setIsEditingMessage(false)}
-                type="button"
-              >
-                &nbsp;
-              </button>
-            ) : (
-              <button
-                aria-label={i18n('icu:close')}
-                className="module-ForwardMessageModal__header--close"
-                onClick={close}
-                type="button"
-              />
-            )}
-            <h1>{i18n('icu:ForwardMessageModal__title')}</h1>
-          </div>
-          {isEditingMessage && lonelyDraft != null ? (
-            <ForwardMessageEditor
-              draft={lonelyDraft}
-              linkPreview={lonelyLinkPreview}
-              onChange={(messageBody, bodyRanges) => {
-                onChange([{ ...lonelyDraft, messageBody, bodyRanges }]);
-              }}
-              onChangeAttachments={attachments => {
-                onChange([{ ...lonelyDraft, attachments }]);
-              }}
-              removeLinkPreview={removeLinkPreview}
-              theme={theme}
+        {isEditingMessage && lonelyDraft != null ? (
+          <ForwardMessageEditor
+            draft={lonelyDraft}
+            linkPreview={lonelyLinkPreview}
+            onChange={(messageBody, bodyRanges) => {
+              onChange([{ ...lonelyDraft, messageBody, bodyRanges }]);
+            }}
+            onChangeAttachments={attachments => {
+              onChange([{ ...lonelyDraft, attachments }]);
+            }}
+            removeLinkPreview={removeLinkPreview}
+            theme={theme}
+            i18n={i18n}
+            RenderCompositionTextArea={RenderCompositionTextArea}
+            onSubmit={forwardMessages}
+          />
+        ) : (
+          <div className="module-ForwardMessageModal__main-body">
+            <SearchInput
+              disabled={candidateConversations.length === 0}
               i18n={i18n}
-              RenderCompositionTextArea={RenderCompositionTextArea}
-              onSubmit={forwardMessages}
+              placeholder={i18n('icu:contactSearchPlaceholder')}
+              onChange={event => {
+                setSearchTerm(event.target.value);
+              }}
+              ref={inputRef}
+              value={searchTerm}
             />
-          ) : (
-            <div className="module-ForwardMessageModal__main-body">
-              <SearchInput
-                disabled={candidateConversations.length === 0}
-                i18n={i18n}
-                placeholder={i18n('icu:contactSearchPlaceholder')}
-                onChange={event => {
-                  setSearchTerm(event.target.value);
-                }}
-                ref={inputRef}
-                value={searchTerm}
-              />
-              {candidateConversations.length ? (
-                <Measure bounds>
-                  {({ contentRect, measureRef }: MeasuredComponentProps) => (
-                    <div
-                      className="module-ForwardMessageModal__list-wrapper"
-                      ref={measureRef}
-                    >
-                      <ConversationList
-                        dimensions={contentRect.bounds}
-                        getPreferredBadge={getPreferredBadge}
-                        getRow={getRow}
-                        i18n={i18n}
-                        onClickArchiveButton={shouldNeverBeCalled}
-                        onClickContactCheckbox={(
-                          conversationId: string,
-                          disabledReason:
-                            | undefined
-                            | ContactCheckboxDisabledReason
-                        ) => {
-                          if (
-                            disabledReason !==
-                            ContactCheckboxDisabledReason.MaximumContactsSelected
-                          ) {
-                            toggleSelectedConversation(conversationId);
-                          }
-                        }}
-                        lookupConversationWithoutUuid={asyncShouldNeverBeCalled}
-                        showConversation={shouldNeverBeCalled}
-                        showUserNotFoundModal={shouldNeverBeCalled}
-                        setIsFetchingUUID={shouldNeverBeCalled}
-                        onSelectConversation={shouldNeverBeCalled}
-                        blockConversation={shouldNeverBeCalled}
-                        removeConversation={shouldNeverBeCalled}
-                        onOutgoingAudioCallInConversation={shouldNeverBeCalled}
-                        onOutgoingVideoCallInConversation={shouldNeverBeCalled}
-                        renderMessageSearchResult={() => {
-                          shouldNeverBeCalled();
-                          return <div />;
-                        }}
-                        rowCount={rowCount}
-                        shouldRecomputeRowHeights={false}
-                        showChooseGroupMembers={shouldNeverBeCalled}
-                        theme={theme}
-                      />
-                    </div>
-                  )}
-                </Measure>
-              ) : (
-                <div className="module-ForwardMessageModal__no-candidate-contacts">
-                  {i18n('icu:noContactsFound')}
-                </div>
-              )}
-            </div>
-          )}
-          <div className="module-ForwardMessageModal__footer">
-            <div>
-              {selectedContacts.map((contact, index) => {
-                return (
-                  <Fragment key={contact.id}>
-                    <UserText text={contact.title} />
-                    {index < selectedContacts.length - 1 ? ', ' : ''}
-                  </Fragment>
-                );
-              })}
-            </div>
-            <div>
-              {isEditingMessage || !isLonelyDraftEditable ? (
-                <Button
-                  aria-label={i18n('icu:ForwardMessageModal--continue')}
-                  className="module-ForwardMessageModal__send-button module-ForwardMessageModal__send-button--forward"
-                  aria-disabled={!canForwardMessages}
-                  onClick={forwardMessages}
-                />
-              ) : (
-                <Button
-                  aria-label={i18n('icu:forwardMessage')}
-                  className="module-ForwardMessageModal__send-button module-ForwardMessageModal__send-button--continue"
-                  disabled={!hasContactsSelected}
-                  onClick={() => setIsEditingMessage(true)}
-                />
-              )}
-            </div>
+            {candidateConversations.length ? (
+              <Measure bounds>
+                {({ contentRect, measureRef }: MeasuredComponentProps) => (
+                  <div
+                    className="module-ForwardMessageModal__list-wrapper"
+                    ref={measureRef}
+                  >
+                    <ConversationList
+                      dimensions={contentRect.bounds}
+                      getPreferredBadge={getPreferredBadge}
+                      getRow={getRow}
+                      i18n={i18n}
+                      onClickArchiveButton={shouldNeverBeCalled}
+                      onClickContactCheckbox={(
+                        conversationId: string,
+                        disabledReason:
+                          | undefined
+                          | ContactCheckboxDisabledReason
+                      ) => {
+                        if (
+                          disabledReason !==
+                          ContactCheckboxDisabledReason.MaximumContactsSelected
+                        ) {
+                          toggleSelectedConversation(conversationId);
+                        }
+                      }}
+                      lookupConversationWithoutUuid={asyncShouldNeverBeCalled}
+                      showConversation={shouldNeverBeCalled}
+                      showUserNotFoundModal={shouldNeverBeCalled}
+                      setIsFetchingUUID={shouldNeverBeCalled}
+                      onSelectConversation={shouldNeverBeCalled}
+                      blockConversation={shouldNeverBeCalled}
+                      removeConversation={shouldNeverBeCalled}
+                      onOutgoingAudioCallInConversation={shouldNeverBeCalled}
+                      onOutgoingVideoCallInConversation={shouldNeverBeCalled}
+                      renderMessageSearchResult={() => {
+                        shouldNeverBeCalled();
+                        return <div />;
+                      }}
+                      rowCount={rowCount}
+                      shouldRecomputeRowHeights={false}
+                      showChooseGroupMembers={shouldNeverBeCalled}
+                      theme={theme}
+                    />
+                  </div>
+                )}
+              </Measure>
+            ) : (
+              <div className="module-ForwardMessageModal__no-candidate-contacts">
+                {i18n('icu:noContactsFound')}
+              </div>
+            )}
           </div>
-        </animated.div>
-      </ModalHost>
+        )}
+      </Modal>
     </>
   );
 }
