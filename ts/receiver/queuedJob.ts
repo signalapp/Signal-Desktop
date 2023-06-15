@@ -276,7 +276,8 @@ async function handleRegularMessage(
     conversation.set({
       active_at: message.get('sent_at'),
       lastMessage: message.getNotificationText(),
-      lastMessageId: message.get('id'),
+      lastMessageInteractionType: message.get('interactionNotification')?.interactionType,
+      lastMessageInteractionStatus: message.get('interactionNotification')?.interactionStatus,
     });
     // a new message was received for that conversation. If it was not it should not be hidden anymore
     await conversation.unhideIfNeeded(false);

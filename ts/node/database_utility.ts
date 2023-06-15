@@ -58,8 +58,9 @@ const allowedKeysFormatRowOfConversation = [
   'isKickedFromGroup',
   'left',
   'lastMessage',
-  'lastMessageId',
   'lastMessageStatus',
+  'lastMessageInteractionType',
+  'lastMessageInteractionStatus',
   'triggerNotificationsFor',
   'unreadCount',
   'lastJoinedTimestamp',
@@ -76,8 +77,6 @@ const allowedKeysFormatRowOfConversation = [
   'conversationIdOrigin',
   'markedAsUnread',
   'priority',
-  'interactionType',
-  'interactionStatus',
 ];
 // tslint:disable: cyclomatic-complexity
 export function formatRowOfConversation(
@@ -139,12 +138,16 @@ export function formatRowOfConversation(
     convo.lastMessage = null;
   }
 
-  if (!convo.lastMessageId) {
-    convo.lastMessageId = null;
-  }
-
   if (!convo.lastMessageStatus) {
     convo.lastMessageStatus = undefined;
+  }
+
+  if (!convo.lastMessageInteractionType) {
+    convo.lastMessageInteractionType = null;
+  }
+
+  if (!convo.lastMessageInteractionStatus) {
+    convo.lastMessageInteractionStatus = null;
   }
 
   if (!convo.triggerNotificationsFor) {
@@ -183,8 +186,9 @@ const allowedKeysOfConversationAttributes = [
   'isKickedFromGroup',
   'left',
   'lastMessage',
-  'lastMessageId',
   'lastMessageStatus',
+  'lastMessageInteractionType',
+  'lastMessageInteractionStatus',
   'triggerNotificationsFor',
   'lastJoinedTimestamp',
   'expireTimer',
@@ -200,8 +204,6 @@ const allowedKeysOfConversationAttributes = [
   'conversationIdOrigin',
   'markedAsUnread',
   'priority',
-  'interactionType',
-  'interactionStatus',
 ];
 
 /**

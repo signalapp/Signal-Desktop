@@ -5,10 +5,8 @@ import { useIsPrivate, useIsPublic } from '../../../hooks/useParamSelector';
 import { MessageBody } from '../../conversation/message/message-content/MessageBody';
 import { assertUnreachable } from '../../../types/sqlSharedTypes';
 import {
-  ConversationInteractionProps,
   ConversationInteractionStatus,
   ConversationInteractionType,
-  clearConversationInteractionState,
 } from '../../../interactions/conversationInteractions';
 import styled from 'styled-components';
 import { getConversationController } from '../../../session/conversations';
@@ -18,40 +16,42 @@ const StyledInteractionItemText = styled.div<{ isError: boolean }>`
   ${props => props.isError && 'color: var(--danger-color) !important;'}
 `;
 
-type InteractionItemProps = ConversationInteractionProps & {
-  lastMessage?: LastMessageType | null;
+type InteractionItemProps = {
+  conversationId: string;
+  lastMessage: LastMessageType | null;
 };
 
 export const InteractionItem = (props: InteractionItemProps) => {
-  const { conversationId, interactionStatus, interactionType, lastMessage } = props;
+  const { conversationId, lastMessage } = props;
   const isGroup = !useIsPrivate(conversationId);
   const isCommunity = useIsPublic(conversationId);
 
-  const [storedLastMessageId, setStoredLastMessageId] = useState(lastMessage?.id);
+  if (!lastMessage) {
+    return null;
+  }
+
+  const { interactionType, interactionStatus } = lastMessage;
+
+  if (!interactionType || !interactionStatus) {
+    return null;
+  }
+
   const [storedLastMessageText, setStoredLastMessageText] = useState(lastMessage?.text);
+  const [storedLastMessageInteractionStatus, setStoredLastMessageInteractionStatus] = useState(
+    lastMessage?.interactionStatus
+  );
 
   // NOTE we want to reset the interaction state when the last message changes
   useEffect(() => {
     if (conversationId) {
       const convo = getConversationController().get(conversationId);
 
-      window.log.debug(
-        `WIP: storedLastMessageId "${storedLastMessageId}" convo.get('lastMessageId') "${convo.get(
-          'lastMessageId'
-        )}' storedLastMessageText ${storedLastMessageText} text ${text}`
-      );
-
-      if (storedLastMessageId !== convo.get('lastMessageId')) {
-        setStoredLastMessageId(convo.get('lastMessageId'));
+      if (storedLastMessageInteractionStatus !== convo.get('lastMessageInteractionStatus')) {
+        setStoredLastMessageInteractionStatus(convo.get('lastMessageInteractionStatus'));
         setStoredLastMessageText(convo.get('lastMessage'));
-        void clearConversationInteractionState({ conversationId });
       }
     }
-  }, [conversationId, interactionStatus, lastMessage?.id]);
-
-  if (isEmpty(conversationId) || isEmpty(interactionType) || isEmpty(interactionStatus)) {
-    return null;
-  }
+  }, [conversationId, interactionStatus, lastMessage?.interactionStatus]);
 
   let text = storedLastMessageText || '';
   let failText = '';

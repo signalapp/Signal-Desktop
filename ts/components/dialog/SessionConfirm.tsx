@@ -14,7 +14,7 @@ import {
   ConversationInteractionType,
   updateConversationInteractionState,
 } from '../../interactions/conversationInteractions';
-import { useConversationInteractionPropsById } from '../../hooks/useParamSelector';
+import { useLastMessage } from '../../hooks/useParamSelector';
 import styled from 'styled-components';
 
 const StyledMessageText = styled(SessionHtmlRenderer)`
@@ -84,7 +84,7 @@ export const SessionConfirm = (props: SessionConfirmDialogProps) => {
     conversationId,
   } = props;
 
-  const interactionProps = useConversationInteractionPropsById(conversationId);
+  const lastMessage = useLastMessage(conversationId);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -130,15 +130,15 @@ export const SessionConfirm = (props: SessionConfirmDialogProps) => {
 
   useEffect(() => {
     if (isLoading) {
-      if (conversationId && interactionProps?.interactionType) {
+      if (conversationId && lastMessage?.interactionType) {
         void updateConversationInteractionState({
           conversationId,
-          type: interactionProps?.interactionType,
+          type: lastMessage?.interactionType,
           status: ConversationInteractionStatus.Loading,
         });
       }
     }
-  }, [isLoading, conversationId, interactionProps?.interactionType]);
+  }, [isLoading, conversationId, lastMessage?.interactionType]);
 
   return (
     <SessionWrapperModal

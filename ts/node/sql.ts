@@ -428,8 +428,9 @@ function saveConversation(data: ConversationAttributes): SaveConversationReturn 
     left,
     expireTimer,
     lastMessage,
-    lastMessageId,
     lastMessageStatus,
+    lastMessageInteractionType,
+    lastMessageInteractionStatus,
     lastJoinedTimestamp,
     groupAdmins,
     isKickedFromGroup,
@@ -444,8 +445,6 @@ function saveConversation(data: ConversationAttributes): SaveConversationReturn 
     conversationIdOrigin,
     priority,
     markedAsUnread,
-    interactionType,
-    interactionStatus,
   } = formatted;
 
   const omited = omit(formatted);
@@ -479,8 +478,9 @@ function saveConversation(data: ConversationAttributes): SaveConversationReturn 
       left: toSqliteBoolean(left),
       expireTimer,
       lastMessage: shortenedLastMessage,
-      lastMessageId,
       lastMessageStatus,
+      lastMessageInteractionType,
+      lastMessageInteractionStatus,
 
       lastJoinedTimestamp,
       groupAdmins: groupAdmins && groupAdmins.length ? arrayStrToJson(groupAdmins) : '[]',
@@ -496,8 +496,6 @@ function saveConversation(data: ConversationAttributes): SaveConversationReturn 
       displayNameInProfile,
       conversationIdOrigin,
       markedAsUnread: toSqliteBoolean(markedAsUnread),
-      interactionType,
-      interactionStatus,
     });
 
   return fetchConvoMemoryDetails(id);

@@ -368,13 +368,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       }
     }
 
-    if (this.get('interactionType')) {
-      toRet.interactionType = this.get('interactionType');
-    }
-    if (this.get('interactionStatus')) {
-      toRet.interactionStatus = this.get('interactionStatus');
-    }
-
     // -- Handle the field stored only in memory for all types of conversation--
     const inMemoryConvoInfo = inMemoryConvoInfos.get(this.id);
     if (inMemoryConvoInfo) {
@@ -389,13 +382,15 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     // -- Handle the last message status, if present --
     const lastMessageText = this.get('lastMessage');
     if (lastMessageText && lastMessageText.length) {
-      const lastMessageId = this.get('lastMessageId');
       const lastMessageStatus = this.get('lastMessageStatus');
+      const lastMessageInteractionType = this.get('lastMessageInteractionType');
+      const lastMessageInteractionStatus = this.get('lastMessageInteractionStatus');
 
       toRet.lastMessage = {
-        id: lastMessageId,
         status: lastMessageStatus,
         text: lastMessageText,
+        interactionType: lastMessageInteractionType,
+        interactionStatus: lastMessageInteractionStatus,
       };
     }
     return toRet;
@@ -755,10 +750,18 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     this.set({
       lastMessage: messageModel.getNotificationText(),
-      lastMessageId: messageModel.get('id'),
       lastMessageStatus: 'sending',
       active_at: networkTimestamp,
     });
+
+    if (messageModel.get('interactionNotification')) {
+      this.set({
+        lastMessageInteractionType: messageModel.get('interactionNotification')?.interactionType,
+        lastMessageInteractionStatus: messageModel.get('interactionNotification')
+          ?.interactionStatus,
+      });
+    }
+
     await this.commit();
 
     void this.queueJob(async () => {
@@ -1856,7 +1859,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       return;
     }
     const lastMessageModel = messages.at(0);
-    const lastMessageId = lastMessageModel.get('id');
+    const lastMessageInteractionType = lastMessageModel.get('interactionNotification')
+      ?.interactionType;
+    const lastMessageInteractionStatus = lastMessageModel.get('interactionNotification')
+      ?.interactionStatus;
     const lastMessageStatus = lastMessageModel.getMessagePropStatus() || undefined;
     const lastMessageNotificationText = lastMessageModel.getNotificationText() || undefined;
     // we just want to set the `status` to `undefined` if there are no `lastMessageNotificationText`
@@ -1864,22 +1870,31 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       !!lastMessageNotificationText && !isEmpty(lastMessageNotificationText)
         ? {
             lastMessage: lastMessageNotificationText || '',
-            lastMessageId,
             lastMessageStatus,
+            lastMessageInteractionType,
+            lastMessageInteractionStatus,
           }
-        : { lastMessage: '', lastMessageId: '', lastMessageStatus: undefined };
+        : {
+            lastMessage: '',
+            lastMessageStatus: undefined,
+            lastMessageInteractionType: undefined,
+            lastMessageInteractionStatus: undefined,
+          };
     const existingLastMessageAttribute = this.get('lastMessage');
-    const existingLastMessageId = this.get('lastMessageId');
     const existingLastMessageStatus = this.get('lastMessageStatus');
+    const existingLastMessageInteractionType = this.get('lastMessageInteractionType');
+    const existingLastMessageInteractionStatus = this.get('lastMessageInteractionStatus');
 
     if (
       lastMessageUpdate.lastMessage !== existingLastMessageAttribute ||
       lastMessageUpdate.lastMessageStatus !== existingLastMessageStatus ||
-      lastMessageUpdate.lastMessageId !== existingLastMessageId
+      lastMessageUpdate.lastMessageInteractionType !== existingLastMessageInteractionType ||
+      lastMessageUpdate.lastMessageInteractionStatus !== existingLastMessageInteractionStatus
     ) {
       if (
-        lastMessageUpdate.lastMessageId === existingLastMessageId &&
         lastMessageUpdate.lastMessageStatus === existingLastMessageStatus &&
+        lastMessageUpdate.lastMessageInteractionType === existingLastMessageInteractionType &&
+        lastMessageUpdate.lastMessageInteractionStatus === existingLastMessageInteractionStatus &&
         lastMessageUpdate.lastMessage &&
         lastMessageUpdate.lastMessage.length > 40 &&
         existingLastMessageAttribute &&

@@ -10,7 +10,6 @@ import { StateType } from '../state/reducer';
 import { getMessageReactsProps } from '../state/selectors/conversations';
 import { isPrivateAndFriend } from '../state/selectors/selectedConversation';
 import { CONVERSATION } from '../session/constants';
-import { ConversationInteractionProps } from '../interactions/conversationInteractions';
 
 export function useAvatarPath(convoId: string | undefined) {
   const convoProps = useConversationPropsById(convoId);
@@ -269,29 +268,14 @@ export function useIsTyping(conversationId?: string): boolean {
   return useConversationPropsById(conversationId)?.isTyping || false;
 }
 
-export function useLastMessage(convoId: string) {
+export function useLastMessage(convoId?: string) {
+  if (!convoId) {
+    return null;
+  }
+
   const convoProps = useConversationPropsById(convoId);
   if (!convoProps) {
     return null;
   }
   return convoProps.lastMessage;
-}
-
-export function useConversationInteractionPropsById(
-  conversationId?: string
-): ConversationInteractionProps | null {
-  if (!conversationId) {
-    return null;
-  }
-
-  const convoProps = useConversationPropsById(conversationId);
-
-  if (!convoProps || !convoProps.interactionType || !convoProps.interactionStatus) {
-    return null;
-  }
-
-  const interactionType = convoProps.interactionType;
-  const interactionStatus = convoProps.interactionStatus;
-
-  return { conversationId, interactionType, interactionStatus };
 }

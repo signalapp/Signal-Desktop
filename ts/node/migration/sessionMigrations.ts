@@ -1842,11 +1842,13 @@ function updateToSessionSchemaVersion32(currentVersion: number, db: BetterSqlite
   console.log(`updateToSessionSchemaVersion${targetVersion}: starting...`);
 
   db.transaction(() => {
-    db.prepare(`ALTER TABLE ${CONVERSATIONS_TABLE} ADD COLUMN interactionType TEXT;`).run();
+    db.prepare(
+      `ALTER TABLE ${CONVERSATIONS_TABLE} ADD COLUMN lastMessageInteractionType TEXT;`
+    ).run();
 
-    db.prepare(`ALTER TABLE ${CONVERSATIONS_TABLE} ADD COLUMN interactionStatus TEXT;`).run();
-
-    db.prepare(`ALTER TABLE ${CONVERSATIONS_TABLE} ADD COLUMN lastMessageId TEXT;`).run();
+    db.prepare(
+      `ALTER TABLE ${CONVERSATIONS_TABLE} ADD COLUMN lastMessageInteractionStatus TEXT;`
+    ).run();
 
     writeSessionSchemaVersion(targetVersion, db);
   })();

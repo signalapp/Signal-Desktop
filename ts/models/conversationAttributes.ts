@@ -66,8 +66,9 @@ export interface ConversationAttributes {
    * The shortening is made in sql.ts directly.
    */
   lastMessage: string | null;
-  lastMessageId: string | null;
   lastMessageStatus: LastMessageStatusType;
+  lastMessageInteractionType: ConversationInteractionType | null;
+  lastMessageInteractionStatus: ConversationInteractionStatus | null;
 
   avatarImageId?: number; // avatar imageID is currently used only for sogs. It's the fileID of the image uploaded and set as the sogs avatar (not only sogs I think, but our profile too?)
 
@@ -108,8 +109,6 @@ export interface ConversationAttributes {
   markedAsUnread: boolean; // Force the conversation as unread even if all the messages are read. Used to highlight a conversation the user wants to check again later, synced.
 
   // the last interaction we had with this conversation e.g. failed to leave a group
-  interactionType?: ConversationInteractionType; // e.g. Leave
-  interactionStatus?: ConversationInteractionStatus; // e.g. Error
 }
 
 /**
@@ -131,8 +130,9 @@ export const fillConvoAttributesWithDefaults = (
     active_at: 0,
 
     lastMessage: null,
-    lastMessageId: null,
     lastMessageStatus: undefined,
+    lastMessageInteractionType: null,
+    lastMessageInteractionStatus: null,
 
     triggerNotificationsFor: 'all', // if the settings is not set in the db, this is the default
 

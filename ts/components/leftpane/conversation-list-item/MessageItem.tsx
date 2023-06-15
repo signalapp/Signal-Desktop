@@ -3,7 +3,6 @@ import { isEmpty } from 'lodash';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import {
-  useConversationInteractionPropsById,
   useHasUnread,
   useIsPrivate,
   useIsTyping,
@@ -28,10 +27,8 @@ export const MessageItem = () => {
 
   const isSearchingMode = useSelector(isSearching);
 
-  const interactionProps = useConversationInteractionPropsById(conversationId);
-
-  if (!isConvoTyping && interactionProps) {
-    return <InteractionItem lastMessage={lastMessage} {...interactionProps} />;
+  if (!isConvoTyping && lastMessage?.interactionType && lastMessage?.interactionStatus) {
+    return <InteractionItem conversationId={conversationId} lastMessage={lastMessage} />;
   }
 
   if (!lastMessage && !isConvoTyping) {

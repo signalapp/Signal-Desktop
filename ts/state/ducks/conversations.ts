@@ -226,11 +226,13 @@ export type PropsForMessageWithConvoProps = PropsForMessageWithoutConvoProps & {
 };
 
 export type LastMessageType = {
-  id: string | null;
   status: LastMessageStatusType;
   text: string | null;
+  interactionType: ConversationInteractionType | null;
+  interactionStatus: ConversationInteractionStatus | null;
 };
 
+// NOTE This is used for failed interactions that are saved as messages to the db and rendered in a conversation
 export type InteractionNotificationType = {
   interactionType: ConversationInteractionType;
   interactionStatus: ConversationInteractionStatus;
@@ -282,9 +284,6 @@ export interface ReduxConversationType {
   didApproveMe?: boolean;
 
   isMarkedUnread?: boolean;
-
-  interactionType?: ConversationInteractionType;
-  interactionStatus?: ConversationInteractionStatus;
 }
 
 export interface NotificationForConvoOption {

@@ -43,7 +43,6 @@ import { encryptProfile } from '../util/crypto/profileEncrypter';
 import { ReleasedFeatures } from '../util/releaseFeature';
 import { Storage, setLastProfileUpdateTimestamp } from '../util/storage';
 import { UserGroupsWrapperActions } from '../webworker/workers/browser/libsession_worker_interface';
-import { ConversationModel } from '../models/conversation';
 
 export enum ConversationInteractionStatus {
   Start = 'start',
@@ -56,12 +55,6 @@ export enum ConversationInteractionType {
   Hide = 'hide',
   Leave = 'leave',
 }
-
-export type ConversationInteractionProps = {
-  conversationId: string;
-  interactionType: ConversationInteractionType;
-  interactionStatus: ConversationInteractionStatus;
-};
 
 export async function copyPublicKeyByConvoId(convoId: string) {
   if (OpenGroupUtils.isOpenGroupV2(convoId)) {
@@ -460,7 +453,8 @@ export async function deleteAllMessagesByConvoIdNoConfirmation(conversationId: s
   // conversation still appears on the conversation list but is empty
   conversation.set({
     lastMessage: null,
-    lastMessageId: null,
+    lastMessageInteractionType: null,
+    lastMessageInteractionStatus: null,
   });
 
   await conversation.commit();
@@ -708,8 +702,8 @@ export async function updateConversationInteractionState({
 }) {
   const convo = getConversationController().get(conversationId);
   if (convo) {
-    convo.set('interactionType', type);
-    convo.set('interactionStatus', status);
+    convo.set('lastMessageInteractionType', type);
+    convo.set('lastMessageInteractionStatus', status);
 
     await convo.commit();
     window.log.debug(
@@ -729,8 +723,8 @@ export async function clearConversationInteractionState({
 }) {
   const convo = getConversationController().get(conversationId);
   if (convo) {
-    convo.set('interactionType', undefined);
-    convo.set('interactionStatus', undefined);
+    convo.set('lastMessageInteractionType', undefined);
+    convo.set('lastMessageInteractionStatus', undefined);
 
     await convo.commit();
     window.log.debug(`WIP: clearConversationInteractionState() for ${conversationId}`);
