@@ -27,6 +27,7 @@ import {
   ShowUserDetailsMenuItem,
   UnbanMenuItem,
   DeletePrivateConversationMenuItem,
+  NotificationForConvoMenuItem,
 } from './Menu';
 import { isSearching } from '../../state/selectors/search';
 
@@ -51,6 +52,8 @@ const ConversationListItemContextMenu = (props: PropsContextConversationItem) =>
         <DeclineAndBlockMsgRequestMenuItem />
         {/* Generic actions */}
         <PinConversationMenuItem />
+        <NotificationForConvoMenuItem />
+
         <BlockMenuItem />
         <CopyMenuItem />
         {/* Read state actions */}
