@@ -2562,6 +2562,13 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/state/smart/ConversationPanel.tsx",
+    "line": "  const panelRef = useRef<HTMLDivElement | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2023-06-15T19:55:51.367Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/state/smart/InstallScreen.tsx",
     "line": "  const chooseDeviceNamePromiseWrapperRef = useRef(explodePromise<string>());",
     "reasonCategory": "usageTrusted",
