@@ -27,6 +27,12 @@ import { formatDateTimeLong } from '../../util/timestamp';
 import { DurationInSeconds } from '../../util/durations';
 import { format as formatRelativeTime } from '../../util/expirationTimer';
 import { missingCaseError } from '../../util/missingCaseError';
+import { PanelRow } from './conversation-details/PanelRow';
+import { PanelSection } from './conversation-details/PanelSection';
+import {
+  ConversationDetailsIcon,
+  IconType,
+} from './conversation-details/ConversationDetailsIcon';
 
 export type Contact = Pick<
   ConversationType,
@@ -88,6 +94,7 @@ export type PropsReduxActions = Pick<
   | 'saveAttachment'
   | 'showContactModal'
   | 'showConversation'
+  | 'showEditHistoryModal'
   | 'showExpiredIncomingTapToViewToast'
   | 'showExpiredOutgoingTapToViewToast'
   | 'showLightbox'
@@ -131,6 +138,7 @@ export function MessageDetail({
   saveAttachment,
   showContactModal,
   showConversation,
+  showEditHistoryModal,
   showExpiredIncomingTapToViewToast,
   showExpiredOutgoingTapToViewToast,
   showLightbox,
@@ -321,123 +329,150 @@ export function MessageDetail({
   return (
     // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
     <div className="module-message-detail" tabIndex={0} ref={focusRef}>
-      <div
-        className="module-message-detail__message-container"
-        ref={messageContainerRef}
-      >
-        <Message
-          {...message}
-          renderingContext="conversation/MessageDetail"
-          checkForAccount={checkForAccount}
-          clearTargetedMessage={clearTargetedMessage}
-          contactNameColor={contactNameColor}
-          containerElementRef={messageContainerRef}
-          containerWidthBreakpoint={WidthBreakpoint.Wide}
-          renderMenu={undefined}
-          disableScroll
-          displayLimit={Number.MAX_SAFE_INTEGER}
-          showLightboxForViewOnceMedia={showLightboxForViewOnceMedia}
-          doubleCheckMissingQuoteReference={doubleCheckMissingQuoteReference}
-          getPreferredBadge={getPreferredBadge}
-          i18n={i18n}
-          interactionMode={interactionMode}
-          kickOffAttachmentDownload={kickOffAttachmentDownload}
-          markAttachmentAsCorrupted={markAttachmentAsCorrupted}
-          messageExpanded={messageExpanded}
-          openGiftBadge={openGiftBadge}
-          platform={platform}
-          pushPanelForConversation={pushPanelForConversation}
-          retryMessageSend={retryMessageSend}
-          renderAudioAttachment={renderAudioAttachment}
-          saveAttachment={saveAttachment}
-          shouldCollapseAbove={false}
-          shouldCollapseBelow={false}
-          shouldHideMetadata={false}
-          showConversation={showConversation}
-          showSpoiler={showSpoiler}
-          scrollToQuotedMessage={() => {
-            log.warn('MessageDetail: scrollToQuotedMessage called!');
-          }}
-          showContactModal={showContactModal}
-          showExpiredIncomingTapToViewToast={showExpiredIncomingTapToViewToast}
-          showExpiredOutgoingTapToViewToast={showExpiredOutgoingTapToViewToast}
-          showLightbox={showLightbox}
-          startConversation={startConversation}
-          theme={theme}
-          viewStory={viewStory}
-          onToggleSelect={noop}
-          onReplyToMessage={noop}
-        />
-      </div>
-      <table className="module-message-detail__info">
-        <tbody>
-          {(errors || []).map(error => (
-            <tr key={_keyForError(error)}>
+      <PanelSection>
+        <div
+          className="module-message-detail__message-container"
+          ref={messageContainerRef}
+        >
+          <Message
+            {...message}
+            renderingContext="conversation/MessageDetail"
+            checkForAccount={checkForAccount}
+            clearTargetedMessage={clearTargetedMessage}
+            contactNameColor={contactNameColor}
+            containerElementRef={messageContainerRef}
+            containerWidthBreakpoint={WidthBreakpoint.Wide}
+            renderMenu={undefined}
+            disableScroll
+            displayLimit={Number.MAX_SAFE_INTEGER}
+            showLightboxForViewOnceMedia={showLightboxForViewOnceMedia}
+            doubleCheckMissingQuoteReference={doubleCheckMissingQuoteReference}
+            getPreferredBadge={getPreferredBadge}
+            i18n={i18n}
+            interactionMode={interactionMode}
+            kickOffAttachmentDownload={kickOffAttachmentDownload}
+            markAttachmentAsCorrupted={markAttachmentAsCorrupted}
+            messageExpanded={messageExpanded}
+            openGiftBadge={openGiftBadge}
+            platform={platform}
+            pushPanelForConversation={pushPanelForConversation}
+            retryMessageSend={retryMessageSend}
+            renderAudioAttachment={renderAudioAttachment}
+            saveAttachment={saveAttachment}
+            shouldCollapseAbove={false}
+            shouldCollapseBelow={false}
+            shouldHideMetadata={false}
+            showConversation={showConversation}
+            showSpoiler={showSpoiler}
+            scrollToQuotedMessage={() => {
+              log.warn('MessageDetail: scrollToQuotedMessage called!');
+            }}
+            showContactModal={showContactModal}
+            showExpiredIncomingTapToViewToast={
+              showExpiredIncomingTapToViewToast
+            }
+            showExpiredOutgoingTapToViewToast={
+              showExpiredOutgoingTapToViewToast
+            }
+            showLightbox={showLightbox}
+            startConversation={startConversation}
+            theme={theme}
+            viewStory={viewStory}
+            onToggleSelect={noop}
+            onReplyToMessage={noop}
+          />
+        </div>
+        <table className="module-message-detail__info">
+          <tbody>
+            {(errors || []).map(error => (
+              <tr key={_keyForError(error)}>
+                <td className="module-message-detail__label">
+                  {i18n('icu:error')}
+                </td>
+                <td>
+                  {' '}
+                  <span className="error-message">{error.message}</span>{' '}
+                </td>
+              </tr>
+            ))}
+            <tr>
               <td className="module-message-detail__label">
-                {i18n('icu:error')}
+                {i18n('icu:sent')}
               </td>
               <td>
-                {' '}
-                <span className="error-message">{error.message}</span>{' '}
+                <ContextMenu
+                  i18n={i18n}
+                  menuOptions={[
+                    {
+                      icon: 'StoryDetailsModal__copy-icon',
+                      label: i18n('icu:StoryDetailsModal__copy-timestamp'),
+                      onClick: () => {
+                        void window.navigator.clipboard.writeText(
+                          String(sentAt)
+                        );
+                      },
+                    },
+                  ]}
+                >
+                  <>
+                    <Time timestamp={sentAt}>
+                      {formatDateTimeLong(i18n, sentAt)}
+                    </Time>{' '}
+                    <span className="module-message-detail__unix-timestamp">
+                      ({sentAt})
+                    </span>
+                  </>
+                </ContextMenu>
               </td>
             </tr>
-          ))}
-          <tr>
-            <td className="module-message-detail__label">{i18n('icu:sent')}</td>
-            <td>
-              <ContextMenu
-                i18n={i18n}
-                menuOptions={[
-                  {
-                    icon: 'StoryDetailsModal__copy-icon',
-                    label: i18n('icu:StoryDetailsModal__copy-timestamp'),
-                    onClick: () => {
-                      void window.navigator.clipboard.writeText(String(sentAt));
-                    },
-                  },
-                ]}
-              >
-                <>
-                  <Time timestamp={sentAt}>
-                    {formatDateTimeLong(i18n, sentAt)}
+            {receivedAt && message.direction === 'incoming' ? (
+              <tr>
+                <td className="module-message-detail__label">
+                  {i18n('icu:received')}
+                </td>
+                <td>
+                  <Time timestamp={receivedAt}>
+                    {formatDateTimeLong(i18n, receivedAt)}
                   </Time>{' '}
                   <span className="module-message-detail__unix-timestamp">
-                    ({sentAt})
+                    ({receivedAt})
                   </span>
-                </>
-              </ContextMenu>
-            </td>
-          </tr>
-          {receivedAt && message.direction === 'incoming' ? (
-            <tr>
-              <td className="module-message-detail__label">
-                {i18n('icu:received')}
-              </td>
-              <td>
-                <Time timestamp={receivedAt}>
-                  {formatDateTimeLong(i18n, receivedAt)}
-                </Time>{' '}
-                <span className="module-message-detail__unix-timestamp">
-                  ({receivedAt})
-                </span>
-              </td>
-            </tr>
-          ) : null}
-          {timeRemaining && timeRemaining > 0 && (
-            <tr>
-              <td className="module-message-detail__label">
-                {i18n('icu:MessageDetail--disappears-in')}
-              </td>
-              <td>
-                {formatRelativeTime(i18n, timeRemaining, {
-                  largest: 2,
-                })}
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-      {renderContacts()}
+                </td>
+              </tr>
+            ) : null}
+            {timeRemaining && timeRemaining > 0 && (
+              <tr>
+                <td className="module-message-detail__label">
+                  {i18n('icu:MessageDetail--disappears-in')}
+                </td>
+                <td>
+                  {formatRelativeTime(i18n, timeRemaining, {
+                    largest: 2,
+                  })}
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </PanelSection>
+      {message.isEditedMessage && (
+        <PanelSection>
+          <PanelRow
+            icon={
+              <ConversationDetailsIcon
+                ariaLabel={i18n('icu:MessageDetail__view-edits')}
+                icon={IconType.edit}
+              />
+            }
+            label={i18n('icu:MessageDetail__view-edits')}
+            onClick={() => {
+              showEditHistoryModal?.(message.id);
+            }}
+          />
+        </PanelSection>
+      )}
+
+      <PanelSection>{renderContacts()}</PanelSection>
     </div>
   );
 }

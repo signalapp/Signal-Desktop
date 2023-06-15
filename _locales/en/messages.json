@@ -5150,6 +5150,10 @@
     "messageformat": "Disappears in",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
+  "icu:MessageDetail__view-edits": {
+    "messageformat": "View edit history",
+    "description": "Link to view a message's edit history"
+  },
   "icu:ProfileEditor--about": {
     "messageformat": "About",
     "description": "Default text for about field"

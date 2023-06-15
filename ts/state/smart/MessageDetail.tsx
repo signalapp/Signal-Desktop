@@ -54,7 +54,8 @@ export function SmartMessageDetail(): JSX.Element | null {
     showSpoiler,
     startConversation,
   } = useConversationsActions();
-  const { showContactModal, toggleSafetyNumberModal } = useGlobalModalActions();
+  const { showContactModal, showEditHistoryModal, toggleSafetyNumberModal } =
+    useGlobalModalActions();
   const { showLightbox, showLightboxForViewOnceMedia } = useLightboxActions();
   const { viewStory } = useStoriesActions();
 
@@ -100,6 +101,7 @@ export function SmartMessageDetail(): JSX.Element | null {
       sentAt={message.timestamp}
       showContactModal={showContactModal}
       showConversation={showConversation}
+      showEditHistoryModal={showEditHistoryModal}
       showExpiredIncomingTapToViewToast={showExpiredIncomingTapToViewToast}
       showExpiredOutgoingTapToViewToast={showExpiredOutgoingTapToViewToast}
       showLightbox={showLightbox}

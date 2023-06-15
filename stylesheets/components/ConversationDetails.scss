@@ -253,6 +253,12 @@
         }
       }
 
+      &--edit {
+        &::after {
+          @include details-icon('../images/icons/v3/edit/edit.svg');
+        }
+      }
+
       &--down {
         border-radius: 18px;
         @include light-theme {

@@ -39,18 +39,6 @@
   }
 }
 
-.module-message-detail__contact-container {
-  border-top: 1px solid $color-gray-15;
-  margin-top: 36px;
-
-  @include light-theme {
-    border-top-color: $color-gray-15;
-  }
-  @include dark-theme {
-    border-top-color: $color-gray-75;
-  }
-}
-
 .module-message-detail__contact-group__header {
   @include font-body-1-bold;
   align-items: center;
