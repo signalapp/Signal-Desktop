@@ -117,7 +117,7 @@ empty application. But you can use the information from your production install 
 Desktop to populate your testing application!
 
 First, exit both production and development apps (In macOS - literally quit the apps).
-Second, find your application data:
+Second, find your application data in the [appData](https://www.electronjs.org/docs/latest/api/app#appgetpathname) directory:
 
 - macOS: `~/Library/Application Support/Signal`
 - Linux: `~/.config/Signal`
@@ -149,7 +149,7 @@ Once you have the additional numbers, you can setup additional storage profiles 
 between them using the `NODE_APP_INSTANCE` environment variable.
 
 For example, to create an 'alice' profile, put a file called `local-alice.json` in the
-`config` directory:
+`/config` subdirectory of your project checkout where you'll find other `.json` config files:
 
 ```
 {
@@ -163,8 +163,7 @@ Then you can start up the application a little differently to load the profile:
 NODE_APP_INSTANCE=alice yarn run start
 ```
 
-This changes the [userData](https://electron.atom.io/docs/all/#appgetpathname)
-directory from `%appData%/Signal` to `%appData%/Signal-aliceProfile`.
+This changes the `userData` directory from `%appData%/Signal` to `%appData%/Signal-aliceProfile`.
 
 # Making changes
 
