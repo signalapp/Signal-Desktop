@@ -33,14 +33,14 @@ export const InteractionNotification = (props: PropsForInteractionNotification) 
 
   switch (interactionType) {
     case ConversationInteractionType.Hide:
-      text = window.i18n('hideConversationFailed');
+      text = window.i18n('hideConversationFailedPleaseTryAgain');
       break;
     case ConversationInteractionType.Leave:
       text = isCommunity
-        ? window.i18n('leaveCommunityFailed')
+        ? window.i18n('leaveCommunityFailedPleaseTryAgain')
         : isGroup
-        ? window.i18n('leaveGroupFailed')
-        : window.i18n('deleteConversationFailed');
+        ? window.i18n('leaveGroupFailedPleaseTryAgain')
+        : window.i18n('deleteConversationFailedPleaseTryAgain');
       break;
     default:
       assertUnreachable(
