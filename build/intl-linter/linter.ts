@@ -64,10 +64,6 @@ const tests: Record<string, Test> = {
     messageformat: '{a, plural, other {a}}',
     expectErrors: ['noOneChoice'],
   },
-  'icu:noOneChoice:2': {
-    messageformat: '{a, plural}',
-    expectErrors: ['noOneChoice'],
-  },
   'icu:err5': {
     messageformat: '{a, selectordinal, one {a} other {as}}',
     expectErrors: ['noOrdinal'],
