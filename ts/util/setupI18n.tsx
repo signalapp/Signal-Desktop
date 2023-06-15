@@ -33,10 +33,10 @@ function filterLegacyMessages(
   return icuMessages;
 }
 
-export function renderEmoji(parts: ReadonlyArray<unknown>): JSX.Element {
-  strictAssert(parts.length === 1, '<emoji> must contain only one child');
+export function renderEmojify(parts: ReadonlyArray<unknown>): JSX.Element {
+  strictAssert(parts.length === 1, '<emojify> must contain only one child');
   const text = parts[0];
-  strictAssert(typeof text === 'string', '<emoji> must contain only text');
+  strictAssert(typeof text === 'string', '<emojify> must contain only text');
   return <Emojify text={text} />;
 }
 
@@ -50,7 +50,7 @@ export function createCachedIntl(
       locale: locale.replace('_', '-'), // normalize supported locales to browser format
       messages: icuMessages,
       defaultRichTextElements: {
-        emoji: renderEmoji,
+        emojify: renderEmojify,
       },
     },
     intlCache
