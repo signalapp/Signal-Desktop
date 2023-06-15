@@ -2,9 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { isEnabled } from '../RemoteConfig';
+import { isBeta } from './version';
 
 export function canEditMessages(): boolean {
   return (
-    isEnabled('desktop.internalUser') || isEnabled('desktop.editMessageSend')
+    isBeta(window.getVersion()) ||
+    isEnabled('desktop.internalUser') ||
+    isEnabled('desktop.editMessageSend')
   );
 }
