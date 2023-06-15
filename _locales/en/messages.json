@@ -108,7 +108,7 @@
   "hideConversationFailedPleaseTryAgain": "Unable to hide the conversation, please try again",
   "deleteConversation": "Delete Conversation",
   "deleteConversationConfirmation": "Are you sure you want to delete your conversation with <b>$name$</b>?",
-  "deleteConversationFailed": "Failed to leave the Conversation!",
+  "deleteConversationFailed": "Failed to delete the Conversation!",
   "deleteConversationFailedPleaseTryAgain": "Unable to delete the conversation, please try again",
   "hiding": "Hiding...",
   "leaving": "Leaving...",

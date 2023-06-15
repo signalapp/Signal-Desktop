@@ -751,6 +751,11 @@ async function saveConversationInteractionErrorAsMessage({
     status: interactionStatus,
   });
 
+  // NOTE at this time we don't have visible control messages in communities
+  if (conversation.isPublic()) {
+    return;
+  }
+
   // Add an error message to the database so we can view it in the message history
   await conversation?.addSingleIncomingMessage({
     source: UserUtils.getOurPubKeyStrFromCache(),

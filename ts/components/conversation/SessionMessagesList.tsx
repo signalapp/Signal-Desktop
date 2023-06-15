@@ -120,6 +120,7 @@ export const SessionMessagesList = (props: {
           ) : null;
 
         const componentToMerge = [dateBreak, unreadIndicator];
+
         if (messageProps.message?.messageType === 'group-notification') {
           const msgProps = messageProps.message.props as PropsForGroupUpdate;
           return [<GroupUpdateMessage key={messageId} {...msgProps} />, ...componentToMerge];

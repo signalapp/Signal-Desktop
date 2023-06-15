@@ -24,8 +24,13 @@ export const InteractionNotification = (props: PropsForInteractionNotification) 
   const isGroup = !useIsPrivate(convoId);
   const isCommunity = useIsPublic(convoId);
 
-  // NOTE For now we only show interaction errors in the message history
+  // NOTE at this time we don't show visible control messages in communities, that might change in future...
+  if (isCommunity) {
+    return null;
+  }
+
   if (interactionStatus !== ConversationInteractionStatus.Error) {
+    // NOTE For now we only show interaction errors in the message history
     return null;
   }
 
