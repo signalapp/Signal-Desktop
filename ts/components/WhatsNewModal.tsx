@@ -32,6 +32,7 @@ export function WhatsNewModal({
     features: [
       <Intl i18n={i18n} id="icu:WhatsNew__v6.22--0" />,
       <Intl i18n={i18n} id="icu:WhatsNew__v6.22--1" />,
+      <Intl i18n={i18n} id="icu:WhatsNew__v6.22--2" />,
     ],
   };
 

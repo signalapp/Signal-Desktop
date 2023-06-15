@@ -6493,5 +6493,9 @@
   "icu:WhatsNew__v6.22--1": {
     "messageformat": "We added support for the latest emoji characters, so now you can express your excitement with \"Shaking Face\" (<emojify>🫨</emojify>) or react with a \"Pea Pod\" (<emojify>🫛</emojify>) when someone asks you how close you are to your friends.",
     "description": "Release notes for v6.22"
+  },
+  "icu:WhatsNew__v6.22--2": {
+    "messageformat": "Beta bonus: Get an early sneak peak at the upcoming new “edit message” functionality. This feature will start rolling out in a few months, but you can help us test it in advance during this beta period. Thanks for your help!",
+    "description": "Release notes for v6.22"
   }
 }
