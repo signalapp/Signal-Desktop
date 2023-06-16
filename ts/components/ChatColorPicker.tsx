@@ -179,6 +179,7 @@ export function ChatColorPicker({
         {ConversationColors.map((color, i) => (
           <div
             aria-label={color}
+            aria-selected={color === selectedColor}
             className={classNames(
               `ChatColorPicker__bubble ChatColorPicker__bubble--${color}`,
               {
@@ -192,7 +193,7 @@ export function ChatColorPicker({
                 onSelectColor(color);
               }
             }}
-            role="button"
+            role="option"
             tabIndex={0}
             ref={i === 0 ? focusRef : undefined}
           />
@@ -311,6 +312,7 @@ function CustomColorBubble({
   const bubble = (
     <div
       aria-label={colorId}
+      aria-selected={isSelected}
       className={classNames({
         ChatColorPicker__bubble: true,
         'ChatColorPicker__bubble--custom-selected': isSelected,
@@ -322,7 +324,7 @@ function CustomColorBubble({
           handleClick(ev);
         }
       }}
-      role="button"
+      role="option"
       tabIndex={0}
       style={{
         ...getCustomColorStyle(color),
