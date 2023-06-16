@@ -292,7 +292,45 @@ export function showLeavePrivateConversationbyConvoId(
   );
 }
 
-export function showLeaveGroupByConvoId(conversationId: string, name: string | undefined) {
+async function leaveGroupOrCommunityByConvoId(
+  conversationId: string,
+  isPublic: boolean,
+  forceDeleteLocal: boolean,
+  onClickClose?: () => void
+) {
+  try {
+    await updateConversationInteractionState({
+      conversationId,
+      type: ConversationInteractionType.Leave,
+      status: ConversationInteractionStatus.Start,
+    });
+
+    if (onClickClose) {
+      onClickClose();
+    }
+
+    if (isPublic) {
+      await getConversationController().deleteCommunity(conversationId, {
+        fromSyncMessage: false,
+      });
+    } else {
+      await getConversationController().deleteClosedGroup(conversationId, {
+        fromSyncMessage: false,
+        sendLeaveMessage: true,
+        forceDeleteLocal,
+      });
+    }
+    await clearConversationInteractionState({ conversationId });
+  } catch (err) {
+    window.log.warn(`showLeaveGroupByConvoId error: ${err}`);
+    await saveConversationInteractionErrorAsMessage({
+      conversationId,
+      interactionType: ConversationInteractionType.Leave,
+    });
+  }
+}
+
+export async function showLeaveGroupByConvoId(conversationId: string, name: string | undefined) {
   const conversation = getConversationController().get(conversationId);
 
   if (!conversation.isGroup()) {
@@ -304,6 +342,17 @@ export function showLeaveGroupByConvoId(conversationId: string, name: string | u
   const admins = conversation.get('groupAdmins') || [];
   const isAdmin = admins.includes(UserUtils.getOurPubKeyStrFromCache());
   const showOnlyGroupAdminWarning = isClosedGroup && isAdmin && admins.length === 1;
+  const lastMessageInteractionType = conversation.get('lastMessageInteractionType');
+  const lastMessageInteractionStatus = conversation.get('lastMessageInteractionStatus');
+
+  if (
+    !isPublic &&
+    lastMessageInteractionType === ConversationInteractionType.Leave &&
+    lastMessageInteractionStatus === ConversationInteractionStatus.Error
+  ) {
+    await leaveGroupOrCommunityByConvoId(conversationId, isPublic, true);
+    return;
+  }
 
   // if this is a community, or we legacy group are not admin, we can just show a confirmation dialog
 
@@ -312,31 +361,7 @@ export function showLeaveGroupByConvoId(conversationId: string, name: string | u
   };
 
   const onClickOk = async () => {
-    try {
-      await updateConversationInteractionState({
-        conversationId,
-        type: ConversationInteractionType.Leave,
-        status: ConversationInteractionStatus.Start,
-      });
-      onClickClose();
-      if (isPublic) {
-        await getConversationController().deleteCommunity(conversation.id, {
-          fromSyncMessage: false,
-        });
-      } else {
-        await getConversationController().deleteClosedGroup(conversation.id, {
-          fromSyncMessage: false,
-          sendLeaveMessage: true,
-        });
-      }
-      await clearConversationInteractionState({ conversationId });
-    } catch (err) {
-      window.log.warn(`showLeaveGroupByConvoId error: ${err}`);
-      await saveConversationInteractionErrorAsMessage({
-        conversationId,
-        interactionType: ConversationInteractionType.Leave,
-      });
-    }
+    await leaveGroupOrCommunityByConvoId(conversationId, isPublic, false, onClickClose);
   };
 
   if (showOnlyGroupAdminWarning) {

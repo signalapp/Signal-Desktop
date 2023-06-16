@@ -15,9 +15,12 @@ import {
   useIsPrivate,
   useIsPrivateAndFriend,
   useIsPublic,
+  useLastMessage,
   useWeAreAdmin,
 } from '../../hooks/useParamSelector';
 import {
+  ConversationInteractionStatus,
+  ConversationInteractionType,
   approveConvoAndSendResponse,
   blockConvoById,
   clearNickNameByConvoId,
@@ -134,6 +137,7 @@ export const LeaveGroupOrCommunityMenuItem = () => {
   const isKickedFromGroup = useIsKickedFromGroup(convoId);
   const isPrivate = useIsPrivate(convoId);
   const isPublic = useIsPublic(convoId);
+  const lastMessage = useLastMessage(convoId);
 
   if (!isKickedFromGroup && !isLeft && !isPrivate) {
     return (
@@ -142,7 +146,12 @@ export const LeaveGroupOrCommunityMenuItem = () => {
           showLeaveGroupByConvoId(convoId, username);
         }}
       >
-        {isPublic ? window.i18n('leaveCommunity') : window.i18n('leaveGroup')}
+        {isPublic
+          ? window.i18n('leaveCommunity')
+          : lastMessage?.interactionType === ConversationInteractionType.Leave &&
+            lastMessage?.interactionStatus === ConversationInteractionStatus.Error
+          ? window.i18n('deleteConversation')
+          : window.i18n('leaveGroup')}
       </Item>
     );
   }

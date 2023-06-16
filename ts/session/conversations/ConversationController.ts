@@ -229,17 +229,22 @@ export class ConversationController {
 
   public async deleteClosedGroup(
     groupId: string,
-    options: DeleteOptions & { sendLeaveMessage: boolean }
+    options: DeleteOptions & { sendLeaveMessage: boolean; forceDeleteLocal?: boolean }
   ) {
     const conversation = await this.deleteConvoInitialChecks(groupId, 'LegacyGroup');
     if (!conversation || !conversation.isClosedGroup()) {
       return;
     }
-    window.log.info(`deleteClosedGroup: ${groupId}, sendLeaveMessage?:${options.sendLeaveMessage}`);
+
     getSwarmPollingInstance().removePubkey(groupId); // we don't need to keep polling anymore.
 
-    if (options.sendLeaveMessage) {
-      await leaveClosedGroup(groupId, options.fromSyncMessage);
+    if (!options.forceDeleteLocal) {
+      window.log.info(
+        `deleteClosedGroup: ${groupId}, sendLeaveMessage?:${options.sendLeaveMessage}`
+      );
+      if (options.sendLeaveMessage) {
+        await leaveClosedGroup(groupId, options.fromSyncMessage);
+      }
     }
 
     // if we were kicked or sent our left message, we have nothing to do more with that group.

@@ -7,6 +7,8 @@ import useInterval from 'react-use/lib/useInterval';
 import styled from 'styled-components';
 import { Data } from '../../data/data';
 import {
+  ConversationInteractionStatus,
+  ConversationInteractionType,
   setDisappearingMessagesByConvoId,
   showAddModeratorsByConvoId,
   showInviteContactByConvoId,
@@ -27,6 +29,7 @@ import {
   useSelectedIsKickedFromGroup,
   useSelectedIsLeft,
   useSelectedIsPublic,
+  useSelectedLastMessage,
   useSelectedSubscriberCount,
   useSelectedWeAreAdmin,
 } from '../../state/selectors/selectedConversation';
@@ -220,6 +223,7 @@ export const SessionRightPanelWithDetails = () => {
   const isGroup = useSelectedIsGroup();
   const isPublic = useSelectedIsPublic();
   const weAreAdmin = useSelectedWeAreAdmin();
+  const lastMessage = useSelectedLastMessage();
 
   useEffect(() => {
     let isRunning = true;
@@ -263,6 +267,9 @@ export const SessionRightPanelWithDetails = () => {
   const hasDisappearingMessages = !isPublic && !commonNoShow;
   const leaveGroupString = isPublic
     ? window.i18n('leaveCommunity')
+    : lastMessage?.interactionType === ConversationInteractionType.Leave &&
+      lastMessage?.interactionStatus === ConversationInteractionStatus.Error
+    ? window.i18n('deleteConversation')
     : isKickedFromGroup
     ? window.i18n('youGotKickedFromGroup')
     : left

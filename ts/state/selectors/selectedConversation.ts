@@ -257,3 +257,7 @@ export function useSelectedNicknameOrProfileNameOrShortenedPubkey() {
 export function useSelectedWeAreAdmin() {
   return useSelector((state: StateType) => getSelectedConversation(state)?.weAreAdmin || false);
 }
+
+export function useSelectedLastMessage() {
+  return useSelector((state: StateType) => getSelectedConversation(state)?.lastMessage);
+}
