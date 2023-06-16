@@ -3,12 +3,12 @@
 
 /* eslint-env node */
 
-import { join as pathJoin } from 'path';
+import path from 'path';
 
 import { compose } from 'lodash/fp';
 import { escapeRegExp, isString, isRegExp } from 'lodash';
 
-export const APP_ROOT_PATH = pathJoin(__dirname, '..', '..');
+export const APP_ROOT_PATH = path.join(__dirname, '..', '..');
 
 const PHONE_NUMBER_PATTERN = /\+\d{7,12}(\d{3})/g;
 const UUID_PATTERN =
@@ -41,20 +41,45 @@ export const _redactPath = (filePath: string): RedactFunction => {
 
 export const _pathToRegExp = (filePath: string): RegExp | undefined => {
   try {
-    const pathWithNormalizedSlashes = filePath.replace(/\//g, '\\');
-    const pathWithEscapedSlashes = filePath.replace(/\\/g, '\\\\');
-    const urlEncodedPath = encodeURI(filePath);
-    // Safe `String::replaceAll`:
-    // https://github.com/lodash/lodash/issues/1084#issuecomment-86698786
-    const patternString = [
-      filePath,
-      pathWithNormalizedSlashes,
-      pathWithEscapedSlashes,
-      urlEncodedPath,
-    ]
-      .map(escapeRegExp)
-      .join('|');
-    return new RegExp(patternString, 'g');
+    return new RegExp(
+      // Any possible prefix that we want to include
+      `(${escapeRegExp('file:///')})?${
+        // The rest of the file path
+        filePath
+          // Split by system path seperator ("/" or "\\")
+          // (split by both for tests)
+          .split(/\/|\\/)
+          // Escape all special characters in each part
+          .map(part => {
+            // This segment may need to be URI encoded
+            const urlEncodedPart = encodeURI(part);
+            // If its the same, then we don't need to worry about it
+            if (urlEncodedPart === part) {
+              return escapeRegExp(part);
+            }
+            // Otherwise, we need to test against both
+            return `(${escapeRegExp(part)}|${escapeRegExp(urlEncodedPart)})`;
+          })
+          // Join the parts back together with any possible path seperator
+          .join(
+            `(${[
+              // Posix (Linux, macOS, etc.)
+              path.posix.sep,
+              // Windows
+              path.win32.sep,
+              // Windows (URI encoded)
+              encodeURI(path.win32.sep),
+            ]
+              // Escape the parts for use in a RegExp (e.g. "/" -> "\/")
+              .map(sep => escapeRegExp(sep))
+              // In case separators are repeated in the path (e.g. "\\\\")
+              .map(sep => `${sep}+`)
+              // Join all the possible separators together
+              .join('|')})`
+          )
+      }`,
+      'g'
+    );
   } catch (error) {
     return undefined;
   }

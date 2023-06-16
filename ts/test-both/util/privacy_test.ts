@@ -94,7 +94,7 @@ describe('Privacy', () => {
         'path1 [REDACTED]/main.js\n' +
         'phone1 +[REDACTED]455 ipsum\n' +
         'group1 group([REDACTED]789) doloret\n' +
-        'path2 file:///[REDACTED]/js/background.js.' +
+        'path2 [REDACTED]/js/background.js.' +
         'phone2 +[REDACTED]566 lorem\n' +
         'group2 group([REDACTED]hij) doloret\n' +
         'path3 [REDACTED]/attachment.noindex\n';
@@ -134,7 +134,7 @@ describe('Privacy', () => {
         'path1 [REDACTED]/main.js\n' +
         'phone1 +12223334455 ipsum\n' +
         'group1 group(123456789) doloret\n' +
-        'path2 file:///[REDACTED]/js/background.js.';
+        'path2 [REDACTED]/js/background.js.';
       assert.equal(actual, expected);
     });
 
