@@ -262,7 +262,8 @@ export function showLeavePrivateConversationbyConvoId(
       onClickClose();
       await getConversationController().delete1o1(conversationId, {
         fromSyncMessage: false,
-        justHidePrivate: isMe,
+        justHidePrivate: true,
+        keepMessages: isMe,
       });
       await clearConversationInteractionState({ conversationId });
     } catch (err) {
