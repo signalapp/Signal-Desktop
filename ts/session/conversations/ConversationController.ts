@@ -188,10 +188,7 @@ export class ConversationController {
       return;
     }
 
-    window.log.debug(`WIP: delete1o1 keepMessages ${id} ${options.keepMessages}`);
-
     if (options.justHidePrivate || isNil(options.justHidePrivate) || conversation.isMe()) {
-      window.log.debug(`WIP: delete1o1 justHide ${id}`);
       // we just set the hidden field to true
       // so the conversation still exists (needed for that user's profile in groups) but is not shown on the list of conversation.
       window.log.info(`deleteContact isPrivate, marking as hidden: ${id}`);
@@ -201,7 +198,6 @@ export class ConversationController {
       // We don't remove entries from the contacts wrapper, so better keep corresponding convo volatile info for now (it will be pruned if needed)
       await conversation.commit(); // this updates the wrappers content to reflect the hidden state
     } else {
-      window.log.debug(`WIP: delete1o1 delete ${id}`);
       window.log.info(`deleteContact isPrivate, reset fields and removing from wrapper: ${id}`);
 
       await conversation.setIsApproved(false, false);
@@ -420,7 +416,6 @@ export class ConversationController {
 
     // Note in some cases (hiding a conversation) we don't want to delete the messages
     if (!keepMessages) {
-      window.log.debug(`WIP: ${deleteType} destroyingMessages: ${convoId}`);
       // those are the stuff to do for all conversation types
       window.log.info(`${deleteType} destroyingMessages: ${convoId}`);
       await deleteAllMessagesByConvoIdNoConfirmation(convoId);

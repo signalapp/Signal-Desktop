@@ -733,7 +733,7 @@ export async function updateConversationInteractionState({
 
     await convo.commit();
     window.log.debug(
-      `WIP: updateConversationInteractionState for ${conversationId} to ${type} ${status}`
+      `updateConversationInteractionState for ${conversationId} to ${type} ${status}`
     );
   }
 }
@@ -753,7 +753,7 @@ export async function clearConversationInteractionState({
     convo.set('lastMessageInteractionStatus', undefined);
 
     await convo.commit();
-    window.log.debug(`WIP: clearConversationInteractionState() for ${conversationId}`);
+    window.log.debug(`clearConversationInteractionState for ${conversationId}`);
   }
 }
 
