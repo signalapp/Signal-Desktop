@@ -36,9 +36,11 @@ import {
   MESSAGE_CHANGED,
   MESSAGE_DELETED,
   MESSAGE_EXPIRED,
+  actions as conversationsActions,
 } from './conversations';
 import { SHOW_TOAST } from './toast';
 import type { ShowToastActionType } from './toast';
+import { isDownloaded } from '../../types/Attachment';
 
 // State
 
@@ -564,6 +566,14 @@ function toggleForwardMessagesModal(
           );
         }
 
+        const attachments = message.get('attachments') ?? [];
+
+        if (!attachments.every(isDownloaded)) {
+          dispatch(
+            conversationsActions.kickOffAttachmentDownload({ messageId })
+          );
+        }
+
         const messagePropsSelector = getMessagePropsSelector(getState());
         const messageProps = messagePropsSelector(message.attributes);
 
@@ -830,6 +840,21 @@ export function confirmAuthorizeArtCreator(): ThunkAction<
       type: CONFIRM_AUTH_ART_CREATOR_FULFILLED,
     });
   };
+}
+
+function copyOverMessageAttributesIntoForwardMessages(
+  messagesProps: ReadonlyArray<ForwardMessagePropsType>,
+  attributes: ReadonlyDeep<MessageAttributesType>
+): ReadonlyArray<ForwardMessagePropsType> {
+  return messagesProps.map(messageProps => {
+    if (messageProps.id !== attributes.id) {
+      return messageProps;
+    }
+    return {
+      ...messageProps,
+      attachments: attributes.attachments,
+    };
+  });
 }
 
 // Reducer
@@ -1099,55 +1124,75 @@ export function reducer(
     };
   }
 
-  if (
-    action.type === MESSAGE_CHANGED ||
-    action.type === MESSAGE_DELETED ||
-    action.type === MESSAGE_EXPIRED
-  ) {
-    if (!state.editHistoryMessages) {
-      return state;
-    }
-
-    if (action.type === MESSAGE_DELETED || action.type === MESSAGE_EXPIRED) {
-      const hasMessageId = state.editHistoryMessages.some(
-        edit => edit.id === action.payload.id
-      );
-
-      if (!hasMessageId) {
-        return state;
-      }
-
-      return {
-        ...state,
-        editHistoryMessages: undefined,
-      };
-    }
-
+  if (state.forwardMessagesProps != null) {
     if (action.type === MESSAGE_CHANGED) {
-      if (!action.payload.data.editHistory) {
-        return state;
-      }
-
-      const hasMessageId = state.editHistoryMessages.some(
-        edit => edit.id === action.payload.id
-      );
-
-      if (!hasMessageId) {
-        return state;
-      }
-
-      const nextEditHistoryMessages = copyOverMessageAttributesIntoEditHistory(
-        action.payload.data
-      );
-
-      if (!nextEditHistoryMessages) {
+      if (
+        !state.forwardMessagesProps.messages.some(message => {
+          return message.id === action.payload.id;
+        })
+      ) {
         return state;
       }
 
       return {
         ...state,
-        editHistoryMessages: nextEditHistoryMessages,
+        forwardMessagesProps: {
+          ...state.forwardMessagesProps,
+          messages: copyOverMessageAttributesIntoForwardMessages(
+            state.forwardMessagesProps.messages,
+            action.payload.data
+          ),
+        },
       };
+    }
+  }
+
+  if (state.editHistoryMessages != null) {
+    if (
+      action.type === MESSAGE_CHANGED ||
+      action.type === MESSAGE_DELETED ||
+      action.type === MESSAGE_EXPIRED
+    ) {
+      if (action.type === MESSAGE_DELETED || action.type === MESSAGE_EXPIRED) {
+        const hasMessageId = state.editHistoryMessages.some(
+          edit => edit.id === action.payload.id
+        );
+
+        if (!hasMessageId) {
+          return state;
+        }
+
+        return {
+          ...state,
+          editHistoryMessages: undefined,
+        };
+      }
+
+      if (action.type === MESSAGE_CHANGED) {
+        if (!action.payload.data.editHistory) {
+          return state;
+        }
+
+        const hasMessageId = state.editHistoryMessages.some(
+          edit => edit.id === action.payload.id
+        );
+
+        if (!hasMessageId) {
+          return state;
+        }
+
+        const nextEditHistoryMessages =
+          copyOverMessageAttributesIntoEditHistory(action.payload.data);
+
+        if (!nextEditHistoryMessages) {
+          return state;
+        }
+
+        return {
+          ...state,
+          editHistoryMessages: nextEditHistoryMessages,
+        };
+      }
     }
   }
 

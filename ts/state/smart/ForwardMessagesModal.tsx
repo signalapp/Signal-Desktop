@@ -3,12 +3,16 @@
 
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import type { ForwardMessagesPropsType } from '../ducks/globalModals';
+import type {
+  ForwardMessagePropsType,
+  ForwardMessagesPropsType,
+} from '../ducks/globalModals';
 import type { StateType } from '../reducer';
 import * as log from '../../logging/log';
 import { ForwardMessagesModal } from '../../components/ForwardMessagesModal';
 import { LinkPreviewSourceType } from '../../types/LinkPreview';
 import * as Errors from '../../types/errors';
+import type { GetConversationByIdType } from '../selectors/conversations';
 import {
   getAllComposableConversations,
   getConversationSelector,
@@ -31,12 +35,53 @@ import { useLinkPreviewActions } from '../ducks/linkPreviews';
 import { SmartCompositionTextArea } from './CompositionTextArea';
 import { useToastActions } from '../ducks/toast';
 import { hydrateRanges } from '../../types/BodyRange';
+import { isDownloaded } from '../../types/Attachment';
+
+function toMessageForwardDraft(
+  props: ForwardMessagePropsType,
+  getConversation: GetConversationByIdType
+): MessageForwardDraft {
+  return {
+    attachments: props.attachments ?? [],
+    bodyRanges: hydrateRanges(props.bodyRanges, getConversation),
+    hasContact: Boolean(props.contact),
+    isSticker: Boolean(props.isSticker),
+    messageBody: props.text,
+    originalMessageId: props.id,
+    previews: props.previews ?? [],
+  };
+}
 
 export function SmartForwardMessagesModal(): JSX.Element | null {
   const forwardMessagesProps = useSelector<
     StateType,
     ForwardMessagesPropsType | undefined
   >(state => state.globalModals.forwardMessagesProps);
+
+  if (forwardMessagesProps == null) {
+    return null;
+  }
+
+  if (
+    !forwardMessagesProps.messages.every(message => {
+      return message.attachments?.every(isDownloaded) ?? true;
+    })
+  ) {
+    return null;
+  }
+
+  return (
+    <SmartForwardMessagesModalInner
+      forwardMessagesProps={forwardMessagesProps}
+    />
+  );
+}
+
+function SmartForwardMessagesModalInner({
+  forwardMessagesProps,
+}: {
+  forwardMessagesProps: ForwardMessagesPropsType;
+}): JSX.Element | null {
   const candidateConversations = useSelector(getAllComposableConversations);
   const getPreferredBadge = useSelector(getPreferredBadgeSelector);
   const getConversation = useSelector(getConversationSelector);
@@ -51,19 +96,9 @@ export function SmartForwardMessagesModal(): JSX.Element | null {
 
   const [drafts, setDrafts] = useState<ReadonlyArray<MessageForwardDraft>>(
     () => {
-      return (
-        forwardMessagesProps?.messages.map((props): MessageForwardDraft => {
-          return {
-            attachments: props.attachments ?? [],
-            bodyRanges: hydrateRanges(props.bodyRanges, getConversation),
-            hasContact: Boolean(props.contact),
-            isSticker: Boolean(props.isSticker),
-            messageBody: props.text,
-            originalMessageId: props.id,
-            previews: props.previews ?? [],
-          };
-        }) ?? []
-      );
+      return forwardMessagesProps.messages.map((props): MessageForwardDraft => {
+        return toMessageForwardDraft(props, getConversation);
+      });
     }
   );
 

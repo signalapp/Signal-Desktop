@@ -3,7 +3,7 @@
 
 import { orderBy } from 'lodash';
 import type { AttachmentType } from '../types/Attachment';
-import { isVoiceMessage } from '../types/Attachment';
+import { isVoiceMessage, isDownloaded } from '../types/Attachment';
 import type {
   LinkPreviewType,
   LinkPreviewWithHydratedData,
@@ -57,41 +57,31 @@ export function isDraftEditable(draft: MessageForwardDraft): boolean {
   return true;
 }
 
-export function isDraftForwardable(draft: MessageForwardDraft): boolean {
-  const messageLength = draft.messageBody?.length ?? 0;
-  if (messageLength > 0) {
-    return true;
+function isDraftEmpty(draft: MessageForwardDraft) {
+  const { messageBody, attachments, isSticker, hasContact } = draft;
+  if (isSticker || hasContact) {
+    return false;
   }
-  if (draft.isSticker) {
-    return true;
+  if (attachments != null && attachments.length > 0) {
+    return false;
   }
-  if (draft.hasContact) {
-    return true;
+  if (messageBody != null && messageBody.length > 0) {
+    return false;
   }
-  const attachmentsLength = draft.attachments?.length ?? 0;
-  if (attachmentsLength > 0) {
-    return true;
-  }
-  return false;
+  return true;
 }
 
-export function isMessageForwardable(message: MessageAttributesType): boolean {
-  const { body, attachments, sticker, contact } = message;
-  const messageLength = body?.length ?? 0;
-  if (messageLength > 0) {
-    return true;
+export function isDraftForwardable(draft: MessageForwardDraft): boolean {
+  const { attachments } = draft;
+  if (isDraftEmpty(draft)) {
+    return false;
   }
-  if (sticker) {
-    return true;
+  if (attachments != null && attachments.length > 0) {
+    if (!attachments.every(isDownloaded)) {
+      return false;
+    }
   }
-  if (contact?.length) {
-    return true;
-  }
-  const attachmentsLength = attachments?.length ?? 0;
-  if (attachmentsLength > 0) {
-    return true;
-  }
-  return false;
+  return true;
 }
 
 export function sortByMessageOrder<T>(
