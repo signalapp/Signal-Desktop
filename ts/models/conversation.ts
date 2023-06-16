@@ -269,7 +269,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const avatarPath = this.getAvatarPath();
     const isPrivate = this.isPrivate();
     const weAreAdmin = this.isAdmin(ourNumber);
-    const weAreModerator = this.isModerator(ourNumber); // only used for sogs
 
     const currentNotificationSetting = this.get('triggerNotificationsFor');
     const priorityFromDb = this.get('priority');
@@ -308,10 +307,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     if (weAreAdmin) {
       toRet.weAreAdmin = true;
-    }
-
-    if (weAreModerator) {
-      toRet.weAreModerator = true;
     }
 
     if (isPublic) {

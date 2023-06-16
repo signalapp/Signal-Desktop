@@ -86,10 +86,11 @@ function setCanWriteOutsideRedux(convoId: string, canWrite: boolean) {
 }
 
 /**
+ * Update the redux slice for that community's moderators list
+ * if we are a moderator that room and the room is blinded, this update needs to contain our unblinded pubkey, NOT the blinded one.
  *
  * @param convoId the convoId of the room to set the moderators
  * @param moderators the updated list of moderators
- * Note: if we are a moderator that room and the room is blinded, this update needs to contain our unblinded pubkey, NOT the blinded one
  */
 function setModeratorsOutsideRedux(convoId: string, moderators: Array<string>) {
   const currentMods = getModeratorsOutsideRedux(convoId);

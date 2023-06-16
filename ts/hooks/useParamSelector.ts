@@ -146,11 +146,6 @@ export function useWeAreAdmin(convoId?: string) {
   return Boolean(convoProps && convoProps.weAreAdmin);
 }
 
-export function useWeAreModerator(convoId?: string) {
-  const convoProps = useConversationPropsById(convoId);
-  return Boolean(convoProps && (convoProps.weAreAdmin || convoProps.weAreModerator));
-}
-
 export function useExpireTimer(convoId?: string) {
   const convoProps = useConversationPropsById(convoId);
   return convoProps && convoProps.expireTimer;

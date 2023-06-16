@@ -24,6 +24,13 @@ import {
 } from '../../../../state/ducks/conversations';
 import { StateType } from '../../../../state/reducer';
 import { getMessageContextMenuProps } from '../../../../state/selectors/conversations';
+import {
+  useSelectedConversationKey,
+  useSelectedIsBlocked,
+  useSelectedIsPublic,
+  useSelectedWeAreAdmin,
+  useSelectedWeAreModerator,
+} from '../../../../state/selectors/selectedConversation';
 import { saveAttachmentToDisk } from '../../../../util/attachmentsUtil';
 import { Reactions } from '../../../../util/reactions';
 import { SessionContextMenuContainer } from '../../../SessionContextMenuContainer';
@@ -34,18 +41,13 @@ export type MessageContextMenuSelectorProps = Pick<
   MessageRenderingProps,
   | 'attachments'
   | 'sender'
-  | 'convoId'
   | 'direction'
   | 'status'
   | 'isDeletable'
-  | 'isPublic'
-  | 'isOpenGroupV2'
-  | 'weAreAdmin'
   | 'isSenderAdmin'
   | 'text'
   | 'serverTimestamp'
   | 'timestamp'
-  | 'isBlocked'
   | 'isDeletableForEveryone'
 >;
 
@@ -80,27 +82,31 @@ export const MessageContextMenu = (props: Props) => {
   const dispatch = useDispatch();
   const { hideAll } = useContextMenu();
 
+  const isSelectedBlocked = useSelectedIsBlocked();
+  const convoId = useSelectedConversationKey();
+  const isPublic = useSelectedIsPublic();
+  const weAreModerator = useSelectedWeAreModerator();
+  const weAreAdmin = useSelectedWeAreAdmin();
+
+  const showAdminActions = weAreAdmin || weAreModerator;
+
   const selected = useSelector((state: StateType) => getMessageContextMenuProps(state, messageId));
 
-  if (!selected) {
+  if (!selected || !convoId) {
     return null;
   }
 
   const {
     attachments,
     sender,
-    convoId,
     direction,
     status,
     isDeletable,
     isDeletableForEveryone,
-    isPublic,
-    weAreAdmin,
     isSenderAdmin,
     text,
     serverTimestamp,
     timestamp,
-    isBlocked,
   } = selected;
 
   const isOutgoing = direction === 'outgoing';
@@ -157,12 +163,12 @@ export const MessageContextMenu = (props: Props) => {
   }, [sender, convoId]);
 
   const onReply = useCallback(() => {
-    if (isBlocked) {
+    if (isSelectedBlocked) {
       pushUnblockToSend();
       return;
     }
     void replyToMessage(messageId);
-  }, [isBlocked, messageId]);
+  }, [isSelectedBlocked, messageId]);
 
   const saveAttachment = useCallback(
     (e: any) => {
@@ -330,14 +336,12 @@ export const MessageContextMenu = (props: Props) => {
               <Item onClick={onDeleteForEveryone}>{unsendMessageText}</Item>
             </>
           ) : null}
-          {weAreAdmin && isPublic ? <Item onClick={onBan}>{window.i18n('banUser')}</Item> : null}
-          {weAreAdmin && isPublic ? (
-            <Item onClick={onUnban}>{window.i18n('unbanUser')}</Item>
-          ) : null}
-          {weAreAdmin && isPublic && !isSenderAdmin ? (
+          {showAdminActions ? <Item onClick={onBan}>{window.i18n('banUser')}</Item> : null}
+          {showAdminActions ? <Item onClick={onUnban}>{window.i18n('unbanUser')}</Item> : null}
+          {showAdminActions && !isSenderAdmin ? (
             <Item onClick={addModerator}>{window.i18n('addAsModerator')}</Item>
           ) : null}
-          {weAreAdmin && isPublic && isSenderAdmin ? (
+          {showAdminActions && isSenderAdmin ? (
             <Item onClick={removeModerator}>{window.i18n('removeFromModerators')}</Item>
           ) : null}
         </Menu>

@@ -237,7 +237,6 @@ export interface ReduxConversationType {
   isPublic?: boolean;
   isPrivate?: boolean; // !isPrivate means isGroup (group or community)
   weAreAdmin?: boolean;
-  weAreModerator?: boolean;
   unreadCount?: number;
   mentionedUs?: boolean;
   isSelected?: boolean;

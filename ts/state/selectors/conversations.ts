@@ -888,6 +888,10 @@ export const useMessageIsDeleted = (messageId: string): boolean => {
   return props?.propsForMessage.isDeleted || false;
 };
 
+/**
+ * TODO probably not something which should be memoized with createSelector as we rememoize it for each message (and override the previous one). Not sure what is the right way to do a lookup. But maybe something like having the messages as a record<id, message> and do a simple lookup to grab the details.
+ * And the the sorting would be done in a memoized selector
+ */
 export const getMessageContextMenuProps = createSelector(getMessagePropsByMessageId, (props):
   | MessageContextMenuSelectorProps
   | undefined => {
@@ -898,18 +902,13 @@ export const getMessageContextMenuProps = createSelector(getMessagePropsByMessag
   const msgProps: MessageContextMenuSelectorProps = pick(props.propsForMessage, [
     'attachments',
     'sender',
-    'convoId',
     'direction',
     'status',
     'isDeletable',
-    'isPublic',
-    'isOpenGroupV2',
-    'weAreAdmin',
     'isSenderAdmin',
     'text',
     'serverTimestamp',
     'timestamp',
-    'isBlocked',
     'isDeletableForEveryone',
   ]);
 
