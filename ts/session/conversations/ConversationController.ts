@@ -42,6 +42,8 @@ export const getConversationController = () => {
   return instance;
 };
 
+type DeleteOptions = { fromSyncMessage: boolean };
+
 export class ConversationController {
   private readonly conversations: ConversationCollection;
   private _initialFetchComplete: boolean = false;
@@ -176,82 +178,9 @@ export class ConversationController {
     });
   }
 
-  /**
-   * Usually, we want to mark private contact deleted as inactive (active_at = undefined).
-   * That way we can still have the username and avatar for them, but they won't appear in search results etc.
-   * For the blinded contact deletion though, we want to delete it completely because we merged it to an unblinded convo.
-   */
-  public async deleteBlindedContact(blindedId: string) {
-    if (!this._initialFetchComplete) {
-      throw new Error(
-        'getConversationController().deleteBlindedContact() needs complete initial fetch'
-      );
-    }
-    if (!PubKey.hasBlindedPrefix(blindedId)) {
-      throw new Error('deleteBlindedContact allow accepts blinded id');
-    }
-    window.log.info(`deleteBlindedContact with ${blindedId}`);
-    const conversation = this.conversations.get(blindedId);
-    if (!conversation) {
-      window.log.warn(`deleteBlindedContact no such convo ${blindedId}`);
-      return;
-    }
-
-    // we remove the messages left in this convo. The caller has to merge them if needed
-    await deleteAllMessagesByConvoIdNoConfirmation(conversation.id);
-
-    await conversation.setIsApproved(false, false);
-    await conversation.setDidApproveMe(false, false);
-    await conversation.commit();
-  }
-
-  public async deleteClosedGroup(
-    groupId: string,
-    options: { fromSyncMessage: boolean; sendLeaveMessage: boolean }
-  ) {
-    const conversation = await this.deleteConvoInitialChecks(groupId, 'LegacyGroup');
-    if (!conversation || !conversation.isClosedGroup()) {
-      return;
-    }
-    window.log.info(`deleteClosedGroup: ${groupId}, sendLeaveMessage?:${options.sendLeaveMessage}`);
-    getSwarmPollingInstance().removePubkey(groupId); // we don't need to keep polling anymore.
-
-    if (options.sendLeaveMessage) {
-      await leaveClosedGroup(groupId, options.fromSyncMessage);
-    }
-
-    // if we were kicked or sent our left message, we have nothing to do more with that group.
-    // Just delete everything related to it, not trying to add update message or send a left message.
-    await this.removeGroupOrCommunityFromDBAndRedux(groupId);
-    await removeLegacyGroupFromWrappers(groupId);
-
-    if (!options.fromSyncMessage) {
-      await ConfigurationSync.queueNewJobIfNeeded();
-    }
-  }
-
-  public async deleteCommunity(convoId: string, options: { fromSyncMessage: boolean }) {
-    const conversation = await this.deleteConvoInitialChecks(convoId, 'Community');
-    if (!conversation || !conversation.isPublic()) {
-      return;
-    }
-
-    window?.log?.info('leaving community: ', conversation.id);
-    const roomInfos = OpenGroupData.getV2OpenGroupRoom(conversation.id);
-    if (roomInfos) {
-      getOpenGroupManager().removeRoomFromPolledRooms(roomInfos);
-    }
-    await removeCommunityFromWrappers(conversation.id); // this call needs to fetch the pubkey
-    await this.removeGroupOrCommunityFromDBAndRedux(conversation.id);
-
-    if (!options.fromSyncMessage) {
-      await ConfigurationSync.queueNewJobIfNeeded();
-    }
-  }
-
   public async delete1o1(
     id: string,
-    options: { fromSyncMessage: boolean; justHidePrivate?: boolean; keepMessages?: boolean }
+    options: DeleteOptions & { justHidePrivate?: boolean; keepMessages?: boolean }
   ) {
     const conversation = await this.deleteConvoInitialChecks(id, '1o1', options?.keepMessages);
 
@@ -296,6 +225,79 @@ export class ConversationController {
     if (!options.fromSyncMessage) {
       await ConfigurationSync.queueNewJobIfNeeded();
     }
+  }
+
+  public async deleteClosedGroup(
+    groupId: string,
+    options: DeleteOptions & { sendLeaveMessage: boolean }
+  ) {
+    const conversation = await this.deleteConvoInitialChecks(groupId, 'LegacyGroup');
+    if (!conversation || !conversation.isClosedGroup()) {
+      return;
+    }
+    window.log.info(`deleteClosedGroup: ${groupId}, sendLeaveMessage?:${options.sendLeaveMessage}`);
+    getSwarmPollingInstance().removePubkey(groupId); // we don't need to keep polling anymore.
+
+    if (options.sendLeaveMessage) {
+      await leaveClosedGroup(groupId, options.fromSyncMessage);
+    }
+
+    // if we were kicked or sent our left message, we have nothing to do more with that group.
+    // Just delete everything related to it, not trying to add update message or send a left message.
+    await this.removeGroupOrCommunityFromDBAndRedux(groupId);
+    await removeLegacyGroupFromWrappers(groupId);
+
+    if (!options.fromSyncMessage) {
+      await ConfigurationSync.queueNewJobIfNeeded();
+    }
+  }
+
+  public async deleteCommunity(convoId: string, options: DeleteOptions) {
+    const conversation = await this.deleteConvoInitialChecks(convoId, 'Community');
+    if (!conversation || !conversation.isPublic()) {
+      return;
+    }
+
+    window?.log?.info('leaving community: ', conversation.id);
+    const roomInfos = OpenGroupData.getV2OpenGroupRoom(conversation.id);
+    if (roomInfos) {
+      getOpenGroupManager().removeRoomFromPolledRooms(roomInfos);
+    }
+    await removeCommunityFromWrappers(conversation.id); // this call needs to fetch the pubkey
+    await this.removeGroupOrCommunityFromDBAndRedux(conversation.id);
+
+    if (!options.fromSyncMessage) {
+      await ConfigurationSync.queueNewJobIfNeeded();
+    }
+  }
+
+  /**
+   * Usually, we want to mark private contact deleted as inactive (active_at = undefined).
+   * That way we can still have the username and avatar for them, but they won't appear in search results etc.
+   * For the blinded contact deletion though, we want to delete it completely because we merged it to an unblinded convo.
+   */
+  public async deleteBlindedContact(blindedId: string) {
+    if (!this._initialFetchComplete) {
+      throw new Error(
+        'getConversationController().deleteBlindedContact() needs complete initial fetch'
+      );
+    }
+    if (!PubKey.hasBlindedPrefix(blindedId)) {
+      throw new Error('deleteBlindedContact allow accepts blinded id');
+    }
+    window.log.info(`deleteBlindedContact with ${blindedId}`);
+    const conversation = this.conversations.get(blindedId);
+    if (!conversation) {
+      window.log.warn(`deleteBlindedContact no such convo ${blindedId}`);
+      return;
+    }
+
+    // we remove the messages left in this convo. The caller has to merge them if needed
+    await deleteAllMessagesByConvoIdNoConfirmation(conversation.id);
+
+    await conversation.setIsApproved(false, false);
+    await conversation.setDidApproveMe(false, false);
+    await conversation.commit();
   }
 
   /**
