@@ -292,8 +292,8 @@ export const SessionRightPanelWithDetails = () => {
   const showAddRemoveModeratorsButton = weAreAdmin && !commonNoShow && isPublic;
   const showUpdateGroupMembersButton = !isPublic && isGroup && !commonNoShow;
 
-  const deleteConvoAction = () => {
-    showLeaveGroupByConvoId(selectedConvoKey, selectedUsername);
+  const deleteConvoAction = async () => {
+    await showLeaveGroupByConvoId(selectedConvoKey, selectedUsername);
   };
 
   return (

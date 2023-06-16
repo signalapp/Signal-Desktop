@@ -142,8 +142,8 @@ export const LeaveGroupOrCommunityMenuItem = () => {
   if (!isKickedFromGroup && !isLeft && !isPrivate) {
     return (
       <Item
-        onClick={() => {
-          showLeaveGroupByConvoId(convoId, username);
+        onClick={async () => {
+          await showLeaveGroupByConvoId(convoId, username);
         }}
       >
         {isPublic

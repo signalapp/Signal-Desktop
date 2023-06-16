@@ -713,7 +713,7 @@ export async function callRecipient(pubkey: string, canCall: boolean) {
 
 /**
  * Updates the interaction state for a conversation. Remember to run clearConversationInteractionState() when the interaction is complete and we don't want to show it in the UI anymore.
- * @param conversationId
+ * @param conversationId id of the converation we want to interact with
  * @param type the type of conversation interaciton we are doing
  * @param status the status of that interaction
  */
@@ -740,7 +740,7 @@ export async function updateConversationInteractionState({
 
 /**
  * Clears the interaction state for a conversation. We would use this when we don't need to show anything in the UI once an action is complete.
- * @param conversationId
+ * @param conversationId id of the conversation whose interaction we want to clear
  */
 export async function clearConversationInteractionState({
   conversationId,

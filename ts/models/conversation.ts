@@ -1859,6 +1859,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     });
   }
 
+  // tslint:disable-next-line cyclomatic-complexity
   private async bouncyUpdateLastMessage() {
     if (!this.id || !this.get('active_at') || this.isHidden()) {
       return;
