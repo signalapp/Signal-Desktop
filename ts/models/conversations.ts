@@ -3791,14 +3791,18 @@ export class ConversationModel extends window.Backbone
             lastMessageStatus: 'sending' as const,
           };
 
+      const isEditMessage = Boolean(message.get('editHistory'));
+
       this.set({
         ...draftProperties,
         ...(enabledProfileSharing ? { profileSharing: true } : {}),
         ...(dontAddMessage
           ? {}
           : this.incrementSentMessageCount({ dry: true })),
-        active_at: now,
-        timestamp: now,
+        // If it's an edit message we don't want to optimistically set the
+        // active_at & timestamp to now. We want it to stay the same.
+        active_at: isEditMessage ? this.get('active_at') : now,
+        timestamp: isEditMessage ? this.get('timestamp') : now,
         ...(unarchivedConversation ? { isArchived: false } : {}),
       });
 
