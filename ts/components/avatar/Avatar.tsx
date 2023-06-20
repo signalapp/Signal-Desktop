@@ -1,19 +1,18 @@
-import React, { useState } from 'react';
 import classNames from 'classnames';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import styled from 'styled-components';
+import { useDisableDrag } from '../../hooks/useDisableDrag';
 import { useEncryptedFileFetch } from '../../hooks/useEncryptedFileFetch';
-import { isEqual } from 'lodash';
 import {
   useAvatarPath,
   useConversationUsername,
   useIsClosedGroup,
 } from '../../hooks/useParamSelector';
+import { isMessageSelectionMode } from '../../state/selectors/conversations';
+import { SessionIcon } from '../icon';
 import { AvatarPlaceHolder } from './AvatarPlaceHolder/AvatarPlaceHolder';
 import { ClosedGroupAvatar } from './AvatarPlaceHolder/ClosedGroupAvatar';
-import { useDisableDrag } from '../../hooks/useDisableDrag';
-import styled from 'styled-components';
-import { SessionIcon } from '../icon';
-import { useSelector } from 'react-redux';
-import { isMessageSelectionMode } from '../../state/selectors/conversations';
 
 export enum AvatarSize {
   XS = 28,
@@ -90,7 +89,7 @@ const AvatarImage = (props: {
   datatestId?: string;
   handleImageError: () => any;
 }) => {
-  const { avatarPath, base64Data, name, imageBroken, datatestId, handleImageError } = props;
+  const { avatarPath, base64Data, imageBroken, datatestId, handleImageError } = props;
 
   const disableDrag = useDisableDrag();
 
@@ -103,7 +102,6 @@ const AvatarImage = (props: {
     <img
       onError={handleImageError}
       onDragStart={disableDrag}
-      alt={window.i18n('contactAvatarAlt', [name || 'avatar'])}
       src={dataToDisplay}
       data-testid={datatestId}
     />
@@ -173,4 +171,4 @@ const AvatarInner = (props: Props) => {
   );
 };
 
-export const Avatar = React.memo(AvatarInner, isEqual);
+export const Avatar = AvatarInner;

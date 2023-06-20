@@ -14,14 +14,9 @@ import { StateType } from '../reducer';
 
 import { ReplyingToMessageProps } from '../../components/conversation/composition/CompositionBox';
 import { MessageAttachmentSelectorProps } from '../../components/conversation/message/message-content/MessageAttachment';
-import { MessageAuthorSelectorProps } from '../../components/conversation/message/message-content/MessageAuthorText';
-import { MessageAvatarSelectorProps } from '../../components/conversation/message/message-content/MessageAvatar';
 import { MessageContentSelectorProps } from '../../components/conversation/message/message-content/MessageContent';
 import { MessageContentWithStatusSelectorProps } from '../../components/conversation/message/message-content/MessageContentWithStatus';
 import { MessageContextMenuSelectorProps } from '../../components/conversation/message/message-content/MessageContextMenu';
-import { MessageLinkPreviewSelectorProps } from '../../components/conversation/message/message-content/MessageLinkPreview';
-import { MessageQuoteSelectorProps } from '../../components/conversation/message/message-content/MessageQuote';
-import { MessageStatusSelectorProps } from '../../components/conversation/message/message-content/MessageStatus';
 import { MessageTextSelectorProps } from '../../components/conversation/message/message-content/MessageText';
 import { GenericReadableMessageSelectorProps } from '../../components/conversation/message/message-item/GenericReadableMessage';
 import { LightBoxOptions } from '../../components/conversation/SessionConversation';
@@ -40,21 +35,17 @@ import { getIntl } from './user';
 
 import { filter, isEmpty, isNumber, pick, sortBy } from 'lodash';
 import { MessageReactsSelectorProps } from '../../components/conversation/message/message-content/MessageReactions';
-import { getModeratorsOutsideRedux } from './sogsRoomInfo';
 import { getSelectedConversation, getSelectedConversationKey } from './selectedConversation';
-import { useSelector } from 'react-redux';
+import { getModeratorsOutsideRedux } from './sogsRoomInfo';
 
 export const getConversations = (state: StateType): ConversationsStateType => state.conversations;
 
-export const getConversationLookup = createSelector(
-  getConversations,
-  (state: ConversationsStateType): ConversationLookupType => {
-    return state.conversationLookup;
-  }
-);
+export const getConversationLookup = (state: StateType): ConversationLookupType => {
+  return state.conversations.conversationLookup;
+};
 
 export const getConversationsCount = createSelector(getConversationLookup, (state): number => {
-  return Object.values(state).length;
+  return Object.keys(state).length;
 });
 
 export const getOurPrimaryConversation = createSelector(
@@ -63,10 +54,9 @@ export const getOurPrimaryConversation = createSelector(
     state.conversationLookup[Storage.get('primaryDevicePubKey') as string]
 );
 
-const getMessagesOfSelectedConversation = createSelector(
-  getConversations,
-  (state: ConversationsStateType): Array<MessageModelPropsWithoutConvoProps> => state.messages
-);
+const getMessagesOfSelectedConversation = (
+  state: StateType
+): Array<MessageModelPropsWithoutConvoProps> => state.conversations.messages;
 
 // Redux recommends to do filtered and deriving state in a selector rather than ourself
 export const getSortedMessagesOfSelectedConversation = createSelector(
@@ -97,12 +87,9 @@ export const hasSelectedConversationIncomingMessages = createSelector(
   }
 );
 
-export const getFirstUnreadMessageId = createSelector(
-  getConversations,
-  (state: ConversationsStateType): string | undefined => {
-    return state.firstUnreadMessageId;
-  }
-);
+export const getFirstUnreadMessageId = (state: StateType): string | undefined => {
+  return state.conversations.firstUnreadMessageId;
+};
 
 export type MessagePropsType =
   | 'group-notification'
@@ -489,76 +476,47 @@ export const getGlobalUnreadMessageCount = createSelector(getLeftPaneLists, (sta
   return state.globalUnreadCount;
 });
 
-export const isMessageDetailView = createSelector(
-  getConversations,
-  (state: ConversationsStateType): boolean => state.messageDetailProps !== undefined
-);
+export const isMessageDetailView = (state: StateType): boolean =>
+  state.conversations.messageDetailProps !== undefined;
 
-export const getMessageDetailsViewProps = createSelector(
-  getConversations,
-  (state: ConversationsStateType): MessagePropsDetails | undefined => state.messageDetailProps
-);
+export const getMessageDetailsViewProps = (state: StateType): MessagePropsDetails | undefined =>
+  state.conversations.messageDetailProps;
 
-export const isRightPanelShowing = createSelector(
-  getConversations,
-  (state: ConversationsStateType): boolean => state.showRightPanel
-);
+export const isRightPanelShowing = (state: StateType): boolean =>
+  state.conversations.showRightPanel;
 
-export const isMessageSelectionMode = createSelector(
-  getConversations,
-  (state: ConversationsStateType): boolean => Boolean(state.selectedMessageIds.length > 0)
-);
+export const isMessageSelectionMode = (state: StateType): boolean =>
+  state.conversations.selectedMessageIds.length > 0;
 
-export const getSelectedMessageIds = createSelector(
-  getConversations,
-  (state: ConversationsStateType): Array<string> => state.selectedMessageIds
-);
+export const getSelectedMessageIds = (state: StateType): Array<string> =>
+  state.conversations.selectedMessageIds;
 
-export const getIsMessageSelectionMode = createSelector(
-  getSelectedMessageIds,
-  (state: Array<string>): boolean => Boolean(state.length)
-);
+export const getIsMessageSelectionMode = (state: StateType): boolean =>
+  Boolean(getSelectedMessageIds(state).length);
 
-export const getLightBoxOptions = createSelector(
-  getConversations,
-  (state: ConversationsStateType): LightBoxOptions | undefined => state.lightBox
-);
+export const getLightBoxOptions = (state: StateType): LightBoxOptions | undefined =>
+  state.conversations.lightBox;
 
-export const getQuotedMessage = createSelector(
-  getConversations,
-  (state: ConversationsStateType): ReplyingToMessageProps | undefined => state.quotedMessage
-);
+export const getQuotedMessage = (state: StateType): ReplyingToMessageProps | undefined =>
+  state.conversations.quotedMessage;
 
-export const areMoreMessagesBeingFetched = createSelector(
-  getConversations,
-  (state: ConversationsStateType): boolean => state.areMoreMessagesBeingFetched || false
-);
+export const areMoreMessagesBeingFetched = (state: StateType): boolean =>
+  state.conversations.areMoreMessagesBeingFetched || false;
 
-export const getShowScrollButton = createSelector(
-  getConversations,
-  (state: ConversationsStateType): boolean => state.showScrollButton || false
-);
+export const getShowScrollButton = (state: StateType): boolean =>
+  state.conversations.showScrollButton || false;
 
-export const getQuotedMessageToAnimate = createSelector(
-  getConversations,
-  (state: ConversationsStateType): string | undefined => state.animateQuotedMessageId || undefined
-);
+export const getQuotedMessageToAnimate = (state: StateType): string | undefined =>
+  state.conversations.animateQuotedMessageId || undefined;
 
-export const getShouldHighlightMessage = createSelector(
-  getConversations,
-  (state: ConversationsStateType): boolean =>
-    Boolean(state.animateQuotedMessageId && state.shouldHighlightMessage)
-);
+export const getShouldHighlightMessage = (state: StateType): boolean =>
+  Boolean(state.conversations.animateQuotedMessageId && state.conversations.shouldHighlightMessage);
 
-export const getNextMessageToPlayId = createSelector(
-  getConversations,
-  (state: ConversationsStateType): string | undefined => state.nextMessageToPlayId || undefined
-);
+export const getNextMessageToPlayId = (state: StateType): string | undefined =>
+  state.conversations.nextMessageToPlayId || undefined;
 
-export const getMentionsInput = createSelector(
-  getConversations,
-  (state: ConversationsStateType): MentionsMembersType => state.mentionMembers
-);
+export const getMentionsInput = (state: StateType): MentionsMembersType =>
+  state.conversations.mentionMembers;
 
 /// Those calls are just related to ordering messages in the redux store.
 
@@ -621,12 +579,9 @@ function sortMessages(
  * This returns the most recent message id in the database. This is not the most recent message shown,
  * but the most recent one, which could still not be loaded.
  */
-export const getMostRecentMessageId = createSelector(
-  getConversations,
-  (state: ConversationsStateType): string | null => {
-    return state.mostRecentMessageId;
-  }
-);
+export const getMostRecentMessageId = (state: StateType): string | null => {
+  return state.conversations.mostRecentMessageId;
+};
 
 export const getOldestMessageId = createSelector(
   getSortedMessagesOfSelectedConversation,
@@ -674,20 +629,22 @@ export const isFirstUnreadMessageIdAbove = createSelector(
   }
 );
 
-const getMessageId = (_whatever: any, id: string) => id;
+const getMessageId = (_whatever: any, id: string | undefined) => id;
 
 // tslint:disable: cyclomatic-complexity
 
 export const getMessagePropsByMessageId = createSelector(
   getSortedMessagesOfSelectedConversation,
-  getConversationLookup,
+  getSelectedConversation,
   getMessageId,
-
   (
     messages: Array<SortedMessageModelProps>,
-    conversations,
+    selectedConvo,
     id
   ): MessageModelPropsWithConvoProps | undefined => {
+    if (!id) {
+      return undefined;
+    }
     const foundMessageProps: SortedMessageModelProps | undefined = messages?.find(
       m => m?.propsForMessage?.id === id
     );
@@ -697,27 +654,20 @@ export const getMessagePropsByMessageId = createSelector(
     }
     const sender = foundMessageProps?.propsForMessage?.sender;
 
-    // foundMessageConversation is the conversation this message is
-    const foundMessageConversation = conversations[foundMessageProps.propsForMessage.convoId];
-    if (!foundMessageConversation || !sender) {
-      return undefined;
-    }
-
-    const foundSenderConversation = conversations[sender];
-    if (!foundSenderConversation) {
+    // we can only show messages when the convo is selected.
+    if (!selectedConvo || !sender) {
       return undefined;
     }
 
     const ourPubkey = UserUtils.getOurPubKeyStrFromCache();
-    const isGroup = !foundMessageConversation.isPrivate;
-    const isPublic = foundMessageConversation.isPublic;
+    const isGroup = !selectedConvo.isPrivate;
+    const isPublic = selectedConvo.isPublic;
 
-    const groupAdmins = (isGroup && foundMessageConversation.groupAdmins) || [];
+    const groupAdmins = (isGroup && selectedConvo.groupAdmins) || [];
     const weAreAdmin = groupAdmins.includes(ourPubkey) || false;
 
     const weAreModerator =
-      (isPublic && getModeratorsOutsideRedux(foundMessageConversation.id).includes(ourPubkey)) ||
-      false;
+      (isPublic && getModeratorsOutsideRedux(selectedConvo.id).includes(ourPubkey)) || false;
     // A message is deletable if
     // either we sent it,
     // or the convo is not a public one (in this case, we will only be able to delete for us)
@@ -732,63 +682,26 @@ export const getMessagePropsByMessageId = createSelector(
       sender === ourPubkey || (isPublic && (weAreAdmin || weAreModerator)) || false;
 
     const isSenderAdmin = groupAdmins.includes(sender);
-    const senderIsUs = sender === ourPubkey;
-
-    const authorName =
-      foundSenderConversation.nickname || foundSenderConversation.displayNameInProfile || null;
-    const authorProfileName = senderIsUs
-      ? window.i18n('you')
-      : foundSenderConversation.nickname ||
-        foundSenderConversation.displayNameInProfile ||
-        window.i18n('anonymous');
 
     const messageProps: MessageModelPropsWithConvoProps = {
       ...foundMessageProps,
       propsForMessage: {
         ...foundMessageProps.propsForMessage,
-        isBlocked: !!foundMessageConversation.isBlocked,
+        isBlocked: !!selectedConvo.isBlocked,
         isPublic: !!isPublic,
-        isOpenGroupV2: !!isPublic,
         isSenderAdmin,
         isDeletable,
         isDeletableForEveryone,
         weAreAdmin,
-        conversationType: foundMessageConversation.type,
+        conversationType: selectedConvo.type,
         sender,
-        authorAvatarPath: foundSenderConversation.avatarPath || null,
-        isKickedFromGroup: foundMessageConversation.isKickedFromGroup || false,
-        authorProfileName: authorProfileName || 'Unknown',
-        authorName,
+        isKickedFromGroup: selectedConvo.isKickedFromGroup || false,
       },
     };
 
     return messageProps;
   }
 );
-
-export const getMessageAvatarProps = createSelector(getMessagePropsByMessageId, (props):
-  | MessageAvatarSelectorProps
-  | undefined => {
-  if (!props || isEmpty(props)) {
-    return undefined;
-  }
-
-  const messageAvatarProps: MessageAvatarSelectorProps = {
-    lastMessageOfSeries: props.lastMessageOfSeries,
-    ...pick(props.propsForMessage, [
-      'authorAvatarPath',
-      'authorName',
-      'sender',
-      'authorProfileName',
-      'conversationType',
-      'direction',
-      'isPublic',
-      'isSenderAdmin',
-    ]),
-  };
-
-  return messageAvatarProps;
-});
 
 export const getMessageReactsProps = createSelector(getMessagePropsByMessageId, (props):
   | MessageReactsSelectorProps
@@ -800,7 +713,6 @@ export const getMessageReactsProps = createSelector(getMessagePropsByMessageId, 
   const msgProps: MessageReactsSelectorProps = pick(props.propsForMessage, [
     'convoId',
     'conversationType',
-    'isPublic',
     'reacts',
     'serverId',
   ]);
@@ -825,46 +737,6 @@ export const getMessageReactsProps = createSelector(getMessagePropsByMessageId, 
   return msgProps;
 });
 
-export const getMessageLinkPreviewProps = createSelector(getMessagePropsByMessageId, (props):
-  | MessageLinkPreviewSelectorProps
-  | undefined => {
-  if (!props || isEmpty(props)) {
-    return undefined;
-  }
-
-  const msgProps: MessageLinkPreviewSelectorProps = pick(props.propsForMessage, [
-    'direction',
-    'attachments',
-    'previews',
-  ]);
-
-  return msgProps;
-});
-
-export const getMessageQuoteProps = createSelector(getMessagePropsByMessageId, (props):
-  | MessageQuoteSelectorProps
-  | undefined => {
-  if (!props || isEmpty(props)) {
-    return undefined;
-  }
-
-  const msgProps: MessageQuoteSelectorProps = pick(props.propsForMessage, ['direction', 'quote']);
-
-  return msgProps;
-});
-
-export const getMessageStatusProps = createSelector(getMessagePropsByMessageId, (props):
-  | MessageStatusSelectorProps
-  | undefined => {
-  if (!props || isEmpty(props)) {
-    return undefined;
-  }
-
-  const msgProps: MessageStatusSelectorProps = pick(props.propsForMessage, ['direction', 'status']);
-
-  return msgProps;
-});
-
 export const getMessageTextProps = createSelector(getMessagePropsByMessageId, (props):
   | MessageTextSelectorProps
   | undefined => {
@@ -882,11 +754,6 @@ export const getMessageTextProps = createSelector(getMessagePropsByMessageId, (p
 
   return msgProps;
 });
-
-export const useMessageIsDeleted = (messageId: string): boolean => {
-  const props = useSelector((state: StateType) => getMessagePropsByMessageId(state, messageId));
-  return props?.propsForMessage.isDeleted || false;
-};
 
 /**
  * TODO probably not something which should be memoized with createSelector as we rememoize it for each message (and override the previous one). Not sure what is the right way to do a lookup. But maybe something like having the messages as a record<id, message> and do a simple lookup to grab the details.
@@ -914,32 +781,6 @@ export const getMessageContextMenuProps = createSelector(getMessagePropsByMessag
 
   return msgProps;
 });
-
-export const getMessageAuthorProps = createSelector(getMessagePropsByMessageId, (props):
-  | MessageAuthorSelectorProps
-  | undefined => {
-  if (!props || isEmpty(props)) {
-    return undefined;
-  }
-
-  const msgProps: MessageAuthorSelectorProps = {
-    firstMessageOfSeries: props.firstMessageOfSeries,
-    ...pick(props.propsForMessage, ['authorName', 'sender', 'authorProfileName', 'direction']),
-  };
-
-  return msgProps;
-});
-
-export const getMessageIsDeletable = createSelector(
-  getMessagePropsByMessageId,
-  (props): boolean => {
-    if (!props || isEmpty(props)) {
-      return false;
-    }
-
-    return props.propsForMessage.isDeletable;
-  }
-);
 
 export const getMessageAttachmentProps = createSelector(getMessagePropsByMessageId, (props):
   | MessageAttachmentSelectorProps
@@ -1038,22 +879,14 @@ export const getGenericReadableMessageSelectorProps = createSelector(
   }
 );
 
-export const getOldTopMessageId = createSelector(
-  getConversations,
-  (state: ConversationsStateType): string | null => state.oldTopMessageId || null
-);
+export const getOldTopMessageId = (state: StateType): string | null =>
+  state.conversations.oldTopMessageId || null;
 
-// TODOLATER get rid of all the unneeded createSelector calls
+export const getOldBottomMessageId = (state: StateType): string | null =>
+  state.conversations.oldBottomMessageId || null;
 
-export const getOldBottomMessageId = createSelector(
-  getConversations,
-  (state: ConversationsStateType): string | null => state.oldBottomMessageId || null
-);
-
-export const getIsSelectedConvoInitialLoadingInProgress = createSelector(
-  getSelectedConversation,
-  (convo: ReduxConversationType | undefined): boolean => Boolean(convo?.isInitialFetchingInProgress)
-);
+export const getIsSelectedConvoInitialLoadingInProgress = (state: StateType): boolean =>
+  Boolean(getSelectedConversation(state)?.isInitialFetchingInProgress);
 
 export function getCurrentlySelectedConversationOutsideRedux() {
   return window?.inboxStore?.getState().conversations.selectedConversation as string | undefined;

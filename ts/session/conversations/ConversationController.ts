@@ -432,10 +432,7 @@ export class ConversationController {
       this.conversations.remove(conversation);
 
       window?.inboxStore?.dispatch(
-        conversationActions.conversationChanged({
-          id: convoId,
-          data: conversation.getConversationModelProps(),
-        })
+        conversationActions.conversationsChanged([conversation.getConversationModelProps()])
       );
     }
     window.inboxStore?.dispatch(conversationActions.conversationRemoved(convoId));

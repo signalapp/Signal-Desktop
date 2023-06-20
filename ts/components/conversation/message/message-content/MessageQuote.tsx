@@ -5,7 +5,6 @@ import { MessageRenderingProps } from '../../../../models/messageType';
 import { PubKey } from '../../../../session/types';
 import { openConversationToSpecificMessage } from '../../../../state/ducks/conversations';
 import {
-  getMessageQuoteProps,
   isMessageDetailView,
   isMessageSelectionMode,
 } from '../../../../state/selectors/conversations';
@@ -13,6 +12,7 @@ import { Quote } from './Quote';
 import { ToastUtils } from '../../../../session/utils';
 import { Data } from '../../../../data/data';
 import { MessageModel } from '../../../../models/message';
+import { useMessageDirection, useMessageQuote } from '../../../../state/selectors';
 
 // tslint:disable: use-simple-attributes
 
@@ -23,12 +23,10 @@ type Props = {
 export type MessageQuoteSelectorProps = Pick<MessageRenderingProps, 'quote' | 'direction'>;
 
 export const MessageQuote = (props: Props) => {
-  const selected = useSelector(state => getMessageQuoteProps(state as any, props.messageId));
+  const quote = useMessageQuote(props.messageId);
+  const direction = useMessageDirection(props.messageId);
   const multiSelectMode = useSelector(isMessageSelectionMode);
   const isMessageDetailViewMode = useSelector(isMessageDetailView);
-
-  const quote = selected ? selected.quote : undefined;
-  const direction = selected ? selected.direction : undefined;
 
   const onQuoteClick = useCallback(
     async (event: React.MouseEvent<HTMLDivElement>) => {
@@ -76,7 +74,7 @@ export const MessageQuote = (props: Props) => {
     },
     [quote, multiSelectMode, props.messageId]
   );
-  if (!selected) {
+  if (!props.messageId) {
     return null;
   }
 

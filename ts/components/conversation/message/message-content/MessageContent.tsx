@@ -10,8 +10,8 @@ import {
   getMessageContentSelectorProps,
   getQuotedMessageToAnimate,
   getShouldHighlightMessage,
-  useMessageIsDeleted,
 } from '../../../../state/selectors/conversations';
+import { useMessageIsDeleted } from '../../../../state/selectors';
 import { ScrollToLoadedMessageContext } from '../../SessionMessagesListContainer';
 import { MessageAttachment } from './MessageAttachment';
 import { MessageLinkPreview } from './MessageLinkPreview';

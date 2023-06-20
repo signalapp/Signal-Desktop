@@ -140,4 +140,4 @@ const ConversationListItem = (props: Props) => {
   );
 };
 
-export const MemoConversationListItemWithDetails = React.memo(ConversationListItem, _.isEqual);
+export const MemoConversationListItemWithDetails = ConversationListItem;

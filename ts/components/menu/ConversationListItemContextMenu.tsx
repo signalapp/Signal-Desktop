@@ -77,13 +77,7 @@ const ConversationListItemContextMenu = (props: PropsContextConversationItem) =>
   );
 };
 
-function propsAreEqual(prev: PropsContextConversationItem, next: PropsContextConversationItem) {
-  return _.isEqual(prev, next);
-}
-export const MemoConversationListItemContextMenu = React.memo(
-  ConversationListItemContextMenu,
-  propsAreEqual
-);
+export const MemoConversationListItemContextMenu = ConversationListItemContextMenu;
 
 export const PinConversationMenuItem = (): JSX.Element | null => {
   const conversationId = useConvoIdFromContext();
