@@ -275,7 +275,10 @@ describe('editing', function needsName() {
     assert.strictEqual(firstEdit.dataMessage?.body, 'edit message 2');
 
     debug('opening context menu again');
-    await message.locator('[aria-label="More actions"]').click();
+    const firstEditMessage = window.locator(
+      `.module-message[data-testid="${firstEdit.dataMessage?.timestamp?.toNumber()}"]`
+    );
+    await firstEditMessage.locator('[aria-label="More actions"]').click();
 
     debug('starting second message edit');
     await window.locator('.module-message__context__edit-message').click();
@@ -295,7 +298,12 @@ describe('editing', function needsName() {
     assert.strictEqual(secondEdit.dataMessage?.body, 'edit message 3');
 
     debug('opening edit history');
-    await message.locator('.module-message__metadata__edited').click();
+    const secondEditMessage = window.locator(
+      `.module-message[data-testid="${secondEdit.dataMessage?.timestamp?.toNumber()}"]`
+    );
+    await secondEditMessage
+      .locator('.module-message__metadata__edited')
+      .click();
 
     const history = await window.locator(
       '.EditHistoryMessagesModal .module-message'

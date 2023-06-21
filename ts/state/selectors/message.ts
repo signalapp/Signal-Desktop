@@ -127,6 +127,7 @@ import { isSignalConversation } from '../../util/isSignalConversation';
 import type { AnyPaymentEvent } from '../../types/Payment';
 import { isPaymentNotificationEvent } from '../../types/Payment';
 import { getTitleNoDefault, getNumber } from '../../util/getTitle';
+import { getMessageSentTimestamp } from '../../util/getMessageSentTimestamp';
 
 export { isIncoming, isOutgoing, isStory };
 
@@ -762,7 +763,7 @@ export const getPropsForMessage = (
     status: getMessagePropStatus(message, ourConversationId),
     text: message.body,
     textDirection: getTextDirection(message.body),
-    timestamp: message.sent_at,
+    timestamp: getMessageSentTimestamp(message, { includeEdits: true, log }),
   };
 };
 
