@@ -1041,7 +1041,12 @@ export async function mergeContactRecord(
   // https://github.com/signalapp/Signal-Android/blob/fc3db538bcaa38dc149712a483d3032c9c1f3998/app/src/main/java/org/thoughtcrime/securesms/database/RecipientDatabase.kt#L921-L936
   if (contactRecord.identityKey) {
     const verified = await conversation.safeGetVerified();
-    const newVerified = fromRecordVerified(contactRecord.identityState ?? 0);
+    let { identityState } = contactRecord;
+    if (identityState == null) {
+      details.push('identity state was null, reverting to default state');
+      identityState = Proto.ContactRecord.IdentityState.DEFAULT;
+    }
+    const newVerified = fromRecordVerified(identityState);
 
     const needsNotification =
       await window.textsecure.storage.protocol.updateIdentityAfterSync(
