@@ -3079,7 +3079,9 @@ export class ConversationModel extends window.Backbone
         assertDev(resolvedTime, 'Direct call must have accepted or ended time');
         timestamp = resolvedTime;
         unread =
-          !callHistoryDetails.wasDeclined && !callHistoryDetails.acceptedTime;
+          callHistoryDetails.wasIncoming &&
+          !callHistoryDetails.wasDeclined &&
+          !callHistoryDetails.acceptedTime;
         detailsToSave = {
           ...callHistoryDetails,
           callMode: CallMode.Direct,
@@ -3100,7 +3102,7 @@ export class ConversationModel extends window.Backbone
       this.queueJob('addCallHistory', async () => {
         // Force save if we're adding a new call history message for a direct call
         let forceSave = true;
-        let previousMessage: MessageAttributesType | void;
+        let previousMessage: MessageAttributesType | null = null;
         if (callHistoryDetails.callMode === CallMode.Direct) {
           const messageId =
             await window.Signal.Data.getCallHistoryMessageByCallId(
@@ -3113,9 +3115,8 @@ export class ConversationModel extends window.Backbone
             );
             // We don't want to force save if we're updating an existing message
             forceSave = false;
-            previousMessage = await window.Signal.Data.getMessageById(
-              messageId
-            );
+            previousMessage =
+              (await window.Signal.Data.getMessageById(messageId)) ?? null;
           } else {
             log.info(
               `addCallHistory: No existing call history message found (Call ID: ${callHistoryDetails.callId})`
