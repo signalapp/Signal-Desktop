@@ -95,6 +95,7 @@ export const MessageSearchResult: FunctionComponent<PropsType> = React.memo(
     }, [showConversation, conversationId, id]);
 
     if (!from || !to) {
+      // Note: mapStateToProps() may return null if the message is not found.
       return <div />;
     }
 
