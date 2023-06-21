@@ -28,7 +28,7 @@ jobs:
     - name: Setup node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '18.14.0'
+        node-version: '18.15.0'
     - name: Install global dependencies
       run: npm install -g yarn@1.22.10
 
