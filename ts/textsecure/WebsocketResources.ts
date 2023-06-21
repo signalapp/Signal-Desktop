@@ -414,7 +414,7 @@ const STALE_THRESHOLD_MS = 5 * durations.MINUTE;
 
 // If we don't receive a response to keepalive request within 10 seconds -
 // close the socket.
-const KEEPALIVE_TIMEOUT_MS = 10 * durations.SECOND;
+const KEEPALIVE_TIMEOUT_MS = 30 * durations.SECOND;
 
 const LOG_KEEPALIVE_AFTER_MS = 500;
 
