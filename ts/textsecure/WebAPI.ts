@@ -57,11 +57,13 @@ import type {
 import { handleStatusCode, translateError } from './Utils';
 import * as log from '../logging/log';
 import { maybeParseUrl, urlPathFromComponents } from '../util/url';
+import { SECOND } from '../util/durations';
 
 // Note: this will break some code that expects to be able to use err.response when a
 //   web request fails, because it will force it to text. But it is very useful for
 //   debugging failed requests.
 const DEBUG = false;
+const DEFAULT_TIMEOUT = 30 * SECOND;
 
 function _createRedactor(
   ...toReplace: ReadonlyArray<string | undefined>
@@ -231,7 +233,8 @@ async function _promiseAjax(
   const logId = `${options.type} ${logType} ${redactedURL}${unauthLabel}`;
   log.info(logId);
 
-  const timeout = typeof options.timeout === 'number' ? options.timeout : 10000;
+  const timeout =
+    typeof options.timeout === 'number' ? options.timeout : DEFAULT_TIMEOUT;
 
   const agentType = options.unauthenticated ? 'unauth' : 'auth';
   const cacheKey = `${proxyUrl}-${agentType}`;
