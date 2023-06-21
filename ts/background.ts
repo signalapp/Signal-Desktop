@@ -1772,7 +1772,9 @@ export async function startApp(): Promise<void> {
         } catch (error) {
           log.error(
             'connect: Error refreshing remote config:',
-            Errors.toLogFormat(error)
+            isNumber(error.code)
+              ? `code: ${error.code}`
+              : Errors.toLogFormat(error)
           );
         }
       }

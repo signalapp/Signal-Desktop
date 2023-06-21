@@ -3,6 +3,7 @@
 
 import type { ProfileKeyCredentialRequestContext } from '@signalapp/libsignal-client/zkgroup';
 import PQueue from 'p-queue';
+import { isNumber } from 'lodash';
 
 import type { ConversationModel } from '../models/conversations';
 import type {
@@ -496,7 +497,9 @@ async function doGetProfile(c: ConversationModel): Promise<void> {
         log.warn(
           'getProfile failure:',
           idForLogging,
-          Errors.toLogFormat(error)
+          isNumber(error.code)
+            ? `code: ${error.code}`
+            : Errors.toLogFormat(error)
         );
         return;
     }
