@@ -7,9 +7,14 @@ import { escapeRegExp, isNumber, omit } from 'lodash';
 
 import { SignalService as Proto } from '../protobuf';
 import * as log from '../logging/log';
-import { assertDev } from '../util/assert';
 import { missingCaseError } from '../util/missingCaseError';
 import type { ConversationType } from '../state/ducks/conversations';
+import {
+  SNIPPET_LEFT_PLACEHOLDER,
+  SNIPPET_RIGHT_PLACEHOLDER,
+  SNIPPET_TRUNCATION_PLACEHOLDER,
+} from '../util/search';
+import { assertDev } from '../util/assert';
 
 // Cold storage of body ranges
 
@@ -507,11 +512,8 @@ export function groupContiguousSpoilers(
 }
 
 const TRUNCATION_CHAR = '...';
-const LENGTH_OF_LEFT = '<<left>>'.length;
-const TRUNCATION_PLACEHOLDER = '<<truncation>>';
-const TRUNCATION_START = /^<<truncation>>/;
-const TRUNCATION_END = /<<truncation>>$/;
-
+const TRUNCATION_START = new RegExp(`^${SNIPPET_TRUNCATION_PLACEHOLDER}`);
+const TRUNCATION_END = new RegExp(`${SNIPPET_TRUNCATION_PLACEHOLDER}$`);
 // This function exists because bodyRanges tells us the character position
 // where the at-mention starts at according to the full body text. The snippet
 // we get back is a portion of the text and we don't know where it starts. This
@@ -531,8 +533,8 @@ export function processBodyRangesForSearchResult({
 } {
   // Find where the snippet starts in the full text
   const cleanedSnippet = snippet
-    .replace(/<<left>>/g, '')
-    .replace(/<<right>>/g, '');
+    .replace(new RegExp(SNIPPET_LEFT_PLACEHOLDER, 'g'), '')
+    .replace(new RegExp(SNIPPET_RIGHT_PLACEHOLDER, 'g'), '');
   const withNoStartTruncation = cleanedSnippet.replace(TRUNCATION_START, '');
   const withNoEndTruncation = withNoStartTruncation.replace(TRUNCATION_END, '');
   const finalSnippet = cleanedSnippet
@@ -574,21 +576,35 @@ export function processBodyRangesForSearchResult({
       };
     });
 
-  // To format the match identified by FTS, we create a synthetic BodyRange to mix in with
-  //   all the other formatting embedded in this message.
-  const startOfKeywordMatch = snippet.match(/<<left>>/)?.index;
-  const endOfKeywordMatch = snippet.match(/<<right>>/)?.index;
+  // To format the matches identified by FTS, we create synthetic BodyRanges to mix in
+  // with all the other formatting embedded in this message.
+  const highlightMatches = snippet.matchAll(
+    new RegExp(
+      `${SNIPPET_LEFT_PLACEHOLDER}(.*?)${SNIPPET_RIGHT_PLACEHOLDER}`,
+      'dg'
+    )
+  );
 
-  if (isNumber(startOfKeywordMatch) && isNumber(endOfKeywordMatch)) {
+  let placeholderCharsSkipped = 0;
+  for (const highlightMatch of highlightMatches) {
+    // TS < 5 does not have types for RegExpIndicesArray
+    const { indices } = highlightMatch as RegExpMatchArray & {
+      indices: Array<Array<number>>;
+    };
+    const [wholeMatchStartIdx] = indices[0];
+    const [matchedWordStartIdx, matchedWordEndIdx] = indices[1];
     adjustedBodyRanges.push({
       start:
-        startOfKeywordMatch +
+        wholeMatchStartIdx +
+        -placeholderCharsSkipped +
         (truncationDelta
-          ? TRUNCATION_CHAR.length - TRUNCATION_PLACEHOLDER.length
+          ? TRUNCATION_CHAR.length - SNIPPET_TRUNCATION_PLACEHOLDER.length
           : 0),
-      length: endOfKeywordMatch - (startOfKeywordMatch + LENGTH_OF_LEFT),
+      length: matchedWordEndIdx - matchedWordStartIdx,
       displayStyle: DisplayStyle.SearchKeywordHighlight,
     });
+    placeholderCharsSkipped +=
+      SNIPPET_LEFT_PLACEHOLDER.length + SNIPPET_RIGHT_PLACEHOLDER.length;
   }
 
   return {

@@ -727,6 +727,27 @@ describe('BodyRanges', () => {
       });
     });
 
+    it('returns proper bodyRange surrounding multiple keywords', () => {
+      const { cleanedSnippet, bodyRanges } = processBodyRangesForSearchResult({
+        snippet: "What's <<left>>going<<right>> <<left>>on<<right>>?",
+        body: "What's going on?",
+        bodyRanges: [],
+      });
+
+      assert.strictEqual(cleanedSnippet, "What's going on?");
+      assert.lengthOf(bodyRanges, 2);
+      assert.deepEqual(bodyRanges[0], {
+        start: 7,
+        length: 5,
+        displayStyle: DisplayStyle.SearchKeywordHighlight,
+      });
+      assert.deepEqual(bodyRanges[1], {
+        start: 13,
+        length: 2,
+        displayStyle: DisplayStyle.SearchKeywordHighlight,
+      });
+    });
+
     it('returns proper bodyRange surrounding keyword, with trailing ...', () => {
       const { cleanedSnippet, bodyRanges } = processBodyRangesForSearchResult({
         snippet: "What's <<left>>going<<right>> on<<truncation>>",
