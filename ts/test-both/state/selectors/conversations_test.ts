@@ -923,10 +923,10 @@ describe('both/state/selectors/conversations-extra', () => {
 
       const ids = result.map(contact => contact.id);
       assert.deepEqual(ids, [
-        'our-conversation-id',
         'convo-1',
         'convo-5',
         'convo-6',
+        'our-conversation-id',
       ]);
     });
 

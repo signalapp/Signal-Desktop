@@ -163,3 +163,40 @@ export function filterAndSortConversationsByRecent(
     return a.activeAt && !b.activeAt ? -1 : 1;
   });
 }
+
+function startsWithLetter(title: string) {
+  // Uses \p, the unicode character class escape, to check if a the first character is a
+  // letter
+  return /^\p{Letter}/u.test(title);
+}
+
+function sortAlphabetically(a: ConversationType, b: ConversationType) {
+  // Sort alphabetically with conversations starting with a letter first (and phone
+  // numbers last)
+  const aStartsWithLetter = startsWithLetter(a.title);
+  const bStartsWithLetter = startsWithLetter(b.title);
+  if (aStartsWithLetter && !bStartsWithLetter) {
+    return -1;
+  }
+  if (!aStartsWithLetter && bStartsWithLetter) {
+    return 1;
+  }
+  return a.title.localeCompare(b.title);
+}
+
+export function filterAndSortConversationsAlphabetically(
+  conversations: ReadonlyArray<ConversationType>,
+  searchTerm: string,
+  regionCode: string | undefined
+): Array<ConversationType> {
+  if (searchTerm.length) {
+    const withoutUnknown = conversations.filter(item => item.titleNoDefault);
+
+    return searchConversations(withoutUnknown, searchTerm, regionCode)
+      .slice()
+      .map(result => result.item)
+      .sort(sortAlphabetically);
+  }
+
+  return conversations.concat().sort(sortAlphabetically);
+}

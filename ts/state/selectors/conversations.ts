@@ -30,7 +30,10 @@ import { deconstructLookup } from '../../util/deconstructLookup';
 import type { PropsDataType as TimelinePropsType } from '../../components/conversation/Timeline';
 import { assertDev } from '../../util/assert';
 import { isConversationUnregistered } from '../../util/isConversationUnregistered';
-import { filterAndSortConversationsByRecent } from '../../util/filterAndSortConversations';
+import {
+  filterAndSortConversationsAlphabetically,
+  filterAndSortConversationsByRecent,
+} from '../../util/filterAndSortConversations';
 import type { ContactNameColorType } from '../../types/Colors';
 import { ContactNameColors } from '../../types/Colors';
 import type { AvatarDataType } from '../../types/Avatar';
@@ -648,7 +651,11 @@ export const getFilteredComposeContacts = createSelector(
     contacts: ReadonlyArray<ConversationType>,
     regionCode: string | undefined
   ): Array<ConversationType> => {
-    return filterAndSortConversationsByRecent(contacts, searchTerm, regionCode);
+    return filterAndSortConversationsAlphabetically(
+      contacts,
+      searchTerm,
+      regionCode
+    );
   }
 );
 
@@ -667,7 +674,7 @@ export const getFilteredComposeGroups = createSelector(
       memberships: ReadonlyArray<unknown>;
     }
   > => {
-    return filterAndSortConversationsByRecent(
+    return filterAndSortConversationsAlphabetically(
       groups,
       searchTerm,
       regionCode
