@@ -539,9 +539,12 @@ export default class OutgoingMessage {
             },
             async (error: Error) => {
               if (
-                error instanceof HTTPError &&
+                error instanceof SendMessageNetworkError &&
                 (error.code === 401 || error.code === 403)
               ) {
+                log.warn(
+                  `OutgoingMessage.doSendMessage: Failing over to unsealed send for identifier ${identifier}`
+                );
                 if (this.failoverIdentifiers.indexOf(identifier) === -1) {
                   this.failoverIdentifiers.push(identifier);
                 }

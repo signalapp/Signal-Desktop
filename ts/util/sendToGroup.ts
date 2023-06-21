@@ -843,7 +843,14 @@ export function _shouldFailSend(error: unknown, logId: string): boolean {
 
   if (error instanceof SendMessageProtoError) {
     if (!error.errors || !error.errors.length) {
-      logError('SendMessageProtoError had no errors, failing.');
+      logError('SendMessageProtoError had no errors but was thrown! Failing.');
+      return true;
+    }
+
+    if (error.successfulIdentifiers && error.successfulIdentifiers.length > 0) {
+      logError(
+        'SendMessageProtoError had successful sends; no further sends needed. Failing.'
+      );
       return true;
     }
 
