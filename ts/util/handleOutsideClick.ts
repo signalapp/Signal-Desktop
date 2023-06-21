@@ -2,39 +2,50 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { RefObject } from 'react';
+import * as log from '../logging/log';
 
-export type ClickHandlerType = (target: Node) => boolean;
+export type HandlerType = (target: Node) => boolean;
+export type HandlersType = {
+  name: string;
+  handleClick: HandlerType;
+  handlePointerDown: HandlerType;
+};
 export type ContainerElementType = Node | RefObject<Node> | null | undefined;
 
 // TODO(indutny): DESKTOP-4177
 // A stack of handlers. Handlers are executed from the top to the bottom
-const fakeClickHandlers = new Array<{
-  name: string;
-  handleEvent: (event: MouseEvent) => boolean;
-}>();
-
-function runFakeClickHandlers(event: MouseEvent): void {
-  for (const entry of fakeClickHandlers.slice().reverse()) {
-    const { handleEvent } = entry;
-    if (handleEvent(event)) {
-      break;
-    }
-  }
-}
+const fakeHandlers = new Array<HandlersType>();
 
 export type HandleOutsideClickOptionsType = Readonly<{
   name: string;
   containerElements: ReadonlyArray<ContainerElementType>;
 }>;
 
+function handleGlobalPointerDown(event: MouseEvent) {
+  for (const handlers of fakeHandlers) {
+    // continue even if handled, so that we can detect if the click was inside
+    handlers.handlePointerDown(event.target as Node);
+  }
+}
+
+function handleGlobalClick(event: MouseEvent) {
+  for (const handlers of fakeHandlers.slice().reverse()) {
+    const handled = handlers.handleClick(event.target as Node);
+    if (handled) {
+      log.info(`handleOutsideClick: ${handlers.name} handled click`);
+      break;
+    }
+  }
+}
+
+const eventOptions = { capture: true };
+
 export const handleOutsideClick = (
-  handler: ClickHandlerType,
+  handler: HandlerType,
   { name, containerElements }: HandleOutsideClickOptionsType
 ): (() => void) => {
-  const handleEvent = (event: MouseEvent) => {
-    const target = event.target as Node;
-
-    const isInside = containerElements.some(elem => {
+  function isInside(target: Node) {
+    return containerElements.some(elem => {
       if (!elem) {
         return false;
       }
@@ -43,30 +54,53 @@ export const handleOutsideClick = (
       }
       return elem.current?.contains(target);
     });
+  }
 
+  let startedInside = false;
+
+  function handlePointerDown(target: Node) {
+    startedInside = isInside(target);
+    return false;
+  }
+
+  function handleClick(target: Node) {
+    const endedInside = isInside(target);
     // Clicked inside of one of container elements - stop processing
-    if (isInside) {
-      return true;
+    if (startedInside || endedInside) {
+      return false;
     }
-
     // Stop processing if requested by handler function
     return handler(target);
+  }
+
+  const fakeHandler = {
+    name,
+    handleClick,
+    handlePointerDown,
   };
 
-  const fakeHandler = { name, handleEvent };
-  fakeClickHandlers.push(fakeHandler);
-  if (fakeClickHandlers.length === 1) {
-    const useCapture = true;
-    document.addEventListener('click', runFakeClickHandlers, useCapture);
+  fakeHandlers.push(fakeHandler);
+
+  if (fakeHandlers.length === 1) {
+    document.addEventListener(
+      'pointerdown',
+      handleGlobalPointerDown,
+      eventOptions
+    );
+    document.addEventListener('click', handleGlobalClick, eventOptions);
   }
 
   return () => {
-    const index = fakeClickHandlers.indexOf(fakeHandler);
-    fakeClickHandlers.splice(index, 1);
+    const index = fakeHandlers.indexOf(fakeHandler);
+    fakeHandlers.splice(index, 1);
 
-    if (fakeClickHandlers.length === 0) {
-      const useCapture = true;
-      document.removeEventListener('click', runFakeClickHandlers, useCapture);
+    if (fakeHandlers.length === 0) {
+      document.removeEventListener(
+        'pointerdown',
+        handleGlobalPointerDown,
+        eventOptions
+      );
+      document.removeEventListener('click', handleGlobalClick, eventOptions);
     }
   };
 };

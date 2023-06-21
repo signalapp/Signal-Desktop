@@ -303,6 +303,7 @@ export function ForwardMessagesModal({
         useFocusTrap={false}
         padded={false}
         modalFooter={footer}
+        noMouseClose
       >
         {isEditingMessage && lonelyDraft != null ? (
           <ForwardMessageEditor
