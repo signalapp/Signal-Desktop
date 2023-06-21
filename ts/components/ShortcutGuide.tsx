@@ -24,6 +24,8 @@ type KeyType =
   | 'tab'
   | 'ctrl'
   | 'F6'
+  | 'F10'
+  | 'F12'
   | '↑'
   | '↓'
   | ','
@@ -53,8 +55,17 @@ type KeyType =
 type ShortcutType = {
   id: string;
   description: string;
-  keys: Array<Array<KeyType>>;
-};
+} & (
+  | {
+      keys: Array<Array<KeyType>>;
+    }
+  | {
+      keysByPlatform: {
+        macOS: Array<Array<KeyType>>;
+        other: Array<Array<KeyType>>;
+      };
+    }
+);
 
 function getNavigationShortcuts(i18n: LocalizerType): Array<ShortcutType> {
   return [
@@ -216,6 +227,14 @@ function getMessageShortcuts(i18n: LocalizerType): Array<ShortcutType> {
       id: 'Keyboard--forward-messages',
       description: i18n('icu:Keyboard--forward-messages'),
       keys: [['commandOrCtrl', 'shift', 'S']],
+    },
+    {
+      id: 'Keyboard--open-context-menu',
+      description: i18n('icu:Keyboard--open-context-menu'),
+      keysByPlatform: {
+        macOS: [['commandOrCtrl', 'F12']],
+        other: [['shift', 'F10']],
+      },
     },
   ];
 }
@@ -439,13 +458,23 @@ function renderShortcut(
   isMacOS: boolean,
   i18n: LocalizerType
 ) {
+  let keysToRender: Array<Array<KeyType>> = [];
+
+  if ('keys' in shortcut) {
+    keysToRender = shortcut.keys;
+  } else if ('keysByPlatform' in shortcut) {
+    keysToRender = isMacOS
+      ? shortcut.keysByPlatform.macOS
+      : shortcut.keysByPlatform.other;
+  }
+
   return (
     <div key={index} className="module-shortcut-guide__shortcut">
       <div className="module-shortcut-guide__shortcut__description">
         {shortcut.description}
       </div>
       <div className="module-shortcut-guide__shortcut__key-container">
-        {shortcut.keys.map(keys => (
+        {keysToRender.map(keys => (
           <div
             key={`${shortcut.description}--${keys.map(k => k).join('-')}`}
             className="module-shortcut-guide__shortcut__key-inner-container"

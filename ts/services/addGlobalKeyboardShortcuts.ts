@@ -11,11 +11,13 @@ import { getQuotedMessageSelector } from '../state/selectors/composer';
 import { removeLinkPreview } from './LinkPreview';
 
 export function addGlobalKeyboardShortcuts(): void {
+  const isMacOS = window.platform === 'darwin';
+
   document.addEventListener('keydown', event => {
     const { ctrlKey, metaKey, shiftKey, altKey } = event;
 
-    const commandKey = window.platform === 'darwin' && metaKey;
-    const controlKey = window.platform !== 'darwin' && ctrlKey;
+    const commandKey = isMacOS && metaKey;
+    const controlKey = !isMacOS && ctrlKey;
     const commandOrCtrl = commandKey || controlKey;
 
     const state = window.reduxStore.getState();

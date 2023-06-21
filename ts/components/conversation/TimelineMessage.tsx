@@ -26,7 +26,11 @@ import type {
 import type { PushPanelForConversationActionType } from '../../state/ducks/conversations';
 import { doesMessageBodyOverflow } from './MessageBodyReadMore';
 import type { Props as ReactionPickerProps } from './ReactionPicker';
-import { useToggleReactionPicker } from '../../hooks/useKeyboardShortcuts';
+import {
+  useKeyboardShortcutsConditionally,
+  useOpenContextMenu,
+  useToggleReactionPicker,
+} from '../../hooks/useKeyboardShortcuts';
 import { PanelType } from '../../types/Panels';
 import type { DeleteMessagesPropsType } from '../../state/ducks/globalModals';
 
@@ -73,7 +77,9 @@ export type Props = PropsData &
   };
 
 type Trigger = {
-  handleContextClick: (event: React.MouseEvent<HTMLDivElement>) => void;
+  handleContextClick: (
+    event: React.MouseEvent<HTMLDivElement> | MouseEvent
+  ) => void;
 };
 
 /**
@@ -265,15 +271,21 @@ export function TimelineMessage(props: Props): JSX.Element {
     handleReact || noop
   );
 
-  useEffect(() => {
-    if (isTargeted) {
-      document.addEventListener('keydown', toggleReactionPickerKeyboard);
+  const handleOpenContextMenu = useCallback(() => {
+    if (!menuTriggerRef.current) {
+      return;
     }
+    const event = new MouseEvent('click');
+    menuTriggerRef.current.handleContextClick(event);
+  }, []);
 
-    return () => {
-      document.removeEventListener('keydown', toggleReactionPickerKeyboard);
-    };
-  }, [isTargeted, toggleReactionPickerKeyboard]);
+  const openContextMenuKeyboard = useOpenContextMenu(handleOpenContextMenu);
+
+  useKeyboardShortcutsConditionally(
+    Boolean(isTargeted),
+    openContextMenuKeyboard,
+    toggleReactionPickerKeyboard
+  );
 
   const renderMenu = useCallback(() => {
     return (

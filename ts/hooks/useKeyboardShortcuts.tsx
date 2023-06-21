@@ -234,6 +234,39 @@ export function useToggleReactionPicker(
   );
 }
 
+export function useOpenContextMenu(
+  openContextMenu: () => unknown
+): KeyboardShortcutHandlerType {
+  const hasOverlay = useHasAnyOverlay();
+
+  return useCallback(
+    ev => {
+      if (hasOverlay) {
+        return false;
+      }
+
+      const { shiftKey } = ev;
+      const key = KeyboardLayout.lookup(ev);
+
+      const isMacOS = get(window, 'platform') === 'darwin';
+
+      if (
+        (!isMacOS && shiftKey && key === 'F10') ||
+        (isMacOS && isCmdOrCtrl(ev) && key === 'F12')
+      ) {
+        ev.preventDefault();
+        ev.stopPropagation();
+
+        openContextMenu();
+        return true;
+      }
+
+      return false;
+    },
+    [hasOverlay, openContextMenu]
+  );
+}
+
 export function useEditLastMessageSent(
   maybeEditMessage: () => boolean
 ): KeyboardShortcutHandlerType {
@@ -276,4 +309,24 @@ export function useKeyboardShortcuts(
       document.removeEventListener('keydown', handleKeydown);
     };
   }, [eventHandlers]);
+}
+
+export function useKeyboardShortcutsConditionally(
+  condition: boolean,
+  ...eventHandlers: Array<KeyboardShortcutHandlerType>
+): void {
+  useEffect(() => {
+    if (!condition) {
+      return;
+    }
+
+    function handleKeydown(ev: KeyboardEvent): void {
+      eventHandlers.some(eventHandler => eventHandler(ev));
+    }
+
+    document.addEventListener('keydown', handleKeydown);
+    return () => {
+      document.removeEventListener('keydown', handleKeydown);
+    };
+  }, [condition, eventHandlers]);
 }
