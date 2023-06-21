@@ -17,6 +17,7 @@ import { ConnectTimeoutError, HTTPError } from './Errors';
 import { handleStatusCode, translateError } from './Utils';
 
 const TEN_SECONDS = 10 * durations.SECOND;
+const KEEPALIVE_INTERVAL_MS = TEN_SECONDS;
 
 export type IResource = {
   close(code: number, reason: string): void;
@@ -75,6 +76,8 @@ export function connect<Resource extends IResource>({
   let resource: Resource | undefined;
   client.on('connect', socket => {
     Timers.clearTimeout(timer);
+
+    socket.socket.setKeepAlive(true, KEEPALIVE_INTERVAL_MS);
 
     resource = createResource(socket);
     resolve(resource);
