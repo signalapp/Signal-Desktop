@@ -73,6 +73,7 @@ import {
 } from './sqlInstance';
 import { configDumpData } from './sql_calls/config_dump';
 import { base64_variants, from_base64, to_hex } from 'libsodium-wrappers-sumo';
+import { sleepFor } from '../session/utils/Promise';
 
 // tslint:disable: no-console function-name non-literal-fs-path
 
@@ -184,17 +185,21 @@ async function initializeSql({
     // At this point we can allow general access to the database
     initDbInstanceWith(db);
 
+    await sleepFor(10);
     console.info('total message count before cleaning: ', getMessageCount());
     console.info('total conversation count before cleaning: ', getConversationCount());
+    await sleepFor(10);
     cleanUpOldOpengroupsOnStart();
     cleanUpUnusedNodeForKeyEntriesOnStart();
+    await sleepFor(10);
     printDbStats();
 
     console.info('total message count after cleaning: ', getMessageCount());
     console.info('total conversation count after cleaning: ', getConversationCount());
-
+    await sleepFor(10);
     // Clear any already deleted db entries on each app start.
     vacuumDatabase(db);
+    await sleepFor(10);
   } catch (error) {
     console.error('error', error);
     if (passwordAttempt) {

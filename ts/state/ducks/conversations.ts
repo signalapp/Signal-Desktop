@@ -237,7 +237,6 @@ export interface ReduxConversationType {
   weAreAdmin?: boolean;
   unreadCount?: number;
   mentionedUs?: boolean;
-  isSelected?: boolean;
   expireTimer?: number;
 
   isTyping?: boolean;

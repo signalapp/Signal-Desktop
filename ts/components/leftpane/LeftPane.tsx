@@ -26,14 +26,13 @@ const InnerLeftPaneMessageSection = () => {
 
   const searchResults = showSearch ? useSelector(getSearchResults) : undefined;
 
-  const lists = showSearch ? undefined : useSelector(getLeftPaneLists);
+  const conversations = showSearch ? undefined : useSelector(getLeftPaneLists);
   const overlayMode = useSelector(getOverlayMode);
 
   return (
     // tslint:disable-next-line: use-simple-attributes
     <LeftPaneMessageSection
-      conversations={lists?.conversations || []}
-      contacts={lists?.contacts || []}
+      conversations={conversations || []}
       searchResults={searchResults}
       overlayMode={overlayMode}
     />

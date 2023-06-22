@@ -152,7 +152,6 @@ export const processNewAttachment = async (attachment: {
   const rotatedData = await autoOrientJPEGAttachment(attachment);
 
   const onDiskAttachmentPath = await migrateDataToFileSystem(rotatedData.data);
-
   const attachmentWithoutData = omit({ ...attachment, fileName, path: onDiskAttachmentPath }, [
     'data',
   ]);

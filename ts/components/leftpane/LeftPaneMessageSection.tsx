@@ -1,30 +1,27 @@
+import autoBind from 'auto-bind';
 import React from 'react';
 import { AutoSizer, List, ListRowProps } from 'react-virtualized';
+import { SearchResults, SearchResultsProps } from '../search/SearchResults';
+import { LeftPaneSectionHeader } from './LeftPaneSectionHeader';
+import { MessageRequestsBanner } from './MessageRequestsBanner';
 import {
   ConversationListItemProps,
   MemoConversationListItemWithDetails,
 } from './conversation-list-item/ConversationListItem';
-import { ReduxConversationType } from '../../state/ducks/conversations';
-import { SearchResults, SearchResultsProps } from '../search/SearchResults';
-import { LeftPaneSectionHeader } from './LeftPaneSectionHeader';
-import autoBind from 'auto-bind';
-import _ from 'lodash';
-import { MessageRequestsBanner } from './MessageRequestsBanner';
 
-import { SessionSearchInput } from '../SessionSearchInput';
-import { OverlayCommunity } from './overlay/OverlayCommunity';
-import { OverlayMessageRequest } from './overlay/OverlayMessageRequest';
-import { OverlayMessage } from './overlay/OverlayMessage';
-import { OverlayClosedGroup } from './overlay/OverlayClosedGroup';
-import { OverlayMode, setOverlayMode } from '../../state/ducks/section';
-import { OverlayChooseAction } from './overlay/choose-action/OverlayChooseAction';
-import styled from 'styled-components';
 import { useSelector } from 'react-redux';
+import styled from 'styled-components';
+import { OverlayMode, setOverlayMode } from '../../state/ducks/section';
 import { getOverlayMode } from '../../state/selectors/section';
+import { SessionSearchInput } from '../SessionSearchInput';
 import { StyledLeftPaneList } from './LeftPaneList';
+import { OverlayClosedGroup } from './overlay/OverlayClosedGroup';
+import { OverlayCommunity } from './overlay/OverlayCommunity';
+import { OverlayMessage } from './overlay/OverlayMessage';
+import { OverlayMessageRequest } from './overlay/OverlayMessageRequest';
+import { OverlayChooseAction } from './overlay/choose-action/OverlayChooseAction';
 
 export interface Props {
-  contacts: Array<ReduxConversationType>;
   conversations?: Array<ConversationListItemProps>;
   searchResults?: SearchResultsProps;
   overlayMode: OverlayMode | undefined;
@@ -84,7 +81,7 @@ export class LeftPaneMessageSection extends React.Component<Props> {
       throw new Error('renderRow: conversations selector returned element containing falsy value.');
     }
 
-    return <MemoConversationListItemWithDetails key={key} style={style} {...conversation} />; // TODO there should not be a need for the ...conversation here?
+    return <MemoConversationListItemWithDetails key={key} style={style} id={conversation.id} />; // TODO there should not be a need for the ...conversation here?
   };
 
   public renderList(): JSX.Element {

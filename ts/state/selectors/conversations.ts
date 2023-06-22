@@ -21,11 +21,7 @@ import { MessageTextSelectorProps } from '../../components/conversation/message/
 import { GenericReadableMessageSelectorProps } from '../../components/conversation/message/message-item/GenericReadableMessage';
 import { LightBoxOptions } from '../../components/conversation/SessionConversation';
 import { hasValidIncomingRequestValues } from '../../models/conversation';
-import {
-  CONVERSATION_PRIORITIES,
-  ConversationTypeEnum,
-  isOpenOrClosedGroup,
-} from '../../models/conversationAttributes';
+import { CONVERSATION_PRIORITIES, isOpenOrClosedGroup } from '../../models/conversationAttributes';
 import { getConversationController } from '../../session/conversations';
 import { UserUtils } from '../../session/utils';
 import { LocalizerType } from '../../types/Util';
@@ -252,28 +248,59 @@ export const getConversationComparator = createSelector(getIntl, _getConversatio
 // tslint:disable-next-line: cyclomatic-complexity
 const _getLeftPaneLists = (
   sortedConversations: Array<ReduxConversationType>
-): {
-  conversations: Array<ReduxConversationType>;
-  contacts: Array<ReduxConversationType>;
-  globalUnreadCount: number;
-} => {
-  const conversations: Array<ReduxConversationType> = [];
-  const directConversations: Array<ReduxConversationType> = [];
+): Array<ReduxConversationType> => {
+  return sortedConversations.filter(conversation => {
+    if (conversation.isBlocked) return false;
 
+    // a private conversation not approved is a message request. Exclude them from the left pane lists
+
+    if (conversation.isPrivate && !conversation.isApproved) {
+      return false;
+    }
+
+    const isPrivateButHidden =
+      conversation.isPrivate &&
+      conversation.priority &&
+      conversation.priority <= CONVERSATION_PRIORITIES.default;
+
+    /**
+     * When getting a contact from a linked device, before he sent a message, the approved field is false, but a createdAt is used as activeAt
+     */
+    const isPrivateUnapprovedButActive =
+      conversation.isPrivate && !conversation.isApproved && !conversation.activeAt;
+
+    if (
+      isPrivateUnapprovedButActive ||
+      isPrivateButHidden // a hidden contact conversation is only visible from the contact list, not from the global conversation list
+    ) {
+      // dont increase unread counter, don't push to convo list.
+      return false;
+    }
+    return true;
+  });
+};
+
+// tslint:disable-next-line: cyclomatic-complexity
+const _getPrivateFriendsConversations = (
+  sortedConversations: Array<ReduxConversationType>
+): Array<ReduxConversationType> => {
+  return sortedConversations.filter(convo => {
+    convo.isPrivate &&
+      !convo.isMe &&
+      !convo.isBlocked &&
+      convo.isApproved &&
+      convo.didApproveMe &&
+      convo.activeAt !== undefined;
+  });
+};
+
+// tslint:disable-next-line: cyclomatic-complexity
+const _getGlobalUnreadCount = (sortedConversations: Array<ReduxConversationType>): number => {
   let globalUnreadCount = 0;
   for (const conversation of sortedConversations) {
     // Blocked conversation are now only visible from the settings, not in the conversation list, so don't add it neither to the contacts list nor the conversation list
     if (conversation.isBlocked) {
       continue;
-    }
-    // a contact is a private conversation that is approved by us and active
-    if (
-      conversation.activeAt !== undefined &&
-      conversation.type === ConversationTypeEnum.PRIVATE &&
-      conversation.isApproved
-      // we want to keep the hidden conversation in the direct contact list, so we don't filter based on priority
-    ) {
-      directConversations.push(conversation);
     }
 
     // a private conversation not approved is a message request. Exclude them from the left pane lists
@@ -309,21 +336,14 @@ const _getLeftPaneLists = (
     ) {
       globalUnreadCount += conversation.unreadCount;
     }
-
-    conversations.push(conversation);
   }
 
-  return {
-    conversations,
-    contacts: directConversations,
-    globalUnreadCount,
-  };
+  return globalUnreadCount;
 };
 
 export const _getSortedConversations = (
   lookup: ConversationLookupType,
-  comparator: (left: ReduxConversationType, right: ReduxConversationType) => number,
-  selectedConversation?: string
+  comparator: (left: ReduxConversationType, right: ReduxConversationType) => number
 ): Array<ReduxConversationType> => {
   const values = Object.values(lookup);
   const sorted = values.sort(comparator);
@@ -338,11 +358,9 @@ export const _getSortedConversations = (
     }
 
     const isBlocked = BlockedNumberController.isBlocked(conversation.id);
-    const isSelected = selectedConversation === conversation.id;
 
     sortedConversations.push({
       ...conversation,
-      isSelected: isSelected || undefined,
       isBlocked: isBlocked || undefined,
     });
   }
@@ -397,21 +415,6 @@ export const getUnreadConversationRequests = createSelector(
   _getUnreadConversationRequests
 );
 
-const _getPrivateContactsPubkeys = (
-  sortedConversations: Array<ReduxConversationType>
-): Array<string> => {
-  return filter(sortedConversations, conversation => {
-    return !!(
-      conversation.isPrivate &&
-      !conversation.isBlocked &&
-      !conversation.isMe &&
-      conversation.didApproveMe &&
-      conversation.isApproved &&
-      conversation.activeAt
-    );
-  }).map(convo => convo.id);
-};
-
 /**
  * Returns all the conversation ids of private conversations which are
  * - private
@@ -420,20 +423,15 @@ const _getPrivateContactsPubkeys = (
  * - approved (or message requests are disabled)
  * - active_at is set to something truthy
  */
-export const getPrivateContactsPubkeys = createSelector(
-  getSortedConversations,
-  _getPrivateContactsPubkeys
+export const getPrivateContactsPubkeys = createSelector(_getPrivateFriendsConversations, state =>
+  state.map(m => m.id)
 );
 
 export const getLeftPaneLists = createSelector(getSortedConversations, _getLeftPaneLists);
 
 export const getDirectContacts = createSelector(
-  getLeftPaneLists,
-  (state: {
-    conversations: Array<ReduxConversationType>;
-    contacts: Array<ReduxConversationType>;
-    globalUnreadCount: number;
-  }) => state.contacts
+  getSortedConversations,
+  _getPrivateFriendsConversations
 );
 
 export const getDirectContactsCount = createSelector(
@@ -472,9 +470,10 @@ export const getDirectContactsByName = createSelector(
   }
 );
 
-export const getGlobalUnreadMessageCount = createSelector(getLeftPaneLists, (state): number => {
-  return state.globalUnreadCount;
-});
+export const getGlobalUnreadMessageCount = createSelector(
+  getSortedConversations,
+  _getGlobalUnreadCount
+);
 
 export const isMessageDetailView = (state: StateType): boolean =>
   state.conversations.messageDetailProps !== undefined;
