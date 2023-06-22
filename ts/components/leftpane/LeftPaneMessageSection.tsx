@@ -100,14 +100,13 @@ export class LeftPaneMessageSection extends React.Component<Props> {
     // Note: conversations is not a known prop for List, but it is required to ensure that
     //   it re-renders when our conversations data changes. Otherwise it would just render
     //   on startup and scroll.
-
+    // TODO do need that `conversations` prop? I again don't see why it is needed. Especially because the list item use hook to fetch their details.
     return (
       <StyledLeftPaneList key={0}>
         <AutoSizer>
           {({ height, width }) => (
             <List
               className="module-left-pane__virtual-list"
-              conversations={conversations}
               height={height}
               rowCount={length}
               rowHeight={64}

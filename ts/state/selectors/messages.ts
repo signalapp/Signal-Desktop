@@ -83,7 +83,7 @@ export const useMessageDirection = (messageId: string | undefined): string | und
   return useMessageIdProps(messageId)?.propsForMessage.direction;
 };
 
-export const useMessageLinkPreview = (messageId: string | undefined): any[] | undefined => {
+export const useMessageLinkPreview = (messageId: string | undefined): Array<any> | undefined => {
   return useMessageIdProps(messageId)?.propsForMessage.previews;
 };
 

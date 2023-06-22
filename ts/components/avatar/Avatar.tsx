@@ -98,6 +98,7 @@ const AvatarImage = (props: {
   }
   const dataToDisplay = base64Data ? `data:image/jpeg;base64,${base64Data}` : avatarPath;
 
+  // tslint:disable: react-a11y-img-has-alt
   return (
     <img
       onError={handleImageError}

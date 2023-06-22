@@ -250,7 +250,9 @@ const _getLeftPaneLists = (
   sortedConversations: Array<ReduxConversationType>
 ): Array<ReduxConversationType> => {
   return sortedConversations.filter(conversation => {
-    if (conversation.isBlocked) return false;
+    if (conversation.isBlocked) {
+      return false;
+    }
 
     // a private conversation not approved is a message request. Exclude them from the left pane lists
 
@@ -285,12 +287,14 @@ const _getPrivateFriendsConversations = (
   sortedConversations: Array<ReduxConversationType>
 ): Array<ReduxConversationType> => {
   return sortedConversations.filter(convo => {
-    convo.isPrivate &&
+    return (
+      convo.isPrivate &&
       !convo.isMe &&
       !convo.isBlocked &&
       convo.isApproved &&
       convo.didApproveMe &&
-      convo.activeAt !== undefined;
+      convo.activeAt !== undefined
+    );
   });
 };
 

@@ -1241,34 +1241,49 @@ function getMessagesByConversation(conversationId: string, { messageId = null } 
     const messageFound = getMessageById(messageId || firstUnread);
 
     if (messageFound && messageFound.conversationId === conversationId) {
-      // tslint:disable-next-line: no-shadowed-variable
-      const rows = assertGlobalInstance()
+      // tslint:disable-next-li ne: no-shadowed-variable
+      const start = Date.now();
+      const msgTimestamp =
+        messageFound.serverTimestamp || messageFound.sent_at || messageFound.received_at;
+
+      const commonArgs = {
+        conversationId,
+        msgTimestamp,
+        limit:
+          numberOfMessagesInConvo < floorLoadAllMessagesInConvo
+            ? floorLoadAllMessagesInConvo
+            : absLimit,
+      };
+
+      const messagesBefore = assertGlobalInstance()
         .prepare(
-          `WITH cte AS (
-            SELECT id, conversationId, json, row_number() OVER (${orderByClause}) as row_number
-              FROM ${MESSAGES_TABLE} WHERE conversationId = $conversationId
-          ), current AS (
-          SELECT row_number
-            FROM cte
-          WHERE id = $messageId
-
+          `SELECT id, conversationId, json
+            FROM ${MESSAGES_TABLE} WHERE conversationId = $conversationId AND COALESCE(serverTimestamp, sent_at, received_at) <= $msgTimestamp
+            ${orderByClause}
+            LIMIT $limit`
         )
-        SELECT cte.*
-          FROM cte, current
-            WHERE ABS(cte.row_number - current.row_number) <= $limit
-          ORDER BY cte.row_number;
-          `
-        )
-        .all({
-          conversationId,
-          messageId: messageId || firstUnread,
-          limit:
-            numberOfMessagesInConvo < floorLoadAllMessagesInConvo
-              ? floorLoadAllMessagesInConvo
-              : absLimit,
-        });
+        .all(commonArgs);
 
-      return map(rows, row => jsonToObject(row.json));
+      const messagesAfter = assertGlobalInstance()
+        .prepare(
+          `SELECT id, conversationId, json
+            FROM ${MESSAGES_TABLE} WHERE conversationId = $conversationId AND COALESCE(serverTimestamp, sent_at, received_at) > $msgTimestamp
+            ${orderByClauseASC}
+            LIMIT $limit`
+        )
+        .all(commonArgs);
+
+      console.info(`getMessagesByConversation around took ${Date.now() - start}ms `);
+
+      // sorting is made in redux already when rendered, but some things are made outside of redux, so let's make sure the order is right
+      return map([...messagesBefore, ...messagesAfter], row => jsonToObject(row.json)).sort(
+        (a, b) => {
+          return (
+            (b.serverTimestamp || b.sent_at || b.received_at) -
+            (a.serverTimestamp || a.sent_at || a.received_at)
+          );
+        }
+      );
     }
     console.info(
       `getMessagesByConversation: Could not find messageId ${messageId} in db with conversationId: ${conversationId}. Just fetching the convo as usual.`
