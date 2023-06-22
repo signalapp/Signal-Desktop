@@ -9,6 +9,7 @@ import type {
   QuotedMessageType,
 } from '../model-types.d';
 import type { LinkPreviewType } from '../types/message/LinkPreviews';
+import * as durations from './durations';
 import * as log from '../logging/log';
 import { ReadStatus } from '../messages/MessageReadStatus';
 import dataInterface from '../sql/Client';
@@ -17,6 +18,7 @@ import { getAttachmentSignature, isVoiceMessage } from '../types/Attachment';
 import { getMessageIdForLogging } from './idForLogging';
 import { hasErrors } from '../state/selectors/message';
 import { isIncoming, isOutgoing } from '../messages/helpers';
+import { isOlderThan } from './timestamp';
 import { isDirectConversation } from './whatTypeOfConversation';
 import { queueAttachmentDownloads } from './queueAttachmentDownloads';
 import { shouldReplyNotifyUser } from './shouldReplyNotifyUser';
@@ -46,6 +48,19 @@ export async function handleEditMessage(
   const hasVoiceMessage = mainMessage.attachments?.some(isVoiceMessage);
   if (hasVoiceMessage) {
     log.warn(`${idLog}: Cannot edit a voice message`);
+    return;
+  }
+
+  const { serverTimestamp } = editAttributes.message;
+  const isNoteToSelf =
+    mainMessage.conversationId ===
+    window.ConversationController.getOurConversationId();
+  if (
+    serverTimestamp &&
+    !isNoteToSelf &&
+    isOlderThan(serverTimestamp, durations.DAY)
+  ) {
+    log.warn(`${idLog}: cannot edit message older than 24h`, serverTimestamp);
     return;
   }
 

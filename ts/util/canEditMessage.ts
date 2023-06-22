@@ -12,13 +12,27 @@ const MAX_EDIT_COUNT = 10;
 const THREE_HOURS = 3 * HOUR;
 
 export function canEditMessage(message: MessageAttributesType): boolean {
-  return (
+  const result =
     canEditMessages() &&
     !message.deletedForEveryone &&
     isOutgoing(message) &&
     isMoreRecentThan(message.sent_at, THREE_HOURS) &&
     (message.editHistory?.length ?? 0) <= MAX_EDIT_COUNT &&
     someSendStatus(message.sendStateByConversationId, isSent) &&
-    Boolean(message.body)
-  );
+    Boolean(message.body);
+
+  if (result) {
+    return true;
+  }
+
+  if (
+    message.conversationId ===
+    window.ConversationController.getOurConversationId()
+  ) {
+    return (
+      canEditMessages() && !message.deletedForEveryone && Boolean(message.body)
+    );
+  }
+
+  return false;
 }
