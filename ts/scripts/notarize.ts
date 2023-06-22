@@ -60,7 +60,6 @@ export async function afterSign({
 
   await notarize({
     tool: 'notarytool',
-    appBundleId,
     appPath,
     appleId,
     appleIdPassword,

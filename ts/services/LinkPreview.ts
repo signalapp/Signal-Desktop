@@ -320,7 +320,7 @@ async function getPreview(
 
   let image;
   if (imageHref && LinkPreview.shouldPreviewHref(imageHref)) {
-    let objectUrl: void | string;
+    let objectUrl: undefined | string;
     try {
       const fullSizeImage = await messaging.fetchLinkPreviewImage(
         imageHref,
