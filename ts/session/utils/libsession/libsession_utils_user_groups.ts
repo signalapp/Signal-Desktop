@@ -113,7 +113,7 @@ async function insertGroupsFromDBIntoWrapperAndRefresh(convoId: string): Promise
         priority: foundConvo.get('priority'),
         members: foundConvo.get('members') || [],
         groupAdmins: foundConvo.get('groupAdmins') || [],
-        expireTimer: foundConvo.get('expireTimer'),
+        // expireTimer: foundConvo.get('expireTimer'),
         displayNameInProfile: foundConvo.get('displayNameInProfile'),
         encPubkeyHex: encryptionKeyPair?.publicHex || '',
         encSeckeyHex: encryptionKeyPair?.privateHex || '',

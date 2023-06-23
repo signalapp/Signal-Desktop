@@ -330,10 +330,10 @@ async function handleContactsUpdate(result: IncomingConfResult): Promise<Incomin
         changes = true;
       }
 
-      if (wrapperConvo.expirationTimerSeconds !== contactConvo.get('expireTimer')) {
-        await contactConvo.updateExpireTimer(wrapperConvo.expirationTimerSeconds);
-        changes = true;
-      }
+      // if (wrapperConvo.expirationTimerSeconds !== contactConvo.get('expireTimer')) {
+      //   await contactConvo.updateExpireTimer(wrapperConvo.expirationTimerSeconds);
+      //   changes = true;
+      // }
 
       // we want to set the active_at to the created_at timestamp if active_at is unset, so that it shows up in our list.
       if (!contactConvo.get('active_at') && wrapperConvo.createdAtSeconds) {
@@ -558,17 +558,17 @@ async function handleLegacyGroupUpdate(latestEnvelopeTimestamp: number) {
       changes = true;
     }
 
-    if (legacyGroupConvo.get('expireTimer') !== fromWrapper.disappearingTimerSeconds) {
-      await legacyGroupConvo.updateExpireTimer(
-        fromWrapper.disappearingTimerSeconds,
-        undefined,
-        latestEnvelopeTimestamp,
-        {
-          fromSync: true,
-        }
-      );
-      changes = true;
-    }
+    // if (legacyGroupConvo.get('expireTimer') !== fromWrapper.disappearingTimerSeconds) {
+    //   await legacyGroupConvo.updateExpireTimer(
+    //     fromWrapper.disappearingTimerSeconds,
+    //     undefined,
+    //     latestEnvelopeTimestamp,
+    //     {
+    //       fromSync: true,
+    //     }
+    //   );
+    //   changes = true;
+    // }
     // start polling for this group if we haven't left it yet. The wrapper does not store this info for legacy group so we check from the DB entry instead
     if (!legacyGroupConvo.get('isKickedFromGroup') && !legacyGroupConvo.get('left')) {
       getSwarmPollingInstance().addGroupId(PubKey.cast(fromWrapper.pubkeyHex));

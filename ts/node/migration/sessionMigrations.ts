@@ -1223,7 +1223,7 @@ function insertContactIntoContactWrapper(
     const dbApprovedMe = !!contact.didApproveMe || false;
     const dbBlocked = blockedNumbers.includes(contact.id);
     const priority = contact.priority || CONVERSATION_PRIORITIES.default;
-    const expirationTimerSeconds = contact.expireTimer || 0;
+    // const expirationTimerSeconds = contact.expireTimer || 0;
 
     const wrapperContact = getContactInfoFromDBValues({
       id: contact.id,
@@ -1235,7 +1235,7 @@ function insertContactIntoContactWrapper(
       dbProfileKey: contact.profileKey || undefined,
       dbProfileUrl: contact.avatarPointer || undefined,
       priority,
-      expirationTimerSeconds,
+      // expirationTimerSeconds,
     });
 
     try {
@@ -1259,7 +1259,7 @@ function insertContactIntoContactWrapper(
             dbProfileKey: undefined,
             dbProfileUrl: undefined,
             priority: CONVERSATION_PRIORITIES.default,
-            expirationTimerSeconds: 0,
+            // expirationTimerSeconds: 0,
           })
         );
       } catch (e) {
@@ -1373,7 +1373,7 @@ function insertCommunityIntoWrapper(
 function insertLegacyGroupIntoWrapper(
   legacyGroup: Pick<
     ConversationAttributes,
-    'id' | 'priority' | 'expireTimer' | 'displayNameInProfile' | 'lastJoinedTimestamp'
+    'id' | 'priority' | 'displayNameInProfile' | 'lastJoinedTimestamp' // | 'expireTimer'
   > & { members: string; groupAdmins: string }, // members and groupAdmins are still stringified here
   userGroupConfigWrapper: UserGroupsWrapperNode,
   volatileInfoConfigWrapper: ConvoInfoVolatileWrapperNode,
@@ -1382,7 +1382,7 @@ function insertLegacyGroupIntoWrapper(
   const {
     priority,
     id,
-    expireTimer,
+    // expireTimer,
     groupAdmins,
     members,
     displayNameInProfile,
@@ -1397,7 +1397,7 @@ function insertLegacyGroupIntoWrapper(
   const wrapperLegacyGroup = getLegacyGroupInfoFromDBValues({
     id,
     priority,
-    expireTimer,
+    // expireTimer,
     groupAdmins,
     members,
     displayNameInProfile,
@@ -1625,7 +1625,7 @@ function updateToSessionSchemaVersion31(currentVersion: number, db: BetterSqlite
       const ourDbProfileUrl = ourConversation.avatarPointer || '';
       const ourDbProfileKey = fromHexToArray(ourConversation.profileKey || '');
       const ourConvoPriority = ourConversation.priority;
-      const ourConvoExpire = ourConversation.expireTimer || 0;
+      // const ourConvoExpire = ourConversation.expireTimer || 0;
       if (ourDbProfileUrl && !isEmpty(ourDbProfileKey)) {
         userProfileWrapper.setUserInfo(
           ourDbName,
@@ -1634,7 +1634,7 @@ function updateToSessionSchemaVersion31(currentVersion: number, db: BetterSqlite
             url: ourDbProfileUrl,
             key: ourDbProfileKey,
           },
-          ourConvoExpire
+          // ourConvoExpire
         );
       }
 
