@@ -4,10 +4,13 @@ import { StateType } from '../reducer';
 import {
   ConversationLookupType,
   ConversationsStateType,
+  lookupQuote,
   MentionsMembersType,
   MessageModelPropsWithConvoProps,
   MessageModelPropsWithoutConvoProps,
   MessagePropsDetails,
+  PropsForQuote,
+  QuoteLookupType,
   ReduxConversationType,
   SortedMessageModelProps,
 } from '../ducks/conversations';
@@ -25,7 +28,6 @@ import { MessageContentSelectorProps } from '../../components/conversation/messa
 import { MessageContentWithStatusSelectorProps } from '../../components/conversation/message/message-content/MessageContentWithStatus';
 import { MessageContextMenuSelectorProps } from '../../components/conversation/message/message-content/MessageContextMenu';
 import { MessageLinkPreviewSelectorProps } from '../../components/conversation/message/message-content/MessageLinkPreview';
-import { MessageQuoteSelectorProps } from '../../components/conversation/message/message-content/MessageQuote';
 import { MessageStatusSelectorProps } from '../../components/conversation/message/message-content/MessageStatus';
 import { MessageTextSelectorProps } from '../../components/conversation/message/message-content/MessageText';
 import { GenericReadableMessageSelectorProps } from '../../components/conversation/message/message-item/GenericReadableMessage';
@@ -36,7 +38,11 @@ import { Storage } from '../../util/storage';
 import { ConversationTypeEnum } from '../../models/conversationAttributes';
 
 import { MessageReactsSelectorProps } from '../../components/conversation/message/message-content/MessageReactions';
-import { filter, isEmpty, pick, sortBy } from 'lodash';
+import { filter, isEmpty, pick, sortBy, toNumber } from 'lodash';
+import { processQuoteAttachment } from '../../models/message';
+import { isUsAnySogsFromCache } from '../../session/apis/open_group_api/sogsv3/knownBlindedkeys';
+import { MessageModelType } from '../../models/messageType';
+import { PubKey } from '../../session/types';
 
 export const getConversations = (state: StateType): ConversationsStateType => state.conversations;
 
@@ -50,6 +56,13 @@ export const getConversationLookup = createSelector(
 export const getConversationsCount = createSelector(getConversationLookup, (state): number => {
   return Object.values(state).length;
 });
+
+export const getConversationQuotes = createSelector(
+  getConversations,
+  (state: ConversationsStateType): QuoteLookupType | undefined => {
+    return state.quotes;
+  }
+);
 
 export const getSelectedConversationKey = createSelector(
   getConversations,
@@ -883,7 +896,7 @@ export const getMessagePropsByMessageId = createSelector(
         sender,
         authorAvatarPath: foundSenderConversation.avatarPath || null,
         isKickedFromGroup: foundMessageConversation.isKickedFromGroup || false,
-        authorProfileName: authorProfileName || 'Unknown',
+        authorProfileName: authorProfileName || window.i18n('unknown'),
         authorName,
       },
     };
@@ -967,17 +980,92 @@ export const getMessageLinkPreviewProps = createSelector(getMessagePropsByMessag
   return msgProps;
 });
 
-export const getMessageQuoteProps = createSelector(getMessagePropsByMessageId, (props):
-  | MessageQuoteSelectorProps
-  | undefined => {
-  if (!props || isEmpty(props)) {
-    return undefined;
+// tslint:disable: cyclomatic-complexity
+export const getMessageQuoteProps = createSelector(
+  getConversationLookup,
+  getMessagesOfSelectedConversation,
+  getConversationQuotes,
+  getMessagePropsByMessageId,
+  (
+    conversationLookup,
+    messagesProps,
+    quotesProps,
+    msgModel
+  ): { direction: MessageModelType; quote: PropsForQuote } | undefined => {
+    if (!msgModel || isEmpty(msgModel)) {
+      return undefined;
+    }
+
+    const msgProps = msgModel.propsForMessage;
+    const direction = msgProps.direction;
+
+    if (!msgProps.quote || isEmpty(msgProps.quote)) {
+      return undefined;
+    }
+
+    const id = msgProps.quote.id;
+    let author = msgProps.quote.author;
+
+    if (!id || !author) {
+      return undefined;
+    }
+
+    const isFromMe = isUsAnySogsFromCache(author) || false;
+
+    // NOTE the quote lookup map always stores our messages using the unblinded pubkey
+    if (isFromMe && PubKey.hasBlindedPrefix(author)) {
+      author = UserUtils.getOurPubKeyStrFromCache();
+    }
+
+    // NOTE: if the message is not found, we still want to render the quote
+    const quoteNotFound = {
+      direction,
+      quote: {
+        id,
+        author,
+        isFromMe,
+        referencedMessageNotFound: true,
+      },
+    };
+
+    if (!quotesProps || isEmpty(quotesProps)) {
+      return quoteNotFound;
+    }
+
+    const sourceMessage = lookupQuote(quotesProps, messagesProps, toNumber(id), author);
+    if (!sourceMessage) {
+      return quoteNotFound;
+    }
+
+    const sourceMsgProps = sourceMessage.propsForMessage;
+    if (!sourceMsgProps || sourceMsgProps.isDeleted) {
+      return quoteNotFound;
+    }
+
+    const convo = conversationLookup[sourceMsgProps.convoId];
+    if (!convo) {
+      return quoteNotFound;
+    }
+
+    const attachment = sourceMsgProps.attachments && sourceMsgProps.attachments[0];
+
+    const quote: PropsForQuote = {
+      text: sourceMsgProps.text,
+      attachment: attachment ? processQuoteAttachment(attachment) : undefined,
+      isFromMe,
+      author: sourceMsgProps.sender,
+      id: sourceMsgProps.id,
+      referencedMessageNotFound: false,
+      convoId: convo.id,
+    };
+
+    return {
+      direction,
+      quote,
+    };
   }
-
-  const msgProps: MessageQuoteSelectorProps = pick(props.propsForMessage, ['direction', 'quote']);
-
-  return msgProps;
-});
+);
+// tslint:enable: cyclomatic-complexity
 
 export const getMessageStatusProps = createSelector(getMessagePropsByMessageId, (props):
   | MessageStatusSelectorProps

@@ -18,6 +18,7 @@ import { channels } from './channels';
 import * as dataInit from './dataInit';
 import { StorageItem } from '../node/storage_item';
 import { fromArrayBufferToBase64, fromBase64ToArrayBuffer } from '../session/utils/String';
+import { Quote } from '../receiver/types';
 
 const ERASE_SQL_KEY = 'erase-sql-key';
 const ERASE_ATTACHMENTS_KEY = 'erase-attachments';
@@ -142,10 +143,9 @@ export const Data = {
   removeMessagesByIds,
   getMessageIdsFromServerIds,
   getMessageById,
-  getMessageBySenderAndSentAt,
   getMessageByServerId,
   filterAlreadyFetchedOpengroupMessage,
-  getMessageBySenderAndTimestamp,
+  getMessagesBySenderAndSentAt,
   getUnreadByConversation,
   getUnreadCountByConversation,
   markAllAsReadByConversationNoExpiration,
@@ -427,24 +427,6 @@ async function getMessageById(
   return new MessageModel(message);
 }
 
-async function getMessageBySenderAndSentAt({
-  source,
-  sentAt,
-}: {
-  source: string;
-  sentAt: number;
-}): Promise<MessageModel | null> {
-  const messages = await channels.getMessageBySenderAndSentAt({
-    source,
-    sentAt,
-  });
-  if (!messages || !messages.length) {
-    return null;
-  }
-
-  return new MessageModel(messages[0]);
-}
-
 async function getMessageByServerId(
   conversationId: string,
   serverId: number,
@@ -469,27 +451,23 @@ async function filterAlreadyFetchedOpengroupMessage(
 }
 
 /**
- *
- * @param source senders id
- * @param timestamp the timestamp of the message - not to be confused with the serverTimestamp. This is equivalent to sent_at
+ * Fetch all messages that match the sender pubkey and sent_at timestamp
+ * @param propsList An array of objects containing a source (the sender id) and timestamp of the message - not to be confused with the serverTimestamp. This is equivalent to sent_at
+ * @returns the fetched messageModels
  */
-async function getMessageBySenderAndTimestamp({
-  source,
-  timestamp,
-}: {
-  source: string;
-  timestamp: number;
-}): Promise<MessageModel | null> {
-  const messages = await channels.getMessageBySenderAndTimestamp({
-    source,
-    timestamp,
-  });
+async function getMessagesBySenderAndSentAt(
+  propsList: Array<{
+    source: string;
+    timestamp: number;
+  }>
+): Promise<MessageCollection | null> {
+  const messages = await channels.getMessagesBySenderAndSentAt(propsList);
 
   if (!messages || !messages.length) {
     return null;
   }
 
-  return new MessageModel(messages[0]);
+  return new MessageCollection(messages);
 }
 
 async function getUnreadByConversation(conversationId: string): Promise<MessageCollection> {
@@ -531,17 +509,27 @@ async function getMessageCountByType(
 
 async function getMessagesByConversation(
   conversationId: string,
-  { skipTimerInit = false, messageId = null }: { skipTimerInit?: false; messageId: string | null }
-): Promise<MessageCollection> {
-  const messages = await channels.getMessagesByConversation(conversationId, {
+  {
+    skipTimerInit = false,
+    returnQuotes = false,
+    messageId = null,
+  }: { skipTimerInit?: false; returnQuotes?: boolean; messageId: string | null }
+): Promise<{ messages: MessageCollection; quotes: Array<Quote> }> {
+  const { messages, quotes } = await channels.getMessagesByConversation(conversationId, {
     messageId,
+    returnQuotes,
   });
+
   if (skipTimerInit) {
     for (const message of messages) {
       message.skipTimerInit = skipTimerInit;
     }
   }
-  return new MessageCollection(messages);
+
+  return {
+    messages: new MessageCollection(messages),
+    quotes,
+  };
 }
 
 /**

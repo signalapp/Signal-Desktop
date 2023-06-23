@@ -1,23 +1,23 @@
 import React, { useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import _ from 'lodash';
-import { MessageRenderingProps } from '../../../../models/messageType';
-import { PubKey } from '../../../../session/types';
+import _, { isEmpty, toNumber } from 'lodash';
+import { MessageModelType, MessageRenderingProps } from '../../../../models/messageType';
 import { openConversationToSpecificMessage } from '../../../../state/ducks/conversations';
 import {
   getMessageQuoteProps,
   isMessageDetailView,
   isMessageSelectionMode,
 } from '../../../../state/selectors/conversations';
-import { Quote } from './Quote';
+import { Quote } from './quote/Quote';
 import { ToastUtils } from '../../../../session/utils';
 import { Data } from '../../../../data/data';
-import { MessageModel } from '../../../../models/message';
 
 // tslint:disable: use-simple-attributes
 
 type Props = {
   messageId: string;
+  // Note: this is the direction of the quote in case the quoted message is not found
+  direction: MessageModelType;
 };
 
 export type MessageQuoteSelectorProps = Pick<MessageRenderingProps, 'quote' | 'direction'>;
@@ -27,8 +27,20 @@ export const MessageQuote = (props: Props) => {
   const multiSelectMode = useSelector(isMessageSelectionMode);
   const isMessageDetailViewMode = useSelector(isMessageDetailView);
 
+  if (!selected || isEmpty(selected)) {
+    return null;
+  }
+
   const quote = selected ? selected.quote : undefined;
-  const direction = selected ? selected.direction : undefined;
+  const direction = selected ? selected.direction : props.direction ? props.direction : undefined;
+
+  if (!quote || isEmpty(quote)) {
+    return null;
+  }
+
+  const quoteNotFound = Boolean(
+    quote.referencedMessageNotFound || !quote?.author || !quote.id || !quote.convoId
+  );
 
   const onQuoteClick = useCallback(
     async (event: React.MouseEvent<HTMLDivElement>) => {
@@ -36,6 +48,7 @@ export const MessageQuote = (props: Props) => {
       event.stopPropagation();
 
       if (!quote) {
+        ToastUtils.pushOriginalNotFound();
         window.log.warn('onQuoteClick: quote not valid');
         return;
       }
@@ -45,59 +58,55 @@ export const MessageQuote = (props: Props) => {
         return;
       }
 
-      const {
-        referencedMessageNotFound,
-        messageId: quotedMessageSentAt,
-        sender: quoteAuthor,
-      } = quote;
+      let conversationKey = String(quote.convoId);
+      let messageIdToNavigateTo = String(quote.id);
+      let quoteNotFoundInDB = false;
+
+      // If the quote is not found in memory, we try to find it in the DB
+      if (quoteNotFound && quote.id && quote.author) {
+        const quotedMessagesCollection = await Data.getMessagesBySenderAndSentAt([
+          { timestamp: toNumber(quote.id), source: quote.author },
+        ]);
+
+        if (quotedMessagesCollection?.length) {
+          const quotedMessage = quotedMessagesCollection.at(0);
+          // If found, we navigate to the quoted message which also refreshes the message quote component
+          if (quotedMessage) {
+            conversationKey = String(quotedMessage.get('conversationId'));
+            messageIdToNavigateTo = String(quotedMessage.id);
+          } else {
+            quoteNotFoundInDB = true;
+          }
+        } else {
+          quoteNotFoundInDB = true;
+        }
+      }
+
       // For simplicity's sake, we show the 'not found' toast no matter what if we were
-      //   not able to find the referenced message when the quote was received.
-      if (referencedMessageNotFound || !quotedMessageSentAt || !quoteAuthor) {
+      // not able to find the referenced message when the quote was received or if the conversation no longer exists.
+      if (quoteNotFoundInDB) {
         ToastUtils.pushOriginalNotFound();
         return;
       }
 
-      const collection = await Data.getMessagesBySentAt(_.toNumber(quotedMessageSentAt));
-      const foundInDb = collection.find((item: MessageModel) => {
-        const messageAuthor = item.get('source');
-
-        return Boolean(messageAuthor && quoteAuthor === messageAuthor);
-      });
-
-      if (!foundInDb) {
-        ToastUtils.pushOriginalNotFound();
-        return;
-      }
       void openConversationToSpecificMessage({
-        conversationKey: foundInDb.get('conversationId'),
-        messageIdToNavigateTo: foundInDb.get('id'),
+        conversationKey,
+        messageIdToNavigateTo,
         shouldHighlightMessage: true,
       });
     },
-    [quote, multiSelectMode, props.messageId]
+    [isMessageDetailViewMode, multiSelectMode, quote, quoteNotFound]
   );
-  if (!selected) {
-    return null;
-  }
-
-  if (!quote || !quote.sender || !quote.messageId) {
-    return null;
-  }
-  const shortenedPubkey = PubKey.shorten(quote.sender);
-
-  const displayedPubkey = quote.authorProfileName ? shortenedPubkey : quote.sender;
 
   return (
     <Quote
       onClick={onQuoteClick}
-      text={quote.text || ''}
-      attachment={quote.attachment}
+      text={quote?.text}
+      attachment={quote?.attachment}
       isIncoming={direction === 'incoming'}
-      sender={displayedPubkey}
-      authorProfileName={quote.authorProfileName}
-      authorName={quote.authorName}
-      referencedMessageNotFound={quote.referencedMessageNotFound || false}
-      isFromMe={quote.isFromMe || false}
+      author={quote.author}
+      referencedMessageNotFound={quoteNotFound}
+      isFromMe={Boolean(quote.isFromMe)}
     />
   );
 };

@@ -1918,10 +1918,10 @@
   resolved "https://registry.yarnpkg.com/@types/libsodium-wrappers/-/libsodium-wrappers-0.7.9.tgz#89c3ad2156d5143e64bce86cfeb0045a983aeccc"
   integrity sha512-LisgKLlYQk19baQwjkBZZXdJL0KbeTpdEnrAfz5hQACbklCY0gVFnsKUyjfNWF1UQsCSjw93Sj5jSbiO8RPfdw==
 
-"@types/linkify-it@2.0.3":
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/@types/linkify-it/-/linkify-it-2.0.3.tgz#5352a2d7a35d7c77b527483cd6e68da9148bd780"
-  integrity sha512-WRj1rJPkj3fyDME63xUkWvcWzq0XjpiqjJGNCH4Y6Fbiv2fVMDCqeIA6ch/UUG3VYrfGq1VNFLsz6Sat6FjsPw==
+"@types/linkify-it@^3.0.2":
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/@types/linkify-it/-/linkify-it-3.0.2.tgz#fd2cd2edbaa7eaac7e7f3c1748b52a19143846c9"
+  integrity sha512-HZQYqbiFVWufzCwexrvh694SOim8z2d+xJl5UNamcvQFejLY/2YUtzXHYi3cHdI7PMlS8ejH2slRAOJQ32aNbA==
 
 "@types/lodash@4.14.106":
   version "4.14.106"
@@ -6429,10 +6429,10 @@ lines-and-columns@^1.1.6:
   resolved "https://registry.yarnpkg.com/lines-and-columns/-/lines-and-columns-1.2.4.tgz#eca284f75d2965079309dc0ad9255abb2ebc1632"
   integrity sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==
 
-linkify-it@3.0.2:
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/linkify-it/-/linkify-it-3.0.2.tgz#f55eeb8bc1d3ae754049e124ab3bb56d97797fb8"
-  integrity sha512-gDBO4aHNZS6coiZCKVhSNh43F9ioIL4JwRjLZPkoLIY4yZFwg264Y5lu2x6rb1Js42Gh6Yqm2f6L2AJcnkzinQ==
+linkify-it@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/linkify-it/-/linkify-it-4.0.1.tgz#01f1d5e508190d06669982ba31a7d9f56a5751ec"
+  integrity sha512-C7bfi1UZmoj8+PQx22XyeXCuBlokoyWQL5pWSP+EI6nzRylyThouddufc2c1NDIcP9k5agmN9fLpA7VNJfIiqw==
   dependencies:
     uc.micro "^1.0.1"
 
