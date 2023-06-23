@@ -4,10 +4,6 @@ import { AutoSizer, List, ListRowProps } from 'react-virtualized';
 import { SearchResults, SearchResultsProps } from '../search/SearchResults';
 import { LeftPaneSectionHeader } from './LeftPaneSectionHeader';
 import { MessageRequestsBanner } from './MessageRequestsBanner';
-import {
-  ConversationListItemProps,
-  MemoConversationListItemWithDetails,
-} from './conversation-list-item/ConversationListItem';
 
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
@@ -20,9 +16,11 @@ import { OverlayCommunity } from './overlay/OverlayCommunity';
 import { OverlayMessage } from './overlay/OverlayMessage';
 import { OverlayMessageRequest } from './overlay/OverlayMessageRequest';
 import { OverlayChooseAction } from './overlay/choose-action/OverlayChooseAction';
+import { ConversationListItem } from './conversation-list-item/ConversationListItem';
+import { assertUnreachable } from '../../types/sqlSharedTypes';
 
 export interface Props {
-  conversations?: Array<ConversationListItemProps>;
+  conversationIds?: Array<string>;
   searchResults?: SearchResultsProps;
   overlayMode: OverlayMode | undefined;
 }
@@ -57,8 +55,13 @@ const ClosableOverlay = () => {
       return <OverlayMessage />;
     case 'message-requests':
       return <OverlayMessageRequest />;
-    default:
+    case undefined:
       return null;
+    default:
+      return assertUnreachable(
+        overlayMode,
+        `ClosableOverlay: overlayMode case not handled "${overlayMode}"`
+      );
   }
 };
 
@@ -69,38 +72,34 @@ export class LeftPaneMessageSection extends React.Component<Props> {
   }
 
   public renderRow = ({ index, key, style }: ListRowProps): JSX.Element | null => {
-    const { conversations } = this.props;
+    const { conversationIds } = this.props;
 
     //assume conversations that have been marked unapproved should be filtered out by selector.
-    if (!conversations) {
+    if (!conversationIds) {
       throw new Error('renderRow: Tried to render without conversations');
     }
 
-    const conversation = conversations[index];
-    if (!conversation) {
+    const conversationId = conversationIds[index];
+    if (!conversationId) {
       throw new Error('renderRow: conversations selector returned element containing falsy value.');
     }
 
-    return <MemoConversationListItemWithDetails key={key} style={style} id={conversation.id} />; // TODO there should not be a need for the ...conversation here?
+    return <ConversationListItem key={key} style={style} conversationId={conversationId} />;
   };
 
   public renderList(): JSX.Element {
-    const { conversations, searchResults } = this.props;
+    const { conversationIds, searchResults } = this.props;
 
     if (searchResults) {
       return <SearchResults {...searchResults} />;
     }
 
-    if (!conversations) {
+    if (!conversationIds) {
       throw new Error('render: must provided conversations if no search results are provided');
     }
 
-    const length = conversations.length;
+    const length = conversationIds.length;
 
-    // Note: conversations is not a known prop for List, but it is required to ensure that
-    //   it re-renders when our conversations data changes. Otherwise it would just render
-    //   on startup and scroll.
-    // TODO do need that `conversations` prop? I again don't see why it is needed. Especially because the list item use hook to fetch their details.
     return (
       <StyledLeftPaneList key={0}>
         <AutoSizer>

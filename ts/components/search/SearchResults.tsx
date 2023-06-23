@@ -1,13 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import {
-  ConversationListItemProps,
-  MemoConversationListItemWithDetails,
-} from '../leftpane/conversation-list-item/ConversationListItem';
+import { ConversationListItem } from '../leftpane/conversation-list-item/ConversationListItem';
 import { MessageResultProps, MessageSearchResult } from './MessageSearchResults';
 
 export type SearchResultsProps = {
-  contactsAndGroups: Array<ConversationListItemProps>;
+  contactsAndGroupsIds: Array<string>;
   messages: Array<MessageResultProps>;
   searchTerm: string;
 };
@@ -39,9 +36,9 @@ const NoResults = styled.div`
 `;
 
 export const SearchResults = (props: SearchResultsProps) => {
-  const { contactsAndGroups, messages, searchTerm } = props;
+  const { contactsAndGroupsIds, messages, searchTerm } = props;
 
-  const haveContactsAndGroup = Boolean(contactsAndGroups?.length);
+  const haveContactsAndGroup = Boolean(contactsAndGroupsIds?.length);
   const haveMessages = Boolean(messages?.length);
   const noResults = !haveContactsAndGroup && !haveMessages;
 
@@ -51,10 +48,10 @@ export const SearchResults = (props: SearchResultsProps) => {
       {haveContactsAndGroup ? (
         <>
           <StyledSeparatorSection>{window.i18n('conversationsHeader')}</StyledSeparatorSection>
-          {contactsAndGroups.map(contactOrGroup => (
-            <MemoConversationListItemWithDetails
-              {...contactOrGroup}
-              key={`search-result-convo-${contactOrGroup.id}`}
+          {contactsAndGroupsIds.map(conversationId => (
+            <ConversationListItem
+              conversationId={conversationId}
+              key={`search-result-convo-${conversationId}`}
             />
           ))}
         </>

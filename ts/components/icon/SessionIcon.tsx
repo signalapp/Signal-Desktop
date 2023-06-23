@@ -122,7 +122,7 @@ const animation = (props: {
 };
 
 //tslint:disable no-unnecessary-callback-wrapper
-const Svg = styled.svg<StyledSvgProps>`
+const Svg = React.memo(styled.svg<StyledSvgProps>`
   width: ${props => props.width};
   transform: ${props => `rotate(${props.iconRotation}deg)`};
   animation: ${props => animation(props)};
@@ -134,7 +134,7 @@ const Svg = styled.svg<StyledSvgProps>`
   fill: ${props => (props.iconColor ? props.iconColor : '--button-icon-stroke-color')};
   padding: ${props => (props.iconPadding ? props.iconPadding : '')};
   transition: inherit;
-`;
+`);
 // tslint:enable no-unnecessary-callback-wrapper
 
 const SessionSvg = (props: {

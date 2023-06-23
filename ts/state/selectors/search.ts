@@ -15,7 +15,7 @@ export const isSearching = (state: StateType) => {
   return !!getSearch(state)?.query?.trim();
 };
 
-export const getSearchResults = createSelector(
+const getSearchResults = createSelector(
   [getSearch, getConversationLookup],
   (searchState: SearchStateType, lookup: ConversationLookupType) => {
     return {
@@ -40,3 +40,14 @@ export const getSearchResults = createSelector(
     };
   }
 );
+
+export const getSearchResultsIdsOnly = createSelector([getSearchResults], searchState => {
+  return {
+    ...searchState,
+    contactsAndGroupsIds: searchState.contactsAndGroups.map(m => m.id),
+  };
+});
+
+export const getSearchResultsContactOnly = createSelector([getSearchResults], searchState => {
+  return searchState.contactsAndGroups.filter(m => m.isPrivate).map(m => m.id);
+});

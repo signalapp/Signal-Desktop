@@ -13,6 +13,7 @@ import { isMessageSelectionMode } from '../../state/selectors/conversations';
 import { SessionIcon } from '../icon';
 import { AvatarPlaceHolder } from './AvatarPlaceHolder/AvatarPlaceHolder';
 import { ClosedGroupAvatar } from './AvatarPlaceHolder/ClosedGroupAvatar';
+import { isEqual } from 'lodash';
 
 export enum AvatarSize {
   XS = 28,
@@ -33,7 +34,7 @@ type Props = {
   dataTestId?: string;
 };
 
-const Identicon = (props: Props) => {
+const Identicon = (props: Pick<Props, 'forcedName' | 'pubkey' | 'size'>) => {
   const { size, forcedName, pubkey } = props;
   const displayName = useConversationUsername(pubkey);
   const userName = forcedName || displayName || '0';
@@ -81,15 +82,15 @@ const NoImage = (
   return <Identicon size={size} forcedName={forcedName} pubkey={pubkey} />;
 };
 
-const AvatarImage = (props: {
-  avatarPath?: string;
-  base64Data?: string;
-  name?: string; // display name, profileName or pubkey, whatever is set first
-  imageBroken: boolean;
-  datatestId?: string;
-  handleImageError: () => any;
-}) => {
-  const { avatarPath, base64Data, imageBroken, datatestId, handleImageError } = props;
+const AvatarImage = (
+  props: Pick<Props, 'base64Data' | 'dataTestId'> & {
+    avatarPath?: string;
+    name?: string; // display name, profileName or pubkey, whatever is set first
+    imageBroken: boolean;
+    handleImageError: () => any;
+  }
+) => {
+  const { avatarPath, base64Data, imageBroken, dataTestId, handleImageError } = props;
 
   const disableDrag = useDisableDrag();
 
@@ -104,7 +105,7 @@ const AvatarImage = (props: {
       onError={handleImageError}
       onDragStart={disableDrag}
       src={dataToDisplay}
-      data-testid={datatestId}
+      data-testid={dataTestId}
     />
   );
 };
@@ -163,7 +164,7 @@ const AvatarInner = (props: Props) => {
           imageBroken={imageBroken}
           name={forcedName || name}
           handleImageError={handleImageError}
-          datatestId={dataTestId ? `img-${dataTestId}` : undefined}
+          dataTestId={dataTestId ? `img-${dataTestId}` : undefined}
         />
       ) : (
         <NoImage {...props} isClosedGroup={isClosedGroupAvatar} />
@@ -172,4 +173,4 @@ const AvatarInner = (props: Props) => {
   );
 };
 
-export const Avatar = AvatarInner;
+export const Avatar = React.memo(AvatarInner, isEqual);

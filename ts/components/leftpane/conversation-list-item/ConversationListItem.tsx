@@ -6,10 +6,7 @@ import { Avatar, AvatarSize } from '../../avatar/Avatar';
 
 import { createPortal } from 'react-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  ReduxConversationType,
-  openConversationWithMessages,
-} from '../../../state/ducks/conversations';
+import { openConversationWithMessages } from '../../../state/ducks/conversations';
 import { updateUserDetailsModal } from '../../../state/ducks/modalDialog';
 
 import _, { isNil } from 'lodash';
@@ -28,15 +25,12 @@ import { ContextConversationProvider, useConvoIdFromContext } from './ConvoIdCon
 import { ConversationListItemHeaderItem } from './HeaderItem';
 import { MessageItem } from './MessageItem';
 
-// tslint:disable-next-line: no-empty-interface
-export type ConversationListItemProps = Pick<ReduxConversationType, 'id'>;
-
 type PropsHousekeeping = {
   style?: Object;
 };
 // tslint:disable: use-simple-attributes
 
-type Props = ConversationListItemProps & PropsHousekeeping;
+type Props = { conversationId: string } & PropsHousekeeping;
 
 const Portal = ({ children }: { children: any }) => {
   return createPortal(children, document.querySelector('.inbox.index') as Element);
@@ -70,8 +64,8 @@ const AvatarItem = () => {
   );
 };
 
-const ConversationListItem = (props: Props) => {
-  const { id: conversationId, style } = props;
+const ConversationListItemInner = (props: Props) => {
+  const { conversationId, style } = props;
   const key = `conversation-item-${conversationId}`;
 
   const hasUnread = useHasUnread(conversationId);
@@ -140,4 +134,4 @@ const ConversationListItem = (props: Props) => {
   );
 };
 
-export const MemoConversationListItemWithDetails = ConversationListItem;
+export const ConversationListItem = ConversationListItemInner;

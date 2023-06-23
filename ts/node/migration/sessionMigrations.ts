@@ -1633,7 +1633,7 @@ function updateToSessionSchemaVersion31(currentVersion: number, db: BetterSqlite
           {
             url: ourDbProfileUrl,
             key: ourDbProfileKey,
-          },
+          }
           // ourConvoExpire
         );
       }

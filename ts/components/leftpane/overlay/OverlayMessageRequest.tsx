@@ -8,11 +8,11 @@ import { declineConversationWithoutConfirm } from '../../../interactions/convers
 import { forceSyncConfigurationNowIfNeeded } from '../../../session/utils/sync/syncUtils';
 import { updateConfirmModal } from '../../../state/ducks/modalDialog';
 import { resetOverlayMode } from '../../../state/ducks/section';
-import { getConversationRequests } from '../../../state/selectors/conversations';
+import { getConversationRequestsIds } from '../../../state/selectors/conversations';
 import { useSelectedConversationKey } from '../../../state/selectors/selectedConversation';
 import { SessionButton, SessionButtonColor } from '../../basic/SessionButton';
 import { SpacerLG } from '../../basic/Text';
-import { MemoConversationListItemWithDetails } from '../conversation-list-item/ConversationListItem';
+import { ConversationListItem } from '../conversation-list-item/ConversationListItem';
 
 const MessageRequestListPlaceholder = styled.div`
   color: var(--conversation-tab-text-color);
@@ -30,11 +30,11 @@ const MessageRequestListContainer = styled.div`
  * @returns List of message request items
  */
 const MessageRequestList = () => {
-  const conversationRequests = useSelector(getConversationRequests);
+  const conversationRequests = useSelector(getConversationRequestsIds);
   return (
     <MessageRequestListContainer>
-      {conversationRequests.map(conversation => {
-        return <MemoConversationListItemWithDetails key={conversation.id} {...conversation} />; // TODO there should not be a need for the ...conversation here?
+      {conversationRequests.map(conversationId => {
+        return <ConversationListItem key={conversationId} conversationId={conversationId} />;
       })}
     </MessageRequestListContainer>
   );
@@ -48,8 +48,8 @@ export const OverlayMessageRequest = () => {
   }
 
   const currentlySelectedConvo = useSelectedConversationKey();
-  const convoRequestCount = useSelector(getConversationRequests).length;
-  const messageRequests = useSelector(getConversationRequests);
+  const messageRequests = useSelector(getConversationRequestsIds);
+  const hasRequests = messageRequests.length;
 
   const buttonText = window.i18n('clearAll');
 
@@ -70,16 +70,16 @@ export const OverlayMessageRequest = () => {
         onClose,
         onClickOk: async () => {
           window?.log?.info('Blocking all message requests');
-          if (!messageRequests) {
+          if (!hasRequests) {
             window?.log?.info('No conversation requests to block.');
             return;
           }
 
           for (let index = 0; index < messageRequests.length; index++) {
-            const convo = messageRequests[index];
+            const convoId = messageRequests[index];
             await declineConversationWithoutConfirm({
               blockContact: false,
-              conversationId: convo.id,
+              conversationId: convoId,
               currentlySelectedConvo,
               syncToDevices: false,
             });
@@ -93,7 +93,7 @@ export const OverlayMessageRequest = () => {
 
   return (
     <div className="module-left-pane-overlay">
-      {convoRequestCount ? (
+      {hasRequests ? (
         <>
           <MessageRequestList />
           <SpacerLG />

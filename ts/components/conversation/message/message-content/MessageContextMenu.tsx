@@ -336,13 +336,16 @@ export const MessageContextMenu = (props: Props) => {
               <Item onClick={onDeleteForEveryone}>{unsendMessageText}</Item>
             </>
           ) : null}
-          {showAdminActions ? <Item onClick={onBan}>{window.i18n('banUser')}</Item> : null}
-          {showAdminActions ? <Item onClick={onUnban}>{window.i18n('unbanUser')}</Item> : null}
-          {showAdminActions && !isSenderAdmin ? (
-            <Item onClick={addModerator}>{window.i18n('addAsModerator')}</Item>
-          ) : null}
-          {showAdminActions && isSenderAdmin ? (
-            <Item onClick={removeModerator}>{window.i18n('removeFromModerators')}</Item>
+          {showAdminActions ? (
+            <>
+              <Item onClick={onBan}>{window.i18n('banUser')}</Item>
+              <Item onClick={onUnban}>{window.i18n('unbanUser')}</Item>
+              {isSenderAdmin ? (
+                <Item onClick={removeModerator}>{window.i18n('removeFromModerators')}</Item>
+              ) : (
+                <Item onClick={addModerator}>{window.i18n('addAsModerator')}</Item>
+              )}
+            </>
           ) : null}
         </Menu>
       </SessionContextMenuContainer>
