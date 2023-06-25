@@ -27,7 +27,7 @@ export const MessageItem = () => {
 
   const isSearchingMode = useSelector(isSearching);
 
-  if (!isConvoTyping && lastMessage?.interactionType && lastMessage?.interactionStatus) {
+  if (lastMessage?.interactionType && lastMessage?.interactionStatus) {
     return <InteractionItem conversationId={conversationId} lastMessage={lastMessage} />;
   }
 
