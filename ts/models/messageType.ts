@@ -119,7 +119,6 @@ export interface MessageAttributes {
 
   /**
    * This is used when a user has performed an interaction (hiding, leaving, etc.) on a conversation. At the moment, this is only used for showing interaction errors.
-   * Will 14/06/2023
    */
   interactionNotification?: InteractionNotificationType;
 }
