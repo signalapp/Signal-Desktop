@@ -6,7 +6,7 @@ export interface FlexProps {
   container?: boolean;
   dataTestId?: string;
   /****** Container Props ********/
-  flexDirection?: 'row' | 'column';
+  flexDirection?: 'row' | 'row-reverse' | 'column' | 'column-reverse';
   justifyContent?:
     | 'flex-start'
     | 'flex-end'

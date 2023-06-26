@@ -57,6 +57,7 @@ import {
   getSelectedConversationKey,
 } from '../../../state/selectors/selectedConversation';
 import { SettingsKey } from '../../../data/settings-key';
+import { isRtlBody } from '../../menu/Menu';
 
 export interface ReplyingToMessageProps {
   convoId: string;
@@ -205,21 +206,22 @@ const getSelectionBasedOnMentions = (draft: string, index: number) => {
   return Number.MAX_SAFE_INTEGER;
 };
 
-const StyledEmojiPanelContainer = styled.div`
+const StyledEmojiPanelContainer = styled.div<{ dir: string }>`
   ${StyledEmojiPanel} {
     position: absolute;
     bottom: 68px;
-    right: 0px;
+    ${props => (props.dir === 'rtl' ? 'left: 0px' : 'right: 0px;')}
   }
 `;
 
-const StyledSendMessageInput = styled.div`
+const StyledSendMessageInput = styled.div<{ dir: string }>`
   cursor: text;
   display: flex;
   align-items: center;
   flex-grow: 1;
   min-height: var(--composition-container-height);
   padding: var(--margins-xs) 0;
+  ${props => (props.dir = 'rtl' && 'margin-right: var(--margins-sm);')}
   z-index: 1;
   background-color: inherit;
 
@@ -409,8 +411,16 @@ class CompositionBoxInner extends React.Component<Props, State> {
     const { showEmojiPanel } = this.state;
     const { typingEnabled } = this.props;
 
+    const rtl = isRtlBody();
+    const writingDirection = rtl ? 'rtl' : 'ltr';
+
     return (
-      <>
+      <Flex
+        container={true}
+        flexDirection={rtl ? 'row-reverse' : 'row'}
+        alignItems={'center'}
+        width={'100%'}
+      >
         {typingEnabled && <AddStagedAttachmentButton onClick={this.onChooseAttachment} />}
 
         <input
@@ -426,13 +436,14 @@ class CompositionBoxInner extends React.Component<Props, State> {
 
         <StyledSendMessageInput
           role="main"
+          dir={writingDirection}
           onClick={this.focusCompositionBox} // used to focus on the textarea when clicking in its container
           ref={el => {
             this.container = el;
           }}
           data-testid="message-input"
         >
-          {this.renderTextArea()}
+          {this.renderTextArea(writingDirection)}
         </StyledSendMessageInput>
 
         {typingEnabled && (
@@ -441,7 +452,7 @@ class CompositionBoxInner extends React.Component<Props, State> {
         <SendMessageButton onClick={this.onSendMessage} />
 
         {typingEnabled && showEmojiPanel && (
-          <StyledEmojiPanelContainer role="button">
+          <StyledEmojiPanelContainer role="button" dir={writingDirection}>
             <SessionEmojiPanel
               ref={this.emojiPanel}
               show={showEmojiPanel}
@@ -450,11 +461,11 @@ class CompositionBoxInner extends React.Component<Props, State> {
             />
           </StyledEmojiPanelContainer>
         )}
-      </>
+      </Flex>
     );
   }
 
-  private renderTextArea() {
+  private renderTextArea(dir: string) {
     const { i18n } = window;
     const { draft } = this.state;
 
@@ -491,6 +502,7 @@ class CompositionBoxInner extends React.Component<Props, State> {
         onKeyUp={this.onKeyUp}
         placeholder={messagePlaceHolder}
         spellCheck={true}
+        dir={dir}
         inputRef={this.textarea}
         disabled={!typingEnabled}
         rows={1}
@@ -505,7 +517,7 @@ class CompositionBoxInner extends React.Component<Props, State> {
           markup="@ￒ__id__ￗ__display__ￒ" // ￒ = \uFFD2 is one of the forbidden char for a display name (check displayNameRegex)
           trigger="@"
           // this is only for the composition box visible content. The real stuff on the backend box is the @markup
-          displayTransform={(_id, display) => `@${display}`}
+          displayTransform={(_id, display) => (dir === 'rtl' ? `${display}@` : `@${display}`)}
           data={this.fetchUsersForGroup}
           renderSuggestion={renderUserMentionRow}
         />
