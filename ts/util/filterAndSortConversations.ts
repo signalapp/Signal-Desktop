@@ -1,12 +1,12 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import Fuse from 'fuse.js';
+import type Fuse from 'fuse.js';
 
 import type { ConversationType } from '../state/ducks/conversations';
 import { parseAndFormatPhoneNumber } from './libphonenumberInstance';
 import { WEEK } from './durations';
-import { removeDiacritics } from './removeDiacritics';
+import { fuseGetFnRemoveDiacritics, getCachedFuseIndex } from './fuse';
 
 // Fuse.js scores have order of 0.01
 const ACTIVE_AT_SCORE_FACTOR = (1 / WEEK) * 0.01;
@@ -45,24 +45,8 @@ const FUSE_OPTIONS: Fuse.IFuseOptions<ConversationType> = {
       weight: 0.5,
     },
   ],
-  getFn: (...args) => {
-    const text = Fuse.config.getFn(...args);
-    if (!text) {
-      return text;
-    }
-
-    if (typeof text === 'string') {
-      return removeDiacritics(text);
-    }
-
-    return text.map(removeDiacritics);
-  },
+  getFn: fuseGetFnRemoveDiacritics,
 };
-
-const cachedIndices = new WeakMap<
-  ReadonlyArray<ConversationType>,
-  Fuse<ConversationType>
->();
 
 type CommandRunnerType = (
   conversations: ReadonlyArray<ConversationType>,
@@ -114,11 +98,7 @@ function searchConversations(
     extendedSearchTerm += ` | ${phoneNumber.e164}`;
   }
 
-  let index = cachedIndices.get(conversations);
-  if (!index) {
-    index = new Fuse<ConversationType>(conversations, FUSE_OPTIONS);
-    cachedIndices.set(conversations, index);
-  }
+  const index = getCachedFuseIndex(conversations, FUSE_OPTIONS);
 
   return index.search(extendedSearchTerm);
 }

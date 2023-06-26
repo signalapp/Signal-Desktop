@@ -19,10 +19,10 @@ import type {
   ConversationType,
   ConversationUnloadedActionType,
   MessageDeletedActionType,
-  MessageType,
   RemoveAllConversationsActionType,
   TargetedConversationChangedActionType,
   ShowArchivedConversationsActionType,
+  MessageType,
 } from './conversations';
 import { getQuery, getSearchConversation } from '../selectors/search';
 import { getAllConversations } from '../selectors/conversations';
@@ -38,11 +38,10 @@ import {
 } from './conversations';
 import { removeDiacritics } from '../../util/removeDiacritics';
 import * as log from '../../logging/log';
+import { searchConversationTitles } from '../../util/searchConversationTitles';
+import { isDirectConversation } from '../../util/whatTypeOfConversation';
 
-const {
-  searchMessages: dataSearchMessages,
-  searchMessagesInConversation,
-}: ClientInterface = dataInterface;
+const { searchMessages: dataSearchMessages }: ClientInterface = dataInterface;
 
 // State
 
@@ -221,11 +220,35 @@ const doSearch = debounce(
       return;
     }
 
+    // Limit the number of contacts to something reasonable
+    const MAX_MATCHING_CONTACTS = 100;
+
     void (async () => {
+      const segmenter = new Intl.Segmenter([], { granularity: 'word' });
+      const queryWords = [...segmenter.segment(query)]
+        .filter(word => word.isWordLike)
+        .map(word => word.segment);
+      const contactUuidsMatchingQuery = searchConversationTitles(
+        allConversations,
+        queryWords
+      )
+        .filter(
+          conversation =>
+            isDirectConversation(conversation) && Boolean(conversation.uuid)
+        )
+        .map(conversation => conversation.uuid as string)
+        .slice(0, MAX_MATCHING_CONTACTS);
+
+      const messages = await queryMessages({
+        query,
+        searchConversationId,
+        contactUuidsMatchingQuery,
+      });
+
       dispatch({
         type: 'SEARCH_MESSAGES_RESULTS_FULFILLED',
         payload: {
-          messages: await queryMessages(query, searchConversationId),
+          messages,
           query,
         },
       });
@@ -255,10 +278,15 @@ const doSearch = debounce(
   200
 );
 
-async function queryMessages(
-  query: string,
-  searchConversationId?: string
-): Promise<Array<ClientSearchResultMessageType>> {
+async function queryMessages({
+  query,
+  searchConversationId,
+  contactUuidsMatchingQuery,
+}: {
+  query: string;
+  searchConversationId?: string;
+  contactUuidsMatchingQuery?: Array<string>;
+}): Promise<Array<ClientSearchResultMessageType>> {
   try {
     const normalized = cleanSearchTerm(query);
     if (normalized.length === 0) {
@@ -266,10 +294,17 @@ async function queryMessages(
     }
 
     if (searchConversationId) {
-      return searchMessagesInConversation(normalized, searchConversationId);
+      return dataSearchMessages({
+        query: normalized,
+        conversationId: searchConversationId,
+        contactUuidsMatchingQuery,
+      });
     }
 
-    return dataSearchMessages(normalized);
+    return dataSearchMessages({
+      query: normalized,
+      contactUuidsMatchingQuery,
+    });
   } catch (e) {
     return [];
   }

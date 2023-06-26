@@ -15,7 +15,9 @@ import {
 } from '../sql/Server';
 import { ReadStatus } from '../messages/MessageReadStatus';
 import { SeenStatus } from '../MessageSeenStatus';
-import { sql } from '../sql/util';
+import { objectToJSON, sql, sqlJoin } from '../sql/util';
+import type { MessageType } from '../sql/Interface';
+import { BodyRange } from '../types/BodyRange';
 
 const OUR_UUID = generateGuid();
 
@@ -3183,6 +3185,294 @@ describe('SQL migrations test', () => {
       assert.include(
         detail,
         'SEARCH messages USING INDEX messages_unread_mentions (conversationId=? AND readStatus=? AND mentionsMe=? AND isStory=? AND storyId=?)'
+      );
+    });
+  });
+
+  describe('updateToSchemaVersion84', () => {
+    const schemaVersion = 84;
+    function composeMessage({
+      id,
+      mentions,
+      boldRanges,
+    }: {
+      id?: string;
+      mentions?: Array<string>;
+      boldRanges?: Array<Array<number>>;
+    }) {
+      const json: Partial<MessageType> = {
+        id: id ?? generateGuid(),
+        body: `Message body: ${id}`,
+      };
+      if (mentions) {
+        json.bodyRanges = mentions.map((mentionUuid, mentionIdx) => ({
+          start: mentionIdx,
+          length: 1,
+          mentionUuid,
+        }));
+      }
+
+      // Add some other body ranges in that are not mentions
+      if (boldRanges) {
+        json.bodyRanges = (json.bodyRanges ?? []).concat(
+          boldRanges.map(([start, length]) => ({
+            start,
+            length,
+            style: BodyRange.Style.BOLD,
+          }))
+        );
+      }
+      return json;
+    }
+
+    function addMessages(
+      messages: Array<{
+        mentions?: Array<string>;
+        boldRanges?: Array<Array<number>>;
+      }>
+    ) {
+      const formattedMessages = messages.map(composeMessage);
+
+      db.exec(
+        `
+        INSERT INTO messages
+          (id, json)
+        VALUES
+          ${formattedMessages
+            .map(message => `('${message.id}', '${objectToJSON(message)}')`)
+            .join(', ')};
+        `
+      );
+
+      assert.equal(
+        db.prepare('SELECT COUNT(*) FROM messages;').pluck().get(),
+        messages.length
+      );
+
+      return { formattedMessages };
+    }
+
+    function getMentions() {
+      return db
+        .prepare('SELECT messageId, mentionUuid, start, length FROM mentions;')
+        .all();
+    }
+
+    it('Creates and populates the mentions table with existing mentions', () => {
+      updateToVersion(schemaVersion - 1);
+
+      const userIds = new Array(5).fill(undefined).map(() => generateGuid());
+      const { formattedMessages } = addMessages([
+        { mentions: [userIds[0]] },
+        { mentions: [userIds[1]], boldRanges: [[1, 1]] },
+        { mentions: [userIds[1], userIds[2]] },
+        {},
+        { boldRanges: [[1, 4]] },
+      ]);
+
+      // now create mentions table
+      updateToVersion(schemaVersion);
+
+      // only the 4 mentions should be included, with multiple rows for multiple mentions
+      // in a message
+      const mentions = getMentions();
+
+      assert.equal(mentions.length, 4);
+      assert.sameDeepMembers(mentions, [
+        {
+          messageId: formattedMessages[0].id,
+          mentionUuid: userIds[0],
+          start: 0,
+          length: 1,
+        },
+        {
+          messageId: formattedMessages[1].id,
+          mentionUuid: userIds[1],
+          start: 0,
+          length: 1,
+        },
+        {
+          messageId: formattedMessages[2].id,
+          mentionUuid: userIds[1],
+          start: 0,
+          length: 1,
+        },
+        {
+          messageId: formattedMessages[2].id,
+          mentionUuid: userIds[2],
+          start: 1,
+          length: 1,
+        },
+      ]);
+    });
+
+    it('Updates mention table when new messages are added', () => {
+      updateToVersion(schemaVersion);
+      assert.equal(
+        db.prepare('SELECT COUNT(*) FROM mentions;').pluck().get(),
+        0
+      );
+
+      const userIds = new Array(5).fill(undefined).map(() => generateGuid());
+      const { formattedMessages } = addMessages([
+        { mentions: [userIds[0]] },
+        { mentions: [userIds[1]], boldRanges: [[1, 1]] },
+        { mentions: [userIds[1], userIds[2]] },
+        {},
+        { boldRanges: [[1, 4]] },
+      ]);
+
+      // the 4 mentions should be included, with multiple rows for multiple mentions in a
+      // message
+      const mentions = getMentions();
+
+      assert.sameDeepMembers(mentions, [
+        {
+          messageId: formattedMessages[0].id,
+          mentionUuid: userIds[0],
+          start: 0,
+          length: 1,
+        },
+        {
+          messageId: formattedMessages[1].id,
+          mentionUuid: userIds[1],
+          start: 0,
+          length: 1,
+        },
+        {
+          messageId: formattedMessages[2].id,
+          mentionUuid: userIds[1],
+          start: 0,
+          length: 1,
+        },
+        {
+          messageId: formattedMessages[2].id,
+          mentionUuid: userIds[2],
+          start: 1,
+          length: 1,
+        },
+      ]);
+    });
+
+    it('Removes mentions when messages are deleted', () => {
+      updateToVersion(schemaVersion);
+      assert.equal(
+        db.prepare('SELECT COUNT(*) FROM mentions;').pluck().get(),
+        0
+      );
+
+      const userIds = new Array(5).fill(undefined).map(() => generateGuid());
+      const { formattedMessages } = addMessages([
+        { mentions: [userIds[0]] },
+        { mentions: [userIds[1], userIds[2]], boldRanges: [[1, 1]] },
+      ]);
+
+      assert.equal(getMentions().length, 3);
+
+      // The foreign key ON DELETE CASCADE relationship should delete mentions when the
+      // referenced message is deleted
+      db.exec(`DELETE FROM messages WHERE id = '${formattedMessages[1].id}';`);
+      const mentions = getMentions();
+      assert.equal(getMentions().length, 1);
+      assert.sameDeepMembers(mentions, [
+        {
+          messageId: formattedMessages[0].id,
+          mentionUuid: userIds[0],
+          start: 0,
+          length: 1,
+        },
+      ]);
+    });
+
+    it('Updates mentions when messages are updated', () => {
+      updateToVersion(schemaVersion);
+      assert.equal(
+        db.prepare('SELECT COUNT(*) FROM mentions;').pluck().get(),
+        0
+      );
+
+      const userIds = new Array(5).fill(undefined).map(() => generateGuid());
+      const { formattedMessages } = addMessages([{ mentions: [userIds[0]] }]);
+
+      assert.equal(getMentions().length, 1);
+
+      // update it with 0 mentions
+      db.prepare(
+        `UPDATE messages SET json = $json WHERE id = '${formattedMessages[0].id}';`
+      ).run({
+        json: objectToJSON(composeMessage({ id: formattedMessages[0].id })),
+      });
+      assert.equal(getMentions().length, 0);
+
+      // update it with a bold bodyrange
+      db.prepare(
+        `UPDATE messages SET json = $json WHERE id = '${formattedMessages[0].id}';`
+      ).run({
+        json: objectToJSON(
+          composeMessage({ id: formattedMessages[0].id, boldRanges: [[1, 2]] })
+        ),
+      });
+      assert.equal(getMentions().length, 0);
+
+      // update it with a three new mentions
+      db.prepare(
+        `UPDATE messages SET json = $json WHERE id = '${formattedMessages[0].id}';`
+      ).run({
+        json: objectToJSON(
+          composeMessage({
+            id: formattedMessages[0].id,
+            mentions: [userIds[2], userIds[3], userIds[4]],
+            boldRanges: [[1, 2]],
+          })
+        ),
+      });
+      assert.sameDeepMembers(getMentions(), [
+        {
+          messageId: formattedMessages[0].id,
+          mentionUuid: userIds[2],
+          start: 0,
+          length: 1,
+        },
+        {
+          messageId: formattedMessages[0].id,
+          mentionUuid: userIds[3],
+          start: 1,
+          length: 1,
+        },
+        {
+          messageId: formattedMessages[0].id,
+          mentionUuid: userIds[4],
+          start: 2,
+          length: 1,
+        },
+      ]);
+    });
+    it('uses the mentionUuid index for searching mentions', () => {
+      updateToVersion(schemaVersion);
+      const [query, params] = sql`
+        EXPLAIN QUERY PLAN
+        SELECT 
+          messages.rowid,
+          mentionUuid
+        FROM mentions
+        INNER JOIN messages 
+        ON 
+          messages.id = mentions.messageId 
+          AND mentions.mentionUuid IN (
+            ${sqlJoin(['a', 'b', 'c'], ', ')}
+          ) 
+          AND messages.isViewOnce IS NOT 1 
+          AND messages.storyId IS NULL
+          
+        LIMIT 100;
+        `;
+      const { detail } = db.prepare(query).get(params);
+
+      assert.notInclude(detail, 'B-TREE');
+      assert.notInclude(detail, 'SCAN');
+      assert.include(
+        detail,
+        'SEARCH mentions USING INDEX mentions_uuid (mentionUuid=?)'
       );
     });
   });

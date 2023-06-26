@@ -57,6 +57,7 @@ import { MINUTE } from '../util/durations';
 import { getMessageIdForLogging } from '../util/idForLogging';
 import type { MessageAttributesType } from '../model-types';
 import { incrementMessageCounter } from '../util/incrementMessageCounter';
+import { generateSnippetAroundMention } from '../util/search';
 
 const ERASE_SQL_KEY = 'erase-sql-key';
 const ERASE_ATTACHMENTS_KEY = 'erase-attachments';
@@ -90,7 +91,6 @@ const exclusiveInterface: ClientExclusiveInterface = {
   removeConversation,
 
   searchMessages,
-  searchMessagesInConversation,
 
   getOlderMessagesByConversation,
   getConversationRangeCenteredOnMessage,
@@ -415,36 +415,48 @@ async function removeConversation(id: string): Promise<void> {
 function handleSearchMessageJSON(
   messages: Array<ServerSearchResultMessageType>
 ): Array<ClientSearchResultMessageType> {
-  return messages.map(message => ({
-    json: message.json,
+  return messages.map<ClientSearchResultMessageType>(message => {
+    const parsedMessage = JSON.parse(message.json);
+    assertDev(
+      message.ftsSnippet ?? typeof message.mentionStart === 'number',
+      'Neither ftsSnippet nor matching mention returned from message search'
+    );
+    const snippet =
+      message.ftsSnippet ??
+      generateSnippetAroundMention({
+        body: parsedMessage.body,
+        mentionStart: message.mentionStart ?? 0,
+        mentionLength: message.mentionLength ?? 1,
+      });
 
-    // Empty array is a default value. `message.json` has the real field
-    bodyRanges: [],
+    return {
+      json: message.json,
 
-    ...JSON.parse(message.json),
-    snippet: message.snippet,
-  }));
+      // Empty array is a default value. `message.json` has the real field
+      bodyRanges: [],
+      ...parsedMessage,
+      snippet,
+    };
+  });
 }
 
-async function searchMessages(
-  query: string,
-  { limit }: { limit?: number } = {}
-): Promise<Array<ClientSearchResultMessageType>> {
-  const messages = await channels.searchMessages(query, { limit });
-
-  return handleSearchMessageJSON(messages);
-}
-
-async function searchMessagesInConversation(
-  query: string,
-  conversationId: string,
-  { limit }: { limit?: number } = {}
-): Promise<Array<ClientSearchResultMessageType>> {
-  const messages = await channels.searchMessagesInConversation(
+async function searchMessages({
+  query,
+  options,
+  contactUuidsMatchingQuery,
+  conversationId,
+}: {
+  query: string;
+  options?: { limit?: number };
+  contactUuidsMatchingQuery?: Array<string>;
+  conversationId?: string;
+}): Promise<Array<ClientSearchResultMessageType>> {
+  const messages = await channels.searchMessages({
     query,
     conversationId,
-    { limit }
-  );
+    options,
+    contactUuidsMatchingQuery,
+  });
 
   return handleSearchMessageJSON(messages);
 }

@@ -135,6 +135,11 @@ import type {
   GetNearbyMessageFromDeletedSetOptionsType,
 } from './Interface';
 import { SeenStatus } from '../MessageSeenStatus';
+import {
+  SNIPPET_LEFT_PLACEHOLDER,
+  SNIPPET_RIGHT_PLACEHOLDER,
+  SNIPPET_TRUNCATION_PLACEHOLDER,
+} from '../util/search';
 
 type ConversationRow = Readonly<{
   json: string;
@@ -234,7 +239,6 @@ const dataInterface: ServerInterface = {
   getAllGroupsInvolvingUuid,
 
   searchMessages,
-  searchMessagesInConversation,
 
   getMessageCount,
   getStoryCount,
@@ -1587,11 +1591,18 @@ async function getAllGroupsInvolvingUuid(
   return rows.map(row => rowToConversation(row));
 }
 
-async function searchMessages(
-  query: string,
-  params: { limit?: number; conversationId?: string } = {}
-): Promise<Array<ServerSearchResultMessageType>> {
-  const { limit = 500, conversationId } = params;
+async function searchMessages({
+  query,
+  options,
+  conversationId,
+  contactUuidsMatchingQuery,
+}: {
+  query: string;
+  options?: { limit?: number };
+  conversationId?: string;
+  contactUuidsMatchingQuery?: Array<string>;
+}): Promise<Array<ServerSearchResultMessageType>> {
+  const { limit = conversationId ? 100 : 500 } = options ?? {};
 
   const db = getInstance();
 
@@ -1662,24 +1673,70 @@ async function searchMessages(
     // give us the right results. We can't call `snippet()` in the query above
     // because it would bloat the temporary table with text data and we want
     // to keep its size minimal for `ORDER BY` + `LIMIT` to be fast.
-    const result = db
-      .prepare<Query>(
-        `
-        SELECT
-          messages.json,
-          snippet(messages_fts, -1, '<<left>>', '<<right>>', '<<truncation>>', 10)
-            AS snippet
-        FROM tmp_filtered_results
-        INNER JOIN messages_fts
-          ON messages_fts.rowid = tmp_filtered_results.rowid
-        INNER JOIN messages
-          ON messages.rowid = tmp_filtered_results.rowid
-        WHERE
-          messages_fts.body MATCH $query
-        ORDER BY messages.received_at DESC, messages.sent_at DESC;
-        `
-      )
-      .all({ query });
+    const ftsFragment = sqlFragment`
+      SELECT
+        messages.rowid,
+        messages.json,
+        messages.sent_at,
+        messages.received_at,
+        snippet(messages_fts, -1, ${SNIPPET_LEFT_PLACEHOLDER}, ${SNIPPET_RIGHT_PLACEHOLDER}, ${SNIPPET_TRUNCATION_PLACEHOLDER}, 10) AS ftsSnippet
+      FROM tmp_filtered_results
+      INNER JOIN messages_fts
+        ON messages_fts.rowid = tmp_filtered_results.rowid
+      INNER JOIN messages
+        ON messages.rowid = tmp_filtered_results.rowid
+      WHERE
+        messages_fts.body MATCH ${query}
+      ORDER BY messages.received_at DESC, messages.sent_at DESC
+      LIMIT ${limit}
+    `;
+
+    let result: Array<ServerSearchResultMessageType>;
+
+    if (!contactUuidsMatchingQuery?.length) {
+      const [sqlQuery, params] = sql`${ftsFragment};`;
+      result = db.prepare(sqlQuery).all(params);
+    } else {
+      // If contactUuidsMatchingQuery is not empty, we due an OUTER JOIN between:
+      // 1) the messages that mention at least one of contactUuidsMatchingQuery, and
+      // 2) the messages that match all the search terms via FTS
+      //
+      // Note: this groups the results by rowid, so even if one message mentions multiple
+      // matching UUIDs, we only return one to be highlighted
+      const [sqlQuery, params] = sql`
+        SELECT 
+          messages.rowid as rowid,
+          COALESCE(messages.json, ftsResults.json) as json, 
+          COALESCE(messages.sent_at, ftsResults.sent_at) as sent_at,
+          COALESCE(messages.received_at, ftsResults.received_at) as received_at,
+          ftsResults.ftsSnippet, 
+          mentionUuid, 
+          start as mentionStart, 
+          length as mentionLength
+        FROM mentions
+        INNER JOIN messages 
+        ON 
+          messages.id = mentions.messageId 
+          AND mentions.mentionUuid IN (
+            ${sqlJoin(contactUuidsMatchingQuery, ', ')}
+          ) 
+          AND ${
+            conversationId
+              ? sqlFragment`messages.conversationId = ${conversationId}`
+              : '1 IS 1'
+          }
+          AND messages.isViewOnce IS NOT 1 
+          AND messages.storyId IS NULL
+        FULL OUTER JOIN (
+          ${ftsFragment}
+        ) as ftsResults 
+        USING (rowid)
+        GROUP BY rowid
+        ORDER BY received_at DESC, sent_at DESC
+        LIMIT ${limit};
+        `;
+      result = db.prepare(sqlQuery).all(params);
+    }
 
     db.exec(
       `
@@ -1687,17 +1744,8 @@ async function searchMessages(
       DROP TABLE tmp_filtered_results;
       `
     );
-
     return result;
   })();
-}
-
-async function searchMessagesInConversation(
-  query: string,
-  conversationId: string,
-  { limit = 100 }: { limit?: number } = {}
-): Promise<Array<ServerSearchResultMessageType>> {
-  return searchMessages(query, { conversationId, limit });
 }
 
 function getMessageCountSync(

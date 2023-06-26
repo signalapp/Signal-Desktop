@@ -126,7 +126,14 @@ export type StoredPreKeyType = {
 export type PreKeyIdType = PreKeyType['id'];
 export type ServerSearchResultMessageType = {
   json: string;
-  snippet: string;
+
+  // If the FTS matches text in message.body, snippet will be populated
+  ftsSnippet: string | null;
+
+  // Otherwise, a matching mention will be returned
+  mentionUuid: string | null;
+  mentionStart: number | null;
+  mentionLength: number | null;
 };
 export type ClientSearchResultMessageType = MessageType & {
   json: string;
@@ -488,9 +495,6 @@ export type DataInterface = {
     id: UUIDStringType
   ) => Promise<Array<ConversationType>>;
 
-  // searchMessages is JSON on server, full message on Client
-  // searchMessagesInConversation is JSON on server, full message on Client
-
   getMessageCount: (conversationId?: string) => Promise<number>;
   getStoryCount: (conversationId: string) => Promise<number>;
   saveMessage: (
@@ -788,16 +792,17 @@ export type ServerInterface = DataInterface & {
   updateConversation: (data: ConversationType) => Promise<void>;
   removeConversation: (id: Array<string> | string) => Promise<void>;
 
-  searchMessages: (
-    query: string,
-    options?: { limit?: number }
-  ) => Promise<Array<ServerSearchResultMessageType>>;
-  searchMessagesInConversation: (
-    query: string,
-    conversationId: string,
-    options?: { limit?: number }
-  ) => Promise<Array<ServerSearchResultMessageType>>;
-
+  searchMessages: ({
+    query,
+    conversationId,
+    options,
+    contactUuidsMatchingQuery,
+  }: {
+    query: string;
+    conversationId?: string;
+    options?: { limit?: number };
+    contactUuidsMatchingQuery?: Array<string>;
+  }) => Promise<Array<ServerSearchResultMessageType>>;
   getOlderMessagesByConversation: (
     options: AdjacentMessagesByConversationOptionsType
   ) => Promise<Array<MessageTypeUnhydrated>>;
@@ -868,16 +873,17 @@ export type ClientExclusiveInterface = {
   updateConversation: (data: ConversationType) => void;
   removeConversation: (id: string) => Promise<void>;
 
-  searchMessages: (
-    query: string,
-    options?: { limit?: number }
-  ) => Promise<Array<ClientSearchResultMessageType>>;
-  searchMessagesInConversation: (
-    query: string,
-    conversationId: string,
-    options?: { limit?: number }
-  ) => Promise<Array<ClientSearchResultMessageType>>;
-
+  searchMessages: ({
+    query,
+    conversationId,
+    options,
+    contactUuidsMatchingQuery,
+  }: {
+    query: string;
+    conversationId?: string;
+    options?: { limit?: number };
+    contactUuidsMatchingQuery?: Array<string>;
+  }) => Promise<Array<ClientSearchResultMessageType>>;
   getOlderMessagesByConversation: (
     options: AdjacentMessagesByConversationOptionsType
   ) => Promise<Array<MessageAttributesType>>;
