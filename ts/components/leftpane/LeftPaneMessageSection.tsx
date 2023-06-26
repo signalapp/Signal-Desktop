@@ -1,31 +1,26 @@
+import autoBind from 'auto-bind';
 import React from 'react';
 import { AutoSizer, List, ListRowProps } from 'react-virtualized';
-import {
-  ConversationListItemProps,
-  MemoConversationListItemWithDetails,
-} from './conversation-list-item/ConversationListItem';
-import { ReduxConversationType } from '../../state/ducks/conversations';
 import { SearchResults, SearchResultsProps } from '../search/SearchResults';
 import { LeftPaneSectionHeader } from './LeftPaneSectionHeader';
-import autoBind from 'auto-bind';
-import _ from 'lodash';
 import { MessageRequestsBanner } from './MessageRequestsBanner';
 
-import { SessionSearchInput } from '../SessionSearchInput';
-import { OverlayCommunity } from './overlay/OverlayCommunity';
-import { OverlayMessageRequest } from './overlay/OverlayMessageRequest';
-import { OverlayMessage } from './overlay/OverlayMessage';
-import { OverlayClosedGroup } from './overlay/OverlayClosedGroup';
-import { OverlayMode, setOverlayMode } from '../../state/ducks/section';
-import { OverlayChooseAction } from './overlay/choose-action/OverlayChooseAction';
-import styled from 'styled-components';
 import { useSelector } from 'react-redux';
+import styled from 'styled-components';
+import { OverlayMode, setOverlayMode } from '../../state/ducks/section';
 import { getOverlayMode } from '../../state/selectors/section';
+import { SessionSearchInput } from '../SessionSearchInput';
 import { StyledLeftPaneList } from './LeftPaneList';
+import { OverlayClosedGroup } from './overlay/OverlayClosedGroup';
+import { OverlayCommunity } from './overlay/OverlayCommunity';
+import { OverlayMessage } from './overlay/OverlayMessage';
+import { OverlayMessageRequest } from './overlay/OverlayMessageRequest';
+import { OverlayChooseAction } from './overlay/choose-action/OverlayChooseAction';
+import { ConversationListItem } from './conversation-list-item/ConversationListItem';
+import { assertUnreachable } from '../../types/sqlSharedTypes';
 
 export interface Props {
-  contacts: Array<ReduxConversationType>;
-  conversations?: Array<ConversationListItemProps>;
+  conversationIds?: Array<string>;
   searchResults?: SearchResultsProps;
   overlayMode: OverlayMode | undefined;
 }
@@ -60,8 +55,13 @@ const ClosableOverlay = () => {
       return <OverlayMessage />;
     case 'message-requests':
       return <OverlayMessageRequest />;
-    default:
+    case undefined:
       return null;
+    default:
+      return assertUnreachable(
+        overlayMode,
+        `ClosableOverlay: overlayMode case not handled "${overlayMode}"`
+      );
   }
 };
 
@@ -72,37 +72,33 @@ export class LeftPaneMessageSection extends React.Component<Props> {
   }
 
   public renderRow = ({ index, key, style }: ListRowProps): JSX.Element | null => {
-    const { conversations } = this.props;
+    const { conversationIds } = this.props;
 
     //assume conversations that have been marked unapproved should be filtered out by selector.
-    if (!conversations) {
+    if (!conversationIds) {
       throw new Error('renderRow: Tried to render without conversations');
     }
 
-    const conversation = conversations[index];
-    if (!conversation) {
+    const conversationId = conversationIds[index];
+    if (!conversationId) {
       throw new Error('renderRow: conversations selector returned element containing falsy value.');
     }
 
-    return <MemoConversationListItemWithDetails key={key} style={style} {...conversation} />; // TODO there should not be a need for the ...conversation here?
+    return <ConversationListItem key={key} style={style} conversationId={conversationId} />;
   };
 
   public renderList(): JSX.Element {
-    const { conversations, searchResults } = this.props;
+    const { conversationIds, searchResults } = this.props;
 
     if (searchResults) {
       return <SearchResults {...searchResults} />;
     }
 
-    if (!conversations) {
+    if (!conversationIds) {
       throw new Error('render: must provided conversations if no search results are provided');
     }
 
-    const length = conversations.length;
-
-    // Note: conversations is not a known prop for List, but it is required to ensure that
-    //   it re-renders when our conversations data changes. Otherwise it would just render
-    //   on startup and scroll.
+    const length = conversationIds.length;
 
     return (
       <StyledLeftPaneList key={0}>
@@ -110,7 +106,6 @@ export class LeftPaneMessageSection extends React.Component<Props> {
           {({ height, width }) => (
             <List
               className="module-left-pane__virtual-list"
-              conversations={conversations}
               height={height}
               rowCount={length}
               rowHeight={64}

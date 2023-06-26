@@ -8,13 +8,7 @@ import {
   getLegacyGroupInfoFromDBValues,
 } from '../../../types/sqlSharedTypes';
 import { UserGroupsWrapperActions } from '../../../webworker/workers/browser/libsession_worker_interface';
-import { OpenGroupUtils } from '../../apis/open_group_api/utils';
 import { getConversationController } from '../../conversations';
-
-/**
- * The key of this map is the convoId as stored in the database.
- */
-const mappedCommunityWrapperValues = new Map<string, CommunityInfo>();
 
 /**
  * Returns true if that conversation is an active group
@@ -106,7 +100,6 @@ async function insertGroupsFromDBIntoWrapperAndRefresh(convoId: string): Promise
           wrapperComm.fullUrl,
           wrapperComm.priority
         );
-        await refreshCachedUserGroup(convoId);
       } catch (e) {
         window.log.warn(`UserGroupsWrapperActions.set of ${convoId} failed with ${e.message}`);
         // we still let this go through
@@ -120,7 +113,7 @@ async function insertGroupsFromDBIntoWrapperAndRefresh(convoId: string): Promise
         priority: foundConvo.get('priority'),
         members: foundConvo.get('members') || [],
         groupAdmins: foundConvo.get('groupAdmins') || [],
-        expireTimer: foundConvo.get('expireTimer'),
+        // expireTimer: foundConvo.get('expireTimer'),
         displayNameInProfile: foundConvo.get('displayNameInProfile'),
         encPubkeyHex: encryptionKeyPair?.publicHex || '',
         encSeckeyHex: encryptionKeyPair?.privateHex || '',
@@ -134,7 +127,6 @@ async function insertGroupsFromDBIntoWrapperAndRefresh(convoId: string): Promise
         );
         // this does the create or the update of the matching existing legacy group
         await UserGroupsWrapperActions.setLegacyGroup(wrapperLegacyGroup);
-        await refreshCachedUserGroup(convoId);
       } catch (e) {
         window.log.warn(`UserGroupsWrapperActions.set of ${convoId} failed with ${e.message}`);
         // we still let this go through
@@ -149,44 +141,18 @@ async function insertGroupsFromDBIntoWrapperAndRefresh(convoId: string): Promise
   }
 }
 
-/**
- * @param duringAppStart set this to true if we should just fetch the cached value but not trigger a UI refresh of the corresponding conversation
- */
-async function refreshCachedUserGroup(convoId: string, duringAppStart = false) {
-  try {
-    let refreshed = false;
-    if (OpenGroupUtils.isOpenGroupV2(convoId)) {
-      const fromWrapper = await UserGroupsWrapperActions.getCommunityByFullUrl(convoId);
-      if (fromWrapper && fromWrapper.fullUrlWithPubkey) {
-        mappedCommunityWrapperValues.set(convoId, fromWrapper);
-      }
-      refreshed = true;
-    }
-
-    if (refreshed && !duringAppStart) {
-      getConversationController()
-        .get(convoId)
-        ?.triggerUIRefresh();
-    }
-  } catch (e) {
-    window.log.info(`refreshMappedValue: not an opengroup convoID: ${convoId}`, e);
-  }
-
-  // TODOLATER handle the new closed groups once we got them ready
+async function getCommunityByConvoIdNotCached(convoId: string) {
+  return UserGroupsWrapperActions.getCommunityByFullUrl(convoId);
 }
 
-function getCommunityByConvoIdCached(convoId: string) {
-  return mappedCommunityWrapperValues.get(convoId);
-}
-
-function getAllCommunitiesCached(): Array<CommunityInfo> {
-  return [...mappedCommunityWrapperValues.values()];
+async function getAllCommunitiesNotCached(): Promise<Array<CommunityInfo>> {
+  return UserGroupsWrapperActions.getAllCommunities();
 }
 
 /**
  * Removes the matching community from the wrapper and from the cached list of communities
  */
-async function removeCommunityFromWrapper(convoId: string, fullUrlWithOrWithoutPubkey: string) {
+async function removeCommunityFromWrapper(_convoId: string, fullUrlWithOrWithoutPubkey: string) {
   const fromWrapper = await UserGroupsWrapperActions.getCommunityByFullUrl(
     fullUrlWithOrWithoutPubkey
   );
@@ -194,7 +160,6 @@ async function removeCommunityFromWrapper(convoId: string, fullUrlWithOrWithoutP
   if (fromWrapper) {
     await UserGroupsWrapperActions.eraseCommunityByFullUrl(fromWrapper.fullUrlWithPubkey);
   }
-  mappedCommunityWrapperValues.delete(convoId);
 }
 
 /**
@@ -226,13 +191,12 @@ export const SessionUtilUserGroups = {
   // shared
   isUserGroupToStoreInWrapper,
   insertGroupsFromDBIntoWrapperAndRefresh,
-  refreshCachedUserGroup,
   getUserGroupTypes,
 
   // communities
   isCommunityToStoreInWrapper,
-  getAllCommunitiesCached,
-  getCommunityByConvoIdCached,
+  getAllCommunitiesNotCached,
+  getCommunityByConvoIdNotCached,
   removeCommunityFromWrapper,
 
   // legacy group

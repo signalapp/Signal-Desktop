@@ -27,6 +27,7 @@ import {
   ShowUserDetailsMenuItem,
   UnbanMenuItem,
   DeletePrivateConversationMenuItem,
+  NotificationForConvoMenuItem,
 } from './Menu';
 import { isSearching } from '../../state/selectors/search';
 
@@ -51,6 +52,8 @@ const ConversationListItemContextMenu = (props: PropsContextConversationItem) =>
         <DeclineAndBlockMsgRequestMenuItem />
         {/* Generic actions */}
         <PinConversationMenuItem />
+        <NotificationForConvoMenuItem />
+
         <BlockMenuItem />
         <CopyMenuItem />
         {/* Read state actions */}
@@ -74,13 +77,7 @@ const ConversationListItemContextMenu = (props: PropsContextConversationItem) =>
   );
 };
 
-function propsAreEqual(prev: PropsContextConversationItem, next: PropsContextConversationItem) {
-  return _.isEqual(prev, next);
-}
-export const MemoConversationListItemContextMenu = React.memo(
-  ConversationListItemContextMenu,
-  propsAreEqual
-);
+export const MemoConversationListItemContextMenu = ConversationListItemContextMenu;
 
 export const PinConversationMenuItem = (): JSX.Element | null => {
   const conversationId = useConvoIdFromContext();

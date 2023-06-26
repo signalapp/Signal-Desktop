@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
 import classNames from 'classnames';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import styled from 'styled-components';
+import { useDisableDrag } from '../../hooks/useDisableDrag';
 import { useEncryptedFileFetch } from '../../hooks/useEncryptedFileFetch';
-import { isEqual } from 'lodash';
 import {
   useAvatarPath,
   useConversationUsername,
   useIsClosedGroup,
 } from '../../hooks/useParamSelector';
+import { isMessageSelectionMode } from '../../state/selectors/conversations';
+import { SessionIcon } from '../icon';
 import { AvatarPlaceHolder } from './AvatarPlaceHolder/AvatarPlaceHolder';
 import { ClosedGroupAvatar } from './AvatarPlaceHolder/ClosedGroupAvatar';
-import { useDisableDrag } from '../../hooks/useDisableDrag';
-import styled from 'styled-components';
-import { SessionIcon } from '../icon';
-import { useSelector } from 'react-redux';
-import { isMessageSelectionMode } from '../../state/selectors/conversations';
+import { isEqual } from 'lodash';
 
 export enum AvatarSize {
   XS = 28,
@@ -34,7 +34,7 @@ type Props = {
   dataTestId?: string;
 };
 
-const Identicon = (props: Props) => {
+const Identicon = (props: Pick<Props, 'forcedName' | 'pubkey' | 'size'>) => {
   const { size, forcedName, pubkey } = props;
   const displayName = useConversationUsername(pubkey);
   const userName = forcedName || displayName || '0';
@@ -82,15 +82,15 @@ const NoImage = (
   return <Identicon size={size} forcedName={forcedName} pubkey={pubkey} />;
 };
 
-const AvatarImage = (props: {
-  avatarPath?: string;
-  base64Data?: string;
-  name?: string; // display name, profileName or pubkey, whatever is set first
-  imageBroken: boolean;
-  datatestId?: string;
-  handleImageError: () => any;
-}) => {
-  const { avatarPath, base64Data, name, imageBroken, datatestId, handleImageError } = props;
+const AvatarImage = (
+  props: Pick<Props, 'base64Data' | 'dataTestId'> & {
+    avatarPath?: string;
+    name?: string; // display name, profileName or pubkey, whatever is set first
+    imageBroken: boolean;
+    handleImageError: () => any;
+  }
+) => {
+  const { avatarPath, base64Data, imageBroken, dataTestId, handleImageError } = props;
 
   const disableDrag = useDisableDrag();
 
@@ -99,13 +99,13 @@ const AvatarImage = (props: {
   }
   const dataToDisplay = base64Data ? `data:image/jpeg;base64,${base64Data}` : avatarPath;
 
+  // tslint:disable: react-a11y-img-has-alt
   return (
     <img
       onError={handleImageError}
       onDragStart={disableDrag}
-      alt={window.i18n('contactAvatarAlt', [name || 'avatar'])}
       src={dataToDisplay}
-      data-testid={datatestId}
+      data-testid={dataTestId}
     />
   );
 };
@@ -164,7 +164,7 @@ const AvatarInner = (props: Props) => {
           imageBroken={imageBroken}
           name={forcedName || name}
           handleImageError={handleImageError}
-          datatestId={dataTestId ? `img-${dataTestId}` : undefined}
+          dataTestId={dataTestId ? `img-${dataTestId}` : undefined}
         />
       ) : (
         <NoImage {...props} isClosedGroup={isClosedGroupAvatar} />
