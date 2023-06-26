@@ -1381,34 +1381,32 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       }
     }
 
-    if (this.get('interactionNotification')) {
-      const interactionNotification = this.get('interactionNotification');
-      if (interactionNotification) {
-        const { interactionType, interactionStatus } = interactionNotification;
+    const interactionNotification = this.get('interactionNotification');
+    if (interactionNotification) {
+      const { interactionType, interactionStatus } = interactionNotification;
 
-        // NOTE For now we only show interaction errors in the message history
-        if (interactionStatus === ConversationInteractionStatus.Error) {
-          const convo = getConversationController().get(this.get('conversationId'));
+      // NOTE For now we only show interaction errors in the message history
+      if (interactionStatus === ConversationInteractionStatus.Error) {
+        const convo = getConversationController().get(this.get('conversationId'));
 
-          if (convo) {
-            const isGroup = !convo.isPrivate();
-            const isCommunity = convo.isPublic();
+        if (convo) {
+          const isGroup = !convo.isPrivate();
+          const isCommunity = convo.isPublic();
 
-            switch (interactionType) {
-              case ConversationInteractionType.Hide:
-                return window.i18n('hideConversationFailed');
-              case ConversationInteractionType.Leave:
-                return isCommunity
-                  ? window.i18n('leaveCommunityFailed')
-                  : isGroup
-                  ? window.i18n('leaveGroupFailed')
-                  : window.i18n('deleteConversationFailed');
-              default:
-                assertUnreachable(
-                  interactionType,
-                  `Message.getDescription: Missing case error "${interactionType}"`
-                );
-            }
+          switch (interactionType) {
+            case ConversationInteractionType.Hide:
+              return window.i18n('hideConversationFailed');
+            case ConversationInteractionType.Leave:
+              return isCommunity
+                ? window.i18n('leaveCommunityFailed')
+                : isGroup
+                ? window.i18n('leaveGroupFailed')
+                : window.i18n('deleteConversationFailed');
+            default:
+              assertUnreachable(
+                interactionType,
+                `Message.getDescription: Missing case error "${interactionType}"`
+              );
           }
         }
       }
