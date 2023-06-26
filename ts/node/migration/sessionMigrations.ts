@@ -1235,6 +1235,8 @@ function insertContactIntoContactWrapper(
       dbProfileKey: contact.profileKey || undefined,
       dbProfileUrl: contact.avatarPointer || undefined,
       priority,
+      dbCreatedAtSeconds: Math.floor((contact.active_at || Date.now()) / 1000),
+
       // expirationTimerSeconds,
     });
 
@@ -1259,6 +1261,7 @@ function insertContactIntoContactWrapper(
             dbProfileKey: undefined,
             dbProfileUrl: undefined,
             priority: CONVERSATION_PRIORITIES.default,
+            dbCreatedAtSeconds: Math.floor(Date.now() / 1000),
             // expirationTimerSeconds: 0,
           })
         );
@@ -1308,7 +1311,7 @@ function insertCommunityIntoWrapper(
   const convoId = community.id; // the id of a conversation has the prefix, the serverUrl and the roomToken already present, but not the pubkey
 
   const roomDetails = sqlNode.getV2OpenGroupRoom(convoId, db);
-  hasDebugEnvVariable && console.info('insertCommunityIntoWrapper: ', community);
+  // hasDebugEnvVariable && console.info('insertCommunityIntoWrapper: ', community);
 
   if (
     !roomDetails ||
