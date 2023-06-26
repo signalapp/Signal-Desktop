@@ -43,6 +43,7 @@ import { encryptProfile } from '../util/crypto/profileEncrypter';
 import { ReleasedFeatures } from '../util/releaseFeature';
 import { Storage, setLastProfileUpdateTimestamp } from '../util/storage';
 import { UserGroupsWrapperActions } from '../webworker/workers/browser/libsession_worker_interface';
+import { GetNetworkTime } from '../session/apis/snode_api/getNetworkTime';
 
 export enum ConversationInteractionStatus {
   Start = 'start',
@@ -791,7 +792,7 @@ async function saveConversationInteractionErrorAsMessage({
 
   // Add an error message to the database so we can view it in the message history
   await conversation?.addSingleIncomingMessage({
-    source: UserUtils.getOurPubKeyStrFromCache(),
+    source: GetNetworkTime.getNowWithNetworkOffset().toString(),
     sent_at: Date.now(),
     interactionNotification: {
       interactionType,
