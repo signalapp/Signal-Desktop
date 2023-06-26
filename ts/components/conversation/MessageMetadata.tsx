@@ -142,14 +142,14 @@ export function MessageMetadata({
     } else {
       timestampNode = (
         <MessageTimestamp
-          i18n={i18n}
-          timestamp={timestamp}
-          direction={metadataDirection}
           deletedForEveryone={deletedForEveryone}
+          direction={metadataDirection}
+          i18n={i18n}
+          module="module-message__metadata__date"
+          timestamp={timestamp}
           withImageNoCaption={withImageNoCaption}
           withSticker={isSticker}
           withTapToViewExpired={isTapToViewExpired}
-          module="module-message__metadata__date"
         />
       );
     }

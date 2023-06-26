@@ -39,7 +39,7 @@ export function SmartEditHistoryMessagesModal(): JSX.Element {
     return messagesAttributes.map(messageAttributes => ({
       ...messagePropsSelector(messageAttributes as MessageAttributesType),
       // Make sure the messages don't get an "edited" badge
-      editHistory: undefined,
+      isEditedMessage: false,
       // Do not show the same reactions in the message history UI
       reactions: undefined,
     }));

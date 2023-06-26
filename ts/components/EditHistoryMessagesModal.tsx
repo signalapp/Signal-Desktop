@@ -13,6 +13,8 @@ import { Modal } from './Modal';
 import { WidthBreakpoint } from './_util';
 import { shouldNeverBeCalled } from '../util/shouldNeverBeCalled';
 import { useTheme } from '../hooks/useTheme';
+import { isSameDay } from '../util/timestamp';
+import { TimelineDateHeader } from './conversation/TimelineDateHeader';
 
 export type PropsType = {
   closeEditHistoryModal: () => unknown;
@@ -55,7 +57,7 @@ const MESSAGE_DEFAULT_PROPS = {
   scrollToQuotedMessage: shouldNeverBeCalled,
   shouldCollapseAbove: false,
   shouldCollapseBelow: false,
-  shouldHideMetadata: true,
+  shouldHideMetadata: false,
   showContactModal: shouldNeverBeCalled,
   showConversation: noop,
   showEditHistoryModal: shouldNeverBeCalled,
@@ -144,39 +146,56 @@ export function EditHistoryMessagesModal({
           {i18n('icu:EditHistoryMessagesModal__title')}
         </h3>
 
-        {pastEdits.map(messageAttributes => {
+        {pastEdits.map((messageAttributes, index) => {
           const syntheticId = `${messageAttributes.id}.${messageAttributes.timestamp}`;
 
-          return (
-            <Message
-              {...MESSAGE_DEFAULT_PROPS}
-              {...messageAttributes}
-              id={syntheticId}
-              containerElementRef={containerElementRef}
-              displayLimit={displayLimitById[syntheticId]}
-              getPreferredBadge={getPreferredBadge}
+          const previousItem = pastEdits[index - 1];
+
+          const shouldShowDateHeader = Boolean(
+            !previousItem ||
+              // This comparison avoids strange header behavior for out-of-order messages.
+              (messageAttributes.timestamp > previousItem.timestamp &&
+                !isSameDay(previousItem.timestamp, messageAttributes.timestamp))
+          );
+          const dateHeaderElement = shouldShowDateHeader ? (
+            <TimelineDateHeader
               i18n={i18n}
-              isSpoilerExpanded={revealedSpoilersById[syntheticId] || {}}
-              key={messageAttributes.timestamp}
-              kickOffAttachmentDownload={kickOffAttachmentDownload}
-              messageExpanded={(messageId, displayLimit) => {
-                const update = {
-                  ...displayLimitById,
-                  [messageId]: displayLimit,
-                };
-                setDisplayLimitById(update);
-              }}
-              platform={platform}
-              showLightbox={closeAndShowLightbox}
-              showSpoiler={(messageId, data) => {
-                const update = {
-                  ...revealedSpoilersById,
-                  [messageId]: data,
-                };
-                setRevealedSpoilersById(update);
-              }}
-              theme={theme}
+              timestamp={messageAttributes.timestamp}
             />
+          ) : null;
+
+          return (
+            <React.Fragment key={messageAttributes.timestamp}>
+              {dateHeaderElement}
+              <Message
+                {...MESSAGE_DEFAULT_PROPS}
+                {...messageAttributes}
+                id={syntheticId}
+                containerElementRef={containerElementRef}
+                displayLimit={displayLimitById[syntheticId]}
+                getPreferredBadge={getPreferredBadge}
+                i18n={i18n}
+                isSpoilerExpanded={revealedSpoilersById[syntheticId] || {}}
+                kickOffAttachmentDownload={kickOffAttachmentDownload}
+                messageExpanded={(messageId, displayLimit) => {
+                  const update = {
+                    ...displayLimitById,
+                    [messageId]: displayLimit,
+                  };
+                  setDisplayLimitById(update);
+                }}
+                platform={platform}
+                showLightbox={closeAndShowLightbox}
+                showSpoiler={(messageId, data) => {
+                  const update = {
+                    ...revealedSpoilersById,
+                    [messageId]: data,
+                  };
+                  setRevealedSpoilersById(update);
+                }}
+                theme={theme}
+              />
+            </React.Fragment>
           );
         })}
       </div>
