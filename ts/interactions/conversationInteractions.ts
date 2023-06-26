@@ -727,7 +727,11 @@ export async function updateConversationInteractionState({
   status: ConversationInteractionStatus;
 }) {
   const convo = getConversationController().get(conversationId);
-  if (convo) {
+  if (
+    convo &&
+    (type !== convo.get('lastMessageInteractionType') ||
+      status !== convo.get('lastMessageInteractionStatus'))
+  ) {
     convo.set('lastMessageInteractionType', type);
     convo.set('lastMessageInteractionStatus', status);
 
@@ -748,7 +752,10 @@ export async function clearConversationInteractionState({
   conversationId: string;
 }) {
   const convo = getConversationController().get(conversationId);
-  if (convo) {
+  if (
+    convo &&
+    (convo.get('lastMessageInteractionType') || convo.get('lastMessageInteractionStatus'))
+  ) {
     convo.set('lastMessageInteractionType', undefined);
     convo.set('lastMessageInteractionStatus', undefined);
 
