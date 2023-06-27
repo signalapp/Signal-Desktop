@@ -57,7 +57,7 @@ import {
   getSelectedConversationKey,
 } from '../../../state/selectors/selectedConversation';
 import { SettingsKey } from '../../../data/settings-key';
-import { getHTMLDirection } from '../../../util/i18n';
+import { getHTMLDirection, HTMLDirection } from '../../../util/i18n';
 
 export interface ReplyingToMessageProps {
   convoId: string;
@@ -114,28 +114,31 @@ interface State {
   ignoredLink?: string; // set the ignored url when users closed the link preview
   stagedLinkPreview?: StagedLinkPreviewData;
   showCaptionEditor?: AttachmentType;
+  htmlDirection?: HTMLDirection;
 }
 
-const sendMessageStyle = {
-  control: {
-    wordBreak: 'break-all',
-  },
-  input: {
-    overflow: 'auto',
-    maxHeight: '50vh',
-    wordBreak: 'break-word',
-    padding: '0px',
-    margin: '0px',
-  },
-  highlighter: {
-    boxSizing: 'border-box',
-    overflow: 'hidden',
-    maxHeight: '50vh',
-  },
-  flexGrow: 1,
-  minHeight: '24px',
-  width: '100%',
-  ...styleForCompositionBoxSuggestions,
+const sendMessageStyle = (dir: HTMLDirection) => {
+  return {
+    control: {
+      wordBreak: 'break-all',
+    },
+    input: {
+      overflow: 'auto',
+      maxHeight: '50vh',
+      wordBreak: 'break-word',
+      padding: '0px',
+      margin: '0px',
+    },
+    highlighter: {
+      boxSizing: 'border-box',
+      overflow: 'hidden',
+      maxHeight: '50vh',
+    },
+    flexGrow: 1,
+    minHeight: '24px',
+    width: '100%',
+    ...styleForCompositionBoxSuggestions(dir),
+  };
 };
 
 const getDefaultState = (newConvoId?: string) => {
@@ -146,6 +149,7 @@ const getDefaultState = (newConvoId?: string) => {
     ignoredLink: undefined,
     stagedLinkPreview: undefined,
     showCaptionEditor: undefined,
+    htmlDirection: getHTMLDirection(),
   };
 };
 
@@ -206,7 +210,7 @@ const getSelectionBasedOnMentions = (draft: string, index: number) => {
   return Number.MAX_SAFE_INTEGER;
 };
 
-const StyledEmojiPanelContainer = styled.div<{ dir: string }>`
+const StyledEmojiPanelContainer = styled.div<{ dir?: HTMLDirection }>`
   ${StyledEmojiPanel} {
     position: absolute;
     bottom: 68px;
@@ -214,7 +218,8 @@ const StyledEmojiPanelContainer = styled.div<{ dir: string }>`
   }
 `;
 
-const StyledSendMessageInput = styled.div<{ dir: string }>`
+const StyledSendMessageInput = styled.div<{ dir?: HTMLDirection }>`
+  position: relative;
   cursor: text;
   display: flex;
   align-items: center;
@@ -233,7 +238,7 @@ const StyledSendMessageInput = styled.div<{ dir: string }>`
   textarea {
     font-family: var(--font-default);
     min-height: calc(var(--composition-container-height) / 3);
-    max-height: 3 * var(--composition-container-height);
+    max-height: calc(3 * var(--composition-container-height));
     margin-right: var(--margins-md);
     color: var(--text-color-primary);
 
@@ -411,11 +416,9 @@ class CompositionBoxInner extends React.Component<Props, State> {
     const { showEmojiPanel } = this.state;
     const { typingEnabled } = this.props;
 
-    const htmlDirection = getHTMLDirection();
-
     return (
       <Flex
-        dir={htmlDirection}
+        dir={this.state.htmlDirection}
         container={true}
         flexDirection={'row'}
         alignItems={'center'}
@@ -436,14 +439,14 @@ class CompositionBoxInner extends React.Component<Props, State> {
 
         <StyledSendMessageInput
           role="main"
-          dir={htmlDirection}
+          dir={this.state.htmlDirection}
           onClick={this.focusCompositionBox} // used to focus on the textarea when clicking in its container
           ref={el => {
             this.container = el;
           }}
           data-testid="message-input"
         >
-          {this.renderTextArea(htmlDirection)}
+          {this.renderTextArea()}
         </StyledSendMessageInput>
 
         {typingEnabled && (
@@ -452,7 +455,7 @@ class CompositionBoxInner extends React.Component<Props, State> {
         <SendMessageButton onClick={this.onSendMessage} />
 
         {typingEnabled && showEmojiPanel && (
-          <StyledEmojiPanelContainer role="button" dir={htmlDirection}>
+          <StyledEmojiPanelContainer role="button" dir={this.state.htmlDirection}>
             <SessionEmojiPanel
               ref={this.emojiPanel}
               show={showEmojiPanel}
@@ -465,9 +468,9 @@ class CompositionBoxInner extends React.Component<Props, State> {
     );
   }
 
-  private renderTextArea(dir: string) {
+  private renderTextArea() {
     const { i18n } = window;
-    const { draft } = this.state;
+    const { draft, htmlDirection } = this.state;
 
     if (!this.props.selectedConversation) {
       return null;
@@ -494,6 +497,8 @@ class CompositionBoxInner extends React.Component<Props, State> {
     const { typingEnabled } = this.props;
     const neverMatchingRegex = /($a)/;
 
+    const style = sendMessageStyle(htmlDirection || 'ltr');
+
     return (
       <MentionsInput
         value={draft}
@@ -502,12 +507,12 @@ class CompositionBoxInner extends React.Component<Props, State> {
         onKeyUp={this.onKeyUp}
         placeholder={messagePlaceHolder}
         spellCheck={true}
-        dir={dir}
+        dir={htmlDirection}
         inputRef={this.textarea}
         disabled={!typingEnabled}
         rows={1}
         data-testid="message-input-text-area"
-        style={sendMessageStyle}
+        style={style}
         suggestionsPortalHost={this.container as any}
         forceSuggestionsAboveCursor={true} // force mentions to be rendered on top of the cursor, this is working with a fork of react-mentions for now
       >
@@ -517,7 +522,9 @@ class CompositionBoxInner extends React.Component<Props, State> {
           markup="@ￒ__id__ￗ__display__ￒ" // ￒ = \uFFD2 is one of the forbidden char for a display name (check displayNameRegex)
           trigger="@"
           // this is only for the composition box visible content. The real stuff on the backend box is the @markup
-          displayTransform={(_id, display) => (dir === 'rtl' ? `${display}@` : `@${display}`)}
+          displayTransform={(_id, display) =>
+            htmlDirection === 'rtl' ? `${display}@` : `@${display}`
+          }
           data={this.fetchUsersForGroup}
           renderSuggestion={renderUserMentionRow}
         />

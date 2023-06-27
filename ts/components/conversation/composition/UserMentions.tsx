@@ -1,28 +1,40 @@
 import React from 'react';
 import { SuggestionDataItem } from 'react-mentions';
 import { MemberListItem } from '../../MemberListItem';
+import { HTMLDirection } from '../../../util/i18n';
 
-export const styleForCompositionBoxSuggestions = {
-  suggestions: {
-    list: {
-      fontSize: 14,
-      boxShadow: 'var(--suggestions-shadow)',
-      backgroundColor: 'var(--suggestions-background-color)',
-      color: 'var(--suggestions-text-color)',
-    },
-    item: {
-      height: '100%',
-      paddingTop: '5px',
-      paddingBottom: '5px',
-      backgroundColor: 'var(--suggestions-background-color)',
-      color: 'var(--suggestions-text-color)',
-      transition: '0.25s',
+const listRTLStyle = { position: 'absolute', bottom: '0px', right: '100%' };
 
-      '&focused': {
-        backgroundColor: 'var(--suggestions-background-hover-color)',
+export const styleForCompositionBoxSuggestions = (dir: HTMLDirection) => {
+  const styles = {
+    suggestions: {
+      list: {
+        fontSize: 14,
+        boxShadow: 'var(--suggestions-shadow)',
+        backgroundColor: 'var(--suggestions-background-color)',
+        color: 'var(--suggestions-text-color)',
+        dir,
+      },
+      item: {
+        height: '100%',
+        paddingTop: '5px',
+        paddingBottom: '5px',
+        backgroundColor: 'var(--suggestions-background-color)',
+        color: 'var(--suggestions-text-color)',
+        transition: '0.25s',
+
+        '&focused': {
+          backgroundColor: 'var(--suggestions-background-hover-color)',
+        },
       },
     },
-  },
+  };
+
+  if (dir === 'rtl') {
+    styles.suggestions.list = { ...styles.suggestions.list, ...listRTLStyle };
+  }
+
+  return styles;
 };
 
 export const renderUserMentionRow = (suggestion: SuggestionDataItem) => {
