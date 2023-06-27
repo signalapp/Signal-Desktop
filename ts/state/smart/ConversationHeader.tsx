@@ -1,7 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { connect } from 'react-redux';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { pick } from 'lodash';
 import type { ConversationType } from '../ducks/conversations';
 import type { StateType } from '../reducer';
@@ -16,16 +17,24 @@ import {
   isMissingRequiredProfileSharing,
 } from '../selectors/conversations';
 import { CallMode } from '../../types/Calling';
-import { getActiveCall, isAnybodyElseInGroupCall } from '../ducks/calling';
-import { getConversationCallMode } from '../ducks/conversations';
+import {
+  getActiveCall,
+  isAnybodyElseInGroupCall,
+  useCallingActions,
+} from '../ducks/calling';
+import {
+  getConversationCallMode,
+  useConversationsActions,
+} from '../ducks/conversations';
 import { getHasStoriesSelector } from '../selectors/stories2';
 import { getOwn } from '../../util/getOwn';
 import { getUserACI, getIntl, getTheme } from '../selectors/user';
 import { isConversationSMSOnly } from '../../util/isConversationSMSOnly';
-import { mapDispatchToProps } from '../actions';
 import { missingCaseError } from '../../util/missingCaseError';
 import { strictAssert } from '../../util/assert';
 import { isSignalConversation } from '../../util/isSignalConversation';
+import { useSearchActions } from '../ducks/search';
+import { useStoriesActions } from '../ducks/stories';
 
 export type OwnProps = {
   id: string;
@@ -64,55 +73,100 @@ const getOutgoingCallButtonStyle = (
   }
 };
 
-const mapStateToProps = (state: StateType, ownProps: OwnProps) => {
-  const { id } = ownProps;
-
-  const conversation = getConversationSelector(state)(id);
+export function SmartConversationHeader({ id }: OwnProps): JSX.Element {
+  const conversationSelector = useSelector(getConversationSelector);
+  const conversation = conversationSelector(id);
   if (!conversation) {
     throw new Error('Could not find conversation');
   }
+  const hasStoriesSelector = useSelector(getHasStoriesSelector);
+  const hasStories = hasStoriesSelector(id);
 
-  const hasStories = getHasStoriesSelector(state)(id);
+  const badgeSelector = useSelector(getPreferredBadgeSelector);
+  const badge = badgeSelector(conversation.badges);
+  const conversationTitle = useSelector(getConversationTitle);
+  const i18n = useSelector(getIntl);
+  const showBackButton = useSelector<StateType, boolean>(
+    state => state.conversations.targetedConversationPanels.length > 0
+  );
+  const outgoingCallButtonStyle = useSelector<
+    StateType,
+    OutgoingCallButtonStyle
+  >(state => getOutgoingCallButtonStyle(conversation, state));
+  const theme = useSelector(getTheme);
 
-  return {
-    ...pick(conversation, [
-      'acceptedMessageRequest',
-      'announcementsOnly',
-      'areWeAdmin',
-      'avatarPath',
-      'canChangeTimer',
-      'color',
-      'expireTimer',
-      'groupVersion',
-      'isArchived',
-      'isMe',
-      'isPinned',
-      'isVerified',
-      'left',
-      'markedUnread',
-      'muteExpiresAt',
-      'name',
-      'phoneNumber',
-      'profileName',
-      'sharedGroupNames',
-      'title',
-      'type',
-      'unblurredAvatarPath',
-    ]),
-    badge: getPreferredBadgeSelector(state)(conversation.badges),
-    conversationTitle: getConversationTitle(state),
-    hasStories,
-    isMissingMandatoryProfileSharing:
-      isMissingRequiredProfileSharing(conversation),
-    isSMSOnly: isConversationSMSOnly(conversation),
-    isSignalConversation: isSignalConversation(conversation),
-    i18n: getIntl(state),
-    showBackButton: state.conversations.targetedConversationPanels.length > 0,
-    outgoingCallButtonStyle: getOutgoingCallButtonStyle(conversation, state),
-    theme: getTheme(state),
-  };
-};
+  const {
+    destroyMessages,
+    onArchive,
+    onMarkUnread,
+    onMoveToInbox,
+    popPanelForConversation,
+    pushPanelForConversation,
+    setDisappearingMessages,
+    setMuteExpiration,
+    setPinned,
+    toggleSelectMode,
+  } = useConversationsActions();
+  const {
+    onOutgoingAudioCallInConversation,
+    onOutgoingVideoCallInConversation,
+  } = useCallingActions();
+  const { searchInConversation } = useSearchActions();
+  const { viewUserStories } = useStoriesActions();
 
-const smart = connect(mapStateToProps, mapDispatchToProps);
-
-export const SmartConversationHeader = smart(ConversationHeader);
+  return (
+    <ConversationHeader
+      {...pick(conversation, [
+        'acceptedMessageRequest',
+        'announcementsOnly',
+        'areWeAdmin',
+        'avatarPath',
+        'canChangeTimer',
+        'color',
+        'expireTimer',
+        'groupVersion',
+        'isArchived',
+        'isMe',
+        'isPinned',
+        'isVerified',
+        'left',
+        'markedUnread',
+        'muteExpiresAt',
+        'name',
+        'phoneNumber',
+        'profileName',
+        'sharedGroupNames',
+        'title',
+        'type',
+        'unblurredAvatarPath',
+      ])}
+      badge={badge}
+      conversationTitle={conversationTitle}
+      destroyMessages={destroyMessages}
+      hasStories={hasStories}
+      i18n={i18n}
+      id={id}
+      isMissingMandatoryProfileSharing={isMissingRequiredProfileSharing(
+        conversation
+      )}
+      isSignalConversation={isSignalConversation(conversation)}
+      isSMSOnly={isConversationSMSOnly(conversation)}
+      onArchive={onArchive}
+      onMarkUnread={onMarkUnread}
+      onMoveToInbox={onMoveToInbox}
+      onOutgoingAudioCallInConversation={onOutgoingAudioCallInConversation}
+      onOutgoingVideoCallInConversation={onOutgoingVideoCallInConversation}
+      outgoingCallButtonStyle={outgoingCallButtonStyle}
+      popPanelForConversation={popPanelForConversation}
+      pushPanelForConversation={pushPanelForConversation}
+      searchInConversation={searchInConversation}
+      setDisappearingMessages={setDisappearingMessages}
+      setMuteExpiration={setMuteExpiration}
+      setPinned={setPinned}
+      showBackButton={showBackButton}
+      theme={theme}
+      toggleSelectMode={toggleSelectMode}
+      viewUserStories={viewUserStories}
+    />
+  );
+}

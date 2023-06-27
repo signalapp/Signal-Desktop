@@ -14,6 +14,8 @@ import type {
 } from '../../sql/Interface';
 import dataInterface from '../../sql/Client';
 import { makeLookup } from '../../util/makeLookup';
+import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
+import { useBoundActions } from '../../hooks/useBoundActions';
 
 import type {
   ConversationType,
@@ -135,6 +137,10 @@ export const actions = {
   searchInConversation,
   updateSearchTerm,
 };
+
+export const useSearchActions = (): BoundActionCreatorsMapObject<
+  typeof actions
+> => useBoundActions(actions);
 
 function startSearch(): StartSearchActionType {
   return {
