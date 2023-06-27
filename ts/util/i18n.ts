@@ -63,3 +63,17 @@ export const loadEmojiPanelI18n = async () => {
     }
   }
 };
+
+// RTL Support
+
+export type HTMLDirection = 'ltr' | 'rtl';
+
+export function isRtlBody(): boolean {
+  const body = document.getElementsByTagName('body').item(0);
+
+  return body?.classList.contains('rtl') || false;
+}
+
+export function getHTMLDirection(): HTMLDirection {
+  return isRtlBody() ? 'rtl' : 'ltr';
+}

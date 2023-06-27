@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { HTMLDirection } from '../../util/i18n';
 
 export interface FlexProps {
   children?: any;
@@ -36,6 +37,8 @@ export interface FlexProps {
   maxWidth?: string;
   minWidth?: string;
   maxHeight?: string;
+  /****** RTL support ********/
+  dir?: HTMLDirection;
 }
 
 export const Flex = styled.div<FlexProps>`
@@ -53,4 +56,5 @@ export const Flex = styled.div<FlexProps>`
   height: ${props => props.height || 'auto'};
   max-width: ${props => props.maxWidth || 'none'};
   min-width: ${props => props.minWidth || 'none'};
+  dir: ${props => props.dir || undefined};
 `;
