@@ -16,10 +16,8 @@ import {
 import { hexColorToRGB } from '../../util/hexColorToRGB';
 import { getPrimaryColor } from '../../state/selectors/primaryColor';
 import { i18nEmojiData } from '../../util/emoji';
-import { getWritingDirection } from '../../state/selectors/user';
 
 export const StyledEmojiPanel = styled.div<{
-  dir: string;
   isModal: boolean;
   primaryColor: PrimaryColorStateType;
   theme: ThemeStateType;
@@ -70,7 +68,7 @@ export const StyledEmojiPanel = styled.div<{
         content: '';
         position: absolute;
         top: calc(100% - 40px);
-        left: ${props.dir === 'rtl' ? '75px' : 'calc(100% - 106px)'};
+        left: calc(100% - 106px);
         width: 22px;
         height: 22px;
         transform: rotate(45deg);
@@ -79,6 +77,10 @@ export const StyledEmojiPanel = styled.div<{
         border: 0.7px solid var(--border-color);
         clip-path: polygon(100% 100%, 7.2px 100%, 100% 7.2px);
         ${props.panelBackgroundRGB && `background-color: rgb(${props.panelBackgroundRGB})`};
+
+        [dir='rtl'] & {
+          left: 75px;
+        }
       }
     `};
   }
@@ -104,7 +106,6 @@ export const SessionEmojiPanel = forwardRef<HTMLDivElement, Props>((props: Props
   const primaryColor = useSelector(getPrimaryColor);
   const theme = useSelector(getTheme);
   const isDarkMode = useSelector(isDarkTheme);
-  const writingDirection = useSelector(getWritingDirection);
 
   let panelBackgroundRGB = hexColorToRGB(THEMES.CLASSIC_DARK.COLOR1);
   let panelTextRGB = hexColorToRGB(THEMES.CLASSIC_DARK.COLOR6);
@@ -137,7 +138,6 @@ export const SessionEmojiPanel = forwardRef<HTMLDivElement, Props>((props: Props
       theme={theme}
       panelBackgroundRGB={panelBackgroundRGB}
       panelTextRGB={panelTextRGB}
-      dir={writingDirection}
       className={classNames(show && 'show')}
       ref={ref}
     >

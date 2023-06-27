@@ -57,7 +57,7 @@ import {
   getSelectedConversationKey,
 } from '../../../state/selectors/selectedConversation';
 import { SettingsKey } from '../../../data/settings-key';
-import { isRtlBody } from '../../menu/Menu';
+import { getHTMLDirection } from '../../../util/i18n';
 
 export interface ReplyingToMessageProps {
   convoId: string;
@@ -411,13 +411,13 @@ class CompositionBoxInner extends React.Component<Props, State> {
     const { showEmojiPanel } = this.state;
     const { typingEnabled } = this.props;
 
-    const rtl = isRtlBody();
-    const writingDirection = rtl ? 'rtl' : 'ltr';
+    const htmlDirection = getHTMLDirection();
 
     return (
       <Flex
+        dir={htmlDirection}
         container={true}
-        flexDirection={rtl ? 'row-reverse' : 'row'}
+        flexDirection={'row'}
         alignItems={'center'}
         width={'100%'}
       >
@@ -436,14 +436,14 @@ class CompositionBoxInner extends React.Component<Props, State> {
 
         <StyledSendMessageInput
           role="main"
-          dir={writingDirection}
+          dir={htmlDirection}
           onClick={this.focusCompositionBox} // used to focus on the textarea when clicking in its container
           ref={el => {
             this.container = el;
           }}
           data-testid="message-input"
         >
-          {this.renderTextArea(writingDirection)}
+          {this.renderTextArea(htmlDirection)}
         </StyledSendMessageInput>
 
         {typingEnabled && (
@@ -452,7 +452,7 @@ class CompositionBoxInner extends React.Component<Props, State> {
         <SendMessageButton onClick={this.onSendMessage} />
 
         {typingEnabled && showEmojiPanel && (
-          <StyledEmojiPanelContainer role="button" dir={writingDirection}>
+          <StyledEmojiPanelContainer role="button" dir={htmlDirection}>
             <SessionEmojiPanel
               ref={this.emojiPanel}
               show={showEmojiPanel}
