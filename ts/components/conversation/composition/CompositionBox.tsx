@@ -221,7 +221,7 @@ const StyledSendMessageInput = styled.div<{ dir: string }>`
   flex-grow: 1;
   min-height: var(--composition-container-height);
   padding: var(--margins-xs) 0;
-  ${props => (props.dir = 'rtl' && 'margin-right: var(--margins-sm);')}
+  ${props => props.dir === 'rtl' && 'margin-inline-start: var(--margins-sm);'}
   z-index: 1;
   background-color: inherit;
 
