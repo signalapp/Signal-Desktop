@@ -242,29 +242,29 @@ export function rebuildFtsTable(db: BetterSqlite3.Database) {
   db.exec(`
           -- Then we create our full-text search table and populate it
           CREATE VIRTUAL TABLE ${MESSAGES_FTS_TABLE}
-            USING fts5(id UNINDEXED, body);
-          INSERT INTO ${MESSAGES_FTS_TABLE}(id, body)
-            SELECT id, body FROM ${MESSAGES_TABLE};
+            USING fts5(body);
+          INSERT INTO ${MESSAGES_FTS_TABLE}(rowid, body)
+            SELECT rowid, body FROM ${MESSAGES_TABLE};
           -- Then we set up triggers to keep the full-text search table up to date
           CREATE TRIGGER messages_on_insert AFTER INSERT ON ${MESSAGES_TABLE} BEGIN
             INSERT INTO ${MESSAGES_FTS_TABLE} (
-              id,
+              rowid,
               body
             ) VALUES (
-              new.id,
+              new.rowid,
               new.body
             );
           END;
           CREATE TRIGGER messages_on_delete AFTER DELETE ON ${MESSAGES_TABLE} BEGIN
-            DELETE FROM ${MESSAGES_FTS_TABLE} WHERE id = old.id;
+            DELETE FROM ${MESSAGES_FTS_TABLE} WHERE rowid = old.rowid;
           END;
           CREATE TRIGGER messages_on_update AFTER UPDATE ON ${MESSAGES_TABLE} WHEN new.body <> old.body BEGIN
-            DELETE FROM ${MESSAGES_FTS_TABLE} WHERE id = old.id;
+            DELETE FROM ${MESSAGES_FTS_TABLE} WHERE rowid = old.rowid;
             INSERT INTO ${MESSAGES_FTS_TABLE}(
-              id,
+              rowid,
               body
             ) VALUES (
-              new.id,
+              new.rowid,
               new.body
             );
           END;

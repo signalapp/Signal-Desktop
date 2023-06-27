@@ -28,7 +28,6 @@ import {
   ATTACHMENT_DOWNLOADS_TABLE,
   CLOSED_GROUP_V2_KEY_PAIRS_TABLE,
   CONVERSATIONS_TABLE,
-  dropFtsAndTriggers,
   formatRowOfConversation,
   GUARD_NODE_TABLE,
   HEX_KEY,
@@ -41,7 +40,6 @@ import {
   NODES_FOR_PUBKEY_TABLE,
   objectToJSON,
   OPEN_GROUP_ROOMS_V2_TABLE,
-  rebuildFtsTable,
   toSqliteBoolean,
 } from './database_utility';
 import { LocaleMessagesType } from './locale'; // checked - only node
@@ -166,7 +164,7 @@ async function initializeSql({
     if (!db) {
       throw new Error('db is not set');
     }
-    updateSchema(db);
+    await updateSchema(db);
 
     // test database
 
@@ -698,9 +696,9 @@ function searchMessages(query: string, limit: number) {
       ${MESSAGES_TABLE}.json,
       snippet(${MESSAGES_FTS_TABLE}, -1, '<<left>>', '<<right>>', '...', 5) as snippet
     FROM ${MESSAGES_FTS_TABLE}
-    INNER JOIN ${MESSAGES_TABLE} on ${MESSAGES_FTS_TABLE}.id = ${MESSAGES_TABLE}.id
+    INNER JOIN ${MESSAGES_TABLE} on ${MESSAGES_FTS_TABLE}.rowid = ${MESSAGES_TABLE}.rowid
     WHERE
-     ${MESSAGES_FTS_TABLE} match $query
+     ${MESSAGES_FTS_TABLE}.body match $query
     ${orderByMessageCoalesceClause}
     LIMIT $limit;`
     )
@@ -958,11 +956,13 @@ function removeMessagesByIds(ids: Array<string>, instance?: BetterSqlite3.Databa
   if (!ids.length) {
     throw new Error('removeMessagesByIds: No ids to delete!');
   }
+  const start = Date.now();
 
-  // Our node interface doesn't seem to allow you to replace one single ? with an array
+  // TODO we might need to do the same thing as
   assertGlobalInstanceOrInstance(instance)
     .prepare(`DELETE FROM ${MESSAGES_TABLE} WHERE id IN ( ${ids.map(() => '?').join(', ')} );`)
     .run(ids);
+  console.log(`removeMessagesByIds of length ${ids.length} took ${Date.now() - start}ms`);
 }
 
 function removeAllMessagesInConversation(
@@ -972,11 +972,13 @@ function removeAllMessagesInConversation(
   if (!conversationId) {
     return;
   }
+  const inst = assertGlobalInstanceOrInstance(instance);
 
-  // Our node interface doesn't seem to allow you to replace one single ? with an array
-  assertGlobalInstanceOrInstance(instance)
-    .prepare(`DELETE FROM ${MESSAGES_TABLE} WHERE conversationId = $conversationId`)
-    .run({ conversationId });
+  inst.transaction(() => {
+    inst
+      .prepare(`DELETE FROM ${MESSAGES_TABLE} WHERE conversationId = $conversationId`)
+      .run({ conversationId });
+  })();
 }
 
 function getMessageIdsFromServerIds(serverIds: Array<string | number>, conversationId: string) {
@@ -2233,7 +2235,6 @@ function cleanUpOldOpengroupsOnStart() {
   // first remove very old messages for each opengroups
   const db = assertGlobalInstance();
   db.transaction(() => {
-    dropFtsAndTriggers(db);
     v2ConvosIds.forEach(convoId => {
       const messagesInConvoBefore = getMessagesCountByConversation(convoId);
 
@@ -2316,8 +2317,6 @@ function cleanUpOldOpengroupsOnStart() {
     }
 
     cleanUpMessagesJson();
-
-    rebuildFtsTable(db);
   })();
 }
 

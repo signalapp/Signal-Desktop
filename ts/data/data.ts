@@ -497,27 +497,36 @@ async function getSeenMessagesByHashList(hashes: Array<string>): Promise<any> {
 }
 
 async function removeAllMessagesInConversation(conversationId: string): Promise<void> {
-  let messages;
-  do {
-    // Yes, we really want the await in the loop. We're deleting 500 at a
-    //   time so we don't use too much memory.
-    // eslint-disable-next-line no-await-in-loop
-    messages = await getLastMessagesByConversation(conversationId, 500, false);
-    if (!messages.length) {
-      return;
-    }
+  let start = Date.now();
+  const messages = await getLastMessagesByConversation(conversationId, 50, false);
+  window.log.info(
+    `removeAllMessagesInConversation ${conversationId} ${messages.length} took ${Date.now() -
+      start}`
+  );
+  if (!messages.length) {
+    return;
+  }
 
-    const ids = messages.map(message => message.id);
+  // Note: It's very important that these models are fully hydrated because
+  //   we need to delete all associated on-disk files along with the database delete.
+  // eslint-disable-next-line no-await-in-loop
 
-    // Note: It's very important that these models are fully hydrated because
-    //   we need to delete all associated on-disk files along with the database delete.
-    // eslint-disable-next-line no-await-in-loop
+  start = Date.now();
+  for (let index = 0; index < messages.length; index++) {
+    const message = messages.at(index);
+    await message.cleanup();
+  }
+  window.log.info(
+    `removeAllMessagesInConversation messages.cleanup() ${conversationId} took ${Date.now() -
+      start}ms`
+  );
+  start = Date.now();
 
-    await Promise.all(messages.map(message => message.cleanup()));
-
-    // eslint-disable-next-line no-await-in-loop
-    await channels.removeMessagesByIds(ids);
-  } while (messages.length > 0);
+  // eslint-disable-next-line no-await-in-loop
+  await channels.removeAllMessagesInConversation(conversationId);
+  window.log.info(
+    `removeAllMessagesInConversation: ${conversationId} took ${Date.now() - start}ms`
+  );
 }
 
 async function getMessagesBySentAt(sentAt: number): Promise<MessageCollection> {
