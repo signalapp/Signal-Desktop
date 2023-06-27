@@ -958,7 +958,6 @@ function removeMessagesByIds(ids: Array<string>, instance?: BetterSqlite3.Databa
   }
   const start = Date.now();
 
-  // TODO we might need to do the same thing as
   assertGlobalInstanceOrInstance(instance)
     .prepare(`DELETE FROM ${MESSAGES_TABLE} WHERE id IN ( ${ids.map(() => '?').join(', ')} );`)
     .run(ids);
@@ -974,11 +973,9 @@ function removeAllMessagesInConversation(
   }
   const inst = assertGlobalInstanceOrInstance(instance);
 
-  inst.transaction(() => {
-    inst
-      .prepare(`DELETE FROM ${MESSAGES_TABLE} WHERE conversationId = $conversationId`)
-      .run({ conversationId });
-  })();
+  inst
+    .prepare(`DELETE FROM ${MESSAGES_TABLE} WHERE conversationId = $conversationId`)
+    .run({ conversationId });
 }
 
 function getMessageIdsFromServerIds(serverIds: Array<string | number>, conversationId: string) {

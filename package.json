@@ -36,6 +36,7 @@
   },
   "scripts": {
     "start-prod": "cross-env NODE_ENV=production NODE_APP_INSTANCE=devprod$MULTI electron .",
+    "start-dev": "cross-env NODE_ENV=development NODE_APP_INSTANCE=devprod$MULTI electron .",
     "build-everything": "yarn clean && yarn protobuf && yarn update-git-info && yarn sass && tsc && yarn build:workers",
     "build-everything:watch": "yarn clean && yarn protobuf && yarn update-git-info && yarn sass && yarn build:workers && tsc -w",
     "build:workers": "yarn worker:utils && yarn worker:libsession",

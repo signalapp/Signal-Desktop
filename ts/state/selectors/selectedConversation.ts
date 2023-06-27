@@ -3,9 +3,9 @@ import { useSelector } from 'react-redux';
 import { ConversationTypeEnum, isOpenOrClosedGroup } from '../../models/conversationAttributes';
 import { PubKey } from '../../session/types';
 import { UserUtils } from '../../session/utils';
-import { ReduxConversationType } from '../ducks/conversations';
 import { StateType } from '../reducer';
 import { getCanWrite, getModerators, getSubscriberCount } from './sogsRoomInfo';
+import { getSelectedConversation } from './conversations';
 
 /**
  * Returns the formatted text for notification setting.
@@ -56,11 +56,6 @@ const getIsSelectedNoteToSelf = (state: StateType): boolean => {
 
 export const getSelectedConversationKey = (state: StateType): string | undefined => {
   return state.conversations.selectedConversation;
-};
-
-export const getSelectedConversation = (state: StateType): ReduxConversationType | undefined => {
-  const selected = getSelectedConversationKey(state);
-  return selected ? state.conversations.conversationLookup[selected] : undefined;
 };
 
 /**

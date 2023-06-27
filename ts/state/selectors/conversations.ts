@@ -31,7 +31,7 @@ import { getIntl } from './user';
 
 import { filter, isEmpty, isNumber, pick, sortBy } from 'lodash';
 import { MessageReactsSelectorProps } from '../../components/conversation/message/message-content/MessageReactions';
-import { getSelectedConversation, getSelectedConversationKey } from './selectedConversation';
+import { getSelectedConversationKey } from './selectedConversation';
 import { getModeratorsOutsideRedux } from './sogsRoomInfo';
 
 export const getConversations = (state: StateType): ConversationsStateType => state.conversations;
@@ -625,6 +625,17 @@ export const isFirstUnreadMessageIdAbove = createSelector(
 );
 
 const getMessageId = (_whatever: any, id: string | undefined) => id;
+
+/**
+ * A lot of our UI changes on the main panel need to happen quickly (composition box).
+ */
+export const getSelectedConversation = createSelector(
+  getConversationLookup,
+  getSelectedConversationKey,
+  (lookup, selectedConvo) => {
+    return selectedConvo ? lookup[selectedConvo] : undefined;
+  }
+);
 
 // tslint:disable: cyclomatic-complexity
 
