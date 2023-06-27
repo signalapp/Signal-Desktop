@@ -5,7 +5,7 @@ import { HTMLDirection } from '../../../util/i18n';
 
 const listRTLStyle = { position: 'absolute', bottom: '0px', right: '100%' };
 
-export const styleForCompositionBoxSuggestions = (dir: HTMLDirection) => {
+export const styleForCompositionBoxSuggestions = (dir: HTMLDirection = 'ltr') => {
   const styles = {
     suggestions: {
       list: {

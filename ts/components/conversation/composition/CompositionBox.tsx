@@ -117,7 +117,7 @@ interface State {
   htmlDirection?: HTMLDirection;
 }
 
-const sendMessageStyle = (dir: HTMLDirection) => {
+const sendMessageStyle = (dir?: HTMLDirection) => {
   return {
     control: {
       wordBreak: 'break-all',
@@ -497,7 +497,7 @@ class CompositionBoxInner extends React.Component<Props, State> {
     const { typingEnabled } = this.props;
     const neverMatchingRegex = /($a)/;
 
-    const style = sendMessageStyle(htmlDirection || 'ltr');
+    const style = sendMessageStyle(htmlDirection);
 
     return (
       <MentionsInput
