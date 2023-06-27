@@ -395,18 +395,12 @@ export function Preferences({
     [onSelectedSpeakerChange, availableSpeakers]
   );
 
-  const [dateFormat, setDateFormat] = useState<string>('0');
-  const [isChecked, setIsChecked] = useState<boolean>(true);
+  const [isChecked, setIsChecked] = useState<boolean>(false);
 
   const onChangeDateFormat = () => {
-    const newDateFormat = dateFormat === '0' ? '1' : '0';
-    setDateFormat(newDateFormat);
-    localStorage.setItem('dateFormat', newDateFormat);
+    setIsChecked(!isChecked);
+    localStorage.setItem('dateFormat', JSON.stringify(!isChecked));
   };
-
-  useEffect(() => {
-    setIsChecked(prevVa => !prevVa);
-  }, [dateFormat]);
 
   let settings: JSX.Element | undefined;
   if (page === Page.General) {

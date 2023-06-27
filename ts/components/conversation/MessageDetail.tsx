@@ -145,8 +145,8 @@ export function MessageDetail({
   const messageContainerRef = useRef<HTMLDivElement>(null);
   const [option, setOption] = useState<boolean>(false);
 
-  const handleDateFormat = (format: string | null) => {
-    setOption(format === '1');
+  const handleDateFormat = (format: boolean) => {
+    setOption(format);
   };
 
   const [update, setUpdate] = useState<boolean>(false);
@@ -156,8 +156,10 @@ export function MessageDetail({
   }, 100);
 
   useEffect(() => {
-    const format = localStorage.getItem('dateFormat');
-    handleDateFormat(format);
+    const localValue: string | null = localStorage.getItem('dateFormat');
+    if (localValue != null) {
+      handleDateFormat(JSON.parse(localValue));
+    }
   }, [update]);
 
   useEffect(() => {
