@@ -2935,6 +2935,10 @@
     "messageformat": "Tandai teks terpilih sebagai bocoran",
     "description": "Description of command to bold text in composer"
   },
+  "icu:Keyboard--open-context-menu": {
+    "messageformat": "Buka menu konteks untuk pesan terpilih",
+    "description": "Shown in shortcuts guide"
+  },
   "icu:FormatMenu--guide--bold": {
     "messageformat": "Tebal",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
@@ -5151,6 +5155,10 @@
     "messageformat": "Hilang dalam",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
+  "icu:MessageDetail__view-edits": {
+    "messageformat": "Lihat riwayat pengeditan",
+    "description": "Link to view a message's edit history"
+  },
   "icu:ProfileEditor--about": {
     "messageformat": "Tentang",
     "description": "Default text for about field"
@@ -6495,8 +6503,8 @@
     "messageformat": "Kami menambahkan dukungan untuk karakter emoji baru.",
     "description": "Release notes for v6.22"
   },
-  "icu:WhatsNew__v6.22--2": {
-    "messageformat": "Bonus Beta: Dapatkan bocoran awal fitur baru “edit pesan” yang akan datang. Fitur ini akan diluncurkan dalam beberapa bulan ke depan, tetapi Anda dapat membantu kami mengujinya lebih awal selama periode beta. Terima kasih atas bantuan Anda!",
-    "description": "Release notes for v6.22"
+  "icu:WhatsNew__v6.23--1": {
+    "messageformat": "Selain beberapa perbaikan bug, rilis kali ini juga menyertakan pembaruan dokumentasi dari pengembang (terima kasih, {d108}!) dan beberapa penyempurnaan desain pada antarmuka penerusan pesan (terima kasih, {hackerbirds}!).",
+    "description": "Release notes for v6.23"
   }
 }

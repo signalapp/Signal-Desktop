@@ -2935,6 +2935,10 @@
     "messageformat": "將選取的文字標記為劇透",
     "description": "Description of command to bold text in composer"
   },
+  "icu:Keyboard--open-context-menu": {
+    "messageformat": "為所選的訊息開啟內容選單",
+    "description": "Shown in shortcuts guide"
+  },
   "icu:FormatMenu--guide--bold": {
     "messageformat": "粗體",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
@@ -5151,6 +5155,10 @@
     "messageformat": "訊息銷毀時間尚餘",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
+  "icu:MessageDetail__view-edits": {
+    "messageformat": "瀏覽編輯歷史紀錄",
+    "description": "Link to view a message's edit history"
+  },
   "icu:ProfileEditor--about": {
     "messageformat": "關於",
     "description": "Default text for about field"
@@ -6495,8 +6503,8 @@
     "messageformat": "我們新增了對最新表情符號角色的支援，現在你可以使用「搖晃的臉」 (<emojify>🫨</emojify>) 來表達興奮感，或者當有人問你與朋友有多親近時使用「豌豆莢」(<emojify>🫛</emojify>) 來回應。",
     "description": "Release notes for v6.22"
   },
-  "icu:WhatsNew__v6.22--2": {
-    "messageformat": "測試版獎賞：在即將推出的新「編輯訊息」功能中獲得優先預覽試用。此功能將在幾個月內開始推出，但你可以在此測試期間幫助我們提前測試。感謝你的幫助！",
-    "description": "Release notes for v6.22"
+  "icu:WhatsNew__v6.23--1": {
+    "messageformat": "除了小量錯誤修復之外，此版本還包含了開發人員說明文件更新（謝謝 {d108}！）和訊息轉發界面的一些設計改進（謝謝 {hackerbirds}！）。",
+    "description": "Release notes for v6.23"
   }
 }

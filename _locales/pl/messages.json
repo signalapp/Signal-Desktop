@@ -2935,6 +2935,10 @@
     "messageformat": "Zasłoń zaznaczony tekst",
     "description": "Description of command to bold text in composer"
   },
+  "icu:Keyboard--open-context-menu": {
+    "messageformat": "Otwórz menu kontekstowe dla wybranej wiadomości",
+    "description": "Shown in shortcuts guide"
+  },
   "icu:FormatMenu--guide--bold": {
     "messageformat": "Pogrubienie",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
@@ -5151,6 +5155,10 @@
     "messageformat": "Zniknie za",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
+  "icu:MessageDetail__view-edits": {
+    "messageformat": "Zobacz historię edycji",
+    "description": "Link to view a message's edit history"
+  },
   "icu:ProfileEditor--about": {
     "messageformat": "O mnie",
     "description": "Default text for about field"
@@ -6495,8 +6503,8 @@
     "messageformat": "Dodaliśmy wsparcie na najnowszych emotikon, więc możesz już wyrażać swoją ekscytację za pomocą „trzęsącej się buźki” (<emojify>🫨</emojify>) lub reagować przy użyciu „strączka groszku” (<emojify>🫛</emojify>), gdy ktoś zapyta Cię o Twoje ulubione warzywo.",
     "description": "Release notes for v6.22"
   },
-  "icu:WhatsNew__v6.22--2": {
-    "messageformat": "Bonus beta: sprawdź, jak będzie w przyszłości działać funkcja „edytuj wiadomość”. Funkcja ta będzie dostępna dla wszystkich za kilka miesięcy, ale możesz pomóc nam w testowaniu jej wersji beta. Dziękujemy za Twoją pomoc!",
-    "description": "Release notes for v6.22"
+  "icu:WhatsNew__v6.23--1": {
+    "messageformat": "Jako uzupełnienie niewielkiej liczby usuniętych błędów to wydanie zawiera aktualizację dokumentacji deweloperskiej (podziękowania dla {d108}!) i kilka udoskonaleń interfejsu przekazywania wiadomości (dziękujemy, {hackerbirds}!).",
+    "description": "Release notes for v6.23"
   }
 }

@@ -2935,6 +2935,10 @@
     "messageformat": "Označit vybraný text jako zastřený",
     "description": "Description of command to bold text in composer"
   },
+  "icu:Keyboard--open-context-menu": {
+    "messageformat": "Otevřít kontextovou nabídku vybrané zprávy",
+    "description": "Shown in shortcuts guide"
+  },
   "icu:FormatMenu--guide--bold": {
     "messageformat": "Tučně",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
@@ -5151,6 +5155,10 @@
     "messageformat": "Zmizí za",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
+  "icu:MessageDetail__view-edits": {
+    "messageformat": "Zobrazit historii úprav",
+    "description": "Link to view a message's edit history"
+  },
   "icu:ProfileEditor--about": {
     "messageformat": "O mně",
     "description": "Default text for about field"
@@ -6495,8 +6503,8 @@
     "messageformat": "Přidali jsme podporu nejnovějších znaků emoji, takže teď můžete své nadšení vyjádřit pomocí „třesoucího se smajlíka“ (<emojify>🫨</emojify>) nebo reagovat „hrachovým luskem“ (<emojify>🫛</emojify>), když se vás někdo zeptá, jak blízcí si s přáteli jste.",
     "description": "Release notes for v6.22"
   },
-  "icu:WhatsNew__v6.22--2": {
-    "messageformat": "Beta bonus: Nahlédněte pod pokličku chystané funkce „úprava zprávy“. Tuto funkci spustíme za pár měsíců, ale během tohoto období beta nám můžete pomoct s jejím testováním. Díky za vaši pomoc!",
-    "description": "Release notes for v6.22"
+  "icu:WhatsNew__v6.23--1": {
+    "messageformat": "Kromě několika drobných oprav chyb obsahuje toto vydání také aktualizace vývojářské dokumentace ( {d108} – děkujeme!) a pár dalších vylepšeních v designu rozhraní pro přeposílání zpráv ({hackerbirds} – děkujeme!).",
+    "description": "Release notes for v6.23"
   }
 }

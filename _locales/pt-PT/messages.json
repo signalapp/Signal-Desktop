@@ -2935,6 +2935,10 @@
     "messageformat": "Marcar texto selecionado como spoiler",
     "description": "Description of command to bold text in composer"
   },
+  "icu:Keyboard--open-context-menu": {
+    "messageformat": "Abrir menu de contexto para a mensagem selecionada",
+    "description": "Shown in shortcuts guide"
+  },
   "icu:FormatMenu--guide--bold": {
     "messageformat": "Negrito",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
@@ -5151,6 +5155,10 @@
     "messageformat": "Desaparece em",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
+  "icu:MessageDetail__view-edits": {
+    "messageformat": "Ver histórico de edições",
+    "description": "Link to view a message's edit history"
+  },
   "icu:ProfileEditor--about": {
     "messageformat": "Acerca",
     "description": "Default text for about field"
@@ -6495,8 +6503,8 @@
     "messageformat": "Adicionámos suporte para os últimos caracteres emoji, por isso agora pode expressar a sua emoção com o emoji &quot;Cara a tremer&quot; (<emojify>🫨</emojify>) ou reagir com &quot;Ervilhas&quot; (<emojify>🫛</emojify>) quando alguém lhe perguntar qual é o seu vegetal favorito.",
     "description": "Release notes for v6.22"
   },
-  "icu:WhatsNew__v6.22--2": {
-    "messageformat": "Bónus beta: Dê uma olhadela à nova funcionalidade de \"editar mensagem\". Esta funcionalidade começará a ser implementada dentro de alguns meses, mas pode ajudar-nos a testá-la antecipadamente durante este período beta. Obrigado pela sua ajuda!",
-    "description": "Release notes for v6.22"
+  "icu:WhatsNew__v6.23--1": {
+    "messageformat": "Além de uma pequena variedade de correções de bugs, esta versão também incorpora atualizações da documentação do programador (obrigado, {d108}!) e algumas melhorias de design na interface de encaminhamento de mensagens (obrigado, {hackerbirds}!).",
+    "description": "Release notes for v6.23"
   }
 }

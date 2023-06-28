@@ -2935,6 +2935,10 @@
     "messageformat": "Označi izbrano besedilo kot skrito",
     "description": "Description of command to bold text in composer"
   },
+  "icu:Keyboard--open-context-menu": {
+    "messageformat": "Odpri kontekstni meni za izbrano sporočilo",
+    "description": "Shown in shortcuts guide"
+  },
   "icu:FormatMenu--guide--bold": {
     "messageformat": "Krepko",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
@@ -5151,6 +5155,10 @@
     "messageformat": "Izgine v",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
+  "icu:MessageDetail__view-edits": {
+    "messageformat": "Ogled zgodovine urejanja",
+    "description": "Link to view a message's edit history"
+  },
   "icu:ProfileEditor--about": {
     "messageformat": "Več",
     "description": "Default text for about field"
@@ -6495,8 +6503,8 @@
     "messageformat": "Dodali smo podporo za najnovejše znake emoji, tako da lahko zdaj izrazite svoje navdušenje s »tresočim obrazom« (<emojify>🫨</emojify>) ali reagirate s &quot;strokom graha&quot; (<emojify>🫛</emojify>), ko vas nekdo vpraša, kako blizu ste si s prijatelji.",
     "description": "Release notes for v6.22"
   },
-  "icu:WhatsNew__v6.22--2": {
-    "messageformat": "Beta bonus: med prvimi se seznanite s prihajajočo novo funkcijo »urejanje sporočila«. Ta funkcija se bo začela uvajati čez nekaj mesecev, vendar nam jo lahko pomagate preizkusiti vnaprej v obdobju beta. Hvala za pomoč!",
-    "description": "Release notes for v6.22"
+  "icu:WhatsNew__v6.23--1": {
+    "messageformat": "Poleg majhnega nabora popravkov napak ta izdaja vključuje tudi posodobitve dokumentacije za razvijalce (hvala, {d108}!) in nekatere izboljšave oblikovanja vmesnika za posredovanje sporočil (hvala, {hackerbirds}!).",
+    "description": "Release notes for v6.23"
   }
 }

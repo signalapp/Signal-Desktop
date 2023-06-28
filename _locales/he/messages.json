@@ -2935,6 +2935,10 @@
     "messageformat": "סימון טקסט נבחר כספוילר",
     "description": "Description of command to bold text in composer"
   },
+  "icu:Keyboard--open-context-menu": {
+    "messageformat": "פתיחת תפריט קונטקסט עבור הודעה נבחרת",
+    "description": "Shown in shortcuts guide"
+  },
   "icu:FormatMenu--guide--bold": {
     "messageformat": "Bold",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
@@ -5151,6 +5155,10 @@
     "messageformat": "תיעלם בעוד",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
+  "icu:MessageDetail__view-edits": {
+    "messageformat": "הצגת היסטוריית עריכות",
+    "description": "Link to view a message's edit history"
+  },
   "icu:ProfileEditor--about": {
     "messageformat": "אודות",
     "description": "Default text for about field"
@@ -6495,8 +6503,8 @@
     "messageformat": "הוספנו תמיכה באימוג׳ים הכי עדכניים, אז עכשיו אפשר לבטא התרגשות עם אימוג׳י ״פנים רועדות״ (<emojify>🫨</emojify>) או להגיב עם ״תרמיל אפונה״ (<emojify>🫛</emojify>) כששואלים אותך מה מידת הקרבה שלך לחברים שלך.",
     "description": "Release notes for v6.22"
   },
-  "icu:WhatsNew__v6.22--2": {
-    "messageformat": "בונוס בטא: אפשר לקבל הצצה מוקדמת של הפיצ׳ר העתידי ״עריכת הודעה״. הפיצ׳ר הזה יתחיל לפעול בעוד כמה חודשים, אבל יש לך אפשרות לעזור לנו לבדוק אותו מראש במהלך תקופת הבטא הנוכחית. תודה על העזרה!",
-    "description": "Release notes for v6.22"
+  "icu:WhatsNew__v6.23--1": {
+    "messageformat": "בנוסף למבחר קטן של תיקוני באגים, הגרסה הזו גם משלבת עדכוני תיעוד למפתחים (תודה, {d108}!) וכמה שיפורי עיצוב בממשק העברת ההודעות (תודה, {hackerbirds}!).",
+    "description": "Release notes for v6.23"
   }
 }

@@ -2935,6 +2935,10 @@
     "messageformat": "Seçilmiş mətni spoyler olaraq vurğulayın",
     "description": "Description of command to bold text in composer"
   },
+  "icu:Keyboard--open-context-menu": {
+    "messageformat": "Seçilmiş mesaj üçün kontekst menyusunu açın",
+    "description": "Shown in shortcuts guide"
+  },
   "icu:FormatMenu--guide--bold": {
     "messageformat": "Qalın",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
@@ -5151,6 +5155,10 @@
     "messageformat": "Silinmə müddəti:",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
+  "icu:MessageDetail__view-edits": {
+    "messageformat": "Redaktə tarixçəsinə baxın",
+    "description": "Link to view a message's edit history"
+  },
   "icu:ProfileEditor--about": {
     "messageformat": "Haqqında",
     "description": "Default text for about field"
@@ -6495,8 +6503,8 @@
     "messageformat": "Ən son emoji simvolları üçün dəstək əlavə etdik, artıq həyəcanınızı &quot;Təəccüblü üz&quot; (<emojify>🫨</emojify>) ilə ifadə edə və ya sizdən dostlarınıza nə dərəcədə yaxın olduğunuzu soruşan olanda &quot;Noxud dəsti&quot; (<emojify>🫛</emojify>) emojisi ilə reaksiya verə bilərsiniz.",
     "description": "Release notes for v6.22"
   },
-  "icu:WhatsNew__v6.22--2": {
-    "messageformat": "Beta bonus: yeni \"mesaj redaktəsi\" funksiyasına nəzər salın. Bu funksiya bir neçə aydan sonra istifadəyə veriləcək, lakin beta müddətində onu əvvəlcədən yoxlamaq üçün bizə kömək edə bilərsinniz. Kömək etdiyiniz üçün təşəkkürlər!",
-    "description": "Release notes for v6.22"
+  "icu:WhatsNew__v6.23--1": {
+    "messageformat": "Bir sıra cüzi xəta düzəlişlərinə əlavə olaraq, bu buraxılış tərtibatçı sənədlərinin yenilənməsini (təşəkkürlər, {d108}!) və mesaj yönləndirmə interfeysinə edilmiş bəzi dizayn təkmilləşdirmələrini də (təşəkkürlər, {hackerbirds}!) əhatə edir.",
+    "description": "Release notes for v6.23"
   }
 }

@@ -161,7 +161,7 @@
     "description": "Application menu command to show all application windows"
   },
   "icu:appMenuQuit": {
-    "messageformat": "مغادرة Signal",
+    "messageformat": "مغادرة سيجنال",
     "description": "Application menu command to close the application"
   },
   "icu:editMenuUndo": {
@@ -273,7 +273,7 @@
     "description": "One of the menu options available in the Avatar popup menu"
   },
   "icu:avatarMenuUpdateAvailable": {
-    "messageformat": "‫تحديث Signal‬",
+    "messageformat": "‫تحديث سيجنال‬",
     "description": "One of the menu options available in the Avatar popup menu"
   },
   "icu:loading": {
@@ -393,7 +393,7 @@
     "description": "Header shown on the first screen in the data import process"
   },
   "icu:loadDataDescription": {
-    "messageformat": "لقد انتهيت للتو من عملية تصدير البيانات ، إنّ رسائلك وجهات اتصالك تنتظرك على الحاسوب. يُرجى تحديد المجلد الذي يحوي بيانات Signal المحفوظة.",
+    "messageformat": "لقد انتهيت للتو من عملية تصدير البيانات ، إنّ رسائلك وجهات اتصالك تنتظرك على الحاسوب. يُرجى تحديد المجلد الذي يحوي بيانات سيجنال المحفوظة.",
     "description": "Introduction to the process of importing messages and contacts from disk"
   },
   "icu:importChooserTitle": {
@@ -409,7 +409,7 @@
     "description": "Header of screen shown as data is import"
   },
   "icu:importErrorFirst": {
-    "messageformat": "يُرجى التأكد من اختيار المجلد الذي يحوي بيانات Signal. اسمه يجب أن يبدأ بـ 'تصدير Signal'. يمكنك أيضا حفظ نسخة جديدة من بياناتك انطلاقا من تطبيق Chrome.",
+    "messageformat": "يُرجى التأكد من اختيار المجلد الذي يحوي بيانات سيجنال. اسمه يجب أن يبدأ بـ 'تصدير سيجنال'. يمكنك أيضا حفظ نسخة جديدة من بياناتك انطلاقا من تطبيق Chrome.",
     "description": "Message shown if the import went wrong; first paragraph"
   },
   "icu:importErrorSecond": {
@@ -425,7 +425,7 @@
     "description": "Header shown on the screen at the end of a successful import process"
   },
   "icu:importCompleteStartButton": {
-    "messageformat": "ابدأ باستخدام Signal Desktop",
+    "messageformat": "ابدأ باستخدام سيجنال Desktop",
     "description": "Button shown at end of successful import process, nothing left but a restart"
   },
   "icu:importCompleteLinkButton": {
@@ -509,11 +509,11 @@
     "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
   },
   "icu:changedRightAfterVerify": {
-    "messageformat": "رقم الأمان الذي تحاول التحقق منه قد تغير. الرجاء معاينة رقم الأمان الجديد مع {name1} وتذكّر, هذا التغيّر يمكن أن يكون سببه أنّ هناك من يحاول اعتراض رسائلك أو أن {name2} ببساطة أعاد تثبيت Signal.",
+    "messageformat": "رقم الأمان الذي تحاول التحقق منه قد تغير. الرجاء معاينة رقم الأمان الجديد مع {name1} وتذكّر, هذا التغيّر يمكن أن يكون سببه أنّ هناك من يحاول اعتراض رسائلك أو أن {name2} ببساطة أعاد تثبيت سيجنال.",
     "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change"
   },
   "icu:safetyNumberChangeDialog__message": {
-    "messageformat": "قد يكون هؤلاء الأشخاص أعادوا تثبيت Signal أو غيّروا أجهزتهم. انقر على مُستلم ما للتأكد من رقم الأمان الجديد. هذا الإجراء اختياري.",
+    "messageformat": "قد يكون هؤلاء الأشخاص أعادوا تثبيت سيجنال أو غيّروا أجهزتهم. انقر على مُستلم ما للتأكد من رقم الأمان الجديد. هذا الإجراء اختياري.",
     "description": "Shown on confirmation dialog when user attempts to send a message"
   },
   "icu:safetyNumberChangeDialog__pending-messages": {
@@ -525,7 +525,7 @@
     "description": "Shown to enter 'review' mode if more than five contacts have changed safety numbers"
   },
   "icu:safetyNumberChangeDialog__many-contacts": {
-    "messageformat": "{count, plural, zero {لديك {count,number} جهات اتصال قد يكونوا أعادوا تثبيت Signal أو غيّروا أجهزتهم. يمكنك مراجعة أرقام الأمان الخاصة بهم قبل الإرسال.} one {لديك {count,number} جهة اتصال قد يكون أعاد تثبيت Signal أو غيّر جهازه. يمكنك مراجعة أرقام الأمان الخاصة به قبل الإرسال.} two {لديك {count,number} جهات اتصال قد يكونا أعادا تثبيت Signal أو غيّرا أجهزتهما. يمكنك مراجعة أرقام الأمان الخاصة بهما قبل الإرسال.} few {لديك {count,number} جهات اتصال قد يكونوا أعادوا تثبيت Signal أو غيّروا أجهزتهم. يمكنك مراجعة أرقام الأمان الخاصة بهم قبل الإرسال.} many {لديك {count,number} جهات اتصال قد يكونوا أعادوا تثبيت Signal أو غيّروا أجهزتهم. يمكنك مراجعة أرقام الأمان الخاصة بهم قبل الإرسال.} other {لديك {count,number} جهات اتصال قد يكونوا أعادوا تثبيت Signal أو غيّروا أجهزتهم. يمكنك مراجعة أرقام الأمان الخاصة بهم قبل الإرسال.}}",
+    "messageformat": "{count, plural, zero {لديك {count,number} جهات اتصال قد يكونوا أعادوا تثبيت سيجنال أو غيّروا أجهزتهم. يمكنك مراجعة أرقام الأمان الخاصة بهم قبل الإرسال.} one {لديك {count,number} جهة اتصال قد يكون أعاد تثبيت سيجنال أو غيّر جهازه. يمكنك مراجعة أرقام الأمان الخاصة به قبل الإرسال.} two {لديك {count,number} جهات اتصال قد يكونا أعادا تثبيت سيجنال أو غيّرا أجهزتهما. يمكنك مراجعة أرقام الأمان الخاصة بهما قبل الإرسال.} few {لديك {count,number} جهات اتصال قد يكونوا أعادوا تثبيت سيجنال أو غيّروا أجهزتهم. يمكنك مراجعة أرقام الأمان الخاصة بهم قبل الإرسال.} many {لديك {count,number} جهات اتصال قد يكونوا أعادوا تثبيت سيجنال أو غيّروا أجهزتهم. يمكنك مراجعة أرقام الأمان الخاصة بهم قبل الإرسال.} other {لديك {count,number} جهات اتصال قد يكونوا أعادوا تثبيت سيجنال أو غيّروا أجهزتهم. يمكنك مراجعة أرقام الأمان الخاصة بهم قبل الإرسال.}}",
     "description": "Shown during an attempted send when more than five contacts have changed their safety numbers"
   },
   "icu:safetyNumberChangeDialog__post-review": {
@@ -557,7 +557,7 @@
     "description": "Label for button that opens context menu for story"
   },
   "icu:identityKeyErrorOnSend": {
-    "messageformat": "تم تغيير رقم أمانك مع {name1}.  قد يعني هذا أن أحدهم يحاول اعتراض اتصالاتك أو ببساطة أن {name2} قام بإعادة تثبيت Signal. قد تريد التحقق من رمز أمانك مع هذا الشخص.",
+    "messageformat": "تم تغيير رقم أمانك مع {name1}. قد يعني هذا أن أحدهم يحاول اعتراض اتصالاتك أو ببساطة أن {name2} قام بإعادة تثبيت سيجنال. قد تريد التحقق من رمز أمانك مع هذا الشخص.",
     "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change"
   },
   "icu:sendAnyway": {
@@ -659,7 +659,7 @@
     "description": "Header for a key change dialog"
   },
   "icu:identityChanged": {
-    "messageformat": "لقد تغير رقم أمانك مع هذا المستخدم. قد يعني ذلك أن هناك من يحاول اعتراض اتصالاتك، أو أن هذا المستخدم ببساطة أعاد تثبيت Signal. يمكنك التحقق من رقم الأمان الجديد أدناه."
+    "messageformat": "لقد تغير رقم أمانك مع هذا المستخدم. قد يعني ذلك أن هناك من يحاول اعتراض اتصالاتك، أو أن هذا المستخدم ببساطة أعاد تثبيت سيجنال. يمكنك التحقق من رقم الأمان الجديد أدناه."
   },
   "icu:incomingError": {
     "messageformat": "حدث خطأ فى التعامل مع الرسالة الواردة"
@@ -828,7 +828,7 @@
     "description": "Item under the Help menu, takes you to an article describing how to install the beta release of Signal Desktop"
   },
   "icu:signalDesktopPreferences": {
-    "messageformat": "تفضيلات Signal Desktop",
+    "messageformat": "تفضيلات سيجنال Desktop",
     "description": "Title of the window that pops up with Signal Desktop preferences in it"
   },
   "icu:signalDesktopStickerCreator": {
@@ -836,7 +836,7 @@
     "description": "Title of the window that pops up with Signal Desktop preferences in it"
   },
   "icu:aboutSignalDesktop": {
-    "messageformat": "عن Signal Desktop",
+    "messageformat": "عن سيجنال Desktop",
     "description": "Item under the Help menu, which opens a small about window"
   },
   "icu:screenShareWindow": {
@@ -860,7 +860,7 @@
     "description": "Command in the tray icon menu, to quit the application"
   },
   "icu:signalDesktop": {
-    "messageformat": "Signal Desktop",
+    "messageformat": "سيجنال Desktop",
     "description": "Tooltip for the tray icon"
   },
   "icu:search": {
@@ -912,7 +912,7 @@
     "description": "Shown when search could be a valid phone number, with one sub-item that will kick off the search"
   },
   "icu:welcomeToSignal": {
-    "messageformat": "مرحباً بك في Signal"
+    "messageformat": "مرحباً بك في سيجنال"
   },
   "icu:whatsNew": {
     "messageformat": "يُرجى تفقد {whatsNew} حول هذا التحديث",
@@ -1043,15 +1043,15 @@
     "description": "Shown in iOS theme when you or someone quotes to a message which is not from you"
   },
   "icu:audioPermissionNeeded": {
-    "messageformat": "لإرسال رسائل صوتية، يُرجى السماح لـ Signal Desktop بالوصول إلى الميكروفون.",
+    "messageformat": "لإرسال رسائل صوتية، يُرجى السماح لسيجنال Desktop بالوصول إلى الميكروفون.",
     "description": "Shown if the user attempts to send an audio message without audio permissions turned on"
   },
   "icu:audioCallingPermissionNeeded": {
-    "messageformat": "للاتصال، يجب أن تسمح لـ Signal Desktop بالوصول إلى ميكروفونك.",
+    "messageformat": "للاتصال، يجب أن تسمح لسيجنال Desktop بالوصول إلى ميكروفونك.",
     "description": "Shown if the user attempts access the microphone for calling without audio permissions turned on"
   },
   "icu:videoCallingPermissionNeeded": {
-    "messageformat": "للقيام بمكالمات الفيديو، يجب السماح لـ Signal Desktop بالوصول إلى الكاميرا.",
+    "messageformat": "للقيام بمكالمات الفيديو، يجب السماح لسيجنال Desktop بالوصول إلى الكاميرا.",
     "description": "Shown if the user attempts access the camera for video calling without video permissions turned on"
   },
   "icu:allowAccess": {
@@ -1091,15 +1091,15 @@
     "description": "Shown in a button when a conversation is unmuted and can be muted"
   },
   "icu:cannotUpdateDetail": {
-    "messageformat": "‫لقد تعذر تحديث Signal. {retry}‏ أو يكفي زيارة {url}‏ لتثبيته يدويا. بعدها، {support}‏ حول هذا المشكل",
+    "messageformat": "‫لقد تعذر تحديث سيجنال. {retry}‏ أو يكفي زيارة {url}‏ لتثبيته يدويا. بعدها، {support}‏ حول هذا المشكل",
     "description": "Shown if a general error happened while trying to install update package"
   },
   "icu:cannotUpdateRequireManualDetail": {
-    "messageformat": "لقد تعذر تحديث Signal. يُرجى زيارة {url} لتثبيته يدويا. ثم {support} حول هذه المشكلة",
+    "messageformat": "لقد تعذر تحديث سيجنال. يُرجى زيارة {url} لتثبيته يدويا. ثم {support} حول هذه المشكلة",
     "description": "Shown if a general error happened while trying to install update package and manual update is required"
   },
   "icu:readOnlyVolume": {
-    "messageformat": "من المحتمل أن يكون Signal Desktop في وحدة عزل نظام اشتغال ماك، لذا لن يكون قادرا على التحديث التلقائي. يُرجى محاولة نقل {app} إلى {folder} باستخدام برنامج « فايندر » (مدير الملفات).",
+    "messageformat": "من المحتمل أن يكون سيجنال Desktop في وحدة عزل نظام اشتغال ماك، لذا لن يكون قادرا على التحديث التلقائي. يُرجى محاولة نقل {app} إلى {folder} باستخدام برنامج « فايندر » (مدير الملفات).",
     "description": "Shown on MacOS if running on a read-only volume and we cannot update"
   },
   "icu:ok": {
@@ -1155,7 +1155,7 @@
     "description": "Text shown in the confirmation dialog for deleting a message locally"
   },
   "icu:deleteForEveryoneWarning": {
-    "messageformat": "ستُحذَف هذه الرسالة لكل من كان في هذه الدردشة إن كانوا يستخدمون إصدارًا حديثًا مِن Signal. سيتمكّنون من رؤية أنك قد حذفت رسالة.",
+    "messageformat": "ستُحذَف هذه الرسالة لكل من كان في هذه الدردشة إن كانوا يستخدمون إصدارًا حديثًا مِن سيجنال. سيتمكّنون من رؤية أنك قد حذفت رسالة.",
     "description": "Text shown in the confirmation dialog for deleting a message for everyone"
   },
   "icu:from": {
@@ -1298,7 +1298,7 @@
     "description": "Shown in timeline when session is automatically reset, to provide access to a popup info dialog"
   },
   "icu:ChatRefresh--summary": {
-    "messageformat": "يستخدم Signal التعمية من طرف لِطرف وقد يحتاج إلى إنعاش جلسة الدردشة الخاصة بك في بعض الأحيان. لا يؤثر هذا على أمان الدردشة ولكن قد تكون فوّتَ رسالة من جهة الاتصال هذه، ويُمكِنُك أن تطلب منها إعادة إرسالها.",
+    "messageformat": "يستخدم سيجنال التعمية من طرف لِطرف وقد يحتاج إلى إنعاش جلسة الدردشة الخاصة بك في بعض الأحيان. لا يؤثر هذا على أمان الدردشة ولكن قد تكون فوّتَ رسالة من جهة الاتصال هذه، ويُمكِنُك أن تطلب منها إعادة إرسالها.",
     "description": "Shown on explainer dialog available from chat session refreshed timeline events"
   },
   "icu:ChatRefresh--contactSupport": {
@@ -1390,11 +1390,11 @@
     "description": "Used in the media gallery documents tab to visually represent a file"
   },
   "icu:installWelcome": {
-    "messageformat": "مرحباً بك في Signal Desktop",
+    "messageformat": "مرحباً بك في سيجنال Desktop",
     "description": "Welcome title on the install page"
   },
   "icu:installTagline": {
-    "messageformat": "الحفاظ على الخصوصية أمر ممكن. يجعل Signal ذلك سهلا.",
+    "messageformat": "الحفاظ على الخصوصية أمر ممكن. يجعل سيجنال ذلك سهلا.",
     "description": "Tagline displayed under 'installWelcome' string on the install page"
   },
   "icu:linkedDevices": {
@@ -1410,11 +1410,11 @@
     "description": "Button text for learn more button during error screen"
   },
   "icu:Install__scan-this-code": {
-    "messageformat": "امسح هذا الرمز ضوئيًا في تطبيق Signal على هاتفك",
+    "messageformat": "امسح هذا الرمز ضوئيًا في تطبيق سيجنال على هاتفك",
     "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
   },
   "icu:Install__instructions__1": {
-    "messageformat": "افتح Signal على هاتفك",
+    "messageformat": "افتح سيجنال على هاتفك",
     "description": "Instructions on the device link screen"
   },
   "icu:Install__instructions__2": {
@@ -1477,7 +1477,7 @@
     "messageformat": "معذرةً، لديك أجهزة كثيرة مرتبطة مسبقا. حاول إزالة بعضها."
   },
   "icu:installTooOld": {
-    "messageformat": "قم بتحديث Signal على هذا الجهاز لتستطيع ربط هاتفك."
+    "messageformat": "قم بتحديث سيجنال على هذا الجهاز لتستطيع ربط هاتفك."
   },
   "icu:installErrorHeader": {
     "messageformat": "حدث خطأ ما !"
@@ -1617,19 +1617,19 @@
     "description": "Shown in the calling lobby to describe who is in the call"
   },
   "icu:calling__pre-call-info--will-ring-1": {
-    "messageformat": "سوف يرن Signal على {person}",
+    "messageformat": "سوف يرن سيجنال على {person}",
     "description": "Shown in the calling lobby to describe who will be rung"
   },
   "icu:calling__pre-call-info--will-ring-2": {
-    "messageformat": "سوف يرن Signal على {first} و{second}",
+    "messageformat": "سوف يرن سيجنال على {first} و{second}",
     "description": "Shown in the calling lobby to describe who will be rang"
   },
   "icu:calling__pre-call-info--will-ring-3": {
-    "messageformat": "سوف يرن Signal على {first}، {second} و{third}",
+    "messageformat": "سوف يرن سيجنال على {first}، {second} و{third}",
     "description": "Shown in the calling lobby to describe who will be rang"
   },
   "icu:calling__pre-call-info--will-ring-many": {
-    "messageformat": "سوف يرن Signal على {first}، {second} و {others} آخرين",
+    "messageformat": "سوف يرن سيجنال على {first}، {second} و {others} آخرين",
     "description": "Shown in the calling lobby to describe who will be rang"
   },
   "icu:calling__pre-call-info--will-notify-1": {
@@ -1685,7 +1685,7 @@
     "description": "Body text for the share screen notification"
   },
   "icu:calling__presenting--info": {
-    "messageformat": "يشارك Signal {window}.",
+    "messageformat": "يشارك سيجنال {window}.",
     "description": "Text that appears in the screen sharing controller to inform person that they are presenting"
   },
   "icu:calling__presenting--stop": {
@@ -1709,7 +1709,7 @@
     "description": "Shown as the title for the modal that requests screen recording permissions"
   },
   "icu:calling__presenting--macos-permission-description": {
-    "messageformat": "يحتاج Signal إذن الوصول إلى تسجيل شاشة الحاسوب.",
+    "messageformat": "يحتاج سيجنال إذن الوصول إلى تسجيل شاشة الحاسوب.",
     "description": "Shown as the description for the modal that requests screen recording permissions"
   },
   "icu:calling__presenting--permission-instruction-step1": {
@@ -1721,7 +1721,7 @@
     "description": "Shown as the description for the modal that requests screen recording permissions"
   },
   "icu:calling__presenting--permission-instruction-step3": {
-    "messageformat": "على اليمين، يُرجى تحديد المربع الذي بجانب Signal. إذا لم يظهر لك Signal في اللائحة، يكفي الضغط على + لإضافته.",
+    "messageformat": "على اليمين، يُرجى تحديد المربع الذي بجانب سيجنال. إذا لم يظهر لك سيجنال في اللائحة، يكفي الضغط على + لإضافته.",
     "description": "Shown as the description for the modal that requests screen recording permissions"
   },
   "icu:calling__presenting--permission-open": {
@@ -1737,7 +1737,7 @@
     "description": "Description of the always relay calls setting"
   },
   "icu:alwaysRelayCallsDetail": {
-    "messageformat": "‫تمرير جميع المكالمات عبر خوادم Signal لتجنُّب الإفصاح عن عنوان IP الخاص بك لجهة الاتصال. تفعيل هذه الخاصية سيقلل من جودة المكالمة.‬",
+    "messageformat": "‫تمرير جميع المكالمات عبر خوادم سيجنال لتجنُّب الإفصاح عن عنوان IP الخاص بك لجهة الاتصال. تفعيل هذه الخاصية سيقلل من جودة المكالمة.‬",
     "description": "Details describing the always relay calls setting"
   },
   "icu:permissions": {
@@ -1765,11 +1765,11 @@
     "description": "Description of the text-formatting popover menu setting"
   },
   "icu:spellCheckWillBeEnabled": {
-    "messageformat": "سيتم تفعيل التدقيق الإملائي عندما تقوم بتشغيل Signal في المرة القادمة.",
+    "messageformat": "سيتم تفعيل التدقيق الإملائي عندما تقوم بتشغيل سيجنال في المرة القادمة.",
     "description": "Shown when the user enables spellcheck to indicate that they must restart Signal."
   },
   "icu:spellCheckWillBeDisabled": {
-    "messageformat": "سيتم تعطيل التدقيق الإملائي عندما تقوم بتشغيل Signal المرة القادمة.",
+    "messageformat": "سيتم تعطيل التدقيق الإملائي عندما تقوم بتشغيل سيجنال المرة القادمة.",
     "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
   },
   "icu:SystemTraySetting__minimize-to-system-tray": {
@@ -1813,7 +1813,7 @@
     "description": "Message shown to user when app is disconnected and data deleted"
   },
   "icu:deleteOldIndexedDBData": {
-    "messageformat": "لديك بيانات قديمة لم تعد تنفع من تثبيت سابق لـ Signal Desktop. إذا اخترت الاستمرار، فستُحذَف ويجب البداية بعدها من الصفر.",
+    "messageformat": "لديك بيانات قديمة لم تعد تنفع من تثبيت سابق لسيجنال Desktop. إذا اخترت الاستمرار، فستُحذَف ويجب البداية بعدها من الصفر.",
     "description": "Shown if user last ran Signal Desktop before October 2018"
   },
   "icu:deleteOldData": {
@@ -1895,7 +1895,7 @@
     "description": "Text that links to a support article on verifying safety numbers"
   },
   "icu:expiredWarning": {
-    "messageformat": "انتهت صلاحية هذا الإصدار من Signal Desktop. الرجاء التحديث لأحدث إصدار للتمكن من التراسُل.",
+    "messageformat": "انتهت صلاحية هذا الإصدار من سيجنال Desktop. الرجاء التحديث لأحدث إصدار للتمكن من التراسُل.",
     "description": "Warning notification that this version of the app has expired"
   },
   "icu:upgrade": {
@@ -2159,11 +2159,11 @@
     "description": "Error message when you try to send an edit after message becomes too old"
   },
   "icu:startConversation--username-not-found": {
-    "messageformat": "المستخدم غير موجود. {atUsername} لا يستخدم Signal. تأكّد من إدخال اسم المستخدم بالكامل.",
+    "messageformat": "المستخدم غير موجود. {atUsername} لا يستخدم سيجنال. تأكّد من إدخال اسم المستخدم بالكامل.",
     "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username"
   },
   "icu:startConversation--phone-number-not-found": {
-    "messageformat": "‫لم يعثر على المستخدم. إن « {phoneNumber} » ليس مستخدما لـ Signal.",
+    "messageformat": "‫لم يعثر على المستخدم. إن « {phoneNumber} » ليس مستخدما لسيجنال.",
     "description": "Shown in dialog if phone number is not found."
   },
   "icu:startConversation--phone-number-not-valid": {
@@ -2191,7 +2191,7 @@
     "description": "Shown in the alert when you add the maximum number of group members"
   },
   "icu:chooseGroupMembers__maximum-group-size__body": {
-    "messageformat": "أقصى حد للأعضاء في مجموعات Signal هو {max,number} عضوا.",
+    "messageformat": "أقصى حد للأعضاء في مجموعات سيجنال هو {max,number} عضوا.",
     "description": "Shown in the alert when you add the maximum number of group members"
   },
   "icu:chooseGroupMembers__maximum-recommended-group-size__title": {
@@ -2199,7 +2199,7 @@
     "description": "Shown in the alert when you add the maximum recommended number of group members"
   },
   "icu:chooseGroupMembers__maximum-recommended-group-size__body": {
-    "messageformat": "تعمل مجموعات Signal بشكل أفضل مع {max,number} عضوا أو أقل. سيؤدي إضافة المزيد من الأعضاء إلى تأخر في إرسال الرسائل واستلامها.",
+    "messageformat": "تعمل مجموعات سيجنال بشكل أفضل مع {max,number} عضوا أو أقل. سيؤدي إضافة المزيد من الأعضاء إلى تأخر في إرسال الرسائل واستلامها.",
     "description": "Shown in the alert when you add the maximum recommended number of group members"
   },
   "icu:setGroupMetadata__title": {
@@ -2251,7 +2251,7 @@
     "description": "When a person inputs a number that is invalid"
   },
   "icu:unlinkedWarning": {
-    "messageformat": "‫يُرجى الضغط على زر الفأرة لإعادة ربط Signal Desktop مع جهازك المحمول للاستمرار في التراسُل."
+    "messageformat": "‫يُرجى الضغط على زر الفأرة لإعادة ربط سيجنال Desktop مع جهازك المحمول للاستمرار في التراسُل."
   },
   "icu:unlinked": {
     "messageformat": "غير مرتبط"
@@ -2269,17 +2269,17 @@
     "messageformat": "جهة اتصال الدعم"
   },
   "icu:autoUpdateNewVersionMessage": {
-    "messageformat": "‫يُرجى الضغط على زر الفأرة لإعادة تشغيل Signal"
+    "messageformat": "‫يُرجى الضغط على زر الفأرة لإعادة تشغيل سيجنال"
   },
   "icu:downloadNewVersionMessage": {
     "messageformat": "يُرجى الضغط على زر الفأرة لتنزيل التحديث"
   },
   "icu:downloadFullNewVersionMessage": {
-    "messageformat": "‫لم يتمكن Signal من التحديث. يُرجى الضغط للمحاولة مرة أخرى.",
+    "messageformat": "‫لم يتمكن سيجنال من التحديث. يُرجى الضغط للمحاولة مرة أخرى.",
     "description": "Shown in update dialog when partial update fails and we have to ask user to download full update"
   },
   "icu:autoUpdateRestartButtonLabel": {
-    "messageformat": "‫إعادة تشغيل Signal‬"
+    "messageformat": "‫إعادة تشغيل سيجنال‬"
   },
   "icu:autoUpdateLaterButtonLabel": {
     "messageformat": "لاحقا"
@@ -2412,7 +2412,7 @@
     "description": "Shown in a message's bubble when you've sent a donation badge to a contact."
   },
   "icu:message--donation--unopened--label": {
-    "messageformat": "قدّم {sender} تبرّعًا لـ Signal نيابة عنك",
+    "messageformat": "قدّم {sender} تبرّعًا لسيجنال نيابة عنك",
     "description": "Shown in a message's bubble when you've received a donation badge from a contact."
   },
   "icu:message--donation--unopened--toast--incoming": {
@@ -2484,7 +2484,7 @@
     "description": "The title of the outgoing donation badge detail dialog"
   },
   "icu:modal--donation--description": {
-    "messageformat": "قدّمت تبرّعًا لـ Signal نيابة عن {name}. سَيتم منحهم خيار إظهار دعمهم على حسابهم الشخصي.",
+    "messageformat": "قدّمت تبرّعًا لسيجنال نيابة عن {name}. سَيتم منحهم خيار إظهار دعمهم على حسابهم الشخصي.",
     "description": "The description of the outgoing donation badge detail dialog"
   },
   "icu:stickers--toast--InstallFailed": {
@@ -2508,11 +2508,11 @@
     "description": "Shown in the sticker pack manager when you don't have any installed sticker packs."
   },
   "icu:stickers--StickerManager--BlessedPacks": {
-    "messageformat": "مسلسل فناني Signal",
+    "messageformat": "مسلسل فناني سيجنال",
     "description": "Shown in the sticker pack manager above the default sticker packs."
   },
   "icu:stickers--StickerManager--BlessedPacks--Empty": {
-    "messageformat": "لا توجد ملصقات من فناني Signal",
+    "messageformat": "لا توجد ملصقات من فناني سيجنال",
     "description": "Shown in the sticker pack manager when there are no blessed sticker packs available."
   },
   "icu:stickers--StickerManager--ReceivedPacks": {
@@ -2688,19 +2688,19 @@
     "description": "When a message is too long this is the affordance to expand the message"
   },
   "icu:Message--unsupported-message": {
-    "messageformat": "أرسل {contact} لك رسالة لا يمكن معالجتها ولا عرضها لأنها تستخدم ميزة Signal جديدة."
+    "messageformat": "أرسل {contact} لك رسالة لا يمكن معالجتها ولا عرضها لأنها تستخدم ميزة سيجنال جديدة."
   },
   "icu:Message--unsupported-message-ask-to-resend": {
-    "messageformat": "بما أنك أصبحت تستخدم إصدار Signal مُرقّى. يمكنك الطلب من {contact} إعادة إرسال هذه الرسالة."
+    "messageformat": "بما أنك أصبحت تستخدم إصدار سيجنال مُرقّى. يمكنك الطلب من {contact} إعادة إرسال هذه الرسالة."
   },
   "icu:Message--from-me-unsupported-message": {
-    "messageformat": "أرسل أحد أجهزتك رسالة لا يمكن معالجتها ولا عرضها لأنها تستخدم ميزة Signal جديدة."
+    "messageformat": "أرسل أحد أجهزتك رسالة لا يمكن معالجتها ولا عرضها لأنها تستخدم ميزة سيجنال جديدة."
   },
   "icu:Message--from-me-unsupported-message-ask-to-resend": {
-    "messageformat": "بما أنك أصبحت تستخدم نسخة حديثة من Signal، ستتم مزامنة الرسائل المستقبلية."
+    "messageformat": "بما أنك أصبحت تستخدم نسخة حديثة من سيجنال، ستتم مزامنة الرسائل المستقبلية."
   },
   "icu:Message--update-signal": {
-    "messageformat": "‫تحديث Signal‬",
+    "messageformat": "‫تحديث سيجنال‬",
     "description": "Text for a button which will take user to Signal download page"
   },
   "icu:Message--tap-to-view-expired": {
@@ -2935,6 +2935,10 @@
     "messageformat": "تحديد النص المُحدد بتنسيق سبويلر",
     "description": "Description of command to bold text in composer"
   },
+  "icu:Keyboard--open-context-menu": {
+    "messageformat": "فتح قائمة المُختصرات للرسالة المُحدّدة",
+    "description": "Shown in shortcuts guide"
+  },
   "icu:FormatMenu--guide--bold": {
     "messageformat": "خط Bold",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
@@ -3048,11 +3052,11 @@
     "description": "Title of the modal shown before sending your first formatting message"
   },
   "icu:SendFormatting--dialog--body": {
-    "messageformat": "قد يستخدم بعض الناس إصدارًا من Signal لا يتوفر على دعم للنص المنسق. لن يتمكنوا من رؤية تغييرات التنسيق التي أحدثتها على رسالتك.",
+    "messageformat": "قد يستخدم بعض الناس إصدارًا من سيجنال لا يتوفر على دعم للنص المنسق. لن يتمكنوا من رؤية تغييرات التنسيق التي أحدثتها على رسالتك.",
     "description": "Body text of the modal shown before sending your first formatting message"
   },
   "icu:AuthArtCreator--dialog--message": {
-    "messageformat": "هل تود فتح مُنشيء حزمة الملصقات لـ Signal؟",
+    "messageformat": "هل تود فتح مُنشيء حزمة الملصقات لسيجنال؟",
     "description": "A body of the dialog that is presented when user tries to open Signal Sticker Pack Creator from a link"
   },
   "icu:AuthArtCreator--dialog--confirm": {
@@ -3064,7 +3068,7 @@
     "description": "A buttle title for dismissing Signal Sticker Pack Creator dialog"
   },
   "icu:ArtCreator--Authentication--error": {
-    "messageformat": "يُرجى إعداد Signal في هاتفك وفي الحاسوب لاستخدام مُنشئ حزم الملصقات",
+    "messageformat": "يُرجى إعداد سيجنال في هاتفك وفي الحاسوب لاستخدام مُنشئ حزم الملصقات",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
   "icu:Reactions--remove": {
@@ -3280,11 +3284,11 @@
     "description": "Shown in conversation history when your video call is missed or declined"
   },
   "icu:minimizeToTrayNotification--title": {
-    "messageformat": "لا يزال Signal قيد التشغيل",
+    "messageformat": "لا يزال سيجنال قيد التشغيل",
     "description": "Shown in a notification title when Signal is minimized to tray"
   },
   "icu:minimizeToTrayNotification--body": {
-    "messageformat": "سيَستمر Signal في الاشتغال في الإشعارات. يُمكنك تغيير هذا في إعدادات Signal.",
+    "messageformat": "سيَستمر سيجنال في الاشتغال في الإشعارات. يُمكنك تغيير هذا في إعدادات سيجنال.",
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "icu:incomingAudioCall": {
@@ -3340,7 +3344,7 @@
     "description": "Shown in the call screen when the call is reconnecting due to network issues"
   },
   "icu:callDuration": {
-    "messageformat": "Signal {duration}",
+    "messageformat": "سيجنال {duration}",
     "description": "Shown in the call screen to indicate how long the call has been connected"
   },
   "icu:callingDeviceSelection__settings": {
@@ -3528,7 +3532,7 @@
     "description": "This group link is no longer valid."
   },
   "icu:GroupV2--join--unknown-link-version": {
-    "messageformat": "هذه الوصلة غير مدعومة بواسطة هذا اﻹصدار من Signal Desktop.",
+    "messageformat": "هذه الوصلة غير مدعومة بواسطة هذا اﻹصدار من سيجنال Desktop.",
     "description": "Shown if you click a group link and we can't get information about it"
   },
   "icu:GroupV2--join--link-revoked--title": {
@@ -4252,19 +4256,19 @@
     "description": "Generic next label"
   },
   "icu:BadgeDialog__become-a-sustainer-button": {
-    "messageformat": "تبرَّع لـ Signal",
+    "messageformat": "تبرَّع لسيجنال",
     "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
   },
   "icu:BadgeSustainerInstructions__header": {
-    "messageformat": "تبرَّع لـ Signal",
+    "messageformat": "تبرَّع لسيجنال",
     "description": "In the instructions for becoming a sustainer. The heading."
   },
   "icu:BadgeSustainerInstructions__subheader": {
-    "messageformat": "Signal يدعمه أشخاص مثلك. ساهم واحصل على شارة.",
+    "messageformat": "سيجنال يدعمه أشخاص مثلك. ساهم واحصل على شارة.",
     "description": "In the instructions for becoming a sustainer. The subheading."
   },
   "icu:BadgeSustainerInstructions__instructions__1": {
-    "messageformat": "افتح Signal على هاتفك",
+    "messageformat": "افتح سيجنال على هاتفك",
     "description": "In the instructions for becoming a sustainer. First instruction."
   },
   "icu:BadgeSustainerInstructions__instructions__2": {
@@ -4272,7 +4276,7 @@
     "description": "In the instructions for becoming a sustainer. Second instruction."
   },
   "icu:BadgeSustainerInstructions__instructions__3": {
-    "messageformat": "انقر على \"تبرّع لـ Signal\" واشترك",
+    "messageformat": "انقر على \"تبرّع لسيجنال\" واشترك",
     "description": "In the instructions for becoming a sustainer. Third instruction."
   },
   "icu:CompositionArea--expand": {
@@ -4284,11 +4288,11 @@
     "description": "Aria label for file attachment button in composition area"
   },
   "icu:CompositionArea--sms-only__title": {
-    "messageformat": "‫لا يستخدم هذا الشخص ‏Signal",
+    "messageformat": "‫لا يستخدم هذا الشخص سيجنال",
     "description": "Title for the composition area for the SMS-only contact"
   },
   "icu:CompositionArea--sms-only__body": {
-    "messageformat": "‫لا يدعم Signal Desktop جهات اتصال غير مسجلة في Signal. يجب الطلب من هذا الشخص أن يقوم بتثبيت Signal للتراسُل بشكل آمن.",
+    "messageformat": "‫لا يدعم سيجنال Desktop جهات اتصال غير مسجلة في سيجنال. يجب الطلب من هذا الشخص أن يقوم بتثبيت سيجنال للتراسُل بشكل آمن.",
     "description": "Body for the composition area for the SMS-only contact"
   },
   "icu:CompositionArea--sms-only__spinner-label": {
@@ -4828,7 +4832,7 @@
     "description": "Shown in the message request warning dialog. Clicking this button will open a page on Signal's support site"
   },
   "icu:ContactSpoofing__same-name--link": {
-    "messageformat": "مراجعة الطلبات بعناية. وجد Signal جهة اتصال أخرى بنفس الاسم. <reviewRequestLink>مُراجعة الطلب</reviewRequestLink>",
+    "messageformat": "مراجعة الطلبات بعناية. وجد سيجنال جهة اتصال أخرى بنفس الاسم. <reviewRequestLink>مُراجعة الطلب</reviewRequestLink>",
     "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else"
   },
   "icu:ContactSpoofing__same-name-in-group--link": {
@@ -4892,7 +4896,7 @@
     "description": "Header in the captcha dialog"
   },
   "icu:CaptchaDialog__first-paragraph": {
-    "messageformat": "للتمكن من الوقاية من الإزعاج في Signal، يُرجى إتمام التحقق.",
+    "messageformat": "للتمكن من الوقاية من الإزعاج في سيجنال، يُرجى إتمام التحقق.",
     "description": "First paragraph in the captcha dialog"
   },
   "icu:CaptchaDialog__second-paragraph": {
@@ -5151,6 +5155,10 @@
     "messageformat": "سَتختفي في",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
+  "icu:MessageDetail__view-edits": {
+    "messageformat": "عرض سِجل التعديلات",
+    "description": "Link to view a message's edit history"
+  },
   "icu:ProfileEditor--about": {
     "messageformat": "حول",
     "description": "Default text for about field"
@@ -5376,7 +5384,7 @@
     "description": "Title for the generate link previews setting"
   },
   "icu:Preferences__link-previews--description": {
-    "messageformat": "‫لتعديل هذا الإعداد، يُرجى فتح تطبيق Signal في جهازك المحمول ثم الذهاب إلى الإعدادات ثم الدردشات",
+    "messageformat": "‫لتعديل هذا الإعداد، يُرجى فتح تطبيق سيجنال في جهازك المحمول ثم الذهاب إلى الإعدادات ثم الدردشات",
     "description": "Description for the generate link previews setting"
   },
   "icu:Preferences--advanced": {
@@ -5396,7 +5404,7 @@
     "description": "Number of contacts blocked plural"
   },
   "icu:Preferences__privacy--description": {
-    "messageformat": "‫لتعديل هذا الإعداد، يُرجى فتح تطبيق Signal في جهازك المحمول ثم الذهاب إلى الإعدادات ثم الخصوصية",
+    "messageformat": "‫لتعديل هذا الإعداد، يُرجى فتح تطبيق سيجنال في جهازك المحمول ثم الذهاب إلى الإعدادات ثم الخصوصية",
     "description": "Description for the 'who can do X' setting"
   },
   "icu:Preferences__pnp__row--title": {
@@ -5404,7 +5412,7 @@
     "description": "Title of Phone Number row in Privacy section of Preferences window"
   },
   "icu:Preferences__pnp__row--body": {
-    "messageformat": "اختر من يُمكنه رؤية رقم هاتفك ومن يمكنه الاتصال بك على Signal باستخدامه.",
+    "messageformat": "اختر من يُمكنه رؤية رقم هاتفك ومن يمكنه الاتصال بك على سيجنال باستخدامه.",
     "description": "Body of Phone Number row in Privacy section of Preferences window"
   },
   "icu:Preferences__pnp__sharing--title": {
@@ -5412,11 +5420,11 @@
     "description": "Title for the phone number sharing setting row"
   },
   "icu:Preferences__pnp__sharing--description--everyone": {
-    "messageformat": "سَيكون رقم هاتفك مرئيًا للأشخاص والمجموعات التي تراسلها. كما أن الأشخاص الذين لديهم رقمك في جهات اتصال هواتفهم سيرونه أيضًا على Signal.",
+    "messageformat": "سَيكون رقم هاتفك مرئيًا للأشخاص والمجموعات التي تراسلها. كما أن الأشخاص الذين لديهم رقمك في جهات اتصال هواتفهم سيرونه أيضًا على سيجنال.",
     "description": "Description for the phone number sharing setting row when the value is Everyone"
   },
   "icu:Preferences__pnp__sharing--description--nobody": {
-    "messageformat": "لن يرى أي أحد رقم هاتفك في Signal.",
+    "messageformat": "لن يرى أي أحد رقم هاتفك في سيجنال.",
     "description": "Description for the phone number sharing setting row when the value is Nobody"
   },
   "icu:Preferences__pnp--page-title": {
@@ -5436,11 +5444,11 @@
     "description": "Title for the phone number discoverability setting row"
   },
   "icu:Preferences__pnp__discoverability--description--everyone": {
-    "messageformat": "كُل شخص يملك رقم هاتفك في جهات اتصاله سيعثُر عليك كجهة اتصال في Signal. سَيتمكن الآخرون من العثور عليك باستخدام رقم هاتفك عند بدء محادثة أو مجموعة جديدة.",
+    "messageformat": "كُل شخص يملك رقم هاتفك في جهات اتصاله سيعثُر عليك كجهة اتصال في سيجنال. سَيتمكن الآخرون من العثور عليك باستخدام رقم هاتفك عند بدء محادثة أو مجموعة جديدة.",
     "description": "Description for the phone number discoverability setting row wth the value is everyone"
   },
   "icu:Preferences__pnp__discoverability--description--nobody": {
-    "messageformat": "لن يتمكّن أي شخص على Signal من العثور عليك باستخدام رقم هاتفك.",
+    "messageformat": "لن يتمكّن أي شخص على سيجنال من العثور عليك باستخدام رقم هاتفك.",
     "description": "Description for the phone number discoverability setting row wth the value is nobody"
   },
   "icu:Preferences__pnp__discoverability__everyone": {
@@ -5520,7 +5528,7 @@
     "description": "The title of update dialog on install screen when user OS is unsupported"
   },
   "icu:InstallScreenUpdateDialog--auto-update__body": {
-    "messageformat": "لِمواصلة استخدام Signal، عليك التحديث إلى آخر إصدار.",
+    "messageformat": "لِمواصلة استخدام سيجنال، عليك التحديث إلى آخر إصدار.",
     "description": "The body of update dialog on install screen when auto update is downloaded and available."
   },
   "icu:InstallScreenUpdateDialog--manual-update__action": {
@@ -5528,15 +5536,15 @@
     "description": "The text of a confirmation button in update dialog on install screen when manual update is ready to be downloaded."
   },
   "icu:InstallScreenUpdateDialog--downloaded__body": {
-    "messageformat": "أعد تشغيل Signal لتثبيت التحديث.",
+    "messageformat": "أعد تشغيل سيجنال لتثبيت التحديث.",
     "description": "The body of the update dialog on install screen when manual update was downloaded."
   },
   "icu:InstallScreenUpdateDialog--cannot-update__body": {
-    "messageformat": "تعذّر تحديث Signal Desktop، لكن هناك إصدار جديد متوفر. انتقل إلى {downloadUrl} وثبّت الإصدار الجديد يدويًا، ثم تواصل مع الدعم أو بلّغ عن خطأ بشأن هذا المشكلة.",
+    "messageformat": "تعذّر تحديث سيجنال Desktop، لكن هناك إصدار جديد متوفر. انتقل إلى {downloadUrl} وثبّت الإصدار الجديد يدويًا، ثم تواصل مع الدعم أو بلّغ عن خطأ بشأن هذا المشكلة.",
     "description": "The body of the update dialog on install screen when update cannot be installed."
   },
   "icu:NSIS__retry-dialog--first-line": {
-    "messageformat": "‫لم يتمكن من إغلاق Signal",
+    "messageformat": "‫لا يمكن إغلاق سيجنال.",
     "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
   },
   "icu:NSIS__retry-dialog--second-line": {
@@ -5556,7 +5564,7 @@
     "description": "Displayed when Windows installer cannot uninstall the old application"
   },
   "icu:NSIS__semver-downgrade": {
-    "messageformat": "هناك إصدار أحدث من Signal مُثبت بالفعل. هل أنت متأكد من أنك تريد المواصلة؟",
+    "messageformat": "هناك إصدار أحدث من سيجنال مُثبت بالفعل. هل أنت متأكد من أنك تريد المواصلة؟",
     "description": "A text of the dialog displayed when user tries to overwrite Signal installation with an older version."
   },
   "icu:CrashReportDialog__title": {
@@ -5564,7 +5572,7 @@
     "description": "A title of the dialog displayed when starting an application after a recent crash"
   },
   "icu:CrashReportDialog__body": {
-    "messageformat": "‫لقد عاد Signal للاشتغال بعد انهياره. يُرجى إرسال تقرير الانهيار لمساعدة Signal على التحقيق في هذا المشكل.",
+    "messageformat": "‫لقد عاد سيجنال للاشتغال بعد انهياره. يُرجى إرسال تقرير الانهيار لمساعدة سيجنال على التحقيق في هذا المشكل.",
     "description": "The body of the dialog displayed when starting an application after a recent crash"
   },
   "icu:CrashReportDialog__submit": {
@@ -5760,7 +5768,7 @@
     "description": "Payment event notification check device label"
   },
   "icu:SignalConnectionsModal__title": {
-    "messageformat": "جهات الاتصال في Signal",
+    "messageformat": "جهات الاتصال في سيجنال",
     "description": "The phrase/term: 'Signal Connections'"
   },
   "icu:SignalConnectionsModal__header": {
@@ -5940,7 +5948,7 @@
     "description": "Modal title when hiding people from my stories"
   },
   "icu:StoriesSettings__mine__all--label": {
-    "messageformat": "جميع جهات الاتصال في Signal",
+    "messageformat": "جميع جهات الاتصال في سيجنال",
     "description": "Input label to describe all signal connections"
   },
   "icu:StoriesSettings__mine__all--description": {
@@ -5980,7 +5988,7 @@
     "description": "Label of view receipts checkbox in story settings"
   },
   "icu:StoriesSettings__view-receipts--description": {
-    "messageformat": "‫لتعديل هذا الإعداد، يُرجى فتح تطبيق Signal في جهازك المحمول ثم الذهاب إلى الإعدادات -> القصص",
+    "messageformat": "‫لتعديل هذا الإعداد، يُرجى فتح تطبيق سيجنال في جهازك المحمول ثم الذهاب إلى الإعدادات -> القصص",
     "description": "Description of how view receipts can be changed in story settings"
   },
   "icu:GroupStorySettingsModal__members_title": {
@@ -6060,7 +6068,7 @@
     "description": "Modal title for setting privacy for My Story"
   },
   "icu:SendStoryModal__privacy-disclaimer--link": {
-    "messageformat": "اِختر من يُمكنه مشاهدة قصتك من جهات اتصال Signal. يُمكنك تغيير هذا في أي وقت في إعدادات الخصوصية. <learnMoreLink>لمعرفة المزيد.</learnMoreLink>",
+    "messageformat": "اِختر من يُمكنه مشاهدة قصتك من جهات اتصال سيجنال. يُمكنك تغيير هذا في أي وقت في إعدادات الخصوصية. <learnMoreLink>لمعرفة المزيد.</learnMoreLink>",
     "description": "Disclaimer on how changes to story settings work"
   },
   "icu:SendStoryModal__delete-story": {
@@ -6076,11 +6084,11 @@
     "description": "Alert body for groups that non-admins cannot send stories to"
   },
   "icu:SendStoryModal__my-stories-description-all": {
-    "messageformat": "{viewersCount, plural, zero {جميع جهات اتصال Signal · {viewersCount,number} مُشاهدين} one {جميع جهات اتصال Signal · {viewersCount,number} مُشاهِد} two {جميع جهات اتصال Signal · {viewersCount,number} مُشاهِدين} few {جميع جهات اتصال Signal · {viewersCount,number} مُشاهِدين} many {جميع جهات اتصال Signal · {viewersCount,number} مُشاهِدًا} other {جميع جهات اتصال Signal · {viewersCount,number} مُشاهِد}}",
+    "messageformat": "{viewersCount, plural, zero {جميع جهات اتصال سيجنال · {viewersCount,number} مُشاهدين} one {جميع جهات اتصال سيجنال · {viewersCount,number} مُشاهِد} two {جميع جهات اتصال سيجنال · {viewersCount,number} مُشاهِدين} few {جميع جهات اتصال سيجنال · {viewersCount,number} مُشاهِدين} many {جميع جهات اتصال سيجنال · {viewersCount,number} مُشاهِدًا} other {جميع جهات اتصال سيجنال · {viewersCount,number} مُشاهِد}}",
     "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when not exluding anyone"
   },
   "icu:SendStoryModal__my-stories-description-excluding": {
-    "messageformat": "{excludedCount, plural, zero {جميع جهات اتصال Signal · {excludedCount,number} مُستبعد} one {جميع جهات اتصال Signal · {excludedCount,number} مُستبعد} two {جميع جهات اتصال Signal · {excludedCount,number} مُستَبعَدَيْن} few {جميع جهات اتصال Signal · {excludedCount,number} مُستبعدين} many {جميع جهات اتصال Signal · {excludedCount,number} مُستبعدًا} other {جميع جهات اتصال Signal · {excludedCount,number} مُستبعد}}",
+    "messageformat": "{excludedCount, plural, zero {جميع جهات اتصال سيجنال · {excludedCount,number} مُستبعد} one {جميع جهات اتصال سيجنال · {excludedCount,number} مُستبعد} two {جميع جهات اتصال سيجنال · {excludedCount,number} مُستَبعَدَيْن} few {جميع جهات اتصال سيجنال · {excludedCount,number} مُستبعدين} many {جميع جهات اتصال سيجنال · {excludedCount,number} مُستبعدًا} other {جميع جهات اتصال سيجنال · {excludedCount,number} مُستبعد}}",
     "description": "Shown as a subtitle under My Stories option in the send-story-to dialog when excluding some"
   },
   "icu:SendStoryModal__private-story-description": {
@@ -6168,7 +6176,7 @@
     "description": "Context menu item to help debugging"
   },
   "icu:StoryViewsNRepliesModal__read-receipts-off": {
-    "messageformat": "فعِّل إيصالات القراءة لرؤية من شاهد قِصصك. يُرجى فتح تطبيق Signal في جهازك المحمول ثم الذهاب إلى الإعدادات -> القصص.",
+    "messageformat": "فعِّل إيصالات القراءة لرؤية من شاهد قِصصك. يُرجى فتح تطبيق سيجنال في جهازك المحمول ثم الذهاب إلى الإعدادات -> القصص.",
     "description": "Instructions on how to enable read receipts"
   },
   "icu:StoryViewsNRepliesModal__no-replies": {
@@ -6396,7 +6404,7 @@
     "description": "Body of the popup with information about discriminator in username"
   },
   "icu:UsernameOnboardingModalBody__title": {
-    "messageformat": "إعداد اِسم المُستخدِم الخاص بك على Signal",
+    "messageformat": "إعداد اِسم المُستخدِم الخاص بك على سيجنال",
     "description": "Title of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__number": {
@@ -6420,15 +6428,15 @@
     "description": "Text of the primary button on username onboarding modal"
   },
   "icu:UnsupportedOSWarningDialog__body": {
-    "messageformat": "سيتوقف تطبيق Signal الخاص بالحاسوب عن دعم إصدار {OS} على جهازك قريبًا. للاستمرار في استخدام Signal، يُرجى تحديث نظام تشغيل حاسوبك قبل {expirationDate}. <learnMoreLink>معرفة المزيد</learnMoreLink>",
+    "messageformat": "سيتوقف تطبيق سيجنال الخاص بالحاسوب عن دعم إصدار {OS} على جهازك قريبًا. للاستمرار في استخدام سيجنال، يُرجى تحديث نظام تشغيل حاسوبك قبل {expirationDate}. <learnMoreLink>معرفة المزيد</learnMoreLink>",
     "description": "Body of a dialog displayed on unsupported operating systems"
   },
   "icu:UnsupportedOSErrorDialog__body": {
-    "messageformat": "لم يعُد تطبيق Signal يَعمل على هذا الحاسوب. لاستخدام تطبيق Signal الخاص بالحاسوب مرة أخرى، يُرجى تحديث إصدار حاسوبك {OS}. <learnMoreLink>معرفة المزيد</learnMoreLink>",
+    "messageformat": "لم يعُد تطبيق سيجنال يَعمل على هذا الحاسوب. لاستخدام تطبيق سيجنال الخاص بالحاسوب مرة أخرى، يُرجى تحديث إصدار حاسوبك {OS}. <learnMoreLink>معرفة المزيد</learnMoreLink>",
     "description": "Body of a dialog displayed on unsupported operating systems"
   },
   "icu:UnsupportedOSErrorToast": {
-    "messageformat": "لم يعُد تطبيق Signal يَعمل على هذا الحاسوب. لاستخدام تطبيق Signal الخاص بالحاسوب مرة أخرى، يُرجى تحديث إصدار {OS} لحاسوبك.",
+    "messageformat": "لم يعُد تطبيق سيجنال يَعمل على هذا الحاسوب. لاستخدام تطبيق سيجنال الخاص بالحاسوب مرة أخرى، يُرجى تحديث إصدار {OS} لحاسوبك.",
     "description": "Body of a dialog displayed on unsupported operating systems"
   },
   "icu:MessageMetadata__edited": {
@@ -6452,11 +6460,11 @@
     "description": "Title for the whats new modal"
   },
   "icu:WhatsNew__bugfixes": {
-    "messageformat": "يحتوي هذا الإصدار على عدد من التعديلات الصغيرة وإصلاحات الأخطاء للحفاظ على تشغيل Signal بسلاسة.",
+    "messageformat": "يحتوي هذا الإصدار على عدد من التعديلات الصغيرة وإصلاحات الأخطاء للحفاظ على تشغيل سيجنال بسلاسة.",
     "description": "Release notes for releases that only include bug fixes"
   },
   "icu:WhatsNew__bugfixes--1": {
-    "messageformat": "تعديلات صغيرة إضافية وإصلاحات للأخطاء وتحسينات في الأداء. شكرًا على استخدام تطبيق Signal!",
+    "messageformat": "تعديلات صغيرة إضافية وإصلاحات للأخطاء وتحسينات في الأداء. شكرًا على استخدام تطبيق سيجنال!",
     "description": "Release notes for releases that only include bug fixes"
   },
   "icu:WhatsNew__bugfixes--2": {
@@ -6476,7 +6484,7 @@
     "description": "Release notes for releases that only include bug fixes"
   },
   "icu:WhatsNew__bugfixes--6": {
-    "messageformat": "تعديلات صغيرة، تصليح الأعطال، وتحسينات للأداء. شكرًا على استخدامكم Signal!",
+    "messageformat": "تعديلات صغيرة، تصليح الأعطال، وتحسينات للأداء. شكرًا على استخدامكم سيجنال!",
     "description": "Release notes for releases that only include bug fixes"
   },
   "icu:WhatsNew__v6.21--0": {
@@ -6495,8 +6503,8 @@
     "messageformat": "لقد أضفنا دعمًا لأحدث الرموز التعبيرية، لذا يُمكنك الآن إظهار حماسك باستخدام &quot;الوجه المُهتز&quot; (<emojify>🫨</emojify>) أو الرد بـقرنة بازلاء (<emojify>🫛</emojify>) عندما يسألك أحد عن مدى متانة صداقاتك.",
     "description": "Release notes for v6.22"
   },
-  "icu:WhatsNew__v6.22--2": {
-    "messageformat": "مكافأة الإصدار التجريبي: ألقِ نظرة حصرية على خاصية \"تعديل الرسالة\" الجديدة. ستُطرح هذه الميزة خلال بضعة أشهر ولكننا نُقدر مساعدتك في اختبارها مسبقًا خلال الفترة التجريبية هذه. شكراً لك على مساعدتك!",
-    "description": "Release notes for v6.22"
+  "icu:WhatsNew__v6.23--1": {
+    "messageformat": "بالإضافة إلى تعديلات صغيرة لإصلاح الأخطاء، يتضمّن هذا الإصدار أيضًا تحديثات وثائق المُطورين (شكرًا، {d108}!) وبعض التحسينات على تصميم واجهة إعادة توجيه الرسائل (شكرًا، {hackerbirds}!).",
+    "description": "Release notes for v6.23"
   }
 }

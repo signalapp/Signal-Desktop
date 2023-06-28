@@ -2935,6 +2935,10 @@
     "messageformat": "Sett den markerte teksten som en spoiler",
     "description": "Description of command to bold text in composer"
   },
+  "icu:Keyboard--open-context-menu": {
+    "messageformat": "Åpne kontekstmenyen for den valgte meldingen",
+    "description": "Shown in shortcuts guide"
+  },
   "icu:FormatMenu--guide--bold": {
     "messageformat": "Fet",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
@@ -5151,6 +5155,10 @@
     "messageformat": "Forsvinner om",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
+  "icu:MessageDetail__view-edits": {
+    "messageformat": "Se redigeringshistorikk",
+    "description": "Link to view a message's edit history"
+  },
   "icu:ProfileEditor--about": {
     "messageformat": "Om",
     "description": "Default text for about field"
@@ -6495,8 +6503,8 @@
     "messageformat": "Nå er det mulig å bruke de aller nyeste emojiene, slik at du kan vise hvor giret du er, med et ristende ansikt (<emojify>🫨</emojify>), eller du kan sende en sukkerert (<emojify>🫛</emojify>) for å vise kjæresten din at hen er søt som sukker.",
     "description": "Release notes for v6.22"
   },
-  "icu:WhatsNew__v6.22--2": {
-    "messageformat": "Bonus for betabrukere: Ta en sniktitt på den nye redigeringsfunksjonen for meldinger. Funksjonen rulles ut først om et par måneder, men du kan prøve den allerede nå. Takk for hjelpen!",
-    "description": "Release notes for v6.22"
+  "icu:WhatsNew__v6.23--1": {
+    "messageformat": "I tillegg til å fikse et par småfeil, har vi oppdatert til utviklerdokumentasjonen (takk, {d108}!) og forbedret designet av grensesnittet for videresending av meldinger (takk, {hackerbirds}!).",
+    "description": "Release notes for v6.23"
   }
 }

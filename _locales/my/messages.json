@@ -2935,6 +2935,10 @@
     "messageformat": "ရွေးချယ်ထားသောစာသားကို ဝါးထားပြီး အမှတ်အသားပြုရန်",
     "description": "Description of command to bold text in composer"
   },
+  "icu:Keyboard--open-context-menu": {
+    "messageformat": "ရွေးချယ်ထားသော မက်ဆေ့ချ်အတွက် အကြောင်းအရာ မီနူးကို ဖွင့်ခြင်း",
+    "description": "Shown in shortcuts guide"
+  },
   "icu:FormatMenu--guide--bold": {
     "messageformat": "Bold",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
@@ -5151,6 +5155,10 @@
     "messageformat": "ပျောက်သွားမည့်အချိန်",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
+  "icu:MessageDetail__view-edits": {
+    "messageformat": "တည်းဖြတ်မှုမှတ်တမ်းကို ကြည့်ရှုရန်",
+    "description": "Link to view a message's edit history"
+  },
   "icu:ProfileEditor--about": {
     "messageformat": "အကြောင်း",
     "description": "Default text for about field"
@@ -6495,8 +6503,8 @@
     "messageformat": "နောက်ဆုံးထွက် အီမိုဂျိဇာတ်ကောင်များအတွက် ပံ့ပိုးမှုကို ပေါင်းထည့်ထားသောကြောင့် သင့်မိတ်ဆွေများနှင့် သင်မည်မျှရင်းနှီးကြောင်း တစ်စုံတစ်ဦးက မေးသည့်အခါ သင်၏ စိတ်လှုပ်ရှားမှုကို &quot;Shaking Face&quot; (<emojify>🫨</emojify>) ဖြင့် ဖော်ပြနိုင်ပါသည် သို့မဟုတ် &quot;Pea Pod&quot; (<emojify>🫛</emojify>) ဖြင့် တုံ့ပြန်နိုင်ပါသည်။",
     "description": "Release notes for v6.22"
   },
-  "icu:WhatsNew__v6.22--2": {
-    "messageformat": "Beta ဘောနပ်စ်- \"မက်ဆေ့ချ်တည်းဖြတ်\" လုပ်ဆောင်ချက်အသစ် တရားဝင် မထွက်မီ ကနဦး လေ့လာခွင့်ကို ရယူလိုက်ပါ။ ဤလုပ်ဆောင်ချက်ကို လအနည်းငယ်အတွင်း စတင်ဖြန့်ချိမည်ဖြစ်သော်လည်း ဤစမ်းသပ်ကာလအတွင်း ၎င်းကို ကြိုတင် စမ်းသုံး၍ ကျွန်ုပ်တို့အား ကူညီပေးနိုင်ပါသည်။ သင်၏ ကူညီမှုအတွက် ကျေးဇူးတင်ပါသည်။",
-    "description": "Release notes for v6.22"
+  "icu:WhatsNew__v6.23--1": {
+    "messageformat": "ဤထုတ်ဝေမှုတွင် အမျိုးအစားစုံ ချို့ယွင်းချက်ပြင်ဆင်မှု အနည်းငယ်အပြင် ဆော့ဖ်ဝဲရေးသားသူ၏ စာရွက်စာတမ်း အပ်ဒိတ်များ (ကျေးဇူးပါ {d108}) နှင့် မက်ဆေ့ချ် ထပ်ဆင့်ပေးပို့မှု အင်တာဖေ့စ်အတွက် ဒီဇိုင်းပိုင်း မွမ်းမံမှုအချို့ (ကျေးဇူးပါ {hackerbirds}) ကိုလည်း ထည့်သွင်းထားပါသည်။",
+    "description": "Release notes for v6.23"
   }
 }

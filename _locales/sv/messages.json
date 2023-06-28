@@ -2935,6 +2935,10 @@
     "messageformat": "Markera vald text som en spoiler",
     "description": "Description of command to bold text in composer"
   },
+  "icu:Keyboard--open-context-menu": {
+    "messageformat": "Öppna kontextmenyn för valt meddelande",
+    "description": "Shown in shortcuts guide"
+  },
   "icu:FormatMenu--guide--bold": {
     "messageformat": "Bold",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
@@ -5151,6 +5155,10 @@
     "messageformat": "Försvinner om",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
+  "icu:MessageDetail__view-edits": {
+    "messageformat": "Visa redigeringshistorik",
+    "description": "Link to view a message's edit history"
+  },
   "icu:ProfileEditor--about": {
     "messageformat": "Om",
     "description": "Default text for about field"
@@ -6495,8 +6503,8 @@
     "messageformat": "Vi har lagt till stöd för nya emojis.",
     "description": "Release notes for v6.22"
   },
-  "icu:WhatsNew__v6.22--2": {
-    "messageformat": "Betabonus: Få en tidig smygtitt på den kommande funktionen ”redigera meddelande”. Den här funktionen lanseras om några månader, men du kan hjälpa oss att testa den i förväg under betaperioden. Tack för din hjälp!",
-    "description": "Release notes for v6.22"
+  "icu:WhatsNew__v6.23--1": {
+    "messageformat": "Förutom ett mindre antal buggfixar innehåller den här versionen också uppdateringar av utvecklardokumentation (tack {d108}!) och några designförbättringar av gränssnittet för vidarebefordran av meddelanden (tack {hackerbirds}!).",
+    "description": "Release notes for v6.23"
   }
 }

@@ -2935,6 +2935,10 @@
     "messageformat": "Επισήμανση επιλεγμένου κειμένου με θόλωμα",
     "description": "Description of command to bold text in composer"
   },
+  "icu:Keyboard--open-context-menu": {
+    "messageformat": "Άνοιξε το μενού πλαισίου για το επιλεγμένο μήνυμα",
+    "description": "Shown in shortcuts guide"
+  },
   "icu:FormatMenu--guide--bold": {
     "messageformat": "Bold",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
@@ -5151,6 +5155,10 @@
     "messageformat": "Εξαφανίζεται σε",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
+  "icu:MessageDetail__view-edits": {
+    "messageformat": "Προβολή ιστορικού επεξεργασίας",
+    "description": "Link to view a message's edit history"
+  },
   "icu:ProfileEditor--about": {
     "messageformat": "Πληροφορίες",
     "description": "Default text for about field"
@@ -6495,8 +6503,8 @@
     "messageformat": "Παρέχουμε υποστήριξη για τους πιο πρόσφατους χαρακτήρες emoji, οπότε μπορείς πλέον να εκφράσεις τον ενθουσιασμό σου με το «Τρεμάμενο Πρόσωπο» (<emojify>🫨</emojify>) ή να αντιδράσεις με ένα «Φασόλι» (<emojify>🫛</emojify>) όταν κάποιος σε ρωτά πόσο κοντά είσαι με τους φίλους σου.",
     "description": "Release notes for v6.22"
   },
-  "icu:WhatsNew__v6.22--2": {
-    "messageformat": "Μπόνους της beta έκδοσης: Ρίξε μια κρυφή ματιά από τους πρώτους στην επερχόμενη νέα δυνατότητα για «επεξεργασία μηνύματος». Αυτή η δυνατότητα θα κυκλοφορήσει σε λίγους μήνες, αλλά μπορείς να μας βοηθήσεις να την τεστάρουμε κατά τη διάρκεια της περιόδου beta. Ευχαριστούμε για τη βοήθειά σου!",
-    "description": "Release notes for v6.22"
+  "icu:WhatsNew__v6.23--1": {
+    "messageformat": "Πέρα από μια σειρά με διορθώσεις σφαλμάτων, αυτή η έκδοση ενσωματώνει επίσης ενημερώσεις της τεκμηρίωσης προγραμματιστών (ευχαριστούμε, {d108}!) και κάποιες σχεδιαστικές βελτιώσεις στο περιβάλλον προώθησης μηνυμάτων (να 'σαι καλά, {hackerbirds})!",
+    "description": "Release notes for v6.23"
   }
 }

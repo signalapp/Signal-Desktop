@@ -2935,6 +2935,10 @@
     "messageformat": "Таңдалған мәтінді бұлыңғырлау",
     "description": "Description of command to bold text in composer"
   },
+  "icu:Keyboard--open-context-menu": {
+    "messageformat": "Таңдалған хат үшін контекстік мәзірді ашу",
+    "description": "Shown in shortcuts guide"
+  },
   "icu:FormatMenu--guide--bold": {
     "messageformat": "Қалың",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
@@ -5151,6 +5155,10 @@
     "messageformat": "Жоғалатын уақыты",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
+  "icu:MessageDetail__view-edits": {
+    "messageformat": "Өзгертулер тарихын көру",
+    "description": "Link to view a message's edit history"
+  },
   "icu:ProfileEditor--about": {
     "messageformat": "Мағлұмат",
     "description": "Default text for about field"
@@ -6495,8 +6503,8 @@
     "messageformat": "Енді ең соңғы эмодзилерге қолдау көрсетіледі, сондықтан біреу достарыңызбен қаншалықты жақын араласатыныңызды сұрағанда, &quot;Басты шайқау&quot; (<emojify>🫨</emojify>) немесе &quot;Бір қауыздағы асбұршақтар&quot; (<emojify>🫛</emojify>) сияқты эмодзилермен жауап бере аласыз.",
     "description": "Release notes for v6.22"
   },
-  "icu:WhatsNew__v6.22--2": {
-    "messageformat": "Бета нұсқасының бонусы: жаңа \"хатты түзету\" функциясымен қысқаша танысып шығыңыз. Бұл функция бірнеше айдан кейін іске қосылады, бірақ осы бета кезең барысында оны жетілдіруге ат салыса аласыз. Көмегіңіз үшін рақмет!",
-    "description": "Release notes for v6.22"
+  "icu:WhatsNew__v6.23--1": {
+    "messageformat": "Болмашы түзетпелерден бөлек, бұл нұсқада жаңартылған әзірлеуші құжаттамасы бар ({d108}, рақмет!) және хаттың мекенжайын өзгерту интерфейсінің дизайнына бірқатар өзгерістер енгізілді ({hackerbirds}, рақмет!).",
+    "description": "Release notes for v6.23"
   }
 }

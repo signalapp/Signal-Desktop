@@ -2935,6 +2935,10 @@
     "messageformat": "Markatu hautatutako testua spoiler gisa",
     "description": "Description of command to bold text in composer"
   },
+  "icu:Keyboard--open-context-menu": {
+    "messageformat": "Ireki laster-menua hautatutako mezurako",
+    "description": "Shown in shortcuts guide"
+  },
   "icu:FormatMenu--guide--bold": {
     "messageformat": "Lodia",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
@@ -5151,6 +5155,10 @@
     "messageformat": "Denbora hau igarotakoan desagertuko da:",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
+  "icu:MessageDetail__view-edits": {
+    "messageformat": "Ikusi edizio-historia",
+    "description": "Link to view a message's edit history"
+  },
   "icu:ProfileEditor--about": {
     "messageformat": "Honi buruz",
     "description": "Default text for about field"
@@ -6495,8 +6503,8 @@
     "messageformat": "Emoji berrienak erabiltzeko aukera gehitu dugu; beraz, orain &quot;aurpegi dardaratsua&quot; (<emojify>🫨</emojify>) erabil dezakezu gogoberotasuna adierazteko, edo &quot;ilar-leka&quot; batekin erreakzionatu (<emojify>🫛</emojify>) bazkaltzeko zer nahi duzun esateko.",
     "description": "Release notes for v6.22"
   },
-  "icu:WhatsNew__v6.22--2": {
-    "messageformat": "Beta-bertsioko bonusa: lortu mezuak editatzeko funtzio berria beste inork baino lehen probatzeko auekra. Eginbide hau hilabete gutxiren buruan hasiko gara inplementatzen, baina aldez aurretik probatzen laguntzea duzu beta-aldi honetan. Eskerrik asko zure laguntzagatik!",
-    "description": "Release notes for v6.22"
+  "icu:WhatsNew__v6.23--1": {
+    "messageformat": "Akatsen konponketa sorta txikiez gain, bertsio honek garatzaileen dokumentazioaren eguneraketak ere barne hartzen ditu (eskerrik asko, {d108}!) eta diseinu-hobekuntza batzuk mezuak birbidaltzeko interfazean (eskerrik asko, {hackerbirds}!).",
+    "description": "Release notes for v6.23"
   }
 }

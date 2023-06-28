@@ -2935,6 +2935,10 @@
     "messageformat": "Seçilen metni spoiler olarak işaretle",
     "description": "Description of command to bold text in composer"
   },
+  "icu:Keyboard--open-context-menu": {
+    "messageformat": "Seçilen mesaj için içerik menüsünü aç",
+    "description": "Shown in shortcuts guide"
+  },
   "icu:FormatMenu--guide--bold": {
     "messageformat": "Kalın",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
@@ -5151,6 +5155,10 @@
     "messageformat": "içinde kaybolur",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
+  "icu:MessageDetail__view-edits": {
+    "messageformat": "Düzenleme geçmişini görüntüle",
+    "description": "Link to view a message's edit history"
+  },
   "icu:ProfileEditor--about": {
     "messageformat": "Hakkında",
     "description": "Default text for about field"
@@ -6495,8 +6503,8 @@
     "messageformat": "En yeni emoji karakterleri için destek ekledik böylece artık heyecanını &quot;Heyecanlı Yüz&quot; (<emojify>🫨</emojify>) ile gösterebilir veya birisi sana en sevdiğin sebzeyi sorduğunda (böyle bir soru neden sorulur biz de bilmiyoruz) &quot;Kabuklu Bezelye&quot; (<emojify>🫛</emojify>) ile yanıt verebilirsin.",
     "description": "Release notes for v6.22"
   },
-  "icu:WhatsNew__v6.22--2": {
-    "messageformat": "Beta bonusu: Yeni \"mesaj düzenle\" işlevine erkenden göz at! Bu özellik birkaç ay içinde kullanıma sunulacak fakat bu beta döneminde önceden test etmemize yardımcı olabilirsin. Yardımın için teşekkürler!",
-    "description": "Release notes for v6.22"
+  "icu:WhatsNew__v6.23--1": {
+    "messageformat": "Az sayıdaki birkaç hata düzeltmesine ek olarak, bu sürüm aynı zamanda geliştirici doküman güncellemelerini (Teşekkürler {d108}!) ve mesaj iletme arayüzündeki bazı tasarım geliştirmelerini (Teşekkürler {hackerbirds}!) içeriyor.",
+    "description": "Release notes for v6.23"
   }
 }

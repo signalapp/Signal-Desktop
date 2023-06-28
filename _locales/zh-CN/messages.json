@@ -2935,6 +2935,10 @@
     "messageformat": "将所选文本设为防剧透格式",
     "description": "Description of command to bold text in composer"
   },
+  "icu:Keyboard--open-context-menu": {
+    "messageformat": "打开所选消息的上下文菜单",
+    "description": "Shown in shortcuts guide"
+  },
   "icu:FormatMenu--guide--bold": {
     "messageformat": "加粗",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
@@ -5151,6 +5155,10 @@
     "messageformat": "消失倒计时",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
+  "icu:MessageDetail__view-edits": {
+    "messageformat": "查看编辑历史",
+    "description": "Link to view a message's edit history"
+  },
   "icu:ProfileEditor--about": {
     "messageformat": "关于",
     "description": "Default text for about field"
@@ -6495,8 +6503,8 @@
     "messageformat": "我们增加了对最新表情符号的支持，现在您可以用“摇晃的脸”（<emojify>🫨</emojify>）来表达兴奋啦。当有人问起您和好友有多亲密时，您可以发送一个“豆荚”（<emojify>🫛</emojify>）来表示你们亲密无间。",
     "description": "Release notes for v6.22"
   },
-  "icu:WhatsNew__v6.22--2": {
-    "messageformat": "测试奖励：抢先体验即将推出的“编辑消息”功能。此功能将在几个月后开始上线。在测试期间，您可以帮助我们提前测试它的表现哦。非常感谢您的帮助！",
-    "description": "Release notes for v6.22"
+  "icu:WhatsNew__v6.23--1": {
+    "messageformat": "此版本除了修复少量漏洞以外，还包含开发者文档更新（感谢{d108}！）和消息转发界面的一些设计优化（感谢{hackerbirds}！）",
+    "description": "Release notes for v6.23"
   }
 }

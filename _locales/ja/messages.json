@@ -2935,6 +2935,10 @@
     "messageformat": "選択したテキストをぼかしにします",
     "description": "Description of command to bold text in composer"
   },
+  "icu:Keyboard--open-context-menu": {
+    "messageformat": "選択したメッセージのコンテキストメニューを開く",
+    "description": "Shown in shortcuts guide"
+  },
   "icu:FormatMenu--guide--bold": {
     "messageformat": "太字",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
@@ -5151,6 +5155,10 @@
     "messageformat": "消えるまで",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
+  "icu:MessageDetail__view-edits": {
+    "messageformat": "編集履歴を表示する",
+    "description": "Link to view a message's edit history"
+  },
   "icu:ProfileEditor--about": {
     "messageformat": "自己紹介",
     "description": "Default text for about field"
@@ -6495,8 +6503,8 @@
     "messageformat": "最新の絵文字に対応しました。以後は「震える顔」 (<emojify>🫨</emojify>) で感動を表現できます。「エンドウ豆のさや」 (<emojify>🫛</emojify>) なんかもあります。",
     "description": "Release notes for v6.22"
   },
-  "icu:WhatsNew__v6.22--2": {
-    "messageformat": "ベータ版の特典: リリース予定の新機能「メッセージの編集」を一足先にご体験いただけます。この機能は数ヶ月後に公開予定のものですが、このベータ期間中に事前にお試しいただけます。ご協力をお願いいたします！",
-    "description": "Release notes for v6.22"
+  "icu:WhatsNew__v6.23--1": {
+    "messageformat": "このリリースには、さまざまな細かいバグ修正に加えて、開発者向けドキュメントの更新(ありがとう、{d108}！)と、いくつかのメッセージ転送インターフェイスのデザイン改良(ありがとう、{hackerbirds}！)も含まれています。",
+    "description": "Release notes for v6.23"
   }
 }

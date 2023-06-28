@@ -2935,6 +2935,10 @@
     "messageformat": "A kijelölt szöveg megjelölése kitakartként",
     "description": "Description of command to bold text in composer"
   },
+  "icu:Keyboard--open-context-menu": {
+    "messageformat": "Nyisd meg a kiválasztott üzenet helyi menüjét",
+    "description": "Shown in shortcuts guide"
+  },
   "icu:FormatMenu--guide--bold": {
     "messageformat": "Félkövér",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
@@ -5151,6 +5155,10 @@
     "messageformat": "Eltűnik ennyi idő múlva:",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
+  "icu:MessageDetail__view-edits": {
+    "messageformat": "Szerkesztési előzmények megtekintése",
+    "description": "Link to view a message's edit history"
+  },
   "icu:ProfileEditor--about": {
     "messageformat": "Névjegy",
     "description": "Default text for about field"
@@ -6495,8 +6503,8 @@
     "messageformat": "Támogatást adtunk a legújabb hangulatjel-karakterekhez, így most már kifejezheted izgatottságod a „reszkető arc” (<emojify>🫨</emojify>) hangulatjellel, vagy reagálhatsz egy „borsóval meg a héjával” (<emojify>🫛</emojify>), amikor valaki megkérdezi, mennyire állsz közel a barátaidhoz.",
     "description": "Release notes for v6.22"
   },
-  "icu:WhatsNew__v6.22--2": {
-    "messageformat": "Béta bónusz: korai bepillantást nyerhetsz a közelgő új „Üzenet szerkesztése” funkcióba. A funkció bevezetése néhány hónapon belül megkezdődik, de a béta időszakban segíthetsz nekünk az előzetes tesztelésében. Köszönjük a segítséget!",
-    "description": "Release notes for v6.22"
+  "icu:WhatsNew__v6.23--1": {
+    "messageformat": "Néhány hibajavításon kívül ez a kiadás a fejlesztői dokumentáció frissítéseit (köszönjük, {d108}!) és az üzenettovábbítási felület néhány tervezési fejlesztését is tartalmazza (köszönjük, {hackerbirds}!).",
+    "description": "Release notes for v6.23"
   }
 }

@@ -2935,6 +2935,10 @@
     "messageformat": "Merkitse valittu teksti sumennetuksi",
     "description": "Description of command to bold text in composer"
   },
+  "icu:Keyboard--open-context-menu": {
+    "messageformat": "Avaa valitun viestin pikavalikko",
+    "description": "Shown in shortcuts guide"
+  },
   "icu:FormatMenu--guide--bold": {
     "messageformat": "Lihavointi",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
@@ -5151,6 +5155,10 @@
     "messageformat": "Katoamisaika:",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
+  "icu:MessageDetail__view-edits": {
+    "messageformat": "Näytä muokkaushistoria",
+    "description": "Link to view a message's edit history"
+  },
   "icu:ProfileEditor--about": {
     "messageformat": "Tietoja",
     "description": "Default text for about field"
@@ -6495,8 +6503,8 @@
     "messageformat": "Lisäsimme tuen uusille emojihahmoille.",
     "description": "Release notes for v6.22"
   },
-  "icu:WhatsNew__v6.22--2": {
-    "messageformat": "Beetabonus: Esimakua tulevasta uudesta viestin muokkausominaisuudesta. Tämän ominaisuuden käyttöönotto alkaa muutaman kuukauden kuluttua, mutta voit auttaa meitä testaamaan sitä etukäteen beetajakson aikana. Kiitos avustasi!",
-    "description": "Release notes for v6.22"
+  "icu:WhatsNew__v6.23--1": {
+    "messageformat": "Muutamien virhekorjausten lisäksi tämä julkaisu sisältää myös kehittäjien dokumentaatiopäivityksiä (kiitos, {d108}!) ja joitain suunnitteluparannuksia viestien edelleen lähettämisen käyttöliittymään (kiitos, {hackerbirds}!).",
+    "description": "Release notes for v6.23"
   }
 }
