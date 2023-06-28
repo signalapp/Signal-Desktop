@@ -2935,6 +2935,10 @@
     "messageformat": "Định dạng nội dung spoiler cho văn bản được chọn",
     "description": "Description of command to bold text in composer"
   },
+  "icu:Keyboard--open-context-menu": {
+    "messageformat": "Mở menu ngữ cảnh cho tin nhắn đã chọn",
+    "description": "Shown in shortcuts guide"
+  },
   "icu:FormatMenu--guide--bold": {
     "messageformat": "Đậm",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
@@ -5151,6 +5155,10 @@
     "messageformat": "Tự biến mất trong",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
+  "icu:MessageDetail__view-edits": {
+    "messageformat": "Xem lịch sử chỉnh sửa",
+    "description": "Link to view a message's edit history"
+  },
   "icu:ProfileEditor--about": {
     "messageformat": "Thông tin",
     "description": "Default text for about field"
@@ -6495,8 +6503,8 @@
     "messageformat": "Chúng tôi đã hỗ trợ thêm các emoji mới nhất và giờ đây bạn có thể bày tỏ sự hào hứng của mình với emoji &quot;Shaking Face&quot; (<emojify>🫨</emojify>) hoặc bày tỏ cảm xúc với emoji &quot;Pea Pod&quot; (<emojify>🫛</emojify>) mới ra mắt trong năm nay.",
     "description": "Release notes for v6.22"
   },
-  "icu:WhatsNew__v6.22--2": {
-    "messageformat": "Lợi ích của bản beta: Trải nghiệm sớm tính năng \"sửa tin nhắn\" sắp ra mắt. Tính năng này sẽ bắt đầu được triển khai trong vài tháng tới, nhưng bạn có thể giúp chúng tôi thử nghiệm trước với giai đoạn beta. Cảm ơn sự trợ giúp của bạn!",
-    "description": "Release notes for v6.22"
+  "icu:WhatsNew__v6.23--1": {
+    "messageformat": "Ngoài một số lỗi nhỏ đã được sửa, bản cập nhật này cũng kết hợp danh sách các cập nhật từ nhà phát triển (cảm ơn {d108}!) và cải thiện thiết kế của giao diện chuyển tiếp tin nhắn (cảm ơn {hackerbirds}!).",
+    "description": "Release notes for v6.23"
   }
 }

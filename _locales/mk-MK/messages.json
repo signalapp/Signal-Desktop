@@ -2935,6 +2935,10 @@
     "messageformat": "Замати ги буквите на селектираниот текст",
     "description": "Description of command to bold text in composer"
   },
+  "icu:Keyboard--open-context-menu": {
+    "messageformat": "Отвори го контекстуалното мени за избраните пораки",
+    "description": "Shown in shortcuts guide"
+  },
   "icu:FormatMenu--guide--bold": {
     "messageformat": "Задебели ги буквите",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
@@ -5151,6 +5155,10 @@
     "messageformat": "Исчезнува за",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
+  "icu:MessageDetail__view-edits": {
+    "messageformat": "Види ја историјата на измени",
+    "description": "Link to view a message's edit history"
+  },
   "icu:ProfileEditor--about": {
     "messageformat": "За",
     "description": "Default text for about field"
@@ -6495,8 +6503,8 @@
     "messageformat": "Додадовме поддршка за најновите емотикони.",
     "description": "Release notes for v6.22"
   },
-  "icu:WhatsNew__v6.22--2": {
-    "messageformat": "Бета бонус: Испробајте ја предвремено новата функција „измени порака“. Оваа функција ќе се воведе за неколку месеци, но можете да ни помогнете да ја тестираме однапред во овој бета период. Ви благодариме за вашата помош!",
-    "description": "Release notes for v6.22"
+  "icu:WhatsNew__v6.23--1": {
+    "messageformat": "Покрај малиот асортиман поправени багови, во оваа верзија се вклучени и ажурирања на документацијата за програмери (благодариме, {d108}!) и некои подобрувања на дизајнот на интерфејсот за проследување пораки (благодариме, {hackerbirds}!).",
+    "description": "Release notes for v6.23"
   }
 }

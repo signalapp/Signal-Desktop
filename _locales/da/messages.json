@@ -2935,6 +2935,10 @@
     "messageformat": "Markér valgt tekst som spoiler",
     "description": "Description of command to bold text in composer"
   },
+  "icu:Keyboard--open-context-menu": {
+    "messageformat": "Åbn pop up-menuen for den valgte besked",
+    "description": "Shown in shortcuts guide"
+  },
   "icu:FormatMenu--guide--bold": {
     "messageformat": "Fed skrift",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
@@ -5151,6 +5155,10 @@
     "messageformat": "Forsvinder om",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
+  "icu:MessageDetail__view-edits": {
+    "messageformat": "Se redigeringshistorik",
+    "description": "Link to view a message's edit history"
+  },
   "icu:ProfileEditor--about": {
     "messageformat": "Om",
     "description": "Default text for about field"
@@ -6495,8 +6503,8 @@
     "messageformat": "Vi har tilføjet understøttelse af de nyeste emojis, så nu kan du udtrykke din begejstring med &quot;Shaking Face&quot; (<emojify>🫨</emojify>) eller reagere med en &quot;Pea Pod&quot; (<emojify>🫛</emojify>), når nogen spørger om du mangler noget fra supermarkedet.",
     "description": "Release notes for v6.22"
   },
-  "icu:WhatsNew__v6.22--2": {
-    "messageformat": "Beta-bonus: Få et smugkig på den kommende \"Rediger besked\"-funktionalitet. Denne funktion udgives om et par måneder, men du kan hjælpe os med at teste den på forhånd i denne betaperiode. Tak for hjælpen!",
-    "description": "Release notes for v6.22"
+  "icu:WhatsNew__v6.23--1": {
+    "messageformat": "Udover en lille håndfuld fejlrettelser indeholder denne udgave også opdateringer af udviklerdokumentationen (tak, {d108}!) og forbedret design af grænsefladen ved videresendelse af beskeder (tak, {hackerbirds}!).",
+    "description": "Release notes for v6.23"
   }
 }

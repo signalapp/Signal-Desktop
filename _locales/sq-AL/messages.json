@@ -2935,6 +2935,10 @@
     "messageformat": "Shëno si të fshehur tekstin e përzgjedhur",
     "description": "Description of command to bold text in composer"
   },
+  "icu:Keyboard--open-context-menu": {
+    "messageformat": "Hap menynë e kontekstit për mesazhin e përzgjedhur",
+    "description": "Shown in shortcuts guide"
+  },
   "icu:FormatMenu--guide--bold": {
     "messageformat": "Bold",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
@@ -5151,6 +5155,10 @@
     "messageformat": "Zhduket për",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
+  "icu:MessageDetail__view-edits": {
+    "messageformat": "Shiko historikun e përpunimeve",
+    "description": "Link to view a message's edit history"
+  },
   "icu:ProfileEditor--about": {
     "messageformat": "Mbi",
     "description": "Default text for about field"
@@ -6495,8 +6503,8 @@
     "messageformat": "Ne shtuam mbështetje për personazhet më të fundit të emoji-ve, kështu që tani mund të shprehësh emocionet e tua me &quot;Shaking Face&quot; (<emojify>🫨</emojify>) ose reago me një &quot;Pea Pod&quot; (<emojify>🫛</emojify>) kur dikush të pyet se sa i afërt je me miqtë e tu.",
     "description": "Release notes for v6.22"
   },
-  "icu:WhatsNew__v6.22--2": {
-    "messageformat": "Bonus beta: Shiko para të tjerëve funksionin e ri \"përpuno mesazhin\". Kjo veçori do të fillojë të shfaqet pas disa muajsh, por mund të na ndihmosh ta testojmë paraprakisht gjatë kësaj periudhe beta. Faleminderit për ndihmën!",
-    "description": "Release notes for v6.22"
+  "icu:WhatsNew__v6.23--1": {
+    "messageformat": "Përveç një shumëllojshmërie të vogël rregullimesh të gabimeve, ky version përfshin edhe përditësime të dokumentacionit të zhvilluesit (faleminderit, {d108}!) dhe disa përmirësime të dizajnit në ndërfaqen e përcjelljes së mesazheve (faleminderit, {hackerbirds}!).",
+    "description": "Release notes for v6.23"
   }
 }

@@ -2935,6 +2935,10 @@
     "messageformat": "Cambia o formato do texto seleccionado a modo revelación",
     "description": "Description of command to bold text in composer"
   },
+  "icu:Keyboard--open-context-menu": {
+    "messageformat": "Abrir menú emerxente para a mensaxe seleccionada",
+    "description": "Shown in shortcuts guide"
+  },
   "icu:FormatMenu--guide--bold": {
     "messageformat": "Grosa",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
@@ -5151,6 +5155,10 @@
     "messageformat": "Desaparece en",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
+  "icu:MessageDetail__view-edits": {
+    "messageformat": "Ver historial de edicións",
+    "description": "Link to view a message's edit history"
+  },
   "icu:ProfileEditor--about": {
     "messageformat": "Acerca de",
     "description": "Default text for about field"
@@ -6495,8 +6503,8 @@
     "messageformat": "Engadimos novos emojis, polo que agora podes expresar a túa emoción cunha «Cara tremente» (<emojify>🫨</emojify>) ou reaccionar cunha vaíña (<emojify>🫛</emojify>) cando alguén che pregunte como de unido estás aos teus amigos.",
     "description": "Release notes for v6.22"
   },
-  "icu:WhatsNew__v6.22--2": {
-    "messageformat": "Extra da versión beta: poderás botarlle unha ollada á próxima opción de «editar mensaxes». Esta función sairá dentro duns meses, pero, polo de agora, podes axudarnos a probala nesta versión beta. Grazas pola túa axuda!",
-    "description": "Release notes for v6.22"
+  "icu:WhatsNew__v6.23--1": {
+    "messageformat": "Ademais de arranxar pequenos erros, esta versión tamén engade actualizacións da documentación para desenvolvedores (grazas, {d108}!) e algunhas melloras no deseño da interface do reenvío de mensaxes (grazas, {hackerbirds}!).",
+    "description": "Release notes for v6.23"
   }
 }

@@ -2935,6 +2935,10 @@
     "messageformat": "Tandakan teks yang dipilih sebagai bocoran",
     "description": "Description of command to bold text in composer"
   },
+  "icu:Keyboard--open-context-menu": {
+    "messageformat": "Buka menu konteks untuk mesej yang dipilih",
+    "description": "Shown in shortcuts guide"
+  },
   "icu:FormatMenu--guide--bold": {
     "messageformat": "Bold",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
@@ -5151,6 +5155,10 @@
     "messageformat": "Hilang dalam",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
+  "icu:MessageDetail__view-edits": {
+    "messageformat": "Lihat sejarah edit",
+    "description": "Link to view a message's edit history"
+  },
   "icu:ProfileEditor--about": {
     "messageformat": "Perihal",
     "description": "Default text for about field"
@@ -6495,8 +6503,8 @@
     "messageformat": "Kami menambah sokongan untuk watak emoji terkini, jadi kini anda boleh meluahkan keterujaan anda dengan &quot;Wajah Bergegar&quot; (<emojify>🫨</emojify>) atau bertindak balas dengan &quot;Pea Pod&quot; (<emojify>🫛</emojify>) apabila seseorang bertanya serapat mana anda dengan rakan-rakan anda.",
     "description": "Release notes for v6.22"
   },
-  "icu:WhatsNew__v6.22--2": {
-    "messageformat": "Bonus beta: Dapatkan maklumat awal tentang fungsi \"edit mesej\" baharu yang akan datang. Ciri ini akan mula dilancarkan dalam beberapa bulan, tetapi anda boleh membantu kami mengujinya terlebih dahulu semasa tempoh beta ini. Terima kasih atas bantuan anda!",
-    "description": "Release notes for v6.22"
+  "icu:WhatsNew__v6.23--1": {
+    "messageformat": "Sebagai tambahan kepada pelbagai pembetulan pepijat kecil, keluaran ini turut menggabungkan kemas kini dokumentasi pembangun (terima kasih, {d108}!) dan beberapa penambahbaikan reka bentuk pada antara muka pemajuan mesej (terima kasih, {hackerbirds}!).",
+    "description": "Release notes for v6.23"
   }
 }

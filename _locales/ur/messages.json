@@ -2935,6 +2935,10 @@
     "messageformat": "منتخب کردہ ٹیکسٹ کو اسپائلر کے طور پر نشان زد کریں",
     "description": "Description of command to bold text in composer"
   },
+  "icu:Keyboard--open-context-menu": {
+    "messageformat": "منتخب کردہ میسج کے لیے سیاق و سباق کا مینیو کھولیں",
+    "description": "Shown in shortcuts guide"
+  },
   "icu:FormatMenu--guide--bold": {
     "messageformat": "بولڈ کریں",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
@@ -5151,6 +5155,10 @@
     "messageformat": "اتنی دیر میں غائب ہوتا ہے",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
+  "icu:MessageDetail__view-edits": {
+    "messageformat": "ترمیم کی ہسٹری دیکھیں",
+    "description": "Link to view a message's edit history"
+  },
   "icu:ProfileEditor--about": {
     "messageformat": "متعلق",
     "description": "Default text for about field"
@@ -6495,8 +6503,8 @@
     "messageformat": "ہم نے تازہ ترین ایموجی کرداروں کے لیے سپورٹ کو شامل کیا ہے، لہٰذا اب آپ &quot;شیکنگ فیس&quot; (<emojify>🫨</emojify>) کے ساتھ اپنے جوش و خروش کا اظہار کر سکتے ہیں یا جب کوئی آپ سے پوچھے کہ آپ اپنے دوستوں کے کتنے قریب ہیں تو آپ &quot;پی پوڈ&quot; (<emojify>🫛</emojify>) کے ساتھ ری ایکٹ کر سکتے ہیں۔",
     "description": "Release notes for v6.22"
   },
-  "icu:WhatsNew__v6.22--2": {
-    "messageformat": "بی ٹا بونس: کسی اور سے پہلے عنقریب آنے والی نئی خصوصیت \"میسج میں ترمیم کریں\" دریافت کریں۔ یہ فیچر چند ماہ تک دستیاب ہو جائے گا، تاہم آپ اس بی ٹا مدت کے دوران پہلے سے ہی اس کی جانچ کرنے میں ہماری مدد کر سکتے ہیں۔ آپ کی مدد کے لیے شکریہ!",
-    "description": "Release notes for v6.22"
+  "icu:WhatsNew__v6.23--1": {
+    "messageformat": "نقص کی درستگیوں کی معمولی ترتیب کے علاوہ، اس ریلیز میں ڈویلپر ڈاکومینٹینشن اپ ڈیٹس (شکریہ، {d108}!) اور میسج فارورڈنگ انٹرفیس میں ڈیزائن کی کچھ بہتریاں (شکریہ، {hackerbirds}!) بھی شامل ہیں۔",
+    "description": "Release notes for v6.23"
   }
 }

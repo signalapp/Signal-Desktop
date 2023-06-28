@@ -2935,6 +2935,10 @@
     "messageformat": "Marcar text seleccionat com a spoiler",
     "description": "Description of command to bold text in composer"
   },
+  "icu:Keyboard--open-context-menu": {
+    "messageformat": "Obrir el menú contextual per al missatge seleccionat",
+    "description": "Shown in shortcuts guide"
+  },
   "icu:FormatMenu--guide--bold": {
     "messageformat": "Negreta",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
@@ -5151,6 +5155,10 @@
     "messageformat": "Desapareix en",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
+  "icu:MessageDetail__view-edits": {
+    "messageformat": "Veure l'historial d'edicions",
+    "description": "Link to view a message's edit history"
+  },
   "icu:ProfileEditor--about": {
     "messageformat": "Quant a",
     "description": "Default text for about field"
@@ -6495,8 +6503,8 @@
     "messageformat": "Els últims emojis del moment ja són compatibles amb Signal, així que ara ja pots expressar el teu entusiasme amb una &quot;cara de velocitat&quot; (<emojify>🫨</emojify>), o reaccionar amb una &quot;beina de pèsols&quot; (<emojify>🫨</emojify>) quan algú et pregunti què tens pensat per sopar.",
     "description": "Release notes for v6.22"
   },
-  "icu:WhatsNew__v6.22--2": {
-    "messageformat": "Bonus de la versió beta: sigues de les primeres persones a provar la nova funcionalitat \"editar missatge\". Aquesta funció començarà a implementar-se dintre d'uns mesos, però pots ajudar-nos a provar-la amb antelació durant aquest període beta. Gràcies per donar-nos un cop de mà!",
-    "description": "Release notes for v6.22"
+  "icu:WhatsNew__v6.23--1": {
+    "messageformat": "A més d'haver corregit diversos errors, aquesta versió també incorpora actualitzacions de la documentació per a desenvolupadors (gràcies, {d108}!) i algunes millores de disseny a la interfície de reenviament de missatges (gràcies, {hackerbirds}!).",
+    "description": "Release notes for v6.23"
   }
 }

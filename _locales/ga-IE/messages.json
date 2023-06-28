@@ -2935,6 +2935,10 @@
     "messageformat": "Marcáil an téacs roghnaithe mar bhacóir",
     "description": "Description of command to bold text in composer"
   },
+  "icu:Keyboard--open-context-menu": {
+    "messageformat": "Oscail roghchlár comhthéacs don teachtaireacht roghnaithe",
+    "description": "Shown in shortcuts guide"
+  },
   "icu:FormatMenu--guide--bold": {
     "messageformat": "Trom",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
@@ -5151,6 +5155,10 @@
     "messageformat": "Imíonn as radharc i gceann",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
+  "icu:MessageDetail__view-edits": {
+    "messageformat": "Féach ar an stair eagarthóireachta",
+    "description": "Link to view a message's edit history"
+  },
   "icu:ProfileEditor--about": {
     "messageformat": "Maidir leis",
     "description": "Default text for about field"
@@ -6495,8 +6503,8 @@
     "messageformat": "Chuireamar tacaíocht do na carachtair is déanaí emoji, ionas gur féidir leat do sceitimíní a chur in iúl le &quot;Shaking Face&quot; (<emojify>🫨</emojify>) nó freagairt le &quot;Pod Pea&quot; (<emojify>🫛</emojify>) nuair a fhiafraíonn duine díot cé chomh mór agus atá tú le do chairde.",
     "description": "Release notes for v6.22"
   },
-  "icu:WhatsNew__v6.22--2": {
-    "messageformat": "Bónas béite: Faigh réamhspléachadh ar an bhfeidhmíocht úrnua “cuir tcht in eagar” atá ar na bacáin. Rollfar an ghné seo amach i gcionn cúpla mí, ach is féidir leat cabhrú linn lena réamhthástáil le linn na tréimhse béite seo. Go raibh maith agat as do chabhair!",
-    "description": "Release notes for v6.22"
+  "icu:WhatsNew__v6.23--1": {
+    "messageformat": "Chomh maith le líon beag réiteach ar fhabhtanna, cuimsítear san eisiúint seo nuashonruithe ar doiciméadú forbróra (buíochas, a {d108}!) agus roinnt feabhsuithe ar dhearadh an chomhéadain seolta teachtaireachtaí (buíochas, a {hackerbirds}!).",
+    "description": "Release notes for v6.23"
   }
 }

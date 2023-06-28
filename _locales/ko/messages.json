@@ -2935,6 +2935,10 @@
     "messageformat": "선택한 텍스트에 스포일러 적용",
     "description": "Description of command to bold text in composer"
   },
+  "icu:Keyboard--open-context-menu": {
+    "messageformat": "선택한 메시지의 바로 가기 메뉴 열기",
+    "description": "Shown in shortcuts guide"
+  },
   "icu:FormatMenu--guide--bold": {
     "messageformat": "두껍게",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
@@ -5151,6 +5155,10 @@
     "messageformat": "사라지기까지 남은 시간",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
+  "icu:MessageDetail__view-edits": {
+    "messageformat": "수정 기록 보기",
+    "description": "Link to view a message's edit history"
+  },
   "icu:ProfileEditor--about": {
     "messageformat": "정보",
     "description": "Default text for about field"
@@ -6495,8 +6503,8 @@
     "messageformat": "최신 이모지 캐릭터에 대한 지원을 추가했습니다. 이제 '떨리는 얼굴'(<emojify>🫨</emojify>)로 떨림을 표현하고, '콩깍지'(<emojify>🫛</emojify>)로 연인에 대한 흔들림 없는 사랑을 표현해 보세요.",
     "description": "Release notes for v6.22"
   },
-  "icu:WhatsNew__v6.22--2": {
-    "messageformat": "베타 보너스: 새로 나오는 '메시지 수정' 기능을 미리 사용해 보세요. 이 기능은 몇 달 후 출시될 예정이나, 이 베타 기간 동안 테스트에 참여할 수 있습니다. 도와주셔서 감사합니다!",
-    "description": "Release notes for v6.22"
+  "icu:WhatsNew__v6.23--1": {
+    "messageformat": "다양한 버그 수정 외에도 이번 릴리스에는 개발자 문서 업데이트(고마워요, {d108} 님!)와 메시지 전달 인터페이스 디자인 개선 사항(고마워요, {hackerbirds} 님!)도 포함되어 있습니다.",
+    "description": "Release notes for v6.23"
   }
 }

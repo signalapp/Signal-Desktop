@@ -125,7 +125,7 @@
     "description": "The label that is used for the Create/upload sticker pack option in the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
   },
   "icu:mainMenuEdit": {
-    "messageformat": "B&ewerken",
+    "messageformat": "Bewerken",
     "description": "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
   },
   "icu:mainMenuView": {
@@ -2231,7 +2231,7 @@
     "description": "Shown in the modal when we can't create a group"
   },
   "icu:updateGroupAttributes__title": {
-    "messageformat": "Groep aanpassen",
+    "messageformat": "Groep bewerken",
     "description": "Shown in the modal when we want to update a group"
   },
   "icu:updateGroupAttributes__error-message": {
@@ -2934,6 +2934,10 @@
   "icu:Keyboard--composer--spoiler": {
     "messageformat": "Maak geselecteerde tekst een spoiler",
     "description": "Description of command to bold text in composer"
+  },
+  "icu:Keyboard--open-context-menu": {
+    "messageformat": "Contextmenu openen voor geselecteerde berichten",
+    "description": "Shown in shortcuts guide"
   },
   "icu:FormatMenu--guide--bold": {
     "messageformat": "Vet",
@@ -5151,6 +5155,10 @@
     "messageformat": "Verdwijnt over",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
+  "icu:MessageDetail__view-edits": {
+    "messageformat": "Bekijk bewerkingsgeschiedenis",
+    "description": "Link to view a message's edit history"
+  },
   "icu:ProfileEditor--about": {
     "messageformat": "Over mij",
     "description": "Default text for about field"
@@ -6436,7 +6444,7 @@
     "description": "label for an edited message"
   },
   "icu:EditHistoryMessagesModal__title": {
-    "messageformat": "Bewerkgeschiedenis",
+    "messageformat": "Bewerkingsgeschiedenis",
     "description": "Modal title for the edit history messages modal"
   },
   "icu:ResendMessageEdit__body": {
@@ -6495,8 +6503,8 @@
     "messageformat": "Je kunt nu ook reageren met de allernieuwste emoji's.",
     "description": "Release notes for v6.22"
   },
-  "icu:WhatsNew__v6.22--2": {
-    "messageformat": "Bètabonus: je krijgt een voorproefje van de aankomende, nieuwe functionaliteit voor het bewerken van berichten. Deze functie wordt over een paar maanden uitgerold en je kunt ons helpen deze tijdens deze bètaperiode te testen. Bedankt voor je hulp!",
-    "description": "Release notes for v6.22"
+  "icu:WhatsNew__v6.23--1": {
+    "messageformat": "Naast een paar bugfixes bevat deze release ook updates op basis van ontwikkelaarsdocumentatie (bedankt, {d108}!) en enkele verbeteringen van het ontwerp van de interface voor het doorsturen van berichten (bedankt, {hackerbirds}!).",
+    "description": "Release notes for v6.23"
   }
 }

@@ -2935,6 +2935,10 @@
     "messageformat": "Marchează textul selectat ca spoiler",
     "description": "Description of command to bold text in composer"
   },
+  "icu:Keyboard--open-context-menu": {
+    "messageformat": "Dechide meniul context pentru mesajul selectat",
+    "description": "Shown in shortcuts guide"
+  },
   "icu:FormatMenu--guide--bold": {
     "messageformat": "Aldin",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
@@ -5151,6 +5155,10 @@
     "messageformat": "Dispare în",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
+  "icu:MessageDetail__view-edits": {
+    "messageformat": "Vezi istoricul editărilor",
+    "description": "Link to view a message's edit history"
+  },
   "icu:ProfileEditor--about": {
     "messageformat": "Despre",
     "description": "Default text for about field"
@@ -6495,8 +6503,8 @@
     "messageformat": "Am adăugat suport pentru cele mai recente caractere emoji, așa că acum îți poți exprima entuziasmul cu „Shaking Face” (<emojify>🫨</emojify>) sau să reacționezi cu o „Păstaie de mazăre” (<emojify>🫛</emojify>) când cineva te întreabă cât de aproape ești de prietenii tăi.",
     "description": "Release notes for v6.22"
   },
-  "icu:WhatsNew__v6.22--2": {
-    "messageformat": "Bonus beta: obține o imagine precoce la noua funcționalitate „editează mesajul”. Această funcție va începe să fie lansată în câteva luni, dar ne poți ajuta să o testăm în avans în această perioadă beta. Îți mulțumim pentru ajutor!",
-    "description": "Release notes for v6.22"
+  "icu:WhatsNew__v6.23--1": {
+    "messageformat": "În plus pe lângă o suită de soluționări de bug-uri, această lansare include și actualizări privind documentele dezvoltatorilor (mersi, {d108}!) și niște îmbunătățiri de design la interfața de redirecționare a mesajelor (mersi, {hackerbirds}!).",
+    "description": "Release notes for v6.23"
   }
 }

@@ -2935,6 +2935,10 @@
     "messageformat": "Ausgewählten Text als Spoiler markieren",
     "description": "Description of command to bold text in composer"
   },
+  "icu:Keyboard--open-context-menu": {
+    "messageformat": "Kontextmenü für ausgewählte Nachricht öffnen",
+    "description": "Shown in shortcuts guide"
+  },
   "icu:FormatMenu--guide--bold": {
     "messageformat": "Fett",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
@@ -5151,6 +5155,10 @@
     "messageformat": "Verschwindet in",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
+  "icu:MessageDetail__view-edits": {
+    "messageformat": "Bearbeitungsverlauf anzeigen",
+    "description": "Link to view a message's edit history"
+  },
   "icu:ProfileEditor--about": {
     "messageformat": "Info",
     "description": "Default text for about field"
@@ -6495,8 +6503,8 @@
     "messageformat": "Wir haben Support für die neuesten Emoji-Charaktere hinzugefügt. So kannst du deine Aufregung jetzt mit einem „Shaking Face“ (<emojify>🫨</emojify>) zum Ausdruck bringen oder mit einer „Pea Pod“ (<emojify>🫛</emojify>) reagieren, wenn dich jemand fragt, wie eng du mit jemandem befreundet bist (im Englischen ist von zwei praktisch identischen Erbsen die Rede, wenn zwei Personen ewig lange und eng befreundet sind!).",
     "description": "Release notes for v6.22"
   },
-  "icu:WhatsNew__v6.22--2": {
-    "messageformat": "Beta-Bonus: Du gehörst zu den Ersten, die einen Blick auf die kommende neue Funktion „Nachricht bearbeiten“ werfen können. Diese Funktion wird in ein paar Monaten eingeführt, aber du kannst sie während dieser Beta-Phase schon vorab testen. Danke für deine Hilfe!",
-    "description": "Release notes for v6.22"
+  "icu:WhatsNew__v6.23--1": {
+    "messageformat": "Neben einer kleinen Auswahl an Fehlerbehebungen enthält diese Version auch Aktualisierungen der Entwickler-Dokumentation (danke, {d108}!) und einige Design-Verbesserungen an der Schnittstelle zur Nachrichten-Weiterleitung (danke, {hackerbirds}!).",
+    "description": "Release notes for v6.23"
   }
 }

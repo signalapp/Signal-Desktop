@@ -2935,6 +2935,10 @@
     "messageformat": "ដាក់សម្គាល់អត្ថបទដែលបានជ្រើសរើសជាអក្សរព្រាល/ច្បាស់",
     "description": "Description of command to bold text in composer"
   },
+  "icu:Keyboard--open-context-menu": {
+    "messageformat": "បើកម៉ឺនុយបរិបទសម្រាប់សារដែលបានជ្រើសរើស",
+    "description": "Shown in shortcuts guide"
+  },
   "icu:FormatMenu--guide--bold": {
     "messageformat": "ដិត",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
@@ -5151,6 +5155,10 @@
     "messageformat": "បាត់ក្នុងរយៈពេល",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
+  "icu:MessageDetail__view-edits": {
+    "messageformat": "មើលប្រវត្តិកែ",
+    "description": "Link to view a message's edit history"
+  },
   "icu:ProfileEditor--about": {
     "messageformat": "អំពី",
     "description": "Default text for about field"
@@ -6495,8 +6503,8 @@
     "messageformat": "យើងបានបន្ថែមជំនួយសម្រាប់តួអង្គរូបអារម្មណ៍ចុងក្រោយបំផុត ដូច្នេះឥឡូវអ្នកអាចបង្ហាញពីក្តីរំភើបរបស់អ្នកបានដោយប្រើរូប &quot;មុខរង្គើ&quot; (<emojify>🫨</emojify>) ឬប្រតិកម្មដោយប្រើរូប &quot;សណ្តែកកួរ&quot; (<emojify>🫛</emojify>) នៅពេលនរណាម្នាក់សួរអ្នកថាតើអ្នកជិតស្និទ្ធនឹងមិត្តភក្តិរបស់អ្នកកម្រិតណា។",
     "description": "Release notes for v6.22"
   },
-  "icu:WhatsNew__v6.22--2": {
-    "messageformat": "រង្វាន់សម្រាប់ការសាកល្បង៖ អាចមើលឃើញមុនគេនូវមុខងារថ្មី \"កែសារ\" ដែលនឹងមាននាពេលខាងមុខ។ មុខងារនេះនឹងចាប់ផ្តើមដាក់ឱ្យប្រើប្រាស់ក្នុងរយៈពេលពីរបីខែទៀត ប៉ុន្តែអ្នកអាចជួយយើងធ្វើតេស្តវាជាមុនបានក្នុងអំឡុងពេលសាកល្បងនេះ។ សូមអរគុណដែលអ្នកបានជួយលើរឿងនេះ!",
-    "description": "Release notes for v6.22"
+  "icu:WhatsNew__v6.23--1": {
+    "messageformat": "ក្រៅពីការកែបញ្ហាមួយចំនួនតូច ការចេញផ្សាយនេះក៏រួមបញ្ចូលផងដែរនូវការធ្វើបច្ចុប្បន្នភាពឯកសាររបស់អ្នកអភិវឌ្ឍន៍ (អរគុណ {d108}!) និងការកែលម្អទៅលើការរចនាមួយចំនួនចំពោះអ៊ីនធើហ្វេសបញ្ជូនសារបន្ត (អរគុណ {hackerbirds}!)។",
+    "description": "Release notes for v6.23"
   }
 }

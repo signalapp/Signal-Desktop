@@ -2935,6 +2935,10 @@
     "messageformat": "Vali teksti stiiliks „spoiler“",
     "description": "Description of command to bold text in composer"
   },
+  "icu:Keyboard--open-context-menu": {
+    "messageformat": "Ava valitud sõnumi kontekstimenüü",
+    "description": "Shown in shortcuts guide"
+  },
   "icu:FormatMenu--guide--bold": {
     "messageformat": "Paks kiri",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
@@ -5151,6 +5155,10 @@
     "messageformat": "Haihtumiseni aega",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
+  "icu:MessageDetail__view-edits": {
+    "messageformat": "Vaata muutmiste ajalugu",
+    "description": "Link to view a message's edit history"
+  },
   "icu:ProfileEditor--about": {
     "messageformat": "Teave",
     "description": "Default text for about field"
@@ -6495,8 +6503,8 @@
     "messageformat": "Lisasime toe uusimatele <em>emoji</em>dele, et saaksid väljendada kõikvõimalikke emotsioone.",
     "description": "Release notes for v6.22"
   },
-  "icu:WhatsNew__v6.22--2": {
-    "messageformat": "Beeta boonus: proovi esimeste seas uut sõnumite muutmise funktsiooni. See funktsioon läheb käiku mõne kuu pärast, kuid sa saad meil aidata seda juba beetaperioodil testida. Täname abi eest!",
-    "description": "Release notes for v6.22"
+  "icu:WhatsNew__v6.23--1": {
+    "messageformat": "Lisaks mõnedele veaparandustele sisaldab see väljalase ka arendaja dokumentatsiooni uuendusi (aitäh, {d108}!) ning mõnesid parendusi sõnumi edastamise liidese disainis (aitäh, {hackerbirds}!).",
+    "description": "Release notes for v6.23"
   }
 }

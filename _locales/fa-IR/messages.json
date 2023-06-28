@@ -2935,6 +2935,10 @@
     "messageformat": "پنهان‌نوشته کردن متن انتخاب‌شده",
     "description": "Description of command to bold text in composer"
   },
+  "icu:Keyboard--open-context-menu": {
+    "messageformat": "باز کردن منوی زمینه برای پیام انتخابی",
+    "description": "Shown in shortcuts guide"
+  },
   "icu:FormatMenu--guide--bold": {
     "messageformat": "برجسته",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
@@ -5151,6 +5155,10 @@
     "messageformat": "ناپدید می‌شود ظرف",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
+  "icu:MessageDetail__view-edits": {
+    "messageformat": "مشاهده تاریخچه ویرایش",
+    "description": "Link to view a message's edit history"
+  },
   "icu:ProfileEditor--about": {
     "messageformat": "درباره",
     "description": "Default text for about field"
@@ -6495,8 +6503,8 @@
     "messageformat": "سیگنال اکنون از جدیدترین نویسه‌های ایموجی هم پشتیبانی می‌کند، تا بتوانید اشتیاق خود را با «صورتک لرزان» (<emojify>🫨</emojify>) ابراز کنید یا وقتی کسی از شما می‌پرسد تا چه اندازه با دوستانتان صمیمی هستید، با «دو نخود در یک غلاف» (<emojify>🫛</emojify>) واکنش نشان دهید.",
     "description": "Release notes for v6.22"
   },
-  "icu:WhatsNew__v6.22--2": {
-    "messageformat": "مزایای بتا: پیش از موعد با قابلیت جدید «ویرایش پیام» که به‌زودی ارائه می‌شود، آشنا شوید. این قابلیت ظرف چند ماه آتی ارائه خواهد شد، اما در این دوره بتا می‌توانید به ما کمک کنید که آن را پیشاپیش آزمایش کنیم. از کمک شما سپاسگزاریم!",
-    "description": "Release notes for v6.22"
+  "icu:WhatsNew__v6.23--1": {
+    "messageformat": "علاوه بر رفع چند اشکال، این نسخه به‌روزرسانی‌های اسناد توسعه‌دهنده (با تشکر از {d108}!) و چند بهبود در طراحی درگاه بازارسال پیام نیز دارد (با تشکر از {hackerbirds}!).",
+    "description": "Release notes for v6.23"
   }
 }

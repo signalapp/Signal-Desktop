@@ -2935,6 +2935,10 @@
     "messageformat": "Marcar texto seleccionado como spoiler",
     "description": "Description of command to bold text in composer"
   },
+  "icu:Keyboard--open-context-menu": {
+    "messageformat": "Abrir menú contextual para el mensaje seleccionado",
+    "description": "Shown in shortcuts guide"
+  },
   "icu:FormatMenu--guide--bold": {
     "messageformat": "Negrita",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
@@ -5151,6 +5155,10 @@
     "messageformat": "Desaparece en",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
+  "icu:MessageDetail__view-edits": {
+    "messageformat": "Ver historial de ediciones",
+    "description": "Link to view a message's edit history"
+  },
   "icu:ProfileEditor--about": {
     "messageformat": "Biografía",
     "description": "Default text for about field"
@@ -6495,8 +6503,8 @@
     "messageformat": "Los últimos emoji del momento ya son compatibles con Signal, por lo que ahora puedes expresar tu entusiasmo con una &quot;cara de velocidad&quot; (<emojify>🫨</emojify>), o reaccionar con una &quot;vaina de guisantes&quot; (<emojify>🫛</emojify>) para sugerir una cena sana.",
     "description": "Release notes for v6.22"
   },
-  "icu:WhatsNew__v6.22--2": {
-    "messageformat": "Bonus de la versión beta: sé de las primeras personas en probar la nueva funcionalidad \"editar mensaje\". Esta función comenzará a implementarse dentro de unos meses, pero puedes ayudarnos a probarla de antemano durante este período beta. ¡Gracias por la ayuda!",
-    "description": "Release notes for v6.22"
+  "icu:WhatsNew__v6.23--1": {
+    "messageformat": "Además de haber corregido varios errores, esta versión también incorpora actualizaciones de la documentación para desarrolladores (¡gracias, {d108}!) y algunas mejoras de diseño en la interfaz de reenvío de mensajes (¡gracias, {hackerbirds}!).",
+    "description": "Release notes for v6.23"
   }
 }

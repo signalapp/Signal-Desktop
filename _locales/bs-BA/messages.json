@@ -2935,6 +2935,10 @@
     "messageformat": "Označi odabrani tekst kao spojler",
     "description": "Description of command to bold text in composer"
   },
+  "icu:Keyboard--open-context-menu": {
+    "messageformat": "Otvorite kontekstni meni za odabranu poruku",
+    "description": "Shown in shortcuts guide"
+  },
   "icu:FormatMenu--guide--bold": {
     "messageformat": "Boldirano",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
@@ -5151,6 +5155,10 @@
     "messageformat": "Nestaje za",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
+  "icu:MessageDetail__view-edits": {
+    "messageformat": "Pogledajte historiju uređivanja",
+    "description": "Link to view a message's edit history"
+  },
   "icu:ProfileEditor--about": {
     "messageformat": "O kontaktu",
     "description": "Default text for about field"
@@ -6495,8 +6503,8 @@
     "messageformat": "Dodali smo podršku za najnovije emotikone, tako da sada možete izraziti svoje uzbuđenje pomoću emotikona &quot;Shaking Face&quot; (<emojify>🫨</emojify>) ili reagirati s &quot;Pea Pod&quot; (<emojify>🫛</emojify>) kada vas neko pita koliko ste bliski sa svojim prijateljima.",
     "description": "Release notes for v6.22"
   },
-  "icu:WhatsNew__v6.22--2": {
-    "messageformat": "Beta bonus: Dobijte rani kratki pregled nadolazeće nove funkcije \"uređivanja poruke\". Ova funkcija će početi da se primjenjuje za nekoliko mjeseci, ali možete nam pomoći da je testiramo unapred tokom ovog beta perioda. Hvala Vam za pomoć!",
-    "description": "Release notes for v6.22"
+  "icu:WhatsNew__v6.23--1": {
+    "messageformat": "Pored malog asortimana ispravki grešaka, ovo izdanje također uključuje ažuriranja dokumentacije za programere (hvala, {d108}!) i neka poboljšanja dizajna sučelja za prosljeđivanje poruka (hvala, {hackerbirds}!).",
+    "description": "Release notes for v6.23"
   }
 }

@@ -2935,6 +2935,10 @@
     "messageformat": "Тандалган текст мунарыкталат",
     "description": "Description of command to bold text in composer"
   },
+  "icu:Keyboard--open-context-menu": {
+    "messageformat": "Тандалган билдирүүнүн контексттик менюсун ачыңыз",
+    "description": "Shown in shortcuts guide"
+  },
   "icu:FormatMenu--guide--bold": {
     "messageformat": "Жоон",
     "description": "Shown when you hover over the bold button in the popup formatting menu"
@@ -5151,6 +5155,10 @@
     "messageformat": "Канчадан кийин жоголуп кетет",
     "description": "In the message details screen, shown as a label of how long it will be before the message disappears"
   },
+  "icu:MessageDetail__view-edits": {
+    "messageformat": "Оңдолгондорду көрүү",
+    "description": "Link to view a message's edit history"
+  },
   "icu:ProfileEditor--about": {
     "messageformat": "Учкай маалымат",
     "description": "Default text for about field"
@@ -6495,8 +6503,8 @@
     "messageformat": "Эң соңку быйтыкчалар каармандары колдоого алына баштады, эми кубанганыңызды &quot;Толкунданган жүз&quot; (<emojify>🫨</emojify>) же досторуңуз менен жакындыгыңызды &quot;Эки буурчак&quot; (<emojify>🫛</emojify>) быйтыкчасы менен билдире аласыз.",
     "description": "Release notes for v6.22"
   },
-  "icu:WhatsNew__v6.22--2": {
-    "messageformat": "Бета версиянын бонусу: Алдыдагы жаңы \"Билдирүүнү оңдоо\" функциясын биринчилерден болуп пайдаланып көрүңүз. Бул функция бир нече айдан кийин ишке киргизилгени менен, сиз бизге жардам берип, аны азыр сынап көрсөңүз болот. Чоң рахмат!",
-    "description": "Release notes for v6.22"
+  "icu:WhatsNew__v6.23--1": {
+    "messageformat": "Майда мүчүлүштүктөр оңдолгондон тышкары, бул версияда иштеп чыгуучулардын иштери документтештирилип ({d108} терең ыраазычылык!), билдирүүлөрдү башка дарекке багыттоо интерфейси өркүндөтүлдү ({hackerbirds} терең ыраазычылык!).",
+    "description": "Release notes for v6.23"
   }
 }
