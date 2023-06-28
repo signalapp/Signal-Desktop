@@ -17,7 +17,7 @@ import {
 } from '../selectors/selectedConversation';
 import { getStagedAttachmentsForCurrentConversation } from '../selectors/stagedAttachments';
 import { getTheme } from '../selectors/theme';
-import { getOurNumber } from '../selectors/user';
+import { getHTMLDirection, getOurNumber } from '../selectors/user';
 
 const mapStateToProps = (state: StateType) => {
   return {
@@ -33,6 +33,7 @@ const mapStateToProps = (state: StateType) => {
     stagedAttachments: getStagedAttachmentsForCurrentConversation(state),
     hasOngoingCallWithFocusedConvo: getHasOngoingCallWithFocusedConvo(state),
     isSelectedConvoInitialLoadingInProgress: getIsSelectedConvoInitialLoadingInProgress(state),
+    htmlDirection: getHTMLDirection(state),
   };
 };
 

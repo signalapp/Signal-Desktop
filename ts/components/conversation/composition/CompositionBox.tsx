@@ -57,7 +57,7 @@ import {
   getSelectedConversationKey,
 } from '../../../state/selectors/selectedConversation';
 import { SettingsKey } from '../../../data/settings-key';
-import { getHTMLDirection, HTMLDirection } from '../../../util/i18n';
+import { HTMLDirection } from '../../../util/i18n';
 
 export interface ReplyingToMessageProps {
   convoId: string;
@@ -105,6 +105,7 @@ interface Props {
   quotedMessageProps?: ReplyingToMessageProps;
   stagedAttachments: Array<StagedAttachmentType>;
   onChoseAttachments: (newAttachments: Array<File>) => void;
+  htmlDirection: HTMLDirection;
 }
 
 interface State {
@@ -114,7 +115,6 @@ interface State {
   ignoredLink?: string; // set the ignored url when users closed the link preview
   stagedLinkPreview?: StagedLinkPreviewData;
   showCaptionEditor?: AttachmentType;
-  htmlDirection?: HTMLDirection;
 }
 
 const sendMessageStyle = (dir?: HTMLDirection) => {
@@ -149,7 +149,6 @@ const getDefaultState = (newConvoId?: string) => {
     ignoredLink: undefined,
     stagedLinkPreview: undefined,
     showCaptionEditor: undefined,
-    htmlDirection: getHTMLDirection(),
   };
 };
 
@@ -418,7 +417,7 @@ class CompositionBoxInner extends React.Component<Props, State> {
 
     return (
       <Flex
-        dir={this.state.htmlDirection}
+        dir={this.props.htmlDirection}
         container={true}
         flexDirection={'row'}
         alignItems={'center'}
@@ -439,7 +438,7 @@ class CompositionBoxInner extends React.Component<Props, State> {
 
         <StyledSendMessageInput
           role="main"
-          dir={this.state.htmlDirection}
+          dir={this.props.htmlDirection}
           onClick={this.focusCompositionBox} // used to focus on the textarea when clicking in its container
           ref={el => {
             this.container = el;
@@ -455,7 +454,7 @@ class CompositionBoxInner extends React.Component<Props, State> {
         <SendMessageButton onClick={this.onSendMessage} />
 
         {typingEnabled && showEmojiPanel && (
-          <StyledEmojiPanelContainer role="button" dir={this.state.htmlDirection}>
+          <StyledEmojiPanelContainer role="button" dir={this.props.htmlDirection}>
             <SessionEmojiPanel
               ref={this.emojiPanel}
               show={showEmojiPanel}
@@ -470,7 +469,8 @@ class CompositionBoxInner extends React.Component<Props, State> {
 
   private renderTextArea() {
     const { i18n } = window;
-    const { draft, htmlDirection } = this.state;
+    const { draft } = this.state;
+    const { htmlDirection } = this.props;
 
     if (!this.props.selectedConversation) {
       return null;

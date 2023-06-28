@@ -57,6 +57,7 @@ import { MessageDetail } from './message/message-item/MessageDetail';
 
 import styled from 'styled-components';
 import { SessionSpinner } from '../basic/SessionSpinner';
+import { HTMLDirection } from '../../util/i18n';
 // tslint:disable: jsx-curly-spacing
 
 interface State {
@@ -76,6 +77,7 @@ interface Props {
   showMessageDetails: boolean;
   isRightPanelShowing: boolean;
   hasOngoingCallWithFocusedConvo: boolean;
+  htmlDirection: HTMLDirection;
 
   // lightbox options
   lightBoxOptions?: LightBoxOptions;
@@ -290,6 +292,7 @@ export class SessionConversation extends React.Component<Props, State> {
                 sendMessage={this.sendMessageFn}
                 stagedAttachments={this.props.stagedAttachments}
                 onChoseAttachments={this.onChoseAttachments}
+                htmlDirection={this.props.htmlDirection}
               />
             </div>
             <div

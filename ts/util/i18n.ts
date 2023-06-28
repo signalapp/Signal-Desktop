@@ -73,7 +73,3 @@ export function isRtlBody(): boolean {
 
   return body?.classList.contains('rtl') || false;
 }
-
-export function getHTMLDirection(): HTMLDirection {
-  return isRtlBody() ? 'rtl' : 'ltr';
-}
