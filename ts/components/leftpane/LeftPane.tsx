@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { SectionType } from '../../state/ducks/section';
 import { getLeftPaneConversationIds } from '../../state/selectors/conversations';
-import { getSearchResultsIdsOnly, isSearching } from '../../state/selectors/search';
+import { getHasSearchResults } from '../../state/selectors/search';
 import { getFocusedSection, getOverlayMode } from '../../state/selectors/section';
 import { SessionTheme } from '../../themes/SessionTheme';
 import { SessionToastContainer } from '../SessionToastContainer';
@@ -22,18 +22,14 @@ const StyledLeftPane = styled.div`
 `;
 
 const InnerLeftPaneMessageSection = () => {
-  const showSearch = useSelector(isSearching);
-
-  const searchResults = useSelector(getSearchResultsIdsOnly);
-
+  const hasSearchResults = useSelector(getHasSearchResults);
   const conversationIds = useSelector(getLeftPaneConversationIds);
   const overlayMode = useSelector(getOverlayMode);
 
   return (
-    // tslint:disable-next-line: use-simple-attributes
     <LeftPaneMessageSection
-      conversationIds={showSearch ? undefined : conversationIds || []}
-      searchResults={showSearch ? searchResults : undefined}
+      hasSearchResults={hasSearchResults}
+      conversationIds={conversationIds}
       overlayMode={overlayMode}
     />
   );
