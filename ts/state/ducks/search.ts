@@ -82,17 +82,7 @@ async function doSearch(query: string): Promise<SearchResultsPayloadType> {
   const { conversations, contacts } = discussions;
   const contactsAndGroups = _.uniq([...conversations, ...contacts]);
   const filteredMessages = _.compact(messages);
-  // if (isAdvancedQuery) {
-  //   const senderFilterQuery =
-  //     advancedSearchOptions.from && advancedSearchOptions.from.length > 0
-  //       ? await queryConversationsAndContacts(advancedSearchOptions.from, options)
-  //       : undefined;
-  //   filteredMessages = advancedFilterMessages(
-  //     filteredMessages,
-  //     advancedSearchOptions,
-  //     senderFilterQuery?.contacts || []
-  //   );
-  // }
+
   return {
     query,
     normalizedPhoneNumber: PubKey.normalize(query),

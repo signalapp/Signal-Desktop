@@ -329,7 +329,7 @@ async function handleContactsUpdate(result: IncomingConfResult): Promise<Incomin
         await contactConvo.setDidApproveMe(Boolean(wrapperConvo.approvedMe), false);
         changes = true;
       }
-
+      // FIXME Will unsure
       if (wrapperConvo.expirationTimerSeconds !== contactConvo.get('expireTimer')) {
         await contactConvo.updateExpireTimer({
           providedExpireTimer: wrapperConvo.expirationTimerSeconds,
@@ -565,6 +565,7 @@ async function handleLegacyGroupUpdate(latestEnvelopeTimestamp: number) {
       changes = true;
     }
 
+    // FIXME Will unsure
     if (legacyGroupConvo.get('expireTimer') !== fromWrapper.disappearingTimerSeconds) {
       await legacyGroupConvo.updateExpireTimer({
         providedExpireTimer: fromWrapper.disappearingTimerSeconds,
@@ -577,6 +578,7 @@ async function handleLegacyGroupUpdate(latestEnvelopeTimestamp: number) {
       });
       changes = true;
     }
+
     // start polling for this group if we haven't left it yet. The wrapper does not store this info for legacy group so we check from the DB entry instead
     if (!legacyGroupConvo.get('isKickedFromGroup') && !legacyGroupConvo.get('left')) {
       getSwarmPollingInstance().addGroupId(PubKey.cast(fromWrapper.pubkeyHex));

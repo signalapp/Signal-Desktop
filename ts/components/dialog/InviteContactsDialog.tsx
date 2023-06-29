@@ -23,13 +23,13 @@ type Props = {
   conversationId: string;
 };
 
-function submitForOpenGroup(convoId: string, pubkeys: Array<string>) {
+async function submitForOpenGroup(convoId: string, pubkeys: Array<string>) {
   const convo = getConversationController().get(convoId);
   if (!convo || !convo.isPublic()) {
     throw new Error('submitForOpenGroup group not found');
   }
   try {
-    const roomDetails = SessionUtilUserGroups.getCommunityByConvoIdCached(convo.id);
+    const roomDetails = await SessionUtilUserGroups.getCommunityByConvoIdNotCached(convo.id);
     if (!roomDetails) {
       throw new Error(`getCommunityByFullUrl returned no result for ${convo.id}`);
     }
@@ -133,7 +133,7 @@ const InviteContactsDialogInner = (props: Props) => {
   const onClickOK = () => {
     if (selectedContacts.length > 0) {
       if (isPublicConvo) {
-        submitForOpenGroup(conversationId, selectedContacts);
+        void submitForOpenGroup(conversationId, selectedContacts);
       } else {
         void submitForClosedGroup(conversationId, selectedContacts);
       }

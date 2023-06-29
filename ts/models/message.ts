@@ -79,6 +79,7 @@ import {
   PropsForGroupUpdateLeft,
   PropsForGroupUpdateName,
   PropsForMessageWithoutConvoProps,
+  ReduxQuoteType,
 } from '../state/ducks/conversations';
 import { AttachmentTypeWithPath, isVoiceMessage } from '../types/Attachment';
 import { getAttachmentMetadata } from '../types/message/initializeAttachmentMetadata';
@@ -660,15 +661,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     }
 
     const firstAttachment = quote.attachments && quote.attachments[0];
-    const quoteProps: {
-      referencedMessageNotFound?: boolean;
-      sender: string;
-      messageId: string;
-      authorName: string;
-      text?: string;
-      attachment?: any;
-      isFromMe?: boolean;
-    } = {
+    const quoteProps: ReduxQuoteType = {
       sender: author,
       messageId: id,
       authorName: authorName || 'Unknown',

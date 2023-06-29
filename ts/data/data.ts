@@ -497,27 +497,52 @@ async function getSeenMessagesByHashList(hashes: Array<string>): Promise<any> {
 }
 
 async function removeAllMessagesInConversation(conversationId: string): Promise<void> {
+  const startFunction = Date.now();
+  let start = Date.now();
+
   let messages;
   do {
     // Yes, we really want the await in the loop. We're deleting 500 at a
     //   time so we don't use too much memory.
     // eslint-disable-next-line no-await-in-loop
-    messages = await getLastMessagesByConversation(conversationId, 500, false);
+    messages = await getLastMessagesByConversation(conversationId, 1000, false);
     if (!messages.length) {
       return;
     }
-
-    const ids = messages.map(message => message.id);
+    window.log.info(
+      `removeAllMessagesInConversation getLastMessagesByConversation ${conversationId} ${
+        messages.length
+      } took ${Date.now() - start}ms`
+    );
 
     // Note: It's very important that these models are fully hydrated because
     //   we need to delete all associated on-disk files along with the database delete.
-    // eslint-disable-next-line no-await-in-loop
-
-    await Promise.all(messages.map(message => message.cleanup()));
+    const ids = messages.map(message => message.id);
+    start = Date.now();
+    for (let index = 0; index < messages.length; index++) {
+      const message = messages.at(index);
+      // eslint-disable-next-line no-await-in-loop
+      await message.cleanup();
+    }
+    window.log.info(
+      `removeAllMessagesInConversation messages.cleanup() ${conversationId} took ${Date.now() -
+        start}ms`
+    );
+    start = Date.now();
 
     // eslint-disable-next-line no-await-in-loop
     await channels.removeMessagesByIds(ids);
-  } while (messages.length > 0);
+    window.log.info(
+      `removeAllMessagesInConversation: removeMessagesByIds ${conversationId} took ${Date.now() -
+        start}ms`
+    );
+  } while (messages.length);
+
+  await channels.removeAllMessagesInConversation(conversationId);
+  window.log.info(
+    `removeAllMessagesInConversation: complete time ${conversationId} took ${Date.now() -
+      startFunction}ms`
+  );
 }
 
 async function getMessagesBySentAt(sentAt: number): Promise<MessageCollection> {

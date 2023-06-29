@@ -312,6 +312,7 @@ export class ConversationController {
     const load = async () => {
       try {
         const startLoad = Date.now();
+
         const convoModels = await Data.getAllConversations();
         this.conversations.add(convoModels);
 
@@ -324,18 +325,13 @@ export class ConversationController {
 
             switch (variant) {
               case 'UserConfig':
+              case 'UserGroupsConfig':
                 break;
               case 'ContactsConfig':
                 if (SessionUtilContact.isContactToStoreInWrapper(convo)) {
                   await SessionUtilContact.refreshMappedValue(convo.id, true);
                 }
                 break;
-              case 'UserGroupsConfig':
-                if (SessionUtilUserGroups.isUserGroupToStoreInWrapper(convo)) {
-                  await SessionUtilUserGroups.refreshCachedUserGroup(convo.id, true);
-                }
-                break;
-
               case 'ConvoInfoVolatileConfig':
                 if (SessionUtilConvoInfoVolatile.isConvoToStoreInWrapper(convo)) {
                   await SessionUtilConvoInfoVolatile.refreshConvoVolatileCached(
@@ -432,10 +428,7 @@ export class ConversationController {
       this.conversations.remove(conversation);
 
       window?.inboxStore?.dispatch(
-        conversationActions.conversationChanged({
-          id: convoId,
-          data: conversation.getConversationModelProps(),
-        })
+        conversationActions.conversationsChanged([conversation.getConversationModelProps()])
       );
     }
     window.inboxStore?.dispatch(conversationActions.conversationRemoved(convoId));

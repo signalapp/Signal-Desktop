@@ -11,6 +11,7 @@ import {
   sortBy,
   throttle,
   uniq,
+  xor,
 } from 'lodash';
 import { SignalService } from '../protobuf';
 import { getMessageQueue } from '../session';
@@ -40,7 +41,6 @@ import { toHex } from '../session/utils/String';
 import { createTaskWithTimeout } from '../session/utils/TaskWithTimeout';
 import {
   actions as conversationActions,
-  conversationChanged,
   conversationsChanged,
   markConversationFullyRead,
   MessageModelPropsWithoutConvoProps,
@@ -165,9 +165,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     this.typingRefreshTimer = null;
     this.typingPauseTimer = null;
-    window.inboxStore?.dispatch(
-      conversationChanged({ id: this.id, data: this.getConversationModelProps() })
-    );
+    window.inboxStore?.dispatch(conversationsChanged([this.getConversationModelProps()]));
   }
 
   public idForLogging() {
@@ -268,9 +266,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const ourNumber = UserUtils.getOurPubKeyStrFromCache();
     const avatarPath = this.getAvatarPath();
     const isPrivate = this.isPrivate();
-    // TODO we should maybe make this weAreAdmin and weAreModerator not props in redux but computer selectors
+    // TODO we should maybe make this weAreAdmin not props in redux but computed selectors
     const weAreAdmin = this.isAdmin(ourNumber);
-    const weAreModerator = this.isModerator(ourNumber); // only used for sogs
     const currentNotificationSetting = this.get('triggerNotificationsFor');
     const priorityFromDb = this.get('priority');
 
@@ -312,10 +309,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     if (this.isPublic()) {
       toRet.isPublic = true;
-      // weAreModerator is only used for communtiies and the `weAreAdmin` field is used for communities and closed group
-      if (weAreModerator) {
-        toRet.weAreModerator = true;
-      }
     }
 
     if (avatarPath) {
@@ -413,13 +406,13 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
    * @returns true if the groupAdmins where not the same (and thus updated)
    */
   public async updateGroupAdmins(groupAdmins: Array<string>, shouldCommit: boolean) {
-    const sortedExistingAdmins = uniq(sortBy(this.getGroupAdmins()));
     const sortedNewAdmins = uniq(sortBy(groupAdmins));
 
-    if (isEqual(sortedExistingAdmins, sortedNewAdmins)) {
+    // check if there is any difference betwewen the two, if yes, override it with what we got.
+    if (!xor(this.getGroupAdmins(), groupAdmins).length) {
       return false;
     }
-    this.set({ groupAdmins });
+    this.set({ groupAdmins: sortedNewAdmins });
     if (shouldCommit) {
       await this.commit();
     }

@@ -146,9 +146,9 @@ export function useWeAreAdmin(convoId?: string) {
   return Boolean(convoProps && convoProps.weAreAdmin);
 }
 
-export function useWeAreModerator(convoId?: string) {
+export function useExpireTimer(convoId?: string) {
   const convoProps = useConversationPropsById(convoId);
-  return Boolean(convoProps && (convoProps.weAreAdmin || convoProps.weAreModerator));
+  return convoProps && convoProps.expireTimer;
 }
 
 export function useIsPinned(convoId?: string) {

@@ -15,7 +15,7 @@ import { SpacerLG } from '../../basic/Text';
 import useKey from 'react-use/lib/useKey';
 import styled from 'styled-components';
 import { SessionSearchInput } from '../../SessionSearchInput';
-import { getSearchResults, isSearching } from '../../../state/selectors/search';
+import { getSearchResultsContactOnly, isSearching } from '../../../state/selectors/search';
 import { useSet } from '../../../hooks/useSet';
 import { VALIDATION } from '../../../session/constants';
 import { ToastUtils } from '../../../session/utils';
@@ -96,6 +96,8 @@ export const OverlayClosedGroup = () => {
     addTo: addToSelected,
     removeFrom: removeFromSelected,
   } = useSet<string>([]);
+  const isSearch = useSelector(isSearching);
+  const searchResultContactsOnly = useSelector(getSearchResultsContactOnly);
 
   function closeOverlay() {
     dispatch(resetOverlayMode());
@@ -124,17 +126,7 @@ export const OverlayClosedGroup = () => {
 
   const noContactsForClosedGroup = privateContactsPubkeys.length === 0;
 
-  const isSearch = useSelector(isSearching);
-  const searchResultsSelected = useSelector(getSearchResults);
-  const searchResults = isSearch ? searchResultsSelected : undefined;
-  let sharedWithResults: Array<string> = [];
-
-  if (searchResults && searchResults.contactsAndGroups.length) {
-    sharedWithResults = searchResults.contactsAndGroups
-      .filter(convo => convo.isPrivate)
-      .map(convo => convo.id);
-  }
-  const contactsToRender = isSearch ? sharedWithResults : privateContactsPubkeys;
+  const contactsToRender = isSearch ? searchResultContactsOnly : privateContactsPubkeys;
 
   const disableCreateButton = !selectedMemberIds.length && !groupName.length;
 

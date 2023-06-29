@@ -133,7 +133,7 @@ export class OpenGroupManagerV2 {
       return;
     }
     const allRoomInfos = await getAllValidOpenGroupV2ConversationRoomInfos();
-    if (allRoomInfos) {
+    if (allRoomInfos?.size) {
       this.addRoomToPolledRooms([...allRoomInfos.values()]);
     }
 

@@ -3,8 +3,8 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { SectionType } from '../../state/ducks/section';
-import { getLeftPaneLists } from '../../state/selectors/conversations';
-import { getSearchResults, isSearching } from '../../state/selectors/search';
+import { getLeftPaneConversationIds } from '../../state/selectors/conversations';
+import { getHasSearchResults } from '../../state/selectors/search';
 import { getFocusedSection, getOverlayMode } from '../../state/selectors/section';
 import { SessionTheme } from '../../themes/SessionTheme';
 import { SessionToastContainer } from '../SessionToastContainer';
@@ -22,19 +22,14 @@ const StyledLeftPane = styled.div`
 `;
 
 const InnerLeftPaneMessageSection = () => {
-  const showSearch = useSelector(isSearching);
-
-  const searchResults = showSearch ? useSelector(getSearchResults) : undefined;
-
-  const lists = showSearch ? undefined : useSelector(getLeftPaneLists);
+  const hasSearchResults = useSelector(getHasSearchResults);
+  const conversationIds = useSelector(getLeftPaneConversationIds);
   const overlayMode = useSelector(getOverlayMode);
 
   return (
-    // tslint:disable-next-line: use-simple-attributes
     <LeftPaneMessageSection
-      conversations={lists?.conversations || []}
-      contacts={lists?.contacts || []}
-      searchResults={searchResults}
+      hasSearchResults={hasSearchResults}
+      conversationIds={conversationIds}
       overlayMode={overlayMode}
     />
   );

@@ -17,12 +17,10 @@ import {
 import { StateType } from '../../state/reducer';
 import {
   getQuotedMessageToAnimate,
+  getSelectedConversation,
   getSortedMessagesOfSelectedConversation,
 } from '../../state/selectors/conversations';
-import {
-  getSelectedConversation,
-  getSelectedConversationKey,
-} from '../../state/selectors/selectedConversation';
+import { getSelectedConversationKey } from '../../state/selectors/selectedConversation';
 import { SessionMessagesList } from './SessionMessagesList';
 import { TypingBubble } from './TypingBubble';
 import { ConversationMessageRequestButtons } from './MessageRequestButtons';

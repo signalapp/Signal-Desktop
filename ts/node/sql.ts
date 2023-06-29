@@ -28,7 +28,6 @@ import {
   ATTACHMENT_DOWNLOADS_TABLE,
   CLOSED_GROUP_V2_KEY_PAIRS_TABLE,
   CONVERSATIONS_TABLE,
-  dropFtsAndTriggers,
   formatRowOfConversation,
   GUARD_NODE_TABLE,
   HEX_KEY,
@@ -41,7 +40,6 @@ import {
   NODES_FOR_PUBKEY_TABLE,
   objectToJSON,
   OPEN_GROUP_ROOMS_V2_TABLE,
-  rebuildFtsTable,
   toSqliteBoolean,
 } from './database_utility';
 import { LocaleMessagesType } from './locale'; // checked - only node
@@ -166,7 +164,7 @@ async function initializeSql({
     if (!db) {
       throw new Error('db is not set');
     }
-    updateSchema(db);
+    await updateSchema(db);
 
     // test database
 
@@ -192,7 +190,6 @@ async function initializeSql({
 
     console.info('total message count after cleaning: ', getMessageCount());
     console.info('total conversation count after cleaning: ', getConversationCount());
-
     // Clear any already deleted db entries on each app start.
     vacuumDatabase(db);
   } catch (error) {
@@ -706,9 +703,9 @@ function searchMessages(query: string, limit: number) {
       ${MESSAGES_TABLE}.json,
       snippet(${MESSAGES_FTS_TABLE}, -1, '<<left>>', '<<right>>', '...', 5) as snippet
     FROM ${MESSAGES_FTS_TABLE}
-    INNER JOIN ${MESSAGES_TABLE} on ${MESSAGES_FTS_TABLE}.id = ${MESSAGES_TABLE}.id
+    INNER JOIN ${MESSAGES_TABLE} on ${MESSAGES_FTS_TABLE}.rowid = ${MESSAGES_TABLE}.rowid
     WHERE
-     ${MESSAGES_FTS_TABLE} match $query
+     ${MESSAGES_FTS_TABLE}.body match $query
     ${orderByMessageCoalesceClause}
     LIMIT $limit;`
     )
@@ -970,11 +967,12 @@ function removeMessagesByIds(ids: Array<string>, instance?: BetterSqlite3.Databa
   if (!ids.length) {
     throw new Error('removeMessagesByIds: No ids to delete!');
   }
+  const start = Date.now();
 
-  // Our node interface doesn't seem to allow you to replace one single ? with an array
   assertGlobalInstanceOrInstance(instance)
     .prepare(`DELETE FROM ${MESSAGES_TABLE} WHERE id IN ( ${ids.map(() => '?').join(', ')} );`)
     .run(ids);
+  console.log(`removeMessagesByIds of length ${ids.length} took ${Date.now() - start}ms`);
 }
 
 function removeAllMessagesInConversation(
@@ -984,9 +982,9 @@ function removeAllMessagesInConversation(
   if (!conversationId) {
     return;
   }
+  const inst = assertGlobalInstanceOrInstance(instance);
 
-  // Our node interface doesn't seem to allow you to replace one single ? with an array
-  assertGlobalInstanceOrInstance(instance)
+  inst
     .prepare(`DELETE FROM ${MESSAGES_TABLE} WHERE conversationId = $conversationId`)
     .run({ conversationId });
 }
@@ -1247,34 +1245,49 @@ function getMessagesByConversation(conversationId: string, { messageId = null } 
     const messageFound = getMessageById(messageId || firstUnread);
 
     if (messageFound && messageFound.conversationId === conversationId) {
-      // tslint:disable-next-line: no-shadowed-variable
-      const rows = assertGlobalInstance()
+      // tslint:disable-next-li ne: no-shadowed-variable
+      const start = Date.now();
+      const msgTimestamp =
+        messageFound.serverTimestamp || messageFound.sent_at || messageFound.received_at;
+
+      const commonArgs = {
+        conversationId,
+        msgTimestamp,
+        limit:
+          numberOfMessagesInConvo < floorLoadAllMessagesInConvo
+            ? floorLoadAllMessagesInConvo
+            : absLimit,
+      };
+
+      const messagesBefore = assertGlobalInstance()
         .prepare(
-          `WITH cte AS (
-            SELECT id, conversationId, json, row_number() OVER (${orderByClause}) as row_number
-              FROM ${MESSAGES_TABLE} WHERE conversationId = $conversationId
-          ), current AS (
-          SELECT row_number
-            FROM cte
-          WHERE id = $messageId
-
+          `SELECT id, conversationId, json
+            FROM ${MESSAGES_TABLE} WHERE conversationId = $conversationId AND COALESCE(serverTimestamp, sent_at, received_at) <= $msgTimestamp
+            ${orderByClause}
+            LIMIT $limit`
         )
-        SELECT cte.*
-          FROM cte, current
-            WHERE ABS(cte.row_number - current.row_number) <= $limit
-          ORDER BY cte.row_number;
-          `
-        )
-        .all({
-          conversationId,
-          messageId: messageId || firstUnread,
-          limit:
-            numberOfMessagesInConvo < floorLoadAllMessagesInConvo
-              ? floorLoadAllMessagesInConvo
-              : absLimit,
-        });
+        .all(commonArgs);
 
-      return map(rows, row => jsonToObject(row.json));
+      const messagesAfter = assertGlobalInstance()
+        .prepare(
+          `SELECT id, conversationId, json
+            FROM ${MESSAGES_TABLE} WHERE conversationId = $conversationId AND COALESCE(serverTimestamp, sent_at, received_at) > $msgTimestamp
+            ${orderByClauseASC}
+            LIMIT $limit`
+        )
+        .all(commonArgs);
+
+      console.info(`getMessagesByConversation around took ${Date.now() - start}ms `);
+
+      // sorting is made in redux already when rendered, but some things are made outside of redux, so let's make sure the order is right
+      return map([...messagesBefore, ...messagesAfter], row => jsonToObject(row.json)).sort(
+        (a, b) => {
+          return (
+            (b.serverTimestamp || b.sent_at || b.received_at) -
+            (a.serverTimestamp || a.sent_at || a.received_at)
+          );
+        }
+      );
     }
     console.info(
       `getMessagesByConversation: Could not find messageId ${messageId} in db with conversationId: ${conversationId}. Just fetching the convo as usual.`
@@ -2229,7 +2242,6 @@ function cleanUpOldOpengroupsOnStart() {
   // first remove very old messages for each opengroups
   const db = assertGlobalInstance();
   db.transaction(() => {
-    dropFtsAndTriggers(db);
     v2ConvosIds.forEach(convoId => {
       const messagesInConvoBefore = getMessagesCountByConversation(convoId);
 
@@ -2312,8 +2324,6 @@ function cleanUpOldOpengroupsOnStart() {
     }
 
     cleanUpMessagesJson();
-
-    rebuildFtsTable(db);
   })();
 }
 

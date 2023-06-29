@@ -9,10 +9,18 @@ import { getSodiumRenderer } from '../../../../session/crypto';
 import { PubKey } from '../../../../session/types';
 import { openConversationWithMessages } from '../../../../state/ducks/conversations';
 import { updateUserDetailsModal } from '../../../../state/ducks/modalDialog';
-import { getMessageAvatarProps } from '../../../../state/selectors/conversations';
+import {
+  useAuthorAvatarPath,
+  useAuthorName,
+  useAuthorProfileName,
+  useLastMessageOfSeries,
+  useMessageAuthor,
+  useMessageSenderIsAdmin,
+} from '../../../../state/selectors/';
 import {
   getSelectedCanWrite,
   useSelectedConversationKey,
+  useSelectedIsPublic,
 } from '../../../../state/selectors/selectedConversation';
 import { Avatar, AvatarSize, CrownIcon } from '../../../avatar/Avatar';
 // tslint:disable: use-simple-attributes
@@ -26,13 +34,7 @@ const StyledAvatar = styled.div`
 
 export type MessageAvatarSelectorProps = Pick<
   MessageRenderingProps,
-  | 'authorAvatarPath'
-  | 'authorName'
-  | 'sender'
-  | 'authorProfileName'
-  | 'isSenderAdmin'
-  | 'isPublic'
-  | 'lastMessageOfSeries'
+  'sender' | 'isSenderAdmin' | 'lastMessageOfSeries'
 >;
 
 type Props = { messageId: string; noAvatar: boolean };
@@ -41,26 +43,18 @@ export const MessageAvatar = (props: Props) => {
   const { messageId, noAvatar } = props;
 
   const dispatch = useDispatch();
-  const avatarProps = useSelector(state => getMessageAvatarProps(state as any, messageId));
   const selectedConvoKey = useSelectedConversationKey();
 
   const isTypingEnabled = useSelector(getSelectedCanWrite);
+  const isPublic = useSelectedIsPublic();
+  const authorName = useAuthorName(messageId);
+  const authorProfileName = useAuthorProfileName(messageId);
+  const authorAvatarPath = useAuthorAvatarPath(messageId);
+  const sender = useMessageAuthor(messageId);
+  const lastMessageOfSeries = useLastMessageOfSeries(messageId);
+  const isSenderAdmin = useMessageSenderIsAdmin(messageId);
 
-  if (!avatarProps) {
-    return null;
-  }
-
-  const {
-    authorAvatarPath,
-    authorName,
-    sender,
-    authorProfileName,
-    isSenderAdmin,
-    lastMessageOfSeries,
-    isPublic,
-  } = avatarProps;
-
-  if (noAvatar) {
+  if (noAvatar || !sender) {
     return null;
   }
 

@@ -157,6 +157,7 @@ export async function autoScale<T extends { contentType: string; blob: Blob }>(
   width?: number;
   height?: number;
 }> {
+  const start = Date.now();
   const { contentType, blob } = attachment;
   if (contentType.split('/')[0] !== 'image' || contentType === IMAGE_TIFF) {
     // nothing to do
@@ -238,7 +239,6 @@ export async function autoScale<T extends { contentType: string; blob: Blob }>(
   let quality = 0.95;
   const startI = 4;
   let i = startI;
-  // const start = Date.now();
   do {
     i -= 1;
     if (DEBUG_ATTACHMENTS_SCALE) {
@@ -260,7 +260,7 @@ export async function autoScale<T extends { contentType: string; blob: Blob }>(
   if (readAndResizedBlob.size > maxSize) {
     throw new Error('Cannot add this attachment even after trying to scale it down.');
   }
-  // window.log.debug(`[perf] autoscale took ${Date.now() - start}ms `);
+  window.log.debug(`[perf] autoscale took ${Date.now() - start}ms `);
 
   return {
     contentType: attachment.contentType,

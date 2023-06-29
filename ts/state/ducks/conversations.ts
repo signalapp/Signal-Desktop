@@ -171,6 +171,17 @@ export type PropsForAttachment = {
   } | null;
 };
 
+export type ReduxQuoteType = {
+  text?: string;
+  attachment?: QuotedAttachmentType;
+  isFromMe?: boolean;
+  sender: string;
+  authorProfileName?: string;
+  authorName?: string;
+  messageId?: string;
+  referencedMessageNotFound?: boolean;
+} | null;
+
 export type PropsForMessageWithoutConvoProps = {
   id: string; // messageId
   direction: MessageModelType;
@@ -187,16 +198,7 @@ export type PropsForMessageWithoutConvoProps = {
   reacts?: ReactionList;
   reactsIndex?: number;
   previews?: Array<any>;
-  quote?: {
-    text?: string;
-    attachment?: QuotedAttachmentType;
-    isFromMe?: boolean;
-    sender: string;
-    authorProfileName?: string;
-    authorName?: string;
-    messageId?: string;
-    referencedMessageNotFound?: boolean;
-  } | null;
+  quote?: ReduxQuoteType;
   messageHash?: string;
   isDeleted?: boolean;
   isUnread?: boolean;
@@ -208,12 +210,8 @@ export type PropsForMessageWithoutConvoProps = {
 };
 
 export type PropsForMessageWithConvoProps = PropsForMessageWithoutConvoProps & {
-  authorName: string | null;
-  authorProfileName: string | null;
   conversationType: ConversationTypeEnum;
-  authorAvatarPath: string | null;
   isPublic: boolean;
-  isOpenGroupV2: boolean;
   isKickedFromGroup: boolean;
   weAreAdmin: boolean;
   isSenderAdmin: boolean;
@@ -248,10 +246,8 @@ export interface ReduxConversationType {
   isPublic?: boolean;
   isPrivate?: boolean; // !isPrivate means isGroup (group or community)
   weAreAdmin?: boolean;
-  weAreModerator?: boolean;
   unreadCount?: number;
   mentionedUs?: boolean;
-  isSelected?: boolean;
   expirationType?: DisappearingMessageConversationType;
   expireTimer?: number;
   lastDisappearingMessageChangeTimestamp?: number;
@@ -648,16 +644,7 @@ const conversationsSlice = createSlice({
         },
       };
     },
-    conversationChanged(
-      state: ConversationsStateType,
-      action: PayloadAction<{
-        id: string;
-        data: ReduxConversationType;
-      }>
-    ) {
-      const { payload } = action;
-      return applyConversationChanged(state, payload);
-    },
+
     conversationsChanged(
       state: ConversationsStateType,
       action: PayloadAction<Array<ReduxConversationType>>
@@ -666,12 +653,7 @@ const conversationsSlice = createSlice({
 
       let updatedState = state;
       if (payload.length) {
-        payload.forEach(convoProps => {
-          updatedState = applyConversationChanged(updatedState, {
-            id: convoProps.id,
-            data: convoProps,
-          });
-        });
+        updatedState = applyConversationsChanged(updatedState, payload);
       }
 
       return updatedState;
@@ -986,47 +968,47 @@ const conversationsSlice = createSlice({
   },
 });
 
-function applyConversationChanged(
+function applyConversationsChanged(
   state: ConversationsStateType,
-  payload: { id: string; data: ReduxConversationType }
+  payload: Array<ReduxConversationType>
 ) {
-  const { id, data } = payload;
   const { conversationLookup, selectedConversation } = state;
 
-  const existing = conversationLookup[id];
-  // In the change case we only modify the lookup if we already had that conversation
-  if (!existing) {
-    return state;
+  for (let index = 0; index < payload.length; index++) {
+    const convoProps = payload[index];
+    const { id } = convoProps;
+    // In the `change` case we only modify the lookup if we already had that conversation
+    const existing = conversationLookup[id];
+
+    if (!existing) {
+      continue;
+    }
+
+    if (
+      state.selectedConversation &&
+      convoProps.isPrivate &&
+      convoProps.id === selectedConversation &&
+      convoProps.priority &&
+      convoProps.priority < CONVERSATION_PRIORITIES.default
+    ) {
+      // A private conversation hidden cannot be a selected.
+      // When opening a hidden conversation, we unhide it so it can be selected again.
+      state.selectedConversation = undefined;
+    }
+
+    state.conversationLookup[id] = {
+      ...convoProps,
+      isInitialFetchingInProgress: existing.isInitialFetchingInProgress,
+    };
   }
 
-  let selected = selectedConversation;
-  if (
-    data &&
-    data.isPrivate &&
-    data.id === selectedConversation &&
-    data.priority &&
-    data.priority < CONVERSATION_PRIORITIES.default
-  ) {
-    // A private conversation hidden cannot be a selected.
-    // When opening a hidden conversation, we unhide it so it can be selected again.
-    selected = undefined;
-  }
-
-  return {
-    ...state,
-    selectedConversation: selected,
-    conversationLookup: {
-      ...conversationLookup,
-      [id]: { ...data, isInitialFetchingInProgress: existing.isInitialFetchingInProgress },
-    },
-  };
+  return state;
 }
 
 export const { actions, reducer } = conversationsSlice;
 export const {
   // conversation and messages list
   conversationAdded,
-  conversationChanged,
   conversationsChanged,
   conversationRemoved,
   removeAllConversations,
