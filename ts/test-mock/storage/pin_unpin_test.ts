@@ -70,7 +70,7 @@ describe('storage service', function needsName() {
       await moreButton.click();
 
       const pinButton = conversationStack.locator(
-        '.react-contextmenu-item >> "Pin Chat"'
+        '.react-contextmenu-item >> "Pin chat"'
       );
       await pinButton.click();
 
@@ -114,7 +114,7 @@ describe('storage service', function needsName() {
         await moreButton.click();
 
         const pinButton = conversationStack.locator(
-          '.react-contextmenu-item >> "Pin Chat"'
+          '.react-contextmenu-item >> "Pin chat"'
         );
         await pinButton.click();
 

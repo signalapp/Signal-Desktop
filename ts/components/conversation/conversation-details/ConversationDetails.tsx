@@ -133,6 +133,20 @@ type ActionProps = {
 
 export type Props = StateProps & ActionProps;
 
+export function getCannotLeaveBecauseYouAreLastAdmin(
+  memberships: ReadonlyArray<GroupV2Membership>,
+  isAdmin: boolean
+): boolean {
+  const otherMemberships = memberships.filter(({ member }) => !member.isMe);
+  const isJustMe = otherMemberships.length === 0;
+  const isAnyoneElseAnAdmin = otherMemberships.some(
+    membership => membership.isAdmin
+  );
+  const cannotLeaveBecauseYouAreLastAdmin =
+    isAdmin && !isJustMe && !isAnyoneElseAnAdmin;
+  return cannotLeaveBecauseYouAreLastAdmin;
+}
+
 export function ConversationDetails({
   acceptConversation,
   addMembersToGroup,
@@ -196,13 +210,8 @@ export function ConversationDetails({
   const invitesCount =
     pendingMemberships.length + pendingApprovalMemberships.length;
 
-  const otherMemberships = memberships.filter(({ member }) => !member.isMe);
-  const isJustMe = otherMemberships.length === 0;
-  const isAnyoneElseAnAdmin = otherMemberships.some(
-    membership => membership.isAdmin
-  );
   const cannotLeaveBecauseYouAreLastAdmin =
-    isAdmin && !isJustMe && !isAnyoneElseAnAdmin;
+    getCannotLeaveBecauseYouAreLastAdmin(memberships, isAdmin);
 
   const onCloseModal = useCallback(() => {
     setModalState(ModalState.NothingOpen);

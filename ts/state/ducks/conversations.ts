@@ -242,6 +242,7 @@ export type ConversationType = ReadonlyDeep<
     customColorId?: string;
     discoveredUnregisteredAt?: number;
     hideStory?: boolean;
+    hiddenFromConversationSearch?: boolean;
     isArchived?: boolean;
     isBlocked?: boolean;
     removalStage?: 'justNotification' | 'messageRequest';

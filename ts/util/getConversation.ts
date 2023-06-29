@@ -173,6 +173,9 @@ export function getConversation(model: ConversationModel): ConversationType {
     groupId: attributes.groupId,
     groupLink: buildGroupLink(attributes),
     hideStory: Boolean(attributes.hideStory),
+    hiddenFromConversationSearch: Boolean(
+      attributes.hiddenFromConversationSearch
+    ),
     inboxPosition,
     isArchived: attributes.isArchived,
     isBlocked: isBlocked(attributes),

@@ -12,6 +12,7 @@ import {
 } from '../../components/conversation/ConversationHeader';
 import { getPreferredBadgeSelector } from '../selectors/badges';
 import {
+  getConversationByUuidSelector,
   getConversationSelector,
   getConversationTitle,
   isMissingRequiredProfileSharing,
@@ -35,6 +36,8 @@ import { strictAssert } from '../../util/assert';
 import { isSignalConversation } from '../../util/isSignalConversation';
 import { useSearchActions } from '../ducks/search';
 import { useStoriesActions } from '../ducks/stories';
+import { getCannotLeaveBecauseYouAreLastAdmin } from '../../components/conversation/conversation-details/ConversationDetails';
+import { getGroupMemberships } from '../../util/getGroupMemberships';
 
 export type OwnProps = {
   id: string;
@@ -79,6 +82,7 @@ export function SmartConversationHeader({ id }: OwnProps): JSX.Element {
   if (!conversation) {
     throw new Error('Could not find conversation');
   }
+  const isAdmin = Boolean(conversation.areWeAdmin);
   const hasStoriesSelector = useSelector(getHasStoriesSelector);
   const hasStories = hasStoriesSelector(id);
 
@@ -97,6 +101,7 @@ export function SmartConversationHeader({ id }: OwnProps): JSX.Element {
 
   const {
     destroyMessages,
+    leaveGroup,
     onArchive,
     onMarkUnread,
     onMoveToInbox,
@@ -113,6 +118,14 @@ export function SmartConversationHeader({ id }: OwnProps): JSX.Element {
   } = useCallingActions();
   const { searchInConversation } = useSearchActions();
   const { viewUserStories } = useStoriesActions();
+
+  const conversationByUuidSelector = useSelector(getConversationByUuidSelector);
+  const groupMemberships = getGroupMemberships(
+    conversation,
+    conversationByUuidSelector
+  );
+  const cannotLeaveBecauseYouAreLastAdmin =
+    getCannotLeaveBecauseYouAreLastAdmin(groupMemberships.memberships, isAdmin);
 
   return (
     <ConversationHeader
@@ -141,6 +154,7 @@ export function SmartConversationHeader({ id }: OwnProps): JSX.Element {
         'unblurredAvatarPath',
       ])}
       badge={badge}
+      cannotLeaveBecauseYouAreLastAdmin={cannotLeaveBecauseYouAreLastAdmin}
       conversationTitle={conversationTitle}
       destroyMessages={destroyMessages}
       hasStories={hasStories}
@@ -151,6 +165,7 @@ export function SmartConversationHeader({ id }: OwnProps): JSX.Element {
       )}
       isSignalConversation={isSignalConversation(conversation)}
       isSMSOnly={isConversationSMSOnly(conversation)}
+      leaveGroup={leaveGroup}
       onArchive={onArchive}
       onMarkUnread={onMarkUnread}
       onMoveToInbox={onMoveToInbox}

@@ -313,6 +313,7 @@ export type ConversationAttributesType = {
   draftBodyRanges?: DraftBodyRanges;
   draftTimestamp?: number | null;
   hideStory?: boolean;
+  hiddenFromConversationSearch?: boolean;
   inbox_position?: number;
   // When contact is removed - it is initially placed into `justNotification`
   // removal stage. In this stage user can still send messages (which will

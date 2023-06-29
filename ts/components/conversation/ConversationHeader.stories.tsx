@@ -32,6 +32,7 @@ type ItemsType = Array<{
 const commonProps = {
   ...getDefaultConversation(),
 
+  cannotLeaveBecauseYouAreLastAdmin: false,
   showBackButton: false,
   outgoingCallButtonStyle: OutgoingCallButtonStyle.Both,
 
@@ -39,6 +40,7 @@ const commonProps = {
 
   setDisappearingMessages: action('setDisappearingMessages'),
   destroyMessages: action('destroyMessages'),
+  leaveGroup: action('leaveGroup'),
   onOutgoingAudioCallInConversation: action(
     'onOutgoingAudioCallInConversation'
   ),
