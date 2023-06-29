@@ -34,6 +34,7 @@ import { handleMultipleSendErrors } from './handleMultipleSendErrors';
 import { isGroupV2, isMe } from '../../util/whatTypeOfConversation';
 import { ourProfileKeyService } from '../../services/ourProfileKey';
 import { sendContentMessageToGroup } from '../../util/sendToGroup';
+import { getTaggedConversationUuid } from '../../util/getConversationUuid';
 import { distributionListToSendTarget } from '../../util/distributionListToSendTarget';
 import { uploadAttachment } from '../../util/uploadAttachment';
 import { SendMessageChallengeError } from '../../textsecure/Errors';
@@ -548,8 +549,17 @@ export async function sendStory(
   // Build up the sync message's storyMessageRecipients and send it
   const storyMessageRecipients: StoryMessageRecipientsType = [];
   recipientsByUuid.forEach((distributionListIds, destinationUuid) => {
+    const recipient = window.ConversationController.get(destinationUuid);
+    if (!recipient) {
+      return;
+    }
+    const taggedUuid = getTaggedConversationUuid(recipient.attributes);
+    if (!taggedUuid) {
+      return;
+    }
     storyMessageRecipients.push({
-      destinationUuid,
+      destinationAci: taggedUuid.aci,
+      destinationPni: taggedUuid.pni,
       distributionListIds: Array.from(distributionListIds),
       isAllowedToReply: canReplyUuids.has(destinationUuid),
     });
@@ -567,7 +577,7 @@ export async function sendStory(
     await messaging.sendSyncMessage({
       // Note: these two fields will be undefined if we're sending to a group
       destination: conversation.get('e164'),
-      destinationUuid: conversation.get('uuid'),
+      destinationUuid: getTaggedConversationUuid(conversation.attributes),
       storyMessage: originalStoryMessage,
       storyMessageRecipients,
       expirationStartTimestamp: null,

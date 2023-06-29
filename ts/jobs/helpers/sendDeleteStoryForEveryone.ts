@@ -239,8 +239,18 @@ export async function sendDeleteStoryForEveryone(
     await handleMessageSend(
       messaging.sendSyncMessage({
         destination: undefined,
-        destinationUuid,
-        storyMessageRecipients: updatedStoryRecipients,
+        destinationUuid: {
+          aci: destinationUuid,
+        },
+        storyMessageRecipients: updatedStoryRecipients?.map(
+          ({ destinationUuid: legacyDestinationUuid, ...rest }) => {
+            return {
+              // The field was renamed.
+              legacyDestinationUuid,
+              ...rest,
+            };
+          }
+        ),
         expirationStartTimestamp: null,
         isUpdate: true,
         options,

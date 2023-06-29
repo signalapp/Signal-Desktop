@@ -20,6 +20,7 @@ import { handleMessageSend } from '../../util/handleMessageSend';
 import { isConversationAccepted } from '../../util/isConversationAccepted';
 import { isConversationUnregistered } from '../../util/isConversationUnregistered';
 import { DurationInSeconds } from '../../util/durations';
+import { getTaggedConversationUuid } from '../../util/getConversationUuid';
 
 export async function sendDirectExpirationTimerUpdate(
   conversation: ConversationModel,
@@ -107,7 +108,7 @@ export async function sendDirectExpirationTimerUpdate(
             proto.dataMessage
           ).finish(),
           destination: conversation.get('e164'),
-          destinationUuid: conversation.get('uuid'),
+          destinationUuid: getTaggedConversationUuid(conversation.attributes),
           expirationStartTimestamp: null,
           options: sendOptions,
           timestamp,

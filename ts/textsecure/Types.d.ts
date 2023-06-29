@@ -3,7 +3,7 @@
 
 import type { SignalService as Proto } from '../protobuf';
 import type { IncomingWebSocketRequest } from './WebsocketResources';
-import type { UUID, UUIDStringType } from '../types/UUID';
+import type { UUID, UUIDStringType, TaggedUUIDStringType } from '../types/UUID';
 import type { TextAttachmentType } from '../types/Attachment';
 import type { GiftBadgeStates } from '../components/conversation/Message';
 import type { MIMEType } from '../types/MIME';
@@ -222,18 +222,31 @@ export type ProcessedDataMessage = {
 
 export type ProcessedUnidentifiedDeliveryStatus = Omit<
   Proto.SyncMessage.Sent.IUnidentifiedDeliveryStatus,
-  'destinationUuid'
+  'destinationAci' | 'destinationPni'
 > & {
-  destinationUuid?: string;
+  destinationUuid?: TaggedUUIDStringType;
   isAllowedToReplyToStory?: boolean;
+};
+
+export type ProcessedStoryMessageRecipient = Omit<
+  Proto.SyncMessage.Sent.IStoryMessageRecipient,
+  'destinationAci' | 'destinationPni'
+> & {
+  destinationUuid?: TaggedUUIDStringType;
 };
 
 export type ProcessedSent = Omit<
   Proto.SyncMessage.ISent,
-  'destinationId' | 'unidentifiedStatus'
+  | 'destinationId'
+  | 'unidentifiedStatus'
+  | 'storyMessageRecipients'
+  | 'destinationAci'
+  | 'destinationPni'
 > & {
   destinationId?: string;
+  destinationUuid?: TaggedUUIDStringType;
   unidentifiedStatus?: Array<ProcessedUnidentifiedDeliveryStatus>;
+  storyMessageRecipients?: Array<ProcessedStoryMessageRecipient>;
 };
 
 export type ProcessedSyncMessage = Omit<Proto.ISyncMessage, 'sent'> & {

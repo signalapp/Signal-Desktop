@@ -2,21 +2,21 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import getGuid from 'uuid/v4';
+import { UUID } from '../types/UUID';
 
 import { processSyncMessage } from '../textsecure/processSyncMessage';
 
 describe('processSyncMessage', () => {
-  it('should normalize UUIDs in sent', () => {
-    const destinationUuid = getGuid();
+  const destinationUuid = UUID.generate().toString();
 
+  it('should normalize UUIDs in sent (aci)', () => {
     const out = processSyncMessage({
       sent: {
-        destinationUuid: destinationUuid.toUpperCase(),
+        destinationAci: destinationUuid.toUpperCase(),
 
         unidentifiedStatus: [
           {
-            destinationUuid: destinationUuid.toUpperCase(),
+            destinationAci: destinationUuid.toUpperCase(),
           },
         ],
       },
@@ -24,11 +24,51 @@ describe('processSyncMessage', () => {
 
     assert.deepStrictEqual(out, {
       sent: {
-        destinationUuid,
+        destinationUuid: {
+          aci: destinationUuid,
+          pni: undefined,
+        },
+
+        storyMessageRecipients: undefined,
+        unidentifiedStatus: [
+          {
+            destinationUuid: {
+              aci: destinationUuid,
+              pni: undefined,
+            },
+          },
+        ],
+      },
+    });
+  });
+
+  it('should normalize UUIDs in sent (pni)', () => {
+    const out = processSyncMessage({
+      sent: {
+        destinationPni: destinationUuid.toUpperCase(),
 
         unidentifiedStatus: [
           {
-            destinationUuid,
+            destinationPni: destinationUuid.toUpperCase(),
+          },
+        ],
+      },
+    });
+
+    assert.deepStrictEqual(out, {
+      sent: {
+        destinationUuid: {
+          aci: undefined,
+          pni: destinationUuid,
+        },
+
+        storyMessageRecipients: undefined,
+        unidentifiedStatus: [
+          {
+            destinationUuid: {
+              aci: undefined,
+              pni: destinationUuid,
+            },
           },
         ],
       },

@@ -8,6 +8,17 @@ import { strictAssert } from '../util/assert';
 export type UUIDStringType =
   `${string}-${string}-${string}-${string}-${string}`;
 
+export type TaggedUUIDStringType = Readonly<
+  | {
+      aci: UUIDStringType;
+      pni?: undefined;
+    }
+  | {
+      aci?: undefined;
+      pni: UUIDStringType;
+    }
+>;
+
 export enum UUIDKind {
   ACI = 'ACI',
   PNI = 'PNI',

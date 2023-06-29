@@ -5,7 +5,7 @@
 import type { PublicKey } from '@signalapp/libsignal-client';
 
 import type { SignalService as Proto } from '../protobuf';
-import type { UUIDStringType } from '../types/UUID';
+import type { UUIDStringType, TaggedUUIDStringType } from '../types/UUID';
 import type {
   ProcessedEnvelope,
   ProcessedDataMessage,
@@ -193,7 +193,7 @@ export class RetryRequestEvent extends ConfirmableEvent {
 
 export type SentEventData = Readonly<{
   destination?: string;
-  destinationUuid?: string;
+  destinationUuid?: TaggedUUIDStringType;
   timestamp?: number;
   serverTimestamp?: number;
   device: number | undefined;

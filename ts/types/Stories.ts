@@ -170,7 +170,8 @@ export enum ResolvedSendStatus {
 }
 
 export type StoryMessageRecipientsType = Array<{
-  destinationUuid: string;
+  destinationAci?: string;
+  destinationPni?: string;
   distributionListIds: Array<string>;
   isAllowedToReply: boolean;
 }>;

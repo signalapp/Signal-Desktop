@@ -17,6 +17,7 @@ import type { ConversationModel } from '../models/conversations';
 import { GLOBAL_ZONE } from '../SignalProtocolStore';
 import { assertDev, strictAssert } from '../util/assert';
 import { parseIntOrThrow } from '../util/parseIntOrThrow';
+import { getTaggedConversationUuid } from '../util/getConversationUuid';
 import { Address } from '../types/Address';
 import { QualifiedAddress } from '../types/QualifiedAddress';
 import { SenderKeys } from '../LibSignalStores';
@@ -24,7 +25,7 @@ import type {
   TextAttachmentType,
   UploadedAttachmentType,
 } from '../types/Attachment';
-import type { UUID } from '../types/UUID';
+import type { UUID, TaggedUUIDStringType } from '../types/UUID';
 import type {
   ChallengeType,
   GetGroupLogOptionsType,
@@ -1205,7 +1206,7 @@ export default class MessageSender {
     encodedEditMessage?: Uint8Array;
     timestamp: number;
     destination: string | undefined;
-    destinationUuid: string | null | undefined;
+    destinationUuid: TaggedUUIDStringType | undefined;
     expirationStartTimestamp: number | null;
     conversationIdsSentTo?: Iterable<string>;
     conversationIdsWithSealedSender?: Set<string>;
@@ -1230,8 +1231,10 @@ export default class MessageSender {
     if (destination) {
       sentMessage.destination = destination;
     }
-    if (destinationUuid) {
-      sentMessage.destinationUuid = destinationUuid;
+    if (destinationUuid?.aci) {
+      sentMessage.destinationAci = destinationUuid.aci;
+    } else if (destinationUuid?.pni) {
+      sentMessage.destinationPni = destinationUuid.pni;
     }
     if (expirationStartTimestamp) {
       sentMessage.expirationStartTimestamp = Long.fromNumber(
@@ -1262,9 +1265,11 @@ export default class MessageSender {
             if (e164) {
               status.destination = e164;
             }
-            const uuid = conv.get('uuid');
-            if (uuid) {
-              status.destinationUuid = uuid;
+            const taggedUuid = getTaggedConversationUuid(conv.attributes);
+            if (taggedUuid?.aci) {
+              status.destinationAci = taggedUuid.aci;
+            } else if (taggedUuid?.pni) {
+              status.destinationPni = taggedUuid.pni;
             }
           }
           status.unidentified =

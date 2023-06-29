@@ -36,6 +36,7 @@ import { strictAssert } from '../../util/assert';
 import type { LoggerType } from '../../types/Logging';
 import { isStory } from '../../messages/helpers';
 import { sendToGroup } from '../../util/sendToGroup';
+import { getTaggedConversationUuid } from '../../util/getConversationUuid';
 
 export async function sendDeleteForEveryone(
   conversation: ConversationModel,
@@ -139,7 +140,9 @@ export async function sendDeleteForEveryone(
                 proto.dataMessage
               ).finish(),
               destination: conversation.get('e164'),
-              destinationUuid: conversation.get('uuid'),
+              destinationUuid: getTaggedConversationUuid(
+                conversation.attributes
+              ),
               expirationStartTimestamp: null,
               options: sendOptions,
               timestamp,

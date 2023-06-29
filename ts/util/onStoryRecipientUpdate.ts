@@ -57,12 +57,15 @@ export async function onStoryRecipientUpdate(
         Set<string>
       >();
       data.storyMessageRecipients.forEach(item => {
-        if (!item.destinationUuid) {
+        const { destinationAci, destinationPni } = item;
+
+        const destinationId = destinationAci || destinationPni;
+        if (!destinationId) {
           return;
         }
 
         const convo = window.ConversationController.get(
-          normalizeUuid(item.destinationUuid, `${logId}.destinationUuid`)
+          normalizeUuid(destinationId, `${logId}.destinationId`)
         );
 
         if (!convo || !item.distributionListIds) {

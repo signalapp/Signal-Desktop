@@ -82,7 +82,12 @@ const deleteStoryForEveryoneJobDataSchema = z.object({
   updatedStoryRecipients: z
     .array(
       z.object({
-        destinationUuid: z.string(),
+        // TODO: DESKTOP-5630
+        destinationUuid: z.string().optional(),
+        legacyDestinationUuid: z.string().optional(),
+
+        destinationAci: z.string().optional(),
+        destinationPni: z.string().optional(),
         distributionListIds: z.array(z.string()),
         isAllowedToReply: z.boolean(),
       })

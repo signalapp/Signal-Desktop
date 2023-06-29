@@ -21,6 +21,7 @@ import { getMessageById } from '../messages/getMessageById';
 import { strictAssert } from './assert';
 import { repeat, zipObject } from './iterables';
 import { isOlderThan } from './timestamp';
+import { getTaggedConversationUuid } from './getConversationUuid';
 
 export async function deleteStoryForEveryone(
   stories: ReadonlyArray<StoryDataType>,
@@ -157,8 +158,17 @@ export async function deleteStoryForEveryone(
   const newStoryMessageRecipients: StoryMessageRecipientsType = [];
 
   newStoryRecipients.forEach((recipientData, destinationUuid) => {
+    const recipient = window.ConversationController.get(destinationUuid);
+    if (!recipient) {
+      return;
+    }
+    const taggedUuid = getTaggedConversationUuid(recipient.attributes);
+    if (!taggedUuid) {
+      return;
+    }
     newStoryMessageRecipients.push({
-      destinationUuid,
+      destinationAci: taggedUuid.aci,
+      destinationPni: taggedUuid.pni,
       distributionListIds: Array.from(recipientData.distributionListIds),
       isAllowedToReply: recipientData.isAllowedToReply,
     });

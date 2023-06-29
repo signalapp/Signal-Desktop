@@ -1,30 +1,50 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { SignalService as Proto } from '../protobuf';
+import type { SignalService as Proto } from '../protobuf';
 import { normalizeUuid } from '../util/normalizeUuid';
-import type {
-  ProcessedUnidentifiedDeliveryStatus,
-  ProcessedSent,
-  ProcessedSyncMessage,
-} from './Types.d';
+import type { ProcessedSent, ProcessedSyncMessage } from './Types.d';
+import type { TaggedUUIDStringType } from '../types/UUID';
 
-import UnidentifiedDeliveryStatus = Proto.SyncMessage.Sent.IUnidentifiedDeliveryStatus;
+type ProtoUUIDTriple = Readonly<{
+  destinationAci?: string | null;
+  destinationPni?: string | null;
+}>;
 
-function processUnidentifiedDeliveryStatus(
-  status: UnidentifiedDeliveryStatus
-): ProcessedUnidentifiedDeliveryStatus {
-  const { destinationUuid } = status;
+function toTaggedUuid({
+  destinationAci,
+  destinationPni,
+}: ProtoUUIDTriple): TaggedUUIDStringType | undefined {
+  if (destinationAci) {
+    return {
+      aci: normalizeUuid(destinationAci, 'syncMessage.sent.destinationAci'),
+      pni: undefined,
+    };
+  }
+  if (destinationPni) {
+    return {
+      aci: undefined,
+      pni: normalizeUuid(destinationPni, 'syncMessage.sent.destinationPni'),
+    };
+  }
+
+  return undefined;
+}
+
+function processProtoWithDestinationUuid<Input extends ProtoUUIDTriple>(
+  input: Input
+): Omit<Input, keyof ProtoUUIDTriple> & {
+  destinationUuid?: TaggedUUIDStringType;
+} {
+  const { destinationAci, destinationPni, ...remaining } = input;
 
   return {
-    ...status,
+    ...remaining,
 
-    destinationUuid: destinationUuid
-      ? normalizeUuid(
-          destinationUuid,
-          'syncMessage.sent.unidentifiedStatus.destinationUuid'
-        )
-      : undefined,
+    destinationUuid: toTaggedUuid({
+      destinationAci,
+      destinationPni,
+    }),
   };
 }
 
@@ -35,17 +55,26 @@ function processSent(
     return undefined;
   }
 
-  const { destinationUuid, unidentifiedStatus } = sent;
+  const {
+    destinationAci,
+    destinationPni,
+    unidentifiedStatus,
+    storyMessageRecipients,
+    ...remaining
+  } = sent;
 
   return {
-    ...sent,
+    ...remaining,
 
-    destinationUuid: destinationUuid
-      ? normalizeUuid(destinationUuid, 'syncMessage.sent.destinationUuid')
-      : undefined,
-
+    destinationUuid: toTaggedUuid({
+      destinationAci,
+      destinationPni,
+    }),
     unidentifiedStatus: unidentifiedStatus
-      ? unidentifiedStatus.map(processUnidentifiedDeliveryStatus)
+      ? unidentifiedStatus.map(processProtoWithDestinationUuid)
+      : undefined,
+    storyMessageRecipients: storyMessageRecipients
+      ? storyMessageRecipients.map(processProtoWithDestinationUuid)
       : undefined,
   };
 }
