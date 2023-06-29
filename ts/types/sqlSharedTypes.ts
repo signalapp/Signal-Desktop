@@ -116,8 +116,8 @@ export function getContactInfoFromDBValues({
   dbProfileUrl,
   dbProfileKey,
   dbCreatedAtSeconds,
-}: // expirationTimerSeconds,
-{
+  expirationTimerSeconds, //FIXME WILL add expirationMode here
+}: {
   id: string;
   dbApproved: boolean;
   dbApprovedMe: boolean;
@@ -128,7 +128,7 @@ export function getContactInfoFromDBValues({
   dbCreatedAtSeconds: number;
   dbProfileUrl: string | undefined;
   dbProfileKey: string | undefined;
-  // expirationTimerSeconds: number | undefined;
+  expirationTimerSeconds: number | undefined;
 }): ContactInfoSet {
   const wrapperContact: ContactInfoSet = {
     id,
@@ -139,14 +139,11 @@ export function getContactInfoFromDBValues({
     nickname: dbNickname,
     name: dbName,
     createdAtSeconds: dbCreatedAtSeconds,
-    // expirationTimerSeconds:
-    //   !!expirationTimerSeconds && isFinite(expirationTimerSeconds) && expirationTimerSeconds > 0
-    //     ? expirationTimerSeconds
-    //     : 0, // TODOLATER add the expiration mode handling
-    // expirationMode:
-    //   !!expirationTimerSeconds && isFinite(expirationTimerSeconds) && expirationTimerSeconds > 0
-    //     ? 'disappearAfterSend'
-    //     : 'off',
+    expirationTimerSeconds:
+      !!expirationTimerSeconds && isFinite(expirationTimerSeconds) && expirationTimerSeconds > 0
+        ? expirationTimerSeconds
+        : 0,
+    expirationMode: 'off', //FIXME WILL add expirationMode here
   };
 
   if (
@@ -202,14 +199,14 @@ export function getLegacyGroupInfoFromDBValues({
   priority,
   members: maybeMembers,
   displayNameInProfile,
-  // expireTimer,
+  expireTimer,
   encPubkeyHex,
   encSeckeyHex,
   groupAdmins: maybeAdmins,
   lastJoinedTimestamp,
 }: Pick<
   ConversationAttributes,
-  'id' | 'priority' | 'displayNameInProfile' | 'lastJoinedTimestamp' //| 'expireTimer'
+  'id' | 'priority' | 'displayNameInProfile' | 'lastJoinedTimestamp' | 'expireTimer'
 > & {
   encPubkeyHex: string;
   encSeckeyHex: string;
@@ -227,7 +224,7 @@ export function getLegacyGroupInfoFromDBValues({
   });
   const legacyGroup: LegacyGroupInfo = {
     pubkeyHex: id,
-    // disappearingTimerSeconds: !expireTimer ? 0 : expireTimer,
+    disappearingTimerSeconds: !expireTimer ? 0 : expireTimer, //FIXME WILL add expirationMode here
     name: displayNameInProfile || '',
     priority: priority || 0,
     members: wrappedMembers,

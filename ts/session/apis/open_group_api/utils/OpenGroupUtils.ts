@@ -124,7 +124,7 @@ export function isOpenGroupV2(conversationId: string) {
  * @returns A map of conversationIds to roomInfos for all valid open group conversations or undefined
  */
 export async function getAllValidOpenGroupV2ConversationRoomInfos() {
-  const inWrapperCommunities = SessionUtilUserGroups.getAllCommunitiesCached();
+  const inWrapperCommunities = await SessionUtilUserGroups.getAllCommunitiesNotCached();
 
   const inWrapperIds = inWrapperCommunities.map(m =>
     getOpenGroupV2ConversationId(m.baseUrl, m.roomCasePreserved)
