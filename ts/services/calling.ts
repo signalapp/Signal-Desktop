@@ -1949,6 +1949,11 @@ export class CallingClass {
     call.handleStateChanged = async () => {
       if (call.state === CallState.Accepted) {
         acceptedTime = acceptedTime || Date.now();
+        await this.addCallHistoryForAcceptedCall(
+          conversation,
+          call,
+          acceptedTime
+        );
       } else if (call.state === CallState.Ended) {
         try {
           await this.addCallHistoryForEndedCall(
@@ -2126,6 +2131,34 @@ export class CallingClass {
     RingRTC.proceed(call.callId, callSettings);
 
     return true;
+  }
+
+  private async addCallHistoryForAcceptedCall(
+    conversation: ConversationModel,
+    call: Call,
+    acceptedTime: number
+  ) {
+    const callId = Long.fromValue(call.callId).toString();
+    try {
+      log.info('addCallHistoryForAcceptedCall: Adding call history');
+      await conversation.addCallHistory(
+        {
+          callId,
+          callMode: CallMode.Direct,
+          wasIncoming: call.isIncoming,
+          wasVideoCall: call.isVideoCall,
+          wasDeclined: false,
+          acceptedTime,
+          endedTime: undefined,
+        },
+        undefined
+      );
+    } catch (error) {
+      log.error(
+        'addCallHistoryForAcceptedCall: Failed to add call history',
+        Errors.toLogFormat(error)
+      );
+    }
   }
 
   private async addCallHistoryForEndedCall(
