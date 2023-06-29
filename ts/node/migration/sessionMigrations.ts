@@ -33,6 +33,7 @@ import {
 } from '../database_utility';
 
 import { getIdentityKeys, sqlNode } from '../sql';
+import { sleepFor } from '../../session/utils/Promise';
 
 const hasDebugEnvVariable = Boolean(process.env.SESSION_DEBUG);
 
@@ -100,6 +101,7 @@ const LOKI_SCHEMA_VERSIONS = [
   updateToSessionSchemaVersion29,
   updateToSessionSchemaVersion30,
   updateToSessionSchemaVersion31,
+  updateToSessionSchemaVersion32,
 ];
 
 function updateToSessionSchemaVersion1(currentVersion: number, db: BetterSqlite3.Database) {
@@ -1204,7 +1206,6 @@ function updateToSessionSchemaVersion29(currentVersion: number, db: BetterSqlite
       conversationId
     );`);
     rebuildFtsTable(db);
-    // Keeping this empty migration because some people updated to this already, even if it is not needed anymore
     writeSessionSchemaVersion(targetVersion, db);
   })();
 
@@ -1235,6 +1236,8 @@ function insertContactIntoContactWrapper(
       dbProfileKey: contact.profileKey || undefined,
       dbProfileUrl: contact.avatarPointer || undefined,
       priority,
+      dbCreatedAtSeconds: Math.floor((contact.active_at || Date.now()) / 1000),
+
       // expirationTimerSeconds,
     });
 
@@ -1259,6 +1262,7 @@ function insertContactIntoContactWrapper(
             dbProfileKey: undefined,
             dbProfileUrl: undefined,
             priority: CONVERSATION_PRIORITIES.default,
+            dbCreatedAtSeconds: Math.floor(Date.now() / 1000),
             // expirationTimerSeconds: 0,
           })
         );
@@ -1308,7 +1312,7 @@ function insertCommunityIntoWrapper(
   const convoId = community.id; // the id of a conversation has the prefix, the serverUrl and the roomToken already present, but not the pubkey
 
   const roomDetails = sqlNode.getV2OpenGroupRoom(convoId, db);
-  hasDebugEnvVariable && console.info('insertCommunityIntoWrapper: ', community);
+  // hasDebugEnvVariable && console.info('insertCommunityIntoWrapper: ', community);
 
   if (
     !roomDetails ||
@@ -1832,6 +1836,26 @@ function updateToSessionSchemaVersion31(currentVersion: number, db: BetterSqlite
   })();
 }
 
+function updateToSessionSchemaVersion32(currentVersion: number, db: BetterSqlite3.Database) {
+  const targetVersion = 32;
+  if (currentVersion >= targetVersion) {
+    return;
+  }
+
+  console.log(`updateToSessionSchemaVersion${targetVersion}: starting...`);
+
+  db.transaction(() => {
+    db.exec(`CREATE INDEX messages_conversationId ON ${MESSAGES_TABLE} (
+      conversationId
+    );`);
+    dropFtsAndTriggers(db);
+    rebuildFtsTable(db);
+    writeSessionSchemaVersion(targetVersion, db);
+  })();
+
+  console.log(`updateToSessionSchemaVersion${targetVersion}: success!`);
+}
+
 export function printTableColumns(table: string, db: BetterSqlite3.Database) {
   console.info(db.pragma(`table_info('${table}');`));
 }
@@ -1846,7 +1870,7 @@ function writeSessionSchemaVersion(newVersion: number, db: BetterSqlite3.Databas
   ).run({ newVersion });
 }
 
-export function updateSessionSchema(db: BetterSqlite3.Database) {
+export async function updateSessionSchema(db: BetterSqlite3.Database) {
   const result = db
     .prepare(`SELECT name FROM sqlite_master WHERE type = 'table' AND name='loki_schema';`)
     .get();
@@ -1863,5 +1887,8 @@ export function updateSessionSchema(db: BetterSqlite3.Database) {
   for (let index = 0, max = LOKI_SCHEMA_VERSIONS.length; index < max; index += 1) {
     const runSchemaUpdate = LOKI_SCHEMA_VERSIONS[index];
     runSchemaUpdate(lokiSchemaVersion, db);
+    if (index > lokiSchemaVersion) {
+      await sleepFor(200); // give some time for the UI to not freeze between 2 migrations
+    }
   }
 }

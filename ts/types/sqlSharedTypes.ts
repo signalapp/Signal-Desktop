@@ -115,6 +115,7 @@ export function getContactInfoFromDBValues({
   priority,
   dbProfileUrl,
   dbProfileKey,
+  dbCreatedAtSeconds,
 }: // expirationTimerSeconds,
 {
   id: string;
@@ -124,6 +125,7 @@ export function getContactInfoFromDBValues({
   dbNickname: string | undefined;
   dbName: string | undefined;
   priority: number;
+  dbCreatedAtSeconds: number;
   dbProfileUrl: string | undefined;
   dbProfileKey: string | undefined;
   // expirationTimerSeconds: number | undefined;
@@ -136,6 +138,7 @@ export function getContactInfoFromDBValues({
     priority,
     nickname: dbNickname,
     name: dbName,
+    createdAtSeconds: dbCreatedAtSeconds,
     // expirationTimerSeconds:
     //   !!expirationTimerSeconds && isFinite(expirationTimerSeconds) && expirationTimerSeconds > 0
     //     ? expirationTimerSeconds

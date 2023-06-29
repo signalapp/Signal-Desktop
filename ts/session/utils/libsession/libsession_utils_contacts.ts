@@ -70,6 +70,7 @@ async function insertContactFromDBIntoWrapperAndRefresh(id: string): Promise<voi
     dbProfileKey,
     dbProfileUrl,
     priority,
+    dbCreatedAtSeconds: 0, // just give 0, now() will be used internally by the wrapper if the contact does not exist yet.
     // expirationTimerSeconds,
   });
   try {

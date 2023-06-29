@@ -1,7 +1,7 @@
 import autoBind from 'auto-bind';
 import React from 'react';
 import { AutoSizer, List, ListRowProps } from 'react-virtualized';
-import { SearchResults, SearchResultsProps } from '../search/SearchResults';
+import { SearchResults } from '../search/SearchResults';
 import { LeftPaneSectionHeader } from './LeftPaneSectionHeader';
 import { MessageRequestsBanner } from './MessageRequestsBanner';
 
@@ -21,7 +21,7 @@ import { assertUnreachable } from '../../types/sqlSharedTypes';
 
 export interface Props {
   conversationIds?: Array<string>;
-  searchResults?: SearchResultsProps;
+  hasSearchResults: boolean;
   overlayMode: OverlayMode | undefined;
 }
 
@@ -88,10 +88,10 @@ export class LeftPaneMessageSection extends React.Component<Props> {
   };
 
   public renderList(): JSX.Element {
-    const { conversationIds, searchResults } = this.props;
+    const { conversationIds, hasSearchResults } = this.props;
 
-    if (searchResults) {
-      return <SearchResults {...searchResults} />;
+    if (hasSearchResults) {
+      return <SearchResults />;
     }
 
     if (!conversationIds) {
