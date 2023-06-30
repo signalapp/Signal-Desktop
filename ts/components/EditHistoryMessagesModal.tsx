@@ -60,7 +60,7 @@ const MESSAGE_DEFAULT_PROPS = {
   shouldHideMetadata: false,
   showContactModal: shouldNeverBeCalled,
   showConversation: noop,
-  showEditHistoryModal: shouldNeverBeCalled,
+  showEditHistoryModal: noop,
   showExpiredIncomingTapToViewToast: shouldNeverBeCalled,
   showExpiredOutgoingTapToViewToast: shouldNeverBeCalled,
   showLightboxForViewOnceMedia: shouldNeverBeCalled,
@@ -100,6 +100,8 @@ export function EditHistoryMessagesModal({
   const [currentMessage, ...pastEdits] = editHistoryMessages;
   const currentMessageId = `${currentMessage.id}.${currentMessage.timestamp}`;
 
+  let previousItem = currentMessage;
+
   return (
     <Modal
       hasXButton
@@ -110,6 +112,7 @@ export function EditHistoryMessagesModal({
       noTransform
     >
       <div ref={containerElementRef}>
+        <TimelineDateHeader i18n={i18n} timestamp={currentMessage.timestamp} />
         <Message
           {...MESSAGE_DEFAULT_PROPS}
           {...currentMessage}
@@ -118,6 +121,7 @@ export function EditHistoryMessagesModal({
           displayLimit={displayLimitById[currentMessageId]}
           getPreferredBadge={getPreferredBadge}
           i18n={i18n}
+          isEditedMessage
           isSpoilerExpanded={revealedSpoilersById[currentMessageId] || {}}
           key={currentMessage.timestamp}
           kickOffAttachmentDownload={kickOffAttachmentDownload}
@@ -146,10 +150,8 @@ export function EditHistoryMessagesModal({
           {i18n('icu:EditHistoryMessagesModal__title')}
         </h3>
 
-        {pastEdits.map((messageAttributes, index) => {
+        {pastEdits.map(messageAttributes => {
           const syntheticId = `${messageAttributes.id}.${messageAttributes.timestamp}`;
-
-          const previousItem = pastEdits[index - 1];
 
           const shouldShowDateHeader = Boolean(
             !previousItem ||
@@ -163,6 +165,8 @@ export function EditHistoryMessagesModal({
               timestamp={messageAttributes.timestamp}
             />
           ) : null;
+
+          previousItem = messageAttributes;
 
           return (
             <React.Fragment key={messageAttributes.timestamp}>
