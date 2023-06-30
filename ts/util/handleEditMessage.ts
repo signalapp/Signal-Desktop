@@ -21,7 +21,6 @@ import { isIncoming, isOutgoing } from '../messages/helpers';
 import { isOlderThan } from './timestamp';
 import { isDirectConversation } from './whatTypeOfConversation';
 import { queueAttachmentDownloads } from './queueAttachmentDownloads';
-import { shouldReplyNotifyUser } from './shouldReplyNotifyUser';
 
 export async function handleEditMessage(
   mainMessage: MessageAttributesType,
@@ -291,10 +290,5 @@ export async function handleEditMessage(
     // Clear typing indicator
     const typingToken = `${editAttributes.fromId}.${editAttributes.fromDevice}`;
     conversation.clearContactTypingTimer(typingToken);
-
-    // Update notifications
-    if (await shouldReplyNotifyUser(mainMessageModel, conversation)) {
-      await conversation.notify(mainMessageModel);
-    }
   }
 }
