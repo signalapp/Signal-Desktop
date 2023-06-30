@@ -3761,6 +3761,7 @@ button.module-image__border-overlay:focus {
     width: 100%;
     z-index: $z-index-above-base;
     padding-bottom: 1rem;
+    -webkit-app-region: drag;
   }
 
   &__header-message {
