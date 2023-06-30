@@ -749,13 +749,15 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
       return (
         <div className="module-ConversationHeader__header">
           {avatar}
-          <button
-            type="button"
-            className="module-ConversationHeader__header--clickable"
-            onClick={onClick}
-          >
-            {contents}
-          </button>
+          <div>
+            <button
+              type="button"
+              className="module-ConversationHeader__header--clickable"
+              onClick={onClick}
+            >
+              {contents}
+            </button>
+          </div>
         </div>
       );
     }
