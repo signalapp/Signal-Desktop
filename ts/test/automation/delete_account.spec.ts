@@ -5,9 +5,7 @@ import { newUser } from './setup/new_user';
 import { openApp } from './setup/open';
 import { createContact } from './utilities/create_contact';
 import { sendNewMessage } from './utilities/send_message';
-import { clickOnMatchingText, clickOnTestIdWithText, typeIntoInput } from './utilities/utils';
-import { sleepFor } from '../../session/utils/Promise';
-import { openApp } from './setup/open';
+import { clickOnElement, clickOnMatchingText, clickOnTestIdWithText, hasElementBeenDeleted, typeIntoInput, waitForElement, waitForLoadingAnimationToFinish } from './utilities/utils';
 // tslint:disable: no-console
 
 test.beforeEach(beforeAllClean);
