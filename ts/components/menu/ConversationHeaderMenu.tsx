@@ -6,7 +6,7 @@ import {
   useSelectedConversationKey,
   useSelectedIsPrivate,
   useSelectedIsPrivateFriend,
-} from '../../state/selectors/selectedConversation';
+} from '../../state/selectors/conversations';
 
 import { ContextConversationProvider } from '../leftpane/conversation-list-item/ConvoIdContext';
 import { SessionContextMenuContainer } from '../SessionContextMenuContainer';

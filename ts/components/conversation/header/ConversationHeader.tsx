@@ -8,7 +8,7 @@ import {
 
 import { closeMessageDetailsView, openRightPanel } from '../../../state/ducks/conversations';
 
-import { useSelectedConversationKey } from '../../../state/selectors/selectedConversation';
+import { useSelectedConversationKey } from '../../../state/selectors/conversations';
 import { Flex } from '../../basic/Flex';
 import { ConversationHeaderMenu } from '../../menu/ConversationHeaderMenu';
 import { AvatarHeader, BackButton, CallButton, TripleDotsMenu } from './ConversationHeaderItems';

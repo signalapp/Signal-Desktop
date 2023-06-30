@@ -92,7 +92,6 @@ export async function createClosedGroup(groupName: string, members: Array<string
 /**
  * Sends a group invite message to each member of the group.
  * @returns Array of promises for group invite messages sent to group members.
-
  */
 async function sendToGroupMembers(
   listOfMembers: Array<string>,

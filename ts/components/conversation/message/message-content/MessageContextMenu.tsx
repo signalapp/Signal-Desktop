@@ -23,14 +23,14 @@ import {
   toggleSelectedMessageId,
 } from '../../../../state/ducks/conversations';
 import { StateType } from '../../../../state/reducer';
-import { getMessageContextMenuProps } from '../../../../state/selectors/conversations';
 import {
+  getMessageContextMenuProps,
   useSelectedConversationKey,
   useSelectedIsBlocked,
   useSelectedIsPublic,
   useSelectedWeAreAdmin,
   useSelectedWeAreModerator,
-} from '../../../../state/selectors/selectedConversation';
+} from '../../../../state/selectors/conversations';
 import { saveAttachmentToDisk } from '../../../../util/attachmentsUtil';
 import { Reactions } from '../../../../util/reactions';
 import { SessionContextMenuContainer } from '../../../SessionContextMenuContainer';

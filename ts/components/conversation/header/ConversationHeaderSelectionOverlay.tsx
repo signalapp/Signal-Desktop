@@ -5,7 +5,11 @@ import {
   deleteMessagesByIdForEveryone,
 } from '../../../interactions/conversations/unsendingInteractions';
 import { resetSelectedMessageIds } from '../../../state/ducks/conversations';
-import { getSelectedMessageIds } from '../../../state/selectors/conversations';
+import {
+  getSelectedMessageIds,
+  useSelectedConversationKey,
+  useSelectedIsPublic,
+} from '../../../state/selectors/conversations';
 import {
   SessionButton,
   SessionButtonColor,
@@ -13,10 +17,6 @@ import {
   SessionButtonType,
 } from '../../basic/SessionButton';
 import { SessionIconButton } from '../../icon';
-import {
-  useSelectedConversationKey,
-  useSelectedIsPublic,
-} from '../../../state/selectors/selectedConversation';
 
 export const SelectionOverlay = () => {
   const selectedMessageIds = useSelector(getSelectedMessageIds);

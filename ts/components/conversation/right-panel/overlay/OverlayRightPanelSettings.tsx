@@ -20,8 +20,8 @@ import {
 import { Constants } from '../../../../session';
 import { closeRightPanel } from '../../../../state/ducks/conversations';
 import { setRightOverlayMode } from '../../../../state/ducks/section';
-import { isRightPanelShowing } from '../../../../state/selectors/conversations';
 import {
+  isRightPanelShowing,
   useSelectedConversationKey,
   useSelectedDisplayNameInProfile,
   useSelectedIsActive,
@@ -32,7 +32,7 @@ import {
   useSelectedIsPublic,
   useSelectedSubscriberCount,
   useSelectedWeAreAdmin,
-} from '../../../../state/selectors/selectedConversation';
+} from '../../../../state/selectors/conversations';
 import { AttachmentTypeWithPath } from '../../../../types/Attachment';
 import { getAbsoluteAttachmentPath } from '../../../../types/MessageAttachment';
 import { Avatar, AvatarSize } from '../../../avatar/Avatar';

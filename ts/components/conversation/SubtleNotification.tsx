@@ -1,19 +1,17 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import {
-  getSelectedHasMessages,
-  hasSelectedConversationIncomingMessages,
-} from '../../state/selectors/conversations';
+import { useIsIncomingRequest } from '../../hooks/useParamSelector';
 import {
   getSelectedCanWrite,
+  getSelectedHasMessages,
+  hasSelectedConversationIncomingMessages,
   useSelectedConversationKey,
-  useSelectedNicknameOrProfileNameOrShortenedPubkey,
   useSelectedIsNoteToSelf,
-} from '../../state/selectors/selectedConversation';
+  useSelectedNicknameOrProfileNameOrShortenedPubkey,
+} from '../../state/selectors/conversations';
 import { LocalizerKeys } from '../../types/LocalizerKeys';
 import { SessionHtmlRenderer } from '../basic/SessionHTMLRenderer';
-import { useIsIncomingRequest } from '../../hooks/useParamSelector';
 
 const Container = styled.div`
   display: flex;

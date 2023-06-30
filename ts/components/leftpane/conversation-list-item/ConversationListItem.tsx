@@ -19,7 +19,7 @@ import {
   useMentionedUs,
 } from '../../../hooks/useParamSelector';
 import { isSearching } from '../../../state/selectors/search';
-import { useSelectedConversationKey } from '../../../state/selectors/selectedConversation';
+import { useSelectedConversationKey } from '../../../state/selectors/conversations';
 import { MemoConversationListItemContextMenu } from '../../menu/ConversationListItemContextMenu';
 import { ContextConversationProvider, useConvoIdFromContext } from './ConvoIdContext';
 import { ConversationListItemHeaderItem } from './HeaderItem';

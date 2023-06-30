@@ -9,7 +9,7 @@ import { Lightbox } from './Lightbox';
 import { useDispatch } from 'react-redux';
 import useKey from 'react-use/lib/useKey';
 import { showLightBox } from '../../state/ducks/conversations';
-import { useSelectedConversationKey } from '../../state/selectors/selectedConversation';
+import { useSelectedConversationKey } from '../../state/selectors/conversations';
 import { MIME } from '../../types';
 import { AttachmentTypeWithPath } from '../../types/Attachment';
 import { saveAttachmentToDisk } from '../../util/attachmentsUtil';

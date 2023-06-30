@@ -7,8 +7,10 @@ import {
   declineConversationWithConfirm,
 } from '../../interactions/conversationInteractions';
 import { getConversationController } from '../../session/conversations';
-import { hasSelectedConversationIncomingMessages } from '../../state/selectors/conversations';
-import { useSelectedConversationKey } from '../../state/selectors/selectedConversation';
+import {
+  hasSelectedConversationIncomingMessages,
+  useSelectedConversationKey,
+} from '../../state/selectors/conversations';
 import { SessionButton, SessionButtonColor } from '../basic/SessionButton';
 import { ConversationRequestExplanation } from './SubtleNotification';
 

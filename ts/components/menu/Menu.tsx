@@ -52,7 +52,7 @@ import {
   useSelectedIsPrivate,
   useSelectedIsPrivateFriend,
   useSelectedNotificationSetting,
-} from '../../state/selectors/selectedConversation';
+} from '../../state/selectors/conversations';
 import { SessionButtonColor } from '../basic/SessionButton';
 import { useConvoIdFromContext } from '../leftpane/conversation-list-item/ConvoIdContext';
 import {

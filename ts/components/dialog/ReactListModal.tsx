@@ -14,7 +14,7 @@ import {
 import {
   useSelectedIsPublic,
   useSelectedWeAreModerator,
-} from '../../state/selectors/selectedConversation';
+} from '../../state/selectors/conversations';
 import { SortedReactionList } from '../../types/Reaction';
 import { nativeEmojiData } from '../../util/emoji';
 import { Reactions } from '../../util/reactions';

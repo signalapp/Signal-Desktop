@@ -8,10 +8,7 @@ import {
   useMessageAuthor,
   useMessageDirection,
 } from '../../../../state/selectors';
-import {
-  useSelectedIsGroup,
-  useSelectedIsPublic,
-} from '../../../../state/selectors/selectedConversation';
+import { useSelectedIsGroup, useSelectedIsPublic } from '../../../../state/selectors/conversations';
 import { Flex } from '../../../basic/Flex';
 import { ContactName } from '../../ContactName';
 

@@ -3,7 +3,7 @@ import React from 'react';
 import { TypingAnimation } from './TypingAnimation';
 import styled from 'styled-components';
 import { ConversationTypeEnum } from '../../models/conversationAttributes';
-import { useSelectedIsGroup } from '../../state/selectors/selectedConversation';
+import { useSelectedIsGroup } from '../../state/selectors/conversations';
 
 interface TypingBubbleProps {
   conversationType: ConversationTypeEnum;

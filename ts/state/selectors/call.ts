@@ -2,8 +2,7 @@ import { createSelector } from '@reduxjs/toolkit';
 import { CallStateType, CallStatusEnum } from '../ducks/call';
 import { ConversationsStateType, ReduxConversationType } from '../ducks/conversations';
 import { StateType } from '../reducer';
-import { getConversations } from './conversations';
-import { getSelectedConversationKey } from './selectedConversation';
+import { getConversations, getSelectedConversationKey } from './conversations';
 
 const getCallState = (state: StateType): CallStateType => state.call;
 

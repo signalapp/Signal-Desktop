@@ -10,7 +10,7 @@ import { useVideoCallEventsListener } from '../../hooks/useVideoEventListener';
 import { VideoLoadingSpinner } from './InConversationCallContainer';
 import { getSection } from '../../state/selectors/section';
 import { SectionType } from '../../state/ducks/section';
-import { useSelectedConversationKey } from '../../state/selectors/selectedConversation';
+import { useSelectedConversationKey } from '../../state/selectors/conversations';
 
 export const DraggableCallWindow = styled.div`
   position: absolute;

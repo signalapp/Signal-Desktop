@@ -7,12 +7,12 @@ import {
   getIsSelectedConvoInitialLoadingInProgress,
   getLightBoxOptions,
   getSelectedConversation,
+  getSelectedConversationKey,
   getSelectedMessageIds,
   getSortedMessagesOfSelectedConversation,
   isMessageDetailView,
   isRightPanelShowing,
 } from '../selectors/conversations';
-import { getSelectedConversationKey } from '../selectors/selectedConversation';
 import { getStagedAttachmentsForCurrentConversation } from '../selectors/stagedAttachments';
 import { getTheme } from '../selectors/theme';
 import { getOurNumber } from '../selectors/user';

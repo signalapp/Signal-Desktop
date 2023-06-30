@@ -21,7 +21,7 @@ import {
   getSelectedCanWrite,
   useSelectedConversationKey,
   useSelectedIsPublic,
-} from '../../../../state/selectors/selectedConversation';
+} from '../../../../state/selectors/conversations';
 import { Avatar, AvatarSize, CrownIcon } from '../../../avatar/Avatar';
 // tslint:disable: use-simple-attributes
 

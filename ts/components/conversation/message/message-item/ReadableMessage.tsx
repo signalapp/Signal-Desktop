@@ -19,9 +19,9 @@ import {
   getQuotedMessageToAnimate,
   getShowScrollButton,
   getYoungestMessageId,
+  useSelectedConversationKey,
 } from '../../../../state/selectors/conversations';
 import { getIsAppFocused } from '../../../../state/selectors/section';
-import { useSelectedConversationKey } from '../../../../state/selectors/selectedConversation';
 import { ScrollToLoadedMessageContext } from '../../SessionMessagesListContainer';
 
 export type ReadableMessageProps = {

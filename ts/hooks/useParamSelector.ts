@@ -4,12 +4,15 @@ import {
   hasValidIncomingRequestValues,
   hasValidOutgoingRequestValues,
 } from '../models/conversation';
+import { CONVERSATION } from '../session/constants';
 import { PubKey } from '../session/types';
 import { UserUtils } from '../session/utils';
 import { StateType } from '../state/reducer';
-import { isPrivateAndFriend } from '../state/selectors/selectedConversation';
-import { CONVERSATION } from '../session/constants';
-import { getMessageExpirationProps, getMessageReactsProps } from '../state/selectors/conversations';
+import {
+  getMessageExpirationProps,
+  getMessageReactsProps,
+  isPrivateAndFriend,
+} from '../state/selectors/conversations';
 
 export function useAvatarPath(convoId: string | undefined) {
   const convoProps = useConversationPropsById(convoId);

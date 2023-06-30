@@ -9,7 +9,7 @@ import {
   useSelectedConversationKey,
   useSelectedDisplayNameInProfile,
   useSelectedNickname,
-} from '../../../../../state/selectors/selectedConversation';
+} from '../../../../../state/selectors/conversations';
 import { LocalizerKeys } from '../../../../../types/LocalizerKeys';
 import { SessionIconType } from '../../../../icon';
 import { ExpirableReadableMessage } from '../ExpirableReadableMessage';

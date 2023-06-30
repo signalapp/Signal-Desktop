@@ -1,30 +1,17 @@
-import React from 'react';
 import _, { debounce, isEmpty } from 'lodash';
+import React from 'react';
 
 import * as MIME from '../../../types/MIME';
 
 import { SessionEmojiPanel, StyledEmojiPanel } from '../SessionEmojiPanel';
 import { SessionRecording } from '../SessionRecording';
 
-import {
-  getPreview,
-  LINK_PREVIEW_TIMEOUT,
-  SessionStagedLinkPreview,
-} from '../SessionStagedLinkPreview';
 import { AbortController } from 'abort-controller';
-import { SessionQuotedMessageComposition } from '../SessionQuotedMessageComposition';
-import { Mention, MentionsInput, SuggestionDataItem } from 'react-mentions';
 import autoBind from 'auto-bind';
-import { getMediaPermissionsSettings } from '../../settings/SessionSettings';
-import { getDraftForConversation, updateDraftForConversation } from '../SessionConversationDrafts';
-import {
-  AddStagedAttachmentButton,
-  SendMessageButton,
-  StartRecordingButton,
-  ToggleEmojiButton,
-} from './CompositionButtons';
-import { AttachmentType } from '../../../types/Attachment';
+import { Mention, MentionsInput, SuggestionDataItem } from 'react-mentions';
 import { connect } from 'react-redux';
+import styled from 'styled-components';
+import { SettingsKey } from '../../../data/settings-key';
 import { showLinkSharingConfirmationModalDialog } from '../../../interactions/conversationInteractions';
 import { getConversationController } from '../../../session/conversations';
 import { ToastUtils } from '../../../session/utils';
@@ -34,32 +21,43 @@ import { StateType } from '../../../state/reducer';
 import {
   getMentionsInput,
   getQuotedMessage,
+  getSelectedCanWrite,
   getSelectedConversation,
+  getSelectedConversationKey,
 } from '../../../state/selectors/conversations';
-import { AttachmentUtil } from '../../../util';
-import { Flex } from '../../basic/Flex';
-import { CaptionEditor } from '../../CaptionEditor';
-import { StagedAttachmentList } from '../StagedAttachmentList';
+import { AttachmentType } from '../../../types/Attachment';
 import { processNewAttachment } from '../../../types/MessageAttachment';
+import { FixedBaseEmoji } from '../../../types/Reaction';
+import { AttachmentUtil } from '../../../util';
 import {
   StagedAttachmentImportedType,
   StagedPreviewImportedType,
 } from '../../../util/attachmentsUtil';
+import { LinkPreviews } from '../../../util/linkPreviews';
+import { Flex } from '../../basic/Flex';
+import { CaptionEditor } from '../../CaptionEditor';
+import { getMediaPermissionsSettings } from '../../settings/SessionSettings';
+import { getDraftForConversation, updateDraftForConversation } from '../SessionConversationDrafts';
+import { SessionQuotedMessageComposition } from '../SessionQuotedMessageComposition';
+import {
+  getPreview,
+  LINK_PREVIEW_TIMEOUT,
+  SessionStagedLinkPreview,
+} from '../SessionStagedLinkPreview';
+import { StagedAttachmentList } from '../StagedAttachmentList';
+import {
+  AddStagedAttachmentButton,
+  SendMessageButton,
+  StartRecordingButton,
+  ToggleEmojiButton,
+} from './CompositionButtons';
+import { renderEmojiQuickResultRow, searchEmojiForQuery } from './EmojiQuickResult';
 import {
   cleanMentions,
   mentionsRegex,
   renderUserMentionRow,
   styleForCompositionBoxSuggestions,
 } from './UserMentions';
-import { renderEmojiQuickResultRow, searchEmojiForQuery } from './EmojiQuickResult';
-import { LinkPreviews } from '../../../util/linkPreviews';
-import styled from 'styled-components';
-import { FixedBaseEmoji } from '../../../types/Reaction';
-import {
-  getSelectedCanWrite,
-  getSelectedConversationKey,
-} from '../../../state/selectors/selectedConversation';
-import { SettingsKey } from '../../../data/settings-key';
 
 export interface ReplyingToMessageProps {
   convoId: string;
