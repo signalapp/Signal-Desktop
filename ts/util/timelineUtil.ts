@@ -125,7 +125,8 @@ export function areMessagesInSameGroup(
   return Boolean(
     !olderMessage.reactions?.length &&
       olderMessage.author.id === newerMessage.author.id &&
-      newerMessage.timestamp >= olderMessage.timestamp &&
+      (olderMessage.isEditedMessage ||
+        newerMessage.timestamp >= olderMessage.timestamp) &&
       newerMessage.timestamp - olderMessage.timestamp < COLLAPSE_WITHIN &&
       isSameDay(olderMessage.timestamp, newerMessage.timestamp)
   );
