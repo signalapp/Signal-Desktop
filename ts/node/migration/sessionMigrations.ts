@@ -1887,7 +1887,16 @@ export async function updateSessionSchema(db: BetterSqlite3.Database) {
   for (let index = 0, max = LOKI_SCHEMA_VERSIONS.length; index < max; index += 1) {
     const runSchemaUpdate = LOKI_SCHEMA_VERSIONS[index];
     runSchemaUpdate(lokiSchemaVersion, db);
-    if (index > lokiSchemaVersion) {
+    if (index > lokiSchemaVersion && index - lokiSchemaVersion <= 3) {
+      /** When running migrations, we block the node process.
+       * This causes the app to be in a Not responding state when we have a lot of data.
+       * To avoid this, we add a `sleep` between the run of the last 3 migrations.
+       * This "only for the last 3 migrations" serves 2 purposes:
+       * - we don't wait for `200ms * total number of migrations` when starting from schemaVersion 0
+       * - we do have some time between the last 3 migrations, at most.
+       *
+       * This means that this sleepFor will only sleep for at most 600ms, even if we need to run 30 migrations.
+       */
       await sleepFor(200); // give some time for the UI to not freeze between 2 migrations
     }
   }

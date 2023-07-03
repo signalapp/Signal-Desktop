@@ -343,6 +343,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     // those are values coming only from both the DB or the wrapper. Currently we display the data from the DB
     if (this.isClosedGroup()) {
       toRet.members = this.get('members') || [];
+    }
+
+    // those are values coming only from both the DB or the wrapper. Currently we display the data from the DB
+    if (this.isClosedGroup() || this.isPublic()) {
+      // for public, this value always comes from the DB
       toRet.groupAdmins = this.getGroupAdmins();
     }
 
