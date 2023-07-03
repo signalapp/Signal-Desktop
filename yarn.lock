@@ -411,12 +411,19 @@
   dependencies:
     regenerator-runtime "^0.13.2"
 
-"@babel/runtime@^7.1.2", "@babel/runtime@^7.10.2", "@babel/runtime@^7.12.1", "@babel/runtime@^7.3.4", "@babel/runtime@^7.5.5", "@babel/runtime@^7.7.2", "@babel/runtime@^7.8.7", "@babel/runtime@^7.9.2":
+"@babel/runtime@^7.1.2", "@babel/runtime@^7.10.2", "@babel/runtime@^7.12.1", "@babel/runtime@^7.5.5", "@babel/runtime@^7.7.2", "@babel/runtime@^7.8.7", "@babel/runtime@^7.9.2":
   version "7.19.0"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.19.0.tgz#22b11c037b094d27a8a2504ea4dcff00f50e2259"
   integrity sha512-eR8Lo9hnDS7tqkO7NsV+mKvCmv5boaXFSZ70DnfhcgiEne8hv9oCEd36Klw74EtizEqLsy4YnW8UWwpBVolHZA==
   dependencies:
     regenerator-runtime "^0.13.4"
+
+"@babel/runtime@^7.3.4":
+  version "7.22.5"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.22.5.tgz#8564dd588182ce0047d55d7a75e93921107b57ec"
+  integrity sha512-ecjvYlnAaZ/KVneE/OdKYBYfgXV3Ptu6zQWmgEF7vwKhQnvVS6bjMD2XYgj+SNvQ1GfK/pjgokfPkC/2CO8CuA==
+  dependencies:
+    regenerator-runtime "^0.13.11"
 
 "@babel/template@^7.18.6":
   version "7.18.6"
@@ -1192,10 +1199,10 @@
   dependencies:
     "@types/react" "^17"
 
-"@types/react-mentions@^4.1.1":
-  version "4.1.6"
-  resolved "https://registry.yarnpkg.com/@types/react-mentions/-/react-mentions-4.1.6.tgz#0ecdb61785c22edbf9c7d6718505d4814ad3a65c"
-  integrity sha512-f4/BdnjlMxT47q+WqlcYYwFABbBMVQrDoFFeMeljtFC5nnR9/x8TOFmN18BJKgNuWMgivy9uE5EKtsjlay751w==
+"@types/react-mentions@^4.1.8":
+  version "4.1.8"
+  resolved "https://registry.yarnpkg.com/@types/react-mentions/-/react-mentions-4.1.8.tgz#4bebe54c5c74181d8eedf1e613a208d03b4a8d7e"
+  integrity sha512-Go86ozdnh0FTNbiGiDPAcNqYqtab9iGzLOgZPYUKrnhI4539jGzfJtP6rFHcXgi9Koe58yhkeyKYib6Ucul/sQ==
   dependencies:
     "@types/react" "*"
 
@@ -5148,9 +5155,9 @@ levn@~0.3.0:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
 
-"libsession_util_nodejs@https://github.com/oxen-io/libsession-util-nodejs/releases/download/v0.1.17/libsession_util_nodejs-v0.1.17.tar.gz":
-  version "0.1.17"
-  resolved "https://github.com/oxen-io/libsession-util-nodejs/releases/download/v0.1.17/libsession_util_nodejs-v0.1.17.tar.gz#e79b8900a62fcf3798a43aeef0e99d5fc52674a2"
+"libsession_util_nodejs@https://github.com/oxen-io/libsession-util-nodejs/releases/download/v0.1.20/libsession_util_nodejs-v0.1.20.tar.gz":
+  version "0.1.20"
+  resolved "https://github.com/oxen-io/libsession-util-nodejs/releases/download/v0.1.20/libsession_util_nodejs-v0.1.20.tar.gz#4ff8331e4efb1725cf8bba0ef1af7496ebd8533d"
   dependencies:
     cmake-js "^7.2.1"
     node-addon-api "^6.1.0"
@@ -6551,10 +6558,10 @@ react-lifecycles-compat@^3.0.4:
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
-react-mentions@^4.2.0:
-  version "4.3.2"
-  resolved "https://registry.yarnpkg.com/react-mentions/-/react-mentions-4.3.2.tgz#93a2a674648f31d2b40e8c90d30b94c377cbb582"
-  integrity sha512-NV8ixuE5W9zuvBNWLpPlO+f4QYEkR+p6mR3Jfpfcbytrqqn2nbVb27YXE/M4qSP8N8C+ktgeMUV4jVhm86gt1A==
+react-mentions@^4.4.9:
+  version "4.4.9"
+  resolved "https://registry.yarnpkg.com/react-mentions/-/react-mentions-4.4.9.tgz#5f68c7978c107518646c5c34c47515c30259e23a"
+  integrity sha512-CUDt8GOVbAmo3o+a8l1UxcJ/gJMdFdqeiJM3U5+krcNoUwyKv7Zcy67WfFZQJfChpJ8LTiD0FtCSRoyEzC6Ysw==
   dependencies:
     "@babel/runtime" "7.4.5"
     invariant "^2.2.4"
@@ -6759,7 +6766,12 @@ regenerator-runtime@^0.11.0:
   resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.11.1.tgz#be05ad7f9bf7d22e056f9726cee5017fbf19e2e9"
   integrity sha512-MguG95oij0fC3QV3URf4V2SDYGJhJnJGqvIIgdECeODCT98wSWDAJ94SSuVpYQUoTcGUIL6L4yNB7j1DFFHSBg==
 
-regenerator-runtime@^0.13.2, regenerator-runtime@^0.13.4:
+regenerator-runtime@^0.13.11, regenerator-runtime@^0.13.2:
+  version "0.13.11"
+  resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.13.11.tgz#f6dca3e7ceec20590d07ada785636a90cdca17f9"
+  integrity sha512-kY1AZVr2Ra+t+piVaJ4gxaFaReZVH40AKNo7UCX6W+dEwBo/2oZJzqfuN1qLq1oL45o56cPaTXELwrTh8Fpggg==
+
+regenerator-runtime@^0.13.4:
   version "0.13.9"
   resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.13.9.tgz#8925742a98ffd90814988d7566ad30ca3b263b52"
   integrity sha512-p3VT+cOEgxFsRRA9X4lkI1E+k2/CtnKtU4gcxyaCUreilL/vqI6CdZ3wxVUx3UOUg+gnUOQQcRI7BmSI656MYA==

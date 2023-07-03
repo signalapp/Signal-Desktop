@@ -6,7 +6,7 @@ import { ContactName } from '../conversation/ContactName';
 import { Avatar, AvatarSize } from '../avatar/Avatar';
 import { Timestamp } from '../conversation/Timestamp';
 import { MessageBodyHighlight } from '../basic/MessageBodyHighlight';
-import styled from 'styled-components';
+import styled, { CSSProperties } from 'styled-components';
 import { MessageAttributes } from '../../models/messageType';
 import { useConversationUsername, useIsPrivate } from '../../hooks/useParamSelector';
 import { UserUtils } from '../../session/utils';
@@ -172,7 +172,9 @@ const StyledTimestampContaimer = styled.div`
   color: var(--conversation-tab-text-color);
 `;
 
-export const MessageSearchResult = (props: MessageResultProps) => {
+type MessageSearchResultProps = MessageResultProps & { style: CSSProperties };
+
+export const MessageSearchResult = (props: MessageSearchResultProps) => {
   const {
     id,
     conversationId,
@@ -183,6 +185,7 @@ export const MessageSearchResult = (props: MessageResultProps) => {
     serverTimestamp,
     timestamp,
     direction,
+    style,
   } = props;
 
   /** destination is only used for search results (showing the `from:` and `to`)
@@ -210,6 +213,7 @@ export const MessageSearchResult = (props: MessageResultProps) => {
   return (
     <StyledSearchResults
       key={`div-msg-searchresult-${id}`}
+      style={style}
       role="button"
       onClick={() => {
         void openConversationToSpecificMessage({

@@ -1,9 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { sortBy, uniq } from 'lodash';
+import { sortBy, uniq, xor } from 'lodash';
 import {
   getCanWriteOutsideRedux,
   getCurrentSubscriberCountOutsideRedux,
-  getModeratorsOutsideRedux,
 } from '../selectors/sogsRoomInfo';
 
 type RoomInfo = {
@@ -53,8 +52,16 @@ const sogsRoomInfosSlice = createSlice({
     },
     setModerators(state, action: PayloadAction<{ convoId: string; moderators: Array<string> }>) {
       addEmptyEntryIfNeeded(state, action.payload.convoId);
+      const existing = state.rooms[action.payload.convoId].moderators;
+      const newMods = sortBy(uniq(action.payload.moderators));
 
-      state.rooms[action.payload.convoId].moderators = sortBy(uniq(action.payload.moderators));
+      // check if there is any changes (order excluded) between those two arrays
+      const xord = xor(existing, newMods);
+      if (!xord.length) {
+        return state;
+      }
+
+      state.rooms[action.payload.convoId].moderators = newMods;
 
       return state;
     },
@@ -86,16 +93,13 @@ function setCanWriteOutsideRedux(convoId: string, canWrite: boolean) {
 }
 
 /**
+ * Update the redux slice for that community's moderators list
+ * if we are a moderator that room and the room is blinded, this update needs to contain our unblinded pubkey, NOT the blinded one.
  *
  * @param convoId the convoId of the room to set the moderators
  * @param moderators the updated list of moderators
- * Note: if we are a moderator that room and the room is blinded, this update needs to contain our unblinded pubkey, NOT the blinded one
  */
 function setModeratorsOutsideRedux(convoId: string, moderators: Array<string>) {
-  const currentMods = getModeratorsOutsideRedux(convoId);
-  if (sortBy(uniq(currentMods)) === sortBy(uniq(moderators))) {
-    return;
-  }
   window.inboxStore?.dispatch(
     setModerators({
       convoId,

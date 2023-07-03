@@ -1,9 +1,11 @@
+import { isString } from 'lodash';
 import { useSelector } from 'react-redux';
 import { ConversationTypeEnum, isOpenOrClosedGroup } from '../../models/conversationAttributes';
-import { ReduxConversationType } from '../ducks/conversations';
-import { StateType } from '../reducer';
-import { getCanWrite, getSubscriberCount } from './sogsRoomInfo';
 import { PubKey } from '../../session/types';
+import { UserUtils } from '../../session/utils';
+import { StateType } from '../reducer';
+import { getCanWrite, getModerators, getSubscriberCount } from './sogsRoomInfo';
+import { getSelectedConversation } from './conversations';
 
 /**
  * Returns the formatted text for notification setting.
@@ -54,11 +56,6 @@ const getIsSelectedNoteToSelf = (state: StateType): boolean => {
 
 export const getSelectedConversationKey = (state: StateType): string | undefined => {
   return state.conversations.selectedConversation;
-};
-
-export const getSelectedConversation = (state: StateType): ReduxConversationType | undefined => {
-  const selected = getSelectedConversationKey(state);
-  return selected ? state.conversations.conversationLookup[selected] : undefined;
 };
 
 /**
@@ -256,6 +253,21 @@ export function useSelectedNicknameOrProfileNameOrShortenedPubkey() {
 
 export function useSelectedWeAreAdmin() {
   return useSelector((state: StateType) => getSelectedConversation(state)?.weAreAdmin || false);
+}
+
+/**
+ * Only for communities.
+ * @returns true if the selected convo is a community and we are one of the moderators
+ */
+export function useSelectedWeAreModerator() {
+  // TODO might be something to memoize let's see
+  const isPublic = useSelectedIsPublic();
+  const selectedConvoKey = useSelectedConversationKey();
+  const us = UserUtils.getOurPubKeyStrFromCache();
+  const mods = useSelector((state: StateType) => getModerators(state, selectedConvoKey));
+
+  const weAreModerator = mods.includes(us);
+  return isPublic && isString(selectedConvoKey) && weAreModerator;
 }
 
 export function useSelectedLastMessage() {

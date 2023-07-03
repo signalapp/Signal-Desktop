@@ -1,14 +1,8 @@
 import React from 'react';
 import { animation, Item, Menu, Submenu } from 'react-contexify';
 import { useSelector } from 'react-redux';
-import {
-  setDisappearingMessagesByConvoId,
-  setNotificationForConvoId,
-} from '../../interactions/conversationInteractions';
-import {
-  ConversationNotificationSetting,
-  ConversationNotificationSettingType,
-} from '../../models/conversationAttributes';
+import { setDisappearingMessagesByConvoId } from '../../interactions/conversationInteractions';
+import { isSearching } from '../../state/selectors/search';
 import {
   useSelectedConversationKey,
   useSelectedIsActive,
@@ -18,10 +12,9 @@ import {
   useSelectedIsPrivate,
   useSelectedIsPrivateFriend,
   useSelectedIsPublic,
-  useSelectedNotificationSetting,
 } from '../../state/selectors/selectedConversation';
 import { getTimerOptions } from '../../state/selectors/timerOptions';
-import { LocalizerKeys } from '../../types/LocalizerKeys';
+import { ContextConversationProvider } from '../leftpane/conversation-list-item/ConvoIdContext';
 import { SessionContextMenuContainer } from '../SessionContextMenuContainer';
 import {
   AddModeratorsMenuItem,
@@ -29,19 +22,18 @@ import {
   BlockMenuItem,
   ChangeNicknameMenuItem,
   ClearNicknameMenuItem,
+  CopyMenuItem,
   DeleteMessagesMenuItem,
+  DeletePrivateConversationMenuItem,
   InviteContactMenuItem,
   LeaveGroupOrCommunityMenuItem,
   MarkAllReadMenuItem,
+  NotificationForConvoMenuItem,
   RemoveModeratorsMenuItem,
   ShowUserDetailsMenuItem,
   UnbanMenuItem,
   UpdateGroupNameMenuItem,
-  DeletePrivateConversationMenuItem,
-  CopyMenuItem,
 } from './Menu';
-import { ContextConversationProvider } from '../leftpane/conversation-list-item/ConvoIdContext';
-import { isSearching } from '../../state/selectors/search';
 
 export type PropsConversationHeaderMenu = {
   triggerId: string;
@@ -140,72 +132,4 @@ const DisappearingMessageMenuItem = (): JSX.Element | null => {
       ))}
     </Submenu>
   );
-};
-
-/**
- * Only accessible through the triple dots menu on the conversation header. Not on the Conversation list item, because there is too much to check for before showing it
- */
-const NotificationForConvoMenuItem = (): JSX.Element | null => {
-  const selectedConvoId = useSelectedConversationKey();
-
-  const currentNotificationSetting = useSelectedNotificationSetting();
-  const isBlocked = useSelectedIsBlocked();
-  const isActive = useSelectedIsActive();
-  const isLeft = useSelectedIsLeft();
-  const isKickedFromGroup = useSelectedIsKickedFromGroup();
-  const isFriend = useSelectedIsPrivateFriend();
-  const isPrivate = useSelectedIsPrivate();
-
-  if (
-    !selectedConvoId ||
-    isLeft ||
-    isKickedFromGroup ||
-    isBlocked ||
-    !isActive ||
-    (isPrivate && !isFriend)
-  ) {
-    return null;
-  }
-
-  // const isRtlMode = isRtlBody();'
-
-  // exclude mentions_only settings for private chats as this does not make much sense
-  const notificationForConvoOptions = ConversationNotificationSetting.filter(n =>
-    isPrivate ? n !== 'mentions_only' : true
-  ).map((n: ConversationNotificationSettingType) => {
-    // do this separately so typescript's compiler likes it
-    const keyToUse: LocalizerKeys =
-      n === 'all' || !n
-        ? 'notificationForConvo_all'
-        : n === 'disabled'
-        ? 'notificationForConvo_disabled'
-        : 'notificationForConvo_mentions_only';
-    return { value: n, name: window.i18n(keyToUse) };
-  });
-
-  return (
-    // Remove the && false to make context menu work with RTL support
-    <Submenu
-      label={window.i18n('notificationForConvo') as any}
-      // rtl={isRtlMode && false}
-    >
-      {(notificationForConvoOptions || []).map(item => {
-        const disabled = item.value === currentNotificationSetting;
-
-        return (
-          <Item
-            key={item.value}
-            onClick={async () => {
-              await setNotificationForConvoId(selectedConvoId, item.value);
-            }}
-            disabled={disabled}
-          >
-            {item.name}
-          </Item>
-        );
-      })}
-    </Submenu>
-  );
-
-  return null;
 };

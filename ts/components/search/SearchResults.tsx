@@ -1,16 +1,16 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { CSSProperties } from 'styled-components';
+import { ConversationListItem } from '../leftpane/conversation-list-item/ConversationListItem';
+import { MessageSearchResult } from './MessageSearchResults';
+import { AutoSizer, List } from 'react-virtualized';
+import { useSelector } from 'react-redux';
 import {
-  ConversationListItemProps,
-  MemoConversationListItemWithDetails,
-} from '../leftpane/conversation-list-item/ConversationListItem';
-import { MessageResultProps, MessageSearchResult } from './MessageSearchResults';
-
-export type SearchResultsProps = {
-  contactsAndGroups: Array<ConversationListItemProps>;
-  messages: Array<MessageResultProps>;
-  searchTerm: string;
-};
+  SearchResultsMergedListItem,
+  getHasSearchResults,
+  getSearchResultsList,
+  getSearchTerm,
+} from '../../state/selectors/search';
+import { isString } from 'lodash';
 
 const StyledSeparatorSection = styled.div`
   height: 36px;
@@ -38,37 +38,58 @@ const NoResults = styled.div`
   text-align: center;
 `;
 
-export const SearchResults = (props: SearchResultsProps) => {
-  const { contactsAndGroups, messages, searchTerm } = props;
+const SectionHeader = ({ title, style }: { title: string; style: CSSProperties }) => {
+  return <StyledSeparatorSection style={style}>{title}</StyledSeparatorSection>;
+};
 
-  const haveContactsAndGroup = Boolean(contactsAndGroups?.length);
-  const haveMessages = Boolean(messages?.length);
-  const noResults = !haveContactsAndGroup && !haveMessages;
+function isContact(item: SearchResultsMergedListItem): item is { contactConvoId: string } {
+  return (item as any).contactConvoId !== undefined;
+}
+
+const VirtualizedList = () => {
+  const searchResultList = useSelector(getSearchResultsList);
+  return (
+    <AutoSizer>
+      {({ height, width }) => (
+        <List
+          height={height}
+          rowCount={searchResultList.length}
+          rowHeight={rowPos => {
+            return isString(searchResultList[rowPos.index]) ? 36 : 64;
+          }}
+          rowRenderer={({ index, key, style }) => {
+            const row = searchResultList[index];
+            if (!row) {
+              return null;
+            }
+            if (isString(row)) {
+              return <SectionHeader title={row} style={style} key={key} />;
+            }
+            if (isContact(row)) {
+              return (
+                <ConversationListItem conversationId={row.contactConvoId} style={style} key={key} />
+              );
+            }
+            return <MessageSearchResult style={style} key={key} {...row} />;
+          }}
+          width={width}
+          autoHeight={false}
+        />
+      )}
+    </AutoSizer>
+  );
+};
+
+export const SearchResults = () => {
+  const searchTerm = useSelector(getSearchTerm);
+  const hasSearchResults = useSelector(getHasSearchResults);
 
   return (
     <SearchResultsContainer>
-      {noResults ? <NoResults>{window.i18n('noSearchResults', [searchTerm])}</NoResults> : null}
-      {haveContactsAndGroup ? (
-        <>
-          <StyledSeparatorSection>{window.i18n('conversationsHeader')}</StyledSeparatorSection>
-          {contactsAndGroups.map(contactOrGroup => (
-            <MemoConversationListItemWithDetails
-              {...contactOrGroup}
-              key={`search-result-convo-${contactOrGroup.id}`}
-            />
-          ))}
-        </>
-      ) : null}
-
-      {haveMessages && (
-        <>
-          <StyledSeparatorSection>
-            {`${window.i18n('messagesHeader')}: ${messages.length}`}
-          </StyledSeparatorSection>
-          {messages.map(message => (
-            <MessageSearchResult key={`search-result-message-${message.id}`} {...message} />
-          ))}
-        </>
+      {!hasSearchResults ? (
+        <NoResults>{window.i18n('noSearchResults', [searchTerm])}</NoResults>
+      ) : (
+        <VirtualizedList />
       )}
     </SearchResultsContainer>
   );

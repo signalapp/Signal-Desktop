@@ -1,8 +1,7 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { MessageRenderingProps } from '../../../../models/messageType';
-import { getMessageStatusProps } from '../../../../state/selectors/conversations';
 import { OutgoingMessageStatus } from './OutgoingMessageStatus';
+import { useMessageDirection, useMessageStatus } from '../../../../state/selectors';
 
 type Props = {
   isCorrectSide: boolean;
@@ -14,12 +13,12 @@ export type MessageStatusSelectorProps = Pick<MessageRenderingProps, 'direction'
 
 export const MessageStatus = (props: Props) => {
   const { isCorrectSide, dataTestId } = props;
+  const direction = useMessageDirection(props.messageId);
+  const status = useMessageStatus(props.messageId);
 
-  const selected = useSelector(state => getMessageStatusProps(state as any, props.messageId));
-  if (!selected) {
+  if (!props.messageId) {
     return null;
   }
-  const { status, direction } = selected;
 
   if (!isCorrectSide) {
     return null;

@@ -73,6 +73,7 @@ export type LocalizerKeys =
   | 'conversationsHeader'
   | 'contactsHeader'
   | 'messagesHeader'
+  | 'searchMessagesHeader'
   | 'settingsHeader'
   | 'typingAlt'
   | 'contactAvatarAlt'
