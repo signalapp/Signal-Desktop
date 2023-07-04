@@ -3,6 +3,9 @@ components/**
 dist/**
 mnemonic_languages/**
 
+# editor
+.vscode/**
+
 # TypeScript generated files
 ts/**/*.js
 **/ts/**/*.js

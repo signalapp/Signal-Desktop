@@ -18,6 +18,7 @@ ts/test/automation/notes
 node_modules/**
 mnemonic_languages/**
 playwright.config.js
+.vscode/
 
 # Managed by package manager (`yarn`/`npm`):
 /package.json

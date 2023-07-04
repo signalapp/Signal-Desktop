@@ -3,10 +3,13 @@ import { createSelector } from '@reduxjs/toolkit';
 import {
   ConversationLookupType,
   ConversationsStateType,
+  lookupQuote,
   MentionsMembersType,
   MessageModelPropsWithConvoProps,
   MessageModelPropsWithoutConvoProps,
   MessagePropsDetails,
+  PropsForQuote,
+  QuoteLookupType,
   ReduxConversationType,
   SortedMessageModelProps,
 } from '../ducks/conversations';
@@ -29,8 +32,11 @@ import { BlockedNumberController } from '../../util';
 import { Storage } from '../../util/storage';
 import { getIntl } from './user';
 
-import { filter, isEmpty, isNumber, pick, sortBy } from 'lodash';
+import { filter, isEmpty, isNumber, pick, sortBy, toNumber } from 'lodash';
 import { MessageReactsSelectorProps } from '../../components/conversation/message/message-content/MessageReactions';
+import { processQuoteAttachment } from '../../models/message';
+import { isUsAnySogsFromCache } from '../../session/apis/open_group_api/sogsv3/knownBlindedkeys';
+import { PubKey } from '../../session/types';
 import { getSelectedConversationKey } from './selectedConversation';
 import { getModeratorsOutsideRedux } from './sogsRoomInfo';
 
@@ -43,6 +49,10 @@ export const getConversationLookup = (state: StateType): ConversationLookupType 
 export const getConversationsCount = createSelector(getConversationLookup, (state): number => {
   return Object.keys(state).length;
 });
+
+const getConversationQuotes = (state: StateType): QuoteLookupType | undefined => {
+  return state.conversations.quotes;
+};
 
 export const getOurPrimaryConversation = createSelector(
   getConversations,
@@ -742,6 +752,90 @@ export const getMessageReactsProps = createSelector(getMessagePropsByMessageId, 
 
   return msgProps;
 });
+
+// tslint:disable: cyclomatic-complexity
+export const getMessageQuoteProps = createSelector(
+  getConversationLookup,
+  getMessagesOfSelectedConversation,
+  getConversationQuotes,
+  getMessagePropsByMessageId,
+  (
+    conversationLookup,
+    messagesProps,
+    quotesProps,
+    msgGlobalProps
+  ): { quote: PropsForQuote } | undefined => {
+    if (!msgGlobalProps || isEmpty(msgGlobalProps)) {
+      return undefined;
+    }
+
+    const msgProps = msgGlobalProps.propsForMessage;
+
+    if (!msgProps.quote || isEmpty(msgProps.quote)) {
+      return undefined;
+    }
+
+    const { id } = msgProps.quote;
+    let { author } = msgProps.quote;
+
+    if (!id || !author) {
+      return undefined;
+    }
+
+    const isFromMe = isUsAnySogsFromCache(author) || false;
+
+    // NOTE the quote lookup map always stores our messages using the unblinded pubkey
+    if (isFromMe && PubKey.hasBlindedPrefix(author)) {
+      author = UserUtils.getOurPubKeyStrFromCache();
+    }
+
+    // NOTE: if the message is not found, we still want to render the quote
+    const quoteNotFound = {
+      quote: {
+        id,
+        author,
+        isFromMe,
+        referencedMessageNotFound: true,
+      },
+    };
+
+    if (!quotesProps || isEmpty(quotesProps)) {
+      return quoteNotFound;
+    }
+
+    const sourceMessage = lookupQuote(quotesProps, messagesProps, toNumber(id), author);
+    if (!sourceMessage) {
+      return quoteNotFound;
+    }
+
+    const sourceMsgProps = sourceMessage.propsForMessage;
+    if (!sourceMsgProps || sourceMsgProps.isDeleted) {
+      return quoteNotFound;
+    }
+
+    const convo = conversationLookup[sourceMsgProps.convoId];
+    if (!convo) {
+      return quoteNotFound;
+    }
+
+    const attachment = sourceMsgProps.attachments && sourceMsgProps.attachments[0];
+
+    const quote: PropsForQuote = {
+      text: sourceMsgProps.text,
+      attachment: attachment ? processQuoteAttachment(attachment) : undefined,
+      isFromMe,
+      author: sourceMsgProps.sender,
+      id: sourceMsgProps.id,
+      referencedMessageNotFound: false,
+      convoId: convo.id,
+    };
+
+    return {
+      quote,
+    };
+  }
+);
+// tslint:enable: cyclomatic-complexity
 
 export const getMessageTextProps = createSelector(getMessagePropsByMessageId, (props):
   | MessageTextSelectorProps

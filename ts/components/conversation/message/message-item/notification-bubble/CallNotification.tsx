@@ -49,7 +49,9 @@ export const CallNotification = (props: PropsForCallNotification) => {
     nickname || displayNameInProfile || (selectedConvoId && PubKey.shorten(selectedConvoId));
 
   const styleItem = style[notificationType];
-  const notificationText = window.i18n(styleItem.notificationTextKey, [displayName || 'Unknown']);
+  const notificationText = window.i18n(styleItem.notificationTextKey, [
+    displayName || window.i18n('unknown'),
+  ]);
   if (!window.i18n(styleItem.notificationTextKey)) {
     throw new Error(`invalid i18n key ${styleItem.notificationTextKey}`);
   }

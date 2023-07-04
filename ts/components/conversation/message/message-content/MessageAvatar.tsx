@@ -37,10 +37,10 @@ export type MessageAvatarSelectorProps = Pick<
   'sender' | 'isSenderAdmin' | 'lastMessageOfSeries'
 >;
 
-type Props = { messageId: string; noAvatar: boolean };
+type Props = { messageId: string; hideAvatar: boolean; isPrivate: boolean };
 
 export const MessageAvatar = (props: Props) => {
-  const { messageId, noAvatar } = props;
+  const { messageId, hideAvatar, isPrivate } = props;
 
   const dispatch = useDispatch();
   const selectedConvoKey = useSelectedConversationKey();
@@ -54,7 +54,7 @@ export const MessageAvatar = (props: Props) => {
   const lastMessageOfSeries = useLastMessageOfSeries(messageId);
   const isSenderAdmin = useMessageSenderIsAdmin(messageId);
 
-  if (noAvatar || !sender) {
+  if (!sender) {
     return null;
   }
 
@@ -117,12 +117,21 @@ export const MessageAvatar = (props: Props) => {
     );
   }, [userName, sender, isPublic, authorAvatarPath, selectedConvoKey]);
 
+  if (isPrivate) {
+    return null;
+  }
+
   if (!lastMessageOfSeries) {
     return <div style={{ marginInlineEnd: '60px' }} key={`msg-avatar-${sender}`} />;
   }
 
   return (
-    <StyledAvatar key={`msg-avatar-${sender}`}>
+    <StyledAvatar
+      key={`msg-avatar-${sender}`}
+      style={{
+        visibility: hideAvatar ? 'hidden' : undefined,
+      }}
+    >
       <Avatar size={AvatarSize.S} onAvatarClick={onMessageAvatarClick} pubkey={sender} />
       {isSenderAdmin && <CrownIcon />}
     </StyledAvatar>
