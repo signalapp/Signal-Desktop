@@ -641,10 +641,14 @@ async function handleUnsendMessage(envelope: EnvelopePlus, unsendMessage: Signal
 
     return;
   }
-  const messageToDelete = await Data.getMessageBySenderAndTimestamp({
-    source: messageAuthor,
-    timestamp: toNumber(timestamp),
-  });
+  const messageToDelete = (
+    await Data.getMessagesBySenderAndSentAt([
+      {
+        source: messageAuthor,
+        timestamp: toNumber(timestamp),
+      },
+    ])
+  )?.models?.[0];
   const messageHash = messageToDelete?.get('messageHash');
   //#endregion
 
@@ -741,7 +745,7 @@ async function handleMessageRequestResponse(
       )
     );
 
-    const allMessageModels = flatten(allMessagesCollections.map(m => m.models));
+    const allMessageModels = flatten(allMessagesCollections.map(m => m.messages.models));
     allMessageModels.forEach(messageModel => {
       messageModel.set({ conversationId: unblindedConvoId });
 

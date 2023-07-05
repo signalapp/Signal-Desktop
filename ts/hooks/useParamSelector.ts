@@ -4,6 +4,7 @@ import {
   hasValidIncomingRequestValues,
   hasValidOutgoingRequestValues,
 } from '../models/conversation';
+import { isUsAnySogsFromCache } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
 import { CONVERSATION } from '../session/constants';
 import { PubKey } from '../session/types';
 import { UserUtils } from '../session/utils';
@@ -45,7 +46,7 @@ export function useConversationUsernameOrShorten(convoId?: string) {
 }
 
 /**
- * Returns the name if that conversation.
+ * Returns the name of that conversation.
  * This is the group name, or the realName of a user for a private conversation with a recent nickname set
  */
 export function useConversationRealName(convoId?: string) {
@@ -336,4 +337,19 @@ export function useTimerOptionsByMode(disappearingMessageMode?: string, hasOnlyO
         return options;
     }
   });
+}
+
+export function useQuoteAuthorName(
+  authorId?: string
+): { authorName: string | undefined; isMe: boolean } {
+  const convoProps = useConversationPropsById(authorId);
+
+  const isMe = Boolean(authorId && isUsAnySogsFromCache(authorId));
+  const authorName = isMe
+    ? window.i18n('you')
+    : convoProps?.nickname || convoProps?.isPrivate
+    ? convoProps?.displayNameInProfile
+    : undefined;
+
+  return { authorName, isMe };
 }

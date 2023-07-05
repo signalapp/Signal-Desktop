@@ -1,23 +1,23 @@
 import { queueAttachmentDownloads } from './attachments';
 
-import { Data } from '../../ts/data/data';
 import _, { isEmpty, isEqual } from 'lodash';
-import { getConversationController } from '../session/conversations';
+import { Data } from '../../ts/data/data';
 import { ConversationModel } from '../models/conversation';
-import { MessageModel, sliceQuoteText } from '../models/message';
+import { MessageModel } from '../models/message';
+import { getConversationController } from '../session/conversations';
 import { Quote } from './types';
 
 import { ConversationTypeEnum, READ_MESSAGE_STATE } from '../models/conversationAttributes';
 import { MessageDirection } from '../models/messageType';
 import { SignalService } from '../protobuf';
+import { GetNetworkTime } from '../session/apis/snode_api/getNetworkTime';
 import { ProfileManager } from '../session/profile_manager/ProfileManager';
 import { showMessageRequestBannerOutsideRedux } from '../state/ducks/userConfig';
 import { getHideMessageRequestBannerOutsideRedux } from '../state/selectors/userConfig';
 import { GoogleChrome } from '../util';
+import { setExpirationStartTimestamp } from '../util/expiringMessages';
 import { LinkPreviews } from '../util/linkPreviews';
 import { ReleasedFeatures } from '../util/releaseFeature';
-import { setExpirationStartTimestamp } from '../util/expiringMessages';
-import { GetNetworkTime } from '../session/apis/snode_api/getNetworkTime';
 
 function contentTypeSupported(type: string): boolean {
   const Chrome = GoogleChrome;
@@ -68,7 +68,8 @@ async function copyFromQuotedMessage(
 
   window?.log?.info(`Found quoted message id: ${id}`);
   quoteLocal.referencedMessageNotFound = false;
-  quoteLocal.text = sliceQuoteText(found.get('body') || '');
+  // NOTE we send the entire body to be consistent with the other platforms
+  quoteLocal.text = found.get('body') || '';
 
   // no attachments, just save the quote with the body
   if (
@@ -411,7 +412,7 @@ export async function handleMessageJob(
       );
     }
 
-    // save the message model to the db and it save the messageId generated to our in-memory copy
+    // save the message model to the db and then save the messageId generated to our in-memory copy
     const id = await messageModel.commit();
     messageModel.set({ id });
 

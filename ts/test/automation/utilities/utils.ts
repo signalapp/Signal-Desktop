@@ -111,7 +111,8 @@ export async function clickOnTestIdWithText(
   window: Page,
   dataTestId: string,
   text?: string,
-  rightButton?: boolean
+  rightButton?: boolean,
+  maxWait?: number
 ) {
   console.info(`clickOnTestIdWithText with testId:${dataTestId} and text:${text ? text : 'none'}`);
 
@@ -119,7 +120,7 @@ export async function clickOnTestIdWithText(
     ? `css=[data-testid=${dataTestId}]`
     : `css=[data-testid=${dataTestId}]:has-text("${text}")`;
 
-  await window.waitForSelector(builtSelector);
+  await window.waitForSelector(builtSelector, { timeout: maxWait });
   return window.click(builtSelector, rightButton ? { button: 'right' } : undefined);
 }
 

@@ -20,7 +20,7 @@ import { ClosedGroupVisibleMessage } from '../session/messages/outgoing/visibleM
 import { PubKey } from '../session/types';
 import { ToastUtils, UserUtils } from '../session/utils';
 import { BlockedNumberController } from '../util';
-import { MessageModel, sliceQuoteText } from './message';
+import { MessageModel } from './message';
 import { MessageAttributesOptionals, MessageDirection } from './messageType';
 
 import { Data } from '../../ts/data/data';
@@ -357,6 +357,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     // those are values coming only from both the DB or the wrapper. Currently we display the data from the DB
     if (this.isClosedGroup()) {
       toRet.members = uniq(this.get('members') || []);
+    }
+
+    // those are values coming only from both the DB or the wrapper. Currently we display the data from the DB
+    if (this.isClosedGroup() || this.isPublic()) {
+      // for public, this value always comes from the DB
       toRet.groupAdmins = this.getGroupAdmins();
     }
 
@@ -498,11 +503,12 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         msgSource = await findCachedOurBlindedPubkeyOrLookItUp(room.serverPublicKey, sodium);
       }
     }
+
     return {
       author: msgSource,
       id: `${quotedMessage.get('sent_at')}` || '',
-      // no need to quote the full message length.
-      text: sliceQuoteText(body),
+      // NOTE we send the entire body to be consistent with the other platforms
+      text: body,
       attachments: quotedAttachments,
       timestamp: quotedMessage.get('sent_at') || 0,
       convoId: this.id,
@@ -1593,7 +1599,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
             );
           }).length === 1;
       const isFirstMessageOfConvo =
-        (await Data.getMessagesByConversation(this.id, { messageId: null })).length === 1;
+        (await Data.getMessagesByConversation(this.id, { messageId: null })).messages.length === 1;
       if (hadNoRequestsPrior && isFirstMessageOfConvo) {
         friendRequestText = window.i18n('youHaveANewFriendRequest');
       } else {

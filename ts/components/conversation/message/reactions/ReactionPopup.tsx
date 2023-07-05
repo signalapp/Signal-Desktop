@@ -5,6 +5,7 @@ import { Data } from '../../../../data/data';
 import { PubKey } from '../../../../session/types/PubKey';
 import { isDarkTheme } from '../../../../state/selectors/theme';
 import { nativeEmojiData } from '../../../../util/emoji';
+import { findAndFormatContact } from '../../../../models/message';
 
 export type TipPosition = 'center' | 'left' | 'right';
 
@@ -78,7 +79,7 @@ const generateContactsString = async (
   if (message) {
     let meIndex = -1;
     results = senders.map((sender, index) => {
-      const contact = message.findAndFormatContact(sender);
+      const contact = findAndFormatContact(sender);
       if (contact.isMe) {
         meIndex = index;
       }

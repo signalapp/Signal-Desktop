@@ -41,14 +41,11 @@ import {
 import { Data } from '../../ts/data/data';
 import { OpenGroupData } from '../data/opengroups';
 import { SettingsKey } from '../data/settings-key';
-import {
-  findCachedBlindedIdFromUnblinded,
-  isUsAnySogsFromCache,
-} from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
+import { isUsAnySogsFromCache } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
 import { expireMessageOnSnode } from '../session/apis/snode_api/expire';
 import { GetNetworkTime } from '../session/apis/snode_api/getNetworkTime';
 import { SnodeNamespaces } from '../session/apis/snode_api/namespaces';
-import { DURATION, QUOTED_TEXT_MAX_LENGTH } from '../session/constants';
+import { DURATION } from '../session/constants';
 import { OpenGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
 import {
   VisibleMessage,
@@ -79,7 +76,7 @@ import {
   PropsForGroupUpdateLeft,
   PropsForGroupUpdateName,
   PropsForMessageWithoutConvoProps,
-  ReduxQuoteType,
+  PropsForQuote,
 } from '../state/ducks/conversations';
 import { AttachmentTypeWithPath, isVoiceMessage } from '../types/Attachment';
 import { getAttachmentMetadata } from '../types/message/initializeAttachmentMetadata';
@@ -154,6 +151,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const propsForTimerNotification = this.getPropsForTimerNotification();
     const propsForExpiringMessage = this.getPropsForExpiringMessage();
     const propsForMessageRequestResponse = this.getPropsForMessageRequestResponse();
+    const propsForQuote = this.getPropsForQuote();
     const callNotificationType = this.get('callNotificationType');
     const messageProps: MessageModelPropsWithoutConvoProps = {
       propsForMessage: this.getPropsForMessage(),
@@ -172,6 +170,9 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     }
     if (propsForTimerNotification) {
       messageProps.propsForTimerNotification = propsForTimerNotification;
+    }
+    if (propsForQuote) {
+      messageProps.propsForQuote = propsForQuote;
     }
 
     if (propsForExpiringMessage) {
@@ -328,7 +329,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const disabled = !expireTimer;
 
     const basicProps: PropsForExpirationTimer = {
-      ...this.findAndFormatContact(source),
+      ...findAndFormatContact(source),
       timespan,
       disabled,
       type: fromSync ? 'fromSync' : UserUtils.isUsFromCache(source) ? 'fromMe' : 'fromOther',
@@ -376,7 +377,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       return null;
     }
 
-    const contact = this.findAndFormatContact(dataExtractionNotification.source);
+    const contact = findAndFormatContact(dataExtractionNotification.source);
 
     return {
       ...dataExtractionNotification,
@@ -398,7 +399,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       return null;
     }
 
-    const contact = this.findAndFormatContact(messageRequestResponse.source);
+    const contact = findAndFormatContact(messageRequestResponse.source);
 
     return {
       ...messageRequestResponse,
@@ -500,7 +501,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   }
 
   // tslint:disable-next-line: cyclomatic-complexity
-  public getPropsForMessage(options: any = {}): PropsForMessageWithoutConvoProps {
+  public getPropsForMessage(): PropsForMessageWithoutConvoProps {
     const sender = this.getSource();
     const expirationType = this.get('expirationType');
     const expirationLength = this.get('expireTimer') * DURATION.SECONDS;
@@ -567,7 +568,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     if (reacts && Object.keys(reacts).length) {
       props.reacts = reacts;
     }
-    const quote = this.getPropsForQuote(options);
+    const quote = this.getPropsForQuote();
     if (quote) {
       props.quote = quote;
     }
@@ -582,26 +583,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     }
 
     return props;
-  }
-
-  public processQuoteAttachment(attachment: any) {
-    const { thumbnail } = attachment;
-    const path = thumbnail && thumbnail.path && getAbsoluteAttachmentPath(thumbnail.path);
-    const objectUrl = thumbnail && thumbnail.objectUrl;
-
-    const thumbnailWithObjectUrl =
-      !path && !objectUrl
-        ? null
-        : // tslint:disable: prefer-object-spread
-          Object.assign({}, attachment.thumbnail || {}, {
-            objectUrl: path || objectUrl,
-          });
-
-    return Object.assign({}, attachment, {
-      isVoiceMessage: isVoiceMessage(attachment),
-      thumbnail: thumbnailWithObjectUrl,
-    });
-    // tslint:enable: prefer-object-spread
   }
 
   public getPropsForPreview(): Array<any> | null {
@@ -633,64 +614,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     return this.get('reacts') || null;
   }
 
-  public getPropsForQuote(_options: any = {}) {
-    const quote = this.get('quote');
-
-    if (!quote) {
-      return null;
-    }
-
-    const { author, id, referencedMessageNotFound } = quote;
-    const contact: ConversationModel = author && getConversationController().get(author);
-
-    const authorName = contact ? contact.getContactProfileNameOrShortenedPubKey() : null;
-
-    let isFromMe = contact ? contact.id === UserUtils.getOurPubKeyStrFromCache() : false;
-
-    if (this.getConversation()?.isPublic() && PubKey.hasBlindedPrefix(author)) {
-      const room = OpenGroupData.getV2OpenGroupRoom(this.get('conversationId'));
-      if (room && roomHasBlindEnabled(room)) {
-        const usFromCache = findCachedBlindedIdFromUnblinded(
-          UserUtils.getOurPubKeyStrFromCache(),
-          room.serverPublicKey
-        );
-        if (usFromCache && usFromCache === author) {
-          isFromMe = true;
-        }
-      }
-    }
-
-    const firstAttachment = quote.attachments && quote.attachments[0];
-    const quoteProps: ReduxQuoteType = {
-      sender: author,
-      messageId: id,
-      authorName: authorName || 'Unknown',
-    };
-
-    if (referencedMessageNotFound) {
-      quoteProps.referencedMessageNotFound = true;
-    }
-
-    if (!referencedMessageNotFound) {
-      if (quote.text) {
-        // do not show text of not found messages.
-        // if the message was deleted better not show it's text content in the message
-        quoteProps.text = sliceQuoteText(quote.text);
-      }
-
-      const quoteAttachment = firstAttachment
-        ? this.processQuoteAttachment(firstAttachment)
-        : undefined;
-      if (quoteAttachment) {
-        // only set attachment if referencedMessageNotFound is false and we have one
-        quoteProps.attachment = quoteAttachment;
-      }
-    }
-    if (isFromMe) {
-      quoteProps.isFromMe = true;
-    }
-
-    return quoteProps;
+  public getPropsForQuote(): PropsForQuote | null {
+    return this.get('quote') || null;
   }
 
   public getPropsForAttachment(attachment: AttachmentTypeWithPath): PropsForAttachment | null {
@@ -766,7 +691,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       (contacts || []).map(async id => {
         const errorsForContact = errorsGroupedById[id];
 
-        const contact = this.findAndFormatContact(id);
+        const contact = findAndFormatContact(id);
         return {
           ...contact,
           status: this.getMessagePropStatus(),
@@ -1284,31 +1209,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     }
   }
 
-  public findAndFormatContact(pubkey: string): FindAndFormatContactType {
-    const contactModel = getConversationController().get(pubkey);
-    let profileName: string | null = null;
-    let isMe = false;
-
-    if (
-      pubkey === UserUtils.getOurPubKeyStrFromCache() ||
-      (pubkey && pubkey.startsWith('15') && isUsAnySogsFromCache(pubkey))
-    ) {
-      profileName = window.i18n('you');
-      isMe = true;
-    } else {
-      profileName = contactModel?.getNicknameOrRealUsername() || null;
-    }
-
-    return {
-      pubkey: pubkey,
-      avatarPath: contactModel ? contactModel.getAvatarPath() : null,
-      name: contactModel?.getRealSessionUsername() || null,
-      profileName,
-      title: contactModel?.getNicknameOrRealUsernameOrPlaceholder() || null,
-      isMe,
-    };
-  }
-
   private dispatchMessageUpdate() {
     updatesToDispatch.set(this.id, this.getMessageModelProps());
     throttledAllMessagesDispatch();
@@ -1452,14 +1352,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   }
 }
 
-// this is to avoid saving 2k chars for just the quote object inside a message
-export function sliceQuoteText(quotedText: string | undefined | null) {
-  if (!quotedText || isEmpty(quotedText)) {
-    return '';
-  }
-  return quotedText.slice(0, QUOTED_TEXT_MAX_LENGTH);
-}
-
 const throttledAllMessagesDispatch = debounce(
   () => {
     if (updatesToDispatch.size === 0) {
@@ -1476,3 +1368,47 @@ const updatesToDispatch: Map<string, MessageModelPropsWithoutConvoProps> = new M
 export class MessageCollection extends Backbone.Collection<MessageModel> {}
 
 MessageCollection.prototype.model = MessageModel;
+
+export function findAndFormatContact(pubkey: string): FindAndFormatContactType {
+  const contactModel = getConversationController().get(pubkey);
+  let profileName: string | null = null;
+  let isMe = false;
+
+  if (
+    pubkey === UserUtils.getOurPubKeyStrFromCache() ||
+    (pubkey && pubkey.startsWith('15') && isUsAnySogsFromCache(pubkey))
+  ) {
+    profileName = window.i18n('you');
+    isMe = true;
+  } else {
+    profileName = contactModel?.getNicknameOrRealUsername() || null;
+  }
+
+  return {
+    pubkey: pubkey,
+    avatarPath: contactModel ? contactModel.getAvatarPath() : null,
+    name: contactModel?.getRealSessionUsername() || null,
+    profileName,
+    isMe,
+  };
+}
+
+export function processQuoteAttachment(attachment: any) {
+  const { thumbnail } = attachment;
+  const path = thumbnail && thumbnail.path && getAbsoluteAttachmentPath(thumbnail.path);
+  const objectUrl = thumbnail && thumbnail.objectUrl;
+
+  const thumbnailWithObjectUrl =
+    !path && !objectUrl
+      ? null
+      : // tslint:disable: prefer-object-spread
+        Object.assign({}, attachment.thumbnail || {}, {
+          objectUrl: path || objectUrl,
+        });
+
+  return Object.assign({}, attachment, {
+    isVoiceMessage: isVoiceMessage(attachment),
+    thumbnail: thumbnailWithObjectUrl,
+  });
+  // tslint:enable: prefer-object-spread
+}

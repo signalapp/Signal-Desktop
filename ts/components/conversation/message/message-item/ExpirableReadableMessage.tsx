@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useInterval } from 'react-use';
 import styled from 'styled-components';
 import { Data } from '../../../../data/data';
@@ -8,8 +8,8 @@ import { messagesExpired, PropsForExpiringMessage } from '../../../../state/duck
 import { getIncrement } from '../../../../util/timer';
 import { ExpireTimer } from '../../ExpireTimer';
 import { ReadableMessage, ReadableMessageProps } from './ReadableMessage';
-import { getMessageExpirationProps } from '../../../../state/selectors/conversations';
 import { MessageModelType } from '../../../../models/messageType';
+import { useMessageExpirationPropsById } from '../../../../hooks/useParamSelector';
 
 const EXPIRATION_CHECK_MINIMUM = 2000;
 
@@ -85,7 +85,7 @@ export interface ExpirableReadableMessageProps
 }
 
 export const ExpirableReadableMessage = (props: ExpirableReadableMessageProps) => {
-  const selected = useSelector(state => getMessageExpirationProps(state as any, props.messageId));
+  const selected = useMessageExpirationPropsById(props.messageId);
 
   if (!selected) {
     return null;

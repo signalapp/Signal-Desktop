@@ -68,7 +68,7 @@ export async function initiateOpenGroupUpdate(
         contentType: MIME.IMAGE_UNKNOWN, // contentType is mostly used to generate previews and screenshot. We do not care for those in this case.
       });
       await convo.setSessionProfile({
-        displayName: groupName || convo.get('displayNameInProfile') || 'Unknown',
+        displayName: groupName || convo.get('displayNameInProfile') || window.i18n('unknown'),
         avatarPath: upgraded.path,
         avatarImageId,
       });

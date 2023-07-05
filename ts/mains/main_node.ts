@@ -84,9 +84,9 @@ import { installPermissionsHandler } from '../node/permissions'; // checked - on
 
 let appStartInitialSpellcheckSetting = true;
 
-const enableTestIntegrationWiderWindow = false;
+const enableTestIntegrationDevTools = true;
 const isTestIntegration =
-  enableTestIntegrationWiderWindow &&
+  enableTestIntegrationDevTools &&
   Boolean(
     process.env.NODE_APP_INSTANCE && process.env.NODE_APP_INSTANCE.includes('test-integration')
   );
@@ -208,7 +208,7 @@ function captureClicks(window: BrowserWindow) {
 
 function getDefaultWindowSize() {
   return {
-    defaultWidth: isTestIntegration ? 1500 : 880,
+    defaultWidth: 880,
     defaultHeight: 820,
     minWidth: 880,
     minHeight: 600,
@@ -414,7 +414,7 @@ async function createWindow() {
     setTimeout(() => {
       if (mainWindow && mainWindow.webContents) {
         mainWindow.webContents.openDevTools({
-          mode: 'right',
+          mode: 'bottom',
           activate: false,
         });
       }

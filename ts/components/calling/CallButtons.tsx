@@ -328,7 +328,7 @@ const handleSpeakerToggle = async (
   isAudioOutputMuted: boolean
 ) => {
   if (!currentConnectedAudioOutputs.length) {
-    ToastUtils.pushNoAudioInputFound();
+    ToastUtils.pushNoAudioOutputFound();
 
     return;
   }
