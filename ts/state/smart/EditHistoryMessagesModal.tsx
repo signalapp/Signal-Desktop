@@ -42,6 +42,9 @@ export function SmartEditHistoryMessagesModal(): JSX.Element {
       isEditedMessage: false,
       // Do not show the same reactions in the message history UI
       reactions: undefined,
+      // Make sure that the timestamp is the correct timestamp from attributes
+      // not the one that the selector derives.
+      timestamp: messageAttributes.timestamp,
     }));
   }, [messagesAttributes, messagePropsSelector]);
 

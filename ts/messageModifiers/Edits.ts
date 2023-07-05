@@ -47,6 +47,8 @@ export function forMessage(message: MessageModel): Array<EditAttributesType> {
 export async function onEdit(edit: EditAttributesType): Promise<void> {
   edits.add(edit);
 
+  const logId = `Edits.onEdit(timestamp=${edit.message.timestamp};target=${edit.targetSentTimestamp})`;
+
   try {
     // The conversation the edited message was in; we have to find it in the database
     //   to to figure that out.
@@ -57,11 +59,7 @@ export async function onEdit(edit: EditAttributesType): Promise<void> {
       );
 
     if (!targetConversation) {
-      log.info(
-        'No target conversation for edit',
-        edit.fromId,
-        edit.targetSentTimestamp
-      );
+      log.info(`${logId}: No target conversation`);
 
       return;
     }
@@ -69,10 +67,7 @@ export async function onEdit(edit: EditAttributesType): Promise<void> {
     // Do not await, since this can deadlock the queue
     drop(
       targetConversation.queueJob('Edits.onEdit', async () => {
-        log.info('Handling edit for', {
-          targetSentTimestamp: edit.targetSentTimestamp,
-          sentAt: edit.message.timestamp,
-        });
+        log.info(`${logId}: Handling edit`);
 
         const messages = await window.Signal.Data.getMessagesBySentAt(
           edit.targetSentTimestamp
@@ -86,11 +81,7 @@ export async function onEdit(edit: EditAttributesType): Promise<void> {
         );
 
         if (!targetMessage) {
-          log.info(
-            'No message for edit',
-            edit.fromId,
-            edit.targetSentTimestamp
-          );
+          log.info(`${logId}: No message`);
 
           return;
         }
@@ -106,6 +97,6 @@ export async function onEdit(edit: EditAttributesType): Promise<void> {
       })
     );
   } catch (error) {
-    log.error('Edits.onEdit error:', Errors.toLogFormat(error));
+    log.error(`${logId} error:`, Errors.toLogFormat(error));
   }
 }

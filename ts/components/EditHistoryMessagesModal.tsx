@@ -15,6 +15,7 @@ import { shouldNeverBeCalled } from '../util/shouldNeverBeCalled';
 import { useTheme } from '../hooks/useTheme';
 import { isSameDay } from '../util/timestamp';
 import { TimelineDateHeader } from './conversation/TimelineDateHeader';
+import { drop } from '../util/drop';
 
 export type PropsType = {
   closeEditHistoryModal: () => unknown;
@@ -132,6 +133,13 @@ export function EditHistoryMessagesModal({
             };
             setDisplayLimitById(update);
           }}
+          onContextMenu={() => {
+            drop(
+              window.navigator.clipboard.writeText(
+                String(currentMessage.timestamp)
+              )
+            );
+          }}
           platform={platform}
           showLightbox={closeAndShowLightbox}
           showSpoiler={(messageId, data) => {
@@ -187,6 +195,13 @@ export function EditHistoryMessagesModal({
                     [messageId]: displayLimit,
                   };
                   setDisplayLimitById(update);
+                }}
+                onContextMenu={() => {
+                  drop(
+                    window.navigator.clipboard.writeText(
+                      String(messageAttributes.timestamp)
+                    )
+                  );
                 }}
                 platform={platform}
                 showLightbox={closeAndShowLightbox}

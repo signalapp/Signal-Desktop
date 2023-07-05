@@ -751,6 +751,7 @@ function copyOverMessageAttributesIntoEditHistory(
     ...messageAttributes,
     // Always take attachments from the edited message (they might be absent)
     attachments: undefined,
+    editMessageTimestamp: undefined,
     quote: undefined,
     preview: [],
     ...editedMessageAttributes,
