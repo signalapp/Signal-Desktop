@@ -5,6 +5,7 @@ import { PubKey } from '../session/types';
 import { UserUtils } from '../session/utils';
 import { StateType } from '../state/reducer';
 import { getMessageReactsProps } from '../state/selectors/conversations';
+import { isUsAnySogsFromCache } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
 
 export function useAvatarPath(convoId: string | undefined) {
   const convoProps = useConversationPropsById(convoId);
@@ -37,7 +38,7 @@ export function useConversationUsernameOrShorten(convoId?: string) {
 }
 
 /**
- * Returns the name if that conversation.
+ * Returns the name of that conversation.
  * This is the group name, or the realName of a user for a private conversation with a recent nickname set
  */
 export function useConversationRealName(convoId?: string) {
@@ -182,4 +183,13 @@ export function useMessageReactsPropsById(messageId?: string) {
     }
     return messageReactsProps;
   });
+}
+
+export function useQuoteAuthorName(authorId?: string) {
+  const convoProps = useConversationPropsById(authorId);
+  return authorId && isUsAnySogsFromCache(authorId)
+    ? window.i18n('you')
+    : convoProps?.nickname || convoProps?.isPrivate
+    ? convoProps?.displayNameInProfile
+    : undefined;
 }

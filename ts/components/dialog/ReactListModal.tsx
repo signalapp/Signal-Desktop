@@ -23,6 +23,7 @@ import { ContactName } from '../conversation/ContactName';
 import { MessageReactions } from '../conversation/message/message-content/MessageReactions';
 import { SessionIconButton } from '../icon';
 import { SessionWrapperModal } from '../SessionWrapperModal';
+import { findAndFormatContact } from '../../models/message';
 
 const StyledReactListContainer = styled(Flex)`
   width: 376px;
@@ -100,7 +101,7 @@ const ReactionSenders = (props: ReactionSendersProps) => {
     const message = await Data.getMessageById(messageId);
     if (message) {
       handleClose();
-      const contact = message.findAndFormatContact(sender);
+      const contact = findAndFormatContact(sender);
       dispatch(
         updateUserDetailsModal({
           conversationId: sender,
