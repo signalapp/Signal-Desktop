@@ -29,7 +29,7 @@ export const QuoteAuthor = (props: QuoteAuthorProps) => {
   const { author, isIncoming } = props;
 
   const isPublic = useSelectedIsPublic();
-  const authorName = useQuoteAuthorName(author);
+  const { authorName, isMe } = useQuoteAuthorName(author);
 
   if (!author || !authorName) {
     return null;
@@ -41,7 +41,7 @@ export const QuoteAuthor = (props: QuoteAuthorProps) => {
         pubkey={PubKey.shorten(author)}
         name={authorName}
         compact={true}
-        shouldShowPubkey={Boolean(authorName && isPublic)}
+        shouldShowPubkey={Boolean(authorName && !isMe && isPublic)}
       />
     </StyledQuoteAuthor>
   );
