@@ -6514,10 +6514,6 @@
     "messageformat": "Small tweaks, bug fixes, and performance enhancements. Thanks for using Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.23--1": {
-    "messageformat": "In addition to a small assortment of bug fixes, this release also incorporates developer documentation updates (thanks, {d108}!) and some design improvements to the message forwarding interface (thanks, {hackerbirds}!).",
-    "description": "Release notes for v6.23"
-  },
   "icu:WhatsNew__v6.24--0": {
     "messageformat": "Now you can search your @ mentions too. \"Thanks for adding this feature,\" you might say. \"Don't mention it,\" we'll reply."
   },
