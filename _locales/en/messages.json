@@ -6520,5 +6520,8 @@
   },
   "icu:WhatsNew__v6.24--0": {
     "messageformat": "Now you can search your @ mentions too. \"Thanks for adding this feature,\" you might say. \"Don't mention it,\" we'll reply."
+  },
+  "icu:WhatsNew__v6.25--0": {
+    "messageformat": "Now that the calling and conversation headers are draggable, repositioning your Signal window won't be such a drag."
   }
 }
