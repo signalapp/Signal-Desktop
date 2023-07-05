@@ -88,7 +88,8 @@ import type {
 } from './Types.d';
 import {
   EmptyEvent,
-  EnvelopeEvent,
+  EnvelopeQueuedEvent,
+  EnvelopeUnsealedEvent,
   ProgressEvent,
   TypingEvent,
   ErrorEvent,
@@ -631,8 +632,13 @@ export default class MessageReceiver
   ): void;
 
   public override addEventListener(
-    name: 'envelope',
-    handler: (ev: EnvelopeEvent) => void
+    name: 'envelopeQueued',
+    handler: (ev: EnvelopeQueuedEvent) => void
+  ): void;
+
+  public override addEventListener(
+    name: 'envelopeUnsealed',
+    handler: (ev: EnvelopeUnsealedEvent) => void
   ): void;
 
   public override addEventListener(
@@ -896,6 +902,19 @@ export default class MessageReceiver
         };
 
         // Maintain invariant: encrypted queue => decrypted queue
+        const envelopeId = getEnvelopeId(decryptedEnvelope);
+        const taskId = `queueCached(EnvelopeEvent(${envelopeId}))`;
+        drop(
+          this.addToQueue(
+            async () =>
+              this.dispatchAndWait(
+                taskId,
+                new EnvelopeQueuedEvent(decryptedEnvelope)
+              ),
+            taskId,
+            TaskType.Decrypted
+          )
+        );
         drop(
           this.addToQueue(
             async () => {
@@ -1225,11 +1244,14 @@ export default class MessageReceiver
 
       logId = getEnvelopeId(unsealedEnvelope);
 
-      const taskId = `dispatchEvent(EnvelopeEvent(${logId}))`;
+      const taskId = `dispatchEvent(EnvelopeUnsealedEvent(${logId}))`;
       drop(
         this.addToQueue(
           async () =>
-            this.dispatchAndWait(taskId, new EnvelopeEvent(unsealedEnvelope)),
+            this.dispatchAndWait(
+              taskId,
+              new EnvelopeUnsealedEvent(unsealedEnvelope)
+            ),
           taskId,
           TaskType.Decrypted
         )

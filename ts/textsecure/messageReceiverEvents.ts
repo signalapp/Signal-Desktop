@@ -104,9 +104,17 @@ export class GroupSyncEvent extends Event {
   }
 }
 
-export class EnvelopeEvent extends Event {
+// Emitted right before we do full decrypt on a message, but after Sealed Sender unseal
+export class EnvelopeUnsealedEvent extends Event {
   constructor(public readonly envelope: ProcessedEnvelope) {
-    super('envelope');
+    super('envelopeUnsealed');
+  }
+}
+
+// Emitted when we queue previously-decrypted events from the cache
+export class EnvelopeQueuedEvent extends Event {
+  constructor(public readonly envelope: ProcessedEnvelope) {
+    super('envelopeQueued');
   }
 }
 

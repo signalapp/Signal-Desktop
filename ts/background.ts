@@ -83,7 +83,8 @@ import type {
   ConfigurationEvent,
   DecryptionErrorEvent,
   DeliveryEvent,
-  EnvelopeEvent,
+  EnvelopeQueuedEvent,
+  EnvelopeUnsealedEvent,
   ErrorEvent,
   FetchLatestEvent,
   GroupEvent,
@@ -339,8 +340,12 @@ export async function startApp(): Promise<void> {
     }
 
     messageReceiver.addEventListener(
-      'envelope',
-      queuedEventListener(onEnvelopeReceived, false)
+      'envelopeUnsealed',
+      queuedEventListener(onEnvelopeUnsealed, false)
+    );
+    messageReceiver.addEventListener(
+      'envelopeQueued',
+      queuedEventListener(onEnvelopeQueued, false)
     );
     messageReceiver.addEventListener(
       'message',
@@ -2430,9 +2435,15 @@ export async function startApp(): Promise<void> {
     { leading: false }
   );
 
-  async function onEnvelopeReceived({
+  async function onEnvelopeQueued({
     envelope,
-  }: EnvelopeEvent): Promise<void> {
+  }: EnvelopeQueuedEvent): Promise<void> {
+    throttledSetInboxEnvelopeTimestamp(envelope.serverTimestamp);
+  }
+
+  async function onEnvelopeUnsealed({
+    envelope,
+  }: EnvelopeUnsealedEvent): Promise<void> {
     throttledSetInboxEnvelopeTimestamp(envelope.serverTimestamp);
 
     const ourUuid = window.textsecure.storage.user.getUuid()?.toString();
@@ -2441,7 +2452,7 @@ export async function startApp(): Promise<void> {
         window.ConversationController.maybeMergeContacts({
           e164: envelope.source,
           aci: envelope.sourceUuid,
-          reason: `onEnvelopeReceived(${envelope.timestamp})`,
+          reason: `onEnvelopeUnsealed(${envelope.timestamp})`,
         });
 
       if (mergePromises.length > 0) {
