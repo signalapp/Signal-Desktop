@@ -6487,24 +6487,11 @@
     "messageformat": "Petits ajustos, correccions d'errors i tasques de millora de rendiment. Gràcies per utilitzar Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "Comprova que no t'has despentinat mentre sona una trucada individual! Les videotrucades individuals ara utilitzen la mateixa vista de pantalla completa que abans només apareixia al començament d'una nova trucada grupal. A l'hora de ser coherents, intentem ser persistents (no resistents) i ara la discrepància és inexistent perquè aquestes coses ja no són diferents.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "També volem donar les gràcies a {complexspaces} per la seva ajuda i els seus comentaris mentre treballàvem en aquesta versió.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "Dona forma al text dels teus missatges seleccionant qualsevol part de text al camp de composició de missatges.\n\nDestaca la teva opinió remarcant-la en negreta, envia-li al Night Shyamalan un plot-twist amb un efecte de spoiler, emfatitza un nom escrivint \"Alex\" en cursiva, ratlla amb una línia una idea per un sopar amb la que no estiguis d'acord o comparteix codi amb monoespaiat.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "Els últims emojis del moment ja són compatibles amb Signal, així que ara ja pots expressar el teu entusiasme amb una &quot;cara de velocitat&quot; (<emojify>🫨</emojify>), o reaccionar amb una &quot;beina de pèsols&quot; (<emojify>🫨</emojify>) quan algú et pregunti què tens pensat per sopar.",
-    "description": "Release notes for v6.22"
-  },
   "icu:WhatsNew__v6.23--1": {
     "messageformat": "A més d'haver corregit diversos errors, aquesta versió també incorpora actualitzacions de la documentació per a desenvolupadors (gràcies, {d108}!) i algunes millores de disseny a la interfície de reenviament de missatges (gràcies, {hackerbirds}!).",
     "description": "Release notes for v6.23"
+  },
+  "icu:WhatsNew__v6.24--0": {
+    "messageformat": "Ara també pots buscar les teves mencions @. Potser ens diràs, \"gràcies per afegir aquesta funció.\" \"Ni ho mencionis,\" et respondrem."
   }
 }

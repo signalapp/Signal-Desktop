@@ -6487,24 +6487,11 @@
     "messageformat": "Comprende pequenas modificacións e melloras no rendemento. Moitas grazas por empregar Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "Prepárate para a chamada da túa vida. Agora as chamadas individuais empregan a mesma visualización de pantalla completa que antes só aparecía ao principio das chamadas de grupo. No tocante a ser consistentes, tentamos ser persistentes (non reticentes) e agora a discrepancia é inexistente porque as chamadas xa non son diferentes.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "Tamén queremos agradecerlle a {complexspaces} a súa axuda e comentarios mentres traballabamos nesta versión.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "Cambia o formato do texto das túas mensaxes ao seleccionar calquera texto no campo de composición mentres escribes.\n\nChama a atención cunha letra grosa, envía unha mensaxe encriptada co modo revelación, resalta un nome ao escribilo en cursiva, risca o antigo plan de saída ou comparte un código cunha tipografía monoespazada.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "Engadimos novos emojis, polo que agora podes expresar a túa emoción cunha «Cara tremente» (<emojify>🫨</emojify>) ou reaccionar cunha vaíña (<emojify>🫛</emojify>) cando alguén che pregunte como de unido estás aos teus amigos.",
-    "description": "Release notes for v6.22"
-  },
   "icu:WhatsNew__v6.23--1": {
     "messageformat": "Ademais de arranxar pequenos erros, esta versión tamén engade actualizacións da documentación para desenvolvedores (grazas, {d108}!) e algunhas melloras no deseño da interface do reenvío de mensaxes (grazas, {hackerbirds}!).",
     "description": "Release notes for v6.23"
+  },
+  "icu:WhatsNew__v6.24--0": {
+    "messageformat": "Agora tamén podes buscas as túas @ mencións. «Graciñas por engadir esta función», dirás. «De nada» é a nosa resposta."
   }
 }

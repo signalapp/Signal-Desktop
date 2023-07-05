@@ -6487,24 +6487,11 @@
     "messageformat": "Malé úpravy, opravy chýb a vylepšenia výkonu. Ďakujeme, že používate Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "Pri prichádzajúcom hovore sa teraz budete vidieť ešte lepšie. Jednotlivé videohovory teraz počas zvonenia používajú rovnaké zobrazenie na celú obrazovku ako skupinové hovory. Pokiaľ ide o konzistentnosť, naše motto je vytrvalosť (nie nevšímavosť), práve preto sme zachytili túto odlišnosť a odstránili akúkoľvek nezrovnalosť.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "Radi by sme tiež vyjadrili naše uznanie používateľovi {complexspaces} za pomoc a spätnú väzbu pri práci na tomto vydaní.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "Formátujte text v správach výberom ľubovoľného textu v poli pre vytváranie správy.\n\nPridajte tučné písmo, kurzívu, prečiarknutie a ďalšie textové efekty.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "Pridali sme podporu pre najnovšie emotikony, vďaka ktorým teraz môžete vyjadriť svoj údiv pomocou „Trasúcej sa tváre“ (<emojify>🫨</emojify>) alebo zareagovať formou „hrachového struku“ (<emojify>🫛</emojify>), keď sa vás niekto opýta, akí blízki ste si s priateľmi.",
-    "description": "Release notes for v6.22"
-  },
   "icu:WhatsNew__v6.23--1": {
     "messageformat": "Okrem niekoľkých opráv chýb zahŕňa toto vydanie aj aktualizácie dokumentácie pre vývojárov (ďakujeme, {d108}!) a pár vylepšení dizajnu rozhrania pre preposielanie správ (ďakujeme, {hackerbirds}!).",
     "description": "Release notes for v6.23"
+  },
+  "icu:WhatsNew__v6.24--0": {
+    "messageformat": "Teraz môžete vyhľadávať aj @zmienky o vás."
   }
 }

@@ -6487,24 +6487,11 @@
     "messageformat": "細かな微調整、バグ修正、パフォーマンスの向上。 Signalをご利用いただきありがとうございます。",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "1対1の通話で呼び出し音が鳴っている間、ご自分の姿が大きく見えるようになりました。新しいグループ通話の開始時にのみ表示されていた全画面表示が、1対1のビデオ通話でも使用されるようになりました。一貫性を保つことに対して、私たちは反発せず粘り強く努力をしてきました。そしてやっと達成することができました。もう1対1でもグループ通話でも表示に違いはありません。",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "また、このリリースに取り組んでいる間、ヘルプとフィードバックをお寄せいただいた {complexspaces} に感謝いたします。",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "メッセージ作成フィールド内の任意のテキストを選択して、メッセージの書式設定をすることができます。\n\nメッセージ作成フィールド内の任意のテキストを選択して、太字、斜体、取り消し線、その他のテキスト効果を加えて、メッセージの書式設定をすることができます。",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "最新の絵文字に対応しました。以後は「震える顔」 (<emojify>🫨</emojify>) で感動を表現できます。「エンドウ豆のさや」 (<emojify>🫛</emojify>) なんかもあります。",
-    "description": "Release notes for v6.22"
-  },
   "icu:WhatsNew__v6.23--1": {
     "messageformat": "このリリースには、さまざまな細かいバグ修正に加えて、開発者向けドキュメントの更新(ありがとう、{d108}！)と、いくつかのメッセージ転送インターフェイスのデザイン改良(ありがとう、{hackerbirds}！)も含まれています。",
     "description": "Release notes for v6.23"
+  },
+  "icu:WhatsNew__v6.24--0": {
+    "messageformat": "@メンションも検索できるようになりました。この機能への御礼をおっしゃりたい？お気になさらずどんどんメンションしてください。"
   }
 }

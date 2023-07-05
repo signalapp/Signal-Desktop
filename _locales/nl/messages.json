@@ -1127,7 +1127,7 @@
     "messageformat": "Gesprek aanvaarden"
   },
   "icu:edit": {
-    "messageformat": "Aanpassen"
+    "messageformat": "Bewerken"
   },
   "icu:forward": {
     "messageformat": "Doorsturen"
@@ -2868,7 +2868,7 @@
     "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
   },
   "icu:Keyboard--edit-last-message": {
-    "messageformat": "Pas het vorige bericht aan",
+    "messageformat": "Bewerk het vorige bericht",
     "description": "Shown in the shortcuts guide"
   },
   "icu:Keyboard--Key--ctrl": {
@@ -3672,51 +3672,51 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--access-attributes--admins--other": {
-    "messageformat": "{adminName} heeft de instelling voor wie de groepsinformatie kan wijzigen op ‘Uitsluitend beheerders’ ingesteld.",
+    "messageformat": "{adminName} heeft de instelling voor wie de groepsinformatie kan bewerken op ‘Uitsluitend beheerders’ ingesteld.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--access-attributes--admins--you": {
-    "messageformat": "Je hebt de instelling voor wie de groepsinformatie kan wijzigen op ‘Uitsluitend beheerders’ ingesteld.",
+    "messageformat": "Je hebt de instelling voor wie de groepsinformatie kan bewerken op ‘Uitsluitend beheerders’ ingesteld.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--access-attributes--admins--unknown": {
-    "messageformat": "Een beheerder heeft de instelling voor wie de groepsinformatie kan wijzigen op ‘Uitsluitend beheerders’ ingesteld.",
+    "messageformat": "Een beheerder heeft de instelling voor wie de groepsinformatie kan bewerken op ‘Uitsluitend beheerders’ ingesteld.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--access-attributes--all--other": {
-    "messageformat": "{adminName} heeft de instelling voor wie de groepsinformatie kan wijzigen op ‘Alle groepsleden’ ingesteld.",
+    "messageformat": "{adminName} heeft de instelling voor wie de groepsinformatie kan bewerken op ‘Alle groepsleden’ ingesteld.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--access-attributes--all--you": {
-    "messageformat": "Je hebt de instelling voor wie de groepsinformatie kan wijzigen op ‘Alle groepsleden’ ingesteld.",
+    "messageformat": "Je hebt de instelling voor wie de groepsinformatie kan bewerken op ‘Alle groepsleden’ ingesteld.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--access-attributes--all--unknown": {
-    "messageformat": "Een beheerder heeft de instelling voor wie de groepsinformatie kan wijzigen op ‘Alle groepsleden’ ingesteld.",
+    "messageformat": "Een beheerder heeft de instelling voor wie de groepsinformatie kan bewerken op ‘Alle groepsleden’ ingesteld.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--access-members--admins--other": {
-    "messageformat": "{adminName} heeft de instelling voor wie groepslidmaatschap kan aanpassen op ‘Uitsluitend beheerders’ ingesteld.",
+    "messageformat": "{adminName} heeft de instelling voor wie groepslidmaatschap kan bewerken op ‘Uitsluitend beheerders’ ingesteld.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--access-members--admins--you": {
-    "messageformat": "Je hebt de instelling voor wie groepslidmaatschap kan aanpassen op ‘Uitsluitend beheerders’ ingesteld.",
+    "messageformat": "Je hebt de instelling voor wie groepslidmaatschap kan bewerken op ‘Uitsluitend beheerders’ ingesteld.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--access-members--admins--unknown": {
-    "messageformat": "Een beheerder heeft de instelling voor wie groepslidmaatschap kan aanpassen op ‘Uitsluitend beheerders’ ingesteld.",
+    "messageformat": "Een beheerder heeft de instelling voor wie groepslidmaatschap kan bewerken op ‘Uitsluitend beheerders’ ingesteld.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--access-members--all--other": {
-    "messageformat": "{adminName} heeft de instelling voor wie groepslidmaatschap kan aanpassen op ‘Alle groepsleden’ ingesteld.",
+    "messageformat": "{adminName} heeft de instelling voor wie groepslidmaatschap kan bewerken op ‘Alle groepsleden’ ingesteld.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--access-members--all--you": {
-    "messageformat": "Je hebt de instelling voor wie groepslidmaatschap kan aanpassen op ‘Alle groepsleden’ ingesteld.",
+    "messageformat": "Je hebt de instelling voor wie groepslidmaatschap kan bewerken op ‘Alle groepsleden’ ingesteld.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--access-members--all--unknown": {
-    "messageformat": "Een beheerder heeft de instelling voor wie groepslidmaatschap kan aanpassen op ‘Alle groepsleden’ ingesteld.",
+    "messageformat": "Een beheerder heeft de instelling voor wie groepslidmaatschap kan bewerken op ‘Alle groepsleden’ ingesteld.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
@@ -4328,7 +4328,7 @@
     "description": "Button text for make admin button in Group Contact Details modal"
   },
   "icu:ContactModal--make-admin-info": {
-    "messageformat": "{contact} zal de groepsinformatie en groepslidmaatschap kunnen aanpassen.",
+    "messageformat": "{contact} kan de groepsinformatie en groepslidmaatschap bewerken.",
     "description": "Shown in a confirmation dialog when you are about to grant admin privileges to someone"
   },
   "icu:ContactModal--rm-admin-info": {
@@ -4376,11 +4376,11 @@
     "description": "This is the label for notifications in the conversation details screen"
   },
   "icu:ConversationDetails--group-info-label": {
-    "messageformat": "Groepsinformatie aanpassen",
+    "messageformat": "Groepsinformatie bewerken",
     "description": "This is the label for the 'who can edit the group' panel"
   },
   "icu:ConversationDetails--group-info-info": {
-    "messageformat": "Kies wie de groepsnaam, -afbeelding, -omschrijving en de tijdspanne voor verlopende berichten kan instellen.",
+    "messageformat": "Kies wie de groepsnaam, -afbeelding, -omschrijving en de tijdspanne voor verlopende berichten kan bewerken.",
     "description": "This is the additional info for the 'who can edit the group' panel"
   },
   "icu:ConversationDetails--add-members-label": {
@@ -4968,7 +4968,7 @@
     "description": "Modal message text for confirming resetting of chat colors"
   },
   "icu:ChatColorPicker__custom-color--label": {
-    "messageformat": "Zelfgekozen-kleur-maker weergeven",
+    "messageformat": "Zelfgekozen-kleurbewerker weergeven",
     "description": "aria-label for custom color editor button"
   },
   "icu:ChatColorPicker__sampleBubble1": {
@@ -4984,7 +4984,7 @@
     "description": "An example message bubble for selecting the chat color"
   },
   "icu:ChatColorPicker__context--edit": {
-    "messageformat": "Kleur aanpassen",
+    "messageformat": "Kleur bewerken",
     "description": "Option in the custom color bubble context menu"
   },
   "icu:ChatColorPicker__context--duplicate": {
@@ -6487,24 +6487,11 @@
     "messageformat": "Kleine aanpassingen, bugfixes en prestatieverbeteringen. Bedankt dat je Signal gebruikt!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "Individuele videogesprekken gebruiken nu dezelfde schermvullende weergave als groepsgesprekken terwijl ze overgaan. Individuele videogesprekken gebruiken nu dezelfde schermvullende weergave die voorheen alleen aan het begin van een nieuw groepsgesprek verscheen. Tja, we proberen natuurlijk altijd consistent te blijven, dus nu is alles hetzelfde. Lekker overzichtelijk!",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "We willen ook onze dank uitspreken aan {complexspaces} voor hun hulp en feedback tijdens het werken aan deze release.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "Maak tekst in je berichten op door tekst te selecteren in het veld voor de berichtsamenstelling.\n\nMaak een vet statement met je tekst. Benadruk je boodschap met vetgedrukte letters, geef extra effect aan een naam door 'm cursief te schrijven, zet een streep door een afgewezen date met doorgehaalde tekst of deel code in monospace.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "Je kunt nu ook reageren met de allernieuwste emoji's.",
-    "description": "Release notes for v6.22"
-  },
   "icu:WhatsNew__v6.23--1": {
     "messageformat": "Naast een paar bugfixes bevat deze release ook updates op basis van ontwikkelaarsdocumentatie (bedankt, {d108}!) en enkele verbeteringen van het ontwerp van de interface voor het doorsturen van berichten (bedankt, {hackerbirds}!).",
     "description": "Release notes for v6.23"
+  },
+  "icu:WhatsNew__v6.24--0": {
+    "messageformat": "Je kunt nu ook je @vermeldingen doorzoeken. \"Bedankt voor deze toffe feature,\" zeg je dan. \"Dat hoef je niet te vermelden joh,\" is ons antwoord."
   }
 }

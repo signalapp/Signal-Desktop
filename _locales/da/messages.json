@@ -6487,24 +6487,11 @@
     "messageformat": "Små tweaks, rettelser og forbedringer af appens præstation. Tak fordi du bruger Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "Få et bedre syn på dig selv, når du tager et 1-til-1-opkald. Individuelle videoopkald bruger nu den samme fuldskærmsvisning, som tidligere kun blev vist i begyndelsen af et nyt gruppeopkald. Når det handler om at være konsekvent, forsøger vi at være vedholdende (og ikke imod det), og nu er uoverensstemmelsen ikke-eksisterende, fordi disse ting ikke længere er forskellige.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "Vi vil også gerne sige tak til {complexspaces} for deres hjælp og feedback under arbejdet med denne udgivelse.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "Formatér teksten i dine beskeder ved at vælge en hvilken som helst tekst i beskedfeltet.\n\nSkriv en påstand i fed, som faktisk er fed, send M. Night Shyamalan et overraskende svar med en spoilereffekt, understreg et navn ved at skrive \"Alex\" i kursiv, sæt en streg gennem et forkastet middagsforslag med gennemstregning, eller del en kode i monospatieret skrift.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "Vi har tilføjet understøttelse af de nyeste emojis, så nu kan du udtrykke din begejstring med &quot;Shaking Face&quot; (<emojify>🫨</emojify>) eller reagere med en &quot;Pea Pod&quot; (<emojify>🫛</emojify>), når nogen spørger om du mangler noget fra supermarkedet.",
-    "description": "Release notes for v6.22"
-  },
   "icu:WhatsNew__v6.23--1": {
     "messageformat": "Udover en lille håndfuld fejlrettelser indeholder denne udgave også opdateringer af udviklerdokumentationen (tak, {d108}!) og forbedret design af grænsefladen ved videresendelse af beskeder (tak, {hackerbirds}!).",
     "description": "Release notes for v6.23"
+  },
+  "icu:WhatsNew__v6.24--0": {
+    "messageformat": "Nu kan du også søge i dine @omtaler. \"Tak, fordi I tilføjede denne funktion,\" siger du måske. Hvortil vi svarer, \"Det var så lidt.\""
   }
 }

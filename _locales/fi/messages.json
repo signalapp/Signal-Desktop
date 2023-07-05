@@ -6487,24 +6487,11 @@
     "messageformat": "Pieniä säätöjä, virheenkorjauksia ja suorituskykyparannuksia. Kiitos, että käytät Signalia!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "Kahdenkeskisissä videopuheluissa käytetään nyt puhelun soidessa samaa koko näytön näkymää kuin ryhmäpuheluissa.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "Haluamme myös kiittää henkilöä {complexspaces} tähän julkaisuun liittyvästä avusta ja palautteesta.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "Voit muotoilla viestiesi tekstiä. Valitse vain haluamasi teksti viestinkirjoituskentässä ja lisää lihavointi, kursiivi, yliviivaus tai muu tekstitehoste.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "Lisäsimme tuen uusille emojihahmoille.",
-    "description": "Release notes for v6.22"
-  },
   "icu:WhatsNew__v6.23--1": {
     "messageformat": "Muutamien virhekorjausten lisäksi tämä julkaisu sisältää myös kehittäjien dokumentaatiopäivityksiä (kiitos, {d108}!) ja joitain suunnitteluparannuksia viestien edelleen lähettämisen käyttöliittymään (kiitos, {hackerbirds}!).",
     "description": "Release notes for v6.23"
+  },
+  "icu:WhatsNew__v6.24--0": {
+    "messageformat": "Nyt voit hakea myös @mainintojasi."
   }
 }

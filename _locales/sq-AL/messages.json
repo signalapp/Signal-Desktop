@@ -6487,24 +6487,11 @@
     "messageformat": "Rregullme të vogla, riparime të gabimeve dhe përmirësime të mbarëvajtjes.  Faleminderit që përdorni Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "Shiko më mirë veten ndërkohë që bie zilja për një thirrje kokë më kokë. Telefonatat individuale me video tani përdorin të njëjtën pamje në ekran të plotë që më parë shfaqej vetëm në fillim të një telefonate të re në grup. Kur flitet për qëndrueshmëri, ne përpiqemi të jemi këmbëngulës (jo rezistentë) dhe tani nuk ka mospërputhje, sepse mes tyre tani nuk ka më ndryshim.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "Ne dëshirojmë të shprehim vlerësimin tonë edhe për {complexspaces} për ndihmën dhe raportimet gjatë punës për këtë version.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "Përpuno tekstin e mesazheve të tua duke zgjedhur tekstin që do në fushën e shkrimit të mesazhit. Bëj një deklaratë të guximshme me shkronja të zeza, dërgoji M. Night Shyamalan një përfundim të papritur zbulues, thekso një emër duke shkruar \"Aleks\" me shkronja të pjerrëta, vendos një vijë përmes tekstit të një darke të refuzuar me mesvijëzues ose ndaje kodin me hapësira.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "Ne shtuam mbështetje për personazhet më të fundit të emoji-ve, kështu që tani mund të shprehësh emocionet e tua me &quot;Shaking Face&quot; (<emojify>🫨</emojify>) ose reago me një &quot;Pea Pod&quot; (<emojify>🫛</emojify>) kur dikush të pyet se sa i afërt je me miqtë e tu.",
-    "description": "Release notes for v6.22"
-  },
   "icu:WhatsNew__v6.23--1": {
     "messageformat": "Përveç një shumëllojshmërie të vogël rregullimesh të gabimeve, ky version përfshin edhe përditësime të dokumentacionit të zhvilluesit (faleminderit, {d108}!) dhe disa përmirësime të dizajnit në ndërfaqen e përcjelljes së mesazheve (faleminderit, {hackerbirds}!).",
     "description": "Release notes for v6.23"
+  },
+  "icu:WhatsNew__v6.24--0": {
+    "messageformat": "Tani mund të kërkosh edhe @ përmendjet e tua. \"Faleminderit që e shtuat këtë veçori,\" mund të thuash. \"As mos e zër në gojë\", do të të përgjigjemi."
   }
 }

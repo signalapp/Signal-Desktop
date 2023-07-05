@@ -6487,24 +6487,11 @@
     "messageformat": "Sedikit pengubahsuaian, pembaikan pepijat dan peningkatan prestasi. Terima kasih kerana menggunakan Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "Lihat diri anda dengan lebih baik semasa panggilan bersemuka berdering. Panggilan video individu kini menggunakan paparan skrin penuh sama seperti panggilan kumpulan semasa berdering. Apabila bercakap tentang konsisten, kita sentiasa berusaha untuk menjadi lebih baik, supaya tiada lagi yang berbeza.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "Kami juga ingin merakamkan penghargaan kepada {complexspaces} atas bantuan dan maklum balas mereka semasa mengusahakan keluaran ini.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "Format teks dalam mesej anda dengan memilih mana-mana teks dalam medan gubahan mesej.\n\nBuat pernyataan yang berani dengan tulisan tebal, hantarkan pengakhiran yang berbeza dengan kesan \"spoiler\" kepada M. Night Shyamalan, tekankan nama dengan menulis \"Alex\" dalam huruf condong, potong baris ayat untuk idea makan malam yang ditolak atau kongsi kod dalam \"monospace\".",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "Kami menambah sokongan untuk watak emoji terkini, jadi kini anda boleh meluahkan keterujaan anda dengan &quot;Wajah Bergegar&quot; (<emojify>🫨</emojify>) atau bertindak balas dengan &quot;Pea Pod&quot; (<emojify>🫛</emojify>) apabila seseorang bertanya serapat mana anda dengan rakan-rakan anda.",
-    "description": "Release notes for v6.22"
-  },
   "icu:WhatsNew__v6.23--1": {
     "messageformat": "Sebagai tambahan kepada pelbagai pembetulan pepijat kecil, keluaran ini turut menggabungkan kemas kini dokumentasi pembangun (terima kasih, {d108}!) dan beberapa penambahbaikan reka bentuk pada antara muka pemajuan mesej (terima kasih, {hackerbirds}!).",
     "description": "Release notes for v6.23"
+  },
+  "icu:WhatsNew__v6.24--0": {
+    "messageformat": "Kini anda juga boleh mencari sebutan @ anda. \"Terima kasih kerana menambahkan ciri ini,\" anda mungkin akan kata begitu. Kami akan balas, \"tiada masalah.\""
   }
 }

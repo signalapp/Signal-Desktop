@@ -6487,24 +6487,11 @@
     "messageformat": "Mabadiliko madogo, marekebisho ya bugs na uboreshaji wa utendaji. Asante kwa kutumia Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "Jiangalie vizuri pale simu ya moja kwa moja inapopiga. Simu binafsi za video sasa zinatumia mwonekano ule ule wa skrini nzima ambao hapo awali ulionekana mwanzoni simu mpya ya kikundi. Linapokuja kwa suala la kuwa thabiti, tunajaribu kuwa ving'ang'anizi (sio wapinzani) na sasa utofauti haupo kwa sababu mambo haya sio tofauti tena.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "Tungependa pia kutoa shukrani zetu kwa {complexspaces} kwa usaidizi wao na maoni tulipokuwa tukishughulikia toleo hili.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "Umbiza maandishi katika jumbe zako kwa kuchagua maandishi yoyote katika sehemu ya utunzi wa ujumbe.\n\nToa taarifa jasiri ambayo ni ya kijasiri, mtumie M. Night Shyamalan hitimisho lililojisokota lenye kutaja matukio, weka msisitizo kwa kuandika \"Alex\" kwa italiki, kata mstari kwenye wazo lililokataliwa la chajio, au shiriki msimbo katika nafasi moja.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "Tumeongeza msaada kwa emoji za hivi punde, kwa hivyo sasa unaweza kueleza furaha yako kwa &quot;Uso Unaotetemeka&quot; (<emojify>🫨</emojify>) au ujibu kwa &quot;Pea Pod&quot; (<emojify>🫛</emojify>) mtu anapokuuliza kiasi cha ukaribu wako na marafiki zako.",
-    "description": "Release notes for v6.22"
-  },
   "icu:WhatsNew__v6.23--1": {
     "messageformat": "Mbali na urekebishaji mdogo wa hitilafu, toleo hili pia linajumuisha masasisho ya hati za wasanidi programu (asante,{d108}!) na baadhi ya maboresho ya muundo wa kiolesura cha kusambaza ujumbe (asante,{hackerbirds}!).",
     "description": "Release notes for v6.23"
+  },
+  "icu:WhatsNew__v6.24--0": {
+    "messageformat": "Sasa unaweza kutafuta watu uliowataja kwa @. \"Asante kwa kuongeza kipengele hiki,\" unaweza kusema. \"Usijali,\" tutajibu."
   }
 }

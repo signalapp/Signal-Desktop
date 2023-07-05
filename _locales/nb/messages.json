@@ -6487,24 +6487,11 @@
     "messageformat": "Noen små justeringer, feilrettinger og ytelsesforbedringer. Takk for at du bruker Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "Få et bedre bilde av deg selv når du snakker med noen på tomannshånd. Nå vises også individuelle videosamtaler i fullskjermsmodus, akkurat som gruppesamtaler. Når det kommer til å sikre at funksjonene er konsekvente, prøver vi å være konsistente (og ikke resistente), og nå er de ikke lenger inkonsekvente fordi forskjellene er absente.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "Vi vil også takke {complexspaces} for god hjelp og tilbakemeldinger under arbeidet med denne utgivelsen.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "Endre formateringen på meldingen din ved å markere teksten i meldingsvinduet for å legge til fet skrift, kursiv, gjennomstreking og andre teksteffekter.\n\nDu kan for eksempel formidle fete nyheter i fet skrift, bruke en spoiler for å krydre meldingen med et lite overraskelsesmoment, kurtisere personen du liker, ved å sette navnet hens i kursiv, stryke ut en dårlig vits før vennene dine gjør det, og dele koder med fast tegnavstand.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "Nå er det mulig å bruke de aller nyeste emojiene, slik at du kan vise hvor giret du er, med et ristende ansikt (<emojify>🫨</emojify>), eller du kan sende en sukkerert (<emojify>🫛</emojify>) for å vise kjæresten din at hen er søt som sukker.",
-    "description": "Release notes for v6.22"
-  },
   "icu:WhatsNew__v6.23--1": {
     "messageformat": "I tillegg til å fikse et par småfeil, har vi oppdatert til utviklerdokumentasjonen (takk, {d108}!) og forbedret designet av grensesnittet for videresending av meldinger (takk, {hackerbirds}!).",
     "description": "Release notes for v6.23"
+  },
+  "icu:WhatsNew__v6.24--0": {
+    "messageformat": "Nå kan du også søke i dine @-omtaler."
   }
 }

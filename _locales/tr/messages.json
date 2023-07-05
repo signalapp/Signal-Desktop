@@ -6487,24 +6487,11 @@
     "messageformat": "Küçük ince ayarlar, hata düzeltmeleri ve performans geliştirmeleri yaptık. Signal'i kullandığın için teşekkürler!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "Bire bir arama gerçekleştirirken nasıl gözüktüğünü artık çaldırma sırasında daha iyi görebilirsin. Bireysel görüntülü aramalar artık yeni grup aramaları çaldırmasıyla aynı tam ekran görünümünü kullanıyor. İş tutarlı olmaya gelince, dirençli değil ısrarcı olmaya çalışıyoruz ve artık uyuşmazlık yaşanmıyoruz çünkü bu iki kavram artık herhangi bir fark taşımıyor.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "Ayrıca bu sürüm üzerinde çalışırken {complexspaces} şirketine yardımları ve geri bildirimleri için minnettarlığımızı ifade etmek istiyoruz.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "Kalın, italik, üstü çizili ve diğer metin efektlerini eklemek için mesaj oluşturma alanında herhangi bir metni seçerek mesajlarındaki metni biçimlendir.\n\nGerçekten kalın olan cesur bir açıklama yap, insanı ters yatıran bir filmin konusunu arkadaşlarına spoiler efektiyle gönder, italik \"Cansu\" yazarak birisinin adını vurgula, üstü çizili efektiyle reddedilen bir akşam yemeği fikrinin üzerine bir çizgi çek veya tek boşlukta kod paylaş.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "En yeni emoji karakterleri için destek ekledik böylece artık heyecanını &quot;Heyecanlı Yüz&quot; (<emojify>🫨</emojify>) ile gösterebilir veya birisi sana en sevdiğin sebzeyi sorduğunda (böyle bir soru neden sorulur biz de bilmiyoruz) &quot;Kabuklu Bezelye&quot; (<emojify>🫛</emojify>) ile yanıt verebilirsin.",
-    "description": "Release notes for v6.22"
-  },
   "icu:WhatsNew__v6.23--1": {
     "messageformat": "Az sayıdaki birkaç hata düzeltmesine ek olarak, bu sürüm aynı zamanda geliştirici doküman güncellemelerini (Teşekkürler {d108}!) ve mesaj iletme arayüzündeki bazı tasarım geliştirmelerini (Teşekkürler {hackerbirds}!) içeriyor.",
     "description": "Release notes for v6.23"
+  },
+  "icu:WhatsNew__v6.24--0": {
+    "messageformat": "Artık @ ile yapılan bahsetmeleri de arayabilirsin. \"Bu özelliği eklediğiniz için teşekkürler\" demiş olabilirsin mesela. \"Lafı bile olmaz!\" demişizdir biz de belki."
   }
 }

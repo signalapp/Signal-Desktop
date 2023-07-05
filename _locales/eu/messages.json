@@ -6487,24 +6487,11 @@
     "messageformat": "Doikuntza txikiak, akats-konponketak eta errendimendu-hobekuntzak. Eskerrik asko Signal erabiltzeagatik!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "Begiratu hobeto zeure buruari buruz buruzko deietan. Orain, taldeko deien hasieran bakarrik agertzen zen pantaila osoko ikuspegi bera erabiltzen dute buruz buruko bideodeiek. Koherentziari dagokionez, ekinak izaten saiatzen gara (baina ez tematiak), eta orain ez dago inkoherentziarik, dei mota horiek jada ez direlako desberdinak.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "Gainera, gure esker ona adierazi nahi diogu {complexspaces} erabiltzaileari, bertsio honetan lan egin bitartean emandako laguntzagatik eta iritziengatik.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "Mezuetako testuari formatua emateko, hautatu mezuak idazteko eremuko edozein testu.\n\nJarri gauza garrantzitsuak letra lodiz; bidali ustekabeko argumentu-aldaketa bat duen istorio bat M. Night Shyamalani, spoiler efektu batekin; nabarmendu izen bat letra etzanez idatzita; jarri lerro bat baztertutako ideia batean, marratzeko aukerarekin; edo partekatu kodea espazio bakarreko letra-tipo batekin.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "Emoji berrienak erabiltzeko aukera gehitu dugu; beraz, orain &quot;aurpegi dardaratsua&quot; (<emojify>🫨</emojify>) erabil dezakezu gogoberotasuna adierazteko, edo &quot;ilar-leka&quot; batekin erreakzionatu (<emojify>🫛</emojify>) bazkaltzeko zer nahi duzun esateko.",
-    "description": "Release notes for v6.22"
-  },
   "icu:WhatsNew__v6.23--1": {
     "messageformat": "Akatsen konponketa sorta txikiez gain, bertsio honek garatzaileen dokumentazioaren eguneraketak ere barne hartzen ditu (eskerrik asko, {d108}!) eta diseinu-hobekuntza batzuk mezuak birbidaltzeko interfazean (eskerrik asko, {hackerbirds}!).",
     "description": "Release notes for v6.23"
+  },
+  "icu:WhatsNew__v6.24--0": {
+    "messageformat": "Orain zure @aipamenak ere bila ditzakezu. \"Eskerrik asko eginbide hau gehitzeagatik\" pentsatuko duzu, agian. \"Ez da zeri\", erantzungo dizugu."
   }
 }

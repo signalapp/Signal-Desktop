@@ -6487,24 +6487,11 @@
     "messageformat": "Dagdag na maliliit na pag-aayos, pag-alis ng bugs, at pagpapaganda ng takbo ng app. Maraming salamat sa paggamit ng Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "I-check ang itsura mo habang nagri-ring ang 1-on-1 call. Ang individual video calls ay gumagamit na ngayon ng full-screen view na dati'y lumalabas lamang sa umpisa ng bagong group call. Sa pagiging consistent, sinusubukan naming maging persistent (at hindi resistant) kaya ngayo'y wala na ang discrepancy dahil hindi na magkaiba ang mga bagay na ito.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "Gusto naming pasalamatan ang {complexspaces} sa kanilang tulong at pagbibigay ng feedback para sa release na ito.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "I-format ang text sa messages mo sa pamamagitan ng pagpili ng anumang text sa message composition field.\n\nGawing malinaw ang gusto mong sabihin gamit ang bold, mag-send ng plot twist ending gamit ang spoiler effect, i-emphasize ang isang pangalan sa paggawa nitong naka-italics, i-reject ang isang dinner idea gamit ang strikethrough, o mag-share ng code na naka monospace.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "Nagdagdag kami ng suporta sa latest emoji characters, para maipakita mo ang iyong excitement gamit ang &quot;Shaking Face&quot; (<emojify>🫨</emojify>) o mag-react gamit ang &quot;Pea Pod&quot; (<emojify>🫛</emojify>) kapag may nagtanong sa 'yo kung gaano ka ka-close sa friends mo.",
-    "description": "Release notes for v6.22"
-  },
   "icu:WhatsNew__v6.23--1": {
     "messageformat": "Bukod sa kaunting bug fixes, kasama sa release na ito ang developer documentation updates (maraming salamat, {d108}!) at ilang design improvements sa message forwarding interface (maraming salamat, {hackerbirds}!).",
     "description": "Release notes for v6.23"
+  },
+  "icu:WhatsNew__v6.24--0": {
+    "messageformat": "Pwede mo na ring i-search ang @ mentions mo. Maaari mong sabihin na \"Salamat sa pagdagdag ng feature na ito\". At syempre, masaya kaming sasagot ng \"Walang anuman\"."
   }
 }

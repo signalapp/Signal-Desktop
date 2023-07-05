@@ -6487,24 +6487,11 @@
     "messageformat": "Mici ajustări, soluționări de bug-uri și îmbunătățiri ale performanței. Mersi că folosești Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "Vezi cum arăți înainte să răspunzi la un apel 1-la-1. Apelurile video individuale folosesc acum aceeași previzualizare ecran complect care înainte apărea doar la începutul unui nou apel de grup. Când vine vorba de a fi consistent, încercăm să fim persistenți (nu încăpățânați) și acum diferența nu mai există pentru că aceste lucruri nu mai sunt diferite.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "Dorim să ne arătăm aprecierea către {complexspaces} pentru ajutorul lor și feedback-ul lor în timp ce lucram la această lansare.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "Formatează textul din mesajele tale selectând orice text din câmpul de compunere a mesajului.\n\nFă o declarație cu adevărat curajoasă, trimite un mesaj cu efect, pune accentul pe un nume scriind „Alex“ cu litere cursive, respinge o invitație la cină cu o linie pe mijloc sau distribuie cod cu monospace.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "Am adăugat suport pentru cele mai recente caractere emoji, așa că acum îți poți exprima entuziasmul cu „Shaking Face” (<emojify>🫨</emojify>) sau să reacționezi cu o „Păstaie de mazăre” (<emojify>🫛</emojify>) când cineva te întreabă cât de aproape ești de prietenii tăi.",
-    "description": "Release notes for v6.22"
-  },
   "icu:WhatsNew__v6.23--1": {
     "messageformat": "În plus pe lângă o suită de soluționări de bug-uri, această lansare include și actualizări privind documentele dezvoltatorilor (mersi, {d108}!) și niște îmbunătățiri de design la interfața de redirecționare a mesajelor (mersi, {hackerbirds}!).",
     "description": "Release notes for v6.23"
+  },
+  "icu:WhatsNew__v6.24--0": {
+    "messageformat": "Acum poți căuta și printre mențiuni @. „Mulțumesc pentru această opțiune“ ai putea spune. Iar noi îți vom zice: „Cu mare drag.“"
   }
 }

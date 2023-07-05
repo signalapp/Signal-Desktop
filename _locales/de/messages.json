@@ -6487,24 +6487,11 @@
     "messageformat": "Kleine Optimierungen, Fehlerbehebungen und Leistungsverbesserungen. Danke, dass du Signal nutzt!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "Hab dich besser im Blick bei Einzelgesprächen. Einzelvideoanrufe nutzen jetzt die gleiche Vollbildschirm-Anzeige, die bisher nur zu Beginn eines neuen Gruppenanrufs angezeigt wurde. Wir haben es gern einheitlich, da sind wir uns ganz einig, und jetzt sind wir nicht mehr zweiheitlich, das macht uns freilich freudig, und zwar ganzheitlich.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "Und wir möchten uns herzlich bei {complexspaces} für ihre Hilfe und ihr Feedback bei der Arbeit an dieser Version bedanken.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "Formatiere Text in deiner Nachricht, indem du beliebigen Text im Eingabefeld markierst.\n\nTriff eine mutige Aussage, die auch wirklich mutig ist, schicke M. Night Shyamalan ein überraschendes Ende mit Spoiler-Effekt, hebe einen Namen hervor, indem du „Alex“ kursiv schreibst, streiche eine Rezeptidee durch oder teile Code in Monospace.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "Wir haben Support für die neuesten Emoji-Charaktere hinzugefügt. So kannst du deine Aufregung jetzt mit einem „Shaking Face“ (<emojify>🫨</emojify>) zum Ausdruck bringen oder mit einer „Pea Pod“ (<emojify>🫛</emojify>) reagieren, wenn dich jemand fragt, wie eng du mit jemandem befreundet bist (im Englischen ist von zwei praktisch identischen Erbsen die Rede, wenn zwei Personen ewig lange und eng befreundet sind!).",
-    "description": "Release notes for v6.22"
-  },
   "icu:WhatsNew__v6.23--1": {
     "messageformat": "Neben einer kleinen Auswahl an Fehlerbehebungen enthält diese Version auch Aktualisierungen der Entwickler-Dokumentation (danke, {d108}!) und einige Design-Verbesserungen an der Schnittstelle zur Nachrichten-Weiterleitung (danke, {hackerbirds}!).",
     "description": "Release notes for v6.23"
+  },
+  "icu:WhatsNew__v6.24--0": {
+    "messageformat": "Jetzt kannst du auch @ Erwähnungen durchsuchen. „Danke für diese Funktion“, wirst du vielleicht sagen. „Keine Ursache!“, werden wir antworten."
   }
 }

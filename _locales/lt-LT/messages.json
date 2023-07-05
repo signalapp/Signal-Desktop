@@ -6487,24 +6487,11 @@
     "messageformat": "Smulkūs patobulinimai, klaidų pataisymai ir veikimo pagerinimas. Ačiū, kad naudoji „Signal“!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "Nuo šiol dar geriau matysi save skambučio metu, kol jungiame su pašnekovu. Asmeniniai vaizdo skambučiai dabar turi tokį patį viso ekrano vaizdą, koks anksčiau atsirasdavo tik pradedant naują grupės skambutį. Mes siekiame nuoseklumo, tad neprarandame atkaklumo. Šis trūkumas nepatiko, todėl jo ir nebeliko.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "Taip pat norime išreikšti dėkingumą tau, {complexspaces}, už pagalbą ir atsiliepimus dirbant ties šiuo leidimu.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "Dabar galima formatuoti savo žinučių tekstus pasirinkus bet kurią teksto dalį žinutės kūrimo laukelyje.\n\nParyškink, kas tau iš tikrųjų svarbu. Išsaugok intrigą su spoilerio efektu. Išskirk jo ar jos vardą gražiu kursyvu. Perbrauk, jei atmetė tavo kvietimą pietų. Arba pasirink lygiaplotį, jei nori dalintis kodu.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "Pridėjome naujausių jaustukų simbolių palaikymą, tad dabar gali išreikšti savo emocijas veiduku(<emojify>🫨</emojify>) arba žirniuku (<emojify>🫛</emojify>) (pvz., jei kas nors tavęs klaustų, ar palaikai artimą ryšį su savo draugais).",
-    "description": "Release notes for v6.22"
-  },
   "icu:WhatsNew__v6.23--1": {
     "messageformat": "Be vieno kito klaidų pataisymo, šioje laidoje taip pat atnaujinta kūrėjo dokumentacija (ačiū, {d108}!) ir šiek tiek patobulintas žinučių persiuntimo sąsajos dizainas (ačiū, {hackerbirds}!).",
     "description": "Release notes for v6.23"
+  },
+  "icu:WhatsNew__v6.24--0": {
+    "messageformat": "Dabar gali ieškoti ir savo @ paminėjimų."
   }
 }

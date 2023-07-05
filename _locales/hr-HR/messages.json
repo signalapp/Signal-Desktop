@@ -6487,24 +6487,11 @@
     "messageformat": "Manja podešavanja, ispravci grešaka i poboljšanje rada aplikacije. Hvala vam što koristite Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "Baci bolji pogled na sebe dok zvoni poziv jedan na jedan. Videopozivi s dva sudionika sada koriste isti prikaz preko cijelog zaslona kao i grupni pozivi na početku poziva.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "Također bismo željeli izraziti našu zahvalnost korisniku {complexspaces} za pomoć i povratne informacije tijekom rada na ovom ažuriranju.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "Oblikujte tekst u svojim porukama odabirom teksta u polju za sastavljanje poruka i dodajte efekte podebljano, kurziv, precrtano ili druge.\n\n",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "Dodali smo podršku za najnovije emotikone.",
-    "description": "Release notes for v6.22"
-  },
   "icu:WhatsNew__v6.23--1": {
     "messageformat": "Uz razne ispravke programskih pogrešaka, ovo izdanje uključuje ažuriranja dokumentacije za programere (Hvala, {d108}!) te poboljšanja dizajna sučelja za prosljeđivanje poruka (Hvala, {hackerbirds}!).",
     "description": "Release notes for v6.23"
+  },
+  "icu:WhatsNew__v6.24--0": {
+    "messageformat": "Sada možete pretraživati i svoja @spominjanja."
   }
 }

@@ -6487,24 +6487,11 @@
     "messageformat": "Petits ajustements, corrections de bugs et améliorations des performances. Nous vous remercions d’utiliser Signal !",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "Les appels vidéo individuels sortants bénéficient désormais du même affichage plein écran que les appels de groupe.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "Nous tenons également à exprimer notre gratitude envers {complexspaces} pour son aide et ses commentaires lors de la création de cette nouvelle version.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "Formatez le texte de vos messages en sélectionnant n’importe quel texte visible dans la fenêtre de rédaction des messages et en y appliquant le style souhaité (gras, italique, barré ou tout autre effet).",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "Nous avons ajouté la prise en charge de nouveaux émojis.",
-    "description": "Release notes for v6.22"
-  },
   "icu:WhatsNew__v6.23--1": {
     "messageformat": "Mis à part quelques corrections de bugs, cette nouvelle version intègre des mises à jour documentaires pour les développeurs (merci {d108} !) et des améliorations de conception de l’interface de transfert des messages (merci {hackerbirds} !).",
     "description": "Release notes for v6.23"
+  },
+  "icu:WhatsNew__v6.24--0": {
+    "messageformat": "Vous pouvez désormais rechercher les messages dans lesquels vous êtes mentionné. Sur les murs ou dans les messages, chez Signal, on adore les tags !"
   }
 }

@@ -6487,24 +6487,11 @@
     "messageformat": "Kiçik spesifik tənzimləmələr, xəta düzəlişləri və məhsuldarlığın artırılması. Signal istifadə etdiyiniz üçün təşəkkürlər!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "Birə-bir zənglərdə indi özünüzü daha yaxşı görəcəksiniz. Artıq zəng zamanı fərdi video zənglər üçün də qrup zənglərindəki kimi tam ekran görüntüsü istifadə olunur. Uyğunluğu qorumaq üçün davamlı deyil israrlı olmağa çalışırıq, indi sizi narahat edən uyğunsuzluqlara məruz qalmayacaqsanız, çünki bu xüsusiyyətlər artıq fərqli deyil.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "Həmçinin bu buraxılış üzərində işləyərkən, göstərdikləri kömək və verdikləri rəy üçün {complexspaces} çox minnətdarıq.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "Mesaj yaratma bölməsindən istənilən mətni seçməklə mesajlarınızdakı mətni formatlayın.\n\nFaktiki olaraq qalın şriftlə yazılmış bildiriş yaradın, M. Night Shyamalan-a spoyler effekti ilə bitən məktub yollayın, kursivlə \"Alex\" yazaraq adı vurğulayın, üstüxətli şriftlə rədd edilmiş nahar ideyasının üstündən xətt çəkin və ya kodu intervalla paylaşın.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "Ən son emoji simvolları üçün dəstək əlavə etdik, artıq həyəcanınızı &quot;Təəccüblü üz&quot; (<emojify>🫨</emojify>) ilə ifadə edə və ya sizdən dostlarınıza nə dərəcədə yaxın olduğunuzu soruşan olanda &quot;Noxud dəsti&quot; (<emojify>🫛</emojify>) emojisi ilə reaksiya verə bilərsiniz.",
-    "description": "Release notes for v6.22"
-  },
   "icu:WhatsNew__v6.23--1": {
     "messageformat": "Bir sıra cüzi xəta düzəlişlərinə əlavə olaraq, bu buraxılış tərtibatçı sənədlərinin yenilənməsini (təşəkkürlər, {d108}!) və mesaj yönləndirmə interfeysinə edilmiş bəzi dizayn təkmilləşdirmələrini də (təşəkkürlər, {hackerbirds}!) əhatə edir.",
     "description": "Release notes for v6.23"
+  },
+  "icu:WhatsNew__v6.24--0": {
+    "messageformat": "Artıq siz də @ adçəkmə funksiyasından istifadə edə bilərsiniz. \"Bu xüsusiyyəti əlavə etdiyiniz üçün təşəkkürlər\" deyə bilərsiniz. Bizim cavabımız belə olacaq: \"Dəyməz\"."
   }
 }

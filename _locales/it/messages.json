@@ -6487,24 +6487,11 @@
     "messageformat": "Altre piccole modifiche e correzioni di bug per far funzionare l'app senza problemi. Grazie per usare Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "Che ne dici di avere una panoramica più \"ampia\" quando fai le chiamate su Signal? Le videochiamate uno a uno ora usano la stessa modalità di visione a schermo intero mentre squillano, prima disponibile solo per le chiamate di gruppo. Perché le videochiamate di gruppo non sono meglio di quelle individuali, ecco.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "Vorremmo anche ringraziare {complexspaces} per il suo aiuto e il feedback fornito durante il nostro lavoro per questo aggiornamento.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "Formatta i testi dei tuoi messaggi selezionando il testo direttamente nel campo di scrittura.\n\nChe sia grassetto, corsivo o barrato, potrai scegliere subito il font da applicare per rendere il tuo messaggio unico!",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "Abbiamo aggiunto il supporto alle ultime emoji introdotte, così avrai ancora più libertà di scelta fra le emoji da inviare o le reazioni da lasciare ai messaggi!",
-    "description": "Release notes for v6.22"
-  },
   "icu:WhatsNew__v6.23--1": {
     "messageformat": "Oltre a risolvere una serie di piccoli bug fastidiosi, questa versione include degli aggiornamenti alla documentazione del team di sviluppo (grazie mille, {d108}!). Inoltre, abbiamo anche migliorato il design dell'interfaccia per inoltrare i messaggi (grazie a {hackerbirds}!).",
     "description": "Release notes for v6.23"
+  },
+  "icu:WhatsNew__v6.24--0": {
+    "messageformat": "Da ora potrai cercare anche le tue @menzioni. Non aspettavi altro, vero? Beh, @nonc'èdiche"
   }
 }

@@ -6487,24 +6487,11 @@
     "messageformat": "Väikesed muudatused, vigade parandused ja jõudluse täiustused. Aitäh, et kasutad Signalit!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "Heida üks-ühele kõne helisemise ajal endale parem pilk. Üks-ühele videokõnedes kasutatakse nüüd sedasama täisekraanivaadet, mis ilmus varem ainult uue grupikõne alguses. Meile meeldivad ühtlased lahendused, seega nüüd näevad ka eri tüüpi kõned välja samasugused.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "Tahaksine tänada kasutajat {complexspaces} tema abi ja tagasiside eest selle uuenduse väljatöötamisel.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "Vali tekstiväljas oleva teksti mis tahes osa, et oma sõnumite teksti vormindada.\n\nVorminda oma sõnumite teksti – vali tekstiväljas oleva teksti mis tahes osa ning vorminda see paksu kirja, kaldkirja, kriipsuta läbi, või lisa muid teksti efekte.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "Lisasime toe uusimatele <em>emoji</em>dele, et saaksid väljendada kõikvõimalikke emotsioone.",
-    "description": "Release notes for v6.22"
-  },
   "icu:WhatsNew__v6.23--1": {
     "messageformat": "Lisaks mõnedele veaparandustele sisaldab see väljalase ka arendaja dokumentatsiooni uuendusi (aitäh, {d108}!) ning mõnesid parendusi sõnumi edastamise liidese disainis (aitäh, {hackerbirds}!).",
     "description": "Release notes for v6.23"
+  },
+  "icu:WhatsNew__v6.24--0": {
+    "messageformat": "Nüüd saad otsida ka oma @ mainimiste hulgast."
   }
 }

@@ -6487,24 +6487,11 @@
     "messageformat": "Małe ulepszenia, poprawki błędów i zwiększona funkcjonalność. Dzięki za korzystanie z Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "Napatrz się na swoją piękną buźkę podczas rozmowy 1 na 1. Indywidualne połączenia wideo wykorzystują teraz ten sam widok pełnoekranowy, który poprzednio pokazywał się tylko na początku nowego połączenia grupowego. Robimy, co tylko możemy, bo spójną aplikację mieć chcemy, więc do roboty się bierzemy i rozbieżności eliminujemy.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "Pragniemy również wyrazić wdzięczność użytkownikowi {complexspaces} za pomoc i sugestie podczas pracy nad tą aktualizacją.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "Formatuj tekst za pomocą pola kompozycji wiadomości poprzez zaznaczenie dowolnego fragmentu.\n\nWytłuść to, co najważniejsze, zasłoń fragment, w którym zdradzasz zakończenie filmu, pisz kursywą niczym scenopisarz didaskalia, używaj przekreślonego tekstu do odwoływania wieczornych planów lub dziel się kodem za pomocą czcionki o stałej szerokości.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "Dodaliśmy wsparcie na najnowszych emotikon, więc możesz już wyrażać swoją ekscytację za pomocą „trzęsącej się buźki” (<emojify>🫨</emojify>) lub reagować przy użyciu „strączka groszku” (<emojify>🫛</emojify>), gdy ktoś zapyta Cię o Twoje ulubione warzywo.",
-    "description": "Release notes for v6.22"
-  },
   "icu:WhatsNew__v6.23--1": {
     "messageformat": "Jako uzupełnienie niewielkiej liczby usuniętych błędów to wydanie zawiera aktualizację dokumentacji deweloperskiej (podziękowania dla {d108}!) i kilka udoskonaleń interfejsu przekazywania wiadomości (dziękujemy, {hackerbirds}!).",
     "description": "Release notes for v6.23"
+  },
+  "icu:WhatsNew__v6.24--0": {
+    "messageformat": "Teraz możesz przeszukiwać swoje oznaczenia „@”. Możesz nam podziękować, oznaczając nas w wiadomości, a my odpowiemy: „Nie ma sprawy”."
   }
 }

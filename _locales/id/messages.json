@@ -6487,24 +6487,11 @@
     "messageformat": "Tambahan penyesuaian kecil, perbaikan bug, dan peningkatan performa. Terima kasih telah menggunakan Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "Panggilan video individual kini menggunakan tampilan layar penuh yang sama seperti panggilan grup saat sedang berdering.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "Kami juga ingin menyampaikan apresiasi kepada {complexspaces} atas bantuan dan masukannya selama pengerjaan rilis ini.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "Atur format teks dalam pesan Anda dengan memilih teks mana pun di bidang penulisan pesanuntuk menebalkan, memiringkan, mencoret, dan menambahkan berbagai efek teks lainnya.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "Kami menambahkan dukungan untuk karakter emoji baru.",
-    "description": "Release notes for v6.22"
-  },
   "icu:WhatsNew__v6.23--1": {
     "messageformat": "Selain beberapa perbaikan bug, rilis kali ini juga menyertakan pembaruan dokumentasi dari pengembang (terima kasih, {d108}!) dan beberapa penyempurnaan desain pada antarmuka penerusan pesan (terima kasih, {hackerbirds}!).",
     "description": "Release notes for v6.23"
+  },
+  "icu:WhatsNew__v6.24--0": {
+    "messageformat": "Kini Anda juga bisa mencari @ sebutan Anda."
   }
 }

@@ -6487,24 +6487,11 @@
     "messageformat": "我哋做咗啲調整、修復咗一啲錯誤，同埋加強咗程式功能。多謝你使用 Signal！",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "喺一對一通話鈴聲響緊嘅時候，睇真啲自己個靚樣。個人視像通話宜家會同群組通話一樣，喺鈴聲響起嗰刻開始，就會用全螢幕檢視。我哋持續努力追求一致性，宜家就成功消除呢個差異喇。",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "另外，我哋都想就呢個版本嘅製作多謝 {complexspaces} 幫手同提供意見。",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "喺訊息撰寫欄入面揀選任何文字，就可以設定文字格式，包括粗體、斜體、刪除線或者其他文字效果。",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "我哋加強咗最新表情符號角色功能，宜家你可以用「震震面」(<emojify>🫨</emojify>) 嚟表示興奮，或者當有人問你同朋友有幾 close 嘅時候，用「豌豆莢」(<emojify>🫛</emojify>) 嚟回應。",
-    "description": "Release notes for v6.22"
-  },
   "icu:WhatsNew__v6.23--1": {
     "messageformat": "除咗小部分錯誤修復之外，呢個版本仲包括開發人員文件更新 (唔該晒，{d108}！) 同埋一啲轉寄訊息界面嘅改良設計 (唔該晒，{hackerbirds}！)。",
     "description": "Release notes for v6.23"
+  },
+  "icu:WhatsNew__v6.24--0": {
+    "messageformat": "宜家連 @提及訊息都可以搜尋到喇。"
   }
 }

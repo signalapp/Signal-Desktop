@@ -6487,24 +6487,11 @@
     "messageformat": "Små justeringer, buggfixar och prestandaförbättringar. Tack för att du använder Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "Individuella videosamtal använder nu samma helskärmsvy som gruppsamtal medan de ringer.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "Vi vill också tacka {complexspaces} för deras hjälp och feedback med den här versionen.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "★ Formatera text i dina meddelanden genom att markera valfri text i meddelandefältet för att lägga till fetstil, kursiv stil, genomstruken och andra texteffekter.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "Vi har lagt till stöd för nya emojis.",
-    "description": "Release notes for v6.22"
-  },
   "icu:WhatsNew__v6.23--1": {
     "messageformat": "Förutom ett mindre antal buggfixar innehåller den här versionen också uppdateringar av utvecklardokumentation (tack {d108}!) och några designförbättringar av gränssnittet för vidarebefordran av meddelanden (tack {hackerbirds}!).",
     "description": "Release notes for v6.23"
+  },
+  "icu:WhatsNew__v6.24--0": {
+    "messageformat": "Nu kan du även söka i dina @omnämnanden."
   }
 }

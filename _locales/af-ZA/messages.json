@@ -6487,24 +6487,11 @@
     "messageformat": "Klein veranderings, foutregstellings en prestasieverbeterings. Dankie dat jy Signal gebruik!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "Kyk goed hoe jy lyk terwyl 'n 1-tot-1-oproep lui. Individuele video-oproepe gebruik nou dieselfde volskerm-aansig wat voorheen slegs aan die begin van 'n nuwe groepoproep verskyn het. Kom dit by konsekwentheid, is ons hardnekkig (maar nie hardekwas nie), en nou is die inkonsekwentheid weg en is alles eenvormig.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "Ons wil ook graag ons waardering uitspreek teenoor {complexspaces} vir hul hulp en terugvoer terwyl ons aan hierdie vrystelling gewerk het.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "Formateer teks in jou boodskappe deur enige teks in die boodskapskryfveld te selekteer. Maak 'n gewigtige stelling wat regtig in vetdruk is, stuur vir M. Night Shyamalan 'n boodskap met 'n kinkel-in-die-kabel-einde wat die hele effek bederf, beklemtoon 'n naam deur bv. \"André\" in skuinsdruk te tik, trek regtig 'n streep deur 'n afgekeurde aandete-idee met die letters daarvan deurgehaal, of deel 'n kode in monospasiëring.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "Ons het ondersteuning bygevoeg vir die jongste emoji-karakters, dus kan jy nou jou opgewondenheid te kenne gee met &quot;Bewende Gesiggie&quot; (<emojify>🫨</emojify>) of reageer met 'n &quot;Ertjiepeul&quot; (<emojify>🫛</emojify>) wanneer iemand jou vra hoe naby jy aan jou vriende is.",
-    "description": "Release notes for v6.22"
-  },
   "icu:WhatsNew__v6.23--1": {
     "messageformat": "Benewens 'n klein verskeidenheid foutregstellings bevat hierdie vrystelling ook ontwikkelaardokumentasie-opdaterings (dankie, {d108}!) en 'n paar ontwerpverbeterings aan die boodskapaanstuur-koppelvlak (dankie, {hackerbirds}!).",
     "description": "Release notes for v6.23"
+  },
+  "icu:WhatsNew__v6.24--0": {
+    "messageformat": "Nou kan jy ook deur jou @-vermeldings soek. Jy kan byvoorbeeld sê, \"Dankie dat julle hierdie kenmerk bygevoeg het\". En ons sal antwoord, \"Nie te danke nie\"."
   }
 }

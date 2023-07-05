@@ -6487,24 +6487,11 @@
     "messageformat": "Apró finomítások, hibajavítások és teljesítménynövelések. Köszönjük, hogy a Signalt használod!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "Nézd meg magad jobban, amikor valaki hív téged. Az egyéni videohívásoknál mostantól ugyanaz a teljes képernyős nézet érhető el, amely korábban csak az új csoportos hívások elején jelent meg. Ami a következetességet illeti, megpróbálunk kitartóak (nem pedig ellenállók) lenni, és ez az eltérés már nem létezik, mivel már nincs különbség a kettő között.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "Ezúton is szeretnénk kifejezni köszönetünket {complexspaces} felé a kiadáson végzett munkája során nyújtott segítségért és visszajelzésért.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "Az üzenetek szövegének formázásához válaszd ki a szöveget az üzenetírás mezőben.\n\nMostantól formázhatod az üzenet szövegét, ha kijelölöd az üzenetírás mezőben. Félkövér, dőlt, áthúzott és egyéb szövegeffektusokat adhatsz hozzá.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "Támogatást adtunk a legújabb hangulatjel-karakterekhez, így most már kifejezheted izgatottságod a „reszkető arc” (<emojify>🫨</emojify>) hangulatjellel, vagy reagálhatsz egy „borsóval meg a héjával” (<emojify>🫛</emojify>), amikor valaki megkérdezi, mennyire állsz közel a barátaidhoz.",
-    "description": "Release notes for v6.22"
-  },
   "icu:WhatsNew__v6.23--1": {
     "messageformat": "Néhány hibajavításon kívül ez a kiadás a fejlesztői dokumentáció frissítéseit (köszönjük, {d108}!) és az üzenettovábbítási felület néhány tervezési fejlesztését is tartalmazza (köszönjük, {hackerbirds}!).",
     "description": "Release notes for v6.23"
+  },
+  "icu:WhatsNew__v6.24--0": {
+    "messageformat": "Mostantól kereshetsz az @említések között is. „Köszönöm, hogy hozzáadtátok ezt a funkciót” – mondhatnád. Mi pedig így válaszolhatnánk: „Említésre sem méltó”."
   }
 }

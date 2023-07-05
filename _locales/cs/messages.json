@@ -6487,24 +6487,11 @@
     "messageformat": "Drobná vylepšení, opravy chyb a zvýšení výkonu. Děkujeme, že používáte Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "Při vyzvánění hovoru se můžeš podívat, jak vypadáš. Individuální videohovory teď používají celou velikost obrazovky, která se dřív zobrazovala pouze na začátku nového skupinového hovoru. Když jde o důslednost, snažíme se být vytrvalí (nikoli úporní), a tak teď těžko budete hledat rozdíly, protože se tyto položky už prostě neliší.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "Rádi bychom také vyjádřili poděkování uživateli {complexspaces} za pomoc a zpětnou vazbu při práci na tomto vydání.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "Text ve zprávách můžete formátovat výběrem libovolné části textu v poli pro psaní zprávy.\n\nSvé silné prohlášení zvýrazněte tučně, zápletku pošlete M. Nightu Shyamalanovi zastřeně, jméno „Alex“ zdůrazněte kurzívou, odmítnutý plán na večeři přeškrtněte nebo pošlete kód neproporcionálním písmem.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "Přidali jsme podporu nejnovějších znaků emoji, takže teď můžete své nadšení vyjádřit pomocí „třesoucího se smajlíka“ (<emojify>🫨</emojify>) nebo reagovat „hrachovým luskem“ (<emojify>🫛</emojify>), když se vás někdo zeptá, jak blízcí si s přáteli jste.",
-    "description": "Release notes for v6.22"
-  },
   "icu:WhatsNew__v6.23--1": {
     "messageformat": "Kromě několika drobných oprav chyb obsahuje toto vydání také aktualizace vývojářské dokumentace ( {d108} – děkujeme!) a pár dalších vylepšeních v designu rozhraní pro přeposílání zpráv ({hackerbirds} – děkujeme!).",
     "description": "Release notes for v6.23"
+  },
+  "icu:WhatsNew__v6.24--0": {
+    "messageformat": "Teď můžete vyhledávat také pomocí @zmínek. Určitě si říkáte: „Díky za tuhle funkci.“ A my odpovídáme: „Není zač.“"
   }
 }

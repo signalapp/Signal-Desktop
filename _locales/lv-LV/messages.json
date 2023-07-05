@@ -6487,24 +6487,11 @@
     "messageformat": "Nelielas izmaiņas, kļūdu labojumi un darbības uzlabojumi. Paldies, ka lietojat Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "Redziet sevi labāk individuālo sarunu laikā. Individuālie videozvani tagad izmanto tādu pašu pilnekrāna skatu kā grupas zvani. Mēs cenšamies būt konsekventi, un tagad šie zvani vairs neatšķiras viens no otra.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "Mēs vēlamies arī pateikties {complexspaces} par sniegto palīdzību un atsauksmēm, strādājot pie šī versijas.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "Formatējiet ziņu tekstu, ziņu sastādīšanas laukā atlasot jebkuru tekstu.\n\nUzlieciet treknu uzsvaru svarīgiem tekstiem, nosūtiet M. Naitam Šjāmalānam ziņu par negaidītu sižeta pavērsienu ar spoilera efektu, izceliet vārdu ar kursīvu, pārsvītrojiet noraidītu vakariņu ideju vai kopīgojiet kodu vienplatuma formatējumā.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "Mēs pievienojām atbalstu jaunākajām emocijzīmju rakstzīmēm, tāpēc tagad varat paust savu sajūsmu ar &quot;trīcošu seju&quot; (<emojify>🫨</emojify>) vai reaģēt ar &quot;zirņu pāksti&quot; (<emojify>🫛</emojify>), kad kāds prasa, cik tuvi draugi jūs esat.",
-    "description": "Release notes for v6.22"
-  },
   "icu:WhatsNew__v6.23--1": {
     "messageformat": "Papildus nelielam kļūdu labojumu klāstam šajā laidienā ir iekļauti arī izstrādātāju dokumentācijas atjauninājumi (paldies, {d108}!) un daži ziņu pārsūtīšanas saskarnes dizaina uzlabojumi (paldies, {hackerbirds}!).",
     "description": "Release notes for v6.23"
+  },
+  "icu:WhatsNew__v6.24--0": {
+    "messageformat": "Tagad varat meklēt arī jūsu @ pieminējumos. Teiksiet: \"Paldies, ka pievienojāt šo funkciju\". Un mēs atbildēsim: \"Nav par ko\"."
   }
 }
