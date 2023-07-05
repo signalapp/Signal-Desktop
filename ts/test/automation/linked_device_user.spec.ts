@@ -166,7 +166,8 @@ test('Check blocked user syncs', async () => {
   // Check linked device for blocked contact in settings screen
   await clickOnTestIdWithText(windowB, 'settings-section');
   await clickOnTestIdWithText(windowB, 'conversations-settings-menu-item');
-  await clickOnTestIdWithText(windowB, 'reveal-blocked-user-settings');
+  // a conf sync job can take 30s (if the last one failed) +  10s polling to show a change on a linked device.
+  await clickOnTestIdWithText(windowB, 'reveal-blocked-user-settings', undefined, undefined, 50000);
   // Check if user B is in blocked contact list
   await waitForMatchingText(windowB, userB.userName);
 });

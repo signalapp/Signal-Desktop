@@ -23,10 +23,12 @@ sessionTestTwoWindows('Disappearing messages', async ([windowA, windowB]) => {
   await createContact(windowA, windowB, userA, userB);
   // Click on user's avatar to open conversation options
   await clickOnTestIdWithText(windowA, 'conversation-options-avatar');
+  await waitForMatchingText(windowA, 'Your message request has been accepted');
   // Select disappearing messages drop down
-  await clickOnMatchingText(windowA, 'Disappearing messages');
+  await clickOnTestIdWithText(windowA, 'disappearing-messages-dropdown', 'Disappearing messages');
   // Select 5 seconds
-  await clickOnMatchingText(windowA, '5 seconds');
+  await sleepFor(200);
+  await clickOnTestIdWithText(windowA, 'dropdownitem-5-seconds', '5 seconds');
   // Click chevron to close menu
   await clickOnTestIdWithText(windowA, 'back-button-conversation-options');
   // Check config message

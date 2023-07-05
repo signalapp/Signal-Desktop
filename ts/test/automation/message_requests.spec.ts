@@ -84,6 +84,8 @@ test.describe('Message requests', () => {
     await clickOnTestIdWithText(windowB, 'session-confirm-ok-button', 'OK');
     // Navigate back to message request folder to check
     await clickOnTestIdWithText(windowB, 'settings-section');
+
+    await clickOnTestIdWithText(windowB, 'message-requests-settings-menu-item', 'Message Requests');
     // Check config message of message request acceptance
     await waitForMatchingText(windowB, 'No pending message requests');
   });

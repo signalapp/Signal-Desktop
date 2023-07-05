@@ -41,7 +41,7 @@ sessionTestTwoWindows('Decline request syncs', async ([windowA, windowB]) => {
 
   const testMessage = `${userA.userName} sending message request to ${userB.userName}`;
   await sendNewMessage(windowA, userB.sessionid, testMessage);
-  // Accept request in windowB
+  // Decline request in windowB
   await clickOnTestIdWithText(windowB, 'message-request-banner');
   await clickOnTestIdWithText(windowB, 'module-conversation__user__profile-name', userA.userName);
   await clickOnTestIdWithText(windowC, 'message-request-banner');
