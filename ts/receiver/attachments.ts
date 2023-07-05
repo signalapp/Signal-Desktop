@@ -218,27 +218,27 @@ async function processQuoteAttachments(
   const isOpenGroupV2 = convo.isOpenGroupV2();
   const openGroupV2Details = (isOpenGroupV2 && convo.toOpenGroupV2()) || undefined;
 
-  quote.attachments = await Promise.all(
-    quote.attachments.map(async (item: any, index: any) => {
-      // If we already have a path, then we copied this image from the quoted
-      //    message and we don't need to download the attachment.
-      if (!item.thumbnail || item.thumbnail.path) {
-        return item;
-      }
+  for (let index = 0; index < quote.attachments.length - 1; index++) {
+    // If we already have a path, then we copied this image from the quoted
+    // message and we don't need to download the attachment.
+    const attachment = quote.attachments[index];
 
-      addedCount += 1;
+    if (!attachment.thumbnail || attachment.thumbnail.path) {
+      continue;
+    }
 
-      const thumbnail = await AttachmentDownloads.addJob(item.thumbnail, {
-        messageId: message.id,
-        type: 'quote',
-        index,
-        isOpenGroupV2,
-        openGroupV2Details,
-      });
+    addedCount += 1;
 
-      return { ...item, thumbnail };
-    })
-  );
+    const thumbnail = await AttachmentDownloads.addJob(attachment.thumbnail, {
+      messageId: message.id,
+      type: 'quote',
+      index,
+      isOpenGroupV2,
+      openGroupV2Details,
+    });
+
+    quote.attachments[index] = { ...attachment, thumbnail };
+  }
 
   message.set({ quote });
 
