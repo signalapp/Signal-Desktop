@@ -264,11 +264,17 @@ export function useIsTyping(conversationId?: string): boolean {
   return useConversationPropsById(conversationId)?.isTyping || false;
 }
 
-export function useQuoteAuthorName(authorId?: string) {
+export function useQuoteAuthorName(
+  authorId?: string
+): { authorName: string | undefined; isMe: boolean } {
   const convoProps = useConversationPropsById(authorId);
-  return authorId && isUsAnySogsFromCache(authorId)
+
+  const isMe = Boolean(authorId && isUsAnySogsFromCache(authorId));
+  const authorName = isMe
     ? window.i18n('you')
     : convoProps?.nickname || convoProps?.isPrivate
     ? convoProps?.displayNameInProfile
     : undefined;
+
+  return { authorName, isMe };
 }
