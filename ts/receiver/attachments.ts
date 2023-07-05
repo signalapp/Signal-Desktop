@@ -218,7 +218,7 @@ async function processQuoteAttachments(
   const isOpenGroupV2 = convo.isOpenGroupV2();
   const openGroupV2Details = (isOpenGroupV2 && convo.toOpenGroupV2()) || undefined;
 
-  for (let index = 0; index < quote.attachments.length - 1; index++) {
+  for (let index = 0; index < quote.attachments.length; index++) {
     // If we already have a path, then we copied this image from the quoted
     // message and we don't need to download the attachment.
     const attachment = quote.attachments[index];
