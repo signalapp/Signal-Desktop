@@ -120,6 +120,8 @@ export type Props = Readonly<{
   }): unknown;
   onTextTooLong(): unknown;
   onPickEmoji(o: EmojiPickDataType): unknown;
+  onBlur?: () => unknown;
+  onFocus?: () => unknown;
   onSubmit(
     message: string,
     bodyRanges: DraftBodyRanges,
@@ -159,6 +161,8 @@ export function CompositionInput(props: Props): React.ReactElement {
     linkPreviewResult,
     moduleClassName,
     onCloseLinkPreview,
+    onBlur,
+    onFocus,
     onPickEmoji,
     onScroll,
     onSubmit,
@@ -609,6 +613,29 @@ export function CompositionInput(props: Props): React.ReactElement {
     quill.enable(!disabled);
     quill.focus();
   }, [disabled]);
+
+  React.useEffect(() => {
+    const quill = quillRef.current;
+
+    if (quill === undefined) {
+      return;
+    }
+
+    function handleFocus() {
+      onFocus?.();
+    }
+    function handleBlur() {
+      onBlur?.();
+    }
+
+    quill.root.addEventListener('focus', handleFocus);
+    quill.root.addEventListener('blur', handleBlur);
+
+    return () => {
+      quill.root.removeEventListener('focus', handleFocus);
+      quill.root.removeEventListener('blur', handleBlur);
+    };
+  }, [onFocus, onBlur]);
 
   React.useEffect(() => {
     const emojiCompletion = emojiCompletionRef.current;
