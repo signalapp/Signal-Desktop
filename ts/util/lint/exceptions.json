@@ -2392,6 +2392,14 @@
     "reasonDetail": "Used for propagating click from the Message to MessageAudio's button"
   },
   {
+    "rule": "React-createRef",
+    "path": "ts/components/conversation/Message.tsx",
+    "line": "  private metadataRef: React.RefObject<HTMLDivElement> = React.createRef();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2023-06-30T22:12:49.259Z",
+    "reasonDetail": "Used for excluding the message metadata from triple-click selections."
+  },
+  {
     "rule": "React-useRef",
     "path": "ts/components/conversation/MessageDetail.tsx",
     "line": "  const focusRef = useRef<HTMLDivElement>(null);",
