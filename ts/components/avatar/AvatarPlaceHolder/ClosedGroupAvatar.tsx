@@ -1,13 +1,9 @@
 import React from 'react';
-import { useMembersAvatars } from '../../../hooks/useMembersAvatars';
 import { assertUnreachable } from '../../../types/sqlSharedTypes';
 import { Avatar, AvatarSize } from '../Avatar';
-
-type Props = {
-  size: number;
-  closedGroupId: string;
-  onAvatarClick?: () => void;
-};
+import { isEmpty } from 'lodash';
+import { useIsClosedGroup, useSortedGroupMembers } from '../../../hooks/useParamSelector';
+import { UserUtils } from '../../../session/utils';
 
 function getClosedGroupAvatarsSize(size: AvatarSize): AvatarSize {
   // Always use the size directly under the one requested
@@ -29,18 +25,61 @@ function getClosedGroupAvatarsSize(size: AvatarSize): AvatarSize {
   }
 }
 
-export const ClosedGroupAvatar = (props: Props) => {
-  const { closedGroupId, size, onAvatarClick } = props;
+/**
+ * Move our pubkey at the end of the list if we are in the list of members.
+ * We do this, as we want to
+ * - show 2 other members when there are enough of them,
+ * - show us as the 2nd member when there are only 2 members
+ * - show us first with a grey avatar as second when there are only us in the group.
+ */
+function moveUsAtTheEnd(members: Array<string>, us: string) {
+  const usAt = members.findIndex(val => val === us);
+  if (us && usAt > -1) {
+    // we need to move us at the end of the array
+    const updated = members.filter(m => m !== us);
+    updated.push(us);
+    return updated;
+  }
+  return members;
+}
 
-  const memberAvatars = useMembersAvatars(closedGroupId);
-  const avatarsDiameter = getClosedGroupAvatarsSize(size);
-  const firstMemberId = memberAvatars?.[0];
-  const secondMemberID = memberAvatars?.[1];
+function sortAndSlice(sortedMembers: Array<string>, us: string) {
+  const usAtTheEndIfNeeded = moveUsAtTheEnd(sortedMembers, us); // make sure we are not one of the first 2 members if there is enough members
+  return usAtTheEndIfNeeded.slice(0, 2); // we render at most 2 avatars for closed groups
+}
 
-  return (
-    <div className="module-avatar__icon-closed">
-      <Avatar size={avatarsDiameter} pubkey={firstMemberId || ''} onAvatarClick={onAvatarClick} />
-      <Avatar size={avatarsDiameter} pubkey={secondMemberID || ''} onAvatarClick={onAvatarClick} />
-    </div>
-  );
-};
+function useGroupMembersAvatars(convoId: string | undefined) {
+  const us = UserUtils.getOurPubKeyStrFromCache();
+  const isClosedGroup = useIsClosedGroup(convoId);
+  const sortedMembers = useSortedGroupMembers(convoId);
+
+  if (!convoId || !isClosedGroup || isEmpty(sortedMembers)) {
+    return undefined;
+  }
+
+  return sortAndSlice(sortedMembers, us);
+}
+
+export const ClosedGroupAvatar = React.memo(
+  ({
+    convoId,
+    size,
+    onAvatarClick,
+  }: {
+    size: number;
+    convoId: string;
+    onAvatarClick?: () => void;
+  }) => {
+    const memberAvatars = useGroupMembersAvatars(convoId);
+    const avatarsDiameter = getClosedGroupAvatarsSize(size);
+    const firstMemberId = memberAvatars?.[0] || '';
+    const secondMemberID = memberAvatars?.[1] || '';
+
+    return (
+      <div className="module-avatar__icon-closed">
+        <Avatar size={avatarsDiameter} pubkey={firstMemberId} onAvatarClick={onAvatarClick} />
+        <Avatar size={avatarsDiameter} pubkey={secondMemberID} onAvatarClick={onAvatarClick} />
+      </div>
+    );
+  }
+);
