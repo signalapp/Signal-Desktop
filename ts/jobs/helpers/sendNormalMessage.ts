@@ -640,12 +640,15 @@ async function uploadMessageQuote(
     return undefined;
   }
 
-  const uploadedAttachments = await uploadQueue.addAll(
-    loadedQuote.attachments
-      .filter(attachment => attachment.thumbnail)
-      .map(attachment => async (): Promise<OutgoingQuoteAttachmentType> => {
+  const attachmentsAfterThumbnailUpload = await uploadQueue.addAll(
+    loadedQuote.attachments.map(
+      attachment => async (): Promise<OutgoingQuoteAttachmentType> => {
         const { thumbnail } = attachment;
-        strictAssert(thumbnail, 'Quote attachment must have a thumbnail');
+        if (!thumbnail) {
+          return {
+            contentType: attachment.contentType,
+          };
+        }
 
         const uploaded = await uploadAttachment(thumbnail);
 
@@ -654,7 +657,8 @@ async function uploadMessageQuote(
           fileName: attachment.fileName,
           thumbnail: uploaded,
         };
-      })
+      }
+    )
   );
 
   // Update message with attachment digests
@@ -679,11 +683,16 @@ async function uploadMessageQuote(
         `${logId}: Quote attachment ${index} no longer has a thumbnail`
       );
 
+      const attachmentAfterThumbnailUpload =
+        attachmentsAfterThumbnailUpload[index];
+      const digest = attachmentAfterThumbnailUpload.thumbnail
+        ? Bytes.toBase64(attachmentAfterThumbnailUpload.thumbnail.digest)
+        : undefined;
       return {
         ...attachment,
         thumbnail: {
           ...attachment.thumbnail,
-          digest: Bytes.toBase64(uploadedAttachments[index].thumbnail.digest),
+          digest,
         },
       };
     }),
@@ -696,7 +705,7 @@ async function uploadMessageQuote(
     authorUuid: loadedQuote.authorUuid,
     text: loadedQuote.text,
     bodyRanges: loadedQuote.bodyRanges,
-    attachments: uploadedAttachments,
+    attachments: attachmentsAfterThumbnailUpload,
   };
 }
 

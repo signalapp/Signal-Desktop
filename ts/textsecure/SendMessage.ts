@@ -95,7 +95,7 @@ export type SendOptionsType = {
 export type OutgoingQuoteAttachmentType = Readonly<{
   contentType: string;
   fileName?: string;
-  thumbnail: UploadedAttachmentType;
+  thumbnail?: UploadedAttachmentType;
 }>;
 
 export type OutgoingQuoteType = Readonly<{
