@@ -96,6 +96,7 @@ export const ExpirableReadableMessage = (props: ExpirableReadableMessageProps) =
     isCentered,
     marginInlineStart = '6px',
     marginInlineEnd = '6px',
+    dataTestId,
   } = props;
 
   const {
@@ -133,6 +134,7 @@ export const ExpirableReadableMessage = (props: ExpirableReadableMessageProps) =
       isUnread={!!isUnread}
       isIncoming={isIncoming}
       key={`readable-message-${messageId}`}
+      dataTestId={dataTestId}
     >
       {expirationLength && expirationTimestamp && (
         <ExpireTimer

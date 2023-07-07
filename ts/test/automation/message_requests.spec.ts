@@ -1,15 +1,15 @@
 import { test } from '@playwright/test';
 import { beforeAllClean } from './setup/beforeEach';
 import { newUser } from './setup/new_user';
+import { sessionTestTwoWindows } from './setup/sessionTest';
 import { sendMessage } from './utilities/message';
 import { sendNewMessage } from './utilities/send_message';
 import {
   clickOnMatchingText,
   clickOnTestIdWithText,
   waitForMatchingText,
-  waitForTestIdWithText,
+  waitForMessageRequestWithText,
 } from './utilities/utils';
-import { sessionTestTwoWindows } from './setup/sessionTest';
 
 test.beforeEach(beforeAllClean);
 
@@ -28,9 +28,8 @@ test.describe('Message requests', () => {
     // Check that using the accept button has intended use
     await clickOnTestIdWithText(windowB, 'accept-message-request');
     // Check config message of message request acceptance
-    await waitForTestIdWithText(
+    await waitForMessageRequestWithText(
       windowB,
-      'control-message',
       `You have accepted ${userA.userName}'s message request`
     );
     await waitForMatchingText(windowB, 'No pending message requests');
@@ -48,9 +47,8 @@ test.describe('Message requests', () => {
     // Check that using the accept button has intended use
     await sendMessage(windowB, testReply);
     // Check config message of message request acceptance
-    await waitForTestIdWithText(
+    await waitForMessageRequestWithText(
       windowB,
-      'control-message',
       `You have accepted ${userA.userName}'s message request`
     );
     await waitForMatchingText(windowB, 'No pending message requests');

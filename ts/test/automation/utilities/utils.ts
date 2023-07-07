@@ -37,7 +37,7 @@ export async function waitForElement(
 }
 
 export async function waitForTextMessage(window: Page, text: string, maxWait?: number) {
-  let builtSelector = `css=[data-testid=control-message]:has-text("${text}")`;
+  let builtSelector = `css=[data-testid=readable-message]:has-text("${text}")`;
   if (text) {
     // " =>  \\\"
     /* prettier-ignore */
@@ -53,8 +53,20 @@ export async function waitForTextMessage(window: Page, text: string, maxWait?: n
   return el;
 }
 
-export async function waitForControlMessageWithText(window: Page, text: string) {
-  return waitForTestIdWithText(window, 'control-message', text);
+export async function waitForReadableMessageWithText(window: Page, text: string) {
+  return waitForTestIdWithText(window, 'readable-message', text);
+}
+
+export async function waitForGroupUpdateMessageWithText(window: Page, text: string) {
+  return waitForTestIdWithText(window, 'group-update-message', text);
+}
+
+export async function waitForMessageRequestWithText(window: Page, text: string) {
+  return waitForTestIdWithText(window, 'message-request-response-message', text);
+}
+
+export async function waitForTimerNotificationWithText(window: Page, text: string) {
+  return waitForTestIdWithText(window, 'disappear-control-message', text);
 }
 
 export async function waitForMatchingText(window: Page, text: string, maxWait?: number) {

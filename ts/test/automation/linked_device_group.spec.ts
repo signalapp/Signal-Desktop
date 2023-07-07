@@ -8,7 +8,7 @@ import { leaveGroup } from './utilities/leave_group';
 import { linkedDevice } from './utilities/linked_device';
 import {
   clickOnTestIdWithText,
-  waitForControlMessageWithText,
+  waitForGroupUpdateMessageWithText,
   waitForTestIdWithText,
 } from './utilities/utils';
 
@@ -59,10 +59,10 @@ sessionTestThreeWindows('Check leaving group syncs', async ([windowA, windowC, w
   // Check for user A
   await sleepFor(1000);
   await clickOnTestIdWithText(windowA, 'module-conversation__user__profile-name', group.userName);
-  await waitForControlMessageWithText(windowA, `"${userC.userName}" has left the group.`);
+  await waitForGroupUpdateMessageWithText(windowA, `"${userC.userName}" has left the group.`);
   // Check for linked device (userA)
   await clickOnTestIdWithText(windowB, 'module-conversation__user__profile-name', group.userName);
-  await waitForControlMessageWithText(windowB, `"${userC.userName}" has left the group.`);
+  await waitForGroupUpdateMessageWithText(windowB, `"${userC.userName}" has left the group.`);
   // Check for user B
-  await waitForControlMessageWithText(windowC, `"${userC.userName}" has left the group.`);
+  await waitForGroupUpdateMessageWithText(windowC, `"${userC.userName}" has left the group.`);
 });

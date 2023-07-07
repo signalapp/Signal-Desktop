@@ -5,7 +5,7 @@ import {
   clickOnMatchingText,
   clickOnTestIdWithText,
   typeIntoInput,
-  waitForControlMessageWithText,
+  waitForReadableMessageWithText,
   waitForTestIdWithText,
 } from '../utilities/utils';
 import { Group, User } from '../types/testing';
@@ -97,21 +97,17 @@ export const createGroup = async (
 
   // Verify that each messages was received by the other two accounts
   await Promise.all([
-    (async () => {
-      // windowA should see the message from B and the message from C
-      await waitForControlMessageWithText(windowA, msgBToGroup);
-      await waitForControlMessageWithText(windowA, msgCToGroup);
-    })(),
-    (async () => {
-      // windowB should see the message from A and the message from C
-      await waitForControlMessageWithText(windowB, msgAToGroup);
-      await waitForControlMessageWithText(windowB, msgCToGroup);
-    })(),
-    (async () => {
-      // windowC must see the message from A and the message from B
-      await waitForControlMessageWithText(windowC, msgAToGroup);
-      await waitForControlMessageWithText(windowC, msgBToGroup);
-    })(),
+    // windowA should see the message from B and the message from C
+    () => waitForReadableMessageWithText(windowA, msgBToGroup),
+    () => waitForReadableMessageWithText(windowA, msgCToGroup),
+
+    // windowB should see the message from A and the message from C
+    () => waitForReadableMessageWithText(windowB, msgAToGroup),
+    () => waitForReadableMessageWithText(windowB, msgCToGroup),
+
+    // windowC must see the message from A and the message from B
+    () => waitForReadableMessageWithText(windowC, msgAToGroup),
+    () => waitForReadableMessageWithText(windowC, msgBToGroup),
   ]);
 
   // Focus screen

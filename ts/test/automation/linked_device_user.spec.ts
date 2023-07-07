@@ -116,7 +116,7 @@ test('Check deleted message syncs', async () => {
   await clickOnTestIdWithText(windowB, 'module-conversation__user__profile-name', userB.userName);
   await waitForTextMessage(windowB, deletedMessage);
   await waitForTextMessage(windowC, deletedMessage);
-  await clickOnTestIdWithText(windowA, 'control-message', deletedMessage, true);
+  await clickOnTestIdWithText(windowA, 'readable-message', deletedMessage, true);
   await clickOnMatchingText(windowA, 'Delete just for me');
   await clickOnMatchingText(windowA, 'Delete');
   await waitForTestIdWithText(windowA, 'session-toast', 'Deleted');
@@ -140,7 +140,7 @@ test('Check unsent message syncs', async () => {
   await clickOnTestIdWithText(windowB, 'module-conversation__user__profile-name', userB.userName);
   await waitForTextMessage(windowB, unsentMessage);
   await waitForTextMessage(windowC, unsentMessage);
-  await clickOnTestIdWithText(windowA, 'control-message', unsentMessage, true);
+  await clickOnTestIdWithText(windowA, 'readable-message', unsentMessage, true);
   await clickOnMatchingText(windowA, 'Delete for everyone');
   await clickOnElement(windowA, 'data-testid', 'session-confirm-ok-button');
   await waitForTestIdWithText(windowA, 'session-toast', 'Deleted');

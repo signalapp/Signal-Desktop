@@ -128,7 +128,7 @@ sessionTestTwoWindows('Unsend text message', async ([windowA, windowB]) => {
 
   await sendMessage(windowA, unsendMessage);
   await waitForTextMessage(windowB, unsendMessage);
-  await clickOnTestIdWithText(windowA, 'control-message', unsendMessage, true);
+  await clickOnTestIdWithText(windowA, 'readable-message', unsendMessage, true);
   await clickOnMatchingText(windowA, 'Delete for everyone');
   await clickOnElement(windowA, 'data-testid', 'session-confirm-ok-button');
   await waitForTestIdWithText(windowA, 'session-toast', 'Deleted');
@@ -142,7 +142,7 @@ sessionTestTwoWindows('Delete message', async ([windowA, windowB]) => {
   await createContact(windowA, windowB, userA, userB);
   await sendMessage(windowA, deletedMessage);
   await waitForTextMessage(windowB, deletedMessage);
-  await clickOnTestIdWithText(windowA, 'control-message', deletedMessage, true);
+  await clickOnTestIdWithText(windowA, 'readable-message', deletedMessage, true);
   await clickOnMatchingText(windowA, 'Delete just for me');
   await clickOnMatchingText(windowA, 'Delete');
   await waitForTestIdWithText(windowA, 'session-toast', 'Deleted');

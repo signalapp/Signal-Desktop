@@ -76,7 +76,11 @@ export const GroupUpdateMessage = (props: PropsForGroupUpdate) => {
   const { change, messageId } = props;
 
   return (
-    <ExpirableReadableMessage messageId={messageId} key={`readable-message-${messageId}`}>
+    <ExpirableReadableMessage
+      messageId={messageId}
+      key={`readable-message-${messageId}`}
+      dataTestId="group-update-message"
+    >
       <NotificationBubble notificationText={ChangeItem(change)} iconType="users" />
     </ExpirableReadableMessage>
   );

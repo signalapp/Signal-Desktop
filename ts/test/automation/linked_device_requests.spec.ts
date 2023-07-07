@@ -6,6 +6,7 @@ import { sendNewMessage } from './utilities/send_message';
 import {
   clickOnTestIdWithText,
   waitForMatchingText,
+  waitForMessageRequestWithText,
   waitForTestIdWithText,
   waitForTextMessage,
 } from './utilities/utils';
@@ -22,9 +23,8 @@ sessionTestTwoWindows('Accept request syncs', async ([windowA, windowB]) => {
   await clickOnTestIdWithText(windowC, 'message-request-banner');
   await clickOnTestIdWithText(windowB, 'module-conversation__user__profile-name', userA.userName);
   await clickOnTestIdWithText(windowB, 'accept-message-request');
-  await waitForTestIdWithText(
+  await waitForMessageRequestWithText(
     windowB,
-    'control-message',
     `You have accepted ${userA.userName}'s message request`
   );
   await waitForMatchingText(windowB, 'No pending message requests');

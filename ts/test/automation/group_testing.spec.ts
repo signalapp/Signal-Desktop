@@ -6,7 +6,7 @@ import {
   clickOnMatchingText,
   clickOnTestIdWithText,
   typeIntoInput,
-  waitForControlMessageWithText,
+  waitForGroupUpdateMessageWithText,
   waitForMatchingText,
   waitForTestIdWithText,
 } from './utilities/utils';
@@ -28,7 +28,6 @@ sessionTestThreeWindows('Create group', async ([windowA, windowB, windowC]) => {
   await createGroup('Tiny Bubble Gang', userA, windowA, userB, windowB, userC, windowC);
   // Check config messages in all windows
   await sleepFor(1000);
-  // await waitForTestIdWithText(windowA, 'control-message');
 });
 
 sessionTestFourWindows('Add contact to group', async ([windowA, windowB, windowC, windowD]) => {
@@ -61,9 +60,9 @@ sessionTestFourWindows('Add contact to group', async ([windowA, windowB, windowC
   await sleepFor(1000);
   await clickOnMatchingText(windowA, userD.userName);
   await clickOnMatchingText(windowA, 'OK');
-  await waitForControlMessageWithText(windowA, `"${userD.userName}" joined the group.`);
-  await waitForControlMessageWithText(windowB, `${userD.sessionid} joined the group.`);
-  await waitForControlMessageWithText(windowC, `${userD.sessionid} joined the group.`);
+  await waitForGroupUpdateMessageWithText(windowA, `"${userD.userName}" joined the group.`);
+  await waitForGroupUpdateMessageWithText(windowB, `${userD.sessionid} joined the group.`);
+  await waitForGroupUpdateMessageWithText(windowC, `${userD.sessionid} joined the group.`);
   await clickOnTestIdWithText(
     windowD,
     'module-conversation__user__profile-name',

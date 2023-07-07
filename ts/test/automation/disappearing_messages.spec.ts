@@ -8,6 +8,7 @@ import {
   clickOnTestIdWithText,
   waitForMatchingText,
   waitForTestIdWithText,
+  waitForTimerNotificationWithText,
 } from './utilities/utils';
 
 // tslint:disable: no-console
@@ -32,9 +33,8 @@ sessionTestTwoWindows('Disappearing messages', async ([windowA, windowB]) => {
   // Click chevron to close menu
   await clickOnTestIdWithText(windowA, 'back-button-conversation-options');
   // Check config message
-  await waitForTestIdWithText(
+  await waitForTimerNotificationWithText(
     windowA,
-    'control-message',
     'You set the disappearing message timer to 5 seconds'
   );
   await sleepFor(2000);
@@ -68,7 +68,7 @@ sessionTestTwoWindows('Disappearing messages', async ([windowA, windowB]) => {
   // Click chevron to close menu
   await clickOnTestIdWithText(windowA, 'back-button-conversation-options');
   // Check config message
-  await waitForTestIdWithText(windowA, 'control-message', 'You disabled disappearing messages.');
+  await waitForTimerNotificationWithText(windowA, 'You disabled disappearing messages.');
   // Verify message is deleted in windowB for receiver user
   // Check config message in windowB
   await waitForMatchingText(

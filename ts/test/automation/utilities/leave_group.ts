@@ -1,5 +1,10 @@
 import { _electron, Page } from '@playwright/test';
-import { clickOnMatchingText, clickOnTestIdWithText, waitForTestIdWithText } from './utils';
+import {
+  clickOnMatchingText,
+  clickOnTestIdWithText,
+  waitForGroupUpdateMessageWithText,
+  // waitForGroupUpdateMessageWithText,
+} from './utils';
 
 export const leaveGroup = async (window: Page) => {
   // go to three dots menu
@@ -8,6 +13,6 @@ export const leaveGroup = async (window: Page) => {
   await clickOnMatchingText(window, 'Leave Group');
   // Confirm leave group
   await clickOnTestIdWithText(window, 'session-confirm-ok-button', 'OK');
-  // check config message
-  await waitForTestIdWithText(window, 'control-message', 'You have left the group.');
+  // check group update message
+  await waitForGroupUpdateMessageWithText(window, 'You have left the group'); // TODO this needs to be updated as groups left are deleted right away now
 };

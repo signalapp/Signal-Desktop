@@ -27,6 +27,7 @@ export const MessageRequestResponse = (props: PropsForMessageRequestResponse) =>
       messageId={messageId}
       receivedAt={receivedAt}
       isUnread={isUnread}
+      dataTestId="message-request-response-message"
       key={`readable-message-${messageId}`}
     >
       <Flex
