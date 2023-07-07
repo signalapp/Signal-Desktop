@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { COLORS } from '../../../themes/constants/colors';
 import { getInitials } from '../../../util/getInitials';
+import { allowOnlyOneAtATime } from '../../../session/utils/Promise';
 
 type Props = {
   diameter: number;
@@ -8,13 +9,15 @@ type Props = {
   pubkey: string;
 };
 
-const sha512FromPubkey = async (pubkey: string): Promise<string> => {
-  const buf = await crypto.subtle.digest('SHA-512', new TextEncoder().encode(pubkey));
+const sha512FromPubkeyOneAtAtime = async (pubkey: string) => {
+  return allowOnlyOneAtATime(`sha512FromPubkey-${pubkey}`, async () => {
+    const buf = await crypto.subtle.digest('SHA-512', new TextEncoder().encode(pubkey));
 
-  // tslint:disable: prefer-template restrict-plus-operands
-  return Array.prototype.map
-    .call(new Uint8Array(buf), (x: any) => ('00' + x.toString(16)).slice(-2))
-    .join('');
+    // tslint:disable: prefer-template restrict-plus-operands
+    return Array.prototype.map
+      .call(new Uint8Array(buf), (x: any) => ('00' + x.toString(16)).slice(-2))
+      .join('');
+  });
 };
 
 // do not do this on every avatar, just cache the values so we can reuse them across the app
@@ -46,7 +49,8 @@ function useHashBasedOnPubkey(pubkey: string) {
       }
       return;
     }
-    void sha512FromPubkey(pubkey).then(sha => {
+
+    void sha512FromPubkeyOneAtAtime(pubkey).then(sha => {
       if (isInProgress) {
         setIsLoading(false);
         // Generate the seed simulate the .hashCode as Java

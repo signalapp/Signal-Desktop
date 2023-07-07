@@ -288,6 +288,6 @@ export function useSortedGroupMembers(convoId: string | undefined): Array<string
   if (!convoProps || convoProps.isPrivate || convoProps.isPublic) {
     return [];
   }
-  // we need to close it before being able to call sort on it
+  // we need to clone the array before being able to call sort() it
   return compact(convoProps.members?.slice()?.sort()) || [];
 }

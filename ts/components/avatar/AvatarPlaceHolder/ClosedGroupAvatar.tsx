@@ -45,7 +45,8 @@ function moveUsAtTheEnd(members: Array<string>, us: string) {
 
 function sortAndSlice(sortedMembers: Array<string>, us: string) {
   const usAtTheEndIfNeeded = moveUsAtTheEnd(sortedMembers, us); // make sure we are not one of the first 2 members if there is enough members
-  return usAtTheEndIfNeeded.slice(0, 2); // we render at most 2 avatars for closed groups
+  // we render at most 2 avatars for closed groups
+  return { firstMember: usAtTheEndIfNeeded?.[0], secondMember: usAtTheEndIfNeeded?.[1] };
 }
 
 function useGroupMembersAvatars(convoId: string | undefined) {
@@ -60,26 +61,24 @@ function useGroupMembersAvatars(convoId: string | undefined) {
   return sortAndSlice(sortedMembers, us);
 }
 
-export const ClosedGroupAvatar = React.memo(
-  ({
-    convoId,
-    size,
-    onAvatarClick,
-  }: {
-    size: number;
-    convoId: string;
-    onAvatarClick?: () => void;
-  }) => {
-    const memberAvatars = useGroupMembersAvatars(convoId);
-    const avatarsDiameter = getClosedGroupAvatarsSize(size);
-    const firstMemberId = memberAvatars?.[0] || '';
-    const secondMemberID = memberAvatars?.[1] || '';
+export const ClosedGroupAvatar = ({
+  convoId,
+  size,
+  onAvatarClick,
+}: {
+  size: number;
+  convoId: string;
+  onAvatarClick?: () => void;
+}) => {
+  const memberAvatars = useGroupMembersAvatars(convoId);
+  const avatarsDiameter = getClosedGroupAvatarsSize(size);
+  const firstMemberId = memberAvatars?.firstMember || '';
+  const secondMemberID = memberAvatars?.secondMember || '';
 
-    return (
-      <div className="module-avatar__icon-closed">
-        <Avatar size={avatarsDiameter} pubkey={firstMemberId} onAvatarClick={onAvatarClick} />
-        <Avatar size={avatarsDiameter} pubkey={secondMemberID} onAvatarClick={onAvatarClick} />
-      </div>
-    );
-  }
-);
+  return (
+    <div className="module-avatar__icon-closed">
+      <Avatar size={avatarsDiameter} pubkey={firstMemberId} onAvatarClick={onAvatarClick} />
+      <Avatar size={avatarsDiameter} pubkey={secondMemberID} onAvatarClick={onAvatarClick} />
+    </div>
+  );
+};
