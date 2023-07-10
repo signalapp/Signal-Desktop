@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { COLORS } from '../../../themes/constants/colors';
 import { getInitials } from '../../../util/getInitials';
 import { allowOnlyOneAtATime } from '../../../session/utils/Promise';
+import { MemberAvatarPlaceHolder } from '../../icon/MemberAvatarPlaceHolder';
 
 type Props = {
   diameter: number;
@@ -83,22 +84,8 @@ export const AvatarPlaceHolder = (props: Props) => {
   const rWithoutBorder = diameterWithoutBorder / 2;
 
   if (loading || !hash) {
-    // return grey circle
-    return (
-      <svg viewBox={viewBox}>
-        <g id="UrTavla">
-          <circle
-            cx={r}
-            cy={r}
-            r={rWithoutBorder}
-            fill="#d2d2d3"
-            shapeRendering="geometricPrecision"
-            stroke={'var(--avatar-border-color)'}
-            strokeWidth="1"
-          />
-        </g>
-      </svg>
-    );
+    // return avatar placeholder circle
+    return <MemberAvatarPlaceHolder />;
   }
 
   const initials = getInitials(name);
