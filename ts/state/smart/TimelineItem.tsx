@@ -5,7 +5,8 @@ import type { RefObject } from 'react';
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-import { TimelineItem } from '../../components/conversation/TimelineItem';
+import type { StateType } from '../reducer';
+import { TimelineItem, TimelineItemType } from '../../components/conversation/TimelineItem';
 import type { WidthBreakpoint } from '../../components/_util';
 import { useProxySelector } from '../../hooks/useProxySelector';
 import { useConversationsActions } from '../ducks/conversations';
@@ -22,6 +23,7 @@ import {
   getTheme,
   getPlatform,
 } from '../selectors/user';
+import { getDefaultConversationColor } from '../selectors/items';
 import { getTargetedMessage } from '../selectors/conversations';
 import { getTimelineItem } from '../selectors/timeline';
 import {
@@ -56,6 +58,14 @@ function renderUniversalTimerNotification(): JSX.Element {
   return <SmartUniversalTimerNotification />;
 }
 
+function getTimelineItemWithMemoParams(
+  state: StateType,
+  id?: string,
+  ..._memoParams: ReadonlyArray<unknown>
+): TimelineItemType | undefined {
+  return getTimelineItem(state, id);
+};
+
 export function SmartTimelineItem(props: ExternalProps): JSX.Element {
   const {
     containerElementRef,
@@ -73,7 +83,13 @@ export function SmartTimelineItem(props: ExternalProps): JSX.Element {
   const interactionMode = useSelector(getInteractionMode);
   const theme = useSelector(getTheme);
   const platform = useSelector(getPlatform);
-  const item = useProxySelector(getTimelineItem, messageId);
+  const defaultConversationColor = useSelector(getDefaultConversationColor);
+  const item = useProxySelector(
+    getTimelineItemWithMemoParams,
+    messageId,
+    defaultConversationColor.color,
+    defaultConversationColor.customColorData?.value
+  );
   const previousItem = useProxySelector(getTimelineItem, previousMessageId);
   const nextItem = useProxySelector(getTimelineItem, nextMessageId);
 
