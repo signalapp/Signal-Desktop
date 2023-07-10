@@ -29,7 +29,7 @@ export type MentionCompletionOptions = {
   theme: ThemeType;
 };
 
-const MENTION_REGEX = /(?:^|\W)@([-+\w]*)$/;
+const MENTION_REGEX = /(?:^|\W)@([-+\w\u00C0-\u017F]*)$/;
 
 export class MentionCompletion {
   results: ReadonlyArray<ConversationType>;
