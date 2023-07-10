@@ -62,7 +62,7 @@ const opacityAnimation = keyframes`
     }
 `;
 
-const StyledMessageHighlighter = styled.div<{
+export const StyledMessageHighlighter = styled.div<{
   highlight: boolean;
 }>`
   ${props =>
@@ -187,13 +187,12 @@ export const MessageContent = (props: Props) => {
             </StyledMessageOpaqueContent>
           )}
           {!isDeleted && (
-            <StyledMessageHighlighter highlight={highlight}>
-              <MessageAttachment
-                messageId={props.messageId}
-                imageBroken={imageBroken}
-                handleImageError={handleImageError}
-              />
-            </StyledMessageHighlighter>
+            <MessageAttachment
+              messageId={props.messageId}
+              imageBroken={imageBroken}
+              handleImageError={handleImageError}
+              highlight={highlight}
+            />
           )}
         </IsMessageVisibleContext.Provider>
       </InView>

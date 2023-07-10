@@ -21,6 +21,7 @@ import { MessageContentWithStatuses } from '../message-content/MessageContentWit
 import { ReadableMessage } from './ReadableMessage';
 import styled, { keyframes } from 'styled-components';
 import { isOpenOrClosedGroup } from '../../../../models/conversationAttributes';
+import { StyledMessageReactionsContainer } from '../message-content/MessageReactions';
 
 export type GenericReadableMessageSelectorProps = Pick<
   MessageRenderingProps,
@@ -118,9 +119,14 @@ const StyledReadableMessage = styled(ReadableMessage)<{
   width: 100%;
   letter-spacing: 0.03rem;
   padding: var(--margins-xs) var(--margins-lg) 0;
+  margin: var(--margins-xxs) 0;
 
   &.message-highlighted {
     animation: ${highlightedMessageAnimation} 1s ease-in-out;
+  }
+
+  ${StyledMessageReactionsContainer} {
+    margin-top: var(--margins-xs);
   }
 
   ${props =>
