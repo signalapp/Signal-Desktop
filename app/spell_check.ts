@@ -72,7 +72,7 @@ export const setup = (
   console.log('spellcheck: setting languages to:', languages);
   session.setSpellCheckerLanguages(languages);
 
-  browserWindow.webContents.on('context-menu',z (_event, params) => {
+  browserWindow.webContents.on('context-menu',(_event, params) => {
     const { editFlags } = params;
     const isMisspelled = Boolean(params.misspelledWord);
     const isLink = Boolean(params.linkURL);
