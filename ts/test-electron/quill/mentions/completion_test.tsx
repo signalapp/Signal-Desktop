@@ -28,7 +28,6 @@ const me: ConversationType = getDefaultConversationWithUuid({
   isMe: true,
 });
 
-// TODO diacritic
 const members: Array<ConversationType> = [
   getDefaultConversationWithUuid({
     id: '555444',
