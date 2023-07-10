@@ -9,10 +9,21 @@
   &__pane {
     display: flex;
     flex-direction: column;
-    height: 100%;
-    overflow: initial;
+    height: calc(100% - #{$header-height} - var(--title-bar-drag-area-height));
+    inset-inline-start: 0;
+    overflow-y: overlay;
     position: absolute;
+    top: calc(#{$header-height} + var(--title-bar-drag-area-height));
     width: 100%;
+    z-index: $z-index-base;
+
+    @include light-theme() {
+      background-color: $color-white;
+    }
+
+    @include dark-theme() {
+      background-color: $color-gray-95;
+    }
   }
 
   &__timeline {
@@ -43,5 +54,8 @@
       margin-block: 0 10px;
       margin-inline: 16px;
     }
+  }
+
+  &__header {
   }
 }

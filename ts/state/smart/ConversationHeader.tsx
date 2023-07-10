@@ -14,7 +14,6 @@ import { getPreferredBadgeSelector } from '../selectors/badges';
 import {
   getConversationByUuidSelector,
   getConversationSelector,
-  getConversationTitle,
   isMissingRequiredProfileSharing,
 } from '../selectors/conversations';
 import { CallMode } from '../../types/Calling';
@@ -88,9 +87,8 @@ export function SmartConversationHeader({ id }: OwnProps): JSX.Element {
 
   const badgeSelector = useSelector(getPreferredBadgeSelector);
   const badge = badgeSelector(conversation.badges);
-  const conversationTitle = useSelector(getConversationTitle);
   const i18n = useSelector(getIntl);
-  const showBackButton = useSelector<StateType, boolean>(
+  const hasPanelShowing = useSelector<StateType, boolean>(
     state => state.conversations.targetedConversationPanels.length > 0
   );
   const outgoingCallButtonStyle = useSelector<
@@ -155,8 +153,8 @@ export function SmartConversationHeader({ id }: OwnProps): JSX.Element {
       ])}
       badge={badge}
       cannotLeaveBecauseYouAreLastAdmin={cannotLeaveBecauseYouAreLastAdmin}
-      conversationTitle={conversationTitle}
       destroyMessages={destroyMessages}
+      hasPanelShowing={hasPanelShowing}
       hasStories={hasStories}
       i18n={i18n}
       id={id}
@@ -178,7 +176,6 @@ export function SmartConversationHeader({ id }: OwnProps): JSX.Element {
       setDisappearingMessages={setDisappearingMessages}
       setMuteExpiration={setMuteExpiration}
       setPinned={setPinned}
-      showBackButton={showBackButton}
       theme={theme}
       toggleSelectMode={toggleSelectMode}
       viewUserStories={viewUserStories}

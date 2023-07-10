@@ -20,7 +20,7 @@ import { SmartMessageDetail } from './MessageDetail';
 import { SmartPendingInvites } from './PendingInvites';
 import { SmartStickerManager } from './StickerManager';
 import { getIntl } from '../selectors/user';
-import { getTopPanel } from '../selectors/conversations';
+import { getConversationTitle, getTopPanel } from '../selectors/conversations';
 import { useConversationsActions } from '../ducks/conversations';
 import { focusableSelectors } from '../../util/focusableSelectors';
 
@@ -30,10 +30,12 @@ export function ConversationPanel({
   conversationId: string;
 }): JSX.Element | null {
   const i18n = useSelector(getIntl);
-  const { startConversation } = useConversationsActions();
+  const { popPanelForConversation, startConversation } =
+    useConversationsActions();
   const topPanel = useSelector<StateType, PanelRenderType | undefined>(
     getTopPanel
   );
+  const conversationTitle = useSelector(getConversationTitle);
 
   const selectors = useMemo(() => focusableSelectors.join(','), []);
   const panelRef = useRef<HTMLDivElement | null>(null);
@@ -109,7 +111,25 @@ export function ConversationPanel({
   }
 
   return (
-    <div className={classNames('panel', panelClassName)} ref={panelRef}>
+    <div
+      className={classNames('ConversationPanel', 'panel', panelClassName)}
+      ref={panelRef}
+    >
+      <div className="ConversationPanel__header">
+        <button
+          aria-label={i18n('icu:goBack')}
+          className="ConversationPanel__header__back-button"
+          onClick={popPanelForConversation}
+          type="button"
+        />
+        {conversationTitle && (
+          <div className="ConversationPanel__header__info">
+            <div className="ConversationPanel__header__info__title">
+              {conversationTitle}
+            </div>
+          </div>
+        )}
+      </div>
       {panelChild}
     </div>
   );

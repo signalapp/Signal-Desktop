@@ -37,24 +37,6 @@
   }
 
   .panel {
-    height: calc(100% - #{$header-height} - var(--title-bar-drag-area-height));
-    inset-inline-start: 0;
-    overflow-y: overlay;
-    position: absolute;
-    top: calc(#{$header-height} + var(--title-bar-drag-area-height));
-    width: 100%;
-    z-index: $z-index-base;
-
-    @include light-theme() {
-      background-color: $color-white;
-    }
-
-    @include dark-theme() {
-      background-color: $color-gray-95;
-    }
-  }
-
-  .panel {
     &:not(.main) {
       &:dir(ltr) {
         animation: panel--in--ltr 350ms cubic-bezier(0.17, 0.17, 0, 1);

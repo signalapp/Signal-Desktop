@@ -197,7 +197,6 @@
     height: $icon-size;
     margin-inline-end: var(--button-spacing);
     min-width: $icon-size;
-    opacity: 0;
     padding: 2px;
     transition: margin-inline-end 200ms ease-out, opacity 200ms ease-out,
       background 100ms ease-out;
@@ -205,10 +204,6 @@
 
     &:disabled {
       cursor: default;
-    }
-
-    &--show {
-      opacity: 1;
     }
 
     &--show-disabled {
