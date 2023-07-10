@@ -72,7 +72,7 @@ export const setup = (
   console.log('spellcheck: setting languages to:', languages);
   session.setSpellCheckerLanguages(languages);
 
-  browserWindow.webContents.on('context-menu', (_event, params) => {
+  browserWindow.webContents.on('context-menu',z (_event, params) => {
     const { editFlags } = params;
     const isMisspelled = Boolean(params.misspelledWord);
     const isLink = Boolean(params.linkURL);
@@ -151,12 +151,18 @@ export const setup = (
           };
           label = i18n('icu:contextMenuCopyImage');
         } else {
-          label = i18n('icu:editMenuCopy');
+          label = i18n('icu:editMenuCopy')+"Issue";
+          let copyText = params.selectionText.toString()
+          click = () => {
+            clipboard.writeText(copyText);
+          };
+
         }
 
+        console.log("PARAMS ***********", params.selectionText)
         template.push({
           label,
-          role: isLink || isImage ? undefined : 'copy',
+          role: isLink || isImage ? undefined : undefined,
           click,
         });
       }
