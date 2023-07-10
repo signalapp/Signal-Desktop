@@ -151,7 +151,7 @@ export const setup = (
           };
           label = i18n('icu:contextMenuCopyImage');
         } else {
-          label = i18n('icu:editMenuCopy')+"Issue";
+          label = i18n('icu:editMenuCopy');
           let copyText = params.selectionText.toString()
           click = () => {
             clipboard.writeText(copyText);
