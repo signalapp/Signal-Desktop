@@ -15,16 +15,11 @@ import { SessionButton, SessionButtonType } from '../basic/SessionButton';
 import { SessionSpinner } from '../basic/SessionSpinner';
 import { SessionIconButton } from '../icon';
 import { sanitizeSessionUsername } from '../../session/utils/String';
-import { setLastProfileUpdateTimestamp } from '../../util/storage';
 import { ConversationTypeEnum } from '../../models/conversationAttributes';
 import { MAX_USERNAME_BYTES } from '../../session/constants';
 import styled from 'styled-components';
-import { saveQRCode } from '../../util/saveQRCode';
 import { useOurAvatarPath, useOurConversationUsername } from '../../hooks/useParamSelector';
 import { useDispatch } from 'react-redux';
-import styled from 'styled-components';
-import { ConversationTypeEnum } from '../../models/conversationAttributes';
-import { MAX_USERNAME_BYTES } from '../../session/constants';
 
 const handleSaveQRCode = (event: MouseEvent) => {
   event.preventDefault();
