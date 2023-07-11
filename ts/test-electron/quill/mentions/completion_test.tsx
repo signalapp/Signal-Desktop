@@ -60,6 +60,16 @@ const members: Array<ConversationType> = [
     title: 'Zoë Aurélien',
     type: 'direct',
   }),
+  getDefaultConversationWithUuid({
+    id: '999888',
+    title: 'ÖKeanu Reeves',
+    firstName: 'ÖKeanu',
+    profileName: 'ÖKeanu R.',
+    type: 'direct',
+    lastUpdated: Date.now(),
+    markedUnread: false,
+    areWeAdmin: false,
+  }),
   me,
 ];
 
@@ -272,6 +282,36 @@ describe('MentionCompletion', () => {
           const [member] = insertMentionStub.getCall(0).args;
 
           assert.equal(member, members[2]);
+        });
+      });
+
+      describe('given a completable mention starting with umlauts', () => {
+        const text = '@Ö';
+        const index = text.length;
+
+        beforeEach(function beforeEach() {
+          mockQuill.getSelection?.returns({ index });
+
+          const blot = {
+            text,
+          };
+          mockQuill.getLeaf?.returns([blot, index]);
+
+          mentionCompletion.completeMention(1);
+        });
+
+        it('inserts the currently selected mention at the current cursor position', () => {
+          const [
+            member,
+            distanceFromCursor,
+            adjustCursorAfterBy,
+            withTrailingSpace,
+          ] = insertMentionStub.getCall(0).args;
+
+          assert.equal(member, members[1]);
+          assert.equal(distanceFromCursor, 0);
+          assert.equal(adjustCursorAfterBy, 2);
+          assert.equal(withTrailingSpace, true);
         });
       });
     });
