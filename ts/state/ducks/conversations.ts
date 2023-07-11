@@ -1161,6 +1161,7 @@ export async function openConversationToSpecificMessage(args: {
 /**
  * Look for quote matching the timestamp and author in the quote lookup map
  * @param quotes - the lookup map of the selected conversations quotes
+ * @param messages - the messages in memory for the selected conversation
  * @param author - the pubkey of the quoted author
  * @param timestamp - usually the id prop on the quote object of a message
  * @returns - the message model if found, undefined otherwise

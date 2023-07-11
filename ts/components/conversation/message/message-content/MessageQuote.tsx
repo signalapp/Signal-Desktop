@@ -64,8 +64,13 @@ export const MessageQuote = (props: Props) => {
 
       // If the quote is not found in memory, we try to find it in the DB
       if (quoteNotFound && quote.id && quote.author) {
+        // We always look for the quote by sentAt timestamp, for opengroups, closed groups and session chats
+        // this will return an array of sent messages by id that we have locally.
         const quotedMessagesCollection = await Data.getMessagesBySenderAndSentAt([
-          { timestamp: toNumber(quote.id), source: quote.author },
+          {
+            timestamp: toNumber(quote.id),
+            source: quote.author,
+          },
         ]);
 
         if (quotedMessagesCollection?.length) {
