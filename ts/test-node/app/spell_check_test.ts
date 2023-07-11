@@ -122,8 +122,6 @@ describe('context-menu copy & paste', () => {
     },
     frame: {} as Electron.WebFrameMain,
     linkURL: '',
-
-    // Propiedades adicionales requeridas por 'ContextMenuParams'
     linkText: '',
     pageURL: '',
     frameURL: '',
