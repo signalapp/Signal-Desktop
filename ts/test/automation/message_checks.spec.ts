@@ -10,14 +10,13 @@ import {
   clickOnElement,
   clickOnMatchingText,
   clickOnTestIdWithText,
-  hasTextElementBeenDeleted,
   hasTextElementBeenDeletedNew,
   measureSendingTime,
   typeIntoInput,
   waitForLoadingAnimationToFinish,
   waitForMatchingText,
   waitForTestIdWithText,
-  waitForTextMessage,
+  waitForTextMessage
 } from './utilities/utils';
 
 

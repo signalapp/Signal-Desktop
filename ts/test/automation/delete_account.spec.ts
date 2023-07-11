@@ -6,14 +6,8 @@ import { openApp } from './setup/open';
 import { createContact } from './utilities/create_contact';
 import { sendNewMessage } from './utilities/send_message';
 import {
-  clickOnElement,
-  clickOnMatchingText,
-  clickOnTestIdWithText,
-  hasElementBeenDeleted,
-  hasTextElementBeenDeleted,
-  typeIntoInput,
-  waitForElement,
-  waitForLoadingAnimationToFinish,
+  clickOnElement, clickOnMatchingText, clickOnTestIdWithText, hasElementBeenDeleted, hasTextElementBeenDeleted, typeIntoInput, waitForElement,
+  waitForLoadingAnimationToFinish
 } from './utilities/utils';
 
 // tslint:disable: no-console
@@ -117,5 +111,10 @@ test('Delete account from device', async () => {
     userB.userName
   );
 
+  await hasElementBeenDeleted(restoringWindow, "data-testid", "conversation-list-item")
+
+  await clickOnTestIdWithText(restoringWindow, 'new-conversation-button'); // Expect contacts list to be empty
+
+  await hasTextElementBeenDeleted(restoringWindow, "contact")
   await forceCloseAllWindows(restoringWindows);
 });
