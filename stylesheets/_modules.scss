@@ -1026,6 +1026,9 @@
 }
 
 // Module H5AudioPlayer
+$rhap_background-color: var(--transparent-color) !default;
+$rhap_font-family: inherit !default;
+
 .module-message__container--outgoing {
   .rhap_container {
     background-color: var(--message-bubbles-sent-background-color);

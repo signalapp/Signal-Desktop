@@ -1131,7 +1131,7 @@ export const isClosedGroupConversation = (state: StateType): boolean => {
   );
 };
 
-const getGroupMembers = (state: StateType): Array<string> => {
+const getSelectedGroupMembers = (state: StateType): Array<string> => {
   const selected = getSelectedConversation(state);
   if (!selected) {
     return [];
@@ -1211,7 +1211,7 @@ export function useSelectedIsNoteToSelf() {
 }
 
 export function useSelectedMembers() {
-  return useSelector(getGroupMembers);
+  return useSelector(getSelectedGroupMembers);
 }
 
 export function useSelectedSubscriberCount() {

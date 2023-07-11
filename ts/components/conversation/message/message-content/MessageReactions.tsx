@@ -14,7 +14,11 @@ import { StyledPopupContainer } from '../reactions/ReactionPopup';
 export const popupXDefault = -81;
 export const popupYDefault = -90;
 
-const StyledMessageReactionsContainer = styled(Flex)<{ x: number; y: number; noAvatar: boolean }>`
+export const StyledMessageReactionsContainer = styled(Flex)<{
+  x: number;
+  y: number;
+  noAvatar: boolean;
+}>`
   ${StyledPopupContainer} {
     position: absolute;
     top: ${props => `${props.y}px;`};

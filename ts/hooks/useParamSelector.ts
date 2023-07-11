@@ -1,4 +1,4 @@
-import { isEmpty, isNumber } from 'lodash';
+import { compact, isEmpty, isNumber } from 'lodash';
 import { useSelector } from 'react-redux';
 import {
   hasValidIncomingRequestValues,
@@ -352,4 +352,17 @@ export function useQuoteAuthorName(
     : undefined;
 
   return { authorName, isMe };
+}
+
+/**
+ * Get the list of members of a closed group or []
+ * @param convoId the closed group id to extract members from
+ */
+export function useSortedGroupMembers(convoId: string | undefined): Array<string> {
+  const convoProps = useConversationPropsById(convoId);
+  if (!convoProps || convoProps.isPrivate || convoProps.isPublic) {
+    return [];
+  }
+  // we need to clone the array before being able to call sort() it
+  return compact(convoProps.members?.slice()?.sort()) || [];
 }
