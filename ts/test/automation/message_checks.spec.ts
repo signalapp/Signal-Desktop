@@ -11,12 +11,15 @@ import {
   clickOnMatchingText,
   clickOnTestIdWithText,
   hasTextElementBeenDeleted,
+  hasTextElementBeenDeletedNew,
+  measureSendingTime,
   typeIntoInput,
   waitForLoadingAnimationToFinish,
   waitForMatchingText,
   waitForTestIdWithText,
   waitForTextMessage,
 } from './utilities/utils';
+
 
 test.beforeEach(beforeAllClean);
 
@@ -158,10 +161,32 @@ test('Delete message', async () => {
   await clickOnMatchingText(windowA, 'Delete just for me');
   await clickOnMatchingText(windowA, 'Delete');
   await waitForTestIdWithText(windowA, 'session-toast', 'Deleted');
-  await hasTextElementBeenDeleted(windowA, deletedMessage, 1000);
+  await hasTextElementBeenDeletedNew(windowA, deletedMessage, 1000);
   // Still should exist in window B
   await waitForMatchingText(windowB, deletedMessage);
 });
+
+
+test('Check performance', async () => {
+  const [windowA, windowB] = await openApp(2);
+  const [userA, userB] = await Promise.all([newUser(windowA, 'Alice'), newUser(windowB, 'Bob')]);
+    // Create contact
+    await createContact(windowA, windowB, userA, userB);
+    const timesArray: Array<number> = [];
+  
+    let i
+    for (i = 1; i <= 10; i++) {
+      const timeMs = await measureSendingTime(windowA, i);
+      timesArray.push(timeMs);
+    }
+    console.log(timesArray)
+})
+
+
+
+
+
+
 
 // *************** NEED TO WAIT FOR LINK PREVIEW FIX *************************************************
 // test('Send link and reply test', async () => {

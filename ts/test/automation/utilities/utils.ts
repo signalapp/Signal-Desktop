@@ -2,6 +2,7 @@ import { ElementHandle } from '@playwright/test';
 import { Page } from 'playwright-core';
 import { sleepFor } from '../../../session/utils/Promise';
 import { DataTestId, loaderType, Strategy } from '../types/testing';
+import { sendMessage } from './message';
 // tslint:disable: no-console
 
 // WAIT FOR FUNCTIONS
@@ -168,19 +169,6 @@ export async function typeIntoInputSlow(window: Page, dataTestId: DataTestId, te
   return window.type(builtSelector, text, { delay: 100 });
 }
 
-export async function hasTextElementBeenDeleted(window: Page, text: string, maxWait?: number) {
-  const fakeError = `Matching text: ${text} has been found... oops`;
-  try {
-    await waitForMatchingText(window, text, maxWait);
-    throw new Error(fakeError);
-  } catch (e) {
-    if (e.message === fakeError) {
-      throw e;
-    }
-  }
-  console.info('Element has not been found, congratulations', text);
-}
-
 export async function doesTextIncludeString(window: Page, dataTestId: DataTestId, text: string) {
   const element = await waitForTestIdWithText(window, dataTestId);
   const el = await element.innerText();
@@ -211,6 +199,33 @@ export async function hasElementBeenDeleted(
   console.info(`${selector} has not been found, congrats`);
 }
 
+export async function hasTextElementBeenDeleted(window: Page, text: string, maxWait?: number) {
+  const fakeError = `Matching text: ${text} has been found... oops`;
+  try {
+    await waitForMatchingText(window, text, maxWait);
+    throw new Error(fakeError);
+  } catch (e) {
+    if (e.message === fakeError) {
+      throw e;
+    }
+  }
+  console.info('Element has not been found, congratulations', text);
+}
+
+export async function hasTextElementBeenDeletedNew(window: Page, text: string, maxWait?: number) {
+  const textElement = await waitForElement(window, ':has-text', text, maxWait)
+  try {
+    if(textElement) {
+      await sleepFor(100)
+    } else {
+      console.log('Element has been deleted, congratulations')
+    }
+  } catch(e) {
+    throw new Error('Element not defined');
+  }
+}
+
+
 export async function hasElementPoppedUpThatShouldnt(
   window: Page,
   strategy: Strategy,
@@ -226,4 +241,17 @@ export async function hasElementPoppedUpThatShouldnt(
   if (elVisible === true) {
     throw new Error(fakeError);
   }
+}
+
+export async function measureSendingTime(window: Page, messageNumber: number) {
+  const message = `Test-message`
+  const timeStart = Date.now()
+  
+  await sendMessage(window, message)
+  
+  const timeEnd = Date.now()
+  const timeMs = timeEnd - timeStart
+
+  console.log(`Message ${messageNumber}: ${timeMs}`);
+  return timeMs
 }
