@@ -164,7 +164,7 @@ async function onSubmit(convoId: string, membersAfterUpdate: Array<string>) {
 
   void initiateClosedGroupUpdate(
     convoId,
-    convoProps.displayNameInProfile || 'Unknown',
+    convoProps.displayNameInProfile || window.i18n('unknown'),
     filteredMembers
   );
 }

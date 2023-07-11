@@ -7,9 +7,9 @@ import {
   PropsForDataExtractionNotification,
   PropsForMessageRequestResponse,
 } from '../../models/messageType';
-import { omit } from 'lodash';
+import { omit, toNumber } from 'lodash';
 import { ReplyingToMessageProps } from '../../components/conversation/composition/CompositionBox';
-import { QuotedAttachmentType } from '../../components/conversation/message/message-content/Quote';
+import { QuotedAttachmentType } from '../../components/conversation/message/message-content/quote/Quote';
 import { LightBoxOptions } from '../../components/conversation/SessionConversation';
 import {
   ConversationNotificationSettingType,
@@ -33,6 +33,7 @@ export type MessageModelPropsWithoutConvoProps = {
   propsForGroupUpdateMessage?: PropsForGroupUpdate;
   propsForCallNotification?: PropsForCallNotification;
   propsForMessageRequestResponse?: PropsForMessageRequestResponse;
+  propsForQuote?: PropsForQuote;
 };
 
 export type MessageModelPropsWithConvoProps = SortedMessageModelProps & {
@@ -163,6 +164,16 @@ export type PropsForAttachment = {
   } | null;
 };
 
+export type PropsForQuote = {
+  attachment?: QuotedAttachmentType;
+  author: string;
+  convoId?: string;
+  id?: string; // this is the quoted message timestamp
+  isFromMe?: boolean;
+  referencedMessageNotFound?: boolean;
+  text?: string;
+};
+
 export type PropsForMessageWithoutConvoProps = {
   id: string; // messageId
   direction: MessageModelType;
@@ -179,16 +190,7 @@ export type PropsForMessageWithoutConvoProps = {
   reacts?: ReactionList;
   reactsIndex?: number;
   previews?: Array<any>;
-  quote?: {
-    text?: string;
-    attachment?: QuotedAttachmentType;
-    isFromMe?: boolean;
-    sender: string;
-    authorProfileName?: string;
-    authorName?: string;
-    messageId?: string;
-    referencedMessageNotFound?: boolean;
-  } | null;
+  quote?: PropsForQuote;
   messageHash?: string;
   isDeleted?: boolean;
   isUnread?: boolean;
@@ -284,10 +286,18 @@ export type ConversationLookupType = {
   [key: string]: ReduxConversationType;
 };
 
+export type QuoteLookupType = {
+  // key is message [timestamp]-[author-pubkey]
+  [key: string]: MessageModelPropsWithoutConvoProps;
+};
+
 export type ConversationsStateType = {
   conversationLookup: ConversationLookupType;
   selectedConversation?: string;
+  // NOTE the messages that are in view
   messages: Array<MessageModelPropsWithoutConvoProps>;
+  // NOTE the messages quoted by other messages which are in view
+  quotes: QuoteLookupType;
   firstUnreadMessageId: string | undefined;
   messageDetailProps?: MessagePropsDetails;
   showRightPanel: boolean;
@@ -333,32 +343,70 @@ export type MentionsMembersType = Array<{
   authorProfileName: string;
 }>;
 
+/**
+ * Fetches the messages for a conversation to put into redux.
+ * @param conversationKey - the id of the conversation
+ * @param messageId - the id of the message in view so we can fetch the messages around it
+ * @returns the fetched models for messages and quoted messages
+ */
 async function getMessages({
   conversationKey,
   messageId,
 }: {
   conversationKey: string;
   messageId: string | null;
-}): Promise<Array<MessageModelPropsWithoutConvoProps>> {
+}): Promise<{
+  messagesProps: Array<MessageModelPropsWithoutConvoProps>;
+  quotesProps: QuoteLookupType;
+}> {
   const beforeTimestamp = Date.now();
 
   const conversation = getConversationController().get(conversationKey);
   if (!conversation) {
     // no valid conversation, early return
     window?.log?.error('Failed to get convo on reducer.');
-    return [];
+    return { messagesProps: [], quotesProps: {} };
   }
 
-  const messageSet = await Data.getMessagesByConversation(conversationKey, {
+  const {
+    messages: messagesCollection,
+    quotes: quotesCollection,
+  } = await Data.getMessagesByConversation(conversationKey, {
     messageId,
+    returnQuotes: true,
   });
 
-  const messageProps: Array<MessageModelPropsWithoutConvoProps> = messageSet.models.map(m =>
-    m.getMessageModelProps()
+  const messagesProps: Array<MessageModelPropsWithoutConvoProps> = messagesCollection.models.map(
+    m => m.getMessageModelProps()
   );
   const time = Date.now() - beforeTimestamp;
-  window?.log?.info(`Loading ${messageProps.length} messages took ${time}ms to load.`);
-  return messageProps;
+  window?.log?.info(`Loading ${messagesProps.length} messages took ${time}ms to load.`);
+
+  const quotesProps: QuoteLookupType = {};
+
+  if (quotesCollection?.length) {
+    const quotePropsList = quotesCollection.map(quote => ({
+      timestamp: toNumber(quote.id),
+      source: String(quote.author),
+    }));
+
+    const quotedMessagesCollection = await Data.getMessagesBySenderAndSentAt(quotePropsList);
+
+    if (quotedMessagesCollection?.length) {
+      for (let i = 0; i < quotedMessagesCollection.length; i++) {
+        const quotedMessage = quotedMessagesCollection.models.at(i)?.getMessageModelProps();
+        if (quotedMessage) {
+          const timestamp = quotedMessage.propsForMessage.timestamp;
+          const sender = quotedMessage.propsForMessage.sender;
+          if (timestamp && sender) {
+            quotesProps[`${timestamp}-${sender}`] = quotedMessage;
+          }
+        }
+      }
+    }
+  }
+
+  return { messagesProps, quotesProps };
 }
 
 export type SortedMessageModelProps = MessageModelPropsWithoutConvoProps & {
@@ -369,6 +417,7 @@ export type SortedMessageModelProps = MessageModelPropsWithoutConvoProps & {
 type FetchedTopMessageResults = {
   conversationKey: string;
   messagesProps: Array<MessageModelPropsWithoutConvoProps>;
+  quotesProps: QuoteLookupType;
   oldTopMessageId: string | null;
   newMostRecentMessageIdInConversation: string | null;
 } | null;
@@ -390,7 +439,7 @@ export const fetchTopMessagesForConversation = createAsyncThunk(
       window.log.info('fetchTopMessagesForConversation: we are already at the top');
       return null;
     }
-    const messagesProps = await getMessages({
+    const { messagesProps, quotesProps } = await getMessages({
       conversationKey,
       messageId: oldTopMessageId,
     });
@@ -398,6 +447,7 @@ export const fetchTopMessagesForConversation = createAsyncThunk(
     return {
       conversationKey,
       messagesProps,
+      quotesProps,
       oldTopMessageId,
       newMostRecentMessageIdInConversation: mostRecentMessage?.id || null,
     };
@@ -407,6 +457,7 @@ export const fetchTopMessagesForConversation = createAsyncThunk(
 type FetchedBottomMessageResults = {
   conversationKey: string;
   messagesProps: Array<MessageModelPropsWithoutConvoProps>;
+  quotesProps: QuoteLookupType;
   oldBottomMessageId: string | null;
   newMostRecentMessageIdInConversation: string | null;
 } | null;
@@ -427,7 +478,7 @@ export const fetchBottomMessagesForConversation = createAsyncThunk(
       window.log.info('fetchBottomMessagesForConversation: we are already at the bottom');
       return null;
     }
-    const messagesProps = await getMessages({
+    const { messagesProps, quotesProps } = await getMessages({
       conversationKey,
       messageId: oldBottomMessageId,
     });
@@ -435,6 +486,7 @@ export const fetchBottomMessagesForConversation = createAsyncThunk(
     return {
       conversationKey,
       messagesProps,
+      quotesProps,
       oldBottomMessageId,
       newMostRecentMessageIdInConversation: mostRecentMessage.id,
     };
@@ -447,6 +499,7 @@ export function getEmptyConversationState(): ConversationsStateType {
   return {
     conversationLookup: {},
     messages: [],
+    quotes: {},
     messageDetailProps: undefined,
     showRightPanel: false,
     selectedMessageIds: [],
@@ -514,6 +567,7 @@ function handleMessageExpiredOrDeleted(
     // search if we find this message id.
     // we might have not loaded yet, so this case might not happen
     const messageInStoreIndex = state?.messages.findIndex(m => m.propsForMessage.id === messageId);
+    const editedQuotes = { ...state.quotes };
     if (messageInStoreIndex >= 0) {
       // we cannot edit the array directly, so slice the first part, and slice the second part,
       // keeping the index removed out
@@ -522,6 +576,19 @@ function handleMessageExpiredOrDeleted(
         ...state.messages.slice(messageInStoreIndex + 1),
       ];
 
+      // Check if the message is quoted somewhere, and if so, remove it from the quotes
+      const msgProps = state.messages[messageInStoreIndex].propsForMessage;
+      const { timestamp, sender } = msgProps;
+      if (timestamp && sender) {
+        const message2Delete = lookupQuote(editedQuotes, editedMessages, timestamp, sender);
+        window.log.debug(
+          `Deleting quote {${timestamp}-${sender}} ${JSON.stringify(message2Delete)}`
+        );
+
+        // tslint:disable-next-line: no-dynamic-delete
+        delete editedQuotes[`${timestamp}-${sender}`];
+      }
+
       // FIXME two other thing we have to do:
       // * update the last message text if the message deleted was the last one
       // * update the unread count of the convo if the message was the one counted as an unread
@@ -529,6 +596,7 @@ function handleMessageExpiredOrDeleted(
       return {
         ...state,
         messages: editedMessages,
+        quotes: editedQuotes,
         firstUnreadMessageId:
           state.firstUnreadMessageId === messageId ? undefined : state.firstUnreadMessageId,
       };
@@ -752,6 +820,7 @@ const conversationsSlice = createSlice({
         firstUnreadIdOnOpen: string | undefined;
         mostRecentMessageIdOnOpen: string | null;
         initialMessages: Array<MessageModelPropsWithoutConvoProps>;
+        initialQuotes: QuoteLookupType;
       }>
     ) {
       // this is quite hacky, but we don't want to show the showScrollButton if we have only a small amount of messages,
@@ -775,6 +844,7 @@ const conversationsSlice = createSlice({
         selectedConversation: action.payload.conversationKey,
         firstUnreadMessageId: action.payload.firstUnreadIdOnOpen,
         messages: action.payload.initialMessages,
+        quotes: action.payload.initialQuotes,
 
         areMoreMessagesBeingFetched: false,
         showRightPanel: false,
@@ -802,6 +872,7 @@ const conversationsSlice = createSlice({
         mostRecentMessageIdOnOpen: string | null;
 
         initialMessages: Array<MessageModelPropsWithoutConvoProps>;
+        initialQuotes: QuoteLookupType;
       }>
     ) {
       return {
@@ -810,6 +881,7 @@ const conversationsSlice = createSlice({
         mostRecentMessageIdOnOpen: action.payload.mostRecentMessageIdOnOpen,
         areMoreMessagesBeingFetched: false,
         messages: action.payload.initialMessages,
+        quotes: action.payload.initialQuotes,
         showScrollButton: Boolean(
           action.payload.messageIdToNavigateTo !== action.payload.mostRecentMessageIdOnOpen
         ),
@@ -1039,7 +1111,7 @@ export async function openConversationWithMessages(args: {
   const firstUnreadIdOnOpen = await Data.getFirstUnreadMessageIdInConversation(conversationKey);
   const mostRecentMessageIdOnOpen = await Data.getLastMessageIdInConversation(conversationKey);
 
-  const initialMessages = await getMessages({
+  const { messagesProps: initialMessages, quotesProps: initialQuotes } = await getMessages({
     conversationKey,
     messageId: messageId || null,
   });
@@ -1050,6 +1122,7 @@ export async function openConversationWithMessages(args: {
       firstUnreadIdOnOpen,
       mostRecentMessageIdOnOpen,
       initialMessages,
+      initialQuotes,
     })
   );
 }
@@ -1061,7 +1134,10 @@ export async function openConversationToSpecificMessage(args: {
 }) {
   const { conversationKey, messageIdToNavigateTo, shouldHighlightMessage } = args;
 
-  const messagesAroundThisMessage = await getMessages({
+  const {
+    messagesProps: messagesAroundThisMessage,
+    quotesProps: quotesAroundThisMessage,
+  } = await getMessages({
     conversationKey,
     messageId: messageIdToNavigateTo,
   });
@@ -1076,6 +1152,41 @@ export async function openConversationToSpecificMessage(args: {
       mostRecentMessageIdOnOpen,
       shouldHighlightMessage,
       initialMessages: messagesAroundThisMessage,
+      initialQuotes: quotesAroundThisMessage,
     })
   );
+}
+
+/**
+ * Look for quote matching the timestamp and author in the quote lookup map
+ * @param quotes - the lookup map of the selected conversations quotes
+ * @param author - the pubkey of the quoted author
+ * @param timestamp - usually the id prop on the quote object of a message
+ * @returns - the message model if found, undefined otherwise
+ */
+export function lookupQuote(
+  quotes: QuoteLookupType,
+  messages: Array<MessageModelPropsWithoutConvoProps>,
+  timestamp: number,
+  author: string
+): MessageModelPropsWithoutConvoProps | undefined {
+  let sourceMessage = quotes[`${timestamp}-${author}`];
+
+  // NOTE If a quote is processed but we haven't triggered a render, the quote might not be in the lookup map yet so we check the messages in memory.
+  if (!sourceMessage) {
+    const quotedMessages = messages.filter(message => {
+      const msgProps = message.propsForMessage;
+      return msgProps.timestamp === timestamp && msgProps.sender === author;
+    });
+
+    if (quotedMessages?.length) {
+      for (const quotedMessage of quotedMessages) {
+        if (quotedMessage) {
+          sourceMessage = quotedMessage;
+        }
+      }
+    }
+  }
+
+  return sourceMessage;
 }

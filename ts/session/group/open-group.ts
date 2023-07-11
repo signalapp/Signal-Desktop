@@ -69,7 +69,7 @@ export async function initiateOpenGroupUpdate(
       });
       const avatarImageId = fileId;
       await convo.setSessionProfile({
-        displayName: groupName || convo.get('displayNameInProfile') || 'Unknown',
+        displayName: groupName || convo.get('displayNameInProfile') || window.i18n('unknown'),
         avatarPath: upgraded.path,
 
         avatarImageId,

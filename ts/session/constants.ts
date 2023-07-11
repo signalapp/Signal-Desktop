@@ -39,7 +39,7 @@ export const CONVERSATION = {
   // Maximum voice message duraton of 5 minutes
   // which equates to 1.97 MB
   MAX_VOICE_MESSAGE_DURATION: 300,
-  MAX_UNREAD_COUNT: 9999,
+  MAX_UNREAD_COUNT: 999,
 };
 
 /**
@@ -59,9 +59,6 @@ export const UI = {
     GREEN: '#00F782',
   },
 };
-
-// we keep 150 chars, because quoting someone with 66 hex chars need to be kept in full so we can render it in the quote with its name
-export const QUOTED_TEXT_MAX_LENGTH = 150;
 
 export const DEFAULT_RECENT_REACTS = ['😂', '🥰', '😢', '😡', '😮', '😈'];
 

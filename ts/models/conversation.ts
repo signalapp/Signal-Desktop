@@ -22,7 +22,7 @@ import { ToastUtils, UserUtils } from '../session/utils';
 import { BlockedNumberController } from '../util';
 import { leaveClosedGroup } from '../session/group/closed-group';
 import { SignalService } from '../protobuf';
-import { MessageModel, sliceQuoteText } from './message';
+import { MessageModel } from './message';
 import { MessageAttributesOptionals, MessageDirection } from './messageType';
 import autoBind from 'auto-bind';
 
@@ -517,11 +517,12 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         msgSource = await findCachedOurBlindedPubkeyOrLookItUp(room.serverPublicKey, sodium);
       }
     }
+
     return {
       author: msgSource,
       id: `${quotedMessage.get('sent_at')}` || '',
-      // no need to quote the full message length.
-      text: sliceQuoteText(body),
+      // NOTE we send the entire body to be consistent with the other platforms
+      text: body,
       attachments: quotedAttachments,
       timestamp: quotedMessage.get('sent_at') || 0,
       convoId: this.id,
@@ -1772,7 +1773,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
             );
           }).length === 1;
       const isFirstMessageOfConvo =
-        (await Data.getMessagesByConversation(this.id, { messageId: null })).length === 1;
+        (await Data.getMessagesByConversation(this.id, { messageId: null })).messages.length === 1;
       if (hadNoRequestsPrior && isFirstMessageOfConvo) {
         friendRequestText = window.i18n('youHaveANewFriendRequest');
       } else {
