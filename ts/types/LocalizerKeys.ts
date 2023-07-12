@@ -181,7 +181,6 @@ export type LocalizerKeys =
   | 'messageBodyMissing'
   | 'messageBody'
   | 'unblockToSend'
-  | 'unblockGroupToSend'
   | 'youChangedTheTimer'
   | 'timerSetOnSync'
   | 'theyChangedTheTimer'
