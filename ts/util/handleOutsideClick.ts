@@ -67,7 +67,7 @@ export const handleOutsideClick = (
     const endedInside = isInside(target);
     // Clicked inside of one of container elements - stop processing
     if (startedInside || endedInside) {
-      return false;
+      return true;
     }
     // Stop processing if requested by handler function
     return handler(target);
