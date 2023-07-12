@@ -5155,9 +5155,9 @@ levn@~0.3.0:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
 
-"libsession_util_nodejs@https://github.com/oxen-io/libsession-util-nodejs/releases/download/v0.1.20/libsession_util_nodejs-v0.1.20.tar.gz":
-  version "0.1.20"
-  resolved "https://github.com/oxen-io/libsession-util-nodejs/releases/download/v0.1.20/libsession_util_nodejs-v0.1.20.tar.gz#4ff8331e4efb1725cf8bba0ef1af7496ebd8533d"
+"libsession_util_nodejs@https://github.com/oxen-io/libsession-util-nodejs/releases/download/v0.2.1/libsession_util_nodejs-v0.2.1.tar.gz":
+  version "0.2.1"
+  resolved "https://github.com/oxen-io/libsession-util-nodejs/releases/download/v0.2.1/libsession_util_nodejs-v0.2.1.tar.gz#904a9cbb84a042c5b5db6d041070d892b2b37c04"
   dependencies:
     cmake-js "^7.2.1"
     node-addon-api "^6.1.0"
