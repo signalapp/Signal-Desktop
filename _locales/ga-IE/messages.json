@@ -369,11 +369,11 @@
     "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
   },
   "icu:pinConversation": {
-    "messageformat": "Pionnáil Comhrá",
+    "messageformat": "Pionnáil comhrá",
     "description": "Shown in menu for conversation, and pins the conversation to the top of the conversation list"
   },
   "icu:unpinConversation": {
-    "messageformat": "Díphionnáil Comhrá",
+    "messageformat": "Díphionnáil comhrá",
     "description": "Undoes Archive Conversation action, and unpins the conversation from the top of the conversation list"
   },
   "icu:pinnedConversationsFull": {
@@ -1283,7 +1283,35 @@
   },
   "icu:deleteConversationConfirmation": {
     "messageformat": "Scrios an comhrá seo go buan?",
-    "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+    "description": "(deleted 06/27/2023) Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
+    "messageformat": "Scrios comhrá?",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
+    "messageformat": "Scriosfar an comhrá seo ón ngléas seo.",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
+    "messageformat": "Imigh as an ngrúpa",
+    "description": "This is a button to leave a group"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__title": {
+    "messageformat": "An bhfuil tú cinnte gur mhaith leat imeacht as an ngrúpa?",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__description": {
+    "messageformat": "Ní bheidh tú in ann teachtaireachtaí a sheoladh ná a fháil sa ghrúpa seo a thuilleadh.",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__confirmButton": {
+    "messageformat": "Imigh as",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Confirm Button"
+  },
+  "icu:ConversationHeader__CannotLeaveGroupBecauseYouAreLastAdminAlert__description": {
+    "messageformat": "Sula n-imíonn tú as, ní mór duit riarthóir nua amháin ar a laghad a roghnú don ghrúpa seo.",
+    "description": "Conversation Header > Leave Group Action > Cannot Leave Group Because You Are Last Admin Alert > Description"
   },
   "icu:sessionEnded": {
     "messageformat": "Athshocraíodh seisiún slán",
@@ -6487,24 +6515,10 @@
     "messageformat": "Mionathruithe, paistí fabhtanna agus feabhsuithe ar fheidhmíocht. Go raibh maith agat as Signal a úsáid!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "Faigh radharc níos fearr ort féin agus glao 1 le 1 á bhualadh. Faigheann tú an t-amharc lánscáileáin céanna i bhfísghlaonna anois agus a fuair tú roimhe ag tús grúpghlao nua. Ar mhaithe le comhsheasmhacht, iarraimid a bheith dianseasmhach (ní frithsheasmhach) agus tá an neamhréiteach imithe anois toisc go bhfuil cúrsaí mar an gceanna faoi dheireadh.",
-    "description": "Release notes for v6.21"
+  "icu:WhatsNew__v6.24--0": {
+    "messageformat": "Anois is féidir leat do thráchtanna @ a chuardach freisin. \"GRMA as an ngné sin\" a d'fheadfá a rá. \"Go ndéana a mhaith duit\" a fhreagróimid."
   },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "Ba mhaith linn freisin ár mbuíochas a ghabháil le {complexspaces} as an gcabhair agus aiseolas agus muid ag obair ar an eisiúint seo.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "Formáidigh téacs i do theachtaireachtaí trí aon téacs ar bith a roghnú i réimse cumtha na teachtaireachta. Déan ráiteas i gcló trom, cuir maisíocht chasta ar an scéal chuig M. Night Shyamalan, cuir béim ar \"Alex\" i gcló iodálach, nó líne trí chuireadh diúltaithe chuig béile, nó comhroinn cód i gcló monaspás.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "Chuireamar tacaíocht do na carachtair is déanaí emoji, ionas gur féidir leat do sceitimíní a chur in iúl le &quot;Shaking Face&quot; (<emojify>🫨</emojify>) nó freagairt le &quot;Pod Pea&quot; (<emojify>🫛</emojify>) nuair a fhiafraíonn duine díot cé chomh mór agus atá tú le do chairde.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.23--1": {
-    "messageformat": "Chomh maith le líon beag réiteach ar fhabhtanna, cuimsítear san eisiúint seo nuashonruithe ar doiciméadú forbróra (buíochas, a {d108}!) agus roinnt feabhsuithe ar dhearadh an chomhéadain seolta teachtaireachtaí (buíochas, a {hackerbirds}!).",
-    "description": "Release notes for v6.23"
+  "icu:WhatsNew__v6.25--0": {
+    "messageformat": "Is féidir leat cliceáil ar an gceanntásc comhrá anois agus é a tharraingt chun d'fhuinneog Signal a athshuí."
   }
 }

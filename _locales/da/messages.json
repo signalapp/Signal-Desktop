@@ -1283,7 +1283,35 @@
   },
   "icu:deleteConversationConfirmation": {
     "messageformat": "Slet denne chat permanent?",
-    "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+    "description": "(deleted 06/27/2023) Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
+    "messageformat": "Slet chat?",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
+    "messageformat": "Chatten vil blive slettet fra denne enhed.",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
+    "messageformat": "Forlad gruppe",
+    "description": "This is a button to leave a group"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__title": {
+    "messageformat": "Er du sikker på, at du vil forlade gruppen?",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__description": {
+    "messageformat": "Du vil ikke længere kunne sende eller modtage beskeder i gruppen.",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__confirmButton": {
+    "messageformat": "Forlad",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Confirm Button"
+  },
+  "icu:ConversationHeader__CannotLeaveGroupBecauseYouAreLastAdminAlert__description": {
+    "messageformat": "Før du forlader gruppen, skal du vælge mindst én ny administrator.",
+    "description": "Conversation Header > Leave Group Action > Cannot Leave Group Because You Are Last Admin Alert > Description"
   },
   "icu:sessionEnded": {
     "messageformat": "Nulstilling af sikker session",
@@ -6487,24 +6515,10 @@
     "messageformat": "Små tweaks, rettelser og forbedringer af appens præstation. Tak fordi du bruger Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "Få et bedre syn på dig selv, når du tager et 1-til-1-opkald. Individuelle videoopkald bruger nu den samme fuldskærmsvisning, som tidligere kun blev vist i begyndelsen af et nyt gruppeopkald. Når det handler om at være konsekvent, forsøger vi at være vedholdende (og ikke imod det), og nu er uoverensstemmelsen ikke-eksisterende, fordi disse ting ikke længere er forskellige.",
-    "description": "Release notes for v6.21"
+  "icu:WhatsNew__v6.24--0": {
+    "messageformat": "Nu kan du også søge i dine @omtaler. \"Tak, fordi I tilføjede denne funktion,\" siger du måske. Hvortil vi svarer, \"Det var så lidt.\""
   },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "Vi vil også gerne sige tak til {complexspaces} for deres hjælp og feedback under arbejdet med denne udgivelse.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "Formatér teksten i dine beskeder ved at vælge en hvilken som helst tekst i beskedfeltet.\n\nSkriv en påstand i fed, som faktisk er fed, send M. Night Shyamalan et overraskende svar med en spoilereffekt, understreg et navn ved at skrive \"Alex\" i kursiv, sæt en streg gennem et forkastet middagsforslag med gennemstregning, eller del en kode i monospatieret skrift.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "Vi har tilføjet understøttelse af de nyeste emojis, så nu kan du udtrykke din begejstring med &quot;Shaking Face&quot; (<emojify>🫨</emojify>) eller reagere med en &quot;Pea Pod&quot; (<emojify>🫛</emojify>), når nogen spørger om du mangler noget fra supermarkedet.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.23--1": {
-    "messageformat": "Udover en lille håndfuld fejlrettelser indeholder denne udgave også opdateringer af udviklerdokumentationen (tak, {d108}!) og forbedret design af grænsefladen ved videresendelse af beskeder (tak, {hackerbirds}!).",
-    "description": "Release notes for v6.23"
+  "icu:WhatsNew__v6.25--0": {
+    "messageformat": "Nu kan du klikke og trække samtalens overskrift for at flytte Signal-vinduet."
   }
 }

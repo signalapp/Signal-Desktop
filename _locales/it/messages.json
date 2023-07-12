@@ -1283,7 +1283,35 @@
   },
   "icu:deleteConversationConfirmation": {
     "messageformat": "Vuoi eliminare definitivamente questa chat?",
-    "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+    "description": "(deleted 06/27/2023) Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
+    "messageformat": "Vuoi eliminare la chat?",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
+    "messageformat": "Questa chat verrà eliminata da questo dispositivo.",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
+    "messageformat": "Abbandona il gruppo",
+    "description": "This is a button to leave a group"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__title": {
+    "messageformat": "Vuoi davvero abbandonare?",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__description": {
+    "messageformat": "Non potrai più inviare o ricevere messaggi in questo gruppo.",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__confirmButton": {
+    "messageformat": "Abbandona",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Confirm Button"
+  },
+  "icu:ConversationHeader__CannotLeaveGroupBecauseYouAreLastAdminAlert__description": {
+    "messageformat": "Prima di abbandonare il gruppo, devi scegliere almeno un nuovo amministratore.",
+    "description": "Conversation Header > Leave Group Action > Cannot Leave Group Because You Are Last Admin Alert > Description"
   },
   "icu:sessionEnded": {
     "messageformat": "Ripristina la sessione sicura",
@@ -6487,24 +6515,10 @@
     "messageformat": "Altre piccole modifiche e correzioni di bug per far funzionare l'app senza problemi. Grazie per usare Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "Che ne dici di avere una panoramica più \"ampia\" quando fai le chiamate su Signal? Le videochiamate uno a uno ora usano la stessa modalità di visione a schermo intero mentre squillano, prima disponibile solo per le chiamate di gruppo. Perché le videochiamate di gruppo non sono meglio di quelle individuali, ecco.",
-    "description": "Release notes for v6.21"
+  "icu:WhatsNew__v6.24--0": {
+    "messageformat": "Da ora potrai cercare anche le tue @menzioni. Non aspettavi altro, vero? Beh, @nonc'èdiche"
   },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "Vorremmo anche ringraziare {complexspaces} per il suo aiuto e il feedback fornito durante il nostro lavoro per questo aggiornamento.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "Formatta i testi dei tuoi messaggi selezionando il testo direttamente nel campo di scrittura.\n\nChe sia grassetto, corsivo o barrato, potrai scegliere subito il font da applicare per rendere il tuo messaggio unico!",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "Abbiamo aggiunto il supporto alle ultime emoji introdotte, così avrai ancora più libertà di scelta fra le emoji da inviare o le reazioni da lasciare ai messaggi!",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.23--1": {
-    "messageformat": "Oltre a risolvere una serie di piccoli bug fastidiosi, questa versione include degli aggiornamenti alla documentazione del team di sviluppo (grazie mille, {d108}!). Inoltre, abbiamo anche migliorato il design dell'interfaccia per inoltrare i messaggi (grazie a {hackerbirds}!).",
-    "description": "Release notes for v6.23"
+  "icu:WhatsNew__v6.25--0": {
+    "messageformat": "Da ora puoi cliccare sui titoli delle chat e delle chiamate per spostarle: fai fare una passeggiata alla finestra di Signal!"
   }
 }

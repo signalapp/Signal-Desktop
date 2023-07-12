@@ -1283,7 +1283,35 @@
   },
   "icu:deleteConversationConfirmation": {
     "messageformat": "¿Eliminar este chat permanentemente?",
-    "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+    "description": "(deleted 06/27/2023) Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
+    "messageformat": "¿Eliminar chat?",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
+    "messageformat": "Este chat se eliminará de este dispositivo.",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
+    "messageformat": "Abandonar grupo",
+    "description": "This is a button to leave a group"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__title": {
+    "messageformat": "¿De verdad deseas abandonar el grupo?",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__description": {
+    "messageformat": "No podrás enviar o recibir más mensajes en este grupo.",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__confirmButton": {
+    "messageformat": "Abandonar",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Confirm Button"
+  },
+  "icu:ConversationHeader__CannotLeaveGroupBecauseYouAreLastAdminAlert__description": {
+    "messageformat": "Antes de abandonar, selecciona un@ nuev@ admin para este grupo.",
+    "description": "Conversation Header > Leave Group Action > Cannot Leave Group Because You Are Last Admin Alert > Description"
   },
   "icu:sessionEnded": {
     "messageformat": "Sesión segura reiniciada",
@@ -6487,24 +6515,10 @@
     "messageformat": "Pequeños ajustes, soluciones a errores y mejoras al desempeño. ¡Gracias por usar Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "¡Mira si tienes bien el pelo mientras está sonando una llamada individual! Las llamadas individuales ahora usan la misma vista de pantalla completa que antes solo aparecía al iniciar una nueva llamada grupal. Cuando se trata de ser consistentes, tratamos de ser persistentes (no resistentes) y ahora la discrepancia es inexistente porque estas cosas ya no son diferentes.",
-    "description": "Release notes for v6.21"
+  "icu:WhatsNew__v6.24--0": {
+    "messageformat": "Ahora también puedes buscar tus @ menciones. Quizá dirás, \"gracias for añadir esta función.\" \"Ni lo menciones,\" te responderemos."
   },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "También nos gustaría expresar nuestro agradecimiento a {complexspaces} por su ayuda y comentarios mientras trabajábamos en esta versión.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "Formatea el texto en tus mensajes seleccionando cualquier texto en el campo de redacción de mensaje.\n\nRecalca tu opinión expresándola en negrita, envíale a Night Shyamalan una idea de final inesperado con un efecto de spoiler, enfatiza un nombre escribiendo \"Alex\" en cursiva, tacha con una línea una idea de cena con la que no estés de acuerdo o comparte código con monoespacio.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "Los últimos emoji del momento ya son compatibles con Signal, por lo que ahora puedes expresar tu entusiasmo con una &quot;cara de velocidad&quot; (<emojify>🫨</emojify>), o reaccionar con una &quot;vaina de guisantes&quot; (<emojify>🫛</emojify>) para sugerir una cena sana.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.23--1": {
-    "messageformat": "Además de haber corregido varios errores, esta versión también incorpora actualizaciones de la documentación para desarrolladores (¡gracias, {d108}!) y algunas mejoras de diseño en la interfaz de reenvío de mensajes (¡gracias, {hackerbirds}!).",
-    "description": "Release notes for v6.23"
+  "icu:WhatsNew__v6.25--0": {
+    "messageformat": "Ahora puedes hacer clic y arrastrar el cabecero de una conversación o llamada para recolocar tu ventana de Signal con más facilidad que nunca."
   }
 }

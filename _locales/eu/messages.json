@@ -1283,7 +1283,35 @@
   },
   "icu:deleteConversationConfirmation": {
     "messageformat": "Txat hau betiko ezabatu nahi duzu?",
-    "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+    "description": "(deleted 06/27/2023) Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
+    "messageformat": "Txata ezabatu nahi duzu?",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
+    "messageformat": "Txat hau gailu honetatik ezabatuko da.",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
+    "messageformat": "Irten taldetik",
+    "description": "This is a button to leave a group"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__title": {
+    "messageformat": "Ziur irten nahi duzula?",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__description": {
+    "messageformat": "Aurrerantzean, ezingo duzu mezurik bidali edo jaso talde honetan.",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__confirmButton": {
+    "messageformat": "Irten",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Confirm Button"
+  },
+  "icu:ConversationHeader__CannotLeaveGroupBecauseYouAreLastAdminAlert__description": {
+    "messageformat": "Irten baino lehen, gutxienez administratzaile berri bat aukeratu behar duzu talde honetarako.",
+    "description": "Conversation Header > Leave Group Action > Cannot Leave Group Because You Are Last Admin Alert > Description"
   },
   "icu:sessionEnded": {
     "messageformat": "Saio segurua berrezarri da",
@@ -6487,24 +6515,10 @@
     "messageformat": "Doikuntza txikiak, akats-konponketak eta errendimendu-hobekuntzak. Eskerrik asko Signal erabiltzeagatik!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "Begiratu hobeto zeure buruari buruz buruzko deietan. Orain, taldeko deien hasieran bakarrik agertzen zen pantaila osoko ikuspegi bera erabiltzen dute buruz buruko bideodeiek. Koherentziari dagokionez, ekinak izaten saiatzen gara (baina ez tematiak), eta orain ez dago inkoherentziarik, dei mota horiek jada ez direlako desberdinak.",
-    "description": "Release notes for v6.21"
+  "icu:WhatsNew__v6.24--0": {
+    "messageformat": "Orain zure @aipamenak ere bila ditzakezu. \"Eskerrik asko eginbide hau gehitzeagatik\" pentsatuko duzu, agian. \"Ez da zeri\", erantzungo dizugu."
   },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "Gainera, gure esker ona adierazi nahi diogu {complexspaces} erabiltzaileari, bertsio honetan lan egin bitartean emandako laguntzagatik eta iritziengatik.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "Mezuetako testuari formatua emateko, hautatu mezuak idazteko eremuko edozein testu.\n\nJarri gauza garrantzitsuak letra lodiz; bidali ustekabeko argumentu-aldaketa bat duen istorio bat M. Night Shyamalani, spoiler efektu batekin; nabarmendu izen bat letra etzanez idatzita; jarri lerro bat baztertutako ideia batean, marratzeko aukerarekin; edo partekatu kodea espazio bakarreko letra-tipo batekin.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "Emoji berrienak erabiltzeko aukera gehitu dugu; beraz, orain &quot;aurpegi dardaratsua&quot; (<emojify>🫨</emojify>) erabil dezakezu gogoberotasuna adierazteko, edo &quot;ilar-leka&quot; batekin erreakzionatu (<emojify>🫛</emojify>) bazkaltzeko zer nahi duzun esateko.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.23--1": {
-    "messageformat": "Akatsen konponketa sorta txikiez gain, bertsio honek garatzaileen dokumentazioaren eguneraketak ere barne hartzen ditu (eskerrik asko, {d108}!) eta diseinu-hobekuntza batzuk mezuak birbidaltzeko interfazean (eskerrik asko, {hackerbirds}!).",
-    "description": "Release notes for v6.23"
+  "icu:WhatsNew__v6.25--0": {
+    "messageformat": "Orain, dei eta elkarrizketen goiburuak arrastatu egin daitezke; hortaz, errazago aldatu ahalko duzu tokiz Signal-en leihoa."
   }
 }

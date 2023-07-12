@@ -1283,7 +1283,35 @@
   },
   "icu:deleteConversationConfirmation": {
     "messageformat": "Borrar de xeito permanente esta conversa?",
-    "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+    "description": "(deleted 06/27/2023) Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
+    "messageformat": "Borrar conversa?",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
+    "messageformat": "Esta conversa borrarase deste dispositivo.",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
+    "messageformat": "Abandonar grupo",
+    "description": "This is a button to leave a group"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__title": {
+    "messageformat": "Realmente queres abandonar o grupo?",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__description": {
+    "messageformat": "Xa non poderás enviar ou recibir mensaxes neste grupo.",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__confirmButton": {
+    "messageformat": "Abandonar",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Confirm Button"
+  },
+  "icu:ConversationHeader__CannotLeaveGroupBecauseYouAreLastAdminAlert__description": {
+    "messageformat": "Antes de saír, debes escoller polo menos un novo administrador para o grupo.",
+    "description": "Conversation Header > Leave Group Action > Cannot Leave Group Because You Are Last Admin Alert > Description"
   },
   "icu:sessionEnded": {
     "messageformat": "Restablecer sesión segura",
@@ -6487,24 +6515,10 @@
     "messageformat": "Comprende pequenas modificacións e melloras no rendemento. Moitas grazas por empregar Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "Prepárate para a chamada da túa vida. Agora as chamadas individuais empregan a mesma visualización de pantalla completa que antes só aparecía ao principio das chamadas de grupo. No tocante a ser consistentes, tentamos ser persistentes (non reticentes) e agora a discrepancia é inexistente porque as chamadas xa non son diferentes.",
-    "description": "Release notes for v6.21"
+  "icu:WhatsNew__v6.24--0": {
+    "messageformat": "Agora tamén podes buscas as túas @ mencións. «Graciñas por engadir esta función», dirás. «De nada» é a nosa resposta."
   },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "Tamén queremos agradecerlle a {complexspaces} a súa axuda e comentarios mentres traballabamos nesta versión.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "Cambia o formato do texto das túas mensaxes ao seleccionar calquera texto no campo de composición mentres escribes.\n\nChama a atención cunha letra grosa, envía unha mensaxe encriptada co modo revelación, resalta un nome ao escribilo en cursiva, risca o antigo plan de saída ou comparte un código cunha tipografía monoespazada.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "Engadimos novos emojis, polo que agora podes expresar a túa emoción cunha «Cara tremente» (<emojify>🫨</emojify>) ou reaccionar cunha vaíña (<emojify>🫛</emojify>) cando alguén che pregunte como de unido estás aos teus amigos.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.23--1": {
-    "messageformat": "Ademais de arranxar pequenos erros, esta versión tamén engade actualizacións da documentación para desenvolvedores (grazas, {d108}!) e algunhas melloras no deseño da interface do reenvío de mensaxes (grazas, {hackerbirds}!).",
-    "description": "Release notes for v6.23"
+  "icu:WhatsNew__v6.25--0": {
+    "messageformat": "Agora podes premer e arrastrar a lapela de Signal para movela onde queiras."
   }
 }

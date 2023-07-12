@@ -1283,7 +1283,35 @@
   },
   "icu:deleteConversationConfirmation": {
     "messageformat": "بۇ پاراڭنى مەڭگۈلۈك ئۆچۈرەمسىز؟",
-    "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+    "description": "(deleted 06/27/2023) Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
+    "messageformat": "سۆھبەتنى ئۆچۈرەمسىز؟",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
+    "messageformat": "بۇ پاراڭ بۇ ئۈسكۈنىدىن ئۆچۈرۈلىدۇ.",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
+    "messageformat": "گۇرۇپپىدىن ئايرىلىش",
+    "description": "This is a button to leave a group"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__title": {
+    "messageformat": "ئايرىلامسىز؟",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__description": {
+    "messageformat": "سىز ئەمدى بۇ گۇرۇپپىدا ئۇچۇر ئەۋەتەلمەيسىز ياكى تاپشۇرۇپ ئالالمايسىز.",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__confirmButton": {
+    "messageformat": "ئايرىلىش",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Confirm Button"
+  },
+  "icu:ConversationHeader__CannotLeaveGroupBecauseYouAreLastAdminAlert__description": {
+    "messageformat": "ئايرىلىشتىن بۇرۇن چوقۇم بۇ گۇرۇپپىغا كەم دېگەندە بىر يېڭى باشقۇرغۇچى تاللىشىڭىز كېرەك.",
+    "description": "Conversation Header > Leave Group Action > Cannot Leave Group Because You Are Last Admin Alert > Description"
   },
   "icu:sessionEnded": {
     "messageformat": "بىخەتەر سۆزلىشىش ئەسلىگە قايتۇرۇلدى",
@@ -6487,24 +6515,10 @@
     "messageformat": "كىچىك ئۆزگەرتىشلەر كىرگۈزۈلدى، كاشىلا ھەل قىلىندى ۋە ئىقتىدار ئەلالاشتۇرۇلدى. Signal نى ئىشلەتكەنلىكىڭىزگە رەھمەت!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "بىرگە بىر ئۇدۇل چاقىرىق قوڭغۇرىقى سايراۋاتقاندا ئۆزىڭىزنى تۈزەشتۈرۋېلىڭ. بۇرۇن يېڭى گۇرۇپپا چاقىرىقىنىڭ باشلىنىشىدىلا چىقىدىغان تولۇق ئېكرانلىق كۆرۈنۈش ھازىر شەخسىي ۋىدېيولۇق چاقىرىقتىمۇ ئىشلىتىلدى. ئىزچىل بولۇش مەسلىسىدە بىز ئىزچىللىققا ئىگە بولۇپ، ئوخشىماسلىق سەۋەبىدىن كېلىپ چىققان پەرقلەر ھازىر تۈگىتىلدى.",
-    "description": "Release notes for v6.21"
+  "icu:WhatsNew__v6.24--0": {
+    "messageformat": "ئەمدى سىزنىڭ @تىلغا ئېلىشلىرىڭىزنىمۇ ئىزدىيەلەيسىز."
   },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "بۇ نەشرىنى ئېلان قىلىش جەريانىدا {complexspaces} بەرگەن ياردەم ۋە تەكلىپ-پىكىرلەرگە مىننەتدارلىقىمىزنى بىلدۈرىمىز.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "ئۇچۇر تەركىبىدىكى ھەر قانداق تېكىستنى تاللاپ، ئۇنى توملاشتۇرۇپ، يانتۇلاشتۇرۇپ ياكى سىزىق سىزىپ ۋە باشقا ئۈنۈملەرنى قوللىنىپ، ئۇچۇرىڭىزنى فورماتلىيالايسىز.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "بىز ئەڭ يېڭى emoji ئىپادىلىرىنى قوللايدىغان قىلدۇق. ئەمدى <emojify>🫨</emojify> بىلەن ھاياجىنىڭىزنى، <emojify>🫛</emojify> بىلەن دوستلىرىڭىز بىلەن قانچىلىك يېقىن ئىكەنلىكىڭىزنى ئىپادىلىيەلەيسىز.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.23--1": {
-    "messageformat": "بۇ نەشىردە ئاز بىر قىسىم خاتالىقلارنى تۈزىتىش بىلەن بىرگە بۇ نەشىر يەنە پروگرامما ئاچقۇچىلارنىڭ ھۆججەت يېڭىلانمىلىرىنى ({d108} گە رەھمەت!) ئۆز ئىچىگە ئالىدۇ ۋە بۇ نەشرىدە ئۇچۇر يوللاش كۆرۈنمە يۈزى لايىھەسىگە ئىلغارلاشتۇرۇش كىرگۈزۈلدى ({hackerbirds} گە رەھمەت!)",
-    "description": "Release notes for v6.23"
+  "icu:WhatsNew__v6.25--0": {
+    "messageformat": "ئەمدى چاقىرىق ۋە سۆھبەت ماۋزۇلىرىنى چېكىپ ۋە سۆرەپ Signal كۆزنىكىنىڭ ئورنىنى تەڭشىيەلەيسىز."
   }
 }

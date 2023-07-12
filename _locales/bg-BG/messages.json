@@ -1283,7 +1283,35 @@
   },
   "icu:deleteConversationConfirmation": {
     "messageformat": "Перманентно изтриване на този чат?",
-    "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+    "description": "(deleted 06/27/2023) Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
+    "messageformat": "Изтриване на чата?",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
+    "messageformat": "Чатът ще бъде изтрит от това устройство.",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
+    "messageformat": "Напускане на групата",
+    "description": "This is a button to leave a group"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__title": {
+    "messageformat": "Наистина ли искате да напуснете?",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__description": {
+    "messageformat": "Вече няма да може да изпращате или получавате съобщения в тази група.",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__confirmButton": {
+    "messageformat": "Напусни",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Confirm Button"
+  },
+  "icu:ConversationHeader__CannotLeaveGroupBecauseYouAreLastAdminAlert__description": {
+    "messageformat": "Преди да напуснеш, трябва да избереш поне един нов администртор за тази група.",
+    "description": "Conversation Header > Leave Group Action > Cannot Leave Group Because You Are Last Admin Alert > Description"
   },
   "icu:sessionEnded": {
     "messageformat": "Рестартиране на поверителна сесия",
@@ -6487,24 +6515,10 @@
     "messageformat": "Дребни корекции, поправки на бъгове и подобрения на работата. Благодарим ви, че използвате Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "Виждайте се по-добре, когато звъни повикване 1 на 1. Индивидуалните видео разговори вече използват същия изглед на цял екран, който преди се показваше само в началото на нов групов разговор. Когато става дума за развитие, ние искаме то винаги да бъде в положителната насока, затова тези две неща вече са уеднаквени.",
-    "description": "Release notes for v6.21"
+  "icu:WhatsNew__v6.24--0": {
+    "messageformat": "Сега вече можете да търсите и вашите споменавания с @."
   },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "Също така бихме искали да изразим благодарност към {complexspaces} за помощта и обратната връзка, докато работихме по тази версия.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "Форматирайте текста във вашите съобщения, като го изберете в полето за съставяне на съобщение.\n\nОсвободете шрифта от диетата, като го направите удебелен; изпратете неочакван сюжетен обрат с ефект за спойлер, поставете ударение върху нечие име, като напишете например „Алекс“ в курсив, зачертайте отхвърлена идея за вечеря чрез зачеркване, или споделяйте код с шрифт с фиксирана широчина.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "Добавихме поддръжка за най-новите символи с емоджита, така че сега можете да изразите вълнението си с „Shaking Face“ (<emojify>🫨</emojify>) или да реагирате с „грахова шушулка“ (<emojify>🫛</emojify>), когато някой ви попита колко сте близки с приятелите си.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.23--1": {
-    "messageformat": "В допълнение към няколко корекции на бъгове, тази версия също така включва актуализации на документацията за разработчици (благодарим, {d108}!) и някои подобрения в дизайна на интерфейса за препращане на съобщения (благодарим, {hackerbirds}!).",
-    "description": "Release notes for v6.23"
+  "icu:WhatsNew__v6.25--0": {
+    "messageformat": "Сега можете да кликнете и плъзнете заглавките на разговорите, за да разместите прозореца на Signal."
   }
 }

@@ -1283,7 +1283,35 @@
   },
   "icu:deleteConversationConfirmation": {
     "messageformat": "ਕੀ ਇਸ ਚੈਟ ਨੂੰ ਸਥਾਈ ਤੌਰ ’ਤੇ ਮਿਟਾਉਣਾ ਹੈ?",
-    "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+    "description": "(deleted 06/27/2023) Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
+    "messageformat": "ਕੀ ਚੈਟ ਨੂੰ ਮਿਟਾਉਣਾ ਹੈ?",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
+    "messageformat": "ਇਸ ਚੈਟ ਨੂੰ ਇਸ ਡਿਵਾਈਸ ਵਿੱਚੋਂ ਮਿਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ।",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
+    "messageformat": "ਗਰੁੱਪ ਛੱਡੋ",
+    "description": "This is a button to leave a group"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__title": {
+    "messageformat": "ਕੀ ਤੁਸੀਂ ਵਾਕਈ ਗਰੁੱਪ ਛੱਡਣਾ ਚਾਹੁੰਦੇ ਹੋ?",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__description": {
+    "messageformat": "ਹੁਣ ਤੁਸੀਂ ਇਸ ਗਰੁੱਪ ਵਿੱਚ ਨਾ ਹੀ ਸੁਨੇਹੇ ਭੇਜ ਸਕੋਗੇ ਅਤੇ ਨਾ ਹੀ ਪ੍ਰਾਪਤ ਕਰ ਸਕੋਗੇ।",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__confirmButton": {
+    "messageformat": "ਛੱਡੋ",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Confirm Button"
+  },
+  "icu:ConversationHeader__CannotLeaveGroupBecauseYouAreLastAdminAlert__description": {
+    "messageformat": "ਗਰੁੱਪ ਨੂੰ ਛੱਡਣ ਤੋਂ ਪਹਿਲਾਂ, ਤੁਹਾਨੂੰ ਇਸ ਗਰੁੱਪ ਲਈ ਘੱਟੋ-ਘੱਟ ਕੋਈ ਇੱਕ ਨਵਾਂ ਐਡਮਿਨ ਚੁਣਨਾ ਪਵੇਗਾ।",
+    "description": "Conversation Header > Leave Group Action > Cannot Leave Group Because You Are Last Admin Alert > Description"
   },
   "icu:sessionEnded": {
     "messageformat": "ਸੁਰੱਖਿਅਤ ਸੈਸ਼ਨ ਰੀਸੈੱਟ ਕੀਤਾ ਗਿਆ",
@@ -6487,24 +6515,10 @@
     "messageformat": "ਛੋਟੇ-ਮੋਟੇ ਸੁਧਾਰ, ਖ਼ਰਾਬੀਆਂ ਨੂੰ ਦਰੁਸਤ ਅਤੇ ਪ੍ਰਦਰਸ਼ਨ ਨੂੰ ਬਿਹਤਰ ਬਣਾਇਆ ਗਿਆ ਹੈ। Signal ਦੀ ਵਰਤੋਂ ਕਰਨ ਲਈ ਤੁਹਾਡਾ ਧੰਨਵਾਦ!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "ਕਿਸੇ ਇੱਕ ਵਿਅਕਤੀ ਨੂੰ ਵੀਡੀਓ ਕਾਲਾਂ ਕਰਨ ਵੇਲੇ, ਹੁਣ ਰਿੰਗ ਹੋਣ ਦੌਰਾਨ ਤੁਹਾਨੂੰ ਉਵੇਂ ਦੀ ਹੀ ਪੂਰੀ-ਸਕ੍ਰੀਨ ਦਿਖਾਈ ਦੇਵੇਗੀ ਜਿਵੇਂ ਦੀ ਗਰੁੱਪ ਕਾਲਾਂ ਵਿੱਚ ਦਿਖਦੀ ਹੈ। ਵਿਅਕਤੀਗਤ ਵੀਡੀਓ ਕਾਲਾਂ ਵੀ ਹੁਣ ਉਸੇ ਪੂਰੀ-ਸਕ੍ਰੀਨ ਵਾਲੇ ਵਿਊ ਦੀ ਵਰਤੋਂ ਕਰਦੀਆਂ ਹਨ ਜੋ ਪਹਿਲਾਂ ਸਿਰਫ਼ ਨਵੀਂ ਗਰੁੱਪ ਕਾਲ ਦੀ ਸ਼ੁਰੂਆਤ ਵਿੱਚ ਦਿਖਾਈ ਦਿੰਦਾ ਸੀ। ਸਾਨੂੰ ਪੂਰਾ ਯਕੀਨ ਹੈ ਕਿ ਤੁਹਾਨੂੰ ਇਹ ਇਕਸਾਰ ਵਿਊ ਪਸੰਦ ਆਵੇਗਾ।",
-    "description": "Release notes for v6.21"
+  "icu:WhatsNew__v6.24--0": {
+    "messageformat": "ਹੁਣ ਤੁਸੀਂ ਇਹ ਵੀ ਖੋਜ ਸਕਦੇ ਹੋ ਕਿ ਤੁਹਾਡਾ @ ਜ਼ਿਕਰ ਕਿੱਥੇ ਹੋਇਆ ਹੈ।"
   },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "ਇਸ ਰਿਲੀਜ਼ 'ਤੇ ਕੰਮ ਕਰਨ ਦੌਰਾਨ {complexspaces} ਵੱਲੋਂ ਕੀਤੀ ਗਈ ਮਦਦ ਅਤੇ ਉਹਨਾਂ ਦੇ ਫੀਡਬੈਕ ਦੇ ਲਈ ਅਸੀਂ ਉਹਨਾਂ ਦੀ ਸ਼ਲਾਘਾ ਕਰਦੇ ਹਾਂ।",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "ਸੁਨੇਹਾ ਲਿਖਣ ਵਾਲੇ ਖੇਤਰ ਵਿੱਚ ਕਿਸੇ ਵੀ ਟੈਕਸਟ ਨੂੰ ਚੁਣ ਕੇ ਆਪਣੇ ਸੁਨੇਹਿਆਂ ਦਾ ਟੈਕਸਟ ਆਪਣੇ ਅਨੁਸਾਰ ਫਾਰਮੈਟ ਕਰੋ।\n\nਟੈਕਸਟ ਦੇ ਉੱਤੇ ਆਪਣੀ ਲੋੜ ਅਨੁਸਾਰ ਬੋਲਡ, ਇਟੈਲਿਕਸ, ਸਟ੍ਰਾਈਕਥਰੂ, ਅਤੇ ਹੋਰ ਟੈਕਸਟ ਪ੍ਰਭਾਵ ਲਾਗੂ ਕਰੋ।",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "ਅਸੀਂ ਨਵੇਂ ਇਮੋਜੀ ਪਾਤਰ ਸ਼ਾਮਲ ਕੀਤੇ ਹਨ, ਇਸ ਲਈ ਹੁਣ ਜਦੋਂ ਵੀ ਕੋਈ ਤੁਹਾਨੂੰ ਪੁੱਛਦਾ ਹੈ ਕਿ ਤੁਸੀਂ ਆਪਣੇ ਦੋਸਤਾਂ ਦੇ ਕਿੰਨੇ ਕਰੀਬ ਹੋ ਤਾਂ ਤੁਸੀਂ &quot;ਸਿਰ ਹਿਲਾਉਣ&quot; (<emojify>🫨</emojify>) ਜਾਂ &quot;ਮਟਰ ਦੇ ਦਾਣਿਆਂ&quot; (<emojify>🫛</emojify>) ਵਾਲੇ ਇਮੋਜੀ ਨਾਲ ਆਪਣੀਆਂ ਭਾਵਨਾਵਾਂ ਨੂੰ ਜ਼ਾਹਿਰ ਕਰ ਸਕਦੇ ਹੋ।",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.23--1": {
-    "messageformat": "ਕੁਝ ਖ਼ਰਾਬੀਆਂ ਨੂੰ ਦਰੁਸਤ ਕਰਨ ਤੋਂ ਇਲਾਵਾ, ਇਸ ਰਿਲੀਜ਼ ਵਿੱਚ ਡਿਵੈਲਪਰ ਦਸਤਾਵੇਜ਼ੀ ਅੱਪਡੇਟ (ਧੰਨਵਾਦ, {d108}!) ਅਤੇ ਸੁਨੇਹੇ ਅੱਗੇ ਭੇਜਣ ਦੇ ਇੰਟਰਫੇਸ (ਧੰਨਵਾਦ, {hackerbirds}!) ਵਿੱਚ ਕੁਝ ਡਿਜ਼ਾਈਨ ਸੁਧਾਰ ਵੀ ਸ਼ਾਮਲ ਹਨ।",
-    "description": "Release notes for v6.23"
+  "icu:WhatsNew__v6.25--0": {
+    "messageformat": "ਹੁਣ ਤੁਸੀਂ Signal ਵਿੰਡੋ ਦੀ ਥਾਂ ਬਦਲਣ ਲਈ ਚੈਟ ਦੇ ਹੈੱਡਰ 'ਤੇ ਕਲਿੱਕ ਕਰਕੇ ਉਸਨੂੰ ਡਰੈਗ ਕਰ ਸਕਦੇ ਹੋ।"
   }
 }

@@ -1283,7 +1283,35 @@
   },
   "icu:deleteConversationConfirmation": {
     "messageformat": "要永久刪除此聊天嗎？",
-    "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+    "description": "(deleted 06/27/2023) Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
+    "messageformat": "是否刪除聊天？",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
+    "messageformat": "此聊天將從此裝置上刪除。",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
+    "messageformat": "離開群組",
+    "description": "This is a button to leave a group"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__title": {
+    "messageformat": "你確定要離開嗎？",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__description": {
+    "messageformat": "你將無法在此群組中傳送或接收訊息。",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__confirmButton": {
+    "messageformat": "離開",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Confirm Button"
+  },
+  "icu:ConversationHeader__CannotLeaveGroupBecauseYouAreLastAdminAlert__description": {
+    "messageformat": "在你離開之前，你必須為此群組選擇至少一位新管理員。",
+    "description": "Conversation Header > Leave Group Action > Cannot Leave Group Because You Are Last Admin Alert > Description"
   },
   "icu:sessionEnded": {
     "messageformat": "安全對話重設",
@@ -6487,24 +6515,10 @@
     "messageformat": "細微的調整、問題修復和效能改善。感謝各位使用 Signal！",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "在一對一通話響鈴時，把自己看得更清楚。現在當響鈴時，個人視訊通話會使用與群組通話相同的全螢幕檢視。我們始終堅持，為求達到一致，減少差異。",
-    "description": "Release notes for v6.21"
+  "icu:WhatsNew__v6.24--0": {
+    "messageformat": "現在你也可以搜尋你的 @提及了。你可能會說：「謝謝你們添加了『提及』功能。」然後我們會回答：「小事一樁，不用『提及』。」"
   },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "我們也想就製作此版本對 {complexspaces} 提供的幫助和反饋表示感謝。",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "在訊息撰寫欄中選取任何文字，以設定你的訊息文字格式。\n\n你可以使用粗體、斜體、刪除線和其他文字效果。",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "我們新增了對最新表情符號角色的支援，現在你可以使用「搖晃的臉」 (<emojify>🫨</emojify>) 來表達興奮感，或者當有人問你與朋友有多親近時使用「豌豆莢」(<emojify>🫛</emojify>) 來回應。",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.23--1": {
-    "messageformat": "除了小量錯誤修復之外，此版本還包含了開發人員說明文件更新（謝謝 {d108}！）和訊息轉發界面的一些設計改進（謝謝 {hackerbirds}！）。",
-    "description": "Release notes for v6.23"
+  "icu:WhatsNew__v6.25--0": {
+    "messageformat": "現在，你可以點擊並拖動對話標題來調整你的 Signal 視窗位置。"
   }
 }

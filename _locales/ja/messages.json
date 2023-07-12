@@ -1283,7 +1283,35 @@
   },
   "icu:deleteConversationConfirmation": {
     "messageformat": "このチャットを完全に消去しますか？",
-    "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+    "description": "(deleted 06/27/2023) Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
+    "messageformat": "チャットを消去しますか？",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
+    "messageformat": "このチャットはこの端末から消去されます。",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
+    "messageformat": "グループを退出する",
+    "description": "This is a button to leave a group"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__title": {
+    "messageformat": "本当に退出しますか？",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__description": {
+    "messageformat": "このグループでのメッセージ送受信が出来なくなります。",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__confirmButton": {
+    "messageformat": "退出する",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Confirm Button"
+  },
+  "icu:ConversationHeader__CannotLeaveGroupBecauseYouAreLastAdminAlert__description": {
+    "messageformat": "グループから退出する前に、新しい管理者を1人以上選択する必要があります。",
+    "description": "Conversation Header > Leave Group Action > Cannot Leave Group Because You Are Last Admin Alert > Description"
   },
   "icu:sessionEnded": {
     "messageformat": "セキュアセッションがリセットされました",
@@ -6487,24 +6515,10 @@
     "messageformat": "細かな微調整、バグ修正、パフォーマンスの向上。 Signalをご利用いただきありがとうございます。",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "1対1の通話で呼び出し音が鳴っている間、ご自分の姿が大きく見えるようになりました。新しいグループ通話の開始時にのみ表示されていた全画面表示が、1対1のビデオ通話でも使用されるようになりました。一貫性を保つことに対して、私たちは反発せず粘り強く努力をしてきました。そしてやっと達成することができました。もう1対1でもグループ通話でも表示に違いはありません。",
-    "description": "Release notes for v6.21"
+  "icu:WhatsNew__v6.24--0": {
+    "messageformat": "@メンションも検索できるようになりました。この機能への御礼をおっしゃりたい？お気になさらずどんどんメンションしてください。"
   },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "また、このリリースに取り組んでいる間、ヘルプとフィードバックをお寄せいただいた {complexspaces} に感謝いたします。",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "メッセージ作成フィールド内の任意のテキストを選択して、メッセージの書式設定をすることができます。\n\nメッセージ作成フィールド内の任意のテキストを選択して、太字、斜体、取り消し線、その他のテキスト効果を加えて、メッセージの書式設定をすることができます。",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "最新の絵文字に対応しました。以後は「震える顔」 (<emojify>🫨</emojify>) で感動を表現できます。「エンドウ豆のさや」 (<emojify>🫛</emojify>) なんかもあります。",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.23--1": {
-    "messageformat": "このリリースには、さまざまな細かいバグ修正に加えて、開発者向けドキュメントの更新(ありがとう、{d108}！)と、いくつかのメッセージ転送インターフェイスのデザイン改良(ありがとう、{hackerbirds}！)も含まれています。",
-    "description": "Release notes for v6.23"
+  "icu:WhatsNew__v6.25--0": {
+    "messageformat": "会話ヘッダーをクリック＆ドラッグすることで Signal ウィンドウの位置を変更できるようになりました。"
   }
 }

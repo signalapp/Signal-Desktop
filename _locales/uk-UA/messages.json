@@ -1283,7 +1283,35 @@
   },
   "icu:deleteConversationConfirmation": {
     "messageformat": "Видалити цей чат назавжди?",
-    "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+    "description": "(deleted 06/27/2023) Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
+    "messageformat": "Видалити чат?",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
+    "messageformat": "Чат буде видалено з пристрою.",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
+    "messageformat": "Покинути групу",
+    "description": "This is a button to leave a group"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__title": {
+    "messageformat": "Дійсно покинути групу?",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__description": {
+    "messageformat": "Ви більше не зможете надсилати чи одержувати повідомлення в цій групі.",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__confirmButton": {
+    "messageformat": "Покинути",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Confirm Button"
+  },
+  "icu:ConversationHeader__CannotLeaveGroupBecauseYouAreLastAdminAlert__description": {
+    "messageformat": "Перш ніж покинути цю групу, необхідно обрати щонайменше одного нового адміністратора.",
+    "description": "Conversation Header > Leave Group Action > Cannot Leave Group Because You Are Last Admin Alert > Description"
   },
   "icu:sessionEnded": {
     "messageformat": "Захищену сесію перезапущено",
@@ -6487,24 +6515,10 @@
     "messageformat": "Дрібні поліпшення, виправлення помилок і покращення роботи застосунку. Дякуємо, що ви з Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "Дотримуватися режиму буває корисно. Тому тепер ми будемо дотримуватися одного повноекранного режиму на початку дзвінка як в групових, так і в індивідуальних викликах. Тож поки на виклик ще не відповіли, ви матимете змогу добре себе розгледіти.",
-    "description": "Release notes for v6.21"
+  "icu:WhatsNew__v6.24--0": {
+    "messageformat": "Тепер ви також можете шукати свої @згадки. Так, ми нарешті згадали про таку можливість."
   },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "Ми також хочемо щиро подякувати {complexspaces} за допомогу і відгуки під час роботи над цим оновленням.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "Відформатуйте текст повідомлень, просто вибравши потрібну частину в полі створення.\n\nАкцентуйте увагу на головній думці за допомогою жирного шрифту, обговоріть новий серіал, турботливо приховавши спойлери, додайте витонченості з курсивом, перекресліть відхилену ідею щодо вечері або поділіться кодом у моноширинному форматуванні.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "Ми додали підтримку нових емодзі, тож тепер ви зможете належно відреагувати за допомогою <emojify>🫨</emojify> чи <emojify>🫛</emojify>, коли хтось запитає вас, наскільки ви близькі зі своїми друзями.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.23--1": {
-    "messageformat": "Окрім невеликої кількості виправлень помилок, це оновлення також містить доповнення документації розробника (дякуємо, {d108}!) і декілька поліпшень дизайну в інтерфейсі пересилання повідомлень (дякуємо, {hackerbirds}!).",
-    "description": "Release notes for v6.23"
+  "icu:WhatsNew__v6.25--0": {
+    "messageformat": "Тепер заголовки викликів і розмов можна перетягувати без зайвої тягомотини."
   }
 }

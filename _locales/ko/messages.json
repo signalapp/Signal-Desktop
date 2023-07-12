@@ -1283,7 +1283,35 @@
   },
   "icu:deleteConversationConfirmation": {
     "messageformat": "이 대화를 영구히 삭제하시겠습니까?",
-    "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+    "description": "(deleted 06/27/2023) Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
+    "messageformat": "대화를 삭제하시겠습니까?",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
+    "messageformat": "이 기기에서 이 대화를 삭제합니다.",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
+    "messageformat": "그룹 나가기",
+    "description": "This is a button to leave a group"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__title": {
+    "messageformat": "그룹을 나가시겠어요?",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__description": {
+    "messageformat": "이 그룹에서 메시지를 보내거나 받을 수 없게 됩니다.",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__confirmButton": {
+    "messageformat": "나가기",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Confirm Button"
+  },
+  "icu:ConversationHeader__CannotLeaveGroupBecauseYouAreLastAdminAlert__description": {
+    "messageformat": "나가기 전에 이 그룹에 대한 새 관리자를 한 명 이상 선택해야 합니다.",
+    "description": "Conversation Header > Leave Group Action > Cannot Leave Group Because You Are Last Admin Alert > Description"
   },
   "icu:sessionEnded": {
     "messageformat": "보안 세션 초기화",
@@ -6487,24 +6515,10 @@
     "messageformat": "사소한 변경 사항과 버그 수정 및 성능 개선. Signal을 이용해 주셔서 감사합니다!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "이제 개인 영상 통화에서 통화 중 그룹 통화와 동일한 전체 화면 보기를 사용할 수 있습니다.",
-    "description": "Release notes for v6.21"
+  "icu:WhatsNew__v6.24--0": {
+    "messageformat": "이제 @멘션도 검색할 수 있습니다."
   },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "더불어 이번 릴리스 작업에 피드백을 제공하고 도움을 준 {complexspaces}에 감사를 표합니다.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "메시지 작성란의 텍스트를 선택하여 메시지 텍스트에 서식을 지정해 보세요.\n\n메시지 작성란의 텍스트를 선택하고 두껍게, 기울임꼴, 취소선 등 텍스트 효과를 추가하여 메시지에 서식을 지정해 보세요.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "최신 이모지 캐릭터에 대한 지원을 추가했습니다. 이제 '떨리는 얼굴'(<emojify>🫨</emojify>)로 떨림을 표현하고, '콩깍지'(<emojify>🫛</emojify>)로 연인에 대한 흔들림 없는 사랑을 표현해 보세요.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.23--1": {
-    "messageformat": "다양한 버그 수정 외에도 이번 릴리스에는 개발자 문서 업데이트(고마워요, {d108} 님!)와 메시지 전달 인터페이스 디자인 개선 사항(고마워요, {hackerbirds} 님!)도 포함되어 있습니다.",
-    "description": "Release notes for v6.23"
+  "icu:WhatsNew__v6.25--0": {
+    "messageformat": "이제 Signal 창에서 대화 헤더를 클릭 후 드래그하여 위치를 변경할 수 있습니다."
   }
 }

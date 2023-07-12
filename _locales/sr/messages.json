@@ -1283,7 +1283,35 @@
   },
   "icu:deleteConversationConfirmation": {
     "messageformat": "Желите ли да трајно избришете ово ћаскање?",
-    "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+    "description": "(deleted 06/27/2023) Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
+    "messageformat": "Желите ли да избришете ћаскање?",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
+    "messageformat": "Ћаскање ће бити избрисано са овог уређаја.",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
+    "messageformat": "Напусти групу",
+    "description": "This is a button to leave a group"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__title": {
+    "messageformat": "Желите ли заиста да напустите групу?",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__description": {
+    "messageformat": "Више нећете моћи да шаљете и примате поруке у овој групи.",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__confirmButton": {
+    "messageformat": "Напусти",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Confirm Button"
+  },
+  "icu:ConversationHeader__CannotLeaveGroupBecauseYouAreLastAdminAlert__description": {
+    "messageformat": "Пре него што напустите ову групу, морате да изаберете бар једног администратора за њу.",
+    "description": "Conversation Header > Leave Group Action > Cannot Leave Group Because You Are Last Admin Alert > Description"
   },
   "icu:sessionEnded": {
     "messageformat": "Безбедна сесија ресетована",
@@ -6487,24 +6515,10 @@
     "messageformat": "Obavili smo manja fina prilagođavanja, ispravke grešaka i poboljšanja performansi. Hvala što koristite Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "Боље видите себе док сте у позиву 1 на 1. У појединачним видео позивима се сада користи исти приказ преко целог екрана који се раније појављивао само на почетку новог групног позива. Да бисмо били доследни, морали смо да будемо упорни и сада дискрепанца више не постоји.",
-    "description": "Release notes for v6.21"
+  "icu:WhatsNew__v6.24--0": {
+    "messageformat": "Сада можете претраживати и @помињања."
   },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "Такође бисмо желели да изразимо захвалност кориснику {complexspaces} за помоћ и повратне информације током рада на овом издању.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "Форматирајте текст у порукама тако што ћете изабрати било који текст у пољу за састављање поруке и тако га подебљати, ставити га у курзив, прецртати га или изабрати друге текстуалне ефекте.\n\n",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "Додали смо подршку за најновије емоџије, тако да сада можете још боље да изразите своје емоције.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.23--1": {
-    "messageformat": "Поред мале колекције исправки грешака, ово издање такође обухвата ажурирања документације за програмере (хвала, {d108}!) и нека побољшања дизајна интерфејса за прослеђивање порука (хвала, {hackerbirds}!).",
-    "description": "Release notes for v6.23"
+  "icu:WhatsNew__v6.25--0": {
+    "messageformat": "Сада можете да кликнете и превучете заглавље разговора да бисте променили положај Signal-а."
   }
 }

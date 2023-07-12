@@ -1283,7 +1283,35 @@
   },
   "icu:deleteConversationConfirmation": {
     "messageformat": "Vols eliminar aquest xat de forma permanent?",
-    "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+    "description": "(deleted 06/27/2023) Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
+    "messageformat": "Vols eliminar el xat?",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
+    "messageformat": "Aquest xat s'eliminarà del dispositiu.",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
+    "messageformat": "Sortir del grup",
+    "description": "This is a button to leave a group"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__title": {
+    "messageformat": "Segur que vols sortir del grup?",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__description": {
+    "messageformat": "Ja no podràs enviar o rebre missatges d'aquest grup.",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__confirmButton": {
+    "messageformat": "Surt",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Confirm Button"
+  },
+  "icu:ConversationHeader__CannotLeaveGroupBecauseYouAreLastAdminAlert__description": {
+    "messageformat": "Abans de sortir, has de designar almenys un administrador.",
+    "description": "Conversation Header > Leave Group Action > Cannot Leave Group Because You Are Last Admin Alert > Description"
   },
   "icu:sessionEnded": {
     "messageformat": "Restableix la sessió segura",
@@ -6487,24 +6515,10 @@
     "messageformat": "Petits ajustos, correccions d'errors i tasques de millora de rendiment. Gràcies per utilitzar Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "Comprova que no t'has despentinat mentre sona una trucada individual! Les videotrucades individuals ara utilitzen la mateixa vista de pantalla completa que abans només apareixia al començament d'una nova trucada grupal. A l'hora de ser coherents, intentem ser persistents (no resistents) i ara la discrepància és inexistent perquè aquestes coses ja no són diferents.",
-    "description": "Release notes for v6.21"
+  "icu:WhatsNew__v6.24--0": {
+    "messageformat": "Ara també pots buscar les teves mencions @. Potser ens diràs, \"gràcies per afegir aquesta funció.\" \"Ni ho mencionis,\" et respondrem."
   },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "També volem donar les gràcies a {complexspaces} per la seva ajuda i els seus comentaris mentre treballàvem en aquesta versió.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "Dona forma al text dels teus missatges seleccionant qualsevol part de text al camp de composició de missatges.\n\nDestaca la teva opinió remarcant-la en negreta, envia-li al Night Shyamalan un plot-twist amb un efecte de spoiler, emfatitza un nom escrivint \"Alex\" en cursiva, ratlla amb una línia una idea per un sopar amb la que no estiguis d'acord o comparteix codi amb monoespaiat.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "Els últims emojis del moment ja són compatibles amb Signal, així que ara ja pots expressar el teu entusiasme amb una &quot;cara de velocitat&quot; (<emojify>🫨</emojify>), o reaccionar amb una &quot;beina de pèsols&quot; (<emojify>🫨</emojify>) quan algú et pregunti què tens pensat per sopar.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.23--1": {
-    "messageformat": "A més d'haver corregit diversos errors, aquesta versió també incorpora actualitzacions de la documentació per a desenvolupadors (gràcies, {d108}!) i algunes millores de disseny a la interfície de reenviament de missatges (gràcies, {hackerbirds}!).",
-    "description": "Release notes for v6.23"
+  "icu:WhatsNew__v6.25--0": {
+    "messageformat": "Ara pots fer clic i arrossegar la capçalera d'una conversa o trucada per recol·locar la teva finestra de Signal més fàcilment que mai."
   }
 }

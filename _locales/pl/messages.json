@@ -1283,7 +1283,35 @@
   },
   "icu:deleteConversationConfirmation": {
     "messageformat": "Nieodwołalnie usunąć ten czat?",
-    "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+    "description": "(deleted 06/27/2023) Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
+    "messageformat": "Usunąć czat?",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
+    "messageformat": "Ten czat zostanie usunięty z tego urządzenia.",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
+    "messageformat": "Opuść grupę",
+    "description": "This is a button to leave a group"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__title": {
+    "messageformat": "Czy na pewno chcesz odejść?",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__description": {
+    "messageformat": "Nie będziesz już móc odbierać lub wysyłać wiadomości w tej grupie.",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__confirmButton": {
+    "messageformat": "Opuść",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Confirm Button"
+  },
+  "icu:ConversationHeader__CannotLeaveGroupBecauseYouAreLastAdminAlert__description": {
+    "messageformat": "Przed opuszczeniem tej grupy musisz wybrać co najmniej jednego nowego administratora.",
+    "description": "Conversation Header > Leave Group Action > Cannot Leave Group Because You Are Last Admin Alert > Description"
   },
   "icu:sessionEnded": {
     "messageformat": "Zresetowano bezpieczną sesję",
@@ -6487,24 +6515,10 @@
     "messageformat": "Małe ulepszenia, poprawki błędów i zwiększona funkcjonalność. Dzięki za korzystanie z Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "Napatrz się na swoją piękną buźkę podczas rozmowy 1 na 1. Indywidualne połączenia wideo wykorzystują teraz ten sam widok pełnoekranowy, który poprzednio pokazywał się tylko na początku nowego połączenia grupowego. Robimy, co tylko możemy, bo spójną aplikację mieć chcemy, więc do roboty się bierzemy i rozbieżności eliminujemy.",
-    "description": "Release notes for v6.21"
+  "icu:WhatsNew__v6.24--0": {
+    "messageformat": "Teraz możesz przeszukiwać swoje oznaczenia „@”. Możesz nam podziękować, oznaczając nas w wiadomości, a my odpowiemy: „Nie ma sprawy”."
   },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "Pragniemy również wyrazić wdzięczność użytkownikowi {complexspaces} za pomoc i sugestie podczas pracy nad tą aktualizacją.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "Formatuj tekst za pomocą pola kompozycji wiadomości poprzez zaznaczenie dowolnego fragmentu.\n\nWytłuść to, co najważniejsze, zasłoń fragment, w którym zdradzasz zakończenie filmu, pisz kursywą niczym scenopisarz didaskalia, używaj przekreślonego tekstu do odwoływania wieczornych planów lub dziel się kodem za pomocą czcionki o stałej szerokości.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "Dodaliśmy wsparcie na najnowszych emotikon, więc możesz już wyrażać swoją ekscytację za pomocą „trzęsącej się buźki” (<emojify>🫨</emojify>) lub reagować przy użyciu „strączka groszku” (<emojify>🫛</emojify>), gdy ktoś zapyta Cię o Twoje ulubione warzywo.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.23--1": {
-    "messageformat": "Jako uzupełnienie niewielkiej liczby usuniętych błędów to wydanie zawiera aktualizację dokumentacji deweloperskiej (podziękowania dla {d108}!) i kilka udoskonaleń interfejsu przekazywania wiadomości (dziękujemy, {hackerbirds}!).",
-    "description": "Release notes for v6.23"
+  "icu:WhatsNew__v6.25--0": {
+    "messageformat": "W związku z tym, że nagłówki konwersacji można teraz przeciągać, zmiana położenia okna Signal nie będzie już tak ciągnącym się w nieskończoność utrapieniem."
   }
 }

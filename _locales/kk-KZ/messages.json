@@ -1283,7 +1283,35 @@
   },
   "icu:deleteConversationConfirmation": {
     "messageformat": "Бұл чатты біржола жою керек пе?",
-    "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+    "description": "(deleted 06/27/2023) Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
+    "messageformat": "Чатты жою керек пе?",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
+    "messageformat": "Бұл чат құрылғыдан жойылады.",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
+    "messageformat": "Топтан шығып кету",
+    "description": "This is a button to leave a group"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__title": {
+    "messageformat": "Шынымен де шыққыңыз келе ме?",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__description": {
+    "messageformat": "Сіз енді бұл топта хаттарды жібере немесе қабылдай алмайсыз.",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__confirmButton": {
+    "messageformat": "Шығып кету",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Confirm Button"
+  },
+  "icu:ConversationHeader__CannotLeaveGroupBecauseYouAreLastAdminAlert__description": {
+    "messageformat": "Топтан шықпас бұрын, бұл топ үшін кемінде бір жаңа әкімші таңдауыңыз керек.",
+    "description": "Conversation Header > Leave Group Action > Cannot Leave Group Because You Are Last Admin Alert > Description"
   },
   "icu:sessionEnded": {
     "messageformat": "Қауіпсіз сеанс қалпына келтірілді",
@@ -6487,24 +6515,10 @@
     "messageformat": "Кішігірім түзетпелер жасалды, ақаулар жөнделді және жұмысы жақсартылды. Signal-ды қолданғаныңыз үшін рақмет!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "Бетпе-бет қоңырау шалынып жатқанда, өзіңіздің бейнеңізді жақсырақ көріңіз. Жеке видео қоңырауларда енді толық экранды көріністі қолдануға болады, бұрын ол жаңа топтық қоңыраудың басында ғана пайда болатын. Бірізділікті сақтауға келгенде, біз қарсылық танытудың орнына табанды болуға тырысамыз. Енді сәйкессіздік деген ұғымды ұмытуға болады, себебі олардың бір-бірінен еш айырмашылығы жоқ.",
-    "description": "Release notes for v6.21"
+  "icu:WhatsNew__v6.24--0": {
+    "messageformat": "Енді белгілеп кеткен @адамдарды да іздей аласыз. \"Бұл функцияны қосқандарыңыз үшін рақмет\",–дерсіз сіз. \"Оқасы жоқ\",–деп жауап береміз біз."
   },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "Осы шығарылыммен жұмыс істеп, көрсеткен көмектері мен пікірлері үшін {complexspaces} деген пайдаланушыға алғысымызды білдіргіміз келеді.",
-    "description": "Release notes for v6.21"
-  },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "Хат жазу өрісіндегі кез келген мәтінді таңдап, хаттарыңыздағы мәтіннің форматын өзгертіңіз.\n\nМаңызды мәлімдемені қалың қаріппен жазып қойыңыз, Қуаныш Қарабай мырзаға спойлермен аяқталатын твист жіберіңіз, \"Әлібек\" деген есімді қиғаш қаріппен жазып, ерекшелеп қойыңыз, бас тартқан кешкі астың үстін сызып тастаңыз немесе аралықтары бірқалыпты кодты бөлісіңіз.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "Енді ең соңғы эмодзилерге қолдау көрсетіледі, сондықтан біреу достарыңызбен қаншалықты жақын араласатыныңызды сұрағанда, &quot;Басты шайқау&quot; (<emojify>🫨</emojify>) немесе &quot;Бір қауыздағы асбұршақтар&quot; (<emojify>🫛</emojify>) сияқты эмодзилермен жауап бере аласыз.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.23--1": {
-    "messageformat": "Болмашы түзетпелерден бөлек, бұл нұсқада жаңартылған әзірлеуші құжаттамасы бар ({d108}, рақмет!) және хаттың мекенжайын өзгерту интерфейсінің дизайнына бірқатар өзгерістер енгізілді ({hackerbirds}, рақмет!).",
-    "description": "Release notes for v6.23"
+  "icu:WhatsNew__v6.25--0": {
+    "messageformat": "Қоңырау шалу және сөйлесу тақырыпшаларын сүйреуге болатынтықтан, енді Signal терезесін қалаған жеріңізге апарып қоюыңызға болады."
   }
 }
