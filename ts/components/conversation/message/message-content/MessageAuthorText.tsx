@@ -21,6 +21,7 @@ type Props = {
 
 const StyledAuthorContainer = styled(Flex)`
   color: var(--text-primary-color);
+  text-overflow: ellipsis;
 `;
 
 export const MessageAuthorText = (props: Props) => {
