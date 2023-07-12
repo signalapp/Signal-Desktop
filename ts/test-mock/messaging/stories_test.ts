@@ -152,12 +152,12 @@ describe('story/messaging', function unknownContacts() {
             },
             storyMessageRecipients: [
               {
-                destinationUuid: first.device.uuid,
+                destinationServiceId: first.device.uuid,
                 distributionListIds: [DISTRIBUTION1],
                 isAllowedToReply: true,
               },
               {
-                destinationUuid: second.device.uuid,
+                destinationServiceId: second.device.uuid,
                 distributionListIds: [DISTRIBUTION2],
                 isAllowedToReply: true,
               },

@@ -1936,7 +1936,7 @@ export async function reprocessUnknownFields(): Promise<void> {
               'Inserted records must have storageRecord'
             );
 
-            if (!item.storageRecord.__unknownFields?.length) {
+            if (!item.storageRecord.$unknownFields?.length) {
               return undefined;
             }
 

@@ -893,6 +893,12 @@
     "updated": "2022-06-01T22:57:44.591Z"
   },
   {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/jsdoc/templates/default/static/scripts/prettify/prettify.js",
+    "reasonCategory": "testCode",
+    "updated": "2023-07-12T01:02:31.061Z"
+  },
+  {
     "rule": "eval",
     "path": "node_modules/loader-runner/lib/loadLoader.js",
     "line": "\t\t\tvar modulePromise = eval(\"import(\" + JSON.stringify(loaderUrl.toString()) + \")\");",

@@ -1,0 +1,18 @@
+diff --git a/node_modules/protobufjs-cli/lib/tsd-jsdoc/publish.js b/node_modules/protobufjs-cli/lib/tsd-jsdoc/publish.js
+index 3846a99..20c61b6 100644
+--- a/node_modules/protobufjs-cli/lib/tsd-jsdoc/publish.js
++++ b/node_modules/protobufjs-cli/lib/tsd-jsdoc/publish.js
+@@ -558,6 +558,13 @@ function handleClass(element, parent) {
+         handleElement(child, element);
+     });
+ 
++    writeln();
++    if (is_interface) {
++        writeln("$unknownFields?: ReadonlyArray<Uint8Array>;");
++    } else {
++        writeln("public $unknownFields?: ReadonlyArray<Uint8Array>;");
++    }
++
+     --indent;
+     writeln("}");
+ 

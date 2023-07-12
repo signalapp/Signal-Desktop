@@ -4,14 +4,14 @@
 import { Reader } from 'protobufjs';
 
 type MessageWithUnknownFields = {
-  __unknownFields?: ReadonlyArray<Uint8Array>;
+  $unknownFields?: ReadonlyArray<Uint8Array>;
 };
 
 /**
  * Returns an array of the tags of unknown fields in a protobuf message.
  *
  * Clients may use slightly different definitions of our protos, in cases where
- * we don't recognize a field, we store it in `__unknownFields`.
+ * we don't recognize a field, we store it in `$unknownFields`.
  *
  * For example:
  *
@@ -28,7 +28,7 @@ type MessageWithUnknownFields = {
  * }
  * ```
  *
- * If we receive a message with `baz` set, we'll store it in `__unknownFields`.
+ * If we receive a message with `baz` set, we'll store it in `$unknownFields`.
  *
  * This function will then return `[2]`.
  */
@@ -36,7 +36,7 @@ export function inspectUnknownFieldTags(
   message: MessageWithUnknownFields
 ): Array<number> {
   return (
-    message.__unknownFields?.map(field => {
+    message.$unknownFields?.map(field => {
       // https://protobuf.dev/programming-guides/encoding/
       // The first byte of a field is a varint encoding the tag bit-shifted << 3
       // eslint-disable-next-line no-bitwise

@@ -116,11 +116,11 @@ function addUnknownFields(
   conversation: ConversationModel,
   details: Array<string>
 ): void {
-  if (record.__unknownFields) {
+  if (record.$unknownFields) {
     details.push('adding unknown fields');
     conversation.set({
       storageUnknownFields: Bytes.toBase64(
-        Bytes.concatenate(record.__unknownFields)
+        Bytes.concatenate(record.$unknownFields)
       ),
     });
   } else if (conversation.get('storageUnknownFields')) {
@@ -142,7 +142,7 @@ function applyUnknownFields(
       conversation.idForLogging()
     );
     // eslint-disable-next-line no-param-reassign
-    record.__unknownFields = [Bytes.fromBase64(storageUnknownFields)];
+    record.$unknownFields = [Bytes.fromBase64(storageUnknownFields)];
   }
 }
 
@@ -502,7 +502,7 @@ export function toStoryDistributionListRecord(
   storyDistributionListRecord.recipientUuids = storyDistributionList.members;
 
   if (storyDistributionList.storageUnknownFields) {
-    storyDistributionListRecord.__unknownFields = [
+    storyDistributionListRecord.$unknownFields = [
       storyDistributionList.storageUnknownFields,
     ];
   }
@@ -529,7 +529,7 @@ export function toStickerPackRecord(
   }
 
   if (stickerPack.storageUnknownFields) {
-    stickerPackRecord.__unknownFields = [stickerPack.storageUnknownFields];
+    stickerPackRecord.$unknownFields = [stickerPack.storageUnknownFields];
   }
 
   return stickerPackRecord;
@@ -1513,7 +1513,7 @@ export async function mergeStoryDistributionListRecord(
     storyDistributionListRecord.recipientUuids || []
   ).map(UUID.cast);
 
-  if (storyDistributionListRecord.__unknownFields) {
+  if (storyDistributionListRecord.$unknownFields) {
     details.push('adding unknown fields');
   }
 
@@ -1532,8 +1532,8 @@ export async function mergeStoryDistributionListRecord(
 
     storageID,
     storageVersion,
-    storageUnknownFields: storyDistributionListRecord.__unknownFields
-      ? Bytes.concatenate(storyDistributionListRecord.__unknownFields)
+    storageUnknownFields: storyDistributionListRecord.$unknownFields
+      ? Bytes.concatenate(storyDistributionListRecord.$unknownFields)
       : null,
     storageNeedsSync: Boolean(localStoryDistributionList?.storageNeedsSync),
   };
@@ -1559,7 +1559,7 @@ export async function mergeStoryDistributionListRecord(
   const oldStorageVersion = localStoryDistributionList.storageVersion;
 
   const needsToClearUnknownFields =
-    !storyDistributionListRecord.__unknownFields &&
+    !storyDistributionListRecord.$unknownFields &&
     localStoryDistributionList.storageUnknownFields;
 
   if (needsToClearUnknownFields) {
@@ -1627,11 +1627,11 @@ export async function mergeStickerPackRecord(
 
   const localStickerPack = await dataInterface.getStickerPackInfo(id);
 
-  if (stickerPackRecord.__unknownFields) {
+  if (stickerPackRecord.$unknownFields) {
     details.push('adding unknown fields');
   }
-  const storageUnknownFields = stickerPackRecord.__unknownFields
-    ? Bytes.concatenate(stickerPackRecord.__unknownFields)
+  const storageUnknownFields = stickerPackRecord.$unknownFields
+    ? Bytes.concatenate(stickerPackRecord.$unknownFields)
     : null;
 
   let stickerPack: StickerPackInfoType;
