@@ -293,7 +293,7 @@
     "sass-loader": "10.2.0",
     "sinon": "11.1.1",
     "style-loader": "1.0.0",
-    "stylelint": "15.10.1",
+    "stylelint": "15.4.0",
     "stylelint-config-css-modules": "4.2.0",
     "stylelint-config-recommended-scss": "10.0.0",
     "stylelint-use-logical-spec": "5.0.0",
