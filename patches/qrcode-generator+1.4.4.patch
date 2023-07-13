@@ -1,0 +1,26 @@
+diff --git a/node_modules/qrcode-generator/qrcode.d.ts b/node_modules/qrcode-generator/qrcode.d.ts
+index b34952e..b394c44 100644
+--- a/node_modules/qrcode-generator/qrcode.d.ts
++++ b/node_modules/qrcode-generator/qrcode.d.ts
+@@ -36,7 +36,7 @@ interface QRCodeFactory {
+ }
+ 
+ interface QRCode {
+-  addData(data: string, mode?: Mode) : void;
++  addData(data: string | Uint8Array, mode?: Mode) : void;
+   make() : void;
+   getModuleCount() : number;
+   isDark(row: number, col: number) : boolean;
+diff --git a/node_modules/qrcode-generator/qrcode.js b/node_modules/qrcode-generator/qrcode.js
+index 76889b5..f4d8c88 100644
+--- a/node_modules/qrcode-generator/qrcode.js
++++ b/node_modules/qrcode-generator/qrcode.js
+@@ -1728,7 +1728,7 @@ var qrcode = function() {
+ 
+     var _mode = QRMode.MODE_8BIT_BYTE;
+     var _data = data;
+-    var _bytes = qrcode.stringToBytes(data);
++    var _bytes = data instanceof Uint8Array ? data : qrcode.stringToBytes(data);
+ 
+     var _this = {};
+ 

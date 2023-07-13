@@ -2,67 +2,206 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 .module-SafetyNumberViewer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
+  gap: 16px;
 
-  &__icon {
-    height: 1.25em;
-    width: 1.25em;
-    vertical-align: text-bottom;
-    display: inline-block;
+  a {
+    text-decoration: none;
   }
 
-  &__icon--verified {
-    display: inline-block;
-    height: 20px;
-    margin-inline-end: 4px;
-    vertical-align: text-bottom;
-    width: 20px;
+  &__migration {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
 
-    @include light-theme {
-      @include color-svg('../images/icons/v3/check/check.svg', $color-gray-95);
+    width: 100%;
+    margin-block: 0 8px;
+
+    &__text {
+      flex-grow: 1;
+
+      text-align: start;
+      @include font-subtitle;
+      @include light-theme {
+        color: $color-gray-60;
+      }
+
+      @include dark-theme {
+        color: $color-gray-25;
+      }
+
+      p {
+        margin: 0;
+      }
     }
 
-    @include dark-theme {
-      @include color-svg('../images/icons/v3/check/check.svg', $color-gray-02);
-    }
-  }
-
-  &__icon--shield {
-    display: inline-block;
-    height: 20px;
-    margin-inline-end: 4px;
-    vertical-align: text-bottom;
-    width: 20px;
-
-    @include light-theme {
-      @include color-svg(
-        '../images/icons/v3/safety_number/safety_number.svg',
-        $color-gray-95
-      );
-    }
-
-    @include dark-theme {
-      @include color-svg(
-        '../images/icons/v3/safety_number/safety_number.svg',
-        $color-gray-02
-      );
+    &__icon {
+      flex-shrink: 0;
+      display: inline-block;
+      width: 48px;
+      height: 48px;
+      background: url('../images/safety-number-migration.svg');
     }
   }
 
-  &__number {
-    border-radius: 8px;
-    font-family: $monospace;
-    height: 100px;
-    margin-block: 24px;
-    margin-inline: auto;
+  &__card-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+
+  &__card {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+    max-width: 248px;
+
     padding: 24px;
-    width: 245px;
+    border-radius: 12px;
 
-    @include light-theme {
-      background-color: $color-gray-02;
+    &--e164 {
+      background-color: $color-bright-gray;
+
+      .module-SafetyNumberViewer__card__number {
+        color: $color-gray-75;
+      }
     }
+
+    &--aci {
+      background-color: $color-borage-blue;
+
+      .module-SafetyNumberViewer__card__number {
+        color: $color-white;
+      }
+    }
+
+    &__qr {
+      width: 120px;
+      height: 120px;
+      padding: 10px;
+      border-radius: 8px;
+      background: $color-white;
+    }
+
+    &__number {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+
+      font-family: $monospace;
+      margin-block: 0 4px;
+
+      @include keyboard-mode {
+        &:focus {
+          box-shadow: 0 0 0 3px $color-ultramarine;
+        }
+      }
+    }
+
+    &__prev,
+    &__next {
+      --height: 36px;
+      position: absolute;
+      top: calc(50% - var(--height) / 2);
+
+      width: 18px;
+      height: var(--height);
+
+      opacity: 0;
+      transition: opacity 200ms ease-in-out;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+
+    &__prev {
+      inset-inline-start: 0;
+      @include light-theme {
+        @include color-svg(
+          '../images/icons/v3/chevron/chevron-shallow-left.svg',
+          $color-gray-75
+        );
+      }
+
+      @include dark-theme {
+        @include color-svg(
+          '../images/icons/v3/chevron/chevron-shallow-left.svg',
+          $color-gray-15
+        );
+      }
+    }
+
+    &__next {
+      inset-inline-end: 0;
+      @include light-theme {
+        @include color-svg(
+          '../images/icons/v3/chevron/chevron-shallow-right.svg',
+          $color-gray-75
+        );
+      }
+
+      @include dark-theme {
+        @include color-svg(
+          '../images/icons/v3/chevron/chevron-shallow-right.svg',
+          $color-gray-15
+        );
+      }
+    }
+  }
+
+  &__carousel {
+    display: flex;
+    gap: 8px;
+
+    &__dot {
+      @include button-reset;
+      width: 8px;
+      height: 8px;
+      border-radius: 4px;
+
+      @include light-theme {
+        background: $color-gray-25;
+      }
+
+      @include dark-theme {
+        background: $color-gray-60;
+      }
+
+      @include keyboard-mode {
+        &:focus {
+          box-shadow: 0 0 0 3px $color-ultramarine;
+        }
+      }
+
+      &[aria-pressed='true'] {
+        @include light-theme {
+          background: $color-black;
+        }
+
+        @include dark-theme {
+          background: $color-white;
+        }
+      }
+    }
+  }
+
+  &__help {
+    @include font-subtitle;
+    @include light-theme {
+      color: $color-gray-60;
+    }
+
     @include dark-theme {
-      background-color: $color-gray-90;
+      color: $color-gray-25;
     }
   }
 
@@ -72,12 +211,12 @@
     text-align: center;
   }
 
-  &__buttons {
-    text-align: end;
+  &__button {
+    margin-block: 0 16px;
   }
 
-  &__button {
-    margin-top: 30px;
+  &__buttons {
+    text-align: end;
   }
 
   &__modal.module-Modal {

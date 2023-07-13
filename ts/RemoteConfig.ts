@@ -7,6 +7,7 @@ import type { WebAPIType } from './textsecure/WebAPI';
 import * as log from './logging/log';
 import type { UUIDStringType } from './types/UUID';
 import { parseIntOrThrow } from './util/parseIntOrThrow';
+import { SECOND, HOUR } from './util/durations';
 import * as Bytes from './Bytes';
 import { hash, uuidToBytes } from './Crypto';
 import { HashType } from './types/Crypto';
@@ -29,8 +30,7 @@ export type ConfigKeyType =
   | 'desktop.messageRequests'
   | 'desktop.pnp'
   | 'desktop.retryRespondMaxAge'
-  | 'desktop.safetyNumberUUID.timestamp'
-  | 'desktop.safetyNumberUUID'
+  | 'desktop.safetyNumberAci'
   | 'desktop.senderKey.retry'
   | 'desktop.senderKey.send'
   | 'desktop.senderKeyMaxAge'
@@ -47,7 +47,8 @@ export type ConfigKeyType =
   | 'global.groupsv2.groupSizeHardLimit'
   | 'global.groupsv2.maxGroupSize'
   | 'global.nicknames.max'
-  | 'global.nicknames.min';
+  | 'global.nicknames.min'
+  | 'global.safetyNumberAci';
 
 type ConfigValueType = {
   name: ConfigKeyType;
@@ -88,7 +89,15 @@ export const refreshRemoteConfig = async (
   server: WebAPIType
 ): Promise<void> => {
   const now = Date.now();
-  const newConfig = await server.getConfig();
+  const { config: newConfig, serverEpochTime } = await server.getConfig();
+  const serverTimeSkew = serverEpochTime * SECOND - now;
+
+  if (Math.abs(serverTimeSkew) > HOUR) {
+    log.warn(
+      'Remote Config: sever clock skew detected. ' +
+        `Server time ${serverEpochTime * SECOND}, local time ${now}`
+    );
+  }
 
   // Process new configuration in light of the old configuration
   // The old configuration is not set as the initial value in reduce because
@@ -129,6 +138,7 @@ export const refreshRemoteConfig = async (
   }, {});
 
   await window.storage.put('remoteConfig', config);
+  await window.storage.put('serverTimeSkew', serverTimeSkew);
 };
 
 export const maybeRefreshRemoteConfig = throttle(

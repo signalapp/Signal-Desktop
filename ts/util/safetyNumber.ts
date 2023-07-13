@@ -3,100 +3,117 @@
 
 import { PublicKey, Fingerprint } from '@signalapp/libsignal-client';
 import type { ConversationType } from '../state/ducks/conversations';
-import { UUID } from '../types/UUID';
+import { UUID, UUIDKind } from '../types/UUID';
 
 import { assertDev } from './assert';
+import { isNotNil } from './isNotNil';
 import { missingCaseError } from './missingCaseError';
+import { uuidToBytes } from './uuidToBytes';
 import * as log from '../logging/log';
+import * as Bytes from '../Bytes';
+import type { SafetyNumberType } from '../types/safetyNumber';
+import {
+  SafetyNumberIdentifierType,
+  SafetyNumberMode,
+} from '../types/safetyNumber';
 
-function generateSecurityNumber(
-  ourId: string,
-  ourKey: Uint8Array,
-  theirId: string,
-  theirKey: Uint8Array
-): string {
-  const ourNumberBuf = Buffer.from(ourId);
-  const ourKeyObj = PublicKey.deserialize(Buffer.from(ourKey));
-  const theirNumberBuf = Buffer.from(theirId);
-  const theirKeyObj = PublicKey.deserialize(Buffer.from(theirKey));
+const ITERATION_COUNT = 5200;
+const E164_VERSION = 1;
+const UUID_VERSION = 2;
 
-  const fingerprint = Fingerprint.new(
-    5200,
-    2,
-    ourNumberBuf,
-    ourKeyObj,
-    theirNumberBuf,
-    theirKeyObj
-  );
+// Number of digits in a safety number block
+const BLOCK_SIZE = 5;
 
-  return fingerprint.displayableFingerprint().toString();
-}
-
-export enum SecurityNumberIdentifierType {
-  UUIDIdentifier = 'UUIDIdentifier',
-  E164Identifier = 'E164Identifier',
-}
-
-export async function generateSecurityNumberBlock(
+export async function generateSafetyNumbers(
   contact: ConversationType,
-  identifierType: SecurityNumberIdentifierType
-): Promise<Array<string>> {
-  const logId = `generateSecurityNumberBlock(${contact.id}, ${identifierType})`;
+  mode: SafetyNumberMode
+): Promise<ReadonlyArray<SafetyNumberType>> {
+  const logId = `generateSafetyNumbers(${contact.id}, ${mode})`;
   log.info(`${logId}: starting`);
 
   const { storage } = window.textsecure;
   const ourNumber = storage.user.getNumber();
-  const ourUuid = storage.user.getCheckedUuid();
+  const ourAci = storage.user.getCheckedUuid(UUIDKind.ACI);
 
-  const us = storage.protocol.getIdentityRecord(ourUuid);
-  const ourKey = us ? us.publicKey : null;
+  const us = storage.protocol.getIdentityRecord(ourAci);
+  const ourKeyBuffer = us ? us.publicKey : null;
 
-  const theirUuid = UUID.lookup(contact.id);
-  const them = theirUuid
-    ? await storage.protocol.getOrMigrateIdentityRecord(theirUuid)
+  const theirAci = contact.pni !== contact.uuid ? contact.uuid : undefined;
+  const them = theirAci
+    ? await storage.protocol.getOrMigrateIdentityRecord(new UUID(theirAci))
     : undefined;
-  const theirKey = them?.publicKey;
+  const theirKeyBuffer = them?.publicKey;
 
-  if (!ourKey) {
+  if (!ourKeyBuffer) {
     throw new Error('Could not load our key');
   }
 
-  if (!theirKey) {
+  if (!theirKeyBuffer) {
     throw new Error('Could not load their key');
   }
 
-  let securityNumber: string;
-  if (identifierType === SecurityNumberIdentifierType.E164Identifier) {
-    if (!contact.e164) {
-      log.error(
-        `${logId}: Attempted to generate security number for contact with no e164`
-      );
-      return [];
-    }
+  const ourKey = PublicKey.deserialize(Buffer.from(ourKeyBuffer));
+  const theirKey = PublicKey.deserialize(Buffer.from(theirKeyBuffer));
 
-    assertDev(ourNumber, 'Should have our number');
-    securityNumber = generateSecurityNumber(
-      ourNumber,
-      ourKey,
-      contact.e164,
-      theirKey
-    );
-  } else if (identifierType === SecurityNumberIdentifierType.UUIDIdentifier) {
-    assertDev(theirUuid, 'Should have their uuid');
-    securityNumber = generateSecurityNumber(
-      ourUuid.toString(),
-      ourKey,
-      theirUuid.toString(),
-      theirKey
-    );
+  let identifierTypes: ReadonlyArray<SafetyNumberIdentifierType>;
+  if (mode === SafetyNumberMode.ACIAndE164) {
+    // Important: order matters, legacy safety number should be displayed first.
+    identifierTypes = [
+      SafetyNumberIdentifierType.E164Identifier,
+      SafetyNumberIdentifierType.ACIIdentifier,
+    ];
+    // Controlled by 'desktop.safetyNumberAci'
+  } else if (mode === SafetyNumberMode.E164) {
+    identifierTypes = [SafetyNumberIdentifierType.E164Identifier];
   } else {
-    throw missingCaseError(identifierType);
+    assertDev(mode === SafetyNumberMode.ACI, 'Invalid security number mode');
+    identifierTypes = [SafetyNumberIdentifierType.ACIIdentifier];
   }
 
-  const chunks = [];
-  for (let i = 0; i < securityNumber.length; i += 5) {
-    chunks.push(securityNumber.substring(i, i + 5));
-  }
+  return identifierTypes
+    .map(identifierType => {
+      let fingerprint: Fingerprint;
+      if (identifierType === SafetyNumberIdentifierType.E164Identifier) {
+        if (!contact.e164) {
+          log.error(
+            `${logId}: Attempted to generate security number for contact with no e164`
+          );
+          return undefined;
+        }
 
-  return chunks;
+        assertDev(ourNumber, 'Should have our number');
+        fingerprint = Fingerprint.new(
+          ITERATION_COUNT,
+          E164_VERSION,
+          Buffer.from(Bytes.fromString(ourNumber)),
+          ourKey,
+          Buffer.from(Bytes.fromString(contact.e164)),
+          theirKey
+        );
+      } else if (identifierType === SafetyNumberIdentifierType.ACIIdentifier) {
+        assertDev(theirAci, 'Should have their uuid');
+        fingerprint = Fingerprint.new(
+          ITERATION_COUNT,
+          UUID_VERSION,
+          Buffer.from(uuidToBytes(ourAci.toString())),
+          ourKey,
+          Buffer.from(uuidToBytes(theirAci)),
+          theirKey
+        );
+      } else {
+        throw missingCaseError(identifierType);
+      }
+
+      const securityNumber = fingerprint.displayableFingerprint().toString();
+
+      const numberBlocks = [];
+      for (let i = 0; i < securityNumber.length; i += BLOCK_SIZE) {
+        numberBlocks.push(securityNumber.substring(i, i + BLOCK_SIZE));
+      }
+
+      const qrData = fingerprint.scannableFingerprint().toBuffer();
+
+      return { identifierType, numberBlocks, qrData };
+    })
+    .filter(isNotNil);
 }

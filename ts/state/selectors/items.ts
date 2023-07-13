@@ -5,7 +5,7 @@ import { createSelector } from 'reselect';
 import { isInteger } from 'lodash';
 
 import { ITEM_NAME as UNIVERSAL_EXPIRE_TIMER_ITEM } from '../../util/universalExpireTimer';
-import { SecurityNumberIdentifierType } from '../../util/safetyNumber';
+import { SafetyNumberMode } from '../../types/safetyNumber';
 import { innerIsBucketValueEnabled } from '../../RemoteConfig';
 import type { ConfigKeyType, ConfigMapType } from '../../RemoteConfig';
 import type { StateType } from '../reducer';
@@ -69,6 +69,11 @@ export const getRemoteConfig = createSelector(
   (state: ItemsStateType): ConfigMapType => state.remoteConfig || {}
 );
 
+export const getServerTimeSkew = createSelector(
+  getItems,
+  (state: ItemsStateType): number => state.serverTimeSkew || 0
+);
+
 export const getUsernamesEnabled = createSelector(
   getRemoteConfig,
   (remoteConfig: ConfigMapType): boolean =>
@@ -79,6 +84,12 @@ export const getHasCompletedUsernameOnboarding = createSelector(
   getItems,
   (state: ItemsStateType): boolean =>
     Boolean(state.hasCompletedUsernameOnboarding)
+);
+
+export const getHasCompletedSafetyNumberOnboarding = createSelector(
+  getItems,
+  (state: ItemsStateType): boolean =>
+    Boolean(state.hasCompletedSafetyNumberOnboarding)
 );
 
 export const isInternalUser = createSelector(
@@ -146,22 +157,29 @@ export const getContactManagementEnabled = createSelector(
   }
 );
 
-export const getSecurityNumberIdentifierType = createSelector(
+export const getSafetyNumberMode = createSelector(
   getRemoteConfig,
+  getServerTimeSkew,
   (_state: StateType, { now }: { now: number }) => now,
-  (remoteConfig: ConfigMapType, now: number): SecurityNumberIdentifierType => {
-    if (isRemoteConfigFlagEnabled(remoteConfig, 'desktop.safetyNumberUUID')) {
-      return SecurityNumberIdentifierType.UUIDIdentifier;
+  (
+    remoteConfig: ConfigMapType,
+    serverTimeSkew: number,
+    now: number
+  ): SafetyNumberMode => {
+    if (!isRemoteConfigFlagEnabled(remoteConfig, 'desktop.safetyNumberAci')) {
+      return SafetyNumberMode.E164;
     }
 
-    const timestamp = remoteConfig['desktop.safetyNumberUUID.timestamp']?.value;
+    const timestamp = remoteConfig['global.safetyNumberAci']?.value;
     if (typeof timestamp !== 'number') {
-      return SecurityNumberIdentifierType.E164Identifier;
+      return SafetyNumberMode.ACIAndE164;
     }
 
-    return now >= timestamp
-      ? SecurityNumberIdentifierType.UUIDIdentifier
-      : SecurityNumberIdentifierType.E164Identifier;
+    // Note: serverTimeSkew is a difference between server time and local time,
+    // so we have to add local time to it to correct it for a skew.
+    return now + serverTimeSkew >= timestamp
+      ? SafetyNumberMode.ACI
+      : SafetyNumberMode.ACIAndE164;
   }
 );
 

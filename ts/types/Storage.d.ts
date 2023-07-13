@@ -74,6 +74,7 @@ export type StorageAccessType = {
   hasRegisterSupportForUnauthenticatedDelivery: boolean;
   hasSetMyStoriesPrivacy: boolean;
   hasCompletedUsernameOnboarding: boolean;
+  hasCompletedSafetyNumberOnboarding: boolean;
   hasViewedOnboardingStory: boolean;
   hasStoriesDisabled: boolean;
   storyViewReceiptsEnabled: boolean;
@@ -128,6 +129,7 @@ export type StorageAccessType = {
   'preferred-audio-output-device': AudioDevice;
   previousAudioDeviceModule: AudioDeviceModule;
   remoteConfig: RemoteConfigType;
+  serverTimeSkew: number;
   unidentifiedDeliveryIndicators: boolean;
   groupCredentials: ReadonlyArray<GroupCredentialType>;
   lastReceivedAtCounter: number;

@@ -8,8 +8,32 @@ import { boolean, text } from '@storybook/addon-knobs';
 import type { PropsType } from './SafetyNumberViewer';
 import { SafetyNumberViewer } from './SafetyNumberViewer';
 import { setupI18n } from '../util/setupI18n';
+import {
+  SafetyNumberIdentifierType,
+  SafetyNumberMode,
+} from '../types/safetyNumber';
 import enMessages from '../../_locales/en/messages.json';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
+
+function generateQRData() {
+  const data = new Uint8Array(128);
+  for (let i = 0; i < data.length; i += 1) {
+    data[i] = Math.floor(Math.random() * 256);
+  }
+  return data;
+}
+
+function generateNumberBlocks() {
+  const result = new Array<string>();
+  for (let i = 0; i < 12; i += 1) {
+    let digits = '';
+    for (let j = 0; j < 5; j += 1) {
+      digits += Math.floor(Math.random() * 10);
+    }
+    result.push(digits);
+  }
+  return result;
+}
 
 const i18n = setupI18n('en', enMessages);
 
@@ -49,7 +73,17 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   contact: overrideProps.contact || contactWithAllData,
   generateSafetyNumber: action('generate-safety-number'),
   i18n,
-  safetyNumber: text('safetyNumber', overrideProps.safetyNumber || 'XXX'),
+  safetyNumberMode: overrideProps.safetyNumberMode ?? SafetyNumberMode.ACI,
+  safetyNumbers: overrideProps.safetyNumbers ?? [
+    {
+      identifierType: SafetyNumberIdentifierType.ACIIdentifier,
+      numberBlocks: text(
+        'safetyNumber',
+        generateNumberBlocks().join(' ')
+      ).split(' '),
+      qrData: generateQRData(),
+    },
+  ],
   toggleVerified: action('toggle-verified'),
   verificationDisabled: boolean(
     'verificationDisabled',
@@ -67,6 +101,56 @@ export default {
 export function SafetyNumber(): JSX.Element {
   return <SafetyNumberViewer {...createProps({})} />;
 }
+
+export function SafetyNumberBeforeE164Transition(): JSX.Element {
+  return (
+    <SafetyNumberViewer
+      {...createProps({
+        safetyNumberMode: SafetyNumberMode.E164,
+        safetyNumbers: [
+          {
+            identifierType: SafetyNumberIdentifierType.E164Identifier,
+            numberBlocks: text(
+              'safetyNumber',
+              generateNumberBlocks().join(' ')
+            ).split(' '),
+            qrData: generateQRData(),
+          },
+        ],
+      })}
+    />
+  );
+}
+
+SafetyNumberBeforeE164Transition.story = {
+  name: 'Safety Number (before e164 transition)',
+};
+
+export function SafetyNumberE164Transition(): JSX.Element {
+  return (
+    <SafetyNumberViewer
+      {...createProps({
+        safetyNumberMode: SafetyNumberMode.ACIAndE164,
+        safetyNumbers: [
+          {
+            identifierType: SafetyNumberIdentifierType.E164Identifier,
+            numberBlocks: generateNumberBlocks(),
+            qrData: generateQRData(),
+          },
+          {
+            identifierType: SafetyNumberIdentifierType.ACIIdentifier,
+            numberBlocks: generateNumberBlocks(),
+            qrData: generateQRData(),
+          },
+        ],
+      })}
+    />
+  );
+}
+
+SafetyNumberE164Transition.story = {
+  name: 'Safety Number (e164 transition)',
+};
 
 export function SafetyNumberNotVerified(): JSX.Element {
   return (

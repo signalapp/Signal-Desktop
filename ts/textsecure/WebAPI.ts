@@ -686,6 +686,18 @@ const uploadAvatarHeadersZod = z.object({
 });
 export type UploadAvatarHeadersType = z.infer<typeof uploadAvatarHeadersZod>;
 
+const remoteConfigResponseZod = z.object({
+  config: z
+    .object({
+      name: z.string(),
+      enabled: z.boolean(),
+      value: z.string().or(z.null()).optional(),
+    })
+    .array(),
+  serverEpochTime: z.number(),
+});
+export type RemoteConfigResponseType = z.infer<typeof remoteConfigResponseZod>;
+
 export type ProfileType = Readonly<{
   identityKey?: string;
   name?: string;
@@ -1035,9 +1047,7 @@ export type WebAPIType = {
   ) => Promise<string>;
   whoami: () => Promise<WhoamiResultType>;
   sendChallengeResponse: (challengeResponse: ChallengeType) => Promise<void>;
-  getConfig: () => Promise<
-    Array<{ name: string; enabled: boolean; value: string | null }>
-  >;
+  getConfig: () => Promise<RemoteConfigResponseType>;
   authenticate: (credentials: WebAPICredentials) => Promise<void>;
   logout: () => Promise<void>;
   getSocketStatus: () => SocketStatus;
@@ -1488,19 +1498,20 @@ export function initialize({
     }
 
     async function getConfig() {
-      type ResType = {
-        config: Array<{ name: string; enabled: boolean; value: string | null }>;
-      };
-      const res = (await _ajax({
+      const rawRes = await _ajax({
         call: 'config',
         httpType: 'GET',
         responseType: 'json',
-      })) as ResType;
+      });
+      const res = remoteConfigResponseZod.parse(rawRes);
 
-      return res.config.filter(
-        ({ name }: { name: string }) =>
-          name.startsWith('desktop.') || name.startsWith('global.')
-      );
+      return {
+        ...res,
+        config: res.config.filter(
+          ({ name }: { name: string }) =>
+            name.startsWith('desktop.') || name.startsWith('global.')
+        ),
+      };
     }
 
     async function getSenderCertificate(omitE164?: boolean) {

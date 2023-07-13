@@ -3,8 +3,10 @@
 
 import type { ReadonlyDeep } from 'type-fest';
 import type { ThunkAction } from 'redux-thunk';
+import { omit } from 'lodash';
 
-import { generateSecurityNumberBlock } from '../../util/safetyNumber';
+import { generateSafetyNumbers } from '../../util/safetyNumber';
+import type { SafetyNumberType } from '../../types/safetyNumber';
 import type { ConversationType } from './conversations';
 import {
   reloadProfiles,
@@ -13,10 +15,10 @@ import {
 import * as log from '../../logging/log';
 import * as Errors from '../../types/errors';
 import type { StateType as RootStateType } from '../reducer';
-import { getSecurityNumberIdentifierType } from '../selectors/items';
+import { getSafetyNumberMode } from '../selectors/items';
 
 export type SafetyNumberContactType = ReadonlyDeep<{
-  safetyNumber: string;
+  safetyNumbers: ReadonlyArray<SafetyNumberType>;
   safetyNumberChanged?: boolean;
   verificationDisabled: boolean;
 }>;
@@ -27,15 +29,23 @@ export type SafetyNumberStateType = ReadonlyDeep<{
   };
 }>;
 
+const CLEAR_SAFETY_NUMBER = 'safetyNumber/CLEAR_SAFETY_NUMBER';
 const GENERATE_FULFILLED = 'safetyNumber/GENERATE_FULFILLED';
 const TOGGLE_VERIFIED_FULFILLED = 'safetyNumber/TOGGLE_VERIFIED_FULFILLED';
 const TOGGLE_VERIFIED_PENDING = 'safetyNumber/TOGGLE_VERIFIED_PENDING';
+
+type ClearSafetyNumberActionType = ReadonlyDeep<{
+  type: 'safetyNumber/CLEAR_SAFETY_NUMBER';
+  payload: {
+    contactId: string;
+  };
+}>;
 
 type GenerateFulfilledActionType = ReadonlyDeep<{
   type: 'safetyNumber/GENERATE_FULFILLED';
   payload: {
     contact: ConversationType;
-    safetyNumber: string;
+    safetyNumbers: ReadonlyArray<SafetyNumberType>;
   };
 }>;
 
@@ -50,31 +60,39 @@ type ToggleVerifiedFulfilledActionType = ReadonlyDeep<{
   type: 'safetyNumber/TOGGLE_VERIFIED_FULFILLED';
   payload: {
     contact: ConversationType;
-    safetyNumber?: string;
+    safetyNumbers?: ReadonlyArray<SafetyNumberType>;
     safetyNumberChanged?: boolean;
   };
 }>;
 
 export type SafetyNumberActionType = ReadonlyDeep<
+  | ClearSafetyNumberActionType
   | GenerateFulfilledActionType
   | ToggleVerifiedPendingActionType
   | ToggleVerifiedFulfilledActionType
 >;
+
+function clearSafetyNumber(contactId: string): ClearSafetyNumberActionType {
+  return {
+    type: CLEAR_SAFETY_NUMBER,
+    payload: { contactId },
+  };
+}
 
 function generate(
   contact: ConversationType
 ): ThunkAction<void, RootStateType, unknown, GenerateFulfilledActionType> {
   return async (dispatch, getState) => {
     try {
-      const securityNumberBlock = await generateSecurityNumberBlock(
+      const safetyNumbers = await generateSafetyNumbers(
         contact,
-        getSecurityNumberIdentifierType(getState(), { now: Date.now() })
+        getSafetyNumberMode(getState(), { now: Date.now() })
       );
       dispatch({
         type: GENERATE_FULFILLED,
         payload: {
           contact,
-          safetyNumber: securityNumberBlock.join(' '),
+          safetyNumbers,
         },
       });
     } catch (error) {
@@ -114,16 +132,16 @@ function toggleVerified(
     } catch (err) {
       if (err.name === 'OutgoingIdentityKeyError') {
         await reloadProfiles(contact.id);
-        const securityNumberBlock = await generateSecurityNumberBlock(
+        const safetyNumbers = await generateSafetyNumbers(
           contact,
-          getSecurityNumberIdentifierType(getState(), { now: Date.now() })
+          getSafetyNumberMode(getState(), { now: Date.now() })
         );
 
         dispatch({
           type: TOGGLE_VERIFIED_FULFILLED,
           payload: {
             contact,
-            safetyNumber: securityNumberBlock.join(' '),
+            safetyNumbers,
             safetyNumberChanged: true,
           },
         });
@@ -158,6 +176,7 @@ async function alterVerification(contact: ConversationType): Promise<void> {
 }
 
 export const actions = {
+  clearSafetyNumber,
   generateSafetyNumber: generate,
   toggleVerified,
 };
@@ -172,6 +191,13 @@ export function reducer(
   state: Readonly<SafetyNumberStateType> = getEmptyState(),
   action: Readonly<SafetyNumberActionType>
 ): SafetyNumberStateType {
+  if (action.type === CLEAR_SAFETY_NUMBER) {
+    const { contactId } = action.payload;
+    return {
+      contacts: omit(state.contacts, contactId),
+    };
+  }
+
   if (action.type === TOGGLE_VERIFIED_PENDING) {
     const { contact } = action.payload;
     const { id } = contact;
@@ -205,7 +231,7 @@ export function reducer(
   }
 
   if (action.type === GENERATE_FULFILLED) {
-    const { contact, safetyNumber } = action.payload;
+    const { contact, safetyNumbers } = action.payload;
     const { id } = contact;
     const record = state.contacts[id];
     return {
@@ -213,7 +239,7 @@ export function reducer(
         ...state.contacts,
         [id]: {
           ...record,
-          safetyNumber,
+          safetyNumbers,
         },
       },
     };

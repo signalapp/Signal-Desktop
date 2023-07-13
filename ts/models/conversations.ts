@@ -2915,6 +2915,10 @@ export class ConversationModel extends window.Backbone
         window.reduxActions.calling.keyChanged({ uuid });
       }
 
+      if (isDirectConversation(this.attributes)) {
+        window.reduxActions?.safetyNumber.clearSafetyNumber(this.id);
+      }
+
       if (isDirectConversation(this.attributes) && uuid) {
         const parsedUuid = UUID.checkedLookup(uuid);
         const groups =
