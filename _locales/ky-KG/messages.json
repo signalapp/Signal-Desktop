@@ -1283,7 +1283,35 @@
   },
   "icu:deleteConversationConfirmation": {
     "messageformat": "Бул билдирүүнү биротоло өчүрөсүзбү?",
-    "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+    "description": "(deleted 06/27/2023) Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
+    "messageformat": "Маекти өчүрөсүзбү?",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
+    "messageformat": "Маек бул түзмөктөн өчүрүлөт.",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
+    "messageformat": "Топтон чыгуу",
+    "description": "This is a button to leave a group"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__title": {
+    "messageformat": "Чын эле чыгасызбы?",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__description": {
+    "messageformat": "Бул топто мындан ары жазыша албай каласыз.",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__confirmButton": {
+    "messageformat": "Чыгам",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Confirm Button"
+  },
+  "icu:ConversationHeader__CannotLeaveGroupBecauseYouAreLastAdminAlert__description": {
+    "messageformat": "Топтон чыгардан мурун, бул топко кеминде бир жаңы администратор дайындап кетиңиз.",
+    "description": "Conversation Header > Leave Group Action > Cannot Leave Group Because You Are Last Admin Alert > Description"
   },
   "icu:sessionEnded": {
     "messageformat": "Коопсуз сеанс баштапкы абалга келтирилди",
@@ -6487,24 +6515,13 @@
     "messageformat": "Майда-барат өзгөрүүлөрдү киргизип, мүчүлүштүктөрдү оңдоп, колдонмонун иштешин жакшыртып жатабыз. Signal'ды колдонгонуңуз үчүн чоң рахмат!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "Жекеме-жеке чалышуу функциясы өркүндөтүлдү. Буга чейин жекеме-жеке видео чалуусу жаңы топтук чалуунун башында гана толук экранда көрүнсө, эми андай эмес. Туруктуулук талап кылынган жерде, өжөр болгонго аракет кылабыз (кежир эмес), бирок чындап келсе, азыр өжөрлүк менен кежирликтин ортосундагы айырма жоголуп деле калды.",
-    "description": "Release notes for v6.21"
+  "icu:WhatsNew__v6.25--0": {
+    "messageformat": "Эми чалуунун жана сүйлөшүүнүн аталышын керектүү жерге сүйрөп барып, Signal терезесин каалагандай тууралап аласыз."
   },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "Ушул версиянын үстүнөн иштеп, бизге кол кабыл кылган {complexspaces} терең ыраазычылыгыбызды билдиргибиз келет.",
-    "description": "Release notes for v6.21"
+  "icu:WhatsNew__v6.26--0": {
+    "messageformat": "Diacritics (such as accent marks) are now supported in @ mentions, so you can remind Aristotélēs to answer your philosophy question in the \"Ancient Greek Time Travellers\" group chat."
   },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "Билдирүүлөрүңүздүн текстин форматтоо үчүн билдирүү түзүлүүчү жердеги каалаган текстти тандаңыз.\n\nБилдирүүңүздүн керектүү жерин жоонойтуп, кааласаңыз, кыйгачтатып же сызып салсаңыз болот. Текстти форматтоонун дагы башка мүмкүнчүлүктөрүн колдонуңуз.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "Эң соңку быйтыкчалар каармандары колдоого алына баштады, эми кубанганыңызды &quot;Толкунданган жүз&quot; (<emojify>🫨</emojify>) же досторуңуз менен жакындыгыңызды &quot;Эки буурчак&quot; (<emojify>🫛</emojify>) быйтыкчасы менен билдире аласыз.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.23--1": {
-    "messageformat": "Майда мүчүлүштүктөр оңдолгондон тышкары, бул версияда иштеп чыгуучулардын иштери документтештирилип ({d108} терең ыраазычылык!), билдирүүлөрдү башка дарекке багыттоо интерфейси өркүндөтүлдү ({hackerbirds} терең ыраазычылык!).",
-    "description": "Release notes for v6.23"
+  "icu:WhatsNew__v6.26--1": {
+    "messageformat": "Three cheers for triple-click text selection improvements. Thanks, {linkToGithub}!"
   }
 }

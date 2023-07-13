@@ -1283,7 +1283,35 @@
   },
   "icu:deleteConversationConfirmation": {
     "messageformat": "Trvale smazat tento chat?",
-    "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+    "description": "(deleted 06/27/2023) Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
+    "messageformat": "Odstranit chat?",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
+    "messageformat": "Tento chat bude z tohoto zařízení odstraněn.",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
+    "messageformat": "Opustit skupinu",
+    "description": "This is a button to leave a group"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__title": {
+    "messageformat": "Opravdu si přejete skupinu opustit?",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__description": {
+    "messageformat": "V této skupině již nebudete moci odesílat ani přijímat zprávy.",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__confirmButton": {
+    "messageformat": "Opustit",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Confirm Button"
+  },
+  "icu:ConversationHeader__CannotLeaveGroupBecauseYouAreLastAdminAlert__description": {
+    "messageformat": "Než skupinu opustíte, musíte vybrat alespoň jednoho jejího nového správce.",
+    "description": "Conversation Header > Leave Group Action > Cannot Leave Group Because You Are Last Admin Alert > Description"
   },
   "icu:sessionEnded": {
     "messageformat": "Zabezpečená relace byla resetována",
@@ -6487,24 +6515,13 @@
     "messageformat": "Drobná vylepšení, opravy chyb a zvýšení výkonu. Děkujeme, že používáte Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "Při vyzvánění hovoru se můžeš podívat, jak vypadáš. Individuální videohovory teď používají celou velikost obrazovky, která se dřív zobrazovala pouze na začátku nového skupinového hovoru. Když jde o důslednost, snažíme se být vytrvalí (nikoli úporní), a tak teď těžko budete hledat rozdíly, protože se tyto položky už prostě neliší.",
-    "description": "Release notes for v6.21"
+  "icu:WhatsNew__v6.25--0": {
+    "messageformat": "Kliknutím na záhlaví konverzace a jejím přetažením nyní můžete přemisťovat okno aplikace Signal."
   },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "Rádi bychom také vyjádřili poděkování uživateli {complexspaces} za pomoc a zpětnou vazbu při práci na tomto vydání.",
-    "description": "Release notes for v6.21"
+  "icu:WhatsNew__v6.26--0": {
+    "messageformat": "Diacritics (such as accent marks) are now supported in @ mentions, so you can remind Aristotélēs to answer your philosophy question in the \"Ancient Greek Time Travellers\" group chat."
   },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "Text ve zprávách můžete formátovat výběrem libovolné části textu v poli pro psaní zprávy.\n\nSvé silné prohlášení zvýrazněte tučně, zápletku pošlete M. Nightu Shyamalanovi zastřeně, jméno „Alex“ zdůrazněte kurzívou, odmítnutý plán na večeři přeškrtněte nebo pošlete kód neproporcionálním písmem.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "Přidali jsme podporu nejnovějších znaků emoji, takže teď můžete své nadšení vyjádřit pomocí „třesoucího se smajlíka“ (<emojify>🫨</emojify>) nebo reagovat „hrachovým luskem“ (<emojify>🫛</emojify>), když se vás někdo zeptá, jak blízcí si s přáteli jste.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.23--1": {
-    "messageformat": "Kromě několika drobných oprav chyb obsahuje toto vydání také aktualizace vývojářské dokumentace ( {d108} – děkujeme!) a pár dalších vylepšeních v designu rozhraní pro přeposílání zpráv ({hackerbirds} – děkujeme!).",
-    "description": "Release notes for v6.23"
+  "icu:WhatsNew__v6.26--1": {
+    "messageformat": "Three cheers for triple-click text selection improvements. Thanks, {linkToGithub}!"
   }
 }

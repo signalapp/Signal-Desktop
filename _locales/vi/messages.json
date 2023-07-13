@@ -369,11 +369,11 @@
     "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
   },
   "icu:pinConversation": {
-    "messageformat": "Ghim Trò chuyện",
+    "messageformat": "Ghim trò chuyện",
     "description": "Shown in menu for conversation, and pins the conversation to the top of the conversation list"
   },
   "icu:unpinConversation": {
-    "messageformat": "Bỏ ghim Trò chuyện",
+    "messageformat": "Bỏ ghim trò chuyện",
     "description": "Undoes Archive Conversation action, and unpins the conversation from the top of the conversation list"
   },
   "icu:pinnedConversationsFull": {
@@ -1283,7 +1283,35 @@
   },
   "icu:deleteConversationConfirmation": {
     "messageformat": "Xóa cuộc trò chuyện này vĩnh viễn?",
-    "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+    "description": "(deleted 06/27/2023) Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
+    "messageformat": "Xóa cuộc trò chuyện?",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
+    "messageformat": "Trò chuyện này sẽ bị xóa khỏi thiết bị này.",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
+    "messageformat": "Rời nhóm",
+    "description": "This is a button to leave a group"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__title": {
+    "messageformat": "Bạn có chắc chắn muốn rời khỏi nhóm?",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__description": {
+    "messageformat": "Bạn sẽ không thể gửi hoặc nhận tin nhắn trong nhóm này nữa.",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__confirmButton": {
+    "messageformat": "Rời",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Confirm Button"
+  },
+  "icu:ConversationHeader__CannotLeaveGroupBecauseYouAreLastAdminAlert__description": {
+    "messageformat": "Trước khi rời nhóm, bạn phải chọn ít nhất một quản trị viên mới cho nhóm này.",
+    "description": "Conversation Header > Leave Group Action > Cannot Leave Group Because You Are Last Admin Alert > Description"
   },
   "icu:sessionEnded": {
     "messageformat": "Thiết lập lại phiên bảo mật",
@@ -6487,24 +6515,13 @@
     "messageformat": "Các tinh chỉnh, sửa lỗi, và cải thiện hiệu năng. Cảm ơn bạn đã sử dụng Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "Nhìn bản thân bạn rõ hơn khi cuộc gọi trực tiếp 1-1 đang đổ chuông. Cuộc gọi video cá nhân hiện nay cũng sử dụng chế độ xem toàn màn hình, vốn trước đây chỉ xuất hiện khi bắt đầu một cuộc gọi nhóm mới. Chúng tôi hướng tới sự nhất quán, và giờ có thể nhất chí rằng sự khác biệt đã không còn tồn tại vì những điểm bên trên đã được đồng nhất.",
-    "description": "Release notes for v6.21"
+  "icu:WhatsNew__v6.25--0": {
+    "messageformat": "Giờ đây bạn có thể bấm và kéo tiêu đề cuộc trò chuyện để thay đổi vị trí của cửa sổ Signal."
   },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "Chúng tôi cũng muốn thể hiện sự trân trọng tới {complexspaces} vì sự giúp đỡ và phản hồi khi chúng tôi thực hiện bản cập nhật này.",
-    "description": "Release notes for v6.21"
+  "icu:WhatsNew__v6.26--0": {
+    "messageformat": "Diacritics (such as accent marks) are now supported in @ mentions, so you can remind Aristotélēs to answer your philosophy question in the \"Ancient Greek Time Travellers\" group chat."
   },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "Định dạng văn bản trong tin nhắn của bạn bằng cách lựa chọn bất kỳ đoạn chữ nào trong hộp soạn tin nhắn để in đậm, in nghiêng, gạch ngang, và các hiệu ứng văn bản khác.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "Chúng tôi đã hỗ trợ thêm các emoji mới nhất và giờ đây bạn có thể bày tỏ sự hào hứng của mình với emoji &quot;Shaking Face&quot; (<emojify>🫨</emojify>) hoặc bày tỏ cảm xúc với emoji &quot;Pea Pod&quot; (<emojify>🫛</emojify>) mới ra mắt trong năm nay.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.23--1": {
-    "messageformat": "Ngoài một số lỗi nhỏ đã được sửa, bản cập nhật này cũng kết hợp danh sách các cập nhật từ nhà phát triển (cảm ơn {d108}!) và cải thiện thiết kế của giao diện chuyển tiếp tin nhắn (cảm ơn {hackerbirds}!).",
-    "description": "Release notes for v6.23"
+  "icu:WhatsNew__v6.26--1": {
+    "messageformat": "Three cheers for triple-click text selection improvements. Thanks, {linkToGithub}!"
   }
 }

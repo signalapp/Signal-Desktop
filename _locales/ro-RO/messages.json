@@ -369,11 +369,11 @@
     "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
   },
   "icu:pinConversation": {
-    "messageformat": "Fixează Conversația",
+    "messageformat": "Fixează conversația",
     "description": "Shown in menu for conversation, and pins the conversation to the top of the conversation list"
   },
   "icu:unpinConversation": {
-    "messageformat": "Defixează Conversația",
+    "messageformat": "Defixează conversația",
     "description": "Undoes Archive Conversation action, and unpins the conversation from the top of the conversation list"
   },
   "icu:pinnedConversationsFull": {
@@ -1283,7 +1283,35 @@
   },
   "icu:deleteConversationConfirmation": {
     "messageformat": "Ștergi permanent această conversație?",
-    "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+    "description": "(deleted 06/27/2023) Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
+    "messageformat": "Ștergi conversația?",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
+    "messageformat": "Această conversație va fi ștearsă de pe acest dispozitiv.",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
+    "messageformat": "Părăsește grupul",
+    "description": "This is a button to leave a group"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__title": {
+    "messageformat": "Ești sigur că vrei să părăsești grupul?",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__description": {
+    "messageformat": "Nu vei mai putea trimite sau primi mesaje în acest grup.",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__confirmButton": {
+    "messageformat": "Părăsește",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Confirm Button"
+  },
+  "icu:ConversationHeader__CannotLeaveGroupBecauseYouAreLastAdminAlert__description": {
+    "messageformat": "Înainte de a pleca, trebuie să alegi cel puțin un nou administrator pentru acest grup.",
+    "description": "Conversation Header > Leave Group Action > Cannot Leave Group Because You Are Last Admin Alert > Description"
   },
   "icu:sessionEnded": {
     "messageformat": "Sesiune securizată resetată",
@@ -6487,24 +6515,13 @@
     "messageformat": "Mici ajustări, soluționări de bug-uri și îmbunătățiri ale performanței. Mersi că folosești Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "Vezi cum arăți înainte să răspunzi la un apel 1-la-1. Apelurile video individuale folosesc acum aceeași previzualizare ecran complect care înainte apărea doar la începutul unui nou apel de grup. Când vine vorba de a fi consistent, încercăm să fim persistenți (nu încăpățânați) și acum diferența nu mai există pentru că aceste lucruri nu mai sunt diferite.",
-    "description": "Release notes for v6.21"
+  "icu:WhatsNew__v6.25--0": {
+    "messageformat": "Acum că anteturile apelurilor și conversațiilor pot fi trase, repoziționarea ferestrei Signal nu va fi atât de dificilă."
   },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "Dorim să ne arătăm aprecierea către {complexspaces} pentru ajutorul lor și feedback-ul lor în timp ce lucram la această lansare.",
-    "description": "Release notes for v6.21"
+  "icu:WhatsNew__v6.26--0": {
+    "messageformat": "Diacritics (such as accent marks) are now supported in @ mentions, so you can remind Aristotélēs to answer your philosophy question in the \"Ancient Greek Time Travellers\" group chat."
   },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "Formatează textul din mesajele tale selectând orice text din câmpul de compunere a mesajului.\n\nFă o declarație cu adevărat curajoasă, trimite un mesaj cu efect, pune accentul pe un nume scriind „Alex“ cu litere cursive, respinge o invitație la cină cu o linie pe mijloc sau distribuie cod cu monospace.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "Am adăugat suport pentru cele mai recente caractere emoji, așa că acum îți poți exprima entuziasmul cu „Shaking Face” (<emojify>🫨</emojify>) sau să reacționezi cu o „Păstaie de mazăre” (<emojify>🫛</emojify>) când cineva te întreabă cât de aproape ești de prietenii tăi.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.23--1": {
-    "messageformat": "În plus pe lângă o suită de soluționări de bug-uri, această lansare include și actualizări privind documentele dezvoltatorilor (mersi, {d108}!) și niște îmbunătățiri de design la interfața de redirecționare a mesajelor (mersi, {hackerbirds}!).",
-    "description": "Release notes for v6.23"
+  "icu:WhatsNew__v6.26--1": {
+    "messageformat": "Three cheers for triple-click text selection improvements. Thanks, {linkToGithub}!"
   }
 }

@@ -1283,7 +1283,35 @@
   },
   "icu:deleteConversationConfirmation": {
     "messageformat": "Supprimer définitivement cette conversation ?",
-    "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+    "description": "(deleted 06/27/2023) Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
+    "messageformat": "Supprimer la conversation ?",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
+    "messageformat": "Cette conversation sera supprimée de cet appareil.",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
+    "messageformat": "Quitter le groupe",
+    "description": "This is a button to leave a group"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__title": {
+    "messageformat": "Voulez-vous vraiment quitter ce groupe ?",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__description": {
+    "messageformat": "Vous ne pourrez plus recevoir ni envoyer de messages dans ce groupe.",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__confirmButton": {
+    "messageformat": "Quitter",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Confirm Button"
+  },
+  "icu:ConversationHeader__CannotLeaveGroupBecauseYouAreLastAdminAlert__description": {
+    "messageformat": "Avant de quitter le groupe, vous devez choisir au moins un nouvel administrateur.",
+    "description": "Conversation Header > Leave Group Action > Cannot Leave Group Because You Are Last Admin Alert > Description"
   },
   "icu:sessionEnded": {
     "messageformat": "La session sécurisée a été réinitialisée",
@@ -6487,24 +6515,13 @@
     "messageformat": "Petits ajustements, corrections de bugs et améliorations des performances. Nous vous remercions d’utiliser Signal !",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "Les appels vidéo individuels sortants bénéficient désormais du même affichage plein écran que les appels de groupe.",
-    "description": "Release notes for v6.21"
+  "icu:WhatsNew__v6.25--0": {
+    "messageformat": "Maintenant que les en-têtes d’appel et de conversation peuvent être glissés et déposés où vous voulez, repositionner votre fenêtre Signal ne sera plus une corvée (et dès qu’on trouve une meilleure solution pour laver vos vitres, on vous tient au courant aussi•!)."
   },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "Nous tenons également à exprimer notre gratitude envers {complexspaces} pour son aide et ses commentaires lors de la création de cette nouvelle version.",
-    "description": "Release notes for v6.21"
+  "icu:WhatsNew__v6.26--0": {
+    "messageformat": "Diacritics (such as accent marks) are now supported in @ mentions, so you can remind Aristotélēs to answer your philosophy question in the \"Ancient Greek Time Travellers\" group chat."
   },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "Formatez le texte de vos messages en sélectionnant n’importe quel texte visible dans la fenêtre de rédaction des messages et en y appliquant le style souhaité (gras, italique, barré ou tout autre effet).",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "Nous avons ajouté la prise en charge de nouveaux émojis.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.23--1": {
-    "messageformat": "Mis à part quelques corrections de bugs, cette nouvelle version intègre des mises à jour documentaires pour les développeurs (merci {d108} !) et des améliorations de conception de l’interface de transfert des messages (merci {hackerbirds} !).",
-    "description": "Release notes for v6.23"
+  "icu:WhatsNew__v6.26--1": {
+    "messageformat": "Three cheers for triple-click text selection improvements. Thanks, {linkToGithub}!"
   }
 }

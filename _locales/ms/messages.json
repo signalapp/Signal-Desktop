@@ -1283,7 +1283,35 @@
   },
   "icu:deleteConversationConfirmation": {
     "messageformat": "Padam sembang ini secara kekal?",
-    "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+    "description": "(deleted 06/27/2023) Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
+    "messageformat": "Padam sembang?",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
+    "messageformat": "Sembang ini akan dipadam daripada peranti ini.",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
+    "messageformat": "Keluar kumpulan",
+    "description": "This is a button to leave a group"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__title": {
+    "messageformat": "Adakah anda benar-benar mahu keluar?",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__description": {
+    "messageformat": "Anda tidak akan dapat menerima atau menghantar mesej dalam kumpulan ini.",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__confirmButton": {
+    "messageformat": "Tinggalkan",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Confirm Button"
+  },
+  "icu:ConversationHeader__CannotLeaveGroupBecauseYouAreLastAdminAlert__description": {
+    "messageformat": "Sebelum anda pergi, anda mesti memilih sekurang-kurangnya satu pentadbir baharu untuk kumpulan ini.",
+    "description": "Conversation Header > Leave Group Action > Cannot Leave Group Because You Are Last Admin Alert > Description"
   },
   "icu:sessionEnded": {
     "messageformat": "Penetapan semula sesi selamat",
@@ -6487,24 +6515,13 @@
     "messageformat": "Sedikit pengubahsuaian, pembaikan pepijat dan peningkatan prestasi. Terima kasih kerana menggunakan Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "Lihat diri anda dengan lebih baik semasa panggilan bersemuka berdering. Panggilan video individu kini menggunakan paparan skrin penuh sama seperti panggilan kumpulan semasa berdering. Apabila bercakap tentang konsisten, kita sentiasa berusaha untuk menjadi lebih baik, supaya tiada lagi yang berbeza.",
-    "description": "Release notes for v6.21"
+  "icu:WhatsNew__v6.25--0": {
+    "messageformat": "Kini anda boleh klik dan seret pengepala perbualan untuk meletakkan semula tetingkap Signal."
   },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "Kami juga ingin merakamkan penghargaan kepada {complexspaces} atas bantuan dan maklum balas mereka semasa mengusahakan keluaran ini.",
-    "description": "Release notes for v6.21"
+  "icu:WhatsNew__v6.26--0": {
+    "messageformat": "Diacritics (such as accent marks) are now supported in @ mentions, so you can remind Aristotélēs to answer your philosophy question in the \"Ancient Greek Time Travellers\" group chat."
   },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "Format teks dalam mesej anda dengan memilih mana-mana teks dalam medan gubahan mesej.\n\nBuat pernyataan yang berani dengan tulisan tebal, hantarkan pengakhiran yang berbeza dengan kesan \"spoiler\" kepada M. Night Shyamalan, tekankan nama dengan menulis \"Alex\" dalam huruf condong, potong baris ayat untuk idea makan malam yang ditolak atau kongsi kod dalam \"monospace\".",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "Kami menambah sokongan untuk watak emoji terkini, jadi kini anda boleh meluahkan keterujaan anda dengan &quot;Wajah Bergegar&quot; (<emojify>🫨</emojify>) atau bertindak balas dengan &quot;Pea Pod&quot; (<emojify>🫛</emojify>) apabila seseorang bertanya serapat mana anda dengan rakan-rakan anda.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.23--1": {
-    "messageformat": "Sebagai tambahan kepada pelbagai pembetulan pepijat kecil, keluaran ini turut menggabungkan kemas kini dokumentasi pembangun (terima kasih, {d108}!) dan beberapa penambahbaikan reka bentuk pada antara muka pemajuan mesej (terima kasih, {hackerbirds}!).",
-    "description": "Release notes for v6.23"
+  "icu:WhatsNew__v6.26--1": {
+    "messageformat": "Three cheers for triple-click text selection improvements. Thanks, {linkToGithub}!"
   }
 }

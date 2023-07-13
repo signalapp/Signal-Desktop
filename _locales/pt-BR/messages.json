@@ -1283,7 +1283,35 @@
   },
   "icu:deleteConversationConfirmation": {
     "messageformat": "Excluir este chat permanentemente?",
-    "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+    "description": "(deleted 06/27/2023) Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
+    "messageformat": "Quer excluir o chat?",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
+    "messageformat": "Este chat será excluído do dispositivo.",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
+    "messageformat": "Sair do grupo",
+    "description": "This is a button to leave a group"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__title": {
+    "messageformat": "Você tem certeza que deseja sair?",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__description": {
+    "messageformat": "Você não poderá mais enviar nem receber mensagens neste grupo.",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__confirmButton": {
+    "messageformat": "Sair",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Confirm Button"
+  },
+  "icu:ConversationHeader__CannotLeaveGroupBecauseYouAreLastAdminAlert__description": {
+    "messageformat": "Antes de sair, você precisa escolher pelo menos um novo admin para este grupo.",
+    "description": "Conversation Header > Leave Group Action > Cannot Leave Group Because You Are Last Admin Alert > Description"
   },
   "icu:sessionEnded": {
     "messageformat": "A sessão segura foi reiniciada",
@@ -6487,24 +6515,13 @@
     "messageformat": "Pequenas alterações adicionais, correções de bugs e melhorias de desempenho. Agradecemos por usar o Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "Veja sua imagem melhor quando o telefone estiver tocando em chamadas entre duas pessoas. As videochamadas individuais agora usam a mesma visualização em tela cheia que antes só aparecia nas novas chamadas em grupo. A gente se esforça pra ser consistente, somos persistentes! A discrepância agora não existe, as chamadas individuais e em grupo são iguais.",
-    "description": "Release notes for v6.21"
+  "icu:WhatsNew__v6.25--0": {
+    "messageformat": "Agora é possível arrastar os cabeçalhos das chamadas e dos chats, reposicionando sua janela do Signal."
   },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "Também gostaríamos de agradecer a {complexspaces} pela ajuda e feedback no desenvolvimento desta versão.",
-    "description": "Release notes for v6.21"
+  "icu:WhatsNew__v6.26--0": {
+    "messageformat": "Diacritics (such as accent marks) are now supported in @ mentions, so you can remind Aristotélēs to answer your philosophy question in the \"Ancient Greek Time Travellers\" group chat."
   },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "Formate o texto nas suas mensagens selecionando qualquer texto no campo de composição da mensagem.\n\nFaça uma afirmação ousada, enfatize um nome usando itálico ou negrito, risque uma ideia nonsense de jantar ou compartilhe código em monospace.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "Agora também temos emojis mais recentes! Você já pode expressar sua empolgação com a &quot;cara tremendo&quot; (<emojify>🫨</emojify>) ou reagir com a &quot;vagem de ervilhas&quot; (<emojify>🫛</emojify>), se quiser dizer que tá se alimentando melhor.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.23--1": {
-    "messageformat": "Além de corrigir alguns bugs, este lançamento também incorpora atualizações de documentação de desenvolvedores (valeu, {d108}!) e algumas melhorias de design para a interface de encaminhamento de mensagens (valeu, {hackerbirds}!).",
-    "description": "Release notes for v6.23"
+  "icu:WhatsNew__v6.26--1": {
+    "messageformat": "Three cheers for triple-click text selection improvements. Thanks, {linkToGithub}!"
   }
 }

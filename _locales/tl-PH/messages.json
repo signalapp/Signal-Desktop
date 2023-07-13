@@ -1283,7 +1283,35 @@
   },
   "icu:deleteConversationConfirmation": {
     "messageformat": "Gusto mo bang permanenteng burahin ang chat na ito?",
-    "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+    "description": "(deleted 06/27/2023) Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
+    "messageformat": "Gusto mo bang burahin ang chat?",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
+    "messageformat": "Mabubura ang chat mula sa device na ito.",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
+    "messageformat": "Umalis sa group",
+    "description": "This is a button to leave a group"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__title": {
+    "messageformat": "Gusto mo ba talagang umalis?",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__description": {
+    "messageformat": "Hindi ka na makakapag-send o makakatanggap ng messages sa group na ito.",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__confirmButton": {
+    "messageformat": "Umalis",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Confirm Button"
+  },
+  "icu:ConversationHeader__CannotLeaveGroupBecauseYouAreLastAdminAlert__description": {
+    "messageformat": "Bago ka umalis, kailangan mong pumili ng kahit isang bagong admin para sa group na ito.",
+    "description": "Conversation Header > Leave Group Action > Cannot Leave Group Because You Are Last Admin Alert > Description"
   },
   "icu:sessionEnded": {
     "messageformat": "Nai-reset na ang secure session",
@@ -6487,24 +6515,13 @@
     "messageformat": "Dagdag na maliliit na pag-aayos, pag-alis ng bugs, at pagpapaganda ng takbo ng app. Maraming salamat sa paggamit ng Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "I-check ang itsura mo habang nagri-ring ang 1-on-1 call. Ang individual video calls ay gumagamit na ngayon ng full-screen view na dati'y lumalabas lamang sa umpisa ng bagong group call. Sa pagiging consistent, sinusubukan naming maging persistent (at hindi resistant) kaya ngayo'y wala na ang discrepancy dahil hindi na magkaiba ang mga bagay na ito.",
-    "description": "Release notes for v6.21"
+  "icu:WhatsNew__v6.25--0": {
+    "messageformat": "Pwede mo na ngayong i-click and drag ang conversation header para ilipat ang pwesto ng Signal window."
   },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "Gusto naming pasalamatan ang {complexspaces} sa kanilang tulong at pagbibigay ng feedback para sa release na ito.",
-    "description": "Release notes for v6.21"
+  "icu:WhatsNew__v6.26--0": {
+    "messageformat": "Diacritics (such as accent marks) are now supported in @ mentions, so you can remind Aristotélēs to answer your philosophy question in the \"Ancient Greek Time Travellers\" group chat."
   },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "I-format ang text sa messages mo sa pamamagitan ng pagpili ng anumang text sa message composition field.\n\nGawing malinaw ang gusto mong sabihin gamit ang bold, mag-send ng plot twist ending gamit ang spoiler effect, i-emphasize ang isang pangalan sa paggawa nitong naka-italics, i-reject ang isang dinner idea gamit ang strikethrough, o mag-share ng code na naka monospace.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "Nagdagdag kami ng suporta sa latest emoji characters, para maipakita mo ang iyong excitement gamit ang &quot;Shaking Face&quot; (<emojify>🫨</emojify>) o mag-react gamit ang &quot;Pea Pod&quot; (<emojify>🫛</emojify>) kapag may nagtanong sa 'yo kung gaano ka ka-close sa friends mo.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.23--1": {
-    "messageformat": "Bukod sa kaunting bug fixes, kasama sa release na ito ang developer documentation updates (maraming salamat, {d108}!) at ilang design improvements sa message forwarding interface (maraming salamat, {hackerbirds}!).",
-    "description": "Release notes for v6.23"
+  "icu:WhatsNew__v6.26--1": {
+    "messageformat": "Three cheers for triple-click text selection improvements. Thanks, {linkToGithub}!"
   }
 }

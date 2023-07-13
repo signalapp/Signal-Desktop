@@ -1283,7 +1283,35 @@
   },
   "icu:deleteConversationConfirmation": {
     "messageformat": "চ্যাটটি চিরতরে মুছে ফেলবেন?",
-    "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+    "description": "(deleted 06/27/2023) Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
+    "messageformat": "চ্যাট মুছে ফেলবেন?",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
+    "messageformat": "এই চ্যাটটি এই ডিভাইস থেকে মুছে ফেলা হবে।",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
+    "messageformat": "গ্রুপ ত্যাগ করুন",
+    "description": "This is a button to leave a group"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__title": {
+    "messageformat": "আপনি কি সত্যিই ছেড়ে চলে যেতে চান?",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__description": {
+    "messageformat": "আপনি আর এই গ্রুপে মেসেজ আদানপ্রদান করতে পারবেন না।",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__confirmButton": {
+    "messageformat": "ত্যাগ করুন",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Confirm Button"
+  },
+  "icu:ConversationHeader__CannotLeaveGroupBecauseYouAreLastAdminAlert__description": {
+    "messageformat": "আপনি ত্যাগ করার আগে, আপনাকে এই গ্রুপের জন্য অন্তত একজন নতুন অ্যাডমিনকে বেছে নিতে হবে।",
+    "description": "Conversation Header > Leave Group Action > Cannot Leave Group Because You Are Last Admin Alert > Description"
   },
   "icu:sessionEnded": {
     "messageformat": "নিরাপদ সেশন পুনরায় সেট করা হয়েছে",
@@ -6487,24 +6515,13 @@
     "messageformat": "ছোট ছোট কিছু পরিবর্তন, বাগ সংশোধন এবং পারফর্মেন্স সমৃদ্ধ করা হয়েছে। Signal ব্যবহার করার জন্য ধন্যবাদ!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "1-অন-1 কল রিং হওয়ার সময় নিজেকে আরো ভালোভাবে দেখুন। ব্যক্তিগত ভিডিও কল এখন একই ফুল-স্ক্রিন ভিউ ব্যবহার করে, পূর্বে যা শুধুমাত্র গ্রুপ কলের ক্ষেত্রেই দেখা যেতো। সামঞ্জস্য রক্ষার্থে আমরা অবিচল থাকার চেষ্টা করি (প্রতিরোধী নয়) এবং এখন এই অমিলটি আর নেই, কারণ এই জিনিসগুলো আর আলাদা নয়।",
-    "description": "Release notes for v6.21"
+  "icu:WhatsNew__v6.25--0": {
+    "messageformat": "এখন আপনি Signal উইন্ডোটির অবস্থান পরিবর্তন করতে কথোপকথনের শিরোনামে ক্লিক করতে এবং টেনে আনতে পারবেন।"
   },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "এই রিলিজে কাজ করার সময় {complexspaces}-এর সাহায্য ও প্রতিক্রিয়ার জন্য আমরা তাদের প্রতি আমাদের কৃতজ্ঞতা প্রকাশ করতে চাই।",
-    "description": "Release notes for v6.21"
+  "icu:WhatsNew__v6.26--0": {
+    "messageformat": "Diacritics (such as accent marks) are now supported in @ mentions, so you can remind Aristotélēs to answer your philosophy question in the \"Ancient Greek Time Travellers\" group chat."
   },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "ম্যাসেজ লেখার অংশে যেকোনো টেক্সট নির্বাচন করে আপনার ম্যাসেজে টেক্সট ফরম্যাটিং করুন।\n\nএকটি সাহসী বিবৃতিকে বোল্ড করুন, স্পয়লার ইফেক্ট ব্যবহার করে এম. নাইট শ্যামালানকে একটি মোড় ঘুরানো উপসংহার পাঠান, ইটালিক শৈলীতে \"আলেক্স\" লিখে একটি নামের উপর দৃষ্টি আকর্ষণ করুন, স্ট্রাইকথ্রু ব্যবহার করে আপনি যে একটি ডিনারের আয়োজন বাতিল করেছেন তা প্রকাশ করুন, কিংবা মনোস্পেসে কোড শেয়ার করুন।",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "যখন কেউ আপনাকে প্রশ্ন করবে যে আপনি আপনার বন্ধুদের কতোটা কাছের তখন আপনি যাতে &quot;শেকিং ফেইস&quot; (<emojify>🫨</emojify>) বা &quot;পি পড&quot; (<emojify>🫛</emojify>) ইমোজি ব্যবহার করে আপনার উচ্ছাস প্রকাশ করতে পারেন তার জন্য আমরা সম্প্রতি কিছু নতুন ইমোজি যোগ করেছি।",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.23--1": {
-    "messageformat": "কিছু বাগ সংশোধন ছাড়াও, এই রিলিজে ডেভেলপার ডকুমেন্টেশন আপডেট (ধন্যবাদ, {d108}!) এবং ম্যাসেজ ফরওয়ার্ডিং ইন্টারফেসে কিছু উন্নত ডিজাইন (ধন্যবাদ, {hackerbirds}!) অন্তর্ভুক্ত করা হয়েছে।",
-    "description": "Release notes for v6.23"
+  "icu:WhatsNew__v6.26--1": {
+    "messageformat": "Three cheers for triple-click text selection improvements. Thanks, {linkToGithub}!"
   }
 }

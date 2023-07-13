@@ -1283,7 +1283,35 @@
   },
   "icu:deleteConversationConfirmation": {
     "messageformat": "Véglegesen törlöd ezt a csevegést?",
-    "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+    "description": "(deleted 06/27/2023) Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
+    "messageformat": "Csevegés törlése?",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
+    "messageformat": "A csevegés ezen az eszközön törlésre kerül.",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
+    "messageformat": "Kilépés a csoportból",
+    "description": "This is a button to leave a group"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__title": {
+    "messageformat": "Tényleg ki akarsz lépni?",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__description": {
+    "messageformat": "Többé nem fogsz tudni üzeneteket vagy hívásokat küldeni és fogadni ebben a csoportban.",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__confirmButton": {
+    "messageformat": "Kilépés",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Confirm Button"
+  },
+  "icu:ConversationHeader__CannotLeaveGroupBecauseYouAreLastAdminAlert__description": {
+    "messageformat": "Kilépés előtt ki kell jelölnöd legalább egy új admint.",
+    "description": "Conversation Header > Leave Group Action > Cannot Leave Group Because You Are Last Admin Alert > Description"
   },
   "icu:sessionEnded": {
     "messageformat": "A biztonságos munkamenet újra lett indítva",
@@ -6487,24 +6515,13 @@
     "messageformat": "Apró finomítások, hibajavítások és teljesítménynövelések. Köszönjük, hogy a Signalt használod!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "Nézd meg magad jobban, amikor valaki hív téged. Az egyéni videohívásoknál mostantól ugyanaz a teljes képernyős nézet érhető el, amely korábban csak az új csoportos hívások elején jelent meg. Ami a következetességet illeti, megpróbálunk kitartóak (nem pedig ellenállók) lenni, és ez az eltérés már nem létezik, mivel már nincs különbség a kettő között.",
-    "description": "Release notes for v6.21"
+  "icu:WhatsNew__v6.25--0": {
+    "messageformat": "A Signal-ablak áthelyezéséhez mostantól egyszerűen csak kattints rá és húzd a beszélgetés fejlécét."
   },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "Ezúton is szeretnénk kifejezni köszönetünket {complexspaces} felé a kiadáson végzett munkája során nyújtott segítségért és visszajelzésért.",
-    "description": "Release notes for v6.21"
+  "icu:WhatsNew__v6.26--0": {
+    "messageformat": "Diacritics (such as accent marks) are now supported in @ mentions, so you can remind Aristotélēs to answer your philosophy question in the \"Ancient Greek Time Travellers\" group chat."
   },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "Az üzenetek szövegének formázásához válaszd ki a szöveget az üzenetírás mezőben.\n\nMostantól formázhatod az üzenet szövegét, ha kijelölöd az üzenetírás mezőben. Félkövér, dőlt, áthúzott és egyéb szövegeffektusokat adhatsz hozzá.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "Támogatást adtunk a legújabb hangulatjel-karakterekhez, így most már kifejezheted izgatottságod a „reszkető arc” (<emojify>🫨</emojify>) hangulatjellel, vagy reagálhatsz egy „borsóval meg a héjával” (<emojify>🫛</emojify>), amikor valaki megkérdezi, mennyire állsz közel a barátaidhoz.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.23--1": {
-    "messageformat": "Néhány hibajavításon kívül ez a kiadás a fejlesztői dokumentáció frissítéseit (köszönjük, {d108}!) és az üzenettovábbítási felület néhány tervezési fejlesztését is tartalmazza (köszönjük, {hackerbirds}!).",
-    "description": "Release notes for v6.23"
+  "icu:WhatsNew__v6.26--1": {
+    "messageformat": "Three cheers for triple-click text selection improvements. Thanks, {linkToGithub}!"
   }
 }

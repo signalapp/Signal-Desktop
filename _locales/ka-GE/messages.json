@@ -373,7 +373,7 @@
     "description": "Shown in menu for conversation, and pins the conversation to the top of the conversation list"
   },
   "icu:unpinConversation": {
-    "messageformat": "ჩატზე პინის მოხსნა",
+    "messageformat": "ჩატისთვის პინის მოხსნა",
     "description": "Undoes Archive Conversation action, and unpins the conversation from the top of the conversation list"
   },
   "icu:pinnedConversationsFull": {
@@ -1283,7 +1283,35 @@
   },
   "icu:deleteConversationConfirmation": {
     "messageformat": "სამუდამოდ წავშალოთ ეს ჩატი?",
-    "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+    "description": "(deleted 06/27/2023) Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
+    "messageformat": "წავშალოთ ჩატი?",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
+    "messageformat": "ეს ჩატი ამ მოწყობილობიდან წაიშლება.",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
+    "messageformat": "ჯგუფის დატოვება",
+    "description": "This is a button to leave a group"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__title": {
+    "messageformat": "ნამდვილად გინდა ჯგუფის დატოვება?",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__description": {
+    "messageformat": "ამ ჯგუფში შეტყობინებების გაგზავნასა და მიღებას ვეღარ შეძლებ.",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__confirmButton": {
+    "messageformat": "დატოვება",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Confirm Button"
+  },
+  "icu:ConversationHeader__CannotLeaveGroupBecauseYouAreLastAdminAlert__description": {
+    "messageformat": "სანამ ჯგუფს დატოვებ, ამ ჯგუფს ერთი ახალი ადმინი მაინც უნდა შეურჩიო.",
+    "description": "Conversation Header > Leave Group Action > Cannot Leave Group Because You Are Last Admin Alert > Description"
   },
   "icu:sessionEnded": {
     "messageformat": "Secure session reset",
@@ -6487,24 +6515,13 @@
     "messageformat": "მცირე შესწორებები, ბაგების გამოსწორება და წარმადობის გაუმჯობესება. მადლობას გიხდით სიგნალის გამოყენებისთვის!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "უკეთ დაინახე საკუთარი თავი, სანამ 1-1-ზე ზარი ირეკება. ინდივიდუალური ვიდეოზარები ახლა იმავე სრულეკრანიან ხედით მიმდინარეობს, რომელიც ადრე მხოლოდ ახალი ჯგუფური ზარის დასაწყისში ჩანდა. როცა თანმიმდევრულობას ეხება საქმე, ვცდილობთ, დაჟინებულები ვიყოთ (არა მტკიცეები), ამიტომაც შეუსაბამობა აღარ არსებობს, და შესაბამისად მიდგომები აღარ განსხვავდება.",
-    "description": "Release notes for v6.21"
+  "icu:WhatsNew__v6.25--0": {
+    "messageformat": "ახლა, Signal-ის ფანჯრის გადაადგილება უკვე მიმოწერის სათაურზე დააწკაპუნებით შეგიძლია."
   },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "ასევე გვსურს მადლობა გადავუხადოთ {complexspaces} ამ გამოშვებაზე მუშაობისას დახმარებისა და უკუკავშირისთვის.",
-    "description": "Release notes for v6.21"
+  "icu:WhatsNew__v6.26--0": {
+    "messageformat": "Diacritics (such as accent marks) are now supported in @ mentions, so you can remind Aristotélēs to answer your philosophy question in the \"Ancient Greek Time Travellers\" group chat."
   },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "დააფორმატირე შენი შეტყობინებები ტექსტის ასაკრეფ ველში ნებისმიერი ტექსტის არჩევით. გაამუქე, დახარე, გადახაზე და გამოიყენე სხვა ტექსტური ეფექტები.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "დავამატეთ უახლესი emoji სიმბოლოების მხარდაჭერა, ასე რომ, ახლა შეგიძლია, აღფრთოვანება „მოკანკალე სახით&quot; (<emojify>🫨</emojify>) ან „ლობიოს ტოტით“ (<emojify>🫛</emojify>) გამოხატო, როდესაც ვინმე გკითხავს, რამდენად ახლოს ხარ მეგობრებთან.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.23--1": {
-    "messageformat": "გარდა შეცდომების გამოსწორების მცირე ასორტიმენტისა, ასევე, ეს გამოშვება დეველოპერის დოკუმენტაციის განახლებებსა (მადლობა, {d108}-ს!) და შეტყობინებების გადამისამართების ინტერფეისის დიზაინის გაუმჯობესებას (მადლობა, {hackerbirds}-ს!) შეიცავს.",
-    "description": "Release notes for v6.23"
+  "icu:WhatsNew__v6.26--1": {
+    "messageformat": "Three cheers for triple-click text selection improvements. Thanks, {linkToGithub}!"
   }
 }

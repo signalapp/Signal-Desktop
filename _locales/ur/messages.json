@@ -1283,7 +1283,35 @@
   },
   "icu:deleteConversationConfirmation": {
     "messageformat": "اس چیٹ کو مستقل طور پر حذف کرنا ہے؟",
-    "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+    "description": "(deleted 06/27/2023) Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
+    "messageformat": "چیٹ کو حذف کریں؟",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
+    "messageformat": "یہ چیٹ اس ڈیوائس سے حذف کر دی جائے گی۔",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
+    "messageformat": "گروپ چھوڑ دیں",
+    "description": "This is a button to leave a group"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__title": {
+    "messageformat": "کیا آپ واقعی چھوڑنا چاہتے ہیں؟",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__description": {
+    "messageformat": "آپ اس گروپ میں میسجز بھیجنے یا وصول کرنے کے مزید اہل نہیں ہوں گے۔",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__confirmButton": {
+    "messageformat": "چھوڑ دیں",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Confirm Button"
+  },
+  "icu:ConversationHeader__CannotLeaveGroupBecauseYouAreLastAdminAlert__description": {
+    "messageformat": "چھوڑنے سے قبل، آپ کو اس گروپ کے لیے کم از کم ایک نیا ایڈمن منتخب کرنا ہو گا۔",
+    "description": "Conversation Header > Leave Group Action > Cannot Leave Group Because You Are Last Admin Alert > Description"
   },
   "icu:sessionEnded": {
     "messageformat": "محفوظ سیشن ری سیٹ کریں",
@@ -6487,24 +6515,13 @@
     "messageformat": "معمولی تبدیلیاں کی گئیں، بگ ٹھیک کیے گئے، اور کارکردگی اور بھی بہتر بنائی گئی ہے۔ Signal استعمال کرنے کے لیے شکریہ!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "بالمشافہ کال بجنے کے دورن اپنی ظاہری شکل کو زیادہ بہتر بنائیں۔ وہی مکمل اسکرین ویو جو پہلے صرف ایک نئی گروپ کال کے آغاز پر ظاہر ہوتا تھا اب انفرادی ویڈیو کالز کے لیے استعمال کیا جاتا ہے۔ جب بات مستقل مزاجی کی ہوتی ہے، تو ہم (مزاحمت کے بجائے) ثابت قدم رہنے کی کوشش کرتے ہیں اور تضاد اب موجود نہیں ہے کیونکہ یہ چیزیں اب مزید مختلف نہیں رہیں۔",
-    "description": "Release notes for v6.21"
+  "icu:WhatsNew__v6.25--0": {
+    "messageformat": "چونکہ اب کالنگ اور بات چیت کے ہیڈرز گھسیٹنے کے قابل ہیں، اس لیے اپنی Signal ونڈو کی جگہ تبدیل کرنا اب پہلے سے زیادہ پُرلطف ہو گا۔"
   },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "نیز، ہم اس ریلیز پر کام کرنے کے دوران {complexspaces} کی مدد اور فیڈبیک کے لیے ان کا شکریہ ادا کرنا چاہیں گے۔",
-    "description": "Release notes for v6.21"
+  "icu:WhatsNew__v6.26--0": {
+    "messageformat": "Diacritics (such as accent marks) are now supported in @ mentions, so you can remind Aristotélēs to answer your philosophy question in the \"Ancient Greek Time Travellers\" group chat."
   },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "اپنے میسجز کے متن کو فارمیٹ کرنے کے لیے میسج کمپوزیشن فیلڈ میں موجود کسی بھی متن کو منتخب کریں۔\n\nایک حقیقتاً دلیرانہ بات کو ایک جرات مندانہ انداز میں بیان کریں، ایم نائٹ شامالان کو ایک اسپائلر ایفیکٹ کے ساتھ ذومعنی اختتام کا حامل جواب بھیجیں، \"ایلیکس\" نام کو اٹیلکس میں لکھ کر اس کی جانب توجہ مبذول کروائیں، اس بات کی نشاندہی کرنے کے لیے اسٹرائیک تھرو استعمال کر کے اس کے نیچے لائن کھینچیں کہ ڈنر کا آئیڈیا مسترد کر دیا گیا ہے، یا کوڈ کو مونو اسپیس میں شیئر کریں۔",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "ہم نے تازہ ترین ایموجی کرداروں کے لیے سپورٹ کو شامل کیا ہے، لہٰذا اب آپ &quot;شیکنگ فیس&quot; (<emojify>🫨</emojify>) کے ساتھ اپنے جوش و خروش کا اظہار کر سکتے ہیں یا جب کوئی آپ سے پوچھے کہ آپ اپنے دوستوں کے کتنے قریب ہیں تو آپ &quot;پی پوڈ&quot; (<emojify>🫛</emojify>) کے ساتھ ری ایکٹ کر سکتے ہیں۔",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.23--1": {
-    "messageformat": "نقص کی درستگیوں کی معمولی ترتیب کے علاوہ، اس ریلیز میں ڈویلپر ڈاکومینٹینشن اپ ڈیٹس (شکریہ، {d108}!) اور میسج فارورڈنگ انٹرفیس میں ڈیزائن کی کچھ بہتریاں (شکریہ، {hackerbirds}!) بھی شامل ہیں۔",
-    "description": "Release notes for v6.23"
+  "icu:WhatsNew__v6.26--1": {
+    "messageformat": "Three cheers for triple-click text selection improvements. Thanks, {linkToGithub}!"
   }
 }

@@ -1283,7 +1283,35 @@
   },
   "icu:deleteConversationConfirmation": {
     "messageformat": "Ištrinti šį pokalbį visam laikui?",
-    "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+    "description": "(deleted 06/27/2023) Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
+    "messageformat": "Ištrinti pokalbį?",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
+    "messageformat": "Šis pokalbis bus ištrintas iš šio įrenginio.",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
+    "messageformat": "Išeiti iš grupės",
+    "description": "This is a button to leave a group"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__title": {
+    "messageformat": "Ar tikrai nori išeiti?",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__description": {
+    "messageformat": "Nebegalėsi nei siųsti, nei gauti žinučių šioje grupėje.",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__confirmButton": {
+    "messageformat": "Išeiti",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Confirm Button"
+  },
+  "icu:ConversationHeader__CannotLeaveGroupBecauseYouAreLastAdminAlert__description": {
+    "messageformat": "Prieš išeinant tau reikia parinkti šiai grupei bent vieną naują administratorių.",
+    "description": "Conversation Header > Leave Group Action > Cannot Leave Group Because You Are Last Admin Alert > Description"
   },
   "icu:sessionEnded": {
     "messageformat": "Saugusis seansas atstatytas",
@@ -6487,24 +6515,13 @@
     "messageformat": "Smulkūs patobulinimai, klaidų pataisymai ir veikimo pagerinimas. Ačiū, kad naudoji „Signal“!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "Nuo šiol dar geriau matysi save skambučio metu, kol jungiame su pašnekovu. Asmeniniai vaizdo skambučiai dabar turi tokį patį viso ekrano vaizdą, koks anksčiau atsirasdavo tik pradedant naują grupės skambutį. Mes siekiame nuoseklumo, tad neprarandame atkaklumo. Šis trūkumas nepatiko, todėl jo ir nebeliko.",
-    "description": "Release notes for v6.21"
+  "icu:WhatsNew__v6.25--0": {
+    "messageformat": "Dabar galima perkelti „Signal“ langą į kitą vietą spustelint ir tempiant pokalbio antraštę."
   },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "Taip pat norime išreikšti dėkingumą tau, {complexspaces}, už pagalbą ir atsiliepimus dirbant ties šiuo leidimu.",
-    "description": "Release notes for v6.21"
+  "icu:WhatsNew__v6.26--0": {
+    "messageformat": "Diacritics (such as accent marks) are now supported in @ mentions, so you can remind Aristotélēs to answer your philosophy question in the \"Ancient Greek Time Travellers\" group chat."
   },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "Dabar galima formatuoti savo žinučių tekstus pasirinkus bet kurią teksto dalį žinutės kūrimo laukelyje.\n\nParyškink, kas tau iš tikrųjų svarbu. Išsaugok intrigą su spoilerio efektu. Išskirk jo ar jos vardą gražiu kursyvu. Perbrauk, jei atmetė tavo kvietimą pietų. Arba pasirink lygiaplotį, jei nori dalintis kodu.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "Pridėjome naujausių jaustukų simbolių palaikymą, tad dabar gali išreikšti savo emocijas veiduku(<emojify>🫨</emojify>) arba žirniuku (<emojify>🫛</emojify>) (pvz., jei kas nors tavęs klaustų, ar palaikai artimą ryšį su savo draugais).",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.23--1": {
-    "messageformat": "Be vieno kito klaidų pataisymo, šioje laidoje taip pat atnaujinta kūrėjo dokumentacija (ačiū, {d108}!) ir šiek tiek patobulintas žinučių persiuntimo sąsajos dizainas (ačiū, {hackerbirds}!).",
-    "description": "Release notes for v6.23"
+  "icu:WhatsNew__v6.26--1": {
+    "messageformat": "Three cheers for triple-click text selection improvements. Thanks, {linkToGithub}!"
   }
 }

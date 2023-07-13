@@ -1283,7 +1283,35 @@
   },
   "icu:deleteConversationConfirmation": {
     "messageformat": "Želite trajno izbrisati ta klepet?",
-    "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+    "description": "(deleted 06/27/2023) Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
+    "messageformat": "Želite izbrisati klepet?",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
+    "messageformat": "Ta klepet bo izbrisan s te naprave.",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
+    "messageformat": "Zapusti skupino",
+    "description": "This is a button to leave a group"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__title": {
+    "messageformat": "Zares želite zapustiti skupino?",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__description": {
+    "messageformat": "Po tem ne boste več mogli pošiljati ali prejemati sporočil v tej skupini.",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__confirmButton": {
+    "messageformat": "Zapusti",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Confirm Button"
+  },
+  "icu:ConversationHeader__CannotLeaveGroupBecauseYouAreLastAdminAlert__description": {
+    "messageformat": "Pred odhodom iz skupine morate določiti vsaj eno_ega skrbnika_co skupine.",
+    "description": "Conversation Header > Leave Group Action > Cannot Leave Group Because You Are Last Admin Alert > Description"
   },
   "icu:sessionEnded": {
     "messageformat": "Varna ponastavitev seje",
@@ -6487,24 +6515,13 @@
     "messageformat": "Majhne prilagoditve, popravki napak in izboljšave zmogljivosti. Hvala, da uporabljate Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "Bolje si oglej svoj obraz, medtem ko zvoni klic 1 na 1. Individualni video klici zdaj uporabljajo isti celozaslonski pogled, ki se je prej prikazal le na začetku novega skupinskega klica. Ko gre za doslednost, poskušamo biti vztrajni (ne odklonilni), in zdaj odstopanj ni več, ker te stvari niso več drugačne.",
-    "description": "Release notes for v6.21"
+  "icu:WhatsNew__v6.25--0": {
+    "messageformat": "Zdaj, ko je mogoče glave klicanja in pogovora povleči, spreminjanje položaja vašega okna Signal ne bo tako težko."
   },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "Zahvaljujemo se tudi uporabniku_ci {complexspaces} za njegovo_no pomoč in povratne informacije pri delu na tej izdaji.",
-    "description": "Release notes for v6.21"
+  "icu:WhatsNew__v6.26--0": {
+    "messageformat": "Diacritics (such as accent marks) are now supported in @ mentions, so you can remind Aristotélēs to answer your philosophy question in the \"Ancient Greek Time Travellers\" group chat."
   },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "Oblikujte besedilo v svojih sporočilih tako, da izberete poljubno besedilo v polju za sestavo sporočila.\n\nDrzno izjavo naredite krepko, pošljite preobrat v vaši zgodbi kot skrito besedilo, poudarite ime tako, da ga napišete ležeče, prečrtajte zavrnjeno idejo za večerjo ali delite kodo v monospace tipografiji.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "Dodali smo podporo za najnovejše znake emoji, tako da lahko zdaj izrazite svoje navdušenje s »tresočim obrazom« (<emojify>🫨</emojify>) ali reagirate s &quot;strokom graha&quot; (<emojify>🫛</emojify>), ko vas nekdo vpraša, kako blizu ste si s prijatelji.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.23--1": {
-    "messageformat": "Poleg majhnega nabora popravkov napak ta izdaja vključuje tudi posodobitve dokumentacije za razvijalce (hvala, {d108}!) in nekatere izboljšave oblikovanja vmesnika za posredovanje sporočil (hvala, {hackerbirds}!).",
-    "description": "Release notes for v6.23"
+  "icu:WhatsNew__v6.26--1": {
+    "messageformat": "Three cheers for triple-click text selection improvements. Thanks, {linkToGithub}!"
   }
 }

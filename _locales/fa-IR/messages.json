@@ -1283,7 +1283,35 @@
   },
   "icu:deleteConversationConfirmation": {
     "messageformat": "این گفتگو برای همیشه پاک شود؟",
-    "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+    "description": "(deleted 06/27/2023) Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
+    "messageformat": "گفتگو پاک شود؟",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
+    "messageformat": "این گفتگو از این دستگاه پاک خواهد شد.",
+    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
+    "messageformat": "ترک گروه",
+    "description": "This is a button to leave a group"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__title": {
+    "messageformat": "آیا واقعا قصد ترک کردن گروه را دارید؟",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__description": {
+    "messageformat": "شما دیگر قادر به ارسال یا دریافت پیام از این گروه نخواهید بود.",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__LeaveGroupConfirmation__confirmButton": {
+    "messageformat": "ترک گروه",
+    "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Confirm Button"
+  },
+  "icu:ConversationHeader__CannotLeaveGroupBecauseYouAreLastAdminAlert__description": {
+    "messageformat": "قبل از ترک کردن، باید حداقل یک مدیر جدید برای این گروه انتخاب کنید.",
+    "description": "Conversation Header > Leave Group Action > Cannot Leave Group Because You Are Last Admin Alert > Description"
   },
   "icu:sessionEnded": {
     "messageformat": "جلسه‌ی امن از نو ایجاد شد",
@@ -6487,24 +6515,13 @@
     "messageformat": "تغییرات کوچک، رفع اشکالات و بهبود عملکرد. بابت استفاده از سیگنال سپاسگزاریم!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.21--0": {
-    "messageformat": "در تماس‌های فرد به فرد، تصویر بهتری از خودتان داشته باشید. حالا دیگر تماس‌های تصویری انفرادی همان نمای تمام‌صفحه‌ای را دارند که پیش از این فقط در ابتدای تماس‌های گروهی جدید ظاهر می‌شد. وقتی حرف از یکدست بودن در میان باشد، ما همواره برای بهبود تلاش می‌کنیم (و مقاومتی در برابر تغییر نداریم)؛ حالا دیگر تفاوتی بین دو نوع تماس وجود ندارد، چون هر دو را یکدست کرده‌ایم.",
-    "description": "Release notes for v6.21"
+  "icu:WhatsNew__v6.25--0": {
+    "messageformat": "حالا که سربرگ‌های مکالمه و تماس قابل کشیدن هستند، جابه‌جا کردن پنجره سیگنال طولی نخواهد کشید."
   },
-  "icu:WhatsNew__v6.21--1": {
-    "messageformat": "همچنین از {complexspaces} بابت کمک و بازخوردشان در حین کار کردن روی این نسخه جدید سپاس‌گزاریم.",
-    "description": "Release notes for v6.21"
+  "icu:WhatsNew__v6.26--0": {
+    "messageformat": "Diacritics (such as accent marks) are now supported in @ mentions, so you can remind Aristotélēs to answer your philosophy question in the \"Ancient Greek Time Travellers\" group chat."
   },
-  "icu:WhatsNew__v6.22--0": {
-    "messageformat": "با انتخاب هر متنی در فیلد نگارش پیام، متن پیام‌هایتان را قالب‌بندی کنید.\n\nپیام جسورانه و برجسته‌ای بنویسید که واقعاً برجسته باشد، پایان‌بندی پیچیده فیلم را در لایه‌ای درخشان برای «ام. نایت شامالان» بفرستید، با نوشتن اسم «ایتالیا» با فرمت ایتالیک روی آن تأکید کنید، روی دعوت شامی که رد کرده‌اید یک خط بکشید یا کد را با قلم تک‌فاصله به اشتراک بگذارید.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.22--1": {
-    "messageformat": "سیگنال اکنون از جدیدترین نویسه‌های ایموجی هم پشتیبانی می‌کند، تا بتوانید اشتیاق خود را با «صورتک لرزان» (<emojify>🫨</emojify>) ابراز کنید یا وقتی کسی از شما می‌پرسد تا چه اندازه با دوستانتان صمیمی هستید، با «دو نخود در یک غلاف» (<emojify>🫛</emojify>) واکنش نشان دهید.",
-    "description": "Release notes for v6.22"
-  },
-  "icu:WhatsNew__v6.23--1": {
-    "messageformat": "علاوه بر رفع چند اشکال، این نسخه به‌روزرسانی‌های اسناد توسعه‌دهنده (با تشکر از {d108}!) و چند بهبود در طراحی درگاه بازارسال پیام نیز دارد (با تشکر از {hackerbirds}!).",
-    "description": "Release notes for v6.23"
+  "icu:WhatsNew__v6.26--1": {
+    "messageformat": "Three cheers for triple-click text selection improvements. Thanks, {linkToGithub}!"
   }
 }
