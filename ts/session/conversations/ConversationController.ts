@@ -187,7 +187,7 @@ export class ConversationController {
         'getConversationController().deleteBlindedContact() needs complete initial fetch'
       );
     }
-    if (!PubKey.hasBlindedPrefix(blindedId)) {
+    if (!PubKey.isBlinded(blindedId)) {
       throw new Error('deleteBlindedContact allow accepts blinded id');
     }
     window.log.info(`deleteBlindedContact with ${blindedId}`);

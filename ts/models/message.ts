@@ -1279,7 +1279,7 @@ export function findAndFormatContact(pubkey: string): FindAndFormatContactType {
 
   if (
     pubkey === UserUtils.getOurPubKeyStrFromCache() ||
-    (pubkey && pubkey.startsWith('15') && isUsAnySogsFromCache(pubkey))
+    (pubkey && PubKey.isBlinded(pubkey) && isUsAnySogsFromCache(pubkey))
   ) {
     profileName = window.i18n('you');
     isMe = true;
