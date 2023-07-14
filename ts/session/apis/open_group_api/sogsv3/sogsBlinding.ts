@@ -63,7 +63,8 @@ async function getOpenGroupHeaders(data: {
     const blindingValues = getBlindingValues(serverPK, signingKeys, sodium);
     ka = blindingValues.secretKey;
     kA = blindingValues.publicKey;
-    pubkey = `${KeyPrefixType.blinded}${toHex(kA)}`;
+    // TODO we will need to add the support of blinded25 here
+    pubkey = `${KeyPrefixType.blinded15}${toHex(kA)}`;
   } else {
     pubkey = `${KeyPrefixType.unblinded}${toHex(signingKeys.pubKeyBytes)}`;
   }
@@ -151,7 +152,8 @@ const getBlindedPubKey = (
   sodium: LibSodiumWrappers
 ): string => {
   const blindedPubKeyBytes = getBlindingValues(serverPK, signingKeys, sodium);
-  return `${KeyPrefixType.blinded}${to_hex(blindedPubKeyBytes.publicKey)}`;
+  // TODO we will need to add the support of blinded25 here
+  return `${KeyPrefixType.blinded15}${to_hex(blindedPubKeyBytes.publicKey)}`;
 };
 
 const getBlindingValues = (
