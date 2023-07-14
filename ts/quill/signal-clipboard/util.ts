@@ -56,7 +56,11 @@ export function createEventHandler({
   };
 }
 
-function getStringFromNode(node: Node): string {
+function getStringFromNode(
+  node: Node,
+  parent?: Node,
+  nextSibling?: Node
+): string {
   if (node.nodeType === Node.TEXT_NODE) {
     if (node.textContent === QUILL_EMBED_GUARD) {
       return '';
@@ -75,20 +79,26 @@ function getStringFromNode(node: Node): string {
   ) {
     return element.ariaLabel || '';
   }
-  if (element.nodeName === 'BR') {
+  if (nextSibling && element.nodeName === 'BR') {
     return '\n';
   }
-  if (element.childNodes.length === 0) {
+  const childCount = element.childNodes.length;
+  if (childCount === 0) {
     return element.textContent || '';
   }
   let result = '';
-  for (const child of element.childNodes) {
-    result += getStringFromNode(child);
+  for (let i = 0; i < childCount; i += 1) {
+    const child = element.childNodes[i];
+    const nextChild = element.childNodes[i + 1];
+    result += getStringFromNode(child, node, nextChild);
   }
+
   if (
-    element.nodeName === 'P' ||
-    element.nodeName === 'DIV' ||
-    element.nodeName === 'TIME'
+    parent &&
+    parent.childNodes.length > 1 &&
+    (element.nodeName === 'P' ||
+      element.nodeName === 'DIV' ||
+      element.nodeName === 'TIME')
   ) {
     if (result.length > 0 && !result.endsWith('\n\n')) {
       result += '\n';
