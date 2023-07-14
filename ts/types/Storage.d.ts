@@ -82,7 +82,12 @@ export type StorageAccessType = {
   lastHeartbeat: number;
   lastStartup: number;
   lastAttemptedToRefreshProfilesAt: number;
+  lastResortKeyUpdateTime: number;
+  lastResortKeyUpdateTimePNI: number;
   maxPreKeyId: number;
+  maxPreKeyIdPNI: number;
+  maxKyberPreKeyId: number;
+  maxKyberPreKeyIdPNI: number;
   number_id: string;
   password: string;
   profileKey: Uint8Array;
@@ -94,7 +99,9 @@ export type StorageAccessType = {
   showStickerPickerHint: boolean;
   showStickersIntroduction: boolean;
   signedKeyId: number;
-  signedKeyRotationRejected: number;
+  signedKeyIdPNI: number;
+  signedKeyUpdateTime: number;
+  signedKeyUpdateTimePNI: number;
   storageKey: string;
   synced_at: number;
   userAgent: string;
@@ -145,7 +152,7 @@ export type StorageAccessType = {
   paymentAddress: string;
   zoomFactor: ZoomFactorType;
   preferredLeftPaneWidth: number;
-  nextSignedKeyRotationTime: number;
+  nextScheduledUpdateKeyTime: number;
   areWeASubscriber: boolean;
   subscriberId: Uint8Array;
   subscriberCurrencyCode: string;
@@ -153,9 +160,11 @@ export type StorageAccessType = {
   keepMutedChatsArchived: boolean;
 
   // Deprecated
+  'challenge:retry-message-ids': never;
+  nextSignedKeyRotationTime: number;
   senderCertificateWithUuid: never;
   signaling_key: never;
-  'challenge:retry-message-ids': never;
+  signedKeyRotationRejected: number;
 };
 /* eslint-enable camelcase */
 

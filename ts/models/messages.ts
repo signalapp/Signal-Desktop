@@ -1406,7 +1406,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       e.name === 'OutgoingMessageError' ||
       e.name === 'SendMessageNetworkError' ||
       e.name === 'SendMessageChallengeError' ||
-      e.name === 'SignedPreKeyRotationError' ||
       e.name === 'OutgoingIdentityKeyError'
     );
   }
@@ -1472,7 +1471,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           e.name === 'OutgoingMessageError' ||
           e.name === 'SendMessageNetworkError' ||
           e.name === 'SendMessageChallengeError' ||
-          e.name === 'SignedPreKeyRotationError' ||
           e.name === 'OutgoingIdentityKeyError')
     );
     this.set({ errors: errors[1] });
@@ -1591,7 +1589,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     //   screen will show that we didn't send to these unregistered users.
     const errorsToSave: Array<CustomError> = [];
 
-    let hadSignedPreKeyRotationError = false;
     errors.forEach(error => {
       const conversation =
         window.ConversationController.get(error.identifier) ||
@@ -1616,9 +1613,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
       let shouldSaveError = true;
       switch (error.name) {
-        case 'SignedPreKeyRotationError':
-          hadSignedPreKeyRotationError = true;
-          break;
         case 'OutgoingIdentityKeyError': {
           if (conversation) {
             promises.push(conversation.getProfiles());
@@ -1647,12 +1641,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         errorsToSave.push(error);
       }
     });
-
-    if (hadSignedPreKeyRotationError) {
-      promises.push(
-        window.getAccountManager().rotateSignedPreKey(UUIDKind.ACI)
-      );
-    }
 
     attributesToUpdate.sendStateByConversationId = sendStateByConversationId;
     // Only update the expirationStartTimestamp if we don't already have one set

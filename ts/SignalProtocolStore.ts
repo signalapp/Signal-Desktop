@@ -9,6 +9,7 @@ import { EventEmitter } from 'events';
 import {
   Direction,
   IdentityKeyPair,
+  KyberPreKeyRecord,
   PreKeyRecord,
   PrivateKey,
   PublicKey,
@@ -32,6 +33,7 @@ import type {
   IdentityKeyType,
   IdentityKeyIdType,
   KeyPairType,
+  KyberPreKeyType,
   OuterSignedPrekeyType,
   PniKeyMaterialType,
   PniSignatureMessageType,
@@ -46,6 +48,7 @@ import type {
   SignedPreKeyType,
   UnprocessedType,
   UnprocessedUpdateType,
+  CompatPreKeyType,
 } from './textsecure/Types.d';
 import type { RemoveAllConfiguration } from './types/RemoveAllConfiguration';
 import type { UUIDStringType } from './types/UUID';
@@ -57,8 +60,13 @@ import * as log from './logging/log';
 import * as Errors from './types/errors';
 import { MINUTE } from './util/durations';
 import { conversationJobQueue } from './jobs/conversationJobQueue';
+import {
+  KYBER_KEY_ID_KEY,
+  SIGNED_PRE_KEY_ID_KEY,
+} from './textsecure/AccountManager';
 
 const TIMESTAMP_THRESHOLD = 5 * 1000; // 5 seconds
+const LOW_KEYS_THRESHOLD = 25;
 
 const VerifiedStatus = {
   DEFAULT: 0,
@@ -103,6 +111,7 @@ type CacheEntryType<DBType, HydratedType> =
   | { hydrated: true; fromDB: DBType; item: HydratedType };
 
 type MapFields =
+  | 'kyberPreKeys'
   | 'identityKeys'
   | 'preKeys'
   | 'senderKeys'
@@ -226,6 +235,11 @@ export class SignalProtocolStore extends EventEmitter {
     CacheEntryType<IdentityKeyType, PublicKey>
   >;
 
+  kyberPreKeys?: Map<
+    PreKeyIdType,
+    CacheEntryType<KyberPreKeyType, KyberPreKeyRecord>
+  >;
+
   senderKeys?: Map<SenderKeyIdType, SenderKeyCacheEntry>;
 
   sessions?: Map<SessionIdType, SessionCacheEntry>;
@@ -290,6 +304,11 @@ export class SignalProtocolStore extends EventEmitter {
         'identityKeys',
         window.Signal.Data.getAllIdentityKeys()
       ),
+      _fillCaches<string, KyberPreKeyType, KyberPreKeyRecord>(
+        this,
+        'kyberPreKeys',
+        window.Signal.Data.getAllKyberPreKeys()
+      ),
       _fillCaches<string, SessionType, SessionRecord>(
         this,
         'sessions',
@@ -321,6 +340,190 @@ export class SignalProtocolStore extends EventEmitter {
     return this.ourRegistrationIds.get(ourUuid.toString());
   }
 
+  private _getKeyId(ourUuid: UUID, keyId: number): PreKeyIdType {
+    return `${ourUuid.toString()}:${keyId}`;
+  }
+
+  // KyberPreKeys
+
+  private _getKyberPreKeyEntry(
+    id: PreKeyIdType,
+    logContext: string
+  ):
+    | { hydrated: true; fromDB: KyberPreKeyType; item: KyberPreKeyRecord }
+    | undefined {
+    if (!this.kyberPreKeys) {
+      throw new Error(`${logContext}: this.kyberPreKeys not yet cached!`);
+    }
+
+    const entry = this.kyberPreKeys.get(id);
+    if (!entry) {
+      log.error(`${logContext}: Failed to fetch kyber prekey: ${id}`);
+      return undefined;
+    }
+
+    if (entry.hydrated) {
+      log.info(
+        `${logContext}: Successfully fetched kyber prekey (cache hit): ${id}`
+      );
+      return entry;
+    }
+
+    const item = KyberPreKeyRecord.deserialize(Buffer.from(entry.fromDB.data));
+    const newEntry = {
+      hydrated: true as const,
+      fromDB: entry.fromDB,
+      item,
+    };
+    this.kyberPreKeys.set(id, newEntry);
+
+    log.info(
+      `${logContext}: Successfully fetched kyberPreKey (cache miss): ${id}`
+    );
+    return newEntry;
+  }
+
+  async loadKyberPreKey(
+    ourUuid: UUID,
+    keyId: number
+  ): Promise<KyberPreKeyRecord | undefined> {
+    const id: PreKeyIdType = this._getKeyId(ourUuid, keyId);
+    const entry = this._getKyberPreKeyEntry(id, 'loadKyberPreKey');
+
+    return entry?.item;
+  }
+
+  loadKyberPreKeys(
+    ourUuid: UUID,
+    { isLastResort }: { isLastResort: boolean }
+  ): Array<KyberPreKeyType> {
+    if (!this.kyberPreKeys) {
+      throw new Error('loadKyberPreKeys: this.kyberPreKeys not yet cached!');
+    }
+
+    if (arguments.length > 2) {
+      throw new Error('loadKyberPreKeys takes two arguments');
+    }
+
+    const entries = Array.from(this.kyberPreKeys.values());
+    return entries
+      .map(item => item.fromDB)
+      .filter(
+        item =>
+          item.ourUuid === ourUuid.toString() &&
+          item.isLastResort === isLastResort
+      );
+  }
+
+  async confirmKyberPreKey(ourUuid: UUID, keyId: number): Promise<void> {
+    const kyberPreKeyCache = this.kyberPreKeys;
+    if (!kyberPreKeyCache) {
+      throw new Error('storeKyberPreKey: this.kyberPreKeys not yet cached!');
+    }
+
+    const id: PreKeyIdType = this._getKeyId(ourUuid, keyId);
+    const item = kyberPreKeyCache.get(id);
+    if (!item) {
+      throw new Error(`confirmKyberPreKey: missing kyber prekey ${id}!`);
+    }
+
+    const confirmedItem = {
+      ...item,
+      fromDB: {
+        ...item.fromDB,
+        isConfirmed: true,
+      },
+    };
+
+    await window.Signal.Data.createOrUpdateKyberPreKey(confirmedItem.fromDB);
+    kyberPreKeyCache.set(id, confirmedItem);
+  }
+
+  async storeKyberPreKeys(
+    ourUuid: UUID,
+    keys: Array<Omit<KyberPreKeyType, 'id'>>
+  ): Promise<void> {
+    const kyberPreKeyCache = this.kyberPreKeys;
+    if (!kyberPreKeyCache) {
+      throw new Error('storeKyberPreKey: this.kyberPreKeys not yet cached!');
+    }
+
+    const toSave: Array<KyberPreKeyType> = [];
+
+    keys.forEach(key => {
+      const id: PreKeyIdType = this._getKeyId(ourUuid, key.keyId);
+      if (kyberPreKeyCache.has(id)) {
+        throw new Error(`storeKyberPreKey: kyber prekey ${id} already exists!`);
+      }
+
+      const kyberPreKey = {
+        id,
+
+        createdAt: key.createdAt,
+        data: key.data,
+        isConfirmed: key.isConfirmed,
+        isLastResort: key.isLastResort,
+        keyId: key.keyId,
+        ourUuid: ourUuid.toString(),
+      };
+
+      toSave.push(kyberPreKey);
+    });
+
+    await window.Signal.Data.bulkAddKyberPreKeys(toSave);
+    toSave.forEach(kyberPreKey => {
+      kyberPreKeyCache.set(kyberPreKey.id, {
+        hydrated: false,
+        fromDB: kyberPreKey,
+      });
+    });
+  }
+
+  async maybeRemoveKyberPreKey(ourUuid: UUID, keyId: number): Promise<void> {
+    const id: PreKeyIdType = this._getKeyId(ourUuid, keyId);
+    const entry = this._getKyberPreKeyEntry(id, 'maybeRemoveKyberPreKey');
+
+    if (!entry) {
+      return;
+    }
+    if (entry.fromDB.isLastResort) {
+      log.info(
+        `maybeRemoveKyberPreKey: Not removing kyber prekey ${id}; it's a last resort key`
+      );
+      return;
+    }
+
+    await this.removeKyberPreKeys(ourUuid, [keyId]);
+  }
+
+  async removeKyberPreKeys(
+    ourUuid: UUID,
+    keyIds: Array<number>
+  ): Promise<void> {
+    const kyberPreKeyCache = this.kyberPreKeys;
+    if (!kyberPreKeyCache) {
+      throw new Error('removeKyberPreKeys: this.kyberPreKeys not yet cached!');
+    }
+
+    const ids = keyIds.map(keyId => this._getKeyId(ourUuid, keyId));
+
+    await window.Signal.Data.removeKyberPreKeyById(ids);
+    ids.forEach(id => {
+      kyberPreKeyCache.delete(id);
+    });
+
+    if (kyberPreKeyCache.size < LOW_KEYS_THRESHOLD) {
+      this.emitLowKeys(ourUuid, `removeKyberPreKeys@${kyberPreKeyCache.size}`);
+    }
+  }
+
+  async clearKyberPreKeyStore(): Promise<void> {
+    if (this.kyberPreKeys) {
+      this.kyberPreKeys.clear();
+    }
+    await window.Signal.Data.removeAllKyberPreKeys();
+  }
+
   // PreKeys
 
   async loadPreKey(
@@ -331,8 +534,7 @@ export class SignalProtocolStore extends EventEmitter {
       throw new Error('loadPreKey: this.preKeys not yet cached!');
     }
 
-    const id: PreKeyIdType = `${ourUuid.toString()}:${keyId}`;
-
+    const id: PreKeyIdType = this._getKeyId(ourUuid, keyId);
     const entry = this.preKeys.get(id);
     if (!entry) {
       log.error('Failed to fetch prekey:', id);
@@ -354,53 +556,76 @@ export class SignalProtocolStore extends EventEmitter {
     return item;
   }
 
-  async storePreKey(
-    ourUuid: UUID,
-    keyId: number,
-    keyPair: KeyPairType
-  ): Promise<void> {
+  loadPreKeys(ourUuid: UUID): Array<PreKeyType> {
     if (!this.preKeys) {
+      throw new Error('loadPreKeys: this.preKeys not yet cached!');
+    }
+
+    if (arguments.length > 1) {
+      throw new Error('loadPreKeys takes one argument');
+    }
+
+    const entries = Array.from(this.preKeys.values());
+    return entries
+      .map(item => item.fromDB)
+      .filter(item => item.ourUuid === ourUuid.toString());
+  }
+
+  async storePreKeys(
+    ourUuid: UUID,
+    keys: Array<CompatPreKeyType>
+  ): Promise<void> {
+    const preKeyCache = this.preKeys;
+    if (!preKeyCache) {
       throw new Error('storePreKey: this.preKeys not yet cached!');
     }
 
-    const id: PreKeyIdType = `${ourUuid.toString()}:${keyId}`;
-    if (this.preKeys.has(id)) {
-      throw new Error(`storePreKey: prekey ${id} already exists!`);
-    }
+    const now = Date.now();
+    const toSave: Array<PreKeyType> = [];
+    keys.forEach(key => {
+      const id: PreKeyIdType = this._getKeyId(ourUuid, key.keyId);
 
-    const fromDB = {
-      id,
-      keyId,
-      ourUuid: ourUuid.toString(),
-      publicKey: keyPair.pubKey,
-      privateKey: keyPair.privKey,
-    };
+      if (preKeyCache.has(id)) {
+        throw new Error(`storePreKeys: prekey ${id} already exists!`);
+      }
 
-    await window.Signal.Data.createOrUpdatePreKey(fromDB);
-    this.preKeys.set(id, {
-      hydrated: false,
-      fromDB,
+      const preKey = {
+        id,
+        keyId: key.keyId,
+        ourUuid: ourUuid.toString(),
+        publicKey: key.keyPair.pubKey,
+        privateKey: key.keyPair.privKey,
+        createdAt: now,
+      };
+
+      toSave.push(preKey);
+    });
+
+    await window.Signal.Data.bulkAddPreKeys(toSave);
+    toSave.forEach(preKey => {
+      preKeyCache.set(preKey.id, {
+        hydrated: false,
+        fromDB: preKey,
+      });
     });
   }
 
-  async removePreKey(ourUuid: UUID, keyId: number): Promise<void> {
-    if (!this.preKeys) {
-      throw new Error('removePreKey: this.preKeys not yet cached!');
+  async removePreKeys(ourUuid: UUID, keyIds: Array<number>): Promise<void> {
+    const preKeyCache = this.preKeys;
+    if (!preKeyCache) {
+      throw new Error('removePreKeys: this.preKeys not yet cached!');
     }
 
-    const id: PreKeyIdType = `${ourUuid.toString()}:${keyId}`;
+    const ids = keyIds.map(keyId => this._getKeyId(ourUuid, keyId));
 
-    try {
-      this.emit('removePreKey', ourUuid);
-    } catch (error) {
-      log.error(
-        'removePreKey error triggering removePreKey:',
-        Errors.toLogFormat(error)
-      );
+    await window.Signal.Data.removePreKeyById(ids);
+    ids.forEach(id => {
+      preKeyCache.delete(id);
+    });
+
+    if (preKeyCache.size < LOW_KEYS_THRESHOLD) {
+      this.emitLowKeys(ourUuid, `removePreKeys@${preKeyCache.size}`);
     }
-
-    this.preKeys.delete(id);
-    await window.Signal.Data.removePreKeyById(id);
   }
 
   async clearPreKeyStore(): Promise<void> {
@@ -443,9 +668,7 @@ export class SignalProtocolStore extends EventEmitter {
     return item;
   }
 
-  async loadSignedPreKeys(
-    ourUuid: UUID
-  ): Promise<Array<OuterSignedPrekeyType>> {
+  loadSignedPreKeys(ourUuid: UUID): Array<OuterSignedPrekeyType> {
     if (!this.signedPreKeys) {
       throw new Error('loadSignedPreKeys: this.signedPreKeys not yet cached!');
     }
@@ -469,8 +692,30 @@ export class SignalProtocolStore extends EventEmitter {
       });
   }
 
-  // Note that this is also called in update scenarios, for confirming that signed prekeys
-  //   have indeed been accepted by the server.
+  async confirmSignedPreKey(ourUuid: UUID, keyId: number): Promise<void> {
+    const signedPreKeyCache = this.signedPreKeys;
+    if (!signedPreKeyCache) {
+      throw new Error('storeKyberPreKey: this.signedPreKeys not yet cached!');
+    }
+
+    const id: PreKeyIdType = this._getKeyId(ourUuid, keyId);
+    const item = signedPreKeyCache.get(id);
+    if (!item) {
+      throw new Error(`confirmSignedPreKey: missing prekey ${id}!`);
+    }
+
+    const confirmedItem = {
+      ...item,
+      fromDB: {
+        ...item.fromDB,
+        confirmed: true,
+      },
+    };
+
+    await window.Signal.Data.createOrUpdateSignedPreKey(confirmedItem.fromDB);
+    signedPreKeyCache.set(id, confirmedItem);
+  }
+
   async storeSignedPreKey(
     ourUuid: UUID,
     keyId: number,
@@ -482,7 +727,7 @@ export class SignalProtocolStore extends EventEmitter {
       throw new Error('storeSignedPreKey: this.signedPreKeys not yet cached!');
     }
 
-    const id: SignedPreKeyIdType = `${ourUuid.toString()}:${keyId}`;
+    const id: SignedPreKeyIdType = this._getKeyId(ourUuid, keyId);
 
     const fromDB = {
       id,
@@ -501,14 +746,21 @@ export class SignalProtocolStore extends EventEmitter {
     });
   }
 
-  async removeSignedPreKey(ourUuid: UUID, keyId: number): Promise<void> {
-    if (!this.signedPreKeys) {
+  async removeSignedPreKeys(
+    ourUuid: UUID,
+    keyIds: Array<number>
+  ): Promise<void> {
+    const signedPreKeyCache = this.signedPreKeys;
+    if (!signedPreKeyCache) {
       throw new Error('removeSignedPreKey: this.signedPreKeys not yet cached!');
     }
 
-    const id: SignedPreKeyIdType = `${ourUuid.toString()}:${keyId}`;
-    this.signedPreKeys.delete(id);
-    await window.Signal.Data.removeSignedPreKeyById(id);
+    const ids = keyIds.map(keyId => this._getKeyId(ourUuid, keyId));
+
+    await window.Signal.Data.removeSignedPreKeyById(ids);
+    ids.forEach(id => {
+      signedPreKeyCache.delete(id);
+    });
   }
 
   async clearSignedPreKeysStore(): Promise<void> {
@@ -2187,6 +2439,13 @@ export class SignalProtocolStore extends EventEmitter {
         }
       }
     }
+    if (this.kyberPreKeys) {
+      for (const key of this.kyberPreKeys.keys()) {
+        if (key.startsWith(preKeyPrefix)) {
+          this.kyberPreKeys.delete(key);
+        }
+      }
+    }
 
     // Update database
     await Promise.all([
@@ -2200,6 +2459,7 @@ export class SignalProtocolStore extends EventEmitter {
       ),
       window.Signal.Data.removePreKeysByUuid(oldPni.toString()),
       window.Signal.Data.removeSignedPreKeysByUuid(oldPni.toString()),
+      window.Signal.Data.removeKyberPreKeysByUuid(oldPni.toString()),
     ]);
   }
 
@@ -2207,11 +2467,13 @@ export class SignalProtocolStore extends EventEmitter {
     pni: UUID,
     {
       identityKeyPair: identityBytes,
+      lastResortKyberPreKey: lastResortKyberPreKeyBytes,
       signedPreKey: signedPreKeyBytes,
       registrationId,
     }: PniKeyMaterialType
   ): Promise<void> {
-    log.info(`SignalProtocolStore.updateOurPniKeyMaterial(${pni})`);
+    const logId = `SignalProtocolStore.updateOurPniKeyMaterial(${pni})`;
+    log.info(`${logId}: starting...`);
 
     const identityKeyPair = IdentityKeyPair.deserialize(
       Buffer.from(identityBytes)
@@ -2219,6 +2481,9 @@ export class SignalProtocolStore extends EventEmitter {
     const signedPreKey = SignedPreKeyRecord.deserialize(
       Buffer.from(signedPreKeyBytes)
     );
+    const lastResortKyberPreKey = lastResortKyberPreKeyBytes
+      ? KyberPreKeyRecord.deserialize(Buffer.from(lastResortKyberPreKeyBytes))
+      : undefined;
 
     const { storage } = window;
 
@@ -2245,6 +2510,11 @@ export class SignalProtocolStore extends EventEmitter {
         ...(storage.get('registrationIdMap') || {}),
         [pni.toString()]: registrationId,
       }),
+      async () => {
+        const newId = signedPreKey.id() + 1;
+        log.warn(`${logId}: Updating next signed pre key id to ${newId}`);
+        await storage.put(SIGNED_PRE_KEY_ID_KEY[UUIDKind.PNI], newId);
+      },
       this.storeSignedPreKey(
         pni,
         signedPreKey.id(),
@@ -2255,6 +2525,26 @@ export class SignalProtocolStore extends EventEmitter {
         true,
         signedPreKey.timestamp()
       ),
+      async () => {
+        if (!lastResortKyberPreKey) {
+          return;
+        }
+        const newId = lastResortKyberPreKey.id() + 1;
+        log.warn(`${logId}: Updating next kyber pre key id to ${newId}`);
+        await storage.put(KYBER_KEY_ID_KEY[UUIDKind.PNI], newId);
+      },
+      lastResortKyberPreKeyBytes && lastResortKyberPreKey
+        ? this.storeKyberPreKeys(pni, [
+            {
+              createdAt: lastResortKyberPreKey.timestamp(),
+              data: lastResortKyberPreKeyBytes,
+              isConfirmed: true,
+              isLastResort: true,
+              keyId: lastResortKyberPreKey.id(),
+              ourUuid: pni.toString(),
+            },
+          ])
+        : undefined,
     ]);
   }
 
@@ -2354,12 +2644,23 @@ export class SignalProtocolStore extends EventEmitter {
 
     return Array.from(union.values());
   }
+
+  private emitLowKeys(ourUuid: UUID, source: string) {
+    const logId = `SignalProtocolStore.emitLowKeys/${source}:`;
+    try {
+      log.info(`${logId}: Emitting event`);
+      this.emit('lowKeys', ourUuid);
+    } catch (error) {
+      log.error(`${logId}: Error thrown from emit`, Errors.toLogFormat(error));
+    }
+  }
+
   //
   // EventEmitter types
   //
 
   public override on(
-    name: 'removePreKey',
+    name: 'lowKeys',
     handler: (ourUuid: UUID) => unknown
   ): this;
 
@@ -2378,7 +2679,7 @@ export class SignalProtocolStore extends EventEmitter {
     return super.on(eventName, listener);
   }
 
-  public override emit(name: 'removePreKey', ourUuid: UUID): boolean;
+  public override emit(name: 'lowKeys', ourUuid: UUID): boolean;
 
   public override emit(
     name: 'keychange',

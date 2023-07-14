@@ -25,7 +25,7 @@ import type {
   TextAttachmentType,
   UploadedAttachmentType,
 } from '../types/Attachment';
-import type { UUID, TaggedUUIDStringType } from '../types/UUID';
+import { type UUID, type TaggedUUIDStringType, UUIDKind } from '../types/UUID';
 import type {
   ChallengeType,
   GetGroupLogOptionsType,
@@ -53,7 +53,6 @@ import * as Bytes from '../Bytes';
 import { getRandomBytes } from '../Crypto';
 import {
   MessageError,
-  SignedPreKeyRotationError,
   SendMessageProtoError,
   HTTPError,
   NoSenderKeyError,
@@ -79,6 +78,7 @@ import {
   numberToAddressType,
 } from '../types/EmbeddedContact';
 import { missingCaseError } from '../util/missingCaseError';
+import { drop } from '../util/drop';
 
 export type SendMetadataType = {
   [identifier: string]: {
@@ -956,27 +956,31 @@ export default class MessageSender {
     });
 
     return new Promise((resolve, reject) => {
-      this.sendMessageProto({
-        callback: (res: CallbackResultType) => {
-          if (res.errors && res.errors.length > 0) {
-            reject(new SendMessageProtoError(res));
-          } else {
-            resolve(res);
-          }
-        },
-        contentHint,
-        groupId,
-        options,
-        proto,
-        recipients: messageOptions.recipients || [],
-        timestamp: messageOptions.timestamp,
-        urgent,
-        story,
-      });
+      drop(
+        this.sendMessageProto({
+          callback: (res: CallbackResultType) => {
+            if (res.errors && res.errors.length > 0) {
+              reject(new SendMessageProtoError(res));
+            } else {
+              resolve(res);
+            }
+          },
+          contentHint,
+          groupId,
+          options,
+          proto,
+          recipients: messageOptions.recipients || [],
+          timestamp: messageOptions.timestamp,
+          urgent,
+          story,
+        })
+      );
     });
   }
 
-  sendMessageProto({
+  // Note: all the other low-level sends call this, so it is a chokepoint for 1:1 sends
+  //   The chokepoint for group sends is sendContentMessageToGroup
+  async sendMessageProto({
     callback,
     contentHint,
     groupId,
@@ -998,13 +1002,26 @@ export default class MessageSender {
     story?: boolean;
     timestamp: number;
     urgent: boolean;
-  }>): void {
-    const rejections = window.textsecure.storage.get(
-      'signedKeyRotationRejected',
-      0
-    );
-    if (rejections > 5) {
-      throw new SignedPreKeyRotationError();
+  }>): Promise<void> {
+    const accountManager = window.getAccountManager();
+    try {
+      if (accountManager.areKeysOutOfDate(UUIDKind.ACI)) {
+        log.warn(
+          `sendMessageProto/${timestamp}: Keys are out of date; updating before send`
+        );
+        await accountManager.maybeUpdateKeys(UUIDKind.ACI);
+        if (accountManager.areKeysOutOfDate(UUIDKind.ACI)) {
+          throw new Error('Keys still out of date after update');
+        }
+      }
+    } catch (error) {
+      // TODO: DESKTOP-5642
+      callback({
+        dataMessage: undefined,
+        editMessage: undefined,
+        errors: [error],
+      });
+      return;
     }
 
     const outgoing = new OutgoingMessage({
@@ -1022,8 +1039,10 @@ export default class MessageSender {
     });
 
     recipients.forEach(identifier => {
-      void this.queueJobForIdentifier(identifier, async () =>
-        outgoing.sendToIdentifier(identifier)
+      drop(
+        this.queueJobForIdentifier(identifier, async () =>
+          outgoing.sendToIdentifier(identifier)
+        )
       );
     });
   }
@@ -1056,17 +1075,19 @@ export default class MessageSender {
         resolve(result);
       };
 
-      this.sendMessageProto({
-        callback,
-        contentHint,
-        groupId,
-        options,
-        proto,
-        recipients,
-        timestamp,
-        urgent,
-        story,
-      });
+      drop(
+        this.sendMessageProto({
+          callback,
+          contentHint,
+          groupId,
+          options,
+          proto,
+          recipients,
+          timestamp,
+          urgent,
+          story,
+        })
+      );
     });
   }
 
@@ -1096,16 +1117,18 @@ export default class MessageSender {
           resolve(res);
         }
       };
-      this.sendMessageProto({
-        callback,
-        contentHint,
-        groupId,
-        options,
-        proto,
-        recipients: [identifier],
-        timestamp,
-        urgent,
-      });
+      drop(
+        this.sendMessageProto({
+          callback,
+          contentHint,
+          groupId,
+          options,
+          proto,
+          recipients: [identifier],
+          timestamp,
+          urgent,
+        })
+      );
     });
   }
 
@@ -2036,18 +2059,20 @@ export default class MessageSender {
         }
       };
 
-      this.sendMessageProto({
-        callback,
-        contentHint,
-        groupId,
-        options,
-        proto,
-        recipients: identifiers,
-        sendLogCallback,
-        story,
-        timestamp,
-        urgent,
-      });
+      drop(
+        this.sendMessageProto({
+          callback,
+          contentHint,
+          groupId,
+          options,
+          proto,
+          recipients: identifiers,
+          sendLogCallback,
+          story,
+          timestamp,
+          urgent,
+        })
+      );
     });
   }
 

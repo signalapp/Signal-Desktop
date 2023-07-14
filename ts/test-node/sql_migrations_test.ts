@@ -3476,4 +3476,56 @@ describe('SQL migrations test', () => {
       );
     });
   });
+
+  describe('updateToSchemaVersion85', () => {
+    it('generates ourUuid field when JSON is inserted', () => {
+      updateToVersion(85);
+      const id = 'a1111:a2222';
+      const ourUuid = 'ab3333';
+      const value = {
+        ourUuid,
+      };
+      const json = JSON.stringify(value);
+      db.prepare(
+        `
+          INSERT INTO kyberPreKeys (id, json) VALUES
+          ('${id}', '${json}');
+          `
+      ).run();
+
+      const payload = db.prepare('SELECT * FROM kyberPreKeys LIMIT 1;').get();
+
+      assert.strictEqual(payload.id, id);
+      assert.strictEqual(payload.json, json);
+      assert.strictEqual(payload.ourUuid, ourUuid);
+    });
+
+    it('adds a createdAt to all existing prekeys', () => {
+      updateToVersion(84);
+
+      const id = 'a1111:a2222';
+      const ourUuid = 'ab3333';
+      const value = {
+        ourUuid,
+      };
+      const startingTime = Date.now();
+      const json = JSON.stringify(value);
+      db.prepare(
+        `
+          INSERT INTO preKeys (id, json) VALUES
+          ('${id}', '${json}');
+          `
+      ).run();
+
+      updateToVersion(85);
+
+      const payload = db.prepare('SELECT * FROM preKeys LIMIT 1;').get();
+
+      assert.strictEqual(payload.id, id);
+
+      const object = JSON.parse(payload.json);
+      assert.strictEqual(object.ourUuid, ourUuid);
+      assert.isAtLeast(object.createdAt, startingTime);
+    });
+  });
 });

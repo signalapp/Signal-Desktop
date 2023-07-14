@@ -21,7 +21,7 @@ import {
 } from '../textsecure/OutgoingMessage';
 import { Address } from '../types/Address';
 import { QualifiedAddress } from '../types/QualifiedAddress';
-import { UUID } from '../types/UUID';
+import { UUID, UUIDKind } from '../types/UUID';
 import * as Errors from '../types/errors';
 import { getValue, isEnabled } from '../RemoteConfig';
 import type { UUIDStringType } from '../types/UUID';
@@ -152,6 +152,7 @@ export async function sendToGroup({
   });
 }
 
+// Note: This is the group send chokepoint. The 1:1 send chokepoint is sendMessageProto.
 export async function sendContentMessageToGroup({
   contentHint,
   contentMessage,
@@ -180,6 +181,18 @@ export async function sendContentMessageToGroup({
   urgent: boolean;
 }): Promise<CallbackResultType> {
   const logId = sendTarget.idForLogging();
+
+  const accountManager = window.getAccountManager();
+  if (accountManager.areKeysOutOfDate(UUIDKind.ACI)) {
+    log.warn(
+      `sendToGroup/${logId}: Keys are out of date; updating before send`
+    );
+    await accountManager.maybeUpdateKeys(UUIDKind.ACI);
+    if (accountManager.areKeysOutOfDate(UUIDKind.ACI)) {
+      throw new Error('Keys still out of date after update');
+    }
+  }
+
   strictAssert(
     window.textsecure.messaging,
     'sendContentMessageToGroup: textsecure.messaging not available!'

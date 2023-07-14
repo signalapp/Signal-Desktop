@@ -107,7 +107,7 @@ import type {
 } from './textsecure/messageReceiverEvents';
 import type { WebAPIType } from './textsecure/WebAPI';
 import * as KeyChangeListener from './textsecure/KeyChangeListener';
-import { RotateSignedPreKeyListener } from './textsecure/RotateSignedPreKeyListener';
+import { UpdateKeysListener } from './textsecure/UpdateKeysListener';
 import { isDirectConversation, isGroupV2 } from './util/whatTypeOfConversation';
 import { BackOff, FIBONACCI_TIMEOUTS } from './util/BackOff';
 import { AppViewType } from './state/ducks/app';
@@ -599,10 +599,17 @@ export async function startApp(): Promise<void> {
   );
 
   KeyChangeListener.init(window.textsecure.storage.protocol);
-  window.textsecure.storage.protocol.on('removePreKey', (ourUuid: UUID) => {
-    const uuidKind = window.textsecure.storage.user.getOurUuidKind(ourUuid);
-    void window.getAccountManager().refreshPreKeys(uuidKind);
-  });
+  window.textsecure.storage.protocol.on(
+    'lowKeys',
+    throttle(
+      (ourUuid: UUID) => {
+        const uuidKind = window.textsecure.storage.user.getOurUuidKind(ourUuid);
+        drop(window.getAccountManager().maybeUpdateKeys(uuidKind));
+      },
+      durations.MINUTE,
+      { trailing: true, leading: false }
+    )
+  );
 
   window.textsecure.storage.protocol.on('removeAllData', () => {
     window.reduxActions.stories.removeAllStories();
@@ -874,6 +881,15 @@ export async function startApp(): Promise<void> {
           `Clearing remoteBuildExpiration. Previous value was ${remoteBuildExpiration}`
         );
         await window.storage.remove('remoteBuildExpiration');
+      }
+
+      if (window.isBeforeVersion(lastVersion, '6.25.0-alpha')) {
+        await removeStorageKeyJobQueue.add({
+          key: 'nextSignedKeyRotationTime',
+        });
+        await removeStorageKeyJobQueue.add({
+          key: 'signedKeyRotationRejected',
+        });
       }
 
       if (window.isBeforeVersion(lastVersion, '6.22.0-alpha')) {
@@ -2079,7 +2095,7 @@ export async function startApp(): Promise<void> {
     window.ConversationController.onEmpty();
 
     // Start listeners here, after we get through our queue.
-    RotateSignedPreKeyListener.init(window.Whisper.events, newVersion);
+    UpdateKeysListener.init(window.Whisper.events, newVersion);
 
     profileKeyResponseQueue.start();
     lightSessionResetQueue.start();

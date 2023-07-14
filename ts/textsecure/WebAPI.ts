@@ -870,6 +870,11 @@ const attachmentV3Response = z.object({
 
 export type AttachmentV3ResponseType = z.infer<typeof attachmentV3Response>;
 
+export type ServerKeyCountType = {
+  count: number;
+  pqCount: number;
+};
+
 export type WebAPIType = {
   startRegistration(): unknown;
   finishRegistration(baton: unknown): void;
@@ -925,7 +930,7 @@ export type WebAPIType = {
     deviceId?: number,
     options?: { accessKey?: string }
   ) => Promise<ServerKeysType>;
-  getMyKeys: (uuidKind: UUIDKind) => Promise<number>;
+  getMyKeyCounts: (uuidKind: UUIDKind) => Promise<ServerKeyCountType>;
   getOnboardingStoryManifest: () => Promise<{
     version: string;
     languages: Record<string, Array<string>>;
@@ -998,7 +1003,7 @@ export type WebAPIType = {
   ) => Promise<ReserveUsernameResultType>;
   confirmUsername(options: ConfirmUsernameOptionsType): Promise<void>;
   registerCapabilities: (capabilities: CapabilitiesUploadType) => Promise<void>;
-  registerKeys: (genKeys: KeysType, uuidKind: UUIDKind) => Promise<void>;
+  registerKeys: (genKeys: UploadKeysType, uuidKind: UUIDKind) => Promise<void>;
   registerSupportForUnauthenticatedDelivery: () => Promise<void>;
   reportMessage: (options: ReportMessageOptionsType) => Promise<void>;
   requestVerificationSMS: (number: string, token: string) => Promise<void>;
@@ -1032,10 +1037,6 @@ export type WebAPIType = {
     }
   ) => Promise<MultiRecipient200ResponseType>;
   setPhoneNumberDiscoverability: (newValue: boolean) => Promise<void>;
-  setSignedPreKey: (
-    signedPreKey: SignedPreKeyType,
-    uuidKind: UUIDKind
-  ) => Promise<void>;
   updateDeviceName: (deviceName: string) => Promise<void>;
   uploadAvatar: (
     uploadAvatarRequestHeaders: UploadAvatarHeadersType,
@@ -1060,33 +1061,46 @@ export type WebAPIType = {
   reconnect: () => Promise<void>;
 };
 
-export type SignedPreKeyType = {
+export type UploadSignedPreKeyType = {
   keyId: number;
   publicKey: Uint8Array;
   signature: Uint8Array;
 };
+export type UploadPreKeyType = {
+  keyId: number;
+  publicKey: Uint8Array;
+};
+export type UploadKyberPreKeyType = UploadSignedPreKeyType;
 
-export type KeysType = {
+export type UploadKeysType = {
   identityKey: Uint8Array;
-  signedPreKey: SignedPreKeyType;
-  preKeys: Array<{
-    keyId: number;
-    publicKey: Uint8Array;
-  }>;
+
+  // If a field is not provided, the server won't update its data.
+  preKeys?: Array<UploadPreKeyType>;
+  pqPreKeys?: Array<UploadSignedPreKeyType>;
+  pqLastResortPreKey?: UploadSignedPreKeyType;
+  signedPreKey?: UploadSignedPreKeyType;
 };
 
 export type ServerKeysType = {
   devices: Array<{
     deviceId: number;
     registrationId: number;
-    signedPreKey: {
+
+    // We'll get a 404 if none of these keys are provided; we'll have at least one
+    preKey?: {
+      keyId: number;
+      publicKey: Uint8Array;
+    };
+    signedPreKey?: {
       keyId: number;
       publicKey: Uint8Array;
       signature: Uint8Array;
     };
-    preKey?: {
+    pqPreKey?: {
       keyId: number;
       publicKey: Uint8Array;
+      signature: Uint8Array;
     };
   }>;
   identityKey: Uint8Array;
@@ -1293,7 +1307,7 @@ export function initialize({
       getIceServers,
       getKeysForIdentifier,
       getKeysForIdentifierUnauth,
-      getMyKeys,
+      getMyKeyCounts,
       getOnboardingStoryManifest,
       getProfile,
       getProfileUnauth,
@@ -1331,7 +1345,6 @@ export function initialize({
       sendMessagesUnauth,
       sendWithSenderKey,
       setPhoneNumberDiscoverability,
-      setSignedPreKey,
       startRegistration,
       unregisterRequestHandler,
       updateDeviceName,
@@ -2052,30 +2065,74 @@ export function initialize({
       publicKey: string;
       signature: string;
     };
+    type JSONPreKeyType = {
+      keyId: number;
+      publicKey: string;
+    };
+    type JSONKyberPreKeyType = {
+      keyId: number;
+      publicKey: string;
+      signature: string;
+    };
 
     type JSONKeysType = {
       identityKey: string;
-      signedPreKey: JSONSignedPreKeyType;
-      preKeys: Array<{
-        keyId: number;
-        publicKey: string;
-      }>;
+      preKeys?: Array<JSONPreKeyType>;
+      pqPreKeys?: Array<JSONKyberPreKeyType>;
+      pqLastResortPreKey?: JSONKyberPreKeyType;
+      signedPreKey?: JSONSignedPreKeyType;
     };
 
-    async function registerKeys(genKeys: KeysType, uuidKind: UUIDKind) {
-      const preKeys = genKeys.preKeys.map(key => ({
+    async function registerKeys(genKeys: UploadKeysType, uuidKind: UUIDKind) {
+      const preKeys = genKeys.preKeys?.map(key => ({
         keyId: key.keyId,
         publicKey: Bytes.toBase64(key.publicKey),
       }));
+      const pqPreKeys = genKeys.pqPreKeys?.map(key => ({
+        keyId: key.keyId,
+        publicKey: Bytes.toBase64(key.publicKey),
+        signature: Bytes.toBase64(key.signature),
+      }));
+
+      if (
+        !preKeys?.length &&
+        !pqPreKeys?.length &&
+        !genKeys.pqLastResortPreKey &&
+        !genKeys.signedPreKey
+      ) {
+        throw new Error(
+          'registerKeys: None of the four potential key types were provided!'
+        );
+      }
+      if (preKeys && preKeys.length === 0) {
+        throw new Error('registerKeys: Attempting to upload zero preKeys!');
+      }
+      if (pqPreKeys && pqPreKeys.length === 0) {
+        throw new Error('registerKeys: Attempting to upload zero pqPreKeys!');
+      }
 
       const keys: JSONKeysType = {
         identityKey: Bytes.toBase64(genKeys.identityKey),
-        signedPreKey: {
-          keyId: genKeys.signedPreKey.keyId,
-          publicKey: Bytes.toBase64(genKeys.signedPreKey.publicKey),
-          signature: Bytes.toBase64(genKeys.signedPreKey.signature),
-        },
         preKeys,
+        pqPreKeys,
+        ...(genKeys.pqLastResortPreKey
+          ? {
+              pqLastResortPreKey: {
+                keyId: genKeys.pqLastResortPreKey.keyId,
+                publicKey: Bytes.toBase64(genKeys.pqLastResortPreKey.publicKey),
+                signature: Bytes.toBase64(genKeys.pqLastResortPreKey.signature),
+              },
+            }
+          : null),
+        ...(genKeys.signedPreKey
+          ? {
+              signedPreKey: {
+                keyId: genKeys.signedPreKey.keyId,
+                publicKey: Bytes.toBase64(genKeys.signedPreKey.publicKey),
+                signature: Bytes.toBase64(genKeys.signedPreKey.signature),
+              },
+            }
+          : null),
       };
 
       await _ajax({
@@ -2097,50 +2154,39 @@ export function initialize({
       });
     }
 
-    async function setSignedPreKey(
-      signedPreKey: SignedPreKeyType,
+    async function getMyKeyCounts(
       uuidKind: UUIDKind
-    ) {
-      await _ajax({
-        call: 'signed',
-        urlParameters: `?${uuidKindToQuery(uuidKind)}`,
-        httpType: 'PUT',
-        jsonData: {
-          keyId: signedPreKey.keyId,
-          publicKey: Bytes.toBase64(signedPreKey.publicKey),
-          signature: Bytes.toBase64(signedPreKey.signature),
-        },
-      });
-    }
-
-    type ServerKeyCountType = {
-      count: number;
-    };
-
-    async function getMyKeys(uuidKind: UUIDKind): Promise<number> {
+    ): Promise<ServerKeyCountType> {
       const result = (await _ajax({
         call: 'keys',
         urlParameters: `?${uuidKindToQuery(uuidKind)}`,
         httpType: 'GET',
         responseType: 'json',
-        validateResponse: { count: 'number' },
+        validateResponse: { count: 'number', pqCount: 'number' },
       })) as ServerKeyCountType;
 
-      return result.count;
+      return result;
     }
 
     type ServerKeyResponseType = {
       devices: Array<{
         deviceId: number;
         registrationId: number;
-        signedPreKey: {
+
+        // We'll get a 404 if none of these keys are provided; we'll have at least one
+        preKey?: {
+          keyId: number;
+          publicKey: string;
+        };
+        signedPreKey?: {
           keyId: number;
           publicKey: string;
           signature: string;
         };
-        preKey?: {
+        pqPreKey?: {
           keyId: number;
           publicKey: string;
+          signature: string;
         };
       }>;
       identityKey: string;
@@ -2180,12 +2226,25 @@ export function initialize({
         return {
           deviceId: device.deviceId,
           registrationId: device.registrationId,
-          preKey,
-          signedPreKey: {
-            keyId: device.signedPreKey.keyId,
-            publicKey: Bytes.fromBase64(device.signedPreKey.publicKey),
-            signature: Bytes.fromBase64(device.signedPreKey.signature),
-          },
+          ...(preKey ? { preKey } : null),
+          ...(device.signedPreKey
+            ? {
+                signedPreKey: {
+                  keyId: device.signedPreKey.keyId,
+                  publicKey: Bytes.fromBase64(device.signedPreKey.publicKey),
+                  signature: Bytes.fromBase64(device.signedPreKey.signature),
+                },
+              }
+            : null),
+          ...(device.pqPreKey
+            ? {
+                pqPreKey: {
+                  keyId: device.pqPreKey.keyId,
+                  publicKey: Bytes.fromBase64(device.pqPreKey.publicKey),
+                  signature: Bytes.fromBase64(device.pqPreKey.signature),
+                },
+              }
+            : null),
         };
       });
 
@@ -2199,7 +2258,7 @@ export function initialize({
       const keys = (await _ajax({
         call: 'keys',
         httpType: 'GET',
-        urlParameters: `/${identifier}/${deviceId || '*'}`,
+        urlParameters: `/${identifier}/${deviceId || '*'}?pq=true`,
         responseType: 'json',
         validateResponse: { identityKey: 'string', devices: 'object' },
       })) as ServerKeyResponseType;
@@ -2214,7 +2273,7 @@ export function initialize({
       const keys = (await _ajax({
         call: 'keys',
         httpType: 'GET',
-        urlParameters: `/${identifier}/${deviceId || '*'}`,
+        urlParameters: `/${identifier}/${deviceId || '*'}?pq=true`,
         responseType: 'json',
         validateResponse: { identityKey: 'string', devices: 'object' },
         unauthenticated: true,

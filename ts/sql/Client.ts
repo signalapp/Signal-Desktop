@@ -52,6 +52,8 @@ import type {
   SignedPreKeyIdType,
   SignedPreKeyType,
   StoredSignedPreKeyType,
+  KyberPreKeyType,
+  StoredKyberPreKeyType,
 } from './Interface';
 import { MINUTE } from '../util/durations';
 import { getMessageIdForLogging } from '../util/idForLogging';
@@ -72,6 +74,11 @@ const exclusiveInterface: ClientExclusiveInterface = {
   getIdentityKeyById,
   bulkAddIdentityKeys,
   getAllIdentityKeys,
+
+  createOrUpdateKyberPreKey,
+  getKyberPreKeyById,
+  bulkAddKyberPreKeys,
+  getAllKyberPreKeys,
 
   createOrUpdatePreKey,
   getPreKeyById,
@@ -246,6 +253,37 @@ async function getAllIdentityKeys(): Promise<Array<IdentityKeyType>> {
   const keys = await channels.getAllIdentityKeys();
 
   return keys.map(key => specToBytes(IDENTITY_KEY_SPEC, key));
+}
+
+// Kyber Pre Keys
+
+const KYBER_PRE_KEY_SPEC = ['data'];
+async function createOrUpdateKyberPreKey(data: KyberPreKeyType): Promise<void> {
+  const updated: StoredKyberPreKeyType = specFromBytes(
+    KYBER_PRE_KEY_SPEC,
+    data
+  );
+  await channels.createOrUpdateKyberPreKey(updated);
+}
+async function getKyberPreKeyById(
+  id: PreKeyIdType
+): Promise<KyberPreKeyType | undefined> {
+  const data = await channels.getPreKeyById(id);
+
+  return specToBytes(KYBER_PRE_KEY_SPEC, data);
+}
+async function bulkAddKyberPreKeys(
+  array: Array<KyberPreKeyType>
+): Promise<void> {
+  const updated: Array<StoredKyberPreKeyType> = map(array, data =>
+    specFromBytes(KYBER_PRE_KEY_SPEC, data)
+  );
+  await channels.bulkAddKyberPreKeys(updated);
+}
+async function getAllKyberPreKeys(): Promise<Array<KyberPreKeyType>> {
+  const keys = await channels.getAllPreKeys();
+
+  return keys.map(key => specToBytes(KYBER_PRE_KEY_SPEC, key));
 }
 
 // Pre Keys

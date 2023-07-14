@@ -1,13 +1,17 @@
 // Copyright 2017 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { isNumber } from 'lodash';
+
 import * as durations from '../util/durations';
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
 import * as Registration from '../util/registration';
 import { UUIDKind } from '../types/UUID';
 import * as log from '../logging/log';
+import * as Errors from '../types/errors';
 
-const ROTATION_INTERVAL = 2 * durations.DAY;
+const UPDATE_INTERVAL = 2 * durations.DAY;
+const UPDATE_TIME_STORAGE_KEY = 'nextScheduledUpdateKeyTime';
 
 export type MinimalEventsType = {
   on(event: 'timetravel', callback: () => void): void;
@@ -15,23 +19,20 @@ export type MinimalEventsType = {
 
 let initComplete = false;
 
-export class RotateSignedPreKeyListener {
+export class UpdateKeysListener {
   public timeout: NodeJS.Timeout | undefined;
 
-  protected scheduleRotationForNow(): void {
+  protected scheduleUpdateForNow(): void {
     const now = Date.now();
-    void window.textsecure.storage.put('nextSignedKeyRotationTime', now);
+    void window.textsecure.storage.put(UPDATE_TIME_STORAGE_KEY, now);
   }
 
   protected setTimeoutForNextRun(): void {
     const now = Date.now();
-    const time = window.textsecure.storage.get(
-      'nextSignedKeyRotationTime',
-      now
-    );
+    const time = window.textsecure.storage.get(UPDATE_TIME_STORAGE_KEY, now);
 
     log.info(
-      'Next signed key rotation scheduled for',
+      'UpdateKeysListener: Next update scheduled for',
       new Date(time).toISOString()
     );
 
@@ -44,31 +45,29 @@ export class RotateSignedPreKeyListener {
     this.timeout = setTimeout(() => this.runWhenOnline(), waitTime);
   }
 
-  private scheduleNextRotation(): void {
+  private scheduleNextUpdate(): void {
     const now = Date.now();
-    const nextTime = now + ROTATION_INTERVAL;
-    void window.textsecure.storage.put('nextSignedKeyRotationTime', nextTime);
+    const nextTime = now + UPDATE_INTERVAL;
+    void window.textsecure.storage.put(UPDATE_TIME_STORAGE_KEY, nextTime);
   }
 
   private async run(): Promise<void> {
-    log.info('Rotating signed prekey...');
+    log.info('UpdateKeysListener: Updating keys...');
     try {
       const accountManager = window.getAccountManager();
-      await Promise.all([
-        accountManager.rotateSignedPreKey(UUIDKind.ACI),
-        accountManager.rotateSignedPreKey(UUIDKind.PNI),
-      ]);
 
-      // We try to update this whenever we remove a preKey; this is a fail-safe to ensure
-      //   we're always in good shape
-      await Promise.all([
-        accountManager.refreshPreKeys(UUIDKind.ACI),
-        accountManager.refreshPreKeys(UUIDKind.PNI),
-      ]);
-      this.scheduleNextRotation();
+      await accountManager.maybeUpdateKeys(UUIDKind.ACI);
+      await accountManager.maybeUpdateKeys(UUIDKind.PNI);
+
+      this.scheduleNextUpdate();
       this.setTimeoutForNextRun();
     } catch (error) {
-      log.error('rotateSignedPrekey() failed. Trying again in five minutes');
+      const errorString = isNumber(error.code)
+        ? error.code.toString()
+        : Errors.toLogFormat(error);
+      log.error(
+        `UpdateKeysListener.run failure - trying again in five minutes ${errorString}`
+      );
       setTimeout(() => this.setTimeoutForNextRun(), 5 * durations.MINUTE);
     }
   }
@@ -77,7 +76,9 @@ export class RotateSignedPreKeyListener {
     if (window.navigator.onLine) {
       void this.run();
     } else {
-      log.info('We are offline; keys will be rotated when we are next online');
+      log.info(
+        'UpdateKeysListener: We are offline; will update keys when we are next online'
+      );
       const listener = () => {
         window.removeEventListener('online', listener);
         this.setTimeoutForNextRun();
@@ -88,17 +89,15 @@ export class RotateSignedPreKeyListener {
 
   public static init(events: MinimalEventsType, newVersion: boolean): void {
     if (initComplete) {
-      window.SignalContext.log.info(
-        'Rotate signed prekey listener: Already initialized'
-      );
+      window.SignalContext.log.info('UpdateKeysListener: Already initialized');
       return;
     }
     initComplete = true;
 
-    const listener = new RotateSignedPreKeyListener();
+    const listener = new UpdateKeysListener();
 
     if (newVersion) {
-      listener.scheduleRotationForNow();
+      listener.scheduleUpdateForNow();
     }
     listener.setTimeoutForNextRun();
 

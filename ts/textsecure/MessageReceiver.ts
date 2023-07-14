@@ -32,6 +32,7 @@ import {
 
 import {
   IdentityKeys,
+  KyberPreKeys,
   PreKeys,
   SenderKeys,
   Sessions,
@@ -1758,6 +1759,7 @@ export default class MessageReceiver
 
     const preKeyStore = new PreKeys({ ourUuid: destinationUuid });
     const signedPreKeyStore = new SignedPreKeys({ ourUuid: destinationUuid });
+    const kyberPreKeyStore = new KyberPreKeys({ ourUuid: destinationUuid });
 
     const sealedSenderIdentifier = envelope.sourceUuid;
     strictAssert(
@@ -1786,7 +1788,8 @@ export default class MessageReceiver
           sessionStore,
           identityKeyStore,
           preKeyStore,
-          signedPreKeyStore
+          signedPreKeyStore,
+          kyberPreKeyStore
         ),
       zone
     );
@@ -1811,6 +1814,7 @@ export default class MessageReceiver
     const { destinationUuid } = envelope;
     const preKeyStore = new PreKeys({ ourUuid: destinationUuid });
     const signedPreKeyStore = new SignedPreKeys({ ourUuid: destinationUuid });
+    const kyberPreKeyStore = new KyberPreKeys({ ourUuid: destinationUuid });
 
     strictAssert(identifier !== undefined, 'Empty identifier');
     strictAssert(sourceDevice !== undefined, 'Empty source device');
@@ -1903,7 +1907,8 @@ export default class MessageReceiver
               sessionStore,
               identityKeyStore,
               preKeyStore,
-              signedPreKeyStore
+              signedPreKeyStore,
+              kyberPreKeyStore
             )
           ),
         zone
@@ -2105,17 +2110,18 @@ export default class MessageReceiver
     msg: Proto.IStoryMessage,
     sentMessage?: ProcessedSent
   ): Promise<void> {
-    const logId = getEnvelopeId(envelope);
+    const envelopeId = getEnvelopeId(envelope);
+    const logId = `MessageReceiver.handleStoryMessage(${envelopeId})`;
 
     logUnexpectedUrgentValue(envelope, 'story');
 
     if (getStoriesBlocked()) {
-      log.info('MessageReceiver.handleStoryMessage: dropping', logId);
+      log.info(`${logId}: dropping`);
       this.removeFromCache(envelope);
       return;
     }
 
-    log.info('MessageReceiver.handleStoryMessage', logId);
+    log.info(`${logId} starting`);
 
     const attachments: Array<ProcessedAttachment> = [];
     let preview: ReadonlyArray<ProcessedPreview> | undefined;
@@ -2150,11 +2156,7 @@ export default class MessageReceiver
 
     const groupV2 = msg.group ? processGroupV2Context(msg.group) : undefined;
     if (groupV2 && this.isGroupBlocked(groupV2.id)) {
-      log.warn(
-        `MessageReceiver.handleStoryMessage: envelope ${getEnvelopeId(
-          envelope
-        )} ignored; destined for blocked group`
-      );
+      log.warn(`${logId}: ignored; destined for blocked group`);
       this.removeFromCache(envelope);
       return;
     }
@@ -2165,10 +2167,7 @@ export default class MessageReceiver
     );
 
     if (timeRemaining <= 0) {
-      log.info(
-        'MessageReceiver.handleStoryMessage: story already expired',
-        logId
-      );
+      log.info(`${logId}: story already expired`);
       this.removeFromCache(envelope);
       return;
     }
@@ -2188,6 +2187,7 @@ export default class MessageReceiver
     };
 
     if (sentMessage && message.groupV2) {
+      log.warn(`${logId}: envelope is a sent group story`);
       const ev = new SentEvent(
         {
           destinationUuid: {
@@ -2220,6 +2220,7 @@ export default class MessageReceiver
     }
 
     if (sentMessage) {
+      log.warn(`${logId}: envelope is a sent distribution list story`);
       const { storyMessageRecipients } = sentMessage;
       const recipients = storyMessageRecipients ?? [];
 
@@ -2248,8 +2249,7 @@ export default class MessageReceiver
         } else {
           assertDev(
             false,
-            `MessageReceiver.handleStoryMessage(${logId}): missing ` +
-              `distribution list id for: ${destinationUuid}`
+            `${logId}: missing distribution list id for: ${destinationUuid}`
           );
         }
 
@@ -2296,6 +2296,7 @@ export default class MessageReceiver
       return;
     }
 
+    log.warn(`${logId}: envelope is a received story`);
     const ev = new MessageEvent(
       {
         source: envelope.source,
@@ -3241,6 +3242,7 @@ export default class MessageReceiver
     {
       identityKeyPair,
       signedPreKey,
+      lastResortKyberPreKey,
       registrationId,
       newE164,
     }: Proto.SyncMessage.IPniChangeNumber
@@ -3255,6 +3257,7 @@ export default class MessageReceiver
       return;
     }
 
+    // TDOO: DESKTOP-5652
     if (
       !Bytes.isNotEmpty(identityKeyPair) ||
       !Bytes.isNotEmpty(signedPreKey) ||
@@ -3268,6 +3271,7 @@ export default class MessageReceiver
     const manager = window.getAccountManager();
     await manager.setPni(updatedPni.toString(), {
       identityKeyPair,
+      lastResortKyberPreKey: dropNull(lastResortKyberPreKey),
       signedPreKey,
       registrationId,
     });

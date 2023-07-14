@@ -3,6 +3,7 @@
 
 import {
   ErrorCode,
+  KEMPublicKey,
   LibSignalErrorBase,
   PreKeyBundle,
   processPreKeyBundle,
@@ -101,7 +102,8 @@ async function handleServerKeys(
 
   await Promise.all(
     response.devices.map(async device => {
-      const { deviceId, registrationId, preKey, signedPreKey } = device;
+      const { deviceId, registrationId, pqPreKey, preKey, signedPreKey } =
+        device;
       if (
         devicesToUpdate !== undefined &&
         !devicesToUpdate.includes(deviceId)
@@ -135,6 +137,14 @@ async function handleServerKeys(
         Buffer.from(response.identityKey)
       );
 
+      const pqPreKeyId = pqPreKey?.keyId || null;
+      const pqPreKeyPublic = pqPreKey
+        ? KEMPublicKey.deserialize(Buffer.from(pqPreKey.publicKey))
+        : null;
+      const pqPreKeySignature = pqPreKey
+        ? Buffer.from(pqPreKey.signature)
+        : null;
+
       const preKeyBundle = PreKeyBundle.new(
         registrationId,
         deviceId,
@@ -143,7 +153,10 @@ async function handleServerKeys(
         signedPreKey.keyId,
         signedPreKeyObject,
         Buffer.from(signedPreKey.signature),
-        identityKey
+        identityKey,
+        pqPreKeyId,
+        pqPreKeyPublic,
+        pqPreKeySignature
       );
 
       const address = new QualifiedAddress(

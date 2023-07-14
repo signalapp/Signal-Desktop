@@ -16,6 +16,7 @@ export type TableType =
   | 'conversations'
   | 'identityKeys'
   | 'items'
+  | 'kyberPreKeys'
   | 'messages'
   | 'preKeys'
   | 'senderKeys'

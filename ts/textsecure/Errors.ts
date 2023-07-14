@@ -251,15 +251,6 @@ export class SendMessageProtoError extends Error implements CallbackResultType {
   }
 }
 
-export class SignedPreKeyRotationError extends ReplayableError {
-  constructor() {
-    super({
-      name: 'SignedPreKeyRotationError',
-      message: 'Too many signed prekey rotation failures',
-    });
-  }
-}
-
 export class MessageError extends ReplayableError {
   readonly httpError: HTTPError;
 

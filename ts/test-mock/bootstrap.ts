@@ -7,6 +7,7 @@ import path from 'path';
 import os from 'os';
 import createDebug from 'debug';
 import pTimeout from 'p-timeout';
+import normalizePath from 'normalize-path';
 
 import type { Device, PrimaryDevice } from '@signalapp/mock-server';
 import { Server, UUIDKind, loadCertificates } from '@signalapp/mock-server';
@@ -289,7 +290,20 @@ export class Bootstrap {
     return result;
   }
 
-  public async saveLogs(app: App | undefined = this.lastApp): Promise<void> {
+  public async maybeSaveLogs(
+    test?: Mocha.Test,
+    app: App | undefined = this.lastApp
+  ): Promise<void> {
+    const { FORCE_ARTIFACT_SAVE } = process.env;
+    if (test?.state !== 'passed' || FORCE_ARTIFACT_SAVE) {
+      await this.saveLogs(app, test?.fullTitle());
+    }
+  }
+
+  public async saveLogs(
+    app: App | undefined = this.lastApp,
+    pathPrefix?: string
+  ): Promise<void> {
     const { ARTIFACTS_DIR } = process.env;
     if (!ARTIFACTS_DIR) {
       // eslint-disable-next-line no-console
@@ -299,7 +313,12 @@ export class Bootstrap {
 
     await fs.mkdir(ARTIFACTS_DIR, { recursive: true });
 
-    const outDir = await fs.mkdtemp(path.join(ARTIFACTS_DIR, 'logs-'));
+    const normalizedPrefix = pathPrefix
+      ? `-${normalizePath(pathPrefix.replace(/[ /]/g, '-'))}-`
+      : '';
+    const outDir = await fs.mkdtemp(
+      path.join(ARTIFACTS_DIR, `logs-${normalizedPrefix}`)
+    );
 
     // eslint-disable-next-line no-console
     console.error(`Saving logs to ${outDir}`);

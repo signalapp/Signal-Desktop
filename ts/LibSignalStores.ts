@@ -7,6 +7,7 @@ import { isNumber } from 'lodash';
 
 import type {
   Direction,
+  KyberPreKeyRecord,
   PreKeyRecord,
   ProtocolAddress,
   SenderKeyRecord,
@@ -16,6 +17,7 @@ import type {
 } from '@signalapp/libsignal-client';
 import {
   IdentityKeyStore,
+  KyberPreKeyStore,
   PreKeyStore,
   PrivateKey,
   PublicKey,
@@ -23,7 +25,6 @@ import {
   SessionStore,
   SignedPreKeyStore,
 } from '@signalapp/libsignal-client';
-import { freezePreKey, freezeSignedPreKey } from './SignalProtocolStore';
 import { Address } from './types/Address';
 import { QualifiedAddress } from './types/QualifiedAddress';
 import type { UUID } from './types/UUID';
@@ -187,12 +188,8 @@ export class PreKeys extends PreKeyStore {
     this.ourUuid = ourUuid;
   }
 
-  async savePreKey(id: number, record: PreKeyRecord): Promise<void> {
-    await window.textsecure.storage.protocol.storePreKey(
-      this.ourUuid,
-      id,
-      freezePreKey(record)
-    );
+  async savePreKey(): Promise<void> {
+    throw new Error('savePreKey: Should not be called by libsignal!');
   }
 
   async getPreKey(id: number): Promise<PreKeyRecord> {
@@ -209,7 +206,41 @@ export class PreKeys extends PreKeyStore {
   }
 
   async removePreKey(id: number): Promise<void> {
-    await window.textsecure.storage.protocol.removePreKey(this.ourUuid, id);
+    await window.textsecure.storage.protocol.removePreKeys(this.ourUuid, [id]);
+  }
+}
+
+export class KyberPreKeys extends KyberPreKeyStore {
+  private readonly ourUuid: UUID;
+
+  constructor({ ourUuid }: PreKeysOptions) {
+    super();
+    this.ourUuid = ourUuid;
+  }
+
+  async saveKyberPreKey(): Promise<void> {
+    throw new Error('saveKyberPreKey: Should not be called by libsignal!');
+  }
+
+  async getKyberPreKey(id: number): Promise<KyberPreKeyRecord> {
+    const kyberPreKey =
+      await window.textsecure.storage.protocol.loadKyberPreKey(
+        this.ourUuid,
+        id
+      );
+
+    if (kyberPreKey === undefined) {
+      throw new Error(`getKyberPreKey: KyberPreKey ${id} not found`);
+    }
+
+    return kyberPreKey;
+  }
+
+  async markKyberPreKeyUsed(id: number): Promise<void> {
+    await window.textsecure.storage.protocol.maybeRemoveKyberPreKey(
+      this.ourUuid,
+      id
+    );
   }
 }
 
@@ -272,16 +303,8 @@ export class SignedPreKeys extends SignedPreKeyStore {
     this.ourUuid = ourUuid;
   }
 
-  async saveSignedPreKey(
-    id: number,
-    record: SignedPreKeyRecord
-  ): Promise<void> {
-    await window.textsecure.storage.protocol.storeSignedPreKey(
-      this.ourUuid,
-      id,
-      freezeSignedPreKey(record),
-      true
-    );
+  async saveSignedPreKey(): Promise<void> {
+    throw new Error('saveSignedPreKey: Should not be called by libsignal!');
   }
 
   async getSignedPreKey(id: number): Promise<SignedPreKeyRecord> {

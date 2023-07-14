@@ -14,6 +14,7 @@ import type { RawBodyRange } from '../types/BodyRange';
 export {
   IdentityKeyType,
   IdentityKeyIdType,
+  KyberPreKeyType,
   PreKeyIdType,
   PreKeyType,
   SenderKeyIdType,
@@ -286,6 +287,7 @@ export type IRequestHandler = {
 export type PniKeyMaterialType = Readonly<{
   identityKeyPair: Uint8Array;
   signedPreKey: Uint8Array;
+  lastResortKyberPreKey?: Uint8Array;
   registrationId: number;
 }>;
 

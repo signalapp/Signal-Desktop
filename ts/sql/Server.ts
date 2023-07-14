@@ -133,6 +133,7 @@ import type {
   UnprocessedType,
   UnprocessedUpdateType,
   GetNearbyMessageFromDeletedSetOptionsType,
+  StoredKyberPreKeyType,
 } from './Interface';
 import { SeenStatus } from '../MessageSeenStatus';
 import {
@@ -172,6 +173,14 @@ const dataInterface: ServerInterface = {
   removeIdentityKeyById,
   removeAllIdentityKeys,
   getAllIdentityKeys,
+
+  createOrUpdateKyberPreKey,
+  getKyberPreKeyById,
+  bulkAddKyberPreKeys,
+  removeKyberPreKeyById,
+  removeKyberPreKeysByUuid,
+  removeAllKyberPreKeys,
+  getAllKyberPreKeys,
 
   createOrUpdatePreKey,
   getPreKeyById,
@@ -655,6 +664,40 @@ async function getAllIdentityKeys(): Promise<Array<StoredIdentityKeyType>> {
   return getAllFromTable(getInstance(), IDENTITY_KEYS_TABLE);
 }
 
+const KYBER_PRE_KEYS_TABLE = 'kyberPreKeys';
+async function createOrUpdateKyberPreKey(
+  data: StoredKyberPreKeyType
+): Promise<void> {
+  return createOrUpdate(getInstance(), KYBER_PRE_KEYS_TABLE, data);
+}
+async function getKyberPreKeyById(
+  id: PreKeyIdType
+): Promise<StoredKyberPreKeyType | undefined> {
+  return getById(getInstance(), KYBER_PRE_KEYS_TABLE, id);
+}
+async function bulkAddKyberPreKeys(
+  array: Array<StoredKyberPreKeyType>
+): Promise<void> {
+  return bulkAdd(getInstance(), KYBER_PRE_KEYS_TABLE, array);
+}
+async function removeKyberPreKeyById(
+  id: PreKeyIdType | Array<PreKeyIdType>
+): Promise<void> {
+  return removeById(getInstance(), KYBER_PRE_KEYS_TABLE, id);
+}
+async function removeKyberPreKeysByUuid(uuid: UUIDStringType): Promise<void> {
+  const db = getInstance();
+  db.prepare<Query>('DELETE FROM kyberPreKeys WHERE ourUuid IS $uuid;').run({
+    uuid,
+  });
+}
+async function removeAllKyberPreKeys(): Promise<void> {
+  return removeAllFromTable(getInstance(), KYBER_PRE_KEYS_TABLE);
+}
+async function getAllKyberPreKeys(): Promise<Array<StoredKyberPreKeyType>> {
+  return getAllFromTable(getInstance(), KYBER_PRE_KEYS_TABLE);
+}
+
 const PRE_KEYS_TABLE = 'preKeys';
 async function createOrUpdatePreKey(data: StoredPreKeyType): Promise<void> {
   return createOrUpdate(getInstance(), PRE_KEYS_TABLE, data);
@@ -667,7 +710,9 @@ async function getPreKeyById(
 async function bulkAddPreKeys(array: Array<StoredPreKeyType>): Promise<void> {
   return bulkAdd(getInstance(), PRE_KEYS_TABLE, array);
 }
-async function removePreKeyById(id: PreKeyIdType): Promise<void> {
+async function removePreKeyById(
+  id: PreKeyIdType | Array<PreKeyIdType>
+): Promise<void> {
   return removeById(getInstance(), PRE_KEYS_TABLE, id);
 }
 async function removePreKeysByUuid(uuid: UUIDStringType): Promise<void> {
@@ -699,7 +744,9 @@ async function bulkAddSignedPreKeys(
 ): Promise<void> {
   return bulkAdd(getInstance(), SIGNED_PRE_KEYS_TABLE, array);
 }
-async function removeSignedPreKeyById(id: SignedPreKeyIdType): Promise<void> {
+async function removeSignedPreKeyById(
+  id: SignedPreKeyIdType | Array<SignedPreKeyIdType>
+): Promise<void> {
   return removeById(getInstance(), SIGNED_PRE_KEYS_TABLE, id);
 }
 async function removeSignedPreKeysByUuid(uuid: UUIDStringType): Promise<void> {
@@ -755,7 +802,9 @@ async function getAllItems(): Promise<StoredAllItemsType> {
 
   return result as unknown as StoredAllItemsType;
 }
-async function removeItemById(id: ItemKeyType): Promise<void> {
+async function removeItemById(
+  id: ItemKeyType | Array<ItemKeyType>
+): Promise<void> {
   return removeById(getInstance(), ITEMS_TABLE, id);
 }
 async function removeAllItems(): Promise<void> {
@@ -4989,6 +5038,7 @@ async function removeAll(): Promise<void> {
       DELETE FROM identityKeys;
       DELETE FROM items;
       DELETE FROM jobs;
+      DELETE FROM kyberPreKeys;
       DELETE FROM messages_fts;
       DELETE FROM messages;
       DELETE FROM preKeys;
@@ -5024,6 +5074,7 @@ async function removeAllConfiguration(
       `
       DELETE FROM identityKeys;
       DELETE FROM jobs;
+      DELETE FROM kyberPreKeys;
       DELETE FROM preKeys;
       DELETE FROM senderKeys;
       DELETE FROM sendLogMessageIds;

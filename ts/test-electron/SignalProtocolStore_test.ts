@@ -930,7 +930,7 @@ describe('SignalProtocolStore', () => {
   });
   describe('storePreKey', () => {
     it('stores prekeys', async () => {
-      await store.storePreKey(ourUuid, 1, testKey);
+      await store.storePreKeys(ourUuid, [{ keyId: 1, keyPair: testKey }]);
       const key = await store.loadPreKey(ourUuid, 1);
       if (!key) {
         throw new Error('Missing key!');
@@ -947,10 +947,10 @@ describe('SignalProtocolStore', () => {
   });
   describe('removePreKey', () => {
     before(async () => {
-      await store.storePreKey(ourUuid, 2, testKey);
+      await store.storePreKeys(ourUuid, [{ keyId: 2, keyPair: testKey }]);
     });
     it('deletes prekeys', async () => {
-      await store.removePreKey(ourUuid, 2);
+      await store.removePreKeys(ourUuid, [2]);
 
       const key = await store.loadPreKey(ourUuid, 2);
       assert.isUndefined(key);
@@ -978,7 +978,7 @@ describe('SignalProtocolStore', () => {
       await store.storeSignedPreKey(ourUuid, 4, testKey);
     });
     it('deletes signed prekeys', async () => {
-      await store.removeSignedPreKey(ourUuid, 4);
+      await store.removeSignedPreKeys(ourUuid, [4]);
 
       const key = await store.loadSignedPreKey(ourUuid, 4);
       assert.isUndefined(key);
@@ -1557,7 +1557,7 @@ describe('SignalProtocolStore', () => {
   });
   describe('removeOurOldPni/updateOurPniKeyMaterial', () => {
     beforeEach(async () => {
-      await store.storePreKey(ourUuid, 2, testKey);
+      await store.storePreKeys(ourUuid, [{ keyId: 2, keyPair: testKey }]);
       await store.storeSignedPreKey(ourUuid, 3, testKey);
     });
 
