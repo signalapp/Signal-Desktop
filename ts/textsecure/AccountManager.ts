@@ -384,12 +384,12 @@ export default class AccountManager extends EventTarget {
     } catch (error) {
       const errorText = Errors.toLogFormat(error);
       throw new Error(
-        `generateNewKyberPreKeys: Failed to fetch identity key - ${errorText}`
+        `getIdentityKeyOrThrow: Failed to fetch identity key - ${errorText}`
       );
     }
 
     if (!identityKey) {
-      throw new Error('generateNewKyberPreKeys: Missing identity key');
+      throw new Error('getIdentityKeyOrThrow: Missing identity key');
     }
 
     return identityKey;
@@ -418,8 +418,10 @@ export default class AccountManager extends EventTarget {
       toSave.push(generatePreKey(keyId));
     }
 
-    await store.storePreKeys(ourUuid, toSave);
-    await storage.put(PRE_KEY_ID_KEY[uuidKind], startId + count);
+    await Promise.all([
+      store.storePreKeys(ourUuid, toSave),
+      storage.put(PRE_KEY_ID_KEY[uuidKind], startId + count),
+    ]);
 
     return toSave.map(key => ({
       keyId: key.keyId,
@@ -467,8 +469,10 @@ export default class AccountManager extends EventTarget {
       });
     }
 
-    await store.storeKyberPreKeys(ourUuid, toSave);
-    await storage.put(KYBER_KEY_ID_KEY[uuidKind], startId + count);
+    await Promise.all([
+      store.storeKyberPreKeys(ourUuid, toSave),
+      storage.put(KYBER_KEY_ID_KEY[uuidKind], startId + count),
+    ]);
 
     return toUpload;
   }

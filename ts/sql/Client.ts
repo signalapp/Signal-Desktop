@@ -281,7 +281,7 @@ async function bulkAddKyberPreKeys(
   await channels.bulkAddKyberPreKeys(updated);
 }
 async function getAllKyberPreKeys(): Promise<Array<KyberPreKeyType>> {
-  const keys = await channels.getAllPreKeys();
+  const keys = await channels.getAllKyberPreKeys();
 
   return keys.map(key => specToBytes(KYBER_PRE_KEY_SPEC, key));
 }
