@@ -5,7 +5,7 @@ import { PubKey } from '../../session/types';
 import { UserUtils } from '../../session/utils';
 import { StateType } from '../reducer';
 import { getCanWrite, getModerators, getSubscriberCount } from './sogsRoomInfo';
-import { getSelectedConversation } from './conversations';
+import { getIsMessageSelectionMode, getSelectedConversation } from './conversations';
 
 /**
  * Returns the formatted text for notification setting.
@@ -268,4 +268,8 @@ export function useSelectedWeAreModerator() {
 
   const weAreModerator = mods.includes(us);
   return isPublic && isString(selectedConvoKey) && weAreModerator;
+}
+
+export function useIsMessageSelectionMode() {
+  return useSelector(getIsMessageSelectionMode);
 }

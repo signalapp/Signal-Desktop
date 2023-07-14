@@ -2,11 +2,12 @@ import React, { MouseEvent, useState } from 'react';
 
 import * as MIME from '../../../../../types/MIME';
 
-import { QuoteAuthor } from './QuoteAuthor';
-import { QuoteText } from './QuoteText';
-import { QuoteIconContainer } from './QuoteIconContainer';
-import styled from 'styled-components';
 import { isEmpty } from 'lodash';
+import styled from 'styled-components';
+import { useIsMessageSelectionMode } from '../../../../../state/selectors/selectedConversation';
+import { QuoteAuthor } from './QuoteAuthor';
+import { QuoteIconContainer } from './QuoteIconContainer';
+import { QuoteText } from './QuoteText';
 
 const StyledQuoteContainer = styled.div`
   min-width: 300px; // if the quoted content is small it doesn't look very good so we set a minimum
@@ -69,6 +70,7 @@ export interface QuotedAttachmentType {
 }
 
 export const Quote = (props: QuoteProps) => {
+  const isSelectionMode = useIsMessageSelectionMode();
   const { isIncoming, attachment, text, referencedMessageNotFound, onClick } = props;
 
   const [imageBroken, setImageBroken] = useState(false);
@@ -81,7 +83,11 @@ export const Quote = (props: QuoteProps) => {
       <StyledQuote
         hasAttachment={Boolean(!isEmpty(attachment))}
         isIncoming={isIncoming}
-        onClick={onClick}
+        onClick={e => {
+          if (onClick && !isSelectionMode) {
+            onClick(e);
+          }
+        }}
       >
         <QuoteIconContainer
           attachment={attachment}
