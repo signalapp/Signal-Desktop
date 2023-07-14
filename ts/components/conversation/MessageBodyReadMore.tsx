@@ -58,6 +58,8 @@ export function MessageBodyReadMore({
     BUFFER
   );
 
+  const disableJumbomoji = bodyRanges?.length ? true : undefined;
+
   const onIncreaseTextLength = hasReadMore
     ? () => {
         messageExpanded(id, maxLength + INCREMENT_COUNT);
@@ -68,6 +70,7 @@ export function MessageBodyReadMore({
     <MessageBody
       bodyRanges={bodyRanges}
       direction={direction}
+      disableJumbomoji={disableJumbomoji}
       disableLinks={disableLinks}
       i18n={i18n}
       isSpoilerExpanded={isSpoilerExpanded}

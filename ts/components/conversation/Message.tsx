@@ -741,8 +741,14 @@ export class Message extends React.PureComponent<Props, State> {
   }
 
   private canRenderStickerLikeEmoji(): boolean {
-    const { text, quote, storyReplyContext, attachments, previews } =
-      this.props;
+    const {
+      attachments,
+      bodyRanges,
+      previews,
+      quote,
+      storyReplyContext,
+      text,
+    } = this.props;
 
     return Boolean(
       text &&
@@ -751,6 +757,7 @@ export class Message extends React.PureComponent<Props, State> {
         !quote &&
         !storyReplyContext &&
         (!attachments || !attachments.length) &&
+        (!bodyRanges || !bodyRanges.length) &&
         (!previews || !previews.length)
     );
   }
