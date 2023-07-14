@@ -22,7 +22,7 @@ import {
 
 test.beforeEach(beforeAllClean);
 
-test('Send image and reply test', async () => {
+test('Send image', async () => {
   const [windowA, windowB] = await openApp(2);
   const [userA, userB] = await Promise.all([newUser(windowA, 'Alice'), newUser(windowB, 'Bob')]);
   const testMessage = `${userA.userName} sending image to ${userB.userName}`;
@@ -43,7 +43,7 @@ test('Send image and reply test', async () => {
   await replyTo(windowB, testMessage, testReply);
 });
 
-test('Send video and reply test', async () => {
+test('Send video', async () => {
   const [windowA, windowB] = await openApp(2);
   const [userA, userB] = await Promise.all([newUser(windowA, 'Alice'), newUser(windowB, 'Bob')]);
   const testMessage = `${userA.userName} sending video to ${userB.userName}`;
@@ -63,7 +63,7 @@ test('Send video and reply test', async () => {
   await replyTo(windowB, testMessage, testReply);
 });
 
-test('Send document and reply test', async () => {
+test('Send document', async () => {
   const [windowA, windowB] = await openApp(2);
   const [userA, userB] = await Promise.all([newUser(windowA, 'Alice'), newUser(windowB, 'Bob')]);
   const testMessage = `${userA.userName} sending document to ${userB.userName}`;
@@ -83,7 +83,7 @@ test('Send document and reply test', async () => {
   await replyTo(windowB, testMessage, testReply);
 });
 
-test('Send voice message and reply test', async () => {
+test('Send voice message', async () => {
   const [windowA, windowB] = await openApp(2);
   const [userA, userB] = await Promise.all([newUser(windowA, 'Alice'), newUser(windowB, 'Bob')]);
   // const testReply = `${userB.userName} to ${userA.userName}`;
@@ -103,7 +103,7 @@ test('Send voice message and reply test', async () => {
   await clickOnTestIdWithText(windowB, 'session-confirm-ok-button');
 });
 
-test('Send GIF and reply test', async () => {
+test('Send GIF', async () => {
   const [windowA, windowB] = await openApp(2);
   const [userA, userB] = await Promise.all([newUser(windowA, 'Alice'), newUser(windowB, 'Bob')]);
   // const testReply = `${userB.userName} to ${userA.userName}`;
@@ -116,7 +116,7 @@ test('Send GIF and reply test', async () => {
   await clickOnMatchingText(windowB, 'Click to download media');
 });
 
-test('Send long text and reply test', async () => {
+test('Send long text', async () => {
   const [windowA, windowB] = await openApp(2);
   const [userA, userB] = await Promise.all([newUser(windowA, 'Alice'), newUser(windowB, 'Bob')]);
 
@@ -133,7 +133,7 @@ test('Send long text and reply test', async () => {
   await replyTo(windowB, longText, testReply);
 });
 
-test('Unsend text message', async () => {
+test('Unsend message', async () => {
   const [windowA, windowB] = await openApp(2);
   const [userA, userB] = await Promise.all([newUser(windowA, 'Alice'), newUser(windowB, 'Bob')]);
   const unsendMessage = 'Testing unsend functionality';

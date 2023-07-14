@@ -14,7 +14,7 @@ import {
 
 test.beforeEach(beforeAllClean);
 
-test('Check group syncs', async () => {
+test('Check group and name syncs', async () => {
   const [windowA, windowC, windowD] = await openApp(3);
   const [userA, userB, userC] = await Promise.all([
     newUser(windowA, 'Alice'),
@@ -36,7 +36,7 @@ test('Check group syncs', async () => {
   await waitForTestIdWithText(windowB, 'module-conversation__user__profile-name', group.userName);
 });
 
-test('Check leaving group syncs', async () => {
+test('Leaving group syncs', async () => {
   const [windowA, windowC, windowD] = await openApp(3);
   const [userA, userB, userC] = await Promise.all([
     newUser(windowA, 'Alice'),
