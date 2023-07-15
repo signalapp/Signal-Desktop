@@ -88,6 +88,8 @@ export class MainSQL {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private onResponse = new Map<number, PromisePair<any>>();
 
+  private shouldTimeQueries = false;
+
   constructor() {
     const scriptDir = join(app.getAppPath(), 'ts', 'sql', 'mainWorker.js');
     this.worker = new Worker(scriptDir);
@@ -131,6 +133,8 @@ export class MainSQL {
     if (this.isReady || this.onReady) {
       throw new Error('Already initialized');
     }
+
+    this.shouldTimeQueries = Boolean(process.env.TIME_QUERIES);
 
     this.logger = logger;
 
@@ -193,9 +197,15 @@ export class MainSQL {
       args,
     });
 
+    if (this.shouldTimeQueries && !app.isPackaged) {
+      const twoDecimals = Math.round(100 * duration) / 100;
+      this.logger?.info(`MainSQL query: ${method}, duration=${twoDecimals}ms`);
+    }
     if (duration > MIN_TRACE_DURATION) {
       strictAssert(this.logger !== undefined, 'Logger not initialized');
-      this.logger.info(`MainSQL: slow query ${method} duration=${duration}ms`);
+      this.logger.info(
+        `MainSQL: slow query ${method} duration=${Math.round(duration)}ms`
+      );
     }
 
     return result;

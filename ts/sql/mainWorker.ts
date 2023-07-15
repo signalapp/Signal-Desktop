@@ -96,9 +96,9 @@ port.on('message', async ({ seq, request }: WrappedWorkerRequest) => {
         throw new Error(`Invalid sql method: ${method}`);
       }
 
-      const start = Date.now();
+      const start = performance.now();
       const result = await method.apply(db, request.args);
-      const end = Date.now();
+      const end = performance.now();
 
       respond(seq, undefined, { result, duration: end - start });
     } else {
