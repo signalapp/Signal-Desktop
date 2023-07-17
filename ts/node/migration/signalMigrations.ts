@@ -527,7 +527,7 @@ const SCHEMA_VERSIONS = [
   updateToSchemaVersion11,
 ];
 
-export function updateSchema(db: BetterSqlite3.Database) {
+export async function updateSchema(db: BetterSqlite3.Database) {
   const sqliteVersion = getSQLiteVersion(db);
   const sqlcipherVersion = getSQLCipherVersion(db);
   const userVersion = getUserVersion(db);
@@ -545,7 +545,7 @@ export function updateSchema(db: BetterSqlite3.Database) {
     const runSchemaUpdate = SCHEMA_VERSIONS[index];
     runSchemaUpdate(schemaVersion, db);
   }
-  updateSessionSchema(db);
+  await updateSessionSchema(db);
 }
 
 function migrateSchemaVersion(db: BetterSqlite3.Database) {
@@ -598,7 +598,7 @@ export function openAndMigrateDatabase(filePath: string, key: string) {
     if (db) {
       db.close();
     }
-    console.log('migrateDatabase: Migration without cipher change failed', error);
+    console.log('migrateDatabase: Migration without cipher change failed', error.message);
   }
 
   // If that fails, we try to open the database with 3.x compatibility to extract the

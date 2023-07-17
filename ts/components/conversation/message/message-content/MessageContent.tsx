@@ -1,22 +1,22 @@
 import classNames from 'classnames';
+import { isEmpty } from 'lodash';
 import moment from 'moment';
 import React, { createContext, useCallback, useContext, useLayoutEffect, useState } from 'react';
 import { InView } from 'react-intersection-observer';
 import { useSelector } from 'react-redux';
-import { isEmpty } from 'lodash';
+import styled, { css, keyframes } from 'styled-components';
 import { MessageModelType, MessageRenderingProps } from '../../../../models/messageType';
+import { useMessageIsDeleted } from '../../../../state/selectors';
 import {
   getMessageContentSelectorProps,
-  getMessageTextProps,
   getQuotedMessageToAnimate,
   getShouldHighlightMessage,
 } from '../../../../state/selectors/conversations';
+import { ScrollToLoadedMessageContext } from '../../SessionMessagesListContainer';
 import { MessageAttachment } from './MessageAttachment';
 import { MessageLinkPreview } from './MessageLinkPreview';
 import { MessageQuote } from './MessageQuote';
 import { MessageText } from './MessageText';
-import { ScrollToLoadedMessageContext } from '../../SessionMessagesListContainer';
-import styled, { css } from 'styled-components';
 
 export type MessageContentSelectorProps = Pick<
   MessageRenderingProps,
@@ -44,19 +44,7 @@ function onClickOnMessageInnerContainer(event: React.MouseEvent<HTMLDivElement>)
 
 const StyledMessageContent = styled.div``;
 
-const StyledMessageOpaqueContent = styled.div<{
-  messageDirection: MessageModelType;
-  highlight: boolean;
-}>`
-  background: ${props =>
-    props.messageDirection === 'incoming'
-      ? 'var(--message-bubbles-received-background-color)'
-      : 'var(--message-bubbles-sent-background-color)'};
-  align-self: ${props => (props.messageDirection === 'incoming' ? 'flex-start' : 'flex-end')};
-  padding: var(--padding-message-content);
-  border-radius: var(--border-radius-message-box);
-
-  @keyframes highlight {
+const opacityAnimation = keyframes`
     0% {
       opacity: 1;
     }
@@ -72,19 +60,29 @@ const StyledMessageOpaqueContent = styled.div<{
     100% {
       opacity: 1;
     }
-  }
+`;
 
-  ${props => {
-    return (
-      props.highlight &&
-      css`
-        animation-name: highlight;
-        animation-timing-function: linear;
-        animation-duration: 1s;
-        border-radius: 'var(--border-radius-message-box)';
-      `
-    );
-  }}
+export const StyledMessageHighlighter = styled.div<{
+  highlight: boolean;
+}>`
+  ${props =>
+    props.highlight &&
+    css`
+      animation: ${opacityAnimation} 1s linear;
+    `}
+`;
+
+const StyledMessageOpaqueContent = styled(StyledMessageHighlighter)<{
+  messageDirection: MessageModelType;
+  highlight: boolean;
+}>`
+  background: ${props =>
+    props.messageDirection === 'incoming'
+      ? 'var(--message-bubbles-received-background-color)'
+      : 'var(--message-bubbles-sent-background-color)'};
+  align-self: ${props => (props.messageDirection === 'incoming' ? 'flex-start' : 'flex-end')};
+  padding: var(--padding-message-content);
+  border-radius: var(--border-radius-message-box);
 `;
 
 export const IsMessageVisibleContext = createContext(false);
@@ -96,6 +94,7 @@ export const MessageContent = (props: Props) => {
   const contentProps = useSelector(state =>
     getMessageContentSelectorProps(state as any, props.messageId)
   );
+  const isDeleted = useMessageIsDeleted(props.messageId);
   const [isMessageVisible, setMessageIsVisible] = useState(false);
 
   const scrollToLoadedMessage = useContext(ScrollToLoadedMessageContext);
@@ -147,16 +146,9 @@ export const MessageContent = (props: Props) => {
     return null;
   }
 
-  const { direction, text, timestamp, serverTimestamp, previews } = contentProps;
+  const { direction, text, timestamp, serverTimestamp, previews, quote } = contentProps;
 
-  const selectedMsg = useSelector(state => getMessageTextProps(state as any, props.messageId));
-
-  let isDeleted = false;
-  if (selectedMsg && selectedMsg.isDeleted !== undefined) {
-    isDeleted = selectedMsg.isDeleted;
-  }
-
-  const hasContentAfterAttachmentAndQuote = !isEmpty(previews) || !isEmpty(text);
+  const hasContentBeforeAttachment = !isEmpty(previews) || !isEmpty(quote) || !isEmpty(text);
 
   const toolTipTitle = moment(serverTimestamp || timestamp).format('llll');
 
@@ -180,7 +172,7 @@ export const MessageContent = (props: Props) => {
         }}
       >
         <IsMessageVisibleContext.Provider value={isMessageVisible}>
-          {hasContentAfterAttachmentAndQuote && (
+          {hasContentBeforeAttachment && (
             <StyledMessageOpaqueContent messageDirection={direction} highlight={highlight}>
               {!isDeleted && (
                 <>
@@ -199,6 +191,7 @@ export const MessageContent = (props: Props) => {
               messageId={props.messageId}
               imageBroken={imageBroken}
               handleImageError={handleImageError}
+              highlight={highlight}
             />
           )}
         </IsMessageVisibleContext.Provider>

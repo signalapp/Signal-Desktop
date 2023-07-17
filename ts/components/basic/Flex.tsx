@@ -4,6 +4,7 @@ export interface FlexProps {
   children?: any;
   className?: string;
   container?: boolean;
+  dataTestId?: string;
   /****** Container Props ********/
   flexDirection?: 'row' | 'column';
   justifyContent?:

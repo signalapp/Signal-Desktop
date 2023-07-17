@@ -3,6 +3,7 @@ import React, { useCallback, useContext, useLayoutEffect, useState } from 'react
 import { InView } from 'react-intersection-observer';
 import { useDispatch, useSelector } from 'react-redux';
 import { Data } from '../../../../data/data';
+import { useHasUnread } from '../../../../hooks/useParamSelector';
 import { getConversationController } from '../../../../session/conversations';
 import {
   fetchBottomMessagesForConversation,
@@ -12,16 +13,15 @@ import {
 } from '../../../../state/ducks/conversations';
 import {
   areMoreMessagesBeingFetched,
-  getConversationHasUnread,
   getLoadedMessagesLength,
   getMostRecentMessageId,
   getOldestMessageId,
   getQuotedMessageToAnimate,
-  getSelectedConversationKey,
   getShowScrollButton,
   getYoungestMessageId,
 } from '../../../../state/selectors/conversations';
 import { getIsAppFocused } from '../../../../state/selectors/section';
+import { useSelectedConversationKey } from '../../../../state/selectors/selectedConversation';
 import { ScrollToLoadedMessageContext } from '../../SessionMessagesListContainer';
 
 type ReadableMessageProps = {
@@ -63,15 +63,14 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
   const isAppFocused = useSelector(getIsAppFocused);
   const dispatch = useDispatch();
 
-  const selectedConversationKey = useSelector(getSelectedConversationKey);
+  const selectedConversationKey = useSelectedConversationKey();
   const loadedMessagesLength = useSelector(getLoadedMessagesLength);
   const mostRecentMessageId = useSelector(getMostRecentMessageId);
   const oldestMessageId = useSelector(getOldestMessageId);
   const youngestMessageId = useSelector(getYoungestMessageId);
   const fetchingMoreInProgress = useSelector(areMoreMessagesBeingFetched);
-  const conversationHasUnread = useSelector(getConversationHasUnread);
+  const conversationHasUnread = useHasUnread(selectedConversationKey);
   const scrollButtonVisible = useSelector(getShowScrollButton);
-  const shouldMarkReadWhenVisible = isUnread;
 
   const [didScroll, setDidScroll] = useState(false);
   const quotedMessageToAnimate = useSelector(getQuotedMessageToAnimate);
@@ -99,14 +98,17 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
   const onVisible = useCallback(
     // tslint:disable-next-line: cyclomatic-complexity
     async (inView: boolean | Object) => {
+      if (!selectedConversationKey) {
+        return;
+      }
       // we are the most recent message
-      if (mostRecentMessageId === messageId && selectedConversationKey) {
+      if (mostRecentMessageId === messageId) {
         // make sure the app is focused, because we mark message as read here
         if (inView === true && isAppFocused) {
           dispatch(showScrollToBottomButton(false));
           getConversationController()
             .get(selectedConversationKey)
-            ?.markRead(receivedAt || 0);
+            ?.markConversationRead(receivedAt || 0); // TODOLATER this should be `sentAt || serverTimestamp` I think
 
           dispatch(markConversationFullyRead(selectedConversationKey));
         } else if (inView === false) {
@@ -118,8 +120,7 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
         inView === true &&
         isAppFocused &&
         oldestMessageId === messageId &&
-        !fetchingMoreInProgress &&
-        selectedConversationKey
+        !fetchingMoreInProgress
       ) {
         debouncedTriggerLoadMoreTop(selectedConversationKey, oldestMessageId);
       }
@@ -128,8 +129,7 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
         inView === true &&
         isAppFocused &&
         youngestMessageId === messageId &&
-        !fetchingMoreInProgress &&
-        selectedConversationKey
+        !fetchingMoreInProgress
       ) {
         debouncedTriggerLoadMoreBottom(selectedConversationKey, youngestMessageId);
       }
@@ -140,21 +140,20 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
           ((inView as any).type === 'focus' && (inView as any).returnValue === true)) &&
         isAppFocused
       ) {
-        if (shouldMarkReadWhenVisible) {
+        if (isUnread) {
+          // TODOLATER this is pretty expensive and should instead use values from the redux store
           const found = await Data.getMessageById(messageId);
 
           if (found && Boolean(found.get('unread'))) {
-            const foundSentAt = found.get('sent_at');
-            // mark the message as read.
-            // this will trigger the expire timer.
-            await found.markRead(Date.now());
-
+            const foundSentAt = found.get('sent_at') || found.get('serverTimestamp');
             // we should stack those and send them in a single message once every 5secs or something.
             // this would be part of an redesign of the sending pipeline
-            if (foundSentAt && selectedConversationKey) {
-              void getConversationController()
+            // mark the whole conversation as read until this point.
+            // this will trigger the expire timer.
+            if (foundSentAt) {
+              getConversationController()
                 .get(selectedConversationKey)
-                ?.sendReadReceiptsIfNeeded([foundSentAt]);
+                ?.markConversationRead(foundSentAt, Date.now());
             }
           }
         }
@@ -168,8 +167,8 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
       isAppFocused,
       loadedMessagesLength,
       receivedAt,
-      shouldMarkReadWhenVisible,
       messageId,
+      isUnread,
     ]
   );
 
@@ -180,13 +179,13 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
       onContextMenu={onContextMenu}
       className={className}
       as="div"
-      threshold={0.8}
+      threshold={0.5} // consider that more than 50% of the message visible means it is read
       delay={isAppFocused ? 100 : 200}
       onChange={isAppFocused ? onVisible : noop}
       triggerOnce={false}
       trackVisibility={true}
       key={`inview-msg-${messageId}`}
-      data-testid="readable-message"
+      data-testid="control-message"
     >
       {props.children}
     </InView>

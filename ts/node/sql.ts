@@ -1,8 +1,8 @@
-import path from 'path';
-import fs from 'fs';
-import rimraf from 'rimraf';
 import * as BetterSqlite3 from 'better-sqlite3';
 import { app, clipboard, dialog, Notification } from 'electron';
+import fs from 'fs';
+import path from 'path';
+import rimraf from 'rimraf';
 
 import {
   chunk,
@@ -17,19 +17,18 @@ import {
   isString,
   last,
   map,
+  omit,
+  uniq,
 } from 'lodash';
-import { redactAll } from '../util/privacy'; // checked - only node
-import { LocaleMessagesType } from './locale'; // checked - only node
-import { PubKey } from '../session/types/PubKey'; // checked - only node
-import { StorageItem } from './storage_item'; // checked - only node
 import { ConversationAttributes } from '../models/conversationAttributes';
+import { PubKey } from '../session/types/PubKey'; // checked - only node
+import { redactAll } from '../util/privacy'; // checked - only node
 import {
   arrayStrToJson,
   assertValidConversationAttributes,
   ATTACHMENT_DOWNLOADS_TABLE,
   CLOSED_GROUP_V2_KEY_PAIRS_TABLE,
   CONVERSATIONS_TABLE,
-  dropFtsAndTriggers,
   formatRowOfConversation,
   GUARD_NODE_TABLE,
   HEX_KEY,
@@ -42,19 +41,38 @@ import {
   NODES_FOR_PUBKEY_TABLE,
   objectToJSON,
   OPEN_GROUP_ROOMS_V2_TABLE,
-  rebuildFtsTable,
   toSqliteBoolean,
 } from './database_utility';
+import { LocaleMessagesType } from './locale'; // checked - only node
+import { StorageItem } from './storage_item'; // checked - only node
 
-import { UpdateLastHashType } from '../types/sqlSharedTypes';
 import { OpenGroupV2Room } from '../data/opengroups';
+import {
+  CONFIG_DUMP_TABLE,
+  MsgDuplicateSearchOpenGroup,
+  roomHasBlindEnabled,
+  SaveConversationReturn,
+  UnprocessedDataNode,
+  UnprocessedParameter,
+  UpdateLastHashType,
+} from '../types/sqlSharedTypes';
 
+import { KNOWN_BLINDED_KEYS_ITEM, SettingsKey } from '../data/settings-key';
 import {
   getSQLCipherIntegrityCheck,
   openAndMigrateDatabase,
   updateSchema,
 } from './migration/signalMigrations';
-import { SettingsKey } from '../data/settings-key';
+import {
+  assertGlobalInstance,
+  assertGlobalInstanceOrInstance,
+  closeDbInstance,
+  initDbInstanceWith,
+  isInstanceInitialized,
+} from './sqlInstance';
+import { configDumpData } from './sql_calls/config_dump';
+import { base64_variants, from_base64, to_hex } from 'libsodium-wrappers-sumo';
+import { Quote } from '../receiver/types';
 
 // tslint:disable: no-console function-name non-literal-fs-path
 
@@ -74,14 +92,14 @@ function openAndSetUpSQLCipher(filePath: string, { key }: { key: string }) {
 }
 
 function setSQLPassword(password: string) {
-  if (!globalInstance) {
+  if (!assertGlobalInstance()) {
     throw new Error('setSQLPassword: db is not initialized');
   }
 
   // If the password isn't hex then we need to derive a key from it
   const deriveKey = HEX_KEY.test(password);
   const value = deriveKey ? `'${password}'` : `"x'${password}'"`;
-  globalInstance.pragma(`rekey = ${value}`);
+  assertGlobalInstance().pragma(`rekey = ${value}`);
 }
 
 function vacuumDatabase(db: BetterSqlite3.Database) {
@@ -92,26 +110,6 @@ function vacuumDatabase(db: BetterSqlite3.Database) {
   console.info('Vacuuming DB. This might take a while.');
   db.exec('VACUUM;');
   console.info(`Vacuuming DB Finished in ${Date.now() - start}ms.`);
-}
-
-let globalInstance: BetterSqlite3.Database | null = null;
-
-function assertGlobalInstance(): BetterSqlite3.Database {
-  if (!globalInstance) {
-    throw new Error('globalInstance is not initialized.');
-  }
-  return globalInstance;
-}
-
-function assertGlobalInstanceOrInstance(
-  instance?: BetterSqlite3.Database | null
-): BetterSqlite3.Database {
-  // if none of them are initialized, throw
-  if (!globalInstance && !instance) {
-    throw new Error('neither globalInstance nor initialized is initialized.');
-  }
-  // otherwise, return which ever is true, priority to the global one
-  return globalInstance || (instance as BetterSqlite3.Database);
 }
 
 let databaseFilePath: string | undefined;
@@ -143,7 +141,7 @@ async function initializeSql({
   passwordAttempt: boolean;
 }) {
   console.info('initializeSql sqlnode');
-  if (globalInstance) {
+  if (isInstanceInitialized()) {
     throw new Error('Cannot initialize more than once!');
   }
 
@@ -168,7 +166,7 @@ async function initializeSql({
     if (!db) {
       throw new Error('db is not set');
     }
-    updateSchema(db);
+    await updateSchema(db);
 
     // test database
 
@@ -184,7 +182,7 @@ async function initializeSql({
     }
 
     // At this point we can allow general access to the database
-    globalInstance = db;
+    initDbInstanceWith(db);
 
     console.info('total message count before cleaning: ', getMessageCount());
     console.info('total conversation count before cleaning: ', getConversationCount());
@@ -194,7 +192,6 @@ async function initializeSql({
 
     console.info('total message count after cleaning: ', getMessageCount());
     console.info('total conversation count after cleaning: ', getConversationCount());
-
     // Clear any already deleted db entries on each app start.
     vacuumDatabase(db);
   } catch (error) {
@@ -215,7 +212,7 @@ async function initializeSql({
     if (button.response === 0) {
       clipboard.writeText(`Database startup error:\n\n${redactAll(error.stack)}`);
     } else {
-      close();
+      closeDbInstance();
       showFailedToStart();
     }
 
@@ -226,20 +223,8 @@ async function initializeSql({
   return true;
 }
 
-function close() {
-  if (!globalInstance) {
-    return;
-  }
-  const dbRef = globalInstance;
-  globalInstance = null;
-  // SQLLite documentation suggests that we run `PRAGMA optimize` right before
-  // closing the database connection.
-  dbRef.pragma('optimize');
-  dbRef.close();
-}
-
 function removeDB(configDir = null) {
-  if (globalInstance) {
+  if (isInstanceInitialized()) {
     throw new Error('removeDB: Cannot erase database when it is open!');
   }
 
@@ -309,8 +294,8 @@ function updateGuardNodes(nodes: Array<string>) {
 function createOrUpdateItem(data: StorageItem, instance?: BetterSqlite3.Database) {
   createOrUpdate(ITEMS_TABLE, data, instance);
 }
-function getItemById(id: string) {
-  return getById(ITEMS_TABLE, id);
+function getItemById(id: string, instance?: BetterSqlite3.Database) {
+  return getById(ITEMS_TABLE, id, instance);
 }
 function getAllItems() {
   const rows = assertGlobalInstance()
@@ -421,10 +406,14 @@ function getConversationCount() {
   return row['count(*)'];
 }
 
-// tslint:disable-next-line: max-func-body-length
-// tslint:disable-next-line: cyclomatic-complexity
-// tslint:disable-next-line: max-func-body-length
-function saveConversation(data: ConversationAttributes, instance?: BetterSqlite3.Database) {
+/**
+ * Because the argument list can change when saving a conversation (and actually doing a lot of other stuff),
+ * it is not a good idea to try to use it to update a conversation while doing migrations.
+ * Because everytime you'll update the saveConversation with a new argument, the migration you wrote a month ago still relies on the old way.
+ * Because of that, there is no `instance` argument here, and you should not add one as this is only needed during migrations (which will break if you do it)
+ */
+// tslint:disable-next-line: max-func-body-length cyclomatic-complexity
+function saveConversation(data: ConversationAttributes): SaveConversationReturn {
   const formatted = assertValidConversationAttributes(data);
 
   const {
@@ -437,30 +426,28 @@ function saveConversation(data: ConversationAttributes, instance?: BetterSqlite3
     zombies,
     left,
     expireTimer,
-    mentionedUs,
-    unreadCount,
     lastMessageStatus,
     lastMessage,
     lastJoinedTimestamp,
     groupAdmins,
-    groupModerators,
     isKickedFromGroup,
-    subscriberCount,
-    readCapability,
-    writeCapability,
-    uploadCapability,
-    is_medium_group,
     avatarPointer,
     avatarImageId,
     triggerNotificationsFor,
     isTrustedForAttachmentDownload,
-    isPinned,
     isApproved,
     didApproveMe,
     avatarInProfile,
     displayNameInProfile,
     conversationIdOrigin,
+    priority,
+    markedAsUnread,
   } = formatted;
+
+  const omited = omit(formatted);
+  const keys = Object.keys(omited);
+  const columnsCommaSeparated = keys.join(', ');
+  const valuesArgs = keys.map(k => `$${k}`).join(', ');
 
   const maxLength = 300;
   // shorten the last message as we never need more than `maxLength` chars (and it bloats the redux/ipc calls uselessly.
@@ -469,74 +456,12 @@ function saveConversation(data: ConversationAttributes, instance?: BetterSqlite3
     isString(lastMessage) && lastMessage.length > maxLength
       ? lastMessage.substring(0, maxLength)
       : lastMessage;
-  assertGlobalInstanceOrInstance(instance)
+  assertGlobalInstance()
     .prepare(
       `INSERT OR REPLACE INTO ${CONVERSATIONS_TABLE} (
-	id,
-	active_at,
-	type,
-	members,
-  nickname,
-  profileKey,
-  zombies,
-  left,
-  expireTimer,
-  mentionedUs,
-  unreadCount,
-  lastMessageStatus,
-  lastMessage,
-  lastJoinedTimestamp,
-  groupAdmins,
-  groupModerators,
-  isKickedFromGroup,
-  subscriberCount,
-  readCapability,
-  writeCapability,
-  uploadCapability,
-  is_medium_group,
-  avatarPointer,
-  avatarImageId,
-  triggerNotificationsFor,
-  isTrustedForAttachmentDownload,
-  isPinned,
-  isApproved,
-  didApproveMe,
-  avatarInProfile,
-  displayNameInProfile,
-  conversationIdOrigin
+	${columnsCommaSeparated}
 	) values (
-	    $id,
-	    $active_at,
-	    $type,
-	    $members,
-      $nickname,
-      $profileKey,
-      $zombies,
-      $left,
-      $expireTimer,
-      $mentionedUs,
-      $unreadCount,
-      $lastMessageStatus,
-      $lastMessage,
-      $lastJoinedTimestamp,
-      $groupAdmins,
-      $groupModerators,
-      $isKickedFromGroup,
-      $subscriberCount,
-      $readCapability,
-      $writeCapability,
-      $uploadCapability,
-      $is_medium_group,
-      $avatarPointer,
-      $avatarImageId,
-      $triggerNotificationsFor,
-      $isTrustedForAttachmentDownload,
-      $isPinned,
-      $isApproved,
-      $didApproveMe,
-      $avatarInProfile,
-      $displayNameInProfile,
-      $conversationIdOrigin
+	   ${valuesArgs}
       )`
     )
     .run({
@@ -549,33 +474,43 @@ function saveConversation(data: ConversationAttributes, instance?: BetterSqlite3
       zombies: zombies && zombies.length ? arrayStrToJson(zombies) : '[]',
       left: toSqliteBoolean(left),
       expireTimer,
-      mentionedUs: toSqliteBoolean(mentionedUs),
-      unreadCount,
       lastMessageStatus,
       lastMessage: shortenedLastMessage,
 
       lastJoinedTimestamp,
       groupAdmins: groupAdmins && groupAdmins.length ? arrayStrToJson(groupAdmins) : '[]',
-      groupModerators:
-        groupModerators && groupModerators.length ? arrayStrToJson(groupModerators) : '[]',
       isKickedFromGroup: toSqliteBoolean(isKickedFromGroup),
-      subscriberCount,
-      readCapability: toSqliteBoolean(readCapability),
-      writeCapability: toSqliteBoolean(writeCapability),
-      uploadCapability: toSqliteBoolean(uploadCapability),
-
-      is_medium_group: toSqliteBoolean(is_medium_group),
       avatarPointer,
       avatarImageId,
       triggerNotificationsFor,
       isTrustedForAttachmentDownload: toSqliteBoolean(isTrustedForAttachmentDownload),
-      isPinned: toSqliteBoolean(isPinned),
+      priority,
       isApproved: toSqliteBoolean(isApproved),
       didApproveMe: toSqliteBoolean(didApproveMe),
       avatarInProfile,
       displayNameInProfile,
       conversationIdOrigin,
+      markedAsUnread: toSqliteBoolean(markedAsUnread),
     });
+
+  return fetchConvoMemoryDetails(id);
+}
+
+function fetchConvoMemoryDetails(convoId: string): SaveConversationReturn {
+  const hasMentionedUsUnread = !!getFirstUnreadMessageWithMention(convoId);
+  const unreadCount = getUnreadCountByConversation(convoId);
+  const lastReadTimestampMessageSentTimestamp = getLastMessageReadInConversation(convoId);
+
+  // TODOLATER it would be nice to be able to remove the lastMessage and lastMessageStatus from the conversation table, and just return it when saving the conversation
+  // and saving it in memory only.
+  // But we'd need to update a bunch of things as we do some logic before setting the lastUpdate text and status mostly in `getMessagePropStatus` and `getNotificationText()`
+  // const lastMessages = getLastMessagesByConversation(convoId, 1) as Array:Record<string, any>>;
+
+  return {
+    mentionedUs: hasMentionedUsUnread,
+    unreadCount,
+    lastReadTimestampMessage: lastReadTimestampMessageSentTimestamp,
+  };
 }
 
 function removeConversation(id: string | Array<string>) {
@@ -598,53 +533,96 @@ function removeConversation(id: string | Array<string>) {
     .run(id);
 }
 
-function getConversationById(id: string) {
-  const row = assertGlobalInstance()
+export function getIdentityKeys(db: BetterSqlite3.Database) {
+  const row = db.prepare(`SELECT * FROM ${ITEMS_TABLE} WHERE id = $id;`).get({
+    id: 'identityKey',
+  });
+
+  if (!row) {
+    return null;
+  }
+  try {
+    const parsedIdentityKey = jsonToObject(row.json);
+    if (
+      !parsedIdentityKey?.value?.pubKey ||
+      !parsedIdentityKey?.value?.ed25519KeyPair?.privateKey
+    ) {
+      return null;
+    }
+    const publicKeyBase64 = parsedIdentityKey?.value?.pubKey;
+    const publicKeyHex = to_hex(from_base64(publicKeyBase64, base64_variants.ORIGINAL));
+
+    const ed25519PrivateKeyUintArray = parsedIdentityKey?.value?.ed25519KeyPair?.privateKey;
+
+    // TODOLATER migrate the ed25519KeyPair for all the users already logged in to a base64 representation
+    const privateEd25519 = new Uint8Array(Object.values(ed25519PrivateKeyUintArray));
+
+    if (!privateEd25519 || isEmpty(privateEd25519)) {
+      return null;
+    }
+
+    return {
+      publicKeyHex,
+      privateEd25519,
+    };
+  } catch (e) {
+    return null;
+  }
+}
+
+function getUsBlindedInThatServerIfNeeded(
+  convoId: string,
+  instance?: BetterSqlite3.Database
+): string | undefined {
+  const usNaked = getIdentityKeys(assertGlobalInstanceOrInstance(instance))?.publicKeyHex;
+  if (!usNaked) {
+    return undefined;
+  }
+  const room = getV2OpenGroupRoom(convoId, instance) as OpenGroupV2Room | null;
+  if (!room || !roomHasBlindEnabled(room) || !room.serverPublicKey) {
+    return usNaked;
+  }
+
+  const blinded = getItemById(KNOWN_BLINDED_KEYS_ITEM, instance);
+  // this is essentially a duplicate of getUsBlindedInThatServer made at a database level (with db from the DB directly and not cached on the renderer side)
+  try {
+    const allBlinded = JSON.parse(blinded?.value);
+    const found = allBlinded.find(
+      (m: any) => m.serverPublicKey === room.serverPublicKey && m.realSessionId === usNaked
+    );
+
+    const blindedId = found?.blindedId;
+    return isString(blindedId) ? blindedId : usNaked;
+  } catch (e) {
+    console.error('getUsBlindedInThatServerIfNeeded failed with ', e.message);
+  }
+
+  return usNaked;
+}
+
+function getConversationById(id: string, instance?: BetterSqlite3.Database) {
+  const row = assertGlobalInstanceOrInstance(instance)
     .prepare(`SELECT * FROM ${CONVERSATIONS_TABLE} WHERE id = $id;`)
     .get({
       id,
     });
 
-  return formatRowOfConversation(row);
+  const unreadCount = getUnreadCountByConversation(id, instance) || 0;
+  const mentionedUsStillUnread = !!getFirstUnreadMessageWithMention(id, instance);
+
+  return formatRowOfConversation(row, 'getConversationById', unreadCount, mentionedUsStillUnread);
 }
 
 function getAllConversations() {
   const rows = assertGlobalInstance()
     .prepare(`SELECT * FROM ${CONVERSATIONS_TABLE} ORDER BY id ASC;`)
     .all();
-  return (rows || []).map(formatRowOfConversation);
-}
 
-function getAllOpenGroupV2Conversations(instance?: BetterSqlite3.Database) {
-  // first _ matches all opengroupv1 (they are completely removed in a migration now),
-  // second _ force a second char to be there, so it can only be opengroupv2 convos
-
-  const rows = assertGlobalInstanceOrInstance(instance)
-    .prepare(
-      `SELECT * FROM ${CONVERSATIONS_TABLE} WHERE
-      type = 'group' AND
-      id LIKE 'publicChat:__%@%'
-     ORDER BY id ASC;`
-    )
-    .all();
-
-  return (rows || []).map(formatRowOfConversation);
-}
-
-function getAllOpenGroupV2ConversationsIds(): Array<string> {
-  // first _ matches all opengroupv1 (they are completely removed in a migration now),
-  // second _ force a second char to be there, so it can only be opengroupv2 convos
-
-  const rows = assertGlobalInstance()
-    .prepare(
-      `SELECT id FROM ${CONVERSATIONS_TABLE} WHERE
-      type = 'group' AND
-      id LIKE 'publicChat:__%@%'
-     ORDER BY id ASC;`
-    )
-    .all();
-
-  return map(rows, row => row.id);
+  return (rows || []).map(m => {
+    const unreadCount = getUnreadCountByConversation(m.id) || 0;
+    const mentionedUsStillUnread = !!getFirstUnreadMessageWithMention(m.id);
+    return formatRowOfConversation(m, 'getAllConversations', unreadCount, mentionedUsStillUnread);
+  });
 }
 
 function getPubkeysInPublicConversation(conversationId: string) {
@@ -681,7 +659,7 @@ function searchConversations(query: string) {
       (
         displayNameInProfile LIKE $displayNameInProfile OR
         nickname LIKE $nickname
-      ) AND active_at IS NOT NULL AND active_at > 0
+      ) AND active_at > 0
      ORDER BY active_at DESC
      LIMIT $limit`
     )
@@ -691,7 +669,19 @@ function searchConversations(query: string) {
       limit: 50,
     });
 
-  return (rows || []).map(formatRowOfConversation);
+  return (rows || []).map(m => {
+    const unreadCount = getUnreadCountByConversation(m.id);
+    const mentionedUsStillUnread = !!getFirstUnreadMessageWithMention(m.id);
+
+    const formatted = formatRowOfConversation(
+      m,
+      'searchConversations',
+      unreadCount,
+      mentionedUsStillUnread
+    );
+
+    return formatted;
+  });
 }
 
 // order by clause is the same as orderByClause but with a table prefix so we cannot reuse it
@@ -708,9 +698,9 @@ function searchMessages(query: string, limit: number) {
       ${MESSAGES_TABLE}.json,
       snippet(${MESSAGES_FTS_TABLE}, -1, '<<left>>', '<<right>>', '...', 5) as snippet
     FROM ${MESSAGES_FTS_TABLE}
-    INNER JOIN ${MESSAGES_TABLE} on ${MESSAGES_FTS_TABLE}.id = ${MESSAGES_TABLE}.id
+    INNER JOIN ${MESSAGES_TABLE} on ${MESSAGES_FTS_TABLE}.rowid = ${MESSAGES_TABLE}.rowid
     WHERE
-     ${MESSAGES_FTS_TABLE} match $query
+     ${MESSAGES_FTS_TABLE}.body match $query
     ${orderByMessageCoalesceClause}
     LIMIT $limit;`
     )
@@ -725,6 +715,10 @@ function searchMessages(query: string, limit: number) {
   }));
 }
 
+/**
+ * Search for matching messages in a specific conversation.
+ * Currently unused but kept as we want to add it back at some point.
+ */
 function searchMessagesInConversation(query: string, conversationId: string, limit: number) {
   const rows = assertGlobalInstance()
     .prepare(
@@ -964,11 +958,12 @@ function removeMessagesByIds(ids: Array<string>, instance?: BetterSqlite3.Databa
   if (!ids.length) {
     throw new Error('removeMessagesByIds: No ids to delete!');
   }
+  const start = Date.now();
 
-  // Our node interface doesn't seem to allow you to replace one single ? with an array
   assertGlobalInstanceOrInstance(instance)
     .prepare(`DELETE FROM ${MESSAGES_TABLE} WHERE id IN ( ${ids.map(() => '?').join(', ')} );`)
     .run(ids);
+  console.log(`removeMessagesByIds of length ${ids.length} took ${Date.now() - start}ms`);
 }
 
 function removeAllMessagesInConversation(
@@ -978,9 +973,9 @@ function removeAllMessagesInConversation(
   if (!conversationId) {
     return;
   }
+  const inst = assertGlobalInstanceOrInstance(instance);
 
-  // Our node interface doesn't seem to allow you to replace one single ? with an array
-  assertGlobalInstanceOrInstance(instance)
+  inst
     .prepare(`DELETE FROM ${MESSAGES_TABLE} WHERE conversationId = $conversationId`)
     .run({ conversationId });
 }
@@ -1025,21 +1020,6 @@ function getMessageById(id: string) {
   return jsonToObject(row.json);
 }
 
-function getMessageBySenderAndSentAt({ source, sentAt }: { source: string; sentAt: number }) {
-  const rows = assertGlobalInstance()
-    .prepare(
-      `SELECT json FROM ${MESSAGES_TABLE} WHERE
-      source = $source AND
-      sent_at = $sent_at;`
-    )
-    .all({
-      source,
-      sent_at: sentAt,
-    });
-
-  return map(rows, row => jsonToObject(row.json));
-}
-
 // serverIds are not unique so we need the conversationId
 function getMessageByServerId(conversationId: string, serverId: number) {
   const row = assertGlobalInstance()
@@ -1077,30 +1057,37 @@ function getMessagesCountBySender({ source }: { source: string }) {
   return count['count(*)'] || 0;
 }
 
-function getMessageBySenderAndTimestamp({
-  source,
-  timestamp,
-}: {
-  source: string;
-  timestamp: number;
-}) {
-  const rows = assertGlobalInstance()
-    .prepare(
-      `SELECT json FROM ${MESSAGES_TABLE} WHERE
+function getMessagesBySenderAndSentAt(
+  propsList: Array<{
+    source: string;
+    timestamp: number;
+  }>
+) {
+  const db = assertGlobalInstance();
+  const rows = [];
+
+  for (const msgProps of propsList) {
+    const { source, timestamp } = msgProps;
+
+    const _rows = db
+      .prepare(
+        `SELECT json FROM ${MESSAGES_TABLE} WHERE
       source = $source AND
       sent_at = $timestamp;`
-    )
-    .all({
-      source,
-      timestamp,
-    });
+      )
+      .all({
+        source,
+        timestamp,
+      });
+    rows.push(..._rows);
+  }
 
-  return map(rows, row => jsonToObject(row.json));
+  return uniq(map(rows, row => jsonToObject(row.json)));
 }
 
 function filterAlreadyFetchedOpengroupMessage(
-  msgDetails: Array<{ sender: string; serverTimestamp: number }> // MsgDuplicateSearchOpenGroup
-): Array<{ sender: string; serverTimestamp: number }> {
+  msgDetails: MsgDuplicateSearchOpenGroup
+): MsgDuplicateSearchOpenGroup {
   const filteredNonBlinded = msgDetails.filter(msg => {
     const rows = assertGlobalInstance()
       .prepare(
@@ -1124,17 +1111,19 @@ function filterAlreadyFetchedOpengroupMessage(
   return filteredNonBlinded;
 }
 
-function getUnreadByConversation(conversationId: string) {
+function getUnreadByConversation(conversationId: string, sentBeforeTimestamp: number) {
   const rows = assertGlobalInstance()
     .prepare(
       `SELECT * FROM ${MESSAGES_TABLE} WHERE
       unread = $unread AND
-      conversationId = $conversationId
-     ORDER BY received_at DESC;`
+      conversationId = $conversationId AND
+      COALESCE(serverTimestamp, sent_at) <= $sentBeforeTimestamp
+     ${orderByClauseASC};`
     )
     .all({
-      unread: 1,
+      unread: toSqliteBoolean(true),
       conversationId,
+      sentBeforeTimestamp,
     });
 
   return map(rows, row => jsonToObject(row.json));
@@ -1156,7 +1145,7 @@ function markAllAsReadByConversationNoExpiration(
   conversationId = $conversationId;`
       )
       .all({
-        unread: 1,
+        unread: toSqliteBoolean(true),
         conversationId,
       });
     toReturn = compact(messagesUnreadBefore.map(row => jsonToObject(row.json).sent_at));
@@ -1170,29 +1159,30 @@ function markAllAsReadByConversationNoExpiration(
       conversationId = $conversationId;`
     )
     .run({
-      unread: 1,
+      unread: toSqliteBoolean(true),
       conversationId,
     });
 
   return toReturn;
 }
 
-function getUnreadCountByConversation(conversationId: string) {
-  const row = assertGlobalInstance()
+function getUnreadCountByConversation(
+  conversationId: string,
+  instance?: BetterSqlite3.Database
+): number {
+  const row = assertGlobalInstanceOrInstance(instance)
     .prepare(
       `SELECT count(*) FROM ${MESSAGES_TABLE} WHERE
     unread = $unread AND
     conversationId = $conversationId;`
     )
     .get({
-      unread: 1,
+      unread: toSqliteBoolean(true),
       conversationId,
     });
 
   if (!row) {
-    throw new Error(
-      `getUnreadCountByConversation: Unable to get unread count of ${conversationId}`
-    );
+    throw new Error(`Unable to get unread count of ${conversationId}`);
   }
 
   return row['count(*)'];
@@ -1224,74 +1214,101 @@ function getMessageCountByType(conversationId: string, type = '%') {
 const orderByClause = 'ORDER BY COALESCE(serverTimestamp, sent_at, received_at) DESC';
 const orderByClauseASC = 'ORDER BY COALESCE(serverTimestamp, sent_at, received_at) ASC';
 
-function getMessagesByConversation(conversationId: string, { messageId = null } = {}) {
+function getMessagesByConversation(
+  conversationId: string,
+  { messageId = null, returnQuotes = false } = {}
+): { messages: Array<Record<string, any>>; quotes: Array<Quote> } {
   const absLimit = 30;
   // If messageId is given it means we are opening the conversation to that specific messageId,
   // or that we just scrolled to it by a quote click and needs to load around it.
   // If messageId is null, it means we are just opening the convo to the last unread message, or at the bottom
   const firstUnread = getFirstUnreadMessageIdInConversation(conversationId);
 
-  const numberOfMessagesInConvo = getMessagesCountByConversation(conversationId, globalInstance);
+  const numberOfMessagesInConvo = getMessagesCountByConversation(conversationId);
   const floorLoadAllMessagesInConvo = 70;
+
+  let messages: Array<Record<string, any>> = [];
+  let quotes = [];
 
   if (messageId || firstUnread) {
     const messageFound = getMessageById(messageId || firstUnread);
 
     if (messageFound && messageFound.conversationId === conversationId) {
-      // tslint:disable-next-line: no-shadowed-variable
-      const rows = assertGlobalInstance()
+      // tslint:disable-next-li ne: no-shadowed-variable
+      const start = Date.now();
+      const msgTimestamp =
+        messageFound.serverTimestamp || messageFound.sent_at || messageFound.received_at;
+
+      const commonArgs = {
+        conversationId,
+        msgTimestamp,
+        limit:
+          numberOfMessagesInConvo < floorLoadAllMessagesInConvo
+            ? floorLoadAllMessagesInConvo
+            : absLimit,
+      };
+
+      const messagesBefore = assertGlobalInstance()
         .prepare(
-          `WITH cte AS (
-            SELECT id, conversationId, json, row_number() OVER (${orderByClause}) as row_number
-              FROM ${MESSAGES_TABLE} WHERE conversationId = $conversationId
-          ), current AS (
-          SELECT row_number
-            FROM cte
-          WHERE id = $messageId
-
+          `SELECT id, conversationId, json
+            FROM ${MESSAGES_TABLE} WHERE conversationId = $conversationId AND COALESCE(serverTimestamp, sent_at, received_at) <= $msgTimestamp
+            ${orderByClause}
+            LIMIT $limit`
         )
-        SELECT cte.*
-          FROM cte, current
-            WHERE ABS(cte.row_number - current.row_number) <= $limit
-          ORDER BY cte.row_number;
-          `
-        )
-        .all({
-          conversationId,
-          messageId: messageId || firstUnread,
-          limit:
-            numberOfMessagesInConvo < floorLoadAllMessagesInConvo
-              ? floorLoadAllMessagesInConvo
-              : absLimit,
-        });
+        .all(commonArgs);
 
-      return map(rows, row => jsonToObject(row.json));
+      const messagesAfter = assertGlobalInstance()
+        .prepare(
+          `SELECT id, conversationId, json
+            FROM ${MESSAGES_TABLE} WHERE conversationId = $conversationId AND COALESCE(serverTimestamp, sent_at, received_at) > $msgTimestamp
+            ${orderByClauseASC}
+            LIMIT $limit`
+        )
+        .all(commonArgs);
+
+      console.info(`getMessagesByConversation around took ${Date.now() - start}ms `);
+
+      // sorting is made in redux already when rendered, but some things are made outside of redux, so let's make sure the order is right
+      messages = map([...messagesBefore, ...messagesAfter], row => jsonToObject(row.json)).sort(
+        (a, b) => {
+          return (
+            (b.serverTimestamp || b.sent_at || b.received_at) -
+            (a.serverTimestamp || a.sent_at || a.received_at)
+          );
+        }
+      );
     }
     console.info(
       `getMessagesByConversation: Could not find messageId ${messageId} in db with conversationId: ${conversationId}. Just fetching the convo as usual.`
     );
-  }
+  } else {
+    const limit =
+      numberOfMessagesInConvo < floorLoadAllMessagesInConvo
+        ? floorLoadAllMessagesInConvo
+        : absLimit * 2;
 
-  const limit =
-    numberOfMessagesInConvo < floorLoadAllMessagesInConvo
-      ? floorLoadAllMessagesInConvo
-      : absLimit * 2;
-
-  const rows = assertGlobalInstance()
-    .prepare(
-      `
+    const rows = assertGlobalInstance()
+      .prepare(
+        `
     SELECT json FROM ${MESSAGES_TABLE} WHERE
       conversationId = $conversationId
       ${orderByClause}
     LIMIT $limit;
     `
-    )
-    .all({
-      conversationId,
-      limit,
-    });
+      )
+      .all({
+        conversationId,
+        limit,
+      });
 
-  return map(rows, row => jsonToObject(row.json));
+    messages = map(rows, row => jsonToObject(row.json));
+  }
+
+  if (returnQuotes) {
+    quotes = uniq(messages.filter(message => message.quote).map(message => message.quote));
+  }
+
+  return { messages, quotes };
 }
 
 function getLastMessagesByConversation(conversationId: string, limit: number) {
@@ -1367,7 +1384,7 @@ function getFirstUnreadMessageIdInConversation(conversationId: string) {
     )
     .all({
       conversationId,
-      unread: 1,
+      unread: toSqliteBoolean(true),
     });
 
   if (rows.length === 0) {
@@ -1376,19 +1393,43 @@ function getFirstUnreadMessageIdInConversation(conversationId: string) {
   return rows[0].id;
 }
 
-function getFirstUnreadMessageWithMention(
-  conversationId: string,
-  ourPkInThatRoom: string // this might be a blinded id for a sogs
-): string | undefined {
-  if (!ourPkInThatRoom || !ourPkInThatRoom.length) {
-    throw new Error('getFirstUnreadMessageWithMention needs our pubkey but nothing was given');
-  }
-  const likeMatch = `%@${ourPkInThatRoom}%`;
-
+/**
+ * Returns the last read message timestamp in the specific conversation (the columns `serverTimestamp` || `sent_at`)
+ */
+function getLastMessageReadInConversation(conversationId: string): number | null {
   const rows = assertGlobalInstance()
     .prepare(
       `
-    SELECT id, json FROM ${MESSAGES_TABLE} WHERE
+      SELECT MAX(MAX(COALESCE(serverTimestamp, 0)), MAX(COALESCE(sent_at, 0)) ) AS max_sent_at
+      FROM ${MESSAGES_TABLE} WHERE
+        conversationId = $conversationId AND
+        unread = $unread;
+    `
+    )
+    .get({
+      conversationId,
+      unread: toSqliteBoolean(false), // we want to find the message read with the higher sent_at timestamp
+    });
+
+  return rows?.max_sent_at || null;
+}
+
+function getFirstUnreadMessageWithMention(
+  conversationId: string,
+  instance?: BetterSqlite3.Database
+): string | undefined {
+  const ourPkInThatConversation = getUsBlindedInThatServerIfNeeded(conversationId, instance);
+
+  if (!ourPkInThatConversation || !ourPkInThatConversation.length) {
+    throw new Error('getFirstUnreadMessageWithMention needs our pubkey but nothing was given');
+  }
+  const likeMatch = `%@${ourPkInThatConversation}%`;
+
+  // TODOLATER make this use the fts search table rather than this one?
+  const rows = assertGlobalInstanceOrInstance(instance)
+    .prepare(
+      `
+    SELECT id FROM ${MESSAGES_TABLE} WHERE
       conversationId = $conversationId AND
       unread = $unread AND
       body LIKE $likeMatch
@@ -1398,7 +1439,7 @@ function getFirstUnreadMessageWithMention(
     )
     .all({
       conversationId,
-      unread: 1,
+      unread: toSqliteBoolean(true),
       likeMatch,
     });
 
@@ -1501,127 +1542,119 @@ function getNextExpiringMessage() {
 }
 
 /* Unproccessed a received messages not yet processed */
-function saveUnprocessed(data: any) {
-  const { id, timestamp, version, attempts, envelope, senderIdentity, messageHash } = data;
-  if (!id) {
-    throw new Error(`saveUnprocessed: id was falsey: ${id}`);
-  }
+const unprocessed: UnprocessedDataNode = {
+  saveUnprocessed: (data: UnprocessedParameter) => {
+    const { id, timestamp, version, attempts, envelope, senderIdentity, messageHash } = data;
+    if (!id) {
+      throw new Error(`saveUnprocessed: id was falsey: ${id}`);
+    }
 
-  assertGlobalInstance()
-    .prepare(
-      `INSERT OR REPLACE INTO unprocessed (
-      id,
-      timestamp,
-      version,
-      attempts,
-      envelope,
-      senderIdentity,
-      serverHash
-    ) values (
-      $id,
-      $timestamp,
-      $version,
-      $attempts,
-      $envelope,
-      $senderIdentity,
-      $messageHash
-    );`
-    )
-    .run({
-      id,
-      timestamp,
-      version,
-      attempts,
-      envelope,
-      senderIdentity,
-      messageHash,
-    });
+    assertGlobalInstance()
+      .prepare(
+        `INSERT OR REPLACE INTO unprocessed (
+        id,
+        timestamp,
+        version,
+        attempts,
+        envelope,
+        senderIdentity,
+        serverHash
+      ) values (
+        $id,
+        $timestamp,
+        $version,
+        $attempts,
+        $envelope,
+        $senderIdentity,
+        $messageHash
+      );`
+      )
+      .run({
+        id,
+        timestamp,
+        version,
+        attempts,
+        envelope,
+        senderIdentity,
+        messageHash,
+      });
+  },
 
-  return id;
-}
+  updateUnprocessedAttempts: (id: string, attempts: number) => {
+    assertGlobalInstance()
+      .prepare('UPDATE unprocessed SET attempts = $attempts WHERE id = $id;')
+      .run({
+        id,
+        attempts,
+      });
+  },
 
-function updateUnprocessedAttempts(id: string, attempts: number) {
-  assertGlobalInstance()
-    .prepare('UPDATE unprocessed SET attempts = $attempts WHERE id = $id;')
-    .run({
-      id,
-      attempts,
-    });
-}
-function updateUnprocessedWithData(id: string, data: any = {}) {
-  const { source, serverTimestamp, decrypted, senderIdentity } = data;
+  updateUnprocessedWithData: (id: string, data: UnprocessedParameter) => {
+    const { source, decrypted, senderIdentity } = data;
 
-  assertGlobalInstance()
-    .prepare(
-      `UPDATE unprocessed SET
-      source = $source,
-      serverTimestamp = $serverTimestamp,
-      decrypted = $decrypted,
-      senderIdentity = $senderIdentity
-    WHERE id = $id;`
-    )
-    .run({
-      id,
-      source,
-      serverTimestamp,
-      decrypted,
-      senderIdentity,
-    });
-}
+    assertGlobalInstance()
+      .prepare(
+        `UPDATE unprocessed SET
+        source = $source,
+        decrypted = $decrypted,
+        senderIdentity = $senderIdentity
+      WHERE id = $id;`
+      )
+      .run({
+        id,
+        source,
+        decrypted,
+        senderIdentity,
+      });
+  },
 
-function getUnprocessedById(id: string) {
-  const row = assertGlobalInstance()
-    .prepare('SELECT * FROM unprocessed WHERE id = $id;')
-    .get({
-      id,
-    });
+  getUnprocessedById: (id: string) => {
+    const row = assertGlobalInstance()
+      .prepare('SELECT * FROM unprocessed WHERE id = $id;')
+      .get({
+        id,
+      });
 
-  return row;
-}
+    return row;
+  },
 
-function getUnprocessedCount() {
-  const row = assertGlobalInstance()
-    .prepare('SELECT count(*) from unprocessed;')
-    .get();
+  getUnprocessedCount: () => {
+    const row = assertGlobalInstance()
+      .prepare('SELECT count(*) from unprocessed;')
+      .get();
 
-  if (!row) {
-    throw new Error('getMessageCount: Unable to get count of unprocessed');
-  }
+    if (!row) {
+      throw new Error('getMessageCount: Unable to get count of unprocessed');
+    }
 
-  return row['count(*)'];
-}
+    return row['count(*)'];
+  },
 
-function getAllUnprocessed() {
-  const rows = assertGlobalInstance()
-    .prepare('SELECT * FROM unprocessed ORDER BY timestamp ASC;')
-    .all();
+  getAllUnprocessed: () => {
+    const rows = assertGlobalInstance()
+      .prepare('SELECT * FROM unprocessed ORDER BY timestamp ASC;')
+      .all();
 
-  return rows;
-}
+    return rows;
+  },
 
-function removeUnprocessed(id: string) {
-  if (!Array.isArray(id)) {
+  removeUnprocessed: (id: string): void => {
+    if (Array.isArray(id)) {
+      console.error('removeUnprocessed only supports single ids at a time');
+      throw new Error('removeUnprocessed only supports single ids at a time');
+    }
     assertGlobalInstance()
       .prepare('DELETE FROM unprocessed WHERE id = $id;')
       .run({ id });
     return;
-  }
+  },
 
-  if (!id.length) {
-    throw new Error('removeUnprocessed: No ids to delete!');
-  }
-
-  // Our node interface doesn't seem to allow you to replace one single ? with an array
-  assertGlobalInstance()
-    .prepare(`DELETE FROM unprocessed WHERE id IN ( ${id.map(() => '?').join(', ')} );`)
-    .run(id);
-}
-
-function removeAllUnprocessed() {
-  assertGlobalInstance()
-    .prepare('DELETE FROM unprocessed;')
-    .run();
-}
+  removeAllUnprocessed: () => {
+    assertGlobalInstance()
+      .prepare('DELETE FROM unprocessed;')
+      .run();
+  },
+};
 
 function getNextAttachmentDownloadJobs(limit: number) {
   const timestamp = Date.now();
@@ -1704,6 +1737,7 @@ function removeAll() {
     DELETE FROM ${MESSAGES_TABLE};
     DELETE FROM ${ATTACHMENT_DOWNLOADS_TABLE};
     DELETE FROM ${MESSAGES_FTS_TABLE};
+    DELETE FROM ${CONFIG_DUMP_TABLE};
 `);
 }
 
@@ -1917,17 +1951,23 @@ function getMessagesCountByConversation(
  * The returned array is ordered based on the timestamp, the latest is at the end.
  * @param groupPublicKey string | PubKey
  */
-function getAllEncryptionKeyPairsForGroup(groupPublicKey: string | PubKey) {
-  const rows = getAllEncryptionKeyPairsForGroupRaw(groupPublicKey);
+function getAllEncryptionKeyPairsForGroup(
+  groupPublicKey: string | PubKey,
+  db?: BetterSqlite3.Database
+) {
+  const rows = getAllEncryptionKeyPairsForGroupRaw(groupPublicKey, db);
 
   return map(rows, row => jsonToObject(row.json));
 }
 
-function getAllEncryptionKeyPairsForGroupRaw(groupPublicKey: string | PubKey) {
+function getAllEncryptionKeyPairsForGroupRaw(
+  groupPublicKey: string | PubKey,
+  db?: BetterSqlite3.Database
+) {
   const pubkeyAsString = (groupPublicKey as PubKey).key
     ? (groupPublicKey as PubKey).key
     : groupPublicKey;
-  const rows = assertGlobalInstance()
+  const rows = assertGlobalInstanceOrInstance(db)
     .prepare(
       `SELECT * FROM ${CLOSED_GROUP_V2_KEY_PAIRS_TABLE} WHERE groupPublicKey = $groupPublicKey ORDER BY timestamp ASC;`
     )
@@ -1938,8 +1978,11 @@ function getAllEncryptionKeyPairsForGroupRaw(groupPublicKey: string | PubKey) {
   return rows;
 }
 
-function getLatestClosedGroupEncryptionKeyPair(groupPublicKey: string) {
-  const rows = getAllEncryptionKeyPairsForGroup(groupPublicKey);
+function getLatestClosedGroupEncryptionKeyPair(
+  groupPublicKey: string,
+  db?: BetterSqlite3.Database
+) {
+  const rows = getAllEncryptionKeyPairsForGroup(groupPublicKey, db);
   if (!rows || rows.length === 0) {
     return undefined;
   }
@@ -1997,8 +2040,8 @@ function getAllV2OpenGroupRooms(instance?: BetterSqlite3.Database): Array<OpenGr
   return rows.map(r => jsonToObject(r.json)) as Array<OpenGroupV2Room>;
 }
 
-function getV2OpenGroupRoom(conversationId: string) {
-  const row = assertGlobalInstance()
+function getV2OpenGroupRoom(conversationId: string, db?: BetterSqlite3.Database) {
+  const row = assertGlobalInstanceOrInstance(db)
     .prepare(
       `SELECT json FROM ${OPEN_GROUP_ROOMS_V2_TABLE} WHERE conversationId = $conversationId;`
     )
@@ -2044,6 +2087,10 @@ function removeV2OpenGroupRoom(conversationId: string) {
       conversationId,
     });
 }
+
+/**
+ * Others
+ */
 
 function getEntriesCountInTable(tbl: string) {
   try {
@@ -2095,7 +2142,7 @@ function cleanUpUnusedNodeForKeyEntriesOnStart() {
   const allIdsToKeep =
     assertGlobalInstance()
       .prepare(
-        `SELECT id FROM ${CONVERSATIONS_TABLE} WHERE id NOT LIKE 'publicChat:%'
+        `SELECT id FROM ${CONVERSATIONS_TABLE} WHERE id NOT LIKE 'http%'
     `
       )
       .all()
@@ -2157,7 +2204,17 @@ function cleanUpOldOpengroupsOnStart() {
     return;
   }
 
-  const v2ConvosIds = getAllOpenGroupV2ConversationsIds();
+  const rows = assertGlobalInstance()
+    .prepare(
+      `SELECT id FROM ${CONVERSATIONS_TABLE} WHERE
+      type = 'group' AND
+      id LIKE 'http%'
+     ORDER BY id ASC;`
+    )
+    .all();
+
+  const v2ConvosIds = map(rows, row => row.id);
+
   if (!v2ConvosIds || !v2ConvosIds.length) {
     console.info('cleanUpOldOpengroups: v2Convos is empty');
     return;
@@ -2181,7 +2238,6 @@ function cleanUpOldOpengroupsOnStart() {
   // first remove very old messages for each opengroups
   const db = assertGlobalInstance();
   db.transaction(() => {
-    dropFtsAndTriggers(db);
     v2ConvosIds.forEach(convoId => {
       const messagesInConvoBefore = getMessagesCountByConversation(convoId);
 
@@ -2209,12 +2265,15 @@ function cleanUpOldOpengroupsOnStart() {
             start}ms. Old message count: ${messagesInConvoBefore}, new message count: ${messagesInConvoAfter}`
         );
 
-        const unreadCount = getUnreadCountByConversation(convoId);
-        const convoProps = getConversationById(convoId);
-        if (convoProps) {
-          convoProps.unreadCount = unreadCount;
-          saveConversation(convoProps);
-        }
+        // no need to update the `unreadCount` during the migration anymore.
+        // `saveConversation` is broken when called with a argument without all the required fields.
+        // and this makes little sense as the unreadCount will be updated on opening
+        // const unreadCount = get UnreadCountByConversation(convoId);
+        // const convoProps = get ConversationById(convoId);
+        // if (convoProps) {
+        //   convoProps.unread Count = unread Count;
+        //   saveConversation(convoProps);
+        // }
       } else {
         console.info(
           `Not cleaning messages older than 6 months in public convo: ${convoId}. message count: ${messagesInConvoBefore}`
@@ -2261,167 +2320,14 @@ function cleanUpOldOpengroupsOnStart() {
     }
 
     cleanUpMessagesJson();
-
-    rebuildFtsTable(db);
   })();
 }
 
-// tslint:disable: binary-expression-operand-order insecure-random
-/**
- * Only using this for development. Populate conversation and message tables.
- */
-function fillWithTestData(numConvosToAdd: number, numMsgsToAdd: number) {
-  const convoBeforeCount = assertGlobalInstance()
-    .prepare(`SELECT count(*) from ${CONVERSATIONS_TABLE};`)
-    .get()['count(*)'];
-
-  const lipsum =
-    // eslint:disable-next-line max-line-length
-    `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis ac ornare lorem,
-    non suscipit      purus. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-    Suspendisse cursus aliquet       velit a dignissim. Integer at nisi sed velit consequat
-    dictum. Phasellus congue tellus ante.        Ut rutrum hendrerit dapibus. Fusce
-    luctus, ante nec interdum molestie, purus urna volutpat         turpis, eget mattis
-    lectus velit at velit. Praesent vel tellus turpis. Praesent eget purus          at
-    nisl blandit pharetra.  Cras dapibus sem vitae rutrum dapibus. Vivamus vitae mi
-    ante.           Donec aliquam porta nibh, vel scelerisque orci condimentum sed.
-    Proin in mattis ipsum,            ac euismod sem. Donec malesuada sem nisl, at
-    vehicula ante efficitur sed. Curabitur             in sapien eros. Morbi tempor ante ut
-    metus scelerisque condimentum. Integer sit amet              tempus nulla. Vivamus
-    imperdiet dui ac luctus vulputate.  Sed a accumsan risus. Nulla               facilisi.
-    Nulla mauris dui, luctus in sagittis at, sodales id mauris. Integer efficitur
-            viverra ex, ut dignissim eros tincidunt placerat. Sed facilisis gravida
-    mauris in luctus                . Fusce dapibus, est vitae tincidunt eleifend, justo
-    odio porta dui, sed ultrices mi arcu                 vitae ante. Mauris ut libero
-    erat. Nam ut mi quis ante tincidunt facilisis sit amet id enim.
-    Vestibulum in molestie mi. In ac felis est. Vestibulum vel blandit ex. Morbi vitae
-    viverra augue                  . Ut turpis quam, cursus quis ex a, convallis
-    ullamcorper purus.  Nam eget libero arcu. Integer fermentum enim nunc, non consequat urna
-    fermentum condimentum. Nulla vitae malesuada est. Donec imperdiet tortor interdum
-    malesuada feugiat. Integer pulvinar dui ex, eget tristique arcu mattis at. Nam eu neque
-    eget mauris varius suscipit. Quisque ac enim vitae mauris laoreet congue nec sed
-    justo. Curabitur fermentum quam eget est tincidunt, at faucibus lacus maximus.  Donec
-    auctor enim dolor, faucibus egestas diam consectetur sed. Donec eget rutrum arcu, at
-    tempus mi. Fusce quis volutpat sapien. In aliquet fringilla purus. Ut eu nunc non
-    augue lacinia ultrices at eget tortor. Maecenas pulvinar odio sit amet purus
-    elementum, a vehicula lorem maximus. Pellentesque eu lorem magna. Vestibulum ut facilisis
-    lorem. Proin et enim cursus, vulputate neque sit amet, posuere enim. Praesent
-    faucibus tellus vel mi tincidunt, nec malesuada nibh malesuada. In laoreet sapien vitae
-    aliquet sollicitudin.
-    `;
-
-  const msgBeforeCount = assertGlobalInstance()
-    .prepare(`SELECT count(*) from ${MESSAGES_TABLE};`)
-    .get()['count(*)'];
-
-  console.info('==== fillWithTestData ====');
-  console.info({
-    convoBeforeCount,
-    msgBeforeCount,
-    convoToAdd: numConvosToAdd,
-    msgToAdd: numMsgsToAdd,
-  });
-
-  const convosIdsAdded = [];
-  // eslint-disable-next-line no-plusplus
-  for (let index = 0; index < numConvosToAdd; index++) {
-    const activeAt = Date.now() - index;
-    const id = Date.now() - 1000 * index;
-    const convoObjToAdd: ConversationAttributes = {
-      active_at: activeAt,
-      members: [],
-      displayNameInProfile: `${activeAt}`,
-      id: `05${id}`,
-      type: 'group',
-      didApproveMe: false,
-      expireTimer: 0,
-      groupAdmins: [],
-      groupModerators: [],
-      isApproved: false,
-      isKickedFromGroup: false,
-      isPinned: false,
-      isTrustedForAttachmentDownload: false,
-      is_medium_group: false,
-      lastJoinedTimestamp: 0,
-      lastMessage: null,
-      lastMessageStatus: undefined,
-      left: false,
-      mentionedUs: false,
-      subscriberCount: 0,
-      readCapability: true,
-      writeCapability: true,
-      uploadCapability: true,
-      triggerNotificationsFor: 'all',
-      unreadCount: 0,
-      zombies: [],
-    };
-    convosIdsAdded.push(id);
-    try {
-      saveConversation(convoObjToAdd);
-      // eslint-disable-next-line no-empty
-    } catch (e) {
-      console.error(e);
-    }
-  }
-  // eslint-disable-next-line no-plusplus
-  for (let index = 0; index < numMsgsToAdd; index++) {
-    const activeAt = Date.now() - index;
-    const id = Date.now() - 1000 * index;
-
-    const lipsumStartIdx = Math.floor(Math.random() * lipsum.length);
-    const lipsumLength = Math.floor(Math.random() * lipsum.length - lipsumStartIdx);
-    const fakeBodyText = lipsum.substring(lipsumStartIdx, lipsumStartIdx + lipsumLength);
-
-    const convoId = convosIdsAdded[Math.floor(Math.random() * convosIdsAdded.length)];
-    const msgObjToAdd = {
-      // body: `fake body ${activeAt}`,
-      body: `fakeMsgIdx-spongebob-${index} ${fakeBodyText} ${activeAt}`,
-      conversationId: `05${id}`,
-      // eslint-disable-next-line camelcase
-      expires_at: 0,
-      hasAttachments: 0,
-      hasFileAttachments: 0,
-      hasVisualMediaAttachments: 0,
-      id: `${id}`,
-      serverId: 0,
-      serverTimestamp: 0,
-      // eslint-disable-next-line camelcase
-      received_at: Date.now(),
-      sent: 0,
-      // eslint-disable-next-line camelcase
-      sent_at: Date.now(),
-      source: `${convoId}`,
-      type: 'outgoing',
-      unread: 1,
-      expireTimer: 0,
-      expirationStartTimestamp: 0,
-    };
-
-    if (convoId % 10 === 0) {
-      console.info('uyo , convoId ', { index, convoId });
-    }
-
-    try {
-      saveMessage(msgObjToAdd);
-      // eslint-disable-next-line no-empty
-    } catch (e) {
-      console.error(e);
-    }
-  }
-
-  const convoAfterCount = assertGlobalInstance()
-    .prepare(`SELECT count(*) from ${CONVERSATIONS_TABLE};`)
-    .get()['count(*)'];
-
-  const msgAfterCount = assertGlobalInstance()
-    .prepare(`SELECT count(*) from ${MESSAGES_TABLE};`)
-    .get()['count(*)'];
-
-  console.info({ convoAfterCount, msgAfterCount });
-  return convosIdsAdded;
-}
-
 export type SqlNodeType = typeof sqlNode;
+
+export function close() {
+  closeDbInstance();
+}
 
 export const sqlNode = {
   initializeSql,
@@ -2447,10 +2353,10 @@ export const sqlNode = {
 
   getConversationCount,
   saveConversation,
+  fetchConvoMemoryDetails,
   getConversationById,
   removeConversation,
   getAllConversations,
-  getAllOpenGroupV2Conversations,
   getPubkeysInPublicConversation,
   removeAllConversations,
 
@@ -2474,9 +2380,8 @@ export const sqlNode = {
   getUnreadCountByConversation,
   getMessageCountByType,
 
-  getMessageBySenderAndSentAt,
   filterAlreadyFetchedOpengroupMessage,
-  getMessageBySenderAndTimestamp,
+  getMessagesBySenderAndSentAt,
   getMessageIdsFromServerIds,
   getMessageById,
   getMessagesBySentAt,
@@ -2492,16 +2397,9 @@ export const sqlNode = {
   getFirstUnreadMessageIdInConversation,
   getFirstUnreadMessageWithMention,
   hasConversationOutgoingMessage,
-  fillWithTestData,
 
-  getUnprocessedCount,
-  getAllUnprocessed,
-  saveUnprocessed,
-  updateUnprocessedAttempts,
-  updateUnprocessedWithData,
-  getUnprocessedById,
-  removeUnprocessed,
-  removeAllUnprocessed,
+  // add all the calls related to the unprocessed cache of incoming messages
+  ...unprocessed,
 
   getNextAttachmentDownloadJobs,
   saveAttachmentDownloadJob,
@@ -2527,4 +2425,7 @@ export const sqlNode = {
   saveV2OpenGroupRoom,
   getAllV2OpenGroupRooms,
   removeV2OpenGroupRoom,
+
+  // config dumps
+  ...configDumpData,
 };

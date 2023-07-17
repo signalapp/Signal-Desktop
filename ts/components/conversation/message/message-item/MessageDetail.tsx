@@ -10,14 +10,12 @@ import {
   closeMessageDetailsView,
   ContactPropsMessageDetail,
 } from '../../../../state/ducks/conversations';
-import {
-  getMessageDetailsViewProps,
-  getMessageIsDeletable,
-} from '../../../../state/selectors/conversations';
+import { getMessageDetailsViewProps } from '../../../../state/selectors/conversations';
 import { ContactName } from '../../ContactName';
 // tslint:disable-next-line: no-submodule-imports
 import useKey from 'react-use/lib/useKey';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../../../basic/SessionButton';
+import { useMessageIsDeletable } from '../../../../state/selectors';
 
 const AvatarItem = (props: { pubkey: string }) => {
   const { pubkey } = props;
@@ -62,14 +60,14 @@ const ContactItem = (props: { contact: ContactPropsMessageDetail }) => {
   const { contact } = props;
   const errors = contact.errors || [];
 
-  const statusComponent = !contact.isOutgoingKeyError ? (
+  const statusComponent = (
     <div
       className={classNames(
         'module-message-detail__contact__status-icon',
         `module-message-detail__contact__status-icon--${contact.status}`
       )}
     />
-  ) : null;
+  );
 
   return (
     <div key={contact.pubkey} className="module-message-detail__contact">
@@ -98,9 +96,7 @@ export const MessageDetail = () => {
   const { i18n } = window;
 
   const messageDetailProps = useSelector(getMessageDetailsViewProps);
-  const isDeletable = useSelector(state =>
-    getMessageIsDeletable(state as any, messageDetailProps?.messageId || '')
-  );
+  const isDeletable = useMessageIsDeletable(messageDetailProps?.messageId);
 
   const dispatch = useDispatch();
 

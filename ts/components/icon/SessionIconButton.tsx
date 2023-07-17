@@ -86,6 +86,7 @@ const SessionIconButtonInner = React.forwardRef<HTMLDivElement, SProps>((props, 
         backgroundColor={backgroundColor}
         borderRadius={borderRadius}
         iconPadding={iconPadding}
+        data-testid={dataTestId}
       />
       {Boolean(notificationCount) && <SessionNotificationCount count={notificationCount} />}
     </StyledSessionIconButton>

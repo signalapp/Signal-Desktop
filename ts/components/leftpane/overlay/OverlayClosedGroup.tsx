@@ -12,13 +12,14 @@ import { OverlayHeader } from './OverlayHeader';
 import { resetOverlayMode } from '../../../state/ducks/section';
 import { getPrivateContactsPubkeys } from '../../../state/selectors/conversations';
 import { SpacerLG } from '../../basic/Text';
-import { MainViewController } from '../../MainViewController';
 import useKey from 'react-use/lib/useKey';
 import styled from 'styled-components';
 import { SessionSearchInput } from '../../SessionSearchInput';
-import { getSearchResults, isSearching } from '../../../state/selectors/search';
+import { getSearchResultsContactOnly, isSearching } from '../../../state/selectors/search';
 import { useSet } from '../../../hooks/useSet';
 import { VALIDATION } from '../../../session/constants';
+import { ToastUtils } from '../../../session/utils';
+import { createClosedGroup } from '../../../session/conversations/createClosedGroup';
 
 const StyledMemberListNoContacts = styled.div`
   font-family: var(--font-font-mono);
@@ -52,6 +53,39 @@ const NoContacts = () => {
   );
 };
 
+/**
+ * Makes some validity check and return true if the group was indead created
+ */
+async function createClosedGroupWithToasts(
+  groupName: string,
+  groupMemberIds: Array<string>
+): Promise<boolean> {
+  // Validate groupName and groupMembers length
+  if (groupName.length === 0) {
+    ToastUtils.pushToastError('invalidGroupName', window.i18n('invalidGroupNameTooShort'));
+
+    return false;
+  } else if (groupName.length > VALIDATION.MAX_GROUP_NAME_LENGTH) {
+    ToastUtils.pushToastError('invalidGroupName', window.i18n('invalidGroupNameTooLong'));
+    return false;
+  }
+
+  // >= because we add ourself as a member AFTER this. so a 10 group is already invalid as it will be 11 with ourself
+  // the same is valid with groups count < 1
+
+  if (groupMemberIds.length < 1) {
+    ToastUtils.pushToastError('pickClosedGroupMember', window.i18n('pickClosedGroupMember'));
+    return false;
+  } else if (groupMemberIds.length >= VALIDATION.CLOSED_GROUP_SIZE_LIMIT) {
+    ToastUtils.pushToastError('closedGroupMaxSize', window.i18n('closedGroupMaxSize'));
+    return false;
+  }
+
+  await createClosedGroup(groupName, groupMemberIds, window.sessionFeatureFlags.useClosedGroupV3);
+
+  return true;
+}
+
 export const OverlayClosedGroup = () => {
   const dispatch = useDispatch();
   const privateContactsPubkeys = useSelector(getPrivateContactsPubkeys);
@@ -62,6 +96,8 @@ export const OverlayClosedGroup = () => {
     addTo: addToSelected,
     removeFrom: removeFromSelected,
   } = useSet<string>([]);
+  const isSearch = useSelector(isSearching);
+  const searchResultContactsOnly = useSelector(getSearchResultsContactOnly);
 
   function closeOverlay() {
     dispatch(resetOverlayMode());
@@ -73,7 +109,7 @@ export const OverlayClosedGroup = () => {
       return;
     }
     setLoading(true);
-    const groupCreated = await MainViewController.createClosedGroup(groupName, selectedMemberIds);
+    const groupCreated = await createClosedGroupWithToasts(groupName, selectedMemberIds);
     if (groupCreated) {
       closeOverlay();
       return;
@@ -90,17 +126,7 @@ export const OverlayClosedGroup = () => {
 
   const noContactsForClosedGroup = privateContactsPubkeys.length === 0;
 
-  const isSearch = useSelector(isSearching);
-  const searchResultsSelected = useSelector(getSearchResults);
-  const searchResults = isSearch ? searchResultsSelected : undefined;
-  let sharedWithResults: Array<string> = [];
-
-  if (searchResults && searchResults.contactsAndGroups.length) {
-    sharedWithResults = searchResults.contactsAndGroups
-      .filter(convo => convo.isPrivate)
-      .map(convo => convo.id);
-  }
-  const contactsToRender = isSearch ? sharedWithResults : privateContactsPubkeys;
+  const contactsToRender = isSearch ? searchResultContactsOnly : privateContactsPubkeys;
 
   const disableCreateButton = !selectedMemberIds.length && !groupName.length;
 

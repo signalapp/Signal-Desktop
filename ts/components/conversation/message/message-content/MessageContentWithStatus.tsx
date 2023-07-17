@@ -46,6 +46,8 @@ const StyledMessageContentContainer = styled.div<{ direction: 'left' | 'right' }
 
 const StyledMessageWithAuthor = styled.div<{ isIncoming: boolean }>`
   max-width: ${props => (props.isIncoming ? '100%' : 'calc(100% - 17px)')};
+  display: flex;
+  flex-direction: column;
 `;
 
 export const MessageContentWithStatuses = (props: Props) => {
@@ -94,7 +96,9 @@ export const MessageContentWithStatuses = (props: Props) => {
   }
   const { conversationType, direction, isDeleted } = contentProps;
   const isIncoming = direction === 'incoming';
-  const noAvatar = conversationType !== 'group' || direction === 'outgoing';
+
+  const isPrivate = conversationType === 'private';
+  const hideAvatar = isPrivate || direction === 'outgoing';
 
   const [popupReaction, setPopupReaction] = useState('');
 
@@ -120,7 +124,7 @@ export const MessageContentWithStatuses = (props: Props) => {
         onDoubleClickCapture={onDoubleClickReplyToMessage}
         data-testid={dataTestId}
       >
-        <MessageAvatar messageId={messageId} noAvatar={noAvatar} />
+        <MessageAvatar messageId={messageId} hideAvatar={hideAvatar} isPrivate={isPrivate} />
         <MessageStatus
           dataTestId="msg-status-incoming"
           messageId={messageId}
@@ -150,7 +154,7 @@ export const MessageContentWithStatuses = (props: Props) => {
           popupReaction={popupReaction}
           setPopupReaction={setPopupReaction}
           onPopupClick={handlePopupClick}
-          noAvatar={noAvatar}
+          noAvatar={hideAvatar}
         />
       )}
     </StyledMessageContentContainer>

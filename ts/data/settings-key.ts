@@ -9,6 +9,15 @@ const settingsStartInTray = 'start-in-tray-setting';
 const settingsOpengroupPruning = 'prune-setting';
 const settingsNotification = 'notification-setting';
 const settingsAudioNotification = 'audio-notification-setting';
+const someDeviceOutdatedSyncing = 'someDeviceOutdatedSyncing';
+const hasSyncedInitialConfigurationItem = 'hasSyncedInitialConfigurationItem';
+const lastAvatarUploadTimestamp = 'lastAvatarUploadTimestamp';
+const hasLinkPreviewPopupBeenDisplayed = 'hasLinkPreviewPopupBeenDisplayed';
+
+// user config tracking timestamps (to discard incoming messages which would make a change we reverted in the last config message we merged)
+const latestUserProfileEnvelopeTimestamp = 'latestUserProfileEnvelopeTimestamp';
+const latestUserGroupEnvelopeTimestamp = 'latestUserGroupEnvelopeTimestamp';
+const latestUserContactsEnvelopeTimestamp = 'latestUserContactsEnvelopeTimestamp';
 
 export const SettingsKey = {
   settingsReadReceipt,
@@ -21,4 +30,14 @@ export const SettingsKey = {
   settingsOpengroupPruning,
   settingsNotification,
   settingsAudioNotification,
-};
+  someDeviceOutdatedSyncing,
+  hasSyncedInitialConfigurationItem,
+  lastAvatarUploadTimestamp,
+  hasLinkPreviewPopupBeenDisplayed,
+  latestUserProfileEnvelopeTimestamp,
+  latestUserGroupEnvelopeTimestamp,
+  latestUserContactsEnvelopeTimestamp,
+} as const;
+
+export const KNOWN_BLINDED_KEYS_ITEM = 'KNOWN_BLINDED_KEYS_ITEM';
+export const SNODE_POOL_ITEM_ID = 'SNODE_POOL_ITEM_ID';

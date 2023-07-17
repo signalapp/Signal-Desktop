@@ -3,6 +3,8 @@ const { Storage } = require('./ts/util/storage');
 
 const url = require('url');
 
+const _ = require('lodash');
+
 const config = url.parse(window.location.toString(), true).query;
 const configAny = config;
 
@@ -29,8 +31,10 @@ window.sessionFeatureFlags = {
   useTestNet: Boolean(
     process.env.NODE_APP_INSTANCE && process.env.NODE_APP_INSTANCE.includes('testnet')
   ),
-  useSettingsThemeSwitcher: true,
+  useClosedGroupV3: false || process.env.USE_CLOSED_GROUP_V3,
   debug: {
+    debugLogging: !_.isEmpty(process.env.SESSION_DEBUG),
+    debugLibsessionDumps: !_.isEmpty(process.env.SESSION_DEBUG_LIBSESSION_DUMPS),
     debugFileServerRequests: false,
     debugNonSnodeRequests: false,
     debugOnionRequests: false,

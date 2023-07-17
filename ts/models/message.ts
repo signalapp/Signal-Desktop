@@ -5,7 +5,6 @@ import { SignalService } from '../../ts/protobuf';
 import { getMessageQueue } from '../../ts/session';
 import { getConversationController } from '../../ts/session/conversations';
 import { DataMessage } from '../../ts/session/messages/outgoing';
-import { ClosedGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/ClosedGroupVisibleMessage';
 import { PubKey } from '../../ts/session/types';
 import {
   uploadAttachmentsToFileServer,
@@ -13,6 +12,7 @@ import {
   uploadQuoteThumbnailsToFileServer,
   UserUtils,
 } from '../../ts/session/utils';
+import { ClosedGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/ClosedGroupVisibleMessage';
 import {
   DataExtractionNotificationMsg,
   fillMessageAttributesWithDefaults,
@@ -25,8 +25,38 @@ import {
 } from './messageType';
 
 import autoBind from 'auto-bind';
+import {
+  cloneDeep,
+  debounce,
+  groupBy,
+  isEmpty,
+  size as lodashSize,
+  map,
+  partition,
+  pick,
+  reject,
+  sortBy,
+  uniq,
+} from 'lodash';
 import { Data } from '../../ts/data/data';
-import { ConversationModel } from './conversation';
+import { OpenGroupData } from '../data/opengroups';
+import { SettingsKey } from '../data/settings-key';
+import { isUsAnySogsFromCache } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
+import { GetNetworkTime } from '../session/apis/snode_api/getNetworkTime';
+import { SnodeNamespaces } from '../session/apis/snode_api/namespaces';
+import { OpenGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
+import {
+  VisibleMessage,
+  VisibleMessageParams,
+} from '../session/messages/outgoing/visibleMessage/VisibleMessage';
+import {
+  uploadAttachmentsV3,
+  uploadLinkPreviewsV3,
+  uploadQuoteThumbnailsV3,
+} from '../session/utils/AttachmentsV2';
+import { perfEnd, perfStart } from '../session/utils/Performance';
+import { buildSyncMessage } from '../session/utils/sync/syncUtils';
+import { isUsFromCache } from '../session/utils/User';
 import {
   FindAndFormatContactType,
   LastMessageStatusType,
@@ -43,36 +73,10 @@ import {
   PropsForGroupUpdateLeft,
   PropsForGroupUpdateName,
   PropsForMessageWithoutConvoProps,
+  PropsForQuote,
 } from '../state/ducks/conversations';
-import {
-  VisibleMessage,
-  VisibleMessageParams,
-} from '../session/messages/outgoing/visibleMessage/VisibleMessage';
-import { buildSyncMessage } from '../session/utils/syncUtils';
-import {
-  uploadAttachmentsV3,
-  uploadLinkPreviewsV3,
-  uploadQuoteThumbnailsV3,
-} from '../session/utils/AttachmentsV2';
-import { OpenGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
-import { OpenGroupData } from '../data/opengroups';
-import { isUsFromCache } from '../session/utils/User';
-import { perfEnd, perfStart } from '../session/utils/Performance';
 import { AttachmentTypeWithPath, isVoiceMessage } from '../types/Attachment';
-import _, {
-  cloneDeep,
-  debounce,
-  groupBy,
-  isEmpty,
-  map,
-  partition,
-  pick,
-  reject,
-  size as lodashSize,
-  sortBy,
-  uniq,
-} from 'lodash';
-import { SettingsKey } from '../data/settings-key';
+import { getAttachmentMetadata } from '../types/message/initializeAttachmentMetadata';
 import {
   deleteExternalMessageFiles,
   getAbsoluteAttachmentPath,
@@ -80,20 +84,14 @@ import {
   loadPreviewData,
   loadQuoteData,
 } from '../types/MessageAttachment';
+import { ReactionList } from '../types/Reaction';
+import { roomHasBlindEnabled } from '../types/sqlSharedTypes';
 import { ExpirationTimerOptions } from '../util/expiringMessages';
+import { LinkPreviews } from '../util/linkPreviews';
 import { Notifications } from '../util/notifications';
 import { Storage } from '../util/storage';
-import { LinkPreviews } from '../util/linkPreviews';
-import { roomHasBlindEnabled } from '../session/apis/open_group_api/sogsv3/sogsV3Capabilities';
-import { getNowWithNetworkOffset } from '../session/apis/snode_api/SNodeAPI';
-import {
-  findCachedBlindedIdFromUnblinded,
-  getUsBlindedInThatServer,
-  isUsAnySogsFromCache,
-} from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
-import { QUOTED_TEXT_MAX_LENGTH } from '../session/constants';
-import { ReactionList } from '../types/Reaction';
-import { getAttachmentMetadata } from '../types/message/initializeAttachmentMetadata';
+import { ConversationModel } from './conversation';
+import { READ_MESSAGE_STATE } from './conversationAttributes';
 // tslint:disable: cyclomatic-complexity
 
 /**
@@ -117,10 +115,10 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const filledAttrs = fillMessageAttributesWithDefaults(attributes);
     super(filledAttrs);
 
-    if (!this.attributes.id) {
+    if (!this.id) {
       throw new Error('A message always needs to have an id.');
     }
-    if (!this.attributes.conversationId) {
+    if (!this.get('conversationId')) {
       throw new Error('A message always needs to have an conversationId.');
     }
 
@@ -143,6 +141,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const propsForGroupUpdateMessage = this.getPropsForGroupUpdateMessage();
     const propsForTimerNotification = this.getPropsForTimerNotification();
     const propsForMessageRequestResponse = this.getPropsForMessageRequestResponse();
+    const propsForQuote = this.getPropsForQuote();
     const callNotificationType = this.get('callNotificationType');
     const messageProps: MessageModelPropsWithoutConvoProps = {
       propsForMessage: this.getPropsForMessage(),
@@ -161,6 +160,9 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     }
     if (propsForTimerNotification) {
       messageProps.propsForTimerNotification = propsForTimerNotification;
+    }
+    if (propsForQuote) {
+      messageProps.propsForQuote = propsForQuote;
     }
 
     if (callNotificationType) {
@@ -205,7 +207,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
     const { unread } = attributes;
     if (unread === undefined) {
-      this.set({ unread: 0 });
+      this.set({ unread: READ_MESSAGE_STATE.read });
     }
 
     this.set(attributes);
@@ -282,7 +284,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const disabled = !expireTimer;
 
     const basicProps: PropsForExpirationTimer = {
-      ...this.findAndFormatContact(source),
+      ...findAndFormatContact(source),
       timespan,
       disabled,
       type: fromSync ? 'fromSync' : UserUtils.isUsFromCache(source) ? 'fromMe' : 'fromOther',
@@ -335,7 +337,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       return null;
     }
 
-    const contact = this.findAndFormatContact(dataExtractionNotification.source);
+    const contact = findAndFormatContact(dataExtractionNotification.source);
 
     return {
       ...dataExtractionNotification,
@@ -357,7 +359,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       return null;
     }
 
-    const contact = this.findAndFormatContact(messageRequestResponse.source);
+    const contact = findAndFormatContact(messageRequestResponse.source);
 
     return {
       ...messageRequestResponse,
@@ -446,7 +448,11 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       return 'read';
     }
     const sent = this.get('sent');
+    // control messages we've sent, synced from the network appear to just have the sent_at field set, but our current devices also have this field set when we are just sending it... So idk how to have behavior work fine.,
+    // TODOLATER
+    // const sentAt = this.get('sent_at');
     const sentTo = this.get('sent_to') || [];
+
     if (sent || sentTo.length > 0) {
       return 'sent';
     }
@@ -455,7 +461,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   }
 
   // tslint:disable-next-line: cyclomatic-complexity
-  public getPropsForMessage(options: any = {}): PropsForMessageWithoutConvoProps {
+  public getPropsForMessage(): PropsForMessageWithoutConvoProps {
     const sender = this.getSource();
     const expirationLength = this.get('expireTimer') * 1000;
     const expireTimerStart = this.get('expirationStartTimestamp');
@@ -516,7 +522,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     if (reacts && Object.keys(reacts).length) {
       props.reacts = reacts;
     }
-    const quote = this.getPropsForQuote(options);
+    const quote = this.getPropsForQuote();
     if (quote) {
       props.quote = quote;
     }
@@ -531,26 +537,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     }
 
     return props;
-  }
-
-  public processQuoteAttachment(attachment: any) {
-    const { thumbnail } = attachment;
-    const path = thumbnail && thumbnail.path && getAbsoluteAttachmentPath(thumbnail.path);
-    const objectUrl = thumbnail && thumbnail.objectUrl;
-
-    const thumbnailWithObjectUrl =
-      !path && !objectUrl
-        ? null
-        : // tslint:disable: prefer-object-spread
-          Object.assign({}, attachment.thumbnail || {}, {
-            objectUrl: path || objectUrl,
-          });
-
-    return Object.assign({}, attachment, {
-      isVoiceMessage: isVoiceMessage(attachment),
-      thumbnail: thumbnailWithObjectUrl,
-    });
-    // tslint:enable: prefer-object-spread
   }
 
   public getPropsForPreview(): Array<any> | null {
@@ -582,72 +568,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     return this.get('reacts') || null;
   }
 
-  public getPropsForQuote(_options: any = {}) {
-    const quote = this.get('quote');
-
-    if (!quote) {
-      return null;
-    }
-
-    const { author, id, referencedMessageNotFound } = quote;
-    const contact: ConversationModel = author && getConversationController().get(author);
-
-    const authorName = contact ? contact.getContactProfileNameOrShortenedPubKey() : null;
-
-    let isFromMe = contact ? contact.id === UserUtils.getOurPubKeyStrFromCache() : false;
-
-    if (this.getConversation()?.isPublic() && PubKey.hasBlindedPrefix(author)) {
-      const room = OpenGroupData.getV2OpenGroupRoom(this.get('conversationId'));
-      if (room && roomHasBlindEnabled(room)) {
-        const usFromCache = findCachedBlindedIdFromUnblinded(
-          UserUtils.getOurPubKeyStrFromCache(),
-          room.serverPublicKey
-        );
-        if (usFromCache && usFromCache === author) {
-          isFromMe = true;
-        }
-      }
-    }
-
-    const firstAttachment = quote.attachments && quote.attachments[0];
-    const quoteProps: {
-      referencedMessageNotFound?: boolean;
-      sender: string;
-      messageId: string;
-      authorName: string;
-      text?: string;
-      attachment?: any;
-      isFromMe?: boolean;
-    } = {
-      sender: author,
-      messageId: id,
-      authorName: authorName || 'Unknown',
-    };
-
-    if (referencedMessageNotFound) {
-      quoteProps.referencedMessageNotFound = true;
-    }
-
-    if (!referencedMessageNotFound) {
-      if (quote.text) {
-        // do not show text of not found messages.
-        // if the message was deleted better not show it's text content in the message
-        quoteProps.text = sliceQuoteText(quote.text);
-      }
-
-      const quoteAttachment = firstAttachment
-        ? this.processQuoteAttachment(firstAttachment)
-        : undefined;
-      if (quoteAttachment) {
-        // only set attachment if referencedMessageNotFound is false and we have one
-        quoteProps.attachment = quoteAttachment;
-      }
-    }
-    if (isFromMe) {
-      quoteProps.isFromMe = true;
-    }
-
-    return quoteProps;
+  public getPropsForQuote(): PropsForQuote | null {
+    return this.get('quote') || null;
   }
 
   public getPropsForAttachment(attachment: AttachmentTypeWithPath): PropsForAttachment | null {
@@ -706,7 +628,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     // We include numbers we didn't successfully send to so we can display errors.
     // Older messages don't have the recipients included on the message, so we fall
     //   back to the conversation's current recipients
-    const phoneNumbers: Array<string> = this.isIncoming()
+    const contacts: Array<string> = this.isIncoming()
       ? [this.get('source')]
       : this.get('sent_to') || [];
 
@@ -720,30 +642,21 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const errors = reject(allErrors, error => Boolean(error.number));
     const errorsGroupedById = groupBy(allErrors, 'number');
     const finalContacts = await Promise.all(
-      (phoneNumbers || []).map(async id => {
+      (contacts || []).map(async id => {
         const errorsForContact = errorsGroupedById[id];
-        const isOutgoingKeyError = false;
 
-        const contact = this.findAndFormatContact(id);
+        const contact = findAndFormatContact(id);
         return {
           ...contact,
-          // fallback to the message status if we do not have a status with a user
-          // this is useful for medium groups.
-          status: this.getStatus(id) || this.getMessagePropStatus(),
+          status: this.getMessagePropStatus(),
           errors: errorsForContact,
-          isOutgoingKeyError,
-          isPrimaryDevice: true,
           profileName: contact.profileName,
         };
       })
     );
 
-    // The prefix created here ensures that contacts with errors are listed
-    //   first; otherwise it's alphabetical
-    const sortedContacts = sortBy(
-      finalContacts,
-      contact => `${contact.isPrimaryDevice ? '0' : '1'}${contact.pubkey}`
-    );
+    // sort by pubkey
+    const sortedContacts = sortBy(finalContacts, contact => contact.pubkey);
 
     const toRet: MessagePropsDetails = {
       sentAt: this.get('sent_at') || 0,
@@ -791,9 +704,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
     // we want to go for the v1, if this is an OpenGroupV1 or not an open group at all
     if (conversation?.isPublic()) {
-      if (!conversation?.isOpenGroupV2()) {
-        throw new Error('Only opengroupv2 are supported now');
-      }
       const openGroupV2 = conversation.toOpenGroupV2();
       attachmentPromise = uploadAttachmentsV3(finalAttachments, openGroupV2);
       linkPreviewPromise = uploadLinkPreviewsV3(firstPreviewWithData, openGroupV2);
@@ -857,7 +767,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       reacts: undefined,
       reactsIndex: undefined,
     });
-    await this.markRead(Date.now());
+    await this.markMessageAsRead(Date.now());
     await this.commit();
   }
 
@@ -883,7 +793,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       if (conversation.isPublic()) {
         const openGroupParams: VisibleMessageParams = {
           identifier: this.id,
-          timestamp: getNowWithNetworkOffset(),
+          timestamp: GetNetworkTime.getNowWithNetworkOffset(),
           lokiProfile: UserUtils.getOurProfile(),
           body,
           attachments,
@@ -898,12 +808,12 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         const openGroupMessage = new OpenGroupVisibleMessage(openGroupParams);
         const openGroup = OpenGroupData.getV2OpenGroupRoom(conversation.id);
 
-        return getMessageQueue().sendToOpenGroupV2(
-          openGroupMessage,
+        return getMessageQueue().sendToOpenGroupV2({
+          message: openGroupMessage,
           roomInfos,
-          roomHasBlindEnabled(openGroup),
-          fileIdsToLink
-        );
+          blinded: roomHasBlindEnabled(openGroup),
+          filesToLink: fileIdsToLink,
+        });
       }
 
       const chatParams = {
@@ -929,15 +839,19 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       }
 
       if (conversation.isPrivate()) {
-        return getMessageQueue().sendToPubKey(PubKey.cast(conversation.id), chatMessage);
+        return getMessageQueue().sendToPubKey(
+          PubKey.cast(conversation.id),
+          chatMessage,
+          SnodeNamespaces.UserMessages
+        );
       }
 
-      // Here, the convo is neither an open group, a private convo or ourself. It can only be a medium group.
-      // For a medium group, retry send only means trigger a send again to all recipients
+      // Here, the convo is neither an open group, a private convo or ourself. It can only be a closed group.
+      // For a closed group, retry send only means trigger a send again to all recipients
       // as they are all polling from the same group swarm pubkey
-      if (!conversation.isMediumGroup()) {
+      if (!conversation.isClosedGroup()) {
         throw new Error(
-          'We should only end up with a medium group here. Anything else is an error'
+          'We should only end up with a closed group here. Anything else is an error'
         );
       }
 
@@ -947,7 +861,10 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         groupId: this.get('conversationId'),
       });
 
-      return getMessageQueue().sendToGroup(closedGroupVisibleMessage);
+      return getMessageQueue().sendToGroup({
+        message: closedGroupVisibleMessage,
+        namespace: SnodeNamespaces.ClosedGroupMessage,
+      });
     } catch (e) {
       await this.saveErrors(e);
       return null;
@@ -999,19 +916,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     return lodashSize(this.get('errors')) > 0;
   }
 
-  public getStatus(pubkey: string) {
-    const readBy = this.get('read_by') || [];
-    if (readBy.indexOf(pubkey) >= 0) {
-      return 'read';
-    }
-    const sentTo = this.get('sent_to') || [];
-    if (sentTo.indexOf(pubkey) >= 0) {
-      return 'sent';
-    }
-
-    return null;
-  }
-
   public async updateMessageHash(messageHash: string) {
     if (!messageHash) {
       window?.log?.error('Message hash not provided to update message hash');
@@ -1053,7 +957,10 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         throw new Error('Cannot trigger syncMessage with unknown convo.');
       }
       const syncMessage = buildSyncMessage(this.id, dataMessage, conversation.id, sentTimestamp);
-      await getMessageQueue().sendSyncMessage(syncMessage);
+      await getMessageQueue().sendSyncMessage({
+        namespace: SnodeNamespaces.UserMessages,
+        message: syncMessage,
+      });
     }
     this.set({ sentSync: true });
     await this.commit();
@@ -1089,56 +996,49 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   }
 
   public async commit(triggerUIUpdate = true) {
-    if (!this.attributes.id) {
+    if (!this.id) {
       throw new Error('A message always needs an id');
     }
 
-    perfStart(`messageCommit-${this.attributes.id}`);
+    perfStart(`messageCommit-${this.id}`);
     // because the saving to db calls _cleanData which mutates the field for cleaning, we need to save a copy
     const id = await Data.saveMessage(cloneDeep(this.attributes));
     if (triggerUIUpdate) {
       this.dispatchMessageUpdate();
     }
-    perfEnd(`messageCommit-${this.attributes.id}`, 'messageCommit');
+    perfEnd(`messageCommit-${this.id}`, 'messageCommit');
 
     return id;
   }
 
-  public async markRead(readAt: number) {
-    this.markReadNoCommit(readAt);
+  public async markMessageAsRead(readAt: number) {
+    this.markMessageReadNoCommit(readAt);
     await this.commit();
     // the line below makes sure that getNextExpiringMessage will find this message as expiring.
     // getNextExpiringMessage is used on app start to clean already expired messages which should have been removed already, but are not
     await this.setToExpire();
 
-    const convo = this.getConversation();
-    if (convo) {
-      const beforeUnread = convo.get('unreadCount');
-      const unreadCount = await convo.getUnreadCount();
-      const usInThatConversation =
-        getUsBlindedInThatServer(convo) || UserUtils.getOurPubKeyStrFromCache();
-      const nextMentionedUs = await Data.getFirstUnreadMessageWithMention(
-        convo.id,
-        usInThatConversation
-      );
-      let mentionedUsChange = false;
-      if (convo.get('mentionedUs') && !nextMentionedUs) {
-        convo.set('mentionedUs', false);
-        mentionedUsChange = true;
-      }
-      if (beforeUnread !== unreadCount || mentionedUsChange) {
-        convo.set({ unreadCount });
-        await convo.commit();
-      }
-    }
+    this.getConversation()?.refreshInMemoryDetails();
   }
 
-  public markReadNoCommit(readAt: number) {
-    this.set({ unread: 0 });
+  public markMessageReadNoCommit(readAt: number) {
+    this.set({ unread: READ_MESSAGE_STATE.read });
 
-    if (this.get('expireTimer') && !this.get('expirationStartTimestamp')) {
+    if (
+      this.get('expireTimer') &&
+      !this.get('expirationStartTimestamp') &&
+      !this.get('expires_at')
+    ) {
       const expirationStartTimestamp = Math.min(Date.now(), readAt || Date.now());
       this.set({ expirationStartTimestamp });
+      const start = this.get('expirationStartTimestamp');
+      const delta = this.get('expireTimer') * 1000;
+      if (!start) {
+        return;
+      }
+      const expiresAt = start + delta;
+      // based on `setToExpire()`
+      this.set({ expires_at: expiresAt });
     }
 
     Notifications.clearByMessageId(this.id);
@@ -1169,8 +1069,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     return msFromNow;
   }
 
-  public async setToExpire(force = false) {
-    if (this.isExpiring() && (force || !this.get('expires_at'))) {
+  public async setToExpire() {
+    if (this.isExpiring() && !this.get('expires_at')) {
       const start = this.get('expirationStartTimestamp');
       const delta = this.get('expireTimer') * 1000;
       if (!start) {
@@ -1210,31 +1110,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       window.log.warn('isTrustedForAttachmentDownload: error; ', e.message);
       return false;
     }
-  }
-
-  public findAndFormatContact(pubkey: string): FindAndFormatContactType {
-    const contactModel = getConversationController().get(pubkey);
-    let profileName: string | null = null;
-    let isMe = false;
-
-    if (
-      pubkey === UserUtils.getOurPubKeyStrFromCache() ||
-      (pubkey && pubkey.startsWith('15') && isUsAnySogsFromCache(pubkey))
-    ) {
-      profileName = window.i18n('you');
-      isMe = true;
-    } else {
-      profileName = contactModel?.getNicknameOrRealUsername() || null;
-    }
-
-    return {
-      pubkey: pubkey,
-      avatarPath: contactModel ? contactModel.getAvatarPath() : null,
-      name: contactModel?.getRealSessionUsername() || null,
-      profileName,
-      title: contactModel?.getTitle() || null,
-      isMe,
-    };
   }
 
   private dispatchMessageUpdate() {
@@ -1308,8 +1183,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         return window.i18n('titleIsNow', [groupUpdate.name]);
       }
       if (groupUpdate.joined && groupUpdate.joined.length) {
-        const names = groupUpdate.joined.map((pubKey: string) =>
-          getConversationController().getContactProfileNameOrShortenedPubKey(pubKey)
+        const names = groupUpdate.joined.map(
+          getConversationController().getContactProfileNameOrShortenedPubKey
         );
 
         if (names.length > 1) {
@@ -1380,14 +1255,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   }
 }
 
-// this is to avoid saving 2k chars for just the quote object inside a message
-export function sliceQuoteText(quotedText: string | undefined | null) {
-  if (!quotedText || isEmpty(quotedText)) {
-    return '';
-  }
-  return quotedText.slice(0, QUOTED_TEXT_MAX_LENGTH);
-}
-
 const throttledAllMessagesDispatch = debounce(
   () => {
     if (updatesToDispatch.size === 0) {
@@ -1404,3 +1271,47 @@ const updatesToDispatch: Map<string, MessageModelPropsWithoutConvoProps> = new M
 export class MessageCollection extends Backbone.Collection<MessageModel> {}
 
 MessageCollection.prototype.model = MessageModel;
+
+export function findAndFormatContact(pubkey: string): FindAndFormatContactType {
+  const contactModel = getConversationController().get(pubkey);
+  let profileName: string | null = null;
+  let isMe = false;
+
+  if (
+    pubkey === UserUtils.getOurPubKeyStrFromCache() ||
+    (pubkey && PubKey.isBlinded(pubkey) && isUsAnySogsFromCache(pubkey))
+  ) {
+    profileName = window.i18n('you');
+    isMe = true;
+  } else {
+    profileName = contactModel?.getNicknameOrRealUsername() || null;
+  }
+
+  return {
+    pubkey: pubkey,
+    avatarPath: contactModel ? contactModel.getAvatarPath() : null,
+    name: contactModel?.getRealSessionUsername() || null,
+    profileName,
+    isMe,
+  };
+}
+
+export function processQuoteAttachment(attachment: any) {
+  const { thumbnail } = attachment;
+  const path = thumbnail && thumbnail.path && getAbsoluteAttachmentPath(thumbnail.path);
+  const objectUrl = thumbnail && thumbnail.objectUrl;
+
+  const thumbnailWithObjectUrl =
+    !path && !objectUrl
+      ? null
+      : // tslint:disable: prefer-object-spread
+        Object.assign({}, attachment.thumbnail || {}, {
+          objectUrl: path || objectUrl,
+        });
+
+  return Object.assign({}, attachment, {
+    isVoiceMessage: isVoiceMessage(attachment),
+    thumbnail: thumbnailWithObjectUrl,
+  });
+  // tslint:enable: prefer-object-spread
+}

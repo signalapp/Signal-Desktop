@@ -1,113 +1,142 @@
+import autoBind from 'auto-bind';
 import Backbone from 'backbone';
 import {
   debounce,
   defaults,
-  filter,
   includes,
   isArray,
   isEmpty,
   isEqual,
   isNumber,
   isString,
-  map,
   sortBy,
   throttle,
   uniq,
+  xor,
 } from 'lodash';
+import { SignalService } from '../protobuf';
 import { getMessageQueue } from '../session';
 import { getConversationController } from '../session/conversations';
 import { ClosedGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/ClosedGroupVisibleMessage';
 import { PubKey } from '../session/types';
 import { ToastUtils, UserUtils } from '../session/utils';
 import { BlockedNumberController } from '../util';
-import { leaveClosedGroup } from '../session/group/closed-group';
-import { SignalService } from '../protobuf';
-import { MessageModel, sliceQuoteText } from './message';
+import { MessageModel } from './message';
 import { MessageAttributesOptionals, MessageDirection } from './messageType';
-import autoBind from 'auto-bind';
 
 import { Data } from '../../ts/data/data';
+import { OpenGroupRequestCommonType } from '../session/apis/open_group_api/opengroupV2/ApiUtil';
+import { OpenGroupUtils } from '../session/apis/open_group_api/utils';
+import { getOpenGroupV2FromConversationId } from '../session/apis/open_group_api/utils/OpenGroupUtils';
+import { ExpirationTimerUpdateMessage } from '../session/messages/outgoing/controlMessage/ExpirationTimerUpdateMessage';
+import { ReadReceiptMessage } from '../session/messages/outgoing/controlMessage/receipt/ReadReceiptMessage';
+import { TypingMessage } from '../session/messages/outgoing/controlMessage/TypingMessage';
+import { GroupInvitationMessage } from '../session/messages/outgoing/visibleMessage/GroupInvitationMessage';
+import { OpenGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
+import {
+  VisibleMessage,
+  VisibleMessageParams,
+} from '../session/messages/outgoing/visibleMessage/VisibleMessage';
+import { perfEnd, perfStart } from '../session/utils/Performance';
 import { toHex } from '../session/utils/String';
+import { createTaskWithTimeout } from '../session/utils/TaskWithTimeout';
 import {
   actions as conversationActions,
-  conversationChanged,
   conversationsChanged,
   markConversationFullyRead,
   MessageModelPropsWithoutConvoProps,
   ReduxConversationType,
 } from '../state/ducks/conversations';
-import { ExpirationTimerUpdateMessage } from '../session/messages/outgoing/controlMessage/ExpirationTimerUpdateMessage';
-import { TypingMessage } from '../session/messages/outgoing/controlMessage/TypingMessage';
-import {
-  VisibleMessage,
-  VisibleMessageParams,
-} from '../session/messages/outgoing/visibleMessage/VisibleMessage';
-import { GroupInvitationMessage } from '../session/messages/outgoing/visibleMessage/GroupInvitationMessage';
-import { ReadReceiptMessage } from '../session/messages/outgoing/controlMessage/receipt/ReadReceiptMessage';
-import { OpenGroupUtils } from '../session/apis/open_group_api/utils';
-import { OpenGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
-import { OpenGroupRequestCommonType } from '../session/apis/open_group_api/opengroupV2/ApiUtil';
-import { getOpenGroupV2FromConversationId } from '../session/apis/open_group_api/utils/OpenGroupUtils';
-import { createTaskWithTimeout } from '../session/utils/TaskWithTimeout';
-import { perfEnd, perfStart } from '../session/utils/Performance';
 
-import { ed25519Str } from '../session/onions/onionPath';
-import { getDecryptedMediaUrl } from '../session/crypto/DecryptedAttachmentsManager';
-import { IMAGE_JPEG } from '../types/MIME';
-import { forceSyncConfigurationNowIfNeeded } from '../session/utils/syncUtils';
-import { getNowWithNetworkOffset } from '../session/apis/snode_api/SNodeAPI';
-import { createLastMessageUpdate } from '../types/Conversation';
+import { from_hex } from 'libsodium-wrappers-sumo';
 import {
   ReplyingToMessageProps,
   SendMessageType,
 } from '../components/conversation/composition/CompositionBox';
+import { OpenGroupData } from '../data/opengroups';
 import { SettingsKey } from '../data/settings-key';
+import {
+  findCachedOurBlindedPubkeyOrLookItUp,
+  getUsBlindedInThatServer,
+  isUsAnySogsFromCache,
+} from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
+import { SogsBlinding } from '../session/apis/open_group_api/sogsv3/sogsBlinding';
+import { sogsV3FetchPreviewAndSaveIt } from '../session/apis/open_group_api/sogsv3/sogsV3FetchFile';
+import { GetNetworkTime } from '../session/apis/snode_api/getNetworkTime';
+import { SnodeNamespaces } from '../session/apis/snode_api/namespaces';
+import { getSodiumRenderer } from '../session/crypto';
+import { addMessagePadding } from '../session/crypto/BufferPadding';
+import { getDecryptedMediaUrl } from '../session/crypto/DecryptedAttachmentsManager';
+import {
+  MessageRequestResponse,
+  MessageRequestResponseParams,
+} from '../session/messages/outgoing/controlMessage/MessageRequestResponse';
+import { ed25519Str } from '../session/onions/onionPath';
+import { ConfigurationSync } from '../session/utils/job_runners/jobs/ConfigurationSyncJob';
+import { SessionUtilContact } from '../session/utils/libsession/libsession_utils_contacts';
+import { SessionUtilConvoInfoVolatile } from '../session/utils/libsession/libsession_utils_convo_info_volatile';
+import { SessionUtilUserGroups } from '../session/utils/libsession/libsession_utils_user_groups';
+import { forceSyncConfigurationNowIfNeeded } from '../session/utils/sync/syncUtils';
+import { getOurProfile } from '../session/utils/User';
 import {
   deleteExternalFilesOfConversation,
   getAbsoluteAttachmentPath,
   loadAttachmentData,
 } from '../types/MessageAttachment';
-import { getOurProfile } from '../session/utils/User';
+import { IMAGE_JPEG } from '../types/MIME';
+import { Reaction } from '../types/Reaction';
 import {
-  MessageRequestResponse,
-  MessageRequestResponseParams,
-} from '../session/messages/outgoing/controlMessage/MessageRequestResponse';
+  assertUnreachable,
+  roomHasBlindEnabled,
+  roomHasReactionsEnabled,
+  SaveConversationReturn,
+} from '../types/sqlSharedTypes';
 import { Notifications } from '../util/notifications';
+import { Reactions } from '../util/reactions';
+import { Registration } from '../util/registration';
 import { Storage } from '../util/storage';
 import {
+  CONVERSATION_PRIORITIES,
   ConversationAttributes,
   ConversationNotificationSetting,
   ConversationTypeEnum,
   fillConvoAttributesWithDefaults,
+  isDirectConversation,
+  isOpenOrClosedGroup,
+  READ_MESSAGE_STATE,
 } from './conversationAttributes';
-import { SogsBlinding } from '../session/apis/open_group_api/sogsv3/sogsBlinding';
-import { from_hex } from 'libsodium-wrappers-sumo';
-import { OpenGroupData } from '../data/opengroups';
+
+import { LibSessionUtil } from '../session/utils/libsession/libsession_utils';
+import { SessionUtilUserProfile } from '../session/utils/libsession/libsession_utils_user_profile';
+import { ReduxSogsRoomInfos } from '../state/ducks/sogsRoomInfo';
 import {
-  roomHasBlindEnabled,
-  roomHasReactionsEnabled,
-} from '../session/apis/open_group_api/sogsv3/sogsV3Capabilities';
-import { addMessagePadding } from '../session/crypto/BufferPadding';
-import { getSodiumRenderer } from '../session/crypto';
-import {
-  findCachedOurBlindedPubkeyOrLookItUp,
-  isUsAnySogsFromCache,
-} from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
-import { sogsV3FetchPreviewAndSaveIt } from '../session/apis/open_group_api/sogsv3/sogsV3FetchFile';
-import { Reaction } from '../types/Reaction';
-import { Reactions } from '../util/reactions';
+  getCanWriteOutsideRedux,
+  getModeratorsOutsideRedux,
+  getSubscriberCountOutsideRedux,
+} from '../state/selectors/sogsRoomInfo';
+import { markAttributesAsReadIfNeeded } from './messageFactory';
+
+type InMemoryConvoInfos = {
+  mentionedUs: boolean;
+  unreadCount: number;
+};
+
+/**
+ * Some fields are not stored in the database, but are kept in memory.
+ * We use this map to keep track of them. The key is the conversation id.
+ */
+const inMemoryConvoInfos: Map<string, InMemoryConvoInfos> = new Map(); // decide it it makes sense to move this to a redux slice?
 
 export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public updateLastMessage: () => any;
   public throttledBumpTyping: () => void;
   public throttledNotify: (message: MessageModel) => void;
-  public markRead: (newestUnreadDate: number, providedOptions?: any) => void;
+  public markConversationRead: (newestUnreadDate: number, readAt?: number) => void;
   public initialPromise: any;
 
   private typingRefreshTimer?: NodeJS.Timeout | null;
   private typingPauseTimer?: NodeJS.Timeout | null;
   private typingTimer?: NodeJS.Timeout | null;
-  private lastReadTimestamp: number;
 
   private pending?: Promise<any>;
 
@@ -126,67 +155,15 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     });
 
     this.throttledNotify = debounce(this.notify, 2000, { maxWait: 2000, trailing: true });
-    //start right away the function is called, and wait 1sec before calling it again
-    const markReadDebounced = debounce(this.markReadBouncy, 1000, {
+    // start right away the function is called, and wait 1sec before calling it again
+    this.markConversationRead = debounce(this.markConversationReadBouncy, 1000, {
       leading: true,
       trailing: true,
     });
-    this.markRead = (newestUnreadDate: number) => {
-      const lastReadTimestamp = this.lastReadTimestamp;
-      if (newestUnreadDate > lastReadTimestamp) {
-        this.lastReadTimestamp = newestUnreadDate;
-      }
-
-      if (newestUnreadDate !== lastReadTimestamp) {
-        void markReadDebounced(newestUnreadDate);
-      }
-    };
-    // Listening for out-of-band data updates
 
     this.typingRefreshTimer = null;
     this.typingPauseTimer = null;
-    this.lastReadTimestamp = 0;
-    window.inboxStore?.dispatch(
-      conversationChanged({ id: this.id, data: this.getConversationModelProps() })
-    );
-  }
-
-  /**
-   * Method to evaluate if a convo contains the right values
-   * @param values Required properties to evaluate if this is a message request
-   */
-  public static hasValidIncomingRequestValues({
-    isMe,
-    isApproved,
-    isBlocked,
-    isPrivate,
-    activeAt,
-  }: {
-    isMe?: boolean;
-    isApproved?: boolean;
-    isBlocked?: boolean;
-    isPrivate?: boolean;
-    activeAt?: number;
-  }): boolean {
-    // if a convo is not active, it means we didn't get any messages nor sent any.
-    const isActive = activeAt && isFinite(activeAt) && activeAt > 0;
-    return Boolean(isPrivate && !isMe && !isApproved && !isBlocked && isActive);
-  }
-
-  public static hasValidOutgoingRequestValues({
-    isMe,
-    didApproveMe,
-    isApproved,
-    isBlocked,
-    isPrivate,
-  }: {
-    isMe?: boolean;
-    isApproved?: boolean;
-    didApproveMe?: boolean;
-    isBlocked?: boolean;
-    isPrivate?: boolean;
-  }): boolean {
-    return Boolean(!isMe && isApproved && isPrivate && !isBlocked && !didApproveMe);
+    window.inboxStore?.dispatch(conversationsChanged([this.getConversationModelProps()]));
   }
 
   public idForLogging() {
@@ -195,8 +172,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
 
     if (this.isPublic()) {
-      const opengroup = this.toOpenGroupV2();
-      return `${opengroup.serverUrl}/${opengroup.roomId}`;
+      return this.id;
     }
 
     return `group(${ed25519Str(this.id)})`;
@@ -205,14 +181,38 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public isMe() {
     return UserUtils.isUsFromCache(this.id);
   }
+
+  /**
+   * Same as this.isOpenGroupV2().
+   *
+   * // TODOLATER merge them together
+   */
   public isPublic(): boolean {
-    return Boolean(this.id && this.id.match(OpenGroupUtils.openGroupPrefixRegex));
+    return this.isOpenGroupV2();
   }
+
+  /**
+   * Same as this.isPublic().
+   *
+   * // TODOLATER merge them together
+   */
   public isOpenGroupV2(): boolean {
     return OpenGroupUtils.isOpenGroupV2(this.id);
   }
-  public isClosedGroup() {
-    return this.get('type') === ConversationTypeEnum.GROUP && !this.isPublic();
+  public isClosedGroup(): boolean {
+    return Boolean(
+      (this.get('type') === ConversationTypeEnum.GROUP && this.id.startsWith('05')) ||
+        (this.get('type') === ConversationTypeEnum.GROUPV3 && this.id.startsWith('03'))
+    );
+  }
+
+  public isPrivate() {
+    return isDirectConversation(this.get('type'));
+  }
+
+  // returns true if this is a closed/medium or open group
+  public isGroup() {
+    return isOpenOrClosedGroup(this.get('type'));
   }
 
   public isBlocked() {
@@ -220,29 +220,33 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       return false;
     }
 
-    if (this.isClosedGroup()) {
-      return BlockedNumberController.isGroupBlocked(this.id);
-    }
-
-    if (this.isPrivate()) {
+    if (this.isPrivate() || this.isClosedGroup()) {
       return BlockedNumberController.isBlocked(this.id);
     }
 
     return false;
   }
 
-  public isMediumGroup() {
-    return this.get('is_medium_group');
-  }
-
   /**
-   * Returns true if this conversation is active
-   * i.e. the conversation is visibie on the left pane. (Either we or another user created this convo).
-   * This is useful because we do not want bumpTyping on the first message typing to a new convo to
-   *  send a message.
+   * Returns true if this conversation is active.
+   * i.e. the conversation is visible on the left pane. (Either we or another user created this convo).
+   * An active conversation is a user/group we interacted with directly, or they did, at some point.
+   * For instance, all of the conversations created when receiving a community are not active, until we start directly talking with them (or they do).
    */
   public isActive() {
     return Boolean(this.get('active_at'));
+  }
+
+  /**
+   *
+   * @returns true if this conversation is private and hidden.
+   * A non-private conversation cannot be hidden currently.
+   *  - a community is removed straight away when we leave it and not marked hidden
+   *  - a legacy group is kept visible if we leave it, until we explicitely delete it. At that time, it is removed completely and not marked hidden
+   */
+  public isHidden() {
+    const priority = this.get('priority') || CONVERSATION_PRIORITIES.default;
+    return this.isPrivate() && priority === CONVERSATION_PRIORITIES.hidden;
   }
 
   public async cleanup() {
@@ -252,157 +256,63 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public getGroupAdmins(): Array<string> {
     const groupAdmins = this.get('groupAdmins');
 
-    return groupAdmins && groupAdmins?.length > 0 ? groupAdmins : [];
-  }
-
-  /**
-   * Get the list of moderators in that room, or an empty array
-   * Only to be called for opengroup conversations.
-   * This makes no sense for a private chat or an closed group, as closed group admins must be stored with getGroupAdmins
-   * @returns the list of moderators for the conversation if the conversation is public, or []
-   */
-  public getGroupModerators(): Array<string> {
-    const groupModerators = this.get('groupModerators') as Array<string> | undefined;
-
-    return this.isPublic() && groupModerators && groupModerators?.length > 0 ? groupModerators : [];
+    return groupAdmins && groupAdmins.length > 0 ? groupAdmins : [];
   }
 
   // tslint:disable-next-line: cyclomatic-complexity max-func-body-length
   public getConversationModelProps(): ReduxConversationType {
-    const groupAdmins = this.getGroupAdmins();
-    const groupModerators = this.getGroupModerators();
-    // tslint:disable-next-line: cyclomatic-complexity
     const isPublic = this.isPublic();
 
-    const members = this.isGroup() && !isPublic ? this.get('members') : [];
-    const zombies = this.isGroup() && !isPublic ? this.get('zombies') : [];
     const ourNumber = UserUtils.getOurPubKeyStrFromCache();
     const avatarPath = this.getAvatarPath();
     const isPrivate = this.isPrivate();
-    const isGroup = !isPrivate;
     const weAreAdmin = this.isAdmin(ourNumber);
-    const weAreModerator = this.isModerator(ourNumber); // only used for sogs
-    const isMe = this.isMe();
-    const isTyping = !!this.typingTimer;
-    const unreadCount = this.get('unreadCount') || undefined;
-    const mentionedUs = this.get('mentionedUs') || undefined;
-    const isBlocked = this.isBlocked();
-    const subscriberCount = this.get('subscriberCount');
-    const isPinned = this.isPinned();
-    const isApproved = this.isApproved();
-    const didApproveMe = this.didApproveMe();
-    const hasNickname = !!this.getNickname();
-    const isKickedFromGroup = !!this.get('isKickedFromGroup');
-    const left = !!this.get('left');
-    const expireTimer = this.get('expireTimer');
+
     const currentNotificationSetting = this.get('triggerNotificationsFor');
-    const displayNameInProfile = this.get('displayNameInProfile');
-    const nickname = this.get('nickname');
+    const priorityFromDb = this.get('priority');
 
     // To reduce the redux store size, only set fields which cannot be undefined.
     // For instance, a boolean can usually be not set if false, etc
     const toRet: ReduxConversationType = {
       id: this.id as string,
       activeAt: this.get('active_at'),
-      type: isPrivate ? ConversationTypeEnum.PRIVATE : ConversationTypeEnum.GROUP,
+      type: this.get('type'),
     };
+
+    if (isFinite(priorityFromDb) && priorityFromDb !== CONVERSATION_PRIORITIES.default) {
+      toRet.priority = priorityFromDb;
+    }
+
+    if (this.get('markedAsUnread')) {
+      toRet.isMarkedUnread = !!this.get('markedAsUnread');
+    }
 
     if (isPrivate) {
       toRet.isPrivate = true;
-    }
+      if (this.typingTimer) {
+        toRet.isTyping = true;
+      }
+      if (this.isMe()) {
+        toRet.isMe = true;
+      }
 
-    if (isGroup) {
-      toRet.isGroup = true;
+      const foundContact = SessionUtilContact.getContactCached(this.id);
+
+      if (!toRet.activeAt && foundContact && isFinite(foundContact.createdAtSeconds)) {
+        toRet.activeAt = foundContact.createdAtSeconds * 1000; // active at is in ms
+      }
     }
 
     if (weAreAdmin) {
       toRet.weAreAdmin = true;
     }
 
-    if (weAreModerator) {
-      toRet.weAreModerator = true;
-    }
-
-    if (isMe) {
-      toRet.isMe = true;
-    }
     if (isPublic) {
       toRet.isPublic = true;
-    }
-    if (isTyping) {
-      toRet.isTyping = true;
-    }
-
-    if (isTyping) {
-      toRet.isTyping = true;
     }
 
     if (avatarPath) {
       toRet.avatarPath = avatarPath;
-    }
-
-    if (displayNameInProfile) {
-      toRet.displayNameInProfile = displayNameInProfile;
-    }
-
-    if (nickname) {
-      toRet.nickname = nickname;
-    }
-
-    if (unreadCount) {
-      toRet.unreadCount = unreadCount;
-    }
-
-    if (mentionedUs) {
-      toRet.mentionedUs = mentionedUs;
-    }
-
-    if (isBlocked) {
-      toRet.isBlocked = isBlocked;
-    }
-    if (hasNickname) {
-      toRet.hasNickname = hasNickname;
-    }
-
-    if (isKickedFromGroup) {
-      toRet.isKickedFromGroup = isKickedFromGroup;
-    }
-    if (left) {
-      toRet.left = left;
-    }
-    if (isPinned) {
-      toRet.isPinned = isPinned;
-    }
-    if (didApproveMe) {
-      toRet.didApproveMe = didApproveMe;
-    }
-
-    if (isApproved) {
-      toRet.isApproved = isApproved;
-    }
-
-    if (subscriberCount) {
-      toRet.subscriberCount = subscriberCount;
-    }
-
-    if (groupAdmins && groupAdmins.length) {
-      toRet.groupAdmins = uniq(groupAdmins);
-    }
-
-    if (groupModerators && groupModerators.length) {
-      toRet.groupModerators = uniq(groupModerators);
-    }
-
-    if (members && members.length) {
-      toRet.members = uniq(members);
-    }
-
-    if (zombies && zombies.length) {
-      toRet.zombies = uniq(zombies);
-    }
-
-    if (expireTimer) {
-      toRet.expireTimer = expireTimer;
     }
 
     if (
@@ -412,23 +322,62 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       toRet.currentNotificationSetting = currentNotificationSetting;
     }
 
-    if (this.isOpenGroupV2()) {
-      const room = OpenGroupData.getV2OpenGroupRoom(this.id);
-      if (room && isArray(room.capabilities) && room.capabilities.length) {
-        toRet.capabilities = room.capabilities;
-      }
+    if (this.get('displayNameInProfile')) {
+      toRet.displayNameInProfile = this.get('displayNameInProfile');
+    }
+    if (this.get('nickname')) {
+      toRet.nickname = this.get('nickname');
+    }
+    if (BlockedNumberController.isBlocked(this.id)) {
+      toRet.isBlocked = true;
+    }
+    if (this.get('didApproveMe')) {
+      toRet.didApproveMe = this.get('didApproveMe');
+    }
+    if (this.get('isApproved')) {
+      toRet.isApproved = this.get('isApproved');
+    }
+    if (this.get('expireTimer')) {
+      toRet.expireTimer = this.get('expireTimer');
+    }
+    // those are values coming only from both the DB or the wrapper. Currently we display the data from the DB
+    if (this.isClosedGroup()) {
+      toRet.members = this.get('members') || [];
+    }
 
-      if (this.get('writeCapability')) {
-        toRet.writeCapability = this.get('writeCapability');
+    // those are values coming only from both the DB or the wrapper. Currently we display the data from the DB
+    if (this.isClosedGroup() || this.isPublic()) {
+      // for public, this value always comes from the DB
+      toRet.groupAdmins = this.getGroupAdmins();
+    }
+
+    // those are values coming only from the DB when this is a closed group
+    if (this.isClosedGroup()) {
+      if (this.get('isKickedFromGroup')) {
+        toRet.isKickedFromGroup = this.get('isKickedFromGroup');
       }
-      if (this.get('readCapability')) {
-        toRet.readCapability = this.get('readCapability');
+      if (this.get('left')) {
+        toRet.left = this.get('left');
       }
-      if (this.get('uploadCapability')) {
-        toRet.uploadCapability = this.get('uploadCapability');
+      // to be dropped once we get rid of the legacy closed groups
+      const zombies = this.get('zombies') || [];
+      if (zombies?.length) {
+        toRet.zombies = uniq(zombies);
       }
     }
 
+    // -- Handle the field stored only in memory for all types of conversation--
+    const inMemoryConvoInfo = inMemoryConvoInfos.get(this.id);
+    if (inMemoryConvoInfo) {
+      if (inMemoryConvoInfo.unreadCount) {
+        toRet.unreadCount = inMemoryConvoInfo.unreadCount;
+      }
+      if (inMemoryConvoInfo.mentionedUs) {
+        toRet.mentionedUs = inMemoryConvoInfo.mentionedUs;
+      }
+    }
+
+    // -- Handle the last message status, if present --
     const lastMessageText = this.get('lastMessage');
     if (lastMessageText && lastMessageText.length) {
       const lastMessageStatus = this.get('lastMessageStatus');
@@ -441,41 +390,64 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     return toRet;
   }
 
+  /**
+   *
+   * @param groupAdmins the Array of group admins, where, if we are a group admin, we are present unblinded.
+   * @param shouldCommit set this to true to auto commit changes
+   * @returns true if the groupAdmins where not the same (and thus updated)
+   */
   public async updateGroupAdmins(groupAdmins: Array<string>, shouldCommit: boolean) {
-    const existingAdmins = uniq(sortBy(this.getGroupAdmins()));
-    const newAdmins = uniq(sortBy(groupAdmins));
+    const sortedNewAdmins = uniq(sortBy(groupAdmins));
 
-    if (isEqual(existingAdmins, newAdmins)) {
+    // check if there is any difference betwewen the two, if yes, override it with what we got.
+    if (!xor(this.getGroupAdmins(), groupAdmins).length) {
       return false;
     }
-    this.set({ groupAdmins });
+    this.set({ groupAdmins: sortedNewAdmins });
     if (shouldCommit) {
       await this.commit();
     }
     return true;
   }
 
-  public async updateGroupModerators(groupModerators: Array<string>, shouldCommit: boolean) {
-    if (!this.isPublic()) {
-      throw new Error('group moderators are only possible on SOGS');
+  /**
+   * Fetches from the Database an update of what are the memory only informations like mentionedUs and the unreadCount, etc
+   */
+  public async refreshInMemoryDetails(providedMemoryDetails?: SaveConversationReturn) {
+    if (!SessionUtilConvoInfoVolatile.isConvoToStoreInWrapper(this)) {
+      return;
     }
-    const existingModerators = uniq(sortBy(this.getGroupModerators()));
-    const newModerators = uniq(sortBy(groupModerators));
+    const memoryDetails = providedMemoryDetails || (await Data.fetchConvoMemoryDetails(this.id));
 
-    if (isEqual(existingModerators, newModerators)) {
-      return false;
+    if (!memoryDetails) {
+      inMemoryConvoInfos.delete(this.id);
+      return;
     }
-    this.set({ groupModerators: newModerators });
-    if (shouldCommit) {
-      await this.commit();
+    if (!inMemoryConvoInfos.get(this.id)) {
+      inMemoryConvoInfos.set(this.id, {
+        mentionedUs: false,
+        unreadCount: 0,
+      });
     }
-    return true;
-  }
 
-  public async getUnreadCount() {
-    const unreadCount = await Data.getUnreadCountByConversation(this.id);
+    const existing = inMemoryConvoInfos.get(this.id);
+    if (!existing) {
+      return;
+    }
+    let changes = false;
+    if (existing.unreadCount !== memoryDetails.unreadCount) {
+      existing.unreadCount = memoryDetails.unreadCount;
+      changes = true;
+    }
 
-    return unreadCount;
+    if (existing.mentionedUs !== memoryDetails.mentionedUs) {
+      existing.mentionedUs = memoryDetails.mentionedUs;
+      changes = true;
+    }
+
+    if (changes) {
+      this.triggerUIRefresh();
+    }
   }
 
   public async queueJob(callback: () => Promise<void>) {
@@ -517,11 +489,12 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         msgSource = await findCachedOurBlindedPubkeyOrLookItUp(room.serverPublicKey, sodium);
       }
     }
+
     return {
       author: msgSource,
       id: `${quotedMessage.get('sent_at')}` || '',
-      // no need to quote the full message length.
-      text: sliceQuoteText(body),
+      // NOTE we send the entire body to be consistent with the other platforms
+      text: body,
       attachments: quotedAttachments,
       timestamp: quotedMessage.get('sent_at') || 0,
       convoId: this.id,
@@ -535,129 +508,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     return getOpenGroupV2FromConversationId(this.id);
   }
 
-  public async sendMessageJob(message: MessageModel, expireTimer: number | undefined) {
-    try {
-      const { body, attachments, preview, quote, fileIdsToLink } = await message.uploadData();
-      const { id } = message;
-      const destination = this.id;
-
-      const sentAt = message.get('sent_at');
-      if (!sentAt) {
-        throw new Error('sendMessageJob() sent_at must be set.');
-      }
-
-      if (this.isPublic() && !this.isOpenGroupV2()) {
-        throw new Error('Only opengroupv2 are supported now');
-      }
-      // an OpenGroupV2 message is just a visible message
-      const chatMessageParams: VisibleMessageParams = {
-        body,
-        identifier: id,
-        timestamp: sentAt,
-        attachments,
-        expireTimer,
-        preview: preview ? [preview] : [],
-        quote,
-        lokiProfile: UserUtils.getOurProfile(),
-      };
-
-      const shouldApprove = !this.isApproved() && this.isPrivate();
-      const incomingMessageCount = await Data.getMessageCountByType(
-        this.id,
-        MessageDirection.incoming
-      );
-      const hasIncomingMessages = incomingMessageCount > 0;
-
-      if (this.id.startsWith('15')) {
-        window.log.info('Sending a blinded message to this user: ', this.id);
-        await this.sendBlindedMessageRequest(chatMessageParams);
-        return;
-      }
-
-      if (shouldApprove) {
-        await this.setIsApproved(true);
-        if (hasIncomingMessages) {
-          // have to manually add approval for local client here as DB conditional approval check in config msg handling will prevent this from running
-          await this.addOutgoingApprovalMessage(Date.now());
-          if (!this.didApproveMe()) {
-            await this.setDidApproveMe(true);
-          }
-          // should only send once
-          await this.sendMessageRequestResponse();
-          void forceSyncConfigurationNowIfNeeded();
-        }
-      }
-
-      if (this.isOpenGroupV2()) {
-        const chatMessageOpenGroupV2 = new OpenGroupVisibleMessage(chatMessageParams);
-        const roomInfos = this.toOpenGroupV2();
-        if (!roomInfos) {
-          throw new Error('Could not find this room in db');
-        }
-        const openGroup = OpenGroupData.getV2OpenGroupRoom(this.id);
-        // send with blinding if we need to
-        await getMessageQueue().sendToOpenGroupV2(
-          chatMessageOpenGroupV2,
-          roomInfos,
-          Boolean(roomHasBlindEnabled(openGroup)),
-          fileIdsToLink
-        );
-        return;
-      }
-
-      const destinationPubkey = new PubKey(destination);
-
-      if (this.isPrivate()) {
-        if (this.isMe()) {
-          chatMessageParams.syncTarget = this.id;
-          const chatMessageMe = new VisibleMessage(chatMessageParams);
-
-          await getMessageQueue().sendSyncMessage(chatMessageMe);
-          return;
-        }
-
-        if (message.get('groupInvitation')) {
-          const groupInvitation = message.get('groupInvitation');
-          const groupInvitMessage = new GroupInvitationMessage({
-            identifier: id,
-            timestamp: sentAt,
-            name: groupInvitation.name,
-            url: groupInvitation.url,
-            expireTimer: this.get('expireTimer'),
-          });
-          // we need the return await so that errors are caught in the catch {}
-          await getMessageQueue().sendToPubKey(destinationPubkey, groupInvitMessage);
-          return;
-        }
-        const chatMessagePrivate = new VisibleMessage(chatMessageParams);
-
-        await getMessageQueue().sendToPubKey(destinationPubkey, chatMessagePrivate);
-        return;
-      }
-
-      if (this.isMediumGroup()) {
-        const chatMessageMediumGroup = new VisibleMessage(chatMessageParams);
-        const closedGroupVisibleMessage = new ClosedGroupVisibleMessage({
-          chatMessage: chatMessageMediumGroup,
-          groupId: destination,
-        });
-
-        // we need the return await so that errors are caught in the catch {}
-        await getMessageQueue().sendToGroup(closedGroupVisibleMessage);
-        return;
-      }
-
-      if (this.isClosedGroup()) {
-        throw new Error('Legacy group are not supported anymore. You need to recreate this group.');
-      }
-
-      throw new TypeError(`Invalid conversation type: '${this.get('type')}'`);
-    } catch (e) {
-      await message.saveErrors(e);
-      return null;
-    }
-  }
-
   public async sendReactionJob(sourceMessage: MessageModel, reaction: Reaction) {
     try {
       const destination = this.id;
@@ -665,10 +515,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       const sentAt = sourceMessage.get('sent_at');
       if (!sentAt) {
         throw new Error('sendReactMessageJob() sent_at must be set.');
-      }
-
-      if (this.isPublic() && !this.isOpenGroupV2()) {
-        throw new Error('Only opengroupv2 are supported now');
       }
 
       // an OpenGroupV2 message is just a visible message
@@ -686,8 +532,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       );
       const hasIncomingMessages = incomingMessageCount > 0;
 
-      if (this.id.startsWith('15')) {
-        window.log.info('Sending a blinded message to this user: ', this.id);
+      if (PubKey.isBlinded(this.id)) {
+        window.log.info('Sending a blinded message react to this user: ', this.id);
         await this.sendBlindedMessageRequest(chatMessageParams);
         return;
       }
@@ -716,7 +562,12 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         const blinded = Boolean(roomHasBlindEnabled(openGroup));
 
         // send with blinding if we need to
-        await getMessageQueue().sendToOpenGroupV2(chatMessageOpenGroupV2, roomInfos, blinded, []);
+        await getMessageQueue().sendToOpenGroupV2({
+          message: chatMessageOpenGroupV2,
+          roomInfos,
+          blinded,
+          filesToLink: [],
+        });
         return;
       }
 
@@ -727,26 +578,17 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
           ...chatMessageParams,
           syncTarget: this.id,
         });
-        await getMessageQueue().sendSyncMessage(chatMessageMe);
+        await getMessageQueue().sendSyncMessage({
+          namespace: SnodeNamespaces.UserMessages,
+          message: chatMessageMe,
+        });
 
         const chatMessagePrivate = new VisibleMessage(chatMessageParams);
-        await getMessageQueue().sendToPubKey(destinationPubkey, chatMessagePrivate);
-        await Reactions.handleMessageReaction({
-          reaction,
-          sender: UserUtils.getOurPubKeyStrFromCache(),
-          you: true,
-        });
-        return;
-      }
-
-      if (this.isMediumGroup()) {
-        const chatMessageMediumGroup = new VisibleMessage(chatMessageParams);
-        const closedGroupVisibleMessage = new ClosedGroupVisibleMessage({
-          chatMessage: chatMessageMediumGroup,
-          groupId: destination,
-        });
-        // we need the return await so that errors are caught in the catch {}
-        await getMessageQueue().sendToGroup(closedGroupVisibleMessage);
+        await getMessageQueue().sendToPubKey(
+          destinationPubkey,
+          chatMessagePrivate,
+          SnodeNamespaces.UserMessages
+        );
         await Reactions.handleMessageReaction({
           reaction,
           sender: UserUtils.getOurPubKeyStrFromCache(),
@@ -756,7 +598,22 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       }
 
       if (this.isClosedGroup()) {
-        throw new Error('Legacy group are not supported anymore. You need to recreate this group.');
+        const chatMessageMediumGroup = new VisibleMessage(chatMessageParams);
+        const closedGroupVisibleMessage = new ClosedGroupVisibleMessage({
+          chatMessage: chatMessageMediumGroup,
+          groupId: destination,
+        });
+        // we need the return await so that errors are caught in the catch {}
+        await getMessageQueue().sendToGroup({
+          message: closedGroupVisibleMessage,
+          namespace: SnodeNamespaces.ClosedGroupMessage,
+        });
+        await Reactions.handleMessageReaction({
+          reaction,
+          sender: UserUtils.getOurPubKeyStrFromCache(),
+          you: true,
+        });
+        return;
       }
 
       throw new TypeError(`Invalid conversation type: '${this.get('type')}'`);
@@ -770,11 +627,13 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
    * Does this conversation contain the properties to be considered a message request
    */
   public isIncomingRequest(): boolean {
-    return ConversationModel.hasValidIncomingRequestValues({
+    return hasValidIncomingRequestValues({
       isMe: this.isMe(),
       isApproved: this.isApproved(),
       isBlocked: this.isBlocked(),
       isPrivate: this.isPrivate(),
+      activeAt: this.get('active_at'),
+      didApproveMe: this.didApproveMe(),
     });
   }
 
@@ -782,12 +641,13 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
    * Is this conversation an outgoing message request
    */
   public isOutgoingRequest(): boolean {
-    return ConversationModel.hasValidOutgoingRequestValues({
-      isMe: this.isMe(),
-      isApproved: this.isApproved(),
-      didApproveMe: this.didApproveMe(),
-      isBlocked: this.isBlocked(),
-      isPrivate: this.isPrivate(),
+    return hasValidOutgoingRequestValues({
+      isMe: this.isMe() || false,
+      isApproved: this.isApproved() || false,
+      didApproveMe: this.didApproveMe() || false,
+      isBlocked: this.isBlocked() || false,
+      isPrivate: this.isPrivate() || false,
+      activeAt: this.get('active_at') || 0,
     });
   }
 
@@ -814,76 +674,15 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
    */
   public async addIncomingApprovalMessage(timestamp: number, source: string) {
     await this.addSingleIncomingMessage({
-      sent_at: timestamp, // TODO: maybe add timestamp to messageRequestResponse? confirm it doesn't exist first
+      sent_at: timestamp,
       source,
       messageRequestResponse: {
         isApproved: 1,
       },
-      unread: 1, // 1 means unread
+      unread: READ_MESSAGE_STATE.unread, // 1 means unread
       expireTimer: 0,
     });
     this.updateLastMessage();
-  }
-
-  public async sendBlindedMessageRequest(messageParams: VisibleMessageParams) {
-    const ourSignKeyBytes = await UserUtils.getUserED25519KeyPairBytes();
-    const groupUrl = this.getSogsOriginMessage();
-
-    if (!PubKey.hasBlindedPrefix(this.id)) {
-      window?.log?.warn('sendBlindedMessageRequest - convo is not a blinded one');
-      return;
-    }
-
-    if (!messageParams.body) {
-      window?.log?.warn('sendBlindedMessageRequest - needs a body');
-      return;
-    }
-
-    // include our profile (displayName + avatar url + key for the recipient)
-    messageParams.lokiProfile = getOurProfile();
-
-    if (!ourSignKeyBytes || !groupUrl) {
-      window?.log?.error(
-        'sendBlindedMessageRequest - Cannot get required information for encrypting blinded message.'
-      );
-      return;
-    }
-
-    const roomInfo = OpenGroupData.getV2OpenGroupRoom(groupUrl);
-
-    if (!roomInfo || !roomInfo.serverPublicKey) {
-      ToastUtils.pushToastError('no-sogs-matching', window.i18n('couldntFindServerMatching'));
-      window?.log?.error('Could not find room with matching server url', groupUrl);
-      throw new Error(`Could not find room with matching server url: ${groupUrl}`);
-    }
-
-    const sogsVisibleMessage = new OpenGroupVisibleMessage(messageParams);
-    const paddedBody = addMessagePadding(sogsVisibleMessage.plainTextBuffer());
-
-    const serverPubKey = roomInfo.serverPublicKey;
-
-    const encryptedMsg = await SogsBlinding.encryptBlindedMessage({
-      rawData: paddedBody,
-      senderSigningKey: ourSignKeyBytes,
-      serverPubKey: from_hex(serverPubKey),
-      recipientBlindedPublicKey: from_hex(this.id.slice(2)),
-    });
-
-    if (!encryptedMsg) {
-      throw new Error('encryptBlindedMessage failed');
-    }
-    if (!messageParams.identifier) {
-      throw new Error('encryptBlindedMessage messageParams needs an identifier');
-    }
-
-    this.set({ active_at: Date.now(), isApproved: true });
-
-    await getMessageQueue().sendToOpenGroupV2BlindedRequest(
-      encryptedMsg,
-      roomInfo,
-      sogsVisibleMessage,
-      this.id
-    );
   }
 
   /**
@@ -905,7 +704,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const messageRequestResponse = new MessageRequestResponse(messageRequestResponseParams);
     const pubkeyForSending = new PubKey(this.id);
     await getMessageQueue()
-      .sendToPubKey(pubkeyForSending, messageRequestResponse)
+      .sendToPubKey(pubkeyForSending, messageRequestResponse, SnodeNamespaces.UserMessages)
       .catch(window?.log?.error);
   }
 
@@ -913,7 +712,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const { attachments, body, groupInvitation, preview, quote } = msg;
     this.clearTypingTimers();
     const expireTimer = this.get('expireTimer');
-    const networkTimestamp = getNowWithNetworkOffset();
+    const networkTimestamp = GetNetworkTime.getNowWithNetworkOffset();
 
     window?.log?.info(
       'Sending message to conversation',
@@ -966,48 +765,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     void this.queueJob(async () => {
       await this.sendReactionJob(sourceMessage, reaction);
     });
-  }
-
-  public async bouncyUpdateLastMessage() {
-    if (!this.id || !this.get('active_at')) {
-      return;
-    }
-    const messages = await Data.getLastMessagesByConversation(this.id, 1, true);
-
-    if (!messages || !messages.length) {
-      return;
-    }
-    const lastMessageModel = messages.at(0);
-    const lastMessageStatusModel = lastMessageModel
-      ? lastMessageModel.getMessagePropStatus()
-      : undefined;
-    const lastMessageUpdate = createLastMessageUpdate({
-      lastMessageStatus: lastMessageStatusModel,
-      lastMessageNotificationText: lastMessageModel
-        ? lastMessageModel.getNotificationText()
-        : undefined,
-    });
-
-    if (
-      lastMessageUpdate.lastMessage !== this.get('lastMessage') ||
-      lastMessageUpdate.lastMessageStatus !== this.get('lastMessageStatus')
-    ) {
-      const lastMessageAttribute = this.get('lastMessage');
-      if (
-        lastMessageUpdate.lastMessageStatus === this.get('lastMessageStatus') &&
-        lastMessageUpdate.lastMessage &&
-        lastMessageUpdate.lastMessage.length > 40 &&
-        lastMessageAttribute &&
-        lastMessageAttribute.length > 40 &&
-        lastMessageUpdate.lastMessage.startsWith(lastMessageAttribute)
-      ) {
-        // if status is the same, and text has a long length which starts with the db status, do not trigger an update.
-        // we only store the first 60 chars in the db for the lastMessage attributes (see sql.ts)
-        return;
-      }
-      this.set(lastMessageUpdate);
-      await this.commit();
-    }
   }
 
   public async updateExpireTimer(
@@ -1069,7 +826,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         ...commonAttributes,
         // Even though this isn't reflected to the user, we want to place the last seen
         //   indicator above it. We set it to 'unread' to trigger that placement.
-        unread: 1,
+        unread: READ_MESSAGE_STATE.unread,
         source,
         sent_at: timestamp,
         received_at: timestamp,
@@ -1103,7 +860,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     if (this.isPrivate()) {
       const expirationTimerMessage = new ExpirationTimerUpdateMessage(expireUpdate);
       const pubkey = new PubKey(this.get('id'));
-      await getMessageQueue().sendToPubKey(pubkey, expirationTimerMessage);
+      await getMessageQueue().sendToPubKey(
+        pubkey,
+        expirationTimerMessage,
+        SnodeNamespaces.UserMessages
+      );
     } else {
       window?.log?.warn('TODO: Expiration update for closed groups are to be updated');
       const expireUpdateForGroup = {
@@ -1113,7 +874,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
       const expirationTimerMessage = new ExpirationTimerUpdateMessage(expireUpdateForGroup);
 
-      await getMessageQueue().sendToGroup(expirationTimerMessage);
+      await getMessageQueue().sendToGroup({
+        message: expirationTimerMessage,
+        namespace: SnodeNamespaces.ClosedGroupMessage,
+      });
     }
     return;
   }
@@ -1124,11 +888,9 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public async commit() {
-    perfStart(`conversationCommit-${this.attributes.id}`);
-    // write to DB
-    await Data.saveConversation(this.attributes);
-    this.triggerUIRefresh();
-    perfEnd(`conversationCommit-${this.attributes.id}`, 'conversationCommit');
+    perfStart(`conversationCommit-${this.id}`);
+    await commitConversationAndRefreshWrapper(this.id);
+    perfEnd(`conversationCommit-${this.id}`, 'conversationCommit');
   }
 
   public async addSingleOutgoingMessage(
@@ -1159,14 +921,15 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         }
       }
     }
+
     return this.addSingleMessage({
       ...messageAttributes,
       conversationId: this.id,
       source: sender,
       type: 'outgoing',
       direction: 'outgoing',
-      unread: 0, // an outgoing message must be read right?
-      received_at: messageAttributes.sent_at, // make sure to set an received_at timestamp for an outgoing message, so the order are right.
+      unread: READ_MESSAGE_STATE.read, // an outgoing message must be already read
+      received_at: messageAttributes.sent_at, // make sure to set a received_at timestamp for an outgoing message, so the order are right.
     });
   }
 
@@ -1174,27 +937,22 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     messageAttributes: Omit<MessageAttributesOptionals, 'conversationId' | 'type' | 'direction'>
   ) {
     // if there's a message by the other user, they've replied to us which we consider an accepted convo
-    if (!this.didApproveMe() && this.isPrivate()) {
+    if (this.isPrivate()) {
       await this.setDidApproveMe(true);
     }
 
-    return this.addSingleMessage({
+    const toBeAddedAttributes: MessageAttributesOptionals = {
       ...messageAttributes,
       conversationId: this.id,
       type: 'incoming',
       direction: 'outgoing',
-    });
-  }
+    };
 
-  public async leaveClosedGroup() {
-    if (this.isMediumGroup()) {
-      await leaveClosedGroup(this.id);
-    } else {
-      window?.log?.error('Cannot leave a non-medium group conversation');
-      throw new Error(
-        'Legacy group are not supported anymore. You need to create this group again.'
-      );
-    }
+    // if the message is trying to be added unread, make sure that it shouldn't be already read from our other devices
+
+    markAttributesAsReadIfNeeded(toBeAddedAttributes);
+
+    return this.addSingleMessage(toBeAddedAttributes);
   }
 
   /**
@@ -1215,121 +973,36 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
      * (if there is an expireTimer, we do it the slow way, handling each message separately)
      */
     const expireTimerSet = !!this.get('expireTimer');
-    if (this.isOpenGroupV2() || !expireTimerSet) {
-      // for opengroups, we batch everything as there is no expiration timer to take care (and potentially a lot of messages)
+    const isOpenGroup = this.isOpenGroupV2();
 
-      const isOpenGroup = this.isOpenGroupV2();
+    if (isOpenGroup || !expireTimerSet) {
+      // for opengroups, we batch everything as there is no expiration timer to take care of (and potentially a lot of messages)
+
       // if this is an opengroup there is no need to send read receipt, and so no need to fetch messages updated.
-      const allReadMessages = await Data.markAllAsReadByConversationNoExpiration(
+      const allReadMessagesIds = await Data.markAllAsReadByConversationNoExpiration(
         this.id,
         !isOpenGroup
       );
-      this.set({ mentionedUs: false, unreadCount: 0 });
 
+      await this.markAsUnread(false, false);
       await this.commit();
-      if (!this.isOpenGroupV2() && allReadMessages.length) {
-        await this.sendReadReceiptsIfNeeded(uniq(allReadMessages));
+      if (allReadMessagesIds.length) {
+        await this.sendReadReceiptsIfNeeded(uniq(allReadMessagesIds));
       }
       Notifications.clearByConversationID(this.id);
       window.inboxStore?.dispatch(markConversationFullyRead(this.id));
 
       return;
     }
-    // otherwise, do it the slow way
-    await this.markReadBouncy(Date.now());
+
+    // otherwise, do it the slow and expensive way
+    await this.markConversationReadBouncy(Date.now());
   }
 
-  // tslint:disable-next-line: cyclomatic-complexity
-  public async markReadBouncy(
-    newestUnreadDate: number,
-    providedOptions: { sendReadReceipts?: boolean; readAt?: number } = {}
-  ) {
-    const lastReadTimestamp = this.lastReadTimestamp;
-    if (newestUnreadDate < lastReadTimestamp) {
-      return;
-    }
-
-    const readAt = providedOptions?.readAt || Date.now();
-    const sendReadReceipts = providedOptions?.sendReadReceipts || true;
-
-    const conversationId = this.id;
-    Notifications.clearByConversationID(conversationId);
-    let allUnreadMessagesInConvo = (await this.getUnread()).models;
-
-    const oldUnreadNowRead = allUnreadMessagesInConvo.filter(
-      message => (message.get('received_at') as number) <= newestUnreadDate
-    );
-
-    let read = [];
-
-    // Build the list of updated message models so we can mark them all as read on a single sqlite call
-    for (const nowRead of oldUnreadNowRead) {
-      nowRead.markReadNoCommit(readAt);
-
-      const errors = nowRead.get('errors');
-      read.push({
-        sender: nowRead.get('source'),
-        timestamp: nowRead.get('sent_at'),
-        hasErrors: Boolean(errors && errors.length),
-      });
-    }
-    const oldUnreadNowReadAttrs = oldUnreadNowRead.map(m => m.attributes);
-    if (oldUnreadNowReadAttrs?.length) {
-      await Data.saveMessages(oldUnreadNowReadAttrs);
-    }
-    const allProps: Array<MessageModelPropsWithoutConvoProps> = [];
-
-    for (const nowRead of oldUnreadNowRead) {
-      allProps.push(nowRead.getMessageModelProps());
-    }
-
-    if (allProps.length) {
-      window.inboxStore?.dispatch(conversationActions.messagesChanged(allProps));
-    }
-    // Some messages we're marking read are local notifications with no sender
-    read = filter(read, m => Boolean(m.sender));
-    const realUnreadCount = await this.getUnreadCount();
-    if (read.length === 0) {
-      const cachedUnreadCountOnConvo = this.get('unreadCount');
-      if (cachedUnreadCountOnConvo !== realUnreadCount) {
-        // reset the unreadCount on the convo to the real one coming from markRead messages on the db
-        this.set({ unreadCount: realUnreadCount });
-        await this.commit();
-      } else {
-        // window?.log?.info('markRead(): nothing newly read.');
-      }
-      return;
-    }
-
-    allUnreadMessagesInConvo = allUnreadMessagesInConvo.filter((m: any) => Boolean(m.isIncoming()));
-
-    this.set({ unreadCount: realUnreadCount });
-
-    const mentionRead = (() => {
-      const stillUnread = allUnreadMessagesInConvo.filter(
-        (m: any) => m.get('received_at') > newestUnreadDate
-      );
-      const ourNumber = UserUtils.getOurPubKeyStrFromCache();
-      return !stillUnread.some(m => m.get('body')?.indexOf(`@${ourNumber}`) !== -1);
-    })();
-
-    if (mentionRead) {
-      this.set({ mentionedUs: false });
-    }
-
-    await this.commit();
-
-    // If a message has errors, we don't want to send anything out about it.
-    //   read syncs - let's wait for a client that really understands the message
-    //      to mark it read. we'll mark our local error read locally, though.
-    //   read receipts - here we can run into infinite loops, where each time the
-    //      conversation is viewed, another error message shows up for the contact
-    read = read.filter(item => !item.hasErrors);
-
-    if (read.length && sendReadReceipts) {
-      const timestamps = map(read, 'timestamp').filter(t => !!t) as Array<number>;
-      await this.sendReadReceiptsIfNeeded(timestamps);
-    }
+  public getUsInThatConversation() {
+    const usInThatConversation =
+      getUsBlindedInThatServer(this) || UserUtils.getOurPubKeyStrFromCache();
+    return usInThatConversation;
   }
 
   public async sendReadReceiptsIfNeeded(timestamps: Array<number>) {
@@ -1350,11 +1023,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       });
 
       const device = new PubKey(this.id);
-      await getMessageQueue().sendToPubKey(device, receiptMessage);
+      await getMessageQueue().sendToPubKey(device, receiptMessage, SnodeNamespaces.UserMessages);
     }
   }
 
-  public async setNickname(nickname: string | null) {
+  public async setNickname(nickname: string | null, shouldCommit = false) {
     if (!this.isPrivate()) {
       window.log.info('cannot setNickname to a non private conversation.');
       return;
@@ -1373,7 +1046,9 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       this.set({ nickname: trimmed, displayNameInProfile: realUserName });
     }
 
-    await this.commit();
+    if (shouldCommit) {
+      await this.commit();
+    }
   }
 
   public async setSessionProfile(newProfile: {
@@ -1430,7 +1105,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
    * @returns `nickname` so the nickname we forced for that user. For a group, this returns `undefined`
    */
   public getNickname(): string | undefined {
-    return this.isPrivate() ? this.get('nickname') : undefined;
+    return this.isPrivate() ? this.get('nickname') || undefined : undefined;
   }
 
   /**
@@ -1480,24 +1155,106 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       return false;
     }
 
-    const groupModerators = this.getGroupModerators();
+    const groupModerators = getModeratorsOutsideRedux(this.id as string);
     return Array.isArray(groupModerators) && groupModerators.includes(pubKey);
   }
 
-  public async setIsPinned(value: boolean) {
-    if (value !== this.isPinned()) {
+  /**
+   * When receiving a shared config message, we need to apply the change after the merge happened to our database.
+   * This is done with this function.
+   * There are other actions to change the priority from the UI (or from )
+   */
+  public async setPriorityFromWrapper(
+    priority: number,
+    shouldCommit: boolean = true
+  ): Promise<boolean> {
+    if (priority !== this.get('priority')) {
       this.set({
-        isPinned: value,
+        priority,
       });
+
+      if (shouldCommit) {
+        await this.commit();
+      }
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Toggle the pinned state of a conversation.
+   * Any conversation can be pinned and the higher the priority, the higher it will be in the list.
+   * Note: Currently, we do not have an order in the list of pinned conversation, but the libsession util wrapper can handle the order.
+   */
+  public async togglePinned(shouldCommit: boolean = true) {
+    this.set({ priority: this.isPinned() ? 0 : 1 });
+    if (shouldCommit) {
       await this.commit();
+    }
+    return true;
+  }
+
+  /**
+   * Force the priority to be -1 (PRIORITY_DEFAULT_HIDDEN) so this conversation is hidden in the list. Currently only works for private chats.
+   */
+  public async setHidden(shouldCommit: boolean = true) {
+    if (!this.isPrivate()) {
+      return;
+    }
+    const priority = this.get('priority');
+    if (priority >= CONVERSATION_PRIORITIES.default) {
+      this.set({ priority: CONVERSATION_PRIORITIES.hidden });
+      if (shouldCommit) {
+        await this.commit();
+      }
     }
   }
 
+  /**
+   * Reset the priority of this conversation to 0 if it was < 0, but keep anything > 0 as is.
+   * So if the conversation was pinned, we keep it pinned with its current priority.
+   * A pinned cannot be hidden, as the it is all based on the same priority values.
+   */
+  public async unhideIfNeeded(shouldCommit: boolean = true) {
+    const priority = this.get('priority');
+    if (isFinite(priority) && priority < CONVERSATION_PRIORITIES.default) {
+      this.set({ priority: CONVERSATION_PRIORITIES.default });
+      if (shouldCommit) {
+        await this.commit();
+      }
+    }
+  }
+
+  public async markAsUnread(forcedValue: boolean, shouldCommit: boolean = true) {
+    if (!!forcedValue !== this.isMarkedUnread()) {
+      this.set({
+        markedAsUnread: !!forcedValue,
+      });
+      if (shouldCommit) {
+        await this.commit();
+      }
+    }
+  }
+
+  public isMarkedUnread(): boolean {
+    return !!this.get('markedAsUnread');
+  }
+
+  /**
+   * Mark a private conversation as approved to the specified value.
+   * Does not do anything on non private chats.
+   */
   public async setIsApproved(value: boolean, shouldCommit: boolean = true) {
-    if (value !== this.isApproved()) {
+    const valueForced = Boolean(value);
+
+    if (!this.isPrivate()) {
+      return;
+    }
+
+    if (valueForced !== Boolean(this.isApproved())) {
       window?.log?.info(`Setting ${ed25519Str(this.id)} isApproved to: ${value}`);
       this.set({
-        isApproved: value,
+        isApproved: valueForced,
       });
 
       if (shouldCommit) {
@@ -1506,11 +1263,19 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
   }
 
+  /**
+   * Mark a private conversation as approved_me to the specified value
+   * Does not do anything on non private chats.
+   */
   public async setDidApproveMe(value: boolean, shouldCommit: boolean = true) {
-    if (value !== this.didApproveMe()) {
+    if (!this.isPrivate()) {
+      return;
+    }
+    const valueForced = Boolean(value);
+    if (valueForced !== Boolean(this.didApproveMe())) {
       window?.log?.info(`Setting ${ed25519Str(this.id)} didApproveMe to: ${value}`);
       this.set({
-        didApproveMe: value,
+        didApproveMe: valueForced,
       });
 
       if (shouldCommit) {
@@ -1529,21 +1294,24 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     await this.commit();
   }
 
-  public async setSubscriberCount(count: number) {
-    if (this.get('subscriberCount') !== count) {
-      this.set({ subscriberCount: count });
-      await this.commit();
-    }
-    // Not sure if we care about updating the database
-  }
-
   /**
-   * Saves the infos of that room directly on the conversation table.
-   * This does not write anything to the db if no changes are detected
+   * Save the pollInfo to the Database or to the in memory redux slice depending on the data.
+   * things stored to the redux slice of the sogs (ReduxSogsRoomInfos)  are:
+   * - subscriberCount
+   * - canWrite
+   * - moderators
+   *
+   * things stored in the database are
+   * - admins (as they are also stored for groups we just reuse the same field, saved in the DB for now)
+   * - display name of that room
+   *
+   * This function also triggers the download of the new avatar if needed.
+   *
+   * Does not do anything for non public chats.
    */
   // tslint:disable-next-line: cyclomatic-complexity
   public async setPollInfo(infos?: {
-    subscriberCount: number;
+    active_users: number;
     read: boolean;
     write: boolean;
     upload: boolean;
@@ -1556,44 +1324,33 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       hidden_moderators?: Array<string>;
     };
   }) {
+    if (!this.isPublic()) {
+      return;
+    }
     if (!infos || isEmpty(infos)) {
       return;
     }
-    let hasChange = false;
-    const { read, write, upload, subscriberCount, details } = infos;
+    const { write, active_users, details } = infos;
+
     if (
-      isNumber(infos.subscriberCount) &&
-      infos.subscriberCount !== 0 &&
-      this.get('subscriberCount') !== subscriberCount
+      isFinite(infos.active_users) &&
+      infos.active_users !== 0 &&
+      getSubscriberCountOutsideRedux(this.id) !== active_users
     ) {
-      hasChange = true;
-      this.set('subscriberCount', subscriberCount);
+      ReduxSogsRoomInfos.setSubscriberCountOutsideRedux(this.id, active_users);
     }
 
-    if (Boolean(this.get('readCapability')) !== Boolean(read)) {
-      hasChange = true;
-      this.set('readCapability', Boolean(read));
+    if (getCanWriteOutsideRedux(this.id) !== !!write) {
+      ReduxSogsRoomInfos.setCanWriteOutsideRedux(this.id, !!write);
     }
 
-    if (Boolean(this.get('writeCapability')) !== Boolean(write)) {
-      hasChange = true;
-      this.set('writeCapability', Boolean(write));
-    }
-
-    if (Boolean(this.get('uploadCapability')) !== Boolean(upload)) {
-      hasChange = true;
-      this.set('uploadCapability', Boolean(upload));
-    }
-
-    const adminChanged = await this.handleModsOrAdminsChanges({
+    let hasChange = await this.handleSogsModsOrAdminsChanges({
       modsOrAdmins: details.admins,
       hiddenModsOrAdmins: details.hidden_admins,
       type: 'admins',
     });
 
-    hasChange = hasChange || adminChanged;
-
-    const modsChanged = await this.handleModsOrAdminsChanges({
+    const modsChanged = await this.handleSogsModsOrAdminsChanges({
       modsOrAdmins: details.moderators,
       hiddenModsOrAdmins: details.hidden_moderators,
       type: 'mods',
@@ -1606,7 +1363,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     hasChange = hasChange || modsChanged;
 
-    if (this.isOpenGroupV2() && details.image_id && isNumber(details.image_id)) {
+    if (this.isPublic() && details.image_id && isNumber(details.image_id)) {
       const roomInfos = OpenGroupData.getV2OpenGroupRoom(this.id);
       if (roomInfos) {
         void sogsV3FetchPreviewAndSaveIt({ ...roomInfos, imageID: `${details.image_id}` });
@@ -1623,7 +1380,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
    * profileKey MUST be a hex string
    * @param profileKey MUST be a hex string
    */
-  public async setProfileKey(profileKey?: Uint8Array, autoCommit = true) {
+  public async setProfileKey(profileKey?: Uint8Array, shouldCommit = true) {
     if (!profileKey) {
       return;
     }
@@ -1636,7 +1393,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         profileKey: profileKeyHex,
       });
 
-      if (autoCommit) {
+      if (shouldCommit) {
         await this.commit();
       }
     }
@@ -1660,11 +1417,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
   }
 
-  // returns true if this is a closed/medium or open group
-  public isGroup() {
-    return this.get('type') === ConversationTypeEnum.GROUP;
-  }
-
   public async removeMessage(messageId: string) {
     await Data.removeMessage(messageId);
     this.updateLastMessage();
@@ -1680,7 +1432,9 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public isPinned() {
-    return Boolean(this.get('isPinned'));
+    const priority = this.get('priority');
+
+    return isFinite(priority) && priority > CONVERSATION_PRIORITIES.default;
   }
 
   public didApproveMe() {
@@ -1689,10 +1443,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
   public isApproved() {
     return Boolean(this.get('isApproved'));
-  }
-
-  public getTitle() {
-    return this.getNicknameOrRealUsernameOrPlaceholder();
   }
 
   /**
@@ -1716,10 +1466,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const profileName = this.get('displayNameInProfile');
 
     return profileName || PubKey.shorten(pubkey);
-  }
-
-  public isPrivate() {
-    return this.get('type') === ConversationTypeEnum.PRIVATE;
   }
 
   public getAvatarPath(): string | null {
@@ -1772,7 +1518,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
             );
           }).length === 1;
       const isFirstMessageOfConvo =
-        (await Data.getMessagesByConversation(this.id, { messageId: null })).length === 1;
+        (await Data.getMessagesByConversation(this.id, { messageId: null })).messages.length === 1;
       if (hadNoRequestsPrior && isFirstMessageOfConvo) {
         friendRequestText = window.i18n('youHaveANewFriendRequest');
       } else {
@@ -1830,7 +1576,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       message: friendRequestText ? friendRequestText : message.getNotificationText(),
       messageId,
       messageSentAt,
-      title: friendRequestText ? '' : convo.getTitle(),
+      title: friendRequestText ? '' : convo.getNicknameOrRealUsernameOrPlaceholder(),
     });
   }
 
@@ -1888,8 +1634,302 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       : null;
   }
 
-  private async getUnread() {
-    return Data.getUnreadByConversation(this.id);
+  /**
+   * This call is not debounced and can be quite heavy, so only call it when handling config messages updates
+   */
+  public async markReadFromConfigMessage(newestUnreadDate: number) {
+    return this.markConversationReadBouncy(newestUnreadDate);
+  }
+
+  private async sendMessageJob(message: MessageModel, expireTimer: number | undefined) {
+    try {
+      const { body, attachments, preview, quote, fileIdsToLink } = await message.uploadData();
+      const { id } = message;
+      const destination = this.id;
+
+      const sentAt = message.get('sent_at');
+      if (!sentAt) {
+        throw new Error('sendMessageJob() sent_at must be set.');
+      }
+
+      // we are trying to send a message to someone. Make sure this convo is not hidden
+      await this.unhideIfNeeded(true);
+
+      // an OpenGroupV2 message is just a visible message
+      const chatMessageParams: VisibleMessageParams = {
+        body,
+        identifier: id,
+        timestamp: sentAt,
+        attachments,
+        expireTimer,
+        preview: preview ? [preview] : [],
+        quote,
+        lokiProfile: UserUtils.getOurProfile(),
+      };
+
+      const shouldApprove = !this.isApproved() && this.isPrivate();
+      const incomingMessageCount = await Data.getMessageCountByType(
+        this.id,
+        MessageDirection.incoming
+      );
+      const hasIncomingMessages = incomingMessageCount > 0;
+
+      if (PubKey.isBlinded(this.id)) {
+        window.log.info('Sending a blinded message to this user: ', this.id);
+        await this.sendBlindedMessageRequest(chatMessageParams);
+        return;
+      }
+
+      if (shouldApprove) {
+        await this.setIsApproved(true);
+        if (hasIncomingMessages) {
+          // have to manually add approval for local client here as DB conditional approval check in config msg handling will prevent this from running
+          await this.addOutgoingApprovalMessage(Date.now());
+          if (!this.didApproveMe()) {
+            await this.setDidApproveMe(true);
+          }
+          // should only send once
+          await this.sendMessageRequestResponse();
+          void forceSyncConfigurationNowIfNeeded();
+        }
+      }
+
+      if (this.isOpenGroupV2()) {
+        const chatMessageOpenGroupV2 = new OpenGroupVisibleMessage(chatMessageParams);
+        const roomInfos = this.toOpenGroupV2();
+        if (!roomInfos) {
+          throw new Error('Could not find this room in db');
+        }
+        const openGroup = OpenGroupData.getV2OpenGroupRoom(this.id);
+        // send with blinding if we need to
+        await getMessageQueue().sendToOpenGroupV2({
+          message: chatMessageOpenGroupV2,
+          roomInfos,
+          blinded: Boolean(roomHasBlindEnabled(openGroup)),
+          filesToLink: fileIdsToLink,
+        });
+        return;
+      }
+
+      const destinationPubkey = new PubKey(destination);
+
+      if (this.isPrivate()) {
+        if (this.isMe()) {
+          chatMessageParams.syncTarget = this.id;
+          const chatMessageMe = new VisibleMessage(chatMessageParams);
+
+          await getMessageQueue().sendSyncMessage({
+            namespace: SnodeNamespaces.UserMessages,
+            message: chatMessageMe,
+          });
+          return;
+        }
+
+        if (message.get('groupInvitation')) {
+          const groupInvitation = message.get('groupInvitation');
+          const groupInvitMessage = new GroupInvitationMessage({
+            identifier: id,
+            timestamp: sentAt,
+            name: groupInvitation.name,
+            url: groupInvitation.url,
+            expireTimer: this.get('expireTimer'),
+          });
+          // we need the return await so that errors are caught in the catch {}
+          await getMessageQueue().sendToPubKey(
+            destinationPubkey,
+            groupInvitMessage,
+            SnodeNamespaces.UserMessages
+          );
+          return;
+        }
+        const chatMessagePrivate = new VisibleMessage(chatMessageParams);
+
+        await getMessageQueue().sendToPubKey(
+          destinationPubkey,
+          chatMessagePrivate,
+          SnodeNamespaces.UserMessages
+        );
+        return;
+      }
+
+      if (this.isClosedGroup()) {
+        const chatMessageMediumGroup = new VisibleMessage(chatMessageParams);
+        const closedGroupVisibleMessage = new ClosedGroupVisibleMessage({
+          chatMessage: chatMessageMediumGroup,
+          groupId: destination,
+        });
+
+        // we need the return await so that errors are caught in the catch {}
+        await getMessageQueue().sendToGroup({
+          message: closedGroupVisibleMessage,
+          namespace: SnodeNamespaces.ClosedGroupMessage,
+        });
+        return;
+      }
+
+      throw new TypeError(`Invalid conversation type: '${this.get('type')}'`);
+    } catch (e) {
+      await message.saveErrors(e);
+      return null;
+    }
+  }
+
+  private async sendBlindedMessageRequest(messageParams: VisibleMessageParams) {
+    const ourSignKeyBytes = await UserUtils.getUserED25519KeyPairBytes();
+    const groupUrl = this.getSogsOriginMessage();
+
+    if (!PubKey.isBlinded(this.id)) {
+      window?.log?.warn('sendBlindedMessageRequest - convo is not a blinded one');
+      return;
+    }
+
+    if (!messageParams.body) {
+      window?.log?.warn('sendBlindedMessageRequest - needs a body');
+      return;
+    }
+
+    // include our profile (displayName + avatar url + key for the recipient)
+    messageParams.lokiProfile = getOurProfile();
+
+    if (!ourSignKeyBytes || !groupUrl) {
+      window?.log?.error(
+        'sendBlindedMessageRequest - Cannot get required information for encrypting blinded message.'
+      );
+      return;
+    }
+
+    const roomInfo = OpenGroupData.getV2OpenGroupRoom(groupUrl);
+
+    if (!roomInfo || !roomInfo.serverPublicKey) {
+      ToastUtils.pushToastError('no-sogs-matching', window.i18n('couldntFindServerMatching'));
+      window?.log?.error('Could not find room with matching server url', groupUrl);
+      throw new Error(`Could not find room with matching server url: ${groupUrl}`);
+    }
+
+    const sogsVisibleMessage = new OpenGroupVisibleMessage(messageParams);
+    const paddedBody = addMessagePadding(sogsVisibleMessage.plainTextBuffer());
+
+    const serverPubKey = roomInfo.serverPublicKey;
+
+    const encryptedMsg = await SogsBlinding.encryptBlindedMessage({
+      rawData: paddedBody,
+      senderSigningKey: ourSignKeyBytes,
+      serverPubKey: from_hex(serverPubKey),
+      recipientBlindedPublicKey: from_hex(this.id.slice(2)),
+    });
+
+    if (!encryptedMsg) {
+      throw new Error('encryptBlindedMessage failed');
+    }
+    if (!messageParams.identifier) {
+      throw new Error('encryptBlindedMessage messageParams needs an identifier');
+    }
+
+    this.set({ active_at: Date.now(), isApproved: true });
+    // TODO we need to add support for sending blinded25 message request in addition to the legacy blinded15
+    await getMessageQueue().sendToOpenGroupV2BlindedRequest({
+      encryptedContent: encryptedMsg,
+      roomInfos: roomInfo,
+      message: sogsVisibleMessage,
+      recipientBlindedId: this.id,
+    });
+  }
+
+  private async bouncyUpdateLastMessage() {
+    if (!this.id || !this.get('active_at') || this.isHidden()) {
+      return;
+    }
+    const messages = await Data.getLastMessagesByConversation(this.id, 1, true);
+
+    if (!messages || !messages.length) {
+      return;
+    }
+    const lastMessageModel = messages.at(0);
+    const lastMessageStatus = lastMessageModel.getMessagePropStatus() || undefined;
+    const lastMessageNotificationText = lastMessageModel.getNotificationText() || undefined;
+    // we just want to set the `status` to `undefined` if there are no `lastMessageNotificationText`
+    const lastMessageUpdate =
+      !!lastMessageNotificationText && !isEmpty(lastMessageNotificationText)
+        ? {
+            lastMessage: lastMessageNotificationText || '',
+            lastMessageStatus,
+          }
+        : { lastMessage: '', lastMessageStatus: undefined };
+    const existingLastMessageAttribute = this.get('lastMessage');
+    const existingLastMessageStatus = this.get('lastMessageStatus');
+
+    if (
+      lastMessageUpdate.lastMessage !== existingLastMessageAttribute ||
+      lastMessageUpdate.lastMessageStatus !== existingLastMessageStatus
+    ) {
+      if (
+        lastMessageUpdate.lastMessageStatus === existingLastMessageStatus &&
+        lastMessageUpdate.lastMessage &&
+        lastMessageUpdate.lastMessage.length > 40 &&
+        existingLastMessageAttribute &&
+        existingLastMessageAttribute.length > 40 &&
+        lastMessageUpdate.lastMessage.startsWith(existingLastMessageAttribute)
+      ) {
+        // if status is the same, and text has a long length which starts with the db status, do not trigger an update.
+        // we only store the first 60 chars in the db for the lastMessage attributes (see sql.ts)
+        return;
+      }
+      this.set({
+        ...lastMessageUpdate,
+      });
+      await this.commit();
+    }
+  }
+
+  private async markConversationReadBouncy(newestUnreadDate: number, readAt: number = Date.now()) {
+    const conversationId = this.id;
+    Notifications.clearByConversationID(conversationId);
+
+    const oldUnreadNowRead = (await this.getUnreadByConversation(newestUnreadDate)).models;
+
+    if (!oldUnreadNowRead.length) {
+      //no new messages where read, no need to do anything
+      return;
+    }
+
+    // Build the list of updated message models so we can mark them all as read on a single sqlite call
+    const readDetails = [];
+    for (const nowRead of oldUnreadNowRead) {
+      nowRead.markMessageReadNoCommit(readAt);
+
+      const validTimestamp = nowRead.get('sent_at') || nowRead.get('serverTimestamp');
+      if (nowRead.get('source') && validTimestamp && isFinite(validTimestamp)) {
+        readDetails.push({
+          sender: nowRead.get('source'),
+          timestamp: validTimestamp,
+        });
+      }
+    }
+    const oldUnreadNowReadAttrs = oldUnreadNowRead.map(m => m.attributes);
+    if (oldUnreadNowReadAttrs?.length) {
+      await Data.saveMessages(oldUnreadNowReadAttrs);
+    }
+    const allProps: Array<MessageModelPropsWithoutConvoProps> = [];
+
+    for (const nowRead of oldUnreadNowRead) {
+      allProps.push(nowRead.getMessageModelProps());
+    }
+
+    if (allProps.length) {
+      window.inboxStore?.dispatch(conversationActions.messagesChanged(allProps));
+    }
+
+    await this.commit();
+
+    if (readDetails.length) {
+      const us = UserUtils.getOurPubKeyStrFromCache();
+      const timestamps = readDetails.filter(m => m.sender !== us).map(m => m.timestamp);
+      await this.sendReadReceiptsIfNeeded(timestamps);
+    }
+  }
+
+  private async getUnreadByConversation(sentBeforeTs: number) {
+    return Data.getUnreadByConversation(this.id, sentBeforeTs);
   }
 
   /**
@@ -1914,8 +1954,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     const messageModelProps = model.getMessageModelProps();
     window.inboxStore?.dispatch(conversationActions.messagesChanged([messageModelProps]));
-    const unreadCount = await this.getUnreadCount();
-    this.set({ unreadCount });
     this.updateLastMessage();
 
     await this.commit();
@@ -2010,36 +2048,27 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   private sendTypingMessage(isTyping: boolean) {
-    if (!this.isPrivate()) {
+    // we can only send typing messages to approved contacts
+    if (!this.isPrivate() || this.isMe() || !this.isApproved()) {
       return;
     }
 
-    const recipientId = this.id;
+    const recipientId = this.id as string;
 
-    if (!recipientId) {
+    if (isEmpty(recipientId)) {
       throw new Error('Need to provide either recipientId');
     }
 
-    if (!this.isApproved()) {
-      return;
-    }
-
-    if (this.isMe()) {
-      // note to self
-      return;
-    }
-
     const typingParams = {
-      timestamp: Date.now(),
+      timestamp: GetNetworkTime.getNowWithNetworkOffset(),
       isTyping,
-      typingTimestamp: Date.now(),
+      typingTimestamp: GetNetworkTime.getNowWithNetworkOffset(),
     };
     const typingMessage = new TypingMessage(typingParams);
 
-    // send the message to a single recipient if this is a session chat
     const device = new PubKey(recipientId);
     getMessageQueue()
-      .sendToPubKey(device, typingMessage)
+      .sendToPubKey(device, typingMessage, SnodeNamespaces.UserMessages)
       .catch(window?.log?.error);
   }
 
@@ -2056,7 +2085,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     return replacedWithOurRealSessionId;
   }
 
-  private async handleModsOrAdminsChanges({
+  private async handleSogsModsOrAdminsChanges({
     modsOrAdmins,
     hiddenModsOrAdmins,
     type,
@@ -2075,11 +2104,15 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         uniq(localModsOrAdmins)
       );
 
-      const moderatorsOrAdminsChanged =
-        type === 'admins'
-          ? await this.updateGroupAdmins(replacedWithOurRealSessionId, false)
-          : await this.updateGroupModerators(replacedWithOurRealSessionId, false);
-      return moderatorsOrAdminsChanged;
+      switch (type) {
+        case 'admins':
+          return this.updateGroupAdmins(replacedWithOurRealSessionId, false);
+        case 'mods':
+          ReduxSogsRoomInfos.setModeratorsOutsideRedux(this.id, replacedWithOurRealSessionId);
+          return false;
+        default:
+          assertUnreachable(type, `handleSogsModsOrAdminsChanges: unhandled switch case: ${type}`);
+      }
     }
     return false;
   }
@@ -2141,6 +2174,60 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 }
 
+export async function commitConversationAndRefreshWrapper(id: string) {
+  const convo = getConversationController().get(id);
+  if (!convo) {
+    return;
+  }
+
+  // TODOLATER remove duplicates between db and wrapper (and move search by name or nickname to wrapper)
+  // TODOLATER insertConvoFromDBIntoWrapperAndRefresh and insertContactFromDBIntoWrapperAndRefresh both fetches the same data from the DB. Might be worth fetching it and providing it to both?
+
+  // write to db
+  const savedDetails = await Data.saveConversation(convo.attributes);
+  await convo.refreshInMemoryDetails(savedDetails);
+
+  // Performance impact on this is probably to be pretty bad. We might want to push for that DB refactor to be done sooner so we do not need to fetch info from the DB anymore
+  for (let index = 0; index < LibSessionUtil.requiredUserVariants.length; index++) {
+    const variant = LibSessionUtil.requiredUserVariants[index];
+
+    switch (variant) {
+      case 'UserConfig':
+        if (SessionUtilUserProfile.isUserProfileToStoreInWrapper(convo.id)) {
+          await SessionUtilUserProfile.insertUserProfileIntoWrapper(convo.id);
+        }
+        break;
+      case 'ContactsConfig':
+        if (SessionUtilContact.isContactToStoreInWrapper(convo)) {
+          await SessionUtilContact.insertContactFromDBIntoWrapperAndRefresh(convo.id);
+        }
+        break;
+      case 'UserGroupsConfig':
+        if (SessionUtilUserGroups.isUserGroupToStoreInWrapper(convo)) {
+          await SessionUtilUserGroups.insertGroupsFromDBIntoWrapperAndRefresh(convo.id);
+        }
+        break;
+      case 'ConvoInfoVolatileConfig':
+        if (SessionUtilConvoInfoVolatile.isConvoToStoreInWrapper(convo)) {
+          await SessionUtilConvoInfoVolatile.insertConvoFromDBIntoWrapperAndRefresh(convo.id);
+        }
+        break;
+      default:
+        assertUnreachable(
+          variant,
+          `commitConversationAndRefreshWrapper unhandled case "${variant}"`
+        );
+    }
+  }
+
+  if (Registration.isDone()) {
+    // save the new dump if needed to the DB asap
+    // this call throttled so we do not run this too often (and not for every .commit())
+    await ConfigurationSync.queueNewJobIfNeeded();
+  }
+  convo.triggerUIRefresh();
+}
+
 const throttledAllConversationsDispatch = debounce(
   () => {
     if (updatesToDispatch.size === 0) {
@@ -2165,3 +2252,47 @@ export class ConversationCollection extends Backbone.Collection<ConversationMode
   }
 }
 ConversationCollection.prototype.model = ConversationModel;
+
+export function hasValidOutgoingRequestValues({
+  isMe,
+  didApproveMe,
+  isApproved,
+  isBlocked,
+  isPrivate,
+  activeAt,
+}: {
+  isMe: boolean;
+  isApproved: boolean;
+  didApproveMe: boolean;
+  isBlocked: boolean;
+  isPrivate: boolean;
+  activeAt: number;
+}): boolean {
+  const isActive = activeAt && isFinite(activeAt) && activeAt > 0;
+
+  return Boolean(!isMe && isApproved && isPrivate && !isBlocked && !didApproveMe && isActive);
+}
+
+/**
+ * Method to evaluate if a convo contains the right values
+ * @param values Required properties to evaluate if this is a message request
+ */
+export function hasValidIncomingRequestValues({
+  isMe,
+  isApproved,
+  isBlocked,
+  isPrivate,
+  activeAt,
+  didApproveMe,
+}: {
+  isMe: boolean;
+  isApproved: boolean;
+  isBlocked: boolean;
+  isPrivate: boolean;
+  didApproveMe: boolean;
+  activeAt: number;
+}): boolean {
+  // if a convo is not active, it means we didn't get any messages nor sent any.
+  const isActive = activeAt && isFinite(activeAt) && activeAt > 0;
+  return Boolean(isPrivate && !isMe && !isApproved && !isBlocked && isActive && didApproveMe);
+}

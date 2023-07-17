@@ -6,14 +6,22 @@ import { MessageRenderingProps } from '../../../../models/messageType';
 import { findCachedBlindedMatchOrLookItUp } from '../../../../session/apis/open_group_api/sogsv3/knownBlindedkeys';
 import { getConversationController } from '../../../../session/conversations';
 import { getSodiumRenderer } from '../../../../session/crypto';
-import { PubKey } from '../../../../session/types';
+import { KeyPrefixType, PubKey } from '../../../../session/types';
 import { openConversationWithMessages } from '../../../../state/ducks/conversations';
 import { updateUserDetailsModal } from '../../../../state/ducks/modalDialog';
 import {
-  getIsTypingEnabled,
-  getMessageAvatarProps,
-  getSelectedConversationKey,
-} from '../../../../state/selectors/conversations';
+  useAuthorAvatarPath,
+  useAuthorName,
+  useAuthorProfileName,
+  useLastMessageOfSeries,
+  useMessageAuthor,
+  useMessageSenderIsAdmin,
+} from '../../../../state/selectors/';
+import {
+  getSelectedCanWrite,
+  useSelectedConversationKey,
+  useSelectedIsPublic,
+} from '../../../../state/selectors/selectedConversation';
 import { Avatar, AvatarSize, CrownIcon } from '../../../avatar/Avatar';
 // tslint:disable: use-simple-attributes
 
@@ -26,48 +34,34 @@ const StyledAvatar = styled.div`
 
 export type MessageAvatarSelectorProps = Pick<
   MessageRenderingProps,
-  | 'authorAvatarPath'
-  | 'authorName'
-  | 'sender'
-  | 'authorProfileName'
-  | 'isSenderAdmin'
-  | 'isPublic'
-  | 'lastMessageOfSeries'
+  'sender' | 'isSenderAdmin' | 'lastMessageOfSeries'
 >;
 
-type Props = { messageId: string; noAvatar: boolean };
+type Props = { messageId: string; hideAvatar: boolean; isPrivate: boolean };
 
 export const MessageAvatar = (props: Props) => {
-  const { messageId, noAvatar } = props;
+  const { messageId, hideAvatar, isPrivate } = props;
 
   const dispatch = useDispatch();
-  const avatarProps = useSelector(state => getMessageAvatarProps(state as any, messageId));
-  const selectedConvoKey = useSelector(getSelectedConversationKey);
+  const selectedConvoKey = useSelectedConversationKey();
 
-  const isTypingEnabled = useSelector(getIsTypingEnabled);
+  const isTypingEnabled = useSelector(getSelectedCanWrite);
+  const isPublic = useSelectedIsPublic();
+  const authorName = useAuthorName(messageId);
+  const authorProfileName = useAuthorProfileName(messageId);
+  const authorAvatarPath = useAuthorAvatarPath(messageId);
+  const sender = useMessageAuthor(messageId);
+  const lastMessageOfSeries = useLastMessageOfSeries(messageId);
+  const isSenderAdmin = useMessageSenderIsAdmin(messageId);
 
-  if (!avatarProps) {
-    return null;
-  }
-
-  const {
-    authorAvatarPath,
-    authorName,
-    sender,
-    authorProfileName,
-    isSenderAdmin,
-    lastMessageOfSeries,
-    isPublic,
-  } = avatarProps;
-
-  if (noAvatar) {
+  if (!sender) {
     return null;
   }
 
   const userName = authorName || authorProfileName || sender;
 
   const onMessageAvatarClick = useCallback(async () => {
-    if (isPublic && !PubKey.hasBlindedPrefix(sender)) {
+    if (isPublic && !PubKey.isBlinded(sender)) {
       // public chat but session id not blinded. disable showing user details if we do not have an active convo with that user.
       // an unactive convo with that user means that we never chatted with that id directyly, but only through a sogs
       const convoWithSender = getConversationController().get(sender);
@@ -85,11 +79,16 @@ export const MessageAvatar = (props: Props) => {
     }
 
     if (isPublic && !isTypingEnabled) {
-      window.log.info('onMessageAvatarClick: no typing enabled. Dropping...');
+      window.log.info('onMessageAvatarClick: typing is disabled...');
       return;
     }
 
     if (isPublic && selectedConvoKey) {
+      if (sender.startsWith(KeyPrefixType.blinded25)) {
+        window.log.info('onMessageAvatarClick: blinded25 convo click are disabled currently...');
+
+        return;
+      }
       const convoOpen = getConversationController().get(selectedConvoKey);
       const room = OpenGroupData.getV2OpenGroupRoom(convoOpen.id);
       let privateConvoToOpen = sender;
@@ -123,12 +122,21 @@ export const MessageAvatar = (props: Props) => {
     );
   }, [userName, sender, isPublic, authorAvatarPath, selectedConvoKey]);
 
+  if (isPrivate) {
+    return null;
+  }
+
   if (!lastMessageOfSeries) {
     return <div style={{ marginInlineEnd: '60px' }} key={`msg-avatar-${sender}`} />;
   }
 
   return (
-    <StyledAvatar key={`msg-avatar-${sender}`}>
+    <StyledAvatar
+      key={`msg-avatar-${sender}`}
+      style={{
+        visibility: hideAvatar ? 'hidden' : undefined,
+      }}
+    >
       <Avatar size={AvatarSize.S} onAvatarClick={onMessageAvatarClick} pubkey={sender} />
       {isSenderAdmin && <CrownIcon />}
     </StyledAvatar>

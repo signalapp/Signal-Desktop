@@ -26,8 +26,10 @@ import { DURATION } from '../../constants';
 import { Data } from '../../../data/data';
 import { getCallMediaPermissionsSettings } from '../../../components/settings/SessionSettings';
 import { PnServer } from '../../apis/push_notification_api';
-import { getNowWithNetworkOffset } from '../../apis/snode_api/SNodeAPI';
 import { approveConvoAndSendResponse } from '../../../interactions/conversationInteractions';
+import { GetNetworkTime } from '../../apis/snode_api/getNetworkTime';
+import { SnodeNamespaces } from '../../apis/snode_api/namespaces';
+import { READ_MESSAGE_STATE } from '../../../models/conversationAttributes';
 
 // tslint:disable: function-name
 
@@ -414,10 +416,11 @@ async function createOfferAndSendIt(recipient: string) {
       });
 
       window.log.info(`sending '${offer.type}'' with callUUID: ${currentCallUUID}`);
-      const negotiationOfferSendResult = await getMessageQueue().sendToPubKeyNonDurably(
-        PubKey.cast(recipient),
-        offerMessage
-      );
+      const negotiationOfferSendResult = await getMessageQueue().sendToPubKeyNonDurably({
+        pubkey: PubKey.cast(recipient),
+        message: offerMessage,
+        namespace: SnodeNamespaces.UserMessages,
+      });
       if (typeof negotiationOfferSendResult === 'number') {
         // window.log?.warn('setting last sent timestamp');
         lastOutgoingOfferTimestamp = negotiationOfferSendResult;
@@ -501,6 +504,7 @@ export async function USER_callRecipient(recipient: string) {
   window.log.info('Sending preOffer message to ', ed25519Str(recipient));
   const calledConvo = getConversationController().get(recipient);
   calledConvo.set('active_at', Date.now()); // addSingleOutgoingMessage does the commit for us on the convo
+  await calledConvo.unhideIfNeeded(false);
   weAreCallerOnCurrentCall = true;
 
   await calledConvo?.addSingleOutgoingMessage({
@@ -514,7 +518,11 @@ export async function USER_callRecipient(recipient: string) {
 
   // we do it manually as the sendToPubkeyNonDurably rely on having a message saved to the db for MessageSentSuccess
   // which is not the case for a pre offer message (the message only exists in memory)
-  const rawMessage = await MessageUtils.toRawMessage(PubKey.cast(recipient), preOfferMsg);
+  const rawMessage = await MessageUtils.toRawMessage(
+    PubKey.cast(recipient),
+    preOfferMsg,
+    SnodeNamespaces.UserMessages
+  );
   const { wrappedEnvelope } = await MessageSender.send(rawMessage);
   void PnServer.notifyPnServer(wrappedEnvelope, recipient);
 
@@ -572,7 +580,11 @@ const iceSenderDebouncer = _.debounce(async (recipient: string) => {
     `sending ICE CANDIDATES MESSAGE to ${ed25519Str(recipient)} about call ${currentCallUUID}`
   );
 
-  await getMessageQueue().sendToPubKeyNonDurably(PubKey.cast(recipient), callIceCandicates);
+  await getMessageQueue().sendToPubKeyNonDurably({
+    pubkey: PubKey.cast(recipient),
+    message: callIceCandicates,
+    namespace: SnodeNamespaces.UserMessages,
+  });
 }, 2000);
 
 const findLastMessageTypeFromSender = (sender: string, msgType: SignalService.CallMessage.Type) => {
@@ -581,7 +593,7 @@ const findLastMessageTypeFromSender = (sender: string, msgType: SignalService.Ca
     return undefined;
   }
 
-  // FIXME this does not sort by timestamp as we do not have a timestamp stored in the SignalService.CallMessage object...
+  // this does not sort by timestamp as we do not have a timestamp stored in the SignalService.CallMessage object
   const allMsg = _.flattenDeep([...msgCacheFromSenderWithDevices.values()]);
   const allMsgFromType = allMsg.filter(m => m.type === msgType);
   const lastMessageOfType = _.last(allMsgFromType);
@@ -838,16 +850,18 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
       await peerConnection.addIceCandidate(candicate);
     }
   }
-  const networkTimestamp = getNowWithNetworkOffset();
+  const networkTimestamp = GetNetworkTime.getNowWithNetworkOffset();
   const callerConvo = getConversationController().get(fromSender);
   callerConvo.set('active_at', networkTimestamp);
+  await callerConvo.unhideIfNeeded(false);
+
   await callerConvo?.addSingleIncomingMessage({
     source: UserUtils.getOurPubKeyStrFromCache(),
     sent_at: networkTimestamp,
     received_at: networkTimestamp,
     expireTimer: 0,
     callNotificationType: 'answered-a-call',
-    unread: 0,
+    unread: READ_MESSAGE_STATE.read,
   });
   await buildAnswerAndSendIt(fromSender);
 
@@ -903,8 +917,16 @@ export async function USER_rejectIncomingCallRequest(fromSender: string) {
 
 async function sendCallMessageAndSync(callmessage: CallMessage, user: string) {
   await Promise.all([
-    getMessageQueue().sendToPubKeyNonDurably(PubKey.cast(user), callmessage),
-    getMessageQueue().sendToPubKeyNonDurably(UserUtils.getOurPubKeyFromCache(), callmessage),
+    getMessageQueue().sendToPubKeyNonDurably({
+      pubkey: PubKey.cast(user),
+      message: callmessage,
+      namespace: SnodeNamespaces.UserMessages,
+    }),
+    getMessageQueue().sendToPubKeyNonDurably({
+      pubkey: UserUtils.getOurPubKeyFromCache(),
+      message: callmessage,
+      namespace: SnodeNamespaces.UserMessages,
+    }),
   ]);
 }
 
@@ -921,7 +943,11 @@ export async function USER_hangup(fromSender: string) {
       timestamp: Date.now(),
       uuid: currentCallUUID,
     });
-    void getMessageQueue().sendToPubKeyNonDurably(PubKey.cast(fromSender), endCallMessage);
+    void getMessageQueue().sendToPubKeyNonDurably({
+      pubkey: PubKey.cast(fromSender),
+      message: endCallMessage,
+      namespace: SnodeNamespaces.UserMessages,
+    });
   }
 
   window.inboxStore?.dispatch(endCall());
@@ -1138,7 +1164,7 @@ export async function handleMissedCall(
   const displayname =
     incomingCallConversation?.getNickname() ||
     incomingCallConversation?.getRealSessionUsername() ||
-    'Unknown';
+    window.i18n('unknown');
 
   switch (reason) {
     case 'permissions':
@@ -1163,17 +1189,18 @@ export async function handleMissedCall(
 async function addMissedCallMessage(callerPubkey: string, sentAt: number) {
   const incomingCallConversation = getConversationController().get(callerPubkey);
 
-  if (incomingCallConversation.isActive()) {
-    incomingCallConversation.set('active_at', getNowWithNetworkOffset());
+  if (incomingCallConversation.isActive() || incomingCallConversation.isHidden()) {
+    incomingCallConversation.set('active_at', GetNetworkTime.getNowWithNetworkOffset());
+    await incomingCallConversation.unhideIfNeeded(false);
   }
 
   await incomingCallConversation?.addSingleIncomingMessage({
     source: callerPubkey,
     sent_at: sentAt,
-    received_at: getNowWithNetworkOffset(),
+    received_at: GetNetworkTime.getNowWithNetworkOffset(),
     expireTimer: 0,
     callNotificationType: 'missed-call',
-    unread: 1,
+    unread: READ_MESSAGE_STATE.unread,
   });
 }
 

@@ -1,21 +1,22 @@
 import React from 'react';
 
-import { isImageTypeSupported, isVideoTypeSupported } from '../../util/GoogleChrome';
-import { Image } from './Image';
-import { StagedGenericAttachment } from './StagedGenericAttachment';
-import { StagedPlaceholderAttachment } from './StagedPlaceholderAttachment';
-import {
-  areAllAttachmentsVisual,
-  AttachmentType,
-  getUrl,
-  isVideoAttachment,
-} from '../../types/Attachment';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import styled from 'styled-components';
 import {
   removeAllStagedAttachmentsInConversation,
   removeStagedAttachmentInConversation,
 } from '../../state/ducks/stagedAttachments';
-import { getSelectedConversationKey } from '../../state/selectors/conversations';
+import { useSelectedConversationKey } from '../../state/selectors/selectedConversation';
+import {
+  AttachmentType,
+  areAllAttachmentsVisual,
+  getUrl,
+  isVideoAttachment,
+} from '../../types/Attachment';
+import { isImageTypeSupported, isVideoTypeSupported } from '../../util/GoogleChrome';
+import { Image } from './Image';
+import { StagedGenericAttachment } from './StagedGenericAttachment';
+import { StagedPlaceholderAttachment } from './StagedPlaceholderAttachment';
 
 type Props = {
   attachments: Array<AttachmentType>;
@@ -26,11 +27,22 @@ type Props = {
 const IMAGE_WIDTH = 120;
 const IMAGE_HEIGHT = 120;
 
+const StyledRail = styled.div`
+  margin-top: 12px;
+  margin-inline-start: 16px;
+  padding-inline-end: 16px;
+  overflow-x: scroll;
+  max-height: 142px;
+  white-space: nowrap;
+  overflow-y: hidden;
+  margin-bottom: 6px;
+`;
+
 export const StagedAttachmentList = (props: Props) => {
   const { attachments, onAddAttachment, onClickAttachment } = props;
 
   const dispatch = useDispatch();
-  const conversationKey = useSelector(getSelectedConversationKey);
+  const conversationKey = useSelectedConversationKey();
 
   const onRemoveAllStaged = () => {
     if (!conversationKey) {
@@ -63,7 +75,7 @@ export const StagedAttachmentList = (props: Props) => {
           />
         </div>
       ) : null}
-      <div className="module-attachments__rail">
+      <StyledRail>
         {(attachments || []).map((attachment, index) => {
           const { contentType } = attachment;
           if (isImageTypeSupported(contentType) || isVideoTypeSupported(contentType)) {
@@ -103,7 +115,7 @@ export const StagedAttachmentList = (props: Props) => {
           );
         })}
         {allVisualAttachments ? <StagedPlaceholderAttachment onClick={onAddAttachment} /> : null}
-      </div>
+      </StyledRail>
     </div>
   );
 };

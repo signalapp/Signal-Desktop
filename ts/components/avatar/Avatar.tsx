@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
 import classNames from 'classnames';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import styled from 'styled-components';
+import { useDisableDrag } from '../../hooks/useDisableDrag';
 import { useEncryptedFileFetch } from '../../hooks/useEncryptedFileFetch';
-import { isEqual } from 'lodash';
 import {
   useAvatarPath,
   useConversationUsername,
   useIsClosedGroup,
 } from '../../hooks/useParamSelector';
+import { isMessageSelectionMode } from '../../state/selectors/conversations';
+import { SessionIcon } from '../icon';
 import { AvatarPlaceHolder } from './AvatarPlaceHolder/AvatarPlaceHolder';
 import { ClosedGroupAvatar } from './AvatarPlaceHolder/ClosedGroupAvatar';
-import { useDisableDrag } from '../../hooks/useDisableDrag';
-import styled from 'styled-components';
-import { SessionIcon } from '../icon';
-import { useSelector } from 'react-redux';
-import { isMessageSelectionMode } from '../../state/selectors/conversations';
+import { isEqual } from 'lodash';
 
 export enum AvatarSize {
   XS = 28,
@@ -34,7 +34,7 @@ type Props = {
   dataTestId?: string;
 };
 
-const Identicon = (props: Props) => {
+const Identicon = (props: Pick<Props, 'forcedName' | 'pubkey' | 'size'>) => {
   const { size, forcedName, pubkey } = props;
   const displayName = useConversationUsername(pubkey);
   const userName = forcedName || displayName || '0';
@@ -66,31 +66,31 @@ export const CrownIcon = () => {
   );
 };
 
-const NoImage = (
-  props: Pick<Props, 'forcedName' | 'size' | 'pubkey' | 'onAvatarClick'> & {
-    isClosedGroup: boolean;
+const NoImage = React.memo(
+  (
+    props: Pick<Props, 'forcedName' | 'size' | 'pubkey' | 'onAvatarClick'> & {
+      isClosedGroup: boolean;
+    }
+  ) => {
+    const { forcedName, size, pubkey, isClosedGroup, onAvatarClick } = props;
+    // if no image but we have conversations set for the group, renders group members avatars
+    if (pubkey && isClosedGroup) {
+      return <ClosedGroupAvatar size={size} convoId={pubkey} onAvatarClick={onAvatarClick} />;
+    }
+
+    return <Identicon size={size} forcedName={forcedName} pubkey={pubkey} />;
+  }
+);
+
+const AvatarImage = (
+  props: Pick<Props, 'base64Data' | 'dataTestId'> & {
+    avatarPath?: string;
+    name?: string; // display name, profileName or pubkey, whatever is set first
+    imageBroken: boolean;
+    handleImageError: () => any;
   }
 ) => {
-  const { forcedName, size, pubkey, isClosedGroup } = props;
-  // if no image but we have conversations set for the group, renders group members avatars
-  if (pubkey && isClosedGroup) {
-    return (
-      <ClosedGroupAvatar size={size} closedGroupId={pubkey} onAvatarClick={props.onAvatarClick} />
-    );
-  }
-
-  return <Identicon size={size} forcedName={forcedName} pubkey={pubkey} />;
-};
-
-const AvatarImage = (props: {
-  avatarPath?: string;
-  base64Data?: string;
-  name?: string; // display name, profileName or pubkey, whatever is set first
-  imageBroken: boolean;
-  datatestId?: string;
-  handleImageError: () => any;
-}) => {
-  const { avatarPath, base64Data, name, imageBroken, datatestId, handleImageError } = props;
+  const { avatarPath, base64Data, imageBroken, dataTestId, handleImageError } = props;
 
   const disableDrag = useDisableDrag();
 
@@ -99,24 +99,32 @@ const AvatarImage = (props: {
   }
   const dataToDisplay = base64Data ? `data:image/jpeg;base64,${base64Data}` : avatarPath;
 
+  // tslint:disable: react-a11y-img-has-alt
   return (
     <img
       onError={handleImageError}
       onDragStart={disableDrag}
-      alt={window.i18n('contactAvatarAlt', [name || 'avatar'])}
       src={dataToDisplay}
-      data-testid={datatestId}
+      data-testid={dataTestId}
     />
   );
 };
 
 const AvatarInner = (props: Props) => {
-  const { base64Data, size, pubkey, forcedAvatarPath, forcedName, dataTestId } = props;
+  const {
+    base64Data,
+    size,
+    pubkey,
+    forcedAvatarPath,
+    forcedName,
+    dataTestId,
+    onAvatarClick,
+  } = props;
   const [imageBroken, setImageBroken] = useState(false);
 
   const isSelectingMessages = useSelector(isMessageSelectionMode);
 
-  const isClosedGroupAvatar = useIsClosedGroup(pubkey);
+  const isClosedGroup = useIsClosedGroup(pubkey);
   const avatarPath = useAvatarPath(pubkey);
   const name = useConversationUsername(pubkey);
   // contentType is not important
@@ -130,9 +138,9 @@ const AvatarInner = (props: Props) => {
     setImageBroken(true);
   };
 
-  const hasImage = (base64Data || urlToLoad) && !imageBroken && !isClosedGroupAvatar;
+  const hasImage = (base64Data || urlToLoad) && !imageBroken && !isClosedGroup;
 
-  const isClickable = !!props.onAvatarClick;
+  const isClickable = !!onAvatarClick;
   return (
     <div
       className={classNames(
@@ -164,10 +172,16 @@ const AvatarInner = (props: Props) => {
           imageBroken={imageBroken}
           name={forcedName || name}
           handleImageError={handleImageError}
-          datatestId={dataTestId ? `img-${dataTestId}` : undefined}
+          dataTestId={dataTestId ? `img-${dataTestId}` : undefined}
         />
       ) : (
-        <NoImage {...props} isClosedGroup={isClosedGroupAvatar} />
+        <NoImage
+          pubkey={pubkey}
+          isClosedGroup={isClosedGroup}
+          size={size}
+          forcedName={forcedName}
+          onAvatarClick={onAvatarClick}
+        />
       )}
     </div>
   );

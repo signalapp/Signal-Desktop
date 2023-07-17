@@ -1,32 +1,14 @@
 import { Data } from '../data/data';
-import { getConversationController } from '../session/conversations';
+import { commitConversationAndRefreshWrapper } from '../models/conversation';
 import { PubKey } from '../session/types';
-import { UserUtils } from '../session/utils';
+import { Storage } from './storage';
 
 const BLOCKED_NUMBERS_ID = 'blocked';
-const BLOCKED_GROUPS_ID = 'blocked-groups';
 
 // tslint:disable-next-line: no-unnecessary-class
 export class BlockedNumberController {
   private static loaded: boolean = false;
   private static blockedNumbers: Set<string> = new Set();
-  private static blockedGroups: Set<string> = new Set();
-
-  /**
-   * Check if a device is blocked.
-   *
-   * @param user The user.
-   */
-  public static async isBlockedAsync(user: string | PubKey): Promise<boolean> {
-    await this.load();
-    const isOurDevice = UserUtils.isUsFromCache(user);
-    if (isOurDevice) {
-      return false;
-    }
-
-    const pubkey = PubKey.cast(user);
-    return this.blockedNumbers.has(pubkey.key);
-  }
 
   /**
    * Check if a device is blocked synchronously.
@@ -44,19 +26,7 @@ export class BlockedNumberController {
   }
 
   /**
-   * Check if a group id is blocked.
-   * Make sure `load()` has been called before this function so that the correct blocked state is returned.
-   *
-   * @param groupId The group id.
-   */
-  public static isGroupBlocked(groupId: string | PubKey): boolean {
-    const stringValue = groupId instanceof PubKey ? groupId.key : groupId.toLowerCase();
-    return this.blockedGroups.has(stringValue);
-  }
-
-  /**
-   * Block a user.
-   * This will only block the primary device of the user.
+   * Block a user or group, by pubkey
    *
    * @param user The user to block.
    */
@@ -69,22 +39,7 @@ export class BlockedNumberController {
     if (!this.blockedNumbers.has(toBlock.key)) {
       this.blockedNumbers.add(toBlock.key);
       await this.saveToDB(BLOCKED_NUMBERS_ID, this.blockedNumbers);
-    }
-  }
-
-  /**
-   * Unblock a user.
-   * This will only unblock the primary device of the user.
-   *
-   * @param user The user to unblock.
-   */
-  public static async unblock(user: string | PubKey): Promise<void> {
-    await this.load();
-    const toUnblock = PubKey.cast(user);
-
-    if (this.blockedNumbers.has(toUnblock.key)) {
-      this.blockedNumbers.delete(toUnblock.key);
-      await this.saveToDB(BLOCKED_NUMBERS_ID, this.blockedNumbers);
+      await commitConversationAndRefreshWrapper(toBlock.key);
     }
   }
 
@@ -106,12 +61,17 @@ export class BlockedNumberController {
       }
     });
 
-    users.map(user => {
-      const found = getConversationController().get(user);
-      if (found) {
-        found.triggerUIRefresh();
+    for (let index = 0; index < users.length; index++) {
+      const user = users[index];
+      try {
+        await commitConversationAndRefreshWrapper(user);
+      } catch (e) {
+        window.log.warn(
+          'failed to SessionUtilContact.insertContactFromDBIntoWrapperAndRefresh with: ',
+          user
+        );
       }
-    });
+    }
 
     if (changes) {
       await this.saveToDB(BLOCKED_NUMBERS_ID, this.blockedNumbers);
@@ -122,36 +82,11 @@ export class BlockedNumberController {
     if (blocked) {
       return BlockedNumberController.block(user);
     }
-    return BlockedNumberController.unblock(user);
-  }
-
-  public static async setGroupBlocked(groupId: string | PubKey, blocked: boolean): Promise<void> {
-    if (blocked) {
-      return BlockedNumberController.blockGroup(groupId);
-    }
-    return BlockedNumberController.unblockGroup(groupId);
-  }
-
-  public static async blockGroup(groupId: string | PubKey): Promise<void> {
-    await this.load();
-    const id = PubKey.cast(groupId);
-    this.blockedGroups.add(id.key);
-    await this.saveToDB(BLOCKED_GROUPS_ID, this.blockedGroups);
-  }
-
-  public static async unblockGroup(groupId: string | PubKey): Promise<void> {
-    await this.load();
-    const id = PubKey.cast(groupId);
-    this.blockedGroups.delete(id.key);
-    await this.saveToDB(BLOCKED_GROUPS_ID, this.blockedGroups);
+    return BlockedNumberController.unblockAll([PubKey.cast(user).key]);
   }
 
   public static getBlockedNumbers(): Array<string> {
     return [...this.blockedNumbers];
-  }
-
-  public static getBlockedGroups(): Array<string> {
-    return [...this.blockedGroups];
   }
 
   // ---- DB
@@ -159,7 +94,6 @@ export class BlockedNumberController {
   public static async load() {
     if (!this.loaded) {
       this.blockedNumbers = await this.getNumbersFromDB(BLOCKED_NUMBERS_ID);
-      this.blockedGroups = await this.getNumbersFromDB(BLOCKED_GROUPS_ID);
       this.loaded = true;
     }
   }
@@ -167,7 +101,6 @@ export class BlockedNumberController {
   public static reset() {
     this.loaded = false;
     this.blockedNumbers = new Set();
-    this.blockedGroups = new Set();
   }
 
   private static async getNumbersFromDB(id: string): Promise<Set<string>> {
@@ -180,9 +113,6 @@ export class BlockedNumberController {
   }
 
   private static async saveToDB(id: string, numbers: Set<string>): Promise<void> {
-    await Data.createOrUpdateItem({
-      id,
-      value: [...numbers],
-    });
+    await Storage.put(id, [...numbers]);
   }
 }

@@ -1,13 +1,14 @@
 import React, { ReactElement, useRef, useState } from 'react';
-import { SortedReactionList } from '../../../../types/Reaction';
+import { useMouse } from 'react-use';
+import styled from 'styled-components';
+import { isUsAnySogsFromCache } from '../../../../session/apis/open_group_api/sogsv3/knownBlindedkeys';
 import { UserUtils } from '../../../../session/utils';
+import { useIsMessageSelectionMode } from '../../../../state/selectors/selectedConversation';
+import { SortedReactionList } from '../../../../types/Reaction';
 import { abbreviateNumber } from '../../../../util/abbreviateNumber';
 import { nativeEmojiData } from '../../../../util/emoji';
-import styled from 'styled-components';
-import { useMouse } from 'react-use';
-import { POPUP_WIDTH, ReactionPopup, TipPosition } from './ReactionPopup';
 import { popupXDefault, popupYDefault } from '../message-content/MessageReactions';
-import { isUsAnySogsFromCache } from '../../../../session/apis/open_group_api/sogsv3/knownBlindedkeys';
+import { POPUP_WIDTH, ReactionPopup, TipPosition } from './ReactionPopup';
 
 const StyledReaction = styled.button<{ selected: boolean; inModal: boolean; showCount: boolean }>`
   display: flex;
@@ -68,6 +69,8 @@ export const Reaction = (props: ReactionProps): ReactElement => {
     handlePopupReaction,
     handlePopupClick,
   } = props;
+
+  const isMessageSelection = useIsMessageSelectionMode();
   const reactionsMap = (reactions && Object.fromEntries(reactions)) || {};
   const senders = reactionsMap[emoji]?.senders || [];
   const count = reactionsMap[emoji]?.count;
@@ -76,7 +79,7 @@ export const Reaction = (props: ReactionProps): ReactElement => {
   const reactionRef = useRef<HTMLDivElement>(null);
   const { docX, elW } = useMouse(reactionRef);
 
-  const gutterWidth = 380;
+  const gutterWidth = 380; // TODOLATER make this a variable which can be shared in CSS and JS
   const tooltipMidPoint = POPUP_WIDTH / 2; // px
   const [tooltipPosition, setTooltipPosition] = useState<TipPosition>('center');
 
@@ -93,7 +96,9 @@ export const Reaction = (props: ReactionProps): ReactElement => {
   };
 
   const handleReactionClick = () => {
-    onClick(emoji);
+    if (!isMessageSelection) {
+      onClick(emoji);
+    }
   };
 
   return (
@@ -104,7 +109,7 @@ export const Reaction = (props: ReactionProps): ReactElement => {
         inModal={inModal}
         onClick={handleReactionClick}
         onMouseEnter={() => {
-          if (inGroup) {
+          if (inGroup && !isMessageSelection) {
             const { innerWidth: windowWidth } = window;
             if (handlePopupReaction) {
               // overflow on far right means we shift left

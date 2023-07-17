@@ -23,12 +23,17 @@ export class ClosedGroupVisibleMessage extends ClosedGroupMessage {
     if (!params.groupId) {
       throw new Error('ClosedGroupVisibleMessage: groupId must be set');
     }
+
+    if (PubKey.isClosedGroupV3(PubKey.cast(params.groupId).key)) {
+      throw new Error('GroupContext should not be used anymore with closed group v3');
+    }
   }
   public dataProto(): SignalService.DataMessage {
     //expireTimer is set in the dataProto in this call directly
     const dataProto = this.chatMessage.dataProto();
 
     const groupMessage = new SignalService.GroupContext();
+
     const groupIdWithPrefix = PubKey.addTextSecurePrefixIfNeeded(this.groupId.key);
     const encoded = StringUtils.encode(groupIdWithPrefix, 'utf8');
     const id = new Uint8Array(encoded);

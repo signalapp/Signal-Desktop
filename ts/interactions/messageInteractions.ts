@@ -19,7 +19,7 @@ export function banUser(userToBan: string, conversationId: string) {
   try {
     pubKeyToBan = PubKey.cast(userToBan);
   } catch (e) {
-    window?.log?.warn(e);
+    window?.log?.warn(e.message);
     ToastUtils.pushUserBanFailure();
     return;
   }
@@ -44,7 +44,7 @@ export function unbanUser(userToUnBan: string, conversationId: string) {
   try {
     pubKeyToUnban = PubKey.cast(userToUnBan);
   } catch (e) {
-    window?.log?.warn(e);
+    window?.log?.warn(e.message);
     ToastUtils.pushUserBanFailure();
     return;
   }
@@ -112,8 +112,12 @@ const acceptOpenGroupInvitationV2 = (completeUrl: string, roomName?: string) => 
 
   window.inboxStore?.dispatch(
     updateConfirmModal({
-      title: window.i18n('joinOpenGroupAfterInvitationConfirmationTitle', [roomName || 'Unknown']),
-      message: window.i18n('joinOpenGroupAfterInvitationConfirmationDesc', [roomName || 'Unknown']),
+      title: window.i18n('joinOpenGroupAfterInvitationConfirmationTitle', [
+        roomName || window.i18n('unknown'),
+      ]),
+      message: window.i18n('joinOpenGroupAfterInvitationConfirmationDesc', [
+        roomName || window.i18n('unknown'),
+      ]),
       onClickOk: async () => {
         await joinOpenGroupV2WithUIEvents(completeUrl, true, false);
       },

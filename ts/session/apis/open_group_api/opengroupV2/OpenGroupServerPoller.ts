@@ -15,15 +15,13 @@ import {
   SubRequestMessagesObjectType,
 } from '../sogsv3/sogsV3BatchPoll';
 import { handleBatchPollResults } from '../sogsv3/sogsApiV3';
-import {
-  fetchCapabilitiesAndUpdateRelatedRoomsOfServerUrl,
-  roomHasBlindEnabled,
-} from '../sogsv3/sogsV3Capabilities';
+import { fetchCapabilitiesAndUpdateRelatedRoomsOfServerUrl } from '../sogsv3/sogsV3Capabilities';
 import { OpenGroupReaction } from '../../../../types/Reaction';
 import {
   markConversationInitialLoadingInProgress,
   openConversationWithMessages,
 } from '../../../../state/ducks/conversations';
+import { roomHasBlindEnabled } from '../../../../types/sqlSharedTypes';
 
 export type OpenGroupMessageV4 = {
   /** AFAIK: indicates the number of the message in the group. e.g. 2nd message will be 1 or 2 */
@@ -372,7 +370,7 @@ export class OpenGroupServerPoller {
 export const getRoomAndUpdateLastFetchTimestamp = async (
   conversationId: string,
   newMessages: Array<OpenGroupMessageV2 | OpenGroupMessageV4>,
-  subRequest: SubRequestMessagesObjectType
+  _subRequest: SubRequestMessagesObjectType
 ) => {
   const roomInfos = OpenGroupData.getV2OpenGroupRoom(conversationId);
   if (!roomInfos || !roomInfos.serverUrl || !roomInfos.roomId) {
@@ -382,9 +380,6 @@ export const getRoomAndUpdateLastFetchTimestamp = async (
   if (!newMessages.length) {
     // if we got no new messages, just write our last update timestamp to the db
     roomInfos.lastFetchTimestamp = Date.now();
-    window?.log?.info(
-      `No new messages for ${subRequest?.roomId}:${subRequest?.sinceSeqNo}... just updating our last fetched timestamp`
-    );
     await OpenGroupData.saveV2OpenGroupRoom(roomInfos);
     return null;
   }

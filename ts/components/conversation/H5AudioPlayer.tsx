@@ -25,6 +25,128 @@ const StyledSpeedButton = styled.div`
   }
 `;
 
+export const StyledH5AudioPlayer = styled(H5AudioPlayer)`
+  &.rhap_container {
+    min-width: 220px;
+    padding: 0px;
+    outline: none;
+    padding: var(--padding-message-content);
+    border-radius: var(--border-radius-message-box);
+
+    svg {
+      transition: fill var(--default-duration);
+    }
+
+    button {
+      outline: none;
+    }
+  }
+
+  .rhap_progress-container {
+    margin: 0 0 0 calc(10px + 1%);
+    outline: none;
+  }
+
+  .rhap_total-time {
+    display: none;
+  }
+
+  .rhap_current-time {
+    margin: 0 5px 0 4px;
+    flex-shrink: 0;
+  }
+
+  .rhap_play-pause-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .rhap_volume-bar {
+    display: none;
+  }
+
+  .rhap_volume-button {
+    .module-message__container--incoming & {
+      color: var(--message-bubbles-received-text-color);
+    }
+    .module-message__container--outgoing & {
+      color: var(--message-bubbles-sent-text-color);
+    }
+  }
+
+  .rhap_volume-container div[role='progressbar'] {
+    display: none;
+  }
+
+  .rhap_time {
+    .module-message__container--incoming & {
+      color: var(--message-bubbles-received-text-color);
+    }
+    .module-message__container--outgoing & {
+      color: var(--message-bubbles-sent-text-color);
+    }
+
+    font-size: 12px;
+  }
+
+  .rhap_progress-bar {
+    box-sizing: border-box;
+    position: relative;
+    z-index: 0;
+    width: 100%;
+    height: 5px;
+    border-radius: 2px;
+  }
+
+  .rhap_progress-filled {
+    padding-left: 5px;
+  }
+
+  .rhap_download-progress {
+    height: 100%;
+    position: absolute;
+    z-index: 1;
+    border-radius: 2px;
+  }
+
+  .rhap_progress-indicator {
+    z-index: 3;
+    width: 15px;
+    height: 15px;
+    top: -5px;
+    margin-left: -10px;
+    box-shadow: rgba(0, 0, 0, 0.5) 0 0 5px !important;
+  }
+
+  .rhap_controls-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .rhap_additional-controls {
+    display: none;
+  }
+
+  .rhap_play-pause-button {
+    width: unset;
+    height: unset;
+  }
+
+  .rhap_controls-section {
+    flex: unset;
+    justify-content: flex-start;
+  }
+
+  .rhap_volume-button {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    margin-right: 0px;
+  }
+`;
+
 export const AudioPlayerWithEncryptedFile = (props: {
   src: string;
   contentType: string;
@@ -98,7 +220,7 @@ export const AudioPlayerWithEncryptedFile = (props: {
   };
 
   return (
-    <H5AudioPlayer
+    <StyledH5AudioPlayer
       src={urlToLoad}
       preload="metadata"
       style={{ pointerEvents: multiSelectMode ? 'none' : 'inherit' }}

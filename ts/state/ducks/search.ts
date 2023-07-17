@@ -1,14 +1,13 @@
+import { Data } from '../../../ts/data/data';
 import { AdvancedSearchOptions, SearchOptions } from '../../types/Search';
 import { cleanSearchTerm } from '../../util/cleanSearchTerm';
-import { Data } from '../../../ts/data/data';
 
-import { ReduxConversationType } from './conversations';
-import { PubKey } from '../../session/types';
 import _ from 'lodash';
-import { getConversationController } from '../../session/conversations';
 import { MessageResultProps } from '../../components/search/MessageSearchResults';
-import { UserUtils } from '../../session/utils';
 import { ConversationTypeEnum } from '../../models/conversationAttributes';
+import { PubKey } from '../../session/types';
+import { UserUtils } from '../../session/utils';
+import { ReduxConversationType } from './conversations';
 
 // State
 
@@ -83,17 +82,7 @@ async function doSearch(query: string): Promise<SearchResultsPayloadType> {
   const { conversations, contacts } = discussions;
   const contactsAndGroups = _.uniq([...conversations, ...contacts]);
   const filteredMessages = _.compact(messages);
-  // if (isAdvancedQuery) {
-  //   const senderFilterQuery =
-  //     advancedSearchOptions.from && advancedSearchOptions.from.length > 0
-  //       ? await queryConversationsAndContacts(advancedSearchOptions.from, options)
-  //       : undefined;
-  //   filteredMessages = advancedFilterMessages(
-  //     filteredMessages,
-  //     advancedSearchOptions,
-  //     senderFilterQuery?.contacts || []
-  //   );
-  // }
+
   return {
     query,
     normalizedPhoneNumber: PubKey.normalize(query),
@@ -230,22 +219,17 @@ async function queryConversationsAndContacts(providedQuery: string, options: Sea
       }
     } else if (conversation.type === ConversationTypeEnum.PRIVATE) {
       contacts.push(conversation.id);
-    } else if (conversation.type !== ConversationTypeEnum.GROUP) {
-      contacts.push(conversation.id);
     } else {
       conversations.push(conversation.id);
     }
   }
   // Inject synthetic Note to Self entry if query matches localized 'Note to Self'
   if (noteToSelf.indexOf(providedQuery.toLowerCase()) !== -1) {
-    const ourConvo = getConversationController().get(ourNumber);
-    if (ourConvo && ourConvo.isActive()) {
-      // ensure that we don't have duplicates in our results
-      contacts = contacts.filter(id => id !== ourNumber);
-      conversations = conversations.filter(id => id !== ourNumber);
+    // ensure that we don't have duplicates in our results
+    contacts = contacts.filter(id => id !== ourNumber);
+    conversations = conversations.filter(id => id !== ourNumber);
 
-      contacts.unshift(ourNumber);
-    }
+    contacts.unshift(ourNumber);
   }
 
   return { conversations, contacts };

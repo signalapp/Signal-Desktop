@@ -14,32 +14,21 @@ chai.use(chaiAsPromised as any);
 describe('OpenGroupUtils', () => {
   describe('prefixify', () => {
     it('should just return if http:// is as prefix', () => {
-      expect(prefixify('http://plop.com')).to.be.equal('http://plop.com');
+      expect(prefixify('http://whatever.com')).to.be.equal('http://whatever.com');
     });
     it('should just return if https:// is as prefix', () => {
-      expect(prefixify('https://plop.com')).to.be.equal('https://plop.com');
+      expect(prefixify('https://whatever.com')).to.be.equal('https://whatever.com');
     });
 
-    it('should just return if http:// is as prefix even with hasSSL = true', () => {
-      expect(prefixify('http://plop.com', true)).to.be.equal('http://plop.com');
+    it('should just return if http:// is as prefix ', () => {
+      expect(prefixify('http://whatever.com')).to.be.equal('http://whatever.com');
     });
-    it('should just return if https:// is as prefix even with hasSSL = true', () => {
-      expect(prefixify('https://plop.com', true)).to.be.equal('https://plop.com');
-    });
-
-    it('should just return if http:// is as prefix even with hasSSL = false', () => {
-      expect(prefixify('http://plop.com', false)).to.be.equal('http://plop.com');
-    });
-    it('should just return if https:// is as prefix even with hasSSL = false', () => {
-      expect(prefixify('https://plop.com', false)).to.be.equal('https://plop.com');
+    it('should just return if https:// is as prefix', () => {
+      expect(prefixify('https://whatever.com')).to.be.equal('https://whatever.com');
     });
 
     it('should prefix with http if ssl is false and no prefix', () => {
-      expect(prefixify('plop.com', false)).to.be.equal('http://plop.com');
-    });
-
-    it('should prefix with https if ssl is true and no prefix', () => {
-      expect(prefixify('plop.com', true)).to.be.equal('https://plop.com');
+      expect(prefixify('whatever.com')).to.be.equal('http://whatever.com');
     });
   });
 
@@ -48,7 +37,7 @@ describe('OpenGroupUtils', () => {
       it('throws if roomId is too long 64 ', () => {
         expect(() => {
           getOpenGroupV2ConversationId(
-            'http://plop.com',
+            'http://whatever.com',
             '012345678901234567890#1234567!89012345678901234567890123456789fg01234'
           );
         }).to.throw('getOpenGroupV2ConversationId: Invalid roomId');
@@ -56,37 +45,37 @@ describe('OpenGroupUtils', () => {
 
       it('throws if roomId is too short ', () => {
         expect(() => {
-          getOpenGroupV2ConversationId('http://plop.com', '');
+          getOpenGroupV2ConversationId('http://whatever.com', '');
         }).to.throw('getOpenGroupV2ConversationId: Invalid roomId');
       });
       it('throws if roomId is has forbidden chars ', () => {
         expect(() => {
-          getOpenGroupV2ConversationId('http://plop.com', '1&%^%');
+          getOpenGroupV2ConversationId('http://whatever.com', '1&%^%');
         }).to.throw('getOpenGroupV2ConversationId: Invalid roomId');
       });
     });
 
     it('doesnt throw if roomId and serverUrl are valid ', () => {
       expect(() => {
-        getOpenGroupV2ConversationId('http://127.0.0.1/', 'plop1234');
+        getOpenGroupV2ConversationId('http://127.0.0.1/', 'whatever1234');
       }).to.not.throw();
     });
 
     it('doesnt throw if roomId and serverUrl are valid with port', () => {
       expect(() => {
-        getOpenGroupV2ConversationId('http://127.0.0.1:22/', 'plop1234');
+        getOpenGroupV2ConversationId('http://127.0.0.1:22/', 'whatever1234');
       }).to.not.throw();
     });
 
     it('doesnt throw if roomId and serverUrl are valid with port', () => {
       expect(() => {
-        getOpenGroupV2ConversationId('https://opengroup.com/', 'plop1234');
+        getOpenGroupV2ConversationId('https://opengroup.com/', 'whatever1234');
       }).to.not.throw();
     });
 
     it('throw if serverUrl is no url', () => {
       expect(() => {
-        getOpenGroupV2ConversationId('opengroup', 'plop1234');
+        getOpenGroupV2ConversationId('opengroup', 'whatever1234');
       }).to.throw();
     });
   });
@@ -95,17 +84,17 @@ describe('OpenGroupUtils', () => {
     it('doesnt throw if roomId and serverUrl are valid with port', () => {
       expect(
         getCompleteUrlFromRoom({
-          roomId: 'plop1234',
+          roomId: 'whatever1234',
           serverPublicKey: '05123456789',
           serverUrl: 'https://example.org',
         })
-      ).to.be.eq('https://example.org/plop1234?public_key=05123456789');
+      ).to.be.eq('https://example.org/whatever1234?public_key=05123456789');
     });
 
     it('throws if pubkey is empty', () => {
       expect(() =>
         getCompleteUrlFromRoom({
-          roomId: 'plop1234',
+          roomId: 'whatever1234',
           serverPublicKey: '',
           serverUrl: 'https://example.org',
         })
@@ -115,7 +104,7 @@ describe('OpenGroupUtils', () => {
     it('throws if serverUrl is empty', () => {
       expect(() =>
         getCompleteUrlFromRoom({
-          roomId: 'plop1234',
+          roomId: 'whatever1234',
           serverPublicKey: '05123456789',
           serverUrl: '',
         })
@@ -134,7 +123,7 @@ describe('OpenGroupUtils', () => {
     it('throws if pubkey is null', () => {
       expect(() =>
         getCompleteUrlFromRoom({
-          roomId: 'plop1234',
+          roomId: 'whatever1234',
           serverPublicKey: null as any,
           serverUrl: 'https://example.org',
         })
@@ -144,7 +133,7 @@ describe('OpenGroupUtils', () => {
     it('throws if serverUrl is null', () => {
       expect(() =>
         getCompleteUrlFromRoom({
-          roomId: 'plop1234',
+          roomId: 'whatever1234',
           serverPublicKey: '05123456789',
           serverUrl: null as any,
         })

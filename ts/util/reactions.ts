@@ -2,10 +2,7 @@ import { isEmpty } from 'lodash';
 import { Data } from '../data/data';
 import { MessageModel } from '../models/message';
 import { SignalService } from '../protobuf';
-import {
-  getUsBlindedInThatServer,
-  isUsAnySogsFromCache,
-} from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
+import { isUsAnySogsFromCache } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
 import { ToastUtils, UserUtils } from '../session/utils';
 
 import { Action, OpenGroupReactionList, ReactionList, RecentReactions } from '../types/Reaction';
@@ -61,7 +58,7 @@ const getMessageByReaction = async (
   }
 
   if (!originalMessage) {
-    window?.log?.warn(`Cannot find the original reacted message ${originalMessageId}.`);
+    window?.log?.debug(`Cannot find the original reacted message ${originalMessageId}.`);
     return null;
   }
 
@@ -96,7 +93,7 @@ const sendMessageReaction = async (messageId: string, emoji: string) => {
     if (found.get('isPublic')) {
       if (found.get('serverId')) {
         id = found.get('serverId') || id;
-        me = getUsBlindedInThatServer(conversationModel) || me;
+        me = conversationModel.getUsInThatConversation();
       } else {
         window.log.warn(`Server Id was not found in message ${messageId} for opengroup reaction`);
         return;
@@ -131,11 +128,7 @@ const sendMessageReaction = async (messageId: string, emoji: string) => {
       emoji,
       'reaction for message',
       id,
-      found.get('isPublic')
-        ? `on ${conversationModel.toOpenGroupV2().serverUrl}/${
-            conversationModel.toOpenGroupV2().roomId
-          }`
-        : ''
+      found.get('isPublic') ? `on ${conversationModel.id}` : ''
     );
     return reaction;
   } else {
@@ -243,7 +236,7 @@ const handleMessageReaction = async ({
 const handleClearReaction = async (conversationId: string, serverId: number, emoji: string) => {
   const originalMessage = await Data.getMessageByServerId(conversationId, serverId);
   if (!originalMessage) {
-    window?.log?.warn(
+    window?.log?.debug(
       `Cannot find the original reacted message ${serverId} in conversation ${conversationId}.`
     );
     return;
@@ -276,7 +269,7 @@ const handleOpenGroupMessageReactions = async (
 ) => {
   const originalMessage = await Data.getMessageByServerId(conversationId, serverId);
   if (!originalMessage) {
-    window?.log?.warn(
+    window?.log?.debug(
       `Cannot find the original reacted message ${serverId} in conversation ${conversationId}.`
     );
     return;
@@ -313,7 +306,7 @@ const handleOpenGroupMessageReactions = async (
           const conversationModel = originalMessage?.getConversation();
           if (conversationModel) {
             const me =
-              getUsBlindedInThatServer(conversationModel) || UserUtils.getOurPubKeyStrFromCache();
+              conversationModel.getUsInThatConversation() || UserUtils.getOurPubKeyStrFromCache();
             reactions[key].reactors = [me, ...reactorsWithoutMe];
           }
         }

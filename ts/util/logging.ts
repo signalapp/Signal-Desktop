@@ -110,6 +110,9 @@ const development = window && window?.getEnvironment && window?.getEnvironment()
 
 // The Bunyan API: https://github.com/trentm/node-bunyan#log-method-api
 function logAtLevel(level: string, prefix: string, ...args: any) {
+  if (prefix === 'DEBUG' && !window.sessionFeatureFlags.debug.debugLogging) {
+    return;
+  }
   if (development) {
     const fn = `_${level}`;
     (console as any)[fn](prefix, now(), ...args);
@@ -132,8 +135,12 @@ window.log = {
 };
 
 window.onerror = (_message, _script, _line, _col, error) => {
-  const errorInfo = error && error.stack ? error.stack : JSON.stringify(error);
-  window.log.error(`Top-level unhandled error: ${errorInfo}`);
+  const errorInfo = JSON.stringify(error);
+
+  window.log.error(
+    `Top-level unhandled error: "${_message}";"${_script}";"${_line}";"${_col}" ${errorInfo}`,
+    error
+  );
 };
 
 window.addEventListener('unhandledrejection', rejectionEvent => {
