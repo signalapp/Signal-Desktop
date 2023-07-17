@@ -170,7 +170,7 @@ export function formatTime(
     });
   }
 
-  return new Date(timestamp).toLocaleTimeString([], {
+  return formatTimestamp(timestamp, {
     hour: 'numeric',
     minute: '2-digit',
   });
