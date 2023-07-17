@@ -71,9 +71,6 @@ export const FEATURE_RELEASE_TIMESTAMPS = {
   // NOTE for testing purposes only
   // DISAPPEARING_MESSAGES_V2: 1677488400000, // unix 27/02/2023 09:00
 
-  // TODO update to agreed value between platforms for `user_config_libsession`
-  // FIXME once we are done with testing the user config over libsession feature
-  // FIXME the flag is forced on currently in releaseFeature.ts
-  USER_CONFIG: 1677488400000, // testing: unix 27/02/2023 09:00
-  // return 1706778000000; // unix 01/02/2024 09:00;
+  USER_CONFIG: 1690761600000, // Monday July 31st at 10am Melbourne time
+  // USER_CONFIG: 1677488400000, // testing: unix 27/02/2023 09:00
 };

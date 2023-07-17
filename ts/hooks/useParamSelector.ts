@@ -104,7 +104,7 @@ export function useIsBlinded(convoId?: string) {
   if (!convoId) {
     return false;
   }
-  return Boolean(PubKey.hasBlindedPrefix(convoId));
+  return Boolean(PubKey.isBlinded(convoId));
 }
 
 export function useHasNickname(convoId?: string) {

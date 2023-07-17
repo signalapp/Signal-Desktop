@@ -800,7 +800,7 @@ export const getMessageQuoteProps = createSelector(
     const isFromMe = isUsAnySogsFromCache(author) || false;
 
     // NOTE the quote lookup map always stores our messages using the unblinded pubkey
-    if (isFromMe && PubKey.hasBlindedPrefix(author)) {
+    if (isFromMe && PubKey.isBlinded(author)) {
       author = UserUtils.getOurPubKeyStrFromCache();
     }
 

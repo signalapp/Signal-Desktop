@@ -10,9 +10,15 @@ export enum KeyPrefixType {
    */
   standard = '05',
   /**
-   * used for participants in open groups
+   * used for participants in open groups (legacy blinding logic)
    */
-  blinded = '15',
+  blinded15 = '15',
+
+  /**
+   * used for participants in open groups (new blinding logic)
+   */
+  blinded25 = '25',
+
   /**
    * used for participants in open groups
    */
@@ -32,7 +38,7 @@ export class PubKey {
   public static readonly PREFIX_GROUP_TEXTSECURE = '__textsecure_group__!';
   // prettier-ignore
   private static readonly regex: RegExp = new RegExp(
-    `^(${PubKey.PREFIX_GROUP_TEXTSECURE})?(${KeyPrefixType.standard}|${KeyPrefixType.blinded}|${KeyPrefixType.unblinded}|${KeyPrefixType.groupV3})?(${PubKey.HEX}{64}|${PubKey.HEX}{32})$`
+    `^(${PubKey.PREFIX_GROUP_TEXTSECURE})?(${KeyPrefixType.standard}|${KeyPrefixType.blinded15}|${KeyPrefixType.blinded25}|${KeyPrefixType.unblinded}|${KeyPrefixType.groupV3})?(${PubKey.HEX}{64}|${PubKey.HEX}{32})$`
   );
   /**
    * If you want to update this regex. Be sure that those are matches ;
@@ -146,18 +152,19 @@ export class PubKey {
 
   /**
    * @param keyWithOrWithoutPrefix Key with or without prefix
-   * @returns If key is the correct length and has a supported prefix 05 or 15
+   * @returns If key is the correct length and has a supported prefix 05, 15, 25
    */
   public static isValidPrefixAndLength(keyWithOrWithoutPrefix: string): boolean {
     return (
       keyWithOrWithoutPrefix.length === 66 &&
-      (keyWithOrWithoutPrefix.startsWith(KeyPrefixType.blinded) ||
+      (keyWithOrWithoutPrefix.startsWith(KeyPrefixType.blinded15) ||
+        keyWithOrWithoutPrefix.startsWith(KeyPrefixType.blinded25) ||
         keyWithOrWithoutPrefix.startsWith(KeyPrefixType.standard))
     );
   }
 
   /**
-   * This removes the 05 or 15 prefix from a Pubkey which have it and have a length of 66
+   * This removes the 05, 15 or 25 prefix from a Pubkey which have it and have a length of 66
    * @param keyWithOrWithoutPrefix the key with or without the prefix
    */
   public static removePrefixIfNeeded(keyWithOrWithoutPrefix: string): string {
@@ -230,8 +237,8 @@ export class PubKey {
     return fromHexToArray(PubKey.removePrefixIfNeeded(this.key));
   }
 
-  public static hasBlindedPrefix(key: string) {
-    return key.startsWith(KeyPrefixType.blinded);
+  public static isBlinded(key: string) {
+    return key.startsWith(KeyPrefixType.blinded15) || key.startsWith(KeyPrefixType.blinded25);
   }
 
   public static isClosedGroupV3(key: string) {

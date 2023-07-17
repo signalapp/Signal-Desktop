@@ -141,7 +141,8 @@ async function verifySignature(
     }
     const messageData = fromBase64ToUint8Array(messageBase64);
     const signature = fromBase64ToUint8Array(signatureBase64);
-    const isBlindedSender = senderPubKey.startsWith('15');
+    // blinded15 or blinded25 are the same for the verifySignature logic
+    const isBlindedSender = senderPubKey.startsWith('15') || senderPubKey.startsWith('25');
 
     const pubkeyWithoutPrefix = senderPubKey.slice(2);
     const pubkeyBytes = fromHexToArray(pubkeyWithoutPrefix);

@@ -50,8 +50,7 @@ const StyledReadableMessage = styled(ReadableMessage)<{
   align-items: center;
   width: 100%;
   letter-spacing: 0.03rem;
-  padding: var(--margins-xs) var(--margins-lg) 0;
-  margin: var(--margins-xxs) 0;
+  padding: 0 var(--margins-lg) 0;
 
   &.message-highlighted {
     animation: ${highlightedMessageAnimation} 1s ease-in-out;

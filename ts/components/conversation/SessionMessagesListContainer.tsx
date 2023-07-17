@@ -54,6 +54,7 @@ type Props = SessionMessageListProps & {
 const StyledMessagesContainer = styled.div<{}>`
   display: flex;
   flex-grow: 1;
+  gap: var(--margins-xxs);
   flex-direction: column-reverse;
   position: relative;
   overflow-x: hidden;

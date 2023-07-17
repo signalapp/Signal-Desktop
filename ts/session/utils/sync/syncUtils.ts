@@ -206,7 +206,7 @@ const getValidContacts = (convos: Array<ConversationModel>) => {
       c.getRealSessionUsername() &&
       c.isPrivate() &&
       c.isApproved() &&
-      !PubKey.hasBlindedPrefix(c.get('id'))
+      !PubKey.isBlinded(c.get('id'))
   );
 
   const contacts = contactsModels.map(c => {

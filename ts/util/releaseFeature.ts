@@ -76,8 +76,7 @@ async function checkIsFeatureReleased(featureName: FeatureNameTracked): Promise<
   // Is it time to release the feature based on the network timestamp?
   if (
     !featureAlreadyReleased &&
-    (GetNetworkTime.getNowWithNetworkOffset() >= getFeatureReleaseTimestamp(featureName) ||
-      featureName === 'user_config_libsession') // we want to make a build which has user config enabled by default for internal testing // TODO to remove for official build
+    GetNetworkTime.getNowWithNetworkOffset() >= getFeatureReleaseTimestamp(featureName)
   ) {
     window.log.info(`[releaseFeature]: It is time to release ${featureName}. Releasing it now`);
     await Storage.put(featureStorageItemId(featureName), true);

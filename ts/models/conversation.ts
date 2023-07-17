@@ -546,8 +546,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       );
       const hasIncomingMessages = incomingMessageCount > 0;
 
-      if (this.id.startsWith('15')) {
-        window.log.info('Sending a blinded message to this user: ', this.id);
+      if (PubKey.isBlinded(this.id)) {
+        window.log.info('Sending a blinded message react to this user: ', this.id);
         await this.sendBlindedMessageRequest(chatMessageParams);
         return;
       }
@@ -1759,7 +1759,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       );
       const hasIncomingMessages = incomingMessageCount > 0;
 
-      if (this.id.startsWith('15')) {
+      if (PubKey.isBlinded(this.id)) {
         window.log.info('Sending a blinded message to this user: ', this.id);
         await this.sendBlindedMessageRequest(chatMessageParams);
         return;
@@ -1872,7 +1872,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const ourSignKeyBytes = await UserUtils.getUserED25519KeyPairBytes();
     const groupUrl = this.getSogsOriginMessage();
 
-    if (!PubKey.hasBlindedPrefix(this.id)) {
+    if (!PubKey.isBlinded(this.id)) {
       window?.log?.warn('sendBlindedMessageRequest - convo is not a blinded one');
       return;
     }
@@ -1920,7 +1920,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
 
     this.set({ active_at: Date.now(), isApproved: true });
-
+    // TODO we need to add support for sending blinded25 message request in addition to the legacy blinded15
     await getMessageQueue().sendToOpenGroupV2BlindedRequest({
       encryptedContent: encryptedMsg,
       roomInfos: roomInfo,

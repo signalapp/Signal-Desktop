@@ -357,7 +357,7 @@ export const CopyMenuItem = (): JSX.Element | null => {
 export const MarkAllReadMenuItem = (): JSX.Element | null => {
   const convoId = useConvoIdFromContext();
   const isIncomingRequest = useIsIncomingRequest(convoId);
-  if (!isIncomingRequest && !PubKey.hasBlindedPrefix(convoId)) {
+  if (!isIncomingRequest && !PubKey.isBlinded(convoId)) {
     return (
       <Item onClick={() => markAllReadByConvoId(convoId)}>{window.i18n('markAllAsRead')}</Item>
     );
@@ -379,7 +379,7 @@ export const BlockMenuItem = (): JSX.Element | null => {
   const isPrivate = useIsPrivate(convoId);
   const isIncomingRequest = useIsIncomingRequest(convoId);
 
-  if (!isMe && isPrivate && !isIncomingRequest && !PubKey.hasBlindedPrefix(convoId)) {
+  if (!isMe && isPrivate && !isIncomingRequest && !PubKey.isBlinded(convoId)) {
     const blockTitle = isBlocked ? window.i18n('unblock') : window.i18n('block');
     const blockHandler = isBlocked
       ? () => unblockConvoById(convoId)
