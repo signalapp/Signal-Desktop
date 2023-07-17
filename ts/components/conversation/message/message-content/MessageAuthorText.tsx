@@ -1,20 +1,19 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { MessageRenderingProps } from '../../../../models/messageType';
 import { PubKey } from '../../../../session/types';
 import {
-  getMessageAuthorProps,
-  getSelectedConversationIsGroup,
-  isPublicGroupConversation,
-} from '../../../../state/selectors/conversations';
+  useAuthorName,
+  useAuthorProfileName,
+  useFirstMessageOfSeries,
+  useMessageAuthor,
+  useMessageDirection,
+} from '../../../../state/selectors';
+import {
+  useSelectedIsGroup,
+  useSelectedIsPublic,
+} from '../../../../state/selectors/selectedConversation';
 import { Flex } from '../../../basic/Flex';
 import { ContactName } from '../../ContactName';
-
-export type MessageAuthorSelectorProps = Pick<
-  MessageRenderingProps,
-  'authorName' | 'authorProfileName' | 'sender' | 'direction' | 'firstMessageOfSeries'
->;
 
 type Props = {
   messageId: string;
@@ -25,14 +24,17 @@ const StyledAuthorContainer = styled(Flex)`
 `;
 
 export const MessageAuthorText = (props: Props) => {
-  const selected = useSelector(state => getMessageAuthorProps(state as any, props.messageId));
+  const isPublic = useSelectedIsPublic();
+  const isGroup = useSelectedIsGroup();
+  const authorProfileName = useAuthorProfileName(props.messageId);
+  const authorName = useAuthorName(props.messageId);
+  const sender = useMessageAuthor(props.messageId);
+  const direction = useMessageDirection(props.messageId);
+  const firstMessageOfSeries = useFirstMessageOfSeries(props.messageId);
 
-  const isPublic = useSelector(isPublicGroupConversation);
-  const isGroup = useSelector(getSelectedConversationIsGroup);
-  if (!selected) {
+  if (!props.messageId || !sender || !direction) {
     return null;
   }
-  const { authorName, sender, authorProfileName, direction, firstMessageOfSeries } = selected;
 
   const title = authorName ? authorName : sender;
 

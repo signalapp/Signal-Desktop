@@ -283,6 +283,7 @@ export const HangUpButton = ({ isFullScreen }: { isFullScreen: boolean }) => {
         borderRadius="50%"
         onClick={handleEndCall}
         margin="10px"
+        dataTestId="end-call"
       />
     </StyledCallActionButton>
   );
@@ -327,7 +328,7 @@ const handleSpeakerToggle = async (
   isAudioOutputMuted: boolean
 ) => {
   if (!currentConnectedAudioOutputs.length) {
-    ToastUtils.pushNoAudioInputFound();
+    ToastUtils.pushNoAudioOutputFound();
 
     return;
   }

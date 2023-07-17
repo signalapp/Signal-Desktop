@@ -5,7 +5,7 @@ import Sinon, * as sinon from 'sinon';
 import { describe } from 'mocha';
 
 import { TestUtils } from '../../../test-utils';
-import * as SNodeAPI from '../../../../session/apis/snode_api';
+import * as SnodeAPI from '../../../../session/apis/snode_api';
 
 import chaiAsPromised from 'chai-as-promised';
 import { OnionPaths } from '../../../../session/onions/';
@@ -15,10 +15,12 @@ import {
   OXEN_SERVER_ERROR,
 } from '../../../../session/apis/snode_api/onions';
 import AbortController from 'abort-controller';
-import { Snode, SNODE_POOL_ITEM_ID } from '../../../../../ts/data/data';
+import { Snode } from '../../../../../ts/data/data';
 import { pathFailureCount } from '../../../../session/onions/onionPath';
 import { SeedNodeAPI } from '../../../../session/apis/seed_node_api';
 import { generateFakeSnodeWithEdKey, stubData } from '../../../test-utils/utils';
+import { ServiceNodesList } from '../../../../session/apis/snode_api/getServiceNodesList';
+import { SNODE_POOL_ITEM_ID } from '../../../../data/settings-key';
 
 chai.use(chaiAsPromised as any);
 chai.should();
@@ -70,7 +72,7 @@ describe('OnionPathsErrors', () => {
     guardPubkeys = TestUtils.generateFakePubKeys(3).map(n => n.key);
     otherNodesPubkeys = TestUtils.generateFakePubKeys(20).map(n => n.key);
 
-    SNodeAPI.Onions.resetSnodeFailureCount();
+    SnodeAPI.Onions.resetSnodeFailureCount();
 
     guardNodesArray = guardPubkeys.map(generateFakeSnodeWithEdKey);
     guardSnode1 = guardNodesArray[0];
@@ -83,7 +85,7 @@ describe('OnionPathsErrors', () => {
     fakeSwarmForAssociatedWith = otherNodesPubkeys.slice(0, 6);
     // Stubs
     Sinon.stub(OnionPaths, 'selectGuardNodes').resolves(guardNodesArray);
-    Sinon.stub(SNodeAPI.SNodeAPI, 'TEST_getSnodePoolFromSnode').resolves(guardNodesArray);
+    Sinon.stub(ServiceNodesList, 'getSnodePoolFromSnode').resolves(guardNodesArray);
     TestUtils.stubData('getGuardNodes').resolves([
       guardPubkeys[0],
       guardPubkeys[1],
@@ -98,8 +100,8 @@ describe('OnionPathsErrors', () => {
     updateSwarmSpy = stubData('updateSwarmNodesForPubkey').resolves();
     stubData('getItemById').resolves({ id: SNODE_POOL_ITEM_ID, value: '' });
     stubData('createOrUpdateItem').resolves();
-    dropSnodeFromSnodePool = Sinon.spy(SNodeAPI.SnodePool, 'dropSnodeFromSnodePool');
-    dropSnodeFromSwarmIfNeededSpy = Sinon.spy(SNodeAPI.SnodePool, 'dropSnodeFromSwarmIfNeeded');
+    dropSnodeFromSnodePool = Sinon.spy(SnodeAPI.SnodePool, 'dropSnodeFromSnodePool');
+    dropSnodeFromSwarmIfNeededSpy = Sinon.spy(SnodeAPI.SnodePool, 'dropSnodeFromSwarmIfNeeded');
     dropSnodeFromPathSpy = Sinon.spy(OnionPaths, 'dropSnodeFromPath');
     incrementBadPathCountOrDropSpy = Sinon.spy(OnionPaths, 'incrementBadPathCountOrDrop');
     incrementBadSnodeCountOrDropSpy = Sinon.spy(Onions, 'incrementBadSnodeCountOrDrop');

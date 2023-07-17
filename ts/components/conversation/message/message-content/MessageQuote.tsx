@@ -1,29 +1,30 @@
+import { isEmpty, toNumber } from 'lodash';
 import React, { useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import _, { isEmpty, toNumber } from 'lodash';
-import { MessageModelType, MessageRenderingProps } from '../../../../models/messageType';
+import { Data } from '../../../../data/data';
+import { MessageRenderingProps } from '../../../../models/messageType';
+import { ToastUtils } from '../../../../session/utils';
 import { openConversationToSpecificMessage } from '../../../../state/ducks/conversations';
+import { StateType } from '../../../../state/reducer';
+import { useMessageDirection } from '../../../../state/selectors';
 import {
   getMessageQuoteProps,
   isMessageDetailView,
   isMessageSelectionMode,
 } from '../../../../state/selectors/conversations';
 import { Quote } from './quote/Quote';
-import { ToastUtils } from '../../../../session/utils';
-import { Data } from '../../../../data/data';
 
 // tslint:disable: use-simple-attributes
 
 type Props = {
   messageId: string;
-  // Note: this is the direction of the quote in case the quoted message is not found
-  direction: MessageModelType;
 };
 
 export type MessageQuoteSelectorProps = Pick<MessageRenderingProps, 'quote' | 'direction'>;
 
 export const MessageQuote = (props: Props) => {
-  const selected = useSelector(state => getMessageQuoteProps(state as any, props.messageId));
+  const selected = useSelector((state: StateType) => getMessageQuoteProps(state, props.messageId));
+  const direction = useMessageDirection(props.messageId);
   const multiSelectMode = useSelector(isMessageSelectionMode);
   const isMessageDetailViewMode = useSelector(isMessageDetailView);
 
@@ -32,7 +33,6 @@ export const MessageQuote = (props: Props) => {
   }
 
   const quote = selected ? selected.quote : undefined;
-  const direction = selected ? selected.direction : props.direction ? props.direction : undefined;
 
   if (!quote || isEmpty(quote)) {
     return null;
@@ -64,8 +64,13 @@ export const MessageQuote = (props: Props) => {
 
       // If the quote is not found in memory, we try to find it in the DB
       if (quoteNotFound && quote.id && quote.author) {
+        // We always look for the quote by sentAt timestamp, for opengroups, closed groups and session chats
+        // this will return an array of sent messages by id that we have locally.
         const quotedMessagesCollection = await Data.getMessagesBySenderAndSentAt([
-          { timestamp: toNumber(quote.id), source: quote.author },
+          {
+            timestamp: toNumber(quote.id),
+            source: quote.author,
+          },
         ]);
 
         if (quotedMessagesCollection?.length) {

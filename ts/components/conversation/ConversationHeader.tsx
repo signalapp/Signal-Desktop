@@ -3,24 +3,22 @@ import React from 'react';
 import { Avatar, AvatarSize } from '../avatar/Avatar';
 
 import { contextMenu } from 'react-contexify';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { ConversationNotificationSettingType } from '../../models/conversationAttributes';
 import {
-  getConversationHeaderTitleProps,
-  getCurrentNotificationSettingText,
-  getIsSelectedActive,
-  getIsSelectedBlocked,
-  getIsSelectedNoteToSelf,
-  getIsSelectedPrivate,
-  getSelectedConversationIsPublic,
-  getSelectedConversationKey,
   getSelectedMessageIds,
   isMessageDetailView,
   isMessageSelectionMode,
   isRightPanelShowing,
 } from '../../state/selectors/conversations';
-import { useDispatch, useSelector } from 'react-redux';
 
+import {
+  useConversationUsername,
+  useExpireTimer,
+  useIsKickedFromGroup,
+} from '../../hooks/useParamSelector';
+import { callRecipient } from '../../interactions/conversationInteractions';
 import {
   deleteMessagesById,
   deleteMessagesByIdForEveryone,
@@ -31,14 +29,23 @@ import {
   openRightPanel,
   resetSelectedMessageIds,
 } from '../../state/ducks/conversations';
-import { callRecipient } from '../../interactions/conversationInteractions';
 import { getHasIncomingCall, getHasOngoingCall } from '../../state/selectors/call';
 import {
-  useConversationUsername,
-  useExpireTimer,
-  useIsKickedFromGroup,
-  useIsRequest,
-} from '../../hooks/useParamSelector';
+  useSelectedConversationKey,
+  useSelectedIsActive,
+  useSelectedIsBlocked,
+  useSelectedIsGroup,
+  useSelectedIsKickedFromGroup,
+  useSelectedIsPrivate,
+  useSelectedIsPrivateFriend,
+  useSelectedIsPublic,
+  useSelectedMembers,
+  useSelectedNotificationSetting,
+  useSelectedSubscriberCount,
+  useSelectedisNoteToSelf,
+} from '../../state/selectors/selectedConversation';
+import { ExpirationTimerOptions } from '../../util/expiringMessages';
+import { Flex } from '../basic/Flex';
 import {
   SessionButton,
   SessionButtonColor,
@@ -47,49 +54,16 @@ import {
 } from '../basic/SessionButton';
 import { SessionIconButton } from '../icon';
 import { ConversationHeaderMenu } from '../menu/ConversationHeaderMenu';
-import { Flex } from '../basic/Flex';
-import { ExpirationTimerOptions } from '../../util/expiringMessages';
 
 export interface TimerOption {
   name: string;
   value: number;
 }
 
-export type ConversationHeaderProps = {
-  conversationKey: string;
-  name?: string;
-
-  profileName?: string;
-  avatarPath: string | null;
-
-  isMe: boolean;
-  isGroup: boolean;
-  isPrivate: boolean;
-  isPublic: boolean;
-  weAreAdmin: boolean;
-
-  // We might not always have the full list of members,
-  // e.g. for open groups where we could have thousands
-  // of members. We'll keep this for now (for closed chats)
-  members: Array<any>;
-
-  // not equal members.length (see above)
-  subscriberCount?: number;
-
-  expirationSettingName?: string;
-  currentNotificationSetting: ConversationNotificationSettingType;
-  hasNickname: boolean;
-
-  isBlocked: boolean;
-
-  isKickedFromGroup: boolean;
-  left: boolean;
-};
-
 const SelectionOverlay = () => {
   const selectedMessageIds = useSelector(getSelectedMessageIds);
-  const selectedConversationKey = useSelector(getSelectedConversationKey);
-  const isPublic = useSelector(getSelectedConversationIsPublic);
+  const selectedConversationKey = useSelectedConversationKey();
+  const isPublic = useSelectedIsPublic();
   const dispatch = useDispatch();
 
   const { i18n } = window;
@@ -149,7 +123,13 @@ const TripleDotContainer = styled.div`
 
 const TripleDotsMenu = (props: { triggerId: string; showBackButton: boolean }) => {
   const { showBackButton } = props;
+
+  const isPrivateFriend = useSelectedIsPrivateFriend();
+  const isPrivate = useSelectedIsPrivate();
   if (showBackButton) {
+    return null;
+  }
+  if (isPrivate && !isPrivateFriend) {
     return null;
   }
   return (
@@ -230,19 +210,26 @@ const BackButton = (props: { onGoBack: () => void; showBackButton: boolean }) =>
 };
 
 const CallButton = () => {
-  const isPrivate = useSelector(getIsSelectedPrivate);
-  const isBlocked = useSelector(getIsSelectedBlocked);
-  const activeAt = useSelector(getIsSelectedActive);
-  const isMe = useSelector(getIsSelectedNoteToSelf);
-  const selectedConvoKey = useSelector(getSelectedConversationKey);
+  const isPrivate = useSelectedIsPrivate();
+  const isBlocked = useSelectedIsBlocked();
+  const isActive = useSelectedIsActive();
+  const isMe = useSelectedisNoteToSelf();
+  const selectedConvoKey = useSelectedConversationKey();
 
   const hasIncomingCall = useSelector(getHasIncomingCall);
   const hasOngoingCall = useSelector(getHasOngoingCall);
   const canCall = !(hasIncomingCall || hasOngoingCall);
 
-  const isRequest = useIsRequest(selectedConvoKey);
+  const isPrivateFriend = useSelectedIsPrivateFriend();
 
-  if (!isPrivate || isMe || !selectedConvoKey || isBlocked || !activeAt || isRequest) {
+  if (
+    !isPrivate ||
+    isMe ||
+    !selectedConvoKey ||
+    isBlocked ||
+    !isActive ||
+    !isPrivateFriend // call requires us to be friends
+  ) {
     return null;
   }
 
@@ -255,6 +242,7 @@ const CallButton = () => {
       onClick={() => {
         void callRecipient(selectedConvoKey, canCall);
       }}
+      dataTestId="call-button"
     />
   );
 };
@@ -276,7 +264,6 @@ export type ConversationHeaderTitleProps = {
   isGroup: boolean;
   isPublic: boolean;
   members: Array<any>;
-  subscriberCount?: number;
   isKickedFromGroup: boolean;
   currentNotificationSetting?: ConversationNotificationSettingType;
 };
@@ -295,17 +282,23 @@ export const ConversationHeaderSubtitle = (props: { text?: string | null }): JSX
 };
 
 const ConversationHeaderTitle = () => {
-  const headerTitleProps = useSelector(getConversationHeaderTitleProps);
-  const notificationSetting = useSelector(getCurrentNotificationSettingText);
-  const isRightPanelOn = useSelector(isRightPanelShowing);
-
-  const convoName = useConversationUsername(headerTitleProps?.conversationKey);
   const dispatch = useDispatch();
-  if (!headerTitleProps) {
+
+  const notificationSetting = useSelectedNotificationSetting();
+  const isRightPanelOn = useSelector(isRightPanelShowing);
+  const subscriberCount = useSelectedSubscriberCount();
+  const selectedConvoKey = useSelectedConversationKey();
+  const convoName = useConversationUsername(selectedConvoKey);
+
+  const isPublic = useSelectedIsPublic();
+  const isKickedFromGroup = useSelectedIsKickedFromGroup();
+  const isMe = useSelectedisNoteToSelf();
+  const isGroup = useSelectedIsGroup();
+  const members = useSelectedMembers();
+
+  if (!selectedConvoKey) {
     return null;
   }
-
-  const { isGroup, isPublic, members, subscriberCount, isMe, isKickedFromGroup } = headerTitleProps;
 
   const { i18n } = window;
 
@@ -360,15 +353,15 @@ const ConversationHeaderTitle = () => {
 export const ConversationHeaderWithDetails = () => {
   const isSelectionMode = useSelector(isMessageSelectionMode);
   const isMessageDetailOpened = useSelector(isMessageDetailView);
-  const selectedConvoKey = useSelector(getSelectedConversationKey);
+  const selectedConvoKey = useSelectedConversationKey();
   const dispatch = useDispatch();
+  const isKickedFromGroup = useIsKickedFromGroup(selectedConvoKey);
+  const expireTimerSetting = useExpireTimer(selectedConvoKey);
 
   if (!selectedConvoKey) {
     return null;
   }
 
-  const isKickedFromGroup = useIsKickedFromGroup(selectedConvoKey);
-  const expireTimerSetting = useExpireTimer(selectedConvoKey);
   const expirationSettingName = expireTimerSetting
     ? ExpirationTimerOptions.getName(expireTimerSetting || 0)
     : undefined;

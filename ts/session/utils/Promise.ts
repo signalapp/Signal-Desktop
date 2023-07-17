@@ -188,7 +188,7 @@ export async function waitUntil(check: () => Return<boolean>, timeoutMs: number 
   );
 }
 
-export async function timeout<T>(promise: Promise<T>, timeoutMs: number = 2000): Promise<T> {
+export async function timeout<T>(promise: Promise<T>, timeoutMs: number): Promise<T> {
   const timeoutPromise = new Promise<T>((_, rej) => {
     const wait = setTimeout(() => {
       clearTimeout(wait);

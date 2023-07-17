@@ -43,6 +43,7 @@ export async function encrypt(
       window?.log?.warn("Couldn't get key pair for closed group during encryption");
       throw new Error("Couldn't get key pair for closed group");
     }
+
     const hexPubFromECKeyPair = PubKey.cast(hexEncryptionKeyPair.publicHex);
 
     const cipherTextClosedGroup = await MessageEncrypter.encryptUsingSessionProtocol(

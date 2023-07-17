@@ -6,13 +6,14 @@ import { getMessageQueue } from '../../session';
 import { getConversationController } from '../../session/conversations';
 import { UnsendMessage } from '../../session/messages/outgoing/controlMessage/UnsendMessage';
 import { ed25519Str } from '../../session/onions/onionPath';
-import { networkDeleteMessages } from '../../session/apis/snode_api/SNodeAPI';
+import { SnodeAPI } from '../../session/apis/snode_api/SNodeAPI';
 import { PubKey } from '../../session/types';
 import { ToastUtils, UserUtils } from '../../session/utils';
 import { resetSelectedMessageIds } from '../../state/ducks/conversations';
 import { updateConfirmModal } from '../../state/ducks/modalDialog';
 import { SessionButtonColor } from '../../components/basic/SessionButton';
 import { deleteSogsMessageByServerIds } from '../../session/apis/open_group_api/sogsv3/sogsV3DeleteMessages';
+import { SnodeNamespaces } from '../../session/apis/snode_api/namespaces';
 
 /**
  * Deletes messages for everyone in a 1-1 or everyone in a closed group conversation.
@@ -38,14 +39,14 @@ async function unsendMessagesForEveryone(
     await Promise.all(
       unsendMsgObjects.map(unsendObject =>
         getMessageQueue()
-          .sendToPubKey(new PubKey(destinationId), unsendObject)
+          .sendToPubKey(new PubKey(destinationId), unsendObject, SnodeNamespaces.UserMessages)
           .catch(window?.log?.error)
       )
     );
     await Promise.all(
       unsendMsgObjects.map(unsendObject =>
         getMessageQueue()
-          .sendSyncMessage(unsendObject)
+          .sendSyncMessage({ namespace: SnodeNamespaces.UserMessages, message: unsendObject })
           .catch(window?.log?.error)
       )
     );
@@ -54,7 +55,11 @@ async function unsendMessagesForEveryone(
     await Promise.all(
       unsendMsgObjects.map(unsendObject => {
         getMessageQueue()
-          .sendToGroup(unsendObject, undefined, new PubKey(destinationId))
+          .sendToGroup({
+            message: unsendObject,
+            namespace: SnodeNamespaces.ClosedGroupMessage,
+            groupPubKey: new PubKey(destinationId),
+          })
           .catch(window?.log?.error);
       })
     );
@@ -100,7 +105,7 @@ export async function deleteMessagesFromSwarmOnly(messages: Array<MessageModel>)
   try {
     const deletionMessageHashes = compact(messages.map(m => m.get('messageHash')));
     if (deletionMessageHashes.length > 0) {
-      const errorOnSnode = await networkDeleteMessages(deletionMessageHashes);
+      const errorOnSnode = await SnodeAPI.networkDeleteMessages(deletionMessageHashes);
       return errorOnSnode === null || errorOnSnode.length === 0;
     }
     window.log?.warn(
@@ -121,7 +126,7 @@ export async function deleteMessagesFromSwarmAndCompletelyLocally(
   conversation: ConversationModel,
   messages: Array<MessageModel>
 ) {
-  if (conversation.isMediumGroup()) {
+  if (conversation.isClosedGroup()) {
     window.log.info('Cannot delete message from a closed group swarm, so we just complete delete.');
     await Promise.all(
       messages.map(async message => {
@@ -157,7 +162,7 @@ export async function deleteMessagesFromSwarmAndMarkAsDeletedLocally(
   conversation: ConversationModel,
   messages: Array<MessageModel>
 ) {
-  if (conversation.isMediumGroup()) {
+  if (conversation.isClosedGroup()) {
     window.log.info('Cannot delete messages from a closed group swarm, so we just markDeleted.');
     await Promise.all(
       messages.map(async message => {
@@ -199,7 +204,7 @@ export async function deleteMessageLocallyOnly({
   } else {
     // just mark the message as deleted but still show in conversation
     await message.markAsDeleted();
-    await message.markRead(Date.now());
+    await message.markMessageAsRead(Date.now());
   }
   conversation.updateLastMessage();
 }
@@ -222,7 +227,7 @@ async function unsendMessageJustForThisUser(
   await Promise.all(
     unsendMsgObjects.map(unsendObject =>
       getMessageQueue()
-        .sendSyncMessage(unsendObject)
+        .sendSyncMessage({ namespace: SnodeNamespaces.UserMessages, message: unsendObject })
         .catch(window?.log?.error)
     )
   );
@@ -401,10 +406,6 @@ async function deleteOpenGroupMessages(
 ): Promise<Array<string>> {
   if (!convo.isPublic()) {
     throw new Error('cannot delete public message on a non public groups');
-  }
-
-  if (!convo.isOpenGroupV2()) {
-    throw new Error('Opengroupv1 are not supported anymore');
   }
 
   const roomInfos = convo.toOpenGroupV2();

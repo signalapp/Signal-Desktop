@@ -1,4 +1,5 @@
 package signalservice;
+syntax = "proto2";
 
 
 message Envelope {
@@ -21,25 +22,36 @@ message TypingMessage {
         STARTED = 0;
         STOPPED = 1;
     }
-    // @required
     required uint64 timestamp = 1;
-    // @required
     required Action action    = 2;
 }
 
 
 message Unsend {
-  // @required
   required uint64 timestamp = 1;
-  // @required
   required string author    = 2;
 }
 
 message MessageRequestResponse {
-  // @required
   required bool                      isApproved                = 1;
   optional bytes                     profileKey                = 2;
   optional DataMessage.LokiProfile   profile                   = 3;
+}
+
+message SharedConfigMessage {
+  enum Kind {
+    USER_PROFILE              = 1;
+    CONTACTS                  = 2;
+    CONVO_INFO_VOLATILE       = 3;
+    USER_GROUPS               = 4;
+   // CLOSED_GROUP_INFO       = 5;
+   // CLOSED_GROUP_MEMBERS    = 6;
+   // ENCRYPTION_KEYS         = 7;
+  }
+
+  required Kind              kind             = 1;
+  required int64             seqno            = 2;
+  required bytes             data             = 3;
 }
 
 message Content {
@@ -51,6 +63,7 @@ message Content {
   optional DataExtractionNotification dataExtractionNotification = 8;
   optional Unsend                     unsendMessage              = 9;
   optional MessageRequestResponse     messageRequestResponse     = 10;
+  optional SharedConfigMessage        sharedConfigMessage        = 11;
 }
 
 message KeyPair {
@@ -71,6 +84,43 @@ message DataExtractionNotification {
   required Type   type      = 1;
   optional uint64 timestamp = 2;
 }
+
+// message GroupInviteMessage {
+//   required string         name              = 1;
+//   required bytes          memberPrivateKey  = 2;
+// }
+
+// this will replace our closedGroupControlMessage but we will need to keep both for some time
+// message GroupMessage {
+  // optional GroupAdminMessage           adminMessage         = 31;
+  // optional GroupMemberLeftMessage      memberLeftMessage    = 32;
+  // optional GroupInviteMessage          inviteMessage        = 33;
+  // optional GroupPromoteMessage         promoteMessage       = 34;
+// }
+
+// message GroupPromoteMessage {
+  // required bytes          privateKey        = 1; // this is the group admins key
+// }
+
+// message GroupAdminMessage {
+  // enum Type {
+  //   DELETE_GROUP                   = 1; // members, groupSignature
+  //   DELETE_GROUP_ALL_MEMBERS       = 2;  // groupSignature
+  //   DELETE_MESSAGES_ALL_MEMBERS    = 3;  // groupSignature
+  //   DELETE_ATTACHMENTS_ALL_MEMBERS = 4;  // groupSignature
+  // }
+//
+  // // @required
+ //  required Type           type              = 1;
+  // repeated bytes          members           = 2;
+  // @required
+ //  required bytes          groupSignature    = 3; // used by every members to make sure incoming admin action can be trusted
+// }
+
+// message GroupMemberLeftMessage {
+ // the pubkey of the member who left is already in the senderIdentity
+// }
+
 
 message DataMessage {
 
@@ -129,35 +179,35 @@ message DataMessage {
 
   message ClosedGroupControlMessage {
 
-	  enum Type {
-	    NEW                           = 1; // publicKey, name, encryptionKeyPair, members, admins, expireTimer
-      ENCRYPTION_KEY_PAIR           = 3; // publicKey, wrappers
-      NAME_CHANGE                   = 4; // name
-      MEMBERS_ADDED                 = 5; // members
-      MEMBERS_REMOVED               = 6; // members
+    enum Type {
+      NEW                           = 1;
+      ENCRYPTION_KEY_PAIR           = 3;
+      NAME_CHANGE                   = 4;
+      MEMBERS_ADDED                 = 5;
+      MEMBERS_REMOVED               = 6;
       MEMBER_LEFT                   = 7;
       ENCRYPTION_KEY_PAIR_REQUEST   = 8;
-	  }
+    }
 
 
+    message KeyPairWrapper {
+      // @required
+      required bytes publicKey        = 1; // The public key of the user the key pair is meant for
+      // @required
+      required bytes encryptedKeyPair = 2; // The encrypted key pair
+    }
 
-	  message KeyPairWrapper {
-	    // @required
-	    required bytes publicKey        = 1; // The public key of the user the key pair is meant for
-	    // @required
-	    required bytes encryptedKeyPair = 2; // The encrypted key pair
-	  }
-
-	  // @required
-	  required Type           type              = 1;
-	  optional bytes          publicKey         = 2;
-	  optional string         name              = 3;
-	  optional KeyPair        encryptionKeyPair = 4;
-	  repeated bytes          members           = 5;
-	  repeated bytes          admins            = 6;
-	  repeated KeyPairWrapper wrappers          = 7;
+    // @required
+    required Type           type              = 1;
+    optional bytes          publicKey         = 2;
+    optional string         name              = 3;
+    optional KeyPair        encryptionKeyPair = 4;
+    repeated bytes          members           = 5;
+    repeated bytes          admins            = 6;
+    repeated KeyPairWrapper wrappers          = 7;
     optional uint32         expireTimer       = 8;
-	}
+  }
+
 
 
   optional string                    body                      = 1;
@@ -174,6 +224,7 @@ message DataMessage {
   optional OpenGroupInvitation       openGroupInvitation       = 102;
   optional ClosedGroupControlMessage closedGroupControlMessage = 104;
   optional string                    syncTarget                = 105;
+  // optional GroupMessage              groupMessage              = 120;
 }
 
 message CallMessage {
@@ -279,3 +330,25 @@ message GroupContext {
   repeated string            admins  = 6;
 }
 
+
+
+
+message WebSocketRequestMessage {
+  optional string verb    = 1;
+  optional string path    = 2;
+  optional bytes  body    = 3;
+  repeated string headers = 5;
+  optional uint64 id      = 4;
+}
+
+
+message WebSocketMessage {
+  enum Type {
+      UNKNOWN  = 0;
+      REQUEST  = 1;
+      RESPONSE = 2;
+  }
+
+  optional Type                     type     = 1;
+  optional WebSocketRequestMessage  request  = 2;
+}

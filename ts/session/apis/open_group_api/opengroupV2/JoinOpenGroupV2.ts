@@ -4,7 +4,7 @@ import { ConversationModel } from '../../../../models/conversation';
 import { getConversationController } from '../../../conversations';
 import { PromiseUtils, ToastUtils } from '../../../utils';
 
-import { forceSyncConfigurationNowIfNeeded } from '../../../utils/syncUtils';
+import { forceSyncConfigurationNowIfNeeded } from '../../../utils/sync/syncUtils';
 import {
   getOpenGroupV2ConversationId,
   openGroupV2CompleteURLRegex,
@@ -62,7 +62,7 @@ async function joinOpenGroupV2(
   room: OpenGroupV2Room,
   fromConfigMessage: boolean
 ): Promise<ConversationModel | undefined> {
-  if (!room.serverUrl || !room.roomId || room.roomId.length < 2 || !room.serverPublicKey) {
+  if (!room.serverUrl || !room.roomId || room.roomId.length < 1 || !room.serverPublicKey) {
     return undefined;
   }
 
@@ -81,7 +81,10 @@ async function joinOpenGroupV2(
   } else if (existingConvo) {
     // we already have a convo associated with it. Remove everything related to it so we start fresh
     window?.log?.warn('leaving before rejoining open group v2 room', conversationId);
-    await getConversationController().deleteContact(conversationId);
+
+    await getConversationController().deleteCommunity(conversationId, {
+      fromSyncMessage: true,
+    });
   }
 
   // Try to connect to server

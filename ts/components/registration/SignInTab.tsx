@@ -208,6 +208,7 @@ export const SignInTab = () => {
             pointerEvents: 'all',
             backgroundColor: 'var(--background-primary-color)',
           }}
+          dataTestId="three-dot-loading-animation"
         >
           <SessionSpinner loading={true} />
         </Flex>

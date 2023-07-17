@@ -1,9 +1,9 @@
 import { isEmpty, isEqual } from 'lodash';
 import React, { ReactElement, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { Data } from '../../data/data';
-import { useMessageReactsPropsById, useWeAreModerator } from '../../hooks/useParamSelector';
+import { useMessageReactsPropsById } from '../../hooks/useParamSelector';
 import { isUsAnySogsFromCache } from '../../session/apis/open_group_api/sogsv3/knownBlindedkeys';
 import { UserUtils } from '../../session/utils';
 import {
@@ -11,7 +11,10 @@ import {
   updateReactListModal,
   updateUserDetailsModal,
 } from '../../state/ducks/modalDialog';
-import { getSelectedConversationIsPublic } from '../../state/selectors/conversations';
+import {
+  useSelectedIsPublic,
+  useSelectedWeAreModerator,
+} from '../../state/selectors/selectedConversation';
 import { SortedReactionList } from '../../types/Reaction';
 import { nativeEmojiData } from '../../util/emoji';
 import { Reactions } from '../../util/reactions';
@@ -229,8 +232,8 @@ export const ReactListModal = (props: Props): ReactElement => {
   const [senders, setSenders] = useState<Array<string>>([]);
 
   const msgProps = useMessageReactsPropsById(messageId);
-  const isPublic = useSelector(getSelectedConversationIsPublic);
-  const weAreModerator = useWeAreModerator(msgProps?.convoId);
+  const isPublic = useSelectedIsPublic();
+  const weAreModerator = useSelectedWeAreModerator();
   const me = UserUtils.getOurPubKeyStrFromCache();
 
   // tslint:disable: cyclomatic-complexity

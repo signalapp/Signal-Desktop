@@ -9,6 +9,7 @@ import { downloadAttachment, downloadAttachmentSogsV3 } from '../../receiver/att
 import { initializeAttachmentLogic, processNewAttachment } from '../../types/MessageAttachment';
 import { getAttachmentMetadata } from '../../types/message/initializeAttachmentMetadata';
 import { was404Error } from '../apis/snode_api/onions';
+import { AttachmentDownloadMessageDetails } from '../../types/sqlSharedTypes';
 
 // this may cause issues if we increment that value to > 1, but only having one job will block the whole queue while one attachment is downloading
 const MAX_ATTACHMENT_JOB_PARALLELISM = 3;
@@ -27,7 +28,7 @@ let timeout: any;
 let logger: any;
 const _activeAttachmentDownloadJobs: any = {};
 
-// TODO type those `any` properties
+// TODOLATER type those `any` properties
 
 export async function start(options: any = {}) {
   ({ logger } = options);
@@ -49,7 +50,7 @@ export function stop() {
   }
 }
 
-export async function addJob(attachment: any, job: any = {}) {
+export async function addJob(attachment: any, job: AttachmentDownloadMessageDetails) {
   if (!attachment) {
     throw new Error('attachments_download/addJob: attachment is required');
   }
@@ -237,7 +238,7 @@ async function _runJob(job: any) {
     if (currentAttempt >= 3 || was404Error(error)) {
       logger.error(
         `_runJob: ${currentAttempt} failed attempts, marking attachment ${id} from message ${found?.idForLogging()} as permanent error:`,
-        error && error.stack ? error.stack : error
+        error && error.message ? error.message : error
       );
 
       // Make sure to fetch the message from DB here right before writing it.

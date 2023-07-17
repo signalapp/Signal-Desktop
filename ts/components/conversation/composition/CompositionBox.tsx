@@ -32,11 +32,9 @@ import { ReduxConversationType } from '../../../state/ducks/conversations';
 import { removeAllStagedAttachmentsInConversation } from '../../../state/ducks/stagedAttachments';
 import { StateType } from '../../../state/reducer';
 import {
-  getIsTypingEnabled,
   getMentionsInput,
   getQuotedMessage,
   getSelectedConversation,
-  getSelectedConversationKey,
 } from '../../../state/selectors/conversations';
 import { AttachmentUtil } from '../../../util';
 import { Flex } from '../../basic/Flex';
@@ -57,6 +55,11 @@ import { renderEmojiQuickResultRow, searchEmojiForQuery } from './EmojiQuickResu
 import { LinkPreviews } from '../../../util/linkPreviews';
 import styled from 'styled-components';
 import { FixedBaseEmoji } from '../../../types/Reaction';
+import {
+  getSelectedCanWrite,
+  getSelectedConversationKey,
+} from '../../../state/selectors/selectedConversation';
+import { SettingsKey } from '../../../data/settings-key';
 
 export interface ReplyingToMessageProps {
   convoId: string;
@@ -602,7 +605,7 @@ class CompositionBoxInner extends React.Component<Props, State> {
 
   private renderStagedLinkPreview(): JSX.Element | null {
     // Don't generate link previews if user has turned them off
-    if (!(window.getSettingValue('link-preview-setting') || false)) {
+    if (!(window.getSettingValue(SettingsKey.settingsLinkPreview) || false)) {
       return null;
     }
 
@@ -1084,7 +1087,7 @@ const mapStateToProps = (state: StateType) => {
     quotedMessageProps: getQuotedMessage(state),
     selectedConversation: getSelectedConversation(state),
     selectedConversationKey: getSelectedConversationKey(state),
-    typingEnabled: getIsTypingEnabled(state),
+    typingEnabled: getSelectedCanWrite(state),
   };
 };
 

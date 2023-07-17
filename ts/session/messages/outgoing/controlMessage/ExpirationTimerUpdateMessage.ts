@@ -29,7 +29,7 @@ export class ExpirationTimerUpdateMessage extends DataMessage {
 
     data.flags = SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
 
-    // FIXME we shouldn't need this once android recieving refactor is done.
+    // TODOLATER we won't need this once legacy groups are not supported anymore
     // the envelope stores the groupId for a closed group already.
     if (this.groupId) {
       const groupMessage = new SignalService.GroupContext();

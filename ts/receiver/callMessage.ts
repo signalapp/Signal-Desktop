@@ -1,10 +1,10 @@
 import _ from 'lodash';
 import { SignalService } from '../protobuf';
+import { GetNetworkTime } from '../session/apis/snode_api/getNetworkTime';
 import { TTL_DEFAULT } from '../session/constants';
 import { CallManager, UserUtils } from '../session/utils';
 import { removeFromCache } from './cache';
 import { EnvelopePlus } from './types';
-import { getNowWithNetworkOffset } from '../session/apis/snode_api/SNodeAPI';
 
 export async function handleCallMessage(
   envelope: EnvelopePlus,
@@ -49,7 +49,9 @@ export async function handleCallMessage(
   }
 
   if (type === SignalService.CallMessage.Type.OFFER) {
-    if (Math.max(sentTimestamp - getNowWithNetworkOffset()) > TTL_DEFAULT.CALL_MESSAGE) {
+    if (
+      Math.max(sentTimestamp - GetNetworkTime.getNowWithNetworkOffset()) > TTL_DEFAULT.CALL_MESSAGE
+    ) {
       window?.log?.info('Dropping incoming OFFER callMessage sent a while ago: ', sentTimestamp);
       await removeFromCache(envelope);
 

@@ -42,6 +42,7 @@ export function start(
     console.log(`config/set: Saving ${name} config to disk`);
     const text = JSON.stringify(cachedValue, null, '  ');
     writeFileSync(targetPath, text, ENCODING);
+    console.log(`config/set: Saved ${name} config to disk`);
   }
 
   function remove() {

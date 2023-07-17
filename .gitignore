@@ -48,3 +48,6 @@ test-results/
 .nyc_output
 coverage/
 stylesheets/dist/
+
+*.worker.js.LICENSE.txt
+ts/webworker/workers/node/**/*.node

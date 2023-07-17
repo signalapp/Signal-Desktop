@@ -1,15 +1,17 @@
 import classNames from 'classnames';
 import React from 'react';
-import { isImageAttachment } from '../../../../types/Attachment';
-import { Image } from '../../Image';
+import { useDispatch } from 'react-redux';
 import { MessageRenderingProps } from '../../../../models/messageType';
-import { useDispatch, useSelector } from 'react-redux';
 import {
-  getIsMessageSelectionMode,
-  getMessageLinkPreviewProps,
-} from '../../../../state/selectors/conversations';
-import { SessionIcon } from '../../../icon';
+  useMessageAttachments,
+  useMessageDirection,
+  useMessageLinkPreview,
+} from '../../../../state/selectors';
+import { useIsMessageSelectionMode } from '../../../../state/selectors/selectedConversation';
+import { isImageAttachment } from '../../../../types/Attachment';
 import { showLinkVisitWarningDialog } from '../../../dialog/SessionConfirm';
+import { SessionIcon } from '../../../icon';
+import { Image } from '../../Image';
 
 export type MessageLinkPreviewSelectorProps = Pick<
   MessageRenderingProps,
@@ -24,14 +26,15 @@ type Props = {
 const linkPreviewsImageSize = 100;
 
 export const MessageLinkPreview = (props: Props) => {
-  const selected = useSelector(state => getMessageLinkPreviewProps(state as any, props.messageId));
   const dispatch = useDispatch();
-  const isMessageSelectionMode = useSelector(getIsMessageSelectionMode);
+  const direction = useMessageDirection(props.messageId);
+  const attachments = useMessageAttachments(props.messageId);
+  const previews = useMessageLinkPreview(props.messageId);
+  const isMessageSelectionMode = useIsMessageSelectionMode();
 
-  if (!selected) {
+  if (!props.messageId) {
     return null;
   }
-  const { direction, attachments, previews } = selected;
 
   // Attachments take precedence over Link Previews
   if (attachments && attachments.length) {

@@ -1,21 +1,24 @@
+import { isEmpty, isEqual } from 'lodash';
 import React, { ReactElement, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { MessageRenderingProps } from '../../../../models/messageType';
-import { isEmpty, isEqual } from 'lodash';
-import { SortedReactionList } from '../../../../types/Reaction';
-import { StyledPopupContainer } from '../reactions/ReactionPopup';
-import { Flex } from '../../../basic/Flex';
-import { nativeEmojiData } from '../../../../util/emoji';
-import { Reaction, ReactionProps } from '../reactions/Reaction';
-import { SessionIcon } from '../../../icon';
 import { useMessageReactsPropsById } from '../../../../hooks/useParamSelector';
-import { getSelectedConversationIsGroup } from '../../../../state/selectors/conversations';
-import { useSelector } from 'react-redux';
+import { MessageRenderingProps } from '../../../../models/messageType';
+import { useSelectedIsGroup } from '../../../../state/selectors/selectedConversation';
+import { SortedReactionList } from '../../../../types/Reaction';
+import { nativeEmojiData } from '../../../../util/emoji';
+import { Flex } from '../../../basic/Flex';
+import { SessionIcon } from '../../../icon';
+import { Reaction, ReactionProps } from '../reactions/Reaction';
+import { StyledPopupContainer } from '../reactions/ReactionPopup';
 
 export const popupXDefault = -81;
 export const popupYDefault = -90;
 
-const StyledMessageReactionsContainer = styled(Flex)<{ x: number; y: number; noAvatar: boolean }>`
+export const StyledMessageReactionsContainer = styled(Flex)<{
+  x: number;
+  y: number;
+  noAvatar: boolean;
+}>`
   ${StyledPopupContainer} {
     position: absolute;
     top: ${props => `${props.y}px;`};
@@ -169,7 +172,7 @@ export const MessageReactions = (props: Props): ReactElement => {
 
   const msgProps = useMessageReactsPropsById(messageId);
 
-  const inGroup = useSelector(getSelectedConversationIsGroup);
+  const inGroup = useSelectedIsGroup();
 
   useEffect(() => {
     if (msgProps?.sortedReacts && !isEqual(reactions, msgProps?.sortedReacts)) {

@@ -1,25 +1,18 @@
 import React from 'react';
 // tslint:disable: no-submodule-imports use-simple-attributes
 
-import { SpacerLG } from '../../basic/Text';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  getConversationRequests,
-  getSelectedConversation,
-} from '../../../state/selectors/conversations';
-import { MemoConversationListItemWithDetails } from '../conversation-list-item/ConversationListItem';
-import styled from 'styled-components';
-import { SessionButton, SessionButtonColor } from '../../basic/SessionButton';
-import { resetOverlayMode, SectionType, showLeftPaneSection } from '../../../state/ducks/section';
-import { getConversationController } from '../../../session/conversations';
-import { forceSyncConfigurationNowIfNeeded } from '../../../session/utils/syncUtils';
-import { BlockedNumberController } from '../../../util';
 import useKey from 'react-use/lib/useKey';
-import {
-  ReduxConversationType,
-  resetConversationExternal,
-} from '../../../state/ducks/conversations';
+import styled from 'styled-components';
+import { declineConversationWithoutConfirm } from '../../../interactions/conversationInteractions';
+import { forceSyncConfigurationNowIfNeeded } from '../../../session/utils/sync/syncUtils';
 import { updateConfirmModal } from '../../../state/ducks/modalDialog';
+import { resetOverlayMode } from '../../../state/ducks/section';
+import { getConversationRequestsIds } from '../../../state/selectors/conversations';
+import { useSelectedConversationKey } from '../../../state/selectors/selectedConversation';
+import { SessionButton, SessionButtonColor } from '../../basic/SessionButton';
+import { SpacerLG } from '../../basic/Text';
+import { ConversationListItem } from '../conversation-list-item/ConversationListItem';
 
 const MessageRequestListPlaceholder = styled.div`
   color: var(--conversation-tab-text-color);
@@ -37,17 +30,11 @@ const MessageRequestListContainer = styled.div`
  * @returns List of message request items
  */
 const MessageRequestList = () => {
-  const conversationRequests = useSelector(getConversationRequests);
+  const conversationRequests = useSelector(getConversationRequestsIds);
   return (
     <MessageRequestListContainer>
-      {conversationRequests.map(conversation => {
-        return (
-          <MemoConversationListItemWithDetails
-            key={conversation.id}
-            isMessageRequest={true}
-            {...conversation}
-          />
-        );
+      {conversationRequests.map(conversationId => {
+        return <ConversationListItem key={conversationId} conversationId={conversationId} />;
       })}
     </MessageRequestListContainer>
   );
@@ -59,9 +46,10 @@ export const OverlayMessageRequest = () => {
   function closeOverlay() {
     dispatch(resetOverlayMode());
   }
-  const convoRequestCount = useSelector(getConversationRequests).length;
-  const messageRequests = useSelector(getConversationRequests);
-  const selectedConversation = useSelector(getSelectedConversation);
+
+  const currentlySelectedConvo = useSelectedConversationKey();
+  const messageRequests = useSelector(getConversationRequestsIds);
+  const hasRequests = messageRequests.length;
 
   const buttonText = window.i18n('clearAll');
 
@@ -69,7 +57,7 @@ export const OverlayMessageRequest = () => {
    * Blocks all message request conversations and synchronizes across linked devices
    * @returns void
    */
-  function handleClearAllRequestsClick(convoRequests: Array<ReduxConversationType>) {
+  function handleClearAllRequestsClick() {
     const { i18n } = window;
     const title = i18n('clearAllConfirmationTitle');
     const message = i18n('clearAllConfirmationBody');
@@ -81,42 +69,23 @@ export const OverlayMessageRequest = () => {
         message,
         onClose,
         onClickOk: async () => {
-          window?.log?.info('Blocking all conversations');
-          if (!convoRequests) {
+          window?.log?.info('Blocking all message requests');
+          if (!hasRequests) {
             window?.log?.info('No conversation requests to block.');
             return;
           }
 
-          let newConvosBlocked = [];
-          const convoController = getConversationController();
-          await Promise.all(
-            (newConvosBlocked = convoRequests.filter(async convo => {
-              const { id } = convo;
-              const convoModel = convoController.get(id);
-              if (!convoModel.isBlocked()) {
-                await BlockedNumberController.block(id);
-                await convoModel.commit();
-              }
-              await convoModel.setIsApproved(false);
-
-              // if we're looking at the convo to decline, close the convo
-              if (selectedConversation?.id === id) {
-                dispatch(resetConversationExternal());
-              }
-              return true;
-            }))
-          );
-
-          if (newConvosBlocked) {
-            await forceSyncConfigurationNowIfNeeded();
+          for (let index = 0; index < messageRequests.length; index++) {
+            const convoId = messageRequests[index];
+            await declineConversationWithoutConfirm({
+              blockContact: false,
+              conversationId: convoId,
+              currentlySelectedConvo,
+              syncToDevices: false,
+            });
           }
 
-          // if no more requests, return to placeholder screen
-          if (convoRequestCount === newConvosBlocked.length) {
-            dispatch(resetOverlayMode());
-            dispatch(showLeftPaneSection(SectionType.Message));
-            dispatch(resetConversationExternal());
-          }
+          await forceSyncConfigurationNowIfNeeded();
         },
       })
     );
@@ -124,16 +93,14 @@ export const OverlayMessageRequest = () => {
 
   return (
     <div className="module-left-pane-overlay">
-      {convoRequestCount ? (
+      {hasRequests ? (
         <>
           <MessageRequestList />
           <SpacerLG />
           <SessionButton
             buttonColor={SessionButtonColor.Danger}
             text={buttonText}
-            onClick={() => {
-              handleClearAllRequestsClick(messageRequests);
-            }}
+            onClick={handleClearAllRequestsClick}
           />
         </>
       ) : (

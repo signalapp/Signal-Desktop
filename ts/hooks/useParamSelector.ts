@@ -1,10 +1,15 @@
-import { pick } from 'lodash';
+import { compact, isEmpty, isNumber } from 'lodash';
 import { useSelector } from 'react-redux';
-import { ConversationModel } from '../models/conversation';
+import {
+  hasValidIncomingRequestValues,
+  hasValidOutgoingRequestValues,
+} from '../models/conversation';
 import { PubKey } from '../session/types';
 import { UserUtils } from '../session/utils';
 import { StateType } from '../state/reducer';
 import { getMessageReactsProps } from '../state/selectors/conversations';
+import { isPrivateAndFriend } from '../state/selectors/selectedConversation';
+import { CONVERSATION } from '../session/constants';
 import { isUsAnySogsFromCache } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
 
 export function useAvatarPath(convoId: string | undefined) {
@@ -72,7 +77,7 @@ export function useIsMe(pubkey?: string) {
 
 export function useIsClosedGroup(convoId?: string) {
   const convoProps = useConversationPropsById(convoId);
-  return (convoProps && convoProps.isGroup && !convoProps.isPublic) || false;
+  return (convoProps && !convoProps.isPrivate && !convoProps.isPublic) || false;
 }
 
 export function useIsPrivate(convoId?: string) {
@@ -80,16 +85,28 @@ export function useIsPrivate(convoId?: string) {
   return Boolean(convoProps && convoProps.isPrivate);
 }
 
+export function useIsPrivateAndFriend(convoId?: string) {
+  const convoProps = useConversationPropsById(convoId);
+  if (!convoProps) {
+    return false;
+  }
+  return isPrivateAndFriend({
+    approvedMe: convoProps.didApproveMe || false,
+    isApproved: convoProps.isApproved || false,
+    isPrivate: convoProps.isPrivate || false,
+  });
+}
+
 export function useIsBlinded(convoId?: string) {
   if (!convoId) {
     return false;
   }
-  return Boolean(PubKey.hasBlindedPrefix(convoId));
+  return Boolean(PubKey.isBlinded(convoId));
 }
 
 export function useHasNickname(convoId?: string) {
   const convoProps = useConversationPropsById(convoId);
-  return Boolean(convoProps && convoProps.hasNickname);
+  return Boolean(convoProps && !isEmpty(convoProps.nickname));
 }
 
 export function useNotificationSetting(convoId?: string) {
@@ -106,9 +123,13 @@ export function useIsBlocked(convoId?: string) {
   return Boolean(convoProps && convoProps.isBlocked);
 }
 
-export function useIsActive(convoId?: string) {
+export function useActiveAt(convoId?: string): number | undefined {
   const convoProps = useConversationPropsById(convoId);
-  return Boolean(convoProps && convoProps.activeAt);
+  return convoProps?.activeAt;
+}
+
+export function useIsActive(convoId?: string) {
+  return !!useActiveAt(convoId);
 }
 
 export function useIsLeft(convoId?: string) {
@@ -126,11 +147,6 @@ export function useWeAreAdmin(convoId?: string) {
   return Boolean(convoProps && convoProps.weAreAdmin);
 }
 
-export function useWeAreModerator(convoId?: string) {
-  const convoProps = useConversationPropsById(convoId);
-  return Boolean(convoProps && (convoProps.weAreAdmin || convoProps.weAreModerator));
-}
-
 export function useExpireTimer(convoId?: string) {
   const convoProps = useConversationPropsById(convoId);
   return convoProps && convoProps.expireTimer;
@@ -138,7 +154,12 @@ export function useExpireTimer(convoId?: string) {
 
 export function useIsPinned(convoId?: string) {
   const convoProps = useConversationPropsById(convoId);
-  return Boolean(convoProps && convoProps.isPinned);
+  return Boolean(
+    convoProps &&
+      isNumber(convoProps.priority) &&
+      isFinite(convoProps.priority) &&
+      convoProps.priority > 0
+  );
 }
 
 export function useIsApproved(convoId?: string) {
@@ -146,16 +167,39 @@ export function useIsApproved(convoId?: string) {
   return Boolean(convoProps && convoProps.isApproved);
 }
 
-export function useIsRequest(convoId?: string) {
+export function useIsIncomingRequest(convoId?: string) {
   const convoProps = useConversationPropsById(convoId);
   if (!convoProps) {
     return false;
   }
   return Boolean(
     convoProps &&
-      ConversationModel.hasValidIncomingRequestValues(
-        pick(convoProps, ['isMe', 'isApproved', 'isPrivate', 'isBlocked', 'activeAt'])
-      )
+      hasValidIncomingRequestValues({
+        isMe: convoProps.isMe || false,
+        isApproved: convoProps.isApproved || false,
+        isPrivate: convoProps.isPrivate || false,
+        isBlocked: convoProps.isBlocked || false,
+        didApproveMe: convoProps.didApproveMe || false,
+        activeAt: convoProps.activeAt || 0,
+      })
+  );
+}
+
+export function useIsOutgoingRequest(convoId?: string) {
+  const convoProps = useConversationPropsById(convoId);
+  if (!convoProps) {
+    return false;
+  }
+  return Boolean(
+    convoProps &&
+      hasValidOutgoingRequestValues({
+        isMe: convoProps.isMe || false,
+        isApproved: convoProps.isApproved || false,
+        didApproveMe: convoProps.didApproveMe || false,
+        isPrivate: convoProps.isPrivate || false,
+        isBlocked: convoProps.isBlocked || false,
+        activeAt: convoProps.activeAt || 0,
+      })
   );
 }
 
@@ -185,11 +229,65 @@ export function useMessageReactsPropsById(messageId?: string) {
   });
 }
 
-export function useQuoteAuthorName(authorId?: string) {
+/**
+ * Returns the unread count of that conversation, or 0 if none are found.
+ * Note: returned value is capped at a max of CONVERSATION.MAX_UNREAD_COUNT
+ */
+export function useUnreadCount(conversationId?: string): number {
+  const convoProps = useConversationPropsById(conversationId);
+  const convoUnreadCount = convoProps?.unreadCount || 0;
+  return Math.min(CONVERSATION.MAX_UNREAD_COUNT, convoUnreadCount);
+}
+
+export function useHasUnread(conversationId?: string): boolean {
+  return useUnreadCount(conversationId) > 0;
+}
+
+export function useIsForcedUnreadWithoutUnreadMsg(conversationId?: string): boolean {
+  const convoProps = useConversationPropsById(conversationId);
+  return convoProps?.isMarkedUnread || false;
+}
+
+function useMentionedUsUnread(conversationId?: string) {
+  const convoProps = useConversationPropsById(conversationId);
+  return convoProps?.mentionedUs || false;
+}
+
+export function useMentionedUs(conversationId?: string): boolean {
+  const hasMentionedUs = useMentionedUsUnread(conversationId);
+  const hasUnread = useHasUnread(conversationId);
+
+  return hasMentionedUs && hasUnread;
+}
+
+export function useIsTyping(conversationId?: string): boolean {
+  return useConversationPropsById(conversationId)?.isTyping || false;
+}
+
+export function useQuoteAuthorName(
+  authorId?: string
+): { authorName: string | undefined; isMe: boolean } {
   const convoProps = useConversationPropsById(authorId);
-  return authorId && isUsAnySogsFromCache(authorId)
+
+  const isMe = Boolean(authorId && isUsAnySogsFromCache(authorId));
+  const authorName = isMe
     ? window.i18n('you')
     : convoProps?.nickname || convoProps?.isPrivate
     ? convoProps?.displayNameInProfile
     : undefined;
+
+  return { authorName, isMe };
+}
+
+/**
+ * Get the list of members of a closed group or []
+ * @param convoId the closed group id to extract members from
+ */
+export function useSortedGroupMembers(convoId: string | undefined): Array<string> {
+  const convoProps = useConversationPropsById(convoId);
+  if (!convoProps || convoProps.isPrivate || convoProps.isPublic) {
+    return [];
+  }
+  // we need to clone the array before being able to call sort() it
+  return compact(convoProps.members?.slice()?.sort()) || [];
 }

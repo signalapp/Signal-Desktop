@@ -1,11 +1,10 @@
 import React from 'react';
-import { ContactName } from '../../../ContactName';
-import { PubKey } from '../../../../../session/types';
 import styled from 'styled-components';
-import { QuoteProps } from './Quote';
 import { useQuoteAuthorName } from '../../../../../hooks/useParamSelector';
-import { useSelector } from 'react-redux';
-import { isPublicGroupConversation } from '../../../../../state/selectors/conversations';
+import { PubKey } from '../../../../../session/types';
+import { useSelectedIsPublic } from '../../../../../state/selectors/selectedConversation';
+import { ContactName } from '../../../ContactName';
+import { QuoteProps } from './Quote';
 
 const StyledQuoteAuthor = styled.div<{ isIncoming: boolean }>`
   color: ${props =>
@@ -29,8 +28,8 @@ type QuoteAuthorProps = Pick<QuoteProps, 'author' | 'isIncoming'>;
 export const QuoteAuthor = (props: QuoteAuthorProps) => {
   const { author, isIncoming } = props;
 
-  const isPublic = useSelector(isPublicGroupConversation);
-  const authorName = useQuoteAuthorName(author);
+  const isPublic = useSelectedIsPublic();
+  const { authorName, isMe } = useQuoteAuthorName(author);
 
   if (!author || !authorName) {
     return null;
@@ -42,7 +41,7 @@ export const QuoteAuthor = (props: QuoteAuthorProps) => {
         pubkey={PubKey.shorten(author)}
         name={authorName}
         compact={true}
-        shouldShowPubkey={Boolean(authorName && isPublic)}
+        shouldShowPubkey={Boolean(authorName && !isMe && isPublic)}
       />
     </StyledQuoteAuthor>
   );

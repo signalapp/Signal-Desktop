@@ -4,6 +4,7 @@ import styled from 'styled-components';
 type Props = {
   size: 'small' | 'normal';
   direction?: string;
+  dataTestId?: string;
 };
 
 // Module: Spinner
@@ -69,7 +70,7 @@ export const Spinner = (props: Props) => {
 
   if (size === 'small') {
     return (
-      <SpinnerContainerSmall>
+      <SpinnerContainerSmall data-testid="loading-animation">
         <SpinnerArcSmall>
           <path d={spinner24Path} />
         </SpinnerArcSmall>
@@ -78,7 +79,7 @@ export const Spinner = (props: Props) => {
   }
 
   return (
-    <SpinnerContainer>
+    <SpinnerContainer data-testid="loading-animation">
       <SpinnerArc>
         <path d={spinner56Path} />
       </SpinnerArc>

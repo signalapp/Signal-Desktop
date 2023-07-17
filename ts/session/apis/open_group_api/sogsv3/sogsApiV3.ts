@@ -12,7 +12,7 @@ import { handleCapabilities } from './sogsCapabilities';
 import { getConversationController } from '../../../conversations';
 import { ConversationModel } from '../../../../models/conversation';
 import { filterDuplicatesFromDbAndIncomingV4 } from '../opengroupV2/SogsFilterDuplicate';
-import { callUtilsWorker } from '../../../../webworker/workers/util_worker_interface';
+import { callUtilsWorker } from '../../../../webworker/workers/browser/util_worker_interface';
 import { PubKey } from '../../../types';
 import {
   addCachedBlindedKey,
@@ -37,6 +37,7 @@ import { Data } from '../../../../data/data';
 import { processMessagesUsingCache } from './sogsV3MutationCache';
 import { destroyMessagesAndUpdateRedux } from '../../../../util/expiringMessages';
 import { sogsRollingDeletions } from './sogsRollingDeletions';
+import { assertUnreachable } from '../../../../types/sqlSharedTypes';
 
 /**
  * Get the convo matching those criteria and make sure it is an opengroup convo, or return null.
@@ -118,7 +119,7 @@ async function handlePollInfoResponse(
     read,
     write,
     upload,
-    subscriberCount: active_users,
+    active_users,
     details: pick(
       details,
       'admins',
@@ -141,7 +142,6 @@ async function filterOutMessagesInvalidSignature(
       base64EncodedData: m.data,
     };
   });
-  const startVerify = Date.now();
   const signatureValidEncodedData = (await callUtilsWorker(
     'verifyAllSignatures',
     sentToWorker
@@ -151,7 +151,6 @@ async function filterOutMessagesInvalidSignature(
       messagesFilteredBlindedIds.find(m => m.data === validData)
     )
   );
-  window.log.info(`[perf] verifyAllSignatures took ${Date.now() - startVerify}ms.`);
 
   return signaturesValidMessages;
 }
@@ -552,8 +551,21 @@ export const handleBatchPollResults = async (
         case 'outbox':
           await handleInboxOutboxMessages(subResponse.body, serverUrl, true);
           break;
+
+        case 'addRemoveModerators':
+        case 'deleteMessage':
+        case 'banUnbanUser':
+        case 'deleteAllPosts':
+        case 'updateRoom':
+        case 'deleteReaction':
+          // we do nothing for all of those, but let's make sure if we ever add something batch polled for, we include it's handling here.
+          // the assertUnreachable will fail to compile everytime we add a new batch poll endpoint without taking care of it.
+          break;
         default:
-          window.log.error('No matching subrequest response body for type: ', responseType);
+          assertUnreachable(
+            responseType,
+            `No matching subrequest response body for type: "${responseType}"`
+          );
       }
     }
   }

@@ -108,7 +108,7 @@ export const getDecryptedMediaUrl = async (
     urlToDecryptingPromise.set(
       url,
       new Promise(async resolve => {
-        window.log.info('about to read and decrypt file :', url, path.isAbsolute(url));
+        // window.log.debug('about to read and decrypt file :', url, path.isAbsolute(url));
         try {
           const absUrl = path.isAbsolute(url) ? url : getAbsoluteAttachmentPath(url);
           const encryptedFileContent = await readFileContent(absUrl);
@@ -126,7 +126,7 @@ export const getDecryptedMediaUrl = async (
                 forceRetain: isAvatar,
               });
             }
-            window.log.info(' file decrypted :', url, ' as ', obj);
+            // window.log.debug(' file decrypted :', url, ' as ', obj);
             urlToDecryptingPromise.delete(url);
             resolve(obj);
             return;

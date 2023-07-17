@@ -31,6 +31,7 @@ import { LightBoxOptions } from '../../SessionConversation';
 import { ClickToTrustSender } from './ClickToTrustSender';
 import styled from 'styled-components';
 import classNames from 'classnames';
+import { StyledMessageHighlighter } from './MessageContent';
 
 export type MessageAttachmentSelectorProps = Pick<
   MessageRenderingProps,
@@ -48,10 +49,13 @@ type Props = {
   messageId: string;
   imageBroken: boolean;
   handleImageError: () => void;
+  highlight?: boolean;
 };
 // tslint:disable: use-simple-attributes
 
-const StyledAttachmentContainer = styled.div<{ messageDirection: MessageModelType }>`
+const StyledAttachmentContainer = styled.div<{
+  messageDirection: MessageModelType;
+}>`
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -61,10 +65,11 @@ const StyledAttachmentContainer = styled.div<{ messageDirection: MessageModelTyp
 
 // tslint:disable-next-line max-func-body-length cyclomatic-complexity
 export const MessageAttachment = (props: Props) => {
-  const { messageId, imageBroken, handleImageError } = props;
+  const { messageId, imageBroken, handleImageError, highlight = false } = props;
 
   const dispatch = useDispatch();
   const attachmentProps = useSelector(state => getMessageAttachmentProps(state as any, messageId));
+
   const multiSelectMode = useSelector(isMessageSelectionMode);
   const onClickOnImageGrid = useCallback(
     (attachment: AttachmentTypeWithPath | AttachmentType) => {
@@ -116,6 +121,7 @@ export const MessageAttachment = (props: Props) => {
   if (!attachments || !attachments[0]) {
     return null;
   }
+
   const firstAttachment = attachments[0];
   const displayImage = canDisplayImage(attachments);
 
@@ -130,18 +136,22 @@ export const MessageAttachment = (props: Props) => {
       (isVideo(attachments) && hasVideoScreenshot(attachments)))
   ) {
     return (
-      <StyledAttachmentContainer messageDirection={direction}>
-        <ImageGrid
-          attachments={attachments}
-          onError={handleImageError}
-          onClickAttachment={onClickOnImageGrid}
-        />
-      </StyledAttachmentContainer>
+      <StyledMessageHighlighter highlight={highlight}>
+        <StyledAttachmentContainer messageDirection={direction}>
+          <ImageGrid
+            attachments={attachments}
+            onError={handleImageError}
+            onClickAttachment={onClickOnImageGrid}
+          />
+        </StyledAttachmentContainer>
+      </StyledMessageHighlighter>
     );
   }
+
   if (!firstAttachment.pending && !firstAttachment.error && isAudio(attachments)) {
     return (
-      <div
+      <StyledMessageHighlighter
+        highlight={highlight}
         role="main"
         onClick={(e: any) => {
           if (multiSelectMode) {
@@ -150,21 +160,20 @@ export const MessageAttachment = (props: Props) => {
           e.stopPropagation();
           e.preventDefault();
         }}
-        style={{ padding: 'var(--margins-xs) 0px' }}
       >
         <AudioPlayerWithEncryptedFile
           src={firstAttachment.url}
           contentType={firstAttachment.contentType}
           messageId={messageId}
         />
-      </div>
+      </StyledMessageHighlighter>
     );
   }
   const { pending, fileName, fileSize, contentType } = firstAttachment;
   const extension = getExtensionForDisplay({ contentType, fileName });
 
   return (
-    <div className="module-message__generic-attachment">
+    <StyledMessageHighlighter highlight={highlight} className="module-message__generic-attachment">
       {pending ? (
         <div className="module-message__generic-attachment__spinner-container">
           <Spinner size="small" />
@@ -200,7 +209,7 @@ export const MessageAttachment = (props: Props) => {
           {fileSize}
         </div>
       </div>
-    </div>
+    </StyledMessageHighlighter>
   );
 };
 

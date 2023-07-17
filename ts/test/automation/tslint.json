@@ -1,0 +1,10 @@
+{
+  "defaultSeverity": "error",
+  "extends": ["../tslint.json"],
+  "rules": {
+    "no-empty": false,
+    "array-type": false,
+    "no-console": false,
+    "no-void-expression": false
+  }
+}

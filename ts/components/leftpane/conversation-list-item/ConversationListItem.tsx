@@ -1,53 +1,43 @@
-import React, { useCallback, useContext } from 'react';
 import classNames from 'classnames';
+import React, { useCallback } from 'react';
 import { contextMenu } from 'react-contexify';
 
 import { Avatar, AvatarSize } from '../../avatar/Avatar';
 
 import { createPortal } from 'react-dom';
-import {
-  openConversationWithMessages,
-  ReduxConversationType,
-} from '../../../state/ducks/conversations';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { openConversationWithMessages } from '../../../state/ducks/conversations';
 import { updateUserDetailsModal } from '../../../state/ducks/modalDialog';
 
+import _, { isNil } from 'lodash';
 import {
   useAvatarPath,
   useConversationUsername,
+  useHasUnread,
+  useIsBlocked,
   useIsPrivate,
+  useMentionedUs,
 } from '../../../hooks/useParamSelector';
+import { isSearching } from '../../../state/selectors/search';
+import { useSelectedConversationKey } from '../../../state/selectors/selectedConversation';
 import { MemoConversationListItemContextMenu } from '../../menu/ConversationListItemContextMenu';
+import { ContextConversationProvider, useConvoIdFromContext } from './ConvoIdContext';
 import { ConversationListItemHeaderItem } from './HeaderItem';
 import { MessageItem } from './MessageItem';
-import _ from 'lodash';
-
-// tslint:disable-next-line: no-empty-interface
-export type ConversationListItemProps = Pick<
-  ReduxConversationType,
-  'id' | 'isSelected' | 'isBlocked' | 'mentionedUs' | 'unreadCount' | 'displayNameInProfile'
->;
-
-/**
- * This React context is used to share deeply in the tree of the ConversationListItem what is the ID we are currently rendering.
- * This is to avoid passing the prop to all the subtree component
- */
-export const ContextConversationId = React.createContext('');
 
 type PropsHousekeeping = {
   style?: Object;
-  isMessageRequest?: boolean;
 };
 // tslint:disable: use-simple-attributes
 
-type Props = ConversationListItemProps & PropsHousekeeping;
+type Props = { conversationId: string } & PropsHousekeeping;
 
 const Portal = ({ children }: { children: any }) => {
   return createPortal(children, document.querySelector('.inbox.index') as Element);
 };
 
 const AvatarItem = () => {
-  const conversationId = useContext(ContextConversationId);
+  const conversationId = useConvoIdFromContext();
   const userName = useConversationUsername(conversationId);
   const isPrivate = useIsPrivate(conversationId);
   const avatarPath = useAvatarPath(conversationId);
@@ -74,18 +64,24 @@ const AvatarItem = () => {
   );
 };
 
-// tslint:disable: max-func-body-length
-const ConversationListItem = (props: Props) => {
-  const {
-    unreadCount,
-    id: conversationId,
-    isSelected,
-    isBlocked,
-    style,
-    mentionedUs,
-    isMessageRequest,
-  } = props;
+const ConversationListItemInner = (props: Props) => {
+  const { conversationId, style } = props;
   const key = `conversation-item-${conversationId}`;
+
+  const hasUnread = useHasUnread(conversationId);
+
+  let hasUnreadMentionedUs = useMentionedUs(conversationId);
+  let isBlocked = useIsBlocked(conversationId);
+  const isSearch = useSelector(isSearching);
+  const selectedConvo = useSelectedConversationKey();
+
+  const isSelectedConvo = conversationId === selectedConvo && !isNil(selectedConvo);
+
+  if (isSearch) {
+    // force isBlocked and hasUnreadMentionedUs to be false, we just want to display the row without any special style when showing search results
+    hasUnreadMentionedUs = false;
+    isBlocked = false;
+  }
 
   const triggerId = `${key}-ctxmenu`;
 
@@ -100,7 +96,7 @@ const ConversationListItem = (props: Props) => {
   );
 
   return (
-    <ContextConversationId.Provider value={conversationId}>
+    <ContextConversationProvider value={conversationId}>
       <div key={key}>
         <div
           role="button"
@@ -118,26 +114,24 @@ const ConversationListItem = (props: Props) => {
           style={style}
           className={classNames(
             'module-conversation-list-item',
-            unreadCount && unreadCount > 0 ? 'module-conversation-list-item--has-unread' : null,
-            unreadCount && unreadCount > 0 && mentionedUs
-              ? 'module-conversation-list-item--mentioned-us'
-              : null,
-            isSelected ? 'module-conversation-list-item--is-selected' : null,
+            hasUnread ? 'module-conversation-list-item--has-unread' : null,
+            hasUnreadMentionedUs ? 'module-conversation-list-item--mentioned-us' : null,
+            isSelectedConvo ? 'module-conversation-list-item--is-selected' : null,
             isBlocked ? 'module-conversation-list-item--is-blocked' : null
           )}
         >
           <AvatarItem />
           <div className="module-conversation-list-item__content">
             <ConversationListItemHeaderItem />
-            <MessageItem isMessageRequest={Boolean(isMessageRequest)} />
+            <MessageItem />
           </div>
         </div>
         <Portal>
           <MemoConversationListItemContextMenu triggerId={triggerId} />
         </Portal>
       </div>
-    </ContextConversationId.Provider>
+    </ContextConversationProvider>
   );
 };
 
-export const MemoConversationListItemWithDetails = React.memo(ConversationListItem, _.isEqual);
+export const ConversationListItem = ConversationListItemInner;

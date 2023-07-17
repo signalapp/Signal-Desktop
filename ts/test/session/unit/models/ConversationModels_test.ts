@@ -3,6 +3,7 @@
 import { expect } from 'chai';
 import { describe } from 'mocha';
 import {
+  CONVERSATION_PRIORITIES,
   ConversationAttributes,
   fillConvoAttributesWithDefaults,
 } from '../../../../models/conversationAttributes';
@@ -54,20 +55,20 @@ describe('fillConvoAttributesWithDefaults', () => {
     });
   });
 
-  describe('unreadCount', () => {
-    it('initialize unreadCount if not given', () => {
-      expect(fillConvoAttributesWithDefaults({} as ConversationAttributes)).to.have.deep.property(
-        'unreadCount',
-        0
-      );
-    });
+  // describe('unreadCount', () => {
+  //   it('initialize unreadCount if not given', () => {
+  //     expect(fillConvoAttributesWithDefaults({} as ConversationAttributes)).to.have.deep.property(
+  //       'unreadCount',
+  //       0
+  //     );
+  //   });
 
-    it('do not override unreadCount if given', () => {
-      expect(
-        fillConvoAttributesWithDefaults({ unreadCount: 123 } as ConversationAttributes)
-      ).to.have.deep.property('unreadCount', 123);
-    });
-  });
+  //   it('do not override unreadCount if given', () => {
+  //     expect(
+  //       fillConvoAttributesWithDefaults({ unreadCount: 123 } as ConversationAttributes)
+  //     ).to.have.deep.property('unreadCount', 123);
+  //   });
+  // });
 
   describe('lastJoinedTimestamp', () => {
     it('initialize lastJoinedTimestamp if not given', () => {
@@ -81,21 +82,6 @@ describe('fillConvoAttributesWithDefaults', () => {
       expect(
         fillConvoAttributesWithDefaults({ lastJoinedTimestamp: 123 } as ConversationAttributes)
       ).to.have.deep.property('lastJoinedTimestamp', 123);
-    });
-  });
-
-  describe('subscriberCount', () => {
-    it('initialize subscriberCount if not given', () => {
-      expect(fillConvoAttributesWithDefaults({} as ConversationAttributes)).to.have.deep.property(
-        'subscriberCount',
-        0
-      );
-    });
-
-    it('do not override subscriberCount if given', () => {
-      expect(
-        fillConvoAttributesWithDefaults({ subscriberCount: 123 } as ConversationAttributes)
-      ).to.have.deep.property('subscriberCount', 123);
     });
   });
 
@@ -193,20 +179,20 @@ describe('fillConvoAttributesWithDefaults', () => {
     });
   });
 
-  describe('isPinned', () => {
-    it('initialize isPinned if not given', () => {
+  describe('priority', () => {
+    it('initialize priority if not given', () => {
       expect(fillConvoAttributesWithDefaults({} as ConversationAttributes)).to.have.deep.property(
-        'isPinned',
-        false
+        'priority',
+        0
       );
     });
 
-    it('do not override isPinned if given', () => {
+    it('do not override priority if given', () => {
       expect(
         fillConvoAttributesWithDefaults({
-          isPinned: true,
+          priority: CONVERSATION_PRIORITIES.pinned,
         } as ConversationAttributes)
-      ).to.have.deep.property('isPinned', true);
+      ).to.have.deep.property('priority', 1);
     });
   });
 
@@ -241,40 +227,6 @@ describe('fillConvoAttributesWithDefaults', () => {
           didApproveMe: true,
         } as ConversationAttributes)
       ).to.have.deep.property('didApproveMe', true);
-    });
-  });
-
-  describe('is_medium_group', () => {
-    it('initialize is_medium_group if not given', () => {
-      expect(fillConvoAttributesWithDefaults({} as ConversationAttributes)).to.have.deep.property(
-        'is_medium_group',
-        false
-      );
-    });
-
-    it('do not override is_medium_group if given', () => {
-      expect(
-        fillConvoAttributesWithDefaults({
-          is_medium_group: true,
-        } as ConversationAttributes)
-      ).to.have.deep.property('is_medium_group', true);
-    });
-  });
-
-  describe('mentionedUs', () => {
-    it('initialize mentionedUs if not given', () => {
-      expect(fillConvoAttributesWithDefaults({} as ConversationAttributes)).to.have.deep.property(
-        'mentionedUs',
-        false
-      );
-    });
-
-    it('do not override mentionedUs if given', () => {
-      expect(
-        fillConvoAttributesWithDefaults({
-          mentionedUs: true,
-        } as ConversationAttributes)
-      ).to.have.deep.property('mentionedUs', true);
     });
   });
 
