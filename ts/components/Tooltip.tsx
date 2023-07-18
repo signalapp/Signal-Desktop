@@ -13,6 +13,7 @@ import { offsetDistanceModifier } from '../util/popperUtil';
 import { getInteractionMode } from '../services/InteractionMode';
 
 type EventWrapperPropsType = {
+  className?: string;
   children: React.ReactNode;
   onHoverChanged: (_: boolean) => void;
 };
@@ -24,7 +25,10 @@ type EventWrapperPropsType = {
 export const TooltipEventWrapper = React.forwardRef<
   HTMLSpanElement,
   EventWrapperPropsType
->(function TooltipEvent({ onHoverChanged, children }, ref): JSX.Element {
+>(function TooltipEvent(
+  { className, onHoverChanged, children },
+  ref
+): JSX.Element {
   const wrapperRef = React.useRef<HTMLSpanElement | null>(null);
 
   const on = React.useCallback(() => {
@@ -59,6 +63,7 @@ export const TooltipEventWrapper = React.forwardRef<
 
   return (
     <span
+      className={className}
       onFocus={onFocus}
       onBlur={off}
       ref={refMerger<HTMLSpanElement>(ref, wrapperRef)}
@@ -83,6 +88,7 @@ export type PropsType = {
   popperModifiers?: Array<StrictModifiers>;
   sticky?: boolean;
   theme?: Theme;
+  wrapperClassName?: string;
 };
 
 export function Tooltip({
@@ -93,6 +99,7 @@ export function Tooltip({
   sticky,
   theme,
   popperModifiers = [],
+  wrapperClassName,
 }: PropsType): JSX.Element {
   const [isHovering, setIsHovering] = React.useState(false);
 
@@ -106,7 +113,11 @@ export function Tooltip({
     <Manager>
       <Reference>
         {({ ref }) => (
-          <TooltipEventWrapper ref={ref} onHoverChanged={setIsHovering}>
+          <TooltipEventWrapper
+            className={wrapperClassName}
+            ref={ref}
+            onHoverChanged={setIsHovering}
+          >
             {children}
           </TooltipEventWrapper>
         )}

@@ -68,7 +68,11 @@ function CallButton({
   tooltipContent,
 }: CallButtonProps): JSX.Element {
   return (
-    <Tooltip content={tooltipContent} theme={Theme.Dark}>
+    <Tooltip
+      content={tooltipContent}
+      theme={Theme.Dark}
+      wrapperClassName="IncomingCallBar__button__container"
+    >
       <button
         aria-label={tooltipContent}
         className={`IncomingCallBar__button IncomingCallBar__button--${classSuffix}`}

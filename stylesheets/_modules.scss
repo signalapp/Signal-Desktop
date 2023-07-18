@@ -3611,7 +3611,7 @@ button.module-image__border-overlay:focus {
     position: fixed;
     top: var(--titlebar-height);
     inset-inline-start: 0;
-    z-index: $z-index-on-top-of-everything;
+    z-index: $z-index-calling-container;
   }
 
   &__container {

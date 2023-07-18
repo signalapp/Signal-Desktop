@@ -3,15 +3,18 @@
 
 .IncomingCallBar {
   &__container {
+    -webkit-app-region: no-drag;
     animation: IncomingCallBar--animation 0.2s forwards ease-out;
     position: fixed;
     top: 22px;
+    user-select: none;
     width: 100%;
     z-index: $z-index-popup;
     padding-inline: 1rem;
   }
 
   &__bar {
+    -webkit-app-region: no-drag;
     align-items: center;
     background-color: $color-gray-75;
     border-radius: 8px;
@@ -21,6 +24,7 @@
     margin-block: 0;
     margin-inline: auto;
     max-width: 600px;
+    user-select: none;
     width: 100%;
   }
 
@@ -75,9 +79,15 @@
     display: flex;
     height: 40px;
     justify-content: center;
-    margin-inline: 12px;
     outline: none;
     width: 40px;
+
+    &__container {
+      border-radius: 40px;
+      height: 40px;
+      margin-inline: 12px;
+      width: 40px;
+    }
 
     &--accept-video-as-audio {
       background-color: $color-gray-45;
