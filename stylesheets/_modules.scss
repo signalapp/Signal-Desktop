@@ -7174,14 +7174,6 @@ button.module-image__border-overlay:focus {
 
 // Module: Chat Session Refreshed Dialog
 
-.module-chat-session-refreshed-dialog {
-  @include light-theme {
-    background-color: $color-white;
-  }
-  @include dark-theme {
-    background-color: $color-gray-95;
-  }
-}
 .module-chat-session-refreshed-dialog__image {
   text-align: center;
 }
@@ -7189,24 +7181,6 @@ button.module-image__border-overlay:focus {
   @include font-body-1-bold;
   margin-top: 10px;
   margin-bottom: 3px;
-}
-.module-chat-session-refreshed-dialog__buttons {
-  text-align: end;
-  margin-top: 20px;
-  padding: 3px;
-}
-.module-chat-session-refreshed-dialog__button {
-  @include font-body-1-bold;
-  @include button-reset;
-  @include button-primary;
-
-  border-radius: 4px;
-  padding-block: 7px;
-  padding-inline: 14px;
-  margin-inline-start: 12px;
-}
-.module-chat-session-refreshed-dialog__button--secondary {
-  @include button-secondary;
 }
 
 // Module: Delivery Issue Dialog
