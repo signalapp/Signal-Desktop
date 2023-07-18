@@ -132,7 +132,7 @@ sessionTestOneWindow('Change username', async ([window]) => {
   await window.click('.session-icon-button.small');
 });
 
-sessionTestOneWindow('Change avatar', async ([window]) => {
+sessionTestOneWindow('Change profile picture', async ([window]) => {
   await newUser(window, 'Alice');
   // Open profile
   await clickOnTestIdWithText(window, 'leftpane-primary-avatar');
@@ -140,13 +140,11 @@ sessionTestOneWindow('Change avatar', async ([window]) => {
   await waitForTestIdWithText(window, 'copy-button-profile-update', 'Copy');
 
   await clickOnTestIdWithText(window, 'image-upload-section');
+  await clickOnTestIdWithText(window, 'image-upload-click');
   await clickOnTestIdWithText(window, 'save-button-profile-update');
   await waitForTestIdWithText(window, 'loading-spinner');
 
-  await waitForTestIdWithText(window, 'copy-button-profile-update', 'Copy');
-  await clickOnTestIdWithText(window, 'modal-close-button');
-
-  await sleepFor(500);
+  await sleepFor(5000);
   const leftpaneAvatarContainer = await waitForTestIdWithText(window, 'leftpane-primary-avatar');
   await sleepFor(500);
   const screenshot = await leftpaneAvatarContainer.screenshot({

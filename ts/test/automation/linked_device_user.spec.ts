@@ -79,13 +79,11 @@ test('Check profile picture syncs', async () => {
   await waitForTestIdWithText(windowA, 'copy-button-profile-update', 'Copy');
 
   await clickOnTestIdWithText(windowA, 'image-upload-section');
+  await clickOnTestIdWithText(windowA, 'image-upload-click');
   await clickOnTestIdWithText(windowA, 'save-button-profile-update');
   await waitForTestIdWithText(windowA, 'loading-spinner');
 
-  await waitForTestIdWithText(windowA, 'copy-button-profile-update', 'Copy');
-  await clickOnTestIdWithText(windowA, 'modal-close-button');
-
-  await sleepFor(500);
+  await sleepFor(5000);
   const leftpaneAvatarContainer = await waitForTestIdWithText(windowB, 'leftpane-primary-avatar');
   await sleepFor(500);
   const screenshot = await leftpaneAvatarContainer.screenshot({

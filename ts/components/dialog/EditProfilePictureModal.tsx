@@ -116,7 +116,12 @@ export const EditProfilePictureModal = (props: EditProfilePictureModalProps) => 
       showHeader={true}
       showExitIcon={true}
     >
-      <div className="avatar-center" role="button" onClick={handleAvatarClick}>
+      <div
+        className="avatar-center"
+        role="button"
+        onClick={handleAvatarClick}
+        data-testid={'image-upload-click'}
+      >
         <StyledAvatarContainer className="avatar-center-inner">
           {newAvatarObjectUrl || avatarPath ? (
             <ProfileAvatar
@@ -142,6 +147,7 @@ export const EditProfilePictureModal = (props: EditProfilePictureModalProps) => 
               buttonType={SessionButtonType.Simple}
               onClick={handleUpload}
               disabled={newAvatarObjectUrl === avatarPath}
+              dataTestId="save-button-profile-update"
             />
             <SessionButton
               text={window.i18n('remove')}

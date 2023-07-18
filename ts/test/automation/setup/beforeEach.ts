@@ -1,5 +1,5 @@
 import { Page } from '@playwright/test';
-import { readdirSync, rmdirSync } from 'fs-extra';
+import { readdirSync, rm } from 'fs-extra';
 import { join } from 'path';
 import { homedir } from 'os';
 import { isLinux, isMacOS } from '../../../OS';
@@ -25,9 +25,9 @@ function cleanUpOtherTest() {
   alreadyCleanedWaiting = true;
 
   const parentFolderOfAllDataPath = isMacOS()
-    ? '~/Library/Application Support/'
+    ? join(homedir(), 'Library', 'Application Support')
     : isLinux()
-    ? `${homedir()}/.config/`
+    ? join(homedir(), '.config')
     : null;
   if (!parentFolderOfAllDataPath) {
     throw new Error('Only macOS is currrently supported ');
@@ -43,7 +43,7 @@ function cleanUpOtherTest() {
 
   allAppDataPath.map(folder => {
     const pathToRemove = join(parentFolderOfAllDataPath, folder);
-    rmdirSync(pathToRemove, { recursive: true });
+    rm(pathToRemove, { recursive: true }, () => pathToRemove);
   });
   console.info('...done');
 }
