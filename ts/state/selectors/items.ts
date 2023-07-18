@@ -166,7 +166,15 @@ export const getSafetyNumberMode = createSelector(
     serverTimeSkew: number,
     now: number
   ): SafetyNumberMode => {
-    if (!isRemoteConfigFlagEnabled(remoteConfig, 'desktop.safetyNumberAci')) {
+    if (
+      !isRemoteConfigFlagEnabled(remoteConfig, 'desktop.safetyNumberAci') &&
+      !(
+        isRemoteConfigFlagEnabled(
+          remoteConfig,
+          'desktop.safetyNumberAci.beta'
+        ) && isBeta(window.getVersion())
+      )
+    ) {
       return SafetyNumberMode.E164;
     }
 

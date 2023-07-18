@@ -31,6 +31,7 @@ export type ConfigKeyType =
   | 'desktop.pnp'
   | 'desktop.retryRespondMaxAge'
   | 'desktop.safetyNumberAci'
+  | 'desktop.safetyNumberAci.beta'
   | 'desktop.senderKey.retry'
   | 'desktop.senderKey.send'
   | 'desktop.senderKeyMaxAge'

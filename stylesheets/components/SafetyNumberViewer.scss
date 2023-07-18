@@ -114,13 +114,6 @@
 
       width: 18px;
       height: var(--height);
-
-      opacity: 0;
-      transition: opacity 200ms ease-in-out;
-
-      &:hover {
-        opacity: 1;
-      }
     }
 
     &__prev {
