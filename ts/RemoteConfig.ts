@@ -8,8 +8,8 @@ import * as log from './logging/log';
 import type { UUIDStringType } from './types/UUID';
 import { parseIntOrThrow } from './util/parseIntOrThrow';
 import { SECOND, HOUR } from './util/durations';
+import { uuidToBytes } from './util/uuidToBytes';
 import * as Bytes from './Bytes';
-import { hash, uuidToBytes } from './Crypto';
 import { HashType } from './types/Crypto';
 import { getCountryCode } from './types/PhoneNumber';
 
@@ -234,8 +234,10 @@ export function getBucketValue(uuid: UUIDStringType, flagName: string): number {
     Bytes.fromString(`${flagName}.`),
     uuidToBytes(uuid),
   ]);
-  const hashResult = hash(HashType.size256, hashInput);
-  const buffer = Buffer.from(hashResult.slice(0, 8));
+  const hashResult = window.SignalContext.crypto.hash(
+    HashType.size256,
+    hashInput
+  );
 
-  return Number(buffer.readBigUint64BE() % 1_000_000n);
+  return Number(Bytes.readBigUint64BE(hashResult.slice(0, 8)) % 1_000_000n);
 }

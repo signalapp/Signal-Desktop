@@ -57,6 +57,7 @@ import { singleProtoJobQueue } from '../../jobs/singleProtoJobQueue';
 import MessageSender from '../../textsecure/SendMessage';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import { useBoundActions } from '../../hooks/useBoundActions';
+import { isAnybodyElseInGroupCall } from './callingHelpers';
 
 // State
 
@@ -296,33 +297,6 @@ export const getActiveCall = ({
 }: CallingStateType): undefined | DirectCallStateType | GroupCallStateType =>
   activeCallState &&
   getOwn(callsByConversation, activeCallState.conversationId);
-
-// In theory, there could be multiple incoming calls, or an incoming call while there's
-//   an active call. In practice, the UI is not ready for this, and RingRTC doesn't
-//   support it for direct calls.
-export const getIncomingCall = (
-  callsByConversation: Readonly<CallsByConversationType>,
-  ourUuid: UUIDStringType
-): undefined | DirectCallStateType | GroupCallStateType =>
-  Object.values(callsByConversation).find(call => {
-    switch (call.callMode) {
-      case CallMode.Direct:
-        return call.isIncoming && call.callState === CallState.Ringing;
-      case CallMode.Group:
-        return (
-          call.ringerUuid &&
-          call.connectionState === GroupCallConnectionState.NotConnected &&
-          isAnybodyElseInGroupCall(call.peekInfo, ourUuid)
-        );
-      default:
-        throw missingCaseError(call);
-    }
-  });
-
-export const isAnybodyElseInGroupCall = (
-  peekInfo: undefined | Readonly<Pick<GroupCallPeekInfoType, 'uuids'>>,
-  ourUuid: UUIDStringType
-): boolean => Boolean(peekInfo?.uuids.some(id => id !== ourUuid));
 
 const getGroupCallRingState = (
   call: Readonly<undefined | GroupCallStateType>

@@ -15,9 +15,9 @@ import {
   actions,
   getActiveCall,
   getEmptyState,
-  isAnybodyElseInGroupCall,
   reducer,
 } from '../../../state/ducks/calling';
+import { isAnybodyElseInGroupCall } from '../../../state/ducks/callingHelpers';
 import { truncateAudioLevel } from '../../../calling/truncateAudioLevel';
 import { calling as callingService } from '../../../services/calling';
 import {

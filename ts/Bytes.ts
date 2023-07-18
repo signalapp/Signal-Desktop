@@ -63,3 +63,7 @@ export function areEqual(
 ): boolean {
   return bytes.areEqual(a, b);
 }
+
+export function readBigUint64BE(value: Uint8Array): bigint {
+  return bytes.readBigUint64BE(value);
+}

@@ -17,11 +17,8 @@ import {
   isMissingRequiredProfileSharing,
 } from '../selectors/conversations';
 import { CallMode } from '../../types/Calling';
-import {
-  getActiveCall,
-  isAnybodyElseInGroupCall,
-  useCallingActions,
-} from '../ducks/calling';
+import { getActiveCall, useCallingActions } from '../ducks/calling';
+import { isAnybodyElseInGroupCall } from '../ducks/callingHelpers';
 import {
   getConversationCallMode,
   useConversationsActions,

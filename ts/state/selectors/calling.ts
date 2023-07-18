@@ -11,7 +11,7 @@ import type {
   DirectCallStateType,
   GroupCallStateType,
 } from '../ducks/calling';
-import { getIncomingCall as getIncomingCallHelper } from '../ducks/calling';
+import { getIncomingCall as getIncomingCallHelper } from '../ducks/callingHelpers';
 import { getUserACI } from './user';
 import { getOwn } from '../../util/getOwn';
 import { CallViewMode } from '../../types/Calling';
