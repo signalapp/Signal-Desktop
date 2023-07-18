@@ -191,6 +191,30 @@ export function _cleanMessageData(data: MessageType): MessageType {
         return omit(attachment, ['data']);
       }
 
+      if (attachment.screenshotData) {
+        assertDev(
+          false,
+          `_cleanMessageData/${logId}: Attachment ${index} had screenshotData field; deleting`
+        );
+        return omit(attachment, ['screenshotData']);
+      }
+
+      if (attachment.screenshot?.data) {
+        assertDev(
+          false,
+          `_cleanMessageData/${logId}: Attachment ${index} had screenshot.data field; deleting`
+        );
+        return omit(attachment, ['screenshot.data']);
+      }
+
+      if (attachment.thumbnail?.data) {
+        assertDev(
+          false,
+          `_cleanMessageData/${logId}: Attachment ${index} had thumbnail.data field; deleting`
+        );
+        return omit(attachment, ['thumbnail.data']);
+      }
+
       return attachment;
     });
   }

@@ -1079,7 +1079,9 @@ function processAttachments({
     await Promise.all(
       filesToProcess.map(async file => {
         try {
-          const attachment = await processAttachment(file);
+          const attachment = await processAttachment(file, {
+            generateScreenshot: true,
+          });
           if (!attachment) {
             removeAttachment(conversationId, file.path)(
               dispatch,

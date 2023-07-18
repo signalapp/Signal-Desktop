@@ -22,7 +22,8 @@ import { showToast } from './showToast';
 import { ToastFileSize } from '../components/ToastFileSize';
 
 export async function processAttachment(
-  file: File
+  file: File,
+  options?: { generateScreenshot: boolean }
 ): Promise<InMemoryAttachmentDraftType | void> {
   const fileType = stringToMIMEType(file.type);
 
@@ -31,7 +32,7 @@ export async function processAttachment(
     if (isImageTypeSupported(fileType) || isHeic(fileType, file.name)) {
       attachment = await handleImageAttachment(file);
     } else if (isVideoTypeSupported(fileType)) {
-      attachment = await handleVideoAttachment(file);
+      attachment = await handleVideoAttachment(file, options);
     } else {
       const data = await fileToBytes(file);
       attachment = {

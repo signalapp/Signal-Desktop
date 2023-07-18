@@ -10,33 +10,39 @@ import type { InMemoryAttachmentDraftType } from '../types/Attachment';
 import { fileToBytes } from './fileToBytes';
 
 export async function handleVideoAttachment(
-  file: File
+  file: File,
+  options?: { generateScreenshot: boolean }
 ): Promise<InMemoryAttachmentDraftType> {
   const objectUrl = URL.createObjectURL(file);
   if (!objectUrl) {
     throw new Error('Failed to create object url for video!');
   }
   try {
-    const screenshotContentType = IMAGE_PNG;
-    const screenshotBlob = await makeVideoScreenshot({
-      objectUrl,
-      contentType: screenshotContentType,
-      logger: log,
-    });
-    const screenshotData = await blobToArrayBuffer(screenshotBlob);
     const data = await fileToBytes(file);
-
-    return {
+    const attachment: InMemoryAttachmentDraftType = {
       contentType: stringToMIMEType(file.type),
       data,
       fileName: file.name,
       path: file.name,
       pending: false,
-      screenshotContentType,
-      screenshotData: new Uint8Array(screenshotData),
-      screenshotSize: screenshotData.byteLength,
       size: data.byteLength,
     };
+
+    if (options?.generateScreenshot) {
+      const screenshotContentType = IMAGE_PNG;
+
+      const screenshotBlob = await makeVideoScreenshot({
+        objectUrl,
+        contentType: screenshotContentType,
+        logger: log,
+      });
+      attachment.screenshotData = new Uint8Array(
+        await blobToArrayBuffer(screenshotBlob)
+      );
+      attachment.screenshotContentType = screenshotContentType;
+    }
+
+    return attachment;
   } finally {
     URL.revokeObjectURL(objectUrl);
   }

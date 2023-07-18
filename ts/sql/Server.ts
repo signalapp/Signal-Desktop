@@ -1918,8 +1918,14 @@ function saveMessageSync(
 
   if (attachments) {
     strictAssert(
-      attachments.every(attachment => !attachment.data),
-      'Attempting to save a hydrated message'
+      attachments.every(
+        attachment =>
+          !attachment.data &&
+          !attachment.screenshotData &&
+          !attachment.screenshot?.data &&
+          !attachment.thumbnail?.data
+      ),
+      'Attempting to save a message with binary attachment data'
     );
   }
 
