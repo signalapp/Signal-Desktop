@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 export enum SafetyNumberMode {
-  E164 = 'E164',
-  ACIAndE164 = 'ACIAndE164',
-  ACI = 'ACI',
+  JustE164 = 'JustE164',
+  DefaultE164AndThenACI = 'DefaultE164AndThenACI',
+  DefaultACIAndMaybeE164 = 'DefaultACIAndMaybeE164',
 }
 
 export enum SafetyNumberIdentifierType {

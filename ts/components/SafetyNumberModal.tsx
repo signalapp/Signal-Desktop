@@ -27,7 +27,7 @@ export function SafetyNumberModal({
   const { contact, safetyNumberMode } = safetyNumberViewerProps;
 
   const [isOnboarding, setIsOnboarding] = useState(
-    safetyNumberMode === SafetyNumberMode.ACIAndE164 &&
+    safetyNumberMode !== SafetyNumberMode.JustE164 &&
       !hasCompletedSafetyNumberOnboarding
   );
 
@@ -40,10 +40,14 @@ export function SafetyNumberModal({
     markHasCompletedSafetyNumberOnboarding();
   }, [setIsOnboarding, markHasCompletedSafetyNumberOnboarding]);
 
+  const missingRequiredE164 =
+    safetyNumberMode !== SafetyNumberMode.DefaultACIAndMaybeE164 &&
+    !contact.e164;
+
   let title: string | undefined;
   let content: JSX.Element;
   let hasXButton = true;
-  if (isSafetyNumberNotAvailable(contact)) {
+  if (missingRequiredE164 || isSafetyNumberNotAvailable(contact)) {
     content = (
       <SafetyNumberNotReady
         i18n={i18n}

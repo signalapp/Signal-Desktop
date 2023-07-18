@@ -73,7 +73,8 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   contact: overrideProps.contact || contactWithAllData,
   generateSafetyNumber: action('generate-safety-number'),
   i18n,
-  safetyNumberMode: overrideProps.safetyNumberMode ?? SafetyNumberMode.ACI,
+  safetyNumberMode:
+    overrideProps.safetyNumberMode ?? SafetyNumberMode.DefaultE164AndThenACI,
   safetyNumbers: overrideProps.safetyNumbers ?? [
     {
       identifierType: SafetyNumberIdentifierType.ACIIdentifier,
@@ -106,7 +107,7 @@ export function SafetyNumberBeforeE164Transition(): JSX.Element {
   return (
     <SafetyNumberViewer
       {...createProps({
-        safetyNumberMode: SafetyNumberMode.E164,
+        safetyNumberMode: SafetyNumberMode.JustE164,
         safetyNumbers: [
           {
             identifierType: SafetyNumberIdentifierType.E164Identifier,
@@ -130,7 +131,7 @@ export function SafetyNumberE164Transition(): JSX.Element {
   return (
     <SafetyNumberViewer
       {...createProps({
-        safetyNumberMode: SafetyNumberMode.ACIAndE164,
+        safetyNumberMode: SafetyNumberMode.DefaultE164AndThenACI,
         safetyNumbers: [
           {
             identifierType: SafetyNumberIdentifierType.E164Identifier,

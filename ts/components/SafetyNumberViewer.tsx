@@ -83,7 +83,7 @@ export function SafetyNumberViewer({
     ? i18n('icu:SafetyNumberViewer__clearVerification')
     : i18n('icu:SafetyNumberViewer__markAsVerified');
 
-  const isMigrationVisible = safetyNumberMode === SafetyNumberMode.ACIAndE164;
+  const isMigrationVisible = safetyNumberMode !== SafetyNumberMode.JustE164;
 
   const visibleSafetyNumber = safetyNumbers.at(selectedIndex);
   if (!visibleSafetyNumber) {

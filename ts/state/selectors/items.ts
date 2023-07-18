@@ -175,19 +175,19 @@ export const getSafetyNumberMode = createSelector(
         ) && isBeta(window.getVersion())
       )
     ) {
-      return SafetyNumberMode.E164;
+      return SafetyNumberMode.JustE164;
     }
 
     const timestamp = remoteConfig['global.safetyNumberAci']?.value;
     if (typeof timestamp !== 'number') {
-      return SafetyNumberMode.ACIAndE164;
+      return SafetyNumberMode.DefaultE164AndThenACI;
     }
 
     // Note: serverTimeSkew is a difference between server time and local time,
     // so we have to add local time to it to correct it for a skew.
     return now + serverTimeSkew >= timestamp
-      ? SafetyNumberMode.ACI
-      : SafetyNumberMode.ACIAndE164;
+      ? SafetyNumberMode.DefaultACIAndMaybeE164
+      : SafetyNumberMode.DefaultE164AndThenACI;
   }
 );
 

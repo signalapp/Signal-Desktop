@@ -56,18 +56,22 @@ export async function generateSafetyNumbers(
   const theirKey = PublicKey.deserialize(Buffer.from(theirKeyBuffer));
 
   let identifierTypes: ReadonlyArray<SafetyNumberIdentifierType>;
-  if (mode === SafetyNumberMode.ACIAndE164) {
+  if (mode === SafetyNumberMode.DefaultE164AndThenACI) {
     // Important: order matters, legacy safety number should be displayed first.
     identifierTypes = [
       SafetyNumberIdentifierType.E164Identifier,
       SafetyNumberIdentifierType.ACIIdentifier,
     ];
     // Controlled by 'desktop.safetyNumberAci'
-  } else if (mode === SafetyNumberMode.E164) {
+  } else if (mode === SafetyNumberMode.JustE164) {
     identifierTypes = [SafetyNumberIdentifierType.E164Identifier];
+  } else if (mode === SafetyNumberMode.DefaultACIAndMaybeE164) {
+    identifierTypes = [
+      SafetyNumberIdentifierType.ACIIdentifier,
+      SafetyNumberIdentifierType.E164Identifier,
+    ];
   } else {
-    assertDev(mode === SafetyNumberMode.ACI, 'Invalid security number mode');
-    identifierTypes = [SafetyNumberIdentifierType.ACIIdentifier];
+    throw missingCaseError(mode);
   }
 
   return identifierTypes
