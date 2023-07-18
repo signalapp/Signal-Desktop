@@ -63,7 +63,7 @@ import { SettingsKey } from '../../../data/settings-key';
 
 export interface ReplyingToMessageProps {
   convoId: string;
-  id: string;
+  id: string; // this is the quoted message timestamp
   author: string;
   timestamp: number;
   text?: string;

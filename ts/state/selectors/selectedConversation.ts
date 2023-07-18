@@ -5,7 +5,7 @@ import { PubKey } from '../../session/types';
 import { UserUtils } from '../../session/utils';
 import { StateType } from '../reducer';
 import { getCanWrite, getModerators, getSubscriberCount } from './sogsRoomInfo';
-import { getSelectedConversation } from './conversations';
+import { getIsMessageSelectionMode, getSelectedConversation } from './conversations';
 
 /**
  * Returns the formatted text for notification setting.
@@ -110,7 +110,7 @@ export const isClosedGroupConversation = (state: StateType): boolean => {
   );
 };
 
-const getGroupMembers = (state: StateType): Array<string> => {
+const getSelectedGroupMembers = (state: StateType): Array<string> => {
   const selected = getSelectedConversation(state);
   if (!selected) {
     return [];
@@ -190,7 +190,7 @@ export function useSelectedisNoteToSelf() {
 }
 
 export function useSelectedMembers() {
-  return useSelector(getGroupMembers);
+  return useSelector(getSelectedGroupMembers);
 }
 
 export function useSelectedSubscriberCount() {
@@ -268,6 +268,10 @@ export function useSelectedWeAreModerator() {
 
   const weAreModerator = mods.includes(us);
   return isPublic && isString(selectedConvoKey) && weAreModerator;
+}
+
+export function useIsMessageSelectionMode() {
+  return useSelector(getIsMessageSelectionMode);
 }
 
 export function useSelectedLastMessage() {

@@ -3,7 +3,7 @@ import { queueAttachmentDownloads } from './attachments';
 import _ from 'lodash';
 import { Data } from '../../ts/data/data';
 import { ConversationModel } from '../models/conversation';
-import { MessageModel, sliceQuoteText } from '../models/message';
+import { MessageModel } from '../models/message';
 import { getConversationController } from '../session/conversations';
 import { Quote } from './types';
 
@@ -16,6 +16,7 @@ import { getHideMessageRequestBannerOutsideRedux } from '../state/selectors/user
 import { GoogleChrome } from '../util';
 import { LinkPreviews } from '../util/linkPreviews';
 import { ReleasedFeatures } from '../util/releaseFeature';
+import { PropsForMessageWithoutConvoProps, lookupQuote } from '../state/ducks/conversations';
 
 function contentTypeSupported(type: string): boolean {
   const Chrome = GoogleChrome;
@@ -48,25 +49,48 @@ async function copyFromQuotedMessage(
 
   const id = _.toNumber(quoteId);
 
-  // We always look for the quote by sentAt timestamp, for opengroups, closed groups and session chats
-  // this will return an array of sent message by id we have locally.
+  // First we try to look for the quote in memory
+  const stateConversations = window.inboxStore?.getState().conversations;
+  const { messages, quotes } = stateConversations;
+  let quotedMessage: PropsForMessageWithoutConvoProps | MessageModel | undefined = lookupQuote(
+    quotes,
+    messages,
+    id,
+    quote.author
+  )?.propsForMessage;
 
-  const collection = await Data.getMessagesBySentAt(id);
-  // we now must make sure this is the sender we expect
-  const found = collection.find(message => {
-    return Boolean(author === message.get('source'));
-  });
+  // If the quote is not found in memory, we try to find it in the DB
+  if (!quotedMessage) {
+    // We always look for the quote by sentAt timestamp, for opengroups, closed groups and session chats
+    // this will return an array of sent messages by id that we have locally.
+    const quotedMessagesCollection = await Data.getMessagesBySenderAndSentAt([
+      {
+        timestamp: id,
+        source: quote.author,
+      },
+    ]);
 
-  if (!found) {
+    if (quotedMessagesCollection?.length) {
+      quotedMessage = quotedMessagesCollection.at(0);
+    }
+  }
+
+  if (!quotedMessage) {
     window?.log?.warn(`We did not found quoted message ${id} with author ${author}.`);
     quoteLocal.referencedMessageNotFound = true;
     msg.set({ quote: quoteLocal });
     return;
   }
 
+  const isMessageModelType = Boolean((quotedMessage as MessageModel).get !== undefined);
+
   window?.log?.info(`Found quoted message id: ${id}`);
   quoteLocal.referencedMessageNotFound = false;
-  quoteLocal.text = sliceQuoteText(found.get('body') || '');
+  // NOTE we send the entire body to be consistent with the other platforms
+  quoteLocal.text =
+    (isMessageModelType
+      ? (quotedMessage as MessageModel).get('body')
+      : (quotedMessage as PropsForMessageWithoutConvoProps).text) || '';
 
   // no attachments, just save the quote with the body
   if (
@@ -80,7 +104,10 @@ async function copyFromQuotedMessage(
 
   firstAttachment.thumbnail = null;
 
-  const queryAttachments = found.get('attachments') || [];
+  const queryAttachments =
+    (isMessageModelType
+      ? (quotedMessage as MessageModel).get('attachments')
+      : (quotedMessage as PropsForMessageWithoutConvoProps).attachments) || [];
 
   if (queryAttachments.length > 0) {
     const queryFirst = queryAttachments[0];
@@ -94,7 +121,10 @@ async function copyFromQuotedMessage(
     }
   }
 
-  const queryPreview = found.get('preview') || [];
+  const queryPreview =
+    (isMessageModelType
+      ? (quotedMessage as MessageModel).get('preview')
+      : (quotedMessage as PropsForMessageWithoutConvoProps).previews) || [];
   if (queryPreview.length > 0) {
     const queryFirst = queryPreview[0];
     const { image } = queryFirst;
@@ -370,7 +400,7 @@ export async function handleMessageJob(
       );
     }
 
-    // save the message model to the db and it save the messageId generated to our in-memory copy
+    // save the message model to the db and then save the messageId generated to our in-memory copy
     const id = await messageModel.commit();
     messageModel.set({ id });
 

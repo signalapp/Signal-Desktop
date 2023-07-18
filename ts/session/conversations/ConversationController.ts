@@ -178,49 +178,33 @@ export class ConversationController {
     });
   }
 
-  public async delete1o1(
-    id: string,
-    options: DeleteOptions & { justHidePrivate?: boolean; keepMessages?: boolean }
-  ) {
-    const conversation = await this.deleteConvoInitialChecks(id, '1o1', options?.keepMessages);
-
-    if (!conversation || !conversation.isPrivate()) {
+  /**
+   * Usually, we want to mark private contact deleted as inactive (active_at = undefined).
+   * That way we can still have the username and avatar for them, but they won't appear in search results etc.
+   * For the blinded contact deletion though, we want to delete it completely because we merged it to an unblinded convo.
+   */
+  public async deleteBlindedContact(blindedId: string) {
+    if (!this._initialFetchComplete) {
+      throw new Error(
+        'getConversationController().deleteBlindedContact() needs complete initial fetch'
+      );
+    }
+    if (!PubKey.isBlinded(blindedId)) {
+      throw new Error('deleteBlindedContact allow accepts blinded id');
+    }
+    window.log.info(`deleteBlindedContact with ${blindedId}`);
+    const conversation = this.conversations.get(blindedId);
+    if (!conversation) {
+      window.log.warn(`deleteBlindedContact no such convo ${blindedId}`);
       return;
     }
 
-    if (options.justHidePrivate || isNil(options.justHidePrivate) || conversation.isMe()) {
-      // we just set the hidden field to true
-      // so the conversation still exists (needed for that user's profile in groups) but is not shown on the list of conversation.
-      window.log.info(`deleteContact isPrivate, marking as hidden: ${id}`);
-      conversation.set({
-        priority: CONVERSATION_PRIORITIES.hidden,
-      });
-      // We don't remove entries from the contacts wrapper, so better keep corresponding convo volatile info for now (it will be pruned if needed)
-      await conversation.commit(); // this updates the wrappers content to reflect the hidden state
-    } else {
-      window.log.info(`deleteContact isPrivate, reset fields and removing from wrapper: ${id}`);
+    // we remove the messages left in this convo. The caller has to merge them if needed
+    await deleteAllMessagesByConvoIdNoConfirmation(conversation.id);
 
-      await conversation.setIsApproved(false, false);
-      await conversation.setDidApproveMe(false, false);
-      conversation.set('active_at', 0);
-      await BlockedNumberController.unblockAll([conversation.id]);
-      await conversation.commit(); // first commit to DB so the DB knows about the changes
-      if (SessionUtilContact.isContactToStoreInWrapper(conversation)) {
-        window.log.warn('isContactToStoreInWrapper still true for ', conversation.attributes);
-      }
-      if (conversation.id.startsWith('05')) {
-        // make sure to filter blinded contacts as it will throw otherwise
-        await SessionUtilContact.removeContactFromWrapper(conversation.id); // then remove the entry alltogether from the wrapper
-        await SessionUtilConvoInfoVolatile.removeContactFromWrapper(conversation.id);
-      }
-      if (getCurrentlySelectedConversationOutsideRedux() === conversation.id) {
-        window.inboxStore?.dispatch(resetConversationExternal());
-      }
-    }
-
-    if (!options.fromSyncMessage) {
-      await ConfigurationSync.queueNewJobIfNeeded();
-    }
+    await conversation.setIsApproved(false, false);
+    await conversation.setDidApproveMe(false, false);
+    await conversation.commit();
   }
 
   public async deleteClosedGroup(
@@ -231,13 +215,15 @@ export class ConversationController {
     if (!conversation || !conversation.isClosedGroup()) {
       return;
     }
-
+    window.log.info(`deleteClosedGroup: ${groupId}, sendLeaveMessage?:${options.sendLeaveMessage}`);
     getSwarmPollingInstance().removePubkey(groupId); // we don't need to keep polling anymore.
 
     if (!options.forceDeleteLocal) {
+      await leaveClosedGroup(groupId, options.fromSyncMessage);
       window.log.info(
         `deleteClosedGroup: ${groupId}, sendLeaveMessage?:${options.sendLeaveMessage}`
       );
+
       if (options.sendLeaveMessage) {
         await leaveClosedGroup(groupId, options.fromSyncMessage);
       }
@@ -272,33 +258,50 @@ export class ConversationController {
     }
   }
 
-  /**
-   * Usually, we want to mark private contact deleted as inactive (active_at = undefined).
-   * That way we can still have the username and avatar for them, but they won't appear in search results etc.
-   * For the blinded contact deletion though, we want to delete it completely because we merged it to an unblinded convo.
-   */
-  public async deleteBlindedContact(blindedId: string) {
-    if (!this._initialFetchComplete) {
-      throw new Error(
-        'getConversationController().deleteBlindedContact() needs complete initial fetch'
-      );
-    }
-    if (!PubKey.hasBlindedPrefix(blindedId)) {
-      throw new Error('deleteBlindedContact allow accepts blinded id');
-    }
-    window.log.info(`deleteBlindedContact with ${blindedId}`);
-    const conversation = this.conversations.get(blindedId);
-    if (!conversation) {
-      window.log.warn(`deleteBlindedContact no such convo ${blindedId}`);
+  public async delete1o1(
+    id: string,
+    options: DeleteOptions & { justHidePrivate?: boolean; keepMessages?: boolean }
+  ) {
+    const conversation = await this.deleteConvoInitialChecks(id, '1o1', options?.keepMessages);
+
+    if (!conversation || !conversation.isPrivate()) {
       return;
     }
 
-    // we remove the messages left in this convo. The caller has to merge them if needed
-    await deleteAllMessagesByConvoIdNoConfirmation(conversation.id);
+    if (options.justHidePrivate || isNil(options.justHidePrivate) || conversation.isMe()) {
+      // we just set the hidden field to true
+      // so the conversation still exists (needed for that user's profile in groups) but is not shown on the list of conversation.
+      // We also keep the messages for now, as turning a contact as hidden might just be a temporary thing
+      window.log.info(`deleteContact isPrivate, marking as hidden: ${id}`);
+      conversation.set({
+        priority: CONVERSATION_PRIORITIES.hidden,
+      });
+      // We don't remove entries from the contacts wrapper, so better keep corresponding convo volatile info for now (it will be pruned if needed)
+      await conversation.commit(); // this updates the wrappers content to reflect the hidden state
+    } else {
+      window.log.info(`deleteContact isPrivate, reset fields and removing from wrapper: ${id}`);
 
-    await conversation.setIsApproved(false, false);
-    await conversation.setDidApproveMe(false, false);
-    await conversation.commit();
+      await conversation.setIsApproved(false, false);
+      await conversation.setDidApproveMe(false, false);
+      conversation.set('active_at', 0);
+      await BlockedNumberController.unblockAll([conversation.id]);
+      await conversation.commit(); // first commit to DB so the DB knows about the changes
+      if (SessionUtilContact.isContactToStoreInWrapper(conversation)) {
+        window.log.warn('isContactToStoreInWrapper still true for ', conversation.attributes);
+      }
+      if (conversation.id.startsWith('05')) {
+        // make sure to filter blinded contacts as it will throw otherwise
+        await SessionUtilContact.removeContactFromWrapper(conversation.id); // then remove the entry alltogether from the wrapper
+        await SessionUtilConvoInfoVolatile.removeContactFromWrapper(conversation.id);
+      }
+      if (getCurrentlySelectedConversationOutsideRedux() === conversation.id) {
+        window.inboxStore?.dispatch(resetConversationExternal());
+      }
+    }
+
+    if (!options.fromSyncMessage) {
+      await ConfigurationSync.queueNewJobIfNeeded();
+    }
   }
 
   /**
@@ -399,7 +402,7 @@ export class ConversationController {
     keepMessages?: boolean
   ) {
     if (!this._initialFetchComplete) {
-      throw new Error(`getConversationController.${deleteType} needs complete initial fetch`);
+      throw new Error(`getConversationController.${deleteType} needs to complete initial fetch`);
     }
 
     window.log.info(`${deleteType} with ${convoId}`);

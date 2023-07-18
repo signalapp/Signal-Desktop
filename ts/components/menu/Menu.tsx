@@ -6,6 +6,7 @@ import {
   useAvatarPath,
   useConversationUsername,
   useHasNickname,
+  useIsActive,
   useIsBlinded,
   useIsBlocked,
   useIsIncomingRequest,
@@ -15,6 +16,7 @@ import {
   useIsPrivate,
   useIsPrivateAndFriend,
   useIsPublic,
+  useNotificationSetting,
   useLastMessage,
   useWeAreAdmin,
 } from '../../hooks/useParamSelector';
@@ -39,6 +41,10 @@ import {
   showUpdateGroupNameByConvoId,
   unblockConvoById,
 } from '../../interactions/conversationInteractions';
+import {
+  ConversationNotificationSetting,
+  ConversationNotificationSettingType,
+} from '../../models/conversationAttributes';
 import { getConversationController } from '../../session/conversations';
 import { PubKey } from '../../session/types';
 import {
@@ -47,23 +53,10 @@ import {
   updateUserDetailsModal,
 } from '../../state/ducks/modalDialog';
 import { getIsMessageSection } from '../../state/selectors/section';
-import {
-  useSelectedConversationKey,
-  useSelectedIsActive,
-  useSelectedIsBlocked,
-  useSelectedIsKickedFromGroup,
-  useSelectedIsLeft,
-  useSelectedIsPrivate,
-  useSelectedIsPrivateFriend,
-  useSelectedNotificationSetting,
-} from '../../state/selectors/selectedConversation';
+import { useSelectedConversationKey } from '../../state/selectors/selectedConversation';
+import { LocalizerKeys } from '../../types/LocalizerKeys';
 import { SessionButtonColor } from '../basic/SessionButton';
 import { useConvoIdFromContext } from '../leftpane/conversation-list-item/ConvoIdContext';
-import {
-  ConversationNotificationSetting,
-  ConversationNotificationSettingType,
-} from '../../models/conversationAttributes';
-import { LocalizerKeys } from '../../types/LocalizerKeys';
 
 /** Menu items standardized */
 
@@ -329,7 +322,7 @@ export const CopyMenuItem = (): JSX.Element | null => {
 export const MarkAllReadMenuItem = (): JSX.Element | null => {
   const convoId = useConvoIdFromContext();
   const isIncomingRequest = useIsIncomingRequest(convoId);
-  if (!isIncomingRequest && !PubKey.hasBlindedPrefix(convoId)) {
+  if (!isIncomingRequest && !PubKey.isBlinded(convoId)) {
     return (
       <Item onClick={() => markAllReadByConvoId(convoId)}>{window.i18n('markAllAsRead')}</Item>
     );
@@ -351,7 +344,7 @@ export const BlockMenuItem = (): JSX.Element | null => {
   const isPrivate = useIsPrivate(convoId);
   const isIncomingRequest = useIsIncomingRequest(convoId);
 
-  if (!isMe && isPrivate && !isIncomingRequest && !PubKey.hasBlindedPrefix(convoId)) {
+  if (!isMe && isPrivate && !isIncomingRequest && !PubKey.isBlinded(convoId)) {
     const blockTitle = isBlocked ? window.i18n('unblock') : window.i18n('block');
     const blockHandler = isBlocked
       ? () => unblockConvoById(convoId)
@@ -520,18 +513,20 @@ export const DeclineAndBlockMsgRequestMenuItem = () => {
 };
 
 export const NotificationForConvoMenuItem = (): JSX.Element | null => {
-  const selectedConvoId = useSelectedConversationKey();
+  // Note: this item is used in the header and in the list item, so we need to grab the details
+  // from the convoId from the context itself, not the redux selected state
+  const convoId = useConvoIdFromContext();
 
-  const currentNotificationSetting = useSelectedNotificationSetting();
-  const isBlocked = useSelectedIsBlocked();
-  const isActive = useSelectedIsActive();
-  const isLeft = useSelectedIsLeft();
-  const isKickedFromGroup = useSelectedIsKickedFromGroup();
-  const isFriend = useSelectedIsPrivateFriend();
-  const isPrivate = useSelectedIsPrivate();
+  const currentNotificationSetting = useNotificationSetting(convoId);
+  const isBlocked = useIsBlocked(convoId);
+  const isActive = useIsActive(convoId);
+  const isLeft = useIsLeft(convoId);
+  const isKickedFromGroup = useIsKickedFromGroup(convoId);
+  const isFriend = useIsPrivateAndFriend(convoId);
+  const isPrivate = useIsPrivate(convoId);
 
   if (
-    !selectedConvoId ||
+    !convoId ||
     isLeft ||
     isKickedFromGroup ||
     isBlocked ||
@@ -570,7 +565,7 @@ export const NotificationForConvoMenuItem = (): JSX.Element | null => {
           <Item
             key={item.value}
             onClick={async () => {
-              await setNotificationForConvoId(selectedConvoId, item.value);
+              await setNotificationForConvoId(convoId, item.value);
             }}
             disabled={disabled}
           >

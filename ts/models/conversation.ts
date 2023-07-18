@@ -21,7 +21,7 @@ import { ClosedGroupVisibleMessage } from '../session/messages/outgoing/visibleM
 import { PubKey } from '../session/types';
 import { ToastUtils, UserUtils } from '../session/utils';
 import { BlockedNumberController } from '../util';
-import { MessageModel, sliceQuoteText } from './message';
+import { MessageModel } from './message';
 import { MessageAttributesOptionals, MessageDirection } from './messageType';
 
 import { Data } from '../../ts/data/data';
@@ -343,6 +343,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     // those are values coming only from both the DB or the wrapper. Currently we display the data from the DB
     if (this.isClosedGroup()) {
       toRet.members = this.get('members') || [];
+    }
+
+    // those are values coming only from both the DB or the wrapper. Currently we display the data from the DB
+    if (this.isClosedGroup() || this.isPublic()) {
+      // for public, this value always comes from the DB
       toRet.groupAdmins = this.getGroupAdmins();
     }
 
@@ -498,11 +503,12 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         msgSource = await findCachedOurBlindedPubkeyOrLookItUp(room.serverPublicKey, sodium);
       }
     }
+
     return {
       author: msgSource,
       id: `${quotedMessage.get('sent_at')}` || '',
-      // no need to quote the full message length.
-      text: sliceQuoteText(body),
+      // NOTE we send the entire body to be consistent with the other platforms
+      text: body,
       attachments: quotedAttachments,
       timestamp: quotedMessage.get('sent_at') || 0,
       convoId: this.id,
@@ -540,8 +546,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       );
       const hasIncomingMessages = incomingMessageCount > 0;
 
-      if (this.id.startsWith('15')) {
-        window.log.info('Sending a blinded message to this user: ', this.id);
+      if (PubKey.isBlinded(this.id)) {
+        window.log.info('Sending a blinded message react to this user: ', this.id);
         await this.sendBlindedMessageRequest(chatMessageParams);
         return;
       }
@@ -1535,7 +1541,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
             );
           }).length === 1;
       const isFirstMessageOfConvo =
-        (await Data.getMessagesByConversation(this.id, { messageId: null })).length === 1;
+        (await Data.getMessagesByConversation(this.id, { messageId: null })).messages.length === 1;
       if (hadNoRequestsPrior && isFirstMessageOfConvo) {
         friendRequestText = window.i18n('youHaveANewFriendRequest');
       } else {
@@ -1691,7 +1697,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       );
       const hasIncomingMessages = incomingMessageCount > 0;
 
-      if (this.id.startsWith('15')) {
+      if (PubKey.isBlinded(this.id)) {
         window.log.info('Sending a blinded message to this user: ', this.id);
         await this.sendBlindedMessageRequest(chatMessageParams);
         return;
@@ -1795,7 +1801,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const ourSignKeyBytes = await UserUtils.getUserED25519KeyPairBytes();
     const groupUrl = this.getSogsOriginMessage();
 
-    if (!PubKey.hasBlindedPrefix(this.id)) {
+    if (!PubKey.isBlinded(this.id)) {
       window?.log?.warn('sendBlindedMessageRequest - convo is not a blinded one');
       return;
     }
@@ -1843,7 +1849,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
 
     this.set({ active_at: Date.now(), isApproved: true });
-
+    // TODO we need to add support for sending blinded25 message request in addition to the legacy blinded15
     await getMessageQueue().sendToOpenGroupV2BlindedRequest({
       encryptedContent: encryptedMsg,
       roomInfos: roomInfo,

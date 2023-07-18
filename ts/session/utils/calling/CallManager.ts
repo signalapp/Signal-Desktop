@@ -1164,7 +1164,7 @@ export async function handleMissedCall(
   const displayname =
     incomingCallConversation?.getNickname() ||
     incomingCallConversation?.getRealSessionUsername() ||
-    'Unknown';
+    window.i18n('unknown');
 
   switch (reason) {
     case 'permissions':

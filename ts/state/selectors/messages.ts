@@ -1,11 +1,10 @@
 import { useSelector } from 'react-redux';
 import { UserUtils } from '../../session/utils';
 import {
-  MessageModelPropsWithConvoProps,
-  ReduxConversationType,
-  PropsForAttachment,
-  ReduxQuoteType,
   LastMessageStatusType,
+  MessageModelPropsWithConvoProps,
+  PropsForAttachment,
+  ReduxConversationType,
 } from '../ducks/conversations';
 import { StateType } from '../reducer';
 import { getMessagePropsByMessageId } from './conversations';
@@ -99,10 +98,6 @@ export const useMessageSenderIsAdmin = (messageId: string | undefined): boolean 
 
 export const useMessageIsDeletable = (messageId: string | undefined): boolean => {
   return useMessageIdProps(messageId)?.propsForMessage.isDeletable || false;
-};
-
-export const useMessageQuote = (messageId: string | undefined): ReduxQuoteType | undefined => {
-  return useMessageIdProps(messageId)?.propsForMessage.quote;
 };
 
 export const useMessageStatus = (

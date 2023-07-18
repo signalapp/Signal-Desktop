@@ -359,6 +359,7 @@ export const SessionRightPanelWithDetails = () => {
         <SessionDropdown
           label={window.i18n('disappearingMessages')}
           options={disappearingMessagesOptions}
+          dataTestId="disappearing-messages-dropdown"
         />
       )}
 

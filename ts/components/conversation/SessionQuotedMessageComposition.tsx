@@ -10,56 +10,80 @@ import { Flex } from '../basic/Flex';
 import { Image } from '../../../ts/components/conversation/Image';
 // tslint:disable-next-line: no-submodule-imports
 import useKey from 'react-use/lib/useKey';
+import { getAbsoluteAttachmentPath } from '../../types/MessageAttachment';
+import { GoogleChrome } from '../../util';
+import { findAndFormatContact } from '../../models/message';
 
-const QuotedMessageComposition = styled.div`
-  background-color: var(--background-secondary-color);
-  width: 100%;
-  padding-inline-end: var(--margins-md);
-  padding-inline-start: var(--margins-md);
-  padding-bottom: var(--margins-xs);
+const QuotedMessageComposition = styled(Flex)`
+  border-top: 1px solid var(--border-color);
 `;
 
-const QuotedMessageCompositionReply = styled.div`
-  background: var(--message-bubbles-received-background-color);
-  border-radius: var(--margins-sm);
-  padding: var(--margins-xs);
-  margin: var(--margins-xs);
+const QuotedMessageCompositionReply = styled(Flex)<{ hasAttachments: boolean }>`
+  ${props => !props.hasAttachments && 'border-left: 3px solid var(--primary-color);'}
 `;
 
 const Subtle = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   word-break: break-all;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
   display: -webkit-box;
   color: var(--text-primary-color);
 `;
 
-const ReplyingTo = styled.div`
-  color: var(--text-primary-color);
+const StyledImage = styled.div`
+  div {
+    border-radius: 4px;
+    overflow: hidden;
+  }
 `;
 
+const StyledText = styled(Flex)`
+  margin: 0 0 0 var(--margins-sm);
+  p {
+    font-weight: bold;
+    margin: 0;
+  }
+`;
+
+function checkHasAttachments(attachments: Array<any> | undefined) {
+  const hasAttachments = attachments && attachments.length > 0 && attachments[0];
+
+  // NOTE could be a video as well which will load a thumbnail
+  const firstImageLikeAttachment =
+    hasAttachments && attachments[0].contentType !== AUDIO_MP3 && attachments[0].thumbnail
+      ? attachments[0]
+      : undefined;
+
+  return { hasAttachments, firstImageLikeAttachment };
+}
+
+function renderSubtitleText(
+  quoteText: string | undefined,
+  hasAudioAttachment: boolean,
+  isGenericFile: boolean,
+  isVideo: boolean,
+  isImage: boolean
+): string | null {
+  return quoteText && quoteText !== ''
+    ? quoteText
+    : hasAudioAttachment
+    ? window.i18n('audio')
+    : isGenericFile
+    ? window.i18n('document')
+    : isVideo
+    ? window.i18n('video')
+    : isImage
+    ? window.i18n('image')
+    : null;
+}
+
 export const SessionQuotedMessageComposition = () => {
+  const dispatch = useDispatch();
   const quotedMessageProps = useSelector(getQuotedMessage);
 
-  const dispatch = useDispatch();
-
-  const { text: body, attachments } = quotedMessageProps || {};
-  const hasAttachments = attachments && attachments.length > 0;
-
-  let hasImageAttachment = false;
-
-  let firstImageAttachment;
-  // we have to handle the case we are trying to reply to an audio message
-
-  if (attachments?.length && attachments[0].contentType !== AUDIO_MP3 && attachments[0].thumbnail) {
-    firstImageAttachment = attachments[0];
-    hasImageAttachment = true;
-  }
-
-  const hasAudioAttachment =
-    hasAttachments && attachments && attachments.length > 0 && isAudio(attachments);
+  const { author, attachments, text: quoteText } = quotedMessageProps || {};
 
   const removeQuotedMessage = () => {
     dispatch(quoteMessage(undefined));
@@ -67,40 +91,84 @@ export const SessionQuotedMessageComposition = () => {
 
   useKey('Escape', removeQuotedMessage, undefined, []);
 
-  if (!quotedMessageProps?.id) {
+  if (!author || !quotedMessageProps?.id) {
     return null;
   }
 
+  const contact = findAndFormatContact(author);
+  const authorName = contact?.profileName || contact?.name || author || window.i18n('unknown');
+
+  const { hasAttachments, firstImageLikeAttachment } = checkHasAttachments(attachments);
+  const isImage = Boolean(
+    firstImageLikeAttachment &&
+      GoogleChrome.isImageTypeSupported(firstImageLikeAttachment.contentType)
+  );
+  const isVideo = Boolean(
+    firstImageLikeAttachment &&
+      GoogleChrome.isVideoTypeSupported(firstImageLikeAttachment.contentType)
+  );
+  const hasAudioAttachment = Boolean(hasAttachments && isAudio(attachments));
+  const isGenericFile = !hasAudioAttachment && !isVideo && !isImage;
+
+  const subtitleText = renderSubtitleText(
+    quoteText,
+    hasAudioAttachment,
+    isGenericFile,
+    isVideo,
+    isImage
+  );
+
   return (
-    <QuotedMessageComposition>
-      <Flex
+    <QuotedMessageComposition
+      container={true}
+      justifyContent="space-between"
+      alignItems="center"
+      width={'100%'}
+      flexGrow={1}
+      padding={'var(--margins-md)'}
+    >
+      <QuotedMessageCompositionReply
         container={true}
-        justifyContent="space-between"
-        flexGrow={1}
-        margin={'0 var(--margins-xs) var(--margins-xs)'}
-        padding={'var(--margins-xs)'}
+        justifyContent="flex-start"
+        alignItems={'center'}
+        hasAttachments={hasAttachments}
       >
-        <ReplyingTo>{window.i18n('replyingToMessage')}</ReplyingTo>
-        <SessionIconButton iconType="exit" iconSize="small" onClick={removeQuotedMessage} />
-      </Flex>
-      <QuotedMessageCompositionReply>
-        <Flex container={true} justifyContent="space-between" margin={'var(--margins-xs)'}>
-          <Subtle>{(hasAttachments && window.i18n('mediaMessage')) || body}</Subtle>
-
-          {hasImageAttachment && (
-            <Image
-              alt={getAlt(firstImageAttachment)}
-              attachment={firstImageAttachment}
-              height={100}
-              width={100}
-              url={firstImageAttachment.thumbnail.objectUrl}
-              softCorners={false}
-            />
-          )}
-
-          {hasAudioAttachment && <SessionIcon iconType="microphone" iconSize="huge" />}
-        </Flex>
+        {hasAttachments && (
+          <StyledImage>
+            {firstImageLikeAttachment ? (
+              <Image
+                alt={getAlt(firstImageLikeAttachment)}
+                attachment={firstImageLikeAttachment}
+                height={100}
+                width={100}
+                url={getAbsoluteAttachmentPath((firstImageLikeAttachment as any).thumbnail.path)}
+                softCorners={true}
+              />
+            ) : hasAudioAttachment ? (
+              <div style={{ margin: '0 var(--margins-xs) 0 0' }}>
+                <SessionIcon iconType="microphone" iconSize="huge" />
+              </div>
+            ) : null}
+          </StyledImage>
+        )}
+        <StyledText
+          container={true}
+          flexDirection="column"
+          justifyContent={'center'}
+          alignItems={'flex-start'}
+        >
+          <p>{authorName}</p>
+          {subtitleText && <Subtle>{subtitleText}</Subtle>}
+        </StyledText>
       </QuotedMessageCompositionReply>
+      <SessionIconButton
+        iconType="exit"
+        iconColor="var(--chat-buttons-icon-color)"
+        iconSize="small"
+        onClick={removeQuotedMessage}
+        margin={'0 var(--margins-sm) 0 0'}
+        aria-label={window.i18n('close')}
+      />
     </QuotedMessageComposition>
   );
 };

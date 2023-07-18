@@ -139,7 +139,8 @@ export class MessageQueue {
     recipientBlindedId: string;
   }) {
     try {
-      if (!PubKey.hasBlindedPrefix(recipientBlindedId)) {
+      // TODO we will need to add the support for blinded25 messages requests
+      if (!PubKey.isBlinded(recipientBlindedId)) {
         throw new Error('sendToOpenGroupV2BlindedRequest needs a blindedId');
       }
       const { serverTimestamp, serverId } = await MessageSender.sendToOpenGroupV2BlindedRequest(

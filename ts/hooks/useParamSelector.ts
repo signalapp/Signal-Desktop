@@ -1,4 +1,4 @@
-import { isEmpty, isNumber } from 'lodash';
+import { compact, isEmpty, isNumber } from 'lodash';
 import { useSelector } from 'react-redux';
 import {
   hasValidIncomingRequestValues,
@@ -10,6 +10,7 @@ import { StateType } from '../state/reducer';
 import { getMessageReactsProps } from '../state/selectors/conversations';
 import { isPrivateAndFriend } from '../state/selectors/selectedConversation';
 import { CONVERSATION } from '../session/constants';
+import { isUsAnySogsFromCache } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
 
 export function useAvatarPath(convoId: string | undefined) {
   const convoProps = useConversationPropsById(convoId);
@@ -42,7 +43,7 @@ export function useConversationUsernameOrShorten(convoId?: string) {
 }
 
 /**
- * Returns the name if that conversation.
+ * Returns the name of that conversation.
  * This is the group name, or the realName of a user for a private conversation with a recent nickname set
  */
 export function useConversationRealName(convoId?: string) {
@@ -100,7 +101,7 @@ export function useIsBlinded(convoId?: string) {
   if (!convoId) {
     return false;
   }
-  return Boolean(PubKey.hasBlindedPrefix(convoId));
+  return Boolean(PubKey.isBlinded(convoId));
 }
 
 export function useHasNickname(convoId?: string) {
@@ -261,6 +262,34 @@ export function useMentionedUs(conversationId?: string): boolean {
 
 export function useIsTyping(conversationId?: string): boolean {
   return useConversationPropsById(conversationId)?.isTyping || false;
+}
+
+export function useQuoteAuthorName(
+  authorId?: string
+): { authorName: string | undefined; isMe: boolean } {
+  const convoProps = useConversationPropsById(authorId);
+
+  const isMe = Boolean(authorId && isUsAnySogsFromCache(authorId));
+  const authorName = isMe
+    ? window.i18n('you')
+    : convoProps?.nickname || convoProps?.isPrivate
+    ? convoProps?.displayNameInProfile
+    : undefined;
+
+  return { authorName, isMe };
+}
+
+/**
+ * Get the list of members of a closed group or []
+ * @param convoId the closed group id to extract members from
+ */
+export function useSortedGroupMembers(convoId: string | undefined): Array<string> {
+  const convoProps = useConversationPropsById(convoId);
+  if (!convoProps || convoProps.isPrivate || convoProps.isPublic) {
+    return [];
+  }
+  // we need to clone the array before being able to call sort() it
+  return compact(convoProps.members?.slice()?.sort()) || [];
 }
 
 export function useLastMessage(convoId?: string) {

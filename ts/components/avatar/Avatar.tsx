@@ -66,21 +66,21 @@ export const CrownIcon = () => {
   );
 };
 
-const NoImage = (
-  props: Pick<Props, 'forcedName' | 'size' | 'pubkey' | 'onAvatarClick'> & {
-    isClosedGroup: boolean;
-  }
-) => {
-  const { forcedName, size, pubkey, isClosedGroup } = props;
-  // if no image but we have conversations set for the group, renders group members avatars
-  if (pubkey && isClosedGroup) {
-    return (
-      <ClosedGroupAvatar size={size} closedGroupId={pubkey} onAvatarClick={props.onAvatarClick} />
-    );
-  }
+const NoImage = React.memo(
+  (
+    props: Pick<Props, 'forcedName' | 'size' | 'pubkey' | 'onAvatarClick'> & {
+      isClosedGroup: boolean;
+    }
+  ) => {
+    const { forcedName, size, pubkey, isClosedGroup, onAvatarClick } = props;
+    // if no image but we have conversations set for the group, renders group members avatars
+    if (pubkey && isClosedGroup) {
+      return <ClosedGroupAvatar size={size} convoId={pubkey} onAvatarClick={onAvatarClick} />;
+    }
 
-  return <Identicon size={size} forcedName={forcedName} pubkey={pubkey} />;
-};
+    return <Identicon size={size} forcedName={forcedName} pubkey={pubkey} />;
+  }
+);
 
 const AvatarImage = (
   props: Pick<Props, 'base64Data' | 'dataTestId'> & {
@@ -111,12 +111,20 @@ const AvatarImage = (
 };
 
 const AvatarInner = (props: Props) => {
-  const { base64Data, size, pubkey, forcedAvatarPath, forcedName, dataTestId } = props;
+  const {
+    base64Data,
+    size,
+    pubkey,
+    forcedAvatarPath,
+    forcedName,
+    dataTestId,
+    onAvatarClick,
+  } = props;
   const [imageBroken, setImageBroken] = useState(false);
 
   const isSelectingMessages = useSelector(isMessageSelectionMode);
 
-  const isClosedGroupAvatar = useIsClosedGroup(pubkey);
+  const isClosedGroup = useIsClosedGroup(pubkey);
   const avatarPath = useAvatarPath(pubkey);
   const name = useConversationUsername(pubkey);
   // contentType is not important
@@ -130,9 +138,9 @@ const AvatarInner = (props: Props) => {
     setImageBroken(true);
   };
 
-  const hasImage = (base64Data || urlToLoad) && !imageBroken && !isClosedGroupAvatar;
+  const hasImage = (base64Data || urlToLoad) && !imageBroken && !isClosedGroup;
 
-  const isClickable = !!props.onAvatarClick;
+  const isClickable = !!onAvatarClick;
   return (
     <div
       className={classNames(
@@ -167,7 +175,13 @@ const AvatarInner = (props: Props) => {
           dataTestId={dataTestId ? `img-${dataTestId}` : undefined}
         />
       ) : (
-        <NoImage {...props} isClosedGroup={isClosedGroupAvatar} />
+        <NoImage
+          pubkey={pubkey}
+          isClosedGroup={isClosedGroup}
+          size={size}
+          forcedName={forcedName}
+          onAvatarClick={onAvatarClick}
+        />
       )}
     </div>
   );

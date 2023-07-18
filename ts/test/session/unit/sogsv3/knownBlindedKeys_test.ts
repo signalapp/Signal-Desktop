@@ -418,7 +418,7 @@ describe('knownBlindedKeys', () => {
     it('throws if blindedSessionId is not standard', () => {
       expect(() => {
         tryMatchBlindWithStandardKey(realSessionId, realSessionId, serverPublicKey, sodium);
-      }).to.throw('blindedKey must be a blinded key (starting with 15)');
+      }).to.throw('blindedKey must be a blinded key (starting with 15 or 25)');
     });
 
     it('returns true if those keys are not matching blind & naked', () => {
