@@ -1522,7 +1522,9 @@ export function initialize({
         ...res,
         config: res.config.filter(
           ({ name }: { name: string }) =>
-            name.startsWith('desktop.') || name.startsWith('global.')
+            name.startsWith('desktop.') ||
+            name.startsWith('global.') ||
+            name.startsWith('cds.')
         ),
       };
     }

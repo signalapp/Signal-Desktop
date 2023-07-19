@@ -38,7 +38,9 @@ export async function getUuidsForE164s(
     accessKeys.push(accessKey);
   }
 
-  const returnAcisWithoutUaks = isEnabled('desktop.cdsi.returnAcisWithoutUaks');
+  const returnAcisWithoutUaks =
+    !isEnabled('cds.disableCompatibilityMode') &&
+    isEnabled('desktop.cdsi.returnAcisWithoutUaks');
 
   log.info(
     `getUuidsForE164s(${e164s}): acis=${acis.length} ` +

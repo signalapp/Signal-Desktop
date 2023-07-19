@@ -14,6 +14,7 @@ import { HashType } from './types/Crypto';
 import { getCountryCode } from './types/PhoneNumber';
 
 export type ConfigKeyType =
+  | 'cds.disableCompatibilityMode'
   | 'desktop.announcementGroup'
   | 'desktop.calling.audioLevelForSpeaking'
   | 'desktop.cdsi.returnAcisWithoutUaks'
