@@ -366,7 +366,7 @@
     "win": {
       "artifactName": "${name}-win-${version}.${ext}",
       "certificateSubjectName": "Signal Messenger, LLC",
-      "certificateSha1": "8C9A0B5C852EC703D83EF7BFBCEB54B796073759",
+      "certificateSha1": "8D5E3CD800736C5E1FE459A1F5AA48287D4F6EC6",
       "signingHashAlgorithms": [
         "sha256"
       ],
