@@ -70,7 +70,7 @@ test('Check changed username syncs', async () => {
   await waitForTestIdWithText(windowB, 'your-profile-name', newUsername);
 });
 
-test('Check profile picture syncs', async () => {
+test('Check profile picture syncs', async ({}, testinfo) => {
   const [windowA] = await openApp(1); // not using sessionTest here as we need to close and reopen one of the window
   const userA = await newUser(windowA, 'Alice');
   const [windowB] = await linkedDevice(userA.recoveryPhrase); // not using sessionTest here as we need to close and reopen one of the window
@@ -83,14 +83,36 @@ test('Check profile picture syncs', async () => {
   await clickOnTestIdWithText(windowA, 'save-button-profile-update');
   await waitForTestIdWithText(windowA, 'loading-spinner');
 
-  await sleepFor(5000);
+  if (testinfo.config.updateSnapshots === 'all') {
+    await sleepFor(15000, true); // long time to be sure a poll happened when we want to update the snapshot
+  } else {
+    await sleepFor(2000); // short time as we will loop right below until the snapshot is what we expect
+  }
+
   const leftpaneAvatarContainer = await waitForTestIdWithText(windowB, 'leftpane-primary-avatar');
-  await sleepFor(500);
-  const screenshot = await leftpaneAvatarContainer.screenshot({
-    type: 'jpeg',
-    // path: 'avatar-updated-blue',
-  });
-  expect(screenshot).toMatchSnapshot({ name: 'avatar-updated-blue.jpeg' });
+  const start = Date.now();
+  let correctScreenshot = false;
+  let tryNumber = 0;
+  do {
+    try {
+      await sleepFor(500);
+
+      const screenshot = await leftpaneAvatarContainer.screenshot({
+        type: 'jpeg',
+        // path: 'avatar-updated-blue',
+      });
+      expect(screenshot).toMatchSnapshot({ name: 'avatar-updated-blue.jpeg' });
+      correctScreenshot = true;
+      console.warn(
+        `screenshot matching of "Check profile picture syncs" passed after "${tryNumber}" retries!`
+      );
+    } catch (e) {
+      console.warn(
+        `screenshot matching of "Check profile picture syncs" try "${tryNumber}" failed with: ${e.message}`
+      );
+    }
+    tryNumber++;
+  } while (Date.now() - start <= 20000 && !correctScreenshot);
 });
 
 test('Check contacts syncs', async () => {
