@@ -1,4 +1,4 @@
-import * as BetterSqlite3 from 'better-sqlite3';
+import * as BetterSqlite3 from '@signalapp/better-sqlite3';
 import {
   ContactsConfigWrapperNode,
   ConvoInfoVolatileWrapperNode,
@@ -497,8 +497,8 @@ function updateToSessionSchemaVersion15(currentVersion: number, db: BetterSqlite
   db.transaction(() => {
     db.exec(`
         DROP TABLE pairingAuthorisations;
-        DROP TRIGGER messages_on_delete;
-        DROP TRIGGER messages_on_update;
+        DROP TRIGGER IF EXISTS messages_on_delete;
+        DROP TRIGGER IF EXISTS messages_on_update;
       `);
 
     writeSessionSchemaVersion(targetVersion, db);

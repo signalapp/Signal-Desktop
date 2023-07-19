@@ -22,7 +22,6 @@
     "lodash": "^4.17.20",
     "ini": "^1.3.6",
     "ejs": "^3.1.7",
-    "electron": "^17.2.0",
     "react": "17.0.2",
     "@types/react": "17.0.2",
     "glob-parent": "^6.0.1",
@@ -75,11 +74,11 @@
     "@emoji-mart/data": "^1.0.6",
     "@emoji-mart/react": "^1.0.1",
     "@reduxjs/toolkit": "1.8.5",
+    "@signalapp/better-sqlite3": "^8.4.3",
     "@types/react-mentions": "^4.1.8",
     "abort-controller": "3.0.0",
     "auto-bind": "^4.0.0",
     "backbone": "1.3.3",
-    "better-sqlite3": "https://github.com/oxen-io/session-better-sqlite3#af47530acea25800d22b5e1ae834b709d2bfca40",
     "blob-util": "2.0.2",
     "blueimp-canvas-to-blob": "^3.29.0",
     "blueimp-load-image": "5.14.0",
@@ -92,7 +91,6 @@
     "country-code-lookup": "^0.0.19",
     "curve25519-js": "https://github.com/oxen-io/curve25519-js",
     "dompurify": "^2.0.7",
-    "electron-is-dev": "^1.1.0",
     "electron-localshortcut": "^3.2.1",
     "electron-updater": "^4.2.2",
     "emoji-mart": "^5.2.2",
@@ -102,7 +100,7 @@
     "glob": "7.1.2",
     "image-type": "^4.1.0",
     "ip2country": "1.0.1",
-    "libsession_util_nodejs": "https://github.com/oxen-io/libsession-util-nodejs/releases/download/v0.2.2/libsession_util_nodejs-v0.2.2.tar.gz",
+    "libsession_util_nodejs": "https://github.com/oxen-io/libsession-util-nodejs/releases/download/v0.2.5/libsession_util_nodejs-v0.2.5.tar.gz",
     "libsodium-wrappers-sumo": "^0.7.9",
     "linkify-it": "^4.0.1",
     "lodash": "^4.17.21",
@@ -142,9 +140,9 @@
     "uuid": "8.3.2"
   },
   "devDependencies": {
+    "@electron/notarize": "^2.1.0",
     "@playwright/test": "1.16.3",
     "@types/backbone": "1.4.2",
-    "@types/better-sqlite3": "7.4.0",
     "@types/blueimp-load-image": "5.14.4",
     "@types/buffer-crc32": "^0.2.0",
     "@types/bunyan": "^1.8.8",
@@ -190,15 +188,14 @@
     "cross-env": "^6.0.3",
     "css-loader": "^6.7.2",
     "dmg-builder": "23.6.0",
-    "electron": "^17.2.0",
-    "electron-builder": "22.8.0",
-    "electron-notarize": "^0.2.0",
+    "electron": "25.3.0",
+    "electron-builder": "23.0.8",
     "esbuild": "^0.14.29",
     "eslint": "^8.15.0",
     "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-mocha": "^10.0.4",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-mocha": "^10.1.0",
     "eslint-plugin-more": "^1.0.5",
     "events": "^3.3.0",
     "jsdom": "^19.0.0",
@@ -230,7 +227,7 @@
     "webpack-cli": "^5.0.1"
   },
   "engines": {
-    "node": "16.13.0"
+    "node": "18.15.0"
   },
   "build": {
     "appId": "com.loki-project.messenger-desktop",
@@ -285,7 +282,7 @@
       "icon": "build/icon-linux.icns"
     },
     "asarUnpack": [
-      "node_modules/better-sqlite3/build/Release/better_sqlite3.node",
+      "node_modules/@signalapp/better-sqlite3/build/Release/better_sqlite3.node",
       "node_modules/libsession_util_nodejs/build/Release/libsession_util_nodejs.node",
       "ts/webworker/workers/node/libsession/*.node",
       "ts/mains/main_node.js"

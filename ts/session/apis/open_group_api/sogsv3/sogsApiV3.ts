@@ -338,7 +338,7 @@ const handleMessagesResponseV4 = async (
       }
     }
   } catch (e) {
-    window?.log?.warn('handleNewMessages failed:', e);
+    window?.log?.warn('handleNewMessages failed:', e.message);
   }
 };
 
