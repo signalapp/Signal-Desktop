@@ -4419,6 +4419,10 @@
     "messageformat": "Remove {contact} as group admin?",
     "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone"
   },
+  "icu:ContactModal--add-to-group": {
+    "messageformat": "Add to another group",
+    "description": "Button text for adding contact to another group in Group Contact Details modal"
+  },
   "icu:ContactModal--remove-from-group": {
     "messageformat": "Remove from group",
     "description": "Button text for remove from group button in Group Contact Details modal"

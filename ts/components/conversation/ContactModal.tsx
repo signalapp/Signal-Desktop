@@ -265,7 +265,7 @@ export function ContactModal({
                   <div className="ContactModal__bubble-icon">
                     <div className="ContactModal__add-to-another-group__bubble-icon" />
                   </div>
-                  Add to another group
+                  {i18n('icu:ContactModal--add-to-group')}
                 </button>
               )}
               {!contact.isMe && areWeAdmin && isMember && conversation?.id && (
