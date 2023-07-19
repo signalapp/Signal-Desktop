@@ -7,6 +7,7 @@ import type { ConversationType } from '../state/ducks/conversations';
 import { parseAndFormatPhoneNumber } from './libphonenumberInstance';
 import { WEEK } from './durations';
 import { fuseGetFnRemoveDiacritics, getCachedFuseIndex } from './fuse';
+import { getConversationUnreadCountForAppBadge } from './getConversationUnreadCountForAppBadge';
 
 // Fuse.js scores have order of 0.01
 const ACTIVE_AT_SCORE_FACTOR = (1 / WEEK) * 0.01;
@@ -69,6 +70,23 @@ COMMANDS.set('e164EndsWith', (conversations, query) => {
 
 COMMANDS.set('groupIdEndsWith', (conversations, query) => {
   return conversations.filter(convo => convo.groupId?.endsWith(query));
+});
+
+COMMANDS.set('unread', conversations => {
+  const canCountMutedConversations =
+    window.storage.get('badge-count-muted-conversations') || false;
+
+  return conversations.filter(convo => {
+    return getConversationUnreadCountForAppBadge(
+      {
+        ...convo,
+
+        // Difference between redux type and conversation attributes
+        active_at: convo.activeAt,
+      },
+      canCountMutedConversations
+    );
+  });
 });
 
 // See https://fusejs.io/examples.html#extended-search for
