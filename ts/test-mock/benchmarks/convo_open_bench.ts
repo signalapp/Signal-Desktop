@@ -5,7 +5,8 @@
 import assert from 'assert';
 import type { PrimaryDevice } from '@signalapp/mock-server';
 
-import { Bootstrap, debug, stats, RUN_COUNT, DISCARD_COUNT } from './fixtures';
+import { Bootstrap, debug, RUN_COUNT, DISCARD_COUNT } from './fixtures';
+import { stats } from '../../util/benchmark/stats';
 
 const CONVERSATION_SIZE = 1000; // messages
 const DELAY = 50; // milliseconds

@@ -15,7 +15,13 @@ export type CIType = {
   handleEvent: (event: string, data: unknown) => unknown;
   setProvisioningURL: (url: string) => unknown;
   solveChallenge: (response: ChallengeResponseType) => unknown;
-  waitForEvent: (event: string, timeout?: number) => unknown;
+  waitForEvent: (
+    event: string,
+    options: {
+      timeout?: number;
+      ignorePastEvents?: boolean;
+    }
+  ) => unknown;
 };
 
 export function getCI(deviceName: string): CIType {
@@ -26,17 +32,27 @@ export function getCI(deviceName: string): CIType {
     handleEvent(event, data);
   });
 
-  function waitForEvent(event: string, timeout = 60 * SECOND) {
-    const pendingCompleted = completedEvents.get(event) || [];
-    const pending = pendingCompleted.shift();
-    if (pending) {
-      log.info(`CI: resolving pending result for ${event}`, pending);
+  function waitForEvent(
+    event: string,
+    options: {
+      timeout?: number;
+      ignorePastEvents?: boolean;
+    } = {}
+  ) {
+    const timeout = options?.timeout ?? 60 * SECOND;
 
-      if (pendingCompleted.length === 0) {
-        completedEvents.delete(event);
+    if (!options?.ignorePastEvents) {
+      const pendingCompleted = completedEvents.get(event) || [];
+      const pending = pendingCompleted.shift();
+      if (pending) {
+        log.info(`CI: resolving pending result for ${event}`, pending);
+
+        if (pendingCompleted.length === 0) {
+          completedEvents.delete(event);
+        }
+
+        return pending;
       }
-
-      return pending;
     }
 
     log.info(`CI: waiting for event ${event}`);

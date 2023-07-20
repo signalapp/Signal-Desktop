@@ -185,6 +185,12 @@ export function Inbox({
     setInternalHasInitialLoadCompleted(hasInitialLoadCompleted);
   }, [hasInitialLoadCompleted]);
 
+  useEffect(() => {
+    if (!selectedConversationId) {
+      window.SignalCI?.handleEvent('empty-inbox:rendered', null);
+    }
+  }, [selectedConversationId]);
+
   if (!internalHasInitialLoadCompleted) {
     let loadingProgress = 0;
     if (

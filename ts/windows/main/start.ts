@@ -21,6 +21,7 @@ import { MessageController } from '../../util/MessageController';
 import { Environment, getEnvironment } from '../../environment';
 import { isProduction } from '../../util/version';
 import { ipcInvoke } from '../../sql/channels';
+import { benchmarkConversationOpen } from '../../CI/benchmarkConversationOpen';
 
 window.addEventListener('contextmenu', e => {
   const node = e.target as Element | null;
@@ -69,6 +70,11 @@ if (!isProduction(window.SignalContext.getVersion())) {
     },
     sqlCall: (name: string, ...args: ReadonlyArray<unknown>) =>
       ipcInvoke(name, args),
+    ...(window.SignalContext.config.ciMode === 'benchmark'
+      ? {
+          benchmarkConversationOpen,
+        }
+      : {}),
   };
 
   contextBridge.exposeInMainWorld('SignalDebug', SignalDebug);
@@ -80,7 +86,7 @@ if (getEnvironment() === Environment.Test) {
   contextBridge.exposeInMainWorld('testUtilities', window.testUtilities);
 }
 
-if (process.env.SIGNAL_CI_CONFIG) {
+if (window.SignalContext.config.ciMode === 'full') {
   contextBridge.exposeInMainWorld('SignalCI', window.SignalCI);
 }
 

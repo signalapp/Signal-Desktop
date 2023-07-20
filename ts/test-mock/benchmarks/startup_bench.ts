@@ -4,7 +4,8 @@
 
 import { ReceiptType } from '@signalapp/mock-server';
 
-import { debug, Bootstrap, stats, RUN_COUNT } from './fixtures';
+import { debug, Bootstrap, RUN_COUNT } from './fixtures';
+import { stats } from '../../util/benchmark/stats';
 
 const MESSAGE_BATCH_SIZE = 1000; // messages
 

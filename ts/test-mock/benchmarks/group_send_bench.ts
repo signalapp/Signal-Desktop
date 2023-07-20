@@ -13,11 +13,11 @@ import {
 import {
   Bootstrap,
   debug,
-  stats,
   RUN_COUNT,
   GROUP_SIZE,
   DISCARD_COUNT,
 } from './fixtures';
+import { stats } from '../../util/benchmark/stats';
 
 const CONVERSATION_SIZE = 500; // messages
 const LAST_MESSAGE = 'start sending messages now';

@@ -161,7 +161,7 @@ const development =
   getEnvironment() === Environment.Development ||
   getEnvironment() === Environment.Staging;
 
-const enableCI = config.get<boolean>('enableCI');
+const ciMode = config.get<'full' | 'benchmark' | false>('ciMode');
 const forcePreloadBundle = config.get<boolean>('forcePreloadBundle');
 
 const preventDisplaySleepService = new PreventDisplaySleepService(
@@ -539,8 +539,8 @@ function handleCommonWindowEvents(
   }
 }
 
-const DEFAULT_WIDTH = enableCI ? 1024 : 800;
-const DEFAULT_HEIGHT = enableCI ? 1024 : 610;
+const DEFAULT_WIDTH = ciMode ? 1024 : 800;
+const DEFAULT_HEIGHT = ciMode ? 1024 : 610;
 
 // We allow for smaller sizes because folks with OS-level zoom and HighDPI/Large Text
 //   can really cause weirdness around window pixel-sizes. The app is very broken if you
@@ -822,7 +822,7 @@ async function createWindow() {
   mainWindow.on('resize', captureWindowStats);
   mainWindow.on('move', captureWindowStats);
 
-  if (!enableCI && config.get<boolean>('openDevTools')) {
+  if (!ciMode && config.get<boolean>('openDevTools')) {
     // Open the DevTools.
     mainWindow.webContents.openDevTools();
   }
@@ -2277,8 +2277,11 @@ ipc.on('get-config', async event => {
     cdnUrl0: config.get<ConfigType>('cdn').get<string>('0'),
     cdnUrl2: config.get<ConfigType>('cdn').get<string>('2'),
     certificateAuthority: config.get<string>('certificateAuthority'),
-    environment: enableCI ? Environment.Production : getEnvironment(),
-    enableCI,
+    environment:
+      !isTestEnvironment(getEnvironment()) && ciMode
+        ? Environment.Production
+        : getEnvironment(),
+    ciMode,
     nodeVersion: process.versions.node,
     hostname: os.hostname(),
     osRelease: os.release(),

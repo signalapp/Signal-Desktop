@@ -37,7 +37,7 @@ export const rendererConfigSchema = z.object({
   certificateAuthority: configRequiredStringSchema,
   contentProxyUrl: configRequiredStringSchema,
   crashDumpsPath: configRequiredStringSchema,
-  enableCI: z.boolean(),
+  ciMode: z.enum(['full', 'benchmark']).or(z.literal(false)),
   environment: environmentSchema,
   homePath: configRequiredStringSchema,
   hostname: configRequiredStringSchema,

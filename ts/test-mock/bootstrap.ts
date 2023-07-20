@@ -403,7 +403,7 @@ export class Bootstrap {
       ...(await loadCertificates()),
 
       forcePreloadBundle: this.options.benchmark,
-      enableCI: true,
+      ciMode: 'full',
 
       buildExpiration: Date.now() + durations.MONTH,
       storagePath: this.storagePath,

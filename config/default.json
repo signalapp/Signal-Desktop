@@ -16,7 +16,7 @@
   "challengeUrl": "https://signalcaptchas.org/staging/challenge/generate.html",
   "registrationChallengeUrl": "https://signalcaptchas.org/staging/registration/generate.html",
   "updatesEnabled": false,
-  "enableCI": false,
+  "ciMode": false,
   "forcePreloadBundle": false,
   "openDevTools": false,
   "buildCreation": 0,
