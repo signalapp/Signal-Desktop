@@ -1,5 +1,5 @@
 import { Page } from '@playwright/test';
-import { readdirSync, rm } from 'fs-extra';
+import { readdirSync, rmdirSync } from 'fs-extra';
 import { join } from 'path';
 import { homedir } from 'os';
 import { isLinux, isMacOS } from '../../../OS';
@@ -43,7 +43,7 @@ function cleanUpOtherTest() {
 
   allAppDataPath.map(folder => {
     const pathToRemove = join(parentFolderOfAllDataPath, folder);
-    rm(pathToRemove, { recursive: true }, () => pathToRemove);
+    rmdirSync(pathToRemove, { recursive: true });
   });
   console.info('...done');
 }
