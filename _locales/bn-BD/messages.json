@@ -6519,9 +6519,9 @@
     "messageformat": "এখন আপনি Signal উইন্ডোটির অবস্থান পরিবর্তন করতে কথোপকথনের শিরোনামে ক্লিক করতে এবং টেনে আনতে পারবেন।"
   },
   "icu:WhatsNew__v6.26--0": {
-    "messageformat": "Diacritics (such as accent marks) are now supported in @ mentions, so you can remind Aristotélēs to answer your philosophy question in the \"Ancient Greek Time Travellers\" group chat."
+    "messageformat": "ডায়াক্রিটিক্স (যেমন উচ্চারণের চিহ্ন) এখন থেকে @ উল্লেখে সমর্থিত হবে, তাই আপনি \"প্রাচীন গ্রীক টাইম ট্রাভেলারস\" গ্রুপ চ্যাটে আপনার দর্শন সংক্রান্ত প্রশ্নের উত্তর দেওয়ার জন্য Aristotélēs-এর কথা মনে করিয়ে দিতে পারেন।"
   },
   "icu:WhatsNew__v6.26--1": {
-    "messageformat": "Three cheers for triple-click text selection improvements. Thanks, {linkToGithub}!"
+    "messageformat": "তিনবার ক্লিক করার মাধ্যমে টেক্সট নির্বাচনে উন্নতির জন্য তিনটি চিয়ার্স। ধন্যবাদ, {linkToGithub}!"
   }
 }

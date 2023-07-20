@@ -6519,9 +6519,9 @@
     "messageformat": "Эми чалуунун жана сүйлөшүүнүн аталышын керектүү жерге сүйрөп барып, Signal терезесин каалагандай тууралап аласыз."
   },
   "icu:WhatsNew__v6.26--0": {
-    "messageformat": "Diacritics (such as accent marks) are now supported in @ mentions, so you can remind Aristotélēs to answer your philosophy question in the \"Ancient Greek Time Travellers\" group chat."
+    "messageformat": "Эми @ айтып өтүүлөрдө диакритикалык белгилер (басым белгилери) камтыла баштагандыктан, \"Илгерки грек убакыт саякатчылары\" деген топто Аристотелди айтып өтүп, философиялык сурооңузду узатсаңыз болот."
   },
   "icu:WhatsNew__v6.26--1": {
-    "messageformat": "Three cheers for triple-click text selection improvements. Thanks, {linkToGithub}!"
+    "messageformat": "Үч жолу басып, текст тандоо мүмкүнчүлүгү кошулду. Чоң рахмат, {linkToGithub}!"
   }
 }

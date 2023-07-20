@@ -6519,9 +6519,9 @@
     "messageformat": "现在您可以点击拖拽对话标头来重新定位 Signal 窗口。"
   },
   "icu:WhatsNew__v6.26--0": {
-    "messageformat": "Diacritics (such as accent marks) are now supported in @ mentions, so you can remind Aristotélēs to answer your philosophy question in the \"Ancient Greek Time Travellers\" group chat."
+    "messageformat": "提及@功能现在支持变音符了。"
   },
   "icu:WhatsNew__v6.26--1": {
-    "messageformat": "Three cheers for triple-click text selection improvements. Thanks, {linkToGithub}!"
+    "messageformat": "三击文本选择得到了优化。对此我们要感谢{linkToGithub}！"
   }
 }

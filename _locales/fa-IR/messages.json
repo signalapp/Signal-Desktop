@@ -413,7 +413,7 @@
     "description": "Message shown if the import went wrong; first paragraph"
   },
   "icu:importErrorSecond": {
-    "messageformat": "اگر این مراحل برای شما کار نمیکنند، لطفا یک گزارش خطاء (نمایش -> گزارش خطاء)  ثبت کنید تا بتوانیم برای جابجایی به شما کمک کنیم.",
+    "messageformat": "اگر این مراحل برای شما کار نمی‌کنند، لطفا یک گزارش خطا (نمایش -> گزارش خطا) ارسال کنید تا بتوانیم برای جابجایی به شما کمک کنیم.",
     "description": "Message shown if the import went wrong; second paragraph"
   },
   "icu:importAgain": {
@@ -589,7 +589,7 @@
     "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
   },
   "icu:debugLogExplanation": {
-    "messageformat": "وقتی روی ارسال کلیک می‌کنید، گزارش شما به مدت 30 روز به صورت آنلاین در یک URL منحصر به فرد و منتشر نشده پست می شود. می توانید ابتدا آن را در دستگاه خود ذخیره کنید.",
+    "messageformat": "وقتی روی ارسال کلیک می‌کنید، گزارش شما به مدت 30 روز به صورت آنلاین در یک URL منحصربه‌فرد و منتشرنشده پست می‌شود. می‌توانید ابتدا آن را در دستگاه خود ذخیره کنید.",
     "description": "Description of what will happen with your debug log"
   },
   "icu:debugLogError": {
@@ -745,7 +745,7 @@
     "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users."
   },
   "icu:decryptionErrorToastAction": {
-    "messageformat": "ثبت گزارش",
+    "messageformat": "ارسال گزارش",
     "description": "Label for the decryption error toast button"
   },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
@@ -2171,7 +2171,7 @@
     "description": "Toast for general errors"
   },
   "icu:Toast--error--action": {
-    "messageformat": "ثبت گزارش",
+    "messageformat": "ارسال گزارش",
     "description": "Label for the error toast button"
   },
   "icu:Toast--failed-to-fetch-username": {
@@ -5600,7 +5600,7 @@
     "description": "A title of the dialog displayed when starting an application after a recent crash"
   },
   "icu:CrashReportDialog__body": {
-    "messageformat": "سیگنال بعد از خرابی ریستارت شد. شما میتوانید گزارش خرابی را برای کمک به سیگنال جهت تحقیق روی این موضوع ثبت کنید.",
+    "messageformat": "سیگنال بعد از خرابی بازراه‌اندازی شد. می‌توانید گزارش خرابی را برای کمک به سیگنال جهت تحقیق روی این موضوع ارسال کنید.",
     "description": "The body of the dialog displayed when starting an application after a recent crash"
   },
   "icu:CrashReportDialog__submit": {
@@ -6519,9 +6519,9 @@
     "messageformat": "حالا که سربرگ‌های مکالمه و تماس قابل کشیدن هستند، جابه‌جا کردن پنجره سیگنال طولی نخواهد کشید."
   },
   "icu:WhatsNew__v6.26--0": {
-    "messageformat": "Diacritics (such as accent marks) are now supported in @ mentions, so you can remind Aristotélēs to answer your philosophy question in the \"Ancient Greek Time Travellers\" group chat."
+    "messageformat": "اعراب‌گذاری (مانند علامت‌های تشدید) اکنون در @ اشاره‌ها پشتیبانی می‌شوند. اطلاعات بیشتر در این‌جا: https://en.wikipedia.org/wiki/Diacritic"
   },
   "icu:WhatsNew__v6.26--1": {
-    "messageformat": "Three cheers for triple-click text selection improvements. Thanks, {linkToGithub}!"
+    "messageformat": "بهبود انتخاب متن با کلیک سه‌تایی. سپاس، {linkToGithub}!"
   }
 }

@@ -6519,9 +6519,9 @@
     "messageformat": "Sada možete kliknuti i povući zaglavlje razgovora kako biste premjestili prozor Signala."
   },
   "icu:WhatsNew__v6.26--0": {
-    "messageformat": "Diacritics (such as accent marks) are now supported in @ mentions, so you can remind Aristotélēs to answer your philosophy question in the \"Ancient Greek Time Travellers\" group chat."
+    "messageformat": "Dijakritički znakovi (kao što su kvačice i naglasci) sada su podržani u @ spominjanjima."
   },
   "icu:WhatsNew__v6.26--1": {
-    "messageformat": "Three cheers for triple-click text selection improvements. Thanks, {linkToGithub}!"
+    "messageformat": "Trostrukim klikom do poboljšanja odabira teksta. Hvala, {linkToGithub}!"
   }
 }

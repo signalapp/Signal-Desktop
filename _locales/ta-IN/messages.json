@@ -6519,9 +6519,9 @@
     "messageformat": "இப்போது அழைப்பு மற்றும் உரையாடல் தலைப்புகள் இழுக்கக்கூடியதாக இருப்பதால், உங்கள் Signal வின்டோவை இடமாற்றம் செய்வது அவ்வளவு இழுபறியாக இருக்காது."
   },
   "icu:WhatsNew__v6.26--0": {
-    "messageformat": "Diacritics (such as accent marks) are now supported in @ mentions, so you can remind Aristotélēs to answer your philosophy question in the \"Ancient Greek Time Travellers\" group chat."
+    "messageformat": "இப்போது @ குறிப்புகளில் டயக்ரிடிக்ஸ் (உச்சரிப்புக் குறிகள் போன்றவை) ஆதரிக்கப்படுகின்றன, எனவே \"பண்டைய கிரேக்க காலத்து டைம் டிராவலர்கள்\" குழு அரட்டையில் உங்கள் தத்துவக் கேள்விக்குப் பதிலளிக்க அரிஸ்டாட்டல்ஸை நினைவூட்டலாம்."
   },
   "icu:WhatsNew__v6.26--1": {
-    "messageformat": "Three cheers for triple-click text selection improvements. Thanks, {linkToGithub}!"
+    "messageformat": "டிரிபிள் கிளிக் உரைத் தேர்ந்தெடுப்பு மேம்பாடுகளுக்கு மூன்று சியர்ஸ். நன்றி, {linkToGithub}!"
   }
 }

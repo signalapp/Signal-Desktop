@@ -6519,9 +6519,9 @@
     "messageformat": "Nu kan du klicka och dra på konversationsrubriken för att flytta Signal-fönstret."
   },
   "icu:WhatsNew__v6.26--0": {
-    "messageformat": "Diacritics (such as accent marks) are now supported in @ mentions, so you can remind Aristotélēs to answer your philosophy question in the \"Ancient Greek Time Travellers\" group chat."
+    "messageformat": "Diakritiska tecken (som accenttecken) stöds nu i @omnämnanden."
   },
   "icu:WhatsNew__v6.26--1": {
-    "messageformat": "Three cheers for triple-click text selection improvements. Thanks, {linkToGithub}!"
+    "messageformat": "Förbättringar av textval med tre klick. Tack {linkToGithub}!"
   }
 }

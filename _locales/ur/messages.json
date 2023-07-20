@@ -6519,9 +6519,9 @@
     "messageformat": "چونکہ اب کالنگ اور بات چیت کے ہیڈرز گھسیٹنے کے قابل ہیں، اس لیے اپنی Signal ونڈو کی جگہ تبدیل کرنا اب پہلے سے زیادہ پُرلطف ہو گا۔"
   },
   "icu:WhatsNew__v6.26--0": {
-    "messageformat": "Diacritics (such as accent marks) are now supported in @ mentions, so you can remind Aristotélēs to answer your philosophy question in the \"Ancient Greek Time Travellers\" group chat."
+    "messageformat": "ڈایاکرٹکس (جیسے لہجے کے نشانات) اب @ mentions میں سپورٹ کردہ ہیں، لہٰذا آپ ارسطو کو \"Ancient Greek Time Travellers\" گروپ چیٹ میں فلسفے پر اپنے سوال کا جواب دینے کی یاد دہانی کروا سکتے ہیں۔"
   },
   "icu:WhatsNew__v6.26--1": {
-    "messageformat": "Three cheers for triple-click text selection improvements. Thanks, {linkToGithub}!"
+    "messageformat": "ٹرپل کلک ٹیکسٹ سلیکشن میں بہتریاں کرنے کے لیے مبارکباد۔ شکریہ، {linkToGithub}!"
   }
 }

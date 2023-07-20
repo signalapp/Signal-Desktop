@@ -6519,9 +6519,9 @@
     "messageformat": "ახლა, Signal-ის ფანჯრის გადაადგილება უკვე მიმოწერის სათაურზე დააწკაპუნებით შეგიძლია."
   },
   "icu:WhatsNew__v6.26--0": {
-    "messageformat": "Diacritics (such as accent marks) are now supported in @ mentions, so you can remind Aristotélēs to answer your philosophy question in the \"Ancient Greek Time Travellers\" group chat."
+    "messageformat": "ახლა უკვე @ მონიშვნებს დიაკრიტიკების (მადალითად, აქცენტის ნიშნების) მხარდაჭერაც აქვს, ასე რომ, შეგიძლია, Aristotélēs-ს შეახსენო, „ანტიკურ საბერძნეთში დროში მოგზაურების“ ჯგუფის ჩატში შენს ფილოსოფიურ კითხვას უპასუხოს."
   },
   "icu:WhatsNew__v6.26--1": {
-    "messageformat": "Three cheers for triple-click text selection improvements. Thanks, {linkToGithub}!"
+    "messageformat": "სამჯერ დაწკაპუნებით ტექსტის შერჩევის გაუმჯობესება. მადლობა, {linkToGithub}!"
   }
 }

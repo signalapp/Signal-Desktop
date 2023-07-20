@@ -6519,9 +6519,9 @@
     "messageformat": "อัปเกรดฟังก์ชันการใช้งาน ให้คุณสามารถคลิกและลากแถบแชท-แถบการโทรที่อยู่ด้านบน เพื่อปรับและจัดวางหน้าต่างแอป Signal ได้สะดวกยิ่งขึ้น"
   },
   "icu:WhatsNew__v6.26--0": {
-    "messageformat": "Diacritics (such as accent marks) are now supported in @ mentions, so you can remind Aristotélēs to answer your philosophy question in the \"Ancient Greek Time Travellers\" group chat."
+    "messageformat": "มีการปรับปรุงให้สามารถรองรับการใช้เครื่องหมายเสริมสัทอักษร (Diacritic เช่น เครื่องหมาย accent) ใน @การกล่าวถึง ได้แล้ว"
   },
   "icu:WhatsNew__v6.26--1": {
-    "messageformat": "Three cheers for triple-click text selection improvements. Thanks, {linkToGithub}!"
+    "messageformat": "พัฒนาให้คุณใช้การคลิกสามครั้งเพื่อเลือกข้อความได้สมูทยิ่งกว่าที่เคย ขอบคุณ {linkToGithub} สำหรับการปรับปรุงครั้งนี้!"
   }
 }
