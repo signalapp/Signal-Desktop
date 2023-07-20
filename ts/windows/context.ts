@@ -3,6 +3,7 @@
 
 import { ipcRenderer } from 'electron';
 import type { MenuItemConstructorOptions } from 'electron';
+import { usernames } from '@signalapp/libsignal-client';
 
 import type { MenuOptionsType, MenuActionType } from '../types/menu';
 import type { IPCEventsValuesType } from '../util/createIPCEvents';
@@ -61,6 +62,7 @@ export type MinimalSignalContextType = {
 export type SignalContextType = {
   bytes: Bytes;
   crypto: Crypto;
+  usernames: typeof usernames;
   i18n: LocalizerType;
   log: LoggerType;
   renderWindow?: () => void;
@@ -72,6 +74,7 @@ export const SignalContext: SignalContextType = {
   ...MinimalSignalContext,
   bytes: new Bytes(),
   crypto: new Crypto(),
+  usernames,
   i18n,
   log: window.SignalContext.log,
   setIsCallActive(isCallActive: boolean): void {

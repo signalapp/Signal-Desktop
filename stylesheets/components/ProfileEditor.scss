@@ -58,6 +58,24 @@
       }
     }
 
+    &--username-link {
+      &::after {
+        @include light-theme {
+          @include color-svg(
+            '../images/icons/v3/qr_code/qr_code.svg',
+            $color-gray-75
+          );
+        }
+
+        @include dark-theme {
+          @include color-svg(
+            '../images/icons/v3/qr_code/qr_code.svg',
+            $color-gray-15
+          );
+        }
+      }
+    }
+
     &--bio {
       &::after {
         @include light-theme {
@@ -156,6 +174,63 @@
       }
       @include light-theme {
         @include color-svg('../images/icons/v3/trash/trash.svg', $color-black);
+      }
+    }
+  }
+
+  &__username-link {
+    &__tooltip {
+      padding: 12px;
+
+      &__container {
+        display: flex;
+        flex-direction: row;
+      }
+
+      &__icon {
+        width: 24px;
+        height: 24px;
+        margin-block-start: 4px;
+        margin-inline: 4px 12px;
+
+        @include dark-theme {
+          @include color-svg(
+            '../images/icons/v3/share/share.svg',
+            $color-white
+          );
+        }
+        @include light-theme {
+          @include color-svg(
+            '../images/icons/v3/share/share.svg',
+            $color-black
+          );
+        }
+      }
+
+      &__content {
+        text-align: start;
+
+        h3 {
+          @include font-body-2-bold;
+          margin: 0;
+        }
+
+        p {
+          max-width: 240px;
+          margin: 0;
+        }
+      }
+
+      &__close {
+        @include button-reset;
+        @include button-focus-outline;
+
+        width: 20px;
+        height: 20px;
+        padding: 0;
+        margin: 0;
+
+        @include color-svg('../images/icons/v3/x/x.svg', $color-gray-45);
       }
     }
   }

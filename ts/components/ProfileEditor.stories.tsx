@@ -12,6 +12,7 @@ import { ProfileEditor } from './ProfileEditor';
 import { EditUsernameModalBody } from './EditUsernameModalBody';
 import {
   UsernameEditState,
+  UsernameLinkState,
   UsernameReservationState,
 } from '../state/ducks/usernameEnums';
 import { UUID } from '../types/UUID';
@@ -49,6 +50,12 @@ export default {
     i18n: {
       defaultValue: i18n,
     },
+    usernameLink: {
+      defaultValue: 'https://signal.me/#eu/testtest',
+    },
+    usernameLinkFgColor: {
+      defaultValue: '',
+    },
     isUsernameFlagEnabled: {
       control: { type: 'checkbox' },
       defaultValue: false,
@@ -62,16 +69,25 @@ export default {
         Deleting: UsernameEditState.Deleting,
       },
     },
+    usernameLinkState: {
+      control: { type: 'select' },
+      defaultValue: UsernameLinkState.Ready,
+      options: [UsernameLinkState.Ready, UsernameLinkState.Updating],
+    },
     onEditStateChanged: { action: true },
     onProfileChanged: { action: true },
     onSetSkinTone: { action: true },
+    saveAttachment: { action: true },
+    setUsernameLinkColor: { action: true },
     showToast: { action: true },
     recentEmojis: {
       defaultValue: [],
     },
     replaceAvatar: { action: true },
+    resetUsernameLink: { action: true },
     saveAvatarToDisk: { action: true },
     markCompletedUsernameOnboarding: { action: true },
+    markCompletedUsernameLinkOnboarding: { action: true },
     openUsernameReservationModal: { action: true },
     setUsernameEditState: { action: true },
     deleteUsername: { action: true },

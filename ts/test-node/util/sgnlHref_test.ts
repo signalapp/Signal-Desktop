@@ -12,7 +12,7 @@ import {
   parseSgnlHref,
   parseCaptchaHref,
   parseE164FromSignalDotMeHash,
-  parseUsernameFromSignalDotMeHash,
+  parseUsernameBase64FromSignalDotMeHash,
   parseSignalHttpsLink,
   generateUsernameLink,
   rewriteSignalHrefsIfNecessary,
@@ -375,21 +375,19 @@ describe('sgnlHref', () => {
     });
   });
 
-  describe('parseUsernameFromSignalDotMeHash', () => {
+  describe('parseUsernameBase64FromSignalDotMeHash', () => {
     it('returns undefined for invalid inputs', () => {
-      ['', ' u/+18885551234', 'z/18885551234'].forEach(hash => {
-        assert.isUndefined(parseUsernameFromSignalDotMeHash(hash));
+      ['', ' eu/+18885551234', 'z/18885551234'].forEach(hash => {
+        assert.isUndefined(parseUsernameBase64FromSignalDotMeHash(hash));
       });
     });
 
     it('returns the username for valid inputs', () => {
       assert.strictEqual(
-        parseUsernameFromSignalDotMeHash('u/signal.03'),
-        'signal.03'
-      );
-      assert.strictEqual(
-        parseUsernameFromSignalDotMeHash('u/signal%2F03'),
-        'signal/03'
+        parseUsernameBase64FromSignalDotMeHash(
+          'eu/E7wk7FTMz_UYjLAsswHpDsGku8CW7yTmlBh8gtd4yqjQlqcbh09F25x0aQT4_Efe'
+        ),
+        'E7wk7FTMz/UYjLAsswHpDsGku8CW7yTmlBh8gtd4yqjQlqcbh09F25x0aQT4/Efe'
       );
     });
   });
@@ -397,22 +395,20 @@ describe('sgnlHref', () => {
   describe('generateUsernameLink', () => {
     it('generates regular link', () => {
       assert.strictEqual(
-        generateUsernameLink('signal.03'),
-        'https://signal.me/#u/signal.03'
-      );
-    });
-
-    it('generates encoded link', () => {
-      assert.strictEqual(
-        generateUsernameLink('signal/03'),
-        'https://signal.me/#u/signal%2F03'
+        generateUsernameLink(
+          'E7wk7FTMz/UYjLAsswHpDsGku8CW7yTmlBh8gtd4yqjQlqcbh09F25x0aQT4/Efe'
+        ),
+        'https://signal.me#eu/E7wk7FTMz_UYjLAsswHpDsGku8CW7yTmlBh8gtd4yqjQlqcbh09F25x0aQT4_Efe'
       );
     });
 
     it('generates short link', () => {
       assert.strictEqual(
-        generateUsernameLink('signal/03', { short: true }),
-        'signal.me/#u/signal%2F03'
+        generateUsernameLink(
+          'E7wk7FTMz/UYjLAsswHpDsGku8CW7yTmlBh8gtd4yqjQlqcbh09F25x0aQT4/Efe',
+          { short: true }
+        ),
+        'signal.me#eu/E7wk7FTMz_UYjLAsswHpDsGku8CW7yTmlBh8gtd4yqjQlqcbh09F25x0aQT4_Efe'
       );
     });
   });

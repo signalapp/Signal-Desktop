@@ -8,7 +8,6 @@ import { mapDispatchToProps } from '../actions';
 import type { PropsDataType as ProfileEditorModalPropsType } from '../../components/ProfileEditorModal';
 import { ProfileEditorModal } from '../../components/ProfileEditorModal';
 import type { PropsDataType } from '../../components/ProfileEditor';
-import { storageServiceUploadJob } from '../../services/storage';
 import { SmartEditUsernameModalBody } from './EditUsernameModalBody';
 import type { StateType } from '../reducer';
 import { getIntl } from '../selectors/user';
@@ -16,21 +15,21 @@ import {
   getEmojiSkinTone,
   getUsernamesEnabled,
   getHasCompletedUsernameOnboarding,
+  getHasCompletedUsernameLinkOnboarding,
+  getUsernameLinkColor,
+  getUsernameLink,
 } from '../selectors/items';
 import { getMe } from '../selectors/conversations';
 import { selectRecentEmojis } from '../selectors/emojis';
-import { getUsernameEditState } from '../selectors/username';
+import {
+  getUsernameEditState,
+  getUsernameLinkState,
+} from '../selectors/username';
 
 function renderEditUsernameModalBody(props: {
   onClose: () => void;
 }): JSX.Element {
   return <SmartEditUsernameModalBody {...props} />;
-}
-
-async function markCompletedUsernameOnboarding(): Promise<void> {
-  await window.storage.put('hasCompletedUsernameOnboarding', true);
-
-  storageServiceUploadJob();
 }
 
 function mapStateToProps(
@@ -53,7 +52,12 @@ function mapStateToProps(
   const isUsernameFlagEnabled = getUsernamesEnabled(state);
   const hasCompletedUsernameOnboarding =
     getHasCompletedUsernameOnboarding(state);
+  const hasCompletedUsernameLinkOnboarding =
+    getHasCompletedUsernameLinkOnboarding(state);
   const usernameEditState = getUsernameEditState(state);
+  const usernameLinkState = getUsernameLinkState(state);
+  const usernameLinkColor = getUsernameLinkColor(state);
+  const usernameLink = getUsernameLink(state);
 
   return {
     aboutEmoji,
@@ -64,15 +68,18 @@ function mapStateToProps(
     familyName,
     firstName: String(firstName),
     hasCompletedUsernameOnboarding,
+    hasCompletedUsernameLinkOnboarding,
     hasError: state.globalModals.profileEditorHasError,
     i18n: getIntl(state),
     isUsernameFlagEnabled,
-    markCompletedUsernameOnboarding,
     recentEmojis,
     skinTone,
     userAvatarData,
     username,
     usernameEditState,
+    usernameLinkState,
+    usernameLinkColor,
+    usernameLink,
 
     renderEditUsernameModalBody,
   };

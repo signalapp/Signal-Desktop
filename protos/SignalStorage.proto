@@ -147,6 +147,24 @@ message AccountRecord {
     }
   }
 
+  message UsernameLink {
+    enum Color {
+      UNKNOWN = 0;
+      BLUE = 1;
+      WHITE = 2;
+      GREY = 3;
+      OLIVE = 4;
+      GREEN = 5;
+      ORANGE = 6;
+      PINK = 7;
+      PURPLE = 8;
+    }
+
+    optional bytes entropy = 1; // 32 bytes of entropy used for encryption
+    optional bytes serverId = 2; // 16 bytes of encoded UUID provided by the server
+    optional Color color = 3; // color of the QR code itself
+  }
+
   optional bytes profileKey = 1;
   optional string givenName = 2;
   optional string familyName = 3;
@@ -179,6 +197,7 @@ message AccountRecord {
   reserved 32; // hasSeenGroupStoryEducationSheet
   optional string username = 33;
   optional bool hasCompletedUsernameOnboarding = 34;
+  optional UsernameLink usernameLink = 35;
 }
 
 message StoryDistributionListRecord {

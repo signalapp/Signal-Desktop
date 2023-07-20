@@ -379,6 +379,13 @@ const ITEM_SPECS: Partial<Record<ItemKeyType, ObjectMappingSpecType>> = {
   senderCertificate: ['value.serialized'],
   senderCertificateNoE164: ['value.serialized'],
   subscriberId: ['value'],
+  usernameLink: {
+    key: 'value',
+    valueSpec: {
+      isMap: true,
+      valueSpec: ['entropy', 'serverId'],
+    },
+  },
 };
 async function createOrUpdateItem<K extends ItemKeyType>(
   data: ItemType<K>

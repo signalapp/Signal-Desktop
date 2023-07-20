@@ -39,6 +39,7 @@ export function ProfileEditorModal({
     [EditState.ProfileName]: i18n('icu:ProfileEditorModal--name'),
     [EditState.UsernameOnboarding]: undefined,
     [EditState.Username]: i18n('icu:ProfileEditorModal--username'),
+    [EditState.UsernameLink]: undefined,
   };
 
   const [modalTitle, setModalTitle] = useState(

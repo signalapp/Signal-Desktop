@@ -25,8 +25,12 @@ import { Intl } from './Intl';
 import type { LocalizerType } from '../types/Util';
 import { Modal } from './Modal';
 import { PanelRow } from './conversation/conversation-details/PanelRow';
-import type { ProfileDataType } from '../state/ducks/conversations';
+import type {
+  ProfileDataType,
+  SaveAttachmentActionCreatorType,
+} from '../state/ducks/conversations';
 import { UsernameEditState } from '../state/ducks/usernameEnums';
+import type { UsernameLinkState } from '../state/ducks/usernameEnums';
 import { ToastType } from '../types/Toast';
 import type { ShowToastAction } from '../state/ducks/toast';
 import { getEmojiData, unifiedToEmoji } from './emoji/lib';
@@ -34,14 +38,15 @@ import { assertDev } from '../util/assert';
 import { missingCaseError } from '../util/missingCaseError';
 import { ConfirmationDialog } from './ConfirmationDialog';
 import { ContextMenu } from './ContextMenu';
+import { UsernameLinkModalBody } from './UsernameLinkModalBody';
 import { UsernameOnboardingModalBody } from './UsernameOnboardingModalBody';
 import {
   ConversationDetailsIcon,
   IconType,
 } from './conversation/conversation-details/ConversationDetailsIcon';
 import { isWhitespace, trim } from '../util/whitespaceStringUtil';
-import { generateUsernameLink } from '../util/sgnlHref';
 import { UserText } from './UserText';
+import { Tooltip, TooltipPlacement } from './Tooltip';
 
 export enum EditState {
   None = 'None',
@@ -50,6 +55,7 @@ export enum EditState {
   Bio = 'Bio',
   Username = 'Username',
   UsernameOnboarding = 'UsernameOnboarding',
+  UsernameLink = 'UsernameLink',
 }
 
 type PropsExternalType = {
@@ -70,20 +76,28 @@ export type PropsDataType = {
   familyName?: string;
   firstName: string;
   hasCompletedUsernameOnboarding: boolean;
+  hasCompletedUsernameLinkOnboarding: boolean;
   i18n: LocalizerType;
   isUsernameFlagEnabled: boolean;
   userAvatarData: ReadonlyArray<AvatarDataType>;
   username?: string;
   usernameEditState: UsernameEditState;
-  markCompletedUsernameOnboarding: () => void;
+  usernameLinkState: UsernameLinkState;
+  usernameLinkColor?: number;
+  usernameLink?: string;
 } & Pick<EmojiButtonProps, 'recentEmojis' | 'skinTone'>;
 
 type PropsActionType = {
   deleteAvatarFromDisk: DeleteAvatarFromDiskActionType;
+  markCompletedUsernameOnboarding: () => void;
+  markCompletedUsernameLinkOnboarding: () => void;
   onSetSkinTone: (tone: number) => unknown;
   replaceAvatar: ReplaceAvatarActionType;
+  saveAttachment: SaveAttachmentActionCreatorType;
   saveAvatarToDisk: SaveAvatarToDiskActionType;
   setUsernameEditState: (editState: UsernameEditState) => void;
+  setUsernameLinkColor: (color: number) => void;
+  resetUsernameLink: () => void;
   deleteUsername: () => void;
   showToast: ShowToastAction;
   openUsernameReservationModal: () => void;
@@ -131,9 +145,11 @@ export function ProfileEditor({
   familyName,
   firstName,
   hasCompletedUsernameOnboarding,
+  hasCompletedUsernameLinkOnboarding,
   i18n,
   isUsernameFlagEnabled,
   markCompletedUsernameOnboarding,
+  markCompletedUsernameLinkOnboarding,
   onEditStateChanged,
   onProfileChanged,
   onSetSkinTone,
@@ -142,13 +158,19 @@ export function ProfileEditor({
   recentEmojis,
   renderEditUsernameModalBody,
   replaceAvatar,
+  resetUsernameLink,
+  saveAttachment,
   saveAvatarToDisk,
   setUsernameEditState,
+  setUsernameLinkColor,
   showToast,
   skinTone,
   userAvatarData,
   username,
   usernameEditState,
+  usernameLinkState,
+  usernameLinkColor,
+  usernameLink,
 }: PropsType): JSX.Element {
   const focusInputRef = useRef<HTMLInputElement | null>(null);
   const [editState, setEditState] = useState<EditState>(EditState.None);
@@ -499,8 +521,22 @@ export function ProfileEditor({
         }}
       />
     );
+  } else if (editState === EditState.UsernameLink) {
+    content = (
+      <UsernameLinkModalBody
+        i18n={i18n}
+        link={usernameLink}
+        username={username ?? ''}
+        colorId={usernameLinkColor}
+        usernameLinkState={usernameLinkState}
+        setUsernameLinkColor={setUsernameLinkColor}
+        resetUsernameLink={resetUsernameLink}
+        saveAttachment={saveAttachment}
+        showToast={showToast}
+      />
+    );
   } else if (editState === EditState.None) {
-    let maybeUsernameRow: JSX.Element | undefined;
+    let maybeUsernameRows: JSX.Element | undefined;
     if (isUsernameFlagEnabled) {
       let actions: JSX.Element | undefined;
 
@@ -529,21 +565,6 @@ export function ProfileEditor({
             },
           },
           {
-            group: 'copy',
-            icon: 'ProfileEditor__username-menu__copy-link-icon',
-            label: i18n('icu:ProfileEditor--username--copy-link'),
-            onClick: () => {
-              assertDev(
-                username !== undefined,
-                'Should not be visible without username'
-              );
-              void window.navigator.clipboard.writeText(
-                generateUsernameLink(username)
-              );
-              showToast({ toastType: ToastType.CopiedUsernameLink });
-            },
-          },
-          {
             // Different group to display a divider above it
             group: 'delete',
 
@@ -568,24 +589,74 @@ export function ProfileEditor({
         }
       }
 
-      maybeUsernameRow = (
-        <PanelRow
-          className="ProfileEditor__row"
-          icon={
-            <i className="ProfileEditor__icon--container ProfileEditor__icon ProfileEditor__icon--username" />
-          }
-          label={username || i18n('icu:ProfileEditor--username')}
-          info={username && generateUsernameLink(username, { short: true })}
-          onClick={() => {
-            openUsernameReservationModal();
-            if (username || hasCompletedUsernameOnboarding) {
-              setEditState(EditState.Username);
-            } else {
-              setEditState(EditState.UsernameOnboarding);
+      let maybeUsernameLinkRow: JSX.Element | undefined;
+      if (username) {
+        maybeUsernameLinkRow = (
+          <PanelRow
+            className="ProfileEditor__row"
+            icon={
+              <i className="ProfileEditor__icon--container ProfileEditor__icon ProfileEditor__icon--username-link" />
             }
-          }}
-          actions={actions}
-        />
+            label={i18n('icu:ProfileEditor__username-link')}
+            onClick={() => {
+              setEditState(EditState.UsernameLink);
+            }}
+          />
+        );
+
+        if (!hasCompletedUsernameLinkOnboarding) {
+          const tooltip = (
+            <div className="ProfileEditor__username-link__tooltip__container">
+              <div className="ProfileEditor__username-link__tooltip__icon" />
+
+              <div className="ProfileEditor__username-link__tooltip__content">
+                <h3>
+                  {i18n('icu:ProfileEditor__username-link__tooltip__title')}
+                </h3>
+                <p>{i18n('icu:ProfileEditor__username-link__tooltip__body')}</p>
+              </div>
+
+              <button
+                type="button"
+                className="ProfileEditor__username-link__tooltip__close"
+                onClick={markCompletedUsernameLinkOnboarding}
+                aria-label={i18n('icu:close')}
+              />
+            </div>
+          );
+          maybeUsernameLinkRow = (
+            <Tooltip
+              className="ProfileEditor__username-link__tooltip"
+              direction={TooltipPlacement.Bottom}
+              sticky
+              content={tooltip}
+            >
+              {maybeUsernameLinkRow}
+            </Tooltip>
+          );
+        }
+      }
+
+      maybeUsernameRows = (
+        <>
+          <PanelRow
+            className="ProfileEditor__row"
+            icon={
+              <i className="ProfileEditor__icon--container ProfileEditor__icon ProfileEditor__icon--username" />
+            }
+            label={username || i18n('icu:ProfileEditor--username')}
+            onClick={() => {
+              openUsernameReservationModal();
+              if (username || hasCompletedUsernameOnboarding) {
+                setEditState(EditState.Username);
+              } else {
+                setEditState(EditState.UsernameOnboarding);
+              }
+            }}
+            actions={actions}
+          />
+          {maybeUsernameLinkRow}
+        </>
       );
     }
 
@@ -618,7 +689,7 @@ export function ProfileEditor({
             setEditState(EditState.ProfileName);
           }}
         />
-        {maybeUsernameRow}
+        {maybeUsernameRows}
         <PanelRow
           className="ProfileEditor__row"
           icon={
@@ -680,7 +751,9 @@ export function ProfileEditor({
             },
           ]}
         >
-          {i18n('icu:ProfileEditor--username--confirm-delete-body')}
+          {i18n('icu:ProfileEditor--username--confirm-delete-body-2', {
+            username,
+          })}
         </ConfirmationDialog>
       )}
 

@@ -74,6 +74,7 @@ export type StorageAccessType = {
   hasRegisterSupportForUnauthenticatedDelivery: boolean;
   hasSetMyStoriesPrivacy: boolean;
   hasCompletedUsernameOnboarding: boolean;
+  hasCompletedUsernameLinkOnboarding: boolean;
   hasCompletedSafetyNumberOnboarding: boolean;
   hasViewedOnboardingStory: boolean;
   hasStoriesDisabled: boolean;
@@ -158,6 +159,11 @@ export type StorageAccessType = {
   subscriberCurrencyCode: string;
   displayBadgesOnProfile: boolean;
   keepMutedChatsArchived: boolean;
+  usernameLinkColor: number;
+  usernameLink: {
+    entropy: Uint8Array;
+    serverId: Uint8Array;
+  };
 
   // Deprecated
   'challenge:retry-message-ids': never;

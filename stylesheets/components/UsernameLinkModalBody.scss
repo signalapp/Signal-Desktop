@@ -1,0 +1,299 @@
+// Copyright 2023 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.UsernameLinkModalBody {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  user-select: none;
+  max-width: 295px;
+  width: 100%;
+
+  &__container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__card {
+    --bg-color: #506ecd;
+    --fg-color: #2449c0;
+    --text-color: #ffffff;
+
+    padding-block: 22px;
+    padding-inline: 28px;
+    background: var(--bg-color);
+    border-radius: 18px;
+    max-width: 204px;
+
+    &--shadow {
+      box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.08);
+    }
+
+    &__qr {
+      position: relative;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      padding: 10px;
+      background-color: $color-white;
+      border-radius: 8px;
+      width: 148px;
+      height: 148px;
+
+      .UsernameLinkModalBody__card--shadow & {
+        outline: 2px solid $color-gray-05;
+      }
+
+      &__spinner__arc {
+        background-color: var(--fg-color);
+      }
+
+      &__blotches {
+        width: 100%;
+      }
+
+      &__logo {
+        --size: 25px;
+        position: absolute;
+        top: calc(50% - var(--size) / 2);
+        inset-inline-start: calc(50% - var(--size) / 2);
+        width: var(--size);
+        height: var(--size);
+        @include color-svg('../images/signal-qr-logo.svg', var(--fg-color));
+      }
+    }
+
+    &__username {
+      display: flex;
+      flex-direction: row;
+      gap: 4px;
+      justify-content: center;
+      margin-block: 12px 2px;
+
+      &__text {
+        color: var(--text-color);
+        font-size: 16px;
+        font-weight: 600;
+        line-height: normal;
+        letter-spacing: -0.252px;
+        text-align: center;
+      }
+
+      &__copy {
+        @include button-reset;
+        @include button-focus-outline;
+
+        flex-shrink: 0;
+        margin-top: 2px;
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+
+        @include color-svg(
+          '../images/icons/v3/copy/copy.svg',
+          var(--text-color)
+        );
+      }
+    }
+  }
+
+  &__actions {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    align-items: center;
+    justify-content: center;
+    margin-block-start: 16px;
+
+    &__save,
+    &__color {
+      @include button-reset;
+      @include button-focus-outline;
+      @include font-caption;
+
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      align-items: center;
+      justify-content: center;
+
+      min-width: 68px;
+      border-radius: 8px;
+      padding: 5px;
+
+      @include light-theme() {
+        background-color: $color-gray-05;
+        color: $color-black;
+      }
+
+      @include dark-theme() {
+        background-color: $color-gray-75;
+        color: $color-gray-02;
+      }
+
+      i {
+        display: block;
+        width: 20px;
+        height: 20px;
+        margin-block-start: 2px;
+      }
+    }
+
+    &__save i {
+      @include light-theme() {
+        @include color-svg('../images/icons/v3/save/save.svg', $color-black);
+      }
+
+      @include dark-theme() {
+        @include color-svg('../images/icons/v3/save/save.svg', $color-gray-02);
+      }
+    }
+
+    &__color i {
+      @include light-theme() {
+        @include color-svg('../images/icons/v3/color/color.svg', $color-black);
+      }
+
+      @include dark-theme() {
+        @include color-svg(
+          '../images/icons/v3/color/color.svg',
+          $color-gray-02
+        );
+      }
+    }
+  }
+
+  &__link {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    align-items: center;
+
+    padding-block: 12px;
+    padding-inline: 16px;
+    border-radius: 12px;
+    margin-block-start: 20px;
+    max-width: 296px;
+    width: 100%;
+    @include light-theme() {
+      border: 2px solid $color-gray-05;
+    }
+    @include dark-theme() {
+      border: 2px solid $color-gray-75;
+    }
+
+    &__icon {
+      @include button-reset;
+      @include button-focus-outline;
+      border-radius: 2px;
+
+      &:after {
+        content: '';
+
+        display: block;
+        width: 20px;
+        height: 20px;
+        flex-shrink: 0;
+
+        @include light-theme() {
+          @include color-svg('../images/icons/v3/copy/copy.svg', $color-black);
+        }
+
+        @include dark-theme() {
+          @include color-svg(
+            '../images/icons/v3/copy/copy.svg',
+            $color-gray-02
+          );
+        }
+      }
+    }
+
+    &__text {
+      word-break: break-all;
+      user-select: text;
+    }
+  }
+
+  &__help {
+    @include font-subtitle;
+
+    margin-block-start: 16px;
+    text-align: center;
+
+    @include light-theme() {
+      color: $color-gray-60;
+    }
+    @include dark-theme() {
+      color: $color-gray-25;
+    }
+  }
+
+  &__reset {
+    @include button-reset;
+    @include button-focus-outline;
+    @include font-body-1-bold;
+
+    margin-block: 12px 16px;
+
+    @include light-theme() {
+      color: $color-ultramarine;
+    }
+
+    @include dark-theme() {
+      color: $color-ultramarine-light;
+    }
+  }
+
+  &__colors {
+    &__grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: 1fr 1fr;
+      gap: 18px 20px;
+
+      margin-block: 24px 30px;
+    }
+
+    &__radio {
+      @include button-reset;
+      @include button-focus-outline;
+
+      display: flex;
+      width: 48px;
+      height: 48px;
+      border-radius: 24px;
+
+      &[aria-pressed='true'] {
+        padding: 3px;
+        @include light-theme() {
+          border: 2px solid $color-black;
+        }
+        @include dark-theme() {
+          border: 2px solid $color-ultramarine;
+        }
+      }
+
+      i {
+        width: 100%;
+        height: 100%;
+        border-radius: 24px;
+        border: 2px solid var(--fg-color);
+        background: var(--bg-color);
+      }
+
+      &--white-bg {
+        i {
+          @include light-theme() {
+            border-color: $color-gray-15;
+          }
+          @include dark-theme() {
+            border-color: $color-gray-60;
+          }
+        }
+      }
+    }
+  }
+}

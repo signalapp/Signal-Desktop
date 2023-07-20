@@ -73,6 +73,7 @@ export function EditUsernameModalBody({
   const [hasEverChanged, setHasEverChanged] = useState(false);
   const [nickname, setNickname] = useState(currentNickname);
   const [isLearnMoreVisible, setIsLearnMoreVisible] = useState(false);
+  const [isConfirmingSave, setIsConfirmingSave] = useState(false);
 
   useEffect(() => {
     if (state === UsernameReservationState.Closed) {
@@ -144,6 +145,18 @@ export function EditUsernameModalBody({
   }, []);
 
   const onSave = useCallback(() => {
+    if (!currentUsername) {
+      confirmUsername();
+    } else {
+      setIsConfirmingSave(true);
+    }
+  }, [confirmUsername, currentUsername]);
+
+  const onCancelSave = useCallback(() => {
+    setIsConfirmingSave(false);
+  }, []);
+
+  const onConfirmUsername = useCallback(() => {
     confirmUsername();
   }, [confirmUsername]);
 
@@ -283,6 +296,26 @@ export function EditUsernameModalBody({
           {i18n('icu:ProfileEditor--username--reservation-gone', {
             username: reservation?.username ?? nickname,
           })}
+        </ConfirmationDialog>
+      )}
+
+      {isConfirmingSave && (
+        <ConfirmationDialog
+          dialogName="EditUsernameModalBody.confirmChange"
+          cancelText={i18n('icu:cancel')}
+          actions={[
+            {
+              action: onConfirmUsername,
+              style: 'negative',
+              text: i18n(
+                'icu:EditUsernameModalBody__change-confirmation__continue'
+              ),
+            },
+          ]}
+          i18n={i18n}
+          onClose={onCancelSave}
+        >
+          {i18n('icu:EditUsernameModalBody__change-confirmation')}
         </ConfirmationDialog>
       )}
     </>

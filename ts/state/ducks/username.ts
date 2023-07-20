@@ -10,6 +10,7 @@ import {
   ConfirmUsernameResult,
 } from '../../types/Username';
 import * as usernameServices from '../../services/username';
+import { storageServiceUploadJob } from '../../services/storage';
 import type { ReserveUsernameResultType } from '../../services/username';
 import { missingCaseError } from '../../util/missingCaseError';
 import { sleep } from '../../util/sleep';
@@ -19,6 +20,7 @@ import type { PromiseAction } from '../util';
 import { getMe } from '../selectors/conversations';
 import {
   UsernameEditState,
+  UsernameLinkState,
   UsernameReservationState,
   UsernameReservationError,
 } from './usernameEnums';
@@ -37,6 +39,9 @@ export type UsernameStateType = ReadonlyDeep<{
   // ProfileEditor
   editState: UsernameEditState;
 
+  // UsernameLinkModalBody
+  linkState: UsernameLinkState;
+
   // EditUsernameModalBody
   usernameReservation: UsernameReservationStateType;
 }>;
@@ -50,6 +55,7 @@ const SET_USERNAME_RESERVATION_ERROR = 'username/SET_RESERVATION_ERROR';
 const RESERVE_USERNAME = 'username/RESERVE_USERNAME';
 const CONFIRM_USERNAME = 'username/CONFIRM_USERNAME';
 const DELETE_USERNAME = 'username/DELETE_USERNAME';
+const RESET_USERNAME_LINK = 'username/RESET_USERNAME_LINK';
 
 type SetUsernameEditStateActionType = ReadonlyDeep<{
   type: typeof SET_USERNAME_EDIT_STATE;
@@ -86,6 +92,9 @@ type ConfirmUsernameActionType = ReadonlyDeep<
 type DeleteUsernameActionType = ReadonlyDeep<
   PromiseAction<typeof DELETE_USERNAME, void>
 >;
+type ResetUsernameLinkActionType = ReadonlyDeep<
+  PromiseAction<typeof RESET_USERNAME_LINK, void>
+>;
 
 export type UsernameActionType = ReadonlyDeep<
   | SetUsernameEditStateActionType
@@ -95,6 +104,7 @@ export type UsernameActionType = ReadonlyDeep<
   | ReserveUsernameActionType
   | ConfirmUsernameActionType
   | DeleteUsernameActionType
+  | ResetUsernameLinkActionType
 >;
 
 export const actions = {
@@ -105,6 +115,10 @@ export const actions = {
   reserveUsername,
   confirmUsername,
   deleteUsername,
+  markCompletedUsernameOnboarding,
+  resetUsernameLink,
+  setUsernameLinkColor,
+  markCompletedUsernameLinkOnboarding,
 };
 
 export function setUsernameEditState(
@@ -255,11 +269,72 @@ export function deleteUsername({
   };
 }
 
+export type ResetUsernameLinkOptionsType = ReadonlyDeep<{
+  doResetLink?: typeof usernameServices.resetLink;
+}>;
+
+export function resetUsernameLink({
+  doResetLink = usernameServices.resetLink,
+}: ResetUsernameLinkOptionsType = {}): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  ResetUsernameLinkActionType
+> {
+  return dispatch => {
+    const me = window.ConversationController.getOurConversationOrThrow();
+    const username = me.get('username');
+    assertDev(username, 'Username is required for resetting link');
+
+    dispatch({
+      type: RESET_USERNAME_LINK,
+      payload: doResetLink(username),
+    });
+  };
+}
+
+function markCompletedUsernameOnboarding(): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  never
+> {
+  return async () => {
+    await window.storage.put('hasCompletedUsernameOnboarding', true);
+    const me = window.ConversationController.getOurConversationOrThrow();
+    me.captureChange('usernameOnboarding');
+    storageServiceUploadJob();
+  };
+}
+
+function markCompletedUsernameLinkOnboarding(): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  never
+> {
+  return async () => {
+    await window.storage.put('hasCompletedUsernameLinkOnboarding', true);
+  };
+}
+
+function setUsernameLinkColor(
+  color: number
+): ThunkAction<void, RootStateType, unknown, never> {
+  return async () => {
+    await window.storage.put('usernameLinkColor', color);
+    const me = window.ConversationController.getOurConversationOrThrow();
+    me.captureChange('usernameLinkColor');
+    storageServiceUploadJob();
+  };
+}
+
 // Reducers
 
 export function getEmptyState(): UsernameStateType {
   return {
     editState: UsernameEditState.Editing,
+    linkState: UsernameLinkState.Ready,
     usernameReservation: {
       state: UsernameReservationState.Closed,
     },
@@ -474,6 +549,27 @@ export function reducer(
   if (action.type === 'username/DELETE_USERNAME_REJECTED') {
     assertDev(false, 'Should never reject');
     return state;
+  }
+
+  if (action.type === 'username/RESET_USERNAME_LINK_PENDING') {
+    return {
+      ...state,
+      linkState: UsernameLinkState.Updating,
+    };
+  }
+
+  if (action.type === 'username/RESET_USERNAME_LINK_FULFILLED') {
+    return {
+      ...state,
+      linkState: UsernameLinkState.Ready,
+    };
+  }
+
+  if (action.type === 'username/RESET_USERNAME_LINK_REJECTED') {
+    return {
+      ...state,
+      linkState: UsernameLinkState.Ready,
+    };
   }
 
   return state;

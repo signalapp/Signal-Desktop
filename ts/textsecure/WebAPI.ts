@@ -520,6 +520,7 @@ const URL_CALLS = {
   username: 'v1/accounts/username_hash',
   reserveUsername: 'v1/accounts/username_hash/reserve',
   confirmUsername: 'v1/accounts/username_hash/confirm',
+  usernameLink: 'v1/accounts/username_link',
   whoami: 'v1/accounts/whoami',
 };
 
@@ -823,6 +824,10 @@ export type ReserveUsernameOptionsType = Readonly<{
   abortSignal?: AbortSignal;
 }>;
 
+export type ReplaceUsernameLinkOptionsType = Readonly<{
+  encryptedUsername: Uint8Array;
+}>;
+
 export type ConfirmUsernameOptionsType = Readonly<{
   hash: Uint8Array;
   proof: Uint8Array;
@@ -836,6 +841,20 @@ const reserveUsernameResultZod = z.object({
 });
 export type ReserveUsernameResultType = z.infer<
   typeof reserveUsernameResultZod
+>;
+
+const replaceUsernameLinkResultZod = z.object({
+  usernameLinkHandle: z.string(),
+});
+export type ReplaceUsernameLinkResultType = z.infer<
+  typeof replaceUsernameLinkResultZod
+>;
+
+const resolveUsernameLinkResultZod = z.object({
+  usernameLinkEncryptedValue: z.string().transform(x => Bytes.fromBase64(x)),
+});
+export type ResolveUsernameLinkResultType = z.infer<
+  typeof resolveUsernameLinkResultZod
 >;
 
 export type ConfirmCodeOptionsType = Readonly<{
@@ -1002,6 +1021,13 @@ export type WebAPIType = {
     options: ReserveUsernameOptionsType
   ) => Promise<ReserveUsernameResultType>;
   confirmUsername(options: ConfirmUsernameOptionsType): Promise<void>;
+  replaceUsernameLink: (
+    options: ReplaceUsernameLinkOptionsType
+  ) => Promise<ReplaceUsernameLinkResultType>;
+  deleteUsernameLink: () => Promise<void>;
+  resolveUsernameLink: (
+    serverId: string
+  ) => Promise<ResolveUsernameLinkResultType>;
   registerCapabilities: (capabilities: CapabilitiesUploadType) => Promise<void>;
   registerKeys: (genKeys: UploadKeysType, uuidKind: UUIDKind) => Promise<void>;
   registerSupportForUnauthenticatedDelivery: () => Promise<void>;
@@ -1284,6 +1310,7 @@ export function initialize({
       confirmUsername,
       createGroup,
       deleteUsername,
+      deleteUsernameLink,
       downloadOnboardingStories,
       fetchLinkPreviewImage,
       fetchLinkPreviewMetadata,
@@ -1336,6 +1363,8 @@ export function initialize({
       registerKeys,
       registerRequestHandler,
       registerSupportForUnauthenticatedDelivery,
+      resolveUsernameLink,
+      replaceUsernameLink,
       reportMessage,
       requestVerificationSMS,
       requestVerificationVoice,
@@ -1898,6 +1927,43 @@ export function initialize({
         },
         abortSignal,
       });
+    }
+
+    async function replaceUsernameLink({
+      encryptedUsername,
+    }: ReplaceUsernameLinkOptionsType): Promise<ReplaceUsernameLinkResultType> {
+      return replaceUsernameLinkResultZod.parse(
+        await _ajax({
+          call: 'usernameLink',
+          httpType: 'PUT',
+          responseType: 'json',
+          jsonData: {
+            usernameLinkEncryptedValue: Bytes.toBase64(encryptedUsername),
+          },
+        })
+      );
+    }
+
+    async function deleteUsernameLink(): Promise<void> {
+      await _ajax({
+        call: 'usernameLink',
+        httpType: 'DELETE',
+      });
+    }
+
+    async function resolveUsernameLink(
+      serverId: string
+    ): Promise<ResolveUsernameLinkResultType> {
+      return resolveUsernameLinkResultZod.parse(
+        await _ajax({
+          httpType: 'GET',
+          call: 'usernameLink',
+          urlParameters: `/${encodeURIComponent(serverId)}`,
+          responseType: 'json',
+          unauthenticated: true,
+          accessKey: undefined,
+        })
+      );
     }
 
     async function reportMessage({

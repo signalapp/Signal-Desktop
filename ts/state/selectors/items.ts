@@ -19,6 +19,8 @@ import { DEFAULT_CONVERSATION_COLOR } from '../../types/Colors';
 import { getPreferredReactionEmoji as getPreferredReactionEmojiFromStoredValue } from '../../reactions/preferredReactionEmoji';
 import { isBeta } from '../../util/version';
 import { DurationInSeconds } from '../../util/durations';
+import { generateUsernameLink } from '../../util/sgnlHref';
+import * as Bytes from '../../Bytes';
 import { getUserNumber, getUserACI } from './user';
 
 const DEFAULT_PREFERRED_LEFT_PANE_WIDTH = 320;
@@ -86,10 +88,39 @@ export const getHasCompletedUsernameOnboarding = createSelector(
     Boolean(state.hasCompletedUsernameOnboarding)
 );
 
+export const getHasCompletedUsernameLinkOnboarding = createSelector(
+  getItems,
+  (state: ItemsStateType): boolean =>
+    Boolean(state.hasCompletedUsernameLinkOnboarding)
+);
+
 export const getHasCompletedSafetyNumberOnboarding = createSelector(
   getItems,
   (state: ItemsStateType): boolean =>
     Boolean(state.hasCompletedSafetyNumberOnboarding)
+);
+
+export const getUsernameLinkColor = createSelector(
+  getItems,
+  (state: ItemsStateType): number | undefined => state.usernameLinkColor
+);
+
+export const getUsernameLink = createSelector(
+  getItems,
+  ({ usernameLink }: ItemsStateType): string | undefined => {
+    if (!usernameLink) {
+      return undefined;
+    }
+    const { entropy, serverId } = usernameLink;
+
+    if (!entropy.length || !serverId.length) {
+      return undefined;
+    }
+
+    const content = Bytes.concatenate([entropy, serverId]);
+
+    return generateUsernameLink(Bytes.toBase64(content));
+  }
 );
 
 export const isInternalUser = createSelector(

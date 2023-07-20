@@ -2276,20 +2276,20 @@
     bindings "^1.5.0"
     tar "^6.1.0"
 
-"@signalapp/libsignal-client@0.27.0", "@signalapp/libsignal-client@^0.27.0":
-  version "0.27.0"
-  resolved "https://registry.yarnpkg.com/@signalapp/libsignal-client/-/libsignal-client-0.27.0.tgz#012e254d42e4dcd752979419c048af65a3f1eed1"
-  integrity sha512-XinrJ9R2veJM/u3CAaL/YN5Yid+ASfsSceQiL/Qr1vKCsMori0bWG6AzOBnDUx/Bnm6dcDBc15t8w31WkXOTVw==
+"@signalapp/libsignal-client@0.28.0", "@signalapp/libsignal-client@^0.28.0":
+  version "0.28.0"
+  resolved "https://registry.yarnpkg.com/@signalapp/libsignal-client/-/libsignal-client-0.28.0.tgz#b1553a4b56fc01afe5e9b2785abd5c680f46ebc4"
+  integrity sha512-Vl3vt9hBdPW2/cwuf8+ZMwxmlAlnuBSgsKebRPfDOboLWDRlQRq+tstlwfBFU0e/2ixgY95Wulu46I1cl6H40g==
   dependencies:
     node-gyp-build "^4.2.3"
     uuid "^8.3.0"
 
-"@signalapp/mock-server@3.1.0":
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/@signalapp/mock-server/-/mock-server-3.1.0.tgz#6f499cf1a396626901760b93e888bb5020983075"
-  integrity sha512-u6zz9PWV7NLP+RIz2hg4zl0UY34Ufj2pjQsPmIY//oVnu3PfIiyuKMIzPU7jPMSYq29uFbUQPypLJYOYP2dOiA==
+"@signalapp/mock-server@3.2.0":
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/@signalapp/mock-server/-/mock-server-3.2.0.tgz#9371dc2002a1a8aa25ac815944a443cdc0a1b7c5"
+  integrity sha512-4rpAAH5tV8eoIikb6FozMmrCKr+pqaP9JNyfZQ5YLPanAiTE9iER7WJex0HJ9PhscgswbzWIPFuRyhm/qPocVQ==
   dependencies:
-    "@signalapp/libsignal-client" "^0.27.0"
+    "@signalapp/libsignal-client" "^0.28.0"
     debug "^4.3.2"
     long "^4.0.0"
     micro "^9.3.4"
@@ -6593,6 +6593,11 @@ chalk@^3.0.0:
   dependencies:
     ansi-styles "^4.1.0"
     supports-color "^7.1.0"
+
+changedpi@1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/changedpi/-/changedpi-1.0.4.tgz#91b915c7e3fbbcd75559249f553902b96f3e4c7e"
+  integrity sha512-9r6MNQrbg+cFURvEy10wo9Q35PD5GVj2GvXCbUYv8mU0Uf/NbkR7KlzMrjT4Ycd8a2nxApFJXQX2lTOPRFyG2g==
 
 character-entities-legacy@^1.0.0:
   version "1.1.1"

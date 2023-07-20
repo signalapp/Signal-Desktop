@@ -415,6 +415,10 @@ Signal Desktop makes use of the following open source projects.
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
     THE SOFTWARE.
 
+## changedpi
+
+    License: MIT
+
 ## cirbuf
 
     MIT License

@@ -4,10 +4,10 @@
 import type { LoggerType } from '../types/Logging';
 import { maybeParseUrl } from './url';
 import { isValidE164 } from './isValidE164';
+import { fromWebSafeBase64, toWebSafeBase64 } from './webSafeBase64';
 
 const SIGNAL_HOSTS = new Set(['signal.group', 'signal.art', 'signal.me']);
 const SIGNAL_DOT_ME_E164_PREFIX = 'p/';
-const SIGNAL_DOT_ME_USERNAME_PREFIX = 'u/';
 
 function parseUrl(value: string | URL, logger: LoggerType): undefined | URL {
   if (value instanceof URL) {
@@ -147,14 +147,15 @@ export function parseE164FromSignalDotMeHash(hash: string): undefined | string {
   return isValidE164(maybeE164, true) ? maybeE164 : undefined;
 }
 
-export function parseUsernameFromSignalDotMeHash(
+export function parseUsernameBase64FromSignalDotMeHash(
   hash: string
 ): undefined | string {
-  if (!hash.startsWith(SIGNAL_DOT_ME_USERNAME_PREFIX)) {
+  const match = hash.match(/^eu\/([a-zA-Z0-9_-]{64})$/);
+  if (!match) {
     return;
   }
 
-  return decodeURIComponent(hash.slice(SIGNAL_DOT_ME_USERNAME_PREFIX.length));
+  return fromWebSafeBase64(match[1]);
 }
 
 /**
@@ -184,10 +185,10 @@ export type GenerateUsernameLinkOptionsType = Readonly<{
 }>;
 
 export function generateUsernameLink(
-  username: string,
+  base64: string,
   { short = false }: GenerateUsernameLinkOptionsType = {}
 ): string {
-  const shortVersion = `signal.me/#u/${encodeURIComponent(username)}`;
+  const shortVersion = `signal.me#eu/${toWebSafeBase64(base64)}`;
   if (short) {
     return shortVersion;
   }

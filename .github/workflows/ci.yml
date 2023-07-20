@@ -91,6 +91,8 @@ jobs:
     - run: yarn prepare-beta-build
     - run: yarn test-node
     - run: yarn test-electron
+      env:
+        ARTIFACTS_DIR: artifacts/macos
       timeout-minutes: 5
     - run: yarn build
       env:
@@ -101,6 +103,12 @@ jobs:
       env:
         NODE_ENV: production
     - run: yarn test-eslint
+
+    - name: Upload artifacts on failure
+      if: failure()
+      uses: actions/upload-artifact@v3
+      with:
+        path: artifacts
 
   linux:
     needs: lint
@@ -150,11 +158,18 @@ jobs:
     - run: xvfb-run --auto-servernum yarn test-electron
       timeout-minutes: 5
       env:
+        ARTIFACTS_DIR: artifacts/linux
         LANG: en_US
         LANGUAGE: en_US
     - run: xvfb-run --auto-servernum yarn test-release
       env:
         NODE_ENV: production
+
+    - name: Upload artifacts on failure
+      if: failure()
+      uses: actions/upload-artifact@v3
+      with:
+        path: artifacts
 
   windows:
     needs: lint
@@ -205,10 +220,18 @@ jobs:
         DISABLE_INSPECT_FUSE: on
 
     - run: yarn test-electron
+      env:
+        ARTIFACTS_DIR: artifacts/windows
       timeout-minutes: 5
     - run: yarn test-release
       env:
         SIGNAL_ENV: production
+
+    - name: Upload artifacts on failure
+      if: failure()
+      uses: actions/upload-artifact@v3
+      with:
+        path: artifacts
 
   mock-tests:
     needs: lint

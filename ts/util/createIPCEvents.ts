@@ -21,6 +21,7 @@ import { parseSystemTraySetting } from '../types/SystemTraySetting';
 import type { ConversationType } from '../state/ducks/conversations';
 import type { AuthorizeArtCreatorDataType } from '../state/ducks/globalModals';
 import { calling } from '../services/calling';
+import { resolveUsernameByLinkBase64 } from '../services/username';
 import { getConversationsWithCustomColorSelector } from '../state/selectors/conversations';
 import { getCustomColors } from '../state/selectors/items';
 import { themeChanged } from '../shims/themeChanged';
@@ -36,7 +37,7 @@ import { isPhoneNumberSharingEnabled } from './isPhoneNumberSharingEnabled';
 import * as Registration from './registration';
 import {
   parseE164FromSignalDotMeHash,
-  parseUsernameFromSignalDotMeHash,
+  parseUsernameBase64FromSignalDotMeHash,
 } from './sgnlHref';
 import { lookupConversationWithoutUuid } from './lookupConversationWithoutUuid';
 import * as log from '../logging/log';
@@ -538,11 +539,13 @@ export function createIPCEvents(
         return;
       }
 
-      const maybeUsername = parseUsernameFromSignalDotMeHash(hash);
-      if (maybeUsername) {
+      const maybeUsernameBase64 = parseUsernameBase64FromSignalDotMeHash(hash);
+      if (maybeUsernameBase64) {
+        const username = await resolveUsernameByLinkBase64(maybeUsernameBase64);
+
         const convoId = await lookupConversationWithoutUuid({
           type: 'username',
-          username: maybeUsername,
+          username,
           showUserNotFoundModal,
           setIsFetchingUUID: noop,
         });

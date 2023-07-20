@@ -1,8 +1,6 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { usernames } from '@signalapp/libsignal-client';
-
 export type UsernameReservationType = Readonly<{
   username: string;
   previousUsername: string | undefined;
@@ -27,7 +25,7 @@ export enum ConfirmUsernameResult {
 
 export function getUsernameFromSearch(searchTerm: string): string | undefined {
   try {
-    usernames.hash(searchTerm);
+    window.SignalContext.usernames.hash(searchTerm);
     return searchTerm;
   } catch {
     return undefined;

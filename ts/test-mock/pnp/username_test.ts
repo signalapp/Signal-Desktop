@@ -4,13 +4,16 @@
 import { assert } from 'chai';
 import { Proto, StorageState } from '@signalapp/mock-server';
 import type { PrimaryDevice } from '@signalapp/mock-server';
+import { usernames } from '@signalapp/libsignal-client';
 import createDebug from 'debug';
 
 import * as durations from '../../util/durations';
 import { uuidToBytes } from '../../util/uuidToBytes';
+import { generateUsernameLink } from '../../util/sgnlHref';
 import { MY_STORY_ID } from '../../types/Stories';
 import { Bootstrap } from '../bootstrap';
 import type { App } from '../bootstrap';
+import { bufferToUuid } from '../helpers';
 
 export const debug = createDebug('mock:test:username');
 
@@ -206,6 +209,32 @@ describe('pnp/username', function needsName() {
       assert.strictEqual(removed.length, 1, 'only one record must be removed');
 
       assert.strictEqual(added[0]?.account?.username, username);
+      const usernameLink = added[0]?.account?.usernameLink;
+      if (!usernameLink) {
+        throw new Error('No username link in AccountRecord');
+      }
+      if (!usernameLink.entropy) {
+        throw new Error('No username link entropy in AccountRecord');
+      }
+      if (!usernameLink.serverId) {
+        throw new Error('No username link serverId in AccountRecord');
+      }
+
+      const linkUuid = bufferToUuid(Buffer.from(usernameLink.serverId));
+
+      const encryptedLinkBase64 = await server.lookupByUsernameLink(linkUuid);
+      if (!encryptedLinkBase64) {
+        throw new Error('Could not find link on the sever');
+      }
+
+      const encryptedLink = Buffer.from(encryptedLinkBase64, 'base64');
+
+      const link = new usernames.UsernameLink(
+        Buffer.from(usernameLink.entropy),
+        encryptedLink
+      );
+      const linkUsername = link.decryptUsername();
+      assert.strictEqual(linkUsername, username);
 
       state = newState;
     }
@@ -233,7 +262,17 @@ describe('pnp/username', function needsName() {
       assert.strictEqual(added.length, 1, 'only one record must be added');
       assert.strictEqual(removed.length, 1, 'only one record must be removed');
 
-      assert.strictEqual(added[0]?.account?.username, '');
+      assert.strictEqual(added[0]?.account?.username, '', 'clears username');
+      assert.strictEqual(
+        added[0]?.account?.usernameLink?.entropy?.length ?? 0,
+        0,
+        'clears usernameLink.entropy'
+      );
+      assert.strictEqual(
+        added[0]?.account?.usernameLink?.serverId?.length ?? 0,
+        0,
+        'clears usernameLink.serverId'
+      );
 
       state = newState;
     }
@@ -259,6 +298,58 @@ describe('pnp/username', function needsName() {
 
     debug('starting lookup');
     await window.locator(`div.ListTile >> "${CARL_USERNAME}"`).click();
+
+    debug('sending a message');
+    {
+      const compositionInput = await app.waitForEnabledComposer();
+
+      await compositionInput.type('Hello Carl');
+      await compositionInput.press('Enter');
+
+      const { body, source } = await carl.waitForMessage();
+      assert.strictEqual(body, 'Hello Carl');
+      assert.strictEqual(source, desktop);
+    }
+  });
+
+  it('looks up contacts by username link', async () => {
+    const { desktop, phone, server } = bootstrap;
+
+    debug('creating a contact with username link');
+    const carl = await server.createPrimaryDevice({
+      profileName: 'Devin',
+    });
+
+    await server.setUsername(carl.device.uuid, CARL_USERNAME);
+    const { entropy, serverId } = await server.setUsernameLink(
+      carl.device.uuid,
+      CARL_USERNAME
+    );
+
+    const linkUrl = generateUsernameLink(
+      Buffer.concat([entropy, uuidToBytes(serverId)]).toString('base64')
+    );
+
+    debug('sending link to Note to Self');
+    await phone.sendText(desktop, linkUrl, {
+      withProfileKey: true,
+    });
+
+    const window = await app.getWindow();
+
+    debug('opening note to self');
+    const leftPane = window.locator('.left-pane-wrapper');
+    await leftPane.locator(`[data-testid="${desktop.uuid}"]`).click();
+
+    debug('clicking link');
+    await window.locator('.module-message__text a').click({
+      noWaitAfter: true,
+    });
+
+    debug('waiting for conversation to open');
+    await window
+      .locator(`.module-conversation-hero >> "${CARL_USERNAME}"`)
+      .waitFor();
 
     debug('sending a message');
     {

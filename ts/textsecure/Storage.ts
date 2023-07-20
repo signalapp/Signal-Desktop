@@ -56,10 +56,10 @@ export class Storage implements StorageInterface {
     defaultValue: V
   ): V;
 
-  public get<K extends keyof Access, V extends Access[K]>(
+  public get<K extends keyof Access>(
     key: K,
-    defaultValue?: V
-  ): V | undefined {
+    defaultValue?: Access[K]
+  ): Access[K] | undefined {
     if (!this.ready) {
       log.warn('Called storage.get before storage is ready. key:', key);
     }
@@ -69,7 +69,7 @@ export class Storage implements StorageInterface {
       return defaultValue;
     }
 
-    return item as V;
+    return item;
   }
 
   public async put<K extends keyof Access>(

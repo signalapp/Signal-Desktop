@@ -419,6 +419,20 @@ export function toAccountRecord(
     accountRecord.storyViewReceiptsEnabled = Proto.OptionalBool.UNSET;
   }
 
+  // Username link
+  {
+    const color = window.storage.get('usernameLinkColor');
+    const linkData = window.storage.get('usernameLink');
+
+    if (linkData?.entropy.length && linkData?.serverId.length) {
+      accountRecord.usernameLink = {
+        color,
+        entropy: linkData.entropy,
+        serverId: linkData.serverId,
+      };
+    }
+  }
+
   applyUnknownFields(accountRecord, conversation);
 
   return accountRecord;
@@ -1171,6 +1185,7 @@ export async function mergeAccountRecord(
     storiesDisabled,
     storyViewReceiptsEnabled,
     username,
+    usernameLink,
   } = accountRecord;
 
   const updatedConversations = new Array<ConversationModel>();
@@ -1423,6 +1438,22 @@ export async function mergeAccountRecord(
     default:
       // Do nothing
       break;
+  }
+
+  if (usernameLink?.entropy?.length && usernameLink?.serverId?.length) {
+    await Promise.all([
+      usernameLink.color &&
+        window.storage.put('usernameLinkColor', usernameLink.color),
+      window.storage.put('usernameLink', {
+        entropy: usernameLink.entropy,
+        serverId: usernameLink.serverId,
+      }),
+    ]);
+  } else {
+    await Promise.all([
+      window.storage.remove('usernameLinkColor'),
+      window.storage.remove('usernameLink'),
+    ]);
   }
 
   const ourID = window.ConversationController.getOurConversationId();
