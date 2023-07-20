@@ -25,9 +25,9 @@ function cleanUpOtherTest() {
   alreadyCleanedWaiting = true;
 
   const parentFolderOfAllDataPath = isMacOS()
-    ? '~/Library/Application Support/'
+    ? join(homedir(), 'Library', 'Application Support')
     : isLinux()
-    ? `${homedir()}/.config/`
+    ? join(homedir(), '.config')
     : null;
   if (!parentFolderOfAllDataPath) {
     throw new Error('Only macOS is currrently supported ');
