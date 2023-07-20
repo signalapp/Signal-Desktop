@@ -2276,20 +2276,20 @@
     bindings "^1.5.0"
     tar "^6.1.0"
 
-"@signalapp/libsignal-client@0.28.0", "@signalapp/libsignal-client@^0.28.0":
-  version "0.28.0"
-  resolved "https://registry.yarnpkg.com/@signalapp/libsignal-client/-/libsignal-client-0.28.0.tgz#b1553a4b56fc01afe5e9b2785abd5c680f46ebc4"
-  integrity sha512-Vl3vt9hBdPW2/cwuf8+ZMwxmlAlnuBSgsKebRPfDOboLWDRlQRq+tstlwfBFU0e/2ixgY95Wulu46I1cl6H40g==
+"@signalapp/libsignal-client@0.29.0", "@signalapp/libsignal-client@^0.29.0":
+  version "0.29.0"
+  resolved "https://registry.yarnpkg.com/@signalapp/libsignal-client/-/libsignal-client-0.29.0.tgz#36c467645551e023924371f2d894085dfbd3e59c"
+  integrity sha512-p+FoCV0wORPoZNixyib/kxPL1+7OdNNjAxCKbiuN+1zx948YDZxVrttJv1FylPrLiTUpF+AloZr88elnUq4ZJA==
   dependencies:
     node-gyp-build "^4.2.3"
     uuid "^8.3.0"
 
-"@signalapp/mock-server@3.2.0":
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/@signalapp/mock-server/-/mock-server-3.2.0.tgz#9371dc2002a1a8aa25ac815944a443cdc0a1b7c5"
-  integrity sha512-4rpAAH5tV8eoIikb6FozMmrCKr+pqaP9JNyfZQ5YLPanAiTE9iER7WJex0HJ9PhscgswbzWIPFuRyhm/qPocVQ==
+"@signalapp/mock-server@3.2.1":
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/@signalapp/mock-server/-/mock-server-3.2.1.tgz#36fd3e72b44dbcb6c82fdb27bbf56f8393e8f065"
+  integrity sha512-irT4U3e8Lve9HODGIlXx+vElONaPNe7Ks9QRoSPSR4o0DbUX/g+zUxfEu7gjEi0CQI8OKxcJHe7e5DbE8mvXng==
   dependencies:
-    "@signalapp/libsignal-client" "^0.28.0"
+    "@signalapp/libsignal-client" "^0.29.0"
     debug "^4.3.2"
     long "^4.0.0"
     micro "^9.3.4"

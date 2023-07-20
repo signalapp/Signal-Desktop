@@ -831,6 +831,7 @@ export type ReplaceUsernameLinkOptionsType = Readonly<{
 export type ConfirmUsernameOptionsType = Readonly<{
   hash: Uint8Array;
   proof: Uint8Array;
+  encryptedUsername: Uint8Array;
   abortSignal?: AbortSignal;
 }>;
 
@@ -843,6 +844,13 @@ export type ReserveUsernameResultType = z.infer<
   typeof reserveUsernameResultZod
 >;
 
+const confirmUsernameResultZod = z.object({
+  usernameLinkHandle: z.string(),
+});
+export type ConfirmUsernameResultType = z.infer<
+  typeof confirmUsernameResultZod
+>;
+
 const replaceUsernameLinkResultZod = z.object({
   usernameLinkHandle: z.string(),
 });
@@ -851,7 +859,9 @@ export type ReplaceUsernameLinkResultType = z.infer<
 >;
 
 const resolveUsernameLinkResultZod = z.object({
-  usernameLinkEncryptedValue: z.string().transform(x => Bytes.fromBase64(x)),
+  usernameLinkEncryptedValue: z
+    .string()
+    .transform(x => Bytes.fromBase64(fromWebSafeBase64(x))),
 });
 export type ResolveUsernameLinkResultType = z.infer<
   typeof resolveUsernameLinkResultZod
@@ -1020,7 +1030,9 @@ export type WebAPIType = {
   reserveUsername: (
     options: ReserveUsernameOptionsType
   ) => Promise<ReserveUsernameResultType>;
-  confirmUsername(options: ConfirmUsernameOptionsType): Promise<void>;
+  confirmUsername(
+    options: ConfirmUsernameOptionsType
+  ): Promise<ConfirmUsernameResultType>;
   replaceUsernameLink: (
     options: ReplaceUsernameLinkOptionsType
   ) => Promise<ReplaceUsernameLinkResultType>;
@@ -1916,17 +1928,21 @@ export function initialize({
     async function confirmUsername({
       hash,
       proof,
+      encryptedUsername,
       abortSignal,
     }: ConfirmUsernameOptionsType) {
-      await _ajax({
+      const response = await _ajax({
         call: 'confirmUsername',
         httpType: 'PUT',
         jsonData: {
           usernameHash: toWebSafeBase64(Bytes.toBase64(hash)),
           zkProof: toWebSafeBase64(Bytes.toBase64(proof)),
+          encryptedUsername: toWebSafeBase64(Bytes.toBase64(encryptedUsername)),
         },
+        responseType: 'json',
         abortSignal,
       });
+      return confirmUsernameResultZod.parse(response);
     }
 
     async function replaceUsernameLink({
@@ -1938,7 +1954,9 @@ export function initialize({
           httpType: 'PUT',
           responseType: 'json',
           jsonData: {
-            usernameLinkEncryptedValue: Bytes.toBase64(encryptedUsername),
+            usernameLinkEncryptedValue: toWebSafeBase64(
+              Bytes.toBase64(encryptedUsername)
+            ),
           },
         })
       );

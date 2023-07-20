@@ -183,16 +183,26 @@ export async function confirmUsername(
   strictAssert(usernames.hash(username).equals(hash), 'username hash mismatch');
 
   try {
-    await server.confirmUsername({
-      hash,
-      proof,
-      abortSignal,
+    const { entropy, encryptedUsername } =
+      usernames.createUsernameLink(username);
+
+    await window.storage.remove('usernameLink');
+
+    const { usernameLinkHandle: serverIdString } = await server.confirmUsername(
+      {
+        hash,
+        proof,
+        encryptedUsername,
+        abortSignal,
+      }
+    );
+
+    await window.storage.put('usernameLink', {
+      entropy,
+      serverId: uuidToBytes(serverIdString),
     });
 
     await updateUsernameAndSyncProfile(username);
-
-    // TODO: DESKTOP-5687
-    await resetLink(username);
   } catch (error) {
     if (error instanceof HTTPError) {
       if (error.code === 413 || error.code === 429) {
@@ -245,17 +255,15 @@ export async function resetLink(username: string): Promise<void> {
     throw new Error('Username has changed on another device');
   }
 
-  const link = usernames.createUsernameLink(username);
+  const { entropy, encryptedUsername } = usernames.createUsernameLink(username);
 
   await window.storage.remove('usernameLink');
 
   const { usernameLinkHandle: serverIdString } =
-    await server.replaceUsernameLink({
-      encryptedUsername: link.encryptedUsername,
-    });
+    await server.replaceUsernameLink({ encryptedUsername });
 
   await window.storage.put('usernameLink', {
-    entropy: link.entropy,
+    entropy,
     serverId: uuidToBytes(serverIdString),
   });
 
@@ -285,10 +293,8 @@ export async function resolveUsernameByLinkBase64(
     serverId
   );
 
-  const link = new usernames.UsernameLink(
-    Buffer.from(entropy),
-    Buffer.from(usernameLinkEncryptedValue)
-  );
-
-  return link.decryptUsername();
+  return usernames.decryptUsernameLink({
+    entropy: Buffer.from(entropy),
+    encryptedUsername: Buffer.from(usernameLinkEncryptedValue),
+  });
 }

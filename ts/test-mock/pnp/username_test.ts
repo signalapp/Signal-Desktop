@@ -222,18 +222,15 @@ describe('pnp/username', function needsName() {
 
       const linkUuid = bufferToUuid(Buffer.from(usernameLink.serverId));
 
-      const encryptedLinkBase64 = await server.lookupByUsernameLink(linkUuid);
-      if (!encryptedLinkBase64) {
+      const encryptedLink = await server.lookupByUsernameLink(linkUuid);
+      if (!encryptedLink) {
         throw new Error('Could not find link on the sever');
       }
 
-      const encryptedLink = Buffer.from(encryptedLinkBase64, 'base64');
-
-      const link = new usernames.UsernameLink(
-        Buffer.from(usernameLink.entropy),
-        encryptedLink
-      );
-      const linkUsername = link.decryptUsername();
+      const linkUsername = usernames.decryptUsernameLink({
+        entropy: Buffer.from(usernameLink.entropy),
+        encryptedUsername: encryptedLink,
+      });
       assert.strictEqual(linkUsername, username);
 
       state = newState;
