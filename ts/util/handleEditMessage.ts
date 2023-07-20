@@ -21,6 +21,7 @@ import { isIncoming, isOutgoing } from '../messages/helpers';
 import { isOlderThan } from './timestamp';
 import { isDirectConversation } from './whatTypeOfConversation';
 import { queueAttachmentDownloads } from './queueAttachmentDownloads';
+import { modifyTargetMessage } from './modifyTargetMessage';
 
 export async function handleEditMessage(
   mainMessage: MessageAttributesType,
@@ -285,10 +286,18 @@ export async function handleEditMessage(
     )
   );
 
-  drop(mainMessageModel.getConversation()?.updateLastMessage());
   if (conversation) {
     // Clear typing indicator
     const typingToken = `${editAttributes.fromId}.${editAttributes.fromDevice}`;
     conversation.clearContactTypingTimer(typingToken);
+  }
+
+  const mainMessageConversation = mainMessageModel.getConversation();
+  if (mainMessageConversation) {
+    drop(mainMessageConversation.updateLastMessage());
+    await modifyTargetMessage(mainMessageModel, mainMessageConversation, {
+      isFirstRun: true,
+      skipEdits: true,
+    });
   }
 }
