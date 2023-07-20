@@ -413,7 +413,7 @@
     "description": "Message shown if the import went wrong; first paragraph"
   },
   "icu:importErrorSecond": {
-    "messageformat": "اگر این مراحل برای شما کار نمیکنند، لطفا یک گزارش خطاء (نمایش -> گزارش خطاء)  ثبت کنید تا بتوانیم برای جابجایی به شما کمک کنیم.",
+    "messageformat": "اگر این مراحل برای شما کار نمی‌کنند، لطفا یک گزارش خطا (نمایش -> گزارش خطا) ارسال کنید تا بتوانیم برای جابجایی به شما کمک کنیم.",
     "description": "Message shown if the import went wrong; second paragraph"
   },
   "icu:importAgain": {
@@ -589,7 +589,7 @@
     "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
   },
   "icu:debugLogExplanation": {
-    "messageformat": "وقتی روی ارسال کلیک می‌کنید، گزارش شما به مدت 30 روز به صورت آنلاین در یک URL منحصر به فرد و منتشر نشده پست می شود. می توانید ابتدا آن را در دستگاه خود ذخیره کنید.",
+    "messageformat": "وقتی روی ارسال کلیک می‌کنید، گزارش شما به مدت 30 روز به صورت آنلاین در یک URL منحصربه‌فرد و منتشرنشده پست می‌شود. می‌توانید ابتدا آن را در دستگاه خود ذخیره کنید.",
     "description": "Description of what will happen with your debug log"
   },
   "icu:debugLogError": {
@@ -635,6 +635,26 @@
     "messageformat": "پذیرفتن",
     "description": "Label for a button to accept a new safety number"
   },
+  "icu:SafetyNumberViewer__migration__text": {
+    "messageformat": "Safety numbers are being updated.",
+    "description": "An explanatory note in SafetyNumberViewer describing the safety number migration process."
+  },
+  "icu:SafetyNumberViewer__migration__learn_more": {
+    "messageformat": "Learn more",
+    "description": "A link text in SafetyNumberViewer describing the safety number migration process."
+  },
+  "icu:SafetyNumberViewer__card__prev": {
+    "messageformat": "Previous Safety number",
+    "description": "An ARIA label for safety number navigation button."
+  },
+  "icu:SafetyNumberViewer__card__next": {
+    "messageformat": "Next Safety number",
+    "description": "An ARIA label for safety number navigation button."
+  },
+  "icu:SafetyNumberViewer__carousel__dot": {
+    "messageformat": "Safety number version, {index,number} of {total,number}",
+    "description": "An ARIA label for safety number carousel button."
+  },
   "icu:SafetyNumberViewer__markAsVerified": {
     "messageformat": "علامت‌گذاری به عنوان تأیید شده",
     "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
@@ -642,6 +662,42 @@
   "icu:SafetyNumberViewer__clearVerification": {
     "messageformat": "پاک کردن تأیید",
     "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
+  },
+  "icu:SafetyNumberViewer__hint--migration": {
+    "messageformat": "To verify end-to-end encryption with {name}, match the color card above with their device and compare the numbers. If these don’t match, try the other pair of safety numbers. Only one pair needs to match.",
+    "description": "Safety number viewer, text of the hint during migration period"
+  },
+  "icu:SafetyNumberViewer__hint--normal": {
+    "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code with their device.",
+    "description": "Safety number viewer, text of the hint after migration period"
+  },
+  "icu:SafetyNumberOnboarding__title": {
+    "messageformat": "Changes to safety numbers",
+    "description": "Title of Safety number onboarding modal"
+  },
+  "icu:SafetyNumberOnboarding__p1": {
+    "messageformat": "Safety numbers are being updated over a transition period to enable upcoming privacy features in Signal.",
+    "description": "Paragraph 1 of Safety number onboarding modal"
+  },
+  "icu:SafetyNumberOnboarding__p2": {
+    "messageformat": "To verify safety numbers, match the color card with your contact’s device. If these don’t match, try the other pair of safety numbers. Only one pair needs to match.",
+    "description": "Paragraph 2 of Safety number onboarding modal"
+  },
+  "icu:SafetyNumberOnboarding__help": {
+    "messageformat": "Need help?",
+    "description": "Text of a secondary button in Safety number onboarding modal"
+  },
+  "icu:SafetyNumberOnboarding__close": {
+    "messageformat": "Got it",
+    "description": "Text of a secondary button in Safety number onboarding modal"
+  },
+  "icu:SafetyNumberNotReady__body": {
+    "messageformat": "A safety number will be created with this person after you exchange messages with them.",
+    "description": "Body of SafetyNumberNotReady modal"
+  },
+  "icu:SafetyNumberNotReady__learn-more": {
+    "messageformat": "Learn more",
+    "description": "Text of 'Learn more' button of SafetyNumberNotReady modal"
   },
   "icu:isVerified": {
     "messageformat": "کدِ امنیتیِ {name} تأیید شد.",
@@ -745,7 +801,7 @@
     "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users."
   },
   "icu:decryptionErrorToastAction": {
-    "messageformat": "ثبت گزارش",
+    "messageformat": "ارسال گزارش",
     "description": "Label for the decryption error toast button"
   },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
@@ -1212,7 +1268,8 @@
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "icu:verifyHelp": {
-    "messageformat": "برای بررسی امنیت رمزنگاری دوطرفه شما با {name}، شماره های فوق را با دستگاه ایشان مقایسه کنید."
+    "messageformat": "To verify the security of your end-to-end encryption with {name}, compare the numbers above with their device. They can also scan the qr code above.",
+    "description": "(deleted 07/05/2023)"
   },
   "icu:theirIdentityUnknown": {
     "messageformat": "شما هنوز هیچ پیامی با این مخاطب تبادل نکرده‌اید. شماره‌ی امنیتی پس از ارسال و یا دریافت اولین پیام در دسترس خواهد بود."
@@ -2171,7 +2228,7 @@
     "description": "Toast for general errors"
   },
   "icu:Toast--error--action": {
-    "messageformat": "ثبت گزارش",
+    "messageformat": "ارسال گزارش",
     "description": "Label for the error toast button"
   },
   "icu:Toast--failed-to-fetch-username": {
@@ -4363,6 +4420,10 @@
     "messageformat": "آیا می‌خواهید {contact} را از سمت مدیر حذف کنید؟",
     "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone"
   },
+  "icu:ContactModal--add-to-group": {
+    "messageformat": "Add to another group",
+    "description": "Button text for adding contact to another group in Group Contact Details modal"
+  },
   "icu:ContactModal--remove-from-group": {
     "messageformat": "حذف از گروه",
     "description": "Button text for remove from group button in Group Contact Details modal"
@@ -5600,7 +5661,7 @@
     "description": "A title of the dialog displayed when starting an application after a recent crash"
   },
   "icu:CrashReportDialog__body": {
-    "messageformat": "سیگنال بعد از خرابی ریستارت شد. شما میتوانید گزارش خرابی را برای کمک به سیگنال جهت تحقیق روی این موضوع ثبت کنید.",
+    "messageformat": "سیگنال بعد از خرابی بازراه‌اندازی شد. می‌توانید گزارش خرابی را برای کمک به سیگنال جهت تحقیق روی این موضوع ارسال کنید.",
     "description": "The body of the dialog displayed when starting an application after a recent crash"
   },
   "icu:CrashReportDialog__submit": {
@@ -6515,13 +6576,13 @@
     "messageformat": "تغییرات کوچک، رفع اشکالات و بهبود عملکرد. بابت استفاده از سیگنال سپاسگزاریم!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.25--0": {
-    "messageformat": "حالا که سربرگ‌های مکالمه و تماس قابل کشیدن هستند، جابه‌جا کردن پنجره سیگنال طولی نخواهد کشید."
-  },
   "icu:WhatsNew__v6.26--0": {
-    "messageformat": "Diacritics (such as accent marks) are now supported in @ mentions, so you can remind Aristotélēs to answer your philosophy question in the \"Ancient Greek Time Travellers\" group chat."
+    "messageformat": "اعراب‌گذاری (مانند علامت‌های تشدید) اکنون در @ اشاره‌ها پشتیبانی می‌شوند. اطلاعات بیشتر در این‌جا: https://en.wikipedia.org/wiki/Diacritic"
   },
   "icu:WhatsNew__v6.26--1": {
-    "messageformat": "Three cheers for triple-click text selection improvements. Thanks, {linkToGithub}!"
+    "messageformat": "بهبود انتخاب متن با کلیک سه‌تایی. سپاس، {linkToGithub}!"
+  },
+  "icu:WhatsNew__v6.27--0": {
+    "messageformat": "This update includes a few improvements for voice and video calls, and some minor documentation updates (thanks, {linkToGithub}!)."
   }
 }

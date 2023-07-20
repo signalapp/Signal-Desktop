@@ -635,6 +635,26 @@
     "messageformat": "Қабылдау",
     "description": "Label for a button to accept a new safety number"
   },
+  "icu:SafetyNumberViewer__migration__text": {
+    "messageformat": "Safety numbers are being updated.",
+    "description": "An explanatory note in SafetyNumberViewer describing the safety number migration process."
+  },
+  "icu:SafetyNumberViewer__migration__learn_more": {
+    "messageformat": "Learn more",
+    "description": "A link text in SafetyNumberViewer describing the safety number migration process."
+  },
+  "icu:SafetyNumberViewer__card__prev": {
+    "messageformat": "Previous Safety number",
+    "description": "An ARIA label for safety number navigation button."
+  },
+  "icu:SafetyNumberViewer__card__next": {
+    "messageformat": "Next Safety number",
+    "description": "An ARIA label for safety number navigation button."
+  },
+  "icu:SafetyNumberViewer__carousel__dot": {
+    "messageformat": "Safety number version, {index,number} of {total,number}",
+    "description": "An ARIA label for safety number carousel button."
+  },
   "icu:SafetyNumberViewer__markAsVerified": {
     "messageformat": "Верификациядан өтті деп белгілеу",
     "description": "Safety number viewer, verification toggle button, when not verified, sets verified"
@@ -642,6 +662,42 @@
   "icu:SafetyNumberViewer__clearVerification": {
     "messageformat": "Верификацияны тазалау",
     "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
+  },
+  "icu:SafetyNumberViewer__hint--migration": {
+    "messageformat": "To verify end-to-end encryption with {name}, match the color card above with their device and compare the numbers. If these don’t match, try the other pair of safety numbers. Only one pair needs to match.",
+    "description": "Safety number viewer, text of the hint during migration period"
+  },
+  "icu:SafetyNumberViewer__hint--normal": {
+    "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code with their device.",
+    "description": "Safety number viewer, text of the hint after migration period"
+  },
+  "icu:SafetyNumberOnboarding__title": {
+    "messageformat": "Changes to safety numbers",
+    "description": "Title of Safety number onboarding modal"
+  },
+  "icu:SafetyNumberOnboarding__p1": {
+    "messageformat": "Safety numbers are being updated over a transition period to enable upcoming privacy features in Signal.",
+    "description": "Paragraph 1 of Safety number onboarding modal"
+  },
+  "icu:SafetyNumberOnboarding__p2": {
+    "messageformat": "To verify safety numbers, match the color card with your contact’s device. If these don’t match, try the other pair of safety numbers. Only one pair needs to match.",
+    "description": "Paragraph 2 of Safety number onboarding modal"
+  },
+  "icu:SafetyNumberOnboarding__help": {
+    "messageformat": "Need help?",
+    "description": "Text of a secondary button in Safety number onboarding modal"
+  },
+  "icu:SafetyNumberOnboarding__close": {
+    "messageformat": "Got it",
+    "description": "Text of a secondary button in Safety number onboarding modal"
+  },
+  "icu:SafetyNumberNotReady__body": {
+    "messageformat": "A safety number will be created with this person after you exchange messages with them.",
+    "description": "Body of SafetyNumberNotReady modal"
+  },
+  "icu:SafetyNumberNotReady__learn-more": {
+    "messageformat": "Learn more",
+    "description": "Text of 'Learn more' button of SafetyNumberNotReady modal"
   },
   "icu:isVerified": {
     "messageformat": "Сіздің {name} араңыздағы қауіпсіздік нөміріңізге верификация жасалды.",
@@ -1212,7 +1268,8 @@
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "icu:verifyHelp": {
-    "messageformat": "{name} деген контактімен өтпелі шифрлау қауіпсіздігін тексеру үшін, жоғарыдағы сандарды оның құрылғысымен салыстырып көріңіз."
+    "messageformat": "To verify the security of your end-to-end encryption with {name}, compare the numbers above with their device. They can also scan the qr code above.",
+    "description": "(deleted 07/05/2023)"
   },
   "icu:theirIdentityUnknown": {
     "messageformat": "Бұл контактімен әлі хат алмаспадыңыз. Онымен қауіпсіздік нөміріңіз бірінші хат алмасқаннан кейін болады."
@@ -4363,6 +4420,10 @@
     "messageformat": "{contact} топ әкімшісінен өшіру керек пе?",
     "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone"
   },
+  "icu:ContactModal--add-to-group": {
+    "messageformat": "Add to another group",
+    "description": "Button text for adding contact to another group in Group Contact Details modal"
+  },
   "icu:ContactModal--remove-from-group": {
     "messageformat": "Топтан өшіру",
     "description": "Button text for remove from group button in Group Contact Details modal"
@@ -6515,13 +6576,13 @@
     "messageformat": "Кішігірім түзетпелер жасалды, ақаулар жөнделді және жұмысы жақсартылды. Signal-ды қолданғаныңыз үшін рақмет!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.25--0": {
-    "messageformat": "Қоңырау шалу және сөйлесу тақырыпшаларын сүйреуге болатынтықтан, енді Signal терезесін қалаған жеріңізге апарып қоюыңызға болады."
-  },
   "icu:WhatsNew__v6.26--0": {
-    "messageformat": "Diacritics (such as accent marks) are now supported in @ mentions, so you can remind Aristotélēs to answer your philosophy question in the \"Ancient Greek Time Travellers\" group chat."
+    "messageformat": "Енді біреуді @ белгілегенде, диакритикалық белгілер жүйесін (мысалы, екпін) қолдануға болады. Енді \"Көне грек заманына саяхатшылар\" топтық чатында пәлсапалық сұрағыңызға жауап алу үшін Aristotélēs-ді белгілеп кете аласыз."
   },
   "icu:WhatsNew__v6.26--1": {
-    "messageformat": "Three cheers for triple-click text selection improvements. Thanks, {linkToGithub}!"
+    "messageformat": "Үш рет басып мәтінді таңдау функциясы қосылғаны жақсы болды. Рақмет, {linkToGithub}!"
+  },
+  "icu:WhatsNew__v6.27--0": {
+    "messageformat": "This update includes a few improvements for voice and video calls, and some minor documentation updates (thanks, {linkToGithub}!)."
   }
 }
