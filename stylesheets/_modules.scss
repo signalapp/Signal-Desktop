@@ -4208,7 +4208,7 @@ button.module-image__border-overlay:focus {
     inset-inline-start: 0;
     position: absolute;
     top: 0;
-    z-index: $z-index-popup;
+    z-index: $z-index-calling;
   }
 
   &__title {
