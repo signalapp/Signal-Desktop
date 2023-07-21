@@ -481,6 +481,26 @@ function updateStoryViewers(
   };
 }
 
+function removeMemberFromAllDistributionLists(
+  member: UUIDStringType
+): ThunkAction<void, RootStateType, null, ModifyListActionType> {
+  return async dispatch => {
+    const logId = `removeMemberFromAllDistributionLists(${member})`;
+    const lists = await dataInterface.getAllStoryDistributionsWithMembers();
+
+    const listsWithMember = lists.filter(({ members }) =>
+      members.includes(member)
+    );
+    log.info(
+      `${logId}: removing ${member} from ${listsWithMember.length} lists`
+    );
+
+    for (const { id } of listsWithMember) {
+      dispatch(removeMembersFromDistributionList(id, [member]));
+    }
+  };
+}
+
 export const actions = {
   allowsRepliesChanged,
   createDistributionList,
@@ -488,6 +508,7 @@ export const actions = {
   hideMyStoriesFrom,
   modifyDistributionList,
   removeMembersFromDistributionList,
+  removeMemberFromAllDistributionLists,
   setMyStoriesToAllSignalConnections,
   updateStoryViewers,
 };

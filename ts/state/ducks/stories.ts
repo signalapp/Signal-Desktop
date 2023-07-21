@@ -1365,6 +1365,45 @@ function setStoriesDisabled(
   };
 }
 
+function removeAllContactStories(
+  conversationId: string
+): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+  return async (dispatch, getState) => {
+    const logId = `removeAllContactStories(${conversationId})`;
+    const { stories } = getState().stories;
+    const messageIds = stories
+      .filter(item => item.conversationId === conversationId)
+      .map(({ messageId }) => messageId);
+
+    const messages = (
+      await Promise.all(
+        messageIds.map(async messageId => {
+          const message = await getMessageById(messageId);
+
+          if (!message) {
+            log.warn(`${logId}: no message found ${messageId}`);
+            return;
+          }
+
+          return message;
+        })
+      )
+    ).filter(isNotNil);
+
+    log.info(`${logId}: removing ${messages.length} stories`);
+
+    await Promise.all([
+      messages.map(m => m.cleanup()),
+      await dataInterface.removeMessages(messageIds),
+    ]);
+
+    dispatch({
+      type: 'NOOP',
+      payload: null,
+    });
+  };
+}
+
 export const actions = {
   deleteStoryForEveryone,
   loadStoryReplies,
@@ -1386,6 +1425,7 @@ export const actions = {
   setStoriesDisabled,
   setHasAllStoriesUnmuted,
   setStorySending,
+  removeAllContactStories,
 };
 
 export const useStoriesActions = (): BoundActionCreatorsMapObject<

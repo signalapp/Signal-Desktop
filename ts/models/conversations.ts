@@ -965,6 +965,14 @@ export class ConversationModel extends window.Backbone
       shouldSave: false,
     });
 
+    window.reduxActions?.stories.removeAllContactStories(this.id);
+    const uuid = this.get('uuid');
+    if (uuid) {
+      window.reduxActions?.storyDistributionLists.removeMemberFromAllDistributionLists(
+        uuid
+      );
+    }
+
     // Add notification
     drop(this.queueJob('removeContact', () => this.maybeSetContactRemoved()));
 
