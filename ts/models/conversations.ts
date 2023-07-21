@@ -1395,7 +1395,7 @@ export class ConversationModel extends window.Backbone
   }
 
   private async beforeAddSingleMessage(message: MessageModel): Promise<void> {
-    await message.hydrateStoryContext();
+    await message.hydrateStoryContext(undefined, { shouldSave: true });
 
     if (!this.newMessageQueue) {
       this.newMessageQueue = new PQueue({
@@ -1778,7 +1778,11 @@ export class ConversationModel extends window.Backbone
       log.warn(`cleanModels: Upgraded schema of ${upgraded} messages`);
     }
 
-    await Promise.all(result.map(model => model.hydrateStoryContext()));
+    await Promise.all(
+      result.map(model =>
+        model.hydrateStoryContext(undefined, { shouldSave: true })
+      )
+    );
 
     return result;
   }

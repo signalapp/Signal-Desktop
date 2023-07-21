@@ -825,6 +825,11 @@ export type ServerInterface = DataInterface & {
     options?: { limit?: number };
     contactUuidsMatchingQuery?: Array<string>;
   }) => Promise<Array<ServerSearchResultMessageType>>;
+
+  getRecentStoryReplies(
+    storyId: string,
+    options?: GetRecentStoryRepliesOptionsType
+  ): Promise<Array<MessageTypeUnhydrated>>;
   getOlderMessagesByConversation: (
     options: AdjacentMessagesByConversationOptionsType
   ) => Promise<Array<MessageTypeUnhydrated>>;
@@ -895,6 +900,13 @@ export type ServerInterface = DataInterface & {
   getAllBadgeImageFileLocalPaths: () => Promise<Set<string>>;
 };
 
+export type GetRecentStoryRepliesOptionsType = {
+  limit?: number;
+  messageId?: string;
+  receivedAt?: number;
+  sentAt?: number;
+};
+
 // Differing signature on client/server
 export type ClientExclusiveInterface = {
   // Differing signature on client/server
@@ -913,6 +925,11 @@ export type ClientExclusiveInterface = {
     options?: { limit?: number };
     contactUuidsMatchingQuery?: Array<string>;
   }) => Promise<Array<ClientSearchResultMessageType>>;
+
+  getRecentStoryReplies(
+    storyId: string,
+    options?: GetRecentStoryRepliesOptionsType
+  ): Promise<Array<MessageAttributesType>>;
   getOlderMessagesByConversation: (
     options: AdjacentMessagesByConversationOptionsType
   ) => Promise<Array<MessageAttributesType>>;

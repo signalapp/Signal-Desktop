@@ -3528,4 +3528,50 @@ describe('SQL migrations test', () => {
       assert.isAtLeast(object.createdAt, startingTime);
     });
   });
+
+  describe('updateToSchemaVersion86', () => {
+    it('supports the right index for first query used in getRecentStoryRepliesSync', () => {
+      updateToVersion(86);
+      const [query, params] = sql`
+        EXPLAIN QUERY PLAN
+        SELECT json FROM messages WHERE
+          ('messageId' IS NULL OR id IS NOT 'messageId') AND
+          isStory IS 0 AND
+          storyId IS 'storyId' AND
+          received_at = 100000 AND sent_at < 100000
+          ORDER BY received_at DESC, sent_at DESC
+          LIMIT 100
+      `;
+      const { detail } = db.prepare(query).get(params);
+
+      assert.notInclude(detail, 'B-TREE');
+      assert.notInclude(detail, 'SCAN');
+      assert.include(
+        detail,
+        'SEARCH messages USING INDEX messages_story_replies (storyId=? AND received_at=? AND sent_at<?)'
+      );
+    });
+
+    it('supports the right index for second query used in getRecentStoryRepliesSync', () => {
+      updateToVersion(86);
+      const [query, params] = sql`
+        EXPLAIN QUERY PLAN
+        SELECT json FROM messages WHERE
+          ('messageId' IS NULL OR id IS NOT 'messageId') AND
+          isStory IS 0 AND
+          storyId IS 'storyId' AND
+          received_at < 100000
+          ORDER BY received_at DESC, sent_at DESC
+          LIMIT 100
+      `;
+      const { detail } = db.prepare(query).get(params);
+
+      assert.notInclude(detail, 'B-TREE');
+      assert.notInclude(detail, 'SCAN');
+      assert.include(
+        detail,
+        'SEARCH messages USING INDEX messages_story_replies (storyId=? AND received_at<?)'
+      );
+    });
+  });
 });

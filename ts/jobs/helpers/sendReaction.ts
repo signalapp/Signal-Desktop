@@ -312,13 +312,13 @@ export async function sendReaction(
       if (!ephemeralMessageForReactionSend.doNotSave) {
         const reactionMessage = ephemeralMessageForReactionSend;
 
-        await Promise.all([
-          await window.Signal.Data.saveMessage(reactionMessage.attributes, {
-            ourUuid,
-            forceSave: true,
-          }),
-          reactionMessage.hydrateStoryContext(message.attributes),
-        ]);
+        await reactionMessage.hydrateStoryContext(message.attributes, {
+          shouldSave: false,
+        });
+        await window.Signal.Data.saveMessage(reactionMessage.attributes, {
+          ourUuid,
+          forceSave: true,
+        });
 
         void conversation.addSingleMessage(
           window.MessageController.register(reactionMessage.id, reactionMessage)

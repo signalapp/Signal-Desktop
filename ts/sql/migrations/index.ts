@@ -61,6 +61,7 @@ import updateToSchemaVersion82 from './82-edited-messages-read-index';
 import updateToSchemaVersion83 from './83-mentions';
 import updateToSchemaVersion84 from './84-all-mentions';
 import updateToSchemaVersion85 from './85-add-kyber-keys';
+import updateToSchemaVersion86 from './86-story-replies-index';
 
 function updateToSchemaVersion1(
   currentVersion: number,
@@ -1992,6 +1993,7 @@ export const SCHEMA_VERSIONS = [
   updateToSchemaVersion83,
   updateToSchemaVersion84,
   updateToSchemaVersion85,
+  updateToSchemaVersion86,
 ];
 
 export function updateSchema(db: Database, logger: LoggerType): void {
