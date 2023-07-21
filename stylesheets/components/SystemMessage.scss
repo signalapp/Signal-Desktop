@@ -1,13 +1,13 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-@mixin system-message-icon($light, $dark) {
+@mixin system-message-icon($url) {
   @include light-theme {
-    -webkit-mask: url($light) no-repeat center;
+    -webkit-mask: url($url) no-repeat center;
     -webkit-mask-size: 100%;
   }
   @include dark-theme {
-    -webkit-mask: url($dark) no-repeat center;
+    -webkit-mask: url($url) no-repeat center;
     -webkit-mask-size: 100%;
   }
 }
@@ -68,217 +68,176 @@
 
     &--icon-audio-incoming::before {
       @include system-message-icon(
-        '../images/icons/v3/phone/phone-compact.svg',
         '../images/icons/v3/phone/phone-compact.svg'
       );
     }
 
     &--icon-audio-missed::before {
       @include system-message-icon(
-        '../images/icons/v3/phone/phone-compact.svg',
         '../images/icons/v3/phone/phone-compact.svg'
       );
     }
 
     &--icon-audio-outgoing::before {
       @include system-message-icon(
-        '../images/icons/v3/phone/phone-compact.svg',
         '../images/icons/v3/phone/phone-compact.svg'
       );
     }
 
     &--icon-group::before {
       @include system-message-icon(
-        '../images/icons/v3/group/group-compact.svg',
         '../images/icons/v3/group/group-compact.svg'
       );
     }
 
     &--icon-group-access::before {
       @include system-message-icon(
-        '../images/icons/v3/megaphone/megaphone-compact.svg',
         '../images/icons/v3/megaphone/megaphone-compact.svg'
       );
     }
 
     &--icon-group-add::before {
       @include system-message-icon(
-        '../images/icons/v2/member-added-16.svg',
-        '../images/icons/v2/member-added-solid-16.svg'
+        '../images/icons/v3/person/person-plus-compact.svg'
       );
     }
 
     &--icon-group-approved::before {
       @include system-message-icon(
-        '../images/icons/v2/member-accepted-16.svg',
-        '../images/icons/v2/member-accepted-solid-16.svg'
+        '../images/icons/v3/person/person-check-compact.svg'
       );
     }
 
     &--icon-group-avatar::before {
       @include system-message-icon(
-        '../images/icons/v3/photo/photo-square-compact.svg',
         '../images/icons/v3/photo/photo-square-compact.svg'
       );
     }
 
     &--icon-group-decline::before {
       @include system-message-icon(
-        '../images/icons/v2/member-declined-16.svg',
-        '../images/icons/v2/member-declined-solid-16.svg'
+        '../images/icons/v3/person/person-x-compact.svg'
       );
     }
 
     &--icon-group-edit::before {
-      @include system-message-icon(
-        '../images/icons/v3/edit/edit-compact.svg',
-        '../images/icons/v3/edit/edit-compact.svg'
-      );
+      @include system-message-icon('../images/icons/v3/edit/edit-compact.svg');
     }
 
     &--icon-group-leave::before {
       @include system-message-icon(
-        '../images/icons/v3/leave/leave-compact.svg',
         '../images/icons/v3/leave/leave-compact.svg'
       );
     }
 
     &--icon-group-remove::before {
       @include system-message-icon(
-        '../images/icons/v2/member-remove-16.svg',
-        '../images/icons/v2/member-remove-solid-16.svg'
+        '../images/icons/v3/person/person-minus-compact.svg'
       );
     }
 
     &--icon-group-summary::before {
-      @include system-message-icon(
-        '../images/icons/v3/info/info-compact.svg',
-        '../images/icons/v3/info/info-compact.svg'
-      );
+      @include system-message-icon('../images/icons/v3/info/info-compact.svg');
     }
 
     &--icon-info::before {
-      @include system-message-icon(
-        '../images/icons/v3/info/info-compact.svg',
-        '../images/icons/v3/info/info-compact.svg'
-      );
+      @include system-message-icon('../images/icons/v3/info/info-compact.svg');
     }
 
     &--icon-phone::before {
       @include system-message-icon(
-        '../images/icons/v3/phone/phone-compact.svg',
         '../images/icons/v3/phone/phone-compact.svg'
       );
     }
 
     &--icon-profile::before {
       @include system-message-icon(
-        '../images/icons/v3/person/person-compact.svg',
         '../images/icons/v3/person/person-compact.svg'
       );
     }
 
     &--icon-safety-number::before {
       @include system-message-icon(
-        '../images/icons/v3/safety_number/safety_number-compact.svg',
         '../images/icons/v3/safety_number/safety_number-compact.svg'
       );
     }
 
     &--icon-session-refresh::before {
-      @include system-message-icon(
-        '../images/icons/v3/refresh/refresh.svg',
-        '../images/icons/v3/refresh/refresh.svg'
-      );
+      @include system-message-icon('../images/icons/v3/refresh/refresh.svg');
     }
 
     &--icon-timer::before {
       @include system-message-icon(
-        '../images/icons/v3/timer/timer-compact.svg',
         '../images/icons/v3/timer/timer-compact.svg'
       );
     }
 
     &--icon-timer-disabled::before {
       @include system-message-icon(
-        '../images/icons/v3/timer/timer-slash-compact.svg',
         '../images/icons/v3/timer/timer-slash-compact.svg'
       );
     }
 
     &--icon-unsupported::before {
       @include system-message-icon(
-        '../images/icons/v3/error/error-circle-compact.svg',
         '../images/icons/v3/error/error-circle-compact.svg'
       );
     }
 
     &--icon-unsupported--can-process::before {
       @include system-message-icon(
-        '../images/icons/v3/check/check-circle-compact.svg',
         '../images/icons/v3/check/check-circle-compact.svg'
       );
     }
 
     &--icon-verified::before {
       @include system-message-icon(
-        '../images/icons/v3/check/check-compact.svg',
         '../images/icons/v3/check/check-compact.svg'
       );
     }
 
     &--icon-verified-not::before {
       @include system-message-icon(
-        '../images/icons/v3/safety_number/safety_number-compact.svg',
         '../images/icons/v3/safety_number/safety_number-compact.svg'
       );
     }
 
     &--icon-video::before {
       @include system-message-icon(
-        '../images/icons/v3/video/video-compact.svg',
         '../images/icons/v3/video/video-compact.svg'
       );
     }
 
     &--icon-video-incoming::before {
       @include system-message-icon(
-        '../images/icons/v3/video/video-compact.svg',
         '../images/icons/v3/video/video-compact.svg'
       );
     }
 
     &--icon-video-missed::before {
       @include system-message-icon(
-        '../images/icons/v3/video/video-compact.svg',
         '../images/icons/v3/video/video-compact.svg'
       );
     }
 
     &--icon-video-outgoing::before {
       @include system-message-icon(
-        '../images/icons/v3/video/video-compact.svg',
         '../images/icons/v3/video/video-compact.svg'
       );
     }
 
     &--icon-warning::before {
       @include system-message-icon(
-        '../images/icons/v3/error/error-circle-compact.svg',
         '../images/icons/v3/error/error-circle-compact.svg'
       );
     }
 
     &--icon-payment-event::before {
-      @include system-message-icon(
-        '../images/icons/v3/payment/payment.svg',
-        '../images/icons/v3/payment/payment.svg'
-      );
+      @include system-message-icon('../images/icons/v3/payment/payment.svg');
     }
 
     &--icon-merge::before {
       @include system-message-icon(
-        '../images/icons/v3/merge/merge-compact.svg',
         '../images/icons/v3/merge/merge-compact.svg'
       );
     }
