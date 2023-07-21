@@ -1783,6 +1783,8 @@ export class CallingClass {
       await processGroupCallRingCancellation(ringId);
     }
 
+    this.stopCallingLobby();
+
     if (shouldRing) {
       log.info('handleGroupCallRingUpdate: ringing');
       this.reduxInterface?.receiveIncomingGroupCall({
@@ -1885,6 +1887,8 @@ export class CallingClass {
       }
 
       this.attachToCall(conversation, call);
+
+      this.stopCallingLobby();
 
       this.reduxInterface.receiveIncomingDirectCall({
         conversationId: conversation.id,
