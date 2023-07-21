@@ -39,9 +39,6 @@ export function MetaStage(): JSX.Element {
 
   const onDrop = React.useCallback(
     async ([file]: Array<FileWithPath>) => {
-      if (!file.path) {
-        return;
-      }
       try {
         const stickerImage = await processImage(
           file as FileWithRequiredPath,
@@ -49,7 +46,7 @@ export function MetaStage(): JSX.Element {
         );
         dispatch(setCover(stickerImage));
       } catch (e) {
-        dispatch(removeImage(file.path));
+        dispatch(removeImage(file.path || file.name));
       }
     },
     [dispatch, artType]
