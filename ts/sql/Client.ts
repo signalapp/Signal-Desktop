@@ -36,6 +36,7 @@ import type {
   ClientSearchResultMessageType,
   ConversationType,
   GetConversationRangeCenteredOnMessageResultType,
+  GetRecentStoryRepliesOptionsType,
   IdentityKeyIdType,
   IdentityKeyType,
   StoredIdentityKeyType,
@@ -99,6 +100,7 @@ const exclusiveInterface: ClientExclusiveInterface = {
 
   searchMessages,
 
+  getRecentStoryReplies,
   getOlderMessagesByConversation,
   getConversationRangeCenteredOnMessage,
   getNewerMessagesByConversation,
@@ -602,6 +604,15 @@ async function getNewerMessagesByConversation(
   options: AdjacentMessagesByConversationOptionsType
 ): Promise<Array<MessageType>> {
   const messages = await channels.getNewerMessagesByConversation(options);
+
+  return handleMessageJSON(messages);
+}
+
+async function getRecentStoryReplies(
+  storyId: string,
+  options?: GetRecentStoryRepliesOptionsType
+): Promise<Array<MessageType>> {
+  const messages = await channels.getRecentStoryReplies(storyId, options);
 
   return handleMessageJSON(messages);
 }

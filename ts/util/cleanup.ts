@@ -5,7 +5,7 @@ import type { MessageAttributesType } from '../model-types.d';
 import { deletePackReference } from '../types/Stickers';
 import { isStory } from '../messages/helpers';
 import { isDirectConversation } from './whatTypeOfConversation';
-import { drop } from './drop';
+import * as log from '../logging/log';
 
 export async function cleanupMessage(
   message: MessageAttributesType
@@ -20,44 +20,45 @@ export async function cleanupMessage(
   window.MessageController.unregister(id);
 
   await deleteMessageData(message);
-
-  const isGroupConversation = Boolean(
-    parentConversation && !isDirectConversation(parentConversation.attributes)
-  );
-
-  if (isStory(message)) {
-    await cleanupStoryReplies(conversationId, id, isGroupConversation);
-  }
 }
 
 async function cleanupStoryReplies(
-  conversationId: string,
-  storyId: string,
-  isGroupConversation: boolean,
+  story: MessageAttributesType,
   pagination?: {
     messageId: string;
     receivedAt: number;
   }
 ): Promise<void> {
-  const { messageId, receivedAt } = pagination || {};
+  const storyId = story.id;
+  const parentConversation = window.ConversationController.get(
+    story.conversationId
+  );
+  const isGroupConversation = Boolean(
+    parentConversation && !isDirectConversation(parentConversation.attributes)
+  );
 
-  const replies = await window.Signal.Data.getOlderMessagesByConversation({
-    conversationId,
-    includeStoryReplies: false,
-    messageId,
-    receivedAt,
+  const replies = await window.Signal.Data.getRecentStoryReplies(
     storyId,
-  });
+    pagination
+  );
+
+  const logId = `cleanupStoryReplies(${storyId}/isGroup=${isGroupConversation})`;
+  const lastMessage = replies[replies.length - 1];
+  const lastMessageId = lastMessage?.id;
+  const lastReceivedAt = lastMessage?.received_at;
+
+  log.info(
+    `${logId}: Cleaning ${replies.length} replies, ending with message ${lastMessageId}`
+  );
 
   if (!replies.length) {
     return;
   }
 
-  const lastMessage = replies[replies.length - 1];
-  const lastMessageId = lastMessage.id;
-  const lastReceivedAt = lastMessage.received_at;
-
-  if (messageId === lastMessageId) {
+  if (pagination?.messageId === lastMessageId) {
+    log.info(
+      `${logId}: Returning early; last message id is pagination starting id`
+    );
     return;
   }
 
@@ -74,14 +75,16 @@ async function cleanupStoryReplies(
     );
   } else {
     // Refresh the storyReplyContext data for 1:1 conversations
-    replies.forEach(reply => {
-      const model = window.MessageController.register(reply.id, reply);
-      model.unset('storyReplyContext');
-      drop(model.hydrateStoryContext());
-    });
+    await Promise.all(
+      replies.map(async reply => {
+        const model = window.MessageController.register(reply.id, reply);
+        model.unset('storyReplyContext');
+        await model.hydrateStoryContext(story, { shouldSave: true });
+      })
+    );
   }
 
-  return cleanupStoryReplies(conversationId, storyId, isGroupConversation, {
+  return cleanupStoryReplies(story, {
     messageId: lastMessageId,
     receivedAt: lastReceivedAt,
   });
@@ -93,13 +96,9 @@ export async function deleteMessageData(
   await window.Signal.Migrations.deleteExternalMessageFiles(message);
 
   if (isStory(message)) {
-    const { id, conversationId } = message;
-    const parentConversation =
-      window.ConversationController.get(conversationId);
-    const isGroupConversation = Boolean(
-      parentConversation && !isDirectConversation(parentConversation.attributes)
-    );
-    await cleanupStoryReplies(conversationId, id, isGroupConversation);
+    // Attachments have been deleted from disk; remove from memory before replies update
+    const storyWithoutAttachments = { ...message, attachments: undefined };
+    await cleanupStoryReplies(storyWithoutAttachments);
   }
 
   const { sticker } = message;

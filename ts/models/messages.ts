@@ -332,8 +332,14 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   }
 
   async hydrateStoryContext(
-    inMemoryMessage?: MessageAttributesType
+    inMemoryMessage?: MessageAttributesType,
+    {
+      shouldSave,
+    }: {
+      shouldSave?: boolean;
+    } = {}
   ): Promise<void> {
+    const ourUuid = window.textsecure.storage.user.getCheckedUuid().toString();
     const storyId = this.get('storyId');
     if (!storyId) {
       return;
@@ -366,6 +372,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           messageId: '',
         },
       });
+      if (shouldSave) {
+        await window.Signal.Data.saveMessage(this.attributes, { ourUuid });
+      }
       return;
     }
 
@@ -382,6 +391,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         messageId: message.id,
       },
     });
+    if (shouldSave) {
+      await window.Signal.Data.saveMessage(this.attributes, { ourUuid });
+    }
   }
 
   // Dependencies of prop-generation functions
@@ -1028,7 +1040,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       if (this.get('storyReplyContext')) {
         this.unset('storyReplyContext');
       }
-      await this.hydrateStoryContext(message.attributes);
+      await this.hydrateStoryContext(message.attributes, { shouldSave: true });
       return;
     }
 
@@ -2610,7 +2622,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         });
 
         if (storyQuote) {
-          await this.hydrateStoryContext(storyQuote.attributes);
+          await this.hydrateStoryContext(storyQuote.attributes, {
+            shouldSave: true,
+          });
         }
 
         const isSupported = !isUnsupportedMessage(message.attributes);
@@ -3003,14 +3017,14 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           },
         });
 
+        await generatedMessage.hydrateStoryContext(storyMessage, {
+          shouldSave: false,
+        });
         // Note: generatedMessage comes with an id, so we have to force this save
-        await Promise.all([
-          window.Signal.Data.saveMessage(generatedMessage.attributes, {
-            ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
-            forceSave: true,
-          }),
-          generatedMessage.hydrateStoryContext(storyMessage),
-        ]);
+        await window.Signal.Data.saveMessage(generatedMessage.attributes, {
+          ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+          forceSave: true,
+        });
 
         log.info('Reactions.onReaction adding reaction to story', {
           reactionMessageId: getMessageIdForLogging(
@@ -3159,13 +3173,14 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           generatedMessage,
           'Story reactions must provide storyReactionmessage'
         );
-        await Promise.all([
-          await window.Signal.Data.saveMessage(generatedMessage.attributes, {
-            ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
-            forceSave: true,
-          }),
-          generatedMessage.hydrateStoryContext(this.attributes),
-        ]);
+
+        await generatedMessage.hydrateStoryContext(this.attributes, {
+          shouldSave: false,
+        });
+        await window.Signal.Data.saveMessage(generatedMessage.attributes, {
+          ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+          forceSave: true,
+        });
 
         void conversation.addSingleMessage(
           window.MessageController.register(
