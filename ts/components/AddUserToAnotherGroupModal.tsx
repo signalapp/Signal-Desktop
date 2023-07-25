@@ -3,8 +3,6 @@
 
 import { pick } from 'lodash';
 import React, { useCallback } from 'react';
-import type { MeasuredComponentProps } from 'react-measure';
-import Measure from 'react-measure';
 import type { ListRowProps } from 'react-virtualized';
 
 import type { ConversationType } from '../state/ducks/conversations';
@@ -23,6 +21,7 @@ import { useRestoreFocus } from '../hooks/useRestoreFocus';
 import { ListView } from './ListView';
 import { ListTile } from './ListTile';
 import type { ShowToastAction } from '../state/ducks/toast';
+import { SizeObserver } from '../hooks/useSizeObserver';
 
 type OwnProps = {
   i18n: LocalizerType;
@@ -180,33 +179,26 @@ export function AddUserToAnotherGroupModal({
               ref={inputRef}
               value={searchTerm}
             />
-
-            <Measure bounds>
-              {({ contentRect, measureRef }: MeasuredComponentProps) => {
-                // Though `width` and `height` are required properties, we want to be
-                // careful in case the caller sends bogus data. Notably, react-measure's
-                // types seem to be inaccurate.
-                const { width = 100, height = 100 } = contentRect.bounds || {};
-                if (!width || !height) {
-                  return null;
-                }
-
+            <SizeObserver>
+              {(ref, size) => {
                 return (
                   <div
                     className="AddUserToAnotherGroupModal__list-wrapper"
-                    ref={measureRef}
+                    ref={ref}
                   >
-                    <ListView
-                      width={width}
-                      height={height}
-                      rowCount={filteredConversations.length}
-                      calculateRowHeight={handleCalculateRowHeight}
-                      rowRenderer={renderGroupListItem}
-                    />
+                    {size != null && (
+                      <ListView
+                        width={size.width}
+                        height={size.height}
+                        rowCount={filteredConversations.length}
+                        calculateRowHeight={handleCalculateRowHeight}
+                        rowRenderer={renderGroupListItem}
+                      />
+                    )}
                   </div>
                 );
               }}
-            </Measure>
+            </SizeObserver>
           </div>
         </Modal>
       )}

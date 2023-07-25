@@ -3,7 +3,6 @@
 
 import type { ReactNode } from 'react';
 import React from 'react';
-import Measure from 'react-measure';
 import classNames from 'classnames';
 import {
   ContextMenu,
@@ -40,6 +39,7 @@ import {
 import { PanelType } from '../../types/Panels';
 import { UserText } from '../UserText';
 import { Alert } from '../Alert';
+import { SizeObserver } from '../../hooks/useSizeObserver';
 
 export enum OutgoingCallButtonStyle {
   None,
@@ -783,16 +783,12 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
         {this.renderDeleteMessagesConfirmationDialog()}
         {this.renderLeaveGroupConfirmationDialog()}
         {this.renderCannotLeaveGroupBecauseYouAreLastAdminAlert()}
-        <Measure
-          bounds
-          onResize={({ bounds }) => {
-            if (!bounds || !bounds.width) {
-              return;
-            }
-            this.setState({ isNarrow: bounds.width < 500 });
+        <SizeObserver
+          onSizeChange={size => {
+            this.setState({ isNarrow: size.width < 500 });
           }}
         >
-          {({ measureRef }) => (
+          {measureRef => (
             <div
               className={classNames('module-ConversationHeader', {
                 'module-ConversationHeader--narrow': isNarrow,
@@ -821,7 +817,7 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
               {this.renderMenu(triggerId)}
             </div>
           )}
-        </Measure>
+        </SizeObserver>
       </>
     );
   }

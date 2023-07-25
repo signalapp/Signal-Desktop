@@ -489,14 +489,11 @@ export function ConversationList({
     ]
   );
 
-  // Though `width` and `height` are required properties, we want to be careful in case
-  //   the caller sends bogus data. Notably, react-measure's types seem to be inaccurate.
-  const { width = 0, height = 0 } = dimensions || {};
-  if (!width || !height) {
+  if (dimensions == null) {
     return null;
   }
 
-  const widthBreakpoint = getConversationListWidthBreakpoint(width);
+  const widthBreakpoint = getConversationListWidthBreakpoint(dimensions.width);
 
   return (
     <ListView
@@ -504,8 +501,8 @@ export function ConversationList({
         'module-conversation-list',
         `module-conversation-list--width-${widthBreakpoint}`
       )}
-      width={width}
-      height={height}
+      width={dimensions.width}
+      height={dimensions.height}
       rowCount={rowCount}
       calculateRowHeight={calculateRowHeight}
       rowRenderer={renderRow}

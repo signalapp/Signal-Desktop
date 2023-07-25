@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useState, useCallback, useRef } from 'react';
-import type { ContentRect } from 'react-measure';
-import Measure from 'react-measure';
 import { useComputePeaks } from '../hooks/useComputePeaks';
 import type { LocalizerType } from '../types/Util';
 import { WaveformScrubber } from './conversation/WaveformScrubber';
 import { PlaybackButton } from './PlaybackButton';
 import { RecordingComposer } from './RecordingComposer';
 import * as log from '../logging/log';
+import type { Size } from '../hooks/useSizeObserver';
+import { SizeObserver } from '../hooks/useSizeObserver';
 
 type Props = {
   i18n: LocalizerType;
@@ -46,8 +46,8 @@ export function CompositionRecordingDraft({
   const timeout = useRef<undefined | NodeJS.Timeout>(undefined);
 
   const handleResize = useCallback(
-    ({ bounds }: ContentRect) => {
-      if (!bounds || bounds.width === state.width) {
+    (size: Size) => {
+      if (size.width === state.width) {
         return;
       }
 
@@ -59,7 +59,7 @@ export function CompositionRecordingDraft({
         clearTimeout(timeout.current);
       }
 
-      const newWidth = bounds.width;
+      const newWidth = size.width;
 
       // if mounting, set width immediately
       // otherwise debounce
@@ -106,13 +106,13 @@ export function CompositionRecordingDraft({
         }
         onClick={handlePlaybackClick}
       />
-      <Measure bounds onResize={handleResize}>
-        {({ measureRef }) => (
-          <div ref={measureRef} className="CompositionRecordingDraft__sizer">
+      <SizeObserver onSizeChange={handleResize}>
+        {ref => (
+          <div ref={ref} className="CompositionRecordingDraft__sizer">
             {scrubber}
           </div>
         )}
-      </Measure>
+      </SizeObserver>
     </RecordingComposer>
   );
 }

@@ -1175,7 +1175,7 @@
   dependencies:
     regenerator-runtime "^0.13.2"
 
-"@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.10.2", "@babel/runtime@^7.2.0", "@babel/runtime@^7.5.0":
+"@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.10.2", "@babel/runtime@^7.5.0":
   version "7.16.3"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.16.3.tgz#b86f0db02a04187a3c17caa77de69840165d42d5"
   integrity sha512-WBwekcqacdY2e9AF/Q7WLFUWmdJGJTkbjqTjoMDgXkVZ3ZRUvOPsLb5KdwISoQVsbP+DQzVZW4Zhci0DvpbNTQ==
@@ -4237,13 +4237,6 @@
   integrity sha512-VjnqEmqGnasQKV0CWLevqMTXBYG9GbwuE6x3VetERLh0cq2LTptFE73MrQi2S7GkKXCf2GgwItB/melLnxfnsg==
   dependencies:
     "@types/react" "^17"
-
-"@types/react-measure@2.0.5":
-  version "2.0.5"
-  resolved "https://registry.yarnpkg.com/@types/react-measure/-/react-measure-2.0.5.tgz#c1d304e3cab3a1c393342bf377b040628e6c29a8"
-  integrity sha512-T1Bpt8FlWbDhoInUaNrjTOiVRpRJmrRcqhFJxLGBq1VjaqBLHCvUPapgdKMWEIX4Oqsa1SSKjtNkNJGy6WAAZg==
-  dependencies:
-    "@types/react" "*"
 
 "@types/react-redux@7.1.24", "@types/react-redux@^7.1.20":
   version "7.1.24"
@@ -9932,11 +9925,6 @@ get-intrinsic@^1.1.0, get-intrinsic@^1.1.1:
     has "^1.0.3"
     has-symbols "^1.0.1"
 
-get-node-dimensions@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/get-node-dimensions/-/get-node-dimensions-1.2.1.tgz#fb7b4bb57060fb4247dd51c9d690dfbec56b0823"
-  integrity sha512-2MSPMu7S1iOTL+BOa6K1S62hB2zUAYNF/lV0gSVlOaacd087lc6nR1H1r0e3B1CerTo+RceOmi1iJW+vp21xcQ==
-
 get-stdin@^4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/get-stdin/-/get-stdin-4.0.1.tgz#b968c6b0a04384324902e8bf1a5df32579a450fe"
@@ -15538,16 +15526,6 @@ react-lifecycles-compat@^3.0.4:
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
-react-measure@2.3.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/react-measure/-/react-measure-2.3.0.tgz#75835d39abec9ae13517f35a819c160997a7a44e"
-  integrity sha512-dwAvmiOeblj5Dvpnk8Jm7Q8B4THF/f1l1HtKVi0XDecsG6LXwGvzV5R1H32kq3TW6RW64OAf5aoQxpIgLa4z8A==
-  dependencies:
-    "@babel/runtime" "^7.2.0"
-    get-node-dimensions "^1.2.1"
-    prop-types "^15.6.2"
-    resize-observer-polyfill "^1.5.0"
-
 react-merge-refs@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/react-merge-refs/-/react-merge-refs-1.1.0.tgz#73d88b892c6c68cbb7a66e0800faa374f4c38b06"
@@ -16221,11 +16199,6 @@ reserved-words@^0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/reserved-words/-/reserved-words-0.1.2.tgz#00a0940f98cd501aeaaac316411d9adc52b31ab1"
   integrity sha1-AKCUD5jNUBrqqsMWQR2a3FKzGrE=
-
-resize-observer-polyfill@^1.5.0:
-  version "1.5.1"
-  resolved "https://registry.yarnpkg.com/resize-observer-polyfill/-/resize-observer-polyfill-1.5.1.tgz#0e9020dd3d21024458d4ebd27e23e40269810464"
-  integrity sha512-LwZrotdHOo12nQuZlHEmtuXdqGoOD0OhaxopaNFxWzInpEgaLWoVuAMbTzixuosCx2nEG58ngzW3vxdWoxIgdg==
 
 resolve-alpn@^1.0.0:
   version "1.2.1"

@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useCallback, useState, useMemo, useEffect } from 'react';
-import Measure from 'react-measure';
 import { takeWhile, clamp, chunk, maxBy, flatten, noop } from 'lodash';
 import type { VideoFrameSource } from '@signalapp/ringrtc';
 import { GroupCallRemoteParticipant } from './GroupCallRemoteParticipant';
@@ -25,6 +24,7 @@ import { filter, join } from '../util/iterables';
 import * as setUtil from '../util/setUtil';
 import * as log from '../logging/log';
 import { MAX_FRAME_HEIGHT, MAX_FRAME_WIDTH } from '../calling/constants';
+import { SizeObserver } from '../hooks/useSizeObserver';
 
 const MIN_RENDERED_HEIGHT = 180;
 const PARTICIPANT_MARGIN = 10;
@@ -398,40 +398,27 @@ export function GroupCallRemoteParticipants({
   ]);
 
   return (
-    <Measure
-      bounds
-      onResize={({ bounds }) => {
-        if (!bounds) {
-          log.error('We should be measuring the bounds');
-          return;
-        }
-        setContainerDimensions(bounds);
+    <SizeObserver
+      onSizeChange={size => {
+        setContainerDimensions(size);
       }}
     >
-      {containerMeasure => (
-        <div
-          className="module-ongoing-call__participants"
-          ref={containerMeasure.measureRef}
-        >
-          <Measure
-            bounds
-            onResize={({ bounds }) => {
-              if (!bounds) {
-                log.error('We should be measuring the bounds');
-                return;
-              }
-              setGridDimensions(bounds);
+      {containerRef => (
+        <div className="module-ongoing-call__participants" ref={containerRef}>
+          <SizeObserver
+            onSizeChange={size => {
+              setGridDimensions(size);
             }}
           >
-            {gridMeasure => (
+            {gridRef => (
               <div
                 className="module-ongoing-call__participants__grid"
-                ref={gridMeasure.measureRef}
+                ref={gridRef}
               >
                 {flatten(rowElements)}
               </div>
             )}
-          </Measure>
+          </SizeObserver>
 
           <GroupCallOverflowArea
             getFrameBuffer={getFrameBuffer}
@@ -444,7 +431,7 @@ export function GroupCallRemoteParticipants({
           />
         </div>
       )}
-    </Measure>
+    </SizeObserver>
   );
 }
 

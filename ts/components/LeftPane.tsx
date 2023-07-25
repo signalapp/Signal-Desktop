@@ -2,8 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useEffect, useCallback, useMemo, useState } from 'react';
-import type { MeasuredComponentProps } from 'react-measure';
-import Measure from 'react-measure';
 import classNames from 'classnames';
 import { clamp, isNumber, noop } from 'lodash';
 
@@ -51,6 +49,7 @@ import type {
   ReplaceAvatarActionType,
   SaveAvatarToDiskActionType,
 } from '../types/Avatar';
+import { SizeObserver } from '../hooks/useSizeObserver';
 
 export enum LeftPaneMode {
   Inbox,
@@ -652,9 +651,9 @@ export function LeftPane({
         ))}
       </div>
       {preRowsNode && <React.Fragment key={0}>{preRowsNode}</React.Fragment>}
-      <Measure bounds>
-        {({ contentRect, measureRef }: MeasuredComponentProps) => (
-          <div className="module-left-pane__list--measure" ref={measureRef}>
+      <SizeObserver>
+        {(ref, size) => (
+          <div className="module-left-pane__list--measure" ref={ref}>
             <div className="module-left-pane__list--wrapper">
               <div
                 aria-live="polite"
@@ -667,7 +666,7 @@ export function LeftPane({
                 <ConversationList
                   dimensions={{
                     width,
-                    height: contentRect.bounds?.height || 0,
+                    height: size?.height || 0,
                   }}
                   getPreferredBadge={getPreferredBadge}
                   getRow={getRow}
@@ -717,7 +716,7 @@ export function LeftPane({
             </div>
           </div>
         )}
-      </Measure>
+      </SizeObserver>
       {footerContents && (
         <div className="module-left-pane__footer">{footerContents}</div>
       )}
