@@ -637,13 +637,13 @@ function getPubkeysInPublicConversation(conversationId: string) {
       conversation.capabilities?.includes('blind')
   );
 
-  const whereClause = hasBlindOn ? 'AND source LIKE "15%"' : '';
+  const whereClause = hasBlindOn ? "AND source LIKE '15%'" : ''; // the LIKE content has to be ' and not "
 
   const rows = assertGlobalInstance()
     .prepare(
       `SELECT DISTINCT source FROM ${MESSAGES_TABLE} WHERE
-      conversationId = $conversationId ${whereClause}
-     ORDER BY received_at DESC LIMIT ${MAX_PUBKEYS_MEMBERS};`
+    conversationId = $conversationId ${whereClause}
+   ORDER BY received_at DESC LIMIT ${MAX_PUBKEYS_MEMBERS};`
     )
     .all({
       conversationId,

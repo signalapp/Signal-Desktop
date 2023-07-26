@@ -1,10 +1,10 @@
 import React, { forwardRef } from 'react';
 import classNames from 'classnames';
 import styled from 'styled-components';
-import Picker from '@emoji-mart/react';
 import { useSelector } from 'react-redux';
+import Picker from '@emoji-mart/react';
+
 import { getTheme, isDarkTheme } from '../../state/selectors/theme';
-import { FixedBaseEmoji, FixedPickerProps } from '../../types/Reaction';
 import {
   COLORS,
   ColorsType,
@@ -16,6 +16,7 @@ import {
 import { hexColorToRGB } from '../../util/hexColorToRGB';
 import { getPrimaryColor } from '../../state/selectors/primaryColor';
 import { i18nEmojiData } from '../../util/emoji';
+import { FixedBaseEmoji } from '../../types/Reaction';
 
 export const StyledEmojiPanel = styled.div<{
   isModal: boolean;
@@ -90,7 +91,7 @@ type Props = {
   onKeyDown?: (event: any) => void;
 };
 
-const pickerProps: FixedPickerProps = {
+const pickerProps = {
   title: '',
   showPreview: true,
   autoFocus: true,

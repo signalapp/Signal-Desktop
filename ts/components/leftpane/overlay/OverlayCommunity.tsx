@@ -102,7 +102,7 @@ export const OverlayCommunity = () => {
       <SessionButton text={buttonText} disabled={!groupUrl} onClick={onTryJoinRoom} />
 
       <SessionSpinner loading={loading} />
-      <SessionJoinableRooms onJoinClick={() => void onTryJoinRoom()} alreadyJoining={loading} />
+      <SessionJoinableRooms onJoinClick={url => void onTryJoinRoom(url)} alreadyJoining={loading} />
     </div>
   );
 };

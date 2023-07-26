@@ -71,7 +71,7 @@ describe('BlockedNumberController', () => {
 
       const blockedNumbers = BlockedNumberController.getBlockedNumbers();
       expect(blockedNumbers.length).to.be.eq(0);
-      expect(Object.keys(memoryDB.blocked)).to.be.be.eq(0);
+      expect(Object.keys(memoryDB.blocked).length).to.be.be.eq(0);
     });
 
     it('should only unblock if a device was blocked', async () => {

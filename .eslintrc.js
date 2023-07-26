@@ -118,7 +118,7 @@ module.exports = {
     },
     {
       files: ['ts/node/**/*.ts', 'ts/test/**/*.ts'],
-      rules: { 'no-console': 'off' },
+      rules: { 'no-console': 'off', 'import/no-extraneous-dependencies': 'off' },
     },
   ],
 };

@@ -2,7 +2,7 @@
 /* eslint-disable no-continue */
 /* eslint-disable no-param-reassign */
 /* eslint-disable import/no-mutable-exports  */
-import { PartialI18n, init } from 'emoji-mart';
+import { init, I18n } from 'emoji-mart';
 import { FixedBaseEmoji, NativeEmojiData } from '../types/Reaction';
 import { loadEmojiPanelI18n } from './i18n';
 
@@ -47,7 +47,7 @@ export function getEmojiSizeClass(str: string): SizeClassType {
 }
 
 export let nativeEmojiData: NativeEmojiData | null = null;
-export let i18nEmojiData: PartialI18n | null = null;
+export let i18nEmojiData: typeof I18n | null = null;
 
 export async function initialiseEmojiData(data: any): Promise<void> {
   const ariaLabels: Record<string, string> = {};
@@ -85,7 +85,7 @@ export async function initialiseEmojiData(data: any): Promise<void> {
   i18nEmojiData = await loadEmojiPanelI18n();
   // Data needs to be initialised once per page load for the emoji components
   // See https://github.com/missive/emoji-mart#%EF%B8%8F%EF%B8%8F-headless-search
-  init({ data, i18n: i18nEmojiData });
+  await init({ data, i18n: i18nEmojiData });
 }
 
 // Synchronous version of Emoji Mart's SearchIndex.search()
