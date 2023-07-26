@@ -264,24 +264,24 @@ export function Inbox({
       <div className="Inbox">
         <div className="module-title-bar-drag-area" />
 
-        <div className="left-pane-wrapper">{renderLeftPane()}</div>
+        <div id="LeftPane">{renderLeftPane()}</div>
 
-        <div className="conversation-stack">
+        <div className="Inbox__conversation-stack">
           <div id="toast" />
           {selectedConversationId && (
             <div
-              className="conversation"
+              className="Inbox__conversation"
               id={`conversation-${selectedConversationId}`}
             >
               {renderConversationView()}
             </div>
           )}
           {!prevConversationId && (
-            <div className="no-conversation-open">
+            <div className="Inbox__no-conversation-open">
               {renderMiniPlayer({ shouldFlow: false })}
               <div className="module-splash-screen__logo module-img--128 module-logo-blue" />
               <h3>{i18n('icu:welcomeToSignal')}</h3>
-              <p className="whats-new-placeholder">
+              <p>
                 <WhatsNewLink
                   i18n={i18n}
                   showWhatsNewModal={showWhatsNewModal}

@@ -49,7 +49,7 @@ describe('pnp/accept gv2 invite', function needsName() {
 
     const window = await app.getWindow();
 
-    const leftPane = window.locator('.left-pane-wrapper');
+    const leftPane = window.locator('#LeftPane');
 
     debug('Opening group');
     await leftPane.locator(`[data-testid="${group.id}"]`).click();
@@ -67,7 +67,7 @@ describe('pnp/accept gv2 invite', function needsName() {
 
     const window = await app.getWindow();
 
-    const conversationStack = window.locator('.conversation-stack');
+    const conversationStack = window.locator('.Inbox__conversation-stack');
 
     debug('Accepting');
     await conversationStack
@@ -139,7 +139,7 @@ describe('pnp/accept gv2 invite', function needsName() {
 
     const window = await app.getWindow();
 
-    const conversationStack = window.locator('.conversation-stack');
+    const conversationStack = window.locator('.Inbox__conversation-stack');
 
     debug('Declining');
     await conversationStack
@@ -189,7 +189,7 @@ describe('pnp/accept gv2 invite', function needsName() {
       uuidKind: UUIDKind.ACI,
     });
 
-    const conversationStack = window.locator('.conversation-stack');
+    const conversationStack = window.locator('.Inbox__conversation-stack');
 
     debug('Waiting for the ACI invite');
     await window
@@ -251,7 +251,7 @@ describe('pnp/accept gv2 invite', function needsName() {
       uuidKind: UUIDKind.ACI,
     });
 
-    const conversationStack = window.locator('.conversation-stack');
+    const conversationStack = window.locator('.Inbox__conversation-stack');
 
     debug('Declining');
     await conversationStack
@@ -300,7 +300,7 @@ describe('pnp/accept gv2 invite', function needsName() {
     });
 
     const window = await app.getWindow();
-    const leftPane = window.locator('.left-pane-wrapper');
+    const leftPane = window.locator('#LeftPane');
 
     debug('Opening new group');
     await leftPane.locator(`[data-testid="${group.id}"]`).click();

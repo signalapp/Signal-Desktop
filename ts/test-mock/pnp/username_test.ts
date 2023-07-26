@@ -86,7 +86,7 @@ describe('pnp/username', function needsName() {
       const { phone } = bootstrap;
 
       const window = await app.getWindow();
-      const leftPane = window.locator('.left-pane-wrapper');
+      const leftPane = window.locator('#LeftPane');
 
       debug('find username in the left pane');
       await leftPane
@@ -335,7 +335,7 @@ describe('pnp/username', function needsName() {
     const window = await app.getWindow();
 
     debug('opening note to self');
-    const leftPane = window.locator('.left-pane-wrapper');
+    const leftPane = window.locator('#LeftPane');
     await leftPane.locator(`[data-testid="${desktop.uuid}"]`).click();
 
     debug('clicking link');

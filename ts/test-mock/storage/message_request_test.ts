@@ -48,8 +48,8 @@ describe('storage service', function needsName() {
 
     const window = await app.getWindow();
 
-    const leftPane = window.locator('.left-pane-wrapper');
-    const conversationStack = window.locator('.conversation-stack');
+    const leftPane = window.locator('#LeftPane');
+    const conversationStack = window.locator('.Inbox__conversation-stack');
 
     debug('Opening conversation with a stranger');
     debug(stranger.toContact().uuid);
@@ -117,7 +117,7 @@ describe('storage service', function needsName() {
 
     debug('Enter message text');
     const composeArea = window.locator(
-      '.composition-area-wrapper, .conversation .ConversationView'
+      '.composition-area-wrapper, .Inbox__conversation .ConversationView'
     );
     const input = composeArea.locator('[data-testid=CompositionInput]');
 

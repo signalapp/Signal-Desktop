@@ -93,7 +93,7 @@ describe('editing', function needsName() {
     }
 
     debug('opening conversation');
-    const leftPane = window.locator('.left-pane-wrapper');
+    const leftPane = window.locator('#LeftPane');
     await leftPane
       .locator('.module-conversation-list__item--contact-or-conversation')
       .first()
@@ -153,7 +153,7 @@ describe('editing', function needsName() {
     }
 
     debug('opening conversation');
-    const leftPane = window.locator('.left-pane-wrapper');
+    const leftPane = window.locator('#LeftPane');
     await leftPane
       .locator('.module-conversation-list__item--contact-or-conversation')
       .first()
@@ -223,7 +223,7 @@ describe('editing', function needsName() {
     });
 
     debug('opening conversation');
-    const leftPane = window.locator('.left-pane-wrapper');
+    const leftPane = window.locator('#LeftPane');
     await leftPane
       .locator('.module-conversation-list__item--contact-or-conversation')
       .first()

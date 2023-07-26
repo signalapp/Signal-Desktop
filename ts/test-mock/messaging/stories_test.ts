@@ -195,7 +195,7 @@ describe('story/messaging', function unknownContacts() {
       { timestamp: sentAt + 2 }
     );
 
-    const leftPane = window.locator('.left-pane-wrapper');
+    const leftPane = window.locator('#LeftPane');
 
     debug('Finding both replies');
     await leftPane
@@ -214,7 +214,7 @@ describe('story/messaging', function unknownContacts() {
     debug('waiting for storage service sync to complete');
     await app.waitForStorageService();
 
-    const leftPane = window.locator('.left-pane-wrapper');
+    const leftPane = window.locator('#LeftPane');
 
     debug('Create and send a story to the group');
     await leftPane.getByRole('button', { name: 'Stories' }).click();

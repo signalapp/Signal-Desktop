@@ -5,10 +5,9 @@ import { useCallback, useEffect } from 'react';
 import { get } from 'lodash';
 import { useSelector } from 'react-redux';
 
-import type { PanelRenderType } from '../types/Panels';
 import type { StateType } from '../state/reducer';
 import * as KeyboardLayout from '../services/keyboardLayout';
-import { getTopPanel } from '../state/selectors/conversations';
+import { getHasPanelOpen } from '../state/selectors/conversations';
 import { isInFullScreenCall } from '../state/selectors/calling';
 import { isShowingAnyModal } from '../state/selectors/globalModals';
 import { shouldShowStoriesView } from '../state/selectors/stories';
@@ -30,10 +29,7 @@ function isCtrlOrAlt(ev: KeyboardEvent): boolean {
 }
 
 function useHasPanels(): boolean {
-  const topPanel = useSelector<StateType, PanelRenderType | undefined>(
-    getTopPanel
-  );
-  return Boolean(topPanel);
+  return useSelector(getHasPanelOpen);
 }
 
 function useHasGlobalModal(): boolean {

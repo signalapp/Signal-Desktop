@@ -125,10 +125,10 @@ export const getConversationsByGroupId = createSelector(
     return state.conversationsByGroupId;
   }
 );
-export const getTargetedConversationsPanelsCount = createSelector(
+export const getHasPanelOpen = createSelector(
   getConversations,
-  (state: ConversationsStateType): number => {
-    return state.targetedConversationPanels.length;
+  (state: ConversationsStateType): boolean => {
+    return state.targetedConversationPanels.watermark > 0;
   }
 );
 export const getConversationsByUsername = createSelector(
@@ -1133,17 +1133,53 @@ export const getHideStoryConversationIds = createSelector(
     )
 );
 
-export const getTopPanel = createSelector(
+export const getActivePanel = createSelector(
   getConversations,
   (conversations): PanelRenderType | undefined =>
-    conversations.targetedConversationPanels[
-      conversations.targetedConversationPanels.length - 1
+    conversations.targetedConversationPanels.stack[
+      conversations.targetedConversationPanels.watermark
     ]
+);
+
+type PanelInformationType = {
+  currPanel: PanelRenderType | undefined;
+  direction: 'push' | 'pop';
+  prevPanel: PanelRenderType | undefined;
+};
+
+export const getPanelInformation = createSelector(
+  getConversations,
+  getActivePanel,
+  (conversations, currPanel): PanelInformationType | undefined => {
+    const { direction, watermark } = conversations.targetedConversationPanels;
+
+    if (!direction) {
+      return;
+    }
+
+    const watermarkDirection =
+      direction === 'push' ? watermark - 1 : watermark + 1;
+    const prevPanel =
+      conversations.targetedConversationPanels.stack[watermarkDirection];
+
+    return {
+      currPanel,
+      direction,
+      prevPanel,
+    };
+  }
+);
+
+export const getIsPanelAnimating = createSelector(
+  getConversations,
+  (conversations): boolean => {
+    return conversations.targetedConversationPanels.isAnimating;
+  }
 );
 
 export const getConversationTitle = createSelector(
   getIntl,
-  getTopPanel,
+  getActivePanel,
   (i18n, panel): string | undefined =>
     getConversationTitleForPanelType(i18n, panel?.type)
 );

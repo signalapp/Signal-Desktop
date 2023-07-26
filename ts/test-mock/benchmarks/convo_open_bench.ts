@@ -56,7 +56,7 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
     assert(app);
     const window = await app.getWindow();
 
-    const leftPane = window.locator('.left-pane-wrapper');
+    const leftPane = window.locator('#LeftPane');
 
     const openConvo = async (contact: PrimaryDevice): Promise<void> => {
       debug('opening conversation', contact.profileName);

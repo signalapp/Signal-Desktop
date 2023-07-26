@@ -41,7 +41,7 @@ describe('storage service', function needsName() {
 
     const window = await app.getWindow();
 
-    const leftPane = window.locator('.left-pane-wrapper');
+    const leftPane = window.locator('#LeftPane');
 
     debug('wait for first contact to be pinned in the left pane');
     await leftPane

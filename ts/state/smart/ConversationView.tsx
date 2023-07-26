@@ -10,6 +10,8 @@ import { SmartCompositionArea } from './CompositionArea';
 import { SmartConversationHeader } from './ConversationHeader';
 import { SmartTimeline } from './Timeline';
 import {
+  getActivePanel,
+  getIsPanelAnimating,
   getSelectedConversationId,
   getSelectedMessageIds,
 } from '../selectors/conversations';
@@ -37,6 +39,12 @@ export function SmartConversationView(): JSX.Element {
     );
   });
 
+  const shouldHideConversationView = useSelector((state: StateType) => {
+    const activePanel = getActivePanel(state);
+    const isAnimating = getIsPanelAnimating(state);
+    return activePanel && !isAnimating;
+  });
+
   return (
     <ConversationView
       conversationId={conversationId}
@@ -54,6 +62,7 @@ export function SmartConversationView(): JSX.Element {
         <SmartTimeline key={conversationId} id={conversationId} />
       )}
       renderPanel={() => <ConversationPanel conversationId={conversationId} />}
+      shouldHideConversationView={shouldHideConversationView}
     />
   );
 }

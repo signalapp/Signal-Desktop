@@ -74,7 +74,7 @@ describe('pnp/PNI Change', function needsName() {
 
     debug('Open conversation with contactA');
     {
-      const leftPane = window.locator('.left-pane-wrapper');
+      const leftPane = window.locator('#LeftPane');
 
       await leftPane
         .locator(
@@ -174,7 +174,7 @@ describe('pnp/PNI Change', function needsName() {
 
     debug('Open conversation with contactA');
     {
-      const leftPane = window.locator('.left-pane-wrapper');
+      const leftPane = window.locator('#LeftPane');
 
       await leftPane
         .locator(
@@ -276,7 +276,7 @@ describe('pnp/PNI Change', function needsName() {
 
     debug('Open conversation with contactA');
     {
-      const leftPane = window.locator('.left-pane-wrapper');
+      const leftPane = window.locator('#LeftPane');
 
       await leftPane
         .locator(
@@ -408,7 +408,7 @@ describe('pnp/PNI Change', function needsName() {
 
     debug('Open conversation with contactA');
     {
-      const leftPane = window.locator('.left-pane-wrapper');
+      const leftPane = window.locator('#LeftPane');
 
       await leftPane
         .locator(

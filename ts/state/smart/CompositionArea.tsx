@@ -25,9 +25,9 @@ import { getEmojiSkinTone, getTextFormattingEnabled } from '../selectors/items';
 import {
   getConversationSelector,
   getGroupAdminsSelector,
+  getHasPanelOpen,
   getLastEditableMessageId,
   getSelectedMessageIds,
-  getTargetedConversationsPanelsCount,
   isMissingRequiredProfileSharing,
 } from '../selectors/conversations';
 import { getPropsForQuote } from '../selectors/message';
@@ -61,7 +61,7 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
   const { id } = props;
   const platform = getPlatform(state);
 
-  const shouldHidePopovers = getTargetedConversationsPanelsCount(state) > 0;
+  const shouldHidePopovers = getHasPanelOpen(state);
 
   const conversationSelector = getConversationSelector(state);
   const conversation = conversationSelector(id);

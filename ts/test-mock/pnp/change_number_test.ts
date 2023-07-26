@@ -35,7 +35,7 @@ describe('pnp/change number', function needsName() {
 
     const window = await app.getWindow();
 
-    const leftPane = window.locator('.left-pane-wrapper');
+    const leftPane = window.locator('#LeftPane');
 
     debug('prepare a message for original PNI');
     const messageBefore = await first.encryptText(desktop, 'Before', {

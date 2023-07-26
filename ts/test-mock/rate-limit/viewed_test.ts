@@ -85,8 +85,8 @@ describe('challenge/receipts', function challengeReceiptsTest() {
     });
 
     const window = await app.getWindow();
-    const leftPane = window.locator('.left-pane-wrapper');
-    const conversationStack = window.locator('.conversation-stack');
+    const leftPane = window.locator('#LeftPane');
+    const conversationStack = window.locator('.Inbox__conversation-stack');
 
     debug(`Opening conversation with contact (${contact.toContact().uuid})`);
     await leftPane

@@ -1,11 +1,10 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useEffect, useMemo, useRef } from 'react';
-import classNames from 'classnames';
+import type { MutableRefObject } from 'react';
+import React, { forwardRef, useEffect, useMemo, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import type { PanelRenderType } from '../../types/Panels';
-import type { StateType } from '../reducer';
 import * as log from '../../logging/log';
 import { ContactDetail } from '../../components/conversation/ContactDetail';
 import { PanelType } from '../../types/Panels';
@@ -19,102 +18,259 @@ import { SmartGroupV2Permissions } from './GroupV2Permissions';
 import { SmartMessageDetail } from './MessageDetail';
 import { SmartPendingInvites } from './PendingInvites';
 import { SmartStickerManager } from './StickerManager';
+import { getConversationTitleForPanelType } from '../../util/getConversationTitleForPanelType';
 import { getIntl } from '../selectors/user';
-import { getConversationTitle, getTopPanel } from '../selectors/conversations';
-import { useConversationsActions } from '../ducks/conversations';
+import {
+  getIsPanelAnimating,
+  getPanelInformation,
+} from '../selectors/conversations';
 import { focusableSelectors } from '../../util/focusableSelectors';
+import { missingCaseError } from '../../util/missingCaseError';
+import { useConversationsActions } from '../ducks/conversations';
+import { useReducedMotion } from '../../hooks/useReducedMotion';
+
+const ANIMATION_CONFIG = {
+  duration: 350,
+  easing: 'cubic-bezier(0.17, 0.17, 0, 1)',
+  fill: 'forwards' as const,
+};
+
+type AnimationProps<T> = {
+  ref: MutableRefObject<HTMLDivElement | null>;
+  keyframes: Array<T>;
+};
+
+function doAnimate({
+  isRTL,
+  onAnimationStarted,
+  onAnimationDone,
+  overlay,
+  panel,
+}: {
+  isRTL: boolean;
+  onAnimationStarted: () => unknown;
+  onAnimationDone: () => unknown;
+  overlay: AnimationProps<{ backgroundColor: string }>;
+  panel: AnimationProps<{ transform: string }>;
+}) {
+  const animateNode = panel.ref.current;
+  if (!animateNode) {
+    return;
+  }
+
+  const overlayAnimation = overlay.ref.current?.animate(overlay.keyframes, {
+    ...ANIMATION_CONFIG,
+    id: 'panel-animation-overlay',
+  });
+
+  const animation = animateNode.animate(panel.keyframes, {
+    ...ANIMATION_CONFIG,
+    id: 'panel-animation',
+    direction: isRTL ? 'reverse' : 'normal',
+  });
+
+  onAnimationStarted();
+
+  function onFinish() {
+    onAnimationDone();
+  }
+
+  animation.addEventListener('finish', onFinish);
+
+  return () => {
+    overlayAnimation?.cancel();
+    animation.removeEventListener('finish', onFinish);
+    animation.cancel();
+  };
+}
 
 export function ConversationPanel({
   conversationId,
 }: {
   conversationId: string;
 }): JSX.Element | null {
-  const i18n = useSelector(getIntl);
-  const { popPanelForConversation, startConversation } =
+  const panelInformation = useSelector(getPanelInformation);
+  const { panelAnimationDone, panelAnimationStarted } =
     useConversationsActions();
-  const topPanel = useSelector<StateType, PanelRenderType | undefined>(
-    getTopPanel
-  );
-  const conversationTitle = useSelector(getConversationTitle);
+  const [shouldRenderPoppedPanel, setShouldRenderPoppedPanel] = useState(true);
+  const animateRef = useRef<HTMLDivElement | null>(null);
+  const overlayRef = useRef<HTMLDivElement | null>(null);
+  const prefersReducedMotion = useReducedMotion();
 
-  const selectors = useMemo(() => focusableSelectors.join(','), []);
-  const panelRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
-    const panelNode = panelRef.current;
-    if (!panelNode) {
+    setShouldRenderPoppedPanel(true);
+  }, [panelInformation?.prevPanel]);
+
+  const i18n = useSelector(getIntl);
+  const isRTL = i18n.getLocaleDirection() === 'rtl';
+
+  const isAnimating = useSelector(getIsPanelAnimating);
+
+  useEffect(() => {
+    if (prefersReducedMotion) {
+      panelAnimationDone();
+      setShouldRenderPoppedPanel(false);
       return;
     }
 
-    const elements = panelNode.querySelectorAll<HTMLElement>(selectors);
+    if (panelInformation?.direction === 'pop') {
+      if (!shouldRenderPoppedPanel) {
+        return;
+      }
+
+      return doAnimate({
+        isRTL,
+        onAnimationDone: () => {
+          panelAnimationDone();
+          setShouldRenderPoppedPanel(false);
+        },
+        onAnimationStarted: panelAnimationStarted,
+        overlay: {
+          ref: overlayRef,
+          keyframes: [
+            { backgroundColor: 'rgba(0, 0, 0, 0.2)' },
+            { backgroundColor: 'rgba(0, 0, 0, 0)' },
+          ],
+        },
+        panel: {
+          ref: animateRef,
+          keyframes: [
+            { transform: 'translateX(0%)' },
+            { transform: 'translateX(100%)' },
+          ],
+        },
+      });
+    }
+
+    if (panelInformation?.direction === 'push') {
+      if (!panelInformation?.currPanel) {
+        return;
+      }
+
+      return doAnimate({
+        isRTL,
+        onAnimationDone: panelAnimationDone,
+        onAnimationStarted: panelAnimationStarted,
+        overlay: {
+          ref: overlayRef,
+          keyframes: [
+            { backgroundColor: 'rgba(0, 0, 0, 0)' },
+            { backgroundColor: 'rgba(0, 0, 0, 0.2)' },
+          ],
+        },
+        panel: {
+          ref: animateRef,
+          keyframes: [
+            { transform: 'translateX(100%)' },
+            { transform: 'translateX(0%)' },
+          ],
+        },
+      });
+    }
+
+    return undefined;
+  }, [
+    isRTL,
+    panelAnimationDone,
+    panelAnimationStarted,
+    panelInformation?.currPanel,
+    panelInformation?.direction,
+    panelInformation?.prevPanel,
+    prefersReducedMotion,
+    shouldRenderPoppedPanel,
+  ]);
+
+  if (!panelInformation) {
+    return null;
+  }
+
+  const { currPanel: activePanel, direction, prevPanel } = panelInformation;
+
+  if (!direction) {
+    return null;
+  }
+
+  if (direction === 'pop') {
+    return (
+      <>
+        {activePanel && (
+          <PanelContainer
+            conversationId={conversationId}
+            isActive
+            panel={activePanel}
+          />
+        )}
+        {shouldRenderPoppedPanel && (
+          <div className="ConversationPanel__overlay" ref={overlayRef} />
+        )}
+        {shouldRenderPoppedPanel && prevPanel && (
+          <PanelContainer
+            conversationId={conversationId}
+            panel={prevPanel}
+            ref={animateRef}
+          />
+        )}
+      </>
+    );
+  }
+
+  if (direction === 'push' && activePanel) {
+    return (
+      <>
+        {isAnimating && prevPanel && (
+          <PanelContainer conversationId={conversationId} panel={prevPanel} />
+        )}
+        <div className="ConversationPanel__overlay" ref={overlayRef} />
+        <PanelContainer
+          conversationId={conversationId}
+          isActive
+          panel={activePanel}
+          ref={animateRef}
+        />
+      </>
+    );
+  }
+
+  return null;
+}
+
+type PanelPropsType = {
+  conversationId: string;
+  panel: PanelRenderType;
+};
+
+const PanelContainer = forwardRef<
+  HTMLDivElement,
+  PanelPropsType & { isActive?: boolean }
+>(function PanelContainerInner(
+  { conversationId, isActive, panel },
+  ref
+): JSX.Element {
+  const i18n = useSelector(getIntl);
+  const { popPanelForConversation } = useConversationsActions();
+  const conversationTitle = getConversationTitleForPanelType(i18n, panel.type);
+
+  const selectors = useMemo(() => focusableSelectors.join(','), []);
+  const focusRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    if (!isActive) {
+      return;
+    }
+
+    const focusNode = focusRef.current;
+    if (!focusNode) {
+      return;
+    }
+
+    const elements = focusNode.querySelectorAll<HTMLElement>(selectors);
     if (!elements.length) {
       return;
     }
     elements[0]?.focus();
-  }, [selectors, topPanel]);
-
-  if (!topPanel) {
-    return null;
-  }
-
-  let panelChild: JSX.Element;
-  let panelClassName = '';
-
-  if (topPanel.type === PanelType.AllMedia) {
-    panelChild = <SmartAllMedia conversationId={conversationId} />;
-  } else if (topPanel.type === PanelType.ChatColorEditor) {
-    panelChild = <SmartChatColorPicker conversationId={conversationId} />;
-  } else if (topPanel.type === PanelType.ContactDetails) {
-    const { contact, signalAccount } = topPanel.args;
-
-    panelChild = (
-      <ContactDetail
-        contact={contact}
-        hasSignalAccount={Boolean(signalAccount)}
-        i18n={i18n}
-        onSendMessage={() => {
-          if (signalAccount) {
-            startConversation(signalAccount.phoneNumber, signalAccount.uuid);
-          }
-        }}
-      />
-    );
-  } else if (topPanel.type === PanelType.ConversationDetails) {
-    panelClassName = 'conversation-details-pane';
-    panelChild = <SmartConversationDetails conversationId={conversationId} />;
-  } else if (topPanel.type === PanelType.GroupInvites) {
-    panelChild = (
-      <SmartPendingInvites
-        conversationId={conversationId}
-        ourUuid={window.storage.user.getCheckedUuid().toString()}
-      />
-    );
-  } else if (topPanel.type === PanelType.GroupLinkManagement) {
-    panelChild = <SmartGroupLinkManagement conversationId={conversationId} />;
-  } else if (topPanel.type === PanelType.GroupPermissions) {
-    panelChild = <SmartGroupV2Permissions conversationId={conversationId} />;
-  } else if (topPanel.type === PanelType.GroupV1Members) {
-    panelClassName = 'group-member-list';
-    panelChild = <SmartGV1Members conversationId={conversationId} />;
-  } else if (topPanel.type === PanelType.MessageDetails) {
-    panelClassName = 'message-detail-wrapper';
-    panelChild = <SmartMessageDetail />;
-  } else if (topPanel.type === PanelType.NotificationSettings) {
-    panelChild = (
-      <SmartConversationNotificationsSettings conversationId={conversationId} />
-    );
-  } else if (topPanel.type === PanelType.StickerManager) {
-    panelClassName = 'sticker-manager-wrapper';
-    panelChild = <SmartStickerManager />;
-  } else {
-    log.warn('renderPanel: Got unexpected panel', topPanel);
-    return null;
-  }
+  }, [isActive, panel, selectors]);
 
   return (
-    <div
-      className={classNames('ConversationPanel', 'panel', panelClassName)}
-      ref={panelRef}
-    >
+    <div className="ConversationPanel" ref={ref}>
       <div className="ConversationPanel__header">
         <button
           aria-label={i18n('icu:goBack')}
@@ -130,7 +286,84 @@ export function ConversationPanel({
           </div>
         )}
       </div>
-      {panelChild}
+      <div className="ConversationPanel__body" ref={focusRef}>
+        <PanelElement conversationId={conversationId} panel={panel} />
+      </div>
     </div>
   );
+});
+
+function PanelElement({
+  conversationId,
+  panel,
+}: PanelPropsType): JSX.Element | null {
+  const i18n = useSelector(getIntl);
+  const { startConversation } = useConversationsActions();
+
+  if (panel.type === PanelType.AllMedia) {
+    return <SmartAllMedia conversationId={conversationId} />;
+  }
+
+  if (panel.type === PanelType.ChatColorEditor) {
+    return <SmartChatColorPicker conversationId={conversationId} />;
+  }
+
+  if (panel.type === PanelType.ContactDetails) {
+    const { contact, signalAccount } = panel.args;
+
+    return (
+      <ContactDetail
+        contact={contact}
+        hasSignalAccount={Boolean(signalAccount)}
+        i18n={i18n}
+        onSendMessage={() => {
+          if (signalAccount) {
+            startConversation(signalAccount.phoneNumber, signalAccount.uuid);
+          }
+        }}
+      />
+    );
+  }
+
+  if (panel.type === PanelType.ConversationDetails) {
+    return <SmartConversationDetails conversationId={conversationId} />;
+  }
+
+  if (panel.type === PanelType.GroupInvites) {
+    return (
+      <SmartPendingInvites
+        conversationId={conversationId}
+        ourUuid={window.storage.user.getCheckedUuid().toString()}
+      />
+    );
+  }
+
+  if (panel.type === PanelType.GroupLinkManagement) {
+    return <SmartGroupLinkManagement conversationId={conversationId} />;
+  }
+
+  if (panel.type === PanelType.GroupPermissions) {
+    return <SmartGroupV2Permissions conversationId={conversationId} />;
+  }
+
+  if (panel.type === PanelType.GroupV1Members) {
+    return <SmartGV1Members conversationId={conversationId} />;
+  }
+
+  if (panel.type === PanelType.MessageDetails) {
+    return <SmartMessageDetail />;
+  }
+
+  if (panel.type === PanelType.NotificationSettings) {
+    return (
+      <SmartConversationNotificationsSettings conversationId={conversationId} />
+    );
+  }
+
+  if (panel.type === PanelType.StickerManager) {
+    return <SmartStickerManager />;
+  }
+
+  log.warn(missingCaseError(panel));
+  return null;
 }

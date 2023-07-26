@@ -14,6 +14,7 @@ import { getPreferredBadgeSelector } from '../selectors/badges';
 import {
   getConversationByUuidSelector,
   getConversationSelector,
+  getHasPanelOpen,
   isMissingRequiredProfileSharing,
 } from '../selectors/conversations';
 import { CallMode } from '../../types/Calling';
@@ -85,9 +86,7 @@ export function SmartConversationHeader({ id }: OwnProps): JSX.Element {
   const badgeSelector = useSelector(getPreferredBadgeSelector);
   const badge = badgeSelector(conversation.badges);
   const i18n = useSelector(getIntl);
-  const hasPanelShowing = useSelector<StateType, boolean>(
-    state => state.conversations.targetedConversationPanels.length > 0
-  );
+  const hasPanelShowing = useSelector<StateType, boolean>(getHasPanelOpen);
   const outgoingCallButtonStyle = useSelector<
     StateType,
     OutgoingCallButtonStyle

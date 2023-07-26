@@ -99,8 +99,8 @@ describe('pnp/PNI Signature', function needsName() {
 
     const window = await app.getWindow();
 
-    const leftPane = window.locator('.left-pane-wrapper');
-    const conversationStack = window.locator('.conversation-stack');
+    const leftPane = window.locator('#LeftPane');
+    const conversationStack = window.locator('.Inbox__conversation-stack');
 
     debug('creating a stranger');
     const stranger = await server.createPrimaryDevice({
@@ -254,7 +254,7 @@ describe('pnp/PNI Signature', function needsName() {
 
     const window = await app.getWindow();
 
-    const leftPane = window.locator('.left-pane-wrapper');
+    const leftPane = window.locator('#LeftPane');
 
     debug('opening conversation with the pni contact');
     await leftPane

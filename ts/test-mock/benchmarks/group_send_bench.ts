@@ -106,7 +106,7 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
 
   debug('opening conversation');
   {
-    const leftPane = window.locator('.left-pane-wrapper');
+    const leftPane = window.locator('#LeftPane');
 
     const item = leftPane
       .locator(
@@ -118,7 +118,7 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
   }
 
   const timeline = window.locator(
-    '.timeline-wrapper, .conversation .ConversationView'
+    '.timeline-wrapper, .Inbox__conversation .ConversationView'
   );
 
   const deltaList = new Array<number>();

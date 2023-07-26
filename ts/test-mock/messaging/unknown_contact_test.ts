@@ -58,14 +58,14 @@ describe('unknown contacts', function unknownContacts() {
     });
 
     debug('opening conversation');
-    const leftPane = page.locator('.left-pane-wrapper');
+    const leftPane = page.locator('#LeftPane');
 
     const conversationListItem = leftPane.getByRole('button', {
       name: 'Chat with Unknown contact',
     });
     await conversationListItem.getByText('Message Request').click();
 
-    const conversationStack = page.locator('.conversation-stack');
+    const conversationStack = page.locator('.Inbox__conversation-stack');
     await conversationStack.getByText('Missed voice call').waitFor();
 
     debug('accepting message request');

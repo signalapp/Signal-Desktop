@@ -64,7 +64,7 @@ export class App extends EventEmitter {
   public async waitForEnabledComposer(): Promise<Locator> {
     const window = await this.getWindow();
     const composeArea = window.locator(
-      '.composition-area-wrapper, .conversation .ConversationView'
+      '.composition-area-wrapper, .Inbox__conversation .ConversationView'
     );
     const composeContainer = composeArea.locator(
       '[data-testid=CompositionInput][data-enabled=true]'

@@ -470,7 +470,12 @@ export type ConversationsStateType = Readonly<{
   targetedMessage: string | undefined;
   targetedMessageCounter: number;
   targetedMessageSource: TargetedMessageSource | undefined;
-  targetedConversationPanels: ReadonlyArray<PanelRenderType>;
+  targetedConversationPanels: {
+    isAnimating: boolean;
+    direction: 'push' | 'pop' | undefined;
+    stack: ReadonlyArray<PanelRenderType>;
+    watermark: number;
+  };
   targetedMessageForDetails?: MessageAttributesType;
 
   lastSelectedMessage: MessageTimestamps | undefined;
@@ -541,6 +546,8 @@ export const TARGETED_CONVERSATION_CHANGED =
   'conversations/TARGETED_CONVERSATION_CHANGED';
 const PUSH_PANEL = 'conversations/PUSH_PANEL';
 const POP_PANEL = 'conversations/POP_PANEL';
+const PANEL_ANIMATION_DONE = 'conversations/PANEL_ANIMATION_DONE';
+const PANEL_ANIMATION_STARTED = 'conversations/PANEL_ANIMATION_STARTED';
 export const MESSAGE_CHANGED = 'MESSAGE_CHANGED';
 export const MESSAGE_DELETED = 'MESSAGE_DELETED';
 export const MESSAGE_EXPIRED = 'conversations/MESSAGE_EXPIRED';
@@ -904,6 +911,14 @@ type PopPanelActionType = ReadonlyDeep<{
   type: typeof POP_PANEL;
   payload: null;
 }>;
+type PanelAnimationDoneActionType = ReadonlyDeep<{
+  type: typeof PANEL_ANIMATION_DONE;
+  payload: null;
+}>;
+type PanelAnimationStartedActionType = ReadonlyDeep<{
+  type: typeof PANEL_ANIMATION_STARTED;
+  payload: null;
+}>;
 
 type ReplaceAvatarsActionType = ReadonlyDeep<{
   type: typeof REPLACE_AVATARS;
@@ -947,6 +962,8 @@ export type ConversationActionType =
   | MessageTargetedActionType
   | MessagesAddedActionType
   | MessagesResetActionType
+  | PanelAnimationStartedActionType
+  | PanelAnimationDoneActionType
   | PopPanelActionType
   | PushPanelActionType
   | RemoveAllConversationsActionType
@@ -1042,6 +1059,8 @@ export const actions = {
   openGiftBadge,
   popPanelForConversation,
   pushPanelForConversation,
+  panelAnimationDone,
+  panelAnimationStarted,
   removeAllConversations,
   removeConversation,
   removeCustomColorOnConversations,
@@ -2955,10 +2974,9 @@ function popPanelForConversation(): ThunkAction<
 > {
   return (dispatch, getState) => {
     const { conversations } = getState();
-    const { targetedConversationPanels: selectedConversationPanels } =
-      conversations;
+    const { targetedConversationPanels } = conversations;
 
-    if (!selectedConversationPanels.length) {
+    if (!targetedConversationPanels.stack.length) {
       return;
     }
 
@@ -2966,6 +2984,20 @@ function popPanelForConversation(): ThunkAction<
       type: POP_PANEL,
       payload: null,
     });
+  };
+}
+
+function panelAnimationStarted(): PanelAnimationStartedActionType {
+  return {
+    type: PANEL_ANIMATION_STARTED,
+    payload: null,
+  };
+}
+
+function panelAnimationDone(): PanelAnimationDoneActionType {
+  return {
+    type: PANEL_ANIMATION_DONE,
+    payload: null,
   };
 }
 
@@ -4087,7 +4119,12 @@ export function getEmptyState(): ConversationsStateType {
     lastSelectedMessage: undefined,
     selectedMessageIds: undefined,
     showArchived: false,
-    targetedConversationPanels: [],
+    targetedConversationPanels: {
+      isAnimating: false,
+      direction: undefined,
+      stack: [],
+      watermark: -1,
+    },
   };
 }
 
@@ -4623,7 +4660,12 @@ export function reducer(
     return {
       ...omit(state, 'contactSpoofingReview'),
       selectedConversationId,
-      targetedConversationPanels: [],
+      targetedConversationPanels: {
+        isAnimating: false,
+        direction: undefined,
+        stack: [],
+        watermark: -1,
+      },
       messagesLookup: omit(state.messagesLookup, [...messageIds]),
       messagesByConversation: omit(state.messagesByConversation, [
         conversationId,
@@ -5186,6 +5228,10 @@ export function reducer(
             existingConversation.scrollToMessageCounter + 1,
         },
       },
+      targetedConversationPanels: {
+        ...state.targetedConversationPanels,
+        watermark: -1,
+      },
     };
   }
   if (action.type === MESSAGE_DELETED) {
@@ -5539,46 +5585,91 @@ export function reducer(
   }
 
   if (action.type === PUSH_PANEL) {
+    const currentStack = state.targetedConversationPanels.stack;
+    const watermark = Math.min(
+      state.targetedConversationPanels.watermark + 1,
+      currentStack.length
+    );
+    const stack = [...currentStack.slice(0, watermark), action.payload];
+
+    const targetedConversationPanels = {
+      isAnimating: false,
+      direction: 'push' as const,
+      stack,
+      watermark,
+    };
+
     if (action.payload.type === PanelType.MessageDetails) {
       return {
         ...state,
-        targetedConversationPanels: [
-          ...state.targetedConversationPanels,
-          action.payload,
-        ],
+        targetedConversationPanels,
         targetedMessageForDetails: action.payload.args.message,
       };
     }
 
     return {
       ...state,
-      targetedConversationPanels: [
-        ...state.targetedConversationPanels,
-        action.payload,
-      ],
+      targetedConversationPanels,
     };
   }
 
   if (action.type === POP_PANEL) {
-    const { targetedConversationPanels: selectedConversationPanels } = state;
-    const nextPanels = [...selectedConversationPanels];
-    const panel = nextPanels.pop();
-
-    if (!panel) {
+    if (state.targetedConversationPanels.watermark === -1) {
       return state;
     }
 
-    if (panel.type === PanelType.MessageDetails) {
+    const poppedPanel =
+      state.targetedConversationPanels.stack[
+        state.targetedConversationPanels.watermark
+      ];
+
+    if (!poppedPanel) {
+      return state;
+    }
+
+    const watermark = Math.max(
+      state.targetedConversationPanels.watermark - 1,
+      -1
+    );
+
+    const targetedConversationPanels = {
+      isAnimating: false,
+      direction: 'pop' as const,
+      stack: state.targetedConversationPanels.stack,
+      watermark,
+    };
+
+    if (poppedPanel.type === PanelType.MessageDetails) {
       return {
         ...state,
-        targetedConversationPanels: nextPanels,
+        targetedConversationPanels,
         targetedMessageForDetails: undefined,
       };
     }
 
     return {
       ...state,
-      targetedConversationPanels: nextPanels,
+      targetedConversationPanels,
+    };
+  }
+
+  if (action.type === PANEL_ANIMATION_STARTED) {
+    return {
+      ...state,
+      targetedConversationPanels: {
+        ...state.targetedConversationPanels,
+        isAnimating: true,
+      },
+    };
+  }
+
+  if (action.type === PANEL_ANIMATION_DONE) {
+    return {
+      ...state,
+      targetedConversationPanels: {
+        ...state.targetedConversationPanels,
+        isAnimating: false,
+      },
     };
   }
 
