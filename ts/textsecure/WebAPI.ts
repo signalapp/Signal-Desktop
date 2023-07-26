@@ -1203,6 +1203,9 @@ export function initialize({
   if (!isString(cdnUrlObject['2'])) {
     throw new Error('WebAPI.initialize: Missing CDN 2 configuration');
   }
+  if (!isString(cdnUrlObject['3'])) {
+    throw new Error('WebAPI.initialize: Missing CDN 3 configuration');
+  }
   if (!isString(certificateAuthority)) {
     throw new Error('WebAPI.initialize: Invalid certificateAuthority');
   }
@@ -2655,7 +2658,7 @@ export function initialize({
       const abortController = new AbortController();
 
       const cdnUrl = isNumber(cdnNumber)
-        ? cdnUrlObject[cdnNumber] || cdnUrlObject['0']
+        ? cdnUrlObject[cdnNumber] ?? cdnUrlObject['0']
         : cdnUrlObject['0'];
       // This is going to the CDN, not the service, so we use _outerAjax
       const stream = await _outerAjax(`${cdnUrl}/attachments/${cdnKey}`, {

@@ -2276,6 +2276,7 @@ ipc.on('get-config', async event => {
     artCreatorUrl: config.get<string>('artCreatorUrl'),
     cdnUrl0: config.get<ConfigType>('cdn').get<string>('0'),
     cdnUrl2: config.get<ConfigType>('cdn').get<string>('2'),
+    cdnUrl3: config.get<ConfigType>('cdn').get<string>('3'),
     certificateAuthority: config.get<string>('certificateAuthority'),
     environment:
       !isTestEnvironment(getEnvironment()) && ciMode

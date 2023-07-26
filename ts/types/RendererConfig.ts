@@ -33,6 +33,7 @@ export const rendererConfigSchema = z.object({
   buildExpiration: z.number(),
   cdnUrl0: configRequiredStringSchema,
   cdnUrl2: configRequiredStringSchema,
+  cdnUrl3: configRequiredStringSchema,
   challengeUrl: configRequiredStringSchema,
   certificateAuthority: configRequiredStringSchema,
   contentProxyUrl: configRequiredStringSchema,

@@ -5,7 +5,8 @@
   "directoryMRENCLAVE": "0f6fd79cdfdaa5b2e6337f534d3baf999318b0c462a7ac1f41297a3e4b424a57",
   "cdn": {
     "0": "https://cdn.signal.org",
-    "2": "https://cdn2.signal.org"
+    "2": "https://cdn2.signal.org",
+    "3": "https://cdn3.signal.org"
   },
   "artCreatorUrl": "https://create.signal.art",
   "challengeUrl": "https://signalcaptchas.org/challenge/generate.html",
