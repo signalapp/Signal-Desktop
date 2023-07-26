@@ -46,7 +46,7 @@ sessionTestTwoWindows('Block user in conversation options', async ([windowA, win
   // Check to see if User B is a contact
   await clickOnTestIdWithText(windowA, 'new-conversation-button');
   await waitForTestIdWithText(windowA, 'module-conversation__user__profile-name', userB.userName);
-  //Click on three dots menu
+  // Click on three dots menu
   await clickOnTestIdWithText(windowA, 'message-section');
 
   await clickOnTestIdWithText(windowA, 'three-dots-conversation-options');
@@ -83,7 +83,7 @@ sessionTestTwoWindows('Block user in conversation list', async ([windowA, window
   // Check to see if User B is a contact
   await clickOnTestIdWithText(windowA, 'new-conversation-button');
   await waitForTestIdWithText(windowA, 'module-conversation__user__profile-name', userB.userName);
-  //Click on three dots menu
+  // Click on three dots menu
   await clickOnTestIdWithText(windowA, 'message-section');
 
   await clickOnTestIdWithText(

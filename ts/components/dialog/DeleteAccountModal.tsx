@@ -211,7 +211,7 @@ export const DeleteAccountModal = () => {
    */
   const onClickCancelHandler = useCallback(() => {
     dispatch(updateDeleteAccountModal(null));
-  }, []);
+  }, [dispatch]);
 
   return (
     <SessionWrapperModal

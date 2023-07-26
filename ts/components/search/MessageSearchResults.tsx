@@ -1,4 +1,5 @@
 import React from 'react';
+import styled, { CSSProperties } from 'styled-components';
 
 import { getOurPubKeyStrFromCache } from '../../session/utils/User';
 import { openConversationToSpecificMessage } from '../../state/ducks/conversations';
@@ -6,7 +7,6 @@ import { ContactName } from '../conversation/ContactName';
 import { Avatar, AvatarSize } from '../avatar/Avatar';
 import { Timestamp } from '../conversation/Timestamp';
 import { MessageBodyHighlight } from '../basic/MessageBodyHighlight';
-import styled, { CSSProperties } from 'styled-components';
 import { MessageAttributes } from '../../models/messageType';
 import { useConversationUsername, useIsPrivate } from '../../hooks/useParamSelector';
 import { UserUtils } from '../../session/utils';
@@ -208,7 +208,6 @@ export const MessageSearchResult = (props: MessageSearchResultProps) => {
   if (!source && !destination) {
     return null;
   }
-  // tslint:disable: use-simple-attributes
 
   return (
     <StyledSearchResults

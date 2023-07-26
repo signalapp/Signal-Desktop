@@ -21,7 +21,6 @@ const windows: Array<Page> = [];
 test.beforeEach(beforeAllClean);
 
 test.afterEach(() => forceCloseAllWindows(windows));
-// tslint:disable: no-console
 
 test('Link a device', async () => {
   const [windowA] = await openApp(1); // not using sessionTest here as we need to close and reopen one of the window

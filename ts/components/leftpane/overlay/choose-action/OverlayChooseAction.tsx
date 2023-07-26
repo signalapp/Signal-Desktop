@@ -1,13 +1,13 @@
-import React, { useEffect } from 'react';
-// tslint:disable: use-simple-attributes no-submodule-imports
+import React, { useCallback, useEffect } from 'react';
 
+import { isEmpty, isString } from 'lodash';
 import { useDispatch } from 'react-redux';
-import { resetOverlayMode, setOverlayMode } from '../../../../state/ducks/section';
 import useKey from 'react-use/lib/useKey';
 import styled from 'styled-components';
+import { resetOverlayMode, setOverlayMode } from '../../../../state/ducks/section';
+
 import { SessionIcon, SessionIconType } from '../../../icon';
 import { ContactsListWithBreaks } from './ContactsListWithBreaks';
-import { isEmpty, isString } from 'lodash';
 
 const StyledActionRow = styled.button`
   border: none;
@@ -50,41 +50,40 @@ export const OverlayChooseAction = () => {
     dispatch(resetOverlayMode());
   }
 
-  function openNewMessage() {
+  const openNewMessage = useCallback(() => {
     dispatch(setOverlayMode('message'));
-  }
+  }, [dispatch]);
 
-  function openCreateGroup() {
+  const openCreateGroup = useCallback(() => {
     dispatch(setOverlayMode('closed-group'));
-  }
+  }, [dispatch]);
 
-  function openJoinCommunity() {
+  const openJoinCommunity = useCallback(() => {
     dispatch(setOverlayMode('open-group'));
-  }
+  }, [dispatch]);
 
   useKey('Escape', closeOverlay);
 
-  function handlePaste(event: ClipboardEvent) {
-    event.preventDefault();
+  useEffect(() => {
+    function handlePaste(event: ClipboardEvent) {
+      event.preventDefault();
 
-    const pasted = event.clipboardData?.getData('text');
+      const pasted = event.clipboardData?.getData('text');
 
-    if (pasted && isString(pasted) && !isEmpty(pasted)) {
-      if (pasted.startsWith('http') || pasted.startsWith('https')) {
-        openJoinCommunity();
-      } else if (pasted.startsWith('05')) {
-        openNewMessage();
+      if (pasted && isString(pasted) && !isEmpty(pasted)) {
+        if (pasted.startsWith('http') || pasted.startsWith('https')) {
+          openJoinCommunity();
+        } else if (pasted.startsWith('05')) {
+          openNewMessage();
+        }
       }
     }
-  }
-
-  useEffect(() => {
     document?.addEventListener('paste', handlePaste);
 
     return () => {
       document?.removeEventListener('paste', handlePaste);
     };
-  }, []);
+  }, [openJoinCommunity, openNewMessage]);
 
   return (
     <div className="module-left-pane-overlay">

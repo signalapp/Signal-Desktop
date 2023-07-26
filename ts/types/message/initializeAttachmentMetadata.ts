@@ -15,7 +15,7 @@ export const getAttachmentMetadata = (
   hasFileAttachments: 1 | 0;
   hasVisualMediaAttachments: 1 | 0;
 } => {
-  const hasAttachments = Boolean((message.get('attachments') || []).length) ? 1 : 0;
+  const hasAttachments = (message.get('attachments') || []).length ? 1 : 0;
   const hasFileAttachments = hasFileAttachmentInMessage(message) ? 1 : 0;
   const hasVisualMediaAttachments = hasVisualMediaAttachmentInMessage(message) ? 1 : 0;
 

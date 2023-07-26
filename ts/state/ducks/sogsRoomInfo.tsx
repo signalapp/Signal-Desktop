@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { sortBy, uniq, xor } from 'lodash';
+import { isFinite, sortBy, uniq, xor } from 'lodash';
 import {
   getCanWriteOutsideRedux,
   getCurrentSubscriberCountOutsideRedux,

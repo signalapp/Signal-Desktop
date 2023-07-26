@@ -1,7 +1,7 @@
 import { omit, startsWith } from 'lodash';
 
 import { MessageModel } from '../models/message';
-import { Data } from '../../ts/data/data';
+import { Data } from '../data/data';
 import { AttachmentDownloads } from '../session/utils';
 import { ConversationModel } from '../models/conversation';
 import { OpenGroupRequestCommonType } from '../session/apis/open_group_api/opengroupV2/ApiUtil';
@@ -229,6 +229,7 @@ async function processQuoteAttachments(
 
     addedCount += 1;
 
+    // eslint-disable-next-line no-await-in-loop
     const thumbnail = await AttachmentDownloads.addJob(attachment.thumbnail, {
       messageId: message.id,
       type: 'quote',

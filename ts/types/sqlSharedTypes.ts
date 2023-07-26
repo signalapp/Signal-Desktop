@@ -1,3 +1,6 @@
+/* eslint-disable import/extensions */
+/* eslint-disable import/no-unresolved */
+// eslint-disable-next-line camelcase
 import { from_hex } from 'libsodium-wrappers-sumo';
 import { isArray, isEmpty, isEqual } from 'lodash';
 import { ContactInfoSet, LegacyGroupInfo, LegacyGroupMemberInfo } from 'libsession_util_nodejs';
@@ -209,7 +212,7 @@ export function getLegacyGroupInfoFromDBValues({
   lastJoinedTimestamp,
 }: Pick<
   ConversationAttributes,
-  'id' | 'priority' | 'displayNameInProfile' | 'lastJoinedTimestamp' //| 'expireTimer'
+  'id' | 'priority' | 'displayNameInProfile' | 'lastJoinedTimestamp' // | 'expireTimer'
 > & {
   encPubkeyHex: string;
   encSeckeyHex: string;
@@ -245,7 +248,8 @@ export function getLegacyGroupInfoFromDBValues({
  */
 export function assertUnreachable(_x: never, message: string): never {
   const msg = `assertUnreachable: Didn't expect to get here with "${message}"`;
-  // tslint:disable: no-console
+  // eslint:disable: no-console
+  // eslint-disable-next-line no-console
   console.info(msg);
   throw new Error(msg);
 }

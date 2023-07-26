@@ -1,8 +1,6 @@
+import { isString } from 'lodash';
 import { LocaleMessagesType } from './locale';
 
-import { isString } from 'lodash';
-
-// tslint:disable-next-line: max-func-body-length
 export const createTemplate = (
   options: {
     openReleaseNotes: () => void;
@@ -153,8 +151,8 @@ export const createTemplate = (
 
   if (platform === 'darwin') {
     return updateForMac(template, messages, {
-      showAbout: showAbout,
-      showWindow: showWindow,
+      showAbout,
+      showWindow,
     });
   }
 

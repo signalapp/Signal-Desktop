@@ -1,5 +1,3 @@
-// tslint:disable: no-implicit-dependencies max-func-body-length no-unused-expression no-require-imports no-var-requires
-
 import chai from 'chai';
 import { RingBuffer } from '../../../../session/utils/RingBuffer';
 

@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 
-import { SignalService } from '../../../../protobuf';
 import { TextEncoder } from 'util';
 import { toNumber } from 'lodash';
+import { SignalService } from '../../../../protobuf';
 import { Constants } from '../../../../session';
 import {
   AttachmentPointerWithUrl,
@@ -52,7 +52,7 @@ describe('VisibleMessage', () => {
     };
     const message = new VisibleMessage({
       timestamp: Date.now(),
-      lokiProfile: lokiProfile,
+      lokiProfile,
     });
     const plainText = message.plainTextBuffer();
     const decoded = SignalService.Content.decode(plainText);
@@ -68,9 +68,7 @@ describe('VisibleMessage', () => {
   });
 
   it('can create message with a quote without attachments', () => {
-    let quote: Quote;
-
-    quote = { id: 1234, author: 'author', text: 'text' };
+    const quote: Quote = { id: 1234, author: 'author', text: 'text' };
     const message = new VisibleMessage({
       timestamp: Date.now(),
       quote,
@@ -84,9 +82,7 @@ describe('VisibleMessage', () => {
   });
 
   it('can create message with a preview', () => {
-    let preview: PreviewWithAttachmentUrl;
-
-    preview = { url: 'url', title: 'title', id: 1 };
+    const preview: PreviewWithAttachmentUrl = { url: 'url', title: 'title', id: 1 };
     const previews = new Array<PreviewWithAttachmentUrl>();
     previews.push(preview);
 
@@ -106,15 +102,17 @@ describe('VisibleMessage', () => {
   });
 
   it('can create message with an AttachmentPointer', () => {
-    let attachment: AttachmentPointerWithUrl;
-
-    attachment = { url: 'url', contentType: 'contentType', id: 1234 };
+    const attachment: AttachmentPointerWithUrl = {
+      url: 'url',
+      contentType: 'contentType',
+      id: 1234,
+    };
     const attachments = new Array<AttachmentPointerWithUrl>();
     attachments.push(attachment);
 
     const message = new VisibleMessage({
       timestamp: Date.now(),
-      attachments: attachments,
+      attachments,
     });
     const plainText = message.plainTextBuffer();
     const decoded = SignalService.Content.decode(plainText);

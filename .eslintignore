@@ -1,5 +1,4 @@
 build/**
-components/**
 dist/**
 mnemonic_languages/**
 
@@ -13,3 +12,5 @@ ts/**/*.js
 playwright.config.js
 preload.js
 stylesheets/dist/
+compiled.d.ts
+.eslintrc.js

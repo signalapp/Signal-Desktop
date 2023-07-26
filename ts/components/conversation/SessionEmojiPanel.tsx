@@ -1,7 +1,6 @@
 import React, { forwardRef } from 'react';
 import classNames from 'classnames';
 import styled from 'styled-components';
-// @ts-ignore
 import Picker from '@emoji-mart/react';
 import { useSelector } from 'react-redux';
 import { getTheme, isDarkTheme } from '../../state/selectors/theme';
@@ -12,6 +11,7 @@ import {
   PrimaryColorStateType,
   THEMES,
   ThemeStateType,
+  // eslint-disable-next-line import/extensions
 } from '../../themes/constants/colors.js';
 import { hexColorToRGB } from '../../util/hexColorToRGB';
 import { getPrimaryColor } from '../../state/selectors/primaryColor';
@@ -97,6 +97,7 @@ const pickerProps: FixedPickerProps = {
   skinTonePosition: 'preview',
 };
 
+// eslint-disable-next-line react/display-name
 export const SessionEmojiPanel = forwardRef<HTMLDivElement, Props>((props: Props, ref) => {
   const { onEmojiClicked, show, isModal = false, onKeyDown } = props;
   const primaryColor = useSelector(getPrimaryColor);
@@ -109,11 +110,10 @@ export const SessionEmojiPanel = forwardRef<HTMLDivElement, Props>((props: Props
   switch (theme) {
     case 'ocean-dark':
       panelBackgroundRGB = hexColorToRGB(THEMES.OCEAN_DARK.COLOR1);
-      // tslint:disable: no-non-null-assertion
+
       panelTextRGB = hexColorToRGB(THEMES.OCEAN_DARK.COLOR7!);
       break;
     case 'ocean-light':
-      // tslint:disable: no-non-null-assertion
       panelBackgroundRGB = hexColorToRGB(THEMES.OCEAN_LIGHT.COLOR7!);
       panelTextRGB = hexColorToRGB(THEMES.OCEAN_LIGHT.COLOR1);
       break;

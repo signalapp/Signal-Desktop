@@ -23,7 +23,7 @@ export const filterDuplicatesFromDbAndIncomingV4 = async (
   const filteredInDb = await Data.filterAlreadyFetchedOpengroupMessage(
     filtered.map(m => {
       // We have confirmed these exist by filtering above.
-      // tslint:disable-next-line no-non-null-assertion
+
       return { sender: m.session_id! as string, serverTimestamp: m.posted! };
     })
   );

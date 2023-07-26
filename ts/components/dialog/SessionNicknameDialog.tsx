@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
+import _ from 'lodash';
+import { useDispatch } from 'react-redux';
+
 import { getConversationController } from '../../session/conversations';
 
-import _ from 'lodash';
 import { SpacerLG } from '../basic/Text';
-import { useDispatch } from 'react-redux';
 import { changeNickNameModal } from '../../state/ducks/modalDialog';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { SessionWrapperModal } from '../SessionWrapperModal';

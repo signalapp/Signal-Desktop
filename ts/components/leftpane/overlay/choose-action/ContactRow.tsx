@@ -86,7 +86,7 @@ export const ContactRow = (props: Props) => {
   return (
     <StyledRowContainer
       style={style}
-      onClick={() => openConversationWithMessages({ conversationKey: id, messageId: null })}
+      onClick={() => void openConversationWithMessages({ conversationKey: id, messageId: null })}
     >
       <AvatarItem id={id} displayName={displayName} />
       <StyledContactRowName data-testid="module-conversation__user__profile-name">

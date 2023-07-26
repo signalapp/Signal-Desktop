@@ -79,7 +79,7 @@ export const SignUpTab = () => {
     if (signUpMode === SignUpMode.SessionIDShown) {
       window.Session.setNewSessionID(hexGeneratedPubKey);
     }
-  }, [signUpMode]);
+  }, [signUpMode, hexGeneratedPubKey]);
 
   if (signUpMode === SignUpMode.Default) {
     return (
@@ -111,7 +111,7 @@ export const SignUpTab = () => {
   const signUpWithDetails = async () => {
     await signUp({
       displayName,
-      generatedRecoveryPhrase: generatedRecoveryPhrase,
+      generatedRecoveryPhrase,
     });
   };
 

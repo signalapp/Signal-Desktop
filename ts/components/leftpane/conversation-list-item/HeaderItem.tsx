@@ -148,7 +148,7 @@ const AtSymbol = ({ convoId }: { convoId: string }) => {
   return hasMentionedUs && hasUnread ? (
     <MentionAtSymbol
       title="Open to latest mention"
-      onMouseDown={e => openConvoToLastMention(e, convoId)}
+      onMouseDown={e => void openConvoToLastMention(e, convoId)}
     >
       @
     </MentionAtSymbol>

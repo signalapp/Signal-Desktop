@@ -1,19 +1,19 @@
 import chai, { expect } from 'chai';
 import * as crypto from 'crypto';
 import Sinon, * as sinon from 'sinon';
+import chaiBytes from 'chai-bytes';
+
 import { concatUInt8Array, getSodiumRenderer, MessageEncrypter } from '../../../../session/crypto';
 import { TestUtils } from '../../../test-utils';
 import { SignalService } from '../../../../protobuf';
 
 import { StringUtils, UserUtils } from '../../../../session/utils';
 
-import chaiBytes from 'chai-bytes';
 import { PubKey } from '../../../../session/types';
 import { fromHex, toHex } from '../../../../session/utils/String';
 import { addMessagePadding } from '../../../../session/crypto/BufferPadding';
 import { SessionKeyPair } from '../../../../receiver/keypairs';
 
-// tslint:disable-next-line: variable-name
 export const TEST_identityKeyPair: SessionKeyPair = {
   pubKey: new Uint8Array([
     5,
@@ -92,7 +92,6 @@ export const TEST_identityKeyPair: SessionKeyPair = {
 };
 chai.use(chaiBytes);
 
-// tslint:disable-next-line: max-func-body-length
 describe('MessageEncrypter', () => {
   const ourNumber = '0123456789abcdef';
   const ourUserEd25516Keypair = {
@@ -154,7 +153,6 @@ describe('MessageEncrypter', () => {
     });
   });
 
-  // tslint:disable-next-line: max-func-body-length
   describe('Session Protocol', () => {
     beforeEach(() => {
       Sinon.stub(UserUtils, 'getIdentityKeyPair').resolves(TEST_identityKeyPair);
@@ -186,10 +184,7 @@ describe('MessageEncrypter', () => {
       const cryptoSignDetachedSpy = Sinon.spy(sodium, 'crypto_sign_detached');
       const plainText = '123456';
       const plainTextBytes = new Uint8Array(StringUtils.encode(plainText, 'utf8'));
-      const userED25519PubKeyBytes = new Uint8Array(
-        // tslint:disable: no-non-null-assertion
-        StringUtils.fromHex(keypair!.pubKey)
-      );
+      const userED25519PubKeyBytes = new Uint8Array(StringUtils.fromHex(keypair!.pubKey));
       const recipientX25519PublicKeyWithoutPrefix = PubKey.removePrefixIfNeeded(recipient.key);
 
       const recipientX25519PublicKey = new Uint8Array(

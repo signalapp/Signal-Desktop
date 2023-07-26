@@ -1,8 +1,11 @@
-import { ElementHandle } from '@playwright/test';
+/* eslint-disable no-useless-escape */
+/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable no-await-in-loop */
 import { Page } from 'playwright-core';
+
+import { ElementHandle } from '@playwright/test';
 import { sleepFor } from '../../../session/utils/Promise';
 import { loaderType, Strategy } from '../types/testing';
-// tslint:disable: no-console
 
 // WAIT FOR FUNCTIONS
 
@@ -11,7 +14,7 @@ export async function waitForTestIdWithText(window: Page, dataTestId: string, te
   if (text) {
     // " =>  \\\"
     /* prettier-ignore */
-    // tslint:disable-next-line: quotemark
+
     const escapedText = text.replace(/"/g, '\\\"');
 
     builtSelector += `:has-text("${escapedText}")`;
@@ -41,7 +44,7 @@ export async function waitForTextMessage(window: Page, text: string, maxWait?: n
   if (text) {
     // " =>  \\\"
     /* prettier-ignore */
-    // tslint:disable-next-line: quotemark
+
     const escapedText = text.replace(/"/g, '\\\"');
 
     builtSelector += `:has-text("${escapedText}")`;
@@ -99,7 +102,6 @@ export async function clickOnElement(
   const builtSelector = `css=[${strategy}=${selector}]`;
   await window.waitForSelector(builtSelector, { timeout: maxWait });
   await window.click(builtSelector);
-  return;
 }
 
 export async function clickOnMatchingText(window: Page, text: string, rightButton = false) {
@@ -114,7 +116,7 @@ export async function clickOnTestIdWithText(
   rightButton?: boolean,
   maxWait?: number
 ) {
-  console.info(`clickOnTestIdWithText with testId:${dataTestId} and text:${text ? text : 'none'}`);
+  console.info(`clickOnTestIdWithText with testId:${dataTestId} and text:${text || 'none'}`);
 
   const builtSelector = !text
     ? `css=[data-testid=${dataTestId}]`

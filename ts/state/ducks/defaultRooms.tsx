@@ -29,7 +29,7 @@ const defaultRoomsSlice = createSlice({
     updateDefaultRooms(state, action) {
       // window?.log?.info('updating default rooms', action.payload);
       const rooms = action.payload as Array<OpenGroupV2InfoJoinable>;
-      return { ...state, rooms: rooms };
+      return { ...state, rooms };
     },
     updateDefaultRoomsInProgress(state, action) {
       const inProgress = action.payload as boolean;

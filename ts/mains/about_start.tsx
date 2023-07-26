@@ -1,4 +1,3 @@
-/* global $, Whisper */
 // const $body = $(document.body);
 
 import React from 'react';

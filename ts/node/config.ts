@@ -1,7 +1,7 @@
+/* eslint-disable no-console */
 import path from 'path';
 
 import { app } from 'electron';
-// tslint:disable: no-console
 
 let environment;
 const isPackaged = app.isPackaged;
@@ -29,9 +29,9 @@ if (environment === 'production') {
 }
 
 // We load config after we've made our modifications to NODE_ENV
-//tslint-disable no-require-imports no-var-requires
-// tslint:disable-next-line: no-require-imports no-var-requires
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const c = require('config');
+
 c.environment = environment;
 
 // Log resulting env vars in use by config

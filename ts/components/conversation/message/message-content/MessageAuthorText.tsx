@@ -36,7 +36,7 @@ export const MessageAuthorText = (props: Props) => {
     return null;
   }
 
-  const title = authorName ? authorName : sender;
+  const title = authorName || sender;
 
   if (direction !== 'incoming' || !isGroup || !title || !firstMessageOfSeries) {
     return null;

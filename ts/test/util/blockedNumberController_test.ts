@@ -1,11 +1,8 @@
-// tslint:disable: no-implicit-dependencies max-func-body-length no-unused-expression
-
 import { expect } from 'chai';
 import Sinon from 'sinon';
 import { BlockedNumberController } from '../../util/blockedNumberController';
 import { TestUtils } from '../test-utils';
 
-// tslint:disable-next-line: max-func-body-length
 describe('BlockedNumberController', () => {
   let memoryDB: { [key: string]: any };
   beforeEach(() => {
@@ -48,7 +45,7 @@ describe('BlockedNumberController', () => {
     it('should return empty if nothing in the db exists', async () => {
       await BlockedNumberController.load();
       const blockedNumbers = BlockedNumberController.getBlockedNumbers();
-      expect(blockedNumbers).to.be.empty;
+      expect(blockedNumbers.length).to.be.eq(0);
     });
   });
 
@@ -73,8 +70,8 @@ describe('BlockedNumberController', () => {
       await BlockedNumberController.unblockAll([primary.key]);
 
       const blockedNumbers = BlockedNumberController.getBlockedNumbers();
-      expect(blockedNumbers).to.be.empty;
-      expect(memoryDB.blocked).to.be.empty;
+      expect(blockedNumbers.length).to.be.eq(0);
+      expect(Object.keys(memoryDB.blocked)).to.be.be.eq(0);
     });
 
     it('should only unblock if a device was blocked', async () => {

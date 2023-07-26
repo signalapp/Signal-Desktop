@@ -1,6 +1,9 @@
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable no-continue */
+/* eslint-disable no-param-reassign */
+/* eslint-disable import/no-mutable-exports  */
+import { PartialI18n, init } from 'emoji-mart';
 import { FixedBaseEmoji, NativeEmojiData } from '../types/Reaction';
-// @ts-ignore
-import { init, PartialI18n } from 'emoji-mart';
 import { loadEmojiPanelI18n } from './i18n';
 
 export type SizeClassType = 'default' | 'small' | 'medium' | 'large' | 'jumbo';
@@ -33,13 +36,14 @@ export function getEmojiSizeClass(str: string): SizeClassType {
   const emojiCount = getCountOfAllMatches(str);
   if (emojiCount > 6) {
     return 'small';
-  } else if (emojiCount > 4) {
-    return 'medium';
-  } else if (emojiCount > 2) {
-    return 'large';
-  } else {
-    return 'jumbo';
   }
+  if (emojiCount > 4) {
+    return 'medium';
+  }
+  if (emojiCount > 2) {
+    return 'large';
+  }
+  return 'jumbo';
 }
 
 export let nativeEmojiData: NativeEmojiData | null = null;

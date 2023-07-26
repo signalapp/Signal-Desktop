@@ -1,10 +1,12 @@
-import React, { ReactElement, useEffect, useState } from 'react';
+import { isEqual } from 'lodash';
+import React, { ReactElement, useState } from 'react';
+import useMount from 'react-use/lib/useMount';
 import styled from 'styled-components';
+
+import { RecentReactions } from '../../../../types/Reaction';
+import { nativeEmojiData } from '../../../../util/emoji';
 import { getRecentReactions } from '../../../../util/storage';
 import { SessionIconButton } from '../../../icon';
-import { nativeEmojiData } from '../../../../util/emoji';
-import { isEqual } from 'lodash';
-import { RecentReactions } from '../../../../types/Reaction';
 
 type Props = {
   action: (...args: Array<any>) => void;
@@ -53,12 +55,12 @@ export const MessageReactBar = (props: Props): ReactElement => {
   const { action, additionalAction } = props;
   const [recentReactions, setRecentReactions] = useState<RecentReactions>();
 
-  useEffect(() => {
+  useMount(() => {
     const reactions = new RecentReactions(getRecentReactions());
     if (reactions && !isEqual(reactions, recentReactions)) {
       setRecentReactions(reactions);
     }
-  }, []);
+  });
 
   if (!recentReactions) {
     return <></>;

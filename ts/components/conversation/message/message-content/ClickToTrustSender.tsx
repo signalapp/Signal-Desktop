@@ -111,7 +111,7 @@ export const ClickToTrustSender = (props: { messageId: string }) => {
   };
 
   return (
-    <StyledTrustSenderUI onClick={openConfirmationModal}>
+    <StyledTrustSenderUI onClick={e => void openConfirmationModal(e)}>
       <SessionIcon iconSize="small" iconType="gallery" />
       <ClickToDownload>{window.i18n('clickToTrustContact')}</ClickToDownload>
     </StyledTrustSenderUI>

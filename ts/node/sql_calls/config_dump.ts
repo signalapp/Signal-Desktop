@@ -9,6 +9,7 @@ import {
   ConfigDumpRow,
   ConfigDumpRowWithoutData,
 } from '../../types/sqlSharedTypes';
+// eslint-disable-next-line import/no-unresolved, import/extensions
 import { ConfigWrapperObjectTypes } from '../../webworker/workers/browser/libsession_worker_functions';
 import { assertGlobalInstance } from '../sqlInstance';
 

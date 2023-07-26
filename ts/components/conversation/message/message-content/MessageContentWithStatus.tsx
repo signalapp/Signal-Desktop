@@ -11,7 +11,7 @@ import {
   isMessageSelectionMode,
 } from '../../../../state/selectors/conversations';
 import { Reactions } from '../../../../util/reactions';
-import { MessageAvatar } from '../message-content/MessageAvatar';
+import { MessageAvatar } from './MessageAvatar';
 import { MessageAuthorText } from './MessageAuthorText';
 import { MessageContent } from './MessageContent';
 import { MessageContextMenu } from './MessageContextMenu';
@@ -30,7 +30,6 @@ type Props = {
   dataTestId?: string;
   enableReactions: boolean;
 };
-// tslint:disable: use-simple-attributes
 
 const StyledMessageContentContainer = styled.div<{ direction: 'left' | 'right' }>`
   display: flex;
@@ -60,13 +59,13 @@ export const MessageContentWithStatuses = (props: Props) => {
 
   const onClickOnMessageOuterContainer = useCallback(
     (event: React.MouseEvent<HTMLDivElement>) => {
-      if (multiSelectMode && messageId) {
+      if (multiSelectMode && props?.messageId) {
         event.preventDefault();
         event.stopPropagation();
-        dispatch(toggleSelectedMessageId(messageId));
+        dispatch(toggleSelectedMessageId(props?.messageId));
       }
     },
-    [window.contextMenuShown, props?.messageId, multiSelectMode, props?.isDetailView]
+    [dispatch, props?.messageId, multiSelectMode]
   );
 
   const onDoubleClickReplyToMessage = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -84,12 +83,12 @@ export const MessageContentWithStatuses = (props: Props) => {
         void replyToMessage(messageId);
         currentSelection?.empty();
         e.preventDefault();
-        return;
       }
     }
   };
 
   const { messageId, ctxMenuID, isDetailView, dataTestId, enableReactions } = props;
+  const [popupReaction, setPopupReaction] = useState('');
 
   if (!contentProps) {
     return null;
@@ -99,8 +98,6 @@ export const MessageContentWithStatuses = (props: Props) => {
 
   const isPrivate = conversationType === 'private';
   const hideAvatar = isPrivate || direction === 'outgoing';
-
-  const [popupReaction, setPopupReaction] = useState('');
 
   const handleMessageReaction = async (emoji: string) => {
     await Reactions.sendMessageReaction(messageId, emoji);
@@ -150,7 +147,7 @@ export const MessageContentWithStatuses = (props: Props) => {
       {enableReactions && (
         <MessageReactions
           messageId={messageId}
-          onClick={handleMessageReaction}
+          onClick={emoji => void handleMessageReaction(emoji)}
           popupReaction={popupReaction}
           setPopupReaction={setPopupReaction}
           onPopupClick={handlePopupClick}

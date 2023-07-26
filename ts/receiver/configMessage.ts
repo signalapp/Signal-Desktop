@@ -1,3 +1,4 @@
+/* eslint-disable no-await-in-loop */
 import { ContactInfo } from 'libsession_util_nodejs';
 import { compact, difference, isEmpty, isNumber, toNumber } from 'lodash';
 import { ConfigDumpData } from '../data/configDump/configDump';
@@ -38,6 +39,7 @@ import {
   isSignInByLinking,
   setLastProfileUpdateTimestamp,
 } from '../util/storage';
+// eslint-disable-next-line import/no-unresolved, import/extensions
 import { ConfigWrapperObjectTypes } from '../webworker/workers/browser/libsession_worker_functions';
 import {
   ContactsWrapperActions,
@@ -134,7 +136,7 @@ async function mergeConfigsWithIncomingUpdates(
         needsPush,
         kind: LibSessionUtil.variantToKind(variant),
         publicKey,
-        latestEnvelopeTimestamp: latestEnvelopeTimestamp ? latestEnvelopeTimestamp : Date.now(),
+        latestEnvelopeTimestamp: latestEnvelopeTimestamp || Date.now(),
       };
       groupedResults.set(variant, incomingConfResult);
     }
@@ -279,7 +281,6 @@ async function deleteContactsFromDB(contactsToRemove: Array<string>) {
   }
 }
 
-// tslint:disable-next-line: cyclomatic-complexity
 async function handleContactsUpdate(result: IncomingConfResult): Promise<IncomingConfResult> {
   const us = UserUtils.getOurPubKeyStrFromCache();
 
@@ -1084,7 +1085,8 @@ async function handleConfigurationMessageLegacy(
 
   if (envelope.source !== ourPubkey) {
     window?.log?.info('Dropping configuration change from someone else than us.');
-    return removeFromCache(envelope);
+    await removeFromCache(envelope);
+    return;
   }
 
   await handleOurProfileUpdateLegacy(envelope.timestamp, configurationMessage);

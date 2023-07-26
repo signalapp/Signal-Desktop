@@ -1,5 +1,5 @@
 import AbortController, { AbortSignal } from 'abort-controller';
-import { isUndefined, toNumber } from 'lodash';
+import { isFinite, isUndefined, toNumber } from 'lodash';
 import {
   OpenGroupData,
   OpenGroupV2Room,

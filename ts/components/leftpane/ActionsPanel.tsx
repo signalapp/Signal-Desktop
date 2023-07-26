@@ -1,13 +1,15 @@
+import { ipcRenderer } from 'electron';
 import React, { useEffect, useState } from 'react';
-import { getConversationController } from '../../session/conversations';
-import { syncConfigurationIfNeeded } from '../../session/utils/sync/syncUtils';
 
+import { debounce, isEmpty, isString } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
-import { Data } from '../../data/data';
-import { getMessageQueue } from '../../session/sending';
-// tslint:disable: no-submodule-imports
 import useInterval from 'react-use/lib/useInterval';
 import useTimeoutFn from 'react-use/lib/useTimeoutFn';
+
+import { Data } from '../../data/data';
+import { getConversationController } from '../../session/conversations';
+import { getMessageQueue } from '../../session/sending';
+import { syncConfigurationIfNeeded } from '../../session/utils/sync/syncUtils';
 
 import { clearSearch } from '../../state/ducks/search';
 import { resetOverlayMode, SectionType, showLeftPaneSection } from '../../state/ducks/section';
@@ -22,13 +24,9 @@ import { cleanUpOldDecryptedMedias } from '../../session/crypto/DecryptedAttachm
 
 import { DURATION } from '../../session/constants';
 
-import { debounce, isEmpty, isString } from 'lodash';
 import { uploadOurAvatar } from '../../interactions/conversationInteractions';
 import { editProfileModal, onionPathModal } from '../../state/ducks/modalDialog';
 
-// tslint:disable-next-line: no-import-side-effect no-submodule-imports
-
-import { ipcRenderer } from 'electron';
 import { loadDefaultRooms } from '../../session/apis/open_group_api/opengroupV2/ApiUtil';
 import { getOpenGroupManager } from '../../session/apis/open_group_api/opengroupV2/OpenGroupManagerV2';
 import { getSwarmPollingInstance } from '../../session/apis/snode_api';
@@ -58,8 +56,7 @@ const Section = (props: { type: SectionType }) => {
   const focusedSection = useSelector(getFocusedSection);
   const isSelected = focusedSection === props.type;
 
-  const handleClick = async () => {
-    /* tslint:disable:no-void-expression */
+  const handleClick = () => {
     if (type === SectionType.Profile) {
       dispatch(editProfileModal({}));
     } else if (type === SectionType.ColorMode) {
@@ -69,7 +66,7 @@ const Section = (props: { type: SectionType }) => {
         : currentTheme.replace('light', 'dark')) as ThemeStateType;
 
       // We want to persist the primary color when using the color mode button
-      await switchThemeTo({
+      void switchThemeTo({
         theme: newTheme,
         mainWindow: true,
         usePrimaryColor: true,
@@ -259,34 +256,48 @@ export const ActionsPanel = () => {
   useInterval(cleanUpOldDecryptedMedias, startCleanUpMedia ? cleanUpMediasInterval : null);
 
   useInterval(() => {
+    if (!ourPrimaryConversation) {
+      return;
+    }
     void fetchReleaseFromFSAndUpdateMain();
   }, fetchReleaseFromFileServerInterval);
 
-  if (!ourPrimaryConversation) {
-    window?.log?.warn('ActionsPanel: ourPrimaryConversation is not set');
-    return null;
-  }
-
   useInterval(() => {
+    if (!ourPrimaryConversation) {
+      return;
+    }
     void syncConfigurationIfNeeded();
   }, DURATION.DAYS * 2);
 
   useInterval(() => {
+    if (!ourPrimaryConversation) {
+      return;
+    }
     // trigger an updates from the snodes every hour
 
     void forceRefreshRandomSnodePool();
   }, DURATION.HOURS * 1);
 
   useTimeoutFn(() => {
+    if (!ourPrimaryConversation) {
+      return;
+    }
     // trigger an updates from the snodes after 5 minutes, once
     void forceRefreshRandomSnodePool();
   }, DURATION.MINUTES * 5);
 
   useInterval(() => {
+    if (!ourPrimaryConversation) {
+      return;
+    }
     // this won't be run every days, but if the app stays open for more than 10 days
     void triggerAvatarReUploadIfNeeded();
   }, DURATION.DAYS * 1);
 
+  if (!ourPrimaryConversation) {
+    window?.log?.warn('ActionsPanel: ourPrimaryConversation is not set');
+    return null;
+  }
   return (
     <>
       <LeftPaneSectionContainer data-testid="leftpane-section-container">

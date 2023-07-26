@@ -25,13 +25,12 @@ export class ClosedGroupEncryptionPairMessage extends ClosedGroupMessage {
   public dataProto(): SignalService.DataMessage {
     const dataMessage = super.dataProto();
 
-    // tslint:disable: no-non-null-assertion
     dataMessage.closedGroupControlMessage!.type =
       SignalService.DataMessage.ClosedGroupControlMessage.Type.ENCRYPTION_KEY_PAIR;
     dataMessage.closedGroupControlMessage!.wrappers = this.encryptedKeyPairs.map(w => {
       const { publicKey, encryptedKeyPair } = w;
       return {
-        publicKey: publicKey,
+        publicKey,
         encryptedKeyPair,
       };
     });

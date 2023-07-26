@@ -4,7 +4,6 @@ import { join } from 'path';
 import { homedir } from 'os';
 import { isLinux, isMacOS } from '../../../OS';
 import { MULTI_PREFIX, NODE_ENV } from './open';
-// tslint:disable: no-console
 
 const getDirectoriesOfSessionDataPath = (source: string) =>
   readdirSync(source, { withFileTypes: true })
@@ -41,7 +40,7 @@ function cleanUpOtherTest() {
   const allAppDataPath = getDirectoriesOfSessionDataPath(parentFolderOfAllDataPath);
   console.info('allAppDataPath', allAppDataPath);
 
-  allAppDataPath.map(folder => {
+  allAppDataPath.forEach(folder => {
     const pathToRemove = join(parentFolderOfAllDataPath, folder);
     rmdirSync(pathToRemove, { recursive: true });
   });

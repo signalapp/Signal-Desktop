@@ -79,6 +79,7 @@ const VALID_URI_CHARACTERS = new Set([
   '_',
   '~',
 ]);
+// eslint-disable-next-line prefer-regex-literals
 const ASCII_PATTERN = new RegExp('[\\u0020-\\u007F]', 'g');
 const MAX_HREF_LENGTH = 2 ** 12;
 

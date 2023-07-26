@@ -1,15 +1,15 @@
 import classNames from 'classnames';
+import { isNil } from 'lodash';
 import React, { useCallback } from 'react';
 import { contextMenu } from 'react-contexify';
+import { createPortal } from 'react-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Avatar, AvatarSize } from '../../avatar/Avatar';
 
-import { createPortal } from 'react-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import { openConversationWithMessages } from '../../../state/ducks/conversations';
 import { updateUserDetailsModal } from '../../../state/ducks/modalDialog';
 
-import _, { isNil } from 'lodash';
 import {
   useAvatarPath,
   useConversationUsername,
@@ -26,9 +26,8 @@ import { ConversationListItemHeaderItem } from './HeaderItem';
 import { MessageItem } from './MessageItem';
 
 type PropsHousekeeping = {
-  style?: Object;
+  style?: object;
 };
-// tslint:disable: use-simple-attributes
 
 type Props = { conversationId: string } & PropsHousekeeping;
 
@@ -46,7 +45,7 @@ const AvatarItem = () => {
   function onPrivateAvatarClick() {
     dispatch(
       updateUserDetailsModal({
-        conversationId: conversationId,
+        conversationId,
         userName: userName || '',
         authorAvatarPath: avatarPath,
       })
@@ -86,10 +85,10 @@ const ConversationListItemInner = (props: Props) => {
   const triggerId = `${key}-ctxmenu`;
 
   const openConvo = useCallback(
-    async (e: React.MouseEvent<HTMLDivElement>) => {
+    (e: React.MouseEvent<HTMLDivElement>) => {
       // mousedown is invoked sooner than onClick, but for both right and left click
       if (e.button === 0) {
-        await openConversationWithMessages({ conversationKey: conversationId, messageId: null });
+        void openConversationWithMessages({ conversationKey: conversationId, messageId: null });
       }
     },
     [conversationId]

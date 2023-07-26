@@ -1,10 +1,9 @@
-// tslint:disable: no-implicit-dependencies max-func-body-length no-unused-expression
-
+/* eslint-disable more/no-then */
 import chai from 'chai';
-
-// tslint:disable-next-line: no-require-imports no-var-requires
 import chaiAsPromised from 'chai-as-promised';
+
 import { createTaskWithTimeout } from '../../../../session/utils/TaskWithTimeout';
+
 chai.use(chaiAsPromised as any);
 chai.should();
 
@@ -51,7 +50,6 @@ describe('createTaskWithTimeout', () => {
     );
   });
   it('resolves if task returns something falsey', async () => {
-    // tslint:disable-next-line: no-empty
     const task = () => {};
     const taskWithTimeout = createTaskWithTimeout(task, taskName);
     await taskWithTimeout();

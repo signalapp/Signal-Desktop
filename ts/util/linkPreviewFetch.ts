@@ -4,7 +4,6 @@ import { AbortSignal } from 'abort-controller';
 import { IMAGE_GIF, IMAGE_ICO, IMAGE_JPEG, IMAGE_PNG, IMAGE_WEBP, MIMEType } from '../types/MIME';
 
 const MAX_REQUEST_COUNT_WITH_REDIRECTS = 20;
-// tslint:disable: prefer-for-of
 
 // Lifted from the `fetch` spec [here][0].
 // [0]: https://fetch.spec.whatwg.org/#redirect-status

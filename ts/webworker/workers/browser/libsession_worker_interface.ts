@@ -1,8 +1,6 @@
+/* eslint-disable import/extensions */
+/* eslint-disable import/no-unresolved */
 import { join } from 'path';
-import { getAppRootPath } from '../../../node/getRootPath';
-import { WorkerInterface } from '../../worker_interface';
-import { ConfigWrapperObjectTypes, LibSessionWorkerFunctions } from './libsession_worker_functions';
-
 import {
   BaseWrapperActionsCalls,
   ContactInfoSet,
@@ -12,6 +10,10 @@ import {
   UserConfigWrapperActionsCalls,
   UserGroupsWrapperActionsCalls,
 } from 'libsession_util_nodejs';
+
+import { getAppRootPath } from '../../../node/getRootPath';
+import { WorkerInterface } from '../../worker_interface';
+import { ConfigWrapperObjectTypes, LibSessionWorkerFunctions } from './libsession_worker_functions';
 
 let libsessionWorkerInterface: WorkerInterface | undefined;
 

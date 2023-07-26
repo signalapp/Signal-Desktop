@@ -13,9 +13,9 @@ sessionTestOneWindow('Create User', async ([window]) => {
   // Open profile tab
   await clickOnTestIdWithText(window, 'leftpane-primary-avatar');
   await sleepFor(100, true);
-  //check username matches
+  // check username matches
   await waitForTestIdWithText(window, 'your-profile-name', userA.userName);
-  //check session id matches
+  // check session id matches
   await waitForTestIdWithText(window, 'your-session-id', userA.sessionid);
   // exit profile module
   await window.click('.session-icon-button.small');

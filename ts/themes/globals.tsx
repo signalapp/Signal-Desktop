@@ -152,6 +152,7 @@ export const THEME_GLOBALS: ThemeGlobals = {
 // These should only be needed for the global style (at root).
 export function declareCSSVariables(variables: Record<string, string>) {
   let output = '';
+  // eslint-disable-next-line no-restricted-syntax
   for (const [key, value] of Object.entries(variables)) {
     output += `${key}: ${value};\n`;
   }

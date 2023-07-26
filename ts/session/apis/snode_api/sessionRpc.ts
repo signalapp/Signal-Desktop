@@ -1,12 +1,14 @@
+// eslint-disable-next-line import/no-named-default
 import { default as insecureNodeFetch } from 'node-fetch';
+import https from 'https';
+import { clone } from 'lodash';
 import pRetry from 'p-retry';
+
 import { HTTPError, NotFoundError } from '../../utils/errors';
 import { Snode } from '../../../data/data';
 
 import { ERROR_421_HANDLED_RETRY_REQUEST, Onions, snodeHttpsAgent, SnodeResponse } from './onions';
 import { APPLICATION_JSON } from '../../../types/MIME';
-import https from 'https';
-import { clone } from 'lodash';
 
 export interface LokiFetchOptions {
   method: 'GET' | 'POST';
@@ -119,7 +121,7 @@ export async function snodeRpc(
     targetNode: Snode;
     associatedWith: string | null;
     timeout?: number;
-  } //the user pubkey this call is for. if the onion request fails, this is used to handle the error for this user swarm for instance
+  } // the user pubkey this call is for. if the onion request fails, this is used to handle the error for this user swarm for instance
 ): Promise<undefined | SnodeResponse> {
   const url = `https://${targetNode.ip}:${targetNode.port}/storage_rpc/v1`;
 

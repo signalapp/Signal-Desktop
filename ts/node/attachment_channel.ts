@@ -4,9 +4,9 @@ import rimraf from 'rimraf';
 import path from 'path';
 import fse from 'fs-extra';
 import pify from 'pify';
+// eslint-disable-next-line import/no-named-default
 import { default as glob } from 'glob';
 
-// tslint:disable: no-console
 import { sqlNode } from './sql'; // checked - only node
 import { createDeleter, getAttachmentsPath } from '../shared/attachments/shared_attachments';
 
@@ -32,14 +32,12 @@ const deleteAll = async ({
 }) => {
   const deleteFromDisk = createDeleter(getAttachmentsPath(userDataPath));
 
-  // tslint:disable-next-line: one-variable-per-declaration
   for (let index = 0, max = attachments.length; index < max; index += 1) {
     const file = attachments[index];
     // eslint-disable-next-line no-await-in-loop
     await deleteFromDisk(file);
   }
 
-  // tslint:disable-next-line: no-console
   console.log(`deleteAll: deleted ${attachments.length} files`);
 };
 
@@ -53,7 +51,7 @@ const getAllAttachments = async (userDataPath: string) => {
 
 async function cleanupOrphanedAttachments(userDataPath: string) {
   const allAttachments = await getAllAttachments(userDataPath);
-  const orphanedAttachments = sqlNode.removeKnownAttachments(allAttachments); //sql.js
+  const orphanedAttachments = sqlNode.removeKnownAttachments(allAttachments);
   await deleteAll({
     userDataPath,
     attachments: orphanedAttachments,
@@ -82,6 +80,7 @@ export async function initAttachmentsChannel({ userDataPath }: { userDataPath: s
     }
   });
 
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   ipcMain.on(CLEANUP_ORPHANED_ATTACHMENTS_KEY, async event => {
     try {
       await cleanupOrphanedAttachments(userDataPath);

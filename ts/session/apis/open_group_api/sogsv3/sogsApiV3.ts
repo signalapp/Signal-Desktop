@@ -1,4 +1,9 @@
-import _, { compact, isArray, isEmpty, isNumber, isObject, pick } from 'lodash';
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable no-await-in-loop */
+import { compact, isArray, isEmpty, isFinite, isNumber, isObject, pick } from 'lodash';
+import { base64_variants, from_base64 } from 'libsodium-wrappers-sumo';
+import { v4 } from 'uuid';
+
 import { OpenGroupData } from '../../../../data/opengroups';
 import { handleOpenGroupV4Message } from '../../../../receiver/opengroup';
 import { OpenGroupRequestCommonType } from '../opengroupV2/ApiUtil';
@@ -22,12 +27,11 @@ import {
   tryMatchBlindWithStandardKey,
 } from './knownBlindedkeys';
 import { SogsBlinding } from './sogsBlinding';
-import { base64_variants, from_base64 } from 'libsodium-wrappers-sumo';
+
 import { UserUtils } from '../../../utils';
 import { innerHandleSwarmContentMessage } from '../../../../receiver/contentMessage';
 import { EnvelopePlus } from '../../../../receiver/types';
 import { SignalService } from '../../../../protobuf';
-import { v4 } from 'uuid';
 import { removeMessagePadding } from '../../../crypto/BufferPadding';
 import { getSodiumRenderer } from '../../../crypto';
 import { handleOutboxMessageModel } from '../../../../receiver/dataMessage';
@@ -191,7 +195,6 @@ const handleSogsV3DeletedMessages = async (
   return messagesWithoutDeleted;
 };
 
-// tslint:disable-next-line: max-func-body-length cyclomatic-complexity
 const handleMessagesResponseV4 = async (
   messages: Array<OpenGroupMessageV4>,
   serverUrl: string,
@@ -268,7 +271,6 @@ const handleMessagesResponseV4 = async (
     // then we try to find matching real session ids with the blinded ids we have.
     // this is where we override the blindedId with the real one in case we already know that user real sessionId
 
-    // tslint:disable: prefer-for-of
     const messagesWithResolvedBlindedIdsIfFound = [];
     for (let index = 0; index < messagesFilteredBlindedIds.length; index++) {
       const newMessage = messagesFilteredBlindedIds[index];
@@ -350,7 +352,6 @@ type InboxOutboxResponseObject = {
   message: string; // base64 data
 };
 
-// tslint:disable-next-line: cyclomatic-complexity
 async function handleInboxOutboxMessages(
   inboxOutboxResponse: Array<InboxOutboxResponseObject>,
   serverUrl: string,
@@ -359,7 +360,7 @@ async function handleInboxOutboxMessages(
   // inbox/outbox messages are blinded so decrypt them using the blinding logic.
   // handle them as a message request after that.
   if (!inboxOutboxResponse || !isArray(inboxOutboxResponse) || inboxOutboxResponse.length === 0) {
-    //nothing to do
+    // nothing to do
     return;
   }
 
@@ -529,7 +530,7 @@ export const handleBatchPollResults = async (
     for (let index = 0; index < batchPollResults.body.length; index++) {
       const subResponse = batchPollResults.body[index] as any;
       // using subreqOptions as request type lookup,
-      //assumes batch subresponse order matches the subrequest order
+      // assumes batch subresponse order matches the subrequest order
       const subrequestOption = subrequestOptionsLookup[index];
       const responseType = subrequestOption.type;
 

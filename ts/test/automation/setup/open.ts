@@ -5,7 +5,6 @@ import { getAppRootPath } from '../../../node/getRootPath';
 export const NODE_ENV = 'production';
 export const MULTI_PREFIX = 'test-integration-testnet-';
 const multisAvailable = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-// tslint:disable: no-console
 
 export async function openApp(windowsToCreate: number) {
   if (windowsToCreate >= multisAvailable.length) {

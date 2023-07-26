@@ -74,7 +74,6 @@ export const sendSogsReactionOnionV4 = async (
   // The SOGS endpoint supports any text input so we need to make sure we are sending a valid unicode emoji
   // for an invalid input we use https://emojipedia.org/frame-with-an-x/ as a replacement since it cannot rendered as an emoji but is valid unicode
   // NOTE emoji-mart v5.2.2 types for getEmojiDataFromNative are broken
-  // @ts-ignore
   const emoji = (getEmojiDataFromNative(reaction.emoji) as FixedBaseEmoji) ? reaction.emoji : '🖾';
   const endpoint = `/room/${room}/reaction/${reaction.id}/${emoji}`;
   const method = reaction.action === Action.REACT ? 'PUT' : 'DELETE';

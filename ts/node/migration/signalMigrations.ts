@@ -15,9 +15,9 @@ import {
 import { getAppRootPath } from '../getRootPath';
 import { updateSessionSchema } from './sessionMigrations';
 
-// tslint:disable: no-console quotemark non-literal-fs-path one-variable-per-declaration
+// eslint:disable: quotemark non-literal-fs-path one-variable-per-declaration
 const openDbOptions = {
-  // tslint:disable-next-line: no-constant-condition
+  // eslint-disable-next-line no-constant-condition
   verbose: false ? console.log : undefined,
 
   nativeBinding: path.join(
@@ -31,7 +31,7 @@ const openDbOptions = {
   ),
 };
 
-// tslint:disable: no-console one-variable-per-declaration
+// eslint:disable: one-variable-per-declaration
 
 function updateToSchemaVersion1(currentVersion: number, db: BetterSqlite3.Database) {
   if (currentVersion >= 1) {
@@ -125,7 +125,6 @@ function updateToSchemaVersion1(currentVersion: number, db: BetterSqlite3.Databa
     db.pragma('user_version = 1');
   })();
 
-  // tslint:disable: no-console
   console.log('updateToSchemaVersion1: success!');
 }
 
@@ -587,6 +586,7 @@ export function openAndMigrateDatabase(filePath: string, key: string) {
 
   // First, we try to open the database without any cipher changes
   try {
+    // eslint-disable-next-line new-cap
     db = new (BetterSqlite3 as any).default(filePath, openDbOptions);
 
     keyDatabase(db, key);
@@ -607,6 +607,7 @@ export function openAndMigrateDatabase(filePath: string, key: string) {
 
   let db1;
   try {
+    // eslint-disable-next-line new-cap
     db1 = new (BetterSqlite3 as any).default(filePath, openDbOptions);
     keyDatabase(db1, key);
 
@@ -625,6 +626,7 @@ export function openAndMigrateDatabase(filePath: string, key: string) {
   //   migrate to the latest ciphers after we've modified the defaults.
   let db2;
   try {
+    // eslint-disable-next-line new-cap
     db2 = new (BetterSqlite3 as any).default(filePath, openDbOptions);
     keyDatabase(db2, key);
 

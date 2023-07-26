@@ -1,7 +1,6 @@
 import React, { ChangeEvent } from 'react';
 import styled from 'styled-components';
-import { Flex } from '../basic/Flex';
-// tslint:disable: react-unused-props-and-state
+import { Flex } from './Flex';
 
 type Props = {
   label: string;
@@ -27,7 +26,6 @@ const StyledInput = styled.input<{
     background: ${props => (props.selectedColor ? props.selectedColor : 'var(--primary-color)')};
   }
 `;
-// tslint:disable: use-simple-attributes
 
 const StyledLabel = styled.label<{
   filledSize: number;

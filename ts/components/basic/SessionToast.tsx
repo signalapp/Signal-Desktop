@@ -1,9 +1,10 @@
-import React from 'react';
-
-import { Flex } from '../basic/Flex';
-import styled from 'styled-components';
-import { SessionIcon, SessionIconType } from '../icon';
 import { noop } from 'lodash';
+import React from 'react';
+import styled from 'styled-components';
+
+import { Flex } from './Flex';
+
+import { SessionIcon, SessionIconType } from '../icon';
 
 // NOTE We don't change the color strip on the left based on the type. 16/09/2022
 export enum SessionToastType {
@@ -45,12 +46,10 @@ const IconDiv = styled.div`
   margin: 0 var(--margins-xs);
 `;
 
-// tslint:disable: use-simple-attributes
-
 export const SessionToast = (props: Props) => {
   const { title, description, type, icon } = props;
 
-  const toastDesc = description ? description : '';
+  const toastDesc = description || '';
   const toastIconSize = toastDesc ? 'huge' : 'medium';
 
   // Set a custom icon or allow the theme to define the icon
@@ -77,7 +76,6 @@ export const SessionToast = (props: Props) => {
   const onToastClick = props?.onToastClick || noop;
 
   return (
-    // tslint:disable-next-line: use-simple-attributes
     <Flex
       container={true}
       alignItems="center"

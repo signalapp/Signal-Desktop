@@ -1,4 +1,4 @@
-// tslint:disable: no-implicit-dependencies max-func-body-length no-unused-expression
+/* eslint-disable no-unused-expressions */
 import { expect } from 'chai';
 import Sinon from 'sinon';
 import { KNOWN_BLINDED_KEYS_ITEM } from '../../../../data/settings-key';
@@ -24,8 +24,6 @@ import { LibSodiumWrappers } from '../../../../session/crypto';
 import { UserUtils } from '../../../../session/utils';
 import { expectAsyncToThrow, stubData, stubWindowLog } from '../../../test-utils/utils';
 import { TestUtils } from '../../../test-utils';
-
-// tslint:disable: chai-vague-errors
 
 const serverPublicKey = 'serverPublicKey';
 const blindedId = '151111';

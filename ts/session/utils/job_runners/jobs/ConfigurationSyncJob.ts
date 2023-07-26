@@ -1,3 +1,4 @@
+/* eslint-disable no-await-in-loop */
 import { compact, isArray, isEmpty, isNumber, isString } from 'lodash';
 import { v4 } from 'uuid';
 import { UserUtils } from '../..';
@@ -71,32 +72,28 @@ function resultsToSuccessfulChange(
    * So we need to check which request failed, and if it is the delete by hashes, we need to add the hash of the posted message to the list of hashes
    */
 
-  try {
-    if (!result?.length) {
-      return successfulChanges;
-    }
-
-    for (let j = 0; j < result.length; j++) {
-      const batchResult = result[j];
-      const messagePostedHashes = batchResult?.body?.hash;
-
-      if (
-        batchResult.code === 200 &&
-        isString(messagePostedHashes) &&
-        request.messages?.[j].message
-      ) {
-        // the library keeps track of the hashes to push and pushed using the hashes now
-        successfulChanges.push({
-          updatedHash: messagePostedHashes,
-          message: request.messages?.[j].message,
-        });
-      }
-    }
-
+  if (!result?.length) {
     return successfulChanges;
-  } catch (e) {
-    throw e;
   }
+
+  for (let j = 0; j < result.length; j++) {
+    const batchResult = result[j];
+    const messagePostedHashes = batchResult?.body?.hash;
+
+    if (
+      batchResult.code === 200 &&
+      isString(messagePostedHashes) &&
+      request.messages?.[j].message
+    ) {
+      // the library keeps track of the hashes to push and pushed using the hashes now
+      successfulChanges.push({
+        updatedHash: messagePostedHashes,
+        message: request.messages?.[j].message,
+      });
+    }
+  }
+
+  return successfulChanges;
 }
 
 async function buildAndSaveDumpsToDB(
@@ -238,6 +235,7 @@ class ConfigurationSyncJob extends PersistedJob<ConfigurationSyncPersistedData> 
       await buildAndSaveDumpsToDB(changes, thisJobDestination);
       this.triggerConfSyncJobDone();
       return RunJobResult.Success;
+      // eslint-disable-next-line no-useless-catch
     } catch (e) {
       throw e;
     } finally {

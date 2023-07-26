@@ -1,4 +1,6 @@
 import React from 'react';
+import styled from 'styled-components';
+
 import {
   SessionButton,
   SessionButtonColor,
@@ -7,7 +9,6 @@ import {
 } from '../basic/SessionButton';
 import { SessionToggle } from '../basic/SessionToggle';
 import { SessionConfirmDialogProps } from '../dialog/SessionConfirm';
-import styled from 'styled-components';
 import { SessionIconButton } from '../icon';
 
 type ButtonSettingsProps = {

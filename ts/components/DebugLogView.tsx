@@ -48,7 +48,6 @@ const StyledContent = styled.div`
 `;
 
 const DebugLogTextArea = (props: { content: string }) => {
-  // tslint:disable-next-line: react-a11y-input-elements
   return <textarea spellCheck="false" rows={10} value={props.content} style={{ height: '100%' }} />;
 };
 
@@ -69,7 +68,6 @@ const DebugLogButtons = (props: { content: string }) => {
     </div>
   );
 };
-// tslint:disable: no-console
 
 const DebugLogViewAndSave = () => {
   const [content, setContent] = useState(window.i18n('loading'));
@@ -85,6 +83,7 @@ const DebugLogViewAndSave = () => {
         const debugLogWithSystemInfo = `${operatingSystemInfo} ${commitHashInfo} ${text}`;
         setContent(debugLogWithSystemInfo);
       })
+      // eslint-disable-next-line no-console
       .catch(console.error);
   }, []);
 
@@ -103,7 +102,7 @@ export const DebugLogView = () => {
         theme: window.theme,
       });
     }
-  }, [window.theme]);
+  }, []);
 
   return (
     <SessionTheme>

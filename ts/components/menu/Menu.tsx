@@ -83,8 +83,8 @@ export const MarkConversationUnreadMenuItem = (): JSX.Element | null => {
   if (isMessagesSection && (!isPrivate || (isPrivate && isPrivateAndFriend))) {
     const conversation = getConversationController().get(conversationId);
 
-    const markUnread = async () => {
-      await conversation?.markAsUnread(true);
+    const markUnread = () => {
+      void conversation?.markAsUnread(true);
     };
 
     return <Item onClick={markUnread}>{window.i18n('markUnread')}</Item>;
@@ -104,9 +104,7 @@ export const DeletePrivateContactMenuItem = () => {
   const isRequest = useIsIncomingRequest(convoId);
 
   if (isPrivate && !isRequest) {
-    let menuItemText: string;
-
-    menuItemText = window.i18n('editMenuDeleteContact');
+    const menuItemText = window.i18n('editMenuDeleteContact');
 
     const onClickClose = () => {
       dispatch(updateConfirmModal(null));
@@ -240,8 +238,8 @@ export const UpdateGroupNameMenuItem = () => {
   if (!isKickedFromGroup && !left && weAreAdmin) {
     return (
       <Item
-        onClick={async () => {
-          await showUpdateGroupNameByConvoId(convoId);
+        onClick={() => {
+          void showUpdateGroupNameByConvoId(convoId);
         }}
       >
         {window.i18n('editGroup')}
@@ -359,11 +357,10 @@ export const MarkAllReadMenuItem = (): JSX.Element | null => {
   const isIncomingRequest = useIsIncomingRequest(convoId);
   if (!isIncomingRequest && !PubKey.isBlinded(convoId)) {
     return (
-      <Item onClick={() => markAllReadByConvoId(convoId)}>{window.i18n('markAllAsRead')}</Item>
+      <Item onClick={() => void markAllReadByConvoId(convoId)}>{window.i18n('markAllAsRead')}</Item>
     );
-  } else {
-    return null;
   }
+  return null;
 };
 
 export function isRtlBody(): boolean {
@@ -382,8 +379,8 @@ export const BlockMenuItem = (): JSX.Element | null => {
   if (!isMe && isPrivate && !isIncomingRequest && !PubKey.isBlinded(convoId)) {
     const blockTitle = isBlocked ? window.i18n('unblock') : window.i18n('block');
     const blockHandler = isBlocked
-      ? () => unblockConvoById(convoId)
-      : () => blockConvoById(convoId);
+      ? () => void unblockConvoById(convoId)
+      : () => void blockConvoById(convoId);
     return <Item onClick={blockHandler}>{blockTitle}</Item>;
   }
   return null;
@@ -401,7 +398,7 @@ export const ClearNicknameMenuItem = (): JSX.Element | null => {
   }
 
   return (
-    <Item onClick={() => clearNickNameByConvoId(convoId)}>{window.i18n('clearNickname')}</Item>
+    <Item onClick={() => void clearNickNameByConvoId(convoId)}>{window.i18n('clearNickname')}</Item>
   );
 };
 
@@ -464,8 +461,8 @@ export const DeletePrivateConversationMenuItem = () => {
 
   return (
     <Item
-      onClick={async () => {
-        await getConversationController().delete1o1(convoId, {
+      onClick={() => {
+        void getConversationController().delete1o1(convoId, {
           fromSyncMessage: false,
           justHidePrivate: true,
         });
@@ -485,6 +482,7 @@ export const AcceptMsgRequestMenuItem = () => {
   if (isRequest && isPrivate) {
     return (
       <Item
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
         onClick={async () => {
           await convo.setDidApproveMe(true);
           await convo.addOutgoingApprovalMessage(Date.now());
@@ -600,8 +598,8 @@ export const NotificationForConvoMenuItem = (): JSX.Element | null => {
         return (
           <Item
             key={item.value}
-            onClick={async () => {
-              await setNotificationForConvoId(convoId, item.value);
+            onClick={() => {
+              void setNotificationForConvoId(convoId, item.value);
             }}
             disabled={disabled}
           >

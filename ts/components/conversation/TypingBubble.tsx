@@ -1,7 +1,7 @@
 import React from 'react';
+import styled from 'styled-components';
 
 import { TypingAnimation } from './TypingAnimation';
-import styled from 'styled-components';
 import { ConversationTypeEnum } from '../../models/conversationAttributes';
 import { useSelectedIsGroup } from '../../state/selectors/selectedConversation';
 

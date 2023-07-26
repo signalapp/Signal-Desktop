@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { omit, toNumber } from 'lodash';
 import { ReplyingToMessageProps } from '../../components/conversation/composition/CompositionBox';
@@ -529,12 +530,12 @@ function handleMessagesChangedOrAdded(
   state: ConversationsStateType,
   payload: Array<MessageModelPropsWithoutConvoProps>
 ) {
+  let stateCopy = state;
   payload.forEach(element => {
-    // tslint:disable-next-line: no-parameter-reassignment
-    state = handleMessageChangedOrAdded(state, element);
+    stateCopy = handleMessageChangedOrAdded(stateCopy, element);
   });
 
-  return state;
+  return stateCopy;
 }
 
 function handleMessageExpiredOrDeleted(
@@ -567,7 +568,6 @@ function handleMessageExpiredOrDeleted(
           `Deleting quote {${timestamp}-${sender}} ${JSON.stringify(message2Delete)}`
         );
 
-        // tslint:disable-next-line: no-dynamic-delete
         delete editedQuotes[`${timestamp}-${sender}`];
       }
 
@@ -594,12 +594,12 @@ function handleMessagesExpiredOrDeleted(
     }>
   >
 ): ConversationsStateType {
+  let stateCopy = state;
   action.payload.forEach(element => {
-    // tslint:disable-next-line: no-parameter-reassignment
-    state = handleMessageExpiredOrDeleted(state, element);
+    stateCopy = handleMessageExpiredOrDeleted(stateCopy, element);
   });
 
-  return state;
+  return stateCopy;
 }
 
 function handleConversationReset(state: ConversationsStateType, action: PayloadAction<string>) {

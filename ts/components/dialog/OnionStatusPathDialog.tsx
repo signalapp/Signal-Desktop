@@ -3,9 +3,11 @@ import React from 'react';
 import { shell } from 'electron';
 
 import { useDispatch, useSelector } from 'react-redux';
+import useHover from 'react-use/lib/useHover';
+import styled from 'styled-components';
 
-import ip2country from 'ip2country';
 import countryLookup from 'country-code-lookup';
+import ip2country from 'ip2country';
 import { Snode } from '../../data/data';
 import { onionPathModal } from '../../state/ducks/modalDialog';
 import {
@@ -15,12 +17,10 @@ import {
   getOnionPathsCount,
 } from '../../state/selectors/onions';
 import { Flex } from '../basic/Flex';
-// tslint:disable-next-line: no-submodule-imports
-import useHover from 'react-use/lib/useHover';
+
 import { SessionSpinner } from '../basic/SessionSpinner';
 import { SessionIcon, SessionIconButton } from '../icon';
 import { SessionWrapperModal } from '../SessionWrapperModal';
-import styled from 'styled-components';
 
 export type StatusLightType = {
   glowStartDelay: number;
@@ -202,7 +202,7 @@ export const ActionPanelOnionStatusLight = (props: {
 
   // start with red
   let iconColor = errorColor;
-  //if we are not online or the first path is not valid, we keep red as color
+  // if we are not online or the first path is not valid, we keep red as color
   if (isOnline && firstPathLength > 1) {
     iconColor =
       onionPathsCount >= 2 ? defaultColor : onionPathsCount >= 1 ? connectingColor : errorColor;
@@ -230,7 +230,6 @@ export const OnionPathModal = () => {
   };
   const dispatch = useDispatch();
   return (
-    // tslint:disable-next-line: use-simple-attributes
     <SessionWrapperModal
       title={window.i18n('onionPathIndicatorTitle')}
       confirmText={window.i18n('learnMore')}

@@ -1,7 +1,6 @@
 import path from 'path';
 import fs from 'fs';
 import { Protocol, ProtocolRequest } from 'electron';
-// tslint:disable: no-console
 
 function eliminateAllAfterCharacter(str: string, character: string) {
   const index = str.indexOf(character);
@@ -37,7 +36,7 @@ function createFileHandler({
     const target = path.normalize(urlToPath(request.url, { isWindows }));
     // here we attempt to follow symlinks to the ultimate final path, reflective of what
     //   we do in main.js on userDataPath and installPath
-    // tslint:disable-next-line: non-literal-fs-path
+
     const realPath = fs.existsSync(target) ? fs.realpathSync(target) : target;
     // finally we do case-insensitive checks on windows
     const properCasing = isWindows ? realPath.toLowerCase() : realPath;

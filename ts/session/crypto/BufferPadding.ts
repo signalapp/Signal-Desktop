@@ -20,7 +20,8 @@ export function removeMessagePadding(paddedData: ArrayBuffer): ArrayBuffer {
       const plaintext = new Uint8Array(i);
       plaintext.set(paddedPlaintext.subarray(0, i));
       return plaintext.buffer;
-    } else if (paddedPlaintext[i] !== PADDING_BYTE) {
+    }
+    if (paddedPlaintext[i] !== PADDING_BYTE) {
       // window?.log?.warn('got a message without padding... Letting it through for now');
       return paddedPlaintext;
     }
@@ -77,6 +78,7 @@ export function addAttachmentPadding(data: ArrayBuffer): ArrayBuffer {
 
   let paddedSize = Math.max(
     541,
+    // eslint-disable-next-line prefer-exponentiation-operator, no-restricted-properties
     Math.floor(Math.pow(1.05, Math.ceil(Math.log(originalUInt.length) / Math.log(1.05))))
   );
 

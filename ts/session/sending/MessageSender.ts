@@ -2,9 +2,9 @@
 
 import { AbortController } from 'abort-controller';
 import ByteBuffer from 'bytebuffer';
-import _, { isEmpty, isNil, isString, sample } from 'lodash';
+import _, { isEmpty, isNil, isString, sample, toNumber } from 'lodash';
 import pRetry from 'p-retry';
-import { Data } from '../../../ts/data/data';
+import { Data } from '../../data/data';
 import { SignalService } from '../../protobuf';
 import { OpenGroupRequestCommonType } from '../apis/open_group_api/opengroupV2/ApiUtil';
 import { OpenGroupMessageV2 } from '../apis/open_group_api/opengroupV2/OpenGroupMessageV2';
@@ -47,7 +47,7 @@ function overwriteOutgoingTimestampWithNetworkTimestamp(message: { plainTextBuff
   const contentDecoded = SignalService.Content.decode(plainTextBuffer);
 
   const { dataMessage, dataExtractionNotification, typingMessage } = contentDecoded;
-  if (dataMessage && dataMessage.timestamp && dataMessage.timestamp > 0) {
+  if (dataMessage && dataMessage.timestamp && toNumber(dataMessage.timestamp) > 0) {
     // this is a sync message, do not overwrite the message timestamp
     if (dataMessage.syncTarget) {
       return {
@@ -60,11 +60,11 @@ function overwriteOutgoingTimestampWithNetworkTimestamp(message: { plainTextBuff
   if (
     dataExtractionNotification &&
     dataExtractionNotification.timestamp &&
-    dataExtractionNotification.timestamp > 0
+    toNumber(dataExtractionNotification.timestamp) > 0
   ) {
     dataExtractionNotification.timestamp = networkTimestamp;
   }
-  if (typingMessage && typingMessage.timestamp && typingMessage.timestamp > 0) {
+  if (typingMessage && typingMessage.timestamp && toNumber(typingMessage.timestamp) > 0) {
     typingMessage.timestamp = networkTimestamp;
   }
   const overRiddenTimestampBuffer = SignalService.Content.encode(contentDecoded).finish();
@@ -84,9 +84,8 @@ function isSyncMessage(message: ContentMessage) {
     (message as any).syncTarget?.length > 0
   ) {
     return true;
-  } else {
-    return false;
   }
+  return false;
 }
 
 /**
@@ -261,9 +260,8 @@ function encryptionBasedOnConversation(destination: PubKey) {
       ?.isClosedGroup()
   ) {
     return SignalService.Envelope.Type.CLOSED_GROUP_MESSAGE;
-  } else {
-    return SignalService.Envelope.Type.SESSION_MESSAGE;
   }
+  return SignalService.Envelope.Type.SESSION_MESSAGE;
 }
 
 type SharedEncryptAndWrap = {

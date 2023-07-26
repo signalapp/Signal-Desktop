@@ -1,6 +1,6 @@
 import Slider from 'rc-slider';
 import React from 'react';
-// tslint:disable-next-line: no-submodule-imports
+
 import useUpdate from 'react-use/lib/useUpdate';
 import { SessionSettingsItemWrapper } from './SessionSettingListItem';
 
@@ -23,6 +23,7 @@ export const ZoomingSessionSlider = (props: { onSliderChange?: (value: number) =
           min={60}
           max={200}
           defaultValue={currentValueFromSettings}
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
           onAfterChange={handleSlider}
         />
 

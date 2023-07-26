@@ -1,19 +1,18 @@
 import React, { useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
+import useKey from 'react-use/lib/useKey';
+import styled from 'styled-components';
 
 import { SessionButton } from '../../basic/SessionButton';
 import { SessionIdEditable } from '../../basic/SessionIdEditable';
 import { SessionSpinner } from '../../basic/SessionSpinner';
 import { MemberListItem } from '../../MemberListItem';
 import { OverlayHeader } from './OverlayHeader';
-// tslint:disable: no-submodule-imports use-simple-attributes
 
 import { resetOverlayMode } from '../../../state/ducks/section';
 import { getPrivateContactsPubkeys } from '../../../state/selectors/conversations';
 import { SpacerLG } from '../../basic/Text';
-import useKey from 'react-use/lib/useKey';
-import styled from 'styled-components';
 import { SessionSearchInput } from '../../SessionSearchInput';
 import { getSearchResultsContactOnly, isSearching } from '../../../state/selectors/search';
 import { useSet } from '../../../hooks/useSet';
@@ -65,7 +64,8 @@ async function createClosedGroupWithToasts(
     ToastUtils.pushToastError('invalidGroupName', window.i18n('invalidGroupNameTooShort'));
 
     return false;
-  } else if (groupName.length > VALIDATION.MAX_GROUP_NAME_LENGTH) {
+  }
+  if (groupName.length > VALIDATION.MAX_GROUP_NAME_LENGTH) {
     ToastUtils.pushToastError('invalidGroupName', window.i18n('invalidGroupNameTooLong'));
     return false;
   }
@@ -76,7 +76,8 @@ async function createClosedGroupWithToasts(
   if (groupMemberIds.length < 1) {
     ToastUtils.pushToastError('pickClosedGroupMember', window.i18n('pickClosedGroupMember'));
     return false;
-  } else if (groupMemberIds.length >= VALIDATION.CLOSED_GROUP_SIZE_LIMIT) {
+  }
+  if (groupMemberIds.length >= VALIDATION.CLOSED_GROUP_SIZE_LIMIT) {
     ToastUtils.pushToastError('closedGroupMaxSize', window.i18n('closedGroupMaxSize'));
     return false;
   }
