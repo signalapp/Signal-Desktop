@@ -315,10 +315,10 @@ message DataMessage {
       STRIKETHROUGH = 4;
       MONOSPACE = 5;
     }
-  
+
     optional uint32 start = 1;
     optional uint32 length = 2;
-  
+
     oneof associatedValue {
       string mentionUuid = 3;
       Style style = 4;
@@ -493,10 +493,6 @@ message SyncMessage {
     optional bool              complete = 2 [default = false];
   }
 
-  message Groups {
-    optional AttachmentPointer blob = 1;
-  }
-
   message Blocked {
     repeated string numbers  = 1;
     repeated string uuids    = 3;
@@ -507,7 +503,7 @@ message SyncMessage {
     enum Type {
       UNKNOWN       = 0;
       CONTACTS      = 1;
-      GROUPS        = 2;
+      reserved /* GROUPS */ 2;
       BLOCKED       = 3;
       CONFIGURATION = 4;
       KEYS          = 5;
@@ -623,7 +619,7 @@ message SyncMessage {
 
   optional Sent                   sent                   = 1;
   optional Contacts               contacts               = 2;
-  optional Groups                 groups                 = 3;
+  reserved /* groups */ 3;
   optional Request                request                = 4;
   repeated Read                   read                   = 5;
   optional Blocked                blocked                = 6;
@@ -693,29 +689,6 @@ message ContactDetails {
   optional bool     blocked       = 7;
   optional uint32   expireTimer   = 8;
   optional uint32   inboxPosition = 10;
-}
-
-message GroupDetails {
-  message Avatar {
-    optional string contentType = 1;
-    optional uint32 length      = 2;
-  }
-
-  message Member {
-    optional string uuid = 1;
-    optional string e164 = 2;
-  }
-
-  optional bytes  id              = 1;
-  optional string name            = 2;
-  repeated string membersE164     = 3;
-  repeated Member members         = 9;
-  optional Avatar avatar          = 4;
-  optional bool   active          = 5 [default = true];
-  optional uint32 expireTimer     = 6;
-  optional string color           = 7;
-  optional bool   blocked         = 8;
-  optional uint32 inboxPosition   = 10;
 }
 
 message PniSignatureMessage {

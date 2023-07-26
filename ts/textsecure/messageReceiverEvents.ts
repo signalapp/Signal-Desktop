@@ -11,10 +11,7 @@ import type {
   ProcessedDataMessage,
   ProcessedSent,
 } from './Types.d';
-import type {
-  ModifiedContactDetails,
-  ModifiedGroupDetails,
-} from './ContactsParser';
+import type { ModifiedContactDetails } from './ContactsParser';
 
 export class EmptyEvent extends Event {
   constructor() {
@@ -81,26 +78,6 @@ export class ContactSyncEvent extends Event {
     public readonly sentAt: number
   ) {
     super('contactSync');
-  }
-}
-
-export type GroupEventData = Omit<ModifiedGroupDetails, 'id'> &
-  Readonly<{
-    id: string;
-  }>;
-
-export class GroupEvent extends Event {
-  constructor(
-    public readonly groupDetails: GroupEventData,
-    public readonly receivedAtCounter: number
-  ) {
-    super('group');
-  }
-}
-
-export class GroupSyncEvent extends Event {
-  constructor() {
-    super('groupSync');
   }
 }
 

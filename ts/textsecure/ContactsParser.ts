@@ -31,8 +31,6 @@ type MessageWithAvatar<Message extends OptionalFields> = Omit<
   expireTimer?: DurationInSeconds;
 };
 
-export type ModifiedGroupDetails = MessageWithAvatar<Proto.GroupDetails>;
-
 export type ModifiedContactDetails = MessageWithAvatar<Proto.ContactDetails>;
 
 /* eslint-disable @typescript-eslint/brace-style -- Prettier conflicts with ESLint */
@@ -104,41 +102,6 @@ abstract class ParserBase<
       yield result;
       result = this.next();
     }
-  }
-}
-
-export class GroupBuffer extends ParserBase<
-  Proto.GroupDetails,
-  typeof Proto.GroupDetails,
-  ModifiedGroupDetails
-> {
-  constructor(arrayBuffer: Uint8Array) {
-    super(arrayBuffer, Proto.GroupDetails);
-  }
-
-  public override next(): ModifiedGroupDetails | undefined {
-    const proto = this.decodeDelimited();
-    if (!proto) {
-      return undefined;
-    }
-
-    if (!proto.members) {
-      return proto;
-    }
-
-    return {
-      ...proto,
-      members: proto.members.map((member, i) => {
-        if (!member.uuid) {
-          return member;
-        }
-
-        return {
-          ...member,
-          uuid: normalizeUuid(member.uuid, `GroupBuffer.member[${i}].uuid`),
-        };
-      }),
-    };
   }
 }
 

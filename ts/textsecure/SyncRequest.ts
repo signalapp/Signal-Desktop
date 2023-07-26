@@ -7,7 +7,7 @@
 import type { EventHandler } from './EventTarget';
 import EventTarget from './EventTarget';
 import MessageReceiver from './MessageReceiver';
-import type { ContactSyncEvent, GroupSyncEvent } from './messageReceiverEvents';
+import type { ContactSyncEvent } from './messageReceiverEvents';
 import MessageSender from './SendMessage';
 import { assertDev } from '../util/assert';
 import * as log from '../logging/log';
@@ -19,13 +19,9 @@ class SyncRequestInner extends EventTarget {
 
   contactSync?: boolean;
 
-  groupSync?: boolean;
-
   timeout: any;
 
   oncontact: (event: ContactSyncEvent) => void;
-
-  ongroup: (event: GroupSyncEvent) => void;
 
   timeoutMillis: number;
 
@@ -40,9 +36,6 @@ class SyncRequestInner extends EventTarget {
 
     this.oncontact = this.onContactSyncComplete.bind(this);
     receiver.addEventListener('contactSync', this.oncontact);
-
-    this.ongroup = this.onGroupSyncComplete.bind(this);
-    receiver.addEventListener('groupSync', this.ongroup);
 
     this.timeoutMillis = timeoutMillis || 60000;
   }
@@ -72,7 +65,6 @@ class SyncRequestInner extends EventTarget {
         ),
         singleProtoJobQueue.add(MessageSender.getRequestBlockSyncMessage()),
         singleProtoJobQueue.add(MessageSender.getRequestContactSyncMessage()),
-        singleProtoJobQueue.add(MessageSender.getRequestGroupSyncMessage()),
       ]);
     } catch (error: unknown) {
       log.error(
@@ -89,20 +81,15 @@ class SyncRequestInner extends EventTarget {
     this.update();
   }
 
-  onGroupSyncComplete() {
-    this.groupSync = true;
-    this.update();
-  }
-
   update() {
-    if (this.contactSync && this.groupSync) {
+    if (this.contactSync) {
       this.dispatchEvent(new Event('success'));
       this.cleanup();
     }
   }
 
   onTimeout() {
-    if (this.contactSync || this.groupSync) {
+    if (this.contactSync) {
       this.dispatchEvent(new Event('success'));
     } else {
       this.dispatchEvent(new Event('timeout'));
@@ -113,7 +100,6 @@ class SyncRequestInner extends EventTarget {
   cleanup() {
     clearTimeout(this.timeout);
     this.receiver.removeEventListener('contactsync', this.oncontact);
-    this.receiver.removeEventListener('groupSync', this.ongroup);
     delete this.listeners;
   }
 }

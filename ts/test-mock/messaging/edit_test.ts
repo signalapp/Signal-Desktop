@@ -72,7 +72,7 @@ describe('editing', function needsName() {
     await bootstrap.teardown();
   });
 
-  it('handles outgoing edited messages phone -> desktop', async () => {
+  it('handles outgoing edited messages phone to desktop', async () => {
     const { phone, desktop } = bootstrap;
 
     const window = await app.getWindow();
@@ -130,7 +130,7 @@ describe('editing', function needsName() {
     assert.strictEqual(await messages.count(), 1, 'message count');
   });
 
-  it('handles incoming edited messages contact -> desktop', async () => {
+  it('handles incoming edited messages contact to desktop', async () => {
     const { contacts, desktop } = bootstrap;
 
     const window = await app.getWindow();

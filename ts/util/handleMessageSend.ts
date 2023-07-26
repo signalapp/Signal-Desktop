@@ -43,7 +43,6 @@ export const sendTypesEnum = z.enum([
   'blockSyncRequest',
   'configurationSyncRequest',
   'contactSyncRequest', // urgent because it blocks the link process
-  'groupSyncRequest',
   'keySyncRequest', // urgent because it blocks the link process
   'pniIdentitySyncRequest', // urgent because we need our PNI to be fully functional
 
@@ -51,7 +50,6 @@ export const sendTypesEnum = z.enum([
   'blockSync',
   'configurationSync',
   'contactSync',
-  'groupSync',
   'keySync',
   'pniIdentitySync',
 

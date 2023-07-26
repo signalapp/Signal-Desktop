@@ -22,7 +22,6 @@ import createTaskWithTimeout, {
 } from './textsecure/TaskWithTimeout';
 import type {
   MessageAttributesType,
-  ConversationAttributesType,
   ReactionAttributesType,
 } from './model-types.d';
 import * as Bytes from './Bytes';
@@ -87,7 +86,6 @@ import type {
   EnvelopeUnsealedEvent,
   ErrorEvent,
   FetchLatestEvent,
-  GroupEvent,
   InvalidPlaintextEvent,
   KeysEvent,
   MessageEvent,
@@ -108,7 +106,7 @@ import type {
 import type { WebAPIType } from './textsecure/WebAPI';
 import * as KeyChangeListener from './textsecure/KeyChangeListener';
 import { UpdateKeysListener } from './textsecure/UpdateKeysListener';
-import { isDirectConversation, isGroupV2 } from './util/whatTypeOfConversation';
+import { isDirectConversation } from './util/whatTypeOfConversation';
 import { BackOff, FIBONACCI_TIMEOUTS } from './util/BackOff';
 import { AppViewType } from './state/ducks/app';
 import type { BadgesStateType } from './state/ducks/badges';
@@ -137,7 +135,6 @@ import { ReadStatus } from './messages/MessageReadStatus';
 import type { SendStateByConversationId } from './messages/MessageSendState';
 import { SendStatus } from './messages/MessageSendState';
 import * as AttachmentDownloads from './messageModifiers/AttachmentDownloads';
-import * as Conversation from './types/Conversation';
 import * as Stickers from './types/Stickers';
 import * as Errors from './types/errors';
 import { SignalService as Proto } from './protobuf';
@@ -360,14 +357,6 @@ export async function startApp(): Promise<void> {
       queuedEventListener(onContactSync)
     );
     messageReceiver.addEventListener(
-      'group',
-      queuedEventListener(onGroupReceived)
-    );
-    messageReceiver.addEventListener(
-      'groupSync',
-      queuedEventListener(onGroupSyncComplete)
-    );
-    messageReceiver.addEventListener(
       'sent',
       queuedEventListener(onSentMessage, false)
     );
@@ -573,12 +562,7 @@ export async function startApp(): Promise<void> {
   window.setImmediate = window.nodeSetImmediate;
 
   const { Message } = window.Signal.Types;
-  const {
-    upgradeMessageSchema,
-    writeNewAttachmentData,
-    deleteAttachmentData,
-    doesAttachmentExist,
-  } = window.Signal.Migrations;
+  const { upgradeMessageSchema } = window.Signal.Migrations;
 
   log.info('background page reloaded');
   log.info('environment:', window.getEnvironment());
@@ -1954,11 +1938,10 @@ export async function startApp(): Promise<void> {
               MessageSender.getRequestConfigurationSyncMessage()
             ),
             singleProtoJobQueue.add(MessageSender.getRequestBlockSyncMessage()),
-            singleProtoJobQueue.add(MessageSender.getRequestGroupSyncMessage()),
+            runStorageService(),
             singleProtoJobQueue.add(
               MessageSender.getRequestContactSyncMessage()
             ),
-            runStorageService(),
           ]);
         } catch (error) {
           log.error(
@@ -2308,85 +2291,6 @@ export async function startApp(): Promise<void> {
           });
         }
       }
-    });
-  }
-
-  async function onGroupSyncComplete(): Promise<void> {
-    log.info('onGroupSyncComplete');
-    await window.storage.put('synced_at', Date.now());
-  }
-
-  // Note: this handler is only for v1 groups received via 'group sync' messages
-  async function onGroupReceived(ev: GroupEvent): Promise<void> {
-    const details = ev.groupDetails;
-    const { id } = details;
-
-    const conversation = await window.ConversationController.getOrCreateAndWait(
-      id,
-      'group'
-    );
-    if (isGroupV2(conversation.attributes)) {
-      log.warn('Got group sync for v2 group: ', conversation.idForLogging());
-      return;
-    }
-
-    const memberConversations = details.membersE164.map(e164 =>
-      window.ConversationController.getOrCreate(e164, 'private')
-    );
-
-    const members = memberConversations.map(c => c.get('id'));
-
-    const updates: Partial<ConversationAttributesType> = {
-      name: details.name,
-      members,
-      type: 'group',
-      inbox_position: details.inboxPosition,
-    };
-
-    if (details.active) {
-      updates.left = false;
-    } else {
-      updates.left = true;
-    }
-
-    if (details.blocked) {
-      conversation.block();
-    } else {
-      conversation.unblock();
-    }
-
-    conversation.set(updates);
-
-    // Update the conversation avatar only if new avatar exists and hash differs
-    const { avatar } = details;
-    if (avatar && avatar.data) {
-      const newAttributes = await Conversation.maybeUpdateAvatar(
-        conversation.attributes,
-        avatar.data,
-        {
-          writeNewAttachmentData,
-          deleteAttachmentData,
-          doesAttachmentExist,
-        }
-      );
-      conversation.set(newAttributes);
-    }
-
-    window.Signal.Data.updateConversation(conversation.attributes);
-
-    const { expireTimer } = details;
-    const isValidExpireTimer = typeof expireTimer === 'number';
-    if (!isValidExpireTimer) {
-      return;
-    }
-
-    await conversation.updateExpirationTimer(expireTimer, {
-      // Note: because it's our conversationId, this notification will be marked read. But
-      //   setting this will make 'isSetByOther' check true.
-      source: window.ConversationController.getOurConversationId(),
-      fromSync: true,
-      receivedAt: ev.receivedAtCounter,
-      reason: 'group sync',
     });
   }
 
