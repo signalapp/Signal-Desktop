@@ -1189,7 +1189,7 @@ export class Message extends React.PureComponent<Props, State> {
             onClick={onPreviewImageClick}
           />
         ) : null}
-        <div className="module-message__link-preview__content">
+        <div dir="auto" className="module-message__link-preview__content">
           {first.image &&
           first.domain &&
           previewHasImage &&
@@ -1219,7 +1219,6 @@ export class Message extends React.PureComponent<Props, State> {
             </div>
           ) : null}
           <div
-            dir="auto"
             className={classNames(
               'module-message__link-preview__text',
               previewHasImage && !isFullSizeImage

@@ -73,6 +73,7 @@ export function StagedLinkPreview({
 
   return (
     <div
+      dir="auto"
       className={classNames(
         getClassName(''),
         !isLoaded ? getClassName('--is-loading') : null
