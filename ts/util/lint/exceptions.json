@@ -2401,9 +2401,82 @@
   {
     "rule": "React-useRef",
     "path": "ts/components/Modal.tsx",
-    "line": "  const bodyRef = useRef<HTMLDivElement | null>(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-21T01:40:08.534Z"
+    "line": "  const bodyRef = useRef<HTMLDivElement>(null);",
+    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "updated": "2023-07-25T21:55:26.191Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/Modal.tsx",
+    "line": "  const bodyInnerRef = useRef<HTMLDivElement>(null);",
+    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "updated": "2023-07-25T21:55:26.191Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/TextAttachment.tsx",
+    "line": "    const ref = useRef<HTMLDivElement>(null);",
+    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "updated": "2023-07-25T21:55:26.191Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/hooks/useSizeObserver.tsx",
+    "line": "  const sizeRef = useRef<Size | null>(null);",
+    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "updated": "2023-07-25T21:55:26.191Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/hooks/useSizeObserver.tsx",
+    "line": "  const onSizeChangeRef = useRef<SizeChangeHandler | void>(onSizeChange);",
+    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "updated": "2023-07-25T21:55:26.191Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/hooks/useSizeObserver.tsx",
+    "line": "  const ref = useRef<any>();",
+    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "updated": "2023-07-25T21:55:26.191Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/hooks/useSizeObserver.tsx",
+    "line": " * const scrollerRef = useRef()",
+    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "updated": "2023-07-25T21:55:26.191Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/hooks/useSizeObserver.tsx",
+    "line": " * const scrollerInnerRef = useRef()",
+    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "updated": "2023-07-25T21:55:26.191Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/hooks/useSizeObserver.tsx",
+    "line": "  const scrollRef = useRef<Scroll | null>(null);",
+    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "updated": "2023-07-25T21:55:26.191Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/hooks/useSizeObserver.tsx",
+    "line": "  const onScrollChangeRef = useRef<ScrollChangeHandler>(onScrollChange);",
+    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "updated": "2023-07-25T21:55:26.191Z",
+    "reasonDetail": "<optional>"
   },
   {
     "rule": "React-useRef",

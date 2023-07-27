@@ -5,7 +5,6 @@ import { first, get, isNumber, last, throttle } from 'lodash';
 import classNames from 'classnames';
 import type { ReactChild, ReactNode, RefObject } from 'react';
 import React from 'react';
-import Measure from 'react-measure';
 
 import type { ReadonlyDeep } from 'type-fest';
 import { ScrollDownButton, ScrollDownButtonVariant } from './ScrollDownButton';
@@ -43,6 +42,7 @@ import {
 } from '../../util/scrollUtil';
 import { LastSeenIndicator } from './LastSeenIndicator';
 import { MINUTE } from '../../util/durations';
+import { SizeObserver } from '../../hooks/useSizeObserver';
 
 const AT_BOTTOM_THRESHOLD = 15;
 const AT_BOTTOM_DETECTOR_STYLE = { height: AT_BOTTOM_THRESHOLD };
@@ -204,7 +204,6 @@ export class Timeline extends React.Component<
   private readonly atBottomDetectorRef = React.createRef<HTMLDivElement>();
   private readonly lastSeenIndicatorRef = React.createRef<HTMLDivElement>();
   private intersectionObserver?: IntersectionObserver;
-  private intersectionObserverCallbackFrame?: number;
 
   // This is a best guess. It will likely be overridden when the timeline is measured.
   private maxVisibleRows = Math.ceil(window.innerHeight / MIN_ROW_HEIGHT);
@@ -340,10 +339,6 @@ export class Timeline extends React.Component<
     //   this another way, but this approach works.)
     this.intersectionObserver?.disconnect();
 
-    if (this.intersectionObserverCallbackFrame !== undefined) {
-      window.cancelAnimationFrame(this.intersectionObserverCallbackFrame);
-    }
-
     const intersectionRatios = new Map<Element, number>();
 
     const intersectionObserverCallback: IntersectionObserverCallback =
@@ -445,19 +440,12 @@ export class Timeline extends React.Component<
           'observer.disconnect() should prevent callbacks from firing'
         );
 
-        // `react-measure` schedules the callbacks on the next tick and so
-        // should we because we want other parts of this component to respond
-        // to resize events before we recalculate what is visible.
-        this.intersectionObserverCallbackFrame = window.requestAnimationFrame(
-          () => {
-            // Observer was updated from under us
-            if (this.intersectionObserver !== observer) {
-              return;
-            }
+        // Observer was updated from under us
+        if (this.intersectionObserver !== observer) {
+          return;
+        }
 
-            intersectionObserverCallback(entries, observer);
-          }
-        );
+        intersectionObserverCallback(entries, observer);
       },
       {
         root: containerEl,
@@ -1002,17 +990,12 @@ export class Timeline extends React.Component<
       }
 
       headerElements = (
-        <Measure
-          bounds
-          onResize={({ bounds }) => {
-            if (!bounds) {
-              assertDev(false, 'We should be measuring the bounds');
-              return;
-            }
-            this.setState({ lastMeasuredWarningHeight: bounds.height });
+        <SizeObserver
+          onSizeChange={size => {
+            this.setState({ lastMeasuredWarningHeight: size.height });
           }}
         >
-          {({ measureRef }) => (
+          {measureRef => (
             <TimelineWarnings ref={measureRef}>
               {renderMiniPlayer({ shouldFlow: true })}
               {text && (
@@ -1025,7 +1008,7 @@ export class Timeline extends React.Component<
               )}
             </TimelineWarnings>
           )}
-        </Measure>
+        </SizeObserver>
       );
     }
 
@@ -1061,18 +1044,15 @@ export class Timeline extends React.Component<
 
     return (
       <>
-        <Measure
-          bounds
-          onResize={({ bounds }) => {
+        <SizeObserver
+          onSizeChange={size => {
             const { isNearBottom } = this.props;
 
-            strictAssert(bounds, 'We should be measuring the bounds');
-
             this.setState({
-              widthBreakpoint: getWidthBreakpoint(bounds.width),
+              widthBreakpoint: getWidthBreakpoint(size.width),
             });
 
-            this.maxVisibleRows = Math.ceil(bounds.height / MIN_ROW_HEIGHT);
+            this.maxVisibleRows = Math.ceil(size.height / MIN_ROW_HEIGHT);
 
             const containerEl = this.containerRef.current;
             if (containerEl && isNearBottom) {
@@ -1080,7 +1060,7 @@ export class Timeline extends React.Component<
             }
           }}
         >
-          {({ measureRef }) => (
+          {ref => (
             <div
               className={classNames(
                 'module-timeline',
@@ -1091,7 +1071,7 @@ export class Timeline extends React.Component<
               tabIndex={-1}
               onBlur={this.handleBlur}
               onKeyDown={this.handleKeyDown}
-              ref={measureRef}
+              ref={ref}
             >
               {headerElements}
 
@@ -1152,7 +1132,7 @@ export class Timeline extends React.Component<
               ) : null}
             </div>
           )}
-        </Measure>
+        </SizeObserver>
 
         {Boolean(invitedContactsForNewlyCreatedGroup.length) && (
           <NewlyCreatedGroupInvitedContactsDialog

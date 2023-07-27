@@ -1,7 +1,6 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import Measure from 'react-measure';
 import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 import classNames from 'classnames';
@@ -22,6 +21,7 @@ import {
 } from '../util/getStoryBackground';
 import { SECOND } from '../util/durations';
 import { useRefMerger } from '../hooks/useRefMerger';
+import { useSizeObserver } from '../hooks/useSizeObserver';
 
 const renderNewLines: RenderTextCallbackType = ({
   text: textWithNewLines,
@@ -169,152 +169,142 @@ export const TextAttachment = forwardRef<HTMLTextAreaElement, PropsType>(
       background: getBackgroundColor(textAttachment),
     };
 
-    return (
-      <Measure bounds>
-        {({ contentRect, measureRef }) => {
-          const scaleFactor = (contentRect.bounds?.height || 1) / 1280;
+    const ref = useRef<HTMLDivElement>(null);
+    const size = useSizeObserver(ref);
 
-          return (
-            // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-            <div
-              className="TextAttachment"
-              onClick={() => {
-                if (linkPreviewOffsetTop) {
-                  setLinkPreviewOffsetTop(undefined);
-                }
-                onClick?.();
-              }}
-              onKeyUp={ev => {
-                if (ev.key === 'Escape' && linkPreviewOffsetTop) {
-                  setLinkPreviewOffsetTop(undefined);
-                }
-              }}
-              ref={measureRef}
-              style={isThumbnail ? storyBackgroundColor : undefined}
-            >
-              {/*
+    const scaleFactor = (size?.height || 1) / 1280;
+
+    return (
+      // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+      <div
+        className="TextAttachment"
+        onClick={() => {
+          if (linkPreviewOffsetTop) {
+            setLinkPreviewOffsetTop(undefined);
+          }
+          onClick?.();
+        }}
+        onKeyUp={ev => {
+          if (ev.key === 'Escape' && linkPreviewOffsetTop) {
+            setLinkPreviewOffsetTop(undefined);
+          }
+        }}
+        ref={ref}
+        style={isThumbnail ? storyBackgroundColor : undefined}
+      >
+        {/*
             The tooltip must be outside of the scaled area, as it should not scale with
             the story, but it must be positioned using the scaled offset
             */}
-              {textAttachment.preview &&
-                textAttachment.preview.url &&
-                linkPreviewOffsetTop &&
-                !isThumbnail && (
-                  <a
-                    className="TextAttachment__preview__tooltip"
-                    href={textAttachment.preview.url}
-                    rel="noreferrer"
-                    style={{
-                      top: linkPreviewOffsetTop * scaleFactor - 89, // minus height of tooltip and some spacing
-                    }}
-                    target="_blank"
-                  >
-                    <div>
-                      <div className="TextAttachment__preview__tooltip__title">
-                        {i18n('icu:TextAttachment__preview__link')}
-                      </div>
-                      <div className="TextAttachment__preview__tooltip__url">
-                        {textAttachment.preview.url}
-                      </div>
-                    </div>
-                    <div className="TextAttachment__preview__tooltip__arrow" />
-                  </a>
-                )}
-              <div
-                className="TextAttachment__story"
-                style={{
-                  ...(isThumbnail ? {} : storyBackgroundColor),
-                  transform: `scale(${scaleFactor})`,
-                }}
-              >
-                {(textContent || onChange) && (
-                  <div
-                    className={classNames('TextAttachment__text', {
-                      'TextAttachment__text--with-bg': Boolean(
-                        textAttachment.textBackgroundColor
-                      ),
-                    })}
-                    style={{
-                      backgroundColor: textAttachment.textBackgroundColor
-                        ? getHexFromNumber(textAttachment.textBackgroundColor)
-                        : 'transparent',
-                    }}
-                  >
-                    {onChange ? (
-                      <TextareaAutosize
-                        dir="auto"
-                        className="TextAttachment__text__container TextAttachment__text__textarea"
-                        disabled={!isEditingText}
-                        onChange={ev => onChange(ev.currentTarget.value)}
-                        placeholder={i18n('icu:TextAttachment__placeholder')}
-                        ref={refMerger(forwardedTextEditorRef, textEditorRef)}
-                        style={getTextStyles(
-                          textContent,
-                          textAttachment.textForegroundColor,
-                          textAttachment.textStyle,
-                          i18n
-                        )}
-                        value={textContent}
-                      />
-                    ) : (
-                      <div
-                        className="TextAttachment__text__container"
-                        style={getTextStyles(
-                          textContent,
-                          textAttachment.textForegroundColor,
-                          textAttachment.textStyle,
-                          i18n
-                        )}
-                      >
-                        <Emojify
-                          text={textContent}
-                          renderNonEmoji={renderNewLines}
-                        />
-                      </div>
-                    )}
-                  </div>
-                )}
-                {textAttachment.preview && textAttachment.preview.url && (
-                  <div
-                    className={classNames('TextAttachment__preview-container', {
-                      'TextAttachment__preview-container--large': Boolean(
-                        textAttachment.preview.title
-                      ),
-                    })}
-                    ref={linkPreview}
-                    onBlur={() => setIsHoveringOverTooltip(false)}
-                    onFocus={showTooltip}
-                    onMouseOut={() => setIsHoveringOverTooltip(false)}
-                    onMouseOver={showTooltip}
-                  >
-                    {onRemoveLinkPreview && (
-                      <div className="TextAttachment__preview__remove">
-                        <button
-                          aria-label={i18n(
-                            'icu:Keyboard--remove-draft-link-preview'
-                          )}
-                          type="button"
-                          onClick={onRemoveLinkPreview}
-                        />
-                      </div>
-                    )}
-                    <StoryLinkPreview
-                      {...textAttachment.preview}
-                      domain={getDomain(String(textAttachment.preview.url))}
-                      forceCompactMode={
-                        getTextSize(textContent) !== TextSize.Large
-                      }
-                      i18n={i18n}
-                      title={textAttachment.preview.title || undefined}
-                      url={textAttachment.preview.url}
-                    />
-                  </div>
-                )}
+        {textAttachment.preview &&
+          textAttachment.preview.url &&
+          linkPreviewOffsetTop &&
+          !isThumbnail && (
+            <a
+              className="TextAttachment__preview__tooltip"
+              href={textAttachment.preview.url}
+              rel="noreferrer"
+              style={{
+                top: linkPreviewOffsetTop * scaleFactor - 89, // minus height of tooltip and some spacing
+              }}
+              target="_blank"
+            >
+              <div>
+                <div className="TextAttachment__preview__tooltip__title">
+                  {i18n('icu:TextAttachment__preview__link')}
+                </div>
+                <div className="TextAttachment__preview__tooltip__url">
+                  {textAttachment.preview.url}
+                </div>
               </div>
+              <div className="TextAttachment__preview__tooltip__arrow" />
+            </a>
+          )}
+        <div
+          className="TextAttachment__story"
+          style={{
+            ...(isThumbnail ? {} : storyBackgroundColor),
+            transform: `scale(${scaleFactor})`,
+          }}
+        >
+          {(textContent || onChange) && (
+            <div
+              className={classNames('TextAttachment__text', {
+                'TextAttachment__text--with-bg': Boolean(
+                  textAttachment.textBackgroundColor
+                ),
+              })}
+              style={{
+                backgroundColor: textAttachment.textBackgroundColor
+                  ? getHexFromNumber(textAttachment.textBackgroundColor)
+                  : 'transparent',
+              }}
+            >
+              {onChange ? (
+                <TextareaAutosize
+                  dir="auto"
+                  className="TextAttachment__text__container TextAttachment__text__textarea"
+                  disabled={!isEditingText}
+                  onChange={ev => onChange(ev.currentTarget.value)}
+                  placeholder={i18n('icu:TextAttachment__placeholder')}
+                  ref={refMerger(forwardedTextEditorRef, textEditorRef)}
+                  style={getTextStyles(
+                    textContent,
+                    textAttachment.textForegroundColor,
+                    textAttachment.textStyle,
+                    i18n
+                  )}
+                  value={textContent}
+                />
+              ) : (
+                <div
+                  className="TextAttachment__text__container"
+                  style={getTextStyles(
+                    textContent,
+                    textAttachment.textForegroundColor,
+                    textAttachment.textStyle,
+                    i18n
+                  )}
+                >
+                  <Emojify text={textContent} renderNonEmoji={renderNewLines} />
+                </div>
+              )}
             </div>
-          );
-        }}
-      </Measure>
+          )}
+          {textAttachment.preview && textAttachment.preview.url && (
+            <div
+              className={classNames('TextAttachment__preview-container', {
+                'TextAttachment__preview-container--large': Boolean(
+                  textAttachment.preview.title
+                ),
+              })}
+              ref={linkPreview}
+              onBlur={() => setIsHoveringOverTooltip(false)}
+              onFocus={showTooltip}
+              onMouseOut={() => setIsHoveringOverTooltip(false)}
+              onMouseOver={showTooltip}
+            >
+              {onRemoveLinkPreview && (
+                <div className="TextAttachment__preview__remove">
+                  <button
+                    aria-label={i18n('icu:Keyboard--remove-draft-link-preview')}
+                    type="button"
+                    onClick={onRemoveLinkPreview}
+                  />
+                </div>
+              )}
+              <StoryLinkPreview
+                {...textAttachment.preview}
+                domain={getDomain(String(textAttachment.preview.url))}
+                forceCompactMode={getTextSize(textContent) !== TextSize.Large}
+                i18n={i18n}
+                title={textAttachment.preview.title || undefined}
+                url={textAttachment.preview.url}
+              />
+            </div>
+          )}
+        </div>
+      </div>
     );
   }
 );

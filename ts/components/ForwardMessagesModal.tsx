@@ -9,8 +9,6 @@ import React, {
   useState,
   Fragment,
 } from 'react';
-import type { MeasuredComponentProps } from 'react-measure';
-import Measure from 'react-measure';
 import { AttachmentList } from './conversation/AttachmentList';
 import type { AttachmentType } from '../types/Attachment';
 import { Button } from './Button';
@@ -42,6 +40,7 @@ import type { HydratedBodyRangesType } from '../types/BodyRange';
 import { BodyRange } from '../types/BodyRange';
 import { UserText } from './UserText';
 import { Modal } from './Modal';
+import { SizeObserver } from '../hooks/useSizeObserver';
 
 export type DataPropsType = {
   candidateConversations: ReadonlyArray<ConversationType>;
@@ -334,14 +333,14 @@ export function ForwardMessagesModal({
               value={searchTerm}
             />
             {candidateConversations.length ? (
-              <Measure bounds>
-                {({ contentRect, measureRef }: MeasuredComponentProps) => (
+              <SizeObserver>
+                {(ref, size) => (
                   <div
                     className="module-ForwardMessageModal__list-wrapper"
-                    ref={measureRef}
+                    ref={ref}
                   >
                     <ConversationList
-                      dimensions={contentRect.bounds}
+                      dimensions={size ?? undefined}
                       getPreferredBadge={getPreferredBadge}
                       getRow={getRow}
                       i18n={i18n}
@@ -379,7 +378,7 @@ export function ForwardMessagesModal({
                     />
                   </div>
                 )}
-              </Measure>
+              </SizeObserver>
             ) : (
               <div className="module-ForwardMessageModal__no-candidate-contacts">
                 {i18n('icu:noContactsFound')}

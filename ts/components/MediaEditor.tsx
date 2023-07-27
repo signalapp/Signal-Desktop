@@ -1,7 +1,6 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import Measure from 'react-measure';
 import React, { useCallback, useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { createPortal } from 'react-dom';
@@ -47,6 +46,7 @@ import type { HydratedBodyRangesType } from '../types/BodyRange';
 import { MessageBody } from './conversation/MessageBody';
 import { RenderLocation } from './conversation/MessageTextRenderer';
 import { arrow } from '../util/keyboard';
+import { SizeObserver } from '../hooks/useSizeObserver';
 
 export type MediaEditorResultType = Readonly<{
   data: Uint8Array;
@@ -911,19 +911,14 @@ export function MediaEditor({
   return createPortal(
     <div className="MediaEditor">
       <div className="MediaEditor__container">
-        <Measure
-          bounds
-          onResize={({ bounds }) => {
-            if (!bounds) {
-              log.error('We should be measuring the bounds');
-              return;
-            }
-            setContainerWidth(bounds.width);
-            setContainerHeight(bounds.height);
+        <SizeObserver
+          onSizeChange={size => {
+            setContainerWidth(size.width);
+            setContainerHeight(size.height);
           }}
         >
-          {({ measureRef }) => (
-            <div className="MediaEditor__media" ref={measureRef}>
+          {ref => (
+            <div className="MediaEditor__media" ref={ref}>
               {image && (
                 <div>
                   <canvas
@@ -937,7 +932,7 @@ export function MediaEditor({
               )}
             </div>
           )}
-        </Measure>
+        </SizeObserver>
       </div>
       <div className="MediaEditor__toolbar">
         {tooling ? (

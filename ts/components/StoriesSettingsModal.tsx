@@ -1,10 +1,8 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { MeasuredComponentProps } from 'react-measure';
 import type { ReactNode } from 'react';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import Measure from 'react-measure';
 import { noop } from 'lodash';
 
 import type { ConversationType } from '../state/ducks/conversations';
@@ -41,6 +39,7 @@ import { useConfirmDiscard } from '../hooks/useConfirmDiscard';
 import { getGroupMemberships } from '../util/getGroupMemberships';
 import { strictAssert } from '../util/assert';
 import { UserText } from './UserText';
+import { SizeObserver } from '../hooks/useSizeObserver';
 
 export type PropsType = {
   candidateConversations: Array<ConversationType>;
@@ -1193,14 +1192,11 @@ export function EditDistributionListModal({
         </ContactPills>
       ) : undefined}
       {candidateConversations.length ? (
-        <Measure bounds>
-          {({ contentRect, measureRef }: MeasuredComponentProps) => (
-            <div
-              className="StoriesSettingsModal__conversation-list"
-              ref={measureRef}
-            >
+        <SizeObserver>
+          {(ref, size) => (
+            <div className="StoriesSettingsModal__conversation-list" ref={ref}>
               <ConversationList
-                dimensions={contentRect.bounds}
+                dimensions={size ?? undefined}
                 getPreferredBadge={getPreferredBadge}
                 getRow={getRow}
                 i18n={i18n}
@@ -1228,7 +1224,7 @@ export function EditDistributionListModal({
               />
             </div>
           )}
-        </Measure>
+        </SizeObserver>
       ) : (
         <div className="module-ForwardMessageModal__no-candidate-contacts">
           {i18n('icu:noContactsFound')}

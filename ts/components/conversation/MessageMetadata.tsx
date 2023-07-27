@@ -4,8 +4,6 @@
 import type { ReactChild } from 'react';
 import React, { forwardRef, useCallback, useState } from 'react';
 import classNames from 'classnames';
-import type { ContentRect } from 'react-measure';
-import Measure from 'react-measure';
 
 import type { LocalizerType } from '../../types/Util';
 import type { DirectionType, MessageStatusType } from './Message';
@@ -17,6 +15,8 @@ import { PanelType } from '../../types/Panels';
 import { Spinner } from '../Spinner';
 import { ConfirmationDialog } from '../ConfirmationDialog';
 import { refMerger } from '../../util/refMerger';
+import type { Size } from '../../hooks/useSizeObserver';
+import { SizeObserver } from '../../hooks/useSizeObserver';
 
 type PropsType = {
   deletedForEveryone?: boolean;
@@ -254,21 +254,21 @@ export const MessageMetadata = forwardRef<HTMLDivElement, Readonly<PropsType>>(
     );
 
     const onResize = useCallback(
-      ({ bounds }: ContentRect) => {
-        onWidthMeasured?.(bounds?.width || 0);
+      (size: Size) => {
+        onWidthMeasured?.(size.width);
       },
       [onWidthMeasured]
     );
 
     if (onWidthMeasured) {
       return (
-        <Measure bounds onResize={onResize}>
-          {({ measureRef }) => (
+        <SizeObserver onSizeChange={onResize}>
+          {measureRef => (
             <div className={className} ref={refMerger(measureRef, ref)}>
               {children}
             </div>
           )}
-        </Measure>
+        </SizeObserver>
       );
     }
 

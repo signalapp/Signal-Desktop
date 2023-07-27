@@ -9,8 +9,6 @@ import React, {
   useCallback,
 } from 'react';
 import { omit } from 'lodash';
-import type { MeasuredComponentProps } from 'react-measure';
-import Measure from 'react-measure';
 import type { ListRowProps } from 'react-virtualized';
 
 import type { LocalizerType, ThemeType } from '../../../../types/Util';
@@ -47,6 +45,7 @@ import { SearchInput } from '../../../SearchInput';
 import { ListView } from '../../../ListView';
 import { UsernameCheckbox } from '../../../conversationList/UsernameCheckbox';
 import { PhoneNumberCheckbox } from '../../../conversationList/PhoneNumberCheckbox';
+import { SizeObserver } from '../../../../hooks/useSizeObserver';
 
 export type StatePropsType = {
   regionCode: string | undefined;
@@ -432,16 +431,8 @@ export function ChooseGroupMembersModal({
           </ContactPills>
         )}
         {rowCount ? (
-          <Measure bounds>
-            {({ contentRect, measureRef }: MeasuredComponentProps) => {
-              // Though `width` and `height` are required properties, we want to be
-              // careful in case the caller sends bogus data. Notably, react-measure's
-              // types seem to be inaccurate.
-              const { width = 100, height = 100 } = contentRect.bounds || {};
-              if (!width || !height) {
-                return null;
-              }
-
+          <SizeObserver>
+            {(ref, size) => {
               // We disable this ESLint rule because we're capturing a bubbled keydown
               //   event. See [this note in the jsx-a11y docs][0].
               //
@@ -450,38 +441,40 @@ export function ChooseGroupMembersModal({
               return (
                 <div
                   className="module-AddGroupMembersModal__list-wrapper"
-                  ref={measureRef}
+                  ref={ref}
                   onKeyDown={event => {
                     if (event.key === 'Enter') {
                       inputRef.current?.focus();
                     }
                   }}
                 >
-                  <ListView
-                    width={width}
-                    height={height}
-                    rowCount={rowCount}
-                    calculateRowHeight={index => {
-                      const row = getRow(index);
-                      if (!row) {
-                        assertDev(false, `Expected a row at index ${index}`);
-                        return 52;
-                      }
-
-                      switch (row.type) {
-                        case RowType.Header:
-                          return 40;
-                        default:
+                  {size != null && (
+                    <ListView
+                      width={size.width}
+                      height={size.height}
+                      rowCount={rowCount}
+                      calculateRowHeight={index => {
+                        const row = getRow(index);
+                        if (!row) {
+                          assertDev(false, `Expected a row at index ${index}`);
                           return 52;
-                      }
-                    }}
-                    rowRenderer={renderItem}
-                  />
+                        }
+
+                        switch (row.type) {
+                          case RowType.Header:
+                            return 40;
+                          default:
+                            return 52;
+                        }
+                      }}
+                      rowRenderer={renderItem}
+                    />
+                  )}
                 </div>
               );
               /* eslint-enable jsx-a11y/no-static-element-interactions */
             }}
-          </Measure>
+          </SizeObserver>
         ) : (
           <div className="module-AddGroupMembersModal__no-candidate-contacts">
             {i18n('icu:noContactsFound')}

@@ -3,8 +3,6 @@
 
 import type { ReactElement, ReactNode } from 'react';
 import React, { useEffect, useRef, useState } from 'react';
-import type { ContentRect, MeasuredComponentProps } from 'react-measure';
-import Measure from 'react-measure';
 import classNames from 'classnames';
 import { noop } from 'lodash';
 import { animated } from '@react-spring/web';
@@ -16,8 +14,12 @@ import { assertDev } from '../util/assert';
 import { getClassNamesFor } from '../util/getClassNamesFor';
 import { useAnimated } from '../hooks/useAnimated';
 import { useHasWrapped } from '../hooks/useHasWrapped';
-import { useRefMerger } from '../hooks/useRefMerger';
 import * as log from '../logging/log';
+import {
+  isOverflowing,
+  isScrolled,
+  useScrollObserver,
+} from '../hooks/useSizeObserver';
 
 type PropsType = {
   children: ReactNode;
@@ -169,24 +171,19 @@ export function ModalPage({
 }: ModalPageProps): JSX.Element {
   const modalRef = useRef<HTMLDivElement | null>(null);
 
-  const refMerger = useRefMerger();
+  const bodyRef = useRef<HTMLDivElement>(null);
+  const bodyInnerRef = useRef<HTMLDivElement>(null);
 
-  const bodyRef = useRef<HTMLDivElement | null>(null);
   const [scrolled, setScrolled] = useState(false);
   const [hasOverflow, setHasOverflow] = useState(false);
 
   const hasHeader = Boolean(hasXButton || title || onBackButtonClick);
   const getClassName = getClassNamesFor(BASE_CLASS_NAME, moduleClassName);
 
-  function handleResize({ scroll }: ContentRect) {
-    const modalNode = modalRef?.current;
-    if (!modalNode) {
-      return;
-    }
-    if (scroll) {
-      setHasOverflow(scroll.height > modalNode.clientHeight);
-    }
-  }
+  useScrollObserver(bodyRef, bodyInnerRef, scroll => {
+    setScrolled(isScrolled(scroll));
+    setHasOverflow(isOverflowing(scroll));
+  });
 
   return (
     <>
@@ -249,26 +246,16 @@ export function ModalPage({
             )}
           </div>
         )}
-        <Measure scroll onResize={handleResize}>
-          {({ measureRef }: MeasuredComponentProps) => (
-            <div
-              className={classNames(
-                getClassName('__body'),
-                scrolled ? getClassName('__body--scrolled') : null,
-                hasOverflow || scrolled
-                  ? getClassName('__body--overflow')
-                  : null
-              )}
-              onScroll={() => {
-                const scrollTop = bodyRef.current?.scrollTop || 0;
-                setScrolled(scrollTop > 2);
-              }}
-              ref={refMerger(measureRef, bodyRef)}
-            >
-              {children}
-            </div>
+        <div
+          className={classNames(
+            getClassName('__body'),
+            scrolled ? getClassName('__body--scrolled') : null,
+            hasOverflow || scrolled ? getClassName('__body--overflow') : null
           )}
-        </Measure>
+          ref={bodyRef}
+        >
+          <div ref={bodyInnerRef}>{children}</div>
+        </div>
         {modalFooter && <Modal.ButtonFooter>{modalFooter}</Modal.ButtonFooter>}
       </div>
     </>
