@@ -636,23 +636,23 @@
     "description": "Label for a button to accept a new safety number"
   },
   "icu:SafetyNumberViewer__migration__text": {
-    "messageformat": "Safety numbers are being updated.",
+    "messageformat": "מספרי בטיחות מתעדכנים.",
     "description": "An explanatory note in SafetyNumberViewer describing the safety number migration process."
   },
   "icu:SafetyNumberViewer__migration__learn_more": {
-    "messageformat": "Learn more",
+    "messageformat": "למד עוד",
     "description": "A link text in SafetyNumberViewer describing the safety number migration process."
   },
   "icu:SafetyNumberViewer__card__prev": {
-    "messageformat": "Previous Safety number",
+    "messageformat": "מספר הבטיחות הקודם",
     "description": "An ARIA label for safety number navigation button."
   },
   "icu:SafetyNumberViewer__card__next": {
-    "messageformat": "Next Safety number",
+    "messageformat": "מספר הבטיחות הבא",
     "description": "An ARIA label for safety number navigation button."
   },
   "icu:SafetyNumberViewer__carousel__dot": {
-    "messageformat": "Safety number version, {index,number} of {total,number}",
+    "messageformat": "גרסת מספרי בטיחות, {index,number} מתוך {total,number}",
     "description": "An ARIA label for safety number carousel button."
   },
   "icu:SafetyNumberViewer__markAsVerified": {
@@ -664,39 +664,39 @@
     "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "icu:SafetyNumberViewer__hint--migration": {
-    "messageformat": "To verify end-to-end encryption with {name}, match the color card above with their device and compare the numbers. If these don’t match, try the other pair of safety numbers. Only one pair needs to match.",
+    "messageformat": "כדי לאמת את ההצפנה מקצה לקצה שלך עם {name}, יש להתאים את כרטיסיית הצבע שלמעלה עם המכשיר של הצד השני ולהשוות את המספרים. אם הם לא תואמים, פשוט צריך לנסות זוג אחר של מספרי בטיחות. רק זוג אחד צריך להתאים.",
     "description": "Safety number viewer, text of the hint during migration period"
   },
   "icu:SafetyNumberViewer__hint--normal": {
-    "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code with their device.",
+    "messageformat": "כדי לאמת את ההצפנה שלך מקצה לקצה עם {name}, יש להשוות את המספרים שלמעלה עם המכשיר של הצד השני. גם הצד השני יכול לסרוק את הקוד שלך עם המכשיר שלו או שלה.",
     "description": "Safety number viewer, text of the hint after migration period"
   },
   "icu:SafetyNumberOnboarding__title": {
-    "messageformat": "Changes to safety numbers",
+    "messageformat": "שינויים במספרי בטיחות",
     "description": "Title of Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__p1": {
-    "messageformat": "Safety numbers are being updated over a transition period to enable upcoming privacy features in Signal.",
+    "messageformat": "אנחנו מעדכנים את מספרי הבטיחות במהלך תקופת מעבר כדי לאפשר פיצ׳רים עתידיים של פרטיות ב–Signal.",
     "description": "Paragraph 1 of Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__p2": {
-    "messageformat": "To verify safety numbers, match the color card with your contact’s device. If these don’t match, try the other pair of safety numbers. Only one pair needs to match.",
+    "messageformat": "כדי לאמת מספרי בטיחות, יש להתאים את כרטיסיית הצבע שלמעלה עם המכשיר של איש הקשר שלך. אם הם לא תואמים, פשוט צריך לנסות זוג אחר של מספרי בטיחות. רק זוג אחד צריך להתאים.",
     "description": "Paragraph 2 of Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__help": {
-    "messageformat": "Need help?",
+    "messageformat": "צריך עזרה?",
     "description": "Text of a secondary button in Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__close": {
-    "messageformat": "Got it",
+    "messageformat": "הבנתי",
     "description": "Text of a secondary button in Safety number onboarding modal"
   },
   "icu:SafetyNumberNotReady__body": {
-    "messageformat": "A safety number will be created with this person after you exchange messages with them.",
+    "messageformat": "מספר בטיחות ייווצר עם אדם זה אחרי שתחליפו ביניכם הודעות.",
     "description": "Body of SafetyNumberNotReady modal"
   },
   "icu:SafetyNumberNotReady__learn-more": {
-    "messageformat": "Learn more",
+    "messageformat": "למד עוד",
     "description": "Text of 'Learn more' button of SafetyNumberNotReady modal"
   },
   "icu:isVerified": {
@@ -711,7 +711,7 @@
     "messageformat": "מודא"
   },
   "icu:newIdentity": {
-    "messageformat": "מספר ביטחון חדש",
+    "messageformat": "מספר בטיחות חדש",
     "description": "Header for a key change dialog"
   },
   "icu:identityChanged": {
@@ -1268,7 +1268,7 @@
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "icu:verifyHelp": {
-    "messageformat": "To verify the security of your end-to-end encryption with {name}, compare the numbers above with their device. They can also scan the qr code above.",
+    "messageformat": "כדי לאמת את האבטחה של ההצפנה מקצה לקצה שלך עם {name}, יש להשוות את המספרים שלמעלה עם המספרים במכשיר של הצד השני. גם הצד השני יכול לסרוק את קוד ה–QR שלמעלה.",
     "description": "(deleted 07/05/2023)"
   },
   "icu:theirIdentityUnknown": {
@@ -1976,7 +1976,7 @@
     "description": "Hides the details of a key change"
   },
   "icu:learnMore": {
-    "messageformat": "למד עוד על וידוא מספרי ביטחון",
+    "messageformat": "מידע נוסף על אימות מספרי בטיחות",
     "description": "Text that links to a support article on verifying safety numbers"
   },
   "icu:expiredWarning": {
@@ -2140,7 +2140,7 @@
     "description": "A notification shown in the conversation when a contact reinstalls"
   },
   "icu:safetyNumberChanges": {
-    "messageformat": "שינויי מספר ביטחון",
+    "messageformat": "שינויי מספר בטיחות",
     "description": "Title for safety number changed modal"
   },
   "icu:safetyNumberChangedGroup": {
@@ -4421,7 +4421,7 @@
     "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone"
   },
   "icu:ContactModal--add-to-group": {
-    "messageformat": "Add to another group",
+    "messageformat": "הוסף אל קבוצה אחרת",
     "description": "Button text for adding contact to another group in Group Contact Details modal"
   },
   "icu:ContactModal--remove-from-group": {
@@ -6583,6 +6583,6 @@
     "messageformat": "שיפורים בבחירת טקסט בלחיצה משולשת. תודה, {linkToGithub}!"
   },
   "icu:WhatsNew__v6.27--0": {
-    "messageformat": "This update includes a few improvements for voice and video calls, and some minor documentation updates (thanks, {linkToGithub}!)."
+    "messageformat": "העדכון הזה כולל כמה שיפורים בשיחות קוליות ושיחות וידאו, וכמה עדכוני תיעוד קלים (תודה, {linkToGithub}!)."
   }
 }

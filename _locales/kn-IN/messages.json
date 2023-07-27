@@ -636,23 +636,23 @@
     "description": "Label for a button to accept a new safety number"
   },
   "icu:SafetyNumberViewer__migration__text": {
-    "messageformat": "Safety numbers are being updated.",
+    "messageformat": "ಸುರಕ್ಷಾ ಸಂಖ್ಯೆಗಳನ್ನು ನವೀಕರಿಸಲಾಗುತ್ತಿದೆ.",
     "description": "An explanatory note in SafetyNumberViewer describing the safety number migration process."
   },
   "icu:SafetyNumberViewer__migration__learn_more": {
-    "messageformat": "Learn more",
+    "messageformat": "ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ",
     "description": "A link text in SafetyNumberViewer describing the safety number migration process."
   },
   "icu:SafetyNumberViewer__card__prev": {
-    "messageformat": "Previous Safety number",
+    "messageformat": "ಹಿಂದಿನ ಸುರಕ್ಷಾ ಸಂಖ್ಯೆ",
     "description": "An ARIA label for safety number navigation button."
   },
   "icu:SafetyNumberViewer__card__next": {
-    "messageformat": "Next Safety number",
+    "messageformat": "ಮುಂದಿನ ಸುರಕ್ಷಾ ಸಂಖ್ಯೆ",
     "description": "An ARIA label for safety number navigation button."
   },
   "icu:SafetyNumberViewer__carousel__dot": {
-    "messageformat": "Safety number version, {index,number} of {total,number}",
+    "messageformat": "ಸುರಕ್ಷಾ ಸಂಖ್ಯೆಯ ಆವೃತ್ತಿ, {total,number} ನಲ್ಲಿ {index,number}",
     "description": "An ARIA label for safety number carousel button."
   },
   "icu:SafetyNumberViewer__markAsVerified": {
@@ -664,39 +664,39 @@
     "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "icu:SafetyNumberViewer__hint--migration": {
-    "messageformat": "To verify end-to-end encryption with {name}, match the color card above with their device and compare the numbers. If these don’t match, try the other pair of safety numbers. Only one pair needs to match.",
+    "messageformat": "{name} ಅವರೊಂದಿಗಿನ ಎಂಡ್-ಟು-ಎಂಡ್ ಎನ್‌ಕ್ರಿಪ್ಶನ್ ಅನ್ನು ದೃಢೀಕರಿಸಲು, ಮೇಲಿನ ಕಲರ್ ಕಾರ್ಡ್ ಅನ್ನು ಅವರ ಸಾಧನೊಂದಿಗೆ ಹೊಂದಿಸಿ ಮತ್ತು ಸಂಖ್ಯೆಗಳನ್ನು ತುಲನೆ ಮಾಡಿ. ಇವುಗಳು ಹೊಂದಿಕೆಯಾಗದಿದ್ದರೆ, ಸುರಕ್ಷಾ ಸಂಖ್ಯೆಗಳ ಇನ್ನೊಂದು ಜೊತೆಯನ್ನು ಪ್ರಯತ್ನಿಸಿ. ಕೇವಲ ಒಂದು ಜೊತೆ ಹೊಂದಿಕೆಯಾಗಬೇಕು.",
     "description": "Safety number viewer, text of the hint during migration period"
   },
   "icu:SafetyNumberViewer__hint--normal": {
-    "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code with their device.",
+    "messageformat": "{name} ಅವರೊಂದಿಗೆ ಎಂಡ್-ಟು-ಎಂಡ್ ಎನ್‌ಕ್ರಿಪ್ಶನ್ ದೃಢೀಕರಿಸಲು, ಮೇಲಿನ ಸಂಖ್ಯೆಗಳನ್ನು ಅವರ ಸಾಧನದೊಂದಿಗೆ ಹೋಲಿಕೆ ಮಾಡಿ. ಅವರು ಕೂಡಾ ತಮ್ಮ ಸಾಧನದೊಂದಿಗೆ ನಿಮ್ಮ ಕೋಡ್ ಅನ್ನು ಸ್ಕ್ಯಾನ್ ಮಾಡಬಹುದು.",
     "description": "Safety number viewer, text of the hint after migration period"
   },
   "icu:SafetyNumberOnboarding__title": {
-    "messageformat": "Changes to safety numbers",
+    "messageformat": "ಸುರಕ್ಷಾ ಸಂಖ್ಯೆಗಳಿಗೆ ಬದಲಾವಣೆಗಳು",
     "description": "Title of Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__p1": {
-    "messageformat": "Safety numbers are being updated over a transition period to enable upcoming privacy features in Signal.",
+    "messageformat": "Signal ನಲ್ಲಿ ಮುಂಬರುವ ಗೌಪ್ಯತಾ ಫೀಚರ್‌ಗಳನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಲು ಪರಿವರ್ತನೆಯ ಅವಧಿಯಲ್ಲಿ ಸುರಕ್ಷಾ ಸಂಖ್ಯೆಗಳನ್ನು ನವೀಕರಿಸಲಾಗುತ್ತಿದೆ.\n\n",
     "description": "Paragraph 1 of Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__p2": {
-    "messageformat": "To verify safety numbers, match the color card with your contact’s device. If these don’t match, try the other pair of safety numbers. Only one pair needs to match.",
+    "messageformat": "ಸುರಕ್ಷಾ ಸಂಖ್ಯೆಗಳನ್ನು ದೃಢೀಕರಿಸಲು, ನಿಮ್ಮ ಸಂಪರ್ಕದ ಸಾಧನದೊಂದಿಗೆ ಕಲರ್ ಕಾರ್ಡ್‌ ಹೊಂದಿಸಿ. ಇವುಗಳು ಹೊಂದಿಕೆಯಾಗದಿದ್ದರೆ, ಸುರಕ್ಷಾ ಸಂಖ್ಯೆಗಳ ಇನ್ನೊಂದು ಜೊತೆಯನ್ನು ಪ್ರಯತ್ನಿಸಿ. ಕೇವಲ ಒಂದು ಜೊತೆ ಹೊಂದಿಕೆಯಾಗಬೇಕು.",
     "description": "Paragraph 2 of Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__help": {
-    "messageformat": "Need help?",
+    "messageformat": "ಸಹಾಯ ಅಗತ್ಯವಿದೆಯೇ?",
     "description": "Text of a secondary button in Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__close": {
-    "messageformat": "Got it",
+    "messageformat": "ಅರ್ಥವಾಯಿತು",
     "description": "Text of a secondary button in Safety number onboarding modal"
   },
   "icu:SafetyNumberNotReady__body": {
-    "messageformat": "A safety number will be created with this person after you exchange messages with them.",
+    "messageformat": "ನೀವು ಈ ವ್ಯಕ್ತಿಯೊಂದಿಗೆ ಮೆಸೇಜ್‌ಗಳನ್ನು ವಿನಿಮಯ ಮಾಡಿದ ಬಳಿಕ ಅವರೊಂದಿಗ ಒಂದು ಸುರಕ್ಷಾ ಸಂಖ್ಯೆಯನ್ನು ರಚಿಸಲಾಗುತ್ತದೆ.",
     "description": "Body of SafetyNumberNotReady modal"
   },
   "icu:SafetyNumberNotReady__learn-more": {
-    "messageformat": "Learn more",
+    "messageformat": "ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ",
     "description": "Text of 'Learn more' button of SafetyNumberNotReady modal"
   },
   "icu:isVerified": {
@@ -1268,7 +1268,7 @@
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "icu:verifyHelp": {
-    "messageformat": "To verify the security of your end-to-end encryption with {name}, compare the numbers above with their device. They can also scan the qr code above.",
+    "messageformat": "{name} ಅವರೊಂದಿಗಿನ ನಿಮ್ಮ ಎಂಡ್ ಟು ಎಂಡ್ ಎನ್‌ಕ್ರಿಪ್ಶನ್ ಭದ್ರತೆಯನ್ನು ದೃಢೀಕರಿಸಲು, ಅವರ ಸಾಧನಗಳೊಂದಿಗೆ ಮೇಲಿನ ಸಂಖ್ಯೆಗಳನ್ನು ಹೋಲಿಕೆ ಮಾಡಿ. ಅವರು ಕೂಡಾ ಮೇಲಿನ ಕ್ಯೂಆರ್ ಕೋಡ್ ಅನ್ನು ಸ್ಕ್ಯಾನ್ ಮಾಡಬಹುದು.",
     "description": "(deleted 07/05/2023)"
   },
   "icu:theirIdentityUnknown": {
@@ -4421,7 +4421,7 @@
     "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone"
   },
   "icu:ContactModal--add-to-group": {
-    "messageformat": "Add to another group",
+    "messageformat": "ಮತ್ತೊಂದು ಗುಂಪಿಗೆ ಸೇರಿಸಿ",
     "description": "Button text for adding contact to another group in Group Contact Details modal"
   },
   "icu:ContactModal--remove-from-group": {
@@ -6583,6 +6583,6 @@
     "messageformat": "ಟ್ರಿಪಲ್ ಕ್ಲಿಕ್ ಟೆಕ್ಸ್ಟ್ ಆಯ್ಕೆಯ ಸುಧಾರಣೆಗಳಿಗಾಗಿ ಮೂರು ಮೆಚ್ಚುಗೆಗಳು. ಧನ್ಯವಾದಗಳು, {linkToGithub}!"
   },
   "icu:WhatsNew__v6.27--0": {
-    "messageformat": "This update includes a few improvements for voice and video calls, and some minor documentation updates (thanks, {linkToGithub}!)."
+    "messageformat": "ಈ ನವೀಕರಣವು ಧ್ವನಿ ಮತ್ತು ವೀಡಿಯೊ ಕರೆಗಳಿಗೆ ಕೆಲವು ಸುಧಾರಣೆಗಳನ್ನು ಒಳಗೊಂಡಿದೆ ಮತ್ತು ಕೆಲವು ಸಣ್ಣ ಡಾಕ್ಯುಮೆಂಟೇಶನ್ ನವೀಕರಣಗಳನ್ನು ಒಳಗೊಂಡಿದೆ (ಧನ್ಯವಾದಗಳು, {linkToGithub}!)."
   }
 }

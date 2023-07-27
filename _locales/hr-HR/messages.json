@@ -636,23 +636,23 @@
     "description": "Label for a button to accept a new safety number"
   },
   "icu:SafetyNumberViewer__migration__text": {
-    "messageformat": "Safety numbers are being updated.",
+    "messageformat": "Ažuriramo sigurnosne brojeve.",
     "description": "An explanatory note in SafetyNumberViewer describing the safety number migration process."
   },
   "icu:SafetyNumberViewer__migration__learn_more": {
-    "messageformat": "Learn more",
+    "messageformat": "Saznajte više",
     "description": "A link text in SafetyNumberViewer describing the safety number migration process."
   },
   "icu:SafetyNumberViewer__card__prev": {
-    "messageformat": "Previous Safety number",
+    "messageformat": "Prethodni sigurnosni broj",
     "description": "An ARIA label for safety number navigation button."
   },
   "icu:SafetyNumberViewer__card__next": {
-    "messageformat": "Next Safety number",
+    "messageformat": "Sljedeći sigurnosni broj",
     "description": "An ARIA label for safety number navigation button."
   },
   "icu:SafetyNumberViewer__carousel__dot": {
-    "messageformat": "Safety number version, {index,number} of {total,number}",
+    "messageformat": "Verzija sigurnosnog broja {index,number} od {total,number}",
     "description": "An ARIA label for safety number carousel button."
   },
   "icu:SafetyNumberViewer__markAsVerified": {
@@ -664,39 +664,39 @@
     "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "icu:SafetyNumberViewer__hint--migration": {
-    "messageformat": "To verify end-to-end encryption with {name}, match the color card above with their device and compare the numbers. If these don’t match, try the other pair of safety numbers. Only one pair needs to match.",
+    "messageformat": "Za provjeru sveobuhvatne enkripcije s kontaktom {name}, povežite gornju karticu u boji s uređajem vašeg sugovornika i usporedite brojeve. Ako se brojevi ne podudaraju, pokušajte s drugim parom sigurnosnih brojeva. Samo jedan par mora odgovarati.",
     "description": "Safety number viewer, text of the hint during migration period"
   },
   "icu:SafetyNumberViewer__hint--normal": {
-    "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code with their device.",
+    "messageformat": "Za provjeru sveobuhvatne enkripcije s kontaktom {name}, usporedite gore navedene brojeve s uređajem vašeg sugovornika. Također, vaš kontakt može skenirati vaš kôd svojim uređajem.",
     "description": "Safety number viewer, text of the hint after migration period"
   },
   "icu:SafetyNumberOnboarding__title": {
-    "messageformat": "Changes to safety numbers",
+    "messageformat": "Promjene u vezi sigurnosnih brojeva",
     "description": "Title of Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__p1": {
-    "messageformat": "Safety numbers are being updated over a transition period to enable upcoming privacy features in Signal.",
+    "messageformat": "Sigurnosni brojevi se trenutno ažuriraju tijekom prijelaznog razdoblja kako bi se omogućile predstojeće značajke privatnosti u Signalu.",
     "description": "Paragraph 1 of Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__p2": {
-    "messageformat": "To verify safety numbers, match the color card with your contact’s device. If these don’t match, try the other pair of safety numbers. Only one pair needs to match.",
+    "messageformat": "Da biste provjerili sigurnosne brojeve, uskladite karticu u boji s uređajem vašeg kontakta. Ako se brojevi ne podudaraju, pokušajte s drugim parom sigurnosnih brojeva. Samo jedan par mora odgovarati.",
     "description": "Paragraph 2 of Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__help": {
-    "messageformat": "Need help?",
+    "messageformat": "Trebate pomoć?",
     "description": "Text of a secondary button in Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__close": {
-    "messageformat": "Got it",
+    "messageformat": "Shvaćam",
     "description": "Text of a secondary button in Safety number onboarding modal"
   },
   "icu:SafetyNumberNotReady__body": {
-    "messageformat": "A safety number will be created with this person after you exchange messages with them.",
+    "messageformat": "Nakon što razmijenite poruke s ovom osobom, stvorit će se vaš sigurnosni broj.",
     "description": "Body of SafetyNumberNotReady modal"
   },
   "icu:SafetyNumberNotReady__learn-more": {
-    "messageformat": "Learn more",
+    "messageformat": "Saznajte više",
     "description": "Text of 'Learn more' button of SafetyNumberNotReady modal"
   },
   "icu:isVerified": {
@@ -1268,7 +1268,7 @@
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "icu:verifyHelp": {
-    "messageformat": "To verify the security of your end-to-end encryption with {name}, compare the numbers above with their device. They can also scan the qr code above.",
+    "messageformat": "Za provjeru sveobuhvatne enkripcije s kontaktom {name}, usporedite gore navedene brojeve s uređajem vašeg sugovornika. Također, vaš kontakt može skenirati gornji QR kôd .",
     "description": "(deleted 07/05/2023)"
   },
   "icu:theirIdentityUnknown": {
@@ -4421,7 +4421,7 @@
     "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone"
   },
   "icu:ContactModal--add-to-group": {
-    "messageformat": "Add to another group",
+    "messageformat": "Dodaj u drugu drugu",
     "description": "Button text for adding contact to another group in Group Contact Details modal"
   },
   "icu:ContactModal--remove-from-group": {
@@ -6583,6 +6583,6 @@
     "messageformat": "Trostrukim klikom do poboljšanja odabira teksta. Hvala, {linkToGithub}!"
   },
   "icu:WhatsNew__v6.27--0": {
-    "messageformat": "This update includes a few improvements for voice and video calls, and some minor documentation updates (thanks, {linkToGithub}!)."
+    "messageformat": "Ovo ažuriranje uključuje poboljšanja za glasovne pozive i video pozive te neka manja ažuriranja dokumentacije. Hvala, {linkToGithub}!"
   }
 }

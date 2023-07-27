@@ -636,23 +636,23 @@
     "description": "Label for a button to accept a new safety number"
   },
   "icu:SafetyNumberViewer__migration__text": {
-    "messageformat": "Safety numbers are being updated.",
+    "messageformat": "Безбедносни бројеви се ажурирају.",
     "description": "An explanatory note in SafetyNumberViewer describing the safety number migration process."
   },
   "icu:SafetyNumberViewer__migration__learn_more": {
-    "messageformat": "Learn more",
+    "messageformat": "Сазнај више",
     "description": "A link text in SafetyNumberViewer describing the safety number migration process."
   },
   "icu:SafetyNumberViewer__card__prev": {
-    "messageformat": "Previous Safety number",
+    "messageformat": "Претходни сигурносни број",
     "description": "An ARIA label for safety number navigation button."
   },
   "icu:SafetyNumberViewer__card__next": {
-    "messageformat": "Next Safety number",
+    "messageformat": "Следећи сигурносни број",
     "description": "An ARIA label for safety number navigation button."
   },
   "icu:SafetyNumberViewer__carousel__dot": {
-    "messageformat": "Safety number version, {index,number} of {total,number}",
+    "messageformat": "Верзија сигурносног броја, {index,number} или {total,number}",
     "description": "An ARIA label for safety number carousel button."
   },
   "icu:SafetyNumberViewer__markAsVerified": {
@@ -664,39 +664,39 @@
     "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "icu:SafetyNumberViewer__hint--migration": {
-    "messageformat": "To verify end-to-end encryption with {name}, match the color card above with their device and compare the numbers. If these don’t match, try the other pair of safety numbers. Only one pair needs to match.",
+    "messageformat": "Ради верификације end-to-end шифровања са контактом {name}, повежите картицу у боји с уређајем вашег контакта и упоредите бројеве. Ако се не слажу, покушајте с другим паром сигурносних бројева. Довољно је да се повеже један пар.",
     "description": "Safety number viewer, text of the hint during migration period"
   },
   "icu:SafetyNumberViewer__hint--normal": {
-    "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code with their device.",
+    "messageformat": "Ради верификације end-to-end шифровања са контактом {name}, упоредите горе приказане бројеве с уређајем вашег контакта. Ваш контакт такође може својим уређајем скенирати ваш кôд.",
     "description": "Safety number viewer, text of the hint after migration period"
   },
   "icu:SafetyNumberOnboarding__title": {
-    "messageformat": "Changes to safety numbers",
+    "messageformat": "Промена у безбедносне бројеве",
     "description": "Title of Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__p1": {
-    "messageformat": "Safety numbers are being updated over a transition period to enable upcoming privacy features in Signal.",
+    "messageformat": "Током прелазног периода ажурирају се безбедносни бројеви, како би се омогућиле будуће опције за приватност на платформи Signal.",
     "description": "Paragraph 1 of Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__p2": {
-    "messageformat": "To verify safety numbers, match the color card with your contact’s device. If these don’t match, try the other pair of safety numbers. Only one pair needs to match.",
+    "messageformat": "Ради верификације безбедносних бројева, повежите картицу у боји са уређајем вашег контакта. Ако се не слажу, покушајте с другим паром сигурносних бројева. Довољно је да се повеже један пар.",
     "description": "Paragraph 2 of Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__help": {
-    "messageformat": "Need help?",
+    "messageformat": "Потребна вам је помоћ?",
     "description": "Text of a secondary button in Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__close": {
-    "messageformat": "Got it",
+    "messageformat": "Разумем",
     "description": "Text of a secondary button in Safety number onboarding modal"
   },
   "icu:SafetyNumberNotReady__body": {
-    "messageformat": "A safety number will be created with this person after you exchange messages with them.",
+    "messageformat": "Са овом особом биће креиран безбедносни број након што с њом размените поруке.",
     "description": "Body of SafetyNumberNotReady modal"
   },
   "icu:SafetyNumberNotReady__learn-more": {
-    "messageformat": "Learn more",
+    "messageformat": "Сазнај више",
     "description": "Text of 'Learn more' button of SafetyNumberNotReady modal"
   },
   "icu:isVerified": {
@@ -1268,7 +1268,7 @@
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "icu:verifyHelp": {
-    "messageformat": "To verify the security of your end-to-end encryption with {name}, compare the numbers above with their device. They can also scan the qr code above.",
+    "messageformat": "Ради провере безбедности ваше end-to-end енкрипције са корисником {name}, упоредите горе приказане бројеве са бројевима на уређају вашег контакта. Ваш контакт такође може скенирати горе приказани qr кôд.",
     "description": "(deleted 07/05/2023)"
   },
   "icu:theirIdentityUnknown": {
@@ -3545,7 +3545,7 @@
     "description": "Label for muting the conversation"
   },
   "icu:muteWeek": {
-    "messageformat": "Искључи обавештења на недељу дана",
+    "messageformat": "Искључи обавештења на 1 седмицу",
     "description": "Label for muting the conversation"
   },
   "icu:muteAlways": {
@@ -4421,7 +4421,7 @@
     "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone"
   },
   "icu:ContactModal--add-to-group": {
-    "messageformat": "Add to another group",
+    "messageformat": "Додај у другу групу",
     "description": "Button text for adding contact to another group in Group Contact Details modal"
   },
   "icu:ContactModal--remove-from-group": {
@@ -5157,7 +5157,7 @@
     "description": "Name of the 'days' unit select for the custom disappearing message timeout dialog"
   },
   "icu:DisappearingTimeDialog__weeks": {
-    "messageformat": "Недеља",
+    "messageformat": "Седмица",
     "description": "Name of the 'weeks' unit select for the custom disappearing message timeout dialog"
   },
   "icu:settings__DisappearingMessages__footer": {
@@ -6583,6 +6583,6 @@
     "messageformat": "Трипут ура за побољшање означавања текста у три клика. Хвала, {linkToGithub}!"
   },
   "icu:WhatsNew__v6.27--0": {
-    "messageformat": "This update includes a few improvements for voice and video calls, and some minor documentation updates (thanks, {linkToGithub}!)."
+    "messageformat": "Ова верзија садржи неколико новина у виду побољшаног квалитета гласовних и видео позива и неке мање новине у вези са документацијом (хвала, {linkToGithub}!)."
   }
 }

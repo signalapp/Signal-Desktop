@@ -636,23 +636,23 @@
     "description": "Label for a button to accept a new safety number"
   },
   "icu:SafetyNumberViewer__migration__text": {
-    "messageformat": "Safety numbers are being updated.",
+    "messageformat": "Die Sicherheitsnummern werden aktualisiert.",
     "description": "An explanatory note in SafetyNumberViewer describing the safety number migration process."
   },
   "icu:SafetyNumberViewer__migration__learn_more": {
-    "messageformat": "Learn more",
+    "messageformat": "Mehr erfahren",
     "description": "A link text in SafetyNumberViewer describing the safety number migration process."
   },
   "icu:SafetyNumberViewer__card__prev": {
-    "messageformat": "Previous Safety number",
+    "messageformat": "Vorherige Sicherheitsnummer",
     "description": "An ARIA label for safety number navigation button."
   },
   "icu:SafetyNumberViewer__card__next": {
-    "messageformat": "Next Safety number",
+    "messageformat": "Nächste Sicherheitsnummer",
     "description": "An ARIA label for safety number navigation button."
   },
   "icu:SafetyNumberViewer__carousel__dot": {
-    "messageformat": "Safety number version, {index,number} of {total,number}",
+    "messageformat": "Sicherheitsnummer-Version {index,number} von {total,number}",
     "description": "An ARIA label for safety number carousel button."
   },
   "icu:SafetyNumberViewer__markAsVerified": {
@@ -664,39 +664,39 @@
     "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "icu:SafetyNumberViewer__hint--migration": {
-    "messageformat": "To verify end-to-end encryption with {name}, match the color card above with their device and compare the numbers. If these don’t match, try the other pair of safety numbers. Only one pair needs to match.",
+    "messageformat": "Um die Ende-zu-Ende-Verschlüsselung mit {name} zu verifizieren, ordne die obige Farbkarte seinem/ihrem Gerät zu und vergleiche die Nummern. Wenn diese nicht übereinstimmen, versuche es mit den anderen Sicherheitsnummern. Es reicht, wenn ein Nummernpaar zusammenpasst.",
     "description": "Safety number viewer, text of the hint during migration period"
   },
   "icu:SafetyNumberViewer__hint--normal": {
-    "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code with their device.",
+    "messageformat": "Um die Ende-zu-Ende-Verschlüsselung mit {name} zu verifizieren, vergleiche die Nummern mit seinem/ihrem Gerät. Er/sie kann deinen Code auch mit seinem/ihrem Gerät scannen.",
     "description": "Safety number viewer, text of the hint after migration period"
   },
   "icu:SafetyNumberOnboarding__title": {
-    "messageformat": "Changes to safety numbers",
+    "messageformat": "Änderungen an den Sicherheitsnummern",
     "description": "Title of Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__p1": {
-    "messageformat": "Safety numbers are being updated over a transition period to enable upcoming privacy features in Signal.",
+    "messageformat": "Die Sicherheitsnummern werden während eines Ladevorgangs aktualisiert, um neue Datenschutzfunktionen in Signal zu aktivieren.",
     "description": "Paragraph 1 of Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__p2": {
-    "messageformat": "To verify safety numbers, match the color card with your contact’s device. If these don’t match, try the other pair of safety numbers. Only one pair needs to match.",
+    "messageformat": "Um die Sicherheitsnummern zu verifizieren, ordne die Farbkarte dem Gerät deines Kontaktes zu. Wenn die Nummern nicht übereinstimmen, versuche es mit den anderen Sicherheitsnummern. Es reicht, wenn ein Nummernpaar zusammenpasst.",
     "description": "Paragraph 2 of Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__help": {
-    "messageformat": "Need help?",
+    "messageformat": "Hilfe benötigt?",
     "description": "Text of a secondary button in Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__close": {
-    "messageformat": "Got it",
+    "messageformat": "Verstanden",
     "description": "Text of a secondary button in Safety number onboarding modal"
   },
   "icu:SafetyNumberNotReady__body": {
-    "messageformat": "A safety number will be created with this person after you exchange messages with them.",
+    "messageformat": "Nachdem du mit dieser Person Nachrichten ausgetauscht hast, wird eine Sicherheitsnummer erstellt.",
     "description": "Body of SafetyNumberNotReady modal"
   },
   "icu:SafetyNumberNotReady__learn-more": {
-    "messageformat": "Learn more",
+    "messageformat": "Mehr erfahren",
     "description": "Text of 'Learn more' button of SafetyNumberNotReady modal"
   },
   "icu:isVerified": {
@@ -1268,7 +1268,7 @@
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "icu:verifyHelp": {
-    "messageformat": "To verify the security of your end-to-end encryption with {name}, compare the numbers above with their device. They can also scan the qr code above.",
+    "messageformat": "Um die Ende-zu-Ende-Verschlüsselung mit {name} zu verifizieren, vergleiche die Nummern mit seinem/ihrem Gerät. Er/sie kann auch den obigen QR-Code scannen.",
     "description": "(deleted 07/05/2023)"
   },
   "icu:theirIdentityUnknown": {
@@ -4421,7 +4421,7 @@
     "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone"
   },
   "icu:ContactModal--add-to-group": {
-    "messageformat": "Add to another group",
+    "messageformat": "Zu weiterer Gruppe hinzufügen",
     "description": "Button text for adding contact to another group in Group Contact Details modal"
   },
   "icu:ContactModal--remove-from-group": {
@@ -6583,6 +6583,6 @@
     "messageformat": "Ein dreifacher Applaus für die Verbesserung bei der Textauswahl durch drei Klicks. Danke, {linkToGithub}!"
   },
   "icu:WhatsNew__v6.27--0": {
-    "messageformat": "This update includes a few improvements for voice and video calls, and some minor documentation updates (thanks, {linkToGithub}!)."
+    "messageformat": "Dieses Update beinhaltet einige Verbesserungen für Sprach- und Videoanrufe sowie kleinere Updates der Dokumentation (danke, {linkToGithub}!)."
   }
 }
