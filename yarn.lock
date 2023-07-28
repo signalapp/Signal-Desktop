@@ -2276,7 +2276,15 @@
     bindings "^1.5.0"
     tar "^6.1.0"
 
-"@signalapp/libsignal-client@0.27.0", "@signalapp/libsignal-client@^0.27.0":
+"@signalapp/libsignal-client@0.29.1":
+  version "0.29.1"
+  resolved "https://registry.yarnpkg.com/@signalapp/libsignal-client/-/libsignal-client-0.29.1.tgz#e45e5136f932ad994ac9f3090867abda1a0b8bd7"
+  integrity sha512-6zU8SngGl+7lTfb8LZhwdMMTJbxyL1RSHd//DkUKKtohtj4ntbaPkF8ivqrhanZKE1271JuZSy/eXw2tRrzlgA==
+  dependencies:
+    node-gyp-build "^4.2.3"
+    uuid "^8.3.0"
+
+"@signalapp/libsignal-client@^0.27.0":
   version "0.27.0"
   resolved "https://registry.yarnpkg.com/@signalapp/libsignal-client/-/libsignal-client-0.27.0.tgz#012e254d42e4dcd752979419c048af65a3f1eed1"
   integrity sha512-XinrJ9R2veJM/u3CAaL/YN5Yid+ASfsSceQiL/Qr1vKCsMori0bWG6AzOBnDUx/Bnm6dcDBc15t8w31WkXOTVw==
