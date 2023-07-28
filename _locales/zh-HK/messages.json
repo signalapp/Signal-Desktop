@@ -509,7 +509,7 @@
     "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
   },
   "icu:changedRightAfterVerify": {
-    "messageformat": "你嘗試驗證的安全號碼已變更。 請使用{name1}來檢查新的安全碼。 請記住，此變更可能意味著有人試圖攔截你的通訊，或者{name2}只是重新安裝了Signal。",
+    "messageformat": "你嘗試驗證的安全碼已變更。 請使用{name1}來檢查新的安全碼。 請記住，此變更可能意味著有人試圖攔截你的通訊，或者{name2}只是重新安裝了Signal。",
     "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change"
   },
   "icu:safetyNumberChangeDialog__message": {
@@ -636,7 +636,7 @@
     "description": "Label for a button to accept a new safety number"
   },
   "icu:SafetyNumberViewer__migration__text": {
-    "messageformat": "安全號碼正在更新中。",
+    "messageformat": "安全碼正在更新中。",
     "description": "An explanatory note in SafetyNumberViewer describing the safety number migration process."
   },
   "icu:SafetyNumberViewer__migration__learn_more": {
@@ -672,11 +672,11 @@
     "description": "Safety number viewer, text of the hint after migration period"
   },
   "icu:SafetyNumberOnboarding__title": {
-    "messageformat": "安全號碼變更",
+    "messageformat": "安全碼變更",
     "description": "Title of Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__p1": {
-    "messageformat": "安全號碼會在過渡期間進行更新，以啟用 Signal 即將推出的隱私功能。",
+    "messageformat": "安全碼會在過渡期間進行更新，以啟用 Signal 即將推出的隱私功能。",
     "description": "Paragraph 1 of Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__p2": {
@@ -692,7 +692,7 @@
     "description": "Text of a secondary button in Safety number onboarding modal"
   },
   "icu:SafetyNumberNotReady__body": {
-    "messageformat": "你與此人交換訊息後，會為其建立一個安全號碼。",
+    "messageformat": "你與此人交換訊息後，會為其建立一個安全碼。",
     "description": "Body of SafetyNumberNotReady modal"
   },
   "icu:SafetyNumberNotReady__learn-more": {
@@ -2136,7 +2136,7 @@
     "description": "Title for the modal for safety number verification"
   },
   "icu:safetyNumberChanged": {
-    "messageformat": "安全號碼已變更",
+    "messageformat": "安全碼已變更",
     "description": "A notification shown in the conversation when a contact reinstalls"
   },
   "icu:safetyNumberChanges": {
