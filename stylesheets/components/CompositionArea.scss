@@ -51,6 +51,10 @@
     }
   }
 
+  &__button-edit {
+    margin-bottom: 4px;
+  }
+
   &__edit-button {
     @include button-reset;
     @include rounded-corners;

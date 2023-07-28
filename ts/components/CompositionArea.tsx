@@ -569,7 +569,7 @@ export function CompositionArea({
   const editMessageFragment = draftEditMessage ? (
     <>
       {large && <div className="CompositionArea__placeholder" />}
-      <div className="CompositionArea__button-cell">
+      <div className="CompositionArea__button-cell CompositionArea__button-edit">
         <button
           aria-label={i18n('icu:CompositionArea__edit-action--discard')}
           className="CompositionArea__edit-button CompositionArea__edit-button--discard"
