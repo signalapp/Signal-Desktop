@@ -18,6 +18,7 @@ import { InstallScreenSignalLogo } from './InstallScreenSignalLogo';
 import { InstallScreenUpdateDialog } from './InstallScreenUpdateDialog';
 import { getClassNamesFor } from '../../util/getClassNamesFor';
 import type { UpdatesStateType } from '../../state/ducks/updates';
+import { Environment, getEnvironment } from '../../environment';
 
 // We can't always use destructuring assignment because of the complexity of this props
 //   type.
@@ -103,9 +104,13 @@ export function InstallScreenQrCodeNotScannedStep({
               />
             </li>
           </ol>
-          <a href="https://support.signal.org/hc/articles/360007320451#desktop_multiple_device">
-            {i18n('icu:Install__support-link')}
-          </a>
+          {getEnvironment() !== Environment.Staging ? (
+            <a href="https://support.signal.org/hc/articles/360007320451#desktop_multiple_device">
+              {i18n('icu:Install__support-link')}
+            </a>
+          ) : (
+            'THIS IS A STAGING DESKTOP'
+          )}
         </div>
       </div>
     </div>

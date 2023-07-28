@@ -15,6 +15,7 @@ import { showToast } from '../util/showToast';
 import { strictAssert } from '../util/assert';
 import { TargetedMessageSource } from '../state/ducks/conversationsEnums';
 import { usePrevious } from '../hooks/usePrevious';
+import { Environment, getEnvironment } from '../environment';
 
 export type PropsType = {
   firstEnvelopeTimestamp: number | undefined;
@@ -280,7 +281,11 @@ export function Inbox({
             <div className="Inbox__no-conversation-open">
               {renderMiniPlayer({ shouldFlow: false })}
               <div className="module-splash-screen__logo module-img--128 module-logo-blue" />
-              <h3>{i18n('icu:welcomeToSignal')}</h3>
+              <h3>
+                {getEnvironment() !== Environment.Staging
+                  ? i18n('icu:welcomeToSignal')
+                  : 'THIS IS A STAGING DESKTOP'}
+              </h3>
               <p>
                 <WhatsNewLink
                   i18n={i18n}
