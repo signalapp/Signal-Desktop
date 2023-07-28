@@ -1025,10 +1025,21 @@ function keyChangeOk(
 
 function receiveIncomingDirectCall(
   payload: IncomingDirectCallType
-): IncomingDirectCallActionType {
-  return {
-    type: INCOMING_DIRECT_CALL,
-    payload,
+): ThunkAction<void, RootStateType, unknown, IncomingDirectCallActionType> {
+  return (dispatch, getState) => {
+    const callState = getState().calling;
+
+    if (
+      callState.activeCallState &&
+      callState.activeCallState.conversationId === payload.conversationId
+    ) {
+      calling.stopCallingLobby();
+    }
+
+    dispatch({
+      type: INCOMING_DIRECT_CALL,
+      payload,
+    });
   };
 }
 
