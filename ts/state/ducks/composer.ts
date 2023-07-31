@@ -1307,7 +1307,7 @@ export function resetComposer(conversationId: string): ResetComposerActionType {
     },
   };
 }
-const debouncedSaveDraft = debounce(saveDraft);
+const debouncedSaveDraft = debounce(saveDraft, 100);
 
 function saveDraft(
   conversationId: string,
