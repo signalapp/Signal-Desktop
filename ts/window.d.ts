@@ -57,6 +57,7 @@ import type { initializeMigrations } from './signal';
 import type { RetryPlaceholders } from './util/retryPlaceholders';
 import type { PropsPreloadType as PreferencesPropsType } from './components/Preferences';
 import type { LocaleDirection } from '../app/locale';
+import type { HourCyclePreference } from './types/I18N';
 
 export { Long } from 'long';
 
@@ -196,6 +197,7 @@ declare global {
     getHostName: () => string;
     getInteractionMode: () => 'mouse' | 'keyboard';
     getResolvedMessagesLocaleDirection: () => LocaleDirection;
+    getHourCyclePreference: () => HourCyclePreference;
     getResolvedMessagesLocale: () => string;
     getPreferredSystemLocales: () => Array<string>;
     getServerPublicParams: () => string;

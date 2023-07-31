@@ -4,6 +4,7 @@
 import { fabric } from 'fabric';
 import { customFabricObjectControls } from './util/customFabricObjectControls';
 import { moreStyles } from './util/moreStyles';
+import { getDateTimeFormatter } from '../util/formatTimestamp';
 
 export enum DigitalClockStickerStyle {
   White = 'White',
@@ -90,7 +91,7 @@ export class MediaEditorFabricDigitalTimeSticker extends fabric.Group {
     style: DigitalClockStickerStyle = DigitalClockStickerStyle.White,
     options: fabric.IGroupOptions = {}
   ) {
-    const parts = new Intl.DateTimeFormat(window.getPreferredSystemLocales(), {
+    const parts = getDateTimeFormatter({
       hour: 'numeric',
       minute: 'numeric',
     }).formatToParts(timestamp);

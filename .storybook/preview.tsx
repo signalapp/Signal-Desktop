@@ -11,6 +11,7 @@ import { ClassyProvider } from '../ts/components/PopperRootContext';
 import { StorybookThemeContext } from './StorybookThemeContext';
 import { ThemeType } from '../ts/types/Util';
 import { setupI18n } from '../ts/util/setupI18n';
+import { HourCyclePreference } from '../ts/types/I18N';
 
 export const globalTypes = {
   mode: {
@@ -38,6 +39,7 @@ export const globalTypes = {
 };
 
 window.i18n = setupI18n('en', messages);
+window.getHourCyclePreference = () => HourCyclePreference.UnknownPreference;
 
 const withModeAndThemeProvider = (Story, context) => {
   const theme =

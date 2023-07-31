@@ -9,7 +9,7 @@ import { z } from 'zod';
 import { setupI18n } from '../ts/util/setupI18n';
 
 import type { LoggerType } from '../ts/types/Logging';
-import type { LocaleMessagesType } from '../ts/types/I18N';
+import type { HourCyclePreference, LocaleMessagesType } from '../ts/types/I18N';
 import type { LocalizerType } from '../ts/types/Util';
 import * as Errors from '../ts/types/errors';
 
@@ -30,6 +30,7 @@ export type LocaleType = {
   name: string;
   direction: LocaleDirection;
   messages: LocaleMessagesType;
+  hourCyclePreference: HourCyclePreference;
 };
 
 function getLocaleDirection(
@@ -67,8 +68,9 @@ function finalize(
   messages: LocaleMessagesType,
   backupMessages: LocaleMessagesType,
   localeName: string,
+  hourCyclePreference: HourCyclePreference,
   logger: LoggerType
-) {
+): LocaleType {
   // We start with english, then overwrite that with anything present in locale
   const finalMessages = merge(backupMessages, messages);
 
@@ -82,6 +84,7 @@ function finalize(
     name: localeName,
     direction,
     messages: finalMessages,
+    hourCyclePreference,
   };
 }
 
@@ -96,9 +99,11 @@ export function _getAvailableLocales(): Array<string> {
 
 export function load({
   preferredSystemLocales,
+  hourCyclePreference,
   logger,
 }: {
   preferredSystemLocales: Array<string>;
+  hourCyclePreference: HourCyclePreference;
   logger: LoggerType;
 }): LocaleType {
   if (preferredSystemLocales == null) {
@@ -130,6 +135,7 @@ export function load({
     matchedLocaleMessages,
     englishMessages,
     matchedLocale,
+    hourCyclePreference,
     logger
   );
 }

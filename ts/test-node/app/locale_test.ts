@@ -6,6 +6,7 @@ import { stub } from 'sinon';
 import * as LocaleMatcher from '@formatjs/intl-localematcher';
 import { load, _getAvailableLocales } from '../../../app/locale';
 import { FAKE_DEFAULT_LOCALE } from '../../../app/spell_check';
+import { HourCyclePreference } from '../../types/I18N';
 
 describe('locale', async () => {
   describe('load', () => {
@@ -23,7 +24,11 @@ describe('locale', async () => {
         preferredSystemLocales: Array<string>,
         expectedLocale: string
       ) {
-        const actualLocale = await load({ preferredSystemLocales, logger });
+        const actualLocale = await load({
+          preferredSystemLocales,
+          hourCyclePreference: HourCyclePreference.UnknownPreference,
+          logger,
+        });
         assert.strictEqual(actualLocale.name, expectedLocale);
       }
 

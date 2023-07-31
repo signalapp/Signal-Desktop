@@ -9,6 +9,7 @@ import type { CreateTemplateOptionsType } from '../../../app/menu';
 import { createTemplate } from '../../../app/menu';
 import { load as loadLocale } from '../../../app/locale';
 import type { MenuListType } from '../../types/menu';
+import { HourCyclePreference } from '../../types/I18N';
 
 const forceUpdate = stub();
 const openArtCreator = stub();
@@ -198,6 +199,7 @@ const PLATFORMS = [
 describe('createTemplate', () => {
   const { i18n } = loadLocale({
     preferredSystemLocales: ['en'],
+    hourCyclePreference: HourCyclePreference.UnknownPreference,
     logger: {
       fatal: stub().throwsArg(0),
       error: stub().throwsArg(0),

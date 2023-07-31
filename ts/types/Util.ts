@@ -5,7 +5,7 @@ import type { IntlShape } from 'react-intl';
 import type { UUIDStringType } from './UUID';
 import type { LocaleDirection } from '../../app/locale';
 
-import type { LocaleMessagesType } from './I18N';
+import type { HourCyclePreference, LocaleMessagesType } from './I18N';
 
 export type StoryContextType = {
   authorUuid?: UUIDStringType;
@@ -28,6 +28,7 @@ export type LocalizerType = {
   getLocale(): string;
   getLocaleMessages(): LocaleMessagesType;
   getLocaleDirection(): LocaleDirection;
+  getHourCyclePreference(): HourCyclePreference;
 };
 
 export enum SentMediaQualityType {

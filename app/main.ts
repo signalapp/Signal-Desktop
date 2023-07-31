@@ -122,6 +122,7 @@ import type { LocaleType } from './locale';
 import { load as loadLocale } from './locale';
 
 import type { LoggerType } from '../ts/types/Logging';
+import { HourCyclePreference } from '../ts/types/I18N';
 
 const STICKER_CREATOR_PARTITION = 'sticker-creator';
 
@@ -406,6 +407,19 @@ function getResolvedMessagesLocale(): LocaleType {
   }
 
   return resolvedTranslationsLocale;
+}
+
+function getHourCyclePreference(): HourCyclePreference {
+  if (process.platform !== 'darwin') {
+    return HourCyclePreference.UnknownPreference;
+  }
+  if (systemPreferences.getUserDefault('AppleICUForce24HourTime', 'boolean')) {
+    return HourCyclePreference.Prefer24;
+  }
+  if (systemPreferences.getUserDefault('AppleICUForce12HourTime', 'boolean')) {
+    return HourCyclePreference.Prefer12;
+  }
+  return HourCyclePreference.UnknownPreference;
 }
 
 type PrepareUrlOptions = {
@@ -1686,6 +1700,9 @@ app.on('ready', async () => {
       loadPreferredSystemLocales()
     );
 
+    const hourCyclePreference = getHourCyclePreference();
+    logger.info(`app.ready: hour cycle preference: ${hourCyclePreference}`);
+
     logger.info(
       `app.ready: preferred system locales: ${preferredSystemLocales.join(
         ', '
@@ -1693,6 +1710,7 @@ app.on('ready', async () => {
     );
     resolvedTranslationsLocale = loadLocale({
       preferredSystemLocales,
+      hourCyclePreference,
       logger: getLogger(),
     });
   }
@@ -2264,6 +2282,7 @@ ipc.on('get-config', async event => {
     name: packageJson.productName,
     resolvedTranslationsLocale: getResolvedMessagesLocale().name,
     resolvedTranslationsLocaleDirection: getResolvedMessagesLocale().direction,
+    hourCyclePreference: getResolvedMessagesLocale().hourCyclePreference,
     preferredSystemLocales: getPreferredSystemLocales(),
     version: app.getVersion(),
     buildCreation: config.get<number>('buildCreation'),

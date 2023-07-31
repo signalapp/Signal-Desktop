@@ -105,6 +105,9 @@ export function setupI18n(
   localizer.getLocaleDirection = () => {
     return window.getResolvedMessagesLocaleDirection();
   };
+  localizer.getHourCyclePreference = () => {
+    return window.getHourCyclePreference();
+  };
 
   return localizer;
 }

@@ -9,6 +9,7 @@ import { useRestoreFocus } from '../../hooks/useRestoreFocus';
 import type { StickerPackType, StickerType } from '../../state/ducks/stickers';
 import type { LocalizerType } from '../../types/Util';
 import { getAnalogTime } from '../../util/getAnalogTime';
+import { getDateTimeFormatter } from '../../util/formatTimestamp';
 
 export type OwnProps = {
   readonly i18n: LocalizerType;
@@ -322,13 +323,10 @@ export const StickerPicker = React.memo(
                           className="module-sticker-picker__body__cell module-sticker-picker__time--digital"
                           onClick={() => onPickTimeSticker('digital')}
                         >
-                          {new Intl.DateTimeFormat(
-                            window.getPreferredSystemLocales(),
-                            {
-                              hour: 'numeric',
-                              minute: 'numeric',
-                            }
-                          )
+                          {getDateTimeFormatter({
+                            hour: 'numeric',
+                            minute: 'numeric',
+                          })
                             .formatToParts(Date.now())
                             .filter(x => x.type !== 'dayPeriod')
                             .reduce((acc, { value }) => `${acc}${value}`, '')}
