@@ -399,12 +399,14 @@ export class Timeline extends React.Component<
         const newestBottomVisibleMessageId =
           getMessageIdFromElement(newestBottomVisible);
 
-        this.setState({
+        this.updatePartiallyVisibleMessageIds(
           oldestPartiallyVisibleMessageId,
-          newestBottomVisibleMessageId,
-        });
+          newestBottomVisibleMessageId
+        );
 
-        setIsNearBottom(id, newIsNearBottom);
+        if (this.props.isNearBottom !== newIsNearBottom) {
+          setIsNearBottom(id, newIsNearBottom);
+        }
 
         if (newestBottomVisibleMessageId) {
           this.markNewestBottomVisibleMessageRead();
@@ -460,6 +462,19 @@ export class Timeline extends React.Component<
     }
     this.intersectionObserver.observe(atBottomDetectorEl);
   }
+
+  private updatePartiallyVisibleMessageIds = throttle(
+    (
+      oldestPartiallyVisibleMessageId: string | undefined,
+      newestBottomVisibleMessageId: string | undefined
+    ) => {
+      this.setState({
+        oldestPartiallyVisibleMessageId,
+        newestBottomVisibleMessageId,
+      });
+    },
+    100
+  );
 
   private markNewestBottomVisibleMessageRead = throttle((): void => {
     const { id, markMessageRead } = this.props;
