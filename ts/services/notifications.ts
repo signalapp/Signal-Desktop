@@ -199,30 +199,33 @@ class NotificationService extends EventEmitter {
         tag: messageId,
       });
 
-      // Note: this maps to the xmlTemplate() function in app/WindowsNotifications.ts
-      if (
-        type === NotificationType.Message ||
-        type === NotificationType.Reaction
-      ) {
-        window.IPC.showWindow();
-        window.Events.showConversationViaNotification({
-          conversationId,
-          messageId,
-          storyId,
-        });
-      } else if (type === NotificationType.IncomingGroupCall) {
-        window.IPC.showWindow();
-        window.reduxActions?.calling?.startCallingLobby({
-          conversationId,
-          isVideoCall: true,
-        });
-      } else if (type === NotificationType.IsPresenting) {
-        window.reduxActions?.calling?.setPresenting();
-      } else if (type === NotificationType.IncomingCall) {
-        window.IPC.showWindow();
-      } else {
-        throw missingCaseError(type);
-      }
+      notification.onclick = () => {
+        // Note: this maps to the xmlTemplate() function in app/WindowsNotifications.ts
+        if (
+          type === NotificationType.Message ||
+          type === NotificationType.Reaction
+        ) {
+          window.IPC.showWindow();
+          window.Events.showConversationViaNotification({
+            conversationId,
+            messageId,
+            storyId,
+          });
+        } else if (type === NotificationType.IncomingGroupCall) {
+          window.IPC.showWindow();
+          window.reduxActions?.calling?.startCallingLobby({
+            conversationId,
+            isVideoCall: true,
+          });
+        } else if (type === NotificationType.IsPresenting) {
+          window.reduxActions?.calling?.setPresenting();
+        } else if (type === NotificationType.IncomingCall) {
+          window.IPC.showWindow();
+        } else {
+          throw missingCaseError(type);
+        }
+      };
+
       this.lastNotification = notification;
     }
 
