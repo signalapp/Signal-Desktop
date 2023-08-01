@@ -8,6 +8,9 @@ import type { LocaleMessageType, LocaleMessagesType } from '../types/I18N';
 import type { LocalizerType } from '../types/Util';
 import { strictAssert } from './assert';
 import { Emojify } from '../components/conversation/Emojify';
+import * as log from '../logging/log';
+import * as Errors from '../types/errors';
+import { Environment, getEnvironment } from '../environment';
 
 export function isLocaleMessageType(
   value: unknown
@@ -51,6 +54,21 @@ export function createCachedIntl(
       messages: icuMessages,
       defaultRichTextElements: {
         emojify: renderEmojify,
+      },
+      onError(error) {
+        log.error('intl.onError', Errors.toLogFormat(error));
+      },
+      onWarn(warning) {
+        if (
+          getEnvironment() === Environment.Test &&
+          warning.includes(
+            // This warning is very noisy during tests
+            '"defaultRichTextElements" was specified but "message" was not pre-compiled.'
+          )
+        ) {
+          return;
+        }
+        log.warn('intl.onWarn', warning);
       },
     },
     intlCache
