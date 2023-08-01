@@ -1338,10 +1338,6 @@
     "messageformat": "ಅಳಿಸಿ",
     "description": "Menu item for deleting messages, title case."
   },
-  "icu:deleteConversationConfirmation": {
-    "messageformat": "ಶಾಶ್ವತವಾಗಿ ಈ ಚಾಟ್ ಅನ್ನು ಅಳಿಸಬೇಕೇ?",
-    "description": "(deleted 06/27/2023) Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
-  },
   "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
     "messageformat": "ಚಾಟ್ ಅಳಿಸಬೇಕೆ?",
     "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
@@ -5256,6 +5252,18 @@
     "messageformat": "ಯೂಸರ್‌ನೇಮ್",
     "description": "Default text for username field"
   },
+  "icu:ProfileEditor__username-link": {
+    "messageformat": "QR code or link",
+    "description": "Label of a profile editor row that navigates to username link and qr code modal"
+  },
+  "icu:ProfileEditor__username-link__tooltip__title": {
+    "messageformat": "Share your username",
+    "description": "Title of tooltip displayed under 'QR code or link' button for getting username link"
+  },
+  "icu:ProfileEditor__username-link__tooltip__body": {
+    "messageformat": "Let others start a chat with you by sharing your unique QR code or link.",
+    "description": "Body of tooltip displayed under 'QR code or link' button for getting username link"
+  },
   "icu:ProfileEditor--username--title": {
     "messageformat": "ನಿಮ್ಮ ಯೂಸರ್‌ನೇಮ್ ಆಯ್ಕೆ ಮಾಡಿಕೊಳ್ಳಿ",
     "description": "Title text for username modal"
@@ -5314,6 +5322,10 @@
   },
   "icu:ProfileEditor--username--confirm-delete-body": {
     "messageformat": "ಇದು ನಿಮ್ಮ ಯೂಸರ್‌ನೇಮ್ ಅನ್ನು ತೆಗೆದುಹಾಕಲಿದೆ, ಇದನ್ನು ಬೇರೆ ಬಳಕೆದಾರರು ಕ್ಲೈಮ್ ಮಾಡಲು ಅವಕಾಶ ನೀಡಲಾಗುತ್ತದೆ. ನೀವು ಖಚಿತವಾಗಿದ್ದೀರಾ?",
+    "description": "(deleted 07/10/2023) Shown in dialog body if user has saved an empty string to delete their username"
+  },
+  "icu:ProfileEditor--username--confirm-delete-body-2": {
+    "messageformat": "This will remove your username and disable your QR code and link. “{username}” will be available for others to claim. Are you sure?",
     "description": "Shown in dialog body if user has saved an empty string to delete their username"
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
@@ -6492,6 +6504,42 @@
     "messageformat": "ಈ ಅಂಕಿಗಳು ನಿಮ್ಮ ಯೂಸರ್‌ನೇಮ್ ಅನ್ನು ಗೌಪ್ಯವಾಗಿರಿಸಲು ಸಹಾಯವಾಗುತ್ತವೆ, ಹಾಗಾಗಿ ನೀವು ಅನಪೇಕ್ಷಿತ ಮೆಸೇಜ್‌ಗಳನ್ನು ತಪ್ಪಿಸಬಹುದು. ನೀವು ಚಾಟ್ ಮಾಡಲು ಬಯಸುವ ಜನರು ಮತ್ತು ಗ್ರೂಪ್‌ಗಳೊಂದಿಗೆ ಮಾತ್ರ ನಿಮ್ಮ ಯೂಸರ್‌ನೇಮ್ ಹಂಚಿಕೊಳ್ಳಿ. ಯೂಸರ್‌ನೇಮ್‌ಗಳನ್ನು ನೀವು ಬದಲಾಯಿಸಿದರೆ ಅಂಕಿಗಳ ಹೊಸ ಸೆಟ್ ಅನ್ನು ನೀವು ಪಡೆಯುತ್ತೀರಿ.",
     "description": "Body of the popup with information about discriminator in username"
   },
+  "icu:EditUsernameModalBody__change-confirmation": {
+    "messageformat": "Changing your username will reset your existing QR code and link. Are you sure?",
+    "description": "Body of the confirmation dialog displayed when user is about to change their username"
+  },
+  "icu:EditUsernameModalBody__change-confirmation__continue": {
+    "messageformat": "ಮುಂದುವರಿಸಿ",
+    "description": "Text of the primary button on username change confirmation modal"
+  },
+  "icu:UsernameLinkModalBody__save": {
+    "messageformat": "ಉಳಿಸಿ",
+    "description": "Name of the button for saving username link QR code to disk in the username link modal"
+  },
+  "icu:UsernameLinkModalBody__color": {
+    "messageformat": "ಬಣ್ಣ",
+    "description": "Name of the button for changing the username link QR code color in the username link modal"
+  },
+  "icu:UsernameLinkModalBody__copy": {
+    "messageformat": "ಕ್ಲಿಪ್‌ಬೋರ್ಡ್‌ಗೆ ನಕಲಿಸು",
+    "description": "ARIA label of the button for copying the username link to clipboard in the username link modal"
+  },
+  "icu:UsernameLinkModalBody__help": {
+    "messageformat": "Only share your QR code and link with people you trust. When shared others will be able to view your username and start a chat with you.",
+    "description": "Text of disclaimer at the bottom of the username link modal"
+  },
+  "icu:UsernameLinkModalBody__reset": {
+    "messageformat": "ಮರುಹೊಂದಿಸಿ",
+    "description": "Text of button at the bottom of the username link modal"
+  },
+  "icu:UsernameLinkModalBody__color__radio": {
+    "messageformat": "Username link color, {index,number} of {total,number}",
+    "description": "ARIA label of button for selecting username link color"
+  },
+  "icu:UsernameLinkModalBody__reset__confirm": {
+    "messageformat": "If you reset your QR code, your existing QR code and link will no longer work.",
+    "description": "Text of confirmation modal when resetting the username link"
+  },
   "icu:UsernameOnboardingModalBody__title": {
     "messageformat": "ನಿಮ್ಮ Signal ಯೂಸರ್‌ನೇಮ್ ಅನ್ನು ಸೆಟಪ್ ಮಾಡಿ",
     "description": "Title of username onboarding modal"
@@ -6501,7 +6549,7 @@
     "description": "Content of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__link": {
-    "messageformat": "ಪ್ರತಿ ಯೂಸರ್‌ನೇಮ್ ಒಂದು ಅನನ್ಯ ಲಿಂಕ್ ಹೊಂದಿದ್ದು, ಅವುಗಳನ್ನು ನಿಮ್ಮ ಸ್ನೇಹಿತರಿಗೆ ಹಂಚಿಕೊಂಡಾಗ ಅವರು ನಿಮ್ಮೊಂದಿಗೆ ಚಾಟ್ ಮಾಡಲು ಆರಂಭಿಸಬಹುದು",
+    "messageformat": "ಪ್ರತಿ ಯೂಸರ್‌ನೇಮ್ ಒಂದು ವಿಶಿಷ್ಟ QR ಕೋಡ್ ಮತ್ತು ಲಿಂಕ್ ಹೊಂದಿರುತ್ತದೆ, ನಿಮ್ಮೊಂದಿಗೆ ಸ್ನೇಹಿತರು ಚಾಟ್ ಆರಂಭಿಸಲು ಅದನ್ನು ಅವರೊಂದಿಗೆ ಹಂಚಿಕೊಳ್ಳಬಹುದು",
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
@@ -6576,13 +6624,10 @@
     "messageformat": "ಸಣ್ಣ ಟ್ವೀಕ್‌ಗಳು, ಬಗ್ ಫಿಕ್ಸ್‌ಗಳು ಮತ್ತು ಕಾರ್ಯಕ್ಷಮತೆ ವರ್ಧನೆಗಳು. Signal ಬಳಸುತ್ತಿರುವುದಕ್ಕಾಗಿ ಧನ್ಯವಾದಗಳು!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.26--0": {
-    "messageformat": "ಉಚ್ಚಾರ ಚಿಹ್ನೆಗಳು (ಒತ್ತು ಚಿಹ್ನೆಯ ಗುರುತುಗಳಂತಹ) ಈಗ @ ಉಲ್ಲೇಖಗಳಲ್ಲಿ ಬೆಂಬಲಿತವಾಗಿವೆ, ಹಾಗಾಗಿ \"ಪ್ರಾಚೀನ ಗ್ರೀಕ್ ಕಾಲದ ಯಾತ್ರಿಕರು\" ಗ್ರೂಪ್ ಚಾಟ್‌ನಲ್ಲಿ ನಿಮ್ಮ ತತ್ವಶಾಸ್ತ್ರದ ಪ್ರಶ್ನೆಗೆ ಉತ್ತರಿಸಲು Aristotélēs ಅನ್ನು ನೀವು ನೆನಪಿಸಬಹುದು."
-  },
-  "icu:WhatsNew__v6.26--1": {
-    "messageformat": "ಟ್ರಿಪಲ್ ಕ್ಲಿಕ್ ಟೆಕ್ಸ್ಟ್ ಆಯ್ಕೆಯ ಸುಧಾರಣೆಗಳಿಗಾಗಿ ಮೂರು ಮೆಚ್ಚುಗೆಗಳು. ಧನ್ಯವಾದಗಳು, {linkToGithub}!"
-  },
   "icu:WhatsNew__v6.27--0": {
     "messageformat": "ಈ ನವೀಕರಣವು ಧ್ವನಿ ಮತ್ತು ವೀಡಿಯೊ ಕರೆಗಳಿಗೆ ಕೆಲವು ಸುಧಾರಣೆಗಳನ್ನು ಒಳಗೊಂಡಿದೆ ಮತ್ತು ಕೆಲವು ಸಣ್ಣ ಡಾಕ್ಯುಮೆಂಟೇಶನ್ ನವೀಕರಣಗಳನ್ನು ಒಳಗೊಂಡಿದೆ (ಧನ್ಯವಾದಗಳು, {linkToGithub}!)."
+  },
+  "icu:WhatsNew__v6.28--0": {
+    "messageformat": "We modified the notification icons that appear for group updates, like when someone new joins a group. These icons help improve legibility, especially if you live within the darkness of the Dark Theme. The previous icons merely adopted the dark. The new icons were born in it, molded by it."
   }
 }
