@@ -202,7 +202,7 @@ describe('SwarmPolling', () => {
       await swarmPolling.start(true);
 
       expect(pollOnceForKeySpy.callCount).to.eq(1);
-      expect(pollOnceForKeySpy.firstCall.args).to.deep.eq([ourPubkey, false, [0]]);
+      expect(pollOnceForKeySpy.firstCall.args).to.deep.eq([ourPubkey, false, [0, 2, 3, 5, 4]]);
     });
 
     it('does run for our pubkey even if activeAt is recent ', async () => {
@@ -214,7 +214,7 @@ describe('SwarmPolling', () => {
       await swarmPolling.start(true);
 
       expect(pollOnceForKeySpy.callCount).to.eq(1);
-      expect(pollOnceForKeySpy.firstCall.args).to.deep.eq([ourPubkey, false, [0]]);
+      expect(pollOnceForKeySpy.firstCall.args).to.deep.eq([ourPubkey, false, [0, 2, 3, 5, 4]]);
     });
 
     describe('legacy group', () => {
@@ -231,7 +231,7 @@ describe('SwarmPolling', () => {
 
         // our pubkey will be polled for, hence the 2
         expect(pollOnceForKeySpy.callCount).to.eq(2);
-        expect(pollOnceForKeySpy.firstCall.args).to.deep.eq([ourPubkey, false, [0]]);
+        expect(pollOnceForKeySpy.firstCall.args).to.deep.eq([ourPubkey, false, [0, 2, 3, 5, 4]]);
         expect(pollOnceForKeySpy.secondCall.args).to.deep.eq([groupConvoPubkey, true, [-10]]);
       });
 
@@ -257,7 +257,7 @@ describe('SwarmPolling', () => {
 
         // our pubkey will be polled for, hence the 2
         expect(pollOnceForKeySpy.callCount).to.eq(2);
-        expect(pollOnceForKeySpy.firstCall.args).to.deep.eq([ourPubkey, false, [0]]);
+        expect(pollOnceForKeySpy.firstCall.args).to.deep.eq([ourPubkey, false, [0, 2, 3, 5, 4]]);
         expect(pollOnceForKeySpy.secondCall.args).to.deep.eq([groupConvoPubkey, true, [-10]]);
         getItemByIdStub.restore();
         getItemByIdStub = TestUtils.stubData('getItemById');
@@ -283,9 +283,9 @@ describe('SwarmPolling', () => {
         await swarmPolling.pollForAllKeys();
 
         expect(pollOnceForKeySpy.callCount).to.eq(3);
-        expect(pollOnceForKeySpy.firstCall.args).to.deep.eq([ourPubkey, false, [0]]);
+        expect(pollOnceForKeySpy.firstCall.args).to.deep.eq([ourPubkey, false, [0, 2, 3, 5, 4]]);
         expect(pollOnceForKeySpy.secondCall.args).to.deep.eq([groupConvoPubkey, true, [-10]]);
-        expect(pollOnceForKeySpy.thirdCall.args).to.deep.eq([ourPubkey, false, [0]]);
+        expect(pollOnceForKeySpy.thirdCall.args).to.deep.eq([ourPubkey, false, [0, 2, 3, 5, 4]]);
       });
 
       it('does run twice if activeAt less than one hour ', async () => {
@@ -302,7 +302,7 @@ describe('SwarmPolling', () => {
         swarmPolling.addGroupId(groupConvoPubkey);
         await swarmPolling.start(true);
         expect(pollOnceForKeySpy.callCount).to.eq(2);
-        expect(pollOnceForKeySpy.firstCall.args).to.deep.eq([ourPubkey, false, [0]]);
+        expect(pollOnceForKeySpy.firstCall.args).to.deep.eq([ourPubkey, false, [0, 2, 3, 5, 4]]);
         expect(pollOnceForKeySpy.secondCall.args).to.deep.eq([groupConvoPubkey, true, [-10]]);
         pollOnceForKeySpy.resetHistory();
         clock.tick(9000);
@@ -317,7 +317,7 @@ describe('SwarmPolling', () => {
         await sleepFor(10);
 
         expect(pollOnceForKeySpy.callCount).to.eq(2);
-        expect(pollOnceForKeySpy.firstCall.args).to.deep.eq([ourPubkey, false, [0]]);
+        expect(pollOnceForKeySpy.firstCall.args).to.deep.eq([ourPubkey, false, [0, 2, 3, 5, 4]]);
         expect(pollOnceForKeySpy.secondCall.args).to.deep.eq([groupConvoPubkey, true, [-10]]);
       });
 
@@ -347,9 +347,9 @@ describe('SwarmPolling', () => {
         await sleepFor(10);
         // we should have two more calls here, so 4 total.
         expect(pollOnceForKeySpy.callCount).to.eq(4);
-        expect(pollOnceForKeySpy.firstCall.args).to.deep.eq([ourPubkey, false, [0]]);
+        expect(pollOnceForKeySpy.firstCall.args).to.deep.eq([ourPubkey, false, [0, 2, 3, 5, 4]]);
         expect(pollOnceForKeySpy.secondCall.args).to.deep.eq([groupConvoPubkey, true, [-10]]);
-        expect(pollOnceForKeySpy.thirdCall.args).to.deep.eq([ourPubkey, false, [0]]);
+        expect(pollOnceForKeySpy.thirdCall.args).to.deep.eq([ourPubkey, false, [0, 2, 3, 5, 4]]);
         expect(pollOnceForKeySpy.getCalls()[3].args).to.deep.eq([groupConvoPubkey, true, [-10]]);
       });
 
@@ -374,7 +374,7 @@ describe('SwarmPolling', () => {
         // we should have only one more call here, the one for our direct pubkey fetch
         expect(pollOnceForKeySpy.callCount).to.eq(3);
         expect(pollOnceForKeySpy.secondCall.args).to.deep.eq([groupConvoPubkey, true, [-10]]); // this one comes from the swarmPolling.start
-        expect(pollOnceForKeySpy.thirdCall.args).to.deep.eq([ourPubkey, false, [0]]);
+        expect(pollOnceForKeySpy.thirdCall.args).to.deep.eq([ourPubkey, false, [0, 2, 3, 5, 4]]);
       });
 
       describe('multiple runs', () => {
@@ -416,10 +416,10 @@ describe('SwarmPolling', () => {
           // we have 4 calls total. 2 for our direct promises run each 5 seconds, and 2 for the group pubkey active (so run every 5 sec too)
           expect(pollOnceForKeySpy.callCount).to.eq(4);
           // first two calls are our pubkey
-          expect(pollOnceForKeySpy.firstCall.args).to.deep.eq([ourPubkey, false, [0]]);
+          expect(pollOnceForKeySpy.firstCall.args).to.deep.eq([ourPubkey, false, [0, 2, 3, 5, 4]]);
           expect(pollOnceForKeySpy.secondCall.args).to.deep.eq([groupConvoPubkey, true, [-10]]);
 
-          expect(pollOnceForKeySpy.thirdCall.args).to.deep.eq([ourPubkey, false, [0]]);
+          expect(pollOnceForKeySpy.thirdCall.args).to.deep.eq([ourPubkey, false, [0, 2, 3, 5, 4]]);
           expect(pollOnceForKeySpy.getCalls()[3].args).to.deep.eq([groupConvoPubkey, true, [-10]]);
         });
 
@@ -440,9 +440,9 @@ describe('SwarmPolling', () => {
           expect(pollOnceForKeySpy.callCount).to.eq(4);
 
           // first two calls are our pubkey
-          expect(pollOnceForKeySpy.firstCall.args).to.deep.eq([ourPubkey, false, [0]]);
+          expect(pollOnceForKeySpy.firstCall.args).to.deep.eq([ourPubkey, false, [0, 2, 3, 5, 4]]);
           expect(pollOnceForKeySpy.secondCall.args).to.deep.eq([groupConvoPubkey, true, [-10]]);
-          expect(pollOnceForKeySpy.thirdCall.args).to.deep.eq([ourPubkey, false, [0]]);
+          expect(pollOnceForKeySpy.thirdCall.args).to.deep.eq([ourPubkey, false, [0, 2, 3, 5, 4]]);
           expect(pollOnceForKeySpy.getCalls()[3].args).to.deep.eq([groupConvoPubkey, true, [-10]]);
         });
       });

@@ -1,4 +1,4 @@
-import {  Page } from '@playwright/test';
+import { Page } from '@playwright/test';
 import { clickOnMatchingText, clickOnTestIdWithText, waitForTestIdWithText } from './utils';
 
 export const leaveGroup = async (window: Page) => {

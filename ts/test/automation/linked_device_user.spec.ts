@@ -83,10 +83,10 @@ test('Check profile picture syncs', async () => {
 
   await waitForTestIdWithText(windowA, 'copy-button-profile-update', 'Copy');
   await clickOnTestIdWithText(windowA, 'modal-close-button');
-
-  await sleepFor(500);
+  // TODO this test should retry a few times for the avatar to match
+  await sleepFor(500, true);
   const leftpaneAvatarContainer = await waitForTestIdWithText(windowB, 'leftpane-primary-avatar');
-  await sleepFor(500);
+  await sleepFor(500, true);
   const screenshot = await leftpaneAvatarContainer.screenshot({
     type: 'jpeg',
     // path: 'avatar-updated-blue',
