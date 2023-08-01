@@ -314,7 +314,7 @@ export class Bootstrap {
     await fs.mkdir(ARTIFACTS_DIR, { recursive: true });
 
     const normalizedPrefix = pathPrefix
-      ? `-${normalizePath(pathPrefix.replace(/[ /]/g, '-'))}-`
+      ? `-${normalizePath(pathPrefix.replace(/[^a-z]+/gi, '-'))}-`
       : '';
     const outDir = await fs.mkdtemp(
       path.join(ARTIFACTS_DIR, `logs-${normalizedPrefix}`)
