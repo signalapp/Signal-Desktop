@@ -86,6 +86,8 @@
     "@formatjs/intl-localematcher": "0.2.32",
     "@indutny/frameless-titlebar": "2.3.5",
     "@indutny/sneequals": "4.0.0",
+    "@nodert-win10-rs4/windows.data.xml.dom": "0.4.4",
+    "@nodert-win10-rs4/windows.ui.notifications": "0.4.4",
     "@popperjs/core": "2.11.6",
     "@react-spring/web": "9.5.5",
     "@signalapp/better-sqlite3": "8.4.3",
@@ -175,6 +177,7 @@
     "uuid": "3.3.2",
     "uuid-browser": "3.1.0",
     "websocket": "1.0.34",
+    "windows-dummy-keystroke": "git+https://git@github.com/scottnonnenberg-signal/windows-dummy-keystroke.git#2227c50613020d0bb5d8d1921c96d2b9b4476291",
     "zod": "3.5.1"
   },
   "devDependencies": {
@@ -502,6 +505,9 @@
       "node_modules/@signalapp/ringrtc/build/${platform}/*${arch}*.node",
       "node_modules/mac-screen-capture-permissions/build/Release/*.node",
       "node_modules/fs-xattr/build/Release/*.node",
+      "node_modules/@nodert-win10-rs4/windows.data.xml.dom/build/Release/*.node",
+      "node_modules/@nodert-win10-rs4/windows.ui.notifications/build/Release/*.node",
+      "node_modules/windows-dummy-keystroke/build/Release/*.node",
       "!**/node_modules/react-dom/*/*.development.js",
       "!node_modules/mp4box/**",
       "node_modules/mp4box/package.json",

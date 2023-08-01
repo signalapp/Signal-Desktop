@@ -32,11 +32,13 @@ import {
 import {
   FALLBACK_NOTIFICATION_TITLE,
   NotificationSetting,
+  NotificationType,
   notificationService,
 } from '../../services/notifications';
 import * as log from '../../logging/log';
 import { getPreferredBadgeSelector } from '../selectors/badges';
 import { isConversationTooBigToRing } from '../../conversations/isConversationTooBigToRing';
+import { strictAssert } from '../../util/assert';
 
 function renderDeviceSelection(): JSX.Element {
   return <SmartCallingDeviceSelection />;
@@ -50,6 +52,7 @@ const getGroupCallVideoFrameSource =
   callingService.getGroupCallVideoFrameSource.bind(callingService);
 
 async function notifyForCall(
+  conversationId: string,
   title: string,
   isVideoCall: boolean
 ): Promise<void> {
@@ -78,20 +81,23 @@ async function notifyForCall(
       break;
   }
 
+  const conversation = window.ConversationController.get(conversationId);
+  strictAssert(conversation, 'notifyForCall: conversation not found');
+
+  const { url, absolutePath } = await conversation.getAvatarOrIdenticon();
+
   notificationService.notify({
+    conversationId,
     title: notificationTitle,
-    icon: isVideoCall
-      ? 'images/icons/v3/video/video-fill.svg'
-      : 'images/icons/v3/phone/phone-fill.svg',
+    iconPath: absolutePath,
+    iconUrl: url,
     message: isVideoCall
       ? window.i18n('icu:incomingVideoCall')
       : window.i18n('icu:incomingAudioCall'),
-    onNotificationClick: () => {
-      window.IPC.showWindow();
-    },
     sentAt: 0,
     // The ringtone plays so we don't need sound for the notification
     silent: true,
+    type: NotificationType.IncomingCall,
   });
 }
 

@@ -82,7 +82,10 @@ import type { DraftBodyRanges } from '../types/BodyRange';
 import { BodyRange } from '../types/BodyRange';
 import { migrateColor } from '../util/migrateColor';
 import { isNotNil } from '../util/isNotNil';
-import { notificationService } from '../services/notifications';
+import {
+  NotificationType,
+  notificationService,
+} from '../services/notifications';
 import { storageServiceUploadJob } from '../services/storage';
 import { scheduleOptimizeFTS } from '../services/ftsOptimizer';
 import { getSendOptions } from '../util/getSendOptions';
@@ -158,6 +161,7 @@ import { getQuoteAttachment } from '../util/makeQuote';
 import { deriveProfileKeyVersion } from '../util/zkgroup';
 import { incrementMessageCounter } from '../util/incrementMessageCounter';
 import { validateTransition } from '../util/callHistoryDetails';
+import OS from '../util/os/osMain';
 
 /* eslint-disable more/no-then */
 window.Whisper = window.Whisper || {};
@@ -167,6 +171,7 @@ const {
   deleteAttachmentData,
   doesAttachmentExist,
   getAbsoluteAttachmentPath,
+  getAbsoluteTempPath,
   readStickerData,
   upgradeMessageSchema,
   writeNewAttachmentData,
@@ -198,9 +203,10 @@ const ATTRIBUTES_THAT_DONT_INVALIDATE_PROPS_CACHE = new Set([
 ]);
 
 type CachedIdenticon = {
-  readonly url: string;
-  readonly content: string;
   readonly color: AvatarColorType;
+  readonly text?: string;
+  readonly path?: string;
+  readonly url: string;
 };
 
 export class ConversationModel extends window.Backbone
@@ -5123,17 +5129,7 @@ export class ConversationModel extends window.Backbone
           group: this.getTitle(),
         });
 
-    let notificationIconUrl;
-    const avatarPath = getAvatarPath(this.attributes);
-    if (avatarPath) {
-      notificationIconUrl = getAbsoluteAttachmentPath(avatarPath);
-    } else if (isMessageInDirectConversation) {
-      notificationIconUrl = await this.getIdenticon();
-    } else {
-      // Not technically needed, but helps us be explicit: we don't show an icon for a
-      //   group that doesn't have an icon.
-      notificationIconUrl = undefined;
-    }
+    const { url, absolutePath } = await this.getAvatarOrIdenticon();
 
     const messageJSON = message.toJSON();
     const messageId = message.id;
@@ -5145,31 +5141,86 @@ export class ConversationModel extends window.Backbone
       storyId: isMessageInDirectConversation
         ? undefined
         : message.get('storyId'),
-      notificationIconUrl,
+      notificationIconUrl: url,
+      notificationIconAbsolutePath: absolutePath,
       isExpiringMessage,
       message: message.getNotificationText(),
       messageId,
       reaction: reaction ? reaction.toJSON() : null,
       sentAt: message.get('timestamp'),
+      type: reaction ? NotificationType.Reaction : NotificationType.Message,
     });
   }
 
-  private async getIdenticon(): Promise<string> {
+  async getAvatarOrIdenticon(): Promise<{
+    url: string;
+    absolutePath?: string;
+  }> {
+    const avatarPath = getAvatarPath(this.attributes);
+    if (avatarPath) {
+      return {
+        url: getAbsoluteAttachmentPath(avatarPath),
+        absolutePath: getAbsoluteAttachmentPath(avatarPath),
+      };
+    }
+
+    const { url, path } = await this.getIdenticon({
+      saveToDisk: OS.isWindows(),
+    });
+    return {
+      url,
+      absolutePath: path ? getAbsoluteTempPath(path) : undefined,
+    };
+  }
+
+  private async getIdenticon({
+    saveToDisk,
+  }: { saveToDisk?: boolean } = {}): Promise<{
+    url: string;
+    path?: string;
+  }> {
+    const isContact = isDirectConversation(this.attributes);
     const color = this.getColor();
     const title = this.getTitle();
 
-    const content = (title && getInitials(title)) || '#';
+    if (isContact) {
+      const text = (title && getInitials(title)) || '#';
 
-    const cached = this.cachedIdenticon;
-    if (cached && cached.content === content && cached.color === color) {
-      return cached.url;
+      const cached = this.cachedIdenticon;
+      if (cached && cached.text === text && cached.color === color) {
+        return { ...cached };
+      }
+
+      const { url, path } = await createIdenticon(
+        color,
+        {
+          type: 'contact',
+          text,
+        },
+        {
+          saveToDisk,
+        }
+      );
+
+      this.cachedIdenticon = { text, color, url, path };
+      return { url, path };
     }
 
-    const url = await createIdenticon(color, content);
+    const cached = this.cachedIdenticon;
+    if (cached && cached.color === color) {
+      return { ...cached };
+    }
 
-    this.cachedIdenticon = { content, color, url };
+    const { url, path } = await createIdenticon(
+      color,
+      { type: 'group' },
+      {
+        saveToDisk,
+      }
+    );
 
-    return url;
+    this.cachedIdenticon = { color, url, path };
+    return { url, path };
   }
 
   notifyTyping(options: {

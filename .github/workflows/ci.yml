@@ -173,8 +173,12 @@ jobs:
 
   windows:
     needs: lint
-    runs-on: windows-latest
+    runs-on: windows-2019
     timeout-minutes: 30
+
+    env:
+      BUILD_LOCATION: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Enterprise\\VC\\Tools\\MSVC\\14.29.30133\\lib\\x86\\store\\references\\"
+      SDK_LOCATION: "C:\\Program Files (x86)\\Windows Kits\\10\\UnionMetadata\\10.0.17134.0"
 
     steps:
     - run: systeminfo
@@ -185,6 +189,12 @@ jobs:
       with:
         node-version: '18.15.0'
     - run: npm install -g yarn@1.22.10
+    
+    # Set things up so @nodert-win10-rs4 dependencies build properly
+    - run: dir "$env:BUILD_LOCATION"
+    - run: dir "$env:SDK_LOCATION"
+    - run: "copy \"$env:BUILD_LOCATION\\platform.winmd\" \"$env:SDK_LOCATION\""
+    - run: dir "$env:SDK_LOCATION"
 
     - name: Cache Desktop node_modules
       id: cache-desktop-modules
@@ -196,6 +206,7 @@ jobs:
       if: steps.cache-desktop-modules.outputs.cache-hit != 'true'
       run: yarn install --frozen-lockfile
       env:
+        CHILD_CONCURRENCY: 1 
         NPM_CONFIG_LOGLEVEL: verbose
 
     - run: yarn generate

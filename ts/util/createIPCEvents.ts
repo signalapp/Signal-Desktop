@@ -43,6 +43,8 @@ import { lookupConversationWithoutUuid } from './lookupConversationWithoutUuid';
 import * as log from '../logging/log';
 import { deleteAllMyStories } from './deleteAllMyStories';
 import { isEnabled } from '../RemoteConfig';
+import type { NotificationClickData } from '../services/notifications';
+import { StoryViewModeType, StoryViewTargetType } from '../types/Stories';
 
 type SentMediaQualityType = 'standard' | 'high';
 type ThemeType = 'light' | 'dark' | 'system';
@@ -115,6 +117,7 @@ export type IPCEventsCallbacksType = {
   removeDarkOverlay: () => void;
   resetAllChatColors: () => void;
   resetDefaultChatColor: () => void;
+  showConversationViaNotification: (data: NotificationClickData) => void;
   showConversationViaSignalDotMe: (hash: string) => Promise<void>;
   showKeyboardShortcuts: () => void;
   showGroupViaLink: (x: string) => Promise<void>;
@@ -508,6 +511,29 @@ export function createIPCEvents(
           title: window.i18n('icu:GroupV2--join--general-join-failure--title'),
           description: window.i18n('icu:GroupV2--join--general-join-failure'),
         });
+      }
+    },
+
+    showConversationViaNotification({
+      conversationId,
+      messageId,
+      storyId,
+    }: NotificationClickData) {
+      if (conversationId) {
+        if (storyId) {
+          window.reduxActions.stories.viewStory({
+            storyId,
+            storyViewMode: StoryViewModeType.Single,
+            viewTarget: StoryViewTargetType.Replies,
+          });
+        } else {
+          window.reduxActions.conversations.showConversation({
+            conversationId,
+            messageId,
+          });
+        }
+      } else {
+        window.reduxActions.app.openInbox();
       }
     },
     async showConversationViaSignalDotMe(hash: string) {

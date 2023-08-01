@@ -41,7 +41,11 @@ export type PropsType = {
   >;
   bounceAppIconStart(): unknown;
   bounceAppIconStop(): unknown;
-  notifyForCall(conversationTitle: string, isVideoCall: boolean): unknown;
+  notifyForCall(
+    conversationId: string,
+    conversationTitle: string,
+    isVideoCall: boolean
+  ): unknown;
 } & (
   | {
       callMode: CallMode.Direct;
@@ -217,8 +221,8 @@ export function IncomingCallBar(props: PropsType): JSX.Element | null {
   const initialTitleRef = useRef<string>(title);
   useEffect(() => {
     const initialTitle = initialTitleRef.current;
-    notifyForCall(initialTitle, isVideoCall);
-  }, [isVideoCall, notifyForCall]);
+    notifyForCall(conversationId, initialTitle, isVideoCall);
+  }, [conversationId, isVideoCall, notifyForCall]);
 
   useEffect(() => {
     bounceAppIconStart();

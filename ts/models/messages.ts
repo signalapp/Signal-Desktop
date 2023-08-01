@@ -118,7 +118,10 @@ import {
   conversationJobQueue,
   conversationQueueJobEnum,
 } from '../jobs/conversationJobQueue';
-import { notificationService } from '../services/notifications';
+import {
+  NotificationType,
+  notificationService,
+} from '../services/notifications';
 import type {
   LinkPreviewType,
   LinkPreviewWithHydratedData,
@@ -1445,6 +1448,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         : window.i18n('icu:Stories__failed-send--full'),
       isExpiringMessage: false,
       sentAt: this.get('timestamp'),
+      type: NotificationType.Message,
     });
   }
 

@@ -81,7 +81,7 @@ import * as bounce from '../ts/services/bounce';
 import * as updater from '../ts/updater/index';
 import { updateDefaultSession } from './updateDefaultSession';
 import { PreventDisplaySleepService } from './PreventDisplaySleepService';
-import { SystemTrayService } from './SystemTrayService';
+import { SystemTrayService, focusAndForceToTop } from './SystemTrayService';
 import { SystemTraySettingCache } from './SystemTraySettingCache';
 import {
   SystemTraySetting,
@@ -208,6 +208,20 @@ const CLI_LANG = cliOptions.lang as string | undefined;
 
 setupCrashReports(getLogger, FORCE_ENABLE_CRASH_REPORTS);
 
+let sendDummyKeystroke: undefined | (() => void);
+if (OS.isWindows()) {
+  try {
+    // eslint-disable-next-line global-require, @typescript-eslint/no-var-requires
+    const windowsNotifications = require('./WindowsNotifications');
+    sendDummyKeystroke = windowsNotifications.sendDummyKeystroke;
+  } catch (error) {
+    getLogger().error(
+      'Failed to initalize Windows Notifications:',
+      error.stack
+    );
+  }
+}
+
 function showWindow() {
   if (!mainWindow) {
     return;
@@ -218,7 +232,7 @@ function showWindow() {
   //   the window to reposition:
   //   https://github.com/signalapp/Signal-Desktop/issues/1429
   if (mainWindow.isVisible()) {
-    mainWindow.focus();
+    focusAndForceToTop(mainWindow);
   } else {
     mainWindow.show();
   }
@@ -232,6 +246,10 @@ if (!process.mas) {
     app.exit();
   } else {
     app.on('second-instance', (_e: Electron.Event, argv: Array<string>) => {
+      // Workaround to let AllowSetForegroundWindow succeed.
+      // See https://www.npmjs.com/package/windows-dummy-keystroke for a full explanation of why this is needed.
+      sendDummyKeystroke?.();
+
       // Someone tried to run a second instance, we should focus our window
       if (mainWindow) {
         if (mainWindow.isMinimized()) {
@@ -2316,9 +2334,12 @@ ipc.on('get-config', async event => {
     serverTrustRoot: config.get<string>('serverTrustRoot'),
     theme,
     appStartInitialSpellcheckSetting,
-    userDataPath: app.getPath('userData'),
-    homePath: app.getPath('home'),
+
+    // paths
     crashDumpsPath: app.getPath('crashDumps'),
+    homePath: app.getPath('home'),
+    installPath: app.getAppPath(),
+    userDataPath: app.getPath('userData'),
 
     directoryConfig: directoryConfig.data,
 
@@ -2442,6 +2463,30 @@ function handleSgnlHref(incomingHref: string) {
     } else if (command === 'signal.me' && hash) {
       getLogger().info('Showing conversation from sgnl protocol link');
       mainWindow.webContents.send('show-conversation-via-signal.me', { hash });
+    } else if (
+      command === 'show-conversation' &&
+      args &&
+      args.get('conversationId')
+    ) {
+      getLogger().info('Showing conversation from notification');
+      mainWindow.webContents.send('show-conversation-via-notification', {
+        conversationId: args.get('conversationId'),
+        messageId: args.get('messageId'),
+        storyId: args.get('storyId'),
+      });
+    } else if (
+      command === 'start-call-lobby' &&
+      args &&
+      args.get('conversationId')
+    ) {
+      getLogger().info('Starting call lobby from notification');
+      mainWindow.webContents.send('start-call-lobby', {
+        conversationId: args.get('conversationId'),
+      });
+    } else if (command === 'show-window') {
+      mainWindow.webContents.send('show-window');
+    } else if (command === 'set-is-presenting') {
+      mainWindow.webContents.send('set-is-presenting');
     } else {
       getLogger().info('Showing warning that we cannot process link');
       mainWindow.webContents.send('unknown-sgnl-link');

@@ -44,7 +44,7 @@ export type MinimalSignalContextType = {
   getMainWindowStats: () => Promise<MainWindowStatsType>;
   getMenuOptions: () => Promise<MenuOptionsType>;
   getNodeVersion: () => string;
-  getPath: (name: 'userData' | 'home') => string;
+  getPath: (name: 'userData' | 'home' | 'install') => string;
   getVersion: () => string;
   nativeThemeListener: NativeThemeType;
   Settings: {

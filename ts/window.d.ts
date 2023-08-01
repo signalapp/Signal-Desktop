@@ -57,12 +57,14 @@ import type { initializeMigrations } from './signal';
 import type { RetryPlaceholders } from './util/retryPlaceholders';
 import type { PropsPreloadType as PreferencesPropsType } from './components/Preferences';
 import type { LocaleDirection } from '../app/locale';
+import type { WindowsNotificationData } from './services/notifications';
 import type { HourCyclePreference } from './types/I18N';
 
 export { Long } from 'long';
 
 export type IPCType = {
   addSetupMenuItems: () => void;
+  clearAllWindowsNotifications: () => Promise<void>;
   closeAbout: () => void;
   crashReports: {
     getCount: () => Promise<number>;
@@ -88,6 +90,7 @@ export type IPCType = {
   ) => Promise<void>;
   showSettings: () => void;
   showWindow: () => void;
+  showWindowsNotification: (data: WindowsNotificationData) => Promise<void>;
   shutdown: () => void;
   titleBarDoubleClick: () => void;
   updateSystemTraySetting: (value: SystemTraySetting) => void;

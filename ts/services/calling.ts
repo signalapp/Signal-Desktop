@@ -102,9 +102,10 @@ import {
   notificationService,
   NotificationSetting,
   FALLBACK_NOTIFICATION_TITLE,
+  NotificationType,
 } from './notifications';
 import * as log from '../logging/log';
-import { assertDev } from '../util/assert';
+import { assertDev, strictAssert } from '../util/assert';
 import { sendContentMessageToGroup, sendToGroup } from '../util/sendToGroup';
 
 const {
@@ -1240,11 +1241,11 @@ export class CallingClass {
     return presentableSources;
   }
 
-  setPresenting(
+  async setPresenting(
     conversationId: string,
     hasLocalVideo: boolean,
     source?: PresentedSource
-  ): void {
+  ): Promise<void> {
     const call = getOwn(this.callsByConversation, conversationId);
     if (!call) {
       log.warn('Trying to set presenting for a non-existent call');
@@ -1274,15 +1275,18 @@ export class CallingClass {
     this.setOutgoingVideoIsScreenShare(call, isPresenting);
 
     if (source) {
+      const conversation = window.ConversationController.get(conversationId);
+      strictAssert(conversation, 'setPresenting: conversation not found');
+
+      const { url, absolutePath } = await conversation.getAvatarOrIdenticon();
+
       ipcRenderer.send('show-screen-share', source.name);
       notificationService.notify({
-        icon: 'images/icons/v3/video/video-fill.svg',
+        conversationId,
+        iconPath: absolutePath,
+        iconUrl: url,
         message: window.i18n('icu:calling__presenting--notification-body'),
-        onNotificationClick: () => {
-          if (this.reduxInterface) {
-            this.reduxInterface.setPresenting();
-          }
-        },
+        type: NotificationType.IsPresenting,
         sentAt: 0,
         silent: true,
         title: window.i18n('icu:calling__presenting--notification-title'),
@@ -2288,14 +2292,14 @@ export class CallingClass {
       isAnybodyElseInGroupCall &&
       !conversation.isMuted()
     ) {
-      this.notifyForGroupCall(conversation, creatorConversation);
+      await this.notifyForGroupCall(conversation, creatorConversation);
     }
   }
 
-  private notifyForGroupCall(
+  private async notifyForGroupCall(
     conversation: Readonly<ConversationModel>,
     creatorConversation: undefined | Readonly<ConversationModel>
-  ): void {
+  ): Promise<void> {
     let notificationTitle: string;
     let notificationMessage: string;
 
@@ -2320,15 +2324,14 @@ export class CallingClass {
         break;
     }
 
+    const { url, absolutePath } = await conversation.getAvatarOrIdenticon();
+
     notificationService.notify({
-      icon: 'images/icons/v3/video/video-fill.svg',
+      conversationId: conversation.id,
+      iconPath: absolutePath,
+      iconUrl: url,
       message: notificationMessage,
-      onNotificationClick: () => {
-        this.reduxInterface?.startCallingLobby({
-          conversationId: conversation.id,
-          isVideoCall: true,
-        });
-      },
+      type: NotificationType.IncomingGroupCall,
       sentAt: 0,
       silent: false,
       title: notificationTitle,

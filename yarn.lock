@@ -2026,6 +2026,20 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
+"@nodert-win10-rs4/windows.data.xml.dom@0.4.4":
+  version "0.4.4"
+  resolved "https://registry.yarnpkg.com/@nodert-win10-rs4/windows.data.xml.dom/-/windows.data.xml.dom-0.4.4.tgz#84b749671e26033031c3d8324766bf9746a8b12e"
+  integrity sha512-DxnuNqQC1Fot/bLpOVqeykVGfLKXe0+staMRlh08aUYOFqSSGa4LLxhKvgCHlt65zhZJ89nip0Dw4HJSUPS2uA==
+  dependencies:
+    nan latest
+
+"@nodert-win10-rs4/windows.ui.notifications@0.4.4":
+  version "0.4.4"
+  resolved "https://registry.yarnpkg.com/@nodert-win10-rs4/windows.ui.notifications/-/windows.ui.notifications-0.4.4.tgz#7c34e179f5e57d473c4b0ca904759e476899f5df"
+  integrity sha512-C03i5bj7LdE2Ta9ei7GiTPGb54bPd+ON8xqFAFfwPEeg+KTQEtG9R8JdTfiGJACYM583KiclMT1tKq8uyfZLcA==
+  dependencies:
+    nan latest
+
 "@npmcli/fs@^1.0.0":
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@npmcli/fs/-/fs-1.1.1.tgz#72f719fe935e687c56a4faecf3c03d06ba593257"
@@ -13456,6 +13470,11 @@ nan@^2.12.1:
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.14.0.tgz#7818f722027b2459a86f0295d434d1fc2336c52c"
   integrity sha512-INOFj37C7k3AfaNTtX8RhsTw7qRy7eLET14cROi9+5HAVbbHuIWUHEauBv5qT4Av2tWasiTY1Jw6puUNqRJXQg==
 
+nan@^2.17.0, nan@latest:
+  version "2.17.0"
+  resolved "https://registry.yarnpkg.com/nan/-/nan-2.17.0.tgz#c0150a2368a182f033e9aa5195ec76ea41a199cb"
+  integrity sha512-2ZTgtl0nJsO0KQCjEpxcIr5D+Yv90plTitZt9JBfQvVJDS5seMl3FOvsh3+9CoYWXf/1l5OaZzzF6nDm4cagaQ==
+
 nanoid@3.1.25:
   version "3.1.25"
   resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.1.25.tgz#09ca32747c0e543f0e1814b7d3793477f9c8e152"
@@ -19026,6 +19045,13 @@ wildcard@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/wildcard/-/wildcard-2.0.0.tgz#a77d20e5200c6faaac979e4b3aadc7b3dd7f8fec"
   integrity sha512-JcKqAHLPxcdb9KM49dufGXn2x3ssnfjbcaQdLlfZsL9rH9wgDQjUtDxbo8NE0F6SFvydeu1VhZe7hZuHsB2/pw==
+
+"windows-dummy-keystroke@git+https://git@github.com/scottnonnenberg-signal/windows-dummy-keystroke.git#2227c50613020d0bb5d8d1921c96d2b9b4476291":
+  version "1.0.0"
+  resolved "git+https://git@github.com/scottnonnenberg-signal/windows-dummy-keystroke.git#2227c50613020d0bb5d8d1921c96d2b9b4476291"
+  dependencies:
+    bindings "^1.5.0"
+    nan "^2.17.0"
 
 word-wrap@^1.2.3:
   version "1.2.4"

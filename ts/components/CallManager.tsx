@@ -79,7 +79,11 @@ export type PropsType = {
   i18n: LocalizerType;
   isGroupCallOutboundRingEnabled: boolean;
   me: ConversationType;
-  notifyForCall: (title: string, isVideoCall: boolean) => unknown;
+  notifyForCall: (
+    conversationId: string,
+    title: string,
+    isVideoCall: boolean
+  ) => unknown;
   openSystemPreferencesAction: () => unknown;
   playRingtone: () => unknown;
   setGroupCallVideoRequest: (_: SetGroupCallVideoRequestType) => void;

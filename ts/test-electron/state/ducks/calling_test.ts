@@ -170,12 +170,22 @@ describe('calling duck', () => {
     };
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let oldEvents: any;
   beforeEach(function beforeEach() {
     this.sandbox = sinon.createSandbox();
+
+    oldEvents = window.Events;
+    window.Events = {
+      getCallRingtoneNotification: sinon.spy(),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } as any;
   });
 
   afterEach(function afterEach() {
     this.sandbox.restore();
+
+    window.Events = oldEvents;
   });
 
   describe('actions', () => {
@@ -257,7 +267,7 @@ describe('calling duck', () => {
         );
       });
 
-      it('calls setPresenting on the calling service', function test() {
+      it('calls setPresenting on the calling service', async function test() {
         const { setPresenting } = actions;
         const dispatch = sinon.spy();
         const presentedSource = {
@@ -271,7 +281,7 @@ describe('calling duck', () => {
           },
         });
 
-        setPresenting(presentedSource)(dispatch, getState, null);
+        await setPresenting(presentedSource)(dispatch, getState, null);
 
         sinon.assert.calledOnce(this.callingServiceSetPresenting);
         sinon.assert.calledWith(
@@ -282,7 +292,7 @@ describe('calling duck', () => {
         );
       });
 
-      it('dispatches SET_PRESENTING', () => {
+      it('dispatches SET_PRESENTING', async () => {
         const { setPresenting } = actions;
         const dispatch = sinon.spy();
         const presentedSource = {
@@ -296,7 +306,7 @@ describe('calling duck', () => {
           },
         });
 
-        setPresenting(presentedSource)(dispatch, getState, null);
+        await setPresenting(presentedSource)(dispatch, getState, null);
 
         sinon.assert.calledOnce(dispatch);
         sinon.assert.calledWith(dispatch, {
@@ -305,7 +315,7 @@ describe('calling duck', () => {
         });
       });
 
-      it('turns off presenting when no value is passed in', () => {
+      it('turns off presenting when no value is passed in', async () => {
         const dispatch = sinon.spy();
         const { setPresenting } = actions;
         const presentedSource = {
@@ -320,7 +330,7 @@ describe('calling duck', () => {
           },
         });
 
-        setPresenting(presentedSource)(dispatch, getState, null);
+        await setPresenting(presentedSource)(dispatch, getState, null);
 
         const action = dispatch.getCall(0).args[0];
 
@@ -336,7 +346,7 @@ describe('calling duck', () => {
         );
       });
 
-      it('sets the presenting value when one is passed in', () => {
+      it('sets the presenting value when one is passed in', async () => {
         const dispatch = sinon.spy();
         const { setPresenting } = actions;
 
@@ -347,7 +357,7 @@ describe('calling duck', () => {
           },
         });
 
-        setPresenting()(dispatch, getState, null);
+        await setPresenting()(dispatch, getState, null);
 
         const action = dispatch.getCall(0).args[0];
 

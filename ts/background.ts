@@ -167,7 +167,6 @@ import { SeenStatus } from './MessageSeenStatus';
 import MessageSender from './textsecure/SendMessage';
 import type AccountManager from './textsecure/AccountManager';
 import { onStoryRecipientUpdate } from './util/onStoryRecipientUpdate';
-import { StoryViewModeType, StoryViewTargetType } from './types/Stories';
 import { downloadOnboardingStory } from './util/downloadOnboardingStory';
 import { flushAttachmentDownloadQueue } from './util/attachmentDownloadQueue';
 import { StartupQueue } from './util/StartupQueue';
@@ -1539,27 +1538,6 @@ export async function startApp(): Promise<void> {
 
     activeWindowService.registerForActive(() => notificationService.clear());
     window.addEventListener('unload', () => notificationService.fastClear());
-
-    notificationService.on('click', (id, messageId, storyId) => {
-      window.IPC.showWindow();
-
-      if (id) {
-        if (storyId) {
-          window.reduxActions.stories.viewStory({
-            storyId,
-            storyViewMode: StoryViewModeType.Single,
-            viewTarget: StoryViewTargetType.Replies,
-          });
-        } else {
-          window.reduxActions.conversations.showConversation({
-            conversationId: id,
-            messageId,
-          });
-        }
-      } else {
-        window.reduxActions.app.openInbox();
-      }
-    });
 
     // Maybe refresh remote configuration when we become active
     activeWindowService.registerForActive(async () => {

@@ -18,6 +18,10 @@ import * as Errors from '../../types/errors';
 
 import { strictAssert } from '../../util/assert';
 import { drop } from '../../util/drop';
+import type {
+  NotificationClickData,
+  WindowsNotificationData,
+} from '../../services/notifications';
 
 // It is important to call this as early as possible
 window.i18n = SignalContext.i18n;
@@ -73,6 +77,10 @@ if (config.theme === 'light') {
 
 const IPC: IPCType = {
   addSetupMenuItems: () => ipc.send('add-setup-menu-items'),
+  clearAllWindowsNotifications: async () => {
+    log.info('show window');
+    return ipc.invoke('windows-notifications:clear-all');
+  },
   closeAbout: () => ipc.send('close-about'),
   crashReports: {
     getCount: () => ipc.invoke('crash-reports:get-count'),
@@ -114,6 +122,9 @@ const IPC: IPCType = {
   showWindow: () => {
     log.info('show window');
     ipc.send('show-window');
+  },
+  showWindowsNotification: async (data: WindowsNotificationData) => {
+    return ipc.invoke('windows-notifications:show', data);
   },
   shutdown: () => {
     log.info('shutdown');
@@ -315,6 +326,28 @@ ipc.on('authorize-art-creator', (_event, info) => {
   window.Events.authorizeArtCreator?.({ token, pubKeyBase64 });
 });
 
+ipc.on('start-call-lobby', (_event, { conversationId }) => {
+  window.reduxActions?.calling?.startCallingLobby({
+    conversationId,
+    isVideoCall: true,
+  });
+});
+ipc.on('show-window', () => {
+  window.IPC.showWindow();
+});
+ipc.on('set-is-presenting', () => {
+  window.reduxActions?.calling?.setPresenting();
+});
+
+ipc.on(
+  'show-conversation-via-notification',
+  (_event, data: NotificationClickData) => {
+    const { showConversationViaNotification } = window.Events;
+    if (showConversationViaNotification) {
+      void showConversationViaNotification(data);
+    }
+  }
+);
 ipc.on('show-conversation-via-signal.me', (_event, info) => {
   const { hash } = info;
   strictAssert(typeof hash === 'string', 'Got an invalid hash over IPC');

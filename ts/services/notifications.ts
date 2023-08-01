@@ -20,6 +20,7 @@ type NotificationDataType = Readonly<{
   messageId: string;
   message: string;
   notificationIconUrl?: undefined | string;
+  notificationIconAbsolutePath?: undefined | string;
   reaction?: {
     emoji: string;
     targetAuthorUuid: string;
@@ -28,9 +29,32 @@ type NotificationDataType = Readonly<{
   senderTitle: string;
   sentAt: number;
   storyId?: string;
+  type: NotificationType;
   useTriToneSound?: boolean;
   wasShown?: boolean;
 }>;
+
+export type NotificationClickData = Readonly<{
+  conversationId: string;
+  messageId?: string;
+  storyId?: string;
+}>;
+export type WindowsNotificationData = {
+  avatarPath?: string;
+  body: string;
+  conversationId: string;
+  heading: string;
+  messageId?: string;
+  storyId?: string;
+  type: NotificationType;
+};
+export enum NotificationType {
+  IncomingCall = 'IncomingCall',
+  IncomingGroupCall = 'IncomingGroupCall',
+  IsPresenting = 'IsPresenting',
+  Message = 'Message',
+  Reaction = 'Reaction',
+}
 
 // The keys and values don't match here. This is because the values correspond to old
 //   setting names. In the future, we may wish to migrate these to match.
@@ -126,35 +150,81 @@ class NotificationService extends EventEmitter {
    * which includes debouncing and user permission logic.
    */
   public notify({
-    icon,
+    conversationId,
+    iconUrl,
+    iconPath,
     message,
     messageId,
-    onNotificationClick,
     sentAt,
     silent,
+    storyId,
     title,
+    type,
     useTriToneSound,
   }: Readonly<{
-    icon?: string;
+    conversationId: string;
+    iconUrl?: string;
+    iconPath?: string;
     message: string;
     messageId?: string;
-    onNotificationClick: () => void;
     sentAt: number;
     silent: boolean;
+    storyId?: string;
     title: string;
+    type: NotificationType;
     useTriToneSound?: boolean;
   }>): void {
     log.info('NotificationService: showing a notification', sentAt);
 
-    this.lastNotification?.close();
+    if (OS.isWindows()) {
+      // Note: showing a windows notification clears all previous notifications first
+      drop(
+        window.IPC.showWindowsNotification({
+          avatarPath: iconPath,
+          body: message,
+          conversationId,
+          heading: title,
+          messageId,
+          storyId,
+          type,
+        })
+      );
+    } else {
+      this.lastNotification?.close();
 
-    const notification = new window.Notification(title, {
-      body: OS.isLinux() ? filterNotificationText(message) : message,
-      icon,
-      silent: true,
-      tag: messageId,
-    });
-    notification.onclick = onNotificationClick;
+      const notification = new window.Notification(title, {
+        body: OS.isLinux() ? filterNotificationText(message) : message,
+        icon: iconUrl,
+        silent: true,
+        tag: messageId,
+      });
+
+      // Note: this maps to the xmlTemplate() function in app/WindowsNotifications.ts
+      if (
+        type === NotificationType.Message ||
+        type === NotificationType.Reaction
+      ) {
+        window.IPC.showWindow();
+        window.Events.showConversationViaNotification({
+          conversationId,
+          messageId,
+          storyId,
+        });
+      } else if (type === NotificationType.IncomingGroupCall) {
+        window.IPC.showWindow();
+        window.reduxActions?.calling?.startCallingLobby({
+          conversationId,
+          isVideoCall: true,
+        });
+      } else if (type === NotificationType.IsPresenting) {
+        window.reduxActions?.calling?.setPresenting();
+      } else if (type === NotificationType.IncomingCall) {
+        window.IPC.showWindow();
+      } else {
+        throw missingCaseError(type);
+      }
+      this.lastNotification = notification;
+    }
 
     if (!silent) {
       const soundType =
@@ -162,8 +232,6 @@ class NotificationService extends EventEmitter {
       // We kick off the sound to be played. No need to await it.
       drop(new Sound({ soundType }).play());
     }
-
-    this.lastNotification = notification;
   }
 
   // Remove the last notification if both conditions hold:
@@ -225,15 +293,22 @@ class NotificationService extends EventEmitter {
   private fastUpdate(): void {
     const storage = this.getStorage();
     const i18n = this.getI18n();
-
-    if (this.lastNotification) {
-      this.lastNotification.close();
-      this.lastNotification = null;
-    }
-
     const { notificationData } = this;
     const isAppFocused = window.SignalContext.activeWindowService.isActive();
     const userSetting = this.getNotificationSetting();
+
+    if (OS.isWindows()) {
+      // Note: notificationData will be set if we're replacing the previous notification
+      //   with a new one, so we won't clear here. That's because we always clear before
+      //   adding anythhing new; just one notification at a time. Electron forces it, so
+      //   we replicate it with our Windows notifications.
+      if (!notificationData) {
+        drop(window.IPC.clearAllWindowsNotifications());
+      }
+    } else if (this.lastNotification) {
+      this.lastNotification.close();
+      this.lastNotification = null;
+    }
 
     // This isn't a boolean because TypeScript isn't smart enough to know that, if
     //   `Boolean(notificationData)` is true, `notificationData` is truthy.
@@ -269,6 +344,7 @@ class NotificationService extends EventEmitter {
     let notificationTitle: string;
     let notificationMessage: string;
     let notificationIconUrl: undefined | string;
+    let notificationIconAbsolutePath: undefined | string;
 
     const {
       conversationId,
@@ -281,6 +357,7 @@ class NotificationService extends EventEmitter {
       sentAt,
       useTriToneSound,
       wasShown,
+      type,
     } = notificationData;
 
     if (wasShown) {
@@ -299,7 +376,8 @@ class NotificationService extends EventEmitter {
       case NotificationSetting.NameOnly:
       case NotificationSetting.NameAndMessage: {
         notificationTitle = senderTitle;
-        ({ notificationIconUrl } = notificationData);
+        ({ notificationIconUrl, notificationIconAbsolutePath } =
+          notificationData);
 
         if (
           isExpiringMessage &&
@@ -347,15 +425,16 @@ class NotificationService extends EventEmitter {
     };
 
     this.notify({
-      icon: notificationIconUrl,
+      conversationId,
+      iconUrl: notificationIconUrl,
+      iconPath: notificationIconAbsolutePath,
       messageId,
       message: notificationMessage,
-      onNotificationClick: () => {
-        this.emit('click', conversationId, messageId, storyId);
-      },
       sentAt,
       silent: !shouldPlayNotificationSound,
+      storyId,
       title: notificationTitle,
+      type,
       useTriToneSound,
     });
   }

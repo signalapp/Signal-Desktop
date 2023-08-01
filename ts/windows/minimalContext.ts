@@ -30,7 +30,7 @@ export const MinimalSignalContext: MinimalSignalContextType = {
     config.appInstance ? String(config.appInstance) : undefined,
   getEnvironment: () => environment,
   getNodeVersion: (): string => String(config.nodeVersion),
-  getPath: (name: 'userData' | 'home'): string => {
+  getPath: (name: 'userData' | 'home' | 'install'): string => {
     return String(config[`${name}Path`]);
   },
   getVersion: (): string => String(config.version),

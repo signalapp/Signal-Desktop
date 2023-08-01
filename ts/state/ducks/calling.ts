@@ -1251,7 +1251,7 @@ function setPresenting(
       return;
     }
 
-    calling.setPresenting(
+    await calling.setPresenting(
       activeCall.conversationId,
       activeCallState.hasLocalVideo,
       sourceToPresent

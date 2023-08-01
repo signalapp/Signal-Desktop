@@ -43,6 +43,7 @@ export const rendererConfigSchema = z.object({
   environment: environmentSchema,
   homePath: configRequiredStringSchema,
   hostname: configRequiredStringSchema,
+  installPath: configRequiredStringSchema,
   osRelease: configRequiredStringSchema,
   osVersion: configRequiredStringSchema,
   resolvedTranslationsLocale: configRequiredStringSchema,

@@ -174,7 +174,7 @@ export class SystemTrayService {
                   );
                   if (this.browserWindow) {
                     this.browserWindow.show();
-                    forceOnTop(this.browserWindow);
+                    focusAndForceToTop(this.browserWindow);
                   }
                 },
               }),
@@ -223,7 +223,7 @@ export class SystemTrayService {
         browserWindow.hide();
       } else {
         browserWindow.show();
-        forceOnTop(browserWindow);
+        focusAndForceToTop(browserWindow);
       }
     });
 
@@ -269,7 +269,7 @@ function getDefaultIcon(): NativeImage {
   return defaultIcon;
 }
 
-function forceOnTop(browserWindow: BrowserWindow) {
+export function focusAndForceToTop(browserWindow: BrowserWindow): void {
   // On some versions of GNOME the window may not be on top when restored.
   // This trick should fix it.
   // Thanks to: https://github.com/Enrico204/Whatsapp-Desktop/commit/6b0dc86b64e481b455f8fce9b4d797e86d000dc1

@@ -123,6 +123,7 @@ type MigrationsModuleType = {
   writeNewDraftData: (data: Uint8Array) => Promise<string>;
   writeNewAvatarData: (data: Uint8Array) => Promise<string>;
   writeNewBadgeImageFileData: (data: Uint8Array) => Promise<string>;
+  writeNewTempData: (data: Uint8Array) => Promise<string>;
 };
 
 export function initializeMigrations({
@@ -294,6 +295,7 @@ export function initializeMigrations({
     writeNewAvatarData,
     writeNewDraftData,
     writeNewBadgeImageFileData,
+    writeNewTempData,
   };
 }
 
