@@ -75,8 +75,22 @@ export function MessageTextRenderer({
 
     // Create range tree, dropping bodyRanges that don't apply. Read More means truncated
     //   strings.
+    let spoilerCount = 0;
     const tree = sortedRanges.reduce<ReadonlyArray<RangeNode>>(
       (acc, range) => {
+        if (
+          BodyRange.isFormatting(range) &&
+          range.style === BodyRange.Style.SPOILER
+        ) {
+          spoilerCount += 1;
+          return insertRange(
+            {
+              ...range,
+              spoilerId: spoilerCount,
+            },
+            acc
+          );
+        }
         if (range.start < textLength) {
           return insertRange(range, acc);
         }
@@ -139,7 +153,7 @@ function renderNode({
 
   if (node.isSpoiler && node.spoilerChildren?.length) {
     const isSpoilerHidden = Boolean(
-      node.isSpoiler && !isSpoilerExpanded[node.spoilerIndex || 0]
+      node.isSpoiler && !isSpoilerExpanded[node.spoilerId || 0]
     );
     const content = node.spoilerChildren?.map(spoilerNode =>
       renderNode({
@@ -193,7 +207,7 @@ function renderNode({
                   event.stopPropagation();
                   onExpandSpoiler({
                     ...isSpoilerExpanded,
-                    [node.spoilerIndex || 0]: true,
+                    [node.spoilerId || 0]: true,
                   });
                 }
               }
@@ -209,7 +223,7 @@ function renderNode({
                 event.stopPropagation();
                 onExpandSpoiler?.({
                   ...isSpoilerExpanded,
-                  [node.spoilerIndex || 0]: true,
+                  [node.spoilerId || 0]: true,
                 });
               }
         }

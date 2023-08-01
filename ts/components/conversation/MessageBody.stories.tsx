@@ -278,7 +278,19 @@ export function FormattingSpoiler(): JSX.Element {
     bodyRanges: [
       {
         start: 8,
-        length: 89,
+        length: 60,
+        style: BodyRange.Style.SPOILER,
+      },
+      // This is touching, but not overlapping; they should not reveal together
+      {
+        start: 68,
+        length: 29,
+        style: BodyRange.Style.SPOILER,
+      },
+      // Note: in overlaps, the last spoiler wins
+      {
+        start: 94,
+        length: 6,
         style: BodyRange.Style.SPOILER,
       },
       {
@@ -322,7 +334,11 @@ export function FormattingSpoiler(): JSX.Element {
       <hr />
       <MessageBody {...props} disableLinks />
       <hr />
-      <MessageBody {...props} isSpoilerExpanded={{}} />
+      <MessageBody
+        {...props}
+        onExpandSpoiler={() => null}
+        isSpoilerExpanded={{}}
+      />
       <hr />
       <MessageBody {...props} disableLinks isSpoilerExpanded={{}} />
     </>

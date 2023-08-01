@@ -44,6 +44,7 @@ export namespace BodyRange {
   };
   export type Formatting = {
     style: Style;
+    spoilerId?: number;
   };
   export type DisplayOnly = {
     displayStyle: DisplayStyle;
@@ -356,8 +357,8 @@ export type DisplayNode = {
   // DisplayOnly
   isKeywordHighlight?: boolean;
 
-  // Only for spoilers, only to represent contiguous groupings
-  spoilerIndex?: number;
+  // Only for spoilers, only to make sure we honor original spoiler breakdown
+  spoilerId?: number;
   spoilerChildren?: ReadonlyArray<DisplayNode>;
 };
 type PartialDisplayNode = Omit<
@@ -381,7 +382,7 @@ function rangeToPartialNode(
       return { isMonospace: true };
     }
     if (range.style === BodyRange.Style.SPOILER) {
-      return { isSpoiler: true };
+      return { isSpoiler: true, spoilerId: range.spoilerId };
     }
     if (range.style === BodyRange.Style.STRIKETHROUGH) {
       return { isStrikethrough: true };
@@ -482,25 +483,29 @@ export function groupContiguousSpoilers(
   const result: Array<DisplayNode> = [];
 
   let spoilerContainer: DisplayNode | undefined;
-  let spoilerIndex = 0;
 
   nodes.forEach(node => {
     if (node.isSpoiler) {
-      if (!spoilerContainer) {
-        spoilerContainer = {
-          ...node,
-          spoilerIndex,
-          isSpoiler: true,
-          spoilerChildren: [],
-        };
-        spoilerIndex += 1;
-        result.push(spoilerContainer);
-      }
-      if (spoilerContainer) {
+      if (
+        spoilerContainer &&
+        isNumber(spoilerContainer.spoilerId) &&
+        spoilerContainer.spoilerId === node.spoilerId
+      ) {
         spoilerContainer.spoilerChildren = [
           ...(spoilerContainer.spoilerChildren || []),
           node,
         ];
+      } else {
+        spoilerContainer = undefined;
+      }
+
+      if (!spoilerContainer) {
+        spoilerContainer = {
+          ...node,
+          isSpoiler: true,
+          spoilerChildren: [node],
+        };
+        result.push(spoilerContainer);
       }
     } else {
       spoilerContainer = undefined;
