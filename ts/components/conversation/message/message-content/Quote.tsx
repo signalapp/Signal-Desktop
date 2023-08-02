@@ -11,7 +11,7 @@ import { PubKey } from '../../../../session/types';
 import {
   useSelectedIsPrivate,
   useSelectedIsPublic,
-} from '../../../../state/selectors/conversations';
+} from '../../../../state/selectors/selectedConversation';
 import { ContactName } from '../../ContactName';
 import { MessageBody } from './MessageBody';
 

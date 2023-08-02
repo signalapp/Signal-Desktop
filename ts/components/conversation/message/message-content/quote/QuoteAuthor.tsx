@@ -4,7 +4,7 @@ import { useQuoteAuthorName } from '../../../../../hooks/useParamSelector';
 import { PubKey } from '../../../../../session/types';
 import { ContactName } from '../../../ContactName';
 import { QuoteProps } from './Quote';
-import { useSelectedIsPublic } from '../../../../../state/selectors/conversations';
+import { useSelectedIsPublic } from '../../../../../state/selectors/selectedConversation';
 
 const StyledQuoteAuthor = styled.div<{ isIncoming: boolean }>`
   color: ${props =>

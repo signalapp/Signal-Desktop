@@ -14,7 +14,7 @@ import {
   useSelectedIsNoteToSelf,
   useSelectedIsPrivate,
   useSelectedIsPrivateFriend,
-} from '../../../state/selectors/conversations';
+} from '../../../state/selectors/selectedConversation';
 
 const TripleDotContainer = styled.div`
   user-select: none;

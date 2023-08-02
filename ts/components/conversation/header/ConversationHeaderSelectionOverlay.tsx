@@ -5,11 +5,11 @@ import {
   deleteMessagesByIdForEveryone,
 } from '../../../interactions/conversations/unsendingInteractions';
 import { resetSelectedMessageIds } from '../../../state/ducks/conversations';
+import { getSelectedMessageIds } from '../../../state/selectors/conversations';
 import {
-  getSelectedMessageIds,
   useSelectedConversationKey,
   useSelectedIsPublic,
-} from '../../../state/selectors/conversations';
+} from '../../../state/selectors/selectedConversation';
 import {
   SessionButton,
   SessionButtonColor,

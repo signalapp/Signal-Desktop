@@ -5,7 +5,7 @@ import { MIME } from '../../../../../types';
 import { GoogleChrome } from '../../../../../util';
 import { MessageBody } from '../MessageBody';
 import { QuoteProps } from './Quote';
-import { useSelectedIsGroup } from '../../../../../state/selectors/conversations';
+import { useSelectedIsGroup } from '../../../../../state/selectors/selectedConversation';
 
 const StyledQuoteText = styled.div<{ isIncoming: boolean }>`
   display: -webkit-box;

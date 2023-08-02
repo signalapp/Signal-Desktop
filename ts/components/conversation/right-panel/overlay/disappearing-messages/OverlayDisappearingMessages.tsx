@@ -14,7 +14,7 @@ import {
   useSelectedExpireTimer,
   useSelectedIsGroup,
   useSelectedWeAreAdmin,
-} from '../../../../../state/selectors/conversations';
+} from '../../../../../state/selectors/selectedConversation';
 import {
   DEFAULT_TIMER_OPTION,
   DisappearingMessageConversationType,

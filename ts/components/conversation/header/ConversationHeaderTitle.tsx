@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useConversationUsername } from '../../../hooks/useParamSelector';
 import { closeRightPanel, openRightPanel } from '../../../state/ducks/conversations';
 import { resetRightOverlayMode, setRightOverlayMode } from '../../../state/ducks/section';
+import { isRightPanelShowing } from '../../../state/selectors/conversations';
 import {
-  isRightPanelShowing,
   useSelectedConversationKey,
   useSelectedExpirationType,
   useSelectedExpireTimer,
@@ -16,7 +16,7 @@ import {
   useSelectedMembers,
   useSelectedNotificationSetting,
   useSelectedSubscriberCount,
-} from '../../../state/selectors/conversations';
+} from '../../../state/selectors/selectedConversation';
 import { ExpirationTimerOptions } from '../../../util/expiringMessages';
 import { ConversationHeaderSubtitle } from './ConversationHeaderSubtitle';
 

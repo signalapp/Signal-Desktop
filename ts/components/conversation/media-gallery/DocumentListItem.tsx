@@ -6,7 +6,7 @@ import moment from 'moment';
 import formatFileSize from 'filesize';
 import { saveAttachmentToDisk } from '../../../util/attachmentsUtil';
 import { MediaItemType } from '../../lightbox/LightboxGallery';
-import { useSelectedConversationKey } from '../../../state/selectors/conversations';
+import { useSelectedConversationKey } from '../../../state/selectors/selectedConversation';
 
 type Props = {
   // Required

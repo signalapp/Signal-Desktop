@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   isMessageDetailView,
   isMessageSelectionMode,
-  useSelectedConversationKey,
 } from '../../../state/selectors/conversations';
 
 import { closeMessageDetailsView, openRightPanel } from '../../../state/ducks/conversations';
@@ -14,6 +13,7 @@ import { ConversationHeaderMenu } from '../../menu/ConversationHeaderMenu';
 import { AvatarHeader, BackButton, CallButton, TripleDotsMenu } from './ConversationHeaderItems';
 import { SelectionOverlay } from './ConversationHeaderSelectionOverlay';
 import { ConversationHeaderTitle } from './ConversationHeaderTitle';
+import { useSelectedConversationKey } from '../../../state/selectors/selectedConversation';
 
 export const ConversationHeaderWithDetails = () => {
   const isSelectionMode = useSelector(isMessageSelectionMode);

@@ -21,9 +21,7 @@ import { StateType } from '../../../state/reducer';
 import {
   getMentionsInput,
   getQuotedMessage,
-  getSelectedCanWrite,
   getSelectedConversation,
-  getSelectedConversationKey,
 } from '../../../state/selectors/conversations';
 import { AttachmentType } from '../../../types/Attachment';
 import { processNewAttachment } from '../../../types/MessageAttachment';
@@ -58,6 +56,10 @@ import {
   renderUserMentionRow,
   styleForCompositionBoxSuggestions,
 } from './UserMentions';
+import {
+  getSelectedCanWrite,
+  getSelectedConversationKey,
+} from '../../../state/selectors/selectedConversation';
 
 export interface ReplyingToMessageProps {
   convoId: string;

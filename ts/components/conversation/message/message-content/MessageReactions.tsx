@@ -3,7 +3,7 @@ import React, { ReactElement, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useMessageReactsPropsById } from '../../../../hooks/useParamSelector';
 import { MessageRenderingProps } from '../../../../models/messageType';
-import { useSelectedIsGroup } from '../../../../state/selectors/conversations';
+import { useSelectedIsGroup } from '../../../../state/selectors/selectedConversation';
 import { SortedReactionList } from '../../../../types/Reaction';
 import { nativeEmojiData } from '../../../../util/emoji';
 import { Flex } from '../../../basic/Flex';
