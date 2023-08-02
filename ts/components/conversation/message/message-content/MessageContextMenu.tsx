@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { animation, Item, Menu, useContextMenu } from 'react-contexify';
@@ -200,7 +201,7 @@ const RetryItem = ({ messageId }: MessageId) => {
       await found.retrySend();
     }
   }, [messageId]);
-  return showRetry ? <Item onClick={() => void onRetry()}>{window.i18n('resend')}</Item> : null;
+  return showRetry ? <Item onClick={onRetry}>{window.i18n('resend')}</Item> : null;
 };
 
 export const MessageContextMenu = (props: Props) => {
@@ -349,7 +350,8 @@ export const MessageContextMenu = (props: Props) => {
         <StyledEmojiPanelContainer role="button" x={mouseX} y={mouseY}>
           <SessionEmojiPanel
             ref={emojiPanelRef}
-            onEmojiClicked={e => void onEmojiClick(e)}
+            // eslint-disable-next-line @typescript-eslint/no-misused-promises
+            onEmojiClicked={onEmojiClick}
             show={showEmojiPanel}
             isModal={true}
             onKeyDown={onEmojiKeyDown}
@@ -364,7 +366,8 @@ export const MessageContextMenu = (props: Props) => {
           animation={animation.fade}
         >
           {enableReactions && (
-            <MessageReactBar action={e => void onEmojiClick(e)} additionalAction={onShowEmoji} />
+            // eslint-disable-next-line @typescript-eslint/no-misused-promises
+            <MessageReactBar action={onEmojiClick} additionalAction={onShowEmoji} />
           )}
           <SaveAttachment messageId={messageId} />
 
@@ -373,7 +376,7 @@ export const MessageContextMenu = (props: Props) => {
             <Item onClick={onReply}>{window.i18n('replyToMessage')}</Item>
           )}
           {(!isPublic || isOutgoing) && (
-            <Item onClick={() => void onShowDetail()}>{window.i18n('moreInformation')}</Item>
+            <Item onClick={onShowDetail}>{window.i18n('moreInformation')}</Item>
           )}
           <RetryItem messageId={messageId} />
           {isDeletable ? <Item onClick={onSelect}>{selectMessageText}</Item> : null}

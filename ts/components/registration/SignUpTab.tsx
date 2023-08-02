@@ -7,6 +7,7 @@ import { RegistrationContext, RegistrationPhase, signUp } from './RegistrationSt
 import { RegistrationUserDetails } from './RegistrationUserDetails';
 import { sanitizeDisplayNameOrToast, SignInMode } from './SignInTab';
 import { TermsAndConditions } from './TermsAndConditions';
+import { Noop } from '../../types/Util';
 
 export enum SignUpMode {
   Default,
@@ -22,7 +23,7 @@ const ContinueSignUpButton = ({ continueSignUp }: { continueSignUp: any }) => {
   return <SessionButton onClick={continueSignUp} text={window.i18n('continue')} />;
 };
 
-const SignUpDefault = (props: { createSessionID: () => void }) => {
+const SignUpDefault = (props: { createSessionID: Noop }) => {
   return (
     <div className="session-registration__content">
       <CreateSessionIdButton createSessionID={props.createSessionID} />
@@ -46,7 +47,7 @@ export const GoBackMainMenuButton = () => {
   );
 };
 
-const SignUpSessionIDShown = (props: { continueSignUp: () => void }) => {
+const SignUpSessionIDShown = (props: { continueSignUp: Noop }) => {
   return (
     <div className="session-registration__content">
       <Flex flexDirection="row" container={true} alignItems="center">

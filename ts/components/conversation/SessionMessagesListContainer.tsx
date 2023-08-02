@@ -144,7 +144,8 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
         </ScrollToLoadedMessageContext.Provider>
 
         <SessionScrollButton
-          onClickScrollBottom={() => void this.props.scrollToNow()}
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
+          onClickScrollBottom={this.props.scrollToNow}
           key="scroll-down-button"
         />
       </StyledMessagesContainer>

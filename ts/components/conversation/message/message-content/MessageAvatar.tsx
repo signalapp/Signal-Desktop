@@ -131,6 +131,7 @@ export const MessageAvatar = (props: Props) => {
   if (!lastMessageOfSeries) {
     return <div style={{ marginInlineEnd: '60px' }} key={`msg-avatar-${sender}`} />;
   }
+  /* eslint-disable @typescript-eslint/no-misused-promises */
 
   return (
     <StyledAvatar
@@ -139,11 +140,7 @@ export const MessageAvatar = (props: Props) => {
         visibility: hideAvatar ? 'hidden' : undefined,
       }}
     >
-      <Avatar
-        size={AvatarSize.S}
-        onAvatarClick={() => void onMessageAvatarClick()}
-        pubkey={sender}
-      />
+      <Avatar size={AvatarSize.S} onAvatarClick={onMessageAvatarClick} pubkey={sender} />
       {isSenderAdmin && <CrownIcon />}
     </StyledAvatar>
   );

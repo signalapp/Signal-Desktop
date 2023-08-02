@@ -404,7 +404,8 @@ class CompositionBoxInner extends React.Component<Props, State> {
     return (
       <SessionRecording
         sendVoiceMessage={this.sendVoiceMessage}
-        onLoadVoiceNoteView={() => void this.onLoadVoiceNoteView()}
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        onLoadVoiceNoteView={this.onLoadVoiceNoteView}
         onExitVoiceNoteView={this.onExitVoiceNoteView}
       />
     );
@@ -413,22 +414,20 @@ class CompositionBoxInner extends React.Component<Props, State> {
   private renderCompositionView() {
     const { showEmojiPanel } = this.state;
     const { typingEnabled } = this.props;
+    /* eslint-disable @typescript-eslint/no-misused-promises */
 
     return (
       <>
         {typingEnabled && <AddStagedAttachmentButton onClick={this.onChooseAttachment} />}
-
         <input
           className="hidden"
           placeholder="Attachment"
           multiple={true}
           ref={this.fileInput}
           type="file"
-          onChange={() => void this.onChoseAttachment()}
+          onChange={this.onChoseAttachment}
         />
-
-        {typingEnabled && <StartRecordingButton onClick={() => void this.onLoadVoiceNoteView()} />}
-
+        {typingEnabled && <StartRecordingButton onClick={this.onLoadVoiceNoteView} />}
         <StyledSendMessageInput
           role="main"
           onClick={this.focusCompositionBox} // used to focus on the textarea when clicking in its container
@@ -439,25 +438,24 @@ class CompositionBoxInner extends React.Component<Props, State> {
         >
           {this.renderTextArea()}
         </StyledSendMessageInput>
-
         {typingEnabled && (
           <ToggleEmojiButton ref={this.emojiPanelButton} onClick={this.toggleEmojiPanel} />
         )}
-        <SendMessageButton onClick={() => void this.onSendMessage()} />
-
+        <SendMessageButton onClick={this.onSendMessage} />
         {typingEnabled && showEmojiPanel && (
           <StyledEmojiPanelContainer role="button">
             <SessionEmojiPanel
               ref={this.emojiPanel}
               show={showEmojiPanel}
               onEmojiClicked={this.onEmojiClick}
-              onKeyDown={e => void this.onKeyDown(e)}
+              onKeyDown={this.onKeyDown}
             />
           </StyledEmojiPanelContainer>
         )}
       </>
     );
   }
+  /* eslint-enable @typescript-eslint/no-misused-promises */
 
   private renderTextArea() {
     const { i18n } = window;
@@ -492,8 +490,10 @@ class CompositionBoxInner extends React.Component<Props, State> {
       <MentionsInput
         value={draft}
         onChange={this.onChange}
-        onKeyDown={e => void this.onKeyDown(e)}
-        onKeyUp={() => void this.onKeyUp()}
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        onKeyDown={this.onKeyDown}
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        onKeyUp={this.onKeyUp}
         placeholder={messagePlaceHolder}
         spellCheck={true}
         inputRef={this.textarea}

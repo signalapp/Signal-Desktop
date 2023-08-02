@@ -282,7 +282,8 @@ export const HangUpButton = ({ isFullScreen }: { isFullScreen: boolean }) => {
         iconType="hangup"
         iconColor="var(--danger-color)"
         borderRadius="50%"
-        onClick={() => void handleEndCall()}
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        onClick={handleEndCall}
         margin="10px"
         dataTestId="end-call"
       />

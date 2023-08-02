@@ -86,7 +86,8 @@ export const ContactRow = (props: Props) => {
   return (
     <StyledRowContainer
       style={style}
-      onClick={() => void openConversationWithMessages({ conversationKey: id, messageId: null })}
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
+      onClick={async () => openConversationWithMessages({ conversationKey: id, messageId: null })}
     >
       <AvatarItem id={id} displayName={displayName} />
       <StyledContactRowName data-testid="module-conversation__user__profile-name">

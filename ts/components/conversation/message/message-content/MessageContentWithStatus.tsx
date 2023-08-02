@@ -147,7 +147,8 @@ export const MessageContentWithStatuses = (props: Props) => {
       {enableReactions && (
         <MessageReactions
           messageId={messageId}
-          onClick={emoji => void handleMessageReaction(emoji)}
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
+          onClick={handleMessageReaction}
           popupReaction={popupReaction}
           setPopupReaction={setPopupReaction}
           onPopupClick={handlePopupClick}

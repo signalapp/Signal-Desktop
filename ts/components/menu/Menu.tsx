@@ -357,7 +357,10 @@ export const MarkAllReadMenuItem = (): JSX.Element | null => {
   const isIncomingRequest = useIsIncomingRequest(convoId);
   if (!isIncomingRequest && !PubKey.isBlinded(convoId)) {
     return (
-      <Item onClick={() => void markAllReadByConvoId(convoId)}>{window.i18n('markAllAsRead')}</Item>
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
+      <Item onClick={async () => markAllReadByConvoId(convoId)}>
+        {window.i18n('markAllAsRead')}
+      </Item>
     );
   }
   return null;
@@ -379,8 +382,9 @@ export const BlockMenuItem = (): JSX.Element | null => {
   if (!isMe && isPrivate && !isIncomingRequest && !PubKey.isBlinded(convoId)) {
     const blockTitle = isBlocked ? window.i18n('unblock') : window.i18n('block');
     const blockHandler = isBlocked
-      ? () => void unblockConvoById(convoId)
-      : () => void blockConvoById(convoId);
+      ? async () => unblockConvoById(convoId)
+      : async () => blockConvoById(convoId);
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     return <Item onClick={blockHandler}>{blockTitle}</Item>;
   }
   return null;
@@ -398,7 +402,10 @@ export const ClearNicknameMenuItem = (): JSX.Element | null => {
   }
 
   return (
-    <Item onClick={() => void clearNickNameByConvoId(convoId)}>{window.i18n('clearNickname')}</Item>
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
+    <Item onClick={async () => clearNickNameByConvoId(convoId)}>
+      {window.i18n('clearNickname')}
+    </Item>
   );
 };
 

@@ -98,7 +98,8 @@ export const MessageQuote = (props: Props) => {
 
   return (
     <Quote
-      onClick={e => void onQuoteClick(e)}
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
+      onClick={onQuoteClick}
       text={quote?.text}
       attachment={quote?.attachment}
       isIncoming={direction === 'incoming'}

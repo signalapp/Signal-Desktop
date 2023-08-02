@@ -148,7 +148,8 @@ const AtSymbol = ({ convoId }: { convoId: string }) => {
   return hasMentionedUs && hasUnread ? (
     <MentionAtSymbol
       title="Open to latest mention"
-      onMouseDown={e => void openConvoToLastMention(e, convoId)}
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
+      onMouseDown={async e => openConvoToLastMention(e, convoId)}
     >
       @
     </MentionAtSymbol>

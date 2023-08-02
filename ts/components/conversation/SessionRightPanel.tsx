@@ -301,8 +301,9 @@ export const SessionRightPanelWithDetails = () => {
         <StyledGroupSettingsItem
           className="group-settings-item"
           role="button"
-          onClick={() => {
-            void showUpdateGroupNameByConvoId(selectedConvoKey);
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
+          onClick={async () => {
+            await showUpdateGroupNameByConvoId(selectedConvoKey);
           }}
         >
           {isPublic ? window.i18n('editGroup') : window.i18n('editGroupName')}
@@ -335,8 +336,9 @@ export const SessionRightPanelWithDetails = () => {
         <StyledGroupSettingsItem
           className="group-settings-item"
           role="button"
-          onClick={() => {
-            void showUpdateGroupMembersByConvoId(selectedConvoKey);
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
+          onClick={async () => {
+            await showUpdateGroupMembersByConvoId(selectedConvoKey);
           }}
         >
           {window.i18n('groupMembers')}

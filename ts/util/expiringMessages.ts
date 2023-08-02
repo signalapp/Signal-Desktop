@@ -98,7 +98,8 @@ async function checkExpiringMessages() {
   if (timeout) {
     global.clearTimeout(timeout);
   }
-  timeout = global.setTimeout(() => void destroyExpiredMessages(), wait);
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+  timeout = global.setTimeout(async () => destroyExpiredMessages(), wait);
 }
 const throttledCheckExpiringMessages = throttle(checkExpiringMessages, 1000);
 
@@ -111,7 +112,8 @@ const initExpiringMessageListener = () => {
 
   void checkExpiringMessages();
 
-  initWallClockListener(() => void throttledCheckExpiringMessages());
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+  initWallClockListener(async () => throttledCheckExpiringMessages());
   isInit = true;
 };
 

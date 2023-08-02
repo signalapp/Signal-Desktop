@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import React, { useState } from 'react';
 import useKey from 'react-use/lib/useKey';
 import { useDispatch, useSelector } from 'react-redux';
@@ -86,7 +87,6 @@ export const OverlayCommunity = () => {
   return (
     <div className="module-left-pane-overlay">
       <OverlayHeader title={title} subtitle={subtitle} />
-
       <div className="create-group-name-input">
         <SessionIdEditable
           editable={true}
@@ -98,11 +98,9 @@ export const OverlayCommunity = () => {
           onPressEnter={onTryJoinRoom}
         />
       </div>
-
       <SessionButton text={buttonText} disabled={!groupUrl} onClick={onTryJoinRoom} />
-
       <SessionSpinner loading={loading} />
-      <SessionJoinableRooms onJoinClick={url => void onTryJoinRoom(url)} alreadyJoining={loading} />
+      <SessionJoinableRooms onJoinClick={onTryJoinRoom} alreadyJoining={loading} />
     </div>
   );
 };

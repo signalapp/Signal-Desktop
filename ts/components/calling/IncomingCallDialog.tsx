@@ -35,14 +35,15 @@ export const IncomingCallDialog = () => {
   useEffect(() => {
     let timeout: NodeJS.Timeout;
     if (incomingCallFromPubkey) {
-      timeout = global.setTimeout(() => {
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
+      timeout = global.setTimeout(async () => {
         if (incomingCallFromPubkey) {
           window.log.info(
             `call missed with ${ed25519Str(
               incomingCallFromPubkey
             )} as the dialog was not interacted with for ${callTimeoutMs} ms`
           );
-          void CallManager.USER_rejectIncomingCallRequest(incomingCallFromPubkey);
+          await CallManager.USER_rejectIncomingCallRequest(incomingCallFromPubkey);
         }
       }, callTimeoutMs);
     }

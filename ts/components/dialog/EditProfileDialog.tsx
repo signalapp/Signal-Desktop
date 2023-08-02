@@ -163,7 +163,8 @@ export class EditProfileDialog extends React.Component<object, State> {
             <div
               className="image-upload-section"
               role="button"
-              onClick={() => void this.fireInputEvent()}
+              // eslint-disable-next-line @typescript-eslint/no-misused-promises
+              onClick={this.fireInputEvent}
               data-testid="image-upload-section"
             />
             <div
