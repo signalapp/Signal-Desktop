@@ -201,10 +201,6 @@ export function pushUnblockToSend() {
   pushToastInfo('unblockToSend', window.i18n('unblockToSend'));
 }
 
-export function pushUnblockToSendGroup() {
-  pushToastInfo('unblockGroupToSend', window.i18n('unblockGroupToSend'));
-}
-
 export function pushYouLeftTheGroup() {
   pushToastError('youLeftTheGroup', window.i18n('youLeftTheGroup'));
 }
