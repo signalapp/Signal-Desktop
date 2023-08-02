@@ -6,10 +6,11 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-unreachable-loop */
 /* eslint-disable no-restricted-syntax */
+import { randomBytes } from 'crypto';
+
 import chai from 'chai';
 import Sinon, * as sinon from 'sinon';
 import { describe } from 'mocha';
-import { randomBytes } from 'crypto';
 import chaiAsPromised from 'chai-as-promised';
 
 import { GroupUtils, PromiseUtils, UserUtils } from '../../../../session/utils';

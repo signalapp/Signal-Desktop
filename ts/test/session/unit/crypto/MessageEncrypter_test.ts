@@ -1,5 +1,5 @@
-import chai, { expect } from 'chai';
 import * as crypto from 'crypto';
+import chai, { expect } from 'chai';
 import Sinon, * as sinon from 'sinon';
 import chaiBytes from 'chai-bytes';
 

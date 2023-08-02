@@ -1,5 +1,5 @@
-import { expect } from 'chai';
 import * as crypto from 'crypto';
+import { expect } from 'chai';
 import _ from 'lodash';
 import Sinon, * as sinon from 'sinon';
 import { SignalService } from '../../../../protobuf';

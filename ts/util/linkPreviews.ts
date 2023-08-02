@@ -1,7 +1,6 @@
 /* global URL */
-
-import { compact, isEmpty, isNumber, range } from 'lodash';
 import nodeUrl from 'url';
+import { compact, isEmpty, isNumber, range } from 'lodash';
 import LinkifyIt from 'linkify-it';
 
 const linkify = LinkifyIt();

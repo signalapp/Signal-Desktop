@@ -1,6 +1,6 @@
+import path from 'path';
 import * as BetterSqlite3 from '@signalapp/better-sqlite3';
 import { isNumber } from 'lodash';
-import path from 'path';
 
 import {
   ATTACHMENT_DOWNLOADS_TABLE,

@@ -1,7 +1,7 @@
-import { Page } from '@playwright/test';
-import { readdirSync, rmdirSync } from 'fs-extra';
 import { join } from 'path';
 import { homedir } from 'os';
+import { Page } from '@playwright/test';
+import { readdirSync, rmdirSync } from 'fs-extra';
 import { isLinux, isMacOS } from '../../../OS';
 import { MULTI_PREFIX, NODE_ENV } from './open';
 

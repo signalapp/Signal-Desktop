@@ -9,10 +9,10 @@
  *
  *
  */
+import path from 'path';
 import { reject } from 'lodash';
 
 import * as fse from 'fs-extra';
-import path from 'path';
 
 import { DURATION } from '../constants';
 import { makeObjectUrl, urlToBlob } from '../../types/attachments/VisualAttachment';

@@ -1,7 +1,6 @@
+import path from 'path';
 import chai, { expect } from 'chai';
 import { describe } from 'mocha';
-
-import path from 'path';
 
 import chaiAsPromised from 'chai-as-promised';
 import { redactAll } from '../../../../util/privacy';

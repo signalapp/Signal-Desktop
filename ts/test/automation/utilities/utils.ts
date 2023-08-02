@@ -1,9 +1,7 @@
 /* eslint-disable no-useless-escape */
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-await-in-loop */
-import { Page } from 'playwright-core';
-
-import { ElementHandle } from '@playwright/test';
+import { ElementHandle, Page } from '@playwright/test';
 import { sleepFor } from '../../../session/utils/Promise';
 import { loaderType, Strategy } from '../types/testing';
 

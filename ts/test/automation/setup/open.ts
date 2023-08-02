@@ -1,5 +1,5 @@
-import { _electron } from '@playwright/test';
 import { join } from 'path';
+import { _electron } from '@playwright/test';
 import { getAppRootPath } from '../../../node/getRootPath';
 
 export const NODE_ENV = 'production';

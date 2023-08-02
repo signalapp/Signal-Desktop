@@ -156,5 +156,6 @@ export function declareCSSVariables(variables: Record<string, string>) {
   for (const [key, value] of Object.entries(variables)) {
     output += `${key}: ${value};\n`;
   }
+
   return output;
 }

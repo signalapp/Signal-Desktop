@@ -1,7 +1,7 @@
-import * as BetterSqlite3 from '@signalapp/better-sqlite3';
 import { app, clipboard, dialog, Notification } from 'electron';
 import fs from 'fs';
 import path from 'path';
+import * as BetterSqlite3 from '@signalapp/better-sqlite3';
 import rimraf from 'rimraf';
 
 import {

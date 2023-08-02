@@ -1,5 +1,5 @@
-import React from 'react';
 import { shell } from 'electron';
+import React from 'react';
 import autoBind from 'auto-bind';
 import styled from 'styled-components';
 

@@ -1,6 +1,5 @@
-import React from 'react';
-
 import { shell } from 'electron';
+import React from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import useHover from 'react-use/lib/useHover';

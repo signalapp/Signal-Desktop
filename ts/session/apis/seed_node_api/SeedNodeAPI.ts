@@ -1,8 +1,8 @@
+import tls from 'tls';
+import https from 'https';
 // eslint-disable-next-line import/no-named-default
 import { default as insecureNodeFetch } from 'node-fetch';
-import https from 'https';
 import _ from 'lodash';
-import tls from 'tls';
 import pRetry from 'p-retry';
 
 import { sha256 } from '../../crypto';

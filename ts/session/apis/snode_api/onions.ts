@@ -1,11 +1,13 @@
+import https from 'https';
 // eslint-disable-next-line import/no-named-default
 import { default as insecureNodeFetch, RequestInit, Response } from 'node-fetch';
-import https from 'https';
 import ByteBuffer from 'bytebuffer';
 import pRetry from 'p-retry';
 import { cloneDeep, isEmpty, isString, omit } from 'lodash';
 import { AbortSignal } from 'abort-controller';
 import { to_string } from 'libsodium-wrappers-sumo';
+// eslint-disable-next-line import/no-unresolved
+import { AbortSignal as AbortSignalNode } from 'node-fetch/externals';
 
 import { dropSnodeFromSnodePool, dropSnodeFromSwarmIfNeeded, updateSwarmFor } from './snodePool';
 
@@ -1068,7 +1070,7 @@ const sendOnionRequestNoRetries = async ({
   };
 
   if (abortSignal) {
-    guardFetchOptions.signal = abortSignal;
+    guardFetchOptions.signal = abortSignal as AbortSignalNode;
   }
 
   const guardUrl = `https://${guardNode.ip}:${guardNode.port}/onion_req/v2`;

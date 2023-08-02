@@ -1,6 +1,6 @@
+import { TextEncoder } from 'util';
 import { expect } from 'chai';
 
-import { TextEncoder } from 'util';
 import { toNumber } from 'lodash';
 import { SignalService } from '../../../../protobuf';
 import { Constants } from '../../../../session';

@@ -1,5 +1,5 @@
-import { Dispatch } from '@reduxjs/toolkit';
 import { shell } from 'electron';
+import { Dispatch } from '@reduxjs/toolkit';
 import React, { useState } from 'react';
 import { MessageInteraction } from '../../interactions';
 import { updateConfirmModal } from '../../state/ducks/modalDialog';

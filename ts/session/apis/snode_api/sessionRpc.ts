@@ -1,6 +1,6 @@
+import https from 'https';
 // eslint-disable-next-line import/no-named-default
 import { default as insecureNodeFetch } from 'node-fetch';
-import https from 'https';
 import { clone } from 'lodash';
 import pRetry from 'p-retry';
 

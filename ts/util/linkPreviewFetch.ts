@@ -1,5 +1,7 @@
 import { RequestInit, Response } from 'node-fetch';
 import { AbortSignal } from 'abort-controller';
+// eslint-disable-next-line import/no-unresolved
+import { AbortSignal as AbortSignalNode } from 'node-fetch/externals';
 
 import { IMAGE_GIF, IMAGE_ICO, IMAGE_JPEG, IMAGE_PNG, IMAGE_WEBP, MIMEType } from '../types/MIME';
 
@@ -371,7 +373,7 @@ export async function fetchLinkPreviewMetadata(
         Accept: 'text/html,application/xhtml+xml',
         'User-Agent': 'WhatsApp',
       },
-      signal: abortSignal,
+      signal: abortSignal as AbortSignalNode,
     });
   } catch (err) {
     window?.log?.warn('fetchLinkPreviewMetadata: failed to fetch link preview HTML; bailing');
@@ -456,7 +458,7 @@ export async function fetchLinkPreviewImage(
         'User-Agent': 'WhatsApp',
       },
       size: MAX_IMAGE_CONTENT_LENGTH,
-      signal: abortSignal,
+      signal: abortSignal as AbortSignalNode,
     });
   } catch (err) {
     window?.log?.warn('fetchLinkPreviewImage: failed to fetch image; bailing');

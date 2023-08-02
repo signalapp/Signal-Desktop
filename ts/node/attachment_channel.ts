@@ -1,7 +1,7 @@
+import path from 'path';
 import { ipcMain } from 'electron';
 import { isString, map } from 'lodash';
 import rimraf from 'rimraf';
-import path from 'path';
 import fse from 'fs-extra';
 import pify from 'pify';
 // eslint-disable-next-line import/no-named-default
