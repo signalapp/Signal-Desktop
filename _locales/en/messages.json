@@ -6580,7 +6580,7 @@
     "description": "Body of a dialog displayed on unsupported operating systems"
   },
   "icu:MessageMetadata__edited": {
-    "messageformat": "edited",
+    "messageformat": "Edited",
     "description": "label for an edited message"
   },
   "icu:EditHistoryMessagesModal__title": {
