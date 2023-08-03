@@ -14,6 +14,7 @@ import {
 } from './utilities/utils';
 import { openApp } from './setup/open';
 import { createContact } from './utilities/create_contact';
+import { sendMessage } from './utilities/message';
 
 test.beforeEach(beforeAllClean);
 
@@ -197,10 +198,17 @@ test('Set nickname', async () => {
   expect(conversationListUsername).toBe(nickname);
 });
 
-
 test('Read status', async () => {
   const [windowA, windowB] = await openApp(2);
   const [userA, userB] = await Promise.all([newUser(windowA, 'Alice'), newUser(windowB, 'Bob')]);
   await createContact(windowA, windowB, userA, userB);
-  await clickOnElement(windowA, 'data-testid' , "setting-section")
+  await clickOnElement(windowA, 'data-testid', 'setting-section');
+  await clickOnElement(windowA, 'data-testid', 'enable-read-receipts');
+  await clickOnElement(windowA, 'data-testid', 'message-section');
+  await clickOnTestIdWithText(windowA, 'module-conversation__user__profile-name', userB.userName);
+  await clickOnElement(windowB, 'data-testid', 'setting-section');
+  await clickOnElement(windowB, 'data-testid', 'enable-read-receipts');
+  await clickOnElement(windowB, 'data-testid', 'message-section');
+  await clickOnTestIdWithText(windowB, 'module-conversation__user__profile-name', userA.userName);
+  await sendMessage(windowA, 'Testing read receipts');
 });

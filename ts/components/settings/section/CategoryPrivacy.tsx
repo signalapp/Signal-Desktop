@@ -62,6 +62,7 @@ export const SettingsCategoryPrivacy = (props: {
           title={window.i18n('readReceiptSettingTitle')}
           description={window.i18n('readReceiptSettingDescription')}
           active={window.getSettingValue(SettingsKey.settingsReadReceipt)}
+          dataTestId="enable-read-receipts"
         />
         <SessionToggleWithDescription
           onClickToggle={async () => {
