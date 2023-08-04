@@ -1,5 +1,5 @@
 diff --git a/node_modules/quill/dist/quill.js b/node_modules/quill/dist/quill.js
-index 811b3d0..1082f2a 100644
+index 811b3d0..135dfb2 100644
 --- a/node_modules/quill/dist/quill.js
 +++ b/node_modules/quill/dist/quill.js
 @@ -8896,7 +8896,8 @@ var debug = (0, _logger2.default)('quill:clipboard');
@@ -27,7 +27,7 @@ index 811b3d0..1082f2a 100644
      _this.matchers = [];
      CLIPBOARD_CONFIG.concat(_this.options.matchers).forEach(function (_ref) {
        var _ref2 = _slicedToArray(_ref, 2),
-@@ -8941,15 +8942,18 @@ var Clipboard = function (_Module) {
+@@ -8941,28 +8942,33 @@ var Clipboard = function (_Module) {
      key: 'convert',
      value: function convert(html) {
        if (typeof html === 'string') {
@@ -52,7 +52,14 @@ index 811b3d0..1082f2a 100644
  
        var _prepareMatching = this.prepareMatching(),
            _prepareMatching2 = _slicedToArray(_prepareMatching, 2),
-@@ -8962,7 +8966,8 @@ var Clipboard = function (_Module) {
+           elementMatchers = _prepareMatching2[0],
+           textMatchers = _prepareMatching2[1];
+ 
+-      var delta = traverse(this.container, elementMatchers, textMatchers);
++      // var delta = traverse(this.container, elementMatchers, textMatchers);
++      var delta = traverse(this.container, elementMatchers, textMatchers, formats);
+       // Remove trailing newline
+       if (deltaEndsWith(delta, '\n') && delta.ops[delta.ops.length - 1].attributes == null) {
          delta = delta.compose(new _quillDelta2.default().retain(delta.length() - 1).delete(1));
        }
        debug.log('convert', this.container.innerHTML, delta);
@@ -62,7 +69,7 @@ index 811b3d0..1082f2a 100644
        return delta;
      }
    }, {
-@@ -9056,9 +9061,10 @@ function applyFormat(delta, format, value) {
+@@ -9056,9 +9062,10 @@ function applyFormat(delta, format, value) {
  }
  
  function computeStyle(node) {
@@ -76,7 +83,7 @@ index 811b3d0..1082f2a 100644
  }
  
  function deltaEndsWith(delta, text) {
-@@ -9074,7 +9080,8 @@ function deltaEndsWith(delta, text) {
+@@ -9074,24 +9081,30 @@ function deltaEndsWith(delta, text) {
  function isLine(node) {
    if (node.childNodes.length === 0) return false; // Exclude embed blocks
    var style = computeStyle(node);
@@ -85,8 +92,35 @@ index 811b3d0..1082f2a 100644
 +  return ['block', 'list-item'].indexOf(style.display) > -1 || node.nodeName === 'DIV' || node.nodeName === 'P' || node.nodeName === 'TIME';
  }
  
- function traverse(node, elementMatchers, textMatchers) {
-@@ -9177,8 +9184,10 @@ function matchIndent(node, delta) {
+-function traverse(node, elementMatchers, textMatchers) {
++// function traverse(node, elementMatchers, textMatchers) {
++function traverse(node, elementMatchers, textMatchers, attributes) {
+   // Post-order
+   if (node.nodeType === node.TEXT_NODE) {
+     return textMatchers.reduce(function (delta, matcher) {
+-      return matcher(node, delta);
++      // return matcher(node, delta);
++      return matcher(node, delta, attributes);
+     }, new _quillDelta2.default());
+   } else if (node.nodeType === node.ELEMENT_NODE) {
+     return [].reduce.call(node.childNodes || [], function (delta, childNode) {
+-      var childrenDelta = traverse(childNode, elementMatchers, textMatchers);
++      // var childrenDelta = traverse(childNode, elementMatchers, textMatchers);
++      var childrenDelta = traverse(childNode, elementMatchers, textMatchers, attributes);
+       if (childNode.nodeType === node.ELEMENT_NODE) {
+         childrenDelta = elementMatchers.reduce(function (childrenDelta, matcher) {
+-          return matcher(childNode, childrenDelta);
++          // return matcher(childNode, childrenDelta);
++          return matcher(childNode, childrenDelta, attributes);
+         }, childrenDelta);
+         childrenDelta = (childNode[DOM_KEY] || []).reduce(function (childrenDelta, matcher) {
+-          return matcher(childNode, childrenDelta);
++          // return matcher(childNode, childrenDelta);
++          return matcher(childNode, childrenDelta, attributes);
+         }, childrenDelta);
+       }
+       return delta.concat(childrenDelta);
+@@ -9177,8 +9190,10 @@ function matchIndent(node, delta) {
  }
  
  function matchNewline(node, delta) {
@@ -99,3 +133,22 @@ index 811b3d0..1082f2a 100644
        delta.insert('\n');
      }
    }
+@@ -9214,7 +9229,7 @@ function matchStyles(node, delta) {
+   return delta;
+ }
+ 
+-function matchText(node, delta) {
++function matchText(node, delta, attributes) {
+   var text = node.data;
+   // Word represents empty line with <o:p>&nbsp;</o:p>
+   if (node.parentNode.tagName === 'O:P') {
+@@ -9238,7 +9253,7 @@ function matchText(node, delta) {
+       text = text.replace(/\s+$/, replacer.bind(replacer, false));
+     }
+   }
+-  return delta.insert(text);
++  return delta.insert(text, attributes);
+ }
+ 
+ exports.default = Clipboard;
+\ No newline at end of file

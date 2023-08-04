@@ -25,6 +25,16 @@ declare module 'quill' {
     shortKey?: boolean;
   }
 
+  export type AttributeMap = {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    [key: string]: any;
+  };
+  export type Matcher = (
+    node: HTMLElement,
+    delta: UpdatedDelta,
+    attributes: AttributeMap
+  ) => UpdatedDelta;
+
   export type UpdatedTextChangeHandler = (
     delta: UpdatedDelta,
     oldContents: UpdatedDelta,

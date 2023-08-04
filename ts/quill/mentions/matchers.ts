@@ -3,11 +3,15 @@
 
 import Delta from 'quill-delta';
 import type { RefObject } from 'react';
+import type { Matcher, AttributeMap } from 'quill';
+
 import type { MemberRepository } from '../memberRepository';
 
-export const matchMention =
+export const matchMention: (
+  memberRepositoryRef: RefObject<MemberRepository>
+) => Matcher =
   (memberRepositoryRef: RefObject<MemberRepository>) =>
-  (node: HTMLElement, delta: Delta): Delta => {
+  (node: HTMLElement, delta: Delta, attributes: AttributeMap): Delta => {
     const memberRepository = memberRepositoryRef.current;
 
     if (memberRepository) {
@@ -18,15 +22,18 @@ export const matchMention =
         const conversation = memberRepository.getMemberById(id);
 
         if (conversation && conversation.uuid) {
-          return new Delta().insert({
-            mention: {
-              title,
-              uuid: conversation.uuid,
+          return new Delta().insert(
+            {
+              mention: {
+                title,
+                uuid: conversation.uuid,
+              },
             },
-          });
+            attributes
+          );
         }
 
-        return new Delta().insert(`@${title}`);
+        return new Delta().insert(`@${title}`, attributes);
       }
 
       if (node.classList.contains('mention-blot')) {
@@ -34,15 +41,18 @@ export const matchMention =
         const conversation = memberRepository.getMemberByUuid(uuid);
 
         if (conversation && conversation.uuid) {
-          return new Delta().insert({
-            mention: {
-              title: title || conversation.title,
-              uuid: conversation.uuid,
+          return new Delta().insert(
+            {
+              mention: {
+                title: title || conversation.title,
+                uuid: conversation.uuid,
+              },
             },
-          });
+            attributes
+          );
         }
 
-        return new Delta().insert(`@${title}`);
+        return new Delta().insert(`@${title}`, attributes);
       }
     }
 

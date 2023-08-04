@@ -3,7 +3,7 @@
 
 import emojiRegex from 'emoji-regex';
 import Delta from 'quill-delta';
-import type { LeafBlot, DeltaOperation } from 'quill';
+import type { LeafBlot, DeltaOperation, AttributeMap } from 'quill';
 import type Op from 'quill-delta/dist/Op';
 
 import type {
@@ -387,7 +387,10 @@ export const insertMentionOps = (
   return ops;
 };
 
-export const insertEmojiOps = (incomingOps: ReadonlyArray<Op>): Array<Op> => {
+export const insertEmojiOps = (
+  incomingOps: ReadonlyArray<Op>,
+  existingAttributes: AttributeMap
+): Array<Op> => {
   return incomingOps.reduce((ops, op) => {
     if (typeof op.insert === 'string') {
       const text = op.insert;
@@ -400,7 +403,10 @@ export const insertEmojiOps = (incomingOps: ReadonlyArray<Op>): Array<Op> => {
       while ((match = re.exec(text))) {
         const [emoji] = match;
         ops.push({ insert: text.slice(index, match.index), attributes });
-        ops.push({ insert: { emoji }, attributes });
+        ops.push({
+          insert: { emoji },
+          attributes: { ...existingAttributes, ...attributes },
+        });
         index = match.index + emoji.length;
       }
 
