@@ -2861,18 +2861,26 @@
   {
     "rule": "React-useRef",
     "path": "ts/quill/formatting/menu.tsx",
-    "line": "  const buttonRef = React.useRef<HTMLButtonElement | null>(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-04-22T00:07:56.294Z",
-    "reasonDetail": "Popper needs to reference the button"
+    "line": "  const fadeOutTimerRef = React.useRef<NodeJS.Timeout | undefined>();",
+    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "updated": "2023-08-02T19:01:24.771Z",
+    "reasonDetail": "We need a persistent timer to know when to remove after fade-out"
   },
   {
     "rule": "React-useRef",
     "path": "ts/quill/formatting/menu.tsx",
-    "line": "  const timerRef = React.useRef<NodeJS.Timeout | undefined>();",
+    "line": "  const hoverTimerRef = React.useRef<NodeJS.Timeout | undefined>();",
+    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "updated": "2023-08-02T19:01:24.771Z",
+    "reasonDetail": "We need a persistent timer to track long-hovers"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/quill/formatting/menu.tsx",
+    "line": "  const buttonRef = React.useRef<HTMLButtonElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2023-04-22T00:07:56.294Z",
-    "reasonDetail": "We need a persistent timer to track long-hovers"
+    "reasonDetail": "Popper needs to reference the button"
   },
   {
     "rule": "DOM-innerHTML",

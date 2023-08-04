@@ -15,10 +15,10 @@ import * as log from '../../logging/log';
 import * as Errors from '../../types/errors';
 import type { LocalizerType } from '../../types/Util';
 import { handleOutsideClick } from '../../util/handleOutsideClick';
-import { SECOND } from '../../util/durations/constants';
 
-const FADE_OUT_MS = 200;
-const BUTTON_HOVER_TIMEOUT = 2 * SECOND;
+const MENU_FADE_OUT_MS = 200;
+const POPUP_GUIDE_FADE_MS = 120;
+const BUTTON_HOVER_TIMEOUT_MS = 900;
 const MENU_TEXT_BUFFER = 12; // pixels
 
 // Note: Keyboard shortcuts are defined in the constructor below, and when using
@@ -160,7 +160,7 @@ export class FormattingMenu {
       this.lastRect = undefined;
       this.fadingOutTimeout = undefined;
       this.render();
-    }, FADE_OUT_MS);
+    }, MENU_FADE_OUT_MS);
 
     this.render();
   }
@@ -452,34 +452,47 @@ function FormattingButton({
   toggleForStyle: (style: QuillFormattingStyle) => unknown;
 }): JSX.Element {
   const buttonRef = React.useRef<HTMLButtonElement | null>(null);
-  const timerRef = React.useRef<NodeJS.Timeout | undefined>();
+
   const [isHovered, setIsHovered] = React.useState<boolean>(false);
+  const hoverTimerRef = React.useRef<NodeJS.Timeout | undefined>();
+
+  const [isFadingOut, setIsFadingOut] = React.useState<boolean>(false);
+  const fadeOutTimerRef = React.useRef<NodeJS.Timeout | undefined>();
 
   React.useEffect(() => {
     return () => {
-      if (timerRef.current) {
-        clearTimeout(timerRef.current);
-        timerRef.current = undefined;
+      if (hoverTimerRef.current) {
+        clearTimeout(hoverTimerRef.current);
+        hoverTimerRef.current = undefined;
+      }
+
+      if (fadeOutTimerRef.current) {
+        clearTimeout(fadeOutTimerRef.current);
+        fadeOutTimerRef.current = undefined;
       }
     };
   }, []);
 
   return (
     <>
-      {hasLongHovered && isHovered && buttonRef.current ? (
+      {(isFadingOut || (hasLongHovered && isHovered)) && buttonRef.current ? (
         <Popper placement="top" referenceElement={buttonRef.current}>
-          {({ ref, style: popperStyles }) => (
-            <div
-              className="module-composition-input__format-menu__item__popover"
-              ref={ref}
-              style={popperStyles}
-            >
-              {popupGuideText}
-              <div className="module-composition-input__format-menu__item__popover__shortcut">
-                {popupGuideShortcut}
+          {({ ref, style: popperStyles }) => {
+            const opacity = !popperStyles.transform || isFadingOut ? 0 : 1;
+
+            return (
+              <div
+                className="module-composition-input__format-menu__item__popover"
+                ref={ref}
+                style={{ ...popperStyles, opacity }}
+              >
+                {popupGuideText}
+                <div className="module-composition-input__format-menu__item__popover__shortcut">
+                  {popupGuideShortcut}
+                </div>
               </div>
-            </div>
-          )}
+            );
+          }}
         </Popper>
       ) : null}
       <button
@@ -499,21 +512,29 @@ function FormattingButton({
           toggleForStyle(style);
         }}
         onMouseEnter={() => {
-          if (timerRef.current) {
-            clearTimeout(timerRef.current);
-            timerRef.current = undefined;
+          if (hoverTimerRef.current) {
+            clearTimeout(hoverTimerRef.current);
+            hoverTimerRef.current = undefined;
           }
 
-          timerRef.current = setTimeout(() => {
+          hoverTimerRef.current = setTimeout(() => {
             onLongHover(true);
-          }, BUTTON_HOVER_TIMEOUT);
+          }, BUTTON_HOVER_TIMEOUT_MS);
 
           setIsHovered(true);
         }}
         onMouseLeave={() => {
-          if (timerRef.current) {
-            clearTimeout(timerRef.current);
-            timerRef.current = undefined;
+          if (hoverTimerRef.current) {
+            clearTimeout(hoverTimerRef.current);
+            hoverTimerRef.current = undefined;
+          }
+
+          if (hasLongHovered && isHovered) {
+            fadeOutTimerRef.current = setTimeout(() => {
+              setIsFadingOut(false);
+              fadeOutTimerRef.current = undefined;
+            }, POPUP_GUIDE_FADE_MS);
+            setIsFadingOut(true);
           }
 
           setIsHovered(false);
