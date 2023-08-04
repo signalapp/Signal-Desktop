@@ -4,17 +4,19 @@
 import type Quill from 'quill';
 import Delta from 'quill-delta';
 
-const replaceAngleBrackets = (text: string) => {
+const prepareText = (text: string) => {
   const entities: Array<[RegExp, string]> = [
     [/&/g, '&amp;'],
     [/</g, '&lt;'],
     [/>/g, '&gt;'],
   ];
 
-  return entities.reduce(
+  const escapedEntities = entities.reduce(
     (acc, [re, replaceValue]) => acc.replace(re, replaceValue),
     text
   );
+
+  return `<span>${escapedEntities}</span>`;
 };
 
 export class SignalClipboard {
@@ -53,7 +55,7 @@ export class SignalClipboard {
 
     const clipboardDelta = signal
       ? clipboard.convert(signal)
-      : clipboard.convert(replaceAngleBrackets(text));
+      : clipboard.convert(prepareText(text));
 
     const { scrollTop } = this.quill.scrollingContainer;
 

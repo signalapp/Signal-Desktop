@@ -2,13 +2,20 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import Delta from 'quill-delta';
+import type { Matcher, AttributeMap } from 'quill';
+
 import { QuillFormattingStyle } from './menu';
 
-function applyStyleToOps(delta: Delta, style: QuillFormattingStyle): Delta {
+function applyStyleToOps(
+  delta: Delta,
+  style: QuillFormattingStyle,
+  attributes: AttributeMap
+): Delta {
   return new Delta(
     delta.map(op => ({
       ...op,
       attributes: {
+        ...attributes,
         ...op.attributes,
         [style]: true,
       },
@@ -16,31 +23,47 @@ function applyStyleToOps(delta: Delta, style: QuillFormattingStyle): Delta {
   );
 }
 
-export const matchBold = (_node: HTMLElement, delta: Delta): Delta => {
+export const matchBold: Matcher = (
+  _node: HTMLElement,
+  delta: Delta,
+  attributes: AttributeMap
+): Delta => {
   if (delta.length() > 0) {
-    return applyStyleToOps(delta, QuillFormattingStyle.bold);
+    return applyStyleToOps(delta, QuillFormattingStyle.bold, attributes);
   }
 
   return delta;
 };
 
-export const matchItalic = (_node: HTMLElement, delta: Delta): Delta => {
+export const matchItalic: Matcher = (
+  _node: HTMLElement,
+  delta: Delta,
+  attributes: AttributeMap
+): Delta => {
   if (delta.length() > 0) {
-    return applyStyleToOps(delta, QuillFormattingStyle.italic);
+    return applyStyleToOps(delta, QuillFormattingStyle.italic, attributes);
   }
 
   return delta;
 };
 
-export const matchStrikethrough = (_node: HTMLElement, delta: Delta): Delta => {
+export const matchStrikethrough: Matcher = (
+  _node: HTMLElement,
+  delta: Delta,
+  attributes: AttributeMap
+): Delta => {
   if (delta.length() > 0) {
-    return applyStyleToOps(delta, QuillFormattingStyle.strike);
+    return applyStyleToOps(delta, QuillFormattingStyle.strike, attributes);
   }
 
   return delta;
 };
 
-export const matchMonospace = (node: HTMLElement, delta: Delta): Delta => {
+export const matchMonospace: Matcher = (
+  node: HTMLElement,
+  delta: Delta,
+  attributes: AttributeMap
+): Delta => {
   const classes = [
     'MessageTextRenderer__formatting--monospace',
     'quill--monospace',
@@ -55,13 +78,17 @@ export const matchMonospace = (node: HTMLElement, delta: Delta): Delta => {
       node.classList.contains(classes[1]) ||
       node.attributes.getNamedItem('style')?.value?.includes(fontFamily))
   ) {
-    return applyStyleToOps(delta, QuillFormattingStyle.monospace);
+    return applyStyleToOps(delta, QuillFormattingStyle.monospace, attributes);
   }
 
   return delta;
 };
 
-export const matchSpoiler = (node: HTMLElement, delta: Delta): Delta => {
+export const matchSpoiler: Matcher = (
+  node: HTMLElement,
+  delta: Delta,
+  attributes: AttributeMap
+): Delta => {
   const classes = [
     'quill--spoiler',
     'MessageTextRenderer__formatting--spoiler',
@@ -74,7 +101,7 @@ export const matchSpoiler = (node: HTMLElement, delta: Delta): Delta => {
       node.classList.contains(classes[1]) ||
       node.classList.contains(classes[2]))
   ) {
-    return applyStyleToOps(delta, QuillFormattingStyle.spoiler);
+    return applyStyleToOps(delta, QuillFormattingStyle.spoiler, attributes);
   }
   return delta;
 };

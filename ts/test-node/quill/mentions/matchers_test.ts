@@ -90,25 +90,29 @@ const EMPTY_DELTA = new Delta();
 
 describe('matchMention', () => {
   it('handles an AtMentionify from clipboard', () => {
+    const existingAttributes = { italic: true };
     const result = matcher(
       createMockAtMentionElement({
         id: memberMahershala.id,
         title: memberMahershala.title,
       }),
-      EMPTY_DELTA
+      EMPTY_DELTA,
+      existingAttributes
     );
     const { ops } = result;
 
     assert.isNotEmpty(ops);
 
     const [op] = ops;
-    const { insert } = op;
+    const { insert, attributes } = op;
 
     if (isMention(insert)) {
       const { title, uuid } = insert.mention;
 
       assert.equal(title, memberMahershala.title);
       assert.equal(uuid, memberMahershala.uuid);
+
+      assert.deepEqual(existingAttributes, attributes, 'attributes');
     } else {
       assert.fail('insert is invalid');
     }
@@ -120,7 +124,8 @@ describe('matchMention', () => {
         uuid: memberMahershala.uuid || '',
         title: memberMahershala.title,
       }),
-      EMPTY_DELTA
+      EMPTY_DELTA,
+      {}
     );
     const { ops } = result;
 
@@ -145,7 +150,8 @@ describe('matchMention', () => {
         id: 'florp',
         title: 'Nonexistent',
       }),
-      EMPTY_DELTA
+      EMPTY_DELTA,
+      {}
     );
     const { ops } = result;
 
@@ -167,7 +173,8 @@ describe('matchMention', () => {
         uuid: 'florp',
         title: 'Nonexistent',
       }),
-      EMPTY_DELTA
+      EMPTY_DELTA,
+      {}
     );
     const { ops } = result;
 
@@ -184,7 +191,7 @@ describe('matchMention', () => {
   });
 
   it('passes other clipboard elements through', () => {
-    const result = matcher(createMockElement('ignore', {}), EMPTY_DELTA);
+    const result = matcher(createMockElement('ignore', {}), EMPTY_DELTA, {});
     assert.equal(result, EMPTY_DELTA);
   });
 });

@@ -213,7 +213,7 @@ export function CompositionInput(props: Props): React.ReactElement {
     }, []);
     const nodes = collapseRangeTree({ tree, text });
     const opsWithFormattingAndMentions = insertFormattingAndMentionsOps(nodes);
-    const opsWithEmojis = insertEmojiOps(opsWithFormattingAndMentions);
+    const opsWithEmojis = insertEmojiOps(opsWithFormattingAndMentions, {});
 
     return new Delta(opsWithEmojis);
   };
