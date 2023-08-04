@@ -3,32 +3,25 @@
 
 import { useEffect, useState } from 'react';
 
-function getReducedMotionQuery(): MediaQueryList {
-  return window.matchMedia('(prefers-reduced-motion: reduce)');
+// Allows this to work in Node process
+let reducedMotionQuery: MediaQueryList;
+function getReducedMotionQuery() {
+  if (reducedMotionQuery == null) {
+    reducedMotionQuery = window.matchMedia('(prefers-reduced-motion)');
+  }
+  return reducedMotionQuery;
 }
 
-// Inspired by <https://github.com/infiniteluke/react-reduce-motion>.
 export function useReducedMotion(): boolean {
-  const initialQuery = getReducedMotionQuery();
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(
-    initialQuery.matches
-  );
-
+  const [matches, setMatches] = useState(getReducedMotionQuery().matches);
   useEffect(() => {
-    const query = getReducedMotionQuery();
-
-    function changePreference() {
-      setPrefersReducedMotion(query.matches);
+    function onChange(event: MediaQueryListEvent) {
+      setMatches(event.matches);
     }
-
-    changePreference();
-
-    query.addEventListener('change', changePreference);
-
+    getReducedMotionQuery().addEventListener('change', onChange);
     return () => {
-      query.removeEventListener('change', changePreference);
+      getReducedMotionQuery().removeEventListener('change', onChange);
     };
-  });
-
-  return prefersReducedMotion;
+  }, []);
+  return matches;
 }
