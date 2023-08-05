@@ -254,7 +254,9 @@ export function ModalPage({
           )}
           ref={bodyRef}
         >
-          <div ref={bodyInnerRef}>{children}</div>
+          <div ref={bodyInnerRef} className={getClassName('__body_inner')}>
+            {children}
+          </div>
         </div>
         {modalFooter && <Modal.ButtonFooter>{modalFooter}</Modal.ButtonFooter>}
       </div>
