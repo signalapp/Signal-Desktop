@@ -12,6 +12,7 @@ import {
   clickOnTestIdWithText,
   hasTextElementBeenDeleted,
   typeIntoInput,
+  waitForMatchingPlaceholder,
   waitForMatchingText,
   waitForTestIdWithText,
   waitForTextMessage,
@@ -161,7 +162,16 @@ test('Check blocked user syncs', async () => {
   await clickOnElement(windowA, 'data-testid', 'three-dots-conversation-options');
   await clickOnMatchingText(windowA, 'Block');
   await waitForTestIdWithText(windowA, 'session-toast', 'Blocked');
-  // await waitForMatchingText(windowA, 'Unblock this contact to send a message.');
+  await waitForMatchingPlaceholder(
+    windowA,
+    'message-input-text-area',
+    'Unblock this contact to send a message.'
+  );
+  await waitForMatchingPlaceholder(
+    windowB,
+    'message-input-text-area',
+    'Unblock this contact to send a message.'
+  ); // reveal-blocked-user-settings is not updated once opened
   // Check linked device for blocked contact in settings screen
   await clickOnTestIdWithText(windowB, 'settings-section');
   await clickOnTestIdWithText(windowB, 'conversations-settings-menu-item');

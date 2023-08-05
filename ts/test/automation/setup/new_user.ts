@@ -17,7 +17,8 @@ export const newUser = async (window: Page, userName: string): Promise<User> => 
   await clickOnTestIdWithText(window, 'leftpane-primary-avatar');
 
   // Save session ID to a variable
-  const sessionid = await window.innerText('[data-testid=your-session-id]');
+  let sessionid = await window.innerText('[data-testid=your-session-id]');
+  sessionid = sessionid.replace(/(\r\n|\n|\r)/gm, ''); // remove the new line in the SessionID as it is rendered with one forced
 
   console.info(`${userName}: Session ID: ${sessionid} and Recovery phrase: ${recoveryPhrase}`);
   await window.click('.session-icon-button.small');

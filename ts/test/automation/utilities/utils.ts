@@ -68,6 +68,37 @@ export async function waitForMatchingText(window: Page, text: string, maxWait?: 
   console.info(`got matchingText: ${text}`);
 }
 
+export async function waitForMatchingPlaceholder(
+  window: Page,
+  dataTestId: string,
+  placeholder: string,
+  maxWait: number = 30000
+) {
+  let found = false;
+  const start = Date.now();
+  console.info(`waitForMatchingPlaceholder: ${placeholder} with datatestId: ${dataTestId}`);
+
+  do {
+    try {
+      const elem = await waitForElement(window, 'data-testid', dataTestId);
+      const elemPlaceholder = await elem.getAttribute('placeholder');
+      if (elemPlaceholder === placeholder) {
+        console.info(
+          `waitForMatchingPlaceholder foudn matching element with placeholder: "${placeholder}"`
+        );
+
+        found = true;
+      }
+    } catch (e) {
+      await sleepFor(1000, true);
+      console.info(`waitForMatchingPlaceholder failed with ${e.message}, retrying in 1s`);
+    }
+  } while (!found && Date.now() - start <= maxWait);
+
+  if (!found) {
+    throw new Error(`Failed to find datatestid:"${dataTestId}" with placeholder: "${placeholder}"`);
+  }
+}
 export async function waitForLoadingAnimationToFinish(
   window: Page,
   loader: loaderType,
