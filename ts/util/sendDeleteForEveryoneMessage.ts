@@ -6,7 +6,6 @@ import type { ConversationQueueJobData } from '../jobs/conversationJobQueue';
 import * as Errors from '../types/errors';
 import * as durations from './durations';
 import * as log from '../logging/log';
-import { DeleteModel } from '../messageModifiers/Deletes';
 import {
   conversationJobQueue,
   conversationQueueJobEnum,
@@ -91,10 +90,9 @@ export async function sendDeleteForEveryoneMessage(
     throw error;
   }
 
-  const deleteModel = new DeleteModel({
+  await deleteForEveryone(message, {
     targetSentTimestamp: targetTimestamp,
     serverTimestamp: Date.now(),
     fromId: window.ConversationController.getOurConversationIdOrThrow(),
   });
-  await deleteForEveryone(message, deleteModel);
 }

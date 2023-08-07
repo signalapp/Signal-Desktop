@@ -25,7 +25,10 @@ import { modifyTargetMessage } from './modifyTargetMessage';
 
 export async function handleEditMessage(
   mainMessage: MessageAttributesType,
-  editAttributes: EditAttributesType
+  editAttributes: Pick<
+    EditAttributesType,
+    'message' | 'conversationId' | 'fromDevice' | 'fromId'
+  >
 ): Promise<void> {
   const idLog = `handleEditMessage(${getMessageIdForLogging(mainMessage)})`;
 

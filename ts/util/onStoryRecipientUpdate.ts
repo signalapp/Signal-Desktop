@@ -2,10 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { isEqual } from 'lodash';
-import type { DeleteAttributesType } from '../messageModifiers/Deletes';
 import type { StoryRecipientUpdateEvent } from '../textsecure/messageReceiverEvents';
 import * as log from '../logging/log';
-import { DeleteModel } from '../messageModifiers/Deletes';
 import { SendStatus } from '../messages/MessageSendState';
 import { getConversationIdForLogging } from './idForLogging';
 import { isStory } from '../state/selectors/message';
@@ -175,12 +173,6 @@ export async function onStoryRecipientUpdate(
             messageId: item.id,
             storyDistributionListId,
           });
-          const delAttributes: DeleteAttributesType = {
-            fromId: ourConversationId,
-            serverTimestamp: Number(item.serverTimestamp),
-            targetSentTimestamp: item.timestamp,
-          };
-          const doe = new DeleteModel(delAttributes);
 
           // There are no longer any remaining members for this message so lets
           // run it through deleteForEveryone which marks the message as
@@ -189,7 +181,13 @@ export async function onStoryRecipientUpdate(
           // NOTE: We don't call `Deletes.onDelete()` so the message lookup by
           // sent timestamp doesn't happen (it would return all copies of the
           // story, not just the one we want to delete).
-          void message.handleDeleteForEveryone(doe);
+          drop(
+            message.handleDeleteForEveryone({
+              fromId: ourConversationId,
+              serverTimestamp: Number(item.serverTimestamp),
+              targetSentTimestamp: item.timestamp,
+            })
+          );
         } else {
           message.set({
             sendStateByConversationId: nextSendStateByConversationId,
