@@ -86,6 +86,7 @@ const StyledMessageOpaqueContent = styled(StyledMessageHighlighter)<{
   align-self: ${props => (props.messageDirection === 'incoming' ? 'flex-start' : 'flex-end')};
   padding: var(--padding-message-content);
   border-radius: var(--border-radius-message-box);
+  max-width: 100%;
 `;
 
 export const IsMessageVisibleContext = createContext(false);

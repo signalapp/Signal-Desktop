@@ -1,5 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
+import { CSSProperties } from 'styled-components';
 
 import { Emojify } from './Emojify';
 import { useConversationUsernameOrShorten, useIsPrivate } from '../../hooks/useParamSelector';
@@ -33,9 +34,10 @@ export const ContactName = (props: Props) => {
       className={classNames(prefix, compact && 'compact')}
       dir="auto"
       data-testid={`${prefix}__profile-name`}
+      style={{ textOverflow: 'inherit' }}
     >
       {shouldShowProfile ? (
-        <span style={styles as any} className={`${prefix}__profile-name`}>
+        <span style={styles as CSSProperties} className={`${prefix}__profile-name`}>
           <Emojify text={textProfile} sizeClass="small" isGroup={!isPrivate} />
         </span>
       ) : null}
