@@ -36,7 +36,7 @@ function isContactToStoreInWrapper(convo: ConversationModel): boolean {
  * Fetches the specified convo and updates the required field in the wrapper.
  * If that contact does not exist in the wrapper, it is created before being updated.
  */
-// tslint:disable-next-line: cyclomatic-complexity
+
 async function insertContactFromDBIntoWrapperAndRefresh(id: string): Promise<void> {
   const foundConvo = getConversationController().get(id);
   if (!foundConvo) {
@@ -94,13 +94,11 @@ async function refreshMappedValue(id: string, duringAppStart = false) {
         .get(id)
         ?.triggerUIRefresh();
     }
-  } else {
-    if (mappedContactWrapperValues.delete(id)) {
-      if (!duringAppStart) {
-        getConversationController()
-          .get(id)
-          ?.triggerUIRefresh();
-      }
+  } else if (mappedContactWrapperValues.delete(id)) {
+    if (!duringAppStart) {
+      getConversationController()
+        .get(id)
+        ?.triggerUIRefresh();
     }
   }
 }

@@ -1,6 +1,5 @@
-import { _electron, Page } from '@playwright/test';
+import { Page } from '@playwright/test';
 import { clickOnTestIdWithText, typeIntoInput } from './utils';
-// tslint:disable: no-console
 
 export const sendMessage = async (window: Page, message: string) => {
   // type into message input box

@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 /**
  * This is strictly use to resolve conflicts between local state and the opengroup poll updates
  * Currently only supports message reactions 26/08/2022
@@ -123,7 +124,6 @@ export async function processMessagesUsingCache(
           );
           break;
         case 'CLEAR':
-          // tslint:disable-next-line: no-dynamic-delete
           delete updatedReactions[reaction];
           window.log.debug(
             `SOGS Mutation Cache: Cleared all ${reaction} reactions based on the cache in ${server}/${room} for message ${message.id}`
@@ -143,6 +143,7 @@ export async function processMessagesUsingCache(
     }
   }
 
+  // eslint-disable-next-line no-param-reassign
   message.reactions = updatedReactions;
   await Reactions.handleOpenGroupMessageReactions(
     getOpenGroupV2ConversationId(server, room),

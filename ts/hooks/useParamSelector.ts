@@ -1,4 +1,4 @@
-import { compact, isEmpty, isNumber } from 'lodash';
+import { compact, isEmpty, isFinite, isNumber } from 'lodash';
 import { useSelector } from 'react-redux';
 import {
   hasValidIncomingRequestValues,

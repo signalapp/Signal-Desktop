@@ -1,7 +1,8 @@
+import { compact, flatten, identity, isEmpty, isFinite, pickBy, toNumber } from 'lodash';
+
 import { handleSwarmDataMessage } from './dataMessage';
 import { EnvelopePlus } from './types';
 
-import { compact, flatten, identity, isEmpty, pickBy, toNumber } from 'lodash';
 import { SignalService } from '../protobuf';
 import { KeyPrefixType, PubKey } from '../session/types';
 import { removeFromCache, updateCacheWithDecryptedContent } from './cache';
@@ -46,7 +47,8 @@ export async function handleSwarmContentMessage(envelope: EnvelopePlus, messageH
 
     if (!plaintext) {
       return;
-    } else if (plaintext instanceof ArrayBuffer && plaintext.byteLength === 0) {
+    }
+    if (plaintext instanceof ArrayBuffer && plaintext.byteLength === 0) {
       return;
     }
     const sentAtTimestamp = toNumber(envelope.timestamp);
@@ -90,6 +92,7 @@ async function decryptForClosedGroup(envelope: EnvelopePlus) {
         }
         const encryptionKeyPair = ECKeyPair.fromHexKeyPair(hexEncryptionKeyPair);
 
+        // eslint-disable-next-line no-await-in-loop
         decryptedContent = await decryptWithSessionProtocol(
           envelope,
           envelope.content,
@@ -194,7 +197,7 @@ export async function decryptWithSessionProtocol(
   if (!isValid) {
     perfEnd(`decryptWithSessionProtocol-${envelope.id}`, 'decryptWithSessionProtocol');
 
-    throw new Error('Invalid message signature.'); //throw Error.invalidSignature
+    throw new Error('Invalid message signature.');
   }
   // 4. ) Get the sender's X25519 public key
   const senderX25519PublicKey = sodium.crypto_sign_ed25519_pk_to_curve25519(senderED25519PublicKey);
@@ -206,8 +209,10 @@ export async function decryptWithSessionProtocol(
 
   // set the sender identity on the envelope itself.
   if (isClosedGroup) {
+    // eslint-disable-next-line no-param-reassign
     envelope.senderIdentity = `${KeyPrefixType.standard}${toHex(senderX25519PublicKey)}`;
   } else {
+    // eslint-disable-next-line no-param-reassign
     envelope.source = `${KeyPrefixType.standard}${toHex(senderX25519PublicKey)}`;
   }
   perfEnd(`decryptWithSessionProtocol-${envelope.id}`, 'decryptWithSessionProtocol');
@@ -255,46 +260,41 @@ export async function decryptEnvelopeWithOurKey(
   }
 }
 
-// tslint:disable-next-line: max-func-body-length
 async function decrypt(envelope: EnvelopePlus): Promise<any> {
-  try {
-    if (envelope.content.byteLength === 0) {
-      throw new Error('Received an empty envelope.');
-    }
-
-    let plaintext: ArrayBuffer | null = null;
-    switch (envelope.type) {
-      // Only SESSION_MESSAGE and CLOSED_GROUP_MESSAGE are supported
-      case SignalService.Envelope.Type.SESSION_MESSAGE:
-        plaintext = await decryptEnvelopeWithOurKey(envelope);
-        break;
-      case SignalService.Envelope.Type.CLOSED_GROUP_MESSAGE:
-        plaintext = await decryptForClosedGroup(envelope);
-        break;
-      default:
-        assertUnreachable(envelope.type, `Unknown message type:${envelope.type}`);
-    }
-
-    if (!plaintext) {
-      // content could not be decrypted.
-      await removeFromCache(envelope);
-      return null;
-    }
-
-    perfStart(`updateCacheWithDecryptedContent-${envelope.id}`);
-
-    await updateCacheWithDecryptedContent(envelope, plaintext).catch((error: any) => {
-      window?.log?.error(
-        'decrypt failed to save decrypted message contents to cache:',
-        error && error.stack ? error.stack : error
-      );
-    });
-    perfEnd(`updateCacheWithDecryptedContent-${envelope.id}`, 'updateCacheWithDecryptedContent');
-
-    return plaintext;
-  } catch (error) {
-    throw error;
+  if (envelope.content.byteLength === 0) {
+    throw new Error('Received an empty envelope.');
   }
+
+  let plaintext: ArrayBuffer | null = null;
+  switch (envelope.type) {
+    // Only SESSION_MESSAGE and CLOSED_GROUP_MESSAGE are supported
+    case SignalService.Envelope.Type.SESSION_MESSAGE:
+      plaintext = await decryptEnvelopeWithOurKey(envelope);
+      break;
+    case SignalService.Envelope.Type.CLOSED_GROUP_MESSAGE:
+      plaintext = await decryptForClosedGroup(envelope);
+      break;
+    default:
+      assertUnreachable(envelope.type, `Unknown message type:${envelope.type}`);
+  }
+
+  if (!plaintext) {
+    // content could not be decrypted.
+    await removeFromCache(envelope);
+    return null;
+  }
+
+  perfStart(`updateCacheWithDecryptedContent-${envelope.id}`);
+
+  await updateCacheWithDecryptedContent(envelope, plaintext).catch((error: any) => {
+    window?.log?.error(
+      'decrypt failed to save decrypted message contents to cache:',
+      error && error.stack ? error.stack : error
+    );
+  });
+  perfEnd(`updateCacheWithDecryptedContent-${envelope.id}`, 'updateCacheWithDecryptedContent');
+
+  return plaintext;
 }
 
 async function shouldDropIncomingPrivateMessage(sentAtTimestamp: number, envelope: EnvelopePlus) {
@@ -314,11 +314,11 @@ async function shouldDropIncomingPrivateMessage(sentAtTimestamp: number, envelop
           `received message from contact ${envelope.source} which appears to be hidden/removed in our most recent libsession contactconfig, sentAt: ${sentAtTimestamp}. Dropping it`
         );
         return true;
-      } else {
-        window.log.info(
-          `received message from contact ${envelope.source} which appears to NOT be hidden/removed in our most recent libsession contactconfig, sentAt: ${sentAtTimestamp}. `
-        );
       }
+
+      window.log.info(
+        `received message from contact ${envelope.source} which appears to NOT be hidden/removed in our most recent libsession contactconfig, sentAt: ${sentAtTimestamp}. `
+      );
     } catch (e) {
       window.log.warn(
         'ContactsWrapperActions.get in handleSwarmDataMessage failed with',
@@ -374,7 +374,6 @@ function shouldDropBlockedUserMessage(
   return !isControlDataMessageOnly;
 }
 
-// tslint:disable-next-line: cyclomatic-complexity max-func-body-length
 export async function innerHandleSwarmContentMessage(
   envelope: EnvelopePlus,
   sentAtTimestamp: number,
@@ -406,9 +405,8 @@ export async function innerHandleSwarmContentMessage(
       if (shouldDropBlockedUserMessage(content, envelopeSource)) {
         window?.log?.info('Dropping blocked user message');
         return;
-      } else {
-        window?.log?.info('Allowing group-control message only from blocked user');
       }
+      window?.log?.info('Allowing group-control message only from blocked user');
     }
 
     // if this is a direct message, envelope.senderIdentity is undefined
@@ -417,7 +415,8 @@ export async function innerHandleSwarmContentMessage(
 
     if (isPrivateConversationMessage) {
       if (await shouldDropIncomingPrivateMessage(sentAtTimestamp, envelope)) {
-        return removeFromCache(envelope);
+        await removeFromCache(envelope);
+        return;
       }
     }
 
@@ -538,7 +537,7 @@ export async function innerHandleSwarmContentMessage(
   }
 }
 
-function onReadReceipt(readAt: number, timestamp: number, source: string) {
+async function onReadReceipt(readAt: number, timestamp: number, source: string) {
   window?.log?.info('read receipt', source, timestamp);
 
   if (!Storage.get(SettingsKey.settingsReadReceipt)) {
@@ -546,7 +545,7 @@ function onReadReceipt(readAt: number, timestamp: number, source: string) {
   }
 
   // Calling this directly so we can wait for completion
-  return ReadReceipts.onReadReceipt({
+  await ReadReceipts.onReadReceipt({
     source,
     timestamp,
     readAt,
@@ -563,6 +562,7 @@ async function handleReceiptMessage(
 
   const results = [];
   if (type === SignalService.ReceiptMessage.Type.READ) {
+    // eslint-disable-next-line no-restricted-syntax
     for (const ts of timestamp) {
       const promise = onReadReceipt(toNumber(envelope.timestamp), toNumber(ts), envelope.source);
       results.push(promise);
@@ -650,9 +650,9 @@ async function handleUnsendMessage(envelope: EnvelopePlus, unsendMessage: Signal
     ])
   )?.models?.[0];
   const messageHash = messageToDelete?.get('messageHash');
-  //#endregion
+  // #endregion
 
-  //#region executing deletion
+  // #region executing deletion
   if (messageHash && messageToDelete) {
     window.log.info('handleUnsendMessage: got a request to delete ', messageHash);
     const conversation = getConversationController().get(messageToDelete.get('conversationId'));
@@ -756,9 +756,9 @@ async function handleMessageRequestResponse(
     // this is based on the messageId as  primary key. So this should overwrite existing messages with new merged data
     await Data.saveMessages(allMessageModels.map(m => m.attributes));
 
-    // tslint:disable-next-line: prefer-for-of
     for (let index = 0; index < convosToMerge.length; index++) {
       const element = convosToMerge[index];
+      // eslint-disable-next-line no-await-in-loop
       await getConversationController().deleteBlindedContact(element.id);
     }
   }

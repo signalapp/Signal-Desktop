@@ -1,10 +1,18 @@
-import * as GoogleChrome from '../../../ts/util/GoogleChrome';
-import * as MIME from '../../../ts/types/MIME';
-import { toLogFormat } from './Errors';
 import { arrayBufferToBlob, blobToArrayBuffer } from 'blob-util';
 import { pathExists } from 'fs-extra';
 
 import { isString } from 'lodash';
+
+import * as MIME from '../MIME';
+import * as GoogleChrome from '../../util/GoogleChrome';
+import { toLogFormat } from './Errors';
+
+import {
+  deleteOnDisk,
+  getAbsoluteAttachmentPath,
+  readAttachmentData,
+  writeNewAttachmentData,
+} from '../MessageAttachment';
 import {
   getImageDimensions,
   makeImageThumbnailBuffer,
@@ -14,12 +22,6 @@ import {
   THUMBNAIL_CONTENT_TYPE,
   THUMBNAIL_SIDE,
 } from './VisualAttachment';
-import {
-  deleteOnDisk,
-  getAbsoluteAttachmentPath,
-  readAttachmentData,
-  writeNewAttachmentData,
-} from '../MessageAttachment';
 
 // Returns true if `rawAttachment` is a valid attachment based on our current schema.
 // Over time, we can expand this definition to become more narrow, e.g. require certain
@@ -175,24 +177,25 @@ export const deleteData = async (attachment: {
     throw new TypeError('deleteData: attachment is not valid');
   }
 
-  const { path, thumbnail, screenshot } = attachment;
+  // TODO verify this works correctly
+  let { path, thumbnail, screenshot } = attachment;
 
   if (path && isString(path)) {
     const pathAfterDelete = await handleDiskDeletion(path);
-    attachment.path = isString(pathAfterDelete) ? pathAfterDelete : undefined;
+    path = isString(pathAfterDelete) ? pathAfterDelete : undefined;
   }
 
   if (thumbnail && isString(thumbnail.path)) {
     const pathAfterDelete = await handleDiskDeletion(thumbnail.path);
-    attachment.thumbnail = isString(pathAfterDelete) ? pathAfterDelete : undefined;
+    thumbnail = isString(pathAfterDelete) ? pathAfterDelete : undefined;
   }
 
   if (screenshot && isString(screenshot.path)) {
     const pathAfterDelete = await handleDiskDeletion(screenshot.path);
-    attachment.screenshot = isString(pathAfterDelete) ? pathAfterDelete : undefined;
+    screenshot = isString(pathAfterDelete) ? pathAfterDelete : undefined;
   }
 
-  return attachment;
+  return { path, thumbnail, screenshot };
 };
 
 type CaptureDimensionType = { contentType: string; path: string };

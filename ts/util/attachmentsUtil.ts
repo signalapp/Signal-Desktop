@@ -1,15 +1,17 @@
+/* eslint-disable max-len */
+import imageType from 'image-type';
+
+import { arrayBufferToBlob } from 'blob-util';
+import loadImage, { LoadImageOptions } from 'blueimp-load-image';
+import { StagedAttachmentType } from '../components/conversation/composition/CompositionBox';
 import { SignalService } from '../protobuf';
-import loadImage, { CropOptions, LoadImageOptions } from 'blueimp-load-image';
 import { getDecryptedMediaUrl } from '../session/crypto/DecryptedAttachmentsManager';
 import { sendDataExtractionNotification } from '../session/messages/outgoing/controlMessage/DataExtractionNotificationMessage';
 import { AttachmentType, save } from '../types/Attachment';
-import { StagedAttachmentType } from '../components/conversation/composition/CompositionBox';
-import { getAbsoluteAttachmentPath, processNewAttachment } from '../types/MessageAttachment';
-import { arrayBufferToBlob } from 'blob-util';
 import { IMAGE_GIF, IMAGE_JPEG, IMAGE_PNG, IMAGE_TIFF, IMAGE_UNKNOWN } from '../types/MIME';
+import { getAbsoluteAttachmentPath, processNewAttachment } from '../types/MessageAttachment';
 import { THUMBNAIL_SIDE } from '../types/attachments/VisualAttachment';
 
-import imageType from 'image-type';
 import { MAX_ATTACHMENT_FILESIZE_BYTES } from '../session/constants';
 import { perfEnd, perfStart } from '../session/utils/Performance';
 
@@ -147,7 +149,7 @@ async function canvasToBlob(
  * @param attachment The attachment to scale down
  * @param maxMeasurements any of those will be used if set
  */
-// tslint:disable-next-line: cyclomatic-complexity
+
 export async function autoScale<T extends { contentType: string; blob: Blob }>(
   attachment: T,
   maxMeasurements?: MaxScaleSize
@@ -187,14 +189,10 @@ export async function autoScale<T extends { contentType: string; blob: Blob }>(
     throw new Error(`GIF is too large, required size is ${maxSize}`);
   }
 
-  const crop: CropOptions = {
-    crop: makeSquare,
-  };
-
   const loadImgOpts: LoadImageOptions = {
     maxWidth: makeSquare ? maxMeasurements?.maxSide : maxWidth,
     maxHeight: makeSquare ? maxMeasurements?.maxSide : maxHeight,
-    ...crop,
+    crop: !!makeSquare,
     orientation: 1,
     aspectRatio: makeSquare ? 1 : undefined,
     canvas: true,
@@ -244,6 +242,7 @@ export async function autoScale<T extends { contentType: string; blob: Blob }>(
     if (DEBUG_ATTACHMENTS_SCALE) {
       // window.log.info(`autoscale iteration: [${i}] for:`, attachment);
     }
+    // eslint-disable-next-line no-await-in-loop
     const tempBlob = await canvasToBlob(canvas.image as HTMLCanvasElement, 'image/jpeg', quality);
 
     if (!tempBlob) {

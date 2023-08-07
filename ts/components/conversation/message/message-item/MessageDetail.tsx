@@ -1,21 +1,22 @@
-import React from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import useKey from 'react-use/lib/useKey';
 
 import { Message } from './Message';
-import { useDispatch, useSelector } from 'react-redux';
-import { Avatar, AvatarSize } from '../../../avatar/Avatar';
+
 import { deleteMessagesById } from '../../../../interactions/conversations/unsendingInteractions';
 import {
-  closeMessageDetailsView,
   ContactPropsMessageDetail,
+  closeMessageDetailsView,
 } from '../../../../state/ducks/conversations';
 import { getMessageDetailsViewProps } from '../../../../state/selectors/conversations';
+import { Avatar, AvatarSize } from '../../../avatar/Avatar';
 import { ContactName } from '../../ContactName';
-// tslint:disable-next-line: no-submodule-imports
-import useKey from 'react-use/lib/useKey';
-import { SessionButton, SessionButtonColor, SessionButtonType } from '../../../basic/SessionButton';
+
 import { useMessageIsDeletable } from '../../../../state/selectors';
+import { SessionButton, SessionButtonColor, SessionButtonType } from '../../../basic/SessionButton';
 
 const AvatarItem = (props: { pubkey: string }) => {
   const { pubkey } = props;

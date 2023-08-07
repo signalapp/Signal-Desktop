@@ -51,8 +51,6 @@ function autoUpdateDisabled() {
   const autoUpdate = typeof userSetting !== 'boolean' || userSetting;
 
   return (
-    process.mas || // From Electron: Mac App Store build
-    // tslint:disable-next-line: no-backbone-get-set-outside-model
-    !autoUpdate // User setting
+    process.mas || !autoUpdate // From Electron: Mac App Store build // User setting
   );
 }

@@ -1,8 +1,7 @@
-import { PubKey } from '../types';
-
 import _ from 'lodash';
-
 import { v4 as uuidv4 } from 'uuid';
+
+import { PubKey } from '../types';
 import { getMessageQueue } from '..';
 import { Data } from '../../data/data';
 import { ConversationModel } from '../../models/conversation';
@@ -241,7 +240,7 @@ export async function updateOrCreateClosedGroup(details: GroupInfo) {
     // Note: legacy group to not support change of admins.
     type: ConversationTypeEnum.GROUP,
     active_at: details.activeAt ? details.activeAt : 0,
-    left: details.activeAt ? false : true,
+    left: !details.activeAt,
     expirationType: details.expirationType || 'off',
     expireTimer: details.expireTimer || 0,
   };

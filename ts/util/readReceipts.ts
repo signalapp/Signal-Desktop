@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import { MessageCollection } from '../models/message';
 
 import { Data } from '../data/data';

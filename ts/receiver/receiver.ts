@@ -1,11 +1,12 @@
+/* eslint-disable more/no-then */
 import { v4 as uuidv4 } from 'uuid';
+import _ from 'lodash';
+
 import { EnvelopePlus } from './types';
-export { downloadAttachment } from './attachments';
 
 import { addToCache, getAllFromCache, getAllFromCacheForSource, removeFromCache } from './cache';
 
 // innerHandleSwarmContentMessage is only needed because of code duplication in handleDecryptedEnvelope...
-import _ from 'lodash';
 import { handleSwarmContentMessage, innerHandleSwarmContentMessage } from './contentMessage';
 
 import { Data } from '../data/data';
@@ -15,6 +16,8 @@ import { perfEnd, perfStart } from '../session/utils/Performance';
 import { createTaskWithTimeout } from '../session/utils/TaskWithTimeout';
 import { UnprocessedParameter } from '../types/sqlSharedTypes';
 import { getEnvelopeId } from './common';
+
+export { downloadAttachment } from './attachments';
 
 const incomingMessagePromises: Array<Promise<any>> = [];
 
@@ -90,7 +93,8 @@ async function handleRequestDetail(
     // Sender identity will be lost if we load from cache, because
     // plaintext (and protobuf.Envelope) does not have that field...
     envelope.source = inConversation;
-    // tslint:disable-next-line no-parameter-reassignment
+
+    // eslint-disable-next-line no-param-reassign
     plaintext = SignalService.Envelope.encode(envelope).finish();
     envelope.senderIdentity = senderIdentity;
   }
@@ -129,7 +133,6 @@ export function handleRequest(
   inConversation: string | null,
   messageHash: string
 ): void {
-  // tslint:disable-next-line no-promise-as-boolean
   const lastPromise = _.last(incomingMessagePromises) || Promise.resolve();
 
   const promise = handleRequestDetail(plaintext, inConversation, lastPromise, messageHash).catch(
@@ -141,7 +144,6 @@ export function handleRequest(
   incomingMessagePromises.push(promise);
 }
 
-// tslint:enable:cyclomatic-complexity max-func-body-length */
 /**
  * Used in main_renderer.js
  */
@@ -175,7 +177,6 @@ async function queueCached(item: UnprocessedParameter) {
 
     // Why do we need to do this???
     envelope.senderIdentity = envelope.senderIdentity || item.senderIdentity;
-    envelope.serverTimestamp = envelope.serverTimestamp;
 
     const { decrypted } = item;
 

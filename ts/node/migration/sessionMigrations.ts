@@ -1,11 +1,12 @@
-import * as BetterSqlite3 from 'better-sqlite3';
+/* eslint-disable no-unused-expressions */
+import * as BetterSqlite3 from '@signalapp/better-sqlite3';
 import {
   ContactsConfigWrapperNode,
   ConvoInfoVolatileWrapperNode,
   UserConfigWrapperNode,
   UserGroupsWrapperNode,
 } from 'libsession_util_nodejs';
-import { compact, isArray, isEmpty, isNumber, isString, map, pick } from 'lodash';
+import { compact, isArray, isEmpty, isFinite, isNumber, isString, map, pick } from 'lodash';
 import {
   CONVERSATION_PRIORITIES,
   ConversationAttributes,
@@ -38,7 +39,7 @@ import { sleepFor } from '../../session/utils/Promise';
 
 const hasDebugEnvVariable = Boolean(process.env.SESSION_DEBUG);
 
-// tslint:disable: no-console quotemark one-variable-per-declaration no-unused-expression
+// eslint:disable: quotemark one-variable-per-declaration no-unused-expression
 
 function getSessionSchemaVersion(db: BetterSqlite3.Database) {
   const result = db
@@ -499,8 +500,8 @@ function updateToSessionSchemaVersion15(currentVersion: number, db: BetterSqlite
   db.transaction(() => {
     db.exec(`
         DROP TABLE pairingAuthorisations;
-        DROP TRIGGER messages_on_delete;
-        DROP TRIGGER messages_on_update;
+        DROP TRIGGER IF EXISTS messages_on_delete;
+        DROP TRIGGER IF EXISTS messages_on_update;
       `);
 
     writeSessionSchemaVersion(targetVersion, db);
@@ -620,7 +621,7 @@ function updateToSessionSchemaVersion20(currentVersion: number, db: BetterSqlite
     //     `SELECT * FROM ${CONVERSATIONS_TABLE} WHERE type = 'private' AND (name IS NULL or name = '') AND json_extract(json, '$.nickname') <> '';`
     //   )
     //   .all();
-    // tslint:disable-next-line: no-void-expression
+
     // (rowsToUpdate || []).forEach(r => {
     //   const obj = jsonToObject(r.json);
 
@@ -723,7 +724,6 @@ function updateToSessionSchemaVersion23(currentVersion: number, db: BetterSqlite
   console.log(`updateToSessionSchemaVersion${targetVersion}: success!`);
 }
 
-// tslint:disable-next-line: max-func-body-length
 function updateToSessionSchemaVersion24(currentVersion: number, db: BetterSqlite3.Database) {
   const targetVersion = 24;
   if (currentVersion >= targetVersion) {
@@ -923,13 +923,11 @@ function updateToSessionSchemaVersion27(currentVersion: number, db: BetterSqlite
     if (!oldConvoId) {
       return null;
     }
-    return (
-      oldConvoId
-        ?.replace(`https://${ipToRemove}`, urlToUse)
-        // tslint:disable-next-line: no-http-string
-        ?.replace(`http://${ipToRemove}`, urlToUse)
-        ?.replace(ipToRemove, urlToUse)
-    );
+    return oldConvoId
+      ?.replace(`https://${ipToRemove}`, urlToUse)
+
+      ?.replace(`http://${ipToRemove}`, urlToUse)
+      ?.replace(ipToRemove, urlToUse);
   }
 
   function getAllOpenGroupV2Conversations(instance: BetterSqlite3.Database) {
@@ -964,7 +962,6 @@ function updateToSessionSchemaVersion27(currentVersion: number, db: BetterSqlite
     return roomId;
   }
 
-  // tslint:disable-next-line: max-func-body-length
   db.transaction(() => {
     // First we want to drop the column friendRequestStatus if it is there, otherwise the transaction fails
     const rows = db.pragma(`table_info(${CONVERSATIONS_TABLE});`);
@@ -1106,7 +1103,8 @@ function updateToSessionSchemaVersion27(currentVersion: number, db: BetterSqlite
 
     /**
      * Lastly, we need to take care of messages.
-     * For duplicated rooms, we drop all the messages from the IP one. (Otherwise we would need to compare each message id to not break the PRIMARY_KEY on the messageID and those are just sogs messages).
+     * For duplicated rooms, we drop all the messages from the IP one. (Otherwise we
+     * would need to compare each message id to not break the PRIMARY_KEY on the messageID and those are just sogs messages).
      * For non duplicated rooms which got renamed to their dns ID, we override the stored conversationId in the message with the new conversationID
      */
     dropFtsAndTriggers(db);
@@ -1267,10 +1265,10 @@ function insertContactIntoContactWrapper(
             expirationTimerSeconds: 0, //FIXME WILL add expirationMode here
           })
         );
-      } catch (e) {
+      } catch (err2) {
         // there is nothing else we can do here
         console.error(
-          `contactsConfigWrapper.set during migration failed with ${e.message} for id: ${contact.id}. Skipping contact entirely`
+          `contactsConfigWrapper.set during migration failed with ${err2.message} for id: ${contact.id}. Skipping contact entirely`
         );
       }
     }
@@ -1958,6 +1956,7 @@ export async function updateSessionSchema(db: BetterSqlite3.Database) {
        *
        * This means that this sleepFor will only sleep for at most 600ms, even if we need to run 30 migrations.
        */
+      // eslint-disable-next-line no-await-in-loop
       await sleepFor(200); // give some time for the UI to not freeze between 2 migrations
     }
   }

@@ -13,7 +13,6 @@ import {
 } from '../../../../state/ducks/conversations';
 import {
   areMoreMessagesBeingFetched,
-  getLoadedMessagesLength,
   getMostRecentMessageId,
   getOldestMessageId,
   getQuotedMessageToAnimate,
@@ -65,7 +64,6 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
   const dispatch = useDispatch();
 
   const selectedConversationKey = useSelectedConversationKey();
-  const loadedMessagesLength = useSelector(getLoadedMessagesLength);
   const mostRecentMessageId = useSelector(getMostRecentMessageId);
   const oldestMessageId = useSelector(getOldestMessageId);
   const youngestMessageId = useSelector(getYoungestMessageId);
@@ -81,6 +79,7 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
   // if this unread-indicator is rendered,
   // we want to scroll here only if the conversation was not opened to a specific message
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useLayoutEffect(() => {
     if (
       props.messageId === youngestMessageId &&
@@ -97,8 +96,7 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
   });
 
   const onVisible = useCallback(
-    // tslint:disable-next-line: cyclomatic-complexity
-    async (inView: boolean | Object) => {
+    async (inView: boolean | object) => {
       if (!selectedConversationKey) {
         return;
       }
@@ -161,20 +159,20 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
       }
     },
     [
+      dispatch,
       selectedConversationKey,
       mostRecentMessageId,
       oldestMessageId,
       fetchingMoreInProgress,
       isAppFocused,
-      loadedMessagesLength,
       receivedAt,
       messageId,
       isUnread,
+      youngestMessageId,
     ]
   );
 
   return (
-    // tslint:disable-next-line: use-simple-attributes
     <InView
       id={`msg-${messageId}`}
       onContextMenu={onContextMenu}

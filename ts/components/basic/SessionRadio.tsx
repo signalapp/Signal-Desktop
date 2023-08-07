@@ -1,7 +1,6 @@
 import React, { ChangeEvent } from 'react';
 import styled from 'styled-components';
-import { Flex } from '../basic/Flex';
-// tslint:disable: react-unused-props-and-state
+import { Flex } from './Flex';
 
 const StyledInput = styled.input<{
   filledSize: number;
@@ -23,7 +22,6 @@ const StyledInput = styled.input<{
         : 'var(--primary-color)'};
   }
 `;
-// tslint:disable: use-simple-attributes
 
 // NOTE (Will): We don't use a transition because it's too slow and creates flickering when changing buttons.
 const StyledLabel = styled.label<{

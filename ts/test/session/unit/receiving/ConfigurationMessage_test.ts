@@ -1,21 +1,21 @@
-// tslint:disable: no-implicit-dependencies
-
 import chai from 'chai';
+import Sinon from 'sinon';
+import chaiAsPromised from 'chai-as-promised';
+
 import { SignalService } from '../../../../protobuf';
 
 import { ConfigurationMessage } from '../../../../session/messages/outgoing/controlMessage/ConfigurationMessage';
 import { UserUtils } from '../../../../session/utils';
 import { TestUtils } from '../../../test-utils';
 
-import Sinon from 'sinon';
 import * as cache from '../../../../receiver/cache';
 import { EnvelopePlus } from '../../../../receiver/types';
 
-import chaiAsPromised from 'chai-as-promised';
 import { ConfigMessageHandler } from '../../../../receiver/configMessage';
 import { ConfigurationSync } from '../../../../session/utils/job_runners/jobs/ConfigurationSyncJob';
 import { ReleasedFeatures } from '../../../../util/releaseFeature';
 import { stubData } from '../../../test-utils/utils';
+
 chai.use(chaiAsPromised as any);
 chai.should();
 

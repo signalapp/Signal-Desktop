@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-// tslint:disable-next-line: no-submodule-imports
+
 import useMountedState from 'react-use/lib/useMountedState';
 import {
   addVideoEventsListener,
@@ -25,7 +25,8 @@ export function useVideoCallEventsListener(uniqueId: string, onSame: boolean) {
     DEVICE_DISABLED_DEVICE_ID
   );
   const [remoteStreamVideoIsMuted, setRemoteStreamVideoIsMuted] = useState(true);
-  const mountedState = useMountedState();
+  const mountedStateFunc = useMountedState();
+  const mountedState = mountedStateFunc();
 
   const [currentConnectedCameras, setCurrentConnectedCameras] = useState<Array<InputItem>>([]);
   const [currentConnectedAudioInputs, setCurrentConnectedAudioInputs] = useState<Array<InputItem>>(
@@ -53,7 +54,7 @@ export function useVideoCallEventsListener(uniqueId: string, onSame: boolean) {
           isAudioMuted,
           currentSelectedAudioOutput: outputSelected,
         } = options;
-        if (mountedState()) {
+        if (mountedState) {
           setLocalStream(lLocalStream);
           setRemoteStream(lRemoteStream);
           setRemoteStreamVideoIsMuted(isRemoteVideoStreamMuted);
@@ -71,7 +72,7 @@ export function useVideoCallEventsListener(uniqueId: string, onSame: boolean) {
     return () => {
       removeVideoEventsListener(uniqueId);
     };
-  }, [ongoingCallPubkey, selectedConversationKey, isFullScreen]);
+  }, [ongoingCallPubkey, selectedConversationKey, isFullScreen, mountedState, onSame, uniqueId]);
 
   return {
     currentConnectedAudioInputs,

@@ -16,6 +16,7 @@ export function resetFeatureReleasedCachedValue() {
   isUserConfigLibsessionFeatureReleased = undefined;
 }
 
+// eslint-disable-next-line consistent-return
 function getIsFeatureReleasedCached(featureName: FeatureNameTracked) {
   switch (featureName) {
     case 'disappearing_messages':
@@ -40,6 +41,7 @@ function setIsFeatureReleasedCached(featureName: FeatureNameTracked, value: bool
   }
 }
 
+// eslint-disable-next-line consistent-return
 function getFeatureReleaseTimestamp(featureName: FeatureNameTracked) {
   switch (featureName) {
     case 'disappearing_messages':

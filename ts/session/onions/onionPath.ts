@@ -1,22 +1,24 @@
-import { Data, Snode } from '../../../ts/data/data';
-import * as SnodePool from '../apis/snode_api/snodePool';
+/* eslint-disable import/no-mutable-exports */
+/* eslint-disable no-await-in-loop */
 import _ from 'lodash';
+import pRetry from 'p-retry';
+// eslint-disable-next-line import/no-named-default
 import { default as insecureNodeFetch } from 'node-fetch';
+
+import { Data, Snode } from '../../data/data';
+import * as SnodePool from '../apis/snode_api/snodePool';
 import { UserUtils } from '../utils';
 import { Onions, snodeHttpsAgent } from '../apis/snode_api/onions';
 import { allowOnlyOneAtATime } from '../utils/Promise';
-import pRetry from 'p-retry';
+import { updateOnionPaths } from '../../state/ducks/onion';
+import { ERROR_CODE_NO_CONNECT } from '../apis/snode_api/SNodeAPI';
+import { OnionPaths } from '.';
+import { APPLICATION_JSON } from '../../types/MIME';
 
 const desiredGuardCount = 3;
 const minimumGuardCount = 2;
-
-import { updateOnionPaths } from '../../state/ducks/onion';
-import { ERROR_CODE_NO_CONNECT } from '../apis/snode_api/SNodeAPI';
-
-import { OnionPaths } from './';
-import { APPLICATION_JSON } from '../../types/MIME';
-
 const ONION_REQUEST_HOPS = 3;
+
 export let onionPaths: Array<Array<Snode>> = [];
 
 /**
@@ -24,12 +26,11 @@ export let onionPaths: Array<Array<Snode>> = [];
  * @returns a copy of the onion path currently used by the app.
  *
  */
-// tslint:disable-next-line: variable-name
+
 export const TEST_getTestOnionPath = () => {
   return _.cloneDeep(onionPaths);
 };
 
-// tslint:disable-next-line: variable-name
 export const TEST_getTestguardNodes = () => {
   return _.cloneDeep(guardNodes);
 };
@@ -50,7 +51,6 @@ export const clearTestOnionPath = () => {
  */
 export let pathFailureCount: Record<string, number> = {};
 
-// tslint:disable-next-line: variable-name
 export const resetPathFailureCount = () => {
   pathFailureCount = {};
 };
@@ -204,7 +204,7 @@ export async function incrementBadPathCountOrDrop(snodeEd25519: string) {
     // this might happen if the snodeEd25519 is the one of the target snode, just increment the target snode count by 1
     await Onions.incrementBadSnodeCountOrDrop({ snodeEd25519 });
 
-    return;
+    return undefined;
   }
 
   const guardNodeEd25519 = onionPaths[pathWithSnodeIndex][0].pubkey_ed25519;
@@ -217,8 +217,6 @@ export async function incrementBadPathCountOrDrop(snodeEd25519: string) {
 
   window?.log?.info('handling bad path for path index', pathWithSnodeIndex);
   const oldPathFailureCount = pathFailureCount[guardNodeEd25519] || 0;
-
-  // tslint:disable: prefer-for-of
 
   const newPathFailureCount = oldPathFailureCount + 1;
   // skip the first one as the first one is the guard node.
@@ -233,6 +231,7 @@ export async function incrementBadPathCountOrDrop(snodeEd25519: string) {
   }
   // the path is not yet THAT bad. keep it for now
   pathFailureCount[guardNodeEd25519] = newPathFailureCount;
+  return undefined;
 }
 
 /**

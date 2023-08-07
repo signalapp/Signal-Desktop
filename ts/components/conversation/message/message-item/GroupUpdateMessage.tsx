@@ -50,7 +50,6 @@ const ChangeItemLeft = (left: Array<string>): string => {
   return window.i18n(leftKey, [names.join(', ')]);
 };
 
-// tslint:disable-next-line: cyclomatic-complexity
 const ChangeItem = (change: PropsForGroupUpdateType): string => {
   const { type } = change;
   switch (type) {
@@ -69,6 +68,7 @@ const ChangeItem = (change: PropsForGroupUpdateType): string => {
       return window.i18n('updatedTheGroup');
     default:
       assertUnreachable(type, `ChangeItem: Missing case error "${type}"`);
+      return '';
   }
 };
 

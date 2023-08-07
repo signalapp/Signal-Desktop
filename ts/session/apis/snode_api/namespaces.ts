@@ -50,6 +50,7 @@ export type SnodeNamespacesUser = PickEnum<
 /**
  * Returns true if that namespace is associated with the config of a user (not his messages, only configs)
  */
+// eslint-disable-next-line consistent-return
 function isUserConfigNamespace(namespace: SnodeNamespaces) {
   switch (namespace) {
     case SnodeNamespaces.UserMessages:
@@ -74,6 +75,7 @@ function isUserConfigNamespace(namespace: SnodeNamespaces) {
   }
 }
 
+// eslint-disable-next-line consistent-return
 function namespacePriority(namespace: SnodeNamespaces): number {
   switch (namespace) {
     case SnodeNamespaces.UserMessages:

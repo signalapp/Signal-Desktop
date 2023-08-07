@@ -1,4 +1,4 @@
-import { _electron, Page } from '@playwright/test';
+import { Page } from '@playwright/test';
 import { sendMessage } from '../utilities/message';
 import { sendNewMessage } from '../utilities/send_message';
 import {

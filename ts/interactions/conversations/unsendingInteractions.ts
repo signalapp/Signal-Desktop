@@ -54,7 +54,7 @@ async function unsendMessagesForEveryone(
     // sending to recipient all the messages separately for now
     await Promise.all(
       unsendMsgObjects.map(unsendObject => {
-        getMessageQueue()
+        return getMessageQueue()
           .sendToGroup({
             message: unsendObject,
             namespace: SnodeNamespaces.ClosedGroupMessage,
@@ -71,7 +71,7 @@ async function unsendMessagesForEveryone(
 }
 
 function getUnsendMessagesObjects(messages: Array<MessageModel>) {
-  //#region building request
+  // #region building request
   return compact(
     messages.map(message => {
       const author = message.get('source');
@@ -91,7 +91,7 @@ function getUnsendMessagesObjects(messages: Array<MessageModel>) {
       return new UnsendMessage(unsendParams);
     })
   );
-  //#endregion
+  // #endregion
 }
 
 /**
@@ -247,7 +247,7 @@ const doDeleteSelectedMessagesInSOGS = async (
   if (!ourDevicePubkey) {
     return;
   }
-  //#region open group v2 deletion
+  // #region open group v2 deletion
   // Get our Moderator status
   const isAdmin = conversation.isAdmin(ourDevicePubkey);
   const isModerator = conversation.isModerator(ourDevicePubkey);
@@ -273,12 +273,13 @@ const doDeleteSelectedMessagesInSOGS = async (
           deletionType: 'complete',
         });
       }
+      return null;
     })
   );
   // successful deletion
   ToastUtils.pushDeleted(toDeleteLocallyIds.length);
   window.inboxStore?.dispatch(resetSelectedMessageIds());
-  //#endregion
+  // #endregion
 };
 
 /**
@@ -303,10 +304,11 @@ const doDeleteSelectedMessages = async ({
 
   const isAllOurs = selectedMessages.every(message => ourDevicePubkey === message.getSource());
   if (conversation.isPublic()) {
-    return doDeleteSelectedMessagesInSOGS(selectedMessages, conversation, isAllOurs);
+    await doDeleteSelectedMessagesInSOGS(selectedMessages, conversation, isAllOurs);
+    return;
   }
 
-  //#region deletion for 1-1 and closed groups
+  // #region deletion for 1-1 and closed groups
 
   if (deleteForEveryone) {
     if (!isAllOurs) {
@@ -314,7 +316,8 @@ const doDeleteSelectedMessages = async ({
       window.inboxStore?.dispatch(resetSelectedMessageIds());
       return;
     }
-    return unsendMessagesForEveryone(conversation, selectedMessages);
+    await unsendMessagesForEveryone(conversation, selectedMessages);
+    return;
   }
 
   // delete just for me in a closed group only means delete locally
@@ -327,12 +330,11 @@ const doDeleteSelectedMessages = async ({
     return;
   }
   // otherwise, delete that message locally, from our swarm and from our other devices
-  return unsendMessageJustForThisUser(conversation, selectedMessages);
+  await unsendMessageJustForThisUser(conversation, selectedMessages);
 
-  //#endregion
+  // #endregion
 };
 
-// tslint:disable-next-line: max-func-body-length
 export async function deleteMessagesByIdForEveryone(
   messageIds: Array<string>,
   conversationId: string
@@ -358,7 +360,6 @@ export async function deleteMessagesByIdForEveryone(
 
         // explicitly close modal for this case.
         window.inboxStore?.dispatch(updateConfirmModal(null));
-        return;
       },
       closeAfterInput: false,
     })
@@ -435,10 +436,9 @@ async function deleteOpenGroupMessages(
   if (allMessagesAreDeleted) {
     window?.log?.info('Removed all those serverIds messages successfully');
     return validMessageModelsToRemove.map(m => m.id as string);
-  } else {
-    window?.log?.info(
-      'failed to remove all those serverIds message. not removing them locally neither'
-    );
-    return [];
   }
+  window?.log?.info(
+    'failed to remove all those serverIds message. not removing them locally neither'
+  );
+  return [];
 }

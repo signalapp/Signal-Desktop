@@ -1,5 +1,3 @@
-// tslint:disable: no-implicit-dependencies max-func-body-length no-unused-expression
-
 import chai from 'chai';
 import { describe } from 'mocha';
 import Sinon from 'sinon';
@@ -8,7 +6,6 @@ import { TestUtils } from '../../../../test-utils';
 
 const { expect } = chai;
 
-// tslint:disable-next-line: max-func-body-length
 describe('filterDuplicatesFromDbAndIncomingV4', () => {
   describe('filters already duplicated message in the same incoming batch', () => {
     beforeEach(() => {

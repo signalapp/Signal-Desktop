@@ -46,6 +46,7 @@ export async function doSnodeBatchRequest(
   if (decoded?.length) {
     for (let index = 0; index < decoded.length; index++) {
       const resultRow = decoded[index];
+      // eslint-disable-next-line no-await-in-loop
       await processOnionRequestErrorAtDestination({
         statusCode: resultRow.code,
         body: JSON.stringify(resultRow.body),

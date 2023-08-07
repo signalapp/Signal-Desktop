@@ -1,24 +1,22 @@
+/* eslint-disable no-console */
+import storage from 'redux-persist/lib/storage';
+
 import { createLogger } from 'redux-logger';
 import { configureStore } from '@reduxjs/toolkit';
-import { rootReducer } from './reducer';
-import { persistReducer } from 'redux-persist';
-// tslint:disable-next-line: match-default-export-name
-import promiseMiddleware from 'redux-promise-middleware';
 
-// tslint:disable-next-line: no-submodule-imports match-default-export-name
-import storage from 'redux-persist/lib/storage';
-// @ts-ignore
-const env = window.getEnvironment();
+import { persistReducer } from 'redux-persist';
+
+import promiseMiddleware from 'redux-promise-middleware';
+import { rootReducer } from './reducer';
 
 // So Redux logging doesn't go to disk, and so we can get colors/styles
 const directConsole = {
-  // @ts-ignore
-  log: console._log,
+  log: (console as any)._log,
   groupCollapsed: console.groupCollapsed,
   group: console.group,
   groupEnd: console.groupEnd,
   warn: console.warn,
-  // tslint:disable-next-line no-console
+
   error: console.error,
 };
 
@@ -35,7 +33,7 @@ export const persistConfig = {
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 // Exclude logger if we're in production mode
-const disableLogging = true; //; env === 'production' || true; // ALWAYS TURNED OFF
+const disableLogging = true;
 const middlewareList = disableLogging ? [promiseMiddleware] : [logger, promiseMiddleware];
 
 export const createStore = (initialState: any) =>

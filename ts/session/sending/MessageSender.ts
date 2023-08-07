@@ -4,7 +4,7 @@ import { AbortController } from 'abort-controller';
 import ByteBuffer from 'bytebuffer';
 import _, { isEmpty, isNil, isString, sample, toNumber } from 'lodash';
 import pRetry from 'p-retry';
-import { Data } from '../../../ts/data/data';
+import { Data } from '../../data/data';
 import { SignalService } from '../../protobuf';
 import { OpenGroupRequestCommonType } from '../apis/open_group_api/opengroupV2/ApiUtil';
 import { OpenGroupMessageV2 } from '../apis/open_group_api/opengroupV2/OpenGroupMessageV2';
@@ -84,9 +84,8 @@ function isSyncMessage(message: ContentMessage) {
     (message as any).syncTarget?.length > 0
   ) {
     return true;
-  } else {
-    return false;
   }
+  return false;
 }
 
 /**
@@ -261,9 +260,8 @@ function encryptionBasedOnConversation(destination: PubKey) {
       ?.isClosedGroup()
   ) {
     return SignalService.Envelope.Type.CLOSED_GROUP_MESSAGE;
-  } else {
-    return SignalService.Envelope.Type.SESSION_MESSAGE;
   }
+  return SignalService.Envelope.Type.SESSION_MESSAGE;
 }
 
 type SharedEncryptAndWrap = {

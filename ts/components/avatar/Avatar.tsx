@@ -2,6 +2,8 @@ import classNames from 'classnames';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { isEqual } from 'lodash';
+
 import { useDisableDrag } from '../../hooks/useDisableDrag';
 import { useEncryptedFileFetch } from '../../hooks/useEncryptedFileFetch';
 import {
@@ -13,7 +15,6 @@ import { isMessageSelectionMode } from '../../state/selectors/conversations';
 import { SessionIcon } from '../icon';
 import { AvatarPlaceHolder } from './AvatarPlaceHolder/AvatarPlaceHolder';
 import { ClosedGroupAvatar } from './AvatarPlaceHolder/ClosedGroupAvatar';
-import { isEqual } from 'lodash';
 
 export enum AvatarSize {
   XS = 28,
@@ -99,7 +100,6 @@ const AvatarImage = (
   }
   const dataToDisplay = base64Data ? `data:image/jpeg;base64,${base64Data}` : avatarPath;
 
-  // tslint:disable: react-a11y-img-has-alt
   return (
     <img
       onError={handleImageError}
@@ -165,7 +165,6 @@ const AvatarInner = (props: Props) => {
       data-testid={dataTestId}
     >
       {hasImage ? (
-        // tslint:disable-next-line: use-simple-attributes
         <AvatarImage
           avatarPath={urlToLoad}
           base64Data={base64Data}

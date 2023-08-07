@@ -10,6 +10,9 @@ on:
     branches:
       - clearnet
       - unstable
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -50,7 +53,6 @@ jobs:
         if: runner.os == 'Windows'
         run: |
           npm install --global yarn node-gyp@latest
-          npm config set msvs_version 2022
 
       - name: Install Desktop node_modules
         if: steps.cache-desktop-modules.outputs.cache-hit != 'true'

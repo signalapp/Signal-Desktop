@@ -132,45 +132,45 @@ async function sendToGroupMembers(
       );
     }
     return allInvitesSent;
-  } else {
-    // Confirmation dialog that recursively calls sendToGroupMembers on resolve
-
-    window.inboxStore?.dispatch(
-      updateConfirmModal({
-        title:
-          inviteResults.length > 1
-            ? window.i18n('closedGroupInviteFailTitlePlural')
-            : window.i18n('closedGroupInviteFailTitle'),
-        message:
-          inviteResults.length > 1
-            ? window.i18n('closedGroupInviteFailMessagePlural')
-            : window.i18n('closedGroupInviteFailMessage'),
-        okText: window.i18n('closedGroupInviteOkText'),
-        onClickOk: async () => {
-          const membersToResend: Array<string> = new Array<string>();
-          inviteResults.forEach((result, index) => {
-            const member = listOfMembers[index];
-            // group invite must always contain the admin member.
-            if (result !== true || admins.includes(member)) {
-              membersToResend.push(member);
-            }
-          });
-          if (membersToResend.length > 0) {
-            const isRetrySend = true;
-            await sendToGroupMembers(
-              membersToResend,
-              groupPublicKey,
-              groupName,
-              admins,
-              encryptionKeyPair,
-              existingExpireTimer,
-              isRetrySend
-            );
-          }
-        },
-      })
-    );
   }
+  // Confirmation dialog that recursively calls sendToGroupMembers on resolve
+
+  window.inboxStore?.dispatch(
+    updateConfirmModal({
+      title:
+        inviteResults.length > 1
+          ? window.i18n('closedGroupInviteFailTitlePlural')
+          : window.i18n('closedGroupInviteFailTitle'),
+      message:
+        inviteResults.length > 1
+          ? window.i18n('closedGroupInviteFailMessagePlural')
+          : window.i18n('closedGroupInviteFailMessage'),
+      okText: window.i18n('closedGroupInviteOkText'),
+      onClickOk: async () => {
+        const membersToResend: Array<string> = new Array<string>();
+        inviteResults.forEach((result, index) => {
+          const member = listOfMembers[index];
+          // group invite must always contain the admin member.
+          if (result !== true || admins.includes(member)) {
+            membersToResend.push(member);
+          }
+        });
+        if (membersToResend.length > 0) {
+          const isRetrySend = true;
+          await sendToGroupMembers(
+            membersToResend,
+            groupPublicKey,
+            groupName,
+            admins,
+            encryptionKeyPair,
+            existingExpireTimer,
+            isRetrySend
+          );
+        }
+      },
+    })
+  );
+
   return allInvitesSent;
 }
 

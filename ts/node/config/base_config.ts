@@ -1,5 +1,4 @@
 import { readFileSync, unlinkSync, writeFileSync } from 'fs';
-// tslint:disable: no-console
 
 const ENCODING = 'utf8';
 

@@ -23,7 +23,6 @@ export class ClosedGroupNameChangeMessage extends ClosedGroupMessage {
   public dataProto(): SignalService.DataMessage {
     const dataMessage = super.dataProto();
 
-    // tslint:disable: no-non-null-assertion
     dataMessage.closedGroupControlMessage!.type =
       SignalService.DataMessage.ClosedGroupControlMessage.Type.NAME_CHANGE;
     dataMessage.closedGroupControlMessage!.name = this.name;

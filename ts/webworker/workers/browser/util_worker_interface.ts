@@ -1,6 +1,6 @@
-import { WorkerInterface } from '../../worker_interface';
 import { join } from 'path';
 import { getAppRootPath } from '../../../node/getRootPath';
+import { WorkerInterface } from '../../worker_interface';
 
 let utilWorkerInterface: WorkerInterface | undefined;
 

@@ -2,8 +2,7 @@ import classNames from 'classnames';
 import React, { useCallback, useEffect, useState } from 'react';
 import { contextMenu } from 'react-contexify';
 import { useSelector } from 'react-redux';
-// tslint:disable-next-line: no-submodule-imports
-import _ from 'lodash';
+import styled, { keyframes } from 'styled-components';
 import { MessageRenderingProps } from '../../../../models/messageType';
 import { getConversationController } from '../../../../session/conversations';
 import {
@@ -13,7 +12,6 @@ import {
 } from '../../../../state/selectors/conversations';
 import { MessageContentWithStatuses } from '../message-content/MessageContentWithStatus';
 import { ReadableMessage } from './ReadableMessage';
-import styled, { keyframes } from 'styled-components';
 import { isOpenOrClosedGroup } from '../../../../models/conversationAttributes';
 import { ExpirableReadableMessage } from './ExpirableReadableMessage';
 import { StyledMessageReactionsContainer } from '../message-content/MessageReactions';
@@ -34,7 +32,6 @@ type Props = {
   ctxMenuID: string;
   isDetailView?: boolean;
 };
-// tslint:disable: use-simple-attributes
 
 const highlightedMessageAnimation = keyframes`
   1% {

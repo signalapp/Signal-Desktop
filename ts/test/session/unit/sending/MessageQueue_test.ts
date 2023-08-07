@@ -1,12 +1,20 @@
-// tslint:disable: no-implicit-dependencies max-func-body-length no-unused-expression
+/* eslint-disable consistent-return */
+/* eslint-disable no-unused-expressions */
+/* eslint-disable more/no-then */
+/* eslint-disable no-loop-func */
+/* eslint-disable @typescript-eslint/no-floating-promises */
+/* eslint-disable no-await-in-loop */
+/* eslint-disable no-unreachable-loop */
+/* eslint-disable no-restricted-syntax */
+import { randomBytes } from 'crypto';
 
 import chai from 'chai';
 import Sinon, * as sinon from 'sinon';
 import { describe } from 'mocha';
-import { randomBytes } from 'crypto';
+import chaiAsPromised from 'chai-as-promised';
 
 import { GroupUtils, PromiseUtils, UserUtils } from '../../../../session/utils';
-import { TestUtils } from '../../../../test/test-utils';
+import { TestUtils } from '../../../test-utils';
 import { MessageQueue } from '../../../../session/sending/MessageQueue';
 import { ContentMessage } from '../../../../session/messages/outgoing';
 import { PubKey, RawMessage } from '../../../../session/types';
@@ -14,7 +22,6 @@ import { MessageSender } from '../../../../session/sending';
 import { PendingMessageCacheStub } from '../../../test-utils/stubs';
 import { ClosedGroupMessage } from '../../../../session/messages/outgoing/controlMessage/group/ClosedGroupMessage';
 
-import chaiAsPromised from 'chai-as-promised';
 import { MessageSentHandler } from '../../../../session/sending/MessageSentHandler';
 import { stubData } from '../../../test-utils/utils';
 import { SnodeNamespaces } from '../../../../session/apis/snode_api/namespaces';
@@ -24,7 +31,6 @@ chai.should();
 
 const { expect } = chai;
 
-// tslint:disable-next-line: max-func-body-length
 describe('MessageQueue', () => {
   // Initialize new stubbed cache
   const ourDevice = TestUtils.generateFakePubKey();

@@ -1,6 +1,7 @@
+import autoBind from 'auto-bind';
 import React, { ChangeEvent, MouseEvent } from 'react';
 import { QRCode } from 'react-qr-svg';
-
+import styled from 'styled-components';
 import { Avatar, AvatarSize } from '../avatar/Avatar';
 
 import { SyncUtils, ToastUtils, UserUtils } from '../../session/utils';
@@ -8,8 +9,6 @@ import { YourSessionIDPill, YourSessionIDSelectable } from '../basic/YourSession
 
 import { ConversationModel } from '../../models/conversation';
 
-import autoBind from 'auto-bind';
-import styled from 'styled-components';
 import { uploadOurAvatar } from '../../interactions/conversationInteractions';
 import { ConversationTypeEnum } from '../../models/conversationAttributes';
 import { MAX_USERNAME_BYTES } from '../../session/constants';
@@ -60,10 +59,10 @@ interface State {
   loading: boolean;
 }
 
-export class EditProfileDialog extends React.Component<{}, State> {
+export class EditProfileDialog extends React.Component<object, State> {
   private readonly convo: ConversationModel;
 
-  constructor(props: any) {
+  constructor(props: object) {
     super(props);
 
     autoBind(this);
@@ -164,6 +163,7 @@ export class EditProfileDialog extends React.Component<{}, State> {
             <div
               className="image-upload-section"
               role="button"
+              // eslint-disable-next-line @typescript-eslint/no-misused-promises
               onClick={this.fireInputEvent}
               data-testid="image-upload-section"
             />
@@ -303,6 +303,7 @@ export class EditProfileDialog extends React.Component<{}, State> {
           profileName: trimName,
           loading: true,
         },
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
         async () => {
           await commitProfileEdits(newName, newAvatarObjectUrl);
           this.setState({
@@ -315,8 +316,6 @@ export class EditProfileDialog extends React.Component<{}, State> {
       );
     } catch (e) {
       ToastUtils.pushToastError('nameTooLong', window.i18n('displayNameTooLong'));
-
-      return;
     }
   }
 

@@ -1,28 +1,4 @@
 import Backbone from 'backbone';
-// tslint:disable-next-line: match-default-export-name
-import filesize from 'filesize';
-import { SignalService } from '../../ts/protobuf';
-import { getMessageQueue } from '../../ts/session';
-import { getConversationController } from '../../ts/session/conversations';
-import { ContentMessage } from '../../ts/session/messages/outgoing';
-import { PubKey } from '../../ts/session/types';
-import {
-  uploadAttachmentsToFileServer,
-  uploadLinkPreviewToFileServer,
-  uploadQuoteThumbnailsToFileServer,
-  UserUtils,
-} from '../../ts/session/utils';
-import { ClosedGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/ClosedGroupVisibleMessage';
-import {
-  DataExtractionNotificationMsg,
-  fillMessageAttributesWithDefaults,
-  MessageAttributes,
-  MessageAttributesOptionals,
-  MessageGroupUpdate,
-  MessageModelType,
-  PropsForDataExtractionNotification,
-  PropsForMessageRequestResponse,
-} from './messageType';
 
 import autoBind from 'auto-bind';
 import {
@@ -38,7 +14,31 @@ import {
   sortBy,
   uniq,
 } from 'lodash';
-import { Data } from '../../ts/data/data';
+import filesize from 'filesize';
+import { SignalService } from '../protobuf';
+import { getMessageQueue } from '../session';
+import { getConversationController } from '../session/conversations';
+import { ContentMessage } from '../session/messages/outgoing';
+import { PubKey } from '../session/types';
+import {
+  uploadAttachmentsToFileServer,
+  uploadLinkPreviewToFileServer,
+  uploadQuoteThumbnailsToFileServer,
+  UserUtils,
+} from '../session/utils';
+import { ClosedGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/ClosedGroupVisibleMessage';
+import {
+  DataExtractionNotificationMsg,
+  fillMessageAttributesWithDefaults,
+  MessageAttributes,
+  MessageAttributesOptionals,
+  MessageGroupUpdate,
+  MessageModelType,
+  PropsForDataExtractionNotification,
+  PropsForMessageRequestResponse,
+} from './messageType';
+
+import { Data } from '../data/data';
 import { OpenGroupData } from '../data/opengroups';
 import { SettingsKey } from '../data/settings-key';
 import { isUsAnySogsFromCache } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
@@ -101,7 +101,6 @@ import { Notifications } from '../util/notifications';
 import { Storage } from '../util/storage';
 import { ConversationModel } from './conversation';
 import { READ_MESSAGE_STATE } from './conversationAttributes';
-// tslint:disable: cyclomatic-complexity
 
 /**
  * @returns true if the array contains only a single item being 'You', 'you' or our device pubkey
@@ -201,7 +200,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const expirationTimerUpdate = this.get('expirationTimerUpdate');
 
     // eslint-disable-next-line no-bitwise
-    // tslint:disable-next-line: no-bitwise
     return Boolean(flags & expirationTimerFlag) || !isEmpty(expirationTimerUpdate);
   }
 
@@ -412,7 +410,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     };
   }
 
-  // tslint:disable-next-line: cyclomatic-complexity
   public getPropsForGroupUpdateMessage(): PropsForGroupUpdate | null {
     const groupUpdate = this.getGroupUpdateAsArray();
 
@@ -488,7 +485,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       return 'read';
     }
     const sent = this.get('sent');
-    // control messages we've sent, synced from the network appear to just have the sent_at field set, but our current devices also have this field set when we are just sending it... So idk how to have behavior work fine.,
+    // control messages we've sent, synced from the network appear to just have the
+    // sent_at field set, but our current devices also have this field set when we are just sending it... So idk how to have behavior work fine.,
     // TODOLATER
     // const sentAt = this.get('sent_at');
     const sentTo = this.get('sent_to') || [];
@@ -500,7 +498,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     return 'sending';
   }
 
-  // tslint:disable-next-line: cyclomatic-complexity
   public getPropsForMessage(): PropsForMessageWithoutConvoProps {
     const sender = this.getSource();
     const expirationType = this.get('expirationType');
@@ -639,7 +636,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     } = attachment;
 
     const isVoiceMessageBool =
-      // tslint:disable-next-line: no-bitwise
+      // eslint-disable-next-line no-bitwise
       Boolean(flags && flags & SignalService.AttachmentPointer.Flags.VOICE_MESSAGE) || false;
 
     return {
@@ -832,7 +829,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         window?.log?.info(
           'cannot retry send message, the corresponding conversation was not found.'
         );
-        return;
+        return null;
       }
       const { body, attachments, preview, quote, fileIdsToLink } = await this.uploadData();
 
@@ -1107,7 +1104,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     // getNextExpiringMessage is used on app start to clean already expired messages which should have been removed already, but are not
     await this.setToExpire();
 
-    this.getConversation()?.refreshInMemoryDetails();
+    await this.getConversation()?.refreshInMemoryDetails();
   }
 
   public markMessageReadNoCommit(readAt: number) {
@@ -1385,7 +1382,7 @@ export function findAndFormatContact(pubkey: string): FindAndFormatContactType {
   }
 
   return {
-    pubkey: pubkey,
+    pubkey,
     avatarPath: contactModel ? contactModel.getAvatarPath() : null,
     name: contactModel?.getRealSessionUsername() || null,
     profileName,
@@ -1399,16 +1396,11 @@ export function processQuoteAttachment(attachment: any) {
   const objectUrl = thumbnail && thumbnail.objectUrl;
 
   const thumbnailWithObjectUrl =
-    !path && !objectUrl
-      ? null
-      : // tslint:disable: prefer-object-spread
-        Object.assign({}, attachment.thumbnail || {}, {
-          objectUrl: path || objectUrl,
-        });
+    !path && !objectUrl ? null : { ...(attachment.thumbnail || {}), objectUrl: path || objectUrl };
 
-  return Object.assign({}, attachment, {
+  return {
+    ...attachment,
     isVoiceMessage: isVoiceMessage(attachment),
     thumbnail: thumbnailWithObjectUrl,
-  });
-  // tslint:enable: prefer-object-spread
+  };
 }

@@ -1,5 +1,4 @@
-// tslint:disable: chai-vague-errors no-unused-expression no-http-string max-func-body-length
-
+/* eslint-disable no-unused-expressions */
 import { expect } from 'chai';
 import Sinon from 'sinon';
 import { OpenGroupData, OpenGroupV2Room } from '../../../../data/opengroups';

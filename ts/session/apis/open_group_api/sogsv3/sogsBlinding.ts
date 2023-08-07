@@ -1,6 +1,9 @@
+import { crypto_hash_sha512, from_hex, to_hex } from 'libsodium-wrappers-sumo';
+import { isEqual } from 'lodash';
+
 import { encode, fromUInt8ArrayToBase64, stringToUint8Array, toHex } from '../../../utils/String';
 import { concatUInt8Array, getSodiumRenderer, LibSodiumWrappers } from '../../../crypto';
-import { crypto_hash_sha512, from_hex, to_hex } from 'libsodium-wrappers-sumo';
+
 import { ByteKeyPair } from '../../../utils/User';
 import { StringUtils } from '../../../utils';
 import { KeyPrefixType, PubKey } from '../../../types';
@@ -11,7 +14,6 @@ import {
   sharedBlindedEncryptionKey,
   toX25519,
 } from '../../../utils/SodiumUtils';
-import { isEqual } from 'lodash';
 import { OnionSending } from '../../../onions/onionSend';
 
 async function getSogsSignature({
@@ -165,22 +167,20 @@ const getBlindingValues = (
   secretKey: Uint8Array;
   publicKey: Uint8Array;
 } => {
-  let ka;
-  let kA;
   const k = sodium.crypto_core_ed25519_scalar_reduce(sodium.crypto_generichash(64, serverPK));
 
   // use curve key i.e. s.privKey
   let a = sodium.crypto_sign_ed25519_sk_to_curve25519(signingKeys.privKeyBytes); // this is the equivalent of ios generatePrivateKeyScalar
 
   if (a.length > 32) {
-    window.log.warn('length of signing key is too long, cutting to 32: oldlength', length);
+    window.log.warn('length of signing key is too long, cutting to 32: oldlength', a.length);
     a = a.slice(0, 32);
   }
 
   // our blinded keypair
-  ka = sodium.crypto_core_ed25519_scalar_mul(k, a); // had to cast for some reason
+  const ka = sodium.crypto_core_ed25519_scalar_mul(k, a); // had to cast for some reason
 
-  kA = sodium.crypto_scalarmult_ed25519_base_noclamp(ka);
+  const kA = sodium.crypto_scalarmult_ed25519_base_noclamp(ka);
 
   return {
     a,

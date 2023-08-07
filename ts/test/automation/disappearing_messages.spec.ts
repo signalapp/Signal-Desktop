@@ -11,8 +11,6 @@ import {
   waitForTimerNotificationWithText,
 } from './utilities/utils';
 
-// tslint:disable: no-console
-
 const testMessage = 'Test-Message- (A -> B) ';
 const sentMessage = `${testMessage}${Date.now()}`;
 

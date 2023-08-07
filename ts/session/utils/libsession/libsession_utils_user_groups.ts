@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 import { CommunityInfo, UserGroupsType } from 'libsession_util_nodejs';
 import { Data } from '../../../data/data';
 import { OpenGroupData } from '../../../data/opengroups';
@@ -33,7 +34,9 @@ function isLegacyGroupToStoreInWrapper(convo: ConversationModel): boolean {
 }
 
 /**
- * We do not want to include groups left in the wrapper, but when receiving a list of wrappers from the network we need to check against the one present locally but already left, to know we need to remove them.
+ * We do not want to include groups left in the wrapper, but when receiving a list
+ * of wrappers from the network we need to check against the one present locally
+ * but already left, to know we need to remove them.
  *
  * This is to take care of this case:
  * - deviceA creates group
@@ -181,7 +184,9 @@ async function removeLegacyGroupFromWrapper(groupPk: string) {
  * You can do a loop on all the types handled by this wrapper and have a switch using assertUnreachable to get errors when not every case is handled.
  *
  *
- * Note: Ideally, we'd like to have this type in the wrapper index.d.ts, but it would require it to be a index.ts instead, which causes a whole other bunch of issues because it is a native node module.
+ * Note: Ideally, we'd like to have this type in the wrapper index.d.ts,
+ * but it would require it to be a index.ts instead, which causes a
+ * whole other bunch of issues because it is a native node module.
  */
 function getUserGroupTypes(): Array<UserGroupsType> {
   return ['Community', 'LegacyGroup'];

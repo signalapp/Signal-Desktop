@@ -6,6 +6,7 @@ import {
   isArray,
   isEmpty,
   isEqual,
+  isFinite,
   isNumber,
   isString,
   sortBy,
@@ -13,6 +14,8 @@ import {
   uniq,
   xor,
 } from 'lodash';
+import { from_hex } from 'libsodium-wrappers-sumo';
+
 import { SignalService } from '../protobuf';
 import { getMessageQueue } from '../session';
 import { getConversationController } from '../session/conversations';
@@ -23,7 +26,7 @@ import { BlockedNumberController } from '../util';
 import { MessageModel } from './message';
 import { MessageAttributesOptionals, MessageDirection } from './messageType';
 
-import { Data } from '../../ts/data/data';
+import { Data } from '../data/data';
 import { OpenGroupRequestCommonType } from '../session/apis/open_group_api/opengroupV2/ApiUtil';
 import { OpenGroupUtils } from '../session/apis/open_group_api/utils';
 import { getOpenGroupV2FromConversationId } from '../session/apis/open_group_api/utils/OpenGroupUtils';
@@ -47,7 +50,6 @@ import {
   ReduxConversationType,
 } from '../state/ducks/conversations';
 
-import { from_hex } from 'libsodium-wrappers-sumo';
 import {
   ReplyingToMessageProps,
   SendMessageType,
@@ -112,7 +114,11 @@ import {
   getCanWriteOutsideRedux,
   getModeratorsOutsideRedux,
   getSubscriberCountOutsideRedux,
-} from '../state/selectors/sogsRoomInfo';
+} from '../state/selectors/sogsRoomInfo'; // decide it it makes sense to move this to a redux slice?
+
+import { DisappearingMessageConversationType } from '../util/expiringMessages';
+import { ReleasedFeatures } from '../util/releaseFeature';
+import { markAttributesAsReadIfNeeded } from './messageFactory';
 
 type InMemoryConvoInfos = {
   mentionedUs: boolean;
@@ -123,11 +129,7 @@ type InMemoryConvoInfos = {
  * Some fields are not stored in the database, but are kept in memory.
  * We use this map to keep track of them. The key is the conversation id.
  */
-const inMemoryConvoInfos: Map<string, InMemoryConvoInfos> = new Map(); // decide it it makes sense to move this to a redux slice?
-
-import { DisappearingMessageConversationType } from '../util/expiringMessages';
-import { ReleasedFeatures } from '../util/releaseFeature';
-import { markAttributesAsReadIfNeeded } from './messageFactory';
+const inMemoryConvoInfos: Map<string, InMemoryConvoInfos> = new Map();
 
 export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public updateLastMessage: () => any;
@@ -150,14 +152,17 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     this.initialPromise = Promise.resolve();
     autoBind(this);
 
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     this.throttledBumpTyping = throttle(this.bumpTyping, 300);
     this.updateLastMessage = throttle(this.bouncyUpdateLastMessage.bind(this), 1000, {
       trailing: true,
       leading: true,
     });
 
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     this.throttledNotify = debounce(this.notify, 2000, { maxWait: 2000, trailing: true });
     // start right away the function is called, and wait 1sec before calling it again
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     this.markConversationRead = debounce(this.markConversationReadBouncy, 1000, {
       leading: true,
       trailing: true,
@@ -261,7 +266,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     return groupAdmins && groupAdmins.length > 0 ? groupAdmins : [];
   }
 
-  // tslint:disable-next-line: cyclomatic-complexity max-func-body-length
   public getConversationModelProps(): ReduxConversationType {
     const ourNumber = UserUtils.getOurPubKeyStrFromCache();
     const avatarPath = this.getAvatarPath();
@@ -465,14 +469,14 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public async queueJob(callback: () => Promise<void>) {
-    // tslint:disable-next-line: no-promise-as-boolean
     const previous = this.pending || Promise.resolve();
 
     const taskWithTimeout = createTaskWithTimeout(callback, `conversation ${this.idForLogging()}`);
 
+    // eslint-disable-next-line more/no-then
     this.pending = previous.then(taskWithTimeout, taskWithTimeout);
     const current = this.pending;
-
+    // eslint-disable-next-line more/no-then
     void current.then(() => {
       if (this.pending === current) {
         delete this.pending;
@@ -635,7 +639,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       throw new TypeError(`Invalid conversation type: '${this.get('type')}'`);
     } catch (e) {
       window.log.error(`Reaction job failed id:${reaction.id} error:`, e);
-      return null;
     }
   }
 
@@ -933,7 +936,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       }
 
       const expirationTimerMessage = new ExpirationTimerUpdateMessage(expireUpdate);
-      return message?.sendSyncMessageOnly(expirationTimerMessage);
+      await message?.sendSyncMessageOnly(expirationTimerMessage);
+      return;
     }
 
     if (this.isPrivate()) {
@@ -1390,7 +1394,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
    *
    * Does not do anything for non public chats.
    */
-  // tslint:disable-next-line: cyclomatic-complexity
+
   public async setPollInfo(infos?: {
     active_users: number;
     read: boolean;
@@ -1493,9 +1497,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     if (this.isOpenGroupV2()) {
       const openGroup = OpenGroupData.getV2OpenGroupRoom(this.id);
       return roomHasReactionsEnabled(openGroup);
-    } else {
-      return true;
     }
+    return true;
   }
 
   public async removeMessage(messageId: string) {
@@ -1654,7 +1657,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       conversationId,
       iconUrl,
       isExpiringMessage,
-      message: friendRequestText ? friendRequestText : message.getNotificationText(),
+      message: friendRequestText || message.getNotificationText(),
       messageId,
       messageSentAt,
       title: friendRequestText ? '' : convo.getNicknameOrRealUsernameOrPlaceholder(),
@@ -1711,7 +1714,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     // we do not trigger a state change here, instead we rely on the caller to do the commit once it is done with the queue of messages
     this.typingTimer = isTyping
-      ? global.setTimeout(this.clearContactTypingTimer.bind(this, sender), 15 * 1000)
+      ? // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        global.setTimeout(this.clearContactTypingTimer.bind(this, sender), 15 * 1000)
       : null;
   }
 
@@ -1864,7 +1868,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       throw new TypeError(`Invalid conversation type: '${this.get('type')}'`);
     } catch (e) {
       await message.saveErrors(e);
-      return null;
     }
   }
 
@@ -1883,6 +1886,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
 
     // include our profile (displayName + avatar url + key for the recipient)
+    // eslint-disable-next-line no-param-reassign
     messageParams.lokiProfile = getOurProfile();
 
     if (!ourSignKeyBytes || !groupUrl) {
@@ -1982,12 +1986,13 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const oldUnreadNowRead = (await this.getUnreadByConversation(newestUnreadDate)).models;
 
     if (!oldUnreadNowRead.length) {
-      //no new messages where read, no need to do anything
+      // no new messages where read, no need to do anything
       return;
     }
 
     // Build the list of updated message models so we can mark them all as read on a single sqlite call
     const readDetails = [];
+    // eslint-disable-next-line no-restricted-syntax
     for (const nowRead of oldUnreadNowRead) {
       nowRead.markMessageReadNoCommit(readAt);
 
@@ -2005,6 +2010,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
     const allProps: Array<MessageModelPropsWithoutConvoProps> = [];
 
+    // eslint-disable-next-line no-restricted-syntax
     for (const nowRead of oldUnreadNowRead) {
       allProps.push(nowRead.getMessageModelProps());
     }
@@ -2055,7 +2061,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   private async clearContactTypingTimer(_sender: string) {
-    if (!!this.typingTimer) {
+    if (this.typingTimer) {
       global.clearTimeout(this.typingTimer);
       this.typingTimer = null;
 
@@ -2161,7 +2167,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const typingMessage = new TypingMessage(typingParams);
 
     const device = new PubKey(recipientId);
-    getMessageQueue()
+    void getMessageQueue()
       .sendToPubKey(device, typingMessage, SnodeNamespaces.UserMessages)
       .catch(window?.log?.error);
   }
@@ -2304,21 +2310,25 @@ export async function commitConversationAndRefreshWrapper(id: string) {
     switch (variant) {
       case 'UserConfig':
         if (SessionUtilUserProfile.isUserProfileToStoreInWrapper(convo.id)) {
+          // eslint-disable-next-line no-await-in-loop
           await SessionUtilUserProfile.insertUserProfileIntoWrapper(convo.id);
         }
         break;
       case 'ContactsConfig':
         if (SessionUtilContact.isContactToStoreInWrapper(convo)) {
+          // eslint-disable-next-line no-await-in-loop
           await SessionUtilContact.insertContactFromDBIntoWrapperAndRefresh(convo.id);
         }
         break;
       case 'UserGroupsConfig':
         if (SessionUtilUserGroups.isUserGroupToStoreInWrapper(convo)) {
+          // eslint-disable-next-line no-await-in-loop
           await SessionUtilUserGroups.insertGroupsFromDBIntoWrapperAndRefresh(convo.id);
         }
         break;
       case 'ConvoInfoVolatileConfig':
         if (SessionUtilConvoInfoVolatile.isConvoToStoreInWrapper(convo)) {
+          // eslint-disable-next-line no-await-in-loop
           await SessionUtilConvoInfoVolatile.insertConvoFromDBIntoWrapperAndRefresh(convo.id);
         }
         break;

@@ -1,3 +1,6 @@
+/* eslint-disable import/extensions */
+/* eslint-disable import/no-unresolved */
+// eslint-disable-next-line camelcase
 import { from_hex } from 'libsodium-wrappers-sumo';
 import { isArray, isEmpty, isEqual } from 'lodash';
 import { ContactInfoSet, LegacyGroupInfo, LegacyGroupMemberInfo } from 'libsession_util_nodejs';
@@ -116,8 +119,8 @@ export function getContactInfoFromDBValues({
   dbProfileUrl,
   dbProfileKey,
   dbCreatedAtSeconds,
-  expirationTimerSeconds, //FIXME WILL add expirationMode here
-}: {
+}: // expirationTimerSeconds, // FIXME WILL add expirationMode here
+{
   id: string;
   dbApproved: boolean;
   dbApprovedMe: boolean;
@@ -139,11 +142,11 @@ export function getContactInfoFromDBValues({
     nickname: dbNickname,
     name: dbName,
     createdAtSeconds: dbCreatedAtSeconds,
-    expirationTimerSeconds:
-      !!expirationTimerSeconds && isFinite(expirationTimerSeconds) && expirationTimerSeconds > 0
-        ? expirationTimerSeconds
-        : 0,
-    expirationMode: 'off', //FIXME WILL add expirationMode here
+    // expirationTimerSeconds:
+    //   !!expirationTimerSeconds && isFinite(expirationTimerSeconds) && expirationTimerSeconds > 0
+    //     ? expirationTimerSeconds
+    //     : 0,
+    // expirationMode: 'off', //FIXME WILL add expirationMode here
   };
 
   if (
@@ -199,14 +202,15 @@ export function getLegacyGroupInfoFromDBValues({
   priority,
   members: maybeMembers,
   displayNameInProfile,
-  expireTimer,
+  // expireTimer,
   encPubkeyHex,
   encSeckeyHex,
   groupAdmins: maybeAdmins,
   lastJoinedTimestamp,
 }: Pick<
   ConversationAttributes,
-  'id' | 'priority' | 'displayNameInProfile' | 'lastJoinedTimestamp' | 'expireTimer'
+  'id' | 'priority' | 'displayNameInProfile' | 'lastJoinedTimestamp'
+  // | 'expireTimer'
 > & {
   encPubkeyHex: string;
   encSeckeyHex: string;
@@ -224,7 +228,7 @@ export function getLegacyGroupInfoFromDBValues({
   });
   const legacyGroup: LegacyGroupInfo = {
     pubkeyHex: id,
-    disappearingTimerSeconds: !expireTimer ? 0 : expireTimer, //FIXME WILL add expirationMode here
+    // disappearingTimerSeconds: !expireTimer ? 0 : expireTimer, // FIXME WILL add expirationMode here
     name: displayNameInProfile || '',
     priority: priority || 0,
     members: wrappedMembers,
@@ -242,7 +246,8 @@ export function getLegacyGroupInfoFromDBValues({
  */
 export function assertUnreachable(_x: never, message: string): never {
   const msg = `assertUnreachable: Didn't expect to get here with "${message}"`;
-  // tslint:disable: no-console
+  // eslint:disable: no-console
+  // eslint-disable-next-line no-console
   console.info(msg);
   throw new Error(msg);
 }

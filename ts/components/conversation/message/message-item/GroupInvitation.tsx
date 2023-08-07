@@ -1,9 +1,10 @@
-import React from 'react';
 import classNames from 'classnames';
-import { PropsForGroupInvitation } from '../../../../state/ducks/conversations';
-import { acceptOpenGroupInvitation } from '../../../../interactions/messageInteractions';
-import { SessionIconButton } from '../../../icon';
+import React from 'react';
 import styled from 'styled-components';
+
+import { acceptOpenGroupInvitation } from '../../../../interactions/messageInteractions';
+import { PropsForGroupInvitation } from '../../../../state/ducks/conversations';
+import { SessionIconButton } from '../../../icon';
 import { ExpirableReadableMessage } from './ExpirableReadableMessage';
 
 const StyledIconContainer = styled.div`

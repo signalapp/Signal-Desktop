@@ -13,18 +13,20 @@ const ClosableOverlay = () => {
 
   useEffect(() => {
     let isCancelled = false;
-    ReleasedFeatures.checkIsDisappearMessageV2FeatureReleased()
-      .then(result => {
-        if (isCancelled) {
-          return;
+    const checkFeature = async () => {
+      try {
+        const result = await ReleasedFeatures.checkIsDisappearMessageV2FeatureReleased();
+        if (!isCancelled) {
+          setShowNewDisappearingMessageModes(result);
         }
-        setShowNewDisappearingMessageModes(result);
-      })
-      .catch(() => {
-        if (isCancelled) {
-          return;
+      } catch (error) {
+        if (!isCancelled) {
+          window.log.debug(`ClosableOverlay checkFeature error: ${error}`);
         }
-      });
+      }
+    };
+
+    void checkFeature();
 
     return () => {
       isCancelled = true;

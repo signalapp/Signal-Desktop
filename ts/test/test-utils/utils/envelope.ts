@@ -1,7 +1,6 @@
-import { EnvelopePlus } from '../../../receiver/types';
-import { SignalService } from '../../../protobuf';
-
 import { v4 as uuidv4 } from 'uuid';
+import { SignalService } from '../../../protobuf';
+import { EnvelopePlus } from '../../../receiver/types';
 
 export function generateEnvelopePlusClosedGroup(groupId: string, sender: string): EnvelopePlus {
   const envelope: EnvelopePlus = {

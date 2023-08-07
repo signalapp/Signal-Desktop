@@ -15,8 +15,6 @@ import {
 } from './attachments/migrations';
 import { ConversationAttributes } from '../models/conversationAttributes';
 
-// tslint:disable: prefer-object-spread
-
 // I think this is only used on the renderer side, but how?!
 
 export const deleteExternalMessageFiles = async (message: {

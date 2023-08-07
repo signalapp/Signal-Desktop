@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import _ from 'lodash';
 
 /**
@@ -8,7 +9,6 @@ import _ from 'lodash';
 export function cleanData(data: any): any {
   const keys = Object.keys(data);
 
-  // tslint:disable: one-variable-per-declaration
   for (let index = 0, max = keys.length; index < max; index += 1) {
     const key = keys[index];
     const value = data[key];
@@ -25,7 +25,7 @@ export function cleanData(data: any): any {
     } else if (_.isFunction(value)) {
       // just skip a function which has not a toNumber function. We don't want to save a function to the db.
       // an attachment comes with a toJson() function
-      // tslint:disable-next-line: no-dynamic-delete
+
       delete data[key];
     } else if (Array.isArray(value)) {
       data[key] = value.map(cleanData);

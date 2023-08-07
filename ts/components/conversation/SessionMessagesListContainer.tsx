@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { contextMenu } from 'react-contexify';
-import { SessionScrollButton } from '../SessionScrollButton';
 
 import { connect } from 'react-redux';
 
@@ -14,6 +13,8 @@ import {
   resetOldTopMessageId,
   SortedMessageModelProps,
 } from '../../state/ducks/conversations';
+import { SessionScrollButton } from '../SessionScrollButton';
+
 import { StateType } from '../../state/reducer';
 import {
   getQuotedMessageToAnimate,
@@ -38,7 +39,6 @@ export type ScrollToLoadedReasons =
   | 'load-more-bottom';
 
 export const ScrollToLoadedMessageContext = React.createContext(
-  // tslint:disable-next-line: no-empty
   (_loadedMessageIdToScrollTo: string, _reason: ScrollToLoadedReasons) => {}
 );
 
@@ -51,7 +51,7 @@ type Props = SessionMessageListProps & {
   scrollToNow: () => Promise<void>;
 };
 
-const StyledMessagesContainer = styled.div<{}>`
+const StyledMessagesContainer = styled.div`
   display: flex;
   flex-grow: 1;
   gap: var(--margins-xxs);
@@ -148,6 +148,7 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
         </ScrollToLoadedMessageContext.Provider>
 
         <SessionScrollButton
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
           onClickScrollBottom={this.props.scrollToNow}
           key="scroll-down-button"
         />
@@ -254,7 +255,6 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
       return;
     }
 
-    // tslint:disable-next-line: restrict-plus-operands
     messageContainer.scrollBy({
       top: Math.floor(+messageContainer.clientHeight * 2) / 3,
       behavior: 'smooth',

@@ -1,8 +1,8 @@
+import { ipcRenderer } from 'electron';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIsAppFocused } from '../state/ducks/section';
 import { getIsAppFocused } from '../state/selectors/section';
-import { ipcRenderer } from 'electron';
 
 /**
  * This custom hook should be called on the top of the app only once.

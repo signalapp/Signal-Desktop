@@ -46,7 +46,6 @@ const StyledReactClearAllContainer = styled(Flex)`
   }
 `;
 
-// tslint:disable-next-line: max-func-body-length
 export const ReactClearAllModal = (props: Props): ReactElement => {
   const { reaction, messageId } = props;
 

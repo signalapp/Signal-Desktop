@@ -1,10 +1,11 @@
-import _, { isEmpty } from 'lodash';
+import { isEmpty } from 'lodash';
 import { OpenGroupData, OpenGroupV2Room } from '../../../../data/opengroups';
 import { OpenGroupRequestCommonType } from '../opengroupV2/ApiUtil';
 import { getOpenGroupManager } from '../opengroupV2/OpenGroupManagerV2';
 import { SessionUtilUserGroups } from '../../../utils/libsession/libsession_utils_user_groups';
 import { getConversationController } from '../../../conversations';
 
+// eslint-disable-next-line prefer-regex-literals
 const protocolRegex = new RegExp('https?://');
 
 const dot = '\\.';
@@ -28,6 +29,7 @@ const openGroupV2ServerUrlRegex = new RegExp(
  * see https://stackoverflow.com/a/9275499/1680951
  */
 export const openGroupV2CompleteURLRegex = new RegExp(
+  // eslint-disable-next-line no-useless-escape
   `^${openGroupV2ServerUrlRegex.source}\/${roomIdV2Regex}${qMark}${publicKeyParam}${publicKeyRegex}$`
 );
 
@@ -35,7 +37,7 @@ export const openGroupV2CompleteURLRegex = new RegExp(
  * Just a constant to have less 'http' everywhere.
  * This is the prefix used to identify our open groups in the conversation database (v1 or v2)
  */
-// tslint:disable-next-line: no-http-string
+
 const openGroupPrefix = 'http'; // can be http:// or https://
 
 /**
@@ -64,7 +66,6 @@ export function prefixify(server: string): string {
     return server;
   }
 
-  // tslint:disable-next-line: no-http-string
   return `http://${server}`;
 }
 
@@ -144,11 +145,13 @@ export async function getAllValidOpenGroupV2ConversationRoomInfos() {
         if (!inWrapperIds.includes(roomConvoId)) {
           // remove the roomInfos locally for this open group room.
 
+          /* eslint-disable no-await-in-loop */
           await OpenGroupData.removeV2OpenGroupRoom(roomConvoId);
           getOpenGroupManager().removeRoomFromPolledRooms(infos);
           await getConversationController().deleteCommunity(roomConvoId, {
             fromSyncMessage: false,
           });
+          /* eslint-enable no-await-in-loop */
         }
       } catch (e) {
         window?.log?.warn('cleanup roomInfos error', e);

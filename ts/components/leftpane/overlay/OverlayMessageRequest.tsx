@@ -1,5 +1,4 @@
 import React from 'react';
-// tslint:disable: no-submodule-imports use-simple-attributes
 
 import { useDispatch, useSelector } from 'react-redux';
 import useKey from 'react-use/lib/useKey';
@@ -79,6 +78,7 @@ export const OverlayMessageRequest = () => {
 
           for (let index = 0; index < messageRequests.length; index++) {
             const convoId = messageRequests[index];
+            // eslint-disable-next-line no-await-in-loop
             await declineConversationWithoutConfirm({
               blockContact: false,
               conversationId: convoId,

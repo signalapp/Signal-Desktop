@@ -1,4 +1,10 @@
 import _ from 'lodash';
+import ReactDOM from 'react-dom';
+import Backbone from 'backbone';
+
+import React from 'react';
+import nativeEmojiData from '@emoji-mart/data';
+
 import { MessageModel } from '../models/message';
 import { isMacOS } from '../OS';
 import { queueAllCached } from '../receiver/receiver';
@@ -11,21 +17,16 @@ import { Notifications } from '../util/notifications';
 import { Registration } from '../util/registration';
 import { isSignInByLinking, Storage } from '../util/storage';
 import { Data } from '../data/data';
-import Backbone from 'backbone';
 import { SessionRegistrationView } from '../components/registration/SessionRegistrationView';
 import { SessionInboxView } from '../components/SessionInboxView';
 import { deleteAllLogs } from '../node/logs';
-import ReactDOM from 'react-dom';
-import React from 'react';
 import { OpenGroupData } from '../data/opengroups';
 import { loadKnownBlindedKeys } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
-import nativeEmojiData from '@emoji-mart/data';
 import { initialiseEmojiData } from '../util/emoji';
 import { switchPrimaryColorTo } from '../themes/switchPrimaryColor';
 import { LibSessionUtil } from '../session/utils/libsession/libsession_utils';
 import { runners } from '../session/utils/job_runners/JobRunner';
 import { SettingsKey } from '../data/settings-key';
-// tslint:disable: max-classes-per-file
 
 // Globally disable drag and drop
 document.body.addEventListener(
@@ -48,7 +49,6 @@ document.body.addEventListener(
 // Load these images now to ensure that they don't flicker on first use
 const images = [];
 function preload(list: Array<string>) {
-  // tslint:disable-next-line: one-variable-per-declaration
   for (let index = 0, max = list.length; index < max; index += 1) {
     const image = new Image();
     image.src = `./images/${list[index]}`;
@@ -121,6 +121,7 @@ async function startJobRunners() {
 // We need this 'first' check because we don't want to start the app up any other time
 //   than the first time. And storage.fetch() will cause onready() to fire.
 let first = true;
+// eslint-disable-next-line @typescript-eslint/no-misused-promises
 Storage.onready(async () => {
   if (!first) {
     return;
@@ -219,10 +220,10 @@ Storage.onready(async () => {
 async function manageExpiringData() {
   await Data.cleanSeenMessages();
   await Data.cleanLastHashes();
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   setTimeout(manageExpiringData, 1000 * 60 * 60);
 }
 
-// tslint:disable-next-line: max-func-body-length
 async function start() {
   void manageExpiringData();
   window.dispatchEvent(new Event('storage_ready'));
@@ -245,11 +246,12 @@ async function start() {
       const sentAt = message.get('sent_at');
 
       if (message.hasErrors()) {
-        return;
+        return null;
       }
 
       window.log.info(`Cleanup: Deleting unsent message ${sentAt}`);
       idsToCleanUp.push(message.id);
+      return null;
     })
   );
   if (idsToCleanUp.length) {
@@ -258,6 +260,7 @@ async function start() {
   window.log.info('Cleanup: complete');
 
   window.log.info('listening for registration events');
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   WhisperEvents.on('registration_done', async () => {
     window.log.info('handling registration event');
 
@@ -274,7 +277,8 @@ async function start() {
     const hideMenuBar = Storage.get('hide-menu-bar', true) as boolean;
     window.setAutoHideMenuBar(hideMenuBar);
     window.setMenuBarVisibility(!hideMenuBar);
-    getConversationController()
+    // eslint-disable-next-line more/no-then
+    void getConversationController()
       .loadPromise()
       ?.then(() => {
         ReactDOM.render(<SessionInboxView />, document.getElementById('root'));
@@ -304,7 +308,7 @@ async function start() {
 
   // Set user's launch count.
   const prevLaunchCount = window.getSettingValue('launch-count');
-  // tslint:disable-next-line: restrict-plus-operands
+
   const launchCount = !prevLaunchCount ? 1 : prevLaunchCount + 1;
 
   window.setTheme = async newTheme => {
@@ -365,6 +369,7 @@ async function start() {
     window.setCallMediaPermissions(enabled);
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   window.openFromNotification = async conversationKey => {
     window.showWindow();
     if (conversationKey) {
@@ -485,13 +490,11 @@ class TextScramble {
     this.chars = '0123456789abcdef';
     this.update = this.update.bind(this);
   }
-  // tslint:disable: insecure-random
 
   public async setText(newText: string) {
     const oldText = this.el.value;
     const length = Math.max(oldText.length, newText.length);
-    // eslint-disable-next-line no-return-assign
-    // tslint:disable-next-line: promise-must-complete
+    // eslint-disable-next-line no-return-assign, no-promise-executor-return
     const promise = new Promise(resolve => (this.resolve = resolve));
     this.queue = [];
 
@@ -518,7 +521,6 @@ class TextScramble {
     let output = '';
     let complete = 0;
 
-    // tslint:disable-next-line: one-variable-per-declaration
     for (let i = 0, n = this.queue.length; i < n; i++) {
       const { from, to, start: startNumber, end } = this.queue[i];
       let { char } = this.queue[i];

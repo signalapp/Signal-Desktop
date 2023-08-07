@@ -1,7 +1,9 @@
 import React from 'react';
-import { StagedLinkPreviewData } from './composition/CompositionBox';
+// eslint-disable-next-line import/no-named-default
 import { default as insecureNodeFetch } from 'node-fetch';
 import { AbortSignal } from 'abort-controller';
+import { StagedLinkPreviewData } from './composition/CompositionBox';
+
 import { arrayBufferFromFile } from '../../types/Attachment';
 import { AttachmentUtil, LinkPreviewUtil } from '../../util';
 import { fetchLinkPreviewImage } from '../../util/linkPreviewFetch';
@@ -52,7 +54,7 @@ export const getPreview = async (
 
   let image;
   if (imageHref && LinkPreviews.isLinkSafeToPreview(imageHref)) {
-    let objectUrl: void | string;
+    let objectUrl: undefined | string;
     try {
       window?.log?.info('insecureNodeFetch => plaintext for getPreview()');
 

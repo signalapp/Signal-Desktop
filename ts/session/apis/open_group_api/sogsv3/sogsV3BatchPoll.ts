@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 import { AbortSignal } from 'abort-controller';
 import { flatten, isEmpty, isNumber, isObject } from 'lodash';
 import { OpenGroupData } from '../../../../data/opengroups';
@@ -382,7 +383,7 @@ const getBatchRequest = async (
 
   if (!headers) {
     window?.log?.error('Unable to create headers for batch request - aborting');
-    return;
+    return undefined;
   }
 
   return {

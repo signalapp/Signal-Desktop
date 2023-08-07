@@ -45,7 +45,7 @@ export function generateOpenGroupMessageV4(): OpenGroupMessageV4 {
     reactions: {},
     seqno: 0,
     session_id: TestUtils.generateFakePubKey().key,
-    // tslint:disable-next-line: insecure-random
+
     id: Math.floor(Math.random() * 100000),
     data: 'whatever',
   };
@@ -75,7 +75,6 @@ export function generateOpenGroupVisibleMessage(): OpenGroupVisibleMessage {
 }
 
 export function generateOpenGroupV2RoomInfos(): OpenGroupRequestCommonType {
-  // tslint:disable-next-line: no-http-string
   return { roomId: 'main', serverUrl: 'http://open.getsession.org' };
 }
 

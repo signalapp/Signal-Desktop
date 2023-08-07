@@ -40,13 +40,11 @@ export function generateFakeECKeyPair(): ECKeyPair {
 export function generateFakePubKeys(amount: number): Array<PubKey> {
   const numPubKeys = amount > 0 ? Math.floor(amount) : 0;
 
-  // tslint:disable-next-line: no-unnecessary-callback-wrapper
   return new Array(numPubKeys).fill(0).map(() => generateFakePubKey());
 }
 
 export function generateFakeSnode(): Snode {
   return {
-    // tslint:disable: insecure-random
     ip: `136.243.${Math.random() * 255}.${Math.random() * 255}`,
     port: 22116,
     pubkey_x25519: generateFakePubKeyStr(),

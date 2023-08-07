@@ -1,11 +1,11 @@
-import _ from 'lodash';
+import { compact, flatten, isEqual } from 'lodash';
 import React, { useEffect, useState } from 'react';
-import { SessionIconButton } from '../../../icon';
 
 // tslint:disable-next-line: no-submodule-imports
 import { useDispatch, useSelector } from 'react-redux';
 import useInterval from 'react-use/lib/useInterval';
 import styled from 'styled-components';
+import { SessionIconButton } from '../../../icon';
 import { Data } from '../../../../data/data';
 
 import {
@@ -20,8 +20,8 @@ import {
 import { Constants } from '../../../../session';
 import { closeRightPanel } from '../../../../state/ducks/conversations';
 import { setRightOverlayMode } from '../../../../state/ducks/section';
+import { isRightPanelShowing } from '../../../../state/selectors/conversations';
 import {
-  isRightPanelShowing,
   useSelectedConversationKey,
   useSelectedDisplayNameInProfile,
   useSelectedIsActive,
@@ -32,7 +32,7 @@ import {
   useSelectedIsPublic,
   useSelectedSubscriberCount,
   useSelectedWeAreAdmin,
-} from '../../../../state/selectors/conversations';
+} from '../../../../state/selectors/selectedConversation';
 import { AttachmentTypeWithPath } from '../../../../types/Attachment';
 import { getAbsoluteAttachmentPath } from '../../../../types/MessageAttachment';
 import { Avatar, AvatarSize } from '../../../avatar/Avatar';
@@ -59,7 +59,7 @@ async function getMediaGalleryProps(
     Constants.CONVERSATION.DEFAULT_DOCUMENTS_FETCH_COUNT
   );
 
-  const media = _.flatten(
+  const media = flatten(
     rawMedia.map(attributes => {
       const { attachments, source, id, timestamp, serverTimestamp, received_at } = attributes;
 
@@ -111,7 +111,7 @@ async function getMediaGalleryProps(
 
   return {
     media,
-    documents: _.compact(documents), // remove null
+    documents: compact(documents), // remove null
   };
 }
 
@@ -223,27 +223,36 @@ export const OverlayRightPanelSettings = () => {
   const weAreAdmin = useSelectedWeAreAdmin();
 
   useEffect(() => {
-    let isRunning = true;
+    let isCancelled = false;
 
-    if (isShowing && selectedConvoKey) {
-      void getMediaGalleryProps(selectedConvoKey).then(results => {
-        if (isRunning) {
-          if (!_.isEqual(documents, results.documents)) {
-            setDocuments(results.documents);
-          }
+    const loadDocumentsOrMedia = async () => {
+      try {
+        if (isShowing && selectedConvoKey) {
+          const results = await getMediaGalleryProps(selectedConvoKey);
 
-          if (!_.isEqual(media, results.media)) {
-            setMedia(results.media);
+          if (!isCancelled) {
+            if (!isEqual(documents, results.documents)) {
+              setDocuments(results.documents);
+            }
+
+            if (!isEqual(media, results.media)) {
+              setMedia(results.media);
+            }
           }
         }
-      });
-    }
+      } catch (error) {
+        if (!isCancelled) {
+          window.log.debug(`OverlayRightPanelSettings loadDocumentsOrMedia: ${error}`);
+        }
+      }
+    };
+
+    void loadDocumentsOrMedia();
 
     return () => {
-      isRunning = false;
-      return;
+      isCancelled = true;
     };
-  }, [isShowing, selectedConvoKey]);
+  }, [documents, isShowing, media, selectedConvoKey]);
 
   useInterval(async () => {
     if (isShowing && selectedConvoKey) {
@@ -300,8 +309,8 @@ export const OverlayRightPanelSettings = () => {
         <StyledGroupSettingsItem
           className="right-panel-item"
           role="button"
-          onClick={async () => {
-            await showUpdateGroupNameByConvoId(selectedConvoKey);
+          onClick={() => {
+            void showUpdateGroupNameByConvoId(selectedConvoKey);
           }}
         >
           {isPublic ? window.i18n('editGroup') : window.i18n('editGroupName')}
@@ -334,8 +343,8 @@ export const OverlayRightPanelSettings = () => {
         <StyledGroupSettingsItem
           className="right-panel-item"
           role="button"
-          onClick={async () => {
-            await showUpdateGroupMembersByConvoId(selectedConvoKey);
+          onClick={() => {
+            void showUpdateGroupMembersByConvoId(selectedConvoKey);
           }}
         >
           {window.i18n('groupMembers')}

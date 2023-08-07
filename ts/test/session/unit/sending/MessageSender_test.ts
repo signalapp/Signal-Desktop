@@ -1,5 +1,5 @@
-import { expect } from 'chai';
 import * as crypto from 'crypto';
+import { expect } from 'chai';
 import _ from 'lodash';
 import Sinon, * as sinon from 'sinon';
 import { SignalService } from '../../../../protobuf';
@@ -37,7 +37,6 @@ describe('MessageSender', () => {
     await getConversationController().load();
   });
 
-  // tslint:disable-next-line: max-func-body-length
   describe('send', () => {
     const ourNumber = '0123456789abcdef';
     let sessionMessageAPISendStub: sinon.SinonStub<any>;
@@ -309,7 +308,6 @@ describe('MessageSender', () => {
       });
       try {
         await MessageSender.sendToOpenGroupV2(message, roomInfos, false, []);
-        // tslint:disable-next-line: no-empty
       } catch (e) {}
       // we made the fourth call success, but we should not get there. We should stop at 3 the retries (1+2)
       expect(decodev4responseStub.calledThrice);

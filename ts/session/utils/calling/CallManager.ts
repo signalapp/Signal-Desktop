@@ -1,5 +1,9 @@
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable no-param-reassign */
 import _ from 'lodash';
-import { MessageUtils, ToastUtils, UserUtils } from '../';
+import { v4 as uuidv4 } from 'uuid';
+
+import { MessageUtils, ToastUtils, UserUtils } from '..';
 import { SignalService } from '../../../protobuf';
 import { openConversationWithMessages } from '../../../state/ducks/conversations';
 import {
@@ -17,7 +21,6 @@ import { CallMessage } from '../../messages/outgoing/controlMessage/CallMessage'
 import { ed25519Str } from '../../onions/onionPath';
 import { PubKey } from '../../types';
 
-import { v4 as uuidv4 } from 'uuid';
 import { getIsRinging } from '../RingingManager';
 import { getBlackSilenceMediaStream } from './Silence';
 import { getMessageQueue } from '../..';
@@ -188,8 +191,9 @@ async function getConnectedDevices(type: 'videoinput' | 'audioinput' | 'audioout
 }
 
 // Listen for changes to media devices and update the list accordingly
-// tslint:disable-next-line: no-typeof-undefined
+
 if (typeof navigator !== 'undefined') {
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   navigator?.mediaDevices?.addEventListener('devicechange', async () => {
     await updateConnectedDevices();
     callVideoListeners();
@@ -320,7 +324,7 @@ export async function selectAudioInputByDeviceId(audioInputDeviceId: string) {
       sender.track.enabled = false;
     }
     const silence = getBlackSilenceMediaStream().getAudioTracks()[0];
-    sender?.replaceTrack(silence);
+    void sender?.replaceTrack(silence);
     // do the same changes locally
     localStream?.getAudioTracks().forEach(t => {
       t.stop();
@@ -405,6 +409,7 @@ async function createOfferAndSendIt(recipient: string) {
       lines[lineWithFtmpIndex] = `${partBeforeComma[0]};cbr=1`;
       let overridenSdps = lines.join('\n');
       overridenSdps = overridenSdps.replace(
+        // eslint-disable-next-line prefer-regex-literals
         new RegExp('.+urn:ietf:params:rtp-hdrext:ssrc-audio-level.*\\r?\\n'),
         ''
       );
@@ -450,14 +455,14 @@ async function openMediaDevicesAndAddTracks() {
       return;
     }
 
-    selectedAudioInputId = DEVICE_DISABLED_DEVICE_ID; //audioInputsList[0].deviceId;
+    selectedAudioInputId = DEVICE_DISABLED_DEVICE_ID; // audioInputsList[0].deviceId;
     selectedCameraId = DEVICE_DISABLED_DEVICE_ID;
     window.log.info(
       `openMediaDevices videoDevice:${selectedCameraId} audioDevice:${selectedAudioInputId}`
     );
 
     localStream = getBlackSilenceMediaStream();
-    localStream.getTracks().map(track => {
+    localStream.getTracks().forEach(track => {
       if (localStream) {
         peerConnection?.addTrack(track, localStream);
       }
@@ -540,6 +545,7 @@ export async function USER_callRecipient(recipient: string) {
   await createOfferAndSendIt(recipient);
 
   // close and end the call if callTimeoutMs is reached and still not connected
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   global.setTimeout(async () => {
     if (justCreatedCallUUID === currentCallUUID && getIsRinging()) {
       window.log.info(
@@ -551,7 +557,7 @@ export async function USER_callRecipient(recipient: string) {
   }, callTimeoutMs);
 }
 
-const iceCandidates: Array<RTCIceCandidate> = new Array();
+const iceCandidates: Array<RTCIceCandidate> = [];
 const iceSenderDebouncer = _.debounce(async (recipient: string) => {
   if (!iceCandidates) {
     return;
@@ -720,7 +726,7 @@ function onDataChannelReceivedMessage(ev: MessageEvent<string>) {
     }
 
     if (parsed.video !== undefined) {
-      remoteVideoStreamIsMuted = !Boolean(parsed.video);
+      remoteVideoStreamIsMuted = !parsed.video;
     }
   } catch (e) {
     window.log.warn('onDataChannelReceivedMessage Could not parse data in event', ev);
@@ -773,7 +779,8 @@ function createOrGetPeerConnection(withPubkey: string) {
     );
 
     if (peerConnection && peerConnection?.iceConnectionState === 'disconnected') {
-      //this will trigger a negotiation event with iceRestart set to true in the createOffer options set
+      // this will trigger a negotiation event with iceRestart set to true in the createOffer options set
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       global.setTimeout(async () => {
         window.log.info('onconnectionstatechange disconnected: restartIce()');
 
@@ -871,6 +878,7 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
         sdpMLineIndex,
         candidate: sdp,
       });
+      // eslint-disable-next-line no-await-in-loop
       await peerConnection.addIceCandidate(candicate);
     }
   }
@@ -969,19 +977,18 @@ export async function USER_hangup(fromSender: string) {
   if (!currentCallUUID) {
     window.log.warn('should not be able to hangup without a currentCallUUID');
     return;
-  } else {
-    rejectedCallUUIDS.add(currentCallUUID);
-    const endCallMessage = new CallMessage({
-      type: SignalService.CallMessage.Type.END_CALL,
-      timestamp: Date.now(),
-      uuid: currentCallUUID,
-    });
-    void getMessageQueue().sendToPubKeyNonDurably({
-      pubkey: PubKey.cast(fromSender),
-      message: endCallMessage,
-      namespace: SnodeNamespaces.UserMessages,
-    });
   }
+  rejectedCallUUIDS.add(currentCallUUID);
+  const endCallMessage = new CallMessage({
+    type: SignalService.CallMessage.Type.END_CALL,
+    timestamp: Date.now(),
+    uuid: currentCallUUID,
+  });
+  void getMessageQueue().sendToPubKeyNonDurably({
+    pubkey: PubKey.cast(fromSender),
+    message: endCallMessage,
+    namespace: SnodeNamespaces.UserMessages,
+  });
 
   window.inboxStore?.dispatch(endCall());
   window.log.info('sending hangup with an END_CALL MESSAGE');
@@ -1210,13 +1217,12 @@ export async function handleMissedCall(
       ToastUtils.pushedMissedCallNotApproved(displayname);
       break;
     case 'too-old-timestamp':
-      //no toast for this case, the missed call notification is enough
+      // no toast for this case, the missed call notification is enough
       break;
     default:
   }
 
   await addMissedCallMessage(sender, incomingOfferTimestamp);
-  return;
 }
 
 async function addMissedCallMessage(callerPubkey: string, sentAt: number) {
@@ -1312,9 +1318,9 @@ export async function handleCallTypeAnswer(
       }
     }
     return;
-  } else {
-    window.log.info(`handling callMessage ANSWER from ${callMessageUUID}`);
   }
+  window.log.info(`handling callMessage ANSWER from ${callMessageUUID}`);
+
   const cachedMessage = getCachedMessageFromCallMessage(callMessage, envelopeTimestamp);
 
   pushCallMessageToCallCache(sender, callMessageUUID, cachedMessage);
@@ -1370,13 +1376,13 @@ export async function handleCallTypeIceCandidates(
 
 async function addIceCandidateToExistingPeerConnection(callMessage: SignalService.CallMessage) {
   if (peerConnection) {
-    // tslint:disable-next-line: prefer-for-of
     for (let index = 0; index < callMessage.sdps.length; index++) {
       const sdp = callMessage.sdps[index];
       const sdpMLineIndex = callMessage.sdpMLineIndexes[index];
       const sdpMid = callMessage.sdpMids[index];
       const candicate = new RTCIceCandidate({ sdpMid, sdpMLineIndex, candidate: sdp });
       try {
+        // eslint-disable-next-line no-await-in-loop
         await peerConnection.addIceCandidate(candicate);
       } catch (err) {
         if (!ignoreOffer) {
@@ -1389,7 +1395,6 @@ async function addIceCandidateToExistingPeerConnection(callMessage: SignalServic
   }
 }
 
-// tslint:disable-next-line: no-async-without-await
 export async function handleOtherCallTypes(
   sender: string,
   callMessage: SignalService.CallMessage,
@@ -1414,7 +1419,7 @@ function createCallCacheForPubkeyAndUUID(sender: string, uuid: string) {
   }
 
   if (!callCache.get(sender)?.has(uuid)) {
-    callCache.get(sender)?.set(uuid, new Array());
+    callCache.get(sender)?.set(uuid, []);
   }
 }
 
