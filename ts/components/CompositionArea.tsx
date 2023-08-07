@@ -483,20 +483,6 @@ export function CompositionArea({
     [inputApiRef, onPickEmoji]
   );
 
-  const previousConversationId = usePrevious(conversationId, conversationId);
-  useEffect(() => {
-    if (conversationId === previousConversationId) {
-      return;
-    }
-
-    if (!draftText) {
-      inputApiRef.current?.setContents('');
-      return;
-    }
-
-    inputApiRef.current?.setContents(draftText, draftBodyRanges, true);
-  }, [conversationId, draftBodyRanges, draftText, previousConversationId]);
-
   // We want to reset the state of Quill only if:
   //
   // - Our other device edits the message (edit history length would change)
@@ -519,6 +505,20 @@ export function CompositionArea({
       true
     );
   }, [draftBodyRanges, draftEditMessageBody, hasEditDraftChanged]);
+
+  const previousConversationId = usePrevious(conversationId, conversationId);
+  useEffect(() => {
+    if (conversationId === previousConversationId) {
+      return;
+    }
+
+    if (!draftText) {
+      inputApiRef.current?.setContents('');
+      return;
+    }
+
+    inputApiRef.current?.setContents(draftText, draftBodyRanges, true);
+  }, [conversationId, draftBodyRanges, draftText, previousConversationId]);
 
   const handleToggleLarge = useCallback(() => {
     setLarge(l => !l);
