@@ -103,10 +103,10 @@ export function setupI18n(
   localizer.getLocale = () => locale;
   localizer.getLocaleMessages = () => messages;
   localizer.getLocaleDirection = () => {
-    return window.getResolvedMessagesLocaleDirection();
+    return window.SignalContext.getResolvedMessagesLocaleDirection();
   };
   localizer.getHourCyclePreference = () => {
-    return window.getHourCyclePreference();
+    return window.SignalContext.getHourCyclePreference();
   };
 
   return localizer;

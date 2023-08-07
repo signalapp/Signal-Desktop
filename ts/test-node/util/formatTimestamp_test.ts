@@ -16,8 +16,14 @@ describe('formatTimestamp', () => {
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
-    localesStub = sandbox.stub(window, 'getPreferredSystemLocales');
-    hourCycleStub = sandbox.stub(window, 'getHourCyclePreference');
+    localesStub = sandbox.stub(
+      window.SignalContext,
+      'getPreferredSystemLocales'
+    );
+    hourCycleStub = sandbox.stub(
+      window.SignalContext,
+      'getHourCyclePreference'
+    );
   });
 
   afterEach(() => {

@@ -29,14 +29,16 @@ global.window = {
       warn: (...args) => console.warn(...args),
       error: (...args) => console.error(...args),
     },
+    getResolvedMessagesLocale: () => 'en',
+    getResolvedMessagesLocaleDirection: () => 'ltr',
+    getHourCyclePreference: () => HourCyclePreference.UnknownPreference,
+    getPreferredSystemLocales: () => ['en'],
   },
   i18n: key => `i18n(${key})`,
   storage: {
     get: key => storageMap.get(key),
     put: async (key, value) => storageMap.set(key, value),
   },
-  getPreferredSystemLocales: () => ['en'],
-  getHourCyclePreference: () => HourCyclePreference.UnknownPreference,
 };
 
 // For ducks/network.getEmptyState()

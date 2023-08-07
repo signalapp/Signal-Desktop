@@ -7,7 +7,7 @@ import { assertDev } from './assert';
 function getOptionsWithPreferences(
   options: Intl.DateTimeFormatOptions
 ): Intl.DateTimeFormatOptions {
-  const hourCyclePreference = window.getHourCyclePreference();
+  const hourCyclePreference = window.SignalContext.getHourCyclePreference();
   if (options.hour12 != null) {
     return options;
   }
@@ -67,7 +67,7 @@ const formatterCache = new Map<string, Intl.DateTimeFormat>();
 export function getDateTimeFormatter(
   options: Intl.DateTimeFormatOptions
 ): Intl.DateTimeFormat {
-  const locales = window.getPreferredSystemLocales();
+  const locales = window.SignalContext.getPreferredSystemLocales();
   const optionsWithPreferences = getOptionsWithPreferences(options);
   const cacheKey = getCacheKey(locales, optionsWithPreferences);
   const cachedFormatter = formatterCache.get(cacheKey);

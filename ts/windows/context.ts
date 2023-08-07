@@ -22,6 +22,8 @@ import { i18n } from '../context/i18n';
 import { strictAssert } from '../util/assert';
 import { initialize as initializeLogging } from '../logging/set_up_renderer_logging';
 import { MinimalSignalContext } from './minimalContext';
+import type { LocaleDirection } from '../../app/locale';
+import type { HourCyclePreference } from '../types/I18N';
 
 strictAssert(Boolean(window.SignalContext), 'context must be defined');
 
@@ -41,6 +43,10 @@ export type MinimalSignalContextType = {
   getEnvironment: () => string;
   getI18nLocale: LocalizerType['getLocale'];
   getI18nLocaleMessages: LocalizerType['getLocaleMessages'];
+  getResolvedMessagesLocaleDirection: () => LocaleDirection;
+  getHourCyclePreference: () => HourCyclePreference;
+  getResolvedMessagesLocale: () => string;
+  getPreferredSystemLocales: () => Array<string>;
   getMainWindowStats: () => Promise<MainWindowStatsType>;
   getMenuOptions: () => Promise<MenuOptionsType>;
   getNodeVersion: () => string;
