@@ -1237,7 +1237,7 @@ function insertContactIntoContactWrapper(
       dbProfileUrl: contact.avatarPointer || undefined,
       priority,
       dbCreatedAtSeconds: Math.floor((contact.active_at || Date.now()) / 1000),
-      expirationTimerSeconds, //FIXME WILL add expirationMode here
+      expirationTimerSeconds, // FIXME WILL add expirationMode here
     });
 
     try {
@@ -1262,7 +1262,7 @@ function insertContactIntoContactWrapper(
             dbProfileUrl: undefined,
             priority: CONVERSATION_PRIORITIES.default,
             dbCreatedAtSeconds: Math.floor(Date.now() / 1000),
-            expirationTimerSeconds: 0, //FIXME WILL add expirationMode here
+            expirationTimerSeconds: 0, // FIXME WILL add expirationMode here
           })
         );
       } catch (err2) {
@@ -1400,7 +1400,7 @@ function insertLegacyGroupIntoWrapper(
   const wrapperLegacyGroup = getLegacyGroupInfoFromDBValues({
     id,
     priority,
-    expireTimer, //FIXME WILL add expirationMode here
+    expireTimer, // FIXME WILL add expirationMode here
     groupAdmins,
     members,
     displayNameInProfile,
