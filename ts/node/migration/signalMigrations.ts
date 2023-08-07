@@ -1,4 +1,4 @@
-import * as BetterSqlite3 from 'better-sqlite3';
+import * as BetterSqlite3 from '@signalapp/better-sqlite3';
 import { isNumber } from 'lodash';
 import path from 'path';
 
@@ -23,6 +23,7 @@ const openDbOptions = {
   nativeBinding: path.join(
     getAppRootPath(),
     'node_modules',
+    '@signalapp',
     'better-sqlite3',
     'build',
     'Release',
@@ -343,7 +344,7 @@ function updateToSchemaVersion7(currentVersion: number, db: BetterSqlite3.Databa
           number
         ) WHERE number IS NOT NULL;
         INSERT INTO sessions(id, number, json)
-      SELECT "+" || id, number, json FROM sessions_old;
+      SELECT id, number, json FROM sessions_old;
         DROP TABLE sessions_old;
       `);
 

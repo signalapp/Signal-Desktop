@@ -1,15 +1,18 @@
 import path from 'path';
 
-import electronIsDev from 'electron-is-dev';
+import { app } from 'electron';
 // tslint:disable: no-console
 
 let environment;
+const isPackaged = app.isPackaged;
 
 // In production mode, NODE_ENV cannot be customized by the user
-if (electronIsDev) {
-  environment = process.env.NODE_ENV || 'development';
-} else {
+if (isPackaged) {
   environment = 'production';
+  // We could be running against production but still be in dev mode, we need to handle that
+  process.env.NODE_APP_INSTANCE = '';
+} else {
+  environment = process.env.NODE_ENV || 'development';
 }
 
 // Set environment vars to configure node-config before requiring it
@@ -19,15 +22,10 @@ process.env.NODE_CONFIG_DIR = path.join(__dirname, '..', '..', 'config');
 if (environment === 'production') {
   // harden production config against the local env
   process.env.NODE_CONFIG = '';
-  process.env.NODE_CONFIG_STRICT_MODE = `${!electronIsDev}`;
+  process.env.NODE_CONFIG_STRICT_MODE = `${isPackaged ? 1 : 0}`; // we want to force strict mode when we are packaged
   process.env.HOSTNAME = '';
   process.env.ALLOW_CONFIG_MUTATIONS = '';
   process.env.SUPPRESS_NO_CONFIG_WARNING = '';
-
-  // We could be running against production but still be in dev mode, we need to handle that
-  if (!electronIsDev) {
-    process.env.NODE_APP_INSTANCE = '';
-  }
 }
 
 // We load config after we've made our modifications to NODE_ENV

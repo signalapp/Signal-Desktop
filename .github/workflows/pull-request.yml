@@ -6,6 +6,11 @@ on:
     branches:
       - clearnet
       - unstable
+      - unstable1
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -31,7 +36,8 @@ jobs:
 
       - name: Cache Desktop node_modules
         id: cache-desktop-modules
-        uses: actions/cache@v2
+        uses: actions/cache@v3
+        if: runner.os != 'Windows'
         with:
           path: node_modules
           key: ${{ runner.os }}-${{ hashFiles('package.json', 'yarn.lock', 'patches/**') }}
@@ -45,7 +51,6 @@ jobs:
         if: runner.os == 'Windows'
         run: |
           npm install --global node-gyp@latest
-          npm config set msvs_version 2022
 
       - name: Install Desktop node_modules
         if: steps.cache-desktop-modules.outputs.cache-hit != 'true'

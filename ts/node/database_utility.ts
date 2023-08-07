@@ -5,7 +5,7 @@ import {
   CONVERSATION_PRIORITIES,
 } from '../models/conversationAttributes';
 
-import * as BetterSqlite3 from 'better-sqlite3';
+import * as BetterSqlite3 from '@signalapp/better-sqlite3';
 
 export const CONVERSATIONS_TABLE = 'conversations';
 export const MESSAGES_TABLE = 'messages';

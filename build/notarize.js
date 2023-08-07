@@ -1,4 +1,4 @@
-const { notarize } = require('electron-notarize');
+const { notarize } = require('@electron/notarize');
 
 /*
  Pre-requisites: https://github.com/electron/electron-notarize#prerequisites
