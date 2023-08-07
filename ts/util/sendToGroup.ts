@@ -198,14 +198,9 @@ export async function sendContentMessageToGroup({
     'sendContentMessageToGroup: textsecure.messaging not available!'
   );
 
-  const ourConversationId =
-    window.ConversationController.getOurConversationIdOrThrow();
-  const ourConversation = window.ConversationController.get(ourConversationId);
-
   if (
     isEnabled('desktop.sendSenderKey3') &&
     isEnabled('desktop.senderKey.send') &&
-    ourConversation?.get('capabilities')?.senderKey &&
     sendTarget.isValid()
   ) {
     try {
@@ -1145,11 +1140,6 @@ function isValidSenderKeyRecipient(
     log.info(
       `isValidSenderKeyRecipient: Sending to ${uuid}, not a group member`
     );
-    return false;
-  }
-
-  const capabilities = memberConversation.get('capabilities');
-  if (!capabilities?.senderKey) {
     return false;
   }
 

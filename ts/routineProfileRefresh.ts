@@ -7,7 +7,6 @@ import PQueue from 'p-queue';
 import * as log from './logging/log';
 import { assertDev } from './util/assert';
 import { sleep } from './util/sleep';
-import { missingCaseError } from './util/missingCaseError';
 import { isNormalNumber } from './util/isNormalNumber';
 import { take } from './util/iterables';
 import type { ConversationModel } from './models/conversations';
@@ -15,13 +14,13 @@ import type { StorageInterface } from './types/Storage.d';
 import * as Errors from './types/errors';
 import { getProfile } from './util/getProfile';
 import { drop } from './util/drop';
-import { MINUTE, HOUR, DAY, WEEK, MONTH } from './util/durations';
+import { MINUTE, HOUR, DAY, WEEK } from './util/durations';
+import { isDirectConversation } from './util/whatTypeOfConversation';
 
 const STORAGE_KEY = 'lastAttemptedToRefreshProfilesAt';
-const MAX_AGE_TO_BE_CONSIDERED_ACTIVE = MONTH;
-const MAX_AGE_TO_BE_CONSIDERED_RECENTLY_REFRESHED = DAY;
+const MAX_AGE_TO_BE_CONSIDERED_RECENTLY_REFRESHED = 3 * DAY;
 const MAX_CONVERSATIONS_TO_REFRESH = 50;
-const MIN_ELAPSED_DURATION_TO_REFRESH_AGAIN = 12 * HOUR;
+const MIN_ELAPSED_DURATION_TO_REFRESH_AGAIN = HOUR;
 const MIN_REFRESH_DELAY = MINUTE;
 
 let idCounter = 1;
@@ -200,58 +199,26 @@ function* getFilteredConversations(
   conversations: ReadonlyArray<ConversationModel>,
   ourConversationId: string
 ): Iterable<ConversationModel> {
-  const sorted = sortBy(conversations, c => c.get('active_at'));
-
-  const conversationIdsSeen = new Set<string>([ourConversationId]);
+  const filtered = conversations.filter(
+    c =>
+      isDirectConversation(c.attributes) &&
+      !c.isUnregisteredAndStale() &&
+      c.get('uuid')
+  );
+  const sorted = sortBy(filtered, c => c.get('profileLastFetchedAt') || 0);
 
   for (const conversation of sorted) {
-    const type = conversation.get('type');
-    switch (type) {
-      case 'private':
-        if (
-          conversation.hasProfileKeyCredentialExpired() &&
-          (conversation.id === ourConversationId ||
-            !conversationIdsSeen.has(conversation.id))
-        ) {
-          conversationIdsSeen.add(conversation.id);
-          yield conversation;
-          break;
-        }
+    if (conversation.id === ourConversationId) {
+      if (conversation.hasProfileKeyCredentialExpired()) {
+        yield conversation;
+      }
+      continue;
+    }
 
-        if (
-          !conversationIdsSeen.has(conversation.id) &&
-          isConversationActive(conversation) &&
-          !hasRefreshedProfileRecently(conversation)
-        ) {
-          conversationIdsSeen.add(conversation.id);
-          yield conversation;
-        }
-        break;
-      case 'group':
-        for (const member of conversation.getMembers()) {
-          if (
-            !conversationIdsSeen.has(member.id) &&
-            !hasRefreshedProfileRecently(member)
-          ) {
-            conversationIdsSeen.add(member.id);
-            yield member;
-          }
-        }
-        break;
-      default:
-        throw missingCaseError(type);
+    if (!hasRefreshedProfileRecently(conversation)) {
+      yield conversation;
     }
   }
-}
-
-function isConversationActive(
-  conversation: Readonly<ConversationModel>
-): boolean {
-  const activeAt = conversation.get('active_at');
-  return (
-    isNormalNumber(activeAt) &&
-    activeAt + MAX_AGE_TO_BE_CONSIDERED_ACTIVE > Date.now()
-  );
 }
 
 function hasRefreshedProfileRecently(

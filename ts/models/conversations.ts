@@ -3633,7 +3633,6 @@ export class ConversationModel extends window.Backbone
   getRecipients({
     includePendingMembers,
     extraConversationsForSend,
-    isStoryReply = false,
   }: {
     includePendingMembers?: boolean;
     extraConversationsForSend?: ReadonlyArray<string>;
@@ -3642,7 +3641,6 @@ export class ConversationModel extends window.Backbone
     return getRecipients(this.attributes, {
       includePendingMembers,
       extraConversationsForSend,
-      isStoryReply,
     });
   }
 

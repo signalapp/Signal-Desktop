@@ -623,21 +623,9 @@ export type WebAPIConnectType = {
 };
 
 export type CapabilitiesType = {
-  announcementGroup: boolean;
-  giftBadges: boolean;
-  senderKey: boolean;
-  changeNumber: boolean;
-  stories: boolean;
   pni: boolean;
 };
 export type CapabilitiesUploadType = {
-  announcementGroup: true;
-  giftBadges: true;
-  'gv2-3': true;
-  senderKey: true;
-  changeNumber: true;
-  stories: true;
-
   // true in staging, false in production
   pni: boolean;
 };
@@ -2073,12 +2061,6 @@ export function initialize({
       accessKey,
     }: ConfirmCodeOptionsType) {
       const capabilities: CapabilitiesUploadType = {
-        announcementGroup: true,
-        giftBadges: true,
-        'gv2-3': true,
-        senderKey: true,
-        changeNumber: true,
-        stories: true,
         pni: isPnpEnabled(),
       };
 

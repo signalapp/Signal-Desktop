@@ -99,9 +99,7 @@ export async function sendEditedMessage(
   const fromId = ourConversation.id;
 
   const recipientMaybeConversations = map(
-    conversation.getRecipients({
-      isStoryReply: false,
-    }),
+    conversation.getRecipients(),
     identifier => window.ConversationController.get(identifier)
   );
   const recipientConversations = filter(recipientMaybeConversations, isNotNil);

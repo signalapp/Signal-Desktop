@@ -246,17 +246,10 @@ export async function onDecryptionError(
     senderUuid,
     'private'
   );
-  if (!conversation.get('capabilities')?.senderKey) {
-    await conversation.getProfiles();
-  }
-
   const name = conversation.getTitle();
   maybeShowDecryptionToast(logId, name, senderDevice);
 
-  if (
-    conversation.get('capabilities')?.senderKey &&
-    RemoteConfig.isEnabled('desktop.senderKey.retry')
-  ) {
+  if (RemoteConfig.isEnabled('desktop.senderKey.retry')) {
     await requestResend(decryptionError);
   } else {
     await startAutomaticSessionReset(decryptionError);
