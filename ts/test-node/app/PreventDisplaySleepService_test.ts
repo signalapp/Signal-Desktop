@@ -25,9 +25,10 @@ describe('PreventDisplaySleepService', () => {
       return result;
     }
 
-    stop(id: number): void {
+    stop(id: number): boolean {
       assert(this.idsStarted.has(id), `${id} was never started`);
       this.idsStarted.delete(id);
+      return false;
     }
 
     // This is only for testing.
