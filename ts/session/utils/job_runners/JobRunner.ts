@@ -204,9 +204,8 @@ export class PersistedJobRunner<T extends TypeOfPersistedData> {
     if (!this.isStarted) {
       if (this.jobsScheduled.length) {
         return 'job_deferred';
-      } else {
-        return 'no_job';
       }
+      return 'no_job';
     }
 
     if (this.currentJob) {
@@ -322,7 +321,7 @@ export class PersistedJobRunner<T extends TypeOfPersistedData> {
             nextJob.persistedData.delayBetweenRetries
           }...`
         );
-        nextJob.persistedData.currentRetry = nextJob.persistedData.currentRetry + 1;
+        nextJob.persistedData.currentRetry += 1;
         // that job can be restarted. Plan a retry later with the already defined retry
         nextJob.persistedData.nextAttemptTimestamp =
           Date.now() + nextJob.persistedData.delayBetweenRetries;

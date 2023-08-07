@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import React, { useState } from 'react';
-// tslint:disable: no-submodule-imports use-simple-attributes
+import useKey from 'react-use/lib/useKey';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { SessionJoinableRooms } from './SessionJoinableDefaultRooms';
 
@@ -7,7 +9,6 @@ import { SessionButton } from '../../basic/SessionButton';
 import { SessionIdEditable } from '../../basic/SessionIdEditable';
 import { SessionSpinner } from '../../basic/SessionSpinner';
 import { OverlayHeader } from './OverlayHeader';
-import { useDispatch, useSelector } from 'react-redux';
 import { resetOverlayMode } from '../../../state/ducks/section';
 import {
   joinOpenGroupV2WithUIEvents,
@@ -15,7 +16,7 @@ import {
 } from '../../../session/apis/open_group_api/opengroupV2/JoinOpenGroupV2';
 import { openGroupV2CompleteURLRegex } from '../../../session/apis/open_group_api/utils/OpenGroupUtils';
 import { ToastUtils } from '../../../session/utils';
-import useKey from 'react-use/lib/useKey';
+
 import { getOverlayMode } from '../../../state/selectors/section';
 import {
   markConversationInitialLoadingInProgress,
@@ -30,11 +31,10 @@ async function joinOpenGroup(
   if (serverUrl.match(openGroupV2CompleteURLRegex)) {
     const groupCreated = await joinOpenGroupV2WithUIEvents(serverUrl, true, false, uiCallback);
     return groupCreated;
-  } else {
-    ToastUtils.pushToastError('invalidOpenGroupUrl', window.i18n('invalidOpenGroupUrl'));
-    window.log.warn('Invalid opengroupv2 url');
-    return false;
   }
+  ToastUtils.pushToastError('invalidOpenGroupUrl', window.i18n('invalidOpenGroupUrl'));
+  window.log.warn('Invalid opengroupv2 url');
+  return false;
 }
 
 export const OverlayCommunity = () => {
@@ -87,7 +87,6 @@ export const OverlayCommunity = () => {
   return (
     <div className="module-left-pane-overlay">
       <OverlayHeader title={title} subtitle={subtitle} />
-
       <div className="create-group-name-input">
         <SessionIdEditable
           editable={true}
@@ -99,9 +98,7 @@ export const OverlayCommunity = () => {
           onPressEnter={onTryJoinRoom}
         />
       </div>
-
       <SessionButton text={buttonText} disabled={!groupUrl} onClick={onTryJoinRoom} />
-
       <SessionSpinner loading={loading} />
       <SessionJoinableRooms onJoinClick={onTryJoinRoom} alreadyJoining={loading} />
     </div>

@@ -1,5 +1,3 @@
-// tslint:disable: binary-expression-operand-order
-
 const seconds = 1000;
 const minutes = seconds * 60;
 const hours = minutes * 60;
@@ -26,7 +24,6 @@ export const SWARM_POLLING_TIMEOUT = {
 };
 
 export const PROTOCOLS = {
-  // tslint:disable-next-line: no-http-string
   HTTP: 'http:',
   HTTPS: 'https:',
 };

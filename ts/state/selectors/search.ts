@@ -28,7 +28,7 @@ const getSearchResults = createSelector(
             // on some edges cases, we have an id but no corresponding convo because it matches a query but the conversation was removed.
             // Don't return anything when activeAt is unset (i.e. no current conversations with this user)
             if (!value || value.activeAt === undefined || value.activeAt === 0) {
-              //activeAt can be 0 when linking device
+              // activeAt can be 0 when linking device
               return false;
             }
 

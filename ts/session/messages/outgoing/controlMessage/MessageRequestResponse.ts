@@ -4,7 +4,6 @@ import { ContentMessage } from '../ContentMessage';
 import { MessageParams } from '../Message';
 import { buildProfileForOutgoingMessage } from '../visibleMessage/VisibleMessage';
 
-// tslint:disable-next-line: no-empty-interface
 export interface MessageRequestResponseParams extends MessageParams {
   lokiProfile?: LokiProfile;
 }

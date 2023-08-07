@@ -15,6 +15,7 @@ export function resetFeatureReleasedCachedValue() {
   isUserConfigLibsessionFeatureReleased = undefined;
 }
 
+// eslint-disable-next-line consistent-return
 function getIsFeatureReleasedCached(featureName: FeatureNameTracked) {
   switch (featureName) {
     case 'disappearing_messages':
@@ -39,6 +40,7 @@ function setIsFeatureReleasedCached(featureName: FeatureNameTracked, value: bool
   }
 }
 
+// eslint-disable-next-line consistent-return
 function getFeatureReleaseTimestamp(featureName: FeatureNameTracked) {
   switch (featureName) {
     case 'disappearing_messages':
@@ -46,10 +48,8 @@ function getFeatureReleaseTimestamp(featureName: FeatureNameTracked) {
       return 1706778000000; // unix 01/02/2024 09:00;
     //   return 1677488400000; // testing:  unix 27/02/2023 09:00
     case 'user_config_libsession':
-      // TODO update to agreed value between platforms for `user_config_libsession`
-      // FIXME once we are done with testing the user config over libsession feature
-      // return (window as any).user_config_libsession || 1706778000000; // unix 01/02/2024 09:00;
-      return 1677488400000; // testing: unix 27/02/2023 09:00
+      return 1690761600000; // Monday July 31st at 10am Melbourne time
+    // return 1677488400000; // testing: unix 27/02/2023 09:00
 
     default:
       assertUnreachable(featureName, 'case not handled for getFeatureReleaseTimestamp');
@@ -81,8 +81,7 @@ async function checkIsFeatureReleased(featureName: FeatureNameTracked): Promise<
   // Is it time to release the feature based on the network timestamp?
   if (
     !featureAlreadyReleased &&
-    (GetNetworkTime.getNowWithNetworkOffset() >= getFeatureReleaseTimestamp(featureName) ||
-      featureName === 'user_config_libsession') // we want to make a build which has user config enabled by default for internal testing // TODO to remove for official build
+    GetNetworkTime.getNowWithNetworkOffset() >= getFeatureReleaseTimestamp(featureName)
   ) {
     window.log.info(`[releaseFeature]: It is time to release ${featureName}. Releasing it now`);
     await Storage.put(featureStorageItemId(featureName), true);

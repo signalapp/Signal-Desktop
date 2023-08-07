@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import styled from 'styled-components';
 
 import {
   areAllAttachmentsVisual,
@@ -11,7 +12,6 @@ import {
 
 import { Image } from './Image';
 import { IsMessageVisibleContext } from './message/message-content/MessageContent';
-import styled from 'styled-components';
 import { THUMBNAIL_SIDE } from '../../types/attachments/VisualAttachment';
 
 type Props = {
@@ -26,7 +26,6 @@ const StyledImageGrid = styled.div<{ flexDirection: 'row' | 'column' }>`
   gap: var(--margins-sm);
   flex-direction: ${props => props.flexDirection};
 `;
-// tslint:disable: cyclomatic-complexity max-func-body-length use-simple-attributes
 
 const Row = (
   props: Props & { renderedSize: number; startIndex: number; totalAttachmentsCount: number }

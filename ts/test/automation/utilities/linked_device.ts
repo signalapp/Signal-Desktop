@@ -1,4 +1,3 @@
-import { _electron } from 'playwright-core';
 import { logIn } from '../setup/log_in';
 import { openApp } from '../setup/open';
 

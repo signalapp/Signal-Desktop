@@ -1,7 +1,8 @@
 import React from 'react';
+import { isEmpty } from 'lodash';
+
 import { assertUnreachable } from '../../../types/sqlSharedTypes';
 import { Avatar, AvatarSize } from '../Avatar';
-import { isEmpty } from 'lodash';
 import { useIsClosedGroup, useSortedGroupMembers } from '../../../hooks/useParamSelector';
 import { UserUtils } from '../../../session/utils';
 
@@ -22,6 +23,7 @@ function getClosedGroupAvatarsSize(size: AvatarSize): AvatarSize {
       return AvatarSize.XL;
     default:
       assertUnreachable(size, `Invalid size request for closed group avatar "${size}"`);
+      return AvatarSize.XL; // just to make eslint happy
   }
 }
 

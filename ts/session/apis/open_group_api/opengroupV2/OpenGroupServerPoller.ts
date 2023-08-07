@@ -1,11 +1,14 @@
+/* eslint-disable no-loop-func */
+/* eslint-disable no-restricted-syntax */
 import { AbortController } from 'abort-controller';
+import { isNumber, isObject } from 'lodash';
+import autoBind from 'auto-bind';
+
 import { getOpenGroupV2ConversationId } from '../utils/OpenGroupUtils';
 import { OpenGroupRequestCommonType } from './ApiUtil';
-import _, { isNumber, isObject } from 'lodash';
 
 import { OpenGroupData } from '../../../../data/opengroups';
 import { OpenGroupMessageV2 } from './OpenGroupMessageV2';
-import autoBind from 'auto-bind';
 import { DURATION } from '../../../constants';
 import {
   batchGlobalIsSuccess,
@@ -108,6 +111,7 @@ export class OpenGroupServerPoller {
     });
 
     this.abortController = new AbortController();
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     this.pollForEverythingTimer = global.setInterval(this.compactPoll, pollForEverythingInterval);
 
     if (this.roomIdsToPoll.size) {
@@ -339,6 +343,7 @@ export class OpenGroupServerPoller {
                 stateConversations.selectedConversation &&
                 conversationKey === stateConversations.selectedConversation
               ) {
+                // eslint-disable-next-line more/no-then
                 void openConversationWithMessages({ conversationKey, messageId: null }).then(() => {
                   window.inboxStore?.dispatch(
                     markConversationInitialLoadingInProgress({

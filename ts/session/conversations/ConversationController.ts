@@ -1,3 +1,8 @@
+/* eslint-disable no-await-in-loop */
+/* eslint-disable more/no-then */
+import { ConvoVolatileType } from 'libsession_util_nodejs';
+import { isEmpty, isNil } from 'lodash';
+
 import { Data } from '../../data/data';
 import { OpenGroupData } from '../../data/opengroups';
 import { ConversationCollection, ConversationModel } from '../../models/conversation';
@@ -10,7 +15,6 @@ import { getOpenGroupManager } from '../apis/open_group_api/opengroupV2/OpenGrou
 import { getSwarmFor } from '../apis/snode_api/snodePool';
 import { PubKey } from '../types';
 
-import { ConvoVolatileType } from 'libsession_util_nodejs';
 import { deleteAllMessagesByConvoIdNoConfirmation } from '../../interactions/conversationInteractions';
 import { CONVERSATION_PRIORITIES, ConversationTypeEnum } from '../../models/conversationAttributes';
 import { assertUnreachable } from '../../types/sqlSharedTypes';
@@ -26,7 +30,6 @@ import { getSwarmPollingInstance } from '../apis/snode_api';
 import { SnodeNamespaces } from '../apis/snode_api/namespaces';
 import { ClosedGroupMemberLeftMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupMemberLeftMessage';
 import { UserUtils } from '../utils';
-import { isEmpty, isNil } from 'lodash';
 import { getCurrentlySelectedConversationOutsideRedux } from '../../state/selectors/conversations';
 import { removeAllClosedGroupEncryptionKeyPairs } from '../../receiver/closedGroups';
 import { OpenGroupUtils } from '../apis/open_group_api/utils';
@@ -187,7 +190,7 @@ export class ConversationController {
         'getConversationController().deleteBlindedContact() needs complete initial fetch'
       );
     }
-    if (!PubKey.hasBlindedPrefix(blindedId)) {
+    if (!PubKey.isBlinded(blindedId)) {
       throw new Error('deleteBlindedContact allow accepts blinded id');
     }
     window.log.info(`deleteBlindedContact with ${blindedId}`);

@@ -1,16 +1,16 @@
+import { fromBase64, fromHex } from 'bytebuffer';
 import chai, { expect } from 'chai';
 import chaiBytes from 'chai-bytes';
-import { SogsBlinding } from '../../../../session/apis/open_group_api/sogsv3/sogsBlinding';
-import { ByteKeyPair } from '../../../../session/utils/User';
 import { to_hex } from 'libsodium-wrappers-sumo';
-import { fromBase64, fromHex } from 'bytebuffer';
-import { StringUtils } from '../../../../session/utils';
+
+import { SogsBlinding } from '../../../../session/apis/open_group_api/sogsv3/sogsBlinding';
 import { concatUInt8Array, getSodiumRenderer } from '../../../../session/crypto';
 import { KeyPrefixType } from '../../../../session/types';
+import { StringUtils } from '../../../../session/utils';
+import { ByteKeyPair } from '../../../../session/utils/User';
 
 chai.use(chaiBytes);
 
-// tslint:disable-next-line: max-func-body-length
 describe('OpenGroupAuthentication', () => {
   const secondPartPrivKey = new Uint8Array([
     186,
@@ -201,7 +201,6 @@ describe('OpenGroupAuthentication', () => {
 
   const body = 'hello 🎂';
 
-  // tslint:disable-next-line: max-func-body-length
   describe('HeaderCreation', () => {
     describe('Blinded Headers', () => {
       it('should produce correct X-SOGS-Nonce', async () => {
@@ -421,7 +420,7 @@ const decryptBlindedMessage = async (
     window?.log?.error(
       'decryptBlindedMessage - Dropping message due to unsupported encryption version'
     );
-    return;
+    return undefined;
   }
 
   const nonceLength = sodium.crypto_aead_xchacha20poly1305_ietf_NPUBBYTES;
@@ -439,7 +438,7 @@ const decryptBlindedMessage = async (
   if (plaintextIncoming.length <= 32) {
     // throw Error;
     window?.log?.error('decryptBlindedMessage: plaintext insufficient length');
-    return;
+    return undefined;
   }
 
   const msg = plaintextIncoming.slice(0, plaintextIncoming.length - 32);

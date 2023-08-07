@@ -4,7 +4,7 @@ import { SignInMode, SignInTab } from './SignInTab';
 import { Data } from '../../data/data';
 import { getSwarmPollingInstance } from '../../session/apis/snode_api';
 import { getConversationController } from '../../session/conversations';
-import { mn_decode } from '../../session/crypto/mnemonic';
+import { mnDecode } from '../../session/crypto/mnemonic';
 import { PromiseUtils, StringUtils, ToastUtils } from '../../session/utils';
 import { TaskTimedOutError } from '../../session/utils/Promise';
 import { trigger } from '../../shims/events';
@@ -17,8 +17,6 @@ import {
 import { fromHex } from '../../session/utils/String';
 import { setSignInByLinking, setSignWithRecoveryPhrase, Storage } from '../../util/storage';
 import { SettingsKey } from '../../data/settings-key';
-
-// tslint:disable: use-simple-attributes
 
 export async function resetRegistration() {
   await Data.removeAll();
@@ -188,16 +186,11 @@ export const RegistrationStages = () => {
   const [signInMode, setSignInMode] = useState(SignInMode.Default);
   const [signUpMode, setSignUpMode] = useState(SignUpMode.Default);
 
-  useEffect(() => {
-    void generateMnemonicAndKeyPair();
-    void resetRegistration();
-  }, []);
-
   const generateMnemonicAndKeyPair = async () => {
     if (generatedRecoveryPhrase === '') {
       const mnemonic = await generateMnemonic();
 
-      let seedHex = mn_decode(mnemonic);
+      let seedHex = mnDecode(mnemonic);
       // handle shorter than 32 bytes seeds
       const privKeyHexLength = 32 * 2;
       if (seedHex.length !== privKeyHexLength) {
@@ -212,6 +205,12 @@ export const RegistrationStages = () => {
       setHexGeneratedPubKey(newHexPubKey); // our 'frontend' sessionID
     }
   };
+
+  useEffect(() => {
+    void generateMnemonicAndKeyPair();
+    void resetRegistration();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const memoizedValue = React.useMemo(() => {
     return {

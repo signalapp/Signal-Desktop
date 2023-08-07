@@ -1,9 +1,9 @@
 import React from 'react';
 import { animation, Item, Menu } from 'react-contexify';
-import _ from 'lodash';
+import { useDispatch } from 'react-redux';
 
 import { SessionContextMenuContainer } from '../SessionContextMenuContainer';
-import { useDispatch } from 'react-redux';
+
 import { hideMessageRequestBanner } from '../../state/ducks/userConfig';
 
 export type PropsContextConversationItem = {

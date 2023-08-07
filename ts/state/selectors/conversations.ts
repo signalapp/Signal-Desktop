@@ -1,4 +1,6 @@
+/* eslint-disable no-restricted-syntax */
 import { createSelector } from '@reduxjs/toolkit';
+import { filter, isEmpty, isNumber, pick, sortBy, toNumber, isFinite } from 'lodash';
 
 import {
   ConversationLookupType,
@@ -19,7 +21,6 @@ import { ReplyingToMessageProps } from '../../components/conversation/compositio
 import { MessageAttachmentSelectorProps } from '../../components/conversation/message/message-content/MessageAttachment';
 import { MessageContentSelectorProps } from '../../components/conversation/message/message-content/MessageContent';
 import { MessageContentWithStatusSelectorProps } from '../../components/conversation/message/message-content/MessageContentWithStatus';
-import { MessageContextMenuSelectorProps } from '../../components/conversation/message/message-content/MessageContextMenu';
 import { MessageTextSelectorProps } from '../../components/conversation/message/message-content/MessageText';
 import { GenericReadableMessageSelectorProps } from '../../components/conversation/message/message-item/GenericReadableMessage';
 import { LightBoxOptions } from '../../components/conversation/SessionConversation';
@@ -32,7 +33,6 @@ import { BlockedNumberController } from '../../util';
 import { Storage } from '../../util/storage';
 import { getIntl } from './user';
 
-import { filter, isEmpty, isNumber, pick, sortBy, toNumber } from 'lodash';
 import { MessageReactsSelectorProps } from '../../components/conversation/message/message-content/MessageReactions';
 import { processQuoteAttachment } from '../../models/message';
 import { isUsAnySogsFromCache } from '../../session/apis/open_group_api/sogsv3/knownBlindedkeys';
@@ -284,7 +284,6 @@ const _getLeftPaneConversationIds = (
     .map(m => m.id);
 };
 
-// tslint:disable-next-line: cyclomatic-complexity
 const _getPrivateFriendsConversations = (
   sortedConversations: Array<ReduxConversationType>
 ): Array<ReduxConversationType> => {
@@ -300,7 +299,6 @@ const _getPrivateFriendsConversations = (
   });
 };
 
-// tslint:disable-next-line: cyclomatic-complexity
 const _getGlobalUnreadCount = (sortedConversations: Array<ReduxConversationType>): number => {
   let globalUnreadCount = 0;
   for (const conversation of sortedConversations) {
@@ -647,8 +645,6 @@ export const getSelectedConversation = createSelector(
   }
 );
 
-// tslint:disable: cyclomatic-complexity
-
 export const getMessagePropsByMessageId = createSelector(
   getSortedMessagesOfSelectedConversation,
   getSelectedConversation,
@@ -753,7 +749,6 @@ export const getMessageReactsProps = createSelector(getMessagePropsByMessageId, 
   return msgProps;
 });
 
-// tslint:disable: cyclomatic-complexity
 export const getMessageQuoteProps = createSelector(
   getConversationLookup,
   getMessagesOfSelectedConversation,
@@ -785,7 +780,7 @@ export const getMessageQuoteProps = createSelector(
     const isFromMe = isUsAnySogsFromCache(author) || false;
 
     // NOTE the quote lookup map always stores our messages using the unblinded pubkey
-    if (isFromMe && PubKey.hasBlindedPrefix(author)) {
+    if (isFromMe && PubKey.isBlinded(author)) {
       author = UserUtils.getOurPubKeyStrFromCache();
     }
 
@@ -835,7 +830,6 @@ export const getMessageQuoteProps = createSelector(
     };
   }
 );
-// tslint:enable: cyclomatic-complexity
 
 export const getMessageTextProps = createSelector(getMessagePropsByMessageId, (props):
   | MessageTextSelectorProps
@@ -850,33 +844,6 @@ export const getMessageTextProps = createSelector(getMessagePropsByMessageId, (p
     'text',
     'isDeleted',
     'conversationType',
-  ]);
-
-  return msgProps;
-});
-
-/**
- * TODO probably not something which should be memoized with createSelector as we rememoize it for each message (and override the previous one). Not sure what is the right way to do a lookup. But maybe something like having the messages as a record<id, message> and do a simple lookup to grab the details.
- * And the the sorting would be done in a memoized selector
- */
-export const getMessageContextMenuProps = createSelector(getMessagePropsByMessageId, (props):
-  | MessageContextMenuSelectorProps
-  | undefined => {
-  if (!props || isEmpty(props)) {
-    return undefined;
-  }
-
-  const msgProps: MessageContextMenuSelectorProps = pick(props.propsForMessage, [
-    'attachments',
-    'sender',
-    'direction',
-    'status',
-    'isDeletable',
-    'isSenderAdmin',
-    'text',
-    'serverTimestamp',
-    'timestamp',
-    'isDeletableForEveryone',
   ]);
 
   return msgProps;

@@ -92,7 +92,6 @@ class AvatarDownloadJob extends PersistedJob<AvatarDownloadPersistedData> {
     });
   }
 
-  // tslint:disable-next-line: cyclomatic-complexity
   public async run(): Promise<RunJobResult> {
     const convoId = this.persistedData.conversationId;
 
@@ -185,14 +184,12 @@ class AvatarDownloadJob extends PersistedJob<AvatarDownloadPersistedData> {
         );
         return RunJobResult.RetryJobIfPossible;
       }
-    } else {
+    } else if (conversation.get('avatarInProfile')) {
       // there is no valid avatar to download, make sure the local file of the avatar of that user is removed
-      if (conversation.get('avatarInProfile')) {
-        conversation.set({
-          avatarInProfile: undefined,
-        });
-        changes = true;
-      }
+      conversation.set({
+        avatarInProfile: undefined,
+      });
+      changes = true;
     }
 
     if (conversation.id === UserUtils.getOurPubKeyStrFromCache()) {

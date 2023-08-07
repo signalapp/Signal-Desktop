@@ -1,6 +1,7 @@
+import { isBoolean } from 'lodash';
+
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { SettingsKey } from '../../data/settings-key';
-import { isBoolean } from 'lodash';
 import { Storage } from '../../util/storage';
 
 const SettingsBoolsKeyTrackedInRedux = [
@@ -62,7 +63,6 @@ const settingsSlice = createSlice({
         return state;
       }
 
-      // tslint:disable-next-line: no-dynamic-delete
       delete state.settingsBools[action.payload];
       return state;
     },

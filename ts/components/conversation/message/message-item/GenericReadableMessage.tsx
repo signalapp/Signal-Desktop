@@ -2,9 +2,11 @@ import classNames from 'classnames';
 import React, { useCallback, useEffect, useState } from 'react';
 import { contextMenu } from 'react-contexify';
 import { useDispatch, useSelector } from 'react-redux';
-// tslint:disable-next-line: no-submodule-imports
+import styled, { keyframes } from 'styled-components';
+
 import useInterval from 'react-use/lib/useInterval';
-import _ from 'lodash';
+import useMount from 'react-use/lib/useMount';
+
 import { Data } from '../../../../data/data';
 import { MessageRenderingProps } from '../../../../models/messageType';
 import { getConversationController } from '../../../../session/conversations';
@@ -17,11 +19,10 @@ import {
 import { getIncrement } from '../../../../util/timer';
 import { ExpireTimer } from '../../ExpireTimer';
 
-import { MessageContentWithStatuses } from '../message-content/MessageContentWithStatus';
-import { ReadableMessage } from './ReadableMessage';
-import styled, { keyframes } from 'styled-components';
 import { isOpenOrClosedGroup } from '../../../../models/conversationAttributes';
+import { MessageContentWithStatuses } from '../message-content/MessageContentWithStatus';
 import { StyledMessageReactionsContainer } from '../message-content/MessageReactions';
+import { ReadableMessage } from './ReadableMessage';
 
 export type GenericReadableMessageSelectorProps = Pick<
   MessageRenderingProps,
@@ -81,7 +82,7 @@ function useIsExpired(props: ExpiringProps) {
         convo?.updateLastMessage();
       }
     }
-  }, [expirationTimestamp, expirationLength, isExpired, messageId, convoId]);
+  }, [dispatch, expirationTimestamp, expirationLength, isExpired, messageId, convoId]);
 
   let checkFrequency: number | null = null;
   if (expirationLength) {
@@ -89,9 +90,9 @@ function useIsExpired(props: ExpiringProps) {
     checkFrequency = Math.max(EXPIRATION_CHECK_MINIMUM, increment);
   }
 
-  useEffect(() => {
+  useMount(() => {
     void checkExpired();
-  }, []); // check on mount
+  });
   useInterval(checkExpired, checkFrequency); // check every 2sec or sooner if needed
 
   return { isExpired };
@@ -102,7 +103,6 @@ type Props = {
   ctxMenuID: string;
   isDetailView?: boolean;
 };
-// tslint:disable: use-simple-attributes
 
 const highlightedMessageAnimation = keyframes`
   1% {
@@ -118,8 +118,7 @@ const StyledReadableMessage = styled(ReadableMessage)<{
   align-items: center;
   width: 100%;
   letter-spacing: 0.03rem;
-  padding: var(--margins-xs) var(--margins-lg) 0;
-  margin: var(--margins-xxs) 0;
+  padding: 0 var(--margins-lg) 0;
 
   &.message-highlighted {
     animation: ${highlightedMessageAnimation} 1s ease-in-out;

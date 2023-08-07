@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-// tslint:disable no-submodule-imports
 
 import useCopyToClipboard from 'react-use/lib/useCopyToClipboard';
 
@@ -20,6 +19,7 @@ export const UserDetailsDialog = (props: UserDetailsModalState) => {
 
   const size = isEnlargedImageShown ? AvatarSize.HUGE : AvatarSize.XL;
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, copyToClipboard] = useCopyToClipboard();
 
   function closeDialog() {

@@ -117,6 +117,7 @@ export const reducer = (
   switch (type) {
     case FOCUS_SECTION:
       // if we change to something else than settings, reset the focused settings section
+      // eslint-disable-next-line no-case-declarations
       const castedPayload = (payload as unknown) as SectionType;
 
       if (castedPayload !== SectionType.Settings) {

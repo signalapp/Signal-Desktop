@@ -27,7 +27,10 @@ export class IncomingMessage<T extends IncomingMessageAvailableTypes> {
    *      * for a 1o1 message, the is the sender
    *      * for a message in a group, this is the pubkey of the group (as everyone
    *            in a group send message to the group pubkey)
-   * - `authorInGroup` is only set when this message is incoming from a closed group. This is the old `senderIdentity` and is the publicKey of the sender inside the message itself once decrypted. This is the real sender of a closed group message.
+   * - `authorInGroup` is only set when this message is incoming
+   *    from a closed group. This is the old `senderIdentity` and
+   *    is the publicKey of the sender inside the message itself once
+   *    decrypted. This is the real sender of a closed group message.
    * - `message` is the data of the ContentMessage itself.
    */
   constructor({

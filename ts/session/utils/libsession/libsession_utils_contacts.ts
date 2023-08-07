@@ -29,16 +29,14 @@ const mappedContactWrapperValues = new Map<string, ContactInfo>();
  * We want to sync the message request status so we need to allow a contact even if it's not approved, did not approve us and is not blocked.
  */
 function isContactToStoreInWrapper(convo: ConversationModel): boolean {
-  return (
-    !convo.isMe() && convo.isPrivate() && convo.isActive() && !PubKey.hasBlindedPrefix(convo.id)
-  );
+  return !convo.isMe() && convo.isPrivate() && convo.isActive() && !PubKey.isBlinded(convo.id);
 }
 
 /**
  * Fetches the specified convo and updates the required field in the wrapper.
  * If that contact does not exist in the wrapper, it is created before being updated.
  */
-// tslint:disable-next-line: cyclomatic-complexity
+
 async function insertContactFromDBIntoWrapperAndRefresh(id: string): Promise<void> {
   const foundConvo = getConversationController().get(id);
   if (!foundConvo) {
@@ -97,13 +95,11 @@ async function refreshMappedValue(id: string, duringAppStart = false) {
         .get(id)
         ?.triggerUIRefresh();
     }
-  } else {
-    if (mappedContactWrapperValues.delete(id)) {
-      if (!duringAppStart) {
-        getConversationController()
-          .get(id)
-          ?.triggerUIRefresh();
-      }
+  } else if (mappedContactWrapperValues.delete(id)) {
+    if (!duringAppStart) {
+      getConversationController()
+        .get(id)
+        ?.triggerUIRefresh();
     }
   }
 }

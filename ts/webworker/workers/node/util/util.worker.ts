@@ -1,5 +1,6 @@
 import ByteBuffer from 'bytebuffer';
 import { generateKeyPair, sharedKey, verify } from 'curve25519-js';
+// eslint-disable-next-line import/no-named-default
 import { default as sodiumWrappers } from 'libsodium-wrappers-sumo';
 import _ from 'lodash';
 import {
@@ -28,8 +29,7 @@ const functions = {
   encryptAttachmentBufferNode,
   bytesFromString,
 };
-// tslint:disable: function-name
-//tslint-disable no-console
+
 onmessage = async (e: any) => {
   const [jobId, fnName, ...args] = e.data;
 
@@ -100,10 +100,11 @@ async function verifyAllSignatures(
 ) {
   const checked = [];
   // keep this out of a racing (i.e. no Promise.all) for easier debugging for now
-  // tslint:disable-next-line: prefer-for-of
+  // eslint-disable-next-line: prefer-for-of
   for (let index = 0; index < uncheckedSignatureMessages.length; index++) {
     const unchecked = uncheckedSignatureMessages[index];
     try {
+      // eslint-disable-next-line no-await-in-loop
       const valid = await verifySignature(
         unchecked.sender,
         unchecked.base64EncodedData,
@@ -113,7 +114,7 @@ async function verifyAllSignatures(
         checked.push(unchecked.base64EncodedData);
         continue;
       }
-      // tslint:disable: no-console
+      // eslint:disable: no-console
       console.info('got an opengroup message with an invalid signature');
     } catch (e) {
       console.error(e);
@@ -141,7 +142,8 @@ async function verifySignature(
     }
     const messageData = fromBase64ToUint8Array(messageBase64);
     const signature = fromBase64ToUint8Array(signatureBase64);
-    const isBlindedSender = senderPubKey.startsWith('15');
+    // blinded15 or blinded25 are the same for the verifySignature logic
+    const isBlindedSender = senderPubKey.startsWith('15') || senderPubKey.startsWith('25');
 
     const pubkeyWithoutPrefix = senderPubKey.slice(2);
     const pubkeyBytes = fromHexToArray(pubkeyWithoutPrefix);
@@ -243,7 +245,6 @@ async function EncryptAESGCM(symmetricKey: ArrayBuffer, plaintext: ArrayBuffer) 
     plaintext
   );
 
-  // tslint:disable-next-line: restrict-plus-operands
   const ivAndCiphertext = new Uint8Array(NONCE_LENGTH + ciphertext.byteLength);
 
   ivAndCiphertext.set(nonce);

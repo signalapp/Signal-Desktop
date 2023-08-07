@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import React from 'react';
-// tslint:disable-next-line: no-submodule-imports
+
 import useUpdate from 'react-use/lib/useUpdate';
 import { SettingsKey } from '../../../data/settings-key';
 import { ConversationTypeEnum } from '../../../models/conversationAttributes';
@@ -75,8 +76,8 @@ export const SettingsCategoryPrivacy = (props: {
           childrenDescription={<TypingBubbleItem />}
         />
         <SessionToggleWithDescription
-          onClickToggle={async () => {
-            await toggleLinkPreviews(isLinkPreviewsOn, forceUpdate);
+          onClickToggle={() => {
+            void toggleLinkPreviews(isLinkPreviewsOn, forceUpdate);
           }}
           title={window.i18n('linkPreviewsTitle')}
           description={window.i18n('linkPreviewDescription')}

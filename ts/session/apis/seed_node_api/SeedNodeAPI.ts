@@ -1,18 +1,17 @@
-import { Constants } from '../..';
-import { default as insecureNodeFetch } from 'node-fetch';
-import https from 'https';
-import _ from 'lodash';
-
 import tls from 'tls';
-import { sha256 } from '../../crypto';
+import https from 'https';
+// eslint-disable-next-line import/no-named-default
+import { default as insecureNodeFetch } from 'node-fetch';
+import _ from 'lodash';
 import pRetry from 'p-retry';
+
+import { sha256 } from '../../crypto';
+import { Constants } from '../..';
 import { SeedNodeAPI } from '.';
 import { allowOnlyOneAtATime } from '../../utils/Promise';
 import { APPLICATION_JSON } from '../../../types/MIME';
 import { isLinux } from '../../../OS';
 import { Snode } from '../../../data/data';
-
-// tslint:disable: function-name
 
 /**
  * Fetch all snodes from seed nodes.
@@ -88,7 +87,6 @@ const getSslAgentForSeedNode = async (seedNodeHost: string, isSsl = false) => {
       throw new Error(`Unknown seed node: ${seedNodeHost}`);
   }
 
-  // tslint:disable: non-literal-fs-path
   // read the cert each time. We only run this request once for each seed node nevertheless.
   const sslOptions: https.AgentOptions = {
     // as the seed nodes are using a self signed certificate, we have to provide it here.

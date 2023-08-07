@@ -1,4 +1,6 @@
 import React from 'react';
+import styled from 'styled-components';
+
 import {
   SessionButton,
   SessionButtonColor,
@@ -7,8 +9,8 @@ import {
 } from '../basic/SessionButton';
 import { SessionToggle } from '../basic/SessionToggle';
 import { SessionConfirmDialogProps } from '../dialog/SessionConfirm';
-import styled from 'styled-components';
 import { SessionIconButton } from '../icon';
+import { Noop } from '../../types/Util';
 
 type ButtonSettingsProps = {
   title?: string;
@@ -111,7 +113,7 @@ export const SessionSettingsItemWrapper = (props: {
   );
 };
 
-export const SessionSettingsTitleWithLink = (props: { title: string; onClick: () => void }) => {
+export const SessionSettingsTitleWithLink = (props: { title: string; onClick: Noop }) => {
   const { onClick, title } = props;
   return (
     <StyledSettingItemClickable onClick={onClick}>

@@ -12,6 +12,7 @@ import {
   clickOnTestIdWithText,
   hasTextElementBeenDeleted,
   typeIntoInput,
+  waitForMatchingPlaceholder,
   waitForMatchingText,
   waitForTestIdWithText,
   waitForTextMessage,
@@ -21,7 +22,6 @@ const windows: Array<Page> = [];
 test.beforeEach(beforeAllClean);
 
 test.afterEach(() => forceCloseAllWindows(windows));
-// tslint:disable: no-console
 
 test('Link a device', async () => {
   const [windowA] = await openApp(1); // not using sessionTest here as we need to close and reopen one of the window
@@ -84,10 +84,10 @@ test('Check profile picture syncs', async () => {
 
   await waitForTestIdWithText(windowA, 'copy-button-profile-update', 'Copy');
   await clickOnTestIdWithText(windowA, 'modal-close-button');
-
-  await sleepFor(500);
+  // TODO this test should retry a few times for the avatar to match
+  await sleepFor(500, true);
   const leftpaneAvatarContainer = await waitForTestIdWithText(windowB, 'leftpane-primary-avatar');
-  await sleepFor(500);
+  await sleepFor(500, true);
   const screenshot = await leftpaneAvatarContainer.screenshot({
     type: 'jpeg',
     // path: 'avatar-updated-blue',
@@ -162,7 +162,16 @@ test('Check blocked user syncs', async () => {
   await clickOnElement(windowA, 'data-testid', 'three-dots-conversation-options');
   await clickOnMatchingText(windowA, 'Block');
   await waitForTestIdWithText(windowA, 'session-toast', 'Blocked');
-  // await waitForMatchingText(windowA, 'Unblock this contact to send a message.');
+  await waitForMatchingPlaceholder(
+    windowA,
+    'message-input-text-area',
+    'Unblock this contact to send a message.'
+  );
+  await waitForMatchingPlaceholder(
+    windowB,
+    'message-input-text-area',
+    'Unblock this contact to send a message.'
+  ); // reveal-blocked-user-settings is not updated once opened
   // Check linked device for blocked contact in settings screen
   await clickOnTestIdWithText(windowB, 'settings-section');
   await clickOnTestIdWithText(windowB, 'conversations-settings-menu-item');

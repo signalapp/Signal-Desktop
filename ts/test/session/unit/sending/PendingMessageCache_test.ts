@@ -1,9 +1,11 @@
-// tslint:disable: no-implicit-dependencies max-func-body-length no-unused-expression
+/* eslint-disable no-unused-expressions */
+/* eslint-disable no-await-in-loop */
+/* eslint-disable no-restricted-syntax */
 import { expect } from 'chai';
 import Sinon from 'sinon';
 import * as _ from 'lodash';
 import { MessageUtils } from '../../../../session/utils';
-import { TestUtils } from '../../../../test/test-utils';
+import { TestUtils } from '../../../test-utils';
 import { PendingMessageCache } from '../../../../session/sending/PendingMessageCache';
 import { SnodeNamespaces } from '../../../../session/apis/snode_api/namespaces';
 

@@ -1,6 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { SessionConfirmDialogProps } from '../../components/dialog/SessionConfirm';
 import { PasswordAction } from '../../components/dialog/SessionPasswordDialog';
+import { Noop } from '../../types/Util';
+
 export type BanType = 'ban' | 'unban';
 
 export type ConfirmModalState = SessionConfirmDialogProps | null;
@@ -16,12 +18,12 @@ export type UpdateGroupMembersModalState = InviteContactModalState;
 export type UpdateGroupNameModalState = InviteContactModalState;
 export type ChangeNickNameModalState = InviteContactModalState;
 export type AdminLeaveClosedGroupModalState = InviteContactModalState;
-export type EditProfileModalState = {} | null;
+export type EditProfileModalState = object | null;
 export type OnionPathModalState = EditProfileModalState;
 export type RecoveryPhraseModalState = EditProfileModalState;
 export type DeleteAccountModalState = EditProfileModalState;
 
-export type SessionPasswordModalState = { passwordAction: PasswordAction; onOk: () => void } | null;
+export type SessionPasswordModalState = { passwordAction: PasswordAction; onOk: Noop } | null;
 
 export type UserDetailsModalState = {
   conversationId: string;

@@ -1,15 +1,16 @@
 import React from 'react';
-import { SessionIcon, SessionIconButton } from '../icon';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
+import useKey from 'react-use/lib/useKey';
+import { SessionIcon, SessionIconButton } from '../icon';
+
 import { quoteMessage } from '../../state/ducks/conversations';
 import { getQuotedMessage } from '../../state/selectors/conversations';
 import { getAlt, isAudio } from '../../types/Attachment';
 import { AUDIO_MP3 } from '../../types/MIME';
 import { Flex } from '../basic/Flex';
-import { Image } from '../../../ts/components/conversation/Image';
-// tslint:disable-next-line: no-submodule-imports
-import useKey from 'react-use/lib/useKey';
+import { Image } from './Image';
+
 import { getAbsoluteAttachmentPath } from '../../types/MessageAttachment';
 import { GoogleChrome } from '../../util';
 import { findAndFormatContact } from '../../models/message';

@@ -1,23 +1,23 @@
 import React from 'react';
 import classNames from 'classnames';
+import { CSSProperties } from 'styled-components';
 
 import { Emojify } from './Emojify';
 import { useConversationUsernameOrShorten, useIsPrivate } from '../../hooks/useParamSelector';
-import { CSSProperties } from 'styled-components';
 
 type Props = {
   pubkey: string;
   name?: string | null;
   profileName?: string | null;
   module?: string;
-  boldProfileName?: Boolean;
-  compact?: Boolean;
-  shouldShowPubkey: Boolean;
+  boldProfileName?: boolean;
+  compact?: boolean;
+  shouldShowPubkey: boolean;
 };
 
 export const ContactName = (props: Props) => {
   const { pubkey, name, profileName, module, boldProfileName, compact, shouldShowPubkey } = props;
-  const prefix = module ? module : 'module-contact-name';
+  const prefix = module || 'module-contact-name';
 
   const convoName = useConversationUsernameOrShorten(pubkey);
   const isPrivate = useIsPrivate(pubkey);

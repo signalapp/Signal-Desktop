@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import _, { isUndefined } from 'lodash';
+import { isUndefined } from 'lodash';
 import Sinon from 'sinon';
 import { v4 } from 'uuid';
 import { PersistedJobRunner } from '../../../../../session/utils/job_runners/JobRunner';
@@ -11,7 +11,6 @@ import {
 import { sleepFor } from '../../../../../session/utils/Promise';
 import { stubData } from '../../../../test-utils/utils';
 import { TestUtils } from '../../../../test-utils';
-// tslint:disable: no-console
 
 function getFakeSleepForJob(timestamp: number): FakeSleepForJob {
   const job = new FakeSleepForJob({
@@ -47,7 +46,6 @@ function getFakeSleepForMultiJob({
   return job;
 }
 
-// tslint:disable-next-line: max-func-body-length
 describe('JobRunner', () => {
   let getItemById: Sinon.SinonStub;
   let clock: Sinon.SinonFakeTimers;
@@ -337,7 +335,9 @@ describe('JobRunner', () => {
     it('does not await if no job at all ', async () => {
       await runner.loadJobsFromDb();
       runner.startProcessing();
-      expect(runner.stopAndWaitCurrentJob()).to.be.eventually.eq('no_await');
+      const ret = await runner.stopAndWaitCurrentJob();
+
+      expect(ret).to.be.eq('no_await');
     });
 
     it('does not await if there are jobs but none are started', async () => {
@@ -346,7 +346,9 @@ describe('JobRunner', () => {
       const job = getFakeSleepForJob(150);
       await runner.addJob(job);
       expect(runner.startProcessing()).to.be.eq('job_deferred');
-      expect(runner.stopAndWaitCurrentJob()).to.be.eventually.eq('no_await');
+      const ret = await runner.stopAndWaitCurrentJob();
+
+      expect(ret).to.be.eq('no_await');
     });
 
     it('does await if there are jobs and one is started', async () => {
@@ -356,8 +358,9 @@ describe('JobRunner', () => {
       await runner.addJob(job);
       expect(runner.startProcessing()).to.be.eq('job_started');
       clock.tick(5000);
+      const ret = await runner.stopAndWaitCurrentJob();
 
-      expect(runner.stopAndWaitCurrentJob()).to.be.eventually.eq('await');
+      expect(ret).to.be.eq('await');
     });
   });
 
@@ -365,7 +368,8 @@ describe('JobRunner', () => {
     it('does not await if no job at all ', async () => {
       await runner.loadJobsFromDb();
       runner.startProcessing();
-      expect(runner.stopAndWaitCurrentJob()).to.be.eventually.eq('no_await');
+      const ret = await runner.stopAndWaitCurrentJob();
+      expect(ret).to.be.eq('no_await');
     });
 
     it('does not await if there are jobs but none are started', async () => {
@@ -374,7 +378,9 @@ describe('JobRunner', () => {
       const job = getFakeSleepForJob(150);
       await runner.addJob(job);
       expect(runner.startProcessing()).to.be.eq('job_deferred');
-      expect(runner.stopAndWaitCurrentJob()).to.be.eventually.eq('no_await');
+      const ret = await runner.stopAndWaitCurrentJob();
+
+      expect(ret).to.be.eq('no_await');
     });
 
     it('does await if there are jobs and one is started', async () => {

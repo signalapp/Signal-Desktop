@@ -8,7 +8,6 @@ import {
   waitForMatchingText,
   waitForTestIdWithText,
 } from './utilities/utils';
-// tslint:disable: no-console
 
 const testPassword = '123456';
 const newTestPassword = '789101112';

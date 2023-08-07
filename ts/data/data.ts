@@ -1,5 +1,4 @@
-// tslint:disable: no-require-imports no-var-requires one-variable-per-declaration no-void-expression
-// tslint:disable: function-name
+// eslint:disable: no-require-imports no-var-requires one-variable-per-declaration no-void-expression function-name
 
 import _ from 'lodash';
 import { MessageResultProps } from '../components/search/MessageSearchResults';
@@ -350,12 +349,10 @@ async function markAllAsReadByConversationNoExpiration(
   conversationId: string,
   returnMessagesUpdated: boolean // for performance reason we do not return them because usually they are not needed
 ): Promise<Array<number>> {
-  // tslint:disable-next-line: no-console
   const messagesIds = await channels.markAllAsReadByConversationNoExpiration(
     conversationId,
     returnMessagesUpdated
   );
-  // tslint:disable-next-line: no-console
   return messagesIds;
 }
 
@@ -390,6 +387,7 @@ async function getMessagesByConversation(
   });
 
   if (skipTimerInit) {
+    // eslint-disable-next-line no-restricted-syntax
     for (const message of messages) {
       message.skipTimerInit = skipTimerInit;
     }
@@ -419,6 +417,7 @@ async function getLastMessagesByConversation(
 ): Promise<MessageCollection> {
   const messages = await channels.getLastMessagesByConversation(conversationId, limit);
   if (skipTimerInit) {
+    // eslint-disable-next-line no-restricted-syntax
     for (const message of messages) {
       message.skipTimerInit = skipTimerInit;
     }
@@ -433,6 +432,7 @@ async function getLastMessageIdInConversation(conversationId: string) {
 
 async function getLastMessageInConversation(conversationId: string) {
   const messages = await channels.getLastMessagesByConversation(conversationId, 1);
+  // eslint-disable-next-line no-restricted-syntax
   for (const message of messages) {
     message.skipTimerInit = true;
   }
@@ -443,6 +443,7 @@ async function getLastMessageInConversation(conversationId: string) {
 
 async function getOldestMessageInConversation(conversationId: string) {
   const messages = await channels.getOldestMessageInConversation(conversationId);
+  // eslint-disable-next-line no-restricted-syntax
   for (const message of messages) {
     message.skipTimerInit = true;
   }
@@ -669,7 +670,7 @@ async function updateSnodePoolOnDb(snodesAsJsonString: string): Promise<void> {
 
 function keysToArrayBuffer(keys: any, data: any) {
   const updated = _.cloneDeep(data);
-  // tslint:disable: one-variable-per-declaration
+
   for (let i = 0, max = keys.length; i < max; i += 1) {
     const key = keys[i];
     const value = _.get(data, key);
@@ -696,7 +697,7 @@ function keysFromArrayBuffer(keys: any, data: any) {
   return updated;
 }
 
-const ITEM_KEYS: Object = {
+const ITEM_KEYS: object = {
   identityKey: ['value.pubKey', 'value.privKey'],
   profileKey: ['value'],
 };

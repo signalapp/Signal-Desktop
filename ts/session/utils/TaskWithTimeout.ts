@@ -1,3 +1,7 @@
+/* eslint-disable no-useless-return */
+/* eslint-disable consistent-return */
+/* eslint-disable no-promise-executor-return */
+
 export const createTaskWithTimeout = (task: any, id: string, givenTimeout?: number) => {
   const timeout = givenTimeout || 1000 * 60 * 3; // three minutes
 
@@ -16,7 +20,7 @@ export const createTaskWithTimeout = (task: any, id: string, givenTimeout?: numb
           return;
         }
 
-        return null;
+        return;
       }, timeout);
       const clearTimer = () => {
         try {
@@ -61,6 +65,7 @@ export const createTaskWithTimeout = (task: any, id: string, givenTimeout?: numb
         return;
       }
 
+      // eslint-disable-next-line more/no-then
       return promise.then(success, failure);
     });
 };

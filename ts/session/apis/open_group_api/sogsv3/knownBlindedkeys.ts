@@ -1,9 +1,10 @@
 import { from_hex, to_hex } from 'libsodium-wrappers-sumo';
-import _, { cloneDeep, flatten, isEmpty, isEqual, isString, uniqBy } from 'lodash';
+import { crypto_sign_curve25519_pk_to_ed25519 } from 'curve25519-js';
+import { cloneDeep, flatten, isEmpty, isEqual, isString, uniqBy } from 'lodash';
+
 import { getConversationController } from '../../../conversations';
 import { LibSodiumWrappers } from '../../../crypto';
 import { KeyPrefixType, PubKey } from '../../../types';
-import { crypto_sign_curve25519_pk_to_ed25519 } from 'curve25519-js';
 import { Data } from '../../../../data/data';
 import { combineKeys, generateBlindingFactor } from '../../../utils/SodiumUtils';
 import { OpenGroupData } from '../../../../data/opengroups';
@@ -145,15 +146,13 @@ export function tryMatchBlindWithStandardKey(
     throw new Error('standardKey must be a standard key (starting with 05)');
   }
 
-  if (!blindedSessionId.startsWith(KeyPrefixType.blinded)) {
-    throw new Error('blindedKey must be a blinded key (starting with 15)');
+  if (!PubKey.isBlinded(blindedSessionId)) {
+    throw new Error('blindedKey must be a blinded key (starting with 15 or 25)');
   }
 
   // We don't want to stop iterating even if an error happens while looking for a blind/standard match.
   // That's why we catch any errors and return false if it happens.
   try {
-    // tslint:disable: no-bitwise
-
     const sessionIdNoPrefix = PubKey.removePrefixIfNeeded(PubKey.cast(standardSessionId).key);
     const blindedIdNoPrefix = PubKey.removePrefixIfNeeded(PubKey.cast(blindedSessionId).key);
     const kBytes = generateBlindingFactor(serverPubKey, sodium);
@@ -171,6 +170,7 @@ export function tryMatchBlindWithStandardKey(
     //  For the negative, what we're going to get out of the above is simply the negative of pk1, so
     // flip the sign bit to get pk2:
     const pk2 = cloneDeep(pk1);
+    // eslint-disable-next-line no-bitwise
     pk2[31] = pk1[31] ^ 0b1000_0000;
 
     const match =
@@ -204,7 +204,7 @@ function findNotCachedBlindingMatch(
   // we iterate only over the convos private, approved, and which have an unblinded id.
   const foundConvoMatchingBlindedPubkey = getConversationController()
     .getConversations()
-    .filter(m => m.isPrivate() && m.isApproved() && !PubKey.hasBlindedPrefix(m.id))
+    .filter(m => m.isPrivate() && m.isApproved() && !PubKey.isBlinded(m.id))
     .find(m => {
       return tryMatchBlindWithStandardKey(m.id, blindedId, serverPublicKey, sodium);
     });
@@ -214,13 +214,13 @@ function findNotCachedBlindingMatch(
 
 /**
  * This function returns true if the given blindedId matches our own blinded id on any pysogs.
- * If the given pubkey  is not blinded, it returns true if it is our naked SessionID.
+ * If the given pubkey is not blinded, it returns true if it is our naked SessionID.
  * It can be used to replace mentions with the @You syntax and for the quotes too
  */
 export function isUsAnySogsFromCache(blindedOrNakedId: string): boolean {
   const usUnblinded = UserUtils.getOurPubKeyStrFromCache();
 
-  if (!PubKey.hasBlindedPrefix(blindedOrNakedId)) {
+  if (!PubKey.isBlinded(blindedOrNakedId)) {
     return blindedOrNakedId === usUnblinded;
   }
   const found = assertLoaded().find(
@@ -268,7 +268,7 @@ function findNotCachedBlindedConvoFromUnblindedKey(
   serverPublicKey: string,
   sodium: LibSodiumWrappers
 ): Array<ConversationModel> {
-  if (PubKey.hasBlindedPrefix(unblindedID)) {
+  if (PubKey.isBlinded(unblindedID)) {
     throw new Error(
       'findNotCachedBlindedConvoFromUnblindedKey unblindedID is supposed to be unblinded!'
     );
@@ -279,7 +279,7 @@ function findNotCachedBlindedConvoFromUnblindedKey(
   const foundConvosForThisServerPk =
     getConversationController()
       .getConversations()
-      .filter(m => m.isPrivate() && PubKey.hasBlindedPrefix(m.id) && m.isActive())
+      .filter(m => m.isPrivate() && PubKey.isBlinded(m.id) && m.isActive())
       .filter(m => {
         return tryMatchBlindWithStandardKey(unblindedID, m.id, serverPublicKey, sodium);
       }) || [];
@@ -302,7 +302,7 @@ export async function findCachedBlindedMatchOrLookItUp(
   serverPubKey: string,
   sodium: LibSodiumWrappers
 ): Promise<string | undefined> {
-  if (!PubKey.hasBlindedPrefix(blindedId)) {
+  if (!PubKey.isBlinded(blindedId)) {
     return blindedId;
   }
   const found = getCachedNakedKeyFromBlinded(blindedId, serverPubKey);
@@ -333,7 +333,7 @@ export function findCachedBlindedIdFromUnblinded(
   unblindedId: string,
   serverPubKey: string
 ): string | undefined {
-  if (PubKey.hasBlindedPrefix(unblindedId)) {
+  if (PubKey.isBlinded(unblindedId)) {
     throw new Error('findCachedBlindedIdFromUnblinded needs an unblindedID');
   }
   const found = assertLoaded().find(
@@ -351,7 +351,7 @@ export async function findCachedOurBlindedPubkeyOrLookItUp(
 ): Promise<string> {
   const ourNakedSessionID = UserUtils.getOurPubKeyStrFromCache();
 
-  if (PubKey.hasBlindedPrefix(ourNakedSessionID)) {
+  if (PubKey.isBlinded(ourNakedSessionID)) {
     throw new Error('findCachedBlindedIdFromUnblindedOrLookItUp needs a unblindedID');
   }
   let found = findCachedBlindedIdFromUnblinded(ourNakedSessionID, serverPubKey);
@@ -402,7 +402,7 @@ export function findCachedBlindedMatchOrLookupOnAllServers(
   unblindedId: string,
   sodium: LibSodiumWrappers
 ): Array<ConversationModel> {
-  if (PubKey.hasBlindedPrefix(unblindedId)) {
+  if (PubKey.isBlinded(unblindedId)) {
     throw new Error('findCachedBlindedMatchOrLookupOnAllServers needs an unblindedId');
   }
 

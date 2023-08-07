@@ -5,7 +5,7 @@ export interface FlexProps {
   className?: string;
   container?: boolean;
   dataTestId?: string;
-  /****** Container Props ********/
+  // Container Props
   flexDirection?: 'row' | 'column';
   justifyContent?:
     | 'flex-start'
@@ -24,11 +24,11 @@ export interface FlexProps {
     | 'baseline'
     | 'initial'
     | 'inherit';
-  /****** Child Props ********/
+  // Child Props
   flexGrow?: number;
   flexShrink?: number;
   flexBasis?: number;
-  /****** Common Layout Props ********/
+  // Common Layout Props
   padding?: string;
   margin?: string;
   width?: string;

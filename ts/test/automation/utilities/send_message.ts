@@ -1,4 +1,4 @@
-import { _electron, Page } from '@playwright/test';
+import { Page } from '@playwright/test';
 import { sendMessage } from './message';
 import { clickOnTestIdWithText, typeIntoInput } from './utils';
 

@@ -1,9 +1,11 @@
 import React from 'react';
+import styled from 'styled-components';
+import { isEmpty } from 'lodash';
+
 import { useDisableDrag } from '../../../../../hooks/useDisableDrag';
 import { useEncryptedFileFetch } from '../../../../../hooks/useEncryptedFileFetch';
-import styled from 'styled-components';
+
 import { icons } from '../../../../icon';
-import { isEmpty } from 'lodash';
 import { QuoteIcon } from './QuoteIconContainer';
 
 const StyledQuoteImage = styled.div`

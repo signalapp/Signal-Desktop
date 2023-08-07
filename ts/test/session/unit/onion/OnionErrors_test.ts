@@ -1,21 +1,19 @@
-// tslint:disable: no-implicit-dependencies max-func-body-length no-unused-expression
-
 import chai from 'chai';
 import Sinon, * as sinon from 'sinon';
 import { describe } from 'mocha';
+import chaiAsPromised from 'chai-as-promised';
+import AbortController from 'abort-controller';
 
 import { TestUtils } from '../../../test-utils';
 import * as SnodeAPI from '../../../../session/apis/snode_api';
 
-import chaiAsPromised from 'chai-as-promised';
-import { OnionPaths } from '../../../../session/onions/';
+import { OnionPaths } from '../../../../session/onions';
 import {
   NEXT_NODE_NOT_FOUND_PREFIX,
   Onions,
   OXEN_SERVER_ERROR,
 } from '../../../../session/apis/snode_api/onions';
-import AbortController from 'abort-controller';
-import { Snode } from '../../../../../ts/data/data';
+import { Snode } from '../../../../data/data';
 import { pathFailureCount } from '../../../../session/onions/onionPath';
 import { SeedNodeAPI } from '../../../../session/apis/seed_node_api';
 import { generateFakeSnodeWithEdKey, stubData } from '../../../test-utils/utils';
@@ -43,7 +41,6 @@ const getFakeResponseOnDestination = (statusCode?: number, body?: string) => {
   };
 };
 
-// tslint:disable-next-line: max-func-body-length
 describe('OnionPathsErrors', () => {
   // Initialize new stubbed cache
   let updateSwarmSpy: sinon.SinonStub;
@@ -54,15 +51,15 @@ describe('OnionPathsErrors', () => {
   let incrementBadSnodeCountOrDropSpy: sinon.SinonSpy;
 
   let updateGuardNodesStub: sinon.SinonStub;
-  // tslint:disable-next-line: one-variable-per-declaration
-  let guardPubkeys: Array<string>,
-    otherNodesPubkeys: Array<string>,
-    guardNodesArray: Array<Snode>,
-    guardSnode1: Snode,
-    otherNodesArray: Array<Snode>,
-    fakeSnodePool: Array<Snode>,
-    associatedWith: string,
-    fakeSwarmForAssociatedWith: Array<string>;
+
+  let guardPubkeys: Array<string>;
+  let otherNodesPubkeys: Array<string>;
+  let guardNodesArray: Array<Snode>;
+  let guardSnode1: Snode;
+  let otherNodesArray: Array<Snode>;
+  let fakeSnodePool: Array<Snode>;
+  let associatedWith: string;
+  let fakeSwarmForAssociatedWith: Array<string>;
 
   let oldOnionPaths: Array<Array<Snode>>;
 

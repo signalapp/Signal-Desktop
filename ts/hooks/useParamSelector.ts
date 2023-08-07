@@ -1,4 +1,4 @@
-import { compact, isEmpty, isNumber } from 'lodash';
+import { compact, isEmpty, isFinite, isNumber } from 'lodash';
 import { useSelector } from 'react-redux';
 import {
   hasValidIncomingRequestValues,
@@ -101,7 +101,7 @@ export function useIsBlinded(convoId?: string) {
   if (!convoId) {
     return false;
   }
-  return Boolean(PubKey.hasBlindedPrefix(convoId));
+  return Boolean(PubKey.isBlinded(convoId));
 }
 
 export function useHasNickname(convoId?: string) {

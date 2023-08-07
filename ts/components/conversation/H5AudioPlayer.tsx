@@ -175,7 +175,7 @@ export const AudioPlayerWithEncryptedFile = (props: {
 
   useEffect(() => {
     if (messageId !== undefined && messageId === nextMessageToPlayId) {
-      player.current?.audio.current?.play();
+      void player.current?.audio.current?.play();
     }
   }, [messageId, nextMessageToPlayId, player]);
 
