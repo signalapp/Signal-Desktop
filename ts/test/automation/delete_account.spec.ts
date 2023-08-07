@@ -1,11 +1,10 @@
-import { _electron, test } from '@playwright/test';
+import { test } from '@playwright/test';
 import { beforeAllClean, forceCloseAllWindows } from './setup/beforeEach';
 import { newUser } from './setup/new_user';
 import { sendNewMessage } from './utilities/send_message';
 import { clickOnMatchingText, clickOnTestIdWithText, typeIntoInput } from './utilities/utils';
 import { sleepFor } from '../../session/utils/Promise';
 import { openApp } from './setup/open';
-// tslint:disable: no-console
 
 test.beforeEach(beforeAllClean);
 

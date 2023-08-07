@@ -85,7 +85,6 @@ export const MessageBodyHighlight = (props: { text: string; isGroup: boolean }) 
       </SnippetHighlight>
     );
 
-    // @ts-ignore
     last = FIND_BEGIN_END.lastIndex;
     match = FIND_BEGIN_END.exec(text);
   }

@@ -17,7 +17,6 @@ const stringToArrayBuffer = (str: string) => {
   return array.buffer;
 };
 
-// tslint:disable-next-line: max-func-body-length
 describe('Attachment', () => {
   describe('getFileExtension', () => {
     it('should return file extension from content type', () => {

@@ -100,7 +100,6 @@ export abstract class PersistedJob<T extends PersistedJobData> {
    */
   public async waitForCurrentTry() {
     try {
-      // tslint:disable-next-line: no-promise-as-boolean
       return this.runningPromise || Promise.resolve(true);
     } catch (e) {
       window.log.warn('waitForCurrentTry got an error: ', e.message);

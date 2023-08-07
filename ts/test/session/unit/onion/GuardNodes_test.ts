@@ -1,15 +1,12 @@
-// tslint:disable: no-implicit-dependencies max-func-body-length no-unused-expression
-
 import chai from 'chai';
 import Sinon, * as sinon from 'sinon';
-import _ from 'lodash';
 import { describe } from 'mocha';
+import chaiAsPromised from 'chai-as-promised';
 
 import { TestUtils } from '../../../test-utils';
 import { Onions, SnodePool } from '../../../../session/apis/snode_api';
 import { Snode } from '../../../../data/data';
 
-import chaiAsPromised from 'chai-as-promised';
 import * as OnionPaths from '../../../../session/onions/onionPath';
 import {
   generateFakeSnodes,
@@ -17,6 +14,7 @@ import {
   stubData,
 } from '../../../test-utils/utils';
 import { SeedNodeAPI } from '../../../../session/apis/seed_node_api';
+
 chai.use(chaiAsPromised as any);
 chai.should();
 
@@ -34,9 +32,6 @@ const fakeSnodePool: Array<Snode> = [
   ...generateFakeSnodes(3),
 ];
 
-// tslint:disable: variable-name
-
-// tslint:disable-next-line: max-func-body-length
 describe('GuardNodes', () => {
   let getSnodePoolFromDBOrFetchFromSeed: sinon.SinonStub;
   let fetchFromSeedWithRetriesAndWriteToDb: sinon.SinonStub;

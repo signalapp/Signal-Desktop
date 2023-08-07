@@ -52,7 +52,7 @@ const TopSplitViewPanel = ({
   React.useEffect(() => {
     if (topRef.current) {
       if (!topHeight) {
-        setTopHeight(Math.max(MIN_HEIGHT_TOP, topRef.current?.clientHeight / 2));
+        setTopHeight(Math.max(MIN_HEIGHT_TOP, (topRef.current?.clientHeight || 0) / 2));
         return;
       }
 

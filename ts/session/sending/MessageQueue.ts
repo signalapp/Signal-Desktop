@@ -1,7 +1,9 @@
+import { AbortController } from 'abort-controller';
+
 import { PendingMessageCache } from './PendingMessageCache';
 import { JobQueue, MessageUtils, UserUtils } from '../utils';
 import { PubKey, RawMessage } from '../types';
-import { MessageSender } from './';
+import { MessageSender } from '.';
 import { ClosedGroupMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupMessage';
 import { ConfigurationMessage } from '../messages/outgoing/controlMessage/ConfigurationMessage';
 import { ClosedGroupNameChangeMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupNameChangeMessage';
@@ -22,7 +24,6 @@ import { OpenGroupVisibleMessage } from '../messages/outgoing/visibleMessage/Ope
 import { UnsendMessage } from '../messages/outgoing/controlMessage/UnsendMessage';
 import { CallMessage } from '../messages/outgoing/controlMessage/CallMessage';
 import { OpenGroupMessageV2 } from '../apis/open_group_api/opengroupV2/OpenGroupMessageV2';
-import { AbortController } from 'abort-controller';
 import { sendSogsReactionOnionV4 } from '../apis/open_group_api/sogsv3/sogsV3SendReaction';
 import {
   SnodeNamespaces,
@@ -112,7 +113,7 @@ export class MessageQueue {
       }
 
       await MessageSentHandler.handlePublicMessageSentSuccess(message.identifier, {
-        serverId: serverId,
+        serverId,
         serverTimestamp: sentTimestamp,
       });
     } catch (e) {
@@ -184,7 +185,7 @@ export class MessageQueue {
   }): Promise<void> {
     let destinationPubKey: PubKey | undefined = groupPubKey;
     if (message instanceof ExpirationTimerUpdateMessage || message instanceof ClosedGroupMessage) {
-      destinationPubKey = groupPubKey ? groupPubKey : message.groupId;
+      destinationPubKey = groupPubKey || message.groupId;
     }
 
     if (!destinationPubKey) {
@@ -265,6 +266,7 @@ export class MessageQueue {
     const messages = await this.pendingMessageCache.getForDevice(device);
 
     const jobQueue = this.getJobQueue(device);
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     messages.forEach(async message => {
       const messageId = message.identifier;
 

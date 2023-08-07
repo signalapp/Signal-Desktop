@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from 'styled-components';
 
 import { Image } from './Image';
 
@@ -6,7 +7,6 @@ import { SessionSpinner } from '../basic/SessionSpinner';
 import { StagedLinkPreviewImage } from './composition/CompositionBox';
 import { isImage } from '../../types/MIME';
 import { fromArrayBufferToBase64 } from '../../session/utils/String';
-import styled from 'styled-components';
 import { Flex } from '../basic/Flex';
 import { SessionIconButton } from '../icon';
 

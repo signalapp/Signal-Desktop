@@ -1,7 +1,8 @@
+import _ from 'lodash';
+
 import { queueAttachmentDownloads } from './attachments';
 
-import _ from 'lodash';
-import { Data } from '../../ts/data/data';
+import { Data } from '../data/data';
 import { ConversationModel } from '../models/conversation';
 import { MessageModel } from '../models/message';
 import { getConversationController } from '../session/conversations';
@@ -28,7 +29,6 @@ function contentTypeSupported(type: string): boolean {
  * You have to call msg.commit() once you are done with the handling of this message
  */
 async function copyFromQuotedMessage(
-  // tslint:disable-next-line: cyclomatic-complexity
   msg: MessageModel,
   quote?: SignalService.DataMessage.IQuote | null
 ): Promise<void> {
@@ -39,7 +39,7 @@ async function copyFromQuotedMessage(
 
   const quoteLocal: Quote = {
     attachments: attachments || null,
-    author: author,
+    author,
     id: _.toNumber(quoteId),
     text: null,
     referencedMessageNotFound: false,

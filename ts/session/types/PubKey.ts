@@ -33,7 +33,7 @@ export class PubKey {
   // This is a temporary fix to allow groupPubkeys created from mobile to be handled correctly
   // They have a different regex to match
   // FIXME move this to a new class which validates group ids and use it in all places where we have group ids (message sending included)
-  // tslint:disable: member-ordering
+
   public static readonly regexForPubkeys = `(([0-1]5)?${PubKey.HEX}{${this.PUBKEY_LEN_NO_PREFIX}})`;
   public static readonly PREFIX_GROUP_TEXTSECURE = '__textsecure_group__!';
   // prettier-ignore
@@ -183,9 +183,8 @@ export class PubKey {
   public static getPrefix(key: string): KeyPrefixType | null {
     if (this.isValidPrefixAndLength(key)) {
       return key.substring(0, 2) as KeyPrefixType;
-    } else {
-      return null;
     }
+    return null;
   }
 
   /**

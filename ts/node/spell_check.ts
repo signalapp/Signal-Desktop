@@ -1,5 +1,3 @@
-// tslint:disable: no-console
-
 import { BrowserWindow, Menu } from 'electron';
 import { sync as osLocaleSync } from 'os-locale';
 

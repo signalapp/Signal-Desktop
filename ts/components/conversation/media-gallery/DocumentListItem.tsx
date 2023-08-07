@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import React, { useCallback } from 'react';
 
 import moment from 'moment';
-// tslint:disable-next-line:match-default-export-name
+
 import formatFileSize from 'filesize';
 import { saveAttachmentToDisk } from '../../../util/attachmentsUtil';
 import { MediaItemType } from '../../lightbox/LightboxGallery';

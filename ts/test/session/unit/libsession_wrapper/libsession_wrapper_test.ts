@@ -1,6 +1,8 @@
+/* eslint-disable no-unused-expressions */
 import { expect } from 'chai';
-import { SessionUtilUserProfile } from '../../../../session/utils/libsession/libsession_utils_user_profile';
 import Sinon from 'sinon';
+
+import { SessionUtilUserProfile } from '../../../../session/utils/libsession/libsession_utils_user_profile';
 import { UserUtils } from '../../../../session/utils';
 import { TestUtils } from '../../../test-utils';
 

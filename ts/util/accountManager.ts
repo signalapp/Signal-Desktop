@@ -5,7 +5,7 @@ import { getOurPubKeyStrFromCache } from '../session/utils/User';
 import { trigger } from '../shims/events';
 
 import { actions as userActions } from '../state/ducks/user';
-import { mn_decode, mn_encode } from '../session/crypto/mnemonic';
+import { mnDecode, mnEncode } from '../session/crypto/mnemonic';
 import { SettingsKey } from '../data/settings-key';
 import {
   saveRecoveryPhrase,
@@ -48,7 +48,7 @@ const generateKeypair = async (
   mnemonic: string,
   mnemonicLanguage: string
 ): Promise<SessionKeyPair> => {
-  let seedHex = mn_decode(mnemonic, mnemonicLanguage);
+  let seedHex = mnDecode(mnemonic, mnemonicLanguage);
   // handle shorter than 32 bytes seeds
   const privKeyHexLength = 32 * 2;
   if (seedHex.length !== privKeyHexLength) {
@@ -133,7 +133,7 @@ export async function generateMnemonic() {
   const seedSize = 16;
   const seed = (await getSodiumRenderer()).randombytes_buf(seedSize);
   const hex = toHex(seed);
-  return mn_encode(hex);
+  return mnEncode(hex);
 }
 
 async function createAccount(identityKeyPair: SessionKeyPair) {

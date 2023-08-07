@@ -1,16 +1,18 @@
 import React from 'react';
 import styled, { CSSProperties } from 'styled-components';
+import { useSelector } from 'react-redux';
+import { AutoSizer, List } from 'react-virtualized';
+import { isString } from 'lodash';
+
 import { ConversationListItem } from '../leftpane/conversation-list-item/ConversationListItem';
 import { MessageSearchResult } from './MessageSearchResults';
-import { AutoSizer, List } from 'react-virtualized';
-import { useSelector } from 'react-redux';
+
 import {
   SearchResultsMergedListItem,
   getHasSearchResults,
   getSearchResultsList,
   getSearchTerm,
 } from '../../state/selectors/search';
-import { isString } from 'lodash';
 
 const StyledSeparatorSection = styled.div`
   height: 36px;

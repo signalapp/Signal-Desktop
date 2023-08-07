@@ -1,5 +1,3 @@
-import { _electron } from '@playwright/test';
-
 export const userA = {
   userName: 'Alice',
   sessionid: '059e36f9bb03ac4e1ff9ff7d4aedd791d1f412770c6cd2796b855af12a7c7ea000',

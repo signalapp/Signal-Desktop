@@ -1,4 +1,5 @@
 import React from 'react';
+import useKey from 'react-use/lib/useKey';
 
 import _ from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,16 +9,15 @@ import { getConversationController } from '../../session/conversations';
 import { ToastUtils, UserUtils } from '../../session/utils';
 import { updateInviteContactModal } from '../../state/ducks/modalDialog';
 import { SpacerLG } from '../basic/Text';
-// tslint:disable-next-line: no-submodule-imports
-import useKey from 'react-use/lib/useKey';
+
 import { useConversationPropsById } from '../../hooks/useParamSelector';
 import { useSet } from '../../hooks/useSet';
 import { initiateClosedGroupUpdate } from '../../session/group/closed-group';
+import { SessionUtilUserGroups } from '../../session/utils/libsession/libsession_utils_user_groups';
 import { getPrivateContactsPubkeys } from '../../state/selectors/conversations';
-import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { MemberListItem } from '../MemberListItem';
 import { SessionWrapperModal } from '../SessionWrapperModal';
-import { SessionUtilUserGroups } from '../../session/utils/libsession/libsession_utils_user_groups';
+import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 
 type Props = {
   conversationId: string;
@@ -37,6 +37,7 @@ async function submitForOpenGroup(convoId: string, pubkeys: Array<string>) {
       url: roomDetails?.fullUrlWithPubkey,
       name: convo.getNicknameOrRealUsernameOrPlaceholder(),
     };
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     pubkeys.forEach(async pubkeyStr => {
       const privateConvo = await getConversationController().getOrCreateAndWait(
         pubkeyStr,
@@ -96,7 +97,6 @@ const submitForClosedGroup = async (convoId: string, pubkeys: Array<string>) => 
   }
 };
 
-// tslint:disable-next-line: max-func-body-length
 const InviteContactsDialogInner = (props: Props) => {
   const { conversationId } = props;
   const dispatch = useDispatch();

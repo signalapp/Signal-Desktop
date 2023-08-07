@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { resetOverlayMode, setOverlayMode } from '../../state/ducks/section';
 import { getOverlayMode } from '../../state/selectors/section';
 import { SessionIcon } from '../icon';
-// tslint:disable: use-simple-attributes
 
 const StyledMenuButton = styled.button`
   position: relative;

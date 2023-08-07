@@ -1,9 +1,10 @@
 import React from 'react';
 import classNames from 'classnames';
-import { SessionIcon, SessionIconProps } from '../icon';
 import _ from 'lodash';
-import { SessionNotificationCount } from './SessionNotificationCount';
 import styled from 'styled-components';
+
+import { SessionIcon, SessionIconProps } from '.';
+import { SessionNotificationCount } from './SessionNotificationCount';
 
 interface SProps extends SessionIconProps {
   onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
@@ -36,6 +37,7 @@ const StyledSessionIconButton = styled.div<{ color?: string; isSelected?: boolea
   }
 `;
 
+// eslint-disable-next-line react/display-name
 const SessionIconButtonInner = React.forwardRef<HTMLDivElement, SProps>((props, ref) => {
   const {
     iconType,
@@ -72,7 +74,7 @@ const SessionIconButtonInner = React.forwardRef<HTMLDivElement, SProps>((props, 
       ref={ref}
       id={id}
       onClick={clickHandler}
-      style={{ ...style, display: isHidden ? 'none' : 'flex', margin: margin ? margin : '' }}
+      style={{ ...style, display: isHidden ? 'none' : 'flex', margin: margin || '' }}
       data-testid={dataTestId}
     >
       <SessionIcon

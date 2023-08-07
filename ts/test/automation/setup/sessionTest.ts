@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/array-type */
 import { Page, test } from '@playwright/test';
 import { beforeAllClean, forceCloseAllWindows } from './beforeEach';
 import { openApp } from './open';
@@ -31,6 +32,7 @@ function sessionTest<T extends CountWindows, N extends Tuple<Page, T>>(
         throw new Error(`openApp should have opened ${count} windows but did not.`);
       }
       await testCallback(windows as N);
+      // eslint-disable-next-line no-useless-catch
     } catch (e) {
       throw e;
     } finally {

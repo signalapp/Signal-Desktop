@@ -1,7 +1,8 @@
+import { v4 as uuid } from 'uuid';
+
 import { SignalService } from '../../../../protobuf';
 import { MessageParams } from '../Message';
 import { ContentMessage } from '..';
-import { v4 as uuid } from 'uuid';
 import { PubKey } from '../../../types';
 import { getMessageQueue } from '../../..';
 import { getConversationController } from '../../../conversations';
@@ -9,6 +10,7 @@ import { UserUtils } from '../../../utils';
 import { SettingsKey } from '../../../../data/settings-key';
 import { Storage } from '../../../../util/storage';
 import { SnodeNamespaces } from '../../../apis/snode_api/namespaces';
+
 interface DataExtractionNotificationMessageParams extends MessageParams {
   referencedAttachmentTimestamp: number;
 }

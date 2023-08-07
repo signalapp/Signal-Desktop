@@ -1,6 +1,7 @@
+import { map, toNumber } from 'lodash';
+
 import { EnvelopePlus } from './types';
 import { StringUtils } from '../session/utils';
-import _ from 'lodash';
 import { Data } from '../data/data';
 import { UnprocessedParameter } from '../types/sqlSharedTypes';
 
@@ -47,8 +48,8 @@ async function increaseAttemptsOrRemove(
   items: Array<UnprocessedParameter>
 ): Promise<Array<UnprocessedParameter>> {
   return Promise.all(
-    _.map(items, async item => {
-      const attempts = _.toNumber(item.attempts || 0) + 1;
+    map(items, async item => {
+      const attempts = toNumber(item.attempts || 0) + 1;
 
       try {
         if (attempts >= 10) {

@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { Avatar, AvatarSize } from '../avatar/Avatar';
-
 import { contextMenu } from 'react-contexify';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { ConversationNotificationSettingType } from '../../models/conversationAttributes';
+import { Avatar, AvatarSize } from '../avatar/Avatar';
+
 import {
   getSelectedMessageIds,
   isMessageDetailView,

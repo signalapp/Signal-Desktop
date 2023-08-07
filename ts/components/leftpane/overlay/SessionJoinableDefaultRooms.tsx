@@ -11,7 +11,6 @@ import { Flex } from '../../basic/Flex';
 import { PillContainerHoverable, StyledPillContainerHoverable } from '../../basic/PillContainer';
 import { SessionSpinner } from '../../basic/SessionSpinner';
 import { H3 } from '../../basic/Text';
-// tslint:disable: no-void-expression
 
 export type JoinableRoomProps = {
   completeUrl: string;
@@ -37,6 +36,7 @@ const SessionJoinableRoomAvatar = (props: JoinableRoomProps) => {
         if (isCancelled) {
           return;
         }
+        // eslint-disable-next-line more/no-then
         sogsV3FetchPreviewBase64({ ...parsedInfos, imageID })
           .then(base64 => {
             if (isCancelled) {
@@ -63,10 +63,11 @@ const SessionJoinableRoomAvatar = (props: JoinableRoomProps) => {
     } catch (e) {
       window?.log?.warn(e.message);
     }
+    // eslint-disable-next-line consistent-return
     return () => {
       isCancelled = true;
     };
-  }, [props.imageId, props.completeUrl]);
+  }, [props.imageId, props.completeUrl, dispatch, props.base64Data, props.roomId]);
 
   return (
     <Avatar

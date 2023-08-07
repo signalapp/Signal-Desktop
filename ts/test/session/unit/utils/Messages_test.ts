@@ -1,15 +1,15 @@
-// tslint:disable: no-implicit-dependencies
-
+/* eslint-disable no-unused-expressions */
 import chai from 'chai';
+import chaiAsPromised from 'chai-as-promised';
+import { beforeEach } from 'mocha';
+import Sinon from 'sinon';
+
 import { ConfigurationMessage } from '../../../../session/messages/outgoing/controlMessage/ConfigurationMessage';
 import { ClosedGroupVisibleMessage } from '../../../../session/messages/outgoing/visibleMessage/ClosedGroupVisibleMessage';
 import { PubKey } from '../../../../session/types';
 import { MessageUtils, UserUtils } from '../../../../session/utils';
 import { TestUtils } from '../../../test-utils';
 
-import chaiAsPromised from 'chai-as-promised';
-import { beforeEach } from 'mocha';
-import Sinon from 'sinon';
 import { OpenGroupData, OpenGroupV2Room } from '../../../../data/opengroups';
 import { ConversationTypeEnum } from '../../../../models/conversationAttributes';
 import { SignalService } from '../../../../protobuf';
@@ -24,17 +24,16 @@ import { ClosedGroupNewMessage } from '../../../../session/messages/outgoing/con
 import { ClosedGroupRemovedMembersMessage } from '../../../../session/messages/outgoing/controlMessage/group/ClosedGroupRemovedMembersMessage';
 import { getCurrentConfigurationMessage } from '../../../../session/utils/sync/syncUtils';
 import { stubData, stubOpenGroupData } from '../../../test-utils/utils';
+
 chai.use(chaiAsPromised as any);
 
 const { expect } = chai;
-// tslint:disable: no-implicit-dependencies no-unused-expression no-http-string  max-func-body-length
 
 describe('Message Utils', () => {
   afterEach(() => {
     Sinon.restore();
   });
 
-  // tslint:disable-next-line: max-func-body-length
   describe('toRawMessage', () => {
     it('can convert to raw message', async () => {
       const device = TestUtils.generateFakePubKey();
@@ -48,15 +47,12 @@ describe('Message Utils', () => {
 
       expect(Object.keys(rawMessage)).to.have.length(6);
 
-      // do not believe tslint. those calls to.exist are actually correct here
-      // tslint:disable: no-unused-expression
       expect(rawMessage.identifier).to.exist;
       expect(rawMessage.namespace).to.exist;
       expect(rawMessage.device).to.exist;
       expect(rawMessage.encryption).to.exist;
       expect(rawMessage.plainTextBuffer).to.exist;
       expect(rawMessage.ttl).to.exist;
-      // tslint:enable: no-unused-expression
 
       expect(rawMessage.identifier).to.equal(message.identifier);
       expect(rawMessage.device).to.equal(device.key);
@@ -313,11 +309,10 @@ describe('Message Utils', () => {
       );
       const convos = getConversationController().getConversations();
 
-      //convoID3 is active but 4 and 5 are not
+      // convoID3 is active but 4 and 5 are not
       const configMessage = await getCurrentConfigurationMessage(convos);
       expect(configMessage.activeOpenGroups.length).to.equal(1);
       expect(configMessage.activeOpenGroups[0]).to.equal(
-        // tslint:disable-next-line: no-http-string
         'http://chat-dev2.lokinet.org/fish?public_key=serverPublicKey'
       );
     });

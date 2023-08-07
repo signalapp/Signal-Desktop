@@ -1,3 +1,5 @@
+/* eslint-disable consistent-return */
+/* eslint-disable no-case-declarations */
 import { isEmpty, isNull } from 'lodash';
 import {
   BaseConfigWrapperNode,
@@ -6,11 +8,11 @@ import {
   UserConfigWrapperNode,
   UserGroupsWrapperNode,
 } from 'libsession_util_nodejs';
+// eslint-disable-next-line import/no-unresolved, import/extensions
 import { ConfigWrapperObjectTypes } from '../../browser/libsession_worker_functions';
 
 /* eslint-disable no-console */
 /* eslint-disable strict */
-// tslint:disable: no-console
 
 /**
  *
@@ -116,8 +118,6 @@ function initUserWrapper(options: Array<any>, wrapperType: ConfigWrapperObjectTy
       assertUnreachable(userType, `initUserWrapper: Missing case error "${userType}"`);
   }
 }
-
-// tslint:disable: function-name no-console
 
 onmessage = async (e: { data: [number, ConfigWrapperObjectTypes, string, ...any] }) => {
   const [jobId, config, action, ...args] = e.data;

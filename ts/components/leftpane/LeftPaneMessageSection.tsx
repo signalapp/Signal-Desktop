@@ -1,23 +1,23 @@
 import autoBind from 'auto-bind';
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { AutoSizer, List, ListRowProps } from 'react-virtualized';
+import styled from 'styled-components';
 import { SearchResults } from '../search/SearchResults';
 import { LeftPaneSectionHeader } from './LeftPaneSectionHeader';
 import { MessageRequestsBanner } from './MessageRequestsBanner';
 
-import { useSelector } from 'react-redux';
-import styled from 'styled-components';
 import { OverlayMode, setOverlayMode } from '../../state/ducks/section';
 import { getOverlayMode } from '../../state/selectors/section';
+import { assertUnreachable } from '../../types/sqlSharedTypes';
 import { SessionSearchInput } from '../SessionSearchInput';
 import { StyledLeftPaneList } from './LeftPaneList';
+import { ConversationListItem } from './conversation-list-item/ConversationListItem';
 import { OverlayClosedGroup } from './overlay/OverlayClosedGroup';
 import { OverlayCommunity } from './overlay/OverlayCommunity';
 import { OverlayMessage } from './overlay/OverlayMessage';
 import { OverlayMessageRequest } from './overlay/OverlayMessageRequest';
 import { OverlayChooseAction } from './overlay/choose-action/OverlayChooseAction';
-import { ConversationListItem } from './conversation-list-item/ConversationListItem';
-import { assertUnreachable } from '../../types/sqlSharedTypes';
 
 export interface Props {
   conversationIds?: Array<string>;
@@ -74,7 +74,7 @@ export class LeftPaneMessageSection extends React.Component<Props> {
   public renderRow = ({ index, key, style }: ListRowProps): JSX.Element | null => {
     const { conversationIds } = this.props;
 
-    //assume conversations that have been marked unapproved should be filtered out by selector.
+    // assume conversations that have been marked unapproved should be filtered out by selector.
     if (!conversationIds) {
       throw new Error('renderRow: Tried to render without conversations');
     }

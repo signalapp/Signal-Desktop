@@ -5,7 +5,6 @@ import { Storage } from './storage';
 
 const BLOCKED_NUMBERS_ID = 'blocked';
 
-// tslint:disable-next-line: no-unnecessary-class
 export class BlockedNumberController {
   private static loaded: boolean = false;
   private static blockedNumbers: Set<string> = new Set();
@@ -64,6 +63,7 @@ export class BlockedNumberController {
     for (let index = 0; index < users.length; index++) {
       const user = users[index];
       try {
+        // eslint-disable-next-line no-await-in-loop
         await commitConversationAndRefreshWrapper(user);
       } catch (e) {
         window.log.warn(

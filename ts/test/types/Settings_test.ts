@@ -2,9 +2,8 @@ import os from 'os';
 import Sinon from 'sinon';
 import { assert } from 'chai';
 
-import * as Settings from '../../../ts/types/Settings';
+import * as Settings from '../../types/Settings';
 
-// tslint:disable-next-line: max-func-body-length
 describe('Settings', () => {
   describe('isAudioNotificationSupported', () => {
     context('on macOS', () => {

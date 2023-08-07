@@ -1,5 +1,3 @@
-// tslint:disable: no-implicit-dependencies max-func-body-length no-unused-expression
-
 import { expect } from 'chai';
 import { describe } from 'mocha';
 import {
@@ -9,7 +7,6 @@ import {
 } from '../../../../models/conversationAttributes';
 import { formatRowOfConversation } from '../../../../node/database_utility';
 
-// tslint:disable-next-line: max-func-body-length
 describe('formatRowOfConversation', () => {
   describe('isTrustedForAttachmentDownload', () => {
     it('initialize isTrustedForAttachmentDownload if they are not given', () => {

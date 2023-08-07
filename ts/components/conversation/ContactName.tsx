@@ -9,14 +9,14 @@ type Props = {
   name?: string | null;
   profileName?: string | null;
   module?: string;
-  boldProfileName?: Boolean;
-  compact?: Boolean;
-  shouldShowPubkey: Boolean;
+  boldProfileName?: boolean;
+  compact?: boolean;
+  shouldShowPubkey: boolean;
 };
 
 export const ContactName = (props: Props) => {
   const { pubkey, name, profileName, module, boldProfileName, compact, shouldShowPubkey } = props;
-  const prefix = module ? module : 'module-contact-name';
+  const prefix = module || 'module-contact-name';
 
   const convoName = useConversationUsernameOrShorten(pubkey);
   const isPrivate = useIsPrivate(pubkey);

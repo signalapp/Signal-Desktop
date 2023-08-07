@@ -1,10 +1,9 @@
 import React, { useCallback, useState } from 'react';
 
-import { getTimerBucketIcon } from '../../util/timer';
-
-// tslint:disable-next-line: no-submodule-imports
 import useInterval from 'react-use/lib/useInterval';
 import styled from 'styled-components';
+import { getTimerBucketIcon } from '../../util/timer';
+
 import { SessionIcon } from '../icon/SessionIcon';
 
 type Props = {

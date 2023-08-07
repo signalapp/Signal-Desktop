@@ -1,9 +1,9 @@
+import React from 'react';
+import styled from 'styled-components';
 import { RenderTextCallbackType } from '../../types/Util';
 import { PubKey } from '../../session/types';
 import { getConversationController } from '../../session/conversations';
-import React from 'react';
 import { isUsAnySogsFromCache } from '../../session/apis/open_group_api/sogsv3/knownBlindedkeys';
-import styled from 'styled-components';
 
 interface MentionProps {
   key: string;

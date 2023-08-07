@@ -9,9 +9,6 @@ import {
 import { UserUtils } from '../../../../session/utils';
 import { SessionUtilContact } from '../../../../session/utils/libsession/libsession_utils_contacts';
 
-// tslint:disable: chai-vague-errors no-unused-expression no-http-string no-octal-literal whitespace no-require-imports variable-name
-
-// tslint:disable-next-line: max-func-body-length
 describe('libsession_contacts', () => {
   describe('filter contacts for wrapper', () => {
     const ourNumber = '051234567890acbdef';

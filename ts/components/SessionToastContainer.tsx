@@ -29,7 +29,6 @@ const SessionToastContainerPrivate = () => {
   );
 };
 
-// tslint:disable-next-line: no-default-export
 export const SessionToastContainer = styled(SessionToastContainerPrivate).attrs({
   // custom props
 })`

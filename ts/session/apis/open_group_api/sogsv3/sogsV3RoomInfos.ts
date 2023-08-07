@@ -28,7 +28,7 @@ export const getAllRoomInfos = async (roomInfos: OpenGroupV2Room) => {
   const statusCode = parseBatchGlobalStatusCode(result);
 
   window?.log?.warn('getAllRoomInfos failed invalid status code:', statusCode);
-  return;
+  return undefined;
 };
 
 const parseRooms = (jsonResult?: Record<string, any>): undefined | Array<OpenGroupV2Info> => {

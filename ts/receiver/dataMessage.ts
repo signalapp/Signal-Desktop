@@ -1,10 +1,12 @@
-import { SignalService } from './../protobuf';
+/* eslint-disable no-param-reassign */
+import { isEmpty, isFinite, noop, omit, toNumber } from 'lodash';
+
+import { SignalService } from '../protobuf';
 import { removeFromCache } from './cache';
 import { getEnvelopeId } from './common';
 import { EnvelopePlus } from './types';
 
-import { isEmpty, isFinite, noop, omit, toNumber } from 'lodash';
-import { Data } from '../../ts/data/data';
+import { Data } from '../data/data';
 import { ConversationModel } from '../models/conversation';
 import { getConversationController } from '../session/conversations';
 import { PubKey } from '../session/types';
@@ -99,7 +101,6 @@ export function cleanIncomingDataMessage(
   rawDataMessage: SignalService.DataMessage,
   envelope?: EnvelopePlus
 ) {
-  /* tslint:disable:no-bitwise */
   const FLAGS = SignalService.DataMessage.Flags;
 
   // Now that its decrypted, validate the message and clean it up for consumer
@@ -113,6 +114,7 @@ export function cleanIncomingDataMessage(
   if (rawDataMessage.expireTimer == null) {
     rawDataMessage.expireTimer = 0;
   }
+  // eslint-disable-next-line no-bitwise
   if (rawDataMessage.flags & FLAGS.EXPIRATION_TIMER_UPDATE) {
     rawDataMessage.body = '';
     rawDataMessage.attachments = [];
@@ -148,7 +150,7 @@ export function cleanIncomingDataMessage(
  *        * envelope.source is our pubkey (our other device has the same pubkey as us)
  *        * dataMessage.syncTarget is either the group public key OR the private conversation this message is about.
  */
-// tslint:disable-next-line: cyclomatic-complexity
+
 export async function handleSwarmDataMessage(
   envelope: EnvelopePlus,
   sentAtTimestamp: number,
@@ -171,7 +173,8 @@ export async function handleSwarmDataMessage(
   /**
    * This is a mess, but
    *
-   * 1. if syncTarget is set and this is a synced message, syncTarget holds the conversationId in which this message is addressed. This syncTarget can be a private conversation pubkey or a closed group pubkey
+   * 1. if syncTarget is set and this is a synced message, syncTarget holds the conversationId in which this message is addressed.
+   *    This syncTarget can be a private conversation pubkey or a closed group pubkey
    *
    * 2. for a closed group message, envelope.senderIdentity is the pubkey of the sender and envelope.source is the pubkey of the closed group.
    *
@@ -184,7 +187,8 @@ export async function handleSwarmDataMessage(
 
   if (isSyncedMessage && !isMe) {
     window?.log?.warn('Got a sync message from someone else than me. Dropping it.');
-    return removeFromCache(envelope);
+    await removeFromCache(envelope);
+    return;
   }
   const convoIdToAddTheMessageTo = PubKey.removeTextSecurePrefixIfNeeded(
     isSyncedMessage ? cleanDataMessage.syncTarget : envelope.source
@@ -226,12 +230,13 @@ export async function handleSwarmDataMessage(
 
   if (!messageHasVisibleContent(cleanDataMessage)) {
     window?.log?.warn(`Message ${getEnvelopeId(envelope)} ignored; it was empty`);
-    return removeFromCache(envelope);
+    await removeFromCache(envelope);
+    return;
   }
 
   if (!convoIdToAddTheMessageTo) {
     window?.log?.error('We cannot handle a message without a conversationId');
-    confirm();
+    await removeFromCache(envelope);
     return;
   }
 
@@ -255,6 +260,7 @@ export async function handleSwarmDataMessage(
     sentAtTimestamp,
     cleanDataMessage,
     convoToAddMessageTo,
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     () => removeFromCache(envelope)
   );
 }

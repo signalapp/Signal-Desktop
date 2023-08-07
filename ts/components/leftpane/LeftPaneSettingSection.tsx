@@ -1,8 +1,9 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-import { LeftPaneSectionHeader } from './LeftPaneSectionHeader';
-import { useDispatch, useSelector } from 'react-redux';
+import { resetConversationExternal } from '../../state/ducks/conversations';
+import { recoveryPhraseModal, updateDeleteAccountModal } from '../../state/ducks/modalDialog';
 import {
   SectionType,
   setOverlayMode,
@@ -10,10 +11,9 @@ import {
   showSettingsSection,
 } from '../../state/ducks/section';
 import { getFocusedSettingsSection } from '../../state/selectors/section';
-import { recoveryPhraseModal, updateDeleteAccountModal } from '../../state/ducks/modalDialog';
 import { SessionIcon } from '../icon';
 import { SessionSettingCategory } from '../settings/SessionSettings';
-import { resetConversationExternal } from '../../state/ducks/conversations';
+import { LeftPaneSectionHeader } from './LeftPaneSectionHeader';
 
 const StyledSettingsSectionTitle = styled.strong`
   font-family: var(--font-font-accent);

@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
+import { compact } from 'lodash';
+import { useDispatch } from 'react-redux';
+
 import { getConversationController } from '../../session/conversations';
 import { PubKey } from '../../session/types';
 import { ToastUtils } from '../../session/utils';
 import { Flex } from '../basic/Flex';
-import { compact } from 'lodash';
+
 import { updateRemoveModeratorsModal } from '../../state/ducks/modalDialog';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { SessionSpinner } from '../basic/SessionSpinner';
 import { MemberListItem } from '../MemberListItem';
-import { useDispatch } from 'react-redux';
 import { useConversationPropsById } from '../../hooks/useParamSelector';
 import { sogsV3RemoveAdmins } from '../../session/apis/open_group_api/sogsv3/sogsV3AddRemoveMods';
 
@@ -25,23 +27,21 @@ async function removeMods(convoId: string, modsToRemove: Array<string>) {
   window?.log?.info(`asked to remove moderators: ${modsToRemove}`);
 
   try {
-    let res;
     const convo = getConversationController().get(convoId);
 
     const roomInfos = convo.toOpenGroupV2();
     const modsToRemovePubkey = compact(modsToRemove.map(m => PubKey.from(m)));
-    res = await sogsV3RemoveAdmins(modsToRemovePubkey, roomInfos);
+    const res = await sogsV3RemoveAdmins(modsToRemovePubkey, roomInfos);
 
     if (!res) {
       window?.log?.warn('failed to remove moderators:', res);
 
       ToastUtils.pushFailedToRemoveFromModerator();
       return false;
-    } else {
-      window?.log?.info(`${modsToRemove} removed from moderators...`);
-      ToastUtils.pushUserRemovedFromModerators();
-      return true;
     }
+    window?.log?.info(`${modsToRemove} removed from moderators...`);
+    ToastUtils.pushUserRemovedFromModerators();
+    return true;
   } catch (e) {
     window?.log?.error('Got error while removing moderator:', e);
     return false;

@@ -1,5 +1,5 @@
 import React from 'react';
-// tslint:disable-next-line: no-submodule-imports
+
 import useUpdate from 'react-use/lib/useUpdate';
 import { SettingsKey } from '../../../data/settings-key';
 import { isHideMenuBarSupported } from '../../../types/Settings';

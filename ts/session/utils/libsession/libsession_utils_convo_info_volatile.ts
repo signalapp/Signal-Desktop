@@ -1,5 +1,6 @@
+/* eslint-disable no-case-declarations */
 import { BaseConvoInfoVolatile, ConvoVolatileType } from 'libsession_util_nodejs';
-import { isEmpty } from 'lodash';
+import { isEmpty, isFinite } from 'lodash';
 import { Data } from '../../../data/data';
 import { OpenGroupData } from '../../../data/opengroups';
 import { ConversationModel } from '../../../models/conversation';
@@ -259,7 +260,9 @@ async function removeContactFromWrapper(convoId: string) {
  * You can do a loop on all the types handled by this wrapper and have a switch using assertUnreachable to get errors when not every case is handled.
  *
  *
- * Note: Ideally, we'd like to have this type in the wrapper index.d.ts, but it would require it to be a index.ts instead, which causes a whole other bunch of issues because it is a native node module.
+ * Note: Ideally, we'd like to have this type in the wrapper index.d.ts,
+ * but it would require it to be a index.ts instead, which causes a
+ * whole other bunch of issues because it is a native node module.
  */
 function getConvoInfoVolatileTypes(): Array<ConvoVolatileType> {
   return ['1o1', 'LegacyGroup', 'Community'];

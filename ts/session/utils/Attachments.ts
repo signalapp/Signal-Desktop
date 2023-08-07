@@ -1,4 +1,6 @@
 import * as crypto from 'crypto';
+import _ from 'lodash';
+
 import { Attachment } from '../../types/Attachment';
 
 import {
@@ -9,7 +11,6 @@ import {
   QuotedAttachmentWithUrl,
 } from '../messages/outgoing/visibleMessage/VisibleMessage';
 import { addAttachmentPadding } from '../crypto/BufferPadding';
-import _ from 'lodash';
 import { encryptAttachment } from '../../util/crypto/attachmentsEncrypter';
 import { uploadFileToFsWithOnionV4 } from '../apis/file_server_api/FileServerApi';
 

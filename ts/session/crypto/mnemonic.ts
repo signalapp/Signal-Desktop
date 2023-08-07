@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import crc32 from 'buffer-crc32';
 
 class MnemonicError extends Error {}
@@ -14,7 +15,7 @@ const MN_DEFAULT_WORDSET = 'english';
 
 function mn_get_checksum_index(words: Array<string>, prefixLen: number) {
   let trimmedWords = '';
-  // tslint:disable-next-line: prefer-for-of
+
   for (let i = 0; i < words.length; i++) {
     trimmedWords += words[i].slice(0, prefixLen);
   }
@@ -23,7 +24,7 @@ function mn_get_checksum_index(words: Array<string>, prefixLen: number) {
   return index;
 }
 
-export function mn_encode(str: string, wordsetName: string = MN_DEFAULT_WORDSET): string {
+export function mnEncode(str: string, wordsetName: string = MN_DEFAULT_WORDSET): string {
   const wordset = mnWords[wordsetName];
   let out = [] as Array<any>;
   const n = wordset.words.length;
@@ -52,7 +53,7 @@ function mn_swap_endian_4byte(str: string) {
   return str.slice(6, 8) + str.slice(4, 6) + str.slice(2, 4) + str.slice(0, 2);
 }
 
-export function mn_decode(str: string, wordsetName: string = MN_DEFAULT_WORDSET): string {
+export function mnDecode(str: string, wordsetName: string = MN_DEFAULT_WORDSET): string {
   const wordset = mnWords[wordsetName];
   let out = '';
   const n = wordset.words.length;
@@ -78,8 +79,9 @@ export function mn_decode(str: string, wordsetName: string = MN_DEFAULT_WORDSET)
   }
   // Decode mnemonic
   for (let i = 0; i < wlist.length; i += 3) {
-    // tslint:disable-next-line: one-variable-per-declaration
-    let w1, w2, w3;
+    let w1;
+    let w2;
+    let w3;
     if (wordset.prefixLen === 0) {
       w1 = wordset.words.indexOf(wlist[i]);
       w2 = wordset.words.indexOf(wlist[i + 1]);
@@ -92,7 +94,7 @@ export function mn_decode(str: string, wordsetName: string = MN_DEFAULT_WORDSET)
     if (w1 === -1 || w2 === -1 || w3 === -1) {
       throw new MnemonicError('invalid word in mnemonic');
     }
-    // tslint:disable-next-line: restrict-plus-operands
+
     const x = w1 + n * ((n - w1 + w2) % n) + n * n * ((n - w2 + w3) % n);
     if (x % n !== w1) {
       throw new MnemonicError(
@@ -126,8 +128,7 @@ const mnWords = {} as Record<
 >;
 mnWords.english = {
   prefixLen: 3,
-  // tslint:disable-next-line: non-literal-require
-  // tslint:disable-next-line: no-require-imports
+  // eslint-disable-next-line global-require
   words: require('../../../mnemonic_languages/english.json'),
   truncWords: [],
 };
@@ -135,9 +136,10 @@ mnWords.english = {
 export function get_languages(): Array<string> {
   return Object.keys(mnWords);
 }
-// tslint:disable: prefer-for-of
-// tslint:disable: no-for-in
+
+// eslint-disable-next-line no-restricted-syntax
 for (const i in mnWords) {
+  // eslint-disable-next-line no-prototype-builtins
   if (mnWords.hasOwnProperty(i)) {
     if (mnWords[i].prefixLen === 0) {
       continue;

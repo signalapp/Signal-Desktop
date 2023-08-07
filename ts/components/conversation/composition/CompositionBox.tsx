@@ -1,30 +1,18 @@
-import React from 'react';
 import _, { debounce, isEmpty } from 'lodash';
+import React from 'react';
+import { connect } from 'react-redux';
+import styled from 'styled-components';
 
+import { AbortController } from 'abort-controller';
+import { Mention, MentionsInput, SuggestionDataItem } from 'react-mentions';
+
+import autoBind from 'auto-bind';
 import * as MIME from '../../../types/MIME';
 
 import { SessionEmojiPanel, StyledEmojiPanel } from '../SessionEmojiPanel';
 import { SessionRecording } from '../SessionRecording';
 
-import {
-  getPreview,
-  LINK_PREVIEW_TIMEOUT,
-  SessionStagedLinkPreview,
-} from '../SessionStagedLinkPreview';
-import { AbortController } from 'abort-controller';
-import { SessionQuotedMessageComposition } from '../SessionQuotedMessageComposition';
-import { Mention, MentionsInput, SuggestionDataItem } from 'react-mentions';
-import autoBind from 'auto-bind';
-import { getMediaPermissionsSettings } from '../../settings/SessionSettings';
-import { getDraftForConversation, updateDraftForConversation } from '../SessionConversationDrafts';
-import {
-  AddStagedAttachmentButton,
-  SendMessageButton,
-  StartRecordingButton,
-  ToggleEmojiButton,
-} from './CompositionButtons';
-import { AttachmentType } from '../../../types/Attachment';
-import { connect } from 'react-redux';
+import { SettingsKey } from '../../../data/settings-key';
 import { showLinkSharingConfirmationModalDialog } from '../../../interactions/conversationInteractions';
 import { getConversationController } from '../../../session/conversations';
 import { ToastUtils } from '../../../session/utils';
@@ -36,30 +24,43 @@ import {
   getQuotedMessage,
   getSelectedConversation,
 } from '../../../state/selectors/conversations';
-import { AttachmentUtil } from '../../../util';
-import { Flex } from '../../basic/Flex';
-import { CaptionEditor } from '../../CaptionEditor';
-import { StagedAttachmentList } from '../StagedAttachmentList';
+import {
+  getSelectedCanWrite,
+  getSelectedConversationKey,
+} from '../../../state/selectors/selectedConversation';
+import { AttachmentType } from '../../../types/Attachment';
 import { processNewAttachment } from '../../../types/MessageAttachment';
+import { FixedBaseEmoji } from '../../../types/Reaction';
+import { AttachmentUtil } from '../../../util';
 import {
   StagedAttachmentImportedType,
   StagedPreviewImportedType,
 } from '../../../util/attachmentsUtil';
+import { LinkPreviews } from '../../../util/linkPreviews';
+import { Flex } from '../../basic/Flex';
+import { CaptionEditor } from '../../CaptionEditor';
+import { getMediaPermissionsSettings } from '../../settings/SessionSettings';
+import { getDraftForConversation, updateDraftForConversation } from '../SessionConversationDrafts';
+import { SessionQuotedMessageComposition } from '../SessionQuotedMessageComposition';
+import {
+  getPreview,
+  LINK_PREVIEW_TIMEOUT,
+  SessionStagedLinkPreview,
+} from '../SessionStagedLinkPreview';
+import { StagedAttachmentList } from '../StagedAttachmentList';
+import {
+  AddStagedAttachmentButton,
+  SendMessageButton,
+  StartRecordingButton,
+  ToggleEmojiButton,
+} from './CompositionButtons';
+import { renderEmojiQuickResultRow, searchEmojiForQuery } from './EmojiQuickResult';
 import {
   cleanMentions,
   mentionsRegex,
   renderUserMentionRow,
   styleForCompositionBoxSuggestions,
 } from './UserMentions';
-import { renderEmojiQuickResultRow, searchEmojiForQuery } from './EmojiQuickResult';
-import { LinkPreviews } from '../../../util/linkPreviews';
-import styled from 'styled-components';
-import { FixedBaseEmoji } from '../../../types/Reaction';
-import {
-  getSelectedCanWrite,
-  getSelectedConversationKey,
-} from '../../../state/selectors/selectedConversation';
-import { SettingsKey } from '../../../data/settings-key';
 
 export interface ReplyingToMessageProps {
   convoId: string;
@@ -175,7 +176,7 @@ const getSelectionBasedOnMentions = (draft: string, index: number) => {
     lastMatchEndIndex = currentMatchStartIndex + match.length;
 
     const realLength = displayName.length + 1;
-    lastRealMatchEndIndex = lastRealMatchEndIndex + realLength;
+    lastRealMatchEndIndex += realLength;
 
     // the +1 is for the @
     return {
@@ -348,6 +349,7 @@ class CompositionBoxInner extends React.Component<Props, State> {
     }
     const { items } = e.clipboardData;
     let imgBlob = null;
+    // eslint-disable-next-line no-restricted-syntax
     for (const item of items as any) {
       const pasteType = item.type.split('/')[0];
       if (pasteType === 'image') {
@@ -402,6 +404,7 @@ class CompositionBoxInner extends React.Component<Props, State> {
     return (
       <SessionRecording
         sendVoiceMessage={this.sendVoiceMessage}
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
         onLoadVoiceNoteView={this.onLoadVoiceNoteView}
         onExitVoiceNoteView={this.onExitVoiceNoteView}
       />
@@ -411,11 +414,11 @@ class CompositionBoxInner extends React.Component<Props, State> {
   private renderCompositionView() {
     const { showEmojiPanel } = this.state;
     const { typingEnabled } = this.props;
+    /* eslint-disable @typescript-eslint/no-misused-promises */
 
     return (
       <>
         {typingEnabled && <AddStagedAttachmentButton onClick={this.onChooseAttachment} />}
-
         <input
           className="hidden"
           placeholder="Attachment"
@@ -424,9 +427,7 @@ class CompositionBoxInner extends React.Component<Props, State> {
           type="file"
           onChange={this.onChoseAttachment}
         />
-
         {typingEnabled && <StartRecordingButton onClick={this.onLoadVoiceNoteView} />}
-
         <StyledSendMessageInput
           role="main"
           onClick={this.focusCompositionBox} // used to focus on the textarea when clicking in its container
@@ -437,12 +438,10 @@ class CompositionBoxInner extends React.Component<Props, State> {
         >
           {this.renderTextArea()}
         </StyledSendMessageInput>
-
         {typingEnabled && (
           <ToggleEmojiButton ref={this.emojiPanelButton} onClick={this.toggleEmojiPanel} />
         )}
         <SendMessageButton onClick={this.onSendMessage} />
-
         {typingEnabled && showEmojiPanel && (
           <StyledEmojiPanelContainer role="button">
             <SessionEmojiPanel
@@ -456,6 +455,7 @@ class CompositionBoxInner extends React.Component<Props, State> {
       </>
     );
   }
+  /* eslint-enable @typescript-eslint/no-misused-promises */
 
   private renderTextArea() {
     const { i18n } = window;
@@ -487,7 +487,9 @@ class CompositionBoxInner extends React.Component<Props, State> {
       <MentionsInput
         value={draft}
         onChange={this.onChange}
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
         onKeyDown={this.onKeyDown}
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
         onKeyUp={this.onKeyUp}
         placeholder={messagePlaceHolder}
         spellCheck={true}
@@ -551,14 +553,16 @@ class CompositionBoxInner extends React.Component<Props, State> {
       return;
     }
 
+    if (this.props.selectedConversation.isPrivate) {
+      return;
+    }
+
     if (this.props.selectedConversation.isPublic) {
       this.fetchUsersForOpenGroup(overridenQuery, callback);
       return;
     }
-    if (!this.props.selectedConversation.isPrivate) {
-      this.fetchUsersForClosedGroup(overridenQuery, callback);
-      return;
-    }
+    // can only be a closed group here
+    this.fetchUsersForClosedGroup(overridenQuery, callback);
   }
 
   private fetchUsersForClosedGroup(
@@ -672,6 +676,7 @@ class CompositionBoxInner extends React.Component<Props, State> {
       abortController.abort();
     }, LINK_PREVIEW_TIMEOUT);
 
+    // eslint-disable-next-line more/no-then
     getPreview(firstLink, abortController.signal)
       .then(ret => {
         // we finished loading the preview, and checking the abortConrtoller, we are still not aborted.
@@ -840,7 +845,6 @@ class CompositionBoxInner extends React.Component<Props, State> {
     }
   }
 
-  // tslint:disable-next-line: cyclomatic-complexity
   private async onSendMessage() {
     if (!this.props.selectedConversationKey) {
       throw new Error('selectedConversationKey is needed');
