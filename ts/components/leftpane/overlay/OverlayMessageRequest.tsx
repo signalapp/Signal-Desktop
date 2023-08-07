@@ -7,10 +7,8 @@ import { declineConversationWithoutConfirm } from '../../../interactions/convers
 import { forceSyncConfigurationNowIfNeeded } from '../../../session/utils/sync/syncUtils';
 import { updateConfirmModal } from '../../../state/ducks/modalDialog';
 import { resetOverlayMode } from '../../../state/ducks/section';
-import {
-  getConversationRequestsIds,
-  useSelectedConversationKey,
-} from '../../../state/selectors/conversations';
+import { getConversationRequestsIds } from '../../../state/selectors/conversations';
+import { useSelectedConversationKey } from '../../../state/selectors/selectedConversation';
 import { SessionButton, SessionButtonColor } from '../../basic/SessionButton';
 import { SpacerLG } from '../../basic/Text';
 import { ConversationListItem } from '../conversation-list-item/ConversationListItem';

@@ -6,7 +6,7 @@ import {
   removeAllStagedAttachmentsInConversation,
   removeStagedAttachmentInConversation,
 } from '../../state/ducks/stagedAttachments';
-import { useSelectedConversationKey } from '../../state/selectors/conversations';
+import { useSelectedConversationKey } from '../../state/selectors/selectedConversation';
 import {
   AttachmentType,
   areAllAttachmentsVisual,

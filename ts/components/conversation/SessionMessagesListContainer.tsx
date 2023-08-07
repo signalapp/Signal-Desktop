@@ -19,9 +19,9 @@ import { StateType } from '../../state/reducer';
 import {
   getQuotedMessageToAnimate,
   getSelectedConversation,
-  getSelectedConversationKey,
   getSortedMessagesOfSelectedConversation,
 } from '../../state/selectors/conversations';
+import { getSelectedConversationKey } from '../../state/selectors/selectedConversation';
 import { ConversationMessageRequestButtons } from './MessageRequestButtons';
 import { SessionMessagesList } from './SessionMessagesList';
 import { TypingBubble } from './TypingBubble';

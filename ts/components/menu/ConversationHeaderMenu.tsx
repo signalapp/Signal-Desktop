@@ -130,7 +130,7 @@ const DisappearingMessageMenuItem = (): JSX.Element | null => {
           key={item.value}
           onClick={() => {
             // TODO Confirm that this works?
-            void setDisappearingMessagesByConvoId(selectedConvoId, item.value);
+            void setDisappearingMessagesByConvoId(selectedConvoId, item.name, item.value);
           }}
         >
           {item.name}

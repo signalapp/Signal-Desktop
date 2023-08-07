@@ -5,7 +5,7 @@ import useKey from 'react-use/lib/useKey';
 import { Lightbox } from './Lightbox';
 
 import { showLightBox } from '../../state/ducks/conversations';
-import { useSelectedConversationKey } from '../../state/selectors/conversations';
+import { useSelectedConversationKey } from '../../state/selectors/selectedConversation';
 import { MIME } from '../../types';
 import { AttachmentTypeWithPath } from '../../types/Attachment';
 import { saveAttachmentToDisk } from '../../util/attachmentsUtil';

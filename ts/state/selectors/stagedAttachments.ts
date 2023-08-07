@@ -2,7 +2,7 @@ import { createSelector } from '@reduxjs/toolkit';
 import { StagedAttachmentType } from '../../components/conversation/composition/CompositionBox';
 import { StagedAttachmentsStateType } from '../ducks/stagedAttachments';
 import { StateType } from '../reducer';
-import { getSelectedConversationKey } from './conversations';
+import { getSelectedConversationKey } from './selectedConversation';
 
 export const getStagedAttachmentsState = (state: StateType): StagedAttachmentsStateType =>
   state.stagedAttachments;

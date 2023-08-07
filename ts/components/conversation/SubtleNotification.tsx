@@ -3,13 +3,15 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { useIsIncomingRequest } from '../../hooks/useParamSelector';
 import {
-  getSelectedCanWrite,
   getSelectedHasMessages,
   hasSelectedConversationIncomingMessages,
+} from '../../state/selectors/conversations';
+import {
+  getSelectedCanWrite,
   useSelectedConversationKey,
   useSelectedIsNoteToSelf,
   useSelectedNicknameOrProfileNameOrShortenedPubkey,
-} from '../../state/selectors/conversations';
+} from '../../state/selectors/selectedConversation';
 import { LocalizerKeys } from '../../types/LocalizerKeys';
 import { SessionHtmlRenderer } from '../basic/SessionHTMLRenderer';
 

@@ -16,8 +16,8 @@ import {
   getOldBottomMessageId,
   getOldTopMessageId,
   getSortedMessagesTypesOfSelectedConversation,
-  useSelectedConversationKey,
 } from '../../state/selectors/conversations';
+import { useSelectedConversationKey } from '../../state/selectors/selectedConversation';
 import { MessageDateBreak } from './message/message-item/DateBreak';
 import { GroupInvitation } from './message/message-item/GroupInvitation';
 import { GroupUpdateMessage } from './message/message-item/GroupUpdateMessage';

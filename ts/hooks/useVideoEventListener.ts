@@ -10,7 +10,7 @@ import {
   removeVideoEventsListener,
 } from '../session/utils/calling/CallManager';
 import { getCallIsInFullScreen, getHasOngoingCallWithPubkey } from '../state/selectors/call';
-import { useSelectedConversationKey } from '../state/selectors/conversations';
+import { useSelectedConversationKey } from '../state/selectors/selectedConversation';
 
 export function useVideoCallEventsListener(uniqueId: string, onSame: boolean) {
   const selectedConversationKey = useSelectedConversationKey();
