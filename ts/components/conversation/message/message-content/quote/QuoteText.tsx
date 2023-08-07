@@ -1,13 +1,11 @@
+import { isEmpty } from 'lodash';
 import React from 'react';
-import { QuoteProps } from './Quote';
-import { useSelector } from 'react-redux';
-import { getSelectedConversationKey } from '../../../../../state/selectors/conversations';
-import { useIsPrivate } from '../../../../../hooks/useParamSelector';
-import { MessageBody } from '../MessageBody';
+import styled from 'styled-components';
+import { useSelectedIsGroup } from '../../../../../state/selectors/selectedConversation';
 import { MIME } from '../../../../../types';
 import { GoogleChrome } from '../../../../../util';
-import styled from 'styled-components';
-import { isEmpty } from 'lodash';
+import { MessageBody } from '../MessageBody';
+import { QuoteProps } from './Quote';
 
 const StyledQuoteText = styled.div<{ isIncoming: boolean }>`
   display: -webkit-box;
@@ -63,8 +61,7 @@ export const QuoteText = (
 ) => {
   const { text, attachment, isIncoming, referencedMessageNotFound } = props;
 
-  const convoId = useSelector(getSelectedConversationKey);
-  const isGroup = !useIsPrivate(convoId);
+  const isGroup = useSelectedIsGroup();
 
   if (!referencedMessageNotFound && attachment && !isEmpty(attachment)) {
     const { contentType, isVoiceMessage } = attachment;

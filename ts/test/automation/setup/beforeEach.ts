@@ -1,9 +1,9 @@
+import { join } from 'path';
+import { homedir } from 'os';
 import { Page } from '@playwright/test';
 import { readdirSync, rmdirSync } from 'fs-extra';
-import { join } from 'path';
-import { isMacOS } from '../../../OS';
+import { isLinux, isMacOS } from '../../../OS';
 import { MULTI_PREFIX, NODE_ENV } from './open';
-// tslint:disable: no-console
 
 const getDirectoriesOfSessionDataPath = (source: string) =>
   readdirSync(source, { withFileTypes: true })
@@ -23,20 +23,24 @@ function cleanUpOtherTest() {
 
   alreadyCleanedWaiting = true;
 
-  const parentFolderOfAllDataPath = isMacOS() ? '~/Library/Application Support/' : null;
+  const parentFolderOfAllDataPath = isMacOS()
+    ? join(homedir(), 'Library', 'Application Support')
+    : isLinux()
+    ? join(homedir(), '.config')
+    : null;
   if (!parentFolderOfAllDataPath) {
     throw new Error('Only macOS is currrently supported ');
   }
 
-  if (!parentFolderOfAllDataPath || parentFolderOfAllDataPath.length < 20) {
-    throw new Error('parentFolderOfAllDataPath not found or invalid');
+  if (!parentFolderOfAllDataPath || parentFolderOfAllDataPath.length < 9) {
+    throw new Error(`parentFolderOfAllDataPath not found or invalid: ${parentFolderOfAllDataPath}`);
   }
   console.info('cleaning other tests leftovers...', parentFolderOfAllDataPath);
 
   const allAppDataPath = getDirectoriesOfSessionDataPath(parentFolderOfAllDataPath);
   console.info('allAppDataPath', allAppDataPath);
 
-  allAppDataPath.map(folder => {
+  allAppDataPath.forEach(folder => {
     const pathToRemove = join(parentFolderOfAllDataPath, folder);
     rmdirSync(pathToRemove, { recursive: true });
   });

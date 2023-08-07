@@ -1,30 +1,31 @@
-// tslint:disable: no-implicit-dependencies
-
+/* eslint-disable no-unused-expressions */
 import chai from 'chai';
-import { TestUtils } from '../../../test-utils';
-import { MessageUtils, UserUtils } from '../../../../session/utils';
-import { PubKey } from '../../../../session/types';
-import { ClosedGroupVisibleMessage } from '../../../../session/messages/outgoing/visibleMessage/ClosedGroupVisibleMessage';
-import { ConfigurationMessage } from '../../../../session/messages/outgoing/controlMessage/ConfigurationMessage';
-
 import chaiAsPromised from 'chai-as-promised';
-chai.use(chaiAsPromised as any);
-import { ClosedGroupEncryptionPairReplyMessage } from '../../../../session/messages/outgoing/controlMessage/group/ClosedGroupEncryptionPairReplyMessage';
+import { beforeEach } from 'mocha';
+import Sinon from 'sinon';
+
+import { ConfigurationMessage } from '../../../../session/messages/outgoing/controlMessage/ConfigurationMessage';
+import { ClosedGroupVisibleMessage } from '../../../../session/messages/outgoing/visibleMessage/ClosedGroupVisibleMessage';
+import { PubKey } from '../../../../session/types';
+import { MessageUtils, UserUtils } from '../../../../session/utils';
+import { TestUtils } from '../../../test-utils';
+
+import { OpenGroupData, OpenGroupV2Room } from '../../../../data/opengroups';
+import { ConversationTypeEnum } from '../../../../models/conversationAttributes';
 import { SignalService } from '../../../../protobuf';
+import { getOpenGroupV2ConversationId } from '../../../../session/apis/open_group_api/utils/OpenGroupUtils';
+import { SnodeNamespaces } from '../../../../session/apis/snode_api/namespaces';
+import { getConversationController } from '../../../../session/conversations';
 import { ClosedGroupAddedMembersMessage } from '../../../../session/messages/outgoing/controlMessage/group/ClosedGroupAddedMembersMessage';
 import { ClosedGroupEncryptionPairMessage } from '../../../../session/messages/outgoing/controlMessage/group/ClosedGroupEncryptionPairMessage';
+import { ClosedGroupEncryptionPairReplyMessage } from '../../../../session/messages/outgoing/controlMessage/group/ClosedGroupEncryptionPairReplyMessage';
 import { ClosedGroupNameChangeMessage } from '../../../../session/messages/outgoing/controlMessage/group/ClosedGroupNameChangeMessage';
 import { ClosedGroupNewMessage } from '../../../../session/messages/outgoing/controlMessage/group/ClosedGroupNewMessage';
 import { ClosedGroupRemovedMembersMessage } from '../../../../session/messages/outgoing/controlMessage/group/ClosedGroupRemovedMembersMessage';
-import Sinon from 'sinon';
-import { getCurrentConfigurationMessage } from '../../../../session/utils/syncUtils';
-import { getConversationController } from '../../../../session/conversations';
+import { getCurrentConfigurationMessage } from '../../../../session/utils/sync/syncUtils';
 import { stubData, stubOpenGroupData } from '../../../test-utils/utils';
-import { ConversationCollection } from '../../../../models/conversation';
-import { ConversationTypeEnum } from '../../../../models/conversationAttributes';
-import { getOpenGroupV2ConversationId } from '../../../../session/apis/open_group_api/utils/OpenGroupUtils';
-import { beforeEach } from 'mocha';
-import { OpenGroupData, OpenGroupV2Room } from '../../../../data/opengroups';
+
+chai.use(chaiAsPromised as any);
 
 const { expect } = chai;
 
@@ -33,36 +34,42 @@ describe('Message Utils', () => {
     Sinon.restore();
   });
 
-  // tslint:disable-next-line: max-func-body-length
   describe('toRawMessage', () => {
     it('can convert to raw message', async () => {
       const device = TestUtils.generateFakePubKey();
       const message = TestUtils.generateVisibleMessage();
 
-      const rawMessage = await MessageUtils.toRawMessage(device, message);
+      const rawMessage = await MessageUtils.toRawMessage(
+        device,
+        message,
+        SnodeNamespaces.UserContacts
+      );
 
-      expect(Object.keys(rawMessage)).to.have.length(5);
+      expect(Object.keys(rawMessage)).to.have.length(6);
 
-      // do not believe tslint. those calls to.exist are actually correct here
-      // tslint:disable: no-unused-expression
       expect(rawMessage.identifier).to.exist;
+      expect(rawMessage.namespace).to.exist;
       expect(rawMessage.device).to.exist;
       expect(rawMessage.encryption).to.exist;
       expect(rawMessage.plainTextBuffer).to.exist;
       expect(rawMessage.ttl).to.exist;
-      // tslint:enable: no-unused-expression
 
       expect(rawMessage.identifier).to.equal(message.identifier);
       expect(rawMessage.device).to.equal(device.key);
       expect(rawMessage.plainTextBuffer).to.deep.equal(message.plainTextBuffer());
       expect(rawMessage.ttl).to.equal(message.ttl());
+      expect(rawMessage.namespace).to.equal(3);
     });
 
     it('should generate valid plainTextBuffer', async () => {
       const device = TestUtils.generateFakePubKey();
       const message = TestUtils.generateVisibleMessage();
 
-      const rawMessage = await MessageUtils.toRawMessage(device, message);
+      const rawMessage = await MessageUtils.toRawMessage(
+        device,
+        message,
+        SnodeNamespaces.UserMessages
+      );
 
       const rawBuffer = rawMessage.plainTextBuffer;
       const rawBufferJSON = JSON.stringify(rawBuffer);
@@ -82,7 +89,11 @@ describe('Message Utils', () => {
       const device = TestUtils.generateFakePubKey();
       const message = TestUtils.generateVisibleMessage();
 
-      const rawMessage = await MessageUtils.toRawMessage(device, message);
+      const rawMessage = await MessageUtils.toRawMessage(
+        device,
+        message,
+        SnodeNamespaces.UserMessages
+      );
       const derivedPubKey = PubKey.from(rawMessage.device);
 
       expect(derivedPubKey).to.not.be.eq(undefined, 'should maintain pubkey');
@@ -98,14 +109,22 @@ describe('Message Utils', () => {
       const chatMessage = TestUtils.generateVisibleMessage();
       const message = new ClosedGroupVisibleMessage({ chatMessage, groupId });
 
-      const rawMessage = await MessageUtils.toRawMessage(device, message);
+      const rawMessage = await MessageUtils.toRawMessage(
+        device,
+        message,
+        SnodeNamespaces.UserMessages
+      );
       expect(rawMessage.encryption).to.equal(SignalService.Envelope.Type.CLOSED_GROUP_MESSAGE);
     });
 
     it('should set encryption to Fallback on other messages', async () => {
       const device = TestUtils.generateFakePubKey();
       const message = TestUtils.generateVisibleMessage();
-      const rawMessage = await MessageUtils.toRawMessage(device, message);
+      const rawMessage = await MessageUtils.toRawMessage(
+        device,
+        message,
+        SnodeNamespaces.UserMessages
+      );
 
       expect(rawMessage.encryption).to.equal(SignalService.Envelope.Type.SESSION_MESSAGE);
     });
@@ -123,7 +142,7 @@ describe('Message Utils', () => {
         keypair: TestUtils.generateFakeECKeyPair(),
         expireTimer: 0,
       });
-      const rawMessage = await MessageUtils.toRawMessage(device, msg);
+      const rawMessage = await MessageUtils.toRawMessage(device, msg, SnodeNamespaces.UserMessages);
       expect(rawMessage.encryption).to.equal(SignalService.Envelope.Type.SESSION_MESSAGE);
     });
 
@@ -135,7 +154,7 @@ describe('Message Utils', () => {
         name: 'df',
         groupId: TestUtils.generateFakePubKey().key,
       });
-      const rawMessage = await MessageUtils.toRawMessage(device, msg);
+      const rawMessage = await MessageUtils.toRawMessage(device, msg, SnodeNamespaces.UserMessages);
       expect(rawMessage.encryption).to.equal(SignalService.Envelope.Type.CLOSED_GROUP_MESSAGE);
     });
 
@@ -147,7 +166,7 @@ describe('Message Utils', () => {
         addedMembers: [TestUtils.generateFakePubKey().key],
         groupId: TestUtils.generateFakePubKey().key,
       });
-      const rawMessage = await MessageUtils.toRawMessage(device, msg);
+      const rawMessage = await MessageUtils.toRawMessage(device, msg, SnodeNamespaces.UserMessages);
       expect(rawMessage.encryption).to.equal(SignalService.Envelope.Type.CLOSED_GROUP_MESSAGE);
     });
 
@@ -159,7 +178,7 @@ describe('Message Utils', () => {
         removedMembers: [TestUtils.generateFakePubKey().key],
         groupId: TestUtils.generateFakePubKey().key,
       });
-      const rawMessage = await MessageUtils.toRawMessage(device, msg);
+      const rawMessage = await MessageUtils.toRawMessage(device, msg, SnodeNamespaces.UserMessages);
       expect(rawMessage.encryption).to.equal(SignalService.Envelope.Type.CLOSED_GROUP_MESSAGE);
     });
 
@@ -180,7 +199,7 @@ describe('Message Utils', () => {
         groupId: TestUtils.generateFakePubKey().key,
         encryptedKeyPairs: fakeWrappers,
       });
-      const rawMessage = await MessageUtils.toRawMessage(device, msg);
+      const rawMessage = await MessageUtils.toRawMessage(device, msg, SnodeNamespaces.UserMessages);
       expect(rawMessage.encryption).to.equal(SignalService.Envelope.Type.CLOSED_GROUP_MESSAGE);
     });
 
@@ -201,7 +220,7 @@ describe('Message Utils', () => {
         groupId: TestUtils.generateFakePubKey().key,
         encryptedKeyPairs: fakeWrappers,
       });
-      const rawMessage = await MessageUtils.toRawMessage(device, msg);
+      const rawMessage = await MessageUtils.toRawMessage(device, msg, SnodeNamespaces.UserMessages);
       expect(rawMessage.encryption).to.equal(SignalService.Envelope.Type.SESSION_MESSAGE);
     });
 
@@ -215,7 +234,7 @@ describe('Message Utils', () => {
         displayName: 'displayName',
         contacts: [],
       });
-      const rawMessage = await MessageUtils.toRawMessage(device, msg);
+      const rawMessage = await MessageUtils.toRawMessage(device, msg, SnodeNamespaces.UserMessages);
       expect(rawMessage.encryption).to.equal(SignalService.Envelope.Type.SESSION_MESSAGE);
     });
   });
@@ -226,9 +245,12 @@ describe('Message Utils', () => {
     beforeEach(async () => {
       Sinon.stub(UserUtils, 'getOurPubKeyStrFromCache').resolves(ourNumber);
       Sinon.stub(UserUtils, 'getOurPubKeyFromCache').resolves(PubKey.cast(ourNumber));
-      stubData('getAllConversations').resolves(new ConversationCollection([]));
+      stubData('getAllConversations').resolves([]);
       stubData('saveConversation').resolves();
       stubOpenGroupData('getAllV2OpenGroupRooms').resolves();
+      TestUtils.stubData('getItemById').callsFake(async () => {
+        return { value: '[]' };
+      });
       getConversationController().reset();
 
       await getConversationController().load();
@@ -249,8 +271,9 @@ describe('Message Utils', () => {
         ConversationTypeEnum.PRIVATE
       );
 
-      const convoId3 = getOpenGroupV2ConversationId('chat-dev2.lokinet.org', 'fish');
-      const convoId4 = getOpenGroupV2ConversationId('chat-dev3.lokinet.org', 'fish2');
+      const convoId3 = getOpenGroupV2ConversationId('http://chat-dev2.lokinet.org', 'fish');
+      const convoId4 = getOpenGroupV2ConversationId('http://chat-dev3.lokinet.org', 'fish2');
+      const convoId5 = getOpenGroupV2ConversationId('http://chat-dev3.lokinet.org', 'fish3');
 
       const convo3 = await getConversationController().getOrCreateAndWait(
         convoId3,
@@ -262,7 +285,7 @@ describe('Message Utils', () => {
         .returns(null)
         .withArgs(convoId3)
         .returns({
-          serverUrl: 'chat-dev2.lokinet.org',
+          serverUrl: 'http://chat-dev2.lokinet.org',
           roomId: 'fish',
           serverPublicKey: 'serverPublicKey',
         } as OpenGroupV2Room);
@@ -275,7 +298,7 @@ describe('Message Utils', () => {
 
       await OpenGroupData.opengroupRoomsLoad();
       const convo5 = await getConversationController().getOrCreateAndWait(
-        convoId4,
+        convoId5,
         ConversationTypeEnum.GROUP
       );
       convo5.set({ active_at: 0 });
@@ -286,11 +309,11 @@ describe('Message Utils', () => {
       );
       const convos = getConversationController().getConversations();
 
+      // convoID3 is active but 4 and 5 are not
       const configMessage = await getCurrentConfigurationMessage(convos);
       expect(configMessage.activeOpenGroups.length).to.equal(1);
       expect(configMessage.activeOpenGroups[0]).to.equal(
-        // tslint:disable-next-line: no-http-string
-        'chat-dev2.lokinet.org/fish?public_key=serverPublicKey'
+        'http://chat-dev2.lokinet.org/fish?public_key=serverPublicKey'
       );
     });
   });

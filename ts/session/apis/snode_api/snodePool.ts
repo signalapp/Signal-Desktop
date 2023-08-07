@@ -1,14 +1,14 @@
-import _ from 'lodash';
-
-import { getSnodePoolFromSnodes, requestSnodesForPubkey } from './SNodeAPI';
+import _, { shuffle } from 'lodash';
+import pRetry from 'p-retry';
 
 import { Data, Snode } from '../../../data/data';
 
-import pRetry from 'p-retry';
 import { ed25519Str } from '../../onions/onionPath';
 import { OnionPaths } from '../../onions';
 import { Onions, SnodePool } from '.';
 import { SeedNodeAPI } from '../seed_node_api';
+import { requestSnodesForPubkeyFromNetwork } from './getSwarmFor';
+import { ServiceNodesList } from './getServiceNodesList';
 
 /**
  * If we get less than this snode in a swarm, we fetch new snodes for this pubkey
@@ -36,7 +36,6 @@ export const requiredSnodesForAgreement = 24;
 
 let randomSnodePool: Array<Snode> = [];
 
-// tslint:disable-next-line: function-name
 export function TEST_resetState() {
   randomSnodePool = [];
   swarmCache.clear();
@@ -126,10 +125,10 @@ export async function forceRefreshRandomSnodePool(): Promise<Array<Snode>> {
     // if that fails to get enough snodes, even after retries, well we just have to retry later.
     try {
       await SnodePool.TEST_fetchFromSeedWithRetriesAndWriteToDb();
-    } catch (e) {
+    } catch (err2) {
       window?.log?.warn(
         'forceRefreshRandomSnodePool: Failed to fetch snode pool from seed. Fetching from seed node instead:',
-        e.message
+        err2.message
       );
     }
   }
@@ -178,7 +177,7 @@ export async function getRandomSnodePool(): Promise<Array<Snode>> {
  * It also resets the onionpaths failure count and snode failure count.
  * This function does not throw.
  */
-// tslint:disable: function-name
+
 export async function TEST_fetchFromSeedWithRetriesAndWriteToDb() {
   const seedNodes = window.getSeedNodeList();
 
@@ -189,9 +188,11 @@ export async function TEST_fetchFromSeedWithRetriesAndWriteToDb() {
 
     return;
   }
+  const start = Date.now();
   try {
     randomSnodePool = await SeedNodeAPI.fetchSnodePoolFromSeedNodeWithRetries(seedNodes);
     await Data.updateSnodePoolOnDb(JSON.stringify(randomSnodePool));
+    window.log.info(`fetchSnodePoolFromSeedNodeWithRetries took ${Date.now() - start}ms`);
 
     OnionPaths.resetPathFailureCount();
     Onions.resetSnodeFailureCount();
@@ -214,7 +215,7 @@ async function tryToGetConsensusWithSnodesWithRetries() {
   // fetch the snode pool from one of the seed nodes (see the catch).
   return pRetry(
     async () => {
-      const commonNodes = await getSnodePoolFromSnodes();
+      const commonNodes = await ServiceNodesList.getSnodePoolFromSnodes();
 
       if (!commonNodes || commonNodes.length < requiredSnodesForAgreement) {
         // throwing makes trigger a retry if we have some left.
@@ -311,11 +312,27 @@ export async function getSwarmFor(pubkey: string): Promise<Array<Snode>> {
     return goodNodes;
   }
 
-  // Request new node list from the network
-  const freshNodes = _.shuffle(await requestSnodesForPubkey(pubkey));
+  // Request new node list from the network and save it
+  return getSwarmFromNetworkAndSave(pubkey);
+}
 
-  const edkeys = freshNodes.map((n: Snode) => n.pubkey_ed25519);
+/**
+ * Force a request to be made to the network to fetch the swarm of the specificied pubkey, and cache the result.
+ * Note: should not be called directly unless you know what you are doing. Use the cached `getSwarmFor()` function instead
+ * @param pubkey the pubkey to request the swarm for
+ * @returns the fresh swarm, shuffled
+ */
+export async function getFreshSwarmFor(pubkey: string): Promise<Array<Snode>> {
+  return getSwarmFromNetworkAndSave(pubkey);
+}
+
+async function getSwarmFromNetworkAndSave(pubkey: string) {
+  // Request new node list from the network
+  const swarm = await requestSnodesForPubkeyFromNetwork(pubkey);
+  const shuffledSwarm = shuffle(swarm);
+
+  const edkeys = shuffledSwarm.map((n: Snode) => n.pubkey_ed25519);
   await internalUpdateSwarmFor(pubkey, edkeys);
 
-  return freshNodes;
+  return shuffledSwarm;
 }

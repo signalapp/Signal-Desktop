@@ -1,4 +1,5 @@
 /* global window */
+/* eslint-disable @typescript-eslint/no-var-requires */
 
 const { ipcRenderer } = require('electron');
 const url = require('url');
@@ -19,14 +20,6 @@ window.i18n = i18n.setupi18n(locale, localeMessages);
 window.getEnvironment = () => config.environment;
 window.getVersion = () => config.version;
 window.getAppInstance = () => config.appInstance;
-
-const { SessionPasswordPrompt } = require('./ts/components/SessionPasswordPrompt');
-
-window.Signal = {
-  Components: {
-    SessionPasswordPrompt,
-  },
-};
 
 window.clearLocalData = async () => {
   window.log.info('reset database');

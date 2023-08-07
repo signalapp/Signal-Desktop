@@ -52,7 +52,7 @@ const TopSplitViewPanel = ({
   React.useEffect(() => {
     if (topRef.current) {
       if (!topHeight) {
-        setTopHeight(Math.max(MIN_HEIGHT_TOP, topRef.current?.clientHeight / 2));
+        setTopHeight(Math.max(MIN_HEIGHT_TOP, (topRef.current?.clientHeight || 0) / 2));
         return;
       }
 
@@ -67,11 +67,7 @@ const TopSplitViewPanel = ({
 const MIN_HEIGHT_TOP = 200;
 const MIN_HEIGHT_BOTTOM = 0;
 
-export const SplitViewContainer: React.FunctionComponent<SplitViewProps> = ({
-  disableTop,
-  top,
-  bottom,
-}) => {
+export const SplitViewContainer = ({ disableTop, top, bottom }: SplitViewProps) => {
   const [topHeight, setTopHeight] = useState<undefined | number>(undefined);
   const [separatorYPosition, setSeparatorYPosition] = useState<undefined | number>(undefined);
   const [dragging, setDragging] = useState(false);

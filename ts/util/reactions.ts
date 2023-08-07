@@ -2,14 +2,11 @@ import { isEmpty } from 'lodash';
 import { Data } from '../data/data';
 import { MessageModel } from '../models/message';
 import { SignalService } from '../protobuf';
-import {
-  getUsBlindedInThatServer,
-  isUsAnySogsFromCache,
-} from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
+import { isUsAnySogsFromCache } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
 import { ToastUtils, UserUtils } from '../session/utils';
 
 import { Action, OpenGroupReactionList, ReactionList, RecentReactions } from '../types/Reaction';
-import { getRecentReactions, saveRecentReations } from '../util/storage';
+import { getRecentReactions, saveRecentReations } from './storage';
 
 const SOGSReactorsFetchCount = 5;
 const rateCountLimit = 20;
@@ -26,9 +23,8 @@ function hitRateLimit(): boolean {
       latestReactionTimestamps.pop();
       window.log.warn(`Only ${rateCountLimit} reactions are allowed per minute`);
       return true;
-    } else {
-      latestReactionTimestamps.shift();
     }
+    latestReactionTimestamps.shift();
   }
   return false;
 }
@@ -61,7 +57,7 @@ const getMessageByReaction = async (
   }
 
   if (!originalMessage) {
-    window?.log?.warn(`Cannot find the original reacted message ${originalMessageId}.`);
+    window?.log?.debug(`Cannot find the original reacted message ${originalMessageId}.`);
     return null;
   }
 
@@ -77,17 +73,17 @@ const sendMessageReaction = async (messageId: string, emoji: string) => {
     const conversationModel = found?.getConversation();
     if (!conversationModel) {
       window.log.warn(`Conversation for ${messageId} not found in db`);
-      return;
+      return undefined;
     }
 
     if (!conversationModel.hasReactions()) {
       window.log.warn("This conversation doesn't have reaction support");
-      return;
+      return undefined;
     }
 
     if (hitRateLimit()) {
       ToastUtils.pushRateLimitHitReactions();
-      return;
+      return undefined;
     }
 
     let me = UserUtils.getOurPubKeyStrFromCache();
@@ -96,10 +92,10 @@ const sendMessageReaction = async (messageId: string, emoji: string) => {
     if (found.get('isPublic')) {
       if (found.get('serverId')) {
         id = found.get('serverId') || id;
-        me = getUsBlindedInThatServer(conversationModel) || me;
+        me = conversationModel.getUsInThatConversation();
       } else {
         window.log.warn(`Server Id was not found in message ${messageId} for opengroup reaction`);
-        return;
+        return undefined;
       }
     }
 
@@ -131,17 +127,12 @@ const sendMessageReaction = async (messageId: string, emoji: string) => {
       emoji,
       'reaction for message',
       id,
-      found.get('isPublic')
-        ? `on ${conversationModel.toOpenGroupV2().serverUrl}/${
-            conversationModel.toOpenGroupV2().roomId
-          }`
-        : ''
+      found.get('isPublic') ? `on ${conversationModel.id}` : ''
     );
     return reaction;
-  } else {
-    window.log.warn(`Message ${messageId} not found in db`);
-    return;
   }
+  window.log.warn(`Message ${messageId} not found in db`);
+  return undefined;
 };
 
 /**
@@ -161,12 +152,12 @@ const handleMessageReaction = async ({
 }) => {
   if (!reaction.emoji) {
     window?.log?.warn(`There is no emoji for the reaction ${reaction}.`);
-    return;
+    return undefined;
   }
 
   const originalMessage = await getMessageByReaction(reaction, openGroupConversationId);
   if (!originalMessage) {
-    return;
+    return undefined;
   }
 
   const reacts: ReactionList = originalMessage.get('reacts') ?? {};
@@ -178,10 +169,9 @@ const handleMessageReaction = async ({
   if (details.you && senders.includes(sender)) {
     if (reaction.action === Action.REACT) {
       window.log.warn('Received duplicate message for your reaction. Ignoring it');
-      return;
-    } else {
-      details.you = false;
+      return undefined;
     }
+    details.you = false;
   } else {
     details.you = you;
   }
@@ -190,7 +180,7 @@ const handleMessageReaction = async ({
     case Action.REACT:
       if (senders.includes(sender)) {
         window.log.warn('Received duplicate reaction message. Ignoring it', reaction, sender);
-        return;
+        return undefined;
       }
       details.senders.push(sender);
       count += 1;
@@ -216,7 +206,6 @@ const handleMessageReaction = async ({
       originalMessage.set('reactsIndex', (originalMessage.get('reactsIndex') ?? 0) + 1);
     }
   } else {
-    // tslint:disable-next-line: no-dynamic-delete
     delete reacts[reaction.emoji];
   }
 
@@ -243,15 +232,14 @@ const handleMessageReaction = async ({
 const handleClearReaction = async (conversationId: string, serverId: number, emoji: string) => {
   const originalMessage = await Data.getMessageByServerId(conversationId, serverId);
   if (!originalMessage) {
-    window?.log?.warn(
+    window?.log?.debug(
       `Cannot find the original reacted message ${serverId} in conversation ${conversationId}.`
     );
-    return;
+    return undefined;
   }
 
   const reacts: ReactionList | undefined = originalMessage.get('reacts');
   if (reacts) {
-    // tslint:disable-next-line: no-dynamic-delete
     delete reacts[emoji];
   }
 
@@ -276,15 +264,15 @@ const handleOpenGroupMessageReactions = async (
 ) => {
   const originalMessage = await Data.getMessageByServerId(conversationId, serverId);
   if (!originalMessage) {
-    window?.log?.warn(
+    window?.log?.debug(
       `Cannot find the original reacted message ${serverId} in conversation ${conversationId}.`
     );
-    return;
+    return undefined;
   }
 
   if (!originalMessage.get('isPublic')) {
     window.log.warn('handleOpenGroupMessageReactions() should only be used in opengroups');
-    return;
+    return undefined;
   }
 
   if (isEmpty(reactions)) {
@@ -313,7 +301,8 @@ const handleOpenGroupMessageReactions = async (
           const conversationModel = originalMessage?.getConversation();
           if (conversationModel) {
             const me =
-              getUsBlindedInThatServer(conversationModel) || UserUtils.getOurPubKeyStrFromCache();
+              conversationModel.getUsInThatConversation() || UserUtils.getOurPubKeyStrFromCache();
+            // eslint-disable-next-line no-param-reassign
             reactions[key].reactors = [me, ...reactorsWithoutMe];
           }
         }
@@ -332,7 +321,6 @@ const handleOpenGroupMessageReactions = async (
           you,
         };
       } else {
-        // tslint:disable-next-line: no-dynamic-delete
         delete reacts[key];
       }
     });

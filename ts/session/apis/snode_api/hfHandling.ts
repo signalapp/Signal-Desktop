@@ -1,23 +1,31 @@
 import { isNumber } from 'lodash';
 import { Data } from '../../../data/data';
+import { Storage } from '../../../util/storage';
 
 let hasSeenHardfork190: boolean | undefined;
 let hasSeenHardfork191: boolean | undefined;
+
+const hasSeenHardfork190ItemId = 'hasSeenHardfork190';
+const hasSeenHardfork191ItemId = 'hasSeenHardfork191';
 
 /**
  * this is only intended for testing. Do not call this in production.
  */
 export function resetHardForkCachedValues() {
-  hasSeenHardfork190 = hasSeenHardfork191 = undefined;
+  hasSeenHardfork190 = undefined;
+  hasSeenHardfork191 = undefined;
 }
 
+/**
+ * Not used anymore, but keeping those here in case we ever need to do hardfork enabling of features again
+ */
 export async function getHasSeenHF190() {
   if (hasSeenHardfork190 === undefined) {
     // read values from db and cache them as it looks like we did not
-    const oldHhasSeenHardfork190 = (await Data.getItemById('hasSeenHardfork190'))?.value;
+    const oldHhasSeenHardfork190 = (await Data.getItemById(hasSeenHardfork190ItemId))?.value;
     // values do not exist in the db yet. Let's store false for now in the db and update our cached value.
     if (oldHhasSeenHardfork190 === undefined) {
-      await Data.createOrUpdateItem({ id: 'hasSeenHardfork190', value: false });
+      await Storage.put(hasSeenHardfork190ItemId, false);
       hasSeenHardfork190 = false;
     } else {
       hasSeenHardfork190 = oldHhasSeenHardfork190;
@@ -26,14 +34,17 @@ export async function getHasSeenHF190() {
   return hasSeenHardfork190;
 }
 
+/**
+ * Not used anymore, but keeping those here in case we ever need to do hardfork enabling of features again
+ */
 export async function getHasSeenHF191() {
   if (hasSeenHardfork191 === undefined) {
     // read values from db and cache them as it looks like we did not
-    const oldHhasSeenHardfork191 = (await Data.getItemById('hasSeenHardfork191'))?.value;
+    const oldHhasSeenHardfork191 = (await Data.getItemById(hasSeenHardfork191ItemId))?.value;
 
     // values do not exist in the db yet. Let's store false for now in the db and update our cached value.
     if (oldHhasSeenHardfork191 === undefined) {
-      await Data.createOrUpdateItem({ id: 'hasSeenHardfork191', value: false });
+      await Storage.put(hasSeenHardfork191ItemId, false);
       hasSeenHardfork191 = false;
     } else {
       hasSeenHardfork191 = oldHhasSeenHardfork191;
@@ -45,18 +56,18 @@ export async function getHasSeenHF191() {
 export async function handleHardforkResult(json: Record<string, any>) {
   if (hasSeenHardfork190 === undefined || hasSeenHardfork191 === undefined) {
     // read values from db and cache them as it looks like we did not
-    const oldHhasSeenHardfork190 = (await Data.getItemById('hasSeenHardfork190'))?.value;
-    const oldHasSeenHardfork191 = (await Data.getItemById('hasSeenHardfork191'))?.value;
+    const oldHhasSeenHardfork190 = (await Data.getItemById(hasSeenHardfork190ItemId))?.value;
+    const oldHasSeenHardfork191 = (await Data.getItemById(hasSeenHardfork191ItemId))?.value;
 
     // values do not exist in the db yet. Let's store false for now in the db and update our cached value.
     if (oldHhasSeenHardfork190 === undefined) {
-      await Data.createOrUpdateItem({ id: 'hasSeenHardfork190', value: false });
+      await Storage.put(hasSeenHardfork190ItemId, false);
       hasSeenHardfork190 = false;
     } else {
       hasSeenHardfork190 = oldHhasSeenHardfork190;
     }
     if (oldHasSeenHardfork191 === undefined) {
-      await Data.createOrUpdateItem({ id: 'hasSeenHardfork191', value: false });
+      await Storage.put(hasSeenHardfork191ItemId, false);
       hasSeenHardfork191 = false;
     } else {
       hasSeenHardfork191 = oldHasSeenHardfork191;
@@ -78,13 +89,11 @@ export async function handleHardforkResult(json: Record<string, any>) {
     isNumber(json.hf[1])
   ) {
     if (!hasSeenHardfork190 && json.hf[0] >= 19 && json.hf[1] >= 0) {
-      // window.log.info('[HF]: We just detected HF 19.0 on "retrieve"');
-      await Data.createOrUpdateItem({ id: 'hasSeenHardfork190', value: true });
+      await Storage.put(hasSeenHardfork190ItemId, true);
       hasSeenHardfork190 = true;
     }
     if (!hasSeenHardfork191 && json.hf[0] >= 19 && json.hf[1] >= 1) {
-      // window.log.info('[HF]: We just detected HF 19.1 on "retrieve"');
-      await Data.createOrUpdateItem({ id: 'hasSeenHardfork191', value: true });
+      await Storage.put(hasSeenHardfork191ItemId, true);
       hasSeenHardfork191 = true;
     }
   }

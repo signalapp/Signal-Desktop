@@ -1,15 +1,15 @@
 import React from 'react';
-
-import { TypingAnimation } from './TypingAnimation';
 import styled from 'styled-components';
+
 import { ConversationTypeEnum } from '../../models/conversationAttributes';
+import { TypingAnimation } from './TypingAnimation';
 
 interface TypingBubbleProps {
   conversationType: ConversationTypeEnum;
   isTyping: boolean;
 }
 
-const TypingBubbleContainer = styled.div<TypingBubbleProps>`
+const TypingBubbleContainer = styled.div<Pick<TypingBubbleProps, 'isTyping'>>`
   height: ${props => (props.isTyping ? 'auto' : '0px')};
   display: flow-root;
   padding-bottom: ${props => (props.isTyping ? '4px' : '0px')};
@@ -22,16 +22,13 @@ const TypingBubbleContainer = styled.div<TypingBubbleProps>`
 `;
 
 export const TypingBubble = (props: TypingBubbleProps) => {
-  if (props.conversationType === ConversationTypeEnum.GROUP) {
-    return null;
-  }
-
-  if (!props.isTyping) {
+  const isPrivate = props.conversationType === ConversationTypeEnum.PRIVATE;
+  if (!isPrivate || !props.isTyping) {
     return null;
   }
 
   return (
-    <TypingBubbleContainer {...props}>
+    <TypingBubbleContainer isTyping={props.isTyping}>
       <TypingAnimation />
     </TypingBubbleContainer>
   );

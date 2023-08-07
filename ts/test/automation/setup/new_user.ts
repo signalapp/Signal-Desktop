@@ -1,14 +1,15 @@
 import { Page } from '@playwright/test';
 import { User } from '../types/testing';
-import { checkPathLight, clickOnMatchingText, typeIntoInput } from '../utilities/utils';
-// tslint:disable: no-console
+import {
+  checkPathLight,
+  clickOnMatchingText,
+  clickOnTestIdWithText,
+  typeIntoInput,
+} from '../utilities/utils';
+
 export const newUser = async (window: Page, userName: string): Promise<User> => {
   // Create User
   await clickOnMatchingText(window, 'Create Session ID');
-  // Wait for animation for finish creating ID
-  await window.waitForTimeout(1500);
-  //Save session ID to a variable
-  const sessionid = await window.inputValue('[data-testid=session-id-signup]');
   await clickOnMatchingText(window, 'Continue');
   // Input username = testuser
   await typeIntoInput(window, 'display-name-input', userName);
@@ -16,11 +17,16 @@ export const newUser = async (window: Page, userName: string): Promise<User> => 
   // save recovery phrase
   await clickOnMatchingText(window, 'Reveal Recovery Phrase');
   const recoveryPhrase = await window.innerText('[data-testid=recovery-phrase-seed-modal]');
+  await window.click('.session-icon-button.small');
+
+  await clickOnTestIdWithText(window, 'leftpane-primary-avatar');
+
+  // Save session ID to a variable
+  let sessionid = await window.innerText('[data-testid=your-session-id]');
+  sessionid = sessionid.replace(/(\r\n|\n|\r)/gm, ''); // remove the new line in the SessionID as it is rendered with one forced
 
   console.info(`${userName}: Session ID: ${sessionid} and Recovery phrase: ${recoveryPhrase}`);
   await window.click('.session-icon-button.small');
   await checkPathLight(window);
   return { userName, sessionid, recoveryPhrase };
 };
-
-

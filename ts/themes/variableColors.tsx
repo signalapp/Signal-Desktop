@@ -77,7 +77,9 @@ export type ThemeColorVariables = {
   '--button-icon-stroke-selected-color': string;
 
   /* Conversation Tab */
-  /* This is also user for Overlay Tabs, Contact Rows, Convesation List Items, Message Search Results, Message Requests Banner, Member List Item, Contact List Items, Message Right Click Highlighting etc. */
+  /* This is also user for Overlay Tabs, Contact Rows, Convesation List Items,
+   Message Search Results, Message Requests Banner, Member List Item,
+   Contact List Items, Message Right Click Highlighting etc. */
   '--conversation-tab-background-color': string;
   '--conversation-tab-background-hover-color': string;
   '--conversation-tab-background-selected-color': string;
@@ -196,6 +198,7 @@ export type ThemeColorVariables = {
 };
 
 export function loadThemeColors(variables: ThemeColorVariables) {
+  // eslint-disable-next-line no-restricted-syntax
   for (const [key, value] of Object.entries(variables)) {
     document.documentElement.style.setProperty(key, value);
   }

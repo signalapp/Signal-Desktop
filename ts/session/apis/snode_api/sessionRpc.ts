@@ -1,12 +1,14 @@
+import https from 'https';
+// eslint-disable-next-line import/no-named-default
 import { default as insecureNodeFetch } from 'node-fetch';
+import { clone } from 'lodash';
 import pRetry from 'p-retry';
+
 import { HTTPError, NotFoundError } from '../../utils/errors';
 import { Snode } from '../../../data/data';
-import { getStoragePubKey } from '../../types';
 
 import { ERROR_421_HANDLED_RETRY_REQUEST, Onions, snodeHttpsAgent, SnodeResponse } from './onions';
 import { APPLICATION_JSON } from '../../../types/MIME';
-import https from 'https';
 
 export interface LokiFetchOptions {
   method: 'GET' | 'POST';
@@ -19,7 +21,7 @@ export interface LokiFetchOptions {
  * A small wrapper around node-fetch which deserializes response
  * returns insecureNodeFetch response or false
  */
-async function lokiFetch({
+async function doRequest({
   options,
   url,
   associatedWith,
@@ -29,7 +31,7 @@ async function lokiFetch({
   url: string;
   options: LokiFetchOptions;
   targetNode?: Snode;
-  associatedWith?: string;
+  associatedWith: string | null;
   timeout: number;
 }): Promise<undefined | SnodeResponse> {
   const method = options.method || 'GET';
@@ -52,7 +54,7 @@ async function lokiFetch({
         targetNode,
         body: fetchOptions.body,
         headers: fetchOptions.headers,
-        associatedWith,
+        associatedWith: associatedWith || undefined,
       });
       if (!fetchResult) {
         return undefined;
@@ -61,7 +63,7 @@ async function lokiFetch({
     }
 
     if (url.match(/https:\/\//)) {
-      // import that this does not get set in lokiFetch fetchOptions
+      // import that this does not get set in doRequest fetchOptions
       fetchOptions.agent = snodeHttpsAgent;
     }
 
@@ -71,7 +73,7 @@ async function lokiFetch({
       'Content-Type': APPLICATION_JSON,
     };
 
-    window?.log?.warn(`insecureNodeFetch => lokiFetch of ${url}`);
+    window?.log?.warn(`insecureNodeFetch => doRequest of ${url}`);
 
     const response = await insecureNodeFetch(url, {
       ...fetchOptions,
@@ -115,28 +117,18 @@ export async function snodeRpc(
     timeout = 10000,
   }: {
     method: string;
-    params: Record<string, any>;
+    params: Record<string, any> | Array<Record<string, any>>;
     targetNode: Snode;
-    associatedWith?: string;
+    associatedWith: string | null;
     timeout?: number;
-  } //the user pubkey this call is for. if the onion request fails, this is used to handle the error for this user swarm for instance
+  } // the user pubkey this call is for. if the onion request fails, this is used to handle the error for this user swarm for instance
 ): Promise<undefined | SnodeResponse> {
   const url = `https://${targetNode.ip}:${targetNode.port}/storage_rpc/v1`;
-
-  // TODO: The jsonrpc and body field will be ignored on storage server
-  if (params.pubKey) {
-    // Ensure we always take a copy
-    // tslint:disable-next-line no-parameter-reassignment
-    params = {
-      ...params,
-      pubKey: getStoragePubKey(params.pubKey),
-    };
-  }
 
   const body = {
     jsonrpc: '2.0',
     method,
-    params,
+    params: clone(params),
   };
 
   const fetchOptions: LokiFetchOptions = {
@@ -146,7 +138,7 @@ export async function snodeRpc(
     agent: null,
   };
 
-  return lokiFetch({
+  return doRequest({
     url,
     options: fetchOptions,
     targetNode,

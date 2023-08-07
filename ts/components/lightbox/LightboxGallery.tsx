@@ -1,17 +1,13 @@
-/**
- * @prettier
- */
 import React, { useCallback, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import useKey from 'react-use/lib/useKey';
 
 import { Lightbox } from './Lightbox';
 
-// tslint:disable-next-line: no-submodule-imports
-import useKey from 'react-use/lib/useKey';
-import { AttachmentTypeWithPath } from '../../types/Attachment';
-import { useDispatch, useSelector } from 'react-redux';
 import { showLightBox } from '../../state/ducks/conversations';
-import { getSelectedConversationKey } from '../../state/selectors/conversations';
+import { useSelectedConversationKey } from '../../state/selectors/selectedConversation';
 import { MIME } from '../../types';
+import { AttachmentTypeWithPath } from '../../types/Attachment';
 import { saveAttachmentToDisk } from '../../util/attachmentsUtil';
 
 export interface MediaItemType {
@@ -33,13 +29,14 @@ type Props = {
 export const LightboxGallery = (props: Props) => {
   const { media } = props;
   const [currentIndex, setCurrentIndex] = useState(-1);
-  const selectedConversation = useSelector(getSelectedConversationKey) as string;
+  const selectedConversation = useSelectedConversationKey();
 
   const dispatch = useDispatch();
 
   // just run once, when the component is mounted. It's to show the lightbox on the specified index at start.
   useEffect(() => {
     setCurrentIndex(props.selectedIndex);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const selectedMedia = media[currentIndex];
@@ -58,9 +55,12 @@ export const LightboxGallery = (props: Props) => {
   }, [currentIndex, lastIndex]);
 
   const handleSave = useCallback(() => {
+    if (!selectedConversation) {
+      return;
+    }
     const mediaItem = media[currentIndex];
     void saveAttachmentToDisk({ ...mediaItem, conversationId: selectedConversation });
-  }, [currentIndex, media]);
+  }, [currentIndex, media, selectedConversation]);
 
   useKey(
     'ArrowRight',
@@ -87,6 +87,10 @@ export const LightboxGallery = (props: Props) => {
     undefined,
     [currentIndex]
   );
+  if (!selectedConversation) {
+    return null;
+  }
+
   // just to avoid to render the first element during the first render when the user selected another item
   if (currentIndex === -1) {
     return null;
@@ -96,7 +100,6 @@ export const LightboxGallery = (props: Props) => {
 
   const caption = attachment?.caption;
   return (
-    // tslint:disable: use-simple-attributes
     <Lightbox
       onPrevious={hasPrevious ? onPrevious : undefined}
       onNext={hasNext ? onNext : undefined}

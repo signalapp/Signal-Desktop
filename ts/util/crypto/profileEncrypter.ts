@@ -1,3 +1,4 @@
+/* eslint-disable more/no-then */
 import { getSodiumRenderer } from '../../session/crypto';
 
 const PROFILE_IV_LENGTH = 12; // bytes
@@ -34,6 +35,7 @@ export async function decryptProfile(data: ArrayBuffer, key: ArrayBuffer): Promi
             error.name = 'ProfileDecryptError';
             throw error;
           }
+          throw error;
         })
     );
 }
@@ -56,7 +58,6 @@ export async function encryptProfile(data: ArrayBuffer, key: ArrayBuffer): Promi
       crypto.subtle
         .encrypt({ name: 'AES-GCM', iv, tagLength: PROFILE_TAG_LENGTH }, keyForEncryption, data)
         .then(ciphertext => {
-          // tslint:disable-next-line: restrict-plus-operands
           const ivAndCiphertext = new Uint8Array(PROFILE_IV_LENGTH + ciphertext.byteLength);
           ivAndCiphertext.set(new Uint8Array(iv));
           ivAndCiphertext.set(new Uint8Array(ciphertext), PROFILE_IV_LENGTH);

@@ -70,14 +70,14 @@ $session-compose-margin: 20px;
 
 .module-left-pane {
   position: relative;
-  height: 100vh;
+  height: 100%;
   flex-shrink: 0;
   border-left: 1px solid var(--border-color);
   border-right: 1px solid var(--border-color);
 
   &-session {
     display: flex;
-    height: 100vh;
+    height: 100%;
   }
 
   &__header {
@@ -143,6 +143,8 @@ $session-compose-margin: 20px;
 
 .conversation.placeholder {
   margin: auto;
+  height: 100%;
+
   .container {
     display: flex;
     height: 100%;

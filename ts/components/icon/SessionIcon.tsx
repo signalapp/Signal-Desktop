@@ -1,6 +1,7 @@
 import React from 'react';
-import { icons, SessionIconSize, SessionIconType } from '../icon';
 import styled, { css, keyframes } from 'styled-components';
+
+import { icons, SessionIconSize, SessionIconType } from '.';
 
 export type SessionIconProps = {
   iconType: SessionIconType;
@@ -14,31 +15,30 @@ export type SessionIconProps = {
   glowStartDelay?: number;
   noScale?: boolean;
   backgroundColor?: string;
-  dataTestId?: string
+  dataTestId?: string;
 };
 
 const getIconDimensionFromIconSize = (iconSize: SessionIconSize | number) => {
   if (typeof iconSize === 'number') {
     return iconSize;
-  } else {
-    switch (iconSize) {
-      case 'tiny':
-        return 12;
-      case 'small':
-        return 15;
-      case 'medium':
-        return 20;
-      case 'large':
-        return 25;
-      case 'huge':
-        return 30;
-      case 'huge2':
-        return 40;
-      case 'max':
-        return 80;
-      default:
-        return 20;
-    }
+  }
+  switch (iconSize) {
+    case 'tiny':
+      return 12;
+    case 'small':
+      return 15;
+    case 'medium':
+      return 20;
+    case 'large':
+      return 25;
+    case 'huge':
+      return 30;
+    case 'huge2':
+      return 40;
+    case 'max':
+      return 80;
+    default:
+      return 20;
   }
 };
 
@@ -69,7 +69,7 @@ const rotate = keyframes`
  * Creates a glow animation made for multiple element sequentially
  */
 const glow = (color: string, glowDuration: number, glowStartDelay: number) => {
-  //increase shadow intensity by 3
+  // increase shadow intensity by 3
   const dropShadow = `drop-shadow(0px 0px 6px ${color});`;
 
   // creating keyframe for sequential animations
@@ -118,12 +118,10 @@ const animation = (props: {
       )} ${props.glowDuration}s ease infinite;
     `;
   }
-
-  return;
+  return undefined;
 };
 
-//tslint:disable no-unnecessary-callback-wrapper
-const Svg = styled.svg<StyledSvgProps>`
+const Svg = React.memo(styled.svg<StyledSvgProps>`
   width: ${props => props.width};
   transform: ${props => `rotate(${props.iconRotation}deg)`};
   animation: ${props => animation(props)};
@@ -135,8 +133,7 @@ const Svg = styled.svg<StyledSvgProps>`
   fill: ${props => (props.iconColor ? props.iconColor : '--button-icon-stroke-color')};
   padding: ${props => (props.iconPadding ? props.iconPadding : '')};
   transition: inherit;
-`;
-// tslint:enable no-unnecessary-callback-wrapper
+`);
 
 const SessionSvg = (props: {
   viewBox: string;
@@ -152,7 +149,7 @@ const SessionSvg = (props: {
   borderRadius?: string;
   backgroundColor?: string;
   iconPadding?: string;
-  dataTestId?: string
+  dataTestId?: string;
 }) => {
   const colorSvg = props.iconColor ? props.iconColor : '--button-icon-stroke-color';
   const pathArray = props.path instanceof Array ? props.path : [props.path];
@@ -169,7 +166,7 @@ const SessionSvg = (props: {
     backgroundColor: props.backgroundColor,
     borderRadius: props.borderRadius,
     iconPadding: props.iconPadding,
-    dataTestId: props.dataTestId
+    dataTestId: props.dataTestId,
   };
 
   return (
@@ -192,8 +189,7 @@ export const SessionIcon = (props: SessionIconProps) => {
     noScale,
     backgroundColor,
     iconPadding,
-    dataTestId
-
+    dataTestId,
   } = props;
   let { iconSize, iconRotation } = props;
   iconSize = iconSize || 'medium';
@@ -202,8 +198,8 @@ export const SessionIcon = (props: SessionIconProps) => {
   const iconDimensions = getIconDimensionFromIconSize(iconSize);
   const iconDef = icons[iconType];
   const ratio = iconDef?.ratio || 1;
-  if(iconType === 'circle') {
-    console.warn("props",props)
+  if (iconType === 'circle') {
+    console.warn('props', props);
   }
 
   return (

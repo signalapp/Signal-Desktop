@@ -2,8 +2,8 @@
 //                       RelativePath ->
 //                       IO Unit
 
-import { isString } from 'lodash';
 import path from 'path';
+import { isString } from 'lodash';
 import fse from 'fs-extra';
 
 export const createDeleter = (root: string) => {

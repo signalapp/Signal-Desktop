@@ -11,6 +11,10 @@ export const getFocusedSection = createSelector(
   (state: SectionStateType): SectionType => state.focusedSection
 );
 
+export const getIsMessageSection = (state: StateType) => {
+  return state.section.focusedSection === SectionType.Message;
+};
+
 export const getFocusedSettingsSection = createSelector(
   getSection,
   (state: SectionStateType): SessionSettingCategory | undefined => state.focusedSettingsSection
@@ -25,3 +29,10 @@ export const getOverlayMode = createSelector(
   getSection,
   (state: SectionStateType): OverlayMode | undefined => state.overlayMode
 );
+
+export const getIsMessageRequestOverlayShown = (state: StateType) => {
+  const focusedSection = getFocusedSection(state);
+  const overlayMode = getOverlayMode(state);
+
+  return focusedSection === SectionType.Message && overlayMode === 'message-requests';
+};

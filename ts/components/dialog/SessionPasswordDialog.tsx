@@ -1,15 +1,16 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import React from 'react';
+import autoBind from 'auto-bind';
 
-import { missingCaseError } from '../../util';
 import { ToastUtils } from '../../session/utils';
 import { Data } from '../../data/data';
 import { SpacerSM } from '../basic/Text';
-import autoBind from 'auto-bind';
 import { sessionPassword } from '../../state/ducks/modalDialog';
 import { LocalizerKeys } from '../../types/LocalizerKeys';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 import { matchesHash, validatePassword } from '../../util/passwordUtils';
+import { assertUnreachable } from '../../types/sqlSharedTypes';
 
 export type PasswordAction = 'set' | 'change' | 'remove' | 'enter';
 
@@ -45,8 +46,7 @@ export class SessionPasswordDialog extends React.Component<Props, State> {
     document.addEventListener('keyup', this.onEnterPressed);
 
     setTimeout(() => {
-      // tslint:disable-next-line: no-unused-expression
-      this.passportInput && this.passportInput.focus();
+      this.passportInput?.focus();
     }, 1);
   }
 
@@ -270,7 +270,7 @@ export class SessionPasswordDialog extends React.Component<Props, State> {
   private async onEnterPressed(event: any) {
     if (event.key === 'Enter') {
       event.stopPropagation();
-      return this.setPassword();
+      await this.setPassword();
     }
   }
 
@@ -293,7 +293,6 @@ export class SessionPasswordDialog extends React.Component<Props, State> {
     this.closeDialog();
   }
 
-  // tslint:disable-next-line: cyclomatic-complexity
   private async setPassword() {
     const { passwordAction } = this.props;
     const {
@@ -329,7 +328,7 @@ export class SessionPasswordDialog extends React.Component<Props, State> {
         return;
       }
       default:
-        throw missingCaseError(passwordAction);
+        assertUnreachable(passwordAction, 'passwordAction');
     }
   }
 

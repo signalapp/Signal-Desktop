@@ -1,12 +1,20 @@
-// tslint:disable: no-implicit-dependencies max-func-body-length no-unused-expression
+/* eslint-disable consistent-return */
+/* eslint-disable no-unused-expressions */
+/* eslint-disable more/no-then */
+/* eslint-disable no-loop-func */
+/* eslint-disable @typescript-eslint/no-floating-promises */
+/* eslint-disable no-await-in-loop */
+/* eslint-disable no-unreachable-loop */
+/* eslint-disable no-restricted-syntax */
+import { randomBytes } from 'crypto';
 
 import chai from 'chai';
 import Sinon, * as sinon from 'sinon';
 import { describe } from 'mocha';
-import { randomBytes } from 'crypto';
+import chaiAsPromised from 'chai-as-promised';
 
 import { GroupUtils, PromiseUtils, UserUtils } from '../../../../session/utils';
-import { TestUtils } from '../../../../test/test-utils';
+import { TestUtils } from '../../../test-utils';
 import { MessageQueue } from '../../../../session/sending/MessageQueue';
 import { ContentMessage } from '../../../../session/messages/outgoing';
 import { PubKey, RawMessage } from '../../../../session/types';
@@ -14,16 +22,15 @@ import { MessageSender } from '../../../../session/sending';
 import { PendingMessageCacheStub } from '../../../test-utils/stubs';
 import { ClosedGroupMessage } from '../../../../session/messages/outgoing/controlMessage/group/ClosedGroupMessage';
 
-import chaiAsPromised from 'chai-as-promised';
 import { MessageSentHandler } from '../../../../session/sending/MessageSentHandler';
 import { stubData } from '../../../test-utils/utils';
+import { SnodeNamespaces } from '../../../../session/apis/snode_api/namespaces';
 
 chai.use(chaiAsPromised as any);
 chai.should();
 
 const { expect } = chai;
 
-// tslint:disable-next-line: max-func-body-length
 describe('MessageQueue', () => {
   // Initialize new stubbed cache
   const ourDevice = TestUtils.generateFakePubKey();
@@ -102,7 +109,11 @@ describe('MessageQueue', () => {
         }
 
         const device = TestUtils.generateFakePubKey();
-        await pendingMessageCache.add(device, TestUtils.generateVisibleMessage());
+        await pendingMessageCache.add(
+          device,
+          TestUtils.generateVisibleMessage(),
+          SnodeNamespaces.UserMessages
+        );
 
         const initialMessages = await pendingMessageCache.getForDevice(device);
         expect(initialMessages).to.have.length(1);
@@ -139,7 +150,7 @@ describe('MessageQueue', () => {
           });
 
         void pendingMessageCache
-          .add(device, message, waitForMessageSentEvent)
+          .add(device, message, SnodeNamespaces.UserMessages, waitForMessageSentEvent)
           .then(() => messageQueueStub.processPending(device));
       });
 
@@ -149,7 +160,7 @@ describe('MessageQueue', () => {
         const device = TestUtils.generateFakePubKey();
         const message = TestUtils.generateVisibleMessage();
         void pendingMessageCache
-          .add(device, message)
+          .add(device, message, SnodeNamespaces.UserMessages)
           .then(() => messageQueueStub.processPending(device));
         // The cb is only invoke is all reties fails. Here we poll until the messageSentHandlerFailed was invoked as this is what we want to do
 
@@ -177,7 +188,7 @@ describe('MessageQueue', () => {
       const stub = Sinon.stub(messageQueueStub as any, 'process').resolves();
 
       const message = TestUtils.generateVisibleMessage();
-      await messageQueueStub.sendToPubKey(device, message);
+      await messageQueueStub.sendToPubKey(device, message, SnodeNamespaces.UserMessages);
 
       const args = stub.lastCall.args as [Array<PubKey>, ContentMessage];
       expect(args[0]).to.be.equal(device);
@@ -188,9 +199,12 @@ describe('MessageQueue', () => {
   describe('sendToGroup', () => {
     it('should throw an error if invalid non-group message was passed', async () => {
       const chatMessage = TestUtils.generateVisibleMessage();
-      return expect(messageQueueStub.sendToGroup(chatMessage as any)).to.be.rejectedWith(
-        'Invalid group message passed in sendToGroup.'
-      );
+      return expect(
+        messageQueueStub.sendToGroup({
+          message: chatMessage as any,
+          namespace: SnodeNamespaces.ClosedGroupMessage,
+        })
+      ).to.be.rejectedWith('Invalid group message passed in sendToGroup.');
     });
 
     describe('closed groups', () => {
@@ -201,7 +215,10 @@ describe('MessageQueue', () => {
         const send = Sinon.stub(messageQueueStub, 'sendToPubKey').resolves();
 
         const message = TestUtils.generateClosedGroupMessage();
-        await messageQueueStub.sendToGroup(message);
+        await messageQueueStub.sendToGroup({
+          message,
+          namespace: SnodeNamespaces.ClosedGroupMessage,
+        });
         expect(send.callCount).to.equal(1);
 
         const arg = send.getCall(0).args;
@@ -223,7 +240,12 @@ describe('MessageQueue', () => {
           const message = TestUtils.generateOpenGroupVisibleMessage();
           const roomInfos = TestUtils.generateOpenGroupV2RoomInfos();
 
-          await messageQueueStub.sendToOpenGroupV2(message, roomInfos, false, []);
+          await messageQueueStub.sendToOpenGroupV2({
+            message,
+            roomInfos,
+            blinded: false,
+            filesToLink: [],
+          });
           expect(sendToOpenGroupV2Stub.callCount).to.equal(1);
         });
 
@@ -235,7 +257,12 @@ describe('MessageQueue', () => {
 
           const message = TestUtils.generateOpenGroupVisibleMessage();
           const roomInfos = TestUtils.generateOpenGroupV2RoomInfos();
-          await messageQueueStub.sendToOpenGroupV2(message, roomInfos, false, []);
+          await messageQueueStub.sendToOpenGroupV2({
+            message,
+            roomInfos,
+            blinded: false,
+            filesToLink: [],
+          });
 
           expect(messageSentPublicHandlerSuccessStub.callCount).to.equal(1);
           expect(messageSentPublicHandlerSuccessStub.lastCall.args[0]).to.equal(message.identifier);
@@ -250,7 +277,12 @@ describe('MessageQueue', () => {
           const message = TestUtils.generateOpenGroupVisibleMessage();
           const roomInfos = TestUtils.generateOpenGroupV2RoomInfos();
 
-          await messageQueueStub.sendToOpenGroupV2(message, roomInfos, false, []);
+          await messageQueueStub.sendToOpenGroupV2({
+            message,
+            roomInfos,
+            blinded: false,
+            filesToLink: [],
+          });
           expect(messageSentHandlerFailedStub.callCount).to.equal(1);
           expect(messageSentHandlerFailedStub.lastCall.args[0].identifier).to.equal(
             message.identifier

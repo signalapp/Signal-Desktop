@@ -1,21 +1,23 @@
+import _ from 'lodash';
+
 import { queueAttachmentDownloads } from './attachments';
 
-import { Quote } from './types';
-import _ from 'lodash';
-import { getConversationController } from '../session/conversations';
+import { Data } from '../data/data';
 import { ConversationModel } from '../models/conversation';
 import { MessageModel } from '../models/message';
-import { Data } from '../../ts/data/data';
+import { getConversationController } from '../session/conversations';
+import { Quote } from './types';
 
-import { SignalService } from '../protobuf';
-import { UserUtils } from '../session/utils';
-import { showMessageRequestBanner } from '../state/ducks/userConfig';
+import { ConversationTypeEnum, READ_MESSAGE_STATE } from '../models/conversationAttributes';
 import { MessageDirection } from '../models/messageType';
-import { LinkPreviews } from '../util/linkPreviews';
+import { SignalService } from '../protobuf';
+import { ProfileManager } from '../session/profile_manager/ProfileManager';
+import { showMessageRequestBannerOutsideRedux } from '../state/ducks/userConfig';
+import { getHideMessageRequestBannerOutsideRedux } from '../state/selectors/userConfig';
 import { GoogleChrome } from '../util';
-import { appendFetchAvatarAndProfileJob } from './userProfileImageUpdates';
-import { ConversationTypeEnum } from '../models/conversationAttributes';
-import { getUsBlindedInThatServer } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
+import { LinkPreviews } from '../util/linkPreviews';
+import { ReleasedFeatures } from '../util/releaseFeature';
+import { PropsForMessageWithoutConvoProps, lookupQuote } from '../state/ducks/conversations';
 
 function contentTypeSupported(type: string): boolean {
   const Chrome = GoogleChrome;
@@ -27,7 +29,6 @@ function contentTypeSupported(type: string): boolean {
  * You have to call msg.commit() once you are done with the handling of this message
  */
 async function copyFromQuotedMessage(
-  // tslint:disable-next-line: cyclomatic-complexity
   msg: MessageModel,
   quote?: SignalService.DataMessage.IQuote | null
 ): Promise<void> {
@@ -38,7 +39,7 @@ async function copyFromQuotedMessage(
 
   const quoteLocal: Quote = {
     attachments: attachments || null,
-    author: author,
+    author,
     id: _.toNumber(quoteId),
     text: null,
     referencedMessageNotFound: false,
@@ -48,26 +49,48 @@ async function copyFromQuotedMessage(
 
   const id = _.toNumber(quoteId);
 
-  // We always look for the quote by sentAt timestamp, for opengroups, closed groups and session chats
-  // this will return an array of sent message by id we have locally.
+  // First we try to look for the quote in memory
+  const stateConversations = window.inboxStore?.getState().conversations;
+  const { messages, quotes } = stateConversations;
+  let quotedMessage: PropsForMessageWithoutConvoProps | MessageModel | undefined = lookupQuote(
+    quotes,
+    messages,
+    id,
+    quote.author
+  )?.propsForMessage;
 
-  const collection = await Data.getMessagesBySentAt(id);
-  // we now must make sure this is the sender we expect
-  const found = collection.find(message => {
-    return Boolean(author === message.get('source'));
-  });
+  // If the quote is not found in memory, we try to find it in the DB
+  if (!quotedMessage) {
+    // We always look for the quote by sentAt timestamp, for opengroups, closed groups and session chats
+    // this will return an array of sent messages by id that we have locally.
+    const quotedMessagesCollection = await Data.getMessagesBySenderAndSentAt([
+      {
+        timestamp: id,
+        source: quote.author,
+      },
+    ]);
 
-  if (!found) {
+    if (quotedMessagesCollection?.length) {
+      quotedMessage = quotedMessagesCollection.at(0);
+    }
+  }
+
+  if (!quotedMessage) {
     window?.log?.warn(`We did not found quoted message ${id} with author ${author}.`);
     quoteLocal.referencedMessageNotFound = true;
     msg.set({ quote: quoteLocal });
     return;
   }
 
+  const isMessageModelType = Boolean((quotedMessage as MessageModel).get !== undefined);
+
   window?.log?.info(`Found quoted message id: ${id}`);
   quoteLocal.referencedMessageNotFound = false;
   // NOTE we send the entire body to be consistent with the other platforms
-  quoteLocal.text = found.get('body') || '';
+  quoteLocal.text =
+    (isMessageModelType
+      ? (quotedMessage as MessageModel).get('body')
+      : (quotedMessage as PropsForMessageWithoutConvoProps).text) || '';
 
   // no attachments, just save the quote with the body
   if (
@@ -81,7 +104,10 @@ async function copyFromQuotedMessage(
 
   firstAttachment.thumbnail = null;
 
-  const queryAttachments = found.get('attachments') || [];
+  const queryAttachments =
+    (isMessageModelType
+      ? (quotedMessage as MessageModel).get('attachments')
+      : (quotedMessage as PropsForMessageWithoutConvoProps).attachments) || [];
 
   if (queryAttachments.length > 0) {
     const queryFirst = queryAttachments[0];
@@ -95,7 +121,10 @@ async function copyFromQuotedMessage(
     }
   }
 
-  const queryPreview = found.get('preview') || [];
+  const queryPreview =
+    (isMessageModelType
+      ? (quotedMessage as MessageModel).get('preview')
+      : (quotedMessage as PropsForMessageWithoutConvoProps).previews) || [];
   if (queryPreview.length > 0) {
     const queryFirst = queryPreview[0];
     const { image } = queryFirst;
@@ -143,24 +172,9 @@ async function processProfileKeyNoCommit(
   }
 }
 
-/**
- * Mark the conversation as mentionedUs, if the content of the message matches our id in this conversation
- * @param ourIdInThisConversation can be a blinded or our naked id, depending on the case
- */
-function handleMentions(
-  message: MessageModel,
-  conversation: ConversationModel,
-  ourIdInThisConversation: string
-) {
-  const body = message.get('body');
-  if (body && body.indexOf(`@${ourIdInThisConversation}`) !== -1) {
-    conversation.set({ mentionedUs: true });
-  }
-}
-
 function updateReadStatus(message: MessageModel) {
   if (message.isExpirationTimerUpdate()) {
-    message.set({ unread: 0 });
+    message.set({ unread: READ_MESSAGE_STATE.read });
   }
 }
 
@@ -168,7 +182,7 @@ function handleSyncedReceiptsNoCommit(message: MessageModel, conversation: Conve
   // If the newly received message is from us, we assume that we've seen the messages up until that point
   const sentTimestamp = message.get('sent_at');
   if (sentTimestamp) {
-    conversation.markRead(sentTimestamp);
+    conversation.markConversationRead(sentTimestamp);
   }
 }
 
@@ -243,11 +257,6 @@ async function handleRegularMessage(
   // Expire timer updates are now explicit.
   // We don't handle an expire timer from a incoming message except if it is an ExpireTimerUpdate message.
 
-  const ourIdInThisConversation =
-    getUsBlindedInThatServer(conversation.id) || UserUtils.getOurPubKeyStrFromCache();
-
-  handleMentions(message, conversation, ourIdInThisConversation);
-
   if (type === 'incoming') {
     if (conversation.isPrivate()) {
       updateReadStatus(message);
@@ -259,9 +268,9 @@ async function handleRegularMessage(
       if (
         conversation.isIncomingRequest() &&
         isFirstRequestMessage &&
-        window.inboxStore?.getState().userConfig.hideMessageRequests
+        getHideMessageRequestBannerOutsideRedux()
       ) {
-        window.inboxStore?.dispatch(showMessageRequestBanner());
+        showMessageRequestBannerOutsideRedux();
       }
 
       // For edge case when messaging a client that's unable to explicitly send request approvals
@@ -276,20 +285,30 @@ async function handleRegularMessage(
       await conversation.setDidApproveMe(true);
     }
   } else if (type === 'outgoing') {
-    // we want to do this for all types of conversations, not just private chats
-    handleSyncedReceiptsNoCommit(message, conversation);
+    const userConfigLibsession = await ReleasedFeatures.checkIsUserConfigFeatureReleased();
 
-    if (conversation.isPrivate()) {
-      await conversation.setIsApproved(true);
+    if (!userConfigLibsession) {
+      // we want to do this for all types of conversations, not just private chats
+      handleSyncedReceiptsNoCommit(message, conversation);
+
+      if (conversation.isPrivate()) {
+        await conversation.setIsApproved(true);
+      }
     }
   }
 
   const conversationActiveAt = conversation.get('active_at');
-  if (!conversationActiveAt || (message.get('sent_at') || 0) > conversationActiveAt) {
+  if (
+    !conversationActiveAt ||
+    conversation.isHidden() ||
+    (message.get('sent_at') || 0) > conversationActiveAt
+  ) {
     conversation.set({
       active_at: message.get('sent_at'),
       lastMessage: message.getNotificationText(),
     });
+    // a new message was received for that conversation. If it was not it should not be hidden anymore
+    await conversation.unhideIfNeeded(false);
   }
 
   if (rawDataMessage.profileKey) {
@@ -318,11 +337,22 @@ async function handleExpirationTimerUpdateNoCommit(
       source,
       expireTimer,
     },
-    unread: 0, // mark the message as read.
+    unread: READ_MESSAGE_STATE.read, // mark the message as read.
   });
   conversation.set({ expireTimer });
 
   await conversation.updateExpireTimer(expireTimer, source, message.get('received_at'), {}, false);
+}
+
+function markConvoAsReadIfOutgoingMessage(conversation: ConversationModel, message: MessageModel) {
+  const isOutgoingMessage =
+    message.get('type') === 'outgoing' || message.get('direction') === 'outgoing';
+  if (isOutgoingMessage) {
+    const sentAt = message.get('sent_at') || message.get('serverTimestamp');
+    if (sentAt) {
+      conversation.markConversationRead(sentAt);
+    }
+  }
 }
 
 export async function handleMessageJob(
@@ -376,10 +406,8 @@ export async function handleMessageJob(
     //   call it after we have an id for this message, because the jobs refer back
     //   to their source message.
 
-    const unreadCount = await conversation.getUnreadCount();
-    conversation.set({ unreadCount });
     conversation.set({
-      active_at: Math.max(conversation.attributes.active_at, messageModel.get('sent_at') || 0),
+      active_at: Math.max(conversation.get('active_at'), messageModel.get('sent_at') || 0),
     });
     // this is a throttled call and will only run once every 1 sec at most
     conversation.updateLastMessage();
@@ -394,42 +422,15 @@ export async function handleMessageJob(
     // the only profile we don't update with what is coming here is ours,
     // as our profile is shared across our devices with a ConfigurationMessage
     if (messageModel.isIncoming() && regularDataMessage.profile) {
-      void appendFetchAvatarAndProfileJob(
-        sendingDeviceConversation,
-        regularDataMessage.profile,
+      await ProfileManager.updateProfileOfContact(
+        sendingDeviceConversation.id,
+        regularDataMessage.profile.displayName,
+        regularDataMessage.profile.profilePicture,
         regularDataMessage.profileKey
       );
     }
 
-    // even with all the warnings, I am very sus about if this is useful or not
-    // try {
-    //   // We go to the database here because, between the message save above and
-    //   // the previous line's trigger() call, we might have marked all messages
-    //   // unread in the database. This message might already be read!
-    //   const fetched = await getMessageById(messageModel.get('id'));
-
-    //   const previousUnread = messageModel.get('unread');
-
-    //   // Important to update message with latest read state from database
-    //   messageModel.merge(fetched);
-
-    //   if (previousUnread !== messageModel.get('unread')) {
-    //     window?.log?.warn(
-    //       'Caught race condition on new message read state! ' + 'Manually starting timers.'
-    //     );
-    //     // We call markRead() even though the message is already
-    //     // marked read because we need to start expiration
-    //     // timers, etc.
-    //     await messageModel.markRead(Date.now());
-    //   }
-    // } catch (error) {
-    //   window?.log?.warn(
-    //     'handleMessageJob: Message',
-    //     messageModel.idForLogging(),
-    //     'was deleted'
-    //   );
-    // }
-
+    markConvoAsReadIfOutgoingMessage(conversation, messageModel);
     if (messageModel.get('unread')) {
       conversation.throttledNotify(messageModel);
     }

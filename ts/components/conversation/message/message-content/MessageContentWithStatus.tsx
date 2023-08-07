@@ -11,7 +11,7 @@ import {
   isMessageSelectionMode,
 } from '../../../../state/selectors/conversations';
 import { Reactions } from '../../../../util/reactions';
-import { MessageAvatar } from '../message-content/MessageAvatar';
+import { MessageAvatar } from './MessageAvatar';
 import { MessageAuthorText } from './MessageAuthorText';
 import { MessageContent } from './MessageContent';
 import { MessageContextMenu } from './MessageContextMenu';
@@ -30,7 +30,6 @@ type Props = {
   dataTestId?: string;
   enableReactions: boolean;
 };
-// tslint:disable: use-simple-attributes
 
 const StyledMessageContentContainer = styled.div<{ direction: 'left' | 'right' }>`
   display: flex;
@@ -46,6 +45,9 @@ const StyledMessageContentContainer = styled.div<{ direction: 'left' | 'right' }
 
 const StyledMessageWithAuthor = styled.div<{ isIncoming: boolean }>`
   max-width: ${props => (props.isIncoming ? '100%' : 'calc(100% - 17px)')};
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
 `;
 
 export const MessageContentWithStatuses = (props: Props) => {
@@ -58,13 +60,13 @@ export const MessageContentWithStatuses = (props: Props) => {
 
   const onClickOnMessageOuterContainer = useCallback(
     (event: React.MouseEvent<HTMLDivElement>) => {
-      if (multiSelectMode && messageId) {
+      if (multiSelectMode && props?.messageId) {
         event.preventDefault();
         event.stopPropagation();
-        dispatch(toggleSelectedMessageId(messageId));
+        dispatch(toggleSelectedMessageId(props?.messageId));
       }
     },
-    [window.contextMenuShown, props?.messageId, multiSelectMode, props?.isDetailView]
+    [dispatch, props?.messageId, multiSelectMode]
   );
 
   const onDoubleClickReplyToMessage = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -82,12 +84,12 @@ export const MessageContentWithStatuses = (props: Props) => {
         void replyToMessage(messageId);
         currentSelection?.empty();
         e.preventDefault();
-        return;
       }
     }
   };
 
   const { messageId, ctxMenuID, isDetailView, dataTestId, enableReactions } = props;
+  const [popupReaction, setPopupReaction] = useState('');
 
   if (!contentProps) {
     return null;
@@ -97,8 +99,6 @@ export const MessageContentWithStatuses = (props: Props) => {
 
   const isPrivate = conversationType === 'private';
   const hideAvatar = isPrivate || direction === 'outgoing';
-
-  const [popupReaction, setPopupReaction] = useState('');
 
   const handleMessageReaction = async (emoji: string) => {
     await Reactions.sendMessageReaction(messageId, emoji);
@@ -148,6 +148,7 @@ export const MessageContentWithStatuses = (props: Props) => {
       {enableReactions && (
         <MessageReactions
           messageId={messageId}
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
           onClick={handleMessageReaction}
           popupReaction={popupReaction}
           setPopupReaction={setPopupReaction}

@@ -1,8 +1,10 @@
 import _ from 'lodash';
-import { Data } from '../../../ts/data/data';
-import { PartialRawMessage, RawMessage } from '../types/RawMessage';
+import { Data } from '../../data/data';
+import { Storage } from '../../util/storage';
+import { SnodeNamespaces } from '../apis/snode_api/namespaces';
 import { ContentMessage } from '../messages/outgoing';
 import { PubKey } from '../types';
+import { PartialRawMessage, RawMessage } from '../types/RawMessage';
 import { MessageUtils } from '../utils';
 
 // This is an abstraction for storing pending messages.
@@ -41,11 +43,17 @@ export class PendingMessageCache {
   public async add(
     destinationPubKey: PubKey,
     message: ContentMessage,
+    namespace: SnodeNamespaces,
     sentCb?: (message: any) => Promise<void>,
     isGroup = false
   ): Promise<RawMessage> {
     await this.loadFromDBIfNeeded();
-    const rawMessage = await MessageUtils.toRawMessage(destinationPubKey, message, isGroup);
+    const rawMessage = await MessageUtils.toRawMessage(
+      destinationPubKey,
+      message,
+      namespace,
+      isGroup
+    );
 
     // Does it exist in cache already?
     if (this.find(rawMessage)) {
@@ -67,7 +75,7 @@ export class PendingMessageCache {
 
     // Return if message doesn't exist in cache
     if (!this.find(message)) {
-      return;
+      return undefined;
     }
 
     // Remove item from cache and sync with database
@@ -133,9 +141,6 @@ export class PendingMessageCache {
     });
 
     const encodedPendingMessages = JSON.stringify(encodedCache) || '[]';
-    await Data.createOrUpdateItem({
-      id: 'pendingMessages',
-      value: encodedPendingMessages,
-    });
+    await Storage.put('pendingMessages', encodedPendingMessages);
   }
 }

@@ -4,9 +4,7 @@ import { v4 } from 'uuid';
 import { SignalService } from '../../../../protobuf';
 import { Constants } from '../../../../session';
 import { MessageRequestResponse } from '../../../../session/messages/outgoing/controlMessage/MessageRequestResponse';
-// tslint:disable: no-unused-expression
 
-// tslint:disable-next-line: max-func-body-length
 describe('MessageRequestResponse', () => {
   let message: MessageRequestResponse | undefined;
   it('correct ttl', () => {

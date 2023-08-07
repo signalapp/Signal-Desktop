@@ -1,9 +1,11 @@
-import React from 'react';
 import _ from 'lodash';
+import React from 'react';
 
-import classNames from 'classnames';
 import autoBind from 'auto-bind';
-
+import { blobToArrayBuffer } from 'blob-util';
+import loadImage from 'blueimp-load-image';
+import classNames from 'classnames';
+import styled from 'styled-components';
 import {
   CompositionBox,
   SendMessageType,
@@ -12,53 +14,48 @@ import {
 
 import { perfEnd, perfStart } from '../../session/utils/Performance';
 
-const DEFAULT_JPEG_QUALITY = 0.85;
-
 import { SessionMessagesListContainer } from './SessionMessagesListContainer';
 
 import { SessionFileDropzone } from './SessionFileDropzone';
 
-import { InConversationCallContainer } from '../calling/InConversationCallContainer';
-import { SplitViewContainer } from '../SplitViewContainer';
-import { LightboxGallery, MediaItemType } from '../lightbox/LightboxGallery';
 import { Data } from '../../data/data';
+import { markAllReadByConvoId } from '../../interactions/conversationInteractions';
+import { MAX_ATTACHMENT_FILESIZE_BYTES } from '../../session/constants';
 import { getConversationController } from '../../session/conversations';
 import { ToastUtils } from '../../session/utils';
 import {
+  ReduxConversationType,
+  SortedMessageModelProps,
   openConversationToSpecificMessage,
   quoteMessage,
-  ReduxConversationType,
   resetSelectedMessageIds,
-  SortedMessageModelProps,
   updateMentionsMembers,
 } from '../../state/ducks/conversations';
 import { updateConfirmModal } from '../../state/ducks/modalDialog';
-import { SessionTheme } from '../../themes/SessionTheme';
 import { addStagedAttachmentsInConversation } from '../../state/ducks/stagedAttachments';
+import { SessionTheme } from '../../themes/SessionTheme';
 import { MIME } from '../../types';
 import { AttachmentTypeWithPath } from '../../types/Attachment';
-import { arrayBufferToObjectURL, AttachmentUtil, GoogleChrome } from '../../util';
-import { SessionButtonColor } from '../basic/SessionButton';
-import { MessageView } from '../MainViewController';
-import { ConversationHeaderWithDetails } from './ConversationHeader';
-import { MessageDetail } from './message/message-item/MessageDetail';
-import { SessionRightPanelWithDetails } from './SessionRightPanel';
 import {
+  THUMBNAIL_CONTENT_TYPE,
   makeImageThumbnailBuffer,
   makeVideoScreenshot,
-  THUMBNAIL_CONTENT_TYPE,
 } from '../../types/attachments/VisualAttachment';
-import { blobToArrayBuffer } from 'blob-util';
-import { MAX_ATTACHMENT_FILESIZE_BYTES } from '../../session/constants';
-import { ConversationMessageRequestButtons } from './ConversationRequestButtons';
-import { ConversationRequestinfo } from './ConversationRequestInfo';
+import { AttachmentUtil, GoogleChrome, arrayBufferToObjectURL } from '../../util';
 import { getCurrentRecoveryPhrase } from '../../util/storage';
-import loadImage from 'blueimp-load-image';
-import { markAllReadByConvoId } from '../../interactions/conversationInteractions';
+import { MessageView } from '../MainViewController';
+import { SplitViewContainer } from '../SplitViewContainer';
+import { SessionButtonColor } from '../basic/SessionButton';
+import { InConversationCallContainer } from '../calling/InConversationCallContainer';
+import { LightboxGallery, MediaItemType } from '../lightbox/LightboxGallery';
+import { ConversationHeaderWithDetails } from './ConversationHeader';
+import { SessionRightPanelWithDetails } from './SessionRightPanel';
+import { NoMessageInConversation } from './SubtleNotification';
+import { MessageDetail } from './message/message-item/MessageDetail';
 
 import { SessionSpinner } from '../basic/SessionSpinner';
-import styled from 'styled-components';
-// tslint:disable: jsx-curly-spacing
+
+const DEFAULT_JPEG_QUALITY = 0.85;
 
 interface State {
   isDraggingFile: boolean;
@@ -247,7 +244,7 @@ export class SessionConversation extends React.Component<Props, State> {
       // return an empty message view
       return <MessageView />;
     }
-
+    // TODOLATER break showMessageDetails & selectionMode into it's own container component so we can use hooks to fetch relevant state from the store
     const selectionMode = selectedMessages.length > 0;
 
     return (
@@ -272,7 +269,8 @@ export class SessionConversation extends React.Component<Props, State> {
               {lightBoxOptions?.media && this.renderLightBox(lightBoxOptions)}
 
               <div className="conversation-messages">
-                <ConversationMessageRequestButtons />
+                <NoMessageInConversation />
+
                 <SplitViewContainer
                   top={<InConversationCallContainer />}
                   bottom={
@@ -283,14 +281,13 @@ export class SessionConversation extends React.Component<Props, State> {
                   }
                   disableTop={!this.props.hasOngoingCallWithFocusedConvo}
                 />
-
                 {isDraggingFile && <SessionFileDropzone />}
               </div>
 
-              <ConversationRequestinfo />
               <CompositionBox
                 sendMessage={this.sendMessageFn}
                 stagedAttachments={this.props.stagedAttachments}
+                // eslint-disable-next-line @typescript-eslint/no-misused-promises
                 onChoseAttachments={this.onChoseAttachments}
               />
             </div>
@@ -362,13 +359,12 @@ export class SessionConversation extends React.Component<Props, State> {
       return;
     }
 
-    // tslint:disable-next-line: prefer-for-of
     for (let i = 0; i < attachmentsFileList.length; i++) {
+      // eslint-disable-next-line no-await-in-loop
       await this.maybeAddAttachment(attachmentsFileList[i]);
     }
   }
 
-  // tslint:disable: max-func-body-length cyclomatic-complexity
   private async maybeAddAttachment(file: any) {
     if (!file) {
       return;

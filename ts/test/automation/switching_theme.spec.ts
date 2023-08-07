@@ -1,16 +1,9 @@
-import { expect, test } from '@playwright/test';
-import { beforeAllClean } from './setup/beforeEach';
+import { expect } from '@playwright/test';
 import { newUser } from './setup/new_user';
-import { openApp } from './setup/open';
 import { clickOnTestIdWithText } from './utilities/utils';
+import { sessionTestOneWindow } from './setup/sessionTest';
 
-test.beforeEach(beforeAllClean);
-
-// test.afterEach(() => forceCloseAllWindows(windows));
-
-test('Switch themes', async () => {
-  // Open App
-  const [windowA] = await openApp(1);
+sessionTestOneWindow('Switch themes', async ([windowA]) => {
   // Create User
   await newUser(windowA, 'Alice');
   // Check light theme colour is correct

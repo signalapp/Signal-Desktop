@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import useMount from 'react-use/lib/useMount';
 import styled, { CSSProperties } from 'styled-components';
 
 import { SessionRadio } from './SessionRadio';
 
 interface Props {
-  // tslint:disable: react-unused-props-and-state
   initialItem: string;
   items: Array<{ value: string; label: string }>;
   group: string;
@@ -32,9 +32,9 @@ export const SessionRadioGroup = (props: Props) => {
   const { items, group, initialItem, style } = props;
   const [activeItem, setActiveItem] = useState('');
 
-  useEffect(() => {
+  useMount(() => {
     setActiveItem(initialItem);
-  }, []);
+  });
 
   return (
     <StyledFieldSet id={group} style={style}>

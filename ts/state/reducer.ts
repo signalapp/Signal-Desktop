@@ -7,6 +7,7 @@ import { reducer as theme } from './ducks/theme';
 import { reducer as primaryColor } from './ducks/primaryColor';
 import { reducer as section, SectionStateType } from './ducks/section';
 import { defaultRoomReducer as defaultRooms, DefaultRoomsState } from './ducks/defaultRooms';
+import { ReduxSogsRoomInfos, SogsRoomInfoState } from './ducks/sogsRoomInfo';
 import { callReducer as call, CallStateType } from './ducks/call';
 
 import { defaultOnionReducer as onionPaths, OnionState } from './ducks/onion';
@@ -18,6 +19,7 @@ import {
   StagedAttachmentsStateType,
 } from './ducks/stagedAttachments';
 import { PrimaryColorStateType, ThemeStateType } from '../themes/constants/colors';
+import { settingsReducer, SettingsState } from './ducks/settings';
 
 export type StateType = {
   search: SearchStateType;
@@ -33,6 +35,8 @@ export type StateType = {
   timerOptions: TimerOptionsState;
   stagedAttachments: StagedAttachmentsStateType;
   call: CallStateType;
+  sogsRoomInfo: SogsRoomInfoState;
+  settings: SettingsState;
 };
 
 export const reducers = {
@@ -49,9 +53,10 @@ export const reducers = {
   timerOptions,
   stagedAttachments,
   call,
+  sogsRoomInfo: ReduxSogsRoomInfos.sogsRoomInfoReducer,
+  settings: settingsReducer,
 };
 
 // Making this work would require that our reducer signature supported AnyAction, not
 //   our restricted actions
-// @ts-ignore
 export const rootReducer = combineReducers(reducers);

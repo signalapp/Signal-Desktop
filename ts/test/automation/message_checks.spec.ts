@@ -1,8 +1,6 @@
-import { test } from '@playwright/test';
 import { sleepFor } from '../../session/utils/Promise';
-import { beforeAllClean } from './setup/beforeEach';
 import { newUser } from './setup/new_user';
-import { openApp } from './setup/open';
+import { sessionTestTwoWindows } from './setup/sessionTest';
 import { createContact } from './utilities/create_contact';
 import { sendMessage } from './utilities/message';
 import { replyTo } from './utilities/reply_message';
@@ -16,14 +14,10 @@ import {
   waitForLoadingAnimationToFinish,
   waitForMatchingText,
   waitForTestIdWithText,
-  waitForTextMessage
+  waitForTextMessage,
 } from './utilities/utils';
 
-
-test.beforeEach(beforeAllClean);
-
-test('Send image', async () => {
-  const [windowA, windowB] = await openApp(2);
+sessionTestTwoWindows('Send image', async ([windowA, windowB]) => {
   const [userA, userB] = await Promise.all([newUser(windowA, 'Alice'), newUser(windowB, 'Bob')]);
   const testMessage = `${userA.userName} sending image to ${userB.userName}`;
   const testReply = `${userB.userName} replying to image from ${userA.userName}`;
@@ -43,8 +37,7 @@ test('Send image', async () => {
   await replyTo(windowB, testMessage, testReply);
 });
 
-test('Send video', async () => {
-  const [windowA, windowB] = await openApp(2);
+sessionTestTwoWindows('Send video', async ([windowA, windowB]) => {
   const [userA, userB] = await Promise.all([newUser(windowA, 'Alice'), newUser(windowB, 'Bob')]);
   const testMessage = `${userA.userName} sending video to ${userB.userName}`;
   const testReply = `${userB.userName} replying to video from ${userA.userName}`;
@@ -63,8 +56,7 @@ test('Send video', async () => {
   await replyTo(windowB, testMessage, testReply);
 });
 
-test('Send document', async () => {
-  const [windowA, windowB] = await openApp(2);
+sessionTestTwoWindows('Send document', async ([windowA, windowB]) => {
   const [userA, userB] = await Promise.all([newUser(windowA, 'Alice'), newUser(windowB, 'Bob')]);
   const testMessage = `${userA.userName} sending document to ${userB.userName}`;
   const testReply = `${userB.userName} replying to document from ${userA.userName}`;
@@ -83,8 +75,7 @@ test('Send document', async () => {
   await replyTo(windowB, testMessage, testReply);
 });
 
-test('Send voice message', async () => {
-  const [windowA, windowB] = await openApp(2);
+sessionTestTwoWindows('Send voice message', async ([windowA, windowB]) => {
   const [userA, userB] = await Promise.all([newUser(windowA, 'Alice'), newUser(windowB, 'Bob')]);
   // const testReply = `${userB.userName} to ${userA.userName}`;
   await createContact(windowA, windowB, userA, userB);
@@ -103,8 +94,7 @@ test('Send voice message', async () => {
   await clickOnTestIdWithText(windowB, 'session-confirm-ok-button');
 });
 
-test('Send GIF', async () => {
-  const [windowA, windowB] = await openApp(2);
+sessionTestTwoWindows('Send GIF', async ([windowA, windowB]) => {
   const [userA, userB] = await Promise.all([newUser(windowA, 'Alice'), newUser(windowB, 'Bob')]);
   // const testReply = `${userB.userName} to ${userA.userName}`;
   await createContact(windowA, windowB, userA, userB);
@@ -116,12 +106,12 @@ test('Send GIF', async () => {
   await clickOnMatchingText(windowB, 'Click to download media');
 });
 
-test('Send long text', async () => {
-  const [windowA, windowB] = await openApp(2);
+sessionTestTwoWindows('Send long text', async ([windowA, windowB]) => {
   const [userA, userB] = await Promise.all([newUser(windowA, 'Alice'), newUser(windowB, 'Bob')]);
 
   const testReply = `${userB.userName} replying to long text message from ${userA.userName}`;
   const longText =
+    // eslint-disable-next-line max-len
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum quis lacinia mi. Praesent fermentum vehicula rhoncus. Aliquam ac purus lobortis, convallis nisi quis, pulvinar elit. Nam commodo eros in molestie lobortis. Donec at mattis est. In tempor ex nec velit mattis, vitae feugiat augue maximus. Nullam risus libero, bibendum et enim et, viverra viverra est. Suspendisse potenti. Sed ut nibh in sem rhoncus suscipit. Etiam tristique leo sit amet ullamcorper dictum. Suspendisse sollicitudin, lectus et suscipit eleifend, libero dui ultricies neque, non elementum nulla orci bibendum lorem. Suspendisse potenti. Aenean a tellus imperdiet, iaculis metus quis, pretium diam. Nunc varius vitae enim vestibulum interdum. In hac habitasse platea dictumst. Donec auctor sem quis eleifend fermentum. Vestibulum neque nulla, maximus non arcu gravida, condimentum euismod turpis. Cras ac mattis orci. Quisque ac enim pharetra felis sodales eleifend. Aliquam erat volutpat. Donec sit amet mollis nibh, eget feugiat ipsum. Integer vestibulum purus ac suscipit egestas. Duis vitae aliquet ligula.';
 
   await createContact(windowA, windowB, userA, userB);
@@ -133,8 +123,7 @@ test('Send long text', async () => {
   await replyTo(windowB, longText, testReply);
 });
 
-test('Unsend message', async () => {
-  const [windowA, windowB] = await openApp(2);
+sessionTestTwoWindows('Unsend message', async ([windowA, windowB]) => {
   const [userA, userB] = await Promise.all([newUser(windowA, 'Alice'), newUser(windowB, 'Bob')]);
   const unsendMessage = 'Testing unsend functionality';
   await createContact(windowA, windowB, userA, userB);
@@ -149,8 +138,7 @@ test('Unsend message', async () => {
   await waitForMatchingText(windowB, 'This message has been deleted');
 });
 
-test('Delete message', async () => {
-  const [windowA, windowB] = await openApp(2);
+sessionTestTwoWindows('Delete message', async ([windowA, windowB]) => {
   const [userA, userB] = await Promise.all([newUser(windowA, 'Alice'), newUser(windowB, 'Bob')]);
   const deletedMessage = 'Testing deletion functionality';
   await createContact(windowA, windowB, userA, userB);
@@ -165,31 +153,23 @@ test('Delete message', async () => {
   await waitForMatchingText(windowB, deletedMessage);
 });
 
-
-test('Check performance', async () => {
-  const [windowA, windowB] = await openApp(2);
+sessionTestTwoWindows('Check performance', async ([windowA, windowB]) => {
   const [userA, userB] = await Promise.all([newUser(windowA, 'Alice'), newUser(windowB, 'Bob')]);
-    // Create contact
-    await createContact(windowA, windowB, userA, userB);
-    const timesArray: Array<number> = [];
-  
-    let i
-    for (i = 1; i <= 10; i++) {
-      const timeMs = await measureSendingTime(windowA, i);
-      timesArray.push(timeMs);
-    }
-    console.log(timesArray)
-})
+  // Create contact
+  await createContact(windowA, windowB, userA, userB);
+  const timesArray: Array<number> = [];
 
-
-
-
-
-
+  let i;
+  for (i = 1; i <= 10; i++) {
+    // eslint-disable-next-line no-await-in-loop
+    const timeMs = await measureSendingTime(windowA, i);
+    timesArray.push(timeMs);
+  }
+  console.log(timesArray);
+});
 
 // *************** NEED TO WAIT FOR LINK PREVIEW FIX *************************************************
-// test('Send link and reply test', async () => {
-//   const [windowA, windowB] = await openApp(2);
+// sessionTestTwoWindows('Send link and reply test', async ([windowA, windowB]) => {
 //   const [userA, userB] = await Promise.all([newUser(windowA, 'Alice'), newUser(windowB, 'Bob')]);
 //   const testMessage = 'https://nerdlegame.com/';
 //   const testReply = `${userB.userName} replying to link from ${userA.userName}`;

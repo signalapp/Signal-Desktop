@@ -1,15 +1,19 @@
+/* eslint-disable no-await-in-loop */
+/* eslint-disable no-unused-expressions */
 import chai, { expect } from 'chai';
 import Sinon, { useFakeTimers } from 'sinon';
+import { noop } from 'lodash';
+import chaiAsPromised from 'chai-as-promised';
+
 import { Reactions } from '../../../../util/reactions';
 import { Data } from '../../../../data/data';
 import * as Storage from '../../../../util/storage';
 import { generateFakeIncomingPrivateMessage, stubWindowLog } from '../../../test-utils/utils';
 import { DEFAULT_RECENT_REACTS } from '../../../../session/constants';
-import { noop } from 'lodash';
+
 import { UserUtils } from '../../../../session/utils';
 import { SignalService } from '../../../../protobuf';
 import { MessageCollection } from '../../../../models/message';
-import chaiAsPromised from 'chai-as-promised';
 
 chai.use(chaiAsPromised as any);
 
@@ -60,9 +64,9 @@ describe('ReactionMessage', () => {
 
     expect(updatedMessage?.get('reacts'), 'original message should have reacts').to.not.be
       .undefined;
-    // tslint:disable: no-non-null-assertion
+
     expect(updatedMessage?.get('reacts')!['😄'], 'reacts should have 😄 key').to.not.be.undefined;
-    // tslint:disable: no-non-null-assertion
+
     expect(
       updatedMessage!.get('reacts')!['😄'].senders[0],
       'sender pubkey should match'
@@ -106,7 +110,7 @@ describe('ReactionMessage', () => {
     expect(reaction, 'no reaction should be returned since we are over the rate limit').to.be
       .undefined;
 
-    clock = useFakeTimers(Date.now());
+    clock = useFakeTimers({ now: Date.now(), shouldAdvanceTime: true });
 
     // Wait a miniute for the rate limit to clear
     clock.tick(1 * 60 * 1000);

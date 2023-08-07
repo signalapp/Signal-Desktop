@@ -22,7 +22,7 @@ export async function showDownloadUpdateDialog(
   const DOWNLOAD_BUTTON = 0;
   const LATER_BUTTON = 1;
   const options = {
-    type: 'info',
+    type: 'info' as const,
     buttons: [messages.autoUpdateDownloadButtonLabel, messages.autoUpdateLaterButtonLabel],
     title: messages.autoUpdateNewVersionTitle,
     message: messages.autoUpdateNewVersionMessage,
@@ -43,7 +43,7 @@ export async function showUpdateDialog(
   const RESTART_BUTTON = 0;
   const LATER_BUTTON = 1;
   const options = {
-    type: 'info',
+    type: 'info' as const,
     buttons: [messages.autoUpdateRestartButtonLabel, messages.autoUpdateLaterButtonLabel],
     title: messages.autoUpdateNewVersionTitle,
     message: messages.autoUpdateDownloadedMessage,
@@ -58,7 +58,7 @@ export async function showUpdateDialog(
 
 export async function showCannotUpdateDialog(mainWindow: BrowserWindow, messages: MessagesType) {
   const options = {
-    type: 'error',
+    type: 'error' as const,
     buttons: [messages.ok],
     title: messages.cannotUpdate,
     message: messages.cannotUpdateDetail,

@@ -1,8 +1,8 @@
 import React, { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { ed25519Str } from '../../session/onions/onionPath';
-import { forceNetworkDeletion } from '../../session/apis/snode_api/SNodeAPI';
-import { forceSyncConfigurationNowIfNeeded } from '../../session/utils/syncUtils';
+import { SnodeAPI } from '../../session/apis/snode_api/SNodeAPI';
+import { forceSyncConfigurationNowIfNeeded } from '../../session/utils/sync/syncUtils';
 import { updateConfirmModal, updateDeleteAccountModal } from '../../state/ducks/modalDialog';
 import { SpacerLG } from '../basic/Text';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
@@ -58,7 +58,7 @@ async function deleteEverythingAndNetworkData() {
     // a bit of duplicate code below, but it's easier to follow every case like that (helped with returns)
 
     // send deletion message to the network
-    const potentiallyMaliciousSnodes = await forceNetworkDeletion();
+    const potentiallyMaliciousSnodes = await SnodeAPI.forceNetworkDeletion();
     if (potentiallyMaliciousSnodes === null) {
       window?.log?.warn('DeleteAccount => forceNetworkDeletion failed');
 
@@ -211,7 +211,7 @@ export const DeleteAccountModal = () => {
    */
   const onClickCancelHandler = useCallback(() => {
     dispatch(updateDeleteAccountModal(null));
-  }, []);
+  }, [dispatch]);
 
   return (
     <SessionWrapperModal

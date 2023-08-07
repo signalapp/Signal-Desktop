@@ -1,14 +1,14 @@
-import _, { clone, compact, flatten, isString } from 'lodash';
-import { allowOnlyOneAtATime } from '../../../utils/Promise';
+import { clone, compact, flatten, isString } from 'lodash';
+import { OpenGroupData } from '../../../../data/opengroups';
 import {
   updateDefaultRooms,
   updateDefaultRoomsInProgress,
 } from '../../../../state/ducks/defaultRooms';
-import { getCompleteUrlFromRoom } from '../utils/OpenGroupUtils';
-import { parseOpenGroupV2 } from './JoinOpenGroupV2';
-import { getAllRoomInfos } from '../sogsv3/sogsV3RoomInfos';
-import { OpenGroupData } from '../../../../data/opengroups';
+import { UserGroupsWrapperActions } from '../../../../webworker/workers/browser/libsession_worker_interface';
 import { getConversationController } from '../../../conversations';
+import { allowOnlyOneAtATime } from '../../../utils/Promise';
+import { getAllRoomInfos } from '../sogsv3/sogsV3RoomInfos';
+import { parseOpenGroupV2 } from './JoinOpenGroupV2';
 
 export type OpenGroupRequestCommonType = {
   serverUrl: string;
@@ -36,11 +36,9 @@ export type OpenGroupV2InfoJoinable = OpenGroupV2Info & {
   base64Data?: string;
 };
 
-// tslint:disable: no-http-string
-
-export const legacyDefaultServerIP = '116.203.70.33';
-export const defaultServer = 'https://open.getsession.org';
-export const defaultServerHost = new window.URL(defaultServer).host;
+export const ourSogsLegacyIp = '116.203.70.33';
+export const ourSogsDomainName = 'open.getsession.org';
+export const ourSogsUrl = `https://${ourSogsDomainName}`;
 
 /**
  * This function returns true if the server url given matches any of the sogs run by Session.
@@ -66,7 +64,7 @@ export function isSessionRunOpenGroup(server: string): boolean {
     serverHost = lowerCased;
   }
 
-  const options = [legacyDefaultServerIP, defaultServerHost];
+  const options = [ourSogsLegacyIp, ourSogsDomainName];
   return options.includes(serverHost);
 }
 
@@ -92,8 +90,8 @@ export function hasExistingOpenGroup(server: string, roomId: string) {
   } catch (e) {
     try {
       serverUrl = new window.URL(`http://${serverLowerCase}`);
-    } catch (e) {
-      window.log.error(`hasExistingOpenGroup with ${serverNotLowerCased} with ${e.message}`);
+    } catch (err2) {
+      window.log.error(`hasExistingOpenGroup with ${serverNotLowerCased} with ${err2.message}`);
 
       return false;
     }
@@ -110,12 +108,12 @@ export function hasExistingOpenGroup(server: string, roomId: string) {
 
   // If the server is run by Session then include all configurations in case one of the alternate configurations is used
   if (isSessionRunOpenGroup(serverLowerCase)) {
-    serverOptions.add(defaultServerHost);
-    serverOptions.add(`http://${defaultServerHost}`);
-    serverOptions.add(`https://${defaultServerHost}`);
-    serverOptions.add(legacyDefaultServerIP);
-    serverOptions.add(`http://${legacyDefaultServerIP}`);
-    serverOptions.add(`https://${legacyDefaultServerIP}`);
+    serverOptions.add(ourSogsDomainName);
+    serverOptions.add(`http://${ourSogsDomainName}`);
+    serverOptions.add(`https://${ourSogsDomainName}`);
+    serverOptions.add(ourSogsLegacyIp);
+    serverOptions.add(`http://${ourSogsLegacyIp}`);
+    serverOptions.add(`https://${ourSogsLegacyIp}`);
   }
 
   const rooms = flatten(
@@ -139,9 +137,9 @@ export function hasExistingOpenGroup(server: string, roomId: string) {
 }
 
 const defaultServerPublicKey = 'a03c383cf63c3c4efe67acc52112a6dd734b3a946b9545f488aaa93da7991238';
-const defaultRoom = `${defaultServer}/main?public_key=${defaultServerPublicKey}`;
+const defaultRoom = `${ourSogsUrl}/main?public_key=${defaultServerPublicKey}`; // we want the https for our sogs, so we can avoid duplicates with http
 
-const loadDefaultRoomsSingle = () =>
+const loadDefaultRoomsSingle = (): Promise<Array<OpenGroupV2InfoJoinable>> =>
   allowOnlyOneAtATime('loadDefaultRoomsSingle', async () => {
     const roomInfos = parseOpenGroupV2(defaultRoom);
     if (roomInfos) {
@@ -152,16 +150,21 @@ const loadDefaultRoomsSingle = () =>
           return [];
         }
 
-        return roomsGot.map(room => {
-          return {
-            ...room,
-            completeUrl: getCompleteUrlFromRoom({
-              serverUrl: roomInfos.serverUrl,
-              serverPublicKey: roomInfos.serverPublicKey,
-              roomId: room.id,
-            }),
-          };
-        });
+        return Promise.all(
+          roomsGot.map(async room => {
+            // would be nice to get this returned by the API directly but we won't https://github.com/oxen-io/session-pysogs/issues/179
+            const completeUrl = await UserGroupsWrapperActions.buildFullUrlFromDetails(
+              roomInfos.serverUrl,
+              room.id,
+              roomInfos.serverPublicKey
+            );
+
+            return {
+              ...room,
+              completeUrl,
+            };
+          })
+        );
       } catch (e) {
         window?.log?.warn('loadDefaultRoomloadDefaultRoomssIfNeeded failed', e);
       }

@@ -1,15 +1,15 @@
-import React, { useCallback } from 'react';
-import { useDispatch } from 'react-redux';
 import LinkifyIt from 'linkify-it';
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import styled from 'styled-components';
 
 import { RenderTextCallbackType } from '../../../../types/Util';
 import { getEmojiSizeClass, SizeClassType } from '../../../../util/emoji';
+import { LinkPreviews } from '../../../../util/linkPreviews';
+import { showLinkVisitWarningDialog } from '../../../dialog/SessionConfirm';
 import { AddMentions } from '../../AddMentions';
 import { AddNewLines } from '../../AddNewLines';
 import { Emojify } from '../../Emojify';
-import { LinkPreviews } from '../../../../util/linkPreviews';
-import { showLinkVisitWarningDialog } from '../../../dialog/SessionConfirm';
-import styled from 'styled-components';
 
 const linkify = LinkifyIt();
 
@@ -30,7 +30,6 @@ export const renderTextDefault: RenderTextCallbackType = ({ text }) => <>{text}<
 
 const renderNewLines: RenderTextCallbackType = ({ text: textWithNewLines, key, isGroup }) => {
   return (
-    // tslint:disable-next-line: use-simple-attributes
     <AddNewLines
       key={key}
       text={textWithNewLines}
@@ -106,17 +105,6 @@ const Linkify = (props: LinkifyProps): JSX.Element => {
   const matchData = linkify.match(text) || [];
   let last = 0;
 
-  // disable click on <a> elements so clicking a message containing a link doesn't
-  // select the message. The link will still be opened in the browser.
-  const handleClick = useCallback((e: any) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    const url = e.target.href;
-
-    showLinkVisitWarningDialog(url, dispatch);
-  }, []);
-
   if (matchData.length === 0) {
     return renderNonLink({ text, key: 0, isGroup });
   }
@@ -130,8 +118,19 @@ const Linkify = (props: LinkifyProps): JSX.Element => {
     const { url, text: originalText } = match;
     const isLink = SUPPORTED_PROTOCOLS.test(url) && !LinkPreviews.isLinkSneaky(url);
     if (isLink) {
+      // disable click on <a> elements so clicking a message containing a link doesn't
+      // select the message. The link will still be opened in the browser.
+
       results.push(
-        <a key={count++} href={url} onClick={handleClick}>
+        <a
+          key={count++}
+          href={url}
+          onClick={e => {
+            e.preventDefault();
+            e.stopPropagation();
+            showLinkVisitWarningDialog(url, dispatch);
+          }}
+        >
           {originalText}
         </a>
       );

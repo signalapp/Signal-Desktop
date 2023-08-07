@@ -22,6 +22,15 @@ export function generateFakePubKeyStr(): string {
   return pubkeyString;
 }
 
+export function generateFakeClosedGroupV3PkStr(): string {
+  // Generates a mock pubkey for testing
+  const numBytes = PubKey.PUBKEY_LEN / 2 - 1;
+  const hexBuffer = crypto.randomBytes(numBytes).toString('hex');
+  const pubkeyString = `03${hexBuffer}`;
+
+  return pubkeyString;
+}
+
 export function generateFakeECKeyPair(): ECKeyPair {
   const pubkey = generateFakePubKey().toArray();
   const privKey = new Uint8Array(crypto.randomBytes(64));
@@ -31,13 +40,11 @@ export function generateFakeECKeyPair(): ECKeyPair {
 export function generateFakePubKeys(amount: number): Array<PubKey> {
   const numPubKeys = amount > 0 ? Math.floor(amount) : 0;
 
-  // tslint:disable-next-line: no-unnecessary-callback-wrapper
   return new Array(numPubKeys).fill(0).map(() => generateFakePubKey());
 }
 
 export function generateFakeSnode(): Snode {
   return {
-    // tslint:disable: insecure-random
     ip: `136.243.${Math.random() * 255}.${Math.random() * 255}`,
     port: 22116,
     pubkey_x25519: generateFakePubKeyStr(),

@@ -1,29 +1,34 @@
 import classNames from 'classnames';
-import React, { useCallback, useContext } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Data } from '../../../data/data';
-import { useConversationPropsById, useIsPinned } from '../../../hooks/useParamSelector';
-import { getUsBlindedInThatServer } from '../../../session/apis/open_group_api/sogsv3/knownBlindedkeys';
-import { CONVERSATION } from '../../../session/constants';
-import { UserUtils } from '../../../session/utils';
+import {
+  useActiveAt,
+  useConversationPropsById,
+  useHasUnread,
+  useIsForcedUnreadWithoutUnreadMsg,
+  useIsPinned,
+  useMentionedUs,
+  useUnreadCount,
+} from '../../../hooks/useParamSelector';
 import {
   openConversationToSpecificMessage,
   openConversationWithMessages,
 } from '../../../state/ducks/conversations';
-import { SectionType } from '../../../state/ducks/section';
 import { isSearching } from '../../../state/selectors/search';
-import { getFocusedSection } from '../../../state/selectors/section';
+import { getIsMessageSection } from '../../../state/selectors/section';
 import { Timestamp } from '../../conversation/Timestamp';
 import { SessionIcon } from '../../icon';
-import { ContextConversationId } from './ConversationListItem';
+import { useConvoIdFromContext } from './ConvoIdContext';
 import { UserItem } from './UserItem';
 
-const NotificationSettingIcon = (props: { isMessagesSection: boolean }) => {
-  const convoId = useContext(ContextConversationId);
+const NotificationSettingIcon = () => {
+  const isMessagesSection = useSelector(getIsMessageSection);
+  const convoId = useConvoIdFromContext();
   const convoSetting = useConversationPropsById(convoId)?.currentNotificationSetting;
 
-  if (!props.isMessagesSection) {
+  if (!isMessagesSection) {
     return null;
   }
 
@@ -60,36 +65,22 @@ const StyledConversationListItemIconWrapper = styled.div`
   flex-direction: row;
 `;
 
-function useHeaderItemProps(conversationId: string) {
-  const convoProps = useConversationPropsById(conversationId);
-  if (!convoProps) {
-    return null;
-  }
-  return {
-    isPinned: !!convoProps.isPinned,
-    mentionedUs: convoProps.mentionedUs || false,
-    unreadCount: convoProps.unreadCount || 0,
-    activeAt: convoProps.activeAt,
-  };
-}
+const PinIcon = () => {
+  const conversationId = useConvoIdFromContext();
 
-const ListItemIcons = () => {
-  const isMessagesSection = useSelector(getFocusedSection) === SectionType.Message;
-  const conversationId = useContext(ContextConversationId);
+  const isMessagesSection = useSelector(getIsMessageSection);
   const isPinned = useIsPinned(conversationId);
 
-  const pinIcon =
-    isMessagesSection && isPinned ? (
-      <SessionIcon
-        iconType="pin"
-        iconColor={'var(--conversation-tab-text-color)'}
-        iconSize="small"
-      />
-    ) : null;
+  return isMessagesSection && isPinned ? (
+    <SessionIcon iconType="pin" iconColor={'var(--conversation-tab-text-color)'} iconSize="small" />
+  ) : null;
+};
+
+const ListItemIcons = () => {
   return (
     <StyledConversationListItemIconWrapper>
-      {pinIcon}
-      <NotificationSettingIcon isMessagesSection={isMessagesSection} />
+      <PinIcon />
+      <NotificationSettingIcon />
     </StyledConversationListItemIconWrapper>
   );
 };
@@ -120,86 +111,88 @@ const MentionAtSymbol = styled.span`
   }
 `;
 
+/**
+ * When clicking on the `@` symbol of a conversation, we open the conversation to the first unread message tagging us (with the @pubkey syntax)
+ */
+async function openConvoToLastMention(
+  e: React.MouseEvent<HTMLSpanElement>,
+  conversationId: string
+) {
+  e.stopPropagation();
+  e.preventDefault();
+
+  // mousedown is invoked sooner than onClick, but for both right and left click
+  if (e.button === 0) {
+    const oldestMessageUnreadWithMention =
+      (await Data.getFirstUnreadMessageWithMention(conversationId)) || null;
+    if (oldestMessageUnreadWithMention) {
+      await openConversationToSpecificMessage({
+        conversationKey: conversationId,
+        messageIdToNavigateTo: oldestMessageUnreadWithMention,
+        shouldHighlightMessage: true,
+      });
+    } else {
+      window.log.info('cannot open to latest mention as no unread mention are found');
+      await openConversationWithMessages({
+        conversationKey: conversationId,
+        messageId: null,
+      });
+    }
+  }
+}
+
+const AtSymbol = ({ convoId }: { convoId: string }) => {
+  const hasMentionedUs = useMentionedUs(convoId);
+  const hasUnread = useHasUnread(convoId);
+
+  return hasMentionedUs && hasUnread ? (
+    <MentionAtSymbol
+      title="Open to latest mention"
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
+      onMouseDown={async e => openConvoToLastMention(e, convoId)}
+    >
+      @
+    </MentionAtSymbol>
+  ) : null;
+};
+
+const UnreadCount = ({ convoId }: { convoId: string }) => {
+  const unreadMsgCount = useUnreadCount(convoId);
+  const forcedUnread = useIsForcedUnreadWithoutUnreadMsg(convoId);
+
+  return unreadMsgCount > 0 || forcedUnread ? (
+    <p className="module-conversation-list-item__unread-count">{unreadMsgCount || ' '}</p>
+  ) : null;
+};
+
 export const ConversationListItemHeaderItem = () => {
-  const conversationId = useContext(ContextConversationId);
+  const conversationId = useConvoIdFromContext();
 
   const isSearchingMode = useSelector(isSearching);
 
-  const convoProps = useHeaderItemProps(conversationId);
-
-  const openConvoToLastMention = useCallback(
-    async (e: React.MouseEvent<HTMLDivElement>) => {
-      e.stopPropagation();
-      e.preventDefault();
-
-      // mousedown is invoked sooner than onClick, but for both right and left click
-      if (e.button === 0) {
-        const usInThatConversation =
-          getUsBlindedInThatServer(conversationId) || UserUtils.getOurPubKeyStrFromCache();
-
-        const oldestMessageUnreadWithMention =
-          (await Data.getFirstUnreadMessageWithMention(conversationId, usInThatConversation)) ||
-          null;
-        if (oldestMessageUnreadWithMention) {
-          await openConversationToSpecificMessage({
-            conversationKey: conversationId,
-            messageIdToNavigateTo: oldestMessageUnreadWithMention,
-            shouldHighlightMessage: true,
-          });
-        } else {
-          window.log.info('cannot open to latest mention as no unread mention are found');
-          await openConversationWithMessages({
-            conversationKey: conversationId,
-            messageId: null,
-          });
-        }
-      }
-    },
-    [conversationId]
-  );
-
-  if (!convoProps) {
-    return null;
-  }
-  const { unreadCount, mentionedUs, activeAt } = convoProps;
-
-  let atSymbol = null;
-  let unreadCountDiv = null;
-  if (unreadCount > 0) {
-    atSymbol = mentionedUs ? (
-      <MentionAtSymbol title="Open to latest mention" onMouseDown={openConvoToLastMention}>
-        @
-      </MentionAtSymbol>
-    ) : null;
-    unreadCountDiv = (
-      <p className="module-conversation-list-item__unread-count">
-        {unreadCount > CONVERSATION.MAX_UNREAD_COUNT
-          ? `${CONVERSATION.MAX_UNREAD_COUNT}+`
-          : unreadCount}
-      </p>
-    );
-  }
+  const hasUnread = useHasUnread(conversationId);
+  const activeAt = useActiveAt(conversationId);
 
   return (
     <div className="module-conversation-list-item__header">
       <div
         className={classNames(
           'module-conversation-list-item__header__name',
-          unreadCount > 0 ? 'module-conversation-list-item__header__name--with-unread' : null
+          hasUnread ? 'module-conversation-list-item__header__name--with-unread' : null
         )}
       >
         <UserItem />
       </div>
       <ListItemIcons />
 
-      {unreadCountDiv}
-      {atSymbol}
+      <UnreadCount convoId={conversationId} />
+      <AtSymbol convoId={conversationId} />
 
       {!isSearchingMode && (
         <div
           className={classNames(
             'module-conversation-list-item__header__date',
-            unreadCount > 0 ? 'module-conversation-list-item__header__date--has-unread' : null
+            hasUnread ? 'module-conversation-list-item__header__date--has-unread' : null
           )}
         >
           <Timestamp timestamp={activeAt} isConversationListItem={true} momentFromNow={true} />

@@ -8,6 +8,7 @@ import { NotificationBubble } from './notification-bubble/NotificationBubble';
 import { ReadableMessage } from './ReadableMessage';
 import { arrayContainsUsOnly } from '../../../../models/message';
 import { useConversationsUsernameWithQuoteOrFullPubkey } from '../../../../hooks/useParamSelector';
+import { assertUnreachable } from '../../../../types/sqlSharedTypes';
 
 // This component is used to display group updates in the conversation view.
 
@@ -49,9 +50,9 @@ const ChangeItemLeft = (left: Array<string>): string => {
   return window.i18n(leftKey, [names.join(', ')]);
 };
 
-// tslint:disable-next-line: cyclomatic-complexity
 const ChangeItem = (change: PropsForGroupUpdateType): string => {
-  switch (change.type) {
+  const { type } = change;
+  switch (type) {
     case 'name':
       return window.i18n('titleIsNow', [change.newName || '']);
     case 'add':
@@ -66,7 +67,8 @@ const ChangeItem = (change: PropsForGroupUpdateType): string => {
     case 'general':
       return window.i18n('updatedTheGroup');
     default:
-      throw new Error('Missing case error');
+      assertUnreachable(type, `ChangeItem: Missing case error "${type}"`);
+      return '';
   }
 };
 

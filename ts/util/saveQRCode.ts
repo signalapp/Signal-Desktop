@@ -9,7 +9,6 @@ export function saveQRCode(
 ): void {
   const qrSVG = document.querySelector('.qr-image svg');
   if (qrSVG) {
-    // tslint:disable-next-line: no-http-string
     qrSVG.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
     qrSVG.setAttribute('width', width);
     qrSVG.setAttribute('height', height);

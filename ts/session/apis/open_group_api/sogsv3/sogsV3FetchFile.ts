@@ -1,5 +1,5 @@
 import AbortController, { AbortSignal } from 'abort-controller';
-import { isUndefined, toNumber } from 'lodash';
+import { isFinite, isUndefined, toNumber } from 'lodash';
 import {
   OpenGroupData,
   OpenGroupV2Room,
@@ -7,13 +7,13 @@ import {
 } from '../../../../data/opengroups';
 import { MIME } from '../../../../types';
 import { processNewAttachment } from '../../../../types/MessageAttachment';
-import { callUtilsWorker } from '../../../../webworker/workers/util_worker_interface';
+import { roomHasBlindEnabled } from '../../../../types/sqlSharedTypes';
+import { callUtilsWorker } from '../../../../webworker/workers/browser/util_worker_interface';
 import { getConversationController } from '../../../conversations';
 import { OnionSending } from '../../../onions/onionSend';
 import { allowOnlyOneAtATime } from '../../../utils/Promise';
 import { OpenGroupPollingUtils } from '../opengroupV2/OpenGroupPollingUtils';
 import { getOpenGroupV2ConversationId } from '../utils/OpenGroupUtils';
-import { roomHasBlindEnabled } from './sogsV3Capabilities';
 
 export async function fetchBinaryFromSogsWithOnionV4(sendOptions: {
   serverUrl: string;
@@ -118,7 +118,7 @@ export async function sogsV3FetchPreviewAndSaveIt(roomInfos: OpenGroupV2RoomWith
     return;
   }
   existingImageId = convo.get('avatarImageId');
-  if (existingImageId !== imageIdNumber && imageIdNumber) {
+  if (existingImageId !== imageIdNumber && isFinite(imageIdNumber)) {
     // we have to trigger an update
     // write the file to the disk (automatically encrypted),
 

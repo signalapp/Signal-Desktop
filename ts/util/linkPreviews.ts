@@ -1,7 +1,6 @@
 /* global URL */
-
-import { compact, isEmpty, isNumber, range } from 'lodash';
 import nodeUrl from 'url';
+import { compact, isEmpty, isNumber, range } from 'lodash';
 import LinkifyIt from 'linkify-it';
 
 const linkify = LinkifyIt();
@@ -79,6 +78,7 @@ const VALID_URI_CHARACTERS = new Set([
   '_',
   '~',
 ]);
+// eslint-disable-next-line prefer-regex-literals
 const ASCII_PATTERN = new RegExp('[\\u0020-\\u007F]', 'g');
 const MAX_HREF_LENGTH = 2 ** 12;
 

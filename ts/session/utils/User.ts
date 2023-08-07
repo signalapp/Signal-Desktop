@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { UserUtils } from '.';
-import { Data } from '../../../ts/data/data';
+import { Data } from '../../data/data';
 import { PubKey } from '../types';
 import { fromHexToArray, toHex } from './String';
 import { getConversationController } from '../conversations';
@@ -20,6 +20,7 @@ export type ByteKeyPair = {
 
 /**
  * Check if this pubkey is us, using the cache.
+ * This does not check for us blinded. To check for us or us blinded, use isUsAnySogsFromCache()
  * Throws an error if our pubkey is not set
  */
 export function isUsFromCache(pubKey: string | PubKey | undefined): boolean {

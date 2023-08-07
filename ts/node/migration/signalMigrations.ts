@@ -1,6 +1,6 @@
-import * as BetterSqlite3 from 'better-sqlite3';
-import { isNumber } from 'lodash';
 import path from 'path';
+import * as BetterSqlite3 from '@signalapp/better-sqlite3';
+import { isNumber } from 'lodash';
 
 import {
   ATTACHMENT_DOWNLOADS_TABLE,
@@ -15,14 +15,15 @@ import {
 import { getAppRootPath } from '../getRootPath';
 import { updateSessionSchema } from './sessionMigrations';
 
-// tslint:disable: no-console quotemark non-literal-fs-path one-variable-per-declaration
+// eslint:disable: quotemark non-literal-fs-path one-variable-per-declaration
 const openDbOptions = {
-  // tslint:disable-next-line: no-constant-condition
+  // eslint-disable-next-line no-constant-condition
   verbose: false ? console.log : undefined,
 
   nativeBinding: path.join(
     getAppRootPath(),
     'node_modules',
+    '@signalapp',
     'better-sqlite3',
     'build',
     'Release',
@@ -30,7 +31,7 @@ const openDbOptions = {
   ),
 };
 
-// tslint:disable: no-console one-variable-per-declaration
+// eslint:disable: one-variable-per-declaration
 
 function updateToSchemaVersion1(currentVersion: number, db: BetterSqlite3.Database) {
   if (currentVersion >= 1) {
@@ -124,7 +125,6 @@ function updateToSchemaVersion1(currentVersion: number, db: BetterSqlite3.Databa
     db.pragma('user_version = 1');
   })();
 
-  // tslint:disable: no-console
   console.log('updateToSchemaVersion1: success!');
 }
 
@@ -343,7 +343,7 @@ function updateToSchemaVersion7(currentVersion: number, db: BetterSqlite3.Databa
           number
         ) WHERE number IS NOT NULL;
         INSERT INTO sessions(id, number, json)
-      SELECT "+" || id, number, json FROM sessions_old;
+      SELECT id, number, json FROM sessions_old;
         DROP TABLE sessions_old;
       `);
 
@@ -527,7 +527,7 @@ const SCHEMA_VERSIONS = [
   updateToSchemaVersion11,
 ];
 
-export function updateSchema(db: BetterSqlite3.Database) {
+export async function updateSchema(db: BetterSqlite3.Database) {
   const sqliteVersion = getSQLiteVersion(db);
   const sqlcipherVersion = getSQLCipherVersion(db);
   const userVersion = getUserVersion(db);
@@ -545,7 +545,7 @@ export function updateSchema(db: BetterSqlite3.Database) {
     const runSchemaUpdate = SCHEMA_VERSIONS[index];
     runSchemaUpdate(schemaVersion, db);
   }
-  updateSessionSchema(db);
+  await updateSessionSchema(db);
 }
 
 function migrateSchemaVersion(db: BetterSqlite3.Database) {
@@ -586,6 +586,7 @@ export function openAndMigrateDatabase(filePath: string, key: string) {
 
   // First, we try to open the database without any cipher changes
   try {
+    // eslint-disable-next-line new-cap
     db = new (BetterSqlite3 as any).default(filePath, openDbOptions);
 
     keyDatabase(db, key);
@@ -598,7 +599,7 @@ export function openAndMigrateDatabase(filePath: string, key: string) {
     if (db) {
       db.close();
     }
-    console.log('migrateDatabase: Migration without cipher change failed', error);
+    console.log('migrateDatabase: Migration without cipher change failed', error.message);
   }
 
   // If that fails, we try to open the database with 3.x compatibility to extract the
@@ -606,6 +607,7 @@ export function openAndMigrateDatabase(filePath: string, key: string) {
 
   let db1;
   try {
+    // eslint-disable-next-line new-cap
     db1 = new (BetterSqlite3 as any).default(filePath, openDbOptions);
     keyDatabase(db1, key);
 
@@ -624,6 +626,7 @@ export function openAndMigrateDatabase(filePath: string, key: string) {
   //   migrate to the latest ciphers after we've modified the defaults.
   let db2;
   try {
+    // eslint-disable-next-line new-cap
     db2 = new (BetterSqlite3 as any).default(filePath, openDbOptions);
     keyDatabase(db2, key);
 

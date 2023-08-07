@@ -1,12 +1,12 @@
+import { map, toNumber } from 'lodash';
+
 import { EnvelopePlus } from './types';
 import { StringUtils } from '../session/utils';
-import _ from 'lodash';
-import { Data, UnprocessedParameter } from '../data/data';
+import { Data } from '../data/data';
+import { UnprocessedParameter } from '../types/sqlSharedTypes';
 
-export async function removeFromCache(envelope: EnvelopePlus) {
-  const { id } = envelope;
-  // window?.log?.info(`removing from cache envelope: ${id}`);
-  return Data.removeUnprocessed(id);
+export async function removeFromCache(envelope: Pick<EnvelopePlus, 'id'>) {
+  return Data.removeUnprocessed(envelope.id);
 }
 
 export async function addToCache(
@@ -15,7 +15,6 @@ export async function addToCache(
   messageHash: string
 ) {
   const { id } = envelope;
-  // window?.log?.info(`adding to cache envelope: ${id}`);
 
   const encodedEnvelope = StringUtils.decode(plaintext, 'base64');
   const data: UnprocessedParameter = {
@@ -30,10 +29,10 @@ export async function addToCache(
   if (envelope.senderIdentity) {
     data.senderIdentity = envelope.senderIdentity;
   }
-  return Data.saveUnprocessed(data);
+  await Data.saveUnprocessed(data);
 }
 
-async function fetchAllFromCache(): Promise<Array<any>> {
+async function fetchAllFromCache(): Promise<Array<UnprocessedParameter>> {
   const count = await Data.getUnprocessedCount();
 
   if (count > 1500) {
@@ -42,30 +41,26 @@ async function fetchAllFromCache(): Promise<Array<any>> {
     return [];
   }
 
-  const items = await Data.getAllUnprocessed();
-  return items;
+  return Data.getAllUnprocessed();
 }
 
-export async function getAllFromCache() {
-  window?.log?.info('getAllFromCache');
-  const items = await fetchAllFromCache();
-
-  window?.log?.info('getAllFromCache loaded', items.length, 'saved envelopes');
-
+async function increaseAttemptsOrRemove(
+  items: Array<UnprocessedParameter>
+): Promise<Array<UnprocessedParameter>> {
   return Promise.all(
-    _.map(items, async (item: any) => {
-      const attempts = _.toNumber(item.attempts || 0) + 1;
+    map(items, async item => {
+      const attempts = toNumber(item.attempts || 0) + 1;
 
       try {
         if (attempts >= 10) {
-          window?.log?.warn('getAllFromCache final attempt for envelope', item.id);
+          window?.log?.warn('increaseAttemptsOrRemove final attempt for envelope', item.id);
           await Data.removeUnprocessed(item.id);
         } else {
           await Data.updateUnprocessedAttempts(item.id, attempts);
         }
       } catch (error) {
         window?.log?.error(
-          'getAllFromCache error updating item after load:',
+          'increaseAttemptsOrRemove error updating item after load:',
           error && error.stack ? error.stack : error
         );
       }
@@ -73,6 +68,14 @@ export async function getAllFromCache() {
       return item;
     })
   );
+}
+
+export async function getAllFromCache() {
+  window?.log?.info('getAllFromCache');
+  const items = await fetchAllFromCache();
+
+  window?.log?.info('getAllFromCache loaded', items.length, 'saved envelopes');
+  return increaseAttemptsOrRemove(items);
 }
 
 export async function getAllFromCacheForSource(source: string) {
@@ -85,45 +88,30 @@ export async function getAllFromCacheForSource(source: string) {
 
   window?.log?.info('getAllFromCacheForSource loaded', itemsFromSource.length, 'saved envelopes');
 
-  return Promise.all(
-    _.map(items, async (item: any) => {
-      const attempts = _.toNumber(item.attempts || 0) + 1;
-
-      try {
-        if (attempts >= 10) {
-          window?.log?.warn('getAllFromCache final attempt for envelope', item.id);
-          await Data.removeUnprocessed(item.id);
-        } else {
-          await Data.updateUnprocessedAttempts(item.id, attempts);
-        }
-      } catch (error) {
-        window?.log?.error(
-          'getAllFromCache error updating item after load:',
-          error && error.stack ? error.stack : error
-        );
-      }
-
-      return item;
-    })
-  );
+  return increaseAttemptsOrRemove(itemsFromSource);
 }
 
-export async function updateCache(envelope: EnvelopePlus, plaintext: ArrayBuffer): Promise<void> {
-  const { id } = envelope;
+export async function updateCacheWithDecryptedContent(
+  envelope: Pick<EnvelopePlus, 'id' | 'senderIdentity' | 'source'>,
+  plaintext: ArrayBuffer
+): Promise<void> {
+  const { id, senderIdentity, source } = envelope;
   const item = await Data.getUnprocessedById(id);
   if (!item) {
-    window?.log?.error(`updateCache: Didn't find item ${id} in cache to update`);
+    window?.log?.error(
+      `updateCacheWithDecryptedContent: Didn't find item ${id} in cache to update`
+    );
     return;
   }
 
-  item.source = envelope.source;
+  item.source = source;
 
   // For medium-size closed groups
   if (envelope.senderIdentity) {
-    item.senderIdentity = envelope.senderIdentity;
+    item.senderIdentity = senderIdentity;
   }
 
   item.decrypted = StringUtils.decode(plaintext, 'base64');
 
-  return Data.updateUnprocessedWithData(item.id, item);
+  await Data.updateUnprocessedWithData(item.id, item);
 }

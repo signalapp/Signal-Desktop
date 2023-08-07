@@ -1,9 +1,10 @@
-import { ElementHandle } from '@playwright/test';
-import { Page } from 'playwright-core';
+/* eslint-disable no-useless-escape */
+/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable no-await-in-loop */
+import { ElementHandle, Page } from '@playwright/test';
 import { sleepFor } from '../../../session/utils/Promise';
 import { DataTestId, loaderType, Strategy } from '../types/testing';
 import { sendMessage } from './message';
-// tslint:disable: no-console
 
 // WAIT FOR FUNCTIONS
 
@@ -12,7 +13,7 @@ export async function waitForTestIdWithText(window: Page, dataTestId: string, te
   if (text) {
     // " =>  \\\"
     /* prettier-ignore */
-    // tslint:disable-next-line: quotemark
+
     const escapedText = text.replace(/"/g, '\\\"');
 
     builtSelector += `:has-text("${escapedText}")`;
@@ -30,7 +31,7 @@ export async function waitForElement(
   window: Page,
   strategy: Strategy,
   selector: string,
-  maxWaitMs?: number, 
+  maxWaitMs?: number,
   text?: string
 ) {
   const builtSelector = !text
@@ -45,7 +46,7 @@ export async function waitForTextMessage(window: Page, text: string, maxWait?: n
   if (text) {
     // " =>  \\\"
     /* prettier-ignore */
-    // tslint:disable-next-line: quotemark
+
     const escapedText = text.replace(/"/g, '\\\"');
 
     builtSelector += `:has-text("${escapedText}")`;
@@ -71,6 +72,37 @@ export async function waitForMatchingText(window: Page, text: string, maxWait?: 
   console.info(`got matchingText: ${text}`);
 }
 
+export async function waitForMatchingPlaceholder(
+  window: Page,
+  dataTestId: string,
+  placeholder: string,
+  maxWait: number = 30000
+) {
+  let found = false;
+  const start = Date.now();
+  console.info(`waitForMatchingPlaceholder: ${placeholder} with datatestId: ${dataTestId}`);
+
+  do {
+    try {
+      const elem = await waitForElement(window, 'data-testid', dataTestId);
+      const elemPlaceholder = await elem.getAttribute('placeholder');
+      if (elemPlaceholder === placeholder) {
+        console.info(
+          `waitForMatchingPlaceholder foudn matching element with placeholder: "${placeholder}"`
+        );
+
+        found = true;
+      }
+    } catch (e) {
+      await sleepFor(1000, true);
+      console.info(`waitForMatchingPlaceholder failed with ${e.message}, retrying in 1s`);
+    }
+  } while (!found && Date.now() - start <= maxWait);
+
+  if (!found) {
+    throw new Error(`Failed to find datatestid:"${dataTestId}" with placeholder: "${placeholder}"`);
+  }
+}
 export async function waitForLoadingAnimationToFinish(
   window: Page,
   loader: loaderType,
@@ -83,8 +115,8 @@ export async function waitForLoadingAnimationToFinish(
   do {
     try {
       loadingAnimation = await waitForElement(window, 'data-testid', `${loader}`, 100);
-      await sleepFor(100);
-      console.info('loading-animation was found, waiting for it to be gone');
+      await sleepFor(500);
+      console.info(`${loader} was found, waiting for it to be gone`);
     } catch (e) {
       loadingAnimation = undefined;
     }
@@ -98,23 +130,23 @@ export async function checkPathLight(window: Page, maxWait?: number) {
   const waitPerLoop = 100;
   let start = Date.now();
 
-  pathLight = await waitForElement(window, 'data-testid', "path-light-container", maxWait);
+  pathLight = await waitForElement(window, 'data-testid', 'path-light-container', maxWait);
   let pathColor = await pathLight.getAttribute('color');
 
-  while(pathColor === 'var(--button-path-error-color)') {
-    await sleepFor(waitPerLoop) 
-    pathLight = await waitForElement(window, 'data-testid', "path-light-container", maxWait);
+  while (pathColor === 'var(--button-path-error-color)') {
+    await sleepFor(waitPerLoop);
+    pathLight = await waitForElement(window, 'data-testid', 'path-light-container', maxWait);
     pathColor = await pathLight.getAttribute('color');
-    start += waitPerLoop 
-    if(Date.now() - start >= (maxWaitTime / 2)) {
-      console.log('Path building...')
+    start += waitPerLoop;
+    if (Date.now() - start >= maxWaitTime / 2) {
+      console.log('Path building...');
     }
 
-    if(Date.now() - start >= maxWaitTime) { 
-      throw new Error('Timed out waiting for path')
+    if (Date.now() - start >= maxWaitTime) {
+      throw new Error('Timed out waiting for path');
     }
   }
-  console.log('Path built correctly, Yay!', pathColor)
+  console.log('Path built correctly, Yay!', pathColor);
 }
 
 // ACTIONS
@@ -128,7 +160,6 @@ export async function clickOnElement(
   const builtSelector = `css=[${strategy}=${selector}]`;
   await window.waitForSelector(builtSelector, { timeout: maxWait });
   await window.click(builtSelector);
-  return;
 }
 
 export async function clickOnMatchingText(window: Page, text: string, rightButton = false) {
@@ -140,15 +171,16 @@ export async function clickOnTestIdWithText(
   window: Page,
   dataTestId: DataTestId,
   text?: string,
-  rightButton?: boolean
+  rightButton?: boolean,
+  maxWait?: number
 ) {
-  console.info(`clickOnTestIdWithText with testId:${dataTestId} and text:${text ? text : 'none'}`);
+  console.info(`clickOnTestIdWithText with testId:${dataTestId} and text:${text || 'none'}`);
 
   const builtSelector = !text
     ? `css=[data-testid=${dataTestId}]`
     : `css=[data-testid=${dataTestId}]:has-text("${text}")`;
 
-  await window.waitForSelector(builtSelector);
+  await window.waitForSelector(builtSelector, { timeout: maxWait });
   return window.click(builtSelector, rightButton ? { button: 'right' } : undefined);
 }
 
@@ -177,7 +209,7 @@ export async function doesTextIncludeString(window: Page, dataTestId: DataTestId
   if (builtSelector) {
     console.info('Text found:', text);
   } else {
-    throw new Error(`Text not found: , ${text}`);
+    throw new Error(`Text not found: "${text}"`);
   }
 }
 
@@ -213,18 +245,17 @@ export async function hasTextElementBeenDeleted(window: Page, text: string, maxW
 }
 
 export async function hasTextElementBeenDeletedNew(window: Page, text: string, maxWait?: number) {
-  const textElement = await waitForElement(window, ':has-text', text, maxWait)
+  const textElement = await waitForElement(window, ':has-text', text, maxWait);
   try {
-    if(textElement) {
-      await sleepFor(100)
+    if (textElement) {
+      await sleepFor(100);
     } else {
-      console.log('Element has been deleted, congratulations')
+      console.log('Element has been deleted, congratulations');
     }
-  } catch(e) {
+  } catch (e) {
     throw new Error('Element not defined');
   }
 }
-
 
 export async function hasElementPoppedUpThatShouldnt(
   window: Page,
@@ -244,14 +275,14 @@ export async function hasElementPoppedUpThatShouldnt(
 }
 
 export async function measureSendingTime(window: Page, messageNumber: number) {
-  const message = `Test-message`
-  const timeStart = Date.now()
-  
-  await sendMessage(window, message)
-  
-  const timeEnd = Date.now()
-  const timeMs = timeEnd - timeStart
+  const message = `Test-message`;
+  const timeStart = Date.now();
+
+  await sendMessage(window, message);
+
+  const timeEnd = Date.now();
+  const timeMs = timeEnd - timeStart;
 
   console.log(`Message ${messageNumber}: ${timeMs}`);
-  return timeMs
+  return timeMs;
 }

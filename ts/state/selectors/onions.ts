@@ -2,7 +2,7 @@ import { createSelector } from '@reduxjs/toolkit';
 
 import { StateType } from '../reducer';
 import { OnionState } from '../ducks/onion';
-import { SectionType } from '../../state/ducks/section';
+import { SectionType } from '../ducks/section';
 
 export const getOnionPaths = (state: StateType): OnionState => state.onionPaths;
 

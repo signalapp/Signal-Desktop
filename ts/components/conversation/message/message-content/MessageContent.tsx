@@ -1,22 +1,22 @@
 import classNames from 'classnames';
+import { isEmpty } from 'lodash';
 import moment from 'moment';
 import React, { createContext, useCallback, useContext, useLayoutEffect, useState } from 'react';
 import { InView } from 'react-intersection-observer';
 import { useSelector } from 'react-redux';
-import { isEmpty } from 'lodash';
+import styled, { css, keyframes } from 'styled-components';
 import { MessageModelType, MessageRenderingProps } from '../../../../models/messageType';
+import { useMessageIsDeleted } from '../../../../state/selectors';
 import {
   getMessageContentSelectorProps,
-  getMessageTextProps,
   getQuotedMessageToAnimate,
   getShouldHighlightMessage,
 } from '../../../../state/selectors/conversations';
+import { ScrollToLoadedMessageContext } from '../../SessionMessagesListContainer';
 import { MessageAttachment } from './MessageAttachment';
 import { MessageLinkPreview } from './MessageLinkPreview';
 import { MessageQuote } from './MessageQuote';
 import { MessageText } from './MessageText';
-import { ScrollToLoadedMessageContext } from '../../SessionMessagesListContainer';
-import styled, { css, keyframes } from 'styled-components';
 
 export type MessageContentSelectorProps = Pick<
   MessageRenderingProps,
@@ -28,6 +28,8 @@ type Props = {
   isDetailView?: boolean;
 };
 
+// TODO not too sure what is this doing? It is not preventDefault()
+// or stopPropagation() so I think this is never cancelling a click event?
 function onClickOnMessageInnerContainer(event: React.MouseEvent<HTMLDivElement>) {
   const selection = window.getSelection();
   // Text is being selected
@@ -38,6 +40,7 @@ function onClickOnMessageInnerContainer(event: React.MouseEvent<HTMLDivElement>)
   // User clicked on message body
   const target = event.target as HTMLDivElement;
   if (target.className === 'text-selectable' || window.contextMenuShown) {
+    // eslint-disable-next-line no-useless-return
     return;
   }
 }
@@ -62,7 +65,7 @@ const opacityAnimation = keyframes`
     }
 `;
 
-const StyledMessageHighlighter = styled.div<{
+export const StyledMessageHighlighter = styled.div<{
   highlight: boolean;
 }>`
   ${props =>
@@ -83,10 +86,10 @@ const StyledMessageOpaqueContent = styled(StyledMessageHighlighter)<{
   align-self: ${props => (props.messageDirection === 'incoming' ? 'flex-start' : 'flex-end')};
   padding: var(--padding-message-content);
   border-radius: var(--border-radius-message-box);
+  max-width: 100%;
 `;
 
 export const IsMessageVisibleContext = createContext(false);
-// tslint:disable: use-simple-attributes
 
 export const MessageContent = (props: Props) => {
   const [highlight, setHighlight] = useState(false);
@@ -94,13 +97,14 @@ export const MessageContent = (props: Props) => {
   const contentProps = useSelector(state =>
     getMessageContentSelectorProps(state as any, props.messageId)
   );
+  const isDeleted = useMessageIsDeleted(props.messageId);
   const [isMessageVisible, setMessageIsVisible] = useState(false);
 
   const scrollToLoadedMessage = useContext(ScrollToLoadedMessageContext);
 
   const [imageBroken, setImageBroken] = useState(false);
 
-  const onVisible = (inView: boolean | Object) => {
+  const onVisible = (inView: boolean | object) => {
     if (
       inView === true ||
       ((inView as any).type === 'focus' && (inView as any).returnValue === true)
@@ -122,7 +126,7 @@ export const MessageContent = (props: Props) => {
   useLayoutEffect(() => {
     if (isQuotedMessageToAnimate) {
       if (!highlight && !didScroll) {
-        //scroll to me and flash me
+        // scroll to me and flash me
         scrollToLoadedMessage(props.messageId, 'quote-or-search-result');
         setDidScroll(true);
         if (shouldHighlightMessage) {
@@ -138,21 +142,20 @@ export const MessageContent = (props: Props) => {
     if (didScroll) {
       setDidScroll(false);
     }
-    return;
-  });
+  }, [
+    isQuotedMessageToAnimate,
+    highlight,
+    didScroll,
+    scrollToLoadedMessage,
+    props.messageId,
+    shouldHighlightMessage,
+  ]);
 
   if (!contentProps) {
     return null;
   }
 
   const { direction, text, timestamp, serverTimestamp, previews, quote } = contentProps;
-
-  const selectedMsg = useSelector(state => getMessageTextProps(state as any, props.messageId));
-
-  let isDeleted = false;
-  if (selectedMsg && selectedMsg.isDeleted !== undefined) {
-    isDeleted = selectedMsg.isDeleted;
-  }
 
   const hasContentBeforeAttachment = !isEmpty(previews) || !isEmpty(quote) || !isEmpty(text);
 
@@ -182,7 +185,7 @@ export const MessageContent = (props: Props) => {
             <StyledMessageOpaqueContent messageDirection={direction} highlight={highlight}>
               {!isDeleted && (
                 <>
-                  <MessageQuote messageId={props.messageId} direction={direction} />
+                  <MessageQuote messageId={props.messageId} />
                   <MessageLinkPreview
                     messageId={props.messageId}
                     handleImageError={handleImageError}
@@ -193,13 +196,12 @@ export const MessageContent = (props: Props) => {
             </StyledMessageOpaqueContent>
           )}
           {!isDeleted && (
-            <StyledMessageHighlighter highlight={highlight}>
-              <MessageAttachment
-                messageId={props.messageId}
-                imageBroken={imageBroken}
-                handleImageError={handleImageError}
-              />
-            </StyledMessageHighlighter>
+            <MessageAttachment
+              messageId={props.messageId}
+              imageBroken={imageBroken}
+              handleImageError={handleImageError}
+              highlight={highlight}
+            />
           )}
         </IsMessageVisibleContext.Provider>
       </InView>

@@ -1,16 +1,16 @@
 /* eslint-disable more/no-then */
 /* global document, URL, Blob */
 
+import { blobToArrayBuffer, dataURLToBlob } from 'blob-util';
 import { toLogFormat } from './Errors';
 
 import {
   getDecryptedBlob,
   getDecryptedMediaUrl,
-} from '../../../ts/session/crypto/DecryptedAttachmentsManager';
-import { blobToArrayBuffer, dataURLToBlob } from 'blob-util';
-import { autoScaleForAvatar, autoScaleForThumbnail } from '../../util/attachmentsUtil';
-import { GoogleChrome } from '../../util';
+} from '../../session/crypto/DecryptedAttachmentsManager';
 import { ToastUtils } from '../../session/utils';
+import { GoogleChrome } from '../../util';
+import { autoScaleForAvatar, autoScaleForThumbnail } from '../../util/attachmentsUtil';
 
 export const THUMBNAIL_SIDE = 200;
 export const THUMBNAIL_CONTENT_TYPE = 'image/png';
@@ -24,7 +24,8 @@ export const getImageDimensions = async ({
 }: {
   objectUrl: string;
 }): Promise<{ height: number; width: number }> =>
-  new Promise(async (resolve, reject) => {
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+  new Promise((resolve, reject) => {
     const image = document.createElement('img');
 
     image.addEventListener('load', () => {
@@ -37,9 +38,13 @@ export const getImageDimensions = async ({
       window.log.error('getImageDimensions error', toLogFormat(error));
       reject(error);
     });
-    // TODO image/jpeg is hard coded, but it does not look to cause any issues
-    const decryptedUrl = await getDecryptedMediaUrl(objectUrl, 'image/jpg', false);
-    image.src = decryptedUrl;
+    // image/jpg is hard coded here but does not look to cause any issues
+    void getDecryptedMediaUrl(objectUrl, 'image/jpg', false)
+      .then(decryptedUrl => {
+        image.src = decryptedUrl;
+      })
+      // eslint-disable-next-line no-console
+      .catch(console.error);
   });
 
 export const makeImageThumbnailBuffer = async ({
@@ -67,7 +72,7 @@ export const makeVideoScreenshot = async ({
   objectUrl: string;
   contentType: string | undefined;
 }) =>
-  new Promise<Blob>(async (resolve, reject) => {
+  new Promise<Blob>((resolve, reject) => {
     const video = document.createElement('video');
 
     function capture() {
@@ -94,11 +99,11 @@ export const makeVideoScreenshot = async ({
       reject(error);
     });
 
-    const decryptedUrl = await getDecryptedMediaUrl(objectUrl, contentType, false);
-    video.src = decryptedUrl;
-    video.muted = true;
-    // for some reason, this is to be started, otherwise the generated thumbnail will be empty
-    await video.play();
+    void getDecryptedMediaUrl(objectUrl, contentType, false).then(decryptedUrl => {
+      video.src = decryptedUrl;
+      video.muted = true;
+      void video.play(); // for some reason, this is to be started, otherwise the generated thumbnail will be empty
+    });
   });
 
 export const makeObjectUrl = (data: ArrayBufferLike, contentType: string) => {
@@ -150,27 +155,28 @@ export async function pickFileForAvatar(): Promise<string | null> {
     ctx.fillStyle = 'blue';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     return new Promise(resolve => {
-      canvas.toBlob(async blob => {
+      canvas.toBlob(blob => {
         const file = new File([blob as Blob], 'image.png', { type: 'image/png' });
-        const url = await autoScaleAvatarBlob(file);
-        resolve(url);
+        void autoScaleAvatarBlob(file)
+          .then(url => resolve(url))
+          // eslint-disable-next-line no-console
+          .catch(console.error);
       });
     });
-  } else {
-    const [fileHandle] = await (window as any).showOpenFilePicker({
-      types: [
-        {
-          description: 'Images',
-          accept: {
-            'image/*': ['.png', '.gif', '.jpeg', '.jpg'],
-          },
-        },
-      ],
-      excludeAcceptAllOption: true,
-      multiple: false,
-    });
-
-    const file = (await fileHandle.getFile()) as File;
-    return autoScaleAvatarBlob(file);
   }
+  const [fileHandle] = await (window as any).showOpenFilePicker({
+    types: [
+      {
+        description: 'Images',
+        accept: {
+          'image/*': ['.png', '.gif', '.jpeg', '.jpg'],
+        },
+      },
+    ],
+    excludeAcceptAllOption: true,
+    multiple: false,
+  });
+
+  const file = (await fileHandle.getFile()) as File;
+  return autoScaleAvatarBlob(file);
 }

@@ -1,58 +1,66 @@
-import { EnvelopePlus } from './types';
+import { compact, flatten, identity, isEmpty, isFinite, pickBy, toNumber } from 'lodash';
+
 import { handleSwarmDataMessage } from './dataMessage';
+import { EnvelopePlus } from './types';
 
-import { removeFromCache, updateCache } from './cache';
 import { SignalService } from '../protobuf';
-import { compact, flatten, identity, isEmpty, pickBy, toNumber } from 'lodash';
 import { KeyPrefixType, PubKey } from '../session/types';
+import { removeFromCache, updateCacheWithDecryptedContent } from './cache';
 
-import { BlockedNumberController } from '../util/blockedNumberController';
-import { GroupUtils, UserUtils } from '../session/utils';
-import { fromHexToArray, toHex } from '../session/utils/String';
-import { concatUInt8Array, getSodiumRenderer } from '../session/crypto';
-import { getConversationController } from '../session/conversations';
-import { ECKeyPair } from './keypairs';
-import { handleConfigurationMessage } from './configMessage';
-import { removeMessagePadding } from '../session/crypto/BufferPadding';
-import { perfEnd, perfStart } from '../session/utils/Performance';
-import { getAllCachedECKeyPair } from './closedGroups';
-import { handleCallMessage } from './callMessage';
-import { SettingsKey } from '../data/settings-key';
-import { ReadReceipts } from '../util/readReceipts';
-import { Storage } from '../util/storage';
 import { Data } from '../data/data';
+import { SettingsKey } from '../data/settings-key';
 import {
   deleteMessagesFromSwarmAndCompletelyLocally,
   deleteMessagesFromSwarmAndMarkAsDeletedLocally,
 } from '../interactions/conversations/unsendingInteractions';
-import { ConversationTypeEnum } from '../models/conversationAttributes';
+import {
+  CONVERSATION_PRIORITIES,
+  ConversationTypeEnum,
+  READ_MESSAGE_STATE,
+} from '../models/conversationAttributes';
 import { findCachedBlindedMatchOrLookupOnAllServers } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
-import { appendFetchAvatarAndProfileJob } from './userProfileImageUpdates';
+import { getConversationController } from '../session/conversations';
+import { concatUInt8Array, getSodiumRenderer } from '../session/crypto';
+import { removeMessagePadding } from '../session/crypto/BufferPadding';
+import { ProfileManager } from '../session/profile_manager/ProfileManager';
+import { GroupUtils, UserUtils } from '../session/utils';
+import { perfEnd, perfStart } from '../session/utils/Performance';
+import { fromHexToArray, toHex } from '../session/utils/String';
+import { assertUnreachable } from '../types/sqlSharedTypes';
+import { BlockedNumberController } from '../util';
+import { ReadReceipts } from '../util/readReceipts';
+import { Storage } from '../util/storage';
+import { handleCallMessage } from './callMessage';
+import { getAllCachedECKeyPair, sentAtMoreRecentThanWrapper } from './closedGroups';
+import { ConfigMessageHandler } from './configMessage';
+import { ECKeyPair } from './keypairs';
+import { ContactsWrapperActions } from '../webworker/workers/browser/libsession_worker_interface';
 
 export async function handleSwarmContentMessage(envelope: EnvelopePlus, messageHash: string) {
   try {
-    const plaintext = await decrypt(envelope, envelope.content);
+    const plaintext = await decrypt(envelope);
 
     if (!plaintext) {
       return;
-    } else if (plaintext instanceof ArrayBuffer && plaintext.byteLength === 0) {
+    }
+    if (plaintext instanceof ArrayBuffer && plaintext.byteLength === 0) {
       return;
     }
     const sentAtTimestamp = toNumber(envelope.timestamp);
-    // swarm messages already comes with a timestamp is milliseconds, so this sentAtTimestamp is correct.
+    // swarm messages already comes with a timestamp in milliseconds, so this sentAtTimestamp is correct.
     // the sogs messages do not come as milliseconds but just seconds, so we override it
     await innerHandleSwarmContentMessage(envelope, sentAtTimestamp, plaintext, messageHash);
   } catch (e) {
-    window?.log?.warn(e);
+    window?.log?.warn(e.message);
   }
 }
 
-async function decryptForClosedGroup(envelope: EnvelopePlus, ciphertext: ArrayBuffer) {
+async function decryptForClosedGroup(envelope: EnvelopePlus) {
   // case .closedGroupCiphertext: for ios
   window?.log?.info('received closed group message');
   try {
     const hexEncodedGroupPublicKey = envelope.source;
-    if (!GroupUtils.isMediumGroup(PubKey.cast(hexEncodedGroupPublicKey))) {
+    if (!GroupUtils.isClosedGroup(PubKey.cast(hexEncodedGroupPublicKey))) {
       window?.log?.warn('received medium group message but not for an existing medium group');
       throw new Error('Invalid group public key'); // invalidGroupPublicKey
     }
@@ -79,9 +87,10 @@ async function decryptForClosedGroup(envelope: EnvelopePlus, ciphertext: ArrayBu
         }
         const encryptionKeyPair = ECKeyPair.fromHexKeyPair(hexEncryptionKeyPair);
 
+        // eslint-disable-next-line no-await-in-loop
         decryptedContent = await decryptWithSessionProtocol(
           envelope,
-          ciphertext,
+          envelope.content,
           encryptionKeyPair,
           true
         );
@@ -134,7 +143,7 @@ async function decryptForClosedGroup(envelope: EnvelopePlus, ciphertext: ArrayBu
  * or a message sent to a closed group.
  *
  * We do not unpad the result here, as in the case of the keypair wrapper, there is not padding.
- * Instead, it is the called who needs to removeMessagePadding() the content.
+ * Instead, it is the caller who needs to removeMessagePadding() the content.
  */
 export async function decryptWithSessionProtocol(
   envelope: EnvelopePlus,
@@ -183,7 +192,7 @@ export async function decryptWithSessionProtocol(
   if (!isValid) {
     perfEnd(`decryptWithSessionProtocol-${envelope.id}`, 'decryptWithSessionProtocol');
 
-    throw new Error('Invalid message signature.'); //throw Error.invalidSignature
+    throw new Error('Invalid message signature.');
   }
   // 4. ) Get the sender's X25519 public key
   const senderX25519PublicKey = sodium.crypto_sign_ed25519_pk_to_curve25519(senderED25519PublicKey);
@@ -195,8 +204,10 @@ export async function decryptWithSessionProtocol(
 
   // set the sender identity on the envelope itself.
   if (isClosedGroup) {
+    // eslint-disable-next-line no-param-reassign
     envelope.senderIdentity = `${KeyPrefixType.standard}${toHex(senderX25519PublicKey)}`;
   } else {
+    // eslint-disable-next-line no-param-reassign
     envelope.source = `${KeyPrefixType.standard}${toHex(senderX25519PublicKey)}`;
   }
   perfEnd(`decryptWithSessionProtocol-${envelope.id}`, 'decryptWithSessionProtocol');
@@ -204,15 +215,15 @@ export async function decryptWithSessionProtocol(
   return plaintext;
 }
 
-export async function isBlocked(number: string) {
-  return BlockedNumberController.isBlockedAsync(number);
-}
-
-async function decryptUnidentifiedSender(
-  envelope: EnvelopePlus,
-  ciphertext: ArrayBuffer
+/**
+ * This function is used to decrypt any messages send to our own pubkey.
+ * Either messages deposited into our swarm by other people, or messages we sent to ourselves, or config messages stored on the user namespaces.
+ * @param envelope the envelope contaning an encrypted .content field to decrypt
+ * @returns the decrypted content, or null
+ */
+export async function decryptEnvelopeWithOurKey(
+  envelope: EnvelopePlus
 ): Promise<ArrayBuffer | null> {
-  // window?.log?.info('received unidentified sender message');
   try {
     const userX25519KeyPair = await UserUtils.getIdentityKeyPair();
 
@@ -228,7 +239,11 @@ async function decryptUnidentifiedSender(
     // keep the await so the try catch works as expected
     perfStart(`decryptUnidentifiedSender-${envelope.id}`);
 
-    const retSessionProtocol = await decryptWithSessionProtocol(envelope, ciphertext, ecKeyPair);
+    const retSessionProtocol = await decryptWithSessionProtocol(
+      envelope,
+      envelope.content,
+      ecKeyPair
+    );
 
     const ret = removeMessagePadding(retSessionProtocol);
     perfEnd(`decryptUnidentifiedSender-${envelope.id}`, 'decryptUnidentifiedSender');
@@ -240,50 +255,73 @@ async function decryptUnidentifiedSender(
   }
 }
 
-async function doDecrypt(
-  envelope: EnvelopePlus,
-  ciphertext: ArrayBuffer
-): Promise<ArrayBuffer | null> {
-  if (ciphertext.byteLength === 0) {
-    throw new Error('Received an empty envelope.'); // Error.noData
+async function decrypt(envelope: EnvelopePlus): Promise<any> {
+  if (envelope.content.byteLength === 0) {
+    throw new Error('Received an empty envelope.');
   }
 
+  let plaintext: ArrayBuffer | null = null;
   switch (envelope.type) {
     // Only SESSION_MESSAGE and CLOSED_GROUP_MESSAGE are supported
+    case SignalService.Envelope.Type.SESSION_MESSAGE:
+      plaintext = await decryptEnvelopeWithOurKey(envelope);
+      break;
     case SignalService.Envelope.Type.CLOSED_GROUP_MESSAGE:
-      return decryptForClosedGroup(envelope, ciphertext);
-    case SignalService.Envelope.Type.SESSION_MESSAGE: {
-      return decryptUnidentifiedSender(envelope, ciphertext);
-    }
+      plaintext = await decryptForClosedGroup(envelope);
+      break;
     default:
-      throw new Error(`Unknown message type:${envelope.type}`);
+      assertUnreachable(envelope.type, `Unknown message type:${envelope.type}`);
   }
+
+  if (!plaintext) {
+    // content could not be decrypted.
+    await removeFromCache(envelope);
+    return null;
+  }
+
+  perfStart(`updateCacheWithDecryptedContent-${envelope.id}`);
+
+  await updateCacheWithDecryptedContent(envelope, plaintext).catch((error: any) => {
+    window?.log?.error(
+      'decrypt failed to save decrypted message contents to cache:',
+      error && error.stack ? error.stack : error
+    );
+  });
+  perfEnd(`updateCacheWithDecryptedContent-${envelope.id}`, 'updateCacheWithDecryptedContent');
+
+  return plaintext;
 }
 
-// tslint:disable-next-line: max-func-body-length
-async function decrypt(envelope: EnvelopePlus, ciphertext: ArrayBuffer): Promise<any> {
-  try {
-    const plaintext = await doDecrypt(envelope, ciphertext);
+async function shouldDropIncomingPrivateMessage(sentAtTimestamp: number, envelope: EnvelopePlus) {
+  // sentAtMoreRecentThanWrapper is going to be true, if the latest contact wrapper we processed was roughly more recent that this message timestamp
+  const moreRecentOrNah = await sentAtMoreRecentThanWrapper(sentAtTimestamp, 'ContactsConfig');
 
-    if (!plaintext) {
-      await removeFromCache(envelope);
-      return null;
-    }
+  if (moreRecentOrNah === 'wrapper_more_recent') {
+    // we need to check if that conversation is already in the wrapper, and if yes
+    try {
+      const privateConvoInWrapper = await ContactsWrapperActions.get(envelope.source);
+      if (
+        !privateConvoInWrapper ||
+        privateConvoInWrapper.priority <= CONVERSATION_PRIORITIES.hidden
+      ) {
+        // the wrapper is more recent that this message and there is no such private conversation. Just drop this incoming message.
+        window.log.info(
+          `received message from contact ${envelope.source} which appears to be hidden/removed in our most recent libsession contactconfig, sentAt: ${sentAtTimestamp}. Dropping it`
+        );
+        return true;
+      }
 
-    perfStart(`updateCache-${envelope.id}`);
-
-    await updateCache(envelope, plaintext).catch((error: any) => {
-      window?.log?.error(
-        'decrypt failed to save decrypted message contents to cache:',
-        error && error.stack ? error.stack : error
+      window.log.info(
+        `received message from contact ${envelope.source} which appears to NOT be hidden/removed in our most recent libsession contactconfig, sentAt: ${sentAtTimestamp}. `
       );
-    });
-    perfEnd(`updateCache-${envelope.id}`, 'updateCache');
-
-    return plaintext;
-  } catch (error) {
-    throw error;
+    } catch (e) {
+      window.log.warn(
+        'ContactsWrapperActions.get in handleSwarmDataMessage failed with',
+        e.message
+      );
+    }
   }
+  return false;
 }
 
 function shouldDropBlockedUserMessage(
@@ -331,7 +369,6 @@ function shouldDropBlockedUserMessage(
   return !isControlDataMessageOnly;
 }
 
-// tslint:disable-next-line: cyclomatic-complexity
 export async function innerHandleSwarmContentMessage(
   envelope: EnvelopePlus,
   sentAtTimestamp: number,
@@ -355,7 +392,7 @@ export async function innerHandleSwarmContentMessage(
      * a control message through (if the associated closed group is not blocked)
      */
 
-    const blocked = await isBlocked(envelope.senderIdentity || envelope.source);
+    const blocked = BlockedNumberController.isBlocked(envelope.senderIdentity || envelope.source);
     perfEnd(`isBlocked-${envelope.id}`, 'isBlocked');
     if (blocked) {
       const envelopeSource = envelope.source;
@@ -363,14 +400,20 @@ export async function innerHandleSwarmContentMessage(
       if (shouldDropBlockedUserMessage(content, envelopeSource)) {
         window?.log?.info('Dropping blocked user message');
         return;
-      } else {
-        window?.log?.info('Allowing group-control message only from blocked user');
       }
+      window?.log?.info('Allowing group-control message only from blocked user');
     }
 
     // if this is a direct message, envelope.senderIdentity is undefined
     // if this is a closed group message, envelope.senderIdentity is the sender's pubkey and envelope.source is the closed group's pubkey
     const isPrivateConversationMessage = !envelope.senderIdentity;
+
+    if (isPrivateConversationMessage) {
+      if (await shouldDropIncomingPrivateMessage(sentAtTimestamp, envelope)) {
+        await removeFromCache(envelope);
+        return;
+      }
+    }
 
     /**
      * For a closed group message, this holds the conversation with that specific user outside of the closed group.
@@ -395,7 +438,7 @@ export async function innerHandleSwarmContentMessage(
 
     if (content.dataMessage) {
       // because typescript is funky with incoming protobufs
-      if (content.dataMessage.profileKey && content.dataMessage.profileKey.length === 0) {
+      if (isEmpty(content.dataMessage.profileKey)) {
         content.dataMessage.profileKey = null;
       }
       perfStart(`handleSwarmDataMessage-${envelope.id}`);
@@ -425,11 +468,18 @@ export async function innerHandleSwarmContentMessage(
       return;
     }
     if (content.configurationMessage) {
-      // this one can be quite long (downloads profilePictures and everything, is do not block)
-      void handleConfigurationMessage(
+      // this one can be quite long (downloads profilePictures and everything),
+      // so do not await it
+      void ConfigMessageHandler.handleConfigurationMessageLegacy(
         envelope,
         content.configurationMessage as SignalService.ConfigurationMessage
       );
+      return;
+    }
+    if (content.sharedConfigMessage) {
+      window.log.warn('content.sharedConfigMessage are handled outside of the receiving pipeline');
+      // this should never happen, but remove it from cache just in case something is messed up
+      await removeFromCache(envelope);
       return;
     }
     if (content.dataExtractionNotification) {
@@ -458,11 +508,11 @@ export async function innerHandleSwarmContentMessage(
       );
     }
   } catch (e) {
-    window?.log?.warn(e);
+    window?.log?.warn(e.message);
   }
 }
 
-function onReadReceipt(readAt: number, timestamp: number, source: string) {
+async function onReadReceipt(readAt: number, timestamp: number, source: string) {
   window?.log?.info('read receipt', source, timestamp);
 
   if (!Storage.get(SettingsKey.settingsReadReceipt)) {
@@ -470,7 +520,7 @@ function onReadReceipt(readAt: number, timestamp: number, source: string) {
   }
 
   // Calling this directly so we can wait for completion
-  return ReadReceipts.onReadReceipt({
+  await ReadReceipts.onReadReceipt({
     source,
     timestamp,
     readAt,
@@ -487,6 +537,7 @@ async function handleReceiptMessage(
 
   const results = [];
   if (type === SignalService.ReceiptMessage.Type.READ) {
+    // eslint-disable-next-line no-restricted-syntax
     for (const ts of timestamp) {
       const promise = onReadReceipt(toNumber(envelope.timestamp), toNumber(ts), envelope.source);
       results.push(promise);
@@ -574,9 +625,9 @@ async function handleUnsendMessage(envelope: EnvelopePlus, unsendMessage: Signal
     ])
   )?.models?.[0];
   const messageHash = messageToDelete?.get('messageHash');
-  //#endregion
+  // #endregion
 
-  //#region executing deletion
+  // #region executing deletion
   if (messageHash && messageToDelete) {
     window.log.info('handleUnsendMessage: got a request to delete ', messageHash);
     const conversation = getConversationController().get(messageToDelete.get('conversationId'));
@@ -611,7 +662,6 @@ async function handleMessageRequestResponse(
 ) {
   const { isApproved } = messageRequestResponse;
   if (!isApproved) {
-    window?.log?.error('handleMessageRequestResponse: isApproved is false -- dropping message.');
     await removeFromCache(envelope);
     return;
   }
@@ -640,6 +690,7 @@ async function handleMessageRequestResponse(
     isApproved: true,
     didApproveMe: true,
   });
+  await conversationToApprove.unhideIfNeeded(false);
 
   if (convosToMerge.length) {
     // merge fields we care by hand
@@ -680,25 +731,24 @@ async function handleMessageRequestResponse(
     // this is based on the messageId as  primary key. So this should overwrite existing messages with new merged data
     await Data.saveMessages(allMessageModels.map(m => m.attributes));
 
-    // tslint:disable-next-line: prefer-for-of
     for (let index = 0; index < convosToMerge.length; index++) {
       const element = convosToMerge[index];
+      // eslint-disable-next-line no-await-in-loop
       await getConversationController().deleteBlindedContact(element.id);
     }
   }
 
   if (messageRequestResponse.profile && !isEmpty(messageRequestResponse.profile)) {
-    void appendFetchAvatarAndProfileJob(
-      conversationToApprove,
-      messageRequestResponse.profile,
+    await ProfileManager.updateProfileOfContact(
+      conversationToApprove.id,
+      messageRequestResponse.profile.displayName,
+      messageRequestResponse.profile.profilePicture,
       messageRequestResponse.profileKey
     );
   }
 
-  if (!conversationToApprove || conversationToApprove.didApproveMe() === isApproved) {
-    if (conversationToApprove) {
-      await conversationToApprove.commit();
-    }
+  if (!conversationToApprove || conversationToApprove.didApproveMe()) {
+    await conversationToApprove?.commit();
     window?.log?.info(
       'Conversation already contains the correct value for the didApproveMe field.'
     );
@@ -707,14 +757,12 @@ async function handleMessageRequestResponse(
     return;
   }
 
-  await conversationToApprove.setDidApproveMe(isApproved, true);
-  if (isApproved === true) {
-    // Conversation was not approved before so a sync is needed
-    await conversationToApprove.addIncomingApprovalMessage(
-      toNumber(envelope.timestamp),
-      unblindedConvoId
-    );
-  }
+  await conversationToApprove.setDidApproveMe(true, true);
+  // Conversation was not approved before so a sync is needed
+  await conversationToApprove.addIncomingApprovalMessage(
+    toNumber(envelope.timestamp),
+    unblindedConvoId
+  );
 
   await removeFromCache(envelope);
 }
@@ -760,7 +808,7 @@ export async function handleDataExtractionNotification(
         referencedAttachmentTimestamp, // currently unused
         source,
       },
-      unread: 1, // 1 means unread
+      unread: READ_MESSAGE_STATE.unread, // 1 means unread
       expireTimer: 0,
     });
     convo.updateLastMessage();

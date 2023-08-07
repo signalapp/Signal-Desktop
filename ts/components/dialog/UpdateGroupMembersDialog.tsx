@@ -1,21 +1,22 @@
 import React from 'react';
+import _ from 'lodash';
+import { useDispatch } from 'react-redux';
+import useKey from 'react-use/lib/useKey';
+import styled from 'styled-components';
 
 import { ToastUtils, UserUtils } from '../../session/utils';
 
-import _ from 'lodash';
 import { SpacerLG, Text } from '../basic/Text';
 import { updateGroupMembersModal } from '../../state/ducks/modalDialog';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { MemberListItem } from '../MemberListItem';
 import { SessionWrapperModal } from '../SessionWrapperModal';
-import { useDispatch } from 'react-redux';
+
 import { useConversationPropsById, useWeAreAdmin } from '../../hooks/useParamSelector';
-// tslint:disable-next-line: no-submodule-imports
-import useKey from 'react-use/lib/useKey';
+
 import { useSet } from '../../hooks/useSet';
 import { getConversationController } from '../../session/conversations';
 import { initiateClosedGroupUpdate } from '../../session/group/closed-group';
-import styled from 'styled-components';
 
 type Props = {
   conversationId: string;
@@ -110,16 +111,12 @@ const ZombiesList = ({ convoId }: { convoId: string }) => {
   );
 };
 
-// tslint:disable-next-line: max-func-body-length
 async function onSubmit(convoId: string, membersAfterUpdate: Array<string>) {
-  // not ideal to get the props here, but this is not run often
-  const convoProps = getConversationController()
-    .get(convoId)
-    .getConversationModelProps();
-  if (!convoProps || !convoProps.isGroup || convoProps.isPublic) {
+  const convoFound = getConversationController().get(convoId);
+  if (!convoFound || !convoFound.isGroup()) {
     throw new Error('Invalid convo for updateGroupMembersDialog');
   }
-  if (!convoProps.weAreAdmin) {
+  if (!convoFound.isAdmin(UserUtils.getOurPubKeyStrFromCache())) {
     window.log.warn('Skipping update of members, we are not the admin');
     return;
   }
@@ -134,8 +131,8 @@ async function onSubmit(convoId: string, membersAfterUpdate: Array<string>) {
   // We consider that the admin ALWAYS wants to remove zombies (actually they should be removed
   // automatically by him when the LEFT message is received)
 
-  const existingMembers = convoProps.members || [];
-  const existingZombies = convoProps.zombies || [];
+  const existingMembers = convoFound.get('members') || [];
+  const existingZombies = convoFound.get('zombies') || [];
 
   const allExistingMembersWithZombies = _.uniq(existingMembers.concat(existingZombies));
 
@@ -164,7 +161,7 @@ async function onSubmit(convoId: string, membersAfterUpdate: Array<string>) {
 
   void initiateClosedGroupUpdate(
     convoId,
-    convoProps.displayNameInProfile || window.i18n('unknown'),
+    convoFound.get('displayNameInProfile') || 'Unknown',
     filteredMembers
   );
 }
@@ -180,7 +177,7 @@ export const UpdateGroupMembersDialog = (props: Props) => {
 
   const dispatch = useDispatch();
 
-  if (!convoProps || !convoProps.isGroup || convoProps.isPublic) {
+  if (!convoProps || convoProps.isPrivate || convoProps.isPublic) {
     throw new Error('UpdateGroupMembersDialog invalid convoProps');
   }
 

@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 import { beforeEach } from 'mocha';
+import { toNumber } from 'lodash';
 
 import { SignalService } from '../../../../protobuf';
-import { toNumber } from 'lodash';
 import { Constants } from '../../../../session';
 import { ReadReceiptMessage } from '../../../../session/messages/outgoing/controlMessage/receipt/ReadReceiptMessage';
 

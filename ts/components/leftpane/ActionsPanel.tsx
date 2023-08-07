@@ -1,56 +1,54 @@
+import { ipcRenderer } from 'electron';
 import React, { useEffect, useState } from 'react';
-import { getConversationController } from '../../session/conversations';
-import { syncConfigurationIfNeeded } from '../../session/utils/syncUtils';
 
-import {
-  Data,
-  hasSyncedInitialConfigurationItem,
-  lastAvatarUploadTimestamp,
-} from '../../data/data';
-import { getMessageQueue } from '../../session/sending';
+import { debounce, isEmpty, isString } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
-// tslint:disable: no-submodule-imports
 import useInterval from 'react-use/lib/useInterval';
 import useTimeoutFn from 'react-use/lib/useTimeoutFn';
 
-import { getOurNumber } from '../../state/selectors/user';
-import {
-  getOurPrimaryConversation,
-  getUnreadMessageCount,
-} from '../../state/selectors/conversations';
-import { getFocusedSection } from '../../state/selectors/section';
+import { Data } from '../../data/data';
+import { getConversationController } from '../../session/conversations';
+import { getMessageQueue } from '../../session/sending';
+import { syncConfigurationIfNeeded } from '../../session/utils/sync/syncUtils';
+
 import { clearSearch } from '../../state/ducks/search';
 import { resetOverlayMode, SectionType, showLeftPaneSection } from '../../state/ducks/section';
+import {
+  getGlobalUnreadMessageCount,
+  getOurPrimaryConversation,
+} from '../../state/selectors/conversations';
+import { getFocusedSection } from '../../state/selectors/section';
+import { getOurNumber } from '../../state/selectors/user';
 
 import { cleanUpOldDecryptedMedias } from '../../session/crypto/DecryptedAttachmentsManager';
 
 import { DURATION } from '../../session/constants';
 
-import { editProfileModal, onionPathModal } from '../../state/ducks/modalDialog';
 import { uploadOurAvatar } from '../../interactions/conversationInteractions';
-import { debounce, isEmpty, isString } from 'lodash';
+import { editProfileModal, onionPathModal } from '../../state/ducks/modalDialog';
 
-// tslint:disable-next-line: no-import-side-effect no-submodule-imports
-
-import { ActionPanelOnionStatusLight } from '../dialog/OnionStatusPathDialog';
 import { loadDefaultRooms } from '../../session/apis/open_group_api/opengroupV2/ApiUtil';
 import { getOpenGroupManager } from '../../session/apis/open_group_api/opengroupV2/OpenGroupManagerV2';
 import { getSwarmPollingInstance } from '../../session/apis/snode_api';
-import { forceRefreshRandomSnodePool } from '../../session/apis/snode_api/snodePool';
+import { UserUtils } from '../../session/utils';
 import { Avatar, AvatarSize } from '../avatar/Avatar';
+import { ActionPanelOnionStatusLight } from '../dialog/OnionStatusPathDialog';
 import { SessionIconButton } from '../icon';
 import { LeftPaneSectionContainer } from './LeftPaneSectionContainer';
-import { ipcRenderer } from 'electron';
-import { UserUtils } from '../../session/utils';
 
+import { SettingsKey } from '../../data/settings-key';
 import { getLatestReleaseFromFileServer } from '../../session/apis/file_server_api/FileServerApi';
-import { switchThemeTo } from '../../themes/switchTheme';
-import { ThemeStateType } from '../../themes/constants/colors';
+import {
+  forceRefreshRandomSnodePool,
+  getFreshSwarmFor,
+} from '../../session/apis/snode_api/snodePool';
 import { isDarkTheme } from '../../state/selectors/theme';
+import { ThemeStateType } from '../../themes/constants/colors';
+import { switchThemeTo } from '../../themes/switchTheme';
 
 const Section = (props: { type: SectionType }) => {
   const ourNumber = useSelector(getOurNumber);
-  const unreadMessageCount = useSelector(getUnreadMessageCount);
+  const globalUnreadMessageCount = useSelector(getGlobalUnreadMessageCount);
   const dispatch = useDispatch();
   const { type } = props;
 
@@ -58,8 +56,7 @@ const Section = (props: { type: SectionType }) => {
   const focusedSection = useSelector(getFocusedSection);
   const isSelected = focusedSection === props.type;
 
-  const handleClick = async () => {
-    /* tslint:disable:no-void-expression */
+  const handleClick = () => {
     if (type === SectionType.Profile) {
       dispatch(editProfileModal({}));
     } else if (type === SectionType.ColorMode) {
@@ -69,7 +66,7 @@ const Section = (props: { type: SectionType }) => {
         : currentTheme.replace('light', 'dark')) as ThemeStateType;
 
       // We want to persist the primary color when using the color mode button
-      await switchThemeTo({
+      void switchThemeTo({
         theme: newTheme,
         mainWindow: true,
         usePrimaryColor: true,
@@ -97,7 +94,7 @@ const Section = (props: { type: SectionType }) => {
     );
   }
 
-  const unreadToShow = type === SectionType.Message ? unreadMessageCount : undefined;
+  const unreadToShow = type === SectionType.Message ? globalUnreadMessageCount : undefined;
 
   switch (type) {
     case SectionType.Message:
@@ -163,21 +160,23 @@ const setupTheme = async () => {
 
 // Do this only if we created a new Session ID, or if we already received the initial configuration message
 const triggerSyncIfNeeded = async () => {
+  const us = UserUtils.getOurPubKeyStrFromCache();
   await getConversationController()
-    .get(UserUtils.getOurPubKeyStrFromCache())
+    .get(us)
     .setDidApproveMe(true, true);
   await getConversationController()
-    .get(UserUtils.getOurPubKeyStrFromCache())
+    .get(us)
     .setIsApproved(true, true);
   const didWeHandleAConfigurationMessageAlready =
-    (await Data.getItemById(hasSyncedInitialConfigurationItem))?.value || false;
+    (await Data.getItemById(SettingsKey.hasSyncedInitialConfigurationItem))?.value || false;
   if (didWeHandleAConfigurationMessageAlready) {
     await syncConfigurationIfNeeded();
   }
 };
 
 const triggerAvatarReUploadIfNeeded = async () => {
-  const lastTimeStampAvatarUpload = (await Data.getItemById(lastAvatarUploadTimestamp))?.value || 0;
+  const lastTimeStampAvatarUpload =
+    (await Data.getItemById(SettingsKey.lastAvatarUploadTimestamp))?.value || 0;
 
   if (Date.now() - lastTimeStampAvatarUpload > DURATION.DAYS * 14) {
     window.log.info('Reuploading avatar...');
@@ -189,27 +188,30 @@ const triggerAvatarReUploadIfNeeded = async () => {
 /**
  * This function is called only once: on app startup with a logged in user
  */
-const doAppStartUp = () => {
-  // init the messageQueue. In the constructor, we add all not send messages
-  // this call does nothing except calling the constructor, which will continue sending message in the pipeline
-  void getMessageQueue().processAllPending();
-
+const doAppStartUp = async () => {
   void setupTheme();
   // this generates the key to encrypt attachments locally
-  void Data.generateAttachmentKeyIfEmpty();
-
-  /* Postpone a little bit of the polling of sogs messages to let the swarm messages come in first. */
-  global.setTimeout(() => {
-    void getOpenGroupManager().startPolling();
-  }, 5000);
+  await Data.generateAttachmentKeyIfEmpty();
 
   // trigger a sync message if needed for our other devices
   void triggerSyncIfNeeded();
   void getSwarmPollingInstance().start();
-
   void loadDefaultRooms();
+  void getFreshSwarmFor(UserUtils.getOurPubKeyStrFromCache()); // refresh our swarm on start to speed up the first message fetching event
 
+  // TODOLATER make this a job of the JobRunner
   debounce(triggerAvatarReUploadIfNeeded, 200);
+
+  /* Postpone a little bit of the polling of sogs messages to let the swarm messages come in first. */
+  global.setTimeout(() => {
+    void getOpenGroupManager().startPolling();
+  }, 10000);
+
+  global.setTimeout(() => {
+    // init the messageQueue. In the constructor, we add all not send messages
+    // this call does nothing except calling the constructor, which will continue sending message in the pipeline
+    void getMessageQueue().processAllPending();
+  }, 3000);
 };
 
 async function fetchReleaseFromFSAndUpdateMain() {
@@ -253,41 +255,54 @@ export const ActionsPanel = () => {
   useInterval(cleanUpOldDecryptedMedias, startCleanUpMedia ? cleanUpMediasInterval : null);
 
   useInterval(() => {
+    if (!ourPrimaryConversation) {
+      return;
+    }
     void fetchReleaseFromFSAndUpdateMain();
   }, fetchReleaseFromFileServerInterval);
 
-  if (!ourPrimaryConversation) {
-    window?.log?.warn('ActionsPanel: ourPrimaryConversation is not set');
-    return null;
-  }
-
   useInterval(() => {
+    if (!ourPrimaryConversation) {
+      return;
+    }
     void syncConfigurationIfNeeded();
   }, DURATION.DAYS * 2);
 
   useInterval(() => {
+    if (!ourPrimaryConversation) {
+      return;
+    }
     // trigger an updates from the snodes every hour
 
     void forceRefreshRandomSnodePool();
   }, DURATION.HOURS * 1);
 
   useTimeoutFn(() => {
+    if (!ourPrimaryConversation) {
+      return;
+    }
     // trigger an updates from the snodes after 5 minutes, once
     void forceRefreshRandomSnodePool();
   }, DURATION.MINUTES * 5);
 
   useInterval(() => {
+    if (!ourPrimaryConversation) {
+      return;
+    }
     // this won't be run every days, but if the app stays open for more than 10 days
     void triggerAvatarReUploadIfNeeded();
   }, DURATION.DAYS * 1);
 
+  if (!ourPrimaryConversation) {
+    window?.log?.warn('ActionsPanel: ourPrimaryConversation is not set');
+    return null;
+  }
   return (
     <>
       <LeftPaneSectionContainer data-testid="leftpane-section-container">
         <Section type={SectionType.Profile} />
         <Section type={SectionType.Message} />
         <Section type={SectionType.Settings} />
-
         <Section type={SectionType.PathIndicator} />
         <Section type={SectionType.ColorMode} />
       </LeftPaneSectionContainer>

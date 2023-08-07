@@ -1,6 +1,6 @@
 import React, { useLayoutEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-// tslint:disable-next-line: no-submodule-imports
+
 import useKey from 'react-use/lib/useKey';
 import {
   PropsForDataExtractionNotification,
@@ -15,19 +15,19 @@ import {
 import {
   getOldBottomMessageId,
   getOldTopMessageId,
-  getSelectedConversationKey,
   getSortedMessagesTypesOfSelectedConversation,
 } from '../../state/selectors/conversations';
-import { GroupUpdateMessage } from './message/message-item/GroupUpdateMessage';
-import { MessageRequestResponse } from './message/message-item/MessageRequestResponse';
 import { MessageDateBreak } from './message/message-item/DateBreak';
 import { GroupInvitation } from './message/message-item/GroupInvitation';
+import { GroupUpdateMessage } from './message/message-item/GroupUpdateMessage';
 import { Message } from './message/message-item/Message';
+import { MessageRequestResponse } from './message/message-item/MessageRequestResponse';
 import { CallNotification } from './message/message-item/notification-bubble/CallNotification';
 
+import { useSelectedConversationKey } from '../../state/selectors/selectedConversation';
+import { DataExtractionNotification } from './message/message-item/DataExtractionNotification';
 import { SessionLastSeenIndicator } from './SessionLastSeenIndicator';
 import { TimerNotification } from './TimerNotification';
-import { DataExtractionNotification } from './message/message-item/DataExtractionNotification';
 
 function isNotTextboxEvent(e: KeyboardEvent) {
   return (e?.target as any)?.type === undefined;
@@ -46,7 +46,7 @@ export const SessionMessagesList = (props: {
   onEndPressed: () => void;
 }) => {
   const messagesProps = useSelector(getSortedMessagesTypesOfSelectedConversation);
-  const convoKey = useSelector(getSelectedConversationKey);
+  const convoKey = useSelectedConversationKey();
 
   const [didScroll, setDidScroll] = useState(false);
   const oldTopMessageId = useSelector(getOldTopMessageId);

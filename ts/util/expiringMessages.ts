@@ -29,7 +29,7 @@ export async function destroyMessagesAndUpdateRedux(
   window.inboxStore?.dispatch(messagesExpired(messages));
 
   // trigger a refresh the last message for all those uniq conversation
-  conversationWithChanges.map(convoIdToUpdate => {
+  conversationWithChanges.forEach(convoIdToUpdate => {
     getConversationController()
       .get(convoIdToUpdate)
       ?.updateLastMessage();
@@ -45,11 +45,11 @@ async function destroyExpiredMessages() {
       conversationKey: string;
       messageId: string;
     }> = messages.map(m => ({
-      conversationKey: m.attributes.conversationId,
+      conversationKey: m.get('conversationId'),
       messageId: m.id,
     }));
 
-    messages.map(expired => {
+    messages.forEach(expired => {
       window.log.info('Message expired', {
         sentAt: expired.get('sent_at'),
       });
@@ -98,7 +98,8 @@ async function checkExpiringMessages() {
   if (timeout) {
     global.clearTimeout(timeout);
   }
-  timeout = global.setTimeout(destroyExpiredMessages, wait);
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+  timeout = global.setTimeout(async () => destroyExpiredMessages(), wait);
 }
 const throttledCheckExpiringMessages = throttle(checkExpiringMessages, 1000);
 
@@ -111,7 +112,8 @@ const initExpiringMessageListener = () => {
 
   void checkExpiringMessages();
 
-  initWallClockListener(throttledCheckExpiringMessages);
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+  initWallClockListener(async () => throttledCheckExpiringMessages());
   isInit = true;
 };
 

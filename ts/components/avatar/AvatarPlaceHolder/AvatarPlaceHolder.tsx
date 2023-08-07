@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { COLORS } from '../../../themes/constants/colors';
 import { getInitials } from '../../../util/getInitials';
+import { allowOnlyOneAtATime } from '../../../session/utils/Promise';
+import { MemberAvatarPlaceHolder } from '../../icon/MemberAvatarPlaceHolder';
 
 type Props = {
   diameter: number;
@@ -8,13 +10,14 @@ type Props = {
   pubkey: string;
 };
 
-const sha512FromPubkey = async (pubkey: string): Promise<string> => {
-  const buf = await crypto.subtle.digest('SHA-512', new TextEncoder().encode(pubkey));
+const sha512FromPubkeyOneAtAtime = async (pubkey: string) => {
+  return allowOnlyOneAtATime(`sha512FromPubkey-${pubkey}`, async () => {
+    const buf = await crypto.subtle.digest('SHA-512', new TextEncoder().encode(pubkey));
 
-  // tslint:disable: prefer-template restrict-plus-operands
-  return Array.prototype.map
-    .call(new Uint8Array(buf), (x: any) => ('00' + x.toString(16)).slice(-2))
-    .join('');
+    return Array.prototype.map
+      .call(new Uint8Array(buf), (x: any) => `00${x.toString(16)}`.slice(-2))
+      .join('');
+  });
 };
 
 // do not do this on every avatar, just cache the values so we can reuse them across the app
@@ -33,7 +36,7 @@ function useHashBasedOnPubkey(pubkey: string) {
     if (cachedHash) {
       setHash(cachedHash);
       setIsLoading(false);
-      return;
+      return undefined;
     }
     setIsLoading(true);
     let isInProgress = true;
@@ -44,9 +47,11 @@ function useHashBasedOnPubkey(pubkey: string) {
 
         setHash(undefined);
       }
-      return;
+      return undefined;
     }
-    void sha512FromPubkey(pubkey).then(sha => {
+
+    // eslint-disable-next-line more/no-then
+    void sha512FromPubkeyOneAtAtime(pubkey).then(sha => {
       if (isInProgress) {
         setIsLoading(false);
         // Generate the seed simulate the .hashCode as Java
@@ -79,22 +84,8 @@ export const AvatarPlaceHolder = (props: Props) => {
   const rWithoutBorder = diameterWithoutBorder / 2;
 
   if (loading || !hash) {
-    // return grey circle
-    return (
-      <svg viewBox={viewBox}>
-        <g id="UrTavla">
-          <circle
-            cx={r}
-            cy={r}
-            r={rWithoutBorder}
-            fill="#d2d2d3"
-            shapeRendering="geometricPrecision"
-            stroke={'var(--avatar-border-color)'}
-            strokeWidth="1"
-          />
-        </g>
-      </svg>
-    );
+    // return avatar placeholder circle
+    return <MemberAvatarPlaceHolder />;
   }
 
   const initials = getInitials(name);

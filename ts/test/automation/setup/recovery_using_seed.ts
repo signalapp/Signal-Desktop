@@ -1,4 +1,4 @@
-import { _electron, Page } from '@playwright/test';
+import { Page } from '@playwright/test';
 import { clickOnTestIdWithText, typeIntoInput } from '../utilities/utils';
 
 export async function recoverFromSeed(window: Page, userName: string, recoveryPhrase: string) {

@@ -1,14 +1,13 @@
+import crypto from 'crypto';
+import libsodiumwrappers from 'libsodium-wrappers-sumo';
+
 import * as MessageEncrypter from './MessageEncrypter';
 import * as DecryptedAttachmentsManager from './DecryptedAttachmentsManager';
 
-export { MessageEncrypter, DecryptedAttachmentsManager };
-import crypto from 'crypto';
-
-// libsodium-wrappers requires the `require` call to work
-// tslint:disable-next-line: no-require-imports
-import libsodiumwrappers from 'libsodium-wrappers-sumo';
 import { toHex } from '../utils/String';
 import { ECKeyPair } from '../../receiver/keypairs';
+
+export { MessageEncrypter, DecryptedAttachmentsManager };
 
 export type LibSodiumWrappers = typeof libsodiumwrappers;
 
@@ -57,7 +56,25 @@ export async function generateClosedGroupPublicKey() {
 }
 
 /**
+ * Returns a generated ed25519 hex with a public key being of length 66 and starting with 03.
+ */
+export async function generateGroupV3Keypair() {
+  const sodium = await getSodiumRenderer();
+  const ed25519KeyPair = sodium.crypto_sign_keypair();
+
+  const publicKey = new Uint8Array(ed25519KeyPair.publicKey);
+  const preprendedPubkey = new Uint8Array(33);
+  preprendedPubkey.set(publicKey, 1);
+  preprendedPubkey[0] = 3;
+
+  // console.warn(`generateGroupV3Keypair: pubkey${toHex(preprendedPubkey)}`);
+
+  return { pubkey: toHex(preprendedPubkey), privateKey: toHex(ed25519KeyPair.privateKey) };
+}
+
+/**
  * Returns a generated curve25519 keypair without the prefix on the public key.
+ * This should be used for the generation of encryption keypairs for a closed group
  */
 export async function generateCurve25519KeyPairWithoutPrefix(): Promise<ECKeyPair | null> {
   const sodium = await getSodiumRenderer();

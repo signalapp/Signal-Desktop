@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-// tslint:disable-next-line: no-submodule-imports
 import useUpdate from 'react-use/lib/useUpdate';
 import styled from 'styled-components';
 import { useSet } from '../../hooks/useSet';
@@ -11,7 +10,6 @@ import { SpacerLG } from '../basic/Text';
 import { SessionIconButton } from '../icon';
 import { MemberListItem } from '../MemberListItem';
 import { SettingsTitleAndDescription } from './SessionSettingListItem';
-// tslint:disable: use-simple-attributes
 
 const BlockedEntriesContainer = styled.div`
   flex-shrink: 1;
@@ -32,7 +30,7 @@ const BlockedEntriesRoundedContainer = styled.div`
 const BlockedContactsSection = styled.div`
   display: flex;
   flex-direction: column;
-  min-height: 0;
+  min-height: 80px;
 
   background: var(--settings-tab-background-color);
   color: var(--settings-tab-text-color);
@@ -134,7 +132,7 @@ export const BlockedContactsList = () => {
               {hasAtLeastOneSelected && expanded ? (
                 <SessionButton
                   buttonColor={SessionButtonColor.Danger}
-                  text={window.i18n('unblockUser')}
+                  text={window.i18n('unblock')}
                   onClick={unBlockThoseUsers}
                   dataTestId="unblock-button-settings-screen"
                 />

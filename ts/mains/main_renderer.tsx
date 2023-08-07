@@ -1,4 +1,10 @@
 import _ from 'lodash';
+import ReactDOM from 'react-dom';
+import Backbone from 'backbone';
+
+import React from 'react';
+import nativeEmojiData from '@emoji-mart/data';
+
 import { MessageModel } from '../models/message';
 import { isMacOS } from '../OS';
 import { queueAllCached } from '../receiver/receiver';
@@ -11,18 +17,16 @@ import { Notifications } from '../util/notifications';
 import { Registration } from '../util/registration';
 import { isSignInByLinking, Storage } from '../util/storage';
 import { Data } from '../data/data';
-import Backbone from 'backbone';
 import { SessionRegistrationView } from '../components/registration/SessionRegistrationView';
 import { SessionInboxView } from '../components/SessionInboxView';
 import { deleteAllLogs } from '../node/logs';
-import ReactDOM from 'react-dom';
-import React from 'react';
 import { OpenGroupData } from '../data/opengroups';
 import { loadKnownBlindedKeys } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
-import nativeEmojiData from '@emoji-mart/data';
 import { initialiseEmojiData } from '../util/emoji';
 import { switchPrimaryColorTo } from '../themes/switchPrimaryColor';
-// tslint:disable: max-classes-per-file
+import { LibSessionUtil } from '../session/utils/libsession/libsession_utils';
+import { runners } from '../session/utils/job_runners/JobRunner';
+import { SettingsKey } from '../data/settings-key';
 
 // Globally disable drag and drop
 document.body.addEventListener(
@@ -45,7 +49,6 @@ document.body.addEventListener(
 // Load these images now to ensure that they don't flicker on first use
 const images = [];
 function preload(list: Array<string>) {
-  // tslint:disable-next-line: one-variable-per-declaration
   for (let index = 0, max = list.length; index < max; index += 1) {
     const image = new Image();
     image.src = `./images/${list[index]}`;
@@ -107,9 +110,18 @@ function mapOldThemeToNew(theme: string) {
   }
 }
 
+async function startJobRunners() {
+  // start the job runners
+  await runners.avatarDownloadRunner.loadJobsFromDb();
+  runners.avatarDownloadRunner.startProcessing();
+  await runners.configurationSyncRunner.loadJobsFromDb();
+  runners.configurationSyncRunner.startProcessing();
+}
+
 // We need this 'first' check because we don't want to start the app up any other time
 //   than the first time. And storage.fetch() will cause onready() to fire.
 let first = true;
+// eslint-disable-next-line @typescript-eslint/no-misused-promises
 Storage.onready(async () => {
   if (!first) {
     return;
@@ -151,7 +163,7 @@ Storage.onready(async () => {
       // Stop background processing
       AttachmentDownloads.stop();
       // Stop processing incoming messages
-      // FIXME audric stop polling opengroupv2 and swarm nodes
+      // TODOLATER stop polling opengroupv2 and swarm nodes
 
       // Shut down the data interface cleanly
       await Data.shutdown();
@@ -176,6 +188,15 @@ Storage.onready(async () => {
   await window.Events.setThemeSetting(newThemeSetting);
 
   try {
+    if (Registration.isDone()) {
+      try {
+        await LibSessionUtil.initializeLibSessionUtilWrappers();
+      } catch (e) {
+        window.log.warn('LibSessionUtil.initializeLibSessionUtilWrappers failed with', e.message);
+        // I don't think there is anything we can do if this happens
+        throw e;
+      }
+    }
     await initialiseEmojiData(nativeEmojiData);
     await AttachmentDownloads.initAttachmentPaths();
 
@@ -185,9 +206,10 @@ Storage.onready(async () => {
       OpenGroupData.opengroupRoomsLoad(),
       loadKnownBlindedKeys(),
     ]);
+    await startJobRunners();
   } catch (error) {
     window.log.error(
-      'main_start.js: ConversationController failed to load:',
+      'main_renderer: ConversationController failed to load:',
       error && error.stack ? error.stack : error
     );
   } finally {
@@ -198,10 +220,10 @@ Storage.onready(async () => {
 async function manageExpiringData() {
   await Data.cleanSeenMessages();
   await Data.cleanLastHashes();
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   setTimeout(manageExpiringData, 1000 * 60 * 60);
 }
 
-// tslint:disable-next-line: max-func-body-length
 async function start() {
   void manageExpiringData();
   window.dispatchEvent(new Event('storage_ready'));
@@ -224,11 +246,12 @@ async function start() {
       const sentAt = message.get('sent_at');
 
       if (message.hasErrors()) {
-        return;
+        return null;
       }
 
       window.log.info(`Cleanup: Deleting unsent message ${sentAt}`);
       idsToCleanUp.push(message.id);
+      return null;
     })
   );
   if (idsToCleanUp.length) {
@@ -237,13 +260,9 @@ async function start() {
   window.log.info('Cleanup: complete');
 
   window.log.info('listening for registration events');
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   WhisperEvents.on('registration_done', async () => {
     window.log.info('handling registration event');
-
-    // Disable link previews as default per Kee
-    Storage.onready(async () => {
-      await Storage.put('link-preview-setting', false);
-    });
 
     await connect();
   });
@@ -258,14 +277,15 @@ async function start() {
     const hideMenuBar = Storage.get('hide-menu-bar', true) as boolean;
     window.setAutoHideMenuBar(hideMenuBar);
     window.setMenuBarVisibility(!hideMenuBar);
-    getConversationController()
+    // eslint-disable-next-line more/no-then
+    void getConversationController()
       .loadPromise()
       ?.then(() => {
         ReactDOM.render(<SessionInboxView />, document.getElementById('root'));
       });
   }
 
-  function openStandAlone() {
+  function showRegistrationView() {
     ReactDOM.render(<SessionRegistrationView />, document.getElementById('root'));
   }
   ExpirationTimerOptions.initExpiringMessageListener();
@@ -276,7 +296,7 @@ async function start() {
   } else {
     const primaryColor = window.Events.getPrimaryColorSetting();
     await switchPrimaryColorTo(primaryColor);
-    openStandAlone();
+    showRegistrationView();
   }
 
   window.addEventListener('focus', () => {
@@ -288,7 +308,7 @@ async function start() {
 
   // Set user's launch count.
   const prevLaunchCount = window.getSettingValue('launch-count');
-  // tslint:disable-next-line: restrict-plus-operands
+
   const launchCount = !prevLaunchCount ? 1 : prevLaunchCount + 1;
 
   window.setTheme = async newTheme => {
@@ -349,6 +369,7 @@ async function start() {
     window.setCallMediaPermissions(enabled);
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   window.openFromNotification = async conversationKey => {
     window.showWindow();
     if (conversationKey) {
@@ -364,7 +385,7 @@ async function start() {
   if (launchCount === 1) {
     // Initialise default settings
     await window.setSettingValue('hide-menu-bar', true);
-    await window.setSettingValue('link-preview-setting', false);
+    await window.setSettingValue(SettingsKey.settingsLinkPreview, false);
   }
 
   WhisperEvents.on('openInbox', () => {
@@ -440,7 +461,9 @@ async function connect() {
     Notifications.enable();
   }, 10 * 1000); // 10 sec
 
-  await queueAllCached();
+  setTimeout(() => {
+    void queueAllCached();
+  }, 10 * 1000); // 10 sec
   await AttachmentDownloads.start({
     logger: window.log,
   });
@@ -467,13 +490,11 @@ class TextScramble {
     this.chars = '0123456789abcdef';
     this.update = this.update.bind(this);
   }
-  // tslint:disable: insecure-random
 
   public async setText(newText: string) {
     const oldText = this.el.value;
     const length = Math.max(oldText.length, newText.length);
-    // eslint-disable-next-line no-return-assign
-    // tslint:disable-next-line: promise-must-complete
+    // eslint-disable-next-line no-return-assign, no-promise-executor-return
     const promise = new Promise(resolve => (this.resolve = resolve));
     this.queue = [];
 
@@ -500,7 +521,6 @@ class TextScramble {
     let output = '';
     let complete = 0;
 
-    // tslint:disable-next-line: one-variable-per-declaration
     for (let i = 0, n = this.queue.length; i < n; i++) {
       const { from, to, start: startNumber, end } = this.queue[i];
       let { char } = this.queue[i];

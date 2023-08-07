@@ -1,9 +1,9 @@
 import { isEmpty, isEqual } from 'lodash';
-import React, { ReactElement, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { ReactElement, useEffect, useMemo, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { Data } from '../../data/data';
-import { useMessageReactsPropsById, useWeAreModerator } from '../../hooks/useParamSelector';
+import { useMessageReactsPropsById } from '../../hooks/useParamSelector';
 import { isUsAnySogsFromCache } from '../../session/apis/open_group_api/sogsv3/knownBlindedkeys';
 import { UserUtils } from '../../session/utils';
 import {
@@ -11,7 +11,10 @@ import {
   updateReactListModal,
   updateUserDetailsModal,
 } from '../../state/ducks/modalDialog';
-import { getSelectedConversationIsPublic } from '../../state/selectors/conversations';
+import {
+  useSelectedIsPublic,
+  useSelectedWeAreModerator,
+} from '../../state/selectors/selectedConversation';
 import { SortedReactionList } from '../../types/Reaction';
 import { nativeEmojiData } from '../../util/emoji';
 import { Reactions } from '../../util/reactions';
@@ -133,8 +136,8 @@ const ReactionSenders = (props: ReactionSendersProps) => {
             <Avatar
               size={AvatarSize.XS}
               pubkey={sender}
-              onAvatarClick={async () => {
-                await handleAvatarClick(sender);
+              onAvatarClick={() => {
+                void handleAvatarClick(sender);
               }}
             />
             {sender === me ? (
@@ -151,8 +154,8 @@ const ReactionSenders = (props: ReactionSendersProps) => {
             <SessionIconButton
               iconType="exit"
               iconSize="small"
-              onClick={async () => {
-                await handleRemoveReaction();
+              onClick={() => {
+                void handleRemoveReaction();
               }}
             />
           )}
@@ -171,7 +174,6 @@ const StyledCountText = styled.p`
     color: var(--text-primary);
   }
 `;
-// tslint:disable: use-simple-attributes
 
 const CountText = ({ count, emoji }: { count: number; emoji: string }) => {
   return (
@@ -216,24 +218,28 @@ const handleSenders = (senders: Array<string>, me: string) => {
   return updatedSenders;
 };
 
-// tslint:disable-next-line: max-func-body-length
 export const ReactListModal = (props: Props): ReactElement => {
   const { reaction, messageId } = props;
 
   const dispatch = useDispatch();
   const [reactions, setReactions] = useState<SortedReactionList>([]);
-  const reactionsMap = (reactions && Object.fromEntries(reactions)) || {};
+
   const [currentReact, setCurrentReact] = useState('');
   const [reactAriaLabel, setReactAriaLabel] = useState<string | undefined>();
   const [count, setCount] = useState<number | null>(null);
   const [senders, setSenders] = useState<Array<string>>([]);
 
   const msgProps = useMessageReactsPropsById(messageId);
-  const isPublic = useSelector(getSelectedConversationIsPublic);
-  const weAreModerator = useWeAreModerator(msgProps?.convoId);
+  const isPublic = useSelectedIsPublic();
+  const weAreModerator = useSelectedWeAreModerator();
   const me = UserUtils.getOurPubKeyStrFromCache();
 
-  // tslint:disable: cyclomatic-complexity
+  const reactionsMap = useMemo(() => {
+    return (reactions && Object.fromEntries(reactions)) || {};
+  }, [reactions]);
+  const reactionsCount = reactionsMap[currentReact]?.count;
+
+  // TODO we should break down this useEffect, it is hard to read.
   useEffect(() => {
     if (currentReact === '' && currentReact !== reaction) {
       setReactAriaLabel(
@@ -275,7 +281,7 @@ export const ReactListModal = (props: Props): ReactElement => {
       setSenders([]);
     }
 
-    if (reactionsMap[currentReact]?.count && count !== reactionsMap[currentReact]?.count) {
+    if (reactionsCount && count !== reactionsCount) {
       setCount(reactionsMap[currentReact].count);
     }
   }, [
@@ -283,10 +289,11 @@ export const ReactListModal = (props: Props): ReactElement => {
     currentReact,
     me,
     reaction,
-    reactionsMap[currentReact]?.count,
+    reactionsCount,
     msgProps?.sortedReacts,
     reactionsMap,
     senders,
+    reactions,
   ]);
 
   if (!msgProps) {

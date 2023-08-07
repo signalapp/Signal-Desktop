@@ -1,5 +1,5 @@
-import _ from 'lodash';
 import os from 'os';
+import _ from 'lodash';
 import semver from 'semver';
 
 export const isMacOS = () => process.platform === 'darwin';

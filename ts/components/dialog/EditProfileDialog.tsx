@@ -1,28 +1,27 @@
+import autoBind from 'auto-bind';
 import React, { ChangeEvent, MouseEvent } from 'react';
 import { QRCode } from 'react-qr-svg';
-
+import styled from 'styled-components';
 import { Avatar, AvatarSize } from '../avatar/Avatar';
 
-import { YourSessionIDPill, YourSessionIDSelectable } from '../basic/YourSessionIDPill';
 import { SyncUtils, ToastUtils, UserUtils } from '../../session/utils';
+import { YourSessionIDPill, YourSessionIDSelectable } from '../basic/YourSessionIDPill';
 
 import { ConversationModel } from '../../models/conversation';
 
-import { getConversationController } from '../../session/conversations';
-import autoBind from 'auto-bind';
-import { editProfileModal } from '../../state/ducks/modalDialog';
 import { uploadOurAvatar } from '../../interactions/conversationInteractions';
+import { ConversationTypeEnum } from '../../models/conversationAttributes';
+import { MAX_USERNAME_BYTES } from '../../session/constants';
+import { getConversationController } from '../../session/conversations';
+import { sanitizeSessionUsername } from '../../session/utils/String';
+import { editProfileModal } from '../../state/ducks/modalDialog';
+import { pickFileForAvatar } from '../../types/attachments/VisualAttachment';
+import { saveQRCode } from '../../util/saveQRCode';
+import { setLastProfileUpdateTimestamp } from '../../util/storage';
+import { SessionWrapperModal } from '../SessionWrapperModal';
 import { SessionButton, SessionButtonType } from '../basic/SessionButton';
 import { SessionSpinner } from '../basic/SessionSpinner';
 import { SessionIconButton } from '../icon';
-import { SessionWrapperModal } from '../SessionWrapperModal';
-import { pickFileForAvatar } from '../../types/attachments/VisualAttachment';
-import { sanitizeSessionUsername } from '../../session/utils/String';
-import { setLastProfileUpdateTimestamp } from '../../util/storage';
-import { ConversationTypeEnum } from '../../models/conversationAttributes';
-import { MAX_USERNAME_BYTES } from '../../session/constants';
-import styled from 'styled-components';
-import { saveQRCode } from '../../util/saveQRCode';
 
 const handleSaveQRCode = (event: MouseEvent) => {
   event.preventDefault();
@@ -60,10 +59,10 @@ interface State {
   loading: boolean;
 }
 
-export class EditProfileDialog extends React.Component<{}, State> {
+export class EditProfileDialog extends React.Component<object, State> {
   private readonly convo: ConversationModel;
 
-  constructor(props: any) {
+  constructor(props: object) {
     super(props);
 
     autoBind(this);
@@ -164,6 +163,7 @@ export class EditProfileDialog extends React.Component<{}, State> {
             <div
               className="image-upload-section"
               role="button"
+              // eslint-disable-next-line @typescript-eslint/no-misused-promises
               onClick={this.fireInputEvent}
               data-testid="image-upload-section"
             />
@@ -303,6 +303,7 @@ export class EditProfileDialog extends React.Component<{}, State> {
           profileName: trimName,
           loading: true,
         },
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
         async () => {
           await commitProfileEdits(newName, newAvatarObjectUrl);
           this.setState({
@@ -315,8 +316,6 @@ export class EditProfileDialog extends React.Component<{}, State> {
       );
     } catch (e) {
       ToastUtils.pushToastError('nameTooLong', window.i18n('displayNameTooLong'));
-
-      return;
     }
   }
 
@@ -353,6 +352,7 @@ async function commitProfileEdits(newName: string, scaledAvatarUrl: string | nul
   }
   // do not update the avatar if it did not change
   conversation.setSessionDisplayNameNoCommit(newName);
+
   // might be good to not trigger a sync if the name did not change
   await conversation.commit();
   await setLastProfileUpdateTimestamp(Date.now());

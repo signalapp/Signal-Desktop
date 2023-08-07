@@ -1,13 +1,11 @@
 import AbortController from 'abort-controller';
 import { compact, uniq } from 'lodash';
 import { OpenGroupV2Room } from '../../../../data/opengroups';
+import { capabilitiesListHasBlindEnabled } from '../../../../types/sqlSharedTypes';
 import { OnionSending } from '../../../onions/onionSend';
 import { OpenGroupV2Info } from '../opengroupV2/ApiUtil';
 import { batchGlobalIsSuccess, parseBatchGlobalStatusCode } from './sogsV3BatchPoll';
-import {
-  capabilitiesListHasBlindEnabled,
-  fetchCapabilitiesAndUpdateRelatedRoomsOfServerUrl,
-} from './sogsV3Capabilities';
+import { fetchCapabilitiesAndUpdateRelatedRoomsOfServerUrl } from './sogsV3Capabilities';
 
 export const getAllRoomInfos = async (roomInfos: OpenGroupV2Room) => {
   const result = await OnionSending.sendJsonViaOnionV4ToSogs({
@@ -30,7 +28,7 @@ export const getAllRoomInfos = async (roomInfos: OpenGroupV2Room) => {
   const statusCode = parseBatchGlobalStatusCode(result);
 
   window?.log?.warn('getAllRoomInfos failed invalid status code:', statusCode);
-  return;
+  return undefined;
 };
 
 const parseRooms = (jsonResult?: Record<string, any>): undefined | Array<OpenGroupV2Info> => {

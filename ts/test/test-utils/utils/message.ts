@@ -39,6 +39,17 @@ export function generateOpenGroupMessageV2(): OpenGroupMessageV2 {
     base64EncodedData: 'whatever',
   });
 }
+export function generateOpenGroupMessageV4(): OpenGroupMessageV4 {
+  return {
+    posted: Date.now(),
+    reactions: {},
+    seqno: 0,
+    session_id: TestUtils.generateFakePubKey().key,
+
+    id: Math.floor(Math.random() * 100000),
+    data: 'whatever',
+  };
+}
 
 // this is for test purposes only
 type OpenGroupMessageV2WithServerId = Omit<OpenGroupMessageV2, 'sender' | 'serverId'> & {
@@ -64,7 +75,6 @@ export function generateOpenGroupVisibleMessage(): OpenGroupVisibleMessage {
 }
 
 export function generateOpenGroupV2RoomInfos(): OpenGroupRequestCommonType {
-  // tslint:disable-next-line: no-http-string
   return { roomId: 'main', serverUrl: 'http://open.getsession.org' };
 }
 

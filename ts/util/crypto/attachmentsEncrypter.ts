@@ -1,11 +1,9 @@
-// tslint:disable: binary-expression-operand-order
-// tslint:disable: restrict-plus-operands
-// tslint:disable: no-function-expression
+/* eslint-disable more/no-then */
 
 async function sign(key: any, data: any) {
   return crypto.subtle
     .importKey('raw', key, { name: 'HMAC', hash: { name: 'SHA-256' } }, false, ['sign'])
-    .then(async function(secondKey) {
+    .then(async secondKey => {
       return crypto.subtle.sign({ name: 'HMAC', hash: 'SHA-256' }, secondKey, data);
     });
 }
@@ -13,14 +11,14 @@ async function sign(key: any, data: any) {
 async function encrypt(key: any, data: any, iv: any) {
   return crypto.subtle
     .importKey('raw', key, { name: 'AES-CBC' }, false, ['encrypt'])
-    .then(async function(secondKey) {
+    .then(async secondKey => {
       return crypto.subtle.encrypt({ name: 'AES-CBC', iv: new Uint8Array(iv) }, secondKey, data);
     });
 }
 async function decrypt(key: any, data: any, iv: any) {
   return crypto.subtle
     .importKey('raw', key, { name: 'AES-CBC' }, false, ['decrypt'])
-    .then(async function(secondKey) {
+    .then(async secondKey => {
       return crypto.subtle.decrypt({ name: 'AES-CBC', iv: new Uint8Array(iv) }, secondKey, data);
     });
 }
@@ -28,17 +26,16 @@ async function calculateMAC(key: any, data: any) {
   return sign(key, data);
 }
 async function verifyMAC(data: any, key: any, mac: any, length: any) {
-  // tslint:disable-next-line: variable-name
-  return sign(key, data).then(function(calculated_mac) {
-    if (mac.byteLength !== length || calculated_mac.byteLength < length) {
+  return sign(key, data).then(calculatedMac => {
+    if (mac.byteLength !== length || calculatedMac.byteLength < length) {
       throw new Error('Bad MAC length');
     }
-    const a = new Uint8Array(calculated_mac);
+    const a = new Uint8Array(calculatedMac);
     const b = new Uint8Array(mac);
     let result = 0;
     for (let i = 0; i < mac.byteLength; ++i) {
-      // tslint:disable-next-line: no-bitwise
-      result = result | (a[i] ^ b[i]);
+      // eslint-disable-next-line no-bitwise
+      result |= a[i] ^ b[i];
     }
     if (result !== 0) {
       throw new Error('Bad MAC');
@@ -52,7 +49,7 @@ async function verifyDigest(data: ArrayBuffer, theirDigest: ArrayBuffer) {
     const b = new Uint8Array(theirDigest);
     let result = 0;
     for (let i = 0; i < theirDigest.byteLength; i += 1) {
-      // tslint:disable-next-line: no-bitwise
+      // eslint-disable-next-line no-bitwise
       result |= a[i] ^ b[i];
     }
     if (result !== 0) {

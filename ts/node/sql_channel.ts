@@ -7,7 +7,6 @@ let initialized = false;
 
 const SQL_CHANNEL_KEY = 'sql-channel';
 const ERASE_SQL_KEY = 'erase-sql-key';
-// tslint:disable: no-console
 
 export function initializeSqlChannel() {
   if (initialized) {

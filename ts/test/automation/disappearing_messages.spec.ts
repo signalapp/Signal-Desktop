@@ -1,31 +1,21 @@
-import { test } from '@playwright/test';
 import { sleepFor } from '../../session/utils/Promise';
-import { beforeAllClean } from './setup/beforeEach';
 import { newUser } from './setup/new_user';
-import { openApp } from './setup/open';
+import { sessionTestTwoWindows } from './setup/sessionTest';
+import { createContact } from './utilities/create_contact';
 import { sendMessage } from './utilities/message';
 import {
-  clickOnMatchingText,
   clickOnTestIdWithText,
   hasTextElementBeenDeleted,
+  waitForMatchingText,
   waitForTestIdWithText,
 } from './utilities/utils';
-import { createContact } from './utilities/create_contact';
-
-test.beforeEach(beforeAllClean);
-
-// test.afterEach(() => forceCloseAllWindows(windows));
-// tslint:disable: no-console
 
 const testMessage = 'Test-Message- (A -> B) ';
-// const testReply = 'Reply-Test-Message- (B -> A)';
 const sentMessage = `${testMessage}${Date.now()}`;
-// const sentReplyMessage = `${testReply} :${Date.now()}`;
 
-test('Disappearing messages', async () => {
+sessionTestTwoWindows('Disappearing messages', async ([windowA, windowB]) => {
   // Open App
   // Create User
-  const [windowA, windowB] = await openApp(2);
   const [userA, userB] = await Promise.all([newUser(windowA, 'Alice'), newUser(windowB, 'Bob')]);
   // Create Contact
   await createContact(windowA, windowB, userA, userB);
@@ -33,10 +23,12 @@ test('Disappearing messages', async () => {
   await sleepFor(5000);
   // Click on user's avatar to open conversation options
   await clickOnTestIdWithText(windowA, 'conversation-options-avatar');
+  await waitForMatchingText(windowA, 'Your message request has been accepted');
   // Select disappearing messages drop down
-  await clickOnMatchingText(windowA, 'Disappearing messages');
+  await clickOnTestIdWithText(windowA, 'disappearing-messages-dropdown', 'Disappearing messages');
   // Select 5 seconds
-  await clickOnMatchingText(windowA, '5 seconds');
+  await sleepFor(200);
+  await clickOnTestIdWithText(windowA, 'dropdownitem-5-seconds', '5 seconds');
   // Click chevron to close menu
   await clickOnTestIdWithText(windowA, 'back-button-conversation-options');
   // Check config message
@@ -62,6 +54,10 @@ test('Disappearing messages', async () => {
   // focus window B
   await windowA.close();
   await windowB.bringToFront();
-  await clickOnTestIdWithText(windowB, "control-message", `${userA.userName} set the disappearing message timer to 5 seconds`);
+  await clickOnTestIdWithText(
+    windowB,
+    'control-message',
+    `${userA.userName} set the disappearing message timer to 5 seconds`
+  );
   await hasTextElementBeenDeleted(windowB, sentMessage, 5000);
 });

@@ -1,12 +1,9 @@
-// tslint:disable: no-implicit-dependencies max-func-body-length no-unused-expression
-
 import chai from 'chai';
 import Sinon, * as sinon from 'sinon';
+import chaiAsPromised from 'chai-as-promised';
 
 import { PromiseUtils } from '../../../../session/utils';
 
-// tslint:disable-next-line: no-require-imports no-var-requires
-import chaiAsPromised from 'chai-as-promised';
 import {
   allowOnlyOneAtATime,
   hasAlreadyOneAtaTimeMatching,
@@ -53,7 +50,6 @@ describe('Promise Utils', () => {
       // completionSpy will be called on done
       const completionSpy = Sinon.spy();
 
-      // tslint:disable-next-line: mocha-unneeded-done
       const task = (done: any) => {
         completionSpy();
         done();
@@ -106,7 +102,6 @@ describe('Promise Utils', () => {
       // completionSpy will be called on done
       const completionSpy = Sinon.spy();
 
-      // tslint:disable-next-line: mocha-unneeded-done
       const task = (done: any) => {
         completionSpy();
         done();
@@ -177,7 +172,6 @@ describe('Promise Utils', () => {
         await allowOnlyOneAtATime('testing', spy, 5);
         throw new Error('should not get here');
       } catch (e) {
-        // tslint:disable-next-line: no-console
         console.error(e);
         expect(e).to.be.be.eql(undefined, 'should be undefined');
       }
@@ -218,6 +212,6 @@ describe('Promise Utils', () => {
     expect(
       enableLogRedirect,
       'If you see this message, just set `enableLogRedirect` to false in `ts/test/test-utils/utils/stubbing.ts`'
-    ).to.be.false;
+    ).to.be.eq(false);
   });
 });

@@ -15,7 +15,7 @@ import { ClosedGroupEncryptionPairMessage } from './ClosedGroupEncryptionPairMes
 export class ClosedGroupEncryptionPairReplyMessage extends ClosedGroupEncryptionPairMessage {
   public dataProto(): SignalService.DataMessage {
     const dataMessage = super.dataProto();
-    // tslint:disable: no-non-null-assertion
+
     dataMessage.closedGroupControlMessage!.publicKey = fromHexToArray(this.groupId.key);
 
     return dataMessage;

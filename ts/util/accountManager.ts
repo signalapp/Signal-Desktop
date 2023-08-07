@@ -5,7 +5,7 @@ import { getOurPubKeyStrFromCache } from '../session/utils/User';
 import { trigger } from '../shims/events';
 
 import { actions as userActions } from '../state/ducks/user';
-import { mn_decode, mn_encode } from '../session/crypto/mnemonic';
+import { mnDecode, mnEncode } from '../session/crypto/mnemonic';
 import { SettingsKey } from '../data/settings-key';
 import {
   saveRecoveryPhrase,
@@ -17,6 +17,7 @@ import {
 import { Registration } from './registration';
 import { ConversationTypeEnum } from '../models/conversationAttributes';
 import { SessionKeyPair } from '../receiver/keypairs';
+import { LibSessionUtil } from '../session/utils/libsession/libsession_utils';
 
 /**
  * Might throw
@@ -47,7 +48,7 @@ const generateKeypair = async (
   mnemonic: string,
   mnemonicLanguage: string
 ): Promise<SessionKeyPair> => {
-  let seedHex = mn_decode(mnemonic, mnemonicLanguage);
+  let seedHex = mnDecode(mnemonic, mnemonicLanguage);
   // handle shorter than 32 bytes seeds
   const privKeyHexLength = 32 * 2;
   if (seedHex.length !== privKeyHexLength) {
@@ -132,7 +133,7 @@ export async function generateMnemonic() {
   const seedSize = 16;
   const seed = (await getSodiumRenderer()).randombytes_buf(seedSize);
   const hex = toHex(seed);
-  return mn_encode(hex);
+  return mnEncode(hex);
 }
 
 async function createAccount(identityKeyPair: SessionKeyPair) {
@@ -175,11 +176,23 @@ async function createAccount(identityKeyPair: SessionKeyPair) {
   await setLocalPubKey(pubKeyString);
 }
 
+/**
+ *
+ * @param ourPubkey the pubkey recovered from the seed
+ * @param displayName the display name entered by the user, if any. This is not a display name found from a config message in the network.
+ */
 async function registrationDone(ourPubkey: string, displayName: string) {
-  window?.log?.info('registration done');
+  window?.log?.info(`registration done with user provided displayName "${displayName}"`);
 
+  // initializeLibSessionUtilWrappers needs our publicKey to be set
   await Storage.put('primaryDevicePubKey', ourPubkey);
+  await Registration.markDone();
 
+  try {
+    await LibSessionUtil.initializeLibSessionUtilWrappers();
+  } catch (e) {
+    window.log.warn('LibSessionUtil.initializeLibSessionUtilWrappers failed with', e.message);
+  }
   // Ensure that we always have a conversation for ourself
   const conversation = await getConversationController().getOrCreateAndWait(
     ourPubkey,
@@ -189,14 +202,17 @@ async function registrationDone(ourPubkey: string, displayName: string) {
 
   await conversation.setIsApproved(true, false);
   await conversation.setDidApproveMe(true, false);
-
+  // when onboarding, hide the note to self by default.
+  await conversation.setHidden(true);
   await conversation.commit();
+
   const user = {
     ourNumber: getOurPubKeyStrFromCache(),
     ourPrimary: ourPubkey,
   };
   window.inboxStore?.dispatch(userActions.userChanged(user));
-  await Registration.markDone();
+
   window?.log?.info('dispatching registration event');
+  // this will make the poller start fetching messages, needed to find a configuration message
   trigger('registration_done');
 }

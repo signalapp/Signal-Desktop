@@ -1,5 +1,9 @@
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable no-param-reassign */
 import _ from 'lodash';
-import { MessageUtils, ToastUtils, UserUtils } from '../';
+import { v4 as uuidv4 } from 'uuid';
+
+import { MessageUtils, ToastUtils, UserUtils } from '..';
 import { SignalService } from '../../../protobuf';
 import { openConversationWithMessages } from '../../../state/ducks/conversations';
 import {
@@ -17,7 +21,6 @@ import { CallMessage } from '../../messages/outgoing/controlMessage/CallMessage'
 import { ed25519Str } from '../../onions/onionPath';
 import { PubKey } from '../../types';
 
-import { v4 as uuidv4 } from 'uuid';
 import { getIsRinging } from '../RingingManager';
 import { getBlackSilenceMediaStream } from './Silence';
 import { getMessageQueue } from '../..';
@@ -26,10 +29,10 @@ import { DURATION } from '../../constants';
 import { Data } from '../../../data/data';
 import { getCallMediaPermissionsSettings } from '../../../components/settings/SessionSettings';
 import { PnServer } from '../../apis/push_notification_api';
-import { getNowWithNetworkOffset } from '../../apis/snode_api/SNodeAPI';
 import { approveConvoAndSendResponse } from '../../../interactions/conversationInteractions';
-
-// tslint:disable: function-name
+import { GetNetworkTime } from '../../apis/snode_api/getNetworkTime';
+import { SnodeNamespaces } from '../../apis/snode_api/namespaces';
+import { READ_MESSAGE_STATE } from '../../../models/conversationAttributes';
 
 export type InputItem = { deviceId: string; label: string };
 
@@ -185,8 +188,9 @@ async function getConnectedDevices(type: 'videoinput' | 'audioinput' | 'audioout
 }
 
 // Listen for changes to media devices and update the list accordingly
-// tslint:disable-next-line: no-typeof-undefined
+
 if (typeof navigator !== 'undefined') {
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   navigator?.mediaDevices?.addEventListener('devicechange', async () => {
     await updateConnectedDevices();
     callVideoListeners();
@@ -317,7 +321,7 @@ export async function selectAudioInputByDeviceId(audioInputDeviceId: string) {
       sender.track.enabled = false;
     }
     const silence = getBlackSilenceMediaStream().getAudioTracks()[0];
-    sender?.replaceTrack(silence);
+    void sender?.replaceTrack(silence);
     // do the same changes locally
     localStream?.getAudioTracks().forEach(t => {
       t.stop();
@@ -402,6 +406,7 @@ async function createOfferAndSendIt(recipient: string) {
       lines[lineWithFtmpIndex] = `${partBeforeComma[0]};cbr=1`;
       let overridenSdps = lines.join('\n');
       overridenSdps = overridenSdps.replace(
+        // eslint-disable-next-line prefer-regex-literals
         new RegExp('.+urn:ietf:params:rtp-hdrext:ssrc-audio-level.*\\r?\\n'),
         ''
       );
@@ -414,10 +419,11 @@ async function createOfferAndSendIt(recipient: string) {
       });
 
       window.log.info(`sending '${offer.type}'' with callUUID: ${currentCallUUID}`);
-      const negotiationOfferSendResult = await getMessageQueue().sendToPubKeyNonDurably(
-        PubKey.cast(recipient),
-        offerMessage
-      );
+      const negotiationOfferSendResult = await getMessageQueue().sendToPubKeyNonDurably({
+        pubkey: PubKey.cast(recipient),
+        message: offerMessage,
+        namespace: SnodeNamespaces.UserMessages,
+      });
       if (typeof negotiationOfferSendResult === 'number') {
         // window.log?.warn('setting last sent timestamp');
         lastOutgoingOfferTimestamp = negotiationOfferSendResult;
@@ -446,14 +452,14 @@ async function openMediaDevicesAndAddTracks() {
       return;
     }
 
-    selectedAudioInputId = DEVICE_DISABLED_DEVICE_ID; //audioInputsList[0].deviceId;
+    selectedAudioInputId = DEVICE_DISABLED_DEVICE_ID; // audioInputsList[0].deviceId;
     selectedCameraId = DEVICE_DISABLED_DEVICE_ID;
     window.log.info(
       `openMediaDevices videoDevice:${selectedCameraId} audioDevice:${selectedAudioInputId}`
     );
 
     localStream = getBlackSilenceMediaStream();
-    localStream.getTracks().map(track => {
+    localStream.getTracks().forEach(track => {
       if (localStream) {
         peerConnection?.addTrack(track, localStream);
       }
@@ -501,6 +507,7 @@ export async function USER_callRecipient(recipient: string) {
   window.log.info('Sending preOffer message to ', ed25519Str(recipient));
   const calledConvo = getConversationController().get(recipient);
   calledConvo.set('active_at', Date.now()); // addSingleOutgoingMessage does the commit for us on the convo
+  await calledConvo.unhideIfNeeded(false);
   weAreCallerOnCurrentCall = true;
 
   await calledConvo?.addSingleOutgoingMessage({
@@ -514,7 +521,11 @@ export async function USER_callRecipient(recipient: string) {
 
   // we do it manually as the sendToPubkeyNonDurably rely on having a message saved to the db for MessageSentSuccess
   // which is not the case for a pre offer message (the message only exists in memory)
-  const rawMessage = await MessageUtils.toRawMessage(PubKey.cast(recipient), preOfferMsg);
+  const rawMessage = await MessageUtils.toRawMessage(
+    PubKey.cast(recipient),
+    preOfferMsg,
+    SnodeNamespaces.UserMessages
+  );
   const { wrappedEnvelope } = await MessageSender.send(rawMessage);
   void PnServer.notifyPnServer(wrappedEnvelope, recipient);
 
@@ -522,6 +533,7 @@ export async function USER_callRecipient(recipient: string) {
   await createOfferAndSendIt(recipient);
 
   // close and end the call if callTimeoutMs is reached and still not connected
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   global.setTimeout(async () => {
     if (justCreatedCallUUID === currentCallUUID && getIsRinging()) {
       window.log.info(
@@ -533,7 +545,7 @@ export async function USER_callRecipient(recipient: string) {
   }, callTimeoutMs);
 }
 
-const iceCandidates: Array<RTCIceCandidate> = new Array();
+const iceCandidates: Array<RTCIceCandidate> = [];
 const iceSenderDebouncer = _.debounce(async (recipient: string) => {
   if (!iceCandidates) {
     return;
@@ -572,7 +584,11 @@ const iceSenderDebouncer = _.debounce(async (recipient: string) => {
     `sending ICE CANDIDATES MESSAGE to ${ed25519Str(recipient)} about call ${currentCallUUID}`
   );
 
-  await getMessageQueue().sendToPubKeyNonDurably(PubKey.cast(recipient), callIceCandicates);
+  await getMessageQueue().sendToPubKeyNonDurably({
+    pubkey: PubKey.cast(recipient),
+    message: callIceCandicates,
+    namespace: SnodeNamespaces.UserMessages,
+  });
 }, 2000);
 
 const findLastMessageTypeFromSender = (sender: string, msgType: SignalService.CallMessage.Type) => {
@@ -581,7 +597,7 @@ const findLastMessageTypeFromSender = (sender: string, msgType: SignalService.Ca
     return undefined;
   }
 
-  // FIXME this does not sort by timestamp as we do not have a timestamp stored in the SignalService.CallMessage object...
+  // this does not sort by timestamp as we do not have a timestamp stored in the SignalService.CallMessage object
   const allMsg = _.flattenDeep([...msgCacheFromSenderWithDevices.values()]);
   const allMsgFromType = allMsg.filter(m => m.type === msgType);
   const lastMessageOfType = _.last(allMsgFromType);
@@ -698,7 +714,7 @@ function onDataChannelReceivedMessage(ev: MessageEvent<string>) {
     }
 
     if (parsed.video !== undefined) {
-      remoteVideoStreamIsMuted = !Boolean(parsed.video);
+      remoteVideoStreamIsMuted = !parsed.video;
     }
   } catch (e) {
     window.log.warn('onDataChannelReceivedMessage Could not parse data in event', ev);
@@ -751,7 +767,8 @@ function createOrGetPeerConnection(withPubkey: string) {
     );
 
     if (peerConnection && peerConnection?.iceConnectionState === 'disconnected') {
-      //this will trigger a negotiation event with iceRestart set to true in the createOffer options set
+      // this will trigger a negotiation event with iceRestart set to true in the createOffer options set
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       global.setTimeout(async () => {
         window.log.info('onconnectionstatechange disconnected: restartIce()');
 
@@ -835,19 +852,22 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
       const sdpMLineIndex = lastCandidatesFromSender.sdpMLineIndexes[index];
       const sdpMid = lastCandidatesFromSender.sdpMids[index];
       const candicate = new RTCIceCandidate({ sdpMid, sdpMLineIndex, candidate: sdp });
+      // eslint-disable-next-line no-await-in-loop
       await peerConnection.addIceCandidate(candicate);
     }
   }
-  const networkTimestamp = getNowWithNetworkOffset();
+  const networkTimestamp = GetNetworkTime.getNowWithNetworkOffset();
   const callerConvo = getConversationController().get(fromSender);
   callerConvo.set('active_at', networkTimestamp);
+  await callerConvo.unhideIfNeeded(false);
+
   await callerConvo?.addSingleIncomingMessage({
     source: UserUtils.getOurPubKeyStrFromCache(),
     sent_at: networkTimestamp,
     received_at: networkTimestamp,
     expireTimer: 0,
     callNotificationType: 'answered-a-call',
-    unread: 0,
+    unread: READ_MESSAGE_STATE.read,
   });
   await buildAnswerAndSendIt(fromSender);
 
@@ -903,8 +923,16 @@ export async function USER_rejectIncomingCallRequest(fromSender: string) {
 
 async function sendCallMessageAndSync(callmessage: CallMessage, user: string) {
   await Promise.all([
-    getMessageQueue().sendToPubKeyNonDurably(PubKey.cast(user), callmessage),
-    getMessageQueue().sendToPubKeyNonDurably(UserUtils.getOurPubKeyFromCache(), callmessage),
+    getMessageQueue().sendToPubKeyNonDurably({
+      pubkey: PubKey.cast(user),
+      message: callmessage,
+      namespace: SnodeNamespaces.UserMessages,
+    }),
+    getMessageQueue().sendToPubKeyNonDurably({
+      pubkey: UserUtils.getOurPubKeyFromCache(),
+      message: callmessage,
+      namespace: SnodeNamespaces.UserMessages,
+    }),
   ]);
 }
 
@@ -914,15 +942,18 @@ export async function USER_hangup(fromSender: string) {
   if (!currentCallUUID) {
     window.log.warn('should not be able to hangup without a currentCallUUID');
     return;
-  } else {
-    rejectedCallUUIDS.add(currentCallUUID);
-    const endCallMessage = new CallMessage({
-      type: SignalService.CallMessage.Type.END_CALL,
-      timestamp: Date.now(),
-      uuid: currentCallUUID,
-    });
-    void getMessageQueue().sendToPubKeyNonDurably(PubKey.cast(fromSender), endCallMessage);
   }
+  rejectedCallUUIDS.add(currentCallUUID);
+  const endCallMessage = new CallMessage({
+    type: SignalService.CallMessage.Type.END_CALL,
+    timestamp: Date.now(),
+    uuid: currentCallUUID,
+  });
+  void getMessageQueue().sendToPubKeyNonDurably({
+    pubkey: PubKey.cast(fromSender),
+    message: endCallMessage,
+    namespace: SnodeNamespaces.UserMessages,
+  });
 
   window.inboxStore?.dispatch(endCall());
   window.log.info('sending hangup with an END_CALL MESSAGE');
@@ -1151,29 +1182,29 @@ export async function handleMissedCall(
       ToastUtils.pushedMissedCallNotApproved(displayname);
       break;
     case 'too-old-timestamp':
-      //no toast for this case, the missed call notification is enough
+      // no toast for this case, the missed call notification is enough
       break;
     default:
   }
 
   await addMissedCallMessage(sender, incomingOfferTimestamp);
-  return;
 }
 
 async function addMissedCallMessage(callerPubkey: string, sentAt: number) {
   const incomingCallConversation = getConversationController().get(callerPubkey);
 
-  if (incomingCallConversation.isActive()) {
-    incomingCallConversation.set('active_at', getNowWithNetworkOffset());
+  if (incomingCallConversation.isActive() || incomingCallConversation.isHidden()) {
+    incomingCallConversation.set('active_at', GetNetworkTime.getNowWithNetworkOffset());
+    await incomingCallConversation.unhideIfNeeded(false);
   }
 
   await incomingCallConversation?.addSingleIncomingMessage({
     source: callerPubkey,
     sent_at: sentAt,
-    received_at: getNowWithNetworkOffset(),
+    received_at: GetNetworkTime.getNowWithNetworkOffset(),
     expireTimer: 0,
     callNotificationType: 'missed-call',
-    unread: 1,
+    unread: READ_MESSAGE_STATE.unread,
   });
 }
 
@@ -1239,9 +1270,9 @@ export async function handleCallTypeAnswer(
       }
     }
     return;
-  } else {
-    window.log.info(`handling callMessage ANSWER from ${callMessageUUID}`);
   }
+  window.log.info(`handling callMessage ANSWER from ${callMessageUUID}`);
+
   const cachedMessage = getCachedMessageFromCallMessage(callMessage, envelopeTimestamp);
 
   pushCallMessageToCallCache(sender, callMessageUUID, cachedMessage);
@@ -1297,13 +1328,13 @@ export async function handleCallTypeIceCandidates(
 
 async function addIceCandidateToExistingPeerConnection(callMessage: SignalService.CallMessage) {
   if (peerConnection) {
-    // tslint:disable-next-line: prefer-for-of
     for (let index = 0; index < callMessage.sdps.length; index++) {
       const sdp = callMessage.sdps[index];
       const sdpMLineIndex = callMessage.sdpMLineIndexes[index];
       const sdpMid = callMessage.sdpMids[index];
       const candicate = new RTCIceCandidate({ sdpMid, sdpMLineIndex, candidate: sdp });
       try {
+        // eslint-disable-next-line no-await-in-loop
         await peerConnection.addIceCandidate(candicate);
       } catch (err) {
         if (!ignoreOffer) {
@@ -1316,7 +1347,6 @@ async function addIceCandidateToExistingPeerConnection(callMessage: SignalServic
   }
 }
 
-// tslint:disable-next-line: no-async-without-await
 export async function handleOtherCallTypes(
   sender: string,
   callMessage: SignalService.CallMessage,
@@ -1341,7 +1371,7 @@ function createCallCacheForPubkeyAndUUID(sender: string, uuid: string) {
   }
 
   if (!callCache.get(sender)?.has(uuid)) {
-    callCache.get(sender)?.set(uuid, new Array());
+    callCache.get(sender)?.set(uuid, []);
   }
 }
 

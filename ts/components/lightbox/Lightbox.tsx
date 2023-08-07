@@ -1,11 +1,9 @@
-// tslint:disable:react-a11y-anchors
-
 import React, { useRef } from 'react';
 
-// useCss has some issues on our setup. so import it directly
-// tslint:disable-next-line: no-submodule-imports
 import useUnmount from 'react-use/lib/useUnmount';
 import { useDispatch } from 'react-redux';
+import { isUndefined } from 'lodash';
+import styled from 'styled-components';
 import { useDisableDrag } from '../../hooks/useDisableDrag';
 import { useEncryptedFileFetch } from '../../hooks/useEncryptedFileFetch';
 import { showLightBox } from '../../state/ducks/conversations';
@@ -13,8 +11,7 @@ import { GoogleChrome } from '../../util';
 import { Flex } from '../basic/Flex';
 import { SessionIconButton, SessionIconType } from '../icon';
 import * as MIME from '../../types/MIME';
-import { isUndefined } from 'lodash';
-import styled from 'styled-components';
+import { assertUnreachable } from '../../types/sqlSharedTypes';
 
 const colorSVG = (url: string, color: string) => {
   return {
@@ -70,7 +67,7 @@ const styles = {
   } as React.CSSProperties,
   objectParentContainer: {
     flexGrow: 1,
-    textAlign: 'center' as 'center',
+    textAlign: 'center' as const,
     margin: 'auto',
   },
   object: {
@@ -166,7 +163,7 @@ const IconButton = ({ onClick, type }: IconButtonProps) => {
 
       break;
     default:
-      throw new TypeError(`Invalid button type: ${type}`);
+      assertUnreachable(type, `Invalid button type: ${type}`);
   }
 
   return (
@@ -203,7 +200,6 @@ const Icon = ({
   />
 );
 
-// tslint:disable-next-line: max-func-body-length
 export const LightboxObject = ({
   objectURL,
   contentType,

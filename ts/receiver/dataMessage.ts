@@ -1,28 +1,30 @@
-import { SignalService } from './../protobuf';
-import { removeFromCache } from './cache';
-import { EnvelopePlus } from './types';
-import { getEnvelopeId } from './common';
-
-import { PubKey } from '../session/types';
-import { handleMessageJob, toRegularMessage } from './queuedJob';
+/* eslint-disable no-param-reassign */
 import { isEmpty, isFinite, noop, omit, toNumber } from 'lodash';
-import { StringUtils, UserUtils } from '../session/utils';
-import { getConversationController } from '../session/conversations';
-import { handleClosedGroupControlMessage } from './closedGroups';
-import { Data } from '../../ts/data/data';
-import { ConversationModel } from '../models/conversation';
 
+import { SignalService } from '../protobuf';
+import { removeFromCache } from './cache';
+import { getEnvelopeId } from './common';
+import { EnvelopePlus } from './types';
+
+import { Data } from '../data/data';
+import { ConversationModel } from '../models/conversation';
+import { getConversationController } from '../session/conversations';
+import { PubKey } from '../session/types';
+import { StringUtils, UserUtils } from '../session/utils';
+import { handleClosedGroupControlMessage } from './closedGroups';
+import { handleMessageJob, toRegularMessage } from './queuedJob';
+
+import { ConversationTypeEnum } from '../models/conversationAttributes';
+import { MessageModel } from '../models/message';
 import {
   createSwarmMessageSentFromNotUs,
   createSwarmMessageSentFromUs,
 } from '../models/messageFactory';
-import { MessageModel } from '../models/message';
+import { ProfileManager } from '../session/profile_manager/ProfileManager';
 import { isUsFromCache } from '../session/utils/User';
-import { appendFetchAvatarAndProfileJob } from './userProfileImageUpdates';
-import { toLogFormat } from '../types/attachments/Errors';
-import { ConversationTypeEnum } from '../models/conversationAttributes';
-import { Reactions } from '../util/reactions';
 import { Action, Reaction } from '../types/Reaction';
+import { toLogFormat } from '../types/attachments/Errors';
+import { Reactions } from '../util/reactions';
 
 function cleanAttachment(attachment: any) {
   return {
@@ -45,7 +47,9 @@ function cleanAttachments(decrypted: SignalService.DataMessage) {
 
   decrypted.group = null;
 
-  decrypted.attachments = (decrypted.attachments || []).map(cleanAttachment);
+  // when receiving a message we get keys of attachment as buffer, but we override the data with the decrypted string instead.
+  // TODO it would be nice to get rid of that as any here, but not in this PR
+  decrypted.attachments = (decrypted.attachments || []).map(cleanAttachment) as any;
   decrypted.preview = (decrypted.preview || []).map((item: any) => {
     const { image } = item;
 
@@ -97,7 +101,6 @@ export function cleanIncomingDataMessage(
   rawDataMessage: SignalService.DataMessage,
   envelope?: EnvelopePlus
 ) {
-  /* tslint:disable:no-bitwise */
   const FLAGS = SignalService.DataMessage.Flags;
 
   // Now that its decrypted, validate the message and clean it up for consumer
@@ -111,6 +114,7 @@ export function cleanIncomingDataMessage(
   if (rawDataMessage.expireTimer == null) {
     rawDataMessage.expireTimer = 0;
   }
+  // eslint-disable-next-line no-bitwise
   if (rawDataMessage.flags & FLAGS.EXPIRATION_TIMER_UPDATE) {
     rawDataMessage.body = '';
     rawDataMessage.attachments = [];
@@ -146,7 +150,7 @@ export function cleanIncomingDataMessage(
  *        * envelope.source is our pubkey (our other device has the same pubkey as us)
  *        * dataMessage.syncTarget is either the group public key OR the private conversation this message is about.
  */
-// tslint:disable-next-line: cyclomatic-complexity
+
 export async function handleSwarmDataMessage(
   envelope: EnvelopePlus,
   sentAtTimestamp: number,
@@ -169,7 +173,8 @@ export async function handleSwarmDataMessage(
   /**
    * This is a mess, but
    *
-   * 1. if syncTarget is set and this is a synced message, syncTarget holds the conversationId in which this message is addressed. This syncTarget can be a private conversation pubkey or a closed group pubkey
+   * 1. if syncTarget is set and this is a synced message, syncTarget holds the conversationId in which this message is addressed.
+   *    This syncTarget can be a private conversation pubkey or a closed group pubkey
    *
    * 2. for a closed group message, envelope.senderIdentity is the pubkey of the sender and envelope.source is the pubkey of the closed group.
    *
@@ -182,23 +187,31 @@ export async function handleSwarmDataMessage(
 
   if (isSyncedMessage && !isMe) {
     window?.log?.warn('Got a sync message from someone else than me. Dropping it.');
-    return removeFromCache(envelope);
-  } else if (isSyncedMessage) {
-    // we should create the synTarget convo but I have no idea how to know if this is a private or closed group convo?
+    await removeFromCache(envelope);
+    return;
   }
   const convoIdToAddTheMessageTo = PubKey.removeTextSecurePrefixIfNeeded(
     isSyncedMessage ? cleanDataMessage.syncTarget : envelope.source
   );
 
-  const convoToAddMessageTo = await getConversationController().getOrCreateAndWait(
-    convoIdToAddTheMessageTo,
-    envelope.senderIdentity ? ConversationTypeEnum.GROUP : ConversationTypeEnum.PRIVATE
-  );
+  const isGroupMessage = !!envelope.senderIdentity;
+  const isGroupV3Message = isGroupMessage && PubKey.isClosedGroupV3(envelope.source);
+  let typeOfConvo = ConversationTypeEnum.PRIVATE;
+  if (isGroupV3Message) {
+    typeOfConvo = ConversationTypeEnum.GROUPV3;
+  } else if (isGroupMessage) {
+    typeOfConvo = ConversationTypeEnum.GROUP;
+  }
 
   window?.log?.info(
     `Handle dataMessage about convo ${convoIdToAddTheMessageTo} from user: ${convoIdOfSender}`
   );
+
   // remove the prefix from the source object so this is correct for all other
+  const convoToAddMessageTo = await getConversationController().getOrCreateAndWait(
+    convoIdToAddTheMessageTo,
+    typeOfConvo
+  );
 
   // Check if we need to update any profile names
   if (
@@ -207,22 +220,23 @@ export async function handleSwarmDataMessage(
     cleanDataMessage.profile &&
     cleanDataMessage.profileKey?.length
   ) {
-    // do not await this
-    void appendFetchAvatarAndProfileJob(
-      senderConversationModel,
-      cleanDataMessage.profile,
+    await ProfileManager.updateProfileOfContact(
+      senderConversationModel.id,
+      cleanDataMessage.profile.displayName,
+      cleanDataMessage.profile.profilePicture,
       cleanDataMessage.profileKey
     );
   }
 
   if (!messageHasVisibleContent(cleanDataMessage)) {
     window?.log?.warn(`Message ${getEnvelopeId(envelope)} ignored; it was empty`);
-    return removeFromCache(envelope);
+    await removeFromCache(envelope);
+    return;
   }
 
   if (!convoIdToAddTheMessageTo) {
     window?.log?.error('We cannot handle a message without a conversationId');
-    confirm();
+    await removeFromCache(envelope);
     return;
   }
 
@@ -246,6 +260,7 @@ export async function handleSwarmDataMessage(
     sentAtTimestamp,
     cleanDataMessage,
     convoToAddMessageTo,
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     () => removeFromCache(envelope)
   );
 }

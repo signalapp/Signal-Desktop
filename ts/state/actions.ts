@@ -8,7 +8,7 @@ import { actions as theme } from './ducks/theme';
 import { actions as modalDialog } from './ducks/modalDialog';
 import { actions as primaryColor } from './ducks/primaryColor';
 
-export function mapDispatchToProps(dispatch: Dispatch): Object {
+export function mapDispatchToProps(dispatch: Dispatch): object {
   return {
     ...bindActionCreators(
       {

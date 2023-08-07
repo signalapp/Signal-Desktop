@@ -1,9 +1,14 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
+/* eslint-disable no-console */
 import * as path from 'path';
-import * as fs from 'fs-extra';
-import { autoUpdater, UpdateInfo } from 'electron-updater';
 import { app, BrowserWindow } from 'electron';
+import { autoUpdater, UpdateInfo } from 'electron-updater';
+import * as fs from 'fs-extra';
+import { gt as isVersionGreaterThan, parse as parseVersion } from 'semver';
+
 import { windowMarkShouldQuit } from '../node/window_state';
 
+import { getLastestRelease } from '../node/latest_desktop_release';
 import {
   getPrintableError,
   LoggerType,
@@ -12,14 +17,12 @@ import {
   showDownloadUpdateDialog,
   showUpdateDialog,
 } from './common';
-import { gt as isVersionGreaterThan, parse as parseVersion } from 'semver';
-import { getLastestRelease } from '../node/latest_desktop_release';
 
 let isUpdating = false;
 let downloadIgnored = false;
 let interval: NodeJS.Timeout | undefined;
 let stopped = false;
-// tslint:disable: no-console
+// eslint:disable: no-console
 
 export async function start(
   getMainWindow: () => BrowserWindow | null,
@@ -110,7 +113,7 @@ async function checkForUpdates(
 
     logger.info('[updater] checkForUpdates got github response back ');
 
-    if (!result.updateInfo) {
+    if (!result?.updateInfo) {
       logger.info('[updater] no update info received');
 
       return;
@@ -202,7 +205,6 @@ async function canAutoUpdate(): Promise<boolean> {
 
   return new Promise(resolve => {
     try {
-      // tslint:disable-next-line: non-literal-fs-path
       const exists = fs.existsSync(appUpdateConfigPath);
       resolve(exists);
     } catch (e) {

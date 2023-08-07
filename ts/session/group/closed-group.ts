@@ -1,34 +1,30 @@
-import { PubKey } from '../types';
-
 import _ from 'lodash';
-
-import { fromHexToArray, toHex } from '../utils/String';
-import { BlockedNumberController } from '../../util/blockedNumberController';
-import { getConversationController } from '../conversations';
-import { Data } from '../../data/data';
 import { v4 as uuidv4 } from 'uuid';
-import { SignalService } from '../../protobuf';
-import { generateCurve25519KeyPairWithoutPrefix } from '../crypto';
-import { encryptUsingSessionProtocol } from '../crypto/MessageEncrypter';
-import { ECKeyPair } from '../../receiver/keypairs';
-import { UserUtils } from '../utils';
-import { ClosedGroupMemberLeftMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupMemberLeftMessage';
+
+import { PubKey } from '../types';
+import { getMessageQueue } from '..';
+import { Data } from '../../data/data';
 import { ConversationModel } from '../../models/conversation';
+import { ConversationAttributes, ConversationTypeEnum } from '../../models/conversationAttributes';
 import { MessageModel } from '../../models/message';
+import { SignalService } from '../../protobuf';
 import {
   addKeyPairToCacheAndDBIfNeeded,
   distributingClosedGroupEncryptionKeyPairs,
-  markGroupAsLeftOrKicked,
 } from '../../receiver/closedGroups';
-import { getMessageQueue } from '..';
+import { ECKeyPair } from '../../receiver/keypairs';
+import { GetNetworkTime } from '../apis/snode_api/getNetworkTime';
+import { SnodeNamespaces } from '../apis/snode_api/namespaces';
+import { getConversationController } from '../conversations';
+import { generateCurve25519KeyPairWithoutPrefix } from '../crypto';
+import { encryptUsingSessionProtocol } from '../crypto/MessageEncrypter';
 import { ClosedGroupAddedMembersMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupAddedMembersMessage';
 import { ClosedGroupEncryptionPairMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupEncryptionPairMessage';
 import { ClosedGroupNameChangeMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupNameChangeMessage';
 import { ClosedGroupNewMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupNewMessage';
 import { ClosedGroupRemovedMembersMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupRemovedMembersMessage';
-import { getSwarmPollingInstance } from '../apis/snode_api';
-import { getNowWithNetworkOffset } from '../apis/snode_api/SNodeAPI';
-import { ConversationAttributes, ConversationTypeEnum } from '../../models/conversationAttributes';
+import { UserUtils } from '../utils';
+import { fromHexToArray, toHex } from '../utils/String';
 
 export type GroupInfo = {
   id: string;
@@ -37,10 +33,7 @@ export type GroupInfo = {
   zombies?: Array<string>;
   activeAt?: number;
   expireTimer?: number | null;
-  blocked?: boolean;
   admins?: Array<string>;
-  secretKey?: Uint8Array;
-  weWereJustAdded?: boolean;
 };
 
 export interface GroupDiff extends MemberChanges {
@@ -67,14 +60,11 @@ export async function initiateClosedGroupUpdate(
   groupName: string,
   members: Array<string>
 ) {
+  const isGroupV3 = PubKey.isClosedGroupV3(groupId);
   const convo = await getConversationController().getOrCreateAndWait(
     groupId,
-    ConversationTypeEnum.GROUP
+    isGroupV3 ? ConversationTypeEnum.GROUPV3 : ConversationTypeEnum.GROUP
   );
-
-  if (!convo.isMediumGroup()) {
-    throw new Error('Legacy group are not supported anymore.');
-  }
 
   // do not give an admins field here. We don't want to be able to update admins and
   // updateOrCreateClosedGroup() will update them if given the choice.
@@ -175,16 +165,13 @@ export async function addUpdateMessage(
     });
     return outgoingMessage;
   }
+  // addSingleIncomingMessage also takes care of updating the unreadCount
+
   const incomingMessage = await convo.addSingleIncomingMessage({
     sent_at: sentAt,
     group_update: groupUpdate,
     expireTimer: 0,
     source: sender,
-  });
-  // update the unreadCount for this convo
-  const unreadCount = await convo.getUnreadCount();
-  convo.set({
-    unreadCount,
   });
   await convo.commit();
   return incomingMessage;
@@ -217,7 +204,7 @@ function buildGroupDiff(convo: ConversationModel, update: GroupInfo): GroupDiff 
 }
 
 export async function updateOrCreateClosedGroup(details: GroupInfo) {
-  const { id, weWereJustAdded } = details;
+  const { id, expireTimer } = details;
 
   const conversation = await getConversationController().getOrCreateAndWait(
     id,
@@ -226,39 +213,24 @@ export async function updateOrCreateClosedGroup(details: GroupInfo) {
 
   const updates: Pick<
     ConversationAttributes,
-    | 'type'
-    | 'members'
-    | 'displayNameInProfile'
-    | 'is_medium_group'
-    | 'active_at'
-    | 'left'
-    | 'lastJoinedTimestamp'
-    | 'zombies'
+    'type' | 'members' | 'displayNameInProfile' | 'active_at' | 'left'
   > = {
     displayNameInProfile: details.name,
     members: details.members,
-    type: 'group',
-    is_medium_group: true,
-    zombies: details.zombies?.length ? details.zombies : [],
+    // Note: legacy group to not support change of admins.
+    type: ConversationTypeEnum.GROUP,
     active_at: details.activeAt ? details.activeAt : 0,
-    left: details.activeAt ? false : true,
-    lastJoinedTimestamp: details.activeAt && weWereJustAdded ? Date.now() : details.activeAt || 0,
+    left: !details.activeAt,
   };
 
   conversation.set(updates);
-
-  const isBlocked = details.blocked || false;
-  if (conversation.isClosedGroup() || conversation.isMediumGroup()) {
-    await BlockedNumberController.setGroupBlocked(conversation.id as string, isBlocked);
-  }
+  await conversation.unhideIfNeeded(false);
 
   if (details.admins?.length) {
     await conversation.updateGroupAdmins(details.admins, false);
   }
 
   await conversation.commit();
-
-  const { expireTimer } = details;
 
   if (expireTimer === undefined || typeof expireTimer !== 'number') {
     return;
@@ -271,61 +243,6 @@ export async function updateOrCreateClosedGroup(details: GroupInfo) {
       fromSync: true,
     }
   );
-}
-
-export async function leaveClosedGroup(groupId: string) {
-  const convo = getConversationController().get(groupId);
-
-  if (!convo) {
-    window?.log?.error('Cannot leave non-existing group');
-    return;
-  }
-  const ourNumber = UserUtils.getOurPubKeyFromCache();
-  const isCurrentUserAdmin = convo.get('groupAdmins')?.includes(ourNumber.key);
-
-  let members: Array<string> = [];
-  let admins: Array<string> = [];
-
-  // if we are the admin, the group must be destroyed for every members
-  if (isCurrentUserAdmin) {
-    window?.log?.info('Admin left a closed group. We need to destroy it');
-    convo.set({ left: true });
-    members = [];
-    admins = [];
-  } else {
-    // otherwise, just the exclude ourself from the members and trigger an update with this
-    convo.set({ left: true });
-    members = (convo.get('members') || []).filter((m: string) => m !== ourNumber.key);
-    admins = convo.get('groupAdmins') || [];
-  }
-  convo.set({ members });
-  convo.set({ groupAdmins: admins });
-  await convo.commit();
-
-  const source = UserUtils.getOurPubKeyStrFromCache();
-  const networkTimestamp = getNowWithNetworkOffset();
-
-  const dbMessage = await convo.addSingleOutgoingMessage({
-    group_update: { left: [source] },
-    sent_at: networkTimestamp,
-    expireTimer: 0,
-  });
-  // Send the update to the group
-  const ourLeavingMessage = new ClosedGroupMemberLeftMessage({
-    timestamp: networkTimestamp,
-    groupId,
-    identifier: dbMessage.id as string,
-  });
-
-  window?.log?.info(`We are leaving the group ${groupId}. Sending our leaving message.`);
-  // sent the message to the group and once done, remove everything related to this group
-  getSwarmPollingInstance().removePubkey(groupId);
-  await getMessageQueue().sendToGroup(ourLeavingMessage, async () => {
-    window?.log?.info(
-      `Leaving message sent ${groupId}. Removing everything related to this group.`
-    );
-    await markGroupAsLeftOrKicked(groupId, convo, false);
-  });
 }
 
 async function sendNewName(convo: ConversationModel, name: string, messageId: string) {
@@ -343,7 +260,10 @@ async function sendNewName(convo: ConversationModel, name: string, messageId: st
     identifier: messageId,
     name,
   });
-  await getMessageQueue().sendToGroup(nameChangeMessage);
+  await getMessageQueue().sendToGroup({
+    message: nameChangeMessage,
+    namespace: SnodeNamespaces.ClosedGroupMessage,
+  });
 }
 
 async function sendAddedMembers(
@@ -375,7 +295,10 @@ async function sendAddedMembers(
     addedMembers,
     identifier: messageId,
   });
-  await getMessageQueue().sendToGroup(closedGroupControlMessage);
+  await getMessageQueue().sendToGroup({
+    message: closedGroupControlMessage,
+    namespace: SnodeNamespaces.ClosedGroupMessage,
+  });
 
   // Send closed group update messages to any new members individually
   const newClosedGroupUpdate = new ClosedGroupNewMessage({
@@ -392,7 +315,11 @@ async function sendAddedMembers(
   const promises = addedMembers.map(async m => {
     await getConversationController().getOrCreateAndWait(m, ConversationTypeEnum.PRIVATE);
     const memberPubKey = PubKey.cast(m);
-    await getMessageQueue().sendToPubKey(memberPubKey, newClosedGroupUpdate);
+    await getMessageQueue().sendToPubKey(
+      memberPubKey,
+      newClosedGroupUpdate,
+      SnodeNamespaces.UserMessages
+    );
   });
   await Promise.all(promises);
 }
@@ -427,15 +354,19 @@ export async function sendRemovedMembers(
     identifier: messageId,
   });
   // Send the group update, and only once sent, generate and distribute a new encryption key pair if needed
-  await getMessageQueue().sendToGroup(mainClosedGroupControlMessage, async () => {
-    if (isCurrentUserAdmin) {
-      // we send the new encryption key only to members already here before the update
-      window?.log?.info(
-        `Sending group update: A user was removed from ${groupId} and we are the admin. Generating and sending a new EncryptionKeyPair`
-      );
+  await getMessageQueue().sendToGroup({
+    message: mainClosedGroupControlMessage,
+    namespace: SnodeNamespaces.ClosedGroupMessage,
+    sentCb: async () => {
+      if (isCurrentUserAdmin) {
+        // we send the new encryption key only to members already here before the update
+        window?.log?.info(
+          `Sending group update: A user was removed from ${groupId} and we are the admin. Generating and sending a new EncryptionKeyPair`
+        );
 
-      await generateAndSendNewEncryptionKeyPair(groupId, stillMembers);
-    }
+        await generateAndSendNewEncryptionKeyPair(groupId, stillMembers);
+      }
+    },
   });
 }
 
@@ -453,7 +384,7 @@ async function generateAndSendNewEncryptionKeyPair(
     );
     return;
   }
-  if (!groupConvo.isMediumGroup()) {
+  if (!groupConvo.isClosedGroup()) {
     window?.log?.warn(
       'generateAndSendNewEncryptionKeyPair: conversation not a closed group',
       groupPublicKey
@@ -461,8 +392,8 @@ async function generateAndSendNewEncryptionKeyPair(
     return;
   }
 
-  const ourNumber = UserUtils.getOurPubKeyFromCache();
-  if (!groupConvo.get('groupAdmins')?.includes(ourNumber.key)) {
+  const ourNumber = UserUtils.getOurPubKeyStrFromCache();
+  if (!groupConvo.get('groupAdmins')?.includes(ourNumber)) {
     window?.log?.warn('generateAndSendNewEncryptionKeyPair: cannot send it as a non admin');
     return;
   }
@@ -479,7 +410,7 @@ async function generateAndSendNewEncryptionKeyPair(
 
   const keypairsMessage = new ClosedGroupEncryptionPairMessage({
     groupId: toHex(groupId),
-    timestamp: Date.now(),
+    timestamp: GetNetworkTime.getNowWithNetworkOffset(),
     encryptedKeyPairs: wrappers,
   });
 
@@ -493,9 +424,15 @@ async function generateAndSendNewEncryptionKeyPair(
     distributingClosedGroupEncryptionKeyPairs.delete(toHex(groupId));
 
     await addKeyPairToCacheAndDBIfNeeded(toHex(groupId), newKeyPair.toHexKeyPair());
+    await groupConvo?.commit(); // this makes sure to include the new encryption keypair in the libsession usergroup wrapper
   };
+
   // this is to be sent to the group pubkey adress
-  await getMessageQueue().sendToGroup(keypairsMessage, messageSentCallback);
+  await getMessageQueue().sendToGroup({
+    message: keypairsMessage,
+    namespace: SnodeNamespaces.ClosedGroupMessage,
+    sentCb: messageSentCallback,
+  });
 }
 
 export async function buildEncryptionKeyPairWrappers(

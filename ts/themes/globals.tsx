@@ -17,6 +17,7 @@ export type ThemeGlobals = {
   '--font-size-h4': string;
 
   /* Margins */
+  '--margins-xxs': string;
   '--margins-xs': string;
   '--margins-sm': string;
   '--margins-md': string;
@@ -97,6 +98,7 @@ export const THEME_GLOBALS: ThemeGlobals = {
   '--font-size-h3': '20px',
   '--font-size-h4': '16px',
 
+  '--margins-xxs': '2.5px',
   '--margins-xs': '5px',
   '--margins-sm': '10px',
   '--margins-md': '15px',
@@ -150,8 +152,10 @@ export const THEME_GLOBALS: ThemeGlobals = {
 // These should only be needed for the global style (at root).
 export function declareCSSVariables(variables: Record<string, string>) {
   let output = '';
+  // eslint-disable-next-line no-restricted-syntax
   for (const [key, value] of Object.entries(variables)) {
     output += `${key}: ${value};\n`;
   }
+
   return output;
 }

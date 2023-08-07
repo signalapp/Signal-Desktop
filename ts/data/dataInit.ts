@@ -1,14 +1,15 @@
 import { ipcRenderer } from 'electron';
-import _ from 'lodash';
 import { channels } from './channels';
+import { ConfigDumpData } from './configDump/configDump';
 
 const channelsToMakeForOpengroupV2 = [
   'getAllV2OpenGroupRooms',
   'getV2OpenGroupRoom',
   'saveV2OpenGroupRoom',
   'removeV2OpenGroupRoom',
-  'getAllOpenGroupV2Conversations',
 ];
+
+const channelsToMakeForConfigDumps = [...Object.keys(ConfigDumpData)];
 
 const channelsToMake = new Set([
   'shutdown',
@@ -24,6 +25,7 @@ const channelsToMake = new Set([
   'getSwarmNodesForPubkey',
   'updateSwarmNodesForPubkey',
   'saveConversation',
+  'fetchConvoMemoryDetails',
   'getConversationById',
   'removeConversation',
   'getAllConversations',
@@ -86,8 +88,8 @@ const channelsToMake = new Set([
   'getLatestClosedGroupEncryptionKeyPair',
   'addClosedGroupEncryptionKeyPair',
   'removeAllClosedGroupEncryptionKeyPairs',
-  'fillWithTestData',
   ...channelsToMakeForOpengroupV2,
+  ...channelsToMakeForConfigDumps,
 ]);
 
 const SQL_CHANNEL_KEY = 'sql-channel';
@@ -122,7 +124,6 @@ export async function shutdown() {
     _shutdownCallback = (error: any) => {
       window?.log?.info('data.shutdown: process complete');
       if (error) {
-        // tslint:disable: no-void-expression
         return reject(error);
       }
 
@@ -151,7 +152,6 @@ function makeChannel(fnName: string) {
       });
 
       jobs[jobId].timer = setTimeout(
-        // tslint:disable: no-void-expression
         () => reject(new Error(`SQL channel job ${jobId} (${fnName}) timed out`)),
         DATABASE_UPDATE_TIMEOUT
       );
@@ -242,7 +242,6 @@ function removeJob(id: number) {
     jobs[id].timer = null;
   }
 
-  // tslint:disable-next-line: no-dynamic-delete
   delete jobs[id];
 
   if (_shutdownCallback) {

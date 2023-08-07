@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
 import classNames from 'classnames';
-
+import styled from 'styled-components';
 import autoBind from 'auto-bind';
+import { isString } from 'lodash';
+
 import { SessionButton, SessionButtonColor, SessionButtonType } from './basic/SessionButton';
 import { SessionSpinner } from './basic/SessionSpinner';
 import { SessionTheme } from '../themes/SessionTheme';
 import { switchThemeTo } from '../themes/switchTheme';
-import styled from 'styled-components';
 import { ToastUtils } from '../session/utils';
-import { isString } from 'lodash';
 import { SessionToastContainer } from './SessionToastContainer';
 import { SessionWrapperModal } from './SessionWrapperModal';
 import { switchPrimaryColorTo } from '../themes/switchPrimaryColor';
@@ -20,7 +20,6 @@ interface State {
 }
 
 export const MAX_LOGIN_TRIES = 3;
-// tslint:disable: use-simple-attributes
 
 const TextPleaseWait = (props: { isLoading: boolean }) => {
   if (!props.isLoading) {
@@ -35,7 +34,7 @@ const StyledContent = styled.div`
   width: 100%;
 `;
 
-class SessionPasswordPromptInner extends React.PureComponent<{}, State> {
+class SessionPasswordPromptInner extends React.PureComponent<unknown, State> {
   private inputRef?: any;
 
   constructor(props: any) {
@@ -135,7 +134,9 @@ class SessionPasswordPromptInner extends React.PureComponent<{}, State> {
 
     // this is to make sure a render has the time to happen before we lock the thread with all of the db work
     // this might be removed once we get the db operations to a worker thread
-    global.setTimeout(() => this.onLogin(passPhrase), 100);
+    global.setTimeout(() => {
+      void this.onLogin(passPhrase);
+    }, 100);
   }
 
   private initClearDataView() {
@@ -203,7 +204,7 @@ export const SessionPasswordPrompt = () => {
     if (window.primaryColor) {
       void switchPrimaryColorTo(window.primaryColor);
     }
-  }, [window.theme, window.primaryColor]);
+  }, []);
 
   return (
     <SessionTheme>

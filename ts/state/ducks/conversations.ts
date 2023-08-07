@@ -1,20 +1,21 @@
+/* eslint-disable no-restricted-syntax */
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { getConversationController } from '../../session/conversations';
-import { Data } from '../../data/data';
-import {
-  MessageDeliveryStatus,
-  MessageModelType,
-  PropsForDataExtractionNotification,
-  PropsForMessageRequestResponse,
-} from '../../models/messageType';
 import { omit, toNumber } from 'lodash';
 import { ReplyingToMessageProps } from '../../components/conversation/composition/CompositionBox';
 import { QuotedAttachmentType } from '../../components/conversation/message/message-content/quote/Quote';
 import { LightBoxOptions } from '../../components/conversation/SessionConversation';
+import { Data } from '../../data/data';
 import {
+  CONVERSATION_PRIORITIES,
   ConversationNotificationSettingType,
   ConversationTypeEnum,
 } from '../../models/conversationAttributes';
+import {
+  MessageModelType,
+  PropsForDataExtractionNotification,
+  PropsForMessageRequestResponse,
+} from '../../models/messageType';
+import { getConversationController } from '../../session/conversations';
 import { ReactionList } from '../../types/Reaction';
 
 export type CallNotificationType = 'missed-call' | 'started-call' | 'answered-a-call';
@@ -46,8 +47,6 @@ export type ContactPropsMessageDetail = {
   name?: string | null;
   profileName?: string | null;
   avatarPath?: string | null;
-  isOutgoingKeyError: boolean;
-
   errors?: Array<Error>;
 };
 
@@ -61,14 +60,13 @@ export type MessagePropsDetails = {
   direction: MessageModelType;
 };
 
-export type LastMessageStatusType = MessageDeliveryStatus | undefined;
+export type LastMessageStatusType = 'sending' | 'sent' | 'read' | 'error' | undefined;
 
 export type FindAndFormatContactType = {
   pubkey: string;
   avatarPath: string | null;
   name: string | null;
   profileName: string | null;
-  title: string | null;
   isMe: boolean;
 };
 
@@ -79,7 +77,6 @@ export type PropsForExpirationTimer = {
   avatarPath: string | null;
   name: string | null;
   profileName: string | null;
-  title: string | null;
   type: 'fromMe' | 'fromSync' | 'fromOther';
   messageId: string;
   isUnread: boolean;
@@ -201,12 +198,8 @@ export type PropsForMessageWithoutConvoProps = {
 };
 
 export type PropsForMessageWithConvoProps = PropsForMessageWithoutConvoProps & {
-  authorName: string | null;
-  authorProfileName: string | null;
   conversationType: ConversationTypeEnum;
-  authorAvatarPath: string | null;
   isPublic: boolean;
-  isOpenGroupV2: boolean;
   isKickedFromGroup: boolean;
   weAreAdmin: boolean;
   isSenderAdmin: boolean;
@@ -233,30 +226,24 @@ export interface ReduxConversationType {
    */
   displayNameInProfile?: string;
   nickname?: string;
-  hasNickname?: boolean;
 
   activeAt?: number;
   lastMessage?: LastMessageType;
   type: ConversationTypeEnum;
   isMe?: boolean;
   isPublic?: boolean;
-  isGroup?: boolean;
-  isPrivate?: boolean;
+  isPrivate?: boolean; // !isPrivate means isGroup (group or community)
   weAreAdmin?: boolean;
-  weAreModerator?: boolean;
   unreadCount?: number;
   mentionedUs?: boolean;
-  isSelected?: boolean;
   expireTimer?: number;
 
   isTyping?: boolean;
   isBlocked?: boolean;
   isKickedFromGroup?: boolean;
-  subscriberCount?: number;
   left?: boolean;
   avatarPath?: string | null; // absolute filepath to the avatar
   groupAdmins?: Array<string>; // admins for closed groups and admins for open groups
-  groupModerators?: Array<string>; // only for opengroups: moderators
   members?: Array<string>; // members for closed groups only
   zombies?: Array<string>; // members for closed groups only
 
@@ -265,16 +252,12 @@ export interface ReduxConversationType {
    */
   currentNotificationSetting?: ConversationNotificationSettingType;
 
-  isPinned?: boolean;
+  priority?: number; // undefined means 0
   isInitialFetchingInProgress?: boolean;
   isApproved?: boolean;
   didApproveMe?: boolean;
 
-  // Should only be present on opengroups - the capabilities we have on this room.
-  capabilities?: Array<string>;
-  readCapability?: boolean;
-  writeCapability?: boolean;
-  uploadCapability?: boolean;
+  isMarkedUnread?: boolean;
 }
 
 export interface NotificationForConvoOption {
@@ -436,7 +419,7 @@ export const fetchTopMessagesForConversation = createAsyncThunk(
     const mostRecentMessage = await Data.getLastMessageInConversation(conversationKey);
 
     if (!oldestMessage || oldestMessage.id === oldTopMessageId) {
-      window.log.info('fetchTopMessagesForConversation: we are already at the top');
+      // window.log.debug('fetchTopMessagesForConversation: we are already at the top');
       return null;
     }
     const { messagesProps, quotesProps } = await getMessages({
@@ -475,7 +458,7 @@ export const fetchBottomMessagesForConversation = createAsyncThunk(
     const mostRecentMessage = await Data.getLastMessageInConversation(conversationKey);
 
     if (!mostRecentMessage || mostRecentMessage.id === oldBottomMessageId) {
-      window.log.info('fetchBottomMessagesForConversation: we are already at the bottom');
+      // window.log.debug('fetchBottomMessagesForConversation: we are already at the bottom');
       return null;
     }
     const { messagesProps, quotesProps } = await getMessages({
@@ -547,12 +530,12 @@ function handleMessagesChangedOrAdded(
   state: ConversationsStateType,
   payload: Array<MessageModelPropsWithoutConvoProps>
 ) {
+  let stateCopy = state;
   payload.forEach(element => {
-    // tslint:disable-next-line: no-parameter-reassignment
-    state = handleMessageChangedOrAdded(state, element);
+    stateCopy = handleMessageChangedOrAdded(stateCopy, element);
   });
 
-  return state;
+  return stateCopy;
 }
 
 function handleMessageExpiredOrDeleted(
@@ -585,13 +568,8 @@ function handleMessageExpiredOrDeleted(
           `Deleting quote {${timestamp}-${sender}} ${JSON.stringify(message2Delete)}`
         );
 
-        // tslint:disable-next-line: no-dynamic-delete
         delete editedQuotes[`${timestamp}-${sender}`];
       }
-
-      // FIXME two other thing we have to do:
-      // * update the last message text if the message deleted was the last one
-      // * update the unread count of the convo if the message was the one counted as an unread
 
       return {
         ...state,
@@ -616,12 +594,12 @@ function handleMessagesExpiredOrDeleted(
     }>
   >
 ): ConversationsStateType {
+  let stateCopy = state;
   action.payload.forEach(element => {
-    // tslint:disable-next-line: no-parameter-reassignment
-    state = handleMessageExpiredOrDeleted(state, element);
+    stateCopy = handleMessageExpiredOrDeleted(stateCopy, element);
   });
 
-  return state;
+  return stateCopy;
 }
 
 function handleConversationReset(state: ConversationsStateType, action: PayloadAction<string>) {
@@ -653,7 +631,20 @@ const conversationsSlice = createSlice({
     },
 
     openRightPanel(state: ConversationsStateType) {
-      return { ...state, showRightPanel: true };
+      if (
+        state.selectedConversation === undefined ||
+        !state.conversationLookup[state.selectedConversation]
+      ) {
+        return state;
+      }
+      const selected = state.conversationLookup[state.selectedConversation];
+
+      // we can open the right panel always for non private chats. and also when the chat is private, and we are friends with the other person
+      if (!selected.isPrivate || (selected.isApproved && selected.didApproveMe)) {
+        return { ...state, showRightPanel: true };
+      }
+
+      return state;
     },
     closeRightPanel(state: ConversationsStateType) {
       return { ...state, showRightPanel: false };
@@ -704,16 +695,7 @@ const conversationsSlice = createSlice({
         },
       };
     },
-    conversationChanged(
-      state: ConversationsStateType,
-      action: PayloadAction<{
-        id: string;
-        data: ReduxConversationType;
-      }>
-    ) {
-      const { payload } = action;
-      return applyConversationChanged(state, payload);
-    },
+
     conversationsChanged(
       state: ConversationsStateType,
       action: PayloadAction<Array<ReduxConversationType>>
@@ -722,12 +704,7 @@ const conversationsSlice = createSlice({
 
       let updatedState = state;
       if (payload.length) {
-        payload.forEach(convoProps => {
-          updatedState = applyConversationChanged(updatedState, {
-            id: convoProps.id,
-            data: convoProps,
-          });
-        });
+        updatedState = applyConversationsChanged(updatedState, payload);
       }
 
       return updatedState;
@@ -1046,35 +1023,47 @@ const conversationsSlice = createSlice({
   },
 });
 
-function applyConversationChanged(
+function applyConversationsChanged(
   state: ConversationsStateType,
-  payload: { id: string; data: ReduxConversationType }
+  payload: Array<ReduxConversationType>
 ) {
-  const { id, data } = payload;
   const { conversationLookup, selectedConversation } = state;
 
-  const existing = conversationLookup[id];
-  // In the change case we only modify the lookup if we already had that conversation
-  if (!existing) {
-    return state;
+  for (let index = 0; index < payload.length; index++) {
+    const convoProps = payload[index];
+    const { id } = convoProps;
+    // In the `change` case we only modify the lookup if we already had that conversation
+    const existing = conversationLookup[id];
+
+    if (!existing) {
+      continue;
+    }
+
+    if (
+      state.selectedConversation &&
+      convoProps.isPrivate &&
+      convoProps.id === selectedConversation &&
+      convoProps.priority &&
+      convoProps.priority < CONVERSATION_PRIORITIES.default
+    ) {
+      // A private conversation hidden cannot be a selected.
+      // When opening a hidden conversation, we unhide it so it can be selected again.
+      state.selectedConversation = undefined;
+    }
+
+    state.conversationLookup[id] = {
+      ...convoProps,
+      isInitialFetchingInProgress: existing.isInitialFetchingInProgress,
+    };
   }
 
-  return {
-    ...state,
-    selectedConversation,
-    conversationLookup: {
-      ...conversationLookup,
-      [id]: { ...data, isInitialFetchingInProgress: existing.isInitialFetchingInProgress },
-    },
-  };
+  return state;
 }
 
-// destructures
 export const { actions, reducer } = conversationsSlice;
 export const {
   // conversation and messages list
   conversationAdded,
-  conversationChanged,
   conversationsChanged,
   conversationRemoved,
   removeAllConversations,
@@ -1103,11 +1092,22 @@ export const {
   markConversationInitialLoadingInProgress,
 } = actions;
 
+async function unmarkAsForcedUnread(convoId: string) {
+  const convo = getConversationController().get(convoId);
+  if (convo && convo.isMarkedUnread()) {
+    // we just opened it and it was forced "Unread", so we reset the unread state here
+    await convo.markAsUnread(false, true);
+  }
+}
+
 export async function openConversationWithMessages(args: {
   conversationKey: string;
   messageId: string | null;
 }) {
   const { conversationKey, messageId } = args;
+
+  await unmarkAsForcedUnread(conversationKey);
+
   const firstUnreadIdOnOpen = await Data.getFirstUnreadMessageIdInConversation(conversationKey);
   const mostRecentMessageIdOnOpen = await Data.getLastMessageIdInConversation(conversationKey);
 
@@ -1133,6 +1133,7 @@ export async function openConversationToSpecificMessage(args: {
   shouldHighlightMessage: boolean;
 }) {
   const { conversationKey, messageIdToNavigateTo, shouldHighlightMessage } = args;
+  await unmarkAsForcedUnread(conversationKey);
 
   const {
     messagesProps: messagesAroundThisMessage,
@@ -1160,6 +1161,7 @@ export async function openConversationToSpecificMessage(args: {
 /**
  * Look for quote matching the timestamp and author in the quote lookup map
  * @param quotes - the lookup map of the selected conversations quotes
+ * @param messages - the messages in memory for the selected conversation
  * @param author - the pubkey of the quoted author
  * @param timestamp - usually the id prop on the quote object of a message
  * @returns - the message model if found, undefined otherwise

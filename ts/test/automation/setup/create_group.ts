@@ -1,4 +1,4 @@
-import { _electron, Page } from '@playwright/test';
+import { Page } from '@playwright/test';
 import { sendMessage } from '../utilities/message';
 import { sendNewMessage } from '../utilities/send_message';
 import {
@@ -10,8 +10,6 @@ import {
 } from '../utilities/utils';
 import { Group, User } from '../types/testing';
 
-// let windows: Array<Page> = [];
-
 export const createGroup = async (
   userName: string,
   userOne: User,
@@ -22,6 +20,7 @@ export const createGroup = async (
   windowC: Page
 ): Promise<Group> => {
   const group: Group = { userName, userOne, userTwo, userThree };
+  const emptyStateGroupText = `You have no messages from ${group.userName}. Send a message to start the conversation!`;
 
   const messageAB = `${userOne.userName} to ${userTwo.userName}`;
   const messageBA = `${userTwo.userName} to ${userOne.userName}`;
@@ -55,34 +54,68 @@ export const createGroup = async (
   // Check group was successfully created
   await clickOnMatchingText(windowB, group.userName);
   await waitForTestIdWithText(windowB, 'header-conversation-name', group.userName);
-  // Send message in group chat from user A
-  await sendMessage(windowA, msgAToGroup);
-  // Focus screen
-  await clickOnMatchingText(windowA, msgAToGroup);
-  // Verify it was received by other two accounts
-  // Navigate to group in window B
-  await clickOnTestIdWithText(windowB, 'message-section');
-  // Click on test group
-  await clickOnMatchingText(windowB, userName);
-  // wait for selector 'test message' in chat window
-  await waitForControlMessageWithText(windowB, msgAToGroup);
-  // Send reply message
-  await sendMessage(windowB, msgBToGroup);
+  // Make sure the empty state is in windowA
+  await waitForTestIdWithText(windowA, 'empty-conversation-notification', emptyStateGroupText);
+
+  await Promise.all([
+    (async () => {
+      // Navigate to group in window B
+      await clickOnTestIdWithText(windowB, 'message-section');
+      // Click on test group
+      await clickOnMatchingText(windowB, group.userName);
+      // Make sure the empty state is in windowB
+      return waitForTestIdWithText(windowB, 'empty-conversation-notification', emptyStateGroupText);
+    })(),
+    (async () => {
+      // Navigate to group in window C
+      await clickOnTestIdWithText(windowC, 'message-section');
+      // Click on test group
+      await clickOnMatchingText(windowC, group.userName);
+      // Make sure the empty state is in windowC
+      return waitForTestIdWithText(windowC, 'empty-conversation-notification', emptyStateGroupText);
+    })(),
+  ]);
+
+  await Promise.all([
+    (async () => {
+      // Send message in group chat from user A
+      await sendMessage(windowA, msgAToGroup);
+      // Focus screen
+      await clickOnMatchingText(windowA, msgAToGroup);
+    })(),
+    (async () => {
+      // Send message in group chat from user B
+      await sendMessage(windowB, msgBToGroup);
+      await clickOnMatchingText(windowB, msgBToGroup);
+    })(),
+    (async () => {
+      // Send message from C to the group
+      await sendMessage(windowC, msgCToGroup);
+      await clickOnMatchingText(windowC, msgCToGroup);
+    })(),
+  ]);
+
+  // Verify that each messages was received by the other two accounts
+  await Promise.all([
+    (async () => {
+      // windowA should see the message from B and the message from C
+      await waitForControlMessageWithText(windowA, msgBToGroup);
+      await waitForControlMessageWithText(windowA, msgCToGroup);
+    })(),
+    (async () => {
+      // windowB should see the message from A and the message from C
+      await waitForControlMessageWithText(windowB, msgAToGroup);
+      await waitForControlMessageWithText(windowB, msgCToGroup);
+    })(),
+    (async () => {
+      // windowC must see the message from A and the message from B
+      await waitForControlMessageWithText(windowC, msgAToGroup);
+      await waitForControlMessageWithText(windowC, msgBToGroup);
+    })(),
+  ]);
+
   // Focus screen
   // await clickOnTestIdWithText(windowB, 'scroll-to-bottom-button');
-  await clickOnMatchingText(windowB, msgBToGroup);
-  // Navigate to group in window C
-  await clickOnTestIdWithText(windowC, 'message-section');
-  // Click on test group
-  await clickOnMatchingText(windowC, userName);
-  // windowC must see the message from A and the message from B
-  await waitForControlMessageWithText(windowC, msgAToGroup);
-  await waitForControlMessageWithText(windowC, msgBToGroup);
-  // Send message from C to the group
-  await sendMessage(windowC, msgCToGroup);
-  // windowA should see the message from B and the message from C
-  await waitForControlMessageWithText(windowA, msgBToGroup);
-  await waitForControlMessageWithText(windowA, msgCToGroup);
 
   return { userName, userOne, userTwo, userThree };
 };

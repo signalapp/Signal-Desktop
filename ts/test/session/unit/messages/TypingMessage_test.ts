@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 
-import { SignalService } from '../../../../protobuf';
 import Long from 'long';
 import { toNumber } from 'lodash';
+import { SignalService } from '../../../../protobuf';
 import { Constants } from '../../../../session';
 import { TypingMessage } from '../../../../session/messages/outgoing/controlMessage/TypingMessage';
 

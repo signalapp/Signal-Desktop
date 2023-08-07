@@ -1,13 +1,13 @@
 import { omit, startsWith } from 'lodash';
 
 import { MessageModel } from '../models/message';
-import { Data } from '../../ts/data/data';
+import { Data } from '../data/data';
 import { AttachmentDownloads } from '../session/utils';
 import { ConversationModel } from '../models/conversation';
 import { OpenGroupRequestCommonType } from '../session/apis/open_group_api/opengroupV2/ApiUtil';
 import { getUnpaddedAttachment } from '../session/crypto/BufferPadding';
 import { decryptAttachment } from '../util/crypto/attachmentsEncrypter';
-import { callUtilsWorker } from '../webworker/workers/util_worker_interface';
+import { callUtilsWorker } from '../webworker/workers/browser/util_worker_interface';
 import { sogsV3FetchFileByFileID } from '../session/apis/open_group_api/sogsv3/sogsV3FetchFile';
 import { OpenGroupData } from '../data/opengroups';
 import {
@@ -135,7 +135,7 @@ export async function downloadAttachmentSogsV3(
   } else {
     // nothing to do, the attachment has already the correct size.
     // There is just no padding included, which is what we agreed on
-    window?.log?.info('Received opengroupv2 unpadded attachment size:', attachment.size);
+    // window?.log?.info('Received opengroupv2 unpadded attachment size:', attachment.size);
   }
 
   return {
@@ -218,27 +218,28 @@ async function processQuoteAttachments(
   const isOpenGroupV2 = convo.isOpenGroupV2();
   const openGroupV2Details = (isOpenGroupV2 && convo.toOpenGroupV2()) || undefined;
 
-  quote.attachments = await Promise.all(
-    quote.attachments.map(async (item: any, index: any) => {
-      // If we already have a path, then we copied this image from the quoted
-      //    message and we don't need to download the attachment.
-      if (!item.thumbnail || item.thumbnail.path) {
-        return item;
-      }
+  for (let index = 0; index < quote.attachments.length; index++) {
+    // If we already have a path, then we copied this image from the quoted
+    // message and we don't need to download the attachment.
+    const attachment = quote.attachments[index];
 
-      addedCount += 1;
+    if (!attachment.thumbnail || attachment.thumbnail.path) {
+      continue;
+    }
 
-      const thumbnail = await AttachmentDownloads.addJob(item.thumbnail, {
-        messageId: message.id,
-        type: 'quote',
-        index,
-        isOpenGroupV2,
-        openGroupV2Details,
-      });
+    addedCount += 1;
 
-      return { ...item, thumbnail };
-    })
-  );
+    // eslint-disable-next-line no-await-in-loop
+    const thumbnail = await AttachmentDownloads.addJob(attachment.thumbnail, {
+      messageId: message.id,
+      type: 'quote',
+      index,
+      isOpenGroupV2,
+      openGroupV2Details,
+    });
+
+    quote.attachments[index] = { ...attachment, thumbnail };
+  }
 
   message.set({ quote });
 

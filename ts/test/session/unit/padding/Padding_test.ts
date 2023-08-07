@@ -1,5 +1,3 @@
-// tslint:disable: no-implicit-dependencies max-func-body-length no-unused-expression
-
 import chai from 'chai';
 import { describe } from 'mocha';
 
@@ -11,12 +9,12 @@ import {
   removeMessagePadding,
 } from '../../../../session/crypto/BufferPadding';
 import { MAX_ATTACHMENT_FILESIZE_BYTES } from '../../../../session/constants';
+
 chai.use(chaiAsPromised as any);
 chai.should();
 
 const { expect } = chai;
 
-// tslint:disable-next-line: max-func-body-length
 describe('Padding', () => {
   describe('Attachment padding', () => {
     it('add padding', () => {
@@ -32,7 +30,7 @@ describe('Padding', () => {
     });
 
     it('no padding if attachment has the max size', () => {
-      //if the attachment is already of the max size, we do not pad it more
+      // if the attachment is already of the max size, we do not pad it more
       const bufferIn = new Uint8Array(MAX_ATTACHMENT_FILESIZE_BYTES);
       const paddedBuffer = addAttachmentPadding(bufferIn);
       expect(paddedBuffer.byteLength).to.equal(MAX_ATTACHMENT_FILESIZE_BYTES);
@@ -57,7 +55,7 @@ describe('Padding', () => {
       const bufferIn = new Uint8Array(MAX_ATTACHMENT_FILESIZE_BYTES + 1);
       const paddedBuffer = addAttachmentPadding(bufferIn);
       const expectedPaddedSize = Math.floor(
-        Math.pow(1.05, Math.ceil(Math.log(bufferIn.length) / Math.log(1.05)))
+        1.05 ** Math.ceil(Math.log(bufferIn.length) / Math.log(1.05))
       );
       expect(new Uint8Array(paddedBuffer.slice(0, bufferIn.length))).to.equalBytes(bufferIn);
       // this makes sure that the padding is just the 0 bytes

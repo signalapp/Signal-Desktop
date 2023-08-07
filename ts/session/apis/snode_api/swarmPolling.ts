@@ -1,41 +1,58 @@
-import { PubKey } from '../../types';
-import * as snodePool from './snodePool';
-import { ERROR_CODE_NO_CONNECT, retrieveNextMessages } from './SNodeAPI';
+/* eslint-disable no-await-in-loop */
+/* eslint-disable more/no-then */
+/* eslint-disable @typescript-eslint/no-misused-promises */
+import { compact, concat, difference, flatten, last, sample, toNumber, uniqBy } from 'lodash';
+import { Data, Snode } from '../../../data/data';
 import { SignalService } from '../../../protobuf';
 import * as Receiver from '../../../receiver/receiver';
-import _, { concat } from 'lodash';
-import { Data, Snode } from '../../../data/data';
+import { PubKey } from '../../types';
+import { ERROR_CODE_NO_CONNECT } from './SNodeAPI';
+import * as snodePool from './snodePool';
 
-import { StringUtils, UserUtils } from '../../utils';
 import { ConversationModel } from '../../../models/conversation';
+import { ConfigMessageHandler } from '../../../receiver/configMessage';
+import { decryptEnvelopeWithOurKey } from '../../../receiver/contentMessage';
+import { EnvelopePlus } from '../../../receiver/types';
+import { updateIsOnline } from '../../../state/ducks/onion';
+import { ReleasedFeatures } from '../../../util/releaseFeature';
+import {
+  GenericWrapperActions,
+  UserGroupsWrapperActions,
+} from '../../../webworker/workers/browser/libsession_worker_interface';
 import { DURATION, SWARM_POLLING_TIMEOUT } from '../../constants';
 import { getConversationController } from '../../conversations';
-import { perfEnd, perfStart } from '../../utils/Performance';
+import { IncomingMessage } from '../../messages/incoming/IncomingMessage';
 import { ed25519Str } from '../../onions/onionPath';
-import { updateIsOnline } from '../../../state/ducks/onion';
-import pRetry from 'p-retry';
-import { getHasSeenHF190, getHasSeenHF191 } from './hfHandling';
+import { StringUtils, UserUtils } from '../../utils';
+import { perfEnd, perfStart } from '../../utils/Performance';
+import { LibSessionUtil } from '../../utils/libsession/libsession_utils';
+import { SnodeNamespace, SnodeNamespaces } from './namespaces';
+import { SnodeAPIRetrieve } from './retrieveRequest';
+import { RetrieveMessageItem, RetrieveMessagesResultsBatched } from './types';
 
-interface Message {
-  hash: string;
-  expiration: number;
-  data: string;
-}
-
-// Some websocket nonsense
-export function processMessage(message: string, options: any = {}, messageHash: string) {
+export function extractWebSocketContent(
+  message: string,
+  messageHash: string
+): null | {
+  body: Uint8Array;
+  messageHash: string;
+} {
   try {
     const dataPlaintext = new Uint8Array(StringUtils.encode(message, 'base64'));
     const messageBuf = SignalService.WebSocketMessage.decode(dataPlaintext);
-    if (messageBuf.type === SignalService.WebSocketMessage.Type.REQUEST) {
-      Receiver.handleRequest(messageBuf.request?.body, options, messageHash);
+    if (
+      messageBuf.type === SignalService.WebSocketMessage.Type.REQUEST &&
+      messageBuf.request?.body?.length
+    ) {
+      return {
+        body: messageBuf.request.body,
+        messageHash,
+      };
     }
+    return null;
   } catch (error) {
-    const info = {
-      message,
-      error: error.message,
-    };
-    window?.log?.warn('HTTP-Resources Failed to handle message:', info);
+    window?.log?.warn('extractWebSocketContent from message failed with:', error.message);
+    return null;
   }
 }
 
@@ -50,6 +67,7 @@ export const getSwarmPollingInstance = () => {
 export class SwarmPolling {
   private groupPolling: Array<{ pubkey: PubKey; lastPolledTimestamp: number }>;
   private readonly lastHashes: Record<string, Record<string, Record<number, string>>>;
+  private hasStarted = false;
 
   constructor() {
     this.groupPolling = [];
@@ -57,6 +75,11 @@ export class SwarmPolling {
   }
 
   public async start(waitForFirstPoll = false): Promise<void> {
+    // when restoring from seed we have to start polling before we get on the mainPage, hence this check here to make sure we do not start twice
+    if (this.hasStarted) {
+      return;
+    }
+    this.hasStarted = true;
     this.loadGroupIds();
     if (waitForFirstPoll) {
       await this.pollForAllKeys();
@@ -72,6 +95,7 @@ export class SwarmPolling {
    */
   public resetSwarmPolling() {
     this.groupPolling = [];
+    this.hasStarted = false;
   }
 
   public forcePolledTimestamp(pubkey: PubKey, lastPoll: number) {
@@ -95,8 +119,10 @@ export class SwarmPolling {
 
   public removePubkey(pk: PubKey | string) {
     const pubkey = PubKey.cast(pk);
-    window?.log?.info('Swarm removePubkey: removing pubkey from polling', pubkey.key);
-    this.groupPolling = this.groupPolling.filter(group => !pubkey.isEqual(group.pubkey));
+    if (this.groupPolling.some(group => pubkey.key === group.pubkey.key)) {
+      window?.log?.info('Swarm removePubkey: removing pubkey from polling', pubkey.key);
+      this.groupPolling = this.groupPolling.filter(group => !pubkey.isEqual(group.pubkey));
+    }
   }
 
   /**
@@ -136,16 +162,16 @@ export class SwarmPolling {
   public async pollForAllKeys() {
     if (!window.getGlobalOnlineStatus()) {
       window?.log?.error('pollForAllKeys: offline');
-      // Important to set up a new polling
+      // Very important to set up a new polling call so we do retry at some point
       setTimeout(this.pollForAllKeys.bind(this), SWARM_POLLING_TIMEOUT.ACTIVE);
       return;
     }
     // we always poll as often as possible for our pubkey
     const ourPubkey = UserUtils.getOurPubKeyFromCache();
-    const directPromises = Promise.all([
-      this.pollOnceForKey(ourPubkey, false, 0),
-      // this.pollOnceForKey(ourPubkey, false, 5), // uncomment, and test me once we store the config messages to the namespace 5
-    ]).then(() => undefined);
+    const userNamespaces = await this.getUserNamespacesPolled();
+    const directPromise = Promise.all([this.pollOnceForKey(ourPubkey, false, userNamespaces)]).then(
+      () => undefined
+    );
 
     const now = Date.now();
     const groupPromises = this.groupPolling.map(async group => {
@@ -157,40 +183,23 @@ export class SwarmPolling {
         getConversationController()
           .get(group.pubkey.key)
           ?.idForLogging() || group.pubkey.key;
-
       if (diff >= convoPollingTimeout) {
-        const hardfork190Happened = await getHasSeenHF190();
-        const hardfork191Happened = await getHasSeenHF191();
-        window?.log?.info(
-          `Polling for ${loggingId}; timeout: ${convoPollingTimeout}; diff: ${diff} ; hardfork190Happened: ${hardfork190Happened}; hardfork191Happened: ${hardfork191Happened} `
+        window?.log?.debug(
+          `Polling for ${loggingId}; timeout: ${convoPollingTimeout}; diff: ${diff} `
         );
 
-        if (hardfork190Happened && !hardfork191Happened) {
-          // during the transition period, we poll from both namespaces (0 and -10) for groups
-          return Promise.all([
-            this.pollOnceForKey(group.pubkey, true, undefined),
-            this.pollOnceForKey(group.pubkey, true, -10),
-          ]).then(() => undefined);
-        }
-
-        if (hardfork190Happened && hardfork191Happened) {
-          // after the transition period, we poll from the namespace -10 only for groups
-          return this.pollOnceForKey(group.pubkey, true, -10);
-        }
-
-        // before any of those hardforks, we just poll from the default namespace being 0
-        return this.pollOnceForKey(group.pubkey, true, 0);
+        return this.pollOnceForKey(group.pubkey, true, [SnodeNamespaces.ClosedGroupMessage]);
       }
-      window?.log?.info(
+      window?.log?.debug(
         `Not polling for ${loggingId}; timeout: ${convoPollingTimeout} ; diff: ${diff}`
       );
 
       return Promise.resolve();
     });
     try {
-      await Promise.all(concat([directPromises], groupPromises));
+      await Promise.all(concat([directPromise], groupPromises));
     } catch (e) {
-      window?.log?.info('pollForAllKeys exception: ', e);
+      window?.log?.warn('pollForAllKeys exception: ', e);
       throw e;
     } finally {
       setTimeout(this.pollForAllKeys.bind(this), SWARM_POLLING_TIMEOUT.ACTIVE);
@@ -200,46 +209,91 @@ export class SwarmPolling {
   /**
    * Only exposed as public for testing
    */
-  public async pollOnceForKey(pubkey: PubKey, isGroup: boolean, namespace?: number) {
-    const pkStr = pubkey.key;
+  public async pollOnceForKey(
+    pubkey: PubKey,
+    isGroup: boolean,
+    namespaces: Array<SnodeNamespaces>
+  ) {
+    const polledPubkey = pubkey.key;
 
-    const swarmSnodes = await snodePool.getSwarmFor(pkStr);
+    const swarmSnodes = await snodePool.getSwarmFor(polledPubkey);
 
     // Select nodes for which we already have lastHashes
     const alreadyPolled = swarmSnodes.filter((n: Snode) => this.lastHashes[n.pubkey_ed25519]);
+    let toPollFrom = alreadyPolled.length ? alreadyPolled[0] : null;
 
     // If we need more nodes, select randomly from the remaining nodes:
-
-    // We only poll from a single node.
-    let nodesToPoll = _.sampleSize(alreadyPolled, 1);
-    if (nodesToPoll.length < 1) {
-      const notPolled = _.difference(swarmSnodes, alreadyPolled);
-
-      const newNodes = _.sampleSize(notPolled, 1);
-
-      nodesToPoll = _.concat(nodesToPoll, newNodes);
+    if (!toPollFrom) {
+      const notPolled = difference(swarmSnodes, alreadyPolled);
+      toPollFrom = sample(notPolled) as Snode;
     }
 
-    // this actually doesn't make much sense as we are at only polling from a single one
-    const promisesSettled = await Promise.allSettled(
-      nodesToPoll.map(async n => {
-        return this.pollNodeForKey(n, pubkey, namespace);
-      })
-    );
+    let resultsFromAllNamespaces: RetrieveMessagesResultsBatched | null;
+    try {
+      resultsFromAllNamespaces = await this.pollNodeForKey(
+        toPollFrom,
+        pubkey,
+        namespaces,
+        !isGroup
+      );
+    } catch (e) {
+      window.log.warn(
+        `pollNodeForKey of ${pubkey} namespaces: ${namespaces} failed with: ${e.message}`
+      );
+      resultsFromAllNamespaces = null;
+    }
 
-    const arrayOfResultsWithNull = promisesSettled.map(entry =>
-      entry.status === 'fulfilled' ? entry.value : null
-    );
+    let allNamespacesWithoutUserConfigIfNeeded: Array<RetrieveMessageItem> = [];
+    const userConfigLibsession = await ReleasedFeatures.checkIsUserConfigFeatureReleased();
 
-    // filter out null (exception thrown)
-    const arrayOfResults = _.compact(arrayOfResultsWithNull);
+    // check if we just fetched the details from the config namespaces.
+    // If yes, merge them together and exclude them from the rest of the messages.
+    if (userConfigLibsession && resultsFromAllNamespaces) {
+      const userConfigMessages = resultsFromAllNamespaces
+        .filter(m => SnodeNamespace.isUserConfigNamespace(m.namespace))
+        .map(r => r.messages.messages);
+
+      allNamespacesWithoutUserConfigIfNeeded = flatten(
+        compact(
+          resultsFromAllNamespaces
+            .filter(m => !SnodeNamespace.isUserConfigNamespace(m.namespace))
+            .map(r => r.messages.messages)
+        )
+      );
+      const userConfigMessagesMerged = flatten(compact(userConfigMessages));
+
+      if (!isGroup && userConfigMessagesMerged.length) {
+        window.log.info(
+          `received userConfigMessages count: ${userConfigMessagesMerged.length} for key ${pubkey.key}`
+        );
+        try {
+          await this.handleSharedConfigMessages(userConfigMessagesMerged);
+        } catch (e) {
+          window.log.warn(
+            `handleSharedConfigMessages of ${userConfigMessagesMerged.length} failed with ${e.message}`
+          );
+          // not rethrowing
+        }
+      }
+
+      // first make sure to handle the shared user config message first
+    } else {
+      allNamespacesWithoutUserConfigIfNeeded = flatten(
+        compact(resultsFromAllNamespaces?.map(m => m.messages.messages))
+      );
+    }
+    if (allNamespacesWithoutUserConfigIfNeeded.length) {
+      window.log.debug(
+        `received allNamespacesWithoutUserConfigIfNeeded: ${allNamespacesWithoutUserConfigIfNeeded.length}`
+      );
+    }
 
     // Merge results into one list of unique messages
-    const messages = _.uniqBy(_.flatten(arrayOfResults), (x: any) => x.hash);
+    const messages = uniqBy(allNamespacesWithoutUserConfigIfNeeded, x => x.hash);
 
     // if all snodes returned an error (null), no need to update the lastPolledTimestamp
-    if (isGroup && arrayOfResults?.length) {
-      window?.log?.info(
+    if (isGroup) {
+      window?.log?.debug(
         `Polled for group(${ed25519Str(pubkey.key)}):, got ${messages.length} messages back.`
       );
       let lastPolledTimestamp = Date.now();
@@ -259,24 +313,90 @@ export class SwarmPolling {
         }
         return group;
       });
-    } else if (isGroup) {
-      window?.log?.info(
-        `Polled for group(${ed25519Str(
-          pubkey.key
-        )}):, but no snode returned something else than null.`
-      );
     }
 
-    perfStart(`handleSeenMessages-${pkStr}`);
-
+    perfStart(`handleSeenMessages-${polledPubkey}`);
     const newMessages = await this.handleSeenMessages(messages);
+    perfEnd(`handleSeenMessages-${polledPubkey}`, 'handleSeenMessages');
 
-    perfEnd(`handleSeenMessages-${pkStr}`, 'handleSeenMessages');
+    // don't handle incoming messages from group swarms when using the userconfig and the group is not one of the tracked group
+    const isUserConfigReleaseLive = await ReleasedFeatures.checkIsUserConfigFeatureReleased();
+    if (
+      isUserConfigReleaseLive &&
+      isGroup &&
+      polledPubkey.startsWith('05') &&
+      !(await UserGroupsWrapperActions.getLegacyGroup(polledPubkey)) // just check if a legacy group with that name exists
+    ) {
+      // that pubkey is not tracked in the wrapper anymore. Just discard those messages and make sure we are not polling
+      // TODOLATER we might need to do something like this for the new closed groups once released
+      getSwarmPollingInstance().removePubkey(polledPubkey);
+    } else {
+      // trigger the handling of all the other messages, not shared config related
+      newMessages.forEach(m => {
+        const content = extractWebSocketContent(m.data, m.hash);
+        if (!content) {
+          return;
+        }
 
-    newMessages.forEach((m: Message) => {
-      const options = isGroup ? { conversationId: pkStr } : {};
-      processMessage(m.data, options, m.hash);
-    });
+        Receiver.handleRequest(content.body, isGroup ? polledPubkey : null, content.messageHash);
+      });
+    }
+  }
+
+  private async handleSharedConfigMessages(userConfigMessagesMerged: Array<RetrieveMessageItem>) {
+    const extractedUserConfigMessage = compact(
+      userConfigMessagesMerged.map((m: RetrieveMessageItem) => {
+        return extractWebSocketContent(m.data, m.hash);
+      })
+    );
+
+    const allDecryptedConfigMessages: Array<IncomingMessage<
+      SignalService.ISharedConfigMessage
+    >> = [];
+
+    for (let index = 0; index < extractedUserConfigMessage.length; index++) {
+      const userConfigMessage = extractedUserConfigMessage[index];
+
+      try {
+        const envelope: EnvelopePlus = SignalService.Envelope.decode(userConfigMessage.body) as any;
+        const decryptedEnvelope = await decryptEnvelopeWithOurKey(envelope);
+        if (!decryptedEnvelope?.byteLength) {
+          continue;
+        }
+        const content = SignalService.Content.decode(new Uint8Array(decryptedEnvelope));
+        if (content.sharedConfigMessage) {
+          const asIncomingMsg: IncomingMessage<SignalService.ISharedConfigMessage> = {
+            envelopeTimestamp: toNumber(envelope.timestamp),
+            message: content.sharedConfigMessage,
+            messageHash: userConfigMessage.messageHash,
+            authorOrGroupPubkey: envelope.source,
+            authorInGroup: envelope.senderIdentity,
+          };
+          allDecryptedConfigMessages.push(asIncomingMsg);
+        } else {
+          throw new Error(
+            'received a message to a namespace reserved for user config but not containign a sharedConfigMessage'
+          );
+        }
+      } catch (e) {
+        window.log.warn(
+          `failed to decrypt message with hash "${userConfigMessage.messageHash}": ${e.message}`
+        );
+      }
+    }
+    if (allDecryptedConfigMessages.length) {
+      try {
+        window.log.info(
+          `handleConfigMessagesViaLibSession of "${allDecryptedConfigMessages.length}" messages with libsession`
+        );
+        await ConfigMessageHandler.handleConfigMessagesViaLibSession(allDecryptedConfigMessages);
+      } catch (e) {
+        const allMessageHases = allDecryptedConfigMessages.map(m => m.messageHash).join(',');
+        window.log.warn(
+          `failed to handle messages hashes "${allMessageHases}" with libsession. Error: "${e.message}"`
+        );
+      }
+    }
   }
 
   // Fetches messages for `pubkey` from `node` potentially updating
@@ -284,54 +404,100 @@ export class SwarmPolling {
   private async pollNodeForKey(
     node: Snode,
     pubkey: PubKey,
-    namespace?: number
-  ): Promise<Array<any> | null> {
-    const edkey = node.pubkey_ed25519;
-
+    namespaces: Array<SnodeNamespaces>,
+    isUs: boolean
+  ): Promise<RetrieveMessagesResultsBatched | null> {
+    const namespaceLength = namespaces.length;
+    if (namespaceLength <= 0) {
+      throw new Error(`invalid number of retrieve namespace provided: ${namespaceLength}`);
+    }
+    const snodeEdkey = node.pubkey_ed25519;
     const pkStr = pubkey.key;
 
     try {
-      return await pRetry(
-        async () => {
-          const prevHash = await this.getLastHash(edkey, pkStr, namespace || 0);
-          const messages = await retrieveNextMessages(node, prevHash, pkStr, namespace);
-          if (!messages.length) {
-            return [];
+      const prevHashes = await Promise.all(
+        namespaces.map(namespace => this.getLastHash(snodeEdkey, pkStr, namespace))
+      );
+      const configHashesToBump: Array<string> = [];
+
+      if (await ReleasedFeatures.checkIsUserConfigFeatureReleased()) {
+        // TODOLATER add the logic to take care of the closed groups too once we have a way to do it with the wrappers
+        if (isUs) {
+          for (let index = 0; index < LibSessionUtil.requiredUserVariants.length; index++) {
+            const variant = LibSessionUtil.requiredUserVariants[index];
+            try {
+              const toBump = await GenericWrapperActions.currentHashes(variant);
+
+              if (toBump?.length) {
+                configHashesToBump.push(...toBump);
+              }
+            } catch (e) {
+              window.log.warn(`failed to get currentHashes for user variant ${variant}`);
+            }
           }
+          window.log.debug(`configHashesToBump: ${configHashesToBump}`);
+        }
+      }
 
-          const lastMessage = _.last(messages);
+      let results = await SnodeAPIRetrieve.retrieveNextMessages(
+        node,
+        prevHashes,
+        pkStr,
+        namespaces,
+        UserUtils.getOurPubKeyStrFromCache(),
+        configHashesToBump
+      );
 
-          await this.updateLastHash({
-            edkey: edkey,
+      if (!results.length) {
+        return [];
+      }
+      // when we asked to extend the expiry of the config messages, exclude it from the list of results as we do not want to mess up the last hash tracking logic
+      if (configHashesToBump.length) {
+        try {
+          const lastResult = results[results.length - 1];
+          if (lastResult?.code !== 200) {
+            // the update expiry of our config messages didn't work.
+            window.log.warn(
+              `the update expiry of our tracked config hashes didn't work: ${JSON.stringify(
+                lastResult
+              )}`
+            );
+          }
+        } catch (e) {
+          // nothing to do I suppose here.
+        }
+        results = results.slice(0, results.length - 1);
+      }
+
+      const lastMessages = results.map(r => {
+        return last(r.messages.messages);
+      });
+
+      await Promise.all(
+        lastMessages.map(async (lastMessage, index) => {
+          if (!lastMessage) {
+            return undefined;
+          }
+          return this.updateLastHash({
+            edkey: snodeEdkey,
             pubkey,
-            namespace: namespace || 0,
+            namespace: namespaces[index],
             hash: lastMessage.hash,
             expiration: lastMessage.expiration,
           });
-          return messages;
-        },
-        {
-          minTimeout: 100,
-          retries: 1,
-
-          onFailedAttempt: e => {
-            window?.log?.warn(
-              `retrieveNextMessages attempt #${e.attemptNumber} failed. ${e.retriesLeft} retries left... ${e.name}`
-            );
-          },
-        }
+        })
       );
+
+      return results;
     } catch (e) {
       if (e.message === ERROR_CODE_NO_CONNECT) {
         if (window.inboxStore?.getState().onionPaths.isOnline) {
           window.inboxStore?.dispatch(updateIsOnline(false));
         }
-      } else {
-        if (!window.inboxStore?.getState().onionPaths.isOnline) {
-          window.inboxStore?.dispatch(updateIsOnline(true));
-        }
+      } else if (!window.inboxStore?.getState().onionPaths.isOnline) {
+        window.inboxStore?.dispatch(updateIsOnline(true));
       }
-      window?.log?.info('pollNodeForKey failed with', e.message);
+      window?.log?.info('pollNodeForKey failed with:', e.message);
       return null;
     }
   }
@@ -339,34 +505,49 @@ export class SwarmPolling {
   private loadGroupIds() {
     const convos = getConversationController().getConversations();
 
-    const mediumGroupsOnly = convos.filter(
+    const closedGroupsOnly = convos.filter(
       (c: ConversationModel) =>
-        c.isMediumGroup() && !c.isBlocked() && !c.get('isKickedFromGroup') && !c.get('left')
+        c.isClosedGroup() && !c.isBlocked() && !c.get('isKickedFromGroup') && !c.get('left')
     );
 
-    mediumGroupsOnly.forEach((c: any) => {
+    closedGroupsOnly.forEach((c: any) => {
       this.addGroupId(new PubKey(c.id));
     });
   }
 
-  private async handleSeenMessages(messages: Array<Message>): Promise<Array<Message>> {
+  private async handleSeenMessages(
+    messages: Array<RetrieveMessageItem>
+  ): Promise<Array<RetrieveMessageItem>> {
     if (!messages.length) {
       return [];
     }
 
-    const incomingHashes = messages.map((m: Message) => m.hash);
+    const incomingHashes = messages.map((m: RetrieveMessageItem) => m.hash);
 
     const dupHashes = await Data.getSeenMessagesByHashList(incomingHashes);
-    const newMessages = messages.filter((m: Message) => !dupHashes.includes(m.hash));
+    const newMessages = messages.filter((m: RetrieveMessageItem) => !dupHashes.includes(m.hash));
 
     if (newMessages.length) {
-      const newHashes = newMessages.map((m: Message) => ({
+      const newHashes = newMessages.map((m: RetrieveMessageItem) => ({
         expiresAt: m.expiration,
         hash: m.hash,
       }));
       await Data.saveSeenMessageHashes(newHashes);
     }
     return newMessages;
+  }
+
+  private async getUserNamespacesPolled() {
+    const isUserConfigRelease = await ReleasedFeatures.checkIsUserConfigFeatureReleased();
+    return isUserConfigRelease
+      ? [
+          SnodeNamespaces.UserMessages,
+          SnodeNamespaces.UserProfile,
+          SnodeNamespaces.UserContacts,
+          SnodeNamespaces.UserGroups,
+          SnodeNamespaces.ConvoInfoVolatile,
+        ]
+      : [SnodeNamespaces.UserMessages];
   }
 
   private async updateLastHash({
@@ -383,14 +564,17 @@ export class SwarmPolling {
     expiration: number;
   }): Promise<void> {
     const pkStr = pubkey.key;
+    const cached = await this.getLastHash(edkey, pubkey.key, namespace);
 
-    await Data.updateLastHash({
-      convoId: pkStr,
-      snode: edkey,
-      hash,
-      expiresAt: expiration,
-      namespace,
-    });
+    if (!cached || cached !== hash) {
+      await Data.updateLastHash({
+        convoId: pkStr,
+        snode: edkey,
+        hash,
+        expiresAt: expiration,
+        namespace,
+      });
+    }
 
     if (!this.lastHashes[edkey]) {
       this.lastHashes[edkey] = {};

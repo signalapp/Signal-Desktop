@@ -1,56 +1,57 @@
 import React, { useState } from 'react';
-import { SpacerLG } from '../basic/Text';
+import { useDispatch } from 'react-redux';
+import styled from 'styled-components';
 import { getConversationController } from '../../session/conversations';
 import { adminLeaveClosedGroup } from '../../state/ducks/modalDialog';
-import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { SessionWrapperModal } from '../SessionWrapperModal';
-import styled from 'styled-components';
-
-type Props = {
-  conversationId: string;
-};
+import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
+import { SpacerLG } from '../basic/Text';
+import { SessionSpinner } from '../basic/SessionSpinner';
 
 const StyledWarning = styled.p`
   max-width: 500px;
   line-height: 1.3333;
 `;
 
-export const AdminLeaveClosedGroupDialog = (props: Props) => {
+export const AdminLeaveClosedGroupDialog = (props: { conversationId: string }) => {
+  const dispatch = useDispatch();
   const convo = getConversationController().get(props.conversationId);
-  const titleText = `${window.i18n('leaveGroup')} ${convo.getRealSessionUsername()}`;
-  const warningAsAdmin = `${window.i18n('leaveGroupConfirmationAdmin')}`;
-  const okText = window.i18n('leaveAndRemoveForEveryone');
-  const cancelText = window.i18n('cancel');
-  const [_isLoading, setIsLoading] = useState(false);
-
-  const onClickOK = async () => {
-    setIsLoading(true);
-    await getConversationController()
-      .get(props.conversationId)
-      .leaveClosedGroup();
-    setIsLoading(false);
-
-    closeDialog();
-  };
+  const [loading, setLoading] = useState(false);
+  const titleText = `${window.i18n('leaveGroup')} ${convo?.getRealSessionUsername() || ''}`;
 
   const closeDialog = () => {
-    window.inboxStore?.dispatch(adminLeaveClosedGroup(null));
+    dispatch(adminLeaveClosedGroup(null));
+  };
+
+  const onClickOK = async () => {
+    if (loading) {
+      return;
+    }
+    setLoading(true);
+    // we know want to delete a closed group right after we've left it, so we can call the deleteContact which takes care of it all
+    await getConversationController().deleteClosedGroup(props.conversationId, {
+      fromSyncMessage: false,
+      sendLeaveMessage: true,
+    });
+    setLoading(false);
+    closeDialog();
   };
 
   return (
     <SessionWrapperModal title={titleText} onClose={closeDialog}>
       <SpacerLG />
-      <StyledWarning>{warningAsAdmin}</StyledWarning>
+      <StyledWarning>{window.i18n('leaveGroupConfirmationAdmin')}</StyledWarning>
+      <SessionSpinner loading={loading} />
 
       <div className="session-modal__button-group">
         <SessionButton
-          text={okText}
+          text={window.i18n('leaveAndRemoveForEveryone')}
           buttonColor={SessionButtonColor.Danger}
           buttonType={SessionButtonType.Simple}
           onClick={onClickOK}
         />
         <SessionButton
-          text={cancelText}
+          text={window.i18n('cancel')}
           buttonType={SessionButtonType.Simple}
           onClick={closeDialog}
         />

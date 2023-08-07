@@ -1,23 +1,28 @@
-import { default as insecureNodeFetch, RequestInit, Response } from 'node-fetch';
 import https from 'https';
+// eslint-disable-next-line import/no-named-default
+import { default as insecureNodeFetch, RequestInit, Response } from 'node-fetch';
+import ByteBuffer from 'bytebuffer';
+import pRetry from 'p-retry';
+import { cloneDeep, isEmpty, isString, omit } from 'lodash';
+import { AbortSignal } from 'abort-controller';
+import { to_string } from 'libsodium-wrappers-sumo';
+// eslint-disable-next-line import/no-unresolved
+import { AbortSignal as AbortSignalNode } from 'node-fetch/externals';
 
 import { dropSnodeFromSnodePool, dropSnodeFromSwarmIfNeeded, updateSwarmFor } from './snodePool';
-import ByteBuffer from 'bytebuffer';
+
 import { OnionPaths } from '../../onions';
 import { toHex } from '../../utils/String';
-import pRetry from 'p-retry';
 import { ed25519Str, incrementBadPathCountOrDrop } from '../../onions/onionPath';
-import { cloneDeep, isEmpty, isString, omit } from 'lodash';
-// hold the ed25519 key of a snode against the time it fails. Used to remove a snode only after a few failures (snodeFailureThreshold failures)
-let snodeFailureCount: Record<string, number> = {};
 
 import { Snode } from '../../../data/data';
 import { ERROR_CODE_NO_CONNECT } from './SNodeAPI';
 import { hrefPnServerProd } from '../push_notification_api/PnServer';
-import { callUtilsWorker } from '../../../webworker/workers/util_worker_interface';
+import { callUtilsWorker } from '../../../webworker/workers/browser/util_worker_interface';
 import { encodeV4Request } from '../../onions/onionv4';
-import { AbortSignal } from 'abort-controller';
-import { to_string } from 'libsodium-wrappers-sumo';
+
+// hold the ed25519 key of a snode against the time it fails. Used to remove a snode only after a few failures (snodeFailureThreshold failures)
+let snodeFailureCount: Record<string, number> = {};
 
 export const resetSnodeFailureCount = () => {
   snodeFailureCount = {};
@@ -40,9 +45,16 @@ export const buildErrorMessageWithFailedCode = (prefix: string, code: number, su
  * The first one, on the request itself, the other one in the json returned.
  *
  * If the request failed to reach the one of the node of the onion path, the one on the request is set.
- * But if the request reaches the destination node and it fails to process the request (bad node for this pubkey), you will get a 200 on the request itself, but the json you get will contain the real status.
+ * But if the request reaches the destination node and it fails to process the request (bad node for this pubkey),
+ * you will get a 200 on the request itself, but the json you get will contain the real status.
  */
 export interface SnodeResponse {
+  bodyBinary: Uint8Array | null;
+  body: string;
+  status?: number;
+}
+
+export interface SnodeParsedResponse {
   bodyBinary: Uint8Array | null;
   body: string;
   status?: number;
@@ -167,7 +179,7 @@ async function buildOnionCtxs(
         target,
         method: 'POST',
       };
-      // tslint:disable-next-line: no-http-string
+
       if (finalRelayOptions?.protocol === 'http') {
         dest.protocol = finalRelayOptions.protocol;
         dest.port = finalRelayOptions.port || 80;
@@ -276,7 +288,7 @@ async function process421Error(
  *
  * If destinationEd25519 is set, we will increment the failure count of the specified snode
  */
-async function processOnionRequestErrorAtDestination({
+export async function processOnionRequestErrorAtDestination({
   statusCode,
   body,
   destinationSnodeEd25519,
@@ -293,10 +305,9 @@ async function processOnionRequestErrorAtDestination({
   window?.log?.info(
     `processOnionRequestErrorAtDestination. statusCode nok: ${statusCode}: "${body}"`
   );
-
   process406Or425Error(statusCode);
-  await process421Error(statusCode, body, associatedWith, destinationSnodeEd25519);
   processOxenServerError(statusCode, body);
+  await process421Error(statusCode, body, associatedWith, destinationSnodeEd25519);
   if (destinationSnodeEd25519) {
     await processAnyOtherErrorAtDestination(
       statusCode,
@@ -415,7 +426,8 @@ async function processOnionRequestErrorOnPath(
     try {
       cipherAsString = to_string(new Uint8Array(ciphertext));
     } catch (e) {
-      // we might actually end up often in this case here often (for all calls to a non snode, so with onionv4 we will get binary data, and the to_string above won't work as it has a custom onion v4 encoding)
+      // we might actually end up often in this case here often (for all calls to a non snode, so with onionv4 we
+      // will get binary data, and the to_string above won't work as it has a custom onion v4 encoding)
       cipherAsString = '';
     }
   }
@@ -646,7 +658,9 @@ async function processOnionResponseV4({
   const bodyBinary: Uint8Array = new Uint8Array(plaintextBuffer);
 
   // Handling of the status code of the destination is done on the calling function, because the content of the onion response needs first to be decoded.
-  // Also, we actually do not care much about the status code of the destination here, because the destination cannot be a service node (we do not support onion v4 to a snode destination, only *through* them), so there is no rebuilding of the path for a destination case possible.
+  // Also, we actually do not care much about the status code of the destination here, because the destination
+  // cannot be a service node(we do not support onion v4 to a snode destination, only * through * them),
+  // so there is no rebuilding of the path for a destination case possible.
 
   return {
     bodyBinary,
@@ -703,7 +717,7 @@ async function handle421InvalidSwarm({
     if (parsedBody?.snodes?.length) {
       // the snode gave us the new swarm. Save it for the next retry
       window?.log?.warn(
-        'Wrong swarm, now looking at snodes',
+        `Wrong swarm, now looking for pk ${ed25519Str(associatedWith)} at snodes: `,
         parsedBody.snodes.map((s: any) => ed25519Str(s.pubkey_ed25519))
       );
 
@@ -739,7 +753,8 @@ async function handle421InvalidSwarm({
  * So after this call, if the snode keeps getting errors, we won't contact it again
  *
  * @param snodeEd25519 the snode ed25519 which cause issues (this might be a nodeNotFound)
- * @param guardNodeEd25519 the guard node ed25519 of the current path in use. a nodeNoteFound ed25519 is not part of any path, so we fallback to this one if we need to increment the bad path count of the current path in use
+ * @param guardNodeEd25519 the guard node ed25519 of the current path in use. a nodeNoteFound ed25519
+ *       is not part of any path, so we fallback to this one if we need to increment the bad path count of the current path in use
  * @param associatedWith if set, we will drop this snode from the swarm of the pubkey too
  * @param isNodeNotFound if set, we will drop this snode right now as this is an invalid node for the network.
  */
@@ -978,14 +993,14 @@ const sendOnionRequestNoRetries = async ({
       !isString(finalDestOptions.body) && finalDestOptions.body ? finalDestOptions.body : null;
     if (isRequestToSnode) {
       if (useV4) {
-        throw new Error('snoderpc calls cannot be v4 for now.');
+        throw new Error('sendOnionRequestNoRetries calls cannot be v4 for now.');
       }
       if (!isString(finalDestOptions.body)) {
         window.log.warn(
-          'snoderpc calls should only take body as string: ',
+          'sendOnionRequestNoRetries calls should only take body as string: ',
           typeof finalDestOptions.body
         );
-        throw new Error('snoderpc calls should only take body as string.');
+        throw new Error('sendOnionRequestNoRetries calls should only take body as string.');
       }
       // delete finalDestOptions.body;
       // not sure if that's strictly the same thing in this context
@@ -1008,7 +1023,9 @@ const sendOnionRequestNoRetries = async ({
       destCtx = useV4
         ? await encryptOnionV4RequestForPubkey(
             destX25519hex,
-            throwIfInvalidV4RequestInfos(finalDestOptions)
+            throwIfInvalidV4RequestInfos(
+              finalDestOptions as FinalDestSnodeOptions | FinalDestNonSnodeOptions // FIXME fix this type
+            )
           )
         : await encryptForPubKey(destX25519hex, finalDestOptions);
     }
@@ -1053,7 +1070,7 @@ const sendOnionRequestNoRetries = async ({
   };
 
   if (abortSignal) {
-    guardFetchOptions.signal = abortSignal;
+    guardFetchOptions.signal = abortSignal as AbortSignalNode;
   }
 
   const guardUrl = `https://${guardNode.ip}:${guardNode.port}/onion_req/v2`;

@@ -1,7 +1,7 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import React from 'react';
-// tslint:disable-next-line: no-submodule-imports
+
 import useUpdate from 'react-use/lib/useUpdate';
-import { Data, hasLinkPreviewPopupBeenDisplayed } from '../../../data/data';
 import { SettingsKey } from '../../../data/settings-key';
 import { ConversationTypeEnum } from '../../../models/conversationAttributes';
 import { updateConfirmModal } from '../../../state/ducks/modalDialog';
@@ -11,9 +11,10 @@ import { TypingBubble } from '../../conversation/TypingBubble';
 
 import { SessionSettingButtonItem, SessionToggleWithDescription } from '../SessionSettingListItem';
 import { displayPasswordModal } from '../SessionSettings';
+import { Storage } from '../../../util/storage';
+import { useHasLinkPreviewEnabled } from '../../../state/selectors/settings';
 
-async function toggleLinkPreviews(forceUpdate: () => void) {
-  const isToggleOn = Boolean(window.getSettingValue(SettingsKey.settingsLinkPreview));
+async function toggleLinkPreviews(isToggleOn: boolean, forceUpdate: () => void) {
   if (!isToggleOn) {
     window.inboxStore?.dispatch(
       updateConfirmModal({
@@ -29,7 +30,7 @@ async function toggleLinkPreviews(forceUpdate: () => void) {
     );
   } else {
     await window.setSettingValue(SettingsKey.settingsLinkPreview, false);
-    await Data.createOrUpdateItem({ id: hasLinkPreviewPopupBeenDisplayed, value: false });
+    await Storage.put(SettingsKey.hasLinkPreviewPopupBeenDisplayed, false);
     forceUpdate();
   }
 }
@@ -48,7 +49,7 @@ export const SettingsCategoryPrivacy = (props: {
   onPasswordUpdated: (action: string) => void;
 }) => {
   const forceUpdate = useUpdate();
-  const isLinkPreviewsOn = Boolean(window.getSettingValue(SettingsKey.settingsLinkPreview));
+  const isLinkPreviewsOn = useHasLinkPreviewEnabled();
 
   if (props.hasPassword !== null) {
     return (
@@ -76,8 +77,8 @@ export const SettingsCategoryPrivacy = (props: {
           childrenDescription={<TypingBubbleItem />}
         />
         <SessionToggleWithDescription
-          onClickToggle={async () => {
-            await toggleLinkPreviews(forceUpdate);
+          onClickToggle={() => {
+            void toggleLinkPreviews(isLinkPreviewsOn, forceUpdate);
           }}
           title={window.i18n('linkPreviewsTitle')}
           description={window.i18n('linkPreviewDescription')}

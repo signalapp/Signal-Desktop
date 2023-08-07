@@ -16,7 +16,6 @@ export class PendingMessageCacheStub extends PendingMessageCache {
     return this.dbData;
   }
 
-  protected async saveToDB() {
-    return;
-  }
+  // eslint-disable-next-line  no-empty-function
+  protected async saveToDB() {}
 }

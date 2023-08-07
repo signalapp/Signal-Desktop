@@ -1,4 +1,5 @@
 import React from 'react';
+import styled, { CSSProperties } from 'styled-components';
 
 import { getOurPubKeyStrFromCache } from '../../session/utils/User';
 import { openConversationToSpecificMessage } from '../../state/ducks/conversations';
@@ -6,7 +7,6 @@ import { ContactName } from '../conversation/ContactName';
 import { Avatar, AvatarSize } from '../avatar/Avatar';
 import { Timestamp } from '../conversation/Timestamp';
 import { MessageBodyHighlight } from '../basic/MessageBodyHighlight';
-import styled from 'styled-components';
 import { MessageAttributes } from '../../models/messageType';
 import { useConversationUsername, useIsPrivate } from '../../hooks/useParamSelector';
 import { UserUtils } from '../../session/utils';
@@ -172,7 +172,9 @@ const StyledTimestampContaimer = styled.div`
   color: var(--conversation-tab-text-color);
 `;
 
-export const MessageSearchResult = (props: MessageResultProps) => {
+type MessageSearchResultProps = MessageResultProps & { style: CSSProperties };
+
+export const MessageSearchResult = (props: MessageSearchResultProps) => {
   const {
     id,
     conversationId,
@@ -183,6 +185,7 @@ export const MessageSearchResult = (props: MessageResultProps) => {
     serverTimestamp,
     timestamp,
     direction,
+    style,
   } = props;
 
   /** destination is only used for search results (showing the `from:` and `to`)
@@ -205,11 +208,11 @@ export const MessageSearchResult = (props: MessageResultProps) => {
   if (!source && !destination) {
     return null;
   }
-  // tslint:disable: use-simple-attributes
 
   return (
     <StyledSearchResults
       key={`div-msg-searchresult-${id}`}
+      style={style}
       role="button"
       onClick={() => {
         void openConversationToSpecificMessage({

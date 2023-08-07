@@ -1,7 +1,10 @@
 import { difference, omit, pick } from 'lodash';
-import { ConversationAttributes } from '../models/conversationAttributes';
-
-import * as BetterSqlite3 from 'better-sqlite3';
+import * as BetterSqlite3 from '@signalapp/better-sqlite3';
+import {
+  ConversationAttributes,
+  ConversationAttributesWithNotSavedOnes,
+  CONVERSATION_PRIORITIES,
+} from '../models/conversationAttributes';
 
 export const CONVERSATIONS_TABLE = 'conversations';
 export const MESSAGES_TABLE = 'messages';
@@ -16,7 +19,6 @@ export const CLOSED_GROUP_V2_KEY_PAIRS_TABLE = 'encryptionKeyPairsForClosedGroup
 export const LAST_HASHES_TABLE = 'lastHashes';
 
 export const HEX_KEY = /[^0-9A-Fa-f]/;
-// tslint:disable: no-console
 
 export function objectToJSON(data: Record<any, any>) {
   return JSON.stringify(data);
@@ -45,14 +47,11 @@ export function toSqliteBoolean(val: boolean): number {
 // this is used to make sure when storing something in the database you remember to add the wrapping for it in formatRowOfConversation
 const allowedKeysFormatRowOfConversation = [
   'groupAdmins',
-  'groupModerators',
   'members',
   'zombies',
   'isTrustedForAttachmentDownload',
-  'isPinned',
   'isApproved',
   'didApproveMe',
-  'is_medium_group',
   'mentionedUs',
   'isKickedFromGroup',
   'left',
@@ -61,10 +60,6 @@ const allowedKeysFormatRowOfConversation = [
   'triggerNotificationsFor',
   'unreadCount',
   'lastJoinedTimestamp',
-  'subscriberCount',
-  'readCapability',
-  'writeCapability',
-  'uploadCapability',
   'expireTimer',
   'active_at',
   'id',
@@ -76,9 +71,16 @@ const allowedKeysFormatRowOfConversation = [
   'avatarInProfile',
   'displayNameInProfile',
   'conversationIdOrigin',
+  'markedAsUnread',
+  'priority',
 ];
 
-export function formatRowOfConversation(row?: Record<string, any>): ConversationAttributes | null {
+export function formatRowOfConversation(
+  row: Record<string, any>,
+  from: string,
+  unreadCount: number,
+  mentionedUs: boolean
+): ConversationAttributesWithNotSavedOnes | null {
   if (!row) {
     return null;
   }
@@ -90,7 +92,7 @@ export function formatRowOfConversation(row?: Record<string, any>): Conversation
 
   if (foundInRowButNotInAllowed?.length) {
     console.error(
-      'formatRowOfConversation: foundInRowButNotInAllowed: ',
+      `formatRowOfConversation: "from:${from}" foundInRowButNotInAllowed: `,
       foundInRowButNotInAllowed
     );
 
@@ -109,10 +111,6 @@ export function formatRowOfConversation(row?: Record<string, any>): Conversation
     row.groupAdmins?.length && row.groupAdmins.length > minLengthNoParsing
       ? jsonToArray(row.groupAdmins)
       : [];
-  convo.groupModerators =
-    row.groupModerators?.length && row.groupModerators.length > minLengthNoParsing
-      ? jsonToArray(row.groupModerators)
-      : [];
 
   convo.members =
     row.members?.length && row.members.length > minLengthNoParsing ? jsonToArray(row.members) : [];
@@ -121,16 +119,12 @@ export function formatRowOfConversation(row?: Record<string, any>): Conversation
 
   // sqlite stores boolean as integer. to clean thing up we force the expected boolean fields to be boolean
   convo.isTrustedForAttachmentDownload = Boolean(convo.isTrustedForAttachmentDownload);
-  convo.isPinned = Boolean(convo.isPinned);
   convo.isApproved = Boolean(convo.isApproved);
   convo.didApproveMe = Boolean(convo.didApproveMe);
-  convo.is_medium_group = Boolean(convo.is_medium_group);
-  convo.mentionedUs = Boolean(convo.mentionedUs);
   convo.isKickedFromGroup = Boolean(convo.isKickedFromGroup);
   convo.left = Boolean(convo.left);
-  convo.readCapability = Boolean(convo.readCapability);
-  convo.writeCapability = Boolean(convo.writeCapability);
-  convo.uploadCapability = Boolean(convo.uploadCapability);
+  convo.markedAsUnread = Boolean(convo.markedAsUnread);
+  convo.priority = convo.priority || CONVERSATION_PRIORITIES.default;
 
   if (!convo.conversationIdOrigin) {
     convo.conversationIdOrigin = undefined;
@@ -148,16 +142,8 @@ export function formatRowOfConversation(row?: Record<string, any>): Conversation
     convo.triggerNotificationsFor = 'all';
   }
 
-  if (!convo.unreadCount) {
-    convo.unreadCount = 0;
-  }
-
   if (!convo.lastJoinedTimestamp) {
     convo.lastJoinedTimestamp = 0;
-  }
-
-  if (!convo.subscriberCount) {
-    convo.subscriberCount = 0;
   }
 
   if (!convo.expireTimer) {
@@ -168,31 +154,29 @@ export function formatRowOfConversation(row?: Record<string, any>): Conversation
     convo.active_at = 0;
   }
 
-  return convo;
+  return {
+    ...convo,
+    mentionedUs,
+    unreadCount,
+  };
 }
 
+/**
+ * Those attributes are the one we are sending to the sql call as we want to save them when saving a conversation row.
+ */
 const allowedKeysOfConversationAttributes = [
   'groupAdmins',
-  'groupModerators',
   'members',
   'zombies',
   'isTrustedForAttachmentDownload',
-  'isPinned',
   'isApproved',
   'didApproveMe',
-  'is_medium_group',
-  'mentionedUs',
   'isKickedFromGroup',
   'left',
   'lastMessage',
   'lastMessageStatus',
   'triggerNotificationsFor',
-  'unreadCount',
   'lastJoinedTimestamp',
-  'subscriberCount',
-  'readCapability',
-  'writeCapability',
-  'uploadCapability',
   'expireTimer',
   'active_at',
   'id',
@@ -204,7 +188,20 @@ const allowedKeysOfConversationAttributes = [
   'avatarInProfile',
   'displayNameInProfile',
   'conversationIdOrigin',
+  'markedAsUnread',
+  'priority',
 ];
+
+/**
+ * Those attributes are the one we know the renderer is sending back but which we do not want to save to the database.
+ * They are fetched when getting the conversation from the DB and in anything returning a SaveConversationReturn
+ */
+const allowedKeysButNotSavedToDb = ['mentionedUs', 'unreadCount'];
+
+/**
+ * This one merges each list together, and must be used for the log statement only.
+ */
+const allowedKeysTogether = [...allowedKeysOfConversationAttributes, ...allowedKeysButNotSavedToDb];
 
 /**
  * assertValidConversationAttributes is used to make sure that only the keys stored in the database are sent from the renderer.
@@ -213,22 +210,16 @@ const allowedKeysOfConversationAttributes = [
 export function assertValidConversationAttributes(
   data: ConversationAttributes
 ): ConversationAttributes {
-  // first make sure all keys of the object data are expected to be there
-  const foundInAttributesButNotInAllowed = difference(
-    Object.keys(data),
-    allowedKeysOfConversationAttributes
-  );
+  // first make sure all keys of the object data are expected to be there, or expected to not be saved to the DB
+  const foundInAttributesButNotInAllowed = difference(Object.keys(data), allowedKeysTogether);
 
   if (foundInAttributesButNotInAllowed?.length) {
-    // tslint:disable-next-line: no-console
     console.error(
       `assertValidConversationAttributes: an invalid key was given in the record: ${foundInAttributesButNotInAllowed}`
     );
-    throw new Error(
-      `assertValidConversationAttributes: found a not allowed key: ${foundInAttributesButNotInAllowed[0]}`
-    );
   }
 
+  // we only ever want to save the allowedKeysOfConversationAttributes here, not the one part of allowedKeysButNotSavedToDb
   return pick(data, allowedKeysOfConversationAttributes) as ConversationAttributes;
 }
 
@@ -248,29 +239,29 @@ export function rebuildFtsTable(db: BetterSqlite3.Database) {
   db.exec(`
           -- Then we create our full-text search table and populate it
           CREATE VIRTUAL TABLE ${MESSAGES_FTS_TABLE}
-            USING fts5(id UNINDEXED, body);
-          INSERT INTO ${MESSAGES_FTS_TABLE}(id, body)
-            SELECT id, body FROM ${MESSAGES_TABLE};
+            USING fts5(body);
+          INSERT INTO ${MESSAGES_FTS_TABLE}(rowid, body)
+            SELECT rowid, body FROM ${MESSAGES_TABLE};
           -- Then we set up triggers to keep the full-text search table up to date
           CREATE TRIGGER messages_on_insert AFTER INSERT ON ${MESSAGES_TABLE} BEGIN
             INSERT INTO ${MESSAGES_FTS_TABLE} (
-              id,
+              rowid,
               body
             ) VALUES (
-              new.id,
+              new.rowid,
               new.body
             );
           END;
           CREATE TRIGGER messages_on_delete AFTER DELETE ON ${MESSAGES_TABLE} BEGIN
-            DELETE FROM ${MESSAGES_FTS_TABLE} WHERE id = old.id;
+            DELETE FROM ${MESSAGES_FTS_TABLE} WHERE rowid = old.rowid;
           END;
           CREATE TRIGGER messages_on_update AFTER UPDATE ON ${MESSAGES_TABLE} WHEN new.body <> old.body BEGIN
-            DELETE FROM ${MESSAGES_FTS_TABLE} WHERE id = old.id;
+            DELETE FROM ${MESSAGES_FTS_TABLE} WHERE rowid = old.rowid;
             INSERT INTO ${MESSAGES_FTS_TABLE}(
-              id,
+              rowid,
               body
             ) VALUES (
-              new.id,
+              new.rowid,
               new.body
             );
           END;

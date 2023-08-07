@@ -1,7 +1,10 @@
+// eslint:disable: no-require-imports no-var-requires
 const { clipboard, ipcRenderer, webFrame } = require('electron/main');
 const { Storage } = require('./ts/util/storage');
 
 const url = require('url');
+
+const _ = require('lodash');
 
 const config = url.parse(window.location.toString(), true).query;
 const configAny = config;
@@ -13,7 +16,6 @@ if (config.environment !== 'production') {
 if (config.appInstance) {
   title += ` - ${config.appInstance}`;
 }
-// tslint:disable: no-require-imports no-var-requires
 
 window.platform = process.platform;
 window.getTitle = () => title;
@@ -29,8 +31,10 @@ window.sessionFeatureFlags = {
   useTestNet: Boolean(
     process.env.NODE_APP_INSTANCE && process.env.NODE_APP_INSTANCE.includes('testnet')
   ),
-  useSettingsThemeSwitcher: true,
+  useClosedGroupV3: false || process.env.USE_CLOSED_GROUP_V3,
   debug: {
+    debugLogging: !_.isEmpty(process.env.SESSION_DEBUG),
+    debugLibsessionDumps: !_.isEmpty(process.env.SESSION_DEBUG_LIBSESSION_DUMPS),
     debugFileServerRequests: false,
     debugNonSnodeRequests: false,
     debugOnionRequests: false,
@@ -236,7 +240,6 @@ const { getConversationController } = require('./ts/session/conversations/Conver
 window.getConversationController = getConversationController;
 // Linux seems to periodically let the event loop stop, so this is a global workaround
 setInterval(() => {
-  // tslint:disable-next-line: no-empty
   window.nodeSetImmediate(() => {});
 }, 1000);
 

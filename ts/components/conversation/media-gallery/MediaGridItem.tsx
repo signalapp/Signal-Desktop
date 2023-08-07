@@ -28,7 +28,6 @@ const MediaGridItemContent = (props: Props) => {
   const disableDrag = useDisableDrag();
 
   const onImageError = () => {
-    // tslint:disable-next-line no-console
     window.log.info('MediaGridItem: Image failed to load; failing over to placeholder');
     setImageBroken(true);
   };
@@ -58,7 +57,8 @@ const MediaGridItemContent = (props: Props) => {
         onDragStart={disableDrag}
       />
     );
-  } else if (contentType && isVideoTypeSupported(contentType)) {
+  }
+  if (contentType && isVideoTypeSupported(contentType)) {
     if (imageBroken || !srcData) {
       return (
         <div

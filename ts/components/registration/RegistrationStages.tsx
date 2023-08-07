@@ -4,7 +4,7 @@ import { SignInMode, SignInTab } from './SignInTab';
 import { Data } from '../../data/data';
 import { getSwarmPollingInstance } from '../../session/apis/snode_api';
 import { getConversationController } from '../../session/conversations';
-import { mn_decode } from '../../session/crypto/mnemonic';
+import { mnDecode } from '../../session/crypto/mnemonic';
 import { PromiseUtils, StringUtils, ToastUtils } from '../../session/utils';
 import { TaskTimedOutError } from '../../session/utils/Promise';
 import { trigger } from '../../shims/events';
@@ -16,8 +16,7 @@ import {
 } from '../../util/accountManager';
 import { fromHex } from '../../session/utils/String';
 import { setSignInByLinking, setSignWithRecoveryPhrase, Storage } from '../../util/storage';
-
-// tslint:disable: use-simple-attributes
+import { SettingsKey } from '../../data/settings-key';
 
 export async function resetRegistration() {
   await Data.removeAll();
@@ -59,11 +58,7 @@ export async function signUp(signUpDetails: {
   try {
     await resetRegistration();
     await registerSingleDevice(generatedRecoveryPhrase, 'english', trimName);
-    await Data.createOrUpdateItem({
-      id: 'hasSyncedInitialConfigurationItem',
-      value: true,
-      timestamp: Date.now(),
-    });
+    await Storage.put(SettingsKey.hasSyncedInitialConfigurationItem, Date.now());
     await setSignWithRecoveryPhrase(false);
     trigger('openInbox');
   } catch (e) {
@@ -131,7 +126,7 @@ export async function signInWithLinking(signInDetails: { userRecoveryPhrase: str
     }, 60000);
     if (displayNameFromNetwork.length) {
       // display name, avatars, groups and contacts should already be handled when this event was triggered.
-      window?.log?.info('We got a displayName from network: ');
+      window?.log?.info(`We got a displayName from network: "${displayNameFromNetwork}"`);
     } else {
       window?.log?.info('Got a config message from network but without a displayName...');
       throw new Error('Got a config message from network but without a displayName...');
@@ -191,16 +186,11 @@ export const RegistrationStages = () => {
   const [signInMode, setSignInMode] = useState(SignInMode.Default);
   const [signUpMode, setSignUpMode] = useState(SignUpMode.Default);
 
-  useEffect(() => {
-    void generateMnemonicAndKeyPair();
-    void resetRegistration();
-  }, []);
-
   const generateMnemonicAndKeyPair = async () => {
     if (generatedRecoveryPhrase === '') {
       const mnemonic = await generateMnemonic();
 
-      let seedHex = mn_decode(mnemonic);
+      let seedHex = mnDecode(mnemonic);
       // handle shorter than 32 bytes seeds
       const privKeyHexLength = 32 * 2;
       if (seedHex.length !== privKeyHexLength) {
@@ -215,6 +205,12 @@ export const RegistrationStages = () => {
       setHexGeneratedPubKey(newHexPubKey); // our 'frontend' sessionID
     }
   };
+
+  useEffect(() => {
+    void generateMnemonicAndKeyPair();
+    void resetRegistration();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const memoizedValue = React.useMemo(() => {
     return {

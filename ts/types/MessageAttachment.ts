@@ -15,8 +15,6 @@ import {
 } from './attachments/migrations';
 import { ConversationAttributes } from '../models/conversationAttributes';
 
-// tslint:disable: prefer-object-spread
-
 // I think this is only used on the renderer side, but how?!
 
 export const deleteExternalMessageFiles = async (message: {
@@ -152,7 +150,6 @@ export const processNewAttachment = async (attachment: {
   const rotatedData = await autoOrientJPEGAttachment(attachment);
 
   const onDiskAttachmentPath = await migrateDataToFileSystem(rotatedData.data);
-
   const attachmentWithoutData = omit({ ...attachment, fileName, path: onDiskAttachmentPath }, [
     'data',
   ]);
@@ -225,7 +222,7 @@ export async function deleteExternalFilesOfConversation(
 
   const { avatarInProfile } = conversationAttributes;
 
-  if (isString(avatarInProfile)) {
+  if (isString(avatarInProfile) && avatarInProfile.length) {
     await deleteOnDisk(avatarInProfile);
   }
 }

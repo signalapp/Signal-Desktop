@@ -1,7 +1,7 @@
 import React from 'react';
-import { updateConfirmModal } from '../../state/ducks/modalDialog';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
+import { updateConfirmModal } from '../../state/ducks/modalDialog';
 
 const StyledKnob = styled.div<{ active: boolean }>`
   position: absolute;
