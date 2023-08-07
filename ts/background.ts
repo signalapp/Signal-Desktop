@@ -113,7 +113,7 @@ import type { BadgesStateType } from './state/ducks/badges';
 import { areAnyCallsActiveOrRinging } from './state/selectors/calling';
 import { badgeImageFileDownloader } from './badges/badgeImageFileDownloader';
 import { actionCreators } from './state/actions';
-import { Deletes } from './messageModifiers/Deletes';
+import * as Deletes from './messageModifiers/Deletes';
 import type { EditAttributesType } from './messageModifiers/Edits';
 import * as Edits from './messageModifiers/Edits';
 import {
@@ -2482,16 +2482,14 @@ export async function startApp(): Promise<void> {
       strictAssert(fromConversation, 'Delete missing fromConversation');
 
       const attributes: DeleteAttributesType = {
+        envelopeId: data.envelopeId,
         targetSentTimestamp: del.targetSentTimestamp,
         serverTimestamp: data.serverTimestamp,
         fromId: fromConversation.id,
+        removeFromMessageReceiverCache: confirm,
       };
-      const deleteModel = Deletes.getSingleton().add(attributes);
+      drop(Deletes.onDelete(attributes));
 
-      // Note: We do not wait for completion here
-      void Deletes.getSingleton().onDelete(deleteModel);
-
-      confirm();
       return;
     }
 
@@ -2512,16 +2510,17 @@ export async function startApp(): Promise<void> {
       });
 
       const editAttributes: EditAttributesType = {
+        envelopeId: data.envelopeId,
         conversationId: message.attributes.conversationId,
         fromId: fromConversation.id,
         fromDevice: data.sourceDevice ?? 1,
         message: copyDataMessageIntoMessage(data.message, message.attributes),
         targetSentTimestamp: editedMessageTimestamp,
+        removeFromMessageReceiverCache: confirm,
       };
 
       drop(Edits.onEdit(editAttributes));
 
-      confirm();
       return;
     }
 
@@ -2815,14 +2814,13 @@ export async function startApp(): Promise<void> {
       log.info('Queuing sent DOE for', del.targetSentTimestamp);
 
       const attributes: DeleteAttributesType = {
+        envelopeId: data.envelopeId,
         targetSentTimestamp: del.targetSentTimestamp,
         serverTimestamp: data.serverTimestamp,
         fromId: window.ConversationController.getOurConversationIdOrThrow(),
+        removeFromMessageReceiverCache: confirm,
       };
-      const deleteModel = Deletes.getSingleton().add(attributes);
-      // Note: We do not wait for completion here
-      void Deletes.getSingleton().onDelete(deleteModel);
-      confirm();
+      drop(Deletes.onDelete(attributes));
       return;
     }
 
@@ -2837,16 +2835,16 @@ export async function startApp(): Promise<void> {
       });
 
       const editAttributes: EditAttributesType = {
+        envelopeId: data.envelopeId,
         conversationId: message.attributes.conversationId,
         fromId: window.ConversationController.getOurConversationIdOrThrow(),
         fromDevice: window.storage.user.getDeviceId() ?? 1,
         message: copyDataMessageIntoMessage(data.message, message.attributes),
         targetSentTimestamp: editedMessageTimestamp,
+        removeFromMessageReceiverCache: confirm,
       };
 
       drop(Edits.onEdit(editAttributes));
-
-      confirm();
       return;
     }
 

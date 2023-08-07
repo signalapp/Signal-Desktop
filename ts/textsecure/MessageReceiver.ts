@@ -2076,6 +2076,7 @@ export default class MessageReceiver
 
     const ev = new SentEvent(
       {
+        envelopeId: envelope.id,
         destination: dropNull(destination),
         destinationUuid,
         timestamp: timestamp?.toNumber(),
@@ -2178,6 +2179,7 @@ export default class MessageReceiver
       log.warn(`${logId}: envelope is a sent group story`);
       const ev = new SentEvent(
         {
+          envelopeId: envelope.id,
           destinationUuid: {
             aci: envelope.destinationUuid.toString(),
           },
@@ -2250,6 +2252,7 @@ export default class MessageReceiver
       distributionListToSentUuid.forEach((sentToUuids, listId) => {
         const ev = new SentEvent(
           {
+            envelopeId: envelope.id,
             destinationUuid: {
               aci: envelope.destinationUuid.toString(),
               pni: undefined,
@@ -2287,6 +2290,7 @@ export default class MessageReceiver
     log.warn(`${logId}: envelope is a received story`);
     const ev = new MessageEvent(
       {
+        envelopeId: envelope.id,
         source: envelope.source,
         sourceUuid: envelope.sourceUuid,
         sourceDevice: envelope.sourceDevice,
@@ -2352,6 +2356,7 @@ export default class MessageReceiver
 
     const ev = new MessageEvent(
       {
+        envelopeId: envelope.id,
         source: envelope.source,
         sourceUuid: envelope.sourceUuid,
         sourceDevice: envelope.sourceDevice,
@@ -2459,6 +2464,7 @@ export default class MessageReceiver
 
     const ev = new MessageEvent(
       {
+        envelopeId: envelope.id,
         source: envelope.source,
         sourceUuid: envelope.sourceUuid,
         sourceDevice: envelope.sourceDevice,
@@ -3085,6 +3091,7 @@ export default class MessageReceiver
 
     const ev = new SentEvent(
       {
+        envelopeId: envelope.id,
         destination: dropNull(destination),
         destinationUuid,
         timestamp: envelope.timestamp,

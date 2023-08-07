@@ -177,6 +177,7 @@ export class RetryRequestEvent extends ConfirmableEvent {
 }
 
 export type SentEventData = Readonly<{
+  envelopeId: string;
   destination?: string;
   destinationUuid?: TaggedUUIDStringType;
   timestamp?: number;
@@ -213,6 +214,7 @@ export class ProfileKeyUpdateEvent extends ConfirmableEvent {
 }
 
 export type MessageEventData = Readonly<{
+  envelopeId: string;
   source?: string;
   sourceUuid: UUIDStringType;
   sourceDevice?: number;

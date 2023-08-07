@@ -13,17 +13,19 @@ import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp';
 
 export type EditAttributesType = {
   conversationId: string;
+  envelopeId: string;
   fromId: string;
   fromDevice: number;
   message: MessageAttributesType;
   targetSentTimestamp: number;
+  removeFromMessageReceiverCache: () => unknown;
 };
 
-const edits = new Set<EditAttributesType>();
+const edits = new Map<string, EditAttributesType>();
 
 export function forMessage(message: MessageModel): Array<EditAttributesType> {
   const sentAt = getMessageSentTimestamp(message.attributes, { log });
-  const matchingEdits = filter(edits, item => {
+  const matchingEdits = filter(edits, ([_envelopeId, item]) => {
     return (
       item.targetSentTimestamp === sentAt &&
       item.fromId === getContactId(message.attributes)
@@ -31,13 +33,20 @@ export function forMessage(message: MessageModel): Array<EditAttributesType> {
   });
 
   if (size(matchingEdits) > 0) {
-    const result = Array.from(matchingEdits);
-    const editsLogIds = result.map(x => x.message.sent_at);
+    const result: Array<EditAttributesType> = [];
+    const editsLogIds: Array<number> = [];
+
+    Array.from(matchingEdits).forEach(([envelopeId, item]) => {
+      result.push(item);
+      editsLogIds.push(item.message.sent_at);
+      edits.delete(envelopeId);
+      item.removeFromMessageReceiverCache();
+    });
+
     log.info(
       `Edits.forMessage(${message.get('sent_at')}): ` +
         `Found early edits for message ${editsLogIds.join(', ')}`
     );
-    filter(matchingEdits, item => edits.delete(item));
     return result;
   }
 
@@ -45,7 +54,7 @@ export function forMessage(message: MessageModel): Array<EditAttributesType> {
 }
 
 export async function onEdit(edit: EditAttributesType): Promise<void> {
-  edits.add(edit);
+  edits.set(edit.envelopeId, edit);
 
   const logId = `Edits.onEdit(timestamp=${edit.message.timestamp};target=${edit.targetSentTimestamp})`;
 
@@ -93,7 +102,8 @@ export async function onEdit(edit: EditAttributesType): Promise<void> {
 
         await handleEditMessage(message.attributes, edit);
 
-        edits.delete(edit);
+        edits.delete(edit.envelopeId);
+        edit.removeFromMessageReceiverCache();
       })
     );
   } catch (error) {
