@@ -9,11 +9,8 @@ import { CONVERSATION } from '../session/constants';
 import { PubKey } from '../session/types';
 import { UserUtils } from '../session/utils';
 import { StateType } from '../state/reducer';
-import { getMessageReactsProps } from '../state/selectors/conversations';
-import {
-  getMessageExpirationProps,
-  isPrivateAndFriend,
-} from '../state/selectors/selectedConversation';
+import { getMessageReactsProps, getMessageExpirationProps } from '../state/selectors/conversations';
+import { isPrivateAndFriend } from '../state/selectors/selectedConversation';
 
 export function useAvatarPath(convoId: string | undefined) {
   const convoProps = useConversationPropsById(convoId);
