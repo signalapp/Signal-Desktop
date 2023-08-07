@@ -47,6 +47,7 @@ const StyledMessageWithAuthor = styled.div<{ isIncoming: boolean }>`
   max-width: ${props => (props.isIncoming ? '100%' : 'calc(100% - 17px)')};
   display: flex;
   flex-direction: column;
+  min-width: 0;
 `;
 
 export const MessageContentWithStatuses = (props: Props) => {
