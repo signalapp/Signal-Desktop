@@ -573,12 +573,12 @@ export async function startApp(): Promise<void> {
 
   document.documentElement.setAttribute(
     'lang',
-    window.getResolvedMessagesLocale().split(/[-_]/)[0]
+    window.SignalContext.getResolvedMessagesLocale().split(/[-_]/)[0]
   );
 
   document.documentElement.setAttribute(
     'dir',
-    window.getResolvedMessagesLocaleDirection()
+    window.SignalContext.getResolvedMessagesLocaleDirection()
   );
 
   KeyChangeListener.init(window.textsecure.storage.protocol);

@@ -56,9 +56,7 @@ import type * as Message2 from './types/Message2';
 import type { initializeMigrations } from './signal';
 import type { RetryPlaceholders } from './util/retryPlaceholders';
 import type { PropsPreloadType as PreferencesPropsType } from './components/Preferences';
-import type { LocaleDirection } from '../app/locale';
 import type { WindowsNotificationData } from './services/notifications';
-import type { HourCyclePreference } from './types/I18N';
 
 export { Long } from 'long';
 
@@ -199,10 +197,6 @@ declare global {
     getEnvironment: typeof getEnvironment;
     getHostName: () => string;
     getInteractionMode: () => 'mouse' | 'keyboard';
-    getResolvedMessagesLocaleDirection: () => LocaleDirection;
-    getHourCyclePreference: () => HourCyclePreference;
-    getResolvedMessagesLocale: () => string;
-    getPreferredSystemLocales: () => Array<string>;
     getServerPublicParams: () => string;
     getSfuUrl: () => string;
     getSocketStatus: () => SocketStatus;

@@ -224,8 +224,8 @@ async function doGetProfile(c: ConversationModel): Promise<void> {
   );
 
   const userLanguages = getUserLanguages(
-    window.getPreferredSystemLocales(),
-    window.getResolvedMessagesLocale()
+    window.SignalContext.getPreferredSystemLocales(),
+    window.SignalContext.getResolvedMessagesLocale()
   );
 
   let profile;

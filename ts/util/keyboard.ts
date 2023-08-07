@@ -15,6 +15,7 @@ const logicalArrows: Record<
 };
 
 export function arrow(logicalDirection: LogicalDirection): HorizontalArrowKey {
-  const localeDirection = window.getResolvedMessagesLocaleDirection();
+  const localeDirection =
+    window.SignalContext.getResolvedMessagesLocaleDirection();
   return logicalArrows[logicalDirection][localeDirection];
 }

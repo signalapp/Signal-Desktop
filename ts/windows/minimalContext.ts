@@ -42,6 +42,13 @@ export const MinimalSignalContext: MinimalSignalContextType = {
   },
   getI18nLocale: () => config.resolvedTranslationsLocale,
   getI18nLocaleMessages: () => localeMessages,
+
+  getResolvedMessagesLocale: () => config.resolvedTranslationsLocale,
+  getResolvedMessagesLocaleDirection: () =>
+    config.resolvedTranslationsLocaleDirection,
+  getHourCyclePreference: () => config.hourCyclePreference,
+  getPreferredSystemLocales: () => config.preferredSystemLocales,
+
   nativeThemeListener: createNativeThemeListener(ipcRenderer, window),
   OS: {
     getClassName: () => ipcRenderer.sendSync('OS.getClassName'),
