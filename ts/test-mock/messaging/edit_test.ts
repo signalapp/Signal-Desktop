@@ -27,25 +27,27 @@ function wrap({
   };
 }
 
-function createMessage(): Proto.IDataMessage {
+function createMessage(body: string): Proto.IDataMessage {
   return {
-    body: 'hey yhere',
+    body,
     groupV2: undefined,
     timestamp: Long.fromNumber(Date.now()),
   };
 }
 
 function createEditedMessage(
-  targetMessage: Proto.IDataMessage
+  targetSentTimestamp: Long | null | undefined,
+  body: string,
+  timestamp = Date.now()
 ): Proto.IEditMessage {
-  strictAssert(targetMessage.timestamp, 'timestamp missing');
+  strictAssert(targetSentTimestamp, 'timestamp missing');
 
   return {
-    targetSentTimestamp: targetMessage.timestamp,
+    targetSentTimestamp,
     dataMessage: {
-      body: 'hey there',
+      body,
       groupV2: undefined,
-      timestamp: Long.fromNumber(Date.now()),
+      timestamp: Long.fromNumber(timestamp),
     },
   };
 }
@@ -77,7 +79,8 @@ describe('editing', function needsName() {
 
     const window = await app.getWindow();
 
-    const originalMessage = createMessage();
+    const initialMessageBody = 'hey yhere';
+    const originalMessage = createMessage(initialMessageBody);
     const originalMessageTimestamp = Number(originalMessage.timestamp);
 
     debug('sending message');
@@ -101,7 +104,9 @@ describe('editing', function needsName() {
     await window.locator('.module-conversation-hero').waitFor();
 
     debug('checking for message');
-    await window.locator('.module-message__text >> "hey yhere"').waitFor();
+    await window
+      .locator(`.module-message__text >> "${initialMessageBody}"`)
+      .waitFor();
 
     debug('waiting for receipts for original message');
     const receipts = await app.waitForReceipts();
@@ -110,7 +115,11 @@ describe('editing', function needsName() {
     assert.strictEqual(receipts.timestamps[0], originalMessageTimestamp);
 
     debug('sending edited message');
-    const editedMessage = createEditedMessage(originalMessage);
+    const editedMessageBody = 'hey there';
+    const editedMessage = createEditedMessage(
+      originalMessage.timestamp,
+      editedMessageBody
+    );
     const editedMessageTimestamp = Number(editedMessage.dataMessage?.timestamp);
     {
       const sendOptions = {
@@ -124,7 +133,9 @@ describe('editing', function needsName() {
     }
 
     debug('checking for edited message');
-    await window.locator('.module-message__text >> "hey there"').waitFor();
+    await window
+      .locator(`.module-message__text >> "${editedMessageBody}"`)
+      .waitFor();
 
     const messages = window.locator('.module-message__text');
     assert.strictEqual(await messages.count(), 1, 'message count');
@@ -137,7 +148,8 @@ describe('editing', function needsName() {
 
     const [friend] = contacts;
 
-    const originalMessage = createMessage();
+    const initialMessageBody = 'hey yhere';
+    const originalMessage = createMessage(initialMessageBody);
     const originalMessageTimestamp = Number(originalMessage.timestamp);
 
     debug('incoming message');
@@ -161,7 +173,9 @@ describe('editing', function needsName() {
     await window.locator('.module-conversation-hero').waitFor();
 
     debug('checking for message');
-    await window.locator('.module-message__text >> "hey yhere"').waitFor();
+    await window
+      .locator(`.module-message__text >> "${initialMessageBody}"`)
+      .waitFor();
 
     debug('waiting for original receipt');
     const originalReceipt = await friend.waitForReceipt();
@@ -177,7 +191,11 @@ describe('editing', function needsName() {
     }
 
     debug('sending edited message');
-    const editedMessage = createEditedMessage(originalMessage);
+    const editedMessageBody = 'hey there';
+    const editedMessage = createEditedMessage(
+      originalMessage.timestamp,
+      editedMessageBody
+    );
     const editedMessageTimestamp = Number(editedMessage.dataMessage?.timestamp);
     {
       const sendOptions = {
@@ -191,7 +209,9 @@ describe('editing', function needsName() {
     }
 
     debug('checking for edited message');
-    await window.locator('.module-message__text >> "hey there"').waitFor();
+    await window
+      .locator(`.module-message__text >> "${editedMessageBody}"`)
+      .waitFor();
 
     const messages = window.locator('.module-message__text');
     assert.strictEqual(await messages.count(), 1, 'message count');
@@ -264,6 +284,7 @@ describe('editing', function needsName() {
       await input.press('Enter');
     }
 
+    debug("waiting for friend's edit message");
     const { editMessage: firstEdit } = await friend.waitForEditMessage();
     assert.strictEqual(
       firstEdit.targetSentTimestamp?.toNumber(),
@@ -310,5 +331,76 @@ describe('editing', function needsName() {
     assert.isTrue(await history.locator('"edit message 1"').isVisible());
     assert.isTrue(await history.locator('"edit message 2"').isVisible());
     assert.isTrue(await history.locator('"edit message 3"').isVisible());
+  });
+
+  it('is fine with out of order edit processing', async () => {
+    const { phone, desktop } = bootstrap;
+
+    const window = await app.getWindow();
+
+    const originalMessage = createMessage('v1');
+    const originalMessageTimestamp = Number(originalMessage.timestamp);
+
+    const sendOriginalMessage = async () => {
+      debug('sending original message', originalMessageTimestamp);
+      const sendOptions = {
+        timestamp: originalMessageTimestamp,
+      };
+      await phone.sendRaw(
+        desktop,
+        wrap({ dataMessage: originalMessage }),
+        sendOptions
+      );
+    };
+
+    debug('sending all messages + edits');
+    let targetSentTimestamp = originalMessage.timestamp;
+    let editTimestamp = Date.now() + 1;
+    const editedMessages: Array<Proto.IEditMessage> = [
+      'v2',
+      'v3',
+      'v4',
+      'v5',
+    ].map(body => {
+      const message = createEditedMessage(
+        targetSentTimestamp,
+        body,
+        editTimestamp
+      );
+      targetSentTimestamp = Long.fromNumber(editTimestamp);
+      editTimestamp += 1;
+      return message;
+    });
+    {
+      const sendEditMessages = editedMessages.map(editMessage => {
+        const timestamp = Number(editMessage.dataMessage?.timestamp);
+        const sendOptions = {
+          timestamp,
+        };
+        return () => {
+          debug(
+            `sending edit timestamp=${timestamp}, target=${editMessage.targetSentTimestamp}`
+          );
+
+          return phone.sendRaw(desktop, wrap({ editMessage }), sendOptions);
+        };
+      });
+      await Promise.all(sendEditMessages.reverse().map(f => f()));
+      await sendOriginalMessage();
+    }
+
+    debug('opening conversation');
+    const leftPane = window.locator('#LeftPane');
+    await leftPane
+      .locator('.module-conversation-list__item--contact-or-conversation')
+      .first()
+      .click();
+    await window.locator('.module-conversation-hero').waitFor();
+
+    debug('checking for latest message');
+    await window.locator('.module-message__text >> "v5"').waitFor();
+
+    const messages = window.locator('.module-message__text');
+    assert.strictEqual(await messages.count(), 1, 'message count');
   });
 });

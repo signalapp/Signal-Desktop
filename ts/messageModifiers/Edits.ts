@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { MessageAttributesType } from '../model-types.d';
-import type { MessageModel } from '../models/messages';
 import * as Errors from '../types/errors';
 import * as log from '../logging/log';
 import { drop } from '../util/drop';
@@ -23,12 +22,22 @@ export type EditAttributesType = {
 
 const edits = new Map<string, EditAttributesType>();
 
-export function forMessage(message: MessageModel): Array<EditAttributesType> {
-  const sentAt = getMessageSentTimestamp(message.attributes, { log });
+export function forMessage(
+  messageAttributes: Pick<
+    MessageAttributesType,
+    | 'editMessageTimestamp'
+    | 'sent_at'
+    | 'source'
+    | 'sourceUuid'
+    | 'timestamp'
+    | 'type'
+  >
+): Array<EditAttributesType> {
+  const sentAt = getMessageSentTimestamp(messageAttributes, { log });
   const matchingEdits = filter(edits, ([_envelopeId, item]) => {
     return (
       item.targetSentTimestamp === sentAt &&
-      item.fromId === getContactId(message.attributes)
+      item.fromId === getContactId(messageAttributes)
     );
   });
 
@@ -44,7 +53,7 @@ export function forMessage(message: MessageModel): Array<EditAttributesType> {
     });
 
     log.info(
-      `Edits.forMessage(${message.get('sent_at')}): ` +
+      `Edits.forMessage(${messageAttributes.sent_at}): ` +
         `Found early edits for message ${editsLogIds.join(', ')}`
     );
     return result;
@@ -68,8 +77,7 @@ export async function onEdit(edit: EditAttributesType): Promise<void> {
       );
 
     if (!targetConversation) {
-      log.info(`${logId}: No target conversation`);
-
+      log.info(`${logId}: No message found`);
       return;
     }
 

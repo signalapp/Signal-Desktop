@@ -252,7 +252,7 @@ export async function modifyTargetMessage(
 
   // We want to make sure the message is saved first before applying any edits
   if (!isFirstRun && !skipEdits) {
-    const edits = Edits.forMessage(message);
+    const edits = Edits.forMessage(message.attributes);
     log.info(`${logId}: ${edits.length} edits in second run`);
     await Promise.all(
       edits.map(editAttributes =>

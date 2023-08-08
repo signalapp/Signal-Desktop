@@ -9,6 +9,7 @@ import type {
   QuotedMessageType,
 } from '../model-types.d';
 import type { LinkPreviewType } from '../types/message/LinkPreviews';
+import * as Edits from '../messageModifiers/Edits';
 import * as durations from './durations';
 import * as log from '../logging/log';
 import { ReadStatus } from '../messages/MessageReadStatus';
@@ -23,14 +24,26 @@ import { isDirectConversation } from './whatTypeOfConversation';
 import { queueAttachmentDownloads } from './queueAttachmentDownloads';
 import { modifyTargetMessage } from './modifyTargetMessage';
 
+const RECURSION_LIMIT = 15;
+
 export async function handleEditMessage(
   mainMessage: MessageAttributesType,
   editAttributes: Pick<
     EditAttributesType,
     'message' | 'conversationId' | 'fromDevice' | 'fromId'
-  >
+  >,
+  recursionCount = 0
 ): Promise<void> {
-  const idLog = `handleEditMessage(${getMessageIdForLogging(mainMessage)})`;
+  const idLog = `handleEditMessage(edit=${
+    editAttributes.message.timestamp
+  },original=${getMessageIdForLogging(mainMessage)})`;
+
+  if (recursionCount >= RECURSION_LIMIT) {
+    log.warn(`${idLog}: Too much recursion`);
+    return;
+  }
+
+  log.info(idLog);
 
   // Verify that we can safely apply an edit to this type of message
   if (mainMessage.deletedForEveryone) {
@@ -298,9 +311,23 @@ export async function handleEditMessage(
   const mainMessageConversation = mainMessageModel.getConversation();
   if (mainMessageConversation) {
     drop(mainMessageConversation.updateLastMessage());
+    // Apply any other operations, excluding edits that target this message
     await modifyTargetMessage(mainMessageModel, mainMessageConversation, {
       isFirstRun: true,
       skipEdits: true,
     });
   }
+
+  // Apply any other pending edits that target this message
+  const edits = Edits.forMessage({
+    ...mainMessage,
+    sent_at: editedMessage.timestamp,
+    timestamp: editedMessage.timestamp,
+  });
+  log.info(`${idLog}: ${edits.length} edits`);
+  await Promise.all(
+    edits.map(edit =>
+      handleEditMessage(mainMessageModel.attributes, edit, recursionCount + 1)
+    )
+  );
 }
