@@ -1338,10 +1338,6 @@
     "messageformat": "Wissen",
     "description": "Menu item for deleting messages, title case."
   },
-  "icu:deleteConversationConfirmation": {
-    "messageformat": "Deze chat permanent verwijderen?",
-    "description": "(deleted 06/27/2023) Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
-  },
   "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
     "messageformat": "Chat verwijderen?",
     "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
@@ -5256,6 +5252,18 @@
     "messageformat": "Gebruikersnaam",
     "description": "Default text for username field"
   },
+  "icu:ProfileEditor__username-link": {
+    "messageformat": "QR-code of link",
+    "description": "Label of a profile editor row that navigates to username link and qr code modal"
+  },
+  "icu:ProfileEditor__username-link__tooltip__title": {
+    "messageformat": "Deel je gebruikersnaam",
+    "description": "Title of tooltip displayed under 'QR code or link' button for getting username link"
+  },
+  "icu:ProfileEditor__username-link__tooltip__body": {
+    "messageformat": "Laat anderen een chat met jou starten door je unieke QR-code of link te delen.",
+    "description": "Body of tooltip displayed under 'QR code or link' button for getting username link"
+  },
   "icu:ProfileEditor--username--title": {
     "messageformat": "Kies jouw gebruikersnaam",
     "description": "Title text for username modal"
@@ -5314,6 +5322,10 @@
   },
   "icu:ProfileEditor--username--confirm-delete-body": {
     "messageformat": "Je staat op het punt je gebruikersnaam te verwijderen. Als je doorgaat kunnen anderen deze naam claimen. Weet je het zeker?",
+    "description": "(deleted 07/10/2023) Shown in dialog body if user has saved an empty string to delete their username"
+  },
+  "icu:ProfileEditor--username--confirm-delete-body-2": {
+    "messageformat": "Dit verwijdert je gebruikersnaam en schakelt je QR-code en link uit. Anderen kunnen \"{username}\" claimen. Weet je het zeker?",
     "description": "Shown in dialog body if user has saved an empty string to delete their username"
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
@@ -6492,6 +6504,42 @@
     "messageformat": "Deze cijfers helpen jou je gebruikersnaam privé te houden zodat je ongewenste berichten kunt voorkomen. Deel jouw gebruikersnaam alleen met mensen en groepen waarmee je zou willen chatten. Als je je gebruikersnaam wijzigt, krijg je een nieuwe cijferreeks.",
     "description": "Body of the popup with information about discriminator in username"
   },
+  "icu:EditUsernameModalBody__change-confirmation": {
+    "messageformat": "Het veranderen van je gebruikersnaam reset je bestaande QR-code en link. Weet je het zeker?",
+    "description": "Body of the confirmation dialog displayed when user is about to change their username"
+  },
+  "icu:EditUsernameModalBody__change-confirmation__continue": {
+    "messageformat": "Doorgaan",
+    "description": "Text of the primary button on username change confirmation modal"
+  },
+  "icu:UsernameLinkModalBody__save": {
+    "messageformat": "Opslaan",
+    "description": "Name of the button for saving username link QR code to disk in the username link modal"
+  },
+  "icu:UsernameLinkModalBody__color": {
+    "messageformat": "Kleur",
+    "description": "Name of the button for changing the username link QR code color in the username link modal"
+  },
+  "icu:UsernameLinkModalBody__copy": {
+    "messageformat": "Kopiëren naar klembord",
+    "description": "ARIA label of the button for copying the username link to clipboard in the username link modal"
+  },
+  "icu:UsernameLinkModalBody__help": {
+    "messageformat": "Deel je QR-code en link alleen met mensen die je vertrouwt. Eenmaal gedeeld, kunnen anderen je gebruikersnaam zien en een chat met je starten.",
+    "description": "Text of disclaimer at the bottom of the username link modal"
+  },
+  "icu:UsernameLinkModalBody__reset": {
+    "messageformat": "Standaardinstelling herstellen",
+    "description": "Text of button at the bottom of the username link modal"
+  },
+  "icu:UsernameLinkModalBody__color__radio": {
+    "messageformat": "Gebruikersnaam link kleur, {index,number} van {total,number}",
+    "description": "ARIA label of button for selecting username link color"
+  },
+  "icu:UsernameLinkModalBody__reset__confirm": {
+    "messageformat": "Als je je QR-code reset, werken je bestaande QR-code en link niet meer.",
+    "description": "Text of confirmation modal when resetting the username link"
+  },
   "icu:UsernameOnboardingModalBody__title": {
     "messageformat": "Je Signal-gebruikersnaam instellen",
     "description": "Title of username onboarding modal"
@@ -6501,7 +6549,7 @@
     "description": "Content of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__link": {
-    "messageformat": "Elke gebruikersnaam heeft een unieke link die je kunt delen met je vrienden om een chat met je te starten",
+    "messageformat": "Elke gebruikersnaam heeft een unieke QR-code en een link die je kunt delen met vrienden om een chat met je te starten",
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
@@ -6576,13 +6624,10 @@
     "messageformat": "Kleine aanpassingen, bugfixes en prestatieverbeteringen. Bedankt dat je Signal gebruikt!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.26--0": {
-    "messageformat": "Diakritische tekens (zoals accenttekens) worden nu ondersteund in @vermeldingen, nu kun je Aristotélēs herinneren aan je filosofische vraag in de 'Oud-Griekse Tijdreizigers'-groepschat."
-  },
-  "icu:WhatsNew__v6.26--1": {
-    "messageformat": "Driewerf hoera voor driekliksopties. Bedankt, {linkToGithub}!"
-  },
   "icu:WhatsNew__v6.27--0": {
     "messageformat": "Deze update bevat enkele verbeteringen voor spraak- en video-oproepen en enkele, kleine wijzigingen van de documentatie (bedankt, {linkToGithub}!)."
+  },
+  "icu:WhatsNew__v6.28--0": {
+    "messageformat": "We hebben de notificatiepictogrammen voor groepsupdates aangepast, bijvoorbeeld als iemand wordt toegevoegd aan een groep. Deze pictogrammen verbeteren de leesbaarheid (met name in de donkere modus). De oude pictogrammen konden het donker nauwelijks aan. Deze nieuwe pictogrammen zijn ervoor gemaakt."
   }
 }

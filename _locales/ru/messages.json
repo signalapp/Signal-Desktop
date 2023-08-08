@@ -1338,10 +1338,6 @@
     "messageformat": "Удалить",
     "description": "Menu item for deleting messages, title case."
   },
-  "icu:deleteConversationConfirmation": {
-    "messageformat": "Удалить этот чат без возможности восстановления?",
-    "description": "(deleted 06/27/2023) Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
-  },
   "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
     "messageformat": "Удалить чат?",
     "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
@@ -5256,6 +5252,18 @@
     "messageformat": "Имя пользователя",
     "description": "Default text for username field"
   },
+  "icu:ProfileEditor__username-link": {
+    "messageformat": "QR-код или ссылка",
+    "description": "Label of a profile editor row that navigates to username link and qr code modal"
+  },
+  "icu:ProfileEditor__username-link__tooltip__title": {
+    "messageformat": "Поделитесь вашим именем пользователя",
+    "description": "Title of tooltip displayed under 'QR code or link' button for getting username link"
+  },
+  "icu:ProfileEditor__username-link__tooltip__body": {
+    "messageformat": "Позвольте другим начать чат с вами, поделившись вашим уникальным QR-кодом или ссылкой.",
+    "description": "Body of tooltip displayed under 'QR code or link' button for getting username link"
+  },
   "icu:ProfileEditor--username--title": {
     "messageformat": "Выберите ваше имя пользователя",
     "description": "Title text for username modal"
@@ -5314,6 +5322,10 @@
   },
   "icu:ProfileEditor--username--confirm-delete-body": {
     "messageformat": "Это действие удалит ваше имя пользователя, и другие пользователи смогут его использовать. Вы уверены?",
+    "description": "(deleted 07/10/2023) Shown in dialog body if user has saved an empty string to delete their username"
+  },
+  "icu:ProfileEditor--username--confirm-delete-body-2": {
+    "messageformat": "Это приведет к удалению имени пользователя и отключению QR-кода и ссылки. Имя пользователя «{username}» будет доступно для других желающих. Вы уверены?",
     "description": "Shown in dialog body if user has saved an empty string to delete their username"
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
@@ -6492,6 +6504,42 @@
     "messageformat": "Эти цифры помогают сохранить ваше имя пользователя в тайне и избежать нежелательных сообщений. Делитесь своим именем пользователя только с теми людьми и группами, с которыми вы хотели бы общаться. Если вы измените имя пользователя, вы получите новый набор цифр.",
     "description": "Body of the popup with information about discriminator in username"
   },
+  "icu:EditUsernameModalBody__change-confirmation": {
+    "messageformat": "При изменении имени пользователя ваши существующие QR-код и ссылка будут сброшены. Вы уверены?",
+    "description": "Body of the confirmation dialog displayed when user is about to change their username"
+  },
+  "icu:EditUsernameModalBody__change-confirmation__continue": {
+    "messageformat": "Продолжить",
+    "description": "Text of the primary button on username change confirmation modal"
+  },
+  "icu:UsernameLinkModalBody__save": {
+    "messageformat": "Сохранить",
+    "description": "Name of the button for saving username link QR code to disk in the username link modal"
+  },
+  "icu:UsernameLinkModalBody__color": {
+    "messageformat": "Цвет",
+    "description": "Name of the button for changing the username link QR code color in the username link modal"
+  },
+  "icu:UsernameLinkModalBody__copy": {
+    "messageformat": "Копировать в буфер обмена",
+    "description": "ARIA label of the button for copying the username link to clipboard in the username link modal"
+  },
+  "icu:UsernameLinkModalBody__help": {
+    "messageformat": "Передавайте ваш QR-код и ссылку только тем людям, которым вы доверяете. При передаче другие смогут увидеть ваше имя пользователя и начать чат с вами.",
+    "description": "Text of disclaimer at the bottom of the username link modal"
+  },
+  "icu:UsernameLinkModalBody__reset": {
+    "messageformat": "Сбросить",
+    "description": "Text of button at the bottom of the username link modal"
+  },
+  "icu:UsernameLinkModalBody__color__radio": {
+    "messageformat": "Цвет ссылки на имя пользователя, {index,number} из {total,number}",
+    "description": "ARIA label of button for selecting username link color"
+  },
+  "icu:UsernameLinkModalBody__reset__confirm": {
+    "messageformat": "При сбросе QR-кода ваш существующий QR-код и ссылка перестанут работать.",
+    "description": "Text of confirmation modal when resetting the username link"
+  },
   "icu:UsernameOnboardingModalBody__title": {
     "messageformat": "Настройте своё имя пользователя Signal",
     "description": "Title of username onboarding modal"
@@ -6501,7 +6549,7 @@
     "description": "Content of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__link": {
-    "messageformat": "Каждому имени пользователя присваивается уникальная ссылка, которой вы можете поделиться со своими друзьями, чтобы они могли начать чат с вами",
+    "messageformat": "Каждому имени пользователя присваивается уникальная ссылка, которой вы можете поделиться с друзьями, чтобы они могли начать чат с вами",
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
@@ -6576,13 +6624,10 @@
     "messageformat": "Небольшие изменения, исправления ошибок и улучшения производительности. Спасибо за то, что пользуетесь Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.26--0": {
-    "messageformat": "Диакритические знаки (например, знак ударения) теперь поддерживаются в @ mentions."
-  },
-  "icu:WhatsNew__v6.26--1": {
-    "messageformat": "Улучшено выделение текста тройным щелчком мыши. Спасибо, {linkToGithub}!"
-  },
   "icu:WhatsNew__v6.27--0": {
     "messageformat": "Данное обновление включает в себя ряд улучшений для аудио- и видеозвонков, а также небольшие обновления документации (спасибо, {linkToGithub}!)."
+  },
+  "icu:WhatsNew__v6.28--0": {
+    "messageformat": "Мы обновили некоторые значки уведомлений в группах."
   }
 }

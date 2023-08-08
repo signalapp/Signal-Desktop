@@ -1338,10 +1338,6 @@
     "messageformat": "លុប",
     "description": "Menu item for deleting messages, title case."
   },
-  "icu:deleteConversationConfirmation": {
-    "messageformat": "លុបការជជែកនេះជារៀងរហូតឬ?",
-    "description": "(deleted 06/27/2023) Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
-  },
   "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
     "messageformat": "លុបការជជែកឬ?",
     "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
@@ -5256,6 +5252,18 @@
     "messageformat": "ឈ្មោះអ្នកប្រើ",
     "description": "Default text for username field"
   },
+  "icu:ProfileEditor__username-link": {
+    "messageformat": "កូដ QR ឬតំណ",
+    "description": "Label of a profile editor row that navigates to username link and qr code modal"
+  },
+  "icu:ProfileEditor__username-link__tooltip__title": {
+    "messageformat": "ចែករំលែកឈ្មោះអ្នកប្រើរបស់អ្នក",
+    "description": "Title of tooltip displayed under 'QR code or link' button for getting username link"
+  },
+  "icu:ProfileEditor__username-link__tooltip__body": {
+    "messageformat": "អនុញ្ញាតឲ្យអ្នកដទៃចាប់ផ្តើមជជែកជាមួយអ្នកបាន ដោយចែករំលែកកូដ QR ឬតំណតែមួយគត់របស់អ្នក។",
+    "description": "Body of tooltip displayed under 'QR code or link' button for getting username link"
+  },
   "icu:ProfileEditor--username--title": {
     "messageformat": "ជ្រើសរើសឈ្មោះអ្នកប្រើរបស់អ្នក",
     "description": "Title text for username modal"
@@ -5314,6 +5322,10 @@
   },
   "icu:ProfileEditor--username--confirm-delete-body": {
     "messageformat": "ការធ្វើបែបនេះនឹងលុបឈ្មោះអ្នកប្រើរបស់អ្នក ហើយធ្វើឲ្យអ្នកប្រើផ្សេងទៀតយកវាទៅប្រើបាន។ តើអ្នកច្បាស់អត់?",
+    "description": "(deleted 07/10/2023) Shown in dialog body if user has saved an empty string to delete their username"
+  },
+  "icu:ProfileEditor--username--confirm-delete-body-2": {
+    "messageformat": "ការធ្វើបែបនេះនឹងលុបឈ្មោះអ្នកប្រើរបស់អ្នកចេញ ហើយបិទកូដ QR និងតំណរបស់អ្នក។ “{username}” នឹងមានសម្រាប់ឲ្យអ្នកផ្សេងទៀតទាមទារយក។ តើអ្នកប្រាកដឬទេ?",
     "description": "Shown in dialog body if user has saved an empty string to delete their username"
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
@@ -6492,6 +6504,42 @@
     "messageformat": "លេខទាំងនេះជួយរក្សាឲ្យឈ្មោះអ្នកប្រើរបស់អ្នកស្ថិតក្នុងភាពឯកជន ដើម្បីឲ្យអ្នកអាចជៀសវាងនូវការទទួលសារដែលមិនចង់បាន។ សូមចែករំលែកឈ្មោះអ្នកប្រើរបស់អ្នកតែជាមួយមនុស្ស និងក្រុមដែលអ្នកចង់ជជែកជាមួយប៉ុណ្ណោះ។ ប្រសិនបើអ្នកប្តូរឈ្មោះអ្នកប្រើ អ្នកនឹងទទួលបានសំណុំលេខថ្មី។",
     "description": "Body of the popup with information about discriminator in username"
   },
+  "icu:EditUsernameModalBody__change-confirmation": {
+    "messageformat": "ការផ្លាស់ប្តូរឈ្មោះអ្នកប្រើរបស់អ្នកនឹងកំណត់កូដ QR និងតំណដែលមានស្រាប់របស់អ្នកឡើងវិញ។ តើអ្នកប្រាកដឬទេ?",
+    "description": "Body of the confirmation dialog displayed when user is about to change their username"
+  },
+  "icu:EditUsernameModalBody__change-confirmation__continue": {
+    "messageformat": "បន្ត",
+    "description": "Text of the primary button on username change confirmation modal"
+  },
+  "icu:UsernameLinkModalBody__save": {
+    "messageformat": "រក្សាទុក",
+    "description": "Name of the button for saving username link QR code to disk in the username link modal"
+  },
+  "icu:UsernameLinkModalBody__color": {
+    "messageformat": "ពណ៌",
+    "description": "Name of the button for changing the username link QR code color in the username link modal"
+  },
+  "icu:UsernameLinkModalBody__copy": {
+    "messageformat": "ចម្លងទៅ Clipboard",
+    "description": "ARIA label of the button for copying the username link to clipboard in the username link modal"
+  },
+  "icu:UsernameLinkModalBody__help": {
+    "messageformat": "ចែករំលែកកូដ QR និងតំណរបស់អ្នកតែជាមួយមនុស្សដែលអ្នកទុកចិត្តប៉ុណ្ណោះ។ នៅពេលបានចែករំលែក អ្នកផ្សេងទៀតនឹងអាចមើលឃើញឈ្មោះអ្នកប្រើរបស់អ្នក និងចាប់ផ្តើមជជែកជាមួយអ្នកបាន។",
+    "description": "Text of disclaimer at the bottom of the username link modal"
+  },
+  "icu:UsernameLinkModalBody__reset": {
+    "messageformat": "កំណត់ឡើងវិញ",
+    "description": "Text of button at the bottom of the username link modal"
+  },
+  "icu:UsernameLinkModalBody__color__radio": {
+    "messageformat": "ពណ៌តំណឈ្មោះអ្នកប្រើ, {index,number} នៃ {total,number}",
+    "description": "ARIA label of button for selecting username link color"
+  },
+  "icu:UsernameLinkModalBody__reset__confirm": {
+    "messageformat": "ប្រសិនបើអ្នកកំណត់កូដ QR របស់អ្នកឡើងវិញ កូដ QR និងតំណដែលមានស្រាប់របស់អ្នកនឹងមិនដំណើរការទៀតទេ។",
+    "description": "Text of confirmation modal when resetting the username link"
+  },
   "icu:UsernameOnboardingModalBody__title": {
     "messageformat": "បង្កើតឈ្មោះអ្នកប្រើ Signal របស់អ្នក",
     "description": "Title of username onboarding modal"
@@ -6501,7 +6549,7 @@
     "description": "Content of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__link": {
-    "messageformat": "ឈ្មោះអ្នកប្រើនីមួយៗមានតំណភ្ជាប់តែមួយគត់ដែលអ្នកអាចចែករំលែកជាមួយមិត្តភក្តិរបស់អ្នកដើម្បីចាប់ផ្តើមជជែកជាមួយអ្នក",
+    "messageformat": "ឈ្មោះអ្នកប្រើនីមួយៗមានកូដ QR និងតំណភ្ជាប់តែមួយគត់ដែលអ្នកអាចចែករំលែកជាមួយមិត្តភក្តិរបស់អ្នកដើម្បីចាប់ផ្តើមជជែកជាមួយអ្នក",
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
@@ -6576,13 +6624,10 @@
     "messageformat": "ការកែប្រែបន្តិចបន្តួច ការដោះស្រាយបញ្ហា និងការបង្កើនប្រតិបត្តិការ។ សូមអរគុណចំពោះការប្រើប្រាស់ Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.26--0": {
-    "messageformat": "ឥឡូវនេះគ្រាមភាសា (ដូចជាសញ្ញាសង្កត់សំឡេង) អាចប្រើប្រាស់បាននៅក្នុង @ mentions ដូច្នេះអ្នកអាចរំលឹក Aristotélēs ឱ្យឆ្លើយសំណួរបែបទស្សនវិជ្ជារបស់អ្នកនៅក្នុងការជជែកជាក្រុមទាក់ទងនឹង \"អ្នកធ្វើដំណើរនាសម័យក្រិកបុរាណ\"។"
-  },
-  "icu:WhatsNew__v6.26--1": {
-    "messageformat": "ការកែលម្អលើការជ្រើសរើសអត្ថបទដោយចុចបីដង។ អរគុណ {linkToGithub}!"
-  },
   "icu:WhatsNew__v6.27--0": {
     "messageformat": "ការធ្វើបច្ចុប្បន្នភាពនេះរួមបញ្ចូលនូវការកែលម្អមួយចំនួនសម្រាប់ការហៅជាសំឡេង និងជាវីដេអូ និងការធ្វើបច្ចុប្បន្នភាពតិចតួចមួយចំនួនលើសំណុំឯកសារ (អរគុណ {linkToGithub}!)។"
+  },
+  "icu:WhatsNew__v6.28--0": {
+    "messageformat": "យើងបានធ្វើបច្ចុប្បន្នភាពរូបតំណាងការជូនដំណឹងមួយចំនួនសម្រាប់ក្រុម ដូចជាពេលដែលមាននរណាម្នាក់ថ្មីចូលរួមក្នុងក្រុម។ រូបតំណាងទាំងនេះជួយឲ្យអ្នកកាន់តែងាយស្រួលមើល ជាពិសេសប្រសិនបើអ្នកប្រើផ្ទៃពណ៌ងងឹត។ រូបតំណាងពីមុនមិនសូវត្រូវនឹងផ្ទៃពណ៌ងងឹត។ រូបតំណាងថ្មីស័ក្តិសមតែម្តង។"
   }
 }

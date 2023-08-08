@@ -1338,10 +1338,6 @@
     "messageformat": "ลบ",
     "description": "Menu item for deleting messages, title case."
   },
-  "icu:deleteConversationConfirmation": {
-    "messageformat": "ลบแชทนี้โดยถาวรหรือไม่",
-    "description": "(deleted 06/27/2023) Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
-  },
   "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
     "messageformat": "ลบแชทใช่หรือไม่",
     "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
@@ -5256,6 +5252,18 @@
     "messageformat": "ชื่อผู้ใช้",
     "description": "Default text for username field"
   },
+  "icu:ProfileEditor__username-link": {
+    "messageformat": "คิวอาร์โค้ดหรือลิงก์",
+    "description": "Label of a profile editor row that navigates to username link and qr code modal"
+  },
+  "icu:ProfileEditor__username-link__tooltip__title": {
+    "messageformat": "แชร์ชื่อผู้ใช้ของคุณ",
+    "description": "Title of tooltip displayed under 'QR code or link' button for getting username link"
+  },
+  "icu:ProfileEditor__username-link__tooltip__body": {
+    "messageformat": "แชร์คิวอาร์โค้ดหรือลิงก์เฉพาะเพื่อให้ผู้ติดต่อเริ่มแชทกับคุณได้",
+    "description": "Body of tooltip displayed under 'QR code or link' button for getting username link"
+  },
   "icu:ProfileEditor--username--title": {
     "messageformat": "เลือกชื่อผู้ใช้ของคุณ",
     "description": "Title text for username modal"
@@ -5314,6 +5322,10 @@
   },
   "icu:ProfileEditor--username--confirm-delete-body": {
     "messageformat": "การดำเนินการนี้จะลบชื่อผู้ใช้ของคุณและทำให้ผู้ใช้รายอื่นนำไปใช้ได้ คุณแน่ใจหรือไม่",
+    "description": "(deleted 07/10/2023) Shown in dialog body if user has saved an empty string to delete their username"
+  },
+  "icu:ProfileEditor--username--confirm-delete-body-2": {
+    "messageformat": "การดำเนินการนี้จะลบชื่อผู้ใช้ของคุณ รวมทั้งยกเลิกคิวอาร์โค้ดและลิงก์เดิมของคุณ โดยผู้ใช้คนอื่นจะสามารถนำชื่อ “{username}” ไปใช้ได้ ต้องการดำเนินการต่อหรือไม่",
     "description": "Shown in dialog body if user has saved an empty string to delete their username"
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
@@ -6492,6 +6504,42 @@
     "messageformat": "ตัวเลขนี้จะช่วยรักษาความเป็นส่วนตัวให้ชื่อผู้ใช้ของคุณ ป้องกันไม่ให้คุณได้รับข้อความที่ไม่พึงประสงค์ เราขอแนะนำให้แชร์ชื่อผู้ใช้ของคุณเฉพาะกับคนและกลุ่มที่คุณอยากติดต่อด้วยเท่านั้น โดยหากเปลี่ยนชื่อผู้ใช้ คุณก็จะได้รับชุดตัวเลขใหม่",
     "description": "Body of the popup with information about discriminator in username"
   },
+  "icu:EditUsernameModalBody__change-confirmation": {
+    "messageformat": "การเปลี่ยนชื่อผู้ใช้จะทำให้คิวอาร์โค้ดและลิงก์ที่มีอยู่เดิมของคุณถูกรีเซ็ต ต้องการดำเนินการต่อหรือไม่",
+    "description": "Body of the confirmation dialog displayed when user is about to change their username"
+  },
+  "icu:EditUsernameModalBody__change-confirmation__continue": {
+    "messageformat": "ดำเนินการต่อ",
+    "description": "Text of the primary button on username change confirmation modal"
+  },
+  "icu:UsernameLinkModalBody__save": {
+    "messageformat": "บันทึก",
+    "description": "Name of the button for saving username link QR code to disk in the username link modal"
+  },
+  "icu:UsernameLinkModalBody__color": {
+    "messageformat": "สี",
+    "description": "Name of the button for changing the username link QR code color in the username link modal"
+  },
+  "icu:UsernameLinkModalBody__copy": {
+    "messageformat": "คัดลอกไปคลิปบอร์ด",
+    "description": "ARIA label of the button for copying the username link to clipboard in the username link modal"
+  },
+  "icu:UsernameLinkModalBody__help": {
+    "messageformat": "เราขอแนะนำให้แชร์คิวอาร์โค้ดและลิงก์ของคุณกับคนที่ไว้วางใจเท่านั้น นี่จะทำให้ผู้อื่นสามารถดูชื่อผู้ใช้ของคุณและเริ่มต้นแชทกับคุณได้",
+    "description": "Text of disclaimer at the bottom of the username link modal"
+  },
+  "icu:UsernameLinkModalBody__reset": {
+    "messageformat": "รีเซ็ต",
+    "description": "Text of button at the bottom of the username link modal"
+  },
+  "icu:UsernameLinkModalBody__color__radio": {
+    "messageformat": "สีลิงก์ชื่อผู้ใช้, {index,number} จาก {total,number}",
+    "description": "ARIA label of button for selecting username link color"
+  },
+  "icu:UsernameLinkModalBody__reset__confirm": {
+    "messageformat": "หากคุณรีเซ็ตคิวอาร์โค้ด คิวอาร์โค้ดและลิงก์ที่มีอยู่เดิมของคุณจะใช้งานไม่ได้อีกต่อไป",
+    "description": "Text of confirmation modal when resetting the username link"
+  },
   "icu:UsernameOnboardingModalBody__title": {
     "messageformat": "ตั้งค่าชื่อผู้ใช้ Signal ของคุณ",
     "description": "Title of username onboarding modal"
@@ -6501,7 +6549,7 @@
     "description": "Content of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__link": {
-    "messageformat": "ชื่อผู้ใช้แต่ละชื่อจะมีลิงก์เฉพาะที่คุณสามารถแชร์เพื่อให้เพื่อนเริ่มการสนทนากับคุณได้",
+    "messageformat": "ชื่อผู้ใช้แต่ละชื่อจะมีคิวอาร์โค้ดและลิงก์เฉพาะที่คุณสามารถแชร์เพื่อให้เพื่อนเริ่มแชทกับคุณได้",
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
@@ -6576,13 +6624,10 @@
     "messageformat": "มีการปรับเปลี่ยนเล็กน้อย พร้อมแก้ไขบั๊ก และการพัฒนาประสิทธิภาพให้ดียิ่งขึ้น ขอขอบคุณที่เลือกใช้ Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.26--0": {
-    "messageformat": "มีการปรับปรุงให้สามารถรองรับการใช้เครื่องหมายเสริมสัทอักษร (Diacritic เช่น เครื่องหมาย accent) ใน @การกล่าวถึง ได้แล้ว"
-  },
-  "icu:WhatsNew__v6.26--1": {
-    "messageformat": "พัฒนาให้คุณใช้การคลิกสามครั้งเพื่อเลือกข้อความได้สมูทยิ่งกว่าที่เคย ขอบคุณ {linkToGithub} สำหรับการปรับปรุงครั้งนี้!"
-  },
   "icu:WhatsNew__v6.27--0": {
     "messageformat": "การอัปเดตครั้งนี้มาพร้อมการพัฒนาแก้ไขเกี่ยวกับการโทรเสียงและวิดีโอคอล รวมถึงการปรับปรุงระบบเก็บบันทึกในบางจุด (ขอบคุณ {linkToGithub}!)"
+  },
+  "icu:WhatsNew__v6.28--0": {
+    "messageformat": "เราอัปเดตไอคอนในการแจ้งเตือนกลุ่มบางตัว"
   }
 }

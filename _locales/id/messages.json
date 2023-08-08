@@ -1338,10 +1338,6 @@
     "messageformat": "Hapus",
     "description": "Menu item for deleting messages, title case."
   },
-  "icu:deleteConversationConfirmation": {
-    "messageformat": "Hapus obrolan ini secara permanen?",
-    "description": "(deleted 06/27/2023) Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
-  },
   "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
     "messageformat": "Hapus obrolan?",
     "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
@@ -5256,6 +5252,18 @@
     "messageformat": "Nama Pengguna",
     "description": "Default text for username field"
   },
+  "icu:ProfileEditor__username-link": {
+    "messageformat": "Kode QR atau Tautan",
+    "description": "Label of a profile editor row that navigates to username link and qr code modal"
+  },
+  "icu:ProfileEditor__username-link__tooltip__title": {
+    "messageformat": "Bagikan Nama Pengguna Anda",
+    "description": "Title of tooltip displayed under 'QR code or link' button for getting username link"
+  },
+  "icu:ProfileEditor__username-link__tooltip__body": {
+    "messageformat": "Izinkan orang lain memulai obrolan dengan membagikan tautan atau kode QR unik Anda.",
+    "description": "Body of tooltip displayed under 'QR code or link' button for getting username link"
+  },
   "icu:ProfileEditor--username--title": {
     "messageformat": "Pilih nama pengguna",
     "description": "Title text for username modal"
@@ -5314,6 +5322,10 @@
   },
   "icu:ProfileEditor--username--confirm-delete-body": {
     "messageformat": "Ini akan menghapus nama pengguna Anda, dan memungkinkan pengguna lain untuk memakainya. Apakah Anda yakin?",
+    "description": "(deleted 07/10/2023) Shown in dialog body if user has saved an empty string to delete their username"
+  },
+  "icu:ProfileEditor--username--confirm-delete-body-2": {
+    "messageformat": "Ini akan menghapus nama pengguna serta menonaktifkan tautan dan kode QR Anda. “{username}” akan bisa diklaim oleh orang lain. Anda yakin?",
     "description": "Shown in dialog body if user has saved an empty string to delete their username"
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
@@ -6492,6 +6504,42 @@
     "messageformat": "Nomor ini membantu memastikan nama pengguna Anda tetap privat sehingga Anda terhindar dari pesan yang tidak diinginkan. Bagikan nama pengguna Anda hanya dengan orang dan grup yang ingin diajak ngobrol. Jika mengganti nama pengguna, Anda akan mendapatkan serangkaian nomor baru.",
     "description": "Body of the popup with information about discriminator in username"
   },
+  "icu:EditUsernameModalBody__change-confirmation": {
+    "messageformat": "Jika Anda mengubah nama pengguna, tautan dan kode QR yang ada akan direset. Anda yakin?",
+    "description": "Body of the confirmation dialog displayed when user is about to change their username"
+  },
+  "icu:EditUsernameModalBody__change-confirmation__continue": {
+    "messageformat": "Lanjutkan",
+    "description": "Text of the primary button on username change confirmation modal"
+  },
+  "icu:UsernameLinkModalBody__save": {
+    "messageformat": "Simpan",
+    "description": "Name of the button for saving username link QR code to disk in the username link modal"
+  },
+  "icu:UsernameLinkModalBody__color": {
+    "messageformat": "Warna",
+    "description": "Name of the button for changing the username link QR code color in the username link modal"
+  },
+  "icu:UsernameLinkModalBody__copy": {
+    "messageformat": "Salin ke Papan Klip",
+    "description": "ARIA label of the button for copying the username link to clipboard in the username link modal"
+  },
+  "icu:UsernameLinkModalBody__help": {
+    "messageformat": "Hanya bagikan kode QR dan tautan Anda dengan orang yang Anda percayai. Jika dibagikan, orang lain akan dapat melihat nama pengguna Anda dan memulai obrolan dengan Anda.",
+    "description": "Text of disclaimer at the bottom of the username link modal"
+  },
+  "icu:UsernameLinkModalBody__reset": {
+    "messageformat": "Atur ulang",
+    "description": "Text of button at the bottom of the username link modal"
+  },
+  "icu:UsernameLinkModalBody__color__radio": {
+    "messageformat": "Warna tautan nama pengguna, {index,number} dari {total,number}",
+    "description": "ARIA label of button for selecting username link color"
+  },
+  "icu:UsernameLinkModalBody__reset__confirm": {
+    "messageformat": "Jika Anda mereset kode QR, tautan dan kode QR lama Anda tidak akan berfungsi lagi.",
+    "description": "Text of confirmation modal when resetting the username link"
+  },
   "icu:UsernameOnboardingModalBody__title": {
     "messageformat": "Buat nama pengguna Signal Anda",
     "description": "Title of username onboarding modal"
@@ -6501,7 +6549,7 @@
     "description": "Content of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__link": {
-    "messageformat": "Setiap nama pengguna memiliki tautan unik yang dapat Anda bagikan dengan teman untuk memulai obrolan dengan Anda",
+    "messageformat": "Setiap nama pengguna memiliki kode QR dan tautan unik yang dapat Anda bagikan kepada teman untuk memulai obrolan dengan Anda",
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
@@ -6576,13 +6624,10 @@
     "messageformat": "Tambahan penyesuaian kecil, perbaikan bug, dan peningkatan performa. Terima kasih telah menggunakan Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.26--0": {
-    "messageformat": "Diakritik (seperti simbol aksen) kini dapat digunakan saat mengetik @sebutan."
-  },
-  "icu:WhatsNew__v6.26--1": {
-    "messageformat": "Penyempurnaan untuk seleksi teks dengan tiga kali klik. Terima kasih, {linkToGithub}!"
-  },
   "icu:WhatsNew__v6.27--0": {
     "messageformat": "Pembaruan ini mencakup beberapa peningkatan untuk panggilan suara dan video, dan beberapa pembaruan kecil pada dokumentasi (terima kasih, {linkToGithub}!)."
+  },
+  "icu:WhatsNew__v6.28--0": {
+    "messageformat": "Kami memperbarui beberapa ikon notifikasi grup."
   }
 }

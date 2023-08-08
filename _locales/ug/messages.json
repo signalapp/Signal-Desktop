@@ -644,15 +644,15 @@
     "description": "A link text in SafetyNumberViewer describing the safety number migration process."
   },
   "icu:SafetyNumberViewer__card__prev": {
-    "messageformat": "Previous Safety number",
+    "messageformat": "ئالدىنقى بىخەتەرلىك نومۇرى",
     "description": "An ARIA label for safety number navigation button."
   },
   "icu:SafetyNumberViewer__card__next": {
-    "messageformat": "Next Safety number",
+    "messageformat": "كىيىنكى بىخەتەرلىك نومۇرى",
     "description": "An ARIA label for safety number navigation button."
   },
   "icu:SafetyNumberViewer__carousel__dot": {
-    "messageformat": "Safety number version, {index,number} of {total,number}",
+    "messageformat": "بىخەتەرلىك نۇمۇر نەشىرلىرى، {index,number}نىڭ{total,number}",
     "description": "An ARIA label for safety number carousel button."
   },
   "icu:SafetyNumberViewer__markAsVerified": {
@@ -664,11 +664,11 @@
     "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "icu:SafetyNumberViewer__hint--migration": {
-    "messageformat": "To verify end-to-end encryption with {name}, match the color card above with their device and compare the numbers. If these don’t match, try the other pair of safety numbers. Only one pair needs to match.",
+    "messageformat": "«{name}» بىلەن ئۇچتىن ئۇچقا مەخپىيلەشتۈرۈشنى جەزىملەشتۈرۈش ئۈچۈن، يۇقىرىدىكى رەڭ كارتلىرىنى ئۇلارنىڭ ئەسۋاپلىرىدىكىلەر بىلەن ماسلاشتۇرۇڭ. ئەگەر بۇلار ماسلاشمىسا، باشقا بىخەتەرلىك نومۇرلىرىنى سىناڭ. پەقەت بىر جۈپ نومۇرنىڭ ماسلىشىشى كۇپايە.",
     "description": "Safety number viewer, text of the hint during migration period"
   },
   "icu:SafetyNumberViewer__hint--normal": {
-    "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code with their device.",
+    "messageformat": "«{name}» بىلەن ئۇچتىن ئۇچقا مەخپىيلەشتۈرۈشنى جەزىملەشتۈرۈش ئۈچۈن، يۇقىرىدىكى نومۇرلارنى ئۇلارنىڭ ئەسۋاپلىرىدىكىلەر بىلەن سېلىشتۇرۇڭ. ئۇلارمۇ سىزنىڭ كودىڭىزنى ئۆزلىرىنىڭ ئەسۋاپلىرى بىلەن سكاننېرلىيالايدۇ.",
     "description": "Safety number viewer, text of the hint after migration period"
   },
   "icu:SafetyNumberOnboarding__title": {
@@ -680,7 +680,7 @@
     "description": "Paragraph 1 of Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__p2": {
-    "messageformat": "To verify safety numbers, match the color card with your contact’s device. If these don’t match, try the other pair of safety numbers. Only one pair needs to match.",
+    "messageformat": "بىخەتەرلىك نومۇرلىرىنى جەزىملەشتۈرۈش ئۈچۈن، رەڭ كارتلىرىنى سىزنىڭ ئالاقىداشلىرىڭىزنى ئەسۋاپلىرى بىلەن ماسلاشتۇرۇڭ. ئەگەر بۇلار ماسلاشمىسا، باشقا بىخەتەرلىك نومۇرلىرىنى سىناڭ. پەقەت بىر جۈپ نومۇرنىڭ ماسلىشىشى كۇپايە.",
     "description": "Paragraph 2 of Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__help": {
@@ -1268,7 +1268,7 @@
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
   "icu:verifyHelp": {
-    "messageformat": "To verify the security of your end-to-end encryption with {name}, compare the numbers above with their device. They can also scan the qr code above.",
+    "messageformat": "«{name}» بىلەن ئاراڭلاردىكى تېرمىنال مەخپىيەتلىك بىخەتەرلىكىنى دەلىللەش ئۈچۈن، ئۇلارنىڭ ئۈسكۈنىسىنىڭ ئۈستىدىكى رەقەملەرنى سېلىشتۇرۇپ كۆرۈڭ. ئۇلارمۇ سىزنىڭ QR كودىڭىزنى سكاننېرلىيالايدۇ.",
     "description": "(deleted 07/05/2023)"
   },
   "icu:theirIdentityUnknown": {
@@ -1337,10 +1337,6 @@
   "icu:deleteMessages": {
     "messageformat": "ئۆچۈر",
     "description": "Menu item for deleting messages, title case."
-  },
-  "icu:deleteConversationConfirmation": {
-    "messageformat": "بۇ پاراڭنى مەڭگۈلۈك ئۆچۈرەمسىز؟",
-    "description": "(deleted 06/27/2023) Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
   "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
     "messageformat": "سۆھبەتنى ئۆچۈرەمسىز؟",
@@ -5256,6 +5252,18 @@
     "messageformat": "ئىشلەتكۈچى ئىسمى",
     "description": "Default text for username field"
   },
+  "icu:ProfileEditor__username-link": {
+    "messageformat": "QR كودى ياكى ئۇلانما",
+    "description": "Label of a profile editor row that navigates to username link and qr code modal"
+  },
+  "icu:ProfileEditor__username-link__tooltip__title": {
+    "messageformat": "ئەزالىق ئىسمىڭىزنى پايلىشىڭ",
+    "description": "Title of tooltip displayed under 'QR code or link' button for getting username link"
+  },
+  "icu:ProfileEditor__username-link__tooltip__body": {
+    "messageformat": "سىزنىڭ خاس QR كودىڭىز ياكى ئۇلانمىڭىزنى پايلىشىش ئارقىلىق باشقىلار بىلەن پاراڭلىشىڭ",
+    "description": "Body of tooltip displayed under 'QR code or link' button for getting username link"
+  },
   "icu:ProfileEditor--username--title": {
     "messageformat": "ئىشلەتكۈچى نامىڭىزنى تاللاڭ",
     "description": "Title text for username modal"
@@ -5314,6 +5322,10 @@
   },
   "icu:ProfileEditor--username--confirm-delete-body": {
     "messageformat": "بۇنداق قىلغاندا ئىشلەتكۈچى نامى ئۆچۈرۈلىدۇ ۋە باشقىلار بۇ ئىشلەتكۈچى نامىنى ئىشلەتسە بولىدۇ. جەزملەشتۈرەمسىز؟",
+    "description": "(deleted 07/10/2023) Shown in dialog body if user has saved an empty string to delete their username"
+  },
+  "icu:ProfileEditor--username--confirm-delete-body-2": {
+    "messageformat": "بۇ سىزنىڭ ئىشلەتكۈچى نامىڭىزنى ئۆچۈرىۋېتىدۇ ھەمدە QR كودىڭىز ۋە ئۇلانمىسى بېكار قىلىنىدۇ. \"{username}\" بولسا باشقىلارنىڭ ئىشلىتىشىگە سۇنۇلىدۇ. جەزىملەشتۈرەمسىز؟",
     "description": "Shown in dialog body if user has saved an empty string to delete their username"
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
@@ -6492,6 +6504,42 @@
     "messageformat": "بۇ رەقەملەر ئارقىلىق ئىشلەتكۈچى نامىڭىزنى مەخپىي تۇتالايسىز ۋە شۇ ئارقىلىق خالىمىغان ئۇچۇرلاردىن ساقلىنالايسىز. ئىشلەتكۈچى نامىڭىزنى پەقەت سىز پاراڭلاشماقچى بولغان كىشىلەر ۋە گۇرۇپپا بىلەنلا ئورتاقلىشىڭ. ئىشلەتكۈچى نامىڭىزنى ئۆزگەرتسىڭىز، يېڭى بىر يۈرۈش رەقەمگە ئېرىشىسىز.",
     "description": "Body of the popup with information about discriminator in username"
   },
+  "icu:EditUsernameModalBody__change-confirmation": {
+    "messageformat": "ئىشلەتكۈچى نامىڭىزنى ئۆزگەرتسىڭىز، سىزنىڭ ھازىرقى QR كودىڭىز ۋە ئۇلانمىڭىز قايتىدىن تۈزۈلىدۇ. جەزىملەشتۈرەمسىز؟",
+    "description": "Body of the confirmation dialog displayed when user is about to change their username"
+  },
+  "icu:EditUsernameModalBody__change-confirmation__continue": {
+    "messageformat": "داۋاملاشتۇرۇش",
+    "description": "Text of the primary button on username change confirmation modal"
+  },
+  "icu:UsernameLinkModalBody__save": {
+    "messageformat": "ساقلا",
+    "description": "Name of the button for saving username link QR code to disk in the username link modal"
+  },
+  "icu:UsernameLinkModalBody__color": {
+    "messageformat": "رەڭ",
+    "description": "Name of the button for changing the username link QR code color in the username link modal"
+  },
+  "icu:UsernameLinkModalBody__copy": {
+    "messageformat": "چاپلاش تاختىسىغا كۆچۈر",
+    "description": "ARIA label of the button for copying the username link to clipboard in the username link modal"
+  },
+  "icu:UsernameLinkModalBody__help": {
+    "messageformat": "QR كودىڭىز ۋە ئۇلانمىڭىزنى سىز ئىشىنىدىغان كىشىلەر بىلەنلا ئورتاقلىشىڭ. ئۇلارنى ئورتاقلاشقاندا باشقىلار سىزنىڭ ئ‍ىشلەتكۈچى نامىڭىزنى كۆرەلەيدۇ ۋە سىز بىلەن پاراڭ باشلىيالايدۇ.",
+    "description": "Text of disclaimer at the bottom of the username link modal"
+  },
+  "icu:UsernameLinkModalBody__reset": {
+    "messageformat": "ئەسلىگە قايتۇر",
+    "description": "Text of button at the bottom of the username link modal"
+  },
+  "icu:UsernameLinkModalBody__color__radio": {
+    "messageformat": "ئىشلەتكۈچى نامىنىڭ ئۇلانما رەڭگى، {total,number}نىڭ{index,number}",
+    "description": "ARIA label of button for selecting username link color"
+  },
+  "icu:UsernameLinkModalBody__reset__confirm": {
+    "messageformat": "ئەگەر سىز QR كودىڭىزنى يېڭلىسىڭىز، سىزنىڭ ھازىرقى QR كودىڭىز ۋە ئۇلانمىڭىز ئىشلىمەيدۇ.",
+    "description": "Text of confirmation modal when resetting the username link"
+  },
   "icu:UsernameOnboardingModalBody__title": {
     "messageformat": "Signal ئىشلەتكۈچى نامىنى بەلگىلەڭ",
     "description": "Title of username onboarding modal"
@@ -6501,7 +6549,7 @@
     "description": "Content of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__link": {
-    "messageformat": "ھەر بىر ئىشلەتكۈچى نامىنىڭ خاس ئۇلانمىسى بار بولۇپ، بۇ ئۇلانمىنى دوستلىرىڭىز بىلەن ئورتاقلىشىپ پاراڭلىشىشنى باشلىيالايسىز",
+    "messageformat": "ھەر بىر ئىشلەتكۈچى نامىنىڭ خاس QR كودى بار بولۇپ، بۇ ئۇلانمىنى دوستلىرىڭىز بىلەن ئورتاقلىشىپ پاراڭلىشىشنى باشلىيالايسىز",
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
@@ -6576,13 +6624,10 @@
     "messageformat": "كىچىك ئۆزگەرتىشلەر كىرگۈزۈلدى، كاشىلا ھەل قىلىندى ۋە ئىقتىدار ئەلالاشتۇرۇلدى. Signal نى ئىشلەتكەنلىكىڭىزگە رەھمەت!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.26--0": {
-    "messageformat": "@تىلغا ئېلىشلار ھازىر ئالاھىدە ھەرپلەرنىمۇ قوللايدىغان بولدى."
-  },
-  "icu:WhatsNew__v6.26--1": {
-    "messageformat": "تېكىستنى ئۈچ چېكىپ تاللاش ئىقتىدارى ئىلغارلاشتۇرۇلدى. رەھمەت، {linkToGithub}!"
-  },
   "icu:WhatsNew__v6.27--0": {
-    "messageformat": "This update includes a few improvements for voice and video calls, and some minor documentation updates (thanks, {linkToGithub}!)."
+    "messageformat": "بۇ يېڭىلاش ئاۋازلىق ۋە ۋىدېئولۇق چاقىرىقلاردىكى ۋە بەزى كىچىك ھۆججەت يېڭىلىنىشلىرىدىكى ياخشىلىنىشلارنى ئۆز ئىچىگە ئالىدۇ. (رەھمەت، {linkToGithub}!)."
+  },
+  "icu:WhatsNew__v6.28--0": {
+    "messageformat": "بىز بەزى گۇرۇپپا ئۇقتۇرۇش سىنبەلگىلىرىنى يېڭىلاپ چىقتۇق."
   }
 }

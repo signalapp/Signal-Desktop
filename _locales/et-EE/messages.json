@@ -1338,10 +1338,6 @@
     "messageformat": "Kustuta",
     "description": "Menu item for deleting messages, title case."
   },
-  "icu:deleteConversationConfirmation": {
-    "messageformat": "Kas kustutada see vestlus jäädavalt?",
-    "description": "(deleted 06/27/2023) Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
-  },
   "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
     "messageformat": "Kas kustutada vestlus?",
     "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
@@ -5256,6 +5252,18 @@
     "messageformat": "Kasutajanimi",
     "description": "Default text for username field"
   },
+  "icu:ProfileEditor__username-link": {
+    "messageformat": "QR-kood või link",
+    "description": "Label of a profile editor row that navigates to username link and qr code modal"
+  },
+  "icu:ProfileEditor__username-link__tooltip__title": {
+    "messageformat": "Jaga oma kasutajanime",
+    "description": "Title of tooltip displayed under 'QR code or link' button for getting username link"
+  },
+  "icu:ProfileEditor__username-link__tooltip__body": {
+    "messageformat": "Jaga oma unikaalset QR-koodi või linki, et teised saaksid sinuga vestlust alustada.",
+    "description": "Body of tooltip displayed under 'QR code or link' button for getting username link"
+  },
   "icu:ProfileEditor--username--title": {
     "messageformat": "Vali omale kasutajanimi",
     "description": "Title text for username modal"
@@ -5314,6 +5322,10 @@
   },
   "icu:ProfileEditor--username--confirm-delete-body": {
     "messageformat": "Käesolevaga eemaldad oma kasutajanime ning keegi teine saab selle kasutusse võtta. Kas oled kindel?",
+    "description": "(deleted 07/10/2023) Shown in dialog body if user has saved an empty string to delete their username"
+  },
+  "icu:ProfileEditor--username--confirm-delete-body-2": {
+    "messageformat": "Sellega eemaldad oma kasutajanime ning muudad QR-koodi ja lingi kehtetuks. Keegi teine saab nüüd kasutajanime „{username}“ omale võtta. Kas oled kindel?",
     "description": "Shown in dialog body if user has saved an empty string to delete their username"
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
@@ -6492,6 +6504,42 @@
     "messageformat": "See numbrikombinatsioon aitab sinu kasutajanime privaatsena hoida, et saaksid soovimatuid sõnumeid vältida. Jaga oma kasutajanime ainult nende inimeste ja gruppidega, kellega soovid suhelda. Kui kasutajanime muudad, saadetakse sulle uus numbrikombinatsioon.",
     "description": "Body of the popup with information about discriminator in username"
   },
+  "icu:EditUsernameModalBody__change-confirmation": {
+    "messageformat": "Kasutajanime muutes lähtestad olemasoleva QR-koodi ja lingi. Kas oled kindel?",
+    "description": "Body of the confirmation dialog displayed when user is about to change their username"
+  },
+  "icu:EditUsernameModalBody__change-confirmation__continue": {
+    "messageformat": "Jätka",
+    "description": "Text of the primary button on username change confirmation modal"
+  },
+  "icu:UsernameLinkModalBody__save": {
+    "messageformat": "Salvesta",
+    "description": "Name of the button for saving username link QR code to disk in the username link modal"
+  },
+  "icu:UsernameLinkModalBody__color": {
+    "messageformat": "Värv",
+    "description": "Name of the button for changing the username link QR code color in the username link modal"
+  },
+  "icu:UsernameLinkModalBody__copy": {
+    "messageformat": "Kopeeri lõikepuhvrisse",
+    "description": "ARIA label of the button for copying the username link to clipboard in the username link modal"
+  },
+  "icu:UsernameLinkModalBody__help": {
+    "messageformat": "Jaga oma QR-koodi ja linki ainult inimestega, kes usaldad. Need, kellega neid jagad, näevad sinu kasutajanime ja saavad sinuga vestlust alustada.",
+    "description": "Text of disclaimer at the bottom of the username link modal"
+  },
+  "icu:UsernameLinkModalBody__reset": {
+    "messageformat": "Lähtesta",
+    "description": "Text of button at the bottom of the username link modal"
+  },
+  "icu:UsernameLinkModalBody__color__radio": {
+    "messageformat": "Kasutajanime lingi värv, {index,number} {total,number}-st",
+    "description": "ARIA label of button for selecting username link color"
+  },
+  "icu:UsernameLinkModalBody__reset__confirm": {
+    "messageformat": "Kui oma QR-koodi lähtestad, lõpetavad olemasolev QR-kood ja link toimimise.",
+    "description": "Text of confirmation modal when resetting the username link"
+  },
   "icu:UsernameOnboardingModalBody__title": {
     "messageformat": "Seadista oma Signali kasutajanimi",
     "description": "Title of username onboarding modal"
@@ -6501,7 +6549,7 @@
     "description": "Content of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__link": {
-    "messageformat": "Igal kasutajanimel on unikaalne link, mida saad oma sõpradega jagada, et nad saaksid sinuga vestlust alustada",
+    "messageformat": "Igal kasutajanimel on unikaalne QR-kood ja link, mida saad oma sõpradega jagada, et nad saaksid sinuga vestlust alustada",
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
@@ -6576,13 +6624,10 @@
     "messageformat": "Väikesed muudatused, vigade parandused ja jõudluse täiustused. Aitäh, et kasutad Signalit!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.26--0": {
-    "messageformat": "Nüüd on @ märkimistes toetatud diakriitilised märgid (nt hääldusmärgid)."
-  },
-  "icu:WhatsNew__v6.26--1": {
-    "messageformat": "Tekstivaliku parandused kolme klõpsuga. Aitäh, {linkToGithub}!"
-  },
   "icu:WhatsNew__v6.27--0": {
     "messageformat": "See uuendus sisaldab mõnesid hääl- ja videokõnede parendusi ning väikesi uuendusi dokumentides (aitäh, {linkToGithub}!)."
+  },
+  "icu:WhatsNew__v6.28--0": {
+    "messageformat": "Muutsime mõnesid grupi teavituste ikoone."
   }
 }

@@ -1338,10 +1338,6 @@
     "messageformat": "நீக்கு",
     "description": "Menu item for deleting messages, title case."
   },
-  "icu:deleteConversationConfirmation": {
-    "messageformat": "இந்தச் சாட்டை நிரந்தரமாக நீக்க வேண்டுமா?",
-    "description": "(deleted 06/27/2023) Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
-  },
   "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
     "messageformat": "சாட்டை நீக்க வேண்டுமா?",
     "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
@@ -5256,6 +5252,18 @@
     "messageformat": "பயனர்பெயர்",
     "description": "Default text for username field"
   },
+  "icu:ProfileEditor__username-link": {
+    "messageformat": "QR குறியீடு அல்லது இணைப்பு",
+    "description": "Label of a profile editor row that navigates to username link and qr code modal"
+  },
+  "icu:ProfileEditor__username-link__tooltip__title": {
+    "messageformat": "உங்கள் பயனர்பெயரைப் பகிரவும்",
+    "description": "Title of tooltip displayed under 'QR code or link' button for getting username link"
+  },
+  "icu:ProfileEditor__username-link__tooltip__body": {
+    "messageformat": "உங்களின் தனிப்பட்ட QR குறியீடு அல்லது இணைப்பை பகிர்வதன் மூலம் மற்றவர்கள் உங்களுடன் சாட் செய்யத் தொடங்க அனுமதிக்கவும்.",
+    "description": "Body of tooltip displayed under 'QR code or link' button for getting username link"
+  },
   "icu:ProfileEditor--username--title": {
     "messageformat": "உங்கள் பயனர்பெயரைத் தேர்வு செய்யவும்",
     "description": "Title text for username modal"
@@ -5314,6 +5322,10 @@
   },
   "icu:ProfileEditor--username--confirm-delete-body": {
     "messageformat": "இது உங்கள் பயனர்பெயரை அகற்றி, பிற பயனர்கள் அதை உரிமைகோர அனுமதிக்கும். நீங்கள் உறுதியாக உள்ளீர்களா?",
+    "description": "(deleted 07/10/2023) Shown in dialog body if user has saved an empty string to delete their username"
+  },
+  "icu:ProfileEditor--username--confirm-delete-body-2": {
+    "messageformat": "இது உங்கள் பயனர் பெயரை அகற்றி, உங்கள் QR குறியீடு மற்றும் இணைப்பை முடக்கும். \"{username} \" மற்றவர்கள் உரிமை கோருவதற்குக் கிடைக்கப்பெறும். உறுதியாக உள்ளீர்களா?",
     "description": "Shown in dialog body if user has saved an empty string to delete their username"
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
@@ -6492,6 +6504,42 @@
     "messageformat": "இந்த இலக்கங்கள் உங்கள் பயனர்பெயரை தனிப்பட்டதாக வைத்திருக்க உதவுவதால் தேவையற்ற செய்திகளைத் தவிர்க்கலாம். நீங்கள் சாட் செய்ய விரும்பும் நபர்கள் மற்றும் குழுக்களுடன் மட்டும் உங்கள் பயனர் பெயரைப் பகிரவும். நீங்கள் பயனர்பெயர்களை மாற்றினால், புதிய இலக்கங்களின் தொகுப்பைப் பெறுவீர்கள்.",
     "description": "Body of the popup with information about discriminator in username"
   },
+  "icu:EditUsernameModalBody__change-confirmation": {
+    "messageformat": "உங்கள் பயனர்பெயரை மாற்றுவது உங்கள் தற்போதைய QR குறியீடு மற்றும் இணைப்பை மீட்டமைக்கும். உறுதியாக உள்ளீர்களா?",
+    "description": "Body of the confirmation dialog displayed when user is about to change their username"
+  },
+  "icu:EditUsernameModalBody__change-confirmation__continue": {
+    "messageformat": "தொடர்க",
+    "description": "Text of the primary button on username change confirmation modal"
+  },
+  "icu:UsernameLinkModalBody__save": {
+    "messageformat": "சேமி",
+    "description": "Name of the button for saving username link QR code to disk in the username link modal"
+  },
+  "icu:UsernameLinkModalBody__color": {
+    "messageformat": "நிறம்",
+    "description": "Name of the button for changing the username link QR code color in the username link modal"
+  },
+  "icu:UsernameLinkModalBody__copy": {
+    "messageformat": "நகலெடுக்கவும் கிளிப்போர்டுக்கு",
+    "description": "ARIA label of the button for copying the username link to clipboard in the username link modal"
+  },
+  "icu:UsernameLinkModalBody__help": {
+    "messageformat": "உங்கள் QR குறியீடு மற்றும் இணைப்பை நீங்கள் நம்பும் நபர்களுடன் மட்டும் பகிரவும். பகிரப்படும் போது மற்றவர்கள் உங்கள் பயனர் பெயரைப் பார்த்து உங்களுடன் சாட் செய்ய முடியும்.",
+    "description": "Text of disclaimer at the bottom of the username link modal"
+  },
+  "icu:UsernameLinkModalBody__reset": {
+    "messageformat": "மீட்டமைக்க",
+    "description": "Text of button at the bottom of the username link modal"
+  },
+  "icu:UsernameLinkModalBody__color__radio": {
+    "messageformat": "பயனர்பெயர் இணைப்பு நிறம், {index,number} / {total,number}",
+    "description": "ARIA label of button for selecting username link color"
+  },
+  "icu:UsernameLinkModalBody__reset__confirm": {
+    "messageformat": "உங்கள் QR குறியீட்டை மீட்டமைத்தால், உங்கள் தற்போதைய QR குறியீடு மற்றும் இணைப்பு இனி ஒருபோதும் வேலை செய்யாது.",
+    "description": "Text of confirmation modal when resetting the username link"
+  },
   "icu:UsernameOnboardingModalBody__title": {
     "messageformat": "உங்கள் Signal பயனர் பெயரை அமைக்கவும்",
     "description": "Title of username onboarding modal"
@@ -6501,7 +6549,7 @@
     "description": "Content of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__link": {
-    "messageformat": "உங்களுடன் சாட் செய்வதற்கு உங்கள் நண்பர்களுடன் பகிர்ந்து கொள்ள ஒவ்வொரு பயனர்பெயருக்கும் தனித்துவமான இணைப்பு உள்ளது",
+    "messageformat": "ஒவ்வொரு பயனர்பெயருக்கும் தனிப்பட்ட QR குறியீடு மற்றும் இணைப்பு உள்ளது, உங்களுடன் சாட் செய்ய நண்பர்களுடன் பகிர்ந்து கொள்ளலாம்",
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
@@ -6576,13 +6624,10 @@
     "messageformat": "சிறு மாற்றங்கள், பிழை திருத்தங்கள் மற்றும் செயல்திறன் மேம்பாடுகள். சிக்னலைப் பயன்படுத்தியதற்கு நன்றி!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.26--0": {
-    "messageformat": "இப்போது @ குறிப்புகளில் டயக்ரிடிக்ஸ் (உச்சரிப்புக் குறிகள் போன்றவை) ஆதரிக்கப்படுகின்றன, எனவே \"பண்டைய கிரேக்க காலத்து டைம் டிராவலர்கள்\" குழு அரட்டையில் உங்கள் தத்துவக் கேள்விக்குப் பதிலளிக்க அரிஸ்டாட்டல்ஸை நினைவூட்டலாம்."
-  },
-  "icu:WhatsNew__v6.26--1": {
-    "messageformat": "டிரிபிள் கிளிக் உரைத் தேர்ந்தெடுப்பு மேம்பாடுகளுக்கு மூன்று சியர்ஸ். நன்றி, {linkToGithub}!"
-  },
   "icu:WhatsNew__v6.27--0": {
     "messageformat": "இந்த புதுப்பிப்பில் குரல் மற்றும் வீடியோ அழைப்புகளுக்கான சில மேம்பாடுகள் மற்றும் சில சிறிய ஆவணப் புதுப்பிப்புகள் ஆகியவை அடங்கும் (நன்றி, {linkToGithub}!)."
+  },
+  "icu:WhatsNew__v6.28--0": {
+    "messageformat": "புதிதாக யாராவது குழுவில் சேரும்போது, குழு புதுப்பிப்புகளுக்குத் தோன்றும் அறிவிப்பு ஐகான்களை நாங்கள் மாற்றியமைத்துள்ளோம். குறிப்பாக நீங்கள் டார்க் தீம் பயன்படுதினால், இந்த ஐகான்கள் தெளிவுத்திறனை மேம்படுத்த உதவுகின்றன. முந்தைய ஐகான்கள் டார்க் தீம்-ஐ ஏற்றுக்கொண்டன. புதிய ஐகான்கள் அதில் உருவெடுக்கப்பட்டவை, அதில் வடிவமைக்கப்பட்டவை."
   }
 }

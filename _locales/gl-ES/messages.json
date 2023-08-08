@@ -1338,10 +1338,6 @@
     "messageformat": "Eliminar",
     "description": "Menu item for deleting messages, title case."
   },
-  "icu:deleteConversationConfirmation": {
-    "messageformat": "Borrar de xeito permanente esta conversa?",
-    "description": "(deleted 06/27/2023) Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
-  },
   "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
     "messageformat": "Borrar conversa?",
     "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
@@ -5256,6 +5252,18 @@
     "messageformat": "Nome de usuario",
     "description": "Default text for username field"
   },
+  "icu:ProfileEditor__username-link": {
+    "messageformat": "Código QR ou ligazón",
+    "description": "Label of a profile editor row that navigates to username link and qr code modal"
+  },
+  "icu:ProfileEditor__username-link__tooltip__title": {
+    "messageformat": "Comparte o teu nome de usuario",
+    "description": "Title of tooltip displayed under 'QR code or link' button for getting username link"
+  },
+  "icu:ProfileEditor__username-link__tooltip__body": {
+    "messageformat": "Que os demais inicien a conversa ao compartir o teu código QR ou ligazón únicos.",
+    "description": "Body of tooltip displayed under 'QR code or link' button for getting username link"
+  },
   "icu:ProfileEditor--username--title": {
     "messageformat": "Elixe un nome de usuario",
     "description": "Title text for username modal"
@@ -5314,6 +5322,10 @@
   },
   "icu:ProfileEditor--username--confirm-delete-body": {
     "messageformat": "Eliminarase o teu nome de usuario e outros usuarios poderán utilizalo. Estás seguro?",
+    "description": "(deleted 07/10/2023) Shown in dialog body if user has saved an empty string to delete their username"
+  },
+  "icu:ProfileEditor--username--confirm-delete-body-2": {
+    "messageformat": "Isto eliminará o teu nome de usuario e desactivará o teu código QR e ligazón. «{username}» estará dispoñible para que outros usuarios poidan utilizalo. Queres continuar?",
     "description": "Shown in dialog body if user has saved an empty string to delete their username"
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
@@ -6492,6 +6504,42 @@
     "messageformat": "Estas cifras manteñen o teu nome de usuario privado para que non recibas mensaxes non desexadas. Comparte o teu usuario só coas persoas e grupos cos que queiras conversar. Se cambias o teu nome de usuario, terás unha nova serie de cifras.",
     "description": "Body of the popup with information about discriminator in username"
   },
+  "icu:EditUsernameModalBody__change-confirmation": {
+    "messageformat": "Cambiar o teu nome de usuario restablecerá o teu código QR e ligazón. Queres continuar?",
+    "description": "Body of the confirmation dialog displayed when user is about to change their username"
+  },
+  "icu:EditUsernameModalBody__change-confirmation__continue": {
+    "messageformat": "Continuar",
+    "description": "Text of the primary button on username change confirmation modal"
+  },
+  "icu:UsernameLinkModalBody__save": {
+    "messageformat": "Gardar",
+    "description": "Name of the button for saving username link QR code to disk in the username link modal"
+  },
+  "icu:UsernameLinkModalBody__color": {
+    "messageformat": "Cor",
+    "description": "Name of the button for changing the username link QR code color in the username link modal"
+  },
+  "icu:UsernameLinkModalBody__copy": {
+    "messageformat": "Copy to Clipboard",
+    "description": "ARIA label of the button for copying the username link to clipboard in the username link modal"
+  },
+  "icu:UsernameLinkModalBody__help": {
+    "messageformat": "Comparte só o teu código QR e ligazón coas persoas nas que confíes. Ao compartirse, outras persoas poderán ver o teu nome de usuario e comezar unha conversa contigo.",
+    "description": "Text of disclaimer at the bottom of the username link modal"
+  },
+  "icu:UsernameLinkModalBody__reset": {
+    "messageformat": "Restablecer",
+    "description": "Text of button at the bottom of the username link modal"
+  },
+  "icu:UsernameLinkModalBody__color__radio": {
+    "messageformat": "Cor da ligazón do nome de usuario, {index,number} de {total,number}",
+    "description": "ARIA label of button for selecting username link color"
+  },
+  "icu:UsernameLinkModalBody__reset__confirm": {
+    "messageformat": "Se restableces o teu código QR, tanto o código antigo como a ligazón xa non funcionarán.",
+    "description": "Text of confirmation modal when resetting the username link"
+  },
   "icu:UsernameOnboardingModalBody__title": {
     "messageformat": "Configura o teu nome de usuario de Signal",
     "description": "Title of username onboarding modal"
@@ -6501,7 +6549,7 @@
     "description": "Content of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__link": {
-    "messageformat": "Cada nome de usuario ten unha ligazón única que podes compartir cos teus amigos para iniciar unha conversa",
+    "messageformat": "Cada nome de usuario ten un código QR e unha ligazón únicos que podes compartir con amigos para comezar unha conversa",
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
@@ -6576,13 +6624,10 @@
     "messageformat": "Comprende pequenas modificacións e melloras no rendemento. Moitas grazas por empregar Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.26--0": {
-    "messageformat": "Os signos diacríticos (coma os acentos) xa están dispoñibles nas mencións con @."
-  },
-  "icu:WhatsNew__v6.26--1": {
-    "messageformat": "Melloras na selección de texto con tres clics. Grazas, {linkToGithub}!"
-  },
   "icu:WhatsNew__v6.27--0": {
     "messageformat": "Esta actualización inclúe melloras nas chamadas de voz e vídeo, e unhas pequenas actualizacións na documentación (grazas, {linkToGithub}!)."
+  },
+  "icu:WhatsNew__v6.28--0": {
+    "messageformat": "Modificamos algunhas iconas de notificación que aparecen nas actualizacións de grupos."
   }
 }

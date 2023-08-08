@@ -1338,10 +1338,6 @@
     "messageformat": "Ištrinti",
     "description": "Menu item for deleting messages, title case."
   },
-  "icu:deleteConversationConfirmation": {
-    "messageformat": "Ištrinti šį pokalbį visam laikui?",
-    "description": "(deleted 06/27/2023) Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
-  },
   "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
     "messageformat": "Ištrinti pokalbį?",
     "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
@@ -5256,6 +5252,18 @@
     "messageformat": "Naudotojo vardas",
     "description": "Default text for username field"
   },
+  "icu:ProfileEditor__username-link": {
+    "messageformat": "QR kodas arba nuoroda",
+    "description": "Label of a profile editor row that navigates to username link and qr code modal"
+  },
+  "icu:ProfileEditor__username-link__tooltip__title": {
+    "messageformat": "Bendrinti savo naudotojo vardą",
+    "description": "Title of tooltip displayed under 'QR code or link' button for getting username link"
+  },
+  "icu:ProfileEditor__username-link__tooltip__body": {
+    "messageformat": "Bendrink savo unikalų QR kodą arba nuorodą, kad kiti galėtų pradėti pokalbį su tavimi.",
+    "description": "Body of tooltip displayed under 'QR code or link' button for getting username link"
+  },
   "icu:ProfileEditor--username--title": {
     "messageformat": "Pasirink naudotojo vardą",
     "description": "Title text for username modal"
@@ -5314,6 +5322,10 @@
   },
   "icu:ProfileEditor--username--confirm-delete-body": {
     "messageformat": "Tai pašalins tavo naudotojo vardą ir jį galės užimti kiti naudotojai. Ar esi tikras?",
+    "description": "(deleted 07/10/2023) Shown in dialog body if user has saved an empty string to delete their username"
+  },
+  "icu:ProfileEditor--username--confirm-delete-body-2": {
+    "messageformat": "Tavo naudotojo vardas bus pašalintas, ir QR kodas bei nuoroda nebeveiks. Naudotojo vardą „{username}“ galės pasirinkti kiti. Ar tikrai to nori?",
     "description": "Shown in dialog body if user has saved an empty string to delete their username"
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
@@ -6492,6 +6504,42 @@
     "messageformat": "Šie skaitmenys padeda užtikrinti tavo naudotojo vardo privatumą, kad išvengtum nepageidaujamų žinučių. Savo naudotojo vardą pasakyk tik tiems žmonėms ir grupėms, su kuriais (-iomis) nori bendrauti. Pakeitus naudotojo vardą suteikiama nauja skaitmenų kombinacija.",
     "description": "Body of the popup with information about discriminator in username"
   },
+  "icu:EditUsernameModalBody__change-confirmation": {
+    "messageformat": "Pakeitus naudotojo vardą, tavo QR kodas ir nuoroda bus nustatyta iš naujo. Ar tikrai to nori?",
+    "description": "Body of the confirmation dialog displayed when user is about to change their username"
+  },
+  "icu:EditUsernameModalBody__change-confirmation__continue": {
+    "messageformat": "Tęsti",
+    "description": "Text of the primary button on username change confirmation modal"
+  },
+  "icu:UsernameLinkModalBody__save": {
+    "messageformat": "Įrašyti",
+    "description": "Name of the button for saving username link QR code to disk in the username link modal"
+  },
+  "icu:UsernameLinkModalBody__color": {
+    "messageformat": "Spalva",
+    "description": "Name of the button for changing the username link QR code color in the username link modal"
+  },
+  "icu:UsernameLinkModalBody__copy": {
+    "messageformat": "Kopijuoti į iškarpinę",
+    "description": "ARIA label of the button for copying the username link to clipboard in the username link modal"
+  },
+  "icu:UsernameLinkModalBody__help": {
+    "messageformat": "Bendrink savo QR kodą ir nuorodą tik su žmonėmis, kuriais pasitiki. Jei bendrinsi, kiti galės pažiūrėti tavo naudotojo vardą ir pradėti pokalbį su tavimi.",
+    "description": "Text of disclaimer at the bottom of the username link modal"
+  },
+  "icu:UsernameLinkModalBody__reset": {
+    "messageformat": "Atstatyti",
+    "description": "Text of button at the bottom of the username link modal"
+  },
+  "icu:UsernameLinkModalBody__color__radio": {
+    "messageformat": "Naudotojo vardo nuorodos spalva, {index,number} iš {total,number}",
+    "description": "ARIA label of button for selecting username link color"
+  },
+  "icu:UsernameLinkModalBody__reset__confirm": {
+    "messageformat": "Jei nustatysi savo QR kodą iš naujo, esamas QR kodas ir nuoroda nebeveiks.",
+    "description": "Text of confirmation modal when resetting the username link"
+  },
   "icu:UsernameOnboardingModalBody__title": {
     "messageformat": "Sukurk savo „Signal“ naudotojo vardą",
     "description": "Title of username onboarding modal"
@@ -6501,7 +6549,7 @@
     "description": "Content of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__link": {
-    "messageformat": "Kiekvienas naudotojo vardas turi unikalią nuorodą, kurią gali bendrinti su draugais, kad pradėtų pokalbį su tavimi",
+    "messageformat": "Kiekvienas naudotojo vardas turi unikalų QR kodą ir nuorodą, kurią gali bendrinti su draugais, kad pradėtų pokalbį su tavimi",
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
@@ -6576,13 +6624,10 @@
     "messageformat": "Smulkūs patobulinimai, klaidų pataisymai ir veikimo pagerinimas. Ačiū, kad naudoji „Signal“!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.26--0": {
-    "messageformat": "Nuo šiol paminėjimuose su @ galima naudoti diakritinius ženklus (pvz., kirčio ženklus)."
-  },
-  "icu:WhatsNew__v6.26--1": {
-    "messageformat": "Patobulinti teksto pasirinkimai triskart spustelėjus. Ačiū, {linkToGithub}!"
-  },
   "icu:WhatsNew__v6.27--0": {
     "messageformat": "Į šį atnaujinimą įeina keli balso ir vaizdo skambučių patobulinimai bei keletas dokumentacijos naujinių (ačiū, {linkToGithub}!)."
+  },
+  "icu:WhatsNew__v6.28--0": {
+    "messageformat": "Pakeitėme kai kurias grupės pranešimų piktogramas."
   }
 }

@@ -1338,10 +1338,6 @@
     "messageformat": "刪除",
     "description": "Menu item for deleting messages, title case."
   },
-  "icu:deleteConversationConfirmation": {
-    "messageformat": "要永久刪除此聊天嗎？",
-    "description": "(deleted 06/27/2023) Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
-  },
   "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
     "messageformat": "是否刪除聊天？",
     "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
@@ -5256,6 +5252,18 @@
     "messageformat": "用戶名稱",
     "description": "Default text for username field"
   },
+  "icu:ProfileEditor__username-link": {
+    "messageformat": "二維碼或連結",
+    "description": "Label of a profile editor row that navigates to username link and qr code modal"
+  },
+  "icu:ProfileEditor__username-link__tooltip__title": {
+    "messageformat": "分享你的用戶名稱",
+    "description": "Title of tooltip displayed under 'QR code or link' button for getting username link"
+  },
+  "icu:ProfileEditor__username-link__tooltip__body": {
+    "messageformat": "分享你專屬的二維碼或連結，讓其他人能開始與你聊天。",
+    "description": "Body of tooltip displayed under 'QR code or link' button for getting username link"
+  },
   "icu:ProfileEditor--username--title": {
     "messageformat": "選擇你的用戶名稱",
     "description": "Title text for username modal"
@@ -5314,6 +5322,10 @@
   },
   "icu:ProfileEditor--username--confirm-delete-body": {
     "messageformat": "這將刪除您的使用者名稱，這將可讓其他使用者使用。您確定嗎？",
+    "description": "(deleted 07/10/2023) Shown in dialog body if user has saved an empty string to delete their username"
+  },
+  "icu:ProfileEditor--username--confirm-delete-body-2": {
+    "messageformat": "這將刪除你的用戶名稱及停用你的二維碼和連結。「{username}」將會供其他人使用。你確定嗎？",
     "description": "Shown in dialog body if user has saved an empty string to delete their username"
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
@@ -6492,6 +6504,42 @@
     "messageformat": "這組數字有助將你的用戶名稱保密，以免你受到不必要的訊息騷擾。請僅向你願意與其通訊的聯絡人和群組分享你的用戶名稱。如要更改用戶名稱，你將會收到一組新的數字。",
     "description": "Body of the popup with information about discriminator in username"
   },
+  "icu:EditUsernameModalBody__change-confirmation": {
+    "messageformat": "更改用戶名稱將重設你現有的二維碼和連結。你確定嗎？",
+    "description": "Body of the confirmation dialog displayed when user is about to change their username"
+  },
+  "icu:EditUsernameModalBody__change-confirmation__continue": {
+    "messageformat": "繼續",
+    "description": "Text of the primary button on username change confirmation modal"
+  },
+  "icu:UsernameLinkModalBody__save": {
+    "messageformat": "儲存",
+    "description": "Name of the button for saving username link QR code to disk in the username link modal"
+  },
+  "icu:UsernameLinkModalBody__color": {
+    "messageformat": "色彩",
+    "description": "Name of the button for changing the username link QR code color in the username link modal"
+  },
+  "icu:UsernameLinkModalBody__copy": {
+    "messageformat": "複製到剪貼簿",
+    "description": "ARIA label of the button for copying the username link to clipboard in the username link modal"
+  },
+  "icu:UsernameLinkModalBody__help": {
+    "messageformat": "僅與你信任的人分享你的二維碼。當分享時，其他人將能夠查看你的用戶名稱並與你開始聊天。",
+    "description": "Text of disclaimer at the bottom of the username link modal"
+  },
+  "icu:UsernameLinkModalBody__reset": {
+    "messageformat": "重設",
+    "description": "Text of button at the bottom of the username link modal"
+  },
+  "icu:UsernameLinkModalBody__color__radio": {
+    "messageformat": "用戶名稱連結顏色，{total,number} 中的 {index,number}",
+    "description": "ARIA label of button for selecting username link color"
+  },
+  "icu:UsernameLinkModalBody__reset__confirm": {
+    "messageformat": "如果你重設二維碼，你現有的二維碼和連結將會無效。",
+    "description": "Text of confirmation modal when resetting the username link"
+  },
   "icu:UsernameOnboardingModalBody__title": {
     "messageformat": "設定你的 Signal 用戶名稱",
     "description": "Title of username onboarding modal"
@@ -6501,7 +6549,7 @@
     "description": "Content of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__link": {
-    "messageformat": "每個用戶名稱都擁有獨一無二的連結，你可以與好友分享該連結以開始聊天",
+    "messageformat": "每個用戶名稱都擁有獨一無二的 QR 碼和連結，你可以與好友分享並開始聊天",
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
@@ -6576,13 +6624,10 @@
     "messageformat": "細微的調整、問題修復和效能改善。感謝各位使用 Signal！",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.26--0": {
-    "messageformat": "現在 @ 提及可以支援變音符號（例如重音符號），因此就算亞里斯多德 (Aristotélēs) 穿越時空加入了你的「古希臘時空旅人」群組聊天，你也可以提醒他回答你的哲學問題。"
-  },
-  "icu:WhatsNew__v6.26--1": {
-    "messageformat": "三擊滑鼠選擇文字功能現已改進。{linkToGithub}，謝謝你！"
-  },
   "icu:WhatsNew__v6.27--0": {
     "messageformat": "此更新包括了對語音和視訊通話的一些改進，以及少數文件更新（謝謝， {linkToGithub}！）。"
+  },
+  "icu:WhatsNew__v6.28--0": {
+    "messageformat": "我們修改了群組更新（例如有新人加入群組）時顯示的通知圖示。這些圖示有助於提高易讀性，尤其適合使用「深色模式」的你。"
   }
 }

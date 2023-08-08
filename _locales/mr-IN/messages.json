@@ -1338,10 +1338,6 @@
     "messageformat": "हटवा",
     "description": "Menu item for deleting messages, title case."
   },
-  "icu:deleteConversationConfirmation": {
-    "messageformat": "हे चॅट्सला कायमस्वरुपी हटवायचे?",
-    "description": "(deleted 06/27/2023) Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
-  },
   "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
     "messageformat": "चॅट हटवायचे?",
     "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
@@ -5256,6 +5252,18 @@
     "messageformat": "वापरकर्तानाव",
     "description": "Default text for username field"
   },
+  "icu:ProfileEditor__username-link": {
+    "messageformat": "QR कोड किंवा लिंक",
+    "description": "Label of a profile editor row that navigates to username link and qr code modal"
+  },
+  "icu:ProfileEditor__username-link__tooltip__title": {
+    "messageformat": "आपले वापरकर्ता नाव शेअर करा",
+    "description": "Title of tooltip displayed under 'QR code or link' button for getting username link"
+  },
+  "icu:ProfileEditor__username-link__tooltip__body": {
+    "messageformat": "इतरांना आपल्या सोबत त्यांचा असामान्य QR कोड किंवा लिंक शेअर करून चॅट सुरू करू द्या.",
+    "description": "Body of tooltip displayed under 'QR code or link' button for getting username link"
+  },
   "icu:ProfileEditor--username--title": {
     "messageformat": "आपले वापरकर्तानाव निवडा",
     "description": "Title text for username modal"
@@ -5314,6 +5322,10 @@
   },
   "icu:ProfileEditor--username--confirm-delete-body": {
     "messageformat": "हे तुमचे वापरकर्ता नाव काढून टाकेल, इतर वापरकर्त्यांना त्यावर दावा करता येईल. तुमची खात्री आहे का?",
+    "description": "(deleted 07/10/2023) Shown in dialog body if user has saved an empty string to delete their username"
+  },
+  "icu:ProfileEditor--username--confirm-delete-body-2": {
+    "messageformat": "हे आपले वापरकर्ता नाव हटवेल आणि आपला QR कोड आणि लिंक अक्षम करेल. “{username}” इतरांना दावा करण्यासाठी उपलब्ध असेल. तुम्हाला खात्री आहे?",
     "description": "Shown in dialog body if user has saved an empty string to delete their username"
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
@@ -6492,6 +6504,42 @@
     "messageformat": "हे अंक आपले वापरकर्तानाव गोपनीय ठेवण्यास मदत करतील ज्यामुळे आपण नको असलेले संदेश टाळू शकता. आपणाला ज्यांच्या सोबत चॅट करणे आवडते फक्त अशा लोकांसह आणि ग्रुप्ससह आपले वापरकर्तानाव शेअर करा. आपण वापरकर्तानाव बदलल्यास आपणाला अंकांचा नवीन संच मिळेल.",
     "description": "Body of the popup with information about discriminator in username"
   },
+  "icu:EditUsernameModalBody__change-confirmation": {
+    "messageformat": "आपले वापरकर्ता नाव बदलण्याने आपण अस्तित्वात असलेला QR कोड आणि लिंक रीसेट केली जाईल. तुम्हाला खात्री आहे?",
+    "description": "Body of the confirmation dialog displayed when user is about to change their username"
+  },
+  "icu:EditUsernameModalBody__change-confirmation__continue": {
+    "messageformat": "सुरू ठेवा",
+    "description": "Text of the primary button on username change confirmation modal"
+  },
+  "icu:UsernameLinkModalBody__save": {
+    "messageformat": "जतन करा",
+    "description": "Name of the button for saving username link QR code to disk in the username link modal"
+  },
+  "icu:UsernameLinkModalBody__color": {
+    "messageformat": "रंग",
+    "description": "Name of the button for changing the username link QR code color in the username link modal"
+  },
+  "icu:UsernameLinkModalBody__copy": {
+    "messageformat": "क्लिपबोर्ड वर कॉपी करा",
+    "description": "ARIA label of the button for copying the username link to clipboard in the username link modal"
+  },
+  "icu:UsernameLinkModalBody__help": {
+    "messageformat": "आपण विश्वास करत असलेल्या लाेकांसह फक्त आपला QR कोड आणि लिंक शेअर करा. जेव्हा शेअर केले जाते तेव्हा इतर लोक आपले वापरकर्ता नाव पाहू शकतात आणि आपल्या बराेबर चॅट सुरु शकतात.",
+    "description": "Text of disclaimer at the bottom of the username link modal"
+  },
+  "icu:UsernameLinkModalBody__reset": {
+    "messageformat": "रीसेट करा",
+    "description": "Text of button at the bottom of the username link modal"
+  },
+  "icu:UsernameLinkModalBody__color__radio": {
+    "messageformat": "वापरकर्ता लिंक रंग, {index,number} पैकी {total,number}",
+    "description": "ARIA label of button for selecting username link color"
+  },
+  "icu:UsernameLinkModalBody__reset__confirm": {
+    "messageformat": "आपण आपला QR कोड रीसेट केल्यास, आपला अस्तित्वात असलेला QR कोड आणि लिंक यापुढे काम करणार नाही.",
+    "description": "Text of confirmation modal when resetting the username link"
+  },
   "icu:UsernameOnboardingModalBody__title": {
     "messageformat": "आपले Signal वापरकर्तानाव सेटअप करा",
     "description": "Title of username onboarding modal"
@@ -6501,7 +6549,7 @@
     "description": "Content of the first row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__link": {
-    "messageformat": "आपल्यासह चॅटस् सुरू करण्यासाठी आपल्या मित्रांसह आपण शेअर करू शकता अशी एक अद्वितीय लिंक प्रत्येक वापरकर्तानावासह असते",
+    "messageformat": "प्रत्येक वापरकर्ता नावाला एक असामान्य QR कोड आणि लिंक असते जी आपण आपल्या मित्रासह चॅटस् सुरू करण्यासाठी शेअर करू शकता",
     "description": "Content of the second row of username onboarding modal"
   },
   "icu:UsernameOnboardingModalBody__row__lock": {
@@ -6576,13 +6624,10 @@
     "messageformat": "लहान ट्विक्स, दोष निवारण, आणि कामगिरी सुधारणा. Signal वापरल्याबद्दल आभारी आहोत!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.26--0": {
-    "messageformat": "उच्चारभेद (जसे की उच्चारण खुणा) या आता @mentions मध्ये समर्थित आहे, त्यामुळे \"प्राचीन ग्रीक काळ प्रवाशी\" ग्रुप चॅट मधील आपल्या तत्वज्ञानाच्या प्रश्नाची उत्तरे देण्यासाठी आपणाला ऑरिस्टोटॅटल्स चे स्मरण करता येऊ शकते."
-  },
-  "icu:WhatsNew__v6.26--1": {
-    "messageformat": "तीन-क्लिक मजकूर निवड सुधारणेसाठी तीन चिअर्स. धन्यवाद, {linkToGithub}!"
-  },
   "icu:WhatsNew__v6.27--0": {
     "messageformat": "या अद्यतनामध्ये व्हाईस आणि व्हिडिओ कॉल यांच्यासाठी काही सुधारणा, आणि काही लहान दस्तऐवजीकरण अद्यतनांचा समावेश आहे (धन्यवाद, {linkToGithub}!)."
+  },
+  "icu:WhatsNew__v6.28--0": {
+    "messageformat": "आम्ही गट अद्यतनांसाठी दिसणारी अधिसूचना चिन्हे अद्ययावत केली आहेत, जसे जेव्हा कोणीतरी नवीन गटामध्ये सामील होते. विशेषत: तुम्ही गडद थीमच्या गडदपणाच्या आत जगत असाल तर, ही चिन्हे सुवाच्यता, सुधारण्यास मदत करतील. पूर्वीची चिन्हे केवळ गडदपणाला स्वीकारत होती. नवीन आयकॉन त्यातून जन्मले आहेत, त्याने मोल्ड केलेले आहेत."
   }
 }
