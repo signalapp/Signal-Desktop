@@ -247,7 +247,7 @@ if (!process.mas) {
   } else {
     app.on('second-instance', (_e: Electron.Event, argv: Array<string>) => {
       // Workaround to let AllowSetForegroundWindow succeed.
-      // See https://www.npmjs.com/package/windows-dummy-keystroke for a full explanation of why this is needed.
+      // See https://www.npmjs.com/package/@signalapp/windows-dummy-keystroke for a full explanation of why this is needed.
       sendDummyKeystroke?.();
 
       // Someone tried to run a second instance, we should focus our window

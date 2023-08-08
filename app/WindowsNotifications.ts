@@ -22,7 +22,7 @@ import { AUMID } from './startup_config';
 import type { WindowsNotificationData } from '../ts/services/notifications';
 import { renderWindowsToast } from './renderWindowsToast';
 
-export { sendDummyKeystroke } from 'windows-dummy-keystroke';
+export { sendDummyKeystroke } from '@signalapp/windows-dummy-keystroke';
 
 const NOTIFICATION_GROUP = 'group';
 const NOTIFICATION_TAG = 'tag';

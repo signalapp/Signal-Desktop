@@ -2329,6 +2329,14 @@
   dependencies:
     tar "^6.1.0"
 
+"@signalapp/windows-dummy-keystroke@1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@signalapp/windows-dummy-keystroke/-/windows-dummy-keystroke-1.0.0.tgz#4c7a216a71ccdd87e7628656af8e3f7938af2f7d"
+  integrity sha512-52C8p5sitWYGUIQ5iDt8uGls60JNc2xiYpx48Z4x70KnuIdHPjIe8KkXjXfvhK1bRoKde/hvq/Oa8H+nDGHd6Q==
+  dependencies:
+    bindings "^1.5.0"
+    nan "^2.17.0"
+
 "@sindresorhus/is@^0.14.0":
   version "0.14.0"
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.14.0.tgz#9fb3a3cf3132328151f353de4632e01e52102bea"
@@ -19045,13 +19053,6 @@ wildcard@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/wildcard/-/wildcard-2.0.0.tgz#a77d20e5200c6faaac979e4b3aadc7b3dd7f8fec"
   integrity sha512-JcKqAHLPxcdb9KM49dufGXn2x3ssnfjbcaQdLlfZsL9rH9wgDQjUtDxbo8NE0F6SFvydeu1VhZe7hZuHsB2/pw==
-
-"windows-dummy-keystroke@git+https://git@github.com/scottnonnenberg-signal/windows-dummy-keystroke.git#2227c50613020d0bb5d8d1921c96d2b9b4476291":
-  version "1.0.0"
-  resolved "git+https://git@github.com/scottnonnenberg-signal/windows-dummy-keystroke.git#2227c50613020d0bb5d8d1921c96d2b9b4476291"
-  dependencies:
-    bindings "^1.5.0"
-    nan "^2.17.0"
 
 word-wrap@^1.2.3:
   version "1.2.4"
