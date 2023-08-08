@@ -5253,15 +5253,15 @@
     "description": "Default text for username field"
   },
   "icu:ProfileEditor__username-link": {
-    "messageformat": "QR code or link",
+    "messageformat": "QR ကုဒ် သို့မဟုတ် လင့်ခ်",
     "description": "Label of a profile editor row that navigates to username link and qr code modal"
   },
   "icu:ProfileEditor__username-link__tooltip__title": {
-    "messageformat": "Share your username",
+    "messageformat": "သင်၏ သုံးစွဲသူအမည်ကို ဝေမျှရန်",
     "description": "Title of tooltip displayed under 'QR code or link' button for getting username link"
   },
   "icu:ProfileEditor__username-link__tooltip__body": {
-    "messageformat": "Let others start a chat with you by sharing your unique QR code or link.",
+    "messageformat": "သင်၏ သီးသန့် QR ကုဒ် သို့မဟုတ် လင့်ခ်ကို ဝေမျှပေးခြင်းဖြင့် အခြားသူများကို သင်နှင့် ချက်(တ်) စတင်စေလိုက်ပါ။",
     "description": "Body of tooltip displayed under 'QR code or link' button for getting username link"
   },
   "icu:ProfileEditor--username--title": {
@@ -5325,7 +5325,7 @@
     "description": "(deleted 07/10/2023) Shown in dialog body if user has saved an empty string to delete their username"
   },
   "icu:ProfileEditor--username--confirm-delete-body-2": {
-    "messageformat": "This will remove your username and disable your QR code and link. “{username}” will be available for others to claim. Are you sure?",
+    "messageformat": "၎င်းသည် သင်၏ သုံးစွဲသူအမည်ကို ဖယ်ရှားလိုက်မည်ဖြစ်ပြီး သင့် QR ကုဒ်နှင့် လင့်ခ်ကို ဖျက်လိုက်ပါမည်။ \"{username}\" ကို အခြားသူများ အသုံးပြု၍ရသွားပါလိမ့်မည်။ သေချာပါသလား။",
     "description": "Shown in dialog body if user has saved an empty string to delete their username"
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
@@ -6505,7 +6505,7 @@
     "description": "Body of the popup with information about discriminator in username"
   },
   "icu:EditUsernameModalBody__change-confirmation": {
-    "messageformat": "Changing your username will reset your existing QR code and link. Are you sure?",
+    "messageformat": "သင်၏ သုံးစွဲသူအမည်ကို ပြောင်းပါက သင့်မူလ QR ကုဒ်နှင့် လင့်ခ်ကို ပြန်လည်သတ်မှတ်လိုက်ပါမည်။ သေချာပါသလား။",
     "description": "Body of the confirmation dialog displayed when user is about to change their username"
   },
   "icu:EditUsernameModalBody__change-confirmation__continue": {
@@ -6525,7 +6525,7 @@
     "description": "ARIA label of the button for copying the username link to clipboard in the username link modal"
   },
   "icu:UsernameLinkModalBody__help": {
-    "messageformat": "Only share your QR code and link with people you trust. When shared others will be able to view your username and start a chat with you.",
+    "messageformat": "သင့် QR ကုဒ်နှင့် လင့်ခ်ကို သင် ယုံကြည်သောသူများထံသို့သာ ဝေမျှပါ။ ဝေမျှထားသောအခါ အခြားသူများသည် သင့်သုံးစွဲသူအမည်ကို ကြည့်ရှုနိုင်မည်ဖြစ်ပြီး သင်နှင့် ချက်(တ်) စတင်နိုင်ပါမည်။",
     "description": "Text of disclaimer at the bottom of the username link modal"
   },
   "icu:UsernameLinkModalBody__reset": {
@@ -6533,11 +6533,11 @@
     "description": "Text of button at the bottom of the username link modal"
   },
   "icu:UsernameLinkModalBody__color__radio": {
-    "messageformat": "Username link color, {index,number} of {total,number}",
+    "messageformat": "သုံးစွဲသူအမည်အတွက် လင့်ခ်အရောင်၊ {index,number} / {total,number}",
     "description": "ARIA label of button for selecting username link color"
   },
   "icu:UsernameLinkModalBody__reset__confirm": {
-    "messageformat": "If you reset your QR code, your existing QR code and link will no longer work.",
+    "messageformat": "သင်၏ QR ကုဒ်ကို သင် ပြန်လည်သတ်မှတ်လိုက်ပါက မူလ QR ကုဒ်နှင့် လင့်ခ်မှာ အလုပ်လုပ်တော့မည်မဟုတ်ပါ။",
     "description": "Text of confirmation modal when resetting the username link"
   },
   "icu:UsernameOnboardingModalBody__title": {
@@ -6628,6 +6628,6 @@
     "messageformat": "ယခုအပ်ဒိတ်တွင် အော်ဒီယိုနှင့် ဗီဒီယို ကောလ်များအတွက် တိုးတက်မှုအနည်းငယ်နှင့် စာရွက်စာတမ်းဆိုင်ရာ အသေးစားအပ်ဒိတ်အချို့ ပါဝင်ပါသည် (ကျေးဇူးပါ၊ {linkToGithub})။"
   },
   "icu:WhatsNew__v6.28--0": {
-    "messageformat": "We modified the notification icons that appear for group updates, like when someone new joins a group. These icons help improve legibility, especially if you live within the darkness of the Dark Theme. The previous icons merely adopted the dark. The new icons were born in it, molded by it."
+    "messageformat": "အဖွဲ့ အသိပေးချက်အိုင်ကွန်အချို့ကို ကျွန်ုပ်တို့ အပ်ဒိတ်လုပ်ထားပါသည်။ ထိုအိုင်ကွန်များသည် အထူးသဖြင့် အမှောင် Theme ကို အသုံးပြုပါက ပို၍ရှင်းလင်းပီသစေရန် အကူအညီပေးပါသည်။ ယခင်အိုင်ကွန်များသည် အလင်းမှ အမှောင်သို့ ပြောင်းလိုက်ရုံမျှ ဖြစ်ပါသည်။ အိုင်ကွန်အသစ်များမှာမူ အမှောင်ဖြင့်သုံးရန် ချိန်ညှိဖန်တီးထားခြင်း ဖြစ်ပါသည်။"
   }
 }

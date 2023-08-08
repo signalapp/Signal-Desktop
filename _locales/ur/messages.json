@@ -5325,7 +5325,7 @@
     "description": "(deleted 07/10/2023) Shown in dialog body if user has saved an empty string to delete their username"
   },
   "icu:ProfileEditor--username--confirm-delete-body-2": {
-    "messageformat": "This will remove your username and disable your QR code and link. “{username}” will be available for others to claim. Are you sure?",
+    "messageformat": "یہ آپ کا یوزر نیم ہٹا دے گا اور آپ کے QR کوڈ اور لنک کو غیر فعال کر دے گا۔ \"{username}\" دوسروں کو دعویٰ کرنے کے لیے دستیاب ہو گا۔ کیا آپ واقعی کرنا چاہتے ہیں؟",
     "description": "Shown in dialog body if user has saved an empty string to delete their username"
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
@@ -6505,7 +6505,7 @@
     "description": "Body of the popup with information about discriminator in username"
   },
   "icu:EditUsernameModalBody__change-confirmation": {
-    "messageformat": "Changing your username will reset your existing QR code and link. Are you sure?",
+    "messageformat": "اپنا یوزر نیم تبدیل کرنے کی صورت میں آپ کا موجودہ QR کوڈ اور لنک ری سیٹ ہو جائے گا۔ کیا آپ واقعی کرنا چاہتے ہیں؟",
     "description": "Body of the confirmation dialog displayed when user is about to change their username"
   },
   "icu:EditUsernameModalBody__change-confirmation__continue": {
@@ -6525,7 +6525,7 @@
     "description": "ARIA label of the button for copying the username link to clipboard in the username link modal"
   },
   "icu:UsernameLinkModalBody__help": {
-    "messageformat": "Only share your QR code and link with people you trust. When shared others will be able to view your username and start a chat with you.",
+    "messageformat": "اپنا QR کوڈ اور لنک صرف اپنے اعتماد کے لوگوں سے شیئر کریں۔ شیئر کیے جانے پر دوسرے افراد آپ کا یوزر نیم دیکھ سکیں گے اور آپ کے ساتھ چیٹ شروع کر سکیں گے۔",
     "description": "Text of disclaimer at the bottom of the username link modal"
   },
   "icu:UsernameLinkModalBody__reset": {
@@ -6533,11 +6533,11 @@
     "description": "Text of button at the bottom of the username link modal"
   },
   "icu:UsernameLinkModalBody__color__radio": {
-    "messageformat": "Username link color, {index,number} of {total,number}",
+    "messageformat": "یوزر نیم کے لنک کا رنگ، {index,number} کُل {total,number}",
     "description": "ARIA label of button for selecting username link color"
   },
   "icu:UsernameLinkModalBody__reset__confirm": {
-    "messageformat": "If you reset your QR code, your existing QR code and link will no longer work.",
+    "messageformat": "اگر آپ اپنے QR کوڈ کو ری سیٹ کرتے ہیں، تو آپ کا موجودہ QR کوڈ اور لنک مزید کام نہیں کریں گے۔",
     "description": "Text of confirmation modal when resetting the username link"
   },
   "icu:UsernameOnboardingModalBody__title": {
@@ -6628,6 +6628,6 @@
     "messageformat": "اس اپ ڈیٹ میں وائس اور ویڈیو کالز کے لیے کچھ بہتریاں، اور کچھ معمولی دستاویزی اپ ڈیٹس شامل ہیں (شکریہ، {linkToGithub}!)۔"
   },
   "icu:WhatsNew__v6.28--0": {
-    "messageformat": "We modified the notification icons that appear for group updates, like when someone new joins a group. These icons help improve legibility, especially if you live within the darkness of the Dark Theme. The previous icons merely adopted the dark. The new icons were born in it, molded by it."
+    "messageformat": "ہم نے گروپ کے کچھ اطلاعاتی آئیکنز کو اپ ڈیٹ کر دیا ہے۔"
   }
 }

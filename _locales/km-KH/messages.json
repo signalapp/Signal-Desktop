@@ -5253,15 +5253,15 @@
     "description": "Default text for username field"
   },
   "icu:ProfileEditor__username-link": {
-    "messageformat": "QR code or link",
+    "messageformat": "កូដ QR ឬតំណ",
     "description": "Label of a profile editor row that navigates to username link and qr code modal"
   },
   "icu:ProfileEditor__username-link__tooltip__title": {
-    "messageformat": "Share your username",
+    "messageformat": "ចែករំលែកឈ្មោះអ្នកប្រើរបស់អ្នក",
     "description": "Title of tooltip displayed under 'QR code or link' button for getting username link"
   },
   "icu:ProfileEditor__username-link__tooltip__body": {
-    "messageformat": "Let others start a chat with you by sharing your unique QR code or link.",
+    "messageformat": "អនុញ្ញាតឲ្យអ្នកដទៃចាប់ផ្តើមជជែកជាមួយអ្នកបាន ដោយចែករំលែកកូដ QR ឬតំណតែមួយគត់របស់អ្នក។",
     "description": "Body of tooltip displayed under 'QR code or link' button for getting username link"
   },
   "icu:ProfileEditor--username--title": {
@@ -5325,7 +5325,7 @@
     "description": "(deleted 07/10/2023) Shown in dialog body if user has saved an empty string to delete their username"
   },
   "icu:ProfileEditor--username--confirm-delete-body-2": {
-    "messageformat": "This will remove your username and disable your QR code and link. “{username}” will be available for others to claim. Are you sure?",
+    "messageformat": "ការធ្វើបែបនេះនឹងលុបឈ្មោះអ្នកប្រើរបស់អ្នកចេញ ហើយបិទកូដ QR និងតំណរបស់អ្នក។ “{username}” នឹងមានសម្រាប់ឲ្យអ្នកផ្សេងទៀតទាមទារយក។ តើអ្នកប្រាកដឬទេ?",
     "description": "Shown in dialog body if user has saved an empty string to delete their username"
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
@@ -6505,7 +6505,7 @@
     "description": "Body of the popup with information about discriminator in username"
   },
   "icu:EditUsernameModalBody__change-confirmation": {
-    "messageformat": "Changing your username will reset your existing QR code and link. Are you sure?",
+    "messageformat": "ការផ្លាស់ប្តូរឈ្មោះអ្នកប្រើរបស់អ្នកនឹងកំណត់កូដ QR និងតំណដែលមានស្រាប់របស់អ្នកឡើងវិញ។ តើអ្នកប្រាកដឬទេ?",
     "description": "Body of the confirmation dialog displayed when user is about to change their username"
   },
   "icu:EditUsernameModalBody__change-confirmation__continue": {
@@ -6525,7 +6525,7 @@
     "description": "ARIA label of the button for copying the username link to clipboard in the username link modal"
   },
   "icu:UsernameLinkModalBody__help": {
-    "messageformat": "Only share your QR code and link with people you trust. When shared others will be able to view your username and start a chat with you.",
+    "messageformat": "ចែករំលែកកូដ QR និងតំណរបស់អ្នកតែជាមួយមនុស្សដែលអ្នកទុកចិត្តប៉ុណ្ណោះ។ នៅពេលបានចែករំលែក អ្នកផ្សេងទៀតនឹងអាចមើលឃើញឈ្មោះអ្នកប្រើរបស់អ្នក និងចាប់ផ្តើមជជែកជាមួយអ្នកបាន។",
     "description": "Text of disclaimer at the bottom of the username link modal"
   },
   "icu:UsernameLinkModalBody__reset": {
@@ -6533,11 +6533,11 @@
     "description": "Text of button at the bottom of the username link modal"
   },
   "icu:UsernameLinkModalBody__color__radio": {
-    "messageformat": "Username link color, {index,number} of {total,number}",
+    "messageformat": "ពណ៌តំណឈ្មោះអ្នកប្រើ, {index,number} នៃ {total,number}",
     "description": "ARIA label of button for selecting username link color"
   },
   "icu:UsernameLinkModalBody__reset__confirm": {
-    "messageformat": "If you reset your QR code, your existing QR code and link will no longer work.",
+    "messageformat": "ប្រសិនបើអ្នកកំណត់កូដ QR របស់អ្នកឡើងវិញ កូដ QR និងតំណដែលមានស្រាប់របស់អ្នកនឹងមិនដំណើរការទៀតទេ។",
     "description": "Text of confirmation modal when resetting the username link"
   },
   "icu:UsernameOnboardingModalBody__title": {
@@ -6628,6 +6628,6 @@
     "messageformat": "ការធ្វើបច្ចុប្បន្នភាពនេះរួមបញ្ចូលនូវការកែលម្អមួយចំនួនសម្រាប់ការហៅជាសំឡេង និងជាវីដេអូ និងការធ្វើបច្ចុប្បន្នភាពតិចតួចមួយចំនួនលើសំណុំឯកសារ (អរគុណ {linkToGithub}!)។"
   },
   "icu:WhatsNew__v6.28--0": {
-    "messageformat": "We modified the notification icons that appear for group updates, like when someone new joins a group. These icons help improve legibility, especially if you live within the darkness of the Dark Theme. The previous icons merely adopted the dark. The new icons were born in it, molded by it."
+    "messageformat": "យើងបានធ្វើបច្ចុប្បន្នភាពរូបតំណាងការជូនដំណឹងមួយចំនួនសម្រាប់ក្រុម ដូចជាពេលដែលមាននរណាម្នាក់ថ្មីចូលរួមក្នុងក្រុម។ រូបតំណាងទាំងនេះជួយឲ្យអ្នកកាន់តែងាយស្រួលមើល ជាពិសេសប្រសិនបើអ្នកប្រើផ្ទៃពណ៌ងងឹត។ រូបតំណាងពីមុនមិនសូវត្រូវនឹងផ្ទៃពណ៌ងងឹត។ រូបតំណាងថ្មីស័ក្តិសមតែម្តង។"
   }
 }

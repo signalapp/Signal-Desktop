@@ -5325,7 +5325,7 @@
     "description": "(deleted 07/10/2023) Shown in dialog body if user has saved an empty string to delete their username"
   },
   "icu:ProfileEditor--username--confirm-delete-body-2": {
-    "messageformat": "This will remove your username and disable your QR code and link. “{username}” will be available for others to claim. Are you sure?",
+    "messageformat": "Brukernavnet fjernes, og QR-koden og profillenken din deaktiveres. Brukernavnet «{username}» kan brukes av andre. Er du sikker?",
     "description": "Shown in dialog body if user has saved an empty string to delete their username"
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
@@ -6505,7 +6505,7 @@
     "description": "Body of the popup with information about discriminator in username"
   },
   "icu:EditUsernameModalBody__change-confirmation": {
-    "messageformat": "Changing your username will reset your existing QR code and link. Are you sure?",
+    "messageformat": "Hvis du endrer brukernavnet, får du også en ny QR-kode og profillenke. Er du sikker?",
     "description": "Body of the confirmation dialog displayed when user is about to change their username"
   },
   "icu:EditUsernameModalBody__change-confirmation__continue": {
@@ -6525,7 +6525,7 @@
     "description": "ARIA label of the button for copying the username link to clipboard in the username link modal"
   },
   "icu:UsernameLinkModalBody__help": {
-    "messageformat": "Only share your QR code and link with people you trust. When shared others will be able to view your username and start a chat with you.",
+    "messageformat": "Ikke del QR-koden og lenken med personer du ikke stoler på. De du deler dette med, kan se brukernavnet ditt og starte nye samtaler med deg.",
     "description": "Text of disclaimer at the bottom of the username link modal"
   },
   "icu:UsernameLinkModalBody__reset": {
@@ -6533,11 +6533,11 @@
     "description": "Text of button at the bottom of the username link modal"
   },
   "icu:UsernameLinkModalBody__color__radio": {
-    "messageformat": "Username link color, {index,number} of {total,number}",
+    "messageformat": "Farge på brukernavnlenke, farge {index,number} av {total,number}",
     "description": "ARIA label of button for selecting username link color"
   },
   "icu:UsernameLinkModalBody__reset__confirm": {
-    "messageformat": "If you reset your QR code, your existing QR code and link will no longer work.",
+    "messageformat": "QR-koden og profillenken din vil slutte å virke hvis du tilbakestiller QR-koden.",
     "description": "Text of confirmation modal when resetting the username link"
   },
   "icu:UsernameOnboardingModalBody__title": {
@@ -6628,6 +6628,6 @@
     "messageformat": "Denne oppdateringen består av et par feilrettinger for lyd- og videosamtaler og et par små dokumentasjonsoppdateringer (takk, {linkToGithub}!)."
   },
   "icu:WhatsNew__v6.28--0": {
-    "messageformat": "We modified the notification icons that appear for group updates, like when someone new joins a group. These icons help improve legibility, especially if you live within the darkness of the Dark Theme. The previous icons merely adopted the dark. The new icons were born in it, molded by it."
+    "messageformat": "Vi har endret noen av ikonene for gruppevarsler."
   }
 }

@@ -5325,7 +5325,7 @@
     "description": "(deleted 07/10/2023) Shown in dialog body if user has saved an empty string to delete their username"
   },
   "icu:ProfileEditor--username--confirm-delete-body-2": {
-    "messageformat": "This will remove your username and disable your QR code and link. “{username}” will be available for others to claim. Are you sure?",
+    "messageformat": "Αυτό θα καταργήσει το όνομα χρήστη σου και θα απενεργοποιήσει τον κωδικό QR και τον σύνδεσμό σου. Το όνομα χρήστη “{username}” θα είναι διαθέσιμο σε άλλους χρήστες. Είσαι σίγουρος/η;",
     "description": "Shown in dialog body if user has saved an empty string to delete their username"
   },
   "icu:ProfileEditor--username--confirm-delete-button": {
@@ -6505,7 +6505,7 @@
     "description": "Body of the popup with information about discriminator in username"
   },
   "icu:EditUsernameModalBody__change-confirmation": {
-    "messageformat": "Changing your username will reset your existing QR code and link. Are you sure?",
+    "messageformat": "Η αλλαγή του ονόματος χρήστη σου θα επαναφέρει τον υπάρχοντα κωδικό QR και τον σύνδεσμό σου. Είσαι σίγουρος/η;",
     "description": "Body of the confirmation dialog displayed when user is about to change their username"
   },
   "icu:EditUsernameModalBody__change-confirmation__continue": {
@@ -6525,7 +6525,7 @@
     "description": "ARIA label of the button for copying the username link to clipboard in the username link modal"
   },
   "icu:UsernameLinkModalBody__help": {
-    "messageformat": "Only share your QR code and link with people you trust. When shared others will be able to view your username and start a chat with you.",
+    "messageformat": "Μοιράσου τον κωδικό QR σου μόνο με άτομα που εμπιστεύεσαι. Όταν κοινοποιηθεί, οι άλλοι θα μπορούν να δουν το όνομα χρήστη σου και να ξεκινήσουν μια συνομιλία μαζί σου.",
     "description": "Text of disclaimer at the bottom of the username link modal"
   },
   "icu:UsernameLinkModalBody__reset": {
@@ -6533,11 +6533,11 @@
     "description": "Text of button at the bottom of the username link modal"
   },
   "icu:UsernameLinkModalBody__color__radio": {
-    "messageformat": "Username link color, {index,number} of {total,number}",
+    "messageformat": "Χρώμα συνδέσμου ονόματος χρήστη, {index,number} από {total,number}",
     "description": "ARIA label of button for selecting username link color"
   },
   "icu:UsernameLinkModalBody__reset__confirm": {
-    "messageformat": "If you reset your QR code, your existing QR code and link will no longer work.",
+    "messageformat": "Εάν επαναφέρεις τον κωδικό QR σου, ο υπάρχων κωδικός QR και ο σύνδεσμός σου δεν θα λειτουργούν πλέον.",
     "description": "Text of confirmation modal when resetting the username link"
   },
   "icu:UsernameOnboardingModalBody__title": {
@@ -6628,6 +6628,6 @@
     "messageformat": "Αυτή η ενημέρωση περιλαμβάνει μερικές βελτιώσεις για φωνητικές κλήσεις και βιντεοκλήσεις, καθώς και ορισμένες μικρές ενημερώσεις τεκμηρίωσης (ευχαριστούμε, {linkToGithub}!)."
   },
   "icu:WhatsNew__v6.28--0": {
-    "messageformat": "We modified the notification icons that appear for group updates, like when someone new joins a group. These icons help improve legibility, especially if you live within the darkness of the Dark Theme. The previous icons merely adopted the dark. The new icons were born in it, molded by it."
+    "messageformat": "Ενημερώσαμε ορισμένα εικονίδια ειδοποιήσεων ομάδας. Αυτά τα εικονίδια συμβάλλουν στη βελτίωση της αναγνωσιμότητας, ειδικά αν ζεις στο σκοτάδι του Σκοτεινού θέματος. Τα προηγούμενα εικονίδια απλώς προσαρμόζονταν στο σκούρο. Αυτά τα νέα εικονίδια γεννήθηκαν και διαμορφώθηκαν από το σκοτάδι."
   }
 }
