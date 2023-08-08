@@ -1064,6 +1064,11 @@ function processAttachments({
       throw new Error('processAttachments: Unable to find conv');
     }
 
+    const draftEditMessage = conversation.get('draftEditMessage');
+    if (draftEditMessage) {
+      return;
+    }
+
     const state = getState();
     const isRecording =
       state.audioRecorder.recordingState === RecordingState.Recording;
