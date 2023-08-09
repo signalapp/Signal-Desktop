@@ -31,7 +31,7 @@ export default function updateToSchemaVersion87(
   db.transaction(() => {
     const ourUuid = getOurUuid(db);
 
-    const [modifySchema] = sql`
+    const [createTable] = sql`
       DROP TABLE IF EXISTS callsHistory;
 
       CREATE TABLE callsHistory (
@@ -58,21 +58,14 @@ export default function updateToSchemaVersion87(
         timestamp DESC,
         status
       );
-
-      DROP INDEX IF EXISTS messages_call;
-
-      ALTER TABLE messages
-        DROP COLUMN callId;
-      ALTER TABLE messages
-        ADD COLUMN callId TEXT;
-      ALTER TABLE messages
-        DROP COLUMN callMode;
     `;
 
-    db.exec(modifySchema);
+    db.exec(createTable);
 
     const [selectQuery] = sql`
-      SELECT * FROM messages WHERE type = 'call-history';
+      SELECT * FROM messages
+      WHERE type = 'call-history'
+      AND callId IS NOT NULL; -- Older messages don't have callId
     `;
 
     const rows = db.prepare(selectQuery).all();
@@ -201,6 +194,19 @@ export default function updateToSchemaVersion87(
 
       db.prepare(updateQuery).run(updateParams);
     }
+
+    const [updateMessagesTable] = sql`
+      DROP INDEX IF EXISTS messages_call;
+
+      ALTER TABLE messages
+        DROP COLUMN callId;
+      ALTER TABLE messages
+        ADD COLUMN callId TEXT;
+      ALTER TABLE messages
+        DROP COLUMN callMode;
+    `;
+
+    db.exec(updateMessagesTable);
 
     db.pragma('user_version = 87');
   })();
