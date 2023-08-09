@@ -107,13 +107,17 @@ export function StoriesTab({
           hasViewReceiptSetting={hasViewReceiptSetting}
           i18n={i18n}
           myStories={myStories}
+          navTabsCollapsed={navTabsCollapsed}
           onBack={() => setIsMyStories(false)}
           onDelete={deleteStoryForEveryone}
           onForward={onForwardStory}
           onSave={onSaveStory}
           onMediaPlaybackStart={onMediaPlaybackStart}
+          onToggleNavTabsCollapse={onToggleNavTabsCollapse}
+          preferredLeftPaneWidth={preferredLeftPaneWidth}
           queueStoryDownload={queueStoryDownload}
           retryMessageSend={retryMessageSend}
+          savePreferredLeftPaneWidth={savePreferredLeftPaneWidth}
           viewStory={viewStory}
         />
       ) : (

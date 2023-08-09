@@ -18,23 +18,29 @@ import { StoryImage } from './StoryImage';
 import { Theme } from '../util/theme';
 import { resolveStorySendStatus } from '../util/resolveStorySendStatus';
 import { useRetryStorySend } from '../hooks/useRetryStorySend';
+import { NavSidebar } from './NavSidebar';
 
 export type PropsType = {
   i18n: LocalizerType;
+  navTabsCollapsed: boolean;
   myStories: Array<MyStoryType>;
   onBack: () => unknown;
   onDelete: (story: StoryViewType) => unknown;
   onForward: (storyId: string) => unknown;
   onSave: (story: StoryViewType) => unknown;
   onMediaPlaybackStart: () => void;
+  onToggleNavTabsCollapse: (navTabsCollapsed: boolean) => void;
   queueStoryDownload: (storyId: string) => unknown;
   retryMessageSend: (messageId: string) => unknown;
   viewStory: ViewStoryActionCreatorType;
   hasViewReceiptSetting: boolean;
+  preferredLeftPaneWidth: number;
+  savePreferredLeftPaneWidth: (preferredLeftPaneWidth: number) => void;
 };
 
 export function MyStories({
   i18n,
+  navTabsCollapsed,
   myStories,
   onBack,
   onDelete,
@@ -45,6 +51,9 @@ export function MyStories({
   viewStory,
   hasViewReceiptSetting,
   onMediaPlaybackStart,
+  onToggleNavTabsCollapse,
+  preferredLeftPaneWidth,
+  savePreferredLeftPaneWidth,
 }: PropsType): JSX.Element {
   const [confirmDeleteStory, setConfirmDeleteStory] = useState<
     StoryViewType | undefined
@@ -68,50 +77,50 @@ export function MyStories({
           {i18n('icu:MyStories__delete')}
         </ConfirmationDialog>
       )}
-      <div className="Stories__pane__header Stories__pane__header--centered">
-        <button
-          aria-label={i18n('icu:back')}
-          className="Stories__pane__header--back"
-          onClick={onBack}
-          type="button"
-        />
-        <div className="Stories__pane__header--title">
-          {i18n('icu:MyStories__title')}
-        </div>
-      </div>
-      <div className="Stories__pane__list">
-        {myStories.map(list => (
-          <div className="MyStories__distribution" key={list.id}>
-            <div className="MyStories__distribution__title">
-              <StoryDistributionListName
-                i18n={i18n}
-                id={list.id}
-                name={list.name}
-              />
+      <NavSidebar
+        i18n={i18n}
+        title={i18n('icu:MyStories__title')}
+        navTabsCollapsed={navTabsCollapsed}
+        onBack={onBack}
+        onToggleNavTabsCollapse={onToggleNavTabsCollapse}
+        preferredLeftPaneWidth={preferredLeftPaneWidth}
+        requiresFullWidth
+        savePreferredLeftPaneWidth={savePreferredLeftPaneWidth}
+      >
+        <div className="Stories__pane__list">
+          {myStories.map(list => (
+            <div className="MyStories__distribution" key={list.id}>
+              <div className="MyStories__distribution__title">
+                <StoryDistributionListName
+                  i18n={i18n}
+                  id={list.id}
+                  name={list.name}
+                />
+              </div>
+              {list.stories.map(story => (
+                <StorySent
+                  hasViewReceiptSetting={hasViewReceiptSetting}
+                  i18n={i18n}
+                  key={story.messageId}
+                  onForward={onForward}
+                  onSave={onSave}
+                  onMediaPlaybackStart={onMediaPlaybackStart}
+                  queueStoryDownload={queueStoryDownload}
+                  retryMessageSend={retryMessageSend}
+                  setConfirmDeleteStory={setConfirmDeleteStory}
+                  story={story}
+                  viewStory={viewStory}
+                />
+              ))}
             </div>
-            {list.stories.map(story => (
-              <StorySent
-                hasViewReceiptSetting={hasViewReceiptSetting}
-                i18n={i18n}
-                key={story.messageId}
-                onForward={onForward}
-                onSave={onSave}
-                onMediaPlaybackStart={onMediaPlaybackStart}
-                queueStoryDownload={queueStoryDownload}
-                retryMessageSend={retryMessageSend}
-                setConfirmDeleteStory={setConfirmDeleteStory}
-                story={story}
-                viewStory={viewStory}
-              />
-            ))}
-          </div>
-        ))}
-      </div>
-      {!myStories.length && (
-        <div className="Stories__pane__list--empty">
-          {i18n('icu:Stories__list-empty')}
+          ))}
         </div>
-      )}
+        {!myStories.length && (
+          <div className="Stories__pane__list--empty">
+            {i18n('icu:Stories__list-empty')}
+          </div>
+        )}
+      </NavSidebar>
     </>
   );
 }
