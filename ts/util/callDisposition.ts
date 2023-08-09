@@ -348,7 +348,10 @@ export function getLocalCallEventFromGroupCall(
     if (localDeviceState.joinState === JoinState.NotJoined) {
       return null; // Group calls shouldn't send "NotAccepted"
     }
-    if (localDeviceState.joinState === JoinState.Joining) {
+    if (
+      localDeviceState.joinState === JoinState.Joining ||
+      localDeviceState.joinState === JoinState.Pending
+    ) {
       return LocalCallEvent.Accepted;
     }
     throw missingCaseError(localDeviceState.joinState);

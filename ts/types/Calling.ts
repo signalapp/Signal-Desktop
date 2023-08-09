@@ -127,7 +127,8 @@ export enum GroupCallConnectionState {
 export enum GroupCallJoinState {
   NotJoined = 0,
   Joining = 1,
-  Joined = 2,
+  Pending = 2,
+  Joined = 3,
 }
 
 export type GroupCallRemoteParticipantType = ConversationType & {

@@ -994,6 +994,8 @@ export class CallingClass {
         return GroupCallJoinState.NotJoined;
       case JoinState.Joining:
         return GroupCallJoinState.Joining;
+      case JoinState.Pending:
+        return GroupCallJoinState.Pending;
       case JoinState.Joined:
         return GroupCallJoinState.Joined;
       default:
