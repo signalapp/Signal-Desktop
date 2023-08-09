@@ -77,6 +77,8 @@ export default function updateToSchemaVersion87(
 
     const rows = db.prepare(selectQuery).all();
 
+    const uniqueConstraint = new Set();
+
     for (const row of rows) {
       const json = JSON.parse(row.json);
       const details = json.callHistoryDetails;
@@ -152,6 +154,17 @@ export default function updateToSchemaVersion87(
         );
         continue;
       }
+
+      // We need to ensure a call with the same callId and peerId doesn't get
+      // inserted twice because of the unique constraint on the table.
+      const uniqueKey = `${callId} -> ${peerId}`;
+      if (uniqueConstraint.has(uniqueKey)) {
+        logger.error(
+          `updateToSchemaVersion87: duplicate callId/peerId pair (${uniqueKey})`
+        );
+        continue;
+      }
+      uniqueConstraint.add(uniqueKey);
 
       const [insertQuery, insertParams] = sql`
         INSERT INTO callsHistory (

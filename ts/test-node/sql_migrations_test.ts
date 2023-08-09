@@ -3658,5 +3658,81 @@ describe('SQL migrations test', () => {
         callHistoryDetailsSchema.parse(row);
       }
     });
+
+    it('handles unique constraint violations', () => {
+      updateToVersion(86);
+
+      const message1Id = generateGuid();
+      const message2Id = generateGuid();
+      const conversationId = generateGuid();
+      const callHistoryDetails = {
+        callId: '123',
+        callMode: CallMode.Direct,
+        wasDeclined: false,
+        wasDeleted: false,
+        wasIncoming: false,
+        wasVideoCall: false,
+        acceptedTime: Date.now(),
+        endedTime: undefined,
+      };
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- using old types
+      const message1: MessageAttributesType & { callHistoryDetails: any } = {
+        id: message1Id,
+        type: 'call-history',
+        conversationId,
+        sent_at: Date.now() - 10,
+        received_at: Date.now() - 10,
+        timestamp: Date.now() - 10,
+        callHistoryDetails,
+      };
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- using old types
+      const message2: MessageAttributesType & { callHistoryDetails: any } = {
+        id: message2Id,
+        type: 'call-history',
+        conversationId,
+        sent_at: Date.now(),
+        received_at: Date.now(),
+        timestamp: Date.now(),
+        callHistoryDetails,
+      };
+
+      const [insertQuery, insertParams] = sql`
+        INSERT INTO messages (
+          id,
+          conversationId,
+          type,
+          json
+        )
+        VALUES
+          (
+            ${message1Id},
+            ${conversationId},
+            ${message1.type},
+            ${JSON.stringify(message1)}
+          ),
+          (
+            ${message2Id},
+            ${conversationId},
+            ${message2.type},
+            ${JSON.stringify(message2)}
+          );
+      `;
+
+      db.prepare(insertQuery).run(insertParams);
+
+      updateToVersion(87);
+
+      const [selectHistoryQuery] = sql`
+        SELECT * FROM callsHistory;
+      `;
+
+      const rows = db.prepare(selectHistoryQuery).all();
+      for (const row of rows) {
+        callHistoryDetailsSchema.parse(row);
+      }
+      assert.strictEqual(rows.length, 1);
+    });
   });
 });
