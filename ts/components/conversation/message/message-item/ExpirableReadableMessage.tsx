@@ -13,10 +13,17 @@ import { useMessageExpirationPropsById } from '../../../../hooks/useParamSelecto
 
 const EXPIRATION_CHECK_MINIMUM = 2000;
 
-function useIsExpired(props: PropsForExpiringMessage) {
+// TODO Check that this isn't broken
+function useIsExpired(
+  props: Omit<PropsForExpiringMessage, 'messageId' | 'direction'> & {
+    messageId: string | undefined;
+    direction: MessageModelType | undefined;
+  }
+) {
   const {
     convoId,
     messageId,
+    direction,
     expirationLength,
     expirationTimestamp,
     isExpired: isExpiredProps,
@@ -29,7 +36,7 @@ function useIsExpired(props: PropsForExpiringMessage) {
   const checkExpired = useCallback(async () => {
     const now = Date.now();
 
-    if (!expirationTimestamp || !expirationLength) {
+    if (!messageId || !direction || !expirationTimestamp || !expirationLength) {
       return;
     }
 
@@ -48,7 +55,7 @@ function useIsExpired(props: PropsForExpiringMessage) {
         convo?.updateLastMessage();
       }
     }
-  }, [expirationTimestamp, expirationLength, isExpired, messageId, convoId]);
+  }, [messageId, direction, expirationTimestamp, expirationLength, isExpired, convoId, dispatch]);
 
   let checkFrequency: number | null = null;
   if (expirationLength) {
@@ -58,7 +65,7 @@ function useIsExpired(props: PropsForExpiringMessage) {
 
   useEffect(() => {
     void checkExpired();
-  }, []); // check on mount
+  }, [checkExpired]); // check on mount
 
   useInterval(checkExpired, checkFrequency); // check every 2sec or sooner if needed
 
@@ -87,43 +94,28 @@ export interface ExpirableReadableMessageProps
 export const ExpirableReadableMessage = (props: ExpirableReadableMessageProps) => {
   const selected = useMessageExpirationPropsById(props.messageId);
 
-  if (!selected) {
-    return null;
-  }
-
   const {
-    direction: overrideDirection,
+    direction,
     isCentered,
     marginInlineStart = '6px',
     marginInlineEnd = '6px',
     dataTestId,
   } = props;
 
-  const {
-    convoId,
-    messageId,
-    direction: selectedDirection,
-    receivedAt,
-    isUnread,
-    expirationLength,
-    expirationTimestamp,
-    isExpired: _isExpired,
-  } = selected;
-
-  const direction = overrideDirection || selectedDirection;
-
   const { isExpired } = useIsExpired({
-    convoId,
-    messageId,
-    direction,
-    expirationTimestamp,
-    expirationLength,
-    isExpired: _isExpired,
+    convoId: selected?.convoId,
+    messageId: selected?.messageId,
+    direction: direction || selected?.direction,
+    expirationTimestamp: selected?.expirationTimestamp,
+    expirationLength: selected?.expirationLength,
+    isExpired: selected?.isExpired,
   });
 
-  if (isExpired) {
+  if (!selected || isExpired) {
     return null;
   }
+
+  const { messageId, receivedAt, isUnread, expirationLength, expirationTimestamp } = selected;
 
   const isIncoming = direction === 'incoming';
 

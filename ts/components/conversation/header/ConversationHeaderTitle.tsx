@@ -1,5 +1,5 @@
 import { isNumber } from 'lodash';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useConversationUsername } from '../../../hooks/useParamSelector';
 import { closeRightPanel, openRightPanel } from '../../../state/ducks/conversations';
@@ -52,14 +52,12 @@ export const ConversationHeaderTitle = () => {
 
   const [visibleSubtitle, setVisibleSubtitle] = useState<SubtitleStringsType>('notifications');
 
-  if (!selectedConvoKey) {
-    return null;
-  }
+  const subtitleStrings: SubtitleStrings = {};
+  const subtitleArray: Array<SubtitleStringsType> = useMemo(() => {
+    return [];
+  }, []);
 
   const { i18n } = window;
-
-  const subtitleStrings: SubtitleStrings = {};
-  const subtitleArray: Array<SubtitleStringsType> = [];
 
   const notificationSubtitle = notificationSetting
     ? i18n('notificationSubtitle', [notificationSetting])
@@ -67,6 +65,20 @@ export const ConversationHeaderTitle = () => {
   if (notificationSubtitle) {
     subtitleStrings.notifications = notificationSubtitle;
     subtitleArray.push('notifications');
+  }
+
+  useEffect(() => {
+    setVisibleSubtitle('notifications');
+  }, [convoName]);
+
+  useEffect(() => {
+    if (subtitleArray.indexOf(visibleSubtitle) < 0) {
+      setVisibleSubtitle('notifications');
+    }
+  }, [subtitleArray, visibleSubtitle]);
+
+  if (!selectedConvoKey) {
+    return null;
   }
 
   let memberCount = 0;
@@ -124,16 +136,6 @@ export const ConversationHeaderTitle = () => {
       dispatch(openRightPanel());
     }
   };
-
-  useEffect(() => {
-    setVisibleSubtitle('notifications');
-  }, [convoName]);
-
-  useEffect(() => {
-    if (subtitleArray.indexOf(visibleSubtitle) < 0) {
-      setVisibleSubtitle('notifications');
-    }
-  }, [subtitleArray, visibleSubtitle]);
 
   return (
     <div className="module-conversation-header__title-container">

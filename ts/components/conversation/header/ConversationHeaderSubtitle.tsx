@@ -7,9 +7,9 @@ import { SubtitleStrings, SubtitleStringsType } from './ConversationHeaderTitle'
 function loadDataTestId(currentSubtitle: SubtitleStringsType) {
   if (currentSubtitle === 'disappearingMessages') {
     return 'disappear-messages-type-and-time';
-  } else {
-    return 'conversation-header-subtitle';
   }
+
+  return 'conversation-header-subtitle';
 }
 
 export const StyledSubtitleContainer = styled.div`

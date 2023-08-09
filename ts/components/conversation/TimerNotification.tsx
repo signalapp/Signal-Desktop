@@ -1,5 +1,6 @@
 import React from 'react';
 
+import styled from 'styled-components';
 import { PropsForExpirationTimer } from '../../state/ducks/conversations';
 import { assertUnreachable } from '../../types/sqlSharedTypes';
 
@@ -7,7 +8,6 @@ import { ExpirableReadableMessage } from './message/message-item/ExpirableReadab
 import { SessionIcon } from '../icon';
 import { SpacerSM, Text } from '../basic/Text';
 import { Flex } from '../basic/Flex';
-import styled from 'styled-components';
 
 const StyledTimerNotification = styled(Flex)`
   text-align: center;
