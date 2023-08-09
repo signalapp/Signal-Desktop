@@ -27,7 +27,6 @@ import { useCallingActions } from '../ducks/calling';
 import { getActiveCallState } from '../selectors/calling';
 import { useCallHistoryActions } from '../ducks/callHistory';
 import { getCallHistoryEdition } from '../selectors/callHistory';
-import * as log from '../../logging/log';
 
 function getCallHistoryFilter(
   allConversations: Array<ConversationType>,
@@ -100,8 +99,8 @@ export function SmartCallsTab(): JSX.Element {
 
   const getCallHistoryGroupsCount = useCallback(
     async (options: CallHistoryFilterOptions) => {
-      // Informs us if the call history has changed
-      log.info('getCallHistoryGroupsCount: edition', callHistoryEdition);
+      // Used to fire effects when all calls are erased
+      void callHistoryEdition;
       const callHistoryFilter = getCallHistoryFilter(
         allConversations,
         regionCode,
@@ -113,7 +112,6 @@ export function SmartCallsTab(): JSX.Element {
       const count = await window.Signal.Data.getCallHistoryGroupsCount(
         callHistoryFilter
       );
-      log.info('getCallHistoryGroupsCount: count', count, callHistoryFilter);
       return count;
     },
     [allConversations, regionCode, callHistoryEdition]
@@ -124,8 +122,8 @@ export function SmartCallsTab(): JSX.Element {
       options: CallHistoryFilterOptions,
       pagination: CallHistoryPagination
     ) => {
-      // Informs us if the call history has changed
-      log.info('getCallHistoryGroups: edition', callHistoryEdition);
+      // Used to fire effects when all calls are erased
+      void callHistoryEdition;
       const callHistoryFilter = getCallHistoryFilter(
         allConversations,
         regionCode,
@@ -137,11 +135,6 @@ export function SmartCallsTab(): JSX.Element {
       const results = await window.Signal.Data.getCallHistoryGroups(
         callHistoryFilter,
         pagination
-      );
-      log.info(
-        'getCallHistoryGroupsCount: results',
-        results,
-        callHistoryFilter
       );
       return results;
     },
