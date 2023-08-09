@@ -177,11 +177,11 @@ describe('sql/getCallHistoryGroups', () => {
       callId: string,
       timestamp: number,
       mode: CallMode,
-      conversationId: string | UUIDStringType
+      peerId: string | UUIDStringType
     ) {
       return {
         callId,
-        peerId: conversationId,
+        peerId,
         ringerId: null,
         mode,
         type: CallType.Video,
@@ -220,5 +220,42 @@ describe('sql/getCallHistoryGroups', () => {
 
       assert.deepEqual(groups, [toGroup([call2])]);
     }
+  });
+
+  it('should support legacy call history with conversation.id', async () => {
+    const now = Date.now();
+
+    const conversationId = getUuid();
+
+    const conversation: ConversationAttributesType = {
+      type: 'private',
+      version: 0,
+      id: conversationId,
+    };
+
+    await saveConversation(conversation);
+
+    const call = {
+      callId: '1',
+      peerId: conversationId,
+      ringerId: null,
+      mode: CallMode.Direct,
+      type: CallType.Video,
+      direction: CallDirection.Incoming,
+      timestamp: now,
+      status: DirectCallStatus.Accepted,
+    };
+
+    await saveCallHistory(call);
+
+    const groups = await getCallHistoryGroups(
+      {
+        status: CallHistoryFilterStatus.All,
+        conversationIds: [conversation.id],
+      },
+      { offset: 0, limit: 0 }
+    );
+
+    assert.deepEqual(groups, [toGroup([call])]);
   });
 });

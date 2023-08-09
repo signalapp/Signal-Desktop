@@ -3356,6 +3356,7 @@ function getCallHistoryGroupDataSync(
 
       const [createTempTable] = sql`
         CREATE TEMP TABLE temp_callHistory_filtered_conversations (
+          id TEXT,
           uuid TEXT,
           groupId TEXT
         );
@@ -3365,14 +3366,14 @@ function getCallHistoryGroupDataSync(
 
       batchMultiVarQuery(db, conversationIds, ids => {
         const idList = sqlJoin(
-          ids.map(id => sqlFragment`(${id})`),
+          ids.map(id => sqlFragment`${id}`),
           ','
         );
 
         const [insertQuery, insertParams] = sql`
           INSERT INTO temp_callHistory_filtered_conversations
-            (uuid, groupId)
-          SELECT uuid, groupId
+            (id, uuid, groupId)
+          SELECT id, uuid, groupId
           FROM conversations
           WHERE conversations.id IN (${idList});
         `;
@@ -3383,9 +3384,11 @@ function getCallHistoryGroupDataSync(
 
     const innerJoin =
       conversationIds != null
-        ? sqlFragment`
+        ? // peerId can be a conversation id (legacy), a uuid, or a groupId
+          sqlFragment`
             INNER JOIN temp_callHistory_filtered_conversations ON (
-              temp_callHistory_filtered_conversations.uuid IS c.peerId
+              temp_callHistory_filtered_conversations.id IS c.peerId
+              OR temp_callHistory_filtered_conversations.uuid IS c.peerId
               OR temp_callHistory_filtered_conversations.groupId IS c.peerId
             )
           `

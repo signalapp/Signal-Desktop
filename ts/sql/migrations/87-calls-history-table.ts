@@ -36,7 +36,7 @@ export default function updateToSchemaVersion87(
 
       CREATE TABLE callsHistory (
         callId TEXT PRIMARY KEY,
-        peerId TEXT NOT NULL, -- conversation uuid | groupId | roomId
+        peerId TEXT NOT NULL, -- conversation id (legacy) | uuid | groupId | roomId
         ringerId TEXT DEFAULT NULL, -- ringer uuid
         mode TEXT NOT NULL, -- enum "Direct" | "Group"
         type TEXT NOT NULL, -- enum "Audio" | "Video" | "Group"
