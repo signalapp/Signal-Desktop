@@ -10,7 +10,6 @@ import * as KeyboardLayout from '../services/keyboardLayout';
 import { getHasPanelOpen } from '../state/selectors/conversations';
 import { isInFullScreenCall } from '../state/selectors/calling';
 import { isShowingAnyModal } from '../state/selectors/globalModals';
-import { shouldShowStoriesView } from '../state/selectors/stories';
 
 type KeyboardShortcutHandlerType = (ev: KeyboardEvent) => boolean;
 
@@ -36,10 +35,6 @@ function useHasGlobalModal(): boolean {
   return useSelector<StateType, boolean>(isShowingAnyModal);
 }
 
-function useHasStories(): boolean {
-  return useSelector<StateType, boolean>(shouldShowStoriesView);
-}
-
 function useHasCalling(): boolean {
   return useSelector<StateType, boolean>(isInFullScreenCall);
 }
@@ -47,10 +42,9 @@ function useHasCalling(): boolean {
 function useHasAnyOverlay(): boolean {
   const panels = useHasPanels();
   const globalModal = useHasGlobalModal();
-  const stories = useHasStories();
   const calling = useHasCalling();
 
-  return panels || globalModal || stories || calling;
+  return panels || globalModal || calling;
 }
 
 export function useActiveCallShortcuts(

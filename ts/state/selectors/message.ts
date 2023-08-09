@@ -54,14 +54,13 @@ import { BodyRange, hydrateRanges } from '../../types/BodyRange';
 import type { AssertProps } from '../../types/Util';
 import type { LinkPreviewType } from '../../types/message/LinkPreviews';
 import { getMentionsRegex } from '../../types/Message';
-import { CallMode } from '../../types/Calling';
 import { SignalService as Proto } from '../../protobuf';
 import type { AttachmentType } from '../../types/Attachment';
 import { isVoiceMessage, canBeDownloaded } from '../../types/Attachment';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 
 import type { CallingNotificationType } from '../../util/callingNotification';
-import { missingCaseError } from '../../util/missingCaseError';
+import { CallExternalState } from '../../util/callingNotification';
 import { getRecipients } from '../../util/getRecipients';
 import { getOwn } from '../../util/getOwn';
 import { isNotNil } from '../../util/isNotNil';
@@ -128,6 +127,9 @@ import type { AnyPaymentEvent } from '../../types/Payment';
 import { isPaymentNotificationEvent } from '../../types/Payment';
 import { getTitleNoDefault, getNumber } from '../../util/getTitle';
 import { getMessageSentTimestamp } from '../../util/getMessageSentTimestamp';
+import type { CallHistorySelectorType } from './callHistory';
+import { CallMode } from '../../types/Calling';
+import { CallDirection } from '../../types/CallDisposition';
 
 export { isIncoming, isOutgoing, isStory };
 
@@ -166,6 +168,7 @@ export type GetPropsForBubbleOptions = Readonly<{
   selectedMessageIds: ReadonlyArray<string> | undefined;
   regionCode?: string;
   callSelector: CallSelectorType;
+  callHistorySelector: CallHistorySelectorType;
   activeCall?: CallStateType;
   accountSelector: AccountSelectorType;
   contactNameColorSelector: ContactNameColorSelectorType;
@@ -1307,69 +1310,79 @@ export function isCallHistory(message: MessageWithUIFieldsType): boolean {
 
 export type GetPropsForCallHistoryOptions = Pick<
   GetPropsForBubbleOptions,
-  'conversationSelector' | 'callSelector' | 'activeCall'
+  | 'callSelector'
+  | 'activeCall'
+  | 'callHistorySelector'
+  | 'conversationSelector'
+  | 'ourConversationId'
 >;
 
 export function getPropsForCallHistory(
   message: MessageWithUIFieldsType,
   {
-    conversationSelector,
     callSelector,
+    callHistorySelector,
     activeCall,
+    conversationSelector,
+    ourConversationId,
   }: GetPropsForCallHistoryOptions
 ): CallingNotificationType {
-  const { callHistoryDetails } = message;
-  if (!callHistoryDetails) {
-    throw new Error('getPropsForCallHistory: Missing callHistoryDetails');
+  const { callId } = message;
+  strictAssert(callId != null, 'getPropsForCallHistory: Missing callId');
+  const callHistory = callHistorySelector(callId);
+  strictAssert(
+    callHistory != null,
+    'getPropsForCallHistory: Missing callHistory'
+  );
+
+  const conversation = conversationSelector(callHistory.peerId);
+  strictAssert(
+    conversation != null,
+    'getPropsForCallHistory: Missing conversation'
+  );
+
+  let callCreator: ConversationType | null = null;
+  if (callHistory.ringerId) {
+    callCreator = conversationSelector(callHistory.ringerId);
+  } else if (callHistory.direction === CallDirection.Outgoing) {
+    callCreator = conversationSelector(ourConversationId);
   }
 
-  const activeCallConversationId = activeCall?.conversationId;
+  const call = callSelector(callHistory.callId);
 
-  switch (callHistoryDetails.callMode) {
-    // Old messages weren't saved with a call mode.
-    case undefined:
-    case CallMode.Direct:
-      return {
-        ...callHistoryDetails,
-        activeCallConversationId,
-        callMode: CallMode.Direct,
-      };
-    case CallMode.Group: {
-      const { conversationId } = message;
-      if (!conversationId) {
-        throw new Error('getPropsForCallHistory: missing conversation ID');
-      }
+  let deviceCount = 0;
+  let maxDevices = Infinity;
+  if (
+    call?.callMode === CallMode.Group &&
+    call.peekInfo?.deviceCount != null &&
+    call.peekInfo?.maxDevices != null
+  ) {
+    deviceCount = call.peekInfo.deviceCount;
+    maxDevices = call.peekInfo.maxDevices;
+  }
 
-      let call = callSelector(conversationId);
-      if (call && call.callMode !== CallMode.Group) {
-        log.error(
-          'getPropsForCallHistory: there is an unexpected non-group call; pretending it does not exist'
-        );
-        call = undefined;
-      }
-
-      const creator = conversationSelector(callHistoryDetails.creatorUuid);
-      const deviceCount = call?.peekInfo?.deviceCount ?? 0;
-
-      return {
-        activeCallConversationId,
-        callMode: CallMode.Group,
-        conversationId,
-        creator,
-        deviceCount,
-        ended:
-          callHistoryDetails.eraId !== call?.peekInfo?.eraId || !deviceCount,
-        maxDevices: call?.peekInfo?.maxDevices ?? Infinity,
-        startedTime: callHistoryDetails.startedTime,
-      };
+  let callExternalState: CallExternalState;
+  if (call == null || deviceCount === 0) {
+    callExternalState = CallExternalState.Ended;
+  } else if (activeCall != null) {
+    if (activeCall.conversationId === call.conversationId) {
+      callExternalState = CallExternalState.Joined;
+    } else {
+      callExternalState = CallExternalState.InOtherCall;
     }
-    default:
-      throw new Error(
-        `getPropsForCallHistory: missing case ${missingCaseError(
-          callHistoryDetails
-        )}`
-      );
+  } else if (deviceCount >= maxDevices) {
+    callExternalState = CallExternalState.Full;
+  } else {
+    callExternalState = CallExternalState.Active;
   }
+
+  return {
+    callHistory,
+    callCreator,
+    callExternalState,
+    deviceCount,
+    maxDevices,
+  };
 }
 
 // Profile Change

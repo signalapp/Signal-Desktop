@@ -156,9 +156,7 @@ describe('pnp/username', function needsName() {
     const window = await app.getWindow();
 
     debug('opening avatar context menu');
-    await window
-      .locator('.module-main-header .module-Avatar__contents')
-      .click();
+    await window.getByRole('button', { name: 'Profile' }).click();
 
     debug('opening profile editor');
     await window
@@ -288,7 +286,7 @@ describe('pnp/username', function needsName() {
     const window = await app.getWindow();
 
     debug('entering username into search field');
-    await window.locator('button[aria-label="New chat"]').click();
+    await window.getByRole('button', { name: 'New chat' }).click();
 
     const searchInput = window.locator('.module-SearchInput__container input');
     await searchInput.type(CARL_USERNAME);

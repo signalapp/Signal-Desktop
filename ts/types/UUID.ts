@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { v4 as generateUUID } from 'uuid';
-
 import { strictAssert } from '../util/assert';
 
 export type UUIDStringType =

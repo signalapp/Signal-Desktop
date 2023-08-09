@@ -7,9 +7,21 @@ import { action } from '@storybook/addon-actions';
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
 import { CallMode } from '../../types/Calling';
-import { CallingNotification } from './CallingNotification';
-import type { CallingNotificationType } from '../../util/callingNotification';
-import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
+import { CallingNotification, type PropsType } from './CallingNotification';
+import {
+  getDefaultConversation,
+  getDefaultGroup,
+} from '../../test-both/helpers/getDefaultConversation';
+import type { CallStatus } from '../../types/CallDisposition';
+import {
+  CallType,
+  CallDirection,
+  GroupCallStatus,
+  DirectCallStatus,
+} from '../../types/CallDisposition';
+import { UUID } from '../../types/UUID';
+import type { ConversationType } from '../../state/ducks/conversations';
+import { CallExternalState } from '../../util/callingNotification';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -17,15 +29,59 @@ export default {
   title: 'Components/Conversation/CallingNotification',
 };
 
-const getCommonProps = () => ({
-  conversationId: 'fake-conversation-id',
-  i18n,
-  isNextItemCallingNotification: false,
-  messageId: 'fake-message-id',
-  now: Date.now(),
-  returnToActiveCall: action('returnToActiveCall'),
-  startCallingLobby: action('startCallingLobby'),
-});
+const getCommonProps = (options: {
+  mode: CallMode;
+  type?: CallType;
+  direction?: CallDirection;
+  status?: CallStatus;
+  callCreator?: ConversationType | null;
+  callExternalState?: CallExternalState;
+}): PropsType => {
+  const {
+    mode,
+    type = mode === CallMode.Group ? CallType.Group : CallType.Audio,
+    direction = CallDirection.Outgoing,
+    status = mode === CallMode.Group
+      ? GroupCallStatus.GenericGroupCall
+      : DirectCallStatus.Pending,
+    callCreator = getDefaultConversation({
+      uuid: UUID.generate().toString(),
+      isMe: direction === CallDirection.Outgoing,
+    }),
+    callExternalState = CallExternalState.Active,
+  } = options;
+
+  const conversation =
+    mode === CallMode.Group ? getDefaultGroup() : getDefaultConversation();
+
+  return {
+    conversationId: conversation.id,
+    i18n,
+    isNextItemCallingNotification: false,
+    returnToActiveCall: action('returnToActiveCall'),
+    startCallingLobby: action('startCallingLobby'),
+    callHistory: {
+      callId: '123',
+      peerId: conversation.id,
+      ringerId: callCreator?.uuid ?? null,
+      mode,
+      type,
+      direction,
+      timestamp: Date.now(),
+      status,
+    },
+    callCreator,
+    callExternalState,
+    maxDevices: mode === CallMode.Group ? 15 : 0,
+    deviceCount:
+      // eslint-disable-next-line no-nested-ternary
+      mode === CallMode.Group
+        ? callExternalState === CallExternalState.Full
+          ? 15
+          : 13
+        : Infinity,
+  };
+};
 
 /*
 <CallingNotification
@@ -42,13 +98,12 @@ const getCommonProps = () => ({
 export function AcceptedIncomingAudioCall(): JSX.Element {
   return (
     <CallingNotification
-      {...getCommonProps()}
-      acceptedTime={1618894800000}
-      callMode={CallMode.Direct}
-      endedTime={1618894800000}
-      wasDeclined={false}
-      wasIncoming
-      wasVideoCall={false}
+      {...getCommonProps({
+        mode: CallMode.Direct,
+        type: CallType.Audio,
+        direction: CallDirection.Incoming,
+        status: DirectCallStatus.Accepted,
+      })}
     />
   );
 }
@@ -56,13 +111,13 @@ export function AcceptedIncomingAudioCall(): JSX.Element {
 export function AcceptedIncomingVideoCall(): JSX.Element {
   return (
     <CallingNotification
-      {...getCommonProps()}
-      acceptedTime={1618894800000}
-      callMode={CallMode.Direct}
-      endedTime={1618894800000}
-      wasDeclined={false}
-      wasIncoming
-      wasVideoCall
+      {...getCommonProps({
+        mode: CallMode.Direct,
+        type: CallType.Video,
+        direction: CallDirection.Incoming,
+        status: DirectCallStatus.Accepted,
+        callExternalState: CallExternalState.Ended,
+      })}
     />
   );
 }
@@ -70,13 +125,12 @@ export function AcceptedIncomingVideoCall(): JSX.Element {
 export function DeclinedIncomingAudioCall(): JSX.Element {
   return (
     <CallingNotification
-      {...getCommonProps()}
-      acceptedTime={undefined}
-      callMode={CallMode.Direct}
-      endedTime={1618894800000}
-      wasDeclined
-      wasIncoming
-      wasVideoCall={false}
+      {...getCommonProps({
+        mode: CallMode.Direct,
+        type: CallType.Audio,
+        direction: CallDirection.Incoming,
+        status: DirectCallStatus.Declined,
+      })}
     />
   );
 }
@@ -84,13 +138,12 @@ export function DeclinedIncomingAudioCall(): JSX.Element {
 export function DeclinedIncomingVideoCall(): JSX.Element {
   return (
     <CallingNotification
-      {...getCommonProps()}
-      acceptedTime={undefined}
-      callMode={CallMode.Direct}
-      endedTime={1618894800000}
-      wasDeclined
-      wasIncoming
-      wasVideoCall
+      {...getCommonProps({
+        mode: CallMode.Direct,
+        type: CallType.Video,
+        direction: CallDirection.Incoming,
+        status: DirectCallStatus.Declined,
+      })}
     />
   );
 }
@@ -98,13 +151,12 @@ export function DeclinedIncomingVideoCall(): JSX.Element {
 export function AcceptedOutgoingAudioCall(): JSX.Element {
   return (
     <CallingNotification
-      {...getCommonProps()}
-      acceptedTime={1618894800000}
-      callMode={CallMode.Direct}
-      endedTime={1618894800000}
-      wasDeclined={false}
-      wasIncoming={false}
-      wasVideoCall={false}
+      {...getCommonProps({
+        mode: CallMode.Direct,
+        type: CallType.Audio,
+        direction: CallDirection.Outgoing,
+        status: DirectCallStatus.Accepted,
+      })}
     />
   );
 }
@@ -112,13 +164,12 @@ export function AcceptedOutgoingAudioCall(): JSX.Element {
 export function AcceptedOutgoingVideoCall(): JSX.Element {
   return (
     <CallingNotification
-      {...getCommonProps()}
-      acceptedTime={1618894800000}
-      callMode={CallMode.Direct}
-      endedTime={1618894800000}
-      wasDeclined={false}
-      wasIncoming={false}
-      wasVideoCall
+      {...getCommonProps({
+        mode: CallMode.Direct,
+        type: CallType.Video,
+        direction: CallDirection.Outgoing,
+        status: DirectCallStatus.Accepted,
+      })}
     />
   );
 }
@@ -126,13 +177,12 @@ export function AcceptedOutgoingVideoCall(): JSX.Element {
 export function DeclinedOutgoingAudioCall(): JSX.Element {
   return (
     <CallingNotification
-      {...getCommonProps()}
-      acceptedTime={undefined}
-      callMode={CallMode.Direct}
-      endedTime={1618894800000}
-      wasDeclined
-      wasIncoming={false}
-      wasVideoCall={false}
+      {...getCommonProps({
+        mode: CallMode.Direct,
+        type: CallType.Audio,
+        direction: CallDirection.Outgoing,
+        status: DirectCallStatus.Declined,
+      })}
     />
   );
 }
@@ -140,42 +190,37 @@ export function DeclinedOutgoingAudioCall(): JSX.Element {
 export function DeclinedOutgoingVideoCall(): JSX.Element {
   return (
     <CallingNotification
-      {...getCommonProps()}
-      acceptedTime={undefined}
-      callMode={CallMode.Direct}
-      endedTime={1618894800000}
-      wasDeclined
-      wasIncoming={false}
-      wasVideoCall
+      {...getCommonProps({
+        mode: CallMode.Direct,
+        type: CallType.Video,
+        direction: CallDirection.Outgoing,
+        status: DirectCallStatus.Declined,
+      })}
     />
   );
 }
 
 export function TwoIncomingDirectCallsBackToBack(): JSX.Element {
-  const call1: CallingNotificationType = {
-    callMode: CallMode.Direct,
-    wasIncoming: true,
-    wasVideoCall: true,
-    wasDeclined: false,
-    acceptedTime: 1618894800000,
-    endedTime: 1618894800000,
-  };
-  const call2: CallingNotificationType = {
-    callMode: CallMode.Direct,
-    wasIncoming: true,
-    wasVideoCall: false,
-    wasDeclined: false,
-    endedTime: 1618894800000,
-  };
-
   return (
     <>
       <CallingNotification
-        {...getCommonProps()}
-        {...call1}
+        {...getCommonProps({
+          mode: CallMode.Direct,
+          type: CallType.Video,
+          direction: CallDirection.Incoming,
+          status: DirectCallStatus.Declined,
+          callExternalState: CallExternalState.Ended,
+        })}
         isNextItemCallingNotification
       />
-      <CallingNotification {...getCommonProps()} {...call2} />
+      <CallingNotification
+        {...getCommonProps({
+          mode: CallMode.Direct,
+          type: CallType.Audio,
+          direction: CallDirection.Incoming,
+          status: DirectCallStatus.Declined,
+        })}
+      />
     </>
   );
 }
@@ -185,30 +230,26 @@ TwoIncomingDirectCallsBackToBack.story = {
 };
 
 export function TwoOutgoingDirectCallsBackToBack(): JSX.Element {
-  const call1: CallingNotificationType = {
-    callMode: CallMode.Direct,
-    wasIncoming: false,
-    wasVideoCall: true,
-    wasDeclined: false,
-    acceptedTime: 1618894800000,
-    endedTime: 1618894800000,
-  };
-  const call2: CallingNotificationType = {
-    callMode: CallMode.Direct,
-    wasIncoming: false,
-    wasVideoCall: false,
-    wasDeclined: false,
-    endedTime: 1618894800000,
-  };
-
   return (
     <>
       <CallingNotification
-        {...getCommonProps()}
-        {...call1}
+        {...getCommonProps({
+          mode: CallMode.Direct,
+          type: CallType.Video,
+          direction: CallDirection.Outgoing,
+          status: DirectCallStatus.Declined,
+          callExternalState: CallExternalState.Ended,
+        })}
         isNextItemCallingNotification
       />
-      <CallingNotification {...getCommonProps()} {...call2} />
+      <CallingNotification
+        {...getCommonProps({
+          mode: CallMode.Direct,
+          type: CallType.Audio,
+          direction: CallDirection.Outgoing,
+          status: DirectCallStatus.Declined,
+        })}
+      />
     </>
   );
 }
@@ -220,13 +261,13 @@ TwoOutgoingDirectCallsBackToBack.story = {
 export function GroupCallByUnknown(): JSX.Element {
   return (
     <CallingNotification
-      {...getCommonProps()}
-      callMode={CallMode.Group}
-      creator={undefined}
-      deviceCount={15}
-      ended={false}
-      maxDevices={16}
-      startedTime={1618894800000}
+      {...getCommonProps({
+        mode: CallMode.Group,
+        type: CallType.Group,
+        direction: CallDirection.Incoming,
+        status: GroupCallStatus.Accepted,
+        callCreator: null,
+      })}
     />
   );
 }
@@ -234,13 +275,12 @@ export function GroupCallByUnknown(): JSX.Element {
 export function GroupCallByYou(): JSX.Element {
   return (
     <CallingNotification
-      {...getCommonProps()}
-      callMode={CallMode.Group}
-      creator={getDefaultConversation({ isMe: true, title: 'Alicia' })}
-      deviceCount={15}
-      ended={false}
-      maxDevices={16}
-      startedTime={1618894800000}
+      {...getCommonProps({
+        mode: CallMode.Group,
+        type: CallType.Group,
+        direction: CallDirection.Outgoing,
+        status: GroupCallStatus.Accepted,
+      })}
     />
   );
 }
@@ -248,31 +288,28 @@ export function GroupCallByYou(): JSX.Element {
 export function GroupCallBySomeone(): JSX.Element {
   return (
     <CallingNotification
-      {...getCommonProps()}
-      callMode={CallMode.Group}
-      creator={getDefaultConversation({ isMe: false, title: 'Alicia' })}
-      deviceCount={15}
-      ended={false}
-      maxDevices={16}
-      startedTime={1618894800000}
+      {...getCommonProps({
+        mode: CallMode.Group,
+        type: CallType.Group,
+        direction: CallDirection.Incoming,
+        status: GroupCallStatus.GenericGroupCall,
+      })}
     />
   );
 }
 
 export function GroupCallStartedBySomeoneWithALongName(): JSX.Element {
-  const longName = '😤🪐🦆'.repeat(50);
-
   return (
     <CallingNotification
-      {...getCommonProps()}
-      callMode={CallMode.Group}
-      creator={getDefaultConversation({
-        title: longName,
+      {...getCommonProps({
+        mode: CallMode.Group,
+        type: CallType.Group,
+        direction: CallDirection.Incoming,
+        status: GroupCallStatus.GenericGroupCall,
+        callCreator: getDefaultConversation({
+          name: '😤🪐🦆'.repeat(50),
+        }),
       })}
-      deviceCount={15}
-      ended={false}
-      maxDevices={16}
-      startedTime={1618894800000}
     />
   );
 }
@@ -284,12 +321,13 @@ GroupCallStartedBySomeoneWithALongName.story = {
 export function GroupCallActiveCallFull(): JSX.Element {
   return (
     <CallingNotification
-      {...getCommonProps()}
-      callMode={CallMode.Group}
-      deviceCount={16}
-      ended={false}
-      maxDevices={16}
-      startedTime={1618894800000}
+      {...getCommonProps({
+        mode: CallMode.Group,
+        type: CallType.Group,
+        direction: CallDirection.Incoming,
+        status: GroupCallStatus.GenericGroupCall,
+        callExternalState: CallExternalState.Full,
+      })}
     />
   );
 }
@@ -301,12 +339,13 @@ GroupCallActiveCallFull.story = {
 export function GroupCallEnded(): JSX.Element {
   return (
     <CallingNotification
-      {...getCommonProps()}
-      callMode={CallMode.Group}
-      deviceCount={0}
-      ended
-      maxDevices={16}
-      startedTime={1618894800000}
+      {...getCommonProps({
+        mode: CallMode.Group,
+        type: CallType.Group,
+        direction: CallDirection.Incoming,
+        status: GroupCallStatus.GenericGroupCall,
+        callExternalState: CallExternalState.Ended,
+      })}
     />
   );
 }

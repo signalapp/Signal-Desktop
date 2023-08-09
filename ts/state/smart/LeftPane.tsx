@@ -41,6 +41,7 @@ import {
   getPreferredLeftPaneWidth,
   getUsernamesEnabled,
   getContactManagementEnabled,
+  getNavTabsCollapsed,
 } from '../selectors/items';
 import {
   getComposeAvatarData,
@@ -70,7 +71,6 @@ import {
   getGroupSizeHardLimit,
 } from '../../groups/limits';
 
-import { SmartMainHeader } from './MainHeader';
 import { SmartMessageSearchResult } from './MessageSearchResult';
 import { SmartNetworkStatus } from './NetworkStatus';
 import { SmartRelinkDialog } from './RelinkDialog';
@@ -80,9 +80,6 @@ import { SmartUpdateDialog } from './UpdateDialog';
 import { SmartCaptchaDialog } from './CaptchaDialog';
 import { SmartCrashReportDialog } from './CrashReportDialog';
 
-function renderMainHeader(): JSX.Element {
-  return <SmartMainHeader />;
-}
 function renderMessageSearchResult(id: string): JSX.Element {
   return <SmartMessageSearchResult id={id} />;
 }
@@ -229,6 +226,7 @@ const mapStateToProps = (state: StateType) => {
     unsupportedOSDialogType,
 
     modeSpecificProps: getModeSpecificProps(state),
+    navTabsCollapsed: getNavTabsCollapsed(state),
     preferredWidthFromStorage: getPreferredLeftPaneWidth(state),
     selectedConversationId: getSelectedConversationId(state),
     targetedMessageId: getTargetedMessage(state)?.id,
@@ -240,7 +238,6 @@ const mapStateToProps = (state: StateType) => {
     regionCode: getRegionCode(state),
     challengeStatus: state.network.challengeStatus,
     crashReportCount: state.crashReports.count,
-    renderMainHeader,
     renderMessageSearchResult,
     renderNetworkStatus,
     renderRelinkDialog,

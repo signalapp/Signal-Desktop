@@ -299,6 +299,34 @@
     "messageformat": "Chats",
     "description": "Shown as a header for non-pinned conversations in the left pane"
   },
+  "icu:NavTabsToggle__showTabs": {
+    "messageformat": "Show Tabs",
+    "description": "Show in the left pane when the nav tabs are hidden, shows the nav tabs"
+  },
+  "icu:NavTabsToggle__hideTabs": {
+    "messageformat": "Hide Tabs",
+    "description": "Show in the nav tabs when the nav tabs are visible, hides the nav tabs"
+  },
+  "icu:NavTabs__ItemIconLabel--UnreadCount": {
+    "messageformat": "{count, number} unread",
+    "description": "Nav Tabs > Unread badge > Accessibility Text"
+  },
+  "icu:NavTabs__ItemIconLabel--MarkedUnread": {
+    "messageformat": "Marked unread",
+    "description": "Nav Tabs > Unread badge > when conversation is marked unread > Accessibility Text"
+  },
+  "icu:NavTabs__ItemLabel--Settings": {
+    "messageformat": "Settings",
+    "description": "Nav Tabs > Settings Button > Accessibility Text"
+  },
+  "icu:NavTabs__ItemLabel--Profile": {
+    "messageformat": "Profile",
+    "description": "Nav Tabs > Profile Button > Accessibility Text"
+  },
+  "icu:NavSidebar__BackButtonLabel": {
+    "messageformat": "Back",
+    "description": "Shown in the sidebar header when on a nested panel within the current sidebar, takes the user back to the previous step or default sidebar state"
+  },
   "icu:archiveHelperText": {
     "messageformat": "These chats are archived and will only appear in the Inbox if new messages are received.",
     "description": "Shown at the top of the archived conversations list in the left pane"
@@ -2150,6 +2178,10 @@
     "messageformat": "View Safety Number",
     "description": "In conversation details, label for button to view safety number, opens safety number modal"
   },
+  "icu:ConversationDetails__HeaderButton--Message": {
+    "messageformat": "Message",
+    "description": "In conversation details, label for button to switch to the conversation view in order to draft a message in that converation"
+  },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "View Safety Number",
     "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
@@ -3382,6 +3414,14 @@
   "icu:incomingVideoCall": {
     "messageformat": "Incoming video call...",
     "description": "Shown in both the incoming call bar and notification for an incoming video call"
+  },
+  "icu:outgoingAudioCall": {
+    "messageformat": "Outgoing voice call",
+    "description": "Shown in the timeline for an outgoing voice call"
+  },
+  "icu:outgoingVideoCall": {
+    "messageformat": "Outgoing video call",
+    "description": "Shown in the timeline for an outgoing video call"
   },
   "icu:incomingGroupCall__ringing-you": {
     "messageformat": "{ringer} is calling you",
@@ -6594,6 +6634,110 @@
   "icu:ResendMessageEdit__button": {
     "messageformat": "Send again",
     "description": "Button text for the confirmation dialog shown to user when attempting to resend message edit"
+  },
+  "icu:StoriesTab__MoreActionsLabel": {
+    "messageformat": "More actions",
+    "description": "Stories Tab > More Actions Button (opens context menu) > Accessibility Label"
+  },
+  "icu:CallsTab__HeaderTitle--CallsList": {
+    "messageformat": "Calls",
+    "description": "Calls Tab > Header > Title > On Calls List screen"
+  },
+  "icu:CallsTab__HeaderTitle--NewCall": {
+    "messageformat": "New Call",
+    "description": "Calls Tab > Header > Title > On New Call screen"
+  },
+  "icu:CallsTab__NewCallActionLabel": {
+    "messageformat": "New Call",
+    "description": "Calls Tab > New Call Action Button > Accessibility Label"
+  },
+  "icu:CallsTab__MoreActionsLabel": {
+    "messageformat": "More actions",
+    "description": "Calls Tab > More Actions Button (opens context menu) > Accessibility Label"
+  },
+  "icu:CallsTab__ClearCallHistoryLabel": {
+    "messageformat": "Clear call history",
+    "description": "Calls Tab > More Actions Context Menu > Clear Call History Button Label"
+  },
+  "icu:CallsTab__ConfirmClearCallHistory__Title": {
+    "messageformat": "Clear call history?",
+    "description": "Calls Tab > Confirm Clear Call History Dialog > Title"
+  },
+  "icu:CallsTab__ConfirmClearCallHistory__Body": {
+    "messageformat": "This will permanently delete all call history",
+    "description": "Calls Tab > Confirm Clear Call History Dialog > Body Text"
+  },
+  "icu:CallsTab__ConfirmClearCallHistory__ConfirmButton": {
+    "messageformat": "Clear",
+    "description": "Calls Tab > Confirm Clear Call History Dialog > Confirm Button"
+  },
+  "icu:CallsTab__ToastCallHistoryCleared": {
+    "messageformat": "Call history cleared",
+    "description": "Calls Tab > Clear Call History > Toast"
+  },
+  "icu:CallsTab__EmptyStateText": {
+    "messageformat": "Click to view or start a call",
+    "description": "Calls Tab > When no call is selected > Empty state > Call to action text"
+  },
+  "icu:CallsList__SearchInputPlaceholder": {
+    "messageformat": "Search",
+    "description": "Calls Tab > Calls List > Search Input > Placeholder"
+  },
+  "icu:CallsList__ToggleFilterByMissedLabel": {
+    "messageformat": "Toggle filter by missed",
+    "description": "Calls Tab > Calls List > Toggle search filter by missed > Accessibility label"
+  },
+  "icu:CallsList__ToggleFilterByMissed__RoleDescription": {
+    "messageformat": "Toggle",
+    "description": "Calls Tab > Calls List > Toggle search filter by missed > Accessibility role description ('A toggle button')"
+  },
+  "icu:CallsList__EmptyState--noQuery": {
+    "messageformat": "No recent calls. Get started by calling a friend.",
+    "description": "Calls Tab > Calls List > When no results found > With no search query"
+  },
+  "icu:CallsList__EmptyState--hasQuery": {
+    "messageformat": "No results for “{query}”",
+    "description": "Calls Tab > Calls List > When no results found > With a search query"
+  },
+  "icu:CallsList__ItemCallInfo--Incoming": {
+    "messageformat": "Incoming",
+    "description": "Calls Tab > Calls List > Call Item > Call Status > When call was accepted and was incoming"
+  },
+  "icu:CallsList__ItemCallInfo--Outgoing": {
+    "messageformat": "Outgoing",
+    "description": "Calls Tab > Calls List > Call Item > Call Status > When call was accepted and was outgoing"
+  },
+  "icu:CallsList__ItemCallInfo--Missed": {
+    "messageformat": "Missed",
+    "description": "Calls Tab > Calls List > Call Item > Call Status > When call was missed"
+  },
+  "icu:CallsList__ItemCallInfo--GroupCall": {
+    "messageformat": "Group call",
+    "description": "Calls Tab > Calls List > Call Item > Call Status > When group call is in its default state"
+  },
+  "icu:CallsNewCall__EmptyState--noQuery": {
+    "messageformat": "No recent conversations.",
+    "description": "Calls Tab > New Call > Conversations List > When no results found > With no search query"
+  },
+  "icu:CallsNewCall__EmptyState--hasQuery": {
+    "messageformat": "No results for “{query}”",
+    "description": "Calls Tab > New Call > Conversations List > When no results found > With a search query"
+  },
+  "icu:CallHistory__Description--Default": {
+    "messageformat": "{direction, select, Outgoing {Outgoing} other {Incoming}} {type, select, Audio {voice} Video {video} Group {group} other {}} call",
+    "description": "Call History > Short description of call > When call was not missed or declined (generally accepted)"
+  },
+  "icu:CallHistory__Description--Missed": {
+    "messageformat": "Missed {type, select, Audio {voice} Video {video} Group {group} other {}} call",
+    "description": "Call History > Short description of call > When incoming call was missed"
+  },
+  "icu:CallHistory__Description--Unanswered": {
+    "messageformat": "Unanswered {type, select, Audio {voice} Video {video} Group {group} other {}} call",
+    "description": "Call History > Short description of call > When outgoing call was unanswered"
+  },
+  "icu:CallHistory__Description--Declined": {
+    "messageformat": "Declined {type, select, Audio {voice} Video {video} Group {group} other {}} call",
+    "description": "Call History > Short description of call > When call was declined"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "What's New",

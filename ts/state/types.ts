@@ -6,6 +6,7 @@ import type { actions as app } from './ducks/app';
 import type { actions as audioPlayer } from './ducks/audioPlayer';
 import type { actions as audioRecorder } from './ducks/audioRecorder';
 import type { actions as badges } from './ducks/badges';
+import type { actions as callHistory } from './ducks/callHistory';
 import type { actions as calling } from './ducks/calling';
 import type { actions as composer } from './ducks/composer';
 import type { actions as conversations } from './ducks/conversations';
@@ -35,6 +36,7 @@ export type ReduxActions = {
   audioPlayer: typeof audioPlayer;
   audioRecorder: typeof audioRecorder;
   badges: typeof badges;
+  callHistory: typeof callHistory;
   calling: typeof calling;
   composer: typeof composer;
   conversations: typeof conversations;

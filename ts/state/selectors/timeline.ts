@@ -21,6 +21,7 @@ import {
 } from './user';
 import { getActiveCall, getCallSelector } from './calling';
 import { getPropsForBubble } from './message';
+import { getCallHistorySelector } from './callHistory';
 
 export const getTimelineItem = (
   state: StateType,
@@ -45,6 +46,7 @@ export const getTimelineItem = (
   const ourPNI = getUserPNI(state);
   const ourConversationId = getUserConversationId(state);
   const callSelector = getCallSelector(state);
+  const callHistorySelector = getCallHistorySelector(state);
   const activeCall = getActiveCall(state);
   const accountSelector = getAccountSelector(state);
   const contactNameColorSelector = getContactNameColorSelector(state);
@@ -61,6 +63,7 @@ export const getTimelineItem = (
     targetedMessageCounter: targetedMessage?.counter,
     contactNameColorSelector,
     callSelector,
+    callHistorySelector,
     activeCall,
     accountSelector,
     selectedMessageIds,

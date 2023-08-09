@@ -5,7 +5,7 @@ import * as React from 'react';
 import { useSelector } from 'react-redux';
 import type { StateType } from '../reducer';
 import { useActions as usePreferredReactionsActions } from '../ducks/preferredReactions';
-import { useActions as useItemsActions } from '../ducks/items';
+import { useItemsActions } from '../ducks/items';
 
 import { getIntl } from '../selectors/user';
 import { getPreferredReactionEmoji } from '../selectors/items';

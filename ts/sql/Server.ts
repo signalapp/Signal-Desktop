@@ -10,6 +10,7 @@ import { randomBytes } from 'crypto';
 import type { Database, Statement } from '@signalapp/better-sqlite3';
 import SQL from '@signalapp/better-sqlite3';
 import pProps from 'p-props';
+import { z } from 'zod';
 
 import type { Dictionary } from 'lodash';
 import {
@@ -60,6 +61,7 @@ import type {
   QueryFragment,
 } from './util';
 import {
+  sqlConstant,
   sqlJoin,
   sqlFragment,
   sql,
@@ -142,6 +144,18 @@ import {
   SNIPPET_RIGHT_PLACEHOLDER,
   SNIPPET_TRUNCATION_PLACEHOLDER,
 } from '../util/search';
+import type {
+  CallHistoryDetails,
+  CallHistoryFilter,
+  CallHistoryGroup,
+  CallHistoryPagination,
+} from '../types/CallDisposition';
+import {
+  DirectCallStatus,
+  callHistoryGroupSchema,
+  CallHistoryFilterStatus,
+  callHistoryDetailsSchema,
+} from '../types/CallDisposition';
 
 type ConversationRow = Readonly<{
   json: string;
@@ -288,7 +302,13 @@ const dataInterface: ServerInterface = {
   getConversationRangeCenteredOnMessage,
   getConversationMessageStats,
   getLastConversationMessage,
+  getAllCallHistory,
+  clearCallHistory,
   getCallHistoryMessageByCallId,
+  getCallHistory,
+  getCallHistoryGroupsCount,
+  getCallHistoryGroups,
+  saveCallHistory,
   hasGroupCallHistoryMessage,
   migrateConversationMessages,
   getMessagesBetween,
@@ -1755,32 +1775,32 @@ async function searchMessages({
       // Note: this groups the results by rowid, so even if one message mentions multiple
       // matching UUIDs, we only return one to be highlighted
       const [sqlQuery, params] = sql`
-        SELECT 
+        SELECT
           messages.rowid as rowid,
-          COALESCE(messages.json, ftsResults.json) as json, 
+          COALESCE(messages.json, ftsResults.json) as json,
           COALESCE(messages.sent_at, ftsResults.sent_at) as sent_at,
           COALESCE(messages.received_at, ftsResults.received_at) as received_at,
-          ftsResults.ftsSnippet, 
-          mentionUuid, 
-          start as mentionStart, 
+          ftsResults.ftsSnippet,
+          mentionUuid,
+          start as mentionStart,
           length as mentionLength
         FROM mentions
-        INNER JOIN messages 
-        ON 
-          messages.id = mentions.messageId 
+        INNER JOIN messages
+        ON
+          messages.id = mentions.messageId
           AND mentions.mentionUuid IN (
             ${sqlJoin(contactUuidsMatchingQuery, ', ')}
-          ) 
+          )
           AND ${
             conversationId
               ? sqlFragment`messages.conversationId = ${conversationId}`
               : '1 IS 1'
           }
-          AND messages.isViewOnce IS NOT 1 
+          AND messages.isViewOnce IS NOT 1
           AND messages.storyId IS NULL
         FULL OUTER JOIN (
           ${ftsFragment}
-        ) as ftsResults 
+        ) as ftsResults
         USING (rowid)
         GROUP BY rowid
         ORDER BY received_at DESC, sent_at DESC
@@ -1910,6 +1930,7 @@ function saveMessageSync(
     sourceUuid,
     sourceDevice,
     storyId,
+    callId,
     type,
     readStatus,
     expireTimer,
@@ -1967,6 +1988,7 @@ function saveMessageSync(
     sourceUuid: sourceUuid || null,
     sourceDevice: sourceDevice || null,
     storyId: storyId || null,
+    callId: callId || null,
     type: type || null,
     readStatus: readStatus ?? null,
     seenStatus: seenStatus ?? SeenStatus.NotApplicable,
@@ -1999,6 +2021,7 @@ function saveMessageSync(
         sourceUuid = $sourceUuid,
         sourceDevice = $sourceDevice,
         storyId = $storyId,
+        callId = $callId,
         type = $type,
         readStatus = $readStatus,
         seenStatus = $seenStatus
@@ -2044,6 +2067,7 @@ function saveMessageSync(
       sourceUuid,
       sourceDevice,
       storyId,
+      callId,
       type,
       readStatus,
       seenStatus
@@ -2070,6 +2094,7 @@ function saveMessageSync(
       $sourceUuid,
       $sourceDevice,
       $storyId,
+      $callId,
       $type,
       $readStatus,
       $seenStatus
@@ -3224,30 +3249,366 @@ async function getConversationRangeCenteredOnMessage(
   })();
 }
 
-async function getCallHistoryMessageByCallId(
-  conversationId: string,
-  callId: string
-): Promise<string | void> {
+async function getAllCallHistory(): Promise<ReadonlyArray<CallHistoryDetails>> {
+  const db = getInstance();
+  const [query] = sql`
+    SELECT * FROM callsHistory;
+  `;
+  return db.prepare(query).all();
+}
+
+async function clearCallHistory(
+  beforeTimestamp: number
+): Promise<Array<string>> {
+  const db = getInstance();
+  return db.transaction(() => {
+    const whereMessages = sqlFragment`
+      WHERE messages.type IS 'call-history'
+      AND messages.sent_at <= ${beforeTimestamp};
+    `;
+
+    const [selectMessagesQuery, selectMessagesParams] = sql`
+      SELECT id FROM messages ${whereMessages}
+    `;
+    const [clearMessagesQuery, clearMessagesParams] = sql`
+      DELETE FROM messages ${whereMessages}
+    `;
+    const [clearCallsHistoryQuery, clearCallsHistoryParams] = sql`
+      UPDATE callsHistory
+      SET
+        status = ${DirectCallStatus.Deleted},
+        timestamp = ${Date.now()}
+      WHERE callsHistory.timestamp <= ${beforeTimestamp};
+    `;
+
+    const messageIds = db
+      .prepare(selectMessagesQuery)
+      .pluck()
+      .all(selectMessagesParams);
+    db.prepare(clearMessagesQuery).run(clearMessagesParams);
+    try {
+      db.prepare(clearCallsHistoryQuery).run(clearCallsHistoryParams);
+    } catch (error) {
+      logger.error(error, error.message);
+      throw error;
+    }
+
+    return messageIds;
+  })();
+}
+
+async function getCallHistoryMessageByCallId(options: {
+  conversationId: string;
+  callId: string;
+}): Promise<MessageType | undefined> {
+  const db = getInstance();
+  const [query, params] = sql`
+    SELECT json
+    FROM messages
+    WHERE conversationId = ${options.conversationId}
+      AND type = 'call-history'
+      AND callId = ${options.callId}
+  `;
+  const row = db.prepare(query).get(params);
+  if (row == null) {
+    return;
+  }
+  return jsonToObject(row.json);
+}
+
+async function getCallHistory(
+  callId: string,
+  peerId: string
+): Promise<CallHistoryDetails | undefined> {
   const db = getInstance();
 
-  const id: string | void = db
-    .prepare<Query>(
-      `
-      SELECT id
-      FROM messages
-      WHERE conversationId = $conversationId
-        AND type = 'call-history'
-        AND callMode = 'Direct'
-        AND callId = $callId
-    `
-    )
-    .pluck()
-    .get({
-      conversationId,
-      callId,
-    });
+  const [query, params] = sql`
+    SELECT * FROM callsHistory
+    WHERE callId IS ${callId}
+    AND peerId IS ${peerId};
+  `;
 
-  return id;
+  const row = db.prepare(query).get(params);
+
+  if (row == null) {
+    return;
+  }
+
+  return callHistoryDetailsSchema.parse(row);
+}
+
+const MISSED = sqlConstant(DirectCallStatus.Missed);
+const DELETED = sqlConstant(DirectCallStatus.Deleted);
+const FOUR_HOURS_IN_MS = sqlConstant(4 * 60 * 60 * 1000);
+
+function getCallHistoryGroupDataSync(
+  db: Database,
+  isCount: boolean,
+  filter: CallHistoryFilter,
+  pagination: CallHistoryPagination
+): unknown {
+  return db.transaction(() => {
+    const { limit, offset } = pagination;
+    const { status, conversationIds } = filter;
+
+    if (conversationIds != null) {
+      strictAssert(conversationIds.length > 0, "can't filter by empty array");
+
+      const [createTempTable] = sql`
+        CREATE TEMP TABLE temp_callHistory_filtered_conversations (
+          uuid TEXT,
+          groupId TEXT
+        );
+      `;
+
+      db.exec(createTempTable);
+
+      batchMultiVarQuery(db, conversationIds, ids => {
+        const idList = sqlJoin(
+          ids.map(id => sqlFragment`(${id})`),
+          ','
+        );
+
+        const [insertQuery, insertParams] = sql`
+          INSERT INTO temp_callHistory_filtered_conversations
+            (uuid, groupId)
+          SELECT uuid, groupId
+          FROM conversations
+          WHERE conversations.id IN (${idList});
+        `;
+
+        db.prepare(insertQuery).run(insertParams);
+      });
+    }
+
+    const innerJoin =
+      conversationIds != null
+        ? sqlFragment`
+            INNER JOIN temp_callHistory_filtered_conversations ON (
+              temp_callHistory_filtered_conversations.uuid IS c.peerId
+              OR temp_callHistory_filtered_conversations.groupId IS c.peerId
+            )
+          `
+        : sqlFragment``;
+
+    const filterClause =
+      status === CallHistoryFilterStatus.All
+        ? sqlFragment`status IS NOT ${DELETED}`
+        : sqlFragment`status IS ${MISSED} AND status IS NOT ${DELETED}`;
+
+    const offsetLimit =
+      limit > 0 ? sqlFragment`LIMIT ${limit} OFFSET ${offset}` : sqlFragment``;
+
+    const projection = isCount
+      ? sqlFragment`COUNT(*) AS count`
+      : sqlFragment`peerId, ringerId, mode, type, direction, status, timestamp, possibleChildren, inPeriod`;
+
+    const [query, params] = sql`
+      SELECT
+        ${projection}
+      FROM (
+        -- 1. 'callAndGroupInfo': This section collects metadata to determine the
+        -- parent and children of each call. We can identify the real parents of calls
+        -- within the query, but we need to build the children at runtime.
+        WITH callAndGroupInfo AS (
+          SELECT
+            *,
+            -- 1a. 'possibleParent': This identifies the first call that _could_ be
+            -- considered the current call's parent. Note: The 'possibleParent' is not
+            -- necessarily the true parent if there is another call between them that
+            -- isn't a part of the group.
+            (
+              SELECT callId
+              FROM callsHistory
+              WHERE
+                callsHistory.direction IS c.direction
+                AND callsHistory.type IS c.type
+                AND callsHistory.peerId IS c.peerId
+                AND (callsHistory.timestamp - ${FOUR_HOURS_IN_MS}) <= c.timestamp
+                AND callsHistory.timestamp >= c.timestamp
+                -- Tracking Android & Desktop separately to make the queries easier to compare
+                -- Android Constraints:
+                AND (
+                  (callsHistory.status IS c.status AND callsHistory.status IS ${MISSED}) OR
+                  (callsHistory.status IS NOT ${MISSED} AND c.status IS NOT ${MISSED})
+                )
+                -- Desktop Constraints:
+                AND callsHistory.status IS c.status
+                AND ${filterClause}
+              ORDER BY timestamp DESC
+            ) as possibleParent,
+            -- 1b. 'possibleChildren': This identifies all possible calls that can
+            -- be grouped with the current call. Note: This current call is not
+            -- necessarily the parent, and not all possible children will end up as
+            -- children as they might have another parent
+            (
+              SELECT JSON_GROUP_ARRAY(
+                JSON_OBJECT(
+                  'callId', callId,
+                  'timestamp', timestamp
+                )
+              )
+              FROM callsHistory
+              WHERE
+                callsHistory.direction IS c.direction
+                AND callsHistory.type IS c.type
+                AND callsHistory.peerId IS c.peerId
+                AND (c.timestamp - ${FOUR_HOURS_IN_MS}) <= callsHistory.timestamp
+                AND c.timestamp >= callsHistory.timestamp
+                -- Tracking Android & Desktop separately to make the queries easier to compare
+                -- Android Constraints:
+                AND (
+                  (callsHistory.status IS c.status AND callsHistory.status IS ${MISSED}) OR
+                  (callsHistory.status IS NOT ${MISSED} AND c.status IS NOT ${MISSED})
+                )
+                -- Desktop Constraints:
+                AND callsHistory.status IS c.status
+                AND ${filterClause}
+              ORDER BY timestamp DESC
+            ) as possibleChildren,
+
+            -- 1c. 'inPeriod': This identifies all calls in a time period after the
+            -- current call. They may or may not be a part of the group.
+            (
+              SELECT GROUP_CONCAT(callId)
+              FROM callsHistory
+              WHERE
+                (c.timestamp - ${FOUR_HOURS_IN_MS}) <= callsHistory.timestamp
+                AND c.timestamp >= callsHistory.timestamp
+                AND ${filterClause}
+            ) AS inPeriod
+          FROM callsHistory AS c
+          ${innerJoin}
+          WHERE
+            ${filterClause}
+          ORDER BY timestamp DESC
+        )
+        -- 2. 'isParent': We need to identify the true parent of the group in cases
+        -- where the previous call is not a part of the group.
+        SELECT
+          *,
+          CASE
+            WHEN LAG (possibleParent, 1, 0) OVER (
+              -- Note: This is an optimization assuming that we've already got 'timestamp DESC' ordering
+              -- from the query above. If we find that ordering isn't always correct, we can uncomment this:
+              -- ORDER BY timestamp DESC
+            ) != possibleParent THEN callId
+            ELSE possibleParent
+          END AS parent
+        FROM callAndGroupInfo
+      ) AS parentCallAndGroupInfo
+      WHERE parent = parentCallAndGroupInfo.callId
+      ORDER BY parentCallAndGroupInfo.timestamp DESC
+      ${offsetLimit};
+    `;
+
+    const result = isCount
+      ? db.prepare(query).pluck(true).get(params)
+      : db.prepare(query).all(params);
+
+    if (conversationIds != null) {
+      const [dropTempTableQuery] = sql`
+        DROP TABLE temp_callHistory_filtered_conversations;
+      `;
+
+      db.exec(dropTempTableQuery);
+    }
+
+    return result;
+  })();
+}
+
+const countSchema = z.number().int().nonnegative();
+
+async function getCallHistoryGroupsCount(
+  filter: CallHistoryFilter
+): Promise<number> {
+  const db = getInstance();
+  const result = getCallHistoryGroupDataSync(db, true, filter, {
+    limit: 0,
+    offset: 0,
+  });
+  return countSchema.parse(result);
+}
+
+const groupsDataSchema = z.array(
+  callHistoryGroupSchema.omit({ children: true }).extend({
+    possibleChildren: z.string(),
+    inPeriod: z.string(),
+  })
+);
+
+const possibleChildrenSchema = z.array(
+  callHistoryDetailsSchema.pick({
+    callId: true,
+    timestamp: true,
+  })
+);
+
+async function getCallHistoryGroups(
+  filter: CallHistoryFilter,
+  pagination: CallHistoryPagination
+): Promise<Array<CallHistoryGroup>> {
+  const db = getInstance();
+  const groupsData = groupsDataSchema.parse(
+    getCallHistoryGroupDataSync(db, false, filter, pagination)
+  );
+
+  const taken = new Set<string>();
+
+  return groupsData
+    .map(groupData => {
+      return {
+        ...groupData,
+        possibleChildren: possibleChildrenSchema.parse(
+          JSON.parse(groupData.possibleChildren)
+        ),
+        inPeriod: new Set(groupData.inPeriod.split(',')),
+      };
+    })
+    .reverse()
+    .map(group => {
+      const { possibleChildren, inPeriod, ...rest } = group;
+      const children = [];
+
+      for (const child of possibleChildren) {
+        if (!taken.has(child.callId) && inPeriod.has(child.callId)) {
+          children.push(child);
+          taken.add(child.callId);
+        }
+      }
+
+      return callHistoryGroupSchema.parse({ ...rest, children });
+    })
+    .reverse();
+}
+
+async function saveCallHistory(callHistory: CallHistoryDetails): Promise<void> {
+  const db = getInstance();
+
+  const [insertQuery, insertParams] = sql`
+    INSERT OR REPLACE INTO callsHistory (
+      callId,
+      peerId,
+      ringerId,
+      mode,
+      type,
+      direction,
+      status,
+      timestamp
+    ) VALUES (
+      ${callHistory.callId},
+      ${callHistory.peerId},
+      ${callHistory.ringerId},
+      ${callHistory.mode},
+      ${callHistory.type},
+      ${callHistory.direction},
+      ${callHistory.status},
+      ${callHistory.timestamp}
+    );
+  `;
+
+  db.prepare(insertQuery).run(insertParams);
 }
 
 async function hasGroupCallHistoryMessage(
@@ -5087,6 +5448,7 @@ async function removeAll(): Promise<void> {
       DELETE FROM attachment_downloads;
       DELETE FROM badgeImageFiles;
       DELETE FROM badges;
+      DELETE FROM callsHistory;
       DELETE FROM conversations;
       DELETE FROM emojis;
       DELETE FROM groupCallRingCancellations;

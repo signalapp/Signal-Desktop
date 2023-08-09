@@ -21,6 +21,12 @@ import type { ReadStatus } from '../messages/MessageReadStatus';
 import type { RawBodyRange } from '../types/BodyRange';
 import type { GetMessagesBetweenOptions } from './Server';
 import type { MessageTimestamps } from '../state/ducks/conversations';
+import type {
+  CallHistoryDetails,
+  CallHistoryFilter,
+  CallHistoryGroup,
+  CallHistoryPagination,
+} from '../types/CallDisposition';
 
 export type AdjacentMessagesByConversationOptionsType = Readonly<{
   conversationId: string;
@@ -628,10 +634,22 @@ export type DataInterface = {
   getLastConversationMessage(options: {
     conversationId: string;
   }): Promise<MessageType | undefined>;
-  getCallHistoryMessageByCallId(
-    conversationId: string,
-    callId: string
-  ): Promise<string | void>;
+  getAllCallHistory: () => Promise<ReadonlyArray<CallHistoryDetails>>;
+  clearCallHistory: (beforeTimestamp: number) => Promise<Array<string>>;
+  getCallHistoryMessageByCallId(options: {
+    conversationId: string;
+    callId: string;
+  }): Promise<MessageType | undefined>;
+  getCallHistory(
+    callId: string,
+    peerId: string
+  ): Promise<CallHistoryDetails | undefined>;
+  getCallHistoryGroupsCount(filter: CallHistoryFilter): Promise<number>;
+  getCallHistoryGroups(
+    filter: CallHistoryFilter,
+    pagination: CallHistoryPagination
+  ): Promise<Array<CallHistoryGroup>>;
+  saveCallHistory(callHistory: CallHistoryDetails): Promise<void>;
   hasGroupCallHistoryMessage: (
     conversationId: string,
     eraId: string

@@ -36,7 +36,7 @@ export function jsonToObject<T>(json: string): T {
   return JSON.parse(json);
 }
 
-export type QueryTemplateParam = string | number | undefined;
+export type QueryTemplateParam = string | number | null | undefined;
 export type QueryFragmentValue = QueryFragment | QueryTemplateParam;
 
 export type QueryFragment = [
@@ -66,7 +66,7 @@ export function sqlFragment(
   ...values: ReadonlyArray<QueryFragmentValue>
 ): QueryFragment {
   let query = '';
-  const params: Array<string | number | undefined> = [];
+  const params: Array<QueryTemplateParam> = [];
 
   strings.forEach((string, index) => {
     const value = values[index];
@@ -88,6 +88,20 @@ export function sqlFragment(
   return [{ fragment: query }, params];
 }
 
+export function sqlConstant(value: QueryTemplateParam): QueryFragment {
+  let fragment;
+  if (value == null) {
+    fragment = 'NULL';
+  } else if (typeof value === 'number') {
+    fragment = `${value}`;
+  } else if (typeof value === 'boolean') {
+    fragment = `${value}`;
+  } else {
+    fragment = `'${value}'`;
+  }
+  return [{ fragment }, []];
+}
+
 /**
  * Like `Array.prototype.join`, but for SQL fragments.
  */
@@ -96,7 +110,7 @@ export function sqlJoin(
   separator: string
 ): QueryFragment {
   let query = '';
-  const params: Array<string | number | undefined> = [];
+  const params: Array<QueryTemplateParam> = [];
 
   items.forEach((item, index) => {
     const [{ fragment }, fragmentParams] = sqlFragment`${item}`;
@@ -111,10 +125,7 @@ export function sqlJoin(
   return [{ fragment: query }, params];
 }
 
-export type QueryTemplate = [
-  string,
-  ReadonlyArray<string | number | undefined>
-];
+export type QueryTemplate = [string, ReadonlyArray<QueryTemplateParam>];
 
 /**
  * You can use tagged template literals to build SQL queries
@@ -137,7 +148,7 @@ export type QueryTemplate = [
  */
 export function sql(
   strings: TemplateStringsArray,
-  ...values: ReadonlyArray<QueryFragment | string | number | undefined>
+  ...values: ReadonlyArray<QueryFragment | QueryTemplateParam>
 ): QueryTemplate {
   const [{ fragment }, params] = sqlFragment(strings, ...values);
   return [fragment, params];

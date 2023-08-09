@@ -84,10 +84,7 @@ const Template: Story<PropsType & { daysAgo?: number }> = ({
       {...args}
       firstEnvelopeTimestamp={firstEnvelopeTimestamp}
       envelopeTimestamp={envelopeTimestamp}
-      renderConversationView={() => <div />}
       renderCustomizingPreferredReactionsModal={() => <div />}
-      renderLeftPane={() => <div />}
-      renderMiniPlayer={() => <div />}
     />
   );
 };

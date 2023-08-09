@@ -25,7 +25,6 @@ import type { ConfigMapType as RemoteConfigType } from '../../RemoteConfig';
 export type ItemsStateType = ReadonlyDeep<
   {
     [key: string]: unknown;
-
     remoteConfig?: RemoteConfigType;
     serverTimeSkew?: number;
   } & Partial<
@@ -35,6 +34,7 @@ export type ItemsStateType = ReadonlyDeep<
       | 'defaultConversationColor'
       | 'customColors'
       | 'preferredLeftPaneWidth'
+      | 'navTabsCollapsed'
       | 'preferredReactionEmoji'
       | 'areWeASubscriber'
       | 'usernameLinkColor'
@@ -90,6 +90,7 @@ export const actions = {
   resetDefaultChatColor,
   savePreferredLeftPaneWidth,
   setGlobalDefaultConversationColor,
+  toggleNavTabsCollapse,
   onSetSkinTone,
   putItem,
   putItemExternal,
@@ -98,8 +99,9 @@ export const actions = {
   resetItems,
 };
 
-export const useActions = (): BoundActionCreatorsMapObject<typeof actions> =>
-  useBoundActions(actions);
+export const useItemsActions = (): BoundActionCreatorsMapObject<
+  typeof actions
+> => useBoundActions(actions);
 
 function putItem<K extends keyof StorageAccessType>(
   key: K,
@@ -289,6 +291,14 @@ function markHasCompletedSafetyNumberOnboarding(): ThunkAction<
 > {
   return dispatch => {
     dispatch(putItem('hasCompletedSafetyNumberOnboarding', true));
+  };
+}
+
+function toggleNavTabsCollapse(
+  navTabsCollapsed: boolean
+): ThunkAction<void, RootStateType, unknown, ItemPutAction> {
+  return dispatch => {
+    dispatch(putItem('navTabsCollapsed', navTabsCollapsed));
   };
 }
 

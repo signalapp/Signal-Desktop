@@ -7,13 +7,9 @@ import { HKDF } from '@signalapp/libsignal-client';
 
 import * as Bytes from './Bytes';
 import { calculateAgreement, generateKeyPair } from './Curve';
-import * as log from './logging/log';
 import { HashType, CipherType } from './types/Crypto';
 import { ProfileDecryptError } from './types/errors';
-import { UUID, UUID_BYTE_SIZE } from './types/UUID';
-import type { UUIDStringType } from './types/UUID';
-
-export { uuidToBytes } from './util/uuidToBytes';
+import { getBytesSubarray } from './util/uuidToBytes';
 
 export { HashType, CipherType };
 
@@ -199,12 +195,16 @@ export function decryptSymmetric(
   const iv = getZeroes(IV_LENGTH);
 
   const nonce = getFirstBytes(data, NONCE_LENGTH);
-  const ciphertext = getBytes(
+  const ciphertext = getBytesSubarray(
     data,
     NONCE_LENGTH,
     data.byteLength - NONCE_LENGTH - MAC_LENGTH
   );
-  const theirMac = getBytes(data, data.byteLength - MAC_LENGTH, MAC_LENGTH);
+  const theirMac = getBytesSubarray(
+    data,
+    data.byteLength - MAC_LENGTH,
+    MAC_LENGTH
+  );
 
   const cipherKey = hmacSha256(key, nonce);
   const macKey = hmacSha256(key, cipherKey);
@@ -351,52 +351,6 @@ export function intsToByteHighAndLow(
 
 export function getFirstBytes(data: Uint8Array, n: number): Uint8Array {
   return data.subarray(0, n);
-}
-
-export function getBytes(
-  data: Uint8Array,
-  start: number,
-  n: number
-): Uint8Array {
-  return data.subarray(start, start + n);
-}
-
-export function bytesToUuid(bytes: Uint8Array): undefined | UUIDStringType {
-  if (bytes.byteLength !== UUID_BYTE_SIZE) {
-    log.warn(
-      'bytesToUuid: received an Uint8Array of invalid length. ' +
-        'Returning undefined'
-    );
-    return undefined;
-  }
-
-  const uuids = splitUuids(bytes);
-  if (uuids.length === 1) {
-    return uuids[0] || undefined;
-  }
-  return undefined;
-}
-
-export function splitUuids(buffer: Uint8Array): Array<UUIDStringType | null> {
-  const uuids = new Array<UUIDStringType | null>();
-  for (let i = 0; i < buffer.byteLength; i += UUID_BYTE_SIZE) {
-    const bytes = getBytes(buffer, i, UUID_BYTE_SIZE);
-    const hex = Bytes.toHex(bytes);
-    const chunks = [
-      hex.substring(0, 8),
-      hex.substring(8, 12),
-      hex.substring(12, 16),
-      hex.substring(16, 20),
-      hex.substring(20),
-    ];
-    const uuid = chunks.join('-');
-    if (uuid !== '00000000-0000-0000-0000-000000000000') {
-      uuids.push(UUID.cast(uuid));
-    } else {
-      uuids.push(null);
-    }
-  }
-  return uuids;
 }
 
 export function trimForDisplay(padded: Uint8Array): Uint8Array {
@@ -588,7 +542,7 @@ export function decryptProfileName(
 // SignalContext APIs
 //
 
-const { crypto } = window.SignalContext;
+const { crypto } = globalThis.window?.SignalContext ?? {};
 
 export function sign(key: Uint8Array, data: Uint8Array): Uint8Array {
   return crypto.sign(key, data);

@@ -3,9 +3,8 @@
 
 .module-SearchInput {
   &__container {
-    margin-inline: 16px;
-    margin-bottom: 8px;
     position: relative;
+    flex: 1 0 0;
   }
 
   &__icon {

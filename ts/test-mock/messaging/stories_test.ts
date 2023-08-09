@@ -214,10 +214,9 @@ describe('story/messaging', function unknownContacts() {
     debug('waiting for storage service sync to complete');
     await app.waitForStorageService();
 
-    const leftPane = window.locator('#LeftPane');
+    await window.getByTestId('NavTabsItem--Stories').click();
 
     debug('Create and send a story to the group');
-    await leftPane.getByRole('button', { name: 'Stories' }).click();
     await window.getByRole('button', { name: 'Add a story' }).first().click();
     await window.getByRole('button', { name: 'Text story' }).click();
     await window.locator('.TextAttachment').click();

@@ -46,8 +46,6 @@ const useProps = (overrideProps: Partial<Props> = {}): Props => ({
   noteToSelf: boolean('noteToSelf', overrideProps.noteToSelf || false),
   onEditProfile: action('onEditProfile'),
   onStartUpdate: action('startUpdate'),
-  onViewArchive: action('onViewArchive'),
-  onViewPreferences: action('onViewPreferences'),
   phoneNumber: text('phoneNumber', overrideProps.phoneNumber || ''),
   profileName: text('profileName', overrideProps.profileName || ''),
   sharedGroupNames: [],

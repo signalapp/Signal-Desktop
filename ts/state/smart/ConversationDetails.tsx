@@ -33,9 +33,12 @@ import {
   getGroupSizeRecommendedLimit,
   getGroupSizeHardLimit,
 } from '../../groups/limits';
+import type { CallHistoryGroup } from '../../types/CallDisposition';
+import { getSelectedNavTab } from '../selectors/nav';
 
 export type SmartConversationDetailsProps = {
   conversationId: string;
+  callHistoryGroup?: CallHistoryGroup | null;
 };
 
 const ACCESS_ENUM = Proto.AccessControl.AccessRequired;
@@ -96,6 +99,7 @@ const mapStateToProps = (
   const maxRecommendedGroupSize = getGroupSizeRecommendedLimit(151);
   return {
     ...props,
+
     areWeASubscriber: getAreWeASubscriber(state),
     badges,
     canEditGroupInfo,
@@ -115,6 +119,7 @@ const mapStateToProps = (
     hasGroupLink,
     groupsInCommon: groupsInCommonSorted,
     isGroup: conversation.type === 'group',
+    selectedNavTab: getSelectedNavTab(state),
     theme: getTheme(state),
     renderChooseGroupMembersModal,
     renderConfirmAdditionsModal,

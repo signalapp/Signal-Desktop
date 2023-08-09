@@ -77,12 +77,15 @@ const excludedFilesRegexp = RegExp(
     '^.github/.+',
 
     // Modules we trust
+    '^node_modules/@react-aria/.+',
+    '^node_modules/@react-stately/.+',
     '^node_modules/@signalapp/libsignal-client/.+',
     '^node_modules/core-js-pure/.+',
     '^node_modules/core-js/.+',
     '^node_modules/fbjs/.+',
     '^node_modules/lodash/.+',
     '^node_modules/react/.+',
+    '^node_modules/react-aria-components/.+',
     '^node_modules/react-contextmenu/.+',
     '^node_modules/react-dom/.+',
     '^node_modules/react-hot-loader/.+',
@@ -100,6 +103,7 @@ const excludedFilesRegexp = RegExp(
     '^node_modules/snyk-resolve-deps/.+',
     '^node_modules/snyk-try-require/.+',
     '^node_modules/@snyk/.+',
+    '^node_modules/use-sync-external-store/.+',
 
     // Submodules we trust
     '^node_modules/react-color/.+/(?:core-js|fbjs|lodash)/.+',

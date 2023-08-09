@@ -11,7 +11,7 @@ import type { LoggerType } from '../../types/Logging';
 import { strictAssert } from '../../util/assert';
 import { UUID_BYTE_SIZE } from '../../types/UUID';
 import * as Bytes from '../../Bytes';
-import { uuidToBytes, bytesToUuid } from '../../Crypto';
+import { uuidToBytes, bytesToUuid } from '../../util/uuidToBytes';
 import { SignalService as Proto } from '../../protobuf';
 import type {
   CDSRequestOptionsType,

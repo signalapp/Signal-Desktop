@@ -49,7 +49,7 @@ import { parseIntOrThrow } from '../util/parseIntOrThrow';
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
 import { Zone } from '../util/Zone';
 import { DurationInSeconds, SECOND } from '../util/durations';
-import { bytesToUuid } from '../Crypto';
+import { bytesToUuid } from '../util/uuidToBytes';
 import type { DownloadedAttachmentType } from '../types/Attachment';
 import { Address } from '../types/Address';
 import { QualifiedAddress } from '../types/QualifiedAddress';
@@ -88,6 +88,7 @@ import type {
   UnprocessedType,
 } from './Types.d';
 import {
+  CallEventSyncEvent,
   EmptyEvent,
   EnvelopeQueuedEvent,
   EnvelopeUnsealedEvent,
@@ -113,7 +114,7 @@ import {
   ViewSyncEvent,
   ContactSyncEvent,
   StoryRecipientUpdateEvent,
-  CallEventSyncEvent,
+  CallLogEventSyncEvent,
 } from './messageReceiverEvents';
 import * as log from '../logging/log';
 import * as durations from '../util/durations';
@@ -128,6 +129,8 @@ import { isOlderThan } from '../util/timestamp';
 import { inspectUnknownFieldTags } from '../util/inspectProtobufs';
 import { incrementMessageCounter } from '../util/incrementMessageCounter';
 import { filterAndClean } from '../types/BodyRange';
+import { getCallEventForProto } from '../util/callDisposition';
+import { CallLogEvent } from '../types/CallDisposition';
 
 const GROUPV2_ID_LENGTH = 32;
 const RETRY_TIMEOUT = 2 * 60 * 1000;
@@ -638,6 +641,11 @@ export default class MessageReceiver
   public override addEventListener(
     name: 'callEventSync',
     handler: (ev: CallEventSyncEvent) => void
+  ): void;
+
+  public override addEventListener(
+    name: 'callLogEventSync',
+    handler: (ev: CallLogEventSyncEvent) => void
   ): void;
 
   public override addEventListener(name: string, handler: EventHandler): void {
@@ -3041,6 +3049,9 @@ export default class MessageReceiver
     if (syncMessage.callEvent) {
       return this.handleCallEvent(envelope, syncMessage.callEvent);
     }
+    if (syncMessage.callLogEvent) {
+      return this.handleCallLogEvent(envelope, syncMessage.callLogEvent);
+    }
 
     this.removeFromCache(envelope);
     const envelopeId = getEnvelopeId(envelope);
@@ -3353,57 +3364,16 @@ export default class MessageReceiver
   ): Promise<void> {
     const logId = getEnvelopeId(envelope);
     log.info('MessageReceiver.handleCallEvent', logId);
-    const { peerUuid, callId, type } = callEvent;
-
-    if (!peerUuid) {
-      throw new Error('MessageReceiver.handleCallEvent: missing peerUuid');
-    }
-
-    if (!callId) {
-      throw new Error('MessageReceiver.handleCallEvent: missing callId');
-    }
 
     logUnexpectedUrgentValue(envelope, 'callEventSync');
 
-    if (
-      type !== Proto.SyncMessage.CallEvent.Type.VIDEO_CALL &&
-      type !== Proto.SyncMessage.CallEvent.Type.AUDIO_CALL
-    ) {
-      log.warn('MessageReceiver.handleCallEvent: unknown call type');
-      return;
-    }
+    const { receivedAtCounter } = envelope;
 
-    const peerUuidStr = bytesToUuid(peerUuid);
-
-    strictAssert(
-      peerUuidStr != null,
-      'MessageReceiver.handleCallEvent: invalid peerUuid'
-    );
-
-    const { receivedAtCounter, timestamp } = envelope;
-
-    const wasIncoming =
-      callEvent.direction === Proto.SyncMessage.CallEvent.Direction.INCOMING;
-    const wasVideoCall =
-      callEvent.type === Proto.SyncMessage.CallEvent.Type.VIDEO_CALL;
-    const wasAccepted =
-      callEvent.event === Proto.SyncMessage.CallEvent.Event.ACCEPTED;
-    const wasDeclined =
-      callEvent.event === Proto.SyncMessage.CallEvent.Event.NOT_ACCEPTED;
-
-    const acceptedTime = wasAccepted ? timestamp : undefined;
-    const endedTime = wasDeclined ? timestamp : undefined;
+    const callEventDetails = getCallEventForProto(callEvent);
 
     const callEventSync = new CallEventSyncEvent(
       {
-        timestamp: envelope.timestamp,
-        peerUuid: peerUuidStr,
-        callId: callId.toString(),
-        wasIncoming,
-        wasVideoCall,
-        wasDeclined,
-        acceptedTime,
-        endedTime,
+        callEventDetails,
         receivedAtCounter,
       },
       this.removeFromCache.bind(this, envelope)
@@ -3411,6 +3381,49 @@ export default class MessageReceiver
     await this.dispatchAndWait(logId, callEventSync);
 
     log.info('handleCallEvent: finished');
+  }
+
+  private async handleCallLogEvent(
+    envelope: ProcessedEnvelope,
+    callLogEvent: Proto.SyncMessage.ICallLogEvent
+  ): Promise<void> {
+    const logId = getEnvelopeId(envelope);
+    log.info('MessageReceiver.handleCallLogEvent', logId);
+
+    logUnexpectedUrgentValue(envelope, 'callLogEventSync');
+
+    const { receivedAtCounter } = envelope;
+
+    let event: CallLogEvent;
+    if (callLogEvent.type == null) {
+      throw new Error('MessageReceiver.handleCallLogEvent: type was null');
+    } else if (
+      callLogEvent.type === Proto.SyncMessage.CallLogEvent.Type.CLEAR
+    ) {
+      event = CallLogEvent.Clear;
+    } else {
+      throw new Error(
+        `MessageReceiver.handleCallLogEvent: unknown type ${callLogEvent.type}`
+      );
+    }
+
+    if (callLogEvent.timestamp == null) {
+      throw new Error('MessageReceiver.handleCallLogEvent: timestamp was null');
+    }
+    const timestamp = callLogEvent.timestamp.toNumber();
+
+    const callLogEventSync = new CallLogEventSyncEvent(
+      {
+        event,
+        timestamp,
+        receivedAtCounter,
+      },
+      this.removeFromCache.bind(this, envelope)
+    );
+
+    await this.dispatchAndWait(logId, callLogEventSync);
+
+    log.info('handleCallLogEvent: finished');
   }
 
   private async handleContacts(

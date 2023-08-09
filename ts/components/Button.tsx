@@ -33,6 +33,7 @@ export enum ButtonVariant {
 
 export enum ButtonIconType {
   audio = 'audio',
+  message = 'message',
   muted = 'muted',
   search = 'search',
   unmuted = 'unmuted',

@@ -154,6 +154,7 @@ export type StorageAccessType = {
   zoomFactor: ZoomFactorType;
   preferredLeftPaneWidth: number;
   nextScheduledUpdateKeyTime: number;
+  navTabsCollapsed: boolean;
   areWeASubscriber: boolean;
   subscriberId: Uint8Array;
   subscriberCurrencyCode: string;

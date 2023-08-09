@@ -12,6 +12,7 @@ import type {
   ProcessedSent,
 } from './Types.d';
 import type { ModifiedContactDetails } from './ContactsParser';
+import type { CallEventDetails, CallLogEvent } from '../types/CallDisposition';
 
 export class EmptyEvent extends Event {
   constructor() {
@@ -404,14 +405,7 @@ export class ViewSyncEvent extends ConfirmableEvent {
 }
 
 export type CallEventSyncEventData = Readonly<{
-  timestamp: number;
-  peerUuid: string;
-  callId: string;
-  wasVideoCall: boolean;
-  wasIncoming: boolean;
-  wasDeclined: boolean;
-  acceptedTime: number | undefined;
-  endedTime: number | undefined;
+  callEventDetails: CallEventDetails;
   receivedAtCounter: number;
 }>;
 
@@ -421,6 +415,21 @@ export class CallEventSyncEvent extends ConfirmableEvent {
     confirm: ConfirmCallback
   ) {
     super('callEventSync', confirm);
+  }
+}
+
+export type CallLogEventSyncEventData = Readonly<{
+  event: CallLogEvent;
+  timestamp: number;
+  receivedAtCounter: number;
+}>;
+
+export class CallLogEventSyncEvent extends ConfirmableEvent {
+  constructor(
+    public readonly callLogEvent: CallLogEventSyncEventData,
+    confirm: ConfirmCallback
+  ) {
+    super('callLogEventSync', confirm);
   }
 }
 

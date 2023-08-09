@@ -8,7 +8,6 @@ import { UUID } from '../../types/UUID';
 import type { UUIDStringType } from '../../types/UUID';
 
 import type { MessageAttributesType } from '../../model-types.d';
-import { CallMode } from '../../types/Calling';
 
 const {
   removeAll,
@@ -40,15 +39,7 @@ describe('sql/getCallHistoryMessageByCallId', () => {
       sent_at: now - 10,
       received_at: now - 10,
       timestamp: now - 10,
-      callHistoryDetails: {
-        callId: '12345',
-        callMode: CallMode.Direct,
-        wasIncoming: true,
-        wasVideoCall: true,
-        wasDeclined: true,
-        acceptedTime: now - 10,
-        endedTime: undefined,
-      },
+      callId: '12345',
     };
 
     await saveMessages([callHistoryMessage], {
@@ -56,12 +47,13 @@ describe('sql/getCallHistoryMessageByCallId', () => {
       ourUuid,
     });
 
-    assert.lengthOf(await _getAllMessages(), 1);
+    const allMessages = await _getAllMessages();
+    assert.lengthOf(allMessages, 1);
 
-    const messageId = await getCallHistoryMessageByCallId(
+    const message = await getCallHistoryMessageByCallId({
       conversationId,
-      '12345'
-    );
-    assert.strictEqual(messageId, callHistoryMessage.id);
+      callId: '12345',
+    });
+    assert.strictEqual(message?.id, callHistoryMessage.id);
   });
 });

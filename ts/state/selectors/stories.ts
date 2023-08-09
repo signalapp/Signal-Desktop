@@ -47,11 +47,6 @@ import { BodyRange, hydrateRanges } from '../../types/BodyRange';
 export const getStoriesState = (state: StateType): StoriesStateType =>
   state.stories;
 
-export const shouldShowStoriesView = createSelector(
-  getStoriesState,
-  ({ openedAtTimestamp }): boolean => Boolean(openedAtTimestamp)
-);
-
 export const hasSelectedStoryData = createSelector(
   getStoriesState,
   ({ selectedStoryData }): boolean => Boolean(selectedStoryData)

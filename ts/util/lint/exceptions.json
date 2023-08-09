@@ -2925,5 +2925,21 @@
     "line": "  message.innerHTML = window.i18n('icu:optimizingApplication');",
     "reasonCategory": "usageTrusted",
     "updated": "2021-09-17T21:02:59.414Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CallsList.tsx",
+    "line": "  const infiniteLoaderRef = useRef<InfiniteLoader>(null);",
+    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "updated": "2023-08-02T00:21:37.858Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CallsList.tsx",
+    "line": "  const listRef = useRef<List>(null);",
+    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "updated": "2023-08-02T00:21:37.858Z",
+    "reasonDetail": "<optional>"
   }
 ]

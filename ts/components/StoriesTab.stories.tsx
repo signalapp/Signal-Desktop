@@ -4,8 +4,8 @@
 import type { Meta, Story } from '@storybook/react';
 import React from 'react';
 
-import type { PropsType } from './Stories';
-import { Stories } from './Stories';
+import type { PropsType } from './StoriesTab';
+import { StoriesTab } from './StoriesTab';
 import enMessages from '../../_locales/en/messages.json';
 import { setupI18n } from '../util/setupI18n';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
@@ -18,8 +18,8 @@ import * as durations from '../util/durations';
 const i18n = setupI18n('en', enMessages);
 
 export default {
-  title: 'Components/Stories',
-  component: Stories,
+  title: 'Components/StoriesTab',
+  component: StoriesTab,
   argTypes: {
     deleteStoryForEveryone: { action: true },
     getPreferredBadge: { action: true },
@@ -63,7 +63,7 @@ export default {
 } as Meta;
 
 // eslint-disable-next-line react/function-component-definition
-const Template: Story<PropsType> = args => <Stories {...args} />;
+const Template: Story<PropsType> = args => <StoriesTab {...args} />;
 
 export const Blank = Template.bind({});
 Blank.args = {};

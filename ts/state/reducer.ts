@@ -9,6 +9,7 @@ import { reducer as audioPlayer } from './ducks/audioPlayer';
 import { reducer as audioRecorder } from './ducks/audioRecorder';
 import { reducer as badges } from './ducks/badges';
 import { reducer as calling } from './ducks/calling';
+import { reducer as callHistory } from './ducks/callHistory';
 import { reducer as composer } from './ducks/composer';
 import { reducer as conversations } from './ducks/conversations';
 import { reducer as crashReports } from './ducks/crashReports';
@@ -20,6 +21,7 @@ import { reducer as items } from './ducks/items';
 import { reducer as lightbox } from './ducks/lightbox';
 import { reducer as linkPreviews } from './ducks/linkPreviews';
 import { reducer as mediaGallery } from './ducks/mediaGallery';
+import { reducer as nav } from './ducks/nav';
 import { reducer as network } from './ducks/network';
 import { reducer as preferredReactions } from './ducks/preferredReactions';
 import { reducer as safetyNumber } from './ducks/safetyNumber';
@@ -39,6 +41,7 @@ export const reducer = combineReducers({
   audioRecorder,
   badges,
   calling,
+  callHistory,
   composer,
   conversations,
   crashReports,
@@ -50,6 +53,7 @@ export const reducer = combineReducers({
   lightbox,
   linkPreviews,
   mediaGallery,
+  nav,
   network,
   preferredReactions,
   safetyNumber,

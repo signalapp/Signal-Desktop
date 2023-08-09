@@ -10,18 +10,15 @@ import type {
   ShowConversationType,
 } from '../state/ducks/conversations';
 import type { ConversationStoryType, MyStoryType } from '../types/Stories';
-import type { LocalizerType } from '../types/Util';
+import type { LocalizerType, ThemeType } from '../types/Util';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
 import type { ShowToastAction } from '../state/ducks/toast';
 import type { ViewUserStoriesActionCreatorType } from '../state/ducks/stories';
-import { ContextMenu } from './ContextMenu';
 import { MyStoryButton } from './MyStoryButton';
 import { SearchInput } from './SearchInput';
-import { StoriesAddStoryButton } from './StoriesAddStoryButton';
 import { StoryListItem } from './StoryListItem';
-import { Theme } from '../util/theme';
 import { isNotNil } from '../util/isNotNil';
-import { useRestoreFocus } from '../hooks/useRestoreFocus';
+import { NavSidebarSearchHeader } from './NavSidebar';
 
 const FUSE_OPTIONS: Fuse.IFuseOptions<ConversationStoryType> = {
   getFn: (story, path) => {
@@ -70,8 +67,8 @@ export type PropsType = {
   showConversation: ShowConversationType;
   showToast: ShowToastAction;
   stories: Array<ConversationStoryType>;
+  theme: ThemeType;
   toggleHideStories: (conversationId: string) => unknown;
-  toggleStoriesView: () => unknown;
   viewUserStories: ViewUserStoriesActionCreatorType;
 };
 
@@ -84,14 +81,13 @@ export function StoriesPane({
   myStories,
   onAddStory,
   onMyStoriesClicked,
-  onStoriesSettings,
   onMediaPlaybackStart,
   queueStoryDownload,
   showConversation,
   showToast,
   stories,
+  theme,
   toggleHideStories,
-  toggleStoriesView,
   viewUserStories,
 }: PropsType): JSX.Element {
   const [searchTerm, setSearchTerm] = useState('');
@@ -106,55 +102,18 @@ export function StoriesPane({
       setRenderedStories(stories);
     }
   }, [searchTerm, stories]);
-
-  const [focusRef] = useRestoreFocus();
-
   return (
     <>
-      <div className="Stories__pane__header">
-        <button
-          ref={focusRef}
-          aria-label={i18n('icu:back')}
-          className="Stories__pane__header--back"
-          onClick={toggleStoriesView}
-          tabIndex={0}
-          type="button"
-        />
-        <div className="Stories__pane__header--title">
-          {i18n('icu:Stories__title')}
-        </div>
-        <StoriesAddStoryButton
+      <NavSidebarSearchHeader>
+        <SearchInput
           i18n={i18n}
-          maxAttachmentSizeInKb={maxAttachmentSizeInKb}
-          moduleClassName="Stories__pane__add-story"
-          onAddStory={onAddStory}
-          showToast={showToast}
-        />
-        <ContextMenu
-          i18n={i18n}
-          menuOptions={[
-            {
-              label: i18n('icu:StoriesSettings__context-menu'),
-              onClick: () => onStoriesSettings(),
-            },
-          ]}
-          moduleClassName="Stories__pane__settings"
-          popperOptions={{
-            placement: 'bottom',
-            strategy: 'absolute',
+          onChange={event => {
+            setSearchTerm(event.target.value);
           }}
-          theme={Theme.Dark}
+          placeholder={i18n('icu:search')}
+          value={searchTerm}
         />
-      </div>
-      <SearchInput
-        i18n={i18n}
-        moduleClassName="Stories__search"
-        onChange={event => {
-          setSearchTerm(event.target.value);
-        }}
-        placeholder={i18n('icu:search')}
-        value={searchTerm}
-      />
+      </NavSidebarSearchHeader>
       <div className="Stories__pane__list">
         <MyStoryButton
           i18n={i18n}
@@ -178,12 +137,12 @@ export function StoriesPane({
             key={story.storyView.timestamp}
             onGoToConversation={conversationId => {
               showConversation({ conversationId });
-              toggleStoriesView();
             }}
             onHideStory={toggleHideStories}
             onMediaPlaybackStart={onMediaPlaybackStart}
             queueStoryDownload={queueStoryDownload}
             story={story.storyView}
+            theme={theme}
             viewUserStories={viewUserStories}
           />
         ))}
@@ -191,6 +150,7 @@ export function StoriesPane({
           <>
             <button
               className={classNames('Stories__hidden-stories', {
+                'Stories__hidden-stories--collapsed': !isShowingHiddenStories,
                 'Stories__hidden-stories--expanded': isShowingHiddenStories,
               })}
               onClick={() => setIsShowingHiddenStories(!isShowingHiddenStories)}
@@ -209,12 +169,12 @@ export function StoriesPane({
                   key={story.storyView.timestamp}
                   onGoToConversation={conversationId => {
                     showConversation({ conversationId });
-                    toggleStoriesView();
                   }}
                   onHideStory={toggleHideStories}
                   onMediaPlaybackStart={onMediaPlaybackStart}
                   queueStoryDownload={queueStoryDownload}
                   story={story.storyView}
+                  theme={theme}
                   viewUserStories={viewUserStories}
                 />
               ))}

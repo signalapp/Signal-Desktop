@@ -144,7 +144,7 @@
     @include rounded-corners;
     align-items: center;
     background: $color-ultramarine-dawn;
-    border: 2px solid $color-gray-80;
+    border: 2px solid;
     bottom: -2px;
     display: flex;
     height: 20px;
@@ -153,6 +153,14 @@
     inset-inline-end: -4px;
     width: 20px;
     z-index: $z-index-base;
+
+    @include light-theme {
+      border-color: $color-gray-04;
+    }
+
+    @include dark-theme {
+      border-color: $color-gray-80;
+    }
 
     &::after {
       content: '';
@@ -166,6 +174,14 @@
   }
 }
 
-.StoryListItem__button:hover .MyStories__avatar__add-story {
-  border-color: $color-gray-65;
+.StoryListItem__button:hover,
+.StoryListItem__button--active {
+  .MyStories__avatar__add-story {
+    @include light-theme {
+      border-color: $color-gray-15;
+    }
+    @include dark-theme {
+      border-color: $color-gray-65;
+    }
+  }
 }

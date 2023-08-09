@@ -194,7 +194,11 @@ const defaultWebPrefs = {
     getEnvironment() !== Environment.Production ||
     !isProduction(app.getVersion()),
   spellcheck: false,
-  enableBlinkFeatures: 'CSSPseudoDir,CSSLogical',
+  // https://chromium.googlesource.com/chromium/src/+/main/third_party/blink/renderer/platform/runtime_enabled_features.json5
+  enableBlinkFeatures: [
+    'CSSPseudoDir', // status=experimental, needed for RTL (ex: :dir(rtl))
+    'CSSLogical', // status=experimental, needed for RTL (ex: margin-inline-start)
+  ].join(','),
 };
 
 const DISABLE_GPU =

@@ -43,6 +43,14 @@
   letter-spacing: -0.34px;
 }
 
+@mixin font-title-medium {
+  @include font-family;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 25px;
+  letter-spacing: -0.25px;
+}
+
 @mixin font-body-1 {
   @include font-family;
   font-size: 14px;
@@ -857,4 +865,16 @@ $rtl-icon-map: (
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
+}
+
+@mixin NavTabs__Scroller {
+  @include scrollbar;
+  &::-webkit-scrollbar-thumb {
+    @include light-theme {
+      border-color: $color-gray-04;
+    }
+    @include dark-theme {
+      border-color: $color-gray-80;
+    }
+  }
 }

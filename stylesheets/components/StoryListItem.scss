@@ -15,7 +15,12 @@
 
     @include keyboard-mode {
       &:focus {
-        background: $color-gray-65;
+        @include light-theme {
+          background: $color-gray-15;
+        }
+        @include dark-theme {
+          background: $color-gray-65;
+        }
       }
     }
 
@@ -23,7 +28,12 @@
     // that has not been closed yet (active)
     &:hover,
     &--active {
-      background: $color-gray-65;
+      @include light-theme {
+        background: $color-gray-15;
+      }
+      @include dark-theme {
+        background: $color-gray-65;
+      }
     }
   }
 
@@ -60,16 +70,26 @@
 
     &--title {
       @include font-body-1-bold;
-      color: $color-gray-05;
       display: flex;
       align-items: center;
+      @include light-theme {
+        color: $color-black;
+      }
+      @include dark-theme {
+        color: $color-gray-05;
+      }
     }
 
     &--timestamp,
     &--sending,
     &--send_failed {
       @include font-body-2;
-      color: $color-gray-25;
+      @include light-theme {
+        color: $color-gray-60;
+      }
+      @include dark-theme {
+        color: $color-gray-25;
+      }
     }
 
     &--send_failed {
@@ -148,32 +168,31 @@
   }
 
   &__icon {
+    @mixin StoryListItem__Icon($path) {
+      @include light-theme {
+        @include color-svg($path, $color-black);
+      }
+      @include dark-theme {
+        @include color-svg($path, $color-white);
+      }
+    }
+
     &--chat {
-      @include color-svg(
-        '../images/icons/v3/open/open-compact.svg',
-        $color-white
-      );
+      @include StoryListItem__Icon('../images/icons/v3/open/open-compact.svg');
     }
 
     &--delete {
-      @include color-svg(
-        '../images/icons/v3/trash/trash-compact.svg',
-        $color-white
+      @include StoryListItem__Icon(
+        '../images/icons/v3/trash/trash-compact.svg'
       );
     }
 
     &--hide {
-      @include color-svg(
-        '../images/icons/v3/x/x-circle-compact.svg',
-        $color-white
-      );
+      @include StoryListItem__Icon('../images/icons/v3/x/x-circle-compact.svg');
     }
 
     &--info {
-      @include color-svg(
-        '../images/icons/v3/info/info-compact.svg',
-        $color-white
-      );
+      @include StoryListItem__Icon('../images/icons/v3/info/info-compact.svg');
     }
   }
 

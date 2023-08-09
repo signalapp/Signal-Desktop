@@ -30,8 +30,6 @@ import { getAboutText } from '../util/getAboutText';
 import { getAvatarPath } from '../util/avatarUtils';
 import { getDraftPreview } from '../util/getDraftPreview';
 import { hasDraft } from '../util/hasDraft';
-import type { CallHistoryDetailsType } from '../types/Calling';
-import { CallMode } from '../types/Calling';
 import * as Conversation from '../types/Conversation';
 import type { StickerType, StickerWithHydratedData } from '../types/Stickers';
 import * as Stickers from '../types/Stickers';
@@ -55,7 +53,7 @@ import type {
 } from '../types/Colors';
 import type { MessageModel } from './messages';
 import { getContact } from '../messages/helpers';
-import { assertDev, strictAssert } from '../util/assert';
+import { strictAssert } from '../util/assert';
 import { isConversationMuted } from '../util/isConversationMuted';
 import { isConversationSMSOnly } from '../util/isConversationSMSOnly';
 import {
@@ -63,10 +61,8 @@ import {
   isConversationUnregistered,
   isConversationUnregisteredAndStale,
 } from '../util/isConversationUnregistered';
-import { missingCaseError } from '../util/missingCaseError';
 import { sniffImageMimeType } from '../util/sniffImageMimeType';
 import { isValidE164 } from '../util/isValidE164';
-import { canConversationBeUnarchived } from '../util/canConversationBeUnarchived';
 import type { MIMEType } from '../types/MIME';
 import { IMAGE_JPEG, IMAGE_WEBP } from '../types/MIME';
 import { UUID, UUIDKind } from '../types/UUID';
@@ -160,7 +156,6 @@ import { ReceiptType } from '../types/Receipt';
 import { getQuoteAttachment } from '../util/makeQuote';
 import { deriveProfileKeyVersion } from '../util/zkgroup';
 import { incrementMessageCounter } from '../util/incrementMessageCounter';
-import { validateTransition } from '../util/callHistoryDetails';
 import OS from '../util/os/osMain';
 
 /* eslint-disable more/no-then */
@@ -255,8 +250,6 @@ export class ConversationModel extends window.Backbone
   lastSuccessfulGroupFetch?: number;
 
   throttledUpdateSharedGroups?: () => Promise<void>;
-
-  private cachedLatestGroupCallEraId?: string;
 
   private cachedIdenticon?: CachedIdenticon;
 
@@ -3067,181 +3060,6 @@ export class ConversationModel extends window.Backbone
         }
       );
     }
-  }
-
-  async addCallHistory(
-    callHistoryDetails: CallHistoryDetailsType,
-    receivedAtCounter: number | undefined
-  ): Promise<void> {
-    let timestamp: number;
-    let unread: boolean;
-    let detailsToSave: CallHistoryDetailsType;
-
-    switch (callHistoryDetails.callMode) {
-      case CallMode.Direct: {
-        const {
-          callId,
-          wasIncoming,
-          wasVideoCall,
-          wasDeclined,
-          acceptedTime,
-          endedTime,
-        } = callHistoryDetails;
-        log.info(
-          `addCallHistory: Conversation ID: ${this.id}, ` +
-            `Call ID: ${callId}, ` +
-            'Direct, ' +
-            `Incoming: ${wasIncoming}, ` +
-            `Video: ${wasVideoCall}, ` +
-            `Declined: ${wasDeclined}, ` +
-            `Accepted: ${acceptedTime}, ` +
-            `Ended: ${endedTime}`
-        );
-
-        const resolvedTime = acceptedTime ?? endedTime;
-        assertDev(resolvedTime, 'Direct call must have accepted or ended time');
-        timestamp = resolvedTime;
-        unread =
-          callHistoryDetails.wasIncoming &&
-          !callHistoryDetails.wasDeclined &&
-          !callHistoryDetails.acceptedTime;
-        detailsToSave = {
-          ...callHistoryDetails,
-          callMode: CallMode.Direct,
-        };
-        break;
-      }
-      case CallMode.Group:
-        timestamp = callHistoryDetails.startedTime;
-        unread = false;
-        detailsToSave = callHistoryDetails;
-        break;
-      default:
-        throw missingCaseError(callHistoryDetails);
-    }
-    // This is sometimes called inside of another conversation queue job so if
-    // awaited it would block on this forever.
-    drop(
-      this.queueJob('addCallHistory', async () => {
-        // Force save if we're adding a new call history message for a direct call
-        let forceSave = true;
-        let previousMessage: MessageAttributesType | null = null;
-        if (callHistoryDetails.callMode === CallMode.Direct) {
-          const messageId =
-            await window.Signal.Data.getCallHistoryMessageByCallId(
-              this.id,
-              callHistoryDetails.callId
-            );
-          if (messageId != null) {
-            log.info(
-              `addCallHistory: Found existing call history message (Call ID: ${callHistoryDetails.callId}, Message ID: ${messageId})`
-            );
-            // We don't want to force save if we're updating an existing message
-            forceSave = false;
-            previousMessage =
-              (await window.Signal.Data.getMessageById(messageId)) ?? null;
-          } else {
-            log.info(
-              `addCallHistory: No existing call history message found (Call ID: ${callHistoryDetails.callId})`
-            );
-          }
-        }
-
-        if (
-          !validateTransition(
-            previousMessage?.callHistoryDetails,
-            callHistoryDetails,
-            log
-          )
-        ) {
-          log.info("addCallHistory: Transition isn't valid, not saving");
-          return;
-        }
-
-        const message: MessageAttributesType = {
-          id: previousMessage?.id ?? generateGuid(),
-          conversationId: this.id,
-          type: 'call-history',
-          sent_at: timestamp,
-          timestamp,
-          received_at: receivedAtCounter || incrementMessageCounter(),
-          received_at_ms: timestamp,
-          readStatus: unread ? ReadStatus.Unread : ReadStatus.Read,
-          seenStatus: unread ? SeenStatus.Unseen : SeenStatus.NotApplicable,
-          callHistoryDetails,
-        };
-
-        const id = await window.Signal.Data.saveMessage(message, {
-          ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
-          forceSave,
-        });
-
-        log.info(`addCallHistory: Saved call history message (ID: ${id})`);
-
-        const model = window.MessageController.register(
-          id,
-          new window.Whisper.Message({
-            ...message,
-            id,
-          })
-        );
-
-        if (
-          detailsToSave.callMode === CallMode.Direct &&
-          !detailsToSave.wasIncoming
-        ) {
-          this.incrementSentMessageCount();
-        } else {
-          this.incrementMessageCount();
-        }
-
-        this.trigger('newmessage', model);
-
-        void this.updateUnread();
-        this.set('active_at', timestamp);
-
-        if (canConversationBeUnarchived(this.attributes)) {
-          this.setArchived(false);
-        } else {
-          window.Signal.Data.updateConversation(this.attributes);
-        }
-      })
-    );
-  }
-
-  /**
-   * Adds a group call history message if one is needed. It won't add history messages for
-   * the same group call era ID.
-   *
-   * Resolves with `true` if a new message was added, and `false` otherwise.
-   */
-  async updateCallHistoryForGroupCall(
-    eraId: string,
-    creatorUuid: string
-  ): Promise<boolean> {
-    // We want to update the cache quickly in case this function is called multiple times.
-    const oldCachedEraId = this.cachedLatestGroupCallEraId;
-    this.cachedLatestGroupCallEraId = eraId;
-
-    const alreadyHasMessage =
-      (oldCachedEraId && oldCachedEraId === eraId) ||
-      (await window.Signal.Data.hasGroupCallHistoryMessage(this.id, eraId));
-
-    if (alreadyHasMessage) {
-      void this.updateLastMessage();
-      return false;
-    }
-
-    await this.addCallHistory(
-      {
-        callMode: CallMode.Group,
-        creatorUuid,
-        eraId,
-        startedTime: Date.now(),
-      },
-      undefined
-    );
-    return true;
   }
 
   async addProfileChange(

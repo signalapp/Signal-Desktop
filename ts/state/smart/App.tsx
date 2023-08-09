@@ -11,7 +11,6 @@ import OS from '../../util/os/osMain';
 import { SmartCallManager } from './CallManager';
 import { SmartGlobalModalContainer } from './GlobalModalContainer';
 import { SmartLightbox } from './Lightbox';
-import { SmartStories } from './Stories';
 import { SmartStoryViewer } from './StoryViewer';
 import type { StateType } from '../reducer';
 import {
@@ -22,10 +21,7 @@ import {
   getIsMainWindowFullScreen,
   getMenuOptions,
 } from '../selectors/user';
-import {
-  hasSelectedStoryData,
-  shouldShowStoriesView,
-} from '../selectors/stories';
+import { hasSelectedStoryData } from '../selectors/stories';
 import { getHideMenuBar } from '../selectors/items';
 import { mapDispatchToProps } from '../actions';
 import { ErrorBoundary } from '../../components/ErrorBoundary';
@@ -57,12 +53,6 @@ const mapStateToProps = (state: StateType) => {
     ),
     renderGlobalModalContainer: () => <SmartGlobalModalContainer />,
     renderLightbox: () => <SmartLightbox />,
-    isShowingStoriesView: shouldShowStoriesView(state),
-    renderStories: (closeView: () => unknown) => (
-      <ErrorBoundary name="App/renderStories" closeView={closeView}>
-        <SmartStories />
-      </ErrorBoundary>
-    ),
     hasSelectedStoryData: hasSelectedStoryData(state),
     renderStoryViewer: (closeView: () => unknown) => (
       <ErrorBoundary name="App/renderStoryViewer" closeView={closeView}>

@@ -592,9 +592,11 @@ message SyncMessage {
 
   message CallEvent {
     enum Type {
-      UNKNOWN    = 0;
-      AUDIO_CALL = 1;
-      VIDEO_CALL = 2;
+      UNKNOWN     = 0;
+      AUDIO_CALL  = 1;
+      VIDEO_CALL  = 2;
+      GROUP_CALL  = 3;
+      AD_HOC_CALL = 4;
     }
 
     enum Direction {
@@ -607,14 +609,24 @@ message SyncMessage {
       UNKNOWN      = 0;
       ACCEPTED     = 1;
       NOT_ACCEPTED = 2;
+      DELETE       = 3;
     }
 
-    optional bytes     peerUuid  = 1;
+    optional bytes     peerId    = 1;
     optional uint64    callId    = 2;
     optional uint64    timestamp = 3;
     optional Type      type      = 4;
     optional Direction direction = 5;
     optional Event     event     = 6;
+  }
+
+  message CallLogEvent {
+    enum Type {
+      CLEAR = 0;
+    }
+
+    optional Type   type      = 1;
+    optional uint64 timestamp = 2;
   }
 
   optional Sent                   sent                   = 1;
@@ -636,6 +648,8 @@ message SyncMessage {
   reserved                                                 17; // pniIdentity
   optional PniChangeNumber        pniChangeNumber        = 18;
   optional CallEvent              callEvent              = 19;
+  reserved                                                 20; // callLinkUpdate
+  optional CallLogEvent           callLogEvent           = 21;
 }
 
 message AttachmentPointer {

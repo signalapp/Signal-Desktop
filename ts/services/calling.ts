@@ -17,7 +17,6 @@ import {
   AnswerMessage,
   BusyMessage,
   Call,
-  CallEndedReason,
   CallingMessage,
   CallLogLevel,
   CallState,
@@ -39,8 +38,8 @@ import {
   RingUpdate,
 } from '@signalapp/ringrtc';
 import { uniqBy, noop } from 'lodash';
-import Long from 'long';
 
+import Long from 'long';
 import type {
   ActionsType as CallingReduxActionsType,
   GroupCallParticipantInfoType,
@@ -51,6 +50,7 @@ import { getConversationCallMode } from '../state/ducks/conversations';
 import { isMe } from '../util/whatTypeOfConversation';
 import type {
   AvailableIODevicesType,
+  CallEndedReason,
   MediaDeviceSettings,
   PresentableSource,
   PresentedSource,
@@ -74,11 +74,10 @@ import { UUID, UUIDKind } from '../types/UUID';
 import * as Errors from '../types/errors';
 import type { ConversationModel } from '../models/conversations';
 import * as Bytes from '../Bytes';
-import { uuidToBytes, bytesToUuid } from '../Crypto';
+import { uuidToBytes, bytesToUuid } from '../util/uuidToBytes';
 import { drop } from '../util/drop';
 import { dropNull } from '../util/dropNull';
 import { getOwn } from '../util/getOwn';
-import { isNormalNumber } from '../util/isNormalNumber';
 import * as durations from '../util/durations';
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
 import { handleMessageSend } from '../util/handleMessageSend';
@@ -107,6 +106,24 @@ import {
 import * as log from '../logging/log';
 import { assertDev, strictAssert } from '../util/assert';
 import { sendContentMessageToGroup, sendToGroup } from '../util/sendToGroup';
+import {
+  formatLocalDeviceState,
+  formatPeekInfo,
+  getPeerIdFromConversation,
+  getLocalCallEventFromCallEndedReason,
+  getCallDetailsFromEndedDirectCall,
+  getCallEventDetails,
+  getLocalCallEventFromGroupCall,
+  getLocalCallEventFromDirectCall,
+  getCallDetailsFromDirectCall,
+  getCallDetailsFromGroupCallMeta,
+  updateCallHistoryFromLocalEvent,
+  getGroupCallMeta,
+  getCallIdFromRing,
+  getLocalCallEventFromRingUpdate,
+} from '../util/callDisposition';
+import { isNormalNumber } from '../util/isNormalNumber';
+import { LocalCallEvent } from '../types/CallDisposition';
 
 const {
   processGroupCallRingCancellation,
@@ -689,7 +706,51 @@ export class CallingClass {
       {
         onLocalDeviceStateChanged: groupCall => {
           const localDeviceState = groupCall.getLocalDeviceState();
-          const { eraId } = groupCall.getPeekInfo() || {};
+          const peekInfo = groupCall.getPeekInfo() ?? null;
+
+          log.info(
+            'GroupCall#onLocalDeviceStateChanged',
+            formatLocalDeviceState(localDeviceState),
+            peekInfo != null ? formatPeekInfo(peekInfo) : '(No PeekInfo)'
+          );
+
+          const groupCallMeta = getGroupCallMeta(peekInfo);
+
+          if (groupCallMeta != null) {
+            try {
+              const localCallEvent = getLocalCallEventFromGroupCall(
+                groupCall,
+                groupCallMeta
+              );
+
+              if (localCallEvent != null && peekInfo != null) {
+                const conversation =
+                  window.ConversationController.get(conversationId);
+                strictAssert(
+                  conversation != null,
+                  'GroupCall#onLocalDeviceStateChanged: Missing conversation'
+                );
+                const peerId = getPeerIdFromConversation(
+                  conversation.attributes
+                );
+
+                const callDetails = getCallDetailsFromGroupCallMeta(
+                  peerId,
+                  groupCallMeta
+                );
+                const callEvent = getCallEventDetails(
+                  callDetails,
+                  localCallEvent
+                );
+                drop(updateCallHistoryFromLocalEvent(callEvent, null));
+              }
+            } catch (error) {
+              log.error(
+                'GroupCall#onLocalDeviceStateChanged: Error updating state',
+                Errors.toLogFormat(error)
+              );
+            }
+          }
 
           if (
             localDeviceState.connectionState === ConnectionState.NotConnected
@@ -703,10 +764,13 @@ export class CallingClass {
 
             if (
               updateMessageState === GroupCallUpdateMessageState.SentJoin &&
-              eraId
+              peekInfo?.eraId != null
             ) {
               updateMessageState = GroupCallUpdateMessageState.SentLeft;
-              void this.sendGroupCallUpdateMessage(conversationId, eraId);
+              void this.sendGroupCallUpdateMessage(
+                conversationId,
+                peekInfo?.eraId
+              );
             }
           } else {
             this.callsByConversation[conversationId] = groupCall;
@@ -721,16 +785,28 @@ export class CallingClass {
             if (
               updateMessageState === GroupCallUpdateMessageState.SentNothing &&
               localDeviceState.joinState === JoinState.Joined &&
-              eraId
+              peekInfo?.eraId != null
             ) {
               updateMessageState = GroupCallUpdateMessageState.SentJoin;
-              void this.sendGroupCallUpdateMessage(conversationId, eraId);
+              void this.sendGroupCallUpdateMessage(
+                conversationId,
+                peekInfo?.eraId
+              );
             }
           }
 
           this.syncGroupCallToRedux(conversationId, groupCall);
         },
         onRemoteDeviceStatesChanged: groupCall => {
+          const localDeviceState = groupCall.getLocalDeviceState();
+          const peekInfo = groupCall.getPeekInfo();
+
+          log.info(
+            'GroupCall#onRemoteDeviceStatesChanged',
+            formatLocalDeviceState(localDeviceState),
+            peekInfo ? formatPeekInfo(peekInfo) : '(No PeekInfo)'
+          );
+
           this.syncGroupCallToRedux(conversationId, groupCall);
         },
         onAudioLevels: groupCall => {
@@ -748,7 +824,16 @@ export class CallingClass {
         },
         onPeekChanged: groupCall => {
           const localDeviceState = groupCall.getLocalDeviceState();
-          const { eraId } = groupCall.getPeekInfo() || {};
+          const peekInfo = groupCall.getPeekInfo() ?? null;
+
+          log.info(
+            'GroupCall#onPeekChanged',
+            formatLocalDeviceState(localDeviceState),
+            peekInfo ? formatPeekInfo(peekInfo) : '(No PeekInfo)'
+          );
+
+          const { eraId } = peekInfo ?? {};
+
           if (
             updateMessageState === GroupCallUpdateMessageState.SentNothing &&
             localDeviceState.connectionState !== ConnectionState.NotConnected &&
@@ -759,10 +844,7 @@ export class CallingClass {
             void this.sendGroupCallUpdateMessage(conversationId, eraId);
           }
 
-          void this.updateCallHistoryForGroupCall(
-            conversationId,
-            groupCall.getPeekInfo()
-          );
+          void this.updateCallHistoryForGroupCall(conversationId, peekInfo);
           this.syncGroupCallToRedux(conversationId, groupCall);
         },
         async requestMembershipProof(groupCall) {
@@ -789,7 +871,17 @@ export class CallingClass {
         requestGroupMembers: groupCall => {
           groupCall.setGroupMembers(this.getGroupCallMembers(conversationId));
         },
-        onEnded: noop,
+        onEnded: (groupCall, endedReason) => {
+          const localDeviceState = groupCall.getLocalDeviceState();
+          const peekInfo = groupCall.getPeekInfo();
+
+          log.info(
+            'GroupCall#onEnded',
+            endedReason,
+            formatLocalDeviceState(localDeviceState),
+            peekInfo ? formatPeekInfo(peekInfo) : '(No PeekInfo)'
+          );
+        },
       }
     );
 
@@ -1567,12 +1659,23 @@ export class CallingClass {
 
       await this.handleOutgoingSignaling(remoteUserId, message);
 
-      const ProtoOfferType = Proto.CallingMessage.Offer.Type;
-      await this.addCallHistoryForFailedIncomingCall(
-        conversation,
-        callingMessage.offer.type === ProtoOfferType.OFFER_VIDEO_CALL,
-        envelope.timestamp,
-        callId.toString()
+      const wasVideoCall =
+        callingMessage.offer.type ===
+        Proto.CallingMessage.Offer.Type.OFFER_VIDEO_CALL;
+
+      const peerId = getPeerIdFromConversation(conversation.attributes);
+      const callDetails = getCallDetailsFromEndedDirectCall(
+        callId.toString(),
+        peerId,
+        peerId, // Incoming call
+        wasVideoCall,
+        envelope.timestamp
+      );
+      const localCallEvent = LocalCallEvent.Missed;
+      const callEvent = getCallEventDetails(callDetails, localCallEvent);
+      await updateCallHistoryFromLocalEvent(
+        callEvent,
+        envelope.receivedAtCounter
       );
 
       return;
@@ -1801,6 +1904,20 @@ export class CallingClass {
         ringId,
       });
     }
+
+    const localEvent = getLocalCallEventFromRingUpdate(update);
+    if (localEvent != null) {
+      const callId = getCallIdFromRing(ringId);
+      const callDetails = getCallDetailsFromGroupCallMeta(groupId, {
+        callId,
+        ringerId: ringerUuid,
+      });
+      const callEvent = getCallEventDetails(
+        callDetails,
+        shouldRing ? LocalCallEvent.Ringing : LocalCallEvent.Started
+      );
+      await updateCallHistoryFromLocalEvent(callEvent, null);
+    }
   }
 
   private async handleOutgoingSignaling(
@@ -1865,8 +1982,6 @@ export class CallingClass {
       );
       return false;
     }
-
-    const callId = Long.fromValue(call.callId).toString();
     try {
       // The peer must be 'trusted' before accepting a call from them.
       // This is mostly the safety number check, unverified meaning that they were
@@ -1879,12 +1994,13 @@ export class CallingClass {
         log.info(
           `Peer is not trusted, ignoring incoming call for conversation: ${conversation.idForLogging()}`
         );
-        await this.addCallHistoryForFailedIncomingCall(
-          conversation,
-          call.isVideoCall,
-          Date.now(),
-          callId
-        );
+
+        const localCallEvent = LocalCallEvent.Missed;
+        const peerId = getPeerIdFromConversation(conversation.attributes);
+        const callDetails = getCallDetailsFromDirectCall(peerId, call);
+        const callEvent = getCallEventDetails(callDetails, localCallEvent);
+        await updateCallHistoryFromLocalEvent(callEvent, null);
+
         return false;
       }
 
@@ -1898,20 +2014,14 @@ export class CallingClass {
       return true;
     } catch (err) {
       log.error(`Ignoring incoming call: ${Errors.toLogFormat(err)}`);
-      await this.addCallHistoryForFailedIncomingCall(
-        conversation,
-        call.isVideoCall,
-        Date.now(),
-        callId
-      );
       return false;
     }
   }
 
   private async handleAutoEndedIncomingCallRequest(
-    callId: CallId,
+    callIdValue: CallId,
     remoteUserId: UserId,
-    reason: CallEndedReason,
+    callEndedReason: CallEndedReason,
     ageInSeconds: number,
     wasVideoCall: boolean,
     receivedAtCounter: number | undefined
@@ -1921,22 +2031,28 @@ export class CallingClass {
       return;
     }
 
+    const callId = Long.fromValue(callIdValue).toString();
+    const peerId = getPeerIdFromConversation(conversation.attributes);
+
     // This is extra defensive, just in case RingRTC passes us a bad value. (It probably
     //   won't.)
     const ageInMilliseconds =
       isNormalNumber(ageInSeconds) && ageInSeconds >= 0
         ? ageInSeconds * durations.SECOND
         : 0;
-    const endedTime = Date.now() - ageInMilliseconds;
+    const timestamp = Date.now() - ageInMilliseconds;
 
-    await this.addCallHistoryForAutoEndedIncomingCall(
-      conversation,
-      reason,
-      endedTime,
+    const callDetails = getCallDetailsFromEndedDirectCall(
+      callId,
+      peerId,
+      remoteUserId,
       wasVideoCall,
-      receivedAtCounter,
-      Long.fromValue(callId).toString()
+      timestamp
     );
+    const localCallEvent =
+      getLocalCallEventFromCallEndedReason(callEndedReason);
+    const callEvent = getCallEventDetails(callDetails, localCallEvent);
+    await updateCallHistoryFromLocalEvent(callEvent, receivedAtCounter ?? null);
   }
 
   private attachToCall(conversation: ConversationModel, call: Call): void {
@@ -1947,44 +2063,26 @@ export class CallingClass {
       return;
     }
 
-    let acceptedTime: number | undefined;
-
     // eslint-disable-next-line no-param-reassign
     call.handleStateChanged = async () => {
-      if (call.state === CallState.Accepted) {
-        acceptedTime = acceptedTime || Date.now();
-        await this.addCallHistoryForAcceptedCall(
-          conversation,
-          call,
-          acceptedTime
-        );
-      } else if (call.state === CallState.Ended) {
-        try {
-          await this.addCallHistoryForEndedCall(
-            conversation,
-            call,
-            acceptedTime
-          );
-        } catch (error) {
-          log.error(
-            'Failed to add call history for ended call',
-            Errors.toLogFormat(error)
-          );
-        }
+      if (call.state === CallState.Ended) {
         this.stopDeviceReselectionTimer();
         this.lastMediaDeviceSettings = undefined;
         delete this.callsByConversation[conversation.id];
       }
+
+      const localCallEvent = getLocalCallEventFromDirectCall(call);
+      if (localCallEvent != null) {
+        const peerId = getPeerIdFromConversation(conversation.attributes);
+        const callDetails = getCallDetailsFromDirectCall(peerId, call);
+        const callEvent = getCallEventDetails(callDetails, localCallEvent);
+        await updateCallHistoryFromLocalEvent(callEvent, null);
+      }
+
       reduxInterface.callStateChange({
-        remoteUserId: call.remoteUserId,
-        callId: Long.fromValue(call.callId).toString(),
         conversationId: conversation.id,
-        acceptedTime,
         callState: call.state,
         callEndedReason: call.endedReason,
-        isIncoming: call.isIncoming,
-        isVideoCall: call.isVideoCall,
-        title: conversation.getTitle(),
       });
     };
 
@@ -2137,154 +2235,55 @@ export class CallingClass {
     return true;
   }
 
-  private async addCallHistoryForAcceptedCall(
-    conversation: ConversationModel,
-    call: Call,
-    acceptedTime: number
-  ) {
-    const callId = Long.fromValue(call.callId).toString();
-    try {
-      log.info('addCallHistoryForAcceptedCall: Adding call history');
-      await conversation.addCallHistory(
-        {
-          callId,
-          callMode: CallMode.Direct,
-          wasIncoming: call.isIncoming,
-          wasVideoCall: call.isVideoCall,
-          wasDeclined: false,
-          acceptedTime,
-          endedTime: undefined,
-        },
-        undefined
-      );
-    } catch (error) {
-      log.error(
-        'addCallHistoryForAcceptedCall: Failed to add call history',
-        Errors.toLogFormat(error)
-      );
-    }
-  }
-
-  private async addCallHistoryForEndedCall(
-    conversation: ConversationModel,
-    call: Call,
-    acceptedTimeParam: number | undefined
-  ) {
-    let acceptedTime = acceptedTimeParam;
-
-    const { endedReason, isIncoming } = call;
-    const wasAccepted = Boolean(acceptedTime);
-    const isOutgoing = !isIncoming;
-    const wasDeclined =
-      !wasAccepted &&
-      (endedReason === CallEndedReason.Declined ||
-        endedReason === CallEndedReason.DeclinedOnAnotherDevice ||
-        (isIncoming && endedReason === CallEndedReason.LocalHangup) ||
-        (isOutgoing && endedReason === CallEndedReason.RemoteHangup) ||
-        (isOutgoing &&
-          endedReason === CallEndedReason.RemoteHangupNeedPermission));
-    if (call.endedReason === CallEndedReason.AcceptedOnAnotherDevice) {
-      acceptedTime = Date.now();
-    }
-
-    const callId = Long.fromValue(call.callId).toString();
-
-    await conversation.addCallHistory(
-      {
-        callId,
-        callMode: CallMode.Direct,
-        wasIncoming: call.isIncoming,
-        wasVideoCall: call.isVideoCall,
-        wasDeclined,
-        acceptedTime,
-        endedTime: Date.now(),
-      },
-      undefined
-    );
-  }
-
-  private async addCallHistoryForFailedIncomingCall(
-    conversation: ConversationModel,
-    wasVideoCall: boolean,
-    timestamp: number,
-    callId: string
-  ) {
-    await conversation.addCallHistory(
-      {
-        callMode: CallMode.Direct,
-        wasIncoming: true,
-        wasVideoCall,
-        // Since the user didn't decline, make sure it shows up as a missed call instead
-        wasDeclined: false,
-        acceptedTime: undefined,
-        endedTime: timestamp,
-        callId,
-      },
-      undefined
-    );
-  }
-
-  private async addCallHistoryForAutoEndedIncomingCall(
-    conversation: ConversationModel,
-    reason: CallEndedReason,
-    endedTime: number,
-    wasVideoCall: boolean,
-    receivedAtCounter: number | undefined,
-    callId: string
-  ) {
-    let wasDeclined = false;
-    let acceptedTime;
-
-    if (reason === CallEndedReason.AcceptedOnAnotherDevice) {
-      acceptedTime = endedTime;
-    } else if (reason === CallEndedReason.DeclinedOnAnotherDevice) {
-      wasDeclined = true;
-    }
-    // Otherwise it will show up as a missed call.
-
-    await conversation.addCallHistory(
-      {
-        callId,
-        callMode: CallMode.Direct,
-        wasIncoming: true,
-        wasVideoCall,
-        wasDeclined,
-        acceptedTime,
-        endedTime,
-      },
-      receivedAtCounter
-    );
-  }
-
   public async updateCallHistoryForGroupCall(
     conversationId: string,
-    peekInfo: undefined | PeekInfo
+    peekInfo: PeekInfo | null
   ): Promise<void> {
+    const groupCallMeta = getGroupCallMeta(peekInfo);
     // If we don't have the necessary pieces to peek, bail. (It's okay if we don't.)
-    if (!peekInfo || !peekInfo.eraId || !peekInfo.creator) {
+    if (groupCallMeta == null) {
       return;
     }
-    const creatorUuid = bytesToUuid(peekInfo.creator);
-    if (!creatorUuid) {
-      log.error('updateCallHistoryForGroupCall(): bad creator UUID');
-      return;
-    }
-    const creatorConversation = window.ConversationController.get(creatorUuid);
+
+    const creatorConversation = window.ConversationController.get(
+      groupCallMeta.ringerId
+    );
 
     const conversation = window.ConversationController.get(conversationId);
     if (!conversation) {
-      log.error('updateCallHistoryForGroupCall(): could not find conversation');
+      log.error('maybeNotifyGroupCall(): could not find conversation');
       return;
     }
 
-    const isNewCall = await conversation.updateCallHistoryForGroupCall(
-      peekInfo.eraId,
-      creatorUuid
-    );
+    const prevMessageId =
+      await window.Signal.Data.getCallHistoryMessageByCallId({
+        conversationId: conversation.id,
+        callId: groupCallMeta.callId,
+      });
+
+    const isNewCall = prevMessageId == null;
+
+    const groupCall = this.getGroupCall(conversationId);
+    if (groupCall != null) {
+      const localCallEvent = getLocalCallEventFromGroupCall(
+        groupCall,
+        groupCallMeta
+      );
+      if (localCallEvent != null) {
+        const peerId = getPeerIdFromConversation(conversation.attributes);
+        const callDetails = getCallDetailsFromGroupCallMeta(
+          peerId,
+          groupCallMeta
+        );
+        const callEvent = getCallEventDetails(callDetails, localCallEvent);
+        await updateCallHistoryFromLocalEvent(callEvent, null);
+      }
+    }
+
     const wasStartedByMe = Boolean(
       creatorConversation && isMe(creatorConversation.attributes)
     );
-    const isAnybodyElseInGroupCall = Boolean(peekInfo.devices.length);
+    const isAnybodyElseInGroupCall = Boolean(peekInfo?.devices.length);
 
     if (
       isNewCall &&

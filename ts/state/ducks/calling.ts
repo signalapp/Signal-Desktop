@@ -3,7 +3,6 @@
 
 import { ipcRenderer } from 'electron';
 import type { ThunkAction, ThunkDispatch } from 'redux-thunk';
-import { CallEndedReason } from '@signalapp/ringrtc';
 import {
   hasScreenCapturePermission,
   openSystemPreferences,
@@ -26,6 +25,7 @@ import type {
   PresentableSource,
 } from '../../types/Calling';
 import {
+  CallEndedReason,
   CallingDeviceType,
   CallMode,
   CallViewMode,
@@ -53,8 +53,6 @@ import { isDirectConversation } from '../../util/whatTypeOfConversation';
 import { SHOW_TOAST } from './toast';
 import { ToastType } from '../../types/Toast';
 import type { ShowToastActionType } from './toast';
-import { singleProtoJobQueue } from '../../jobs/singleProtoJobQueue';
-import MessageSender from '../../textsecure/SendMessage';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import { useBoundActions } from '../../hooks/useBoundActions';
 import { isAnybodyElseInGroupCall } from './callingHelpers';
@@ -150,15 +148,10 @@ export type AcceptCallType = ReadonlyDeep<{
 }>;
 
 export type CallStateChangeType = ReadonlyDeep<{
-  remoteUserId: string; // TODO: Remove
-  callId: string; // TODO: Remove
   conversationId: string;
   acceptedTime?: number;
   callState: CallState;
   callEndedReason?: CallEndedReason;
-  isIncoming: boolean;
-  isVideoCall: boolean;
-  title: string;
 }>;
 
 export type CancelCallType = ReadonlyDeep<{
@@ -363,7 +356,7 @@ const doGroupCallPeek = (
     //   to only be peeking once.
     await Promise.all([sleep(1000), waitForOnline(navigator, window)]);
 
-    let peekInfo;
+    let peekInfo = null;
     try {
       peekInfo = await calling.peekGroupCall(conversationId);
     } catch (err) {
@@ -689,37 +682,17 @@ function callStateChange(
   CallStateChangeFulfilledActionType
 > {
   return async dispatch => {
-    const {
-      callId,
-      callState,
-      isVideoCall,
-      isIncoming,
-      acceptedTime,
-      callEndedReason,
-      remoteUserId,
-    } = payload;
+    const { callState, acceptedTime, callEndedReason } = payload;
 
     if (callState === CallState.Ended) {
       ipcRenderer.send('close-screen-share-controller');
     }
 
-    const isOutgoing = !isIncoming;
     const wasAccepted = acceptedTime != null;
-    const isConnected = callState === CallState.Accepted; // "connected"
     const isEnded = callState === CallState.Ended && callEndedReason != null;
 
     const isLocalHangup = callEndedReason === CallEndedReason.LocalHangup;
     const isRemoteHangup = callEndedReason === CallEndedReason.RemoteHangup;
-
-    const answered = isConnected && wasAccepted;
-    const notAnswered = isEnded && !wasAccepted;
-
-    const isOutgoingRemoteAccept = isOutgoing && isConnected && answered;
-    const isIncomingLocalAccept = isIncoming && isConnected && answered;
-    const isOutgoingLocalHangup = isOutgoing && isLocalHangup && notAnswered;
-    const isIncomingLocalHangup = isIncoming && isLocalHangup && notAnswered;
-    const isOutgoingRemoteHangup = isOutgoing && isRemoteHangup && notAnswered;
-    const isIncomingRemoteHangup = isIncoming && isRemoteHangup && notAnswered;
 
     // Play the hangup noise if:
     if (
@@ -731,37 +704,6 @@ function callStateChange(
       (isEnded && !wasAccepted && isRemoteHangup)
     ) {
       await callingTones.playEndCall();
-    }
-
-    if (isIncomingRemoteHangup) {
-      // This is considered just another "missed" event
-      log.info(
-        `callStateChange: not syncing hangup from self (Call ID: ${callId}))`
-      );
-    } else if (
-      isOutgoingRemoteAccept ||
-      isIncomingLocalAccept ||
-      isOutgoingLocalHangup ||
-      isIncomingLocalHangup ||
-      isOutgoingRemoteHangup
-    ) {
-      log.info(`callStateChange: syncing call event (Call ID: ${callId})`);
-      try {
-        await singleProtoJobQueue.add(
-          MessageSender.getCallEventSync(
-            remoteUserId,
-            callId,
-            isVideoCall,
-            isIncoming,
-            acceptedTime != null
-          )
-        );
-      } catch (error) {
-        log.error(
-          'callStateChange: Failed to queue sync message',
-          Errors.toLogFormat(error)
-        );
-      }
     }
 
     dispatch({
@@ -1326,10 +1268,12 @@ function onOutgoingVideoCallInConversation(
       log.info(
         'onOutgoingVideoCallInConversation: call is deemed "safe". Making call'
       );
-      startCallingLobby({
-        conversationId,
-        isVideoCall: true,
-      })(dispatch, getState, undefined);
+      dispatch(
+        startCallingLobby({
+          conversationId,
+          isVideoCall: true,
+        })
+      );
       log.info('onOutgoingVideoCallInConversation: started the call');
     } else {
       log.info(

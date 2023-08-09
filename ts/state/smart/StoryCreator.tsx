@@ -35,7 +35,7 @@ import { processAttachment } from '../../util/processAttachment';
 import { useConversationsActions } from '../ducks/conversations';
 import { useActions as useEmojisActions } from '../ducks/emojis';
 import { useGlobalModalActions } from '../ducks/globalModals';
-import { useActions as useItemsActions } from '../ducks/items';
+import { useItemsActions } from '../ducks/items';
 import { useLinkPreviewActions } from '../ducks/linkPreviews';
 import { useRecentEmojis } from '../selectors/emojis';
 import { useStoriesActions } from '../ducks/stories';

@@ -36,6 +36,7 @@ $color-black: #000000;
 $color-white-alpha-06: rgba($color-white, 0.06);
 $color-white-alpha-08: rgba($color-white, 0.08);
 $color-white-alpha-12: rgba($color-white, 0.12);
+$color-white-alpha-16: rgba($color-white, 0.16);
 $color-white-alpha-20: rgba($color-white, 0.2);
 $color-white-alpha-40: rgba($color-white, 0.4);
 $color-white-alpha-60: rgba($color-white, 0.6);
@@ -280,3 +281,9 @@ $z-index-modal-host: 102;
 $z-index-above-popup: 103;
 $z-index-calling-pip: 104;
 $z-index-above-context-menu: 126;
+
+// global navTabs
+$NavTabs__width: 80px;
+// These values are 'block' specific to coordinate with the NavSidebar__Header
+$NavTabs__Item__blockPadding: 2px;
+$NavTabs__ItemButton__blockPadding: 10px;

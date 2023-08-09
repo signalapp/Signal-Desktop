@@ -143,7 +143,6 @@ export type StoriesStateType = Readonly<{
   addStoryData: AddStoryData;
   hasAllStoriesUnmuted: boolean;
   lastOpenedAtTimestamp: number | undefined;
-  openedAtTimestamp: number | undefined;
   replyState?: Readonly<{
     messageId: string;
     replies: Array<MessageAttributesType>;
@@ -163,7 +162,8 @@ const QUEUE_STORY_DOWNLOAD = 'stories/QUEUE_STORY_DOWNLOAD';
 const SEND_STORY_MODAL_OPEN_STATE_CHANGED =
   'stories/SEND_STORY_MODAL_OPEN_STATE_CHANGED';
 const STORY_CHANGED = 'stories/STORY_CHANGED';
-const TOGGLE_VIEW = 'stories/TOGGLE_VIEW';
+const CLEAR_STORIES_TAB_STATE = 'stories/CLEAR_STORIES_TAB_STATE';
+const MARK_STORIES_TAB_VIEWED = 'stories/MARK_STORIES_TAB_VIEWED';
 const VIEW_STORY = 'stories/VIEW_STORY';
 const STORY_REPLY_DELETED = 'stories/STORY_REPLY_DELETED';
 const REMOVE_ALL_STORIES = 'stories/REMOVE_ALL_STORIES';
@@ -217,8 +217,12 @@ type StoryChangedActionType = ReadonlyDeep<{
   payload: StoryDataType;
 }>;
 
-type ToggleViewActionType = ReadonlyDeep<{
-  type: typeof TOGGLE_VIEW;
+type ClearStoriesTabStateActionType = ReadonlyDeep<{
+  type: typeof CLEAR_STORIES_TAB_STATE;
+}>;
+
+type MarkStoriesTabViewedActionType = ReadonlyDeep<{
+  type: typeof MARK_STORIES_TAB_VIEWED;
 }>;
 
 type ViewStoryActionType = ReadonlyDeep<{
@@ -262,7 +266,8 @@ export type StoriesActionType =
   | QueueStoryDownloadActionType
   | SendStoryModalOpenStateChanged
   | StoryChangedActionType
-  | ToggleViewActionType
+  | ClearStoriesTabStateActionType
+  | MarkStoriesTabViewedActionType
   | ViewStoryActionType
   | StoryReplyDeletedActionType
   | RemoveAllStoriesActionType
@@ -627,7 +632,7 @@ function sendStoryMessage(
 > {
   return async (dispatch, getState) => {
     const { stories } = getState();
-    const { openedAtTimestamp, sendStoryModalData } = stories;
+    const { lastOpenedAtTimestamp, sendStoryModalData } = stories;
 
     // Add spinners in the story creator
     dispatch({
@@ -636,8 +641,8 @@ function sendStoryMessage(
     });
 
     assertDev(
-      openedAtTimestamp,
-      'sendStoryMessage: openedAtTimestamp is undefined, cannot send'
+      lastOpenedAtTimestamp,
+      'sendStoryMessage: lastOpenedAtTimestamp is undefined, cannot send'
     );
     assertDev(
       sendStoryModalData,
@@ -649,7 +654,7 @@ function sendStoryMessage(
     const result = await blockSendUntilConversationsAreVerified(
       sendStoryModalData,
       SafetyNumberChangeSource.Story,
-      Date.now() - openedAtTimestamp
+      Date.now() - lastOpenedAtTimestamp
     );
 
     if (!result) {
@@ -720,9 +725,15 @@ function sendStoryModalOpenStateChanged(
   };
 }
 
-function toggleStoriesView(): ToggleViewActionType {
+function clearStoriesTabState(): ClearStoriesTabStateActionType {
   return {
-    type: TOGGLE_VIEW,
+    type: CLEAR_STORIES_TAB_STATE,
+  };
+}
+
+function markStoriesTabViewed(): MarkStoriesTabViewedActionType {
+  return {
+    type: MARK_STORIES_TAB_VIEWED,
   };
 }
 
@@ -1415,7 +1426,8 @@ export const actions = {
   sendStoryMessage,
   sendStoryModalOpenStateChanged,
   storyChanged,
-  toggleStoriesView,
+  clearStoriesTabState,
+  markStoriesTabViewed,
   verifyStoryListMembers,
   viewUserStories,
   viewStory,
@@ -1439,7 +1451,6 @@ export function getEmptyState(
 ): StoriesStateType {
   return {
     lastOpenedAtTimestamp: undefined,
-    openedAtTimestamp: undefined,
     addStoryData: undefined,
     stories: [],
     hasAllStoriesUnmuted: false,
@@ -1451,20 +1462,22 @@ export function reducer(
   state: Readonly<StoriesStateType> = getEmptyState(),
   action: Readonly<StoriesActionType>
 ): StoriesStateType {
-  if (action.type === TOGGLE_VIEW) {
-    const isShowingStoriesView = Boolean(state.openedAtTimestamp);
-
+  if (action.type === MARK_STORIES_TAB_VIEWED) {
     return {
       ...state,
-      lastOpenedAtTimestamp: !isShowingStoriesView
-        ? state.openedAtTimestamp || Date.now()
-        : state.lastOpenedAtTimestamp,
-      openedAtTimestamp: isShowingStoriesView ? undefined : Date.now(),
+      lastOpenedAtTimestamp: Date.now(),
       replyState: undefined,
       sendStoryModalData: undefined,
-      selectedStoryData: isShowingStoriesView
-        ? undefined
-        : state.selectedStoryData,
+    };
+  }
+
+  if (action.type === CLEAR_STORIES_TAB_STATE) {
+    return {
+      ...state,
+      replyState: undefined,
+      sendStoryModalData: undefined,
+      selectedStoryData: undefined,
+      addStoryData: undefined,
     };
   }
 
@@ -1851,8 +1864,6 @@ export function reducer(
   if (action.type === TARGETED_CONVERSATION_CHANGED) {
     return {
       ...state,
-      lastOpenedAtTimestamp: state.openedAtTimestamp || Date.now(),
-      openedAtTimestamp: undefined,
       replyState: undefined,
       sendStoryModalData: undefined,
       selectedStoryData: undefined,

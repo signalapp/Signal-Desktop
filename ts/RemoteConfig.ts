@@ -8,8 +8,8 @@ import * as log from './logging/log';
 import type { UUIDStringType } from './types/UUID';
 import { parseIntOrThrow } from './util/parseIntOrThrow';
 import { SECOND, HOUR } from './util/durations';
-import { uuidToBytes } from './util/uuidToBytes';
 import * as Bytes from './Bytes';
+import { uuidToBytes } from './util/uuidToBytes';
 import { HashType } from './types/Crypto';
 import { getCountryCode } from './types/PhoneNumber';
 

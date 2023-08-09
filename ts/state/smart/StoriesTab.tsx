@@ -1,20 +1,21 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import type { LocalizerType } from '../../types/Util';
 import type { StateType } from '../reducer';
 import { SmartStoryCreator } from './StoryCreator';
-import { Stories } from '../../components/Stories';
+import { StoriesTab } from '../../components/StoriesTab';
 import { getMaximumAttachmentSizeInKb } from '../../types/AttachmentSize';
 import type { ConfigKeyType } from '../../RemoteConfig';
 import { getMe } from '../selectors/conversations';
-import { getIntl } from '../selectors/user';
+import { getIntl, getTheme } from '../selectors/user';
 import { getPreferredBadgeSelector } from '../selectors/badges';
 import {
   getHasStoryViewReceiptSetting,
+  getNavTabsCollapsed,
   getPreferredLeftPaneWidth,
   getRemoteConfig,
 } from '../selectors/items';
@@ -22,19 +23,19 @@ import {
   getAddStoryData,
   getSelectedStoryData,
   getStories,
-  shouldShowStoriesView,
 } from '../selectors/stories';
 import { useConversationsActions } from '../ducks/conversations';
 import { useGlobalModalActions } from '../ducks/globalModals';
 import { useStoriesActions } from '../ducks/stories';
 import { useToastActions } from '../ducks/toast';
 import { useAudioPlayerActions } from '../ducks/audioPlayer';
+import { useItemsActions } from '../ducks/items';
 
 function renderStoryCreator(): JSX.Element {
   return <SmartStoryCreator />;
 }
 
-export function SmartStories(): JSX.Element | null {
+export function SmartStoriesTab(): JSX.Element | null {
   const storiesActions = useStoriesActions();
   const {
     retryMessageSend,
@@ -47,10 +48,6 @@ export function SmartStories(): JSX.Element | null {
   const { showToast } = useToastActions();
 
   const i18n = useSelector<StateType, LocalizerType>(getIntl);
-
-  const isShowingStoriesView = useSelector<StateType, boolean>(
-    shouldShowStoriesView
-  );
 
   const preferredWidthFromStorage = useSelector<StateType, number>(
     getPreferredLeftPaneWidth
@@ -79,12 +76,22 @@ export function SmartStories(): JSX.Element | null {
   );
   const { pauseVoiceNotePlayer } = useAudioPlayerActions();
 
-  if (!isShowingStoriesView) {
-    return null;
-  }
+  const preferredLeftPaneWidth = useSelector(getPreferredLeftPaneWidth);
+  const navTabsCollapsed = useSelector(getNavTabsCollapsed);
+  const { savePreferredLeftPaneWidth, toggleNavTabsCollapse } =
+    useItemsActions();
+
+  const theme = useSelector(getTheme);
+
+  useEffect(() => {
+    storiesActions.markStoriesTabViewed();
+    return () => {
+      storiesActions.clearStoriesTabState();
+    };
+  }, [storiesActions]);
 
   return (
-    <Stories
+    <StoriesTab
       addStoryData={addStoryData}
       getPreferredBadge={getPreferredBadge}
       hiddenStories={hiddenStories}
@@ -92,6 +99,7 @@ export function SmartStories(): JSX.Element | null {
       maxAttachmentSizeInKb={maxAttachmentSizeInKb}
       me={me}
       myStories={myStories}
+      navTabsCollapsed={navTabsCollapsed}
       onForwardStory={messageId => {
         toggleForwardMessagesModal([messageId]);
       }}
@@ -100,14 +108,18 @@ export function SmartStories(): JSX.Element | null {
           saveAttachment(story.attachment, story.timestamp);
         }
       }}
+      onToggleNavTabsCollapse={toggleNavTabsCollapse}
       onMediaPlaybackStart={pauseVoiceNotePlayer}
+      preferredLeftPaneWidth={preferredLeftPaneWidth}
       preferredWidthFromStorage={preferredWidthFromStorage}
       renderStoryCreator={renderStoryCreator}
       retryMessageSend={retryMessageSend}
+      savePreferredLeftPaneWidth={savePreferredLeftPaneWidth}
       showConversation={showConversation}
       showStoriesSettings={showStoriesSettings}
       showToast={showToast}
       stories={stories}
+      theme={theme}
       toggleHideStories={toggleHideStories}
       isViewingStory={selectedStoryData !== undefined}
       isStoriesSettingsVisible={isStoriesSettingsVisible}

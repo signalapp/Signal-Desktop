@@ -12,6 +12,7 @@ import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { noop } from 'lodash';
 
+import { filterDOMProps } from '@react-aria/utils';
 import type { AvatarColorType } from '../types/Colors';
 import type { BadgeType } from '../badges/types';
 import type { LocalizerType } from '../types/Util';
@@ -239,7 +240,7 @@ export function Avatar({
   if (onClick) {
     contents = (
       <button
-        {...ariaProps}
+        {...filterDOMProps(ariaProps)}
         className={contentsClassName}
         type="button"
         onClick={onClick}

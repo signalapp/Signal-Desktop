@@ -17,6 +17,13 @@ import { getDefaultConversation } from '../../../test-both/helpers/getDefaultCon
 import { makeFakeLookupConversationWithoutUuid } from '../../../test-both/helpers/fakeLookupConversationWithoutUuid';
 import { ThemeType } from '../../../types/Util';
 import { DurationInSeconds } from '../../../util/durations';
+import { NavTab } from '../../../state/ducks/nav';
+import { CallMode } from '../../../types/Calling';
+import {
+  CallDirection,
+  CallType,
+  DirectCallStatus,
+} from '../../../types/CallDisposition';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -79,6 +86,7 @@ const createProps = (
     metadata: {},
     member: getDefaultConversation(),
   })),
+  selectedNavTab: NavTab.Chats,
   setDisappearingMessages: action('setDisappearingMessages'),
   showContactModal: action('showContactModal'),
   pushPanelForConversation: action('pushPanelForConversation'),
@@ -214,3 +222,32 @@ export const _11 = (): JSX.Element => (
 _11.story = {
   name: '1:1',
 };
+
+function mins(n: number) {
+  return DurationInSeconds.toMillis(DurationInSeconds.fromMinutes(n));
+}
+
+export function WithCallHistoryGroup(): JSX.Element {
+  const props = createProps();
+
+  return (
+    <ConversationDetails
+      {...props}
+      callHistoryGroup={{
+        peerId: props.conversation?.uuid ?? '',
+        mode: CallMode.Direct,
+        type: CallType.Video,
+        direction: CallDirection.Incoming,
+        status: DirectCallStatus.Accepted,
+        timestamp: Date.now(),
+        children: [
+          { callId: '123', timestamp: Date.now() },
+          { callId: '122', timestamp: Date.now() - mins(30) },
+          { callId: '121', timestamp: Date.now() - mins(45) },
+          { callId: '121', timestamp: Date.now() - mins(60) },
+        ],
+      }}
+      selectedNavTab={NavTab.Calls}
+    />
+  );
+}

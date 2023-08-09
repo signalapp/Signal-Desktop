@@ -5,6 +5,7 @@ import { getEmptyState as accounts } from './ducks/accounts';
 import { getEmptyState as app } from './ducks/app';
 import { getEmptyState as audioPlayer } from './ducks/audioPlayer';
 import { getEmptyState as audioRecorder } from './ducks/audioRecorder';
+import { getEmptyState as callHistory } from './ducks/callHistory';
 import { getEmptyState as calling } from './ducks/calling';
 import { getEmptyState as composer } from './ducks/composer';
 import { getEmptyState as conversations } from './ducks/conversations';
@@ -15,6 +16,7 @@ import { getEmptyState as inbox } from './ducks/inbox';
 import { getEmptyState as lightbox } from './ducks/lightbox';
 import { getEmptyState as linkPreviews } from './ducks/linkPreviews';
 import { getEmptyState as mediaGallery } from './ducks/mediaGallery';
+import { getEmptyState as nav } from './ducks/nav';
 import { getEmptyState as network } from './ducks/network';
 import { getEmptyState as preferredReactions } from './ducks/preferredReactions';
 import { getEmptyState as safetyNumber } from './ducks/safetyNumber';
@@ -39,15 +41,18 @@ import { getInitialState as stickers } from '../types/Stickers';
 import { getThemeType } from '../util/getThemeType';
 import { getInteractionMode } from '../services/InteractionMode';
 import { makeLookup } from '../util/makeLookup';
+import type { CallHistoryDetails } from '../types/CallDisposition';
 
 export function getInitialState({
   badges,
+  callsHistory,
   stories,
   storyDistributionLists,
   mainWindowStats,
   menuOptions,
 }: {
   badges: BadgesStateType;
+  callsHistory: ReadonlyArray<CallHistoryDetails>;
   stories: Array<StoryDataType>;
   storyDistributionLists: Array<StoryDistributionListDataType>;
   mainWindowStats: MainWindowStatsType;
@@ -88,6 +93,10 @@ export function getInitialState({
     audioPlayer: audioPlayer(),
     audioRecorder: audioRecorder(),
     badges,
+    callHistory: {
+      ...callHistory(),
+      callHistoryByCallId: makeLookup(callsHistory, 'callId'),
+    },
     calling: calling(),
     composer: composer(),
     conversations: {
@@ -110,6 +119,7 @@ export function getInitialState({
     lightbox: lightbox(),
     linkPreviews: linkPreviews(),
     mediaGallery: mediaGallery(),
+    nav: nav(),
     network: network(),
     preferredReactions: preferredReactions(),
     safetyNumber: safetyNumber(),

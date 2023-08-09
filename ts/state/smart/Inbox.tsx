@@ -4,32 +4,37 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import type { AppStateType } from '../ducks/app';
-import type { ConversationsStateType } from '../ducks/conversations';
 import type { StateType } from '../reducer';
 import { Inbox } from '../../components/Inbox';
 import { getIntl } from '../selectors/user';
-import { SmartConversationView } from './ConversationView';
 import { SmartCustomizingPreferredReactionsModal } from './CustomizingPreferredReactionsModal';
-import { SmartLeftPane } from './LeftPane';
-import { useConversationsActions } from '../ducks/conversations';
-import { useGlobalModalActions } from '../ducks/globalModals';
 import { getIsCustomizingPreferredReactions } from '../selectors/preferredReactions';
-import { SmartMiniPlayer } from './MiniPlayer';
+import type { SmartNavTabsProps } from './NavTabs';
+import { SmartNavTabs } from './NavTabs';
+import { SmartStoriesTab } from './StoriesTab';
+import { SmartCallsTab } from './CallsTab';
+import { useItemsActions } from '../ducks/items';
+import { getNavTabsCollapsed } from '../selectors/items';
+import { SmartChatsTab } from './ChatsTab';
 
-function renderConversationView() {
-  return <SmartConversationView />;
+function renderChatsTab() {
+  return <SmartChatsTab />;
+}
+
+function renderCallsTab() {
+  return <SmartCallsTab />;
 }
 
 function renderCustomizingPreferredReactionsModal() {
   return <SmartCustomizingPreferredReactionsModal />;
 }
 
-function renderMiniPlayer(options: { shouldFlow: boolean }) {
-  return <SmartMiniPlayer {...options} />;
+function renderNavTabs(props: SmartNavTabsProps) {
+  return <SmartNavTabs {...props} />;
 }
 
-function renderLeftPane() {
-  return <SmartLeftPane />;
+function renderStoriesTab() {
+  return <SmartStoriesTab />;
 }
 
 export function SmartInbox(): JSX.Element {
@@ -46,17 +51,9 @@ export function SmartInbox(): JSX.Element {
   const { hasInitialLoadCompleted } = useSelector<StateType, AppStateType>(
     state => state.app
   );
-  const { selectedConversationId, targetedMessage, targetedMessageSource } =
-    useSelector<StateType, ConversationsStateType>(
-      state => state.conversations
-    );
-  const {
-    onConversationClosed,
-    onConversationOpened,
-    scrollToMessage,
-    showConversation,
-  } = useConversationsActions();
-  const { showWhatsNewModal } = useGlobalModalActions();
+
+  const navTabsCollapsed = useSelector(getNavTabsCollapsed);
+  const { toggleNavTabsCollapse } = useItemsActions();
 
   return (
     <Inbox
@@ -65,20 +62,15 @@ export function SmartInbox(): JSX.Element {
       hasInitialLoadCompleted={hasInitialLoadCompleted}
       i18n={i18n}
       isCustomizingPreferredReactions={isCustomizingPreferredReactions}
-      onConversationClosed={onConversationClosed}
-      onConversationOpened={onConversationOpened}
-      renderConversationView={renderConversationView}
+      navTabsCollapsed={navTabsCollapsed}
+      onToggleNavTabsCollapse={toggleNavTabsCollapse}
+      renderChatsTab={renderChatsTab}
+      renderCallsTab={renderCallsTab}
       renderCustomizingPreferredReactionsModal={
         renderCustomizingPreferredReactionsModal
       }
-      renderLeftPane={renderLeftPane}
-      renderMiniPlayer={renderMiniPlayer}
-      scrollToMessage={scrollToMessage}
-      selectedConversationId={selectedConversationId}
-      targetedMessage={targetedMessage}
-      targetedMessageSource={targetedMessageSource}
-      showConversation={showConversation}
-      showWhatsNewModal={showWhatsNewModal}
+      renderNavTabs={renderNavTabs}
+      renderStoriesTab={renderStoriesTab}
     />
   );
 }

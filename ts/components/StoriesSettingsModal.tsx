@@ -69,7 +69,6 @@ export type PropsType = {
   setMyStoriesToAllSignalConnections: () => unknown;
   storyViewReceiptsEnabled: boolean;
   toggleSignalConnectionsModal: () => unknown;
-  toggleStoriesView: () => void;
   setStoriesDisabled: (value: boolean) => void;
   getConversationByUuid: (uuid: UUIDStringType) => ConversationType | undefined;
 };
@@ -256,7 +255,6 @@ export function StoriesSettingsModal({
   setMyStoriesToAllSignalConnections,
   storyViewReceiptsEnabled,
   toggleSignalConnectionsModal,
-  toggleStoriesView,
   setStoriesDisabled,
   getConversationByUuid,
 }: PropsType): JSX.Element {
@@ -463,7 +461,6 @@ export function StoriesSettingsModal({
             variant={ButtonVariant.SecondaryDestructive}
             onClick={async () => {
               setStoriesDisabled(true);
-              toggleStoriesView();
               onClose();
             }}
           >

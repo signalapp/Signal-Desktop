@@ -35,7 +35,7 @@ import { asyncShouldNeverBeCalled } from '../../util/shouldNeverBeCalled';
 import { useActions as useEmojisActions } from '../ducks/emojis';
 import { useConversationsActions } from '../ducks/conversations';
 import { useRecentEmojis } from '../selectors/emojis';
-import { useActions as useItemsActions } from '../ducks/items';
+import { useItemsActions } from '../ducks/items';
 import { useAudioPlayerActions } from '../ducks/audioPlayer';
 import { useGlobalModalActions } from '../ducks/globalModals';
 import { useStoriesActions } from '../ducks/stories';
@@ -136,7 +136,6 @@ export function SmartStoryViewer(): JSX.Element | null {
       onHideStory={toggleHideStories}
       onGoToConversation={senderId => {
         showConversation({ conversationId: senderId });
-        storiesActions.toggleStoriesView();
       }}
       onReactToStory={async (emoji, story) => {
         const { messageId } = story;

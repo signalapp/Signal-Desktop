@@ -1,8 +1,6 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
 .Stories {
-  background: $color-gray-95;
   display: flex;
   height: var(--window-height);
   inset-inline-start: 0;
@@ -11,42 +9,37 @@
   user-select: none;
   width: 100%;
   z-index: $z-index-stories;
+  @include light-theme {
+    background: $color-white;
+  }
+  @include dark-theme {
+    background: $color-gray-95;
+  }
 
   &__pane {
-    background: $color-gray-80;
-    border-inline-end: 1px solid $color-gray-65;
     display: flex;
     flex-direction: column;
     height: 100%;
     width: 380px;
-    padding-top: calc(14px + var(--title-bar-drag-area-height));
-
-    &__add-story__button {
-      @include color-svg('../images/icons/v3/plus/plus.svg', $color-white);
-      height: 20px;
-      position: absolute;
-      inset-inline-end: 64px;
-      top: 0px;
-      width: 20px;
-
-      &:focus {
-        @include keyboard-mode {
-          background-color: $color-ultramarine;
-        }
-      }
+    padding-top: calc(2px + var(--title-bar-drag-area-height));
+    @include light-theme {
+      background: $color-gray-04;
+      border-inline-end: 1px solid $color-black-alpha-16;
+    }
+    @include dark-theme {
+      background: $color-gray-80;
+      border-inline-end: 1px solid $color-white-alpha-16;
     }
 
-    &__settings__button {
-      @include dark-theme {
-        @include color-svg('../images/icons/v3/more/more.svg', $color-white);
-      }
+    &__add-story__button {
       height: 20px;
-      margin-inline-start: 20px;
-      opacity: 1;
-      position: absolute;
-      inset-inline-end: 24px;
-      top: 0px;
       width: 20px;
+      @include light-theme {
+        @include color-svg('../images/icons/v3/plus/plus.svg', $color-black);
+      }
+      @include dark-theme {
+        @include color-svg('../images/icons/v3/plus/plus.svg', $color-gray-15);
+      }
 
       &:focus {
         @include keyboard-mode {
@@ -68,66 +61,46 @@
       }
 
       &--title {
-        @include font-body-1-bold;
-        color: $color-gray-05;
-        display: flex;
+        @include font-title-medium;
         flex: 1;
-        justify-content: center;
+        @include light-theme {
+          color: $color-black;
+        }
+        @include dark-theme {
+          color: $color-gray-05;
+        }
       }
 
       &--centered .Stories__pane__header--title {
         text-align: center;
         width: 100%;
       }
-
-      &--back {
-        @include button-reset;
-
-        -webkit-app-region: no-drag;
-        height: 20px;
-        position: absolute;
-        width: 20px;
-
-        @include color-svg(
-          '../images/icons/v3/chevron/chevron-left.svg',
-          $color-white
-        );
-
-        @include keyboard-mode {
-          &:hover {
-            @include color-svg(
-              '../images/icons/v3/chevron/chevron-left.svg',
-              $color-ultramarine-light
-            );
-          }
-        }
-      }
     }
 
     &__list {
-      @include scrollbar;
+      @include NavTabs__Scroller;
       display: flex;
       flex-direction: column;
       flex: 1;
       overflow-y: overlay;
       padding-block: 0;
-      padding-inline: 14px;
+      padding-inline: 16px;
 
       &--empty {
         @include font-body-1;
         align-items: center;
-        color: $color-gray-45;
+        @include light-theme() {
+          color: $color-gray-60;
+        }
+        @include dark-theme() {
+          color: $color-gray-45;
+        }
         display: flex;
         flex: 1;
         flex-direction: column;
         justify-content: center;
       }
     }
-  }
-
-  &__search__container {
-    margin-block: 14px 10px;
-    margin-inline: 16px;
   }
 
   &__placeholder {
@@ -154,33 +127,69 @@
     @include button-reset;
     @include font-body-1-bold;
     align-items: center;
-    color: $color-gray-05;
     display: flex;
     justify-content: space-between;
     padding-block: 12px;
     padding-inline: 24px;
     position: relative;
     width: 100%;
+    @include light-theme {
+      color: $color-black;
+    }
+    @include dark-theme {
+      color: $color-gray-05;
+    }
 
     &::after {
-      @include color-svg(
-        '../images/icons/v3/chevron/chevron-right.svg',
-        $color-gray-05
-      );
       content: '';
       height: 16px;
       width: 16px;
     }
 
-    &--expanded {
-      // Override color-svg
-      :dir(ltr) &::after,
-      :dir(rtl) &::after {
-        @include color-svg(
-          '../images/icons/v3/chevron/chevron-down.svg',
-          $color-gray-05
-        );
+    &--collapsed {
+      &::after {
+        @include light-theme {
+          @include color-svg(
+            '../images/icons/v3/chevron/chevron-right.svg',
+            $color-black
+          );
+        }
+        @include dark-theme {
+          @include color-svg(
+            '../images/icons/v3/chevron/chevron-right.svg',
+            $color-gray-05
+          );
+        }
       }
     }
+
+    &--expanded {
+      &::after {
+        @include light-theme {
+          @include color-svg(
+            '../images/icons/v3/chevron/chevron-down.svg',
+            $color-black
+          );
+        }
+        @include dark-theme {
+          @include color-svg(
+            '../images/icons/v3/chevron/chevron-down.svg',
+            $color-gray-05
+          );
+        }
+      }
+    }
+  }
+}
+
+.StoriesTab__MoreActionsIcon {
+  display: block;
+  width: 20px;
+  height: 20px;
+  @include light-theme {
+    @include color-svg('../images/icons/v3/more/more.svg', $color-black);
+  }
+  @include dark-theme {
+    @include color-svg('../images/icons/v3/more/more.svg', $color-gray-15);
   }
 }

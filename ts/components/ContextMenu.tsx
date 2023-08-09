@@ -291,13 +291,18 @@ export function ContextMenu<T>({
   let buttonNode: JSX.Element;
 
   if (typeof children === 'function') {
-    buttonNode = (children as (props: RenderButtonProps) => JSX.Element)({
-      openMenu: onClick || handleClick,
-      onKeyDown: handleKeyDown,
-      isMenuShowing,
-      ref: setReferenceElement,
-      menuNode,
-    });
+    buttonNode = (
+      <>
+        {(children as (props: RenderButtonProps) => JSX.Element)({
+          openMenu: onClick || handleClick,
+          onKeyDown: handleKeyDown,
+          isMenuShowing,
+          ref: setReferenceElement,
+          menuNode,
+        })}
+        {portalNode ? createPortal(menuNode, portalNode) : menuNode}
+      </>
+    );
   } else {
     buttonNode = (
       <div

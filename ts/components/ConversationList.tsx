@@ -12,7 +12,7 @@ import { assertDev } from '../util/assert';
 import type { ParsedE164Type } from '../util/libphonenumberInstance';
 import type { LocalizerType, ThemeType } from '../types/Util';
 import { ScrollBehavior } from '../types/Util';
-import { getConversationListWidthBreakpoint } from './_util';
+import { getNavSidebarWidthBreakpoint } from './_util';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
 import type { LookupConversationWithoutUuidActionsType } from '../util/lookupConversationWithoutUuid';
 import type { ShowConversationType } from '../state/ducks/conversations';
@@ -493,7 +493,7 @@ export function ConversationList({
     return null;
   }
 
-  const widthBreakpoint = getConversationListWidthBreakpoint(dimensions.width);
+  const widthBreakpoint = getNavSidebarWidthBreakpoint(dimensions.width);
 
   return (
     <ListView

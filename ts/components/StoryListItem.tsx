@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 import type { ConversationStoryType, StoryViewType } from '../types/Stories';
 import type { ConversationType } from '../state/ducks/conversations';
-import type { LocalizerType } from '../types/Util';
+import type { LocalizerType, ThemeType } from '../types/Util';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
 import type { ViewUserStoriesActionCreatorType } from '../state/ducks/stories';
 import { Avatar, AvatarSize } from './Avatar';
@@ -16,7 +16,6 @@ import { StoryViewTargetType, HasStories } from '../types/Stories';
 
 import { MessageTimestamp } from './conversation/MessageTimestamp';
 import { StoryImage } from './StoryImage';
-import { ThemeType } from '../types/Util';
 import { getAvatarColor } from '../types/Colors';
 
 export type PropsType = Pick<ConversationStoryType, 'group' | 'isHidden'> & {
@@ -30,6 +29,7 @@ export type PropsType = Pick<ConversationStoryType, 'group' | 'isHidden'> & {
   queueStoryDownload: (storyId: string) => unknown;
   onMediaPlaybackStart: () => void;
   story: StoryViewType;
+  theme: ThemeType;
   viewUserStories: ViewUserStoriesActionCreatorType;
 };
 
@@ -45,6 +45,7 @@ function StoryListItemAvatar({
   profileName,
   sharedGroupNames,
   title,
+  theme,
 }: Pick<
   ConversationType,
   | 'acceptedMessageRequest'
@@ -59,6 +60,7 @@ function StoryListItemAvatar({
   getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
   isMe?: boolean;
+  theme: ThemeType;
 }): JSX.Element {
   return (
     <Avatar
@@ -73,7 +75,7 @@ function StoryListItemAvatar({
       sharedGroupNames={sharedGroupNames}
       size={AvatarSize.FORTY_EIGHT}
       storyRing={avatarStoryRing}
-      theme={ThemeType.dark}
+      theme={theme}
       title={title}
     />
   );
@@ -92,6 +94,7 @@ export function StoryListItem({
   onMediaPlaybackStart,
   queueStoryDownload,
   story,
+  theme,
   viewUserStories,
 }: PropsType): JSX.Element {
   const [hasConfirmHideStory, setHasConfirmHideStory] = useState(false);
@@ -167,6 +170,7 @@ export function StoryListItem({
           avatarStoryRing={avatarStoryRing}
           getPreferredBadge={getPreferredBadge}
           i18n={i18n}
+          theme={theme}
           {...(group || sender)}
         />
         <div className="StoryListItem__info">

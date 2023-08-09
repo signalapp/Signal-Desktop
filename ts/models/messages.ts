@@ -147,7 +147,6 @@ import { getStoryDataFromMessageAttributes } from '../services/storyLoader';
 import type { ConversationQueueJobData } from '../jobs/conversationJobQueue';
 import { getMessageById } from '../messages/getMessageById';
 import { shouldDownloadStory } from '../util/shouldDownloadStory';
-import { shouldShowStoriesView } from '../state/selectors/stories';
 import type { EmbeddedContactWithHydratedAvatar } from '../types/EmbeddedContact';
 import { SeenStatus } from '../MessageSeenStatus';
 import { isNewReactionReplacingPrevious } from '../reactions/util';
@@ -172,6 +171,8 @@ import {
   saveNewMessageBatcher,
 } from '../util/messageBatcher';
 import { normalizeUuid } from '../util/normalizeUuid';
+import { getCallHistorySelector } from '../state/selectors/callHistory';
+import { getConversationSelector } from '../state/selectors/conversations';
 
 /* eslint-disable more/no-then */
 
@@ -715,9 +716,10 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     if (isCallHistory(attributes)) {
       const state = window.reduxStore.getState();
       const callingNotification = getPropsForCallHistory(attributes, {
-        conversationSelector: findAndFormatContact,
         callSelector: getCallSelector(state),
         activeCall: getActiveCall(state),
+        callHistorySelector: getCallHistorySelector(state),
+        conversationSelector: getConversationSelector(state),
       });
       if (callingNotification) {
         return {
@@ -2837,11 +2839,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
         let queueStoryForDownload = false;
         if (isStory(message.attributes)) {
-          const isShowingStories = shouldShowStoriesView(reduxState);
-
-          queueStoryForDownload =
-            isShowingStories ||
-            (await shouldDownloadStory(conversation.attributes));
+          queueStoryForDownload = await shouldDownloadStory(
+            conversation.attributes
+          );
         }
 
         const shouldHoldOffDownload =

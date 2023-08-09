@@ -24,7 +24,7 @@ import { useStoriesActions } from '../ducks/stories';
 import { useConversationsActions } from '../ducks/conversations';
 
 export function SmartStoriesSettingsModal(): JSX.Element | null {
-  const { toggleStoriesView, setStoriesDisabled } = useStoriesActions();
+  const { setStoriesDisabled } = useStoriesActions();
   const { hideStoriesSettings, toggleSignalConnectionsModal } =
     useGlobalModalActions();
   const {
@@ -71,7 +71,6 @@ export function SmartStoriesSettingsModal(): JSX.Element | null {
       setMyStoriesToAllSignalConnections={setMyStoriesToAllSignalConnections}
       storyViewReceiptsEnabled={storyViewReceiptsEnabled}
       toggleSignalConnectionsModal={toggleSignalConnectionsModal}
-      toggleStoriesView={toggleStoriesView}
       setStoriesDisabled={setStoriesDisabled}
     />
   );

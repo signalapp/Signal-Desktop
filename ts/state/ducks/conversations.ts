@@ -159,6 +159,8 @@ import { ReceiptType } from '../../types/Receipt';
 import { sortByMessageOrder } from '../../util/maybeForwardMessages';
 import { Sound, SoundType } from '../../util/Sound';
 import { canEditMessage } from '../../util/canEditMessage';
+import type { ChangeNavTabActionType } from './nav';
+import { CHANGE_NAV_TAB, NavTab, actions as navActions } from './nav';
 
 // State
 
@@ -3911,14 +3913,18 @@ function showConversation({
   void,
   RootStateType,
   unknown,
-  TargetedConversationChangedActionType
+  TargetedConversationChangedActionType | ChangeNavTabActionType
 > {
   return (dispatch, getState) => {
-    const { conversations } = getState();
+    const { conversations, nav } = getState();
+
+    if (nav.selectedNavTab !== NavTab.Chats) {
+      dispatch(navActions.changeNavTab(NavTab.Chats));
+    }
 
     if (conversationId === conversations.selectedConversationId) {
       if (conversationId && messageId) {
-        scrollToMessage(conversationId, messageId)(dispatch, getState, null);
+        dispatch(scrollToMessage(conversationId, messageId));
       }
 
       return;
@@ -4383,7 +4389,11 @@ function maybeUpdateSelectedMessageForDetails(
 
 export function reducer(
   state: Readonly<ConversationsStateType> = getEmptyState(),
-  action: Readonly<ConversationActionType | StoryDistributionListsActionType>
+  action: Readonly<
+    | ConversationActionType
+    | StoryDistributionListsActionType
+    | ChangeNavTabActionType
+  >
 ): ConversationsStateType {
   if (action.type === CLEAR_CONVERSATIONS_PENDING_VERIFICATION) {
     return {
@@ -6165,6 +6175,32 @@ export function reducer(
         [conversationId]: changed,
       },
       ...updateConversationLookups(changed, conversation, state),
+    };
+  }
+
+  if (
+    action.type === CHANGE_NAV_TAB &&
+    action.payload.selectedNavTab === NavTab.Chats
+  ) {
+    const { messagesByConversation, selectedConversationId } = state;
+    if (selectedConversationId == null) {
+      return state;
+    }
+
+    const existingConversation = messagesByConversation[selectedConversationId];
+    if (existingConversation == null) {
+      return state;
+    }
+
+    return {
+      ...state,
+      messagesByConversation: {
+        ...messagesByConversation,
+        [selectedConversationId]: {
+          ...existingConversation,
+          isNearBottom: true,
+        },
+      },
     };
   }
 

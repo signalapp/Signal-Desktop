@@ -102,9 +102,9 @@ describe('pnp/send gv2 invite', function needsName() {
 
     debug('clicking compose and "New group" buttons');
 
-    await leftPane.locator('.module-main-header__compose-icon').click();
+    await window.getByRole('button', { name: 'New chat' }).click();
 
-    await leftPane.locator('[data-testid=CreateNewGroupButton]').click();
+    await leftPane.getByTestId('CreateNewGroupButton').click();
 
     debug('inviting ACI member');
 

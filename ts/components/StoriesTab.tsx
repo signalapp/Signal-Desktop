@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useState } from 'react';
-import classNames from 'classnames';
 import type {
   ConversationType,
   ShowConversationType,
@@ -12,7 +11,7 @@ import type {
   MyStoryType,
   StoryViewType,
 } from '../types/Stories';
-import type { LocalizerType } from '../types/Util';
+import type { LocalizerType, ThemeType } from '../types/Util';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
 import type { ShowToastAction } from '../state/ducks/toast';
 import type {
@@ -22,9 +21,9 @@ import type {
 } from '../state/ducks/stories';
 import { MyStories } from './MyStories';
 import { StoriesPane } from './StoriesPane';
-import { Theme, themeClassName } from '../util/theme';
-import { getWidthFromPreferredWidth } from '../util/leftPaneWidth';
-import { useEscapeHandling } from '../hooks/useEscapeHandling';
+import { NavSidebar, NavSidebarActionButton } from './NavSidebar';
+import { StoriesAddStoryButton } from './StoriesAddStoryButton';
+import { ContextMenu } from './ContextMenu';
 
 export type PropsType = {
   addStoryData: AddStoryData;
@@ -38,90 +37,132 @@ export type PropsType = {
   maxAttachmentSizeInKb: number;
   me: ConversationType;
   myStories: Array<MyStoryType>;
+  navTabsCollapsed: boolean;
   onForwardStory: (storyId: string) => unknown;
   onSaveStory: (story: StoryViewType) => unknown;
+  onToggleNavTabsCollapse: (navTabsCollapsed: boolean) => void;
   onMediaPlaybackStart: () => void;
+  preferredLeftPaneWidth: number;
   preferredWidthFromStorage: number;
   queueStoryDownload: (storyId: string) => unknown;
   renderStoryCreator: () => JSX.Element;
   retryMessageSend: (messageId: string) => unknown;
+  savePreferredLeftPaneWidth: (preferredLeftPaneWidth: number) => void;
   setAddStoryData: (data: AddStoryData) => unknown;
   showConversation: ShowConversationType;
   showStoriesSettings: () => unknown;
   showToast: ShowToastAction;
   stories: Array<ConversationStoryType>;
+  theme: ThemeType;
   toggleHideStories: (conversationId: string) => unknown;
-  toggleStoriesView: () => unknown;
   viewStory: ViewStoryActionCreatorType;
   viewUserStories: ViewUserStoriesActionCreatorType;
 };
 
-export const STORIES_COLOR_THEME = Theme.Dark;
-
-export function Stories({
+export function StoriesTab({
   addStoryData,
   deleteStoryForEveryone,
   getPreferredBadge,
   hasViewReceiptSetting,
   hiddenStories,
   i18n,
-  isStoriesSettingsVisible,
-  isViewingStory,
   maxAttachmentSizeInKb,
   me,
   myStories,
+  navTabsCollapsed,
   onForwardStory,
   onSaveStory,
+  onToggleNavTabsCollapse,
   onMediaPlaybackStart,
-  preferredWidthFromStorage,
+  preferredLeftPaneWidth,
   queueStoryDownload,
   renderStoryCreator,
   retryMessageSend,
+  savePreferredLeftPaneWidth,
   setAddStoryData,
   showConversation,
   showStoriesSettings,
   showToast,
   stories,
+  theme,
   toggleHideStories,
-  toggleStoriesView,
   viewStory,
   viewUserStories,
 }: PropsType): JSX.Element {
-  const width = getWidthFromPreferredWidth(preferredWidthFromStorage, {
-    requiresFullWidth: true,
-  });
-
   const [isMyStories, setIsMyStories] = useState(false);
 
-  // only handle ESC if not showing a child that handles their own ESC
-  useEscapeHandling(
-    (isMyStories && myStories.length) ||
-      isViewingStory ||
-      isStoriesSettingsVisible ||
-      addStoryData
-      ? undefined
-      : toggleStoriesView
-  );
+  function onAddStory(file?: File) {
+    if (file) {
+      setAddStoryData({ type: 'Media', file });
+    } else {
+      setAddStoryData({ type: 'Text' });
+    }
+  }
 
   return (
-    <div className={classNames('Stories', themeClassName(STORIES_COLOR_THEME))}>
+    <div className="Stories">
       {addStoryData && renderStoryCreator()}
-      <div className="Stories__pane" style={{ width }}>
-        {isMyStories && myStories.length ? (
-          <MyStories
-            hasViewReceiptSetting={hasViewReceiptSetting}
-            i18n={i18n}
-            myStories={myStories}
-            onBack={() => setIsMyStories(false)}
-            onDelete={deleteStoryForEveryone}
-            onForward={onForwardStory}
-            onSave={onSaveStory}
-            onMediaPlaybackStart={onMediaPlaybackStart}
-            queueStoryDownload={queueStoryDownload}
-            retryMessageSend={retryMessageSend}
-            viewStory={viewStory}
-          />
-        ) : (
+      {isMyStories && myStories.length ? (
+        <MyStories
+          hasViewReceiptSetting={hasViewReceiptSetting}
+          i18n={i18n}
+          myStories={myStories}
+          onBack={() => setIsMyStories(false)}
+          onDelete={deleteStoryForEveryone}
+          onForward={onForwardStory}
+          onSave={onSaveStory}
+          onMediaPlaybackStart={onMediaPlaybackStart}
+          queueStoryDownload={queueStoryDownload}
+          retryMessageSend={retryMessageSend}
+          viewStory={viewStory}
+        />
+      ) : (
+        <NavSidebar
+          title="Stories"
+          i18n={i18n}
+          navTabsCollapsed={navTabsCollapsed}
+          onToggleNavTabsCollapse={onToggleNavTabsCollapse}
+          preferredLeftPaneWidth={preferredLeftPaneWidth}
+          requiresFullWidth
+          savePreferredLeftPaneWidth={savePreferredLeftPaneWidth}
+          actions={
+            <>
+              <StoriesAddStoryButton
+                i18n={i18n}
+                maxAttachmentSizeInKb={maxAttachmentSizeInKb}
+                moduleClassName="Stories__pane__add-story"
+                onAddStory={onAddStory}
+                showToast={showToast}
+              />
+              <ContextMenu
+                i18n={i18n}
+                menuOptions={[
+                  {
+                    label: i18n('icu:StoriesSettings__context-menu'),
+                    onClick: showStoriesSettings,
+                  },
+                ]}
+                moduleClassName="Stories__pane__settings"
+                popperOptions={{
+                  placement: 'bottom',
+                  strategy: 'absolute',
+                }}
+                portalToRoot
+              >
+                {({ openMenu, onKeyDown }) => {
+                  return (
+                    <NavSidebarActionButton
+                      onClick={openMenu}
+                      onKeyDown={onKeyDown}
+                      icon={<span className="StoriesTab__MoreActionsIcon" />}
+                      label={i18n('icu:StoriesTab__MoreActionsLabel')}
+                    />
+                  );
+                }}
+              </ContextMenu>
+            </>
+          }
+        >
           <StoriesPane
             getPreferredBadge={getPreferredBadge}
             hiddenStories={hiddenStories}
@@ -129,11 +170,7 @@ export function Stories({
             maxAttachmentSizeInKb={maxAttachmentSizeInKb}
             me={me}
             myStories={myStories}
-            onAddStory={file =>
-              file
-                ? setAddStoryData({ type: 'Media', file })
-                : setAddStoryData({ type: 'Text' })
-            }
+            onAddStory={onAddStory}
             onMyStoriesClicked={() => {
               if (myStories.length) {
                 setIsMyStories(true);
@@ -147,12 +184,12 @@ export function Stories({
             showConversation={showConversation}
             showToast={showToast}
             stories={stories}
+            theme={theme}
             toggleHideStories={toggleHideStories}
-            toggleStoriesView={toggleStoriesView}
             viewUserStories={viewUserStories}
           />
-        )}
-      </div>
+        </NavSidebar>
+      )}
       <div className="Stories__placeholder">
         <div className="Stories__placeholder__stories" />
         {i18n('icu:Stories__placeholder--text')}

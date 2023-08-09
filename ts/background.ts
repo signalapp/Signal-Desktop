@@ -186,6 +186,11 @@ import { parseRemoteClientExpiration } from './util/parseRemoteClientExpiration'
 import { makeLookup } from './util/makeLookup';
 import { addGlobalKeyboardShortcuts } from './services/addGlobalKeyboardShortcuts';
 import { createEventHandler } from './quill/signal-clipboard/util';
+import { onCallLogEventSync } from './util/onCallLogEventSync';
+import {
+  getCallsHistoryForRedux,
+  loadCallsHistory,
+} from './services/callHistoryLoader';
 
 export function isOverHourIntoPast(timestamp: number): boolean {
   return isNumber(timestamp) && isOlderThan(timestamp, HOUR);
@@ -433,6 +438,10 @@ export async function startApp(): Promise<void> {
     messageReceiver.addEventListener(
       'callEventSync',
       queuedEventListener(onCallEventSync, false)
+    );
+    messageReceiver.addEventListener(
+      'callLogEventSync',
+      queuedEventListener(onCallLogEventSync, false)
     );
   });
 
@@ -1121,6 +1130,7 @@ export async function startApp(): Promise<void> {
         loadInitialBadgesState(),
         loadStories(),
         loadDistributionLists(),
+        loadCallsHistory(),
         window.textsecure.storage.protocol.hydrateCaches(),
         (async () => {
           mainWindowStats = await window.SignalContext.getMainWindowStats();
@@ -1174,6 +1184,7 @@ export async function startApp(): Promise<void> {
       menuOptions,
       stories: getStoriesForRedux(),
       storyDistributionLists: getDistributionListsForRedux(),
+      callsHistory: getCallsHistoryForRedux(),
     });
 
     const store = window.Signal.State.createStore(initialState);
@@ -1193,6 +1204,10 @@ export async function startApp(): Promise<void> {
         store.dispatch
       ),
       badges: bindActionCreators(actionCreators.badges, store.dispatch),
+      callHistory: bindActionCreators(
+        actionCreators.callHistory,
+        store.dispatch
+      ),
       calling: bindActionCreators(actionCreators.calling, store.dispatch),
       composer: bindActionCreators(actionCreators.composer, store.dispatch),
       conversations: bindActionCreators(

@@ -7,7 +7,6 @@ import * as Backbone from 'backbone';
 
 import type { GroupV2ChangeType } from './groups';
 import type { DraftBodyRanges, RawBodyRange } from './types/BodyRange';
-import type { CallHistoryDetailsFromDiskType } from './types/Calling';
 import type { CustomColorType, ConversationColorType } from './types/Colors';
 import type { DeviceType } from './textsecure/Types.d';
 import type { SendMessageChallengeData } from './textsecure/Errors';
@@ -132,7 +131,7 @@ export type EditHistoryType = {
 export type MessageAttributesType = {
   bodyAttachment?: AttachmentType;
   bodyRanges?: ReadonlyArray<RawBodyRange>;
-  callHistoryDetails?: CallHistoryDetailsFromDiskType;
+  callId?: string;
   canReplyToStory?: boolean;
   changedId?: string;
   dataMessage?: Uint8Array | null;

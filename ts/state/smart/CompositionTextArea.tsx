@@ -7,7 +7,7 @@ import type { CompositionTextAreaProps } from '../../components/CompositionTextA
 import { CompositionTextArea } from '../../components/CompositionTextArea';
 import { getIntl, getPlatform } from '../selectors/user';
 import { useActions as useEmojiActions } from '../ducks/emojis';
-import { useActions as useItemsActions } from '../ducks/items';
+import { useItemsActions } from '../ducks/items';
 import { getPreferredBadgeSelector } from '../selectors/badges';
 import { useComposerActions } from '../ducks/composer';
 import {

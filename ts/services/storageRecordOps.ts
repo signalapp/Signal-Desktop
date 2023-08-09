@@ -4,11 +4,8 @@
 import { isEqual, isNumber } from 'lodash';
 import Long from 'long';
 
-import {
-  uuidToBytes,
-  bytesToUuid,
-  deriveMasterKeyFromGroupV1,
-} from '../Crypto';
+import { uuidToBytes, bytesToUuid } from '../util/uuidToBytes';
+import { deriveMasterKeyFromGroupV1 } from '../Crypto';
 import * as Bytes from '../Bytes';
 import {
   deriveGroupFields,

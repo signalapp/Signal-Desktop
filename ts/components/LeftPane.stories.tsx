@@ -165,6 +165,7 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
     ),
     isUpdateDownloaded,
     isContactManagementEnabled,
+    navTabsCollapsed: boolean('navTabsCollapsed', false),
 
     setChallengeStatus: action('setChallengeStatus'),
     lookupConversationWithoutUuid: makeFakeLookupConversationWithoutUuid(),
@@ -179,7 +180,6 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
       'onOutgoingVideoCallInConversation'
     ),
     removeConversation: action('removeConversation'),
-    renderMainHeader: () => <div />,
     renderMessageSearchResult: (id: string) => (
       <MessageSearchResult
         body="Lorem ipsum wow"
@@ -273,6 +273,7 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
     toggleConversationInChooseMembers: action(
       'toggleConversationInChooseMembers'
     ),
+    toggleNavTabsCollapse: action('toggleNavTabsCollapse'),
     updateSearchTerm: action('updateSearchTerm'),
 
     ...overrideProps,

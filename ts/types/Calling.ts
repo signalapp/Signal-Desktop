@@ -113,7 +113,6 @@ export enum CallEndedReason {
   AcceptedOnAnotherDevice = 'AcceptedOnAnotherDevice',
   DeclinedOnAnotherDevice = 'DeclinedOnAnotherDevice',
   BusyOnAnotherDevice = 'BusyOnAnotherDevice',
-  CallerIsNotMultiring = 'CallerIsNotMultiring',
 }
 
 // Must be kept in sync with RingRTC's ConnectionState
@@ -165,33 +164,6 @@ export type MediaDeviceSettings = AvailableIODevicesType & {
   selectedSpeaker: AudioDevice | undefined;
   selectedCamera: string | undefined;
 };
-
-type DirectCallHistoryDetailsType = {
-  callId: string;
-  callMode: CallMode.Direct;
-  wasIncoming: boolean;
-  wasVideoCall: boolean;
-  wasDeclined: boolean;
-  acceptedTime?: number;
-  endedTime?: number;
-};
-
-type GroupCallHistoryDetailsType = {
-  callMode: CallMode.Group;
-  creatorUuid: string;
-  eraId: string;
-  startedTime: number;
-};
-
-export type CallHistoryDetailsType =
-  | DirectCallHistoryDetailsType
-  | GroupCallHistoryDetailsType;
-
-// Old messages weren't saved with a `callMode`.
-export type CallHistoryDetailsFromDiskType =
-  | (Omit<DirectCallHistoryDetailsType, 'callMode'> &
-      Partial<Pick<DirectCallHistoryDetailsType, 'callMode'>>)
-  | GroupCallHistoryDetailsType;
 
 export type ChangeIODevicePayloadType =
   | { type: CallingDeviceType.CAMERA; selectedDevice: string }

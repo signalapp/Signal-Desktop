@@ -19,8 +19,6 @@ export type Props = {
 
   onEditProfile: () => unknown;
   onStartUpdate: () => unknown;
-  onViewPreferences: () => unknown;
-  onViewArchive: () => unknown;
 
   // Matches Popper's RefHandler type
   innerRef?: React.Ref<HTMLDivElement>;
@@ -35,8 +33,6 @@ export function AvatarPopup(props: Props): JSX.Element {
     name,
     onEditProfile,
     onStartUpdate,
-    onViewArchive,
-    onViewPreferences,
     phoneNumber,
     profileName,
     style,
@@ -70,54 +66,27 @@ export function AvatarPopup(props: Props): JSX.Element {
           ) : null}
         </div>
       </button>
-      <hr className="module-avatar-popup__divider" />
-      <button
-        type="button"
-        className="module-avatar-popup__item"
-        onClick={onViewPreferences}
-      >
-        <div
-          className={classNames(
-            'module-avatar-popup__item__icon',
-            'module-avatar-popup__item__icon-settings'
-          )}
-        />
-        <div className="module-avatar-popup__item__text">
-          {i18n('icu:mainMenuSettings')}
-        </div>
-      </button>
-      <button
-        type="button"
-        className="module-avatar-popup__item"
-        onClick={onViewArchive}
-      >
-        <div
-          className={classNames(
-            'module-avatar-popup__item__icon',
-            'module-avatar-popup__item__icon-archive'
-          )}
-        />
-        <div className="module-avatar-popup__item__text">
-          {i18n('icu:avatarMenuViewArchive')}
-        </div>
-      </button>
+
       {hasPendingUpdate && (
-        <button
-          type="button"
-          className="module-avatar-popup__item"
-          onClick={onStartUpdate}
-        >
-          <div
-            className={classNames(
-              'module-avatar-popup__item__icon',
-              'module-avatar-popup__item__icon--update'
-            )}
-          />
-          <div className="module-avatar-popup__item__text">
-            {i18n('icu:avatarMenuUpdateAvailable')}
-          </div>
-          <div className="module-avatar-popup__item--badge" />
-        </button>
+        <>
+          <hr className="module-avatar-popup__divider" />
+          <button
+            type="button"
+            className="module-avatar-popup__item"
+            onClick={onStartUpdate}
+          >
+            <div
+              className={classNames(
+                'module-avatar-popup__item__icon',
+                'module-avatar-popup__item__icon--update'
+              )}
+            />
+            <div className="module-avatar-popup__item__text">
+              {i18n('icu:avatarMenuUpdateAvailable')}
+            </div>
+            <div className="module-avatar-popup__item--badge" />
+          </button>
+        </>
       )}
     </div>
   );

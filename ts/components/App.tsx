@@ -25,9 +25,7 @@ type PropsType = {
   registerSingleDevice: (number: string, code: string) => Promise<void>;
   renderCallManager: () => JSX.Element;
   renderGlobalModalContainer: () => JSX.Element;
-  isShowingStoriesView: boolean;
   i18n: LocalizerType;
-  renderStories: (closeView: () => unknown) => JSX.Element;
   hasSelectedStoryData: boolean;
   renderStoryViewer: (closeView: () => unknown) => JSX.Element;
   renderLightbox: () => JSX.Element | null;
@@ -53,7 +51,6 @@ type PropsType = {
   titleBarDoubleClick: () => void;
   toast?: AnyToast;
   scrollToMessage: (conversationId: string, messageId: string) => unknown;
-  toggleStoriesView: () => unknown;
   viewStory: ViewStoryActionCreatorType;
   renderInbox: () => JSX.Element;
 };
@@ -69,7 +66,6 @@ export function App({
   i18n,
   isFullScreen,
   isMaximized,
-  isShowingStoriesView,
   menuOptions,
   onUndoArchive,
   openFileInFolder,
@@ -81,13 +77,11 @@ export function App({
   renderGlobalModalContainer,
   renderInbox,
   renderLightbox,
-  renderStories,
   renderStoryViewer,
   requestVerification,
   theme,
   titleBarDoubleClick,
   toast,
-  toggleStoriesView,
   viewStory,
 }: PropsType): JSX.Element {
   let contents;
@@ -183,7 +177,6 @@ export function App({
         {renderGlobalModalContainer()}
         {renderCallManager()}
         {renderLightbox()}
-        {isShowingStoriesView && renderStories(toggleStoriesView)}
         {hasSelectedStoryData &&
           renderStoryViewer(() => viewStory({ closeViewer: true }))}
       </div>

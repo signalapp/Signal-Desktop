@@ -308,16 +308,18 @@ export const getConversationComparator = createSelector(
   _getConversationComparator
 );
 
+type LeftPaneLists = Readonly<{
+  conversations: ReadonlyArray<ConversationType>;
+  archivedConversations: ReadonlyArray<ConversationType>;
+  pinnedConversations: ReadonlyArray<ConversationType>;
+}>;
+
 export const _getLeftPaneLists = (
   lookup: ConversationLookupType,
   comparator: (left: ConversationType, right: ConversationType) => number,
   selectedConversation?: string,
   pinnedConversationIds?: ReadonlyArray<string>
-): {
-  conversations: Array<ConversationType>;
-  archivedConversations: Array<ConversationType>;
-  pinnedConversations: Array<ConversationType>;
-} => {
+): LeftPaneLists => {
   const conversations: Array<ConversationType> = [];
   const archivedConversations: Array<ConversationType> = [];
   const pinnedConversations: Array<ConversationType> = [];
@@ -527,6 +529,40 @@ export const getAllGroupsWithInviteAccess = createSelector(
         conversation.canAddNewMembers
       );
     })
+);
+
+export type UnreadStats = Readonly<{
+  unreadCount: number;
+  unreadMentionsCount: number;
+  markedUnread: boolean;
+}>;
+
+export const getAllConversationsUnreadStats = createSelector(
+  getLeftPaneLists,
+  (leftPaneLists: LeftPaneLists): UnreadStats => {
+    let unreadCount = 0;
+    let unreadMentionsCount = 0;
+    let markedUnread = false;
+
+    function count(conversations: ReadonlyArray<ConversationType>) {
+      conversations.forEach(conversation => {
+        if (conversation.unreadCount != null) {
+          unreadCount += conversation.unreadCount;
+        }
+        if (conversation.unreadMentionsCount != null) {
+          unreadMentionsCount += conversation.unreadMentionsCount;
+        }
+        if (conversation.markedUnread) {
+          markedUnread = true;
+        }
+      });
+    }
+
+    count(leftPaneLists.pinnedConversations);
+    count(leftPaneLists.conversations);
+
+    return { unreadCount, unreadMentionsCount, markedUnread };
+  }
 );
 
 /**

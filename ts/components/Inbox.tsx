@@ -3,19 +3,10 @@
 
 import type { ReactNode } from 'react';
 import React, { useEffect, useState, useMemo } from 'react';
-
-import type { ShowConversationType } from '../state/ducks/conversations';
 import type { LocalizerType } from '../types/Util';
-
 import * as log from '../logging/log';
 import { SECOND, DAY } from '../util/durations';
-import { ToastStickerPackInstallFailed } from './ToastStickerPackInstallFailed';
-import { WhatsNewLink } from './WhatsNewLink';
-import { showToast } from '../util/showToast';
-import { strictAssert } from '../util/assert';
-import { TargetedMessageSource } from '../state/ducks/conversationsEnums';
-import { usePrevious } from '../hooks/usePrevious';
-import { Environment, getEnvironment } from '../environment';
+import type { SmartNavTabsProps } from '../state/smart/NavTabs';
 
 export type PropsType = {
   firstEnvelopeTimestamp: number | undefined;
@@ -23,18 +14,13 @@ export type PropsType = {
   hasInitialLoadCompleted: boolean;
   i18n: LocalizerType;
   isCustomizingPreferredReactions: boolean;
-  onConversationClosed: (id: string, reason: string) => unknown;
-  onConversationOpened: (id: string, messageId?: string) => unknown;
-  renderConversationView: () => JSX.Element;
+  navTabsCollapsed: boolean;
+  onToggleNavTabsCollapse: (navTabsCollapsed: boolean) => unknown;
+  renderCallsTab: () => JSX.Element;
+  renderChatsTab: () => JSX.Element;
   renderCustomizingPreferredReactionsModal: () => JSX.Element;
-  renderLeftPane: () => JSX.Element;
-  renderMiniPlayer: (options: { shouldFlow: boolean }) => JSX.Element;
-  scrollToMessage: (conversationId: string, messageId: string) => unknown;
-  selectedConversationId?: string;
-  targetedMessage?: string;
-  targetedMessageSource?: TargetedMessageSource;
-  showConversation: ShowConversationType;
-  showWhatsNewModal: () => unknown;
+  renderNavTabs: (props: SmartNavTabsProps) => JSX.Element;
+  renderStoriesTab: () => JSX.Element;
 };
 
 export function Inbox({
@@ -43,26 +29,16 @@ export function Inbox({
   hasInitialLoadCompleted,
   i18n,
   isCustomizingPreferredReactions,
-  onConversationClosed,
-  onConversationOpened,
-  renderConversationView,
+  navTabsCollapsed,
+  onToggleNavTabsCollapse,
+  renderCallsTab,
+  renderChatsTab,
   renderCustomizingPreferredReactionsModal,
-  renderLeftPane,
-  renderMiniPlayer,
-  scrollToMessage,
-  selectedConversationId,
-  targetedMessage,
-  targetedMessageSource,
-  showConversation,
-  showWhatsNewModal,
+  renderNavTabs,
+  renderStoriesTab,
 }: PropsType): JSX.Element {
   const [internalHasInitialLoadCompleted, setInternalHasInitialLoadCompleted] =
     useState(hasInitialLoadCompleted);
-
-  const prevConversationId = usePrevious(
-    selectedConversationId,
-    selectedConversationId
-  );
 
   const now = useMemo(() => Date.now(), []);
   const midnight = useMemo(() => {
@@ -73,80 +49,6 @@ export function Inbox({
     date.setMilliseconds(0);
     return date.getTime();
   }, [now]);
-
-  useEffect(() => {
-    if (prevConversationId !== selectedConversationId) {
-      if (prevConversationId) {
-        onConversationClosed(prevConversationId, 'opened another conversation');
-      }
-
-      if (selectedConversationId) {
-        onConversationOpened(selectedConversationId, targetedMessage);
-      }
-    } else if (
-      selectedConversationId &&
-      targetedMessage &&
-      targetedMessageSource !== TargetedMessageSource.Focus
-    ) {
-      scrollToMessage(selectedConversationId, targetedMessage);
-    }
-
-    if (!selectedConversationId) {
-      return;
-    }
-
-    const conversation = window.ConversationController.get(
-      selectedConversationId
-    );
-    strictAssert(conversation, 'Conversation must be found');
-
-    conversation.setMarkedUnread(false);
-  }, [
-    onConversationClosed,
-    onConversationOpened,
-    prevConversationId,
-    scrollToMessage,
-    selectedConversationId,
-    targetedMessage,
-    targetedMessageSource,
-  ]);
-
-  useEffect(() => {
-    function refreshConversation({
-      newId,
-      oldId,
-    }: {
-      newId: string;
-      oldId: string;
-    }) {
-      if (prevConversationId === oldId) {
-        showConversation({ conversationId: newId });
-      }
-    }
-
-    // Close current opened conversation to reload the group information once
-    // linked.
-    function unload() {
-      if (!prevConversationId) {
-        return;
-      }
-      onConversationClosed(prevConversationId, 'force unload requested');
-    }
-
-    function packInstallFailed() {
-      showToast(ToastStickerPackInstallFailed);
-    }
-
-    window.Whisper.events.on('pack-install-failed', packInstallFailed);
-    window.Whisper.events.on('refreshConversation', refreshConversation);
-    window.Whisper.events.on('setupAsNewDevice', unload);
-
-    return () => {
-      window.Whisper.events.off('pack-install-failed', packInstallFailed);
-      window.Whisper.events.off('refreshConversation', refreshConversation);
-      window.Whisper.events.off('setupAsNewDevice', unload);
-    };
-  }, [onConversationClosed, prevConversationId, showConversation]);
 
   useEffect(() => {
     if (internalHasInitialLoadCompleted) {
@@ -185,12 +87,6 @@ export function Inbox({
   useEffect(() => {
     setInternalHasInitialLoadCompleted(hasInitialLoadCompleted);
   }, [hasInitialLoadCompleted]);
-
-  useEffect(() => {
-    if (!selectedConversationId) {
-      window.SignalCI?.handleEvent('empty-inbox:rendered', null);
-    }
-  }, [selectedConversationId]);
 
   if (!internalHasInitialLoadCompleted) {
     let loadingProgress = 0;
@@ -264,37 +160,13 @@ export function Inbox({
     <>
       <div className="Inbox">
         <div className="module-title-bar-drag-area" />
-
-        <div id="LeftPane">{renderLeftPane()}</div>
-
-        <div className="Inbox__conversation-stack">
-          <div id="toast" />
-          {selectedConversationId && (
-            <div
-              className="Inbox__conversation"
-              id={`conversation-${selectedConversationId}`}
-            >
-              {renderConversationView()}
-            </div>
-          )}
-          {!prevConversationId && (
-            <div className="Inbox__no-conversation-open">
-              {renderMiniPlayer({ shouldFlow: false })}
-              <div className="module-splash-screen__logo module-img--128 module-logo-blue" />
-              <h3>
-                {getEnvironment() !== Environment.Staging
-                  ? i18n('icu:welcomeToSignal')
-                  : 'THIS IS A STAGING DESKTOP'}
-              </h3>
-              <p>
-                <WhatsNewLink
-                  i18n={i18n}
-                  showWhatsNewModal={showWhatsNewModal}
-                />
-              </p>
-            </div>
-          )}
-        </div>
+        {renderNavTabs({
+          navTabsCollapsed,
+          onToggleNavTabsCollapse,
+          renderChatsTab,
+          renderCallsTab,
+          renderStoriesTab,
+        })}
       </div>
       {activeModal}
     </>

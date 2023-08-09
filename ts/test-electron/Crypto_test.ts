@@ -27,9 +27,8 @@ import {
   hmacSha256,
   verifyHmacSha256,
   randomInt,
-  uuidToBytes,
-  bytesToUuid,
 } from '../Crypto';
+import { uuidToBytes, bytesToUuid } from '../util/uuidToBytes';
 
 const BUCKET_SIZES = [
   541, 568, 596, 626, 657, 690, 725, 761, 799, 839, 881, 925, 972, 1020, 1071,

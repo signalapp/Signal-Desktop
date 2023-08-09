@@ -18,6 +18,9 @@ import { SeenStatus } from '../MessageSeenStatus';
 import { objectToJSON, sql, sqlJoin } from '../sql/util';
 import type { MessageType } from '../sql/Interface';
 import { BodyRange } from '../types/BodyRange';
+import { CallMode } from '../types/Calling';
+import { callHistoryDetailsSchema } from '../types/CallDisposition';
+import type { MessageAttributesType } from '../model-types';
 
 const OUR_UUID = generateGuid();
 
@@ -3451,19 +3454,19 @@ describe('SQL migrations test', () => {
       updateToVersion(schemaVersion);
       const [query, params] = sql`
         EXPLAIN QUERY PLAN
-        SELECT 
+        SELECT
           messages.rowid,
           mentionUuid
         FROM mentions
-        INNER JOIN messages 
-        ON 
-          messages.id = mentions.messageId 
+        INNER JOIN messages
+        ON
+          messages.id = mentions.messageId
           AND mentions.mentionUuid IN (
             ${sqlJoin(['a', 'b', 'c'], ', ')}
-          ) 
-          AND messages.isViewOnce IS NOT 1 
+          )
+          AND messages.isViewOnce IS NOT 1
           AND messages.storyId IS NULL
-          
+
         LIMIT 100;
         `;
       const { detail } = db.prepare(query).get(params);
@@ -3572,6 +3575,88 @@ describe('SQL migrations test', () => {
         detail,
         'SEARCH messages USING INDEX messages_story_replies (storyId=? AND received_at<?)'
       );
+    });
+  });
+
+  describe('updateToSchemaVersion87', () => {
+    it('pulls out call history messages into the new table', () => {
+      updateToVersion(86);
+
+      const message1Id = generateGuid();
+      const message2Id = generateGuid();
+      const conversationId = generateGuid();
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- using old types
+      const message1: MessageAttributesType & { callHistoryDetails: any } = {
+        id: message1Id,
+        type: 'call-history',
+        conversationId,
+        sent_at: Date.now() - 10,
+        received_at: Date.now() - 10,
+        timestamp: Date.now() - 10,
+        callHistoryDetails: {
+          callId: '123',
+          callMode: CallMode.Direct,
+          wasDeclined: false,
+          wasDeleted: false,
+          wasIncoming: false,
+          wasVideoCall: false,
+          acceptedTime: Date.now(),
+          endedTime: undefined,
+        },
+      };
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- using old types
+      const message2: MessageAttributesType & { callHistoryDetails: any } = {
+        id: message2Id,
+        type: 'call-history',
+        conversationId,
+        sent_at: Date.now(),
+        received_at: Date.now(),
+        timestamp: Date.now(),
+        callHistoryDetails: {
+          callMode: CallMode.Group,
+          creatorUuid: generateGuid(),
+          eraId: (0x123).toString(16),
+          startedTime: Date.now(),
+        },
+      };
+
+      const [insertQuery, insertParams] = sql`
+        INSERT INTO messages (
+          id,
+          conversationId,
+          type,
+          json
+        )
+        VALUES
+          (
+            ${message1Id},
+            ${conversationId},
+            ${message1.type},
+            ${JSON.stringify(message1)}
+          ),
+          (
+            ${message2Id},
+            ${conversationId},
+            ${message2.type},
+            ${JSON.stringify(message2)}
+          );
+      `;
+
+      db.prepare(insertQuery).run(insertParams);
+
+      updateToVersion(87);
+
+      const [selectHistoryQuery] = sql`
+        SELECT * FROM callsHistory;
+      `;
+
+      const rows = db.prepare(selectHistoryQuery).all();
+
+      for (const row of rows) {
+        callHistoryDetailsSchema.parse(row);
+      }
     });
   });
 });
