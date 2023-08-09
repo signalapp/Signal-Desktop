@@ -43,6 +43,7 @@ import { map, filter } from '../util/iterables';
 import { ourProfileKeyService } from './ourProfileKey';
 import {
   ConversationTypes,
+  isDirectConversation,
   typeofConversation,
 } from '../util/whatTypeOfConversation';
 import { SignalService as Proto } from '../protobuf';
@@ -1204,7 +1205,10 @@ async function processManifest(
 
       // Remote might have dropped this conversation already, but our value of
       // `firstUnregisteredAt` is too high for us to drop it. Don't reupload it!
-      if (conversation.isUnregistered()) {
+      if (
+        isDirectConversation(conversation.attributes) &&
+        conversation.isUnregistered()
+      ) {
         log.info(
           `storageService.process(${version}): localKey=${missingKey} is ` +
             'unregistered and not in remote manifest'

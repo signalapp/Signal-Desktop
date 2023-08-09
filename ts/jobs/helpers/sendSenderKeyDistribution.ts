@@ -48,7 +48,9 @@ export async function sendSenderKeyDistribution(
   );
 
   if (!isDirectConversation(conversation.attributes)) {
-    log.info('Failing attempt to send null message to group');
+    log.info(
+      'Failing attempt to send sender key distribution message to group'
+    );
     return;
   }
 

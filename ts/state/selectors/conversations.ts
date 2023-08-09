@@ -494,7 +494,7 @@ function canComposeConversation(conversation: ConversationType): boolean {
     !isSignalConversation(conversation) &&
       !conversation.isBlocked &&
       !conversation.removalStage &&
-      !isConversationUnregistered(conversation) &&
+      (isGroupV2(conversation) || !isConversationUnregistered(conversation)) &&
       hasDisplayInfo(conversation) &&
       isTrusted(conversation)
   );
@@ -509,7 +509,8 @@ export const getAllComposableConversations = createSelector(
         !conversation.isBlocked &&
         !conversation.removalStage &&
         !conversation.isGroupV1AndDisabled &&
-        !isConversationUnregistered(conversation) &&
+        (isGroupV2(conversation) ||
+          !isConversationUnregistered(conversation)) &&
         // All conversation should have a title except in weird cases where
         // they don't, in that case we don't want to show these for Forwarding.
         conversation.titleNoDefault &&
