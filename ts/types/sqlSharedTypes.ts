@@ -131,7 +131,7 @@ export function getContactInfoFromDBValues({
   dbCreatedAtSeconds: number;
   dbProfileUrl: string | undefined;
   dbProfileKey: string | undefined;
-  expirationTimerSeconds: number | undefined;
+  // expirationTimerSeconds: number | undefined;
 }): ContactInfoSet {
   const wrapperContact: ContactInfoSet = {
     id,

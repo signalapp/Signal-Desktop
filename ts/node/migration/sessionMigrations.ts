@@ -1224,7 +1224,7 @@ function insertContactIntoContactWrapper(
     const dbApprovedMe = !!contact.didApproveMe || false;
     const dbBlocked = blockedNumbers.includes(contact.id);
     const priority = contact.priority || CONVERSATION_PRIORITIES.default;
-    const expirationTimerSeconds = contact.expireTimer || 0;
+    // const expirationTimerSeconds = contact.expireTimer || 0;
 
     const wrapperContact = getContactInfoFromDBValues({
       id: contact.id,
@@ -1237,7 +1237,7 @@ function insertContactIntoContactWrapper(
       dbProfileUrl: contact.avatarPointer || undefined,
       priority,
       dbCreatedAtSeconds: Math.floor((contact.active_at || Date.now()) / 1000),
-      expirationTimerSeconds, // FIXME WILL add expirationMode here
+      // expirationTimerSeconds, // FIXME WILL add expirationMode here
     });
 
     try {
@@ -1262,7 +1262,7 @@ function insertContactIntoContactWrapper(
             dbProfileUrl: undefined,
             priority: CONVERSATION_PRIORITIES.default,
             dbCreatedAtSeconds: Math.floor(Date.now() / 1000),
-            expirationTimerSeconds: 0, // FIXME WILL add expirationMode here
+            // expirationTimerSeconds: 0, // FIXME WILL add expirationMode here
           })
         );
       } catch (err2) {
@@ -1385,7 +1385,7 @@ function insertLegacyGroupIntoWrapper(
   const {
     priority,
     id,
-    expireTimer,
+    // expireTimer,
     groupAdmins,
     members,
     displayNameInProfile,
@@ -1400,7 +1400,7 @@ function insertLegacyGroupIntoWrapper(
   const wrapperLegacyGroup = getLegacyGroupInfoFromDBValues({
     id,
     priority,
-    expireTimer, // FIXME WILL add expirationMode here
+    // expireTimer, // FIXME WILL add expirationMode here
     groupAdmins,
     members,
     displayNameInProfile,
@@ -1628,7 +1628,8 @@ function updateToSessionSchemaVersion31(currentVersion: number, db: BetterSqlite
       const ourDbProfileUrl = ourConversation.avatarPointer || '';
       const ourDbProfileKey = fromHexToArray(ourConversation.profileKey || '');
       const ourConvoPriority = ourConversation.priority;
-      const ourConvoExpire = ourConversation.expireTimer || 0;
+      // const ourConvoExpire = ourConversation.expireTimer || 0;
+
       if (ourDbProfileUrl && !isEmpty(ourDbProfileKey)) {
         userProfileWrapper.setUserInfo(
           ourDbName,
@@ -1636,8 +1637,8 @@ function updateToSessionSchemaVersion31(currentVersion: number, db: BetterSqlite
           {
             url: ourDbProfileUrl,
             key: ourDbProfileKey,
-          },
-          ourConvoExpire
+          }
+          // , ourConvoExpire
         );
       }
 
@@ -1860,6 +1861,8 @@ function updateToSessionSchemaVersion33(currentVersion: number, db: BetterSqlite
   if (currentVersion >= targetVersion) {
     return;
   }
+
+  // TODO we actually want to update the config wrappers that relate to disappearing messages with the type and seconds
 
   console.log(`updateToSessionSchemaVersion${targetVersion}: starting...`);
   db.transaction(() => {

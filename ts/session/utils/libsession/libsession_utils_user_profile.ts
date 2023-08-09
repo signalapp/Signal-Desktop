@@ -26,7 +26,7 @@ async function insertUserProfileIntoWrapper(convoId: string) {
       { url: dbProfileUrl, key: dbProfileKey }
     )} `
   );
-  const expirySeconds = ourConvo.get('expireTimer') || 0;
+  // const expirySeconds = ourConvo.get('expireTimer') || 0;
   if (dbProfileUrl && !isEmpty(dbProfileKey)) {
     await UserConfigWrapperActions.setUserInfo(
       dbName,
@@ -34,11 +34,16 @@ async function insertUserProfileIntoWrapper(convoId: string) {
       {
         url: dbProfileUrl,
         key: dbProfileKey,
-      },
-      expirySeconds
+      }
+      // expirySeconds
     );
   } else {
-    await UserConfigWrapperActions.setUserInfo(dbName, priority, null, expirySeconds);
+    await UserConfigWrapperActions.setUserInfo(
+      dbName,
+      priority,
+      null
+      // , expirySeconds
+    );
   }
 }
 

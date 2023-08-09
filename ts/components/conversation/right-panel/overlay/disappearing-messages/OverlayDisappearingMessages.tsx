@@ -110,12 +110,12 @@ export const OverlayDisappearingMessages = ({ unlockNewModes }: { unlockNewModes
         dispatch(closeRightPanel());
         dispatch(resetRightOverlayMode());
       }
-    } else {
-      if (selectedConversationKey && modeSelected) {
-        await setDisappearingMessagesByConvoId(selectedConversationKey, modeSelected, timeSelected);
-        dispatch(closeRightPanel());
-        dispatch(resetRightOverlayMode());
-      }
+      return;
+    }
+    if (selectedConversationKey && modeSelected) {
+      await setDisappearingMessagesByConvoId(selectedConversationKey, modeSelected, timeSelected);
+      dispatch(closeRightPanel());
+      dispatch(resetRightOverlayMode());
     }
   };
 
