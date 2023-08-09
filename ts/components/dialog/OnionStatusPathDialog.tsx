@@ -25,7 +25,7 @@ export type StatusLightType = {
   glowStartDelay: number;
   glowDuration: number;
   color?: string;
-  dataTestId?: string
+  dataTestId?: string;
 };
 
 const StyledCountry = styled.div`
@@ -143,7 +143,7 @@ const OnionPathModalInner = () => {
 export type OnionNodeStatusLightType = {
   glowStartDelay: number;
   glowDuration: number;
-  dataTestId?: string
+  dataTestId?: string;
 };
 
 /**
@@ -190,7 +190,7 @@ export const ActionPanelOnionStatusLight = (props: {
   handleClick: () => void;
   id: string;
 }) => {
-  const { isSelected, handleClick,  id } = props;
+  const { isSelected, handleClick, id } = props;
 
   const onionPathsCount = useSelector(getOnionPathsCount);
   const firstPathLength = useSelector(getFirstOnionPathLength);
@@ -219,8 +219,8 @@ export const ActionPanelOnionStatusLight = (props: {
       glowStartDelay={0}
       noScale={true}
       isSelected={isSelected}
-      dataTestId={"path-light-container"}
-      dataTestIdIcon={"path-light-svg"}
+      dataTestId={'path-light-container'}
+      dataTestIdIcon={'path-light-svg'}
       id={id}
     />
   );

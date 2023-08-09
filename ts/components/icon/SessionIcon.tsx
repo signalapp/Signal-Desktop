@@ -198,9 +198,6 @@ export const SessionIcon = (props: SessionIconProps) => {
   const iconDimensions = getIconDimensionFromIconSize(iconSize);
   const iconDef = icons[iconType];
   const ratio = iconDef?.ratio || 1;
-  if (iconType === 'circle') {
-    console.warn('props', props);
-  }
 
   return (
     <SessionSvg
