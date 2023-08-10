@@ -1,5 +1,5 @@
 diff --git a/node_modules/quill/dist/quill.js b/node_modules/quill/dist/quill.js
-index 811b3d0..135dfb2 100644
+index 811b3d0..fe5d034 100644
 --- a/node_modules/quill/dist/quill.js
 +++ b/node_modules/quill/dist/quill.js
 @@ -8896,7 +8896,8 @@ var debug = (0, _logger2.default)('quill:clipboard');
@@ -8,7 +8,7 @@ index 811b3d0..135dfb2 100644
  
 -var CLIPBOARD_CONFIG = [[Node.TEXT_NODE, matchText], [Node.TEXT_NODE, matchNewline], ['br', matchBreak], [Node.ELEMENT_NODE, matchNewline], [Node.ELEMENT_NODE, matchBlot], [Node.ELEMENT_NODE, matchSpacing], [Node.ELEMENT_NODE, matchAttributor], [Node.ELEMENT_NODE, matchStyles], ['li', matchIndent], ['b', matchAlias.bind(matchAlias, 'bold')], ['i', matchAlias.bind(matchAlias, 'italic')], ['style', matchIgnore]];
 +// var CLIPBOARD_CONFIG = [[Node.TEXT_NODE, matchText], [Node.TEXT_NODE, matchNewline], ['br', matchBreak], [Node.ELEMENT_NODE, matchNewline], [Node.ELEMENT_NODE, matchBlot], [Node.ELEMENT_NODE, matchSpacing], [Node.ELEMENT_NODE, matchAttributor], [Node.ELEMENT_NODE, matchStyles], ['li', matchIndent], ['b', matchAlias.bind(matchAlias, 'bold')], ['i', matchAlias.bind(matchAlias, 'italic')], ['style', matchIgnore]];
-+var CLIPBOARD_CONFIG = [[Node.TEXT_NODE, matchText], [Node.TEXT_NODE, matchNewline], ['br', matchBreak], [Node.ELEMENT_NODE, matchNewline], [Node.ELEMENT_NODE, matchSpacing]];
++var CLIPBOARD_CONFIG = [[Node.TEXT_NODE, matchText], [Node.TEXT_NODE, matchNewline], ['br', matchBreak], [Node.ELEMENT_NODE, matchNewline]];
  
  var ATTRIBUTE_ATTRIBUTORS = [_align.AlignAttribute, _direction.DirectionAttribute].reduce(function (memo, attr) {
    memo[attr.keyName] = attr;
@@ -83,7 +83,20 @@ index 811b3d0..135dfb2 100644
  }
  
  function deltaEndsWith(delta, text) {
-@@ -9074,24 +9081,30 @@ function deltaEndsWith(delta, text) {
+@@ -9070,28 +9077,43 @@ function deltaEndsWith(delta, text) {
+   }
+   return endText.slice(-1 * text.length) === text;
+ }
++function deltaIs(delta, text) {
++  var allText = "";
++  for (var i = delta.ops.length - 1; i >= 0 && allText.length <= text.length; --i) {
++    var op = delta.ops[i]; 
++    if (typeof op.insert !== 'string') break;
++    allText = op.insert + allText;
++  }
++  return allText === text;
++}
+ 
  function isLine(node) {
    if (node.childNodes.length === 0) return false; // Exclude embed blocks
    var style = computeStyle(node);
@@ -120,20 +133,29 @@ index 811b3d0..135dfb2 100644
          }, childrenDelta);
        }
        return delta.concat(childrenDelta);
-@@ -9177,8 +9190,10 @@ function matchIndent(node, delta) {
+@@ -9177,8 +9199,10 @@ function matchIndent(node, delta) {
  }
  
  function matchNewline(node, delta) {
 -  if (!deltaEndsWith(delta, '\n')) {
 -    if (isLine(node) || delta.length() > 0 && node.nextSibling && isLine(node.nextSibling)) {
 +  // if (!deltaEndsWith(delta, '\n')) {
-+  if (!deltaEndsWith(delta, '\n\n')) { 
++  if (!deltaIs(delta, '\n') && !deltaEndsWith(delta, '\n\n')) { 
 +    // if (isLine(node) || delta.length() > 0 && node.nextSibling && isLine(node.nextSibling)) {
 +    if (delta.length() > 0 && isLine(node)) {
        delta.insert('\n');
      }
    }
-@@ -9214,7 +9229,7 @@ function matchStyles(node, delta) {
+@@ -9186,7 +9210,7 @@ function matchNewline(node, delta) {
+ }
+ 
+ function matchSpacing(node, delta) {
+-  if (isLine(node) && node.nextElementSibling != null && !deltaEndsWith(delta, '\n\n')) {
++  if (isLine(node) && node.nextElementSibling != null && !deltaIs(delta, '\n') && !deltaEndsWith(delta, '\n\n')) {
+     var nodeHeight = node.offsetHeight + parseFloat(computeStyle(node).marginTop) + parseFloat(computeStyle(node).marginBottom);
+     if (node.nextElementSibling.offsetTop > node.offsetTop + nodeHeight * 1.5) {
+       delta.insert('\n');
+@@ -9214,7 +9238,7 @@ function matchStyles(node, delta) {
    return delta;
  }
  
@@ -142,7 +164,7 @@ index 811b3d0..135dfb2 100644
    var text = node.data;
    // Word represents empty line with <o:p>&nbsp;</o:p>
    if (node.parentNode.tagName === 'O:P') {
-@@ -9238,7 +9253,7 @@ function matchText(node, delta) {
+@@ -9238,7 +9262,7 @@ function matchText(node, delta) {
        text = text.replace(/\s+$/, replacer.bind(replacer, false));
      }
    }
