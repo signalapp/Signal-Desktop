@@ -3,11 +3,12 @@
 
 import { isEqual } from 'lodash';
 import type { StoryRecipientUpdateEvent } from '../textsecure/messageReceiverEvents';
+import { normalizeServiceId } from '../types/ServiceId';
+import { normalizeStoryDistributionId } from '../types/StoryDistributionId';
 import * as log from '../logging/log';
 import { SendStatus } from '../messages/MessageSendState';
 import { getConversationIdForLogging } from './idForLogging';
 import { isStory } from '../state/selectors/message';
-import { normalizeUuid } from './normalizeUuid';
 import { queueUpdateMessage } from './messageBatcher';
 import { isMe } from './whatTypeOfConversation';
 import { drop } from './drop';
@@ -17,11 +18,11 @@ export async function onStoryRecipientUpdate(
 ): Promise<void> {
   const { data, confirm } = event;
 
-  const { destinationUuid, timestamp } = data;
+  const { destinationServiceId, timestamp } = data;
 
-  const conversation = window.ConversationController.get(destinationUuid);
+  const conversation = window.ConversationController.get(destinationServiceId);
 
-  const logId = `onStoryRecipientUpdate(${destinationUuid}, ${timestamp})`;
+  const logId = `onStoryRecipientUpdate(${destinationServiceId}, ${timestamp})`;
 
   if (!conversation) {
     log.warn(`${logId}: no conversation`);
@@ -55,15 +56,14 @@ export async function onStoryRecipientUpdate(
         Set<string>
       >();
       data.storyMessageRecipients.forEach(item => {
-        const { destinationAci, destinationPni } = item;
+        const { destinationServiceId: recipientServiceId } = item;
 
-        const destinationId = destinationAci || destinationPni;
-        if (!destinationId) {
+        if (!recipientServiceId) {
           return;
         }
 
         const convo = window.ConversationController.get(
-          normalizeUuid(destinationId, `${logId}.destinationId`)
+          normalizeServiceId(recipientServiceId, `${logId}.recipientServiceId`)
         );
 
         if (!convo || !item.distributionListIds) {
@@ -71,7 +71,10 @@ export async function onStoryRecipientUpdate(
         }
 
         for (const rawUuid of item.distributionListIds) {
-          const uuid = normalizeUuid(rawUuid, `${logId}.distributionListId`);
+          const uuid = normalizeStoryDistributionId(
+            rawUuid,
+            `${logId}.distributionListId`
+          );
 
           const existing = distributionListIdToConversationIds.get(uuid);
           if (existing === undefined) {

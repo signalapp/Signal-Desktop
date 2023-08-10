@@ -1512,7 +1512,7 @@ async function processRemoteRecords(
 
   // Find remote contact records that:
   // - Have `remote.pni === remote.serviceUuid` and have `remote.serviceE164`
-  // - Match local contact that has `local.serviceUuid != remote.pni`.
+  // - Match local contact that has `aci`.
   const splitPNIContacts = new Array<MergeableItemType>();
   prunedStorageItems = prunedStorageItems.filter(item => {
     const { itemType, storageRecord } = item;
@@ -1521,18 +1521,12 @@ async function processRemoteRecords(
       return true;
     }
 
-    if (
-      !contact.serviceE164 ||
-      !contact.pni ||
-      contact.pni !== contact.serviceUuid
-    ) {
+    if (!contact.serviceE164 || !contact.pni) {
       return true;
     }
 
-    const localUuid = window.ConversationController.get(contact.pni)?.get(
-      'uuid'
-    );
-    if (!localUuid || localUuid === contact.pni) {
+    const localAci = window.ConversationController.get(contact.pni)?.getAci();
+    if (!localAci) {
       return true;
     }
 

@@ -7,6 +7,7 @@ import { action } from '@storybook/addon-actions';
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
 import { CallMode } from '../../types/Calling';
+import { generateAci } from '../../types/ServiceId';
 import { CallingNotification, type PropsType } from './CallingNotification';
 import {
   getDefaultConversation,
@@ -19,7 +20,6 @@ import {
   GroupCallStatus,
   DirectCallStatus,
 } from '../../types/CallDisposition';
-import { UUID } from '../../types/UUID';
 import type { ConversationType } from '../../state/ducks/conversations';
 import { CallExternalState } from '../../util/callingNotification';
 
@@ -45,7 +45,7 @@ const getCommonProps = (options: {
       ? GroupCallStatus.GenericGroupCall
       : DirectCallStatus.Pending,
     callCreator = getDefaultConversation({
-      uuid: UUID.generate().toString(),
+      uuid: generateAci(),
       isMe: direction === CallDirection.Outgoing,
     }),
     callExternalState = CallExternalState.Active,

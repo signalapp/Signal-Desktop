@@ -5,8 +5,8 @@ import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 
 import { setupI18n } from '../../util/setupI18n';
-import { UUID } from '../../types/UUID';
-import type { UUIDStringType } from '../../types/UUID';
+import { generateAci, generatePni } from '../../types/ServiceId';
+import type { ServiceIdString, AciString } from '../../types/ServiceId';
 import enMessages from '../../../_locales/en/messages.json';
 import type { GroupV2ChangeType } from '../../groups';
 import { SignalService as Proto } from '../../protobuf';
@@ -16,13 +16,13 @@ import type { FullJSXType } from '../Intl';
 
 const i18n = setupI18n('en', enMessages);
 
-const OUR_ACI = UUID.generate().toString();
-const OUR_PNI = UUID.generate().toString();
-const CONTACT_A = UUID.generate().toString();
-const CONTACT_B = UUID.generate().toString();
-const CONTACT_C = UUID.generate().toString();
-const ADMIN_A = UUID.generate().toString();
-const INVITEE_A = UUID.generate().toString();
+const OUR_ACI = generateAci();
+const OUR_PNI = generatePni();
+const CONTACT_A = generateAci();
+const CONTACT_B = generateAci();
+const CONTACT_C = generateAci();
+const ADMIN_A = generateAci();
+const INVITEE_A = generateAci();
 
 const AccessControlEnum = Proto.AccessControl.AccessRequired;
 const RoleEnum = Proto.Member.Role;
@@ -44,10 +44,10 @@ const renderChange = (
     areWeAdmin = true,
   }: {
     groupMemberships?: ReadonlyArray<{
-      uuid: UUIDStringType;
+      uuid: AciString;
       isAdmin: boolean;
     }>;
-    groupBannedMemberships?: ReadonlyArray<UUIDStringType>;
+    groupBannedMemberships?: ReadonlyArray<ServiceIdString>;
     groupName?: string;
     areWeAdmin?: boolean;
   } = {}
@@ -61,8 +61,8 @@ const renderChange = (
     groupMemberships={groupMemberships}
     groupName={groupName}
     i18n={i18n}
-    ourACI={OUR_ACI}
-    ourPNI={OUR_PNI}
+    ourAci={OUR_ACI}
+    ourPni={OUR_PNI}
     renderContact={renderContact}
   />
 );
@@ -93,10 +93,6 @@ export function Multiple(): JSX.Element {
           {
             type: 'member-add',
             uuid: OUR_ACI,
-          },
-          {
-            type: 'member-add',
-            uuid: OUR_PNI,
           },
           {
             type: 'description',

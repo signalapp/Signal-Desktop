@@ -5,7 +5,8 @@ import type { Database } from '@signalapp/better-sqlite3';
 import { omit } from 'lodash';
 
 import type { LoggerType } from '../../types/Logging';
-import type { UUIDStringType } from '../../types/UUID';
+import type { AciString, ServiceIdString } from '../../types/ServiceId';
+import { normalizeAci } from '../../types/ServiceId';
 import { isNotNil } from '../../util/isNotNil';
 import { assertDev } from '../../util/assert';
 import {
@@ -96,7 +97,7 @@ export default function updateToSchemaVersion43(
 
       const newValue = oldValue
         .map(member => {
-          const uuid: UUIDStringType = getConversationUuid.get({
+          const uuid: ServiceIdString = getConversationUuid.get({
             conversationId: member.conversationId,
           });
           if (!uuid) {
@@ -117,7 +118,7 @@ export default function updateToSchemaVersion43(
             return updated;
           }
 
-          const addedByUserId: UUIDStringType | undefined =
+          const addedByUserId: ServiceIdString | undefined =
             getConversationUuid.get({
               conversationId: member.addedByUserId,
             });
@@ -227,7 +228,7 @@ export default function updateToSchemaVersion43(
     if (groupV2Change) {
       assertDev(result.groupV2Change, 'Pacify typescript');
 
-      const from: UUIDStringType | undefined = getConversationUuid.get({
+      const from: AciString | undefined = getConversationUuid.get({
         conversationId: groupV2Change.from,
       });
 
@@ -262,7 +263,7 @@ export default function updateToSchemaVersion43(
             }
             changedDetails = true;
 
-            const newValue: UUIDStringType | null = getConversationUuid.get({
+            const newValue: ServiceIdString | null = getConversationUuid.get({
               conversationId: oldValue,
             });
             if (key === 'inviter' && !newValue) {
@@ -302,7 +303,7 @@ export default function updateToSchemaVersion43(
     }
 
     if (sourceUuid) {
-      const newValue: UUIDStringType | null = getConversationUuid.get({
+      const newValue: ServiceIdString | null = getConversationUuid.get({
         conversationId: sourceUuid,
       });
 
@@ -317,7 +318,7 @@ export default function updateToSchemaVersion43(
     if (invitedGV2Members) {
       const newMembers = invitedGV2Members
         .map(({ addedByUserId, conversationId }, i) => {
-          const uuid: UUIDStringType | null = getConversationUuid.get({
+          const uuid: ServiceIdString | null = getConversationUuid.get({
             conversationId,
           });
           const oldMember =
@@ -341,7 +342,7 @@ export default function updateToSchemaVersion43(
             return newMember;
           }
 
-          const newAddedBy: UUIDStringType | null = getConversationUuid.get({
+          const newAddedBy: ServiceIdString | null = getConversationUuid.get({
             conversationId: addedByUserId,
           });
           if (!newAddedBy) {
@@ -350,7 +351,7 @@ export default function updateToSchemaVersion43(
 
           return {
             ...newMember,
-            addedByUserId: newAddedBy,
+            addedByUserId: normalizeAci(newAddedBy, 'migration-43'),
           };
         })
         .filter(isNotNil);

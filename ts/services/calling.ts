@@ -70,7 +70,7 @@ import {
   findBestMatchingCameraId,
 } from '../calling/findBestMatchingDevice';
 import type { LocalizerType } from '../types/Util';
-import { UUID, UUIDKind } from '../types/UUID';
+import { normalizeAci, isAciString } from '../types/ServiceId';
 import * as Errors from '../types/errors';
 import type { ConversationModel } from '../models/conversations';
 import * as Bytes from '../Bytes';
@@ -381,13 +381,13 @@ export class CallingClass {
   }
 
   private attemptToGiveOurUuidToRingRtc(): void {
-    const ourUuid = window.textsecure.storage.user.getUuid()?.toString();
-    if (!ourUuid) {
+    const ourAci = window.textsecure.storage.user.getAci();
+    if (!ourAci) {
       // This can happen if we're not linked. It's okay if we hit this case.
       return;
     }
 
-    RingRTC.setSelfUuid(Buffer.from(uuidToBytes(ourUuid)));
+    RingRTC.setSelfUuid(Buffer.from(uuidToBytes(ourAci)));
   }
 
   async startCallingLobby({
@@ -1006,11 +1006,16 @@ export class CallingClass {
   public formatGroupCallPeekInfoForRedux(
     peekInfo: PeekInfo
   ): GroupCallPeekInfoType {
+    const creatorAci = peekInfo.creator && bytesToUuid(peekInfo.creator);
     return {
-      uuids: peekInfo.devices.map(peekDeviceInfo => {
+      acis: peekInfo.devices.map(peekDeviceInfo => {
         if (peekDeviceInfo.userId) {
           const uuid = bytesToUuid(peekDeviceInfo.userId);
           if (uuid) {
+            assertDev(
+              isAciString(uuid),
+              'peeked participant uuid must be an ACI'
+            );
             return uuid;
           }
           log.error(
@@ -1021,9 +1026,18 @@ export class CallingClass {
             'Calling.formatGroupCallPeekInfoForRedux: device had no user ID; using fallback UUID'
           );
         }
-        return '00000000-0000-4000-8000-000000000000';
+        return normalizeAci(
+          '00000000-0000-4000-8000-000000000000',
+          'formatGrouPCallPeekInfoForRedux'
+        );
       }),
-      creatorUuid: peekInfo.creator && bytesToUuid(peekInfo.creator),
+      creatorAci:
+        creatorAci !== undefined
+          ? normalizeAci(
+              creatorAci,
+              'formatGroupCallPeekInfoForRedux.creatorAci'
+            )
+          : undefined,
       eraId: peekInfo.eraId,
       maxDevices: peekInfo.maxDevices ?? Infinity,
       deviceCount: peekInfo.deviceCount,
@@ -1060,15 +1074,16 @@ export class CallingClass {
         ? this.formatGroupCallPeekInfoForRedux(peekInfo)
         : undefined,
       remoteParticipants: remoteDeviceStates.map(remoteDeviceState => {
-        let uuid = bytesToUuid(remoteDeviceState.userId);
-        if (!uuid) {
+        let aci = bytesToUuid(remoteDeviceState.userId);
+        if (!aci) {
           log.error(
             'Calling.formatGroupCallForRedux: could not convert remote participant UUID Uint8Array to string; using fallback UUID'
           );
-          uuid = '00000000-0000-4000-8000-000000000000';
+          aci = '00000000-0000-4000-8000-000000000000';
         }
+        assertDev(isAciString(aci), 'remote participant aci must be a aci');
         return {
-          uuid,
+          aci,
           demuxId: remoteDeviceState.demuxId,
           hasRemoteAudio: !remoteDeviceState.audioMuted,
           hasRemoteVideo: !remoteDeviceState.videoMuted,
@@ -1610,7 +1625,7 @@ export class CallingClass {
       return;
     }
 
-    const remoteUserId = envelope.sourceUuid;
+    const remoteUserId = envelope.sourceServiceId;
     const remoteDeviceId = this.parseDeviceId(envelope.sourceDevice);
     if (!remoteUserId || !remoteDeviceId || !this.localDeviceId) {
       log.error('Missing identifier, ignoring call message.');
@@ -1620,16 +1635,16 @@ export class CallingClass {
     const { storage } = window.textsecure;
 
     const senderIdentityRecord =
-      await storage.protocol.getOrMigrateIdentityRecord(new UUID(remoteUserId));
+      await storage.protocol.getOrMigrateIdentityRecord(remoteUserId);
     if (!senderIdentityRecord) {
       log.error('Missing sender identity record; ignoring call message.');
       return;
     }
     const senderIdentityKey = senderIdentityRecord.publicKey.slice(1); // Ignore the type header, it is not used.
 
-    const ourUuid = storage.user.getCheckedUuid();
+    const ourAci = storage.user.getCheckedAci();
 
-    const receiverIdentityRecord = storage.protocol.getIdentityRecord(ourUuid);
+    const receiverIdentityRecord = storage.protocol.getIdentityRecord(ourAci);
     if (!receiverIdentityRecord) {
       log.error('Missing receiver identity record; ignoring call message.');
       return;
@@ -1683,8 +1698,8 @@ export class CallingClass {
       return;
     }
 
-    const sourceUuid = envelope.sourceUuid
-      ? uuidToBytes(envelope.sourceUuid)
+    const sourceServiceId = envelope.sourceServiceId
+      ? uuidToBytes(envelope.sourceServiceId)
       : null;
 
     const messageAgeSec = envelope.messageAgeSec ? envelope.messageAgeSec : 0;
@@ -1693,7 +1708,7 @@ export class CallingClass {
 
     RingRTC.handleCallingMessage(
       remoteUserId,
-      sourceUuid ? Buffer.from(sourceUuid) : null,
+      sourceServiceId ? Buffer.from(sourceServiceId) : null,
       remoteDeviceId,
       this.localDeviceId,
       messageAgeSec,
@@ -1839,6 +1854,7 @@ export class CallingClass {
       log.error('handleGroupCallRingUpdate(): ringerUuid was invalid');
       return;
     }
+    const ringerAci = normalizeAci(ringerUuid, 'handleGroupCallRingUpdate');
 
     const conversation = window.ConversationController.get(groupId);
     if (!conversation) {
@@ -1852,21 +1868,21 @@ export class CallingClass {
       return;
     }
 
-    const ourACI = window.textsecure.storage.user.getCheckedUuid(UUIDKind.ACI);
+    const ourAci = window.textsecure.storage.user.getCheckedAci();
 
-    if (conversation.get('left') || !conversation.hasMember(ourACI)) {
+    if (conversation.get('left') || !conversation.hasMember(ourAci)) {
       log.warn(`${logId}: we left the group`);
       return;
     }
 
-    if (!conversation.hasMember(new UUID(ringerUuid))) {
+    if (!conversation.hasMember(ringerAci)) {
       log.warn(`${logId}: they left the group`);
       return;
     }
 
     if (
       conversation.get('announcementsOnly') &&
-      !conversation.isAdmin(new UUID(ringerUuid))
+      !conversation.isAdmin(ringerAci)
     ) {
       log.warn(`${logId}: non-admin update to announcement-only group`);
       return;
@@ -1897,7 +1913,7 @@ export class CallingClass {
       this.reduxInterface?.receiveIncomingGroupCall({
         conversationId,
         ringId,
-        ringerUuid,
+        ringerAci,
       });
     } else {
       log.info('handleGroupCallRingUpdate: canceling the existing ring');
@@ -1938,6 +1954,7 @@ export class CallingClass {
     }
 
     try {
+      assertDev(isAciString(remoteUserId), 'remoteUserId is not a aci');
       const result = await handleMessageSend(
         window.textsecure.messaging.sendCallingMessage(
           remoteUserId,

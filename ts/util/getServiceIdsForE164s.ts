@@ -3,19 +3,19 @@
 
 import type { CDSResponseType } from '../textsecure/cds/Types.d';
 import type { WebAPIType } from '../textsecure/WebAPI';
-import type { UUIDStringType } from '../types/UUID';
+import type { AciString } from '../types/ServiceId';
 import * as log from '../logging/log';
 import { isEnabled } from '../RemoteConfig';
 import { isDirectConversation, isMe } from './whatTypeOfConversation';
 
-export async function getUuidsForE164s(
+export async function getServiceIdsForE164s(
   server: Pick<WebAPIType, 'cdsLookup'>,
   e164s: ReadonlyArray<string>
 ): Promise<CDSResponseType> {
   // Note: these have no relationship to supplied e164s. We just provide
   // all available information to the server so that it could return as many
   // ACI+PNI+E164 matches as possible.
-  const acis = new Array<UUIDStringType>();
+  const acis = new Array<AciString>();
   const accessKeys = new Array<string>();
 
   for (const convo of window.ConversationController.getAll()) {
@@ -23,7 +23,7 @@ export async function getUuidsForE164s(
       continue;
     }
 
-    const aci = convo.getUuid();
+    const aci = convo.getAci();
     if (!aci) {
       continue;
     }
@@ -34,7 +34,7 @@ export async function getUuidsForE164s(
       continue;
     }
 
-    acis.push(aci.toString());
+    acis.push(aci);
     accessKeys.push(accessKey);
   }
 
@@ -43,7 +43,7 @@ export async function getUuidsForE164s(
     isEnabled('desktop.cdsi.returnAcisWithoutUaks');
 
   log.info(
-    `getUuidsForE164s(${e164s}): acis=${acis.length} ` +
+    `getServiceIdsForE164s(${e164s}): acis=${acis.length} ` +
       `accessKeys=${accessKeys.length}`
   );
   return server.cdsLookup({

@@ -21,7 +21,7 @@ import {
   getSearchResults,
 } from '../../../state/selectors/search';
 import { makeLookup } from '../../../util/makeLookup';
-import { UUID } from '../../../types/UUID';
+import { generateAci } from '../../../types/ServiceId';
 import {
   getDefaultConversation,
   getDefaultConversationWithUuid,
@@ -58,7 +58,7 @@ describe('both/state/selectors/search', () => {
       received_at: NOW,
       sent_at: NOW,
       source: 'source',
-      sourceUuid: UUID.generate().toString(),
+      sourceUuid: generateAci(),
       timestamp: NOW,
       type: 'incoming' as const,
       readStatus: ReadStatus.Read,

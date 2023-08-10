@@ -3,6 +3,7 @@
 
 import * as sinon from 'sinon';
 import casual from 'casual';
+import { v4 as generateUuid } from 'uuid';
 
 import type {
   DispatchableViewStoryType,
@@ -11,7 +12,6 @@ import type {
 import type { ConversationType } from '../../../state/ducks/conversations';
 import type { MessageAttributesType } from '../../../model-types.d';
 import type { StateType as RootStateType } from '../../../state/reducer';
-import type { UUIDStringType } from '../../../types/UUID';
 import { DurationInSeconds } from '../../../util/durations';
 import { TEXT_ATTACHMENT, IMAGE_JPEG } from '../../../types/MIME';
 import { ReadStatus } from '../../../messages/MessageReadStatus';
@@ -19,7 +19,9 @@ import {
   StoryViewDirectionType,
   StoryViewModeType,
 } from '../../../types/Stories';
-import { UUID } from '../../../types/UUID';
+import type { StoryDistributionIdString } from '../../../types/StoryDistributionId';
+import { generateAci, generatePni } from '../../../types/ServiceId';
+import { generateStoryDistributionId } from '../../../types/StoryDistributionId';
 import { actions, getEmptyState } from '../../../state/ducks/stories';
 import { noopAction } from '../../../state/ducks/noop';
 import { reducer as rootReducer } from '../../../state/reducer';
@@ -35,7 +37,7 @@ describe('both/state/ducks/stories', () => {
     const now = Date.now();
 
     return {
-      conversationId: UUID.generate().toString(),
+      conversationId: generateUuid(),
       id,
       received_at: now,
       sent_at: now,
@@ -47,9 +49,10 @@ describe('both/state/ducks/stories', () => {
   describe('viewStory', () => {
     function getMockConversation({
       id: conversationId,
+      uuid,
       hideStory = false,
       title,
-    }: Pick<ConversationType, 'id' | 'hideStory'> & {
+    }: Pick<ConversationType, 'id' | 'hideStory' | 'uuid'> & {
       title?: string;
     }): ConversationType {
       return {
@@ -57,6 +60,7 @@ describe('both/state/ducks/stories', () => {
         badges: [],
         hideStory,
         id: conversationId,
+        uuid,
         isMe: false,
         sharedGroupNames: [],
         title: title || casual.username,
@@ -66,7 +70,7 @@ describe('both/state/ducks/stories', () => {
 
     function getStoryData(
       messageId: string,
-      conversationId = UUID.generate().toString(),
+      conversationId = generateUuid(),
       timestampDelta = 0
     ): StoryDataType {
       const now = Date.now();
@@ -127,7 +131,7 @@ describe('both/state/ducks/stories', () => {
       const dispatch = sinon.spy();
 
       viewStory({
-        storyId: UUID.generate().toString(),
+        storyId: generateUuid(),
         storyViewMode: StoryViewModeType.Single,
         viewDirection: StoryViewDirectionType.Next,
       })(dispatch, getEmptyRootState, null);
@@ -141,7 +145,7 @@ describe('both/state/ducks/stories', () => {
     it('does not find a story', () => {
       const dispatch = sinon.spy();
       viewStory({
-        storyId: UUID.generate().toString(),
+        storyId: generateUuid(),
         storyViewMode: StoryViewModeType.All,
       })(dispatch, getEmptyRootState, null);
 
@@ -152,7 +156,7 @@ describe('both/state/ducks/stories', () => {
     });
 
     it('selects a specific story', () => {
-      const storyId = UUID.generate().toString();
+      const storyId = generateUuid();
 
       const getState = getStateFunction([getStoryData(storyId)]);
 
@@ -177,10 +181,10 @@ describe('both/state/ducks/stories', () => {
 
     describe("navigating within a user's stories", () => {
       it('selects the next story', () => {
-        const storyId1 = UUID.generate().toString();
-        const storyId2 = UUID.generate().toString();
-        const storyId3 = UUID.generate().toString();
-        const conversationId = UUID.generate().toString();
+        const storyId1 = generateUuid();
+        const storyId2 = generateUuid();
+        const storyId3 = generateUuid();
+        const conversationId = generateUuid();
         const getState = getStateFunction([
           getStoryData(storyId1, conversationId),
           getStoryData(storyId2, conversationId),
@@ -207,10 +211,10 @@ describe('both/state/ducks/stories', () => {
       });
 
       it('selects the prev story', () => {
-        const storyId1 = UUID.generate().toString();
-        const storyId2 = UUID.generate().toString();
-        const storyId3 = UUID.generate().toString();
-        const conversationId = UUID.generate().toString();
+        const storyId1 = generateUuid();
+        const storyId2 = generateUuid();
+        const storyId3 = generateUuid();
+        const conversationId = generateUuid();
         const getState = getStateFunction([
           getStoryData(storyId1, conversationId),
           getStoryData(storyId2, conversationId),
@@ -237,10 +241,10 @@ describe('both/state/ducks/stories', () => {
       });
 
       it('when in StoryViewModeType.User and we have reached the end, it closes the viewer', () => {
-        const storyId1 = UUID.generate().toString();
-        const storyId2 = UUID.generate().toString();
-        const storyId3 = UUID.generate().toString();
-        const conversationId = UUID.generate().toString();
+        const storyId1 = generateUuid();
+        const storyId2 = generateUuid();
+        const storyId3 = generateUuid();
+        const conversationId = generateUuid();
         const getState = getStateFunction([
           getStoryData(storyId1, conversationId),
           getStoryData(storyId2, conversationId),
@@ -263,11 +267,13 @@ describe('both/state/ducks/stories', () => {
 
     describe('unviewed stories', () => {
       it('does not select hidden stories', () => {
-        const storyId1 = UUID.generate().toString();
-        const storyId2 = UUID.generate().toString();
-        const storyId3 = UUID.generate().toString();
-        const conversationId = UUID.generate().toString();
-        const conversationIdHide = UUID.generate().toString();
+        const storyId1 = generateUuid();
+        const storyId2 = generateUuid();
+        const storyId3 = generateUuid();
+        const conversationId = generateUuid();
+        const conversationAci = generateAci();
+        const conversationIdHide = generateUuid();
+        const conversationAciHide = generateAci();
 
         const getState = getStateFunction(
           [
@@ -279,17 +285,21 @@ describe('both/state/ducks/stories', () => {
             // selector looks up conversation by sourceUuid
             {
               ...getStoryData(storyId2, conversationIdHide),
-              sourceUuid: conversationIdHide,
+              sourceUuid: conversationAci,
             },
             {
               ...getStoryData(storyId3, conversationIdHide),
-              sourceUuid: conversationIdHide,
+              sourceUuid: conversationAciHide,
             },
           ],
           {
-            [conversationId]: getMockConversation({ id: conversationId }),
+            [conversationId]: getMockConversation({
+              id: conversationId,
+              uuid: conversationAci,
+            }),
             [conversationIdHide]: getMockConversation({
               id: conversationIdHide,
+              uuid: conversationAciHide,
               hideStory: true,
             }),
           },
@@ -310,13 +320,13 @@ describe('both/state/ducks/stories', () => {
       });
 
       it('does not select stories that precede the currently viewed story', () => {
-        const storyId1 = UUID.generate().toString();
-        const storyId2 = UUID.generate().toString();
-        const storyId3 = UUID.generate().toString();
-        const storyId4 = UUID.generate().toString();
-        const conversationId1 = UUID.generate().toString();
-        const conversationId2 = UUID.generate().toString();
-        const conversationId3 = UUID.generate().toString();
+        const storyId1 = generateUuid();
+        const storyId2 = generateUuid();
+        const storyId3 = generateUuid();
+        const storyId4 = generateUuid();
+        const conversationId1 = generateUuid();
+        const conversationId2 = generateUuid();
+        const conversationId3 = generateUuid();
 
         // conversationId3 - storyId4
         // conversationId1 - storyId1, storyId3
@@ -353,13 +363,13 @@ describe('both/state/ducks/stories', () => {
       });
 
       it('correctly goes to previous unviewed story', () => {
-        const storyId1 = UUID.generate().toString();
-        const storyId2 = UUID.generate().toString();
-        const storyId3 = UUID.generate().toString();
-        const storyId4 = UUID.generate().toString();
-        const conversationId1 = UUID.generate().toString();
-        const conversationId2 = UUID.generate().toString();
-        const conversationId3 = UUID.generate().toString();
+        const storyId1 = generateUuid();
+        const storyId2 = generateUuid();
+        const storyId3 = generateUuid();
+        const storyId4 = generateUuid();
+        const conversationId1 = generateUuid();
+        const conversationId2 = generateUuid();
+        const conversationId3 = generateUuid();
 
         const unviewedStoryConversationIdsSorted = [
           conversationId3,
@@ -405,13 +415,13 @@ describe('both/state/ducks/stories', () => {
       });
 
       it('does not close the viewer when playing the next story', () => {
-        const storyId1 = UUID.generate().toString();
-        const storyId2 = UUID.generate().toString();
-        const storyId3 = UUID.generate().toString();
-        const storyId4 = UUID.generate().toString();
-        const conversationId1 = UUID.generate().toString();
-        const conversationId2 = UUID.generate().toString();
-        const conversationId3 = UUID.generate().toString();
+        const storyId1 = generateUuid();
+        const storyId2 = generateUuid();
+        const storyId3 = generateUuid();
+        const storyId4 = generateUuid();
+        const conversationId1 = generateUuid();
+        const conversationId2 = generateUuid();
+        const conversationId3 = generateUuid();
         const unviewedStoryConversationIdsSorted = [
           conversationId3,
           conversationId2,
@@ -455,11 +465,11 @@ describe('both/state/ducks/stories', () => {
       });
 
       it('closes the viewer when there are no more unviewed stories', () => {
-        const storyId1 = UUID.generate().toString();
-        const storyId2 = UUID.generate().toString();
+        const storyId1 = generateUuid();
+        const storyId2 = generateUuid();
 
-        const conversationId1 = UUID.generate().toString();
-        const conversationId2 = UUID.generate().toString();
+        const conversationId1 = generateUuid();
+        const conversationId2 = generateUuid();
 
         const getState = getStateFunction(
           [
@@ -495,8 +505,8 @@ describe('both/state/ducks/stories', () => {
 
     describe('paging through sent stories', () => {
       function getSentStoryReduxData() {
-        const distributionListId1 = UUID.generate().toString();
-        const distributionListId2 = UUID.generate().toString();
+        const distributionListId1 = generateStoryDistributionId();
+        const distributionListId2 = generateStoryDistributionId();
         const storyDistributionLists = {
           distributionLists: [
             {
@@ -504,32 +514,24 @@ describe('both/state/ducks/stories', () => {
               name: 'List 1',
               allowsReplies: true,
               isBlockList: false,
-              memberUuids: [
-                UUID.generate().toString(),
-                UUID.generate().toString(),
-                UUID.generate().toString(),
-              ],
+              memberServiceIds: [generateAci(), generateAci(), generatePni()],
             },
             {
               id: distributionListId2,
               name: 'List 2',
               allowsReplies: true,
               isBlockList: false,
-              memberUuids: [
-                UUID.generate().toString(),
-                UUID.generate().toString(),
-                UUID.generate().toString(),
-              ],
+              memberServiceIds: [generateAci(), generateAci(), generatePni()],
             },
           ],
         };
 
-        const ourConversationId = UUID.generate().toString();
-        const groupConversationId = UUID.generate().toString();
+        const ourConversationId = generateUuid();
+        const groupConversationId = generateUuid();
 
         function getMyStoryData(
           messageId: string,
-          storyDistributionListId?: string,
+          storyDistributionListId?: StoryDistributionIdString,
           timestampDelta = 0
         ): StoryDataType {
           const now = Date.now();
@@ -550,11 +552,11 @@ describe('both/state/ducks/stories', () => {
           };
         }
 
-        const storyId1 = UUID.generate().toString();
-        const storyId2 = UUID.generate().toString();
-        const storyId3 = UUID.generate().toString();
-        const storyId4 = UUID.generate().toString();
-        const storyId5 = UUID.generate().toString();
+        const storyId1 = generateUuid();
+        const storyId2 = generateUuid();
+        const storyId3 = generateUuid();
+        const storyId4 = generateUuid();
+        const storyId5 = generateUuid();
         const myStories = [
           getMyStoryData(storyId1, distributionListId1, 5),
           getMyStoryData(storyId2, distributionListId2, 4),
@@ -767,7 +769,7 @@ describe('both/state/ducks/stories', () => {
     describe('paging through collections of stories', () => {
       function getViewedStoryData(
         storyId: string,
-        conversationId?: UUIDStringType,
+        conversationId?: string,
         timestampDelta = 0
       ): StoryDataType {
         return {
@@ -777,11 +779,11 @@ describe('both/state/ducks/stories', () => {
       }
 
       it("goes to the next user's stories", () => {
-        const storyId1 = UUID.generate().toString();
-        const storyId2 = UUID.generate().toString();
-        const storyId3 = UUID.generate().toString();
-        const conversationId2 = UUID.generate().toString();
-        const conversationId1 = UUID.generate().toString();
+        const storyId1 = generateUuid();
+        const storyId2 = generateUuid();
+        const storyId3 = generateUuid();
+        const conversationId2 = generateUuid();
+        const conversationId1 = generateUuid();
         const getState = getStateFunction(
           [
             getViewedStoryData(storyId1, conversationId1, 0),
@@ -814,11 +816,11 @@ describe('both/state/ducks/stories', () => {
       });
 
       it("goes to the prev user's stories", () => {
-        const storyId1 = UUID.generate().toString();
-        const storyId2 = UUID.generate().toString();
-        const storyId3 = UUID.generate().toString();
-        const conversationId1 = UUID.generate().toString();
-        const conversationId2 = UUID.generate().toString();
+        const storyId1 = generateUuid();
+        const storyId2 = generateUuid();
+        const storyId3 = generateUuid();
+        const conversationId1 = generateUuid();
+        const conversationId2 = generateUuid();
         const getState = getStateFunction(
           [
             getViewedStoryData(storyId1, conversationId2),
@@ -856,7 +858,7 @@ describe('both/state/ducks/stories', () => {
     const { queueStoryDownload } = actions;
 
     it('no attachment, no dispatch', async function test() {
-      const storyId = UUID.generate().toString();
+      const storyId = generateUuid();
       const messageAttributes = getStoryMessage(storyId);
 
       window.MessageController.register(storyId, messageAttributes);
@@ -868,13 +870,13 @@ describe('both/state/ducks/stories', () => {
     });
 
     it('downloading, no dispatch', async function test() {
-      const storyId = UUID.generate().toString();
+      const storyId = generateUuid();
       const messageAttributes = {
         ...getStoryMessage(storyId),
         attachments: [
           {
             contentType: IMAGE_JPEG,
-            downloadJobId: UUID.generate().toString(),
+            downloadJobId: generateUuid(),
             pending: true,
             size: 0,
           },
@@ -890,7 +892,7 @@ describe('both/state/ducks/stories', () => {
     });
 
     it('downloaded, no dispatch', async function test() {
-      const storyId = UUID.generate().toString();
+      const storyId = generateUuid();
       const messageAttributes = {
         ...getStoryMessage(storyId),
         attachments: [
@@ -912,7 +914,7 @@ describe('both/state/ducks/stories', () => {
     });
 
     it('not downloaded, queued for download', async function test() {
-      const storyId = UUID.generate().toString();
+      const storyId = generateUuid();
       const messageAttributes = {
         ...getStoryMessage(storyId),
         attachments: [
@@ -957,7 +959,7 @@ describe('both/state/ducks/stories', () => {
     });
 
     it('preview not downloaded, queued for download', async function test() {
-      const storyId = UUID.generate().toString();
+      const storyId = generateUuid();
       const preview = {
         url: 'https://signal.org',
         image: {

@@ -4,11 +4,12 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 
 import { assert } from 'chai';
+import { v4 as generateUuid } from 'uuid';
 import sinon from 'sinon';
 import { ConversationModel } from '../models/conversations';
 import type { ConversationAttributesType } from '../model-types.d';
 import type { WebAPIType } from '../textsecure/WebAPI';
-import { UUID } from '../types/UUID';
+import { generateAci, normalizeServiceId } from '../types/ServiceId';
 
 import { updateConversationsWithUuidLookup } from '../updateConversationsWithUuidLookup';
 
@@ -51,7 +52,7 @@ describe('updateConversationsWithUuidLookup', () => {
         reason,
         'FakeConversationController must be provided a reason when merging'
       );
-      const normalizedUuid = uuidFromServer!.toLowerCase();
+      const normalizedUuid = normalizeServiceId(uuidFromServer!, 'test');
 
       const convoE164 = this.get(e164);
       const convoUuid = this.get(normalizedUuid);
@@ -123,7 +124,7 @@ describe('updateConversationsWithUuidLookup', () => {
     attributes: Readonly<Partial<ConversationAttributesType>> = {}
   ): ConversationModel {
     return new ConversationModel({
-      id: UUID.generate().toString(),
+      id: generateUuid(),
       inbox_position: 0,
       isPinned: false,
       lastMessageDeletedForEveryone: false,
@@ -175,7 +176,7 @@ describe('updateConversationsWithUuidLookup', () => {
       conversationController: new FakeConversationController(),
       conversations: [
         createConversation(),
-        createConversation({ uuid: UUID.generate().toString() }),
+        createConversation({ uuid: generateAci() }),
       ],
       server: fakeServer,
     });
@@ -187,16 +188,16 @@ describe('updateConversationsWithUuidLookup', () => {
     const conversation1 = createConversation({ e164: '+13215559876' });
     const conversation2 = createConversation({
       e164: '+16545559876',
-      uuid: UUID.generate().toString(), // should be overwritten
+      uuid: generateAci(), // should be overwritten
     });
 
-    const uuid1 = UUID.generate().toString();
-    const uuid2 = UUID.generate().toString();
+    const aci1 = generateAci();
+    const aci2 = generateAci();
 
     fakeCdsLookup.resolves(
       new Map([
-        ['+13215559876', { aci: uuid1, pni: undefined }],
-        ['+16545559876', { aci: uuid2, pni: undefined }],
+        ['+13215559876', { aci: aci1, pni: undefined }],
+        ['+16545559876', { aci: aci2, pni: undefined }],
       ])
     );
 
@@ -209,8 +210,8 @@ describe('updateConversationsWithUuidLookup', () => {
       server: fakeServer,
     });
 
-    assert.strictEqual(conversation1.get('uuid'), uuid1);
-    assert.strictEqual(conversation2.get('uuid'), uuid2);
+    assert.strictEqual(conversation1.get('uuid'), aci1);
+    assert.strictEqual(conversation2.get('uuid'), aci2);
   });
 
   it("marks conversations unregistered if we didn't have a UUID for them and the server also doesn't have one", async () => {
@@ -234,10 +235,10 @@ describe('updateConversationsWithUuidLookup', () => {
   });
 
   it("doesn't mark conversations unregistered if we already had a UUID for them, even if the account exists on server", async () => {
-    const existingUuid = UUID.generate().toString();
+    const existingServiceId = generateAci();
     const conversation = createConversation({
       e164: '+13215559876',
-      uuid: existingUuid,
+      uuid: existingServiceId,
     });
     assert.isUndefined(
       conversation.get('discoveredUnregisteredAt'),
@@ -252,15 +253,15 @@ describe('updateConversationsWithUuidLookup', () => {
       server: fakeServer,
     });
 
-    assert.strictEqual(conversation.get('uuid'), existingUuid);
+    assert.strictEqual(conversation.get('uuid'), existingServiceId);
     assert.isUndefined(conversation.get('discoveredUnregisteredAt'));
   });
 
   it('marks conversations unregistered and removes UUID if the account does not exist on server', async () => {
-    const existingUuid = UUID.generate().toString();
+    const existingServiceId = generateAci();
     const conversation = createConversation({
       e164: '+13215559876',
-      uuid: existingUuid,
+      uuid: existingServiceId,
     });
     assert.isUndefined(
       conversation.get('discoveredUnregisteredAt'),

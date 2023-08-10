@@ -4,7 +4,7 @@
 import type { Database } from '@signalapp/better-sqlite3';
 
 import type { LoggerType } from '../../types/Logging';
-import type { UUIDStringType } from '../../types/UUID';
+import type { ServiceIdString } from '../../types/ServiceId';
 import { jsonToObject } from '../util';
 import type { EmptyQuery } from '../util';
 import type { ConversationType } from '../Interface';
@@ -21,7 +21,7 @@ export default function updateToSchemaVersion53(
   type LegacyConversationType = {
     id: string;
     groupId: string;
-    bannedMembersV2?: Array<UUIDStringType>;
+    bannedMembersV2?: Array<ServiceIdString>;
   };
 
   const updateConversationStmt = db.prepare(

@@ -13,7 +13,8 @@ import type { StorageAccessType } from '../types/Storage.d';
 import type { AttachmentType } from '../types/Attachment';
 import type { BytesToStrings } from '../types/Util';
 import type { QualifiedAddressStringType } from '../types/QualifiedAddress';
-import type { UUIDStringType } from '../types/UUID';
+import type { StoryDistributionIdString } from '../types/StoryDistributionId';
+import type { AciString, ServiceIdString } from '../types/ServiceId';
 import type { BadgeType } from '../badges/types';
 import type { RemoveAllConfiguration } from '../types/RemoveAllConfiguration';
 import type { LoggerType } from '../types/Logging';
@@ -84,7 +85,7 @@ export type EmojiType = {
 
 export type IdentityKeyType = {
   firstUse: boolean;
-  id: UUIDStringType | `conversation:${string}`;
+  id: ServiceIdString | `conversation:${string}`;
   nonblockingApproval: boolean;
   publicKey: Uint8Array;
   timestamp: number;
@@ -92,7 +93,7 @@ export type IdentityKeyType = {
 };
 export type StoredIdentityKeyType = {
   firstUse: boolean;
-  id: UUIDStringType | `conversation:${string}`;
+  id: ServiceIdString | `conversation:${string}`;
   nonblockingApproval: boolean;
   publicKey: string;
   timestamp: number;
@@ -116,7 +117,7 @@ export type MessageTypeUnhydrated = {
   json: string;
 };
 
-export type PreKeyIdType = `${UUIDStringType}:${number}`;
+export type PreKeyIdType = `${ServiceIdString}:${number}`;
 export type KyberPreKeyType = {
   id: PreKeyIdType;
 
@@ -125,7 +126,7 @@ export type KyberPreKeyType = {
   isConfirmed: boolean;
   isLastResort: boolean;
   keyId: number;
-  ourUuid: UUIDStringType;
+  ourUuid: ServiceIdString;
 };
 export type StoredKyberPreKeyType = KyberPreKeyType & {
   data: string;
@@ -135,7 +136,7 @@ export type PreKeyType = {
 
   createdAt: number;
   keyId: number;
-  ourUuid: UUIDStringType;
+  ourUuid: ServiceIdString;
   privateKey: Uint8Array;
   publicKey: Uint8Array;
 };
@@ -171,7 +172,7 @@ export type SentProtoType = {
 export type SentProtoWithMessageIdsType = SentProtoType & {
   messageIds: Array<string>;
 };
-export type SentRecipientsType = Record<string, Array<number>>;
+export type SentRecipientsType = Record<ServiceIdString, Array<number>>;
 export type SentMessagesType = Array<string>;
 
 // These two are for test only
@@ -198,8 +199,8 @@ export type SenderKeyType = {
 export type SenderKeyIdType = SenderKeyType['id'];
 export type SessionType = {
   id: QualifiedAddressStringType;
-  ourUuid: UUIDStringType;
-  uuid: UUIDStringType;
+  ourUuid: ServiceIdString;
+  uuid: ServiceIdString;
   conversationId: string;
   deviceId: number;
   record: string;
@@ -209,8 +210,8 @@ export type SessionIdType = SessionType['id'];
 export type SignedPreKeyType = {
   confirmed: boolean;
   created_at: number;
-  ourUuid: UUIDStringType;
-  id: `${UUIDStringType}:${number}`;
+  ourUuid: ServiceIdString;
+  id: `${ServiceIdString}:${number}`;
   keyId: number;
   privateKey: Uint8Array;
   publicKey: Uint8Array;
@@ -218,8 +219,8 @@ export type SignedPreKeyType = {
 export type StoredSignedPreKeyType = {
   confirmed: boolean;
   created_at: number;
-  ourUuid: UUIDStringType;
-  id: `${UUIDStringType}:${number}`;
+  ourUuid: ServiceIdString;
+  id: `${ServiceIdString}:${number}`;
   keyId: number;
   privateKey: string;
   publicKey: string;
@@ -304,10 +305,10 @@ export type UnprocessedType = {
 
   messageAgeSec?: number;
   source?: string;
-  sourceUuid?: UUIDStringType;
+  sourceUuid?: ServiceIdString;
   sourceDevice?: number;
-  destinationUuid?: string;
-  updatedPni?: string;
+  destinationUuid?: ServiceIdString;
+  updatedPni?: ServiceIdString;
   serverGuid?: string;
   serverTimestamp?: number;
   decrypted?: string;
@@ -318,7 +319,7 @@ export type UnprocessedType = {
 
 export type UnprocessedUpdateType = {
   source?: string;
-  sourceUuid?: UUIDStringType;
+  sourceUuid?: ServiceIdString;
   sourceDevice?: number;
   serverGuid?: string;
   serverTimestamp?: number;
@@ -333,7 +334,7 @@ export type ConversationMessageStatsType = {
 
 export type DeleteSentProtoRecipientOptionsType = Readonly<{
   timestamp: number;
-  recipientUuid: string;
+  recipientServiceId: ServiceIdString;
   deviceId: number;
 }>;
 
@@ -342,7 +343,7 @@ export type DeleteSentProtoRecipientResultType = Readonly<{
 }>;
 
 export type StoryDistributionType = Readonly<{
-  id: UUIDStringType;
+  id: StoryDistributionIdString;
   name: string;
   deletedAtTimestamp?: number;
   allowsReplies: boolean;
@@ -351,17 +352,17 @@ export type StoryDistributionType = Readonly<{
 }> &
   StorageServiceFieldsType;
 export type StoryDistributionMemberType = Readonly<{
-  listId: UUIDStringType;
-  uuid: UUIDStringType;
+  listId: StoryDistributionIdString;
+  uuid: ServiceIdString;
 }>;
 export type StoryDistributionWithMembersType = Readonly<
   {
-    members: Array<UUIDStringType>;
+    members: Array<ServiceIdString>;
   } & StoryDistributionType
 >;
 
 export type StoryReadType = Readonly<{
-  authorId: UUIDStringType;
+  authorId: ServiceIdString;
   conversationId: string;
   storyId: string;
   storyReadDate: number;
@@ -433,17 +434,17 @@ export type DataInterface = {
   removeKyberPreKeyById: (
     id: PreKeyIdType | Array<PreKeyIdType>
   ) => Promise<void>;
-  removeKyberPreKeysByUuid: (uuid: UUIDStringType) => Promise<void>;
+  removeKyberPreKeysByServiceId: (serviceId: ServiceIdString) => Promise<void>;
   removeAllKyberPreKeys: () => Promise<void>;
 
   removePreKeyById: (id: PreKeyIdType | Array<PreKeyIdType>) => Promise<void>;
-  removePreKeysByUuid: (uuid: UUIDStringType) => Promise<void>;
+  removePreKeysByServiceId: (serviceId: ServiceIdString) => Promise<void>;
   removeAllPreKeys: () => Promise<void>;
 
   removeSignedPreKeyById: (
     id: SignedPreKeyIdType | Array<SignedPreKeyIdType>
   ) => Promise<void>;
-  removeSignedPreKeysByUuid: (uuid: UUIDStringType) => Promise<void>;
+  removeSignedPreKeysByServiceId: (serviceId: ServiceIdString) => Promise<void>;
   removeAllSignedPreKeys: () => Promise<void>;
 
   removeAllItems: () => Promise<void>;
@@ -466,7 +467,7 @@ export type DataInterface = {
   deleteSentProtoByMessageId: (messageId: string) => Promise<void>;
   insertProtoRecipients: (options: {
     id: number;
-    recipientUuid: string;
+    recipientServiceId: ServiceIdString;
     deviceIds: Array<number>;
   }) => Promise<void>;
   deleteSentProtoRecipient: (
@@ -476,7 +477,7 @@ export type DataInterface = {
   ) => Promise<DeleteSentProtoRecipientResultType>;
   getSentProtoByRecipient: (options: {
     now: number;
-    recipientUuid: string;
+    recipientServiceId: ServiceIdString;
     timestamp: number;
   }) => Promise<SentProtoWithMessageIdsType | undefined>;
   removeAllSentProtos: () => Promise<void>;
@@ -495,7 +496,7 @@ export type DataInterface = {
   bulkAddSessions: (array: Array<SessionType>) => Promise<void>;
   removeSessionById: (id: SessionIdType) => Promise<void>;
   removeSessionsByConversation: (conversationId: string) => Promise<void>;
-  removeSessionsByUUID: (uuid: UUIDStringType) => Promise<void>;
+  removeSessionsByServiceId: (serviceId: ServiceIdString) => Promise<void>;
   removeAllSessions: () => Promise<void>;
   getAllSessions: () => Promise<Array<SessionType>>;
 
@@ -519,8 +520,8 @@ export type DataInterface = {
 
   getAllConversations: () => Promise<Array<ConversationType>>;
   getAllConversationIds: () => Promise<Array<string>>;
-  getAllGroupsInvolvingUuid: (
-    id: UUIDStringType
+  getAllGroupsInvolvingServiceId: (
+    serviceId: ServiceIdString
   ) => Promise<Array<ConversationType>>;
 
   getMessageCount: (conversationId?: string) => Promise<number>;
@@ -530,12 +531,12 @@ export type DataInterface = {
     options: {
       jobToInsert?: StoredJob;
       forceSave?: boolean;
-      ourUuid: UUIDStringType;
+      ourAci: AciString;
     }
   ) => Promise<string>;
   saveMessages: (
     arrayOfMessages: ReadonlyArray<MessageType>,
-    options: { forceSave?: boolean; ourUuid: UUIDStringType }
+    options: { forceSave?: boolean; ourAci: AciString }
   ) => Promise<void>;
   removeMessage: (id: string) => Promise<void>;
   removeMessages: (ids: ReadonlyArray<string>) => Promise<void>;
@@ -578,13 +579,13 @@ export type DataInterface = {
     storyId?: string;
   }) => Promise<Array<ReactionResultType>>;
   markReactionAsRead: (
-    targetAuthorUuid: string,
+    targetAuthorServiceId: ServiceIdString,
     targetTimestamp: number
   ) => Promise<ReactionType | undefined>;
   removeReactionFromConversation: (reaction: {
     emoji: string;
     fromId: string;
-    targetAuthorUuid: string;
+    targetAuthorServiceId: ServiceIdString;
     targetTimestamp: number;
   }) => Promise<void>;
   addReaction: (reactionObj: ReactionType) => Promise<void>;
@@ -592,7 +593,7 @@ export type DataInterface = {
   _removeAllReactions: () => Promise<void>;
   getMessageBySender: (options: {
     source?: string;
-    sourceUuid?: UUIDStringType;
+    sourceUuid?: ServiceIdString;
     sourceDevice?: number;
     sent_at: number;
   }) => Promise<MessageType | undefined>;
@@ -617,7 +618,7 @@ export type DataInterface = {
   // getOlderMessagesByConversation is JSON on server, full message on Client
   getAllStories: (options: {
     conversationId?: string;
-    sourceUuid?: UUIDStringType;
+    sourceUuid?: ServiceIdString;
   }) => Promise<GetAllStoriesResultType>;
   // getNewerMessagesByConversation is JSON on server, full message on Client
   getMessageMetricsForConversation: (options: {
@@ -629,7 +630,6 @@ export type DataInterface = {
   getConversationMessageStats: (options: {
     conversationId: string;
     includeStoryReplies: boolean;
-    ourUuid: UUIDStringType;
   }) => Promise<ConversationMessageStatsType>;
   getLastConversationMessage(options: {
     conversationId: string;
@@ -642,7 +642,7 @@ export type DataInterface = {
   }): Promise<MessageType | undefined>;
   getCallHistory(
     callId: string,
-    peerId: string
+    peerId: ServiceIdString | string
   ): Promise<CallHistoryDetails | undefined>;
   getCallHistoryGroupsCount(filter: CallHistoryFilter): Promise<number>;
   getCallHistoryGroups(
@@ -667,7 +667,7 @@ export type DataInterface = {
   ) => Promise<string | null>;
   saveEditedMessage: (
     mainMessage: MessageType,
-    ourUuid: UUIDStringType,
+    ourAci: AciString,
     opts: EditedMessageType
   ) => Promise<void>;
   getUnprocessedCount: () => Promise<number>;
@@ -767,25 +767,25 @@ export type DataInterface = {
   modifyStoryDistributionMembers(
     listId: string,
     options: {
-      toAdd: Array<UUIDStringType>;
-      toRemove: Array<UUIDStringType>;
+      toAdd: Array<ServiceIdString>;
+      toRemove: Array<ServiceIdString>;
     }
   ): Promise<void>;
   modifyStoryDistributionWithMembers(
     distribution: StoryDistributionType,
     options: {
-      toAdd: Array<UUIDStringType>;
-      toRemove: Array<UUIDStringType>;
+      toAdd: Array<ServiceIdString>;
+      toRemove: Array<ServiceIdString>;
     }
   ): Promise<void>;
-  deleteStoryDistribution(id: UUIDStringType): Promise<void>;
+  deleteStoryDistribution(id: StoryDistributionIdString): Promise<void>;
 
   _getAllStoryReads(): Promise<Array<StoryReadType>>;
   _deleteAllStoryReads(): Promise<void>;
   addNewStoryRead(read: StoryReadType): Promise<void>;
   getLastStoryReadsForAuthor(options: {
-    authorId: UUIDStringType;
-    conversationId?: UUIDStringType;
+    authorId: ServiceIdString;
+    conversationId?: string;
     limit?: number;
   }): Promise<Array<StoryReadType>>;
   countStoryReadsByConversation(conversationId: string): Promise<number>;

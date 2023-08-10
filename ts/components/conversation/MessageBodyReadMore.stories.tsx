@@ -11,6 +11,7 @@ import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
 import type { HydratedBodyRangesType } from '../../types/BodyRange';
 import { BodyRange } from '../../types/BodyRange';
+import { generateAci } from '../../types/ServiceId';
 import { RenderLocation } from './MessageTextRenderer';
 
 const i18n = setupI18n('en', enMessages);
@@ -91,7 +92,7 @@ export function LongTextWithMention(): JSX.Element {
     {
       start: 800,
       length: 1,
-      mentionUuid: 'abc',
+      mentionUuid: generateAci(),
       conversationID: 'x',
       replacementText: 'Alice',
     },

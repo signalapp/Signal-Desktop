@@ -5,6 +5,7 @@ import { compact, uniq } from 'lodash';
 
 import type { ConversationAttributesType } from '../model-types.d';
 
+import type { ServiceIdString } from '../types/ServiceId';
 import { getConversationMembers } from './getConversationMembers';
 import { getSendTarget } from './getSendTarget';
 import { isDirectConversation, isMe } from './whatTypeOfConversation';
@@ -20,7 +21,7 @@ export function getRecipients(
     extraConversationsForSend?: ReadonlyArray<string>;
     isStoryReply?: boolean;
   } = {}
-): Array<string> {
+): Array<ServiceIdString> {
   if (isDirectConversation(conversationAttributes)) {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     return [getSendTarget(conversationAttributes)!];

@@ -14,6 +14,7 @@ import {
   GroupCallConnectionState,
   GroupCallJoinState,
 } from '../types/Calling';
+import { generateAci } from '../types/ServiceId';
 import type { ConversationType } from '../state/ducks/conversations';
 import { AvatarColors } from '../types/Colors';
 import type { PropsType } from './CallScreen';
@@ -174,7 +175,7 @@ const createProps = (
     name: 'Morty Smith',
     profileName: 'Morty Smith',
     title: 'Morty Smith',
-    uuid: '3c134598-eecb-42ab-9ad3-2b0873f771b2',
+    uuid: generateAci(),
   }),
   openSystemPreferencesAction: action('open-system-preferences-action'),
   setGroupCallVideoRequest: action('set-group-call-video-request'),
@@ -311,7 +312,7 @@ export function GroupCall1(): JSX.Element {
             videoAspectRatio: 1.3,
             ...getDefaultConversation({
               isBlocked: false,
-              uuid: '72fa60e5-25fb-472d-8a56-e56867c57dda',
+              uuid: generateAci(),
               title: 'Tyler',
             }),
           },
@@ -379,7 +380,7 @@ export function GroupCallReconnecting(): JSX.Element {
             ...getDefaultConversation({
               isBlocked: false,
               title: 'Tyler',
-              uuid: '33871c64-0c22-45ce-8aa4-0ec237ac4a31',
+              uuid: generateAci(),
             }),
           },
         ],

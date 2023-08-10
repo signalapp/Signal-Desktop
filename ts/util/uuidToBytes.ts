@@ -2,8 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { chunk } from 'lodash';
-import type { UUIDStringType } from '../types/UUID';
-import { UUID, UUID_BYTE_SIZE } from '../types/UUID';
+import { UUID_BYTE_SIZE } from '../Crypto';
 import * as log from '../logging/log';
 import * as Bytes from '../Bytes';
 
@@ -15,7 +14,7 @@ export function getBytesSubarray(
   return data.subarray(start, start + n);
 }
 
-export function bytesToUuid(bytes: Uint8Array): undefined | UUIDStringType {
+export function bytesToUuid(bytes: Uint8Array): undefined | string {
   if (bytes.byteLength !== UUID_BYTE_SIZE) {
     log.warn(
       'bytesToUuid: received an Uint8Array of invalid length. ' +
@@ -31,8 +30,8 @@ export function bytesToUuid(bytes: Uint8Array): undefined | UUIDStringType {
   return undefined;
 }
 
-export function splitUuids(buffer: Uint8Array): Array<UUIDStringType | null> {
-  const uuids = new Array<UUIDStringType | null>();
+export function splitUuids(buffer: Uint8Array): Array<string | null> {
+  const uuids = new Array<string | null>();
   for (let i = 0; i < buffer.byteLength; i += UUID_BYTE_SIZE) {
     const bytes = getBytesSubarray(buffer, i, UUID_BYTE_SIZE);
     const hex = Bytes.toHex(bytes);
@@ -45,7 +44,7 @@ export function splitUuids(buffer: Uint8Array): Array<UUIDStringType | null> {
     ];
     const uuid = chunks.join('-');
     if (uuid !== '00000000-0000-0000-0000-000000000000') {
-      uuids.push(UUID.cast(uuid));
+      uuids.push(uuid);
     } else {
       uuids.push(null);
     }

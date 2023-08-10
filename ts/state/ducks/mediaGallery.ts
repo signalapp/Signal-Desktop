@@ -82,7 +82,7 @@ function loadMediaItems(
     const DEFAULT_MEDIA_FETCH_COUNT = 50;
     const DEFAULT_DOCUMENTS_FETCH_COUNT = 150;
 
-    const ourUuid = window.textsecure.storage.user.getCheckedUuid().toString();
+    const ourAci = window.textsecure.storage.user.getCheckedAci();
 
     const rawMedia = await dataInterface.getMessagesWithVisualMediaAttachments(
       conversationId,
@@ -107,7 +107,7 @@ function loadMediaItems(
           const upgradedMsgAttributes = await upgradeMessageSchema(message);
           model.set(upgradedMsgAttributes);
 
-          await dataInterface.saveMessage(upgradedMsgAttributes, { ourUuid });
+          await dataInterface.saveMessage(upgradedMsgAttributes, { ourAci });
         }
       })
     );

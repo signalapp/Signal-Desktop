@@ -10,6 +10,7 @@ import { GroupCallRemoteParticipant } from './GroupCallRemoteParticipant';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { FRAME_BUFFER_SIZE } from '../calling/constants';
 import { setupI18n } from '../util/setupI18n';
+import { generateAci } from '../types/ServiceId';
 import enMessages from '../../_locales/en/messages.json';
 
 const i18n = setupI18n('en', enMessages);
@@ -60,7 +61,7 @@ const createProps = (
       isBlocked: Boolean(isBlocked),
       title:
         'Pablo Diego José Francisco de Paula Juan Nepomuceno María de los Remedios Cipriano de la Santísima Trinidad Ruiz y Picasso',
-      uuid: '992ed3b9-fc9b-47a9-bdb4-e0c7cbb0fda5',
+      uuid: generateAci(),
     }),
   },
   remoteParticipantsCount: 1,

@@ -5,14 +5,14 @@ import { createSelector } from 'reselect';
 
 import type { StateType } from '../reducer';
 import type { AccountsStateType } from '../ducks/accounts';
-import type { UUIDStringType } from '../../types/UUID';
+import type { ServiceIdString } from '../../types/ServiceId';
 
 export const getAccounts = (state: StateType): AccountsStateType =>
   state.accounts;
 
 export type AccountSelectorType = (
   identifier?: string
-) => UUIDStringType | undefined;
+) => ServiceIdString | undefined;
 export const getAccountSelector = createSelector(
   getAccounts,
   (accounts: AccountsStateType): AccountSelectorType => {

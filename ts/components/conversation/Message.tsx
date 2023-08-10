@@ -84,7 +84,7 @@ import type {
 import { createRefMerger } from '../../util/refMerger';
 import { emojiToData, getEmojiCount, hasNonEmojiText } from '../emoji/lib';
 import { getCustomColorStyle } from '../../util/getCustomColorStyle';
-import type { UUIDStringType } from '../../types/UUID';
+import type { ServiceIdString } from '../../types/ServiceId';
 import { DAY, HOUR, MINUTE, SECOND } from '../../util/durations';
 import { BadgeImageTheme } from '../../badges/BadgeImageTheme';
 import { getBadgeImageFileLocalPath } from '../../badges/getBadgeImageFileLocalPath';
@@ -319,7 +319,7 @@ export type PropsActions = {
   messageExpanded: (id: string, displayLimit: number) => unknown;
   checkForAccount: (phoneNumber: string) => unknown;
 
-  startConversation: (e164: string, uuid: UUIDStringType) => void;
+  startConversation: (e164: string, uuid: ServiceIdString) => void;
   showConversation: ShowConversationType;
   openGiftBadge: (messageId: string) => void;
   pushPanelForConversation: PushPanelForConversationActionType;

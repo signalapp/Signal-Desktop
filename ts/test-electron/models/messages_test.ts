@@ -3,6 +3,8 @@
 
 import { assert } from 'chai';
 import * as sinon from 'sinon';
+import { v4 as generateUuid } from 'uuid';
+
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
 import { SendStatus } from '../../messages/MessageSendState';
@@ -10,7 +12,7 @@ import MessageSender from '../../textsecure/SendMessage';
 import type { WebAPIType } from '../../textsecure/WebAPI';
 import type { CallbackResultType } from '../../textsecure/Types.d';
 import type { StorageAccessType } from '../../types/Storage.d';
-import { UUID } from '../../types/UUID';
+import { generateAci } from '../../types/ServiceId';
 import { SignalService as Proto } from '../../protobuf';
 import { getContact } from '../../messages/helpers';
 import type { ConversationModel } from '../../models/conversations';
@@ -35,7 +37,7 @@ describe('Message', () => {
 
   const source = '+1 415-555-5555';
   const me = '+14155555556';
-  const ourUuid = UUID.generate().toString();
+  const ourUuid = generateAci();
 
   function createMessage(attrs: { [key: string]: unknown }) {
     const messages = new window.Whisper.MessageCollection();
@@ -151,17 +153,17 @@ describe('Message', () => {
 
       const fakeDataMessage = new Uint8Array(0);
       const conversation1Uuid = conversation1.get('uuid');
-      const ignoredUuid = UUID.generate().toString();
+      const ignoredUuid = generateAci();
 
       if (!conversation1Uuid) {
         throw new Error('Test setup failed: conversation1 should have a UUID');
       }
 
       const promise = Promise.resolve<CallbackResultType>({
-        successfulIdentifiers: [conversation1Uuid, ignoredUuid],
+        successfulServiceIds: [conversation1Uuid, ignoredUuid],
         errors: [
           Object.assign(new Error('failed'), {
-            identifier: conversation2.get('uuid'),
+            serviceId: conversation2.get('uuid'),
           }),
         ],
         dataMessage: fakeDataMessage,
@@ -240,19 +242,19 @@ describe('Message', () => {
     let eve: ConversationModel | undefined;
     before(() => {
       alice = window.ConversationController.getOrCreate(
-        UUID.generate().toString(),
+        generateUuid(),
         'private'
       );
       alice.set({ systemGivenName: 'Alice' });
 
       bob = window.ConversationController.getOrCreate(
-        UUID.generate().toString(),
+        generateUuid(),
         'private'
       );
       bob.set({ systemGivenName: 'Bob' });
 
       eve = window.ConversationController.getOrCreate(
-        UUID.generate().toString(),
+        generateUuid(),
         'private'
       );
       eve.set({ systemGivenName: 'Eve' });
@@ -633,7 +635,7 @@ describe('Message', () => {
         createMessage({
           conversationId: (
             await window.ConversationController.getOrCreateAndWait(
-              UUID.generate().toString(),
+              generateUuid(),
               'private'
             )
           ).id,
@@ -657,7 +659,7 @@ describe('Message', () => {
         createMessage({
           conversationId: (
             await window.ConversationController.getOrCreateAndWait(
-              UUID.generate().toString(),
+              generateUuid(),
               'private'
             )
           ).id,
@@ -685,7 +687,7 @@ describe('Message', () => {
         createMessage({
           conversationId: (
             await window.ConversationController.getOrCreateAndWait(
-              UUID.generate().toString(),
+              generateUuid(),
               'private'
             )
           ).id,

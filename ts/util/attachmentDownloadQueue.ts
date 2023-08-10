@@ -67,7 +67,7 @@ export async function flushAttachmentDownloadQueue(): Promise<void> {
     }
   });
   await window.Signal.Data.saveMessages(messagesToSave, {
-    ourUuid: window.storage.user.getCheckedUuid().toString(),
+    ourAci: window.storage.user.getCheckedAci(),
   });
 
   attachmentDownloadQueue = undefined;

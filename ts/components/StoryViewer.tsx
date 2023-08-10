@@ -21,6 +21,7 @@ import type { EmojiPickDataType } from './emoji/EmojiPicker';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
 import type { RenderEmojiPickerProps } from './conversation/ReactionPicker';
 import type { ReplyStateType, StoryViewType } from '../types/Stories';
+import type { StoryDistributionIdString } from '../types/StoryDistributionId';
 import type { ShowToastAction } from '../state/ducks/toast';
 import type { ViewStoryActionCreatorType } from '../state/ducks/stories';
 import * as log from '../logging/log';
@@ -66,7 +67,7 @@ export type PropsType = {
   deleteGroupStoryReply: (id: string) => void;
   deleteGroupStoryReplyForEveryone: (id: string) => void;
   deleteStoryForEveryone: (story: StoryViewType) => unknown;
-  distributionList?: { id: string; name: string };
+  distributionList?: { id: StoryDistributionIdString; name: string };
   getPreferredBadge: PreferredBadgeSelectorType;
   group?: Pick<
     ConversationType,

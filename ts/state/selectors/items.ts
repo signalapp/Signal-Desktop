@@ -14,7 +14,7 @@ import type {
   ConversationColorType,
   CustomColorType,
 } from '../../types/Colors';
-import type { UUIDStringType } from '../../types/UUID';
+import type { AciString } from '../../types/ServiceId';
 import { DEFAULT_CONVERSATION_COLOR } from '../../types/Colors';
 import { getPreferredReactionEmoji as getPreferredReactionEmojiFromStoredValue } from '../../reactions/preferredReactionEmoji';
 import { isBeta } from '../../util/version';
@@ -60,7 +60,7 @@ const isRemoteConfigBucketEnabled = (
   config: Readonly<ConfigMapType>,
   name: ConfigKeyType,
   e164: string | undefined,
-  uuid: UUIDStringType | undefined
+  uuid: AciString | undefined
 ): boolean => {
   const flagValue = config[name]?.value;
   return innerIsBucketValueEnabled(name, flagValue, e164, uuid);
@@ -140,7 +140,7 @@ export const getStoriesEnabled = createSelector(
     state: ItemsStateType,
     remoteConfig: ConfigMapType,
     e164: string | undefined,
-    aci: UUIDStringType | undefined
+    aci: AciString | undefined
   ): boolean => {
     if (state.hasStoriesDisabled) {
       return false;

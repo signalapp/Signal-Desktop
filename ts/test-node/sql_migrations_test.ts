@@ -18,6 +18,8 @@ import { SeenStatus } from '../MessageSeenStatus';
 import { objectToJSON, sql, sqlJoin } from '../sql/util';
 import type { MessageType } from '../sql/Interface';
 import { BodyRange } from '../types/BodyRange';
+import type { AciString } from '../types/ServiceId';
+import { generateAci } from '../types/ServiceId';
 import { CallMode } from '../types/Calling';
 import { callHistoryDetailsSchema } from '../types/CallDisposition';
 import type { MessageAttributesType } from '../model-types';
@@ -98,7 +100,7 @@ describe('SQL migrations test', () => {
   });
 
   describe('updateToSchemaVersion41', () => {
-    const THEIR_UUID = generateGuid();
+    const THEIR_UUID = generateAci();
     const THEIR_CONVO = generateGuid();
     const ANOTHER_CONVO = generateGuid();
     const THIRD_CONVO = generateGuid();
@@ -635,9 +637,9 @@ describe('SQL migrations test', () => {
     it('remaps conversation ids to UUIDs in groups and messages', () => {
       updateToVersion(42);
 
-      const UUID_A = generateGuid();
-      const UUID_B = generateGuid();
-      const UUID_C = generateGuid();
+      const UUID_A = generateAci();
+      const UUID_B = generateAci();
+      const UUID_C = generateAci();
 
       const rawConvoA = { id: 'a', groupId: 'gv2a', uuid: UUID_A };
       const rawConvoB = { id: 'b', groupId: 'gv2b', uuid: UUID_B };
@@ -874,10 +876,10 @@ describe('SQL migrations test', () => {
     it('creates new storyDistributions/Members with cascade delete', () => {
       const LIST_ID_1 = generateGuid();
       const LIST_ID_2 = generateGuid();
-      const UUID_1 = generateGuid();
-      const UUID_2 = generateGuid();
-      const UUID_3 = generateGuid();
-      const UUID_4 = generateGuid();
+      const UUID_1 = generateAci();
+      const UUID_2 = generateAci();
+      const UUID_3 = generateAci();
+      const UUID_4 = generateAci();
 
       updateToVersion(45);
 
@@ -925,7 +927,7 @@ describe('SQL migrations test', () => {
 
   describe('updateToSchemaVersion47', () => {
     it('creates and pre-populates new isChangeCreatedByUs field', () => {
-      const OTHER_UUID = generateGuid();
+      const OTHER_UUID = generateAci();
       const MESSAGE_ID_1 = generateGuid();
       const MESSAGE_ID_2 = generateGuid();
       const CONVERSATION_ID = generateGuid();
@@ -1154,9 +1156,9 @@ describe('SQL migrations test', () => {
       const MESSAGE_ID_4 = generateGuid();
       const MESSAGE_ID_5 = generateGuid();
       const CONVERSATION_ID = generateGuid();
-      const FIRST_UUID = generateGuid();
-      const SECOND_UUID = generateGuid();
-      const THIRD_UUID = generateGuid();
+      const FIRST_UUID = generateAci();
+      const SECOND_UUID = generateAci();
+      const THIRD_UUID = generateAci();
 
       updateToVersion(47);
 
@@ -1679,9 +1681,9 @@ describe('SQL migrations test', () => {
     it('remaps bannedMembersV2 to array of objects', () => {
       updateToVersion(52);
 
-      const UUID_A = generateGuid();
-      const UUID_B = generateGuid();
-      const UUID_C = generateGuid();
+      const UUID_A = generateAci();
+      const UUID_B = generateAci();
+      const UUID_C = generateAci();
 
       const noMembers = { id: 'a', groupId: 'gv2a' };
       const emptyMembers = {
@@ -3200,7 +3202,7 @@ describe('SQL migrations test', () => {
       boldRanges,
     }: {
       id?: string;
-      mentions?: Array<string>;
+      mentions?: Array<AciString>;
       boldRanges?: Array<Array<number>>;
     }) {
       const json: Partial<MessageType> = {
@@ -3230,7 +3232,7 @@ describe('SQL migrations test', () => {
 
     function addMessages(
       messages: Array<{
-        mentions?: Array<string>;
+        mentions?: Array<AciString>;
         boldRanges?: Array<Array<number>>;
       }>
     ) {
@@ -3264,7 +3266,7 @@ describe('SQL migrations test', () => {
     it('Creates and populates the mentions table with existing mentions', () => {
       updateToVersion(schemaVersion - 1);
 
-      const userIds = new Array(5).fill(undefined).map(() => generateGuid());
+      const userIds = new Array(5).fill(undefined).map(() => generateAci());
       const { formattedMessages } = addMessages([
         { mentions: [userIds[0]] },
         { mentions: [userIds[1]], boldRanges: [[1, 1]] },
@@ -3316,7 +3318,7 @@ describe('SQL migrations test', () => {
         0
       );
 
-      const userIds = new Array(5).fill(undefined).map(() => generateGuid());
+      const userIds = new Array(5).fill(undefined).map(() => generateAci());
       const { formattedMessages } = addMessages([
         { mentions: [userIds[0]] },
         { mentions: [userIds[1]], boldRanges: [[1, 1]] },
@@ -3364,7 +3366,7 @@ describe('SQL migrations test', () => {
         0
       );
 
-      const userIds = new Array(5).fill(undefined).map(() => generateGuid());
+      const userIds = new Array(5).fill(undefined).map(() => generateAci());
       const { formattedMessages } = addMessages([
         { mentions: [userIds[0]] },
         { mentions: [userIds[1], userIds[2]], boldRanges: [[1, 1]] },
@@ -3394,7 +3396,7 @@ describe('SQL migrations test', () => {
         0
       );
 
-      const userIds = new Array(5).fill(undefined).map(() => generateGuid());
+      const userIds = new Array(5).fill(undefined).map(() => generateAci());
       const { formattedMessages } = addMessages([{ mentions: [userIds[0]] }]);
 
       assert.equal(getMentions().length, 1);

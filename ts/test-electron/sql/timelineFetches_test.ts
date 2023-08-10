@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
+import { v4 as generateUuid } from 'uuid';
 
 import dataInterface from '../../sql/Client';
-import { UUID } from '../../types/UUID';
-import type { UUIDStringType } from '../../types/UUID';
+import { generateAci } from '../../types/ServiceId';
 
 import type { MessageAttributesType } from '../../model-types.d';
 import { ReadStatus } from '../../messages/MessageReadStatus';
@@ -21,10 +21,6 @@ const {
   getOldestUnreadMentionOfMeForConversation,
 } = dataInterface;
 
-function getUuid(): UUIDStringType {
-  return UUID.generate().toString();
-}
-
 describe('sql/timelineFetches', () => {
   beforeEach(async () => {
     await removeAll();
@@ -35,12 +31,12 @@ describe('sql/timelineFetches', () => {
       assert.lengthOf(await _getAllMessages(), 0);
 
       const now = Date.now();
-      const conversationId = getUuid();
-      const storyId = getUuid();
-      const ourUuid = getUuid();
+      const conversationId = generateUuid();
+      const storyId = generateUuid();
+      const ourAci = generateAci();
 
       const message1: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 1',
         type: 'outgoing',
         conversationId,
@@ -49,7 +45,7 @@ describe('sql/timelineFetches', () => {
         timestamp: now - 20,
       };
       const message2: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 2',
         type: 'outgoing',
         conversationId,
@@ -58,16 +54,16 @@ describe('sql/timelineFetches', () => {
         timestamp: now - 10,
       };
       const message3: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 3',
         type: 'outgoing',
-        conversationId: getUuid(),
+        conversationId: generateUuid(),
         sent_at: now,
         received_at: now,
         timestamp: now,
       };
       const message4: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 4',
         type: 'story',
         conversationId,
@@ -77,7 +73,7 @@ describe('sql/timelineFetches', () => {
         storyId,
       };
       const message5: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 5',
         type: 'outgoing',
         conversationId,
@@ -89,7 +85,7 @@ describe('sql/timelineFetches', () => {
 
       await saveMessages([message1, message2, message3, message4, message5], {
         forceSave: true,
-        ourUuid,
+        ourAci,
       });
 
       assert.lengthOf(await _getAllMessages(), 5);
@@ -111,12 +107,12 @@ describe('sql/timelineFetches', () => {
       assert.lengthOf(await _getAllMessages(), 0);
 
       const now = Date.now();
-      const conversationId = getUuid();
-      const storyId = getUuid();
-      const ourUuid = getUuid();
+      const conversationId = generateUuid();
+      const storyId = generateUuid();
+      const ourAci = generateAci();
 
       const message1: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'story',
         type: 'story',
         conversationId,
@@ -126,7 +122,7 @@ describe('sql/timelineFetches', () => {
         storyId,
       };
       const message2: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'story reply 1',
         type: 'outgoing',
         conversationId,
@@ -136,7 +132,7 @@ describe('sql/timelineFetches', () => {
         storyId,
       };
       const message3: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'normal message',
         type: 'outgoing',
         conversationId,
@@ -147,7 +143,7 @@ describe('sql/timelineFetches', () => {
 
       await saveMessages([message1, message2, message3], {
         forceSave: true,
-        ourUuid,
+        ourAci,
       });
 
       assert.lengthOf(await _getAllMessages(), 3);
@@ -166,12 +162,12 @@ describe('sql/timelineFetches', () => {
       assert.lengthOf(await _getAllMessages(), 0);
 
       const now = Date.now();
-      const conversationId = getUuid();
-      const storyId = getUuid();
-      const ourUuid = getUuid();
+      const conversationId = generateUuid();
+      const storyId = generateUuid();
+      const ourAci = generateAci();
 
       const message1: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'story',
         type: 'incoming',
         conversationId,
@@ -181,7 +177,7 @@ describe('sql/timelineFetches', () => {
         storyId,
       };
       const message2: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'story reply 1',
         type: 'outgoing',
         conversationId,
@@ -191,7 +187,7 @@ describe('sql/timelineFetches', () => {
         storyId,
       };
       const message3: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'normal message',
         type: 'outgoing',
         conversationId,
@@ -202,7 +198,7 @@ describe('sql/timelineFetches', () => {
 
       await saveMessages([message1, message2, message3], {
         forceSave: true,
-        ourUuid,
+        ourAci,
       });
 
       assert.lengthOf(await _getAllMessages(), 3);
@@ -221,11 +217,11 @@ describe('sql/timelineFetches', () => {
       assert.lengthOf(await _getAllMessages(), 0);
 
       const target = Date.now();
-      const conversationId = getUuid();
-      const ourUuid = getUuid();
+      const conversationId = generateUuid();
+      const ourAci = generateAci();
 
       const message1: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 1',
         type: 'outgoing',
         conversationId,
@@ -234,7 +230,7 @@ describe('sql/timelineFetches', () => {
         timestamp: target - 10,
       };
       const message2: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 2',
         type: 'outgoing',
         conversationId,
@@ -243,7 +239,7 @@ describe('sql/timelineFetches', () => {
         timestamp: target,
       };
       const message3: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 3',
         type: 'outgoing',
         conversationId,
@@ -254,7 +250,7 @@ describe('sql/timelineFetches', () => {
 
       await saveMessages([message1, message2, message3], {
         forceSave: true,
-        ourUuid,
+        ourAci,
       });
 
       assert.lengthOf(await _getAllMessages(), 3);
@@ -275,11 +271,11 @@ describe('sql/timelineFetches', () => {
       assert.lengthOf(await _getAllMessages(), 0);
 
       const target = Date.now();
-      const conversationId = getUuid();
-      const ourUuid = getUuid();
+      const conversationId = generateUuid();
+      const ourAci = generateAci();
 
       const message1: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 1',
         type: 'outgoing',
         conversationId,
@@ -288,7 +284,7 @@ describe('sql/timelineFetches', () => {
         timestamp: target,
       };
       const message2: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 2',
         type: 'outgoing',
         conversationId,
@@ -297,7 +293,7 @@ describe('sql/timelineFetches', () => {
         timestamp: target,
       };
       const message3: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 3',
         type: 'outgoing',
         conversationId,
@@ -308,7 +304,7 @@ describe('sql/timelineFetches', () => {
 
       await saveMessages([message1, message2, message3], {
         forceSave: true,
-        ourUuid,
+        ourAci,
       });
 
       assert.lengthOf(await _getAllMessages(), 3);
@@ -333,11 +329,11 @@ describe('sql/timelineFetches', () => {
       assert.lengthOf(await _getAllMessages(), 0);
 
       const target = Date.now();
-      const conversationId = getUuid();
-      const ourUuid = getUuid();
+      const conversationId = generateUuid();
+      const ourAci = generateAci();
 
       const message1: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 1',
         type: 'outgoing',
         conversationId,
@@ -346,7 +342,7 @@ describe('sql/timelineFetches', () => {
         timestamp: target,
       };
       const message2: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 2',
         type: 'outgoing',
         conversationId,
@@ -355,7 +351,7 @@ describe('sql/timelineFetches', () => {
         timestamp: target,
       };
       const message3: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 3',
         type: 'outgoing',
         conversationId,
@@ -366,7 +362,7 @@ describe('sql/timelineFetches', () => {
 
       await saveMessages([message1, message2, message3], {
         forceSave: true,
-        ourUuid,
+        ourAci,
       });
 
       assert.lengthOf(await _getAllMessages(), 3);
@@ -391,21 +387,21 @@ describe('sql/timelineFetches', () => {
       assert.lengthOf(await _getAllMessages(), 0);
 
       const now = Date.now();
-      const conversationId = getUuid();
-      const storyId = getUuid();
-      const ourUuid = getUuid();
+      const conversationId = generateUuid();
+      const storyId = generateUuid();
+      const ourAci = generateAci();
 
       const message1: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 1',
         type: 'outgoing',
-        conversationId: getUuid(),
+        conversationId: generateUuid(),
         sent_at: now,
         received_at: now,
         timestamp: now,
       };
       const message2: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 2',
         type: 'story',
         conversationId,
@@ -415,7 +411,7 @@ describe('sql/timelineFetches', () => {
         storyId,
       };
       const message3: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 3',
         type: 'outgoing',
         conversationId,
@@ -425,7 +421,7 @@ describe('sql/timelineFetches', () => {
         storyId,
       };
       const message4: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 4',
         type: 'outgoing',
         conversationId,
@@ -434,7 +430,7 @@ describe('sql/timelineFetches', () => {
         timestamp: now + 10,
       };
       const message5: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 5',
         type: 'outgoing',
         conversationId,
@@ -445,7 +441,7 @@ describe('sql/timelineFetches', () => {
 
       await saveMessages([message1, message2, message3, message4, message5], {
         forceSave: true,
-        ourUuid,
+        ourAci,
       });
 
       assert.lengthOf(await _getAllMessages(), 5);
@@ -466,12 +462,12 @@ describe('sql/timelineFetches', () => {
       assert.lengthOf(await _getAllMessages(), 0);
 
       const now = Date.now();
-      const conversationId = getUuid();
-      const storyId = getUuid();
-      const ourUuid = getUuid();
+      const conversationId = generateUuid();
+      const storyId = generateUuid();
+      const ourAci = generateAci();
 
       const message1: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 1',
         type: 'story',
         conversationId,
@@ -481,7 +477,7 @@ describe('sql/timelineFetches', () => {
         storyId,
       };
       const message2: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 2',
         type: 'outgoing',
         conversationId,
@@ -491,7 +487,7 @@ describe('sql/timelineFetches', () => {
         storyId,
       };
       const message3: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 3',
         type: 'outgoing',
         conversationId,
@@ -502,7 +498,7 @@ describe('sql/timelineFetches', () => {
 
       await saveMessages([message1, message2, message3], {
         forceSave: true,
-        ourUuid,
+        ourAci,
       });
 
       assert.lengthOf(await _getAllMessages(), 3);
@@ -522,11 +518,11 @@ describe('sql/timelineFetches', () => {
       assert.lengthOf(await _getAllMessages(), 0);
 
       const target = Date.now();
-      const conversationId = getUuid();
-      const ourUuid = getUuid();
+      const conversationId = generateUuid();
+      const ourAci = generateAci();
 
       const message1: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 1',
         type: 'outgoing',
         conversationId,
@@ -535,7 +531,7 @@ describe('sql/timelineFetches', () => {
         timestamp: target - 10,
       };
       const message2: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 2',
         type: 'outgoing',
         conversationId,
@@ -544,7 +540,7 @@ describe('sql/timelineFetches', () => {
         timestamp: target,
       };
       const message3: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 3',
         type: 'outgoing',
         conversationId,
@@ -555,7 +551,7 @@ describe('sql/timelineFetches', () => {
 
       await saveMessages([message1, message2, message3], {
         forceSave: true,
-        ourUuid,
+        ourAci,
       });
 
       assert.lengthOf(await _getAllMessages(), 3);
@@ -576,21 +572,21 @@ describe('sql/timelineFetches', () => {
       assert.lengthOf(await _getAllMessages(), 0);
 
       const target = Date.now();
-      const conversationId = getUuid();
-      const ourUuid = getUuid();
+      const conversationId = generateUuid();
+      const ourAci = generateAci();
 
       const message1: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 1',
         type: 'outgoing',
         conversationId,
         sent_at: target - 10,
         received_at: target - 10,
         timestamp: target - 10,
-        storyId: getUuid(),
+        storyId: generateUuid(),
       };
       const message2: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 2',
         type: 'outgoing',
         conversationId,
@@ -599,19 +595,19 @@ describe('sql/timelineFetches', () => {
         timestamp: target + 20,
       };
       const message3: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 3',
         type: 'outgoing',
         conversationId,
         sent_at: target + 10,
         received_at: target + 10,
         timestamp: target + 10,
-        storyId: getUuid(),
+        storyId: generateUuid(),
       };
 
       await saveMessages([message1, message2, message3], {
         forceSave: true,
-        ourUuid,
+        ourAci,
       });
 
       assert.lengthOf(await _getAllMessages(), 3);
@@ -632,11 +628,11 @@ describe('sql/timelineFetches', () => {
       assert.lengthOf(await _getAllMessages(), 0);
 
       const target = Date.now();
-      const conversationId = getUuid();
-      const ourUuid = getUuid();
+      const conversationId = generateUuid();
+      const ourAci = generateAci();
 
       const message1: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 1',
         type: 'outgoing',
         conversationId,
@@ -645,7 +641,7 @@ describe('sql/timelineFetches', () => {
         timestamp: target,
       };
       const message2: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 2',
         type: 'outgoing',
         conversationId,
@@ -654,7 +650,7 @@ describe('sql/timelineFetches', () => {
         timestamp: target,
       };
       const message3: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 3',
         type: 'outgoing',
         conversationId,
@@ -665,7 +661,7 @@ describe('sql/timelineFetches', () => {
 
       await saveMessages([message1, message2, message3], {
         forceSave: true,
-        ourUuid,
+        ourAci,
       });
 
       assert.lengthOf(await _getAllMessages(), 3);
@@ -691,12 +687,12 @@ describe('sql/timelineFetches', () => {
       assert.lengthOf(await _getAllMessages(), 0);
 
       const target = Date.now();
-      const conversationId = getUuid();
-      const storyId = getUuid();
-      const ourUuid = getUuid();
+      const conversationId = generateUuid();
+      const storyId = generateUuid();
+      const ourAci = generateAci();
 
       const story: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'story',
         type: 'story',
         conversationId,
@@ -705,7 +701,7 @@ describe('sql/timelineFetches', () => {
         timestamp: target - 10,
       };
       const oldestInStory: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'oldestInStory',
         type: 'outgoing',
         conversationId,
@@ -715,7 +711,7 @@ describe('sql/timelineFetches', () => {
         storyId,
       };
       const oldest: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'oldest',
         type: 'outgoing',
         conversationId,
@@ -724,7 +720,7 @@ describe('sql/timelineFetches', () => {
         timestamp: target - 8,
       };
       const oldestUnseen: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'oldestUnseen',
         type: 'incoming',
         conversationId,
@@ -734,7 +730,7 @@ describe('sql/timelineFetches', () => {
         readStatus: ReadStatus.Unread,
       };
       const oldestStoryUnread: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'oldestStoryUnread',
         type: 'incoming',
         conversationId,
@@ -745,7 +741,7 @@ describe('sql/timelineFetches', () => {
         storyId,
       };
       const anotherUnread: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'anotherUnread',
         type: 'incoming',
         conversationId,
@@ -755,7 +751,7 @@ describe('sql/timelineFetches', () => {
         readStatus: ReadStatus.Unread,
       };
       const newestInStory: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'newestStory',
         type: 'outgoing',
         conversationId,
@@ -765,7 +761,7 @@ describe('sql/timelineFetches', () => {
         storyId,
       };
       const newest: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'newest',
         type: 'outgoing',
         conversationId,
@@ -785,7 +781,7 @@ describe('sql/timelineFetches', () => {
           newestInStory,
           newest,
         ],
-        { forceSave: true, ourUuid }
+        { forceSave: true, ourAci }
       );
 
       assert.lengthOf(await _getAllMessages(), 8);
@@ -832,8 +828,8 @@ describe('sql/timelineFetches', () => {
       assert.lengthOf(await _getAllMessages(), 0);
 
       const target = Date.now();
-      const conversationId = getUuid();
-      const ourUuid = getUuid();
+      const conversationId = generateUuid();
+      const ourAci = generateAci();
 
       const readMentionsMe: Partial<MessageAttributesType> = {
         id: 'readMentionsMe',
@@ -865,7 +861,7 @@ describe('sql/timelineFetches', () => {
       const formattedMessages = messages.map<MessageAttributesType>(
         (message, idx) => {
           return {
-            id: getUuid(),
+            id: generateUuid(),
             body: 'body',
             type: 'incoming',
             sent_at: target - messages.length + idx,
@@ -877,7 +873,7 @@ describe('sql/timelineFetches', () => {
         }
       );
 
-      await saveMessages(formattedMessages, { forceSave: true, ourUuid });
+      await saveMessages(formattedMessages, { forceSave: true, ourAci });
 
       assert.lengthOf(await _getAllMessages(), 4);
 

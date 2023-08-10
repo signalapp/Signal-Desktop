@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
+import { v4 as generateUuid } from 'uuid';
 
+import { generateAci } from '../../types/ServiceId';
 import dataInterface from '../../sql/Client';
-import { UUID } from '../../types/UUID';
-import type { UUIDStringType } from '../../types/UUID';
 
 import type { MessageAttributesType } from '../../model-types';
 
@@ -16,10 +16,6 @@ const {
   getMessagesBetween,
 } = dataInterface;
 
-function getUuid(): UUIDStringType {
-  return UUID.generate().toString();
-}
-
 describe('sql/getMessagesBetween', () => {
   beforeEach(async () => {
     await _removeAllMessages();
@@ -29,12 +25,12 @@ describe('sql/getMessagesBetween', () => {
     assert.lengthOf(await _getAllMessages(), 0);
 
     const now = Date.now();
-    const conversationId = getUuid();
-    const ourUuid = getUuid();
+    const conversationId = generateUuid();
+    const ourAci = generateAci();
 
     function getMessage(body: string, offset: number): MessageAttributesType {
       return {
-        id: getUuid(),
+        id: generateUuid(),
         body,
         type: 'outgoing',
         conversationId,
@@ -52,7 +48,7 @@ describe('sql/getMessagesBetween', () => {
 
     await saveMessages([message1, message2, message3, message4, message5], {
       forceSave: true,
-      ourUuid,
+      ourAci,
     });
 
     assert.lengthOf(await _getAllMessages(), 5);
@@ -77,12 +73,12 @@ describe('sql/getMessagesBetween', () => {
     assert.lengthOf(await _getAllMessages(), 0);
 
     const now = Date.now();
-    const conversationId = getUuid();
-    const ourUuid = getUuid();
+    const conversationId = generateUuid();
+    const ourAci = generateAci();
 
     function getMessage(body: string, offset: number): MessageAttributesType {
       return {
-        id: getUuid(),
+        id: generateUuid(),
         body,
         type: 'outgoing',
         conversationId,
@@ -100,7 +96,7 @@ describe('sql/getMessagesBetween', () => {
 
     await saveMessages([message1, message2, message3, message5], {
       forceSave: true,
-      ourUuid,
+      ourAci,
     });
 
     assert.lengthOf(await _getAllMessages(), 4);

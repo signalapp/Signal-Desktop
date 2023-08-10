@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
+import { v4 as generateUuid } from 'uuid';
 
 import dataInterface from '../../sql/Client';
-import { UUID } from '../../types/UUID';
-import type { UUIDStringType } from '../../types/UUID';
+import { generateAci } from '../../types/ServiceId';
 
 import type { MessageAttributesType } from '../../model-types.d';
 
@@ -17,10 +17,6 @@ const {
   searchMessages,
 } = dataInterface;
 
-function getUuid(): UUIDStringType {
-  return UUID.generate().toString();
-}
-
 describe('sql/searchMessages', () => {
   beforeEach(async () => {
     await removeAll();
@@ -30,10 +26,10 @@ describe('sql/searchMessages', () => {
     assert.lengthOf(await _getAllMessages(), 0);
 
     const now = Date.now();
-    const conversationId = getUuid();
-    const ourUuid = getUuid();
+    const conversationId = generateUuid();
+    const ourAci = generateAci();
     const message1: MessageAttributesType = {
-      id: getUuid(),
+      id: generateUuid(),
       body: 'message 1 - generic string',
       type: 'outgoing',
       conversationId,
@@ -42,7 +38,7 @@ describe('sql/searchMessages', () => {
       timestamp: now - 20,
     };
     const message2: MessageAttributesType = {
-      id: getUuid(),
+      id: generateUuid(),
       body: 'message 2 - unique string',
       type: 'outgoing',
       conversationId,
@@ -51,7 +47,7 @@ describe('sql/searchMessages', () => {
       timestamp: now - 10,
     };
     const message3: MessageAttributesType = {
-      id: getUuid(),
+      id: generateUuid(),
       body: 'message 3 - generic string',
       type: 'outgoing',
       conversationId,
@@ -62,7 +58,7 @@ describe('sql/searchMessages', () => {
 
     await saveMessages([message1, message2, message3], {
       forceSave: true,
-      ourUuid,
+      ourAci,
     });
 
     assert.lengthOf(await _getAllMessages(), 3);
@@ -72,7 +68,7 @@ describe('sql/searchMessages', () => {
     assert.strictEqual(searchResults[0].id, message2.id);
 
     message3.body = 'message 3 - unique string';
-    await saveMessage(message3, { ourUuid });
+    await saveMessage(message3, { ourAci });
 
     const searchResults2 = await searchMessages({ query: 'unique' });
     assert.lengthOf(searchResults2, 2);
@@ -84,10 +80,10 @@ describe('sql/searchMessages', () => {
     assert.lengthOf(await _getAllMessages(), 0);
 
     const now = Date.now();
-    const conversationId = getUuid();
-    const ourUuid = getUuid();
+    const conversationId = generateUuid();
+    const ourAci = generateAci();
     const message1: MessageAttributesType = {
-      id: getUuid(),
+      id: generateUuid(),
       body: 'message 1 - unique string',
       type: 'outgoing',
       conversationId,
@@ -96,7 +92,7 @@ describe('sql/searchMessages', () => {
       timestamp: now - 20,
     };
     const message2: MessageAttributesType = {
-      id: getUuid(),
+      id: generateUuid(),
       body: 'message 2 - unique string',
       type: 'outgoing',
       conversationId,
@@ -106,7 +102,7 @@ describe('sql/searchMessages', () => {
       isViewOnce: true,
     };
     const message3: MessageAttributesType = {
-      id: getUuid(),
+      id: generateUuid(),
       body: 'message 3 - generic string',
       type: 'outgoing',
       conversationId,
@@ -118,7 +114,7 @@ describe('sql/searchMessages', () => {
 
     await saveMessages([message1, message2, message3], {
       forceSave: true,
-      ourUuid,
+      ourAci,
     });
 
     assert.lengthOf(await _getAllMessages(), 3);
@@ -128,7 +124,7 @@ describe('sql/searchMessages', () => {
     assert.strictEqual(searchResults[0].id, message1.id);
 
     message1.body = 'message 3 - unique string';
-    await saveMessage(message3, { ourUuid });
+    await saveMessage(message3, { ourAci });
 
     const searchResults2 = await searchMessages({ query: 'unique' });
     assert.lengthOf(searchResults2, 1);
@@ -139,10 +135,10 @@ describe('sql/searchMessages', () => {
     assert.lengthOf(await _getAllMessages(), 0);
 
     const now = Date.now();
-    const conversationId = getUuid();
-    const ourUuid = getUuid();
+    const conversationId = generateUuid();
+    const ourAci = generateAci();
     const message1: MessageAttributesType = {
-      id: getUuid(),
+      id: generateUuid(),
       body: 'message 1 - unique string',
       type: 'outgoing',
       conversationId,
@@ -151,29 +147,29 @@ describe('sql/searchMessages', () => {
       timestamp: now - 20,
     };
     const message2: MessageAttributesType = {
-      id: getUuid(),
+      id: generateUuid(),
       body: 'message 2 - unique string',
       type: 'outgoing',
       conversationId,
       sent_at: now - 10,
       received_at: now - 10,
       timestamp: now - 10,
-      storyId: getUuid(),
+      storyId: generateUuid(),
     };
     const message3: MessageAttributesType = {
-      id: getUuid(),
+      id: generateUuid(),
       body: 'message 3 - generic string',
       type: 'outgoing',
       conversationId,
       sent_at: now,
       received_at: now,
       timestamp: now,
-      storyId: getUuid(),
+      storyId: generateUuid(),
     };
 
     await saveMessages([message1, message2, message3], {
       forceSave: true,
-      ourUuid,
+      ourAci,
     });
 
     assert.lengthOf(await _getAllMessages(), 3);
@@ -183,7 +179,7 @@ describe('sql/searchMessages', () => {
     assert.strictEqual(searchResults[0].id, message1.id);
 
     message1.body = 'message 3 - unique string';
-    await saveMessage(message3, { ourUuid });
+    await saveMessage(message3, { ourAci });
 
     const searchResults2 = await searchMessages({ query: 'unique' });
     assert.lengthOf(searchResults2, 1);
@@ -194,12 +190,12 @@ describe('sql/searchMessages', () => {
     assert.lengthOf(await _getAllMessages(), 0);
 
     const now = Date.now();
-    const conversationId = getUuid();
-    const otherConversationId = getUuid();
-    const ourUuid = getUuid();
+    const conversationId = generateUuid();
+    const otherConversationId = generateUuid();
+    const ourAci = generateAci();
 
     const message1: MessageAttributesType = {
-      id: getUuid(),
+      id: generateUuid(),
       body: 'message 1 - unique string',
       type: 'outgoing',
       conversationId,
@@ -208,7 +204,7 @@ describe('sql/searchMessages', () => {
       timestamp: now - 20,
     };
     const message2: MessageAttributesType = {
-      id: getUuid(),
+      id: generateUuid(),
       body: 'message 2 - unique string',
       type: 'outgoing',
       conversationId: otherConversationId,
@@ -219,7 +215,7 @@ describe('sql/searchMessages', () => {
 
     await saveMessages([message1, message2], {
       forceSave: true,
-      ourUuid,
+      ourAci,
     });
 
     assert.lengthOf(await _getAllMessages(), 2);
@@ -240,32 +236,32 @@ describe('sql/searchMessages/withMentions', () => {
   beforeEach(async () => {
     await removeAll();
   });
-  const ourUuid = getUuid();
+  const ourAci = generateAci();
   async function storeMessages(
     messageOverrides: Array<Partial<MessageAttributesType>>
   ) {
     const now = Date.now();
     const messages: Array<MessageAttributesType> = messageOverrides.map(
       (overrides, idx) => ({
-        id: getUuid(),
+        id: generateUuid(),
         body: ' ',
         type: 'incoming',
         sent_at: now - idx,
         received_at: now - idx,
         timestamp: now - idx,
-        conversationId: getUuid(),
+        conversationId: generateUuid(),
         ...overrides,
       })
     );
     await saveMessages(messages, {
       forceSave: true,
-      ourUuid,
+      ourAci,
     });
     return messages;
   }
 
   it('includes messages with mentions', async () => {
-    const mentionedUuids = [getUuid(), getUuid()];
+    const mentionedUuids = [generateAci(), generateAci()];
     const messages = await storeMessages([
       {
         bodyRanges: [{ start: 0, length: 1, mentionUuid: mentionedUuids[0] }],
@@ -284,7 +280,7 @@ describe('sql/searchMessages/withMentions', () => {
 
     const searchResults = await searchMessages({
       query: 'alice',
-      contactUuidsMatchingQuery: [mentionedUuids[0], getUuid()],
+      contactUuidsMatchingQuery: [mentionedUuids[0], generateAci()],
     });
 
     assert.sameOrderedMembers(
@@ -305,7 +301,7 @@ describe('sql/searchMessages/withMentions', () => {
   });
 
   it('includes messages with mentions and those that match the body text', async () => {
-    const mentionedUuids = [getUuid(), getUuid()];
+    const mentionedUuids = [generateAci(), generateAci()];
     const messages = await storeMessages([
       {
         body: 'cat',
@@ -324,7 +320,7 @@ describe('sql/searchMessages/withMentions', () => {
 
     const searchResults = await searchMessages({
       query: 'cat',
-      contactUuidsMatchingQuery: [mentionedUuids[0], getUuid()],
+      contactUuidsMatchingQuery: [mentionedUuids[0], generateAci()],
     });
 
     assert.sameOrderedMembers(
@@ -336,7 +332,7 @@ describe('sql/searchMessages/withMentions', () => {
     // match the mention or the text
     const searchResultsForDog = await searchMessages({
       query: 'dog',
-      contactUuidsMatchingQuery: [mentionedUuids[1], getUuid()],
+      contactUuidsMatchingQuery: [mentionedUuids[1], generateAci()],
     });
     assert.sameOrderedMembers(
       searchResultsForDog.map(res => res.id),
@@ -344,8 +340,8 @@ describe('sql/searchMessages/withMentions', () => {
     );
   });
   it('respects conversationId for mention matches', async () => {
-    const mentionedUuids = [getUuid(), getUuid()];
-    const conversationId = getUuid();
+    const mentionedUuids = [generateAci(), generateAci()];
+    const conversationId = generateUuid();
     const messages = await storeMessages([
       {
         body: 'cat',

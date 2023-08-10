@@ -14,7 +14,7 @@ import type { LinkPreviewType } from '../types/message/LinkPreviews';
 import type { LocalizerType } from '../types/Util';
 import type { Props as StickerButtonProps } from './stickers/StickerButton';
 import type { PropsType as SendStoryModalPropsType } from './SendStoryModal';
-import type { UUIDStringType } from '../types/UUID';
+import type { StoryDistributionIdString } from '../types/StoryDistributionId';
 import type { imageToBlurHash } from '../util/imageToBlurHash';
 import type { PropsType as TextStoryCreatorPropsType } from './TextStoryCreator';
 
@@ -54,7 +54,7 @@ export type PropsType = {
   linkPreview?: LinkPreviewType;
   onClose: () => unknown;
   onSend: (
-    listIds: Array<UUIDStringType>,
+    listIds: Array<StoryDistributionIdString>,
     conversationIds: Array<string>,
     attachment: AttachmentType,
     bodyRanges: DraftBodyRanges | undefined

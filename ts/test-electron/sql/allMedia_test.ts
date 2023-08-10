@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
+import { v4 as generateUuid } from 'uuid';
 
 import dataInterface from '../../sql/Client';
-import { UUID } from '../../types/UUID';
-import type { UUIDStringType } from '../../types/UUID';
+import { generateAci } from '../../types/ServiceId';
 
 import type { MessageAttributesType } from '../../model-types.d';
 
@@ -17,10 +17,6 @@ const {
   getMessagesWithFileAttachments,
 } = dataInterface;
 
-function getUuid(): UUIDStringType {
-  return UUID.generate().toString();
-}
-
 describe('sql/allMedia', () => {
   beforeEach(async () => {
     await removeAll();
@@ -31,10 +27,10 @@ describe('sql/allMedia', () => {
       assert.lengthOf(await _getAllMessages(), 0);
 
       const now = Date.now();
-      const conversationId = getUuid();
-      const ourUuid = getUuid();
+      const conversationId = generateUuid();
+      const ourAci = generateAci();
       const message1: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 1',
         type: 'outgoing',
         conversationId,
@@ -44,7 +40,7 @@ describe('sql/allMedia', () => {
         hasVisualMediaAttachments: true,
       };
       const message2: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 2',
         type: 'outgoing',
         conversationId,
@@ -53,10 +49,10 @@ describe('sql/allMedia', () => {
         timestamp: now - 10,
       };
       const message3: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 3',
         type: 'outgoing',
-        conversationId: getUuid(),
+        conversationId: generateUuid(),
         sent_at: now,
         received_at: now,
         timestamp: now,
@@ -65,7 +61,7 @@ describe('sql/allMedia', () => {
 
       await saveMessages([message1, message2, message3], {
         forceSave: true,
-        ourUuid,
+        ourAci,
       });
 
       assert.lengthOf(await _getAllMessages(), 3);
@@ -82,10 +78,10 @@ describe('sql/allMedia', () => {
       assert.lengthOf(await _getAllMessages(), 0);
 
       const now = Date.now();
-      const conversationId = getUuid();
-      const ourUuid = getUuid();
+      const conversationId = generateUuid();
+      const ourAci = generateAci();
       const message1: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 1',
         type: 'outgoing',
         conversationId,
@@ -95,31 +91,31 @@ describe('sql/allMedia', () => {
         hasVisualMediaAttachments: true,
       };
       const message2: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 2',
         type: 'outgoing',
         conversationId,
         sent_at: now - 10,
         received_at: now - 10,
         timestamp: now - 10,
-        storyId: getUuid(),
+        storyId: generateUuid(),
         hasVisualMediaAttachments: true,
       };
       const message3: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 3',
         type: 'story',
         conversationId,
         sent_at: now,
         received_at: now,
         timestamp: now,
-        storyId: getUuid(),
+        storyId: generateUuid(),
         hasVisualMediaAttachments: true,
       };
 
       await saveMessages([message1, message2, message3], {
         forceSave: true,
-        ourUuid,
+        ourAci,
       });
 
       assert.lengthOf(await _getAllMessages(), 3);
@@ -138,10 +134,10 @@ describe('sql/allMedia', () => {
       assert.lengthOf(await _getAllMessages(), 0);
 
       const now = Date.now();
-      const conversationId = getUuid();
-      const ourUuid = getUuid();
+      const conversationId = generateUuid();
+      const ourAci = generateAci();
       const message1: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 1',
         type: 'outgoing',
         conversationId,
@@ -151,7 +147,7 @@ describe('sql/allMedia', () => {
         hasFileAttachments: true,
       };
       const message2: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 2',
         type: 'outgoing',
         conversationId,
@@ -160,10 +156,10 @@ describe('sql/allMedia', () => {
         timestamp: now - 10,
       };
       const message3: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 3',
         type: 'outgoing',
-        conversationId: getUuid(),
+        conversationId: generateUuid(),
         sent_at: now,
         received_at: now,
         timestamp: now,
@@ -172,7 +168,7 @@ describe('sql/allMedia', () => {
 
       await saveMessages([message1, message2, message3], {
         forceSave: true,
-        ourUuid,
+        ourAci,
       });
 
       assert.lengthOf(await _getAllMessages(), 3);
@@ -189,10 +185,10 @@ describe('sql/allMedia', () => {
       assert.lengthOf(await _getAllMessages(), 0);
 
       const now = Date.now();
-      const conversationId = getUuid();
-      const ourUuid = getUuid();
+      const conversationId = generateUuid();
+      const ourAci = generateAci();
       const message1: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 1',
         type: 'outgoing',
         conversationId,
@@ -202,31 +198,31 @@ describe('sql/allMedia', () => {
         hasFileAttachments: true,
       };
       const message2: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 2',
         type: 'outgoing',
         conversationId,
         sent_at: now - 10,
         received_at: now - 10,
         timestamp: now - 10,
-        storyId: getUuid(),
+        storyId: generateUuid(),
         hasFileAttachments: true,
       };
       const message3: MessageAttributesType = {
-        id: getUuid(),
+        id: generateUuid(),
         body: 'message 3',
         type: 'story',
         conversationId,
         sent_at: now,
         received_at: now,
         timestamp: now,
-        storyId: getUuid(),
+        storyId: generateUuid(),
         hasFileAttachments: true,
       };
 
       await saveMessages([message1, message2, message3], {
         forceSave: true,
-        ourUuid,
+        ourAci,
       });
 
       assert.lengthOf(await _getAllMessages(), 3);

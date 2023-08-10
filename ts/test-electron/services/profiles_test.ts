@@ -7,15 +7,15 @@ import { MINUTE } from '../../util/durations';
 import { drop } from '../../util/drop';
 
 import { ProfileService } from '../../services/profiles';
-import { UUID } from '../../types/UUID';
+import { generateAci } from '../../types/ServiceId';
 import { HTTPError } from '../../textsecure/Errors';
 
 describe('util/profiles', () => {
-  const UUID_1 = UUID.generate().toString();
-  const UUID_2 = UUID.generate().toString();
-  const UUID_3 = UUID.generate().toString();
-  const UUID_4 = UUID.generate().toString();
-  const UUID_5 = UUID.generate().toString();
+  const UUID_1 = generateAci();
+  const UUID_2 = generateAci();
+  const UUID_3 = generateAci();
+  const UUID_4 = generateAci();
+  const UUID_5 = generateAci();
 
   beforeEach(async () => {
     await window.ConversationController.getOrCreateAndWait(UUID_1, 'private');

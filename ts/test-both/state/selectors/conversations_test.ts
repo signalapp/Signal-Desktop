@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
+import { v4 as generateUuid } from 'uuid';
 
 import {
   ComposerStep,
@@ -27,7 +28,7 @@ import {
   getComposeSelectedContacts,
   getContactNameColorSelector,
   getConversationByIdSelector,
-  getConversationUuidsStoppingSend,
+  getConversationServiceIdsStoppingSend,
   getConversationsByTitleSelector,
   getConversationSelector,
   getConversationsStoppingSend,
@@ -46,8 +47,8 @@ import { noopAction } from '../../../state/ducks/noop';
 import type { StateType } from '../../../state/reducer';
 import { reducer as rootReducer } from '../../../state/reducer';
 import { setupI18n } from '../../../util/setupI18n';
-import { UUID } from '../../../types/UUID';
-import type { UUIDStringType } from '../../../types/UUID';
+import type { ServiceIdString } from '../../../types/ServiceId';
+import { generateAci, getAciFromPrefix } from '../../../types/ServiceId';
 import enMessages from '../../../../_locales/en/messages.json';
 import {
   getDefaultConversation,
@@ -61,8 +62,8 @@ import {
 } from '../../helpers/defaultComposerStates';
 
 describe('both/state/selectors/conversations-extra', () => {
-  const UUID_1 = UUID.generate().toString();
-  const UUID_2 = UUID.generate().toString();
+  const SERVICE_ID_1 = generateAci();
+  const SERVICE_ID_2 = generateAci();
 
   const getEmptyRootState = (): StateType => {
     return rootReducer(undefined, noopAction());
@@ -90,7 +91,7 @@ describe('both/state/selectors/conversations-extra', () => {
 
   function makeConversationWithUuid(
     id: string
-  ): ConversationType & { uuid: UUIDStringType } {
+  ): ConversationType & { uuid: ServiceIdString } {
     const title = `${id} title`;
 
     return getDefaultConversationWithUuid(
@@ -100,7 +101,7 @@ describe('both/state/selectors/conversations-extra', () => {
         title,
         titleNoDefault: title,
       },
-      UUID.fromPrefix(id).toString()
+      getAciFromPrefix(id)
     );
   }
 
@@ -315,32 +316,32 @@ describe('both/state/selectors/conversations-extra', () => {
     });
 
     it('returns all conversations stopping send', () => {
-      const convo1 = makeConversation(UUID_1);
-      const convo2 = makeConversation(UUID_2);
+      const convo1 = makeConversation(SERVICE_ID_1);
+      const convo2 = makeConversation(SERVICE_ID_2);
       const state: StateType = {
         ...getEmptyRootState(),
         conversations: {
           ...getEmptyState(),
           conversationLookup: {
-            [UUID_1]: convo1,
-            [UUID_2]: convo2,
+            [SERVICE_ID_1]: convo1,
+            [SERVICE_ID_2]: convo2,
           },
           verificationDataByConversation: {
             'convo a': {
               type: ConversationVerificationState.PendingVerification as const,
-              uuidsNeedingVerification: [UUID_1],
+              serviceIdsNeedingVerification: [SERVICE_ID_1],
             },
             'convo b': {
               type: ConversationVerificationState.PendingVerification as const,
-              uuidsNeedingVerification: [UUID_2, UUID_1],
+              serviceIdsNeedingVerification: [SERVICE_ID_2, SERVICE_ID_1],
             },
           },
         },
       };
 
-      assert.sameDeepMembers(getConversationUuidsStoppingSend(state), [
-        UUID_1,
-        UUID_2,
+      assert.sameDeepMembers(getConversationServiceIdsStoppingSend(state), [
+        SERVICE_ID_1,
+        SERVICE_ID_2,
       ]);
 
       assert.sameDeepMembers(getConversationsStoppingSend(state), [
@@ -368,7 +369,7 @@ describe('both/state/selectors/conversations-extra', () => {
             [abc.uuid]: abc,
             [def.uuid]: def,
           },
-          invitedUuidsForNewlyCreatedGroup: [def.uuid, abc.uuid],
+          invitedServiceIdsForNewlyCreatedGroup: [def.uuid, abc.uuid],
         },
       };
       const result = getInvitedContactsForNewlyCreatedGroup(state);
@@ -1144,7 +1145,7 @@ describe('both/state/selectors/conversations-extra', () => {
           title: 'No timestamp',
           unreadCount: 1,
           isSelected: false,
-          typingContactId: UUID.generate().toString(),
+          typingContactId: generateUuid(),
 
           acceptedMessageRequest: true,
         }),
@@ -1165,7 +1166,7 @@ describe('both/state/selectors/conversations-extra', () => {
           title: 'B',
           unreadCount: 1,
           isSelected: false,
-          typingContactId: UUID.generate().toString(),
+          typingContactId: generateUuid(),
 
           acceptedMessageRequest: true,
         }),
@@ -1186,7 +1187,7 @@ describe('both/state/selectors/conversations-extra', () => {
           title: 'C',
           unreadCount: 1,
           isSelected: false,
-          typingContactId: UUID.generate().toString(),
+          typingContactId: generateUuid(),
 
           acceptedMessageRequest: true,
         }),
@@ -1207,7 +1208,7 @@ describe('both/state/selectors/conversations-extra', () => {
           title: 'A',
           unreadCount: 1,
           isSelected: false,
-          typingContactId: UUID.generate().toString(),
+          typingContactId: generateUuid(),
 
           acceptedMessageRequest: true,
         }),
@@ -1228,7 +1229,7 @@ describe('both/state/selectors/conversations-extra', () => {
           title: 'First!',
           unreadCount: 1,
           isSelected: false,
-          typingContactId: UUID.generate().toString(),
+          typingContactId: generateUuid(),
 
           acceptedMessageRequest: true,
         }),
@@ -1270,7 +1271,7 @@ describe('both/state/selectors/conversations-extra', () => {
             title: 'Pin Two',
             unreadCount: 1,
             isSelected: false,
-            typingContactId: UUID.generate().toString(),
+            typingContactId: generateUuid(),
 
             acceptedMessageRequest: true,
           }),
@@ -1292,7 +1293,7 @@ describe('both/state/selectors/conversations-extra', () => {
             title: 'Pin Three',
             unreadCount: 1,
             isSelected: false,
-            typingContactId: UUID.generate().toString(),
+            typingContactId: generateUuid(),
 
             acceptedMessageRequest: true,
           }),
@@ -1314,7 +1315,7 @@ describe('both/state/selectors/conversations-extra', () => {
             title: 'Pin One',
             unreadCount: 1,
             isSelected: false,
-            typingContactId: UUID.generate().toString(),
+            typingContactId: generateUuid(),
 
             acceptedMessageRequest: true,
           }),
@@ -1353,7 +1354,7 @@ describe('both/state/selectors/conversations-extra', () => {
             title: 'Pin Two',
             unreadCount: 1,
             isSelected: false,
-            typingContactId: UUID.generate().toString(),
+            typingContactId: generateUuid(),
 
             acceptedMessageRequest: true,
           }),
@@ -1374,7 +1375,7 @@ describe('both/state/selectors/conversations-extra', () => {
             title: 'Pin Three',
             unreadCount: 1,
             isSelected: false,
-            typingContactId: UUID.generate().toString(),
+            typingContactId: generateUuid(),
 
             acceptedMessageRequest: true,
           }),
@@ -1395,7 +1396,7 @@ describe('both/state/selectors/conversations-extra', () => {
             title: 'Pin One',
             unreadCount: 1,
             isSelected: false,
-            typingContactId: UUID.generate().toString(),
+            typingContactId: generateUuid(),
 
             acceptedMessageRequest: true,
           }),
@@ -1417,7 +1418,7 @@ describe('both/state/selectors/conversations-extra', () => {
             title: 'Pin One',
             unreadCount: 1,
             isSelected: false,
-            typingContactId: UUID.generate().toString(),
+            typingContactId: generateUuid(),
 
             acceptedMessageRequest: true,
           }),
@@ -1438,7 +1439,7 @@ describe('both/state/selectors/conversations-extra', () => {
             title: 'Pin One',
             unreadCount: 1,
             isSelected: false,
-            typingContactId: UUID.generate().toString(),
+            typingContactId: generateUuid(),
 
             acceptedMessageRequest: true,
           }),

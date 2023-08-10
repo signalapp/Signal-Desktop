@@ -14,7 +14,7 @@ import type { LocalizerType, ThemeType } from '../types/Util';
 import { ScrollBehavior } from '../types/Util';
 import { getNavSidebarWidthBreakpoint } from './_util';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
-import type { LookupConversationWithoutUuidActionsType } from '../util/lookupConversationWithoutUuid';
+import type { LookupConversationWithoutServiceIdActionsType } from '../util/lookupConversationWithoutServiceId';
 import type { ShowConversationType } from '../state/ducks/conversations';
 
 import type { PropsData as ConversationListItemPropsType } from './conversationList/ConversationListItem';
@@ -189,7 +189,7 @@ export type PropsType = {
   renderMessageSearchResult?: (id: string) => JSX.Element;
   showChooseGroupMembers: () => void;
   showConversation: ShowConversationType;
-} & LookupConversationWithoutUuidActionsType;
+} & LookupConversationWithoutServiceIdActionsType;
 
 const NORMAL_ROW_HEIGHT = 76;
 const SELECT_ROW_HEIGHT = 52;
@@ -214,7 +214,7 @@ export function ConversationList({
   scrollable = true,
   shouldRecomputeRowHeights,
   showChooseGroupMembers,
-  lookupConversationWithoutUuid,
+  lookupConversationWithoutServiceId,
   showUserNotFoundModal,
   setIsFetchingUUID,
   showConversation,
@@ -313,7 +313,9 @@ export function ConversationList({
           result = (
             <PhoneNumberCheckboxComponent
               phoneNumber={row.phoneNumber}
-              lookupConversationWithoutUuid={lookupConversationWithoutUuid}
+              lookupConversationWithoutServiceId={
+                lookupConversationWithoutServiceId
+              }
               showUserNotFoundModal={showUserNotFoundModal}
               setIsFetchingUUID={setIsFetchingUUID}
               toggleConversationInChooseMembers={conversationId =>
@@ -330,7 +332,9 @@ export function ConversationList({
           result = (
             <UsernameCheckboxComponent
               username={row.username}
-              lookupConversationWithoutUuid={lookupConversationWithoutUuid}
+              lookupConversationWithoutServiceId={
+                lookupConversationWithoutServiceId
+              }
               showUserNotFoundModal={showUserNotFoundModal}
               setIsFetchingUUID={setIsFetchingUUID}
               toggleConversationInChooseMembers={conversationId =>
@@ -436,7 +440,9 @@ export function ConversationList({
               i18n={i18n}
               phoneNumber={row.phoneNumber}
               isFetching={row.isFetching}
-              lookupConversationWithoutUuid={lookupConversationWithoutUuid}
+              lookupConversationWithoutServiceId={
+                lookupConversationWithoutServiceId
+              }
               showUserNotFoundModal={showUserNotFoundModal}
               setIsFetchingUUID={setIsFetchingUUID}
               showConversation={showConversation}
@@ -449,7 +455,9 @@ export function ConversationList({
               i18n={i18n}
               username={row.username}
               isFetchingUsername={row.isFetchingUsername}
-              lookupConversationWithoutUuid={lookupConversationWithoutUuid}
+              lookupConversationWithoutServiceId={
+                lookupConversationWithoutServiceId
+              }
               showUserNotFoundModal={showUserNotFoundModal}
               setIsFetchingUUID={setIsFetchingUUID}
               showConversation={showConversation}
@@ -473,7 +481,7 @@ export function ConversationList({
       getPreferredBadge,
       getRow,
       i18n,
-      lookupConversationWithoutUuid,
+      lookupConversationWithoutServiceId,
       onClickArchiveButton,
       onClickContactCheckbox,
       onOutgoingAudioCallInConversation,

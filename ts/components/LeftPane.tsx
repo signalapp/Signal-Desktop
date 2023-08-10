@@ -29,7 +29,7 @@ import type { DurationInSeconds } from '../util/durations';
 import type { WidthBreakpoint } from './_util';
 import { getNavSidebarWidthBreakpoint } from './_util';
 import * as KeyboardLayout from '../services/keyboardLayout';
-import type { LookupConversationWithoutUuidActionsType } from '../util/lookupConversationWithoutUuid';
+import type { LookupConversationWithoutServiceIdActionsType } from '../util/lookupConversationWithoutServiceId';
 import type { ShowConversationType } from '../state/ducks/conversations';
 import type { PropsType as UnsupportedOSDialogPropsType } from '../state/smart/UnsupportedOSDialog';
 
@@ -152,7 +152,7 @@ export type PropsType = {
   renderCaptchaDialog: (props: { onSkip(): void }) => JSX.Element;
   renderCrashReportDialog: () => JSX.Element;
   renderExpiredBuildDialog: (_: DialogExpiredBuildPropsType) => JSX.Element;
-} & LookupConversationWithoutUuidActionsType;
+} & LookupConversationWithoutServiceIdActionsType;
 
 export function LeftPane({
   blockConversation,
@@ -173,7 +173,7 @@ export function LeftPane({
   hasRelinkDialog,
   hasUpdateDialog,
   i18n,
-  lookupConversationWithoutUuid,
+  lookupConversationWithoutServiceId,
   isMacOS,
   isUpdateDownloaded,
   isContactManagementEnabled,
@@ -657,8 +657,8 @@ export function LeftPane({
                     }}
                     showUserNotFoundModal={showUserNotFoundModal}
                     setIsFetchingUUID={setIsFetchingUUID}
-                    lookupConversationWithoutUuid={
-                      lookupConversationWithoutUuid
+                    lookupConversationWithoutServiceId={
+                      lookupConversationWithoutServiceId
                     }
                     showConversation={showConversation}
                     blockConversation={blockConversation}

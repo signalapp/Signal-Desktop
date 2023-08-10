@@ -103,6 +103,13 @@ export class SingleProtoJobQueue extends JobQueue<SingleProtoJobData> {
       );
       return;
     }
+    const serviceId = conversation.getServiceId();
+    if (!serviceId) {
+      log.info(
+        `conversation ${conversation.idForLogging()} has no serviceId; refusing to send`
+      );
+      return;
+    }
 
     const proto = Proto.Content.decode(Bytes.fromBase64(protoBase64));
     const options = await getSendOptions(conversation.attributes, {
@@ -118,7 +125,7 @@ export class SingleProtoJobQueue extends JobQueue<SingleProtoJobData> {
       await handleMessageSend(
         messaging.sendIndividualProto({
           contentHint,
-          identifier,
+          serviceId,
           options,
           proto,
           timestamp,

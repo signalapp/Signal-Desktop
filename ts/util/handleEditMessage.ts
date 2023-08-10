@@ -292,7 +292,7 @@ export async function handleEditMessage(
   drop(
     dataInterface.saveEditedMessage(
       mainMessageModel.attributes,
-      window.textsecure.storage.user.getCheckedUuid().toString(),
+      window.textsecure.storage.user.getCheckedAci(),
       {
         conversationId: editAttributes.conversationId,
         messageId: mainMessage.id,

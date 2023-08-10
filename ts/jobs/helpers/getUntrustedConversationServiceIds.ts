@@ -3,11 +3,11 @@
 
 import { isNotNil } from '../../util/isNotNil';
 import * as log from '../../logging/log';
-import type { UUIDStringType } from '../../types/UUID';
+import type { ServiceIdString } from '../../types/ServiceId';
 
-export function getUntrustedConversationUuids(
+export function getUntrustedConversationServiceIds(
   recipients: ReadonlyArray<string>
-): Array<UUIDStringType> {
+): Array<ServiceIdString> {
   return recipients
     .map(recipient => {
       const recipientConversation = window.ConversationController.getOrCreate(
@@ -19,15 +19,15 @@ export function getUntrustedConversationUuids(
         return null;
       }
 
-      const uuid = recipientConversation.get('uuid');
-      if (!uuid) {
+      const serviceId = recipientConversation.getServiceId();
+      if (!serviceId) {
         log.warn(
-          `getUntrustedConversationUuids: Conversation ${recipientConversation.idForLogging()} had no UUID`
+          `getUntrustedConversationServiceIds: Conversation ${recipientConversation.idForLogging()} had no serviceId`
         );
         return null;
       }
 
-      return uuid;
+      return serviceId;
     })
     .filter(isNotNil);
 }

@@ -15,7 +15,7 @@ import {
   parseAndWriteAvatar,
 } from '../../types/EmbeddedContact';
 import { fakeAttachment } from '../../test-both/helpers/fakeAttachment';
-import { UUID } from '../../types/UUID';
+import { generateAci } from '../../types/ServiceId';
 
 describe('Contact', () => {
   const NUMBER = '+12025550099';
@@ -197,7 +197,7 @@ describe('Contact', () => {
     });
 
     it('calculates absolute path', () => {
-      const fullUuid = UUID.generate().toString();
+      const fullUuid = generateAci();
 
       const contact = {
         name: {

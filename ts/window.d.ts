@@ -46,7 +46,6 @@ import type SyncRequest from './textsecure/SyncRequest';
 import type { MessageController } from './util/MessageController';
 import type { StateType } from './state/reducer';
 import type { SystemTraySetting } from './types/SystemTraySetting';
-import type { UUID } from './types/UUID';
 import type { Address } from './types/Address';
 import type { QualifiedAddress } from './types/QualifiedAddress';
 import type { CIType } from './CI';
@@ -157,7 +156,6 @@ export type SignalCoreType = {
   Migrations: ReturnType<typeof initializeMigrations>;
   Types: {
     Message: typeof Message2;
-    UUID: typeof UUID;
     Address: typeof Address;
     QualifiedAddress: typeof QualifiedAddress;
   };

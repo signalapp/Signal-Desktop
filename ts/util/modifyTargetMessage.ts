@@ -44,10 +44,10 @@ export async function modifyTargetMessage(
   const logId = `modifyTargetMessage/${message.idForLogging()}`;
   const type = message.get('type');
   let changed = false;
-  const ourUuid = window.textsecure.storage.user.getCheckedUuid().toString();
+  const ourAci = window.textsecure.storage.user.getCheckedAci();
   const sourceUuid = getSourceUuid(message.attributes);
 
-  if (type === 'outgoing' || (type === 'story' && ourUuid === sourceUuid)) {
+  if (type === 'outgoing' || (type === 'story' && ourAci === sourceUuid)) {
     const sendActions = MessageReceipts.getSingleton()
       .forMessage(message)
       .map(receipt => {
@@ -266,7 +266,7 @@ export async function modifyTargetMessage(
   if (changed && !isFirstRun) {
     log.info(`${logId}: Changes in second run; saving.`);
     await window.Signal.Data.saveMessage(message.attributes, {
-      ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+      ourAci,
     });
   }
 }

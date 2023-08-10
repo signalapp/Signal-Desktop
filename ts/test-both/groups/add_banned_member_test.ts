@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { UUID } from '../../types/UUID';
+import { generateAci } from '../../types/ServiceId';
 import { _maybeBuildAddBannedMemberActions } from '../../groups';
 import { getClientZkGroupCipher, decryptUuid } from '../../util/zkgroup';
 import { updateRemoteConfig } from '../helpers/RemoteConfigStub';
@@ -11,10 +11,10 @@ import { updateRemoteConfig } from '../helpers/RemoteConfigStub';
 const HARD_LIMIT_KEY = 'global.groupsv2.groupSizeHardLimit';
 
 describe('group add banned member', () => {
-  const uuid = UUID.generate();
-  const ourUuid = UUID.generate();
+  const serviceId = generateAci();
+  const ourAci = generateAci();
   const existing = Array.from({ length: 10 }, (_, index) => ({
-    uuid: UUID.generate().toString(),
+    uuid: generateAci(),
     timestamp: index,
   }));
   const secretParams =
@@ -36,8 +36,8 @@ describe('group add banned member', () => {
   it('should add banned member without deleting', () => {
     const actions = _maybeBuildAddBannedMemberActions({
       clientZkGroupCipher,
-      uuid,
-      ourUuid,
+      serviceId,
+      ourAci,
       group: {
         bannedMembersV2: [],
       },
@@ -49,7 +49,7 @@ describe('group add banned member', () => {
         clientZkGroupCipher,
         actions.addMembersBanned?.[0]?.added?.userId ?? new Uint8Array(0)
       ),
-      uuid.toString()
+      serviceId
     );
     assert.strictEqual(actions.deleteMembersBanned, null);
   });
@@ -57,8 +57,8 @@ describe('group add banned member', () => {
   it('should add banned member while deleting the oldest', () => {
     const actions = _maybeBuildAddBannedMemberActions({
       clientZkGroupCipher,
-      uuid,
-      ourUuid,
+      serviceId,
+      ourAci,
       group: {
         bannedMembersV2: [...existing],
       },
@@ -77,7 +77,7 @@ describe('group add banned member', () => {
         clientZkGroupCipher,
         actions.addMembersBanned?.[0]?.added?.userId ?? new Uint8Array(0)
       ),
-      uuid.toString()
+      serviceId
     );
     assert.deepStrictEqual(
       deleted,
@@ -91,8 +91,8 @@ describe('group add banned member', () => {
   it('should not ban ourselves', () => {
     const actions = _maybeBuildAddBannedMemberActions({
       clientZkGroupCipher,
-      uuid: ourUuid,
-      ourUuid,
+      serviceId: ourAci,
+      ourAci,
       group: {
         bannedMembersV2: [],
       },
@@ -105,10 +105,10 @@ describe('group add banned member', () => {
   it('should not ban already banned person', () => {
     const actions = _maybeBuildAddBannedMemberActions({
       clientZkGroupCipher,
-      uuid,
-      ourUuid,
+      serviceId,
+      ourAci,
       group: {
-        bannedMembersV2: [{ uuid: uuid.toString(), timestamp: 1 }],
+        bannedMembersV2: [{ uuid: serviceId, timestamp: 1 }],
       },
     });
 

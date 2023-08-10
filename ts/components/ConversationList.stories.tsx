@@ -3,6 +3,7 @@
 
 import React, { useContext } from 'react';
 import { times, omit } from 'lodash';
+import { v4 as generateUuid } from 'uuid';
 
 import { action } from '@storybook/addon-actions';
 import { boolean, date, select, text } from '@storybook/addon-knobs';
@@ -18,8 +19,7 @@ import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
 import { ThemeType } from '../types/Util';
 import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext';
-import { UUID } from '../types/UUID';
-import { makeFakeLookupConversationWithoutUuid } from '../test-both/helpers/fakeLookupConversationWithoutUuid';
+import { makeFakeLookupConversationWithoutServiceId } from '../test-both/helpers/fakeLookupConversationWithoutServiceId';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -95,7 +95,7 @@ function Wrapper({
         />
       )}
       scrollable={scrollable}
-      lookupConversationWithoutUuid={makeFakeLookupConversationWithoutUuid()}
+      lookupConversationWithoutServiceId={makeFakeLookupConversationWithoutServiceId()}
       showChooseGroupMembers={action('showChooseGroupMembers')}
       showUserNotFoundModal={action('showUserNotFoundModal')}
       setIsFetchingUUID={action('setIsFetchingUUID')}
@@ -381,7 +381,7 @@ ConversationsMessageStatuses.story = {
 
 export const ConversationTypingStatus = (): JSX.Element =>
   renderConversation({
-    typingContactId: UUID.generate().toString(),
+    typingContactId: generateUuid(),
   });
 
 ConversationTypingStatus.story = {

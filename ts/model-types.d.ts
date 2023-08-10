@@ -8,7 +8,6 @@ import * as Backbone from 'backbone';
 import type { GroupV2ChangeType } from './groups';
 import type { DraftBodyRanges, RawBodyRange } from './types/BodyRange';
 import type { CustomColorType, ConversationColorType } from './types/Colors';
-import type { DeviceType } from './textsecure/Types.d';
 import type { SendMessageChallengeData } from './textsecure/Errors';
 import type { MessageModel } from './models/messages';
 import type { ConversationModel } from './models/conversations';
@@ -22,7 +21,8 @@ import type { AttachmentDraftType, AttachmentType } from './types/Attachment';
 import type { EmbeddedContactType } from './types/EmbeddedContact';
 import { SignalService as Proto } from './protobuf';
 import type { AvatarDataType } from './types/Avatar';
-import type { UUIDStringType } from './types/UUID';
+import type { AciString, PniString, ServiceIdString } from './types/ServiceId';
+import type { StoryDistributionIdString } from './types/StoryDistributionId';
 import type { ReactionSource } from './reactions/ReactionSource';
 import type { SeenStatus } from './MessageSeenStatus';
 import type { GiftBadgeStates } from './components/conversation/Message';
@@ -47,14 +47,20 @@ export type LastMessageStatus =
   | 'read'
   | 'viewed';
 
+export type SenderKeyDeviceType = {
+  id: number;
+  identifier: string;
+  registrationId: number;
+};
+
 export type SenderKeyInfoType = {
   createdAtDate: number;
   distributionId: string;
-  memberDevices: Array<DeviceType>;
+  memberDevices: Array<SenderKeyDeviceType>;
 };
 
 export type CustomError = Error & {
-  identifier?: string;
+  serviceId?: ServiceIdString;
   number?: string;
   data?: object;
   retryAfter?: number;
@@ -113,7 +119,7 @@ export type GroupV1Update = {
 export type MessageReactionType = {
   emoji: undefined | string;
   fromId: string;
-  targetAuthorUuid: string;
+  targetAuthorUuid: AciString;
   targetTimestamp: number;
   timestamp: number;
   isSentByConversationId?: Record<string, boolean>;
@@ -164,7 +170,7 @@ export type MessageAttributesType = {
   requiredProtocolVersion?: number;
   retryOptions?: RetryOptions;
   sourceDevice?: number;
-  storyDistributionListId?: string;
+  storyDistributionListId?: StoryDistributionIdString;
   storyId?: string;
   storyReplyContext?: StoryReplyContextType;
   storyRecipientsVersion?: number;
@@ -203,7 +209,7 @@ export type MessageAttributesType = {
   conversationId: string;
   storyReaction?: {
     emoji: string;
-    targetAuthorUuid: string;
+    targetAuthorUuid: AciString;
     targetTimestamp: number;
   };
   giftBadge?: {
@@ -218,7 +224,7 @@ export type MessageAttributesType = {
     expireTimer?: DurationInSeconds;
     fromSync?: unknown;
     source?: string;
-    sourceUuid?: string;
+    sourceUuid?: ServiceIdString;
   };
   conversationMerge?: {
     renderInfo: ConversationRenderInfoType;
@@ -242,7 +248,7 @@ export type MessageAttributesType = {
   serverGuid?: string;
   serverTimestamp?: number;
   source?: string;
-  sourceUuid?: UUIDStringType;
+  sourceUuid?: ServiceIdString;
 
   timestamp: number;
 
@@ -371,8 +377,8 @@ export type ConversationAttributesType = {
   version: number;
 
   // Private core info
-  uuid?: UUIDStringType;
-  pni?: UUIDStringType;
+  uuid?: ServiceIdString;
+  pni?: PniString;
   e164?: string;
 
   // Private other fields
@@ -463,7 +469,7 @@ export type ConversationRenderInfoType = Pick<
 >;
 
 export type GroupV2MemberType = {
-  uuid: UUIDStringType;
+  uuid: AciString;
   role: MemberRoleEnum;
   joinedAtVersion: number;
 
@@ -475,19 +481,19 @@ export type GroupV2MemberType = {
 };
 
 export type GroupV2PendingMemberType = {
-  addedByUserId?: UUIDStringType;
-  uuid: UUIDStringType;
+  addedByUserId?: AciString;
+  uuid: ServiceIdString;
   timestamp: number;
   role: MemberRoleEnum;
 };
 
 export type GroupV2BannedMemberType = {
-  uuid: UUIDStringType;
+  uuid: ServiceIdString;
   timestamp: number;
 };
 
 export type GroupV2PendingAdminApprovalType = {
-  uuid: UUIDStringType;
+  uuid: AciString;
   timestamp: number;
 };
 
@@ -510,7 +516,7 @@ export type ReactionAttributesType = {
   // Necessary to put 1:1 story replies into the right conversation - not the same
   //   conversation as the target message!
   storyReactionMessage?: MessageModel;
-  targetAuthorUuid: string;
+  targetAuthorUuid: AciString;
   targetTimestamp: number;
   timestamp: number;
 };

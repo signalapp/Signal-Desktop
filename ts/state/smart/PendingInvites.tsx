@@ -15,11 +15,11 @@ import {
 } from '../selectors/conversations';
 import { getGroupMemberships } from '../../util/getGroupMemberships';
 import { assertDev } from '../../util/assert';
-import type { UUIDStringType } from '../../types/UUID';
+import type { AciString } from '../../types/ServiceId';
 
 export type SmartPendingInvitesProps = {
   conversationId: string;
-  ourUuid: UUIDStringType;
+  ourAci: AciString;
 };
 
 const mapStateToProps = (

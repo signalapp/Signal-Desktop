@@ -19,7 +19,7 @@ import { ChooseGroupMembersModal } from './AddGroupMembersModal/ChooseGroupMembe
 import { ConfirmAdditionsModal } from './AddGroupMembersModal/ConfirmAdditionsModal';
 import { RequestState } from './util';
 import { ThemeType } from '../../../types/Util';
-import { makeFakeLookupConversationWithoutUuid } from '../../../test-both/helpers/fakeLookupConversationWithoutUuid';
+import { makeFakeLookupConversationWithoutServiceId } from '../../../test-both/helpers/fakeLookupConversationWithoutServiceId';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -30,12 +30,11 @@ export default {
 const allCandidateContacts = times(50, () => getDefaultConversation());
 let allCandidateContactsLookup = makeLookup(allCandidateContacts, 'id');
 
-const lookupConversationWithoutUuid = makeFakeLookupConversationWithoutUuid(
-  convo => {
+const lookupConversationWithoutServiceId =
+  makeFakeLookupConversationWithoutServiceId(convo => {
     allCandidateContacts.push(convo);
     allCandidateContactsLookup = makeLookup(allCandidateContacts, 'id');
-  }
-);
+  });
 
 type PropsType = ComponentProps<typeof AddGroupMembersModal>;
 
@@ -68,7 +67,7 @@ const createProps = (
         getPreferredBadge={() => undefined}
         theme={ThemeType.light}
         i18n={i18n}
-        lookupConversationWithoutUuid={lookupConversationWithoutUuid}
+        lookupConversationWithoutServiceId={lookupConversationWithoutServiceId}
         showUserNotFoundModal={action('showUserNotFoundModal')}
         isUsernamesEnabled
       />

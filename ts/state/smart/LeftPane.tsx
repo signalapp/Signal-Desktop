@@ -11,7 +11,7 @@ import { DialogExpiredBuild } from '../../components/DialogExpiredBuild';
 import type { PropsType as DialogExpiredBuildPropsType } from '../../components/DialogExpiredBuild';
 import type { StateType } from '../reducer';
 import { missingCaseError } from '../../util/missingCaseError';
-import { lookupConversationWithoutUuid } from '../../util/lookupConversationWithoutUuid';
+import { lookupConversationWithoutServiceId } from '../../util/lookupConversationWithoutServiceId';
 import { isDone as isRegistrationDone } from '../../util/registration';
 
 import { ComposerStep, OneTimeModalState } from '../ducks/conversationsEnums';
@@ -246,7 +246,7 @@ const mapStateToProps = (state: StateType) => {
     renderCrashReportDialog,
     renderExpiredBuildDialog,
     renderUnsupportedOSDialog,
-    lookupConversationWithoutUuid,
+    lookupConversationWithoutServiceId,
     theme: getTheme(state),
   };
 };

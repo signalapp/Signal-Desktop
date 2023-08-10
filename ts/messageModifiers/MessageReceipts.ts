@@ -12,7 +12,7 @@ import { isOutgoing, isStory } from '../state/selectors/message';
 import { getOwn } from '../util/getOwn';
 import { missingCaseError } from '../util/missingCaseError';
 import { createWaitBatcher } from '../util/waitBatcher';
-import type { UUIDStringType } from '../types/UUID';
+import type { ServiceIdString } from '../types/ServiceId';
 import * as Errors from '../types/errors';
 import {
   SendActionType,
@@ -37,7 +37,7 @@ export enum MessageReceiptType {
 export type MessageReceiptAttributesType = {
   messageSentAt: number;
   receiptTimestamp: number;
-  sourceUuid: UUIDStringType;
+  sourceServiceId: ServiceIdString;
   sourceConversationId: string;
   sourceDevice: number;
   type: MessageReceiptType;
@@ -80,7 +80,7 @@ const deleteSentProtoBatcher = createWaitBatcher({
 
 async function getTargetMessage(
   sourceId: string,
-  sourceUuid: UUIDStringType,
+  serviceId: ServiceIdString,
   messages: ReadonlyArray<MessageAttributesType>
 ): Promise<MessageModel | null> {
   if (messages.length === 0) {
@@ -94,7 +94,9 @@ async function getTargetMessage(
     return window.MessageController.register(message.id, message);
   }
 
-  const groups = await window.Signal.Data.getAllGroupsInvolvingUuid(sourceUuid);
+  const groups = await window.Signal.Data.getAllGroupsInvolvingServiceId(
+    serviceId
+  );
 
   const ids = groups.map(item => item.id);
   ids.push(sourceId);
@@ -154,9 +156,9 @@ export class MessageReceipts extends Collection<MessageReceiptModel> {
       return [];
     }
 
-    const ourUuid = window.textsecure.storage.user.getCheckedUuid().toString();
+    const ourAci = window.textsecure.storage.user.getCheckedAci();
     const sourceUuid = getSourceUuid(message.attributes);
-    if (ourUuid !== sourceUuid) {
+    if (ourAci !== sourceUuid) {
       return [];
     }
 
@@ -255,14 +257,14 @@ export class MessageReceipts extends Collection<MessageReceiptModel> {
       type === MessageReceiptType.Read
     ) {
       const recipient = window.ConversationController.get(sourceConversationId);
-      const recipientUuid = recipient?.get('uuid');
+      const recipientServiceId = recipient?.getServiceId();
       const deviceId = receipt.get('sourceDevice');
 
-      if (recipientUuid && deviceId) {
+      if (recipientServiceId && deviceId) {
         await Promise.all([
           deleteSentProtoBatcher.add({
             timestamp: messageSentAt,
-            recipientUuid,
+            recipientServiceId,
             deviceId,
           }),
 
@@ -283,7 +285,7 @@ export class MessageReceipts extends Collection<MessageReceiptModel> {
   async onReceipt(receipt: MessageReceiptModel): Promise<void> {
     const messageSentAt = receipt.get('messageSentAt');
     const sourceConversationId = receipt.get('sourceConversationId');
-    const sourceUuid = receipt.get('sourceUuid');
+    const sourceServiceId = receipt.get('sourceServiceId');
     const type = receipt.get('type');
 
     try {
@@ -293,7 +295,7 @@ export class MessageReceipts extends Collection<MessageReceiptModel> {
 
       const message = await getTargetMessage(
         sourceConversationId,
-        sourceUuid,
+        sourceServiceId,
         messages
       );
 
@@ -315,7 +317,7 @@ export class MessageReceipts extends Collection<MessageReceiptModel> {
             'MessageReceipts: No message for receipt',
             type,
             sourceConversationId,
-            sourceUuid,
+            sourceServiceId,
             messageSentAt
           );
           return;

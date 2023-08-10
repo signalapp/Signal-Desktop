@@ -21,7 +21,8 @@ import {
   Page as StoriesSettingsPage,
 } from './StoriesSettingsModal';
 import type { StoryDistributionListWithMembersDataType } from '../types/Stories';
-import type { UUIDStringType } from '../types/UUID';
+import type { StoryDistributionIdString } from '../types/StoryDistributionId';
+import type { ServiceIdString } from '../types/ServiceId';
 import { Alert } from './Alert';
 import { Avatar, AvatarSize } from './Avatar';
 import { Button, ButtonSize, ButtonVariant } from './Button';
@@ -54,18 +55,18 @@ export type PropsType = {
   i18n: LocalizerType;
   me: ConversationType;
   onClose: () => unknown;
-  onDeleteList: (listId: string) => unknown;
+  onDeleteList: (listId: StoryDistributionIdString) => unknown;
   onDistributionListCreated: (
     name: string,
-    viewerUuids: Array<UUIDStringType>
-  ) => Promise<UUIDStringType>;
+    viewerUuids: Array<ServiceIdString>
+  ) => Promise<StoryDistributionIdString>;
   onSelectedStoryList: (options: {
     conversationId: string;
-    distributionId: string | undefined;
-    uuids: Array<UUIDStringType>;
+    distributionId: StoryDistributionIdString | undefined;
+    serviceIds: Array<ServiceIdString>;
   }) => unknown;
   onSend: (
-    listIds: Array<UUIDStringType>,
+    listIds: Array<StoryDistributionIdString>,
     conversationIds: Array<string>
   ) => unknown;
   signalConnections: Array<ConversationType>;
@@ -99,21 +100,23 @@ const Page = {
 
 type PageType = SendStoryPage | StoriesSettingsPage;
 
-function getListMemberUuids(
+function getListMemberServiceIds(
   list: StoryDistributionListWithMembersDataType,
   signalConnections: Array<ConversationType>
-): Array<UUIDStringType> {
-  const memberUuids = list.members.map(({ uuid }) => uuid).filter(isNotNil);
+): Array<ServiceIdString> {
+  const memberServiceIds = list.members
+    .map(({ uuid }) => uuid)
+    .filter(isNotNil);
 
   if (list.id === MY_STORY_ID && list.isBlockList) {
-    const excludeUuids = new Set<string>(memberUuids);
+    const excludeUuids = new Set<string>(memberServiceIds);
     return signalConnections
       .map(conversation => conversation.uuid)
       .filter(isNotNil)
       .filter(uuid => !excludeUuids.has(uuid));
   }
 
-  return memberUuids;
+  return memberServiceIds;
 }
 
 export function SendStoryModal({
@@ -147,9 +150,9 @@ export function SendStoryModal({
 
   const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard(i18n);
 
-  const [selectedListIds, setSelectedListIds] = useState<Set<UUIDStringType>>(
-    new Set()
-  );
+  const [selectedListIds, setSelectedListIds] = useState<
+    Set<StoryDistributionIdString>
+  >(new Set());
   const [selectedGroupIds, setSelectedGroupIds] = useState<Set<string>>(
     new Set()
   );
@@ -215,7 +218,7 @@ export function SendStoryModal({
     string | undefined
   >();
   const [confirmDeleteList, setConfirmDeleteList] = useState<
-    { id: string; name: string } | undefined
+    { id: StoryDistributionIdString; name: string } | undefined
   >();
 
   const [listIdToEdit, setListIdToEdit] = useState<string | undefined>();
@@ -263,7 +266,7 @@ export function SendStoryModal({
     selectedNames = chosenGroupNames.join(', ');
   } else {
     selectedNames = selectedStoryNames
-      .map(listName => getStoryDistributionListName(i18n, listName, listName))
+      .map(listName => getStoryDistributionListName(i18n, undefined, listName))
       .join(', ');
   }
 
@@ -661,7 +664,7 @@ export function SendStoryModal({
               onSelectedStoryList({
                 conversationId: ourConversationId,
                 distributionId: list.id,
-                uuids: getListMemberUuids(list, signalConnections),
+                serviceIds: getListMemberServiceIds(list, signalConnections),
               });
             }
           }}
@@ -792,7 +795,7 @@ export function SendStoryModal({
               onSelectedStoryList({
                 conversationId: group.id,
                 distributionId: undefined,
-                uuids: group.memberships.map(({ uuid }) => uuid),
+                serviceIds: group.memberships.map(({ uuid }) => uuid),
               });
             }
           }}

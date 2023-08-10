@@ -3,6 +3,7 @@
 
 import { assert } from 'chai';
 
+import { normalizeAci } from '../types/ServiceId';
 import {
   getCountryCodeValue,
   getBucketValue,
@@ -10,7 +11,7 @@ import {
 } from '../RemoteConfig';
 
 describe('RemoteConfig', () => {
-  const uuid = '15b9729c-51ea-4ddb-b516-652befe78062';
+  const uuid = normalizeAci('15b9729c-51ea-4ddb-b516-652befe78062', 'test');
 
   describe('#innerIsBucketValueEnabled', () => {
     // Note: bucketValue is 497941 for 'desktop.stories2' key

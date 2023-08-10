@@ -7,6 +7,7 @@ import { bindActionCreators } from 'redux';
 import { render } from 'react-dom';
 import { batch as batchDispatch } from 'react-redux';
 import PQueue from 'p-queue';
+import { v4 as generateUuid } from 'uuid';
 
 import * as Registration from './util/registration';
 import MessageReceiver from './textsecure/MessageReceiver';
@@ -39,7 +40,6 @@ import { drop } from './util/drop';
 import { explodePromise } from './util/explodePromise';
 import { isWindowDragElement } from './util/isWindowDragElement';
 import { assertDev, strictAssert } from './util/assert';
-import { normalizeUuid } from './util/normalizeUuid';
 import { filter } from './util/iterables';
 import { isNotNil } from './util/isNotNil';
 import { isPnpEnabled } from './util/isPnpEnabled';
@@ -146,8 +146,13 @@ import {
 import { themeChanged } from './shims/themeChanged';
 import { createIPCEvents } from './util/createIPCEvents';
 import { RemoveAllConfiguration } from './types/RemoveAllConfiguration';
-import { isValidUuid, UUIDKind, UUID } from './types/UUID';
-import type { TaggedUUIDStringType } from './types/UUID';
+import type { ServiceIdString } from './types/ServiceId';
+import {
+  ServiceIdKind,
+  isAciString,
+  isServiceIdString,
+  normalizeAci,
+} from './types/ServiceId';
 import * as log from './logging/log';
 import { loadRecentEmojis } from './util/loadRecentEmojis';
 import { deleteAllLogs } from './util/deleteAllLogs';
@@ -594,9 +599,10 @@ export async function startApp(): Promise<void> {
   window.textsecure.storage.protocol.on(
     'lowKeys',
     throttle(
-      (ourUuid: UUID) => {
-        const uuidKind = window.textsecure.storage.user.getOurUuidKind(ourUuid);
-        drop(window.getAccountManager().maybeUpdateKeys(uuidKind));
+      (ourServiceId: ServiceIdString) => {
+        const serviceIdKind =
+          window.textsecure.storage.user.getOurServiceIdKind(ourServiceId);
+        drop(window.getAccountManager().maybeUpdateKeys(serviceIdKind));
       },
       durations.MINUTE,
       { trailing: true, leading: false }
@@ -1322,12 +1328,8 @@ export async function startApp(): Promise<void> {
     window.Whisper.events.on('userChanged', (reconnect = false) => {
       const newDeviceId = window.textsecure.storage.user.getDeviceId();
       const newNumber = window.textsecure.storage.user.getNumber();
-      const newACI = window.textsecure.storage.user
-        .getUuid(UUIDKind.ACI)
-        ?.toString();
-      const newPNI = window.textsecure.storage.user
-        .getUuid(UUIDKind.PNI)
-        ?.toString();
+      const newACI = window.textsecure.storage.user.getAci();
+      const newPNI = window.textsecure.storage.user.getPni();
       const ourConversation =
         window.ConversationController.getOurConversation();
 
@@ -1339,8 +1341,8 @@ export async function startApp(): Promise<void> {
         ourConversationId: ourConversation?.get('id'),
         ourDeviceId: newDeviceId,
         ourNumber: newNumber,
-        ourACI: newACI,
-        ourPNI: newPNI,
+        ourAci: newACI,
+        ourPni: newPNI,
         regionCode: window.storage.get('regionCode'),
       });
 
@@ -1464,7 +1466,7 @@ export async function startApp(): Promise<void> {
     log.info(
       `Expiration start timestamp cleanup: Found ${messagesUnexpectedlyMissingExpirationStartTimestamp.length} messages for cleanup`
     );
-    if (!window.textsecure.storage.user.getUuid()) {
+    if (!window.textsecure.storage.user.getAci()) {
       log.info(
         "Expiration start timestamp cleanup: Cancelling update; we don't have our own UUID"
       );
@@ -1495,7 +1497,7 @@ export async function startApp(): Promise<void> {
         });
 
       await window.Signal.Data.saveMessages(newMessageAttributes, {
-        ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+        ourAci: window.textsecure.storage.user.getCheckedAci(),
       });
     }
     log.info('Expiration start timestamp cleanup: complete');
@@ -1537,7 +1539,7 @@ export async function startApp(): Promise<void> {
     });
 
     const isCoreDataValid = Boolean(
-      window.textsecure.storage.user.getUuid() &&
+      window.textsecure.storage.user.getAci() &&
         window.ConversationController.getOurConversation()
     );
 
@@ -1855,7 +1857,7 @@ export async function startApp(): Promise<void> {
 
       const deviceId = window.textsecure.storage.user.getDeviceId();
 
-      if (!window.textsecure.storage.user.getUuid()) {
+      if (!window.textsecure.storage.user.getAci()) {
         log.error('UUID not captured during registration, unlinking');
         return unlinkAndDisconnect(RemoveAllConfiguration.Full);
       }
@@ -1875,7 +1877,7 @@ export async function startApp(): Promise<void> {
         }
       }
 
-      if (!window.textsecure.storage.user.getUuid(UUIDKind.PNI)) {
+      if (!window.textsecure.storage.user.getPni()) {
         log.error('PNI not captured during registration, unlinking softly');
         return unlinkAndDisconnect(RemoveAllConfiguration.Soft);
       }
@@ -2170,7 +2172,7 @@ export async function startApp(): Promise<void> {
   function onTyping(ev: TypingEvent): void {
     // Note: this type of message is automatically removed from cache in MessageReceiver
 
-    const { typing, sender, senderUuid, senderDevice } = ev;
+    const { typing, sender, senderAci, senderDevice } = ev;
     const { groupV2Id, started } = typing || {};
 
     // We don't do anything with incoming typing messages if the setting is disabled
@@ -2183,7 +2185,7 @@ export async function startApp(): Promise<void> {
     const { conversation: senderConversation } =
       window.ConversationController.maybeMergeContacts({
         e164: sender,
-        aci: senderUuid,
+        aci: senderAci,
         reason: `onTyping(${typing.timestamp})`,
       });
 
@@ -2202,19 +2204,19 @@ export async function startApp(): Promise<void> {
     }
     if (!conversation) {
       log.warn(
-        `onTyping: Did not find conversation for typing indicator (groupv2(${groupV2Id}), ${sender}, ${senderUuid})`
+        `onTyping: Did not find conversation for typing indicator (groupv2(${groupV2Id}), ${sender}, ${senderAci})`
       );
       return;
     }
 
-    const ourACI = window.textsecure.storage.user.getUuid(UUIDKind.ACI);
-    const ourPNI = window.textsecure.storage.user.getUuid(UUIDKind.PNI);
+    const ourAci = window.textsecure.storage.user.getAci();
+    const ourPni = window.textsecure.storage.user.getPni();
 
     // We drop typing notifications in groups we're not a part of
     if (
       !isDirectConversation(conversation.attributes) &&
-      !(ourACI && conversation.hasMember(ourACI)) &&
-      !(ourPNI && conversation.hasMember(ourPNI))
+      !(ourAci && conversation.hasMember(ourAci)) &&
+      !(ourPni && conversation.hasMember(ourPni))
     ) {
       log.warn(
         `Received typing indicator for group ${conversation.idForLogging()}, which we're not a part of. Dropping.`
@@ -2353,12 +2355,15 @@ export async function startApp(): Promise<void> {
   }: EnvelopeUnsealedEvent): Promise<void> {
     throttledSetInboxEnvelopeTimestamp(envelope.serverTimestamp);
 
-    const ourUuid = window.textsecure.storage.user.getUuid()?.toString();
-    if (envelope.sourceUuid && envelope.sourceUuid !== ourUuid) {
+    const ourAci = window.textsecure.storage.user.getAci();
+    if (
+      envelope.sourceServiceId !== ourAci &&
+      isAciString(envelope.sourceServiceId)
+    ) {
       const { mergePromises, conversation } =
         window.ConversationController.maybeMergeContacts({
           e164: envelope.source,
-          aci: envelope.sourceUuid,
+          aci: envelope.sourceServiceId,
           reason: `onEnvelopeUnsealed(${envelope.timestamp})`,
         });
 
@@ -2382,9 +2387,7 @@ export async function startApp(): Promise<void> {
       message: data.message,
       // 'message' event: for 1:1 converations, the conversation is same as sender
       destination: data.source,
-      destinationUuid: {
-        aci: data.sourceUuid,
-      },
+      destinationServiceId: data.sourceAci,
     });
 
     const { PROFILE_KEY_UPDATE } = Proto.DataMessage.Flags;
@@ -2404,11 +2407,14 @@ export async function startApp(): Promise<void> {
       const sender = getContact(message.attributes);
       strictAssert(sender, 'MessageModel has no sender');
 
-      const uuidKind = window.textsecure.storage.user.getOurUuidKind(
-        new UUID(data.destinationUuid)
+      const serviceIdKind = window.textsecure.storage.user.getOurServiceIdKind(
+        data.destinationServiceId
       );
 
-      if (uuidKind === UUIDKind.PNI && !sender.get('shareMyPhoneNumber')) {
+      if (
+        serviceIdKind === ServiceIdKind.PNI &&
+        !sender.get('shareMyPhoneNumber')
+      ) {
         log.info(
           'onMessageReceived: setting shareMyPhoneNumber ' +
             `for ${sender.idForLogging()}`
@@ -2428,12 +2434,12 @@ export async function startApp(): Promise<void> {
 
     if (data.message.reaction) {
       strictAssert(
-        data.message.reaction.targetAuthorUuid,
-        'Reaction without targetAuthorUuid'
+        data.message.reaction.targetAuthorAci,
+        'Reaction without targetAuthorAci'
       );
-      const targetAuthorUuid = normalizeUuid(
-        data.message.reaction.targetAuthorUuid,
-        'DataMessage.Reaction.targetAuthorUuid'
+      const targetAuthorAci = normalizeAci(
+        data.message.reaction.targetAuthorAci,
+        'DataMessage.Reaction.targetAuthorAci'
       );
 
       const { reaction, timestamp } = data.message;
@@ -2448,11 +2454,12 @@ export async function startApp(): Promise<void> {
         reaction.targetTimestamp,
         'Reaction without targetTimestamp'
       );
-      const fromConversation = window.ConversationController.lookupOrCreate({
-        e164: data.source,
-        uuid: data.sourceUuid,
-        reason: 'onMessageReceived:reaction',
-      });
+      const { conversation: fromConversation } =
+        window.ConversationController.maybeMergeContacts({
+          e164: data.source,
+          aci: data.sourceAci,
+          reason: 'onMessageReceived:reaction',
+        });
       strictAssert(fromConversation, 'Reaction without fromConversation');
 
       log.info('Queuing incoming reaction for', reaction.targetTimestamp);
@@ -2462,7 +2469,7 @@ export async function startApp(): Promise<void> {
         remove: reaction.remove,
         source: ReactionSource.FromSomeoneElse,
         storyReactionMessage: message,
-        targetAuthorUuid,
+        targetAuthorUuid: targetAuthorAci,
         targetTimestamp: reaction.targetTimestamp,
         timestamp,
       };
@@ -2483,11 +2490,12 @@ export async function startApp(): Promise<void> {
         'Delete missing targetSentTimestamp'
       );
       strictAssert(data.serverTimestamp, 'Delete missing serverTimestamp');
-      const fromConversation = window.ConversationController.lookupOrCreate({
-        e164: data.source,
-        uuid: data.sourceUuid,
-        reason: 'onMessageReceived:delete',
-      });
+      const { conversation: fromConversation } =
+        window.ConversationController.maybeMergeContacts({
+          e164: data.source,
+          aci: data.sourceAci,
+          reason: 'onMessageReceived:delete',
+        });
       strictAssert(fromConversation, 'Delete missing fromConversation');
 
       const attributes: DeleteAttributesType = {
@@ -2506,11 +2514,12 @@ export async function startApp(): Promise<void> {
       const { editedMessageTimestamp } = data.message;
 
       strictAssert(editedMessageTimestamp, 'Edit missing targetSentTimestamp');
-      const fromConversation = window.ConversationController.lookupOrCreate({
-        e164: data.source,
-        uuid: data.sourceUuid,
-        reason: 'onMessageReceived:edit',
-      });
+      const { conversation: fromConversation } =
+        window.ConversationController.maybeMergeContacts({
+          aci: data.sourceAci,
+          e164: data.source,
+          reason: 'onMessageReceived:edit',
+        });
       strictAssert(fromConversation, 'Edit missing fromConversation');
 
       log.info('Queuing incoming edit for', {
@@ -2547,7 +2556,7 @@ export async function startApp(): Promise<void> {
     confirm,
   }: ProfileKeyUpdateEvent): Promise<void> {
     const { conversation } = window.ConversationController.maybeMergeContacts({
-      aci: data.sourceUuid,
+      aci: data.sourceAci,
       e164: data.source,
       reason: 'onProfileKeyUpdate',
     });
@@ -2560,7 +2569,7 @@ export async function startApp(): Promise<void> {
 
     log.info(
       'onProfileKeyUpdate: updating profileKey for',
-      data.sourceUuid,
+      data.sourceAci,
       data.source
     );
 
@@ -2617,10 +2626,10 @@ export async function startApp(): Promise<void> {
       unidentifiedStatus.reduce(
         (
           result: SendStateByConversationId,
-          { destinationUuid, destination, isAllowedToReplyToStory }
+          { destinationServiceId, destination, isAllowedToReplyToStory }
         ) => {
           const conversation = window.ConversationController.get(
-            destinationUuid?.aci || destinationUuid?.pni || destination
+            destinationServiceId || destination
           );
           if (!conversation || conversation.id === ourId) {
             return result;
@@ -2647,17 +2656,12 @@ export async function startApp(): Promise<void> {
     if (unidentifiedStatus.length) {
       unidentifiedDeliveries = unidentifiedStatus
         .filter(item => Boolean(item.unidentified))
-        .map(
-          item =>
-            item.destinationUuid?.aci ||
-            item.destinationUuid?.pni ||
-            item.destination
-        )
+        .map(item => item.destinationServiceId || item.destination)
         .filter(isNotNil);
     }
 
     const partialMessage: MessageAttributesType = {
-      id: UUID.generate().toString(),
+      id: generateUuid(),
       canReplyToStory: data.message.isStory
         ? data.message.canReplyToStory
         : undefined,
@@ -2675,7 +2679,7 @@ export async function startApp(): Promise<void> {
       serverTimestamp: data.serverTimestamp,
       source: window.textsecure.storage.user.getNumber(),
       sourceDevice: data.device,
-      sourceUuid: window.textsecure.storage.user.getUuid()?.toString(),
+      sourceUuid: window.textsecure.storage.user.getAci(),
       timestamp,
       type: data.message.isStory ? 'story' : 'outgoing',
       storyDistributionListId: data.storyDistributionListId,
@@ -2689,11 +2693,11 @@ export async function startApp(): Promise<void> {
   const getMessageDescriptor = ({
     message,
     destination,
-    destinationUuid,
+    destinationServiceId,
   }: {
     message: ProcessedDataMessage;
     destination?: string;
-    destinationUuid?: TaggedUUIDStringType;
+    destinationServiceId?: ServiceIdString;
   }): MessageDescriptor => {
     if (message.groupV2) {
       const { id } = message.groupV2;
@@ -2734,7 +2738,7 @@ export async function startApp(): Promise<void> {
     }
 
     const conversation = window.ConversationController.get(
-      destinationUuid?.aci || destinationUuid?.pni || destination
+      destinationServiceId || destination
     );
     strictAssert(conversation, 'Destination conversation cannot be created');
 
@@ -2751,7 +2755,7 @@ export async function startApp(): Promise<void> {
     const { data, confirm } = event;
 
     const source = window.textsecure.storage.user.getNumber();
-    const sourceUuid = window.textsecure.storage.user.getUuid()?.toString();
+    const sourceUuid = window.textsecure.storage.user.getAci();
     strictAssert(source && sourceUuid, 'Missing user number and uuid');
 
     const messageDescriptor = getMessageDescriptor({
@@ -2773,18 +2777,18 @@ export async function startApp(): Promise<void> {
 
     if (data.message.reaction) {
       strictAssert(
-        data.message.reaction.targetAuthorUuid,
-        'Reaction without targetAuthorUuid'
+        data.message.reaction.targetAuthorAci,
+        'Reaction without targetAuthorAci'
       );
-      const targetAuthorUuid = normalizeUuid(
-        data.message.reaction.targetAuthorUuid,
-        'DataMessage.Reaction.targetAuthorUuid'
+      const targetAuthorAci = normalizeAci(
+        data.message.reaction.targetAuthorAci,
+        'DataMessage.Reaction.targetAuthorAci'
       );
 
       const { reaction, timestamp } = data.message;
       strictAssert(
         reaction.targetTimestamp,
-        'Reaction without targetAuthorUuid'
+        'Reaction without targetAuthorAci'
       );
 
       if (!isValidReactionEmoji(reaction.emoji)) {
@@ -2800,7 +2804,7 @@ export async function startApp(): Promise<void> {
         remove: reaction.remove,
         source: ReactionSource.FromSync,
         storyReactionMessage: message,
-        targetAuthorUuid,
+        targetAuthorUuid: targetAuthorAci,
         targetTimestamp: reaction.targetTimestamp,
         timestamp,
       };
@@ -2882,7 +2886,7 @@ export async function startApp(): Promise<void> {
       `Did not receive receivedAtCounter for message: ${data.timestamp}`
     );
     const partialMessage: MessageAttributesType = {
-      id: UUID.generate().toString(),
+      id: generateUuid(),
       canReplyToStory: data.message.isStory
         ? data.message.canReplyToStory
         : undefined,
@@ -2896,7 +2900,7 @@ export async function startApp(): Promise<void> {
       serverTimestamp: data.serverTimestamp,
       source: data.source,
       sourceDevice: data.sourceDevice,
-      sourceUuid: data.sourceUuid ? UUID.cast(data.sourceUuid) : undefined,
+      sourceUuid: data.sourceAci,
       timestamp: data.timestamp,
       type: data.message.isStory ? 'story' : 'incoming',
       unidentifiedDeliveryReceived: data.unidentifiedDeliveryReceived,
@@ -3033,14 +3037,14 @@ export async function startApp(): Promise<void> {
   function onViewOnceOpenSync(ev: ViewOnceOpenSyncEvent): void {
     ev.confirm();
 
-    const { source, sourceUuid, timestamp } = ev;
+    const { source, sourceAci, timestamp } = ev;
     log.info(`view once open sync ${source} ${timestamp}`);
-    strictAssert(sourceUuid, 'ViewOnceOpen without sourceUuid');
+    strictAssert(sourceAci, 'ViewOnceOpen without sourceAci');
     strictAssert(timestamp, 'ViewOnceOpen without timestamp');
 
     const attributes: ViewOnceOpenSyncAttributesType = {
       source,
-      sourceUuid,
+      sourceAci,
       timestamp,
     };
     const sync = ViewOnceOpenSyncs.getSingleton().add(attributes);
@@ -3058,9 +3062,9 @@ export async function startApp(): Promise<void> {
     switch (eventType) {
       case FETCH_LATEST_ENUM.LOCAL_PROFILE: {
         log.info('onFetchLatestSync: fetching latest local profile');
-        const ourUuid = window.textsecure.storage.user.getUuid()?.toString();
+        const ourAci = window.textsecure.storage.user.getAci();
         const ourE164 = window.textsecure.storage.user.getNumber();
-        await getProfile(ourUuid, ourE164);
+        await getProfile(ourAci, ourE164);
         break;
       }
       case FETCH_LATEST_ENUM.STORAGE_MANIFEST:
@@ -3111,12 +3115,11 @@ export async function startApp(): Promise<void> {
   function onMessageRequestResponse(ev: MessageRequestResponseEvent): void {
     ev.confirm();
 
-    const { threadE164, threadUuid, groupV2Id, messageRequestResponseType } =
-      ev;
+    const { threadE164, threadAci, groupV2Id, messageRequestResponseType } = ev;
 
     log.info('onMessageRequestResponse', {
       threadE164,
-      threadUuid,
+      threadAci,
       groupV2Id: `groupv2(${groupV2Id})`,
       messageRequestResponseType,
     });
@@ -3128,7 +3131,7 @@ export async function startApp(): Promise<void> {
 
     const attributes: MessageRequestAttributesType = {
       threadE164,
-      threadUuid,
+      threadAci,
       groupV2Id,
       type: messageRequestResponseType,
     };
@@ -3166,19 +3169,19 @@ export async function startApp(): Promise<void> {
       envelopeTimestamp,
       timestamp,
       source,
-      sourceUuid,
+      sourceServiceId,
       sourceDevice,
       wasSentEncrypted,
     } = event.receipt;
-    const { conversation: sourceConversation } =
-      window.ConversationController.maybeMergeContacts({
-        aci: sourceUuid,
-        e164: source,
-        reason: `onReadOrViewReceipt(${envelopeTimestamp})`,
-      });
+    const sourceConversation = window.ConversationController.lookupOrCreate({
+      uuid: sourceServiceId,
+      e164: source,
+      reason: `onReadOrViewReceipt(${envelopeTimestamp})`,
+    });
+    strictAssert(sourceConversation, 'Failed to create conversation');
     log.info(
       logTitle,
-      `${sourceUuid || source}.${sourceDevice}`,
+      `${sourceServiceId || source}.${sourceDevice}`,
       envelopeTimestamp,
       'for sent message',
       timestamp
@@ -3187,8 +3190,8 @@ export async function startApp(): Promise<void> {
     event.confirm();
 
     strictAssert(
-      isValidUuid(sourceUuid),
-      'onReadOrViewReceipt: Missing sourceUuid'
+      isServiceIdString(sourceServiceId),
+      'onReadOrViewReceipt: Missing sourceServiceId'
     );
     strictAssert(sourceDevice, 'onReadOrViewReceipt: Missing sourceDevice');
 
@@ -3196,7 +3199,7 @@ export async function startApp(): Promise<void> {
       messageSentAt: timestamp,
       receiptTimestamp: envelopeTimestamp,
       sourceConversationId: sourceConversation.id,
-      sourceUuid,
+      sourceServiceId,
       sourceDevice,
       type,
       wasSentEncrypted,
@@ -3208,19 +3211,20 @@ export async function startApp(): Promise<void> {
   }
 
   function onReadSync(ev: ReadSyncEvent): Promise<void> {
-    const { envelopeTimestamp, sender, senderUuid, timestamp } = ev.read;
+    const { envelopeTimestamp, sender, senderAci, timestamp } = ev.read;
     const readAt = envelopeTimestamp;
-    const senderConversation = window.ConversationController.lookupOrCreate({
-      e164: sender,
-      uuid: senderUuid,
-      reason: 'onReadSync',
-    });
+    const { conversation: senderConversation } =
+      window.ConversationController.maybeMergeContacts({
+        aci: senderAci,
+        e164: sender,
+        reason: 'onReadSync',
+      });
     const senderId = senderConversation?.id;
 
     log.info(
       'read sync',
       sender,
-      senderUuid,
+      senderAci,
       envelopeTimestamp,
       senderId,
       'for message',
@@ -3228,13 +3232,13 @@ export async function startApp(): Promise<void> {
     );
 
     strictAssert(senderId, 'onReadSync missing senderId');
-    strictAssert(senderUuid, 'onReadSync missing senderUuid');
+    strictAssert(senderAci, 'onReadSync missing senderAci');
     strictAssert(timestamp, 'onReadSync missing timestamp');
 
     const attributes: ReadSyncAttributesType = {
       senderId,
       sender,
-      senderUuid,
+      senderAci,
       timestamp,
       readAt,
     };
@@ -3248,18 +3252,19 @@ export async function startApp(): Promise<void> {
   }
 
   function onViewSync(ev: ViewSyncEvent): Promise<void> {
-    const { envelopeTimestamp, senderE164, senderUuid, timestamp } = ev.view;
-    const senderConversation = window.ConversationController.lookupOrCreate({
-      e164: senderE164,
-      uuid: senderUuid,
-      reason: 'onViewSync',
-    });
+    const { envelopeTimestamp, senderE164, senderAci, timestamp } = ev.view;
+    const { conversation: senderConversation } =
+      window.ConversationController.maybeMergeContacts({
+        e164: senderE164,
+        aci: senderAci,
+        reason: 'onViewSync',
+      });
     const senderId = senderConversation?.id;
 
     log.info(
       'view sync',
       senderE164,
-      senderUuid,
+      senderAci,
       envelopeTimestamp,
       senderId,
       'for message',
@@ -3267,13 +3272,13 @@ export async function startApp(): Promise<void> {
     );
 
     strictAssert(senderId, 'onViewSync missing senderId');
-    strictAssert(senderUuid, 'onViewSync missing senderUuid');
+    strictAssert(senderAci, 'onViewSync missing senderAci');
     strictAssert(timestamp, 'onViewSync missing timestamp');
 
     const attributes: ViewSyncAttributesType = {
       senderId,
       senderE164,
-      senderUuid,
+      senderAci,
       timestamp,
       viewedAt: envelopeTimestamp,
     };
@@ -3290,7 +3295,7 @@ export async function startApp(): Promise<void> {
     const { deliveryReceipt } = ev;
     const {
       envelopeTimestamp,
-      sourceUuid,
+      sourceServiceId,
       source,
       sourceDevice,
       timestamp,
@@ -3299,16 +3304,15 @@ export async function startApp(): Promise<void> {
 
     ev.confirm();
 
-    const { conversation: sourceConversation } =
-      window.ConversationController.maybeMergeContacts({
-        aci: sourceUuid,
-        e164: source,
-        reason: `onDeliveryReceipt(${envelopeTimestamp})`,
-      });
+    const sourceConversation = window.ConversationController.lookupOrCreate({
+      uuid: sourceServiceId,
+      e164: source,
+      reason: `onDeliveryReceipt(${envelopeTimestamp})`,
+    });
 
     log.info(
       'delivery receipt from',
-      `${sourceUuid || source}.${sourceDevice}`,
+      `${sourceServiceId || source}.${sourceDevice}`,
       envelopeTimestamp,
       'for sent message',
       timestamp,
@@ -3320,8 +3324,8 @@ export async function startApp(): Promise<void> {
       'onDeliveryReceipt: missing envelopeTimestamp'
     );
     strictAssert(
-      isValidUuid(sourceUuid),
-      'onDeliveryReceipt: missing valid sourceUuid'
+      isServiceIdString(sourceServiceId),
+      'onDeliveryReceipt: missing valid sourceServiceId'
     );
     strictAssert(sourceDevice, 'onDeliveryReceipt: missing sourceDevice');
 
@@ -3329,7 +3333,7 @@ export async function startApp(): Promise<void> {
       messageSentAt: timestamp,
       receiptTimestamp: envelopeTimestamp,
       sourceConversationId: sourceConversation?.id,
-      sourceUuid,
+      sourceServiceId,
       sourceDevice,
       type: MessageReceiptType.Delivery,
       wasSentEncrypted,

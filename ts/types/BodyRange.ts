@@ -8,6 +8,7 @@ import { escapeRegExp, isNumber, omit } from 'lodash';
 import { SignalService as Proto } from '../protobuf';
 import * as log from '../logging/log';
 import { missingCaseError } from '../util/missingCaseError';
+import { isNotNil } from '../util/isNotNil';
 import type { ConversationType } from '../state/ducks/conversations';
 import {
   SNIPPET_LEFT_PLACEHOLDER,
@@ -15,6 +16,8 @@ import {
   SNIPPET_TRUNCATION_PLACEHOLDER,
 } from '../util/search';
 import { assertDev } from '../util/assert';
+import type { AciString } from './ServiceId';
+import { normalizeAci } from './ServiceId';
 
 // Cold storage of body ranges
 
@@ -37,7 +40,7 @@ export namespace BodyRange {
   export const { Style } = Proto.DataMessage.BodyRange;
 
   export type Mention = {
-    mentionUuid: string;
+    mentionUuid: AciString;
   };
   export type Link = {
     url: string;
@@ -144,7 +147,10 @@ const MENTION_NAME = 'mention';
 
 // We drop unknown bodyRanges and remove extra stuff so they serialize properly
 export function filterAndClean(
-  ranges: ReadonlyArray<Proto.DataMessage.IBodyRange> | undefined | null
+  ranges:
+    | ReadonlyArray<Proto.DataMessage.IBodyRange | RawBodyRange>
+    | undefined
+    | null
 ): ReadonlyArray<RawBodyRange> | undefined {
   if (!ranges) {
     return undefined;
@@ -164,35 +170,54 @@ export function filterAndClean(
   };
 
   return ranges
-    .filter((range: Proto.DataMessage.IBodyRange): range is RawBodyRange => {
-      if (!isNumber(range.start)) {
+    .map(range => {
+      const { start, length, ...restOfRange } = range;
+      if (!isNumber(start)) {
         log.warn('filterAndClean: Dropping bodyRange with non-number start');
-        return false;
+        return undefined;
       }
-      if (!isNumber(range.length)) {
+      if (!isNumber(length)) {
         log.warn('filterAndClean: Dropping bodyRange with non-number length');
-        return false;
+        return undefined;
       }
 
-      if (range.mentionUuid) {
+      let mentionUuid: AciString | undefined;
+      if ('mentionAci' in range && range.mentionAci) {
+        mentionUuid = normalizeAci(range.mentionAci, 'BodyRange.mentionAci');
+      } else if ('mentionUuid' in range && range.mentionUuid) {
+        mentionUuid = normalizeAci(range.mentionUuid, 'BodyRange.mentionUuid');
+      }
+
+      if (mentionUuid) {
         countByTypeRecord[MENTION_NAME] += 1;
         if (countByTypeRecord[MENTION_NAME] > MAX_PER_TYPE) {
-          return false;
+          return undefined;
         }
-        return true;
+
+        return {
+          ...restOfRange,
+          start,
+          length,
+          mentionUuid,
+        };
       }
-      if (range.style) {
+      if ('style' in range && range.style) {
         countByTypeRecord[range.style] += 1;
         if (countByTypeRecord[range.style] > MAX_PER_TYPE) {
-          return false;
+          return undefined;
         }
-        return true;
+        return {
+          ...restOfRange,
+          start,
+          length,
+          style: range.style,
+        };
       }
 
       log.warn('filterAndClean: Dropping unknown bodyRange');
-      return false;
+      return undefined;
     })
-    .map(range => ({ ...range }));
+    .filter(isNotNil);
 }
 
 export function hydrateRanges(

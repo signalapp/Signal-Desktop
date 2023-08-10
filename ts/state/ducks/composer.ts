@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import path from 'path';
-
 import { debounce, isEqual } from 'lodash';
 import type { ThunkAction, ThunkDispatch } from 'redux-thunk';
+import { v4 as generateUuid } from 'uuid';
 
 import type { ReadonlyDeep } from 'type-fest';
 import type {
@@ -27,7 +27,6 @@ import type {
 import type { NoopActionType } from './noop';
 import type { ShowToastActionType } from './toast';
 import type { StateType as RootStateType } from '../reducer';
-import type { UUIDStringType } from '../../types/UUID';
 import * as log from '../../logging/log';
 import * as Errors from '../../types/errors';
 import * as LinkPreview from '../../types/LinkPreview';
@@ -42,7 +41,6 @@ import { SHOW_TOAST } from './toast';
 import type { AnyToast } from '../../types/Toast';
 import { ToastType } from '../../types/Toast';
 import { SafetyNumberChangeSource } from '../../components/SafetyNumberChangeDialog';
-import { UUID } from '../../types/UUID';
 import { assignWithNoUnnecessaryAllocation } from '../../util/assignWithNoUnnecessaryAllocation';
 import { blockSendUntilConversationsAreVerified } from '../../util/blockSendUntilConversationsAreVerified';
 import { clearConversationDraftAttachments } from '../../util/clearConversationDraftAttachments';
@@ -105,7 +103,7 @@ type ComposerStateByConversationType = {
   isDisabled: boolean;
   linkPreviewLoading: boolean;
   linkPreviewResult?: LinkPreviewType;
-  messageCompositionId: UUIDStringType;
+  messageCompositionId: string;
   quotedMessage?: Pick<MessageAttributesType, 'conversationId' | 'quote'>;
   sendCounter: number;
   shouldSendHighQualityAttachments?: boolean;
@@ -128,7 +126,7 @@ function getEmptyComposerState(): ComposerStateByConversationType {
     focusCounter: 0,
     isDisabled: false,
     linkPreviewLoading: false,
-    messageCompositionId: UUID.generate().toString(),
+    messageCompositionId: generateUuid(),
     sendCounter: 0,
   };
 }

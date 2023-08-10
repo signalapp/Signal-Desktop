@@ -12,15 +12,16 @@ import {
 } from '../Crypto';
 import { calculateAgreement, createKeyPair, generateKeyPair } from '../Curve';
 import { SignalService as Proto } from '../protobuf';
+import type { PniString, AciString } from '../types/ServiceId';
+import { normalizeAci, normalizePni } from '../types/ServiceId';
 import { strictAssert } from '../util/assert';
-import { normalizeUuid } from '../util/normalizeUuid';
 
 type ProvisionDecryptResult = {
   aciKeyPair: KeyPairType;
   pniKeyPair?: KeyPairType;
   number?: string;
-  aci?: string;
-  pni?: string;
+  aci?: AciString;
+  pni?: PniString;
   provisioningCode?: string;
   userAgent?: string;
   readReceipts?: boolean;
@@ -78,8 +79,8 @@ class ProvisioningCipherInner {
       aciKeyPair,
       pniKeyPair,
       number: provisionMessage.number,
-      aci: normalizeUuid(aci, 'ProvisionMessage.aci'),
-      pni: pni ? normalizeUuid(pni, 'ProvisionMessage.pni') : undefined,
+      aci: normalizeAci(aci, 'ProvisionMessage.aci'),
+      pni: pni ? normalizePni(pni, 'ProvisionMessage.pni') : undefined,
       provisioningCode: provisionMessage.provisioningCode,
       userAgent: provisionMessage.userAgent,
       readReceipts: provisionMessage.readReceipts,

@@ -22,6 +22,7 @@ import { SignalService as Proto } from '../protobuf';
 import { bytesToUuid, uuidToBytes } from './uuidToBytes';
 import { missingCaseError } from './missingCaseError';
 import { CallEndedReason, CallMode } from '../types/Calling';
+import type { ServiceIdString } from '../types/ServiceId';
 import { isMe } from './whatTypeOfConversation';
 import * as log from '../logging/log';
 import * as Errors from '../types/errors';
@@ -124,7 +125,7 @@ export function getGroupCallMeta(
 
 export function getPeerIdFromConversation(
   conversation: ConversationAttributesType | ConversationType
-): string {
+): ServiceIdString | string {
   if (conversation.type === 'direct' || conversation.type === 'private') {
     strictAssert(conversation.uuid != null, 'UUID must exist for direct chat');
     return conversation.uuid;
@@ -382,7 +383,7 @@ function getCallDirectionFromRingerId(ringerId: string): CallDirection {
 // ------------
 
 export function getCallDetailsFromDirectCall(
-  peerId: string,
+  peerId: ServiceIdString | string,
   call: Call
 ): CallDetails {
   return callDetailsSchema.parse({
@@ -400,7 +401,7 @@ export function getCallDetailsFromDirectCall(
 
 export function getCallDetailsFromEndedDirectCall(
   callId: string,
-  peerId: string,
+  peerId: ServiceIdString | string,
   ringerId: string,
   wasVideoCall: boolean,
   timestamp: number
@@ -417,7 +418,7 @@ export function getCallDetailsFromEndedDirectCall(
 }
 
 export function getCallDetailsFromGroupCallMeta(
-  peerId: string,
+  peerId: ServiceIdString | string,
   groupCallMeta: GroupCallMeta
 ): CallDetails {
   return callDetailsSchema.parse({
@@ -754,7 +755,7 @@ async function updateLocalCallHistory(
       };
 
       const id = await window.Signal.Data.saveMessage(message, {
-        ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+        ourAci: window.textsecure.storage.user.getCheckedAci(),
         // We don't want to force save if we're updating an existing message
         forceSave: prevMessage == null,
       });
@@ -808,7 +809,7 @@ async function updateRemoteCallHistory(
   );
 
   try {
-    const myUuid = window.textsecure.storage.user.getCheckedUuid();
+    const myUuid = window.textsecure.storage.user.getCheckedAci();
     const syncMessage = MessageSender.createSyncMessage();
 
     syncMessage.callEvent = getProtoForCallHistory(callHistory);
@@ -878,7 +879,7 @@ export async function clearCallHistoryDataAndSync(): Promise<void> {
       window.MessageController.unregister(messageId);
     });
 
-    const myUuid = window.textsecure.storage.user.getCheckedUuid();
+    const ourAci = window.textsecure.storage.user.getCheckedAci();
 
     const callLogEvent = new Proto.SyncMessage.CallLogEvent({
       type: Proto.SyncMessage.CallLogEvent.Type.CLEAR,
@@ -896,7 +897,7 @@ export async function clearCallHistoryDataAndSync(): Promise<void> {
     log.info('clearCallHistory: Queueing sync message');
     await singleProtoJobQueue.add({
       contentHint: ContentHint.RESENDABLE,
-      identifier: myUuid.toString(),
+      identifier: ourAci,
       isSyncMessage: true,
       protoBase64: Bytes.toBase64(
         Proto.Content.encode(contentMessage).finish()

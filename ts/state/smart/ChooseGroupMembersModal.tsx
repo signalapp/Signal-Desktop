@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import type { StateType } from '../reducer';
 import { mapDispatchToProps } from '../actions';
 import { strictAssert } from '../../util/assert';
-import { lookupConversationWithoutUuid } from '../../util/lookupConversationWithoutUuid';
+import { lookupConversationWithoutServiceId } from '../../util/lookupConversationWithoutServiceId';
 
 import type { StatePropsType } from '../../components/conversation/conversation-details/AddGroupMembersModal/ChooseGroupMembersModal';
 import { ChooseGroupMembersModal } from '../../components/conversation/conversation-details/AddGroupMembersModal/ChooseGroupMembersModal';
@@ -55,7 +55,7 @@ const mapStateToProps = (
     i18n: getIntl(state),
     theme: getTheme(state),
     selectedContacts,
-    lookupConversationWithoutUuid,
+    lookupConversationWithoutServiceId,
     isUsernamesEnabled: getUsernamesEnabled(state),
   };
 };

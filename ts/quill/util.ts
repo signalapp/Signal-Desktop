@@ -15,9 +15,10 @@ import { BodyRange } from '../types/BodyRange';
 import type { MentionBlot } from './mentions/blot';
 import { isNewlineOnlyOp, QuillFormattingStyle } from './formatting/menu';
 import { isNotNil } from '../util/isNotNil';
+import type { AciString } from '../types/ServiceId';
 
 export type MentionBlotValue = {
-  uuid: string;
+  uuid: AciString;
   title: string;
 };
 

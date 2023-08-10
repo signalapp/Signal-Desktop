@@ -7,17 +7,16 @@ import { ToastFailedToFetchUsername } from '../components/ToastFailedToFetchUser
 import { ToastFailedToFetchPhoneNumber } from '../components/ToastFailedToFetchPhoneNumber';
 import type { UserNotFoundModalStateType } from '../state/ducks/globalModals';
 import * as log from '../logging/log';
-import { UUID } from '../types/UUID';
-import type { UUIDStringType } from '../types/UUID';
+import type { AciString } from '../types/ServiceId';
 import * as Errors from '../types/errors';
 import { HTTPError } from '../textsecure/Errors';
 import { showToast } from './showToast';
 import { strictAssert } from './assert';
 import type { UUIDFetchStateKeyType } from './uuidFetchState';
-import { getUuidsForE164s } from './getUuidsForE164s';
+import { getServiceIdsForE164s } from './getServiceIdsForE164s';
 
-export type LookupConversationWithoutUuidActionsType = Readonly<{
-  lookupConversationWithoutUuid: typeof lookupConversationWithoutUuid;
+export type LookupConversationWithoutServiceIdActionsType = Readonly<{
+  lookupConversationWithoutServiceId: typeof lookupConversationWithoutServiceId;
   showUserNotFoundModal: (state: UserNotFoundModalStateType) => void;
   setIsFetchingUUID: (
     identifier: UUIDFetchStateKeyType,
@@ -25,9 +24,9 @@ export type LookupConversationWithoutUuidActionsType = Readonly<{
   ) => void;
 }>;
 
-export type LookupConversationWithoutUuidOptionsType = Omit<
-  LookupConversationWithoutUuidActionsType,
-  'lookupConversationWithoutUuid'
+export type LookupConversationWithoutServiceIdOptionsType = Omit<
+  LookupConversationWithoutServiceIdActionsType,
+  'lookupConversationWithoutServiceId'
 > &
   Readonly<
     | {
@@ -42,12 +41,12 @@ export type LookupConversationWithoutUuidOptionsType = Omit<
   >;
 
 type FoundUsernameType = {
-  uuid: UUIDStringType;
+  uuid: AciString;
   username: string;
 };
 
-export async function lookupConversationWithoutUuid(
-  options: LookupConversationWithoutUuidOptionsType
+export async function lookupConversationWithoutServiceId(
+  options: LookupConversationWithoutServiceIdOptionsType
 ): Promise<string | undefined> {
   const knownConversation = window.ConversationController.get(
     options.type === 'e164' ? options.e164 : options.username
@@ -72,7 +71,7 @@ export async function lookupConversationWithoutUuid(
   try {
     let conversationId: string | undefined;
     if (options.type === 'e164') {
-      const serverLookup = await getUuidsForE164s(server, [options.e164]);
+      const serverLookup = await getServiceIdsForE164s(server, [options.e164]);
 
       const maybePair = serverLookup.get(options.e164);
 
@@ -91,7 +90,7 @@ export async function lookupConversationWithoutUuid(
       if (foundUsername) {
         const convo = window.ConversationController.lookupOrCreate({
           uuid: foundUsername.uuid,
-          reason: 'lookupConversationWithoutUuid',
+          reason: 'lookupConversationWithoutServiceId',
         });
 
         strictAssert(convo, 'We just ensured conversation existence');
@@ -160,7 +159,7 @@ async function checkForUsername(
     }
 
     return {
-      uuid: UUID.cast(account.uuid),
+      uuid: account.uuid,
       username,
     };
   } catch (error) {

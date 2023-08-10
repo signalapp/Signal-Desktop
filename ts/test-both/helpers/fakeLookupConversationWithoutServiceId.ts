@@ -7,7 +7,7 @@ import type {
   UUIDFetchStateType,
   UUIDFetchStateKeyType,
 } from '../../util/uuidFetchState';
-import type { lookupConversationWithoutUuid } from '../../util/lookupConversationWithoutUuid';
+import type { lookupConversationWithoutServiceId } from '../../util/lookupConversationWithoutServiceId';
 import { sleep } from '../../util/sleep';
 import * as durations from '../../util/durations';
 import type { ConversationType } from '../../state/ducks/conversations';
@@ -18,9 +18,9 @@ const VALID_IDENTIFIERS = new Set<UUIDFetchStateKeyType>([
   'username:bobross',
 ]);
 
-export function makeFakeLookupConversationWithoutUuid(
+export function makeFakeLookupConversationWithoutServiceId(
   saveConversation?: (convo: ConversationType) => void
-): typeof lookupConversationWithoutUuid {
+): typeof lookupConversationWithoutServiceId {
   const cache = new Map<UUIDFetchStateKeyType, ConversationType>();
 
   return async options => {

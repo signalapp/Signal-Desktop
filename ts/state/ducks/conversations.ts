@@ -63,7 +63,14 @@ import type {
 } from '../../types/BodyRange';
 import { CallMode } from '../../types/Calling';
 import type { MediaItemType } from '../../types/MediaItem';
-import type { UUIDStringType } from '../../types/UUID';
+import type { StoryDistributionIdString } from '../../types/StoryDistributionId';
+import { normalizeStoryDistributionId } from '../../types/StoryDistributionId';
+import type {
+  ServiceIdString,
+  AciString,
+  PniString,
+} from '../../types/ServiceId';
+import { isAciString } from '../../types/ServiceId';
 import { MY_STORY_ID, StorySendMode } from '../../types/Stories';
 import * as Errors from '../../types/errors';
 import {
@@ -76,7 +83,7 @@ import type { GroupNameCollisionsWithIdsByTitle } from '../../util/groupMemberNa
 import { ContactSpoofingType } from '../../util/contactSpoofing';
 import { writeProfile } from '../../services/writeProfile';
 import {
-  getConversationUuidsStoppingSend,
+  getConversationServiceIdsStoppingSend,
   getConversationIdsStoppedForVerification,
   getConversationSelector,
   getMe,
@@ -139,7 +146,6 @@ import { isNotNil } from '../../util/isNotNil';
 import { PanelType } from '../../types/Panels';
 import { startConversation } from '../../util/startConversation';
 import { getMessageSentTimestamp } from '../../util/getMessageSentTimestamp';
-import { UUIDKind } from '../../types/UUID';
 import { removeLinkPreview } from '../../services/LinkPreview';
 import type {
   ReplaceAttachmentsActionType,
@@ -213,8 +219,8 @@ export type DraftPreviewType = ReadonlyDeep<{
 export type ConversationType = ReadonlyDeep<
   {
     id: string;
-    uuid?: UUIDStringType;
-    pni?: UUIDStringType;
+    uuid?: ServiceIdString;
+    pni?: PniString;
     e164?: string;
     name?: string;
     systemGivenName?: string;
@@ -268,17 +274,17 @@ export type ConversationType = ReadonlyDeep<
     announcementsOnlyReady?: boolean;
     expireTimer?: DurationInSeconds;
     memberships?: ReadonlyArray<{
-      uuid: UUIDStringType;
+      uuid: AciString;
       isAdmin: boolean;
     }>;
     pendingMemberships?: ReadonlyArray<{
-      uuid: UUIDStringType;
-      addedByUserId?: UUIDStringType;
+      uuid: ServiceIdString;
+      addedByUserId?: AciString;
     }>;
     pendingApprovalMemberships?: ReadonlyArray<{
-      uuid: UUIDStringType;
+      uuid: AciString;
     }>;
-    bannedMemberships?: ReadonlyArray<UUIDStringType>;
+    bannedMemberships?: ReadonlyArray<ServiceIdString>;
     muteExpiresAt?: number;
     dontNotifyForMentionsIfMuted?: boolean;
     isMe: boolean;
@@ -407,15 +413,18 @@ type ComposerGroupCreationState = ReadonlyDeep<{
 }>;
 
 type DistributionVerificationData = ReadonlyDeep<{
-  uuidsNeedingVerification: Array<UUIDStringType>;
+  serviceIdsNeedingVerification: Array<ServiceIdString>;
 }>;
 
 export type ConversationVerificationData = ReadonlyDeep<
   | {
       type: ConversationVerificationState.PendingVerification;
-      uuidsNeedingVerification: ReadonlyArray<UUIDStringType>;
+      serviceIdsNeedingVerification: ReadonlyArray<ServiceIdString>;
 
-      byDistributionId?: Record<string, DistributionVerificationData>;
+      byDistributionId?: Record<
+        StoryDistributionIdString,
+        DistributionVerificationData
+      >;
     }
   | {
       type: ConversationVerificationState.VerificationCancelled;
@@ -462,7 +471,7 @@ type ContactSpoofingReviewStateType = ReadonlyDeep<
 // eslint-disable-next-line local-rules/type-alias-readonlydeep -- FIXME
 export type ConversationsStateType = Readonly<{
   preJoinConversation?: PreJoinConversationType;
-  invitedUuidsForNewlyCreatedGroup?: ReadonlyArray<string>;
+  invitedServiceIdsForNewlyCreatedGroup?: ReadonlyArray<ServiceIdString>;
   conversationLookup: ConversationLookupType;
   conversationsByE164: ConversationLookupType;
   conversationsByUuid: ConversationLookupType;
@@ -568,7 +577,7 @@ type ClearGroupCreationErrorActionType = ReadonlyDeep<{
   type: 'CLEAR_GROUP_CREATION_ERROR';
 }>;
 type ClearInvitedUuidsForNewlyCreatedGroupActionType = ReadonlyDeep<{
-  type: 'CLEAR_INVITED_UUIDS_FOR_NEWLY_CREATED_GROUP';
+  type: 'CLEAR_INVITED_SERVICE_IDS_FOR_NEWLY_CREATED_GROUP';
 }>;
 type ClearVerificationDataByConversationActionType = ReadonlyDeep<{
   type: typeof CLEAR_CONVERSATIONS_PENDING_VERIFICATION;
@@ -680,7 +689,7 @@ type CreateGroupPendingActionType = ReadonlyDeep<{
 type CreateGroupFulfilledActionType = ReadonlyDeep<{
   type: 'CREATE_GROUP_FULFILLED';
   payload: {
-    invitedUuids: ReadonlyArray<UUIDStringType>;
+    invitedServiceIds: ReadonlyArray<ServiceIdString>;
   };
 }>;
 type CreateGroupRejectedActionType = ReadonlyDeep<{
@@ -715,8 +724,8 @@ type ConversationStoppedByMissingVerificationActionType = ReadonlyDeep<{
   type: typeof CONVERSATION_STOPPED_BY_MISSING_VERIFICATION;
   payload: {
     conversationId: string;
-    distributionId?: string;
-    untrustedUuids: ReadonlyArray<UUIDStringType>;
+    distributionId?: StoryDistributionIdString;
+    untrustedServiceIds: ReadonlyArray<ServiceIdString>;
   };
 }>;
 // eslint-disable-next-line local-rules/type-alias-readonlydeep -- FIXME
@@ -1235,14 +1244,14 @@ function acknowledgeGroupMemberNameCollisions(
 }
 function blockGroupLinkRequests(
   conversationId: string,
-  uuid: UUIDStringType
+  serviceId: ServiceIdString
 ): NoopActionType {
   const conversation = window.ConversationController.get(conversationId);
   if (!conversation) {
     throw new Error('blockGroupLinkRequests: Conversation not found!');
   }
 
-  void conversation.blockGroupLinkRequests(uuid);
+  void conversation.blockGroupLinkRequests(serviceId);
 
   return {
     type: 'NOOP',
@@ -2116,7 +2125,7 @@ function kickOffAttachmentDownload(
     if (didUpdateValues) {
       drop(
         window.Signal.Data.saveMessage(message.attributes, {
-          ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+          ourAci: window.textsecure.storage.user.getCheckedAci(),
         })
       );
     }
@@ -2379,21 +2388,21 @@ function verifyConversationsStoppingSend(): ThunkAction<
 > {
   return async (dispatch, getState) => {
     const state = getState();
-    const uuidsStoppingSend = getConversationUuidsStoppingSend(state);
+    const serviceIdsStoppingSend = getConversationServiceIdsStoppingSend(state);
     const conversationIdsBlocked =
       getConversationIdsStoppedForVerification(state);
     log.info(
       `verifyConversationsStoppingSend: Starting with ${conversationIdsBlocked.length} blocked ` +
-        `conversations and ${uuidsStoppingSend.length} conversations to verify.`
+        `conversations and ${serviceIdsStoppingSend.length} conversations to verify.`
     );
 
     // Mark conversations as approved/verified as appropriate
     const promises: Array<Promise<unknown>> = [];
-    uuidsStoppingSend.forEach(async uuid => {
-      const conversation = window.ConversationController.get(uuid);
+    serviceIdsStoppingSend.forEach(async serviceId => {
+      const conversation = window.ConversationController.get(serviceId);
       if (!conversation) {
         log.warn(
-          `verifyConversationsStoppingSend: Cannot verify missing converastion for uuid ${uuid}`
+          `verifyConversationsStoppingSend: Cannot verify missing conversation for serviceId ${serviceId}`
         );
         return;
       }
@@ -2568,7 +2577,7 @@ function createGroup(
       dispatch({
         type: 'CREATE_GROUP_FULFILLED',
         payload: {
-          invitedUuids: (conversation.get('pendingMembersV2') || []).map(
+          invitedServiceIds: (conversation.get('pendingMembersV2') || []).map(
             member => member.uuid
           ),
         },
@@ -2693,11 +2702,11 @@ function getProfilesForConversation(conversationId: string): NoopActionType {
 
 function conversationStoppedByMissingVerification(payload: {
   conversationId: string;
-  distributionId?: string;
-  untrustedUuids: ReadonlyArray<UUIDStringType>;
+  distributionId?: StoryDistributionIdString;
+  untrustedServiceIds: ReadonlyArray<ServiceIdString>;
 }): ConversationStoppedByMissingVerificationActionType {
   // Fetching profiles to ensure that we have their latest identity key in storage
-  payload.untrustedUuids.forEach(uuid => {
+  payload.untrustedServiceIds.forEach(uuid => {
     const conversation = window.ConversationController.get(uuid);
     if (!conversation) {
       log.error(
@@ -3081,14 +3090,18 @@ function approvePendingMembershipFromGroupV2(
       );
     }
 
-    const uuid = pendingMember.getCheckedUuid(
+    const serviceId = pendingMember.getCheckedServiceId(
       `approvePendingMembershipFromGroupV2/${logId}`
     );
 
     if (
       isGroupV2(conversation.attributes) &&
-      isMemberRequestingToJoin(conversation.attributes, uuid)
+      isMemberRequestingToJoin(conversation.attributes, serviceId)
     ) {
+      strictAssert(
+        isAciString(serviceId),
+        'Member requesting to join must have ACI'
+      );
       await modifyGroupV2({
         conversation,
         usingCredentialsFrom: [pendingMember],
@@ -3096,9 +3109,9 @@ function approvePendingMembershipFromGroupV2(
           // This user's pending state may have changed in the time between the user's
           //   button press and when we get here. It's especially important to check here
           //   in conflict/retry cases.
-          if (!isMemberRequestingToJoin(conversation.attributes, uuid)) {
+          if (!isMemberRequestingToJoin(conversation.attributes, serviceId)) {
             log.warn(
-              `approvePendingMembershipFromGroupV2/${logId}: ${uuid} is not requesting ` +
+              `approvePendingMembershipFromGroupV2/${logId}: ${serviceId} is not requesting ` +
                 'to join the group. Returning early.'
             );
             return undefined;
@@ -3106,7 +3119,7 @@ function approvePendingMembershipFromGroupV2(
 
           return buildPromotePendingAdminApprovalMemberChange({
             group: conversation.attributes,
-            uuid,
+            aci: serviceId,
           });
         },
         name: 'approvePendingMembershipFromGroupV2',
@@ -3138,16 +3151,16 @@ function revokePendingMembershipsFromGroupV2(
 
     // Only pending memberships can be revoked for multiple members at once
     if (memberIds.length > 1) {
-      const uuids = memberIds.map(id => {
-        const uuid = window.ConversationController.get(id)?.getUuid();
-        strictAssert(uuid, `UUID does not exist for ${id}`);
-        return uuid;
+      const serviceIds = memberIds.map(id => {
+        const serviceId = window.ConversationController.get(id)?.getServiceId();
+        strictAssert(serviceId, `serviceId does not exist for ${id}`);
+        return serviceId;
       });
       await conversation.modifyGroupV2({
         name: 'removePendingMember',
         usingCredentialsFrom: [],
         createGroupChange: () =>
-          removePendingMember(conversation.attributes, uuids),
+          removePendingMember(conversation.attributes, serviceIds),
         extraConversationsForSend: memberIds,
       });
       return;
@@ -3163,24 +3176,28 @@ function revokePendingMembershipsFromGroupV2(
       );
     }
 
-    const uuid = pendingMember.getCheckedUuid(
+    const serviceId = pendingMember.getCheckedServiceId(
       'revokePendingMembershipsFromGroupV2'
     );
 
-    if (isMemberRequestingToJoin(conversation.attributes, uuid)) {
+    if (isMemberRequestingToJoin(conversation.attributes, serviceId)) {
+      strictAssert(
+        isAciString(serviceId),
+        'Member requesting to join must have ACI'
+      );
       await conversation.modifyGroupV2({
         name: 'denyPendingApprovalRequest',
         usingCredentialsFrom: [],
         createGroupChange: () =>
-          denyPendingApprovalRequest(conversation.attributes, uuid),
+          denyPendingApprovalRequest(conversation.attributes, serviceId),
         extraConversationsForSend: [memberId],
       });
-    } else if (conversation.isMemberPending(uuid)) {
+    } else if (conversation.isMemberPending(serviceId)) {
       await conversation.modifyGroupV2({
         name: 'removePendingMember',
         usingCredentialsFrom: [],
         createGroupChange: () =>
-          removePendingMember(conversation.attributes, [uuid]),
+          removePendingMember(conversation.attributes, [serviceId]),
         extraConversationsForSend: [memberId],
       });
     }
@@ -3485,7 +3502,7 @@ export function saveAttachmentFromMessage(
 }
 
 function clearInvitedUuidsForNewlyCreatedGroup(): ClearInvitedUuidsForNewlyCreatedGroupActionType {
-  return { type: 'CLEAR_INVITED_UUIDS_FOR_NEWLY_CREATED_GROUP' };
+  return { type: 'CLEAR_INVITED_SERVICE_IDS_FOR_NEWLY_CREATED_GROUP' };
 }
 function clearGroupCreationError(): ClearGroupCreationErrorActionType {
   return { type: 'CLEAR_GROUP_CREATION_ERROR' };
@@ -4017,10 +4034,10 @@ function onConversationOpened(
     );
     drop(conversation.throttledFetchSMSOnlyUUID());
 
-    const ourUuid = window.textsecure.storage.user.getUuid(UUIDKind.ACI);
+    const ourAci = window.textsecure.storage.user.getAci();
     if (
       !isGroup(conversation.attributes) ||
-      (ourUuid && conversation.hasMember(ourUuid))
+      (ourAci && conversation.hasMember(ourAci))
     ) {
       strictAssert(
         conversation.throttledGetProfiles !== undefined,
@@ -4236,12 +4253,12 @@ function getVerificationDataForConversation({
   conversationId,
   distributionId,
   state,
-  untrustedUuids,
+  untrustedServiceIds,
 }: {
   conversationId: string;
-  distributionId?: string;
+  distributionId?: StoryDistributionIdString;
   state: Readonly<VerificationDataByConversation>;
-  untrustedUuids: ReadonlyArray<UUIDStringType>;
+  untrustedServiceIds: ReadonlyArray<ServiceIdString>;
 }): VerificationDataByConversation {
   const existing = getOwn(state, conversationId);
 
@@ -4252,12 +4269,14 @@ function getVerificationDataForConversation({
     return {
       [conversationId]: {
         type: ConversationVerificationState.PendingVerification as const,
-        uuidsNeedingVerification: distributionId ? [] : untrustedUuids,
+        serviceIdsNeedingVerification: distributionId
+          ? []
+          : untrustedServiceIds,
         ...(distributionId
           ? {
               byDistributionId: {
                 [distributionId]: {
-                  uuidsNeedingVerification: untrustedUuids,
+                  serviceIdsNeedingVerification: untrustedServiceIds,
                 },
               },
             }
@@ -4267,24 +4286,23 @@ function getVerificationDataForConversation({
   }
 
   const existingUuids = distributionId
-    ? existing.byDistributionId?.[distributionId]?.uuidsNeedingVerification
-    : existing.uuidsNeedingVerification;
+    ? existing.byDistributionId?.[distributionId]?.serviceIdsNeedingVerification
+    : existing.serviceIdsNeedingVerification;
 
-  const uuidsNeedingVerification: ReadonlyArray<UUIDStringType> = Array.from(
-    new Set([...(existingUuids || []), ...untrustedUuids])
-  );
+  const serviceIdsNeedingVerification: ReadonlyArray<ServiceIdString> =
+    Array.from(new Set([...(existingUuids || []), ...untrustedServiceIds]));
 
   return {
     [conversationId]: {
       ...existing,
       type: ConversationVerificationState.PendingVerification as const,
-      ...(distributionId ? undefined : { uuidsNeedingVerification }),
+      ...(distributionId ? undefined : { serviceIdsNeedingVerification }),
       ...(distributionId
         ? {
             byDistributionId: {
               ...existing.byDistributionId,
               [distributionId]: {
-                uuidsNeedingVerification,
+                serviceIdsNeedingVerification,
               },
             },
           }
@@ -4340,7 +4358,7 @@ function visitListsInVerificationData(
 
     const listCount = Object.keys(updatedByDistributionId).length;
     if (
-      conversationData.uuidsNeedingVerification.length === 0 &&
+      conversationData.serviceIdsNeedingVerification.length === 0 &&
       listCount === 0
     ) {
       result = omit(result, [conversationId]);
@@ -4461,8 +4479,8 @@ export function reducer(
     };
   }
 
-  if (action.type === 'CLEAR_INVITED_UUIDS_FOR_NEWLY_CREATED_GROUP') {
-    return omit(state, 'invitedUuidsForNewlyCreatedGroup');
+  if (action.type === 'CLEAR_INVITED_SERVICE_IDS_FOR_NEWLY_CREATED_GROUP') {
+    return omit(state, 'invitedServiceIdsForNewlyCreatedGroup');
   }
 
   if (action.type === 'CLEAR_GROUP_CREATION_ERROR') {
@@ -4706,7 +4724,7 @@ export function reducer(
     //   the work.
     return {
       ...state,
-      invitedUuidsForNewlyCreatedGroup: action.payload.invitedUuids,
+      invitedServiceIdsForNewlyCreatedGroup: action.payload.invitedServiceIds,
     };
   }
   if (action.type === 'CREATE_GROUP_REJECTED') {
@@ -4788,16 +4806,17 @@ export function reducer(
       state.verificationDataByConversation,
       (id, data): DistributionVerificationData | undefined => {
         if (listId === id) {
-          const uuidsNeedingVerification = data.uuidsNeedingVerification.filter(
-            uuid => !removedUuids.has(uuid)
-          );
+          const serviceIdsNeedingVerification =
+            data.serviceIdsNeedingVerification.filter(
+              uuid => !removedUuids.has(uuid)
+            );
 
-          if (!uuidsNeedingVerification.length) {
+          if (!serviceIdsNeedingVerification.length) {
             return undefined;
           }
           return {
             ...data,
-            uuidsNeedingVerification,
+            serviceIdsNeedingVerification,
           };
         }
 
@@ -4844,17 +4863,18 @@ export function reducer(
       state.verificationDataByConversation,
       (id, data): DistributionVerificationData | undefined => {
         if (MY_STORY_ID === id) {
-          const uuidsNeedingVerification = data.uuidsNeedingVerification.filter(
-            uuid => !removedUuids.has(uuid)
-          );
+          const serviceIdsNeedingVerification =
+            data.serviceIdsNeedingVerification.filter(
+              uuid => !removedUuids.has(uuid)
+            );
 
-          if (!uuidsNeedingVerification.length) {
+          if (!serviceIdsNeedingVerification.length) {
             return undefined;
           }
 
           return {
             ...data,
-            uuidsNeedingVerification,
+            serviceIdsNeedingVerification,
           };
         }
 
@@ -4872,24 +4892,25 @@ export function reducer(
     };
   }
   if (action.type === VIEWERS_CHANGED) {
-    const { listId, memberUuids } = action.payload;
-    const newUuids = new Set(memberUuids);
+    const { listId, memberServiceIds } = action.payload;
+    const newUuids = new Set(memberServiceIds);
 
     const nextVerificationData = visitListsInVerificationData(
       state.verificationDataByConversation,
       (id, data): DistributionVerificationData | undefined => {
         if (listId === id) {
-          const uuidsNeedingVerification = data.uuidsNeedingVerification.filter(
-            uuid => newUuids.has(uuid)
-          );
+          const serviceIdsNeedingVerification =
+            data.serviceIdsNeedingVerification.filter(uuid =>
+              newUuids.has(uuid)
+            );
 
-          if (!uuidsNeedingVerification.length) {
+          if (!serviceIdsNeedingVerification.length) {
             return undefined;
           }
 
           return {
             ...data,
-            uuidsNeedingVerification,
+            serviceIdsNeedingVerification,
           };
         }
 
@@ -4908,13 +4929,14 @@ export function reducer(
   }
 
   if (action.type === CONVERSATION_STOPPED_BY_MISSING_VERIFICATION) {
-    const { conversationId, distributionId, untrustedUuids } = action.payload;
+    const { conversationId, distributionId, untrustedServiceIds } =
+      action.payload;
 
     const nextVerificationData = getVerificationDataForConversation({
       conversationId,
       distributionId,
       state: state.verificationDataByConversation,
-      untrustedUuids,
+      untrustedServiceIds,
     });
 
     return {
@@ -4935,7 +4957,7 @@ export function reducer(
         const nextConversation = getVerificationDataForConversation({
           state: verificationDataByConversation,
           conversationId,
-          untrustedUuids: conversationData.uuids,
+          untrustedServiceIds: conversationData.serviceIds,
         });
         Object.assign(verificationDataByConversation, nextConversation);
 
@@ -4947,9 +4969,12 @@ export function reducer(
           ([distributionId, distributionData]) => {
             const nextDistribution = getVerificationDataForConversation({
               state: verificationDataByConversation,
-              distributionId,
+              distributionId: normalizeStoryDistributionId(
+                distributionId,
+                'ducks/conversations'
+              ),
               conversationId,
-              untrustedUuids: distributionData.uuids,
+              untrustedServiceIds: distributionData.serviceIds,
             });
             Object.assign(verificationDataByConversation, nextDistribution);
           }

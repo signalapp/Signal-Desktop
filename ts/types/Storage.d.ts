@@ -20,6 +20,7 @@ import type {
   StorageServiceCredentials,
 } from '../textsecure/Types.d';
 import type { ThemeSettingType } from './StorageUIKeys';
+import type { ServiceIdString } from './ServiceId';
 
 import type { RegisteredChallengeType } from '../challenge';
 
@@ -35,7 +36,7 @@ export type SentMediaQualitySettingType = 'standard' | 'high';
 export type NotificationSettingType = 'message' | 'name' | 'count' | 'off';
 
 export type IdentityKeyMap = Record<
-  string,
+  ServiceIdString,
   {
     privKey: Uint8Array;
     pubKey: Uint8Array;
@@ -50,7 +51,7 @@ export type StorageAccessType = {
   'auto-download-update': boolean;
   'badge-count-muted-conversations': boolean;
   'blocked-groups': ReadonlyArray<string>;
-  'blocked-uuids': ReadonlyArray<string>;
+  'blocked-uuids': ReadonlyArray<ServiceIdString>;
   'call-ringtone-notification': boolean;
   'call-system-notification': boolean;
   'hide-menu-bar': boolean;
@@ -93,7 +94,7 @@ export type StorageAccessType = {
   password: string;
   profileKey: Uint8Array;
   regionCode: string;
-  registrationIdMap: Record<string, number>;
+  registrationIdMap: Record<ServiceIdString, number>;
   remoteBuildExpiration: number;
   sendEditWarningShown: boolean;
   sessionResets: SessionResetsType;

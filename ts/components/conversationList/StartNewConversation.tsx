@@ -12,7 +12,7 @@ import { Avatar, AvatarSize } from '../Avatar';
 import { Spinner } from '../Spinner';
 
 import type { ParsedE164Type } from '../../util/libphonenumberInstance';
-import type { LookupConversationWithoutUuidActionsType } from '../../util/lookupConversationWithoutUuid';
+import type { LookupConversationWithoutServiceIdActionsType } from '../../util/lookupConversationWithoutServiceId';
 import type { LocalizerType } from '../../types/Util';
 import type { ShowConversationType } from '../../state/ducks/conversations';
 import { AvatarColors } from '../../types/Colors';
@@ -25,7 +25,7 @@ type PropsData = {
 type PropsHousekeeping = {
   i18n: LocalizerType;
   showConversation: ShowConversationType;
-} & LookupConversationWithoutUuidActionsType;
+} & LookupConversationWithoutServiceIdActionsType;
 
 export type Props = PropsData & PropsHousekeeping;
 
@@ -34,7 +34,7 @@ export const StartNewConversation: FunctionComponent<Props> = React.memo(
     i18n,
     phoneNumber,
     isFetching,
-    lookupConversationWithoutUuid,
+    lookupConversationWithoutServiceId,
     showUserNotFoundModal,
     setIsFetchingUUID,
     showConversation,
@@ -49,7 +49,7 @@ export const StartNewConversation: FunctionComponent<Props> = React.memo(
       if (isFetching) {
         return;
       }
-      const conversationId = await lookupConversationWithoutUuid({
+      const conversationId = await lookupConversationWithoutServiceId({
         showUserNotFoundModal,
         setIsFetchingUUID,
 
@@ -63,7 +63,7 @@ export const StartNewConversation: FunctionComponent<Props> = React.memo(
       }
     }, [
       showConversation,
-      lookupConversationWithoutUuid,
+      lookupConversationWithoutServiceId,
       showUserNotFoundModal,
       setIsFetchingUUID,
       setIsModalVisible,

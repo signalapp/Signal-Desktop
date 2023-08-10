@@ -358,7 +358,9 @@ export function ForwardMessagesModal({
                           toggleSelectedConversation(conversationId);
                         }
                       }}
-                      lookupConversationWithoutUuid={asyncShouldNeverBeCalled}
+                      lookupConversationWithoutServiceId={
+                        asyncShouldNeverBeCalled
+                      }
                       showConversation={shouldNeverBeCalled}
                       showUserNotFoundModal={shouldNeverBeCalled}
                       setIsFetchingUUID={shouldNeverBeCalled}

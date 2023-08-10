@@ -19,7 +19,8 @@ import type { NoopActionType } from './noop';
 import type { StateType as RootStateType } from '../reducer';
 import type { StoryViewTargetType, StoryViewType } from '../../types/Stories';
 import type { SyncType } from '../../jobs/helpers/syncHelpers';
-import type { UUIDStringType } from '../../types/UUID';
+import type { StoryDistributionIdString } from '../../types/StoryDistributionId';
+import type { ServiceIdString } from '../../types/ServiceId';
 import * as log from '../../logging/log';
 import { TARGETED_CONVERSATION_CHANGED } from './conversations';
 import { SIGNAL_ACI } from '../../types/SignalConversation';
@@ -125,12 +126,12 @@ export type AddStoryData = ReadonlyDeep<
 export type RecipientsByConversation = Record<
   string, // conversationId
   {
-    uuids: Array<UUIDStringType>;
+    serviceIds: Array<ServiceIdString>;
 
     byDistributionId?: Record<
-      string, // distributionId
+      StoryDistributionIdString,
       {
-        uuids: Array<UUIDStringType>;
+        serviceIds: Array<ServiceIdString>;
       }
     >;
   }
@@ -180,8 +181,8 @@ type ListMembersVerified = ReadonlyDeep<{
   type: typeof LIST_MEMBERS_VERIFIED;
   payload: {
     conversationId: string;
-    distributionId: string | undefined;
-    uuids: Array<UUIDStringType>;
+    distributionId: StoryDistributionIdString | undefined;
+    serviceIds: Array<ServiceIdString>;
   };
 }>;
 
@@ -415,7 +416,7 @@ function markStoryRead(
     message.set(markViewed(message.attributes, storyReadDate));
     drop(
       dataInterface.saveMessage(message.attributes, {
-        ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+        ourAci: window.textsecure.storage.user.getCheckedAci(),
       })
     );
 
@@ -620,7 +621,7 @@ function replyToStory(
 }
 
 function sendStoryMessage(
-  listIds: Array<UUIDStringType>,
+  listIds: Array<StoryDistributionIdString>,
   conversationIds: Array<string>,
   attachment: AttachmentType,
   bodyRanges: DraftBodyRanges | undefined
@@ -740,11 +741,11 @@ function markStoriesTabViewed(): MarkStoriesTabViewedActionType {
 function verifyStoryListMembers({
   conversationId,
   distributionId,
-  uuids,
+  serviceIds,
 }: {
   conversationId: string;
-  distributionId: string | undefined;
-  uuids: Array<UUIDStringType>;
+  distributionId: StoryDistributionIdString | undefined;
+  serviceIds: Array<ServiceIdString>;
 }): ThunkAction<void, RootStateType, unknown, ListMembersVerified> {
   return async (dispatch, getState) => {
     const { stories } = getState();
@@ -754,20 +755,20 @@ function verifyStoryListMembers({
       return;
     }
 
-    if (!uuids.length) {
+    if (!serviceIds.length) {
       return;
     }
 
     // This will fetch the latest identity key for these contacts, which will ensure that
     //   the later verified/trusted checks will flag that change.
-    await doVerifyStoryListMembers(uuids);
+    await doVerifyStoryListMembers(serviceIds);
 
     dispatch({
       type: LIST_MEMBERS_VERIFIED,
       payload: {
         conversationId,
         distributionId,
-        uuids,
+        serviceIds,
       },
     });
   };
@@ -826,12 +827,12 @@ const getSelectedStoryDataForConversationId = (
   const state = getState();
   const { stories } = state.stories;
 
-  const ourUuid = window.storage.user.getCheckedUuid().toString();
+  const ourAci = window.storage.user.getCheckedAci();
   const storiesByConversationId = stories.filter(
     item =>
       item.conversationId === conversationId &&
       !item.deletedForEveryone &&
-      (!onlyFromSelf || item.sourceUuid === ourUuid)
+      (!onlyFromSelf || item.sourceUuid === ourAci)
   );
 
   // Find the index of the storyId provided, or if none provided then find the
@@ -1782,16 +1783,17 @@ export function reducer(
 
   if (action.type === LIST_MEMBERS_VERIFIED) {
     const { sendStoryModalData } = state;
-    const { conversationId, distributionId, uuids } = action.payload;
+    const { conversationId, distributionId, serviceIds } = action.payload;
 
     const existing =
       sendStoryModalData && getOwn(sendStoryModalData, conversationId);
 
     if (distributionId) {
-      const existingUuids = existing?.byDistributionId?.[distributionId]?.uuids;
+      const existingServiceIds =
+        existing?.byDistributionId?.[distributionId]?.serviceIds;
 
-      const finalUuids = Array.from(
-        new Set([...(existingUuids || []), ...uuids])
+      const finalServiceIds = Array.from(
+        new Set([...(existingServiceIds || []), ...serviceIds])
       );
 
       return {
@@ -1800,11 +1802,11 @@ export function reducer(
           ...sendStoryModalData,
           [conversationId]: {
             ...existing,
-            uuids: existing?.uuids || [],
+            serviceIds: existing?.serviceIds || [],
             byDistributionId: {
               ...existing?.byDistributionId,
               [distributionId]: {
-                uuids: finalUuids,
+                serviceIds: finalServiceIds,
               },
             },
           },
@@ -1812,8 +1814,8 @@ export function reducer(
       };
     }
 
-    const finalUuids = Array.from(
-      new Set([...(existing?.uuids || []), ...uuids])
+    const finalServiceIds = Array.from(
+      new Set([...(existing?.serviceIds || []), ...serviceIds])
     );
 
     return {
@@ -1822,7 +1824,7 @@ export function reducer(
         ...sendStoryModalData,
         [conversationId]: {
           ...existing,
-          uuids: finalUuids,
+          serviceIds: finalServiceIds,
         },
       },
     };

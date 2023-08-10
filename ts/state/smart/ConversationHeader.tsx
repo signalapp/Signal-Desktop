@@ -45,8 +45,8 @@ const getOutgoingCallButtonStyle = (
   state: StateType
 ): OutgoingCallButtonStyle => {
   const { calling } = state;
-  const ourACI = getUserACI(state);
-  strictAssert(ourACI, 'getOutgoingCallButtonStyle missing our uuid');
+  const ourAci = getUserACI(state);
+  strictAssert(ourAci, 'getOutgoingCallButtonStyle missing our uuid');
 
   if (getActiveCall(calling)) {
     return OutgoingCallButtonStyle.None;
@@ -62,7 +62,7 @@ const getOutgoingCallButtonStyle = (
       const call = getOwn(calling.callsByConversation, conversation.id);
       if (
         call?.callMode === CallMode.Group &&
-        isAnybodyElseInGroupCall(call.peekInfo, ourACI)
+        isAnybodyElseInGroupCall(call.peekInfo, ourAci)
       ) {
         return OutgoingCallButtonStyle.Join;
       }

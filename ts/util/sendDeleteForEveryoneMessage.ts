@@ -79,7 +79,7 @@ export async function sendDeleteForEveryoneMessage(
       );
       await window.Signal.Data.saveMessage(message.attributes, {
         jobToInsert,
-        ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+        ourAci: window.textsecure.storage.user.getCheckedAci(),
       });
     });
   } catch (error) {

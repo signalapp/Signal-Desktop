@@ -42,7 +42,11 @@ import type { PropsType as ProfileChangeNotificationPropsType } from '../../comp
 import type { QuotedAttachmentType } from '../../components/conversation/Quote';
 
 import { getDomain, isStickerPack } from '../../types/LinkPreview';
-import type { UUIDStringType } from '../../types/UUID';
+import type {
+  AciString,
+  PniString,
+  ServiceIdString,
+} from '../../types/ServiceId';
 
 import type { EmbeddedContactType } from '../../types/EmbeddedContact';
 import { embeddedContactSelector } from '../../types/EmbeddedContact';
@@ -82,9 +86,9 @@ import {
   getIntl,
   getRegionCode,
   getUserACI,
+  getUserPNI,
   getUserConversationId,
   getUserNumber,
-  getUserPNI,
 } from './user';
 
 import type {
@@ -161,8 +165,8 @@ export type GetPropsForBubbleOptions = Readonly<{
   conversationSelector: GetConversationByIdType;
   ourConversationId?: string;
   ourNumber?: string;
-  ourACI?: UUIDStringType;
-  ourPNI?: UUIDStringType;
+  ourAci: AciString | undefined;
+  ourPni: PniString | undefined;
   targetedMessageId?: string;
   targetedMessageCounter?: number;
   selectedMessageIds: ReadonlyArray<string> | undefined;
@@ -214,8 +218,8 @@ export function getSourceDevice(
 
 export function getSourceUuid(
   message: Pick<MessageAttributesType, 'type' | 'sourceUuid'>,
-  ourACI: string | undefined
-): string | undefined {
+  ourAci: AciString | undefined
+): ServiceIdString | undefined {
   if (isIncoming(message)) {
     return message.sourceUuid;
   }
@@ -225,16 +229,12 @@ export function getSourceUuid(
     );
   }
 
-  return ourACI;
+  return ourAci;
 }
 
 export type GetContactOptions = Pick<
   GetPropsForBubbleOptions,
-  | 'conversationSelector'
-  | 'ourConversationId'
-  | 'ourNumber'
-  | 'ourACI'
-  | 'ourPNI'
+  'conversationSelector' | 'ourConversationId' | 'ourNumber' | 'ourAci'
 >;
 
 export function getContactId(
@@ -243,11 +243,11 @@ export function getContactId(
     conversationSelector,
     ourConversationId,
     ourNumber,
-    ourACI,
+    ourAci,
   }: GetContactOptions
 ): string | undefined {
   const source = getSource(message, ourNumber);
-  const sourceUuid = getSourceUuid(message, ourACI);
+  const sourceUuid = getSourceUuid(message, ourAci);
 
   if (!source && !sourceUuid) {
     return ourConversationId;
@@ -264,11 +264,11 @@ export function getContact(
     conversationSelector,
     ourConversationId,
     ourNumber,
-    ourACI,
+    ourAci,
   }: GetContactOptions
 ): ConversationType {
   const source = getSource(message, ourNumber);
-  const sourceUuid = getSourceUuid(message, ourACI);
+  const sourceUuid = getSourceUuid(message, ourAci);
 
   if (!source && !sourceUuid) {
     return conversationSelector(ourConversationId);
@@ -578,8 +578,8 @@ export type GetPropsForMessageOptions = Pick<
   GetPropsForBubbleOptions,
   | 'conversationSelector'
   | 'ourConversationId'
-  | 'ourACI'
-  | 'ourPNI'
+  | 'ourAci'
+  | 'ourPni'
   | 'ourNumber'
   | 'targetedMessageId'
   | 'targetedMessageCounter'
@@ -675,7 +675,7 @@ export const getPropsForMessage = (
     conversationSelector,
     ourConversationId,
     ourNumber,
-    ourACI,
+    ourAci,
     regionCode,
     targetedMessageId,
     targetedMessageCounter,
@@ -706,7 +706,7 @@ export const getPropsForMessage = (
     conversationSelector,
     ourConversationId,
     ourNumber,
-    ourACI,
+    ourAci,
   });
   const contactNameColor = contactNameColorSelector(conversationId, authorId);
 
@@ -788,8 +788,8 @@ export const getMessagePropsSelector = createSelector(
   (
       conversationSelector,
       ourConversationId,
-      ourACI,
-      ourPNI,
+      ourAci,
+      ourPni,
       ourNumber,
       regionCode,
       accountSelector,
@@ -804,8 +804,8 @@ export const getMessagePropsSelector = createSelector(
         conversationSelector,
         ourConversationId,
         ourNumber,
-        ourACI,
-        ourPNI,
+        ourAci,
+        ourPni,
         regionCode,
         targetedMessageCounter: targetedMessage?.counter,
         targetedMessageId: targetedMessage?.id,
@@ -1008,7 +1008,7 @@ export function isGroupV2Change(message: MessageWithUIFieldsType): boolean {
 
 function getPropsForGroupV2Change(
   message: MessageWithUIFieldsType,
-  { conversationSelector, ourACI, ourPNI }: GetPropsForBubbleOptions
+  { conversationSelector, ourAci, ourPni }: GetPropsForBubbleOptions
 ): GroupsV2Props {
   const change = message.groupV2Change;
 
@@ -1024,8 +1024,8 @@ function getPropsForGroupV2Change(
     groupName: conversation?.type === 'group' ? conversation?.name : undefined,
     groupMemberships: conversation.memberships,
     groupBannedMemberships: conversation.bannedMemberships,
-    ourACI,
-    ourPNI,
+    ourAci,
+    ourPni,
     change,
   };
 }
@@ -1611,7 +1611,7 @@ export function getMessagePropStatus(
 export function getPropsForEmbeddedContact(
   message: MessageWithUIFieldsType,
   regionCode: string | undefined,
-  accountSelector: (identifier?: string) => UUIDStringType | undefined
+  accountSelector: (identifier?: string) => ServiceIdString | undefined
 ): EmbeddedContactType | undefined {
   const contacts = message.contact;
   if (!contacts || !contacts.length) {
@@ -1911,8 +1911,8 @@ export const getMessageDetails = createSelector(
     i18n,
     regionCode,
     message,
-    ourACI,
-    ourPNI,
+    ourAci,
+    ourPni,
     ourConversationId,
     ourNumber,
     selectedMessageIds
@@ -1943,7 +1943,7 @@ export const getMessageDetails = createSelector(
           conversationSelector,
           ourConversationId,
           ourNumber,
-          ourACI,
+          ourAci,
         }),
       ].filter(isNotNil);
     } else if (!isEmpty(sendStateByConversationId)) {
@@ -1985,15 +1985,15 @@ export const getMessageDetails = createSelector(
     // If an error has a specific number it's associated with, we'll show it next to
     //   that contact. Otherwise, it will be a standalone entry.
     const errors = allErrors.filter(error =>
-      Boolean(error.identifier || error.number)
+      Boolean(error.serviceId || error.number)
     );
     const errorsGroupedById = groupBy(allErrors, error => {
-      const identifier = error.identifier || error.number;
-      if (!identifier) {
+      const serviceId = error.serviceId || error.number;
+      if (!serviceId) {
         return null;
       }
 
-      return window.ConversationController.getConversationId(identifier);
+      return window.ConversationController.getConversationId(serviceId);
     });
 
     const hasUnidentifiedDeliveryIndicators = window.storage.get(
@@ -2045,10 +2045,10 @@ export const getMessageDetails = createSelector(
         accountSelector,
         contactNameColorSelector,
         conversationSelector,
-        ourACI,
+        ourAci,
+        ourPni,
         ourConversationId,
         ourNumber,
-        ourPNI,
         regionCode,
         selectedMessageIds,
       }),

@@ -18,6 +18,7 @@ import {
 import type { ConversationTypeType } from '../state/ducks/conversations';
 import type { AvatarColorType } from '../types/Colors';
 import { AvatarColors } from '../types/Colors';
+import { generateAci } from '../types/ServiceId';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { fakeGetGroupCallVideoFrameSource } from '../test-both/helpers/fakeGetGroupCallVideoFrameSource';
 import { setupI18n } from '../util/setupI18n';
@@ -89,7 +90,7 @@ const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
       ),
       title: text('Caller Title', 'Morty Smith'),
     }),
-    uuid: 'cb0dd0c8-7393-41e9-a0aa-d631c4109541',
+    uuid: generateAci(),
   },
   notifyForCall: action('notify-for-call'),
   openSystemPreferencesAction: action('open-system-preferences-action'),

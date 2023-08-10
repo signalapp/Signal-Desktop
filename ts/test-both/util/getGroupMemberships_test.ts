@@ -3,8 +3,8 @@
 
 import { assert } from 'chai';
 import type { ConversationType } from '../../state/ducks/conversations';
-import { UUID } from '../../types/UUID';
-import type { UUIDStringType } from '../../types/UUID';
+import { generateAci, normalizeAci } from '../../types/ServiceId';
+import type { ServiceIdString } from '../../types/ServiceId';
 import { getDefaultConversationWithUuid } from '../helpers/getDefaultConversation';
 
 import { getGroupMemberships } from '../../util/getGroupMemberships';
@@ -16,14 +16,14 @@ describe('getGroupMemberships', () => {
     discoveredUnregisteredAt: Date.now(),
   });
 
-  function getConversationByUuid(
-    uuid: UUIDStringType
+  function getConversationByServiceId(
+    serviceId: ServiceIdString
   ): undefined | ConversationType {
     return [
       normalConversation1,
       normalConversation2,
       unregisteredConversation,
-    ].find(conversation => conversation.uuid === uuid);
+    ].find(conversation => conversation.uuid === serviceId);
   }
 
   describe('memberships', () => {
@@ -32,7 +32,7 @@ describe('getGroupMemberships', () => {
 
       const result = getGroupMemberships(
         conversation,
-        getConversationByUuid
+        getConversationByServiceId
       ).memberships;
 
       assert.isEmpty(result);
@@ -43,7 +43,7 @@ describe('getGroupMemberships', () => {
 
       const result = getGroupMemberships(
         conversation,
-        getConversationByUuid
+        getConversationByServiceId
       ).memberships;
 
       assert.isEmpty(result);
@@ -53,7 +53,7 @@ describe('getGroupMemberships', () => {
       const conversation = {
         memberships: [
           {
-            uuid: UUID.generate().toString(),
+            uuid: generateAci(),
             isAdmin: true,
           },
         ],
@@ -61,7 +61,7 @@ describe('getGroupMemberships', () => {
 
       const result = getGroupMemberships(
         conversation,
-        getConversationByUuid
+        getConversationByServiceId
       ).memberships;
 
       assert.isEmpty(result);
@@ -71,7 +71,7 @@ describe('getGroupMemberships', () => {
       const conversation = {
         memberships: [
           {
-            uuid: unregisteredConversation.uuid,
+            uuid: normalizeAci(unregisteredConversation.uuid, 'test'),
             isAdmin: true,
           },
         ],
@@ -79,7 +79,7 @@ describe('getGroupMemberships', () => {
 
       const result = getGroupMemberships(
         conversation,
-        getConversationByUuid
+        getConversationByServiceId
       ).memberships;
 
       assert.lengthOf(result, 1);
@@ -93,11 +93,11 @@ describe('getGroupMemberships', () => {
       const conversation = {
         memberships: [
           {
-            uuid: normalConversation2.uuid,
+            uuid: normalizeAci(normalConversation2.uuid, 'test'),
             isAdmin: false,
           },
           {
-            uuid: normalConversation1.uuid,
+            uuid: normalizeAci(normalConversation1.uuid, 'test'),
             isAdmin: true,
           },
         ],
@@ -105,7 +105,7 @@ describe('getGroupMemberships', () => {
 
       const result = getGroupMemberships(
         conversation,
-        getConversationByUuid
+        getConversationByServiceId
       ).memberships;
 
       assert.lengthOf(result, 2);
@@ -126,7 +126,7 @@ describe('getGroupMemberships', () => {
 
       const result = getGroupMemberships(
         conversation,
-        getConversationByUuid
+        getConversationByServiceId
       ).pendingApprovalMemberships;
 
       assert.isEmpty(result);
@@ -137,7 +137,7 @@ describe('getGroupMemberships', () => {
 
       const result = getGroupMemberships(
         conversation,
-        getConversationByUuid
+        getConversationByServiceId
       ).pendingApprovalMemberships;
 
       assert.isEmpty(result);
@@ -145,12 +145,12 @@ describe('getGroupMemberships', () => {
 
     it("filters out conversation IDs that don't exist", () => {
       const conversation = {
-        pendingApprovalMemberships: [{ uuid: UUID.generate().toString() }],
+        pendingApprovalMemberships: [{ uuid: generateAci() }],
       };
 
       const result = getGroupMemberships(
         conversation,
-        getConversationByUuid
+        getConversationByServiceId
       ).pendingApprovalMemberships;
 
       assert.isEmpty(result);
@@ -158,12 +158,14 @@ describe('getGroupMemberships', () => {
 
     it('filters out unregistered conversations', () => {
       const conversation = {
-        pendingApprovalMemberships: [{ uuid: unregisteredConversation.uuid }],
+        pendingApprovalMemberships: [
+          { uuid: normalizeAci(unregisteredConversation.uuid, 'test') },
+        ],
       };
 
       const result = getGroupMemberships(
         conversation,
-        getConversationByUuid
+        getConversationByServiceId
       ).pendingApprovalMemberships;
 
       assert.isEmpty(result);
@@ -172,14 +174,14 @@ describe('getGroupMemberships', () => {
     it('hydrates pending-approval memberships', () => {
       const conversation = {
         pendingApprovalMemberships: [
-          { uuid: normalConversation2.uuid },
-          { uuid: normalConversation1.uuid },
+          { uuid: normalizeAci(normalConversation2.uuid, 'test') },
+          { uuid: normalizeAci(normalConversation1.uuid, 'test') },
         ],
       };
 
       const result = getGroupMemberships(
         conversation,
-        getConversationByUuid
+        getConversationByServiceId
       ).pendingApprovalMemberships;
 
       assert.lengthOf(result, 2);
@@ -194,7 +196,7 @@ describe('getGroupMemberships', () => {
 
       const result = getGroupMemberships(
         conversation,
-        getConversationByUuid
+        getConversationByServiceId
       ).pendingMemberships;
 
       assert.isEmpty(result);
@@ -205,7 +207,7 @@ describe('getGroupMemberships', () => {
 
       const result = getGroupMemberships(
         conversation,
-        getConversationByUuid
+        getConversationByServiceId
       ).pendingMemberships;
 
       assert.isEmpty(result);
@@ -215,15 +217,15 @@ describe('getGroupMemberships', () => {
       const conversation = {
         pendingMemberships: [
           {
-            uuid: UUID.generate().toString(),
-            addedByUserId: normalConversation1.uuid,
+            uuid: generateAci(),
+            addedByUserId: normalizeAci(normalConversation1.uuid, 'test'),
           },
         ],
       };
 
       const result = getGroupMemberships(
         conversation,
-        getConversationByUuid
+        getConversationByServiceId
       ).pendingMemberships;
 
       assert.isEmpty(result);
@@ -234,22 +236,22 @@ describe('getGroupMemberships', () => {
         pendingMemberships: [
           {
             uuid: unregisteredConversation.uuid,
-            addedByUserId: normalConversation1.uuid,
+            addedByUserId: normalizeAci(normalConversation1.uuid, 'test'),
           },
         ],
       };
 
       const result = getGroupMemberships(
         conversation,
-        getConversationByUuid
+        getConversationByServiceId
       ).pendingMemberships;
 
       assert.isEmpty(result);
     });
 
     it('hydrates pending memberships', () => {
-      const abc = UUID.generate().toString();
-      const xyz = UUID.generate().toString();
+      const abc = generateAci();
+      const xyz = generateAci();
 
       const conversation = {
         pendingMemberships: [
@@ -260,7 +262,7 @@ describe('getGroupMemberships', () => {
 
       const result = getGroupMemberships(
         conversation,
-        getConversationByUuid
+        getConversationByServiceId
       ).pendingMemberships;
 
       assert.lengthOf(result, 2);

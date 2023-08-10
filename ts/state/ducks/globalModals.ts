@@ -17,7 +17,6 @@ import type { MessagePropsType } from '../selectors/message';
 import type { RecipientsByConversation } from './stories';
 import type { SafetyNumberChangeSource } from '../../components/SafetyNumberChangeDialog';
 import type { StateType as RootStateType } from '../reducer';
-import type { UUIDStringType } from '../../types/UUID';
 import * as Errors from '../../types/errors';
 import * as SingleServePromise from '../../services/singleServePromise';
 import * as Stickers from '../../types/Stickers';
@@ -58,7 +57,7 @@ export type ForwardMessagesPropsType = ReadonlyDeep<{
   onForward?: () => void;
 }>;
 export type SafetyNumberChangedBlockingDataType = ReadonlyDeep<{
-  promiseUuid: UUIDStringType;
+  promiseUuid: SingleServePromise.SingleServePromiseIdString;
   source?: SafetyNumberChangeSource;
 }>;
 export type FormattingWarningDataType = ReadonlyDeep<{
@@ -112,8 +111,10 @@ const HIDE_CONTACT_MODAL = 'globalModals/HIDE_CONTACT_MODAL';
 const SHOW_CONTACT_MODAL = 'globalModals/SHOW_CONTACT_MODAL';
 const HIDE_WHATS_NEW_MODAL = 'globalModals/HIDE_WHATS_NEW_MODAL_MODAL';
 const SHOW_WHATS_NEW_MODAL = 'globalModals/SHOW_WHATS_NEW_MODAL_MODAL';
-const HIDE_UUID_NOT_FOUND_MODAL = 'globalModals/HIDE_UUID_NOT_FOUND_MODAL';
-const SHOW_UUID_NOT_FOUND_MODAL = 'globalModals/SHOW_UUID_NOT_FOUND_MODAL';
+const HIDE_SERVICE_ID_NOT_FOUND_MODAL =
+  'globalModals/HIDE_SERVICE_ID_NOT_FOUND_MODAL';
+const SHOW_SERVICE_ID_NOT_FOUND_MODAL =
+  'globalModals/SHOW_SERVICE_ID_NOT_FOUND_MODAL';
 const SHOW_STORIES_SETTINGS = 'globalModals/SHOW_STORIES_SETTINGS';
 const HIDE_STORIES_SETTINGS = 'globalModals/HIDE_STORIES_SETTINGS';
 const TOGGLE_DELETE_MESSAGES_MODAL =
@@ -186,11 +187,11 @@ type ShowWhatsNewModalActionType = ReadonlyDeep<{
 }>;
 
 type HideUserNotFoundModalActionType = ReadonlyDeep<{
-  type: typeof HIDE_UUID_NOT_FOUND_MODAL;
+  type: typeof HIDE_SERVICE_ID_NOT_FOUND_MODAL;
 }>;
 
 export type ShowUserNotFoundModalActionType = ReadonlyDeep<{
-  type: typeof SHOW_UUID_NOT_FOUND_MODAL;
+  type: typeof SHOW_SERVICE_ID_NOT_FOUND_MODAL;
   payload: UserNotFoundModalStateType;
 }>;
 
@@ -445,7 +446,7 @@ function showWhatsNewModal(): ShowWhatsNewModalActionType {
 
 function hideUserNotFoundModal(): HideUserNotFoundModalActionType {
   return {
-    type: HIDE_UUID_NOT_FOUND_MODAL,
+    type: HIDE_SERVICE_ID_NOT_FOUND_MODAL,
   };
 }
 
@@ -453,7 +454,7 @@ function showUserNotFoundModal(
   payload: UserNotFoundModalStateType
 ): ShowUserNotFoundModalActionType {
   return {
-    type: SHOW_UUID_NOT_FOUND_MODAL,
+    type: SHOW_SERVICE_ID_NOT_FOUND_MODAL,
     payload,
   };
 }
@@ -904,14 +905,14 @@ export function reducer(
     };
   }
 
-  if (action.type === HIDE_UUID_NOT_FOUND_MODAL) {
+  if (action.type === HIDE_SERVICE_ID_NOT_FOUND_MODAL) {
     return {
       ...state,
       userNotFoundModalState: undefined,
     };
   }
 
-  if (action.type === SHOW_UUID_NOT_FOUND_MODAL) {
+  if (action.type === SHOW_SERVICE_ID_NOT_FOUND_MODAL) {
     return {
       ...state,
       userNotFoundModalState: {

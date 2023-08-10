@@ -35,7 +35,6 @@ import type { MenuOptionsType } from '../types/menu';
 import type { StoryDataType } from './ducks/stories';
 import type { StoryDistributionListDataType } from './ducks/storyDistributionLists';
 import OS from '../util/os/osMain';
-import { UUIDKind } from '../types/UUID';
 import { getEmojiReducerState as emojis } from '../util/loadRecentEmojis';
 import { getInitialState as stickers } from '../types/Stickers';
 import { getThemeType } from '../util/getThemeType';
@@ -65,12 +64,8 @@ export function getInitialState({
     conversation.format()
   );
   const ourNumber = window.textsecure.storage.user.getNumber();
-  const ourACI = window.textsecure.storage.user
-    .getUuid(UUIDKind.ACI)
-    ?.toString();
-  const ourPNI = window.textsecure.storage.user
-    .getUuid(UUIDKind.PNI)
-    ?.toString();
+  const ourAci = window.textsecure.storage.user.getAci();
+  const ourPni = window.textsecure.storage.user.getPni();
   const ourConversationId =
     window.ConversationController.getOurConversationId();
   const ourDeviceId = window.textsecure.storage.user.getDeviceId();
@@ -145,11 +140,11 @@ export function getInitialState({
       localeMessages: window.i18n.getLocaleMessages(),
       menuOptions,
       osName,
-      ourACI,
+      ourAci,
       ourConversationId,
       ourDeviceId,
       ourNumber,
-      ourPNI,
+      ourPni,
       platform: window.platform,
       regionCode: window.storage.get('regionCode'),
       stickersPath: window.BasePaths.stickers,

@@ -8,7 +8,7 @@ import type {
   MessageAttributesType,
   QuotedMessageType,
 } from '../model-types.d';
-import type { UUIDStringType } from '../types/UUID';
+import type { ServiceIdString } from '../types/ServiceId';
 import { PaymentEventKind } from '../types/Payment';
 import type { AnyPaymentEvent } from '../types/Payment';
 import type { LocalizerType } from '../types/Util';
@@ -193,7 +193,7 @@ export function getSourceDevice(
 
 export function getSourceUuid(
   message: Pick<MessageAttributesType, 'type' | 'sourceUuid'>
-): UUIDStringType | undefined {
+): ServiceIdString | undefined {
   if (isIncoming(message) || isStory(message)) {
     return message.sourceUuid;
   }
@@ -203,7 +203,7 @@ export function getSourceUuid(
     );
   }
 
-  return window.textsecure.storage.user.getUuid()?.toString();
+  return window.textsecure.storage.user.getAci();
 }
 
 export const isCustomError = (e: unknown): e is CustomError =>

@@ -26,7 +26,7 @@ describe('ContactsParser', () => {
       const contactInfoBuffer = Proto.ContactDetails.encode({
         name: 'Zero Cool',
         number: '+10000000000',
-        uuid: '7198E1BD-1293-452A-A098-F982FF201902',
+        aci: '7198E1BD-1293-452A-A098-F982FF201902',
         avatar: { contentType: 'image/jpeg', length: avatarBuffer.length },
       }).finish();
 
@@ -52,10 +52,7 @@ describe('ContactsParser', () => {
         count += 1;
         assert.strictEqual(contact.name, 'Zero Cool');
         assert.strictEqual(contact.number, '+10000000000');
-        assert.strictEqual(
-          contact.uuid,
-          '7198e1bd-1293-452a-a098-f982ff201902'
-        );
+        assert.strictEqual(contact.aci, '7198e1bd-1293-452a-a098-f982ff201902');
         assert.strictEqual(contact.avatar?.contentType, 'image/jpeg');
         assert.strictEqual(contact.avatar?.length, 255);
         assert.strictEqual(contact.avatar?.data.byteLength, 255);

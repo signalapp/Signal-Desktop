@@ -7,10 +7,11 @@ import { Collection, Model } from 'backbone';
 import type { MessageModel } from '../models/messages';
 import * as log from '../logging/log';
 import * as Errors from '../types/errors';
+import type { AciString } from '../types/ServiceId';
 
 export type ViewOnceOpenSyncAttributesType = {
   source?: string;
-  sourceUuid: string;
+  sourceAci: AciString;
   timestamp: number;
 };
 
@@ -30,7 +31,7 @@ export class ViewOnceOpenSyncs extends Collection<ViewOnceOpenSyncModel> {
   forMessage(message: MessageModel): ViewOnceOpenSyncModel | null {
     const syncBySourceUuid = this.find(item => {
       return (
-        item.get('sourceUuid') === message.get('sourceUuid') &&
+        item.get('sourceAci') === message.get('sourceUuid') &&
         item.get('timestamp') === message.get('sent_at')
       );
     });
@@ -62,26 +63,24 @@ export class ViewOnceOpenSyncs extends Collection<ViewOnceOpenSyncModel> {
       );
 
       const found = messages.find(item => {
-        const itemSourceUuid = item.sourceUuid;
-        const syncSourceUuid = sync.get('sourceUuid');
+        const itemSourceAci = item.sourceUuid;
+        const syncSourceAci = sync.get('sourceAci');
         const itemSource = item.source;
         const syncSource = sync.get('source');
 
         return Boolean(
-          (itemSourceUuid &&
-            syncSourceUuid &&
-            itemSourceUuid === syncSourceUuid) ||
+          (itemSourceAci && syncSourceAci && itemSourceAci === syncSourceAci) ||
             (itemSource && syncSource && itemSource === syncSource)
         );
       });
 
       const syncSource = sync.get('source');
-      const syncSourceUuid = sync.get('sourceUuid');
+      const syncSourceAci = sync.get('sourceAci');
       const syncTimestamp = sync.get('timestamp');
       const wasMessageFound = Boolean(found);
       log.info('Receive view once open sync:', {
         syncSource,
-        syncSourceUuid,
+        syncSourceAci,
         syncTimestamp,
         wasMessageFound,
       });

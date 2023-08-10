@@ -9,8 +9,9 @@ import Long from 'long';
 
 import type { LoggerType } from '../../types/Logging';
 import { strictAssert } from '../../util/assert';
-import { UUID_BYTE_SIZE } from '../../types/UUID';
+import { isAciString, isUntaggedPniString } from '../../types/ServiceId';
 import * as Bytes from '../../Bytes';
+import { UUID_BYTE_SIZE } from '../../Crypto';
 import { uuidToBytes, bytesToUuid } from '../../util/uuidToBytes';
 import { SignalService as Proto } from '../../protobuf';
 import type {
@@ -246,6 +247,14 @@ function decodeSingleResponse(
     const e164 = `+${e164Long.toString()}`;
     const pni = bytesToUuid(pniBytes);
     const aci = bytesToUuid(aciBytes);
+    strictAssert(
+      aci === undefined || isAciString(aci),
+      'CDSI response has invalid ACI'
+    );
+    strictAssert(
+      pni === undefined || isUntaggedPniString(pni),
+      'CDSI response has invalid PNI'
+    );
 
     resultMap.set(e164, { pni, aci });
   }

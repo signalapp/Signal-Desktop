@@ -347,7 +347,7 @@ async function _runJob(job?: AttachmentDownloadJobType): Promise<void> {
       );
       if (message) {
         await saveMessage(message.attributes, {
-          ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+          ourAci: window.textsecure.storage.user.getCheckedAci(),
         });
       }
 
@@ -418,7 +418,7 @@ async function _finishJob(
   if (message) {
     logger.info(`attachment_downloads/_finishJob for job id: ${id}`);
     await saveMessage(message.attributes, {
-      ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+      ourAci: window.textsecure.storage.user.getCheckedAci(),
     });
   }
 

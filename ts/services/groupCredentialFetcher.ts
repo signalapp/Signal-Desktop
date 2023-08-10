@@ -12,7 +12,6 @@ import * as durations from '../util/durations';
 import { BackOff } from '../util/BackOff';
 import { sleep } from '../util/sleep';
 import { toDayMillis } from '../util/timestamp';
-import { UUIDKind } from '../types/UUID';
 import * as log from '../logging/log';
 
 export const GROUP_CREDENTIALS_KEY = 'groupCredentials';
@@ -121,7 +120,7 @@ export function getCheckedCredentialsForToday(
 export async function maybeFetchNewCredentials(): Promise<void> {
   const logId = 'maybeFetchNewCredentials';
 
-  const aci = window.textsecure.storage.user.getUuid(UUIDKind.ACI)?.toString();
+  const aci = window.textsecure.storage.user.getAci();
   if (!aci) {
     log.info(`${logId}: no ACI, returning early`);
     return;
@@ -156,8 +155,8 @@ export async function maybeFetchNewCredentials(): Promise<void> {
   );
   strictAssert(pni, 'Server must give pni along with group credentials');
 
-  const localPni = window.storage.user.getUuid(UUIDKind.PNI);
-  if (pni !== localPni?.toString()) {
+  const localPni = window.storage.user.getPni();
+  if (pni !== localPni) {
     log.error(`${logId}: local PNI ${localPni}, does not match remote ${pni}`);
   }
 

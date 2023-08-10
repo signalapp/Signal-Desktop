@@ -5,7 +5,8 @@
 import type { PublicKey } from '@signalapp/libsignal-client';
 
 import type { SignalService as Proto } from '../protobuf';
-import type { UUIDStringType, TaggedUUIDStringType } from '../types/UUID';
+import type { ServiceIdString, AciString } from '../types/ServiceId';
+import type { StoryDistributionIdString } from '../types/StoryDistributionId';
 import type {
   ProcessedEnvelope,
   ProcessedDataMessage,
@@ -41,7 +42,7 @@ export type TypingEventData = Readonly<{
 
 export type TypingEventConfig = {
   sender?: string;
-  senderUuid?: string;
+  senderAci?: AciString;
   senderDevice: number;
   typing: TypingEventData;
 };
@@ -49,17 +50,17 @@ export type TypingEventConfig = {
 export class TypingEvent extends Event {
   public readonly sender?: string;
 
-  public readonly senderUuid?: string;
+  public readonly senderAci?: AciString;
 
   public readonly senderDevice: number;
 
   public readonly typing: TypingEventData;
 
-  constructor({ sender, senderUuid, senderDevice, typing }: TypingEventConfig) {
+  constructor({ sender, senderAci, senderDevice, typing }: TypingEventConfig) {
     super('typing');
 
     this.sender = sender;
-    this.senderUuid = senderUuid;
+    this.senderAci = senderAci;
     this.senderDevice = senderDevice;
     this.typing = typing;
   }
@@ -112,7 +113,7 @@ export type DeliveryEventData = Readonly<{
   timestamp: number;
   envelopeTimestamp: number;
   source?: string;
-  sourceUuid?: UUIDStringType;
+  sourceServiceId?: ServiceIdString;
   sourceDevice?: number;
   wasSentEncrypted: boolean;
 }>;
@@ -134,7 +135,7 @@ export type DecryptionErrorEventData = Readonly<{
   receivedAtCounter: number;
   receivedAtDate: number;
   senderDevice: number;
-  senderUuid: string;
+  senderAci: AciString;
   timestamp: number;
 }>;
 
@@ -149,7 +150,7 @@ export class DecryptionErrorEvent extends ConfirmableEvent {
 
 export type InvalidPlaintextEventData = Readonly<{
   senderDevice: number;
-  senderUuid: string;
+  senderAci: AciString;
   timestamp: number;
 }>;
 
@@ -162,7 +163,7 @@ export class InvalidPlaintextEvent extends Event {
 export type RetryRequestEventData = Readonly<{
   groupId?: string;
   ratchetKey?: PublicKey;
-  requesterUuid: UUIDStringType;
+  requesterAci: AciString;
   requesterDevice: number;
   senderDevice: number;
   sentAt: number;
@@ -180,7 +181,7 @@ export class RetryRequestEvent extends ConfirmableEvent {
 export type SentEventData = Readonly<{
   envelopeId: string;
   destination?: string;
-  destinationUuid?: TaggedUUIDStringType;
+  destinationServiceId?: ServiceIdString;
   timestamp?: number;
   serverTimestamp?: number;
   device: number | undefined;
@@ -190,7 +191,7 @@ export type SentEventData = Readonly<{
   receivedAtCounter: number;
   receivedAtDate: number;
   expirationStartTimestamp?: number;
-  storyDistributionListId?: string;
+  storyDistributionListId?: StoryDistributionIdString;
 }>;
 
 export class SentEvent extends ConfirmableEvent {
@@ -201,7 +202,7 @@ export class SentEvent extends ConfirmableEvent {
 
 export type ProfileKeyUpdateData = Readonly<{
   source?: string;
-  sourceUuid?: UUIDStringType;
+  sourceAci?: AciString;
   profileKey: string;
 }>;
 
@@ -217,9 +218,9 @@ export class ProfileKeyUpdateEvent extends ConfirmableEvent {
 export type MessageEventData = Readonly<{
   envelopeId: string;
   source?: string;
-  sourceUuid: UUIDStringType;
+  sourceAci: AciString;
   sourceDevice?: number;
-  destinationUuid: UUIDStringType;
+  destinationServiceId: ServiceIdString;
   timestamp: number;
   serverGuid?: string;
   serverTimestamp?: number;
@@ -242,7 +243,7 @@ export type ReadOrViewEventData = Readonly<{
   timestamp: number;
   envelopeTimestamp: number;
   source?: string;
-  sourceUuid?: UUIDStringType;
+  sourceServiceId?: ServiceIdString;
   sourceDevice?: number;
   wasSentEncrypted: true;
 }>;
@@ -276,32 +277,32 @@ export class ConfigurationEvent extends ConfirmableEvent {
 
 export type ViewOnceOpenSyncOptions = {
   source?: string;
-  sourceUuid?: UUIDStringType;
+  sourceAci?: AciString;
   timestamp?: number;
 };
 
 export class ViewOnceOpenSyncEvent extends ConfirmableEvent {
   public readonly source?: string;
 
-  public readonly sourceUuid?: UUIDStringType;
+  public readonly sourceAci?: AciString;
 
   public readonly timestamp?: number;
 
   constructor(
-    { source, sourceUuid, timestamp }: ViewOnceOpenSyncOptions,
+    { source, sourceAci, timestamp }: ViewOnceOpenSyncOptions,
     confirm: ConfirmCallback
   ) {
     super('viewOnceOpenSync', confirm);
 
     this.source = source;
-    this.sourceUuid = sourceUuid;
+    this.sourceAci = sourceAci;
     this.timestamp = timestamp;
   }
 }
 
 export type MessageRequestResponseOptions = {
   threadE164?: string;
-  threadUuid?: string;
+  threadAci?: AciString;
   messageRequestResponseType: Proto.SyncMessage.IMessageRequestResponse['type'];
   groupId?: string;
   groupV2Id?: string;
@@ -310,7 +311,7 @@ export type MessageRequestResponseOptions = {
 export class MessageRequestResponseEvent extends ConfirmableEvent {
   public readonly threadE164?: string;
 
-  public readonly threadUuid?: string;
+  public readonly threadAci?: AciString;
 
   public readonly messageRequestResponseType?: MessageRequestResponseOptions['messageRequestResponseType'];
 
@@ -321,7 +322,7 @@ export class MessageRequestResponseEvent extends ConfirmableEvent {
   constructor(
     {
       threadE164,
-      threadUuid,
+      threadAci,
       messageRequestResponseType,
       groupId,
       groupV2Id,
@@ -331,7 +332,7 @@ export class MessageRequestResponseEvent extends ConfirmableEvent {
     super('messageRequestResponse', confirm);
 
     this.threadE164 = threadE164;
-    this.threadUuid = threadUuid;
+    this.threadAci = threadAci;
     this.messageRequestResponseType = messageRequestResponseType;
     this.groupId = groupId;
     this.groupV2Id = groupV2Id;
@@ -376,7 +377,7 @@ export type ReadSyncEventData = Readonly<{
   timestamp?: number;
   envelopeTimestamp: number;
   sender?: string;
-  senderUuid?: string;
+  senderAci?: AciString;
 }>;
 
 export class ReadSyncEvent extends ConfirmableEvent {
@@ -392,7 +393,7 @@ export type ViewSyncEventData = Readonly<{
   timestamp?: number;
   envelopeTimestamp: number;
   senderE164?: string;
-  senderUuid?: string;
+  senderAci?: AciString;
 }>;
 
 export class ViewSyncEvent extends ConfirmableEvent {
@@ -434,7 +435,7 @@ export class CallLogEventSyncEvent extends ConfirmableEvent {
 }
 
 export type StoryRecipientUpdateData = Readonly<{
-  destinationUuid: string;
+  destinationServiceId: ServiceIdString;
   storyMessageRecipients: Array<Proto.SyncMessage.Sent.IStoryMessageRecipient>;
   timestamp: number;
 }>;

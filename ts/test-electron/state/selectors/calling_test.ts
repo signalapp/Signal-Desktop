@@ -12,6 +12,7 @@ import {
   GroupCallConnectionState,
   GroupCallJoinState,
 } from '../../../types/Calling';
+import { generateAci } from '../../../types/ServiceId';
 import {
   getCallsByConversation,
   getCallSelector,
@@ -25,13 +26,16 @@ import type {
 } from '../../../state/ducks/calling';
 import { getEmptyState } from '../../../state/ducks/calling';
 
+const OUR_ACI = generateAci();
+const ACI_1 = generateAci();
+
 describe('state/selectors/calling', () => {
   const getEmptyRootState = () => {
     const initial = rootReducer(undefined, noopAction());
     return rootReducer(
       initial,
       userActions.userChanged({
-        ourACI: '00000000-0000-4000-8000-000000000000',
+        ourAci: OUR_ACI,
       })
     );
   };
@@ -64,7 +68,7 @@ describe('state/selectors/calling', () => {
       localAudioLevel: 0,
       viewMode: CallViewMode.Grid,
       showParticipantsList: false,
-      safetyNumberChangedUuids: [],
+      safetyNumberChangedAcis: [],
       outgoingRing: true,
       pip: false,
       settingsDialogOpen: false,
@@ -93,14 +97,14 @@ describe('state/selectors/calling', () => {
     connectionState: GroupCallConnectionState.NotConnected,
     joinState: GroupCallJoinState.NotJoined,
     peekInfo: {
-      uuids: ['c75b51da-d484-4674-9b2c-cc11de00e227'],
-      creatorUuid: 'c75b51da-d484-4674-9b2c-cc11de00e227',
+      acis: [ACI_1],
+      creatorAci: ACI_1,
       maxDevices: Infinity,
       deviceCount: 1,
     },
     remoteParticipants: [],
     ringId: BigInt(123),
-    ringerUuid: 'c75b51da-d484-4674-9b2c-cc11de00e227',
+    ringerAci: ACI_1,
   };
 
   const stateWithIncomingGroupCall: CallingStateType = {
@@ -173,7 +177,7 @@ describe('state/selectors/calling', () => {
           'fake-group-call-conversation-id': {
             ...incomingGroupCall,
             peekInfo: {
-              uuids: [],
+              acis: [],
               maxDevices: Infinity,
               deviceCount: 1,
             },

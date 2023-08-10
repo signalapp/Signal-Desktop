@@ -2,10 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ConversationAttributesType } from '../model-types.d';
+import type { ServiceIdString } from '../types/ServiceId';
 
 export function getSendTarget({
   uuid,
-  e164,
-}: Pick<ConversationAttributesType, 'uuid' | 'e164'>): string | undefined {
-  return uuid || e164;
+  pni,
+}: Pick<ConversationAttributesType, 'uuid' | 'pni'>):
+  | ServiceIdString
+  | undefined {
+  return uuid || pni;
 }

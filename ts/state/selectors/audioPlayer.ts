@@ -28,7 +28,7 @@ import { getMessageIdForLogging } from '../../util/idForLogging';
 import * as Attachment from '../../types/Attachment';
 import type { ActiveAudioPlayerStateType } from '../ducks/audioPlayer';
 import { isPlayed } from '../../types/Attachment';
-import type { UUIDStringType } from '../../types/UUID';
+import type { ServiceIdString } from '../../types/ServiceId';
 
 export type VoiceNoteForPlayback = {
   id: string;
@@ -36,7 +36,7 @@ export type VoiceNoteForPlayback = {
   url: string | undefined;
   type: 'incoming' | 'outgoing';
   source: string | undefined;
-  sourceUuid: UUIDStringType | undefined;
+  sourceUuid: ServiceIdString | undefined;
   isPlayed: boolean;
   messageIdForLogging: string;
   timestamp: number;
@@ -58,12 +58,12 @@ export const selectVoiceNoteTitle = createSelector(
   getUserConversationId,
   getConversationSelector,
   getIntl,
-  (ourNumber, ourACI, ourConversationId, conversationSelector, i18n) => {
+  (ourNumber, ourAci, ourConversationId, conversationSelector, i18n) => {
     return (
       message: Pick<MessageAttributesType, 'type' | 'source' | 'sourceUuid'>
     ) => {
       const source = getSource(message, ourNumber);
-      const sourceUuid = getSourceUuid(message, ourACI);
+      const sourceUuid = getSourceUuid(message, ourAci);
 
       const conversation =
         !source && !sourceUuid

@@ -6,7 +6,6 @@ import * as log from '../logging/log';
 import { SendMessageProtoError } from '../textsecure/Errors';
 import { getSendOptions } from './getSendOptions';
 import { handleMessageSend } from './handleMessageSend';
-import { getTaggedConversationUuid } from './getConversationUuid';
 
 import type { CallbackResultType } from '../textsecure/Types.d';
 import type { ConversationModel } from '../models/conversations';
@@ -45,7 +44,7 @@ export async function wrapWithSyncMessageSend({
   } catch (thrown) {
     if (thrown instanceof SendMessageProtoError) {
       didSuccessfullySendOne = Boolean(
-        thrown.successfulIdentifiers && thrown.successfulIdentifiers.length > 0
+        thrown.successfulServiceIds && thrown.successfulServiceIds.length > 0
       );
       error = thrown;
     }
@@ -78,7 +77,7 @@ export async function wrapWithSyncMessageSend({
       await handleMessageSend(
         sender.sendSyncMessage({
           destination: conversation.get('e164'),
-          destinationUuid: getTaggedConversationUuid(conversation.attributes),
+          destinationServiceId: conversation.getServiceId(),
           encodedDataMessage: dataMessage,
           expirationStartTimestamp: null,
           options,

@@ -2,8 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
+import { v4 as generateUuid } from 'uuid';
 
-import { UUID } from '../../types/UUID';
+import { generateAci } from '../../types/ServiceId';
 import {
   _isGroupChangeMessageBounceable,
   _mergeGroupChangeMessages,
@@ -11,13 +12,13 @@ import {
 
 describe('group message merging', () => {
   const defaultMessage = {
-    id: UUID.generate().toString(),
-    conversationId: UUID.generate().toString(),
+    id: generateUuid(),
+    conversationId: generateUuid(),
     timestamp: Date.now(),
     sent_at: Date.now(),
     received_at: Date.now(),
   };
-  const uuid = UUID.generate().toString();
+  const uuid = generateAci();
 
   describe('_isGroupChangeMessageBounceable', () => {
     it('should return true for admin approval add', () => {
@@ -106,7 +107,7 @@ describe('group message merging', () => {
         details: [
           {
             type: 'admin-approval-add-one' as const,
-            uuid: UUID.generate().toString(),
+            uuid: generateAci(),
           },
         ],
       },
@@ -118,7 +119,7 @@ describe('group message merging', () => {
         details: [
           {
             type: 'admin-approval-remove-one' as const,
-            uuid: UUID.generate().toString(),
+            uuid: generateAci(),
           },
         ],
       },

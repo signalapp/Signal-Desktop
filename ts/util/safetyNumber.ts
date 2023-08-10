@@ -3,7 +3,6 @@
 
 import { PublicKey, Fingerprint } from '@signalapp/libsignal-client';
 import type { ConversationType } from '../state/ducks/conversations';
-import { UUID, UUIDKind } from '../types/UUID';
 
 import { assertDev } from './assert';
 import { isNotNil } from './isNotNil';
@@ -33,14 +32,14 @@ export async function generateSafetyNumbers(
 
   const { storage } = window.textsecure;
   const ourNumber = storage.user.getNumber();
-  const ourAci = storage.user.getCheckedUuid(UUIDKind.ACI);
+  const ourAci = storage.user.getCheckedAci();
 
   const us = storage.protocol.getIdentityRecord(ourAci);
   const ourKeyBuffer = us ? us.publicKey : null;
 
   const theirAci = contact.pni !== contact.uuid ? contact.uuid : undefined;
   const them = theirAci
-    ? await storage.protocol.getOrMigrateIdentityRecord(new UUID(theirAci))
+    ? await storage.protocol.getOrMigrateIdentityRecord(theirAci)
     : undefined;
   const theirKeyBuffer = them?.publicKey;
 
@@ -99,7 +98,7 @@ export async function generateSafetyNumbers(
         fingerprint = Fingerprint.new(
           ITERATION_COUNT,
           UUID_VERSION,
-          Buffer.from(uuidToBytes(ourAci.toString())),
+          Buffer.from(uuidToBytes(ourAci)),
           ourKey,
           Buffer.from(uuidToBytes(theirAci)),
           theirKey

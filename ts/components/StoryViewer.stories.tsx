@@ -8,6 +8,7 @@ import type { PropsType } from './StoryViewer';
 import enMessages from '../../_locales/en/messages.json';
 import { SendStatus } from '../messages/MessageSendState';
 import { StoryViewModeType } from '../types/Stories';
+import { generateStoryDistributionId } from '../types/StoryDistributionId';
 import { StoryViewer } from './StoryViewer';
 import { VIDEO_MP4 } from '../types/MIME';
 import { fakeAttachment } from '../test-both/helpers/fakeAttachment';
@@ -170,7 +171,10 @@ export const YourStory = Template.bind({});
   );
 
   YourStory.args = {
-    distributionList: { id: '123', name: 'Close Friends' },
+    distributionList: {
+      id: generateStoryDistributionId(),
+      name: 'Close Friends',
+    },
     story: {
       ...storyView,
       sender: {
@@ -203,7 +207,10 @@ export const YourStoryFailed = Template.bind({});
   );
 
   YourStoryFailed.args = {
-    distributionList: { id: '123', name: 'Close Friends' },
+    distributionList: {
+      id: generateStoryDistributionId(),
+      name: 'Close Friends',
+    },
     story: {
       ...storyView,
       sender: {

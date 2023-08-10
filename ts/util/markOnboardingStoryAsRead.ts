@@ -45,7 +45,7 @@ export async function markOnboardingStoryAsRead(): Promise<boolean> {
   );
 
   await window.Signal.Data.saveMessages(messageAttributes, {
-    ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+    ourAci: window.textsecure.storage.user.getCheckedAci(),
   });
 
   await window.storage.put('hasViewedOnboardingStory', true);

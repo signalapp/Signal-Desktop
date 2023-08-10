@@ -3,7 +3,7 @@
 
 import * as sinon from 'sinon';
 import { Job } from '../../../jobs/Job';
-import { UUID } from '../../../types/UUID';
+import { generateAci } from '../../../types/ServiceId';
 
 import { addReportSpamJob } from '../../../jobs/helpers/addReportSpamJob';
 
@@ -14,7 +14,7 @@ describe('addReportSpamJob', () => {
   const conversation = {
     id: 'convo',
     type: 'private' as const,
-    uuid: UUID.generate().toString(),
+    uuid: generateAci(),
   };
 
   beforeEach(() => {

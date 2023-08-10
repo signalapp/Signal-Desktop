@@ -6,7 +6,7 @@ import type { FunctionComponent } from 'react';
 
 import type { LocalizerType, ThemeType } from '../../types/Util';
 import { AvatarColors } from '../../types/Colors';
-import type { LookupConversationWithoutUuidActionsType } from '../../util/lookupConversationWithoutUuid';
+import type { LookupConversationWithoutServiceIdActionsType } from '../../util/lookupConversationWithoutServiceId';
 import { ListTile } from '../ListTile';
 import { Avatar, AvatarSize } from '../Avatar';
 import { Spinner } from '../Spinner';
@@ -22,7 +22,7 @@ type PropsHousekeepingType = {
   i18n: LocalizerType;
   theme: ThemeType;
   toggleConversationInChooseMembers: (conversationId: string) => void;
-} & LookupConversationWithoutUuidActionsType;
+} & LookupConversationWithoutServiceIdActionsType;
 
 type PropsType = PropsDataType & PropsHousekeepingType;
 
@@ -32,7 +32,7 @@ export const UsernameCheckbox: FunctionComponent<PropsType> = React.memo(
     isChecked,
     isFetching,
     i18n,
-    lookupConversationWithoutUuid,
+    lookupConversationWithoutServiceId,
     showUserNotFoundModal,
     setIsFetchingUUID,
     toggleConversationInChooseMembers,
@@ -42,7 +42,7 @@ export const UsernameCheckbox: FunctionComponent<PropsType> = React.memo(
         return;
       }
 
-      const conversationId = await lookupConversationWithoutUuid({
+      const conversationId = await lookupConversationWithoutServiceId({
         showUserNotFoundModal,
         setIsFetchingUUID,
 
@@ -56,7 +56,7 @@ export const UsernameCheckbox: FunctionComponent<PropsType> = React.memo(
     }, [
       isFetching,
       toggleConversationInChooseMembers,
-      lookupConversationWithoutUuid,
+      lookupConversationWithoutServiceId,
       showUserNotFoundModal,
       setIsFetchingUUID,
       username,

@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { isBucketValueEnabled, isEnabled } from '../RemoteConfig';
-import { UUIDKind } from '../types/UUID';
 import { isBeta } from './version';
 
 // Note: selectors/items is the other place this check is done
@@ -11,7 +10,7 @@ export const getStoriesAvailable = (): boolean => {
     isBucketValueEnabled(
       'desktop.stories2',
       window.textsecure.storage.user.getNumber(),
-      window.textsecure.storage.user.getUuid(UUIDKind.ACI)?.toString()
+      window.textsecure.storage.user.getAci()
     )
   ) {
     return true;

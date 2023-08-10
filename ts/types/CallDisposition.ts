@@ -4,6 +4,7 @@
 import { z } from 'zod';
 import Long from 'long';
 import { CallMode } from './Calling';
+import type { ServiceIdString } from './ServiceId';
 import { bytesToUuid } from '../util/uuidToBytes';
 import { SignalService as Proto } from '../protobuf';
 import * as Bytes from '../Bytes';
@@ -66,7 +67,7 @@ export type CallStatus = DirectCallStatus | GroupCallStatus;
 
 export type CallDetails = Readonly<{
   callId: string;
-  peerId: string;
+  peerId: ServiceIdString | string;
   ringerId: string | null;
   mode: CallMode;
   type: CallType;

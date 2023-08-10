@@ -5,8 +5,16 @@ import * as React from 'react';
 
 import { action } from '@storybook/addon-actions';
 
+import { generateAci } from '../../types/ServiceId';
 import type { Props } from './AtMentionify';
 import { AtMentionify } from './AtMentionify';
+
+const SERVICE_ID_1 = generateAci();
+const SERVICE_ID_2 = generateAci();
+const SERVICE_ID_3 = generateAci();
+const SERVICE_ID_4 = generateAci();
+const SERVICE_ID_5 = generateAci();
+const SERVICE_ID_6 = generateAci();
 
 export default {
   title: 'Components/Conversation/AtMentionify',
@@ -32,21 +40,21 @@ export function MultipleMentions(): JSX.Element {
     {
       start: 4,
       length: 1,
-      mentionUuid: 'abc',
+      mentionUuid: SERVICE_ID_1,
       replacementText: 'Professor Farnsworth',
       conversationID: 'x',
     },
     {
       start: 2,
       length: 1,
-      mentionUuid: 'def',
+      mentionUuid: SERVICE_ID_2,
       replacementText: 'Philip J Fry',
       conversationID: 'x',
     },
     {
       start: 0,
       length: 1,
-      mentionUuid: 'xyz',
+      mentionUuid: SERVICE_ID_3,
       replacementText: 'Yancy Fry',
       conversationID: 'x',
     },
@@ -65,21 +73,21 @@ export function ComplexMentions(): JSX.Element {
     {
       start: 80,
       length: 1,
-      mentionUuid: 'ioe',
+      mentionUuid: SERVICE_ID_4,
       replacementText: 'Cereal Killer',
       conversationID: 'x',
     },
     {
       start: 78,
       length: 1,
-      mentionUuid: 'fdr',
+      mentionUuid: SERVICE_ID_5,
       replacementText: 'Acid Burn',
       conversationID: 'x',
     },
     {
       start: 4,
       length: 1,
-      mentionUuid: 'ope',
+      mentionUuid: SERVICE_ID_6,
       replacementText: 'Zero Cool',
       conversationID: 'x',
     },
@@ -101,7 +109,7 @@ export function WithOddCharacter(): JSX.Element {
     {
       start: 4,
       length: 1,
-      mentionUuid: 'ope',
+      mentionUuid: SERVICE_ID_6,
       replacementText: 'Zero Cool',
       conversationID: 'x',
     },

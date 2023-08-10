@@ -3,7 +3,7 @@
 
 import { compact } from 'lodash';
 import type { ConversationAttributesType } from '../model-types.d';
-import type { UUIDStringType } from '../types/UUID';
+import type { ServiceIdString } from '../types/ServiceId';
 import { isDirectConversation } from './whatTypeOfConversation';
 
 export function getConversationMembers(
@@ -16,7 +16,7 @@ export function getConversationMembers(
 
   if (conversationAttrs.membersV2) {
     const { includePendingMembers } = options;
-    const members: Array<{ uuid: UUIDStringType }> = includePendingMembers
+    const members: Array<{ uuid: ServiceIdString }> = includePendingMembers
       ? [
           ...(conversationAttrs.membersV2 || []),
           ...(conversationAttrs.pendingMembersV2 || []),

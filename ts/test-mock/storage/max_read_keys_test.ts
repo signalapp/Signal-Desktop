@@ -5,7 +5,7 @@ import { assert } from 'chai';
 import { Proto } from '@signalapp/mock-server';
 
 import * as durations from '../../util/durations';
-import { UUID } from '../../types/UUID';
+import { generateAci } from '../../types/ServiceId';
 import { MAX_READ_KEYS } from '../../services/storageConstants';
 import type { App, Bootstrap } from './fixtures';
 import { initStorage, debug } from './fixtures';
@@ -57,7 +57,7 @@ describe('storage service', function needsName() {
           type: IdentifierType.CONTACT,
           record: {
             contact: {
-              serviceUuid: UUID.generate().toString(),
+              serviceUuid: generateAci(),
             },
           },
         });

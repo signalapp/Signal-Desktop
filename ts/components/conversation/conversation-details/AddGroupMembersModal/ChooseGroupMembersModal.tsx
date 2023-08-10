@@ -17,7 +17,7 @@ import { strictAssert, assertDev } from '../../../../util/assert';
 import { refMerger } from '../../../../util/refMerger';
 import { useRestoreFocus } from '../../../../hooks/useRestoreFocus';
 import { missingCaseError } from '../../../../util/missingCaseError';
-import type { LookupConversationWithoutUuidActionsType } from '../../../../util/lookupConversationWithoutUuid';
+import type { LookupConversationWithoutServiceIdActionsType } from '../../../../util/lookupConversationWithoutServiceId';
 import { parseAndFormatPhoneNumber } from '../../../../util/libphonenumberInstance';
 import type { ParsedE164Type } from '../../../../util/libphonenumberInstance';
 import { filterAndSortConversationsByRecent } from '../../../../util/filterAndSortConversations';
@@ -65,13 +65,13 @@ export type StatePropsType = {
   toggleSelectedContact: (conversationId: string) => void;
   isUsernamesEnabled: boolean;
 } & Pick<
-  LookupConversationWithoutUuidActionsType,
-  'lookupConversationWithoutUuid'
+  LookupConversationWithoutServiceIdActionsType,
+  'lookupConversationWithoutServiceId'
 >;
 
 type ActionPropsType = Omit<
-  LookupConversationWithoutUuidActionsType,
-  'setIsFetchingUUID' | 'lookupConversationWithoutUuid'
+  LookupConversationWithoutServiceIdActionsType,
+  'setIsFetchingUUID' | 'lookupConversationWithoutServiceId'
 >;
 
 type PropsType = StatePropsType & ActionPropsType;
@@ -91,7 +91,7 @@ export function ChooseGroupMembersModal({
   setSearchTerm,
   theme,
   toggleSelectedContact,
-  lookupConversationWithoutUuid,
+  lookupConversationWithoutServiceId,
   showUserNotFoundModal,
   isUsernamesEnabled,
 }: PropsType): JSX.Element {
@@ -345,7 +345,9 @@ export function ChooseGroupMembersModal({
             }
             showUserNotFoundModal={showUserNotFoundModal}
             setIsFetchingUUID={setIsFetchingUUID}
-            lookupConversationWithoutUuid={lookupConversationWithoutUuid}
+            lookupConversationWithoutServiceId={
+              lookupConversationWithoutServiceId
+            }
           />
         );
         break;
@@ -353,7 +355,9 @@ export function ChooseGroupMembersModal({
         item = (
           <PhoneNumberCheckbox
             phoneNumber={row.phoneNumber}
-            lookupConversationWithoutUuid={lookupConversationWithoutUuid}
+            lookupConversationWithoutServiceId={
+              lookupConversationWithoutServiceId
+            }
             showUserNotFoundModal={showUserNotFoundModal}
             setIsFetchingUUID={setIsFetchingUUID}
             toggleConversationInChooseMembers={conversationId =>

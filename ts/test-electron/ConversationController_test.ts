@@ -3,26 +3,26 @@
 
 import { assert } from 'chai';
 
-import { UUID } from '../types/UUID';
 import { strictAssert } from '../util/assert';
 
 import type { ConversationModel } from '../models/conversations';
-import type { UUIDStringType } from '../types/UUID';
+import type { AciString, PniString, ServiceIdString } from '../types/ServiceId';
+import { generateAci, generatePni } from '../types/ServiceId';
 import type { SafeCombineConversationsParams } from '../ConversationController';
 
-const ACI_1 = UUID.generate().toString();
-const ACI_2 = UUID.generate().toString();
+const ACI_1 = generateAci();
+const ACI_2 = generateAci();
 const E164_1 = '+14155550111';
 const E164_2 = '+14155550112';
-const PNI_1 = UUID.generate().toString();
-const PNI_2 = UUID.generate().toString();
+const PNI_1 = generatePni();
+const PNI_2 = generatePni();
 const reason = 'test';
 
 type ParamsType = {
-  uuid?: UUIDStringType;
-  aci?: UUIDStringType;
+  uuid?: ServiceIdString;
+  aci?: AciString;
   e164?: string;
-  pni?: UUIDStringType;
+  pni?: PniString;
 };
 
 describe('ConversationController', () => {
@@ -485,7 +485,7 @@ describe('ConversationController', () => {
 
       it('promotes PNI used as generic UUID to be in the PNI field as well', () => {
         const initial = create('initial', {
-          aci: PNI_1,
+          uuid: PNI_1,
           e164: E164_1,
         });
         expectPropsAndLookups(initial, 'initial', {

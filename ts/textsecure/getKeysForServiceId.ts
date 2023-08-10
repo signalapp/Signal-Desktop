@@ -19,38 +19,34 @@ import {
 import { Sessions, IdentityKeys } from '../LibSignalStores';
 import { Address } from '../types/Address';
 import { QualifiedAddress } from '../types/QualifiedAddress';
-import { UUID } from '../types/UUID';
+import type { ServiceIdString } from '../types/ServiceId';
 import type { ServerKeysType, WebAPIType } from './WebAPI';
 import * as log from '../logging/log';
 import { isRecord } from '../util/isRecord';
 
-export async function getKeysForIdentifier(
-  identifier: string,
+export async function getKeysForServiceId(
+  serviceId: ServiceIdString,
   server: WebAPIType,
   devicesToUpdate?: Array<number>,
   accessKey?: string
 ): Promise<{ accessKeyFailed?: boolean }> {
   try {
     const { keys, accessKeyFailed } = await getServerKeys(
-      identifier,
+      serviceId,
       server,
       accessKey
     );
 
-    await handleServerKeys(identifier, keys, devicesToUpdate);
+    await handleServerKeys(serviceId, keys, devicesToUpdate);
 
     return {
       accessKeyFailed,
     };
   } catch (error) {
     if (error instanceof HTTPError && error.code === 404) {
-      const theirUuid = UUID.lookup(identifier);
+      await window.textsecure.storage.protocol.archiveAllSessions(serviceId);
 
-      if (theirUuid) {
-        await window.textsecure.storage.protocol.archiveAllSessions(theirUuid);
-      }
-
-      throw new UnregisteredUserError(identifier, error);
+      throw new UnregisteredUserError(serviceId, error);
     }
 
     throw error;
@@ -58,19 +54,19 @@ export async function getKeysForIdentifier(
 }
 
 async function getServerKeys(
-  identifier: string,
+  serviceId: ServiceIdString,
   server: WebAPIType,
   accessKey?: string
 ): Promise<{ accessKeyFailed?: boolean; keys: ServerKeysType }> {
   try {
     if (!accessKey) {
       return {
-        keys: await server.getKeysForIdentifier(identifier),
+        keys: await server.getKeysForServiceId(serviceId),
       };
     }
 
     return {
-      keys: await server.getKeysForIdentifierUnauth(identifier, undefined, {
+      keys: await server.getKeysForServiceIdUnauth(serviceId, undefined, {
         accessKey,
       }),
     };
@@ -83,7 +79,7 @@ async function getServerKeys(
     ) {
       return {
         accessKeyFailed: true,
-        keys: await server.getKeysForIdentifier(identifier),
+        keys: await server.getKeysForServiceId(serviceId),
       };
     }
 
@@ -92,13 +88,13 @@ async function getServerKeys(
 }
 
 async function handleServerKeys(
-  identifier: string,
+  serviceId: ServiceIdString,
   response: ServerKeysType,
   devicesToUpdate?: Array<number>
 ): Promise<void> {
-  const ourUuid = window.textsecure.storage.user.getCheckedUuid();
-  const sessionStore = new Sessions({ ourUuid });
-  const identityKeyStore = new IdentityKeys({ ourUuid });
+  const ourAci = window.textsecure.storage.user.getCheckedAci();
+  const sessionStore = new Sessions({ ourServiceId: ourAci });
+  const identityKeyStore = new IdentityKeys({ ourServiceId: ourAci });
 
   await Promise.all(
     response.devices.map(async device => {
@@ -113,19 +109,15 @@ async function handleServerKeys(
 
       if (device.registrationId === 0) {
         log.info(
-          `handleServerKeys/${identifier}: Got device registrationId zero!`
+          `handleServerKeys/${serviceId}: Got device registrationId zero!`
         );
       }
       if (!signedPreKey) {
         throw new Error(
-          `getKeysForIdentifier/${identifier}: Missing signed prekey for deviceId ${deviceId}`
+          `getKeysForIdentifier/${serviceId}: Missing signed prekey for deviceId ${deviceId}`
         );
       }
-      const theirUuid = UUID.checkedLookup(identifier);
-      const protocolAddress = ProtocolAddress.new(
-        theirUuid.toString(),
-        deviceId
-      );
+      const protocolAddress = ProtocolAddress.new(serviceId, deviceId);
       const preKeyId = preKey?.keyId || null;
       const preKeyObject = preKey
         ? PublicKey.deserialize(Buffer.from(preKey.publicKey))
@@ -160,14 +152,14 @@ async function handleServerKeys(
       );
 
       const address = new QualifiedAddress(
-        ourUuid,
-        new Address(theirUuid, deviceId)
+        ourAci,
+        new Address(serviceId, deviceId)
       );
 
       try {
         await window.textsecure.storage.protocol.enqueueSessionJob(
           address,
-          `handleServerKeys(${identifier})`,
+          `handleServerKeys(${serviceId})`,
           () =>
             processPreKeyBundle(
               preKeyBundle,
@@ -181,7 +173,7 @@ async function handleServerKeys(
           error instanceof LibSignalErrorBase &&
           error.code === ErrorCode.UntrustedIdentity
         ) {
-          throw new OutgoingIdentityKeyError(identifier, error);
+          throw new OutgoingIdentityKeyError(serviceId, error);
         }
         throw error;
       }

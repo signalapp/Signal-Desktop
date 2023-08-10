@@ -87,7 +87,7 @@ export async function sendNullMessage(
     await handleMessageSend(
       messaging.sendIndividualProto({
         contentHint,
-        identifier: conversation.getSendTarget(),
+        serviceId: conversation.getSendTarget(),
         options: sendOptions,
         proto,
         timestamp,

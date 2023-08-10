@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { IntlShape } from 'react-intl';
-import type { UUIDStringType } from './UUID';
+import type { AciString } from './ServiceId';
 import type { LocaleDirection } from '../../app/locale';
 
 import type { HourCyclePreference, LocaleMessagesType } from './I18N';
 
 export type StoryContextType = {
-  authorUuid?: UUIDStringType;
+  authorAci?: AciString;
   timestamp: number;
 };
 

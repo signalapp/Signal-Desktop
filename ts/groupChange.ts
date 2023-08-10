@@ -3,14 +3,16 @@
 
 import type { LocalizerType } from './types/Util';
 import type { ReplacementValuesType } from './types/I18N';
-import type { UUIDStringType } from './types/UUID';
+import type { ServiceIdString, AciString, PniString } from './types/ServiceId';
 import { missingCaseError } from './util/missingCaseError';
 
 import type { GroupV2ChangeDetailType, GroupV2ChangeType } from './groups';
 import { SignalService as Proto } from './protobuf';
 import * as log from './logging/log';
 
-export type SmartContactRendererType<T> = (uuid: UUIDStringType) => T | string;
+export type SmartContactRendererType<T> = (
+  serviceId: ServiceIdString
+) => T | string;
 export type StringRendererType<T> = (
   id: string,
   i18n: LocalizerType,
@@ -18,10 +20,11 @@ export type StringRendererType<T> = (
 ) => T | string;
 
 export type RenderOptionsType<T> = {
-  from?: UUIDStringType;
+  // `from` will be a PNI when the change is "declining a PNI invite".
+  from?: ServiceIdString;
   i18n: LocalizerType;
-  ourACI?: UUIDStringType;
-  ourPNI?: UUIDStringType;
+  ourAci: AciString | undefined;
+  ourPni: PniString | undefined;
   renderContact: SmartContactRendererType<T>;
   renderString: StringRendererType<T>;
 };
@@ -70,8 +73,8 @@ export function renderChangeDetail<T>(
   const {
     from,
     i18n: localizer,
-    ourACI,
-    ourPNI,
+    ourAci,
+    ourPni,
     renderContact,
     renderString,
   } = options;
@@ -83,11 +86,11 @@ export function renderChangeDetail<T>(
     return renderString(id, localizer, components);
   }
 
-  const isOurUuid = (uuid?: UUIDStringType): boolean => {
+  const isOurUuid = (uuid?: ServiceIdString): boolean => {
     if (!uuid) {
       return false;
     }
-    return Boolean((ourACI && uuid === ourACI) || (ourPNI && uuid === ourPNI));
+    return Boolean((ourAci && uuid === ourAci) || (ourPni && uuid === ourPni));
   };
   const fromYou = isOurUuid(from);
 

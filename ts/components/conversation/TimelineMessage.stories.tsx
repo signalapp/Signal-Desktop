@@ -35,6 +35,7 @@ import { getDefaultConversation } from '../../test-both/helpers/getDefaultConver
 import { WidthBreakpoint } from '../_util';
 import { DAY, HOUR, MINUTE, SECOND } from '../../util/durations';
 import { ContactFormType } from '../../types/EmbeddedContact';
+import { generateAci } from '../../types/ServiceId';
 
 import {
   fakeAttachment,
@@ -42,7 +43,6 @@ import {
 } from '../../test-both/helpers/fakeAttachment';
 import { getFakeBadge } from '../../test-both/helpers/getFakeBadge';
 import { ThemeType } from '../../types/Util';
-import { UUID } from '../../types/UUID';
 import { BadgeCategory } from '../../badges/BadgeCategory';
 import { PaymentEventKind } from '../../types/Payment';
 
@@ -1676,7 +1676,7 @@ Mentions.args = {
     {
       start: 0,
       length: 1,
-      mentionUuid: 'zap',
+      mentionUuid: generateAci(),
       replacementText: 'Zapp Brannigan',
       conversationID: 'x',
     },
@@ -1944,7 +1944,7 @@ EmbeddedContactWithSendMessage.args = {
   contact: {
     ...fullContact,
     firstNumber: fullContact.number[0].value,
-    uuid: UUID.generate().toString(),
+    uuid: generateAci(),
   },
   direction: 'incoming',
 };

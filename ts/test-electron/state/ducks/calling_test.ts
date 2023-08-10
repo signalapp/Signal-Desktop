@@ -27,9 +27,11 @@ import {
   GroupCallConnectionState,
   GroupCallJoinState,
 } from '../../../types/Calling';
-import { UUID } from '../../../types/UUID';
+import { generateAci } from '../../../types/ServiceId';
 import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
 import type { UnwrapPromise } from '../../../types/Util';
+
+const ACI_1 = generateAci();
 
 describe('calling duck', () => {
   const stateWithDirectCall: CallingStateType = {
@@ -55,7 +57,7 @@ describe('calling duck', () => {
       localAudioLevel: 0,
       viewMode: CallViewMode.Grid,
       showParticipantsList: false,
-      safetyNumberChangedUuids: [],
+      safetyNumberChangedAcis: [],
       outgoingRing: true,
       pip: false,
       settingsDialogOpen: false,
@@ -76,10 +78,10 @@ describe('calling duck', () => {
     },
   };
 
-  const creatorUuid = UUID.generate().toString();
-  const differentCreatorUuid = UUID.generate().toString();
-  const remoteUuid = UUID.generate().toString();
-  const ringerUuid = UUID.generate().toString();
+  const creatorAci = generateAci();
+  const differentCreatorAci = generateAci();
+  const remoteAci = generateAci();
+  const ringerAci = generateAci();
 
   const stateWithGroupCall = {
     ...getEmptyState(),
@@ -90,15 +92,15 @@ describe('calling duck', () => {
         connectionState: GroupCallConnectionState.Connected,
         joinState: GroupCallJoinState.NotJoined,
         peekInfo: {
-          uuids: [creatorUuid],
-          creatorUuid,
+          acis: [creatorAci],
+          creatorAci,
           eraId: 'xyz',
           maxDevices: 16,
           deviceCount: 1,
         },
         remoteParticipants: [
           {
-            uuid: remoteUuid,
+            aci: remoteAci,
             demuxId: 123,
             hasRemoteAudio: true,
             hasRemoteVideo: true,
@@ -120,7 +122,7 @@ describe('calling duck', () => {
           'fake-group-call-conversation-id'
         ],
         ringId: BigInt(123),
-        ringerUuid: UUID.generate().toString(),
+        ringerAci: generateAci(),
       },
     },
   };
@@ -134,7 +136,7 @@ describe('calling duck', () => {
       localAudioLevel: 0,
       viewMode: CallViewMode.Grid,
       showParticipantsList: false,
-      safetyNumberChangedUuids: [],
+      safetyNumberChangedAcis: [],
       outgoingRing: false,
       pip: false,
       settingsDialogOpen: false,
@@ -157,7 +159,7 @@ describe('calling duck', () => {
     },
   };
 
-  const ourACI = UUID.generate().toString();
+  const ourAci = generateAci();
 
   const getEmptyRootState = () => {
     const rootState = rootReducer(undefined, noopAction());
@@ -165,7 +167,7 @@ describe('calling duck', () => {
       ...rootState,
       user: {
         ...rootState.user,
-        ourACI,
+        ourAci,
       },
     };
   };
@@ -466,7 +468,7 @@ describe('calling duck', () => {
             localAudioLevel: 0,
             viewMode: CallViewMode.Grid,
             showParticipantsList: false,
-            safetyNumberChangedUuids: [],
+            safetyNumberChangedAcis: [],
             outgoingRing: false,
             pip: false,
             settingsDialogOpen: false,
@@ -559,7 +561,7 @@ describe('calling duck', () => {
             localAudioLevel: 0,
             viewMode: CallViewMode.Grid,
             showParticipantsList: false,
-            safetyNumberChangedUuids: [],
+            safetyNumberChangedAcis: [],
             outgoingRing: false,
             pip: false,
             settingsDialogOpen: false,
@@ -653,7 +655,7 @@ describe('calling duck', () => {
         }
 
         assert.isUndefined(call.ringId);
-        assert.isUndefined(call.ringerUuid);
+        assert.isUndefined(call.ringerAci);
       });
     });
 
@@ -879,15 +881,15 @@ describe('calling duck', () => {
             hasLocalAudio: true,
             hasLocalVideo: false,
             peekInfo: {
-              uuids: [creatorUuid],
-              creatorUuid,
+              acis: [creatorAci],
+              creatorAci,
               eraId: 'xyz',
               maxDevices: 16,
               deviceCount: 1,
             },
             remoteParticipants: [
               {
-                uuid: remoteUuid,
+                aci: remoteAci,
                 demuxId: 123,
                 hasRemoteAudio: true,
                 hasRemoteVideo: true,
@@ -907,15 +909,15 @@ describe('calling duck', () => {
             connectionState: GroupCallConnectionState.Connected,
             joinState: GroupCallJoinState.Joining,
             peekInfo: {
-              uuids: [creatorUuid],
-              creatorUuid,
+              acis: [creatorAci],
+              creatorAci,
               eraId: 'xyz',
               maxDevices: 16,
               deviceCount: 1,
             },
             remoteParticipants: [
               {
-                uuid: remoteUuid,
+                aci: remoteAci,
                 demuxId: 123,
                 hasRemoteAudio: true,
                 hasRemoteVideo: true,
@@ -938,13 +940,13 @@ describe('calling duck', () => {
             hasLocalAudio: true,
             hasLocalVideo: false,
             peekInfo: {
-              uuids: ['1b9e4d42-1f56-45c5-b6f4-d1be5a54fefa'],
+              acis: [ACI_1],
               maxDevices: 16,
               deviceCount: 1,
             },
             remoteParticipants: [
               {
-                uuid: remoteUuid,
+                aci: remoteAci,
                 demuxId: 456,
                 hasRemoteAudio: false,
                 hasRemoteVideo: true,
@@ -964,13 +966,13 @@ describe('calling duck', () => {
             connectionState: GroupCallConnectionState.Connected,
             joinState: GroupCallJoinState.Joined,
             peekInfo: {
-              uuids: ['1b9e4d42-1f56-45c5-b6f4-d1be5a54fefa'],
+              acis: [ACI_1],
               maxDevices: 16,
               deviceCount: 1,
             },
             remoteParticipants: [
               {
-                uuid: remoteUuid,
+                aci: remoteAci,
                 demuxId: 456,
                 hasRemoteAudio: false,
                 hasRemoteVideo: true,
@@ -993,7 +995,7 @@ describe('calling duck', () => {
                 'fake-group-call-conversation-id'
               ],
               ringId: BigInt(456),
-              ringerUuid,
+              ringerAci,
             },
           },
         };
@@ -1006,13 +1008,13 @@ describe('calling duck', () => {
             hasLocalAudio: true,
             hasLocalVideo: false,
             peekInfo: {
-              uuids: ['1b9e4d42-1f56-45c5-b6f4-d1be5a54fefa'],
+              acis: [ACI_1],
               maxDevices: 16,
               deviceCount: 1,
             },
             remoteParticipants: [
               {
-                uuid: remoteUuid,
+                aci: remoteAci,
                 demuxId: 456,
                 hasRemoteAudio: false,
                 hasRemoteVideo: true,
@@ -1029,7 +1031,7 @@ describe('calling duck', () => {
           {
             callMode: CallMode.Group,
             ringId: BigInt(456),
-            ringerUuid,
+            ringerAci,
           }
         );
       });
@@ -1044,7 +1046,7 @@ describe('calling duck', () => {
                 'fake-group-call-conversation-id'
               ],
               ringId: BigInt(456),
-              ringerUuid,
+              ringerAci,
             },
           },
         };
@@ -1057,13 +1059,13 @@ describe('calling duck', () => {
             hasLocalAudio: true,
             hasLocalVideo: false,
             peekInfo: {
-              uuids: ['1b9e4d42-1f56-45c5-b6f4-d1be5a54fefa'],
+              acis: [ACI_1],
               maxDevices: 16,
               deviceCount: 1,
             },
             remoteParticipants: [
               {
-                uuid: remoteUuid,
+                aci: remoteAci,
                 demuxId: 456,
                 hasRemoteAudio: false,
                 hasRemoteVideo: true,
@@ -1081,7 +1083,7 @@ describe('calling duck', () => {
         );
         assert.notProperty(
           result.callsByConversation['fake-group-call-conversation-id'],
-          'ringerUuid'
+          'ringerAci'
         );
       });
 
@@ -1095,13 +1097,13 @@ describe('calling duck', () => {
             hasLocalAudio: true,
             hasLocalVideo: false,
             peekInfo: {
-              uuids: ['1b9e4d42-1f56-45c5-b6f4-d1be5a54fefa'],
+              acis: [ACI_1],
               maxDevices: 16,
               deviceCount: 1,
             },
             remoteParticipants: [
               {
-                uuid: remoteUuid,
+                aci: remoteAci,
                 demuxId: 456,
                 hasRemoteAudio: false,
                 hasRemoteVideo: true,
@@ -1126,13 +1128,13 @@ describe('calling duck', () => {
             hasLocalAudio: true,
             hasLocalVideo: true,
             peekInfo: {
-              uuids: ['1b9e4d42-1f56-45c5-b6f4-d1be5a54fefa'],
+              acis: [ACI_1],
               maxDevices: 16,
               deviceCount: 1,
             },
             remoteParticipants: [
               {
-                uuid: remoteUuid,
+                aci: remoteAci,
                 demuxId: 456,
                 hasRemoteAudio: false,
                 hasRemoteVideo: true,
@@ -1151,7 +1153,7 @@ describe('calling duck', () => {
           localAudioLevel: 0,
           viewMode: CallViewMode.Grid,
           showParticipantsList: false,
-          safetyNumberChangedUuids: [],
+          safetyNumberChangedAcis: [],
           outgoingRing: false,
           pip: false,
           settingsDialogOpen: false,
@@ -1168,13 +1170,13 @@ describe('calling duck', () => {
             hasLocalAudio: true,
             hasLocalVideo: true,
             peekInfo: {
-              uuids: ['1b9e4d42-1f56-45c5-b6f4-d1be5a54fefa'],
+              acis: [ACI_1],
               maxDevices: 16,
               deviceCount: 1,
             },
             remoteParticipants: [
               {
-                uuid: remoteUuid,
+                aci: remoteAci,
                 demuxId: 456,
                 hasRemoteAudio: false,
                 hasRemoteVideo: true,
@@ -1211,7 +1213,7 @@ describe('calling duck', () => {
             hasLocalAudio: true,
             hasLocalVideo: true,
             peekInfo: {
-              uuids: [],
+              acis: [],
               maxDevices: 16,
               deviceCount: 0,
             },
@@ -1239,7 +1241,7 @@ describe('calling duck', () => {
             hasLocalAudio: true,
             hasLocalVideo: true,
             peekInfo: {
-              uuids: ['1b9e4d42-1f56-45c5-b6f4-d1be5a54fefa'],
+              acis: [ACI_1],
               maxDevices: 16,
               deviceCount: 1,
             },
@@ -1346,7 +1348,7 @@ describe('calling duck', () => {
         const action = receiveIncomingGroupCall({
           conversationId: 'fake-group-call-conversation-id',
           ringId: BigInt(456),
-          ringerUuid,
+          ringerAci,
         });
         const result = reducer(stateWithIncomingGroupCall, action);
 
@@ -1369,7 +1371,7 @@ describe('calling duck', () => {
         const action = receiveIncomingGroupCall({
           conversationId: 'fake-group-call-conversation-id',
           ringId: BigInt(456),
-          ringerUuid,
+          ringerAci,
         });
         const result = reducer(state, action);
 
@@ -1380,7 +1382,7 @@ describe('calling duck', () => {
         const action = receiveIncomingGroupCall({
           conversationId: 'fake-group-call-conversation-id',
           ringId: BigInt(456),
-          ringerUuid,
+          ringerAci,
         });
         const result = reducer(getEmptyState(), action);
 
@@ -1392,13 +1394,13 @@ describe('calling duck', () => {
             connectionState: GroupCallConnectionState.NotConnected,
             joinState: GroupCallJoinState.NotJoined,
             peekInfo: {
-              uuids: [],
+              acis: [],
               maxDevices: Infinity,
               deviceCount: 0,
             },
             remoteParticipants: [],
             ringId: BigInt(456),
-            ringerUuid,
+            ringerAci,
           }
         );
       });
@@ -1407,7 +1409,7 @@ describe('calling duck', () => {
         const action = receiveIncomingGroupCall({
           conversationId: 'fake-group-call-conversation-id',
           ringId: BigInt(456),
-          ringerUuid,
+          ringerAci,
         });
         const result = reducer(stateWithGroupCall, action);
 
@@ -1415,7 +1417,7 @@ describe('calling duck', () => {
           result.callsByConversation['fake-group-call-conversation-id'],
           {
             ringId: BigInt(456),
-            ringerUuid,
+            ringerAci,
           }
         );
       });
@@ -1680,7 +1682,7 @@ describe('calling duck', () => {
             localAudioLevel: 0,
             viewMode: CallViewMode.Grid,
             showParticipantsList: false,
-            safetyNumberChangedUuids: [],
+            safetyNumberChangedAcis: [],
             pip: false,
             settingsDialogOpen: false,
             outgoingRing: true,
@@ -1695,15 +1697,15 @@ describe('calling duck', () => {
             connectionState: GroupCallConnectionState.Connected,
             joinState: GroupCallJoinState.NotJoined,
             peekInfo: {
-              uuids: [creatorUuid],
-              creatorUuid,
+              acis: [creatorAci],
+              creatorAci,
               eraId: 'xyz',
               maxDevices: 16,
               deviceCount: 1,
             },
             remoteParticipants: [
               {
-                uuid: remoteUuid,
+                aci: remoteAci,
                 demuxId: 123,
                 hasRemoteAudio: true,
                 hasRemoteVideo: true,
@@ -1720,15 +1722,15 @@ describe('calling duck', () => {
             connectionState: GroupCallConnectionState.Connected,
             joinState: GroupCallJoinState.NotJoined,
             peekInfo: {
-              uuids: [creatorUuid],
-              creatorUuid,
+              acis: [creatorAci],
+              creatorAci,
               eraId: 'xyz',
               maxDevices: 16,
               deviceCount: 1,
             },
             remoteParticipants: [
               {
-                uuid: remoteUuid,
+                aci: remoteAci,
                 demuxId: 123,
                 hasRemoteAudio: true,
                 hasRemoteVideo: true,
@@ -1758,7 +1760,7 @@ describe('calling duck', () => {
 
           const call = result.callsByConversation['fake-conversation-id'];
           assert.deepEqual(call?.callMode === CallMode.Group && call.peekInfo, {
-            uuids: [],
+            acis: [],
             maxDevices: Infinity,
             deviceCount: 0,
           });
@@ -1774,7 +1776,7 @@ describe('calling duck', () => {
             peekInfo: undefined,
             remoteParticipants: [
               {
-                uuid: remoteUuid,
+                aci: remoteAci,
                 demuxId: 123,
                 hasRemoteAudio: true,
                 hasRemoteVideo: true,
@@ -1788,8 +1790,8 @@ describe('calling duck', () => {
           const call =
             result.callsByConversation['fake-group-call-conversation-id'];
           assert.deepEqual(call?.callMode === CallMode.Group && call.peekInfo, {
-            uuids: [creatorUuid],
-            creatorUuid,
+            acis: [creatorAci],
+            creatorAci,
             eraId: 'xyz',
             maxDevices: 16,
             deviceCount: 1,
@@ -1816,15 +1818,15 @@ describe('calling duck', () => {
             connectionState: GroupCallConnectionState.Connected,
             joinState: GroupCallJoinState.NotJoined,
             peekInfo: {
-              uuids: [differentCreatorUuid],
-              creatorUuid: differentCreatorUuid,
+              acis: [differentCreatorAci],
+              creatorAci: differentCreatorAci,
               eraId: 'abc',
               maxDevices: 5,
               deviceCount: 1,
             },
             remoteParticipants: [
               {
-                uuid: remoteUuid,
+                aci: remoteAci,
                 demuxId: 123,
                 hasRemoteAudio: true,
                 hasRemoteVideo: true,
@@ -1837,8 +1839,8 @@ describe('calling duck', () => {
 
           const call = result.callsByConversation['fake-conversation-id'];
           assert.deepEqual(call?.callMode === CallMode.Group && call.peekInfo, {
-            uuids: [differentCreatorUuid],
-            creatorUuid: differentCreatorUuid,
+            acis: [differentCreatorAci],
+            creatorAci: differentCreatorAci,
             eraId: 'abc',
             maxDevices: 5,
             deviceCount: 1,
@@ -1855,7 +1857,7 @@ describe('calling duck', () => {
                     'fake-group-call-conversation-id'
                   ],
                   ringId: BigInt(987),
-                  ringerUuid,
+                  ringerAci,
                 },
               },
             },
@@ -1868,7 +1870,7 @@ describe('calling duck', () => {
               peekInfo: undefined,
               remoteParticipants: [
                 {
-                  uuid: remoteUuid,
+                  aci: remoteAci,
                   demuxId: 123,
                   hasRemoteAudio: true,
                   hasRemoteVideo: true,
@@ -1887,7 +1889,7 @@ describe('calling duck', () => {
           }
 
           assert.strictEqual(call.ringId, BigInt(987));
-          assert.strictEqual(call.ringerUuid, ringerUuid);
+          assert.strictEqual(call.ringerAci, ringerAci);
         });
       });
     });
@@ -1966,7 +1968,7 @@ describe('calling duck', () => {
           localAudioLevel: 0,
           viewMode: CallViewMode.Grid,
           showParticipantsList: false,
-          safetyNumberChangedUuids: [],
+          safetyNumberChangedAcis: [],
           pip: false,
           settingsDialogOpen: false,
           outgoingRing: true,
@@ -2162,31 +2164,28 @@ describe('calling duck', () => {
 
     describe('isAnybodyElseInGroupCall', () => {
       it('returns false with no peek info', () => {
-        assert.isFalse(isAnybodyElseInGroupCall(undefined, remoteUuid));
+        assert.isFalse(isAnybodyElseInGroupCall(undefined, remoteAci));
       });
 
       it('returns false if the peek info has no participants', () => {
-        assert.isFalse(isAnybodyElseInGroupCall({ uuids: [] }, remoteUuid));
+        assert.isFalse(isAnybodyElseInGroupCall({ acis: [] }, remoteAci));
       });
 
       it('returns false if the peek info has one participant, you', () => {
         assert.isFalse(
-          isAnybodyElseInGroupCall({ uuids: [creatorUuid] }, creatorUuid)
+          isAnybodyElseInGroupCall({ acis: [creatorAci] }, creatorAci)
         );
       });
 
       it('returns true if the peek info has one participant, someone else', () => {
         assert.isTrue(
-          isAnybodyElseInGroupCall({ uuids: [creatorUuid] }, remoteUuid)
+          isAnybodyElseInGroupCall({ acis: [creatorAci] }, remoteAci)
         );
       });
 
       it('returns true if the peek info has two participants, you and someone else', () => {
         assert.isTrue(
-          isAnybodyElseInGroupCall(
-            { uuids: [creatorUuid, remoteUuid] },
-            remoteUuid
-          )
+          isAnybodyElseInGroupCall({ acis: [creatorAci, remoteAci] }, remoteAci)
         );
       });
     });

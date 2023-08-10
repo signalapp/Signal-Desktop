@@ -11,6 +11,7 @@ import { isMessageUnread } from '../util/isMessageUnread';
 import { notificationService } from '../services/notifications';
 import * as log from '../logging/log';
 import * as Errors from '../types/errors';
+import type { AciString } from '../types/ServiceId';
 import { StartupQueue } from '../util/StartupQueue';
 import { queueUpdateMessage } from '../util/messageBatcher';
 import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp';
@@ -18,7 +19,7 @@ import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp';
 export type ReadSyncAttributesType = {
   senderId: string;
   sender?: string;
-  senderUuid: string;
+  senderAci: AciString;
   timestamp: number;
   readAt: number;
 };
@@ -29,7 +30,7 @@ let singleton: ReadSyncs | undefined;
 
 async function maybeItIsAReactionReadSync(sync: ReadSyncModel): Promise<void> {
   const readReaction = await window.Signal.Data.markReactionAsRead(
-    sync.get('senderUuid'),
+    sync.get('senderAci'),
     Number(sync.get('timestamp'))
   );
 
@@ -38,7 +39,7 @@ async function maybeItIsAReactionReadSync(sync: ReadSyncModel): Promise<void> {
       'Nothing found for read sync',
       sync.get('senderId'),
       sync.get('sender'),
-      sync.get('senderUuid'),
+      sync.get('senderAci'),
       sync.get('timestamp')
     );
     return;

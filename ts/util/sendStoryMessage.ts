@@ -1,13 +1,16 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { v4 as generateUuid } from 'uuid';
+
 import type { AttachmentType } from '../types/Attachment';
 import type { MessageAttributesType } from '../model-types.d';
 import type {
   SendState,
   SendStateByConversationId,
 } from '../messages/MessageSendState';
-import type { UUIDStringType } from '../types/UUID';
+import type { StoryDistributionIdString } from '../types/StoryDistributionId';
+import type { ServiceIdString } from '../types/ServiceId';
 import * as log from '../logging/log';
 import dataInterface from '../sql/Client';
 import { MY_STORY_ID, StorySendMode } from '../types/Stories';
@@ -15,7 +18,6 @@ import { getStoriesBlocked } from './stories';
 import { ReadStatus } from '../messages/MessageReadStatus';
 import { SeenStatus } from '../MessageSeenStatus';
 import { SendStatus } from '../messages/MessageSendState';
-import { UUID } from '../types/UUID';
 import {
   conversationJobQueue,
   conversationQueueJobEnum,
@@ -72,11 +74,11 @@ export async function sendStoryMessage(
   const timestamp = Date.now();
 
   const sendStateByListId = new Map<
-    UUIDStringType,
+    StoryDistributionIdString,
     SendStateByConversationId
   >();
 
-  const recipientsAlreadySentTo = new Map<UUIDStringType, boolean>();
+  const recipientsAlreadySentTo = new Map<ServiceIdString, boolean>();
 
   // * Create the custom sendStateByConversationId for each distribution list
   // * De-dupe members to make sure they're only sent to once
@@ -86,18 +88,17 @@ export async function sendStoryMessage(
     .forEach(distributionList => {
       const sendStateByConversationId: SendStateByConversationId = {};
 
-      let distributionListMembers: Array<UUIDStringType> = [];
+      let distributionListMembers: Array<ServiceIdString> = [];
 
       if (distributionList.id === MY_STORY_ID && distributionList.isBlockList) {
-        const inBlockList = new Set<UUIDStringType>(distributionList.members);
+        const inBlockList = new Set<ServiceIdString>(distributionList.members);
         distributionListMembers = getSignalConnections().reduce(
           (acc, convo) => {
-            const id = convo.get('uuid');
-            if (!id) {
+            const uuid = convo.get('uuid');
+            if (!uuid) {
               return acc;
             }
 
-            const uuid = UUID.cast(id);
             if (inBlockList.has(uuid)) {
               return acc;
             }
@@ -109,7 +110,7 @@ export async function sendStoryMessage(
             acc.push(uuid);
             return acc;
           },
-          [] as Array<UUIDStringType>
+          [] as Array<ServiceIdString>
         );
       } else {
         distributionListMembers = distributionList.members;
@@ -177,7 +178,7 @@ export async function sendStoryMessage(
           conversationId: ourConversation.id,
           expireTimer: DurationInSeconds.DAY,
           expirationStartTimestamp: Date.now(),
-          id: UUID.generate().toString(),
+          id: generateUuid(),
           preview,
           readStatus: ReadStatus.Read,
           received_at: incrementMessageCounter(),
@@ -186,7 +187,7 @@ export async function sendStoryMessage(
           sendStateByConversationId,
           sent_at: timestamp,
           source: window.textsecure.storage.user.getNumber(),
-          sourceUuid: window.textsecure.storage.user.getUuid()?.toString(),
+          sourceUuid: window.textsecure.storage.user.getAci(),
           sourceDevice: window.textsecure.storage.user.getDeviceId(),
           storyDistributionListId: distributionList.id,
           timestamp,
@@ -285,7 +286,7 @@ export async function sendStoryMessage(
           conversationId: group.id,
           expireTimer: DurationInSeconds.DAY,
           expirationStartTimestamp: Date.now(),
-          id: UUID.generate().toString(),
+          id: generateUuid(),
           readStatus: ReadStatus.Read,
           received_at: incrementMessageCounter(),
           received_at_ms: groupTimestamp,
@@ -293,7 +294,7 @@ export async function sendStoryMessage(
           sendStateByConversationId,
           sent_at: groupTimestamp,
           source: window.textsecure.storage.user.getNumber(),
-          sourceUuid: window.textsecure.storage.user.getUuid()?.toString(),
+          sourceUuid: window.textsecure.storage.user.getAci(),
           sourceDevice: window.textsecure.storage.user.getDeviceId(),
           timestamp: groupTimestamp,
           type: 'story',
@@ -318,7 +319,7 @@ export async function sendStoryMessage(
       );
       return dataInterface.saveMessage(message.attributes, {
         forceSave: true,
-        ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+        ourAci: window.textsecure.storage.user.getCheckedAci(),
       });
     })
   );
@@ -370,7 +371,7 @@ export async function sendStoryMessage(
           await dataInterface.saveMessage(message.attributes, {
             forceSave: true,
             jobToInsert,
-            ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+            ourAci: window.textsecure.storage.user.getCheckedAci(),
           });
         }
       );

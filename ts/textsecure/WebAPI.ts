@@ -32,8 +32,12 @@ import { createHTTPSAgent } from '../util/createHTTPSAgent';
 import type { SocketStatus } from '../types/SocketStatus';
 import { toLogFormat } from '../types/errors';
 import { isPackIdValid, redactPackId } from '../types/Stickers';
-import type { UUID, UUIDStringType } from '../types/UUID';
-import { UUIDKind } from '../types/UUID';
+import type { ServiceIdString, AciString, PniString } from '../types/ServiceId';
+import {
+  ServiceIdKind,
+  isAciString,
+  isServiceIdString,
+} from '../types/ServiceId';
 import type { DirectoryConfigType } from '../types/RendererConfig';
 import * as Bytes from '../Bytes';
 import { randomInt } from '../Crypto';
@@ -177,8 +181,24 @@ type BytesWithDetailsType = {
   response: Response;
 };
 
+const aciSchema = z
+  .string()
+  .refine(isAciString)
+  .transform(x => {
+    assertDev(isAciString(x), 'Refine did not throw!');
+    return x;
+  });
+
+const serviceIdSchema = z
+  .string()
+  .refine(isServiceIdString)
+  .transform(x => {
+    assertDev(isServiceIdString(x), 'Refine did not throw!');
+    return x;
+  });
+
 export const multiRecipient200ResponseSchema = z.object({
-  uuids404: z.array(z.string()).optional(),
+  uuids404: z.array(serviceIdSchema).optional(),
   needsSync: z.boolean().optional(),
 });
 export type MultiRecipient200ResponseType = z.infer<
@@ -187,7 +207,7 @@ export type MultiRecipient200ResponseType = z.infer<
 
 export const multiRecipient409ResponseSchema = z.array(
   z.object({
-    uuid: z.string(),
+    uuid: serviceIdSchema,
     devices: z.object({
       missingDevices: z.array(z.number()).optional(),
       extraDevices: z.array(z.number()).optional(),
@@ -200,7 +220,7 @@ export type MultiRecipient409ResponseType = z.infer<
 
 export const multiRecipient410ResponseSchema = z.array(
   z.object({
-    uuid: z.string(),
+    uuid: serviceIdSchema,
     devices: z.object({
       staleDevices: z.array(z.number()).optional(),
     }),
@@ -708,7 +728,7 @@ export type GetAccountForUsernameOptionsType = Readonly<{
 }>;
 
 const getAccountForUsernameResultZod = z.object({
-  uuid: z.string(),
+  uuid: aciSchema,
 });
 
 export type GetAccountForUsernameResultType = z.infer<
@@ -748,14 +768,14 @@ const whoamiResultZod = z.object({
 export type WhoamiResultType = z.infer<typeof whoamiResultZod>;
 
 export type ConfirmCodeResultType = Readonly<{
-  uuid: UUIDStringType;
-  pni: UUIDStringType;
+  uuid: AciString;
+  pni: PniString;
   deviceId?: number;
 }>;
 
 export type CdsLookupOptionsType = Readonly<{
   e164s: ReadonlyArray<string>;
-  acis?: ReadonlyArray<UUIDStringType>;
+  acis?: ReadonlyArray<AciString>;
   accessKeys?: ReadonlyArray<string>;
   returnAcisWithoutUaks?: boolean;
 }>;
@@ -795,17 +815,22 @@ export type GetGroupCredentialsResultType = Readonly<{
   credentials: ReadonlyArray<GroupCredentialType>;
 }>;
 
-const verifyAciResponse = z.object({
+const verifyServiceIdResponse = z.object({
   elements: z.array(
     z.object({
-      aci: z.string(),
+      uuid: serviceIdSchema,
       identityKey: z.string(),
     })
   ),
 });
 
-export type VerifyAciRequestType = Array<{ aci: string; fingerprint: string }>;
-export type VerifyAciResponseType = z.infer<typeof verifyAciResponse>;
+export type VerifyServiceIdRequestType = Array<{
+  uuid: ServiceIdString;
+  fingerprint: string;
+}>;
+export type VerifyServiceIdResponseType = z.infer<
+  typeof verifyServiceIdResponse
+>;
 
 export type ReserveUsernameOptionsType = Readonly<{
   hashes: ReadonlyArray<Uint8Array>;
@@ -938,29 +963,29 @@ export type WebAPIType = {
     credentials: GroupCredentialsType
   ) => Promise<GroupLogResponseType>;
   getIceServers: () => Promise<GetIceServersResultType>;
-  getKeysForIdentifier: (
-    identifier: string,
+  getKeysForServiceId: (
+    serviceId: ServiceIdString,
     deviceId?: number
   ) => Promise<ServerKeysType>;
-  getKeysForIdentifierUnauth: (
-    identifier: string,
+  getKeysForServiceIdUnauth: (
+    serviceId: ServiceIdString,
     deviceId?: number,
     options?: { accessKey?: string }
   ) => Promise<ServerKeysType>;
-  getMyKeyCounts: (uuidKind: UUIDKind) => Promise<ServerKeyCountType>;
+  getMyKeyCounts: (serviceIdKind: ServiceIdKind) => Promise<ServerKeyCountType>;
   getOnboardingStoryManifest: () => Promise<{
     version: string;
     languages: Record<string, Array<string>>;
   }>;
   getProfile: (
-    identifier: string,
+    serviceId: ServiceIdString,
     options: GetProfileOptionsType
   ) => Promise<ProfileType>;
   getAccountForUsername: (
     options: GetAccountForUsernameOptionsType
   ) => Promise<GetAccountForUsernameResultType>;
   getProfileUnauth: (
-    identifier: string,
+    serviceId: ServiceIdString,
     options: GetProfileUnauthOptionsType
   ) => Promise<ProfileType>;
   getBadgeImageFile: (imageUrl: string) => Promise<Uint8Array>;
@@ -1004,8 +1029,8 @@ export type WebAPIType = {
   ) => Promise<Proto.IGroupChange>;
   modifyStorageRecords: MessageSender['modifyStorageRecords'];
   postBatchIdentityCheck: (
-    elements: VerifyAciRequestType
-  ) => Promise<VerifyAciResponseType>;
+    elements: VerifyServiceIdRequestType
+  ) => Promise<VerifyServiceIdResponseType>;
   putEncryptedAttachment: (encryptedBin: Uint8Array) => Promise<string>;
   putProfile: (
     jsonData: ProfileRequestDataType
@@ -1029,20 +1054,23 @@ export type WebAPIType = {
     serverId: string
   ) => Promise<ResolveUsernameLinkResultType>;
   registerCapabilities: (capabilities: CapabilitiesUploadType) => Promise<void>;
-  registerKeys: (genKeys: UploadKeysType, uuidKind: UUIDKind) => Promise<void>;
+  registerKeys: (
+    genKeys: UploadKeysType,
+    serviceIdKind: ServiceIdKind
+  ) => Promise<void>;
   registerSupportForUnauthenticatedDelivery: () => Promise<void>;
   reportMessage: (options: ReportMessageOptionsType) => Promise<void>;
   requestVerificationSMS: (number: string, token: string) => Promise<void>;
   requestVerificationVoice: (number: string, token: string) => Promise<void>;
-  checkAccountExistence: (uuid: UUID) => Promise<boolean>;
+  checkAccountExistence: (serviceId: ServiceIdString) => Promise<boolean>;
   sendMessages: (
-    destination: string,
+    destination: ServiceIdString,
     messageArray: ReadonlyArray<MessageType>,
     timestamp: number,
     options: { online?: boolean; story?: boolean; urgent?: boolean }
   ) => Promise<void>;
   sendMessagesUnauth: (
-    destination: string,
+    destination: ServiceIdString,
     messageArray: ReadonlyArray<MessageType>,
     timestamp: number,
     options: {
@@ -1335,8 +1363,8 @@ export function initialize({
       getGroupLog,
       getHasSubscription,
       getIceServers,
-      getKeysForIdentifier,
-      getKeysForIdentifierUnauth,
+      getKeysForServiceId,
+      getKeysForServiceIdUnauth,
       getMyKeyCounts,
       getOnboardingStoryManifest,
       getProfile,
@@ -1458,14 +1486,14 @@ export function initialize({
       }
     }
 
-    function uuidKindToQuery(kind: UUIDKind): string {
+    function serviceIdKindToQuery(kind: ServiceIdKind): string {
       let value: string;
-      if (kind === UUIDKind.ACI) {
+      if (kind === ServiceIdKind.ACI) {
         value = 'aci';
-      } else if (kind === UUIDKind.PNI) {
+      } else if (kind === ServiceIdKind.PNI) {
         value = 'pni';
       } else {
-        throw new Error(`Unsupported UUIDKind: ${kind}`);
+        throw new Error(`Unsupported ServiceIdKind: ${kind}`);
       }
       return `identity=${value}`;
     }
@@ -1676,7 +1704,9 @@ export function initialize({
       });
     }
 
-    async function postBatchIdentityCheck(elements: VerifyAciRequestType) {
+    async function postBatchIdentityCheck(
+      elements: VerifyServiceIdRequestType
+    ) {
       const res = await _ajax({
         data: JSON.stringify({ elements }),
         call: 'batchIdentityCheck',
@@ -1684,7 +1714,7 @@ export function initialize({
         responseType: 'json',
       });
 
-      const result = verifyAciResponse.safeParse(res);
+      const result = verifyServiceIdResponse.safeParse(res);
 
       if (result.success) {
         return result.data;
@@ -1699,13 +1729,13 @@ export function initialize({
     }
 
     function getProfileUrl(
-      identifier: string,
+      serviceId: ServiceIdString,
       {
         profileKeyVersion,
         profileKeyCredentialRequest,
       }: GetProfileCommonOptionsType
     ) {
-      let profileUrl = `/${identifier}`;
+      let profileUrl = `/${serviceId}`;
       if (profileKeyVersion !== undefined) {
         profileUrl += `/${profileKeyVersion}`;
         if (profileKeyCredentialRequest !== undefined) {
@@ -1724,7 +1754,7 @@ export function initialize({
     }
 
     async function getProfile(
-      identifier: string,
+      serviceId: ServiceIdString,
       options: GetProfileOptionsType
     ) {
       const { profileKeyVersion, profileKeyCredentialRequest, userLanguages } =
@@ -1733,13 +1763,13 @@ export function initialize({
       return (await _ajax({
         call: 'profile',
         httpType: 'GET',
-        urlParameters: getProfileUrl(identifier, options),
+        urlParameters: getProfileUrl(serviceId, options),
         headers: {
           'Accept-Language': formatAcceptLanguageHeader(userLanguages),
         },
         responseType: 'json',
         redactUrl: _createRedactor(
-          identifier,
+          serviceId,
           profileKeyVersion,
           profileKeyCredentialRequest
         ),
@@ -1781,7 +1811,7 @@ export function initialize({
     }
 
     async function getProfileUnauth(
-      identifier: string,
+      serviceId: ServiceIdString,
       options: GetProfileUnauthOptionsType
     ) {
       const {
@@ -1794,7 +1824,7 @@ export function initialize({
       return (await _ajax({
         call: 'profile',
         httpType: 'GET',
-        urlParameters: getProfileUrl(identifier, options),
+        urlParameters: getProfileUrl(serviceId, options),
         headers: {
           'Accept-Language': formatAcceptLanguageHeader(userLanguages),
         },
@@ -1802,7 +1832,7 @@ export function initialize({
         unauthenticated: true,
         accessKey,
         redactUrl: _createRedactor(
-          identifier,
+          serviceId,
           profileKeyVersion,
           profileKeyCredentialRequest
         ),
@@ -2007,12 +2037,12 @@ export function initialize({
       });
     }
 
-    async function checkAccountExistence(uuid: UUID) {
+    async function checkAccountExistence(serviceId: ServiceIdString) {
       try {
         await _ajax({
           httpType: 'HEAD',
           call: 'accountExistence',
-          urlParameters: `/${uuid.toString()}`,
+          urlParameters: `/${serviceId}`,
           unauthenticated: true,
           accessKey: undefined,
         });
@@ -2154,7 +2184,10 @@ export function initialize({
       signedPreKey?: JSONSignedPreKeyType;
     };
 
-    async function registerKeys(genKeys: UploadKeysType, uuidKind: UUIDKind) {
+    async function registerKeys(
+      genKeys: UploadKeysType,
+      serviceIdKind: ServiceIdKind
+    ) {
       const preKeys = genKeys.preKeys?.map(key => ({
         keyId: key.keyId,
         publicKey: Bytes.toBase64(key.publicKey),
@@ -2209,7 +2242,7 @@ export function initialize({
       await _ajax({
         isRegistration: true,
         call: 'keys',
-        urlParameters: `?${uuidKindToQuery(uuidKind)}`,
+        urlParameters: `?${serviceIdKindToQuery(serviceIdKind)}`,
         httpType: 'PUT',
         jsonData: keys,
       });
@@ -2226,11 +2259,11 @@ export function initialize({
     }
 
     async function getMyKeyCounts(
-      uuidKind: UUIDKind
+      serviceIdKind: ServiceIdKind
     ): Promise<ServerKeyCountType> {
       const result = (await _ajax({
         call: 'keys',
-        urlParameters: `?${uuidKindToQuery(uuidKind)}`,
+        urlParameters: `?${serviceIdKindToQuery(serviceIdKind)}`,
         httpType: 'GET',
         responseType: 'json',
         validateResponse: { count: 'number', pqCount: 'number' },
@@ -2325,26 +2358,29 @@ export function initialize({
       };
     }
 
-    async function getKeysForIdentifier(identifier: string, deviceId?: number) {
+    async function getKeysForServiceId(
+      serviceId: ServiceIdString,
+      deviceId?: number
+    ) {
       const keys = (await _ajax({
         call: 'keys',
         httpType: 'GET',
-        urlParameters: `/${identifier}/${deviceId || '*'}?pq=true`,
+        urlParameters: `/${serviceId}/${deviceId || '*'}?pq=true`,
         responseType: 'json',
         validateResponse: { identityKey: 'string', devices: 'object' },
       })) as ServerKeyResponseType;
       return handleKeys(keys);
     }
 
-    async function getKeysForIdentifierUnauth(
-      identifier: string,
+    async function getKeysForServiceIdUnauth(
+      serviceId: ServiceIdString,
       deviceId?: number,
       { accessKey }: { accessKey?: string } = {}
     ) {
       const keys = (await _ajax({
         call: 'keys',
         httpType: 'GET',
-        urlParameters: `/${identifier}/${deviceId || '*'}?pq=true`,
+        urlParameters: `/${serviceId}/${deviceId || '*'}?pq=true`,
         responseType: 'json',
         validateResponse: { identityKey: 'string', devices: 'object' },
         unauthenticated: true,
@@ -2354,7 +2390,7 @@ export function initialize({
     }
 
     async function sendMessagesUnauth(
-      destination: string,
+      destination: ServiceIdString,
       messages: ReadonlyArray<MessageType>,
       timestamp: number,
       {
@@ -2388,7 +2424,7 @@ export function initialize({
     }
 
     async function sendMessages(
-      destination: string,
+      destination: ServiceIdString,
       messages: ReadonlyArray<MessageType>,
       timestamp: number,
       {

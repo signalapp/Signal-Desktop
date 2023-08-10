@@ -1,6 +1,8 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { v4 as generateUuid } from 'uuid';
+
 import type { AttachmentType } from '../types/Attachment';
 import type { MessageAttributesType } from '../model-types.d';
 import type { MessageModel } from '../models/messages';
@@ -8,7 +10,6 @@ import * as log from '../logging/log';
 import { IMAGE_JPEG } from '../types/MIME';
 import { ReadStatus } from '../messages/MessageReadStatus';
 import { SeenStatus } from '../MessageSeenStatus';
-import { UUID } from '../types/UUID';
 import { findAndDeleteOnboardingStoryIfExists } from './findAndDeleteOnboardingStoryIfExists';
 import { runStorageServiceSyncJob } from '../services/storage';
 import { saveNewMessageBatcher } from './messageBatcher';
@@ -105,7 +106,7 @@ async function continueDownloadingOnboardingStory(): Promise<void> {
         attachments: [attachment],
         canReplyToStory: false,
         conversationId: signalConversation.id,
-        id: UUID.generate().toString(),
+        id: generateUuid(),
         readStatus: ReadStatus.Unread,
         received_at: incrementMessageCounter(),
         received_at_ms: timestamp,

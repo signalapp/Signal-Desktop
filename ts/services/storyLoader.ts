@@ -172,7 +172,7 @@ async function repairUnexpiredStories(): Promise<void> {
   await Promise.all(
     storiesWithExpiry.map(messageAttributes => {
       return window.Signal.Data.saveMessage(messageAttributes, {
-        ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+        ourAci: window.textsecure.storage.user.getCheckedAci(),
       });
     })
   );

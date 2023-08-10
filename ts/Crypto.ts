@@ -13,6 +13,8 @@ import { getBytesSubarray } from './util/uuidToBytes';
 
 export { HashType, CipherType };
 
+export const UUID_BYTE_SIZE = 16;
+
 const PROFILE_IV_LENGTH = 12; // bytes
 const PROFILE_KEY_LENGTH = 32; // bytes
 

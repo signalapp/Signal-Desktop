@@ -94,8 +94,8 @@ describe('pnp/PNI Signature', function needsName() {
   it('should be sent by Desktop until encrypted delivery receipt', async () => {
     const { server, desktop } = bootstrap;
 
-    const ourPNIKey = await desktop.getIdentityKey(UUIDKind.PNI);
-    const ourACIKey = await desktop.getIdentityKey(UUIDKind.ACI);
+    const ourPniKey = await desktop.getIdentityKey(UUIDKind.PNI);
+    const ourAciKey = await desktop.getIdentityKey(UUIDKind.ACI);
 
     const window = await app.getWindow();
 
@@ -126,8 +126,8 @@ describe('pnp/PNI Signature', function needsName() {
         `Incorrect pni in pni signature message from ${source}`
       );
 
-      const isValid = ourPNIKey.verifyAlternateIdentity(
-        ourACIKey,
+      const isValid = ourPniKey.verifyAlternateIdentity(
+        ourAciKey,
         Buffer.from(message.signature ?? [])
       );
       assert.isTrue(isValid, `Invalid pni signature from ${source}`);

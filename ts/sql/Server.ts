@@ -10,6 +10,7 @@ import { randomBytes } from 'crypto';
 import type { Database, Statement } from '@signalapp/better-sqlite3';
 import SQL from '@signalapp/better-sqlite3';
 import pProps from 'p-props';
+import { v4 as generateUuid } from 'uuid';
 import { z } from 'zod';
 
 import type { Dictionary } from 'lodash';
@@ -33,8 +34,9 @@ import { ReadStatus } from '../messages/MessageReadStatus';
 import type { GroupV2MemberType } from '../model-types.d';
 import type { ReactionType } from '../types/Reactions';
 import { STORAGE_UI_KEYS } from '../types/StorageUIKeys';
-import { UUID } from '../types/UUID';
-import type { UUIDStringType } from '../types/UUID';
+import type { StoryDistributionIdString } from '../types/StoryDistributionId';
+import type { ServiceIdString, AciString } from '../types/ServiceId';
+import { isServiceIdString } from '../types/ServiceId';
 import type { StoredJob } from '../jobs/types';
 import { assertDev, assertSync, strictAssert } from '../util/assert';
 import { combineNames } from '../util/combineNames';
@@ -193,7 +195,7 @@ const dataInterface: ServerInterface = {
   getKyberPreKeyById,
   bulkAddKyberPreKeys,
   removeKyberPreKeyById,
-  removeKyberPreKeysByUuid,
+  removeKyberPreKeysByServiceId,
   removeAllKyberPreKeys,
   getAllKyberPreKeys,
 
@@ -201,7 +203,7 @@ const dataInterface: ServerInterface = {
   getPreKeyById,
   bulkAddPreKeys,
   removePreKeyById,
-  removePreKeysByUuid,
+  removePreKeysByServiceId,
   removeAllPreKeys,
   getAllPreKeys,
 
@@ -209,7 +211,7 @@ const dataInterface: ServerInterface = {
   getSignedPreKeyById,
   bulkAddSignedPreKeys,
   removeSignedPreKeyById,
-  removeSignedPreKeysByUuid,
+  removeSignedPreKeysByServiceId,
   removeAllSignedPreKeys,
   getAllSignedPreKeys,
 
@@ -242,7 +244,7 @@ const dataInterface: ServerInterface = {
   bulkAddSessions,
   removeSessionById,
   removeSessionsByConversation,
-  removeSessionsByUUID,
+  removeSessionsByServiceId,
   removeAllSessions,
   getAllSessions,
 
@@ -260,7 +262,7 @@ const dataInterface: ServerInterface = {
 
   getAllConversations,
   getAllConversationIds,
-  getAllGroupsInvolvingUuid,
+  getAllGroupsInvolvingServiceId,
 
   searchMessages,
 
@@ -707,10 +709,12 @@ async function removeKyberPreKeyById(
 ): Promise<void> {
   return removeById(getInstance(), KYBER_PRE_KEYS_TABLE, id);
 }
-async function removeKyberPreKeysByUuid(uuid: UUIDStringType): Promise<void> {
+async function removeKyberPreKeysByServiceId(
+  serviceId: ServiceIdString
+): Promise<void> {
   const db = getInstance();
   db.prepare<Query>('DELETE FROM kyberPreKeys WHERE ourUuid IS $uuid;').run({
-    uuid,
+    uuid: serviceId,
   });
 }
 async function removeAllKyberPreKeys(): Promise<void> {
@@ -737,10 +741,12 @@ async function removePreKeyById(
 ): Promise<void> {
   return removeById(getInstance(), PRE_KEYS_TABLE, id);
 }
-async function removePreKeysByUuid(uuid: UUIDStringType): Promise<void> {
+async function removePreKeysByServiceId(
+  serviceId: ServiceIdString
+): Promise<void> {
   const db = getInstance();
   db.prepare<Query>('DELETE FROM preKeys WHERE ourUuid IS $uuid;').run({
-    uuid,
+    uuid: serviceId,
   });
 }
 async function removeAllPreKeys(): Promise<void> {
@@ -771,10 +777,12 @@ async function removeSignedPreKeyById(
 ): Promise<void> {
   return removeById(getInstance(), SIGNED_PRE_KEYS_TABLE, id);
 }
-async function removeSignedPreKeysByUuid(uuid: UUIDStringType): Promise<void> {
+async function removeSignedPreKeysByServiceId(
+  serviceId: ServiceIdString
+): Promise<void> {
   const db = getInstance();
   db.prepare<Query>('DELETE FROM signedPreKeys WHERE ourUuid IS $uuid;').run({
-    uuid,
+    uuid: serviceId,
   });
 }
 async function removeAllSignedPreKeys(): Promise<void> {
@@ -941,14 +949,18 @@ async function insertSentProto(
       `
     );
 
-    const recipientUuids = Object.keys(recipients);
-    for (const recipientUuid of recipientUuids) {
-      const deviceIds = recipients[recipientUuid];
+    const recipientServiceIds = Object.keys(recipients);
+    for (const recipientServiceId of recipientServiceIds) {
+      strictAssert(
+        isServiceIdString(recipientServiceId),
+        'Recipient must be a service id'
+      );
+      const deviceIds = recipients[recipientServiceId];
 
       for (const deviceId of deviceIds) {
         recipientStatement.run({
           id,
-          recipientUuid,
+          recipientUuid: recipientServiceId,
           deviceId,
         });
       }
@@ -1013,11 +1025,11 @@ async function deleteSentProtoByMessageId(messageId: string): Promise<void> {
 
 async function insertProtoRecipients({
   id,
-  recipientUuid,
+  recipientServiceId,
   deviceIds,
 }: {
   id: number;
-  recipientUuid: string;
+  recipientServiceId: ServiceIdString;
   deviceIds: Array<number>;
 }): Promise<void> {
   const db = getInstance();
@@ -1041,7 +1053,7 @@ async function insertProtoRecipients({
     for (const deviceId of deviceIds) {
       statement.run({
         id,
-        recipientUuid,
+        recipientUuid: recipientServiceId,
         deviceId,
       });
     }
@@ -1064,7 +1076,7 @@ async function deleteSentProtoRecipient(
     const successfulPhoneNumberShares = new Array<string>();
 
     for (const item of items) {
-      const { timestamp, recipientUuid, deviceId } = item;
+      const { timestamp, recipientServiceId, deviceId } = item;
 
       // 1. Figure out what payload we're talking about.
       const rows = prepare(
@@ -1079,7 +1091,7 @@ async function deleteSentProtoRecipient(
           sendLogRecipients.recipientUuid = $recipientUuid AND
           sendLogRecipients.deviceId = $deviceId;
        `
-      ).all({ timestamp, recipientUuid, deviceId });
+      ).all({ timestamp, recipientUuid: recipientServiceId, deviceId });
       if (!rows.length) {
         continue;
       }
@@ -1102,7 +1114,7 @@ async function deleteSentProtoRecipient(
           recipientUuid = $recipientUuid AND
           deviceId = $deviceId;
         `
-      ).run({ id, recipientUuid, deviceId });
+      ).run({ id, recipientUuid: recipientServiceId, deviceId });
 
       // 3. See how many more recipient devices there were for this payload.
       const remainingDevices = prepare(
@@ -1112,17 +1124,17 @@ async function deleteSentProtoRecipient(
         WHERE payloadId = $id AND recipientUuid = $recipientUuid;
         `,
         { pluck: true }
-      ).get({ id, recipientUuid });
+      ).get({ id, recipientUuid: recipientServiceId });
 
       // 4. If there are no remaining devices for this recipient and we included
       //    the pni signature in the proto - return the recipient to the caller.
       if (remainingDevices === 0 && hasPniSignatureMessage) {
         logger.info(
           'deleteSentProtoRecipient: ' +
-            `Successfully shared phone number with ${recipientUuid} ` +
+            `Successfully shared phone number with ${recipientServiceId} ` +
             `through message ${timestamp}`
         );
-        successfulPhoneNumberShares.push(recipientUuid);
+        successfulPhoneNumberShares.push(recipientServiceId);
       }
 
       strictAssert(
@@ -1163,11 +1175,11 @@ async function deleteSentProtoRecipient(
 
 async function getSentProtoByRecipient({
   now,
-  recipientUuid,
+  recipientServiceId,
   timestamp,
 }: {
   now: number;
-  recipientUuid: string;
+  recipientServiceId: ServiceIdString;
   timestamp: number;
 }): Promise<SentProtoWithMessageIdsType | undefined> {
   const db = getInstance();
@@ -1193,7 +1205,7 @@ async function getSentProtoByRecipient({
     `
   ).get({
     timestamp,
-    recipientUuid,
+    recipientUuid: recipientServiceId,
   });
 
   if (!row) {
@@ -1348,7 +1360,9 @@ async function removeSessionsByConversation(
     conversationId,
   });
 }
-async function removeSessionsByUUID(uuid: UUIDStringType): Promise<void> {
+async function removeSessionsByServiceId(
+  serviceId: ServiceIdString
+): Promise<void> {
   const db = getInstance();
   db.prepare<Query>(
     `
@@ -1356,7 +1370,7 @@ async function removeSessionsByUUID(uuid: UUIDStringType): Promise<void> {
     WHERE uuid = $uuid;
     `
   ).run({
-    uuid,
+    uuid: serviceId,
   });
 }
 async function removeAllSessions(): Promise<void> {
@@ -1641,8 +1655,8 @@ async function getAllConversationIds(): Promise<Array<string>> {
   return rows.map(row => row.id);
 }
 
-async function getAllGroupsInvolvingUuid(
-  uuid: UUIDStringType
+async function getAllGroupsInvolvingServiceId(
+  serviceId: ServiceIdString
 ): Promise<Array<ConversationType>> {
   const db = getInstance();
   const rows: ConversationRows = db
@@ -1656,7 +1670,7 @@ async function getAllGroupsInvolvingUuid(
       `
     )
     .all({
-      uuid: `%${uuid}%`,
+      uuid: `%${serviceId}%`,
     });
 
   return rows.map(row => rowToConversation(row));
@@ -1889,7 +1903,7 @@ function saveMessageSync(
     db?: Database;
     forceSave?: boolean;
     jobToInsert?: StoredJob;
-    ourUuid: UUIDStringType;
+    ourAci: AciString;
   }
 ): string {
   const {
@@ -1897,7 +1911,7 @@ function saveMessageSync(
     db = getInstance(),
     forceSave,
     jobToInsert,
-    ourUuid,
+    ourAci,
   } = options;
 
   if (!alreadyInTransaction) {
@@ -1976,7 +1990,7 @@ function saveMessageSync(
     hasAttachments: hasAttachments ? 1 : 0,
     hasFileAttachments: hasFileAttachments ? 1 : 0,
     hasVisualMediaAttachments: hasVisualMediaAttachments ? 1 : 0,
-    isChangeCreatedByUs: groupV2Change?.from === ourUuid ? 1 : 0,
+    isChangeCreatedByUs: groupV2Change?.from === ourAci ? 1 : 0,
     isErased: isErased ? 1 : 0,
     isViewOnce: isViewOnce ? 1 : 0,
     mentionsMe: mentionsMe ? 1 : 0,
@@ -2038,7 +2052,7 @@ function saveMessageSync(
 
   const toCreate = {
     ...data,
-    id: id || UUID.generate().toString(),
+    id: id || generateUuid(),
   };
 
   prepare(
@@ -2119,7 +2133,7 @@ async function saveMessage(
     jobToInsert?: StoredJob;
     forceSave?: boolean;
     alreadyInTransaction?: boolean;
-    ourUuid: UUIDStringType;
+    ourAci: AciString;
   }
 ): Promise<string> {
   return saveMessageSync(data, options);
@@ -2127,7 +2141,7 @@ async function saveMessage(
 
 async function saveMessages(
   arrayOfMessages: ReadonlyArray<MessageType>,
-  options: { forceSave?: boolean; ourUuid: UUIDStringType }
+  options: { forceSave?: boolean; ourAci: AciString }
 ): Promise<void> {
   const db = getInstance();
 
@@ -2235,7 +2249,7 @@ async function getMessageBySender({
   sent_at,
 }: {
   source?: string;
-  sourceUuid?: UUIDStringType;
+  sourceUuid?: ServiceIdString;
   sourceDevice?: number;
   sent_at: number;
 }): Promise<MessageType | undefined> {
@@ -2432,7 +2446,7 @@ async function getUnreadReactionsAndMarkRead({
 }
 
 async function markReactionAsRead(
-  targetAuthorUuid: string,
+  targetAuthorServiceId: ServiceIdString,
   targetTimestamp: number
 ): Promise<ReactionType | undefined> {
   const db = getInstance();
@@ -2451,7 +2465,7 @@ async function markReactionAsRead(
         `
       )
       .get({
-        targetAuthorUuid,
+        targetAuthorUuid: targetAuthorServiceId,
         targetTimestamp,
       });
 
@@ -2463,7 +2477,7 @@ async function markReactionAsRead(
         targetTimestamp = $targetTimestamp;
       `
     ).run({
-      targetAuthorUuid,
+      targetAuthorUuid: targetAuthorServiceId,
       targetTimestamp,
     });
 
@@ -2518,12 +2532,12 @@ async function addReaction({
 async function removeReactionFromConversation({
   emoji,
   fromId,
-  targetAuthorUuid,
+  targetAuthorServiceId,
   targetTimestamp,
 }: {
   emoji: string;
   fromId: string;
-  targetAuthorUuid: string;
+  targetAuthorServiceId: ServiceIdString;
   targetTimestamp: number;
 }): Promise<void> {
   const db = getInstance();
@@ -2538,7 +2552,7 @@ async function removeReactionFromConversation({
     .run({
       emoji,
       fromId,
-      targetAuthorUuid,
+      targetAuthorUuid: targetAuthorServiceId,
       targetTimestamp,
     });
 }
@@ -2711,7 +2725,7 @@ async function getAllStories({
   sourceUuid,
 }: {
   conversationId?: string;
-  sourceUuid?: UUIDStringType;
+  sourceUuid?: ServiceIdString;
 }): Promise<GetAllStoriesResultType> {
   const db = getInstance();
   const rows: ReadonlyArray<{
@@ -2912,11 +2926,9 @@ async function getNearbyMessageFromDeletedSet({
 function getLastConversationActivity({
   conversationId,
   includeStoryReplies,
-  ourUuid,
 }: {
   conversationId: string;
   includeStoryReplies: boolean;
-  ourUuid: UUIDStringType;
 }): MessageType | undefined {
   const db = getInstance();
   const row = prepare(
@@ -2935,7 +2947,6 @@ function getLastConversationActivity({
       `
   ).get({
     conversationId,
-    ourUuid,
   });
 
   if (!row) {
@@ -2988,11 +2999,9 @@ function getLastConversationPreview({
 async function getConversationMessageStats({
   conversationId,
   includeStoryReplies,
-  ourUuid,
 }: {
   conversationId: string;
   includeStoryReplies: boolean;
-  ourUuid: UUIDStringType;
 }): Promise<ConversationMessageStatsType> {
   const db = getInstance();
 
@@ -3001,7 +3010,6 @@ async function getConversationMessageStats({
       activity: getLastConversationActivity({
         conversationId,
         includeStoryReplies,
-        ourUuid,
       }),
       preview: getLastConversationPreview({
         conversationId,
@@ -3318,7 +3326,7 @@ async function getCallHistoryMessageByCallId(options: {
 
 async function getCallHistory(
   callId: string,
-  peerId: string
+  peerId: ServiceIdString | string
 ): Promise<CallHistoryDetails | undefined> {
   const db = getInstance();
 
@@ -5292,7 +5300,7 @@ function modifyStoryDistributionMembersSync(
   {
     toAdd,
     toRemove,
-  }: { toAdd: Array<UUIDStringType>; toRemove: Array<UUIDStringType> }
+  }: { toAdd: Array<ServiceIdString>; toRemove: Array<ServiceIdString> }
 ) {
   const memberInsertStatement = prepare(
     db,
@@ -5314,7 +5322,7 @@ function modifyStoryDistributionMembersSync(
     });
   }
 
-  batchMultiVarQuery(db, toRemove, (uuids: ReadonlyArray<UUIDStringType>) => {
+  batchMultiVarQuery(db, toRemove, (uuids: ReadonlyArray<ServiceIdString>) => {
     db.prepare<ArrayQuery>(
       `
       DELETE FROM storyDistributionMembers
@@ -5328,7 +5336,7 @@ async function modifyStoryDistributionWithMembers(
   {
     toAdd,
     toRemove,
-  }: { toAdd: Array<UUIDStringType>; toRemove: Array<UUIDStringType> }
+  }: { toAdd: Array<ServiceIdString>; toRemove: Array<ServiceIdString> }
 ): Promise<void> {
   const payload = freezeStoryDistribution(distribution);
   const db = getInstance();
@@ -5354,7 +5362,7 @@ async function modifyStoryDistributionMembers(
   {
     toAdd,
     toRemove,
-  }: { toAdd: Array<UUIDStringType>; toRemove: Array<UUIDStringType> }
+  }: { toAdd: Array<ServiceIdString>; toRemove: Array<ServiceIdString> }
 ): Promise<void> {
   const db = getInstance();
 
@@ -5362,7 +5370,9 @@ async function modifyStoryDistributionMembers(
     modifyStoryDistributionMembersSync(db, listId, { toAdd, toRemove });
   })();
 }
-async function deleteStoryDistribution(id: UUIDStringType): Promise<void> {
+async function deleteStoryDistribution(
+  id: StoryDistributionIdString
+): Promise<void> {
   const db = getInstance();
   db.prepare<Query>('DELETE FROM storyDistributions WHERE id = $id;').run({
     id,
@@ -5402,8 +5412,8 @@ async function getLastStoryReadsForAuthor({
   conversationId,
   limit: initialLimit,
 }: {
-  authorId: UUIDStringType;
-  conversationId?: UUIDStringType;
+  authorId: ServiceIdString;
+  conversationId?: string;
   limit?: number;
 }): Promise<Array<StoryReadType>> {
   const limit = initialLimit || 5;
@@ -6228,7 +6238,7 @@ async function removeAllProfileKeyCredentials(): Promise<void> {
 
 async function saveEditedMessage(
   mainMessage: MessageType,
-  ourUuid: UUIDStringType,
+  ourAci: AciString,
   { conversationId, messageId, readStatus, sentAt }: EditedMessageType
 ): Promise<void> {
   const db = getInstance();
@@ -6236,7 +6246,7 @@ async function saveEditedMessage(
   db.transaction(() => {
     assertSync(
       saveMessageSync(mainMessage, {
-        ourUuid,
+        ourAci,
         alreadyInTransaction: true,
       })
     );

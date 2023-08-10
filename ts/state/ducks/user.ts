@@ -8,7 +8,7 @@ import type { LocaleMessagesType } from '../../types/I18N';
 import type { LocalizerType } from '../../types/Util';
 import type { MenuOptionsType } from '../../types/menu';
 import type { NoopActionType } from './noop';
-import type { UUIDStringType } from '../../types/UUID';
+import type { AciString, PniString } from '../../types/ServiceId';
 import OS from '../../util/os/osMain';
 import { ThemeType } from '../../types/Util';
 
@@ -24,11 +24,11 @@ export type UserStateType = Readonly<{
   localeMessages: LocaleMessagesType;
   menuOptions: MenuOptionsType;
   osName: 'linux' | 'macos' | 'windows' | undefined;
-  ourACI: UUIDStringType | undefined;
+  ourAci: AciString | undefined;
   ourConversationId: string | undefined;
   ourDeviceId: number | undefined;
   ourNumber: string | undefined;
-  ourPNI: UUIDStringType | undefined;
+  ourPni: PniString | undefined;
   platform: string;
   regionCode: string | undefined;
   stickersPath: string;
@@ -44,8 +44,8 @@ type UserChangedActionType = ReadonlyDeep<{
   payload: {
     ourConversationId?: string;
     ourDeviceId?: number;
-    ourACI?: UUIDStringType;
-    ourPNI?: UUIDStringType;
+    ourAci?: AciString;
+    ourPni?: PniString;
     ourNumber?: string;
     regionCode?: string;
     interactionMode?: 'mouse' | 'keyboard';
@@ -70,8 +70,8 @@ function userChanged(attributes: {
   ourConversationId?: string;
   ourDeviceId?: number;
   ourNumber?: string;
-  ourACI?: UUIDStringType;
-  ourPNI?: UUIDStringType;
+  ourAci?: AciString;
+  ourPni?: PniString;
   regionCode?: string;
   theme?: ThemeType;
   isMainWindowMaximized?: boolean;
@@ -132,11 +132,11 @@ export function getEmptyState(): UserStateType {
       platform: 'unknown',
     },
     osName,
-    ourACI: undefined,
+    ourAci: undefined,
     ourConversationId: 'missing',
     ourDeviceId: 0,
     ourNumber: 'missing',
-    ourPNI: undefined,
+    ourPni: undefined,
     platform: 'missing',
     regionCode: 'missing',
     stickersPath: 'missing',

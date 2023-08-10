@@ -42,8 +42,8 @@ export const getTimelineItem = (
   const conversationSelector = getConversationSelector(state);
   const regionCode = getRegionCode(state);
   const ourNumber = getUserNumber(state);
-  const ourACI = getUserACI(state);
-  const ourPNI = getUserPNI(state);
+  const ourAci = getUserACI(state);
+  const ourPni = getUserPNI(state);
   const ourConversationId = getUserConversationId(state);
   const callSelector = getCallSelector(state);
   const callHistorySelector = getCallHistorySelector(state);
@@ -56,8 +56,8 @@ export const getTimelineItem = (
     conversationSelector,
     ourConversationId,
     ourNumber,
-    ourACI,
-    ourPNI,
+    ourAci,
+    ourPni,
     regionCode,
     targetedMessageId: targetedMessage?.id,
     targetedMessageCounter: targetedMessage?.counter,

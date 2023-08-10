@@ -8,7 +8,6 @@ import { mapValues } from 'lodash';
 import type { IPCType } from '../../window.d';
 import { parseIntWithFallback } from '../../util/parseIntWithFallback';
 import { getSignalConnections } from '../../util/getSignalConnections';
-import { UUIDKind } from '../../types/UUID';
 import { ThemeType } from '../../types/Util';
 import { getEnvironment, Environment } from '../../environment';
 import { SignalContext } from '../context';
@@ -192,8 +191,8 @@ ipc.on('additional-log-data-request', async event => {
     statistics = {};
   }
 
-  const ourUuid = window.textsecure.storage.user.getUuid();
-  const ourPni = window.textsecure.storage.user.getUuid(UUIDKind.PNI);
+  const ourAci = window.textsecure.storage.user.getAci();
+  const ourPni = window.textsecure.storage.user.getPni();
 
   event.sender.send('additional-log-data-response', {
     capabilities: ourCapabilities || {},
@@ -211,8 +210,8 @@ ipc.on('additional-log-data-request', async event => {
     user: {
       deviceId: window.textsecure.storage.user.getDeviceId(),
       e164: window.textsecure.storage.user.getNumber(),
-      uuid: ourUuid && ourUuid.toString(),
-      pni: ourPni && ourPni.toString(),
+      uuid: ourAci,
+      pni: ourPni,
       conversationId: ourConversation && ourConversation.id,
     },
   });

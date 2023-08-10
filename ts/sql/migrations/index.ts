@@ -3,9 +3,9 @@
 
 import type { Database } from '@signalapp/better-sqlite3';
 import { keyBy } from 'lodash';
+import { v4 as generateUuid } from 'uuid';
 
 import type { LoggerType } from '../../types/Logging';
-import { UUID } from '../../types/UUID';
 import {
   getSchemaVersion,
   getUserVersion,
@@ -965,7 +965,7 @@ function updateToSchemaVersion20(
 
     for (const row of allConversations) {
       const oldId = row.id;
-      const newId = UUID.generate().toString();
+      const newId = generateUuid();
       allConversationsByOldId[oldId].id = newId;
       const patchObj: { id: string; e164?: string; groupId?: string } = {
         id: newId,
@@ -1022,7 +1022,7 @@ function updateToSchemaVersion20(
         } else {
           // We didn't previously have a private conversation for this member,
           // we need to create one
-          const id = UUID.generate().toString();
+          const id = generateUuid();
           const updatedConversation = {
             id,
             e164: m,

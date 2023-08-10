@@ -11,6 +11,7 @@ import { getDefaultConversation } from '../test-both/helpers/getDefaultConversat
 import type { Props } from './CompositionInput';
 import { CompositionInput } from './CompositionInput';
 import { setupI18n } from '../util/setupI18n';
+import { generateAci } from '../types/ServiceId';
 import enMessages from '../../_locales/en/messages.json';
 import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext';
 
@@ -137,7 +138,7 @@ export function Mentions(): JSX.Element {
       {
         start: 5,
         length: 1,
-        mentionUuid: '0',
+        mentionUuid: generateAci(),
         conversationID: 'k',
         replacementText: 'Kate Beaton',
       },

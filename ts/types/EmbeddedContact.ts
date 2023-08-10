@@ -19,7 +19,7 @@ import type {
 } from './Attachment';
 import { toLogFormat } from './errors';
 import type { LoggerType } from './Logging';
-import type { UUIDStringType } from './UUID';
+import type { ServiceIdString } from './ServiceId';
 
 type GenericEmbeddedContactType<AvatarType> = {
   name?: Name;
@@ -31,7 +31,7 @@ type GenericEmbeddedContactType<AvatarType> = {
 
   // Populated by selector
   firstNumber?: string;
-  uuid?: UUIDStringType;
+  uuid?: ServiceIdString;
 };
 
 export type EmbeddedContactType = GenericEmbeddedContactType<Avatar>;
@@ -149,7 +149,7 @@ export function embeddedContactSelector(
   options: {
     regionCode?: string;
     firstNumber?: string;
-    uuid?: UUIDStringType;
+    uuid?: ServiceIdString;
     getAbsoluteAttachmentPath: (path: string) => string;
   }
 ): EmbeddedContactType {

@@ -131,10 +131,11 @@ export async function sendReceipts({
             receipt => receipt.isDirectConversation
           );
 
+          const senderAci = sender.getCheckedAci('sendReceipts');
+
           await handleMessageSend(
             messaging[methodName]({
-              senderE164: sender.get('e164'),
-              senderUuid: sender.get('uuid'),
+              senderServiceId: senderAci,
               isDirectConversation,
               timestamps,
               options: sendOptions,

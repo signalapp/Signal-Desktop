@@ -23,9 +23,9 @@ message Envelope {
   }
 
   optional Type   type            = 1;
-  optional string sourceUuid      = 11;
+  optional string sourceServiceId = 11;
   optional uint32 sourceDevice    = 7;
-  optional string destinationUuid = 13;
+  optional string destinationServiceId = 13;
   // reserved                          3; // formerly optional string relay = 3;
   optional uint64 timestamp       = 5;
   // reserved                          6; // formerly optional bytes legacyMessage = 6;
@@ -204,7 +204,7 @@ message DataMessage {
 
     optional uint64           id          = 1;
     reserved                  /* author */  2; // removed
-    optional string           authorUuid  = 5;
+    optional string           authorAci  = 5;
     optional string           text        = 3;
     repeated QuotedAttachment attachments = 4;
     repeated BodyRange        bodyRanges  = 6;
@@ -298,7 +298,7 @@ message DataMessage {
     optional string emoji            = 1;
     optional bool   remove           = 2;
     reserved /* targetAuthorE164 */    3; // removed
-    optional string targetAuthorUuid = 4;
+    optional string targetAuthorAci = 4;
     optional uint64 targetTimestamp  = 5;
   }
 
@@ -320,7 +320,7 @@ message DataMessage {
     optional uint32 length = 2;
 
     oneof associatedValue {
-      string mentionUuid = 3;
+      string mentionAci = 3;
       Style style = 4;
     }
   }
@@ -330,7 +330,7 @@ message DataMessage {
   }
 
   message StoryContext {
-    optional string authorUuid = 1;
+    optional string authorAci = 1;
     optional uint64 sentTimestamp = 2;
   }
 
@@ -447,7 +447,7 @@ message Verified {
   }
 
   optional string destination     = 1;
-  optional string destinationUuid = 5;
+  optional string destinationAci  = 5;
   optional bytes  identityKey     = 2;
   optional State  state           = 3;
   optional bytes  nullMessage     = 4;
@@ -457,27 +457,18 @@ message SyncMessage {
   message Sent {
     message UnidentifiedDeliveryStatus {
       optional string destination     = 1;
-      oneof destinationServiceId {
-        string destinationAci = 3;
-        string destinationPni = 4;
-      }
+      optional string destinationServiceId = 3;
       optional bool   unidentified    = 2;
     }
 
     message StoryMessageRecipient {
-      oneof destinationServiceId {
-        string destinationAci = 1;
-        string destinationPni = 4;
-      }
+      optional string destinationServiceId = 1;
       repeated string distributionListIds = 2;
       optional bool isAllowedToReply = 3;
     }
 
     optional string                     destination              = 1;
-    oneof destinationServiceId {
-      string destinationAci = 7;
-      string destinationPni = 11;
-    }
+    optional string                     destinationServiceId     = 7;
     optional uint64                     timestamp                = 2;
     optional DataMessage                message                  = 3;
     optional uint64                     expirationStartTimestamp = 4;
@@ -495,7 +486,7 @@ message SyncMessage {
 
   message Blocked {
     repeated string numbers  = 1;
-    repeated string uuids    = 3;
+    repeated string acis    = 3;
     repeated bytes  groupIds = 2;
   }
 
@@ -519,13 +510,13 @@ message SyncMessage {
 
   message Read {
     optional string sender     = 1;
-    optional string senderUuid = 3;
+    optional string senderAci  = 3;
     optional uint64 timestamp  = 2;
   }
 
   message Viewed {
     optional string senderE164 = 1;
-    optional string senderUuid = 3;
+    optional string senderAci = 3;
     optional uint64 timestamp = 2;
   }
 
@@ -551,7 +542,7 @@ message SyncMessage {
 
   message ViewOnceOpen {
     optional string sender     = 1;
-    optional string senderUuid = 3;
+    optional string senderAci  = 3;
     optional uint64 timestamp  = 2;
   }
 
@@ -565,7 +556,7 @@ message SyncMessage {
     }
 
     optional string threadE164 = 1;
-    optional string threadUuid = 2;
+    optional string threadAci = 2;
     optional bytes  groupId    = 3;
     optional Type   type       = 4;
   }
@@ -694,7 +685,7 @@ message ContactDetails {
   }
 
   optional string   number        = 1;
-  optional string   uuid          = 9;
+  optional string   aci           = 9;
   optional string   name          = 2;
   optional Avatar   avatar        = 3;
   optional string   color         = 4;

@@ -17,7 +17,7 @@ import type {
   ActiveCallType,
   GroupCallRemoteParticipantType,
 } from '../../types/Calling';
-import type { UUIDStringType } from '../../types/UUID';
+import type { AciString } from '../../types/ServiceId';
 import { CallMode, CallState } from '../../types/Calling';
 import type { StateType } from '../reducer';
 import { missingCaseError } from '../../util/missingCaseError';
@@ -127,14 +127,14 @@ const mapStateToActiveCallProp = (
     return undefined;
   }
 
-  const conversationSelectorByUuid = memoize<
-    (uuid: UUIDStringType) => undefined | ConversationType
-  >(uuid => {
-    const convoForUuid = window.ConversationController.lookupOrCreate({
-      uuid,
+  const conversationSelectorByAci = memoize<
+    (aci: AciString) => undefined | ConversationType
+  >(aci => {
+    const convoForAci = window.ConversationController.lookupOrCreate({
+      uuid: aci,
       reason: 'CallManager.mapStateToActiveCallProp',
     });
-    return convoForUuid ? conversationSelector(convoForUuid.id) : undefined;
+    return convoForAci ? conversationSelector(convoForAci.id) : undefined;
   });
 
   const baseResult = {
@@ -194,7 +194,7 @@ const mapStateToActiveCallProp = (
         peekInfo = {
           deviceCount: 0,
           maxDevices: Infinity,
-          uuids: [],
+          acis: [],
         },
       } = call;
 
@@ -213,8 +213,8 @@ const mapStateToActiveCallProp = (
       for (let i = 0; i < call.remoteParticipants.length; i += 1) {
         const remoteParticipant = call.remoteParticipants[i];
 
-        const remoteConversation = conversationSelectorByUuid(
-          remoteParticipant.uuid
+        const remoteConversation = conversationSelectorByAci(
+          remoteParticipant.aci
         );
         if (!remoteConversation) {
           log.error('Remote participant has no corresponding conversation');
@@ -235,12 +235,12 @@ const mapStateToActiveCallProp = (
 
       for (
         let i = 0;
-        i < activeCallState.safetyNumberChangedUuids.length;
+        i < activeCallState.safetyNumberChangedAcis.length;
         i += 1
       ) {
-        const uuid = activeCallState.safetyNumberChangedUuids[i];
+        const aci = activeCallState.safetyNumberChangedAcis[i];
 
-        const remoteConversation = conversationSelectorByUuid(uuid);
+        const remoteConversation = conversationSelectorByAci(aci);
         if (!remoteConversation) {
           log.error('Remote participant has no corresponding conversation');
           continue;
@@ -249,12 +249,11 @@ const mapStateToActiveCallProp = (
         conversationsWithSafetyNumberChanges.push(remoteConversation);
       }
 
-      for (let i = 0; i < peekInfo.uuids.length; i += 1) {
-        const peekedParticipantUuid = peekInfo.uuids[i];
+      for (let i = 0; i < peekInfo.acis.length; i += 1) {
+        const peekedParticipantAci = peekInfo.acis[i];
 
-        const peekedConversation = conversationSelectorByUuid(
-          peekedParticipantUuid
-        );
+        const peekedConversation =
+          conversationSelectorByAci(peekedParticipantAci);
         if (!peekedConversation) {
           log.error('Remote participant has no corresponding conversation');
           continue;
@@ -303,13 +302,13 @@ const mapStateToIncomingCallProp = (state: StateType) => {
         isVideoCall: call.isVideoCall,
       };
     case CallMode.Group: {
-      if (!call.ringerUuid) {
+      if (!call.ringerAci) {
         log.error('The incoming group call has no ring state');
         return undefined;
       }
 
       const conversationSelector = getConversationSelector(state);
-      const ringer = conversationSelector(call.ringerUuid);
+      const ringer = conversationSelector(call.ringerAci);
       const otherMembersRung = (conversation.sortedGroupMembers ?? []).filter(
         c => c.id !== ringer.id && !c.isMe
       );

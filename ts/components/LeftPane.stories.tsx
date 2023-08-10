@@ -31,9 +31,9 @@ import { DialogType } from '../types/Dialogs';
 import { SocketStatus } from '../types/SocketStatus';
 import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext';
 import {
-  makeFakeLookupConversationWithoutUuid,
+  makeFakeLookupConversationWithoutServiceId,
   useUuidFetchState,
-} from '../test-both/helpers/fakeLookupConversationWithoutUuid';
+} from '../test-both/helpers/fakeLookupConversationWithoutServiceId';
 import type { GroupListItemConversationType } from './conversationList/GroupListItem';
 
 const i18n = setupI18n('en', enMessages);
@@ -168,7 +168,8 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
     navTabsCollapsed: boolean('navTabsCollapsed', false),
 
     setChallengeStatus: action('setChallengeStatus'),
-    lookupConversationWithoutUuid: makeFakeLookupConversationWithoutUuid(),
+    lookupConversationWithoutServiceId:
+      makeFakeLookupConversationWithoutServiceId(),
     showUserNotFoundModal: action('showUserNotFoundModal'),
     setIsFetchingUUID,
     showConversation: action('showConversation'),

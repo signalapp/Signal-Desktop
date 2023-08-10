@@ -131,7 +131,7 @@ export function processQuote(
 
   return {
     id: quote.id?.toNumber(),
-    authorUuid: dropNull(quote.authorUuid),
+    authorAci: dropNull(quote.authorAci),
     text: dropNull(quote.text),
     attachments: (quote.attachments ?? []).map(attachment => {
       return {
@@ -223,7 +223,7 @@ export function processReaction(
   return {
     emoji: dropNull(reaction.emoji),
     remove: Boolean(reaction.remove),
-    targetAuthorUuid: dropNull(reaction.targetAuthorUuid),
+    targetAuthorAci: dropNull(reaction.targetAuthorAci),
     targetTimestamp: reaction.targetTimestamp?.toNumber(),
   };
 }

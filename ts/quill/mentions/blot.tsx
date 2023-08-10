@@ -8,6 +8,7 @@ import Parchment from 'parchment';
 import Quill from 'quill';
 import { render } from 'react-dom';
 import { Emojify } from '../../components/conversation/Emojify';
+import { normalizeAci } from '../../types/ServiceId';
 import type { MentionBlotValue } from '../util';
 
 declare class QuillEmbed extends Parchment.Embed {
@@ -40,7 +41,7 @@ export class MentionBlot extends Embed {
     }
 
     return {
-      uuid,
+      uuid: normalizeAci(uuid, 'quill mention blot'),
       title,
     };
   }

@@ -26,7 +26,7 @@ import { BodyRange, collapseRangeTree, insertRange } from '../types/BodyRange';
 import type { LocalizerType, ThemeType } from '../types/Util';
 import type { ConversationType } from '../state/ducks/conversations';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
-import { isValidUuid } from '../types/UUID';
+import { isServiceIdString } from '../types/ServiceId';
 import { MentionBlot } from '../quill/mentions/blot';
 import {
   matchEmojiImage,
@@ -46,6 +46,7 @@ import {
 import { SignalClipboard } from '../quill/signal-clipboard';
 import { DirectionalBlot } from '../quill/block/blot';
 import { getClassNamesFor } from '../util/getClassNamesFor';
+import { isNotNil } from '../util/isNotNil';
 import * as log from '../logging/log';
 import * as Errors from '../types/errors';
 import { useRefMerger } from '../hooks/useRefMerger';
@@ -677,11 +678,15 @@ export function CompositionInput(props: Props): React.ReactElement {
       return;
     }
 
-    const currentMemberUuids = currentMembers
+    const currentMemberServiceIds = currentMembers
       .map(m => m.uuid)
-      .filter(isValidUuid);
+      .filter(isNotNil)
+      .filter(isServiceIdString);
 
-    const newDelta = getDeltaToRemoveStaleMentions(ops, currentMemberUuids);
+    const newDelta = getDeltaToRemoveStaleMentions(
+      ops,
+      currentMemberServiceIds
+    );
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     quill.updateContents(newDelta as any);

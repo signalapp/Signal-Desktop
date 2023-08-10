@@ -1,6 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { v4 as generateUuid } from 'uuid';
+
 import { ReactionModel } from '../messageModifiers/Reactions';
 import { ReactionSource } from './ReactionSource';
 import { getMessageById } from '../messages/getMessageById';
@@ -10,8 +12,8 @@ import { isDirectConversation } from '../util/whatTypeOfConversation';
 import { incrementMessageCounter } from '../util/incrementMessageCounter';
 import { repeat, zipObject } from '../util/iterables';
 import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp';
+import { isAciString } from '../types/ServiceId';
 import { SendStatus } from '../messages/MessageSendState';
-import { UUID } from '../types/UUID';
 import * as log from '../logging/log';
 
 export async function enqueueReactionForSend({
@@ -30,6 +32,10 @@ export async function enqueueReactionForSend({
   strictAssert(
     targetAuthorUuid,
     `enqueueReactionForSend: message ${message.idForLogging()} had no source UUID`
+  );
+  strictAssert(
+    isAciString(targetAuthorUuid),
+    `enqueueReactionForSend: message ${message.idForLogging()} had no source ACI`
   );
 
   const targetTimestamp = getMessageSentTimestamp(message.attributes, {
@@ -68,7 +74,7 @@ export async function enqueueReactionForSend({
   // Only used in story scenarios, where we use a whole message to represent the reaction
   const storyReactionMessage = storyMessage
     ? new window.Whisper.Message({
-        id: UUID.generate().toString(),
+        id: generateUuid(),
         type: 'outgoing',
         conversationId: targetConversation.id,
         sent_at: timestamp,

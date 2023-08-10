@@ -2,12 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
+import { v4 as generateUuid } from 'uuid';
 
 import dataInterface from '../../sql/Client';
-import { UUID } from '../../types/UUID';
-import type { UUIDStringType } from '../../types/UUID';
 
 import { CallMode } from '../../types/Calling';
+import { generateAci } from '../../types/ServiceId';
+import type { ServiceIdString } from '../../types/ServiceId';
 import type {
   CallHistoryDetails,
   CallHistoryGroup,
@@ -23,10 +24,6 @@ import type { ConversationAttributesType } from '../../model-types';
 
 const { removeAll, getCallHistoryGroups, saveCallHistory, saveConversation } =
   dataInterface;
-
-function getUuid(): UUIDStringType {
-  return UUID.generate().toString();
-}
 
 function toGroup(calls: Array<CallHistoryDetails>): CallHistoryGroup {
   const firstCall = calls.at(0);
@@ -51,7 +48,7 @@ describe('sql/getCallHistoryGroups', () => {
 
   it('should merge related items in order', async () => {
     const now = Date.now();
-    const conversationId = getUuid();
+    const conversationId = generateUuid();
 
     function toCall(callId: string, timestamp: number) {
       return {
@@ -82,7 +79,7 @@ describe('sql/getCallHistoryGroups', () => {
 
   it('should separate unrelated items in order', async () => {
     const now = Date.now();
-    const conversationId = getUuid();
+    const conversationId = generateUuid();
 
     function toCall(callId: string, timestamp: number, type: CallType) {
       return {
@@ -113,7 +110,7 @@ describe('sql/getCallHistoryGroups', () => {
 
   it('should split groups that are contiguous', async () => {
     const now = Date.now();
-    const conversationId = getUuid();
+    const conversationId = generateUuid();
 
     function toCall(callId: string, timestamp: number, type: CallType) {
       return {
@@ -153,7 +150,7 @@ describe('sql/getCallHistoryGroups', () => {
   it('should search in the correct conversations', async () => {
     const now = Date.now();
 
-    const conversation1Uuid = getUuid();
+    const conversation1Uuid = generateAci();
     const conversation2GroupId = 'groupId:2';
 
     const conversation1: ConversationAttributesType = {
@@ -177,7 +174,7 @@ describe('sql/getCallHistoryGroups', () => {
       callId: string,
       timestamp: number,
       mode: CallMode,
-      peerId: string | UUIDStringType
+      peerId: string | ServiceIdString
     ) {
       return {
         callId,
@@ -225,7 +222,7 @@ describe('sql/getCallHistoryGroups', () => {
   it('should support legacy call history with conversation.id', async () => {
     const now = Date.now();
 
-    const conversationId = getUuid();
+    const conversationId = generateUuid();
 
     const conversation: ConversationAttributesType = {
       type: 'private',

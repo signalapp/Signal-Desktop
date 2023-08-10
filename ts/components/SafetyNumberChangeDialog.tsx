@@ -21,7 +21,8 @@ import { ContextMenu } from './ContextMenu';
 import { Theme } from '../util/theme';
 import { isNotNil } from '../util/isNotNil';
 import { MY_STORY_ID } from '../types/Stories';
-import type { UUIDStringType } from '../types/UUID';
+import type { ServiceIdString } from '../types/ServiceId';
+import type { StoryDistributionIdString } from '../types/StoryDistributionId';
 import { UserText } from './UserText';
 
 export enum SafetyNumberChangeSource {
@@ -48,7 +49,7 @@ type StoryContacts = {
     // For My Story or custom distribution lists, conversationId will be our own
     conversationId: string;
     // For Group stories, distributionId will not be provided
-    distributionId?: string;
+    distributionId?: StoryDistributionIdString;
   };
   contacts: Array<ConversationType>;
 };
@@ -62,8 +63,8 @@ export type Props = Readonly<{
   onCancel: () => void;
   onConfirm: () => void;
   removeFromStory?: (
-    distributionId: string,
-    uuids: Array<UUIDStringType>
+    distributionId: StoryDistributionIdString,
+    serviceIds: Array<ServiceIdString>
   ) => unknown;
   renderSafetyNumber: (props: SafetyNumberProps) => JSX.Element;
   theme: ThemeType;
@@ -275,8 +276,8 @@ function ContactSection({
   getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
   removeFromStory?: (
-    distributionId: string,
-    uuids: Array<UUIDStringType>
+    distributionId: StoryDistributionIdString,
+    serviceIds: Array<ServiceIdString>
   ) => unknown;
   setSelectedContact: (contact: ConversationType) => void;
   theme: ThemeType;
@@ -431,12 +432,12 @@ function ContactRow({
   theme,
 }: Readonly<{
   contact: ConversationType;
-  distributionId?: string;
+  distributionId?: StoryDistributionIdString;
   getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
   removeFromStory?: (
-    distributionId: string,
-    uuids: Array<UUIDStringType>
+    distributionId: StoryDistributionIdString,
+    serviceIds: Array<ServiceIdString>
   ) => unknown;
   setSelectedContact: (contact: ConversationType) => void;
   shouldShowNumber: boolean;

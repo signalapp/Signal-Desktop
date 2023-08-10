@@ -5,6 +5,7 @@ import type { Meta, Story } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import React, { useState } from 'react';
 import casual from 'casual';
+import { v4 as generateUuid } from 'uuid';
 
 import type { PropsType } from './ProfileEditor';
 import enMessages from '../../_locales/en/messages.json';
@@ -15,7 +16,6 @@ import {
   UsernameLinkState,
   UsernameReservationState,
 } from '../state/ducks/usernameEnums';
-import { UUID } from '../types/UUID';
 import { getRandomColor } from '../test-both/helpers/getRandomColor';
 import { setupI18n } from '../util/setupI18n';
 
@@ -35,7 +35,7 @@ export default {
       defaultValue: undefined,
     },
     conversationId: {
-      defaultValue: UUID.generate().toString(),
+      defaultValue: generateUuid(),
     },
     color: {
       defaultValue: getRandomColor(),

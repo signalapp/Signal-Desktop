@@ -11,6 +11,7 @@ import {
 import { wrapWithSyncMessageSend } from '../../util/wrapWithSyncMessageSend';
 import * as Bytes from '../../Bytes';
 import { strictAssert } from '../../util/assert';
+import { isNotNil } from '../../util/isNotNil';
 import { ourProfileKeyService } from '../../services/ourProfileKey';
 
 import type { ConversationModel } from '../../models/conversations';
@@ -19,7 +20,7 @@ import type {
   GroupUpdateJobData,
   ConversationQueueJobBundle,
 } from '../conversationJobQueue';
-import { getUntrustedConversationUuids } from './getUntrustedConversationUuids';
+import { getUntrustedConversationServiceIds } from './getUntrustedConversationServiceIds';
 import { sendToGroup } from '../../util/sendToGroup';
 
 // Note: because we don't have a recipient map, if some sends fail, we will resend this
@@ -54,35 +55,37 @@ export async function sendGroupUpdate(
 
   const { groupChangeBase64, recipients: jobRecipients, revision } = data;
 
-  const recipients = jobRecipients.filter(id => {
-    const recipient = window.ConversationController.get(id);
-    if (!recipient) {
-      return false;
-    }
-    if (recipient.isUnregistered()) {
-      log.warn(
-        `${logId}: dropping unregistered recipient ${recipient.idForLogging()}`
-      );
-      return false;
-    }
-    if (recipient.isBlocked()) {
-      log.warn(
-        `${logId}: dropping blocked recipient ${recipient.idForLogging()}`
-      );
-      return false;
-    }
+  const recipients = jobRecipients
+    .map(id => {
+      const recipient = window.ConversationController.get(id);
+      if (!recipient) {
+        return undefined;
+      }
+      if (recipient.isUnregistered()) {
+        log.warn(
+          `${logId}: dropping unregistered recipient ${recipient.idForLogging()}`
+        );
+        return undefined;
+      }
+      if (recipient.isBlocked()) {
+        log.warn(
+          `${logId}: dropping blocked recipient ${recipient.idForLogging()}`
+        );
+        return undefined;
+      }
 
-    return true;
-  });
+      return recipient.getSendTarget();
+    })
+    .filter(isNotNil);
 
-  const untrustedUuids = getUntrustedConversationUuids(recipients);
-  if (untrustedUuids.length) {
+  const untrustedServiceIds = getUntrustedConversationServiceIds(recipients);
+  if (untrustedServiceIds.length) {
     window.reduxActions.conversations.conversationStoppedByMissingVerification({
       conversationId: conversation.id,
-      untrustedUuids,
+      untrustedServiceIds,
     });
     throw new Error(
-      `Group update blocked because ${untrustedUuids.length} conversation(s) were untrusted. Failing this attempt.`
+      `Group update blocked because ${untrustedServiceIds.length} conversation(s) were untrusted. Failing this attempt.`
     );
   }
 

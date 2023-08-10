@@ -18,7 +18,7 @@ import {
   UuidCiphertext,
   NotarySignature,
 } from '@signalapp/libsignal-client/zkgroup';
-import type { UUID, UUIDStringType } from '../types/UUID';
+import type { ServiceIdString } from '../types/ServiceId';
 
 export * from '@signalapp/libsignal-client/zkgroup';
 
@@ -50,7 +50,7 @@ export function decodeProfileKeyCredentialPresentation(
 export function decryptProfileKey(
   clientZkGroupCipher: ClientZkGroupCipher,
   profileKeyCiphertextBuffer: Uint8Array,
-  uuid: UUIDStringType
+  serviceId: ServiceIdString
 ): Uint8Array {
   const profileKeyCiphertext = new ProfileKeyCiphertext(
     Buffer.from(profileKeyCiphertextBuffer)
@@ -58,7 +58,7 @@ export function decryptProfileKey(
 
   const profileKey = clientZkGroupCipher.decryptProfileKey(
     profileKeyCiphertext,
-    uuid
+    serviceId
   );
 
   return profileKey.serialize();
@@ -75,12 +75,12 @@ export function decryptUuid(
 
 export function deriveProfileKeyVersion(
   profileKeyBase64: string,
-  uuid: UUIDStringType
+  serviceId: ServiceIdString
 ): string {
   const profileKeyArray = Buffer.from(profileKeyBase64, 'base64');
   const profileKey = new ProfileKey(profileKeyArray);
 
-  const profileKeyVersion = profileKey.getProfileKeyVersion(uuid);
+  const profileKeyVersion = profileKey.getProfileKeyVersion(serviceId);
 
   return profileKeyVersion.toString();
 }
@@ -119,20 +119,18 @@ export function encryptGroupBlob(
   return clientZkGroupCipher.encryptBlob(Buffer.from(plaintext));
 }
 
-export function encryptUuid(
+export function encryptServiceId(
   clientZkGroupCipher: ClientZkGroupCipher,
-  uuidPlaintext: UUID
+  serviceIdPlaintext: ServiceIdString
 ): Uint8Array {
-  const uuidCiphertext = clientZkGroupCipher.encryptUuid(
-    uuidPlaintext.toString()
-  );
+  const uuidCiphertext = clientZkGroupCipher.encryptUuid(serviceIdPlaintext);
 
   return uuidCiphertext.serialize();
 }
 
 export function generateProfileKeyCredentialRequest(
   clientZkProfileCipher: ClientZkProfileOperations,
-  uuid: UUIDStringType,
+  serviceId: ServiceIdString,
   profileKeyBase64: string
 ): { context: ProfileKeyCredentialRequestContext; requestHex: string } {
   const profileKeyArray = Buffer.from(profileKeyBase64, 'base64');
@@ -140,7 +138,7 @@ export function generateProfileKeyCredentialRequest(
 
   const context =
     clientZkProfileCipher.createProfileKeyCredentialRequestContext(
-      uuid,
+      serviceId,
       profileKey
     );
   const request = context.getRequest();
@@ -251,12 +249,12 @@ export function handleProfileKeyCredential(
 
 export function deriveProfileKeyCommitment(
   profileKeyBase64: string,
-  uuid: UUIDStringType
+  serviceId: ServiceIdString
 ): string {
   const profileKeyArray = Buffer.from(profileKeyBase64, 'base64');
   const profileKey = new ProfileKey(profileKeyArray);
 
-  return profileKey.getCommitment(uuid).contents.toString('base64');
+  return profileKey.getCommitment(serviceId).contents.toString('base64');
 }
 
 export function verifyNotarySignature(

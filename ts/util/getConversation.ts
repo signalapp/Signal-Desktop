@@ -8,7 +8,6 @@ import type { ConversationType } from '../state/ducks/conversations';
 import type { ConversationAttributesType } from '../model-types';
 import type { GroupNameCollisionsWithIdsByTitle } from './groupMemberNameCollisions';
 import { StorySendMode } from '../types/Stories';
-import { UUIDKind } from '../types/UUID';
 import { areWeAdmin } from './areWeAdmin';
 import { buildGroupLink } from '../groups';
 import { canAddNewMembers } from './canAddNewMembers';
@@ -81,8 +80,8 @@ export function getConversation(model: ConversationModel): ConversationType {
   const typingValues = Object.values(model.contactTypingTimers || {});
   const typingMostRecent = head(sortBy(typingValues, 'timestamp'));
 
-  const ourACI = window.textsecure.storage.user.getUuid(UUIDKind.ACI);
-  const ourPNI = window.textsecure.storage.user.getUuid(UUIDKind.PNI);
+  const ourAci = window.textsecure.storage.user.getAci();
+  const ourPni = window.textsecure.storage.user.getPni();
 
   const color = migrateColor(attributes.color);
 
@@ -135,17 +134,17 @@ export function getConversation(model: ConversationModel): ConversationType {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     activeAt: attributes.active_at!,
     areWePending:
-      ourACI &&
-      (isMemberPending(attributes, ourACI) ||
+      ourAci &&
+      (isMemberPending(attributes, ourAci) ||
         Boolean(
-          ourPNI &&
-            !isMember(attributes, ourACI) &&
-            isMemberPending(attributes, ourPNI)
+          ourPni &&
+            !isMember(attributes, ourAci) &&
+            isMemberPending(attributes, ourPni)
         )),
     areWePendingApproval: Boolean(
       ourConversationId &&
-        ourACI &&
-        isMemberAwaitingApproval(attributes, ourACI)
+        ourAci &&
+        isMemberAwaitingApproval(attributes, ourAci)
     ),
     areWeAdmin: areWeAdmin(attributes),
     avatars: getAvatarData(attributes),

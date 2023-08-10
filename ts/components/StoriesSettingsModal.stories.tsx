@@ -115,7 +115,9 @@ export const SingleList = Template.bind({});
       },
       {
         ...fakeDistroList,
-        members: fakeDistroList.memberUuids.map(() => getDefaultConversation()),
+        members: fakeDistroList.memberServiceIds.map(() =>
+          getDefaultConversation()
+        ),
       },
     ],
   };

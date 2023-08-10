@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
+import { v4 as generateUuid } from 'uuid';
 
 import dataInterface from '../../sql/Client';
-import { UUID } from '../../types/UUID';
-import type { UUIDStringType } from '../../types/UUID';
+import { generateAci } from '../../types/ServiceId';
 
 import type { MessageAttributesType } from '../../model-types';
 
@@ -16,10 +16,6 @@ const {
   getNearbyMessageFromDeletedSet,
 } = dataInterface;
 
-function getUuid(): UUIDStringType {
-  return UUID.generate().toString();
-}
-
 describe('sql/getNearbyMessageFromDeletedSet', () => {
   beforeEach(async () => {
     await _removeAllMessages();
@@ -29,8 +25,8 @@ describe('sql/getNearbyMessageFromDeletedSet', () => {
     assert.lengthOf(await _getAllMessages(), 0);
 
     const now = Date.now();
-    const conversationId = getUuid();
-    const ourUuid = getUuid();
+    const conversationId = generateUuid();
+    const ourAci = generateAci();
 
     function getMessage(body: string, offset: number): MessageAttributesType {
       return {
@@ -52,7 +48,7 @@ describe('sql/getNearbyMessageFromDeletedSet', () => {
 
     await saveMessages([message1, message2, message3, message4, message5], {
       forceSave: true,
-      ourUuid,
+      ourAci,
     });
 
     assert.lengthOf(await _getAllMessages(), 5);

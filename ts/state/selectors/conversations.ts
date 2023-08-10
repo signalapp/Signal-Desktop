@@ -37,7 +37,7 @@ import {
 import type { ContactNameColorType } from '../../types/Colors';
 import { ContactNameColors } from '../../types/Colors';
 import type { AvatarDataType } from '../../types/Avatar';
-import type { UUIDStringType } from '../../types/UUID';
+import type { ServiceIdString } from '../../types/ServiceId';
 import { isInSystemContacts } from '../../util/isInSystemContacts';
 import { isSignalConnection } from '../../util/getSignalConnections';
 import { sortByTitle } from '../../util/sortByTitle';
@@ -871,7 +871,7 @@ export const getConversationByIdSelector = createSelector(
 export const getConversationByUuidSelector = createSelector(
   getConversationsByUuid,
   conversationsByUuid =>
-    (uuid: UUIDStringType): undefined | ConversationType =>
+    (uuid: ServiceIdString): undefined | ConversationType =>
       getOwn(conversationsByUuid, uuid)
 );
 
@@ -1042,9 +1042,9 @@ export const getInvitedContactsForNewlyCreatedGroup = createSelector(
   getConversations,
   (
     conversationLookup,
-    { invitedUuidsForNewlyCreatedGroup = [] }
+    { invitedServiceIdsForNewlyCreatedGroup = [] }
   ): Array<ConversationType> =>
-    deconstructLookup(conversationLookup, invitedUuidsForNewlyCreatedGroup)
+    deconstructLookup(conversationLookup, invitedServiceIdsForNewlyCreatedGroup)
 );
 
 export const getConversationsWithCustomColorSelector = createSelector(
@@ -1127,20 +1127,20 @@ export const getConversationIdsStoppedForVerification = createSelector(
     Object.keys(verificationDataByConversation)
 );
 
-export const getConversationUuidsStoppingSend = createSelector(
+export const getConversationServiceIdsStoppingSend = createSelector(
   getConversationVerificationData,
-  (pendingData): Array<string> => {
-    const result = new Set<string>();
+  (pendingData): Array<ServiceIdString> => {
+    const result = new Set<ServiceIdString>();
     Object.values(pendingData).forEach(item => {
       if (item.type === ConversationVerificationState.PendingVerification) {
-        item.uuidsNeedingVerification.forEach(conversationId => {
-          result.add(conversationId);
+        item.serviceIdsNeedingVerification.forEach(serviceId => {
+          result.add(serviceId);
         });
 
         if (item.byDistributionId) {
           Object.values(item.byDistributionId).forEach(distribution => {
-            distribution.uuidsNeedingVerification.forEach(conversationId => {
-              result.add(conversationId);
+            distribution.serviceIdsNeedingVerification.forEach(serviceId => {
+              result.add(serviceId);
             });
           });
         }
@@ -1152,12 +1152,14 @@ export const getConversationUuidsStoppingSend = createSelector(
 
 export const getConversationsStoppingSend = createSelector(
   getConversationSelector,
-  getConversationUuidsStoppingSend,
+  getConversationServiceIdsStoppingSend,
   (
     conversationSelector: GetConversationByIdType,
-    uuids: ReadonlyArray<string>
+    serviceIds: ReadonlyArray<ServiceIdString>
   ): Array<ConversationType> => {
-    const conversations = uuids.map(uuid => conversationSelector(uuid));
+    const conversations = serviceIds.map(serviceId =>
+      conversationSelector(serviceId)
+    );
     return sortByTitle(conversations);
   }
 );

@@ -50,7 +50,8 @@ import { isConversationUnregistered } from '../../util/isConversationUnregistere
 import { isConversationAccepted } from '../../util/isConversationAccepted';
 import { sendToGroup } from '../../util/sendToGroup';
 import type { DurationInSeconds } from '../../util/durations';
-import type { UUIDStringType } from '../../types/UUID';
+import type { ServiceIdString } from '../../types/ServiceId';
+import { normalizeAci } from '../../types/ServiceId';
 import * as Bytes from '../../Bytes';
 
 const LONG_ATTACHMENT_LIMIT = 2048;
@@ -131,29 +132,29 @@ export async function sendNormalMessage(
 
   try {
     const {
-      allRecipientIdentifiers,
-      recipientIdentifiersWithoutMe,
-      sentRecipientIdentifiers,
-      untrustedUuids,
+      allRecipientServiceIds,
+      recipientServiceIdsWithoutMe,
+      sentRecipientServiceIds,
+      untrustedServiceIds,
     } = getMessageRecipients({
       log,
       message,
       conversation,
     });
 
-    if (untrustedUuids.length) {
+    if (untrustedServiceIds.length) {
       window.reduxActions.conversations.conversationStoppedByMissingVerification(
         {
           conversationId: conversation.id,
-          untrustedUuids,
+          untrustedServiceIds,
         }
       );
       throw new Error(
-        `Message ${messageId} sending blocked because ${untrustedUuids.length} conversation(s) were untrusted. Failing this attempt.`
+        `Message ${messageId} sending blocked because ${untrustedServiceIds.length} conversation(s) were untrusted. Failing this attempt.`
       );
     }
 
-    if (!allRecipientIdentifiers.length) {
+    if (!allRecipientServiceIds.length) {
       log.warn(
         `trying to send message ${messageId} but it looks like it was already sent to everyone. This is unexpected, but we're giving up`
       );
@@ -204,11 +205,11 @@ export async function sendNormalMessage(
 
     let messageSendPromise: Promise<CallbackResultType | void>;
 
-    if (recipientIdentifiersWithoutMe.length === 0) {
+    if (recipientServiceIdsWithoutMe.length === 0) {
       if (
         !isMe(conversation.attributes) &&
         !isGroup(conversation.attributes) &&
-        sentRecipientIdentifiers.length === 0
+        sentRecipientServiceIds.length === 0
       ) {
         log.info(
           'No recipients; not sending to ourselves or to group, and no successful sends. Failing job.'
@@ -230,12 +231,12 @@ export async function sendNormalMessage(
         editedMessageTimestamp,
         expireTimer,
         groupV2: conversation.getGroupV2Info({
-          members: recipientIdentifiersWithoutMe,
+          members: recipientServiceIdsWithoutMe,
         }),
         preview,
         profileKey,
         quote,
-        recipients: allRecipientIdentifiers,
+        recipients: allRecipientServiceIds,
         sticker,
         storyContext,
         timestamp: messageTimestamp,
@@ -255,7 +256,7 @@ export async function sendNormalMessage(
         }
 
         const groupV2Info = conversation.getGroupV2Info({
-          members: recipientIdentifiersWithoutMe,
+          members: recipientServiceIdsWithoutMe,
         });
         if (groupV2Info && isNumber(revision)) {
           groupV2Info.revision = revision;
@@ -321,7 +322,7 @@ export async function sendNormalMessage(
         }
 
         log.info('sending direct message');
-        innerPromise = messaging.sendMessageToIdentifier({
+        innerPromise = messaging.sendMessageToServiceId({
           attachments,
           bodyRanges,
           contact,
@@ -330,7 +331,7 @@ export async function sendNormalMessage(
           editedMessageTimestamp,
           expireTimer,
           groupId: undefined,
-          identifier: recipientIdentifiersWithoutMe[0],
+          serviceId: recipientServiceIdsWithoutMe[0],
           messageText: body,
           options: sendOptions,
           preview,
@@ -405,15 +406,15 @@ function getMessageRecipients({
   conversation: ConversationModel;
   message: MessageModel;
 }>): {
-  allRecipientIdentifiers: Array<string>;
-  recipientIdentifiersWithoutMe: Array<string>;
-  sentRecipientIdentifiers: Array<string>;
-  untrustedUuids: Array<UUIDStringType>;
+  allRecipientServiceIds: Array<ServiceIdString>;
+  recipientServiceIdsWithoutMe: Array<ServiceIdString>;
+  sentRecipientServiceIds: Array<ServiceIdString>;
+  untrustedServiceIds: Array<ServiceIdString>;
 } {
-  const allRecipientIdentifiers: Array<string> = [];
-  const recipientIdentifiersWithoutMe: Array<string> = [];
-  const untrustedUuids: Array<UUIDStringType> = [];
-  const sentRecipientIdentifiers: Array<string> = [];
+  const allRecipientServiceIds: Array<ServiceIdString> = [];
+  const recipientServiceIdsWithoutMe: Array<ServiceIdString> = [];
+  const untrustedServiceIds: Array<ServiceIdString> = [];
+  const sentRecipientServiceIds: Array<ServiceIdString> = [];
 
   const currentConversationRecipients = conversation.getMemberConversationIds();
 
@@ -436,14 +437,14 @@ function getMessageRecipients({
       }
 
       if (recipient.isUntrusted()) {
-        const uuid = recipient.get('uuid');
-        if (!uuid) {
+        const serviceId = recipient.getServiceId();
+        if (!serviceId) {
           log.error(
-            `sendNormalMessage/getMessageRecipients: Untrusted conversation ${recipient.idForLogging()} missing UUID.`
+            `sendNormalMessage/getMessageRecipients: Untrusted conversation ${recipient.idForLogging()} missing serviceId.`
           );
           return;
         }
-        untrustedUuids.push(uuid);
+        untrustedServiceIds.push(serviceId);
         return;
       }
       if (recipient.isUnregistered()) {
@@ -459,22 +460,22 @@ function getMessageRecipients({
       }
 
       if (isSent(sendState.status)) {
-        sentRecipientIdentifiers.push(recipientIdentifier);
+        sentRecipientServiceIds.push(recipientIdentifier);
         return;
       }
 
-      allRecipientIdentifiers.push(recipientIdentifier);
+      allRecipientServiceIds.push(recipientIdentifier);
       if (!isRecipientMe) {
-        recipientIdentifiersWithoutMe.push(recipientIdentifier);
+        recipientServiceIdsWithoutMe.push(recipientIdentifier);
       }
     }
   );
 
   return {
-    allRecipientIdentifiers,
-    recipientIdentifiersWithoutMe,
-    sentRecipientIdentifiers,
-    untrustedUuids,
+    allRecipientServiceIds,
+    recipientServiceIdsWithoutMe,
+    sentRecipientServiceIds,
+    untrustedServiceIds,
   };
 }
 
@@ -554,10 +555,23 @@ async function getMessageSendData({
 
   // Save message after uploading attachments
   await window.Signal.Data.saveMessage(message.attributes, {
-    ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+    ourAci: window.textsecure.storage.user.getCheckedAci(),
   });
 
   const storyReaction = message.get('storyReaction');
+  const storySourceUuid = storyMessage?.get('sourceUuid');
+
+  let reactionForSend: ReactionType | undefined;
+  if (storyReaction) {
+    const { targetAuthorUuid: targetAuthorAci, ...restOfReaction } =
+      storyReaction;
+
+    reactionForSend = {
+      ...restOfReaction,
+      targetAuthorAci,
+      remove: false,
+    };
+  }
 
   return {
     attachments: [
@@ -573,17 +587,17 @@ async function getMessageSendData({
     messageTimestamp,
     preview,
     quote,
-    reaction: storyReaction
-      ? {
-          ...storyReaction,
-          remove: false,
-        }
-      : undefined,
+    reaction: reactionForSend,
     sticker,
     storyMessage,
     storyContext: storyMessage
       ? {
-          authorUuid: storyMessage.get('sourceUuid'),
+          authorAci: storySourceUuid
+            ? normalizeAci(
+                storySourceUuid,
+                'sendNormalMessage.storyContext.authorAci'
+              )
+            : undefined,
           timestamp: storyMessage.get('sent_at'),
         }
       : undefined,
@@ -702,7 +716,12 @@ async function uploadMessageQuote(
   return {
     isGiftBadge: loadedQuote.isGiftBadge,
     id: loadedQuote.id,
-    authorUuid: loadedQuote.authorUuid,
+    authorAci: loadedQuote.authorUuid
+      ? normalizeAci(
+          loadedQuote.authorUuid,
+          'sendNormalMessage.quote.authorUuid'
+        )
+      : undefined,
     text: loadedQuote.text,
     bodyRanges: loadedQuote.bodyRanges,
     attachments: attachmentsAfterThumbnailUpload,
@@ -919,7 +938,7 @@ async function markMessageFailed(
   message.markFailed();
   void message.saveErrors(errors, { skipSave: true });
   await window.Signal.Data.saveMessage(message.attributes, {
-    ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+    ourAci: window.textsecure.storage.user.getCheckedAci(),
   });
 }
 

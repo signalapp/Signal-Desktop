@@ -11,6 +11,7 @@ import enMessages from '../../_locales/en/messages.json';
 import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext';
 import { getFakeBadge } from '../test-both/helpers/getFakeBadge';
 import { MY_STORY_ID } from '../types/Stories';
+import { generateStoryDistributionId } from '../types/StoryDistributionId';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -254,7 +255,7 @@ export function NoContacts(): JSX.Element {
           story: {
             name: 'Custom List A',
             conversationId: 'our-conversation-id',
-            distributionId: 'some-other-distribution-id',
+            distributionId: generateStoryDistributionId(),
           },
           contacts: [],
         },
@@ -290,7 +291,7 @@ export function InMultipleStories(): JSX.Element {
           story: {
             name: 'Custom List A',
             conversationId: 'our-conversation-id',
-            distributionId: 'some-other-distribution-id',
+            distributionId: generateStoryDistributionId(),
           },
           contacts: [
             contactWithAllData,

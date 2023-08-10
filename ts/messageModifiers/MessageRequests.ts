@@ -7,10 +7,11 @@ import { Collection, Model } from 'backbone';
 import type { ConversationModel } from '../models/conversations';
 import * as log from '../logging/log';
 import * as Errors from '../types/errors';
+import type { AciString } from '../types/ServiceId';
 
 export type MessageRequestAttributesType = {
   threadE164?: string;
-  threadUuid?: string;
+  threadAci?: AciString;
   groupV2Id?: string;
   type: number;
 };
@@ -44,7 +45,7 @@ export class MessageRequests extends Collection<MessageRequestModel> {
 
     if (conversation.get('uuid')) {
       const syncByUuid = this.findWhere({
-        threadUuid: conversation.get('uuid'),
+        threadAci: conversation.get('uuid'),
       });
       if (syncByUuid) {
         log.info(
@@ -75,7 +76,7 @@ export class MessageRequests extends Collection<MessageRequestModel> {
   async onResponse(sync: MessageRequestModel): Promise<void> {
     try {
       const threadE164 = sync.get('threadE164');
-      const threadUuid = sync.get('threadUuid');
+      const threadAci = sync.get('threadAci');
       const groupV2Id = sync.get('groupV2Id');
 
       let conversation;
@@ -84,17 +85,17 @@ export class MessageRequests extends Collection<MessageRequestModel> {
       if (groupV2Id) {
         conversation = window.ConversationController.get(groupV2Id);
       }
-      if (!conversation && (threadE164 || threadUuid)) {
+      if (!conversation && (threadE164 || threadAci)) {
         conversation = window.ConversationController.lookupOrCreate({
           e164: threadE164,
-          uuid: threadUuid,
+          uuid: threadAci,
           reason: 'MessageRequests.onResponse',
         });
       }
 
       if (!conversation) {
         log.warn(
-          `Received message request response for unknown conversation: groupv2(${groupV2Id}) ${threadUuid} ${threadE164}`
+          `Received message request response for unknown conversation: groupv2(${groupV2Id}) ${threadAci} ${threadE164}`
         );
         return;
       }

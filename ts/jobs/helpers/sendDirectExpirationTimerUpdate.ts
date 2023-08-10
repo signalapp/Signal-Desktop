@@ -20,7 +20,6 @@ import { handleMessageSend } from '../../util/handleMessageSend';
 import { isConversationAccepted } from '../../util/isConversationAccepted';
 import { isConversationUnregistered } from '../../util/isConversationUnregistered';
 import { DurationInSeconds } from '../../util/durations';
-import { getTaggedConversationUuid } from '../../util/getConversationUuid';
 
 export async function sendDirectExpirationTimerUpdate(
   conversation: ConversationModel,
@@ -47,14 +46,12 @@ export async function sendDirectExpirationTimerUpdate(
   }
 
   if (conversation.isUntrusted()) {
-    const uuid = conversation
-      .getCheckedUuid(
-        'Expiration timer send blocked: untrusted and missing uuid!'
-      )
-      .toString();
+    const serviceId = conversation.getCheckedServiceId(
+      'Expiration timer send blocked: untrusted and missing serviceId!'
+    );
     window.reduxActions.conversations.conversationStoppedByMissingVerification({
       conversationId: conversation.id,
-      untrustedUuids: [uuid],
+      untrustedServiceIds: [serviceId],
     });
     throw new Error(
       'Expiration timer send blocked because conversation is untrusted. Failing this attempt.'
@@ -108,7 +105,7 @@ export async function sendDirectExpirationTimerUpdate(
             proto.dataMessage
           ).finish(),
           destination: conversation.get('e164'),
-          destinationUuid: getTaggedConversationUuid(conversation.attributes),
+          destinationServiceId: conversation.getServiceId(),
           expirationStartTimestamp: null,
           options: sendOptions,
           timestamp,
@@ -143,7 +140,7 @@ export async function sendDirectExpirationTimerUpdate(
         send: async sender =>
           sender.sendIndividualProto({
             contentHint,
-            identifier: conversation.getSendTarget(),
+            serviceId: conversation.getSendTarget(),
             options: sendOptions,
             proto,
             timestamp,

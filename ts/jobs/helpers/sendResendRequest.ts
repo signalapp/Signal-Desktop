@@ -26,13 +26,14 @@ import { drop } from '../../util/drop';
 import { strictAssert } from '../../util/assert';
 import type { DecryptionErrorEventData } from '../../textsecure/messageReceiverEvents';
 import type { LoggerType } from '../../types/Logging';
+import { isAciString } from '../../types/ServiceId';
 import { startAutomaticSessionReset } from '../../util/handleRetry';
 
 function failoverToLocalReset(
   logger: LoggerType,
   options: Pick<
     DecryptionErrorEventData,
-    'senderUuid' | 'senderDevice' | 'timestamp'
+    'senderAci' | 'senderDevice' | 'timestamp'
   >
 ) {
   logger.error('Failing over to local reset');
@@ -48,8 +49,14 @@ export async function sendResendRequest(
     timeRemaining,
     log,
   }: ConversationQueueJobBundle,
-  data: ResendRequestJobData
+  { senderUuid: senderAci, ...restOfData }: ResendRequestJobData
 ): Promise<void> {
+  strictAssert(isAciString(senderAci), 'senderUuid is not an ACI');
+  const data = {
+    ...restOfData,
+    senderAci,
+  };
+
   const {
     contentHint,
     groupId,

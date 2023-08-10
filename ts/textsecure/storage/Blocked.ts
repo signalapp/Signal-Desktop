@@ -4,6 +4,7 @@
 import { without } from 'lodash';
 
 import type { StorageInterface } from '../../types/Storage.d';
+import type { ServiceIdString } from '../../types/ServiceId';
 import * as log from '../../logging/log';
 
 const BLOCKED_NUMBERS_ID = 'blocked';
@@ -41,15 +42,15 @@ export class Blocked {
     await this.storage.put(BLOCKED_NUMBERS_ID, without(numbers, number));
   }
 
-  public getBlockedUuids(): Array<string> {
-    return this.storage.get(BLOCKED_UUIDS_ID, new Array<string>());
+  public getBlockedUuids(): Array<ServiceIdString> {
+    return this.storage.get(BLOCKED_UUIDS_ID, new Array<ServiceIdString>());
   }
 
-  public isUuidBlocked(uuid: string): boolean {
+  public isUuidBlocked(uuid: ServiceIdString): boolean {
     return this.getBlockedUuids().includes(uuid);
   }
 
-  public async addBlockedUuid(uuid: string): Promise<void> {
+  public async addBlockedUuid(uuid: ServiceIdString): Promise<void> {
     const uuids = this.getBlockedUuids();
     if (uuids.includes(uuid)) {
       return;
@@ -59,7 +60,7 @@ export class Blocked {
     await this.storage.put(BLOCKED_UUIDS_ID, uuids.concat(uuid));
   }
 
-  public async removeBlockedUuid(uuid: string): Promise<void> {
+  public async removeBlockedUuid(uuid: ServiceIdString): Promise<void> {
     const numbers = this.getBlockedUuids();
     if (!numbers.includes(uuid)) {
       return;

@@ -1,6 +1,8 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { v4 as generateUuid } from 'uuid';
+
 import type { DraftBodyRanges } from '../types/BodyRange';
 import type { LinkPreviewType } from '../types/message/LinkPreviews';
 import type {
@@ -12,7 +14,6 @@ import type { AttachmentType } from '../types/Attachment';
 import { ErrorWithToast } from '../types/ErrorWithToast';
 import { SendStatus } from '../messages/MessageSendState';
 import { ToastType } from '../types/Toast';
-import { UUID } from '../types/UUID';
 import { canEditMessage } from './canEditMessage';
 import {
   conversationJobQueue,
@@ -183,7 +184,7 @@ export async function sendEditedMessage(
         image,
       };
     }),
-    id: UUID.generate().toString(),
+    id: generateUuid(),
     quote,
     received_at: incrementMessageCounter(),
     received_at_ms: timestamp,
@@ -219,7 +220,7 @@ export async function sendEditedMessage(
           );
           await window.Signal.Data.saveMessage(targetMessage.attributes, {
             jobToInsert,
-            ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+            ourAci: window.textsecure.storage.user.getCheckedAci(),
           });
         }
       ),

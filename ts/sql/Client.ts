@@ -15,10 +15,10 @@ import { assertDev, softAssert } from '../util/assert';
 import { mapObjectWithSpec } from '../util/mapObjectWithSpec';
 import type { ObjectMappingSpecType } from '../util/mapObjectWithSpec';
 import { cleanDataForIpc } from './cleanDataForIpc';
-import type { UUIDStringType } from '../types/UUID';
+import type { AciString } from '../types/ServiceId';
 import createTaskWithTimeout from '../textsecure/TaskWithTimeout';
 import * as log from '../logging/log';
-import { isValidUuid } from '../types/UUID';
+import { isValidUuid } from '../util/isValidUuid';
 import * as Errors from '../types/errors';
 
 import type { StoredJob } from '../jobs/types';
@@ -539,7 +539,7 @@ async function saveMessage(
   options: {
     jobToInsert?: Readonly<StoredJob>;
     forceSave?: boolean;
-    ourUuid: UUIDStringType;
+    ourAci: AciString;
   }
 ): Promise<string> {
   const id = await channels.saveMessage(_cleanMessageData(data), {
@@ -557,7 +557,7 @@ async function saveMessage(
 
 async function saveMessages(
   arrayOfMessages: ReadonlyArray<MessageType>,
-  options: { forceSave?: boolean; ourUuid: UUIDStringType }
+  options: { forceSave?: boolean; ourAci: AciString }
 ): Promise<void> {
   await channels.saveMessages(
     arrayOfMessages.map(message => _cleanMessageData(message)),

@@ -6,7 +6,7 @@ import { isNumber } from 'lodash';
 import * as durations from '../util/durations';
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
 import * as Registration from '../util/registration';
-import { UUIDKind } from '../types/UUID';
+import { ServiceIdKind } from '../types/ServiceId';
 import * as log from '../logging/log';
 import * as Errors from '../types/errors';
 
@@ -56,8 +56,8 @@ export class UpdateKeysListener {
     try {
       const accountManager = window.getAccountManager();
 
-      await accountManager.maybeUpdateKeys(UUIDKind.ACI);
-      await accountManager.maybeUpdateKeys(UUIDKind.PNI);
+      await accountManager.maybeUpdateKeys(ServiceIdKind.ACI);
+      await accountManager.maybeUpdateKeys(ServiceIdKind.PNI);
 
       this.scheduleNextUpdate();
       this.setTimeoutForNextRun();

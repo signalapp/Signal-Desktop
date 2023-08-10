@@ -13,6 +13,11 @@ import type { PropsType } from './MessageSearchResult';
 import { MessageSearchResult } from './MessageSearchResult';
 import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
 import { BodyRange } from '../../types/BodyRange';
+import { generateAci } from '../../types/ServiceId';
+
+const SERVICE_ID_1 = generateAci();
+const SERVICE_ID_2 = generateAci();
+const SERVICE_ID_3 = generateAci();
 
 const i18n = setupI18n('en', enMessages);
 
@@ -198,14 +203,14 @@ export function Mention(): JSX.Element {
     bodyRanges: [
       {
         length: 1,
-        mentionUuid: '7d007e95-771d-43ad-9191-eaa86c773cb8',
+        mentionUuid: SERVICE_ID_3,
         replacementText: 'Shoe',
         conversationID: 'x',
         start: 113,
       },
       {
         length: 1,
-        mentionUuid: '7d007e95-771d-43ad-9191-eaa86c773cb8',
+        mentionUuid: SERVICE_ID_3,
         replacementText: 'Shoe',
         conversationID: 'x',
         start: 237,
@@ -230,7 +235,7 @@ export function MentionRegexp(): JSX.Element {
     bodyRanges: [
       {
         length: 1,
-        mentionUuid: '7d007e95-771d-43ad-9191-eaa86c773cb8',
+        mentionUuid: SERVICE_ID_3,
         replacementText: 'RegExp',
         conversationID: 'x',
         start: 0,
@@ -255,7 +260,7 @@ export function MentionNoMatches(): JSX.Element {
     bodyRanges: [
       {
         length: 1,
-        mentionUuid: '7d007e95-771d-43ad-9191-eaa86c773cb8',
+        mentionUuid: SERVICE_ID_3,
         replacementText: 'Neo',
         conversationID: 'x',
         start: 0,
@@ -279,14 +284,14 @@ export const _MentionNoMatches = (): JSX.Element => {
     bodyRanges: [
       {
         length: 1,
-        mentionUuid: '7d007e95-771d-43ad-9191-eaa86c773cb8',
+        mentionUuid: SERVICE_ID_3,
         replacementText: 'Shoe',
         conversationID: 'x',
         start: 113,
       },
       {
         length: 1,
-        mentionUuid: '7d007e95-771d-43ad-9191-eaa86c773cb8',
+        mentionUuid: SERVICE_ID_3,
         replacementText: 'Shoe',
         conversationID: 'x',
         start: 237,
@@ -311,14 +316,14 @@ export function DoubleMention(): JSX.Element {
     bodyRanges: [
       {
         length: 1,
-        mentionUuid: '9eb2eb65-992a-4909-a2a5-18c56bd7648f',
+        mentionUuid: SERVICE_ID_2,
         replacementText: 'Alice',
         conversationID: 'x',
         start: 4,
       },
       {
         length: 1,
-        mentionUuid: '755ec61b-1590-48da-b003-3e57b2b54448',
+        mentionUuid: SERVICE_ID_1,
         replacementText: 'Bob',
         conversationID: 'x',
         start: 6,

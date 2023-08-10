@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
+import { v4 as generateUuid } from 'uuid';
 
 import dataInterface from '../../sql/Client';
-import { UUID } from '../../types/UUID';
-import type { UUIDStringType } from '../../types/UUID';
+import { generateAci } from '../../types/ServiceId';
 
 import type { MessageAttributesType } from '../../model-types.d';
 
@@ -16,10 +16,6 @@ const {
   getCallHistoryMessageByCallId,
 } = dataInterface;
 
-function getUuid(): UUIDStringType {
-  return UUID.generate().toString();
-}
-
 describe('sql/getCallHistoryMessageByCallId', () => {
   beforeEach(async () => {
     await removeAll();
@@ -29,11 +25,11 @@ describe('sql/getCallHistoryMessageByCallId', () => {
     assert.lengthOf(await _getAllMessages(), 0);
 
     const now = Date.now();
-    const conversationId = getUuid();
-    const ourUuid = getUuid();
+    const conversationId = generateUuid();
+    const ourAci = generateAci();
 
     const callHistoryMessage: MessageAttributesType = {
-      id: getUuid(),
+      id: generateUuid(),
       type: 'call-history',
       conversationId,
       sent_at: now - 10,
@@ -44,7 +40,7 @@ describe('sql/getCallHistoryMessageByCallId', () => {
 
     await saveMessages([callHistoryMessage], {
       forceSave: true,
-      ourUuid,
+      ourAci,
     });
 
     const allMessages = await _getAllMessages();

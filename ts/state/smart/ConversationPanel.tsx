@@ -333,7 +333,7 @@ function PanelElement({
     return (
       <SmartPendingInvites
         conversationId={conversationId}
-        ourUuid={window.storage.user.getCheckedUuid().toString()}
+        ourAci={window.storage.user.getCheckedAci()}
       />
     );
   }

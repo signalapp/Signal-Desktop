@@ -8,7 +8,7 @@ import { generateKeyPair } from '../../Curve';
 import type { UploadKeysType } from '../../textsecure/WebAPI';
 import AccountManager from '../../textsecure/AccountManager';
 import type { PreKeyType, SignedPreKeyType } from '../../textsecure/Types.d';
-import { UUID, UUIDKind } from '../../types/UUID';
+import { ServiceIdKind, normalizeAci } from '../../types/ServiceId';
 
 const { textsecure } = window;
 
@@ -18,14 +18,17 @@ const assertEqualBuffers = (a: Uint8Array, b: Uint8Array) => {
 
 describe('Key generation', function thisNeeded() {
   const count = 10;
-  const ourUuid = new UUID('aaaaaaaa-bbbb-4ccc-9ddd-eeeeeeeeeeee');
+  const ourServiceId = normalizeAci(
+    'aaaaaaaa-bbbb-4ccc-9ddd-eeeeeeeeeeee',
+    'test'
+  );
   let result: UploadKeysType;
   this.timeout(count * 2000);
 
   function itStoresPreKey(keyId: number): void {
     it(`prekey ${keyId} is valid`, async () => {
       const keyPair = await textsecure.storage.protocol.loadPreKey(
-        ourUuid,
+        ourServiceId,
         keyId
       );
       assert(keyPair, `PreKey ${keyId} not found`);
@@ -34,7 +37,7 @@ describe('Key generation', function thisNeeded() {
   function itStoresKyberPreKey(keyId: number): void {
     it(`kyber pre key ${keyId} is valid`, async () => {
       const key = await textsecure.storage.protocol.loadKyberPreKey(
-        ourUuid,
+        ourServiceId,
         keyId
       );
       assert(key, `kyber pre key ${keyId} not found`);
@@ -43,7 +46,7 @@ describe('Key generation', function thisNeeded() {
   function itStoresSignedPreKey(keyId: number): void {
     it(`signed prekey ${keyId} is valid`, async () => {
       const keyPair = await textsecure.storage.protocol.loadSignedPreKey(
-        ourUuid,
+        ourServiceId,
         keyId
       );
       assert(keyPair, `SignedPreKey ${keyId} not found`);
@@ -54,7 +57,7 @@ describe('Key generation', function thisNeeded() {
     resultKey: Pick<PreKeyType, 'keyId' | 'publicKey'>
   ): Promise<void> {
     const keyPair = await textsecure.storage.protocol.loadPreKey(
-      ourUuid,
+      ourServiceId,
       resultKey.keyId
     );
     if (!keyPair) {
@@ -69,7 +72,7 @@ describe('Key generation', function thisNeeded() {
       throw new Error('validateResultSignedKey: No signed prekey provided!');
     }
     const keyPair = await textsecure.storage.protocol.loadSignedPreKey(
-      ourUuid,
+      ourServiceId,
       resultSignedKey.keyId
     );
     if (!keyPair) {
@@ -88,9 +91,9 @@ describe('Key generation', function thisNeeded() {
 
     const keyPair = generateKeyPair();
     await textsecure.storage.put('identityKeyMap', {
-      [ourUuid.toString()]: keyPair,
+      [ourServiceId]: keyPair,
     });
-    await textsecure.storage.user.setUuidAndDeviceId(ourUuid.toString(), 1);
+    await textsecure.storage.user.setUuidAndDeviceId(ourServiceId, 1);
 
     await textsecure.storage.protocol.hydrateCaches();
   });
@@ -105,7 +108,7 @@ describe('Key generation', function thisNeeded() {
     before(async () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const accountManager = new AccountManager({} as any);
-      result = await accountManager._generateKeys(count, UUIDKind.ACI);
+      result = await accountManager._generateKeys(count, ServiceIdKind.ACI);
     });
 
     describe('generates the basics', () => {
@@ -146,7 +149,7 @@ describe('Key generation', function thisNeeded() {
     before(async () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const accountManager = new AccountManager({} as any);
-      result = await accountManager._generateKeys(count, UUIDKind.ACI);
+      result = await accountManager._generateKeys(count, ServiceIdKind.ACI);
     });
 
     describe('generates the basics', () => {
@@ -189,9 +192,9 @@ describe('Key generation', function thisNeeded() {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const accountManager = new AccountManager({} as any);
 
-      await accountManager._confirmKeys(result, UUIDKind.ACI);
+      await accountManager._confirmKeys(result, ServiceIdKind.ACI);
 
-      result = await accountManager._generateKeys(count, UUIDKind.ACI);
+      result = await accountManager._generateKeys(count, ServiceIdKind.ACI);
     });
 
     describe('generates the basics', () => {
@@ -227,7 +230,7 @@ describe('Key generation', function thisNeeded() {
     it('does not generate a third last resort prekey', async () => {
       const keyId = 3 * count + 3;
       const key = await textsecure.storage.protocol.loadKyberPreKey(
-        ourUuid,
+        ourServiceId,
         keyId
       );
       assert.isUndefined(key, `kyber pre key ${keyId} was unexpectedly found`);
@@ -235,7 +238,7 @@ describe('Key generation', function thisNeeded() {
     it('does not generate a third signed prekey', async () => {
       const keyId = 3;
       const keyPair = await textsecure.storage.protocol.loadSignedPreKey(
-        ourUuid,
+        ourServiceId,
         keyId
       );
       assert.isUndefined(

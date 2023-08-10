@@ -11,7 +11,8 @@ import type { LocalizerType } from '../types/Util';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
 import type { Row } from './ConversationList';
 import type { StoryDistributionListWithMembersDataType } from '../types/Stories';
-import type { UUIDStringType } from '../types/UUID';
+import type { StoryDistributionIdString } from '../types/StoryDistributionId';
+import type { ServiceIdString } from '../types/ServiceId';
 import type { RenderModalPage, ModalPropsType } from './Modal';
 import { Avatar, AvatarSize } from './Avatar';
 import { Button, ButtonVariant } from './Button';
@@ -28,7 +29,6 @@ import { SearchInput } from './SearchInput';
 import { StoryDistributionListName } from './StoryDistributionListName';
 import { Theme } from '../util/theme';
 import { ThemeType } from '../types/Util';
-import { UUID } from '../types/UUID';
 import { filterAndSortConversationsByRecent } from '../util/filterAndSortConversations';
 import { isNotNil } from '../util/isNotNil';
 import {
@@ -54,23 +54,25 @@ export type PropsType = {
   toggleGroupsForStorySend: (groupIds: Array<string>) => unknown;
   onDistributionListCreated: (
     name: string,
-    viewerUuids: Array<UUIDStringType>
+    viewerUuids: Array<ServiceIdString>
   ) => Promise<string>;
-  onHideMyStoriesFrom: (viewerUuids: Array<UUIDStringType>) => unknown;
-  onRemoveMembers: (listId: string, uuids: Array<UUIDStringType>) => unknown;
+  onHideMyStoriesFrom: (viewerUuids: Array<ServiceIdString>) => unknown;
+  onRemoveMembers: (listId: string, uuids: Array<ServiceIdString>) => unknown;
   onRepliesNReactionsChanged: (
     listId: string,
     allowsReplies: boolean
   ) => unknown;
   onViewersUpdated: (
     listId: string,
-    viewerUuids: Array<UUIDStringType>
+    viewerUuids: Array<ServiceIdString>
   ) => unknown;
   setMyStoriesToAllSignalConnections: () => unknown;
   storyViewReceiptsEnabled: boolean;
   toggleSignalConnectionsModal: () => unknown;
   setStoriesDisabled: (value: boolean) => void;
-  getConversationByUuid: (uuid: UUIDStringType) => ConversationType | undefined;
+  getConversationByUuid: (
+    uuid: ServiceIdString
+  ) => ConversationType | undefined;
 };
 
 export enum Page {
@@ -134,7 +136,7 @@ type DistributionListItemProps = {
   distributionList: StoryDistributionListWithMembersDataType;
   me: ConversationType;
   signalConnections: Array<ConversationType>;
-  onSelectItemToEdit(id: UUIDStringType): void;
+  onSelectItemToEdit(id: StoryDistributionIdString): void;
 };
 
 function DistributionListItem({
@@ -543,7 +545,10 @@ type DistributionListSettingsModalPropsType = {
   i18n: LocalizerType;
   listToEdit: StoryDistributionListWithMembersDataType;
   signalConnectionsCount: number;
-  setConfirmDeleteList: (_: { id: string; name: string }) => unknown;
+  setConfirmDeleteList: (_: {
+    id: StoryDistributionIdString;
+    name: string;
+  }) => unknown;
   setPage: (page: Page) => unknown;
   setSelectedContacts: (contacts: Array<ConversationType>) => unknown;
   onBackButtonClick: (() => void) | undefined;
@@ -577,7 +582,7 @@ export function DistributionListSettingsModal({
     | {
         listId: string;
         title: string;
-        uuid: UUIDStringType;
+        uuid: ServiceIdString;
       }
   >();
 
@@ -945,8 +950,8 @@ export function EditMyStoryPrivacy({
 }
 
 type EditDistributionListModalPropsType = {
-  onCreateList: (name: string, viewerUuids: Array<UUIDStringType>) => unknown;
-  onViewersUpdated: (viewerUuids: Array<UUIDStringType>) => unknown;
+  onCreateList: (name: string, viewerUuids: Array<ServiceIdString>) => unknown;
+  onViewersUpdated: (viewerUuids: Array<ServiceIdString>) => unknown;
   page:
     | Page.AddViewer
     | Page.ChooseViewers
@@ -998,7 +1003,7 @@ export function EditDistributionListModal({
     return map;
   }, [candidateConversations]);
 
-  const selectedConversationUuids: Set<UUIDStringType> = useMemo(
+  const selectConversationServiceIds: Set<ServiceIdString> = useMemo(
     () =>
       new Set(selectedContacts.map(contact => contact.uuid).filter(isNotNil)),
     [selectedContacts]
@@ -1034,7 +1039,7 @@ export function EditDistributionListModal({
       <Button
         disabled={!storyName}
         onClick={() => {
-          onCreateList(storyName, Array.from(selectedConversationUuids));
+          onCreateList(storyName, Array.from(selectConversationServiceIds));
           setStoryName('');
         }}
         variant={ButtonVariant.Primary}
@@ -1105,7 +1110,7 @@ export function EditDistributionListModal({
       return undefined;
     }
 
-    const isSelected = selectedConversationUuids.has(UUID.cast(contact.uuid));
+    const isSelected = selectConversationServiceIds.has(contact.uuid);
 
     return {
       type: RowType.ContactCheckbox,
@@ -1120,7 +1125,7 @@ export function EditDistributionListModal({
       <Button
         disabled={selectedContacts.length === 0}
         onClick={() => {
-          onViewersUpdated(Array.from(selectedConversationUuids));
+          onViewersUpdated(Array.from(selectConversationServiceIds));
         }}
         variant={ButtonVariant.Primary}
       >
@@ -1132,7 +1137,7 @@ export function EditDistributionListModal({
       <Button
         disabled={selectedContacts.length === 0}
         onClick={() => {
-          onViewersUpdated(Array.from(selectedConversationUuids));
+          onViewersUpdated(Array.from(selectConversationServiceIds));
         }}
         variant={ButtonVariant.Primary}
       >
@@ -1197,7 +1202,7 @@ export function EditDistributionListModal({
                 getPreferredBadge={getPreferredBadge}
                 getRow={getRow}
                 i18n={i18n}
-                lookupConversationWithoutUuid={asyncShouldNeverBeCalled}
+                lookupConversationWithoutServiceId={asyncShouldNeverBeCalled}
                 onClickArchiveButton={shouldNeverBeCalled}
                 onClickContactCheckbox={(conversationId: string) => {
                   toggleSelectedConversation(conversationId);
@@ -1236,7 +1241,7 @@ type GroupStorySettingsModalProps = {
   group: ConversationType;
   onClose(): void;
   onBackButtonClick(): void;
-  getConversationByUuid(uuid: UUIDStringType): ConversationType | undefined;
+  getConversationByUuid(uuid: ServiceIdString): ConversationType | undefined;
   onRemoveGroup(group: ConversationType): void;
 };
 

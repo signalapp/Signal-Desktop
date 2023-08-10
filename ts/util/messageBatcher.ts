@@ -13,7 +13,7 @@ const updateMessageBatcher = createBatcher<MessageAttributesType>({
   processBatch: async (messageAttrs: Array<MessageAttributesType>) => {
     log.info('updateMessageBatcher', messageAttrs.length);
     await window.Signal.Data.saveMessages(messageAttrs, {
-      ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+      ourAci: window.textsecure.storage.user.getCheckedAci(),
     });
   },
 });
@@ -25,7 +25,7 @@ export function queueUpdateMessage(messageAttr: MessageAttributesType): void {
     updateMessageBatcher.add(messageAttr);
   } else {
     void window.Signal.Data.saveMessage(messageAttr, {
-      ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+      ourAci: window.textsecure.storage.user.getCheckedAci(),
     });
   }
 }
@@ -42,7 +42,7 @@ export const saveNewMessageBatcher = createWaitBatcher<MessageAttributesType>({
     log.info('saveNewMessageBatcher', messageAttrs.length);
     await window.Signal.Data.saveMessages(messageAttrs, {
       forceSave: true,
-      ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+      ourAci: window.textsecure.storage.user.getCheckedAci(),
     });
   },
 });

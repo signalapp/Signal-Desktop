@@ -9,6 +9,7 @@ import type { MessageModel } from '../models/messages';
 import { ReadStatus } from '../messages/MessageReadStatus';
 import { markViewed } from '../services/MessageUpdater';
 import { isDownloaded } from '../types/Attachment';
+import type { AciString } from '../types/ServiceId';
 import * as Errors from '../types/errors';
 import { isIncoming } from '../state/selectors/message';
 import { notificationService } from '../services/notifications';
@@ -21,7 +22,7 @@ import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp';
 export type ViewSyncAttributesType = {
   senderId: string;
   senderE164?: string;
-  senderUuid: string;
+  senderAci: AciString;
   timestamp: number;
   viewedAt: number;
 };
@@ -84,7 +85,7 @@ export class ViewSyncs extends Collection {
           'Nothing found for view sync',
           sync.get('senderId'),
           sync.get('senderE164'),
-          sync.get('senderUuid'),
+          sync.get('senderAci'),
           sync.get('timestamp')
         );
         return;

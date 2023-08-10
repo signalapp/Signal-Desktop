@@ -7,9 +7,9 @@ import type { PrimaryDevice } from '@signalapp/mock-server';
 import createDebug from 'debug';
 
 import * as durations from '../../util/durations';
+import { generatePni } from '../../types/ServiceId';
 import { Bootstrap } from '../bootstrap';
 import type { App } from '../bootstrap';
-import { UUID } from '../../types/UUID';
 
 export const debug = createDebug('mock:test:pni-change');
 
@@ -122,7 +122,7 @@ describe('pnp/PNI Change', function needsName() {
 
     debug('Update pni on contactA via storage service');
     {
-      const updatedUuid = UUID.generate().toString();
+      const updatedPni = generatePni();
 
       const state = await phone.expectStorageState('consistency check');
       const updated = await phone.setStorageState(
@@ -138,8 +138,8 @@ describe('pnp/PNI Change', function needsName() {
               identityState: Proto.ContactRecord.IdentityState.DEFAULT,
               whitelisted: true,
               serviceE164: contactA.device.number,
-              serviceUuid: updatedUuid,
-              pni: updatedUuid,
+              serviceUuid: updatedPni,
+              pni: updatedPni,
               identityKey: contactA.getPublicKey(UUIDKind.PNI).serialize(),
             },
             UUIDKind.PNI

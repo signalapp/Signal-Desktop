@@ -13,7 +13,6 @@ import * as log from '../logging/log';
 import { HTTPError } from '../textsecure/Errors';
 import { SignalService as Proto } from '../protobuf';
 import { ToastType } from '../types/Toast';
-import { UUIDKind } from '../types/UUID';
 import {
   applyNewAvatar,
   decryptGroupDescription,
@@ -63,9 +62,9 @@ export async function joinViaLink(hash: string): Promise<void> {
   const existingConversation =
     window.ConversationController.get(id) ||
     window.ConversationController.getByDerivedGroupV2Id(id);
-  const ourUuid = window.textsecure.storage.user.getCheckedUuid(UUIDKind.ACI);
+  const ourAci = window.textsecure.storage.user.getCheckedAci();
 
-  if (existingConversation && existingConversation.hasMember(ourUuid)) {
+  if (existingConversation && existingConversation.hasMember(ourAci)) {
     log.warn(
       `joinViaLink/${logId}: Already a member of group, opening conversation`
     );
@@ -149,7 +148,7 @@ export async function joinViaLink(hash: string): Promise<void> {
   if (
     approvalRequired &&
     existingConversation &&
-    existingConversation.isMemberAwaitingApproval(ourUuid)
+    existingConversation.isMemberAwaitingApproval(ourAci)
   ) {
     log.warn(
       `joinViaLink/${logId}: Already awaiting approval, opening conversation`
@@ -246,9 +245,9 @@ export async function joinViaLink(hash: string): Promise<void> {
           //   via some other process. If so, just open that conversation.
           if (
             targetConversation &&
-            (targetConversation.hasMember(ourUuid) ||
+            (targetConversation.hasMember(ourAci) ||
               (approvalRequired &&
-                targetConversation.isMemberAwaitingApproval(ourUuid)))
+                targetConversation.isMemberAwaitingApproval(ourAci)))
           ) {
             log.warn(
               `joinViaLink/${logId}: User is part of group on second check, opening conversation`

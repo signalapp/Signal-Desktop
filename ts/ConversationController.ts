@@ -3,6 +3,7 @@
 
 import { debounce, pick, uniq, without } from 'lodash';
 import PQueue from 'p-queue';
+import { v4 as generateUuid } from 'uuid';
 
 import type {
   ConversationModelCollectionType,
@@ -12,7 +13,6 @@ import type {
 } from './model-types.d';
 import type { ConversationModel } from './models/conversations';
 import type { MessageModel } from './models/messages';
-import type { UUIDStringType } from './types/UUID';
 
 import dataInterface from './sql/Client';
 import * as log from './logging/log';
@@ -23,11 +23,16 @@ import { assertDev, strictAssert } from './util/assert';
 import { drop } from './util/drop';
 import { isGroupV1, isGroupV2 } from './util/whatTypeOfConversation';
 import { getConversationUnreadCountForAppBadge } from './util/getConversationUnreadCountForAppBadge';
-import { UUID, isValidUuid, UUIDKind } from './types/UUID';
+import type { ServiceIdString } from './types/ServiceId';
+import {
+  isServiceIdString,
+  normalizeAci,
+  normalizePni,
+} from './types/ServiceId';
 import { sleep } from './util/sleep';
 import { isNotNil } from './util/isNotNil';
 import { MINUTE, SECOND } from './util/durations';
-import { getUuidsForE164s } from './util/getUuidsForE164s';
+import { getServiceIdsForE164s } from './util/getServiceIdsForE164s';
 import { SIGNAL_ACI, SIGNAL_AVATAR_PATH } from './types/SignalConversation';
 import { getTitleNoDefault } from './util/getTitle';
 import * as StorageService from './services/storage';
@@ -35,7 +40,7 @@ import * as StorageService from './services/storage';
 type ConvoMatchType =
   | {
       key: 'uuid' | 'pni';
-      value: UUIDStringType | undefined;
+      value: ServiceIdString | undefined;
       match: ConversationModel | undefined;
     }
   | {
@@ -118,7 +123,7 @@ const MAX_MESSAGE_BODY_LENGTH = 64 * 1024;
 
 const {
   getAllConversations,
-  getAllGroupsInvolvingUuid,
+  getAllGroupsInvolvingServiceId,
   getMessagesBySentAt,
   migrateConversationMessages,
   removeConversation,
@@ -261,7 +266,7 @@ export class ConversationController {
       return conversation;
     }
 
-    const id = UUID.generate().toString();
+    const id = generateUuid();
 
     if (type === 'group') {
       conversation = this._conversations.add({
@@ -273,7 +278,7 @@ export class ConversationController {
         version: 2,
         ...additionalInitialProps,
       });
-    } else if (isValidUuid(identifier)) {
+    } else if (isServiceIdString(identifier)) {
       conversation = this._conversations.add({
         id,
         uuid: identifier,
@@ -364,12 +369,8 @@ export class ConversationController {
 
   getOurConversationId(): string | undefined {
     const e164 = window.textsecure.storage.user.getNumber();
-    const aci = window.textsecure.storage.user
-      .getUuid(UUIDKind.ACI)
-      ?.toString();
-    const pni = window.textsecure.storage.user
-      .getUuid(UUIDKind.PNI)
-      ?.toString();
+    const aci = window.textsecure.storage.user.getAci();
+    const pni = window.textsecure.storage.user.getPni();
 
     if (!e164 && !aci && !pni) {
       return undefined;
@@ -483,9 +484,11 @@ export class ConversationController {
 
     const aci =
       providedAci && providedAci !== providedPni
-        ? UUID.cast(providedAci)
+        ? normalizeAci(providedAci, 'maybeMergeContacts.aci')
         : undefined;
-    const pni = providedPni ? UUID.cast(providedPni) : undefined;
+    const pni = providedPni
+      ? normalizePni(providedPni, 'maybeMergeContacts.pni')
+      : undefined;
     const mergePromises: Array<Promise<void>> = [];
 
     if (!aci && !e164 && !pni) {
@@ -1037,10 +1040,10 @@ export class ConversationController {
     }
 
     const obsoleteId = obsolete.get('id');
-    const obsoleteUuid = obsolete.getUuid();
+    const obsoleteServiceId = obsolete.getServiceId();
     const currentId = current.get('id');
 
-    if (conversationType === 'private' && obsoleteUuid) {
+    if (conversationType === 'private' && obsoleteServiceId) {
       if (!current.get('profileKey') && obsolete.get('profileKey')) {
         log.warn(`${logId}: Copying profile key from old to new contact`);
 
@@ -1060,16 +1063,18 @@ export class ConversationController {
       log.warn(
         `${logId}: Delete all identity information tied to old conversationId`
       );
-      if (obsoleteUuid) {
+      if (obsoleteServiceId) {
         await window.textsecure.storage.protocol.removeIdentityKey(
-          obsoleteUuid
+          obsoleteServiceId
         );
       }
 
       log.warn(
         `${logId}: Ensure that all V1 groups have new conversationId instead of old`
       );
-      const groups = await this.getAllGroupsInvolvingUuid(obsoleteUuid);
+      const groups = await this.getAllGroupsInvolvingServiceId(
+        obsoleteServiceId
+      );
       groups.forEach(group => {
         const members = group.get('members');
         const withoutObsolete = without(members, obsoleteId);
@@ -1178,10 +1183,10 @@ export class ConversationController {
     return null;
   }
 
-  async getAllGroupsInvolvingUuid(
-    uuid: UUID
+  async getAllGroupsInvolvingServiceId(
+    serviceId: ServiceIdString
   ): Promise<Array<ConversationModel>> {
-    const groups = await getAllGroupsInvolvingUuid(uuid.toString());
+    const groups = await getAllGroupsInvolvingServiceId(serviceId);
     return groups.map(group => {
       const existing = this.get(group.id);
       if (existing) {
@@ -1278,7 +1283,7 @@ export class ConversationController {
   async _forgetE164(e164: string): Promise<void> {
     const { server } = window.textsecure;
     strictAssert(server, 'Server must be initialized');
-    const uuidMap = await getUuidsForE164s(server, [e164]);
+    const uuidMap = await getServiceIdsForE164s(server, [e164]);
 
     const pni = uuidMap.get(e164)?.pni;
 
@@ -1362,7 +1367,7 @@ export class ConversationController {
             // Clean up the conversations that have UUID as their e164.
             const e164 = conversation.get('e164');
             const uuid = conversation.get('uuid');
-            if (isValidUuid(e164) && uuid) {
+            if (e164 && isServiceIdString(e164) && uuid) {
               conversation.set({ e164: undefined });
               updateConversation(conversation.attributes);
 

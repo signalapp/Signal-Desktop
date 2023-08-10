@@ -6,7 +6,7 @@
 import protobuf from '../protobuf/wrap';
 
 import { SignalService as Proto } from '../protobuf';
-import { normalizeUuid } from '../util/normalizeUuid';
+import { normalizeAci } from '../types/ServiceId';
 import { DurationInSeconds } from '../util/durations';
 import * as Errors from '../types/errors';
 import * as log from '../logging/log';
@@ -120,7 +120,7 @@ export class ContactBuffer extends ParserBase<
       return undefined;
     }
 
-    if (!proto.uuid) {
+    if (!proto.aci) {
       return proto;
     }
 
@@ -130,18 +130,18 @@ export class ContactBuffer extends ParserBase<
       ...proto,
 
       verified:
-        verified && verified.destinationUuid
+        verified && verified.destinationAci
           ? {
               ...verified,
 
-              destinationUuid: normalizeUuid(
-                verified.destinationUuid,
-                'ContactBuffer.verified.destinationUuid'
+              destinationAci: normalizeAci(
+                verified.destinationAci,
+                'ContactBuffer.verified.destinationAci'
               ),
             }
           : verified,
 
-      uuid: normalizeUuid(proto.uuid, 'ContactBuffer.uuid'),
+      aci: normalizeAci(proto.aci, 'ContactBuffer.aci'),
     };
   }
 }

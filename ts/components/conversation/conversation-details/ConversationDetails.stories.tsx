@@ -14,7 +14,7 @@ import { ChooseGroupMembersModal } from './AddGroupMembersModal/ChooseGroupMembe
 import { ConfirmAdditionsModal } from './AddGroupMembersModal/ConfirmAdditionsModal';
 import type { ConversationType } from '../../../state/ducks/conversations';
 import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
-import { makeFakeLookupConversationWithoutUuid } from '../../../test-both/helpers/fakeLookupConversationWithoutUuid';
+import { makeFakeLookupConversationWithoutServiceId } from '../../../test-both/helpers/fakeLookupConversationWithoutServiceId';
 import { ThemeType } from '../../../types/Util';
 import { DurationInSeconds } from '../../../util/durations';
 import { NavTab } from '../../../state/ducks/nav';
@@ -120,7 +120,7 @@ const createProps = (
         getPreferredBadge={() => undefined}
         theme={ThemeType.light}
         i18n={i18n}
-        lookupConversationWithoutUuid={makeFakeLookupConversationWithoutUuid()}
+        lookupConversationWithoutServiceId={makeFakeLookupConversationWithoutServiceId()}
         showUserNotFoundModal={action('showUserNotFoundModal')}
         isUsernamesEnabled
       />

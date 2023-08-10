@@ -3,7 +3,7 @@
 
 import isNumber from 'lodash/isNumber';
 import type { ConversationAttributesType } from '../model-types.d';
-import type { UUID, UUIDStringType } from '../types/UUID';
+import type { ServiceIdString, AciString } from '../types/ServiceId';
 import { SignalService as Proto } from '../protobuf';
 import { isDirectConversation, isGroupV2 } from './whatTypeOfConversation';
 
@@ -12,7 +12,7 @@ export function isMemberPending(
     ConversationAttributesType,
     'groupId' | 'groupVersion' | 'pendingMembersV2'
   >,
-  uuid: UUID
+  serviceId: ServiceIdString
 ): boolean {
   if (!isGroupV2(conversationAttrs)) {
     return false;
@@ -23,7 +23,7 @@ export function isMemberPending(
     return false;
   }
 
-  return pendingMembersV2.some(item => item.uuid === uuid.toString());
+  return pendingMembersV2.some(item => item.uuid === serviceId);
 }
 
 export function isMemberBanned(
@@ -31,7 +31,7 @@ export function isMemberBanned(
     ConversationAttributesType,
     'groupId' | 'groupVersion' | 'bannedMembersV2'
   >,
-  uuid: UUID
+  serviceId: ServiceIdString
 ): boolean {
   if (!isGroupV2(conversationAttrs)) {
     return false;
@@ -42,7 +42,7 @@ export function isMemberBanned(
     return false;
   }
 
-  return bannedMembersV2.some(member => member.uuid === uuid.toString());
+  return bannedMembersV2.some(member => member.uuid === serviceId);
 }
 
 export function isMemberAwaitingApproval(
@@ -50,7 +50,7 @@ export function isMemberAwaitingApproval(
     ConversationAttributesType,
     'groupId' | 'groupVersion' | 'pendingAdminApprovalV2'
   >,
-  uuid: UUID
+  serviceId: ServiceIdString
 ): boolean {
   if (!isGroupV2(conversationAttrs)) {
     return false;
@@ -61,7 +61,7 @@ export function isMemberAwaitingApproval(
     return false;
   }
 
-  return pendingAdminApprovalV2.some(member => member.uuid === uuid.toString());
+  return pendingAdminApprovalV2.some(member => member.uuid === serviceId);
 }
 
 export function isMember(
@@ -69,7 +69,7 @@ export function isMember(
     ConversationAttributesType,
     'groupId' | 'groupVersion' | 'membersV2'
   >,
-  uuid: UUID
+  serviceId: ServiceIdString
 ): boolean {
   if (!isGroupV2(conversationAttrs)) {
     return false;
@@ -80,7 +80,7 @@ export function isMember(
     return false;
   }
 
-  return membersV2.some(item => item.uuid === uuid.toString());
+  return membersV2.some(item => item.uuid === serviceId);
 }
 
 export function isMemberRequestingToJoin(
@@ -88,7 +88,7 @@ export function isMemberRequestingToJoin(
     ConversationAttributesType,
     'groupId' | 'groupVersion' | 'pendingAdminApprovalV2'
   >,
-  uuid: UUID
+  serviceId: ServiceIdString
 ): boolean {
   if (!isGroupV2(conversationAttrs)) {
     return false;
@@ -99,14 +99,14 @@ export function isMemberRequestingToJoin(
     return false;
   }
 
-  return pendingAdminApprovalV2.some(item => item.uuid === uuid.toString());
+  return pendingAdminApprovalV2.some(item => item.uuid === serviceId);
 }
 
 const EMPTY_ARRAY: Readonly<[]> = [];
 
 export function getBannedMemberships(
   conversationAttrs: ConversationAttributesType
-): ReadonlyArray<UUIDStringType> {
+): ReadonlyArray<ServiceIdString> {
   if (!isGroupV2(conversationAttrs)) {
     return EMPTY_ARRAY;
   }
@@ -119,8 +119,8 @@ export function getBannedMemberships(
 export function getPendingMemberships(
   conversationAttrs: ConversationAttributesType
 ): ReadonlyArray<{
-  addedByUserId?: UUIDStringType;
-  uuid: UUIDStringType;
+  addedByUserId?: AciString;
+  uuid: ServiceIdString;
 }> {
   if (!isGroupV2(conversationAttrs)) {
     return EMPTY_ARRAY;
@@ -135,7 +135,7 @@ export function getPendingMemberships(
 
 export function getPendingApprovalMemberships(
   conversationAttrs: ConversationAttributesType
-): ReadonlyArray<{ uuid: UUIDStringType }> {
+): ReadonlyArray<{ uuid: AciString }> {
   if (!isGroupV2(conversationAttrs)) {
     return EMPTY_ARRAY;
   }
@@ -171,7 +171,7 @@ export function getMembersCount(
 export function getMemberships(
   conversationAttrs: ConversationAttributesType
 ): ReadonlyArray<{
-  uuid: UUIDStringType;
+  uuid: AciString;
   isAdmin: boolean;
 }> {
   if (!isGroupV2(conversationAttrs)) {

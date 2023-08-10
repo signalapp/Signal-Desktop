@@ -24,7 +24,6 @@ import { createStore } from './state/createStore';
 import * as TypesAttachment from './types/Attachment';
 import * as VisualAttachment from './types/VisualAttachment';
 import * as MessageType from './types/Message2';
-import { UUID } from './types/UUID';
 import { Address } from './types/Address';
 import { QualifiedAddress } from './types/QualifiedAddress';
 
@@ -388,7 +387,6 @@ export const setup = (options: {
     Message: MessageType,
 
     // Mostly for debugging
-    UUID,
     Address,
     QualifiedAddress,
   };

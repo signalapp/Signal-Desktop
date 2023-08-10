@@ -16,7 +16,7 @@ import type {
   ConversationQueueJobBundle,
   DeleteStoryForEveryoneJobData,
 } from '../conversationJobQueue';
-import { getUntrustedConversationUuids } from './getUntrustedConversationUuids';
+import { getUntrustedConversationServiceIds } from './getUntrustedConversationServiceIds';
 import { handleMessageSend } from '../../util/handleMessageSend';
 import { isConversationAccepted } from '../../util/isConversationAccepted';
 import { isConversationUnregistered } from '../../util/isConversationUnregistered';
@@ -82,14 +82,14 @@ export async function sendDeleteStoryForEveryone(
     .filter(([_, isSent]) => !isSent)
     .map(([conversationId]) => conversationId);
 
-  const untrustedUuids = getUntrustedConversationUuids(recipientIds);
-  if (untrustedUuids.length) {
+  const untrustedServiceIds = getUntrustedConversationServiceIds(recipientIds);
+  if (untrustedServiceIds.length) {
     window.reduxActions.conversations.conversationStoppedByMissingVerification({
       conversationId: ourConversation.id,
-      untrustedUuids,
+      untrustedServiceIds,
     });
     throw new Error(
-      `Delete for everyone blocked because ${untrustedUuids.length} ` +
+      `Delete for everyone blocked because ${untrustedServiceIds.length} ` +
         'conversation(s) were untrusted. Failing this attempt.'
     );
   }
@@ -171,10 +171,12 @@ export async function sendDeleteStoryForEveryone(
           });
 
           try {
+            const serviceId = conversation.getSendTarget();
+            strictAssert(serviceId, 'conversation has no service id');
+
             await handleMessageSend(
-              messaging.sendMessageToIdentifier({
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                identifier: conversation.getSendTarget()!,
+              messaging.sendMessageToServiceId({
+                serviceId,
                 messageText: undefined,
                 attachments: [],
                 deletedForEveryoneTimestamp: targetTimestamp,
@@ -200,7 +202,7 @@ export async function sendDeleteStoryForEveryone(
             await updateMessageWithSuccessfulSends(message, {
               dataMessage: undefined,
               editMessage: undefined,
-              successfulIdentifiers: [conversation.id],
+              successfulServiceIds: [serviceId],
             });
           } catch (error: unknown) {
             if (error instanceof SendMessageProtoError) {
@@ -231,17 +233,15 @@ export async function sendDeleteStoryForEveryone(
       syncMessage: true,
     });
 
-    const destinationUuid = ourConversation
-      .getCheckedUuid('deleteStoryForEveryone')
-      .toString();
+    const destinationServiceId = ourConversation.getCheckedServiceId(
+      'deleteStoryForEveryone'
+    );
 
     // Sync message for other devices
     await handleMessageSend(
       messaging.sendSyncMessage({
         destination: undefined,
-        destinationUuid: {
-          aci: destinationUuid,
-        },
+        destinationServiceId,
         storyMessageRecipients: updatedStoryRecipients?.map(
           ({ destinationUuid: legacyDestinationUuid, ...rest }) => {
             return {
@@ -278,7 +278,7 @@ async function updateMessageWithSuccessfulSends(
       deletedForEveryoneFailed: undefined,
     });
     await window.Signal.Data.saveMessage(message.attributes, {
-      ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+      ourAci: window.textsecure.storage.user.getCheckedAci(),
     });
 
     return;
@@ -288,8 +288,8 @@ async function updateMessageWithSuccessfulSends(
     ...message.get('deletedForEveryoneSendStatus'),
   };
 
-  result.successfulIdentifiers?.forEach(identifier => {
-    const conversation = window.ConversationController.get(identifier);
+  result.successfulServiceIds?.forEach(serviceId => {
+    const conversation = window.ConversationController.get(serviceId);
     if (!conversation) {
       return;
     }
@@ -301,7 +301,7 @@ async function updateMessageWithSuccessfulSends(
     deletedForEveryoneFailed: undefined,
   });
   await window.Signal.Data.saveMessage(message.attributes, {
-    ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+    ourAci: window.textsecure.storage.user.getCheckedAci(),
   });
 }
 
@@ -317,6 +317,6 @@ async function updateMessageWithFailure(
 
   message.set({ deletedForEveryoneFailed: true });
   await window.Signal.Data.saveMessage(message.attributes, {
-    ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+    ourAci: window.textsecure.storage.user.getCheckedAci(),
   });
 }

@@ -9,7 +9,7 @@ import type { Group } from '@signalapp/mock-server';
 import * as durations from '../../util/durations';
 import { uuidToBytes } from '../../util/uuidToBytes';
 import { MY_STORY_ID } from '../../types/Stories';
-import { UUID } from '../../types/UUID';
+import { generateStoryDistributionId } from '../../types/StoryDistributionId';
 import type { App } from '../playwright';
 import { Bootstrap } from '../bootstrap';
 
@@ -17,8 +17,8 @@ export const debug = createDebug('mock:test:edit');
 
 const IdentifierType = Proto.ManifestRecord.Identifier.Type;
 
-const DISTRIBUTION1 = UUID.generate().toString();
-const DISTRIBUTION2 = UUID.generate().toString();
+const DISTRIBUTION1 = generateStoryDistributionId();
+const DISTRIBUTION2 = generateStoryDistributionId();
 
 describe('story/messaging', function unknownContacts() {
   this.timeout(durations.MINUTE);
