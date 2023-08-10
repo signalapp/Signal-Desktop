@@ -79,7 +79,13 @@ function getStringFromNode(
   ) {
     return element.ariaLabel || '';
   }
-  if (nextSibling && element.nodeName === 'BR') {
+
+  // Sometimes we need to add multiple newlines to represent nested divs, and other times
+  //   we only want to add a newline if we know there's another node after this.
+  const shouldAddNewline =
+    parent && (nextSibling || parent.childNodes.length === 1);
+
+  if (shouldAddNewline && element.nodeName === 'BR') {
     return '\n';
   }
   const childCount = element.childNodes.length;
@@ -94,13 +100,12 @@ function getStringFromNode(
   }
 
   if (
-    parent &&
-    parent.childNodes.length > 1 &&
+    shouldAddNewline &&
     (element.nodeName === 'P' ||
       element.nodeName === 'DIV' ||
       element.nodeName === 'TIME')
   ) {
-    if (result.length > 0 && !result.endsWith('\n\n')) {
+    if (result.length > 0 && result !== '\n' && !result.endsWith('\n\n')) {
       result += '\n';
     }
   }
