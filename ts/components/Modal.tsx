@@ -18,6 +18,7 @@ import * as log from '../logging/log';
 import {
   isOverflowing,
   isScrolled,
+  isScrolledToBottom,
   useScrollObserver,
 } from '../hooks/useSizeObserver';
 
@@ -175,6 +176,7 @@ export function ModalPage({
   const bodyInnerRef = useRef<HTMLDivElement>(null);
 
   const [scrolled, setScrolled] = useState(false);
+  const [scrolledToBottom, setScrolledToBottom] = useState(false);
   const [hasOverflow, setHasOverflow] = useState(false);
 
   const hasHeader = Boolean(hasXButton || title || onBackButtonClick);
@@ -182,6 +184,7 @@ export function ModalPage({
 
   useScrollObserver(bodyRef, bodyInnerRef, scroll => {
     setScrolled(isScrolled(scroll));
+    setScrolledToBottom(isScrolledToBottom(scroll));
     setHasOverflow(isOverflowing(scroll));
   });
 
@@ -250,6 +253,7 @@ export function ModalPage({
           className={classNames(
             getClassName('__body'),
             scrolled ? getClassName('__body--scrolled') : null,
+            scrolledToBottom ? getClassName('__body--scrolledToBottom') : null,
             hasOverflow || scrolled ? getClassName('__body--overflow') : null
           )}
           ref={bodyRef}

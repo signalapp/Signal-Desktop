@@ -1,13 +1,14 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { noop } from 'lodash';
 import { Button } from './Button';
 import { Modal } from './Modal';
 import type { LocalizerType, ThemeType } from '../types/Util';
 import type { SmartCompositionTextAreaProps } from '../state/smart/CompositionTextArea';
 import type { HydratedBodyRangesType } from '../types/BodyRange';
+import { isScrolled, isScrolledToBottom } from '../hooks/useSizeObserver';
 
 export type Props = {
   i18n: LocalizerType;
@@ -38,8 +39,9 @@ export function AddCaptionModal({
     HydratedBodyRangesType | undefined
   >();
 
-  const [isScrolledTop, setIsScrolledTop] = React.useState(true);
-  const [isScrolledBottom, setIsScrolledBottom] = React.useState(true);
+  const [scrolled, setScrolled] = React.useState(false);
+  // We don't know that this is true, but it most likely is
+  const [scrolledToBottom, setScrolledToBottom] = React.useState(true);
 
   const scrollerRef = React.useRef<HTMLDivElement>(null);
 
@@ -47,17 +49,10 @@ export function AddCaptionModal({
   const updateScrollState = React.useCallback(() => {
     const scrollerEl = scrollerRef.current;
     if (scrollerEl) {
-      setIsScrolledTop(scrollerEl.scrollTop === 0);
-      setIsScrolledBottom(
-        scrollerEl.scrollHeight - scrollerEl.scrollTop ===
-          scrollerEl.clientHeight
-      );
+      setScrolled(isScrolled(scrollerEl));
+      setScrolledToBottom(isScrolledToBottom(scrollerEl));
     }
-  }, [scrollerRef]);
-
-  useEffect(() => {
-    updateScrollState();
-  }, [updateScrollState]);
+  }, []);
 
   const handleSubmit = React.useCallback(() => {
     onSubmit(messageText, bodyRanges);
@@ -68,8 +63,8 @@ export function AddCaptionModal({
       i18n={i18n}
       modalName="AddCaptionModal"
       hasXButton
-      hasHeaderDivider={!isScrolledTop}
-      hasFooterDivider={!isScrolledBottom}
+      hasHeaderDivider={scrolled}
+      hasFooterDivider={!scrolledToBottom}
       moduleClassName="AddCaptionModal"
       padded={false}
       title={i18n('icu:AddCaptionModal__title')}

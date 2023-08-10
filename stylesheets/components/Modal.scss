@@ -125,10 +125,10 @@
   &--has-header#{&}--header-divider {
     .module-Modal__body {
       @include light-theme() {
-        border-top-color: $color-gray-15;
+        border-top-color: $color-gray-05;
       }
       @include dark-theme() {
-        border-top-color: $color-gray-60;
+        border-top-color: $color-gray-90;
       }
     }
   }
@@ -137,6 +137,7 @@
     .module-Modal__body {
       padding-top: 0;
       border-top: 1px solid transparent;
+      border-bottom: 1px solid transparent;
 
       &--scrolled {
         @include light-theme {
@@ -144,7 +145,7 @@
         }
 
         @include dark-theme {
-          border-top-color: $color-gray-80;
+          border-top-color: $color-gray-90;
         }
       }
     }
@@ -153,10 +154,10 @@
   &--has-footer#{&}--footer-divider {
     .module-Modal__body {
       @include light-theme() {
-        border-bottom-color: $color-gray-15;
+        border-bottom-color: $color-gray-05;
       }
       @include dark-theme() {
-        border-bottom-color: $color-gray-60;
+        border-bottom-color: $color-gray-90;
       }
     }
   }
@@ -164,6 +165,16 @@
   &--has-footer {
     .module-Modal__body {
       border-bottom: 1px solid transparent;
+
+      &--overflow:not(&--scrolledToBottom) {
+        @include light-theme {
+          border-bottom-color: $color-gray-05;
+        }
+
+        @include dark-theme {
+          border-bottom-color: $color-gray-90;
+        }
+      }
     }
   }
 

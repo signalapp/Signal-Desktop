@@ -93,11 +93,10 @@ export function SizeObserver({
   return children(ref, size);
 }
 
-export type Scroll = Readonly<{
-  scrollTop: number;
-  scrollHeight: number;
-  clientHeight: number;
-}>;
+// Note: You should just be able to pass an element into utils if you want.
+export type Scroll = Readonly<
+  Pick<Element, 'scrollTop' | 'scrollHeight' | 'clientHeight'>
+>;
 
 export type ScrollChangeHandler = (scroll: Scroll) => void;
 
