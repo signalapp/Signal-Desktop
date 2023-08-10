@@ -2,12 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import Long from 'long';
-import type {
-  Call,
-  GroupCall,
-  PeekInfo,
-  LocalDeviceState,
-} from '@signalapp/ringrtc';
+import type { Call, PeekInfo, LocalDeviceState } from '@signalapp/ringrtc';
 import {
   CallState,
   ConnectionState,
@@ -21,7 +16,11 @@ import { strictAssert } from './assert';
 import { SignalService as Proto } from '../protobuf';
 import { bytesToUuid, uuidToBytes } from './uuidToBytes';
 import { missingCaseError } from './missingCaseError';
-import { CallEndedReason, CallMode } from '../types/Calling';
+import {
+  CallEndedReason,
+  CallMode,
+  GroupCallJoinState,
+} from '../types/Calling';
 import type { ServiceIdString } from '../types/ServiceId';
 import { isMe } from './whatTypeOfConversation';
 import * as log from '../logging/log';
@@ -135,6 +134,22 @@ export function getPeerIdFromConversation(
     'groupId must exist for group chat'
   );
   return conversation.groupId;
+}
+
+export function convertJoinState(joinState: JoinState): GroupCallJoinState {
+  if (joinState === JoinState.Joined) {
+    return GroupCallJoinState.Joined;
+  }
+  if (joinState === JoinState.Joining) {
+    return GroupCallJoinState.Joining;
+  }
+  if (joinState === JoinState.NotJoined) {
+    return GroupCallJoinState.NotJoined;
+  }
+  if (joinState === JoinState.Pending) {
+    return GroupCallJoinState.Pending;
+  }
+  throw missingCaseError(joinState);
 }
 
 // Call Events <-> Protos
@@ -331,34 +346,33 @@ export function getLocalCallEventFromRingUpdate(
   return ringUpdateToEvent[update];
 }
 
-export function getLocalCallEventFromGroupCall(
-  groupCall: GroupCall,
+export function getLocalCallEventFromJoinState(
+  joinState: GroupCallJoinState,
   groupCallMeta: GroupCallMeta
 ): LocalCallEvent | null {
   const direction = getCallDirectionFromRingerId(groupCallMeta.ringerId);
-  const localDeviceState = groupCall.getLocalDeviceState();
   log.info(
     'getLocalCallEventFromGroupCall',
     direction,
-    JoinState[localDeviceState.joinState]
+    GroupCallJoinState[joinState]
   );
   if (direction === CallDirection.Incoming) {
-    if (localDeviceState.joinState === JoinState.Joined) {
+    if (joinState === GroupCallJoinState.Joined) {
       return LocalCallEvent.Accepted;
     }
-    if (localDeviceState.joinState === JoinState.NotJoined) {
-      return null; // Group calls shouldn't send "NotAccepted"
+    if (joinState === GroupCallJoinState.NotJoined) {
+      return LocalCallEvent.Started;
     }
     if (
-      localDeviceState.joinState === JoinState.Joining ||
-      localDeviceState.joinState === JoinState.Pending
+      joinState === GroupCallJoinState.Joining ||
+      joinState === GroupCallJoinState.Pending
     ) {
       return LocalCallEvent.Accepted;
     }
-    throw missingCaseError(localDeviceState.joinState);
+    throw missingCaseError(joinState);
   } else {
-    if (localDeviceState.joinState === JoinState.NotJoined) {
-      return LocalCallEvent.Hangup;
+    if (joinState === GroupCallJoinState.NotJoined) {
+      return LocalCallEvent.Started;
     }
     return LocalCallEvent.Ringing;
   }

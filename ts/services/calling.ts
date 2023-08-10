@@ -113,7 +113,7 @@ import {
   getLocalCallEventFromCallEndedReason,
   getCallDetailsFromEndedDirectCall,
   getCallEventDetails,
-  getLocalCallEventFromGroupCall,
+  getLocalCallEventFromJoinState,
   getLocalCallEventFromDirectCall,
   getCallDetailsFromDirectCall,
   getCallDetailsFromGroupCallMeta,
@@ -121,6 +121,7 @@ import {
   getGroupCallMeta,
   getCallIdFromRing,
   getLocalCallEventFromRingUpdate,
+  convertJoinState,
 } from '../util/callDisposition';
 import { isNormalNumber } from '../util/isNormalNumber';
 import { LocalCallEvent } from '../types/CallDisposition';
@@ -718,8 +719,8 @@ export class CallingClass {
 
           if (groupCallMeta != null) {
             try {
-              const localCallEvent = getLocalCallEventFromGroupCall(
-                groupCall,
+              const localCallEvent = getLocalCallEventFromJoinState(
+                convertJoinState(localDeviceState.joinState),
                 groupCallMeta
               );
 
@@ -844,7 +845,11 @@ export class CallingClass {
             void this.sendGroupCallUpdateMessage(conversationId, eraId);
           }
 
-          void this.updateCallHistoryForGroupCall(conversationId, peekInfo);
+          void this.updateCallHistoryForGroupCall(
+            conversationId,
+            convertJoinState(localDeviceState.joinState),
+            peekInfo
+          );
           this.syncGroupCallToRedux(conversationId, groupCall);
         },
         async requestMembershipProof(groupCall) {
@@ -2256,6 +2261,7 @@ export class CallingClass {
 
   public async updateCallHistoryForGroupCall(
     conversationId: string,
+    joinState: GroupCallJoinState,
     peekInfo: PeekInfo | null
   ): Promise<void> {
     const groupCallMeta = getGroupCallMeta(peekInfo);
@@ -2282,10 +2288,9 @@ export class CallingClass {
 
     const isNewCall = prevMessageId == null;
 
-    const groupCall = this.getGroupCall(conversationId);
-    if (groupCall != null) {
-      const localCallEvent = getLocalCallEventFromGroupCall(
-        groupCall,
+    if (isNewCall) {
+      const localCallEvent = getLocalCallEventFromJoinState(
+        joinState,
         groupCallMeta
       );
       if (localCallEvent != null) {
