@@ -45,7 +45,13 @@
       &::before {
         @include rounded-corners;
         background: inherit;
-        border: 1.5px solid $color-gray-60;
+        border: 1.5px solid;
+        @include light-theme {
+          border-color: $color-gray-25;
+        }
+        @include dark-theme {
+          border-color: $color-gray-60;
+        }
         content: '';
         display: block;
         height: 20px;
@@ -80,7 +86,12 @@
     &__viewers {
       display: flex;
       @include font-body-2;
-      color: $color-gray-25;
+      @include light-theme {
+        color: $color-gray-60;
+      }
+      @include dark-theme {
+        color: $color-gray-25;
+      }
     }
 
     &__left {
@@ -96,13 +107,23 @@
         align-items: center;
         width: 32px;
         height: 32px;
-        background: $color-gray-75;
+        @include light-theme {
+          background: $color-gray-15;
+        }
+        @include dark-theme {
+          background: $color-gray-75;
+        }
 
         &::after {
-          @include color-svg($svg, $color-white);
           content: '';
           height: 20px;
           width: 20px;
+          @include light-theme {
+            @include color-svg($svg, $color-black);
+          }
+          @include dark-theme {
+            @include color-svg($svg, $color-white);
+          }
         }
       }
 
@@ -126,10 +147,22 @@
 
     &__delete {
       @include button-reset;
-      @include color-svg('../images/icons/v3/trash/trash.svg', $color-gray-25);
       height: 20px;
       width: 20px;
       visibility: hidden;
+
+      @include light-theme {
+        @include color-svg(
+          '../images/icons/v3/trash/trash.svg',
+          $color-gray-45
+        );
+      }
+      @include dark-theme {
+        @include color-svg(
+          '../images/icons/v3/trash/trash.svg',
+          $color-gray-25
+        );
+      }
     }
 
     &:hover &__delete {
@@ -139,8 +172,14 @@
 
   &__divider {
     width: 100%;
-    border: 0 solid $color-gray-65;
+    border: 0 solid;
     border-top-width: 1px;
+    @include light-theme {
+      border-color: $color-gray-15;
+    }
+    @include dark-theme {
+      border-color: $color-gray-65;
+    }
   }
 
   &__input__container {
@@ -150,8 +189,13 @@
 
   &__visibility {
     @include font-subtitle;
-    color: $color-gray-25;
     margin-top: 10px;
+    @include light-theme {
+      color: $color-gray-60;
+    }
+    @include dark-theme {
+      color: $color-gray-25;
+    }
   }
 
   &__title {
@@ -161,9 +205,14 @@
 
   &__description {
     @include font-subtitle;
-    color: $color-gray-25;
     margin-top: 0px;
     margin-bottom: 16px;
+    @include light-theme {
+      color: $color-gray-60;
+    }
+    @include dark-theme {
+      color: $color-gray-25;
+    }
   }
 
   &__listHeader {
@@ -215,7 +264,12 @@
   }
 
   &__checkbox-description {
-    color: $color-gray-25;
+    @include light-theme {
+      color: $color-gray-60;
+    }
+    @include dark-theme {
+      color: $color-gray-25;
+    }
   }
 
   &__conversation-list {
@@ -226,11 +280,21 @@
 
   &__disclaimer {
     @include font-subtitle;
-    color: $color-gray-25;
+    @include light-theme {
+      color: $color-gray-60;
+    }
+    @include dark-theme {
+      color: $color-gray-25;
+    }
 
     &__learn-more {
       @include button-reset;
-      color: $color-gray-05;
+      @include light-theme {
+        color: $color-gray-90;
+      }
+      @include dark-theme {
+        color: $color-gray-05;
+      }
     }
   }
 
@@ -242,8 +306,13 @@
 
   &__stories-off-text {
     flex: 1;
-    color: $color-gray-25;
     @include font-subtitle;
+    @include light-theme {
+      color: $color-gray-60;
+    }
+    @include dark-theme {
+      color: $color-gray-25;
+    }
   }
 }
 
@@ -271,7 +340,12 @@
 
   &__members_help {
     @include font-body-2;
-    color: $color-gray-25;
+    @include light-theme {
+      color: $color-gray-60;
+    }
+    @include dark-theme {
+      color: $color-gray-25;
+    }
   }
 
   &__remove_group {

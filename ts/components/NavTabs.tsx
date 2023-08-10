@@ -15,27 +15,38 @@ import { AvatarPopup } from './AvatarPopup';
 import { handleOutsideClick } from '../util/handleOutsideClick';
 import type { UnreadStats } from '../state/selectors/conversations';
 import { NavTab } from '../state/ducks/nav';
+import { Tooltip, TooltipPlacement } from './Tooltip';
+import { Theme } from '../util/theme';
 
 type NavTabProps = Readonly<{
+  i18n: LocalizerType;
   badge?: ReactNode;
   iconClassName: string;
   id: NavTab;
   label: string;
 }>;
 
-function NavTabsItem({ badge, iconClassName, id, label }: NavTabProps) {
+function NavTabsItem({ i18n, badge, iconClassName, id, label }: NavTabProps) {
+  const isRTL = i18n.getLocaleDirection() === 'rtl';
   return (
     <Tab id={id} data-testid={`NavTabsItem--${id}`} className="NavTabs__Item">
       <span className="NavTabs__ItemLabel">{label}</span>
-      <span className="NavTabs__ItemButton">
-        <span className="NavTabs__ItemContent">
-          <span
-            role="presentation"
-            className={`NavTabs__ItemIcon ${iconClassName}`}
-          />
-          {badge && <span className="NavTabs__ItemBadge">{badge}</span>}
+      <Tooltip
+        content={label}
+        theme={Theme.Dark}
+        direction={isRTL ? TooltipPlacement.Left : TooltipPlacement.Right}
+        delay={600}
+      >
+        <span className="NavTabs__ItemButton">
+          <span className="NavTabs__ItemContent">
+            <span
+              role="presentation"
+              className={`NavTabs__ItemIcon ${iconClassName}`}
+            />
+            {badge && <span className="NavTabs__ItemBadge">{badge}</span>}
+          </span>
         </span>
-      </span>
+      </Tooltip>
     </Tab>
   );
 }
@@ -59,23 +70,30 @@ export function NavTabsToggle({
   function handleToggle() {
     onToggleNavTabsCollapse(!navTabsCollapsed);
   }
+  const label = navTabsCollapsed
+    ? i18n('icu:NavTabsToggle__showTabs')
+    : i18n('icu:NavTabsToggle__hideTabs');
+  const isRTL = i18n.getLocaleDirection() === 'rtl';
   return (
     <button
       type="button"
       className="NavTabs__Item NavTabs__Toggle"
       onClick={handleToggle}
     >
-      <span className="NavTabs__ItemButton">
-        <span
-          role="presentation"
-          className="NavTabs__ItemIcon NavTabs__ItemIcon--Menu"
-        />
-        <span className="NavTabs__ItemLabel">
-          {navTabsCollapsed
-            ? i18n('icu:NavTabsToggle__showTabs')
-            : i18n('icu:NavTabsToggle__hideTabs')}
+      <Tooltip
+        content={label}
+        theme={Theme.Dark}
+        direction={isRTL ? TooltipPlacement.Left : TooltipPlacement.Right}
+        delay={600}
+      >
+        <span className="NavTabs__ItemButton">
+          <span
+            role="presentation"
+            className="NavTabs__ItemIcon NavTabs__ItemIcon--Menu"
+          />
+          <span className="NavTabs__ItemLabel">{label}</span>
         </span>
-      </span>
+      </Tooltip>
     </button>
   );
 }
@@ -126,6 +144,8 @@ export function NavTabs({
   function handleSelectionChange(key: Key) {
     onNavTabSelected(key as NavTab);
   }
+
+  const isRTL = i18n.getLocaleDirection() === 'rtl';
 
   const [targetElement, setTargetElement] = useState<HTMLElement | null>(null);
   const [popperElement, setPopperElement] = useState<HTMLElement | null>(null);
@@ -202,6 +222,7 @@ export function NavTabs({
           onSelectionChange={handleSelectionChange}
         >
           <NavTabsItem
+            i18n={i18n}
             id={NavTab.Chats}
             label="Chats"
             iconClassName="NavTabs__ItemIcon--Chats"
@@ -226,12 +247,14 @@ export function NavTabs({
             }
           />
           <NavTabsItem
+            i18n={i18n}
             id={NavTab.Calls}
             label="Calls"
             iconClassName="NavTabs__ItemIcon--Calls"
           />
           {storiesEnabled && (
             <NavTabsItem
+              i18n={i18n}
               id={NavTab.Stories}
               label="Stories"
               iconClassName="NavTabs__ItemIcon--Stories"
@@ -252,49 +275,63 @@ export function NavTabs({
             className="NavTabs__Item"
             onClick={onShowSettings}
           >
-            <span className="NavTabs__ItemButton">
-              <span
-                role="presentation"
-                className="NavTabs__ItemIcon NavTabs__ItemIcon--Settings"
-              />
-              <span className="NavTabs__ItemLabel">
-                {i18n('icu:NavTabs__ItemLabel--Settings')}
+            <Tooltip
+              content={i18n('icu:NavTabs__ItemLabel--Settings')}
+              theme={Theme.Dark}
+              direction={TooltipPlacement.Right}
+              delay={600}
+            >
+              <span className="NavTabs__ItemButton">
+                <span
+                  role="presentation"
+                  className="NavTabs__ItemIcon NavTabs__ItemIcon--Settings"
+                />
+                <span className="NavTabs__ItemLabel">
+                  {i18n('icu:NavTabs__ItemLabel--Settings')}
+                </span>
               </span>
-            </span>
+            </Tooltip>
           </button>
 
           <button
             type="button"
-            className="NavTabs__Item"
+            className="NavTabs__Item NavTabs__Item--Profile"
             data-supertab
             onClick={() => {
               setShowAvatarPopup(true);
             }}
             aria-label={i18n('icu:NavTabs__ItemLabel--Profile')}
           >
-            <span className="NavTabs__ItemButton" ref={setTargetElement}>
-              <span className="NavTabs__ItemContent">
-                <Avatar
-                  acceptedMessageRequest
-                  avatarPath={me.avatarPath}
-                  badge={badge}
-                  className="module-main-header__avatar"
-                  color={me.color}
-                  conversationType="direct"
-                  i18n={i18n}
-                  isMe
-                  phoneNumber={me.phoneNumber}
-                  profileName={me.profileName}
-                  theme={theme}
-                  title={me.title}
-                  // `sharedGroupNames` makes no sense for yourself, but
-                  // `<Avatar>` needs it to determine blurring.
-                  sharedGroupNames={[]}
-                  size={AvatarSize.TWENTY_EIGHT}
-                />
-                {hasPendingUpdate && <div className="NavTabs__AvatarBadge" />}
+            <Tooltip
+              content={i18n('icu:NavTabs__ItemLabel--Profile')}
+              theme={Theme.Dark}
+              direction={isRTL ? TooltipPlacement.Left : TooltipPlacement.Right}
+              delay={600}
+            >
+              <span className="NavTabs__ItemButton" ref={setTargetElement}>
+                <span className="NavTabs__ItemContent">
+                  <Avatar
+                    acceptedMessageRequest
+                    avatarPath={me.avatarPath}
+                    badge={badge}
+                    className="module-main-header__avatar"
+                    color={me.color}
+                    conversationType="direct"
+                    i18n={i18n}
+                    isMe
+                    phoneNumber={me.phoneNumber}
+                    profileName={me.profileName}
+                    theme={theme}
+                    title={me.title}
+                    // `sharedGroupNames` makes no sense for yourself, but
+                    // `<Avatar>` needs it to determine blurring.
+                    sharedGroupNames={[]}
+                    size={AvatarSize.TWENTY_EIGHT}
+                  />
+                  {hasPendingUpdate && <div className="NavTabs__AvatarBadge" />}
+                </span>
               </span>
-            </span>
+            </Tooltip>
           </button>
           {showAvatarPopup &&
             portalElement != null &&

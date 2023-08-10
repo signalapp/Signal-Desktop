@@ -15,7 +15,7 @@ import {
   getMe,
 } from '../selectors/conversations';
 import { getDistributionListsWithMembers } from '../selectors/storyDistributionLists';
-import { getIntl } from '../selectors/user';
+import { getIntl, getTheme } from '../selectors/user';
 import { getPreferredBadgeSelector } from '../selectors/badges';
 import { getHasStoryViewReceiptSetting } from '../selectors/items';
 import { useGlobalModalActions } from '../ducks/globalModals';
@@ -49,6 +49,7 @@ export function SmartStoriesSettingsModal(): JSX.Element | null {
   const groupStories = useSelector(getGroupStories);
 
   const getConversationByUuid = useSelector(getConversationByUuidSelector);
+  const theme = useSelector(getTheme);
 
   return (
     <StoriesSettingsModal
@@ -70,6 +71,7 @@ export function SmartStoriesSettingsModal(): JSX.Element | null {
       onViewersUpdated={updateStoryViewers}
       setMyStoriesToAllSignalConnections={setMyStoriesToAllSignalConnections}
       storyViewReceiptsEnabled={storyViewReceiptsEnabled}
+      theme={theme}
       toggleSignalConnectionsModal={toggleSignalConnectionsModal}
       setStoriesDisabled={setStoriesDisabled}
     />

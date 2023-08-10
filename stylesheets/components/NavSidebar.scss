@@ -125,6 +125,11 @@
   @include sr-only;
 }
 
+.NavSidebar .module-SearchInput__container {
+  // override .module-SearchInput__container
+  margin: 0;
+}
+
 .NavSidebar__Content {
   flex: 1 1 0%;
   min-height: 0;

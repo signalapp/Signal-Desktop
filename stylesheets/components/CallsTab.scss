@@ -52,6 +52,8 @@
   width: 100%;
   height: 100%;
   padding-block: 80px;
+  padding-inline: 24px;
+  user-select: none;
 }
 
 .CallsTab__ClearCallHistoryIcon {
@@ -183,8 +185,8 @@
 
 .CallsList__LoadingAvatar {
   display: block;
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   border-radius: 9999px;
 }
 
@@ -206,8 +208,18 @@
   font-weight: bold;
 }
 
-.CallsList__ItemCallInfo--missed {
+.CallsList__ItemCallInfo {
+  @include font-body-1;
+}
+
+// Override .ListTile__subtitle so ellipsis is correct color
+.CallsList__Item--missed .ListTile__subtitle {
   color: $color-accent-red;
+}
+
+// Override .ListTile
+.ListTile.CallsList__ItemTile {
+  padding-block: 12px;
 }
 
 .CallsList__Item--selected .CallsList__ItemTile {

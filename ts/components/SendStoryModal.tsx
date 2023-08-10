@@ -10,6 +10,7 @@ import { filterAndSortConversationsByRecent } from '../util/filterAndSortConvers
 import type { ConversationType } from '../state/ducks/conversations';
 import type { ConversationWithStoriesType } from '../state/selectors/conversations';
 import type { LocalizerType } from '../types/Util';
+import { ThemeType } from '../types/Util';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
 import type { PropsType as StoriesSettingsModalPropsType } from './StoriesSettingsModal';
 import {
@@ -34,7 +35,6 @@ import { MY_STORY_ID, getStoryDistributionListName } from '../types/Stories';
 import type { RenderModalPage, ModalPropsType } from './Modal';
 import { PagedModal, ModalPage } from './Modal';
 import { StoryDistributionListName } from './StoryDistributionListName';
-import { Theme } from '../util/theme';
 import { isNotNil } from '../util/isNotNil';
 import { StoryImage } from './StoryImage';
 import type { AttachmentType } from '../types/Attachment';
@@ -42,6 +42,7 @@ import { useConfirmDiscard } from '../hooks/useConfirmDiscard';
 import { getStoryBackground } from '../util/getStoryBackground';
 import { makeObjectUrl, revokeObjectUrl } from '../types/VisualAttachment';
 import { UserText } from './UserText';
+import { Theme } from '../util/theme';
 
 export type PropsType = {
   draftAttachment: AttachmentType;
@@ -70,6 +71,7 @@ export type PropsType = {
     conversationIds: Array<string>
   ) => unknown;
   signalConnections: Array<ConversationType>;
+  theme: ThemeType;
   toggleGroupsForStorySend: (cids: Array<string>) => Promise<void>;
   mostRecentActiveStoryTimestampByGroupOrDistributionList: Record<
     string,
@@ -141,6 +143,7 @@ export function SendStoryModal({
   onViewersUpdated,
   setMyStoriesToAllSignalConnections,
   signalConnections,
+  theme,
   toggleGroupsForStorySend,
   mostRecentActiveStoryTimestampByGroupOrDistributionList,
   toggleSignalConnectionsModal,
@@ -402,6 +405,7 @@ export function SendStoryModal({
         setPage={setPage}
         setSelectedContacts={setSelectedContacts}
         toggleSignalConnectionsModal={toggleSignalConnectionsModal}
+        theme={theme}
         onBackButtonClick={() =>
           confirmDiscardIf(selectedContacts.length > 0, () =>
             setListIdToEdit(undefined)
@@ -485,6 +489,7 @@ export function SendStoryModal({
         }
         selectedContacts={selectedContacts}
         setSelectedContacts={setSelectedContacts}
+        theme={theme}
       />
     );
   } else if (page === Page.ChooseGroups) {
@@ -700,7 +705,7 @@ export function SendStoryModal({
                 placement: 'bottom',
                 strategy: 'absolute',
               }}
-              theme={Theme.Dark}
+              theme={theme === ThemeType.dark ? Theme.Dark : Theme.Light}
             >
               <label
                 className="SendStoryModal__distribution-list__label"
@@ -816,7 +821,7 @@ export function SendStoryModal({
                 placement: 'bottom',
                 strategy: 'absolute',
               }}
-              theme={Theme.Dark}
+              theme={theme === ThemeType.dark ? Theme.Dark : Theme.Light}
             >
               <label
                 className="SendStoryModal__distribution-list__label"
@@ -913,7 +918,7 @@ export function SendStoryModal({
               placement: 'bottom',
               strategy: 'absolute',
             }}
-            theme={Theme.Dark}
+            theme={theme === ThemeType.dark ? Theme.Dark : Theme.Light}
           >
             {({ openMenu, onKeyDown, ref, menuNode }) => (
               <div>
@@ -947,7 +952,7 @@ export function SendStoryModal({
       {!confirmDiscardModal && (
         <PagedModal
           modalName="SendStoryModal"
-          theme={Theme.Dark}
+          theme={theme === ThemeType.dark ? Theme.Dark : Theme.Light}
           onClose={() => confirmDiscardIf(selectedContacts.length > 0, onClose)}
         >
           {modal}
@@ -958,7 +963,7 @@ export function SendStoryModal({
           body={i18n('icu:SendStoryModal__announcements-only')}
           i18n={i18n}
           onClose={() => setHasAnnouncementsOnlyAlert(false)}
-          theme={Theme.Dark}
+          theme={theme === ThemeType.dark ? Theme.Dark : Theme.Light}
         />
       )}
       {confirmRemoveGroupId && (
@@ -978,7 +983,7 @@ export function SendStoryModal({
           onClose={() => {
             setConfirmRemoveGroupId(undefined);
           }}
-          theme={Theme.Dark}
+          theme={theme === ThemeType.dark ? Theme.Dark : Theme.Light}
         >
           {i18n('icu:SendStoryModal__confirm-remove-group')}
         </ConfirmationDialog>
@@ -1000,7 +1005,7 @@ export function SendStoryModal({
           onClose={() => {
             setConfirmDeleteList(undefined);
           }}
-          theme={Theme.Dark}
+          theme={theme === ThemeType.dark ? Theme.Dark : Theme.Light}
         >
           {i18n('icu:StoriesSettings__delete-list--confirm', {
             name: confirmDeleteList.name,

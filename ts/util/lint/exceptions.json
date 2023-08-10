@@ -2336,6 +2336,14 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/LeftPane.tsx",
+    "line": "  const measureRef = useRef<HTMLDivElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2023-08-09T21:48:42.602Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/LeftPaneSearchInput.tsx",
     "line": "  const inputRef = useRef<null | HTMLInputElement>(null);",
     "reasonCategory": "usageTrusted",
@@ -2395,7 +2403,7 @@
     "rule": "React-useRef",
     "path": "ts/components/Modal.tsx",
     "line": "  const bodyRef = useRef<HTMLDivElement>(null);",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "reasonCategory": "usageTrusted",
     "updated": "2023-07-25T21:55:26.191Z",
     "reasonDetail": "<optional>"
   },
@@ -2403,7 +2411,7 @@
     "rule": "React-useRef",
     "path": "ts/components/Modal.tsx",
     "line": "  const bodyInnerRef = useRef<HTMLDivElement>(null);",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "reasonCategory": "usageTrusted",
     "updated": "2023-07-25T21:55:26.191Z",
     "reasonDetail": "<optional>"
   },
@@ -2556,7 +2564,7 @@
     "rule": "React-useRef",
     "path": "ts/components/TextAttachment.tsx",
     "line": "    const ref = useRef<HTMLDivElement>(null);",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "reasonCategory": "usageTrusted",
     "updated": "2023-07-25T21:55:26.191Z",
     "reasonDetail": "<optional>"
   },
@@ -2587,6 +2595,14 @@
     "line": "  const wrapperRef = React.useRef<HTMLSpanElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-07-30T16:57:33.618Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/Tooltip.tsx",
+    "line": "  const timeoutRef = useRef<NodeJS.Timeout | undefined>();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2023-08-10T00:23:35.320Z",
+    "reasonDetail": "<optional>"
   },
   {
     "rule": "React-createRef",
@@ -2806,7 +2822,7 @@
     "rule": "React-useRef",
     "path": "ts/hooks/useSizeObserver.tsx",
     "line": "  const sizeRef = useRef<Size | null>(null);",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "reasonCategory": "usageTrusted",
     "updated": "2023-07-25T21:55:26.191Z",
     "reasonDetail": "<optional>"
   },
@@ -2814,7 +2830,7 @@
     "rule": "React-useRef",
     "path": "ts/hooks/useSizeObserver.tsx",
     "line": "  const onSizeChangeRef = useRef<SizeChangeHandler | void>(onSizeChange);",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "reasonCategory": "usageTrusted",
     "updated": "2023-07-25T21:55:26.191Z",
     "reasonDetail": "<optional>"
   },
@@ -2822,7 +2838,7 @@
     "rule": "React-useRef",
     "path": "ts/hooks/useSizeObserver.tsx",
     "line": "  const ref = useRef<any>();",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "reasonCategory": "usageTrusted",
     "updated": "2023-07-25T21:55:26.191Z",
     "reasonDetail": "<optional>"
   },
@@ -2830,7 +2846,7 @@
     "rule": "React-useRef",
     "path": "ts/hooks/useSizeObserver.tsx",
     "line": " * const scrollerRef = useRef()",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "reasonCategory": "usageTrusted",
     "updated": "2023-07-25T21:55:26.191Z",
     "reasonDetail": "<optional>"
   },
@@ -2838,7 +2854,7 @@
     "rule": "React-useRef",
     "path": "ts/hooks/useSizeObserver.tsx",
     "line": " * const scrollerInnerRef = useRef()",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "reasonCategory": "usageTrusted",
     "updated": "2023-07-25T21:55:26.191Z",
     "reasonDetail": "<optional>"
   },
@@ -2846,7 +2862,7 @@
     "rule": "React-useRef",
     "path": "ts/hooks/useSizeObserver.tsx",
     "line": "  const scrollRef = useRef<Scroll | null>(null);",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "reasonCategory": "usageTrusted",
     "updated": "2023-07-25T21:55:26.191Z",
     "reasonDetail": "<optional>"
   },
@@ -2854,7 +2870,7 @@
     "rule": "React-useRef",
     "path": "ts/hooks/useSizeObserver.tsx",
     "line": "  const onScrollChangeRef = useRef<ScrollChangeHandler>(onScrollChange);",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "reasonCategory": "usageTrusted",
     "updated": "2023-07-25T21:55:26.191Z",
     "reasonDetail": "<optional>"
   },
@@ -2862,7 +2878,7 @@
     "rule": "React-useRef",
     "path": "ts/quill/formatting/menu.tsx",
     "line": "  const fadeOutTimerRef = React.useRef<NodeJS.Timeout | undefined>();",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "reasonCategory": "usageTrusted",
     "updated": "2023-08-02T19:01:24.771Z",
     "reasonDetail": "We need a persistent timer to know when to remove after fade-out"
   },
@@ -2870,7 +2886,7 @@
     "rule": "React-useRef",
     "path": "ts/quill/formatting/menu.tsx",
     "line": "  const hoverTimerRef = React.useRef<NodeJS.Timeout | undefined>();",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "reasonCategory": "usageTrusted",
     "updated": "2023-08-02T19:01:24.771Z",
     "reasonDetail": "We need a persistent timer to track long-hovers"
   },
@@ -2930,7 +2946,7 @@
     "rule": "React-useRef",
     "path": "ts/components/CallsList.tsx",
     "line": "  const infiniteLoaderRef = useRef<InfiniteLoader>(null);",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "reasonCategory": "usageTrusted",
     "updated": "2023-08-02T00:21:37.858Z",
     "reasonDetail": "<optional>"
   },
@@ -2938,7 +2954,7 @@
     "rule": "React-useRef",
     "path": "ts/components/CallsList.tsx",
     "line": "  const listRef = useRef<List>(null);",
-    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "reasonCategory": "usageTrusted",
     "updated": "2023-08-02T00:21:37.858Z",
     "reasonDetail": "<optional>"
   }

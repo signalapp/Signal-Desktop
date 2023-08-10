@@ -11,6 +11,8 @@ import type { ToastActionType } from './toast';
 import { showToast } from './toast';
 import { ToastType } from '../../types/Toast';
 import type { CallHistoryDetails } from '../../types/CallDisposition';
+import * as log from '../../logging/log';
+import * as Errors from '../../types/errors';
 
 export type CallHistoryState = ReadonlyDeep<{
   // This informs the app that underlying call history data has changed.
@@ -19,19 +21,19 @@ export type CallHistoryState = ReadonlyDeep<{
 }>;
 
 const CALL_HISTORY_CACHE = 'callHistory/CACHE';
-const CALL_HISTORY_CLEAR = 'callHistory/CLEAR';
+const CALL_HISTORY_RESET = 'callHistory/RESET';
 
 export type CallHistoryCache = ReadonlyDeep<{
   type: typeof CALL_HISTORY_CACHE;
   payload: CallHistoryDetails;
 }>;
 
-export type CallHistoryClear = ReadonlyDeep<{
-  type: typeof CALL_HISTORY_CLEAR;
+export type CallHistoryReset = ReadonlyDeep<{
+  type: typeof CALL_HISTORY_RESET;
 }>;
 
 export type CallHistoryAction = ReadonlyDeep<
-  CallHistoryCache | CallHistoryClear
+  CallHistoryCache | CallHistoryReset
 >;
 
 export function getEmptyState(): CallHistoryState {
@@ -52,12 +54,18 @@ function clearAllCallHistory(): ThunkAction<
   void,
   RootStateType,
   unknown,
-  CallHistoryClear | ToastActionType
+  CallHistoryReset | ToastActionType
 > {
   return async dispatch => {
-    await clearCallHistoryDataAndSync();
-    dispatch({ type: CALL_HISTORY_CLEAR });
-    dispatch(showToast({ toastType: ToastType.CallHistoryCleared }));
+    try {
+      await clearCallHistoryDataAndSync();
+      dispatch(showToast({ toastType: ToastType.CallHistoryCleared }));
+    } catch (error) {
+      log.error('Error clearing call history', Errors.toLogFormat(error));
+    } finally {
+      // Just force a reset, even if the clear failed.
+      dispatch({ type: CALL_HISTORY_RESET });
+    }
   };
 }
 
@@ -75,7 +83,7 @@ export function reducer(
   action: CallHistoryAction
 ): CallHistoryState {
   switch (action.type) {
-    case CALL_HISTORY_CLEAR:
+    case CALL_HISTORY_RESET:
       return { ...state, edition: state.edition + 1, callHistoryByCallId: {} };
     case CALL_HISTORY_CACHE:
       return {

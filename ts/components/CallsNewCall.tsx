@@ -16,11 +16,11 @@ import { strictAssert } from '../util/assert';
 import { UserText } from './UserText';
 import { Avatar, AvatarSize } from './Avatar';
 import { Intl } from './Intl';
-import type { ActiveCallStateType } from '../state/ducks/calling';
 import { SizeObserver } from '../hooks/useSizeObserver';
+import { CallType } from '../types/CallDisposition';
 
 type CallsNewCallProps = Readonly<{
-  activeCall: ActiveCallStateType | undefined;
+  hasActiveCall: boolean;
   allConversations: ReadonlyArray<ConversationType>;
   i18n: LocalizerType;
   onSelectConversation: (conversationId: string) => void;
@@ -33,8 +33,39 @@ type Row =
   | { kind: 'header'; title: string }
   | { kind: 'conversation'; conversation: ConversationType };
 
+export function CallsNewCallButton({
+  callType,
+  hasActiveCall,
+  onClick,
+}: {
+  callType: CallType;
+  hasActiveCall: boolean;
+  onClick: () => void;
+}): JSX.Element {
+  return (
+    <button
+      type="button"
+      className="CallsNewCall__ItemActionButton"
+      aria-disabled={hasActiveCall}
+      onClick={event => {
+        event.stopPropagation();
+        if (!hasActiveCall) {
+          onClick();
+        }
+      }}
+    >
+      {callType === CallType.Audio && (
+        <span className="CallsNewCall__ItemIcon CallsNewCall__ItemIcon--Phone" />
+      )}
+      {callType !== CallType.Audio && (
+        <span className="CallsNewCall__ItemIcon CallsNewCall__ItemIcon--Video" />
+      )}
+    </button>
+  );
+}
+
 export function CallsNewCall({
-  activeCall,
+  hasActiveCall,
   allConversations,
   i18n,
   onSelectConversation,
@@ -146,8 +177,6 @@ export function CallsNewCall({
         );
       }
 
-      const callButtonsDisabled = activeCall != null;
-
       return (
         <div key={key} style={style}>
           <ListTile
@@ -168,33 +197,22 @@ export function CallsNewCall({
             trailing={
               <div className="CallsNewCall__ItemActions">
                 {item.conversation.type === 'direct' && (
-                  <button
-                    type="button"
-                    className="CallsNewCall__ItemActionButton"
-                    aria-disabled={callButtonsDisabled}
-                    onClick={event => {
-                      event.stopPropagation();
-                      if (!callButtonsDisabled) {
-                        onOutgoingAudioCallInConversation(item.conversation.id);
-                      }
+                  <CallsNewCallButton
+                    callType={CallType.Audio}
+                    hasActiveCall={hasActiveCall}
+                    onClick={() => {
+                      onOutgoingAudioCallInConversation(item.conversation.id);
                     }}
-                  >
-                    <span className="CallsNewCall__ItemIcon CallsNewCall__ItemIcon--Phone" />
-                  </button>
+                  />
                 )}
-                <button
-                  type="button"
-                  className="CallsNewCall__ItemActionButton"
-                  aria-disabled={callButtonsDisabled}
-                  onClick={event => {
-                    event.stopPropagation();
-                    if (!callButtonsDisabled) {
-                      onOutgoingVideoCallInConversation(item.conversation.id);
-                    }
+                <CallsNewCallButton
+                  // It's okay if this is a group
+                  callType={CallType.Video}
+                  hasActiveCall={hasActiveCall}
+                  onClick={() => {
+                    onOutgoingVideoCallInConversation(item.conversation.id);
                   }}
-                >
-                  <span className="CallsNewCall__ItemIcon CallsNewCall__ItemIcon--Video" />
-                </button>
+                />
               </div>
             }
             onClick={() => {
@@ -207,7 +225,7 @@ export function CallsNewCall({
     [
       rows,
       i18n,
-      activeCall,
+      hasActiveCall,
       onSelectConversation,
       onOutgoingAudioCallInConversation,
       onOutgoingVideoCallInConversation,

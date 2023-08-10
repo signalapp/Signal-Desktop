@@ -1,6 +1,10 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+$NavTabs__ToggleButton__blockPadding: 4px;
+$NavTabs__ItemIcon__size: 20px;
+$NavTabs__ProfileAvatar__size: 28px;
+
 // This effectively wraps the entire app
 .NavTabs__Container {
   position: relative;
@@ -14,6 +18,7 @@
   display: flex;
   flex-shrink: 0;
   flex-direction: column;
+  align-items: center;
   width: $NavTabs__width;
   height: 100%;
   padding-top: var(--title-bar-drag-area-height);
@@ -43,6 +48,12 @@
     // Handled by .NavTabs__ItemButton
     outline: none;
   }
+  &.NavTabs__Toggle {
+    padding-block: calc(
+      $NavTabs__Item__blockPadding + $NavTabs__ItemButton__blockPadding -
+        $NavTabs__ToggleButton__blockPadding
+    );
+  }
 }
 
 .NavTabs__ItemButton {
@@ -50,7 +61,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: $NavTabs__ItemButton__blockPadding;
+  padding-block: $NavTabs__ItemButton__blockPadding;
   border-radius: 8px;
   .NavTabs__Item:hover &,
   .NavTabs__Item:focus-visible & {
@@ -72,6 +83,21 @@
     @include dark-theme {
       background: $color-gray-62;
     }
+  }
+
+  .NavTabs__Toggle & {
+    width: fit-content;
+    padding: $NavTabs__ToggleButton__blockPadding;
+    margin-block: 0;
+    margin-inline: auto;
+    border-radius: 4px;
+  }
+  .NavTabs__Item--Profile & {
+    // Normalize for the size difference of the avatar vs sidebar icons
+    padding-block: calc(
+      $NavTabs__ItemButton__blockPadding -
+        (($NavTabs__ProfileAvatar__size - $NavTabs__ItemIcon__size) / 2)
+    );
   }
 }
 
@@ -107,8 +133,8 @@
 
 .NavTabs__ItemIcon {
   display: block;
-  width: 20px;
-  height: 20px;
+  width: $NavTabs__ItemIcon__size;
+  height: $NavTabs__ItemIcon__size;
 }
 
 @mixin NavTabs__Icon($icon) {
@@ -157,10 +183,18 @@
 }
 
 .NavTabs__TabList {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
   flex: 1;
 }
 
 .NavTabs__Misc {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding-bottom: 8px;
 }
 

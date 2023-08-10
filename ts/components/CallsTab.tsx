@@ -198,18 +198,25 @@ export function CallsTab({
           {sidebarView === CallsTabSidebarView.CallsListView && (
             <CallsList
               key={CallsTabSidebarView.CallsListView}
+              hasActiveCall={activeCall != null}
               getCallHistoryGroupsCount={getCallHistoryGroupsCount}
               getCallHistoryGroups={getCallHistoryGroups}
               getConversation={getConversation}
               i18n={i18n}
               selectedCallHistoryGroup={selected?.callHistoryGroup ?? null}
               onSelectCallHistoryGroup={handleSelectCallHistoryGroup}
+              onOutgoingAudioCallInConversation={
+                handleOutgoingAudioCallInConversation
+              }
+              onOutgoingVideoCallInConversation={
+                handleOutgoingVideoCallInConversation
+              }
             />
           )}
           {sidebarView === CallsTabSidebarView.NewCallView && (
             <CallsNewCall
               key={CallsTabSidebarView.NewCallView}
-              activeCall={activeCall}
+              hasActiveCall={activeCall != null}
               allConversations={allConversations}
               i18n={i18n}
               regionCode={regionCode}

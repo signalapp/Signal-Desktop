@@ -7,7 +7,7 @@ import { noop } from 'lodash';
 
 import type { ConversationType } from '../state/ducks/conversations';
 import type { ConversationWithStoriesType } from '../state/selectors/conversations';
-import type { LocalizerType } from '../types/Util';
+import type { LocalizerType, ThemeType } from '../types/Util';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
 import type { Row } from './ConversationList';
 import type { StoryDistributionListWithMembersDataType } from '../types/Stories';
@@ -27,8 +27,6 @@ import { MY_STORY_ID, getStoryDistributionListName } from '../types/Stories';
 import { PagedModal, ModalPage } from './Modal';
 import { SearchInput } from './SearchInput';
 import { StoryDistributionListName } from './StoryDistributionListName';
-import { Theme } from '../util/theme';
-import { ThemeType } from '../types/Util';
 import { filterAndSortConversationsByRecent } from '../util/filterAndSortConversations';
 import { isNotNil } from '../util/isNotNil';
 import {
@@ -68,6 +66,7 @@ export type PropsType = {
   ) => unknown;
   setMyStoriesToAllSignalConnections: () => unknown;
   storyViewReceiptsEnabled: boolean;
+  theme: ThemeType;
   toggleSignalConnectionsModal: () => unknown;
   setStoriesDisabled: (value: boolean) => void;
   getConversationByUuid: (
@@ -257,6 +256,7 @@ export function StoriesSettingsModal({
   setMyStoriesToAllSignalConnections,
   storyViewReceiptsEnabled,
   toggleSignalConnectionsModal,
+  theme,
   setStoriesDisabled,
   getConversationByUuid,
 }: PropsType): JSX.Element {
@@ -347,6 +347,7 @@ export function StoriesSettingsModal({
         }}
         selectedContacts={selectedContacts}
         setSelectedContacts={setSelectedContacts}
+        theme={theme}
       />
     );
   } else if (listToEdit) {
@@ -364,6 +365,7 @@ export function StoriesSettingsModal({
         setPage={setPage}
         setSelectedContacts={setSelectedContacts}
         toggleSignalConnectionsModal={toggleSignalConnectionsModal}
+        theme={theme}
         onBackButtonClick={() => setListToEditId(undefined)}
         onClose={handleClose}
       />
@@ -479,7 +481,6 @@ export function StoriesSettingsModal({
         <PagedModal
           modalName="StoriesSettingsModal"
           moduleClassName="StoriesSettingsModal"
-          theme={Theme.Dark}
           onClose={() =>
             confirmDiscardIf(selectedContacts.length > 0, hideStoriesSettings)
           }
@@ -504,7 +505,6 @@ export function StoriesSettingsModal({
           onClose={() => {
             setConfirmDeleteList(undefined);
           }}
-          theme={Theme.Dark}
         >
           {i18n('icu:StoriesSettings__delete-list--confirm', {
             name: confirmDeleteList.name,
@@ -529,7 +529,6 @@ export function StoriesSettingsModal({
           onClose={() => {
             setConfirmRemoveGroup(null);
           }}
-          theme={Theme.Dark}
         >
           {i18n('icu:StoriesSettings__remove_group--confirm', {
             groupTitle: confirmRemoveGroup.title,
@@ -551,6 +550,7 @@ type DistributionListSettingsModalPropsType = {
   }) => unknown;
   setPage: (page: Page) => unknown;
   setSelectedContacts: (contacts: Array<ConversationType>) => unknown;
+  theme: ThemeType;
   onBackButtonClick: (() => void) | undefined;
   onClose: () => void;
 } & Pick<
@@ -574,6 +574,7 @@ export function DistributionListSettingsModal({
   setMyStoriesToAllSignalConnections,
   setPage,
   setSelectedContacts,
+  theme,
   toggleSignalConnectionsModal,
   signalConnectionsCount,
 }: DistributionListSettingsModalPropsType): JSX.Element {
@@ -680,7 +681,7 @@ export function DistributionListSettingsModal({
                   isMe
                   sharedGroupNames={member.sharedGroupNames}
                   size={AvatarSize.THIRTY_TWO}
-                  theme={ThemeType.dark}
+                  theme={theme}
                   title={member.title}
                 />
                 <span className="StoriesSettingsModal__list__title">
@@ -756,7 +757,6 @@ export function DistributionListSettingsModal({
           onClose={() => {
             setConfirmRemoveMember(undefined);
           }}
-          theme={Theme.Dark}
           title={i18n('icu:StoriesSettings__remove--title', {
             title: confirmRemoveMember.title,
           })}
@@ -960,6 +960,7 @@ type EditDistributionListModalPropsType = {
   selectedContacts: Array<ConversationType>;
   onClose: () => unknown;
   setSelectedContacts: (contacts: Array<ConversationType>) => unknown;
+  theme: ThemeType;
   onBackButtonClick: () => void;
 } & Pick<PropsType, 'candidateConversations' | 'getPreferredBadge' | 'i18n'>;
 
@@ -973,6 +974,7 @@ export function EditDistributionListModal({
   onClose,
   selectedContacts,
   setSelectedContacts,
+  theme,
   onBackButtonClick,
 }: EditDistributionListModalPropsType): JSX.Element {
   const [storyName, setStoryName] = useState('');
@@ -1090,7 +1092,7 @@ export function EditDistributionListModal({
                 isMe
                 sharedGroupNames={contact.sharedGroupNames}
                 size={AvatarSize.THIRTY_TWO}
-                theme={ThemeType.dark}
+                theme={theme}
                 title={contact.title}
               />
               <span className="StoriesSettingsModal__list__title">
@@ -1222,7 +1224,7 @@ export function EditDistributionListModal({
                 showChooseGroupMembers={shouldNeverBeCalled}
                 showConversation={shouldNeverBeCalled}
                 showUserNotFoundModal={shouldNeverBeCalled}
-                theme={ThemeType.dark}
+                theme={theme}
               />
             </div>
           )}

@@ -167,16 +167,16 @@
     }
   }
 
-  &__icon {
-    @mixin StoryListItem__Icon($path) {
-      @include light-theme {
-        @include color-svg($path, $color-black);
-      }
-      @include dark-theme {
-        @include color-svg($path, $color-white);
-      }
+  @mixin StoryListItem__Icon($path) {
+    @include light-theme {
+      @include color-svg($path, $color-black);
     }
+    @include dark-theme {
+      @include color-svg($path, $color-white);
+    }
+  }
 
+  &__icon {
     &--chat {
       @include StoryListItem__Icon('../images/icons/v3/open/open-compact.svg');
     }
@@ -203,9 +203,8 @@
     margin-inline-start: 2px;
     vertical-align: middle;
     width: 16px;
-    @include color-svg(
-      '../images/icons/v3/chevron/chevron-right-compact-bold.svg',
-      $color-white
+    @include StoryListItem__Icon(
+      '../images/icons/v3/chevron/chevron-right-compact-bold.svg'
     );
   }
 }

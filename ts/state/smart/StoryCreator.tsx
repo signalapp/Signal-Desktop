@@ -4,7 +4,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-import type { LocalizerType } from '../../types/Util';
+import { ThemeType, type LocalizerType } from '../../types/Util';
 import type { StateType } from '../reducer';
 import { LinkPreviewSourceType } from '../../types/LinkPreview';
 import { SmartCompositionTextArea } from './CompositionTextArea';
@@ -140,6 +140,7 @@ export function SmartStoryCreator(): JSX.Element | null {
       setMyStoriesToAllSignalConnections={setMyStoriesToAllSignalConnections}
       signalConnections={signalConnections}
       skinTone={skinTone}
+      theme={ThemeType.dark}
       toggleGroupsForStorySend={toggleGroupsForStorySend}
       toggleSignalConnectionsModal={toggleSignalConnectionsModal}
     />

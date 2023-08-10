@@ -868,6 +868,7 @@ $rtl-icon-map: (
 }
 
 @mixin NavTabs__Scroller {
+  padding-bottom: 8px;
   @include scrollbar;
   &::-webkit-scrollbar-thumb {
     @include light-theme {

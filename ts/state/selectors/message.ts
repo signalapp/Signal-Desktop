@@ -1328,6 +1328,11 @@ export function getPropsForCallHistory(
   }: GetPropsForCallHistoryOptions
 ): CallingNotificationType {
   const { callId } = message;
+  if (callId == null && 'callHistoryDetails' in message) {
+    log.error(
+      'getPropsForCallHistory: Found callHistoryDetails, but no callId'
+    );
+  }
   strictAssert(callId != null, 'getPropsForCallHistory: Missing callId');
   const callHistory = callHistorySelector(callId);
   strictAssert(

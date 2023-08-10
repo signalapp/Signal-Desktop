@@ -157,6 +157,7 @@ import {
   callHistoryGroupSchema,
   CallHistoryFilterStatus,
   callHistoryDetailsSchema,
+  CallDirection,
 } from '../types/CallDisposition';
 
 type ConversationRow = Readonly<{
@@ -3347,6 +3348,7 @@ async function getCallHistory(
 
 const MISSED = sqlConstant(DirectCallStatus.Missed);
 const DELETED = sqlConstant(DirectCallStatus.Deleted);
+const INCOMING = sqlConstant(CallDirection.Incoming);
 const FOUR_HOURS_IN_MS = sqlConstant(4 * 60 * 60 * 1000);
 
 function getCallHistoryGroupDataSync(
@@ -3405,7 +3407,10 @@ function getCallHistoryGroupDataSync(
     const filterClause =
       status === CallHistoryFilterStatus.All
         ? sqlFragment`status IS NOT ${DELETED}`
-        : sqlFragment`status IS ${MISSED} AND status IS NOT ${DELETED}`;
+        : sqlFragment`
+            direction IS ${INCOMING} AND
+            status IS ${MISSED} AND status IS NOT ${DELETED}
+          `;
 
     const offsetLimit =
       limit > 0 ? sqlFragment`LIMIT ${limit} OFFSET ${offset}` : sqlFragment``;

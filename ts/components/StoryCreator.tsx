@@ -11,7 +11,7 @@ import type {
 } from '../types/Attachment';
 import type { LinkPreviewSourceType } from '../types/LinkPreview';
 import type { LinkPreviewType } from '../types/message/LinkPreviews';
-import type { LocalizerType } from '../types/Util';
+import type { LocalizerType, ThemeType } from '../types/Util';
 import type { Props as StickerButtonProps } from './stickers/StickerButton';
 import type { PropsType as SendStoryModalPropsType } from './SendStoryModal';
 import type { StoryDistributionIdString } from '../types/StoryDistributionId';
@@ -67,6 +67,7 @@ export type PropsType = {
     props: SmartCompositionTextAreaProps
   ) => JSX.Element;
   sendStoryModalOpenStateChanged: (isOpen: boolean) => unknown;
+  theme: ThemeType;
 } & Pick<StickerButtonProps, 'installedPacks' | 'recentStickers'> &
   Pick<
     SendStoryModalPropsType,
@@ -134,6 +135,7 @@ export function StoryCreator({
   setMyStoriesToAllSignalConnections,
   signalConnections,
   skinTone,
+  theme,
   toggleGroupsForStorySend,
   toggleSignalConnectionsModal,
 }: PropsType): JSX.Element | null {
@@ -228,6 +230,7 @@ export function StoryCreator({
               mostRecentActiveStoryTimestampByGroupOrDistributionList={
                 mostRecentActiveStoryTimestampByGroupOrDistributionList
               }
+              theme={theme}
               toggleSignalConnectionsModal={toggleSignalConnectionsModal}
             />
           )}

@@ -30,6 +30,7 @@
       justify-content: center;
       padding-bottom: 8px;
       padding-top: 12px;
+      user-select: text;
     }
 
     &__subtitle {
@@ -40,6 +41,11 @@
 
       @include dark-theme {
         color: $color-gray-25;
+      }
+
+      &__about,
+      &__phone-number {
+        user-select: text;
       }
     }
 
@@ -511,11 +517,6 @@
       padding-inline: 0;
     }
   }
-}
-
-.ConversationDetails__CallHistoryGroup__header {
-  @include font-title-2;
-  margin-block: 24px 16px;
 }
 
 .ConversationDetails__CallHistoryGroup__List {

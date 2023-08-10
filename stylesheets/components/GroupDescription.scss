@@ -7,6 +7,7 @@
     -webkit-line-clamp: 2;
     display: -webkit-box;
     overflow: hidden;
+    user-select: text;
 
     a {
       @include light-theme {

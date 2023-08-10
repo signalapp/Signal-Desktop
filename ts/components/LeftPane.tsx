@@ -1,7 +1,7 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useEffect, useCallback, useMemo } from 'react';
+import React, { useEffect, useCallback, useMemo, useRef } from 'react';
 import classNames from 'classnames';
 import { isNumber } from 'lodash';
 
@@ -26,8 +26,7 @@ import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
 import { usePrevious } from '../hooks/usePrevious';
 import { missingCaseError } from '../util/missingCaseError';
 import type { DurationInSeconds } from '../util/durations';
-import type { WidthBreakpoint } from './_util';
-import { getNavSidebarWidthBreakpoint } from './_util';
+import { WidthBreakpoint, getNavSidebarWidthBreakpoint } from './_util';
 import * as KeyboardLayout from '../services/keyboardLayout';
 import type { LookupConversationWithoutServiceIdActionsType } from '../util/lookupConversationWithoutServiceId';
 import type { ShowConversationType } from '../state/ducks/conversations';
@@ -42,7 +41,7 @@ import type {
   ReplaceAvatarActionType,
   SaveAvatarToDiskActionType,
 } from '../types/Avatar';
-import { SizeObserver } from '../hooks/useSizeObserver';
+import { useSizeObserver } from '../hooks/useSizeObserver';
 import {
   NavSidebar,
   NavSidebarActionButton,
@@ -479,7 +478,12 @@ export function LeftPane({
   //   It also ensures that we scroll to the top when switching views.
   const listKey = preRowsNode ? 1 : 0;
 
-  const widthBreakpoint = getNavSidebarWidthBreakpoint(300);
+  const measureRef = useRef<HTMLDivElement>(null);
+  const measureSize = useSizeObserver(measureRef);
+
+  const widthBreakpoint = getNavSidebarWidthBreakpoint(
+    measureSize?.width ?? preferredWidthFromStorage
+  );
 
   const commonDialogProps = {
     i18n,
@@ -548,7 +552,7 @@ export function LeftPane({
       navTabsCollapsed={navTabsCollapsed}
       onToggleNavTabsCollapse={toggleNavTabsCollapse}
       preferredLeftPaneWidth={preferredWidthFromStorage}
-      requiresFullWidth={false}
+      requiresFullWidth={modeSpecificProps.mode !== LeftPaneMode.Inbox}
       savePreferredLeftPaneWidth={savePreferredLeftPaneWidth}
       actions={
         <>
@@ -603,91 +607,88 @@ export function LeftPane({
             showChooseGroupMembers,
           })}
         </div>
-        <NavSidebarSearchHeader>
-          {helper.getSearchInput({
-            clearConversationSearch,
-            clearSearch,
-            i18n,
-            onChangeComposeSearchTerm: event => {
-              setComposeSearchTerm(event.target.value);
-            },
-            updateSearchTerm,
-            showConversation,
-          })}
-        </NavSidebarSearchHeader>
+        {(widthBreakpoint === WidthBreakpoint.Wide ||
+          modeSpecificProps.mode !== LeftPaneMode.Inbox) && (
+          <NavSidebarSearchHeader>
+            {helper.getSearchInput({
+              clearConversationSearch,
+              clearSearch,
+              i18n,
+              onChangeComposeSearchTerm: event => {
+                setComposeSearchTerm(event.target.value);
+              },
+              updateSearchTerm,
+              showConversation,
+            })}
+          </NavSidebarSearchHeader>
+        )}
         <div className="module-left-pane__dialogs">
           {dialogs.map(({ key, dialog }) => (
             <React.Fragment key={key}>{dialog}</React.Fragment>
           ))}
         </div>
         {preRowsNode && <React.Fragment key={0}>{preRowsNode}</React.Fragment>}
-        <SizeObserver>
-          {(ref, size) => (
-            <div className="module-left-pane__list--measure" ref={ref}>
-              <div className="module-left-pane__list--wrapper">
-                <div
-                  aria-live="polite"
-                  className="module-left-pane__list"
-                  data-supertab
-                  key={listKey}
-                  role="presentation"
-                  tabIndex={-1}
-                >
-                  <ConversationList
-                    dimensions={size ?? undefined}
-                    getPreferredBadge={getPreferredBadge}
-                    getRow={getRow}
-                    i18n={i18n}
-                    onClickArchiveButton={showArchivedConversations}
-                    onClickContactCheckbox={(
-                      conversationId: string,
-                      disabledReason: undefined | ContactCheckboxDisabledReason
-                    ) => {
-                      switch (disabledReason) {
-                        case undefined:
-                          toggleConversationInChooseMembers(conversationId);
-                          break;
-                        case ContactCheckboxDisabledReason.AlreadyAdded:
-                        case ContactCheckboxDisabledReason.MaximumContactsSelected:
-                          // These are no-ops.
-                          break;
-                        default:
-                          throw missingCaseError(disabledReason);
-                      }
-                    }}
-                    showUserNotFoundModal={showUserNotFoundModal}
-                    setIsFetchingUUID={setIsFetchingUUID}
-                    lookupConversationWithoutServiceId={
-                      lookupConversationWithoutServiceId
-                    }
-                    showConversation={showConversation}
-                    blockConversation={blockConversation}
-                    onSelectConversation={onSelectConversation}
-                    onOutgoingAudioCallInConversation={
-                      onOutgoingAudioCallInConversation
-                    }
-                    onOutgoingVideoCallInConversation={
-                      onOutgoingVideoCallInConversation
-                    }
-                    removeConversation={
-                      isContactManagementEnabled
-                        ? removeConversation
-                        : undefined
-                    }
-                    renderMessageSearchResult={renderMessageSearchResult}
-                    rowCount={helper.getRowCount()}
-                    scrollBehavior={scrollBehavior}
-                    scrollToRowIndex={rowIndexToScrollTo}
-                    scrollable={isScrollable}
-                    shouldRecomputeRowHeights={shouldRecomputeRowHeights}
-                    showChooseGroupMembers={showChooseGroupMembers}
-                    theme={theme}
-                  />
-                </div>
-              </div>
+        <div className="module-left-pane__list--measure" ref={measureRef}>
+          <div className="module-left-pane__list--wrapper">
+            <div
+              aria-live="polite"
+              className="module-left-pane__list"
+              data-supertab
+              key={listKey}
+              role="presentation"
+              tabIndex={-1}
+            >
+              <ConversationList
+                dimensions={measureSize ?? undefined}
+                getPreferredBadge={getPreferredBadge}
+                getRow={getRow}
+                i18n={i18n}
+                onClickArchiveButton={showArchivedConversations}
+                onClickContactCheckbox={(
+                  conversationId: string,
+                  disabledReason: undefined | ContactCheckboxDisabledReason
+                ) => {
+                  switch (disabledReason) {
+                    case undefined:
+                      toggleConversationInChooseMembers(conversationId);
+                      break;
+                    case ContactCheckboxDisabledReason.AlreadyAdded:
+                    case ContactCheckboxDisabledReason.MaximumContactsSelected:
+                      // These are no-ops.
+                      break;
+                    default:
+                      throw missingCaseError(disabledReason);
+                  }
+                }}
+                showUserNotFoundModal={showUserNotFoundModal}
+                setIsFetchingUUID={setIsFetchingUUID}
+                lookupConversationWithoutServiceId={
+                  lookupConversationWithoutServiceId
+                }
+                showConversation={showConversation}
+                blockConversation={blockConversation}
+                onSelectConversation={onSelectConversation}
+                onOutgoingAudioCallInConversation={
+                  onOutgoingAudioCallInConversation
+                }
+                onOutgoingVideoCallInConversation={
+                  onOutgoingVideoCallInConversation
+                }
+                removeConversation={
+                  isContactManagementEnabled ? removeConversation : undefined
+                }
+                renderMessageSearchResult={renderMessageSearchResult}
+                rowCount={helper.getRowCount()}
+                scrollBehavior={scrollBehavior}
+                scrollToRowIndex={rowIndexToScrollTo}
+                scrollable={isScrollable}
+                shouldRecomputeRowHeights={shouldRecomputeRowHeights}
+                showChooseGroupMembers={showChooseGroupMembers}
+                theme={theme}
+              />
             </div>
-          )}
-        </SizeObserver>
+          </div>
+        </div>
         {footerContents && (
           <div className="module-left-pane__footer">{footerContents}</div>
         )}

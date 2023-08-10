@@ -462,10 +462,7 @@ export function ConversationDetails({
       </div>
 
       {callHistoryGroup && (
-        <PanelSection>
-          <h2 className="ConversationDetails__CallHistoryGroup__header">
-            {formatDate(i18n, callHistoryGroup.timestamp)}
-          </h2>
+        <PanelSection title={formatDate(i18n, callHistoryGroup.timestamp)}>
           <ol className="ConversationDetails__CallHistoryGroup__List">
             {callHistoryGroup.children.map(child => {
               return (

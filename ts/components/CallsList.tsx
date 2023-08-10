@@ -40,6 +40,9 @@ import { Intl } from './Intl';
 import { NavSidebarSearchHeader } from './NavSidebar';
 import { SizeObserver } from '../hooks/useSizeObserver';
 import { formatCallHistoryGroup } from '../util/callDisposition';
+import { CallsNewCallButton } from './CallsNewCall';
+import { Tooltip, TooltipPlacement } from './Tooltip';
+import { Theme } from '../util/theme';
 
 function Timestamp({
   i18n,
@@ -100,6 +103,7 @@ const defaultPendingState: SearchState = {
 };
 
 type CallsListProps = Readonly<{
+  hasActiveCall: boolean;
   getCallHistoryGroupsCount: (
     options: CallHistoryFilterOptions
   ) => Promise<number>;
@@ -110,6 +114,8 @@ type CallsListProps = Readonly<{
   getConversation: (id: string) => ConversationType | void;
   i18n: LocalizerType;
   selectedCallHistoryGroup: CallHistoryGroup | null;
+  onOutgoingAudioCallInConversation: (conversationId: string) => void;
+  onOutgoingVideoCallInConversation: (conversationId: string) => void;
   onSelectCallHistoryGroup: (
     conversationId: string,
     selectedCallHistoryGroup: CallHistoryGroup
@@ -117,15 +123,18 @@ type CallsListProps = Readonly<{
 }>;
 
 function rowHeight() {
-  return ListTile.heightCompact;
+  return ListTile.heightFull;
 }
 
 export function CallsList({
+  hasActiveCall,
   getCallHistoryGroupsCount,
   getCallHistoryGroups,
   getConversation,
   i18n,
   selectedCallHistoryGroup,
+  onOutgoingAudioCallInConversation,
+  onOutgoingVideoCallInConversation,
   onSelectCallHistoryGroup,
 }: CallsListProps): JSX.Element {
   const infiniteLoaderRef = useRef<InfiniteLoader>(null);
@@ -270,6 +279,7 @@ export function CallsList({
               title={
                 <span className="CallsList__LoadingText CallsList__LoadingText--title" />
               }
+              subtitleMaxLines={1}
               subtitle={
                 <span className="CallsList__LoadingText CallsList__LoadingText--subtitle" />
               }
@@ -306,6 +316,7 @@ export function CallsList({
           style={style}
           className={classNames('CallsList__Item', {
             'CallsList__Item--selected': isSelected,
+            'CallsList__Item--missed': wasMissed,
           })}
         >
           <ListTile
@@ -320,17 +331,22 @@ export function CallsList({
                 isMe={false}
                 title={conversation.title}
                 sharedGroupNames={[]}
-                size={AvatarSize.THIRTY_TWO}
+                size={AvatarSize.THIRTY_SIX}
                 badge={undefined}
                 className="CallsList__ItemAvatar"
               />
             }
             trailing={
-              <span
-                className={classNames('CallsList__ItemIcon', {
-                  'CallsList__ItemIcon--Phone': item.type === CallType.Audio,
-                  'CallsList__ItemIcon--Video': item.type !== CallType.Audio,
-                })}
+              <CallsNewCallButton
+                callType={item.type}
+                hasActiveCall={hasActiveCall}
+                onClick={() => {
+                  if (item.type === CallType.Audio) {
+                    onOutgoingAudioCallInConversation(conversation.id);
+                  } else {
+                    onOutgoingVideoCallInConversation(conversation.id);
+                  }
+                }}
               />
             }
             title={
@@ -341,12 +357,9 @@ export function CallsList({
                 <UserText text={conversation.title} />
               </span>
             }
+            subtitleMaxLines={1}
             subtitle={
-              <span
-                className={classNames('CallsList__ItemCallInfo', {
-                  'CallsList__ItemCallInfo--missed': wasMissed,
-                })}
-              >
+              <span className="CallsList__ItemCallInfo">
                 {item.children.length > 1 ? `(${item.children.length}) ` : ''}
                 {statusText} &middot;{' '}
                 <Timestamp i18n={i18n} timestamp={item.timestamp} />
@@ -360,10 +373,13 @@ export function CallsList({
       );
     },
     [
+      hasActiveCall,
       searchState,
       getConversation,
       selectedCallHistoryGroup,
       onSelectCallHistoryGroup,
+      onOutgoingAudioCallInConversation,
+      onOutgoingVideoCallInConversation,
       i18n,
     ]
   );
@@ -402,21 +418,28 @@ export function CallsList({
           onClear={handleSearchInputClear}
           value={queryInput}
         />
-        <button
-          className={classNames('CallsList__ToggleFilterByMissed', {
-            'CallsList__ToggleFilterByMissed--pressed': filteringByMissed,
-          })}
-          type="button"
-          aria-pressed={filteringByMissed}
-          aria-roledescription={i18n(
-            'icu:CallsList__ToggleFilterByMissed__RoleDescription'
-          )}
-          onClick={handleStatusToggle}
+        <Tooltip
+          direction={TooltipPlacement.Bottom}
+          content={i18n('icu:CallsList__ToggleFilterByMissedLabel')}
+          theme={Theme.Dark}
+          delay={600}
         >
-          <span className="CallsList__ToggleFilterByMissedLabel">
-            {i18n('icu:CallsList__ToggleFilterByMissedLabel')}
-          </span>
-        </button>
+          <button
+            className={classNames('CallsList__ToggleFilterByMissed', {
+              'CallsList__ToggleFilterByMissed--pressed': filteringByMissed,
+            })}
+            type="button"
+            aria-pressed={filteringByMissed}
+            aria-roledescription={i18n(
+              'icu:CallsList__ToggleFilterByMissed__RoleDescription'
+            )}
+            onClick={handleStatusToggle}
+          >
+            <span className="CallsList__ToggleFilterByMissedLabel">
+              {i18n('icu:CallsList__ToggleFilterByMissedLabel')}
+            </span>
+          </button>
+        </Tooltip>
       </NavSidebarSearchHeader>
 
       {hasEmptyResults && (
