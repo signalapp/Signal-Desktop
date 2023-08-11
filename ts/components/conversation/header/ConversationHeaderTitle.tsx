@@ -1,5 +1,5 @@
 import { isNumber } from 'lodash';
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useConversationUsername } from '../../../hooks/useParamSelector';
 import { closeRightPanel, openRightPanel } from '../../../state/ducks/conversations';
@@ -52,34 +52,14 @@ export const ConversationHeaderTitle = () => {
 
   const [visibleSubtitle, setVisibleSubtitle] = useState<SubtitleStringsType>('notifications');
 
-  const subtitleStrings: SubtitleStrings = {};
-  const subtitleArray: Array<SubtitleStringsType> = useMemo(() => {
-    return [];
-  }, []);
+  const [subtitleStrings, setSubtitleStrings] = useState<SubtitleStrings>({});
+  const [subtitleArray, setSubtitleArray] = useState<Array<SubtitleStringsType>>([]);
 
   const { i18n } = window;
 
   const notificationSubtitle = notificationSetting
     ? i18n('notificationSubtitle', [notificationSetting])
     : null;
-  if (notificationSubtitle) {
-    subtitleStrings.notifications = notificationSubtitle;
-    subtitleArray.push('notifications');
-  }
-
-  useEffect(() => {
-    setVisibleSubtitle('notifications');
-  }, [convoName]);
-
-  useEffect(() => {
-    if (subtitleArray.indexOf(visibleSubtitle) < 0) {
-      setVisibleSubtitle('notifications');
-    }
-  }, [subtitleArray, visibleSubtitle]);
-
-  if (!selectedConvoKey) {
-    return null;
-  }
 
   let memberCount = 0;
   if (isGroup) {
@@ -90,14 +70,10 @@ export const ConversationHeaderTitle = () => {
     }
   }
 
-  let memberCountSubtitle = null;
+  let memberCountSubtitle: string | null = null;
   if (isGroup && memberCount > 0 && !isKickedFromGroup) {
     const count = String(memberCount);
     memberCountSubtitle = isPublic ? i18n('activeMembers', [count]) : i18n('members', [count]);
-  }
-  if (memberCountSubtitle) {
-    subtitleStrings.members = memberCountSubtitle;
-    subtitleArray.push('members');
   }
 
   const disappearingMessageSettingText =
@@ -119,10 +95,6 @@ export const ConversationHeaderTitle = () => {
         abbreviatedExpireTime ? ` - ${abbreviatedExpireTime}` : ''
       }`
     : null;
-  if (disappearingMessageSubtitle) {
-    subtitleStrings.disappearingMessages = disappearingMessageSubtitle;
-    subtitleArray.push('disappearingMessages');
-  }
 
   const handleRightPanelToggle = () => {
     if (isRightPanelOn) {
@@ -136,6 +108,43 @@ export const ConversationHeaderTitle = () => {
       dispatch(openRightPanel());
     }
   };
+
+  useEffect(() => {
+    setVisibleSubtitle('notifications');
+  }, [convoName]);
+
+  useEffect(() => {
+    const newSubtitlesArray: any = [];
+    const newSubtitlesStrings: any = {};
+
+    if (notificationSubtitle) {
+      newSubtitlesStrings.notifications = notificationSubtitle;
+      newSubtitlesArray.push('notifications');
+    }
+
+    if (memberCountSubtitle) {
+      newSubtitlesStrings.members = memberCountSubtitle;
+      newSubtitlesArray.push('members');
+    }
+
+    if (disappearingMessageSubtitle) {
+      newSubtitlesStrings.disappearingMessages = disappearingMessageSubtitle;
+      newSubtitlesArray.push('disappearingMessages');
+    }
+
+    if (newSubtitlesArray.indexOf(visibleSubtitle) < 0) {
+      setVisibleSubtitle('notifications');
+    }
+
+    setSubtitleStrings(newSubtitlesStrings);
+    setSubtitleArray(newSubtitlesArray);
+  }, [
+    disappearingMessageSubtitle,
+    memberCountSubtitle,
+    notificationSubtitle,
+    subtitleStrings,
+    visibleSubtitle,
+  ]);
 
   return (
     <div className="module-conversation-header__title-container">
