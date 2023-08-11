@@ -34,7 +34,6 @@ import {
 } from '../database_utility';
 
 import { getIdentityKeys, sqlNode } from '../sql';
-import { FEATURE_RELEASE_TIMESTAMPS } from '../../session/constants';
 import { sleepFor } from '../../session/utils/Promise';
 
 const hasDebugEnvVariable = Boolean(process.env.SESSION_DEBUG);
@@ -1582,6 +1581,15 @@ function updateToSessionSchemaVersion30(currentVersion: number, db: BetterSqlite
 
   console.log(`updateToSessionSchemaVersion${targetVersion}: success!`);
 }
+/**
+ * Get's the user's private and public keys from the database
+ * @param db the database
+ * @returns the keys { privateEd25519: string, publicEd25519: string }
+ */
+function getOurAccountKeys(db: BetterSqlite3.Database) {
+  const keys = getIdentityKeys(db);
+  return keys;
+}
 
 function updateToSessionSchemaVersion31(currentVersion: number, db: BetterSqlite3.Database) {
   const targetVersion = 31;
@@ -1594,7 +1602,7 @@ function updateToSessionSchemaVersion31(currentVersion: number, db: BetterSqlite
     // In the migration 30, we made all the changes which didn't require the user to be logged in yet.
     // in this one, we check if a user is logged in, and if yes we build and save the config dumps for the current state of the database.
     try {
-      const keys = getIdentityKeys(db);
+      const keys = getOurAccountKeys(db);
 
       const userAlreadyCreated = !!keys && !isEmpty(keys.privateEd25519);
 
@@ -1866,52 +1874,62 @@ function updateToSessionSchemaVersion33(currentVersion: number, db: BetterSqlite
 
   console.log(`updateToSessionSchemaVersion${targetVersion}: starting...`);
   db.transaction(() => {
-    // Conversation changes
-    db.prepare(
-      `ALTER TABLE ${CONVERSATIONS_TABLE} ADD COLUMN expirationType TEXT DEFAULT "off";`
-    ).run();
+    try {
+      const keys = getOurAccountKeys(db);
 
-    db.prepare(
-      `ALTER TABLE ${CONVERSATIONS_TABLE} ADD COLUMN lastDisappearingMessageChangeTimestamp INTEGER DEFAULT 0;`
-    ).run();
+      const userAlreadyCreated = !!keys && !isEmpty(keys.privateEd25519);
 
-    db.prepare(`ALTER TABLE ${CONVERSATIONS_TABLE} ADD COLUMN hasOutdatedClient TEXT;`).run();
+      if (!userAlreadyCreated) {
+        throw new Error('privateEd25519 was empty. Considering no users are logged in');
+      }
 
-    // support disppearing messages legacy mode until after the platform agreed timestamp
-    if (Date.now() < FEATURE_RELEASE_TIMESTAMPS.DISAPPEARING_MESSAGES_V2) {
+      const { publicKeyHex } = keys;
+
+      // Conversation changes
+      // TODO can this be moved into libsession completely
+      db.prepare(
+        `ALTER TABLE ${CONVERSATIONS_TABLE} ADD COLUMN expirationType TEXT DEFAULT "off";`
+      ).run();
+
+      db.prepare(
+        `ALTER TABLE ${CONVERSATIONS_TABLE} ADD COLUMN lastDisappearingMessageChangeTimestamp INTEGER DEFAULT 0;`
+      ).run();
+
+      db.prepare(`ALTER TABLE ${CONVERSATIONS_TABLE} ADD COLUMN hasOutdatedClient TEXT;`).run();
+
+      // Note to Self
       db.prepare(
         `UPDATE ${CONVERSATIONS_TABLE} SET
       expirationType = $expirationType
-      WHERE expireTimer > 0;`
-      ).run({ expirationType: 'legacy' });
-    } else {
+      WHERE id = $id AND type = 'private' AND expireTimer > 0;`
+      ).run({ expirationType: 'deleteAfterSend', id: publicKeyHex });
+
+      // Private Conversations
       db.prepare(
         `UPDATE ${CONVERSATIONS_TABLE} SET
       expirationType = $expirationType
-      WHERE type = 'private' AND expireTimer > 0;`
+      WHERE type = 'private' AND expirationType = 'off' AND expireTimer > 0;`
       ).run({ expirationType: 'deleteAfterRead' });
 
-      // TODO Audric update this to support model changes for closed groups
+      // Groups
       db.prepare(
         `UPDATE ${CONVERSATIONS_TABLE} SET
       expirationType = $expirationType
-      WHERE type = 'group' AND is_medium_group = 1 AND expireTimer > 0;`
+      WHERE type = 'group' AND id LIKE '05%' AND expireTimer > 0;`
       ).run({ expirationType: 'deleteAfterSend' });
+
+      // Message changes
+      db.prepare(`ALTER TABLE ${MESSAGES_TABLE} ADD COLUMN expirationType TEXT;`).run();
+    } catch (e) {
+      console.error(
+        `Failed to migrate to disappearing messages v2. Might just not have a logged in user yet? `,
+        e.message,
+        e.stack,
+        e
+      );
+      // if we get an exception here, most likely no users are logged in yet. We can just continue the transaction and the wrappers will be created when a user creates a new account.
     }
 
-    // TODO After testing -> rename expireTimer column to expirationTimer everywhere.
-    // Update Conversation Model expireTimer calls everywhere
-    //  db.exec(
-    //    `ALTER TABLE ${CONVERSATIONS_TABLE} RENAME COLUMN expireTimer TO expirationTimer;`
-    //  );
-
-    // Message changes
-    db.prepare(`ALTER TABLE ${MESSAGES_TABLE} ADD COLUMN expirationType TEXT;`).run();
-
-    // TODO After testing -> rename expireTimer column to expirationTimer everywhere.
-    //  db.exec(
-    //    `ALTER TABLE ${MESSAGES_TABLE} RENAME COLUMN expireTimer TO expirationTimer;`
-    //  );
     writeSessionSchemaVersion(targetVersion, db);
   })();
 

@@ -55,8 +55,10 @@ export async function destroyMessagesAndUpdateRedux(
     // Delete any attachments
     // tslint:disable-next-line: prefer-for-of
     for (let i = 0; i < messageIds.length; i++) {
+      /* eslint-disable no-await-in-loop */
       const message = await Data.getMessageById(messageIds[i]);
       await message?.cleanup();
+      /* eslint-enable no-await-in-loop */
     }
 
     // Delete all those messages in a single sql call
@@ -241,7 +243,7 @@ export function setExpirationStartTimestamp(
     window.log.debug(
       `We compare 2 timestamps for a disappear ${
         isLegacyMode ? 'legacy' : mode === 'deleteAfterRead' ? 'after read' : 'after send'
-      } message: \expirationStartTimestamp `,
+      } message: expirationStartTimestamp `,
       new Date(expirationStartTimestamp).toLocaleTimeString(),
       '\ntimestamp ',
       new Date(timestamp).toLocaleTimeString()
@@ -424,12 +426,13 @@ export async function checkHasOutdatedClient(
       });
     }
     await convoToUpdate.commit();
-  } else {
-    if (expireUpdate.isLegacyDataMessage || expireUpdate.isLegacyConversationSettingMessage) {
-      convoToUpdate.set({
-        hasOutdatedClient: outdatedSender,
-      });
-      await convoToUpdate.commit();
-    }
+    return;
+  }
+
+  if (expireUpdate.isLegacyDataMessage || expireUpdate.isLegacyConversationSettingMessage) {
+    convoToUpdate.set({
+      hasOutdatedClient: outdatedSender,
+    });
+    await convoToUpdate.commit();
   }
 }

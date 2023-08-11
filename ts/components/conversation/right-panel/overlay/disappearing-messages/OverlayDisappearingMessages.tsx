@@ -142,6 +142,7 @@ export const OverlayDisappearingMessages = ({ unlockNewModes }: { unlockNewModes
           defaultExpirationType = 'deleteAfterSend';
         }
         convo.set('expirationType', defaultExpirationType);
+        // TODO do we need to add libsession stuff here probably not?
         setModeSelected(defaultExpirationType);
       }
     }

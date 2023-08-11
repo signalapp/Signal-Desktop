@@ -865,6 +865,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       lastDisappearingMessageChangeTimestamp,
       source,
     });
+
     let message: MessageModel | undefined = existingMessage || undefined;
 
     // we don't have info about who made the change and when, when we get a change from a config message, so do not add a control message
