@@ -3,6 +3,7 @@
 
 import { chunk } from 'lodash';
 import type { LoggerType } from '../../types/Logging';
+import { normalizeAci } from '../../types/ServiceId';
 import { getSendOptions } from '../../util/getSendOptions';
 import type { SendTypesType } from '../../util/handleMessageSend';
 import { handleMessageSend } from '../../util/handleMessageSend';
@@ -147,9 +148,18 @@ export async function runSyncJob({
     }
   }
 
+  const aciSyncs = syncs.map(({ senderUuid, ...rest }) => {
+    return {
+      ...rest,
+      senderAci: senderUuid
+        ? normalizeAci(senderUuid, 'syncHelpers.senderUuid')
+        : undefined,
+    };
+  });
+
   try {
     await Promise.all(
-      chunk(syncs, CHUNK_SIZE).map(batch => {
+      chunk(aciSyncs, CHUNK_SIZE).map(batch => {
         const messageIds = batch.map(item => item.messageId).filter(isNotNil);
 
         return handleMessageSend(doSync(batch, sendOptions), {

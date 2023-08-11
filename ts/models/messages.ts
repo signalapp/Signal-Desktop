@@ -1947,8 +1947,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     strictAssert(id, 'Quote must have an id');
 
     const result: QuotedMessageType = {
-      ...quote,
+      ...omit(quote, 'authorAci'),
 
+      authorUuid: quote.authorAci,
       id,
 
       attachments: quote.attachments.slice(),

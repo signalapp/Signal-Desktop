@@ -1455,7 +1455,7 @@ export default class MessageSender {
 
   async syncReadMessages(
     reads: ReadonlyArray<{
-      senderUuid?: string;
+      senderAci?: AciString;
       senderE164?: string;
       timestamp: number;
     }>,
