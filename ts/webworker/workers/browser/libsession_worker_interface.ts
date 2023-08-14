@@ -107,16 +107,27 @@ export const UserConfigWrapperActions: UserConfigWrapperActionsCalls = {
     name: string,
     priority: number,
     profilePic: { url: string; key: Uint8Array } | null
-    // expireSeconds: number
   ) =>
-    callLibSessionWorker([
-      'UserConfig',
-      'setUserInfo',
-      name,
-      priority,
-      profilePic,
-      // expireSeconds,
-    ]) as Promise<ReturnType<UserConfigWrapperActionsCalls['setUserInfo']>>,
+    callLibSessionWorker(['UserConfig', 'setUserInfo', name, priority, profilePic]) as Promise<
+      ReturnType<UserConfigWrapperActionsCalls['setUserInfo']>
+    >,
+  // TODO blinded message request stuff later
+  getEnableBlindedMsgRequest: async () =>
+    callLibSessionWorker(['UserConfig', 'getEnableBlindedMsgRequest']) as Promise<
+      ReturnType<UserConfigWrapperActionsCalls['getEnableBlindedMsgRequest']>
+    >,
+  setEnableBlindedMsgRequest: async (enable: boolean) =>
+    callLibSessionWorker(['UserConfig', 'setEnableBlindedMsgRequest', enable]) as Promise<
+      ReturnType<UserConfigWrapperActionsCalls['setEnableBlindedMsgRequest']>
+    >,
+  getExpiry: async () =>
+    callLibSessionWorker(['UserConfig', 'getExpiry']) as Promise<
+      ReturnType<UserConfigWrapperActionsCalls['getExpiry']>
+    >,
+  setExpiry: async (expirySeconds: number) =>
+    callLibSessionWorker(['UserConfig', 'setExpiry', expirySeconds]) as Promise<
+      ReturnType<UserConfigWrapperActionsCalls['setExpiry']>
+    >,
 };
 
 export const ContactsWrapperActions: ContactsWrapperActionsCalls = {

@@ -27,23 +27,14 @@ async function insertUserProfileIntoWrapper(convoId: string) {
     )} `
   );
   // const expirySeconds = ourConvo.get('expireTimer') || 0;
+  // TODO setup getExpiry and setExpiry
   if (dbProfileUrl && !isEmpty(dbProfileKey)) {
-    await UserConfigWrapperActions.setUserInfo(
-      dbName,
-      priority,
-      {
-        url: dbProfileUrl,
-        key: dbProfileKey,
-      }
-      // expirySeconds
-    );
+    await UserConfigWrapperActions.setUserInfo(dbName, priority, {
+      url: dbProfileUrl,
+      key: dbProfileKey,
+    });
   } else {
-    await UserConfigWrapperActions.setUserInfo(
-      dbName,
-      priority,
-      null
-      // , expirySeconds
-    );
+    await UserConfigWrapperActions.setUserInfo(dbName, priority, null);
   }
 }
 

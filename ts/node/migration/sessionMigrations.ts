@@ -1581,6 +1581,7 @@ function updateToSessionSchemaVersion30(currentVersion: number, db: BetterSqlite
 
   console.log(`updateToSessionSchemaVersion${targetVersion}: success!`);
 }
+
 /**
  * Get's the user's private and public keys from the database
  * @param db the database
@@ -1636,18 +1637,12 @@ function updateToSessionSchemaVersion31(currentVersion: number, db: BetterSqlite
       const ourDbProfileUrl = ourConversation.avatarPointer || '';
       const ourDbProfileKey = fromHexToArray(ourConversation.profileKey || '');
       const ourConvoPriority = ourConversation.priority;
-      // const ourConvoExpire = ourConversation.expireTimer || 0;
 
       if (ourDbProfileUrl && !isEmpty(ourDbProfileKey)) {
-        userProfileWrapper.setUserInfo(
-          ourDbName,
-          ourConvoPriority,
-          {
-            url: ourDbProfileUrl,
-            key: ourDbProfileKey,
-          }
-          // , ourConvoExpire
-        );
+        userProfileWrapper.setUserInfo(ourDbName, ourConvoPriority, {
+          url: ourDbProfileUrl,
+          key: ourDbProfileKey,
+        });
       }
 
       insertContactIntoContactWrapper(
@@ -1883,7 +1878,7 @@ function updateToSessionSchemaVersion33(currentVersion: number, db: BetterSqlite
         throw new Error('privateEd25519 was empty. Considering no users are logged in');
       }
 
-      const { publicKeyHex } = keys;
+      const { privateEd25519, publicKeyHex } = keys;
 
       // Conversation changes
       // TODO can this be moved into libsession completely
@@ -1897,26 +1892,86 @@ function updateToSessionSchemaVersion33(currentVersion: number, db: BetterSqlite
 
       db.prepare(`ALTER TABLE ${CONVERSATIONS_TABLE} ADD COLUMN hasOutdatedClient TEXT;`).run();
 
-      // Note to Self
-      db.prepare(
-        `UPDATE ${CONVERSATIONS_TABLE} SET
+      // region Note to Self
+      const noteToSelfInfo = db
+        .prepare(
+          `UPDATE ${CONVERSATIONS_TABLE} SET
       expirationType = $expirationType
       WHERE id = $id AND type = 'private' AND expireTimer > 0;`
-      ).run({ expirationType: 'deleteAfterSend', id: publicKeyHex });
+        )
+        .run({ expirationType: 'deleteAfterSend', id: publicKeyHex });
 
-      // Private Conversations
+      if (noteToSelfInfo.changes) {
+        // Get expireTimer value
+        const ourConversation = db
+          .prepare(`SELECT * FROM ${CONVERSATIONS_TABLE} WHERE id = $id`)
+          .get({ id: publicKeyHex });
+
+        const expirySeconds = ourConversation.expireTimer || 0;
+
+        // Get existing config wrapper dump and update it
+        const userConfigWrapperDump = db
+          .prepare(`SELECT * FROM ${CONFIG_DUMP_TABLE} WHERE variant = 'UserConfig';`)
+          .get() as Record<string, any> | undefined;
+
+        if (userConfigWrapperDump) {
+          const userConfigData = (userConfigWrapperDump as any).data;
+          const userProfileWrapper = new UserConfigWrapperNode(privateEd25519, userConfigData);
+
+          userProfileWrapper.setExpiry(expirySeconds);
+
+          // dump the user wrapper content and save it to the DB
+          const userDump = userProfileWrapper.dump();
+
+          const configDumpInfo = db
+            .prepare(
+              `INSERT OR REPLACE INTO ${CONFIG_DUMP_TABLE} (
+              publicKey,
+              variant,
+              data
+          ) values (
+            $publicKey,
+            $variant,
+            $data
+          );`
+            )
+            .run({
+              publicKey: publicKeyHex,
+              variant: 'UserConfig',
+              data: userDump,
+            });
+          // TODO Cleanup logging
+          console.log(
+            '===================== configDumpInfo',
+            configDumpInfo,
+            '======================='
+          );
+        } else {
+          console.log(
+            '===================== userConfigWrapperDump not found ======================='
+          );
+        }
+      }
+      // endregion
+
+      // region Private Conversations
       db.prepare(
         `UPDATE ${CONVERSATIONS_TABLE} SET
       expirationType = $expirationType
       WHERE type = 'private' AND expirationType = 'off' AND expireTimer > 0;`
       ).run({ expirationType: 'deleteAfterRead' });
 
-      // Groups
+      // TODO add to Contact Wrapper
+      // if (privateConversationsInfo.changes) {}
+      // endregion
+
+      // region Groups
       db.prepare(
         `UPDATE ${CONVERSATIONS_TABLE} SET
       expirationType = $expirationType
       WHERE type = 'group' AND id LIKE '05%' AND expireTimer > 0;`
       ).run({ expirationType: 'deleteAfterSend' });
+      // endregion
 
       // Message changes
       db.prepare(`ALTER TABLE ${MESSAGES_TABLE} ADD COLUMN expirationType TEXT;`).run();
