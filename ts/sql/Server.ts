@@ -307,6 +307,8 @@ const dataInterface: ServerInterface = {
   getLastConversationMessage,
   getAllCallHistory,
   clearCallHistory,
+  getCallHistoryUnreadCount,
+  markCallHistoryRead,
   getCallHistoryMessageByCallId,
   getCallHistory,
   getCallHistoryGroupsCount,
@@ -3346,10 +3348,37 @@ async function getCallHistory(
   return callHistoryDetailsSchema.parse(row);
 }
 
-const MISSED = sqlConstant(DirectCallStatus.Missed);
-const DELETED = sqlConstant(DirectCallStatus.Deleted);
-const INCOMING = sqlConstant(CallDirection.Incoming);
+const READ_STATUS_UNREAD = sqlConstant(ReadStatus.Unread);
+const READ_STATUS_READ = sqlConstant(ReadStatus.Read);
+const CALL_STATUS_MISSED = sqlConstant(DirectCallStatus.Missed);
+const CALL_STATUS_DELETED = sqlConstant(DirectCallStatus.Deleted);
+const CALL_STATUS_INCOMING = sqlConstant(CallDirection.Incoming);
 const FOUR_HOURS_IN_MS = sqlConstant(4 * 60 * 60 * 1000);
+
+async function getCallHistoryUnreadCount(): Promise<number> {
+  const db = getInstance();
+  const [query, params] = sql`
+    SELECT count(*) FROM messages
+    LEFT JOIN callsHistory ON callsHistory.callId = messages.callId
+    WHERE messages.type IS 'call-history'
+      AND messages.readStatus IS ${READ_STATUS_UNREAD}
+      AND callsHistory.status IS ${CALL_STATUS_MISSED}
+      AND callsHistory.direction IS ${CALL_STATUS_INCOMING}
+  `;
+  const row = db.prepare(query).pluck().get(params);
+  return row;
+}
+
+async function markCallHistoryRead(callId: string): Promise<void> {
+  const db = getInstance();
+  const [query, params] = sql`
+    UPDATE messages
+    SET readStatus = ${READ_STATUS_READ}
+    WHERE type IS 'call-history'
+    AND callId IS ${callId}
+  `;
+  db.prepare(query).run(params);
+}
 
 function getCallHistoryGroupDataSync(
   db: Database,
@@ -3406,10 +3435,10 @@ function getCallHistoryGroupDataSync(
 
     const filterClause =
       status === CallHistoryFilterStatus.All
-        ? sqlFragment`status IS NOT ${DELETED}`
+        ? sqlFragment`status IS NOT ${CALL_STATUS_DELETED}`
         : sqlFragment`
-            direction IS ${INCOMING} AND
-            status IS ${MISSED} AND status IS NOT ${DELETED}
+            direction IS ${CALL_STATUS_INCOMING} AND
+            status IS ${CALL_STATUS_MISSED} AND status IS NOT ${CALL_STATUS_DELETED}
           `;
 
     const offsetLimit =
@@ -3445,8 +3474,8 @@ function getCallHistoryGroupDataSync(
                 -- Tracking Android & Desktop separately to make the queries easier to compare
                 -- Android Constraints:
                 AND (
-                  (callsHistory.status IS c.status AND callsHistory.status IS ${MISSED}) OR
-                  (callsHistory.status IS NOT ${MISSED} AND c.status IS NOT ${MISSED})
+                  (callsHistory.status IS c.status AND callsHistory.status IS ${CALL_STATUS_MISSED}) OR
+                  (callsHistory.status IS NOT ${CALL_STATUS_MISSED} AND c.status IS NOT ${CALL_STATUS_MISSED})
                 )
                 -- Desktop Constraints:
                 AND callsHistory.status IS c.status
@@ -3474,8 +3503,8 @@ function getCallHistoryGroupDataSync(
                 -- Tracking Android & Desktop separately to make the queries easier to compare
                 -- Android Constraints:
                 AND (
-                  (callsHistory.status IS c.status AND callsHistory.status IS ${MISSED}) OR
-                  (callsHistory.status IS NOT ${MISSED} AND c.status IS NOT ${MISSED})
+                  (callsHistory.status IS c.status AND callsHistory.status IS ${CALL_STATUS_MISSED}) OR
+                  (callsHistory.status IS NOT ${CALL_STATUS_MISSED} AND c.status IS NOT ${CALL_STATUS_MISSED})
                 )
                 -- Desktop Constraints:
                 AND callsHistory.status IS c.status

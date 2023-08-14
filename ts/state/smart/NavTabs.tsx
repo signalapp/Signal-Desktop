@@ -11,7 +11,6 @@ import {
   getMe,
 } from '../selectors/conversations';
 import { getPreferredBadgeSelector } from '../selectors/badges';
-import type { StateType } from '../reducer';
 import {
   getHasAnyFailedStorySends,
   getStoriesNotificationCount,
@@ -23,6 +22,8 @@ import { getStoriesEnabled } from '../selectors/items';
 import { getSelectedNavTab } from '../selectors/nav';
 import type { NavTab } from '../ducks/nav';
 import { useNavActions } from '../ducks/nav';
+import { getHasPendingUpdate } from '../selectors/updates';
+import { getCallHistoryUnreadCount } from '../selectors/callHistory';
 
 export type SmartNavTabsProps = Readonly<{
   navTabsCollapsed: boolean;
@@ -48,11 +49,9 @@ export function SmartNavTabs({
   const storiesEnabled = useSelector(getStoriesEnabled);
   const unreadConversationsStats = useSelector(getAllConversationsUnreadStats);
   const unreadStoriesCount = useSelector(getStoriesNotificationCount);
+  const unreadCallsCount = useSelector(getCallHistoryUnreadCount);
   const hasFailedStorySends = useSelector(getHasAnyFailedStorySends);
-
-  const hasPendingUpdate = useSelector((state: StateType) => {
-    return state.updates.didSnooze;
-  });
+  const hasPendingUpdate = useSelector(getHasPendingUpdate);
 
   const { toggleProfileEditor } = useGlobalModalActions();
   const { startUpdate } = useUpdatesActions();
@@ -87,6 +86,7 @@ export function SmartNavTabs({
       selectedNavTab={selectedNavTab}
       storiesEnabled={storiesEnabled}
       theme={theme}
+      unreadCallsCount={unreadCallsCount}
       unreadConversationsStats={unreadConversationsStats}
       unreadStoriesCount={unreadStoriesCount}
     />

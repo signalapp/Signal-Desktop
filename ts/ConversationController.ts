@@ -22,7 +22,6 @@ import { maybeDeriveGroupV2Id } from './groups';
 import { assertDev, strictAssert } from './util/assert';
 import { drop } from './util/drop';
 import { isGroupV1, isGroupV2 } from './util/whatTypeOfConversation';
-import { getConversationUnreadCountForAppBadge } from './util/getConversationUnreadCountForAppBadge';
 import type { ServiceIdString } from './types/ServiceId';
 import {
   isServiceIdString,
@@ -36,6 +35,7 @@ import { getServiceIdsForE164s } from './util/getServiceIdsForE164s';
 import { SIGNAL_ACI, SIGNAL_AVATAR_PATH } from './types/SignalConversation';
 import { getTitleNoDefault } from './util/getTitle';
 import * as StorageService from './services/storage';
+import { countAllConversationsUnreadStats } from './util/countUnreadStats';
 
 type ConvoMatchType =
   | {
@@ -185,28 +185,31 @@ export class ConversationController {
       return;
     }
 
-    const canCountMutedConversations =
+    const includeMuted =
       window.storage.get('badge-count-muted-conversations') || false;
 
-    const newUnreadCount = this._conversations.reduce(
-      (result: number, conversation: ConversationModel) =>
-        result +
-        getConversationUnreadCountForAppBadge(
-          conversation.attributes,
-          canCountMutedConversations
-        ),
-      0
+    const unreadStats = countAllConversationsUnreadStats(
+      this._conversations.map(conversation => conversation.format()),
+      { includeMuted }
     );
-    drop(window.storage.put('unreadCount', newUnreadCount));
 
-    if (newUnreadCount > 0) {
-      window.IPC.setBadgeCount(newUnreadCount);
-      window.document.title = `${window.getTitle()} (${newUnreadCount})`;
+    drop(window.storage.put('unreadCount', unreadStats.unreadCount));
+
+    if (unreadStats.unreadCount > 0) {
+      window.IPC.setBadge(unreadStats.unreadCount);
+      window.IPC.updateTrayIcon(unreadStats.unreadCount);
+      window.document.title = `${window.getTitle()} (${
+        unreadStats.unreadCount
+      })`;
+    } else if (unreadStats.markedUnread) {
+      window.IPC.setBadge('marked-unread');
+      window.IPC.updateTrayIcon(1);
+      window.document.title = `${window.getTitle()} (1)`;
     } else {
-      window.IPC.setBadgeCount(0);
+      window.IPC.setBadge(0);
+      window.IPC.updateTrayIcon(0);
       window.document.title = window.getTitle();
     }
-    window.IPC.updateTrayIcon(newUnreadCount);
   }
 
   onEmpty(): void {

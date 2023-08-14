@@ -48,6 +48,7 @@ import {
   NavSidebarSearchHeader,
 } from './NavSidebar';
 import { ContextMenu } from './ContextMenu';
+import type { UnreadStats } from '../util/countUnreadStats';
 
 export enum LeftPaneMode {
   Inbox,
@@ -59,8 +60,11 @@ export enum LeftPaneMode {
 }
 
 export type PropsType = {
+  appUnreadStats: UnreadStats;
   hasExpiredDialog: boolean;
+  hasFailedStorySends: boolean;
   hasNetworkDialog: boolean;
+  hasPendingUpdate: boolean;
   hasRelinkDialog: boolean;
   hasUpdateDialog: boolean;
   isUpdateDownloaded: boolean;
@@ -154,6 +158,7 @@ export type PropsType = {
 } & LookupConversationWithoutServiceIdActionsType;
 
 export function LeftPane({
+  appUnreadStats,
   blockConversation,
   challengeStatus,
   clearConversationSearch,
@@ -168,7 +173,9 @@ export function LeftPane({
   createGroup,
   getPreferredBadge,
   hasExpiredDialog,
+  hasFailedStorySends,
   hasNetworkDialog,
+  hasPendingUpdate,
   hasRelinkDialog,
   hasUpdateDialog,
   i18n,
@@ -549,6 +556,9 @@ export function LeftPane({
         modeSpecificProps.mode === LeftPaneMode.SetGroupMetadata
       }
       i18n={i18n}
+      appUnreadStats={appUnreadStats}
+      hasFailedStorySends={hasFailedStorySends}
+      hasPendingUpdate={hasPendingUpdate}
       navTabsCollapsed={navTabsCollapsed}
       onToggleNavTabsCollapse={toggleNavTabsCollapse}
       preferredLeftPaneWidth={preferredWidthFromStorage}

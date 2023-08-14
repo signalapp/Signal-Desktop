@@ -110,7 +110,7 @@ $NavTabs__ProfileAvatar__size: 28px;
   @include sr-only;
 }
 
-.NavTabs__ItemBadge {
+.NavTabs__ItemUnreadBadge {
   @include rounded-corners;
   align-items: center;
   background-color: $color-accent-red;
@@ -129,6 +129,17 @@ $NavTabs__ProfileAvatar__size: 28px;
   user-select: none;
   z-index: $z-index-base;
   word-break: keep-all;
+}
+
+.NavTabs__ItemUpdateBadge {
+  background: $color-ultramarine;
+  border-radius: 100%;
+  border: 1px solid $color-white;
+  height: 8px;
+  width: 8px;
+  position: absolute;
+  top: 0;
+  inset-inline-end: 0;
 }
 
 .NavTabs__ItemIcon {
@@ -205,13 +216,26 @@ $NavTabs__ProfileAvatar__size: 28px;
   min-width: 0;
 }
 
-.NavTabs__AvatarBadge {
-  background: $color-ultramarine;
-  border-radius: 100%;
-  border: 1px solid $color-white;
-  height: 8px;
-  width: 8px;
-  position: absolute;
-  top: 0;
-  inset-inline-end: 0;
+.NavTabs__ContextMenuIcon--Settings {
+  @include dark-theme {
+    @include color-svg(
+      '../images/icons/v3/settings/settings.svg',
+      $color-white
+    );
+  }
+  @include light-theme {
+    @include color-svg(
+      '../images/icons/v3/settings/settings.svg',
+      $color-black
+    );
+  }
+}
+
+.NavTabs__ContextMenuIcon--Update {
+  @include dark-theme {
+    @include color-svg('../images/icons/v3/refresh/refresh.svg', $color-white);
+  }
+  @include light-theme {
+    @include color-svg('../images/icons/v3/refresh/refresh.svg', $color-black);
+  }
 }

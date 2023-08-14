@@ -66,6 +66,10 @@ import type { HasStories } from '../../types/Stories';
 import { getHasStoriesSelector } from './stories2';
 import { canEditMessage } from '../../util/canEditMessage';
 import { isOutgoing } from '../../messages/helpers';
+import {
+  countAllConversationsUnreadStats,
+  type UnreadStats,
+} from '../../util/countUnreadStats';
 
 export type ConversationWithStoriesType = ConversationType & {
   hasStories?: HasStories;
@@ -532,37 +536,12 @@ export const getAllGroupsWithInviteAccess = createSelector(
     })
 );
 
-export type UnreadStats = Readonly<{
-  unreadCount: number;
-  unreadMentionsCount: number;
-  markedUnread: boolean;
-}>;
-
 export const getAllConversationsUnreadStats = createSelector(
-  getLeftPaneLists,
-  (leftPaneLists: LeftPaneLists): UnreadStats => {
-    let unreadCount = 0;
-    let unreadMentionsCount = 0;
-    let markedUnread = false;
-
-    function count(conversations: ReadonlyArray<ConversationType>) {
-      conversations.forEach(conversation => {
-        if (conversation.unreadCount != null) {
-          unreadCount += conversation.unreadCount;
-        }
-        if (conversation.unreadMentionsCount != null) {
-          unreadMentionsCount += conversation.unreadMentionsCount;
-        }
-        if (conversation.markedUnread) {
-          markedUnread = true;
-        }
-      });
-    }
-
-    count(leftPaneLists.pinnedConversations);
-    count(leftPaneLists.conversations);
-
-    return { unreadCount, unreadMentionsCount, markedUnread };
+  getAllConversations,
+  (conversations): UnreadStats => {
+    return countAllConversationsUnreadStats(conversations, {
+      includeMuted: false,
+    });
   }
 );
 

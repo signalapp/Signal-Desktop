@@ -17,11 +17,13 @@ import * as Errors from '../../types/errors';
 export type CallHistoryState = ReadonlyDeep<{
   // This informs the app that underlying call history data has changed.
   edition: number;
+  unreadCount: number;
   callHistoryByCallId: Record<string, CallHistoryDetails>;
 }>;
 
 const CALL_HISTORY_CACHE = 'callHistory/CACHE';
 const CALL_HISTORY_RESET = 'callHistory/RESET';
+const CALL_HISTORY_UPDATE_UNREAD = 'callHistory/UPDATE_UNREAD';
 
 export type CallHistoryCache = ReadonlyDeep<{
   type: typeof CALL_HISTORY_CACHE;
@@ -32,14 +34,55 @@ export type CallHistoryReset = ReadonlyDeep<{
   type: typeof CALL_HISTORY_RESET;
 }>;
 
+export type CallHistoryUpdateUnread = ReadonlyDeep<{
+  type: typeof CALL_HISTORY_UPDATE_UNREAD;
+  payload: number;
+}>;
+
 export type CallHistoryAction = ReadonlyDeep<
-  CallHistoryCache | CallHistoryReset
+  CallHistoryCache | CallHistoryReset | CallHistoryUpdateUnread
 >;
 
 export function getEmptyState(): CallHistoryState {
   return {
     edition: 0,
+    unreadCount: 0,
     callHistoryByCallId: {},
+  };
+}
+
+function updateCallHistoryUnreadCount(): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  CallHistoryUpdateUnread
+> {
+  return async dispatch => {
+    try {
+      const unreadCount = await window.Signal.Data.getCallHistoryUnreadCount();
+      dispatch({ type: CALL_HISTORY_UPDATE_UNREAD, payload: unreadCount });
+    } catch (error) {
+      log.error(
+        'Error updating call history unread count',
+        Errors.toLogFormat(error)
+      );
+    }
+  };
+}
+
+function markCallHistoryRead(
+  conversationId: string,
+  callId: string
+): ThunkAction<void, RootStateType, unknown, CallHistoryUpdateUnread> {
+  return async dispatch => {
+    try {
+      await window.Signal.Data.markCallHistoryRead(callId);
+      await window.ConversationController.get(conversationId)?.updateUnread();
+    } catch (error) {
+      log.error('Error marking call history read', Errors.toLogFormat(error));
+    } finally {
+      dispatch(updateCallHistoryUnreadCount());
+    }
   };
 }
 
@@ -65,6 +108,7 @@ function clearAllCallHistory(): ThunkAction<
     } finally {
       // Just force a reset, even if the clear failed.
       dispatch({ type: CALL_HISTORY_RESET });
+      dispatch(updateCallHistoryUnreadCount());
     }
   };
 }
@@ -72,6 +116,8 @@ function clearAllCallHistory(): ThunkAction<
 export const actions = {
   cacheCallHistory,
   clearAllCallHistory,
+  updateCallHistoryUnreadCount,
+  markCallHistoryRead,
 };
 
 export const useCallHistoryActions = (): BoundActionCreatorsMapObject<
@@ -92,6 +138,11 @@ export function reducer(
           ...state.callHistoryByCallId,
           [action.payload.callId]: action.payload,
         },
+      };
+    case CALL_HISTORY_UPDATE_UNREAD:
+      return {
+        ...state,
+        unreadCount: action.payload,
       };
     default:
       return state;

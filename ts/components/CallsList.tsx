@@ -122,8 +122,10 @@ type CallsListProps = Readonly<{
   ) => void;
 }>;
 
+const CALL_LIST_ITEM_ROW_HEIGHT = 62;
+
 function rowHeight() {
-  return ListTile.heightFull;
+  return CALL_LIST_ITEM_ROW_HEIGHT;
 }
 
 export function CallsList({
@@ -275,6 +277,7 @@ export function CallsList({
         return (
           <div key={key} style={style}>
             <ListTile
+              moduleClassName="CallsList__ItemTile"
               leading={<div className="CallsList__LoadingAvatar" />}
               title={
                 <span className="CallsList__LoadingText CallsList__LoadingText--title" />

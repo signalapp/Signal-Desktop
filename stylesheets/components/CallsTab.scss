@@ -46,6 +46,30 @@
   flex-direction: column;
 }
 
+.CallsTab__EmptyStateIcon {
+  width: 56px;
+  height: 56px;
+  opacity: 0.7;
+  @include light-theme {
+    @include color-svg('../images/icons/v3/phone/phone.svg', $color-gray-60);
+  }
+  @include dark-theme {
+    @include color-svg('../images/icons/v3/phone/phone.svg', $color-gray-25);
+  }
+}
+
+.CallsTab__EmptyStateLabel {
+  margin-block: 12px 0;
+  margin-inline: 0;
+  opacity: 0.7;
+  @include light-theme {
+    color: $color-gray-60;
+  }
+  @include dark-theme {
+    color: $color-gray-25;
+  }
+}
+
 .CallsTab__ConversationCallDetails {
   display: block;
   overflow: auto;
@@ -208,10 +232,6 @@
   font-weight: bold;
 }
 
-.CallsList__ItemCallInfo {
-  @include font-body-1;
-}
-
 // Override .ListTile__subtitle so ellipsis is correct color
 .CallsList__Item--missed .ListTile__subtitle {
   color: $color-accent-red;
@@ -219,7 +239,12 @@
 
 // Override .ListTile
 .ListTile.CallsList__ItemTile {
-  padding-block: 12px;
+  padding-block: 10px;
+
+  // Override .ListTile__subtitle with correct font size
+  .ListTile__subtitle {
+    @include font-body-2;
+  }
 }
 
 .CallsList__Item--selected .CallsList__ItemTile {

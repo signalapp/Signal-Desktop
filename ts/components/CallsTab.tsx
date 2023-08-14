@@ -1,7 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import type { LocalizerType } from '../types/I18N';
 import { NavSidebar, NavSidebarActionButton } from './NavSidebar';
 import { CallsList } from './CallsList';
@@ -16,6 +16,7 @@ import { useEscapeHandling } from '../hooks/useEscapeHandling';
 import type { ActiveCallStateType } from '../state/ducks/calling';
 import { ContextMenu } from './ContextMenu';
 import { ConfirmationDialog } from './ConfirmationDialog';
+import type { UnreadStats } from '../util/countUnreadStats';
 
 enum CallsTabSidebarView {
   CallsListView,
@@ -25,6 +26,7 @@ enum CallsTabSidebarView {
 type CallsTabProps = Readonly<{
   activeCall: ActiveCallStateType | undefined;
   allConversations: ReadonlyArray<ConversationType>;
+  appUnreadStats: UnreadStats;
   getCallHistoryGroupsCount: (
     options: CallHistoryFilterOptions
   ) => Promise<number>;
@@ -33,9 +35,12 @@ type CallsTabProps = Readonly<{
     pagination: CallHistoryPagination
   ) => Promise<Array<CallHistoryGroup>>;
   getConversation: (id: string) => ConversationType | void;
+  hasFailedStorySends: boolean;
+  hasPendingUpdate: boolean;
   i18n: LocalizerType;
   navTabsCollapsed: boolean;
   onClearCallHistory: () => void;
+  onMarkCallHistoryRead: (conversationId: string, callId: string) => void;
   onToggleNavTabsCollapse: (navTabsCollapsed: boolean) => void;
   onOutgoingAudioCallInConversation: (conversationId: string) => void;
   onOutgoingVideoCallInConversation: (conversationId: string) => void;
@@ -51,12 +56,16 @@ type CallsTabProps = Readonly<{
 export function CallsTab({
   activeCall,
   allConversations,
+  appUnreadStats,
   getCallHistoryGroupsCount,
   getCallHistoryGroups,
   getConversation,
+  hasFailedStorySends,
+  hasPendingUpdate,
   i18n,
   navTabsCollapsed,
   onClearCallHistory,
+  onMarkCallHistoryRead,
   onToggleNavTabsCollapse,
   onOutgoingAudioCallInConversation,
   onOutgoingVideoCallInConversation,
@@ -131,6 +140,14 @@ export function CallsTab({
     [updateSidebarView, onOutgoingVideoCallInConversation]
   );
 
+  useEffect(() => {
+    if (selected?.callHistoryGroup != null) {
+      selected.callHistoryGroup.children.forEach(child => {
+        onMarkCallHistoryRead(selected.conversationId, child.callId);
+      });
+    }
+  }, [selected, onMarkCallHistoryRead]);
+
   return (
     <>
       <div className="CallsTab">
@@ -141,6 +158,9 @@ export function CallsTab({
               ? i18n('icu:CallsTab__HeaderTitle--CallsList')
               : i18n('icu:CallsTab__HeaderTitle--NewCall')
           }
+          appUnreadStats={appUnreadStats}
+          hasFailedStorySends={hasFailedStorySends}
+          hasPendingUpdate={hasPendingUpdate}
           navTabsCollapsed={navTabsCollapsed}
           onBack={
             sidebarView === CallsTabSidebarView.NewCallView
@@ -232,7 +252,10 @@ export function CallsTab({
         </NavSidebar>
         {selected == null ? (
           <div className="CallsTab__EmptyState">
-            {i18n('icu:CallsTab__EmptyStateText')}
+            <div className="CallsTab__EmptyStateIcon" />
+            <p className="CallsTab__EmptyStateLabel">
+              {i18n('icu:CallsTab__EmptyStateText')}
+            </p>
           </div>
         ) : (
           <div

@@ -42,3 +42,8 @@ export const isOSUnsupported = createSelector(
   getUpdatesState,
   ({ dialogType }) => dialogType === DialogType.UnsupportedOS
 );
+
+export const getHasPendingUpdate = createSelector(
+  getUpdatesState,
+  ({ didSnooze }) => didSnooze === true
+);

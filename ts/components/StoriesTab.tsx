@@ -24,11 +24,15 @@ import { StoriesPane } from './StoriesPane';
 import { NavSidebar, NavSidebarActionButton } from './NavSidebar';
 import { StoriesAddStoryButton } from './StoriesAddStoryButton';
 import { ContextMenu } from './ContextMenu';
+import type { UnreadStats } from '../util/countUnreadStats';
 
 export type PropsType = {
   addStoryData: AddStoryData;
+  appUnreadStats: UnreadStats;
   deleteStoryForEveryone: (story: StoryViewType) => unknown;
   getPreferredBadge: PreferredBadgeSelectorType;
+  hasFailedStorySends: boolean;
+  hasPendingUpdate: boolean;
   hasViewReceiptSetting: boolean;
   hiddenStories: Array<ConversationStoryType>;
   i18n: LocalizerType;
@@ -61,8 +65,11 @@ export type PropsType = {
 
 export function StoriesTab({
   addStoryData,
+  appUnreadStats,
   deleteStoryForEveryone,
   getPreferredBadge,
+  hasFailedStorySends,
+  hasPendingUpdate,
   hasViewReceiptSetting,
   hiddenStories,
   i18n,
@@ -104,6 +111,9 @@ export function StoriesTab({
       {addStoryData && renderStoryCreator()}
       {isMyStories && myStories.length ? (
         <MyStories
+          appUnreadStats={appUnreadStats}
+          hasFailedStorySends={hasFailedStorySends}
+          hasPendingUpdate={hasPendingUpdate}
           hasViewReceiptSetting={hasViewReceiptSetting}
           i18n={i18n}
           myStories={myStories}
@@ -118,17 +128,21 @@ export function StoriesTab({
           queueStoryDownload={queueStoryDownload}
           retryMessageSend={retryMessageSend}
           savePreferredLeftPaneWidth={savePreferredLeftPaneWidth}
+          theme={theme}
           viewStory={viewStory}
         />
       ) : (
         <NavSidebar
           title="Stories"
           i18n={i18n}
+          hasFailedStorySends={hasFailedStorySends}
+          hasPendingUpdate={hasPendingUpdate}
           navTabsCollapsed={navTabsCollapsed}
           onToggleNavTabsCollapse={onToggleNavTabsCollapse}
           preferredLeftPaneWidth={preferredLeftPaneWidth}
           requiresFullWidth
           savePreferredLeftPaneWidth={savePreferredLeftPaneWidth}
+          appUnreadStats={appUnreadStats}
           actions={
             <>
               <StoriesAddStoryButton

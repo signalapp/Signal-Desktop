@@ -21,6 +21,7 @@ import {
 } from '../selectors/items';
 import {
   getAddStoryData,
+  getHasAnyFailedStorySends,
   getSelectedStoryData,
   getStories,
 } from '../selectors/stories';
@@ -30,6 +31,8 @@ import { useStoriesActions } from '../ducks/stories';
 import { useToastActions } from '../ducks/toast';
 import { useAudioPlayerActions } from '../ducks/audioPlayer';
 import { useItemsActions } from '../ducks/items';
+import { getHasPendingUpdate } from '../selectors/updates';
+import { getAppUnreadStats } from '../selectors/nav';
 
 function renderStoryCreator(): JSX.Element {
   return <SmartStoryCreator />;
@@ -66,6 +69,9 @@ export function SmartStoriesTab(): JSX.Element | null {
   );
 
   const hasViewReceiptSetting = useSelector(getHasStoryViewReceiptSetting);
+  const hasPendingUpdate = useSelector(getHasPendingUpdate);
+  const hasFailedStorySends = useSelector(getHasAnyFailedStorySends);
+  const appUnreadStats = useSelector(getAppUnreadStats);
 
   const remoteConfig = useSelector(getRemoteConfig);
   const maxAttachmentSizeInKb = getMaximumAttachmentSizeInKb(
@@ -92,8 +98,11 @@ export function SmartStoriesTab(): JSX.Element | null {
 
   return (
     <StoriesTab
+      appUnreadStats={appUnreadStats}
       addStoryData={addStoryData}
       getPreferredBadge={getPreferredBadge}
+      hasFailedStorySends={hasFailedStorySends}
+      hasPendingUpdate={hasPendingUpdate}
       hiddenStories={hiddenStories}
       i18n={i18n}
       maxAttachmentSizeInKb={maxAttachmentSizeInKb}

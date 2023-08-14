@@ -29,3 +29,10 @@ export const getCallHistorySelector = createSelector(
     };
   }
 );
+
+export const getCallHistoryUnreadCount = createSelector(
+  getCallHistory,
+  callHistory => {
+    return callHistory.unreadCount;
+  }
+);

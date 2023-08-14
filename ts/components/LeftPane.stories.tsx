@@ -133,6 +133,11 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
   );
 
   return {
+    appUnreadStats: {
+      unreadCount: 0,
+      unreadMentionsCount: 0,
+      markedUnread: false,
+    },
     clearConversationSearch: action('clearConversationSearch'),
     clearGroupCreationError: action('clearGroupCreationError'),
     clearSearch: action('clearSearch'),
@@ -143,6 +148,8 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
     composeSaveAvatarToDisk: action('composeSaveAvatarToDisk'),
     createGroup: action('createGroup'),
     getPreferredBadge: () => undefined,
+    hasFailedStorySends: false,
+    hasPendingUpdate: false,
     i18n,
     isMacOS: boolean('isMacOS', false),
     preferredWidthFromStorage: 320,

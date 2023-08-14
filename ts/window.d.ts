@@ -78,7 +78,7 @@ export type IPCType = {
   restart: () => void;
   setAutoHideMenuBar: (value: boolean) => void;
   setAutoLaunch: (value: boolean) => Promise<void>;
-  setBadgeCount: (count: number) => void;
+  setBadge: (badge: number | 'marked-unread') => void;
   setMenuBarVisibility: (value: boolean) => void;
   showDebugLog: () => void;
   showPermissionsPopup: (

@@ -307,6 +307,10 @@
     "messageformat": "Hide Tabs",
     "description": "Show in the nav tabs when the nav tabs are visible, hides the nav tabs"
   },
+  "icu:NavTabs__ItemIconLabel--HasError": {
+    "messageformat": "An error occurred",
+    "description": "Nav Tabs > Tab has error > Accessibility Text"
+  },
   "icu:NavTabs__ItemIconLabel--UnreadCount": {
     "messageformat": "{count, number} unread",
     "description": "Nav Tabs > Unread badge > Accessibility Text"
@@ -317,7 +321,11 @@
   },
   "icu:NavTabs__ItemLabel--Settings": {
     "messageformat": "Settings",
-    "description": "Nav Tabs > Settings Button > Accessibility Text"
+    "description": "Nav Tabs > Settings Button > Label & Accessibility Text"
+  },
+  "icu:NavTabs__ItemLabel--Update": {
+    "messageformat": "Update Signal",
+    "description": "Nav Tabs > Settings Button > Label & Accessibility Text"
   },
   "icu:NavTabs__ItemLabel--Profile": {
     "messageformat": "Profile",

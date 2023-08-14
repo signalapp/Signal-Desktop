@@ -14,6 +14,7 @@ import {
   getWidthFromPreferredWidth,
 } from '../util/leftPaneWidth';
 import { WidthBreakpoint, getNavSidebarWidthBreakpoint } from './_util';
+import type { UnreadStats } from '../util/countUnreadStats';
 
 export function NavSidebarActionButton({
   icon,
@@ -43,6 +44,8 @@ export type NavSidebarProps = Readonly<{
   actions?: ReactNode;
   children: ReactNode;
   i18n: LocalizerType;
+  hasFailedStorySends: boolean;
+  hasPendingUpdate: boolean;
   hideHeader?: boolean;
   navTabsCollapsed: boolean;
   onBack?: (() => void) | null;
@@ -51,6 +54,7 @@ export type NavSidebarProps = Readonly<{
   requiresFullWidth: boolean;
   savePreferredLeftPaneWidth: (width: number) => void;
   title: string;
+  appUnreadStats: UnreadStats;
 }>;
 
 enum DragState {
@@ -64,6 +68,8 @@ export function NavSidebar({
   children,
   hideHeader,
   i18n,
+  hasFailedStorySends,
+  hasPendingUpdate,
   navTabsCollapsed,
   onBack,
   onToggleNavTabsCollapse,
@@ -71,6 +77,7 @@ export function NavSidebar({
   requiresFullWidth,
   savePreferredLeftPaneWidth,
   title,
+  appUnreadStats,
 }: NavSidebarProps): JSX.Element {
   const [dragState, setDragState] = useState(DragState.INITIAL);
 
@@ -155,6 +162,9 @@ export function NavSidebar({
               i18n={i18n}
               navTabsCollapsed={navTabsCollapsed}
               onToggleNavTabsCollapse={onToggleNavTabsCollapse}
+              hasFailedStorySends={hasFailedStorySends}
+              hasPendingUpdate={hasPendingUpdate}
+              appUnreadStats={appUnreadStats}
             />
           )}
           <div

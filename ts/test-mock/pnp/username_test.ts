@@ -158,11 +158,6 @@ describe('pnp/username', function needsName() {
     debug('opening avatar context menu');
     await window.getByRole('button', { name: 'Profile' }).click();
 
-    debug('opening profile editor');
-    await window
-      .locator('.module-avatar-popup .module-avatar-popup__profile')
-      .click();
-
     debug('opening username editor');
     const profileEditor = window.locator('.ProfileEditor');
     await profileEditor.locator('.ProfileEditor__row >> "Username"').click();

@@ -45,6 +45,7 @@ function mapStateToProps(
     firstName,
     familyName,
     id: conversationId,
+    phoneNumber,
     username,
   } = getMe(state);
   const recentEmojis = selectRecentEmojis(state);
@@ -74,6 +75,7 @@ function mapStateToProps(
     isUsernameFlagEnabled,
     recentEmojis,
     skinTone,
+    phoneNumber,
     userAvatarData,
     username,
     usernameEditState,

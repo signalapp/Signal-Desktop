@@ -4432,6 +4432,7 @@ export class ConversationModel extends window.Backbone
         unreadMentionsCount,
       });
       window.Signal.Data.updateConversation(this.attributes);
+      window.reduxActions.callHistory.updateCallHistoryUnreadCount();
     }
   }
 

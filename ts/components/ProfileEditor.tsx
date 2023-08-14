@@ -79,6 +79,7 @@ export type PropsDataType = {
   hasCompletedUsernameLinkOnboarding: boolean;
   i18n: LocalizerType;
   isUsernameFlagEnabled: boolean;
+  phoneNumber?: string;
   userAvatarData: ReadonlyArray<AvatarDataType>;
   username?: string;
   usernameEditState: UsernameEditState;
@@ -154,6 +155,7 @@ export function ProfileEditor({
   onProfileChanged,
   onSetSkinTone,
   openUsernameReservationModal,
+  phoneNumber,
   profileAvatarPath,
   recentEmojis,
   renderEditUsernameModalBody,
@@ -678,6 +680,10 @@ export function ProfileEditor({
             width: 80,
           }}
         />
+        <h1 className="ProfileEditor__Title">{getFullNameText()}</h1>
+        {phoneNumber != null && (
+          <p className="ProfileEditor__PhoneNumber">{phoneNumber}</p>
+        )}
         <hr className="ProfileEditor__divider" />
         <PanelRow
           className="ProfileEditor__row"

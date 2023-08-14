@@ -2132,9 +2132,22 @@ app.on('will-finish-launching', () => {
   });
 });
 
-ipc.on('set-badge-count', (_event: Electron.Event, count: number) => {
-  app.badgeCount = count;
-});
+ipc.on(
+  'set-badge',
+  (_event: Electron.Event, badge: number | 'marked-unread') => {
+    if (badge === 'marked-unread') {
+      if (process.platform === 'darwin') {
+        // Will show a ● on macOS when undefined
+        app.setBadgeCount(undefined);
+      } else {
+        // All other OS's need a number
+        app.setBadgeCount(1);
+      }
+    } else {
+      app.setBadgeCount(badge);
+    }
+  }
+);
 
 ipc.on('remove-setup-menu-items', () => {
   setupMenu();

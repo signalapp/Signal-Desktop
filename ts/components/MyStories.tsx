@@ -9,6 +9,7 @@ import {
   StoryViewModeType,
 } from '../types/Stories';
 import type { LocalizerType } from '../types/Util';
+import { ThemeType } from '../types/Util';
 import type { ViewStoryActionCreatorType } from '../state/ducks/stories';
 import { ConfirmationDialog } from './ConfirmationDialog';
 import { ContextMenu } from './ContextMenu';
@@ -19,9 +20,13 @@ import { Theme } from '../util/theme';
 import { resolveStorySendStatus } from '../util/resolveStorySendStatus';
 import { useRetryStorySend } from '../hooks/useRetryStorySend';
 import { NavSidebar } from './NavSidebar';
+import type { UnreadStats } from '../util/countUnreadStats';
 
 export type PropsType = {
   i18n: LocalizerType;
+  appUnreadStats: UnreadStats;
+  hasFailedStorySends: boolean;
+  hasPendingUpdate: boolean;
   navTabsCollapsed: boolean;
   myStories: Array<MyStoryType>;
   onBack: () => unknown;
@@ -36,10 +41,14 @@ export type PropsType = {
   hasViewReceiptSetting: boolean;
   preferredLeftPaneWidth: number;
   savePreferredLeftPaneWidth: (preferredLeftPaneWidth: number) => void;
+  theme: ThemeType;
 };
 
 export function MyStories({
   i18n,
+  appUnreadStats,
+  hasFailedStorySends,
+  hasPendingUpdate,
   navTabsCollapsed,
   myStories,
   onBack,
@@ -54,6 +63,7 @@ export function MyStories({
   onToggleNavTabsCollapse,
   preferredLeftPaneWidth,
   savePreferredLeftPaneWidth,
+  theme,
 }: PropsType): JSX.Element {
   const [confirmDeleteStory, setConfirmDeleteStory] = useState<
     StoryViewType | undefined
@@ -80,6 +90,9 @@ export function MyStories({
       <NavSidebar
         i18n={i18n}
         title={i18n('icu:MyStories__title')}
+        appUnreadStats={appUnreadStats}
+        hasFailedStorySends={hasFailedStorySends}
+        hasPendingUpdate={hasPendingUpdate}
         navTabsCollapsed={navTabsCollapsed}
         onBack={onBack}
         onToggleNavTabsCollapse={onToggleNavTabsCollapse}
@@ -109,6 +122,7 @@ export function MyStories({
                   retryMessageSend={retryMessageSend}
                   setConfirmDeleteStory={setConfirmDeleteStory}
                   story={story}
+                  theme={theme}
                   viewStory={viewStory}
                 />
               ))}
@@ -135,6 +149,7 @@ type StorySentPropsType = Pick<
   | 'retryMessageSend'
   | 'viewStory'
   | 'onMediaPlaybackStart'
+  | 'theme'
 > & {
   setConfirmDeleteStory: (_: StoryViewType | undefined) => unknown;
   story: StoryViewType;
@@ -150,6 +165,7 @@ function StorySent({
   retryMessageSend,
   setConfirmDeleteStory,
   story,
+  theme,
   viewStory,
 }: StorySentPropsType): JSX.Element {
   const sendStatus = resolveStorySendStatus(story.sendState ?? []);
@@ -278,7 +294,7 @@ function StorySent({
           },
         ]}
         moduleClassName="MyStories__story__more"
-        theme={Theme.Dark}
+        theme={theme === ThemeType.dark ? Theme.Dark : Theme.Light}
       />
     </div>
   );

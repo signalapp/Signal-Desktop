@@ -20,6 +20,9 @@ import { showToast } from '../../util/showToast';
 import { ToastStickerPackInstallFailed } from '../../components/ToastStickerPackInstallFailed';
 import { getNavTabsCollapsed } from '../selectors/items';
 import { useItemsActions } from '../ducks/items';
+import { getHasAnyFailedStorySends } from '../selectors/stories';
+import { getHasPendingUpdate } from '../selectors/updates';
+import { getAppUnreadStats } from '../selectors/nav';
 
 function renderConversationView() {
   return <SmartConversationView />;
@@ -36,6 +39,10 @@ function renderMiniPlayer(options: { shouldFlow: boolean }) {
 export function SmartChatsTab(): JSX.Element {
   const i18n = useSelector(getIntl);
   const navTabsCollapsed = useSelector(getNavTabsCollapsed);
+  const hasFailedStorySends = useSelector(getHasAnyFailedStorySends);
+  const hasPendingUpdate = useSelector(getHasPendingUpdate);
+  const appUnreadStats = useSelector(getAppUnreadStats);
+
   const { selectedConversationId, targetedMessage, targetedMessageSource } =
     useSelector<StateType, ConversationsStateType>(
       state => state.conversations
@@ -137,7 +144,10 @@ export function SmartChatsTab(): JSX.Element {
 
   return (
     <ChatsTab
+      appUnreadStats={appUnreadStats}
       i18n={i18n}
+      hasFailedStorySends={hasFailedStorySends}
+      hasPendingUpdate={hasPendingUpdate}
       navTabsCollapsed={navTabsCollapsed}
       onToggleNavTabsCollapse={toggleNavTabsCollapse}
       prevConversationId={prevConversationId}

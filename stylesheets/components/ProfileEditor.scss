@@ -235,3 +235,35 @@
     }
   }
 }
+
+.ProfileEditor__Title {
+  @include font-title-1;
+  text-align: center;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-block: 0 4px;
+  margin-inline: 0;
+  @include light-theme() {
+    color: $color-gray-90;
+  }
+  @include dark-theme() {
+    color: $color-gray-05;
+  }
+}
+
+.ProfileEditor__PhoneNumber {
+  @include font-body-2;
+  text-align: center;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-block: 0 14px;
+  margin-inline: 0;
+  @include light-theme() {
+    color: $color-black;
+  }
+  @include dark-theme() {
+    color: $color-white;
+  }
+}

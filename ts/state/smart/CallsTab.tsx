@@ -27,6 +27,9 @@ import { useCallingActions } from '../ducks/calling';
 import { getActiveCallState } from '../selectors/calling';
 import { useCallHistoryActions } from '../ducks/callHistory';
 import { getCallHistoryEdition } from '../selectors/callHistory';
+import { getHasPendingUpdate } from '../selectors/updates';
+import { getHasAnyFailedStorySends } from '../selectors/stories';
+import { getAppUnreadStats } from '../selectors/nav';
 
 function getCallHistoryFilter(
   allConversations: Array<ConversationType>,
@@ -91,11 +94,16 @@ export function SmartCallsTab(): JSX.Element {
   const activeCall = useSelector(getActiveCallState);
   const callHistoryEdition = useSelector(getCallHistoryEdition);
 
+  const hasPendingUpdate = useSelector(getHasPendingUpdate);
+  const hasFailedStorySends = useSelector(getHasAnyFailedStorySends);
+  const appUnreadStats = useSelector(getAppUnreadStats);
+
   const {
     onOutgoingAudioCallInConversation,
     onOutgoingVideoCallInConversation,
   } = useCallingActions();
-  const { clearAllCallHistory: clearCallHistory } = useCallHistoryActions();
+  const { clearAllCallHistory: clearCallHistory, markCallHistoryRead } =
+    useCallHistoryActions();
 
   const getCallHistoryGroupsCount = useCallback(
     async (options: CallHistoryFilterOptions) => {
@@ -145,12 +153,16 @@ export function SmartCallsTab(): JSX.Element {
     <CallsTab
       activeCall={activeCall}
       allConversations={allConversations}
+      appUnreadStats={appUnreadStats}
       getConversation={getConversation}
       getCallHistoryGroupsCount={getCallHistoryGroupsCount}
       getCallHistoryGroups={getCallHistoryGroups}
+      hasFailedStorySends={hasFailedStorySends}
+      hasPendingUpdate={hasPendingUpdate}
       i18n={i18n}
       navTabsCollapsed={navTabsCollapsed}
       onClearCallHistory={clearCallHistory}
+      onMarkCallHistoryRead={markCallHistoryRead}
       onToggleNavTabsCollapse={toggleNavTabsCollapse}
       onOutgoingAudioCallInConversation={onOutgoingAudioCallInConversation}
       onOutgoingVideoCallInConversation={onOutgoingVideoCallInConversation}

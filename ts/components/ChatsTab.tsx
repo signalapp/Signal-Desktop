@@ -6,9 +6,13 @@ import { Environment, getEnvironment } from '../environment';
 import type { LocalizerType } from '../types/I18N';
 import type { NavTabPanelProps } from './NavTabs';
 import { WhatsNewLink } from './WhatsNewLink';
+import type { UnreadStats } from '../util/countUnreadStats';
 
 type ChatsTabProps = Readonly<{
+  appUnreadStats: UnreadStats;
   i18n: LocalizerType;
+  hasPendingUpdate: boolean;
+  hasFailedStorySends: boolean;
   navTabsCollapsed: boolean;
   onToggleNavTabsCollapse: (navTabsCollapsed: boolean) => void;
   prevConversationId: string | undefined;
@@ -20,7 +24,10 @@ type ChatsTabProps = Readonly<{
 }>;
 
 export function ChatsTab({
+  appUnreadStats,
   i18n,
+  hasPendingUpdate,
+  hasFailedStorySends,
   navTabsCollapsed,
   onToggleNavTabsCollapse,
   prevConversationId,
@@ -34,7 +41,10 @@ export function ChatsTab({
     <>
       <div id="LeftPane">
         {renderLeftPane({
+          appUnreadStats,
           collapsed: navTabsCollapsed,
+          hasPendingUpdate,
+          hasFailedStorySends,
           onToggleCollapse: onToggleNavTabsCollapse,
         })}
       </div>
