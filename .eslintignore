@@ -9,7 +9,6 @@ mnemonic_languages/**
 ts/**/*.js
 **/ts/**/*.js
 
-playwright.config.js
 preload.js
 stylesheets/dist/
 compiled.d.ts

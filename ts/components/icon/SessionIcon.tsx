@@ -15,6 +15,7 @@ export type SessionIconProps = {
   glowStartDelay?: number;
   noScale?: boolean;
   backgroundColor?: string;
+  dataTestId?: string;
 };
 
 const getIconDimensionFromIconSize = (iconSize: SessionIconSize | number) => {
@@ -148,6 +149,7 @@ const SessionSvg = (props: {
   borderRadius?: string;
   backgroundColor?: string;
   iconPadding?: string;
+  dataTestId?: string;
 }) => {
   const colorSvg = props.iconColor ? props.iconColor : '--button-icon-stroke-color';
   const pathArray = props.path instanceof Array ? props.path : [props.path];
@@ -164,10 +166,11 @@ const SessionSvg = (props: {
     backgroundColor: props.backgroundColor,
     borderRadius: props.borderRadius,
     iconPadding: props.iconPadding,
+    dataTestId: props.dataTestId,
   };
 
   return (
-    <Svg {...propsToPick}>
+    <Svg data-testid={props.dataTestId} {...propsToPick}>
       {pathArray.map((path, index) => {
         return <path key={index} fill={colorSvg} d={path} />;
       })}
@@ -186,6 +189,7 @@ export const SessionIcon = (props: SessionIconProps) => {
     noScale,
     backgroundColor,
     iconPadding,
+    dataTestId,
   } = props;
   let { iconSize, iconRotation } = props;
   iconSize = iconSize || 'medium';
@@ -210,6 +214,7 @@ export const SessionIcon = (props: SessionIconProps) => {
       iconColor={iconColor}
       backgroundColor={backgroundColor}
       iconPadding={iconPadding}
+      dataTestId={dataTestId}
     />
   );
 };

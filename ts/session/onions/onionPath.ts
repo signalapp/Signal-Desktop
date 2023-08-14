@@ -1,6 +1,6 @@
 /* eslint-disable import/no-mutable-exports */
 /* eslint-disable no-await-in-loop */
-import _ from 'lodash';
+import _, { compact } from 'lodash';
 import pRetry from 'p-retry';
 // eslint-disable-next-line import/no-named-default
 import { default as insecureNodeFetch } from 'node-fetch';
@@ -149,6 +149,7 @@ export async function getOnionPath({ toExclude }: { toExclude?: Snode }): Promis
       throw new Error(`Failed to build enough onion paths, current count: ${onionPaths.length}`);
     }
   }
+  onionPaths = onionPaths.map(compact);
 
   if (onionPaths.length === 0) {
     if (!_.isEmpty(window.inboxStore?.getState().onionPaths.snodePaths)) {
@@ -181,6 +182,7 @@ export async function getOnionPath({ toExclude }: { toExclude?: Snode }): Promis
   const onionPathsWithoutExcluded = onionPaths.filter(
     path => !_.some(path, node => node.pubkey_ed25519 === toExclude.pubkey_ed25519)
   );
+
   if (!onionPathsWithoutExcluded || onionPathsWithoutExcluded.length === 0) {
     throw new Error('No onion paths available after filtering');
   }

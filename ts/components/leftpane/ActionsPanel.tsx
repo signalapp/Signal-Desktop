@@ -121,7 +121,6 @@ const Section = (props: { type: SectionType }) => {
     case SectionType.PathIndicator:
       return (
         <ActionPanelOnionStatusLight
-          dataTestId="onion-status-section"
           handleClick={handleClick}
           isSelected={isSelected}
           id={'onion-path-indicator-led-id'}
