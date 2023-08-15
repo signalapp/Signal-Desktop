@@ -15,7 +15,6 @@ import { HexKeyPair } from '../../receiver/keypairs';
 import { fromHexToArray } from '../../session/utils/String';
 import {
   CONFIG_DUMP_TABLE,
-  ConfigDumpRow,
   getCommunityInfoFromDBValues,
   getContactInfoFromDBValues,
   getLegacyGroupInfoFromDBValues,
@@ -36,8 +35,9 @@ import {
 
 import { getIdentityKeys, sqlNode } from '../sql';
 import { sleepFor } from '../../session/utils/Promise';
+// import updateToSessionSchemaVersion33 from './session/migrationV33';
 
-const hasDebugEnvVariable = Boolean(process.env.SESSION_DEBUG);
+export const hasDebugEnvVariable = Boolean(process.env.SESSION_DEBUG);
 
 // eslint:disable: quotemark one-variable-per-declaration no-unused-expression
 
@@ -104,7 +104,7 @@ const LOKI_SCHEMA_VERSIONS = [
   updateToSessionSchemaVersion30,
   updateToSessionSchemaVersion31,
   updateToSessionSchemaVersion32,
-  updateToSessionSchemaVersion33,
+  // updateToSessionSchemaVersion33,
 ];
 
 function updateToSessionSchemaVersion1(currentVersion: number, db: BetterSqlite3.Database) {
@@ -1224,7 +1224,6 @@ function insertContactIntoContactWrapper(
     const dbApprovedMe = !!contact.didApproveMe || false;
     const dbBlocked = blockedNumbers.includes(contact.id);
     const priority = contact.priority || CONVERSATION_PRIORITIES.default;
-    // const expirationTimerSeconds = contact.expireTimer || 0;
 
     const wrapperContact = getContactInfoFromDBValues({
       id: contact.id,
@@ -1237,7 +1236,6 @@ function insertContactIntoContactWrapper(
       dbProfileUrl: contact.avatarPointer || undefined,
       priority,
       dbCreatedAtSeconds: Math.floor((contact.active_at || Date.now()) / 1000),
-      // expirationTimerSeconds, // FIXME WILL add expirationMode here
     });
 
     try {
@@ -1262,7 +1260,6 @@ function insertContactIntoContactWrapper(
             dbProfileUrl: undefined,
             priority: CONVERSATION_PRIORITIES.default,
             dbCreatedAtSeconds: Math.floor(Date.now() / 1000),
-            // expirationTimerSeconds: 0, // FIXME WILL add expirationMode here
           })
         );
       } catch (err2) {
@@ -1440,7 +1437,7 @@ function insertLegacyGroupIntoWrapper(
   }
 }
 
-function getBlockedNumbersDuringMigration(db: BetterSqlite3.Database) {
+export function getBlockedNumbersDuringMigration(db: BetterSqlite3.Database) {
   try {
     const blockedItem = sqlNode.getItemById('blocked', db);
     if (!blockedItem) {
@@ -1588,7 +1585,7 @@ function updateToSessionSchemaVersion30(currentVersion: number, db: BetterSqlite
  * @param db the database
  * @returns the keys { privateEd25519: string, publicEd25519: string }
  */
-function getOurAccountKeys(db: BetterSqlite3.Database) {
+export function getOurAccountKeys(db: BetterSqlite3.Database) {
   const keys = getIdentityKeys(db);
   return keys;
 }
@@ -1860,143 +1857,11 @@ function updateToSessionSchemaVersion32(currentVersion: number, db: BetterSqlite
   console.log(`updateToSessionSchemaVersion${targetVersion}: success!`);
 }
 
-function updateToSessionSchemaVersion33(currentVersion: number, db: BetterSqlite3.Database) {
-  const targetVersion = 33;
-  if (currentVersion >= targetVersion) {
-    return;
-  }
-
-  // TODO we actually want to update the config wrappers that relate to disappearing messages with the type and seconds
-
-  console.log(`updateToSessionSchemaVersion${targetVersion}: starting...`);
-  db.transaction(() => {
-    try {
-      const keys = getOurAccountKeys(db);
-
-      const userAlreadyCreated = !!keys && !isEmpty(keys.privateEd25519);
-
-      if (!userAlreadyCreated) {
-        throw new Error('privateEd25519 was empty. Considering no users are logged in');
-      }
-
-      const { privateEd25519, publicKeyHex } = keys;
-
-      // Conversation changes
-      // TODO can this be moved into libsession completely
-      db.prepare(
-        `ALTER TABLE ${CONVERSATIONS_TABLE} ADD COLUMN expirationType TEXT DEFAULT "off";`
-      ).run();
-
-      db.prepare(
-        `ALTER TABLE ${CONVERSATIONS_TABLE} ADD COLUMN lastDisappearingMessageChangeTimestamp INTEGER DEFAULT 0;`
-      ).run();
-
-      db.prepare(`ALTER TABLE ${CONVERSATIONS_TABLE} ADD COLUMN hasOutdatedClient TEXT;`).run();
-
-      // region Note to Self
-      const noteToSelfInfo = db
-        .prepare(
-          `UPDATE ${CONVERSATIONS_TABLE} SET
-      expirationType = $expirationType
-      WHERE id = $id AND type = 'private' AND expireTimer > 0;`
-        )
-        .run({ expirationType: 'deleteAfterSend', id: publicKeyHex });
-
-      if (noteToSelfInfo.changes) {
-        const ourConversation = db
-          .prepare(`SELECT * FROM ${CONVERSATIONS_TABLE} WHERE id = $id`)
-          .get({ id: publicKeyHex });
-
-        const expirySeconds = ourConversation.expireTimer || 0;
-
-        // Get existing config wrapper dump and update it
-        const userConfigWrapperDump = db
-          .prepare(`SELECT * FROM ${CONFIG_DUMP_TABLE} WHERE variant = 'UserConfig';`)
-          .get() as ConfigDumpRow | undefined;
-
-        if (userConfigWrapperDump) {
-          const userConfigData = userConfigWrapperDump.data;
-          const userProfileWrapper = new UserConfigWrapperNode(privateEd25519, userConfigData);
-
-          userProfileWrapper.setExpiry(expirySeconds);
-
-          // dump the user wrapper content and save it to the DB
-          const userDump = userProfileWrapper.dump();
-
-          const configDumpInfo = db
-            .prepare(
-              `INSERT OR REPLACE INTO ${CONFIG_DUMP_TABLE} (
-              publicKey,
-              variant,
-              data
-          ) values (
-            $publicKey,
-            $variant,
-            $data
-          );`
-            )
-            .run({
-              publicKey: publicKeyHex,
-              variant: 'UserConfig',
-              data: userDump,
-            });
-
-          // TODO Cleanup logging
-          console.log(
-            '===================== configDumpInfo',
-            configDumpInfo,
-            '======================='
-          );
-        } else {
-          console.log(
-            '===================== userConfigWrapperDump not found ======================='
-          );
-        }
-      }
-      // endregion
-
-      // region Private Conversations
-      db.prepare(
-        `UPDATE ${CONVERSATIONS_TABLE} SET
-      expirationType = $expirationType
-      WHERE type = 'private' AND expirationType = 'off' AND expireTimer > 0;`
-      ).run({ expirationType: 'deleteAfterRead' });
-
-      // TODO add to Contact Wrapper
-      // if (privateConversationsInfo.changes) {}
-      // endregion
-
-      // region Groups
-      db.prepare(
-        `UPDATE ${CONVERSATIONS_TABLE} SET
-      expirationType = $expirationType
-      WHERE type = 'group' AND id LIKE '05%' AND expireTimer > 0;`
-      ).run({ expirationType: 'deleteAfterSend' });
-      // endregion
-
-      // Message changes
-      db.prepare(`ALTER TABLE ${MESSAGES_TABLE} ADD COLUMN expirationType TEXT;`).run();
-    } catch (e) {
-      console.error(
-        `Failed to migrate to disappearing messages v2. Might just not have a logged in user yet? `,
-        e.message,
-        e.stack,
-        e
-      );
-      // if we get an exception here, most likely no users are logged in yet. We can just continue the transaction and the wrappers will be created when a user creates a new account.
-    }
-
-    writeSessionSchemaVersion(targetVersion, db);
-  })();
-
-  console.log(`updateToSessionSchemaVersion${targetVersion}: success!`);
-}
-
 export function printTableColumns(table: string, db: BetterSqlite3.Database) {
   console.info(db.pragma(`table_info('${table}');`));
 }
 
-function writeSessionSchemaVersion(newVersion: number, db: BetterSqlite3.Database) {
+export function writeSessionSchemaVersion(newVersion: number, db: BetterSqlite3.Database) {
   db.prepare(
     `INSERT INTO loki_schema(
         version

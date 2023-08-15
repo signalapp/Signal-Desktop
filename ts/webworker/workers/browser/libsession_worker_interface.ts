@@ -120,13 +120,13 @@ export const UserConfigWrapperActions: UserConfigWrapperActionsCalls = {
     callLibSessionWorker(['UserConfig', 'setEnableBlindedMsgRequest', enable]) as Promise<
       ReturnType<UserConfigWrapperActionsCalls['setEnableBlindedMsgRequest']>
     >,
-  getExpiry: async () =>
-    callLibSessionWorker(['UserConfig', 'getExpiry']) as Promise<
-      ReturnType<UserConfigWrapperActionsCalls['getExpiry']>
+  getNoteToSelfExpiry: async () =>
+    callLibSessionWorker(['UserConfig', 'getNoteToSelfExpiry']) as Promise<
+      ReturnType<UserConfigWrapperActionsCalls['getNoteToSelfExpiry']>
     >,
-  setExpiry: async (expirySeconds: number) =>
-    callLibSessionWorker(['UserConfig', 'setExpiry', expirySeconds]) as Promise<
-      ReturnType<UserConfigWrapperActionsCalls['setExpiry']>
+  setNoteToSelfExpiry: async (expirySeconds: number) =>
+    callLibSessionWorker(['UserConfig', 'setNoteToSelfExpiry', expirySeconds]) as Promise<
+      ReturnType<UserConfigWrapperActionsCalls['setNoteToSelfExpiry']>
     >,
 };
 

@@ -18,6 +18,7 @@ export const DisappearingMessageMode = ['deleteAfterRead', 'deleteAfterSend'];
 export type DisappearingMessageType = typeof DisappearingMessageMode[number] | null;
 
 // TODO legacy messages support will be removed in a future release
+// TODO NOTE do we need to remove 'legacy' from here?
 export const DisappearingMessageConversationSetting = ['off', ...DisappearingMessageMode, 'legacy'];
 export type DisappearingMessageConversationType = typeof DisappearingMessageConversationSetting[number]; // TODO we should make this type a bit more hardcoded than being just resolved as a string
 

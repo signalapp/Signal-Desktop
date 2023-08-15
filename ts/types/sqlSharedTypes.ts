@@ -119,8 +119,7 @@ export function getContactInfoFromDBValues({
   dbProfileUrl,
   dbProfileKey,
   dbCreatedAtSeconds,
-}: // expirationTimerSeconds, // FIXME WILL add expirationMode here
-{
+}: {
   id: string;
   dbApproved: boolean;
   dbApprovedMe: boolean;
@@ -128,10 +127,9 @@ export function getContactInfoFromDBValues({
   dbNickname: string | undefined;
   dbName: string | undefined;
   priority: number;
-  dbCreatedAtSeconds: number;
   dbProfileUrl: string | undefined;
   dbProfileKey: string | undefined;
-  // expirationTimerSeconds: number | undefined;
+  dbCreatedAtSeconds: number;
 }): ContactInfoSet {
   const wrapperContact: ContactInfoSet = {
     id,
@@ -142,11 +140,6 @@ export function getContactInfoFromDBValues({
     nickname: dbNickname,
     name: dbName,
     createdAtSeconds: dbCreatedAtSeconds,
-    // expirationTimerSeconds:
-    //   !!expirationTimerSeconds && isFinite(expirationTimerSeconds) && expirationTimerSeconds > 0
-    //     ? expirationTimerSeconds
-    //     : 0,
-    // expirationMode: 'off', //FIXME WILL add expirationMode here
   };
 
   if (
