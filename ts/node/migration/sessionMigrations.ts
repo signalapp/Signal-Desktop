@@ -15,6 +15,7 @@ import { HexKeyPair } from '../../receiver/keypairs';
 import { fromHexToArray } from '../../session/utils/String';
 import {
   CONFIG_DUMP_TABLE,
+  ConfigDumpRow,
   getCommunityInfoFromDBValues,
   getContactInfoFromDBValues,
   getLegacyGroupInfoFromDBValues,
@@ -1902,7 +1903,6 @@ function updateToSessionSchemaVersion33(currentVersion: number, db: BetterSqlite
         .run({ expirationType: 'deleteAfterSend', id: publicKeyHex });
 
       if (noteToSelfInfo.changes) {
-        // Get expireTimer value
         const ourConversation = db
           .prepare(`SELECT * FROM ${CONVERSATIONS_TABLE} WHERE id = $id`)
           .get({ id: publicKeyHex });
@@ -1912,10 +1912,10 @@ function updateToSessionSchemaVersion33(currentVersion: number, db: BetterSqlite
         // Get existing config wrapper dump and update it
         const userConfigWrapperDump = db
           .prepare(`SELECT * FROM ${CONFIG_DUMP_TABLE} WHERE variant = 'UserConfig';`)
-          .get() as Record<string, any> | undefined;
+          .get() as ConfigDumpRow | undefined;
 
         if (userConfigWrapperDump) {
-          const userConfigData = (userConfigWrapperDump as any).data;
+          const userConfigData = userConfigWrapperDump.data;
           const userProfileWrapper = new UserConfigWrapperNode(privateEd25519, userConfigData);
 
           userProfileWrapper.setExpiry(expirySeconds);
@@ -1940,6 +1940,7 @@ function updateToSessionSchemaVersion33(currentVersion: number, db: BetterSqlite
               variant: 'UserConfig',
               data: userDump,
             });
+
           // TODO Cleanup logging
           console.log(
             '===================== configDumpInfo',
