@@ -107,7 +107,7 @@ export const UserConfigWrapperActions: UserConfigWrapperActionsCalls = {
     name: string,
     priority: number,
     profilePic: { url: string; key: Uint8Array } | null
-    // expireSeconds: number
+    // expireSeconds: number,
   ) =>
     callLibSessionWorker([
       'UserConfig',
@@ -117,6 +117,17 @@ export const UserConfigWrapperActions: UserConfigWrapperActionsCalls = {
       profilePic,
       // expireSeconds,
     ]) as Promise<ReturnType<UserConfigWrapperActionsCalls['setUserInfo']>>,
+
+  getEnableBlindedMsgRequest: async () =>
+    callLibSessionWorker(['UserConfig', 'getEnableBlindedMsgRequest']) as Promise<
+      ReturnType<UserConfigWrapperActionsCalls['getEnableBlindedMsgRequest']>
+    >,
+  setEnableBlindedMsgRequest: async (blindedMsgRequests: boolean) =>
+    callLibSessionWorker([
+      'UserConfig',
+      'setEnableBlindedMsgRequest',
+      blindedMsgRequests,
+    ]) as Promise<ReturnType<UserConfigWrapperActionsCalls['setEnableBlindedMsgRequest']>>,
 };
 
 export const ContactsWrapperActions: ContactsWrapperActionsCalls = {

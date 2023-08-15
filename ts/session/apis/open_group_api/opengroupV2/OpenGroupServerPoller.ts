@@ -25,6 +25,8 @@ import {
   openConversationWithMessages,
 } from '../../../../state/ducks/conversations';
 import { roomHasBlindEnabled } from '../../../../types/sqlSharedTypes';
+import { Storage } from '../../../../util/storage';
+import { SettingsKey } from '../../../../data/settings-key';
 
 export type OpenGroupMessageV4 = {
   /** AFAIK: indicates the number of the message in the group. e.g. 2nd message will be 1 or 2 */
@@ -244,12 +246,14 @@ export class OpenGroupServerPoller {
         if (roomHasBlindEnabled(rooms[0])) {
           const maxInboxId = Math.max(...rooms.map(r => r.lastInboxIdFetched || 0));
 
-          // This only works for servers with blinding capabilities
-          // adding inbox subrequest info
-          subrequestOptions.push({
-            type: 'inbox',
-            inboxSince: { id: isNumber(maxInboxId) && maxInboxId > 0 ? maxInboxId : undefined },
-          });
+          if (Storage.get(SettingsKey.hasBlindedMsgRequestsEnabled)) {
+            // This only works for servers with blinding capabilities
+            // adding inbox subrequest info
+            subrequestOptions.push({
+              type: 'inbox',
+              inboxSince: { id: isNumber(maxInboxId) && maxInboxId > 0 ? maxInboxId : undefined },
+            });
+          }
 
           const maxOutboxId = Math.max(...rooms.map(r => r.lastOutboxIdFetched || 0));
 

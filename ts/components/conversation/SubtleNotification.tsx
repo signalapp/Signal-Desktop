@@ -8,6 +8,7 @@ import {
 import {
   getSelectedCanWrite,
   useSelectedConversationKey,
+  useSelectedHasDisabledBlindedMsgRequests,
   useSelectedNicknameOrProfileNameOrShortenedPubkey,
   useSelectedisNoteToSelf,
 } from '../../state/selectors/selectedConversation';
@@ -61,6 +62,7 @@ export const NoMessageInConversation = () => {
 
   const isMe = useSelectedisNoteToSelf();
   const canWrite = useSelector(getSelectedCanWrite);
+  const privateBlindedAndBlockingMsgReqs = useSelectedHasDisabledBlindedMsgRequests();
   // TODOLATER use this selector accross the whole application (left pane excluded)
   const nameToRender = useSelectedNicknameOrProfileNameOrShortenedPubkey();
 
@@ -69,7 +71,11 @@ export const NoMessageInConversation = () => {
   }
   let localizedKey: LocalizerKeys = 'noMessagesInEverythingElse';
   if (!canWrite) {
-    localizedKey = 'noMessagesInReadOnly';
+    if (privateBlindedAndBlockingMsgReqs) {
+      localizedKey = 'noMessagesInBlindedDisabledMsgRequests';
+    } else {
+      localizedKey = 'noMessagesInReadOnly';
+    }
   } else if (isMe) {
     localizedKey = 'noMessagesInNoteToSelf';
   }

@@ -101,6 +101,8 @@ export interface ConversationAttributes {
   didApproveMe: boolean; // if our message request was approved already (or they've sent us a message request/message themselves). If isApproved & didApproveMe, a message request becomes a contact
 
   markedAsUnread: boolean; // Force the conversation as unread even if all the messages are read. Used to highlight a conversation the user wants to check again later, synced.
+
+  blocksSogsMsgReqsTimestamp: number; // if that convo is a blinded one and that user denied be contacted through sogs, this field will be set to his latest message timestamp
 }
 
 /**
@@ -133,6 +135,7 @@ export const fillConvoAttributesWithDefaults = (
     left: false,
     priority: CONVERSATION_PRIORITIES.default,
     markedAsUnread: false,
+    blocksSogsMsgReqsTimestamp: 0,
   });
 };
 

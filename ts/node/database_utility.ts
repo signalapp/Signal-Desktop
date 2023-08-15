@@ -1,4 +1,4 @@
-import { difference, omit, pick } from 'lodash';
+import { difference, isNumber, omit, pick } from 'lodash';
 import * as BetterSqlite3 from '@signalapp/better-sqlite3';
 import {
   ConversationAttributes,
@@ -72,6 +72,7 @@ const allowedKeysFormatRowOfConversation = [
   'displayNameInProfile',
   'conversationIdOrigin',
   'markedAsUnread',
+  'blocksSogsMsgReqsTimestamp',
   'priority',
 ];
 
@@ -138,6 +139,10 @@ export function formatRowOfConversation(
     convo.lastMessageStatus = undefined;
   }
 
+  if (!isNumber(convo.blocksSogsMsgReqsTimestamp)) {
+    convo.blocksSogsMsgReqsTimestamp = 0;
+  }
+
   if (!convo.triggerNotificationsFor) {
     convo.triggerNotificationsFor = 'all';
   }
@@ -189,6 +194,7 @@ const allowedKeysOfConversationAttributes = [
   'displayNameInProfile',
   'conversationIdOrigin',
   'markedAsUnread',
+  'blocksSogsMsgReqsTimestamp',
   'priority',
 ];
 
