@@ -26,7 +26,7 @@ export type UnreadStatsOptions = Readonly<{
   includeMuted: boolean;
 }>;
 
-type ConversationPropsForUnreadStats = Readonly<
+export type ConversationPropsForUnreadStats = Readonly<
   Pick<
     ConversationType,
     | 'activeAt'

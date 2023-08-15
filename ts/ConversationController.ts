@@ -35,6 +35,7 @@ import { getServiceIdsForE164s } from './util/getServiceIdsForE164s';
 import { SIGNAL_ACI, SIGNAL_AVATAR_PATH } from './types/SignalConversation';
 import { getTitleNoDefault } from './util/getTitle';
 import * as StorageService from './services/storage';
+import type { ConversationPropsForUnreadStats } from './util/countUnreadStats';
 import { countAllConversationsUnreadStats } from './util/countUnreadStats';
 
 type ConvoMatchType =
@@ -189,7 +190,21 @@ export class ConversationController {
       window.storage.get('badge-count-muted-conversations') || false;
 
     const unreadStats = countAllConversationsUnreadStats(
-      this._conversations.map(conversation => conversation.format()),
+      this._conversations.map(
+        (conversation): ConversationPropsForUnreadStats => {
+          // Need to pull this out manually into the Redux shape
+          // because `conversation.format()` can return cached props by the
+          // time this runs
+          return {
+            activeAt: conversation.get('active_at') ?? undefined,
+            isArchived: conversation.get('isArchived'),
+            markedUnread: conversation.get('markedUnread'),
+            muteExpiresAt: conversation.get('muteExpiresAt'),
+            unreadCount: conversation.get('unreadCount'),
+            unreadMentionsCount: conversation.get('unreadMentionsCount'),
+          };
+        }
+      ),
       { includeMuted }
     );
 
