@@ -3,15 +3,21 @@
 
 import { ipcRenderer } from 'electron';
 
-import { explodePromise } from './util/explodePromise';
-import { SECOND } from './util/durations';
-import * as log from './logging/log';
 import type { IPCResponse as ChallengeResponseType } from './challenge';
+import type { MessageAttributesType } from './model-types.d';
+import * as log from './logging/log';
+import { explodePromise } from './util/explodePromise';
+import { ipcInvoke } from './sql/channels';
+import { SECOND } from './util/durations';
 
 type ResolveType = (data: unknown) => void;
 
 export type CIType = {
   deviceName: string;
+  getConversationId: (address: string | null) => string | null;
+  getMessagesBySentAt(
+    sentAt: number
+  ): Promise<ReadonlyArray<MessageAttributesType>>;
   handleEvent: (event: string, data: unknown) => unknown;
   setProvisioningURL: (url: string) => unknown;
   solveChallenge: (response: ChallengeResponseType) => unknown;
@@ -108,8 +114,24 @@ export function getCI(deviceName: string): CIType {
     window.Signal.challengeHandler?.onResponse(response);
   }
 
+  async function getMessagesBySentAt(sentAt: number) {
+    const messages = await ipcInvoke<ReadonlyArray<MessageAttributesType>>(
+      'getMessagesBySentAt',
+      [sentAt]
+    );
+    return messages.map(
+      m => window.MessageController.register(m.id, m).attributes
+    );
+  }
+
+  function getConversationId(address: string | null): string | null {
+    return window.ConversationController.getConversationId(address);
+  }
+
   return {
     deviceName,
+    getConversationId,
+    getMessagesBySentAt,
     handleEvent,
     setProvisioningURL,
     solveChallenge,

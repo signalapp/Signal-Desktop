@@ -95,30 +95,6 @@ export async function sendEditedMessage(
 
   conversation.clearTypingTimers();
 
-  const ourConversation =
-    window.ConversationController.getOurConversationOrThrow();
-  const fromId = ourConversation.id;
-
-  const recipientMaybeConversations = map(
-    conversation.getRecipients(),
-    identifier => window.ConversationController.get(identifier)
-  );
-  const recipientConversations = filter(recipientMaybeConversations, isNotNil);
-  const recipientConversationIds = concat(
-    map(recipientConversations, c => c.id),
-    [fromId]
-  );
-  const sendStateByConversationId = zipObject(
-    recipientConversationIds,
-    repeat({
-      status: SendStatus.Pending,
-      updatedAt: timestamp,
-    })
-  );
-
-  // Resetting send state for the target message
-  targetMessage.set({ sendStateByConversationId });
-
   // Can't send both preview and attachments
   const attachments =
     preview && preview.length ? [] : targetMessage.get('attachments') || [];
@@ -165,6 +141,28 @@ export async function sendEditedMessage(
     }
   }
 
+  const ourConversation =
+    window.ConversationController.getOurConversationOrThrow();
+  const fromId = ourConversation.id;
+
+  // Create the send state for later use
+  const recipientMaybeConversations = map(
+    conversation.getRecipients(),
+    identifier => window.ConversationController.get(identifier)
+  );
+  const recipientConversations = filter(recipientMaybeConversations, isNotNil);
+  const recipientConversationIds = concat(
+    map(recipientConversations, c => c.id),
+    [fromId]
+  );
+  const sendStateByConversationId = zipObject(
+    recipientConversationIds,
+    repeat({
+      status: SendStatus.Pending,
+      updatedAt: timestamp,
+    })
+  );
+
   // An ephemeral message that we just use to handle the edit
   const tmpMessage: MessageAttributesType = {
     attachments: attachments?.map((attachment, index) =>
@@ -188,6 +186,7 @@ export async function sendEditedMessage(
     quote,
     received_at: incrementMessageCounter(),
     received_at_ms: timestamp,
+    sendStateByConversationId,
     sent_at: timestamp,
     timestamp,
     type: 'outgoing',
@@ -201,6 +200,9 @@ export async function sendEditedMessage(
     fromDevice: window.storage.user.getDeviceId() ?? 1,
     message: tmpMessage,
   });
+
+  // Reset send state prior to send
+  targetMessage.set({ sendStateByConversationId });
 
   // Inserting the send into a job and saving it to the message
   await timeAndLogIfTooLong(

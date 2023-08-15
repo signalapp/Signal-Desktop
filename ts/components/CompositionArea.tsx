@@ -434,12 +434,14 @@ export function CompositionArea({
   useEffect(() => {
     if (inputApiRef.current) {
       inputApiRef.current.focus();
+      setHasFocus(true);
     }
   }, []);
   // Focus input whenever explicitly requested
   useEffect(() => {
     if (focusCounter !== previousFocusCounter && inputApiRef.current) {
       inputApiRef.current.focus();
+      setHasFocus(true);
     }
   }, [inputApiRef, focusCounter, previousFocusCounter]);
 

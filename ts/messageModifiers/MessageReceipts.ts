@@ -8,6 +8,7 @@ import { Collection, Model } from 'backbone';
 
 import type { MessageModel } from '../models/messages';
 import type { MessageAttributesType } from '../model-types.d';
+import type { SendStateByConversationId } from '../messages/MessageSendState';
 import { isOutgoing, isStory } from '../state/selectors/message';
 import { getOwn } from '../util/getOwn';
 import { missingCaseError } from '../util/missingCaseError';
@@ -183,26 +184,14 @@ export class MessageReceipts extends Collection<MessageReceiptModel> {
     });
   }
 
-  private async updateMessageSendState(
-    receipt: MessageReceiptModel,
-    message: MessageModel
-  ): Promise<void> {
-    const messageSentAt = receipt.get('messageSentAt');
-
-    if (shouldDropReceipt(receipt, message)) {
-      log.info(
-        `MessageReceipts: Dropping a receipt ${receipt.get('type')} ` +
-          `for message ${messageSentAt}`
-      );
-      return;
-    }
-
+  private getNewSendStateByConversationId(
+    oldSendStateByConversationId: SendStateByConversationId,
+    receipt: MessageReceiptModel
+  ): SendStateByConversationId {
     const receiptTimestamp = receipt.get('receiptTimestamp');
     const sourceConversationId = receipt.get('sourceConversationId');
     const type = receipt.get('type');
 
-    const oldSendStateByConversationId =
-      message.get('sendStateByConversationId') || {};
     const oldSendState = getOwn(
       oldSendStateByConversationId,
       sourceConversationId
@@ -228,14 +217,73 @@ export class MessageReceipts extends Collection<MessageReceiptModel> {
       updatedAt: receiptTimestamp,
     });
 
-    // The send state may not change. For example, this can happen if we get a read
-    //   receipt before a delivery receipt.
-    if (!isEqual(oldSendState, newSendState)) {
-      message.set('sendStateByConversationId', {
-        ...oldSendStateByConversationId,
-        [sourceConversationId]: newSendState,
-      });
+    return {
+      ...oldSendStateByConversationId,
+      [sourceConversationId]: newSendState,
+    };
+  }
 
+  private async updateMessageSendState(
+    receipt: MessageReceiptModel,
+    message: MessageModel
+  ): Promise<void> {
+    const messageSentAt = receipt.get('messageSentAt');
+
+    if (shouldDropReceipt(receipt, message)) {
+      log.info(
+        `MessageReceipts: Dropping a receipt ${receipt.get('type')} ` +
+          `for message ${messageSentAt}`
+      );
+      return;
+    }
+
+    let hasChanges = false;
+
+    const editHistory = message.get('editHistory') ?? [];
+    const newEditHistory = editHistory?.map(edit => {
+      if (messageSentAt !== edit.timestamp) {
+        return edit;
+      }
+
+      const oldSendStateByConversationId = edit.sendStateByConversationId ?? {};
+      const newSendStateByConversationId = this.getNewSendStateByConversationId(
+        oldSendStateByConversationId,
+        receipt
+      );
+
+      return {
+        ...edit,
+        sendStateByConversationId: newSendStateByConversationId,
+      };
+    });
+    if (!isEqual(newEditHistory, editHistory)) {
+      message.set('editHistory', newEditHistory);
+      hasChanges = true;
+    }
+
+    const editMessageTimestamp = message.get('editMessageTimestamp');
+    if (
+      messageSentAt === message.get('timestamp') ||
+      messageSentAt === editMessageTimestamp
+    ) {
+      const oldSendStateByConversationId =
+        message.get('sendStateByConversationId') ?? {};
+      const newSendStateByConversationId = this.getNewSendStateByConversationId(
+        oldSendStateByConversationId,
+        receipt
+      );
+
+      // The send state may not change. For example, this can happen if we get a read
+      //   receipt before a delivery receipt.
+      if (
+        !isEqual(oldSendStateByConversationId, newSendStateByConversationId)
+      ) {
+        message.set('sendStateByConversationId', newSendStateByConversationId);
+        hasChanges = true;
+      }
+    }
+
+    if (hasChanges) {
       queueUpdateMessage(message.attributes);
 
       // notify frontend listeners
@@ -249,6 +297,9 @@ export class MessageReceipts extends Collection<MessageReceiptModel> {
         updateLeftPane();
       }
     }
+
+    const sourceConversationId = receipt.get('sourceConversationId');
+    const type = receipt.get('type');
 
     if (
       (type === MessageReceiptType.Delivery &&

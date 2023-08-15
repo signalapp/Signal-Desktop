@@ -94,6 +94,7 @@ export async function handleEditMessage(
       bodyRanges: mainMessage.bodyRanges,
       preview: mainMessage.preview,
       quote: mainMessage.quote,
+      sendStateByConversationId: { ...mainMessage.sendStateByConversationId },
       timestamp: mainMessage.timestamp,
     },
   ];
@@ -224,6 +225,8 @@ export async function handleEditMessage(
     body: upgradedEditedMessageData.body,
     bodyRanges: upgradedEditedMessageData.bodyRanges,
     preview: nextEditedMessagePreview,
+    sendStateByConversationId:
+      upgradedEditedMessageData.sendStateByConversationId,
     timestamp: upgradedEditedMessageData.timestamp,
     quote: nextEditedMessageQuote,
   };

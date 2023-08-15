@@ -131,6 +131,7 @@ export type EditHistoryType = {
   bodyRanges?: ReadonlyArray<RawBodyRange>;
   preview?: Array<LinkPreviewType>;
   quote?: QuotedMessageType;
+  sendStateByConversationId?: SendStateByConversationId;
   timestamp: number;
 };
 
