@@ -14,6 +14,7 @@ import type { LocalizerType } from '../../types/Util';
 import { MessageTextRenderer } from './MessageTextRenderer';
 import type { RenderLocation } from './MessageTextRenderer';
 import { UserText } from '../UserText';
+import { shouldLinkifyMessage } from '../../types/LinkPreview';
 
 export type Props = {
   author?: string;
@@ -59,6 +60,8 @@ export function MessageBody({
   textAttachment,
 }: Props): JSX.Element {
   const hasReadMore = Boolean(onIncreaseTextLength);
+
+  const shouldDisableLinks = disableLinks || !shouldLinkifyMessage(text);
   const textWithSuffix =
     textAttachment?.pending || hasReadMore ? `${text}...` : text;
 
@@ -119,7 +122,7 @@ export function MessageBody({
       <MessageTextRenderer
         bodyRanges={bodyRanges ?? []}
         direction={direction}
-        disableLinks={disableLinks ?? false}
+        disableLinks={shouldDisableLinks}
         emojiSizeClass={sizeClass}
         i18n={i18n}
         isSpoilerExpanded={isSpoilerExpanded}
