@@ -60,7 +60,9 @@ function NavTabsItemBadges({
     if (unreadStats.markedUnread) {
       return (
         <span className="NavTabs__ItemUnreadBadge">
-          {i18n('icu:NavTabs__ItemIconLabel--MarkedUnread')}
+          <span className="NavTabs__ItemIconLabel">
+            {i18n('icu:NavTabs__ItemIconLabel--MarkedUnread')}
+          </span>
         </span>
       );
     }
