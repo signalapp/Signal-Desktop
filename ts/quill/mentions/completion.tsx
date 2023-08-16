@@ -261,7 +261,7 @@ export class MentionCompletion {
               {memberResults.map((member, index) => (
                 <button
                   type="button"
-                  key={member.uuid}
+                  key={member.serviceId}
                   id={`mention-result--${member.name}`}
                   role="option button"
                   aria-selected={memberResultsIndex === index}

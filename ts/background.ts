@@ -1081,7 +1081,7 @@ export async function startApp(): Promise<void> {
           `retryPlaceholders/interval: Found ${expired.length} expired items`
         );
         expired.forEach(item => {
-          const { conversationId, senderUuid, sentAt } = item;
+          const { conversationId, senderAci, sentAt } = item;
           const conversation =
             window.ConversationController.get(conversationId);
           if (conversation) {
@@ -1092,7 +1092,7 @@ export async function startApp(): Promise<void> {
                 conversation.addDeliveryIssue({
                   receivedAt,
                   receivedAtCounter,
-                  senderUuid,
+                  senderAci,
                   sentAt,
                 })
               )
@@ -2469,7 +2469,7 @@ export async function startApp(): Promise<void> {
         remove: reaction.remove,
         source: ReactionSource.FromSomeoneElse,
         storyReactionMessage: message,
-        targetAuthorUuid: targetAuthorAci,
+        targetAuthorAci,
         targetTimestamp: reaction.targetTimestamp,
         timestamp,
       };
@@ -2679,7 +2679,7 @@ export async function startApp(): Promise<void> {
       serverTimestamp: data.serverTimestamp,
       source: window.textsecure.storage.user.getNumber(),
       sourceDevice: data.device,
-      sourceUuid: window.textsecure.storage.user.getAci(),
+      sourceServiceId: window.textsecure.storage.user.getAci(),
       timestamp,
       type: data.message.isStory ? 'story' : 'outgoing',
       storyDistributionListId: data.storyDistributionListId,
@@ -2755,8 +2755,8 @@ export async function startApp(): Promise<void> {
     const { data, confirm } = event;
 
     const source = window.textsecure.storage.user.getNumber();
-    const sourceUuid = window.textsecure.storage.user.getAci();
-    strictAssert(source && sourceUuid, 'Missing user number and uuid');
+    const sourceServiceId = window.textsecure.storage.user.getAci();
+    strictAssert(source && sourceServiceId, 'Missing user number and uuid');
 
     const messageDescriptor = getMessageDescriptor({
       ...data,
@@ -2804,7 +2804,7 @@ export async function startApp(): Promise<void> {
         remove: reaction.remove,
         source: ReactionSource.FromSync,
         storyReactionMessage: message,
-        targetAuthorUuid: targetAuthorAci,
+        targetAuthorAci,
         targetTimestamp: reaction.targetTimestamp,
         timestamp,
       };
@@ -2900,7 +2900,7 @@ export async function startApp(): Promise<void> {
       serverTimestamp: data.serverTimestamp,
       source: data.source,
       sourceDevice: data.sourceDevice,
-      sourceUuid: data.sourceAci,
+      sourceServiceId: data.sourceAci,
       timestamp: data.timestamp,
       type: data.message.isStory ? 'story' : 'incoming',
       unidentifiedDeliveryReceived: data.unidentifiedDeliveryReceived,
@@ -3174,7 +3174,7 @@ export async function startApp(): Promise<void> {
       wasSentEncrypted,
     } = event.receipt;
     const sourceConversation = window.ConversationController.lookupOrCreate({
-      uuid: sourceServiceId,
+      serviceId: sourceServiceId,
       e164: source,
       reason: `onReadOrViewReceipt(${envelopeTimestamp})`,
     });
@@ -3305,7 +3305,7 @@ export async function startApp(): Promise<void> {
     ev.confirm();
 
     const sourceConversation = window.ConversationController.lookupOrCreate({
-      uuid: sourceServiceId,
+      serviceId: sourceServiceId,
       e164: source,
       reason: `onDeliveryReceipt(${envelopeTimestamp})`,
     });

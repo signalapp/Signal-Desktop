@@ -17,6 +17,7 @@ import type {
   ActiveCallType,
   GroupCallRemoteParticipantType,
 } from '../../types/Calling';
+import { isAciString } from '../../types/ServiceId';
 import type { AciString } from '../../types/ServiceId';
 import { CallMode, CallState } from '../../types/Calling';
 import type { StateType } from '../reducer';
@@ -131,7 +132,7 @@ const mapStateToActiveCallProp = (
     (aci: AciString) => undefined | ConversationType
   >(aci => {
     const convoForAci = window.ConversationController.lookupOrCreate({
-      uuid: aci,
+      serviceId: aci,
       reason: 'CallManager.mapStateToActiveCallProp',
     });
     return convoForAci ? conversationSelector(convoForAci.id) : undefined;
@@ -165,6 +166,11 @@ const mapStateToActiveCallProp = (
         return;
       }
 
+      strictAssert(
+        isAciString(conversation.serviceId),
+        'Conversation must have aci'
+      );
+
       return {
         ...baseResult,
         callEndedReason: call.callEndedReason,
@@ -176,7 +182,7 @@ const mapStateToActiveCallProp = (
             hasRemoteVideo: Boolean(call.hasRemoteVideo),
             presenting: Boolean(call.isSharingScreen),
             title: conversation.title,
-            uuid: conversation.uuid,
+            serviceId: conversation.serviceId,
           },
         ],
       };
@@ -199,9 +205,9 @@ const mapStateToActiveCallProp = (
       } = call;
 
       for (let i = 0; i < memberships.length; i += 1) {
-        const { uuid } = memberships[i];
+        const { aci } = memberships[i];
 
-        const member = conversationSelector(uuid);
+        const member = conversationSelector(aci);
         if (!member) {
           log.error('Group member has no corresponding conversation');
           continue;

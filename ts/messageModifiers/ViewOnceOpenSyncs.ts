@@ -29,16 +29,16 @@ export class ViewOnceOpenSyncs extends Collection<ViewOnceOpenSyncModel> {
   }
 
   forMessage(message: MessageModel): ViewOnceOpenSyncModel | null {
-    const syncBySourceUuid = this.find(item => {
+    const syncBySourceAci = this.find(item => {
       return (
-        item.get('sourceAci') === message.get('sourceUuid') &&
+        item.get('sourceAci') === message.get('sourceServiceId') &&
         item.get('timestamp') === message.get('sent_at')
       );
     });
-    if (syncBySourceUuid) {
+    if (syncBySourceAci) {
       log.info('Found early view once open sync for message');
-      this.remove(syncBySourceUuid);
-      return syncBySourceUuid;
+      this.remove(syncBySourceAci);
+      return syncBySourceAci;
     }
 
     const syncBySource = this.find(item => {
@@ -63,7 +63,7 @@ export class ViewOnceOpenSyncs extends Collection<ViewOnceOpenSyncModel> {
       );
 
       const found = messages.find(item => {
-        const itemSourceAci = item.sourceUuid;
+        const itemSourceAci = item.sourceServiceId;
         const syncSourceAci = sync.get('sourceAci');
         const itemSource = item.source;
         const syncSource = sync.get('source');

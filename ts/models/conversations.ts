@@ -82,7 +82,6 @@ import type { DraftBodyRanges } from '../types/BodyRange';
 import { BodyRange } from '../types/BodyRange';
 import { migrateColor } from '../util/migrateColor';
 import { isNotNil } from '../util/isNotNil';
-import { resolveSenderKeyDevice } from '../util/resolveSenderKeyDevice';
 import {
   NotificationType,
   notificationService,
@@ -304,15 +303,16 @@ export class ConversationModel extends window.Backbone
 
     // Note that we intentionally don't use `initialize()` method because it
     // isn't compatible with esnext output of esbuild.
-    const uuid = this.get('uuid');
+    const serviceId = this.getServiceId();
     const normalizedServiceId =
-      uuid && normalizeServiceId(uuid, 'ConversationModel.initialize');
-    if (uuid && normalizedServiceId !== uuid) {
+      serviceId &&
+      normalizeServiceId(serviceId, 'ConversationModel.initialize');
+    if (serviceId && normalizedServiceId !== serviceId) {
       log.warn(
         'ConversationModel.initialize: normalizing serviceId from ' +
-          `${uuid} to ${normalizedServiceId}`
+          `${serviceId} to ${normalizedServiceId}`
       );
-      this.set('uuid', normalizedServiceId);
+      this.set('serviceId', normalizedServiceId);
     }
 
     if (isValidE164(attributes.id, false)) {
@@ -805,8 +805,8 @@ export class ConversationModel extends window.Backbone
     }
 
     const e164 = this.get('e164');
-    const pni = this.get('pni');
-    const aci = this.get('uuid');
+    const pni = this.getPni();
+    const aci = this.getServiceId();
     if (e164 && pni && aci && pni !== aci) {
       this.updateE164(undefined);
       this.updatePni(undefined);
@@ -878,9 +878,9 @@ export class ConversationModel extends window.Backbone
     let blocked = false;
     const wasBlocked = this.isBlocked();
 
-    const uuid = this.get('uuid');
-    if (uuid) {
-      drop(window.storage.blocked.addBlockedUuid(uuid));
+    const serviceId = this.getServiceId();
+    if (serviceId) {
+      drop(window.storage.blocked.addBlockedServiceId(serviceId));
       blocked = true;
     }
 
@@ -910,9 +910,9 @@ export class ConversationModel extends window.Backbone
     let unblocked = false;
     const wasBlocked = this.isBlocked();
 
-    const uuid = this.get('uuid');
-    if (uuid) {
-      drop(window.storage.blocked.removeBlockedUuid(uuid));
+    const serviceId = this.getServiceId();
+    if (serviceId) {
+      drop(window.storage.blocked.removeBlockedServiceId(serviceId));
       unblocked = true;
     }
 
@@ -977,10 +977,10 @@ export class ConversationModel extends window.Backbone
     });
 
     window.reduxActions?.stories.removeAllContactStories(this.id);
-    const uuid = this.get('uuid');
-    if (uuid) {
+    const serviceId = this.getServiceId();
+    if (serviceId) {
       window.reduxActions?.storyDistributionLists.removeMemberFromAllDistributionLists(
-        uuid
+        serviceId
       );
     }
 
@@ -1162,7 +1162,7 @@ export class ConversationModel extends window.Backbone
       );
     }
 
-    if (!this.get('uuid')) {
+    if (!this.getServiceId()) {
       return;
     }
 
@@ -1353,12 +1353,12 @@ export class ConversationModel extends window.Backbone
   }
 
   async onNewMessage(message: MessageModel): Promise<void> {
-    const uuid = message.get('sourceUuid');
+    const serviceId = message.get('sourceServiceId');
     const e164 = message.get('source');
     const sourceDevice = message.get('sourceDevice');
 
     const source = window.ConversationController.lookupOrCreate({
-      uuid,
+      serviceId,
       e164,
       reason: 'ConversationModel.onNewMessage',
     });
@@ -1855,27 +1855,29 @@ export class ConversationModel extends window.Backbone
     this.captureChange('updateE164');
   }
 
-  updateUuid(uuid?: ServiceIdString): void {
-    const oldValue = this.get('uuid');
-    if (uuid === oldValue) {
+  updateServiceId(serviceId?: ServiceIdString): void {
+    const oldValue = this.getServiceId();
+    if (serviceId === oldValue) {
       return;
     }
 
     this.set(
-      'uuid',
-      uuid ? normalizeServiceId(uuid, 'Conversation.updateUuid') : undefined
+      'serviceId',
+      serviceId
+        ? normalizeServiceId(serviceId, 'Conversation.updateServiceId')
+        : undefined
     );
     window.Signal.Data.updateConversation(this.attributes);
-    this.trigger('idUpdated', this, 'uuid', oldValue);
+    this.trigger('idUpdated', this, 'serviceId', oldValue);
 
     // We should delete the old sessions and identity information in all situations except
     //   for the case where we need to do old and new PNI comparisons. We'll wait
     //   for the PNI update to do that.
-    if (oldValue && oldValue !== this.get('pni')) {
+    if (oldValue && oldValue !== this.getPni()) {
       drop(window.textsecure.storage.protocol.removeIdentityKey(oldValue));
     }
 
-    this.captureChange('updateUuid');
+    this.captureChange('updateServiceId');
   }
 
   trackPreviousIdentityKey(publicKey: Uint8Array): void {
@@ -1902,7 +1904,7 @@ export class ConversationModel extends window.Backbone
   }
 
   updatePni(pni?: PniString): void {
-    const oldValue = this.get('pni');
+    const oldValue = this.getPni();
     if (pni === oldValue) {
       return;
     }
@@ -1913,9 +1915,9 @@ export class ConversationModel extends window.Backbone
     );
 
     const pniIsPrimaryId =
-      !this.get('uuid') ||
-      this.get('uuid') === oldValue ||
-      this.get('uuid') === pni;
+      !this.getServiceId() ||
+      this.getServiceId() === oldValue ||
+      this.getServiceId() === pni;
     const haveSentMessage = Boolean(
       this.get('profileSharing') || this.get('sentMessageCount')
     );
@@ -1958,9 +1960,9 @@ export class ConversationModel extends window.Backbone
       drop(window.textsecure.storage.protocol.removeIdentityKey(oldValue));
     }
 
-    if (pni && !this.get('uuid')) {
+    if (pni && !this.getServiceId()) {
       log.warn(
-        `updatePni/${this.idForLogging()}: pni field set to ${pni}, but uuid field is empty!`
+        `updatePni/${this.idForLogging()}: pni field set to ${pni}, but service id field is empty!`
       );
     }
 
@@ -2053,14 +2055,19 @@ export class ConversationModel extends window.Backbone
           type: conversationQueueJobEnum.enum.Receipts,
           conversationId: this.get('id'),
           receiptsType: ReceiptType.Read,
-          receipts: readMessages.map(m => ({
-            messageId: m.id,
-            conversationId,
-            senderE164: m.source,
-            senderUuid: m.sourceUuid,
-            timestamp: getMessageSentTimestamp(m, { log }),
-            isDirectConversation: isDirectConversation(this.attributes),
-          })),
+          receipts: readMessages.map(m => {
+            const { sourceServiceId: senderAci } = m;
+            strictAssert(isAciString(senderAci), "Can't send receipt to PNI");
+
+            return {
+              messageId: m.id,
+              conversationId,
+              senderE164: m.source,
+              senderAci,
+              timestamp: getMessageSentTimestamp(m, { log }),
+              isDirectConversation: isDirectConversation(this.attributes),
+            };
+          }),
         });
       }
 
@@ -2266,7 +2273,7 @@ export class ConversationModel extends window.Backbone
           this.set({
             pendingAdminApprovalV2: [
               {
-                uuid: ourAci,
+                aci: ourAci,
                 timestamp: Date.now(),
               },
             ],
@@ -2828,23 +2835,23 @@ export class ConversationModel extends window.Backbone
   async addDeliveryIssue({
     receivedAt,
     receivedAtCounter,
-    senderUuid,
+    senderAci,
     sentAt,
   }: {
     receivedAt: number;
     receivedAtCounter: number;
-    senderUuid: string;
+    senderAci: AciString;
     sentAt: number;
   }): Promise<void> {
     log.info(`addDeliveryIssue: adding for ${this.idForLogging()}`, {
       sentAt,
-      senderUuid,
+      senderAci,
     });
 
     const message = {
       conversationId: this.id,
       type: 'delivery-issue',
-      sourceUuid: senderUuid,
+      sourceServiceId: senderAci,
       sent_at: receivedAt,
       received_at: receivedAtCounter,
       received_at_ms: receivedAt,
@@ -2945,15 +2952,11 @@ export class ConversationModel extends window.Backbone
       if (senderKeyInfo) {
         const updatedSenderKeyInfo = {
           ...senderKeyInfo,
-          memberDevices: senderKeyInfo.memberDevices
-            .map(resolveSenderKeyDevice)
-            .filter(isNotNil)
-            .filter(({ serviceId: memberServiceId }) => {
+          memberDevices: senderKeyInfo.memberDevices.filter(
+            ({ serviceId: memberServiceId }) => {
               return memberServiceId !== keyChangedId;
-            })
-            .map(({ serviceId: memberServiceId, ...rest }) => {
-              return { identifier: memberServiceId, ...rest };
-            }),
+            }
+          ),
         };
 
         this.set('senderKeyInfo', updatedSenderKeyInfo);
@@ -3267,7 +3270,7 @@ export class ConversationModel extends window.Backbone
     newValue: string
   ): Promise<void> {
     const sourceServiceId = this.getCheckedServiceId(
-      'Change number notification without uuid'
+      'Change number notification without service id'
     );
 
     const { storage } = window.textsecure;
@@ -3299,7 +3302,7 @@ export class ConversationModel extends window.Backbone
         return convo.addNotification('change-number-notification', {
           readStatus: ReadStatus.Read,
           seenStatus: SeenStatus.Unseen,
-          sourceUuid: sourceServiceId,
+          sourceServiceId,
         });
       })
     );
@@ -3379,7 +3382,7 @@ export class ConversationModel extends window.Backbone
     }
 
     const members = this.get('membersV2') || [];
-    const member = members.find(x => x.uuid === serviceId);
+    const member = members.find(x => x.aci === serviceId);
     if (!member) {
       return false;
     }
@@ -3390,7 +3393,7 @@ export class ConversationModel extends window.Backbone
   }
 
   getServiceId(): ServiceIdString | undefined {
-    return this.get('uuid');
+    return this.get('serviceId');
   }
 
   getCheckedServiceId(reason: string): ServiceIdString {
@@ -3400,7 +3403,7 @@ export class ConversationModel extends window.Backbone
   }
 
   getAci(): AciString | undefined {
-    const value = this.get('uuid');
+    const value = this.getServiceId();
     if (value && isAciString(value)) {
       return value;
     }
@@ -4483,7 +4486,7 @@ export class ConversationModel extends window.Backbone
 
     await Promise.all(
       conversations.map(conversation =>
-        getProfile(conversation.get('uuid'), conversation.get('e164'))
+        getProfile(conversation.getServiceId(), conversation.get('e164'))
       )
     );
   }
@@ -4653,8 +4656,8 @@ export class ConversationModel extends window.Backbone
       return;
     }
 
-    const uuid = this.get('uuid');
-    if (!uuid) {
+    const serviceId = this.getServiceId();
+    if (!serviceId) {
       return;
     }
 
@@ -4663,7 +4666,7 @@ export class ConversationModel extends window.Backbone
       return lastProfile.profileKeyVersion;
     }
 
-    const profileKeyVersion = deriveProfileKeyVersion(profileKey, uuid);
+    const profileKeyVersion = deriveProfileKeyVersion(profileKey, serviceId);
     if (!profileKeyVersion) {
       log.warn(
         'deriveProfileKeyVersion: Failed to derive profile key version, ' +
@@ -4733,7 +4736,7 @@ export class ConversationModel extends window.Backbone
   hasMember(serviceId: ServiceIdString): boolean {
     const members = this.getMembers();
 
-    return members.some(member => member.get('uuid') === serviceId);
+    return members.some(member => member.getServiceId() === serviceId);
   }
 
   fetchContacts(): void {
@@ -4818,7 +4821,7 @@ export class ConversationModel extends window.Backbone
   }
 
   // Set of items to captureChanges on:
-  // [-] uuid
+  // [-] serviceId
   // [-] e164
   // [X] profileKey
   // [-] identityKey
@@ -4912,14 +4915,14 @@ export class ConversationModel extends window.Backbone
 
       const ourAci = window.textsecure.storage.user.getCheckedAci();
       const ourPni = window.textsecure.storage.user.getCheckedPni();
-      const ourUuids: Set<ServiceIdString> = new Set([ourAci, ourPni]);
+      const ourServiceIds: Set<ServiceIdString> = new Set([ourAci, ourPni]);
 
       const mentionsMe = (message.get('bodyRanges') || []).some(bodyRange => {
         if (!BodyRange.isMention(bodyRange)) {
           return false;
         }
-        return ourUuids.has(
-          normalizeServiceId(bodyRange.mentionUuid, 'notify: mentionsMe check')
+        return ourServiceIds.has(
+          normalizeServiceId(bodyRange.mentionAci, 'notify: mentionsMe check')
         );
       });
       if (!mentionsMe) {
@@ -5281,7 +5284,7 @@ window.Whisper.ConversationCollection = window.Backbone.Collection.extend({
 
   /**
    * window.Backbone defines a `_byId` field. Here we set up additional `_byE164`,
-   * `_byUuid`, and `_byGroupId` fields so we can track conversations by more
+   * `_byServiceId`, and `_byGroupId` fields so we can track conversations by more
    * than just their id.
    */
   initialize() {
@@ -5294,8 +5297,8 @@ window.Whisper.ConversationCollection = window.Backbone.Collection.extend({
           if (idProp === 'e164') {
             delete this._byE164[oldValue];
           }
-          if (idProp === 'uuid') {
-            delete this._byUuid[oldValue];
+          if (idProp === 'serviceId') {
+            delete this._byServiceId[oldValue];
           }
           if (idProp === 'pni') {
             delete this._byPni[oldValue];
@@ -5308,11 +5311,11 @@ window.Whisper.ConversationCollection = window.Backbone.Collection.extend({
         if (e164) {
           this._byE164[e164] = model;
         }
-        const uuid = model.get('uuid');
-        if (uuid) {
-          this._byUuid[uuid] = model;
+        const serviceId = model.getServiceId();
+        if (serviceId) {
+          this._byServiceId[serviceId] = model;
         }
-        const pni = model.get('pni');
+        const pni = model.getPni();
         if (pni) {
           this._byPni[pni] = model;
         }
@@ -5340,28 +5343,28 @@ window.Whisper.ConversationCollection = window.Backbone.Collection.extend({
       if (e164) {
         const existing = this._byE164[e164];
 
-        // Prefer the contact with both e164 and uuid
-        if (!existing || (existing && !existing.get('uuid'))) {
+        // Prefer the contact with both e164 and serviceId
+        if (!existing || (existing && !existing.getServiceId())) {
           this._byE164[e164] = model;
         }
       }
 
-      const uuid = model.get('uuid');
-      if (uuid) {
-        const existing = this._byUuid[uuid];
+      const serviceId = model.getServiceId();
+      if (serviceId) {
+        const existing = this._byServiceId[serviceId];
 
-        // Prefer the contact with both e164 and uuid
+        // Prefer the contact with both e164 and seviceId
         if (!existing || (existing && !existing.get('e164'))) {
-          this._byUuid[uuid] = model;
+          this._byServiceId[serviceId] = model;
         }
       }
 
-      const pni = model.get('pni');
+      const pni = model.getPni();
       if (pni) {
         const existing = this._byPni[pni];
 
-        // Prefer the contact with both uuid and pni
-        if (!existing || (existing && !existing.get('uuid'))) {
+        // Prefer the contact with both serviceId and pni
+        if (!existing || (existing && !existing.getServiceId())) {
           this._byPni[pni] = model;
         }
       }
@@ -5375,7 +5378,7 @@ window.Whisper.ConversationCollection = window.Backbone.Collection.extend({
 
   eraseLookups() {
     this._byE164 = Object.create(null);
-    this._byUuid = Object.create(null);
+    this._byServiceId = Object.create(null);
     this._byPni = Object.create(null);
     this._byGroupId = Object.create(null);
   },
@@ -5427,7 +5430,7 @@ window.Whisper.ConversationCollection = window.Backbone.Collection.extend({
 
   /**
    * window.Backbone collections have a `_byId` field that `get` defers to. Here, we
-   * override `get` to first access our custom `_byE164`, `_byUuid`, and
+   * override `get` to first access our custom `_byE164`, `_byServiceId`, and
    * `_byGroupId` functions, followed by falling back to the original
    * window.Backbone implementation.
    */
@@ -5435,7 +5438,7 @@ window.Whisper.ConversationCollection = window.Backbone.Collection.extend({
     return (
       this._byE164[id] ||
       this._byE164[`+${id}`] ||
-      this._byUuid[id] ||
+      this._byServiceId[id] ||
       this._byPni[id] ||
       this._byGroupId[id] ||
       window.Backbone.Collection.prototype.get.call(this, id)

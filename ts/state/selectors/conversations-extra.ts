@@ -56,9 +56,11 @@ export const getByDistributionListConversationsStoppingSend = createSelector(
                 distributionListSelector(distributionId);
 
               if (!currentDistribution) {
-                distributionData.serviceIdsNeedingVerification.forEach(uuid => {
-                  conversationServiceIds.add(uuid);
-                });
+                distributionData.serviceIdsNeedingVerification.forEach(
+                  serviceId => {
+                    conversationServiceIds.add(serviceId);
+                  }
+                );
                 return;
               }
 
@@ -72,7 +74,7 @@ export const getByDistributionListConversationsStoppingSend = createSelector(
                   name: currentDistribution.name,
                 },
                 contacts: distributionData.serviceIdsNeedingVerification.map(
-                  uuid => conversationSelector(uuid)
+                  serviceId => conversationSelector(serviceId)
                 ),
               });
             }
@@ -88,8 +90,8 @@ export const getByDistributionListConversationsStoppingSend = createSelector(
                   name: currentConversation.title,
                 }
               : undefined,
-            contacts: Array.from(conversationServiceIds).map(uuid =>
-              conversationSelector(uuid)
+            contacts: Array.from(conversationServiceIds).map(serviceId =>
+              conversationSelector(serviceId)
             ),
           });
         }

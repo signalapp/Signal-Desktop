@@ -142,7 +142,7 @@ function loadMediaItems(
                 attachments: message.attachments || [],
                 conversationId:
                   window.ConversationController.lookupOrCreate({
-                    uuid: message.sourceUuid,
+                    serviceId: message.sourceServiceId,
                     e164: message.source,
                     reason: 'conversation_view.showAllMedia',
                   })?.id || message.conversationId,

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { UUIDKind, Proto, StorageState } from '@signalapp/mock-server';
+import { ServiceIdKind, Proto, StorageState } from '@signalapp/mock-server';
 import type { PrimaryDevice } from '@signalapp/mock-server';
 import createDebug from 'debug';
 import Long from 'long';
@@ -35,7 +35,7 @@ describe('pnp/merge', function needsName() {
     pniContact = await server.createPrimaryDevice({
       profileName: 'ACI Contact',
     });
-    pniIdentityKey = pniContact.getPublicKey(UUIDKind.PNI).serialize();
+    pniIdentityKey = pniContact.getPublicKey(ServiceIdKind.PNI).serialize();
     aciIdentityKey = pniContact.publicKey.serialize();
 
     let state = StorageState.getEmpty();
@@ -56,7 +56,7 @@ describe('pnp/merge', function needsName() {
         serviceE164: pniContact.device.number,
         givenName: 'PNI Contact',
       },
-      UUIDKind.PNI
+      ServiceIdKind.PNI
     );
 
     state = state.addContact(pniContact, {
@@ -69,8 +69,8 @@ describe('pnp/merge', function needsName() {
     });
 
     // Put both contacts in left pane
-    state = state.pin(pniContact, UUIDKind.PNI);
-    state = state.pin(pniContact, UUIDKind.ACI);
+    state = state.pin(pniContact, ServiceIdKind.PNI);
+    state = state.pin(pniContact, ServiceIdKind.ACI);
 
     // Add my story
     state = state.addRecord({
@@ -81,7 +81,7 @@ describe('pnp/merge', function needsName() {
           identifier: uuidToBytes(MY_STORY_ID),
           isBlockList: true,
           name: MY_STORY_ID,
-          recipientUuids: [],
+          recipientServiceIds: [],
         },
       },
     });
@@ -97,7 +97,7 @@ describe('pnp/merge', function needsName() {
     await bootstrap.teardown();
   });
 
-  for (const finalContact of [UUIDKind.ACI, UUIDKind.PNI]) {
+  for (const finalContact of [ServiceIdKind.ACI, ServiceIdKind.PNI]) {
     for (const withNotification of [false, true]) {
       const testName =
         'happens via storage service, ' +
@@ -113,7 +113,7 @@ describe('pnp/merge', function needsName() {
 
         debug('opening conversation with the aci contact');
         await leftPane
-          .locator(`[data-testid="${pniContact.device.uuid}"]`)
+          .locator(`[data-testid="${pniContact.device.aci}"]`)
           .click();
 
         await window.locator('.module-conversation-hero').waitFor();
@@ -157,10 +157,10 @@ describe('pnp/merge', function needsName() {
           await compositionInput.press('Enter');
         }
 
-        if (finalContact === UUIDKind.ACI) {
+        if (finalContact === ServiceIdKind.ACI) {
           debug('switching back to ACI conversation');
           await leftPane
-            .locator(`[data-testid="${pniContact.device.uuid}"]`)
+            .locator(`[data-testid="${pniContact.device.aci}"]`)
             .click();
 
           await window.locator('.module-conversation-hero').waitFor();
@@ -251,7 +251,7 @@ describe('pnp/merge', function needsName() {
     debug('opening conversation with the merged contact');
     await leftPane
       .locator(
-        `[data-testid="${pniContact.device.uuid}"] >> ` +
+        `[data-testid="${pniContact.device.aci}"] >> ` +
           `"${pniContact.profileName}"`
       )
       .click();
@@ -287,10 +287,10 @@ describe('pnp/merge', function needsName() {
           serviceE164: pniContact.device.number,
           givenName: 'PNI Contact',
         },
-        UUIDKind.PNI
+        ServiceIdKind.PNI
       );
 
-      state = state.pin(pniContact, UUIDKind.PNI);
+      state = state.pin(pniContact, ServiceIdKind.PNI);
 
       await phone.setStorageState(state);
       await phone.sendFetchStorage({
@@ -349,7 +349,7 @@ describe('pnp/merge', function needsName() {
     debug('opening conversation with the merged contact');
     await leftPane
       .locator(
-        `[data-testid="${pniContact.device.uuid}"] >> ` +
+        `[data-testid="${pniContact.device.aci}"] >> ` +
           `"${pniContact.profileName}"`
       )
       .click();
@@ -386,14 +386,14 @@ describe('pnp/merge', function needsName() {
           throw new Error('Invalid record');
         }
 
-        const { serviceUuid, serviceE164, pni } = contact;
-        if (serviceUuid === pniContact.device.uuid) {
+        const { aci, serviceE164, pni } = contact;
+        if (aci === pniContact.device.aci) {
           aciContacts += 1;
           assert.strictEqual(pni, '');
           assert.strictEqual(serviceE164, '');
-        } else if (serviceUuid === pniContact.device.pni) {
+        } else if (pni === pniContact.device.pni) {
           pniContacts += 1;
-          assert.strictEqual(pni, serviceUuid);
+          assert.strictEqual(aci, '');
           assert.strictEqual(serviceE164, pniContact.device.number);
         }
       }
@@ -401,13 +401,10 @@ describe('pnp/merge', function needsName() {
       assert.strictEqual(pniContacts, 1);
 
       assert.strictEqual(removed[0].contact?.pni, pniContact.device.pni);
-      assert.strictEqual(
-        removed[0].contact?.serviceUuid,
-        pniContact.device.uuid
-      );
+      assert.strictEqual(removed[0].contact?.aci, pniContact.device.aci);
 
       // Pin PNI so that it appears in the left pane
-      const updated = newState.pin(pniContact, UUIDKind.PNI);
+      const updated = newState.pin(pniContact, ServiceIdKind.PNI);
       await phone.setStorageState(updated);
       await phone.sendFetchStorage({
         timestamp: bootstrap.getTimestamp(),

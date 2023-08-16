@@ -26,7 +26,7 @@ import { handleEditMessage } from './handleEditMessage';
 import { isGroup } from './whatTypeOfConversation';
 import { isStory, isTapToView } from '../state/selectors/message';
 import { getOwn } from './getOwn';
-import { getSourceUuid } from '../messages/helpers';
+import { getSourceServiceId } from '../messages/helpers';
 import { missingCaseError } from './missingCaseError';
 import { reduce } from './iterables';
 import { strictAssert } from './assert';
@@ -45,9 +45,9 @@ export async function modifyTargetMessage(
   const type = message.get('type');
   let changed = false;
   const ourAci = window.textsecure.storage.user.getCheckedAci();
-  const sourceUuid = getSourceUuid(message.attributes);
+  const sourceServiceId = getSourceServiceId(message.attributes);
 
-  if (type === 'outgoing' || (type === 'story' && ourAci === sourceUuid)) {
+  if (type === 'outgoing' || (type === 'story' && ourAci === sourceServiceId)) {
     const sendActions = MessageReceipts.getSingleton()
       .forMessage(message)
       .map(receipt => {

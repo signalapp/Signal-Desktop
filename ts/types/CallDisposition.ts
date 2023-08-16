@@ -4,7 +4,8 @@
 import { z } from 'zod';
 import Long from 'long';
 import { CallMode } from './Calling';
-import type { ServiceIdString } from './ServiceId';
+import type { AciString } from './ServiceId';
+import { aciSchema } from './ServiceId';
 import { bytesToUuid } from '../util/uuidToBytes';
 import { SignalService as Proto } from '../protobuf';
 import * as Bytes from '../Bytes';
@@ -67,8 +68,8 @@ export type CallStatus = DirectCallStatus | GroupCallStatus;
 
 export type CallDetails = Readonly<{
   callId: string;
-  peerId: ServiceIdString | string;
-  ringerId: string | null;
+  peerId: AciString | string;
+  ringerId: AciString | string | null;
   mode: CallMode;
   type: CallType;
   direction: CallDirection;
@@ -95,7 +96,7 @@ export type CallHistoryGroup = Omit<CallHistoryDetails, 'callId' | 'ringerId'> &
 
 export type GroupCallMeta = Readonly<{
   callId: string;
-  ringerId: string;
+  ringerId: string | AciString;
 }>;
 
 export enum CallHistoryFilterStatus {
@@ -118,7 +119,7 @@ export type CallHistoryPagination = Readonly<{
   limit: number;
 }>;
 
-const ringerIdSchema = z.union([z.string(), z.null()]);
+const ringerIdSchema = z.union([aciSchema, z.string(), z.null()]);
 
 const callModeSchema = z.nativeEnum(CallMode);
 const callTypeSchema = z.nativeEnum(CallType);

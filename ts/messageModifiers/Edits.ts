@@ -28,7 +28,7 @@ export function forMessage(
     | 'editMessageTimestamp'
     | 'sent_at'
     | 'source'
-    | 'sourceUuid'
+    | 'sourceServiceId'
     | 'timestamp'
     | 'type'
   >

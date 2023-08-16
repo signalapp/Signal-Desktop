@@ -117,7 +117,7 @@ export function getConversation(model: ConversationModel): ConversationType {
   // TODO: DESKTOP-720
   return {
     id: attributes.id,
-    uuid: attributes.uuid,
+    serviceId: attributes.serviceId,
     pni: attributes.pni,
     e164: attributes.e164,
 

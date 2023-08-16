@@ -18,7 +18,7 @@ import { isNotNil } from '../util/isNotNil';
 import type { AciString } from '../types/ServiceId';
 
 export type MentionBlotValue = {
-  uuid: AciString;
+  aci: AciString;
   title: string;
 };
 
@@ -185,7 +185,7 @@ export const getTextAndRangesFromOps = (
     if (isInsertMentionOp(op)) {
       startingBodyRanges.push({
         length: 1, // The length of `\uFFFC`
-        mentionUuid: op.insert.mention.uuid,
+        mentionAci: op.insert.mention.aci,
         replacementText: op.insert.mention.title,
         start: acc.length,
       });
@@ -291,13 +291,13 @@ export const getDeltaToRestartMention = (ops: Array<Op>): Delta => {
 
 export const getDeltaToRemoveStaleMentions = (
   ops: Array<Op>,
-  memberUuids: Array<string>
+  memberAcis: Array<AciString>
 ): Delta => {
   const newOps = ops.reduce((memo, op) => {
     if (op.insert) {
       if (
         isInsertMentionOp(op) &&
-        !memberUuids.includes(op.insert.mention.uuid)
+        !memberAcis.includes(op.insert.mention.aci)
       ) {
         const deleteOp = { delete: 1 };
         const textOp = { insert: `@${op.insert.mention.title}` };
@@ -360,7 +360,7 @@ export const insertMentionOps = (
         return;
       }
 
-      const { start, length, mentionUuid, replacementText } = bodyRange;
+      const { start, length, mentionAci, replacementText } = bodyRange;
 
       const op = ops.shift();
 
@@ -372,7 +372,7 @@ export const insertMentionOps = (
           const right = insert.slice(start + length);
 
           const mention = {
-            uuid: mentionUuid,
+            aci: mentionAci,
             title: replacementText,
           };
 

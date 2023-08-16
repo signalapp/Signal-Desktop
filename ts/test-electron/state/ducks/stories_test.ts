@@ -49,10 +49,10 @@ describe('both/state/ducks/stories', () => {
   describe('viewStory', () => {
     function getMockConversation({
       id: conversationId,
-      uuid,
+      serviceId,
       hideStory = false,
       title,
-    }: Pick<ConversationType, 'id' | 'hideStory' | 'uuid'> & {
+    }: Pick<ConversationType, 'id' | 'hideStory' | 'serviceId'> & {
       title?: string;
     }): ConversationType {
       return {
@@ -60,7 +60,7 @@ describe('both/state/ducks/stories', () => {
         badges: [],
         hideStory,
         id: conversationId,
-        uuid,
+        serviceId,
         isMe: false,
         sharedGroupNames: [],
         title: title || casual.username,
@@ -282,24 +282,24 @@ describe('both/state/ducks/stories', () => {
               readStatus: ReadStatus.Viewed,
             },
 
-            // selector looks up conversation by sourceUuid
+            // selector looks up conversation by sourceServiceId
             {
               ...getStoryData(storyId2, conversationIdHide),
-              sourceUuid: conversationAci,
+              sourceServiceId: conversationAci,
             },
             {
               ...getStoryData(storyId3, conversationIdHide),
-              sourceUuid: conversationAciHide,
+              sourceServiceId: conversationAciHide,
             },
           ],
           {
             [conversationId]: getMockConversation({
               id: conversationId,
-              uuid: conversationAci,
+              serviceId: conversationAci,
             }),
             [conversationIdHide]: getMockConversation({
               id: conversationIdHide,
-              uuid: conversationAciHide,
+              serviceId: conversationAciHide,
               hideStory: true,
             }),
           },

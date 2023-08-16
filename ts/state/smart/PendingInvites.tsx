@@ -11,7 +11,7 @@ import { getIntl, getTheme } from '../selectors/user';
 import { getPreferredBadgeSelector } from '../selectors/badges';
 import {
   getConversationByIdSelector,
-  getConversationByUuidSelector,
+  getConversationByServiceIdSelector,
 } from '../selectors/conversations';
 import { getGroupMemberships } from '../../util/getGroupMemberships';
 import { assertDev } from '../../util/assert';
@@ -27,7 +27,8 @@ const mapStateToProps = (
   props: SmartPendingInvitesProps
 ): PropsDataType => {
   const conversationSelector = getConversationByIdSelector(state);
-  const conversationByUuidSelector = getConversationByUuidSelector(state);
+  const conversationByServiceIdSelector =
+    getConversationByServiceIdSelector(state);
 
   const conversation = conversationSelector(props.conversationId);
   assertDev(
@@ -37,7 +38,7 @@ const mapStateToProps = (
 
   return {
     ...props,
-    ...getGroupMemberships(conversation, conversationByUuidSelector),
+    ...getGroupMemberships(conversation, conversationByServiceIdSelector),
     conversation,
     getPreferredBadge: getPreferredBadgeSelector(state),
     i18n: getIntl(state),

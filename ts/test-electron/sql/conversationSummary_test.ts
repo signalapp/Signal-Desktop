@@ -523,7 +523,7 @@ describe('sql/conversationSummary', () => {
           details: [
             {
               type: 'member-remove',
-              uuid: ourAci,
+              aci: ourAci,
             },
           ],
         },
@@ -541,7 +541,7 @@ describe('sql/conversationSummary', () => {
           details: [
             {
               type: 'member-remove',
-              uuid: otherServiceId,
+              aci: otherServiceId,
             },
           ],
         },

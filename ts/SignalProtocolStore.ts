@@ -423,7 +423,8 @@ export class SignalProtocolStore extends EventEmitter {
       .map(item => item.fromDB)
       .filter(
         item =>
-          item.ourUuid === ourServiceId && item.isLastResort === isLastResort
+          item.ourServiceId === ourServiceId &&
+          item.isLastResort === isLastResort
       );
   }
 
@@ -479,7 +480,7 @@ export class SignalProtocolStore extends EventEmitter {
         isConfirmed: key.isConfirmed,
         isLastResort: key.isLastResort,
         keyId: key.keyId,
-        ourUuid: ourServiceId,
+        ourServiceId,
       };
 
       toSave.push(kyberPreKey);
@@ -589,7 +590,7 @@ export class SignalProtocolStore extends EventEmitter {
     const entries = Array.from(this.preKeys.values());
     return entries
       .map(item => item.fromDB)
-      .filter(item => item.ourUuid === ourServiceId);
+      .filter(item => item.ourServiceId === ourServiceId);
   }
 
   async storePreKeys(
@@ -613,7 +614,7 @@ export class SignalProtocolStore extends EventEmitter {
       const preKey = {
         id,
         keyId: key.keyId,
-        ourUuid: ourServiceId,
+        ourServiceId,
         publicKey: key.keyPair.pubKey,
         privateKey: key.keyPair.privKey,
         createdAt: now,
@@ -705,7 +706,7 @@ export class SignalProtocolStore extends EventEmitter {
 
     const entries = Array.from(this.signedPreKeys.values());
     return entries
-      .filter(({ fromDB }) => fromDB.ourUuid === ourServiceId)
+      .filter(({ fromDB }) => fromDB.ourServiceId === ourServiceId)
       .map(entry => {
         const preKey = entry.fromDB;
         return {
@@ -760,7 +761,7 @@ export class SignalProtocolStore extends EventEmitter {
 
     const fromDB = {
       id,
-      ourUuid: ourServiceId,
+      ourServiceId,
       keyId,
       publicKey: keyPair.pubKey,
       privateKey: keyPair.privKey,
@@ -1335,7 +1336,7 @@ export class SignalProtocolStore extends EventEmitter {
       throw new Error('_maybeMigrateSession: Unknown session version type!');
     }
 
-    const ourServiceId = session.ourUuid;
+    const { ourServiceId } = session;
 
     const keyPair = this.getIdentityKeyPair(ourServiceId);
     if (!keyPair) {
@@ -1384,7 +1385,7 @@ export class SignalProtocolStore extends EventEmitter {
       const { serviceId, deviceId } = qualifiedAddress;
 
       const conversation = window.ConversationController.lookupOrCreate({
-        uuid: serviceId,
+        serviceId,
         reason: 'SignalProtocolStore.storeSession',
       });
       strictAssert(
@@ -1397,9 +1398,9 @@ export class SignalProtocolStore extends EventEmitter {
         const fromDB = {
           id,
           version: 2,
-          ourUuid: qualifiedAddress.ourServiceId,
+          ourServiceId: qualifiedAddress.ourServiceId,
           conversationId: conversation.id,
-          uuid: serviceId,
+          serviceId,
           deviceId,
           record: record.serialize().toString('base64'),
         };
@@ -1448,7 +1449,8 @@ export class SignalProtocolStore extends EventEmitter {
         const allSessions = this._getAllSessions();
         const entries = allSessions.filter(
           ({ fromDB }) =>
-            fromDB.ourUuid === ourServiceId && serviceIdSet.has(fromDB.uuid)
+            fromDB.ourServiceId === ourServiceId &&
+            serviceIdSet.has(fromDB.serviceId)
         );
         const openEntries: Array<
           | undefined
@@ -1485,15 +1487,15 @@ export class SignalProtocolStore extends EventEmitter {
             }
             const { entry, record } = item;
 
-            const { uuid } = entry.fromDB;
-            serviceIdSet.delete(uuid);
+            const { serviceId } = entry.fromDB;
+            serviceIdSet.delete(serviceId);
 
             const id = entry.fromDB.deviceId;
 
             const registrationId = record.remoteRegistrationId();
 
             return {
-              serviceId: uuid,
+              serviceId,
               id,
               registrationId,
             };
@@ -1601,7 +1603,7 @@ export class SignalProtocolStore extends EventEmitter {
 
       for (let i = 0, max = entries.length; i < max; i += 1) {
         const entry = entries[i];
-        if (entry.fromDB.uuid === serviceId) {
+        if (entry.fromDB.serviceId === serviceId) {
           this.sessions.delete(entry.fromDB.id);
           this.pendingSessions.delete(entry.fromDB.id);
         }
@@ -1675,7 +1677,8 @@ export class SignalProtocolStore extends EventEmitter {
       const allEntries = this._getAllSessions();
       const entries = allEntries.filter(
         entry =>
-          entry.fromDB.uuid === serviceId && entry.fromDB.deviceId !== deviceId
+          entry.fromDB.serviceId === serviceId &&
+          entry.fromDB.deviceId !== deviceId
       );
 
       await Promise.all(
@@ -1696,7 +1699,7 @@ export class SignalProtocolStore extends EventEmitter {
 
       const allEntries = this._getAllSessions();
       const entries = allEntries.filter(
-        entry => entry.fromDB.uuid === serviceId
+        entry => entry.fromDB.serviceId === serviceId
       );
 
       await Promise.all(
@@ -1743,7 +1746,7 @@ export class SignalProtocolStore extends EventEmitter {
 
       // First, fetch this conversation
       const conversation = window.ConversationController.lookupOrCreate({
-        uuid: serviceId,
+        serviceId,
         reason: 'SignalProtocolStore.lightSessionReset',
       });
       assertDev(conversation, `lightSessionReset/${id}: missing conversation`);
@@ -2584,7 +2587,7 @@ export class SignalProtocolStore extends EventEmitter {
               isConfirmed: true,
               isLastResort: true,
               keyId: lastResortKyberPreKey.id(),
-              ourUuid: pni,
+              ourServiceId: pni,
             },
           ])
         : undefined,

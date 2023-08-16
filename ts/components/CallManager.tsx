@@ -274,7 +274,7 @@ function ActiveCallManager({
           <CallingParticipantsList
             i18n={i18n}
             onClose={toggleParticipants}
-            ourUuid={me.uuid}
+            ourServiceId={me.serviceId}
             participants={peekedParticipants}
           />
         ) : null}
@@ -359,7 +359,7 @@ function ActiveCallManager({
         <CallingParticipantsList
           i18n={i18n}
           onClose={toggleParticipants}
-          ourUuid={me.uuid}
+          ourServiceId={me.serviceId}
           participants={groupCallParticipantsForParticipantsList}
         />
       ) : null}

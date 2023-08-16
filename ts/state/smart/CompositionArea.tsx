@@ -171,7 +171,7 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
           ourConversationId: getUserConversationId(state),
         })
       : undefined,
-    quotedMessageAuthorUuid: quotedMessage?.quote?.authorUuid,
+    quotedMessageAuthorAci: quotedMessage?.quote?.authorAci,
     quotedMessageSentAt: quotedMessage?.quote?.id,
     // Emojis
     recentEmojis,
@@ -201,7 +201,7 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     draftText: dropNull(draftText),
     draftBodyRanges: draftBodyRanges?.map(bodyRange => {
       if (BodyRange.isMention(bodyRange)) {
-        const mentionConvo = conversationSelector(bodyRange.mentionUuid);
+        const mentionConvo = conversationSelector(bodyRange.mentionAci);
 
         return {
           ...bodyRange,

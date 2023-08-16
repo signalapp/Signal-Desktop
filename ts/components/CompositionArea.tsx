@@ -36,6 +36,7 @@ import type {
   InMemoryAttachmentDraftType,
 } from '../types/Attachment';
 import { isImageAttachment, isVoiceMessage } from '../types/Attachment';
+import type { AciString } from '../types/ServiceId';
 import { AudioCapture } from './conversation/AudioCapture';
 import { CompositionUpload } from './CompositionUpload';
 import type {
@@ -87,7 +88,6 @@ export type OwnProps = Readonly<{
   conversationId: string;
   discardEditMessage: (id: string) => unknown;
   draftEditMessage?: DraftEditMessageType;
-  uuid?: string;
   draftAttachments: ReadonlyArray<AttachmentDraftType>;
   errorDialogAudioRecorderType?: ErrorDialogAudioRecorderType;
   errorRecording: (e: ErrorDialogAudioRecorderType) => unknown;
@@ -131,7 +131,7 @@ export type OwnProps = Readonly<{
     options: {
       bodyRanges?: DraftBodyRanges;
       message?: string;
-      quoteAuthorUuid?: string;
+      quoteAuthorAci?: AciString;
       quoteSentAt?: number;
       targetMessageId: string;
     }
@@ -153,7 +153,7 @@ export type OwnProps = Readonly<{
       'i18n' | 'onClick' | 'onClose' | 'withContentAbove' | 'isCompose'
     >
   >;
-  quotedMessageAuthorUuid?: string;
+  quotedMessageAuthorAci?: AciString;
   quotedMessageSentAt?: number;
 
   removeAttachment: (conversationId: string, filePath: string) => unknown;
@@ -256,7 +256,7 @@ export function CompositionArea({
   // Quote
   quotedMessageId,
   quotedMessageProps,
-  quotedMessageAuthorUuid,
+  quotedMessageAuthorAci,
   quotedMessageSentAt,
   scrollToMessage,
   // MediaQualitySelector
@@ -356,7 +356,7 @@ export function CompositionArea({
           message,
           // sent timestamp for the quote
           quoteSentAt: quotedMessageSentAt,
-          quoteAuthorUuid: quotedMessageAuthorUuid,
+          quoteAuthorAci: quotedMessageAuthorAci,
           targetMessageId: editedMessageId,
         });
       } else {
@@ -374,7 +374,7 @@ export function CompositionArea({
       draftAttachments,
       editedMessageId,
       quotedMessageSentAt,
-      quotedMessageAuthorUuid,
+      quotedMessageAuthorAci,
       sendEditedMessage,
       sendMultiMediaMessage,
       setLarge,

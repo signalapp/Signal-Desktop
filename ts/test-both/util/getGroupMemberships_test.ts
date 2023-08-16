@@ -5,14 +5,14 @@ import { assert } from 'chai';
 import type { ConversationType } from '../../state/ducks/conversations';
 import { generateAci, normalizeAci } from '../../types/ServiceId';
 import type { ServiceIdString } from '../../types/ServiceId';
-import { getDefaultConversationWithUuid } from '../helpers/getDefaultConversation';
+import { getDefaultConversationWithServiceId } from '../helpers/getDefaultConversation';
 
 import { getGroupMemberships } from '../../util/getGroupMemberships';
 
 describe('getGroupMemberships', () => {
-  const normalConversation1 = getDefaultConversationWithUuid();
-  const normalConversation2 = getDefaultConversationWithUuid();
-  const unregisteredConversation = getDefaultConversationWithUuid({
+  const normalConversation1 = getDefaultConversationWithServiceId();
+  const normalConversation2 = getDefaultConversationWithServiceId();
+  const unregisteredConversation = getDefaultConversationWithServiceId({
     discoveredUnregisteredAt: Date.now(),
   });
 
@@ -23,7 +23,7 @@ describe('getGroupMemberships', () => {
       normalConversation1,
       normalConversation2,
       unregisteredConversation,
-    ].find(conversation => conversation.uuid === serviceId);
+    ].find(conversation => conversation.serviceId === serviceId);
   }
 
   describe('memberships', () => {
@@ -53,7 +53,7 @@ describe('getGroupMemberships', () => {
       const conversation = {
         memberships: [
           {
-            uuid: generateAci(),
+            aci: generateAci(),
             isAdmin: true,
           },
         ],
@@ -71,7 +71,7 @@ describe('getGroupMemberships', () => {
       const conversation = {
         memberships: [
           {
-            uuid: normalizeAci(unregisteredConversation.uuid, 'test'),
+            aci: normalizeAci(unregisteredConversation.serviceId, 'test'),
             isAdmin: true,
           },
         ],
@@ -93,11 +93,11 @@ describe('getGroupMemberships', () => {
       const conversation = {
         memberships: [
           {
-            uuid: normalizeAci(normalConversation2.uuid, 'test'),
+            aci: normalizeAci(normalConversation2.serviceId, 'test'),
             isAdmin: false,
           },
           {
-            uuid: normalizeAci(normalConversation1.uuid, 'test'),
+            aci: normalizeAci(normalConversation1.serviceId, 'test'),
             isAdmin: true,
           },
         ],
@@ -145,7 +145,7 @@ describe('getGroupMemberships', () => {
 
     it("filters out conversation IDs that don't exist", () => {
       const conversation = {
-        pendingApprovalMemberships: [{ uuid: generateAci() }],
+        pendingApprovalMemberships: [{ aci: generateAci() }],
       };
 
       const result = getGroupMemberships(
@@ -159,7 +159,7 @@ describe('getGroupMemberships', () => {
     it('filters out unregistered conversations', () => {
       const conversation = {
         pendingApprovalMemberships: [
-          { uuid: normalizeAci(unregisteredConversation.uuid, 'test') },
+          { aci: normalizeAci(unregisteredConversation.serviceId, 'test') },
         ],
       };
 
@@ -174,8 +174,8 @@ describe('getGroupMemberships', () => {
     it('hydrates pending-approval memberships', () => {
       const conversation = {
         pendingApprovalMemberships: [
-          { uuid: normalizeAci(normalConversation2.uuid, 'test') },
-          { uuid: normalizeAci(normalConversation1.uuid, 'test') },
+          { aci: normalizeAci(normalConversation2.serviceId, 'test') },
+          { aci: normalizeAci(normalConversation1.serviceId, 'test') },
         ],
       };
 
@@ -217,8 +217,8 @@ describe('getGroupMemberships', () => {
       const conversation = {
         pendingMemberships: [
           {
-            uuid: generateAci(),
-            addedByUserId: normalizeAci(normalConversation1.uuid, 'test'),
+            serviceId: generateAci(),
+            addedByUserId: normalizeAci(normalConversation1.serviceId, 'test'),
           },
         ],
       };
@@ -235,8 +235,8 @@ describe('getGroupMemberships', () => {
       const conversation = {
         pendingMemberships: [
           {
-            uuid: unregisteredConversation.uuid,
-            addedByUserId: normalizeAci(normalConversation1.uuid, 'test'),
+            serviceId: unregisteredConversation.serviceId,
+            addedByUserId: normalizeAci(normalConversation1.serviceId, 'test'),
           },
         ],
       };
@@ -255,8 +255,8 @@ describe('getGroupMemberships', () => {
 
       const conversation = {
         pendingMemberships: [
-          { uuid: normalConversation2.uuid, addedByUserId: abc },
-          { uuid: normalConversation1.uuid, addedByUserId: xyz },
+          { serviceId: normalConversation2.serviceId, addedByUserId: abc },
+          { serviceId: normalConversation1.serviceId, addedByUserId: xyz },
         ],
       };
 

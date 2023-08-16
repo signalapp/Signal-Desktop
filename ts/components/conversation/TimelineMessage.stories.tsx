@@ -1676,7 +1676,7 @@ Mentions.args = {
     {
       start: 0,
       length: 1,
-      mentionUuid: generateAci(),
+      mentionAci: generateAci(),
       replacementText: 'Zapp Brannigan',
       conversationID: 'x',
     },
@@ -1944,7 +1944,7 @@ EmbeddedContactWithSendMessage.args = {
   contact: {
     ...fullContact,
     firstNumber: fullContact.number[0].value,
-    uuid: generateAci(),
+    serviceId: generateAci(),
   },
   direction: 'incoming',
 };

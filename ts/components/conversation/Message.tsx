@@ -319,7 +319,7 @@ export type PropsActions = {
   messageExpanded: (id: string, displayLimit: number) => unknown;
   checkForAccount: (phoneNumber: string) => unknown;
 
-  startConversation: (e164: string, uuid: ServiceIdString) => void;
+  startConversation: (e164: string, serviceId: ServiceIdString) => void;
   showConversation: ShowConversationType;
   openGiftBadge: (messageId: string) => void;
   pushPanelForConversation: PushPanelForConversationActionType;
@@ -516,7 +516,7 @@ export class Message extends React.PureComponent<Props, State> {
     }
 
     const { contact, checkForAccount } = this.props;
-    if (contact && contact.firstNumber && !contact.uuid) {
+    if (contact && contact.firstNumber && !contact.serviceId) {
       checkForAccount(contact.firstNumber);
     }
 
@@ -1637,7 +1637,7 @@ export class Message extends React.PureComponent<Props, State> {
       this.getMetadataPlacement() !== MetadataPlacement.NotRendered;
 
     const otherContent =
-      (contact && contact.firstNumber && contact.uuid) || withCaption;
+      (contact && contact.firstNumber && contact.serviceId) || withCaption;
     const tabIndex = otherContent ? 0 : -1;
 
     return (
@@ -1647,10 +1647,10 @@ export class Message extends React.PureComponent<Props, State> {
         i18n={i18n}
         onClick={() => {
           const signalAccount =
-            contact.firstNumber && contact.uuid
+            contact.firstNumber && contact.serviceId
               ? {
                   phoneNumber: contact.firstNumber,
-                  uuid: contact.uuid,
+                  serviceId: contact.serviceId,
                 }
               : undefined;
 
@@ -1678,8 +1678,8 @@ export class Message extends React.PureComponent<Props, State> {
     if (!contact) {
       return null;
     }
-    const { firstNumber, uuid } = contact;
-    if (!firstNumber || !uuid) {
+    const { firstNumber, serviceId } = contact;
+    if (!firstNumber || !serviceId) {
       return null;
     }
 
@@ -1689,7 +1689,7 @@ export class Message extends React.PureComponent<Props, State> {
         onClick={e => {
           e.preventDefault();
           e.stopPropagation();
-          startConversation(firstNumber, uuid);
+          startConversation(firstNumber, serviceId);
         }}
         className={classNames(
           'module-message__send-message-button',
@@ -2456,8 +2456,8 @@ export class Message extends React.PureComponent<Props, State> {
       return;
     }
 
-    if (contact && contact.firstNumber && contact.uuid) {
-      startConversation(contact.firstNumber, contact.uuid);
+    if (contact && contact.firstNumber && contact.serviceId) {
+      startConversation(contact.firstNumber, contact.serviceId);
 
       event.preventDefault();
       event.stopPropagation();
@@ -2466,10 +2466,10 @@ export class Message extends React.PureComponent<Props, State> {
 
     if (contact) {
       const signalAccount =
-        contact.firstNumber && contact.uuid
+        contact.firstNumber && contact.serviceId
           ? {
               phoneNumber: contact.firstNumber,
-              uuid: contact.uuid,
+              serviceId: contact.serviceId,
             }
           : undefined;
       pushPanelForConversation({

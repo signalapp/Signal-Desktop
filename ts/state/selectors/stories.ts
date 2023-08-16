@@ -68,14 +68,14 @@ function sortByRecencyAndUnread(
   storyB: ConversationStoryType
 ): number {
   if (
-    storyA.storyView.sender.uuid === SIGNAL_ACI &&
+    storyA.storyView.sender.serviceId === SIGNAL_ACI &&
     storyA.storyView.isUnread
   ) {
     return -1;
   }
 
   if (
-    storyB.storyView.sender.uuid === SIGNAL_ACI &&
+    storyB.storyView.sender.serviceId === SIGNAL_ACI &&
     storyB.storyView.isUnread
   ) {
     return 1;
@@ -161,21 +161,24 @@ export function getStoryView(
   ourConversationId: string | undefined,
   story: StoryDataType
 ): StoryViewType {
-  const sender = pick(conversationSelector(story.sourceUuid || story.source), [
-    'acceptedMessageRequest',
-    'avatarPath',
-    'badges',
-    'color',
-    'firstName',
-    'hideStory',
-    'id',
-    'isMe',
-    'name',
-    'profileName',
-    'sharedGroupNames',
-    'title',
-    'uuid',
-  ]);
+  const sender = pick(
+    conversationSelector(story.sourceServiceId || story.source),
+    [
+      'acceptedMessageRequest',
+      'avatarPath',
+      'badges',
+      'color',
+      'firstName',
+      'hideStory',
+      'id',
+      'isMe',
+      'name',
+      'profileName',
+      'sharedGroupNames',
+      'title',
+      'serviceId',
+    ]
+  );
 
   const {
     attachment,
@@ -213,7 +216,7 @@ export function getStoryView(
   }
 
   const messageIdForLogging = getMessageIdForLogging({
-    ...pick(story, 'type', 'sourceUuid', 'sourceDevice'),
+    ...pick(story, 'type', 'sourceServiceId', 'sourceDevice'),
     sent_at: story.timestamp,
   });
 
@@ -242,9 +245,10 @@ export function getConversationStory(
   ourConversationId: string | undefined,
   story: StoryDataType
 ): ConversationStoryType {
-  const sender = pick(conversationSelector(story.sourceUuid || story.source), [
-    'id',
-  ]);
+  const sender = pick(
+    conversationSelector(story.sourceServiceId || story.source),
+    ['id']
+  );
 
   const conversation = pick(conversationSelector(story.conversationId), [
     'acceptedMessageRequest',
@@ -295,7 +299,7 @@ export const getStoryReplies = createSelector(
       const conversation =
         reply.type === 'outgoing'
           ? me
-          : conversationSelector(reply.sourceUuid || reply.source);
+          : conversationSelector(reply.sourceServiceId || reply.source);
 
       return {
         author: getAvatarData(conversation),
@@ -342,7 +346,7 @@ export const getStories = createSelector(
         return;
       }
 
-      const isSignalStory = story.sourceUuid === SIGNAL_ACI;
+      const isSignalStory = story.sourceServiceId === SIGNAL_ACI;
 
       // if for some reason this story is already expired (bug)
       // log it and skip it. Unless it's the onboarding story, that story
@@ -352,7 +356,7 @@ export const getStories = createSelector(
         (calculateExpirationTimestamp(story) ?? 0) < Date.now()
       ) {
         const messageIdForLogging = getMessageIdForLogging({
-          ...pick(story, 'type', 'sourceUuid', 'sourceDevice'),
+          ...pick(story, 'type', 'sourceServiceId', 'sourceDevice'),
           sent_at: story.timestamp,
         });
         log.warn('selectors/getStories: story already expired', {

@@ -5,6 +5,8 @@ import Delta from 'quill-delta';
 import type { RefObject } from 'react';
 import type { Matcher, AttributeMap } from 'quill';
 
+import { assertDev } from '../../util/assert';
+import { isAciString } from '../../types/ServiceId';
 import type { MemberRepository } from '../memberRepository';
 
 export const matchMention: (
@@ -21,12 +23,14 @@ export const matchMention: (
         const { id } = node.dataset;
         const conversation = memberRepository.getMemberById(id);
 
-        if (conversation && conversation.uuid) {
+        if (conversation && conversation.serviceId) {
+          const { serviceId: aci } = conversation;
+          assertDev(isAciString(aci), 'Mentioned conversation has no ACI');
           return new Delta().insert(
             {
               mention: {
                 title,
-                uuid: conversation.uuid,
+                aci,
               },
             },
             attributes
@@ -37,15 +41,20 @@ export const matchMention: (
       }
 
       if (node.classList.contains('mention-blot')) {
-        const { uuid } = node.dataset;
-        const conversation = memberRepository.getMemberByUuid(uuid);
+        const { aci } = node.dataset;
+        assertDev(isAciString(aci), 'Mentioned blot has invalid ACI');
+        const conversation = memberRepository.getMemberByServiceId(aci);
 
-        if (conversation && conversation.uuid) {
+        if (conversation && conversation.serviceId) {
+          assertDev(
+            conversation.serviceId === aci,
+            'Mentioned conversation has no ACI'
+          );
           return new Delta().insert(
             {
               mention: {
                 title: title || conversation.title,
-                uuid: conversation.uuid,
+                aci,
               },
             },
             attributes

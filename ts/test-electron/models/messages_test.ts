@@ -37,7 +37,7 @@ describe('Message', () => {
 
   const source = '+1 415-555-5555';
   const me = '+14155555556';
-  const ourUuid = generateAci();
+  const ourServiceId = generateAci();
 
   function createMessage(attrs: { [key: string]: unknown }) {
     const messages = new window.Whisper.MessageCollection();
@@ -61,7 +61,7 @@ describe('Message', () => {
       oldStorageValues.set(key, window.textsecure.storage.get(key));
     });
     await window.textsecure.storage.put('number_id', `${me}.2`);
-    await window.textsecure.storage.put('uuid_id', `${ourUuid}.2`);
+    await window.textsecure.storage.put('uuid_id', `${ourServiceId}.2`);
   });
 
   after(async () => {
@@ -152,7 +152,7 @@ describe('Message', () => {
       });
 
       const fakeDataMessage = new Uint8Array(0);
-      const conversation1Uuid = conversation1.get('uuid');
+      const conversation1Uuid = conversation1.getServiceId();
       const ignoredUuid = generateAci();
 
       if (!conversation1Uuid) {
@@ -163,7 +163,7 @@ describe('Message', () => {
         successfulServiceIds: [conversation1Uuid, ignoredUuid],
         errors: [
           Object.assign(new Error('failed'), {
-            serviceId: conversation2.get('uuid'),
+            serviceId: conversation2.getServiceId(),
           }),
         ],
         dataMessage: fakeDataMessage,
@@ -342,7 +342,7 @@ describe('Message', () => {
           type: 'incoming',
           source,
           group_update: {
-            left: alice?.get('uuid'),
+            left: alice?.getServiceId(),
           },
         }),
         { text: 'Alice left the group.' }
@@ -353,7 +353,7 @@ describe('Message', () => {
       assert.deepEqual(
         createMessageAndGetNotificationData({
           type: 'incoming',
-          source: alice?.get('uuid'),
+          source: alice?.getServiceId(),
           group_update: {},
         }),
         { text: 'Alice updated the group.' }
@@ -417,7 +417,7 @@ describe('Message', () => {
         createMessageAndGetNotificationData({
           type: 'incoming',
           source,
-          group_update: { joined: [bob?.get('uuid')] },
+          group_update: { joined: [bob?.getServiceId()] },
         }),
         {
           text: '+1 415-555-5555 updated the group. Bob joined the group.',
@@ -431,7 +431,11 @@ describe('Message', () => {
           type: 'incoming',
           source,
           group_update: {
-            joined: [bob?.get('uuid'), alice?.get('uuid'), eve?.get('uuid')],
+            joined: [
+              bob?.getServiceId(),
+              alice?.getServiceId(),
+              eve?.getServiceId(),
+            ],
           },
         }),
         {
@@ -447,10 +451,10 @@ describe('Message', () => {
           source,
           group_update: {
             joined: [
-              bob?.get('uuid'),
+              bob?.getServiceId(),
               me,
-              alice?.get('uuid'),
-              eve?.get('uuid'),
+              alice?.getServiceId(),
+              eve?.getServiceId(),
             ],
           },
         }),
@@ -465,7 +469,7 @@ describe('Message', () => {
         createMessageAndGetNotificationData({
           type: 'incoming',
           source,
-          group_update: { joined: [bob?.get('uuid')], name: 'blerg' },
+          group_update: { joined: [bob?.getServiceId()], name: 'blerg' },
         }),
         {
           text: "+1 415-555-5555 updated the group. Bob joined the group. Group name is now 'blerg'.",

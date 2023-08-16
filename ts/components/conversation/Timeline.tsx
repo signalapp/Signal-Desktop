@@ -148,7 +148,7 @@ export type PropsActionsType = {
     conversationId: string,
     groupNameCollisions: ReadonlyDeep<GroupNameCollisionsWithIdsByTitle>
   ) => void;
-  clearInvitedUuidsForNewlyCreatedGroup: () => void;
+  clearInvitedServiceIdsForNewlyCreatedGroup: () => void;
   clearTargetedMessage: () => unknown;
   closeContactSpoofingReview: () => void;
   loadOlderMessages: (conversationId: string, messageId: string) => unknown;
@@ -743,7 +743,7 @@ export class Timeline extends React.Component<
   public override render(): JSX.Element | null {
     const {
       acknowledgeGroupMemberNameCollisions,
-      clearInvitedUuidsForNewlyCreatedGroup,
+      clearInvitedServiceIdsForNewlyCreatedGroup,
       closeContactSpoofingReview,
       contactSpoofingReview,
       getPreferredBadge,
@@ -1139,7 +1139,7 @@ export class Timeline extends React.Component<
             contacts={invitedContactsForNewlyCreatedGroup}
             getPreferredBadge={getPreferredBadge}
             i18n={i18n}
-            onClose={clearInvitedUuidsForNewlyCreatedGroup}
+            onClose={clearInvitedServiceIdsForNewlyCreatedGroup}
             theme={theme}
           />
         )}

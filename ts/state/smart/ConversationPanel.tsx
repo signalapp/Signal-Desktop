@@ -318,7 +318,10 @@ function PanelElement({
         i18n={i18n}
         onSendMessage={() => {
           if (signalAccount) {
-            startConversation(signalAccount.phoneNumber, signalAccount.uuid);
+            startConversation(
+              signalAccount.phoneNumber,
+              signalAccount.serviceId
+            );
           }
         }}
       />

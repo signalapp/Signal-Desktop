@@ -35,6 +35,7 @@ import {
   REMOVE_PREVIEW as REMOVE_LINK_PREVIEW,
 } from './linkPreviews';
 import { LinkPreviewSourceType } from '../../types/LinkPreview';
+import type { AciString } from '../../types/ServiceId';
 import { completeRecording } from './audioRecorder';
 import { RecordingState } from '../../types/AudioRecorder';
 import { SHOW_TOAST } from './toast';
@@ -526,7 +527,7 @@ function sendEditedMessage(
   conversationId: string,
   options: WithPreSendChecksOptions & {
     targetMessageId: string;
-    quoteAuthorUuid?: string;
+    quoteAuthorAci?: AciString;
     quoteSentAt?: number;
   }
 ): ThunkAction<
@@ -545,7 +546,7 @@ function sendEditedMessage(
       message = '',
       bodyRanges,
       quoteSentAt,
-      quoteAuthorUuid,
+      quoteAuthorAci,
       targetMessageId,
     } = options;
 
@@ -559,7 +560,7 @@ function sendEditedMessage(
             body: message,
             bodyRanges,
             preview: getLinkPreviewForSend(message),
-            quoteAuthorUuid,
+            quoteAuthorAci,
             quoteSentAt,
             targetMessageId,
           });

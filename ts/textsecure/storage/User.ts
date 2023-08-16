@@ -27,7 +27,7 @@ export type SetCredentialsOptions = {
 export class User {
   constructor(private readonly storage: StorageInterface) {}
 
-  public async setUuidAndDeviceId(
+  public async setAciAndDeviceId(
     aci: AciString,
     deviceId: number
   ): Promise<void> {

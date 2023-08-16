@@ -24,11 +24,11 @@ export async function encryptProfileData(
     familyName,
     firstName,
     profileKey,
-    uuid,
+    serviceId,
   } = conversation;
 
   assertDev(profileKey, 'profileKey');
-  assertDev(uuid, 'uuid');
+  assertDev(serviceId, 'serviceId');
 
   const keyBuffer = Bytes.fromBase64(profileKey);
 
@@ -63,7 +63,7 @@ export async function encryptProfileData(
   const sameAvatar = Bytes.areEqual(oldAvatar, newAvatar);
 
   const profileData = {
-    version: deriveProfileKeyVersion(profileKey, uuid),
+    version: deriveProfileKeyVersion(profileKey, serviceId),
     name: Bytes.toBase64(bytesName),
     about: bytesAbout ? Bytes.toBase64(bytesAbout) : null,
     aboutEmoji: bytesAboutEmoji ? Bytes.toBase64(bytesAboutEmoji) : null,
@@ -71,7 +71,7 @@ export async function encryptProfileData(
     paymentAddress: window.storage.get('paymentAddress') || null,
     avatar: Boolean(newAvatar),
     sameAvatar,
-    commitment: deriveProfileKeyCommitment(profileKey, uuid),
+    commitment: deriveProfileKeyCommitment(profileKey, serviceId),
   };
 
   return [profileData, encryptedAvatarData];

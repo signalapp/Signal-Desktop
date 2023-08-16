@@ -4,6 +4,7 @@
 import { assert } from 'chai';
 import sinon from 'sinon';
 
+import { generateAci } from '../../types/ServiceId';
 import type { RetryItemType } from '../../util/retryPlaceholders';
 import {
   getDeltaIntoPast,
@@ -35,7 +36,7 @@ describe('RetryPlaceholders', () => {
       sentAt: NOW - 10,
       receivedAt: NOW - 5,
       receivedAtCounter: 4,
-      senderUuid: 'sender-uuid',
+      senderAci: generateAci(),
     };
   }
 

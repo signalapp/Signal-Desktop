@@ -335,7 +335,7 @@ export function toAccountRecord(
         if (pinnedConversation.get('type') === 'private') {
           pinnedConversationRecord.identifier = 'contact';
           pinnedConversationRecord.contact = {
-            uuid: pinnedConversation.get('uuid'),
+            serviceId: pinnedConversation.getServiceId(),
             e164: pinnedConversation.get('e164'),
           };
         } else if (isGroupV1(pinnedConversation.attributes)) {
@@ -1000,7 +1000,7 @@ export async function mergeContactRecord(
   });
 
   // We're going to ignore this; it's likely a PNI-only contact we've already merged
-  if (conversation.get('uuid') !== serviceId) {
+  if (conversation.getServiceId() !== serviceId) {
     log.warn(
       `mergeContactRecord: ${conversation.idForLogging()} ` +
         `with storageId ${conversation.get('storageID')} ` +
@@ -1319,14 +1319,19 @@ export async function mergeAccountRecord(
         let conversation: ConversationModel | undefined;
 
         if (contact) {
-          if (!contact.uuid && !contact.e164) {
+          if (!contact.serviceId && !contact.e164) {
             log.error(
-              'storageService.mergeAccountRecord: No uuid or e164 on contact'
+              'storageService.mergeAccountRecord: No serviceId or e164 on contact'
             );
             return undefined;
           }
           conversation = window.ConversationController.lookupOrCreate({
-            uuid: contact.uuid,
+            serviceId: contact.serviceId
+              ? normalizeServiceId(
+                  contact.serviceId,
+                  'AccountRecord.pin.serviceId'
+                )
+              : undefined,
             e164: contact.e164,
             reason: 'storageService.mergeAccountRecord',
           });
@@ -1616,13 +1621,13 @@ export async function mergeStoryDistributionListRecord(
 
   const localMembersListSet = new Set(localStoryDistributionList.members);
   const toAdd: Array<ServiceIdString> = remoteListMembers.filter(
-    uuid => !localMembersListSet.has(uuid)
+    serviceId => !localMembersListSet.has(serviceId)
   );
 
   const remoteMemberListSet = new Set(remoteListMembers);
   const toRemove: Array<ServiceIdString> =
     localStoryDistributionList.members.filter(
-      uuid => !remoteMemberListSet.has(uuid)
+      serviceId => !remoteMemberListSet.has(serviceId)
     );
 
   details.push('updated');

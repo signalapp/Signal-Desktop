@@ -18,7 +18,7 @@ export function areWeAdmin(
   const memberEnum = Proto.Member.Role;
   const members = attributes.membersV2 || [];
   const ourAci = window.textsecure.storage.user.getAci();
-  const me = members.find(item => item.uuid === ourAci);
+  const me = members.find(item => item.aci === ourAci);
   if (!me) {
     return false;
   }

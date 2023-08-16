@@ -65,8 +65,6 @@ import { strictAssert } from './assert';
 import * as log from '../logging/log';
 import { GLOBAL_ZONE } from '../SignalProtocolStore';
 import { waitForAll } from './waitForAll';
-import { resolveSenderKeyDevice } from './resolveSenderKeyDevice';
-import { isNotNil } from './isNotNil';
 
 const UNKNOWN_RECIPIENT = 404;
 const INCORRECT_AUTH_KEY = 401;
@@ -374,7 +372,7 @@ export async function sendToGroupViaSenderKey(options: {
   //   sessions with them.
   if (
     emptyServiceIds.length > 0 &&
-    emptyServiceIds.some(isIdentifierRegistered)
+    emptyServiceIds.some(isServiceIdRegistered)
   ) {
     await fetchKeysForServiceIds(emptyServiceIds);
 
@@ -385,16 +383,8 @@ export async function sendToGroupViaSenderKey(options: {
     });
   }
 
-  const {
-    memberDevices: rawMemberDevices,
-    distributionId,
-    createdAtDate,
-  } = senderKeyInfo;
+  const { memberDevices, distributionId, createdAtDate } = senderKeyInfo;
   const memberSet = new Set(sendTarget.getMembers());
-
-  const memberDevices = rawMemberDevices
-    .map(resolveSenderKeyDevice)
-    .filter(isNotNil);
 
   // 4. Partition devices into sender key and non-sender key groups
   const [devicesForSenderKey, devicesForNormalSend] = partition(
@@ -488,9 +478,7 @@ export async function sendToGroupViaSenderKey(options: {
     await sendTarget.saveSenderKeyInfo({
       createdAtDate,
       distributionId,
-      memberDevices: updatedMemberDevices.map(({ serviceId, ...rest }) => {
-        return { ...rest, identifier: serviceId };
-      }),
+      memberDevices: updatedMemberDevices,
     });
 
     // Restart here because we might have discovered new or dropped devices as part of
@@ -514,9 +502,7 @@ export async function sendToGroupViaSenderKey(options: {
     await sendTarget.saveSenderKeyInfo({
       createdAtDate,
       distributionId,
-      memberDevices: updatedMemberDevices.map(({ serviceId, ...rest }) => {
-        return { ...rest, identifier: serviceId };
-      }),
+      memberDevices: updatedMemberDevices,
     });
 
     // Note, we do not need to restart here because we don't refer back to senderKeyInfo
@@ -692,10 +678,10 @@ export async function sendToGroupViaSenderKey(options: {
       );
       return;
     }
-    const recipientServiceId = sentToConversation.get('uuid');
+    const recipientServiceId = sentToConversation.getServiceId();
     if (!recipientServiceId) {
       log.warn(
-        `sendToGroupViaSenderKey/callback: Conversation ${sentToConversation.idForLogging()} had no UUID`
+        `sendToGroupViaSenderKey/callback: Conversation ${sentToConversation.idForLogging()} had no service id`
       );
       return;
     }
@@ -910,9 +896,9 @@ async function markServiceIdUnregistered(serviceId: ServiceIdString) {
   await window.textsecure.storage.protocol.archiveAllSessions(serviceId);
 }
 
-function isIdentifierRegistered(identifier: string) {
+function isServiceIdRegistered(serviceId: ServiceIdString) {
   const conversation = window.ConversationController.getOrCreate(
-    identifier,
+    serviceId,
     'private'
   );
   const isUnregistered = conversation.isUnregistered();
@@ -991,14 +977,10 @@ async function handle410Response(
             await sendTarget.saveSenderKeyInfo({
               ...senderKeyInfo,
               memberDevices: differenceWith(
-                senderKeyInfo.memberDevices
-                  .map(resolveSenderKeyDevice)
-                  .filter(isNotNil),
+                senderKeyInfo.memberDevices,
                 devicesToRemove,
                 partialDeviceComparator
-              ).map(({ serviceId, ...rest }) => {
-                return { ...rest, identifier: serviceId };
-              }),
+              ),
             });
           }
         }
@@ -1140,20 +1122,20 @@ async function encryptForSenderKey({
 
 function isValidSenderKeyRecipient(
   members: Set<ConversationModel>,
-  uuid: string,
+  serviceId: ServiceIdString,
   { story }: { story?: boolean } = {}
 ): boolean {
-  const memberConversation = window.ConversationController.get(uuid);
+  const memberConversation = window.ConversationController.get(serviceId);
   if (!memberConversation) {
     log.warn(
-      `isValidSenderKeyRecipient: Missing conversation model for member ${uuid}`
+      `isValidSenderKeyRecipient: Missing conversation model for member ${serviceId}`
     );
     return false;
   }
 
   if (!members.has(memberConversation)) {
     log.info(
-      `isValidSenderKeyRecipient: Sending to ${uuid}, not a group member`
+      `isValidSenderKeyRecipient: Sending to ${serviceId}, not a group member`
     );
     return false;
   }
@@ -1163,7 +1145,7 @@ function isValidSenderKeyRecipient(
   }
 
   if (memberConversation.isUnregistered()) {
-    log.warn(`isValidSenderKeyRecipient: Member ${uuid} is unregistered`);
+    log.warn(`isValidSenderKeyRecipient: Member ${serviceId} is unregistered`);
     return false;
   }
 

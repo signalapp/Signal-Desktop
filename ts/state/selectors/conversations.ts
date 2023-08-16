@@ -37,7 +37,7 @@ import {
 import type { ContactNameColorType } from '../../types/Colors';
 import { ContactNameColors } from '../../types/Colors';
 import type { AvatarDataType } from '../../types/Avatar';
-import type { ServiceIdString } from '../../types/ServiceId';
+import type { AciString, ServiceIdString } from '../../types/ServiceId';
 import { isInSystemContacts } from '../../util/isInSystemContacts';
 import { isSignalConnection } from '../../util/getSignalConnections';
 import { sortByTitle } from '../../util/sortByTitle';
@@ -109,10 +109,10 @@ export const getConversationLookup = createSelector(
   }
 );
 
-export const getConversationsByUuid = createSelector(
+export const getConversationsByServiceId = createSelector(
   getConversations,
   (state: ConversationsStateType): ConversationLookupType => {
-    return state.conversationsByUuid;
+    return state.conversationsByServiceId;
   }
 );
 
@@ -687,7 +687,10 @@ export const getFilteredComposeGroups = createSelector(
     ConversationType & {
       membersCount: number;
       disabledReason: undefined;
-      memberships: ReadonlyArray<unknown>;
+      memberships: ReadonlyArray<{
+        aci: AciString;
+        isAdmin: boolean;
+      }>;
     }
   > => {
     return filterAndSortConversationsAlphabetically(
@@ -801,13 +804,13 @@ export type GetConversationByIdType = (id?: string) => ConversationType;
 export const getConversationSelector = createSelector(
   getCachedSelectorForConversation,
   getConversationLookup,
-  getConversationsByUuid,
+  getConversationsByServiceId,
   getConversationsByE164,
   getConversationsByGroupId,
   (
     selector: CachedConversationSelectorType,
     byId: ConversationLookupType,
-    byUuid: ConversationLookupType,
+    byServiceId: ConversationLookupType,
     byE164: ConversationLookupType,
     byGroupId: ConversationLookupType
   ): GetConversationByIdType => {
@@ -816,9 +819,12 @@ export const getConversationSelector = createSelector(
         return selector(undefined);
       }
 
-      const onUuid = getOwn(byUuid, id.toLowerCase ? id.toLowerCase() : id);
-      if (onUuid) {
-        return selector(onUuid);
+      const onServiceId = getOwn(
+        byServiceId,
+        id.toLowerCase ? id.toLowerCase() : id
+      );
+      if (onServiceId) {
+        return selector(onServiceId);
       }
       const onE164 = getOwn(byE164, id);
       if (onE164) {
@@ -847,11 +853,11 @@ export const getConversationByIdSelector = createSelector(
       getOwn(conversationLookup, id)
 );
 
-export const getConversationByUuidSelector = createSelector(
-  getConversationsByUuid,
-  conversationsByUuid =>
-    (uuid: ServiceIdString): undefined | ConversationType =>
-      getOwn(conversationsByUuid, uuid)
+export const getConversationByServiceIdSelector = createSelector(
+  getConversationsByServiceId,
+  conversationsByServiceId =>
+    (serviceId: ServiceIdString): undefined | ConversationType =>
+      getOwn(conversationsByServiceId, serviceId)
 );
 
 const getCachedConversationMemberColorsSelector = createSelector(
@@ -880,7 +886,7 @@ const getCachedConversationMemberColorsSelector = createSelector(
 
         [...sortedGroupMembers]
           .sort((left, right) =>
-            String(left.uuid) > String(right.uuid) ? 1 : -1
+            String(left.serviceId) > String(right.serviceId) ? 1 : -1
           )
           .forEach((member, i) => {
             contactNameColors.set(
@@ -1017,7 +1023,7 @@ export const getConversationMessagesSelector = createSelector(
 );
 
 export const getInvitedContactsForNewlyCreatedGroup = createSelector(
-  getConversationsByUuid,
+  getConversationsByServiceId,
   getConversations,
   (
     conversationLookup,
@@ -1075,7 +1081,7 @@ export const getGroupAdminsSelector = createSelector(
       const admins: Array<ConversationType> = [];
       memberships.forEach(membership => {
         if (membership.isAdmin) {
-          const admin = conversationSelector(membership.uuid);
+          const admin = conversationSelector(membership.aci);
           admins.push(admin);
         }
       });
@@ -1088,7 +1094,7 @@ export const getContactSelector = createSelector(
   getConversationSelector,
   conversationSelector => {
     return (contactId: string) =>
-      pick(conversationSelector(contactId), 'id', 'title', 'uuid');
+      pick(conversationSelector(contactId), 'id', 'title', 'serviceId');
   }
 );
 

@@ -15,7 +15,7 @@ export function getRecipientsByConversation(
   conversations.forEach(attributes => {
     recipientsByConversation[attributes.id] = {
       serviceIds: getConversationMembers(attributes)
-        .map(member => member.uuid)
+        .map(member => member.serviceId)
         .filter(isNotNil),
     };
   });

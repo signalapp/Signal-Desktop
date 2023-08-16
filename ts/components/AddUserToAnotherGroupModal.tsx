@@ -26,7 +26,7 @@ import { SizeObserver } from '../hooks/useSizeObserver';
 type OwnProps = {
   i18n: LocalizerType;
   theme: ThemeType;
-  contact: Pick<ConversationType, 'id' | 'title' | 'uuid'>;
+  contact: Pick<ConversationType, 'id' | 'title' | 'serviceId' | 'pni'>;
   candidateConversations: ReadonlyArray<ConversationType>;
   regionCode: string | undefined;
 };
@@ -119,11 +119,12 @@ export function AddUserToAnotherGroupModal({
 
       let disabledReason;
 
-      if (memberships.some(c => c.uuid === contact.uuid)) {
+      if (memberships.some(c => c.aci === contact.serviceId)) {
         disabledReason = DisabledReason.AlreadyMember;
       } else if (
-        pendingApprovalMemberships.some(c => c.uuid === contact.uuid) ||
-        pendingMemberships.some(c => c.uuid === contact.uuid)
+        pendingApprovalMemberships.some(c => c.aci === contact.serviceId) ||
+        pendingMemberships.some(c => c.serviceId === contact.serviceId) ||
+        pendingMemberships.some(c => c.serviceId === contact.pni)
       ) {
         disabledReason = DisabledReason.Pending;
       }

@@ -41,7 +41,7 @@ export function getDefaultConversation(
     sharedGroupNames: [],
     title: `${firstName} ${lastName}`,
     titleNoDefault: `${firstName} ${lastName}`,
-    uuid: generateAci(),
+    serviceId: generateAci(),
     ...overrideProps,
     type: 'direct' as const,
     acknowledgedGroupNameCollisions: undefined,
@@ -65,7 +65,7 @@ export function getDefaultGroup(
   overrideProps: Partial<ConversationType> = {}
 ): ConversationType {
   const memberships = Array.from(Array(casual.integer(1, 20)), () => ({
-    uuid: generateAci(),
+    aci: generateAci(),
     isAdmin: Boolean(casual.coin_flip),
   }));
 
@@ -88,7 +88,7 @@ export function getDefaultGroup(
     memberships,
     sharedGroupNames: [],
     title: casual.title,
-    uuid: generateAci(),
+    serviceId: generateAci(),
     acknowledgedGroupNameCollisions: {},
     storySendMode: StorySendMode.IfActive,
     ...overrideProps,
@@ -96,12 +96,12 @@ export function getDefaultGroup(
   };
 }
 
-export function getDefaultConversationWithUuid(
+export function getDefaultConversationWithServiceId(
   overrideProps: Partial<ConversationType> = {},
-  uuid: ServiceIdString = generateAci()
-): ConversationType & { uuid: ServiceIdString } {
+  serviceId: ServiceIdString = generateAci()
+): ConversationType & { serviceId: ServiceIdString } {
   return {
     ...getDefaultConversation(overrideProps),
-    uuid,
+    serviceId,
   };
 }

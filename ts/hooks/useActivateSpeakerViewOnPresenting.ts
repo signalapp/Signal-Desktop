@@ -2,13 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { useEffect } from 'react';
+import type { AciString } from '../types/ServiceId';
 import { usePrevious } from './usePrevious';
 
 type RemoteParticipant = {
   hasRemoteVideo: boolean;
   presenting: boolean;
   title: string;
-  uuid?: string;
+  aci?: AciString;
 };
 
 export function useActivateSpeakerViewOnPresenting({
@@ -20,20 +21,20 @@ export function useActivateSpeakerViewOnPresenting({
   switchToPresentationView: () => void;
   switchFromPresentationView: () => void;
 }): void {
-  const presenterUuid = remoteParticipants.find(
+  const presenterAci = remoteParticipants.find(
     participant => participant.presenting
-  )?.uuid;
-  const prevPresenterUuid = usePrevious(presenterUuid, presenterUuid);
+  )?.aci;
+  const prevPresenterAci = usePrevious(presenterAci, presenterAci);
 
   useEffect(() => {
-    if (prevPresenterUuid !== presenterUuid && presenterUuid) {
+    if (prevPresenterAci !== presenterAci && presenterAci) {
       switchToPresentationView();
-    } else if (prevPresenterUuid && !presenterUuid) {
+    } else if (prevPresenterAci && !presenterAci) {
       switchFromPresentationView();
     }
   }, [
-    presenterUuid,
-    prevPresenterUuid,
+    presenterAci,
+    prevPresenterAci,
     switchToPresentationView,
     switchFromPresentationView,
   ]);

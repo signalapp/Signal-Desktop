@@ -90,7 +90,7 @@ const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
       ),
       title: text('Caller Title', 'Morty Smith'),
     }),
-    uuid: generateAci(),
+    serviceId: generateAci(),
   },
   notifyForCall: action('notify-for-call'),
   openSystemPreferencesAction: action('open-system-preferences-action'),

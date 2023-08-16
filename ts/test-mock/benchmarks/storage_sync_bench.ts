@@ -50,7 +50,7 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
   const leftPane = window.locator('#LeftPane');
 
   const item = leftPane.locator(
-    `[data-testid="${lastContact?.toContact().uuid}"]`
+    `[data-testid="${lastContact?.toContact().aci}"]`
   );
   await item.waitFor();
 

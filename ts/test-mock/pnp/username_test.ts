@@ -64,7 +64,7 @@ describe('pnp/username', function needsName() {
           identifier: uuidToBytes(MY_STORY_ID),
           isBlockList: true,
           name: MY_STORY_ID,
-          recipientUuids: [],
+          recipientServiceIds: [],
         },
       },
     });
@@ -91,7 +91,7 @@ describe('pnp/username', function needsName() {
       debug('find username in the left pane');
       await leftPane
         .locator(
-          `[data-testid="${usernameContact.device.uuid}"] >> "${USERNAME}"`
+          `[data-testid="${usernameContact.device.aci}"] >> "${USERNAME}"`
         )
         .waitFor();
 
@@ -116,7 +116,7 @@ describe('pnp/username', function needsName() {
       debug('find profile name in the left pane');
       await leftPane
         .locator(
-          `[data-testid="${usernameContact.device.uuid}"] >> ` +
+          `[data-testid="${usernameContact.device.aci}"] >> ` +
             `"${usernameContact.profileName}"`
         )
         .waitFor();
@@ -135,16 +135,10 @@ describe('pnp/username', function needsName() {
           'only one record must be removed'
         );
 
-        assert.strictEqual(
-          added[0].contact?.serviceUuid,
-          usernameContact.device.uuid
-        );
+        assert.strictEqual(added[0].contact?.aci, usernameContact.device.aci);
         assert.strictEqual(added[0].contact?.username, '');
 
-        assert.strictEqual(
-          removed[0].contact?.serviceUuid,
-          usernameContact.device.uuid
-        );
+        assert.strictEqual(removed[0].contact?.aci, usernameContact.device.aci);
         assert.strictEqual(removed[0].contact?.username, USERNAME);
       }
     });
@@ -191,7 +185,7 @@ describe('pnp/username', function needsName() {
         .waitFor();
 
       const uuid = await server.lookupByUsername(username);
-      assert.strictEqual(uuid, phone.device.uuid);
+      assert.strictEqual(uuid, phone.device.aci);
 
       const newState = await phone.waitForStorageState({
         after: state,
@@ -276,7 +270,7 @@ describe('pnp/username', function needsName() {
       profileName: 'Carl',
     });
 
-    await server.setUsername(carl.device.uuid, CARL_USERNAME);
+    await server.setUsername(carl.device.aci, CARL_USERNAME);
 
     const window = await app.getWindow();
 
@@ -310,9 +304,9 @@ describe('pnp/username', function needsName() {
       profileName: 'Devin',
     });
 
-    await server.setUsername(carl.device.uuid, CARL_USERNAME);
+    await server.setUsername(carl.device.aci, CARL_USERNAME);
     const { entropy, serverId } = await server.setUsernameLink(
-      carl.device.uuid,
+      carl.device.aci,
       CARL_USERNAME
     );
 
@@ -329,7 +323,7 @@ describe('pnp/username', function needsName() {
 
     debug('opening note to self');
     const leftPane = window.locator('#LeftPane');
-    await leftPane.locator(`[data-testid="${desktop.uuid}"]`).click();
+    await leftPane.locator(`[data-testid="${desktop.aci}"]`).click();
 
     debug('clicking link');
     await window.locator('.module-message__text a').click({

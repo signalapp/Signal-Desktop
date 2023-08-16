@@ -15,7 +15,7 @@ import { assertDev, softAssert } from '../util/assert';
 import { mapObjectWithSpec } from '../util/mapObjectWithSpec';
 import type { ObjectMappingSpecType } from '../util/mapObjectWithSpec';
 import { cleanDataForIpc } from './cleanDataForIpc';
-import type { AciString } from '../types/ServiceId';
+import type { AciString, ServiceIdString } from '../types/ServiceId';
 import createTaskWithTimeout from '../textsecure/TaskWithTimeout';
 import * as log from '../logging/log';
 import { isValidUuid } from '../util/isValidUuid';
@@ -514,19 +514,19 @@ function handleSearchMessageJSON(
 async function searchMessages({
   query,
   options,
-  contactUuidsMatchingQuery,
+  contactServiceIdsMatchingQuery,
   conversationId,
 }: {
   query: string;
   options?: { limit?: number };
-  contactUuidsMatchingQuery?: Array<string>;
+  contactServiceIdsMatchingQuery?: Array<ServiceIdString>;
   conversationId?: string;
 }): Promise<Array<ClientSearchResultMessageType>> {
   const messages = await channels.searchMessages({
     query,
     conversationId,
     options,
-    contactUuidsMatchingQuery,
+    contactServiceIdsMatchingQuery,
   });
 
   return handleSearchMessageJSON(messages);

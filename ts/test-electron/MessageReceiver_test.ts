@@ -25,13 +25,13 @@ describe('MessageReceiver', () => {
   beforeEach(async () => {
     oldAci = window.storage.user.getAci();
     oldDeviceId = window.storage.user.getDeviceId();
-    await window.storage.user.setUuidAndDeviceId(generateAci(), 2);
+    await window.storage.user.setAciAndDeviceId(generateAci(), 2);
     await window.storage.protocol.hydrateCaches();
   });
 
   afterEach(async () => {
     if (oldAci !== undefined && oldDeviceId !== undefined) {
-      await window.storage.user.setUuidAndDeviceId(oldAci, oldDeviceId);
+      await window.storage.user.setAciAndDeviceId(oldAci, oldDeviceId);
     }
     await window.storage.protocol.removeAllUnprocessed();
   });

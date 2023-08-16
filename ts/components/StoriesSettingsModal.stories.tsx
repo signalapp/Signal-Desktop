@@ -54,7 +54,7 @@ export default {
     setMyStoriesToAllSignalConnections: { action: true },
     toggleSignalConnectionsModal: { action: true },
     setStoriesDisabled: { action: true },
-    getConversationByUuid: {
+    getConversationByServiceId: {
       defaultValue: () => getDefaultGroup(),
     },
   },

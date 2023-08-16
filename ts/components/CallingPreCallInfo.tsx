@@ -30,14 +30,14 @@ type PropsType = {
     | 'unblurredAvatarPath'
   >;
   i18n: LocalizerType;
-  me: Pick<ConversationType, 'id' | 'uuid'>;
+  me: Pick<ConversationType, 'id' | 'serviceId'>;
   ringMode: RingMode;
 
   // The following should only be set for group conversations.
   groupMembers?: Array<Pick<ConversationType, 'id' | 'firstName' | 'title'>>;
   isCallFull?: boolean;
   peekedParticipants?: Array<
-    Pick<ConversationType, 'firstName' | 'title' | 'uuid'>
+    Pick<ConversationType, 'firstName' | 'title' | 'serviceId'>
   >;
 };
 
@@ -61,7 +61,7 @@ export function CallingPreCallInfo({
     //   device.
     let hasYou = false;
     const participantNames = peekedParticipants.map(participant => {
-      if (participant.uuid === me.uuid) {
+      if (participant.serviceId === me.serviceId) {
         hasYou = true;
         return i18n('icu:you');
       }

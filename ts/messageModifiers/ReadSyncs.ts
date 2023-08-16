@@ -48,7 +48,7 @@ async function maybeItIsAReactionReadSync(sync: ReadSyncModel): Promise<void> {
   notificationService.removeBy({
     conversationId: readReaction.conversationId,
     emoji: readReaction.emoji,
-    targetAuthorUuid: readReaction.targetAuthorUuid,
+    targetAuthorAci: readReaction.targetAuthorAci,
     targetTimestamp: readReaction.targetTimestamp,
   });
 }
@@ -65,7 +65,7 @@ export class ReadSyncs extends Collection {
   forMessage(message: MessageModel): ReadSyncModel | null {
     const sender = window.ConversationController.lookupOrCreate({
       e164: message.get('source'),
-      uuid: message.get('sourceUuid'),
+      serviceId: message.get('sourceServiceId'),
       reason: 'ReadSyncs.forMessage',
     });
     const messageTimestamp = getMessageSentTimestamp(message.attributes, {
@@ -95,7 +95,7 @@ export class ReadSyncs extends Collection {
       const found = messages.find(item => {
         const sender = window.ConversationController.lookupOrCreate({
           e164: item.source,
-          uuid: item.sourceUuid,
+          serviceId: item.sourceServiceId,
           reason: 'ReadSyncs.onSync',
         });
 

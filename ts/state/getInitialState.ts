@@ -98,8 +98,8 @@ export function getInitialState({
       ...conversations(),
       conversationLookup: makeLookup(formattedConversations, 'id'),
       conversationsByE164: makeLookup(formattedConversations, 'e164'),
-      conversationsByUuid: {
-        ...makeLookup(formattedConversations, 'uuid'),
+      conversationsByServiceId: {
+        ...makeLookup(formattedConversations, 'serviceId'),
         ...makeLookup(formattedConversations, 'pni'),
       },
       conversationsByGroupId: makeLookup(formattedConversations, 'groupId'),

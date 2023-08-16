@@ -64,7 +64,7 @@ export type PropsData = Pick<
   | 'unblurredAvatarPath'
   | 'unreadCount'
   | 'unreadMentionsCount'
-  | 'uuid'
+  | 'serviceId'
 > & {
   badge?: BadgeType;
 };
@@ -108,7 +108,7 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
     unblurredAvatarPath,
     unreadCount,
     unreadMentionsCount,
-    uuid,
+    serviceId,
   }) {
     const isMuted = Boolean(muteExpiresAt && Date.now() < muteExpiresAt);
     const headerName = (
@@ -122,7 +122,7 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
         ) : (
           <ContactName
             module={HEADER_CONTACT_NAME_CLASS_NAME}
-            isSignalConversation={isSignalConversation({ id, uuid })}
+            isSignalConversation={isSignalConversation({ id, serviceId })}
             title={title}
           />
         )}
@@ -221,7 +221,7 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
         unreadCount={unreadCount}
         unreadMentionsCount={unreadMentionsCount}
         unblurredAvatarPath={unblurredAvatarPath}
-        uuid={uuid}
+        serviceId={serviceId}
       />
     );
   }

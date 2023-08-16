@@ -52,25 +52,28 @@ export type PropsType = {
   toggleGroupsForStorySend: (groupIds: Array<string>) => unknown;
   onDistributionListCreated: (
     name: string,
-    viewerUuids: Array<ServiceIdString>
+    viewerServiceIds: Array<ServiceIdString>
   ) => Promise<string>;
-  onHideMyStoriesFrom: (viewerUuids: Array<ServiceIdString>) => unknown;
-  onRemoveMembers: (listId: string, uuids: Array<ServiceIdString>) => unknown;
+  onHideMyStoriesFrom: (viewerServiceIds: Array<ServiceIdString>) => unknown;
+  onRemoveMembers: (
+    listId: string,
+    serviceIds: Array<ServiceIdString>
+  ) => unknown;
   onRepliesNReactionsChanged: (
     listId: string,
     allowsReplies: boolean
   ) => unknown;
   onViewersUpdated: (
     listId: string,
-    viewerUuids: Array<ServiceIdString>
+    viewerServiceIds: Array<ServiceIdString>
   ) => unknown;
   setMyStoriesToAllSignalConnections: () => unknown;
   storyViewReceiptsEnabled: boolean;
   theme: ThemeType;
   toggleSignalConnectionsModal: () => unknown;
   setStoriesDisabled: (value: boolean) => void;
-  getConversationByUuid: (
-    uuid: ServiceIdString
+  getConversationByServiceId: (
+    serviceId: ServiceIdString
   ) => ConversationType | undefined;
 };
 
@@ -90,7 +93,7 @@ function filterConversations(
     conversations,
     searchTerm,
     undefined
-  ).filter(conversation => conversation.uuid);
+  ).filter(conversation => conversation.serviceId);
 }
 
 const modalCommonProps: Pick<ModalPropsType, 'hasXButton' | 'moduleClassName'> =
@@ -258,7 +261,7 @@ export function StoriesSettingsModal({
   toggleSignalConnectionsModal,
   theme,
   setStoriesDisabled,
-  getConversationByUuid,
+  getConversationByServiceId,
 }: PropsType): JSX.Element {
   const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard(i18n);
 
@@ -311,8 +314,8 @@ export function StoriesSettingsModal({
         i18n={i18n}
         page={page}
         onClose={onClose}
-        onCreateList={(name, uuids) => {
-          void onDistributionListCreated(name, uuids);
+        onCreateList={(name, serviceIds) => {
+          void onDistributionListCreated(name, serviceIds);
           resetChooseViewersScreen();
         }}
         onBackButtonClick={() =>
@@ -330,9 +333,9 @@ export function StoriesSettingsModal({
             }
           })
         }
-        onViewersUpdated={uuids => {
+        onViewersUpdated={serviceIds => {
           if (listToEditId && page === Page.AddViewer) {
-            onViewersUpdated(listToEditId, uuids);
+            onViewersUpdated(listToEditId, serviceIds);
             resetChooseViewersScreen();
           }
 
@@ -341,7 +344,7 @@ export function StoriesSettingsModal({
           }
 
           if (page === Page.HideStoryFrom) {
-            onHideMyStoriesFrom(uuids);
+            onHideMyStoriesFrom(serviceIds);
             resetChooseViewersScreen();
           }
         }}
@@ -377,7 +380,7 @@ export function StoriesSettingsModal({
         group={groupToView}
         onClose={onClose}
         onBackButtonClick={() => setGroupToViewId(null)}
-        getConversationByUuid={getConversationByUuid}
+        getConversationByServiceId={getConversationByServiceId}
         onRemoveGroup={group => {
           setConfirmRemoveGroup({
             id: group.id,
@@ -583,7 +586,7 @@ export function DistributionListSettingsModal({
     | {
         listId: string;
         title: string;
-        uuid: ServiceIdString;
+        serviceId: ServiceIdString;
       }
   >();
 
@@ -695,11 +698,14 @@ export function DistributionListSettingsModal({
                 })}
                 className="StoriesSettingsModal__list__delete"
                 onClick={() => {
-                  strictAssert(member.uuid, 'Story member was missing uuid');
+                  strictAssert(
+                    member.serviceId,
+                    'Story member was missing service id'
+                  );
                   setConfirmRemoveMember({
                     listId: listToEdit.id,
                     title: member.title,
-                    uuid: member.uuid,
+                    serviceId: member.serviceId,
                   });
                 }}
                 type="button"
@@ -747,7 +753,7 @@ export function DistributionListSettingsModal({
             {
               action: () =>
                 onRemoveMembers(confirmRemoveMember.listId, [
-                  confirmRemoveMember.uuid,
+                  confirmRemoveMember.serviceId,
                 ]),
               style: 'negative',
               text: i18n('icu:StoriesSettings__remove--action'),
@@ -950,8 +956,11 @@ export function EditMyStoryPrivacy({
 }
 
 type EditDistributionListModalPropsType = {
-  onCreateList: (name: string, viewerUuids: Array<ServiceIdString>) => unknown;
-  onViewersUpdated: (viewerUuids: Array<ServiceIdString>) => unknown;
+  onCreateList: (
+    name: string,
+    viewerServiceIds: Array<ServiceIdString>
+  ) => unknown;
+  onViewersUpdated: (viewerServiceIds: Array<ServiceIdString>) => unknown;
   page:
     | Page.AddViewer
     | Page.ChooseViewers
@@ -1007,7 +1016,9 @@ export function EditDistributionListModal({
 
   const selectConversationServiceIds: Set<ServiceIdString> = useMemo(
     () =>
-      new Set(selectedContacts.map(contact => contact.uuid).filter(isNotNil)),
+      new Set(
+        selectedContacts.map(contact => contact.serviceId).filter(isNotNil)
+      ),
     [selectedContacts]
   );
 
@@ -1108,11 +1119,11 @@ export function EditDistributionListModal({
   const rowCount = filteredConversations.length;
   const getRow = (index: number): undefined | Row => {
     const contact = filteredConversations[index];
-    if (!contact || !contact.uuid) {
+    if (!contact || !contact.serviceId) {
       return undefined;
     }
 
-    const isSelected = selectConversationServiceIds.has(contact.uuid);
+    const isSelected = selectConversationServiceIds.has(contact.serviceId);
 
     return {
       type: RowType.ContactCheckbox,
@@ -1243,7 +1254,9 @@ type GroupStorySettingsModalProps = {
   group: ConversationType;
   onClose(): void;
   onBackButtonClick(): void;
-  getConversationByUuid(uuid: ServiceIdString): ConversationType | undefined;
+  getConversationByServiceId(
+    serviceId: ServiceIdString
+  ): ConversationType | undefined;
   onRemoveGroup(group: ConversationType): void;
 };
 
@@ -1252,10 +1265,13 @@ export function GroupStorySettingsModal({
   group,
   onClose,
   onBackButtonClick,
-  getConversationByUuid,
+  getConversationByServiceId,
   onRemoveGroup,
 }: GroupStorySettingsModalProps): JSX.Element {
-  const groupMemberships = getGroupMemberships(group, getConversationByUuid);
+  const groupMemberships = getGroupMemberships(
+    group,
+    getConversationByServiceId
+  );
   return (
     <ModalPage
       modalName="GroupStorySettingsModal"

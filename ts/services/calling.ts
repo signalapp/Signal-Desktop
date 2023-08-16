@@ -369,9 +369,9 @@ export class CallingClass {
     RingRTC.handleGroupCallRingUpdate =
       this.handleGroupCallRingUpdate.bind(this);
 
-    this.attemptToGiveOurUuidToRingRtc();
+    this.attemptToGiveOurServiceIdToRingRtc();
     window.Whisper.events.on('userChanged', () => {
-      this.attemptToGiveOurUuidToRingRtc();
+      this.attemptToGiveOurServiceIdToRingRtc();
     });
 
     ipcRenderer.on('stop-screen-share', () => {
@@ -381,7 +381,7 @@ export class CallingClass {
     void this.cleanExpiredGroupCallRingsAndLoop();
   }
 
-  private attemptToGiveOurUuidToRingRtc(): void {
+  private attemptToGiveOurServiceIdToRingRtc(): void {
     const ourAci = window.textsecure.storage.user.getAci();
     if (!ourAci) {
       // This can happen if we're not linked. It's okay if we hit this case.
@@ -610,7 +610,7 @@ export class CallingClass {
     return getMembershipList(conversationId).map(
       member =>
         new GroupMemberInfo(
-          Buffer.from(uuidToBytes(member.uuid)),
+          Buffer.from(uuidToBytes(member.aci)),
           Buffer.from(member.uuidCiphertext)
         )
     );

@@ -21,7 +21,7 @@ export type GroupListItemConversationType = Pick<
   disabledReason: DisabledReason | undefined;
   membersCount: number;
   memberships: ReadonlyArray<{
-    uuid: AciString;
+    aci: AciString;
     isAdmin: boolean;
   }>;
 };

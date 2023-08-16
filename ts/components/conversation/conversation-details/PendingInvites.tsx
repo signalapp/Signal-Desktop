@@ -292,7 +292,8 @@ function getConfirmationMessage({
   }
 
   const inviter = members.find(
-    ({ uuid }) => uuid === firstPendingMembership.metadata.addedByUserId
+    ({ serviceId }) =>
+      serviceId === firstPendingMembership.metadata.addedByUserId
   );
 
   if (inviter === undefined) {
@@ -412,13 +413,16 @@ function MembersPendingProfileKey({
     groupedPendingMemberships;
 
   const otherPendingMemberships = Object.keys(otherPendingMembershipGroups)
-    .map(id => members.find(member => member.uuid === id))
+    .map(id => members.find(member => member.serviceId === id))
     .filter((member): member is ConversationType => member !== undefined)
     .map(member => {
-      assertDev(member.uuid, 'We just verified that member has uuid above');
+      assertDev(
+        member.serviceId,
+        'We just verified that member has serviceId above'
+      );
       return {
         member,
-        pendingMemberships: otherPendingMembershipGroups[member.uuid],
+        pendingMemberships: otherPendingMembershipGroups[member.serviceId],
       };
     });
 

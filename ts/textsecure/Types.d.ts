@@ -3,7 +3,7 @@
 
 import type { SignalService as Proto } from '../protobuf';
 import type { IncomingWebSocketRequest } from './WebsocketResources';
-import type { ServiceIdString, PniString } from '../types/ServiceId';
+import type { ServiceIdString, AciString, PniString } from '../types/ServiceId';
 import type { TextAttachmentType } from '../types/Attachment';
 import type { GiftBadgeStates } from '../components/conversation/Message';
 import type { MIMEType } from '../types/MIME';
@@ -138,7 +138,7 @@ export type ProcessedQuoteAttachment = {
 
 export type ProcessedQuote = {
   id?: number;
-  authorAci?: string;
+  authorAci?: AciString;
   text?: string;
   attachments: ReadonlyArray<ProcessedQuoteAttachment>;
   bodyRanges?: ReadonlyArray<ProcessedBodyRange>;
@@ -173,7 +173,7 @@ export type ProcessedSticker = {
 export type ProcessedReaction = {
   emoji?: string;
   remove: boolean;
-  targetAuthorAci?: string;
+  targetAuthorAci?: AciString;
   targetTimestamp?: number;
 };
 

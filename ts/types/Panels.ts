@@ -28,7 +28,7 @@ export type PanelRequestType =
         contact: EmbeddedContactType;
         signalAccount?: {
           phoneNumber: string;
-          uuid: ServiceIdString;
+          serviceId: ServiceIdString;
         };
       };
     }
@@ -50,7 +50,7 @@ export type PanelRenderType =
         contact: EmbeddedContactType;
         signalAccount?: {
           phoneNumber: string;
-          uuid: ServiceIdString;
+          serviceId: ServiceIdString;
         };
       };
     }

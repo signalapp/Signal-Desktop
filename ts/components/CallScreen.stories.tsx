@@ -23,7 +23,7 @@ import { setupI18n } from '../util/setupI18n';
 import { missingCaseError } from '../util/missingCaseError';
 import {
   getDefaultConversation,
-  getDefaultConversationWithUuid,
+  getDefaultConversationWithServiceId,
 } from '../test-both/helpers/getDefaultConversation';
 import { fakeGetGroupCallVideoFrameSource } from '../test-both/helpers/fakeGetGroupCallVideoFrameSource';
 import enMessages from '../../_locales/en/messages.json';
@@ -175,7 +175,7 @@ const createProps = (
     name: 'Morty Smith',
     profileName: 'Morty Smith',
     title: 'Morty Smith',
-    uuid: generateAci(),
+    serviceId: generateAci(),
   }),
   openSystemPreferencesAction: action('open-system-preferences-action'),
   setGroupCallVideoRequest: action('set-group-call-video-request'),
@@ -312,7 +312,7 @@ export function GroupCall1(): JSX.Element {
             videoAspectRatio: 1.3,
             ...getDefaultConversation({
               isBlocked: false,
-              uuid: generateAci(),
+              serviceId: generateAci(),
               title: 'Tyler',
             }),
           },
@@ -334,7 +334,7 @@ const allRemoteParticipants = times(MAX_PARTICIPANTS).map(index => ({
   presenting: false,
   sharingScreen: false,
   videoAspectRatio: 1.3,
-  ...getDefaultConversationWithUuid({
+  ...getDefaultConversationWithServiceId({
     isBlocked: index === 10 || index === MAX_PARTICIPANTS - 1,
     title: `Participant ${index + 1}`,
   }),
@@ -380,7 +380,7 @@ export function GroupCallReconnecting(): JSX.Element {
             ...getDefaultConversation({
               isBlocked: false,
               title: 'Tyler',
-              uuid: generateAci(),
+              serviceId: generateAci(),
             }),
           },
         ],

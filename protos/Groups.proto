@@ -188,7 +188,7 @@ message GroupChange {
     }
 
 
-             bytes                                      sourceUuid                         = 1; // Who made the change
+             bytes                                      sourceUserId                       = 1; // Who made the change
              uint32                                     version                            = 2; // The change version number
     repeated AddMemberAction                            addMembers                         = 3; // Members added
     repeated DeleteMemberAction                         deleteMembers                      = 4; // Members deleted

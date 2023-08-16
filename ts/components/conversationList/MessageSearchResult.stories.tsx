@@ -203,14 +203,14 @@ export function Mention(): JSX.Element {
     bodyRanges: [
       {
         length: 1,
-        mentionUuid: SERVICE_ID_3,
+        mentionAci: SERVICE_ID_3,
         replacementText: 'Shoe',
         conversationID: 'x',
         start: 113,
       },
       {
         length: 1,
-        mentionUuid: SERVICE_ID_3,
+        mentionAci: SERVICE_ID_3,
         replacementText: 'Shoe',
         conversationID: 'x',
         start: 237,
@@ -235,7 +235,7 @@ export function MentionRegexp(): JSX.Element {
     bodyRanges: [
       {
         length: 1,
-        mentionUuid: SERVICE_ID_3,
+        mentionAci: SERVICE_ID_3,
         replacementText: 'RegExp',
         conversationID: 'x',
         start: 0,
@@ -260,7 +260,7 @@ export function MentionNoMatches(): JSX.Element {
     bodyRanges: [
       {
         length: 1,
-        mentionUuid: SERVICE_ID_3,
+        mentionAci: SERVICE_ID_3,
         replacementText: 'Neo',
         conversationID: 'x',
         start: 0,
@@ -284,14 +284,14 @@ export const _MentionNoMatches = (): JSX.Element => {
     bodyRanges: [
       {
         length: 1,
-        mentionUuid: SERVICE_ID_3,
+        mentionAci: SERVICE_ID_3,
         replacementText: 'Shoe',
         conversationID: 'x',
         start: 113,
       },
       {
         length: 1,
-        mentionUuid: SERVICE_ID_3,
+        mentionAci: SERVICE_ID_3,
         replacementText: 'Shoe',
         conversationID: 'x',
         start: 237,
@@ -316,14 +316,14 @@ export function DoubleMention(): JSX.Element {
     bodyRanges: [
       {
         length: 1,
-        mentionUuid: SERVICE_ID_2,
+        mentionAci: SERVICE_ID_2,
         replacementText: 'Alice',
         conversationID: 'x',
         start: 4,
       },
       {
         length: 1,
-        mentionUuid: SERVICE_ID_1,
+        mentionAci: SERVICE_ID_1,
         replacementText: 'Bob',
         conversationID: 'x',
         start: 6,

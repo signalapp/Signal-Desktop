@@ -261,18 +261,18 @@ describe('sql/searchMessages/withMentions', () => {
   }
 
   it('includes messages with mentions', async () => {
-    const mentionedUuids = [generateAci(), generateAci()];
+    const mentionedAcis = [generateAci(), generateAci()];
     const messages = await storeMessages([
       {
-        bodyRanges: [{ start: 0, length: 1, mentionUuid: mentionedUuids[0] }],
+        bodyRanges: [{ start: 0, length: 1, mentionAci: mentionedAcis[0] }],
       },
       {
-        bodyRanges: [{ start: 0, length: 1, mentionUuid: mentionedUuids[1] }],
+        bodyRanges: [{ start: 0, length: 1, mentionAci: mentionedAcis[1] }],
       },
       {
         bodyRanges: [
-          { start: 0, length: 1, mentionUuid: mentionedUuids[0] },
-          { start: 1, length: 1, mentionUuid: mentionedUuids[1] },
+          { start: 0, length: 1, mentionAci: mentionedAcis[0] },
+          { start: 1, length: 1, mentionAci: mentionedAcis[1] },
         ],
       },
       {},
@@ -280,7 +280,7 @@ describe('sql/searchMessages/withMentions', () => {
 
     const searchResults = await searchMessages({
       query: 'alice',
-      contactUuidsMatchingQuery: [mentionedUuids[0], generateAci()],
+      contactServiceIdsMatchingQuery: [mentionedAcis[0], generateAci()],
     });
 
     assert.sameOrderedMembers(
@@ -290,7 +290,7 @@ describe('sql/searchMessages/withMentions', () => {
 
     const searchResultsForMultipleMatchingUuids = await searchMessages({
       query: 'alice',
-      contactUuidsMatchingQuery: [mentionedUuids[0], mentionedUuids[1]],
+      contactServiceIdsMatchingQuery: [mentionedAcis[0], mentionedAcis[1]],
     });
 
     assert.sameOrderedMembers(
@@ -301,7 +301,7 @@ describe('sql/searchMessages/withMentions', () => {
   });
 
   it('includes messages with mentions and those that match the body text', async () => {
-    const mentionedUuids = [generateAci(), generateAci()];
+    const mentionedAcis = [generateAci(), generateAci()];
     const messages = await storeMessages([
       {
         body: 'cat',
@@ -309,8 +309,8 @@ describe('sql/searchMessages/withMentions', () => {
       {
         body: 'dog',
         bodyRanges: [
-          { start: 0, length: 1, mentionUuid: mentionedUuids[0] },
-          { start: 1, length: 1, mentionUuid: mentionedUuids[1] },
+          { start: 0, length: 1, mentionAci: mentionedAcis[0] },
+          { start: 1, length: 1, mentionAci: mentionedAcis[1] },
         ],
       },
       {
@@ -320,7 +320,7 @@ describe('sql/searchMessages/withMentions', () => {
 
     const searchResults = await searchMessages({
       query: 'cat',
-      contactUuidsMatchingQuery: [mentionedUuids[0], generateAci()],
+      contactServiceIdsMatchingQuery: [mentionedAcis[0], generateAci()],
     });
 
     assert.sameOrderedMembers(
@@ -332,7 +332,7 @@ describe('sql/searchMessages/withMentions', () => {
     // match the mention or the text
     const searchResultsForDog = await searchMessages({
       query: 'dog',
-      contactUuidsMatchingQuery: [mentionedUuids[1], generateAci()],
+      contactServiceIdsMatchingQuery: [mentionedAcis[1], generateAci()],
     });
     assert.sameOrderedMembers(
       searchResultsForDog.map(res => res.id),
@@ -340,7 +340,7 @@ describe('sql/searchMessages/withMentions', () => {
     );
   });
   it('respects conversationId for mention matches', async () => {
-    const mentionedUuids = [generateAci(), generateAci()];
+    const mentionedAcis = [generateAci(), generateAci()];
     const conversationId = generateUuid();
     const messages = await storeMessages([
       {
@@ -349,12 +349,12 @@ describe('sql/searchMessages/withMentions', () => {
       },
       {
         body: 'dog',
-        bodyRanges: [{ start: 0, length: 1, mentionUuid: mentionedUuids[0] }],
+        bodyRanges: [{ start: 0, length: 1, mentionAci: mentionedAcis[0] }],
         conversationId,
       },
       {
         body: 'dog',
-        bodyRanges: [{ start: 0, length: 1, mentionUuid: mentionedUuids[0] }],
+        bodyRanges: [{ start: 0, length: 1, mentionAci: mentionedAcis[0] }],
       },
       {
         body: 'cat',
@@ -363,7 +363,7 @@ describe('sql/searchMessages/withMentions', () => {
 
     const searchResults = await searchMessages({
       query: 'cat',
-      contactUuidsMatchingQuery: [mentionedUuids[0]],
+      contactServiceIdsMatchingQuery: [mentionedAcis[0]],
       conversationId,
     });
 
@@ -374,7 +374,7 @@ describe('sql/searchMessages/withMentions', () => {
 
     const searchResultsWithoutConversationid = await searchMessages({
       query: 'cat',
-      contactUuidsMatchingQuery: [mentionedUuids[0]],
+      contactServiceIdsMatchingQuery: [mentionedAcis[0]],
     });
 
     assert.sameOrderedMembers(

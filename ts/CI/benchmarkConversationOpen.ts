@@ -70,7 +70,9 @@ export async function populateConversationWithMessages({
       schemaVersion: window.Signal.Types.Message.CURRENT_SCHEMA_VERSION,
       received_at: incrementMessageCounter(),
       readStatus: isUnread ? ReadStatus.Unread : ReadStatus.Read,
-      sourceUuid: isIncoming ? conversation.getCheckedServiceId('CI') : ourAci,
+      sourceServiceId: isIncoming
+        ? conversation.getCheckedServiceId('CI')
+        : ourAci,
       ...(isIncoming
         ? {}
         : {

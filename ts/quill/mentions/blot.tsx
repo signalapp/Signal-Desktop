@@ -33,21 +33,21 @@ export class MentionBlot extends Embed {
   }
 
   static override value(node: HTMLElement): MentionBlotValue {
-    const { uuid, title } = node.dataset;
-    if (uuid === undefined || title === undefined) {
+    const { aci, title } = node.dataset;
+    if (aci === undefined || title === undefined) {
       throw new Error(
-        `Failed to make MentionBlot with uuid: ${uuid}, title: ${title}`
+        `Failed to make MentionBlot with aci: ${aci}, title: ${title}`
       );
     }
 
     return {
-      uuid: normalizeAci(uuid, 'quill mention blot'),
+      aci: normalizeAci(aci, 'quill mention blot'),
       title,
     };
   }
 
   static buildSpan(mention: MentionBlotValue, node: HTMLElement): void {
-    node.setAttribute('data-uuid', mention.uuid || '');
+    node.setAttribute('data-aci', mention.aci || '');
     node.setAttribute('data-title', mention.title || '');
     node.setAttribute('contenteditable', 'false');
 

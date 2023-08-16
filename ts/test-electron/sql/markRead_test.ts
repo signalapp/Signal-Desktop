@@ -526,7 +526,7 @@ describe('sql/markRead', () => {
       fromId: generateUuid(),
       messageId: message1.id,
       messageReceivedAt: message1.received_at,
-      targetAuthorUuid: generateAci(),
+      targetAuthorAci: generateAci(),
       targetTimestamp: start,
     };
     const reaction2: ReactionType = {
@@ -535,7 +535,7 @@ describe('sql/markRead', () => {
       fromId: generateUuid(),
       messageId: message2.id,
       messageReceivedAt: message2.received_at,
-      targetAuthorUuid: generateAci(),
+      targetAuthorAci: generateAci(),
       targetTimestamp: start,
     };
     const reaction3: ReactionType = {
@@ -544,7 +544,7 @@ describe('sql/markRead', () => {
       fromId: generateUuid(),
       messageId: message3.id,
       messageReceivedAt: message3.received_at,
-      targetAuthorUuid: generateAci(),
+      targetAuthorAci: generateAci(),
       targetTimestamp: start,
     };
     const reaction4: ReactionType = {
@@ -553,7 +553,7 @@ describe('sql/markRead', () => {
       fromId: generateUuid(),
       messageId: message4.id,
       messageReceivedAt: message4.received_at,
-      targetAuthorUuid: generateAci(),
+      targetAuthorAci: generateAci(),
       targetTimestamp: start,
     };
     const reaction5: ReactionType = {
@@ -562,7 +562,7 @@ describe('sql/markRead', () => {
       fromId: generateUuid(),
       messageId: message5.id,
       messageReceivedAt: message5.received_at,
-      targetAuthorUuid: generateAci(),
+      targetAuthorAci: generateAci(),
       targetTimestamp: start,
     };
 
@@ -675,7 +675,7 @@ describe('sql/markRead', () => {
       fromId: generateUuid(),
       messageId: message1.id,
       messageReceivedAt: message1.received_at,
-      targetAuthorUuid: generateAci(),
+      targetAuthorAci: generateAci(),
       targetTimestamp: start,
     };
     const reaction2: ReactionType = {
@@ -684,7 +684,7 @@ describe('sql/markRead', () => {
       fromId: generateUuid(),
       messageId: message2.id,
       messageReceivedAt: message2.received_at,
-      targetAuthorUuid: generateAci(),
+      targetAuthorAci: generateAci(),
       targetTimestamp: start,
     };
     const reaction3: ReactionType = {
@@ -693,7 +693,7 @@ describe('sql/markRead', () => {
       fromId: generateUuid(),
       messageId: message3.id,
       messageReceivedAt: message3.received_at,
-      targetAuthorUuid: generateAci(),
+      targetAuthorAci: generateAci(),
       targetTimestamp: start,
     };
     const reaction4: ReactionType = {
@@ -702,7 +702,7 @@ describe('sql/markRead', () => {
       fromId: generateUuid(),
       messageId: message4.id,
       messageReceivedAt: message4.received_at,
-      targetAuthorUuid: generateAci(),
+      targetAuthorAci: generateAci(),
       targetTimestamp: start,
     };
     const reaction5: ReactionType = {
@@ -711,7 +711,7 @@ describe('sql/markRead', () => {
       fromId: generateUuid(),
       messageId: message5.id,
       messageReceivedAt: message5.received_at,
-      targetAuthorUuid: generateAci(),
+      targetAuthorAci: generateAci(),
       targetTimestamp: start,
     };
 

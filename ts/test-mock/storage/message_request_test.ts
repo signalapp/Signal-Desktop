@@ -52,9 +52,9 @@ describe('storage service', function needsName() {
     const conversationStack = window.locator('.Inbox__conversation-stack');
 
     debug('Opening conversation with a stranger');
-    debug(stranger.toContact().uuid);
+    debug(stranger.toContact().aci);
     await leftPane
-      .locator(`[data-testid="${stranger.toContact().uuid}"]`)
+      .locator(`[data-testid="${stranger.toContact().aci}"]`)
       .click();
 
     debug("Verify that we stored stranger's profile key");

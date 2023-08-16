@@ -40,7 +40,7 @@ export namespace BodyRange {
   export const { Style } = Proto.DataMessage.BodyRange;
 
   export type Mention = {
-    mentionUuid: AciString;
+    mentionAci: AciString;
   };
   export type Link = {
     url: string;
@@ -68,7 +68,7 @@ export namespace BodyRange {
     bodyRange: BodyRange<T>
   ): bodyRange is X {
     // satisfies keyof Mention
-    return ('mentionUuid' as const) in bodyRange;
+    return ('mentionAci' as const) in bodyRange;
   }
   export function isFormatting(
     bodyRange: BodyRange<object>
@@ -181,14 +181,12 @@ export function filterAndClean(
         return undefined;
       }
 
-      let mentionUuid: AciString | undefined;
+      let mentionAci: AciString | undefined;
       if ('mentionAci' in range && range.mentionAci) {
-        mentionUuid = normalizeAci(range.mentionAci, 'BodyRange.mentionAci');
-      } else if ('mentionUuid' in range && range.mentionUuid) {
-        mentionUuid = normalizeAci(range.mentionUuid, 'BodyRange.mentionUuid');
+        mentionAci = normalizeAci(range.mentionAci, 'BodyRange.mentionAci');
       }
 
-      if (mentionUuid) {
+      if (mentionAci) {
         countByTypeRecord[MENTION_NAME] += 1;
         if (countByTypeRecord[MENTION_NAME] > MAX_PER_TYPE) {
           return undefined;
@@ -198,7 +196,7 @@ export function filterAndClean(
           ...restOfRange,
           start,
           length,
-          mentionUuid,
+          mentionAci,
         };
       }
       if ('style' in range && range.style) {
@@ -230,7 +228,7 @@ export function hydrateRanges(
 
   return filterAndClean(ranges)?.map(range => {
     if (BodyRange.isMention(range)) {
-      const conversation = conversationSelector(range.mentionUuid);
+      const conversation = conversationSelector(range.mentionAci);
 
       return {
         ...range,

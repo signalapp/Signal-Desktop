@@ -114,7 +114,7 @@ async function continueDownloadingOnboardingStory(): Promise<void> {
         sent_at: timestamp,
         serverTimestamp: timestamp,
         sourceDevice: 1,
-        sourceUuid: signalConversation.get('uuid'),
+        sourceServiceId: signalConversation.getServiceId(),
         timestamp,
         type: 'story',
       };

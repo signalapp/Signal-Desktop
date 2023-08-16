@@ -49,7 +49,7 @@ export type LastMessageStatus =
 
 export type SenderKeyDeviceType = {
   id: number;
-  identifier: string;
+  serviceId: ServiceIdString;
   registrationId: number;
 };
 
@@ -69,7 +69,7 @@ export type CustomError = Error & {
 export type GroupMigrationType = {
   areWeInvited: boolean;
   droppedMemberIds: Array<string>;
-  invitedMembers: Array<GroupV2PendingMemberType>;
+  invitedMembers: Array<LegacyMigrationPendingMemberType>;
 };
 
 export type QuotedAttachment = {
@@ -86,7 +86,7 @@ export type QuotedMessageType = {
   // `author` is an old attribute that holds the author's E164. We shouldn't use it for
   //   new messages, but old messages might have this attribute.
   author?: string;
-  authorUuid?: string;
+  authorAci?: AciString;
   bodyRanges?: ReadonlyArray<RawBodyRange>;
   id: number;
   isGiftBadge?: boolean;
@@ -98,16 +98,9 @@ export type QuotedMessageType = {
 
 type StoryReplyContextType = {
   attachment?: AttachmentType;
-  authorUuid?: string;
+  authorAci?: AciString;
   messageId: string;
 };
-
-export type RetryOptions = Readonly<{
-  type: 'session-reset';
-  uuid: string;
-  e164: string;
-  now: number;
-}>;
 
 export type GroupV1Update = {
   avatarUpdated?: boolean;
@@ -119,7 +112,7 @@ export type GroupV1Update = {
 export type MessageReactionType = {
   emoji: undefined | string;
   fromId: string;
-  targetAuthorUuid: AciString;
+  targetAuthorAci: AciString;
   targetTimestamp: number;
   timestamp: number;
   isSentByConversationId?: Record<string, boolean>;
@@ -169,7 +162,6 @@ export type MessageAttributesType = {
   quote?: QuotedMessageType;
   reactions?: ReadonlyArray<MessageReactionType>;
   requiredProtocolVersion?: number;
-  retryOptions?: RetryOptions;
   sourceDevice?: number;
   storyDistributionListId?: StoryDistributionIdString;
   storyId?: string;
@@ -210,7 +202,7 @@ export type MessageAttributesType = {
   conversationId: string;
   storyReaction?: {
     emoji: string;
-    targetAuthorUuid: AciString;
+    targetAuthorAci: AciString;
     targetTimestamp: number;
   };
   giftBadge?: {
@@ -225,7 +217,7 @@ export type MessageAttributesType = {
     expireTimer?: DurationInSeconds;
     fromSync?: unknown;
     source?: string;
-    sourceUuid?: ServiceIdString;
+    sourceServiceId?: ServiceIdString;
   };
   conversationMerge?: {
     renderInfo: ConversationRenderInfoType;
@@ -249,12 +241,12 @@ export type MessageAttributesType = {
   serverGuid?: string;
   serverTimestamp?: number;
   source?: string;
-  sourceUuid?: ServiceIdString;
+  sourceServiceId?: ServiceIdString;
 
   timestamp: number;
 
   // Backwards-compatibility with prerelease data schema
-  invitedGV2Members?: Array<GroupV2PendingMemberType>;
+  invitedGV2Members?: Array<LegacyMigrationPendingMemberType>;
   droppedGV2MemberIds?: Array<string>;
 
   sendHQImages?: boolean;
@@ -283,7 +275,7 @@ export type ConversationLastProfileType = Readonly<{
 
 export type ValidateConversationType = Pick<
   ConversationAttributesType,
-  'e164' | 'uuid' | 'type' | 'groupId'
+  'e164' | 'serviceId' | 'type' | 'groupId'
 >;
 
 export type DraftEditMessageType = {
@@ -378,7 +370,7 @@ export type ConversationAttributesType = {
   version: number;
 
   // Private core info
-  uuid?: ServiceIdString;
+  serviceId?: ServiceIdString;
   pni?: PniString;
   e164?: string;
 
@@ -470,7 +462,7 @@ export type ConversationRenderInfoType = Pick<
 >;
 
 export type GroupV2MemberType = {
-  uuid: AciString;
+  aci: AciString;
   role: MemberRoleEnum;
   joinedAtVersion: number;
 
@@ -481,20 +473,27 @@ export type GroupV2MemberType = {
   approvedByAdmin?: boolean;
 };
 
+export type LegacyMigrationPendingMemberType = {
+  addedByUserId?: string;
+  uuid: string;
+  timestamp: number;
+  role: MemberRoleEnum;
+};
+
 export type GroupV2PendingMemberType = {
   addedByUserId?: AciString;
-  uuid: ServiceIdString;
+  serviceId: ServiceIdString;
   timestamp: number;
   role: MemberRoleEnum;
 };
 
 export type GroupV2BannedMemberType = {
-  uuid: ServiceIdString;
+  serviceId: ServiceIdString;
   timestamp: number;
 };
 
 export type GroupV2PendingAdminApprovalType = {
-  uuid: AciString;
+  aci: AciString;
   timestamp: number;
 };
 
@@ -517,7 +516,7 @@ export type ReactionAttributesType = {
   // Necessary to put 1:1 story replies into the right conversation - not the same
   //   conversation as the target message!
   storyReactionMessage?: MessageModel;
-  targetAuthorUuid: AciString;
+  targetAuthorAci: AciString;
   targetTimestamp: number;
   timestamp: number;
 };

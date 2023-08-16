@@ -138,7 +138,7 @@ export function Mentions(): JSX.Element {
       {
         start: 5,
         length: 1,
-        mentionUuid: generateAci(),
+        mentionAci: generateAci(),
         conversationID: 'k',
         replacementText: 'Kate Beaton',
       },

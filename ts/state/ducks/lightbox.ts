@@ -264,7 +264,7 @@ function showLightbox(opts: {
 
     const authorId =
       window.ConversationController.lookupOrCreate({
-        uuid: message.get('sourceUuid'),
+        serviceId: message.get('sourceServiceId'),
         e164: message.get('source'),
         reason: 'conversation_view.showLightBox',
       })?.id || message.get('conversationId');

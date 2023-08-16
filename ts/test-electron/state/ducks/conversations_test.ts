@@ -41,7 +41,7 @@ import { generateAci, getAciFromPrefix } from '../../../types/ServiceId';
 import { generateStoryDistributionId } from '../../../types/StoryDistributionId';
 import {
   getDefaultConversation,
-  getDefaultConversationWithUuid,
+  getDefaultConversationWithServiceId,
   getDefaultGroup,
 } from '../../../test-both/helpers/getDefaultConversation';
 import { getDefaultAvatars } from '../../../types/Avatar';
@@ -65,7 +65,7 @@ import type { MessageAttributesType } from '../../../model-types.d';
 
 const {
   clearGroupCreationError,
-  clearInvitedUuidsForNewlyCreatedGroup,
+  clearInvitedServiceIdsForNewlyCreatedGroup,
   closeContactSpoofingReview,
   closeMaximumGroupSizeModal,
   closeRecommendedGroupSizeModal,
@@ -222,8 +222,8 @@ describe('both/state/ducks/conversations', () => {
           result.conversationsByE164
         );
         assert.strictEqual(
-          state.conversationsByUuid,
-          result.conversationsByUuid
+          state.conversationsByServiceId,
+          result.conversationsByServiceId
         );
         assert.strictEqual(
           state.conversationsByGroupId,
@@ -235,7 +235,7 @@ describe('both/state/ducks/conversations', () => {
         const removed = getDefaultConversation({
           id: 'id-removed',
           e164: 'e164-removed',
-          uuid: undefined,
+          serviceId: undefined,
         });
 
         const state = {
@@ -247,7 +247,7 @@ describe('both/state/ducks/conversations', () => {
         const added = getDefaultConversation({
           id: 'id-added',
           e164: 'e164-added',
-          uuid: undefined,
+          serviceId: undefined,
         });
 
         const expected = {
@@ -258,8 +258,8 @@ describe('both/state/ducks/conversations', () => {
 
         assert.deepEqual(actual.conversationsByE164, expected);
         assert.strictEqual(
-          state.conversationsByUuid,
-          actual.conversationsByUuid
+          state.conversationsByServiceId,
+          actual.conversationsByServiceId
         );
         assert.strictEqual(
           state.conversationsByGroupId,
@@ -268,24 +268,24 @@ describe('both/state/ducks/conversations', () => {
       });
 
       it('adds and removes uuid-only contact', () => {
-        const removed = getDefaultConversationWithUuid({
+        const removed = getDefaultConversationWithServiceId({
           id: 'id-removed',
           e164: undefined,
         });
 
         const state = {
           ...getEmptyState(),
-          conversationsByuuid: {
-            [removed.uuid]: removed,
+          conversationsByServiceId: {
+            [removed.serviceId]: removed,
           },
         };
-        const added = getDefaultConversationWithUuid({
+        const added = getDefaultConversationWithServiceId({
           id: 'id-added',
           e164: undefined,
         });
 
         const expected = {
-          [added.uuid]: added,
+          [added.serviceId]: added,
         };
 
         const actual = updateConversationLookups(added, removed, state);
@@ -294,7 +294,7 @@ describe('both/state/ducks/conversations', () => {
           state.conversationsByE164,
           actual.conversationsByE164
         );
-        assert.deepEqual(actual.conversationsByUuid, expected);
+        assert.deepEqual(actual.conversationsByServiceId, expected);
         assert.strictEqual(
           state.conversationsByGroupId,
           actual.conversationsByGroupId
@@ -306,7 +306,7 @@ describe('both/state/ducks/conversations', () => {
           id: 'id-removed',
           groupId: 'groupId-removed',
           e164: undefined,
-          uuid: undefined,
+          serviceId: undefined,
         });
 
         const state = {
@@ -319,7 +319,7 @@ describe('both/state/ducks/conversations', () => {
           id: 'id-added',
           groupId: 'groupId-added',
           e164: undefined,
-          uuid: undefined,
+          serviceId: undefined,
         });
 
         const expected = {
@@ -333,8 +333,8 @@ describe('both/state/ducks/conversations', () => {
           actual.conversationsByE164
         );
         assert.strictEqual(
-          state.conversationsByUuid,
-          actual.conversationsByUuid
+          state.conversationsByServiceId,
+          actual.conversationsByServiceId
         );
         assert.deepEqual(actual.conversationsByGroupId, expected);
       });
@@ -348,7 +348,7 @@ describe('both/state/ducks/conversations', () => {
     const messageId = 'message-guid-1';
     const messageIdTwo = 'message-guid-2';
     const messageIdThree = 'message-guid-3';
-    const sourceUuid = generateAci();
+    const sourceServiceId = generateAci();
 
     function getDefaultMessage(id: string): MessageType {
       return {
@@ -358,7 +358,7 @@ describe('both/state/ducks/conversations', () => {
         received_at: previousTime,
         sent_at: previousTime,
         source: 'source',
-        sourceUuid,
+        sourceServiceId,
         timestamp: previousTime,
         type: 'incoming' as const,
         readStatus: ReadStatus.Read,
@@ -512,7 +512,7 @@ describe('both/state/ducks/conversations', () => {
           ...getEmptyState(),
           invitedServiceIdsForNewlyCreatedGroup: [generateAci(), generateAci()],
         };
-        const action = clearInvitedUuidsForNewlyCreatedGroup();
+        const action = clearInvitedServiceIdsForNewlyCreatedGroup();
         const result = reducer(state, action);
 
         assert.isUndefined(result.invitedServiceIdsForNewlyCreatedGroup);
@@ -777,7 +777,7 @@ describe('both/state/ducks/conversations', () => {
             if (key !== 'pendingMembersV2') {
               throw new Error('This getter is not set up for this test');
             }
-            return [{ uuid: abc }];
+            return [{ serviceId: abc }];
           },
         });
 
@@ -1607,7 +1607,7 @@ describe('both/state/ducks/conversations', () => {
               fromId: 'some-other-id',
               timestamp: 2222,
               targetTimestamp: 1111,
-              targetAuthorUuid: generateAci(),
+              targetAuthorAci: generateAci(),
             },
           ],
         };
@@ -1638,7 +1638,7 @@ describe('both/state/ducks/conversations', () => {
                   fromId: 'some-other-id',
                   timestamp: 2222,
                   targetTimestamp: 1111,
-                  targetAuthorUuid: generateAci(),
+                  targetAuthorAci: generateAci(),
                 },
               ],
             },
@@ -2173,11 +2173,11 @@ describe('both/state/ducks/conversations', () => {
     });
 
     describe('COLORS_CHANGED', () => {
-      const abc = getDefaultConversationWithUuid({
+      const abc = getDefaultConversationWithServiceId({
         id: 'abc',
         conversationColor: 'wintergreen',
       });
-      const def = getDefaultConversationWithUuid({
+      const def = getDefaultConversationWithServiceId({
         id: 'def',
         conversationColor: 'infrared',
       });
@@ -2201,7 +2201,7 @@ describe('both/state/ducks/conversations', () => {
             ghi,
             jkl,
           },
-          conversationsByUuid: {
+          conversationsByServiceId: {
             abc,
             def,
           },
@@ -2227,10 +2227,10 @@ describe('both/state/ducks/conversations', () => {
         assert.isUndefined(nextState.conversationLookup.ghi.conversationColor);
         assert.isUndefined(nextState.conversationLookup.jkl.conversationColor);
         assert.isUndefined(
-          nextState.conversationsByUuid[abc.uuid].conversationColor
+          nextState.conversationsByServiceId[abc.serviceId].conversationColor
         );
         assert.isUndefined(
-          nextState.conversationsByUuid[def.uuid].conversationColor
+          nextState.conversationsByServiceId[def.serviceId].conversationColor
         );
         assert.isUndefined(nextState.conversationsByE164.ghi.conversationColor);
         assert.isUndefined(

@@ -19,6 +19,7 @@ import {
   groupDecrypt,
   PlaintextContent,
   PreKeySignalMessage,
+  Pni,
   processSenderKeyDistributionMessage,
   ProtocolAddress,
   PublicKey,
@@ -48,7 +49,6 @@ import { parseIntOrThrow } from '../util/parseIntOrThrow';
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
 import { Zone } from '../util/Zone';
 import { DurationInSeconds, SECOND } from '../util/durations';
-import { bytesToUuid } from '../util/uuidToBytes';
 import type { DownloadedAttachmentType } from '../types/Attachment';
 import { Address } from '../types/Address';
 import { QualifiedAddress } from '../types/QualifiedAddress';
@@ -62,6 +62,7 @@ import {
   isAciString,
   isPniString,
   isServiceIdString,
+  fromPniObject,
 } from '../types/ServiceId';
 import * as Errors from '../types/errors';
 
@@ -858,13 +859,13 @@ export default class MessageReceiver
         type: decoded.type,
         source: item.source,
         sourceServiceId: normalizeServiceId(
-          item.sourceUuid || decoded.sourceServiceId,
+          item.sourceServiceId || decoded.sourceServiceId,
           'CachedEnvelope.sourceServiceId'
         ),
         sourceDevice: decoded.sourceDevice || item.sourceDevice,
         destinationServiceId: normalizeServiceId(
-          decoded.destinationServiceId || item.destinationUuid || ourAci,
-          'CachedEnvelope.destinationUuid'
+          decoded.destinationServiceId || item.destinationServiceId || ourAci,
+          'CachedEnvelope.destinationServiceId'
         ),
         updatedPni: decoded.updatedPni
           ? normalizePni(decoded.updatedPni, 'CachedEnvelope.updatedPni')
@@ -1088,9 +1089,9 @@ export default class MessageReceiver
               ...data,
 
               source: envelope.source,
-              sourceUuid: envelope.sourceServiceId,
+              sourceServiceId: envelope.sourceServiceId,
               sourceDevice: envelope.sourceDevice,
-              destinationUuid: envelope.destinationServiceId,
+              destinationServiceId: envelope.destinationServiceId,
               updatedPni: envelope.updatedPni,
               serverGuid: envelope.serverGuid,
               serverTimestamp: envelope.serverTimestamp,
@@ -1230,7 +1231,7 @@ export default class MessageReceiver
         log.warn(
           'MessageReceiver.decryptAndCacheBatch: ' +
             `Rejecting envelope ${getEnvelopeId(envelope)}, ` +
-            `unknown uuid: ${destinationServiceId}`
+            `unknown serviceId: ${destinationServiceId}`
         );
         return { plaintext: undefined, envelope: undefined };
       }
@@ -1585,7 +1586,7 @@ export default class MessageReceiver
       !isGroupV2 &&
       ((envelope.source && this.isBlocked(envelope.source)) ||
         (envelope.sourceServiceId &&
-          this.isUuidBlocked(envelope.sourceServiceId)))
+          this.isServiceIdBlocked(envelope.sourceServiceId)))
     ) {
       log.info(`${logId}: Dropping non-GV2 message from blocked sender`);
       this.removeFromCache(envelope);
@@ -2011,7 +2012,7 @@ export default class MessageReceiver
       if (
         (envelope.source && this.isBlocked(envelope.source)) ||
         (envelope.sourceServiceId &&
-          this.isUuidBlocked(envelope.sourceServiceId))
+          this.isServiceIdBlocked(envelope.sourceServiceId))
       ) {
         log.info(
           'MessageReceiver.decrypt: Error from blocked sender; no further processing'
@@ -2024,7 +2025,14 @@ export default class MessageReceiver
 
       if (uuid && deviceId) {
         const senderAci = uuid;
-        strictAssert(isAciString(senderAci), 'Sender uuid must be an ACI');
+        if (!isAciString(senderAci)) {
+          log.info(
+            'MessageReceiver.decrypt: Error from PNI; no further processing'
+          );
+          this.removeFromCache(envelope);
+          throw error;
+        }
+
         const { cipherTextBytes, cipherTextType } = envelope;
         const event = new DecryptionErrorEvent(
           {
@@ -2735,7 +2743,9 @@ export default class MessageReceiver
 
     const { pni: pniBytes, signature } = pniSignatureMessage;
     strictAssert(Bytes.isNotEmpty(pniBytes), `${logId}: missing PNI bytes`);
-    const pni = bytesToUuid(pniBytes);
+    const pni = fromPniObject(
+      Pni.parseFromServiceIdBinary(Buffer.from(pniBytes))
+    );
     strictAssert(pni, `${logId}: missing PNI`);
     strictAssert(Bytes.isNotEmpty(signature), `${logId}: empty signature`);
     strictAssert(isAciString(aci), `${logId}: invalid ACI`);
@@ -2774,7 +2784,8 @@ export default class MessageReceiver
 
     if (
       (envelope.source && this.isBlocked(envelope.source)) ||
-      (envelope.sourceServiceId && this.isUuidBlocked(envelope.sourceServiceId))
+      (envelope.sourceServiceId &&
+        this.isServiceIdBlocked(envelope.sourceServiceId))
     ) {
       const logId = getEnvelopeId(envelope);
 
@@ -3572,8 +3583,8 @@ export default class MessageReceiver
     return this.storage.blocked.isBlocked(number);
   }
 
-  private isUuidBlocked(uuid: ServiceIdString): boolean {
-    return this.storage.blocked.isUuidBlocked(uuid);
+  private isServiceIdBlocked(serviceId: ServiceIdString): boolean {
+    return this.storage.blocked.isServiceIdBlocked(serviceId);
   }
 
   private isGroupBlocked(groupId: string): boolean {

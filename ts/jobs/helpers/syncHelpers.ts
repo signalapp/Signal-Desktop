@@ -3,6 +3,7 @@
 
 import { chunk } from 'lodash';
 import type { LoggerType } from '../../types/Logging';
+import type { AciString } from '../../types/ServiceId';
 import { normalizeAci } from '../../types/ServiceId';
 import { getSendOptions } from '../../util/getSendOptions';
 import type { SendTypesType } from '../../util/handleMessageSend';
@@ -21,7 +22,7 @@ const CHUNK_SIZE = 100;
 export type SyncType = {
   messageId?: string;
   senderE164?: string;
-  senderUuid?: string;
+  senderAci?: AciString;
   timestamp: number;
 };
 export enum SyncTypeList {
@@ -41,13 +42,18 @@ export function parseRawSyncDataArray(value: unknown): Array<SyncType> {
   return value.map((item: unknown) => {
     strictAssert(isRecord(item), 'sync is not an object');
 
-    const { messageId, senderE164, senderUuid, timestamp } = item;
+    const { messageId, senderE164, timestamp } = item;
     strictAssert(typeof timestamp === 'number', 'timestamp should be a number');
+
+    const rawSenderAci = parseOptionalString('senderAci', item.senderAci);
+    const senderAci = rawSenderAci
+      ? normalizeAci(rawSenderAci, 'parseRawSyncDataArray')
+      : undefined;
 
     return {
       messageId: parseOptionalString('messageId', messageId),
       senderE164: parseOptionalString('senderE164', senderE164),
-      senderUuid: parseOptionalString('senderUuid', senderUuid),
+      senderAci,
       timestamp,
     };
   });
@@ -148,11 +154,11 @@ export async function runSyncJob({
     }
   }
 
-  const aciSyncs = syncs.map(({ senderUuid, ...rest }) => {
+  const aciSyncs = syncs.map(({ senderAci, ...rest }) => {
     return {
       ...rest,
-      senderAci: senderUuid
-        ? normalizeAci(senderUuid, 'syncHelpers.senderUuid')
+      senderAci: senderAci
+        ? normalizeAci(senderAci, 'syncHelpers.senderAci')
         : undefined,
     };
   });

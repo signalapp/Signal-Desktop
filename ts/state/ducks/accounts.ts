@@ -62,9 +62,9 @@ function checkForAccount(
     }
 
     const conversation = window.ConversationController.get(phoneNumber);
-    if (conversation && conversation.get('uuid')) {
+    if (conversation && conversation.getServiceId()) {
       log.info(`checkForAccount: found ${phoneNumber} in existing contacts`);
-      const serviceId = conversation.get('uuid');
+      const serviceId = conversation.getServiceId();
 
       dispatch({
         type: 'accounts/UPDATE',
@@ -93,8 +93,10 @@ function checkForAccount(
 
     log.info(`checkForAccount: looking ${phoneNumber} up on server`);
     try {
-      const uuidLookup = await getServiceIdsForE164s(server, [phoneNumber]);
-      const maybePair = uuidLookup.get(phoneNumber);
+      const serviceIdLookup = await getServiceIdsForE164s(server, [
+        phoneNumber,
+      ]);
+      const maybePair = serviceIdLookup.get(phoneNumber);
 
       if (maybePair) {
         const { conversation: maybeMerged } =
@@ -104,7 +106,7 @@ function checkForAccount(
             e164: phoneNumber,
             reason: 'checkForAccount',
           });
-        serviceId = maybeMerged.get('uuid');
+        serviceId = maybeMerged.getServiceId();
       }
     } catch (error) {
       log.error('checkForAccount:', Errors.toLogFormat(error));

@@ -45,7 +45,7 @@ const getCommonProps = (options: {
       ? GroupCallStatus.GenericGroupCall
       : DirectCallStatus.Pending,
     callCreator = getDefaultConversation({
-      uuid: generateAci(),
+      serviceId: generateAci(),
       isMe: direction === CallDirection.Outgoing,
     }),
     callExternalState = CallExternalState.Active,
@@ -63,7 +63,7 @@ const getCommonProps = (options: {
     callHistory: {
       callId: '123',
       peerId: conversation.id,
-      ringerId: callCreator?.uuid ?? null,
+      ringerId: callCreator?.serviceId ?? null,
       mode,
       type,
       direction,

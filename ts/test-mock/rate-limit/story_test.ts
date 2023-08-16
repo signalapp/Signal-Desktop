@@ -47,7 +47,7 @@ describe('story/no-sender-key', function needsName() {
           identifier: uuidToBytes(MY_STORY_ID),
           isBlockList: true,
           name: MY_STORY_ID,
-          recipientUuids: [],
+          recipientServiceIds: [],
         },
       },
     });
@@ -71,7 +71,7 @@ describe('story/no-sender-key', function needsName() {
     } = bootstrap;
 
     for (const contact of contacts) {
-      server.rateLimit({ source: desktop.uuid, target: contact.device.uuid });
+      server.rateLimit({ source: desktop.aci, target: contact.device.aci });
     }
 
     const window = await app.getWindow();

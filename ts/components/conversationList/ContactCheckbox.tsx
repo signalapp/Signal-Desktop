@@ -38,7 +38,7 @@ export type PropsDataType = {
   | 'title'
   | 'type'
   | 'unblurredAvatarPath'
-  | 'uuid'
+  | 'serviceId'
 >;
 
 type PropsHousekeepingType = {

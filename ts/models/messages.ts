@@ -45,7 +45,7 @@ import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp';
 
 import type { ReactionType } from '../types/Reactions';
 import type { ServiceIdString } from '../types/ServiceId';
-import { normalizeServiceId } from '../types/ServiceId';
+import { isAciString, normalizeServiceId } from '../types/ServiceId';
 import * as reactionUtil from '../reactions/util';
 import * as Stickers from '../types/Stickers';
 import * as Errors from '../types/errors';
@@ -133,7 +133,7 @@ import { cleanupMessage, deleteMessageData } from '../util/cleanup';
 import {
   getContact,
   getSource,
-  getSourceUuid,
+  getSourceServiceId,
   isCustomError,
   messageHasPaymentEvent,
   isQuoteAMatch,
@@ -294,13 +294,13 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   getSenderIdentifier(): string {
     const sentAt = this.get('sent_at');
     const source = this.get('source');
-    const sourceUuid = this.get('sourceUuid');
+    const sourceServiceId = this.get('sourceServiceId');
     const sourceDevice = this.get('sourceDevice');
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const conversation = window.ConversationController.lookupOrCreate({
       e164: source,
-      uuid: sourceUuid,
+      serviceId: sourceServiceId,
       reason: 'MessageModel.getSenderIdentifier',
     })!;
 
@@ -372,7 +372,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           attachment: undefined,
           // This is ok to do because story replies only show in 1:1 conversations
           // so the story that was quoted should be from the same conversation.
-          authorUuid: conversation?.get('uuid'),
+          authorAci: conversation?.getAci(),
           // No messageId, referenced story not found!
           messageId: '',
         },
@@ -389,10 +389,12 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       attachment = undefined;
     }
 
+    const { sourceServiceId: authorAci } = message;
+    strictAssert(isAciString(authorAci), 'Story message from pni');
     this.set({
       storyReplyContext: {
         attachment,
-        authorUuid: message.sourceUuid,
+        authorAci,
         messageId: message.id,
       },
     });
@@ -510,7 +512,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     }
 
     if (messageHasPaymentEvent(attributes)) {
-      const sender = findAndFormatContact(attributes.sourceUuid);
+      const sender = findAndFormatContact(attributes.sourceServiceId);
       const conversation = findAndFormatContact(attributes.conversationId);
       return {
         text: getPaymentEventNotificationText(
@@ -850,7 +852,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
       if (
         attributes.type === 'incoming' &&
-        attributes.storyReaction.targetAuthorUuid === ourAci
+        attributes.storyReaction.targetAuthorAci === ourAci
       ) {
         return window.i18n('icu:Quote__story-reaction-notification--incoming', {
           emoji: attributes.storyReaction.emoji,
@@ -990,11 +992,11 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
     if (!fromSync) {
       const senderE164 = getSource(this.attributes);
-      const senderUuid = getSourceUuid(this.attributes);
+      const senderAci = getSourceServiceId(this.attributes);
       const timestamp = this.get('sent_at');
 
-      if (senderUuid === undefined) {
-        throw new Error('markViewOnceMessageViewed: senderUuid is undefined');
+      if (senderAci === undefined || !isAciString(senderAci)) {
+        throw new Error('markViewOnceMessageViewed: senderAci is undefined');
       }
 
       if (window.ConversationController.areWePrimaryDevice()) {
@@ -1009,7 +1011,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           viewOnceOpens: [
             {
               senderE164,
-              senderUuid,
+              senderAci,
               timestamp,
             },
           ],
@@ -1050,8 +1052,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       return;
     }
 
-    const { authorUuid, author, id: sentAt, referencedMessageNotFound } = quote;
-    const contact = window.ConversationController.get(authorUuid || author);
+    const { authorAci, author, id: sentAt, referencedMessageNotFound } = quote;
+    const contact = window.ConversationController.get(authorAci || author);
 
     // Is the quote really without a reference? Check with our in memory store
     // first to make sure it's not there.
@@ -1289,12 +1291,15 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     if (!isIncoming(this.attributes)) {
       return null;
     }
-    const sourceUuid = this.get('sourceUuid');
-    if (!sourceUuid) {
+    const sourceServiceId = this.get('sourceServiceId');
+    if (!sourceServiceId) {
       return null;
     }
 
-    return window.ConversationController.getOrCreate(sourceUuid, 'private');
+    return window.ConversationController.getOrCreate(
+      sourceServiceId,
+      'private'
+    );
   }
 
   async retrySend(): Promise<void> {
@@ -1318,7 +1323,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
       currentConversationRecipients = new Set(
         storyDistribution.members
-          .map(uuid => window.ConversationController.get(uuid)?.id)
+          .map(serviceId => window.ConversationController.get(serviceId)?.id)
           .filter(isNotNil)
       );
     } else {
@@ -1947,9 +1952,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     strictAssert(id, 'Quote must have an id');
 
     const result: QuotedMessageType = {
-      ...omit(quote, 'authorAci'),
+      ...quote,
 
-      authorUuid: quote.authorAci,
       id,
 
       attachments: quote.attachments.slice(),
@@ -2135,7 +2139,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const message = this;
     const source = message.get('source');
-    const sourceUuid = message.get('sourceUuid');
+    const sourceServiceId = message.get('sourceServiceId');
     const type = message.get('type');
     const conversationId = message.get('conversationId');
 
@@ -2210,7 +2214,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
               const destinationConversation =
                 window.ConversationController.lookupOrCreate({
-                  uuid: destinationServiceId,
+                  serviceId: destinationServiceId,
                   e164: destination || undefined,
                   reason: `handleDataMessage(${initialMessage.timestamp})`,
                 });
@@ -2344,7 +2348,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const sender = window.ConversationController.lookupOrCreate({
         e164: source,
-        uuid: sourceUuid,
+        serviceId: sourceServiceId,
         reason: 'handleDataMessage',
       })!;
       const hasGroupV2Prop = Boolean(initialMessage.groupV2);
@@ -2352,7 +2356,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       // Drop if from blocked user. Only GroupV2 messages should need to be dropped here.
       const isBlocked =
         (source && window.storage.blocked.isBlocked(source)) ||
-        (sourceUuid && window.storage.blocked.isUuidBlocked(sourceUuid));
+        (sourceServiceId &&
+          window.storage.blocked.isServiceIdBlocked(sourceServiceId));
       if (isBlocked) {
         log.info(
           `${idLog}: Dropping message from blocked sender. hasGroupV2Prop: ${hasGroupV2Prop}`
@@ -2371,7 +2376,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         type === 'incoming' &&
         !isDirectConversation(conversation.attributes) &&
         hasGroupV2Prop &&
-        (!areWeMember || (sourceUuid && !conversation.hasMember(sourceUuid)))
+        (!areWeMember ||
+          (sourceServiceId && !conversation.hasMember(sourceServiceId)))
       ) {
         log.warn(
           `${idLog}: Received message destined for group, which we or the sender are not a part of. Dropping.`
@@ -2423,11 +2429,15 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         //   The queue can be paused easily.
         drop(
           window.Whisper.deliveryReceiptQueue.add(() => {
+            strictAssert(
+              isAciString(sourceServiceId),
+              'Incoming message must be from ACI'
+            );
             window.Whisper.deliveryReceiptBatcher.add({
               messageId,
               conversationId,
               senderE164: source,
-              senderUuid: sourceUuid,
+              senderAci: sourceServiceId,
               timestamp: this.get('sent_at'),
               isDirectConversation: isDirectConversation(
                 conversation.attributes
@@ -2456,7 +2466,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         const sendState = sendStateByConversationId[sender.id];
 
         const storyQuoteIsFromSelf =
-          candidateQuote.get('sourceUuid') ===
+          candidateQuote.get('sourceServiceId') ===
           window.storage.user.getCheckedAci();
 
         if (!storyQuoteIsFromSelf) {
@@ -2573,7 +2583,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         }
 
         const ourPni = window.textsecure.storage.user.getCheckedPni();
-        const ourUuids: Set<ServiceIdString> = new Set([ourAci, ourPni]);
+        const ourServiceIds: Set<ServiceIdString> = new Set([ourAci, ourPni]);
 
         message.set({
           id: messageId,
@@ -2594,9 +2604,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
             if (!BodyRange.isMention(bodyRange)) {
               return false;
             }
-            return ourUuids.has(
+            return ourServiceIds.has(
               normalizeServiceId(
-                bodyRange.mentionUuid,
+                bodyRange.mentionAci,
                 'handleDataMessage: mentionsMe check'
               )
             );
@@ -2675,7 +2685,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
               message.set({
                 expirationTimerUpdate: {
                   source,
-                  sourceUuid,
+                  sourceServiceId,
                   expireTimer: initialMessage.expireTimer,
                 },
               });
@@ -2697,7 +2707,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
             //   point and these calls will return early.
             if (dataMessage.expireTimer) {
               void conversation.updateExpirationTimer(dataMessage.expireTimer, {
-                source: sourceUuid || source,
+                source: sourceServiceId || source,
                 receivedAt: message.get('received_at'),
                 receivedAtMS: message.get('received_at_ms'),
                 sentAt: message.get('sent_at'),
@@ -2710,7 +2720,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
               !isEndSession(message.attributes)
             ) {
               void conversation.updateExpirationTimer(undefined, {
-                source: sourceUuid || source,
+                source: sourceServiceId || source,
                 receivedAt: message.get('received_at'),
                 receivedAtMS: message.get('received_at_ms'),
                 sentAt: message.get('sent_at'),
@@ -2723,7 +2733,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
             const { profileKey } = initialMessage;
             if (
               source === window.textsecure.storage.user.getNumber() ||
-              sourceUuid === window.textsecure.storage.user.getAci()
+              sourceServiceId === window.textsecure.storage.user.getAci()
             ) {
               conversation.set({ profileSharing: true });
             } else if (isDirectConversation(conversation.attributes)) {
@@ -2731,7 +2741,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
             } else {
               const local = window.ConversationController.lookupOrCreate({
                 e164: source,
-                uuid: sourceUuid,
+                serviceId: sourceServiceId,
                 reason: 'handleDataMessage:setProfileKey',
               });
               void local?.setProfileKey(profileKey);
@@ -2952,7 +2962,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     const newReaction: MessageReactionType = {
       emoji: reaction.get('remove') ? undefined : reaction.get('emoji'),
       fromId: reaction.get('fromId'),
-      targetAuthorUuid: reaction.get('targetAuthorUuid'),
+      targetAuthorAci: reaction.get('targetAuthorAci'),
       targetTimestamp: reaction.get('targetTimestamp'),
       timestamp: reaction.get('timestamp'),
       isSentByConversationId: isFromThisDevice
@@ -3001,7 +3011,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           storyId: storyMessage.id,
           storyReaction: {
             emoji: reaction.get('emoji'),
-            targetAuthorUuid: reaction.get('targetAuthorUuid'),
+            targetAuthorAci: reaction.get('targetAuthorAci'),
             targetTimestamp: reaction.get('targetTimestamp'),
           },
         });
@@ -3097,7 +3107,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           await window.Signal.Data.removeReactionFromConversation({
             emoji: reaction.get('emoji'),
             fromId: reaction.get('fromId'),
-            targetAuthorServiceId: reaction.get('targetAuthorUuid'),
+            targetAuthorServiceId: reaction.get('targetAuthorAci'),
             targetTimestamp: reaction.get('targetTimestamp'),
           });
         } else {
@@ -3135,7 +3145,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
             fromId: reaction.get('fromId'),
             messageId: this.id,
             messageReceivedAt: this.get('received_at'),
-            targetAuthorUuid: reaction.get('targetAuthorUuid'),
+            targetAuthorAci: reaction.get('targetAuthorAci'),
             targetTimestamp: reaction.get('targetTimestamp'),
           });
         }

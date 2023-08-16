@@ -39,7 +39,12 @@ import {
   generateKyberPreKey,
 } from '../Curve';
 import type { ServiceIdString, PniString } from '../types/ServiceId';
-import { ServiceIdKind, normalizeAci, normalizePni } from '../types/ServiceId';
+import {
+  ServiceIdKind,
+  normalizeAci,
+  toTaggedPni,
+  isUntaggedPniString,
+} from '../types/ServiceId';
 import { isMoreRecentThan, isOlderThan } from '../util/timestamp';
 import { ourProfileKeyService } from '../services/ourProfileKey';
 import { assertDev, strictAssert } from '../util/assert';
@@ -464,7 +469,7 @@ export default class AccountManager extends EventTarget {
         isConfirmed: false,
         isLastResort: false,
         keyId,
-        ourUuid: ourServiceId,
+        ourServiceId,
       });
       toUpload.push({
         keyId,
@@ -704,7 +709,7 @@ export default class AccountManager extends EventTarget {
       isConfirmed: false,
       isLastResort: true,
       keyId,
-      ourUuid: ourServiceId,
+      ourServiceId,
     };
 
     await Promise.all([
@@ -934,7 +939,11 @@ export default class AccountManager extends EventTarget {
     });
 
     const ourAci = normalizeAci(response.uuid, 'createAccount');
-    const ourPni = normalizePni(response.pni, 'createAccount');
+    strictAssert(
+      isUntaggedPniString(response.pni),
+      'Response pni must be untagged'
+    );
+    const ourPni = toTaggedPni(response.pni);
 
     const uuidChanged = previousACI && ourAci && previousACI !== ourAci;
 
@@ -1116,9 +1125,10 @@ export default class AccountManager extends EventTarget {
     const logId = `AcountManager.generateKeys(${serviceIdKind})`;
     const { storage } = window.textsecure;
     const store = storage.protocol;
-    const ourUuid = storage.user.getCheckedServiceId(serviceIdKind);
+    const ourServiceId = storage.user.getCheckedServiceId(serviceIdKind);
 
-    const identityKey = maybeIdentityKey ?? store.getIdentityKeyPair(ourUuid);
+    const identityKey =
+      maybeIdentityKey ?? store.getIdentityKeyPair(ourServiceId);
     strictAssert(identityKey, 'generateKeys: No identity key pair!');
 
     const preKeys = await this.generateNewPreKeys(serviceIdKind, count);

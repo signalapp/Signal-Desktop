@@ -61,7 +61,7 @@ const createProps = (
       isBlocked: Boolean(isBlocked),
       title:
         'Pablo Diego José Francisco de Paula Juan Nepomuceno María de los Remedios Cipriano de la Santísima Trinidad Ruiz y Picasso',
-      uuid: generateAci(),
+      serviceId: generateAci(),
     }),
   },
   remoteParticipantsCount: 1,

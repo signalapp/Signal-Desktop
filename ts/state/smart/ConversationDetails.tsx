@@ -11,7 +11,7 @@ import type { StateProps } from '../../components/conversation/conversation-deta
 import { ConversationDetails } from '../../components/conversation/conversation-details/ConversationDetails';
 import {
   getConversationByIdSelector,
-  getConversationByUuidSelector,
+  getConversationByServiceIdSelector,
   getAllComposableConversations,
 } from '../selectors/conversations';
 import { getGroupMemberships } from '../../util/getGroupMemberships';
@@ -74,10 +74,11 @@ const mapStateToProps = (
     Boolean(conversation.groupLink) &&
     conversation.accessControlAddFromInviteLink !== ACCESS_ENUM.UNSATISFIABLE;
 
-  const conversationByUuidSelector = getConversationByUuidSelector(state);
+  const conversationByServiceIdSelector =
+    getConversationByServiceIdSelector(state);
   const groupMemberships = getGroupMemberships(
     conversation,
-    conversationByUuidSelector
+    conversationByServiceIdSelector
   );
 
   const badges = getBadgesSelector(state)(conversation.badges);
@@ -88,7 +89,7 @@ const mapStateToProps = (
           c =>
             c.type === 'group' &&
             (c.memberships ?? []).some(
-              member => member.uuid === conversation.uuid
+              member => member.aci === conversation.serviceId
             )
         )
       : [];

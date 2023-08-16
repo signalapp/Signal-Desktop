@@ -56,8 +56,12 @@ type CommandRunnerType = (
 
 const COMMANDS = new Map<string, CommandRunnerType>();
 
-COMMANDS.set('uuidEndsWith', (conversations, query) => {
-  return conversations.filter(convo => convo.uuid?.endsWith(query));
+COMMANDS.set('serviceIdEndsWith', (conversations, query) => {
+  return conversations.filter(convo => convo.serviceId?.endsWith(query));
+});
+
+COMMANDS.set('pniEndsWith', (conversations, query) => {
+  return conversations.filter(convo => convo.pni?.endsWith(query));
 });
 
 COMMANDS.set('idEndsWith', (conversations, query) => {

@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ConversationType } from '../state/ducks/conversations';
+import { isAciString } from '../types/ServiceId';
 
 export const isSafetyNumberNotAvailable = (
   contact?: ConversationType
@@ -10,10 +11,6 @@ export const isSafetyNumberNotAvailable = (
   if (!contact) {
     return true;
   }
-  // They have a uuid
-  if (!contact.uuid) {
-    return true;
-  }
-  // The uuid is not PNI
-  return contact.pni === contact.uuid;
+
+  return isAciString(contact.serviceId);
 };

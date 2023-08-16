@@ -92,7 +92,7 @@ export function LongTextWithMention(): JSX.Element {
     {
       start: 800,
       length: 1,
-      mentionUuid: generateAci(),
+      mentionAci: generateAci(),
       conversationID: 'x',
       replacementText: 'Alice',
     },

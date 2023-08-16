@@ -267,8 +267,8 @@ const actions = () => ({
   ),
   blockGroupLinkRequests: action('blockGroupLinkRequests'),
   checkForAccount: action('checkForAccount'),
-  clearInvitedUuidsForNewlyCreatedGroup: action(
-    'clearInvitedUuidsForNewlyCreatedGroup'
+  clearInvitedServiceIdsForNewlyCreatedGroup: action(
+    'clearInvitedServiceIdsForNewlyCreatedGroup'
   ),
   setIsNearBottom: action('setIsNearBottom'),
   loadOlderMessages: action('loadOlderMessages'),

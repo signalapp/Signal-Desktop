@@ -126,7 +126,7 @@ describe('storage service', function needsName() {
     );
 
     await leftPane
-      .locator(`[data-testid="${firstContact.toContact().uuid}"]`)
+      .locator(`[data-testid="${firstContact.toContact().aci}"]`)
       .click();
 
     {

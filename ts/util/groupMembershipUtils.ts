@@ -23,7 +23,7 @@ export function isMemberPending(
     return false;
   }
 
-  return pendingMembersV2.some(item => item.uuid === serviceId);
+  return pendingMembersV2.some(item => item.serviceId === serviceId);
 }
 
 export function isMemberBanned(
@@ -42,7 +42,7 @@ export function isMemberBanned(
     return false;
   }
 
-  return bannedMembersV2.some(member => member.uuid === serviceId);
+  return bannedMembersV2.some(member => member.serviceId === serviceId);
 }
 
 export function isMemberAwaitingApproval(
@@ -61,7 +61,7 @@ export function isMemberAwaitingApproval(
     return false;
   }
 
-  return pendingAdminApprovalV2.some(member => member.uuid === serviceId);
+  return pendingAdminApprovalV2.some(member => member.aci === serviceId);
 }
 
 export function isMember(
@@ -80,7 +80,7 @@ export function isMember(
     return false;
   }
 
-  return membersV2.some(item => item.uuid === serviceId);
+  return membersV2.some(item => item.aci === serviceId);
 }
 
 export function isMemberRequestingToJoin(
@@ -99,7 +99,7 @@ export function isMemberRequestingToJoin(
     return false;
   }
 
-  return pendingAdminApprovalV2.some(item => item.uuid === serviceId);
+  return pendingAdminApprovalV2.some(item => item.aci === serviceId);
 }
 
 const EMPTY_ARRAY: Readonly<[]> = [];
@@ -113,14 +113,14 @@ export function getBannedMemberships(
 
   const { bannedMembersV2 } = conversationAttrs;
 
-  return (bannedMembersV2 || []).map(member => member.uuid);
+  return (bannedMembersV2 || []).map(member => member.serviceId);
 }
 
 export function getPendingMemberships(
   conversationAttrs: ConversationAttributesType
 ): ReadonlyArray<{
   addedByUserId?: AciString;
-  uuid: ServiceIdString;
+  serviceId: ServiceIdString;
 }> {
   if (!isGroupV2(conversationAttrs)) {
     return EMPTY_ARRAY;
@@ -129,20 +129,20 @@ export function getPendingMemberships(
   const members = conversationAttrs.pendingMembersV2 || [];
   return members.map(member => ({
     addedByUserId: member.addedByUserId,
-    uuid: member.uuid,
+    serviceId: member.serviceId,
   }));
 }
 
 export function getPendingApprovalMemberships(
   conversationAttrs: ConversationAttributesType
-): ReadonlyArray<{ uuid: AciString }> {
+): ReadonlyArray<{ aci: AciString }> {
   if (!isGroupV2(conversationAttrs)) {
     return EMPTY_ARRAY;
   }
 
   const members = conversationAttrs.pendingAdminApprovalV2 || [];
   return members.map(member => ({
-    uuid: member.uuid,
+    aci: member.aci,
   }));
 }
 
@@ -171,7 +171,7 @@ export function getMembersCount(
 export function getMemberships(
   conversationAttrs: ConversationAttributesType
 ): ReadonlyArray<{
-  uuid: AciString;
+  aci: AciString;
   isAdmin: boolean;
 }> {
   if (!isGroupV2(conversationAttrs)) {
@@ -181,6 +181,6 @@ export function getMemberships(
   const members = conversationAttrs.membersV2 || [];
   return members.map(member => ({
     isAdmin: member.role === Proto.Member.Role.ADMINISTRATOR,
-    uuid: member.uuid,
+    aci: member.aci,
   }));
 }

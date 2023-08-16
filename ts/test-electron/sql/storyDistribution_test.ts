@@ -97,7 +97,7 @@ describe('sql/storyDistribution', () => {
         memberDevices: [
           {
             id: 1,
-            identifier: SERVICE_ID_1,
+            serviceId: SERVICE_ID_1,
             registrationId: 232,
           },
         ],

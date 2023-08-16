@@ -13,7 +13,7 @@ import { SignalService as Proto } from '../protobuf';
 import { IMAGE_GIF } from '../types/MIME';
 import { generateAci } from '../types/ServiceId';
 
-const AUTHOR_SERVICE_ID = generateAci();
+const ACI_1 = generateAci();
 const FLAGS = Proto.DataMessage.Flags;
 
 const TIMESTAMP = Date.now();
@@ -124,7 +124,7 @@ describe('processDataMessage', () => {
     const out = check({
       quote: {
         id: Long.fromNumber(1),
-        authorAci: AUTHOR_SERVICE_ID,
+        authorAci: ACI_1,
         text: 'text',
         attachments: [
           {
@@ -138,7 +138,7 @@ describe('processDataMessage', () => {
 
     assert.deepStrictEqual(out.quote, {
       id: 1,
-      authorAci: AUTHOR_SERVICE_ID,
+      authorAci: ACI_1,
       text: 'text',
       attachments: [
         {
@@ -184,13 +184,14 @@ describe('processDataMessage', () => {
       check({
         reaction: {
           emoji: '😎',
+          targetAuthorAci: ACI_1,
           targetTimestamp: Long.fromNumber(TIMESTAMP),
         },
       }).reaction,
       {
         emoji: '😎',
         remove: false,
-        targetAuthorAci: undefined,
+        targetAuthorAci: ACI_1,
         targetTimestamp: TIMESTAMP,
       }
     );
@@ -200,13 +201,14 @@ describe('processDataMessage', () => {
         reaction: {
           emoji: '😎',
           remove: true,
+          targetAuthorAci: ACI_1,
           targetTimestamp: Long.fromNumber(TIMESTAMP),
         },
       }).reaction,
       {
         emoji: '😎',
         remove: true,
-        targetAuthorAci: undefined,
+        targetAuthorAci: ACI_1,
         targetTimestamp: TIMESTAMP,
       }
     );

@@ -39,7 +39,7 @@ export type ContactListItemConversationType = Pick<
   | 'unblurredAvatarPath'
   | 'username'
   | 'e164'
-  | 'uuid'
+  | 'serviceId'
 >;
 
 type PropsDataType = ContactListItemConversationType & {
@@ -85,7 +85,7 @@ export const ContactListItem: FunctionComponent<PropsType> = React.memo(
     title,
     type,
     unblurredAvatarPath,
-    uuid,
+    serviceId,
   }) {
     const [isConfirmingBlocking, setConfirmingBlocking] = useState(false);
     const [isConfirmingRemoving, setConfirmingRemoving] = useState(false);
@@ -149,7 +149,7 @@ export const ContactListItem: FunctionComponent<PropsType> = React.memo(
       />
     ) : (
       <ContactName
-        isSignalConversation={isSignalConversation({ id, uuid })}
+        isSignalConversation={isSignalConversation({ id, serviceId })}
         module={HEADER_CONTACT_NAME_CLASS_NAME}
         title={title}
       />

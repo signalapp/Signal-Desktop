@@ -23,7 +23,7 @@ describe('sql/stories', () => {
 
       const now = Date.now();
       const conversationId = generateUuid();
-      const sourceUuid = generateAci();
+      const sourceServiceId = generateAci();
       const ourAci = generateAci();
 
       const story1: MessageAttributesType = {
@@ -34,7 +34,7 @@ describe('sql/stories', () => {
         sent_at: now - 20,
         received_at: now - 20,
         timestamp: now - 20,
-        sourceUuid: generateAci(),
+        sourceServiceId: generateAci(),
       };
       const story2: MessageAttributesType = {
         id: generateUuid(),
@@ -44,7 +44,7 @@ describe('sql/stories', () => {
         sent_at: now - 10,
         received_at: now - 10,
         timestamp: now - 10,
-        sourceUuid,
+        sourceServiceId,
       };
       const story3: MessageAttributesType = {
         id: generateUuid(),
@@ -54,7 +54,7 @@ describe('sql/stories', () => {
         sent_at: now,
         received_at: now,
         timestamp: now,
-        sourceUuid,
+        sourceServiceId,
       };
       const story4: MessageAttributesType = {
         id: generateUuid(),
@@ -64,7 +64,7 @@ describe('sql/stories', () => {
         sent_at: now,
         received_at: now,
         timestamp: now,
-        sourceUuid: generateAci(),
+        sourceServiceId: generateAci(),
       };
       const story5: MessageAttributesType = {
         id: generateUuid(),
@@ -74,7 +74,7 @@ describe('sql/stories', () => {
         sent_at: now,
         received_at: now,
         timestamp: now,
-        sourceUuid,
+        sourceServiceId,
       };
 
       await saveMessages([story1, story2, story3, story4, story5], {
@@ -121,7 +121,7 @@ describe('sql/stories', () => {
       );
 
       const storiesByAuthor = await getAllStories({
-        sourceUuid,
+        sourceServiceId,
       });
       assert.lengthOf(storiesByAuthor, 2, 'expect two stories by author');
 

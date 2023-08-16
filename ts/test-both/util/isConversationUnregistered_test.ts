@@ -2,16 +2,19 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
+import { generateAci } from '../../types/ServiceId';
 import * as durations from '../../util/durations';
 
 import { isConversationUnregistered } from '../../util/isConversationUnregistered';
 
+const serviceId = generateAci();
+
 describe('isConversationUnregistered', () => {
   it('returns false if passed an undefined discoveredUnregisteredAt', () => {
-    assert.isFalse(isConversationUnregistered({ uuid: 'uuid' }));
+    assert.isFalse(isConversationUnregistered({ serviceId }));
     assert.isFalse(
       isConversationUnregistered({
-        uuid: 'uuid',
+        serviceId,
         discoveredUnregisteredAt: undefined,
       })
     );
@@ -20,7 +23,7 @@ describe('isConversationUnregistered', () => {
   it('returns true if uuid is falsey', () => {
     assert.isTrue(
       isConversationUnregistered({
-        uuid: undefined,
+        serviceId: undefined,
         discoveredUnregisteredAt: Date.now() + 123,
       })
     );
@@ -29,7 +32,7 @@ describe('isConversationUnregistered', () => {
   it('returns true if passed a time fewer than 6 hours ago', () => {
     assert.isTrue(
       isConversationUnregistered({
-        uuid: 'uuid',
+        serviceId,
         discoveredUnregisteredAt: Date.now(),
       })
     );
@@ -37,7 +40,7 @@ describe('isConversationUnregistered', () => {
     const fiveHours = 1000 * 60 * 60 * 5;
     assert.isTrue(
       isConversationUnregistered({
-        uuid: 'uuid',
+        serviceId,
         discoveredUnregisteredAt: Date.now() - fiveHours,
       })
     );
@@ -46,7 +49,7 @@ describe('isConversationUnregistered', () => {
   it('returns true if passed a time in the future', () => {
     assert.isTrue(
       isConversationUnregistered({
-        uuid: 'uuid',
+        serviceId,
         discoveredUnregisteredAt: Date.now() + 123,
       })
     );
@@ -55,14 +58,14 @@ describe('isConversationUnregistered', () => {
   it('returns false if passed a time more than 6 hours ago', () => {
     assert.isFalse(
       isConversationUnregistered({
-        uuid: 'uuid',
+        serviceId,
         discoveredUnregisteredAt:
           Date.now() - 6 * durations.HOUR - durations.MINUTE,
       })
     );
     assert.isFalse(
       isConversationUnregistered({
-        uuid: 'uuid',
+        serviceId,
         discoveredUnregisteredAt: new Date(1999, 3, 20).getTime(),
       })
     );

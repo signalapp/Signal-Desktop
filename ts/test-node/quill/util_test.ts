@@ -38,10 +38,10 @@ describe('getDeltaToRemoveStaleMentions', () => {
       const originalOps = [
         {
           insert: {
-            mention: { uuid: SERVICE_ID_3, title: 'Klaus' },
+            mention: { aci: SERVICE_ID_3, title: 'Klaus' },
           },
         },
-        { insert: { mention: { uuid: SERVICE_ID_1, title: 'Werner' } } },
+        { insert: { mention: { aci: SERVICE_ID_1, title: 'Werner' } } },
       ];
 
       const { ops } = getDeltaToRemoveStaleMentions(originalOps, memberUuids);
@@ -285,7 +285,7 @@ describe('getTextAndRangesFromOps', () => {
         {
           insert: {
             mention: {
-              uuid: SERVICE_ID_1,
+              aci: SERVICE_ID_1,
               title: '@fred',
             },
           },
@@ -296,7 +296,7 @@ describe('getTextAndRangesFromOps', () => {
       assert.deepEqual(bodyRanges, [
         {
           length: 1,
-          mentionUuid: SERVICE_ID_1,
+          mentionAci: SERVICE_ID_1,
           replacementText: '@fred',
           start: 15,
         },
@@ -310,7 +310,7 @@ describe('getTextAndRangesFromOps', () => {
         {
           insert: {
             mention: {
-              uuid: SERVICE_ID_1,
+              aci: SERVICE_ID_1,
               title: '@fred',
             },
           },
@@ -321,7 +321,7 @@ describe('getTextAndRangesFromOps', () => {
       assert.deepEqual(bodyRanges, [
         {
           length: 1,
-          mentionUuid: SERVICE_ID_1,
+          mentionAci: SERVICE_ID_1,
           replacementText: '@fred',
           start: 0,
         },
@@ -334,7 +334,7 @@ describe('getTextAndRangesFromOps', () => {
         {
           insert: {
             mention: {
-              uuid: SERVICE_ID_1,
+              aci: SERVICE_ID_1,
               title: '@fred',
             },
           },
@@ -346,7 +346,7 @@ describe('getTextAndRangesFromOps', () => {
       assert.deepEqual(bodyRanges, [
         {
           length: 1,
-          mentionUuid: SERVICE_ID_1,
+          mentionAci: SERVICE_ID_1,
           replacementText: '@fred',
           start: 6,
         },
@@ -366,7 +366,7 @@ describe('getTextAndRangesFromOps', () => {
         {
           insert: {
             mention: {
-              uuid: SERVICE_ID_4,
+              aci: SERVICE_ID_4,
               title: '@alice',
             },
           },
@@ -425,7 +425,7 @@ describe('getTextAndRangesFromOps', () => {
         {
           start: 5,
           length: 1,
-          mentionUuid: SERVICE_ID_4,
+          mentionAci: SERVICE_ID_4,
           replacementText: '@alice',
         },
         {
@@ -509,7 +509,7 @@ describe('getTextAndRangesFromOps', () => {
         {
           insert: {
             mention: {
-              uuid: SERVICE_ID_4,
+              aci: SERVICE_ID_4,
               title: '@alice',
             },
           },
@@ -524,7 +524,7 @@ describe('getTextAndRangesFromOps', () => {
         {
           start: 0,
           length: 1,
-          mentionUuid: SERVICE_ID_4,
+          mentionAci: SERVICE_ID_4,
           replacementText: '@alice',
         },
         {
@@ -549,7 +549,7 @@ describe('getDeltaToRestartMention', () => {
         {
           insert: {
             mention: {
-              uuid: SERVICE_ID_2,
+              aci: SERVICE_ID_2,
               title: '@sam',
             },
           },
@@ -560,7 +560,7 @@ describe('getDeltaToRestartMention', () => {
         {
           insert: {
             mention: {
-              uuid: SERVICE_ID_1,
+              aci: SERVICE_ID_1,
               title: '@fred',
             },
           },

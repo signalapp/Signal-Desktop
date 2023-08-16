@@ -19,7 +19,7 @@ const SERVICE_ID_3 = generateAci();
 const SERVICE_ID_4 = generateAci();
 
 const mentionInfo = {
-  mentionUuid: SERVICE_ID_1,
+  mentionAci: SERVICE_ID_1,
   conversationID: 'convoid',
   replacementText: 'dude',
 };
@@ -791,14 +791,14 @@ describe('BodyRanges', () => {
         {
           start: 0,
           length: 1,
-          mentionUuid: SERVICE_ID_2,
+          mentionAci: SERVICE_ID_2,
           replacementText: 'Alice',
           conversationID: 'x',
         },
         {
           start: 21,
           length: 1,
-          mentionUuid: SERVICE_ID_2,
+          mentionAci: SERVICE_ID_2,
           replacementText: 'Eve',
           conversationID: 'x',
         },
@@ -827,21 +827,21 @@ describe('BodyRanges', () => {
         {
           start: 18,
           length: 1,
-          mentionUuid: SERVICE_ID_2,
+          mentionAci: SERVICE_ID_2,
           replacementText: 'Alice',
           conversationID: 'x',
         },
         {
           start: 39,
           length: 1,
-          mentionUuid: SERVICE_ID_2,
+          mentionAci: SERVICE_ID_2,
           replacementText: 'Bob',
           conversationID: 'x',
         },
         {
           start: 45,
           length: 1,
-          mentionUuid: SERVICE_ID_2,
+          mentionAci: SERVICE_ID_2,
           replacementText: 'Eve',
           conversationID: 'x',
         },
@@ -947,14 +947,14 @@ describe('BodyRanges', () => {
         {
           start: 0,
           length: 1,
-          mentionUuid: SERVICE_ID_3,
+          mentionAci: SERVICE_ID_3,
           replacementText: 'jerry',
           conversationID: 'x',
         },
         {
           start: 7,
           length: 1,
-          mentionUuid: SERVICE_ID_4,
+          mentionAci: SERVICE_ID_4,
           replacementText: 'fred',
           conversationID: 'x',
         },
@@ -992,14 +992,14 @@ describe('BodyRanges', () => {
         {
           start: 49,
           length: 1,
-          mentionUuid: SERVICE_ID_4,
+          mentionAci: SERVICE_ID_4,
           replacementText: 'alice',
           conversationID: 'x',
         },
         {
           start: 55,
           length: 1,
-          mentionUuid: SERVICE_ID_4,
+          mentionAci: SERVICE_ID_4,
           replacementText: 'bob',
           conversationID: 'x',
         },
@@ -1025,21 +1025,21 @@ describe('BodyRanges', () => {
         {
           start: 0,
           length: 1,
-          mentionUuid: SERVICE_ID_4,
+          mentionAci: SERVICE_ID_4,
           replacementText: 'eve',
           conversationID: 'x',
         },
         {
           start: 52,
           length: 1,
-          mentionUuid: SERVICE_ID_4,
+          mentionAci: SERVICE_ID_4,
           replacementText: 'alice',
           conversationID: 'x',
         },
         {
           start: 58,
           length: 1,
-          mentionUuid: SERVICE_ID_4,
+          mentionAci: SERVICE_ID_4,
           replacementText: 'bob',
           conversationID: 'x',
         },

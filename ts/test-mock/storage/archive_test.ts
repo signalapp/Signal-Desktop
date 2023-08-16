@@ -49,7 +49,7 @@ describe('storage service', function needsName() {
       });
 
       await leftPane
-        .locator(`[data-testid="${firstContact.toContact().uuid}"]`)
+        .locator(`[data-testid="${firstContact.toContact().aci}"]`)
         .waitFor({ state: 'hidden' });
 
       await leftPane
@@ -74,7 +74,7 @@ describe('storage service', function needsName() {
       });
 
       await leftPane
-        .locator(`[data-testid="${firstContact.toContact().uuid}"]`)
+        .locator(`[data-testid="${firstContact.toContact().aci}"]`)
         .waitFor();
 
       await leftPane
@@ -89,7 +89,7 @@ describe('storage service', function needsName() {
       const state = await phone.expectStorageState('consistency check');
 
       await leftPane
-        .locator(`[data-testid="${firstContact.toContact().uuid}"]`)
+        .locator(`[data-testid="${firstContact.toContact().aci}"]`)
         .click();
 
       const moreButton = conversationStack.locator(

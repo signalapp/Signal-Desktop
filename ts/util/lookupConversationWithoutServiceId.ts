@@ -41,7 +41,7 @@ export type LookupConversationWithoutServiceIdOptionsType = Omit<
   >;
 
 type FoundUsernameType = {
-  uuid: AciString;
+  aci: AciString;
   username: string;
 };
 
@@ -51,7 +51,7 @@ export async function lookupConversationWithoutServiceId(
   const knownConversation = window.ConversationController.get(
     options.type === 'e164' ? options.e164 : options.username
   );
-  if (knownConversation && knownConversation.get('uuid')) {
+  if (knownConversation && knownConversation.getServiceId()) {
     return knownConversation.id;
   }
 
@@ -89,7 +89,7 @@ export async function lookupConversationWithoutServiceId(
       const foundUsername = await checkForUsername(options.username);
       if (foundUsername) {
         const convo = window.ConversationController.lookupOrCreate({
-          uuid: foundUsername.uuid,
+          serviceId: foundUsername.aci,
           reason: 'lookupConversationWithoutServiceId',
         });
 
@@ -159,7 +159,7 @@ async function checkForUsername(
     }
 
     return {
-      uuid: account.uuid,
+      aci: account.uuid,
       username,
     };
   } catch (error) {

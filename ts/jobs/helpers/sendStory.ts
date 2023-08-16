@@ -206,7 +206,7 @@ export async function sendStory(
     serviceId: ServiceIdString,
     canReply?: boolean
   ): void {
-    if (conversation.get('uuid') === serviceId) {
+    if (conversation.getServiceId() === serviceId) {
       return;
     }
 

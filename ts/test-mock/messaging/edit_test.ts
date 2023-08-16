@@ -476,7 +476,7 @@ describe('editing', function needsName() {
     debug("getting friend's conversationId");
     const conversationId = await page.evaluate(
       serviceId => window.SignalCI?.getConversationId(serviceId),
-      contact.uuid
+      contact.aci
     );
     debug(`got friend's conversationId: ${conversationId}`);
     strictAssert(conversationId, 'conversationId exists');

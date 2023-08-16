@@ -12,8 +12,8 @@ export function validateConversation(
     return `Invalid conversation type: ${attributes.type}`;
   }
 
-  if (!attributes.e164 && !attributes.uuid && !attributes.groupId) {
-    return 'Missing one of e164, uuid, or groupId';
+  if (!attributes.e164 && !attributes.serviceId && !attributes.groupId) {
+    return 'Missing one of e164, serviceId, or groupId';
   }
 
   const error = validateNumber(attributes) || validateServiceId(attributes);
@@ -41,8 +41,8 @@ function validateNumber(attributes: ValidateConversationType): string | null {
 function validateServiceId(
   attributes: ValidateConversationType
 ): string | null {
-  if (isDirectConversation(attributes) && attributes.uuid) {
-    if (isServiceIdString(attributes.uuid)) {
+  if (isDirectConversation(attributes) && attributes.serviceId) {
+    if (isServiceIdString(attributes.serviceId)) {
       return null;
     }
 

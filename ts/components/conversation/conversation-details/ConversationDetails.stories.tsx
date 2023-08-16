@@ -234,7 +234,7 @@ export function WithCallHistoryGroup(): JSX.Element {
     <ConversationDetails
       {...props}
       callHistoryGroup={{
-        peerId: props.conversation?.uuid ?? '',
+        peerId: props.conversation?.serviceId ?? '',
         mode: CallMode.Direct,
         type: CallType.Video,
         direction: CallDirection.Incoming,

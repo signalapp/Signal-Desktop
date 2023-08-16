@@ -16,16 +16,18 @@ export function getConversationMembers(
 
   if (conversationAttrs.membersV2) {
     const { includePendingMembers } = options;
-    const members: Array<{ uuid: ServiceIdString }> = includePendingMembers
+    const members: Array<ServiceIdString> = includePendingMembers
       ? [
-          ...(conversationAttrs.membersV2 || []),
-          ...(conversationAttrs.pendingMembersV2 || []),
+          ...(conversationAttrs.membersV2 || []).map(({ aci }) => aci),
+          ...(conversationAttrs.pendingMembersV2 || []).map(
+            ({ serviceId }) => serviceId
+          ),
         ]
-      : conversationAttrs.membersV2 || [];
+      : conversationAttrs.membersV2?.map(({ aci }) => aci) || [];
 
     return compact(
-      members.map(member => {
-        const conversation = window.ConversationController.get(member.uuid);
+      members.map(serviceId => {
+        const conversation = window.ConversationController.get(serviceId);
 
         // In groups we won't sent to blocked contacts or those we think are unregistered
         if (

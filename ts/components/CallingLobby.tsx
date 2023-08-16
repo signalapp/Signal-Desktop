@@ -49,7 +49,9 @@ export type PropsType = {
   isGroupCall: boolean;
   isGroupCallOutboundRingEnabled: boolean;
   isCallFull?: boolean;
-  me: Readonly<Pick<ConversationType, 'avatarPath' | 'color' | 'id' | 'uuid'>>;
+  me: Readonly<
+    Pick<ConversationType, 'avatarPath' | 'color' | 'id' | 'serviceId'>
+  >;
   onCallCanceled: () => void;
   onJoinCall: () => void;
   outgoingRing: boolean;

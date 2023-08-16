@@ -67,3 +67,19 @@ export type UnwrapPromise<Value> = Value extends Promise<infer T> ? T : Value;
 export type BytesToStrings<Value> = Value extends Uint8Array
   ? string
   : { [Key in keyof Value]: BytesToStrings<Value[Key]> };
+
+export type JSONWithUnknownFields<Value> = Value extends Record<
+  string | symbol | number,
+  unknown
+>
+  ? Readonly<
+      {
+        [Key in keyof Value]: JSONWithUnknownFields<Value[Key]>;
+      } & {
+        // Make sure that rest property is required to handle.
+        __rest: never;
+      }
+    >
+  : Value extends Array<infer E>
+  ? ReadonlyArray<JSONWithUnknownFields<E>>
+  : Value;

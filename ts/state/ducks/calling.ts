@@ -936,7 +936,7 @@ function keyChanged(
     if (activeCall.callMode === CallMode.Group) {
       const acisChanged = new Set(activeCallState.safetyNumberChangedAcis);
 
-      // Iterate over each participant to ensure that the uuid passed in
+      // Iterate over each participant to ensure that the service id passed in
       // matches one of the participants in the group call.
       activeCall.remoteParticipants.forEach(participant => {
         if (participant.aci === payload.aci) {

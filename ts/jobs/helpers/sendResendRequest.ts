@@ -26,7 +26,6 @@ import { drop } from '../../util/drop';
 import { strictAssert } from '../../util/assert';
 import type { DecryptionErrorEventData } from '../../textsecure/messageReceiverEvents';
 import type { LoggerType } from '../../types/Logging';
-import { isAciString } from '../../types/ServiceId';
 import { startAutomaticSessionReset } from '../../util/handleRetry';
 
 function failoverToLocalReset(
@@ -49,9 +48,8 @@ export async function sendResendRequest(
     timeRemaining,
     log,
   }: ConversationQueueJobBundle,
-  { senderUuid: senderAci, ...restOfData }: ResendRequestJobData
+  { senderAci, ...restOfData }: ResendRequestJobData
 ): Promise<void> {
-  strictAssert(isAciString(senderAci), 'senderUuid is not an ACI');
   const data = {
     ...restOfData,
     senderAci,
@@ -90,9 +88,8 @@ export async function sendResendRequest(
   // Note: we will send to blocked users, to those still in message request state, etc.
   //   Any needed blocking should still apply once the decryption error is fixed.
 
-  const senderUuid = conversation.get('uuid');
-  if (!senderUuid) {
-    log.error('conversation was missing a uuid, cancelling job.');
+  if (conversation.getAci() !== senderAci) {
+    log.error('conversation was missing a aci, cancelling job.');
     failoverToLocalReset(log, data);
     return;
   }
@@ -113,7 +110,7 @@ export async function sendResendRequest(
     await handleMessageSend(
       messaging.sendMessageProtoAndWait({
         timestamp,
-        recipients: [senderUuid],
+        recipients: [senderAci],
         proto: plaintext,
         contentHint: ContentHint.DEFAULT,
         groupId,
@@ -141,7 +138,7 @@ export async function sendResendRequest(
         receivedAt: receivedAtDate,
         receivedAtCounter,
         sentAt: timestamp,
-        senderUuid,
+        senderAci,
         wasOpened,
       });
 
@@ -162,7 +159,7 @@ export async function sendResendRequest(
         await conversation.addDeliveryIssue({
           receivedAt: receivedAtDate,
           receivedAtCounter,
-          senderUuid,
+          senderAci,
           sentAt: timestamp,
         });
       })

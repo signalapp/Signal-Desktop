@@ -216,16 +216,16 @@ export function getSourceDevice(
   return sourceDevice || ourDeviceId;
 }
 
-export function getSourceUuid(
-  message: Pick<MessageAttributesType, 'type' | 'sourceUuid'>,
+export function getSourceServiceId(
+  message: Pick<MessageAttributesType, 'type' | 'sourceServiceId'>,
   ourAci: AciString | undefined
 ): ServiceIdString | undefined {
   if (isIncoming(message)) {
-    return message.sourceUuid;
+    return message.sourceServiceId;
   }
   if (!isOutgoing(message)) {
     log.warn(
-      'message.getSourceUuid: Called for non-incoming/non-outoing message'
+      'message.getSourceServiceId: Called for non-incoming/non-outoing message'
     );
   }
 
@@ -247,13 +247,13 @@ export function getContactId(
   }: GetContactOptions
 ): string | undefined {
   const source = getSource(message, ourNumber);
-  const sourceUuid = getSourceUuid(message, ourAci);
+  const sourceServiceId = getSourceServiceId(message, ourAci);
 
-  if (!source && !sourceUuid) {
+  if (!source && !sourceServiceId) {
     return ourConversationId;
   }
 
-  const conversation = conversationSelector(sourceUuid || source);
+  const conversation = conversationSelector(sourceServiceId || source);
   return conversation.id;
 }
 
@@ -268,13 +268,13 @@ export function getContact(
   }: GetContactOptions
 ): ConversationType {
   const source = getSource(message, ourNumber);
-  const sourceUuid = getSourceUuid(message, ourAci);
+  const sourceServiceId = getSourceServiceId(message, ourAci);
 
-  if (!source && !sourceUuid) {
+  if (!source && !sourceServiceId) {
     return conversationSelector(ourConversationId);
   }
 
-  return conversationSelector(sourceUuid || source);
+  return conversationSelector(sourceServiceId || source);
 }
 
 export function getConversation(
@@ -341,7 +341,7 @@ export const extractHydratedMentions = (
     .filter(BodyRange.isMention)
     .map(range => {
       const { conversationSelector } = options;
-      const conversation = conversationSelector(range.mentionUuid);
+      const conversation = conversationSelector(range.mentionAci);
 
       return {
         ...range,
@@ -484,7 +484,7 @@ const getPropsForStoryReplyContext = (
     return undefined;
   }
 
-  const contact = conversationSelector(storyReplyContext.authorUuid);
+  const contact = conversationSelector(storyReplyContext.authorAci);
 
   const authorTitle = contact.firstName || contact.title;
   const isFromMe = contact.id === ourConversationId;
@@ -527,7 +527,7 @@ export const getPropsForQuote = (
 
   const {
     author,
-    authorUuid,
+    authorAci,
     id: sentAt,
     isViewOnce,
     isGiftBadge: isTargetGiftBadge,
@@ -536,7 +536,7 @@ export const getPropsForQuote = (
     text = '',
   } = quote;
 
-  const contact = conversationSelector(authorUuid || author);
+  const contact = conversationSelector(authorAci || author);
 
   const authorId = contact.id;
   const authorName = contact.name;
@@ -960,7 +960,7 @@ function getPropsForPaymentEvent(
   { conversationSelector }: GetPropsForBubbleOptions
 ): Omit<PaymentEventNotificationPropsType, 'i18n'> {
   return {
-    sender: conversationSelector(message.sourceUuid),
+    sender: conversationSelector(message.sourceServiceId),
     conversation: getConversation(message, conversationSelector),
     event: message.payment,
   };
@@ -1104,9 +1104,9 @@ function getPropsForTimerNotification(
     );
   }
 
-  const { expireTimer, fromSync, source, sourceUuid } = timerUpdate;
+  const { expireTimer, fromSync, source, sourceServiceId } = timerUpdate;
   const disabled = !expireTimer;
-  const sourceId = sourceUuid || source;
+  const sourceId = sourceServiceId || source;
   const { id: formattedContactId, title } = conversationSelector(sourceId);
 
   // Pacify typescript
@@ -1447,7 +1447,7 @@ function getPropsForChangeNumberNotification(
   { conversationSelector }: GetPropsForBubbleOptions
 ): ChangeNumberNotificationProps {
   return {
-    sender: conversationSelector(message.sourceUuid),
+    sender: conversationSelector(message.sourceServiceId),
     timestamp: message.sent_at,
   };
 }
@@ -1500,7 +1500,7 @@ function getPropsForDeliveryIssue(
   message: MessageWithUIFieldsType,
   { conversationSelector }: GetPropsForBubbleOptions
 ): DeliveryIssuePropsType {
-  const sender = conversationSelector(message.sourceUuid);
+  const sender = conversationSelector(message.sourceServiceId);
   const conversation = getConversation(message, conversationSelector);
 
   return {
@@ -1631,7 +1631,7 @@ export function getPropsForEmbeddedContact(
     regionCode,
     getAbsoluteAttachmentPath: getAttachmentUrlForPath,
     firstNumber,
-    uuid: accountSelector(firstNumber),
+    serviceId: accountSelector(firstNumber),
   });
 }
 

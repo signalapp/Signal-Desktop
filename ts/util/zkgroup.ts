@@ -18,7 +18,15 @@ import {
   UuidCiphertext,
   NotarySignature,
 } from '@signalapp/libsignal-client/zkgroup';
-import type { ServiceIdString } from '../types/ServiceId';
+import { Aci, Pni, type ServiceId } from '@signalapp/libsignal-client';
+import type { ServiceIdString, AciString, PniString } from '../types/ServiceId';
+import {
+  toServiceIdObject,
+  fromServiceIdObject,
+  fromAciObject,
+  fromPniObject,
+} from '../types/ServiceId';
+import { strictAssert } from './assert';
 
 export * from '@signalapp/libsignal-client/zkgroup';
 
@@ -58,19 +66,46 @@ export function decryptProfileKey(
 
   const profileKey = clientZkGroupCipher.decryptProfileKey(
     profileKeyCiphertext,
-    serviceId
+    toServiceIdObject(serviceId)
   );
 
   return profileKey.serialize();
 }
 
-export function decryptUuid(
+function decryptServiceIdObj(
   clientZkGroupCipher: ClientZkGroupCipher,
   uuidCiphertextBuffer: Uint8Array
-): string {
+): ServiceId {
   const uuidCiphertext = new UuidCiphertext(Buffer.from(uuidCiphertextBuffer));
 
-  return clientZkGroupCipher.decryptUuid(uuidCiphertext);
+  return clientZkGroupCipher.decryptServiceId(uuidCiphertext);
+}
+
+export function decryptServiceId(
+  clientZkGroupCipher: ClientZkGroupCipher,
+  uuidCiphertextBuffer: Uint8Array
+): ServiceIdString {
+  return fromServiceIdObject(
+    decryptServiceIdObj(clientZkGroupCipher, uuidCiphertextBuffer)
+  );
+}
+
+export function decryptAci(
+  clientZkGroupCipher: ClientZkGroupCipher,
+  uuidCiphertextBuffer: Uint8Array
+): AciString {
+  const obj = decryptServiceIdObj(clientZkGroupCipher, uuidCiphertextBuffer);
+  strictAssert(obj instanceof Aci, 'userId is not ACI');
+  return fromAciObject(obj);
+}
+
+export function decryptPni(
+  clientZkGroupCipher: ClientZkGroupCipher,
+  uuidCiphertextBuffer: Uint8Array
+): PniString {
+  const obj = decryptServiceIdObj(clientZkGroupCipher, uuidCiphertextBuffer);
+  strictAssert(obj instanceof Pni, 'userId is not PNI');
+  return fromPniObject(obj);
 }
 
 export function deriveProfileKeyVersion(
@@ -80,7 +115,9 @@ export function deriveProfileKeyVersion(
   const profileKeyArray = Buffer.from(profileKeyBase64, 'base64');
   const profileKey = new ProfileKey(profileKeyArray);
 
-  const profileKeyVersion = profileKey.getProfileKeyVersion(serviceId);
+  const profileKeyVersion = profileKey.getProfileKeyVersion(
+    toServiceIdObject(serviceId)
+  );
 
   return profileKeyVersion.toString();
 }
@@ -123,7 +160,9 @@ export function encryptServiceId(
   clientZkGroupCipher: ClientZkGroupCipher,
   serviceIdPlaintext: ServiceIdString
 ): Uint8Array {
-  const uuidCiphertext = clientZkGroupCipher.encryptUuid(serviceIdPlaintext);
+  const uuidCiphertext = clientZkGroupCipher.encryptServiceId(
+    toServiceIdObject(serviceIdPlaintext)
+  );
 
   return uuidCiphertext.serialize();
 }
@@ -138,7 +177,7 @@ export function generateProfileKeyCredentialRequest(
 
   const context =
     clientZkProfileCipher.createProfileKeyCredentialRequestContext(
-      serviceId,
+      toServiceIdObject(serviceId),
       profileKey
     );
   const request = context.getRequest();
@@ -254,7 +293,9 @@ export function deriveProfileKeyCommitment(
   const profileKeyArray = Buffer.from(profileKeyBase64, 'base64');
   const profileKey = new ProfileKey(profileKeyArray);
 
-  return profileKey.getCommitment(serviceId).contents.toString('base64');
+  return profileKey
+    .getCommitment(toServiceIdObject(serviceId))
+    .contents.toString('base64');
 }
 
 export function verifyNotarySignature(

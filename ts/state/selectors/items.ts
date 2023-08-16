@@ -60,10 +60,10 @@ const isRemoteConfigBucketEnabled = (
   config: Readonly<ConfigMapType>,
   name: ConfigKeyType,
   e164: string | undefined,
-  uuid: AciString | undefined
+  aci: AciString | undefined
 ): boolean => {
   const flagValue = config[name]?.value;
-  return innerIsBucketValueEnabled(name, flagValue, e164, uuid);
+  return innerIsBucketValueEnabled(name, flagValue, e164, aci);
 };
 
 export const getRemoteConfig = createSelector(

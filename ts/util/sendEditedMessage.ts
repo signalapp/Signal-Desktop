@@ -14,6 +14,7 @@ import type { AttachmentType } from '../types/Attachment';
 import { ErrorWithToast } from '../types/ErrorWithToast';
 import { SendStatus } from '../messages/MessageSendState';
 import { ToastType } from '../types/Toast';
+import type { AciString } from '../types/ServiceId';
 import { canEditMessage } from './canEditMessage';
 import {
   conversationJobQueue,
@@ -42,14 +43,14 @@ export async function sendEditedMessage(
     bodyRanges,
     preview,
     quoteSentAt,
-    quoteAuthorUuid,
+    quoteAuthorAci,
     targetMessageId,
   }: {
     body?: string;
     bodyRanges?: DraftBodyRanges;
     preview: Array<LinkPreviewType>;
     quoteSentAt?: number;
-    quoteAuthorUuid?: string;
+    quoteAuthorAci?: AciString;
     targetMessageId: string;
   }
 ): Promise<void> {
@@ -118,7 +119,7 @@ export async function sendEditedMessage(
   };
 
   let quote: QuotedMessageType | undefined;
-  if (quoteSentAt !== undefined && quoteAuthorUuid !== undefined) {
+  if (quoteSentAt !== undefined && quoteAuthorAci !== undefined) {
     const existingQuote = targetMessage.get('quote');
 
     // Keep the quote if unchanged.
@@ -131,7 +132,7 @@ export async function sendEditedMessage(
       const matchingMessage = find(messages, item =>
         isQuoteAMatch(item, conversationId, {
           id: quoteSentAt,
-          authorUuid: quoteAuthorUuid,
+          authorAci: quoteAuthorAci,
         })
       );
 

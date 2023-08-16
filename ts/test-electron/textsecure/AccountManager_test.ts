@@ -229,7 +229,7 @@ describe('AccountManager', () => {
           isLastResort: true,
           isConfirmed: true,
           keyId: 1,
-          ourUuid: ourAci,
+          ourServiceId: ourAci,
         },
         {
           id: `${ourAci}:2`,
@@ -239,7 +239,7 @@ describe('AccountManager', () => {
           isLastResort: true,
           isConfirmed: true,
           keyId: 2,
-          ourUuid: ourAci,
+          ourServiceId: ourAci,
         },
         {
           id: `${ourAci}:3`,
@@ -249,7 +249,7 @@ describe('AccountManager', () => {
           isLastResort: true,
           isConfirmed: true,
           keyId: 3,
-          ourUuid: ourAci,
+          ourServiceId: ourAci,
         },
         {
           id: `${ourAci}:4`,
@@ -259,7 +259,7 @@ describe('AccountManager', () => {
           isLastResort: true,
           isConfirmed: false,
           keyId: 4,
-          ourUuid: ourAci,
+          ourServiceId: ourAci,
         },
         {
           id: `${ourAci}:5`,
@@ -269,7 +269,7 @@ describe('AccountManager', () => {
           isLastResort: true,
           isConfirmed: false,
           keyId: 5,
-          ourUuid: ourAci,
+          ourServiceId: ourAci,
         },
       ];
 
@@ -288,7 +288,7 @@ describe('AccountManager', () => {
           isLastResort: true,
           isConfirmed: true,
           keyId: 1,
-          ourUuid: ourAci,
+          ourServiceId: ourAci,
         },
         {
           id: `${ourAci}:2`,
@@ -298,7 +298,7 @@ describe('AccountManager', () => {
           isLastResort: true,
           isConfirmed: false,
           keyId: 2,
-          ourUuid: ourAci,
+          ourServiceId: ourAci,
         },
         {
           id: `${ourAci}:3`,
@@ -308,7 +308,7 @@ describe('AccountManager', () => {
           isLastResort: true,
           isConfirmed: true,
           keyId: 3,
-          ourUuid: ourAci,
+          ourServiceId: ourAci,
         },
         {
           // Oldest, should be dropped
@@ -319,7 +319,7 @@ describe('AccountManager', () => {
           isLastResort: true,
           isConfirmed: true,
           keyId: 4,
-          ourUuid: ourAci,
+          ourServiceId: ourAci,
         },
         {
           id: `${ourAci}:5`,
@@ -329,7 +329,7 @@ describe('AccountManager', () => {
           isLastResort: true,
           isConfirmed: true,
           keyId: 5,
-          ourUuid: ourAci,
+          ourServiceId: ourAci,
         },
         {
           id: `${ourAci}:6`,
@@ -339,7 +339,7 @@ describe('AccountManager', () => {
           isLastResort: true,
           isConfirmed: true,
           keyId: 6,
-          ourUuid: ourAci,
+          ourServiceId: ourAci,
         },
       ];
 
@@ -381,7 +381,7 @@ describe('AccountManager', () => {
 
           createdAt: now - DAY * 92,
           keyId: 1,
-          ourUuid: ourAci,
+          ourServiceId: ourAci,
           privateKey: privKey,
           publicKey: pubKey,
         },
@@ -390,7 +390,7 @@ describe('AccountManager', () => {
 
           createdAt: now - DAY * 93,
           keyId: 2,
-          ourUuid: ourAci,
+          ourServiceId: ourAci,
           privateKey: privKey,
           publicKey: pubKey,
         },
@@ -399,7 +399,7 @@ describe('AccountManager', () => {
 
           createdAt: now - DAY * 93,
           keyId: 3,
-          ourUuid: ourAci,
+          ourServiceId: ourAci,
           privateKey: privKey,
           publicKey: pubKey,
         },
@@ -408,7 +408,7 @@ describe('AccountManager', () => {
 
           createdAt: now - DAY * 93,
           keyId: 4,
-          ourUuid: ourAci,
+          ourServiceId: ourAci,
           privateKey: privKey,
           publicKey: pubKey,
         },
@@ -417,7 +417,7 @@ describe('AccountManager', () => {
 
           createdAt: now - DAY * 94,
           keyId: 5,
-          ourUuid: ourAci,
+          ourServiceId: ourAci,
           privateKey: privKey,
           publicKey: pubKey,
         },
@@ -437,7 +437,7 @@ describe('AccountManager', () => {
 
             createdAt: now - DAY,
             keyId: 1,
-            ourUuid: ourAci,
+            ourServiceId: ourAci,
             privateKey: privKey,
             publicKey: pubKey,
           })
@@ -449,7 +449,7 @@ describe('AccountManager', () => {
 
             createdAt: now - DAY * 40,
             keyId: 1,
-            ourUuid: ourAci,
+            ourServiceId: ourAci,
             privateKey: privKey,
             publicKey: pubKey,
           })
@@ -460,7 +460,7 @@ describe('AccountManager', () => {
 
           createdAt: now - DAY * 92,
           keyId: 6,
-          ourUuid: ourAci,
+          ourServiceId: ourAci,
           privateKey: privKey,
           publicKey: pubKey,
         },
@@ -508,7 +508,7 @@ describe('AccountManager', () => {
           isConfirmed: false,
           isLastResort: false,
           keyId: 1,
-          ourUuid: ourAci,
+          ourServiceId: ourAci,
         },
         {
           id: `${ourAci}:2`,
@@ -518,7 +518,7 @@ describe('AccountManager', () => {
           isConfirmed: false,
           isLastResort: false,
           keyId: 2,
-          ourUuid: ourAci,
+          ourServiceId: ourAci,
         },
         {
           id: `${ourAci}:3`,
@@ -528,7 +528,7 @@ describe('AccountManager', () => {
           isConfirmed: false,
           isLastResort: false,
           keyId: 3,
-          ourUuid: ourAci,
+          ourServiceId: ourAci,
         },
         {
           id: `${ourAci}:4`,
@@ -538,7 +538,7 @@ describe('AccountManager', () => {
           isConfirmed: false,
           isLastResort: false,
           keyId: 4,
-          ourUuid: ourAci,
+          ourServiceId: ourAci,
         },
         {
           id: `${ourAci}:5`,
@@ -548,7 +548,7 @@ describe('AccountManager', () => {
           isConfirmed: false,
           isLastResort: false,
           keyId: 5,
-          ourUuid: ourAci,
+          ourServiceId: ourAci,
         },
       ];
 
@@ -569,7 +569,7 @@ describe('AccountManager', () => {
             isConfirmed: false,
             isLastResort: false,
             keyId: 1,
-            ourUuid: ourAci,
+            ourServiceId: ourAci,
           })
         ),
         // Second-oldest batch, won't be dropped
@@ -582,7 +582,7 @@ describe('AccountManager', () => {
             isConfirmed: false,
             isLastResort: false,
             keyId: 4,
-            ourUuid: ourAci,
+            ourServiceId: ourAci,
           })
         ),
         // Oldest batch, will be dropped
@@ -594,7 +594,7 @@ describe('AccountManager', () => {
           isConfirmed: false,
           isLastResort: false,
           keyId: 6,
-          ourUuid: ourAci,
+          ourServiceId: ourAci,
         },
       ];
 

@@ -4,6 +4,10 @@
 import { assert } from 'chai';
 
 import { parseRawSyncDataArray } from '../../../jobs/helpers/syncHelpers';
+import { generateAci } from '../../../types/ServiceId';
+
+const SERVICE_ID_1 = generateAci();
+const SERVICE_ID_2 = generateAci();
 
 describe('read and view sync helpers', () => {
   describe('parseRawSyncDataArray', () => {
@@ -16,7 +20,7 @@ describe('read and view sync helpers', () => {
     it('errors if passed an array with any invalid elements', () => {
       const valid = {
         messageId: '4a3ad1e1-61a7-464d-9982-f3e8eea81818',
-        senderUuid: '253ce806-7375-4227-82ed-eb8321630133',
+        senderAci: SERVICE_ID_2,
         timestamp: 1234,
       };
 
@@ -33,13 +37,13 @@ describe('read and view sync helpers', () => {
       assert.deepEqual(
         parseRawSyncDataArray([
           {
-            senderUuid: 'd9e1e89b-f4a6-4c30-b3ec-8e7a964f94bd',
+            senderAci: SERVICE_ID_1,
             timestamp: 1234,
           },
           {
             messageId: '4a3ad1e1-61a7-464d-9982-f3e8eea81818',
             senderE164: undefined,
-            senderUuid: '253ce806-7375-4227-82ed-eb8321630133',
+            senderAci: SERVICE_ID_2,
             timestamp: 4567,
           },
         ]),
@@ -47,13 +51,13 @@ describe('read and view sync helpers', () => {
           {
             messageId: undefined,
             senderE164: undefined,
-            senderUuid: 'd9e1e89b-f4a6-4c30-b3ec-8e7a964f94bd',
+            senderAci: SERVICE_ID_1,
             timestamp: 1234,
           },
           {
             messageId: '4a3ad1e1-61a7-464d-9982-f3e8eea81818',
             senderE164: undefined,
-            senderUuid: '253ce806-7375-4227-82ed-eb8321630133',
+            senderAci: SERVICE_ID_2,
             timestamp: 4567,
           },
         ]
@@ -65,7 +69,7 @@ describe('read and view sync helpers', () => {
         parseRawSyncDataArray([
           {
             messageId: null,
-            senderUuid: 'd9e1e89b-f4a6-4c30-b3ec-8e7a964f94bd',
+            senderAci: SERVICE_ID_1,
             timestamp: 1234,
           },
         ]),
@@ -73,7 +77,7 @@ describe('read and view sync helpers', () => {
           {
             messageId: undefined,
             senderE164: undefined,
-            senderUuid: 'd9e1e89b-f4a6-4c30-b3ec-8e7a964f94bd',
+            senderAci: SERVICE_ID_1,
             timestamp: 1234,
           },
         ]
@@ -92,7 +96,7 @@ describe('read and view sync helpers', () => {
           {
             messageId: undefined,
             senderE164: undefined,
-            senderUuid: undefined,
+            senderAci: undefined,
             timestamp: 1234,
           },
         ]

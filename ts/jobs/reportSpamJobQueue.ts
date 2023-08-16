@@ -7,6 +7,7 @@ import { strictAssert } from '../util/assert';
 import { waitForOnline } from '../util/waitForOnline';
 import { isDone as isDeviceLinked } from '../util/registration';
 import type { LoggerType } from '../types/Logging';
+import { aciSchema } from '../types/ServiceId';
 import { map } from '../util/iterables';
 
 import { JobQueue } from './JobQueue';
@@ -27,7 +28,7 @@ const isRetriable4xxStatus = (code: number): boolean =>
   RETRYABLE_4XX_FAILURE_STATUSES.has(code);
 
 const reportSpamJobDataSchema = z.object({
-  uuid: z.string().min(1),
+  aci: aciSchema,
   token: z.string().optional(),
   serverGuids: z.string().array().min(1).max(1000),
 });
@@ -49,7 +50,7 @@ export class ReportSpamJobQueue extends JobQueue<ReportSpamJobData> {
     { data }: Readonly<{ data: ReportSpamJobData }>,
     { log }: Readonly<{ log: LoggerType }>
   ): Promise<void> {
-    const { uuid: senderUuid, token, serverGuids } = data;
+    const { aci: senderAci, token, serverGuids } = data;
 
     await new Promise<void>(resolve => {
       window.storage.onready(resolve);
@@ -68,7 +69,7 @@ export class ReportSpamJobQueue extends JobQueue<ReportSpamJobData> {
     try {
       await Promise.all(
         map(serverGuids, serverGuid =>
-          server.reportMessage({ senderUuid, serverGuid, token })
+          server.reportMessage({ senderAci, serverGuid, token })
         )
       );
     } catch (err: unknown) {

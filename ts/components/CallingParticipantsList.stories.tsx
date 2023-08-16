@@ -9,7 +9,8 @@ import type { PropsType } from './CallingParticipantsList';
 import { CallingParticipantsList } from './CallingParticipantsList';
 import { AvatarColors } from '../types/Colors';
 import type { GroupCallRemoteParticipantType } from '../types/Calling';
-import { getDefaultConversationWithUuid } from '../test-both/helpers/getDefaultConversation';
+import { generateAci } from '../types/ServiceId';
+import { getDefaultConversationWithServiceId } from '../test-both/helpers/getDefaultConversation';
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
 
@@ -25,7 +26,7 @@ function createParticipant(
     presenting: Boolean(participantProps.presenting),
     sharingScreen: Boolean(participantProps.sharingScreen),
     videoAspectRatio: 1.3,
-    ...getDefaultConversationWithUuid({
+    ...getDefaultConversationWithServiceId({
       avatarPath: participantProps.avatarPath,
       color: sample(AvatarColors),
       isBlocked: Boolean(participantProps.isBlocked),
@@ -39,7 +40,7 @@ function createParticipant(
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   i18n,
   onClose: action('on-close'),
-  ourUuid: 'cf085e6a-e70b-41ec-a310-c198248af13f',
+  ourServiceId: generateAci(),
   participants: overrideProps.participants || [],
 });
 

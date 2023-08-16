@@ -14,7 +14,7 @@ import type { AttachmentType } from '../types/Attachment';
 import type { BytesToStrings } from '../types/Util';
 import type { QualifiedAddressStringType } from '../types/QualifiedAddress';
 import type { StoryDistributionIdString } from '../types/StoryDistributionId';
-import type { AciString, ServiceIdString } from '../types/ServiceId';
+import type { AciString, PniString, ServiceIdString } from '../types/ServiceId';
 import type { BadgeType } from '../badges/types';
 import type { RemoveAllConfiguration } from '../types/RemoveAllConfiguration';
 import type { LoggerType } from '../types/Logging';
@@ -126,7 +126,7 @@ export type KyberPreKeyType = {
   isConfirmed: boolean;
   isLastResort: boolean;
   keyId: number;
-  ourUuid: ServiceIdString;
+  ourServiceId: ServiceIdString;
 };
 export type StoredKyberPreKeyType = KyberPreKeyType & {
   data: string;
@@ -136,7 +136,7 @@ export type PreKeyType = {
 
   createdAt: number;
   keyId: number;
-  ourUuid: ServiceIdString;
+  ourServiceId: ServiceIdString;
   privateKey: Uint8Array;
   publicKey: Uint8Array;
 };
@@ -152,7 +152,7 @@ export type ServerSearchResultMessageType = {
   ftsSnippet: string | null;
 
   // Otherwise, a matching mention will be returned
-  mentionUuid: string | null;
+  mentionAci: string | null;
   mentionStart: number | null;
   mentionLength: number | null;
 };
@@ -178,7 +178,7 @@ export type SentMessagesType = Array<string>;
 // These two are for test only
 export type SentRecipientsDBType = {
   payloadId: number;
-  recipientUuid: string;
+  recipientServiceId: ServiceIdString;
   deviceId: number;
 };
 export type SentMessageDBType = {
@@ -199,8 +199,8 @@ export type SenderKeyType = {
 export type SenderKeyIdType = SenderKeyType['id'];
 export type SessionType = {
   id: QualifiedAddressStringType;
-  ourUuid: ServiceIdString;
-  uuid: ServiceIdString;
+  ourServiceId: ServiceIdString;
+  serviceId: ServiceIdString;
   conversationId: string;
   deviceId: number;
   record: string;
@@ -210,7 +210,7 @@ export type SessionIdType = SessionType['id'];
 export type SignedPreKeyType = {
   confirmed: boolean;
   created_at: number;
-  ourUuid: ServiceIdString;
+  ourServiceId: ServiceIdString;
   id: `${ServiceIdString}:${number}`;
   keyId: number;
   privateKey: Uint8Array;
@@ -219,7 +219,7 @@ export type SignedPreKeyType = {
 export type StoredSignedPreKeyType = {
   confirmed: boolean;
   created_at: number;
-  ourUuid: ServiceIdString;
+  ourServiceId: ServiceIdString;
   id: `${ServiceIdString}:${number}`;
   keyId: number;
   privateKey: string;
@@ -305,10 +305,10 @@ export type UnprocessedType = {
 
   messageAgeSec?: number;
   source?: string;
-  sourceUuid?: ServiceIdString;
+  sourceServiceId?: ServiceIdString;
   sourceDevice?: number;
-  destinationUuid?: ServiceIdString;
-  updatedPni?: ServiceIdString;
+  destinationServiceId?: ServiceIdString;
+  updatedPni?: PniString;
   serverGuid?: string;
   serverTimestamp?: number;
   decrypted?: string;
@@ -319,7 +319,7 @@ export type UnprocessedType = {
 
 export type UnprocessedUpdateType = {
   source?: string;
-  sourceUuid?: ServiceIdString;
+  sourceServiceId?: ServiceIdString;
   sourceDevice?: number;
   serverGuid?: string;
   serverTimestamp?: number;
@@ -339,7 +339,7 @@ export type DeleteSentProtoRecipientOptionsType = Readonly<{
 }>;
 
 export type DeleteSentProtoRecipientResultType = Readonly<{
-  successfulPhoneNumberShares: ReadonlyArray<string>;
+  successfulPhoneNumberShares: ReadonlyArray<ServiceIdString>;
 }>;
 
 export type StoryDistributionType = Readonly<{
@@ -353,7 +353,7 @@ export type StoryDistributionType = Readonly<{
   StorageServiceFieldsType;
 export type StoryDistributionMemberType = Readonly<{
   listId: StoryDistributionIdString;
-  uuid: ServiceIdString;
+  serviceId: ServiceIdString;
 }>;
 export type StoryDistributionWithMembersType = Readonly<
   {
@@ -370,7 +370,7 @@ export type StoryReadType = Readonly<{
 
 export type ReactionResultType = Pick<
   ReactionType,
-  'targetAuthorUuid' | 'targetTimestamp' | 'messageId'
+  'targetAuthorAci' | 'targetTimestamp' | 'messageId'
 > & { rowid: number };
 
 export type GetUnreadByConversationAndMarkReadResultType = Array<
@@ -378,7 +378,7 @@ export type GetUnreadByConversationAndMarkReadResultType = Array<
     MessageType,
     | 'id'
     | 'source'
-    | 'sourceUuid'
+    | 'sourceServiceId'
     | 'sent_at'
     | 'type'
     | 'readStatus'
@@ -593,7 +593,7 @@ export type DataInterface = {
   _removeAllReactions: () => Promise<void>;
   getMessageBySender: (options: {
     source?: string;
-    sourceUuid?: ServiceIdString;
+    sourceServiceId?: ServiceIdString;
     sourceDevice?: number;
     sent_at: number;
   }) => Promise<MessageType | undefined>;
@@ -618,7 +618,7 @@ export type DataInterface = {
   // getOlderMessagesByConversation is JSON on server, full message on Client
   getAllStories: (options: {
     conversationId?: string;
-    sourceUuid?: ServiceIdString;
+    sourceServiceId?: ServiceIdString;
   }) => Promise<GetAllStoriesResultType>;
   // getNewerMessagesByConversation is JSON on server, full message on Client
   getMessageMetricsForConversation: (options: {
@@ -838,12 +838,12 @@ export type ServerInterface = DataInterface & {
     query,
     conversationId,
     options,
-    contactUuidsMatchingQuery,
+    contactServiceIdsMatchingQuery,
   }: {
     query: string;
     conversationId?: string;
     options?: { limit?: number };
-    contactUuidsMatchingQuery?: Array<string>;
+    contactServiceIdsMatchingQuery?: Array<ServiceIdString>;
   }) => Promise<Array<ServerSearchResultMessageType>>;
 
   getRecentStoryReplies(
@@ -938,12 +938,12 @@ export type ClientExclusiveInterface = {
     query,
     conversationId,
     options,
-    contactUuidsMatchingQuery,
+    contactServiceIdsMatchingQuery,
   }: {
     query: string;
     conversationId?: string;
     options?: { limit?: number };
-    contactUuidsMatchingQuery?: Array<string>;
+    contactServiceIdsMatchingQuery?: Array<ServiceIdString>;
   }) => Promise<Array<ClientSearchResultMessageType>>;
 
   getRecentStoryReplies(

@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 import type { PrimaryDevice } from '@signalapp/mock-server';
-import { StorageState, UUIDKind } from '@signalapp/mock-server';
+import { StorageState, ServiceIdKind } from '@signalapp/mock-server';
 import createDebug from 'debug';
 import * as durations from '../../util/durations';
 import { Bootstrap } from '../bootstrap';
@@ -47,15 +47,15 @@ describe('challenge/receipts', function challengeReceiptsTest() {
       {
         whitelisted: true,
         serviceE164: contact.device.number,
-        identityKey: contact.getPublicKey(UUIDKind.PNI).serialize(),
-        pni: contact.device.getUUIDByKind(UUIDKind.PNI),
+        identityKey: contact.getPublicKey(ServiceIdKind.PNI).serialize(),
+        pni: contact.device.getServiceIdByKind(ServiceIdKind.PNI),
         givenName: 'Jamie',
       },
-      UUIDKind.PNI
+      ServiceIdKind.PNI
     );
 
     // Just to make PNI Contact visible in the left pane
-    state = state.pin(contact, UUIDKind.PNI);
+    state = state.pin(contact, ServiceIdKind.PNI);
 
     const ourKey = await desktop.popSingleUseKey();
     await contact.addSingleUseKey(desktop, ourKey);
@@ -73,9 +73,9 @@ describe('challenge/receipts', function challengeReceiptsTest() {
     const { server, desktop } = bootstrap;
 
     debug(
-      `Rate limiting (desktop: ${desktop.uuid}) -> (contact: ${contact.device.uuid})`
+      `Rate limiting (desktop: ${desktop.aci}) -> (contact: ${contact.device.aci})`
     );
-    server.rateLimit({ source: desktop.uuid, target: contact.device.uuid });
+    server.rateLimit({ source: desktop.aci, target: contact.device.aci });
 
     const timestamp = bootstrap.getTimestamp();
 
@@ -88,9 +88,9 @@ describe('challenge/receipts', function challengeReceiptsTest() {
     const leftPane = window.locator('#LeftPane');
     const conversationStack = window.locator('.Inbox__conversation-stack');
 
-    debug(`Opening conversation with contact (${contact.toContact().uuid})`);
+    debug(`Opening conversation with contact (${contact.toContact().aci})`);
     await leftPane
-      .locator(`[data-testid="${contact.toContact().uuid}"]`)
+      .locator(`[data-testid="${contact.toContact().aci}"]`)
       .click();
 
     debug('Accept conversation from contact');
@@ -108,8 +108,8 @@ describe('challenge/receipts', function challengeReceiptsTest() {
     });
 
     const requests = server.stopRateLimiting({
-      source: desktop.uuid,
-      target: contact.device.uuid,
+      source: desktop.aci,
+      target: contact.device.aci,
     });
 
     debug(`rate limited requests: ${requests}`);

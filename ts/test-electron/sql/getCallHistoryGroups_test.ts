@@ -54,7 +54,7 @@ describe('sql/getCallHistoryGroups', () => {
       return {
         callId,
         peerId: conversationId,
-        ringerId: conversationId,
+        ringerId: generateAci(),
         mode: CallMode.Direct,
         type: CallType.Video,
         direction: CallDirection.Incoming,
@@ -85,7 +85,7 @@ describe('sql/getCallHistoryGroups', () => {
       return {
         callId,
         peerId: conversationId,
-        ringerId: conversationId,
+        ringerId: generateAci(),
         mode: CallMode.Direct,
         type,
         direction: CallDirection.Incoming,
@@ -116,7 +116,7 @@ describe('sql/getCallHistoryGroups', () => {
       return {
         callId,
         peerId: conversationId,
-        ringerId: conversationId,
+        ringerId: generateAci(),
         mode: CallMode.Direct,
         type,
         direction: CallDirection.Incoming,
@@ -157,7 +157,7 @@ describe('sql/getCallHistoryGroups', () => {
       type: 'private',
       version: 0,
       id: 'id:1',
-      uuid: conversation1Uuid,
+      serviceId: conversation1Uuid,
     };
 
     const conversation2: ConversationAttributesType = {

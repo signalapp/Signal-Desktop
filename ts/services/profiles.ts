@@ -81,7 +81,7 @@ export class ProfileService {
       );
     }
 
-    if (window.ConversationController.isSignalConversation(conversationId)) {
+    if (window.ConversationController.isSignalConversationId(conversationId)) {
       return;
     }
 

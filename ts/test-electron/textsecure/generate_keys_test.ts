@@ -93,7 +93,7 @@ describe('Key generation', function thisNeeded() {
     await textsecure.storage.put('identityKeyMap', {
       [ourServiceId]: keyPair,
     });
-    await textsecure.storage.user.setUuidAndDeviceId(ourServiceId, 1);
+    await textsecure.storage.user.setAciAndDeviceId(ourServiceId, 1);
 
     await textsecure.storage.protocol.hydrateCaches();
   });

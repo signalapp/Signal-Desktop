@@ -52,7 +52,7 @@ describe('story/messaging', function unknownContacts() {
           identifier: uuidToBytes(MY_STORY_ID),
           isBlockList: false,
           name: MY_STORY_ID,
-          recipientUuids: [],
+          recipientServiceIds: [],
         },
       },
     });
@@ -66,7 +66,7 @@ describe('story/messaging', function unknownContacts() {
           identifier: uuidToBytes(DISTRIBUTION1),
           isBlockList: false,
           name: 'first',
-          recipientUuids: [first.device.uuid],
+          recipientServiceIds: [first.device.aci],
         },
       },
     });
@@ -78,7 +78,7 @@ describe('story/messaging', function unknownContacts() {
           identifier: uuidToBytes(DISTRIBUTION2),
           isBlockList: false,
           name: 'second',
-          recipientUuids: [second.device.uuid],
+          recipientServiceIds: [second.device.aci],
         },
       },
     });
@@ -149,12 +149,12 @@ describe('story/messaging', function unknownContacts() {
             },
             storyMessageRecipients: [
               {
-                destinationServiceId: first.device.uuid,
+                destinationServiceId: first.device.aci,
                 distributionListIds: [DISTRIBUTION1],
                 isAllowedToReply: true,
               },
               {
-                destinationServiceId: second.device.uuid,
+                destinationServiceId: second.device.aci,
                 distributionListIds: [DISTRIBUTION2],
                 isAllowedToReply: true,
               },
@@ -172,7 +172,7 @@ describe('story/messaging', function unknownContacts() {
         dataMessage: {
           body: 'first reply',
           storyContext: {
-            authorUuid: phone.device.uuid,
+            authorAci: phone.device.aci,
             sentTimestamp: Long.fromNumber(sentAt),
           },
           timestamp: Long.fromNumber(sentAt + 1),
@@ -186,7 +186,7 @@ describe('story/messaging', function unknownContacts() {
         dataMessage: {
           body: 'second reply',
           storyContext: {
-            authorUuid: phone.device.uuid,
+            authorAci: phone.device.aci,
             sentTimestamp: Long.fromNumber(sentAt),
           },
           timestamp: Long.fromNumber(sentAt + 2),
@@ -199,10 +199,10 @@ describe('story/messaging', function unknownContacts() {
 
     debug('Finding both replies');
     await leftPane
-      .locator(`[data-testid="${first.device.uuid}"] >> "first reply"`)
+      .locator(`[data-testid="${first.device.aci}"] >> "first reply"`)
       .waitFor();
     await leftPane
-      .locator(`[data-testid="${second.device.uuid}"] >> "second reply"`)
+      .locator(`[data-testid="${second.device.aci}"] >> "second reply"`)
       .waitFor();
   });
 
@@ -242,7 +242,7 @@ describe('story/messaging', function unknownContacts() {
         dataMessage: {
           body: 'first reply',
           storyContext: {
-            authorUuid: desktop.uuid,
+            authorAci: desktop.aci,
             sentTimestamp: Long.fromNumber(sentAt),
           },
           groupV2: {

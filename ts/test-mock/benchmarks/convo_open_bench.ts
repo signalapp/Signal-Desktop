@@ -39,7 +39,7 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
           timestamp: bootstrap.getTimestamp(),
           messages: [
             {
-              senderUUID: contact.device.uuid,
+              senderAci: contact.device.aci,
               timestamp: messageTimestamp,
             },
           ],
@@ -61,7 +61,7 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
     const openConvo = async (contact: PrimaryDevice): Promise<void> => {
       debug('opening conversation', contact.profileName);
       const item = leftPane.locator(
-        `[data-testid="${contact.toContact().uuid}"]`
+        `[data-testid="${contact.toContact().aci}"]`
       );
 
       await item.click();

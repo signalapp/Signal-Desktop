@@ -12,7 +12,7 @@ const CONFIG_KEY = 'global.calling.maxGroupCallRingSize';
 
 describe('isConversationTooBigToRing', () => {
   const fakeMemberships = (count: number) =>
-    times(count, () => ({ uuid: generateAci(), isAdmin: false }));
+    times(count, () => ({ aci: generateAci(), isAdmin: false }));
 
   it('returns false if there are no memberships (i.e., for a direct conversation)', () => {
     assert.isFalse(isConversationTooBigToRing({}));

@@ -34,7 +34,7 @@ describe('calling notification helpers', () => {
             callHistory: {
               callId: '123',
               peerId: getPeerIdFromConversation(getDefaultGroup()),
-              ringerId: callCreator.uuid ?? null,
+              ringerId: callCreator.serviceId ?? null,
               mode: CallMode.Group,
               type: CallType.Group,
               direction: CallDirection.Incoming,
@@ -62,7 +62,7 @@ describe('calling notification helpers', () => {
             callHistory: {
               callId: '123',
               peerId: getPeerIdFromConversation(getDefaultGroup()),
-              ringerId: callCreator.uuid ?? null,
+              ringerId: callCreator.serviceId ?? null,
               mode: CallMode.Group,
               type: CallType.Group,
               direction: CallDirection.Incoming,
@@ -91,7 +91,7 @@ describe('calling notification helpers', () => {
             callHistory: {
               callId: '123',
               peerId: getPeerIdFromConversation(getDefaultGroup()),
-              ringerId: callCreator.uuid ?? null,
+              ringerId: callCreator.serviceId ?? null,
               mode: CallMode.Group,
               type: CallType.Group,
               direction: CallDirection.Incoming,
@@ -119,7 +119,7 @@ describe('calling notification helpers', () => {
             callHistory: {
               callId: '123',
               peerId: getPeerIdFromConversation(getDefaultGroup()),
-              ringerId: callCreator.uuid ?? null,
+              ringerId: callCreator.serviceId ?? null,
               mode: CallMode.Group,
               type: CallType.Group,
               direction: CallDirection.Outgoing,

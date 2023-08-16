@@ -10,7 +10,11 @@ import pTimeout from 'p-timeout';
 import normalizePath from 'normalize-path';
 
 import type { Device, PrimaryDevice } from '@signalapp/mock-server';
-import { Server, UUIDKind, loadCertificates } from '@signalapp/mock-server';
+import {
+  Server,
+  ServiceIdKind,
+  loadCertificates,
+} from '@signalapp/mock-server';
 import { MAX_READ_KEYS as MAX_STORAGE_READ_KEYS } from '../services/storageConstants';
 import * as durations from '../util/durations';
 import { drop } from '../util/drop';
@@ -233,11 +237,11 @@ export class Bootstrap {
     await this.phone.addSingleUseKey(this.desktop, desktopKey);
 
     for (const contact of this.allContacts) {
-      for (const uuidKind of [UUIDKind.ACI, UUIDKind.PNI]) {
+      for (const serviceIdKind of [ServiceIdKind.ACI, ServiceIdKind.PNI]) {
         // eslint-disable-next-line no-await-in-loop
-        const contactKey = await this.desktop.popSingleUseKey(uuidKind);
+        const contactKey = await this.desktop.popSingleUseKey(serviceIdKind);
         // eslint-disable-next-line no-await-in-loop
-        await contact.addSingleUseKey(this.desktop, contactKey, uuidKind);
+        await contact.addSingleUseKey(this.desktop, contactKey, serviceIdKind);
       }
     }
 

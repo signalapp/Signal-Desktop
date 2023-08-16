@@ -23,7 +23,7 @@ type NotificationDataType = Readonly<{
   notificationIconAbsolutePath?: undefined | string;
   reaction?: {
     emoji: string;
-    targetAuthorUuid: string;
+    targetAuthorAci: string;
     targetTimestamp: number;
   };
   senderTitle: string;
@@ -240,18 +240,18 @@ class NotificationService extends EventEmitter {
   // Remove the last notification if both conditions hold:
   //
   // 1. Either `conversationId` or `messageId` matches (if present)
-  // 2. `emoji`, `targetAuthorUuid`, `targetTimestamp` matches (if present)
+  // 2. `emoji`, `targetAuthorAci`, `targetTimestamp` matches (if present)
   public removeBy({
     conversationId,
     messageId,
     emoji,
-    targetAuthorUuid,
+    targetAuthorAci,
     targetTimestamp,
   }: Readonly<{
     conversationId?: string;
     messageId?: string;
     emoji?: string;
-    targetAuthorUuid?: string;
+    targetAuthorAci?: string;
     targetTimestamp?: number;
   }>): void {
     if (!this.notificationData) {
@@ -280,10 +280,10 @@ class NotificationService extends EventEmitter {
     if (
       reaction &&
       emoji &&
-      targetAuthorUuid &&
+      targetAuthorAci &&
       targetTimestamp &&
       (reaction.emoji !== emoji ||
-        reaction.targetAuthorUuid !== targetAuthorUuid ||
+        reaction.targetAuthorAci !== targetAuthorAci ||
         reaction.targetTimestamp !== targetTimestamp)
     ) {
       return;

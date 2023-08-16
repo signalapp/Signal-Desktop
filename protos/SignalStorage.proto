@@ -136,7 +136,7 @@ message AccountRecord {
 
   message PinnedConversation {
     message Contact {
-      optional string uuid = 1;
+      optional string serviceId = 1;
       optional string e164 = 2;
     }
 

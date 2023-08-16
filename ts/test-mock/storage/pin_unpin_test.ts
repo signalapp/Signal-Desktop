@@ -101,7 +101,7 @@ describe('storage service', function needsName() {
 
         debug('pinning contact=%d', i);
         const convo = leftPane.locator(
-          `[data-testid="${contact.toContact().uuid}"]`
+          `[data-testid="${contact.toContact().aci}"]`
         );
         await convo.click();
 

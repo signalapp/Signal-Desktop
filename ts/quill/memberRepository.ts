@@ -5,6 +5,7 @@ import Fuse from 'fuse.js';
 import { get } from 'lodash';
 
 import type { ConversationType } from '../state/ducks/conversations';
+import type { ServiceIdString } from '../types/ServiceId';
 import { filter, map } from '../util/iterables';
 import { removeDiacritics } from '../util/removeDiacritics';
 
@@ -67,9 +68,13 @@ export class MemberRepository {
       : undefined;
   }
 
-  getMemberByUuid(uuid?: string): ConversationType | undefined {
-    return uuid
-      ? this.members.find(({ uuid: memberUuid }) => memberUuid === uuid)
+  getMemberByServiceId(
+    serviceId?: ServiceIdString
+  ): ConversationType | undefined {
+    return serviceId
+      ? this.members.find(
+          ({ serviceId: memberServiceId }) => memberServiceId === serviceId
+        )
       : undefined;
   }
 

@@ -5,10 +5,14 @@ import { assert } from 'chai';
 import type { RefObject } from 'react';
 import Delta from 'quill-delta';
 
+import type { AciString } from '../../../types/ServiceId';
+import { generateAci } from '../../../types/ServiceId';
 import { matchMention } from '../../../quill/mentions/matchers';
 import { MemberRepository } from '../../../quill/memberRepository';
 import type { ConversationType } from '../../../state/ducks/conversations';
-import { getDefaultConversationWithUuid } from '../../../test-both/helpers/getDefaultConversation';
+import { getDefaultConversationWithServiceId } from '../../../test-both/helpers/getDefaultConversation';
+
+const ACI_1 = generateAci();
 
 class FakeTokenList<T> extends Array<T> {
   constructor(elements: Array<T>) {
@@ -38,7 +42,7 @@ const createMockMentionBlotElement = (
   dataset: Record<string, string>
 ): HTMLElement => createMockElement('mention-blot', dataset);
 
-const memberMahershala: ConversationType = getDefaultConversationWithUuid({
+const memberMahershala: ConversationType = getDefaultConversationWithServiceId({
   id: '555444',
   title: 'Mahershala Ali',
   firstName: 'Mahershala',
@@ -49,7 +53,7 @@ const memberMahershala: ConversationType = getDefaultConversationWithUuid({
   areWeAdmin: false,
 });
 
-const memberShia: ConversationType = getDefaultConversationWithUuid({
+const memberShia: ConversationType = getDefaultConversationWithServiceId({
   id: '333222',
   title: 'Shia LaBeouf',
   firstName: 'Shia',
@@ -69,7 +73,7 @@ const memberRepositoryRef: RefObject<MemberRepository> = {
 const matcher = matchMention(memberRepositoryRef);
 
 type Mention = {
-  uuid: string;
+  aci: AciString;
   title: string;
 };
 
@@ -107,10 +111,10 @@ describe('matchMention', () => {
     const { insert, attributes } = op;
 
     if (isMention(insert)) {
-      const { title, uuid } = insert.mention;
+      const { title, aci } = insert.mention;
 
       assert.equal(title, memberMahershala.title);
-      assert.equal(uuid, memberMahershala.uuid);
+      assert.equal(aci, memberMahershala.serviceId);
 
       assert.deepEqual(existingAttributes, attributes, 'attributes');
     } else {
@@ -121,7 +125,7 @@ describe('matchMention', () => {
   it('handles an MentionBlot from clipboard', () => {
     const result = matcher(
       createMockMentionBlotElement({
-        uuid: memberMahershala.uuid || '',
+        aci: memberMahershala.serviceId || '',
         title: memberMahershala.title,
       }),
       EMPTY_DELTA,
@@ -135,10 +139,10 @@ describe('matchMention', () => {
     const { insert } = op;
 
     if (isMention(insert)) {
-      const { title, uuid } = insert.mention;
+      const { title, aci } = insert.mention;
 
       assert.equal(title, memberMahershala.title);
-      assert.equal(uuid, memberMahershala.uuid);
+      assert.equal(aci, memberMahershala.serviceId);
     } else {
       assert.fail('insert is invalid');
     }
@@ -170,7 +174,7 @@ describe('matchMention', () => {
   it('converts a missing MentionBlot to string', () => {
     const result = matcher(
       createMockMentionBlotElement({
-        uuid: 'florp',
+        aci: ACI_1,
         title: 'Nonexistent',
       }),
       EMPTY_DELTA,

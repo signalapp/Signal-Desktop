@@ -39,7 +39,7 @@ describe('both/state/selectors/conversations-extra', () => {
     const title = `${id} title`;
     return getDefaultConversation({
       id,
-      uuid: serviceId,
+      serviceId,
       searchableTitle: title,
       title,
       titleNoDefault: title,
@@ -76,7 +76,7 @@ describe('both/state/selectors/conversations-extra', () => {
           direct2,
           group1,
         },
-        conversationsByUuid: {
+        conversationsByServiceId: {
           [SERVICE_ID_1]: direct1,
           [SERVICE_ID_2]: direct2,
         },

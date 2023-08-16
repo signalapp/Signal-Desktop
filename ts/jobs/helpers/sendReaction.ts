@@ -136,11 +136,8 @@ export async function sendReaction(
       ? await ourProfileKeyService.get()
       : undefined;
 
-    const {
-      emoji,
-      targetAuthorUuid: targetAuthorAci,
-      ...restOfPendingReaction
-    } = pendingReaction;
+    const { emoji, targetAuthorAci, ...restOfPendingReaction } =
+      pendingReaction;
 
     const reactionForSend = {
       ...restOfPendingReaction,

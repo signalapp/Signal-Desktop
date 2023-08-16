@@ -39,6 +39,7 @@ import type { ServiceIdString } from '../types/ServiceId';
 import { commonShouldJobContinue } from './helpers/commonShouldJobContinue';
 import { sleeper } from '../util/sleeper';
 import { receiptSchema, ReceiptType } from '../types/Receipt';
+import { serviceIdSchema, aciSchema } from '../types/ServiceId';
 import { sendResendRequest } from './helpers/sendResendRequest';
 import { sendNullMessage } from './helpers/sendNullMessage';
 import { sendSenderKeyDistribution } from './helpers/sendSenderKeyDistribution';
@@ -82,12 +83,7 @@ const deleteStoryForEveryoneJobDataSchema = z.object({
   updatedStoryRecipients: z
     .array(
       z.object({
-        // TODO: DESKTOP-5630
-        destinationUuid: z.string().optional(),
-        legacyDestinationUuid: z.string().optional(),
-
-        destinationAci: z.string().optional(),
-        destinationPni: z.string().optional(),
+        destinationServiceId: serviceIdSchema.optional(),
         distributionListIds: z.array(z.string()),
         isAllowedToReply: z.boolean(),
       })
@@ -162,7 +158,7 @@ const resendRequestJobDataSchema = z.object({
   plaintext: z.string(),
   receivedAtCounter: z.number(),
   receivedAtDate: z.number(),
-  senderUuid: z.string(),
+  senderAci: aciSchema,
   senderDevice: z.number(),
   timestamp: z.number(),
 });

@@ -315,7 +315,7 @@ export function createIPCEvents(
       };
     },
     getBlockedCount: () =>
-      window.storage.blocked.getBlockedUuids().length +
+      window.storage.blocked.getBlockedServiceIds().length +
       window.storage.blocked.getBlockedGroups().length,
     getDefaultConversationColor: () =>
       window.storage.get(

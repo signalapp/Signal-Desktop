@@ -50,7 +50,7 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
           timestamp: bootstrap.getTimestamp(),
           messages: [
             {
-              senderUUID: contact.device.uuid,
+              senderAci: contact.device.aci,
               timestamp: messageTimestamp,
             },
           ],
@@ -67,7 +67,7 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
   {
     const leftPane = window.locator('#LeftPane');
     const item = leftPane.locator(
-      `[data-testid="${first.toContact().uuid}"] >> text=${LAST_MESSAGE}`
+      `[data-testid="${first.toContact().aci}"] >> text=${LAST_MESSAGE}`
     );
     await item.click();
   }

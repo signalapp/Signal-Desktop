@@ -94,7 +94,7 @@ export async function sendStoryMessage(
         const inBlockList = new Set<ServiceIdString>(distributionList.members);
         distributionListMembers = getSignalConnections().reduce(
           (acc, convo) => {
-            const uuid = convo.get('uuid');
+            const uuid = convo.getServiceId();
             if (!uuid) {
               return acc;
             }
@@ -116,24 +116,25 @@ export async function sendStoryMessage(
         distributionListMembers = distributionList.members;
       }
 
-      distributionListMembers.forEach(destinationUuid => {
-        const conversation = window.ConversationController.get(destinationUuid);
+      distributionListMembers.forEach(destinationServiceId => {
+        const conversation =
+          window.ConversationController.get(destinationServiceId);
         if (!conversation) {
           return;
         }
         sendStateByConversationId[conversation.id] = {
           isAllowedToReplyToStory:
-            recipientsAlreadySentTo.get(destinationUuid) ||
+            recipientsAlreadySentTo.get(destinationServiceId) ||
             distributionList.allowsReplies,
           isAlreadyIncludedInAnotherDistributionList:
-            recipientsAlreadySentTo.has(destinationUuid),
+            recipientsAlreadySentTo.has(destinationServiceId),
           status: SendStatus.Pending,
           updatedAt: timestamp,
         };
 
-        if (!recipientsAlreadySentTo.has(destinationUuid)) {
+        if (!recipientsAlreadySentTo.has(destinationServiceId)) {
           recipientsAlreadySentTo.set(
-            destinationUuid,
+            destinationServiceId,
             distributionList.allowsReplies
           );
         }
@@ -187,7 +188,7 @@ export async function sendStoryMessage(
           sendStateByConversationId,
           sent_at: timestamp,
           source: window.textsecure.storage.user.getNumber(),
-          sourceUuid: window.textsecure.storage.user.getAci(),
+          sourceServiceId: window.textsecure.storage.user.getAci(),
           sourceDevice: window.textsecure.storage.user.getDeviceId(),
           storyDistributionListId: distributionList.id,
           timestamp,
@@ -294,7 +295,7 @@ export async function sendStoryMessage(
           sendStateByConversationId,
           sent_at: groupTimestamp,
           source: window.textsecure.storage.user.getNumber(),
-          sourceUuid: window.textsecure.storage.user.getAci(),
+          sourceServiceId: window.textsecure.storage.user.getAci(),
           sourceDevice: window.textsecure.storage.user.getDeviceId(),
           timestamp: groupTimestamp,
           type: 'story',

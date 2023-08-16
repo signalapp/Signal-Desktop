@@ -21,7 +21,8 @@ import {
   CallMode,
   GroupCallJoinState,
 } from '../types/Calling';
-import type { ServiceIdString } from '../types/ServiceId';
+import type { AciString } from '../types/ServiceId';
+import { isAciString } from '../types/ServiceId';
 import { isMe } from './whatTypeOfConversation';
 import * as log from '../logging/log';
 import * as Errors from '../types/errors';
@@ -84,8 +85,8 @@ export function formatCallHistoryGroup(
 export function formatPeekInfo(peekInfo: PeekInfo): string {
   const { eraId, deviceCount, creator } = peekInfo;
   const callId = eraId != null ? getCallIdFromEra(eraId) : null;
-  const creatorUuid = creator != null ? getCreatorUuid(creator) : null;
-  return `PeekInfo (${eraId}, ${callId}, ${creatorUuid}, ${deviceCount})`;
+  const creatorAci = creator != null ? getCreatorAci(creator) : null;
+  return `PeekInfo (${eraId}, ${callId}, ${creatorAci}, ${deviceCount})`;
 }
 
 export function formatLocalDeviceState(
@@ -104,10 +105,11 @@ export function getCallIdFromEra(eraId: string): string {
   return Long.fromValue(callIdFromEra(eraId)).toString();
 }
 
-export function getCreatorUuid(creator: Buffer): string {
-  const uuid = bytesToUuid(creator);
-  strictAssert(uuid != null, 'creator uuid buffer was not a valid uuid');
-  return uuid;
+export function getCreatorAci(creator: Buffer): AciString {
+  const aci = bytesToUuid(creator);
+  strictAssert(aci != null, 'creator uuid buffer was not a valid uuid');
+  strictAssert(isAciString(aci), 'creator uuid buffer was not a valid aci');
+  return aci;
 }
 
 export function getGroupCallMeta(
@@ -119,15 +121,19 @@ export function getGroupCallMeta(
   const callId = getCallIdFromEra(peekInfo.eraId);
   const ringerId = bytesToUuid(peekInfo.creator);
   strictAssert(ringerId != null, 'peekInfo.creator was invalid uuid');
+  strictAssert(isAciString(ringerId), 'peekInfo.creator was invalid aci');
   return { callId, ringerId };
 }
 
 export function getPeerIdFromConversation(
   conversation: ConversationAttributesType | ConversationType
-): ServiceIdString | string {
+): AciString | string {
   if (conversation.type === 'direct' || conversation.type === 'private') {
-    strictAssert(conversation.uuid != null, 'UUID must exist for direct chat');
-    return conversation.uuid;
+    strictAssert(
+      isAciString(conversation.serviceId),
+      'ACI must exist for direct chat'
+    );
+    return conversation.serviceId;
   }
   strictAssert(
     conversation.groupId != null,
@@ -381,7 +387,9 @@ export function getLocalCallEventFromJoinState(
 // Call Direction
 // --------------
 
-function getCallDirectionFromRingerId(ringerId: string): CallDirection {
+function getCallDirectionFromRingerId(
+  ringerId: AciString | string
+): CallDirection {
   const ringerConversation = window.ConversationController.get(ringerId);
   strictAssert(
     ringerConversation != null,
@@ -397,7 +405,7 @@ function getCallDirectionFromRingerId(ringerId: string): CallDirection {
 // ------------
 
 export function getCallDetailsFromDirectCall(
-  peerId: ServiceIdString | string,
+  peerId: AciString | string,
   call: Call
 ): CallDetails {
   return callDetailsSchema.parse({
@@ -415,8 +423,8 @@ export function getCallDetailsFromDirectCall(
 
 export function getCallDetailsFromEndedDirectCall(
   callId: string,
-  peerId: ServiceIdString | string,
-  ringerId: string,
+  peerId: AciString | string,
+  ringerId: AciString | string,
   wasVideoCall: boolean,
   timestamp: number
 ): CallDetails {
@@ -432,7 +440,7 @@ export function getCallDetailsFromEndedDirectCall(
 }
 
 export function getCallDetailsFromGroupCallMeta(
-  peerId: ServiceIdString | string,
+  peerId: AciString | string,
   groupCallMeta: GroupCallMeta
 ): CallDetails {
   return callDetailsSchema.parse({
@@ -823,7 +831,7 @@ async function updateRemoteCallHistory(
   );
 
   try {
-    const myUuid = window.textsecure.storage.user.getCheckedAci();
+    const ourAci = window.textsecure.storage.user.getCheckedAci();
     const syncMessage = MessageSender.createSyncMessage();
 
     syncMessage.callEvent = getProtoForCallHistory(callHistory);
@@ -835,7 +843,7 @@ async function updateRemoteCallHistory(
 
     await singleProtoJobQueue.add({
       contentHint: ContentHint.RESENDABLE,
-      identifier: myUuid.toString(),
+      serviceId: ourAci,
       isSyncMessage: true,
       protoBase64: Bytes.toBase64(
         Proto.Content.encode(contentMessage).finish()
@@ -911,7 +919,7 @@ export async function clearCallHistoryDataAndSync(): Promise<void> {
     log.info('clearCallHistory: Queueing sync message');
     await singleProtoJobQueue.add({
       contentHint: ContentHint.RESENDABLE,
-      identifier: ourAci,
+      serviceId: ourAci,
       isSyncMessage: true,
       protoBase64: Bytes.toBase64(
         Proto.Content.encode(contentMessage).finish()

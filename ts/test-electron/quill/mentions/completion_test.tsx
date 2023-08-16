@@ -13,10 +13,10 @@ import { MentionCompletion } from '../../../quill/mentions/completion';
 import type { ConversationType } from '../../../state/ducks/conversations';
 import { MemberRepository } from '../../../quill/memberRepository';
 import { ThemeType } from '../../../types/Util';
-import { getDefaultConversationWithUuid } from '../../../test-both/helpers/getDefaultConversation';
+import { getDefaultConversationWithServiceId } from '../../../test-both/helpers/getDefaultConversation';
 import { setupI18n } from '../../../util/setupI18n';
 
-const me: ConversationType = getDefaultConversationWithUuid({
+const me: ConversationType = getDefaultConversationWithServiceId({
   id: '666777',
   title: 'Fred Savage',
   firstName: 'Fred',
@@ -29,7 +29,7 @@ const me: ConversationType = getDefaultConversationWithUuid({
 });
 
 const members: Array<ConversationType> = [
-  getDefaultConversationWithUuid({
+  getDefaultConversationWithServiceId({
     id: '555444',
     title: 'Mahershala Ali',
     firstName: 'Mahershala',
@@ -39,7 +39,7 @@ const members: Array<ConversationType> = [
     markedUnread: false,
     areWeAdmin: false,
   }),
-  getDefaultConversationWithUuid({
+  getDefaultConversationWithServiceId({
     id: '333222',
     title: 'Shia LaBeouf',
     firstName: 'Shia',
@@ -49,7 +49,7 @@ const members: Array<ConversationType> = [
     markedUnread: false,
     areWeAdmin: false,
   }),
-  getDefaultConversationWithUuid({
+  getDefaultConversationWithServiceId({
     areWeAdmin: false,
     firstName: 'Zoë',
     id: '999977',

@@ -9,7 +9,11 @@ import Long from 'long';
 
 import type { LoggerType } from '../../types/Logging';
 import { strictAssert } from '../../util/assert';
-import { isAciString, isUntaggedPniString } from '../../types/ServiceId';
+import {
+  isAciString,
+  isUntaggedPniString,
+  toTaggedPni,
+} from '../../types/ServiceId';
 import * as Bytes from '../../Bytes';
 import { UUID_BYTE_SIZE } from '../../Crypto';
 import { uuidToBytes, bytesToUuid } from '../../util/uuidToBytes';
@@ -256,6 +260,9 @@ function decodeSingleResponse(
       'CDSI response has invalid PNI'
     );
 
-    resultMap.set(e164, { pni, aci });
+    resultMap.set(e164, {
+      pni: pni === undefined ? undefined : toTaggedPni(pni),
+      aci,
+    });
   }
 }

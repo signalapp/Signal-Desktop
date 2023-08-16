@@ -103,7 +103,7 @@ export function StoryListItem({
 
   const { firstName, title } = sender;
 
-  const isSignalOfficial = sender.uuid === SIGNAL_ACI;
+  const isSignalOfficial = sender.serviceId === SIGNAL_ACI;
 
   let avatarStoryRing: HasStories | undefined;
   if (attachment) {

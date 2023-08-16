@@ -25,7 +25,7 @@ describe('reaction utilities', () => {
   ): MessageReactionType => ({
     emoji,
     fromId: OUR_CONVO_ID,
-    targetAuthorUuid: generateAci(),
+    targetAuthorAci: generateAci(),
     targetTimestamp: Date.now(),
     timestamp: Date.now(),
     ...(isPending ? { isSentByConversationId: { [uuid()]: false } } : {}),

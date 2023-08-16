@@ -31,7 +31,7 @@ type GenericEmbeddedContactType<AvatarType> = {
 
   // Populated by selector
   firstNumber?: string;
-  uuid?: ServiceIdString;
+  serviceId?: ServiceIdString;
 };
 
 export type EmbeddedContactType = GenericEmbeddedContactType<Avatar>;
@@ -149,11 +149,12 @@ export function embeddedContactSelector(
   options: {
     regionCode?: string;
     firstNumber?: string;
-    uuid?: ServiceIdString;
+    serviceId?: ServiceIdString;
     getAbsoluteAttachmentPath: (path: string) => string;
   }
 ): EmbeddedContactType {
-  const { getAbsoluteAttachmentPath, firstNumber, uuid, regionCode } = options;
+  const { getAbsoluteAttachmentPath, firstNumber, serviceId, regionCode } =
+    options;
 
   let { avatar } = contact;
   if (avatar && avatar.avatar) {
@@ -175,7 +176,7 @@ export function embeddedContactSelector(
   return {
     ...contact,
     firstNumber,
-    uuid,
+    serviceId,
     avatar,
     number:
       contact.number &&

@@ -30,7 +30,7 @@ export type PropsDataType = {
   areWeAdmin: boolean;
   conversationId: string;
   groupMemberships?: ReadonlyArray<{
-    uuid: AciString;
+    aci: AciString;
     isAdmin: boolean;
   }>;
   groupBannedMemberships?: ReadonlyArray<ServiceIdString>;
@@ -116,7 +116,7 @@ function getIcon(
 ): GroupIconType {
   const changeType = detail.type;
   let possibleIcon = changeToIconMap.get(changeType);
-  const isSameId = fromId === get(detail, 'uuid', null);
+  const isSameId = fromId === get(detail, 'aci', null);
   if (isSameId) {
     if (changeType === 'member-remove') {
       possibleIcon = 'group-leave';
@@ -154,13 +154,13 @@ function GroupV2Detail({
   areWeAdmin: boolean;
   blockGroupLinkRequests: (
     conversationId: string,
-    uuid: ServiceIdString
+    serviceId: ServiceIdString
   ) => unknown;
   conversationId: string;
   detail: GroupV2ChangeDetailType;
   isLastText: boolean;
   groupMemberships?: ReadonlyArray<{
-    uuid: AciString;
+    aci: AciString;
     isAdmin: boolean;
   }>;
   groupBannedMemberships?: ReadonlyArray<ServiceIdString>;
@@ -206,10 +206,10 @@ function GroupV2Detail({
       if (
         !isLastText ||
         detail.type !== 'admin-approval-bounce' ||
-        !detail.uuid
+        !detail.aci
       ) {
         log.warn(
-          'GroupV2Detail: ConfirmingblockGroupLinkRequests but missing uuid or wrong change type'
+          'GroupV2Detail: ConfirmingblockGroupLinkRequests but missing aci or wrong change type'
         );
         modalNode = undefined;
         break;
@@ -221,7 +221,7 @@ function GroupV2Detail({
           title={i18n('icu:PendingRequests--block--title')}
           actions={[
             {
-              action: () => blockGroupLinkRequests(conversationId, detail.uuid),
+              action: () => blockGroupLinkRequests(conversationId, detail.aci),
               text: i18n('icu:PendingRequests--block--confirm'),
               style: 'affirmative',
             },
@@ -233,7 +233,7 @@ function GroupV2Detail({
             id="icu:PendingRequests--block--contents"
             i18n={i18n}
             components={{
-              name: renderContact(detail.uuid),
+              name: renderContact(detail.aci),
             }}
           />
         </ConfirmationDialog>
@@ -261,11 +261,11 @@ function GroupV2Detail({
     isLastText &&
     detail.type === 'admin-approval-bounce' &&
     areWeAdmin &&
-    detail.uuid &&
-    detail.uuid !== ourAci &&
-    (!fromId || fromId === detail.uuid) &&
-    !groupMemberships?.some(item => item.uuid === detail.uuid) &&
-    !groupBannedMemberships?.some(uuid => uuid === detail.uuid)
+    detail.aci &&
+    detail.aci !== ourAci &&
+    (!fromId || fromId === detail.aci) &&
+    !groupMemberships?.some(item => item.aci === detail.aci) &&
+    !groupBannedMemberships?.some(serviceId => serviceId === detail.aci)
   ) {
     buttonNode = (
       <Button

@@ -59,7 +59,7 @@ export type PropsType = {
   onDeleteList: (listId: StoryDistributionIdString) => unknown;
   onDistributionListCreated: (
     name: string,
-    viewerUuids: Array<ServiceIdString>
+    viewerServiceIds: Array<ServiceIdString>
   ) => Promise<StoryDistributionIdString>;
   onSelectedStoryList: (options: {
     conversationId: string;
@@ -107,15 +107,15 @@ function getListMemberServiceIds(
   signalConnections: Array<ConversationType>
 ): Array<ServiceIdString> {
   const memberServiceIds = list.members
-    .map(({ uuid }) => uuid)
+    .map(({ serviceId }) => serviceId)
     .filter(isNotNil);
 
   if (list.id === MY_STORY_ID && list.isBlockList) {
-    const excludeUuids = new Set<string>(memberServiceIds);
+    const excludeServiceIds = new Set<ServiceIdString>(memberServiceIds);
     return signalConnections
-      .map(conversation => conversation.uuid)
+      .map(conversation => conversation.serviceId)
       .filter(isNotNil)
-      .filter(uuid => !excludeUuids.has(uuid));
+      .filter(serviceId => !excludeServiceIds.has(serviceId));
   }
 
   return memberServiceIds;
@@ -242,7 +242,7 @@ export function SendStoryModal({
     return distributionLists.find(list => list.id === listIdToEdit);
   }, [distributionLists, listIdToEdit]);
 
-  // myStoriesPrivacy, myStoriesPrivacyUuids, and myStories are only used
+  // myStoriesPrivacy, myStoriesPrivacyServiceIds, and myStories are only used
   // during the first time posting to My Stories experience where we have
   // to select the privacy settings.
   const ogMyStories = useMemo(
@@ -310,18 +310,18 @@ export function SendStoryModal({
           </Button>
           <Button
             onClick={() => {
-              const uuids = stagedMyStories.members
-                .map(convo => convo.uuid)
+              const serviceIds = stagedMyStories.members
+                .map(convo => convo.serviceId)
                 .filter(isNotNil);
 
               if (stagedMyStories.isBlockList) {
                 if (stagedMyStories.members.length) {
-                  onHideMyStoriesFrom(uuids);
+                  onHideMyStoriesFrom(serviceIds);
                 } else {
                   setMyStoriesToAllSignalConnections();
                 }
               } else {
-                onViewersUpdated(MY_STORY_ID, uuids);
+                onViewersUpdated(MY_STORY_ID, serviceIds);
               }
 
               setSelectedContacts([]);
@@ -425,10 +425,10 @@ export function SendStoryModal({
         candidateConversations={candidateConversations}
         getPreferredBadge={getPreferredBadge}
         i18n={i18n}
-        onCreateList={async (name, uuids) => {
+        onCreateList={async (name, serviceIds) => {
           const newDistributionListId = await onDistributionListCreated(
             name,
-            uuids
+            serviceIds
           );
 
           setSelectedContacts([]);
@@ -438,19 +438,19 @@ export function SendStoryModal({
 
           setPage(Page.SendStory);
         }}
-        onViewersUpdated={uuids => {
+        onViewersUpdated={serviceIds => {
           if (listIdToEdit && page === Page.AddViewer) {
-            onViewersUpdated(listIdToEdit, uuids);
+            onViewersUpdated(listIdToEdit, serviceIds);
             setPage(Page.EditingDistributionList);
           } else if (page === Page.ChooseViewers) {
             setPage(Page.NameStory);
           } else if (listIdToEdit && page === Page.HideStoryFrom) {
-            onHideMyStoriesFrom(uuids);
+            onHideMyStoriesFrom(serviceIds);
             setPage(Page.SendStory);
           } else if (page === Page.HideStoryFrom || page === Page.AddViewer) {
-            const uuidsSet = new Set(uuids);
+            const serviceIdSet = new Set(serviceIds);
             const members = candidateConversations.filter(convo =>
-              convo.uuid ? uuidsSet.has(convo.uuid) : false
+              convo.serviceId ? serviceIdSet.has(convo.serviceId) : false
             );
             setStagedMyStories(myStories => ({
               ...myStories,
@@ -800,7 +800,7 @@ export function SendStoryModal({
               onSelectedStoryList({
                 conversationId: group.id,
                 distributionId: undefined,
-                serviceIds: group.memberships.map(({ uuid }) => uuid),
+                serviceIds: group.memberships.map(({ aci }) => aci),
               });
             }
           }}

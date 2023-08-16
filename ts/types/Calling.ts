@@ -3,6 +3,7 @@
 
 import type { AudioDevice } from '@signalapp/ringrtc';
 import type { ConversationType } from '../state/ducks/conversations';
+import type { ServiceIdString } from './ServiceId';
 
 // These are strings (1) for the database (2) for Storybook.
 export enum CallMode {
@@ -59,7 +60,10 @@ export type ActiveDirectCallType = ActiveCallBaseType & {
       hasRemoteVideo: boolean;
       presenting: boolean;
       title: string;
-      uuid?: string;
+      // Note that the field name/type has to match the
+      //   GroupCallRemoteParticipantType below (which is based on
+      //   ConversationType).
+      serviceId?: ServiceIdString;
     }
   ];
 };

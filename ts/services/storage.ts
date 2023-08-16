@@ -252,7 +252,7 @@ async function generateManifest(
       identifierType = ITEM_TYPE.ACCOUNT;
     } else if (conversationType === ConversationTypes.Direct) {
       // Contacts must have UUID
-      if (!conversation.get('uuid')) {
+      if (!conversation.getServiceId()) {
         continue;
       }
 

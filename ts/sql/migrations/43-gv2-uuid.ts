@@ -16,7 +16,22 @@ import {
   objectToJSON,
 } from '../util';
 import type { EmptyQuery, Query } from '../util';
-import type { MessageType, ConversationType } from '../Interface';
+
+type MessageType = Readonly<{
+  id: string;
+  sourceUuid: string;
+  groupV2Change?: {
+    from?: string;
+    details: Array<{ type: string }>;
+  };
+  invitedGV2Members?: Array<{ uuid: string }>;
+}>;
+
+type ConversationType = Readonly<{
+  id: string;
+  members: Array<string>;
+  membersV2: Array<{ uuid: string }>;
+}>;
 
 export default function updateToSchemaVersion43(
   currentVersion: number,

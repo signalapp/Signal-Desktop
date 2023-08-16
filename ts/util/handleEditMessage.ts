@@ -16,6 +16,7 @@ import { ReadStatus } from '../messages/MessageReadStatus';
 import dataInterface from '../sql/Client';
 import { drop } from './drop';
 import { getAttachmentSignature, isVoiceMessage } from '../types/Attachment';
+import { isAciString } from '../types/ServiceId';
 import { getMessageIdForLogging } from './idForLogging';
 import { hasErrors } from '../state/selectors/message';
 import { isIncoming, isOutgoing } from '../messages/helpers';
@@ -44,6 +45,15 @@ export async function handleEditMessage(
   }
 
   log.info(idLog);
+
+  // Use local aci for outgoing messages and sourceServiceId for incoming.
+  const senderAci = isOutgoing(mainMessage)
+    ? window.storage.user.getCheckedAci()
+    : mainMessage.sourceServiceId;
+  if (!isAciString(senderAci)) {
+    log.warn(`${idLog}: Cannot edit a message from PNI source`);
+    return;
+  }
 
   // Verify that we can safely apply an edit to this type of message
   if (mainMessage.deletedForEveryone) {
@@ -276,7 +286,7 @@ export async function handleEditMessage(
           messageId: mainMessage.id,
           conversationId: editAttributes.conversationId,
           senderE164: editAttributes.message.source,
-          senderUuid: editAttributes.message.sourceUuid,
+          senderAci,
           timestamp: editAttributes.message.timestamp,
           isDirectConversation: isDirectConversation(conversation.attributes),
         });

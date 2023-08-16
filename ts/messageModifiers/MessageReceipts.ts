@@ -23,7 +23,7 @@ import {
 import type { DeleteSentProtoRecipientOptionsType } from '../sql/Interface';
 import dataInterface from '../sql/Client';
 import * as log from '../logging/log';
-import { getSourceUuid } from '../messages/helpers';
+import { getSourceServiceId } from '../messages/helpers';
 import { queueUpdateMessage } from '../util/messageBatcher';
 import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp';
 
@@ -61,8 +61,8 @@ const deleteSentProtoBatcher = createWaitBatcher({
       items
     );
 
-    for (const uuid of successfulPhoneNumberShares) {
-      const convo = window.ConversationController.get(uuid);
+    for (const serviceId of successfulPhoneNumberShares) {
+      const convo = window.ConversationController.get(serviceId);
       if (!convo) {
         continue;
       }
@@ -158,8 +158,8 @@ export class MessageReceipts extends Collection<MessageReceiptModel> {
     }
 
     const ourAci = window.textsecure.storage.user.getCheckedAci();
-    const sourceUuid = getSourceUuid(message.attributes);
-    if (ourAci !== sourceUuid) {
+    const sourceServiceId = getSourceServiceId(message.attributes);
+    if (ourAci !== sourceServiceId) {
       return [];
     }
 
@@ -327,7 +327,7 @@ export class MessageReceipts extends Collection<MessageReceiptModel> {
         ]);
       } else {
         log.warn(
-          `MessageReceipts.onReceipt: Missing uuid or deviceId for deliveredTo ${sourceConversationId}`
+          `MessageReceipts.onReceipt: Missing serviceId or deviceId for deliveredTo ${sourceConversationId}`
         );
       }
     }

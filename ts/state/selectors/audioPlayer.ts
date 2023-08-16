@@ -12,7 +12,7 @@ import {
   getAttachmentUrlForPath,
   getMessagePropStatus,
   getSource,
-  getSourceUuid,
+  getSourceServiceId,
 } from './message';
 import {
   getConversationByIdSelector,
@@ -36,7 +36,7 @@ export type VoiceNoteForPlayback = {
   url: string | undefined;
   type: 'incoming' | 'outgoing';
   source: string | undefined;
-  sourceUuid: ServiceIdString | undefined;
+  sourceServiceId: ServiceIdString | undefined;
   isPlayed: boolean;
   messageIdForLogging: string;
   timestamp: number;
@@ -60,15 +60,18 @@ export const selectVoiceNoteTitle = createSelector(
   getIntl,
   (ourNumber, ourAci, ourConversationId, conversationSelector, i18n) => {
     return (
-      message: Pick<MessageAttributesType, 'type' | 'source' | 'sourceUuid'>
+      message: Pick<
+        MessageAttributesType,
+        'type' | 'source' | 'sourceServiceId'
+      >
     ) => {
       const source = getSource(message, ourNumber);
-      const sourceUuid = getSourceUuid(message, ourAci);
+      const sourceServiceId = getSourceServiceId(message, ourAci);
 
       const conversation =
-        !source && !sourceUuid
+        !source && !sourceServiceId
           ? conversationSelector(ourConversationId)
-          : conversationSelector(sourceUuid || source);
+          : conversationSelector(sourceServiceId || source);
 
       return conversation.isMe ? i18n('icu:you') : conversation.title;
     };
@@ -103,7 +106,7 @@ export function extractVoiceNoteForPlayback(
     messageIdForLogging: getMessageIdForLogging(message),
     timestamp: message.timestamp,
     source: message.source,
-    sourceUuid: message.sourceUuid,
+    sourceServiceId: message.sourceServiceId,
   };
 }
 

@@ -508,7 +508,7 @@ function showGV2MigrationDialog(
       });
 
     const invitedMemberIds = pendingMembersV2.map(
-      (item: GroupV2PendingMemberType) => item.uuid
+      (item: GroupV2PendingMemberType) => item.serviceId
     );
 
     dispatch({

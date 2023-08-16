@@ -621,7 +621,7 @@ async function requestResend(decryptionError: DecryptionErrorEventData) {
       plaintext: Bytes.toBase64(plaintext.serialize()),
       receivedAtCounter,
       receivedAtDate,
-      senderUuid: senderAci,
+      senderAci,
       senderDevice,
       timestamp,
     });
@@ -669,7 +669,7 @@ export function startAutomaticSessionReset(
   scheduleSessionReset(senderAci, senderDevice);
 
   const conversation = window.ConversationController.lookupOrCreate({
-    uuid: senderAci,
+    serviceId: senderAci,
     reason: 'startAutomaticSessionReset',
   });
   if (!conversation) {

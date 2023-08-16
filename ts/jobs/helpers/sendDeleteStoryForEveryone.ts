@@ -243,7 +243,7 @@ export async function sendDeleteStoryForEveryone(
         destination: undefined,
         destinationServiceId,
         storyMessageRecipients: updatedStoryRecipients?.map(
-          ({ destinationUuid: legacyDestinationUuid, ...rest }) => {
+          ({ destinationServiceId: legacyDestinationUuid, ...rest }) => {
             return {
               // The field was renamed.
               legacyDestinationUuid,

@@ -21,6 +21,7 @@ import type { StoryViewTargetType, StoryViewType } from '../../types/Stories';
 import type { SyncType } from '../../jobs/helpers/syncHelpers';
 import type { StoryDistributionIdString } from '../../types/StoryDistributionId';
 import type { ServiceIdString } from '../../types/ServiceId';
+import { isAciString } from '../../types/ServiceId';
 import * as log from '../../logging/log';
 import { TARGETED_CONVERSATION_CHANGED } from './conversations';
 import { SIGNAL_ACI } from '../../types/SignalConversation';
@@ -87,7 +88,7 @@ export type StoryDataType = ReadonlyDeep<
     | 'readStatus'
     | 'sendStateByConversationId'
     | 'source'
-    | 'sourceUuid'
+    | 'sourceServiceId'
     | 'storyDistributionListId'
     | 'timestamp'
     | 'type'
@@ -393,13 +394,17 @@ function markStoryRead(
       return;
     }
 
-    const authorId = message.attributes.sourceUuid;
+    const authorId = message.attributes.sourceServiceId;
     strictAssert(
       authorId,
       'markStoryRead: The message needs a sender to mark it read!'
     );
+    strictAssert(
+      isAciString(authorId),
+      'markStoryRead: The message needs a sender ACI to mark it read!'
+    );
 
-    const isSignalOnboardingStory = message.get('sourceUuid') === SIGNAL_ACI;
+    const isSignalOnboardingStory = authorId === SIGNAL_ACI;
 
     if (isSignalOnboardingStory) {
       const updatedMessages = await markOnboardingStoryAsRead();
@@ -426,7 +431,7 @@ function markStoryRead(
       messageId,
       conversationId,
       senderE164: message.attributes.source,
-      senderUuid: message.attributes.sourceUuid,
+      senderAci: authorId,
       timestamp: message.attributes.sent_at,
       isDirectConversation: false,
     };
@@ -832,7 +837,7 @@ const getSelectedStoryDataForConversationId = (
     item =>
       item.conversationId === conversationId &&
       !item.deletedForEveryone &&
-      (!onlyFromSelf || item.sourceUuid === ourAci)
+      (!onlyFromSelf || item.sourceServiceId === ourAci)
   );
 
   // Find the index of the storyId provided, or if none provided then find the
@@ -1528,7 +1533,7 @@ export function reducer(
       'readStatus',
       'sendStateByConversationId',
       'source',
-      'sourceUuid',
+      'sourceServiceId',
       'sourceDevice',
       'storyDistributionListId',
       'timestamp',

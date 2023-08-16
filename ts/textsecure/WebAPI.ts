@@ -32,12 +32,12 @@ import { createHTTPSAgent } from '../util/createHTTPSAgent';
 import type { SocketStatus } from '../types/SocketStatus';
 import { toLogFormat } from '../types/errors';
 import { isPackIdValid, redactPackId } from '../types/Stickers';
-import type { ServiceIdString, AciString, PniString } from '../types/ServiceId';
-import {
-  ServiceIdKind,
-  isAciString,
-  isServiceIdString,
+import type {
+  ServiceIdString,
+  AciString,
+  UntaggedPniString,
 } from '../types/ServiceId';
+import { ServiceIdKind, serviceIdSchema, aciSchema } from '../types/ServiceId';
 import type { DirectoryConfigType } from '../types/RendererConfig';
 import * as Bytes from '../Bytes';
 import { randomInt } from '../Crypto';
@@ -180,22 +180,6 @@ type BytesWithDetailsType = {
   contentType: string | null;
   response: Response;
 };
-
-const aciSchema = z
-  .string()
-  .refine(isAciString)
-  .transform(x => {
-    assertDev(isAciString(x), 'Refine did not throw!');
-    return x;
-  });
-
-const serviceIdSchema = z
-  .string()
-  .refine(isServiceIdString)
-  .transform(x => {
-    assertDev(isServiceIdString(x), 'Refine did not throw!');
-    return x;
-  });
 
 export const multiRecipient200ResponseSchema = z.object({
   uuids404: z.array(serviceIdSchema).optional(),
@@ -769,7 +753,7 @@ export type WhoamiResultType = z.infer<typeof whoamiResultZod>;
 
 export type ConfirmCodeResultType = Readonly<{
   uuid: AciString;
-  pni: PniString;
+  pni: UntaggedPniString;
   deviceId?: number;
 }>;
 
@@ -811,7 +795,7 @@ export type GetGroupCredentialsOptionsType = Readonly<{
 }>;
 
 export type GetGroupCredentialsResultType = Readonly<{
-  pni?: string | null;
+  pni?: UntaggedPniString | null;
   credentials: ReadonlyArray<GroupCredentialType>;
 }>;
 
@@ -891,7 +875,7 @@ export type ConfirmCodeOptionsType = Readonly<{
 }>;
 
 export type ReportMessageOptionsType = Readonly<{
-  senderUuid: string;
+  senderAci: AciString;
   serverGuid: string;
   token?: string;
 }>;
@@ -2006,7 +1990,7 @@ export function initialize({
     }
 
     async function reportMessage({
-      senderUuid,
+      senderAci,
       serverGuid,
       token,
     }: ReportMessageOptionsType): Promise<void> {
@@ -2015,7 +1999,7 @@ export function initialize({
       await _ajax({
         call: 'reportMessage',
         httpType: 'POST',
-        urlParameters: urlPathFromComponents([senderUuid, serverGuid]),
+        urlParameters: urlPathFromComponents([senderAci, serverGuid]),
         responseType: 'bytes',
         jsonData,
       });
@@ -2895,7 +2879,8 @@ export function initialize({
         call: 'getGroupCredentials',
         urlParameters:
           `?redemptionStartSeconds=${startDayInSeconds}&` +
-          `redemptionEndSeconds=${endDayInSeconds}`,
+          `redemptionEndSeconds=${endDayInSeconds}&` +
+          'pniAsServiceId=true',
         httpType: 'GET',
         responseType: 'json',
       })) as CredentialResponseType;

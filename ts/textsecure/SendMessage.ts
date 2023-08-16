@@ -9,6 +9,7 @@ import Long from 'long';
 import PQueue from 'p-queue';
 import type { PlaintextContent } from '@signalapp/libsignal-client';
 import {
+  Pni,
   ProtocolAddress,
   SenderKeyDistributionMessage,
 } from '@signalapp/libsignal-client';
@@ -25,7 +26,7 @@ import type {
   UploadedAttachmentType,
 } from '../types/Attachment';
 import type { AciString, ServiceIdString } from '../types/ServiceId';
-import { ServiceIdKind } from '../types/ServiceId';
+import { ServiceIdKind, serviceIdSchema } from '../types/ServiceId';
 import type {
   ChallengeType,
   GetGroupLogOptionsType,
@@ -67,7 +68,6 @@ import type {
 import { concat, isEmpty, map } from '../util/iterables';
 import type { SendTypesType } from '../util/handleMessageSend';
 import { shouldSaveProto, sendTypesEnum } from '../util/handleMessageSend';
-import { uuidToBytes } from '../util/uuidToBytes';
 import type { DurationInSeconds } from '../util/durations';
 import { SignalService as Proto } from '../protobuf';
 import * as log from '../logging/log';
@@ -149,7 +149,7 @@ export type ReactionType = {
 
 export const singleProtoJobDataSchema = z.object({
   contentHint: z.number(),
-  identifier: z.string(),
+  serviceId: serviceIdSchema,
   isSyncMessage: z.boolean(),
   messageIds: z.array(z.string()).optional(),
   protoBase64: z.string(),
@@ -490,7 +490,7 @@ class Message {
         bodyRange.start = range.start;
         bodyRange.length = range.length;
         if (BodyRange.isMention(range)) {
-          bodyRange.mentionAci = range.mentionUuid;
+          bodyRange.mentionAci = range.mentionAci;
         } else if (BodyRange.isFormatting(range)) {
           bodyRange.style = range.style;
         } else {
@@ -529,7 +529,7 @@ class Message {
           return {
             start,
             length,
-            mentionAci: bodyRange.mentionUuid,
+            mentionAci: bodyRange.mentionAci,
           };
         }
         if (BodyRange.isFormatting(bodyRange)) {
@@ -596,7 +596,9 @@ function addPniSignatureMessageToProto({
 
   // eslint-disable-next-line no-param-reassign
   proto.pniSignatureMessage = {
-    pni: uuidToBytes(pniSignatureMessage.pni),
+    pni: Pni.parseFromServiceIdString(
+      pniSignatureMessage.pni
+    ).getServiceIdBinary(),
     signature: pniSignatureMessage.signature,
   };
 }
@@ -883,7 +885,7 @@ export default class MessageSender {
 
     const blockedIdentifiers = new Set(
       concat(
-        window.storage.blocked.getBlockedUuids(),
+        window.storage.blocked.getBlockedServiceIds(),
         window.storage.blocked.getBlockedNumbers()
       )
     );
@@ -1320,7 +1322,7 @@ export default class MessageSender {
 
     return {
       contentHint: ContentHint.RESENDABLE,
-      identifier: myAci,
+      serviceId: myAci,
       isSyncMessage: true,
       protoBase64: Bytes.toBase64(
         Proto.Content.encode(contentMessage).finish()
@@ -1344,7 +1346,7 @@ export default class MessageSender {
 
     return {
       contentHint: ContentHint.RESENDABLE,
-      identifier: myAci,
+      serviceId: myAci,
       isSyncMessage: true,
       protoBase64: Bytes.toBase64(
         Proto.Content.encode(contentMessage).finish()
@@ -1368,7 +1370,7 @@ export default class MessageSender {
 
     return {
       contentHint: ContentHint.RESENDABLE,
-      identifier: myAci,
+      serviceId: myAci,
       isSyncMessage: true,
       protoBase64: Bytes.toBase64(
         Proto.Content.encode(contentMessage).finish()
@@ -1393,7 +1395,7 @@ export default class MessageSender {
 
     return {
       contentHint: ContentHint.RESENDABLE,
-      identifier: myAci,
+      serviceId: myAci,
       isSyncMessage: true,
       protoBase64: Bytes.toBase64(
         Proto.Content.encode(contentMessage).finish()
@@ -1418,7 +1420,7 @@ export default class MessageSender {
 
     return {
       contentHint: ContentHint.RESENDABLE,
-      identifier: myAci,
+      serviceId: myAci,
       isSyncMessage: true,
       protoBase64: Bytes.toBase64(
         Proto.Content.encode(contentMessage).finish()
@@ -1443,7 +1445,7 @@ export default class MessageSender {
 
     return {
       contentHint: ContentHint.RESENDABLE,
-      identifier: myAci,
+      serviceId: myAci,
       isSyncMessage: true,
       protoBase64: Bytes.toBase64(
         Proto.Content.encode(contentMessage).finish()
@@ -1599,7 +1601,7 @@ export default class MessageSender {
 
     return {
       contentHint: ContentHint.RESENDABLE,
-      identifier: myAci,
+      serviceId: myAci,
       isSyncMessage: true,
       protoBase64: Bytes.toBase64(
         Proto.Content.encode(contentMessage).finish()
@@ -1640,7 +1642,7 @@ export default class MessageSender {
 
     return {
       contentHint: ContentHint.RESENDABLE,
-      identifier: myAci,
+      serviceId: myAci,
       isSyncMessage: true,
       protoBase64: Bytes.toBase64(
         Proto.Content.encode(contentMessage).finish()
@@ -1685,7 +1687,7 @@ export default class MessageSender {
 
     return {
       contentHint: ContentHint.RESENDABLE,
-      identifier: myAci,
+      serviceId: myAci,
       isSyncMessage: true,
       protoBase64: Bytes.toBase64(
         Proto.Content.encode(contentMessage).finish()
@@ -1731,7 +1733,7 @@ export default class MessageSender {
 
   async sendDeliveryReceipt(
     options: Readonly<{
-      senderServiceId: ServiceIdString;
+      senderAci: AciString;
       timestamps: Array<number>;
       isDirectConversation: boolean;
       options?: Readonly<SendOptionsType>;
@@ -1745,7 +1747,7 @@ export default class MessageSender {
 
   async sendReadReceipt(
     options: Readonly<{
-      senderServiceId: AciString;
+      senderAci: AciString;
       timestamps: Array<number>;
       isDirectConversation: boolean;
       options?: Readonly<SendOptionsType>;
@@ -1759,7 +1761,7 @@ export default class MessageSender {
 
   async sendViewedReceipt(
     options: Readonly<{
-      senderServiceId: ServiceIdString;
+      senderAci: AciString;
       timestamps: Array<number>;
       isDirectConversation: boolean;
       options?: Readonly<SendOptionsType>;
@@ -1772,13 +1774,13 @@ export default class MessageSender {
   }
 
   private async sendReceiptMessage({
-    senderServiceId,
+    senderAci,
     timestamps,
     type,
     isDirectConversation,
     options,
   }: Readonly<{
-    senderServiceId: ServiceIdString;
+    senderAci: AciString;
     timestamps: Array<number>;
     type: Proto.ReceiptMessage.Type;
     isDirectConversation: boolean;
@@ -1796,7 +1798,7 @@ export default class MessageSender {
     contentMessage.receiptMessage = receiptMessage;
 
     if (isDirectConversation) {
-      const conversation = window.ConversationController.get(senderServiceId);
+      const conversation = window.ConversationController.get(senderAci);
 
       addPniSignatureMessageToProto({
         conversation,
@@ -1808,7 +1810,7 @@ export default class MessageSender {
     const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
     return this.sendIndividualProto({
-      serviceId: senderServiceId,
+      serviceId: senderAci,
       proto: contentMessage,
       timestamp,
       contentHint: ContentHint.RESENDABLE,
@@ -1873,7 +1875,7 @@ export default class MessageSender {
         );
         return;
       }
-      const recipientServiceId = conversation.get('uuid');
+      const recipientServiceId = conversation.getServiceId();
       if (!recipientServiceId) {
         log.warn(
           `makeSendLogCallback: Conversation ${conversation.idForLogging()} had no UUID`

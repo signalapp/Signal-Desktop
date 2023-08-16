@@ -68,7 +68,7 @@ type PropsType = {
   | 'sharedGroupNames'
   | 'title'
   | 'unblurredAvatarPath'
-  | 'uuid'
+  | 'serviceId'
 > &
   (
     | { badge?: undefined; theme?: ThemeType }
@@ -109,12 +109,12 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
       unblurredAvatarPath,
       unreadCount,
       unreadMentionsCount,
-      uuid,
+      serviceId,
     } = props;
 
     const identifier = id ? cleanId(id) : undefined;
     const htmlId = useMemo(() => generateUuid(), []);
-    const testId = overrideTestId || groupId || uuid;
+    const testId = overrideTestId || groupId || serviceId;
     const isUnread = isConversationUnread({ markedUnread, unreadCount });
 
     const isAvatarNoteToSelf = isBoolean(isNoteToSelf)

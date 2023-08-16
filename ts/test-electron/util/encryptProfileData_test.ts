@@ -26,7 +26,7 @@ describe('encryptProfileData', () => {
       familyName: 'Kid',
       firstName: 'Zombie',
       profileKey: Bytes.toBase64(keyBuffer),
-      uuid: generateAci(),
+      serviceId: generateAci(),
 
       // To satisfy TS
       acceptedMessageRequest: true,

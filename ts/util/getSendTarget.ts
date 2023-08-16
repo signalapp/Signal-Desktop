@@ -5,10 +5,10 @@ import type { ConversationAttributesType } from '../model-types.d';
 import type { ServiceIdString } from '../types/ServiceId';
 
 export function getSendTarget({
-  uuid,
+  serviceId,
   pni,
-}: Pick<ConversationAttributesType, 'uuid' | 'pni'>):
+}: Pick<ConversationAttributesType, 'serviceId' | 'pni'>):
   | ServiceIdString
   | undefined {
-  return uuid || pni;
+  return serviceId || pni;
 }

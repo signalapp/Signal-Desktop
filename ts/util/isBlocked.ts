@@ -4,9 +4,9 @@
 import type { ConversationAttributesType } from '../model-types';
 
 export function isBlocked(attributes: ConversationAttributesType): boolean {
-  const { e164, groupId, uuid } = attributes;
-  if (uuid) {
-    return window.storage.blocked.isUuidBlocked(uuid);
+  const { e164, groupId, serviceId } = attributes;
+  if (serviceId) {
+    return window.storage.blocked.isServiceIdBlocked(serviceId);
   }
 
   if (e164) {

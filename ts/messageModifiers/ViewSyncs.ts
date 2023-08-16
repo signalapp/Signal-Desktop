@@ -43,7 +43,7 @@ export class ViewSyncs extends Collection {
   forMessage(message: MessageModel): Array<ViewSyncModel> {
     const sender = window.ConversationController.lookupOrCreate({
       e164: message.get('source'),
-      uuid: message.get('sourceUuid'),
+      serviceId: message.get('sourceServiceId'),
       reason: 'ViewSyncs.forMessage',
     });
     const messageTimestamp = getMessageSentTimestamp(message.attributes, {
@@ -73,7 +73,7 @@ export class ViewSyncs extends Collection {
       const found = messages.find(item => {
         const sender = window.ConversationController.lookupOrCreate({
           e164: item.source,
-          uuid: item.sourceUuid,
+          serviceId: item.sourceServiceId,
           reason: 'ViewSyncs.onSync',
         });
 

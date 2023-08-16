@@ -12,7 +12,7 @@ import {
 } from '../../components/conversation/ConversationHeader';
 import { getPreferredBadgeSelector } from '../selectors/badges';
 import {
-  getConversationByUuidSelector,
+  getConversationByServiceIdSelector,
   getConversationSelector,
   getHasPanelOpen,
   isMissingRequiredProfileSharing,
@@ -113,10 +113,12 @@ export function SmartConversationHeader({ id }: OwnProps): JSX.Element {
   const { searchInConversation } = useSearchActions();
   const { viewUserStories } = useStoriesActions();
 
-  const conversationByUuidSelector = useSelector(getConversationByUuidSelector);
+  const conversationByServiceIdSelector = useSelector(
+    getConversationByServiceIdSelector
+  );
   const groupMemberships = getGroupMemberships(
     conversation,
-    conversationByUuidSelector
+    conversationByServiceIdSelector
   );
   const cannotLeaveBecauseYouAreLastAdmin =
     getCannotLeaveBecauseYouAreLastAdmin(groupMemberships.memberships, isAdmin);

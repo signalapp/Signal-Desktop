@@ -53,7 +53,7 @@ import enMessages from '../../../../_locales/en/messages.json';
 import {
   getDefaultConversation,
   getDefaultGroup,
-  getDefaultConversationWithUuid,
+  getDefaultConversationWithServiceId,
 } from '../../helpers/getDefaultConversation';
 import {
   defaultStartDirectConversationComposerState,
@@ -89,12 +89,12 @@ describe('both/state/selectors/conversations-extra', () => {
     });
   }
 
-  function makeConversationWithUuid(
+  function makeConversationWithServiceId(
     id: string
-  ): ConversationType & { uuid: ServiceIdString } {
+  ): ConversationType & { serviceId: ServiceIdString } {
     const title = `${id} title`;
 
-    return getDefaultConversationWithUuid(
+    return getDefaultConversationWithServiceId(
       {
         id,
         searchableTitle: title,
@@ -165,7 +165,7 @@ describe('both/state/selectors/conversations-extra', () => {
           conversationsByE164: {
             [id]: wrongConversation,
           },
-          conversationsByUuid: {
+          conversationsByServiceId: {
             [id]: conversation,
           },
           conversationsByGroupId: {
@@ -359,17 +359,17 @@ describe('both/state/selectors/conversations-extra', () => {
     });
 
     it('returns "hydrated" invited contacts', () => {
-      const abc = makeConversationWithUuid('abc');
-      const def = makeConversationWithUuid('def');
+      const abc = makeConversationWithServiceId('abc');
+      const def = makeConversationWithServiceId('def');
       const state = {
         ...getEmptyRootState(),
         conversations: {
           ...getEmptyState(),
-          conversationsByUuid: {
-            [abc.uuid]: abc,
-            [def.uuid]: def,
+          conversationsByServiceId: {
+            [abc.serviceId]: abc,
+            [def.serviceId]: def,
           },
-          invitedServiceIdsForNewlyCreatedGroup: [def.uuid, abc.uuid],
+          invitedServiceIdsForNewlyCreatedGroup: [def.serviceId, abc.serviceId],
         },
       };
       const result = getInvitedContactsForNewlyCreatedGroup(state);
@@ -1640,13 +1640,13 @@ describe('both/state/selectors/conversations-extra', () => {
       const group: ConversationType = {
         ...makeGroup('group'),
         sortedGroupMembers: [
-          makeConversationWithUuid('fff'),
-          makeConversationWithUuid('f00'),
-          makeConversationWithUuid('e00'),
-          makeConversationWithUuid('d00'),
-          makeConversationWithUuid('c00'),
-          makeConversationWithUuid('b00'),
-          makeConversationWithUuid('a00'),
+          makeConversationWithServiceId('fff'),
+          makeConversationWithServiceId('f00'),
+          makeConversationWithServiceId('e00'),
+          makeConversationWithServiceId('d00'),
+          makeConversationWithServiceId('c00'),
+          makeConversationWithServiceId('b00'),
+          makeConversationWithServiceId('a00'),
         ],
       };
       const state = {

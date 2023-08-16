@@ -71,7 +71,7 @@ export async function deleteStoryForEveryone(
   conversationIds.delete(ourConversation.id);
 
   // `updatedStoryRecipients` is used to build `storyMessageRecipients` for
-  // a sync message. Put all affected destinationUuids early on so that if
+  // a sync message. Put all affected destinationServiceIds early on so that if
   // there are no other distribution lists for them - we'd still include an
   // empty list.
   Object.entries(story.sendStateByConversationId).forEach(

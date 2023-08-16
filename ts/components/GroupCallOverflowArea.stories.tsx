@@ -8,7 +8,7 @@ import { action } from '@storybook/addon-actions';
 
 import { GroupCallOverflowArea } from './GroupCallOverflowArea';
 import { setupI18n } from '../util/setupI18n';
-import { getDefaultConversationWithUuid } from '../test-both/helpers/getDefaultConversation';
+import { getDefaultConversationWithServiceId } from '../test-both/helpers/getDefaultConversation';
 import { fakeGetGroupCallVideoFrameSource } from '../test-both/helpers/fakeGetGroupCallVideoFrameSource';
 import { FRAME_BUFFER_SIZE } from '../calling/constants';
 import enMessages from '../../_locales/en/messages.json';
@@ -24,7 +24,7 @@ const allRemoteParticipants = times(MAX_PARTICIPANTS).map(index => ({
   presenting: false,
   sharingScreen: false,
   videoAspectRatio: 1.3,
-  ...getDefaultConversationWithUuid({
+  ...getDefaultConversationWithServiceId({
     isBlocked: index === 10 || index === MAX_PARTICIPANTS - 1,
     title: `Participant ${index + 1}`,
   }),

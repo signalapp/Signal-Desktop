@@ -18,7 +18,7 @@ import {
 
 const ITERATION_COUNT = 5200;
 const E164_VERSION = 1;
-const UUID_VERSION = 2;
+const SERVICE_ID_VERSION = 2;
 
 // Number of digits in a safety number block
 const BLOCK_SIZE = 5;
@@ -37,7 +37,8 @@ export async function generateSafetyNumbers(
   const us = storage.protocol.getIdentityRecord(ourAci);
   const ourKeyBuffer = us ? us.publicKey : null;
 
-  const theirAci = contact.pni !== contact.uuid ? contact.uuid : undefined;
+  const theirAci =
+    contact.pni !== contact.serviceId ? contact.serviceId : undefined;
   const them = theirAci
     ? await storage.protocol.getOrMigrateIdentityRecord(theirAci)
     : undefined;
@@ -94,10 +95,10 @@ export async function generateSafetyNumbers(
           theirKey
         );
       } else if (identifierType === SafetyNumberIdentifierType.ACIIdentifier) {
-        assertDev(theirAci, 'Should have their uuid');
+        assertDev(theirAci, 'Should have their serviceId');
         fingerprint = Fingerprint.new(
           ITERATION_COUNT,
-          UUID_VERSION,
+          SERVICE_ID_VERSION,
           Buffer.from(uuidToBytes(ourAci)),
           ourKey,
           Buffer.from(uuidToBytes(theirAci)),

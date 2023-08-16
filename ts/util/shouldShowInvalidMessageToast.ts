@@ -36,11 +36,11 @@ export function shouldShowInvalidMessageToast(
     return { toastType: ToastType.InvalidConversation };
   }
 
-  const { e164, uuid } = conversationAttributes;
+  const { e164, serviceId } = conversationAttributes;
   if (
     isDirectConversation(conversationAttributes) &&
     ((e164 && window.storage.blocked.isBlocked(e164)) ||
-      (uuid && window.storage.blocked.isUuidBlocked(uuid)))
+      (serviceId && window.storage.blocked.isServiceIdBlocked(serviceId)))
   ) {
     return { toastType: ToastType.Blocked };
   }

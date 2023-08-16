@@ -43,16 +43,16 @@ export class MessageRequests extends Collection<MessageRequestModel> {
       }
     }
 
-    if (conversation.get('uuid')) {
-      const syncByUuid = this.findWhere({
-        threadAci: conversation.get('uuid'),
+    if (conversation.getServiceId()) {
+      const syncByAci = this.findWhere({
+        threadAci: conversation.getServiceId(),
       });
-      if (syncByUuid) {
+      if (syncByAci) {
         log.info(
-          `Found early message request response for UUID ${conversation.idForLogging()}`
+          `Found early message request response for aci ${conversation.idForLogging()}`
         );
-        this.remove(syncByUuid);
-        return syncByUuid;
+        this.remove(syncByAci);
+        return syncByAci;
       }
     }
 
@@ -88,7 +88,7 @@ export class MessageRequests extends Collection<MessageRequestModel> {
       if (!conversation && (threadE164 || threadAci)) {
         conversation = window.ConversationController.lookupOrCreate({
           e164: threadE164,
-          uuid: threadAci,
+          serviceId: threadAci,
           reason: 'MessageRequests.onResponse',
         });
       }

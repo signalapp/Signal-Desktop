@@ -10,7 +10,7 @@ import { StoriesSettingsModal } from '../../components/StoriesSettingsModal';
 import {
   getAllSignalConnections,
   getCandidateContactsForNewGroup,
-  getConversationByUuidSelector,
+  getConversationByServiceIdSelector,
   getGroupStories,
   getMe,
 } from '../selectors/conversations';
@@ -48,7 +48,9 @@ export function SmartStoriesSettingsModal(): JSX.Element | null {
   const distributionLists = useSelector(getDistributionListsWithMembers);
   const groupStories = useSelector(getGroupStories);
 
-  const getConversationByUuid = useSelector(getConversationByUuidSelector);
+  const getConversationByServiceId = useSelector(
+    getConversationByServiceIdSelector
+  );
   const theme = useSelector(getTheme);
 
   return (
@@ -61,7 +63,7 @@ export function SmartStoriesSettingsModal(): JSX.Element | null {
       getPreferredBadge={getPreferredBadge}
       i18n={i18n}
       me={me}
-      getConversationByUuid={getConversationByUuid}
+      getConversationByServiceId={getConversationByServiceId}
       onDeleteList={deleteDistributionList}
       toggleGroupsForStorySend={toggleGroupsForStorySend}
       onDistributionListCreated={createDistributionList}

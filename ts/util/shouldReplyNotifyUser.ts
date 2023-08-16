@@ -42,7 +42,7 @@ export async function shouldReplyNotifyUser(
   }
 
   const ourAci = window.textsecure.storage.user.getAci();
-  const storySourceAci = matchedStory.sourceUuid;
+  const storySourceAci = matchedStory.sourceServiceId;
 
   const currentUserIdSource = storySourceAci === ourAci;
 

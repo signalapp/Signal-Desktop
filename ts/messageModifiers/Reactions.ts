@@ -48,7 +48,7 @@ export class Reactions extends Collection<ReactionModel> {
     const senderId = getContactId(message.attributes);
     const reactionsBySource = this.filter(re => {
       const targetSender = window.ConversationController.lookupOrCreate({
-        uuid: re.get('targetAuthorUuid'),
+        serviceId: re.get('targetAuthorAci'),
         reason: 'Reactions.forMessage',
       });
       const targetTimestamp = re.get('targetTimestamp');
@@ -92,7 +92,7 @@ export class Reactions extends Collection<ReactionModel> {
       //   to to figure that out.
       const targetAuthorConversation =
         window.ConversationController.lookupOrCreate({
-          uuid: reaction.get('targetAuthorUuid'),
+          serviceId: reaction.get('targetAuthorAci'),
           reason: 'Reactions.onReaction',
         });
       const targetConversationId = targetAuthorConversation?.id;
@@ -122,7 +122,7 @@ export class Reactions extends Collection<ReactionModel> {
           'No message for reaction',
           reaction.get('timestamp'),
           'targeting',
-          reaction.get('targetAuthorUuid'),
+          reaction.get('targetAuthorAci'),
           reaction.get('targetTimestamp')
         );
 
@@ -147,7 +147,7 @@ export class Reactions extends Collection<ReactionModel> {
       if (!targetConversation) {
         log.info(
           'No target conversation for reaction',
-          reaction.get('targetAuthorUuid'),
+          reaction.get('targetAuthorAci'),
           reaction.get('targetTimestamp')
         );
         return undefined;

@@ -55,7 +55,7 @@ describe('routineProfileRefresh', () => {
       sharedGroupNames: [],
       timestamp: Date.now(),
       type: 'private',
-      uuid: generateAci(),
+      serviceId: generateAci(),
       version: 2,
       ...overrideAttributes,
     });
@@ -112,12 +112,12 @@ describe('routineProfileRefresh', () => {
 
     sinon.assert.calledWith(
       getProfileFn,
-      conversation1.get('uuid'),
+      conversation1.getServiceId(),
       conversation1.get('e164')
     );
     sinon.assert.calledWith(
       getProfileFn,
-      conversation2.get('uuid'),
+      conversation2.getServiceId(),
       conversation2.get('e164')
     );
   });
@@ -142,17 +142,17 @@ describe('routineProfileRefresh', () => {
     sinon.assert.calledOnce(getProfileFn);
     sinon.assert.calledWith(
       getProfileFn,
-      normal.get('uuid'),
+      normal.getServiceId(),
       normal.get('e164')
     );
     sinon.assert.neverCalledWith(
       getProfileFn,
-      recentlyFetched.get('uuid'),
+      recentlyFetched.getServiceId(),
       recentlyFetched.get('e164')
     );
     sinon.assert.neverCalledWith(
       getProfileFn,
-      unregisteredAndStale.get('uuid'),
+      unregisteredAndStale.getServiceId(),
       unregisteredAndStale.get('e164')
     );
   });
@@ -169,8 +169,16 @@ describe('routineProfileRefresh', () => {
       id: 1,
     });
 
-    sinon.assert.calledWith(getProfileFn, notMe.get('uuid'), notMe.get('e164'));
-    sinon.assert.neverCalledWith(getProfileFn, me.get('uuid'), me.get('e164'));
+    sinon.assert.calledWith(
+      getProfileFn,
+      notMe.getServiceId(),
+      notMe.get('e164')
+    );
+    sinon.assert.neverCalledWith(
+      getProfileFn,
+      me.getServiceId(),
+      me.get('e164')
+    );
   });
 
   it('includes your own conversation if profileKeyCredential is expired', async () => {
@@ -189,8 +197,12 @@ describe('routineProfileRefresh', () => {
       id: 1,
     });
 
-    sinon.assert.calledWith(getProfileFn, notMe.get('uuid'), notMe.get('e164'));
-    sinon.assert.calledWith(getProfileFn, me.get('uuid'), me.get('e164'));
+    sinon.assert.calledWith(
+      getProfileFn,
+      notMe.getServiceId(),
+      notMe.get('e164')
+    );
+    sinon.assert.calledWith(getProfileFn, me.getServiceId(), me.get('e164'));
   });
 
   it('skips conversations that were refreshed in last three days', async () => {
@@ -225,27 +237,27 @@ describe('routineProfileRefresh', () => {
     sinon.assert.calledTwice(getProfileFn);
     sinon.assert.calledWith(
       getProfileFn,
-      neverRefreshed.get('uuid'),
+      neverRefreshed.getServiceId(),
       neverRefreshed.get('e164')
     );
     sinon.assert.neverCalledWith(
       getProfileFn,
-      refreshedToday.get('uuid'),
+      refreshedToday.getServiceId(),
       refreshedToday.get('e164')
     );
     sinon.assert.neverCalledWith(
       getProfileFn,
-      refreshedYesterday.get('uuid'),
+      refreshedYesterday.getServiceId(),
       refreshedYesterday.get('e164')
     );
     sinon.assert.neverCalledWith(
       getProfileFn,
-      refreshedTwoDaysAgo.get('uuid'),
+      refreshedTwoDaysAgo.getServiceId(),
       refreshedTwoDaysAgo.get('e164')
     );
     sinon.assert.calledWith(
       getProfileFn,
-      refreshedThreeDaysAgo.get('uuid'),
+      refreshedThreeDaysAgo.getServiceId(),
       refreshedThreeDaysAgo.get('e164')
     );
   });
@@ -289,7 +301,7 @@ describe('routineProfileRefresh', () => {
     [...normalConversations, ...neverFetched].forEach(conversation => {
       sinon.assert.calledWith(
         getProfileFn,
-        conversation.get('uuid'),
+        conversation.getServiceId(),
         conversation.get('e164')
       );
     });
@@ -297,7 +309,7 @@ describe('routineProfileRefresh', () => {
     [me, ...shouldNotBeIncluded].forEach(conversation => {
       sinon.assert.neverCalledWith(
         getProfileFn,
-        conversation.get('uuid'),
+        conversation.getServiceId(),
         conversation.get('e164')
       );
     });

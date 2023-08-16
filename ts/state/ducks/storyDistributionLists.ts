@@ -287,7 +287,7 @@ function hideMyStoriesFrom(
       },
       {
         toAdd: Array.from(toAdd),
-        toRemove: myStories.members.filter(uuid => !toAdd.has(uuid)),
+        toRemove: myStories.members.filter(serviceId => !toAdd.has(serviceId)),
       }
     );
 
@@ -309,7 +309,7 @@ function removeMembersFromDistributionList(
   return async dispatch => {
     if (!memberServiceIds.length) {
       log.warn(
-        'storyDistributionLists.removeMembersFromDistributionList cannot remove a member without uuid',
+        'storyDistributionLists.removeMembersFromDistributionList cannot remove a member without serviceId',
         listId
       );
       return;
@@ -436,21 +436,23 @@ function updateStoryViewers(
       return;
     }
 
-    const existingUuids = new Set<ServiceIdString>(storyDistribution.members);
+    const existingServiceIds = new Set<ServiceIdString>(
+      storyDistribution.members
+    );
     const toAdd: Array<ServiceIdString> = [];
 
-    memberServiceIds.forEach(uuid => {
-      if (!existingUuids.has(uuid)) {
-        toAdd.push(uuid);
+    memberServiceIds.forEach(serviceId => {
+      if (!existingServiceIds.has(serviceId)) {
+        toAdd.push(serviceId);
       }
     });
 
-    const updatedUuids = new Set<ServiceIdString>(memberServiceIds);
+    const updatedServiceIds = new Set<ServiceIdString>(memberServiceIds);
     const toRemove: Array<ServiceIdString> = [];
 
-    storyDistribution.members.forEach(uuid => {
-      if (!updatedUuids.has(uuid)) {
-        toRemove.push(uuid);
+    storyDistribution.members.forEach(serviceId => {
+      if (!updatedServiceIds.has(serviceId)) {
+        toRemove.push(serviceId);
       }
     });
 
@@ -562,8 +564,8 @@ export function reducer(
       const memberServiceIds = new Set<ServiceIdString>(
         existingDistributionList.memberServiceIds
       );
-      membersToAdd.forEach(uuid => memberServiceIds.add(uuid));
-      membersToRemove.forEach(uuid => memberServiceIds.delete(uuid));
+      membersToAdd.forEach(serviceId => memberServiceIds.add(serviceId));
+      membersToRemove.forEach(serviceId => memberServiceIds.delete(serviceId));
 
       return {
         distributionLists: replaceIndex(state.distributionLists, listIndex, {

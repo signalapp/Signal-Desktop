@@ -6,7 +6,7 @@ import { v4 as generateUuid } from 'uuid';
 import { ReactionModel } from '../messageModifiers/Reactions';
 import { ReactionSource } from './ReactionSource';
 import { getMessageById } from '../messages/getMessageById';
-import { getSourceUuid, isStory } from '../messages/helpers';
+import { getSourceServiceId, isStory } from '../messages/helpers';
 import { strictAssert } from '../util/assert';
 import { isDirectConversation } from '../util/whatTypeOfConversation';
 import { incrementMessageCounter } from '../util/incrementMessageCounter';
@@ -28,13 +28,13 @@ export async function enqueueReactionForSend({
   const message = await getMessageById(messageId);
   strictAssert(message, 'enqueueReactionForSend: no message found');
 
-  const targetAuthorUuid = getSourceUuid(message.attributes);
+  const targetAuthorAci = getSourceServiceId(message.attributes);
   strictAssert(
-    targetAuthorUuid,
+    targetAuthorAci,
     `enqueueReactionForSend: message ${message.idForLogging()} had no source UUID`
   );
   strictAssert(
-    isAciString(targetAuthorUuid),
+    isAciString(targetAuthorAci),
     `enqueueReactionForSend: message ${message.idForLogging()} had no source ACI`
   );
 
@@ -56,7 +56,7 @@ export async function enqueueReactionForSend({
   const isMessageAStory = isStory(message.attributes);
   const targetConversation =
     isMessageAStory && isDirectConversation(messageConversation.attributes)
-      ? window.ConversationController.get(targetAuthorUuid)
+      ? window.ConversationController.get(targetAuthorAci)
       : messageConversation;
   strictAssert(
     targetConversation,
@@ -92,7 +92,7 @@ export async function enqueueReactionForSend({
         storyId: message.id,
         storyReaction: {
           emoji,
-          targetAuthorUuid,
+          targetAuthorAci,
           targetTimestamp,
         },
       })
@@ -104,7 +104,7 @@ export async function enqueueReactionForSend({
     remove,
     source: ReactionSource.FromThisDevice,
     storyReactionMessage,
-    targetAuthorUuid,
+    targetAuthorAci,
     targetTimestamp,
     timestamp,
   });

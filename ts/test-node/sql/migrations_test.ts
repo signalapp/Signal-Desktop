@@ -6,44 +6,26 @@ import type { Database } from '@signalapp/better-sqlite3';
 import SQL from '@signalapp/better-sqlite3';
 import { v4 as generateGuid } from 'uuid';
 
-import { SCHEMA_VERSIONS } from '../sql/migrations';
-import { consoleLogger } from '../util/consoleLogger';
 import {
   _storyIdPredicate,
   getJobsInQueueSync,
   insertJobSync,
-} from '../sql/Server';
-import { ReadStatus } from '../messages/MessageReadStatus';
-import { SeenStatus } from '../MessageSeenStatus';
-import { objectToJSON, sql, sqlJoin } from '../sql/util';
-import type { MessageType } from '../sql/Interface';
-import { BodyRange } from '../types/BodyRange';
-import type { AciString } from '../types/ServiceId';
-import { generateAci } from '../types/ServiceId';
-import { CallMode } from '../types/Calling';
-import { callHistoryDetailsSchema } from '../types/CallDisposition';
-import type { MessageAttributesType } from '../model-types';
+} from '../../sql/Server';
+import { ReadStatus } from '../../messages/MessageReadStatus';
+import { SeenStatus } from '../../MessageSeenStatus';
+import { objectToJSON, sql, sqlJoin } from '../../sql/util';
+import { BodyRange } from '../../types/BodyRange';
+import type { AciString } from '../../types/ServiceId';
+import { generateAci } from '../../types/ServiceId';
+import { callHistoryDetailsSchema } from '../../types/CallDisposition';
+import { CallMode } from '../../types/Calling';
+import type { MessageAttributesType } from '../../model-types.d';
+import { updateToVersion } from './helpers';
 
 const OUR_UUID = generateGuid();
 
 describe('SQL migrations test', () => {
   let db: Database;
-
-  const updateToVersion = (version: number) => {
-    const startVersion = db.pragma('user_version', { simple: true });
-
-    for (const run of SCHEMA_VERSIONS) {
-      run(startVersion, db, consoleLogger);
-
-      const currentVersion = db.pragma('user_version', { simple: true });
-
-      if (currentVersion === version) {
-        return;
-      }
-    }
-
-    throw new Error(`Migration to ${version} not found`);
-  };
 
   const addOurUuid = () => {
     const value = {
@@ -106,7 +88,7 @@ describe('SQL migrations test', () => {
     const THIRD_CONVO = generateGuid();
 
     it('clears sessions and keys if UUID is not available', () => {
-      updateToVersion(40);
+      updateToVersion(db, 40);
 
       db.exec(
         `
@@ -142,7 +124,7 @@ describe('SQL migrations test', () => {
       assert.strictEqual(preKeyCount.get(), 1);
       assert.strictEqual(itemCount.get(), 2);
 
-      updateToVersion(41);
+      updateToVersion(db, 41);
 
       assert.strictEqual(senderKeyCount.get(), 0);
       assert.strictEqual(sessionCount.get(), 0);
@@ -152,7 +134,7 @@ describe('SQL migrations test', () => {
     });
 
     it('adds prefix to preKeys/signedPreKeys', () => {
-      updateToVersion(40);
+      updateToVersion(db, 40);
 
       addOurUuid();
 
@@ -168,7 +150,7 @@ describe('SQL migrations test', () => {
         `
       );
 
-      updateToVersion(41);
+      updateToVersion(db, 41);
 
       assert.deepStrictEqual(
         parseItems(db.prepare('SELECT * FROM signedPreKeys').all()),
@@ -199,7 +181,7 @@ describe('SQL migrations test', () => {
     });
 
     it('migrates senderKeys', () => {
-      updateToVersion(40);
+      updateToVersion(db, 40);
 
       addOurUuid();
 
@@ -215,7 +197,7 @@ describe('SQL migrations test', () => {
         `
       );
 
-      updateToVersion(41);
+      updateToVersion(db, 41);
 
       assert.deepStrictEqual(db.prepare('SELECT * FROM senderKeys').all(), [
         {
@@ -229,7 +211,7 @@ describe('SQL migrations test', () => {
     });
 
     it('removes senderKeys that do not have conversation uuid', () => {
-      updateToVersion(40);
+      updateToVersion(db, 40);
 
       addOurUuid();
 
@@ -246,7 +228,7 @@ describe('SQL migrations test', () => {
         `
       );
 
-      updateToVersion(41);
+      updateToVersion(db, 41);
 
       assert.strictEqual(
         db.prepare('SELECT COUNT(*) FROM senderKeys').pluck().get(),
@@ -255,7 +237,7 @@ describe('SQL migrations test', () => {
     });
 
     it('correctly merges senderKeys for conflicting conversations', () => {
-      updateToVersion(40);
+      updateToVersion(db, 40);
 
       addOurUuid();
 
@@ -289,7 +271,7 @@ describe('SQL migrations test', () => {
         `
       );
 
-      updateToVersion(41);
+      updateToVersion(db, 41);
 
       assert.deepStrictEqual(db.prepare('SELECT * FROM senderKeys').all(), [
         {
@@ -303,7 +285,7 @@ describe('SQL migrations test', () => {
     });
 
     it('migrates sessions', () => {
-      updateToVersion(40);
+      updateToVersion(db, 40);
 
       addOurUuid();
 
@@ -316,7 +298,7 @@ describe('SQL migrations test', () => {
 
       insertSession(THEIR_CONVO, 1);
 
-      updateToVersion(41);
+      updateToVersion(db, 41);
 
       assert.deepStrictEqual(
         parseItems(db.prepare('SELECT * FROM sessions').all()),
@@ -338,13 +320,13 @@ describe('SQL migrations test', () => {
     });
 
     it('removes sessions that do not have conversation id', () => {
-      updateToVersion(40);
+      updateToVersion(db, 40);
 
       addOurUuid();
 
       insertSession(THEIR_CONVO, 1);
 
-      updateToVersion(41);
+      updateToVersion(db, 41);
 
       assert.strictEqual(
         db.prepare('SELECT COUNT(*) FROM sessions').pluck().get(),
@@ -353,7 +335,7 @@ describe('SQL migrations test', () => {
     });
 
     it('removes sessions that do not have conversation uuid', () => {
-      updateToVersion(40);
+      updateToVersion(db, 40);
 
       addOurUuid();
 
@@ -365,7 +347,7 @@ describe('SQL migrations test', () => {
 
       insertSession(THEIR_CONVO, 1);
 
-      updateToVersion(41);
+      updateToVersion(db, 41);
 
       assert.strictEqual(
         db.prepare('SELECT COUNT(*) FROM sessions').pluck().get(),
@@ -374,7 +356,7 @@ describe('SQL migrations test', () => {
     });
 
     it('correctly merges sessions for conflicting conversations', () => {
-      updateToVersion(40);
+      updateToVersion(db, 40);
 
       addOurUuid();
 
@@ -400,7 +382,7 @@ describe('SQL migrations test', () => {
       insertSession(fullB, 1, { name: 'B' });
       insertSession(partial, 1, { name: 'C' });
 
-      updateToVersion(41);
+      updateToVersion(db, 41);
 
       assert.deepStrictEqual(
         parseItems(db.prepare('SELECT * FROM sessions').all()),
@@ -423,7 +405,7 @@ describe('SQL migrations test', () => {
     });
 
     it('moves identity key and registration id into a map', () => {
-      updateToVersion(40);
+      updateToVersion(db, 40);
 
       addOurUuid();
 
@@ -443,7 +425,7 @@ describe('SQL migrations test', () => {
         });
       }
 
-      updateToVersion(41);
+      updateToVersion(db, 41);
 
       assert.deepStrictEqual(
         parseItems(db.prepare('SELECT * FROM items ORDER BY id').all()),
@@ -474,7 +456,7 @@ describe('SQL migrations test', () => {
     });
 
     it("migrates other users' identity keys", () => {
-      updateToVersion(40);
+      updateToVersion(db, 40);
 
       addOurUuid();
 
@@ -502,7 +484,7 @@ describe('SQL migrations test', () => {
         });
       }
 
-      updateToVersion(41);
+      updateToVersion(db, 41);
 
       assert.deepStrictEqual(
         parseItems(db.prepare('SELECT * FROM identityKeys ORDER BY id').all()),
@@ -546,7 +528,7 @@ describe('SQL migrations test', () => {
     const CONVERSATION_ID = generateGuid();
 
     it('deletes orphaned reactions', () => {
-      updateToVersion(41);
+      updateToVersion(db, 41);
 
       db.exec(
         `
@@ -571,7 +553,7 @@ describe('SQL migrations test', () => {
       assert.strictEqual(reactionCount.get(), 4);
       assert.strictEqual(messageCount.get(), 2);
 
-      updateToVersion(42);
+      updateToVersion(db, 42);
 
       assert.strictEqual(reactionCount.get(), 2);
       assert.strictEqual(messageCount.get(), 2);
@@ -585,7 +567,7 @@ describe('SQL migrations test', () => {
     });
 
     it('new message delete trigger deletes reactions as well', () => {
-      updateToVersion(41);
+      updateToVersion(db, 41);
 
       db.exec(
         `
@@ -610,7 +592,7 @@ describe('SQL migrations test', () => {
       assert.strictEqual(reactionCount.get(), 3);
       assert.strictEqual(messageCount.get(), 3);
 
-      updateToVersion(42);
+      updateToVersion(db, 42);
 
       assert.strictEqual(reactionCount.get(), 3);
       assert.strictEqual(messageCount.get(), 3);
@@ -635,7 +617,7 @@ describe('SQL migrations test', () => {
 
   describe('updateToSchemaVersion43', () => {
     it('remaps conversation ids to UUIDs in groups and messages', () => {
-      updateToVersion(42);
+      updateToVersion(db, 42);
 
       const UUID_A = generateAci();
       const UUID_B = generateAci();
@@ -724,7 +706,7 @@ describe('SQL migrations test', () => {
         `
       );
 
-      updateToVersion(43);
+      updateToVersion(db, 43);
 
       const { members, json: convoJSON } = db
         .prepare("SELECT members, json FROM conversations WHERE id = 'c'")
@@ -791,7 +773,7 @@ describe('SQL migrations test', () => {
     });
 
     it('should not fail on invalid UUIDs', () => {
-      updateToVersion(42);
+      updateToVersion(db, 42);
 
       db.exec(
         `
@@ -805,7 +787,7 @@ describe('SQL migrations test', () => {
         `
       );
 
-      updateToVersion(43);
+      updateToVersion(db, 43);
 
       const { json: messageMJSON } = db
         .prepare("SELECT json FROM messages WHERE id = 'm'")
@@ -830,7 +812,7 @@ describe('SQL migrations test', () => {
       const MESSAGE_ID_5 = generateGuid();
       const CONVERSATION_ID = generateGuid();
 
-      updateToVersion(45);
+      updateToVersion(db, 45);
 
       db.exec(
         `
@@ -881,7 +863,7 @@ describe('SQL migrations test', () => {
       const UUID_3 = generateAci();
       const UUID_4 = generateAci();
 
-      updateToVersion(45);
+      updateToVersion(db, 45);
 
       db.exec(
         `
@@ -932,7 +914,7 @@ describe('SQL migrations test', () => {
       const MESSAGE_ID_2 = generateGuid();
       const CONVERSATION_ID = generateGuid();
 
-      updateToVersion(46);
+      updateToVersion(db, 46);
 
       const uuidItem = JSON.stringify({
         value: `${OUR_UUID}.4`,
@@ -971,7 +953,7 @@ describe('SQL migrations test', () => {
         `
       );
 
-      updateToVersion(47);
+      updateToVersion(db, 47);
 
       assert.strictEqual(
         db.prepare('SELECT COUNT(*) FROM messages;').pluck().get(),
@@ -1006,7 +988,7 @@ describe('SQL migrations test', () => {
       const MESSAGE_ID_3 = generateGuid();
       const CONVERSATION_ID = generateGuid();
 
-      updateToVersion(47);
+      updateToVersion(db, 47);
 
       db.exec(
         `
@@ -1046,7 +1028,7 @@ describe('SQL migrations test', () => {
       const MESSAGE_ID_4 = generateGuid();
       const CONVERSATION_ID = generateGuid();
 
-      updateToVersion(47);
+      updateToVersion(db, 47);
 
       db.exec(
         `
@@ -1099,7 +1081,7 @@ describe('SQL migrations test', () => {
       const MESSAGE_ID_3 = generateGuid();
       const CONVERSATION_ID = generateGuid();
 
-      updateToVersion(47);
+      updateToVersion(db, 47);
 
       const timerUpdate = JSON.stringify({
         expirationTimerUpdate: {
@@ -1160,7 +1142,7 @@ describe('SQL migrations test', () => {
       const SECOND_UUID = generateAci();
       const THIRD_UUID = generateAci();
 
-      updateToVersion(47);
+      updateToVersion(db, 47);
 
       const memberRemoveByOther = JSON.stringify({
         groupV2Change: {
@@ -1249,7 +1231,7 @@ describe('SQL migrations test', () => {
     });
 
     it('ensures that index is used for getOlderMessagesByConversation', () => {
-      updateToVersion(47);
+      updateToVersion(db, 47);
 
       const { detail } = db
         .prepare(
@@ -1281,7 +1263,7 @@ describe('SQL migrations test', () => {
 
   describe('updateToSchemaVersion48', () => {
     it('creates usable index for hasUserInitiatedMessages', () => {
-      updateToVersion(48);
+      updateToVersion(db, 48);
 
       const details = db
         .prepare(
@@ -1310,7 +1292,7 @@ describe('SQL migrations test', () => {
 
   describe('updateToSchemaVersion49', () => {
     it('creates usable index for messages preview', () => {
-      updateToVersion(49);
+      updateToVersion(db, 49);
 
       const details = db
         .prepare(
@@ -1342,7 +1324,7 @@ describe('SQL migrations test', () => {
 
   describe('updateToSchemaVersion50', () => {
     it('creates usable index for messages_unread', () => {
-      updateToVersion(50);
+      updateToVersion(db, 50);
 
       const details = db
         .prepare(
@@ -1369,7 +1351,7 @@ describe('SQL migrations test', () => {
 
   describe('updateToSchemaVersion51', () => {
     it('moves reactions/normal send jobs over to conversation queue', () => {
-      updateToVersion(50);
+      updateToVersion(db, 50);
 
       const MESSAGE_ID_1 = generateGuid();
       const CONVERSATION_ID_1 = generateGuid();
@@ -1412,7 +1394,7 @@ describe('SQL migrations test', () => {
       assert.strictEqual(conversationJobs.get(), 1, 'before conversation');
       assert.strictEqual(reactionJobs.get(), 1, 'before reaction');
 
-      updateToVersion(51);
+      updateToVersion(db, 51);
 
       assert.strictEqual(totalJobs.get(), 4, 'after total');
       assert.strictEqual(normalSendJobs.get(), 0, 'after normal');
@@ -1421,7 +1403,7 @@ describe('SQL migrations test', () => {
     });
 
     it('updates reactions jobs with their conversationId', () => {
-      updateToVersion(50);
+      updateToVersion(db, 50);
 
       const MESSAGE_ID_1 = generateGuid();
       const MESSAGE_ID_2 = generateGuid();
@@ -1505,7 +1487,7 @@ describe('SQL migrations test', () => {
       assert.strictEqual(reactionJobs.get(), 6, 'reaction jobs before');
       assert.strictEqual(conversationJobs.get(), 0, 'conversation jobs before');
 
-      updateToVersion(51);
+      updateToVersion(db, 51);
 
       assert.strictEqual(totalJobs.get(), 2, 'total jobs after');
       assert.strictEqual(reactionJobs.get(), 0, 'reaction jobs after');
@@ -1538,7 +1520,7 @@ describe('SQL migrations test', () => {
     });
 
     it('updates normal send jobs with their conversationId', () => {
-      updateToVersion(50);
+      updateToVersion(db, 50);
 
       const MESSAGE_ID_1 = generateGuid();
       const MESSAGE_ID_2 = generateGuid();
@@ -1582,7 +1564,7 @@ describe('SQL migrations test', () => {
       assert.strictEqual(normalSend.get(), 3, 'normal send jobs before');
       assert.strictEqual(conversationJobs.get(), 0, 'conversation jobs before');
 
-      updateToVersion(51);
+      updateToVersion(db, 51);
 
       assert.strictEqual(totalJobs.get(), 2, 'total jobs after');
       assert.strictEqual(normalSend.get(), 0, 'normal send jobs after');
@@ -1655,7 +1637,7 @@ describe('SQL migrations test', () => {
     }
 
     it('produces optimizable queries for present and absent storyId', () => {
-      updateToVersion(52);
+      updateToVersion(db, 52);
 
       for (const storyId of ['123', undefined]) {
         for (const { template, index } of getQueries(storyId, true)) {
@@ -1679,7 +1661,7 @@ describe('SQL migrations test', () => {
 
   describe('updateToSchemaVersion53', () => {
     it('remaps bannedMembersV2 to array of objects', () => {
-      updateToVersion(52);
+      updateToVersion(db, 52);
 
       const UUID_A = generateAci();
       const UUID_B = generateAci();
@@ -1709,7 +1691,7 @@ describe('SQL migrations test', () => {
         `
       );
 
-      updateToVersion(53);
+      updateToVersion(db, 53);
 
       const entries: Array<{ id: string; json: string }> = db
         .prepare('SELECT id, json FROM conversations ORDER BY id')
@@ -1735,7 +1717,7 @@ describe('SQL migrations test', () => {
 
   describe('updateToSchemaVersion55', () => {
     it('moves existing report spam jobs to new schema', () => {
-      updateToVersion(54);
+      updateToVersion(db, 54);
 
       const E164_1 = '+12125550155';
       const MESSAGE_ID_1 = generateGuid();
@@ -1758,7 +1740,7 @@ describe('SQL migrations test', () => {
       assert.strictEqual(totalJobs.get(), 2, 'before total');
       assert.strictEqual(reportSpamJobs.get(), 1, 'before report spam');
 
-      updateToVersion(55);
+      updateToVersion(db, 55);
 
       assert.strictEqual(totalJobs.get(), 2, 'after total');
       assert.strictEqual(reportSpamJobs.get(), 1, 'after report spam');
@@ -1794,7 +1776,7 @@ describe('SQL migrations test', () => {
       const MESSAGE_ID_11 = generateGuid();
       const CONVERSATION_ID = generateGuid();
 
-      updateToVersion(55);
+      updateToVersion(db, 55);
 
       db.exec(
         `
@@ -1831,7 +1813,7 @@ describe('SQL migrations test', () => {
         'starting unread count'
       );
 
-      updateToVersion(56);
+      updateToVersion(db, 56);
 
       assert.strictEqual(
         db.prepare('SELECT COUNT(*) FROM messages;').pluck().get(),
@@ -1872,7 +1854,7 @@ describe('SQL migrations test', () => {
     });
 
     it('creates usable index for getOldestUnseenMessageForConversation', () => {
-      updateToVersion(56);
+      updateToVersion(db, 56);
 
       const first = db
         .prepare(
@@ -1922,7 +1904,7 @@ describe('SQL migrations test', () => {
     });
 
     it('creates usable index for getUnreadByConversationAndMarkRead', () => {
-      updateToVersion(56);
+      updateToVersion(db, 56);
 
       const first = db
         .prepare(
@@ -1980,7 +1962,7 @@ describe('SQL migrations test', () => {
     });
 
     it('creates usable index for getTotalUnseenForConversationSync', () => {
-      updateToVersion(56);
+      updateToVersion(db, 56);
 
       const first = db
         .prepare(
@@ -2046,7 +2028,7 @@ describe('SQL migrations test', () => {
       const MESSAGE_ID_11 = generateGuid();
       const CONVERSATION_ID = generateGuid();
 
-      updateToVersion(55);
+      updateToVersion(db, 55);
 
       db.exec(
         `
@@ -2083,7 +2065,7 @@ describe('SQL migrations test', () => {
         'starting unread count'
       );
 
-      updateToVersion(56);
+      updateToVersion(db, 56);
 
       assert.strictEqual(
         db.prepare('SELECT COUNT(*) FROM messages;').pluck().get(),
@@ -2129,7 +2111,7 @@ describe('SQL migrations test', () => {
       const MESSAGE_ID_3 = generateGuid();
       const CONVERSATION_ID = generateGuid();
 
-      updateToVersion(57);
+      updateToVersion(db, 57);
 
       db.exec(
         `
@@ -2158,7 +2140,7 @@ describe('SQL migrations test', () => {
         'starting unread count'
       );
 
-      updateToVersion(58);
+      updateToVersion(db, 58);
 
       assert.strictEqual(
         db.prepare('SELECT COUNT(*) FROM messages;').pluck().get(),
@@ -2205,7 +2187,7 @@ describe('SQL migrations test', () => {
       const MESSAGE_ID_4 = generateGuid();
       const CONVERSATION_ID = generateGuid();
 
-      updateToVersion(57);
+      updateToVersion(db, 57);
 
       // prettier-ignore
       db.exec(
@@ -2234,7 +2216,7 @@ describe('SQL migrations test', () => {
         'starting total'
       );
 
-      updateToVersion(58);
+      updateToVersion(db, 58);
 
       assert.strictEqual(
         db
@@ -2293,7 +2275,7 @@ describe('SQL migrations test', () => {
 
   describe('updateToSchemaVersion60', () => {
     it('updates index to make query efficient', () => {
-      updateToVersion(60);
+      updateToVersion(db, 60);
 
       const items = db
         .prepare(
@@ -2333,7 +2315,7 @@ describe('SQL migrations test', () => {
 
   describe('updateToSchemaVersion62', () => {
     it('adds new urgent field to sendLogPayloads', () => {
-      updateToVersion(62);
+      updateToVersion(db, 62);
 
       const timestamp = Date.now();
       db.exec(
@@ -2364,7 +2346,7 @@ describe('SQL migrations test', () => {
 
   describe('updateToSchemaVersion65', () => {
     it('initializes sticker pack positions', () => {
-      updateToVersion(64);
+      updateToVersion(db, 64);
 
       db.exec(
         `
@@ -2377,7 +2359,7 @@ describe('SQL migrations test', () => {
         `
       );
 
-      updateToVersion(65);
+      updateToVersion(db, 65);
 
       assert.deepStrictEqual(
         db
@@ -2396,7 +2378,7 @@ describe('SQL migrations test', () => {
 
   describe('updateToSchemaVersion69', () => {
     beforeEach(() => {
-      updateToVersion(69);
+      updateToVersion(db, 69);
     });
 
     it('removes the legacy groupCallRings table', () => {
@@ -2438,7 +2420,7 @@ describe('SQL migrations test', () => {
       const MESSAGE_ID_7 = generateGuid();
       const CONVERSATION_ID = generateGuid();
 
-      updateToVersion(71);
+      updateToVersion(db, 71);
 
       db.exec(
         `
@@ -2500,7 +2482,7 @@ describe('SQL migrations test', () => {
 
   describe('updateToSchemaVersion78', () => {
     it('moves receipt jobs over to conversation queue', () => {
-      updateToVersion(77);
+      updateToVersion(db, 77);
 
       const MESSAGE_ID_1 = generateGuid();
       const CONVERSATION_ID_1 = generateGuid();
@@ -2579,7 +2561,7 @@ describe('SQL migrations test', () => {
       assert.strictEqual(readJobs.get(), 1, 'before read');
       assert.strictEqual(viewedJobs.get(), 1, 'before viewed');
 
-      updateToVersion(78);
+      updateToVersion(db, 78);
 
       assert.strictEqual(totalJobs.get(), 5, 'after total');
       assert.strictEqual(conversationJobs.get(), 4, 'after conversation');
@@ -2589,7 +2571,7 @@ describe('SQL migrations test', () => {
     });
 
     it('updates delivery jobs with their conversationId', () => {
-      updateToVersion(77);
+      updateToVersion(db, 77);
 
       const MESSAGE_ID_1 = generateGuid();
       const MESSAGE_ID_2 = generateGuid();
@@ -2713,7 +2695,7 @@ describe('SQL migrations test', () => {
       assert.strictEqual(conversationJobs.get(), 0, 'conversation jobs before');
       assert.strictEqual(deliveryJobs.get(), 7, 'delivery jobs before');
 
-      updateToVersion(78);
+      updateToVersion(db, 78);
 
       assert.strictEqual(totalJobs.get(), 2, 'total jobs after');
       assert.strictEqual(conversationJobs.get(), 2, 'conversation jobs after');
@@ -2760,7 +2742,7 @@ describe('SQL migrations test', () => {
     });
 
     it('updates read jobs with their conversationId', () => {
-      updateToVersion(77);
+      updateToVersion(db, 77);
 
       const MESSAGE_ID_1 = generateGuid();
       const MESSAGE_ID_2 = generateGuid();
@@ -2882,7 +2864,7 @@ describe('SQL migrations test', () => {
       assert.strictEqual(conversationJobs.get(), 0, 'conversation jobs before');
       assert.strictEqual(readJobs.get(), 7, 'delivery jobs before');
 
-      updateToVersion(78);
+      updateToVersion(db, 78);
 
       assert.strictEqual(totalJobs.get(), 2, 'total jobs after');
       assert.strictEqual(conversationJobs.get(), 2, 'conversation jobs after');
@@ -2929,7 +2911,7 @@ describe('SQL migrations test', () => {
     });
 
     it('updates viewed jobs with their conversationId', () => {
-      updateToVersion(77);
+      updateToVersion(db, 77);
 
       const MESSAGE_ID_1 = generateGuid();
       const MESSAGE_ID_2 = generateGuid();
@@ -3043,7 +3025,7 @@ describe('SQL migrations test', () => {
       assert.strictEqual(conversationJobs.get(), 0, 'conversation jobs before');
       assert.strictEqual(viewedJobs.get(), 7, 'delivery jobs before');
 
-      updateToVersion(78);
+      updateToVersion(db, 78);
 
       assert.strictEqual(totalJobs.get(), 2, 'total jobs after');
       assert.strictEqual(conversationJobs.get(), 2, 'conversation jobs after');
@@ -3091,7 +3073,7 @@ describe('SQL migrations test', () => {
   });
 
   describe('updateToSchemaVersion83', () => {
-    beforeEach(() => updateToVersion(83));
+    beforeEach(() => updateToVersion(db, 83));
 
     it('ensures that index is used for getTotalUnreadMentionsOfMeForConversation, no storyId', () => {
       const { detail } = db
@@ -3205,7 +3187,11 @@ describe('SQL migrations test', () => {
       mentions?: Array<AciString>;
       boldRanges?: Array<Array<number>>;
     }) {
-      const json: Partial<MessageType> = {
+      const json: Partial<{
+        id: string;
+        body: string;
+        bodyRanges: Array<unknown>;
+      }> = {
         id: id ?? generateGuid(),
         body: `Message body: ${id}`,
       };
@@ -3264,7 +3250,7 @@ describe('SQL migrations test', () => {
     }
 
     it('Creates and populates the mentions table with existing mentions', () => {
-      updateToVersion(schemaVersion - 1);
+      updateToVersion(db, schemaVersion - 1);
 
       const userIds = new Array(5).fill(undefined).map(() => generateAci());
       const { formattedMessages } = addMessages([
@@ -3276,7 +3262,7 @@ describe('SQL migrations test', () => {
       ]);
 
       // now create mentions table
-      updateToVersion(schemaVersion);
+      updateToVersion(db, schemaVersion);
 
       // only the 4 mentions should be included, with multiple rows for multiple mentions
       // in a message
@@ -3312,7 +3298,7 @@ describe('SQL migrations test', () => {
     });
 
     it('Updates mention table when new messages are added', () => {
-      updateToVersion(schemaVersion);
+      updateToVersion(db, schemaVersion);
       assert.equal(
         db.prepare('SELECT COUNT(*) FROM mentions;').pluck().get(),
         0
@@ -3360,7 +3346,7 @@ describe('SQL migrations test', () => {
     });
 
     it('Removes mentions when messages are deleted', () => {
-      updateToVersion(schemaVersion);
+      updateToVersion(db, schemaVersion);
       assert.equal(
         db.prepare('SELECT COUNT(*) FROM mentions;').pluck().get(),
         0
@@ -3390,7 +3376,7 @@ describe('SQL migrations test', () => {
     });
 
     it('Updates mentions when messages are updated', () => {
-      updateToVersion(schemaVersion);
+      updateToVersion(db, schemaVersion);
       assert.equal(
         db.prepare('SELECT COUNT(*) FROM mentions;').pluck().get(),
         0
@@ -3453,7 +3439,7 @@ describe('SQL migrations test', () => {
       ]);
     });
     it('uses the mentionUuid index for searching mentions', () => {
-      updateToVersion(schemaVersion);
+      updateToVersion(db, schemaVersion);
       const [query, params] = sql`
         EXPLAIN QUERY PLAN
         SELECT
@@ -3484,7 +3470,7 @@ describe('SQL migrations test', () => {
 
   describe('updateToSchemaVersion85', () => {
     it('generates ourUuid field when JSON is inserted', () => {
-      updateToVersion(85);
+      updateToVersion(db, 85);
       const id = 'a1111:a2222';
       const ourUuid = 'ab3333';
       const value = {
@@ -3506,7 +3492,7 @@ describe('SQL migrations test', () => {
     });
 
     it('adds a createdAt to all existing prekeys', () => {
-      updateToVersion(84);
+      updateToVersion(db, 84);
 
       const id = 'a1111:a2222';
       const ourUuid = 'ab3333';
@@ -3522,7 +3508,7 @@ describe('SQL migrations test', () => {
           `
       ).run();
 
-      updateToVersion(85);
+      updateToVersion(db, 85);
 
       const payload = db.prepare('SELECT * FROM preKeys LIMIT 1;').get();
 
@@ -3536,7 +3522,7 @@ describe('SQL migrations test', () => {
 
   describe('updateToSchemaVersion86', () => {
     it('supports the right index for first query used in getRecentStoryRepliesSync', () => {
-      updateToVersion(86);
+      updateToVersion(db, 86);
       const [query, params] = sql`
         EXPLAIN QUERY PLAN
         SELECT json FROM messages WHERE
@@ -3558,7 +3544,7 @@ describe('SQL migrations test', () => {
     });
 
     it('supports the right index for second query used in getRecentStoryRepliesSync', () => {
-      updateToVersion(86);
+      updateToVersion(db, 86);
       const [query, params] = sql`
         EXPLAIN QUERY PLAN
         SELECT json FROM messages WHERE
@@ -3582,7 +3568,7 @@ describe('SQL migrations test', () => {
 
   describe('updateToSchemaVersion87', () => {
     it('pulls out call history messages into the new table', () => {
-      updateToVersion(86);
+      updateToVersion(db, 86);
 
       const message1Id = generateGuid();
       const message2Id = generateGuid();
@@ -3648,7 +3634,7 @@ describe('SQL migrations test', () => {
 
       db.prepare(insertQuery).run(insertParams);
 
-      updateToVersion(87);
+      updateToVersion(db, 87);
 
       const [selectHistoryQuery] = sql`
         SELECT * FROM callsHistory;
@@ -3662,7 +3648,7 @@ describe('SQL migrations test', () => {
     });
 
     it('handles unique constraint violations', () => {
-      updateToVersion(86);
+      updateToVersion(db, 86);
 
       const message1Id = generateGuid();
       const message2Id = generateGuid();
@@ -3724,7 +3710,7 @@ describe('SQL migrations test', () => {
 
       db.prepare(insertQuery).run(insertParams);
 
-      updateToVersion(87);
+      updateToVersion(db, 87);
 
       const [selectHistoryQuery] = sql`
         SELECT * FROM callsHistory;

@@ -3,11 +3,14 @@
 
 import { assert } from 'chai';
 
+import { generateAci } from '../../types/ServiceId';
 import type { ConversationType } from '../../state/ducks/conversations';
 import { MemberRepository } from '../../quill/memberRepository';
-import { getDefaultConversationWithUuid } from '../../test-both/helpers/getDefaultConversation';
+import { getDefaultConversationWithServiceId } from '../../test-both/helpers/getDefaultConversation';
 
-const memberMahershala: ConversationType = getDefaultConversationWithUuid({
+const UNKNOWN_SERVICE_ID = generateAci();
+
+const memberMahershala: ConversationType = getDefaultConversationWithServiceId({
   id: '555444',
   title: 'Pal',
   firstName: 'Mahershala',
@@ -19,7 +22,7 @@ const memberMahershala: ConversationType = getDefaultConversationWithUuid({
   areWeAdmin: false,
 });
 
-const memberShia: ConversationType = getDefaultConversationWithUuid({
+const memberShia: ConversationType = getDefaultConversationWithServiceId({
   id: '333222',
   title: 'Buddy',
   firstName: 'Shia',
@@ -33,7 +36,7 @@ const memberShia: ConversationType = getDefaultConversationWithUuid({
 
 const members: Array<ConversationType> = [memberMahershala, memberShia];
 
-const singleMember: ConversationType = getDefaultConversationWithUuid({
+const singleMember: ConversationType = getDefaultConversationWithServiceId({
   id: '666777',
   title: 'The Guy',
   firstName: 'Jeff',
@@ -70,24 +73,28 @@ describe('MemberRepository', () => {
 
     it('returns undefined when it does not have the member', () => {
       const memberRepository = new MemberRepository(members);
-      assert.isUndefined(memberRepository.getMemberById('nope'));
+      assert.isUndefined(memberRepository.getMemberById(UNKNOWN_SERVICE_ID));
     });
   });
 
-  describe('#getMemberByUuid', () => {
-    it('returns undefined when there is no search uuid', () => {
+  describe('#getMemberByServiceId', () => {
+    it('returns undefined when there is no search serviceId', () => {
       const memberRepository = new MemberRepository(members);
-      assert.isUndefined(memberRepository.getMemberByUuid());
+      assert.isUndefined(memberRepository.getMemberByServiceId());
     });
 
     it('returns a matched member', () => {
       const memberRepository = new MemberRepository(members);
-      assert.isDefined(memberRepository.getMemberByUuid(memberMahershala.uuid));
+      assert.isDefined(
+        memberRepository.getMemberByServiceId(memberMahershala.serviceId)
+      );
     });
 
     it('returns undefined when it does not have the member', () => {
       const memberRepository = new MemberRepository(members);
-      assert.isUndefined(memberRepository.getMemberByUuid('nope'));
+      assert.isUndefined(
+        memberRepository.getMemberByServiceId(UNKNOWN_SERVICE_ID)
+      );
     });
   });
 

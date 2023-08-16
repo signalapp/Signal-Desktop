@@ -12,6 +12,7 @@ import * as durations from '../util/durations';
 import { BackOff } from '../util/BackOff';
 import { sleep } from '../util/sleep';
 import { toDayMillis } from '../util/timestamp';
+import { toAciObject, toPniObject, toTaggedPni } from '../types/ServiceId';
 import * as log from '../logging/log';
 
 export const GROUP_CREDENTIALS_KEY = 'groupCredentials';
@@ -150,10 +151,15 @@ export async function maybeFetchNewCredentials(): Promise<void> {
     serverPublicParamsBase64
   );
 
-  const { pni, credentials: rawCredentials } = await server.getGroupCredentials(
-    { startDayInMs, endDayInMs }
+  // Received credentials depend on us knowing up-to-date PNI. Use the latest
+  //   value from the server and log error on mismatch.
+  const { pni: untaggedPni, credentials: rawCredentials } =
+    await server.getGroupCredentials({ startDayInMs, endDayInMs });
+  strictAssert(
+    untaggedPni,
+    'Server must give pni along with group credentials'
   );
-  strictAssert(pni, 'Server must give pni along with group credentials');
+  const pni = toTaggedPni(untaggedPni);
 
   const localPni = window.storage.user.getPni();
   if (pni !== localPni) {
@@ -163,9 +169,9 @@ export async function maybeFetchNewCredentials(): Promise<void> {
   const newCredentials = sortCredentials(rawCredentials).map(
     (item: GroupCredentialType) => {
       const authCredential =
-        clientZKAuthOperations.receiveAuthCredentialWithPni(
-          aci,
-          pni,
+        clientZKAuthOperations.receiveAuthCredentialWithPniAsServiceId(
+          toAciObject(aci),
+          toPniObject(pni),
           item.redemptionTime,
           new AuthCredentialWithPniResponse(
             Buffer.from(item.credential, 'base64')

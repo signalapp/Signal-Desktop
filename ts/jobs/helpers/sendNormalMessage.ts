@@ -559,12 +559,11 @@ async function getMessageSendData({
   });
 
   const storyReaction = message.get('storyReaction');
-  const storySourceUuid = storyMessage?.get('sourceUuid');
+  const storySourceServiceId = storyMessage?.get('sourceServiceId');
 
   let reactionForSend: ReactionType | undefined;
   if (storyReaction) {
-    const { targetAuthorUuid: targetAuthorAci, ...restOfReaction } =
-      storyReaction;
+    const { targetAuthorAci, ...restOfReaction } = storyReaction;
 
     reactionForSend = {
       ...restOfReaction,
@@ -592,9 +591,9 @@ async function getMessageSendData({
     storyMessage,
     storyContext: storyMessage
       ? {
-          authorAci: storySourceUuid
+          authorAci: storySourceServiceId
             ? normalizeAci(
-                storySourceUuid,
+                storySourceServiceId,
                 'sendNormalMessage.storyContext.authorAci'
               )
             : undefined,
@@ -716,11 +715,8 @@ async function uploadMessageQuote(
   return {
     isGiftBadge: loadedQuote.isGiftBadge,
     id: loadedQuote.id,
-    authorAci: loadedQuote.authorUuid
-      ? normalizeAci(
-          loadedQuote.authorUuid,
-          'sendNormalMessage.quote.authorUuid'
-        )
+    authorAci: loadedQuote.authorAci
+      ? normalizeAci(loadedQuote.authorAci, 'sendNormalMessage.quote.authorAci')
       : undefined,
     text: loadedQuote.text,
     bodyRanges: loadedQuote.bodyRanges,

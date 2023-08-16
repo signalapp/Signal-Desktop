@@ -93,7 +93,7 @@ export async function getSendOptions(
     };
   }
 
-  const { e164, uuid } = conversationAttrs;
+  const { e164, serviceId } = conversationAttrs;
 
   const senderCertificate = await getSenderCertificateForDirectConversation(
     conversationAttrs
@@ -112,7 +112,7 @@ export async function getSendOptions(
     return {
       sendMetadata: {
         ...(e164 ? { [e164]: identifierData } : {}),
-        ...(uuid ? { [uuid]: identifierData } : {}),
+        ...(serviceId ? { [serviceId]: identifierData } : {}),
       },
     };
   }
@@ -134,7 +134,7 @@ export async function getSendOptions(
   return {
     sendMetadata: {
       ...(e164 ? { [e164]: identifierData } : {}),
-      ...(uuid ? { [uuid]: identifierData } : {}),
+      ...(serviceId ? { [serviceId]: identifierData } : {}),
     },
   };
 }

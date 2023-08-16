@@ -65,7 +65,7 @@ export async function updateConversationsWithUuidLookup({
           finalServiceId
         );
         if (!doesAccountExist) {
-          finalConversation.updateUuid(undefined);
+          finalConversation.updateServiceId(undefined);
           finalServiceId = undefined;
         }
       }

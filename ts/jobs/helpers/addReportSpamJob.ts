@@ -5,6 +5,7 @@ import { assertDev } from '../../util/assert';
 import { isDirectConversation } from '../../util/whatTypeOfConversation';
 import * as log from '../../logging/log';
 import type { ConversationAttributesType } from '../../model-types.d';
+import { isAciString } from '../../types/ServiceId';
 import type { reportSpamJobQueue } from '../reportSpamJobQueue';
 
 export async function addReportSpamJob({
@@ -13,7 +14,10 @@ export async function addReportSpamJob({
   jobQueue,
 }: Readonly<{
   conversation: Readonly<
-    Pick<ConversationAttributesType, 'id' | 'type' | 'uuid' | 'reportingToken'>
+    Pick<
+      ConversationAttributesType,
+      'id' | 'type' | 'serviceId' | 'reportingToken'
+    >
   >;
   getMessageServerGuidsForSpam: (
     conversationId: string
@@ -25,10 +29,10 @@ export async function addReportSpamJob({
     'addReportSpamJob: cannot report spam for non-direct conversations'
   );
 
-  const { uuid } = conversation;
-  if (!uuid) {
+  const { serviceId: aci } = conversation;
+  if (!aci || !isAciString(aci)) {
     log.info(
-      'addReportSpamJob got a conversation with no UUID, which the server does not support. Doing nothing'
+      'addReportSpamJob got a conversation with no aci, which the server does not support. Doing nothing'
     );
     return;
   }
@@ -44,5 +48,5 @@ export async function addReportSpamJob({
     return;
   }
 
-  await jobQueue.add({ uuid, serverGuids, token: conversation.reportingToken });
+  await jobQueue.add({ aci, serverGuids, token: conversation.reportingToken });
 }

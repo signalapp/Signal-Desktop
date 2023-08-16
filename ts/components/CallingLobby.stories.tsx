@@ -16,7 +16,7 @@ import { generateAci } from '../types/ServiceId';
 import enMessages from '../../_locales/en/messages.json';
 import {
   getDefaultConversation,
-  getDefaultConversationWithUuid,
+  getDefaultConversationWithServiceId,
 } from '../test-both/helpers/getDefaultConversation';
 
 const i18n = setupI18n('en', enMessages);
@@ -67,7 +67,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => {
       getDefaultConversation({
         color: AvatarColors[0],
         id: generateUuid(),
-        uuid: generateAci(),
+        serviceId: generateAci(),
       }),
     onCallCanceled: action('on-call-canceled'),
     onJoinCall: action('on-join-call'),
@@ -87,7 +87,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => {
 };
 
 const fakePeekedParticipant = (conversationProps: Partial<ConversationType>) =>
-  getDefaultConversationWithUuid({
+  getDefaultConversationWithServiceId({
     ...conversationProps,
   });
 
@@ -118,7 +118,7 @@ export function NoCameraLocalAvatar(): JSX.Element {
       avatarPath: '/fixtures/kitten-4-112-112.jpg',
       color: AvatarColors[0],
       id: generateUuid(),
-      uuid: generateAci(),
+      serviceId: generateAci(),
     }),
   });
   return <CallingLobby {...props} />;
@@ -168,14 +168,14 @@ GroupCall1PeekedParticipant.story = {
 };
 
 export function GroupCall1PeekedParticipantSelf(): JSX.Element {
-  const uuid = generateAci();
+  const serviceId = generateAci();
   const props = createProps({
     isGroupCall: true,
     me: getDefaultConversation({
       id: generateUuid(),
-      uuid,
+      serviceId,
     }),
-    peekedParticipants: [fakePeekedParticipant({ title: 'Ash', uuid })],
+    peekedParticipants: [fakePeekedParticipant({ title: 'Ash', serviceId })],
   });
   return <CallingLobby {...props} />;
 }

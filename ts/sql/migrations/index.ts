@@ -63,6 +63,7 @@ import updateToSchemaVersion84 from './84-all-mentions';
 import updateToSchemaVersion85 from './85-add-kyber-keys';
 import updateToSchemaVersion86 from './86-story-replies-index';
 import updateToSchemaVersion87 from './87-calls-history-table';
+import updateToSchemaVersion88 from './88-service-ids';
 
 function updateToSchemaVersion1(
   currentVersion: number,
@@ -1996,6 +1997,7 @@ export const SCHEMA_VERSIONS = [
   updateToSchemaVersion85,
   updateToSchemaVersion86,
   updateToSchemaVersion87,
+  updateToSchemaVersion88,
 ];
 
 export function updateSchema(db: Database, logger: LoggerType): void {

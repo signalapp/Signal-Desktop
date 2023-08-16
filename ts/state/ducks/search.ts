@@ -14,6 +14,8 @@ import type {
 } from '../../sql/Interface';
 import dataInterface from '../../sql/Client';
 import { makeLookup } from '../../util/makeLookup';
+import { isNotNil } from '../../util/isNotNil';
+import type { ServiceIdString } from '../../types/ServiceId';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import { useBoundActions } from '../../hooks/useBoundActions';
 
@@ -234,21 +236,19 @@ const doSearch = debounce(
       const queryWords = [...segmenter.segment(query)]
         .filter(word => word.isWordLike)
         .map(word => word.segment);
-      const contactUuidsMatchingQuery = searchConversationTitles(
+      const contactServiceIdsMatchingQuery = searchConversationTitles(
         allConversations,
         queryWords
       )
-        .filter(
-          conversation =>
-            isDirectConversation(conversation) && Boolean(conversation.uuid)
-        )
-        .map(conversation => conversation.uuid as string)
+        .filter(conversation => isDirectConversation(conversation))
+        .map(conversation => conversation.serviceId)
+        .filter(isNotNil)
         .slice(0, MAX_MATCHING_CONTACTS);
 
       const messages = await queryMessages({
         query,
         searchConversationId,
-        contactUuidsMatchingQuery,
+        contactServiceIdsMatchingQuery,
       });
 
       dispatch({
@@ -287,11 +287,11 @@ const doSearch = debounce(
 async function queryMessages({
   query,
   searchConversationId,
-  contactUuidsMatchingQuery,
+  contactServiceIdsMatchingQuery,
 }: {
   query: string;
   searchConversationId?: string;
-  contactUuidsMatchingQuery?: Array<string>;
+  contactServiceIdsMatchingQuery?: Array<ServiceIdString>;
 }): Promise<Array<ClientSearchResultMessageType>> {
   try {
     const normalized = cleanSearchTerm(query);
@@ -303,13 +303,13 @@ async function queryMessages({
       return dataSearchMessages({
         query: normalized,
         conversationId: searchConversationId,
-        contactUuidsMatchingQuery,
+        contactServiceIdsMatchingQuery,
       });
     }
 
     return dataSearchMessages({
       query: normalized,
-      contactUuidsMatchingQuery,
+      contactServiceIdsMatchingQuery,
     });
   } catch (e) {
     return [];

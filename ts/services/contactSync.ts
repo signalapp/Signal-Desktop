@@ -5,7 +5,7 @@ import PQueue from 'p-queue';
 
 import type { ContactSyncEvent } from '../textsecure/messageReceiverEvents';
 import type { ModifiedContactDetails } from '../textsecure/ContactsParser';
-import { normalizeServiceId } from '../types/ServiceId';
+import { normalizeAci } from '../types/ServiceId';
 import * as Conversation from '../types/Conversation';
 import * as Errors from '../types/errors';
 import type { ValidateConversationType } from '../model-types.d';
@@ -91,7 +91,7 @@ async function doContactSync({
   for (const details of contacts) {
     const partialConversation: ValidateConversationType = {
       e164: details.number,
-      uuid: normalizeServiceId(details.aci, 'doContactSync'),
+      serviceId: normalizeAci(details.aci, 'doContactSync'),
       type: 'private',
     };
 
@@ -106,7 +106,7 @@ async function doContactSync({
 
     const { conversation } = window.ConversationController.maybeMergeContacts({
       e164: details.number,
-      aci: details.aci,
+      aci: normalizeAci(details.aci, 'contactSync.aci'),
       reason: logId,
     });
 
