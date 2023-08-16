@@ -2,6 +2,10 @@ module.exports = {
   root: true,
   settings: {
     'import/core-modules': ['electron'],
+    'import/resolver': {
+      typescript: true,
+      node: true,
+    },
     react: {
       version: 'detect',
     },
@@ -13,6 +17,8 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'plugin:react/recommended',
     'plugin:react-hooks/recommended',
+    'plugin:import/recommended',
+    'plugin:import/typescript',
   ],
 
   plugins: ['mocha', 'more', '@typescript-eslint'],
@@ -61,6 +67,12 @@ module.exports = {
     '@typescript-eslint/await-thenable': 'error',
     '@typescript-eslint/array-type': ['error', { default: 'generic' }],
     '@typescript-eslint/no-misused-promises': 'error',
+
+    // make imports without file extensions
+    'import/extensions': ['warn', 'never'],
+
+    // NOTE Remove this line when debugging cyclic dependencies
+    'import/no-cycle': 'off',
 
     // Prettier overrides:
     'arrow-parens': 'off',
