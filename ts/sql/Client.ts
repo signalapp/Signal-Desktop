@@ -107,6 +107,8 @@ const exclusiveInterface: ClientExclusiveInterface = {
 
   // Client-side only
 
+  flushUpdateConversationBatcher,
+
   shutdown,
   removeAllMessagesInConversation,
 
@@ -457,6 +459,9 @@ const updateConversationBatcher = createBatcher<ConversationType>({
 
 function updateConversation(data: ConversationType): void {
   updateConversationBatcher.add(data);
+}
+async function flushUpdateConversationBatcher(): Promise<void> {
+  await updateConversationBatcher.flushAndWait();
 }
 
 async function updateConversations(

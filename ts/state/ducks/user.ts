@@ -56,14 +56,28 @@ type UserChangedActionType = ReadonlyDeep<{
   };
 }>;
 
-export type UserActionType = ReadonlyDeep<UserChangedActionType>;
+export const ERASE_STORAGE_SERVICE = 'user/ERASE_STORAGE_SERVICE_STATE';
+export type EraseStorageServiceStateAction = ReadonlyDeep<{
+  type: typeof ERASE_STORAGE_SERVICE;
+}>;
+
+export type UserActionType = ReadonlyDeep<
+  UserChangedActionType | EraseStorageServiceStateAction
+>;
 
 // Action Creators
 
 export const actions = {
+  eraseStorageServiceState,
   userChanged,
   manualReconnect,
 };
+
+function eraseStorageServiceState(): EraseStorageServiceStateAction {
+  return {
+    type: ERASE_STORAGE_SERVICE,
+  };
+}
 
 function userChanged(attributes: {
   interactionMode?: 'mouse' | 'keyboard';
