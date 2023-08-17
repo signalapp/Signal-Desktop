@@ -39,8 +39,8 @@ export const SessionIdEditable = (props: Props) => {
   function handleKeyDown(e: KeyboardEvent<HTMLTextAreaElement>) {
     if (editable && e.key === 'Enter') {
       e.preventDefault();
-      // tslint:disable-next-line: no-unused-expression
-      onPressEnter && onPressEnter();
+
+      onPressEnter?.();
     }
   }
 

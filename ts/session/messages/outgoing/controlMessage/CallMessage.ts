@@ -3,6 +3,7 @@ import { MessageParams } from '../Message';
 import { ContentMessage } from '..';
 import { signalservice } from '../../../../protobuf/compiled';
 import { TTL_DEFAULT } from '../../../constants';
+
 interface CallMessageParams extends MessageParams {
   type: SignalService.CallMessage.Type;
   sdpMLineIndexes?: Array<number>;

@@ -1,8 +1,9 @@
-import { Data } from '../../../ts/data/data';
+/* eslint-disable no-restricted-syntax */
+import _, { isNaN } from 'lodash';
+import { Data } from '../../data/data';
 import { AdvancedSearchOptions, SearchOptions } from '../../types/Search';
 import { cleanSearchTerm } from '../../util/cleanSearchTerm';
 
-import _ from 'lodash';
 import { MessageResultProps } from '../../components/search/MessageSearchResults';
 import { ConversationTypeEnum } from '../../models/conversationAttributes';
 import { PubKey } from '../../session/types';

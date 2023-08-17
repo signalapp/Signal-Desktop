@@ -1,14 +1,13 @@
+import crypto from 'crypto';
+import libsodiumwrappers from 'libsodium-wrappers-sumo';
+
 import * as MessageEncrypter from './MessageEncrypter';
 import * as DecryptedAttachmentsManager from './DecryptedAttachmentsManager';
 
-export { MessageEncrypter, DecryptedAttachmentsManager };
-import crypto from 'crypto';
-
-// libsodium-wrappers requires the `require` call to work
-// tslint:disable-next-line: no-require-imports
-import libsodiumwrappers from 'libsodium-wrappers-sumo';
 import { toHex } from '../utils/String';
 import { ECKeyPair } from '../../receiver/keypairs';
+
+export { MessageEncrypter, DecryptedAttachmentsManager };
 
 export type LibSodiumWrappers = typeof libsodiumwrappers;
 

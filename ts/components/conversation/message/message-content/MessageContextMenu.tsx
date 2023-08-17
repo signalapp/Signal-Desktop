@@ -1,11 +1,13 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { animation, Item, Menu, useContextMenu } from 'react-contexify';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useClickAway, useMouse } from 'react-use';
 import styled from 'styled-components';
 import { Data } from '../../../../data/data';
+
 import { MessageInteraction } from '../../../../interactions';
 import { replyToMessage } from '../../../../interactions/conversationInteractions';
 import {
@@ -22,8 +24,6 @@ import {
   showMessageDetailsView,
   toggleSelectedMessageId,
 } from '../../../../state/ducks/conversations';
-import { StateType } from '../../../../state/reducer';
-import { getMessageContextMenuProps } from '../../../../state/selectors/conversations';
 import {
   useSelectedConversationKey,
   useSelectedIsBlocked,
@@ -36,10 +36,21 @@ import { Reactions } from '../../../../util/reactions';
 import { SessionContextMenuContainer } from '../../../SessionContextMenuContainer';
 import { SessionEmojiPanel, StyledEmojiPanel } from '../../SessionEmojiPanel';
 import { MessageReactBar } from './MessageReactBar';
+import {
+  useMessageAttachments,
+  useMessageBody,
+  useMessageDirection,
+  useMessageIsDeletable,
+  useMessageIsDeletableForEveryone,
+  useMessageSender,
+  useMessageSenderIsAdmin,
+  useMessageServerTimestamp,
+  useMessageStatus,
+  useMessageTimestamp,
+} from '../../../../state/selectors';
 
 export type MessageContextMenuSelectorProps = Pick<
   MessageRenderingProps,
-  | 'attachments'
   | 'sender'
   | 'direction'
   | 'status'
@@ -48,7 +59,6 @@ export type MessageContextMenuSelectorProps = Pick<
   | 'text'
   | 'serverTimestamp'
   | 'timestamp'
-  | 'isDeletableForEveryone'
 >;
 
 type Props = { messageId: string; contextMenuId: string; enableReactions: boolean };
@@ -76,7 +86,124 @@ const StyledEmojiPanelContainer = styled.div<{ x: number; y: number }>`
   }
 `;
 
-// tslint:disable: max-func-body-length cyclomatic-complexity
+const DeleteForEveryone = ({ messageId }: { messageId: string }) => {
+  const convoId = useSelectedConversationKey();
+  const isDeletableForEveryone = useMessageIsDeletableForEveryone(messageId);
+  if (!convoId || !isDeletableForEveryone) {
+    return null;
+  }
+  const onDeleteForEveryone = () => {
+    void deleteMessagesByIdForEveryone([messageId], convoId);
+  };
+
+  const unsendMessageText = window.i18n('deleteForEveryone');
+
+  return <Item onClick={onDeleteForEveryone}>{unsendMessageText}</Item>;
+};
+
+type MessageId = { messageId: string };
+
+const SaveAttachment = ({ messageId }: MessageId) => {
+  const convoId = useSelectedConversationKey();
+  const attachments = useMessageAttachments(messageId);
+  const timestamp = useMessageTimestamp(messageId);
+  const serverTimestamp = useMessageServerTimestamp(messageId);
+
+  const sender = useMessageSender(messageId);
+  const saveAttachment = useCallback(
+    (e: any) => {
+      // this is quite dirty but considering that we want the context menu of the message to show on click on the attachment
+      // and the context menu save attachment item to save the right attachment I did not find a better way for now.
+      let targetAttachmentIndex = e.triggerEvent.path[1].getAttribute('data-attachmentindex');
+      e.event.stopPropagation();
+      if (!attachments?.length || !convoId || !sender) {
+        return;
+      }
+
+      if (!targetAttachmentIndex) {
+        targetAttachmentIndex = 0;
+      }
+      if (targetAttachmentIndex > attachments.length) {
+        return;
+      }
+      const messageTimestamp = timestamp || serverTimestamp || 0;
+      void saveAttachmentToDisk({
+        attachment: attachments[targetAttachmentIndex],
+        messageTimestamp,
+        messageSender: sender,
+        conversationId: convoId,
+      });
+    },
+    [convoId, sender, attachments, serverTimestamp, timestamp]
+  );
+
+  if (!convoId) {
+    return null;
+  }
+
+  return attachments?.length ? (
+    <Item onClick={saveAttachment}>{window.i18n('downloadAttachment')}</Item>
+  ) : null;
+};
+
+const AdminActionItems = ({ messageId }: MessageId) => {
+  const convoId = useSelectedConversationKey();
+
+  const weAreModerator = useSelectedWeAreModerator();
+  const weAreAdmin = useSelectedWeAreAdmin();
+  const showAdminActions = weAreAdmin || weAreModerator;
+  const sender = useMessageSender(messageId);
+  const isSenderAdmin = useMessageSenderIsAdmin(messageId);
+
+  if (!convoId || !sender) {
+    return null;
+  }
+
+  const addModerator = () => {
+    void addSenderAsModerator(sender, convoId);
+  };
+
+  const removeModerator = () => {
+    void removeSenderFromModerator(sender, convoId);
+  };
+
+  const onBan = () => {
+    MessageInteraction.banUser(sender, convoId);
+  };
+
+  const onUnban = () => {
+    MessageInteraction.unbanUser(sender, convoId);
+  };
+
+  return showAdminActions ? (
+    <>
+      <Item onClick={onBan}>{window.i18n('banUser')}</Item>
+      <Item onClick={onUnban}>{window.i18n('unbanUser')}</Item>
+      {isSenderAdmin ? (
+        <Item onClick={removeModerator}>{window.i18n('removeFromModerators')}</Item>
+      ) : (
+        <Item onClick={addModerator}>{window.i18n('addAsModerator')}</Item>
+      )}
+    </>
+  ) : null;
+};
+
+const RetryItem = ({ messageId }: MessageId) => {
+  const direction = useMessageDirection(messageId);
+
+  const status = useMessageStatus(messageId);
+  const isOutgoing = direction === 'outgoing';
+
+  const showRetry = status === 'error' && isOutgoing;
+  const onRetry = useCallback(async () => {
+    const found = await Data.getMessageById(messageId);
+    if (found) {
+      await found.retrySend();
+    }
+  }, [messageId]);
+  return showRetry ? <Item onClick={onRetry}>{window.i18n('resend')}</Item> : null;
+};
+
 export const MessageContextMenu = (props: Props) => {
   const { messageId, contextMenuId, enableReactions } = props;
   const dispatch = useDispatch();
@@ -85,32 +212,13 @@ export const MessageContextMenu = (props: Props) => {
   const isSelectedBlocked = useSelectedIsBlocked();
   const convoId = useSelectedConversationKey();
   const isPublic = useSelectedIsPublic();
-  const weAreModerator = useSelectedWeAreModerator();
-  const weAreAdmin = useSelectedWeAreAdmin();
 
-  const showAdminActions = weAreAdmin || weAreModerator;
-
-  const selected = useSelector((state: StateType) => getMessageContextMenuProps(state, messageId));
-
-  if (!selected || !convoId) {
-    return null;
-  }
-
-  const {
-    attachments,
-    sender,
-    direction,
-    status,
-    isDeletable,
-    isDeletableForEveryone,
-    isSenderAdmin,
-    text,
-    serverTimestamp,
-    timestamp,
-  } = selected;
+  const direction = useMessageDirection(messageId);
+  const status = useMessageStatus(messageId);
+  const isDeletable = useMessageIsDeletable(messageId);
+  const text = useMessageBody(messageId);
 
   const isOutgoing = direction === 'outgoing';
-  const showRetry = status === 'error' && isOutgoing;
   const isSent = status === 'sent' || status === 'read'; // a read message should be replyable
 
   const emojiPanelRef = useRef<HTMLDivElement>(null);
@@ -152,15 +260,6 @@ export const MessageContextMenu = (props: Props) => {
 
   const selectMessageText = window.i18n('selectMessage');
   const deleteMessageJustForMeText = window.i18n('deleteJustForMe');
-  const unsendMessageText = window.i18n('deleteForEveryone');
-
-  const addModerator = useCallback(() => {
-    void addSenderAsModerator(sender, convoId);
-  }, [sender, convoId]);
-
-  const removeModerator = useCallback(() => {
-    void removeSenderFromModerator(sender, convoId);
-  }, [sender, convoId]);
 
   const onReply = useCallback(() => {
     if (isSelectedBlocked) {
@@ -170,62 +269,18 @@ export const MessageContextMenu = (props: Props) => {
     void replyToMessage(messageId);
   }, [isSelectedBlocked, messageId]);
 
-  const saveAttachment = useCallback(
-    (e: any) => {
-      // this is quite dirty but considering that we want the context menu of the message to show on click on the attachment
-      // and the context menu save attachment item to save the right attachment I did not find a better way for now.
-      let targetAttachmentIndex = e.triggerEvent.path[1].getAttribute('data-attachmentindex');
-      e.event.stopPropagation();
-      if (!attachments?.length) {
-        return;
-      }
-
-      if (!targetAttachmentIndex) {
-        targetAttachmentIndex = 0;
-      }
-      if (targetAttachmentIndex > attachments.length) {
-        return;
-      }
-      const messageTimestamp = timestamp || serverTimestamp || 0;
-      void saveAttachmentToDisk({
-        attachment: attachments[targetAttachmentIndex],
-        messageTimestamp,
-        messageSender: sender,
-        conversationId: convoId,
-      });
-    },
-    [convoId, sender, timestamp, serverTimestamp, convoId, attachments]
-  );
-
   const copyText = useCallback(() => {
     MessageInteraction.copyBodyToClipboard(text);
   }, [text]);
 
-  const onRetry = useCallback(async () => {
-    const found = await Data.getMessageById(messageId);
-    if (found) {
-      await found.retrySend();
-    }
-  }, [messageId]);
-
-  const onBan = useCallback(() => {
-    MessageInteraction.banUser(sender, convoId);
-  }, [sender, convoId]);
-
-  const onUnban = useCallback(() => {
-    MessageInteraction.unbanUser(sender, convoId);
-  }, [sender, convoId]);
-
   const onSelect = useCallback(() => {
     dispatch(toggleSelectedMessageId(messageId));
-  }, [messageId]);
+  }, [dispatch, messageId]);
 
   const onDelete = useCallback(() => {
-    void deleteMessagesById([messageId], convoId);
-  }, [convoId, messageId]);
-
-  const onDeleteForEveryone = useCallback(() => {
-    void deleteMessagesByIdForEveryone([messageId], convoId);
+    if (convoId) {
+      void deleteMessagesById([messageId], convoId);
+    }
   }, [convoId, messageId]);
 
   const onShowEmoji = () => {
@@ -241,7 +296,7 @@ export const MessageContextMenu = (props: Props) => {
   };
 
   const onEmojiLoseFocus = () => {
-    window.log.info('closed due to lost focus');
+    window.log.debug('closed due to lost focus');
     onCloseEmoji();
   };
 
@@ -262,7 +317,7 @@ export const MessageContextMenu = (props: Props) => {
   });
 
   useEffect(() => {
-    if (emojiPanelRef.current && emojiPanelRef.current) {
+    if (emojiPanelRef.current) {
       const { innerWidth: windowWidth, innerHeight: windowHeight } = window;
 
       if (mouseX + emojiPanelWidth > windowWidth) {
@@ -284,14 +339,18 @@ export const MessageContextMenu = (props: Props) => {
         setMouseY(mouseY - y);
       }
     }
-  }, [emojiPanelRef.current, emojiPanelWidth, emojiPanelHeight, mouseX, mouseY]);
+  }, [emojiPanelWidth, emojiPanelHeight, mouseX, mouseY]);
 
+  if (!convoId) {
+    return null;
+  }
   return (
     <StyledMessageContextMenu ref={contextMenuRef}>
       {enableReactions && showEmojiPanel && (
         <StyledEmojiPanelContainer role="button" x={mouseX} y={mouseY}>
           <SessionEmojiPanel
             ref={emojiPanelRef}
+            // eslint-disable-next-line @typescript-eslint/no-misused-promises
             onEmojiClicked={onEmojiClick}
             show={showEmojiPanel}
             isModal={true}
@@ -307,11 +366,10 @@ export const MessageContextMenu = (props: Props) => {
           animation={animation.fade}
         >
           {enableReactions && (
+            // eslint-disable-next-line @typescript-eslint/no-misused-promises
             <MessageReactBar action={onEmojiClick} additionalAction={onShowEmoji} />
           )}
-          {attachments?.length ? (
-            <Item onClick={saveAttachment}>{window.i18n('downloadAttachment')}</Item>
-          ) : null}
+          <SaveAttachment messageId={messageId} />
 
           <Item onClick={copyText}>{window.i18n('copyMessage')}</Item>
           {(isSent || !isOutgoing) && (
@@ -320,33 +378,13 @@ export const MessageContextMenu = (props: Props) => {
           {(!isPublic || isOutgoing) && (
             <Item onClick={onShowDetail}>{window.i18n('moreInformation')}</Item>
           )}
-          {showRetry ? <Item onClick={onRetry}>{window.i18n('resend')}</Item> : null}
-          {isDeletable ? (
-            <>
-              <Item onClick={onSelect}>{selectMessageText}</Item>
-            </>
-          ) : null}
+          <RetryItem messageId={messageId} />
+          {isDeletable ? <Item onClick={onSelect}>{selectMessageText}</Item> : null}
           {isDeletable && !isPublic ? (
-            <>
-              <Item onClick={onDelete}>{deleteMessageJustForMeText}</Item>
-            </>
+            <Item onClick={onDelete}>{deleteMessageJustForMeText}</Item>
           ) : null}
-          {isDeletableForEveryone ? (
-            <>
-              <Item onClick={onDeleteForEveryone}>{unsendMessageText}</Item>
-            </>
-          ) : null}
-          {showAdminActions ? (
-            <>
-              <Item onClick={onBan}>{window.i18n('banUser')}</Item>
-              <Item onClick={onUnban}>{window.i18n('unbanUser')}</Item>
-              {isSenderAdmin ? (
-                <Item onClick={removeModerator}>{window.i18n('removeFromModerators')}</Item>
-              ) : (
-                <Item onClick={addModerator}>{window.i18n('addAsModerator')}</Item>
-              )}
-            </>
-          ) : null}
+          <DeleteForEveryone messageId={messageId} />
+          <AdminActionItems messageId={messageId} />
         </Menu>
       </SessionContextMenuContainer>
     </StyledMessageContextMenu>

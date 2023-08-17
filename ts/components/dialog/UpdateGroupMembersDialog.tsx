@@ -1,21 +1,22 @@
 import React from 'react';
+import _ from 'lodash';
+import { useDispatch } from 'react-redux';
+import useKey from 'react-use/lib/useKey';
+import styled from 'styled-components';
 
 import { ToastUtils, UserUtils } from '../../session/utils';
 
-import _ from 'lodash';
 import { SpacerLG, Text } from '../basic/Text';
 import { updateGroupMembersModal } from '../../state/ducks/modalDialog';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { MemberListItem } from '../MemberListItem';
 import { SessionWrapperModal } from '../SessionWrapperModal';
-import { useDispatch } from 'react-redux';
+
 import { useConversationPropsById, useWeAreAdmin } from '../../hooks/useParamSelector';
-// tslint:disable-next-line: no-submodule-imports
-import useKey from 'react-use/lib/useKey';
+
 import { useSet } from '../../hooks/useSet';
 import { getConversationController } from '../../session/conversations';
 import { initiateClosedGroupUpdate } from '../../session/group/closed-group';
-import styled from 'styled-components';
 
 type Props = {
   conversationId: string;
@@ -110,7 +111,6 @@ const ZombiesList = ({ convoId }: { convoId: string }) => {
   );
 };
 
-// tslint:disable-next-line: max-func-body-length
 async function onSubmit(convoId: string, membersAfterUpdate: Array<string>) {
   const convoFound = getConversationController().get(convoId);
   if (!convoFound || !convoFound.isGroup()) {

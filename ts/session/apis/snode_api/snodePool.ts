@@ -1,8 +1,8 @@
 import _, { shuffle } from 'lodash';
+import pRetry from 'p-retry';
 
 import { Data, Snode } from '../../../data/data';
 
-import pRetry from 'p-retry';
 import { ed25519Str } from '../../onions/onionPath';
 import { OnionPaths } from '../../onions';
 import { Onions, SnodePool } from '.';
@@ -36,7 +36,6 @@ export const requiredSnodesForAgreement = 24;
 
 let randomSnodePool: Array<Snode> = [];
 
-// tslint:disable-next-line: function-name
 export function TEST_resetState() {
   randomSnodePool = [];
   swarmCache.clear();
@@ -126,10 +125,10 @@ export async function forceRefreshRandomSnodePool(): Promise<Array<Snode>> {
     // if that fails to get enough snodes, even after retries, well we just have to retry later.
     try {
       await SnodePool.TEST_fetchFromSeedWithRetriesAndWriteToDb();
-    } catch (e) {
+    } catch (err2) {
       window?.log?.warn(
         'forceRefreshRandomSnodePool: Failed to fetch snode pool from seed. Fetching from seed node instead:',
-        e.message
+        err2.message
       );
     }
   }
@@ -178,7 +177,7 @@ export async function getRandomSnodePool(): Promise<Array<Snode>> {
  * It also resets the onionpaths failure count and snode failure count.
  * This function does not throw.
  */
-// tslint:disable: function-name
+
 export async function TEST_fetchFromSeedWithRetriesAndWriteToDb() {
   const seedNodes = window.getSeedNodeList();
 

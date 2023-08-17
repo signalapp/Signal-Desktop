@@ -1,8 +1,6 @@
+/* eslint-disable import/extensions */
+/* eslint-disable import/no-unresolved */
 import { join } from 'path';
-import { getAppRootPath } from '../../../node/getRootPath';
-import { WorkerInterface } from '../../worker_interface';
-import { ConfigWrapperObjectTypes, LibSessionWorkerFunctions } from './libsession_worker_functions';
-
 import {
   BaseWrapperActionsCalls,
   ContactInfoSet,
@@ -12,6 +10,10 @@ import {
   UserConfigWrapperActionsCalls,
   UserGroupsWrapperActionsCalls,
 } from 'libsession_util_nodejs';
+
+import { getAppRootPath } from '../../../node/getRootPath';
+import { WorkerInterface } from '../../worker_interface';
+import { ConfigWrapperObjectTypes, LibSessionWorkerFunctions } from './libsession_worker_functions';
 
 let libsessionWorkerInterface: WorkerInterface | undefined;
 
@@ -105,7 +107,7 @@ export const UserConfigWrapperActions: UserConfigWrapperActionsCalls = {
     name: string,
     priority: number,
     profilePic: { url: string; key: Uint8Array } | null
-    // expireSeconds: number
+    // expireSeconds: number,
   ) =>
     callLibSessionWorker([
       'UserConfig',
@@ -115,6 +117,17 @@ export const UserConfigWrapperActions: UserConfigWrapperActionsCalls = {
       profilePic,
       // expireSeconds,
     ]) as Promise<ReturnType<UserConfigWrapperActionsCalls['setUserInfo']>>,
+
+  getEnableBlindedMsgRequest: async () =>
+    callLibSessionWorker(['UserConfig', 'getEnableBlindedMsgRequest']) as Promise<
+      ReturnType<UserConfigWrapperActionsCalls['getEnableBlindedMsgRequest']>
+    >,
+  setEnableBlindedMsgRequest: async (blindedMsgRequests: boolean) =>
+    callLibSessionWorker([
+      'UserConfig',
+      'setEnableBlindedMsgRequest',
+      blindedMsgRequests,
+    ]) as Promise<ReturnType<UserConfigWrapperActionsCalls['setEnableBlindedMsgRequest']>>,
 };
 
 export const ContactsWrapperActions: ContactsWrapperActionsCalls = {

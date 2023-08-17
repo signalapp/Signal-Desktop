@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-// tslint:disable-next-line: no-submodule-imports
+
 import useUpdate from 'react-use/lib/useUpdate';
 import { SettingsKey } from '../../../data/settings-key';
 import { ToastUtils } from '../../../session/utils';
@@ -8,7 +8,6 @@ import { toggleAudioAutoplay } from '../../../state/ducks/userConfig';
 import { getAudioAutoplay } from '../../../state/selectors/userConfig';
 
 import { BlockedContactsList } from '../BlockedList';
-// tslint:disable: use-simple-attributes
 
 import { SessionToggleWithDescription } from '../SessionSettingListItem';
 
@@ -32,6 +31,7 @@ const CommunitiesPruningSetting = () => {
   );
   return (
     <SessionToggleWithDescription
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       onClickToggle={async () => {
         await toggleCommunitiesPruning();
         forceUpdate();

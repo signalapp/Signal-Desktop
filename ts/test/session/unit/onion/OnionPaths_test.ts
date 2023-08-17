@@ -1,14 +1,12 @@
-// tslint:disable: no-implicit-dependencies max-func-body-length no-unused-expression
-
 import chai from 'chai';
 import Sinon from 'sinon';
 import _ from 'lodash';
 import { describe } from 'mocha';
+import chaiAsPromised from 'chai-as-promised';
 
 import { TestUtils } from '../../../test-utils';
 import * as SNodeAPI from '../../../../session/apis/snode_api';
 
-import chaiAsPromised from 'chai-as-promised';
 import * as OnionPaths from '../../../../session/onions/onionPath';
 import { GuardNode, Snode } from '../../../../data/data';
 import {
@@ -18,6 +16,7 @@ import {
 } from '../../../test-utils/utils';
 import { SeedNodeAPI } from '../../../../session/apis/seed_node_api';
 import { ServiceNodesList } from '../../../../session/apis/snode_api/getServiceNodesList';
+
 chai.use(chaiAsPromised as any);
 chai.should();
 
@@ -43,7 +42,6 @@ const fakeGuardNodesFromDB: Array<GuardNode> = fakeGuardNodesEd25519.map(ed25519
   };
 });
 
-// tslint:disable-next-line: max-func-body-length
 describe('OnionPaths', () => {
   // Initialize new stubbed cache
   let oldOnionPaths: Array<Array<Snode>>;
@@ -60,7 +58,6 @@ describe('OnionPaths', () => {
       TestUtils.stubData('getGuardNodes').resolves(fakeGuardNodesFromDB);
       TestUtils.stubData('createOrUpdateItem').resolves();
       TestUtils.stubWindow('getSeedNodeList', () => ['seednode1']);
-      // tslint:disable: no-void-expression no-console
 
       TestUtils.stubWindowLog();
 

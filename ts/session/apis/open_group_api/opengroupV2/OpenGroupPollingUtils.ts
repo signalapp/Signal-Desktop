@@ -1,5 +1,6 @@
+import { compact } from 'lodash';
+
 import { OpenGroupData, OpenGroupV2Room } from '../../../../data/opengroups';
-import _, { compact } from 'lodash';
 import { OpenGroupMessageV2 } from './OpenGroupMessageV2';
 import { UserUtils } from '../../../utils';
 import { fromHexToArray } from '../../../utils/String';
@@ -36,7 +37,7 @@ const getOurOpenGroupHeaders = async (
   const signingKeys = await UserUtils.getUserED25519KeyPairBytes();
   if (!signingKeys) {
     window?.log?.error('getOurOpenGroupHeaders - Unable to get our signing keys');
-    return;
+    return undefined;
   }
 
   const nonce = (await getSodiumRenderer()).randombytes_buf(16);

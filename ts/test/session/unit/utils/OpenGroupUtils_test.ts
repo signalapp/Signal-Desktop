@@ -1,5 +1,3 @@
-// tslint:disable: no-implicit-dependencies max-func-body-length no-unused-expression
-
 import chai, { expect } from 'chai';
 
 import chaiAsPromised from 'chai-as-promised';
@@ -8,9 +6,9 @@ import {
   getOpenGroupV2ConversationId,
   prefixify,
 } from '../../../../session/apis/open_group_api/utils/OpenGroupUtils';
+
 chai.use(chaiAsPromised as any);
 
-// tslint:disable: no-http-string
 describe('OpenGroupUtils', () => {
   describe('prefixify', () => {
     it('should just return if http:// is as prefix', () => {

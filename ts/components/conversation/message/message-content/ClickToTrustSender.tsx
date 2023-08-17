@@ -111,6 +111,7 @@ export const ClickToTrustSender = (props: { messageId: string }) => {
   };
 
   return (
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     <StyledTrustSenderUI onClick={openConfirmationModal}>
       <SessionIcon iconSize="small" iconType="gallery" />
       <ClickToDownload>{window.i18n('clickToTrustContact')}</ClickToDownload>

@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { SessionIconButton } from '../../icon';
+import { Noop } from '../../../types/Util';
 
 const StyledChatButtonContainer = styled.div`
   .session-icon-button {
@@ -14,7 +15,7 @@ const StyledChatButtonContainer = styled.div`
   }
 `;
 
-export const AddStagedAttachmentButton = (props: { onClick: () => void }) => {
+export const AddStagedAttachmentButton = (props: { onClick: Noop }) => {
   return (
     <StyledChatButtonContainer>
       <SessionIconButton
@@ -31,7 +32,7 @@ export const AddStagedAttachmentButton = (props: { onClick: () => void }) => {
   );
 };
 
-export const StartRecordingButton = (props: { onClick: () => void }) => {
+export const StartRecordingButton = (props: { onClick: Noop }) => {
   return (
     <StyledChatButtonContainer>
       <SessionIconButton
@@ -48,7 +49,8 @@ export const StartRecordingButton = (props: { onClick: () => void }) => {
   );
 };
 
-export const ToggleEmojiButton = React.forwardRef<HTMLDivElement, { onClick: () => void }>(
+// eslint-disable-next-line react/display-name
+export const ToggleEmojiButton = React.forwardRef<HTMLDivElement, { onClick: Noop }>(
   (props, ref) => {
     return (
       <StyledChatButtonContainer>
@@ -68,7 +70,7 @@ export const ToggleEmojiButton = React.forwardRef<HTMLDivElement, { onClick: () 
   }
 );
 
-export const SendMessageButton = (props: { onClick: () => void }) => {
+export const SendMessageButton = (props: { onClick: Noop }) => {
   return (
     <StyledChatButtonContainer className="send-message-button">
       <SessionIconButton

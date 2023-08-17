@@ -1,3 +1,6 @@
+/* eslint-disable no-await-in-loop */
+/* eslint-disable import/extensions */
+/* eslint-disable import/no-unresolved */
 import { difference, omit } from 'lodash';
 import Long from 'long';
 import { UserUtils } from '..';
@@ -144,6 +147,7 @@ async function pendingChangesForPubkey(pubkey: string): Promise<Array<OutgoingCo
   return results;
 }
 
+// eslint-disable-next-line consistent-return
 function kindToVariant(kind: SignalService.SharedConfigMessage.Kind): ConfigWrapperObjectTypes {
   switch (kind) {
     case SignalService.SharedConfigMessage.Kind.USER_PROFILE:
@@ -159,6 +163,7 @@ function kindToVariant(kind: SignalService.SharedConfigMessage.Kind): ConfigWrap
   }
 }
 
+// eslint-disable-next-line consistent-return
 function variantToKind(variant: ConfigWrapperObjectTypes): SignalService.SharedConfigMessage.Kind {
   switch (variant) {
     case 'UserConfig':

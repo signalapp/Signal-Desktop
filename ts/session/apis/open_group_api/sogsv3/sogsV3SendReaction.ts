@@ -1,13 +1,8 @@
 import { AbortSignal } from 'abort-controller';
-import { getEmojiDataFromNative } from 'emoji-mart';
+import { SearchIndex } from 'emoji-mart';
 import { Data } from '../../../../data/data';
 import { ConversationModel } from '../../../../models/conversation';
-import {
-  Action,
-  FixedBaseEmoji,
-  OpenGroupReactionResponse,
-  Reaction,
-} from '../../../../types/Reaction';
+import { Action, OpenGroupReactionResponse, Reaction } from '../../../../types/Reaction';
 import { Reactions } from '../../../../util/reactions';
 import { OnionSending } from '../../../onions/onionSend';
 import { ToastUtils, UserUtils } from '../../../utils';
@@ -73,9 +68,8 @@ export const sendSogsReactionOnionV4 = async (
 
   // The SOGS endpoint supports any text input so we need to make sure we are sending a valid unicode emoji
   // for an invalid input we use https://emojipedia.org/frame-with-an-x/ as a replacement since it cannot rendered as an emoji but is valid unicode
-  // NOTE emoji-mart v5.2.2 types for getEmojiDataFromNative are broken
-  // @ts-ignore
-  const emoji = (getEmojiDataFromNative(reaction.emoji) as FixedBaseEmoji) ? reaction.emoji : '🖾';
+  // eslint-disable-next-line @typescript-eslint/await-thenable
+  const emoji = (await SearchIndex.search(reaction.emoji)) ? reaction.emoji : '🖾';
   const endpoint = `/room/${room}/reaction/${reaction.id}/${emoji}`;
   const method = reaction.action === Action.REACT ? 'PUT' : 'DELETE';
   const serverPubkey = allValidRoomInfos[0].serverPublicKey;

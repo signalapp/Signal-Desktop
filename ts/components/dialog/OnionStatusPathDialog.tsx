@@ -1,11 +1,12 @@
+import { shell } from 'electron';
 import React from 'react';
 
-import { shell } from 'electron';
-
 import { useDispatch, useSelector } from 'react-redux';
+import useHover from 'react-use/lib/useHover';
+import styled from 'styled-components';
 
-import ip2country from 'ip2country';
 import countryLookup from 'country-code-lookup';
+import ip2country from 'ip2country';
 import { Snode } from '../../data/data';
 import { onionPathModal } from '../../state/ducks/modalDialog';
 import {
@@ -15,17 +16,16 @@ import {
   getOnionPathsCount,
 } from '../../state/selectors/onions';
 import { Flex } from '../basic/Flex';
-// tslint:disable-next-line: no-submodule-imports
-import useHover from 'react-use/lib/useHover';
+
 import { SessionSpinner } from '../basic/SessionSpinner';
 import { SessionIcon, SessionIconButton } from '../icon';
 import { SessionWrapperModal } from '../SessionWrapperModal';
-import styled from 'styled-components';
 
 export type StatusLightType = {
   glowStartDelay: number;
   glowDuration: number;
   color?: string;
+  dataTestId?: string;
 };
 
 const StyledCountry = styled.div`
@@ -143,19 +143,21 @@ const OnionPathModalInner = () => {
 export type OnionNodeStatusLightType = {
   glowStartDelay: number;
   glowDuration: number;
+  dataTestId?: string;
 };
 
 /**
  * Component containing a coloured status light.
  */
 export const OnionNodeStatusLight = (props: OnionNodeStatusLightType): JSX.Element => {
-  const { glowStartDelay, glowDuration } = props;
+  const { glowStartDelay, glowDuration, dataTestId } = props;
 
   return (
     <ModalStatusLight
       glowDuration={glowDuration}
       glowStartDelay={glowStartDelay}
       color={'var(--button-path-default-color)'}
+      dataTestId={dataTestId}
     />
   );
 };
@@ -186,10 +188,9 @@ export const ModalStatusLight = (props: StatusLightType) => {
 export const ActionPanelOnionStatusLight = (props: {
   isSelected: boolean;
   handleClick: () => void;
-  dataTestId?: string;
   id: string;
 }) => {
-  const { isSelected, handleClick, dataTestId, id } = props;
+  const { isSelected, handleClick, id } = props;
 
   const onionPathsCount = useSelector(getOnionPathsCount);
   const firstPathLength = useSelector(getFirstOnionPathLength);
@@ -202,7 +203,7 @@ export const ActionPanelOnionStatusLight = (props: {
 
   // start with red
   let iconColor = errorColor;
-  //if we are not online or the first path is not valid, we keep red as color
+  // if we are not online or the first path is not valid, we keep red as color
   if (isOnline && firstPathLength > 1) {
     iconColor =
       onionPathsCount >= 2 ? defaultColor : onionPathsCount >= 1 ? connectingColor : errorColor;
@@ -218,7 +219,8 @@ export const ActionPanelOnionStatusLight = (props: {
       glowStartDelay={0}
       noScale={true}
       isSelected={isSelected}
-      dataTestId={dataTestId}
+      dataTestId={'path-light-container'}
+      dataTestIdIcon={'path-light-svg'}
       id={id}
     />
   );
@@ -230,7 +232,6 @@ export const OnionPathModal = () => {
   };
   const dispatch = useDispatch();
   return (
-    // tslint:disable-next-line: use-simple-attributes
     <SessionWrapperModal
       title={window.i18n('onionPathIndicatorTitle')}
       confirmText={window.i18n('learnMore')}

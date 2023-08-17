@@ -1,5 +1,4 @@
 import React from 'react';
-// tslint:disable: no-http-string
 
 export const MemberAvatarPlaceHolder = () => {
   return (

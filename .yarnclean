@@ -3,7 +3,6 @@ __tests__
 test
 tests
 powered-test
-!@playwright/test/**
 
 # asset directories
 docs

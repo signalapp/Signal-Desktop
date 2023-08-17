@@ -1,24 +1,24 @@
 import React, { useState } from 'react';
-// tslint:disable: use-simple-attributes no-submodule-imports
+import useKey from 'react-use/lib/useKey';
+import styled from 'styled-components';
 
 import { useDispatch } from 'react-redux';
+import { ConversationTypeEnum } from '../../../models/conversationAttributes';
+import { getConversationController } from '../../../session/conversations';
+import { PubKey } from '../../../session/types';
+import { ToastUtils, UserUtils } from '../../../session/utils';
+import { openConversationWithMessages } from '../../../state/ducks/conversations';
+import { resetOverlayMode } from '../../../state/ducks/section';
 import { SessionButton } from '../../basic/SessionButton';
 import { SessionIdEditable } from '../../basic/SessionIdEditable';
 import { SessionSpinner } from '../../basic/SessionSpinner';
 import { OverlayHeader } from './OverlayHeader';
-import { resetOverlayMode } from '../../../state/ducks/section';
-import { PubKey } from '../../../session/types';
-import { ConversationTypeEnum } from '../../../models/conversationAttributes';
-import { getConversationController } from '../../../session/conversations';
-import { ToastUtils, UserUtils } from '../../../session/utils';
-import { openConversationWithMessages } from '../../../state/ducks/conversations';
-import useKey from 'react-use/lib/useKey';
-import { YourSessionIDPill, YourSessionIDSelectable } from '../../basic/YourSessionIDPill';
-import { Flex } from '../../basic/Flex';
-import { SessionIconButton } from '../../icon';
-import { SpacerMD } from '../../basic/Text';
-import styled from 'styled-components';
+
 import { ONSResolve } from '../../../session/apis/snode_api/onsResolve';
+import { Flex } from '../../basic/Flex';
+import { SpacerMD } from '../../basic/Text';
+import { YourSessionIDPill, YourSessionIDSelectable } from '../../basic/YourSessionIDPill';
+import { SessionIconButton } from '../../icon';
 
 const SessionIDDescription = styled.div`
   color: var(--text-secondary-color);

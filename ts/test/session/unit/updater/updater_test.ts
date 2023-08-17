@@ -1,9 +1,8 @@
+import path from 'path';
 import { readFileSync } from 'fs-extra';
 import { isEmpty } from 'lodash';
-import path from 'path';
 
 describe('Updater', () => {
-  // tslint:disable-next-line: no-empty
   it.skip('isUpdateAvailable', () => {});
 
   it('package.json target are correct', () => {

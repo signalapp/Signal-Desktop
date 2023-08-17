@@ -2,7 +2,6 @@ import { app, clipboard, dialog } from 'electron';
 import { redactAll } from '../util/privacy'; // checked - only node
 import { LocaleMessagesType } from './locale'; // checked - only node
 import { ConsoleCustom } from './logging'; // checked - only node
-// tslint:disable: no-console
 
 // We use hard-coded strings until we're able to update these strings from the locale.
 let quitText = 'Quit';
@@ -40,10 +39,12 @@ export const updateLocale = (messages: LocaleMessagesType) => {
 };
 
 export const setupGlobalErrorHandler = () => {
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   process.on('uncaughtException', async error => {
     await handleError('Unhandled Error', error);
   });
 
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   process.on('unhandledRejection', async error => {
     await handleError('Unhandled Promise Rejection', error);
   });

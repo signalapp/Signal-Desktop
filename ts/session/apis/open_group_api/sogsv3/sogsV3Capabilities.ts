@@ -71,7 +71,7 @@ export type ParsedMemberCount = {
 export async function fetchCapabilitiesAndUpdateRelatedRoomsOfServerUrl(serverUrl: string) {
   let relatedRooms = OpenGroupData.getV2OpenGroupRoomsByServerUrl(serverUrl);
   if (!relatedRooms || relatedRooms.length === 0) {
-    return;
+    return undefined;
   }
 
   // we actually don't do that call using batch send for now to avoid having to deal with the headers in batch poll.
@@ -83,18 +83,19 @@ export async function fetchCapabilitiesAndUpdateRelatedRoomsOfServerUrl(serverUr
     new AbortController().signal
   );
   if (!capabilities) {
-    return;
+    return undefined;
   }
   // just fetch updated data from the DB, just in case
   relatedRooms = OpenGroupData.getV2OpenGroupRoomsByServerUrl(serverUrl);
   if (!relatedRooms || relatedRooms.length === 0) {
-    return;
+    return undefined;
   }
   const newSortedCaps = capabilities.sort();
 
   await Promise.all(
     relatedRooms.map(async room => {
       if (!isEqual(newSortedCaps, room.capabilities?.sort() || '')) {
+        // eslint-disable-next-line no-param-reassign
         room.capabilities = newSortedCaps;
         await OpenGroupData.saveV2OpenGroupRoom(room);
       }

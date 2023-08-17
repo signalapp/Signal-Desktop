@@ -1,9 +1,9 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable import/no-extraneous-dependencies */
 const path = require('path');
 
-// eslint-disable-next-line import/no-extraneous-dependencies
 const sass = require('sass'); // Prefer `dart-sass`
 
-// eslint-disable-next-line import/no-extraneous-dependencies
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {

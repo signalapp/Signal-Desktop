@@ -1,3 +1,9 @@
+/* eslint-disable no-await-in-loop */
+/* eslint-disable no-restricted-syntax */
+
+import { clone, groupBy, isEqual, uniqBy } from 'lodash';
+import autoBind from 'auto-bind';
+
 import { OpenGroupData, OpenGroupV2Room } from '../../../../data/opengroups';
 import { ConversationModel } from '../../../../models/conversation';
 import { getConversationController } from '../../../conversations';
@@ -11,8 +17,6 @@ import {
 } from './ApiUtil';
 import { OpenGroupServerPoller } from './OpenGroupServerPoller';
 
-import autoBind from 'auto-bind';
-import _, { clone, isEqual } from 'lodash';
 import {
   CONVERSATION_PRIORITIES,
   ConversationTypeEnum,
@@ -91,14 +95,14 @@ export class OpenGroupManagerV2 {
   }
 
   public addRoomToPolledRooms(roomInfos: Array<OpenGroupRequestCommonType>) {
-    const grouped = _.groupBy(roomInfos, r => r.serverUrl);
+    const grouped = groupBy(roomInfos, r => r.serverUrl);
     const groupedArray = Object.values(grouped);
 
     for (const groupedRooms of groupedArray) {
       const groupedRoomsServerUrl = groupedRooms[0].serverUrl;
       const poller = this.pollers.get(groupedRoomsServerUrl);
       if (!poller) {
-        const uniqGroupedRooms = _.uniqBy(groupedRooms, r => r.roomId);
+        const uniqGroupedRooms = uniqBy(groupedRooms, r => r.roomId);
 
         this.pollers.set(groupedRoomsServerUrl, new OpenGroupServerPoller(uniqGroupedRooms));
       } else {

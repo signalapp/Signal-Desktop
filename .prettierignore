@@ -17,8 +17,8 @@ ts/test/automation/notes
 # Third-party files
 node_modules/**
 mnemonic_languages/**
-playwright.config.js
 .vscode/
+.vscrof/
 
 # Managed by package manager (`yarn`/`npm`):
 /package.json

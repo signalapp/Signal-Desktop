@@ -1,9 +1,10 @@
 import React from 'react';
 import classNames from 'classnames';
-import { SessionIcon, SessionIconProps } from '../icon';
 import _ from 'lodash';
-import { SessionNotificationCount } from './SessionNotificationCount';
 import styled from 'styled-components';
+
+import { SessionIcon, SessionIconProps } from '.';
+import { SessionNotificationCount } from './SessionNotificationCount';
 
 interface SProps extends SessionIconProps {
   onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
@@ -12,6 +13,7 @@ interface SProps extends SessionIconProps {
   isHidden?: boolean;
   margin?: string;
   dataTestId?: string;
+  dataTestIdIcon?: string;
   id?: string;
   style?: object;
 }
@@ -36,6 +38,7 @@ const StyledSessionIconButton = styled.div<{ color?: string; isSelected?: boolea
   }
 `;
 
+// eslint-disable-next-line react/display-name
 const SessionIconButtonInner = React.forwardRef<HTMLDivElement, SProps>((props, ref) => {
   const {
     iconType,
@@ -54,6 +57,7 @@ const SessionIconButtonInner = React.forwardRef<HTMLDivElement, SProps>((props, 
     margin,
     id,
     dataTestId,
+    dataTestIdIcon,
     style,
   } = props;
   const clickHandler = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -72,7 +76,7 @@ const SessionIconButtonInner = React.forwardRef<HTMLDivElement, SProps>((props, 
       ref={ref}
       id={id}
       onClick={clickHandler}
-      style={{ ...style, display: isHidden ? 'none' : 'flex', margin: margin ? margin : '' }}
+      style={{ ...style, display: isHidden ? 'none' : 'flex', margin: margin || '' }}
       data-testid={dataTestId}
     >
       <SessionIcon
@@ -86,7 +90,7 @@ const SessionIconButtonInner = React.forwardRef<HTMLDivElement, SProps>((props, 
         backgroundColor={backgroundColor}
         borderRadius={borderRadius}
         iconPadding={iconPadding}
-        data-testid={dataTestId}
+        dataTestId={dataTestIdIcon}
       />
       {Boolean(notificationCount) && <SessionNotificationCount count={notificationCount} />}
     </StyledSessionIconButton>

@@ -1,5 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
+import { CSSProperties } from 'styled-components';
 
 import { Emojify } from './Emojify';
 import { useConversationUsernameOrShorten, useIsPrivate } from '../../hooks/useParamSelector';
@@ -9,14 +10,14 @@ type Props = {
   name?: string | null;
   profileName?: string | null;
   module?: string;
-  boldProfileName?: Boolean;
-  compact?: Boolean;
-  shouldShowPubkey: Boolean;
+  boldProfileName?: boolean;
+  compact?: boolean;
+  shouldShowPubkey: boolean;
 };
 
 export const ContactName = (props: Props) => {
   const { pubkey, name, profileName, module, boldProfileName, compact, shouldShowPubkey } = props;
-  const prefix = module ? module : 'module-contact-name';
+  const prefix = module || 'module-contact-name';
 
   const convoName = useConversationUsernameOrShorten(pubkey);
   const isPrivate = useIsPrivate(pubkey);
@@ -33,9 +34,10 @@ export const ContactName = (props: Props) => {
       className={classNames(prefix, compact && 'compact')}
       dir="auto"
       data-testid={`${prefix}__profile-name`}
+      style={{ textOverflow: 'inherit' }}
     >
       {shouldShowProfile ? (
-        <span style={styles as any} className={`${prefix}__profile-name`}>
+        <span style={styles as CSSProperties} className={`${prefix}__profile-name`}>
           <Emojify text={textProfile} sizeClass="small" isGroup={!isPrivate} />
         </span>
       ) : null}

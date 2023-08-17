@@ -1,4 +1,4 @@
-import * as BetterSqlite3 from 'better-sqlite3';
+import * as BetterSqlite3 from '@signalapp/better-sqlite3';
 
 let globalInstance: BetterSqlite3.Database | null = null;
 

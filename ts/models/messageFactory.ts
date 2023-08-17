@@ -116,6 +116,7 @@ export function markAttributesAsReadIfNeeded(messageAttributes: MessageAttribute
       latestUnreadForThisConvo?.lastRead &&
       sentAt <= latestUnreadForThisConvo.lastRead
     ) {
+      // eslint-disable-next-line no-param-reassign
       messageAttributes.unread = READ_MESSAGE_STATE.read;
     }
   }

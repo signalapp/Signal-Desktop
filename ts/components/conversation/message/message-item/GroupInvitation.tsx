@@ -1,10 +1,11 @@
-import React from 'react';
 import classNames from 'classnames';
-import { PropsForGroupInvitation } from '../../../../state/ducks/conversations';
+import React from 'react';
+import styled from 'styled-components';
+
 import { acceptOpenGroupInvitation } from '../../../../interactions/messageInteractions';
+import { PropsForGroupInvitation } from '../../../../state/ducks/conversations';
 import { SessionIconButton } from '../../../icon';
 import { ReadableMessage } from './ReadableMessage';
-import styled from 'styled-components';
 
 const StyledIconContainer = styled.div`
   background-color: var(--message-link-preview-background-color);

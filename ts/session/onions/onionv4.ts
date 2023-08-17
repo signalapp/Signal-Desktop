@@ -65,7 +65,7 @@ const decodeV4Response = (snodeResponse: SnodeResponseV4): DecodedResponseV4 | u
     window?.log?.error(
       'decodeV4Response: response is missing prefix and suffix characters - Dropping response'
     );
-    return;
+    return undefined;
   }
 
   try {

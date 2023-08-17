@@ -1,11 +1,12 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import React from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
 
-import { SessionIconButton } from '../icon';
 import autoBind from 'auto-bind';
 import MicRecorder from 'mic-recorder-to-mp3';
 import styled from 'styled-components';
+import { SessionIconButton } from '../icon';
 import { Constants } from '../../session';
 import { ToastUtils } from '../../session/utils';
 import { MAX_ATTACHMENT_FILESIZE_BYTES } from '../../session/constants';
@@ -88,7 +89,6 @@ export class SessionRecording extends React.Component<Props, State> {
     }
   }
 
-  // tslint:disable-next-line: cyclomatic-complexity
   public render() {
     const { isPlaying, isPaused, isRecording, startTimestamp, nowTimestamp } = this.state;
 
@@ -103,14 +103,12 @@ export class SessionRecording extends React.Component<Props, State> {
     // otherwise display 0
     const displayTimeMs = isRecording
       ? (nowTimestamp - startTimestamp) * 1000
-      : (this.audioElement &&
-          (this.audioElement?.currentTime * 1000 || this.audioElement?.duration)) ||
+      : (this.audioElement?.currentTime &&
+          (this.audioElement.currentTime * 1000 || this.audioElement?.duration)) ||
         0;
 
     const displayTimeString = moment.utc(displayTimeMs).format('m:ss');
-    const recordingDurationMs = this.audioElement?.duration
-      ? this.audioElement?.duration * 1000
-      : 1;
+    const recordingDurationMs = this.audioElement?.duration ? this.audioElement.duration * 1000 : 1;
 
     let remainingTimeString = '';
     if (recordingDurationMs !== undefined) {
@@ -287,6 +285,7 @@ export class SessionRecording extends React.Component<Props, State> {
     this.recorder = new MicRecorder({
       bitRate: 128,
     });
+    // eslint-disable-next-line more/no-then
     this.recorder
       .start()
       .then(() => {
@@ -304,6 +303,7 @@ export class SessionRecording extends React.Component<Props, State> {
     if (!this.recorder) {
       return;
     }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [_, blob] = await this.recorder.stop().getMp3();
     this.recorder = undefined;
 

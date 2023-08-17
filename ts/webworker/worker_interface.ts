@@ -43,7 +43,7 @@ export class WorkerInterface {
       const { resolve, reject, fnName } = job;
 
       if (errorForDisplay) {
-        // tslint:disable: no-console
+        // eslint:disable: no-console
 
         window?.log?.error(`Error received from worker job ${jobId} (${fnName}):`, errorForDisplay);
         return reject(
@@ -118,7 +118,6 @@ export class WorkerInterface {
     if (this._DEBUG) {
       this._jobs[id].complete = true;
     } else {
-      // tslint:disable-next-line: no-dynamic-delete
       delete this._jobs[id];
     }
   }

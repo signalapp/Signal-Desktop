@@ -1,4 +1,3 @@
-/* tslint:disable: no-non-null-assertion */
 import { hexColorToRGB } from '../util/hexColorToRGB';
 import { COLORS, THEMES } from './constants/colors';
 import { ThemeColorVariables } from './variableColors';

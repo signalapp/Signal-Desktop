@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import React from 'react';
 import classNames from 'classnames';
+import autoBind from 'auto-bind';
 
 import { Avatar, AvatarSize } from '../avatar/Avatar';
 import { SpacerMD } from '../basic/Text';
 import { updateGroupNameModal } from '../../state/ducks/modalDialog';
-import autoBind from 'auto-bind';
 import { ConversationModel } from '../../models/conversation';
 import { getConversationController } from '../../session/conversations';
 import { SessionWrapperModal } from '../SessionWrapperModal';
@@ -91,14 +92,11 @@ export class UpdateGroupNameDialog extends React.Component<Props, State> {
       this.state.errorDisplayed ? 'error-shown' : 'error-faded'
     );
 
-    const isAdmin = this.convo.isPublic()
-      ? false // disable editing of opengroup rooms as we don't handle them for now
-      : true;
+    const isAdmin = !this.convo.isPublic();
 
     return (
       <SessionWrapperModal
         title={titleText}
-        // tslint:disable-next-line: no-void-expression
         onClose={() => this.closeDialog()}
         additionalClassName="update-group-dialog"
       >
@@ -200,7 +198,6 @@ export class UpdateGroupNameDialog extends React.Component<Props, State> {
     if (!isPublic) {
       return undefined;
     }
-    // tslint:disable: use-simple-attributes
 
     return (
       <div className="avatar-center">
