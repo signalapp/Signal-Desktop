@@ -535,6 +535,7 @@ export function ProfileEditor({
         resetUsernameLink={resetUsernameLink}
         saveAttachment={saveAttachment}
         showToast={showToast}
+        onBack={() => setEditState(EditState.None)}
       />
     );
   } else if (editState === EditState.None) {

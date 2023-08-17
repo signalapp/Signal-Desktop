@@ -247,6 +247,11 @@
     }
   }
 
+  &__done {
+    width: 100%;
+    margin-block-end: 8px;
+  }
+
   &__colors {
     &__grid {
       display: grid;

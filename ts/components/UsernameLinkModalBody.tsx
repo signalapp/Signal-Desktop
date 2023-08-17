@@ -32,6 +32,7 @@ export type PropsType = Readonly<{
   resetUsernameLink: () => void;
   saveAttachment: SaveAttachmentActionCreatorType;
   showToast: ShowToastAction;
+  onBack: () => void;
 }>;
 
 export type ColorMapEntryType = Readonly<{
@@ -492,6 +493,8 @@ export function UsernameLinkModalBody({
   resetUsernameLink,
   saveAttachment,
   showToast,
+
+  onBack,
 }: PropsType): JSX.Element {
   const [pngData, setPngData] = useState<Uint8Array | undefined>();
   const [showColors, setShowColors] = useState(false);
@@ -663,6 +666,14 @@ export function UsernameLinkModalBody({
       >
         {i18n('icu:UsernameLinkModalBody__reset')}
       </button>
+
+      <Button
+        className={classnames(`${CLASS}__done`)}
+        variant={ButtonVariant.Primary}
+        onClick={onBack}
+      >
+        {i18n('icu:UsernameLinkModalBody__done')}
+      </Button>
     </>
   );
 

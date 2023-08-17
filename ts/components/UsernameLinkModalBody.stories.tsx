@@ -55,6 +55,7 @@ export default {
     showToast: { action: true },
     resetUsernameLink: { action: true },
     setUsernameLinkColor: { action: true },
+    onBack: { action: true },
   },
 } as Meta;
 
