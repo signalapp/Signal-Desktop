@@ -102,7 +102,7 @@ export interface ConversationAttributes {
 
   markedAsUnread: boolean; // Force the conversation as unread even if all the messages are read. Used to highlight a conversation the user wants to check again later, synced.
 
-  blocksSogsMsgReqsTimestamp: number; // if that convo is a blinded one and that user denied be contacted through sogs, this field will be set to his latest message timestamp
+  blocksSogsMsgReqsTimestamp: number; // if the convo is blinded and the user has denied contact through sogs, this field be set to the user's latest message timestamp
 }
 
 /**
