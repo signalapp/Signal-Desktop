@@ -47,6 +47,9 @@ export type PropsType = CallingNotificationType &
 export const CallingNotification: React.FC<PropsType> = React.memo(
   function CallingNotificationInner(props) {
     const { i18n } = props;
+    if (props.callHistory == null) {
+      return null;
+    }
     const { type, direction, status, timestamp } = props.callHistory;
     const icon = getCallingIcon(type, direction, status);
     return (
@@ -95,6 +98,10 @@ function renderCallingNotificationButton(
   let buttonText: string;
   let disabledTooltipText: undefined | string;
   let onClick: () => void;
+
+  if (props.callHistory == null) {
+    return null;
+  }
 
   switch (props.callHistory.mode) {
     case CallMode.Direct: {
@@ -148,10 +155,6 @@ function renderCallingNotificationButton(
         throw missingCaseError(props.callExternalState);
       }
       break;
-    }
-    case CallMode.None: {
-      log.error('renderCallingNotificationButton: Call mode cant be none');
-      return null;
     }
     default:
       log.error(missingCaseError(props.callHistory.mode));

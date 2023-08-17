@@ -1953,7 +1953,6 @@ function saveMessageSync(
     sourceServiceId,
     sourceDevice,
     storyId,
-    callId,
     type,
     readStatus,
     expireTimer,
@@ -2011,7 +2010,6 @@ function saveMessageSync(
     sourceServiceId: sourceServiceId || null,
     sourceDevice: sourceDevice || null,
     storyId: storyId || null,
-    callId: callId || null,
     type: type || null,
     readStatus: readStatus ?? null,
     seenStatus: seenStatus ?? SeenStatus.NotApplicable,
@@ -2044,7 +2042,6 @@ function saveMessageSync(
         sourceServiceId = $sourceServiceId,
         sourceDevice = $sourceDevice,
         storyId = $storyId,
-        callId = $callId,
         type = $type,
         readStatus = $readStatus,
         seenStatus = $seenStatus
@@ -2090,7 +2087,6 @@ function saveMessageSync(
       sourceServiceId,
       sourceDevice,
       storyId,
-      callId,
       type,
       readStatus,
       seenStatus
@@ -2117,7 +2113,6 @@ function saveMessageSync(
       $sourceServiceId,
       $sourceDevice,
       $storyId,
-      $callId,
       $type,
       $readStatus,
       $seenStatus

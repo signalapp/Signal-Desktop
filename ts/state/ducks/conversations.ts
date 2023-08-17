@@ -512,14 +512,14 @@ export type ConversationsStateType = Readonly<{
 
 export const getConversationCallMode = (
   conversation: ConversationType
-): CallMode => {
+): CallMode | null => {
   if (
     conversation.left ||
     conversation.isBlocked ||
     conversation.isMe ||
     !conversation.acceptedMessageRequest
   ) {
-    return CallMode.None;
+    return null;
   }
 
   if (conversation.type === 'direct') {
@@ -530,7 +530,7 @@ export const getConversationCallMode = (
     return CallMode.Group;
   }
 
-  return CallMode.None;
+  return null;
 };
 
 // Actions

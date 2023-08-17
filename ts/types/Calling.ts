@@ -7,7 +7,6 @@ import type { ServiceIdString } from './ServiceId';
 
 // These are strings (1) for the database (2) for Storybook.
 export enum CallMode {
-  None = 'None',
   Direct = 'Direct',
   Group = 'Group',
 }

@@ -21,7 +21,7 @@ describe('SQL/updateToSchemaVersion88', () => {
 
   beforeEach(() => {
     db = new SQL(':memory:');
-    updateToVersion(db, 87);
+    updateToVersion(db, 86);
 
     insertData(db, 'items', [
       {

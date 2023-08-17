@@ -22,7 +22,8 @@ export enum CallExternalState {
 }
 
 export type CallingNotificationType = Readonly<{
-  callHistory: CallHistoryDetails;
+  // In some older calls, we don't have a call id, this hardens against that.
+  callHistory: CallHistoryDetails | null;
   callCreator: ConversationType | null;
   callExternalState: CallExternalState;
   deviceCount: number;
@@ -110,8 +111,12 @@ function getGroupCallNotificationText(
 export function getCallingNotificationText(
   callingNotification: CallingNotificationType,
   i18n: LocalizerType
-): string {
+): string | null {
   const { callHistory, callCreator, callExternalState } = callingNotification;
+  if (callHistory == null) {
+    return null;
+  }
+
   if (callHistory.mode === CallMode.Direct) {
     return getDirectCallNotificationText(
       callHistory.direction,
@@ -122,11 +127,6 @@ export function getCallingNotificationText(
   }
   if (callHistory.mode === CallMode.Group) {
     return getGroupCallNotificationText(callExternalState, callCreator, i18n);
-  }
-  if (callHistory.mode === CallMode.None) {
-    throw new Error(
-      'getCallingNotificationText: Cannot render call history details with mode = None'
-    );
   }
   throw missingCaseError(callHistory.mode);
 }

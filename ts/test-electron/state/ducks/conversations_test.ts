@@ -136,53 +136,53 @@ describe('both/state/ducks/conversations', () => {
       const fakeConversation: ConversationType = getDefaultConversation();
       const fakeGroup: ConversationType = getDefaultGroup();
 
-      it("returns CallMode.None if you've left the conversation", () => {
+      it("returns null if you've left the conversation", () => {
         assert.strictEqual(
           getConversationCallMode({
             ...fakeConversation,
             left: true,
           }),
-          CallMode.None
+          null
         );
       });
 
-      it("returns CallMode.None if you've blocked the other person", () => {
+      it("returns null if you've blocked the other person", () => {
         assert.strictEqual(
           getConversationCallMode({
             ...fakeConversation,
             isBlocked: true,
           }),
-          CallMode.None
+          null
         );
       });
 
-      it("returns CallMode.None if you haven't accepted message requests", () => {
+      it("returns null if you haven't accepted message requests", () => {
         assert.strictEqual(
           getConversationCallMode({
             ...fakeConversation,
             acceptedMessageRequest: false,
           }),
-          CallMode.None
+          null
         );
       });
 
-      it('returns CallMode.None if the conversation is Note to Self', () => {
+      it('returns null if the conversation is Note to Self', () => {
         assert.strictEqual(
           getConversationCallMode({
             ...fakeConversation,
             isMe: true,
           }),
-          CallMode.None
+          null
         );
       });
 
-      it('returns CallMode.None for v1 groups', () => {
+      it('returns null for v1 groups', () => {
         assert.strictEqual(
           getConversationCallMode({
             ...fakeGroup,
             groupVersion: 1,
           }),
-          CallMode.None
+          null
         );
 
         assert.strictEqual(
@@ -190,7 +190,7 @@ describe('both/state/ducks/conversations', () => {
             ...fakeGroup,
             groupVersion: undefined,
           }),
-          CallMode.None
+          null
         );
       });
 

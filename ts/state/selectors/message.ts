@@ -1317,6 +1317,14 @@ export type GetPropsForCallHistoryOptions = Pick<
   | 'ourConversationId'
 >;
 
+const emptyCallNotification = {
+  callHistory: null,
+  callCreator: null,
+  callExternalState: CallExternalState.Ended,
+  maxDevices: Infinity,
+  deviceCount: 0,
+};
+
 export function getPropsForCallHistory(
   message: MessageWithUIFieldsType,
   {
@@ -1328,17 +1336,15 @@ export function getPropsForCallHistory(
   }: GetPropsForCallHistoryOptions
 ): CallingNotificationType {
   const { callId } = message;
-  if (callId == null && 'callHistoryDetails' in message) {
-    log.error(
-      'getPropsForCallHistory: Found callHistoryDetails, but no callId'
-    );
+  if (callId == null) {
+    log.error('getPropsForCallHistory: Missing callId');
+    return emptyCallNotification;
   }
-  strictAssert(callId != null, 'getPropsForCallHistory: Missing callId');
   const callHistory = callHistorySelector(callId);
-  strictAssert(
-    callHistory != null,
-    'getPropsForCallHistory: Missing callHistory'
-  );
+  if (callHistory == null) {
+    log.error('getPropsForCallHistory: Missing callHistory');
+    return emptyCallNotification;
+  }
 
   const conversation = conversationSelector(callHistory.peerId);
   strictAssert(

@@ -54,7 +54,7 @@ const getOutgoingCallButtonStyle = (
 
   const conversationCallMode = getConversationCallMode(conversation);
   switch (conversationCallMode) {
-    case CallMode.None:
+    case null:
       return OutgoingCallButtonStyle.None;
     case CallMode.Direct:
       return OutgoingCallButtonStyle.Both;

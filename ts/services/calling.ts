@@ -416,7 +416,7 @@ export class CallingClass {
 
     const callMode = getConversationCallMode(conversation);
     switch (callMode) {
-      case CallMode.None:
+      case null:
         log.error('Conversation does not support calls, new call not allowed.');
         return;
       case CallMode.Direct: {

@@ -500,8 +500,6 @@ export function transitionCallHistory(
       event,
       direction
     );
-  } else if (mode === CallMode.None) {
-    throw new TypeError('Call mode must not be none');
   } else {
     throw missingCaseError(mode);
   }

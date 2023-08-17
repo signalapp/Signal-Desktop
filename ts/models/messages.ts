@@ -721,9 +721,15 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         conversationSelector: getConversationSelector(state),
       });
       if (callingNotification) {
-        return {
-          text: getCallingNotificationText(callingNotification, window.i18n),
-        };
+        const text = getCallingNotificationText(
+          callingNotification,
+          window.i18n
+        );
+        if (text != null) {
+          return {
+            text,
+          };
+        }
       }
 
       log.error("This call history message doesn't have valid call history");
