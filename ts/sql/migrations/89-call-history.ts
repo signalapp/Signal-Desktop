@@ -21,7 +21,6 @@ import { CallMode } from '../../types/Calling';
 import type { MessageType, ConversationType } from '../Interface';
 import { strictAssert } from '../../util/assert';
 import { missingCaseError } from '../../util/missingCaseError';
-import type { ServiceIdString } from '../../types/ServiceId';
 import { isAciString } from '../../types/ServiceId';
 
 // Legacy type for calls that never had a call id
@@ -87,9 +86,16 @@ function upcastCallHistoryDetailsFromDiskType(
 }
 
 function getPeerIdFromConversation(
-  conversation: Pick<ConversationType, 'type' | 'serviceId' | 'groupId'>
+  conversation: ConversationType,
+  logger: LoggerType
 ): string {
   if (conversation.type === 'private') {
+    if (conversation.serviceId == null) {
+      logger.warn(
+        `updateToSchemaVersion89: Private conversation (${conversation.id}) was missing serviceId (discoveredUnregisteredAt: ${conversation.discoveredUnregisteredAt})`
+      );
+      return conversation.id;
+    }
     strictAssert(
       isAciString(conversation.serviceId),
       'ACI must exist for direct chat'
@@ -228,9 +234,7 @@ export default function updateToSchemaVersion89(
     const [selectQuery] = sql`
       SELECT
         messages.json AS messageJson,
-        conversations.type AS conversationType,
-        conversations.serviceId AS conversationServiceId,
-        conversations.groupId AS conversationGroupId
+        conversations.json AS conversationJson
       FROM messages
       LEFT JOIN conversations ON conversations.id = messages.conversationId
       WHERE messages.type = 'call-history'
@@ -243,28 +247,19 @@ export default function updateToSchemaVersion89(
     // Must match query above
     type CallHistoryRow = {
       messageJson: string;
-      conversationType: ConversationType['type'];
-      conversationServiceId: ServiceIdString | undefined;
-      conversationGroupId: string | undefined;
+      conversationJson: string;
     };
 
     const rows: Array<CallHistoryRow> = db.prepare(selectQuery).all();
 
     for (const row of rows) {
-      const {
-        messageJson,
-        conversationType,
-        conversationServiceId,
-        conversationGroupId,
-      } = row;
+      const { messageJson, conversationJson } = row;
       const message = jsonToObject<MessageWithCallHistoryDetails>(messageJson);
+      const conversation = jsonToObject<ConversationType>(conversationJson);
+
       const details = message.callHistoryDetails;
 
-      const peerId = getPeerIdFromConversation({
-        type: conversationType,
-        serviceId: conversationServiceId,
-        groupId: conversationGroupId,
-      });
+      const peerId = getPeerIdFromConversation(conversation, logger);
 
       const callHistory = convertLegacyCallDetails(
         ourUuid,

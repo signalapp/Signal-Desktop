@@ -99,16 +99,31 @@ describe('SQL/updateToSchemaVersion89', () => {
     return message;
   }
 
-  function createConversation(type: 'private' | 'group') {
+  function createConversation(
+    type: 'private' | 'group',
+    discoveredUnregisteredAt?: number
+  ) {
     const id = generateGuid();
-    const serviceId = type === 'private' ? generateGuid() : null;
+    const serviceId =
+      // Emulate older unregistered conversations
+      type === 'private' && discoveredUnregisteredAt == null
+        ? generateGuid()
+        : null;
     const groupId = type === 'group' ? generateGuid() : null;
+
+    const json = JSON.stringify({
+      type,
+      id,
+      serviceId,
+      groupId,
+      discoveredUnregisteredAt,
+    });
 
     const [query, params] = sql`
       INSERT INTO conversations
-        (id, type, serviceId, groupId)
+        (id, type, serviceId, groupId, json)
       VALUES
-        (${id}, ${type}, ${serviceId}, ${groupId});
+        (${id}, ${type}, ${serviceId}, ${groupId}, ${json});
     `;
 
     db.prepare(query).run(params);
@@ -264,6 +279,25 @@ describe('SQL/updateToSchemaVersion89', () => {
     assert.strictEqual(callHistory.length, 2);
     assert.strictEqual(callHistory[0].peerId, conversation1.serviceId);
     assert.strictEqual(callHistory[1].peerId, conversation2.groupId);
+  });
+
+  it('migrates older unregistered conversations with no serviceId', () => {
+    updateToVersion(db, 88);
+
+    const conversation = createConversation('private', Date.now());
+    createCallHistoryMessage({
+      messageId: generateGuid(),
+      conversationId: conversation.id,
+      callHistoryDetails: getDirectCallHistoryDetails({
+        callId: '123',
+      }),
+    });
+
+    updateToVersion(db, 89);
+
+    const callHistory = getAllCallHistory();
+    assert.strictEqual(callHistory.length, 1);
+    assert.strictEqual(callHistory[0].peerId, conversation.id);
   });
 
   describe('clients with schema version 87', () => {
