@@ -442,6 +442,7 @@ function saveConversation(data: ConversationAttributes): SaveConversationReturn 
     conversationIdOrigin,
     priority,
     markedAsUnread,
+    blocksSogsMsgReqsTimestamp,
   } = formatted;
 
   const omited = omit(formatted);
@@ -491,6 +492,7 @@ function saveConversation(data: ConversationAttributes): SaveConversationReturn 
       displayNameInProfile,
       conversationIdOrigin,
       markedAsUnread: toSqliteBoolean(markedAsUnread),
+      blocksSogsMsgReqsTimestamp,
     });
 
   return fetchConvoMemoryDetails(id);

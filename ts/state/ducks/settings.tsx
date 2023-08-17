@@ -7,6 +7,7 @@ import { Storage } from '../../util/storage';
 const SettingsBoolsKeyTrackedInRedux = [
   SettingsKey.someDeviceOutdatedSyncing,
   SettingsKey.settingsLinkPreview,
+  SettingsKey.hasBlindedMsgRequestsEnabled,
 ] as const;
 
 export type SettingsState = {
@@ -18,6 +19,7 @@ export function getSettingsInitialState() {
     settingsBools: {
       someDeviceOutdatedSyncing: false,
       'link-preview-setting': false, // this is the value of SettingsKey.settingsLinkPreview
+      hasBlindedMsgRequestsEnabled: false,
     },
   };
 }
@@ -41,10 +43,17 @@ const settingsSlice = createSlice({
     updateAllOnStorageReady(state) {
       const linkPreview = Storage.get(SettingsKey.settingsLinkPreview, false);
       const outdatedSync = Storage.get(SettingsKey.someDeviceOutdatedSyncing, false);
+      const hasBlindedMsgRequestsEnabled = Storage.get(
+        SettingsKey.hasBlindedMsgRequestsEnabled,
+        false
+      );
       state.settingsBools.someDeviceOutdatedSyncing = isBoolean(outdatedSync)
         ? outdatedSync
         : false;
       state.settingsBools['link-preview-setting'] = isBoolean(linkPreview) ? linkPreview : false; // this is the value of SettingsKey.settingsLinkPreview
+      state.settingsBools.hasBlindedMsgRequestsEnabled = isBoolean(hasBlindedMsgRequestsEnabled)
+        ? hasBlindedMsgRequestsEnabled
+        : false;
       return state;
     },
     updateSettingsBoolValue(state, action: PayloadAction<{ id: string; value: boolean }>) {

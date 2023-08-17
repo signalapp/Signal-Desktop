@@ -45,7 +45,7 @@ export const configDumpData: ConfigDumpDataNode = {
   getByVariantAndPubkey: (variant: ConfigWrapperObjectTypes, publicKey: string) => {
     const rows = assertGlobalInstance()
       .prepare(
-        `SELECT publicKey, variant, data from ${CONFIG_DUMP_TABLE} WHERE variant = $variant AND publicKey = $publicKey;`
+        `SELECT publicKey, variant, data FROM ${CONFIG_DUMP_TABLE} WHERE variant = $variant AND publicKey = $publicKey;`
       )
       .all({
         publicKey,

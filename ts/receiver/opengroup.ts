@@ -50,14 +50,14 @@ const handleOpenGroupMessage = async (
 
   const dataUint = new Uint8Array(removeMessagePadding(arr));
 
-  const decoded = SignalService.Content.decode(dataUint);
+  const decodedContent = SignalService.Content.decode(dataUint);
 
   const conversationId = getOpenGroupV2ConversationId(serverUrl, roomId);
   if (!conversationId) {
     window?.log?.error('We cannot handle a message without a conversationId');
     return;
   }
-  const idataMessage = decoded?.dataMessage;
+  const idataMessage = decodedContent?.dataMessage;
   if (!idataMessage) {
     window?.log?.error('Invalid decoded opengroup message: no dataMessage');
     return;
@@ -101,7 +101,9 @@ const handleOpenGroupMessage = async (
     await handleMessageJob(
       msgModel,
       groupConvo,
-      toRegularMessage(cleanIncomingDataMessage(decoded?.dataMessage as SignalService.DataMessage)),
+      toRegularMessage(
+        cleanIncomingDataMessage(decodedContent?.dataMessage as SignalService.DataMessage)
+      ),
       noop,
       sender,
       ''

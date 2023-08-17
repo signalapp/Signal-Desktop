@@ -45,6 +45,7 @@ import {
 import { isDarkTheme } from '../../state/selectors/theme';
 import { ThemeStateType } from '../../themes/constants/colors';
 import { switchThemeTo } from '../../themes/switchTheme';
+import { ConfigurationSync } from '../../session/utils/job_runners/jobs/ConfigurationSyncJob';
 
 const Section = (props: { type: SectionType }) => {
   const ourNumber = useSelector(getOurNumber);
@@ -212,6 +213,11 @@ const doAppStartUp = async () => {
     // this call does nothing except calling the constructor, which will continue sending message in the pipeline
     void getMessageQueue().processAllPending();
   }, 3000);
+
+  global.setTimeout(() => {
+    // Schedule a confSyncJob in some time to let anything incoming from the network be applied and see if there is a push needed
+    void ConfigurationSync.queueNewJobIfNeeded();
+  }, 20000);
 };
 
 async function fetchReleaseFromFSAndUpdateMain() {
