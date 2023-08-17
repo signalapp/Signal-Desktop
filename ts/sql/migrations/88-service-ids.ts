@@ -167,6 +167,7 @@ export default function updateToSchemaVersion88(
       -- mentions
       --
 
+      DROP TRIGGER messages_on_update;
       DROP TRIGGER messages_on_insert_insert_mentions;
       DROP TRIGGER messages_on_update_update_mentions;
       DROP INDEX mentions_uuid;
@@ -176,21 +177,6 @@ export default function updateToSchemaVersion88(
 
       -- See: updateToSchemaVersion84
       CREATE INDEX mentions_aci ON mentions (mentionAci);
-
-      CREATE TRIGGER messages_on_insert_insert_mentions AFTER INSERT ON messages
-      BEGIN
-        INSERT INTO mentions (messageId, mentionAci, start, length)
-        ${selectMentionsFromMessages}
-        AND messages.id = new.id;
-      END;
-
-      CREATE TRIGGER messages_on_update_update_mentions AFTER UPDATE ON messages
-      BEGIN
-        DELETE FROM mentions WHERE messageId = new.id;
-        INSERT INTO mentions (messageId, mentionAci, start, length)
-        ${selectMentionsFromMessages}
-        AND messages.id = new.id;
-      END;
 
       --
       -- preKeys
@@ -222,6 +208,38 @@ export default function updateToSchemaVersion88(
     migratePreKeys(db, 'signedPreKeys', ourServiceIds, logger);
     migratePreKeys(db, 'kyberPreKeys', ourServiceIds, logger);
     migrateJobs(db, identifierToServiceId, logger);
+
+    // Re-create triggers after updating messages
+    db.exec(`
+      -- See: updateToSchemaVersion45
+      CREATE TRIGGER messages_on_update AFTER UPDATE ON messages
+      WHEN
+        (new.body IS NULL OR old.body IS NOT new.body) AND
+         new.isViewOnce IS NOT 1 AND new.storyId IS NULL
+      BEGIN
+        DELETE FROM messages_fts WHERE rowid = old.rowid;
+        INSERT INTO messages_fts
+          (rowid, body)
+        VALUES
+          (new.rowid, new.body);
+      END;
+
+      -- See: updateToSchemaVersion84
+      CREATE TRIGGER messages_on_insert_insert_mentions AFTER INSERT ON messages
+      BEGIN
+        INSERT INTO mentions (messageId, mentionAci, start, length)
+        ${selectMentionsFromMessages}
+        AND messages.id = new.id;
+      END;
+
+      CREATE TRIGGER messages_on_update_update_mentions AFTER UPDATE ON messages
+      BEGIN
+        DELETE FROM mentions WHERE messageId = new.id;
+        INSERT INTO mentions (messageId, mentionAci, start, length)
+        ${selectMentionsFromMessages}
+        AND messages.id = new.id;
+      END;
+    `);
 
     db.pragma('user_version = 88');
   })();
@@ -709,9 +727,9 @@ type UpdatedMessage = JSONWithUnknownFields<
 >;
 
 function migrateMessages(db: Database, logger: LoggerType): void {
-  const PAGE_SIZE = 1024;
+  const PAGE_SIZE = 10000;
   const getPage = db.prepare(`
-    SELECT id, json
+    SELECT rowid, id, json
     FROM messages
     LIMIT $limit
     OFFSET $offset
@@ -720,23 +738,26 @@ function migrateMessages(db: Database, logger: LoggerType): void {
   const updateStmt = db.prepare(`
     UPDATE messages
     SET json = $json
-    WHERE id = $id
+    WHERE rowid = $rowid
   `);
+
+  logger.info('updateToSchemaVersion88: updating messages');
 
   let totalMessages = 0;
   // eslint-disable-next-line no-constant-condition
   for (let offset = 0; true; offset += PAGE_SIZE) {
-    const messages: Array<{ id: string; json: string }> = getPage.all({
-      limit: PAGE_SIZE,
-      offset,
-    });
+    const messages: Array<{ id: string; rowid: number; json: string }> =
+      getPage.all({
+        limit: PAGE_SIZE,
+        offset,
+      });
     if (messages.length === 0) {
       break;
     }
 
     totalMessages += messages.length;
 
-    for (const { id, json } of messages) {
+    for (const { rowid, id, json } of messages) {
       try {
         const legacy: LegacyMessage = JSON.parse(json);
 
@@ -797,7 +818,7 @@ function migrateMessages(db: Database, logger: LoggerType): void {
         };
 
         updateStmt.run({
-          id,
+          rowid,
           json: JSON.stringify(updatedMessage),
         });
       } catch (error) {
