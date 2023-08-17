@@ -124,8 +124,7 @@ export async function markConversationRead(
       }
 
       if (!isAciString(senderAci)) {
-        assertDev(
-          false,
+        log.warn(
           `${logId}: message sourceServiceId timestamp is not aci` +
             `type=${messageSyncData.type}`
         );
