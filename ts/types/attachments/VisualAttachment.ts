@@ -140,7 +140,7 @@ export async function autoScaleAvatarBlob(file: File) {
  * Shows the system file picker for images, scale the image down for avatar/opengroup measurements and return the blob objectURL on success
  */
 export async function pickFileForAvatar(): Promise<string | null> {
-  if (process.env.NODE_APP_INSTANCE?.includes('test-integration')) {
+  if (window.sessionFeatureFlags.integrationTestEnv) {
     window.log.info(
       'shorting pickFileForAvatar as it does not work in playwright/notsending the filechooser event'
     );
