@@ -533,7 +533,7 @@ const WEBSOCKET_CALLS = new Set<keyof typeof URL_CALLS>([
   // ProfileController
   'profile',
 
-  // AttachmentControllerV2
+  // AttachmentControllerV3
   'attachmentId',
 
   // RemoteConfigController
@@ -2721,6 +2721,12 @@ export function initialize({
         type: 'PUT',
         version,
         data: encryptedBin,
+        redactUrl: () => {
+          const tmp = new URL(uploadLocation);
+          tmp.search = '';
+          tmp.pathname = '';
+          return `${tmp}[REDACTED]`;
+        },
       });
 
       return cdnKey;
