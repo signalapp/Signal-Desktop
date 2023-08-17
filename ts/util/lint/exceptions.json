@@ -2957,5 +2957,13 @@
     "reasonCategory": "usageTrusted",
     "updated": "2023-08-02T00:21:37.858Z",
     "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CallsList.tsx",
+    "line": "  const prevOptionsRef = useRef<CallHistoryFilterOptions | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2023-08-17T00:07:01.015Z",
+    "reasonDetail": "<optional>"
   }
 ]

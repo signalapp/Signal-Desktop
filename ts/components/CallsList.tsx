@@ -128,6 +128,13 @@ function rowHeight() {
   return CALL_LIST_ITEM_ROW_HEIGHT;
 }
 
+function isSameOptions(
+  a: CallHistoryFilterOptions,
+  b: CallHistoryFilterOptions
+) {
+  return a.query === b.query && a.status === b.status;
+}
+
 export function CallsList({
   hasActiveCall,
   getCallHistoryGroupsCount,
@@ -145,11 +152,13 @@ export function CallsList({
   const [status, setStatus] = useState(CallHistoryFilterStatus.All);
   const [searchState, setSearchState] = useState(defaultInitState);
 
+  const prevOptionsRef = useRef<CallHistoryFilterOptions | null>(null);
+
   useEffect(() => {
     const controller = new AbortController();
 
     async function search() {
-      const options = {
+      const options: CallHistoryFilterOptions = {
         query: queryInput.toLowerCase().normalize().trim(),
         status,
       };
@@ -196,8 +205,20 @@ export function CallsList({
         options,
         results,
       });
-      infiniteLoaderRef.current?.resetLoadMoreRowsCache(true);
-      listRef.current?.scrollToPosition(0);
+
+      const isUpdatingSameSearch =
+        prevOptionsRef.current != null &&
+        isSameOptions(options, prevOptionsRef.current);
+
+      // Commit only at the end in case the search was aborted.
+      prevOptionsRef.current = options;
+
+      // Only reset the scroll position to the top when the user has changed the
+      // search parameters
+      if (!isUpdatingSameSearch) {
+        infiniteLoaderRef.current?.resetLoadMoreRowsCache(true);
+        listRef.current?.scrollToPosition(0);
+      }
     }
 
     drop(search());
