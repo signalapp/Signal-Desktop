@@ -21,11 +21,10 @@ export const matchMention: (
 
       if (node.classList.contains('MessageBody__at-mention')) {
         const { id } = node.dataset;
-        const conversation = memberRepository.getMemberById(id);
+        const member = memberRepository.getMemberById(id);
 
-        if (conversation && conversation.serviceId) {
-          const { serviceId: aci } = conversation;
-          assertDev(isAciString(aci), 'Mentioned conversation has no ACI');
+        if (member && member.aci) {
+          const { aci } = member;
           return new Delta().insert(
             {
               mention: {
@@ -43,17 +42,14 @@ export const matchMention: (
       if (node.classList.contains('mention-blot')) {
         const { aci } = node.dataset;
         assertDev(isAciString(aci), 'Mentioned blot has invalid ACI');
-        const conversation = memberRepository.getMemberByServiceId(aci);
+        const member = memberRepository.getMemberByAci(aci);
 
-        if (conversation && conversation.serviceId) {
-          assertDev(
-            conversation.serviceId === aci,
-            'Mentioned conversation has no ACI'
-          );
+        if (member && member.aci) {
+          assertDev(member.aci === aci, 'Mentioned member has no ACI');
           return new Delta().insert(
             {
               mention: {
-                title: title || conversation.title,
+                title: title || member.title,
                 aci,
               },
             },

@@ -11,7 +11,8 @@ import type { MutableRefObject } from 'react';
 import type { MentionCompletionOptions } from '../../../quill/mentions/completion';
 import { MentionCompletion } from '../../../quill/mentions/completion';
 import type { ConversationType } from '../../../state/ducks/conversations';
-import { MemberRepository } from '../../../quill/memberRepository';
+import { MemberRepository, _toMembers } from '../../../quill/memberRepository';
+import type { MemberType } from '../../../quill/memberRepository';
 import { ThemeType } from '../../../types/Util';
 import { getDefaultConversationWithServiceId } from '../../../test-both/helpers/getDefaultConversation';
 import { setupI18n } from '../../../util/setupI18n';
@@ -28,7 +29,7 @@ const me: ConversationType = getDefaultConversationWithServiceId({
   isMe: true,
 });
 
-const members: Array<ConversationType> = [
+const conversations: Array<ConversationType> = [
   getDefaultConversationWithServiceId({
     id: '555444',
     title: 'Mahershala Ali',
@@ -62,6 +63,8 @@ const members: Array<ConversationType> = [
   me,
 ];
 
+const members = _toMembers(conversations);
+
 describe('MentionCompletion', () => {
   let mockQuill: Omit<
     Partial<{ [K in keyof Quill]: SinonStub }>,
@@ -73,7 +76,7 @@ describe('MentionCompletion', () => {
 
   beforeEach(function beforeEach() {
     const memberRepositoryRef: MutableRefObject<MemberRepository> = {
-      current: new MemberRepository(members),
+      current: new MemberRepository(conversations),
     };
 
     const options: MentionCompletionOptions = {
@@ -106,7 +109,7 @@ describe('MentionCompletion', () => {
   describe('onTextChange', () => {
     let possiblyShowMemberResultsStub: sinon.SinonStub<
       [],
-      ReadonlyArray<ConversationType>
+      ReadonlyArray<MemberType>
     >;
 
     beforeEach(() => {
@@ -159,7 +162,7 @@ describe('MentionCompletion', () => {
   describe('completeMention', () => {
     describe('given a completable mention', () => {
       let insertMentionStub: SinonStub<
-        [ConversationType, number, number, (boolean | undefined)?],
+        [MemberType, number, number, (boolean | undefined)?],
         void
       >;
 
