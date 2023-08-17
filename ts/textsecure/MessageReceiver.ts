@@ -139,6 +139,7 @@ import { inspectUnknownFieldTags } from '../util/inspectProtobufs';
 import { incrementMessageCounter } from '../util/incrementMessageCounter';
 import { filterAndClean } from '../types/BodyRange';
 import { getCallEventForProto } from '../util/callDisposition';
+import { checkOurPniIdentityKey } from '../util/checkOurPniIdentityKey';
 import { CallLogEvent } from '../types/CallDisposition';
 
 const GROUPV2_ID_LENGTH = 32;
@@ -297,6 +298,8 @@ export default class MessageReceiver
   private serverTrustRoot: Uint8Array;
 
   private stoppingProcessing?: boolean;
+
+  private pniIdentityKeyCheckRequired?: boolean;
 
   constructor({ server, storage, serverTrustRoot }: MessageReceiverOptions) {
     super();
@@ -738,6 +741,15 @@ export default class MessageReceiver
         this.decryptAndCacheBatcher.flushAndWait(),
         this.cacheRemoveBatcher.flushAndWait(),
       ]);
+
+      if (this.pniIdentityKeyCheckRequired) {
+        log.warn(
+          "MessageReceiver: got 'empty' event, " +
+            'running scheduled pni identity key check'
+        );
+        drop(checkOurPniIdentityKey());
+      }
+      this.pniIdentityKeyCheckRequired = false;
 
       log.info("MessageReceiver: emitting 'empty' event");
       this.dispatchEvent(new EmptyEvent());
@@ -2033,6 +2045,16 @@ export default class MessageReceiver
           throw error;
         }
 
+        if (serviceIdKind === ServiceIdKind.PNI) {
+          log.info(
+            'MessageReceiver.decrypt: Error on PNI; no further processing; ' +
+              'queueing pni identity check'
+          );
+          this.pniIdentityKeyCheckRequired = true;
+          this.removeFromCache(envelope);
+          throw error;
+        }
+
         const { cipherTextBytes, cipherTextType } = envelope;
         const event = new DecryptionErrorEvent(
           {
@@ -3318,6 +3340,11 @@ export default class MessageReceiver
       log.warn('MessageReceiver: empty pni change number sync message');
       return;
     }
+
+    if (this.pniIdentityKeyCheckRequired) {
+      log.warn('MessageReceiver: canceling pni identity key check');
+    }
+    this.pniIdentityKeyCheckRequired = false;
 
     const manager = window.getAccountManager();
     await manager.setPni(updatedPni, {
