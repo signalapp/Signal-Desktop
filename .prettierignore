@@ -18,6 +18,7 @@ ts/test/automation/notes
 node_modules/**
 mnemonic_languages/**
 .vscode/
+.vscrof/
 
 # Managed by package manager (`yarn`/`npm`):
 /package.json

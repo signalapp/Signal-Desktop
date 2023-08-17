@@ -4,6 +4,7 @@ mnemonic_languages/**
 
 # editor
 .vscode/**
+.vscrof/**
 
 # TypeScript generated files
 ts/**/*.js
