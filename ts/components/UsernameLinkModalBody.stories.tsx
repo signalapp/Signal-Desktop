@@ -27,7 +27,7 @@ export default {
     link: {
       control: { type: 'text' },
       defaultValue:
-        'https://signal.me#eu/n-AJkmmykrFB7j6UODGndSycxcMdp_v6ppRp9rFu5Ad39q_9Ngi_k9-TARWfT43t',
+        'https://signal.me/#eu/n-AJkmmykrFB7j6UODGndSycxcMdp_v6ppRp9rFu5Ad39q_9Ngi_k9-TARWfT43t',
     },
     username: {
       control: { type: 'text' },

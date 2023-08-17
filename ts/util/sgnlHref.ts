@@ -188,7 +188,7 @@ export function generateUsernameLink(
   base64: string,
   { short = false }: GenerateUsernameLinkOptionsType = {}
 ): string {
-  const shortVersion = `signal.me#eu/${toWebSafeBase64(base64)}`;
+  const shortVersion = `signal.me/#eu/${toWebSafeBase64(base64)}`;
   if (short) {
     return shortVersion;
   }

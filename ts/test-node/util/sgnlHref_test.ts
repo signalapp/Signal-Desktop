@@ -398,7 +398,7 @@ describe('sgnlHref', () => {
         generateUsernameLink(
           'E7wk7FTMz/UYjLAsswHpDsGku8CW7yTmlBh8gtd4yqjQlqcbh09F25x0aQT4/Efe'
         ),
-        'https://signal.me#eu/E7wk7FTMz_UYjLAsswHpDsGku8CW7yTmlBh8gtd4yqjQlqcbh09F25x0aQT4_Efe'
+        'https://signal.me/#eu/E7wk7FTMz_UYjLAsswHpDsGku8CW7yTmlBh8gtd4yqjQlqcbh09F25x0aQT4_Efe'
       );
     });
 
@@ -408,7 +408,7 @@ describe('sgnlHref', () => {
           'E7wk7FTMz/UYjLAsswHpDsGku8CW7yTmlBh8gtd4yqjQlqcbh09F25x0aQT4/Efe',
           { short: true }
         ),
-        'signal.me#eu/E7wk7FTMz_UYjLAsswHpDsGku8CW7yTmlBh8gtd4yqjQlqcbh09F25x0aQT4_Efe'
+        'signal.me/#eu/E7wk7FTMz_UYjLAsswHpDsGku8CW7yTmlBh8gtd4yqjQlqcbh09F25x0aQT4_Efe'
       );
     });
   });
