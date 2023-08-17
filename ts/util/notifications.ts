@@ -116,7 +116,6 @@ function clearByMessageId(messageId: string) {
   }
 }
 
-// tslint:disable-next-line: cyclomatic-complexity
 function update(forceRefresh = false) {
   if (lastNotificationDisplayed) {
     lastNotificationDisplayed.close();

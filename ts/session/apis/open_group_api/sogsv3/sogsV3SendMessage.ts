@@ -147,5 +147,5 @@ export const sendMessageOnionV4BlindedRequest = async (
     throw new Error('Could not blinded message request, server returned invalid data');
   }
 
-  return { serverId, serverTimestamp: Math.floor(serverTimestamp * 1000) }; //timestamp are now returned with a seconds.ms syntax
+  return { serverId, serverTimestamp: Math.floor(serverTimestamp * 1000) }; // timestamp are now returned with a seconds.ms syntax
 };

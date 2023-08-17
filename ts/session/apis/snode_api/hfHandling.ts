@@ -12,7 +12,8 @@ const hasSeenHardfork191ItemId = 'hasSeenHardfork191';
  * this is only intended for testing. Do not call this in production.
  */
 export function resetHardForkCachedValues() {
-  hasSeenHardfork190 = hasSeenHardfork191 = undefined;
+  hasSeenHardfork190 = undefined;
+  hasSeenHardfork191 = undefined;
 }
 
 /**

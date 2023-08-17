@@ -1,10 +1,15 @@
-import React, { useEffect } from 'react';
+import moment from 'moment';
+import React from 'react';
 import { Provider } from 'react-redux';
-import { LeftPane } from './leftpane/LeftPane';
-
-// tslint:disable-next-line: no-submodule-imports
+import styled from 'styled-components';
+import { fromPairs, map } from 'lodash';
 import { persistStore } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
+import useUpdate from 'react-use/lib/useUpdate';
+import useMount from 'react-use/lib/useMount';
+
+import { LeftPane } from './leftpane/LeftPane';
+// moment does not support es-419 correctly (and cause white screen on app start)
 import { getConversationController } from '../session/conversations';
 import { UserUtils } from '../session/utils';
 import { createStore } from '../state/createStore';
@@ -24,30 +29,29 @@ import { initialThemeState } from '../state/ducks/theme';
 import { TimerOptionsArray } from '../state/ducks/timerOptions';
 import { initialUserConfigState } from '../state/ducks/userConfig';
 import { StateType } from '../state/reducer';
-import { makeLookup } from '../util';
 import { ExpirationTimerOptions } from '../util/expiringMessages';
 import { SessionMainPanel } from './SessionMainPanel';
 
-// moment does not support es-419 correctly (and cause white screen on app start)
-import moment from 'moment';
-import styled from 'styled-components';
+import { SettingsKey } from '../data/settings-key';
+import { getSettingsInitialState, updateAllOnStorageReady } from '../state/ducks/settings';
 import { initialSogsRoomInfoState } from '../state/ducks/sogsRoomInfo';
+import { useHasDeviceOutdatedSyncing } from '../state/selectors/settings';
 import { Storage } from '../util/storage';
+import { NoticeBanner } from './NoticeBanner';
+import { Flex } from './basic/Flex';
+
+function makeLookup<T>(items: Array<T>, key: string): { [key: string]: T } {
+  // Yep, we can't index into item without knowing what it is. True. But we want to.
+  const pairs = map(items, item => [(item as any)[key] as string, item]);
+
+  return fromPairs(pairs);
+}
 
 // Default to the locale from env. It will be overridden if moment
 // does not recognize it with what moment knows which is the closest.
 // i.e. es-419 will return 'es'.
 // We just need to use what we got from moment in getLocale on the updateLocale below
 moment.locale((window.i18n as any).getLocale());
-
-// Workaround: A react component's required properties are filtering up through connect()
-//   https://github.com/DefinitelyTyped/DefinitelyTyped/issues/31363
-import useUpdate from 'react-use/lib/useUpdate';
-import { SettingsKey } from '../data/settings-key';
-import { NoticeBanner } from './NoticeBanner';
-import { Flex } from './basic/Flex';
-import { useHasDeviceOutdatedSyncing } from '../state/selectors/settings';
-import { getSettingsInitialState, updateAllOnStorageReady } from '../state/ducks/settings';
 
 const StyledGutter = styled.div`
   width: 380px !important;
@@ -99,8 +103,8 @@ function setupLeftPane(forceUpdateInboxComponent: () => void) {
 const SomeDeviceOutdatedSyncingNotice = () => {
   const outdatedBannerShouldBeShown = useHasDeviceOutdatedSyncing();
 
-  const dismiss = async () => {
-    await Storage.put(SettingsKey.someDeviceOutdatedSyncing, false);
+  const dismiss = () => {
+    void Storage.put(SettingsKey.someDeviceOutdatedSyncing, false);
   };
 
   if (!outdatedBannerShouldBeShown) {
@@ -117,9 +121,9 @@ const SomeDeviceOutdatedSyncingNotice = () => {
 export const SessionInboxView = () => {
   const update = useUpdate();
   // run only on mount
-  useEffect(() => {
+  useMount(() => {
     setupLeftPane(update);
-  }, []);
+  });
 
   if (!window.inboxStore) {
     return null;

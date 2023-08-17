@@ -36,8 +36,6 @@ export type OpenGroupV2InfoJoinable = OpenGroupV2Info & {
   base64Data?: string;
 };
 
-// tslint:disable: no-http-string
-
 export const ourSogsLegacyIp = '116.203.70.33';
 export const ourSogsDomainName = 'open.getsession.org';
 export const ourSogsUrl = `https://${ourSogsDomainName}`;
@@ -92,8 +90,8 @@ export function hasExistingOpenGroup(server: string, roomId: string) {
   } catch (e) {
     try {
       serverUrl = new window.URL(`http://${serverLowerCase}`);
-    } catch (e) {
-      window.log.error(`hasExistingOpenGroup with ${serverNotLowerCased} with ${e.message}`);
+    } catch (err2) {
+      window.log.error(`hasExistingOpenGroup with ${serverNotLowerCased} with ${err2.message}`);
 
       return false;
     }

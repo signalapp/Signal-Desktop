@@ -1,9 +1,16 @@
-import * as GoogleChrome from '../../../ts/util/GoogleChrome';
-import * as MIME from '../../../ts/types/MIME';
-import { toLogFormat } from './Errors';
 import { arrayBufferToBlob, blobToArrayBuffer } from 'blob-util';
-
 import { isString } from 'lodash';
+
+import * as MIME from '../MIME';
+import * as GoogleChrome from '../../util/GoogleChrome';
+import { toLogFormat } from './Errors';
+
+import {
+  deleteOnDisk,
+  getAbsoluteAttachmentPath,
+  readAttachmentData,
+  writeNewAttachmentData,
+} from '../MessageAttachment';
 import {
   getImageDimensions,
   makeImageThumbnailBuffer,
@@ -13,12 +20,6 @@ import {
   THUMBNAIL_CONTENT_TYPE,
   THUMBNAIL_SIDE,
 } from './VisualAttachment';
-import {
-  deleteOnDisk,
-  getAbsoluteAttachmentPath,
-  readAttachmentData,
-  writeNewAttachmentData,
-} from '../MessageAttachment';
 
 // Returns true if `rawAttachment` is a valid attachment based on our current schema.
 // Over time, we can expand this definition to become more narrow, e.g. require certain

@@ -30,7 +30,6 @@ const toMediaItem = (date: Date): MediaItemType => ({
   messageId: '123456',
 });
 
-// tslint:disable: max-func-body-length
 describe('groupMediaItemsByDate', () => {
   it('should group mediaItems', () => {
     const referenceTime = new Date('2018-04-12T18:00Z').getTime(); // Thu

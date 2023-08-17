@@ -2,10 +2,11 @@ import { SignalService } from '../../protobuf';
 import { PubKey } from '../types';
 import { concatUInt8Array, getSodiumRenderer, MessageEncrypter } from '.';
 import { fromHexToArray } from '../utils/String';
-export { concatUInt8Array, getSodiumRenderer };
-import { Data } from '../../../ts/data/data';
+import { Data } from '../../data/data';
 import { UserUtils } from '../utils';
 import { addMessagePadding } from './BufferPadding';
+
+export { concatUInt8Array, getSodiumRenderer };
 
 type EncryptResult = {
   envelopeType: SignalService.Envelope.Type;

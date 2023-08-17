@@ -1,5 +1,7 @@
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import styled from 'styled-components';
+import classNames from 'classnames';
 import { clone } from 'lodash';
 import { Data } from '../../../../data/data';
 import { MessageModelType, MessageRenderingProps } from '../../../../models/messageType';
@@ -29,8 +31,6 @@ import { AudioPlayerWithEncryptedFile } from '../../H5AudioPlayer';
 import { ImageGrid } from '../../ImageGrid';
 import { LightBoxOptions } from '../../SessionConversation';
 import { ClickToTrustSender } from './ClickToTrustSender';
-import styled from 'styled-components';
-import classNames from 'classnames';
 import { StyledMessageHighlighter } from './MessageContent';
 
 export type MessageAttachmentSelectorProps = Pick<
@@ -51,7 +51,6 @@ type Props = {
   handleImageError: () => void;
   highlight?: boolean;
 };
-// tslint:disable: use-simple-attributes
 
 const StyledAttachmentContainer = styled.div<{
   messageDirection: MessageModelType;
@@ -63,7 +62,6 @@ const StyledAttachmentContainer = styled.div<{
   justify-content: ${props => (props.messageDirection === 'incoming' ? 'flex-start' : 'flex-end')};
 `;
 
-// tslint:disable-next-line max-func-body-length cyclomatic-complexity
 export const MessageAttachment = (props: Props) => {
   const { messageId, imageBroken, handleImageError, highlight = false } = props;
 
@@ -82,21 +80,21 @@ export const MessageAttachment = (props: Props) => {
         });
       }
     },
-    [messageId, multiSelectMode]
+    [dispatch, messageId, multiSelectMode]
   );
 
   const onClickOnGenericAttachment = useCallback(
     (e: any) => {
       e.stopPropagation();
       e.preventDefault();
-      if (!attachments?.length) {
+      if (!attachmentProps?.attachments?.length) {
         return;
       }
 
       const messageTimestamp = attachmentProps?.timestamp || attachmentProps?.serverTimestamp || 0;
       if (attachmentProps?.sender && attachmentProps?.convoId) {
         void saveAttachmentToDisk({
-          attachment: attachments[0],
+          attachment: attachmentProps?.attachments[0],
           messageTimestamp,
           messageSender: attachmentProps?.sender,
           conversationId: attachmentProps?.convoId,

@@ -1,9 +1,10 @@
 import { from_hex, to_hex } from 'libsodium-wrappers-sumo';
-import _, { cloneDeep, flatten, isEmpty, isEqual, isString, uniqBy } from 'lodash';
+import { crypto_sign_curve25519_pk_to_ed25519 } from 'curve25519-js';
+import { cloneDeep, flatten, isEmpty, isEqual, isString, uniqBy } from 'lodash';
+
 import { getConversationController } from '../../../conversations';
 import { LibSodiumWrappers } from '../../../crypto';
 import { KeyPrefixType, PubKey } from '../../../types';
-import { crypto_sign_curve25519_pk_to_ed25519 } from 'curve25519-js';
 import { Data } from '../../../../data/data';
 import { combineKeys, generateBlindingFactor } from '../../../utils/SodiumUtils';
 import { OpenGroupData } from '../../../../data/opengroups';
@@ -152,8 +153,6 @@ export function tryMatchBlindWithStandardKey(
   // We don't want to stop iterating even if an error happens while looking for a blind/standard match.
   // That's why we catch any errors and return false if it happens.
   try {
-    // tslint:disable: no-bitwise
-
     const sessionIdNoPrefix = PubKey.removePrefixIfNeeded(PubKey.cast(standardSessionId).key);
     const blindedIdNoPrefix = PubKey.removePrefixIfNeeded(PubKey.cast(blindedSessionId).key);
     const kBytes = generateBlindingFactor(serverPubKey, sodium);
@@ -171,6 +170,7 @@ export function tryMatchBlindWithStandardKey(
     //  For the negative, what we're going to get out of the above is simply the negative of pk1, so
     // flip the sign bit to get pk2:
     const pk2 = cloneDeep(pk1);
+    // eslint-disable-next-line no-bitwise
     pk2[31] = pk1[31] ^ 0b1000_0000;
 
     const match =

@@ -1,12 +1,9 @@
+// eslint-disable-next-line import/no-unresolved
 import {} from 'styled-components/cssprop';
 
-import { LocalizerType } from '../ts/types/Util';
+import { LocalizerType } from './types/Util';
 
-import { Store } from '@reduxjs/toolkit';
-
-import { ConversationCollection, ConversationModel } from './models/conversation';
-import { ConversationType } from './state/ducks/conversations';
-import { StateType } from './state/reducer';
+import { ConversationCollection } from './models/conversation';
 import { PrimaryColorStateType, ThemeStateType } from './themes/constants/colors';
 
 export interface LibTextsecure {
@@ -37,6 +34,7 @@ declare global {
       useOnionRequests: boolean;
       useTestNet: boolean;
       useClosedGroupV3: boolean;
+      integrationTestEnv: boolean;
       debug: {
         debugLogging: boolean;
         debugLibsessionDumps: boolean;

@@ -1,11 +1,12 @@
-import _ from 'lodash';
+import { compact, flatten } from 'lodash';
 import React, { useEffect, useState } from 'react';
-import { SessionIconButton } from '../icon';
-// tslint:disable-next-line: no-submodule-imports
+
 import { useDispatch, useSelector } from 'react-redux';
 import useInterval from 'react-use/lib/useInterval';
 import styled from 'styled-components';
 import { Data } from '../../data/data';
+import { SessionIconButton } from '../icon';
+
 import {
   deleteAllMessagesByConvoIdWithConfirmation,
   setDisappearingMessagesByConvoId,
@@ -58,7 +59,7 @@ async function getMediaGalleryProps(
     Constants.CONVERSATION.DEFAULT_DOCUMENTS_FETCH_COUNT
   );
 
-  const media = _.flatten(
+  const media = flatten(
     rawMedia.map(attributes => {
       const { attachments, source, id, timestamp, serverTimestamp, received_at } = attributes;
 
@@ -110,7 +111,7 @@ async function getMediaGalleryProps(
 
   return {
     media,
-    documents: _.compact(documents), // remove null
+    documents: compact(documents), // remove null
   };
 }
 
@@ -201,8 +202,6 @@ const StyledName = styled.h4`
   font-size: var(--font-size-md);
 `;
 
-// tslint:disable: cyclomatic-complexity
-// tslint:disable: max-func-body-length
 export const SessionRightPanelWithDetails = () => {
   const [documents, setDocuments] = useState<Array<MediaItemType>>([]);
   const [media, setMedia] = useState<Array<MediaItemType>>([]);
@@ -224,22 +223,17 @@ export const SessionRightPanelWithDetails = () => {
     let isRunning = true;
 
     if (isShowing && selectedConvoKey) {
+      // eslint-disable-next-line more/no-then
       void getMediaGalleryProps(selectedConvoKey).then(results => {
         if (isRunning) {
-          if (!_.isEqual(documents, results.documents)) {
-            setDocuments(results.documents);
-          }
-
-          if (!_.isEqual(media, results.media)) {
-            setMedia(results.media);
-          }
+          setDocuments(results.documents);
+          setMedia(results.media);
         }
       });
     }
 
     return () => {
       isRunning = false;
-      return;
     };
   }, [isShowing, selectedConvoKey]);
 
@@ -252,10 +246,6 @@ export const SessionRightPanelWithDetails = () => {
       }
     }
   }, 10000);
-
-  if (!selectedConvoKey) {
-    return null;
-  }
 
   const showMemberCount = !!(subscriberCount && subscriberCount > 0);
   const commonNoShow = isKickedFromGroup || left || isBlocked || !isActive;
@@ -270,6 +260,9 @@ export const SessionRightPanelWithDetails = () => {
 
   const timerOptions = useSelector(getTimerOptions).timerOptions;
 
+  if (!selectedConvoKey) {
+    return null;
+  }
   const disappearingMessagesOptions = timerOptions.map(option => {
     return {
       content: option.name,
@@ -308,6 +301,7 @@ export const SessionRightPanelWithDetails = () => {
         <StyledGroupSettingsItem
           className="group-settings-item"
           role="button"
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
           onClick={async () => {
             await showUpdateGroupNameByConvoId(selectedConvoKey);
           }}
@@ -342,6 +336,7 @@ export const SessionRightPanelWithDetails = () => {
         <StyledGroupSettingsItem
           className="group-settings-item"
           role="button"
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
           onClick={async () => {
             await showUpdateGroupMembersByConvoId(selectedConvoKey);
           }}
@@ -360,7 +355,6 @@ export const SessionRightPanelWithDetails = () => {
 
       <MediaGallery documents={documents} media={media} />
       {isGroup && (
-        // tslint:disable-next-line: use-simple-attributes
         <StyledLeaveButton>
           <SessionButton
             text={leaveGroupString}

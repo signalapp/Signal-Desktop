@@ -76,14 +76,13 @@ export const DraggableCallContainer = () => {
   );
   const videoRefRemote = useRef<HTMLVideoElement>(null);
 
-  function onWindowResize() {
-    if (positionY + 50 > window.innerHeight || positionX + 50 > window.innerWidth) {
-      setPositionX(window.innerWidth / 2);
-      setPositionY(window.innerHeight / 2);
-    }
-  }
-
   useEffect(() => {
+    function onWindowResize() {
+      if (positionY + 50 > window.innerHeight || positionX + 50 > window.innerWidth) {
+        setPositionX(window.innerWidth / 2);
+        setPositionY(window.innerHeight / 2);
+      }
+    }
     window.addEventListener('resize', onWindowResize);
 
     return () => {

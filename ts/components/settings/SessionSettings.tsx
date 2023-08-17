@@ -1,18 +1,20 @@
+import { shell } from 'electron';
 import React from 'react';
+import autoBind from 'auto-bind';
+import styled from 'styled-components';
 
 import { SettingsHeader } from './SessionSettingsHeader';
-import { shell } from 'electron';
+
 import { SessionIconButton } from '../icon';
-import autoBind from 'auto-bind';
+
 import { SessionNotificationGroupSettings } from './SessionNotificationGroupSettings';
-// tslint:disable-next-line: no-submodule-imports
+
 import { CategoryConversations } from './section/CategoryConversations';
 import { SettingsCategoryPrivacy } from './section/CategoryPrivacy';
 import { SettingsCategoryAppearance } from './section/CategoryAppearance';
 import { Data } from '../../data/data';
 import { SettingsCategoryPermissions } from './section/CategoryPermissions';
 import { SettingsCategoryHelp } from './section/CategoryHelp';
-import styled from 'styled-components';
 import { sessionPassword } from '../../state/ducks/modalDialog';
 import { PasswordAction } from '../dialog/SessionPasswordDialog';
 import { SectionType, showLeftPaneSection } from '../../state/ducks/section';
@@ -171,6 +173,7 @@ export class SessionSettingsView extends React.Component<SettingsViewProps, Stat
     this.settingsViewRef = React.createRef();
     autoBind(this);
 
+    // eslint-disable-next-line more/no-then
     void Data.getPasswordHash().then(hash => {
       this.setState({
         hasPassword: !!hash,

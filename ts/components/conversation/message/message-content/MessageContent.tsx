@@ -28,6 +28,8 @@ type Props = {
   isDetailView?: boolean;
 };
 
+// TODO not too sure what is this doing? It is not preventDefault()
+// or stopPropagation() so I think this is never cancelling a click event?
 function onClickOnMessageInnerContainer(event: React.MouseEvent<HTMLDivElement>) {
   const selection = window.getSelection();
   // Text is being selected
@@ -38,6 +40,7 @@ function onClickOnMessageInnerContainer(event: React.MouseEvent<HTMLDivElement>)
   // User clicked on message body
   const target = event.target as HTMLDivElement;
   if (target.className === 'text-selectable' || window.contextMenuShown) {
+    // eslint-disable-next-line no-useless-return
     return;
   }
 }
@@ -83,10 +86,10 @@ const StyledMessageOpaqueContent = styled(StyledMessageHighlighter)<{
   align-self: ${props => (props.messageDirection === 'incoming' ? 'flex-start' : 'flex-end')};
   padding: var(--padding-message-content);
   border-radius: var(--border-radius-message-box);
+  max-width: 100%;
 `;
 
 export const IsMessageVisibleContext = createContext(false);
-// tslint:disable: use-simple-attributes
 
 export const MessageContent = (props: Props) => {
   const [highlight, setHighlight] = useState(false);
@@ -101,7 +104,7 @@ export const MessageContent = (props: Props) => {
 
   const [imageBroken, setImageBroken] = useState(false);
 
-  const onVisible = (inView: boolean | Object) => {
+  const onVisible = (inView: boolean | object) => {
     if (
       inView === true ||
       ((inView as any).type === 'focus' && (inView as any).returnValue === true)
@@ -123,7 +126,7 @@ export const MessageContent = (props: Props) => {
   useLayoutEffect(() => {
     if (isQuotedMessageToAnimate) {
       if (!highlight && !didScroll) {
-        //scroll to me and flash me
+        // scroll to me and flash me
         scrollToLoadedMessage(props.messageId, 'quote-or-search-result');
         setDidScroll(true);
         if (shouldHighlightMessage) {
@@ -139,8 +142,14 @@ export const MessageContent = (props: Props) => {
     if (didScroll) {
       setDidScroll(false);
     }
-    return;
-  });
+  }, [
+    isQuotedMessageToAnimate,
+    highlight,
+    didScroll,
+    scrollToLoadedMessage,
+    props.messageId,
+    shouldHighlightMessage,
+  ]);
 
   if (!contentProps) {
     return null;

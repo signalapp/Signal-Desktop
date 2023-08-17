@@ -49,7 +49,7 @@ base64 -i certificate.p12 -o encoded.txt
 
 ### Node version
 
-You will need node `16.13.0`.
+You will need node `18.15.0`.
 This can be done by using [nvm](https://github.com/nvm-sh/nvm) and running `nvm use` or you can install it manually.
 Once nvm is installed, just run `nvm install` to install the version from the `.nvmrc` file and then `nvm use` to use it.
 

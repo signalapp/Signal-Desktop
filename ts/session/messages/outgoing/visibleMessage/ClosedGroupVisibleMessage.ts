@@ -29,7 +29,7 @@ export class ClosedGroupVisibleMessage extends ClosedGroupMessage {
     }
   }
   public dataProto(): SignalService.DataMessage {
-    //expireTimer is set in the dataProto in this call directly
+    // expireTimer is set in the dataProto in this call directly
     const dataProto = this.chatMessage.dataProto();
 
     const groupMessage = new SignalService.GroupContext();

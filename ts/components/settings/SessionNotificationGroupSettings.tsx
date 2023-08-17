@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import React from 'react';
-// tslint:disable-next-line: no-submodule-imports
+
 import useUpdate from 'react-use/lib/useUpdate';
 import styled from 'styled-components';
 import { SettingsKey } from '../../data/settings-key';
@@ -9,7 +10,6 @@ import { SessionButton } from '../basic/SessionButton';
 import { SessionRadioGroup } from '../basic/SessionRadioGroup';
 import { SpacerLG } from '../basic/Text';
 import { SessionSettingsItemWrapper, SessionToggleWithDescription } from './SessionSettingListItem';
-// tslint:disable: use-simple-attributes
 
 enum NOTIFICATION {
   MESSAGE = 'message',

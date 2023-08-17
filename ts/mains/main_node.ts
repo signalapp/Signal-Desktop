@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
+/* eslint-disable no-void */
+/* eslint-disable import/first */
+/* eslint-disable import/order */
 /* eslint-disable no-console */
 
 import {
@@ -30,8 +34,6 @@ import packageJson from '../../package.json'; // checked - only node
 
 setupGlobalErrorHandler();
 import electronLocalshortcut from 'electron-localshortcut';
-
-// tslint:disable: no-console
 
 const getRealPath = pify(fs.realpath);
 
@@ -193,9 +195,9 @@ function prepareURL(pathSegments: Array<string>, moreKeys?: { theme: any }) {
 }
 
 function handleUrl(event: any, target: string) {
-  event.preventDefault();
+  event?.preventDefault();
   const { protocol } = url.parse(target);
-  // tslint:disable-next-line: no-http-string
+
   if (protocol === 'http:' || protocol === 'https:') {
     void shell.openExternal(target);
   }
@@ -203,7 +205,11 @@ function handleUrl(event: any, target: string) {
 
 function captureClicks(window: BrowserWindow) {
   window.webContents.on('will-navigate', handleUrl);
-  window.webContents.on('new-window', handleUrl);
+
+  window.webContents.setWindowOpenHandler(({ url: urlToOpen }) => {
+    handleUrl(undefined, urlToOpen);
+    return { action: 'deny' };
+  });
 }
 
 function getDefaultWindowSize() {
@@ -233,7 +239,7 @@ function isVisible(window: { x: number; y: number; width: number }, bounds: any)
   const BOUNDS_BUFFER = 100;
 
   // requiring BOUNDS_BUFFER pixels on the left or right side
-  // tslint:disable: restrict-plus-operands
+
   const rightSideClearOfLeftBound = window.x + window.width >= boundsX + BOUNDS_BUFFER;
   const leftSideClearOfRightBound = window.x <= boundsX + boundsWidth - BOUNDS_BUFFER;
 
@@ -255,7 +261,7 @@ function getStartInTray() {
   const usingTrayIcon = startInTray || process.argv.some(arg => arg === '--use-tray-icon');
   return { usingTrayIcon, startInTray };
 }
-// tslint:disable-next-line: max-func-body-length
+
 async function createWindow() {
   const { minWidth, minHeight, width, height } = getWindowSize();
   windowConfig = windowConfig || {};
@@ -273,7 +279,7 @@ async function createWindow() {
       screen.getPrimaryDisplay().workAreaSize.width - getDefaultWindowSize().defaultWidth;
     const screenHeight =
       screen.getPrimaryDisplay().workAreaSize.height - getDefaultWindowSize().defaultHeight;
-    // tslint:disable: insecure-random
+
     picked.x = Math.floor(Math.random() * screenWidth);
     picked.y = Math.floor(Math.random() * screenHeight);
   }
@@ -589,7 +595,7 @@ async function showPasswordWindow() {
 }
 
 let aboutWindow: BrowserWindow | null;
-// tslint:disable-next-line: max-func-body-length
+
 async function showAbout() {
   if (aboutWindow) {
     aboutWindow.show();
@@ -707,7 +713,7 @@ async function saveDebugLog(_event: any, logText: any) {
     if (result === undefined || outputPath === undefined || outputPath === '') {
       throw Error("User clicked Save button but didn't create a file");
     }
-    // tslint:disable: non-literal-fs-path
+
     fs.writeFile(outputPath, logText, err => {
       if (err) {
         throw Error(`${err}`);
@@ -847,7 +853,6 @@ async function requestShutdown() {
       }
 
       resolve(undefined);
-      return;
     });
     mainWindow?.webContents.send('get-ready-for-shutdown');
 
@@ -909,9 +914,7 @@ app.on('web-contents-created', (_createEvent, contents) => {
   contents.on('will-attach-webview', attachEvent => {
     attachEvent.preventDefault();
   });
-  contents.on('new-window', newEvent => {
-    newEvent.preventDefault();
-  });
+  contents.setWindowOpenHandler(() => ({ action: 'deny' }));
 });
 
 // Ingested in preload.js via a sendSync call

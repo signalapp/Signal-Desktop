@@ -96,21 +96,20 @@ export const forceSyncConfigurationNowIfNeeded = async (waitForMessageSent = fal
       if (waitForMessageSent) {
         window.Whisper.events.once(ConfigurationSyncJobDone, () => {
           resolve(true);
-          return;
         });
         return;
-      } else {
-        resolve(true);
-        return;
       }
+      resolve(true);
+      return;
     }
     const allConvos = getConversationController().getConversations();
 
+    // eslint-disable-next-line more/no-then
     void getCurrentConfigurationMessage(allConvos)
       .then(configMessage => {
         // this just adds the message to the sending queue.
         // if waitForMessageSent is set, we need to effectively wait until then
-        // tslint:disable-next-line: no-void-expression
+
         const callback = waitForMessageSent
           ? () => {
               resolve(true);

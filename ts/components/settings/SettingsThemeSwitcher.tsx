@@ -14,8 +14,6 @@ import {
 import { switchPrimaryColorTo } from '../../themes/switchPrimaryColor';
 import { getPrimaryColor } from '../../state/selectors/primaryColor';
 
-// tslint:disable: use-simple-attributes
-
 const StyledSwitcherContainer = styled.div`
   font-size: var(--font-size-md);
   padding: var(--margins-lg);
@@ -84,8 +82,8 @@ const Themes = () => {
       {themes.map(theme => (
         <ThemeContainer
           key={theme.id}
-          onClick={async () => {
-            await switchThemeTo({
+          onClick={() => {
+            void switchThemeTo({
               theme: theme.id,
               mainWindow: true,
               dispatch,
@@ -131,8 +129,8 @@ export const SettingsThemeSwitcher = () => {
               inputName="primary-colors"
               ariaLabel={item.ariaLabel}
               color={item.color}
-              onClick={async () => {
-                await switchPrimaryColorTo(item.id, dispatch);
+              onClick={() => {
+                void switchPrimaryColorTo(item.id, dispatch);
               }}
             />
           );

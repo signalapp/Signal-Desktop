@@ -4,7 +4,6 @@ import process from 'process';
 import { app } from 'electron';
 
 import { start } from './base_config';
-// tslint:disable: no-console
 
 let storageProfile;
 

@@ -99,7 +99,8 @@
 }
 
 @mixin session-h-title {
-  @include fontAccentBold();
+  font-weight: bold;
+  font-family: var(--font-accent), var(--font-default);
 }
 
 h1 {

@@ -4,6 +4,8 @@ import { UserConfigWrapperActions } from '../../../webworker/workers/browser/lib
 import { getConversationController } from '../../conversations';
 import { fromHexToArray } from '../String';
 import { CONVERSATION_PRIORITIES } from '../../../models/conversationAttributes';
+import { Storage } from '../../../util/storage';
+import { SettingsKey } from '../../../data/settings-key';
 
 async function insertUserProfileIntoWrapper(convoId: string) {
   if (!isUserProfileToStoreInWrapper(convoId)) {
@@ -21,10 +23,12 @@ async function insertUserProfileIntoWrapper(convoId: string) {
   const dbProfileKey = fromHexToArray(ourConvo.get('profileKey') || '');
   const priority = ourConvo.get('priority') || CONVERSATION_PRIORITIES.default;
 
+  const areBlindedMsgRequestEnabled = !!Storage.get(SettingsKey.hasBlindedMsgRequestsEnabled);
+
   window.log.debug(
     `inserting into userprofile wrapper: username:"${dbName}", priority:${priority} image:${JSON.stringify(
       { url: dbProfileUrl, key: dbProfileKey }
-    )} `
+    )}, settings: ${JSON.stringify({ areBlindedMsgRequestEnabled })}`
   );
   // const expirySeconds = ourConvo.get('expireTimer') || 0;
   if (dbProfileUrl && !isEmpty(dbProfileKey)) {
@@ -40,6 +44,7 @@ async function insertUserProfileIntoWrapper(convoId: string) {
   } else {
     await UserConfigWrapperActions.setUserInfo(dbName, priority, null); // expirySeconds
   }
+  await UserConfigWrapperActions.setEnableBlindedMsgRequest(areBlindedMsgRequestEnabled);
 }
 
 function isUserProfileToStoreInWrapper(convoId: string) {

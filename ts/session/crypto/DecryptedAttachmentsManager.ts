@@ -1,3 +1,7 @@
+/* eslint-disable import/no-import-module-exports */
+/* eslint-disable no-async-promise-executor */
+/* eslint-disable @typescript-eslint/no-misused-promises */
+/* eslint-disable no-restricted-syntax */
 /**
  * This file handles attachments for us.
  * If the attachment filepath is an encrypted one. It will decrypt it, cache it, and return the blob url to it.
@@ -5,9 +9,11 @@
  *
  *
  */
+import path from 'path';
+import { reject } from 'lodash';
 
 import * as fse from 'fs-extra';
-import path from 'path';
+
 import { DURATION } from '../constants';
 import { makeObjectUrl, urlToBlob } from '../../types/attachments/VisualAttachment';
 import {
@@ -130,27 +136,24 @@ export const getDecryptedMediaUrl = async (
             urlToDecryptingPromise.delete(url);
             resolve(obj);
             return;
-          } else {
-            // failed to decrypt, fallback to url image loading
-            // it might be a media we received before the update encrypting attachments locally.
-            urlToDecryptingPromise.delete(url);
-            window.log.info('error decrypting file :', url);
-            resolve(url);
-
-            return;
           }
+          // failed to decrypt, fallback to url image loading
+          // it might be a media we received before the update encrypting attachments locally.
+          urlToDecryptingPromise.delete(url);
+          window.log.info('error decrypting file :', url);
+          resolve(url);
         } catch (e) {
           window.log.warn(e);
+          reject(e.message);
         }
       })
     );
 
     return urlToDecryptingPromise.get(url) as Promise<string>;
-  } else {
-    // Not sure what we got here. Just return the file.
-
-    return url;
   }
+  // Not sure what we got here. Just return the file.
+
+  return url;
 };
 
 /**
@@ -163,7 +166,8 @@ export const getAlreadyDecryptedMediaUrl = (url: string): string | null => {
   }
   if (url.startsWith('blob:')) {
     return url;
-  } else if (exports.getLocalAttachmentPath() && url.startsWith(exports.getLocalAttachmentPath())) {
+  }
+  if (exports.getLocalAttachmentPath() && url.startsWith(exports.getLocalAttachmentPath())) {
     if (urlToDecryptedBlobMap.has(url)) {
       const existing = urlToDecryptedBlobMap.get(url);
 

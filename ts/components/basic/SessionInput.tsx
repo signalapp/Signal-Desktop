@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import classNames from 'classnames';
 import { SessionIconButton } from '../icon';
+import { Noop } from '../../types/Util';
 
 type Props = {
   label?: string;
@@ -44,7 +45,7 @@ const ErrorItem = (props: { error: string | undefined }) => {
   );
 };
 
-const ShowHideButton = (props: { toggleForceShow: () => void }) => {
+const ShowHideButton = (props: { toggleForceShow: Noop }) => {
   return <SessionIconButton iconType="eye" iconSize="medium" onClick={props.toggleForceShow} />;
 };
 

@@ -40,7 +40,7 @@ export const AboutView = () => {
         theme: window.theme,
       });
     }
-  }, [window.theme]);
+  }, []);
 
   return (
     <SessionTheme>

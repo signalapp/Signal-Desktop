@@ -88,7 +88,7 @@ async function opengroupRoomsLoad() {
   const loadedFromDB = await OpenGroupData.getAllV2OpenGroupRooms();
 
   if (loadedFromDB) {
-    cachedRooms = new Array();
+    cachedRooms = [];
     loadedFromDB.forEach(r => {
       try {
         cachedRooms?.push(r as any);
@@ -159,7 +159,6 @@ async function saveV2OpenGroupRoom(room: OpenGroupV2Room): Promise<void> {
     if (isNumber(foundIndex) && foundIndex > -1) {
       throwIfNotLoaded()[foundIndex] = cloneDeep(room);
     }
-    return;
   }
 }
 

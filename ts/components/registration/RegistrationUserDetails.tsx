@@ -10,7 +10,6 @@ const DisplayNameInput = (props: {
   handlePressEnter: () => any;
 }) => {
   return (
-    // tslint:disable-next-line: use-simple-attributes
     <SessionInput
       autoFocus={props.stealAutoFocus || false}
       label={window.i18n('displayName')}
@@ -32,7 +31,6 @@ const RecoveryPhraseInput = (props: {
   stealAutoFocus?: boolean;
 }) => {
   return (
-    // tslint:disable-next-line: use-simple-attributes
     <SessionInput
       label={window.i18n('recoveryPhrase')}
       type="password"
@@ -48,7 +46,6 @@ const RecoveryPhraseInput = (props: {
 };
 
 export interface Props {
-  // tslint:disable: react-unused-props-and-state
   showDisplayNameField: boolean;
   showSeedField: boolean;
   stealAutoFocus?: boolean;
@@ -75,7 +72,6 @@ export const RegistrationUserDetails = (props: Props) => {
       )}
       <div className="inputfields">
         {props.showDisplayNameField && (
-          // tslint:disable-next-line: use-simple-attributes
           <DisplayNameInput
             stealAutoFocus={!props.showSeedField && props.stealAutoFocus}
             displayName={props.displayName}

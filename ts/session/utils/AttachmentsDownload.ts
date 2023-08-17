@@ -1,9 +1,9 @@
 import { filter, isNumber, omit } from 'lodash';
-// tslint:disable-next-line: no-submodule-imports
+
 import { v4 as uuidv4 } from 'uuid';
 
 import * as Constants from '../constants';
-import { Data } from '../../../ts/data/data';
+import { Data } from '../../data/data';
 import { MessageModel } from '../../models/message';
 import { downloadAttachment, downloadAttachmentSogsV3 } from '../../receiver/attachments';
 import { initializeAttachmentLogic, processNewAttachment } from '../../types/MessageAttachment';
@@ -15,7 +15,6 @@ import { AttachmentDownloadMessageDetails } from '../../types/sqlSharedTypes';
 const MAX_ATTACHMENT_JOB_PARALLELISM = 3;
 
 const TICK_INTERVAL = Constants.DURATION.MINUTES;
-// tslint:disable: function-name
 
 const RETRY_BACKOFF = {
   1: Constants.DURATION.SECONDS * 30,
@@ -91,6 +90,7 @@ export async function addJob(attachment: any, job: AttachmentDownloadMessageDeta
 
 async function _tick() {
   await _maybeStartJob();
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   timeout = setTimeout(_tick, TICK_INTERVAL);
 }
 
@@ -131,14 +131,12 @@ async function _maybeStartJob() {
     Math.min(needed, nextJobsWithoutCurrentlyRunning.length)
   );
 
-  // tslint:disable: one-variable-per-declaration
   for (let i = 0, max = jobs.length; i < max; i += 1) {
     const job = jobs[i];
     _activeAttachmentDownloadJobs[job.id] = _runJob(job);
   }
 }
 
-// tslint:disable-next-line: cyclomatic-complexity
 async function _runJob(job: any) {
   const { id, messageId, attachment, type, index, attempts, isOpenGroupV2, openGroupV2Details } =
     job || {};
@@ -230,7 +228,6 @@ async function _runJob(job: any) {
 
     await _finishJob(found, id);
   } catch (error) {
-    // tslint:disable: restrict-plus-operands
     const currentAttempt: 1 | 2 | 3 = (attempts || 0) + 1;
 
     // if we get a 404 error for attachment downloaded, we can safely assume that the attachment expired server-side.
@@ -268,7 +265,7 @@ async function _runJob(job: any) {
     };
 
     await Data.saveAttachmentDownloadJob(failedJob);
-    // tslint:disable-next-line: no-dynamic-delete
+
     delete _activeAttachmentDownloadJobs[id];
     void _maybeStartJob();
   }
@@ -283,7 +280,7 @@ async function _finishJob(message: MessageModel | null, id: string) {
   }
 
   await Data.removeAttachmentDownloadJob(id);
-  // tslint:disable-next-line: no-dynamic-delete
+
   delete _activeAttachmentDownloadJobs[id];
   await _maybeStartJob();
 }
@@ -300,7 +297,6 @@ function _markAttachmentAsError(attachment: any) {
   };
 }
 
-// tslint:disable-next-line: cyclomatic-complexity
 function _addAttachmentToMessage(
   message: MessageModel | null | undefined,
   attachment: any,
@@ -332,6 +328,7 @@ function _addAttachmentToMessage(
         throw new Error("_addAttachmentToMessage: quote didn't exist");
       }
 
+      // eslint-disable-next-line no-param-reassign
       delete message.attributes.quote.attachments;
 
       return;
@@ -341,6 +338,7 @@ function _addAttachmentToMessage(
       throw new Error(`_addAttachmentToMessage: preview didn't exist or ${index} was too large`);
     }
 
+    // eslint-disable-next-line no-param-reassign
     delete message.attributes.preview[0].image;
     return;
   }

@@ -6,9 +6,7 @@ import {
   hasVisualMediaAttachmentInMessage,
 } from '../../types/message/initializeAttachmentMetadata';
 import { generateFakeIncomingPrivateMessage, stubWindowLog } from '../test-utils/utils';
-// tslint:disable: chai-vague-errors no-unused-expression
 
-// tslint:disable-next-line: max-func-body-length
 describe('initializeAttachmentMetadata', () => {
   beforeEach(() => {
     stubWindowLog();
@@ -23,61 +21,61 @@ describe('initializeAttachmentMetadata', () => {
     it('empty list attachments should return false', () => {
       const msgModel = generateFakeIncomingPrivateMessage();
       msgModel.set({ attachments: [] });
-      expect(hasFileAttachmentInMessage(msgModel)).to.be.false;
+      expect(hasFileAttachmentInMessage(msgModel)).to.be.eq(false);
     });
 
     it('first attachment has undefined content type should return false', () => {
       const msgModel = generateFakeIncomingPrivateMessage();
       msgModel.set({ attachments: [{ contentType: undefined }] });
-      expect(hasFileAttachmentInMessage(msgModel)).to.be.false;
+      expect(hasFileAttachmentInMessage(msgModel)).to.be.eq(false);
     });
 
     it('first attachment has null content type should return true', () => {
       const msgModel = generateFakeIncomingPrivateMessage();
       msgModel.set({ attachments: [{ contentType: null }] });
-      expect(hasFileAttachmentInMessage(msgModel)).to.be.true;
+      expect(hasFileAttachmentInMessage(msgModel)).to.be.eq(true);
     });
 
     it('first attachment is gif should return false', () => {
       const msgModel = generateFakeIncomingPrivateMessage();
       msgModel.set({ attachments: [{ contentType: 'image/gif' }] });
-      expect(hasFileAttachmentInMessage(msgModel)).to.be.false;
+      expect(hasFileAttachmentInMessage(msgModel)).to.be.eq(false);
     });
 
     it('first attachment is gif should return false', () => {
       const msgModel = generateFakeIncomingPrivateMessage();
       msgModel.set({ attachments: [{ contentType: 'image/gif' }] });
-      expect(hasFileAttachmentInMessage(msgModel)).to.be.false;
+      expect(hasFileAttachmentInMessage(msgModel)).to.be.eq(false);
     });
 
     it('first attachment is jpeg should return false', () => {
       const msgModel = generateFakeIncomingPrivateMessage();
       msgModel.set({ attachments: [{ contentType: 'image/jpeg' }] });
-      expect(hasFileAttachmentInMessage(msgModel)).to.be.false;
+      expect(hasFileAttachmentInMessage(msgModel)).to.be.eq(false);
     });
 
     it('first attachment is png should return false', () => {
       const msgModel = generateFakeIncomingPrivateMessage();
       msgModel.set({ attachments: [{ contentType: 'image/png' }] });
-      expect(hasFileAttachmentInMessage(msgModel)).to.be.false;
+      expect(hasFileAttachmentInMessage(msgModel)).to.be.eq(false);
     });
 
     it('first attachment is JPG should return false', () => {
       const msgModel = generateFakeIncomingPrivateMessage();
       msgModel.set({ attachments: [{ contentType: 'image/JPG' }] });
-      expect(hasFileAttachmentInMessage(msgModel)).to.be.false;
+      expect(hasFileAttachmentInMessage(msgModel)).to.be.eq(false);
     });
 
     it('first attachment is PNG should return false', () => {
       const msgModel = generateFakeIncomingPrivateMessage();
       msgModel.set({ attachments: [{ contentType: 'image/PNG' }] });
-      expect(hasFileAttachmentInMessage(msgModel)).to.be.false;
+      expect(hasFileAttachmentInMessage(msgModel)).to.be.eq(false);
     });
 
     it('first attachment is audio should return false', () => {
       const msgModel = generateFakeIncomingPrivateMessage();
       msgModel.set({ attachments: [{ contentType: 'audio/mp3' }] });
-      expect(hasFileAttachmentInMessage(msgModel)).to.be.false;
+      expect(hasFileAttachmentInMessage(msgModel)).to.be.eq(false);
     });
 
     it('first attachment is flagged as voice message should return false', () => {
@@ -87,7 +85,7 @@ describe('initializeAttachmentMetadata', () => {
           { contentType: 'audio/mp3', flags: SignalService.AttachmentPointer.Flags.VOICE_MESSAGE },
         ],
       });
-      expect(hasFileAttachmentInMessage(msgModel)).to.be.false;
+      expect(hasFileAttachmentInMessage(msgModel)).to.be.eq(false);
     });
 
     it('first attachment is flagged as voice message but no content type is false', () => {
@@ -97,13 +95,13 @@ describe('initializeAttachmentMetadata', () => {
           { contentType: undefined, flags: SignalService.AttachmentPointer.Flags.VOICE_MESSAGE },
         ],
       });
-      expect(hasFileAttachmentInMessage(msgModel)).to.be.false;
+      expect(hasFileAttachmentInMessage(msgModel)).to.be.eq(false);
     });
 
     it('first attachment content type is audio and other is null should return true', () => {
       const msgModel = generateFakeIncomingPrivateMessage();
       msgModel.set({ attachments: [{ contentType: 'audio/mp3' }, { contentType: null }] });
-      expect(hasFileAttachmentInMessage(msgModel)).to.be.true;
+      expect(hasFileAttachmentInMessage(msgModel)).to.be.eq(true);
     });
 
     it('first attachment content type is audio and other is null should return true', () => {
@@ -111,7 +109,7 @@ describe('initializeAttachmentMetadata', () => {
       msgModel.set({
         attachments: [{ contentType: 'audio/mp3' }, { contentType: 'file/whatever' }],
       });
-      expect(hasFileAttachmentInMessage(msgModel)).to.be.true;
+      expect(hasFileAttachmentInMessage(msgModel)).to.be.eq(true);
     });
   });
 
@@ -119,7 +117,7 @@ describe('initializeAttachmentMetadata', () => {
     it('no attachments should return false', () => {
       const msgModel = generateFakeIncomingPrivateMessage();
 
-      expect(hasVisualMediaAttachmentInMessage(msgModel)).to.be.false;
+      expect(hasVisualMediaAttachmentInMessage(msgModel)).to.be.eq(false);
     });
 
     it('empty attachments list should return false', () => {
@@ -127,7 +125,7 @@ describe('initializeAttachmentMetadata', () => {
       msgModel.set({
         attachments: [],
       });
-      expect(hasVisualMediaAttachmentInMessage(msgModel)).to.be.false;
+      expect(hasVisualMediaAttachmentInMessage(msgModel)).to.be.eq(false);
     });
 
     it('first attachment type is undefined should return false', () => {
@@ -135,7 +133,7 @@ describe('initializeAttachmentMetadata', () => {
       msgModel.set({
         attachments: [{ contentType: undefined }],
       });
-      expect(hasVisualMediaAttachmentInMessage(msgModel)).to.be.false;
+      expect(hasVisualMediaAttachmentInMessage(msgModel)).to.be.eq(false);
     });
 
     it('first attachment type is null should return false', () => {
@@ -143,7 +141,7 @@ describe('initializeAttachmentMetadata', () => {
       msgModel.set({
         attachments: [{ contentType: null }],
       });
-      expect(hasVisualMediaAttachmentInMessage(msgModel)).to.be.false;
+      expect(hasVisualMediaAttachmentInMessage(msgModel)).to.be.eq(false);
     });
 
     it('first attachment type is image/whatever should return true', () => {
@@ -151,7 +149,7 @@ describe('initializeAttachmentMetadata', () => {
       msgModel.set({
         attachments: [{ contentType: 'image/whatever' }],
       });
-      expect(hasVisualMediaAttachmentInMessage(msgModel)).to.be.true;
+      expect(hasVisualMediaAttachmentInMessage(msgModel)).to.be.eq(true);
     });
 
     it('first attachment type is jpeg should return true', () => {
@@ -159,7 +157,7 @@ describe('initializeAttachmentMetadata', () => {
       msgModel.set({
         attachments: [{ contentType: 'image/jpeg' }],
       });
-      expect(hasVisualMediaAttachmentInMessage(msgModel)).to.be.true;
+      expect(hasVisualMediaAttachmentInMessage(msgModel)).to.be.eq(true);
     });
 
     it('first attachment type is png should return true', () => {
@@ -167,7 +165,7 @@ describe('initializeAttachmentMetadata', () => {
       msgModel.set({
         attachments: [{ contentType: 'image/png' }],
       });
-      expect(hasVisualMediaAttachmentInMessage(msgModel)).to.be.true;
+      expect(hasVisualMediaAttachmentInMessage(msgModel)).to.be.eq(true);
     });
 
     it('first attachment type is JPG should return true', () => {
@@ -175,7 +173,7 @@ describe('initializeAttachmentMetadata', () => {
       msgModel.set({
         attachments: [{ contentType: 'image/JPG' }],
       });
-      expect(hasVisualMediaAttachmentInMessage(msgModel)).to.be.true;
+      expect(hasVisualMediaAttachmentInMessage(msgModel)).to.be.eq(true);
     });
 
     it('multiple attachments where one is not image and one is returns true', () => {
@@ -183,7 +181,7 @@ describe('initializeAttachmentMetadata', () => {
       msgModel.set({
         attachments: [{ contentType: 'audio/whatever' }, { contentType: 'image/JPG' }],
       });
-      expect(hasVisualMediaAttachmentInMessage(msgModel)).to.be.true;
+      expect(hasVisualMediaAttachmentInMessage(msgModel)).to.be.eq(true);
     });
 
     it('multiple attachments where both are images returns true', () => {
@@ -191,7 +189,7 @@ describe('initializeAttachmentMetadata', () => {
       msgModel.set({
         attachments: [{ contentType: 'image/whatever' }, { contentType: 'image/JPG' }],
       });
-      expect(hasVisualMediaAttachmentInMessage(msgModel)).to.be.true;
+      expect(hasVisualMediaAttachmentInMessage(msgModel)).to.be.eq(true);
     });
 
     it('multiple attachments  where none are images returns false', () => {
@@ -199,7 +197,7 @@ describe('initializeAttachmentMetadata', () => {
       msgModel.set({
         attachments: [{ contentType: 'audio/whatever' }, { contentType: 'audio/JPG' }],
       });
-      expect(hasVisualMediaAttachmentInMessage(msgModel)).to.be.false;
+      expect(hasVisualMediaAttachmentInMessage(msgModel)).to.be.eq(false);
     });
   });
 

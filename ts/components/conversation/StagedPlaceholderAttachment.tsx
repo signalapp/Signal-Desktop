@@ -1,6 +1,5 @@
 import React, { MouseEvent } from 'react';
 import styled from 'styled-components';
-// tslint:disable: react-unused-props-and-state
 
 interface Props {
   onClick: (e: MouseEvent<HTMLDivElement>) => void;

@@ -163,6 +163,20 @@ export const AudioPlayerWithEncryptedFile = (props: {
   const nextMessageToPlayId = useSelector(getNextMessageToPlayId);
   const multiSelectMode = useSelector(isMessageSelectionMode);
 
+  const dataTestId = `audio-${messageId}`;
+
+  useEffect(() => {
+    // Updates datatestId once rendered
+    if (
+      player.current?.audio.current &&
+      player.current?.container.current &&
+      player.current.container.current.dataset.testId !== dataTestId
+    ) {
+      // NOTE we can't assign the value using dataset.testId because the result is data-test-id not data-testid which is our convention
+      player.current.container.current.setAttribute('data-testid', dataTestId);
+    }
+  }, [dataTestId, player]);
+
   useEffect(() => {
     // updates playback speed to value selected in context menu
     if (
@@ -175,7 +189,7 @@ export const AudioPlayerWithEncryptedFile = (props: {
 
   useEffect(() => {
     if (messageId !== undefined && messageId === nextMessageToPlayId) {
-      player.current?.audio.current?.play();
+      void player.current?.audio.current?.play();
     }
   }, [messageId, nextMessageToPlayId, player]);
 

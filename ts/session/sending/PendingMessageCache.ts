@@ -1,11 +1,11 @@
 import _ from 'lodash';
-import { Data } from '../../../ts/data/data';
-import { PartialRawMessage, RawMessage } from '../types/RawMessage';
+import { Data } from '../../data/data';
+import { Storage } from '../../util/storage';
+import { SnodeNamespaces } from '../apis/snode_api/namespaces';
 import { ContentMessage } from '../messages/outgoing';
 import { PubKey } from '../types';
+import { PartialRawMessage, RawMessage } from '../types/RawMessage';
 import { MessageUtils } from '../utils';
-import { SnodeNamespaces } from '../apis/snode_api/namespaces';
-import { Storage } from '../../util/storage';
 
 // This is an abstraction for storing pending messages.
 // Ideally we want to store pending messages in the database so that
@@ -75,7 +75,7 @@ export class PendingMessageCache {
 
     // Return if message doesn't exist in cache
     if (!this.find(message)) {
-      return;
+      return undefined;
     }
 
     // Remove item from cache and sync with database

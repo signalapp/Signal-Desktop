@@ -26,7 +26,6 @@ export function useSet<T>(initialValues: Array<T> = []) {
   const empty = useCallback(() => {
     if (uniqueValues.length) {
       setUniqueValues([]);
-      return;
     }
   }, [uniqueValues, setUniqueValues]);
 

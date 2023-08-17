@@ -113,7 +113,7 @@ export type StoreOnNodeMessage = {
 };
 
 export type StoreOnNodeSubRequest = { method: 'store'; params: StoreOnNodeParams };
-export type NetworkTimeSubRequest = { method: 'info'; params: {} };
+export type NetworkTimeSubRequest = { method: 'info'; params: object };
 
 type DeleteSigParameters = {
   pubkey: string;
@@ -158,7 +158,7 @@ export type SnodeApiSubRequests =
   | DeleteAllFromNodeSubRequest
   | UpdateExpiryOnNodeSubRequest;
 
-// tslint:disable: array-type
+// eslint-disable-next-line @typescript-eslint/array-type
 export type NonEmptyArray<T> = [T, ...T[]];
 
 export type NotEmptyArrayOfBatchResults = NonEmptyArray<{

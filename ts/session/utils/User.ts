@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { UserUtils } from '.';
-import { Data } from '../../../ts/data/data';
+import { Data } from '../../data/data';
 import { PubKey } from '../types';
 import { fromHexToArray, toHex } from './String';
 import { getConversationController } from '../conversations';

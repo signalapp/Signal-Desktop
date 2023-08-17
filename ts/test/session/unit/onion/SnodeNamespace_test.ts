@@ -2,7 +2,6 @@ import { expect } from 'chai';
 import Sinon from 'sinon';
 import { SnodeNamespace } from '../../../../session/apis/snode_api/namespaces';
 
-// tslint:disable-next-line: max-func-body-length
 describe('Snode namespaces', () => {
   describe('maxSizeMap', () => {
     afterEach(() => {

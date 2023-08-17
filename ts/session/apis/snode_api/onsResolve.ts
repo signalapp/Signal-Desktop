@@ -56,7 +56,7 @@ async function getSessionIDForOnsName(onsNameCase: string) {
     }
     const hexEncodedCipherText = intermediate?.encrypted_value;
 
-    const isArgon2Based = !Boolean(intermediate?.nonce);
+    const isArgon2Based = !intermediate?.nonce;
     const ciphertext = fromHexToArray(hexEncodedCipherText);
     let sessionIDAsData: Uint8Array;
     let nonce: Uint8Array;

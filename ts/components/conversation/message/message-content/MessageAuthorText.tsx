@@ -21,6 +21,7 @@ type Props = {
 
 const StyledAuthorContainer = styled(Flex)`
   color: var(--text-primary-color);
+  text-overflow: ellipsis;
 `;
 
 export const MessageAuthorText = (props: Props) => {
@@ -36,7 +37,7 @@ export const MessageAuthorText = (props: Props) => {
     return null;
   }
 
-  const title = authorName ? authorName : sender;
+  const title = authorName || sender;
 
   if (direction !== 'incoming' || !isGroup || !title || !firstMessageOfSeries) {
     return null;
