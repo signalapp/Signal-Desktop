@@ -12,7 +12,7 @@ import {
   ConversationAttributes,
 } from '../../models/conversationAttributes';
 import { fromHexToArray } from '../../session/utils/String';
-import { CONFIG_DUMP_TABLE } from '../../types/sqlSharedTypes';
+import { CONFIG_DUMP_TABLE, ConfigDumpRow } from '../../types/sqlSharedTypes';
 import {
   CLOSED_GROUP_V2_KEY_PAIRS_TABLE,
   CONVERSATIONS_TABLE,
@@ -102,6 +102,7 @@ const LOKI_SCHEMA_VERSIONS = [
   updateToSessionSchemaVersion31,
   updateToSessionSchemaVersion32,
   updateToSessionSchemaVersion33,
+  updateToSessionSchemaVersion34,
 ];
 
 function updateToSessionSchemaVersion1(currentVersion: number, db: BetterSqlite3.Database) {
@@ -1655,6 +1656,249 @@ function updateToSessionSchemaVersion33(currentVersion: number, db: BetterSqlite
 
     writeSessionSchemaVersion(targetVersion, db);
   })();
+}
+
+function updateToSessionSchemaVersion34(currentVersion: number, db: BetterSqlite3.Database) {
+  const targetVersion = 34;
+  if (currentVersion >= targetVersion) {
+    return;
+  }
+
+  // TODO we actually want to update the config wrappers that relate to disappearing messages with the type and seconds
+
+  console.log(`updateToSessionSchemaVersion${targetVersion}: starting...`);
+  db.transaction(() => {
+    try {
+      const loggedInUser = getLoggedInUserConvoDuringMigration(db);
+
+      if (!loggedInUser || !loggedInUser.ourKeys) {
+        throw new Error('privateEd25519 was empty. Considering no users are logged in');
+      }
+
+      const { privateEd25519, publicKeyHex } = loggedInUser.ourKeys;
+
+      // Conversation changes
+      // TODO can this be moved into libsession completely
+      db.prepare(
+        `ALTER TABLE ${CONVERSATIONS_TABLE} ADD COLUMN expirationType TEXT DEFAULT "off";`
+      ).run();
+
+      db.prepare(
+        `ALTER TABLE ${CONVERSATIONS_TABLE} ADD COLUMN lastDisappearingMessageChangeTimestamp INTEGER DEFAULT 0;`
+      ).run();
+
+      db.prepare(`ALTER TABLE ${CONVERSATIONS_TABLE} ADD COLUMN hasOutdatedClient TEXT;`).run();
+
+      // region Disappearing Messages Note to Self
+      const noteToSelfInfo = db
+        .prepare(
+          `UPDATE ${CONVERSATIONS_TABLE} SET
+      expirationType = $expirationType
+      WHERE id = $id AND type = 'private' AND expireTimer > 0;`
+        )
+        .run({ expirationType: 'deleteAfterSend', id: publicKeyHex });
+
+      if (noteToSelfInfo.changes) {
+        const ourConversation = db
+          .prepare(`SELECT * FROM ${CONVERSATIONS_TABLE} WHERE id = $id`)
+          .get({ id: publicKeyHex });
+
+        const expirySeconds = ourConversation.expireTimer || 0;
+
+        // TODO update with Audric's snippet
+        // Get existing config wrapper dump and update it
+        const userConfigWrapperDump = db
+          .prepare(`SELECT * FROM ${CONFIG_DUMP_TABLE} WHERE variant = 'UserConfig';`)
+          .get() as ConfigDumpRow | undefined;
+
+        if (userConfigWrapperDump) {
+          const userConfigData = userConfigWrapperDump.data;
+          const userProfileWrapper = new UserConfigWrapperNode(privateEd25519, userConfigData);
+
+          userProfileWrapper.setNoteToSelfExpiry(expirySeconds);
+
+          // dump the user wrapper content and save it to the DB
+          const userDump = userProfileWrapper.dump();
+
+          const configDumpInfo = db
+            .prepare(
+              `INSERT OR REPLACE INTO ${CONFIG_DUMP_TABLE} (
+              publicKey,
+              variant,
+              data
+          ) values (
+            $publicKey,
+            $variant,
+            $data
+          );`
+            )
+            .run({
+              publicKey: publicKeyHex,
+              variant: 'UserConfig',
+              data: userDump,
+            });
+
+          // TODO Cleanup logging
+          console.log(
+            '===================== userConfigWrapperDump configDumpInfo',
+            configDumpInfo,
+            '======================='
+          );
+        } else {
+          console.log(
+            '===================== userConfigWrapperDump not found ======================='
+          );
+        }
+      }
+      // endregion
+
+      // region Disappearing Messages Private Conversations
+      const privateConversationsInfo = db
+        .prepare(
+          `UPDATE ${CONVERSATIONS_TABLE} SET
+      expirationType = $expirationType
+      WHERE type = 'private' AND expirationType = 'off' AND expireTimer > 0;`
+        )
+        .run({ expirationType: 'deleteAfterRead' });
+
+      if (privateConversationsInfo.changes) {
+        // this filter is based on the `isContactToStoreInWrapper` function. Note, it has been expanded to check if disappearing messages is on
+        const contactsToUpdateInWrapper = db
+          .prepare(
+            `SELECT * FROM ${CONVERSATIONS_TABLE} WHERE type = 'private' AND active_at > 0 AND priority <> ${CONVERSATION_PRIORITIES.hidden} AND (didApproveMe OR isApproved) AND id <> '$us' AND id NOT LIKE '15%' AND id NOT LIKE '25%' AND expirationType = 'deleteAfterRead' AND expireTimer > 0;`
+          )
+          .all({
+            us: publicKeyHex,
+          });
+
+        if (isArray(contactsToUpdateInWrapper) && contactsToUpdateInWrapper.length) {
+          const blockedNumbers = getBlockedNumbersDuringMigration(db);
+          const contactsWrapperDump = db
+            .prepare(`SELECT * FROM ${CONFIG_DUMP_TABLE} WHERE variant = 'ContactConfig';`)
+            .get() as ConfigDumpRow | undefined;
+          const volatileInfoConfigWrapperDump = db
+            .prepare(
+              `SELECT * FROM ${CONFIG_DUMP_TABLE} WHERE variant = 'ConvoInfoVolatileConfig';`
+            )
+            .get() as ConfigDumpRow | undefined;
+
+          if (contactsWrapperDump && volatileInfoConfigWrapperDump) {
+            const contactsData = contactsWrapperDump.data;
+            const contactsConfigWrapper = new ContactsConfigWrapperNode(
+              privateEd25519,
+              contactsData
+            );
+            const volatileInfoData = volatileInfoConfigWrapperDump.data;
+            const volatileInfoConfigWrapper = new ConvoInfoVolatileWrapperNode(
+              privateEd25519,
+              volatileInfoData
+            );
+
+            console.info(
+              `===================== Starting contact update into wrapper ${contactsToUpdateInWrapper?.length} =======================`
+            );
+
+            contactsToUpdateInWrapper.forEach(contact => {
+              MIGRATION_HELPERS.V34.insertContactIntoContactWrapper(
+                contact,
+                blockedNumbers,
+                contactsConfigWrapper,
+                volatileInfoConfigWrapper,
+                db,
+                targetVersion
+              );
+            });
+
+            console.info(
+              '===================== Done with contact updating ======================='
+            );
+
+            // dump the user wrapper content and save it to the DB
+            const contactsDump = contactsConfigWrapper.dump();
+            const contactsDumpInfo = db
+              .prepare(
+                `INSERT OR REPLACE INTO ${CONFIG_DUMP_TABLE} (
+              publicKey,
+              variant,
+              data
+          ) values (
+            $publicKey,
+            $variant,
+            $data
+          );`
+              )
+              .run({
+                publicKey: publicKeyHex,
+                variant: 'ContactConfig',
+                data: contactsDump,
+              });
+
+            // TODO Cleanup logging
+            console.log(
+              '===================== contactsConfigWrapper contactsDumpInfo',
+              contactsDumpInfo,
+              '======================='
+            );
+
+            const volatileInfoConfigDump = volatileInfoConfigWrapper.dump();
+            const volatileInfoConfigDumpInfo = db
+              .prepare(
+                `INSERT OR REPLACE INTO ${CONFIG_DUMP_TABLE} (
+              publicKey,
+              variant,
+              data
+          ) values (
+            $publicKey,
+            $variant,
+            $data
+          );`
+              )
+              .run({
+                publicKey: publicKeyHex,
+                variant: 'ConvoInfoVolatileConfig',
+                data: volatileInfoConfigDump,
+              });
+
+            // TODO Cleanup logging
+            console.log(
+              '===================== volatileInfoConfigWrapper volatileInfoConfigDumpInfo',
+              volatileInfoConfigDumpInfo,
+              '======================='
+            );
+          } else {
+            console.log(
+              '===================== contactsWrapperDump or volatileInfoConfigWrapperDump was not found ======================='
+            );
+          }
+        }
+      }
+
+      // endregion
+
+      // region Disappearing Messages Groups
+      db.prepare(
+        `UPDATE ${CONVERSATIONS_TABLE} SET
+      expirationType = $expirationType
+      WHERE type = 'group' AND id LIKE '05%' AND expireTimer > 0;`
+      ).run({ expirationType: 'deleteAfterSend' });
+      // endregion
+
+      // Message changes
+      db.prepare(`ALTER TABLE ${MESSAGES_TABLE} ADD COLUMN expirationType TEXT;`).run();
+    } catch (e) {
+      console.error(
+        `Failed to migrate to disappearing messages v2. Might just not have a logged in user yet? `,
+        e.message,
+        e.stack,
+        e
+      );
+      // if we get an exception here, most likely no users are logged in yet. We can just continue the transaction and the wrappers will be created when a user creates a new account.
+    }
+
+    writeSessionSchemaVersion(targetVersion, db);
+  })();
+
+  console.log(`updateToSessionSchemaVersion${targetVersion}: success!`);
 }
 
 export function printTableColumns(table: string, db: BetterSqlite3.Database) {

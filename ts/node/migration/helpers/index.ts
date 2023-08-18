@@ -14,10 +14,12 @@ Any helper functions that are exported from a helper file must have run checkTar
 
 import { V31 } from './v31';
 import { V33 } from './v33';
+import { V34 } from './v34';
 
 const MIGRATION_HELPERS = {
   V31,
   V33,
+  V34,
 };
 
 export default MIGRATION_HELPERS;

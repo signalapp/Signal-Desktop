@@ -16,7 +16,7 @@ import { ReleasedFeatures } from './releaseFeature';
 // TODO do we need to add legacy here now that it's explicitly in the protobuf?
 export const DisappearingMessageMode = ['deleteAfterRead', 'deleteAfterSend'];
 export type DisappearingMessageType = typeof DisappearingMessageMode[number] | null;
-
+// NOTE these cannot be imported in the nodejs side yet. We need to move the types to the own file with no window imports
 // TODO legacy messages support will be removed in a future release
 // TODO NOTE do we need to remove 'legacy' from here?
 export const DisappearingMessageConversationSetting = ['off', ...DisappearingMessageMode, 'legacy'];
