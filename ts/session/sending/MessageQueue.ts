@@ -330,7 +330,7 @@ export class MessageQueue {
     const us = UserUtils.getOurPubKeyFromCache();
     let isSyncMessage = false;
     if (us && destinationPk.isEqual(us)) {
-      // We allow a message for ourselve only if it's a ConfigurationMessage, a ClosedGroupNewMessage,
+      // We allow a message for ourselves only if it's a ConfigurationMessage, a ClosedGroupNewMessage,
       // or a message with a syncTarget set.
 
       if (MessageSender.isSyncMessage(message)) {

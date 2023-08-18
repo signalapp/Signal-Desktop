@@ -200,7 +200,7 @@ export function buildProfileForOutgoingMessage(params: { lokiProfile?: LokiProfi
 
   const displayName = params.lokiProfile?.displayName;
 
-  // no need to iclude the avatarPointer if there is no profileKey associated with it.
+  // no need to include the avatarPointer if there is no profileKey associated with it.
   const avatarPointer =
     params.lokiProfile?.avatarPointer &&
     !isEmpty(profileKey) &&
