@@ -48,6 +48,7 @@ import {
   useMessageStatus,
   useMessageTimestamp,
 } from '../../../../state/selectors';
+import { useIsPublic } from '../../../../hooks/useParamSelector';
 
 export type MessageContextMenuSelectorProps = Pick<
   MessageRenderingProps,
@@ -148,10 +149,10 @@ const SaveAttachment = ({ messageId }: MessageId) => {
 
 const AdminActionItems = ({ messageId }: MessageId) => {
   const convoId = useSelectedConversationKey();
-
+  const isPublic = useIsPublic();
   const weAreModerator = useSelectedWeAreModerator();
   const weAreAdmin = useSelectedWeAreAdmin();
-  const showAdminActions = weAreAdmin || weAreModerator;
+  const showAdminActions = (weAreAdmin || weAreModerator) && isPublic;
   const sender = useMessageSender(messageId);
   const isSenderAdmin = useMessageSenderIsAdmin(messageId);
 
