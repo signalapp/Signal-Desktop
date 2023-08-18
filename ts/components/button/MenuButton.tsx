@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { resetOverlayMode, setOverlayMode } from '../../state/ducks/section';
 import { getOverlayMode } from '../../state/selectors/section';
 import { SessionIcon } from '../icon';
-// tslint:disable: use-simple-attributes
 
 const StyledMenuButton = styled.button`
   position: relative;
@@ -28,7 +27,7 @@ const StyledMenuButton = styled.button`
 `;
 
 /**
- * This is the Session Menu Botton. i.e. the button on top of the conversation list to start a new conversation.
+ * This is the Session Menu Button. i.e. the button on top of the conversation list to start a new conversation.
  * It has two state: selected or not and so we use an checkbox input to keep the state in sync.
  */
 export const MenuButton = () => {

@@ -45,12 +45,12 @@ const toSection = (
   messagesWithSection: Array<MediaItemWithSection> | undefined
 ): Section | undefined => {
   if (!messagesWithSection || messagesWithSection.length === 0) {
-    return;
+    return undefined;
   }
 
   const firstMediaItemWithSection: MediaItemWithSection = messagesWithSection[0];
   if (!firstMediaItemWithSection) {
-    return;
+    return undefined;
   }
 
   const mediaItems = messagesWithSection.map(messageWithSection => messageWithSection.mediaItem);
@@ -71,11 +71,7 @@ const toSection = (
         mediaItems,
       };
     default:
-      // NOTE: Investigate why we get the following error:
-      // error TS2345: Argument of type 'any' is not assignable to parameter
-      // of type 'never'.
-      // return missingCaseError(firstMediaItemWithSection.type);
-      return;
+      return undefined;
   }
 };
 

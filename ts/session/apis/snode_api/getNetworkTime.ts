@@ -15,7 +15,6 @@ function getNetworkTimeSubRequests(): Array<NetworkTimeSubRequest> {
   return [request];
 }
 
-// tslint:disable-next-line: variable-name
 const getNetworkTime = async (snode: Snode): Promise<string | number> => {
   const subRequests = getNetworkTimeSubRequests();
   const result = await doSnodeBatchRequest(subRequests, snode, 4000, null);

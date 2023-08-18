@@ -1,7 +1,7 @@
-import * as BetterSqlite3 from 'better-sqlite3';
 import { app, clipboard, dialog, Notification } from 'electron';
 import fs from 'fs';
 import path from 'path';
+import * as BetterSqlite3 from '@signalapp/better-sqlite3';
 import rimraf from 'rimraf';
 
 import {
@@ -20,6 +20,8 @@ import {
   omit,
   uniq,
 } from 'lodash';
+import { base64_variants, from_base64, to_hex } from 'libsodium-wrappers-sumo';
+
 import { ConversationAttributes } from '../models/conversationAttributes';
 import { PubKey } from '../session/types/PubKey'; // checked - only node
 import { redactAll } from '../util/privacy'; // checked - only node
@@ -71,10 +73,9 @@ import {
   isInstanceInitialized,
 } from './sqlInstance';
 import { configDumpData } from './sql_calls/config_dump';
-import { base64_variants, from_base64, to_hex } from 'libsodium-wrappers-sumo';
 import { Quote } from '../receiver/types';
 
-// tslint:disable: no-console function-name non-literal-fs-path
+// eslint:disable: function-name non-literal-fs-path
 
 const MAX_PUBKEYS_MEMBERS = 300;
 
@@ -305,7 +306,6 @@ function getAllItems() {
 }
 function removeItemById(id: string) {
   removeById(ITEMS_TABLE, id);
-  return;
 }
 
 function createOrUpdate(table: string, data: StorageItem, instance?: BetterSqlite3.Database) {
@@ -409,10 +409,10 @@ function getConversationCount() {
 /**
  * Because the argument list can change when saving a conversation (and actually doing a lot of other stuff),
  * it is not a good idea to try to use it to update a conversation while doing migrations.
- * Because everytime you'll update the saveConversation with a new argument, the migration you wrote a month ago still relies on the old way.
+ * Because every time you'll update the saveConversation with a new argument, the migration you wrote a month ago still relies on the old way.
  * Because of that, there is no `instance` argument here, and you should not add one as this is only needed during migrations (which will break if you do it)
  */
-// tslint:disable-next-line: max-func-body-length cyclomatic-complexity
+
 function saveConversation(data: ConversationAttributes): SaveConversationReturn {
   const formatted = assertValidConversationAttributes(data);
 
@@ -442,6 +442,7 @@ function saveConversation(data: ConversationAttributes): SaveConversationReturn 
     conversationIdOrigin,
     priority,
     markedAsUnread,
+    blocksSogsMsgReqsTimestamp,
   } = formatted;
 
   const omited = omit(formatted);
@@ -491,6 +492,7 @@ function saveConversation(data: ConversationAttributes): SaveConversationReturn 
       displayNameInProfile,
       conversationIdOrigin,
       markedAsUnread: toSqliteBoolean(markedAsUnread),
+      blocksSogsMsgReqsTimestamp,
     });
 
   return fetchConvoMemoryDetails(id);
@@ -637,13 +639,13 @@ function getPubkeysInPublicConversation(conversationId: string) {
       conversation.capabilities?.includes('blind')
   );
 
-  const whereClause = hasBlindOn ? 'AND source LIKE "15%"' : '';
+  const whereClause = hasBlindOn ? "AND source LIKE '15%'" : ''; // the LIKE content has to be ' and not "
 
   const rows = assertGlobalInstance()
     .prepare(
       `SELECT DISTINCT source FROM ${MESSAGES_TABLE} WHERE
-      conversationId = $conversationId ${whereClause}
-     ORDER BY received_at DESC LIMIT ${MAX_PUBKEYS_MEMBERS};`
+    conversationId = $conversationId ${whereClause}
+   ORDER BY received_at DESC LIMIT ${MAX_PUBKEYS_MEMBERS};`
     )
     .all({
       conversationId,
@@ -1066,6 +1068,7 @@ function getMessagesBySenderAndSentAt(
   const db = assertGlobalInstance();
   const rows = [];
 
+  // eslint-disable-next-line no-restricted-syntax
   for (const msgProps of propsList) {
     const { source, timestamp } = msgProps;
 
@@ -1234,7 +1237,6 @@ function getMessagesByConversation(
     const messageFound = getMessageById(messageId || firstUnread);
 
     if (messageFound && messageFound.conversationId === conversationId) {
-      // tslint:disable-next-li ne: no-shadowed-variable
       const start = Date.now();
       const msgTimestamp =
         messageFound.serverTimestamp || messageFound.sent_at || messageFound.received_at;
@@ -1646,7 +1648,6 @@ const unprocessed: UnprocessedDataNode = {
     assertGlobalInstance()
       .prepare('DELETE FROM unprocessed WHERE id = $id;')
       .run({ id });
-    return;
   },
 
   removeAllUnprocessed: () => {
@@ -1875,7 +1876,6 @@ function removeKnownAttachments(allAttachments: Array<string>) {
     forEach(messages, message => {
       const externalFiles = getExternalFilesForMessage(message);
       forEach(externalFiles, file => {
-        // tslint:disable-next-line: no-dynamic-delete
         delete lookup[file];
       });
     });
@@ -1918,7 +1918,6 @@ function removeKnownAttachments(allAttachments: Array<string>) {
       const avatar = (conversation as ConversationAttributes)?.avatarInProfile;
       const externalFiles = getExternalFilesForConversation(avatar);
       forEach(externalFiles, file => {
-        // tslint:disable-next-line: no-dynamic-delete
         delete lookup[file];
       });
     });
@@ -2295,9 +2294,7 @@ function cleanUpOldOpengroupsOnStart() {
     const allInactiveAndWithoutMessagesConvo = allInactiveConvos
       .map(c => c.id as string)
       .filter(convoId => {
-        return convoId !== ourPubkey && getMessagesCountBySender({ source: convoId }) === 0
-          ? true
-          : false;
+        return !!(convoId !== ourPubkey && getMessagesCountBySender({ source: convoId }) === 0);
       });
     if (allInactiveAndWithoutMessagesConvo.length) {
       console.info(

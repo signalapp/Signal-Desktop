@@ -86,9 +86,8 @@ export const clearSogsReactionByServerId = async (
     if (batchGlobalIsSuccess(result) && batchFirstSubIsSuccess(result)) {
       updateMutationCache(cacheEntry, rawMessage.seqno);
       return true;
-    } else {
-      return false;
     }
+    return false;
   } catch (e) {
     window?.log?.error("clearSogsReactionByServerId Can't decode JSON body");
   }

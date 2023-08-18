@@ -1,11 +1,10 @@
-import { difference, omit, pick } from 'lodash';
+import { difference, isNumber, omit, pick } from 'lodash';
+import * as BetterSqlite3 from '@signalapp/better-sqlite3';
 import {
   ConversationAttributes,
   ConversationAttributesWithNotSavedOnes,
   CONVERSATION_PRIORITIES,
 } from '../models/conversationAttributes';
-
-import * as BetterSqlite3 from 'better-sqlite3';
 
 export const CONVERSATIONS_TABLE = 'conversations';
 export const MESSAGES_TABLE = 'messages';
@@ -20,7 +19,6 @@ export const CLOSED_GROUP_V2_KEY_PAIRS_TABLE = 'encryptionKeyPairsForClosedGroup
 export const LAST_HASHES_TABLE = 'lastHashes';
 
 export const HEX_KEY = /[^0-9A-Fa-f]/;
-// tslint:disable: no-console
 
 export function objectToJSON(data: Record<any, any>) {
   return JSON.stringify(data);
@@ -74,9 +72,10 @@ const allowedKeysFormatRowOfConversation = [
   'displayNameInProfile',
   'conversationIdOrigin',
   'markedAsUnread',
+  'blocksSogsMsgReqsTimestamp',
   'priority',
 ];
-// tslint:disable: cyclomatic-complexity
+
 export function formatRowOfConversation(
   row: Record<string, any>,
   from: string,
@@ -140,6 +139,10 @@ export function formatRowOfConversation(
     convo.lastMessageStatus = undefined;
   }
 
+  if (!isNumber(convo.blocksSogsMsgReqsTimestamp)) {
+    convo.blocksSogsMsgReqsTimestamp = 0;
+  }
+
   if (!convo.triggerNotificationsFor) {
     convo.triggerNotificationsFor = 'all';
   }
@@ -191,6 +194,7 @@ const allowedKeysOfConversationAttributes = [
   'displayNameInProfile',
   'conversationIdOrigin',
   'markedAsUnread',
+  'blocksSogsMsgReqsTimestamp',
   'priority',
 ];
 
@@ -216,7 +220,6 @@ export function assertValidConversationAttributes(
   const foundInAttributesButNotInAllowed = difference(Object.keys(data), allowedKeysTogether);
 
   if (foundInAttributesButNotInAllowed?.length) {
-    // tslint:disable-next-line: no-console
     console.error(
       `assertValidConversationAttributes: an invalid key was given in the record: ${foundInAttributesButNotInAllowed}`
     );

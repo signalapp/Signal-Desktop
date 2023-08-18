@@ -2,6 +2,8 @@ import { useSelector } from 'react-redux';
 import React, { useRef, useState } from 'react';
 
 import styled from 'styled-components';
+import useInterval from 'react-use/lib/useInterval';
+import moment from 'moment';
 import { CallManager, UserUtils } from '../../session/utils';
 import {
   getCallIsInFullScreen,
@@ -18,9 +20,7 @@ import { useVideoCallEventsListener } from '../../hooks/useVideoEventListener';
 import { useModuloWithTripleDots } from '../../hooks/useModuloWithTripleDots';
 import { CallWindowControls } from './CallButtons';
 import { DEVICE_DISABLED_DEVICE_ID } from '../../session/utils/calling/CallManager';
-// tslint:disable-next-line: no-submodule-imports
-import useInterval from 'react-use/lib/useInterval';
-import moment from 'moment';
+
 import { SessionSpinner } from '../basic/SessionSpinner';
 
 const VideoContainer = styled.div`
@@ -112,7 +112,6 @@ const DurationLabel = () => {
   const ms = callDuration * 1000;
   const d = moment.duration(ms);
 
-  // tslint:disable-next-line: restrict-plus-operands
   const dateString = Math.floor(d.asHours()) + moment.utc(ms).format(':mm:ss');
   return <StyledCenteredLabel>{dateString}</StyledCenteredLabel>;
 };
@@ -135,7 +134,6 @@ export const VideoLoadingSpinner = (props: { fullWidth: boolean }) => {
   );
 };
 
-// tslint:disable-next-line: max-func-body-length
 export const InConversationCallContainer = () => {
   const isInFullScreen = useSelector(getCallIsInFullScreen);
 

@@ -1,3 +1,6 @@
+/* eslint-disable no-await-in-loop */
+/* eslint-disable more/no-then */
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import { compact, concat, difference, flatten, last, sample, toNumber, uniqBy } from 'lodash';
 import { Data, Snode } from '../../../data/data';
 import { SignalService } from '../../../protobuf';
@@ -88,7 +91,7 @@ export class SwarmPolling {
   }
 
   /**
-   * Used fo testing only
+   * Used for testing only
    */
   public resetSwarmPolling() {
     this.groupPolling = [];
@@ -473,7 +476,7 @@ export class SwarmPolling {
       await Promise.all(
         lastMessages.map(async (lastMessage, index) => {
           if (!lastMessage) {
-            return;
+            return undefined;
           }
           return this.updateLastHash({
             edkey: snodeEdkey,
@@ -491,10 +494,8 @@ export class SwarmPolling {
         if (window.inboxStore?.getState().onionPaths.isOnline) {
           window.inboxStore?.dispatch(updateIsOnline(false));
         }
-      } else {
-        if (!window.inboxStore?.getState().onionPaths.isOnline) {
-          window.inboxStore?.dispatch(updateIsOnline(true));
-        }
+      } else if (!window.inboxStore?.getState().onionPaths.isOnline) {
+        window.inboxStore?.dispatch(updateIsOnline(true));
       }
       window?.log?.info('pollNodeForKey failed with:', e.message);
       return null;

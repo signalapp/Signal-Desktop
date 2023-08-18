@@ -1,3 +1,5 @@
+/* eslint-disable no-prototype-builtins */
+/* eslint-disable no-restricted-syntax */
 import { compact, sample } from 'lodash';
 import pRetry from 'p-retry';
 import { Snode } from '../../../data/data';
@@ -10,8 +12,6 @@ import { getSwarmFor } from './snodePool';
 import { SnodeSignature } from './snodeSignatures';
 
 export const ERROR_CODE_NO_CONNECT = 'ENETUNREACH: No network connection.';
-
-// tslint:disable: max-func-body-length
 
 // TODOLATER we should merge those two functions together as they are almost exactly the same
 const forceNetworkDeletion = async (): Promise<Array<string> | null> => {
@@ -116,7 +116,6 @@ const forceNetworkDeletion = async (): Promise<Array<string> | null> => {
                   const deletedObj = snodeJson.deleted as Record<number, Array<string>>;
                   const hashes: Array<string> = [];
 
-                  // tslint:disable: no-for-in
                   for (const key in deletedObj) {
                     if (deletedObj.hasOwnProperty(key)) {
                       hashes.push(...deletedObj[key]);
@@ -180,7 +179,6 @@ const forceNetworkDeletion = async (): Promise<Array<string> | null> => {
   }
 };
 
-// tslint:disable-next-line: variable-name
 const TEST_getMinTimeout = () => 500;
 
 /**

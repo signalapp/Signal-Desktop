@@ -1,11 +1,11 @@
 import React, { useCallback } from 'react';
 import classNames from 'classnames';
+import styled from 'styled-components';
 
 import { Spinner } from '../basic/Spinner';
 import { AttachmentType, AttachmentTypeWithPath } from '../../types/Attachment';
 import { useEncryptedFileFetch } from '../../hooks/useEncryptedFileFetch';
 import { useDisableDrag } from '../../hooks/useDisableDrag';
-import styled from 'styled-components';
 
 type Props = {
   alt: string;
@@ -41,7 +41,6 @@ const StyledOverlay = styled.div<Pick<Props, 'darkOverlay' | 'softCorners'>>`
     props.darkOverlay ? 'var(--message-link-preview-background-color)' : 'unset'};
 `;
 export const Image = (props: Props) => {
-  // tslint:disable-next-line max-func-body-length cyclomatic-complexity
   const {
     alt,
     attachment,
@@ -64,7 +63,6 @@ export const Image = (props: Props) => {
     if (url && onError) {
       onError();
     }
-    return;
   }, [url, onError]);
   const disableDrag = useDisableDrag();
 

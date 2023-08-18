@@ -2,8 +2,10 @@ import _ from 'lodash';
 import React from 'react';
 
 import autoBind from 'auto-bind';
+import { blobToArrayBuffer } from 'blob-util';
+import loadImage from 'blueimp-load-image';
 import classNames from 'classnames';
-
+import styled from 'styled-components';
 import {
   CompositionBox,
   SendMessageType,
@@ -12,14 +14,10 @@ import {
 
 import { perfEnd, perfStart } from '../../session/utils/Performance';
 
-const DEFAULT_JPEG_QUALITY = 0.85;
-
 import { SessionMessagesListContainer } from './SessionMessagesListContainer';
 
 import { SessionFileDropzone } from './SessionFileDropzone';
 
-import { blobToArrayBuffer } from 'blob-util';
-import loadImage from 'blueimp-load-image';
 import { Data } from '../../data/data';
 import { markAllReadByConvoId } from '../../interactions/conversationInteractions';
 import { MAX_ATTACHMENT_FILESIZE_BYTES } from '../../session/constants';
@@ -55,9 +53,9 @@ import { SessionRightPanelWithDetails } from './SessionRightPanel';
 import { NoMessageInConversation } from './SubtleNotification';
 import { MessageDetail } from './message/message-item/MessageDetail';
 
-import styled from 'styled-components';
 import { SessionSpinner } from '../basic/SessionSpinner';
-// tslint:disable: jsx-curly-spacing
+
+const DEFAULT_JPEG_QUALITY = 0.85;
 
 interface State {
   isDraggingFile: boolean;
@@ -289,6 +287,7 @@ export class SessionConversation extends React.Component<Props, State> {
               <CompositionBox
                 sendMessage={this.sendMessageFn}
                 stagedAttachments={this.props.stagedAttachments}
+                // eslint-disable-next-line @typescript-eslint/no-misused-promises
                 onChoseAttachments={this.onChoseAttachments}
               />
             </div>
@@ -360,13 +359,12 @@ export class SessionConversation extends React.Component<Props, State> {
       return;
     }
 
-    // tslint:disable-next-line: prefer-for-of
     for (let i = 0; i < attachmentsFileList.length; i++) {
+      // eslint-disable-next-line no-await-in-loop
       await this.maybeAddAttachment(attachmentsFileList[i]);
     }
   }
 
-  // tslint:disable: max-func-body-length cyclomatic-complexity
   private async maybeAddAttachment(file: any) {
     if (!file) {
       return;

@@ -1,3 +1,4 @@
+import { isNil } from 'lodash';
 import {
   ConversationNotificationSettingType,
   ConversationTypeEnum,
@@ -391,7 +392,7 @@ export async function uploadOurAvatar(newAvatarDecrypted?: ArrayBuffer) {
   const ourConvo = getConversationController().get(UserUtils.getOurPubKeyStrFromCache());
   if (!ourConvo) {
     window.log.warn('ourConvo not found... This is not a valid case');
-    return;
+    return null;
   }
 
   let profileKey: Uint8Array | null;
@@ -410,20 +411,20 @@ export async function uploadOurAvatar(newAvatarDecrypted?: ArrayBuffer) {
     profileKey = ourConvoProfileKey ? fromHexToArray(ourConvoProfileKey) : null;
     if (!profileKey) {
       window.log.info('our profileKey not found. Not reuploading our avatar');
-      return;
+      return null;
     }
     const currentAttachmentPath = ourConvo.getAvatarPath();
 
     if (!currentAttachmentPath) {
       window.log.warn('No attachment currently set for our convo.. Nothing to do.');
-      return;
+      return null;
     }
 
     const decryptedAvatarUrl = await getDecryptedMediaUrl(currentAttachmentPath, IMAGE_JPEG, true);
 
     if (!decryptedAvatarUrl) {
       window.log.warn('Could not decrypt avatar stored locally..');
-      return;
+      return null;
     }
     const blob = await urlToBlob(decryptedAvatarUrl);
 
@@ -432,7 +433,7 @@ export async function uploadOurAvatar(newAvatarDecrypted?: ArrayBuffer) {
 
   if (!decryptedAvatarData?.byteLength) {
     window.log.warn('Could not read content of avatar ...');
-    return;
+    return null;
   }
 
   const encryptedData = await encryptProfile(decryptedAvatarData, profileKey);
@@ -440,7 +441,7 @@ export async function uploadOurAvatar(newAvatarDecrypted?: ArrayBuffer) {
   const avatarPointer = await uploadFileToFsWithOnionV4(encryptedData);
   if (!avatarPointer) {
     window.log.warn('failed to upload avatar to fileserver');
-    return;
+    return null;
   }
   const { fileUrl, fileId } = avatarPointer;
 
@@ -494,6 +495,15 @@ export async function clearOurAvatar(commit: boolean = true) {
   const ourConvo = getConversationController().get(UserUtils.getOurPubKeyStrFromCache());
   if (!ourConvo) {
     window.log.warn('ourConvo not found... This is not a valid case');
+    return;
+  }
+
+  // return early if no change are needed at all
+  if (
+    isNil(ourConvo.get('avatarPointer')) &&
+    isNil(ourConvo.get('avatarInProfile')) &&
+    isNil(ourConvo.get('profileKey'))
+  ) {
     return;
   }
 

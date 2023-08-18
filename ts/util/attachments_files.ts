@@ -8,10 +8,6 @@ import {
   encryptAttachmentBufferRenderer,
 } from './local_attachments_encrypter';
 
-if (window) {
-  //tslint-disable no-empty
-}
-
 // to me, this file is only used in the renderer
 // import { decryptAttachmentBuffer, encryptAttachmentBuffer } from './encrypt_attachment_buffer';
 

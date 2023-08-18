@@ -1,12 +1,18 @@
-import React, { ChangeEvent, MouseEvent, ReactElement, useState } from 'react';
+import { useDispatch } from 'react-redux';
+// eslint-disable-next-line import/no-named-default
+import { ChangeEvent, MouseEvent, default as React, ReactElement, useState } from 'react';
 import { QRCode } from 'react-qr-svg';
-
+import styled from 'styled-components';
 import { Avatar, AvatarSize } from '../avatar/Avatar';
 
 import { SyncUtils, ToastUtils, UserUtils } from '../../session/utils';
 import { YourSessionIDPill, YourSessionIDSelectable } from '../basic/YourSessionIDPill';
 
+import { useOurAvatarPath, useOurConversationUsername } from '../../hooks/useParamSelector';
+import { ConversationTypeEnum } from '../../models/conversationAttributes';
+import { MAX_USERNAME_BYTES } from '../../session/constants';
 import { getConversationController } from '../../session/conversations';
+import { sanitizeSessionUsername } from '../../session/utils/String';
 import { editProfileModal, updateEditProfilePictureModel } from '../../state/ducks/modalDialog';
 import { saveQRCode } from '../../util/saveQRCode';
 import { setLastProfileUpdateTimestamp } from '../../util/storage';
@@ -14,12 +20,6 @@ import { SessionWrapperModal } from '../SessionWrapperModal';
 import { SessionButton, SessionButtonType } from '../basic/SessionButton';
 import { SessionSpinner } from '../basic/SessionSpinner';
 import { SessionIconButton } from '../icon';
-import { sanitizeSessionUsername } from '../../session/utils/String';
-import { ConversationTypeEnum } from '../../models/conversationAttributes';
-import { MAX_USERNAME_BYTES } from '../../session/constants';
-import styled from 'styled-components';
-import { useOurAvatarPath, useOurConversationUsername } from '../../hooks/useParamSelector';
-import { useDispatch } from 'react-redux';
 
 const handleSaveQRCode = (event: MouseEvent) => {
   event.preventDefault();
@@ -114,7 +114,6 @@ const ProfileHeader = (props: ProfileHeaderProps): ReactElement => {
 };
 
 type ProfileDialogModes = 'default' | 'edit' | 'qr';
-
 // tslint:disable-next-line: max-func-body-length
 export const EditProfileDialog = (): ReactElement => {
   const dispatch = useDispatch();

@@ -1,9 +1,8 @@
 // The list of permissions is here:
 //   https://electronjs.org/docs/api/session#sessetpermissionrequesthandlerhandler
-// tslint:disable: no-console
+import { session } from 'electron';
 
 import { UserConfig } from './config/user_config';
-import { session } from 'electron';
 
 const PERMISSIONS: Record<string, boolean> = {
   // Allowed

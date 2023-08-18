@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-// tslint:disable-next-line: no-submodule-imports
 import useUpdate from 'react-use/lib/useUpdate';
 import styled from 'styled-components';
 import { useSet } from '../../hooks/useSet';
@@ -11,7 +10,6 @@ import { SpacerLG } from '../basic/Text';
 import { SessionIconButton } from '../icon';
 import { MemberListItem } from '../MemberListItem';
 import { SettingsTitleAndDescription } from './SessionSettingListItem';
-// tslint:disable: use-simple-attributes
 
 const BlockedEntriesContainer = styled.div`
   flex-shrink: 1;

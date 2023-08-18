@@ -35,6 +35,7 @@ export const IncomingCallDialog = () => {
   useEffect(() => {
     let timeout: NodeJS.Timeout;
     if (incomingCallFromPubkey) {
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       timeout = global.setTimeout(async () => {
         if (incomingCallFromPubkey) {
           window.log.info(
@@ -54,7 +55,7 @@ export const IncomingCallDialog = () => {
     };
   }, [incomingCallFromPubkey]);
 
-  //#region input handlers
+  // #region input handlers
   const handleAcceptIncomingCall = async () => {
     if (incomingCallFromPubkey) {
       await CallManager.USER_acceptIncomingCallRequest(incomingCallFromPubkey);

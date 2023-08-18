@@ -1,8 +1,7 @@
-import { PubKey } from '../types';
-
 import _ from 'lodash';
-
 import { v4 as uuidv4 } from 'uuid';
+
+import { PubKey } from '../types';
 import { getMessageQueue } from '..';
 import { Data } from '../../data/data';
 import { ConversationModel } from '../../models/conversation';
@@ -221,7 +220,7 @@ export async function updateOrCreateClosedGroup(details: GroupInfo) {
     // Note: legacy group to not support change of admins.
     type: ConversationTypeEnum.GROUP,
     active_at: details.activeAt ? details.activeAt : 0,
-    left: details.activeAt ? false : true,
+    left: !details.activeAt,
   };
 
   conversation.set(updates);
@@ -428,7 +427,7 @@ async function generateAndSendNewEncryptionKeyPair(
     await groupConvo?.commit(); // this makes sure to include the new encryption keypair in the libsession usergroup wrapper
   };
 
-  // this is to be sent to the group pubkey adress
+  // this is to be sent to the group pubkey address
   await getMessageQueue().sendToGroup({
     message: keypairsMessage,
     namespace: SnodeNamespaces.ClosedGroupMessage,

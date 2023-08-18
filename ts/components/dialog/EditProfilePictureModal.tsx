@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
-import { SessionWrapperModal } from '../SessionWrapperModal';
-import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
-import { SpacerLG } from '../basic/Text';
 import { useDispatch } from 'react-redux';
-import { editProfileModal, updateEditProfilePictureModel } from '../../state/ducks/modalDialog';
-import { ProfileAvatar } from './EditProfileDialog';
+import styled from 'styled-components';
 import { clearOurAvatar, uploadOurAvatar } from '../../interactions/conversationInteractions';
 import { ToastUtils } from '../../session/utils';
-import { SessionSpinner } from '../basic/SessionSpinner';
-import { SessionIconButton } from '../icon';
+import { editProfileModal, updateEditProfilePictureModel } from '../../state/ducks/modalDialog';
 import { pickFileForAvatar } from '../../types/attachments/VisualAttachment';
-import styled from 'styled-components';
+import { SessionWrapperModal } from '../SessionWrapperModal';
+import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
+import { SessionSpinner } from '../basic/SessionSpinner';
+import { SpacerLG } from '../basic/Text';
+import { SessionIconButton } from '../icon';
+import { ProfileAvatar } from './EditProfileDialog';
 
 const StyledAvatarContainer = styled.div`
   cursor: pointer;
@@ -68,14 +68,14 @@ export type EditProfilePictureModalProps = {
 export const EditProfilePictureModal = (props: EditProfilePictureModalProps) => {
   const dispatch = useDispatch();
 
+  const [newAvatarObjectUrl, setNewAvatarObjectUrl] = useState<string | null>(props.avatarPath);
+  const [loading, setLoading] = useState(false);
+
   if (!props) {
     return null;
   }
 
   const { avatarPath, profileName, ourId } = props;
-
-  const [newAvatarObjectUrl, setNewAvatarObjectUrl] = useState<string | null>(avatarPath);
-  const [loading, setLoading] = useState(false);
 
   const closeDialog = () => {
     dispatch(updateEditProfilePictureModel(null));
@@ -119,6 +119,7 @@ export const EditProfilePictureModal = (props: EditProfilePictureModalProps) => 
       <div
         className="avatar-center"
         role="button"
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
         onClick={handleAvatarClick}
         data-testid={'image-upload-click'}
       >

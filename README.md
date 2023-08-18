@@ -1,10 +1,12 @@
 # Session Desktop
 
+[Download at getsession.org](https://getsession.org/download)
+
 ## Summary
 
 Session integrates directly with [Oxen Service Nodes](https://docs.oxen.io/about-the-oxen-blockchain/oxen-service-nodes), which are a set of distributed, decentralized and Sybil resistant nodes. Service Nodes act as servers which store messages offline, and a set of nodes which allow for onion routing functionality obfuscating users IP Addresses. For a full understanding of how Session works, read the [Session Whitepaper](https://getsession.org/whitepaper).
 <br/><br/>
-![DesktopSession](https://i.imgur.com/ZnHvYjo.jpg)
+![DesktopSession](https://i.imgur.com/ydVhH00.png)
 
 ## Want to Contribute? Found a Bug or Have a feature request?
 

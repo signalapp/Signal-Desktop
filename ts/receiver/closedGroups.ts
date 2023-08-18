@@ -1,4 +1,6 @@
-import { Data } from '../../ts/data/data';
+import _, { isNumber, toNumber } from 'lodash';
+
+import { Data } from '../data/data';
 import { SignalService } from '../protobuf';
 import { getMessageQueue } from '../session';
 import { getConversationController } from '../session/conversations';
@@ -10,7 +12,6 @@ import { removeFromCache } from './cache';
 import { decryptWithSessionProtocol } from './contentMessage';
 import { EnvelopePlus } from './types';
 
-import _, { isNumber, toNumber } from 'lodash';
 import { ConversationModel } from '../models/conversation';
 import { ConversationTypeEnum } from '../models/conversationAttributes';
 import { getSwarmPollingInstance } from '../session/apis/snode_api';
@@ -20,6 +21,7 @@ import { UserUtils } from '../session/utils';
 import { perfEnd, perfStart } from '../session/utils/Performance';
 import { ReleasedFeatures } from '../util/releaseFeature';
 import { Storage } from '../util/storage';
+// eslint-disable-next-line import/no-unresolved, import/extensions
 import { ConfigWrapperObjectTypes } from '../webworker/workers/browser/libsession_worker_functions';
 import { getSettingsKeyFromLibsessionWrapper } from './configMessage';
 import { ECKeyPair, HexKeyPair } from './keypairs';
@@ -258,7 +260,8 @@ export async function handleNewClosedGroup(
 
   if (envelope.senderIdentity === ourNumber.key) {
     window?.log?.warn('Dropping new closed group updatemessage from our other device.');
-    return removeFromCache(envelope);
+    await removeFromCache(envelope);
+    return;
   }
 
   const {
@@ -284,7 +287,8 @@ export async function handleNewClosedGroup(
     // not from legacy config, so this is a new closed group deposited on our swarm by a user.
     // we do not want to process it if our wrapper is more recent that that invite to group envelope.
     window.log.info('dropping invite to legacy group because our wrapper is more recent');
-    return removeFromCache(envelope);
+    await removeFromCache(envelope);
+    return;
   }
 
   if (!members.includes(ourNumber.key)) {
@@ -301,7 +305,6 @@ export async function handleNewClosedGroup(
     // if we did not left this group, just add the keypair we got if not already there
     if (!groupConvo.get('isKickedFromGroup') && !groupConvo.get('left')) {
       const ecKeyPairAlreadyExistingConvo = new ECKeyPair(
-        // tslint:disable: no-non-null-assertion
         encryptionKeyPair!.publicKey,
         encryptionKeyPair!.privateKey
       );
@@ -348,8 +351,8 @@ export async function handleNewClosedGroup(
   // We only set group admins on group creation
   const groupDetails: ClosedGroup.GroupInfo = {
     id: groupId,
-    name: name,
-    members: members,
+    name,
+    members,
     admins,
     activeAt: envelopeTimestamp,
   };
@@ -367,7 +370,7 @@ export async function handleNewClosedGroup(
   convo.updateLastMessage();
 
   await convo.commit();
-  // tslint:disable: no-non-null-assertion
+
   const ecKeyPair = new ECKeyPair(encryptionKeyPair!.publicKey, encryptionKeyPair!.privateKey);
   window?.log?.info(`Received the encryptionKeyPair for new group ${groupId}`);
 
@@ -440,7 +443,7 @@ async function handleClosedGroupEncryptionKeyPair(
   const ourWrapper = groupUpdate.wrappers.find(w => toHex(w.publicKey) === ourNumber.key);
   if (!ourWrapper) {
     window?.log?.warn(
-      `Couldn\'t find our wrapper in the encryption keypairs wrappers for group ${groupPublicKey}`
+      `Couldn't find our wrapper in the encryption keypairs wrappers for group ${groupPublicKey}`
     );
     await removeFromCache(envelope);
     return;
@@ -528,12 +531,14 @@ async function performIfValid(
   const convo = getConversationController().get(groupPublicKey);
   if (!convo) {
     window?.log?.warn('dropping message for nonexistent group');
-    return removeFromCache(envelope);
+    await removeFromCache(envelope);
+    return;
   }
 
   if (!convo) {
     window?.log?.warn('Ignoring a closed group update message (INFO) for a non-existing group');
-    return removeFromCache(envelope);
+    await removeFromCache(envelope);
+    return;
   }
 
   // Check that the message isn't from before the group was created
@@ -552,7 +557,8 @@ async function performIfValid(
     window?.log?.warn(
       'Got a group update with an older timestamp than when we joined this group last time. Dropping it.'
     );
-    return removeFromCache(envelope);
+    await removeFromCache(envelope);
+    return;
   }
 
   // Check that the sender is a member of the group (before the update)

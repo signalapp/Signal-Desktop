@@ -1,13 +1,14 @@
-import { SessionIconButton } from '../icon';
+import React, { useEffect, useState } from 'react';
 import { animation, contextMenu, Item, Menu } from 'react-contexify';
+import { useDispatch, useSelector } from 'react-redux';
+import styled from 'styled-components';
+
+import { CallManager, ToastUtils } from '../../session/utils';
 import { InputItem } from '../../session/utils/calling/CallManager';
 import { setFullScreenCall } from '../../state/ducks/call';
-import { CallManager, ToastUtils } from '../../session/utils';
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { getHasOngoingCallWithPubkey } from '../../state/selectors/call';
+import { SessionIconButton } from '../icon';
 import { DropDownAndToggleButton } from '../icon/DropDownAndToggleButton';
-import styled from 'styled-components';
 import { SessionContextMenuContainer } from '../SessionContextMenuContainer';
 
 const VideoInputMenu = ({
@@ -281,6 +282,7 @@ export const HangUpButton = ({ isFullScreen }: { isFullScreen: boolean }) => {
         iconType="hangup"
         iconColor="var(--danger-color)"
         borderRadius="50%"
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
         onClick={handleEndCall}
         margin="10px"
         dataTestId="end-call"

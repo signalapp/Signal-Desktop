@@ -1,4 +1,6 @@
-// tslint:disable: cyclomatic-complexity
+import { toNumber } from 'lodash';
+import pRetry from 'p-retry';
+import { AbortSignal } from 'abort-controller';
 
 import { OnionPaths } from '.';
 import {
@@ -9,9 +11,7 @@ import {
   SnodeResponse,
   STATUS_NO_STATUS,
 } from '../apis/snode_api/onions';
-import { toNumber } from 'lodash';
 import { PROTOCOLS } from '../constants';
-import pRetry from 'p-retry';
 import { Snode } from '../../data/data';
 import { OnionV4 } from './onionv4';
 import { OpenGroupPollingUtils } from '../apis/open_group_api/opengroupV2/OpenGroupPollingUtils';
@@ -19,7 +19,6 @@ import {
   addBinaryContentTypeToHeaders,
   addJsonContentTypeToHeaders,
 } from '../apis/open_group_api/sogsv3/sogsV3SendMessage';
-import { AbortSignal } from 'abort-controller';
 import { pnServerPubkeyHex, pnServerUrl } from '../apis/push_notification_api/PnServer';
 import { fileServerPubKey, fileServerURL } from '../apis/file_server_api/FileServerApi';
 import { invalidAuthRequiresBlinding } from '../apis/open_group_api/opengroupV2/OpenGroupServerPoller';
@@ -34,7 +33,6 @@ export type OnionFetchOptions = {
 // NOTE some endpoints require decoded strings
 const endpointExceptions = ['/reaction'];
 const endpointRequiresDecoding = (url: string): string => {
-  // tslint:disable-next-line: prefer-for-of
   for (let i = 0; i < endpointExceptions.length; i++) {
     if (url.includes(endpointExceptions[i])) {
       return decodeURIComponent(url);
@@ -103,7 +101,7 @@ export type OnionV4BinarySnodeResponse = {
  * Build & send an onion v4 request to a non snode, and handle retries.
  * We actually can only send v4 request to non snode, as the snodes themselves do not support v4 request as destination.
  */
-// tslint:disable-next-line: max-func-body-length
+
 const sendViaOnionV4ToNonSnodeWithRetries = async (
   destinationX25519Key: string,
   url: URL,

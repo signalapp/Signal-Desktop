@@ -16,14 +16,13 @@ import {
   useLastMessageOfSeries,
   useMessageAuthor,
   useMessageSenderIsAdmin,
-} from '../../../../state/selectors/';
+} from '../../../../state/selectors';
 import {
   getSelectedCanWrite,
   useSelectedConversationKey,
   useSelectedIsPublic,
 } from '../../../../state/selectors/selectedConversation';
 import { Avatar, AvatarSize, CrownIcon } from '../../../avatar/Avatar';
-// tslint:disable: use-simple-attributes
 
 const StyledAvatar = styled.div`
   position: relative;
@@ -54,13 +53,12 @@ export const MessageAvatar = (props: Props) => {
   const lastMessageOfSeries = useLastMessageOfSeries(messageId);
   const isSenderAdmin = useMessageSenderIsAdmin(messageId);
 
-  if (!sender) {
-    return null;
-  }
-
   const userName = authorName || authorProfileName || sender;
 
   const onMessageAvatarClick = useCallback(async () => {
+    if (!sender) {
+      return;
+    }
     if (isPublic && !PubKey.isBlinded(sender)) {
       // public chat but session id not blinded. disable showing user details if we do not have an active convo with that user.
       // an unactive convo with that user means that we never chatted with that id directyly, but only through a sogs
@@ -112,15 +110,19 @@ export const MessageAvatar = (props: Props) => {
 
       return;
     }
-    //not public, i.e. closed group. Just open dialog for the user to do what he wants
+    // not public, i.e. closed group. Just open dialog for the user to do what he wants
     dispatch(
       updateUserDetailsModal({
         conversationId: sender,
-        userName,
+        userName: userName || '',
         authorAvatarPath,
       })
     );
-  }, [userName, sender, isPublic, authorAvatarPath, selectedConvoKey]);
+  }, [dispatch, isTypingEnabled, userName, sender, isPublic, authorAvatarPath, selectedConvoKey]);
+
+  if (!sender) {
+    return null;
+  }
 
   if (isPrivate) {
     return null;
@@ -129,6 +131,7 @@ export const MessageAvatar = (props: Props) => {
   if (!lastMessageOfSeries) {
     return <div style={{ marginInlineEnd: '60px' }} key={`msg-avatar-${sender}`} />;
   }
+  /* eslint-disable @typescript-eslint/no-misused-promises */
 
   return (
     <StyledAvatar

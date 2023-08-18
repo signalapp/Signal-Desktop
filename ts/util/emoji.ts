@@ -1,6 +1,9 @@
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable no-continue */
+/* eslint-disable no-param-reassign */
+/* eslint-disable import/no-mutable-exports  */
+import { init, I18n } from 'emoji-mart';
 import { FixedBaseEmoji, NativeEmojiData } from '../types/Reaction';
-// @ts-ignore
-import { init, PartialI18n } from 'emoji-mart';
 import { loadEmojiPanelI18n } from './i18n';
 
 export type SizeClassType = 'default' | 'small' | 'medium' | 'large' | 'jumbo';
@@ -33,17 +36,18 @@ export function getEmojiSizeClass(str: string): SizeClassType {
   const emojiCount = getCountOfAllMatches(str);
   if (emojiCount > 6) {
     return 'small';
-  } else if (emojiCount > 4) {
-    return 'medium';
-  } else if (emojiCount > 2) {
-    return 'large';
-  } else {
-    return 'jumbo';
   }
+  if (emojiCount > 4) {
+    return 'medium';
+  }
+  if (emojiCount > 2) {
+    return 'large';
+  }
+  return 'jumbo';
 }
 
 export let nativeEmojiData: NativeEmojiData | null = null;
-export let i18nEmojiData: PartialI18n | null = null;
+export let i18nEmojiData: typeof I18n | null = null;
 
 export async function initialiseEmojiData(data: any): Promise<void> {
   const ariaLabels: Record<string, string> = {};
@@ -81,7 +85,7 @@ export async function initialiseEmojiData(data: any): Promise<void> {
   i18nEmojiData = await loadEmojiPanelI18n();
   // Data needs to be initialised once per page load for the emoji components
   // See https://github.com/missive/emoji-mart#%EF%B8%8F%EF%B8%8F-headless-search
-  init({ data, i18n: i18nEmojiData });
+  await init({ data, i18n: i18nEmojiData });
 }
 
 // Synchronous version of Emoji Mart's SearchIndex.search()

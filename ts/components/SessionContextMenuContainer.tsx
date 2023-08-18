@@ -4,7 +4,7 @@ export const SessionContextMenuContainer = styled.div.attrs({
   // custom props
 })`
   .react-contexify {
-    // be sure it is more than the one set for the More Informations screen of messages
+    // be sure it is more than the one set for the More Information screen of messages
     z-index: 30;
     min-width: 200px;
     box-shadow: 0px 0px 10px var(--context-menu-shadow-color) !important;

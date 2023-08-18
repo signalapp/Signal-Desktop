@@ -1,7 +1,6 @@
 import React from 'react';
 import moment from 'moment';
 
-// tslint:disable-next-line: no-submodule-imports
 import useInterval from 'react-use/lib/useInterval';
 import styled from 'styled-components';
 import useUpdate from 'react-use/lib/useUpdate';

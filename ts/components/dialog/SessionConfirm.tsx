@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
-import { SessionHtmlRenderer } from '../basic/SessionHTMLRenderer';
-import { updateConfirmModal } from '../../state/ducks/modalDialog';
-import { SpacerLG } from '../basic/Text';
-import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
-import { SessionSpinner } from '../basic/SessionSpinner';
-import { SessionIcon, SessionIconSize, SessionIconType } from '../icon';
-import { SessionWrapperModal } from '../SessionWrapperModal';
-import { Dispatch } from '@reduxjs/toolkit';
 import { shell } from 'electron';
+import { Dispatch } from '@reduxjs/toolkit';
+import React, { useState } from 'react';
 import { MessageInteraction } from '../../interactions';
+import { updateConfirmModal } from '../../state/ducks/modalDialog';
+import { SessionWrapperModal } from '../SessionWrapperModal';
+import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
+import { SessionHtmlRenderer } from '../basic/SessionHTMLRenderer';
+import { SessionSpinner } from '../basic/SessionSpinner';
+import { SpacerLG } from '../basic/Text';
+import { SessionIcon, SessionIconSize, SessionIconType } from '../icon';
 
 export interface SessionConfirmDialogProps {
   message?: string;

@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 import { isEmpty, sample } from 'lodash';
 import { Snode } from '../../../data/data';
 import { getSodiumRenderer } from '../../crypto';
@@ -101,6 +102,7 @@ async function processExpirationResults(
     const expiryApplied = swarm[nodeKey].expiry;
     const signature = swarm[nodeKey].signature;
 
+    // eslint-disable-next-line no-await-in-loop
     const isValid = await verifySignature({
       pubkey,
       snodePubkey: nodeKey,

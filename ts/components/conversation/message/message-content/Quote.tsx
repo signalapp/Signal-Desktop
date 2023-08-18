@@ -1,10 +1,10 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
-
-import * as MIME from '../../../../../ts/types/MIME';
-import * as GoogleChrome from '../../../../../ts/util/GoogleChrome';
-
 import { noop } from 'lodash';
+
+import * as MIME from '../../../../types/MIME';
+import * as GoogleChrome from '../../../../util/GoogleChrome';
+
 import { useDisableDrag } from '../../../../hooks/useDisableDrag';
 import { useEncryptedFileFetch } from '../../../../hooks/useEncryptedFileFetch';
 import { PubKey } from '../../../../session/types';
@@ -61,7 +61,7 @@ function getObjectUrl(thumbnail: Attachment | undefined): string | undefined {
     return thumbnail.objectUrl;
   }
 
-  return;
+  return undefined;
 }
 
 function getTypeLabel({
@@ -84,7 +84,7 @@ function getTypeLabel({
     return window.i18n('audio');
   }
 
-  return;
+  return undefined;
 }
 export const QuoteIcon = (props: any) => {
   const { icon } = props;

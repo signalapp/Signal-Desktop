@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import React from 'react';
 import { animation, Item, Menu } from 'react-contexify';
 
@@ -89,8 +88,8 @@ export const PinConversationMenuItem = (): JSX.Element | null => {
   if (isMessagesSection && (!isPrivate || (isPrivate && isPrivateAndFriend))) {
     const conversation = getConversationController().get(conversationId);
 
-    const togglePinConversation = async () => {
-      await conversation?.togglePinned();
+    const togglePinConversation = () => {
+      void conversation?.togglePinned();
     };
 
     const menuText = isPinned ? window.i18n('unpinConversation') : window.i18n('pinConversation');

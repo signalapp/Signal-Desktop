@@ -1,10 +1,9 @@
 import React, { useRef } from 'react';
 import classNames from 'classnames';
-
-import { SessionIconButton } from './icon/';
-
-// tslint:disable-next-line: no-submodule-imports
 import useKey from 'react-use/lib/useKey';
+
+import { SessionIconButton } from './icon';
+
 import { SessionButton, SessionButtonColor, SessionButtonType } from './basic/SessionButton';
 
 export type SessionWrapperModalType = {
@@ -65,7 +64,7 @@ export const SessionWrapperModal = (props: SessionWrapperModalType) => {
 
   return (
     <div
-      className={classNames('loki-dialog modal', additionalClassName ? additionalClassName : null)}
+      className={classNames('loki-dialog modal', additionalClassName || null)}
       onClick={handleClick}
       role="dialog"
     >

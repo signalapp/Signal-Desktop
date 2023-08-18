@@ -1,14 +1,17 @@
 import Slider from 'rc-slider';
 import React from 'react';
-// tslint:disable-next-line: no-submodule-imports
+import { isNumber } from 'lodash';
+
 import useUpdate from 'react-use/lib/useUpdate';
 import { SessionSettingsItemWrapper } from './SessionSettingListItem';
 
 export const ZoomingSessionSlider = (props: { onSliderChange?: (value: number) => void }) => {
   const forceUpdate = useUpdate();
-  const handleSlider = async (valueToForward: number) => {
-    props?.onSliderChange?.(valueToForward);
-    await window.setSettingValue('zoom-factor-setting', valueToForward);
+  const handleSlider = async (val: number | Array<number>) => {
+    const newSetting = isNumber(val) ? val : val?.[0] || 1;
+
+    props?.onSliderChange?.(newSetting);
+    await window.setSettingValue('zoom-factor-setting', newSetting);
     window.updateZoomFactor();
     forceUpdate();
   };
@@ -23,7 +26,9 @@ export const ZoomingSessionSlider = (props: { onSliderChange?: (value: number) =
           min={60}
           max={200}
           defaultValue={currentValueFromSettings}
-          onAfterChange={handleSlider}
+          onChange={e => {
+            void handleSlider(e);
+          }}
         />
 
         <div className="slider-info">

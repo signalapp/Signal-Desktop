@@ -1,5 +1,3 @@
-// tslint:disable: no-implicit-dependencies max-func-body-length no-unused-expression
-
 import { expect } from 'chai';
 import { describe } from 'mocha';
 import {
@@ -8,7 +6,6 @@ import {
   fillConvoAttributesWithDefaults,
 } from '../../../../models/conversationAttributes';
 
-// tslint:disable-next-line: max-func-body-length
 describe('fillConvoAttributesWithDefaults', () => {
   describe('members', () => {
     it('initialize members if they are not given', () => {

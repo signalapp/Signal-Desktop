@@ -1,7 +1,8 @@
-import _, { isEmpty } from 'lodash';
+import { isEmpty } from 'lodash';
 import { OpenGroupV2Room } from '../../../../data/opengroups';
 import { OpenGroupRequestCommonType } from '../opengroupV2/ApiUtil';
 
+// eslint-disable-next-line prefer-regex-literals
 const protocolRegex = new RegExp('https?://');
 
 const dot = '\\.';
@@ -25,6 +26,7 @@ const openGroupV2ServerUrlRegex = new RegExp(
  * see https://stackoverflow.com/a/9275499/1680951
  */
 export const openGroupV2CompleteURLRegex = new RegExp(
+  // eslint-disable-next-line no-useless-escape
   `^${openGroupV2ServerUrlRegex.source}\/${roomIdV2Regex}${qMark}${publicKeyParam}${publicKeyRegex}$`
 );
 
@@ -32,7 +34,7 @@ export const openGroupV2CompleteURLRegex = new RegExp(
  * Just a constant to have less 'http' everywhere.
  * This is the prefix used to identify our open groups in the conversation database (v1 or v2)
  */
-// tslint:disable-next-line: no-http-string
+
 const openGroupPrefix = 'http'; // can be http:// or https://
 
 /**
@@ -61,7 +63,6 @@ export function prefixify(server: string): string {
     return server;
   }
 
-  // tslint:disable-next-line: no-http-string
   return `http://${server}`;
 }
 

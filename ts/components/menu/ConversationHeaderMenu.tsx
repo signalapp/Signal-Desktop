@@ -127,8 +127,8 @@ const DisappearingMessageMenuItem = (): JSX.Element | null => {
       {timerOptions.map(item => (
         <Item
           key={item.value}
-          onClick={async () => {
-            await setDisappearingMessagesByConvoId(selectedConvoId, item.value);
+          onClick={() => {
+            void setDisappearingMessagesByConvoId(selectedConvoId, item.value);
           }}
         >
           {item.name}

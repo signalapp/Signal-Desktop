@@ -1,11 +1,12 @@
 import React from 'react';
+import { isEmpty, noop } from 'lodash';
+import styled from 'styled-components';
+
 import { QuotedAttachmentThumbnailType, QuoteProps } from './Quote';
 import { GoogleChrome } from '../../../../../util';
 import { MIME } from '../../../../../types';
 
-import { isEmpty, noop } from 'lodash';
 import { QuoteImage } from './QuoteImage';
-import styled from 'styled-components';
 import { icons, SessionIconType } from '../../../../icon';
 
 function getObjectUrl(thumbnail: QuotedAttachmentThumbnailType | undefined): string | undefined {
@@ -13,7 +14,7 @@ function getObjectUrl(thumbnail: QuotedAttachmentThumbnailType | undefined): str
     return thumbnail.objectUrl;
   }
 
-  return;
+  return undefined;
 }
 
 const StyledQuoteIconContainer = styled.div`
