@@ -36,6 +36,7 @@ yarn-error.log
 
 # editor
 .vscode/
+.vscrof/
 
 
 playwright.config.js

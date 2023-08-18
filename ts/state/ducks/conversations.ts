@@ -271,6 +271,8 @@ export interface ReduxConversationType {
   didApproveMe?: boolean;
 
   isMarkedUnread?: boolean;
+
+  blocksSogsMsgReqsTimestamp?: number; // undefined means 0
 }
 
 export interface NotificationForConvoOption {

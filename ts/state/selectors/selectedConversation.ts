@@ -81,7 +81,35 @@ export function getSelectedCanWrite(state: StateType) {
   const canWriteSogs = getCanWrite(state, selectedConvoPubkey);
   const { isBlocked, isKickedFromGroup, left, isPublic } = selectedConvo;
 
-  return !(isBlocked || isKickedFromGroup || left || (isPublic && !canWriteSogs));
+  const readOnlySogs = isPublic && !canWriteSogs;
+
+  const isBlindedAndDisabledMsgRequests = getSelectedBlindedDisabledMsgRequests(state); // true if isPrivate, blinded and explicitely disabled msgreq
+
+  return !(
+    isBlocked ||
+    isKickedFromGroup ||
+    left ||
+    readOnlySogs ||
+    isBlindedAndDisabledMsgRequests
+  );
+}
+
+function getSelectedBlindedDisabledMsgRequests(state: StateType) {
+  const selectedConvoPubkey = getSelectedConversationKey(state);
+  if (!selectedConvoPubkey) {
+    return false;
+  }
+  const selectedConvo = getSelectedConversation(state);
+  if (!selectedConvo) {
+    return false;
+  }
+  const { blocksSogsMsgReqsTimestamp, isPrivate } = selectedConvo;
+
+  const isBlindedAndDisabledMsgRequests = Boolean(
+    isPrivate && PubKey.isBlinded(selectedConvoPubkey) && blocksSogsMsgReqsTimestamp
+  );
+
+  return isBlindedAndDisabledMsgRequests;
 }
 
 /**
@@ -214,6 +242,10 @@ export function useSelectedIsApproved() {
 
 export function useSelectedApprovedMe() {
   return useSelector(getSelectedApprovedMe);
+}
+
+export function useSelectedHasDisabledBlindedMsgRequests() {
+  return useSelector(getSelectedBlindedDisabledMsgRequests);
 }
 
 /**

@@ -6,7 +6,7 @@ import {
   UserConfigWrapperNode,
   UserGroupsWrapperNode,
 } from 'libsession_util_nodejs';
-import { compact, isArray, isEmpty, isFinite, isNumber, isString, map, pick } from 'lodash';
+import { compact, isArray, isEmpty, isFinite, isNil, isNumber, isString, map, pick } from 'lodash';
 import {
   CONVERSATION_PRIORITIES,
   ConversationAttributes,
@@ -15,6 +15,7 @@ import { HexKeyPair } from '../../receiver/keypairs';
 import { fromHexToArray } from '../../session/utils/String';
 import {
   CONFIG_DUMP_TABLE,
+  ConfigDumpRow,
   getCommunityInfoFromDBValues,
   getContactInfoFromDBValues,
   getLegacyGroupInfoFromDBValues,
@@ -35,6 +36,7 @@ import {
 
 import { getIdentityKeys, sqlNode } from '../sql';
 import { sleepFor } from '../../session/utils/Promise';
+import { SettingsKey } from '../../data/settings-key';
 // import updateToSessionSchemaVersion33 from './session/migrationV33';
 
 export const hasDebugEnvVariable = Boolean(process.env.SESSION_DEBUG);
@@ -104,7 +106,7 @@ const LOKI_SCHEMA_VERSIONS = [
   updateToSessionSchemaVersion30,
   updateToSessionSchemaVersion31,
   updateToSessionSchemaVersion32,
-  // updateToSessionSchemaVersion33,
+  updateToSessionSchemaVersion33,
 ];
 
 function updateToSessionSchemaVersion1(currentVersion: number, db: BetterSqlite3.Database) {
@@ -1581,13 +1583,21 @@ function updateToSessionSchemaVersion30(currentVersion: number, db: BetterSqlite
 }
 
 /**
- * Get's the user's private and public keys from the database
- * @param db the database
- * @returns the keys { privateEd25519: string, publicEd25519: string }
+ * Returns the logged in user conversation attributes and the keys.
+ * If the keys exists but a conversation for that pubkey does not exist yet, the keys are still returned
  */
-export function getOurAccountKeys(db: BetterSqlite3.Database) {
-  const keys = getIdentityKeys(db);
-  return keys;
+function getLoggedInUserConvoDuringMigration(db: BetterSqlite3.Database) {
+  const ourKeys = getIdentityKeys(db);
+
+  if (!ourKeys || !ourKeys.publicKeyHex || !ourKeys.privateEd25519) {
+    return null;
+  }
+
+  const ourConversation = db.prepare(`SELECT * FROM ${CONVERSATIONS_TABLE} WHERE id = $id;`).get({
+    id: ourKeys.publicKeyHex,
+  }) as Record<string, any> | null;
+
+  return { ourKeys, ourConversation: ourConversation || null };
 }
 
 function updateToSessionSchemaVersion31(currentVersion: number, db: BetterSqlite3.Database) {
@@ -1601,16 +1611,13 @@ function updateToSessionSchemaVersion31(currentVersion: number, db: BetterSqlite
     // In the migration 30, we made all the changes which didn't require the user to be logged in yet.
     // in this one, we check if a user is logged in, and if yes we build and save the config dumps for the current state of the database.
     try {
-      const keys = getOurAccountKeys(db);
+      const loggedInUser = getLoggedInUserConvoDuringMigration(db);
 
-      const userAlreadyCreated = !!keys && !isEmpty(keys.privateEd25519);
-
-      if (!userAlreadyCreated) {
+      if (!loggedInUser || !loggedInUser.ourKeys) {
         throw new Error('privateEd25519 was empty. Considering no users are logged in');
       }
       const blockedNumbers = getBlockedNumbersDuringMigration(db);
-
-      const { privateEd25519, publicKeyHex } = keys;
+      const { privateEd25519, publicKeyHex } = loggedInUser.ourKeys;
       const userProfileWrapper = new UserConfigWrapperNode(privateEd25519, null);
       const contactsConfigWrapper = new ContactsConfigWrapperNode(privateEd25519, null);
       const userGroupsConfigWrapper = new UserGroupsWrapperNode(privateEd25519, null);
@@ -1620,11 +1627,7 @@ function updateToSessionSchemaVersion31(currentVersion: number, db: BetterSqlite
        * Setup up the User profile wrapper with what is stored in our own conversation
        */
 
-      const ourConversation = db
-        .prepare(`SELECT * FROM ${CONVERSATIONS_TABLE} WHERE id = $id;`)
-        .get({
-          id: publicKeyHex,
-        }) as Record<string, any> | undefined;
+      const { ourConversation } = loggedInUser;
 
       if (!ourConversation) {
         throw new Error('Failed to find our logged in conversation while migrating');
@@ -1855,6 +1858,91 @@ function updateToSessionSchemaVersion32(currentVersion: number, db: BetterSqlite
   })();
 
   console.log(`updateToSessionSchemaVersion${targetVersion}: success!`);
+}
+
+function fetchUserConfigDump(
+  db: BetterSqlite3.Database,
+  userPubkeyhex: string
+): ConfigDumpRow | null {
+  const userConfigWrapperDumps = db
+    .prepare(
+      `SELECT * FROM ${CONFIG_DUMP_TABLE} WHERE variant = $variant AND publicKey = $publicKey;`
+    )
+    .all({ variant: 'UserConfig', publicKey: userPubkeyhex }) as Array<ConfigDumpRow>;
+
+  if (!userConfigWrapperDumps || !userConfigWrapperDumps.length) {
+    return null;
+  }
+  // we can only have one dump with the "UserConfig" variant and our pubkey
+  return userConfigWrapperDumps[0];
+}
+
+function writeUserConfigDump(db: BetterSqlite3.Database, userPubkeyhex: string, dump: Uint8Array) {
+  db.prepare(
+    `INSERT OR REPLACE INTO ${CONFIG_DUMP_TABLE} (
+            publicKey,
+            variant,
+            data
+        ) values (
+          $publicKey,
+          $variant,
+          $data
+        );`
+  ).run({
+    publicKey: userPubkeyhex,
+    variant: 'UserConfig',
+    data: dump,
+  });
+}
+
+function updateToSessionSchemaVersion33(currentVersion: number, db: BetterSqlite3.Database) {
+  const targetVersion = 33;
+  if (currentVersion >= targetVersion) {
+    return;
+  }
+
+  console.log(`updateToSessionSchemaVersion${targetVersion}: starting...`);
+  db.transaction(() => {
+    db.exec(`ALTER TABLE ${CONVERSATIONS_TABLE} ADD COLUMN blocksSogsMsgReqsTimestamp INTEGER;`);
+
+    const loggedInUser = getLoggedInUserConvoDuringMigration(db);
+
+    if (!loggedInUser?.ourKeys) {
+      // no user loggedin was empty. Considering no users are logged in
+      writeSessionSchemaVersion(targetVersion, db);
+      return;
+    }
+    // a user is logged in, we want to enable the 'inbox' polling for sogs, only if the current userwrapper for that field is undefined
+    const { privateEd25519, publicKeyHex } = loggedInUser.ourKeys;
+
+    // Get existing config wrapper dump and update it
+    const userConfigWrapperDump = fetchUserConfigDump(db, publicKeyHex);
+
+    if (!userConfigWrapperDump) {
+      writeSessionSchemaVersion(targetVersion, db);
+      return;
+    }
+    const userConfigData = userConfigWrapperDump.data;
+    const userProfileWrapper = new UserConfigWrapperNode(privateEd25519, userConfigData);
+
+    let blindedReqEnabled = userProfileWrapper.getEnableBlindedMsgRequest();
+
+    // if the value stored in the wrapper is undefined, we want to have blinded request enabled
+    if (isNil(blindedReqEnabled)) {
+      // this change will be part of the next ConfSyncJob (one is always made on app startup)
+      userProfileWrapper.setEnableBlindedMsgRequest(true);
+      writeUserConfigDump(db, publicKeyHex, userProfileWrapper.dump());
+    }
+    blindedReqEnabled = userProfileWrapper.getEnableBlindedMsgRequest();
+
+    // update the item stored in the DB with that value too
+    sqlNode.createOrUpdateItem(
+      { id: SettingsKey.hasBlindedMsgRequestsEnabled, value: blindedReqEnabled },
+      db
+    );
+
+    writeSessionSchemaVersion(targetVersion, db);
+  })();
 }
 
 export function printTableColumns(table: string, db: BetterSqlite3.Database) {

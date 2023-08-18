@@ -8,7 +8,7 @@
   &-content {
     &-accent {
       &-text {
-        font-family: $session-font-accent;
+        font-family: var(--font-accent), var(--font-default);
         text-align: center;
         .title {
           font-size: 90px;
@@ -91,7 +91,7 @@
   &-input-with-label-container {
     height: 46.5px;
     width: 280px;
-    font-family: $session-font-default;
+    font-family: var(--font-default);
     color: var(--text-primary-color);
 
     padding: 2px 0 2px 0;
@@ -126,7 +126,7 @@
       background: transparent;
       color: var(--input-text-color);
 
-      font-family: $session-font-default;
+      font-family: var(--font-default);
       font-size: 12px;
       line-height: 14px;
       position: absolute;
@@ -214,7 +214,7 @@
       overflow-wrap: break-word;
       padding: 0px 5px 20px 5px;
       display: inline-block;
-      font-family: $session-font-mono;
+      font-family: var(--font-mono), var(--font-default);
       user-select: all;
       overflow: hidden;
       resize: none;

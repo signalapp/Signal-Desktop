@@ -21,7 +21,7 @@ import { ToastUtils } from '../../../session/utils';
 import { createClosedGroup } from '../../../session/conversations/createClosedGroup';
 
 const StyledMemberListNoContacts = styled.div`
-  font-family: var(--font-font-mono);
+  font-family: var(--font-mono), var(--font-default);
   background: var(--background-secondary-color);
   text-align: center;
   padding: 20px;

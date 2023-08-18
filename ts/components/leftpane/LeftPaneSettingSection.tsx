@@ -16,7 +16,7 @@ import { SessionSettingCategory } from '../settings/SessionSettings';
 import { LeftPaneSectionHeader } from './LeftPaneSectionHeader';
 
 const StyledSettingsSectionTitle = styled.strong`
-  font-family: var(--font-font-accent);
+  font-family: var(--font-accent), var(--font-default);
   font-size: var(--font-size-md);
 `;
 

@@ -7,6 +7,7 @@ import {
   isEmpty,
   isEqual,
   isFinite,
+  isNil,
   isNumber,
   isString,
   sortBy,
@@ -289,6 +290,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     if (this.get('markedAsUnread')) {
       toRet.isMarkedUnread = !!this.get('markedAsUnread');
+    }
+
+    const blocksSogsMsgReqsTimestamp = this.get('blocksSogsMsgReqsTimestamp');
+    if (blocksSogsMsgReqsTimestamp) {
+      toRet.blocksSogsMsgReqsTimestamp = blocksSogsMsgReqsTimestamp;
     }
 
     if (isPrivate) {
@@ -1324,6 +1330,35 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
   public isMarkedUnread(): boolean {
     return !!this.get('markedAsUnread');
+  }
+
+  public async updateBlocksSogsMsgReqsTimestamp(
+    blocksSogsMsgReqsTimestamp: number,
+    shouldCommit: boolean = true
+  ) {
+    if (!PubKey.isBlinded(this.id)) {
+      return; // this thing only applies to sogs blinded conversations
+    }
+
+    if (
+      (isNil(this.get('blocksSogsMsgReqsTimestamp')) && !isNil(blocksSogsMsgReqsTimestamp)) ||
+      (blocksSogsMsgReqsTimestamp === 0 && this.get('blocksSogsMsgReqsTimestamp') !== 0) ||
+      blocksSogsMsgReqsTimestamp > this.get('blocksSogsMsgReqsTimestamp')
+    ) {
+      this.set({
+        blocksSogsMsgReqsTimestamp,
+      });
+      if (shouldCommit) {
+        await this.commit();
+      }
+    }
+  }
+
+  public blocksSogsMsgReqsTimestamp(): number {
+    if (!PubKey.isBlinded(this.id)) {
+      return 0; // this thing only applies to sogs blinded conversations
+    }
+    return this.get('blocksSogsMsgReqsTimestamp') || 0;
   }
 
   /**

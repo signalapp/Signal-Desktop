@@ -8,6 +8,9 @@ const getLinkPreviewEnabled = (state: StateType) =>
 const getHasDeviceOutdatedSyncing = (state: StateType) =>
   state.settings.settingsBools[SettingsKey.someDeviceOutdatedSyncing];
 
+const getHasBlindedMsgRequestsEnabled = (state: StateType) =>
+  state.settings.settingsBools[SettingsKey.hasBlindedMsgRequestsEnabled];
+
 export const useHasLinkPreviewEnabled = () => {
   const value = useSelector(getLinkPreviewEnabled);
   return Boolean(value);
@@ -15,5 +18,10 @@ export const useHasLinkPreviewEnabled = () => {
 
 export const useHasDeviceOutdatedSyncing = () => {
   const value = useSelector(getHasDeviceOutdatedSyncing);
+  return Boolean(value);
+};
+
+export const useHasBlindedMsgRequestsEnabled = () => {
+  const value = useSelector(getHasBlindedMsgRequestsEnabled);
   return Boolean(value);
 };

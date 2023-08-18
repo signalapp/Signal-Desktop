@@ -1,4 +1,4 @@
-import _, { isEmpty, isEqual } from 'lodash';
+import _, { isEmpty, isEqual, isNumber } from 'lodash';
 import { queueAttachmentDownloads } from './attachments';
 
 import { Data } from '../data/data';
@@ -19,6 +19,7 @@ import { setExpirationStartTimestamp } from '../util/expiringMessages';
 import { LinkPreviews } from '../util/linkPreviews';
 import { ReleasedFeatures } from '../util/releaseFeature';
 import { PropsForMessageWithoutConvoProps, lookupQuote } from '../state/ducks/conversations';
+import { PubKey } from '../session/types';
 
 function contentTypeSupported(type: string): boolean {
   const Chrome = GoogleChrome;
@@ -213,6 +214,7 @@ export type RegularMessageType = Pick<
   | 'profileKey'
   // TODO legacy messages support will be removed in a future release
   | 'expireTimer'
+  | 'blocksCommunityMessageRequests'
 > & { isRegularMessage: true };
 
 /**
@@ -231,6 +233,7 @@ export function toRegularMessage(rawDataMessage: SignalService.DataMessage): Reg
       'quote',
       'profile',
       'expireTimer',
+      'blocksCommunityMessageRequests',
     ]),
     isRegularMessage: true,
   };
@@ -262,6 +265,18 @@ async function handleRegularMessage(
     messageHash,
     errors: [],
   });
+
+  const serverTimestamp = message.get('serverTimestamp');
+  if (
+    conversation.isPublic() &&
+    PubKey.isBlinded(sendingDeviceConversation.id) &&
+    isNumber(serverTimestamp)
+  ) {
+    const updateBlockTimestamp = !rawDataMessage.blocksCommunityMessageRequests
+      ? 0
+      : serverTimestamp;
+    await sendingDeviceConversation.updateBlocksSogsMsgReqsTimestamp(updateBlockTimestamp, false);
+  }
 
   // Expire timer updates are now explicit.
   // We don't handle an expire timer from a incoming message except if it is an ExpireTimerUpdate message.

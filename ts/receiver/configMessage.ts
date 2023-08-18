@@ -1,6 +1,6 @@
 /* eslint-disable no-await-in-loop */
 import { ContactInfo } from 'libsession_util_nodejs';
-import { compact, difference, isEmpty, isNumber, toNumber } from 'lodash';
+import { compact, difference, isEmpty, isNil, isNumber, toNumber } from 'lodash';
 import { ConfigDumpData } from '../data/configDump/configDump';
 import { Data } from '../data/data';
 import { SettingsKey } from '../data/settings-key';
@@ -39,8 +39,9 @@ import {
   isSignInByLinking,
   setLastProfileUpdateTimestamp,
 } from '../util/storage';
+import { deleteAllMessagesByConvoIdNoConfirmation } from '../interactions/conversationInteractions';
 // eslint-disable-next-line import/no-unresolved, import/extensions
-import { ConfigWrapperObjectTypes } from '../webworker/workers/browser/libsession_worker_functions';
+import { ConfigWrapperObjectTypes } from '../../ts/webworker/workers/browser/libsession_worker_functions';
 import {
   ContactsWrapperActions,
   ConvoInfoVolatileWrapperActions,
@@ -53,7 +54,6 @@ import { addKeyPairToCacheAndDBIfNeeded, handleNewClosedGroup } from './closedGr
 import { HexKeyPair } from './keypairs';
 import { queueAllCachedFromSource } from './receiver';
 import { EnvelopePlus } from './types';
-import { deleteAllMessagesByConvoIdNoConfirmation } from '../interactions/conversationInteractions';
 
 function groupByVariant(
   incomingConfigs: Array<IncomingMessage<SignalService.ISharedConfigMessage>>
@@ -197,8 +197,16 @@ async function handleUserProfileUpdate(result: IncomingConfResult): Promise<Inco
   if (!updateUserInfo) {
     return result;
   }
+
+  const currentBlindedMsgRequest = Storage.get(SettingsKey.hasBlindedMsgRequestsEnabled);
+  const newBlindedMsgRequest = await UserConfigWrapperActions.getEnableBlindedMsgRequest();
+  if (!isNil(newBlindedMsgRequest) && newBlindedMsgRequest !== currentBlindedMsgRequest) {
+    await window.setSettingValue(SettingsKey.hasBlindedMsgRequestsEnabled, newBlindedMsgRequest); // this does the dispatch to redux
+  }
+
   const picUpdate = !isEmpty(updateUserInfo.key) && !isEmpty(updateUserInfo.url);
 
+  // NOTE: if you do any changes to the settings of a user which are synced, it should be done above the `updateOurProfileLegacyOrViaLibSession` call
   await updateOurProfileLegacyOrViaLibSession(
     result.latestEnvelopeTimestamp,
     updateUserInfo.name,

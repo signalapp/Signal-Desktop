@@ -103,6 +103,8 @@ export interface ConversationAttributes {
 
   markedAsUnread: boolean; // Force the conversation as unread even if all the messages are read. Used to highlight a conversation the user wants to check again later, synced.
 
+  blocksSogsMsgReqsTimestamp: number; // if the convo is blinded and the user has denied contact through sogs, this field be set to the user's latest message timestamp
+
   expirationType: DisappearingMessageConversationType; // the type of expiring messages for this conversation
   lastDisappearingMessageChangeTimestamp: number; // to avoid applying a change of disappear change when our current one was applied more recently
   hasOutdatedClient?: string; // to warn the user that the person he is talking to is using an old client which might cause issues
@@ -141,6 +143,7 @@ export const fillConvoAttributesWithDefaults = (
     left: false,
     priority: CONVERSATION_PRIORITIES.default,
     markedAsUnread: false,
+    blocksSogsMsgReqsTimestamp: 0,
   });
 };
 

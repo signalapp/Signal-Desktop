@@ -111,15 +111,16 @@ export const UserConfigWrapperActions: UserConfigWrapperActionsCalls = {
     callLibSessionWorker(['UserConfig', 'setUserInfo', name, priority, profilePic]) as Promise<
       ReturnType<UserConfigWrapperActionsCalls['setUserInfo']>
     >,
-  // TODO blinded message request stuff later
   getEnableBlindedMsgRequest: async () =>
     callLibSessionWorker(['UserConfig', 'getEnableBlindedMsgRequest']) as Promise<
       ReturnType<UserConfigWrapperActionsCalls['getEnableBlindedMsgRequest']>
     >,
-  setEnableBlindedMsgRequest: async (enable: boolean) =>
-    callLibSessionWorker(['UserConfig', 'setEnableBlindedMsgRequest', enable]) as Promise<
-      ReturnType<UserConfigWrapperActionsCalls['setEnableBlindedMsgRequest']>
-    >,
+  setEnableBlindedMsgRequest: async (blindedMsgRequests: boolean) =>
+    callLibSessionWorker([
+      'UserConfig',
+      'setEnableBlindedMsgRequest',
+      blindedMsgRequests,
+    ]) as Promise<ReturnType<UserConfigWrapperActionsCalls['setEnableBlindedMsgRequest']>>,
   getNoteToSelfExpiry: async () =>
     callLibSessionWorker(['UserConfig', 'getNoteToSelfExpiry']) as Promise<
       ReturnType<UserConfigWrapperActionsCalls['getNoteToSelfExpiry']>
