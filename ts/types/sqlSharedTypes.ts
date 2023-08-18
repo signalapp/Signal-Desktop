@@ -105,6 +105,8 @@ export type SaveConversationReturn = {
 } | null;
 
 /**
+ * NOTE This code should always match the last known version of the same function used in a libsession migration (V31)
+ *
  * This function returns a contactInfo for the wrapper to understand from the DB values.
  * Created in this file so we can reuse it during the migration (node side), and from the renderer side
  */
@@ -156,6 +158,8 @@ export function getContactInfoFromDBValues({
 }
 
 /**
+ * NOTE This code should always match the last known version of the same function used in a libsession migration (V31)
+ *
  * This function returns a CommunityInfo for the wrapper to understand from the DB values.
  * It is created in this file so we can reuse it during the migration (node side), and from the renderer side
  */
@@ -174,7 +178,7 @@ export function getCommunityInfoFromDBValues({
   return community;
 }
 
-function maybeArrayJSONtoArray(arr: string | Array<string>): Array<string> {
+export function maybeArrayJSONtoArray(arr: string | Array<string>): Array<string> {
   try {
     if (isArray(arr)) {
       return arr;
@@ -190,6 +194,9 @@ function maybeArrayJSONtoArray(arr: string | Array<string>): Array<string> {
   }
 }
 
+/**
+ * NOTE This code should always match the last known version of the same function used in a libsession migration (V31)
+ */
 export function getLegacyGroupInfoFromDBValues({
   id,
   priority,

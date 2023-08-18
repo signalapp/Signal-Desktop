@@ -7,6 +7,19 @@ import { getIdentityKeys, sqlNode } from '../sql';
 export const hasDebugEnvVariable = Boolean(process.env.SESSION_DEBUG);
 
 /**
+ * Verify we are calling the correct helper function in the correct migration before running it.
+ *
+ * You don't need to call this on functions that aren't being exported as helper functions in a file
+ * @param version
+ * @param targetVersion
+ */
+export function checkTargetMigration(version: number, targetVersion: number) {
+  if (version !== targetVersion) {
+    throw new Error(`Migration target mismatch. Expected: ${targetVersion}, Found: ${version}`);
+  }
+}
+
+/**
  * Returns the logged in user conversation attributes and the keys.
  * If the keys exists but a conversation for that pubkey does not exist yet, the keys are still returned
  */

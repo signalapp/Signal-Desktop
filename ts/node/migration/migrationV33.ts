@@ -8,17 +8,32 @@ import {
   UserConfigWrapperNode,
 } from 'libsession_util_nodejs';
 import { isArray, isEmpty, isEqual, isFinite, isNumber } from 'lodash';
-import { CONVERSATION_PRIORITIES } from '../../../models/conversationAttributes';
-import { CONFIG_DUMP_TABLE, ConfigDumpRow } from '../../../types/sqlSharedTypes';
-import { CONVERSATIONS_TABLE, MESSAGES_TABLE, toSqliteBoolean } from '../../database_utility';
-import {
-  getBlockedNumbersDuringMigration,
-  getOurAccountKeys,
-  hasDebugEnvVariable,
-  writeSessionSchemaVersion,
-} from '../sessionMigrations';
-import { DisappearingMessageMode } from '../../../util/expiringMessages';
-import { fromHexToArray } from '../../../session/utils/String';
+import { CONVERSATION_PRIORITIES } from '../../models/conversationAttributes';
+import { CONFIG_DUMP_TABLE, ConfigDumpRow } from '../../types/sqlSharedTypes';
+import { CONVERSATIONS_TABLE, MESSAGES_TABLE, toSqliteBoolean } from '../database_utility';
+import { writeSessionSchemaVersion } from './sessionMigrations';
+import { DisappearingMessageMode } from '../../util/expiringMessages';
+import { fromHexToArray } from '../../session/utils/String';
+import { getIdentityKeys } from '../sql';
+import { getBlockedNumbersDuringMigration, hasDebugEnvVariable } from './utils';
+
+/**
+ * Returns the logged in user conversation attributes and the keys.
+ * If the keys exists but a conversation for that pubkey does not exist yet, the keys are still returned
+ */
+function getLoggedInUserConvoDuringMigration(db: BetterSqlite3.Database) {
+  const ourKeys = getIdentityKeys(db);
+
+  if (!ourKeys || !ourKeys.publicKeyHex || !ourKeys.privateEd25519) {
+    return null;
+  }
+
+  const ourConversation = db.prepare(`SELECT * FROM ${CONVERSATIONS_TABLE} WHERE id = $id;`).get({
+    id: ourKeys.publicKeyHex,
+  }) as Record<string, any> | null;
+
+  return { ourKeys, ourConversation: ourConversation || null };
+}
 
 function getContactInfoFromDBValues({
   id,
@@ -169,11 +184,8 @@ function insertContactIntoContactWrapper(
   }
 }
 
-export default function updateToSessionSchemaVersion33(
-  currentVersion: number,
-  db: BetterSqlite3.Database
-) {
-  const targetVersion = 33;
+export function updateToSessionSchemaVersion34(currentVersion: number, db: BetterSqlite3.Database) {
+  const targetVersion = 34;
   if (currentVersion >= targetVersion) {
     return;
   }
@@ -183,15 +195,13 @@ export default function updateToSessionSchemaVersion33(
   console.log(`updateToSessionSchemaVersion${targetVersion}: starting...`);
   db.transaction(() => {
     try {
-      const keys = getOurAccountKeys(db);
+      const loggedInUser = getLoggedInUserConvoDuringMigration(db);
 
-      const userAlreadyCreated = !!keys && !isEmpty(keys.privateEd25519);
-
-      if (!userAlreadyCreated) {
+      if (!loggedInUser || !loggedInUser.ourKeys) {
         throw new Error('privateEd25519 was empty. Considering no users are logged in');
       }
 
-      const { privateEd25519, publicKeyHex } = keys;
+      const { privateEd25519, publicKeyHex } = loggedInUser.ourKeys;
 
       // Conversation changes
       // TODO can this be moved into libsession completely
