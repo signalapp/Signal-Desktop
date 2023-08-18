@@ -759,13 +759,6 @@
     "reasonDetail": "isn't react"
   },
   {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/find-cache-dir/node_modules/pify/index.js",
-    "line": "\t\tif (options.multiArgs) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-25T00:30:50.619Z"
-  },
-  {
     "rule": "React-findDOMNode",
     "path": "node_modules/focus-trap-react/dist/focus-trap-react.js",
     "line": "        var focusTrapElementDOMNodes = this.focusTrapElements.map( // NOTE: `findDOMNode()` does not support CSS selectors; it'll just return",
@@ -1134,6 +1127,13 @@
     "updated": "2023-06-29T17:01:25.145Z"
   },
   {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/make-dir/node_modules/pify/index.js",
+    "line": "\t\tif (options.multiArgs) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2023-08-17T21:23:20.930Z"
+  },
+  {
     "rule": "DOM-innerHTML",
     "path": "node_modules/min-document/serialize.js",
     "line": "        } else if (elem.innerHTML) {",
@@ -1205,13 +1205,6 @@
     "line": "  var deprecatedfn = eval('(function (' + args + ') {\\n' +",
     "reasonCategory": "usageTrusted",
     "updated": "2022-12-13T00:55:48.389Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/package-json/node_modules/@sindresorhus/is/dist/index.js",
-    "line": "        'innerHTML',",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-11-13T01:24:25.496Z"
   },
   {
     "rule": "DOM-innerHTML",
@@ -2108,6 +2101,30 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/CallsList.tsx",
+    "line": "  const infiniteLoaderRef = useRef<InfiniteLoader>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2023-08-02T00:21:37.858Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CallsList.tsx",
+    "line": "  const listRef = useRef<List>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2023-08-02T00:21:37.858Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CallsList.tsx",
+    "line": "  const prevOptionsRef = useRef<CallHistoryFilterOptions | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2023-08-17T00:07:01.015Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/CaptchaDialog.tsx",
     "line": "  const buttonRef = useRef<HTMLButtonElement | null>(null);",
     "reasonCategory": "usageTrusted",
@@ -2402,6 +2419,13 @@
   {
     "rule": "React-useRef",
     "path": "ts/components/Modal.tsx",
+    "line": "  const modalRef = useRef<HTMLDivElement | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-08-05T00:22:31.660Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/Modal.tsx",
     "line": "  const bodyRef = useRef<HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2023-07-25T21:55:26.191Z",
@@ -2414,13 +2438,6 @@
     "reasonCategory": "usageTrusted",
     "updated": "2023-07-25T21:55:26.191Z",
     "reasonDetail": "<optional>"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/Modal.tsx",
-    "line": "  const modalRef = useRef<HTMLDivElement | null>(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-08-05T00:22:31.660Z"
   },
   {
     "rule": "React-useRef",
@@ -2563,14 +2580,6 @@
   {
     "rule": "React-useRef",
     "path": "ts/components/TextAttachment.tsx",
-    "line": "    const ref = useRef<HTMLDivElement>(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-07-25T21:55:26.191Z",
-    "reasonDetail": "<optional>"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/TextAttachment.tsx",
     "line": "  const linkPreview = useRef<HTMLDivElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2022-04-06T00:59:17.194Z"
@@ -2581,6 +2590,14 @@
     "line": "  const textEditorRef = useRef<HTMLTextAreaElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2022-06-16T23:23:32.306Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/TextAttachment.tsx",
+    "line": "    const ref = useRef<HTMLDivElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2023-07-25T21:55:26.191Z",
+    "reasonDetail": "<optional>"
   },
   {
     "rule": "React-useRef",
@@ -2877,6 +2894,14 @@
   {
     "rule": "React-useRef",
     "path": "ts/quill/formatting/menu.tsx",
+    "line": "  const buttonRef = React.useRef<HTMLButtonElement | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2023-04-22T00:07:56.294Z",
+    "reasonDetail": "Popper needs to reference the button"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/quill/formatting/menu.tsx",
     "line": "  const fadeOutTimerRef = React.useRef<NodeJS.Timeout | undefined>();",
     "reasonCategory": "usageTrusted",
     "updated": "2023-08-02T19:01:24.771Z",
@@ -2889,14 +2914,6 @@
     "reasonCategory": "usageTrusted",
     "updated": "2023-08-02T19:01:24.771Z",
     "reasonDetail": "We need a persistent timer to track long-hovers"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/quill/formatting/menu.tsx",
-    "line": "  const buttonRef = React.useRef<HTMLButtonElement | null>(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-04-22T00:07:56.294Z",
-    "reasonDetail": "Popper needs to reference the button"
   },
   {
     "rule": "DOM-innerHTML",
@@ -2941,29 +2958,5 @@
     "line": "  message.innerHTML = window.i18n('icu:optimizingApplication');",
     "reasonCategory": "usageTrusted",
     "updated": "2021-09-17T21:02:59.414Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/CallsList.tsx",
-    "line": "  const infiniteLoaderRef = useRef<InfiniteLoader>(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-08-02T00:21:37.858Z",
-    "reasonDetail": "<optional>"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/CallsList.tsx",
-    "line": "  const listRef = useRef<List>(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-08-02T00:21:37.858Z",
-    "reasonDetail": "<optional>"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/CallsList.tsx",
-    "line": "  const prevOptionsRef = useRef<CallHistoryFilterOptions | null>(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-08-17T00:07:01.015Z",
-    "reasonDetail": "<optional>"
   }
 ]

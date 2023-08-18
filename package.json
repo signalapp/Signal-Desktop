@@ -270,7 +270,7 @@
     "danger": "11.1.2",
     "debug": "4.3.3",
     "electron": "25.4.0",
-    "electron-builder": "23.0.8",
+    "electron-builder": "24.6.3",
     "electron-mocha": "11.0.2",
     "electron-notarize": "1.2.1",
     "endanger": "7.0.4",
