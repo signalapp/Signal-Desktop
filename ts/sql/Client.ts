@@ -383,13 +383,7 @@ const ITEM_SPECS: Partial<Record<ItemKeyType, ObjectMappingSpecType>> = {
   senderCertificate: ['value.serialized'],
   senderCertificateNoE164: ['value.serialized'],
   subscriberId: ['value'],
-  usernameLink: {
-    key: 'value',
-    valueSpec: {
-      isMap: true,
-      valueSpec: ['entropy', 'serverId'],
-    },
-  },
+  usernameLink: ['value.entropy', 'value.serverId'],
 };
 async function createOrUpdateItem<K extends ItemKeyType>(
   data: ItemType<K>
@@ -414,7 +408,12 @@ async function getItemById<K extends ItemKeyType>(
   const spec = ITEM_SPECS[id];
   const data = await channels.getItemById(id);
 
-  return spec ? specToBytes(spec, data) : (data as unknown as ItemType<K>);
+  try {
+    return spec ? specToBytes(spec, data) : (data as unknown as ItemType<K>);
+  } catch (error) {
+    log.warn(`getItemById(${id}): Failed to parse item from spec`, error);
+    return undefined;
+  }
 }
 async function getAllItems(): Promise<AllItemsType> {
   const items = await channels.getAllItems();
