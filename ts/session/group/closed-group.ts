@@ -427,7 +427,7 @@ async function generateAndSendNewEncryptionKeyPair(
     await groupConvo?.commit(); // this makes sure to include the new encryption keypair in the libsession usergroup wrapper
   };
 
-  // this is to be sent to the group pubkey adress
+  // this is to be sent to the group pubkey address
   await getMessageQueue().sendToGroup({
     message: keypairsMessage,
     namespace: SnodeNamespaces.ClosedGroupMessage,

@@ -83,7 +83,7 @@ async function requestSnodesForPubkeyWithTargetNode(
 async function requestSnodesForPubkeyRetryable(pubKey: string): Promise<Array<Snode>> {
   // don't catch exception in here. we want them to bubble up
 
-  // this is the level where our targetNode is not yet known. We retry a few times with a new one everytime.
+  // this is the level where our targetNode is not yet known. We retry a few times with a new one every time.
   // the idea is that the requestSnodesForPubkeyWithTargetNode will remove a failing targetNode
   return pRetry(
     async () => {
