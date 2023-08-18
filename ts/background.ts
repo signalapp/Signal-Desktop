@@ -2951,14 +2951,20 @@ export async function startApp(): Promise<void> {
 
     try {
       log.info(`unlinkAndDisconnect: removing configuration, mode ${mode}`);
-      await window.textsecure.storage.protocol.removeAllConfiguration(mode);
 
-      // This was already done in the database with removeAllConfiguration; this does it
-      //   for all the conversation models in memory.
+      // First, make changes to conversations in memory
       window.getConversations().forEach(conversation => {
-        // eslint-disable-next-line no-param-reassign
-        delete conversation.attributes.senderKeyInfo;
+        conversation.unset('senderKeyInfo');
       });
+
+      // Then make sure outstanding conversation saves are flushed
+      await window.Signal.Data.flushUpdateConversationBatcher();
+
+      // Then make sure that all previously-outstanding database saves are flushed
+      await window.Signal.Data.getItemById('manifestVersion');
+
+      // Finally, conversations in the database, and delete all config tables
+      await window.textsecure.storage.protocol.removeAllConfiguration(mode);
 
       // These three bits of data are important to ensure that the app loads up
       //   the conversation list, instead of showing just the QR code screen.
@@ -3083,10 +3089,17 @@ export async function startApp(): Promise<void> {
         log.info(
           'onKeysSync: updated storage service key, erasing state and fetching'
         );
-        await window.storage.put('storageKey', storageServiceKeyBase64);
-        await StorageService.eraseAllStorageServiceState({
-          keepUnknownFields: true,
-        });
+        try {
+          await window.storage.put('storageKey', storageServiceKeyBase64);
+          await StorageService.eraseAllStorageServiceState({
+            keepUnknownFields: true,
+          });
+        } catch (error) {
+          log.info(
+            'onKeysSync: Failed to erase storage service data, starting sync job anyway',
+            Errors.toLogFormat(error)
+          );
+        }
       }
 
       await StorageService.runStorageServiceSyncJob();

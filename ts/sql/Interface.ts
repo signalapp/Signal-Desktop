@@ -493,7 +493,6 @@ export type DataInterface = {
   removeAllSessions: () => Promise<void>;
   getAllSessions: () => Promise<Array<SessionType>>;
 
-  eraseStorageServiceStateFromConversations: () => Promise<void>;
   getConversationCount: () => Promise<number>;
   saveConversation: (data: ConversationType) => Promise<void>;
   saveConversations: (array: Array<ConversationType>) => Promise<void>;
@@ -774,6 +773,7 @@ export type DataInterface = {
 
   removeAll: () => Promise<void>;
   removeAllConfiguration: (type?: RemoveAllConfiguration) => Promise<void>;
+  eraseStorageServiceState: () => Promise<void>;
 
   getMessagesNeedingUpgrade: (
     limit: number,
@@ -913,6 +913,7 @@ export type ClientExclusiveInterface = {
 
   updateConversation: (data: ConversationType) => void;
   removeConversation: (id: string) => Promise<void>;
+  flushUpdateConversationBatcher: () => Promise<void>;
 
   searchMessages: ({
     query,

@@ -232,7 +232,6 @@ const dataInterface: ServerInterface = {
   removeAllSessions,
   getAllSessions,
 
-  eraseStorageServiceStateFromConversations,
   getConversationCount,
   saveConversation,
   saveConversations,
@@ -359,6 +358,7 @@ const dataInterface: ServerInterface = {
 
   removeAll,
   removeAllConfiguration,
+  eraseStorageServiceState,
 
   getMessagesNeedingUpgrade,
   getMessagesWithVisualMediaAttachments,
@@ -1576,18 +1576,6 @@ async function getConversationById(
   }
 
   return jsonToObject(row.json);
-}
-
-async function eraseStorageServiceStateFromConversations(): Promise<void> {
-  const db = getInstance();
-
-  db.prepare<EmptyQuery>(
-    `
-    UPDATE conversations
-    SET
-      json = json_remove(json, '$.storageID', '$.needsStorageServiceSync', '$.unknownFields', '$.storageProfileKey');
-    `
-  ).run();
 }
 
 function getAllConversationsSync(db = getInstance()): Array<ConversationType> {
@@ -5167,6 +5155,40 @@ async function removeAllConfiguration(
       "UPDATE conversations SET json = json_remove(json, '$.senderKeyInfo');"
     );
   })();
+}
+
+async function eraseStorageServiceState(): Promise<void> {
+  const db = getInstance();
+
+  db.exec(`
+    -- Conversations
+    UPDATE conversations
+    SET
+      json = json_remove(json, '$.storageID', '$.needsStorageServiceSync', '$.storageUnknownFields');
+
+    -- Stickers
+    UPDATE sticker_packs
+    SET
+      storageID = null,
+      storageVersion = null,
+      storageUnknownFields = null,
+      storageNeedsSync = 0;
+    
+    UPDATE uninstalled_sticker_packs
+    SET
+      storageID = null,
+      storageVersion = null,
+      storageUnknownFields = null,
+      storageNeedsSync = 0;
+  
+    -- Story Distribution Lists
+    UPDATE storyDistributions
+    SET
+      storageID = null,
+      storageVersion = null,
+      storageUnknownFields = null,
+      storageNeedsSync = 0;
+  `);
 }
 
 const MAX_MESSAGE_MIGRATION_ATTEMPTS = 5;
