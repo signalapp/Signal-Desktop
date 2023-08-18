@@ -426,11 +426,15 @@ async function getAllItems(): Promise<AllItemsType> {
 
     const keys = ITEM_SPECS[key];
 
-    const deserializedValue = keys
-      ? (specToBytes(keys, { value }) as ItemType<typeof key>).value
-      : value;
+    try {
+      const deserializedValue = keys
+        ? (specToBytes(keys, { value }) as ItemType<typeof key>).value
+        : value;
 
-    result[key] = deserializedValue;
+      result[key] = deserializedValue;
+    } catch (error) {
+      log.warn(`getAllItems(${id}): Failed to parse item from spec`, error);
+    }
   }
 
   return result;
