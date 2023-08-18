@@ -367,8 +367,7 @@
           ]
         }
       ],
-      "bundleVersion": "1",
-      "afterSign": "ts/scripts/after-sign.js"
+      "bundleVersion": "1"
     },
     "win": {
       "artifactName": "${name}-win-${version}.${ext}",
@@ -393,8 +392,7 @@
       "signDlls": true,
       "target": [
         "nsis"
-      ],
-      "afterSign": "ts/scripts/after-sign.js"
+      ]
     },
     "nsis": {
       "deleteAppDataOnUninstall": true,
@@ -428,6 +426,7 @@
         "signalcaptcha"
       ]
     },
+    "afterSign": "ts/scripts/after-sign.js",
     "afterPack": "ts/scripts/after-pack.js",
     "afterAllArtifactBuild": "ts/scripts/after-all-artifact-build.js",
     "asar": {
