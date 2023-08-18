@@ -8,6 +8,7 @@ import { searchSync } from '../../../util/emoji.js';
 const EmojiQuickResult = styled.span`
   display: flex;
   align-items: center;
+  min-width: 250px;
   width: 100%;
   padding-inline-end: 20px;
   padding-inline-start: 10px;

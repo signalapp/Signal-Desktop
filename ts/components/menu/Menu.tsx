@@ -366,12 +366,6 @@ export const MarkAllReadMenuItem = (): JSX.Element | null => {
   return null;
 };
 
-export function isRtlBody(): boolean {
-  const body = document.getElementsByTagName('body').item(0);
-
-  return body?.classList.contains('rtl') || false;
-}
-
 export const BlockMenuItem = (): JSX.Element | null => {
   const convoId = useConvoIdFromContext();
   const isMe = useIsMe(convoId);
@@ -577,7 +571,7 @@ export const NotificationForConvoMenuItem = (): JSX.Element | null => {
     return null;
   }
 
-  // const isRtlMode = isRtlBody();'
+  // const isRtlMode = isRtlBody();
 
   // exclude mentions_only settings for private chats as this does not make much sense
   const notificationForConvoOptions = ConversationNotificationSetting.filter(n =>
