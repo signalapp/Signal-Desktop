@@ -68,6 +68,7 @@
     "dev:storybook": "cross-env SIGNAL_ENV=storybook start-storybook -p 6006 -s ./",
     "dev:sass": "yarn sass --watch",
     "build": "run-s --print-label generate build:esbuild:prod build:release",
+    "build-linux": "yarn generate && yarn build:esbuild:prod && yarn build:release -- --publish=never",
     "build:acknowledgments": "node scripts/generate-acknowledgments.js",
     "build:dev": "run-s --print-label generate build:esbuild:prod",
     "build:esbuild": "node scripts/esbuild.js",
