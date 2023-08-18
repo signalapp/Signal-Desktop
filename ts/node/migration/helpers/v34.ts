@@ -11,8 +11,57 @@ import { CONVERSATION_PRIORITIES } from '../../../models/conversationAttributes'
 import { MESSAGES_TABLE, toSqliteBoolean } from '../../database_utility';
 import { fromHexToArray } from '../../../session/utils/String';
 import { checkTargetMigration, hasDebugEnvVariable } from '../utils';
+import { ConfigDumpRow, CONFIG_DUMP_TABLE } from '../../../types/sqlSharedTypes';
 
 const targetVersion = 34;
+
+function fetchConfigDumps(
+  db: BetterSqlite3.Database,
+  version: number,
+  userPubkeyhex: string,
+  variant: 'UserConfig' | 'ContactsConfig' | 'UserGroupsConfig' | 'ConvoInfoVolatileConfig'
+): ConfigDumpRow | null {
+  checkTargetMigration(version, targetVersion);
+
+  const configWrapperDumps = db
+    .prepare(
+      `SELECT * FROM ${CONFIG_DUMP_TABLE} WHERE variant = $variant AND publicKey = $publicKey;`
+    )
+    .all({ variant, publicKey: userPubkeyhex }) as Array<ConfigDumpRow>;
+
+  if (!configWrapperDumps || !configWrapperDumps.length) {
+    return null;
+  }
+
+  // we can only have one dump with the current variants and our pubkey
+  return configWrapperDumps[0];
+}
+
+function writeConfigDumps(
+  db: BetterSqlite3.Database,
+  version: number,
+  userPubkeyhex: string,
+  variant: 'UserConfig' | 'ContactsConfig' | 'UserGroupsConfig' | 'ConvoInfoVolatileConfig',
+  dump: Uint8Array
+) {
+  checkTargetMigration(version, targetVersion);
+
+  db.prepare(
+    `INSERT OR REPLACE INTO ${CONFIG_DUMP_TABLE} (
+            publicKey,
+            variant,
+            data
+        ) values (
+          $publicKey,
+          $variant,
+          $data
+        );`
+  ).run({
+    publicKey: userPubkeyhex,
+    variant,
+    data: dump,
+  });
+}
 
 /**
  * This function returns a contactInfo for the wrapper to understand from the DB values.
@@ -169,5 +218,7 @@ function insertContactIntoContactWrapper(
 }
 
 export const V34 = {
+  fetchConfigDumps,
+  writeConfigDumps,
   insertContactIntoContactWrapper,
 };

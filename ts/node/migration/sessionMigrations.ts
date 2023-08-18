@@ -12,7 +12,7 @@ import {
   ConversationAttributes,
 } from '../../models/conversationAttributes';
 import { fromHexToArray } from '../../session/utils/String';
-import { CONFIG_DUMP_TABLE, ConfigDumpRow } from '../../types/sqlSharedTypes';
+import { CONFIG_DUMP_TABLE } from '../../types/sqlSharedTypes';
 import {
   CLOSED_GROUP_V2_KEY_PAIRS_TABLE,
   CONVERSATIONS_TABLE,
@@ -1678,7 +1678,6 @@ function updateToSessionSchemaVersion34(currentVersion: number, db: BetterSqlite
       const { privateEd25519, publicKeyHex } = loggedInUser.ourKeys;
 
       // Conversation changes
-      // TODO can this be moved into libsession completely
       db.prepare(
         `ALTER TABLE ${CONVERSATIONS_TABLE} ADD COLUMN expirationType TEXT DEFAULT "off";`
       ).run();
@@ -1705,11 +1704,13 @@ function updateToSessionSchemaVersion34(currentVersion: number, db: BetterSqlite
 
         const expirySeconds = ourConversation.expireTimer || 0;
 
-        // TODO update with Audric's snippet
         // Get existing config wrapper dump and update it
-        const userConfigWrapperDump = db
-          .prepare(`SELECT * FROM ${CONFIG_DUMP_TABLE} WHERE variant = 'UserConfig';`)
-          .get() as ConfigDumpRow | undefined;
+        const userConfigWrapperDump = MIGRATION_HELPERS.V34.fetchConfigDumps(
+          db,
+          targetVersion,
+          publicKeyHex,
+          'UserConfig'
+        );
 
         if (userConfigWrapperDump) {
           const userConfigData = userConfigWrapperDump.data;
@@ -1718,35 +1719,20 @@ function updateToSessionSchemaVersion34(currentVersion: number, db: BetterSqlite
           userProfileWrapper.setNoteToSelfExpiry(expirySeconds);
 
           // dump the user wrapper content and save it to the DB
-          const userDump = userProfileWrapper.dump();
+          MIGRATION_HELPERS.V34.writeConfigDumps(
+            db,
+            targetVersion,
+            publicKeyHex,
+            'UserConfig',
+            userProfileWrapper.dump()
+          );
 
-          const configDumpInfo = db
-            .prepare(
-              `INSERT OR REPLACE INTO ${CONFIG_DUMP_TABLE} (
-              publicKey,
-              variant,
-              data
-          ) values (
-            $publicKey,
-            $variant,
-            $data
-          );`
-            )
-            .run({
-              publicKey: publicKeyHex,
-              variant: 'UserConfig',
-              data: userDump,
-            });
-
-          // TODO Cleanup logging
           console.log(
-            '===================== userConfigWrapperDump configDumpInfo',
-            configDumpInfo,
-            '======================='
+            '===================== user config wrapper dump updated ======================='
           );
         } else {
           console.log(
-            '===================== userConfigWrapperDump not found ======================='
+            '===================== user config wrapper dump not found ======================='
           );
         }
       }
@@ -1773,14 +1759,20 @@ function updateToSessionSchemaVersion34(currentVersion: number, db: BetterSqlite
 
         if (isArray(contactsToUpdateInWrapper) && contactsToUpdateInWrapper.length) {
           const blockedNumbers = getBlockedNumbersDuringMigration(db);
-          const contactsWrapperDump = db
-            .prepare(`SELECT * FROM ${CONFIG_DUMP_TABLE} WHERE variant = 'ContactConfig';`)
-            .get() as ConfigDumpRow | undefined;
-          const volatileInfoConfigWrapperDump = db
-            .prepare(
-              `SELECT * FROM ${CONFIG_DUMP_TABLE} WHERE variant = 'ConvoInfoVolatileConfig';`
-            )
-            .get() as ConfigDumpRow | undefined;
+
+          // Get existing config wrapper dumps and update them
+          const contactsWrapperDump = MIGRATION_HELPERS.V34.fetchConfigDumps(
+            db,
+            targetVersion,
+            publicKeyHex,
+            'ContactsConfig'
+          );
+          const volatileInfoConfigWrapperDump = MIGRATION_HELPERS.V34.fetchConfigDumps(
+            db,
+            targetVersion,
+            publicKeyHex,
+            'ConvoInfoVolatileConfig'
+          );
 
           if (contactsWrapperDump && volatileInfoConfigWrapperDump) {
             const contactsData = contactsWrapperDump.data;
@@ -1813,61 +1805,34 @@ function updateToSessionSchemaVersion34(currentVersion: number, db: BetterSqlite
               '===================== Done with contact updating ======================='
             );
 
-            // dump the user wrapper content and save it to the DB
-            const contactsDump = contactsConfigWrapper.dump();
-            const contactsDumpInfo = db
-              .prepare(
-                `INSERT OR REPLACE INTO ${CONFIG_DUMP_TABLE} (
-              publicKey,
-              variant,
-              data
-          ) values (
-            $publicKey,
-            $variant,
-            $data
-          );`
-              )
-              .run({
-                publicKey: publicKeyHex,
-                variant: 'ContactConfig',
-                data: contactsDump,
-              });
-
-            // TODO Cleanup logging
-            console.log(
-              '===================== contactsConfigWrapper contactsDumpInfo',
-              contactsDumpInfo,
-              '======================='
+            // dump the wrapper content and save it to the DB
+            MIGRATION_HELPERS.V34.writeConfigDumps(
+              db,
+              targetVersion,
+              publicKeyHex,
+              'ContactsConfig',
+              contactsConfigWrapper.dump()
             );
 
-            const volatileInfoConfigDump = volatileInfoConfigWrapper.dump();
-            const volatileInfoConfigDumpInfo = db
-              .prepare(
-                `INSERT OR REPLACE INTO ${CONFIG_DUMP_TABLE} (
-              publicKey,
-              variant,
-              data
-          ) values (
-            $publicKey,
-            $variant,
-            $data
-          );`
-              )
-              .run({
-                publicKey: publicKeyHex,
-                variant: 'ConvoInfoVolatileConfig',
-                data: volatileInfoConfigDump,
-              });
-
-            // TODO Cleanup logging
             console.log(
-              '===================== volatileInfoConfigWrapper volatileInfoConfigDumpInfo',
-              volatileInfoConfigDumpInfo,
-              '======================='
+              '===================== contacts config wrapper dump updated ======================='
+            );
+
+            // dump the wrapper content and save it to the DB
+            MIGRATION_HELPERS.V34.writeConfigDumps(
+              db,
+              targetVersion,
+              publicKeyHex,
+              'ConvoInfoVolatileConfig',
+              volatileInfoConfigWrapper.dump()
+            );
+
+            console.log(
+              '===================== convo info volatile config wrapper dump updated ======================='
             );
           } else {
             console.log(
-              '===================== contactsWrapperDump or volatileInfoConfigWrapperDump was not found ======================='
+              '===================== contacts config or convo info volatile config wrapper dump found ======================='
             );
           }
         }
