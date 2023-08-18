@@ -409,7 +409,7 @@ function getConversationCount() {
 /**
  * Because the argument list can change when saving a conversation (and actually doing a lot of other stuff),
  * it is not a good idea to try to use it to update a conversation while doing migrations.
- * Because everytime you'll update the saveConversation with a new argument, the migration you wrote a month ago still relies on the old way.
+ * Because every time you'll update the saveConversation with a new argument, the migration you wrote a month ago still relies on the old way.
  * Because of that, there is no `instance` argument here, and you should not add one as this is only needed during migrations (which will break if you do it)
  */
 
