@@ -12,7 +12,7 @@ import {
   ConversationAttributes,
 } from '../../models/conversationAttributes';
 import { fromHexToArray } from '../../session/utils/String';
-import { CONFIG_DUMP_TABLE, ConfigDumpRow } from '../../types/sqlSharedTypes';
+import { CONFIG_DUMP_TABLE } from '../../types/sqlSharedTypes';
 import {
   CLOSED_GROUP_V2_KEY_PAIRS_TABLE,
   CONVERSATIONS_TABLE,
@@ -1598,41 +1598,6 @@ function updateToSessionSchemaVersion32(currentVersion: number, db: BetterSqlite
   console.log(`updateToSessionSchemaVersion${targetVersion}: success!`);
 }
 
-function fetchUserConfigDump(
-  db: BetterSqlite3.Database,
-  userPubkeyhex: string
-): ConfigDumpRow | null {
-  const userConfigWrapperDumps = db
-    .prepare(
-      `SELECT * FROM ${CONFIG_DUMP_TABLE} WHERE variant = $variant AND publicKey = $publicKey;`
-    )
-    .all({ variant: 'UserConfig', publicKey: userPubkeyhex }) as Array<ConfigDumpRow>;
-
-  if (!userConfigWrapperDumps || !userConfigWrapperDumps.length) {
-    return null;
-  }
-  // we can only have one dump with the "UserConfig" variant and our pubkey
-  return userConfigWrapperDumps[0];
-}
-
-function writeUserConfigDump(db: BetterSqlite3.Database, userPubkeyhex: string, dump: Uint8Array) {
-  db.prepare(
-    `INSERT OR REPLACE INTO ${CONFIG_DUMP_TABLE} (
-            publicKey,
-            variant,
-            data
-        ) values (
-          $publicKey,
-          $variant,
-          $data
-        );`
-  ).run({
-    publicKey: userPubkeyhex,
-    variant: 'UserConfig',
-    data: dump,
-  });
-}
-
 function updateToSessionSchemaVersion33(currentVersion: number, db: BetterSqlite3.Database) {
   const targetVersion = 33;
   if (currentVersion >= targetVersion) {
@@ -1654,7 +1619,11 @@ function updateToSessionSchemaVersion33(currentVersion: number, db: BetterSqlite
     const { privateEd25519, publicKeyHex } = loggedInUser.ourKeys;
 
     // Get existing config wrapper dump and update it
-    const userConfigWrapperDump = fetchUserConfigDump(db, publicKeyHex);
+    const userConfigWrapperDump = MIGRATION_HELPERS.V33.fetchUserConfigDump(
+      db,
+      targetVersion,
+      publicKeyHex
+    );
 
     if (!userConfigWrapperDump) {
       writeSessionSchemaVersion(targetVersion, db);
@@ -1669,7 +1638,12 @@ function updateToSessionSchemaVersion33(currentVersion: number, db: BetterSqlite
     if (isNil(blindedReqEnabled)) {
       // this change will be part of the next ConfSyncJob (one is always made on app startup)
       userProfileWrapper.setEnableBlindedMsgRequest(true);
-      writeUserConfigDump(db, publicKeyHex, userProfileWrapper.dump());
+      MIGRATION_HELPERS.V33.writeUserConfigDump(
+        db,
+        targetVersion,
+        publicKeyHex,
+        userProfileWrapper.dump()
+      );
     }
     blindedReqEnabled = userProfileWrapper.getEnableBlindedMsgRequest();
 
