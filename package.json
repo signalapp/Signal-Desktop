@@ -367,7 +367,8 @@
           ]
         }
       ],
-      "bundleVersion": "1"
+      "bundleVersion": "1",
+      "afterSign": "ts/scripts/after-sign.js"
     },
     "win": {
       "artifactName": "${name}-win-${version}.${ext}",
@@ -392,7 +393,8 @@
       "signDlls": true,
       "target": [
         "nsis"
-      ]
+      ],
+      "afterSign": "ts/scripts/after-sign.js"
     },
     "nsis": {
       "deleteAppDataOnUninstall": true,
@@ -406,7 +408,8 @@
       "target": [
         "deb"
       ],
-      "icon": "build/icons/png"
+      "icon": "build/icons/png",
+      "publish": []
     },
     "deb": {
       "depends": [
@@ -426,7 +429,6 @@
       ]
     },
     "afterPack": "ts/scripts/after-pack.js",
-    "afterSign": "ts/scripts/after-sign.js",
     "afterAllArtifactBuild": "ts/scripts/after-all-artifact-build.js",
     "asar": {
       "smartUnpack": false
