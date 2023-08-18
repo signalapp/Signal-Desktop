@@ -560,7 +560,7 @@ export const handleBatchPollResults = async (
         case 'updateRoom':
         case 'deleteReaction':
           // we do nothing for all of those, but let's make sure if we ever add something batch polled for, we include it's handling here.
-          // the assertUnreachable will fail to compile everytime we add a new batch poll endpoint without taking care of it.
+          // the assertUnreachable will fail to compile every time we add a new batch poll endpoint without taking care of it.
           break;
         default:
           assertUnreachable(

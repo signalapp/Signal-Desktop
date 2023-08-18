@@ -10,9 +10,9 @@ import { PubKey } from '../../types';
  * It allows to make changes to the wrapper and keeps track of the decoded values of those in the in-memory cache named `mappedContactWrapperValues`.
  *
  * The wrapper content is just a blob which has no structure.
- * Rather than having to fetch the required data from it everytime we need it (during each rerendering), we keep a decoded cache here.
+ * Rather than having to fetch the required data from it every time we need it (during each rerendering), we keep a decoded cache here.
  * Essentially, on app start we load all the content from the wrapper with `SessionUtilContact.refreshMappedValue` during the ConversationController initial load.
- * Then, everytime we do a change to the contacts wrapper, we do it through `insertContactFromDBIntoWrapperAndRefresh`.
+ * Then, every time we do a change to the contacts wrapper, we do it through `insertContactFromDBIntoWrapperAndRefresh`.
  * This applies the change from the in-memory conversationModel to the ContactsWrapper, refetch the data from it and update the decoded cache `mappedContactWrapperValues` with the up to date data.
  * It then triggers a UI refresh of that specific conversation with `triggerUIRefresh` to make sure whatever is displayed on screen is still up to date with the wrapper content.
  *
