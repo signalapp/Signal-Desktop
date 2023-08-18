@@ -91,7 +91,7 @@ export class SwarmPolling {
   }
 
   /**
-   * Used fo testing only
+   * Used for testing only
    */
   public resetSwarmPolling() {
     this.groupPolling = [];
