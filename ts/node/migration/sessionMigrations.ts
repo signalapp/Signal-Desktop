@@ -34,12 +34,14 @@ import {
   toSqliteBoolean,
 } from '../database_utility';
 
-import { getIdentityKeys, sqlNode } from '../sql';
+import { sqlNode } from '../sql';
 import { sleepFor } from '../../session/utils/Promise';
 import { SettingsKey } from '../../data/settings-key';
-// import updateToSessionSchemaVersion33 from './session/migrationV33';
-
-export const hasDebugEnvVariable = Boolean(process.env.SESSION_DEBUG);
+import {
+  getBlockedNumbersDuringMigration,
+  getLoggedInUserConvoDuringMigration,
+  hasDebugEnvVariable,
+} from './utils';
 
 // eslint:disable: quotemark one-variable-per-declaration no-unused-expression
 
@@ -1439,24 +1441,6 @@ function insertLegacyGroupIntoWrapper(
   }
 }
 
-export function getBlockedNumbersDuringMigration(db: BetterSqlite3.Database) {
-  try {
-    const blockedItem = sqlNode.getItemById('blocked', db);
-    if (!blockedItem) {
-      return [];
-    }
-    const foundBlocked = blockedItem?.value;
-    hasDebugEnvVariable && console.info('foundBlockedNumbers during migration', foundBlocked);
-    if (isArray(foundBlocked)) {
-      return foundBlocked;
-    }
-    return [];
-  } catch (e) {
-    console.info('failed to read blocked numbers. Considering no blocked numbers', e.stack);
-    return [];
-  }
-}
-
 function updateToSessionSchemaVersion30(currentVersion: number, db: BetterSqlite3.Database) {
   const targetVersion = 30;
   if (currentVersion >= targetVersion) {
@@ -1580,24 +1564,6 @@ function updateToSessionSchemaVersion30(currentVersion: number, db: BetterSqlite
   })();
 
   console.log(`updateToSessionSchemaVersion${targetVersion}: success!`);
-}
-
-/**
- * Returns the logged in user conversation attributes and the keys.
- * If the keys exists but a conversation for that pubkey does not exist yet, the keys are still returned
- */
-function getLoggedInUserConvoDuringMigration(db: BetterSqlite3.Database) {
-  const ourKeys = getIdentityKeys(db);
-
-  if (!ourKeys || !ourKeys.publicKeyHex || !ourKeys.privateEd25519) {
-    return null;
-  }
-
-  const ourConversation = db.prepare(`SELECT * FROM ${CONVERSATIONS_TABLE} WHERE id = $id;`).get({
-    id: ourKeys.publicKeyHex,
-  }) as Record<string, any> | null;
-
-  return { ourKeys, ourConversation: ourConversation || null };
 }
 
 function updateToSessionSchemaVersion31(currentVersion: number, db: BetterSqlite3.Database) {
