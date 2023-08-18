@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactChild, ReactNode } from 'react';
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import classNames from 'classnames';
 import { noop } from 'lodash';
 
@@ -149,19 +149,7 @@ export function MessageDetail({
   toggleSafetyNumberModal,
   viewStory,
 }: Props): JSX.Element {
-  const focusRef = useRef<HTMLDivElement>(null);
   const messageContainerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      // When this component is created, it's initially not part of the DOM, and then it's
-      //   added off-screen and animated in. This ensures that the focus takes.
-      focusRef.current?.focus();
-    });
-    return () => {
-      clearTimeout(timer);
-    };
-  }, []);
 
   function renderAvatar(contact: Contact): JSX.Element {
     const {
@@ -327,8 +315,7 @@ export function MessageDetail({
     : undefined;
 
   return (
-    // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
-    <div className="module-message-detail" tabIndex={0} ref={focusRef}>
+    <div className="module-message-detail">
       <PanelSection>
         <div
           className="module-message-detail__message-container"

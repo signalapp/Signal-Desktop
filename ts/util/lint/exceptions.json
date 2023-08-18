@@ -1131,7 +1131,7 @@
     "path": "node_modules/make-dir/node_modules/pify/index.js",
     "line": "\t\tif (options.multiArgs) {",
     "reasonCategory": "falseMatch",
-    "updated": "2023-08-17T21:23:20.930Z"
+    "updated": "2023-08-18T19:09:30.283Z"
   },
   {
     "rule": "DOM-innerHTML",
@@ -2120,8 +2120,7 @@
     "path": "ts/components/CallsList.tsx",
     "line": "  const prevOptionsRef = useRef<CallHistoryFilterOptions | null>(null);",
     "reasonCategory": "usageTrusted",
-    "updated": "2023-08-17T00:07:01.015Z",
-    "reasonDetail": "<optional>"
+    "updated": "2023-08-18T19:09:30.283Z"
   },
   {
     "rule": "React-useRef",
@@ -2689,13 +2688,6 @@
     "reasonCategory": "usageTrusted",
     "updated": "2023-06-30T22:12:49.259Z",
     "reasonDetail": "Used for excluding the message metadata from triple-click selections."
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/conversation/MessageDetail.tsx",
-    "line": "  const focusRef = useRef<HTMLDivElement>(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-04-12T15:51:28.066Z"
   },
   {
     "rule": "React-useRef",
