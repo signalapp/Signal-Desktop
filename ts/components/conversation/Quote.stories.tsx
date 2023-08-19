@@ -45,7 +45,7 @@ export default {
       defaultValue: i18n,
     },
     platform: {
-      defautlValue: 'darwin',
+      defaultValue: 'darwin',
     },
     isFromMe: {
       control: { type: 'checkbox' },
