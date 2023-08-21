@@ -122,7 +122,7 @@ export default function updateToSchemaVersion47(
 
     const ourUuid = getOurUuid(db);
     if (!ourUuid) {
-      logger.warn('updateToSchemaVersion47: our UUID not found');
+      logger.info('updateToSchemaVersion47: our UUID not found');
     } else {
       db.prepare<Query>(
         `

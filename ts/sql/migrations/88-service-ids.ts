@@ -509,14 +509,25 @@ function migrateItems(db: Database, logger: LoggerType): OurServiceIds {
   try {
     [legacyAci] = JSON.parse(uuidIdJson).value.split('.', 2);
   } catch (error) {
-    logger.warn('updateToSchemaVersion88: failed to parse uuid_id item', error);
+    if (uuidIdJson) {
+      logger.warn(
+        'updateToSchemaVersion88: failed to parse uuid_id item',
+        error
+      );
+    } else {
+      logger.info('updateToSchemaVersion88: Our UUID not found');
+    }
   }
 
   let legacyPni: string | undefined;
   try {
     legacyPni = JSON.parse(pniJson).value;
   } catch (error) {
-    logger.warn('updateToSchemaVersion88: failed to parse pni item', error);
+    if (pniJson) {
+      logger.warn('updateToSchemaVersion88: failed to parse pni item', error);
+    } else {
+      logger.info('updateToSchemaVersion88: Our PNI not found');
+    }
   }
 
   const aci = normalizeAci(legacyAci, 'uuid_id', logger);

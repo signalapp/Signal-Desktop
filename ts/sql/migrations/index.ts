@@ -65,6 +65,7 @@ import updateToSchemaVersion86 from './86-story-replies-index';
 import updateToSchemaVersion88 from './88-service-ids';
 import updateToSchemaVersion89 from './89-call-history';
 import updateToSchemaVersion90 from './90-delete-story-reply-screenshot';
+import updateToSchemaVersion91 from './91-clean-keys';
 
 function updateToSchemaVersion1(
   currentVersion: number,
@@ -2001,6 +2002,8 @@ export const SCHEMA_VERSIONS = [
   updateToSchemaVersion88,
   updateToSchemaVersion89,
   updateToSchemaVersion90,
+
+  updateToSchemaVersion91,
 ];
 
 export function updateSchema(db: Database, logger: LoggerType): void {
