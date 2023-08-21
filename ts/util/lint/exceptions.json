@@ -697,6 +697,13 @@
     "updated": "2023-04-20T16:43:40.643Z"
   },
   {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/make-dir/node_modules/pify/index.js",
+    "line": "\t\tif (options.multiArgs) {",
+    "reasonCategory": "usageTrusted",
+    "updated": "2023-08-21T18:28:53.361Z"
+  },
+  {
     "rule": "DOM-outerHTML",
     "path": "node_modules/domutils/node_modules/dom-serializer/lib/esm/index.js",
     "line": " * Can be thought of as the equivalent of the `outerHTML` of the passed node(s).",
@@ -1125,13 +1132,6 @@
     "line": "            animation.container.innerHTML = '';",
     "reasonCategory": "notExercisedByOurApp",
     "updated": "2023-06-29T17:01:25.145Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/make-dir/node_modules/pify/index.js",
-    "line": "\t\tif (options.multiArgs) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2023-08-18T19:09:30.283Z"
   },
   {
     "rule": "DOM-innerHTML",
@@ -2355,8 +2355,7 @@
     "path": "ts/components/LeftPane.tsx",
     "line": "  const measureRef = useRef<HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",
-    "updated": "2023-08-09T21:48:42.602Z",
-    "reasonDetail": "<optional>"
+    "updated": "2023-08-09T21:48:42.602Z"
   },
   {
     "rule": "React-useRef",
@@ -2427,16 +2426,14 @@
     "path": "ts/components/Modal.tsx",
     "line": "  const bodyRef = useRef<HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",
-    "updated": "2023-07-25T21:55:26.191Z",
-    "reasonDetail": "<optional>"
+    "updated": "2023-07-25T21:55:26.191Z"
   },
   {
     "rule": "React-useRef",
     "path": "ts/components/Modal.tsx",
     "line": "  const bodyInnerRef = useRef<HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",
-    "updated": "2023-07-25T21:55:26.191Z",
-    "reasonDetail": "<optional>"
+    "updated": "2023-07-25T21:55:26.191Z"
   },
   {
     "rule": "React-useRef",
@@ -2529,24 +2526,21 @@
     "path": "ts/components/StoryViewer.tsx",
     "line": "  const progressBarRef = useRef<HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",
-    "updated": "2022-10-13T15:18:21.267Z",
-    "reasonDetail": "<optional>"
+    "updated": "2022-10-13T15:18:21.267Z"
   },
   {
     "rule": "React-useRef",
     "path": "ts/components/StoryViewer.tsx",
     "line": "  const animationRef = useRef<Animation | null>(null);",
     "reasonCategory": "usageTrusted",
-    "updated": "2022-10-13T15:18:21.267Z",
-    "reasonDetail": "<optional>"
+    "updated": "2022-10-13T15:18:21.267Z"
   },
   {
     "rule": "React-useRef",
     "path": "ts/components/StoryViewer.tsx",
     "line": "  const onFinishRef = useRef<(() => void) | null>(null);",
     "reasonCategory": "usageTrusted",
-    "updated": "2022-10-13T15:18:21.267Z",
-    "reasonDetail": "<optional>"
+    "updated": "2022-10-13T15:18:21.267Z"
   },
   {
     "rule": "React-useRef",
@@ -2595,8 +2589,7 @@
     "path": "ts/components/TextAttachment.tsx",
     "line": "    const ref = useRef<HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",
-    "updated": "2023-07-25T21:55:26.191Z",
-    "reasonDetail": "<optional>"
+    "updated": "2023-07-25T21:55:26.191Z"
   },
   {
     "rule": "React-useRef",
@@ -2617,8 +2610,7 @@
     "path": "ts/components/Tooltip.tsx",
     "line": "  const timeoutRef = useRef<NodeJS.Timeout | undefined>();",
     "reasonCategory": "usageTrusted",
-    "updated": "2023-08-10T00:23:35.320Z",
-    "reasonDetail": "<optional>"
+    "updated": "2023-08-10T00:23:35.320Z"
   },
   {
     "rule": "React-createRef",
@@ -2832,56 +2824,49 @@
     "path": "ts/hooks/useSizeObserver.tsx",
     "line": "  const sizeRef = useRef<Size | null>(null);",
     "reasonCategory": "usageTrusted",
-    "updated": "2023-07-25T21:55:26.191Z",
-    "reasonDetail": "<optional>"
+    "updated": "2023-07-25T21:55:26.191Z"
   },
   {
     "rule": "React-useRef",
     "path": "ts/hooks/useSizeObserver.tsx",
     "line": "  const onSizeChangeRef = useRef<SizeChangeHandler | void>(onSizeChange);",
     "reasonCategory": "usageTrusted",
-    "updated": "2023-07-25T21:55:26.191Z",
-    "reasonDetail": "<optional>"
+    "updated": "2023-07-25T21:55:26.191Z"
   },
   {
     "rule": "React-useRef",
     "path": "ts/hooks/useSizeObserver.tsx",
     "line": "  const ref = useRef<any>();",
     "reasonCategory": "usageTrusted",
-    "updated": "2023-07-25T21:55:26.191Z",
-    "reasonDetail": "<optional>"
+    "updated": "2023-07-25T21:55:26.191Z"
   },
   {
     "rule": "React-useRef",
     "path": "ts/hooks/useSizeObserver.tsx",
     "line": " * const scrollerRef = useRef()",
     "reasonCategory": "usageTrusted",
-    "updated": "2023-07-25T21:55:26.191Z",
-    "reasonDetail": "<optional>"
+    "updated": "2023-07-25T21:55:26.191Z"
   },
   {
     "rule": "React-useRef",
     "path": "ts/hooks/useSizeObserver.tsx",
     "line": " * const scrollerInnerRef = useRef()",
     "reasonCategory": "usageTrusted",
-    "updated": "2023-07-25T21:55:26.191Z",
-    "reasonDetail": "<optional>"
+    "updated": "2023-07-25T21:55:26.191Z"
   },
   {
     "rule": "React-useRef",
     "path": "ts/hooks/useSizeObserver.tsx",
     "line": "  const scrollRef = useRef<Scroll | null>(null);",
     "reasonCategory": "usageTrusted",
-    "updated": "2023-07-25T21:55:26.191Z",
-    "reasonDetail": "<optional>"
+    "updated": "2023-07-25T21:55:26.191Z"
   },
   {
     "rule": "React-useRef",
     "path": "ts/hooks/useSizeObserver.tsx",
     "line": "  const onScrollChangeRef = useRef<ScrollChangeHandler>(onScrollChange);",
     "reasonCategory": "usageTrusted",
-    "updated": "2023-07-25T21:55:26.191Z",
-    "reasonDetail": "<optional>"
+    "updated": "2023-07-25T21:55:26.191Z"
   },
   {
     "rule": "React-useRef",
@@ -2935,6 +2920,13 @@
     "line": "  const focusRef = useRef<HTMLDivElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2023-07-13T23:34:39.367Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/state/smart/ConversationPanel.tsx",
+    "line": "  const wasAnimatedRef = useRef(wasAnimated);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2023-08-20T22:14:52.008Z"
   },
   {
     "rule": "React-useRef",

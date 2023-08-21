@@ -483,6 +483,7 @@ export type ConversationsStateType = Readonly<{
   targetedMessageSource: TargetedMessageSource | undefined;
   targetedConversationPanels: {
     isAnimating: boolean;
+    wasAnimated: boolean;
     direction: 'push' | 'pop' | undefined;
     stack: ReadonlyArray<PanelRenderType>;
     watermark: number;
@@ -4156,6 +4157,7 @@ export function getEmptyState(): ConversationsStateType {
     showArchived: false,
     targetedConversationPanels: {
       isAnimating: false,
+      wasAnimated: false,
       direction: undefined,
       stack: [],
       watermark: -1,
@@ -4710,6 +4712,7 @@ export function reducer(
       selectedConversationId,
       targetedConversationPanels: {
         isAnimating: false,
+        wasAnimated: false,
         direction: undefined,
         stack: [],
         watermark: -1,
@@ -5651,6 +5654,7 @@ export function reducer(
 
     const targetedConversationPanels = {
       isAnimating: false,
+      wasAnimated: false,
       direction: 'push' as const,
       stack,
       watermark,
@@ -5691,6 +5695,7 @@ export function reducer(
 
     const targetedConversationPanels = {
       isAnimating: false,
+      wasAnimated: false,
       direction: 'pop' as const,
       stack: state.targetedConversationPanels.stack,
       watermark,
@@ -5726,6 +5731,7 @@ export function reducer(
       targetedConversationPanels: {
         ...state.targetedConversationPanels,
         isAnimating: false,
+        wasAnimated: true,
       },
     };
   }

@@ -1201,6 +1201,13 @@ export const getIsPanelAnimating = createSelector(
   }
 );
 
+export const getWasPanelAnimated = createSelector(
+  getConversations,
+  (conversations): boolean => {
+    return conversations.targetedConversationPanels.wasAnimated;
+  }
+);
+
 export const getConversationTitle = createSelector(
   getIntl,
   getActivePanel,
