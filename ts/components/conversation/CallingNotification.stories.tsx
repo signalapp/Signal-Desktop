@@ -21,7 +21,6 @@ import {
   DirectCallStatus,
 } from '../../types/CallDisposition';
 import type { ConversationType } from '../../state/ducks/conversations';
-import { CallExternalState } from '../../util/callingNotification';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -35,7 +34,9 @@ const getCommonProps = (options: {
   direction?: CallDirection;
   status?: CallStatus;
   callCreator?: ConversationType | null;
-  callExternalState?: CallExternalState;
+  groupCallEnded: boolean | null;
+  deviceCount: number;
+  maxDevices: number;
 }): PropsType => {
   const {
     mode,
@@ -48,7 +49,9 @@ const getCommonProps = (options: {
       serviceId: generateAci(),
       isMe: direction === CallDirection.Outgoing,
     }),
-    callExternalState = CallExternalState.Active,
+    groupCallEnded,
+    deviceCount,
+    maxDevices,
   } = options;
 
   const conversation =
@@ -71,15 +74,10 @@ const getCommonProps = (options: {
       status,
     },
     callCreator,
-    callExternalState,
-    maxDevices: mode === CallMode.Group ? 15 : 0,
-    deviceCount:
-      // eslint-disable-next-line no-nested-ternary
-      mode === CallMode.Group
-        ? callExternalState === CallExternalState.Full
-          ? 15
-          : 13
-        : Infinity,
+    activeConversationId: null,
+    groupCallEnded,
+    maxDevices,
+    deviceCount,
   };
 };
 
@@ -103,6 +101,9 @@ export function AcceptedIncomingAudioCall(): JSX.Element {
         type: CallType.Audio,
         direction: CallDirection.Incoming,
         status: DirectCallStatus.Accepted,
+        groupCallEnded: null,
+        deviceCount: 0,
+        maxDevices: Infinity,
       })}
     />
   );
@@ -116,7 +117,9 @@ export function AcceptedIncomingVideoCall(): JSX.Element {
         type: CallType.Video,
         direction: CallDirection.Incoming,
         status: DirectCallStatus.Accepted,
-        callExternalState: CallExternalState.Ended,
+        groupCallEnded: null,
+        deviceCount: 0,
+        maxDevices: Infinity,
       })}
     />
   );
@@ -130,6 +133,9 @@ export function DeclinedIncomingAudioCall(): JSX.Element {
         type: CallType.Audio,
         direction: CallDirection.Incoming,
         status: DirectCallStatus.Declined,
+        groupCallEnded: null,
+        deviceCount: 0,
+        maxDevices: Infinity,
       })}
     />
   );
@@ -143,6 +149,9 @@ export function DeclinedIncomingVideoCall(): JSX.Element {
         type: CallType.Video,
         direction: CallDirection.Incoming,
         status: DirectCallStatus.Declined,
+        groupCallEnded: null,
+        deviceCount: 0,
+        maxDevices: Infinity,
       })}
     />
   );
@@ -156,6 +165,9 @@ export function AcceptedOutgoingAudioCall(): JSX.Element {
         type: CallType.Audio,
         direction: CallDirection.Outgoing,
         status: DirectCallStatus.Accepted,
+        groupCallEnded: null,
+        deviceCount: 0,
+        maxDevices: Infinity,
       })}
     />
   );
@@ -169,6 +181,9 @@ export function AcceptedOutgoingVideoCall(): JSX.Element {
         type: CallType.Video,
         direction: CallDirection.Outgoing,
         status: DirectCallStatus.Accepted,
+        groupCallEnded: null,
+        deviceCount: 0,
+        maxDevices: Infinity,
       })}
     />
   );
@@ -182,6 +197,9 @@ export function DeclinedOutgoingAudioCall(): JSX.Element {
         type: CallType.Audio,
         direction: CallDirection.Outgoing,
         status: DirectCallStatus.Declined,
+        groupCallEnded: null,
+        deviceCount: 0,
+        maxDevices: Infinity,
       })}
     />
   );
@@ -195,6 +213,9 @@ export function DeclinedOutgoingVideoCall(): JSX.Element {
         type: CallType.Video,
         direction: CallDirection.Outgoing,
         status: DirectCallStatus.Declined,
+        groupCallEnded: null,
+        deviceCount: 0,
+        maxDevices: Infinity,
       })}
     />
   );
@@ -209,7 +230,9 @@ export function TwoIncomingDirectCallsBackToBack(): JSX.Element {
           type: CallType.Video,
           direction: CallDirection.Incoming,
           status: DirectCallStatus.Declined,
-          callExternalState: CallExternalState.Ended,
+          groupCallEnded: null,
+          deviceCount: 0,
+          maxDevices: Infinity,
         })}
         isNextItemCallingNotification
       />
@@ -219,6 +242,9 @@ export function TwoIncomingDirectCallsBackToBack(): JSX.Element {
           type: CallType.Audio,
           direction: CallDirection.Incoming,
           status: DirectCallStatus.Declined,
+          groupCallEnded: null,
+          deviceCount: 0,
+          maxDevices: Infinity,
         })}
       />
     </>
@@ -238,7 +264,9 @@ export function TwoOutgoingDirectCallsBackToBack(): JSX.Element {
           type: CallType.Video,
           direction: CallDirection.Outgoing,
           status: DirectCallStatus.Declined,
-          callExternalState: CallExternalState.Ended,
+          groupCallEnded: null,
+          deviceCount: 0,
+          maxDevices: Infinity,
         })}
         isNextItemCallingNotification
       />
@@ -248,6 +276,9 @@ export function TwoOutgoingDirectCallsBackToBack(): JSX.Element {
           type: CallType.Audio,
           direction: CallDirection.Outgoing,
           status: DirectCallStatus.Declined,
+          groupCallEnded: null,
+          deviceCount: 0,
+          maxDevices: Infinity,
         })}
       />
     </>
@@ -267,6 +298,9 @@ export function GroupCallByUnknown(): JSX.Element {
         direction: CallDirection.Incoming,
         status: GroupCallStatus.Accepted,
         callCreator: null,
+        groupCallEnded: false,
+        deviceCount: 1,
+        maxDevices: 8,
       })}
     />
   );
@@ -280,6 +314,9 @@ export function GroupCallByYou(): JSX.Element {
         type: CallType.Group,
         direction: CallDirection.Outgoing,
         status: GroupCallStatus.Accepted,
+        groupCallEnded: false,
+        deviceCount: 1,
+        maxDevices: 8,
       })}
     />
   );
@@ -293,6 +330,9 @@ export function GroupCallBySomeone(): JSX.Element {
         type: CallType.Group,
         direction: CallDirection.Incoming,
         status: GroupCallStatus.GenericGroupCall,
+        groupCallEnded: false,
+        deviceCount: 1,
+        maxDevices: 8,
       })}
     />
   );
@@ -309,6 +349,9 @@ export function GroupCallStartedBySomeoneWithALongName(): JSX.Element {
         callCreator: getDefaultConversation({
           name: '😤🪐🦆'.repeat(50),
         }),
+        groupCallEnded: false,
+        deviceCount: 1,
+        maxDevices: 8,
       })}
     />
   );
@@ -326,7 +369,9 @@ export function GroupCallActiveCallFull(): JSX.Element {
         type: CallType.Group,
         direction: CallDirection.Incoming,
         status: GroupCallStatus.GenericGroupCall,
-        callExternalState: CallExternalState.Full,
+        groupCallEnded: false,
+        deviceCount: 8,
+        maxDevices: 8,
       })}
     />
   );
@@ -344,7 +389,9 @@ export function GroupCallEnded(): JSX.Element {
         type: CallType.Group,
         direction: CallDirection.Incoming,
         status: GroupCallStatus.GenericGroupCall,
-        callExternalState: CallExternalState.Ended,
+        groupCallEnded: true,
+        deviceCount: 0,
+        maxDevices: Infinity,
       })}
     />
   );

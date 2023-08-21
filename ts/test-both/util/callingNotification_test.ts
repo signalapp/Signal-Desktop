@@ -2,10 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import {
-  CallExternalState,
-  getCallingNotificationText,
-} from '../../util/callingNotification';
+import { getCallingNotificationText } from '../../util/callingNotification';
 import { CallMode } from '../../types/Calling';
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
@@ -42,7 +39,8 @@ describe('calling notification helpers', () => {
               status: GroupCallStatus.Missed,
             },
             callCreator,
-            callExternalState: CallExternalState.Ended,
+            activeConversationId: null,
+            groupCallEnded: true,
             deviceCount: 1,
             maxDevices: 23,
           },
@@ -70,7 +68,8 @@ describe('calling notification helpers', () => {
               status: GroupCallStatus.Ringing,
             },
             callCreator,
-            callExternalState: CallExternalState.Active,
+            activeConversationId: null,
+            groupCallEnded: false,
             deviceCount: 1,
             maxDevices: 23,
           },
@@ -99,7 +98,8 @@ describe('calling notification helpers', () => {
               status: GroupCallStatus.Ringing,
             },
             callCreator,
-            callExternalState: CallExternalState.Active,
+            activeConversationId: null,
+            groupCallEnded: false,
             deviceCount: 1,
             maxDevices: 23,
           },
@@ -127,7 +127,8 @@ describe('calling notification helpers', () => {
               status: GroupCallStatus.Ringing,
             },
             callCreator,
-            callExternalState: CallExternalState.Active,
+            activeConversationId: null,
+            groupCallEnded: false,
             deviceCount: 1,
             maxDevices: 23,
           },
@@ -152,7 +153,8 @@ describe('calling notification helpers', () => {
               status: GroupCallStatus.Ringing,
             },
             callCreator: null,
-            callExternalState: CallExternalState.Active,
+            activeConversationId: null,
+            groupCallEnded: false,
             deviceCount: 1,
             maxDevices: 23,
           },

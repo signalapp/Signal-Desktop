@@ -12,7 +12,6 @@ import type { LocalizerType } from '../../types/Util';
 import { CallMode } from '../../types/Calling';
 import type { CallingNotificationType } from '../../util/callingNotification';
 import {
-  CallExternalState,
   getCallingIcon,
   getCallingNotificationText,
 } from '../../util/callingNotification';
@@ -110,10 +109,7 @@ function renderCallingNotificationButton(
         direction === CallDirection.Incoming
           ? i18n('icu:calling__call-back')
           : i18n('icu:calling__call-again');
-      if (
-        props.callExternalState === CallExternalState.Joined ||
-        props.callExternalState === CallExternalState.InOtherCall
-      ) {
+      if (props.activeConversationId != null) {
         disabledTooltipText = i18n('icu:calling__in-another-call-tooltip');
         onClick = noop;
       } else {
@@ -127,17 +123,19 @@ function renderCallingNotificationButton(
       break;
     }
     case CallMode.Group: {
-      if (props.callExternalState === CallExternalState.Ended) {
+      if (props.groupCallEnded) {
         return null;
       }
-      if (props.callExternalState === CallExternalState.Joined) {
-        buttonText = i18n('icu:calling__return');
-        onClick = returnToActiveCall;
-      } else if (props.callExternalState === CallExternalState.InOtherCall) {
-        buttonText = i18n('icu:calling__join');
-        disabledTooltipText = i18n('icu:calling__in-another-call-tooltip');
-        onClick = noop;
-      } else if (props.callExternalState === CallExternalState.Full) {
+      if (props.activeConversationId != null) {
+        if (props.activeConversationId === conversationId) {
+          buttonText = i18n('icu:calling__return');
+          onClick = returnToActiveCall;
+        } else {
+          buttonText = i18n('icu:calling__join');
+          disabledTooltipText = i18n('icu:calling__in-another-call-tooltip');
+          onClick = noop;
+        }
+      } else if (props.deviceCount > props.maxDevices) {
         buttonText = i18n('icu:calling__call-is-full');
         disabledTooltipText = i18n(
           'icu:calling__call-notification__button__call-full-tooltip',
@@ -146,13 +144,11 @@ function renderCallingNotificationButton(
           }
         );
         onClick = noop;
-      } else if (props.callExternalState === CallExternalState.Active) {
+      } else {
         buttonText = i18n('icu:calling__join');
         onClick = () => {
           startCallingLobby({ conversationId, isVideoCall: true });
         };
-      } else {
-        throw missingCaseError(props.callExternalState);
       }
       break;
     }

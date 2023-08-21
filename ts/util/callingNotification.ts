@@ -12,20 +12,14 @@ import {
   CallType,
 } from '../types/CallDisposition';
 import type { ConversationType } from '../state/ducks/conversations';
-
-export enum CallExternalState {
-  Active,
-  Full,
-  Joined,
-  Ended,
-  InOtherCall,
-}
+import { strictAssert } from './assert';
 
 export type CallingNotificationType = Readonly<{
   // In some older calls, we don't have a call id, this hardens against that.
   callHistory: CallHistoryDetails | null;
   callCreator: ConversationType | null;
-  callExternalState: CallExternalState;
+  activeConversationId: string | null;
+  groupCallEnded: boolean | null;
   deviceCount: number;
   maxDevices: number;
 }>;
@@ -90,11 +84,11 @@ function getDirectCallNotificationText(
 }
 
 function getGroupCallNotificationText(
-  callExternalState: CallExternalState,
+  groupCallEnded: boolean,
   creator: ConversationType | null,
   i18n: LocalizerType
 ): string {
-  if (callExternalState === CallExternalState.Ended) {
+  if (groupCallEnded) {
     return i18n('icu:calling__call-notification__ended');
   }
   if (creator == null) {
@@ -112,7 +106,7 @@ export function getCallingNotificationText(
   callingNotification: CallingNotificationType,
   i18n: LocalizerType
 ): string | null {
-  const { callHistory, callCreator, callExternalState } = callingNotification;
+  const { callHistory, callCreator, groupCallEnded } = callingNotification;
   if (callHistory == null) {
     return null;
   }
@@ -126,7 +120,11 @@ export function getCallingNotificationText(
     );
   }
   if (callHistory.mode === CallMode.Group) {
-    return getGroupCallNotificationText(callExternalState, callCreator, i18n);
+    strictAssert(
+      groupCallEnded != null,
+      'getCallingNotificationText: groupCallEnded shouldnt be null for a group call'
+    );
+    return getGroupCallNotificationText(groupCallEnded, callCreator, i18n);
   }
   throw missingCaseError(callHistory.mode);
 }

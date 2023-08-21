@@ -64,7 +64,6 @@ import { isVoiceMessage, canBeDownloaded } from '../../types/Attachment';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 
 import type { CallingNotificationType } from '../../util/callingNotification';
-import { CallExternalState } from '../../util/callingNotification';
 import { getRecipients } from '../../util/getRecipients';
 import { getOwn } from '../../util/getOwn';
 import { isNotNil } from '../../util/isNotNil';
@@ -134,6 +133,7 @@ import { getMessageSentTimestamp } from '../../util/getMessageSentTimestamp';
 import type { CallHistorySelectorType } from './callHistory';
 import { CallMode } from '../../types/Calling';
 import { CallDirection } from '../../types/CallDisposition';
+import { getCallIdFromEra } from '../../util/callDisposition';
 
 export { isIncoming, isOutgoing, isStory };
 
@@ -1317,10 +1317,11 @@ export type GetPropsForCallHistoryOptions = Pick<
   | 'ourConversationId'
 >;
 
-const emptyCallNotification = {
+const emptyCallNotification: CallingNotificationType = {
   callHistory: null,
   callCreator: null,
-  callExternalState: CallExternalState.Ended,
+  activeConversationId: null,
+  groupCallEnded: null,
   maxDevices: Infinity,
   deviceCount: 0,
 };
@@ -1346,6 +1347,8 @@ export function getPropsForCallHistory(
     return emptyCallNotification;
   }
 
+  const activeConversationId = activeCall?.conversationId ?? null;
+
   const conversation = conversationSelector(callHistory.peerId);
   strictAssert(
     conversation != null,
@@ -1359,38 +1362,39 @@ export function getPropsForCallHistory(
     callCreator = conversationSelector(ourConversationId);
   }
 
-  const call = callSelector(callHistory.callId);
-
-  let deviceCount = 0;
-  let maxDevices = Infinity;
-  if (
-    call?.callMode === CallMode.Group &&
-    call.peekInfo?.deviceCount != null &&
-    call.peekInfo?.maxDevices != null
-  ) {
-    deviceCount = call.peekInfo.deviceCount;
-    maxDevices = call.peekInfo.maxDevices;
+  if (callHistory.mode === CallMode.Direct) {
+    return {
+      callHistory,
+      callCreator,
+      activeConversationId,
+      groupCallEnded: false,
+      deviceCount: 0,
+      maxDevices: Infinity,
+    };
   }
 
-  let callExternalState: CallExternalState;
-  if (call == null || deviceCount === 0) {
-    callExternalState = CallExternalState.Ended;
-  } else if (activeCall != null) {
-    if (activeCall.conversationId === call.conversationId) {
-      callExternalState = CallExternalState.Joined;
-    } else {
-      callExternalState = CallExternalState.InOtherCall;
-    }
-  } else if (deviceCount >= maxDevices) {
-    callExternalState = CallExternalState.Full;
-  } else {
-    callExternalState = CallExternalState.Active;
+  // This could be a later call in the conversation
+  const conversationCall = callSelector(conversation.id);
+
+  if (conversationCall != null) {
+    strictAssert(
+      conversationCall?.callMode === CallMode.Group,
+      'getPropsForCallHistory: Call was expected to be a group call'
+    );
   }
+
+  const conversationCallId =
+    conversationCall?.peekInfo?.eraId != null &&
+    getCallIdFromEra(conversationCall.peekInfo.eraId);
+
+  const deviceCount = conversationCall?.peekInfo?.deviceCount ?? 0;
+  const maxDevices = conversationCall?.peekInfo?.maxDevices ?? Infinity;
 
   return {
     callHistory,
     callCreator,
-    callExternalState,
+    activeConversationId,
+    groupCallEnded: callId !== conversationCallId || deviceCount === 0,
     deviceCount,
     maxDevices,
   };
