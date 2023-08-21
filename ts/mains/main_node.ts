@@ -751,8 +751,9 @@ app.on('ready', async () => {
   assertLogger().info('app ready');
   assertLogger().info(`starting version ${packageJson.version}`);
   if (!locale) {
-    const appLocale = app.getLocale() || 'en';
+    const appLocale = process.env.LANGUAGE || app.getLocale() || 'en';
     locale = loadLocale({ appLocale, logger });
+    assertLogger().info(`locale is ${appLocale}`);
   }
 
   const key = getDefaultSQLKey();
