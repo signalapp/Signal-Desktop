@@ -9,7 +9,7 @@ import { WhatsNewLink } from './WhatsNewLink';
 import type { UnreadStats } from '../util/countUnreadStats';
 
 type ChatsTabProps = Readonly<{
-  appUnreadStats: UnreadStats;
+  otherTabsUnreadStats: UnreadStats;
   i18n: LocalizerType;
   hasPendingUpdate: boolean;
   hasFailedStorySends: boolean;
@@ -24,7 +24,7 @@ type ChatsTabProps = Readonly<{
 }>;
 
 export function ChatsTab({
-  appUnreadStats,
+  otherTabsUnreadStats,
   i18n,
   hasPendingUpdate,
   hasFailedStorySends,
@@ -41,7 +41,7 @@ export function ChatsTab({
     <>
       <div id="LeftPane">
         {renderLeftPane({
-          appUnreadStats,
+          otherTabsUnreadStats,
           collapsed: navTabsCollapsed,
           hasPendingUpdate,
           hasFailedStorySends,

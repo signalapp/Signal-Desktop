@@ -133,7 +133,7 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
   );
 
   return {
-    appUnreadStats: {
+    otherTabsUnreadStats: {
       unreadCount: 0,
       unreadMentionsCount: 0,
       markedUnread: false,

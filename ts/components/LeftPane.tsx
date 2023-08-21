@@ -60,7 +60,7 @@ export enum LeftPaneMode {
 }
 
 export type PropsType = {
-  appUnreadStats: UnreadStats;
+  otherTabsUnreadStats: UnreadStats;
   hasExpiredDialog: boolean;
   hasFailedStorySends: boolean;
   hasNetworkDialog: boolean;
@@ -158,7 +158,7 @@ export type PropsType = {
 } & LookupConversationWithoutServiceIdActionsType;
 
 export function LeftPane({
-  appUnreadStats,
+  otherTabsUnreadStats,
   blockConversation,
   challengeStatus,
   clearConversationSearch,
@@ -556,7 +556,7 @@ export function LeftPane({
         modeSpecificProps.mode === LeftPaneMode.SetGroupMetadata
       }
       i18n={i18n}
-      appUnreadStats={appUnreadStats}
+      otherTabsUnreadStats={otherTabsUnreadStats}
       hasFailedStorySends={hasFailedStorySends}
       hasPendingUpdate={hasPendingUpdate}
       navTabsCollapsed={navTabsCollapsed}

@@ -28,7 +28,7 @@ import type { UnreadStats } from '../util/countUnreadStats';
 
 export type PropsType = {
   addStoryData: AddStoryData;
-  appUnreadStats: UnreadStats;
+  otherTabsUnreadStats: UnreadStats;
   deleteStoryForEveryone: (story: StoryViewType) => unknown;
   getPreferredBadge: PreferredBadgeSelectorType;
   hasFailedStorySends: boolean;
@@ -65,7 +65,7 @@ export type PropsType = {
 
 export function StoriesTab({
   addStoryData,
-  appUnreadStats,
+  otherTabsUnreadStats,
   deleteStoryForEveryone,
   getPreferredBadge,
   hasFailedStorySends,
@@ -111,7 +111,7 @@ export function StoriesTab({
       {addStoryData && renderStoryCreator()}
       {isMyStories && myStories.length ? (
         <MyStories
-          appUnreadStats={appUnreadStats}
+          otherTabsUnreadStats={otherTabsUnreadStats}
           hasFailedStorySends={hasFailedStorySends}
           hasPendingUpdate={hasPendingUpdate}
           hasViewReceiptSetting={hasViewReceiptSetting}
@@ -142,7 +142,7 @@ export function StoriesTab({
           preferredLeftPaneWidth={preferredLeftPaneWidth}
           requiresFullWidth
           savePreferredLeftPaneWidth={savePreferredLeftPaneWidth}
-          appUnreadStats={appUnreadStats}
+          otherTabsUnreadStats={otherTabsUnreadStats}
           actions={
             <>
               <StoriesAddStoryButton

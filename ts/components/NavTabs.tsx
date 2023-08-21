@@ -117,7 +117,7 @@ function NavTabsItem({
 }
 
 export type NavTabPanelProps = Readonly<{
-  appUnreadStats: UnreadStats;
+  otherTabsUnreadStats: UnreadStats;
   collapsed: boolean;
   hasFailedStorySends: boolean;
   hasPendingUpdate: boolean;
@@ -125,7 +125,7 @@ export type NavTabPanelProps = Readonly<{
 }>;
 
 export type NavTabsToggleProps = Readonly<{
-  appUnreadStats: UnreadStats | null;
+  otherTabsUnreadStats: UnreadStats | null;
   i18n: LocalizerType;
   hasFailedStorySends: boolean;
   hasPendingUpdate: boolean;
@@ -138,7 +138,7 @@ export function NavTabsToggle({
   hasFailedStorySends,
   hasPendingUpdate,
   navTabsCollapsed,
-  appUnreadStats,
+  otherTabsUnreadStats,
   onToggleNavTabsCollapse,
 }: NavTabsToggleProps): JSX.Element {
   function handleToggle() {
@@ -169,7 +169,7 @@ export function NavTabsToggle({
             <span className="NavTabs__ItemLabel">{label}</span>
             <NavTabsItemBadges
               i18n={i18n}
-              unreadStats={appUnreadStats}
+              unreadStats={otherTabsUnreadStats}
               hasError={hasFailedStorySends}
               hasPendingUpdate={hasPendingUpdate}
             />
@@ -245,7 +245,7 @@ export function NavTabs({
           // These are all shown elsewhere when nav tabs are shown
           hasFailedStorySends={false}
           hasPendingUpdate={false}
-          appUnreadStats={null}
+          otherTabsUnreadStats={null}
         />
         <TabList
           className="NavTabs__TabList"

@@ -24,7 +24,7 @@ import type { UnreadStats } from '../util/countUnreadStats';
 
 export type PropsType = {
   i18n: LocalizerType;
-  appUnreadStats: UnreadStats;
+  otherTabsUnreadStats: UnreadStats;
   hasFailedStorySends: boolean;
   hasPendingUpdate: boolean;
   navTabsCollapsed: boolean;
@@ -46,7 +46,7 @@ export type PropsType = {
 
 export function MyStories({
   i18n,
-  appUnreadStats,
+  otherTabsUnreadStats,
   hasFailedStorySends,
   hasPendingUpdate,
   navTabsCollapsed,
@@ -90,7 +90,7 @@ export function MyStories({
       <NavSidebar
         i18n={i18n}
         title={i18n('icu:MyStories__title')}
-        appUnreadStats={appUnreadStats}
+        otherTabsUnreadStats={otherTabsUnreadStats}
         hasFailedStorySends={hasFailedStorySends}
         hasPendingUpdate={hasPendingUpdate}
         navTabsCollapsed={navTabsCollapsed}

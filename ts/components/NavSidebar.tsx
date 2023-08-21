@@ -54,7 +54,7 @@ export type NavSidebarProps = Readonly<{
   requiresFullWidth: boolean;
   savePreferredLeftPaneWidth: (width: number) => void;
   title: string;
-  appUnreadStats: UnreadStats;
+  otherTabsUnreadStats: UnreadStats;
 }>;
 
 enum DragState {
@@ -77,7 +77,7 @@ export function NavSidebar({
   requiresFullWidth,
   savePreferredLeftPaneWidth,
   title,
-  appUnreadStats,
+  otherTabsUnreadStats,
 }: NavSidebarProps): JSX.Element {
   const [dragState, setDragState] = useState(DragState.INITIAL);
 
@@ -164,7 +164,7 @@ export function NavSidebar({
               onToggleNavTabsCollapse={onToggleNavTabsCollapse}
               hasFailedStorySends={hasFailedStorySends}
               hasPendingUpdate={hasPendingUpdate}
-              appUnreadStats={appUnreadStats}
+              otherTabsUnreadStats={otherTabsUnreadStats}
             />
           )}
           <div

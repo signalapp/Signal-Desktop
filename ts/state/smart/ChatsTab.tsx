@@ -22,7 +22,7 @@ import { getNavTabsCollapsed } from '../selectors/items';
 import { useItemsActions } from '../ducks/items';
 import { getHasAnyFailedStorySends } from '../selectors/stories';
 import { getHasPendingUpdate } from '../selectors/updates';
-import { getAppUnreadStats } from '../selectors/nav';
+import { getOtherTabsUnreadStats } from '../selectors/nav';
 
 function renderConversationView() {
   return <SmartConversationView />;
@@ -41,7 +41,7 @@ export function SmartChatsTab(): JSX.Element {
   const navTabsCollapsed = useSelector(getNavTabsCollapsed);
   const hasFailedStorySends = useSelector(getHasAnyFailedStorySends);
   const hasPendingUpdate = useSelector(getHasPendingUpdate);
-  const appUnreadStats = useSelector(getAppUnreadStats);
+  const otherTabsUnreadStats = useSelector(getOtherTabsUnreadStats);
 
   const { selectedConversationId, targetedMessage, targetedMessageSource } =
     useSelector<StateType, ConversationsStateType>(
@@ -144,7 +144,7 @@ export function SmartChatsTab(): JSX.Element {
 
   return (
     <ChatsTab
-      appUnreadStats={appUnreadStats}
+      otherTabsUnreadStats={otherTabsUnreadStats}
       i18n={i18n}
       hasFailedStorySends={hasFailedStorySends}
       hasPendingUpdate={hasPendingUpdate}

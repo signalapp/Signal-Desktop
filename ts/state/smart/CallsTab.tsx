@@ -29,7 +29,7 @@ import { useCallHistoryActions } from '../ducks/callHistory';
 import { getCallHistoryEdition } from '../selectors/callHistory';
 import { getHasPendingUpdate } from '../selectors/updates';
 import { getHasAnyFailedStorySends } from '../selectors/stories';
-import { getAppUnreadStats } from '../selectors/nav';
+import { getOtherTabsUnreadStats } from '../selectors/nav';
 
 function getCallHistoryFilter(
   allConversations: Array<ConversationType>,
@@ -96,7 +96,7 @@ export function SmartCallsTab(): JSX.Element {
 
   const hasPendingUpdate = useSelector(getHasPendingUpdate);
   const hasFailedStorySends = useSelector(getHasAnyFailedStorySends);
-  const appUnreadStats = useSelector(getAppUnreadStats);
+  const otherTabsUnreadStats = useSelector(getOtherTabsUnreadStats);
 
   const {
     onOutgoingAudioCallInConversation,
@@ -153,7 +153,7 @@ export function SmartCallsTab(): JSX.Element {
     <CallsTab
       activeCall={activeCall}
       allConversations={allConversations}
-      appUnreadStats={appUnreadStats}
+      otherTabsUnreadStats={otherTabsUnreadStats}
       getConversation={getConversation}
       getCallHistoryGroupsCount={getCallHistoryGroupsCount}
       getCallHistoryGroups={getCallHistoryGroups}

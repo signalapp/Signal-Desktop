@@ -32,7 +32,7 @@ import { useToastActions } from '../ducks/toast';
 import { useAudioPlayerActions } from '../ducks/audioPlayer';
 import { useItemsActions } from '../ducks/items';
 import { getHasPendingUpdate } from '../selectors/updates';
-import { getAppUnreadStats } from '../selectors/nav';
+import { getOtherTabsUnreadStats } from '../selectors/nav';
 
 function renderStoryCreator(): JSX.Element {
   return <SmartStoryCreator />;
@@ -71,7 +71,7 @@ export function SmartStoriesTab(): JSX.Element | null {
   const hasViewReceiptSetting = useSelector(getHasStoryViewReceiptSetting);
   const hasPendingUpdate = useSelector(getHasPendingUpdate);
   const hasFailedStorySends = useSelector(getHasAnyFailedStorySends);
-  const appUnreadStats = useSelector(getAppUnreadStats);
+  const otherTabsUnreadStats = useSelector(getOtherTabsUnreadStats);
 
   const remoteConfig = useSelector(getRemoteConfig);
   const maxAttachmentSizeInKb = getMaximumAttachmentSizeInKb(
@@ -98,7 +98,7 @@ export function SmartStoriesTab(): JSX.Element | null {
 
   return (
     <StoriesTab
-      appUnreadStats={appUnreadStats}
+      otherTabsUnreadStats={otherTabsUnreadStats}
       addStoryData={addStoryData}
       getPreferredBadge={getPreferredBadge}
       hasFailedStorySends={hasFailedStorySends}

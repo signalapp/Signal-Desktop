@@ -26,7 +26,7 @@ enum CallsTabSidebarView {
 type CallsTabProps = Readonly<{
   activeCall: ActiveCallStateType | undefined;
   allConversations: ReadonlyArray<ConversationType>;
-  appUnreadStats: UnreadStats;
+  otherTabsUnreadStats: UnreadStats;
   getCallHistoryGroupsCount: (
     options: CallHistoryFilterOptions
   ) => Promise<number>;
@@ -56,7 +56,7 @@ type CallsTabProps = Readonly<{
 export function CallsTab({
   activeCall,
   allConversations,
-  appUnreadStats,
+  otherTabsUnreadStats,
   getCallHistoryGroupsCount,
   getCallHistoryGroups,
   getConversation,
@@ -158,7 +158,7 @@ export function CallsTab({
               ? i18n('icu:CallsTab__HeaderTitle--CallsList')
               : i18n('icu:CallsTab__HeaderTitle--NewCall')
           }
-          appUnreadStats={appUnreadStats}
+          otherTabsUnreadStats={otherTabsUnreadStats}
           hasFailedStorySends={hasFailedStorySends}
           hasPendingUpdate={hasPendingUpdate}
           navTabsCollapsed={navTabsCollapsed}
