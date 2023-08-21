@@ -3947,6 +3947,8 @@ function showConversation({
 
     if (nav.selectedNavTab !== NavTab.Chats) {
       dispatch(navActions.changeNavTab(NavTab.Chats));
+      const conversation = window.ConversationController.get(conversationId);
+      conversation?.setMarkedUnread(false);
     }
 
     if (conversationId === conversations.selectedConversationId) {

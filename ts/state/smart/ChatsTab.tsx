@@ -79,16 +79,16 @@ export function SmartChatsTab(): JSX.Element {
       scrollToMessage(selectedConversationId, targetedMessage);
     }
 
-    if (!selectedConversationId) {
-      return;
+    if (
+      selectedConversationId != null &&
+      selectedConversationId !== prevConversationId
+    ) {
+      const conversation = window.ConversationController.get(
+        selectedConversationId
+      );
+      strictAssert(conversation, 'Conversation must be found');
+      conversation.setMarkedUnread(false);
     }
-
-    const conversation = window.ConversationController.get(
-      selectedConversationId
-    );
-    strictAssert(conversation, 'Conversation must be found');
-
-    conversation.setMarkedUnread(false);
   }, [
     onConversationClosed,
     onConversationOpened,
