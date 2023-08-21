@@ -119,8 +119,7 @@ export const EditProfilePictureModal = (props: EditProfilePictureModalProps) => 
       <div
         className="avatar-center"
         role="button"
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        onClick={handleAvatarClick}
+        onClick={() => void handleAvatarClick}
         data-testid={'image-upload-click'}
       >
         <StyledAvatarContainer className="avatar-center-inner">
