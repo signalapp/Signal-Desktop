@@ -1267,10 +1267,6 @@
     "messageformat": "Ikusi arestiko medioak",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
-  "icu:verifyHelp": {
-    "messageformat": "{name} erabiltzailearekin muturretik muturrerako enkriptatzearen segurtasuna egiaztatzeko, alderatu goiko zenbakiak haren gailukoekin. Halaber, goiko QR kodea eskanea dezake.",
-    "description": "(deleted 07/05/2023)"
-  },
   "icu:theirIdentityUnknown": {
     "messageformat": "Oraindik ez duzu mezurik trukatu konkaktu honekin. Zure segurtasun zenbakia eskuragarri egongo da lehenengo mezua bidali ondoren."
   },
@@ -6577,7 +6573,7 @@
     "description": "Body of a dialog displayed on unsupported operating systems"
   },
   "icu:MessageMetadata__edited": {
-    "messageformat": "editatuta",
+    "messageformat": "Editatua",
     "description": "label for an edited message"
   },
   "icu:EditHistoryMessagesModal__title": {
@@ -6624,10 +6620,13 @@
     "messageformat": "Doikuntza txikiak, akats-konponketak eta errendimendu-hobekuntzak. Eskerrik asko Signal erabiltzeagatik!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.27--0": {
-    "messageformat": "Eguneratze honek ahots- eta bideo-deietarako hobekuntza batzuk eta dokumentazio-eguneratze txiki batzuk ditu (eskerrik asko, {linkToGithub}!)."
-  },
   "icu:WhatsNew__v6.28--0": {
     "messageformat": "Taldeen jakinarazpen-ikono batzuk eguneratu ditugu, eta PUZa gainkarga zezakeen akats bat konpondu."
+  },
+  "icu:WhatsNew__v6.29--0": {
+    "messageformat": "Txataren kolorea pertsonalizatzeko pantaila behar bezala bistaratzen da hizkuntza ezberdinetan eta hautatutako tokietan."
+  },
+  "icu:WhatsNew__v6.29--1": {
+    "messageformat": "Windows-en jakinarazpenen laguntza hobetu dugu. Ez baduzu sakatzen jakinarazpen bat lehen aldiz iristen denean, galdutako azken jakinarazpena Windows Jakinarazpen Zentroan agertuko da. Jakinarazpen horretan klik eginez gero, zuzenean txat horretara joango da. Eskerrak eman nahi dizkiogu Julien Richard bere iritziagatik."
   }
 }

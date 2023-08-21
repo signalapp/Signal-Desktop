@@ -1267,10 +1267,6 @@
     "messageformat": "Féach ar na meáin le déanaí",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
-  "icu:verifyHelp": {
-    "messageformat": "Chun slándáil do chriptithe ó cheann ceann le {name} a fhíorú, cuir na huimhreacha thuas i gcomparáid le gléas an duine sin. Is féidir leis an duine eile an cód QR thuas a scanadh freisin.",
-    "description": "(deleted 07/05/2023)"
-  },
   "icu:theirIdentityUnknown": {
     "messageformat": "Níor sheol tú teachtaireachtaí chuig an duine seo ná ní bhfuair tú cinn uaidh/uaithi. Beidh d'uimhir sábháilteachta leis an duine sin ar fáil tar éis an chéad teachtaireacht."
   },
@@ -6577,7 +6573,7 @@
     "description": "Body of a dialog displayed on unsupported operating systems"
   },
   "icu:MessageMetadata__edited": {
-    "messageformat": "arna cur in eagar",
+    "messageformat": "Curtha in eagar",
     "description": "label for an edited message"
   },
   "icu:EditHistoryMessagesModal__title": {
@@ -6624,10 +6620,13 @@
     "messageformat": "Mionathruithe, paistí fabhtanna agus feabhsuithe ar fheidhmíocht. Go raibh maith agat as Signal a úsáid!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.27--0": {
-    "messageformat": "Áirítear sa nuashonrú seo roinnt feabhsuithe do ghuthghlaonna agus físghlaonna, agus roinnt mion-nuashonruithe ar dhoiciméadúchán (buíochas leat, {linkToGithub}!)."
-  },
   "icu:WhatsNew__v6.28--0": {
     "messageformat": "Rinneamar roinnt deilbhíní fógraí grúpa a nuashonrú."
+  },
+  "icu:WhatsNew__v6.29--0": {
+    "messageformat": "Tá an scáileán saincheaptha do Dhath an Chomhrá ar taispeáint i gceart thar theangacha éagsúla agus logchaighdeáin roghnaithe."
+  },
+  "icu:WhatsNew__v6.29--1": {
+    "messageformat": "D'fheabhsaíomar tacaíocht do fhógraí ar Windows. Mura gcliceálann tú ar fhógra ar a theacht isteach ar dtús, taispeánfar an fógra is déanaí a cailleadh in Ionad Fógraí Windows. Léimfear díreach chuig an gcomhrá sin ar chliceáil ar an bhfógra sin. Ba mhaith linn buíochas a ghabháil le Julien Richard as an aiseolas."
   }
 }

@@ -1267,10 +1267,6 @@
     "messageformat": "查看最近的多媒體檔",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
-  "icu:verifyHelp": {
-    "messageformat": "若要驗證你與 {name} 之間端對端加密的安全性，請比較上方數字與對方裝置上的數字是否一樣。對方亦可掃瞄上方的二維碼。",
-    "description": "(deleted 07/05/2023)"
-  },
   "icu:theirIdentityUnknown": {
     "messageformat": "你尚未與這個聯絡人交換訊息。你與他們的安全碼將會在初次送出訊息後生效。"
   },
@@ -6624,10 +6620,13 @@
     "messageformat": "細微的調整、問題修復和效能改善。感謝各位使用 Signal！",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.27--0": {
-    "messageformat": "此更新包括了對語音和視訊通話的一些改進，以及少數文件更新（謝謝， {linkToGithub}！）。"
-  },
   "icu:WhatsNew__v6.28--0": {
     "messageformat": "我們修改了群組更新（例如有新人加入群組）時顯示的通知圖示。這些圖示有助於提高易讀性，尤其適合使用「深色模式」的你。"
+  },
+  "icu:WhatsNew__v6.29--0": {
+    "messageformat": "聊天顏色自訂畫面現在可以在不同語言和所選地區中正確顯示。"
+  },
+  "icu:WhatsNew__v6.29--1": {
+    "messageformat": "我們改善了 Windows 上的通知支援。如果在通知首次出現時沒有點擊，最新錯過的通知就會在 Windows 通知中心顯示。點擊該通知將會立即直接跳轉到該則聊天。 我們要感謝 Julien Richard 的意見回饋。"
   }
 }

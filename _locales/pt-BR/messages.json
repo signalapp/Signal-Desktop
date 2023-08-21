@@ -1267,10 +1267,6 @@
     "messageformat": "Ver mídia recente",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
-  "icu:verifyHelp": {
-    "messageformat": "Para verificar a segurança da sua criptografia de ponta a ponta com {name}, compare os números acima com os números no aparelho dessa pessoa. Também é possível escanear o QR code acima.",
-    "description": "(deleted 07/05/2023)"
-  },
   "icu:theirIdentityUnknown": {
     "messageformat": "Você ainda não trocou nenhuma mensagem com este contato. O seu número de segurança com ele estará disponível após a primeira mensagem."
   },
@@ -6577,7 +6573,7 @@
     "description": "Body of a dialog displayed on unsupported operating systems"
   },
   "icu:MessageMetadata__edited": {
-    "messageformat": "editado",
+    "messageformat": "Editado",
     "description": "label for an edited message"
   },
   "icu:EditHistoryMessagesModal__title": {
@@ -6624,10 +6620,13 @@
     "messageformat": "Pequenas alterações adicionais, correções de bugs e melhorias de desempenho. Agradecemos por usar o Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.27--0": {
-    "messageformat": "Este update inclui algumas melhorias de chamadas de voz e de vídeo, além de algumas pequenas atualizações de documentos (valeu, {linkToGithub}!)"
-  },
   "icu:WhatsNew__v6.28--0": {
     "messageformat": "Atualizamos alguns ícones de notificações de grupos."
+  },
+  "icu:WhatsNew__v6.29--0": {
+    "messageformat": "A tela de personalização da cor do chat já está aparecendo de forma correta em outros idiomas e locais selecionados."
+  },
+  "icu:WhatsNew__v6.29--1": {
+    "messageformat": "Melhoramos o suporte a notificações no Windows. Se você não clicar em uma notificação quando recebê-la, a notificação perdida mais recente aparecerá na Central de Notificações do Windows. Ao clicar nesta notificação, você irá diretamente para este chat. Gostaríamos de agradecer Julien Richard pelo feedback."
   }
 }

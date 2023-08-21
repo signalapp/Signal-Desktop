@@ -1267,10 +1267,6 @@
     "messageformat": "Son içerikleri görüntüle",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
-  "icu:verifyHelp": {
-    "messageformat": "{name} ile uçtan uca şifrelemenin güvenliğini doğrulamak için yukarıdaki sayıları onun cihazlarındakilerle karşılaştır. Yukarıdaki karekodu da tarayabilirler.",
-    "description": "(deleted 07/05/2023)"
-  },
   "icu:theirIdentityUnknown": {
     "messageformat": "Bu kişiyle herhangi bir iletişimde bulunmadınız. Güvenlik numaralarınız ilk iletiden sonra oluşturulacaktır."
   },
@@ -6577,7 +6573,7 @@
     "description": "Body of a dialog displayed on unsupported operating systems"
   },
   "icu:MessageMetadata__edited": {
-    "messageformat": "düzenlendi",
+    "messageformat": "Düzenlendi",
     "description": "label for an edited message"
   },
   "icu:EditHistoryMessagesModal__title": {
@@ -6624,10 +6620,13 @@
     "messageformat": "Küçük ince ayarlar, hata düzeltmeleri ve performans geliştirmeleri yaptık. Signal'i kullandığın için teşekkürler!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.27--0": {
-    "messageformat": "Bu güncelleme, sesli ve görüntülü aramalar için birkaç iyileştirmeden ve bazı küçük doküman güncellemelerinden oluşmaktadır (teşekkürler, {linkToGithub}!)."
-  },
   "icu:WhatsNew__v6.28--0": {
     "messageformat": "Bazı grup bildirimi simgelerini güncelledik. Bu simgeler özellikle de Karanlık Tema'nın karanlığında yaşıyorsan, okunabilirliği artırmaya yardımcı olur. Önceden kullanılan simgeler yalnızca karanlık moda ayak uydurmaya çalışıyordu. Bu yeni simgeler ise karanlığın içinde doğdu, onun tarafından şekillendirildi."
+  },
+  "icu:WhatsNew__v6.29--0": {
+    "messageformat": "Sohbet Rengi özelleştirme ekranı artık farklı dillerde ve seçili yerel ayarlarda doğru şekilde görüntüleniyor."
+  },
+  "icu:WhatsNew__v6.29--1": {
+    "messageformat": "Windows'taki bildirim desteğini geliştirdik. İlk geldiğinde bir bildirime tıklamazsan, kaçırdığın en son bildirim Windows Bildirim Merkezi'nde görünecektir. Bu bildirime tıklayarak artık doğrudan o sohbete gidilir. Geri bildirimleri için Julien Richard'a teşekkür ederiz."
   }
 }

@@ -1267,10 +1267,6 @@
     "messageformat": "Prikaži nedavne medijske zapise",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
-  "icu:verifyHelp": {
-    "messageformat": "Za provjeru sveobuhvatne enkripcije s kontaktom {name}, usporedite gore navedene brojeve s uređajem vašeg sugovornika. Također, vaš kontakt može skenirati gornji QR kôd .",
-    "description": "(deleted 07/05/2023)"
-  },
   "icu:theirIdentityUnknown": {
     "messageformat": "Još niste razmijenili nijednu poruku s ovim kontaktom. Vaš zajednički sigurnosni broj će biti dostupan nakon prve poruke."
   },
@@ -6577,7 +6573,7 @@
     "description": "Body of a dialog displayed on unsupported operating systems"
   },
   "icu:MessageMetadata__edited": {
-    "messageformat": "uređeno",
+    "messageformat": "Uređeno",
     "description": "label for an edited message"
   },
   "icu:EditHistoryMessagesModal__title": {
@@ -6624,10 +6620,13 @@
     "messageformat": "Manja podešavanja, ispravci grešaka i poboljšanje rada aplikacije. Hvala vam što koristite Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.27--0": {
-    "messageformat": "Ovo ažuriranje uključuje poboljšanja za glasovne pozive i video pozive te neka manja ažuriranja dokumentacije. Hvala, {linkToGithub}!"
-  },
   "icu:WhatsNew__v6.28--0": {
     "messageformat": "Ažurirali smo ikone obavijesti za grupe."
+  },
+  "icu:WhatsNew__v6.29--0": {
+    "messageformat": "Zaslon za prilagodbu boje razgovora sada se ispravno prikazuje na različitim jezicima i odabranim lokacijama."
+  },
+  "icu:WhatsNew__v6.29--1": {
+    "messageformat": "Poboljšali smo podršku za obavijesti u sustavu Windows. Ako ne kliknete na obavijest kad prvi put stigne, zadnja propuštena obavijest pojavit će se u Windows centru za obavijesti. Sada će klik na tu obavijest izravno otvoriti taj razgovor. Željeli bismo se zahvaliti Julienu Richardu na povratnoj informaciji."
   }
 }

@@ -1267,10 +1267,6 @@
     "messageformat": "Recente media weergeven",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
-  "icu:verifyHelp": {
-    "messageformat": "Om de veiligheid van je end-to-end-versleuteling met {name} te verifiëren, vergelijk je de bovenstaande nummers met die op het apparaat van je contact. Jouw contacten kunnen ook de bovenstaande QR-code scannen.",
-    "description": "(deleted 07/05/2023)"
-  },
   "icu:theirIdentityUnknown": {
     "messageformat": "Je hebt nog geen berichten uitgewisseld met deze contactpersoon. Je veiligheidsnummer met hem zal beschikbaar zijn na het eerste bericht."
   },
@@ -5597,7 +5593,7 @@
     "description": "Label for Device list in call settings pane"
   },
   "icu:Preferences__turn-stories-on": {
-    "messageformat": "Zet verhalen aan",
+    "messageformat": "Verhalen aanzetten",
     "description": "Label to enable stories"
   },
   "icu:Preferences__turn-stories-off": {
@@ -6577,7 +6573,7 @@
     "description": "Body of a dialog displayed on unsupported operating systems"
   },
   "icu:MessageMetadata__edited": {
-    "messageformat": "bewerkt",
+    "messageformat": "Bewerkt",
     "description": "label for an edited message"
   },
   "icu:EditHistoryMessagesModal__title": {
@@ -6624,10 +6620,13 @@
     "messageformat": "Kleine aanpassingen, bugfixes en prestatieverbeteringen. Bedankt dat je Signal gebruikt!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.27--0": {
-    "messageformat": "Deze update bevat enkele verbeteringen voor spraak- en video-oproepen en enkele, kleine wijzigingen van de documentatie (bedankt, {linkToGithub}!)."
-  },
   "icu:WhatsNew__v6.28--0": {
     "messageformat": "We hebben de notificatiepictogrammen voor groepsupdates aangepast, bijvoorbeeld als iemand wordt toegevoegd aan een groep. Deze pictogrammen verbeteren de leesbaarheid (met name in de donkere modus). De oude pictogrammen konden het donker nauwelijks aan. Deze nieuwe pictogrammen zijn ervoor gemaakt."
+  },
+  "icu:WhatsNew__v6.29--0": {
+    "messageformat": "Het aanpassingsscherm voor de chatkleur wordt nu correct getoond in verschillende talen en geselecteerde landinstellingen."
+  },
+  "icu:WhatsNew__v6.29--1": {
+    "messageformat": "We hebben de ondersteuning voor meldingen in Windows verbeterd. Als je niet direct op een melding klikt als hij binnenkomt, vind je de laatst gemiste melding in het Windows Notification Center. Als je op die melding klinkt, ga je direct naar de chat. We willen Julien Richard bedanken voor de feedback."
   }
 }

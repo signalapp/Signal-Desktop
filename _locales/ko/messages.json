@@ -1267,10 +1267,6 @@
     "messageformat": "최근 미디어 보기",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
-  "icu:verifyHelp": {
-    "messageformat": "{name} 님과의 엔드투엔드 암호화 보안을 검증하려면 상기 번호를 상대방 번호와 비교하세요. 상대방 기기로 상기 QR 코드를 스캔할 수도 있습니다.",
-    "description": "(deleted 07/05/2023)"
-  },
   "icu:theirIdentityUnknown": {
     "messageformat": "아직 이 연락처와 메시지를 주고받은 적이 없습니다. 안전 번호는 첫 번째 메시지를 주거나 받은 이후 이용 가능합니다."
   },
@@ -6624,10 +6620,13 @@
     "messageformat": "사소한 변경 사항과 버그 수정 및 성능 개선. Signal을 이용해 주셔서 감사합니다!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.27--0": {
-    "messageformat": "이 업데이트는 음성 및 영상 통화에 대한 몇 가지 개선 사항과 소소한 문서 업데이트를 포함합니다(고마워요, {linkToGithub}!)."
-  },
   "icu:WhatsNew__v6.28--0": {
     "messageformat": "일부 그룹 알림 아이콘을 업데이트했습니다."
+  },
+  "icu:WhatsNew__v6.29--0": {
+    "messageformat": "이제 대화창 색 사용자 지정 화면이 여러 언어와 선택한 로캘에서 올바르게 표시됩니다."
+  },
+  "icu:WhatsNew__v6.29--1": {
+    "messageformat": "Windows의 알림 지원을 개선했습니다. 처음 메시지가 도착했을 때 알림을 클릭하지 않을 경우, Windows 알림 센터에 최근에 무시한 알림이 표시됩니다. 해당 알림을 클릭하면 채팅으로 바로 이동합니다. 의견을 보내주신 Julien Richard 님께 감사드립니다."
   }
 }

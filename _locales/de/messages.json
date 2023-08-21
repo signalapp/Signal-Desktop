@@ -1267,10 +1267,6 @@
     "messageformat": "Letzte Medieninhalte anzeigen",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
-  "icu:verifyHelp": {
-    "messageformat": "Um die Ende-zu-Ende-Verschlüsselung mit {name} zu verifizieren, vergleiche die Nummern mit seinem/ihrem Gerät. Er/sie kann auch den obigen QR-Code scannen.",
-    "description": "(deleted 07/05/2023)"
-  },
   "icu:theirIdentityUnknown": {
     "messageformat": "Du hast bisher noch keine Nachrichten mit diesem Kontakt ausgetauscht. Eure gemeinsame Sicherheitsnummer wird nach der ersten Nachricht verfügbar sein."
   },
@@ -6624,10 +6620,13 @@
     "messageformat": "Kleine Optimierungen, Fehlerbehebungen und Leistungsverbesserungen. Danke, dass du Signal nutzt!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.27--0": {
-    "messageformat": "Dieses Update beinhaltet einige Verbesserungen für Sprach- und Videoanrufe sowie kleinere Updates der Dokumentation (danke, {linkToGithub}!)."
-  },
   "icu:WhatsNew__v6.28--0": {
     "messageformat": "Wir haben die Benachrichtigungssymbole geändert, die bei Gruppenaktualisierungen angezeigt werden, wenn beispielsweise jemand einer Gruppe neu hinzugefügt wird. Diese Symbole verbessern die Lesbarkeit, vor allem dann, wenn die Dunkelheit deine Verbündete ist. Bisher hatten sich die Symbole die Dunkelheit nur angeeignet. Die neuen Symbole hingegen wurden in ihr geboren, von ihr geformt."
+  },
+  "icu:WhatsNew__v6.29--0": {
+    "messageformat": "Das Fenster zur Anpassung der Chat-Farbe wird jetzt in verschiedenen Sprachen und ausgewählten Regionen korrekt angezeigt."
+  },
+  "icu:WhatsNew__v6.29--1": {
+    "messageformat": "Wir haben den Support für Benachrichtigungen unter Windows verbessert. Wenn du nicht auf eine Benachrichtigung klickst, sobald sie eintrifft, wird die letzte verpasste Benachrichtigung im Windows Notification Center angezeigt. Wenn du auf die Benachrichtigung klickst, gelangst du jetzt direkt zu diesem Chat. Wir möchten uns bei Julien Richard für das Feedback bedanken."
   }
 }

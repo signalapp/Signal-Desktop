@@ -1267,10 +1267,6 @@
     "messageformat": "Pokaż ostatnie multimedia",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
-  "icu:verifyHelp": {
-    "messageformat": "Aby sprawdzić bezpieczeństwo szyfrowanego połączenia z użytkownikiem {name}, porównaj powyższe numery z numerami na urządzeniu tej osoby. Użytkownik może też zeskanować powyższy kod QR.",
-    "description": "(deleted 07/05/2023)"
-  },
   "icu:theirIdentityUnknown": {
     "messageformat": "Nie wymieniono jeszcze żadnych wiadomości. Numer bezpieczeństwa dla tego kontaktu będzie dostępny po wymianie pierwszej wiadomości."
   },
@@ -6577,7 +6573,7 @@
     "description": "Body of a dialog displayed on unsupported operating systems"
   },
   "icu:MessageMetadata__edited": {
-    "messageformat": "edytowana",
+    "messageformat": "Edytowana",
     "description": "label for an edited message"
   },
   "icu:EditHistoryMessagesModal__title": {
@@ -6624,10 +6620,13 @@
     "messageformat": "Małe ulepszenia, poprawki błędów i zwiększona funkcjonalność. Dzięki za korzystanie z Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.27--0": {
-    "messageformat": "Ta aktualizacja obejmuje kilka usprawnień połączeń głosowych i wideo oraz drobne aktualizacje dokumentacji (dzięki, {linkToGithub}!)."
-  },
   "icu:WhatsNew__v6.28--0": {
     "messageformat": "Zmodyfikowaliśmy ikony powiadomień wyświetlanych dla grupowych aktualizacji, np. o dołączeniu nowego członka. Te ikony poprawiają czytelność, zwłaszcza jeśli skrywasz się w mroku trybu ciemnego."
+  },
+  "icu:WhatsNew__v6.29--0": {
+    "messageformat": "Ekran dopasowywania własnego koloru czatu jest teraz wyświetlany prawidłowo we wszystkich wersjach językowych i wybranych regionach."
+  },
+  "icu:WhatsNew__v6.29--1": {
+    "messageformat": "Poprawiliśmy wsparcie dla powiadomień na systemie Windows. Jeśli nie klikniesz na powiadomienie, gdy pojawi się po raz pierwszy, ostatnie przegapione powiadomienie pojawi się w Centrum powiadomień systemu Windows. Kliknięcie na to powiadomienie spowoduje bezpośrednie przejście do tego czatu. Julien Richard, dziękujemy za Twoją opinię."
   }
 }

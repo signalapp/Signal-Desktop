@@ -1267,10 +1267,6 @@
     "messageformat": "Mostra el contingut recent",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
-  "icu:verifyHelp": {
-    "messageformat": "Per a verificar la seguretat de l'encriptació d'extrem a extrem amb {name}, compareu els números anteriors amb el seu dispositiu. També poden escanejar el codi QR de dalt.",
-    "description": "(deleted 07/05/2023)"
-  },
   "icu:theirIdentityUnknown": {
     "messageformat": "Encara no heu intercanviat cap missatge amb aquest contacte. El vostre número de seguretat amb ells estarà disponible després del primer missatge."
   },
@@ -6577,7 +6573,7 @@
     "description": "Body of a dialog displayed on unsupported operating systems"
   },
   "icu:MessageMetadata__edited": {
-    "messageformat": "editat",
+    "messageformat": "Editat",
     "description": "label for an edited message"
   },
   "icu:EditHistoryMessagesModal__title": {
@@ -6624,10 +6620,13 @@
     "messageformat": "Petits ajustos, correccions d'errors i tasques de millora de rendiment. Gràcies per utilitzar Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.27--0": {
-    "messageformat": "Aquesta actualització inclou algunes millores per a trucades de veu i videotrucades, i algunes actualitzacions menors de la documentació (gràcies, {linkToGithub}!)."
-  },
   "icu:WhatsNew__v6.28--0": {
     "messageformat": "Hem modificat algunes de les icones de notificacions per a grups ."
+  },
+  "icu:WhatsNew__v6.29--0": {
+    "messageformat": "Ara, la pantalla de personalització del color del xat es mostra correctament en diferents idiomes i configuracions regionals seleccionades."
+  },
+  "icu:WhatsNew__v6.29--1": {
+    "messageformat": "Hem millorat el suport de notificacions a Windows. Si no cliques sobre una notificació tan bon punt arribi, la darrera notificació perduda apareixerà al Centre de notificacions de Windows. Ara, quan facis clic sobre aquesta notificació, aniràs directament al xat. Ens agradaria donar les gràcies a Julien Richard pels seus comentaris."
   }
 }

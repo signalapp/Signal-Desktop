@@ -1267,10 +1267,6 @@
     "messageformat": "睇吓最近嘅媒體",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
-  "icu:verifyHelp": {
-    "messageformat": "如果要驗證你同 {name} 嘅端對端加密係咪安全，你可以對吓上面嘅號碼同佢部機入面嘅號碼。佢亦可以掃上面嘅二維碼。",
-    "description": "(deleted 07/05/2023)"
-  },
   "icu:theirIdentityUnknown": {
     "messageformat": "你冇同呢個聯絡人傳送過任何訊息。你哋嘅安全碼會喺你哋開始通訊後出現。"
   },
@@ -6624,10 +6620,13 @@
     "messageformat": "我哋做咗啲調整、修復咗一啲錯誤，同埋加強咗程式功能。多謝你使用 Signal！",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.27--0": {
-    "messageformat": "呢次更新改善咗語音同視像通話，文件方面亦都做咗一啲細微更新 ({linkToGithub}，唔該晒！)。"
-  },
   "icu:WhatsNew__v6.28--0": {
     "messageformat": "我哋修改咗更新群組資料時顯示嘅通知圖示 ，例如當有新成員加入群組時。呢啲圖示比以前更加清楚易睇，最啱鍾意用「深色模式」嘅你。"
+  },
+  "icu:WhatsNew__v6.29--0": {
+    "messageformat": "聊天顏色自訂畫面宜家可以喺唔同語言同指定地區版本度正確顯示喇。"
+  },
+  "icu:WhatsNew__v6.29--1": {
+    "messageformat": "我哋改善咗 Windows 嘅通知支援。如果你冇喺通知第一次出現時點擊，錯過咗嘅最新通知就會喺 Windows 通知中心度顯示。點擊嗰個通知，就可以直接跳到相關聊天。多謝 Julien Richard 提出嘅意見！"
   }
 }

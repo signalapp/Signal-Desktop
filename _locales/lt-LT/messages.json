@@ -1267,10 +1267,6 @@
     "messageformat": "Rodyti paskiausią mediją",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
-  "icu:verifyHelp": {
-    "messageformat": "Jei nori patikrinti pokalbio su {name} visiško užšifravimo saugumą, palygink skaičius viršuje ir pašnekovo įrenginyje. Pašnekovas taip pat gali nuskaityti viršuje esantį QR kodą.",
-    "description": "(deleted 07/05/2023)"
-  },
   "icu:theirIdentityUnknown": {
     "messageformat": "Jūs su šiuo adresatu dar nesate apsikeitę jokiomis žinutėmis. Jūsų saugumo numeris bus prieinamas po pirmosios žinutės."
   },
@@ -6577,7 +6573,7 @@
     "description": "Body of a dialog displayed on unsupported operating systems"
   },
   "icu:MessageMetadata__edited": {
-    "messageformat": "redaguota",
+    "messageformat": "Redaguota",
     "description": "label for an edited message"
   },
   "icu:EditHistoryMessagesModal__title": {
@@ -6624,10 +6620,13 @@
     "messageformat": "Smulkūs patobulinimai, klaidų pataisymai ir veikimo pagerinimas. Ačiū, kad naudoji „Signal“!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.27--0": {
-    "messageformat": "Į šį atnaujinimą įeina keli balso ir vaizdo skambučių patobulinimai bei keletas dokumentacijos naujinių (ačiū, {linkToGithub}!)."
-  },
   "icu:WhatsNew__v6.28--0": {
     "messageformat": "Pakeitėme kai kurias grupės pranešimų piktogramas."
+  },
+  "icu:WhatsNew__v6.29--0": {
+    "messageformat": "Pokalbio spalvos tinkinimo ekranas nuo šiol tinkamai rodomas skirtingomis kalbomis ir pasirinktose vietovėse."
+  },
+  "icu:WhatsNew__v6.29--1": {
+    "messageformat": "Patobulinome pranešimų palaikymą sistemoje „Windows“. Jei iškart nespustelėsi gauto pranešimo, paskutinis praleistas pranešimas bus matomas „Windows“ pranešimų centre. Kai spustelėsi tą pranešimą, pereisi tiesiai į atitinkamą pokalbį. Norime padėkoti Julienui Richardui už atsiliepimą."
   }
 }

@@ -1267,10 +1267,6 @@
     "messageformat": "Visualizza i media recenti",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
-  "icu:verifyHelp": {
-    "messageformat": "Per verificare la sicurezza della tua crittografia end-to-end con {name}, confronta i numeri qui sopra con quelli che vedono loro sul proprio dispositivo. È possibile scansionare il codice QR qui sopra per velocizzare il processo.",
-    "description": "(deleted 07/05/2023)"
-  },
   "icu:theirIdentityUnknown": {
     "messageformat": "Non hai ancora scambiato alcun messaggio con questo contatto. Il codice di sicurezza sarà disponibile dopo il primo messaggio."
   },
@@ -6577,7 +6573,7 @@
     "description": "Body of a dialog displayed on unsupported operating systems"
   },
   "icu:MessageMetadata__edited": {
-    "messageformat": "modificato",
+    "messageformat": "Modificato",
     "description": "label for an edited message"
   },
   "icu:EditHistoryMessagesModal__title": {
@@ -6624,10 +6620,13 @@
     "messageformat": "Altre piccole modifiche e correzioni di bug per far funzionare l'app senza problemi. Grazie per usare Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.27--0": {
-    "messageformat": "Questo aggiornamento include una serie di miglioramenti per le chiamate vocali e video, oltre a degli aggiornamenti minori nella documentazione di Signal (grazie, {linkToGithub}!)."
-  },
   "icu:WhatsNew__v6.28--0": {
     "messageformat": "Abbiamo modificato le icone delle notifiche che appaiono per le novità nei gruppi, ad esempio quando viene aggiunta una nuova persona. Queste icone migliorano la leggibilità dei testi, specialmente se sei fan del lato oscuro della forza… e del tema di Signal. Provare per credere!"
+  },
+  "icu:WhatsNew__v6.29--0": {
+    "messageformat": "La schermata per la personalizzazione del Colore chat ora viene mostrata correttamente in tutte le lingue selezionate."
+  },
+  "icu:WhatsNew__v6.29--1": {
+    "messageformat": "Abbiamo migliorato il supporto alle notifiche su Windows. Se non clicchi su una notifica nel momento in cui arriva, troverai la notifica in questione nel Centro Notifiche di Windows. Cliccare sulla notifica nel Centro Notifiche ti porterà direttamente a quella determinata chat. Vorremmo ringraziare Julien Richard per il suo feedback in merito!"
   }
 }

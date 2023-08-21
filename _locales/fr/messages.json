@@ -1267,10 +1267,6 @@
     "messageformat": "Afficher les médias récents",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
-  "icu:verifyHelp": {
-    "messageformat": "Pour confirmer la sécurité de votre chiffrement de bout en bout avec {name}, comparez les chiffres ci-dessus avec ceux de son appareil. Ils peuvent également lire votre code QR avec leur appareil.",
-    "description": "(deleted 07/05/2023)"
-  },
   "icu:theirIdentityUnknown": {
     "messageformat": "Vous n’avez pas encore échangé de messages avec ce contact. Votre numéro de sécurité sera accessible après le premier message."
   },
@@ -6577,7 +6573,7 @@
     "description": "Body of a dialog displayed on unsupported operating systems"
   },
   "icu:MessageMetadata__edited": {
-    "messageformat": "modifié",
+    "messageformat": "Modifié",
     "description": "label for an edited message"
   },
   "icu:EditHistoryMessagesModal__title": {
@@ -6624,10 +6620,13 @@
     "messageformat": "Petits ajustements, corrections de bugs et améliorations des performances. Nous vous remercions d’utiliser Signal !",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.27--0": {
-    "messageformat": "Cette mise à jour prévoit des améliorations pour les appels vocaux et vidéo, ainsi que pour la documentation (merci, {linkToGithub} !)."
-  },
   "icu:WhatsNew__v6.28--0": {
     "messageformat": "Nous avons mis à jour les icônes de notification qui signalent des actualités relatives aux conversations de groupe afin d’améliorer la lisibilité (particulièrement pratique pour ceux qui préfèrent utiliser leur téléphone en mode sombre)."
+  },
+  "icu:WhatsNew__v6.29--0": {
+    "messageformat": "L’écran de personnalisation de couleur de la conversation s’affiche désormais correctement dans toutes les langues et certaines langues régionales."
+  },
+  "icu:WhatsNew__v6.29--1": {
+    "messageformat": "Nous avons amélioré la prise en charge des notifications sous Windows. Si vous ne cliquez pas sur les notifications dès leur apparition, la dernière en date apparaîtra dans le centre de notifications Windows. En cliquant sur une notification, vous accéderez directement à la conversation correspondante. Nous aimerions remercier Julien Richard pour son commentaire."
   }
 }

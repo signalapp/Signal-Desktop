@@ -1267,10 +1267,6 @@
     "messageformat": "Ver archivos adjuntos recientes",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
-  "icu:verifyHelp": {
-    "messageformat": "Para verificar la seguridad del cifrado de extremo a extremo con {name}, compara las cifras de arriba con las cifras presentes en su dispositivo. También puede escanear el código QR de arriba.",
-    "description": "(deleted 07/05/2023)"
-  },
   "icu:theirIdentityUnknown": {
     "messageformat": "No has intercambiado ningún mensaje con esta persona. Vuestras cifras de seguridad estarán disponibles después de enviar el primer mensaje."
   },
@@ -6577,7 +6573,7 @@
     "description": "Body of a dialog displayed on unsupported operating systems"
   },
   "icu:MessageMetadata__edited": {
-    "messageformat": "editado",
+    "messageformat": "Editado",
     "description": "label for an edited message"
   },
   "icu:EditHistoryMessagesModal__title": {
@@ -6624,10 +6620,13 @@
     "messageformat": "Pequeños ajustes, soluciones a errores y mejoras al desempeño. ¡Gracias por usar Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.27--0": {
-    "messageformat": "Esta actualización incluye algunas mejoras para llamadas de voz y vídeo, y algunas actualizaciones menores de documentación (¡gracias, {linkToGithub}!)."
-  },
   "icu:WhatsNew__v6.28--0": {
     "messageformat": "Hemos modificado algunos de los los iconos de notificaciones de grupos."
+  },
+  "icu:WhatsNew__v6.29--0": {
+    "messageformat": "Ahora, la pantalla de personalización del color del chat se muestra correctamente en distintos idiomas y configuraciones regionales seleccionadas."
+  },
+  "icu:WhatsNew__v6.29--1": {
+    "messageformat": "Hemos mejorado el soporte de notificaciones en Windows. Si no haces clic sobre una notificación en el momento de recibirla, la última notificación perdida aparecerá en el Centro de notificaciones de Windows. Ahora, cuando hagas clic sobre esta notificación, irás directamente al chat. Nos gustaría agradecer a Julien Richard sus comentarios."
   }
 }

@@ -1267,10 +1267,6 @@
     "messageformat": "Lihat media terbaru",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
-  "icu:verifyHelp": {
-    "messageformat": "Untuk memverifikasi keamanan enkripsi end-to-end Anda dengan {name}, bandingkan nomor di atas dengan perangkat mereka. Mereka juga bisa memindai kode QR di atas.",
-    "description": "(deleted 07/05/2023)"
-  },
   "icu:theirIdentityUnknown": {
     "messageformat": "Anda belum mengirim pesan apapun dengan kontak ini. Nomor keamanan Anda dengan kontak ini akan tersedia sesaat setelah pesan pertama."
   },
@@ -6577,7 +6573,7 @@
     "description": "Body of a dialog displayed on unsupported operating systems"
   },
   "icu:MessageMetadata__edited": {
-    "messageformat": "diedit",
+    "messageformat": "Diedit",
     "description": "label for an edited message"
   },
   "icu:EditHistoryMessagesModal__title": {
@@ -6624,10 +6620,13 @@
     "messageformat": "Tambahan penyesuaian kecil, perbaikan bug, dan peningkatan performa. Terima kasih telah menggunakan Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.27--0": {
-    "messageformat": "Pembaruan ini mencakup beberapa peningkatan untuk panggilan suara dan video, dan beberapa pembaruan kecil pada dokumentasi (terima kasih, {linkToGithub}!)."
-  },
   "icu:WhatsNew__v6.28--0": {
     "messageformat": "Kami memperbarui beberapa ikon notifikasi grup."
+  },
+  "icu:WhatsNew__v6.29--0": {
+    "messageformat": "Layar pengaturan Warna Obrolan kini ditampilkan dengan benar di berbagai bahasa dan wilayah yang dipilih."
+  },
+  "icu:WhatsNew__v6.29--1": {
+    "messageformat": "Kami meningkatkan dukungan notifikasi di Windows. Jika Anda tidak mengeklik saat notifikasi masuk pertama kali, notifikasi yang terakhir kali terlewatkan tersebut akan muncul di Windows Notification Center. Dengan mengeklik notifikasi ini, kini Anda akan langsung diarahkan ke obrolan terkait. Kami ingin berterima kasih kepada Julien Richard atas masukannya."
   }
 }

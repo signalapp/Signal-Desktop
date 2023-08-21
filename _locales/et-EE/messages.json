@@ -1267,10 +1267,6 @@
     "messageformat": "Näita hiljutist meediat",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
-  "icu:verifyHelp": {
-    "messageformat": "Kasutajaga {name} suhtluse krüpteerimise kontrollimiseks võrdle ülalpool olevaid numbreid tema seadme ekraanil olevatega. Võid ka paluda tal skannida ülalpool toodud QR-koodi.",
-    "description": "(deleted 07/05/2023)"
-  },
   "icu:theirIdentityUnknown": {
     "messageformat": "Sa ei ole selle kontaktiga veel ühtegi sõnumit vahetanud. Sinu turvanumber temaga tekib pärast esimest sõnumit."
   },
@@ -6577,7 +6573,7 @@
     "description": "Body of a dialog displayed on unsupported operating systems"
   },
   "icu:MessageMetadata__edited": {
-    "messageformat": "muudetud",
+    "messageformat": "Muudetud",
     "description": "label for an edited message"
   },
   "icu:EditHistoryMessagesModal__title": {
@@ -6624,10 +6620,13 @@
     "messageformat": "Väikesed muudatused, vigade parandused ja jõudluse täiustused. Aitäh, et kasutad Signalit!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.27--0": {
-    "messageformat": "See uuendus sisaldab mõnesid hääl- ja videokõnede parendusi ning väikesi uuendusi dokumentides (aitäh, {linkToGithub}!)."
-  },
   "icu:WhatsNew__v6.28--0": {
     "messageformat": "Muutsime mõnesid grupi teavituste ikoone."
+  },
+  "icu:WhatsNew__v6.29--0": {
+    "messageformat": "Vestluse värvi kohandamise akent kuvatakse nüüd erinevates keeltes ja valitud asukohtades õigesti."
+  },
+  "icu:WhatsNew__v6.29--1": {
+    "messageformat": "Muutsime Windowsi teavituste tuge paremaks. Kui sa ei klõpsa teavitusel selle esmakordsel saabumisel, kuvatakse viimane nägemata teavitus Windowsi teavituskeskuses. Kui sellel teavitusel klõpsad, suunatakse sind otse vastava vestluse juurde. Täname Julien Richardit antud tagasiside eest."
   }
 }

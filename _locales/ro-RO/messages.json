@@ -1267,10 +1267,6 @@
     "messageformat": "Afișare media recente",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
-  "icu:verifyHelp": {
-    "messageformat": "Pentru a verifica securitatea criptării integrale cu {name}, compară numerele de mai sus cu cele de pe dispozitivul lor. Ei pot, de asemenea, să scaneze codul qr de mai sus.",
-    "description": "(deleted 07/05/2023)"
-  },
   "icu:theirIdentityUnknown": {
     "messageformat": "Nu ai schimbat până acum nici un mesaj cu acest contact. Numărul de siguranță va fi disponibil după primul mesaj."
   },
@@ -6577,7 +6573,7 @@
     "description": "Body of a dialog displayed on unsupported operating systems"
   },
   "icu:MessageMetadata__edited": {
-    "messageformat": "editat",
+    "messageformat": "Editat",
     "description": "label for an edited message"
   },
   "icu:EditHistoryMessagesModal__title": {
@@ -6624,10 +6620,13 @@
     "messageformat": "Mici ajustări, soluționări de bug-uri și îmbunătățiri ale performanței. Mersi că folosești Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.27--0": {
-    "messageformat": "Această actualizare include câteva îmbunătățiri pentru apelurile vocale și video și câteva actualizări minore ale documentației (mulțumesc, {linkToGithub}!)."
-  },
   "icu:WhatsNew__v6.28--0": {
     "messageformat": "Am modificat pictogramele de notificare care apar pentru actualizările grupului, cum ar fi atunci când cineva nou se alătură unui grup. Aceste pictograme ajută la îmbunătățirea lizibilității, mai ales dacă locuiești în întunericul temei întunecate. Pictogramele anterioare doar încercau să facă față. Noile pictograme sunt 100% pricepute la întuneric."
+  },
+  "icu:WhatsNew__v6.29--0": {
+    "messageformat": "Ecranul de personalizare Chat Color este acum afișat corect în diferite limbi și localități selectate."
+  },
+  "icu:WhatsNew__v6.29--1": {
+    "messageformat": "Am îmbunătățit suportul pentru notificări pe Windows. Dacă nu faci clic pe o notificare când sosește prima dată, cea mai recentă notificare ratată va apărea în Centrul de Notificări Windows. Făcând clic pe notificare, aceasta va trece direct la acel chat. Am dori să-i mulțumim lui Julien Richard pentru feedback."
   }
 }

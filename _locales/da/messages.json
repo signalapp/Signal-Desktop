@@ -1267,10 +1267,6 @@
     "messageformat": "Vis seneste medier",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
-  "icu:verifyHelp": {
-    "messageformat": "For at verificere sikkerheden af din E2E-kryptering med {name}, skal du sammenligne ovenstående tal med deres enhed. De kan også scanne ovenstående QR-kode.",
-    "description": "(deleted 07/05/2023)"
-  },
   "icu:theirIdentityUnknown": {
     "messageformat": "Du har ikke udvekslet nogen beskeder med kontaktpersonen endnu. Dit sikkerhedsnummer med vedkommende vil være tilgængeligt efter den første besked."
   },
@@ -6577,7 +6573,7 @@
     "description": "Body of a dialog displayed on unsupported operating systems"
   },
   "icu:MessageMetadata__edited": {
-    "messageformat": "redigeret",
+    "messageformat": "Redigeret",
     "description": "label for an edited message"
   },
   "icu:EditHistoryMessagesModal__title": {
@@ -6624,10 +6620,13 @@
     "messageformat": "Små tweaks, rettelser og forbedringer af appens præstation. Tak fordi du bruger Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.27--0": {
-    "messageformat": "Denne opdatering byder på forbedrede tale- og videoopkald og en række mindre dokumentationsopdateringer (tak, {linkToGithub}!)."
-  },
   "icu:WhatsNew__v6.28--0": {
     "messageformat": "Vi har ændret de notifikationsikoner, der vises ved gruppeopdateringer, f.eks. når en ny person tilmelder sig en gruppe. Disse ikoner hjælper med at forbedre læsbarheden, især hvis du lever i mørket i det mørke tema. De tidligere ikoner blev blot mørket. De nye ikoner er designet sådan, og formet efter det."
+  },
+  "icu:WhatsNew__v6.29--0": {
+    "messageformat": "Skærmen til tilpasning af chatfarver vises nu korrekt på tværs af forskellige sprog og valgte lokaliteter."
+  },
+  "icu:WhatsNew__v6.29--1": {
+    "messageformat": "Vi har forbedret understøttelsen af notifikationer på Windows. Hvis du ikke klikker på en notifikation, når den kommer første gang, vises den seneste ubesvarede notifikation i Windows Notification Center. Hvis du klikker på notifikationen, bliver du sendt videre til den pågældende chat. Vi vil gerne takke Julien Richard for deres feedback."
   }
 }

@@ -1267,10 +1267,6 @@
     "messageformat": "Näytä äskeinen media",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
-  "icu:verifyHelp": {
-    "messageformat": "Varmenna päästä päähän -salauksen turvallisuus henkilön {name} kanssa vertaamalla yllä olevia numeroita hänen laitteeseensa. Henkilö voi myös skannata yllä olevan QR-koodin.",
-    "description": "(deleted 07/05/2023)"
-  },
   "icu:theirIdentityUnknown": {
     "messageformat": "Et ole lähettänyt tai vastaanottanut vielä viestejä tämän yhteystiedon kanssa. Turvanumero on saatavilla vasta ensimmäisen viestin jälkeen."
   },
@@ -6577,7 +6573,7 @@
     "description": "Body of a dialog displayed on unsupported operating systems"
   },
   "icu:MessageMetadata__edited": {
-    "messageformat": "muokattu",
+    "messageformat": "Muokattu",
     "description": "label for an edited message"
   },
   "icu:EditHistoryMessagesModal__title": {
@@ -6624,10 +6620,13 @@
     "messageformat": "Pieniä säätöjä, virheenkorjauksia ja suorituskykyparannuksia. Kiitos, että käytät Signalia!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.27--0": {
-    "messageformat": "Tämä päivitys sisältää muutamia ääni- ja videopuheluiden parannuksia sekä joitakin pieniä dokumentaatiopäivityksiä (kiitos {linkToGithub}!)."
-  },
   "icu:WhatsNew__v6.28--0": {
     "messageformat": "Päivitimme ryhmäilmoitusten kuvakkeita."
+  },
+  "icu:WhatsNew__v6.29--0": {
+    "messageformat": "Keskustelun värin mukautusnäyttö näkyy nyt oikein kaikilla kielillä ja valituilla alueilla."
+  },
+  "icu:WhatsNew__v6.29--1": {
+    "messageformat": "Paransimme ilmoitusten tukea Windowsissa. Jos et napsauta ilmoitusta sen saapuessa, viimeisimmät lukemattomat ilmoitukset näytetään Windowsin ilmoituskeskuksessa. Voit siirtyä suoraan kyseiseen keskusteluun ilmoitusta napsauttamalla. Kiitos palautteesta, Julien Richard."
   }
 }

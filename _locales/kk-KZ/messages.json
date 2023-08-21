@@ -1267,10 +1267,6 @@
     "messageformat": "Соңғы мультимедианы көру",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
-  "icu:verifyHelp": {
-    "messageformat": "{name} арқылы өтпелі шифрлаудың қауіпсіздігін тексеру үшін, жоғарыдағы сандарды осы құрылғымен салыстырыңыз. Сонымен қатар ол жоғарыдағы QR кодын сканерлей алады.",
-    "description": "(deleted 07/05/2023)"
-  },
   "icu:theirIdentityUnknown": {
     "messageformat": "Бұл контактімен әлі хат алмаспадыңыз. Онымен қауіпсіздік нөміріңіз бірінші хат алмасқаннан кейін болады."
   },
@@ -6577,7 +6573,7 @@
     "description": "Body of a dialog displayed on unsupported operating systems"
   },
   "icu:MessageMetadata__edited": {
-    "messageformat": "өзгертілді",
+    "messageformat": "Өзгертілді",
     "description": "label for an edited message"
   },
   "icu:EditHistoryMessagesModal__title": {
@@ -6624,10 +6620,13 @@
     "messageformat": "Кішігірім түзетпелер жасалды, ақаулар жөнделді және жұмысы жақсартылды. Signal-ды қолданғаныңыз үшін рақмет!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.27--0": {
-    "messageformat": "Бұл нұсқада дауыстық қоңырауларға және видеоқоңырауларға бірқатар өзгерістер енгізілді және құжаттамада аздаған өзгерістер бар (рақмет, {linkToGithub}!)."
-  },
   "icu:WhatsNew__v6.28--0": {
     "messageformat": "Топтағы өзгерістерге қатысты (мысалы, топқа жаңа адам қосылған кезде) пайда болатын хабарландыру белгішелерін өзгерттік. Бұл белгішелер, әсіресе Қараңғы тақырыпты пайдаланғанда, оқуды жеңілдетеді. Алдыңғы белгішелер қараңғы фонды қабылдады. Оның ішінде жаңа белгішелер пайда болып, соларға бейімделді."
+  },
+  "icu:WhatsNew__v6.29--0": {
+    "messageformat": "Чат түсін бейімдеу экраны енді әртүрлі тілдерде және таңдалған жерлерде дұрыс көрсетіледі."
+  },
+  "icu:WhatsNew__v6.29--1": {
+    "messageformat": "Windows жүйесіндегі хабарландыруларды жақсарттық. Хабарландыру алғаш келген кезде, оны баспасаңыз, соңғы өткізіп алған хабарландыру Windows хабарландырулар орталығында пайда болады. Сол хабарландыруды бассаңыз, тікелей сол чатқа ауысасыз. Пікір қалдырғаны үшін Жульен Ричардқа алғыс білдіргіміз келеді."
   }
 }

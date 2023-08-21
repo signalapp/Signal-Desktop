@@ -1267,10 +1267,6 @@
     "messageformat": "הצג מדיה אחרונה",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
-  "icu:verifyHelp": {
-    "messageformat": "כדי לאמת את האבטחה של ההצפנה מקצה לקצה שלך עם {name}, יש להשוות את המספרים שלמעלה עם המספרים במכשיר של הצד השני. גם הצד השני יכול לסרוק את קוד ה–QR שלמעלה.",
-    "description": "(deleted 07/05/2023)"
-  },
   "icu:theirIdentityUnknown": {
     "messageformat": "לא החלפת עדין הודעות כלשהן עם איש קשר זה. מספר הביטחון שלך איתו יהיה זמין לאחר ההודעה הראשונה."
   },
@@ -6624,10 +6620,13 @@
     "messageformat": "התאמות קטנות, תיקוני באגים ושיפורי ביצועים. תודה על השימוש ב-Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.27--0": {
-    "messageformat": "העדכון הזה כולל כמה שיפורים בשיחות קוליות ושיחות וידאו, וכמה עדכוני תיעוד קלים (תודה, {linkToGithub}!)."
-  },
   "icu:WhatsNew__v6.28--0": {
     "messageformat": "עדכנו כמה סמלי התראות עבור עדכונים קבוצתיים."
+  },
+  "icu:WhatsNew__v6.29--0": {
+    "messageformat": "מסך ההתאמה האישית של צבע הצ׳אט מוצג עכשיו כמו שצריך בשפות שונות ובאזורים נבחרים."
+  },
+  "icu:WhatsNew__v6.29--1": {
+    "messageformat": "שיפרנו את התמיכה בהתראות ב–Windows. אם לא לוחצים על התראה כשהיא מגיעה לראשונה, ההתראה האחרונה שהוחמצה תופיע במרכז ההתראות של Windows. לחיצה על ההתראה הזו תקפוץ עכשיו ישירות לצ׳אט הרלוונטי. אנחנו רוצים להודות לג׳וליאן ריצ׳רד על הפידבק."
   }
 }

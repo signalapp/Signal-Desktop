@@ -1267,10 +1267,6 @@
     "messageformat": "I-view ang recent media",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
-  "icu:verifyHelp": {
-    "messageformat": "Para i-verify ang security ng end-to-end encryption n'yo ni {name}, pagkumparahin ang numbers sa itaas sa device n'ya. Pwede rin n'yang i-scan ang qr code sa itaas.",
-    "description": "(deleted 07/05/2023)"
-  },
   "icu:theirIdentityUnknown": {
     "messageformat": "Hindi mo pa nakaka-chat ang contact na ito. Magiging available ang safety number mo sa kanya pagkatapos maipadala ang unang mensahe."
   },
@@ -6577,7 +6573,7 @@
     "description": "Body of a dialog displayed on unsupported operating systems"
   },
   "icu:MessageMetadata__edited": {
-    "messageformat": "edited",
+    "messageformat": "In-edit",
     "description": "label for an edited message"
   },
   "icu:EditHistoryMessagesModal__title": {
@@ -6624,10 +6620,13 @@
     "messageformat": "Dagdag na maliliit na pag-aayos, pag-alis ng bugs, at pagpapaganda ng takbo ng app. Maraming salamat sa paggamit ng Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.27--0": {
-    "messageformat": "Ang update na ito'y may ilang improvements para sa voice at video calls, at ilang minor documentation updates (maraming salamat, {linkToGithub}!)."
-  },
   "icu:WhatsNew__v6.28--0": {
     "messageformat": "In-update namin ang ilang group notification icons."
+  },
+  "icu:WhatsNew__v6.29--0": {
+    "messageformat": "Naka-display na nang maayos sa iba't ibang languages at piling lugar ang Chat Color customization screen."
+  },
+  "icu:WhatsNew__v6.29--1": {
+    "messageformat": "Mas pinaganda na namin ang notification support sa Windows. Kung hindi mo i-click agad ang isang notification pagkadating nito, lalabas ang pinakabagong missed notification sa Windows Notification Center. Mapupunta ka na kaagad sa chat pagkatapos mong i-click ang notification nito. Nais naming magpasalamat kay Julien Richard sa kanyang feedback."
   }
 }

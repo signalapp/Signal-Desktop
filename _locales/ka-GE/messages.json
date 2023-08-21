@@ -1267,10 +1267,6 @@
     "messageformat": "ბოლო მედია-ფაილების ნახვა",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
-  "icu:verifyHelp": {
-    "messageformat": "{name}-თან შენი ბოლომდე დაშიფვრის უსაფრთხოების დასადასტურებლად, შეადარე მის მოწყობილობასთან ზემოთ მოცემული ნომრები. მას ასევე შეუძლია ზემოთ მოცემული QR კოდი დაასკანიროს.",
-    "description": "(deleted 07/05/2023)"
-  },
   "icu:theirIdentityUnknown": {
     "messageformat": "You haven't exchanged any messages with this contact yet. Your safety number with them will be available after the first message."
   },
@@ -6624,10 +6620,13 @@
     "messageformat": "მცირე შესწორებები, ბაგების გამოსწორება და წარმადობის გაუმჯობესება. მადლობას გიხდით სიგნალის გამოყენებისთვის!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.27--0": {
-    "messageformat": "ეს განახლება მოიცავს რამდენიმე გაუმჯობესებას ხმოვანი და ვიდეო ზარებისთვის და დოკუმენტაციის რამდენიმე მცირე განახლებას (მადლობა, {linkToGithub}!)."
-  },
   "icu:WhatsNew__v6.28--0": {
     "messageformat": "ჩვენ განვაახლეთ ჯგუფის შეტყობინებების ზოგიერთი ხატულა. ეს ხატულები ხელს უწყობს კითხვადობის გაუმჯობესებას, განსაკუთრებით ღამის რეჟიმის დროს. წინა ხატულები სიბნელეში უჩინარდებოდნენ. ახალი ხატულები კი სიბნელიდან დაიბადნენ."
+  },
+  "icu:WhatsNew__v6.29--0": {
+    "messageformat": "ჩატის ფერის პერსონალიზაციის ეკრანი ახლა სწორად არის ნაჩვენები სხვადასხვა ენასა და არჩეულ ლოკაციებზე."
+  },
+  "icu:WhatsNew__v6.29--1": {
+    "messageformat": "გავაუმჯობესეთ შეტყობინებების მხარდაჭერა Windows-ზე. თუ შეტყობინებაზე მისი მიღებისთანავე არ დააწკაპუნებ, უახლესი გამოტოვებული შეტყობინება Windows-ის შეტყობინებების ცენტრში გამოჩნდება. ამ შეტყობინებაზე დაწკაპუნებით ახლა პირდაპირ ჩატში გადახვალ. გვსურს გამოხმაურებისთვის ჯულიენ რიჩარდს მადლობა გადავუხადოთ."
   }
 }

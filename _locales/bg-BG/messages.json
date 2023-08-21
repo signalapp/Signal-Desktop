@@ -1267,10 +1267,6 @@
     "messageformat": "Разгледай последната мултимедия",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
-  "icu:verifyHelp": {
-    "messageformat": "За да проверите сигурността на криптирането от край до край между вас и {name}, сравнете цифрите по-горе с устройството на другия потребител. Отсрещната страна също може да сканира QR кода по-горе.",
-    "description": "(deleted 07/05/2023)"
-  },
   "icu:theirIdentityUnknown": {
     "messageformat": "Все още не сте се обменяли съобщения с този контакт. Вашият номер за безопасност с него ще бъде на разположение след първото съобщение."
   },
@@ -6577,7 +6573,7 @@
     "description": "Body of a dialog displayed on unsupported operating systems"
   },
   "icu:MessageMetadata__edited": {
-    "messageformat": "редактирано",
+    "messageformat": "Редактирано",
     "description": "label for an edited message"
   },
   "icu:EditHistoryMessagesModal__title": {
@@ -6624,10 +6620,13 @@
     "messageformat": "Дребни корекции, поправки на бъгове и подобрения на работата. Благодарим ви, че използвате Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.27--0": {
-    "messageformat": "Тази актуализация включва няколко подобрения за гласови и видео разговори и някои дребни актуализации на документацията (благодарим на {linkToGithub}!)."
-  },
   "icu:WhatsNew__v6.28--0": {
     "messageformat": "Променихме някои групови икони за известия."
+  },
+  "icu:WhatsNew__v6.29--0": {
+    "messageformat": "Екранът за персонализиране на цвета на чата вече се показва правилно на различни езици и избрани локали."
+  },
+  "icu:WhatsNew__v6.29--1": {
+    "messageformat": "Подобрихме поддръжката на известия в Windows. Ако не кликнете върху известие, когато пристигне за първи път, последното пропуснато известие ще се появи в центъра за уведомяване на Windows. Кликването върху това известие вече ще ви прехвърля директно към този чат. Бихме искали да благодарим на Джулиен Ричърд за обратната връзка."
   }
 }

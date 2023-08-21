@@ -1267,10 +1267,6 @@
     "messageformat": "Vis nyere media",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
-  "icu:verifyHelp": {
-    "messageformat": "Hvis du vil sjekke sikkerheten til ende-til-ende-krypteringen du har med {name}, sammenligner du tallene ovenfor med tallene på enheten hens. Hen kan også skanne QR-koden ovenfor.",
-    "description": "(deleted 07/05/2023)"
-  },
   "icu:theirIdentityUnknown": {
     "messageformat": "Du har ikke utvekslet meldinger med denne kontakten ennå. Sikkerhetsnummeret dere deler vil være tilgjengelig etter den første meldingen."
   },
@@ -6577,7 +6573,7 @@
     "description": "Body of a dialog displayed on unsupported operating systems"
   },
   "icu:MessageMetadata__edited": {
-    "messageformat": "redigert",
+    "messageformat": "Redigert",
     "description": "label for an edited message"
   },
   "icu:EditHistoryMessagesModal__title": {
@@ -6624,10 +6620,13 @@
     "messageformat": "Noen små justeringer, feilrettinger og ytelsesforbedringer. Takk for at du bruker Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.27--0": {
-    "messageformat": "Denne oppdateringen består av et par feilrettinger for lyd- og videosamtaler og et par små dokumentasjonsoppdateringer (takk, {linkToGithub}!)."
-  },
   "icu:WhatsNew__v6.28--0": {
     "messageformat": "Vi har endret noen av ikonene for gruppevarsler."
+  },
+  "icu:WhatsNew__v6.29--0": {
+    "messageformat": "Nå ser siden for valg av samtalefarger lik ut på alle språk og i alle områder."
+  },
+  "icu:WhatsNew__v6.29--1": {
+    "messageformat": "Vi har gjort støtten for varsler på Windows bedre. Hvis du ikke trykker på varsler når de først dukker opp, vil du kunne se dem i Windows' varslingssenter. Når du trykker på et varsel, blir du sendt direkte til samtalen det handler om. Vi takker Julien Richard for denne tilbakemeldingen."
   }
 }

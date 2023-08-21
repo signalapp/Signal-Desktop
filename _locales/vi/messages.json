@@ -1267,10 +1267,6 @@
     "messageformat": "Xem các tập đa phương tiện gần đây",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
-  "icu:verifyHelp": {
-    "messageformat": "Để xác minh bảo mật đầu cuối với {name}, hãy so sánh các số ở trên với thiết bị của họ. Người đó cũng có thể quét mã QR trên.",
-    "description": "(deleted 07/05/2023)"
-  },
   "icu:theirIdentityUnknown": {
     "messageformat": "Bạn chưa trao đổi tin nhắn nào với liên hệ này. Số an toàn của bạn với họ sẽ được cung cấp sau tin nhắn đầu tiên."
   },
@@ -6577,7 +6573,7 @@
     "description": "Body of a dialog displayed on unsupported operating systems"
   },
   "icu:MessageMetadata__edited": {
-    "messageformat": "đã chỉnh sửa",
+    "messageformat": "Đã chỉnh sửa",
     "description": "label for an edited message"
   },
   "icu:EditHistoryMessagesModal__title": {
@@ -6624,10 +6620,13 @@
     "messageformat": "Các tinh chỉnh, sửa lỗi, và cải thiện hiệu năng. Cảm ơn bạn đã sử dụng Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.27--0": {
-    "messageformat": "Bản cập nhật này bao gồm một số nâng cấp cho cuộc gọi thoại và cuộc gọi video cùng một số cập nhật nhỏ cho phần tài liệu của ứng dụng (xin cảm ơn, {linkToGithub}!)."
-  },
   "icu:WhatsNew__v6.28--0": {
     "messageformat": "Chúng tôi đã cập nhật một số biểu tượng thông báo của nhóm."
+  },
+  "icu:WhatsNew__v6.29--0": {
+    "messageformat": "Màn hình tùy chỉnh Màu cuộc trò chuyện giờ đây được hiển thị đúng cho các ngôn ngữ và vùng được chọn."
+  },
+  "icu:WhatsNew__v6.29--1": {
+    "messageformat": "Chúng tôi đã cải thiện hỗ trợ thông báo trên Windows. Nếu bạn không bấm vào một thông báo khi nhận được, thông báo bị bỏ lỡ mới nhất sẽ hiển thị ở Windows Notification Center. Khi bấm vào thông báo đó bạn sẽ được chuyển trực tiếp đến cuộc trò chuyện. Cảm ơn Julien Richard vì đóng góp của bạn."
   }
 }

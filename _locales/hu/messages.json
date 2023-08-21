@@ -1267,10 +1267,6 @@
     "messageformat": "Friss médiafájlok megtekintése",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
-  "icu:verifyHelp": {
-    "messageformat": "A végpontok közötti titkosítás biztonságának ellenőrzéséhez {name} felhasználóval, hasonlítsd össze a fent látható számokat az ő készülékén megjelenő számokkal. A fent látható QR-kódot akár be is olvashatja.",
-    "description": "(deleted 07/05/2023)"
-  },
   "icu:theirIdentityUnknown": {
     "messageformat": "Még nem váltottál üzenetet ezzel a partnerrel. Biztonsági számod az első üzenet elküldését követően lesz elérhető."
   },
@@ -6577,7 +6573,7 @@
     "description": "Body of a dialog displayed on unsupported operating systems"
   },
   "icu:MessageMetadata__edited": {
-    "messageformat": "szerkesztve",
+    "messageformat": "Szerkesztve",
     "description": "label for an edited message"
   },
   "icu:EditHistoryMessagesModal__title": {
@@ -6624,10 +6620,13 @@
     "messageformat": "Apró finomítások, hibajavítások és teljesítménynövelések. Köszönjük, hogy a Signalt használod!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.27--0": {
-    "messageformat": "Ennek a frissítésnek hála jobb hang- és videohívások várnak, valamint néhány kisebb dokumentációfrissítést is végrehajtottunk (köszönjük {linkToGithub}!)."
-  },
   "icu:WhatsNew__v6.28--0": {
     "messageformat": "Módosítottuk az ikonokat néhány csoportfrissítésnél."
+  },
+  "icu:WhatsNew__v6.29--0": {
+    "messageformat": "A képernyő, amelyen a Csevegés színét szabhatod testre, mostantól megfelelően jelenik meg a különböző nyelveken és kiválasztott területeken."
+  },
+  "icu:WhatsNew__v6.29--1": {
+    "messageformat": "Javítottuk az értesítések támogatását Windowson. Ha nem kattintasz rá az értesítésre, amikor először megkapod, a legutóbbi elmulasztott értesítés megjelenik a Windows Értesítési Központban. Az értesítésre kattintva közvetlenül az adott csevegésre ugrasz. Szeretnénk megköszönni Julien Richardnak a visszajelzését."
   }
 }

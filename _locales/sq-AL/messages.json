@@ -1267,10 +1267,6 @@
     "messageformat": "Shihni media së fundi",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
-  "icu:verifyHelp": {
-    "messageformat": "Për të verifikuar sigurinë e kodimit tënd nga skaji në skaj me {name}, krahaso numrat e mësipërm me pajisjen e tyre. Ata gjithashtu mund të skanojnë kodin e mësipërm QR.",
-    "description": "(deleted 07/05/2023)"
-  },
   "icu:theirIdentityUnknown": {
     "messageformat": "S’keni shkëmbyer ende ndonjë mesazh me këtë grup. Numri juaj i sigurisë me të do të jetë i passhëm pas mesazhit të parë."
   },
@@ -6577,7 +6573,7 @@
     "description": "Body of a dialog displayed on unsupported operating systems"
   },
   "icu:MessageMetadata__edited": {
-    "messageformat": "i redaktuar",
+    "messageformat": "I redaktuar",
     "description": "label for an edited message"
   },
   "icu:EditHistoryMessagesModal__title": {
@@ -6624,10 +6620,13 @@
     "messageformat": "Rregullme të vogla, riparime të gabimeve dhe përmirësime të mbarëvajtjes.  Faleminderit që përdorni Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.27--0": {
-    "messageformat": "Ky përditësim përfshin disa përmirësime për thirrjet zanore e video dhe disa përditësime të vogla dokumentacioni (faleminderit, {linkToGithub}!)."
-  },
   "icu:WhatsNew__v6.28--0": {
     "messageformat": "Ne përditësuam disa ikona të njoftimeve të grupit. Modifikuam ikonat e njoftimeve që shfaqen për përditësimet e grupit, si për shembull, kur një person i ri i bashkohet një grupi. Këto ikona ndihmojnë në përmirësimin e lexueshmërisë, veçanërisht nëse përdorni errësirën e Temës së Errët. Ikonat e mëparshme thjesht u përshtatën me errësirën. Ikonat e reja lindën në të, të krijuara prej saj."
+  },
+  "icu:WhatsNew__v6.29--0": {
+    "messageformat": "Ekrani i personalizimit të ngjyrave të sfondit të bisedës tani shfaqet saktë në gjuhë të ndryshme dhe në zonat e zgjedhura."
+  },
+  "icu:WhatsNew__v6.29--1": {
+    "messageformat": "Kemi përmirësuar mbështetjen e njoftimeve në Windows. Nëse nuk klikoni mbi një njoftim, kur mbërrin për herë të parë, njoftimi më i fundit i humbur do të shfaqet në Qendrën e Njoftimeve të Windows. Duke klikuar mbi atë njoftim, tani do t'ju kalojë direkt në atë bisedë. Dëshirojmë të falënderojmë Julien Richard për komentet e tyre."
   }
 }

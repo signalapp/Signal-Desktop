@@ -1267,10 +1267,6 @@
     "messageformat": "最近使用したメディア",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
-  "icu:verifyHelp": {
-    "messageformat": "{name} とのやりとりがエンドツーエンドで暗号化されているかの安全性を検証するには、お互いの端末で、上記の番号が相手端末上の番号と同じか確認してください。上部のQRコードをスキャンする方法もあります。",
-    "description": "(deleted 07/05/2023)"
-  },
   "icu:theirIdentityUnknown": {
     "messageformat": "この連絡先とまだメッセージを交換していません。安全番号は最初のメッセージのあとに利用可能になります。"
   },
@@ -6624,10 +6620,13 @@
     "messageformat": "細かな微調整、バグ修正、パフォーマンスの向上。 Signalをご利用いただきありがとうございます。",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.27--0": {
-    "messageformat": "このアップデートでは、音声通話とビデオ通話に関する複数の改善とドキュメントの一部の更新がおこなわれました（ありがとう、 {linkToGithub}！）"
-  },
   "icu:WhatsNew__v6.28--0": {
     "messageformat": "グループ通知アイコンをいくつか更新しました。"
+  },
+  "icu:WhatsNew__v6.29--0": {
+    "messageformat": "チャットの色のカスタマイズ画面が、さまざまな言語および選択したロケールで正確に表示されるようになりました。"
+  },
+  "icu:WhatsNew__v6.29--1": {
+    "messageformat": "Windowsでの通知サポートを改善しました。届いたときにすぐに通知をクリックしなかった場合、最新の未読通知はWindowsの通知センターに表示されます。通知をクリックした場合は、直接そのチャットへ移動します。フィードバックをお寄せいただいたJulien Richardに御礼を申し上げます。"
   }
 }

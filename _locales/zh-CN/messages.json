@@ -1267,10 +1267,6 @@
     "messageformat": "查看最近媒体",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
-  "icu:verifyHelp": {
-    "messageformat": "如要验证您与{name}的端对端加密功能，请将上方的数字与对方的设备进行比对。对方也可以扫描上方的二维码。",
-    "description": "(deleted 07/05/2023)"
-  },
   "icu:theirIdentityUnknown": {
     "messageformat": "您还未与该联系人有任何通讯，您的安全代码将会在您对其发送第一条消息后显示。"
   },
@@ -6577,7 +6573,7 @@
     "description": "Body of a dialog displayed on unsupported operating systems"
   },
   "icu:MessageMetadata__edited": {
-    "messageformat": "已编辑",
+    "messageformat": "编辑",
     "description": "label for an edited message"
   },
   "icu:EditHistoryMessagesModal__title": {
@@ -6624,10 +6620,13 @@
     "messageformat": "我们进行了功能微调、漏洞修复和性能强化。感谢使用 Signal！",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.27--0": {
-    "messageformat": "此次更新包含语音和视频通话方面的一些优化，以及一些文档方面的小更新。（对此我们要感谢{linkToGithub}！）"
-  },
   "icu:WhatsNew__v6.28--0": {
     "messageformat": "我们更新了一些群组通知图标。"
+  },
+  "icu:WhatsNew__v6.29--0": {
+    "messageformat": "现在，在不同语言和部分区域中，聊天颜色自定义页面可以正确显示了。"
+  },
+  "icu:WhatsNew__v6.29--1": {
+    "messageformat": "我们优化了对 Windows 系统的通知支持。如果您收到通知时不点击查看，那么最新的未读通知将会显示在 Windows 系统的通知中心上。点击通知时，您将会直接前往通知页面。对此我们由衷感谢Julien Richard提供的反馈。"
   }
 }
