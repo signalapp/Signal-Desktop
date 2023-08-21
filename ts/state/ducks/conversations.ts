@@ -1863,16 +1863,19 @@ export const markViewed = (messageId: string): void => {
   }
 
   const senderE164 = message.get('source');
-  const senderAci = message.get('sourceServiceId');
-  strictAssert(
-    isAciString(senderAci),
-    'Message sourceServiceId must be an ACI'
-  );
   const timestamp = getMessageSentTimestamp(message.attributes, { log });
 
   message.set(messageUpdaterMarkViewed(message.attributes, Date.now()));
 
+  let senderAci: AciString;
   if (isIncoming(message.attributes)) {
+    const sourceServiceId = message.get('sourceServiceId');
+    strictAssert(
+      isAciString(sourceServiceId),
+      'Message sourceServiceId must be an ACI'
+    );
+    senderAci = sourceServiceId;
+
     const convoAttributes = message.getConversation()?.attributes;
     const conversationId = message.get('conversationId');
     drop(
@@ -1894,6 +1897,9 @@ export const markViewed = (messageId: string): void => {
         ],
       })
     );
+  } else {
+    // Use our own ACI for syncing viewed state of an outgoing message.
+    senderAci = window.textsecure.storage.user.getCheckedAci();
   }
 
   drop(
