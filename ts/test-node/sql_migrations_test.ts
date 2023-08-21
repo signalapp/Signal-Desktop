@@ -5,6 +5,7 @@ import { assert } from 'chai';
 import type { Database } from '@signalapp/better-sqlite3';
 import SQL from '@signalapp/better-sqlite3';
 import { v4 as generateGuid } from 'uuid';
+import { range } from 'lodash';
 
 import { SCHEMA_VERSIONS } from '../sql/migrations';
 import { consoleLogger } from '../util/consoleLogger';
@@ -16,8 +17,10 @@ import {
 import { ReadStatus } from '../messages/MessageReadStatus';
 import { SeenStatus } from '../MessageSeenStatus';
 import { objectToJSON, sql, sqlJoin } from '../sql/util';
-import type { MessageType } from '../sql/Interface';
+import type { MessageType, PreKeyType } from '../sql/Interface';
 import { BodyRange } from '../types/BodyRange';
+import { normalizeUuid } from '../util/normalizeUuid';
+import type { UUIDStringType } from '../types/UUID';
 
 const OUR_UUID = generateGuid();
 
@@ -3572,6 +3575,162 @@ describe('SQL migrations test', () => {
         detail,
         'SEARCH messages USING INDEX messages_story_replies (storyId=? AND received_at<?)'
       );
+    });
+  });
+
+  describe('SQL/updateToSchemaVersion87', () => {
+    const OUR_ACI = normalizeUuid(
+      generateGuid(),
+      'updateToSchemaVersion87 test'
+    );
+    const OUR_PNI = normalizeUuid(
+      generateGuid(),
+      'updateToSchemaVersion87 test'
+    );
+    let idCount = 0;
+
+    type TestingPreKey = Omit<
+      PreKeyType,
+      'privateKey' | 'publicKey' | 'createdAt'
+    > & {
+      createdAt: number | undefined;
+    };
+
+    beforeEach(() => {
+      updateToVersion(86);
+    });
+
+    type TableRows = ReadonlyArray<
+      Record<string, string | number | null | Record<string, unknown>>
+    >;
+
+    function insertData(table: string, rows: TableRows): void {
+      for (const row of rows) {
+        db.prepare(
+          `
+      INSERT INTO ${table} (${Object.keys(row).join(', ')})
+      VALUES (${Object.values(row)
+        .map(() => '?')
+        .join(', ')});
+    `
+        ).run(
+          Object.values(row).map(v => {
+            if (v != null && typeof v === 'object') {
+              return JSON.stringify(v);
+            }
+            return v;
+          })
+        );
+      }
+    }
+
+    function addPni() {
+      insertData('items', [
+        {
+          id: 'pni',
+          json: {
+            id: 'pni',
+            value: OUR_PNI,
+          },
+        },
+      ]);
+    }
+
+    function getCountOfKeys(): number {
+      return db.prepare('SELECT count(*) FROM preKeys;').pluck(true).get();
+    }
+
+    function getPragma(): number {
+      return db.prepare('PRAGMA user_version;').pluck(true).get();
+    }
+
+    function generateKey(
+      createdAt: number | undefined,
+      ourUuid: UUIDStringType
+    ): TestingPreKey {
+      idCount += 1;
+
+      return {
+        createdAt,
+        id: `${ourUuid}:${idCount}`,
+        keyId: idCount,
+        ourUuid,
+      };
+    }
+
+    function getRangeOfKeysForInsert(
+      start: number,
+      end: number,
+      ourUuid: UUIDStringType,
+      options?: {
+        clearCreatedAt?: boolean;
+      }
+    ): Array<{ id: string; json: TestingPreKey }> {
+      return range(start, end).map(createdAt => {
+        const key = generateKey(
+          options?.clearCreatedAt ? undefined : createdAt,
+          ourUuid
+        );
+
+        return {
+          id: key.id,
+          json: key,
+        };
+      });
+    }
+
+    it('handles missing PNI', () => {
+      assert.strictEqual(0, getCountOfKeys());
+      insertData('preKeys', getRangeOfKeysForInsert(0, 1500, OUR_ACI));
+      assert.strictEqual(1500, getCountOfKeys());
+      assert.strictEqual(86, getPragma());
+
+      updateToVersion(87);
+
+      assert.strictEqual(87, getPragma());
+      assert.strictEqual(1500, getCountOfKeys());
+    });
+
+    it('deletes 500 extra keys', () => {
+      assert.strictEqual(0, getCountOfKeys());
+      addPni();
+      insertData('preKeys', getRangeOfKeysForInsert(0, 1500, OUR_PNI));
+      assert.strictEqual(1500, getCountOfKeys());
+      assert.strictEqual(86, getPragma());
+
+      updateToVersion(87);
+
+      assert.strictEqual(87, getPragma());
+      assert.strictEqual(1000, getCountOfKeys());
+    });
+
+    it('leaves 1000 existing keys alone', () => {
+      assert.strictEqual(0, getCountOfKeys());
+      addPni();
+      insertData('preKeys', getRangeOfKeysForInsert(0, 1000, OUR_PNI));
+      assert.strictEqual(1000, getCountOfKeys());
+      assert.strictEqual(86, getPragma());
+
+      updateToVersion(87);
+
+      assert.strictEqual(87, getPragma());
+      assert.strictEqual(1000, getCountOfKeys());
+    });
+
+    it('leaves keys with missing createdAt alone', () => {
+      assert.strictEqual(0, getCountOfKeys());
+      addPni();
+      insertData(
+        'preKeys',
+        getRangeOfKeysForInsert(0, 1500, OUR_PNI, { clearCreatedAt: true })
+      );
+      assert.strictEqual(1500, getCountOfKeys());
+      assert.strictEqual(86, getPragma());
+
+      updateToVersion(87);
+
+      assert.strictEqual(87, getPragma());
+      assert.strictEqual(1500, getCountOfKeys());
     });
   });
 });

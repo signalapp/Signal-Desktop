@@ -480,6 +480,24 @@ export default class AccountManager extends EventTarget {
   async maybeUpdateKeys(uuidKind: UUIDKind): Promise<void> {
     const logId = `maybeUpdateKeys(${uuidKind})`;
     await this.queueTask(async () => {
+      const { storage } = window.textsecure;
+      let identityKey: KeyPairType;
+
+      try {
+        const ourUuid = storage.user.getCheckedUuid(uuidKind);
+        identityKey = this.getIdentityKeyOrThrow(ourUuid);
+      } catch (error) {
+        if (uuidKind === UUIDKind.PNI) {
+          log.info(
+            `${logId}: Not enough information to update PNI keys`,
+            Errors.toLogFormat(error)
+          );
+          return;
+        }
+
+        throw error;
+      }
+
       const { count: preKeyCount, pqCount: kyberPreKeyCount } =
         await this.server.getMyKeyCounts(uuidKind);
 
@@ -535,9 +553,6 @@ export default class AccountManager extends EventTarget {
       }
       log.info(`${logId}: Uploading with ${keySummary.join(', ')}`);
 
-      const { storage } = window.textsecure;
-      const ourUuid = storage.user.getCheckedUuid(uuidKind);
-      const identityKey = this.getIdentityKeyOrThrow(ourUuid);
       const toUpload = {
         identityKey: identityKey.pubKey,
         preKeys,
