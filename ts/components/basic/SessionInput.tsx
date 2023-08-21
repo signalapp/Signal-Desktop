@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 import { SessionIconButton } from '../icon';
 import { Noop } from '../../types/Util';
+import { useHTMLDirection } from '../../util/i18n';
 
 type Props = {
   label?: string;
@@ -46,7 +47,17 @@ const ErrorItem = (props: { error: string | undefined }) => {
 };
 
 const ShowHideButton = (props: { toggleForceShow: Noop }) => {
-  return <SessionIconButton iconType="eye" iconSize="medium" onClick={props.toggleForceShow} />;
+  const htmlDirection = useHTMLDirection();
+  const position = htmlDirection === 'ltr' ? { right: '0px' } : { left: '0px' };
+
+  return (
+    <SessionIconButton
+      iconType="eye"
+      iconSize="medium"
+      onClick={props.toggleForceShow}
+      style={{ position: 'absolute', top: '50%', transform: 'translateY(-50%)', ...position }}
+    />
+  );
 };
 
 export const SessionInput = (props: Props) => {
