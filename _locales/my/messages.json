@@ -300,6 +300,42 @@
     "messageformat": "ချက်(တ်)များ",
     "description": "Shown as a header for non-pinned conversations in the left pane"
   },
+  "icu:NavTabsToggle__showTabs": {
+    "messageformat": "Show Tabs",
+    "description": "Show in the left pane when the nav tabs are hidden, shows the nav tabs"
+  },
+  "icu:NavTabsToggle__hideTabs": {
+    "messageformat": "Hide Tabs",
+    "description": "Show in the nav tabs when the nav tabs are visible, hides the nav tabs"
+  },
+  "icu:NavTabs__ItemIconLabel--HasError": {
+    "messageformat": "An error occurred",
+    "description": "Nav Tabs > Tab has error > Accessibility Text"
+  },
+  "icu:NavTabs__ItemIconLabel--UnreadCount": {
+    "messageformat": "{count,number} unread",
+    "description": "Nav Tabs > Unread badge > Accessibility Text"
+  },
+  "icu:NavTabs__ItemIconLabel--MarkedUnread": {
+    "messageformat": "Marked unread",
+    "description": "Nav Tabs > Unread badge > when conversation is marked unread > Accessibility Text"
+  },
+  "icu:NavTabs__ItemLabel--Settings": {
+    "messageformat": "Settings",
+    "description": "Nav Tabs > Settings Button > Label & Accessibility Text"
+  },
+  "icu:NavTabs__ItemLabel--Update": {
+    "messageformat": "Update Signal",
+    "description": "Nav Tabs > Settings Button > Label & Accessibility Text"
+  },
+  "icu:NavTabs__ItemLabel--Profile": {
+    "messageformat": "Profile",
+    "description": "Nav Tabs > Profile Button > Accessibility Text"
+  },
+  "icu:NavSidebar__BackButtonLabel": {
+    "messageformat": "Back",
+    "description": "Shown in the sidebar header when on a nested panel within the current sidebar, takes the user back to the previous step or default sidebar state"
+  },
   "icu:archiveHelperText": {
     "messageformat": "ထိုချက်(တ်)များကို မှတ်တမ်းတင်ထားပြီး မက်ဆေ့ချ်အသစ်များ လက်ခံရရှိခဲ့လျှင်သာ ဝင်စာပုံးထဲတွင် ပေါ်နေပါလိမ့်မည်။",
     "description": "Shown at the top of the archived conversations list in the left pane"
@@ -1267,10 +1303,6 @@
     "messageformat": "မကြာမီက မီဒီယာကို ကြည့်ရန်",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
-  "icu:verifyHelp": {
-    "messageformat": "{name} နှင့် သင်၏ ဟိုဘက်သည်ဘက် ကုဒ်ပြောင်းဝှက်မှု လုံခြုံရေးကို စိစစ်အတည်ပြုရန် အထက်ပါနံပါတ်များကို ၎င်း၏စက်နှင့် နှိုင်းယှဉ်ပါ။ ၎င်းအနေဖြင့် အထက်ပါ qr ကုဒ်ကိုလည်း စကန်ဖတ်နိုင်ပါသည်။",
-    "description": "(deleted 07/05/2023)"
-  },
   "icu:theirIdentityUnknown": {
     "messageformat": "You haven't exchanged any messages with this contact yet. Your safety number with them will be available after the first message."
   },
@@ -2146,6 +2178,10 @@
   "icu:ConversationDetails__viewSafetyNumber": {
     "messageformat": "လုံခြုံရေးနံပါတ် ကြည့်ရန်",
     "description": "In conversation details, label for button to view safety number, opens safety number modal"
+  },
+  "icu:ConversationDetails__HeaderButton--Message": {
+    "messageformat": "Message",
+    "description": "In conversation details, label for button to switch to the conversation view in order to draft a message in that converation"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "လုံခြုံရေးနံပါတ် ကြည့်ရန်",
@@ -3379,6 +3415,14 @@
   "icu:incomingVideoCall": {
     "messageformat": "ဗီဒီယိုကောလ် ဝင်နေသည်...",
     "description": "Shown in both the incoming call bar and notification for an incoming video call"
+  },
+  "icu:outgoingAudioCall": {
+    "messageformat": "Outgoing voice call",
+    "description": "Shown in the timeline for an outgoing voice call"
+  },
+  "icu:outgoingVideoCall": {
+    "messageformat": "Outgoing video call",
+    "description": "Shown in the timeline for an outgoing video call"
   },
   "icu:incomingGroupCall__ringing-you": {
     "messageformat": "{ringer} က သင့်ကို ခေါ်နေသည်",
@@ -5320,10 +5364,6 @@
     "messageformat": "သုံးစွဲသူအမည်ကို ဖျက်ရန်",
     "description": "Shown as aria label for trash icon next to username"
   },
-  "icu:ProfileEditor--username--confirm-delete-body": {
-    "messageformat": "ဤသည်မှာ သင်၏ သုံးစွဲသူအမည်ကို ဖယ်ရှားပြီး အခြားသုံးစွဲသူများအား ၎င်းကို ရယူသုံးစွဲခွင့်ပြုနိုင်ပါသည်။ လုပ်လိုသည်မှာ သေချာပါသလား။",
-    "description": "(deleted 07/10/2023) Shown in dialog body if user has saved an empty string to delete their username"
-  },
   "icu:ProfileEditor--username--confirm-delete-body-2": {
     "messageformat": "၎င်းသည် သင်၏ သုံးစွဲသူအမည်ကို ဖယ်ရှားလိုက်မည်ဖြစ်ပြီး သင့် QR ကုဒ်နှင့် လင့်ခ်ကို ဖျက်လိုက်ပါမည်။ \"{username}\" ကို အခြားသူများ အသုံးပြု၍ရသွားပါလိမ့်မည်။ သေချာပါသလား။",
     "description": "Shown in dialog body if user has saved an empty string to delete their username"
@@ -6532,6 +6572,10 @@
     "messageformat": "ရီဆက်ချမည်",
     "description": "Text of button at the bottom of the username link modal"
   },
+  "icu:UsernameLinkModalBody__done": {
+    "messageformat": "Done",
+    "description": "Text of button at the bottom of the username link modal"
+  },
   "icu:UsernameLinkModalBody__color__radio": {
     "messageformat": "သုံးစွဲသူအမည်အတွက် လင့်ခ်အရောင်၊ {index,number} / {total,number}",
     "description": "ARIA label of button for selecting username link color"
@@ -6592,6 +6636,110 @@
     "messageformat": "နောက်တစ်ကြိမ် ပို့ပါ",
     "description": "Button text for the confirmation dialog shown to user when attempting to resend message edit"
   },
+  "icu:StoriesTab__MoreActionsLabel": {
+    "messageformat": "More actions",
+    "description": "Stories Tab > More Actions Button (opens context menu) > Accessibility Label"
+  },
+  "icu:CallsTab__HeaderTitle--CallsList": {
+    "messageformat": "Calls",
+    "description": "Calls Tab > Header > Title > On Calls List screen"
+  },
+  "icu:CallsTab__HeaderTitle--NewCall": {
+    "messageformat": "New Call",
+    "description": "Calls Tab > Header > Title > On New Call screen"
+  },
+  "icu:CallsTab__NewCallActionLabel": {
+    "messageformat": "New Call",
+    "description": "Calls Tab > New Call Action Button > Accessibility Label"
+  },
+  "icu:CallsTab__MoreActionsLabel": {
+    "messageformat": "More actions",
+    "description": "Calls Tab > More Actions Button (opens context menu) > Accessibility Label"
+  },
+  "icu:CallsTab__ClearCallHistoryLabel": {
+    "messageformat": "Clear call history",
+    "description": "Calls Tab > More Actions Context Menu > Clear Call History Button Label"
+  },
+  "icu:CallsTab__ConfirmClearCallHistory__Title": {
+    "messageformat": "Clear call history?",
+    "description": "Calls Tab > Confirm Clear Call History Dialog > Title"
+  },
+  "icu:CallsTab__ConfirmClearCallHistory__Body": {
+    "messageformat": "This will permanently delete all call history",
+    "description": "Calls Tab > Confirm Clear Call History Dialog > Body Text"
+  },
+  "icu:CallsTab__ConfirmClearCallHistory__ConfirmButton": {
+    "messageformat": "Clear",
+    "description": "Calls Tab > Confirm Clear Call History Dialog > Confirm Button"
+  },
+  "icu:CallsTab__ToastCallHistoryCleared": {
+    "messageformat": "Call history cleared",
+    "description": "Calls Tab > Clear Call History > Toast"
+  },
+  "icu:CallsTab__EmptyStateText": {
+    "messageformat": "Click to view or start a call",
+    "description": "Calls Tab > When no call is selected > Empty state > Call to action text"
+  },
+  "icu:CallsList__SearchInputPlaceholder": {
+    "messageformat": "Search",
+    "description": "Calls Tab > Calls List > Search Input > Placeholder"
+  },
+  "icu:CallsList__ToggleFilterByMissedLabel": {
+    "messageformat": "Filter by missed",
+    "description": "Calls Tab > Calls List > Toggle search filter by missed > Accessibility label"
+  },
+  "icu:CallsList__ToggleFilterByMissed__RoleDescription": {
+    "messageformat": "Toggle",
+    "description": "Calls Tab > Calls List > Toggle search filter by missed > Accessibility role description ('A toggle button')"
+  },
+  "icu:CallsList__EmptyState--noQuery": {
+    "messageformat": "No recent calls. Get started by calling a friend.",
+    "description": "Calls Tab > Calls List > When no results found > With no search query"
+  },
+  "icu:CallsList__EmptyState--hasQuery": {
+    "messageformat": "No results for “{query}”",
+    "description": "Calls Tab > Calls List > When no results found > With a search query"
+  },
+  "icu:CallsList__ItemCallInfo--Incoming": {
+    "messageformat": "Incoming",
+    "description": "Calls Tab > Calls List > Call Item > Call Status > When call was accepted and was incoming"
+  },
+  "icu:CallsList__ItemCallInfo--Outgoing": {
+    "messageformat": "Outgoing",
+    "description": "Calls Tab > Calls List > Call Item > Call Status > When call was accepted and was outgoing"
+  },
+  "icu:CallsList__ItemCallInfo--Missed": {
+    "messageformat": "Missed",
+    "description": "Calls Tab > Calls List > Call Item > Call Status > When call was missed"
+  },
+  "icu:CallsList__ItemCallInfo--GroupCall": {
+    "messageformat": "Group call",
+    "description": "Calls Tab > Calls List > Call Item > Call Status > When group call is in its default state"
+  },
+  "icu:CallsNewCall__EmptyState--noQuery": {
+    "messageformat": "No recent conversations.",
+    "description": "Calls Tab > New Call > Conversations List > When no results found > With no search query"
+  },
+  "icu:CallsNewCall__EmptyState--hasQuery": {
+    "messageformat": "No results for “{query}”",
+    "description": "Calls Tab > New Call > Conversations List > When no results found > With a search query"
+  },
+  "icu:CallHistory__Description--Default": {
+    "messageformat": "{type, select, Audio {{direction, select, Outgoing {Outgoing voice call} other {Incoming voice call}}} Video {{direction, select, Outgoing {Outgoing video call} other {Incoming video call}}} Group {{direction, select, Outgoing {Outgoing group call} other {Incoming group call}}} other {{direction, select, Outgoing {Outgoing  call} other {Incoming  call}}}}",
+    "description": "Call History > Short description of call > When call was not missed or declined (generally accepted)"
+  },
+  "icu:CallHistory__Description--Missed": {
+    "messageformat": "{type, select, Audio {Missed voice call} Video {Missed video call} Group {Missed group call} other {Missed  call}}",
+    "description": "Call History > Short description of call > When incoming call was missed"
+  },
+  "icu:CallHistory__Description--Unanswered": {
+    "messageformat": "{type, select, Audio {Unanswered voice call} Video {Unanswered video call} Group {Unanswered group call} other {Unanswered  call}}",
+    "description": "Call History > Short description of call > When outgoing call was unanswered"
+  },
+  "icu:CallHistory__Description--Declined": {
+    "messageformat": "{type, select, Audio {Declined voice call} Video {Declined video call} Group {Declined group call} other {Declined  call}}",
+    "description": "Call History > Short description of call > When call was declined"
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "အသစ်များ",
     "description": "Title for the whats new modal"
@@ -6624,10 +6772,13 @@
     "messageformat": "အနေအထား ပြုပြင်မှုလေးများ၊ ချို့ယွင်းချက် ပြင်ဆင်မှုများနှင့် စွမ်းဆောင်ရည် မြှင့်တင်မှုများ။ Signal ကို သုံးသည့်အတွက် ကျေးဇူးတင်ပါသည်။",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.27--0": {
-    "messageformat": "ယခုအပ်ဒိတ်တွင် အော်ဒီယိုနှင့် ဗီဒီယို ကောလ်များအတွက် တိုးတက်မှုအနည်းငယ်နှင့် စာရွက်စာတမ်းဆိုင်ရာ အသေးစားအပ်ဒိတ်အချို့ ပါဝင်ပါသည် (ကျေးဇူးပါ၊ {linkToGithub})။"
+  "icu:WhatsNew__v6.29--0": {
+    "messageformat": "ယခုအခါ ချက်(တ်)အရောင် စိတ်ကြိုက်သတ်မှတ်မှု မျက်နှာပြင်ကို မတူညီသော ဘာသာစကားများနှင့် ရွေးချယ်ထားသော ဒေသများတွင် မှန်ကန်စွာ ပြသနေပြီဖြစ်ပါသည်။"
   },
-  "icu:WhatsNew__v6.28--0": {
-    "messageformat": "အဖွဲ့ အသိပေးချက်အိုင်ကွန်အချို့ကို ကျွန်ုပ်တို့ အပ်ဒိတ်လုပ်ထားပါသည်။ ထိုအိုင်ကွန်များသည် အထူးသဖြင့် အမှောင် Theme ကို အသုံးပြုပါက ပို၍ရှင်းလင်းပီသစေရန် အကူအညီပေးပါသည်။ ယခင်အိုင်ကွန်များသည် အလင်းမှ အမှောင်သို့ ပြောင်းလိုက်ရုံမျှ ဖြစ်ပါသည်။ အိုင်ကွန်အသစ်များမှာမူ အမှောင်ဖြင့်သုံးရန် ချိန်ညှိဖန်တီးထားခြင်း ဖြစ်ပါသည်။"
+  "icu:WhatsNew__v6.29--1": {
+    "messageformat": "Windows တွင် အသိပေးချက်ဆိုင်ရာ ပံ့ပိုးမှုကို ပိုကောင်းအောင်လုပ်ထားပါသည်။ အသိပေးချက်တစ်ခု စတင်ရောက်ရှိလာချိန်တွင် ၎င်းကို သင် မနှိပ်ပါက နောက်ဆုံး လွတ်သွားသော အသိပေးချက်မှာ Windows အသိပေးချက်စင်တာတွင် ပေါ်နေပါမည်။ ယခုအခါ ထိုအသိပေးချက်ကို နှိပ်လိုက်လျှင် ထိုချက်(တ်)သို့ တိုက်ရိုက်ရောက်ရှိသွားပါမည်။ Julien Richard ကို ၎င်း၏တုံ့ပြန်အကြံပြုချက်အတွက် ကျေးဇူးတင်ပါသည်။"
+  },
+  "icu:WhatsNew__v6.30--0": {
+    "messageformat": "Keep tabs on your calls with the new calls tab. Start a new call or return a call that you missed without having to find the corresponding chat. Now you can say hello with your voice without also saying goodbye to the unread marker for messages in that thread."
   }
 }

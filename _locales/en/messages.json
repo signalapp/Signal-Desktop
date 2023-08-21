@@ -1302,10 +1302,6 @@
     "messageformat": "View recent media",
     "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
   },
-  "icu:verifyHelp": {
-    "messageformat": "To verify the security of your end-to-end encryption with {name}, compare the numbers above with their device. They can also scan the qr code above.",
-    "description": "(deleted 07/05/2023)"
-  },
   "icu:theirIdentityUnknown": {
     "messageformat": "You haven't exchanged any messages with this contact yet. Your safety number with them will be available after the first message."
   },
@@ -1372,10 +1368,6 @@
   "icu:deleteMessages": {
     "messageformat": "Delete",
     "description": "Menu item for deleting messages, title case."
-  },
-  "icu:deleteConversationConfirmation": {
-    "messageformat": "Permanently delete this chat?",
-    "description": "(deleted 06/27/2023) Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
   },
   "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
     "messageformat": "Delete chat?",
@@ -5370,10 +5362,6 @@
   "icu:ProfileEditor--username--delete-username": {
     "messageformat": "Delete username",
     "description": "Shown as aria label for trash icon next to username"
-  },
-  "icu:ProfileEditor--username--confirm-delete-body": {
-    "messageformat": "This will remove your username, allowing other users to claim it. Are you sure?",
-    "description": "(deleted 07/10/2023) Shown in dialog body if user has saved an empty string to delete their username"
   },
   "icu:ProfileEditor--username--confirm-delete-body-2": {
     "messageformat": "This will remove your username and disable your QR code and link. “{username}” will be available for others to claim. Are you sure?",
