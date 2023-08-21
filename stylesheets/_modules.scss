@@ -4103,10 +4103,15 @@ button.module-image__border-overlay:focus {
     margin-bottom: 16px;
   }
 
+  &__avatar-and-name {
+    display: flex;
+    align-items: center;
+    max-width: 172px;
+  }
+
   &__name {
     display: inline-block;
     margin-inline-start: 8px;
-    max-width: 130px;
     overflow: hidden;
     text-overflow: ellipsis;
     vertical-align: middle;

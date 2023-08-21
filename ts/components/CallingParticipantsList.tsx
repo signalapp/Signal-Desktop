@@ -107,7 +107,7 @@ export const CallingParticipantsList = React.memo(
                     //   participants who have joined on multiple devices.
                     key={index}
                   >
-                    <div>
+                    <div className="module-calling-participants-list__avatar-and-name">
                       <Avatar
                         acceptedMessageRequest={
                           participant.acceptedMessageRequest
