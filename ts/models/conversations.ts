@@ -129,7 +129,7 @@ import {
   conversationJobQueue,
   conversationQueueJobEnum,
 } from '../jobs/conversationJobQueue';
-import type { ReactionModel } from '../messageModifiers/Reactions';
+import type { ReactionAttributesType } from '../messageModifiers/Reactions';
 import { isAnnouncementGroupReady } from '../util/isAnnouncementGroupReady';
 import { getProfile } from '../util/getProfile';
 import { SEALED_SENDER } from '../types/SealedSender';
@@ -4900,7 +4900,7 @@ export class ConversationModel extends window.Backbone
 
   async notify(
     message: Readonly<MessageModel>,
-    reaction?: Readonly<ReactionModel>
+    reaction?: Readonly<ReactionAttributesType>
   ): Promise<void> {
     // As a performance optimization don't perform any work if notifications are
     // disabled.
@@ -4938,7 +4938,7 @@ export class ConversationModel extends window.Backbone
     const isMessageInDirectConversation = isDirectConversation(this.attributes);
 
     const sender = reaction
-      ? window.ConversationController.get(reaction.get('fromId'))
+      ? window.ConversationController.get(reaction.fromId)
       : getContact(message.attributes);
     const senderName = sender
       ? sender.getTitle()
@@ -4967,7 +4967,13 @@ export class ConversationModel extends window.Backbone
       isExpiringMessage,
       message: message.getNotificationText(),
       messageId,
-      reaction: reaction ? reaction.toJSON() : null,
+      reaction: reaction
+        ? {
+            emoji: reaction.emoji,
+            targetAuthorAci: reaction.targetAuthorAci,
+            targetTimestamp: reaction.targetTimestamp,
+          }
+        : undefined,
       sentAt: message.get('timestamp'),
       type: reaction ? NotificationType.Reaction : NotificationType.Message,
     });

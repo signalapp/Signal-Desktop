@@ -21,10 +21,7 @@ import createTaskWithTimeout, {
   resumeTasksWithTimeout,
   reportLongRunningTasks,
 } from './textsecure/TaskWithTimeout';
-import type {
-  MessageAttributesType,
-  ReactionAttributesType,
-} from './model-types.d';
+import type { MessageAttributesType } from './model-types.d';
 import * as Bytes from './Bytes';
 import * as Timers from './Timers';
 import * as indexedDb from './indexeddb';
@@ -116,15 +113,13 @@ import { actionCreators } from './state/actions';
 import * as Deletes from './messageModifiers/Deletes';
 import type { EditAttributesType } from './messageModifiers/Edits';
 import * as Edits from './messageModifiers/Edits';
-import {
-  MessageReceipts,
-  MessageReceiptType,
-} from './messageModifiers/MessageReceipts';
-import { MessageRequests } from './messageModifiers/MessageRequests';
-import { Reactions } from './messageModifiers/Reactions';
-import { ReadSyncs } from './messageModifiers/ReadSyncs';
-import { ViewSyncs } from './messageModifiers/ViewSyncs';
-import { ViewOnceOpenSyncs } from './messageModifiers/ViewOnceOpenSyncs';
+import type { ReactionAttributesType } from './messageModifiers/Reactions';
+import * as MessageReceipts from './messageModifiers/MessageReceipts';
+import * as MessageRequests from './messageModifiers/MessageRequests';
+import * as Reactions from './messageModifiers/Reactions';
+import * as ReadSyncs from './messageModifiers/ReadSyncs';
+import * as ViewSyncs from './messageModifiers/ViewSyncs';
+import * as ViewOnceOpenSyncs from './messageModifiers/ViewOnceOpenSyncs';
 import type { DeleteAttributesType } from './messageModifiers/Deletes';
 import type { MessageReceiptAttributesType } from './messageModifiers/MessageReceipts';
 import type { MessageRequestAttributesType } from './messageModifiers/MessageRequests';
@@ -982,8 +977,7 @@ export async function startApp(): Promise<void> {
 
       optimizeFTS();
 
-      // Don't block on the following operation
-      void window.Signal.Data.ensureFilePermissions();
+      drop(window.Signal.Data.ensureFilePermissions());
     }
 
     setAppLoadingScreenMessage(window.i18n('icu:loading'), window.i18n);
@@ -2002,8 +1996,7 @@ export async function startApp(): Promise<void> {
         throw new Error('Expected challenge handler to be initialized');
       }
 
-      // Intentionally not awaiting
-      void challengeHandler.onOnline();
+      drop(challengeHandler.onOnline());
 
       reconnectBackOff.reset();
     } finally {
@@ -2464,6 +2457,8 @@ export async function startApp(): Promise<void> {
 
       log.info('Queuing incoming reaction for', reaction.targetTimestamp);
       const attributes: ReactionAttributesType = {
+        envelopeId: data.envelopeId,
+        removeFromMessageReceiverCache: confirm,
         emoji: reaction.emoji,
         fromId: fromConversation.id,
         remove: reaction.remove,
@@ -2473,11 +2468,8 @@ export async function startApp(): Promise<void> {
         targetTimestamp: reaction.targetTimestamp,
         timestamp,
       };
-      const reactionModel = Reactions.getSingleton().add(attributes);
 
-      drop(Reactions.getSingleton().onReaction(reactionModel));
-
-      confirm();
+      drop(Reactions.onReaction(attributes));
       return;
     }
 
@@ -2548,7 +2540,7 @@ export async function startApp(): Promise<void> {
     }
 
     // Don't wait for handleDataMessage, as it has its own per-conversation queueing
-    void message.handleDataMessage(data.message, event.confirm);
+    drop(message.handleDataMessage(data.message, event.confirm));
   }
 
   async function onProfileKeyUpdate({
@@ -2793,12 +2785,14 @@ export async function startApp(): Promise<void> {
 
       if (!isValidReactionEmoji(reaction.emoji)) {
         log.warn('Received an invalid reaction emoji. Dropping it');
-        event.confirm();
+        confirm();
         return;
       }
 
       log.info('Queuing sent reaction for', reaction.targetTimestamp);
       const attributes: ReactionAttributesType = {
+        envelopeId: data.envelopeId,
+        removeFromMessageReceiverCache: confirm,
         emoji: reaction.emoji,
         fromId: window.ConversationController.getOurConversationIdOrThrow(),
         remove: reaction.remove,
@@ -2808,11 +2802,7 @@ export async function startApp(): Promise<void> {
         targetTimestamp: reaction.targetTimestamp,
         timestamp,
       };
-      const reactionModel = Reactions.getSingleton().add(attributes);
-
-      drop(Reactions.getSingleton().onReaction(reactionModel));
-
-      event.confirm();
+      drop(Reactions.onReaction(attributes));
       return;
     }
 
@@ -2867,9 +2857,11 @@ export async function startApp(): Promise<void> {
     }
 
     // Don't wait for handleDataMessage, as it has its own per-conversation queueing
-    void message.handleDataMessage(data.message, event.confirm, {
-      data,
-    });
+    drop(
+      message.handleDataMessage(data.message, event.confirm, {
+        data,
+      })
+    );
   }
 
   type MessageDescriptor = {
@@ -3041,21 +3033,18 @@ export async function startApp(): Promise<void> {
   }
 
   function onViewOnceOpenSync(ev: ViewOnceOpenSyncEvent): void {
-    ev.confirm();
-
     const { source, sourceAci, timestamp } = ev;
     log.info(`view once open sync ${source} ${timestamp}`);
     strictAssert(sourceAci, 'ViewOnceOpen without sourceAci');
     strictAssert(timestamp, 'ViewOnceOpen without timestamp');
 
     const attributes: ViewOnceOpenSyncAttributesType = {
+      removeFromMessageReceiverCache: ev.confirm,
       source,
       sourceAci,
       timestamp,
     };
-    const sync = ViewOnceOpenSyncs.getSingleton().add(attributes);
-
-    void ViewOnceOpenSyncs.getSingleton().onSync(sync);
+    drop(ViewOnceOpenSyncs.onSync(attributes));
   }
 
   async function onFetchLatestSync(ev: FetchLatestEvent): Promise<void> {
@@ -3126,8 +3115,6 @@ export async function startApp(): Promise<void> {
   }
 
   function onMessageRequestResponse(ev: MessageRequestResponseEvent): void {
-    ev.confirm();
-
     const { threadE164, threadAci, groupV2Id, messageRequestResponseType } = ev;
 
     log.info('onMessageRequestResponse', {
@@ -3142,22 +3129,24 @@ export async function startApp(): Promise<void> {
       'onMessageRequestResponse: missing type'
     );
 
+    strictAssert(ev.envelopeId, 'onMessageRequestResponse: no envelope id');
+
     const attributes: MessageRequestAttributesType = {
+      envelopeId: ev.envelopeId,
+      removeFromMessageReceiverCache: ev.confirm,
       threadE164,
       threadAci,
       groupV2Id,
       type: messageRequestResponseType,
     };
-    const sync = MessageRequests.getSingleton().add(attributes);
-
-    void MessageRequests.getSingleton().onResponse(sync);
+    drop(MessageRequests.onResponse(attributes));
   }
 
   function onReadReceipt(event: Readonly<ReadEvent>): void {
     onReadOrViewReceipt({
       logTitle: 'read receipt',
       event,
-      type: MessageReceiptType.Read,
+      type: MessageReceipts.MessageReceiptType.Read,
     });
   }
 
@@ -3165,7 +3154,7 @@ export async function startApp(): Promise<void> {
     onReadOrViewReceipt({
       logTitle: 'view receipt',
       event,
-      type: MessageReceiptType.View,
+      type: MessageReceipts.MessageReceiptType.View,
     });
   }
 
@@ -3176,7 +3165,9 @@ export async function startApp(): Promise<void> {
   }: Readonly<{
     event: ReadEvent | ViewEvent;
     logTitle: string;
-    type: MessageReceiptType.Read | MessageReceiptType.View;
+    type:
+      | MessageReceipts.MessageReceiptType.Read
+      | MessageReceipts.MessageReceiptType.View;
   }>): void {
     const {
       envelopeTimestamp,
@@ -3200,8 +3191,6 @@ export async function startApp(): Promise<void> {
       timestamp
     );
 
-    event.confirm();
-
     strictAssert(
       isServiceIdString(sourceServiceId),
       'onReadOrViewReceipt: Missing sourceServiceId'
@@ -3209,6 +3198,8 @@ export async function startApp(): Promise<void> {
     strictAssert(sourceDevice, 'onReadOrViewReceipt: Missing sourceDevice');
 
     const attributes: MessageReceiptAttributesType = {
+      envelopeId: event.receipt.envelopeId,
+      removeFromMessageReceiverCache: event.confirm,
       messageSentAt: timestamp,
       receiptTimestamp: envelopeTimestamp,
       sourceConversationId: sourceConversation.id,
@@ -3217,13 +3208,10 @@ export async function startApp(): Promise<void> {
       type,
       wasSentEncrypted,
     };
-    const receipt = MessageReceipts.getSingleton().add(attributes);
-
-    // Note: We do not wait for completion here
-    void MessageReceipts.getSingleton().onReceipt(receipt);
+    drop(MessageReceipts.onReceipt(attributes));
   }
 
-  function onReadSync(ev: ReadSyncEvent): Promise<void> {
+  async function onReadSync(ev: ReadSyncEvent): Promise<void> {
     const { envelopeTimestamp, sender, senderAci, timestamp } = ev.read;
     const readAt = envelopeTimestamp;
     const { conversation: senderConversation } =
@@ -3249,22 +3237,19 @@ export async function startApp(): Promise<void> {
     strictAssert(timestamp, 'onReadSync missing timestamp');
 
     const attributes: ReadSyncAttributesType = {
+      envelopeId: ev.read.envelopeId,
+      removeFromMessageReceiverCache: ev.confirm,
       senderId,
       sender,
       senderAci,
       timestamp,
       readAt,
     };
-    const receipt = ReadSyncs.getSingleton().add(attributes);
 
-    receipt.on('remove', ev.confirm);
-
-    // Note: Here we wait, because we want read states to be in the database
-    //   before we move on.
-    return ReadSyncs.getSingleton().onSync(receipt);
+    await ReadSyncs.onSync(attributes);
   }
 
-  function onViewSync(ev: ViewSyncEvent): Promise<void> {
+  async function onViewSync(ev: ViewSyncEvent): Promise<void> {
     const { envelopeTimestamp, senderE164, senderAci, timestamp } = ev.view;
     const { conversation: senderConversation } =
       window.ConversationController.maybeMergeContacts({
@@ -3289,19 +3274,16 @@ export async function startApp(): Promise<void> {
     strictAssert(timestamp, 'onViewSync missing timestamp');
 
     const attributes: ViewSyncAttributesType = {
+      envelopeId: ev.view.envelopeId,
+      removeFromMessageReceiverCache: ev.confirm,
       senderId,
       senderE164,
       senderAci,
       timestamp,
       viewedAt: envelopeTimestamp,
     };
-    const receipt = ViewSyncs.getSingleton().add(attributes);
 
-    receipt.on('remove', ev.confirm);
-
-    // Note: Here we wait, because we want viewed states to be in the database
-    //   before we move on.
-    return ViewSyncs.getSingleton().onSync(receipt);
+    await ViewSyncs.onSync(attributes);
   }
 
   function onDeliveryReceipt(ev: DeliveryEvent): void {
@@ -3314,8 +3296,6 @@ export async function startApp(): Promise<void> {
       timestamp,
       wasSentEncrypted,
     } = deliveryReceipt;
-
-    ev.confirm();
 
     const sourceConversation = window.ConversationController.lookupOrCreate({
       serviceId: sourceServiceId,
@@ -3343,18 +3323,18 @@ export async function startApp(): Promise<void> {
     strictAssert(sourceDevice, 'onDeliveryReceipt: missing sourceDevice');
 
     const attributes: MessageReceiptAttributesType = {
+      envelopeId: ev.deliveryReceipt.envelopeId,
+      removeFromMessageReceiverCache: ev.confirm,
       messageSentAt: timestamp,
       receiptTimestamp: envelopeTimestamp,
       sourceConversationId: sourceConversation?.id,
       sourceServiceId,
       sourceDevice,
-      type: MessageReceiptType.Delivery,
+      type: MessageReceipts.MessageReceiptType.Delivery,
       wasSentEncrypted,
     };
-    const receipt = MessageReceipts.getSingleton().add(attributes);
 
-    // Note: We don't wait for completion here
-    void MessageReceipts.getSingleton().onReceipt(receipt);
+    drop(MessageReceipts.onReceipt(attributes));
   }
 }
 

@@ -1,9 +1,10 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import noop from 'lodash/noop';
 import { v4 as generateUuid } from 'uuid';
 
-import { ReactionModel } from '../messageModifiers/Reactions';
+import type { ReactionAttributesType } from '../messageModifiers/Reactions';
 import { ReactionSource } from './ReactionSource';
 import { getMessageById } from '../messages/getMessageById';
 import { getSourceServiceId, isStory } from '../messages/helpers';
@@ -98,7 +99,9 @@ export async function enqueueReactionForSend({
       })
     : undefined;
 
-  const reaction = new ReactionModel({
+  const reaction: ReactionAttributesType = {
+    envelopeId: generateUuid(),
+    removeFromMessageReceiverCache: noop,
     emoji,
     fromId: window.ConversationController.getOurConversationIdOrThrow(),
     remove,
@@ -107,7 +110,7 @@ export async function enqueueReactionForSend({
     targetAuthorAci,
     targetTimestamp,
     timestamp,
-  });
+  };
 
   await message.handleReaction(reaction, { storyMessage });
 }

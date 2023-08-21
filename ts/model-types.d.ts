@@ -23,7 +23,6 @@ import { SignalService as Proto } from './protobuf';
 import type { AvatarDataType } from './types/Avatar';
 import type { AciString, PniString, ServiceIdString } from './types/ServiceId';
 import type { StoryDistributionIdString } from './types/StoryDistributionId';
-import type { ReactionSource } from './reactions/ReactionSource';
 import type { SeenStatus } from './MessageSeenStatus';
 import type { GiftBadgeStates } from './components/conversation/Message';
 import type { LinkPreviewType } from './types/message/LinkPreviews';
@@ -507,16 +506,3 @@ export declare class ConversationModelCollectionType extends Backbone.Collection
 }
 
 export declare class MessageModelCollectionType extends Backbone.Collection<MessageModel> {}
-
-export type ReactionAttributesType = {
-  emoji: string;
-  fromId: string;
-  remove?: boolean;
-  source: ReactionSource;
-  // Necessary to put 1:1 story replies into the right conversation - not the same
-  //   conversation as the target message!
-  storyReactionMessage?: MessageModel;
-  targetAuthorAci: AciString;
-  targetTimestamp: number;
-  timestamp: number;
-};

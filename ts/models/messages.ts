@@ -112,7 +112,7 @@ import {
   getCallSelector,
   getActiveCall,
 } from '../state/selectors/calling';
-import type { ReactionModel } from '../messageModifiers/Reactions';
+import type { ReactionAttributesType } from '../messageModifiers/Reactions';
 import { ReactionSource } from '../reactions/ReactionSource';
 import * as LinkPreview from '../types/LinkPreview';
 import { SignalService as Proto } from '../protobuf';
@@ -2922,7 +2922,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   }
 
   async handleReaction(
-    reaction: ReactionModel,
+    reaction: ReactionAttributesType,
     {
       storyMessage,
       shouldPersist = true,
@@ -2955,22 +2955,21 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       return;
     }
 
-    const isFromThisDevice =
-      reaction.get('source') === ReactionSource.FromThisDevice;
-    const isFromSync = reaction.get('source') === ReactionSource.FromSync;
+    const isFromThisDevice = reaction.source === ReactionSource.FromThisDevice;
+    const isFromSync = reaction.source === ReactionSource.FromSync;
     const isFromSomeoneElse =
-      reaction.get('source') === ReactionSource.FromSomeoneElse;
+      reaction.source === ReactionSource.FromSomeoneElse;
     strictAssert(
       isFromThisDevice || isFromSync || isFromSomeoneElse,
       'Reaction can only be from this device, from sync, or from someone else'
     );
 
     const newReaction: MessageReactionType = {
-      emoji: reaction.get('remove') ? undefined : reaction.get('emoji'),
-      fromId: reaction.get('fromId'),
-      targetAuthorAci: reaction.get('targetAuthorAci'),
-      targetTimestamp: reaction.get('targetTimestamp'),
-      timestamp: reaction.get('timestamp'),
+      emoji: reaction.remove ? undefined : reaction.emoji,
+      fromId: reaction.fromId,
+      targetAuthorAci: reaction.targetAuthorAci,
+      targetTimestamp: reaction.targetTimestamp,
+      timestamp: reaction.timestamp,
       isSentByConversationId: isFromThisDevice
         ? zipObject(conversation.getMemberConversationIds(), repeat(false))
         : undefined,
@@ -2997,7 +2996,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           );
         }
 
-        const generatedMessage = reaction.get('storyReactionMessage');
+        const generatedMessage = reaction.storyReactionMessage;
         strictAssert(
           generatedMessage,
           'Story reactions must provide storyReactionMessage'
@@ -3016,9 +3015,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
             : undefined,
           storyId: storyMessage.id,
           storyReaction: {
-            emoji: reaction.get('emoji'),
-            targetAuthorAci: reaction.get('targetAuthorAci'),
-            targetTimestamp: reaction.get('targetTimestamp'),
+            emoji: reaction.emoji,
+            targetAuthorAci: reaction.targetAuthorAci,
+            targetTimestamp: reaction.targetTimestamp,
           },
         });
 
@@ -3036,8 +3035,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
             generatedMessage.attributes
           ),
           storyId: getMessageIdForLogging(storyMessage),
-          targetTimestamp: reaction.get('targetTimestamp'),
-          timestamp: reaction.get('timestamp'),
+          targetTimestamp: reaction.targetTimestamp,
+          timestamp: reaction.timestamp,
         });
 
         const messageToAdd = window.MessageController.register(
@@ -3091,7 +3090,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           this.clearNotifications(oldReaction);
         }
 
-        if (reaction.get('remove')) {
+        if (reaction.remove) {
           log.info(
             'handleReaction: removing reaction for message',
             this.idForLogging()
@@ -3101,7 +3100,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
             reactions = oldReactions.filter(
               re =>
                 !isNewReactionReplacingPrevious(re, newReaction) ||
-                re.timestamp > reaction.get('timestamp')
+                re.timestamp > reaction.timestamp
             );
           } else {
             reactions = oldReactions.filter(
@@ -3111,10 +3110,10 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           this.set({ reactions });
 
           await window.Signal.Data.removeReactionFromConversation({
-            emoji: reaction.get('emoji'),
-            fromId: reaction.get('fromId'),
-            targetAuthorServiceId: reaction.get('targetAuthorAci'),
-            targetTimestamp: reaction.get('targetTimestamp'),
+            emoji: reaction.emoji,
+            fromId: reaction.fromId,
+            targetAuthorServiceId: reaction.targetAuthorAci,
+            targetTimestamp: reaction.targetTimestamp,
           });
         } else {
           log.info(
@@ -3126,9 +3125,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           if (isFromSync) {
             const ourReactions = [
               newReaction,
-              ...oldReactions.filter(
-                re => re.fromId === reaction.get('fromId')
-              ),
+              ...oldReactions.filter(re => re.fromId === reaction.fromId),
             ];
             reactionToAdd = maxBy(ourReactions, 'timestamp') || newReaction;
           } else {
@@ -3136,7 +3133,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           }
 
           reactions = oldReactions.filter(
-            re => !isNewReactionReplacingPrevious(re, reaction.attributes)
+            re => !isNewReactionReplacingPrevious(re, reaction)
           );
           reactions.push(reactionToAdd);
           this.set({ reactions });
@@ -3147,12 +3144,12 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
           await window.Signal.Data.addReaction({
             conversationId: this.get('conversationId'),
-            emoji: reaction.get('emoji'),
-            fromId: reaction.get('fromId'),
+            emoji: reaction.emoji,
+            fromId: reaction.fromId,
             messageId: this.id,
             messageReceivedAt: this.get('received_at'),
-            targetAuthorAci: reaction.get('targetAuthorAci'),
-            targetTimestamp: reaction.get('targetTimestamp'),
+            targetAuthorAci: reaction.targetAuthorAci,
+            targetTimestamp: reaction.targetTimestamp,
           });
         }
       }
@@ -3173,7 +3170,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           'New story reaction must have an emoji'
         );
 
-        const generatedMessage = reaction.get('storyReactionMessage');
+        const generatedMessage = reaction.storyReactionMessage;
         strictAssert(
           generatedMessage,
           'Story reactions must provide storyReactionmessage'

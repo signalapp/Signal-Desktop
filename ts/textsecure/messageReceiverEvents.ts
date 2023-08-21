@@ -110,6 +110,7 @@ export class ConfirmableEvent extends Event {
 }
 
 export type DeliveryEventData = Readonly<{
+  envelopeId: string;
   timestamp: number;
   envelopeTimestamp: number;
   source?: string;
@@ -240,6 +241,7 @@ export class MessageEvent extends ConfirmableEvent {
 }
 
 export type ReadOrViewEventData = Readonly<{
+  envelopeId: string;
   timestamp: number;
   envelopeTimestamp: number;
   source?: string;
@@ -301,6 +303,7 @@ export class ViewOnceOpenSyncEvent extends ConfirmableEvent {
 }
 
 export type MessageRequestResponseOptions = {
+  envelopeId: string;
   threadE164?: string;
   threadAci?: AciString;
   messageRequestResponseType: Proto.SyncMessage.IMessageRequestResponse['type'];
@@ -319,8 +322,11 @@ export class MessageRequestResponseEvent extends ConfirmableEvent {
 
   public readonly groupV2Id?: string;
 
+  public readonly envelopeId?: string;
+
   constructor(
     {
+      envelopeId,
       threadE164,
       threadAci,
       messageRequestResponseType,
@@ -331,6 +337,7 @@ export class MessageRequestResponseEvent extends ConfirmableEvent {
   ) {
     super('messageRequestResponse', confirm);
 
+    this.envelopeId = envelopeId;
     this.threadE164 = threadE164;
     this.threadAci = threadAci;
     this.messageRequestResponseType = messageRequestResponseType;
@@ -374,6 +381,7 @@ export class StickerPackEvent extends ConfirmableEvent {
 }
 
 export type ReadSyncEventData = Readonly<{
+  envelopeId: string;
   timestamp?: number;
   envelopeTimestamp: number;
   sender?: string;
@@ -390,6 +398,7 @@ export class ReadSyncEvent extends ConfirmableEvent {
 }
 
 export type ViewSyncEventData = Readonly<{
+  envelopeId: string;
   timestamp?: number;
   envelopeTimestamp: number;
   senderE164?: string;

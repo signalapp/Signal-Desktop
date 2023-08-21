@@ -7,7 +7,6 @@ import * as log from '../logging/log';
 import * as Errors from '../types/errors';
 import { deleteForEveryone } from '../util/deleteForEveryone';
 import { drop } from '../util/drop';
-import { filter, size } from '../util/iterables';
 import { getMessageSentTimestampSet } from '../util/getMessageSentTimestampSet';
 
 export type DeleteAttributesType = {
@@ -20,28 +19,33 @@ export type DeleteAttributesType = {
 
 const deletes = new Map<string, DeleteAttributesType>();
 
+function remove(del: DeleteAttributesType): void {
+  del.removeFromMessageReceiverCache();
+  deletes.delete(del.envelopeId);
+}
+
 export function forMessage(
   messageAttributes: MessageAttributesType
 ): Array<DeleteAttributesType> {
   const sentTimestamps = getMessageSentTimestampSet(messageAttributes);
-  const matchingDeletes = filter(deletes, ([_envelopeId, item]) => {
+  const deleteValues = Array.from(deletes.values());
+
+  const matchingDeletes = deleteValues.filter(item => {
     return (
       item.fromId === getContactId(messageAttributes) &&
       sentTimestamps.has(item.targetSentTimestamp)
     );
   });
 
-  if (size(matchingDeletes) > 0) {
-    log.info('Found early DOE for message');
-    const result = Array.from(matchingDeletes);
-    result.forEach(([envelopeId, del]) => {
-      del.removeFromMessageReceiverCache();
-      deletes.delete(envelopeId);
-    });
-    return result.map(([_envelopeId, item]) => item);
+  if (!matchingDeletes.length) {
+    return [];
   }
 
-  return [];
+  log.info('Found early DOE for message');
+  matchingDeletes.forEach(del => {
+    remove(del);
+  });
+  return matchingDeletes;
 }
 
 export async function onDelete(del: DeleteAttributesType): Promise<void> {
@@ -88,11 +92,11 @@ export async function onDelete(del: DeleteAttributesType): Promise<void> {
 
         await deleteForEveryone(message, del);
 
-        deletes.delete(del.envelopeId);
-        del.removeFromMessageReceiverCache();
+        remove(del);
       })
     );
   } catch (error) {
+    remove(del);
     log.error(`${logId}: error`, Errors.toLogFormat(error));
   }
 }

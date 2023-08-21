@@ -1675,6 +1675,7 @@ export default class MessageReceiver
       getEnvelopeId(envelope),
       new DeliveryEvent(
         {
+          envelopeId: envelope.id,
           timestamp: envelope.timestamp,
           envelopeTimestamp: envelope.timestamp,
           source: envelope.source,
@@ -2857,6 +2858,7 @@ export default class MessageReceiver
       receiptMessage.timestamp.map(async rawTimestamp => {
         const ev = new EventClass(
           {
+            envelopeId: envelope.id,
             timestamp: rawTimestamp?.toNumber(),
             envelopeTimestamp: envelope.timestamp,
             source: envelope.source,
@@ -3255,6 +3257,7 @@ export default class MessageReceiver
 
     const ev = new MessageRequestResponseEvent(
       {
+        envelopeId: envelope.id,
         threadE164: dropNull(sync.threadE164),
         threadAci: sync.threadAci
           ? normalizeAci(
@@ -3393,6 +3396,7 @@ export default class MessageReceiver
     for (const { timestamp, sender, senderAci } of read) {
       const ev = new ReadSyncEvent(
         {
+          envelopeId: envelope.id,
           envelopeTimestamp: envelope.timestamp,
           timestamp: timestamp?.toNumber(),
           sender: dropNull(sender),
@@ -3420,6 +3424,7 @@ export default class MessageReceiver
       viewed.map(async ({ timestamp, senderE164, senderAci }) => {
         const ev = new ViewSyncEvent(
           {
+            envelopeId: envelope.id,
             envelopeTimestamp: envelope.timestamp,
             timestamp: timestamp?.toNumber(),
             senderE164: dropNull(senderE164),
