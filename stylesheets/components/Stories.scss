@@ -34,12 +34,7 @@
     &__add-story__button {
       height: 20px;
       width: 20px;
-      @include light-theme {
-        @include color-svg('../images/icons/v3/plus/plus.svg', $color-black);
-      }
-      @include dark-theme {
-        @include color-svg('../images/icons/v3/plus/plus.svg', $color-gray-15);
-      }
+      @include color-svg('../images/icons/v3/plus/plus.svg', $color-white);
 
       &:focus {
         @include keyboard-mode {

@@ -893,49 +893,55 @@ export function SendStoryModal({
           />
         </div>
         <div className="SendStoryModal__top-bar">
-          {i18n('icu:stories')}
-          <ContextMenu
-            aria-label={i18n('icu:SendStoryModal__new')}
-            i18n={i18n}
-            menuOptions={[
-              {
-                label: i18n('icu:SendStoryModal__new-custom--title'),
-                description: i18n(
-                  'icu:SendStoryModal__new-custom--description'
-                ),
-                icon: 'SendStoryModal__icon--custom',
-                onClick: () => setPage(Page.ChooseViewers),
-              },
-              {
-                label: i18n('icu:SendStoryModal__new-group--title'),
-                description: i18n('icu:SendStoryModal__new-group--description'),
-                icon: 'SendStoryModal__icon--group',
-                onClick: () => setPage(Page.ChooseGroups),
-              },
-            ]}
-            moduleClassName="SendStoryModal__new-story"
-            popperOptions={{
-              placement: 'bottom',
-              strategy: 'absolute',
-            }}
-            theme={theme === ThemeType.dark ? Theme.Dark : Theme.Light}
-          >
-            {({ openMenu, onKeyDown, ref, menuNode }) => (
-              <div>
-                <Button
-                  ref={ref}
-                  className="SendStoryModal__new-story__button"
-                  variant={ButtonVariant.Secondary}
-                  size={ButtonSize.Small}
-                  onClick={openMenu}
-                  onKeyDown={onKeyDown}
-                >
-                  {i18n('icu:SendStoryModal__new')}
-                </Button>
-                {menuNode}
-              </div>
-            )}
-          </ContextMenu>
+          <div className="SendStoryModal__top-bar-title">
+            {i18n('icu:stories')}
+          </div>
+          <div className="SendStoryModal__top-bar-actions">
+            <ContextMenu
+              aria-label={i18n('icu:SendStoryModal__new')}
+              i18n={i18n}
+              menuOptions={[
+                {
+                  label: i18n('icu:SendStoryModal__new-custom--title'),
+                  description: i18n(
+                    'icu:SendStoryModal__new-custom--description'
+                  ),
+                  icon: 'SendStoryModal__icon--custom',
+                  onClick: () => setPage(Page.ChooseViewers),
+                },
+                {
+                  label: i18n('icu:SendStoryModal__new-group--title'),
+                  description: i18n(
+                    'icu:SendStoryModal__new-group--description'
+                  ),
+                  icon: 'SendStoryModal__icon--group',
+                  onClick: () => setPage(Page.ChooseGroups),
+                },
+              ]}
+              moduleClassName="SendStoryModal__new-story"
+              popperOptions={{
+                placement: 'bottom',
+                strategy: 'absolute',
+              }}
+              theme={theme === ThemeType.dark ? Theme.Dark : Theme.Light}
+            >
+              {({ openMenu, onKeyDown, ref, menuNode }) => (
+                <div>
+                  <Button
+                    ref={ref}
+                    className="SendStoryModal__new-story__button"
+                    variant={ButtonVariant.Secondary}
+                    size={ButtonSize.Small}
+                    onClick={openMenu}
+                    onKeyDown={onKeyDown}
+                  >
+                    {i18n('icu:SendStoryModal__new')}
+                  </Button>
+                  {menuNode}
+                </div>
+              )}
+            </ContextMenu>
+          </div>
         </div>
         {fullList.map(listOrGroup =>
           // only group has a type field

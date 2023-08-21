@@ -93,7 +93,7 @@ function searchConversations(
   searchTerm: string,
   regionCode: string | undefined
 ): ReadonlyArray<Pick<Fuse.FuseResult<ConversationType>, 'item' | 'score'>> {
-  const maybeCommand = searchTerm.match(/^!([^\s]+):(.*)$/);
+  const maybeCommand = searchTerm.match(/^!([^\s:]+)(?::(.*))?$/);
   if (maybeCommand) {
     const [, commandName, query] = maybeCommand;
 
