@@ -247,18 +247,10 @@
       content: '';
       height: 12px;
       width: 12px;
-      @include light-theme {
-        @include color-svg(
-          '../images/icons/v3/plus/plus-compact-bold.svg',
-          $color-black
-        );
-      }
-      @include dark-theme {
-        @include color-svg(
-          '../images/icons/v3/plus/plus-compact-bold.svg',
-          $color-white
-        );
-      }
+      @include color-svg(
+        '../images/icons/v3/plus/plus-compact-bold.svg',
+        $color-white
+      );
     }
   }
 }
