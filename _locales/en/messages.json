@@ -6783,13 +6783,13 @@
     "messageformat": "Small tweaks, bug fixes, and performance enhancements. Thanks for using Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.28--0": {
-    "messageformat": "We modified the notification icons that appear for group updates, like when someone new joins a group. These icons help improve legibility, especially if you live within the darkness of the Dark Theme. The previous icons merely adopted the dark. The new icons were born in it, molded by it."
-  },
   "icu:WhatsNew__v6.29--0": {
     "messageformat": "The Chat Color customization screen is now displayed correctly across different languages and selected locales."
   },
   "icu:WhatsNew__v6.29--1": {
     "messageformat": "We improved notification support on Windows. If you don't click on a notification when it first arrives, the latest missed notification will appear in the Windows Notification Center. Clicking on that notification will now jump directly to that chat. We'd like to thank Julien Richard for their feedback."
+  },
+  "icu:WhatsNew__v6.30--0": {
+    "messageformat": "Keep tabs on your calls with the new calls tab. Start a new call or return a call that you missed without having to find the corresponding chat. Now you can say hello with your voice without also saying goodbye to the unread marker for messages in that thread."
   }
 }
