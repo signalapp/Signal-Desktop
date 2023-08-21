@@ -91,7 +91,7 @@ export interface ConversationAttributes {
   profileKey?: string; // Consider this being a hex string if it is set
   triggerNotificationsFor: ConversationNotificationSettingType;
   avatarPointer?: string; // this is the url of the avatar on the file server v2. we use this to detect if we need to redownload the avatar from someone (not used for opengroups)
-  expireTimer: number;
+  expireTimer: number; // in seconds, 0 means no expiration
 
   members: Array<string>; // groups only members are all members for this group. zombies excluded (not used for communities)
   groupAdmins: Array<string>; // for sogs and closed group: the unique admins of that group

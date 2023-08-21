@@ -8,7 +8,7 @@ import {
   LegacyGroupMemberInfo,
 } from 'libsession_util_nodejs';
 import { from_hex } from 'libsodium-wrappers-sumo';
-import { isArray, isEmpty, isEqual, isFinite } from 'lodash';
+import { isArray, isEmpty, isEqual } from 'lodash';
 import { OpenGroupV2Room } from '../data/opengroups';
 import { ConversationAttributes } from '../models/conversationAttributes';
 import { OpenGroupRequestCommonType } from '../session/apis/open_group_api/opengroupV2/ApiUtil';
@@ -154,8 +154,7 @@ export function getContactInfoFromDBValues({
     expirationMode: expirationType
       ? (expirationType as DisappearingMessageConversationType)
       : undefined,
-    expirationTimerSeconds:
-      !!expireTimer && isFinite(expireTimer) && expireTimer > 0 ? expireTimer * 1000 : 0,
+    expirationTimerSeconds: !!expireTimer && expireTimer > 0 ? expireTimer : 0,
   };
 
   if (

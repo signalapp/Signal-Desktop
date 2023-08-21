@@ -106,8 +106,7 @@ function getContactInfoFromDBValues({
     expirationMode: expirationType
       ? (expirationType as DisappearingMessageConversationType)
       : undefined,
-    expirationTimerSeconds:
-      !!expireTimer && isFinite(expireTimer) && expireTimer > 0 ? expireTimer * 1000 : 0,
+    expirationTimerSeconds: !!expireTimer && expireTimer > 0 ? expireTimer : 0,
   };
 
   if (
@@ -151,7 +150,8 @@ function insertContactIntoContactWrapper(
       priority,
       dbCreatedAtSeconds: Math.floor((contact.active_at || Date.now()) / 1000),
       expirationType: contact.expirationType || 'off',
-      expireTimer: contact.expirationTimer || 0,
+      // TODO rename expireTimer to expirationTimer
+      expireTimer: contact.expireTimer || 0,
     });
 
     try {

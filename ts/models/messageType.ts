@@ -27,7 +27,7 @@ export interface MessageAttributes {
   body?: string;
   // NOTE this is used for the logic
   expirationType?: DisappearingMessageType;
-  expireTimer: number;
+  expireTimer: number; // in seconds, 0 means no expiration
   expirationStartTimestamp: number;
   expires_at?: number;
   // NOTE this is used for conversation setting
