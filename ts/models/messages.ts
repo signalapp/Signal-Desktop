@@ -393,7 +393,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     strictAssert(isAciString(authorAci), 'Story message from pni');
     this.set({
       storyReplyContext: {
-        attachment,
+        attachment: omit(attachment, 'screenshotData'),
         authorAci,
         messageId: message.id,
       },
