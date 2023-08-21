@@ -144,7 +144,7 @@ jobs:
       run: yarn build:esbuild:prod
 
     - name: Build with packaging .deb file
-      run: yarn build:release
+      run: yarn build:release -- --publish=never
       if: github.ref == 'refs/heads/main'
       env:
         DISABLE_INSPECT_FUSE: on
