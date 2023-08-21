@@ -1767,23 +1767,12 @@ function updateToSessionSchemaVersion34(currentVersion: number, db: BetterSqlite
             publicKeyHex,
             'ContactsConfig'
           );
-          const volatileInfoConfigWrapperDump = MIGRATION_HELPERS.V34.fetchConfigDumps(
-            db,
-            targetVersion,
-            publicKeyHex,
-            'ConvoInfoVolatileConfig'
-          );
 
-          if (contactsWrapperDump && volatileInfoConfigWrapperDump) {
+          if (contactsWrapperDump) {
             const contactsData = contactsWrapperDump.data;
             const contactsConfigWrapper = new ContactsConfigWrapperNode(
               privateEd25519,
               contactsData
-            );
-            const volatileInfoData = volatileInfoConfigWrapperDump.data;
-            const volatileInfoConfigWrapper = new ConvoInfoVolatileWrapperNode(
-              privateEd25519,
-              volatileInfoData
             );
 
             console.info(
@@ -1791,12 +1780,10 @@ function updateToSessionSchemaVersion34(currentVersion: number, db: BetterSqlite
             );
 
             contactsToUpdateInWrapper.forEach(contact => {
-              MIGRATION_HELPERS.V34.insertContactIntoContactWrapper(
+              MIGRATION_HELPERS.V34.updateContactInContactWrapper(
                 contact,
                 blockedNumbers,
                 contactsConfigWrapper,
-                volatileInfoConfigWrapper,
-                db,
                 targetVersion
               );
             });
@@ -1817,22 +1804,9 @@ function updateToSessionSchemaVersion34(currentVersion: number, db: BetterSqlite
             console.log(
               '===================== contacts config wrapper dump updated ======================='
             );
-
-            // dump the wrapper content and save it to the DB
-            MIGRATION_HELPERS.V34.writeConfigDumps(
-              db,
-              targetVersion,
-              publicKeyHex,
-              'ConvoInfoVolatileConfig',
-              volatileInfoConfigWrapper.dump()
-            );
-
-            console.log(
-              '===================== convo info volatile config wrapper dump updated ======================='
-            );
           } else {
             console.log(
-              '===================== contacts config or convo info volatile config wrapper dump found ======================='
+              '===================== contacts config config wrapper dump found ======================='
             );
           }
         }
@@ -1846,6 +1820,7 @@ function updateToSessionSchemaVersion34(currentVersion: number, db: BetterSqlite
       expirationType = $expirationType
       WHERE type = 'group' AND id LIKE '05%' AND expireTimer > 0;`
       ).run({ expirationType: 'deleteAfterSend' });
+
       // endregion
 
       // Message changes

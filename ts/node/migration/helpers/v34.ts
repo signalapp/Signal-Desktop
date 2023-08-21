@@ -3,12 +3,10 @@ import * as BetterSqlite3 from '@signalapp/better-sqlite3';
 import {
   ContactInfoSet,
   ContactsConfigWrapperNode,
-  ConvoInfoVolatileWrapperNode,
   DisappearingMessageConversationType,
 } from 'libsession_util_nodejs';
-import { isEmpty, isEqual, isFinite, isNumber } from 'lodash';
+import { isEmpty, isEqual } from 'lodash';
 import { CONVERSATION_PRIORITIES } from '../../../models/conversationAttributes';
-import { MESSAGES_TABLE, toSqliteBoolean } from '../../database_utility';
 import { fromHexToArray } from '../../../session/utils/String';
 import { checkTargetMigration, hasDebugEnvVariable } from '../utils';
 import { ConfigDumpRow, CONFIG_DUMP_TABLE } from '../../../types/sqlSharedTypes';
@@ -122,12 +120,10 @@ function getContactInfoFromDBValues({
   return wrapperContact;
 }
 
-function insertContactIntoContactWrapper(
+function updateContactInContactWrapper(
   contact: any,
   blockedNumbers: Array<string>,
-  contactsConfigWrapper: ContactsConfigWrapperNode | null, // set this to null to only insert into the convo volatile wrapper (i.e. for ourConvo case)
-  volatileConfigWrapper: ConvoInfoVolatileWrapperNode,
-  db: BetterSqlite3.Database,
+  contactsConfigWrapper: ContactsConfigWrapperNode,
   version: number
 ) {
   checkTargetMigration(version, targetVersion);
@@ -189,36 +185,10 @@ function insertContactIntoContactWrapper(
       }
     }
   }
-
-  try {
-    const rows = db
-      .prepare(
-        `
-      SELECT MAX(COALESCE(sent_at, 0)) AS max_sent_at
-      FROM ${MESSAGES_TABLE} WHERE
-        conversationId = $conversationId AND
-        unread = $unread;
-    `
-      )
-      .get({
-        conversationId: contact.id,
-        unread: toSqliteBoolean(false), // we want to find the message read with the higher sentAt timestamp
-      });
-
-    const maxRead = rows?.max_sent_at;
-    const lastRead = isNumber(maxRead) && isFinite(maxRead) ? maxRead : 0;
-    hasDebugEnvVariable &&
-      console.info(`Inserting contact into volatile wrapper maxread: ${contact.id} :${lastRead}`);
-    volatileConfigWrapper.set1o1(contact.id, lastRead, false);
-  } catch (e) {
-    console.error(
-      `volatileConfigWrapper.set1o1 during migration failed with ${e.message} for id: ${contact.id}. skipping`
-    );
-  }
 }
 
 export const V34 = {
   fetchConfigDumps,
   writeConfigDumps,
-  insertContactIntoContactWrapper,
+  updateContactInContactWrapper,
 };
