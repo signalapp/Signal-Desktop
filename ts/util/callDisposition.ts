@@ -59,7 +59,6 @@ import {
   callDetailsSchema,
 } from '../types/CallDisposition';
 import type { ConversationType } from '../state/ducks/conversations';
-import { drop } from './drop';
 
 // utils
 // -----
@@ -895,7 +894,7 @@ export async function clearCallHistoryDataAndSync(): Promise<void> {
         messageId,
         message.get('conversationId')
       );
-      drop(conversation.updateLastMessage());
+      conversation.debouncedUpdateLastMessage();
       window.MessageController.unregister(messageId);
     });
 

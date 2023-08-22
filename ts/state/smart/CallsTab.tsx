@@ -1,7 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useItemsActions } from '../ducks/items';
 import {
@@ -102,8 +102,11 @@ export function SmartCallsTab(): JSX.Element {
     onOutgoingAudioCallInConversation,
     onOutgoingVideoCallInConversation,
   } = useCallingActions();
-  const { clearAllCallHistory: clearCallHistory, markCallHistoryRead } =
-    useCallHistoryActions();
+  const {
+    clearAllCallHistory: clearCallHistory,
+    markCallHistoryRead,
+    markCallsTabViewed,
+  } = useCallHistoryActions();
 
   const getCallHistoryGroupsCount = useCallback(
     async (options: CallHistoryFilterOptions) => {
@@ -148,6 +151,10 @@ export function SmartCallsTab(): JSX.Element {
     },
     [allConversations, regionCode, callHistoryEdition]
   );
+
+  useEffect(() => {
+    markCallsTabViewed();
+  }, [markCallsTabViewed]);
 
   return (
     <CallsTab

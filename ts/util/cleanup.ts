@@ -15,7 +15,7 @@ export async function cleanupMessage(
   window.reduxActions?.conversations.messageDeleted(id, conversationId);
 
   const parentConversation = window.ConversationController.get(conversationId);
-  parentConversation?.debouncedUpdateLastMessage?.();
+  parentConversation?.debouncedUpdateLastMessage();
 
   window.MessageController.unregister(id);
 

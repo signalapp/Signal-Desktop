@@ -308,6 +308,7 @@ const dataInterface: ServerInterface = {
   clearCallHistory,
   getCallHistoryUnreadCount,
   markCallHistoryRead,
+  markAllCallHistoryRead,
   getCallHistoryMessageByCallId,
   getCallHistory,
   getCallHistoryGroupsCount,
@@ -3369,6 +3370,35 @@ async function markCallHistoryRead(callId: string): Promise<void> {
   db.prepare(query).run(params);
 }
 
+async function markAllCallHistoryRead(): Promise<ReadonlyArray<string>> {
+  const db = getInstance();
+
+  return db.transaction(() => {
+    const where = sqlFragment`
+      WHERE messages.type IS 'call-history'
+        AND messages.readStatus IS ${READ_STATUS_UNREAD}
+    `;
+
+    const [selectQuery, selectParams] = sql`
+      SELECT DISTINCT conversationId
+      FROM messages
+      ${where};
+    `;
+
+    const conversationIds = db.prepare(selectQuery).pluck().all(selectParams);
+
+    const [updateQuery, updateParams] = sql`
+      UPDATE messages
+      SET readStatus = ${READ_STATUS_READ}
+      ${where};
+    `;
+
+    db.prepare(updateQuery).run(updateParams);
+
+    return conversationIds;
+  })();
+}
+
 function getCallHistoryGroupDataSync(
   db: Database,
   isCount: boolean,
@@ -5587,14 +5617,14 @@ async function eraseStorageServiceState(): Promise<void> {
       storageVersion = null,
       storageUnknownFields = null,
       storageNeedsSync = 0;
-    
+
     UPDATE uninstalled_sticker_packs
     SET
       storageID = null,
       storageVersion = null,
       storageUnknownFields = null,
       storageNeedsSync = 0;
-  
+
     -- Story Distribution Lists
     UPDATE storyDistributions
     SET

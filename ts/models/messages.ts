@@ -1148,7 +1148,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       sticker: undefined,
       ...additionalProperties,
     });
-    this.getConversation()?.debouncedUpdateLastMessage?.();
+    this.getConversation()?.debouncedUpdateLastMessage();
 
     if (shouldPersist) {
       await window.Signal.Data.saveMessage(this.attributes, {
@@ -1485,7 +1485,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     saveErrors?: (errors: Array<Error>) => void
   ): Promise<void> {
     const updateLeftPane =
-      this.getConversation()?.debouncedUpdateLastMessage || noop;
+      this.getConversation()?.debouncedUpdateLastMessage ?? noop;
 
     updateLeftPane();
 

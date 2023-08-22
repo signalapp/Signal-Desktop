@@ -13,6 +13,7 @@ import { ToastType } from '../../types/Toast';
 import type { CallHistoryDetails } from '../../types/CallDisposition';
 import * as log from '../../logging/log';
 import * as Errors from '../../types/errors';
+import { drop } from '../../util/drop';
 
 export type CallHistoryState = ReadonlyDeep<{
   // This informs the app that underlying call history data has changed.
@@ -77,9 +78,35 @@ function markCallHistoryRead(
   return async dispatch => {
     try {
       await window.Signal.Data.markCallHistoryRead(callId);
-      await window.ConversationController.get(conversationId)?.updateUnread();
+      drop(window.ConversationController.get(conversationId)?.updateUnread());
     } catch (error) {
-      log.error('Error marking call history read', Errors.toLogFormat(error));
+      log.error(
+        'markCallHistoryRead: Error marking call history read',
+        Errors.toLogFormat(error)
+      );
+    } finally {
+      dispatch(updateCallHistoryUnreadCount());
+    }
+  };
+}
+
+function markCallsTabViewed(): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  CallHistoryUpdateUnread
+> {
+  return async dispatch => {
+    try {
+      const conversationIds = await window.Signal.Data.markAllCallHistoryRead();
+      for (const conversationId of conversationIds) {
+        drop(window.ConversationController.get(conversationId)?.updateUnread());
+      }
+    } catch (error) {
+      log.error(
+        'markCallsTabViewed: Error marking all call history read',
+        Errors.toLogFormat(error)
+      );
     } finally {
       dispatch(updateCallHistoryUnreadCount());
     }
@@ -118,6 +145,7 @@ export const actions = {
   clearAllCallHistory,
   updateCallHistoryUnreadCount,
   markCallHistoryRead,
+  markCallsTabViewed,
 };
 
 export const useCallHistoryActions = (): BoundActionCreatorsMapObject<
