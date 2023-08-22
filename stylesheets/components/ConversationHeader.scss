@@ -33,6 +33,15 @@
   }
 
   -webkit-app-region: var(--draggable-app-region);
+
+  // In Electron v23+, clicking on a `drag` region in an unfocused window may not
+  // propagate clicks to no-drag elements that have a higher CSS order; this avoids that
+  // scenario for interactive elements (e.g. IncomingCallBar) which overlap the
+  // conversation header.
+  @at-root body:not(.window-focused) & {
+    -webkit-app-region: no-drag;
+  }
+
   padding-top: var(--title-bar-drag-area-height);
   display: flex;
   flex-direction: row;
