@@ -503,7 +503,10 @@ export function transitionCallHistory(
     throw missingCaseError(mode);
   }
 
-  const timestamp = Math.max(callEvent.timestamp, callHistory?.timestamp ?? 0);
+  const timestamp = transitionTimestamp(callHistory, callEvent);
+  log.info(
+    `transitionCallHistory: Transitioned call history timestamp (before: ${callHistory?.timestamp}, after: ${timestamp})`
+  );
 
   return callHistoryDetailsSchema.parse({
     callId,
@@ -515,6 +518,71 @@ export function transitionCallHistory(
     timestamp,
     status,
   });
+}
+
+function transitionTimestamp(
+  callHistory: CallHistoryDetails | null,
+  callEvent: CallEventDetails
+): number {
+  // Sometimes when a device is asleep the timestamp will be stuck in the past.
+  // In some cases, we'll accept whatever the most recent timestamp is.
+  const latestTimestamp = Math.max(
+    callEvent.timestamp,
+    callHistory?.timestamp ?? 0
+  );
+
+  // Always accept the timestamp if we have no other timestamps.
+  if (callHistory == null) {
+    return callEvent.timestamp;
+  }
+
+  // Deleted call history should never be changed
+  if (
+    callHistory.status === DirectCallStatus.Deleted ||
+    callHistory.status === GroupCallStatus.Deleted
+  ) {
+    return callHistory.timestamp;
+  }
+
+  // Accepted call history should only be changed if we get a remote accepted
+  // event with possibly a better timestamp.
+  if (
+    callHistory.status === DirectCallStatus.Accepted ||
+    callHistory.status === GroupCallStatus.Accepted ||
+    callHistory.status === GroupCallStatus.Joined
+  ) {
+    if (callEvent.event === RemoteCallEvent.Accepted) {
+      return latestTimestamp;
+    }
+    return callHistory.timestamp;
+  }
+
+  // Declined call history should only be changed if if we transition to an
+  // accepted state or get a remote 'not accepted' event with possibly a better
+  // timestamp.
+  if (
+    callHistory.status === DirectCallStatus.Declined ||
+    callHistory.status === GroupCallStatus.Declined
+  ) {
+    if (callEvent.event === RemoteCallEvent.NotAccepted) {
+      return latestTimestamp;
+    }
+    return callHistory.timestamp;
+  }
+
+  // We don't care about holding onto timestamps that were from these states
+  if (
+    callHistory.status === DirectCallStatus.Pending ||
+    callHistory.status === GroupCallStatus.GenericGroupCall ||
+    callHistory.status === GroupCallStatus.OutgoingRing ||
+    callHistory.status === GroupCallStatus.Ringing ||
+    callHistory.status === DirectCallStatus.Missed ||
+    callHistory.status === GroupCallStatus.Missed
+  ) {
+    return latestTimestamp;
+  }
+
+  throw missingCaseError(callHistory.status);
 }
 
 function transitionDirectCallStatus(
