@@ -59,6 +59,8 @@ import dataInterface from '../sql/Client';
 import { MY_STORY_ID, StorySendMode } from '../types/Stories';
 import * as RemoteConfig from '../RemoteConfig';
 import { findAndDeleteOnboardingStoryIfExists } from '../util/findAndDeleteOnboardingStoryIfExists';
+import { downloadOnboardingStory } from '../util/downloadOnboardingStory';
+import { drop } from '../util/drop';
 
 const MY_STORY_BYTES = uuidToBytes(MY_STORY_ID);
 
@@ -1414,7 +1416,9 @@ export async function mergeAccountRecord(
       hasViewedOnboardingStoryBool
     );
     if (hasViewedOnboardingStoryBool) {
-      void findAndDeleteOnboardingStoryIfExists();
+      drop(findAndDeleteOnboardingStoryIfExists());
+    } else {
+      drop(downloadOnboardingStory());
     }
   }
   {

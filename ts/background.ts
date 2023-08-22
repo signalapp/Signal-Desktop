@@ -167,7 +167,6 @@ import { SeenStatus } from './MessageSeenStatus';
 import MessageSender from './textsecure/SendMessage';
 import type AccountManager from './textsecure/AccountManager';
 import { onStoryRecipientUpdate } from './util/onStoryRecipientUpdate';
-import { downloadOnboardingStory } from './util/downloadOnboardingStory';
 import { flushAttachmentDownloadQueue } from './util/attachmentDownloadQueue';
 import { StartupQueue } from './util/StartupQueue';
 import { showConfirmationDialog } from './util/showConfirmationDialog';
@@ -1146,7 +1145,6 @@ export async function startApp(): Promise<void> {
         (async () => {
           menuOptions = await window.SignalContext.getMenuOptions();
         })(),
-        downloadOnboardingStory(),
       ]);
       await window.ConversationController.checkForConflicts();
     } catch (error) {
@@ -1505,19 +1503,19 @@ export async function startApp(): Promise<void> {
     log.info('Expiration start timestamp cleanup: complete');
 
     log.info('listening for registration events');
-    window.Whisper.events.on('registration_done', () => {
+    window.Whisper.events.on('registration_done', async () => {
       log.info('handling registration event');
 
       strictAssert(server !== undefined, 'WebAPI not ready');
-      void server.authenticate(
+      await server.authenticate(
         window.textsecure.storage.user.getWebAPICredentials()
       );
 
       // Cancel throttled calls to refreshRemoteConfig since our auth changed.
       window.Signal.RemoteConfig.maybeRefreshRemoteConfig.cancel();
-      void window.Signal.RemoteConfig.maybeRefreshRemoteConfig(server);
+      drop(window.Signal.RemoteConfig.maybeRefreshRemoteConfig(server));
 
-      void connect(true);
+      drop(connect(true));
     });
 
     cancelInitializationMessage();
@@ -3012,6 +3010,9 @@ export async function startApp(): Promise<void> {
         await window.textsecure.storage.remove(LAST_PROCESSED_INDEX_KEY);
       }
       await window.textsecure.storage.put(VERSION_KEY, window.getVersion());
+
+      // Re-hydrate items from memory; removeAllConfiguration above changed database
+      await window.storage.fetch();
 
       log.info('unlinkAndDisconnect: Successfully cleared local configuration');
     } catch (eraseError) {
