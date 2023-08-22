@@ -41,7 +41,7 @@ import {
 } from '../util/storage';
 import { deleteAllMessagesByConvoIdNoConfirmation } from '../interactions/conversationInteractions';
 // eslint-disable-next-line import/no-unresolved, import/extensions
-import { ConfigWrapperObjectTypes } from '../../ts/webworker/workers/browser/libsession_worker_functions';
+import { ConfigWrapperObjectTypes } from '../webworker/workers/browser/libsession_worker_functions';
 import {
   ContactsWrapperActions,
   ConvoInfoVolatileWrapperActions,
@@ -545,6 +545,13 @@ async function handleLegacyGroupUpdate(latestEnvelopeTimestamp: number) {
       continue;
     }
 
+    window.log.debug(
+      `WIP: handleLegacyGroupUpdate for ${fromWrapper.pubkeyHex}legacyGroupConvo `,
+      legacyGroupConvo,
+      'fromWrapper',
+      fromWrapper
+    );
+
     const members = fromWrapper.members.map(m => m.pubkeyHex);
     const admins = fromWrapper.members.filter(m => m.isAdmin).map(m => m.pubkeyHex);
     // then for all the existing legacy group in the wrapper, we need to override the field of what we have in the DB with what is in the wrapper
@@ -559,7 +566,14 @@ async function handleLegacyGroupUpdate(latestEnvelopeTimestamp: number) {
         legacyGroupConvo.get('active_at') < latestEnvelopeTimestamp
           ? legacyGroupConvo.get('active_at')
           : latestEnvelopeTimestamp,
+      expirationType:
+        !!fromWrapper.disappearingTimerSeconds && fromWrapper.disappearingTimerSeconds === 0
+          ? 'off'
+          : 'deleteAfterSend',
+      expireTimer: fromWrapper.disappearingTimerSeconds,
     };
+
+    window.log.debug(`WIP: groupDetails for ${fromWrapper.pubkeyHex} `, groupDetails);
 
     await ClosedGroup.updateOrCreateClosedGroup(groupDetails);
 
@@ -574,16 +588,18 @@ async function handleLegacyGroupUpdate(latestEnvelopeTimestamp: number) {
       changes = true;
     }
 
-    // FIXME Will unsure
     // if (legacyGroupConvo.get('expireTimer') !== fromWrapper.disappearingTimerSeconds) {
+    //   // TODO Not sure about this
     //   await legacyGroupConvo.updateExpireTimer({
+    //     providedExpirationType:
+    //       !!fromWrapper.disappearingTimerSeconds && fromWrapper.disappearingTimerSeconds === 0
+    //         ? 'off'
+    //         : 'deleteAfterSend',
     //     providedExpireTimer: fromWrapper.disappearingTimerSeconds,
     //     shouldCommit: false,
     //     fromSync: true,
     //     providedChangeTimestamp: latestEnvelopeTimestamp,
     //     fromConfigMessage: true,
-    //     providedExpirationType:
-    //       fromWrapper.disappearingTimerSeconds === 0 ? 'off' : 'deleteAfterSend',
     //   });
     //   changes = true;
     // }

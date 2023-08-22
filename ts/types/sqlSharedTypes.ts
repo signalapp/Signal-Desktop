@@ -10,7 +10,6 @@ import {
 import { from_hex } from 'libsodium-wrappers-sumo';
 import { isArray, isEmpty, isEqual } from 'lodash';
 import { OpenGroupV2Room } from '../data/opengroups';
-import { ConversationAttributes } from '../models/conversationAttributes';
 import { OpenGroupRequestCommonType } from '../session/apis/open_group_api/opengroupV2/ApiUtil';
 import { fromHexToArray } from '../session/utils/String';
 import { ConfigWrapperObjectTypes } from '../webworker/workers/browser/libsession_worker_functions';
@@ -208,27 +207,30 @@ export function maybeArrayJSONtoArray(arr: string | Array<string>): Array<string
 }
 
 /**
- * NOTE This code should always match the last known version of the same function used in a libsession migration (V31)
+ * NOTE This code should always match the last known version of the same function used in a libsession migration (V34)
  */
 export function getLegacyGroupInfoFromDBValues({
   id,
   priority,
   members: maybeMembers,
   displayNameInProfile,
-  // expireTimer,
+  expirationType,
+  expireTimer,
   encPubkeyHex,
   encSeckeyHex,
   groupAdmins: maybeAdmins,
   lastJoinedTimestamp,
-}: Pick<
-  ConversationAttributes,
-  'id' | 'priority' | 'displayNameInProfile' | 'lastJoinedTimestamp'
-  // | 'expireTimer'
-> & {
+}: {
+  id: string;
+  priority: number;
+  displayNameInProfile: string | undefined;
+  expirationType: string | undefined;
+  expireTimer: number | undefined;
   encPubkeyHex: string;
   encSeckeyHex: string;
   members: string | Array<string>;
   groupAdmins: string | Array<string>;
+  lastJoinedTimestamp: number;
 }) {
   const admins: Array<string> = maybeArrayJSONtoArray(maybeAdmins);
   const members: Array<string> = maybeArrayJSONtoArray(maybeMembers);
@@ -239,9 +241,16 @@ export function getLegacyGroupInfoFromDBValues({
       pubkeyHex: m,
     };
   });
+
   const legacyGroup: LegacyGroupInfo = {
     pubkeyHex: id,
-    // disappearingTimerSeconds: !expireTimer ? 0 : expireTimer, // FIXME WILL add expirationMode here
+    disappearingTimerSeconds:
+      expirationType &&
+      (expirationType as DisappearingMessageConversationType) !== 'off' &&
+      !!expireTimer &&
+      expireTimer > 0
+        ? expireTimer
+        : 0,
     name: displayNameInProfile || '',
     priority: priority || 0,
     members: wrappedMembers,

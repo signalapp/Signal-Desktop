@@ -262,7 +262,6 @@ function getLegacyGroupInfoFromDBValues({
   priority,
   members: maybeMembers,
   displayNameInProfile,
-  // expireTimer,
   encPubkeyHex,
   encSeckeyHex,
   groupAdmins: maybeAdmins,
@@ -270,7 +269,6 @@ function getLegacyGroupInfoFromDBValues({
 }: Pick<
   ConversationAttributes,
   'id' | 'priority' | 'displayNameInProfile' | 'lastJoinedTimestamp'
-  // | 'expireTimer'
 > & {
   encPubkeyHex: string;
   encSeckeyHex: string;
@@ -288,7 +286,6 @@ function getLegacyGroupInfoFromDBValues({
   });
   const legacyGroup: LegacyGroupInfo = {
     pubkeyHex: id,
-    // disappearingTimerSeconds: !expireTimer ? 0 : expireTimer, // FIXME WILL add expirationMode here
     name: displayNameInProfile || '',
     priority: priority || 0,
     members: wrappedMembers,

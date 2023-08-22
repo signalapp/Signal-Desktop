@@ -10,10 +10,7 @@ import {
 } from 'libsession_util_nodejs';
 import { isEmpty, isEqual } from 'lodash';
 import { from_hex } from 'libsodium-wrappers-sumo';
-import {
-  CONVERSATION_PRIORITIES,
-  ConversationAttributes,
-} from '../../../models/conversationAttributes';
+import { CONVERSATION_PRIORITIES } from '../../../models/conversationAttributes';
 import { fromHexToArray } from '../../../session/utils/String';
 import { checkTargetMigration, hasDebugEnvVariable } from '../utils';
 import {
@@ -211,19 +208,17 @@ function getLegacyGroupInfoFromDBValues({
   encSeckeyHex,
   groupAdmins: maybeAdmins,
   lastJoinedTimestamp,
-}: Pick<
-  ConversationAttributes,
-  | 'id'
-  | 'priority'
-  | 'displayNameInProfile'
-  | 'lastJoinedTimestamp'
-  | 'expirationType'
-  | 'expireTimer'
-> & {
+}: {
+  id: string;
+  priority: number;
+  displayNameInProfile: string | undefined;
+  expirationType: string | undefined;
+  expireTimer: number | undefined;
   encPubkeyHex: string;
   encSeckeyHex: string;
   members: string | Array<string>;
   groupAdmins: string | Array<string>;
+  lastJoinedTimestamp: number;
 }) {
   const admins: Array<string> = maybeArrayJSONtoArray(maybeAdmins);
   const members: Array<string> = maybeArrayJSONtoArray(maybeMembers);
@@ -255,59 +250,43 @@ function getLegacyGroupInfoFromDBValues({
 }
 
 function updateLegacyGroupInWrapper(
-  legacyGroup: Pick<
-    ConversationAttributes,
-    | 'id'
-    | 'priority'
-    | 'displayNameInProfile'
-    | 'lastJoinedTimestamp'
-    | 'expirationType'
-    | 'expireTimer'
-  > & { members: string; groupAdmins: string }, // members and groupAdmins are still stringified here
+  legacyGroup: any,
   userGroupConfigWrapper: UserGroupsWrapperNode,
   db: BetterSqlite3.Database,
   version: number
 ) {
   checkTargetMigration(version, targetVersion);
 
-  const {
-    priority,
-    id,
-    expirationType,
-    expireTimer,
-    groupAdmins,
-    members,
-    displayNameInProfile,
-    lastJoinedTimestamp,
-  } = legacyGroup;
+  if (legacyGroup !== null) {
+    const priority = legacyGroup.priority || CONVERSATION_PRIORITIES.default;
 
-  const latestEncryptionKeyPairHex = sqlNode.getLatestClosedGroupEncryptionKeyPair(
-    legacyGroup.id,
-    db
-  ) as HexKeyPair | undefined;
+    const latestEncryptionKeyPairHex = sqlNode.getLatestClosedGroupEncryptionKeyPair(
+      legacyGroup.id,
+      db
+    ) as HexKeyPair | undefined;
 
-  const wrapperLegacyGroup = getLegacyGroupInfoFromDBValues({
-    id,
-    priority,
-    expirationType,
-    expireTimer,
-    groupAdmins,
-    members,
-    displayNameInProfile,
-    encPubkeyHex: latestEncryptionKeyPairHex?.publicHex || '',
-    encSeckeyHex: latestEncryptionKeyPairHex?.privateHex || '',
-    lastJoinedTimestamp,
-  });
+    const wrapperLegacyGroup = getLegacyGroupInfoFromDBValues({
+      id: legacyGroup.id,
+      priority,
+      expirationType: legacyGroup.expirationType || 'off',
+      expireTimer: legacyGroup.expireTimer || 0,
+      groupAdmins: legacyGroup.groupAdmins || [],
+      members: legacyGroup.members || [],
+      displayNameInProfile: legacyGroup.displayNameInProfile || '',
+      encPubkeyHex: latestEncryptionKeyPairHex?.publicHex || '',
+      encSeckeyHex: latestEncryptionKeyPairHex?.privateHex || '',
+      lastJoinedTimestamp: legacyGroup.lastJoinedTimestamp || 0,
+    });
 
-  try {
-    hasDebugEnvVariable &&
-      console.info('Inserting legacy group into wrapper: ', wrapperLegacyGroup);
-    const success = userGroupConfigWrapper.setLegacyGroup(wrapperLegacyGroup);
-    hasDebugEnvVariable && console.info('legacy group into wrapper success: ', success);
-  } catch (e) {
-    console.error(
-      `userGroupConfigWrapper.set during migration failed with ${e.message} for legacyGroup.id: "${legacyGroup.id}". Skipping that legacy group entirely`
-    );
+    try {
+      hasDebugEnvVariable &&
+        console.info('Inserting legacy group into wrapper: ', wrapperLegacyGroup);
+      userGroupConfigWrapper.setLegacyGroup(wrapperLegacyGroup);
+    } catch (e) {
+      console.error(
+        `userGroupConfigWrapper.set during migration failed with ${e.message} for legacyGroup.id: "${legacyGroup.id}". Skipping that legacy group entirely`
+      );
+    }
   }
 }
 
