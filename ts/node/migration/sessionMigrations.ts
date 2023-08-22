@@ -1736,6 +1736,7 @@ function updateToSessionSchemaVersion34(currentVersion: number, db: BetterSqlite
           );
         }
       }
+
       // endregion
 
       // region Disappearing Messages Private Conversations
@@ -1806,7 +1807,7 @@ function updateToSessionSchemaVersion34(currentVersion: number, db: BetterSqlite
             );
           } else {
             console.log(
-              '===================== contacts config config wrapper dump found ======================='
+              '===================== contacts config wrapper dump not found ======================='
             );
           }
         }
@@ -1815,11 +1816,76 @@ function updateToSessionSchemaVersion34(currentVersion: number, db: BetterSqlite
       // endregion
 
       // region Disappearing Messages Groups
-      db.prepare(
-        `UPDATE ${CONVERSATIONS_TABLE} SET
+      const groupConversationsInfo = db
+        .prepare(
+          `UPDATE ${CONVERSATIONS_TABLE} SET
       expirationType = $expirationType
       WHERE type = 'group' AND id LIKE '05%' AND expireTimer > 0;`
-      ).run({ expirationType: 'deleteAfterSend' });
+        )
+        .run({ expirationType: 'deleteAfterSend' });
+
+      if (groupConversationsInfo.changes) {
+        // this filter is based on the `isLegacyGroupToStoreInWrapper` function. Note, it has been expanded to check if disappearing messages is on
+        const legacyGroupsToWriteInWrapper = db
+          .prepare(
+            `SELECT * FROM ${CONVERSATIONS_TABLE} WHERE type = 'group' AND active_at > 0 AND id LIKE '05%' AND NOT isKickedFromGroup AND NOT left AND expirationType = 'deleteAfterSend' AND expireTimer > 0;`
+          )
+          .all({});
+
+        if (isArray(legacyGroupsToWriteInWrapper) && legacyGroupsToWriteInWrapper.length) {
+          // Get existing config wrapper dumps and update them
+          const userGroupsConfigWrapperDump = MIGRATION_HELPERS.V34.fetchConfigDumps(
+            db,
+            targetVersion,
+            publicKeyHex,
+            'UserGroupsConfig'
+          );
+
+          if (userGroupsConfigWrapperDump) {
+            const userGroupsConfigData = userGroupsConfigWrapperDump.data;
+            const userGroupsConfigWrapper = new UserGroupsWrapperNode(
+              privateEd25519,
+              userGroupsConfigData
+            );
+
+            console.info(
+              `===================== Starting legacy group wrapper update length: ${legacyGroupsToWriteInWrapper?.length} =======================`
+            );
+
+            legacyGroupsToWriteInWrapper.forEach(legacyGroup => {
+              try {
+                hasDebugEnvVariable &&
+                  console.info('Updating legacy group: ', JSON.stringify(legacyGroup));
+
+                MIGRATION_HELPERS.V34.updateLegacyGroupInWrapper(
+                  legacyGroup,
+                  userGroupsConfigWrapper,
+                  db,
+                  targetVersion
+                );
+              } catch (e) {
+                console.info(`failed to insert legacy group with ${e.message}`, legacyGroup);
+              }
+            });
+
+            // dump the wrapper content and save it to the DB
+            MIGRATION_HELPERS.V34.writeConfigDumps(
+              db,
+              targetVersion,
+              publicKeyHex,
+              'UserGroupsConfig',
+              userGroupsConfigWrapper.dump()
+            );
+            console.info(
+              '===================== Done with legacy group inserting ======================='
+            );
+          } else {
+            console.log(
+              '===================== user groups config wrapper dump found ======================='
+            );
+          }
+        }
+      }
 
       // endregion
 

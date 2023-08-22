@@ -4,12 +4,25 @@ import {
   ContactInfoSet,
   ContactsConfigWrapperNode,
   DisappearingMessageConversationType,
+  LegacyGroupInfo,
+  LegacyGroupMemberInfo,
+  UserGroupsWrapperNode,
 } from 'libsession_util_nodejs';
 import { isEmpty, isEqual } from 'lodash';
-import { CONVERSATION_PRIORITIES } from '../../../models/conversationAttributes';
+import { from_hex } from 'libsodium-wrappers-sumo';
+import {
+  CONVERSATION_PRIORITIES,
+  ConversationAttributes,
+} from '../../../models/conversationAttributes';
 import { fromHexToArray } from '../../../session/utils/String';
 import { checkTargetMigration, hasDebugEnvVariable } from '../utils';
-import { ConfigDumpRow, CONFIG_DUMP_TABLE } from '../../../types/sqlSharedTypes';
+import {
+  ConfigDumpRow,
+  CONFIG_DUMP_TABLE,
+  maybeArrayJSONtoArray,
+} from '../../../types/sqlSharedTypes';
+import { HexKeyPair } from '../../../receiver/keypairs';
+import { sqlNode } from '../../sql';
 
 const targetVersion = 34;
 
@@ -187,8 +200,120 @@ function updateContactInContactWrapper(
   }
 }
 
+function getLegacyGroupInfoFromDBValues({
+  id,
+  priority,
+  members: maybeMembers,
+  displayNameInProfile,
+  expirationType,
+  expireTimer,
+  encPubkeyHex,
+  encSeckeyHex,
+  groupAdmins: maybeAdmins,
+  lastJoinedTimestamp,
+}: Pick<
+  ConversationAttributes,
+  | 'id'
+  | 'priority'
+  | 'displayNameInProfile'
+  | 'lastJoinedTimestamp'
+  | 'expirationType'
+  | 'expireTimer'
+> & {
+  encPubkeyHex: string;
+  encSeckeyHex: string;
+  members: string | Array<string>;
+  groupAdmins: string | Array<string>;
+}) {
+  const admins: Array<string> = maybeArrayJSONtoArray(maybeAdmins);
+  const members: Array<string> = maybeArrayJSONtoArray(maybeMembers);
+
+  const wrappedMembers: Array<LegacyGroupMemberInfo> = (members || []).map(m => {
+    return {
+      isAdmin: admins.includes(m),
+      pubkeyHex: m,
+    };
+  });
+  const legacyGroup: LegacyGroupInfo = {
+    pubkeyHex: id,
+    disappearingTimerSeconds:
+      expirationType &&
+      (expirationType as DisappearingMessageConversationType) !== 'off' &&
+      !!expireTimer &&
+      expireTimer > 0
+        ? expireTimer
+        : 0,
+    name: displayNameInProfile || '',
+    priority: priority || 0,
+    members: wrappedMembers,
+    encPubkey: !isEmpty(encPubkeyHex) ? from_hex(encPubkeyHex) : new Uint8Array(),
+    encSeckey: !isEmpty(encSeckeyHex) ? from_hex(encSeckeyHex) : new Uint8Array(),
+    joinedAtSeconds: Math.floor(lastJoinedTimestamp / 1000),
+  };
+
+  return legacyGroup;
+}
+
+function updateLegacyGroupInWrapper(
+  legacyGroup: Pick<
+    ConversationAttributes,
+    | 'id'
+    | 'priority'
+    | 'displayNameInProfile'
+    | 'lastJoinedTimestamp'
+    | 'expirationType'
+    | 'expireTimer'
+  > & { members: string; groupAdmins: string }, // members and groupAdmins are still stringified here
+  userGroupConfigWrapper: UserGroupsWrapperNode,
+  db: BetterSqlite3.Database,
+  version: number
+) {
+  checkTargetMigration(version, targetVersion);
+
+  const {
+    priority,
+    id,
+    expirationType,
+    expireTimer,
+    groupAdmins,
+    members,
+    displayNameInProfile,
+    lastJoinedTimestamp,
+  } = legacyGroup;
+
+  const latestEncryptionKeyPairHex = sqlNode.getLatestClosedGroupEncryptionKeyPair(
+    legacyGroup.id,
+    db
+  ) as HexKeyPair | undefined;
+
+  const wrapperLegacyGroup = getLegacyGroupInfoFromDBValues({
+    id,
+    priority,
+    expirationType,
+    expireTimer,
+    groupAdmins,
+    members,
+    displayNameInProfile,
+    encPubkeyHex: latestEncryptionKeyPairHex?.publicHex || '',
+    encSeckeyHex: latestEncryptionKeyPairHex?.privateHex || '',
+    lastJoinedTimestamp,
+  });
+
+  try {
+    hasDebugEnvVariable &&
+      console.info('Inserting legacy group into wrapper: ', wrapperLegacyGroup);
+    const success = userGroupConfigWrapper.setLegacyGroup(wrapperLegacyGroup);
+    hasDebugEnvVariable && console.info('legacy group into wrapper success: ', success);
+  } catch (e) {
+    console.error(
+      `userGroupConfigWrapper.set during migration failed with ${e.message} for legacyGroup.id: "${legacyGroup.id}". Skipping that legacy group entirely`
+    );
+  }
+}
+
 export const V34 = {
   fetchConfigDumps,
   writeConfigDumps,
   updateContactInContactWrapper,
+  updateLegacyGroupInWrapper,
 };

@@ -303,7 +303,7 @@ function getLegacyGroupInfoFromDBValues({
 function insertLegacyGroupIntoWrapper(
   legacyGroup: Pick<
     ConversationAttributes,
-    'id' | 'priority' | 'displayNameInProfile' | 'lastJoinedTimestamp' | 'expireTimer'
+    'id' | 'priority' | 'displayNameInProfile' | 'lastJoinedTimestamp'
   > & { members: string; groupAdmins: string }, // members and groupAdmins are still stringified here
   userGroupConfigWrapper: UserGroupsWrapperNode,
   volatileInfoConfigWrapper: ConvoInfoVolatileWrapperNode,
@@ -315,7 +315,6 @@ function insertLegacyGroupIntoWrapper(
   const {
     priority,
     id,
-    // expireTimer,
     groupAdmins,
     members,
     displayNameInProfile,
@@ -330,7 +329,6 @@ function insertLegacyGroupIntoWrapper(
   const wrapperLegacyGroup = getLegacyGroupInfoFromDBValues({
     id,
     priority,
-    // expireTimer, // FIXME WILL add expirationMode here
     groupAdmins,
     members,
     displayNameInProfile,
