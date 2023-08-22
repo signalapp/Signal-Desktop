@@ -837,6 +837,14 @@ export async function startApp(): Promise<void> {
       );
     });
 
+    window.document.body.classList.add('window-focused');
+    window.addEventListener('focus', () => {
+      window.document.body.classList.add('window-focused');
+    });
+    window.addEventListener('blur', () =>
+      window.document.body.classList.remove('window-focused')
+    );
+
     // How long since we were last running?
     const lastHeartbeat = toDayMillis(window.storage.get('lastHeartbeat', 0));
     const previousLastStartup = window.storage.get('lastStartup');
