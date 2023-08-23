@@ -372,13 +372,14 @@ const doGroupCallPeek = (
       `doGroupCallPeek/groupv2(${conversation.groupId}): Found ${peekInfo.deviceCount} devices`
     );
 
-    if (existingCall?.callMode === CallMode.Group) {
-      await calling.updateCallHistoryForGroupCall(
-        conversationId,
-        existingCall.joinState,
-        peekInfo
-      );
-    }
+    const joinState =
+      existingCall?.callMode === CallMode.Group ? existingCall.joinState : null;
+
+    await calling.updateCallHistoryForGroupCall(
+      conversationId,
+      joinState,
+      peekInfo
+    );
 
     const formattedPeekInfo = calling.formatGroupCallPeekInfoForRedux(peekInfo);
 

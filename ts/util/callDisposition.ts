@@ -352,20 +352,20 @@ export function getLocalCallEventFromRingUpdate(
 }
 
 export function getLocalCallEventFromJoinState(
-  joinState: GroupCallJoinState,
+  joinState: GroupCallJoinState | null,
   groupCallMeta: GroupCallMeta
 ): LocalCallEvent | null {
   const direction = getCallDirectionFromRingerId(groupCallMeta.ringerId);
   log.info(
     'getLocalCallEventFromGroupCall',
     direction,
-    GroupCallJoinState[joinState]
+    joinState != null ? GroupCallJoinState[joinState] : null
   );
   if (direction === CallDirection.Incoming) {
     if (joinState === GroupCallJoinState.Joined) {
       return LocalCallEvent.Accepted;
     }
-    if (joinState === GroupCallJoinState.NotJoined) {
+    if (joinState === GroupCallJoinState.NotJoined || joinState == null) {
       return LocalCallEvent.Started;
     }
     if (
@@ -376,7 +376,7 @@ export function getLocalCallEventFromJoinState(
     }
     throw missingCaseError(joinState);
   } else {
-    if (joinState === GroupCallJoinState.NotJoined) {
+    if (joinState === GroupCallJoinState.NotJoined || joinState == null) {
       return LocalCallEvent.Started;
     }
     return LocalCallEvent.Ringing;
