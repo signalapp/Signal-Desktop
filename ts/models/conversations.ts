@@ -223,7 +223,7 @@ export class ConversationModel extends window.Backbone
 
   contactCollection?: Backbone.Collection<ConversationModel>;
 
-  debouncedUpdateLastMessage?: (() => void) & { flush(): void };
+  debouncedUpdateLastMessage: (() => void) & { flush(): void };
 
   initialPromise?: Promise<unknown>;
 
@@ -1400,9 +1400,7 @@ export class ConversationModel extends window.Backbone
   ): Promise<void> {
     await this.beforeAddSingleMessage(message);
     this.doAddSingleMessage(message, { isJustSent });
-
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    this.debouncedUpdateLastMessage!();
+    this.debouncedUpdateLastMessage();
   }
 
   private async beforeAddSingleMessage(message: MessageModel): Promise<void> {
@@ -5221,7 +5219,7 @@ export class ConversationModel extends window.Backbone
 
   async flushDebouncedUpdates(): Promise<void> {
     try {
-      await this.debouncedUpdateLastMessage?.flush();
+      this.debouncedUpdateLastMessage.flush();
     } catch (error) {
       const logId = this.idForLogging();
       log.error(

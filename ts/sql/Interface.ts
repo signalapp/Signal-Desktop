@@ -637,6 +637,7 @@ export type DataInterface = {
   clearCallHistory: (beforeTimestamp: number) => Promise<Array<string>>;
   getCallHistoryUnreadCount(): Promise<number>;
   markCallHistoryRead(callId: string): Promise<void>;
+  markAllCallHistoryRead(): Promise<ReadonlyArray<string>>;
   getCallHistoryMessageByCallId(options: {
     conversationId: string;
     callId: string;
