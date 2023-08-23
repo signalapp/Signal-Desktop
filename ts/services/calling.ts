@@ -2261,7 +2261,7 @@ export class CallingClass {
 
   public async updateCallHistoryForGroupCall(
     conversationId: string,
-    joinState: GroupCallJoinState,
+    joinState: GroupCallJoinState | null,
     peekInfo: PeekInfo | null
   ): Promise<void> {
     const groupCallMeta = getGroupCallMeta(peekInfo);
