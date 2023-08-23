@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
+import _, { isEmpty } from 'lodash';
 import { UserUtils } from '..';
 import { getMessageQueue } from '../..';
 import { Data } from '../../../data/data';
@@ -17,7 +18,6 @@ import {
 } from '../../messages/outgoing/controlMessage/ConfigurationMessage';
 import { MessageRequestResponse } from '../../messages/outgoing/controlMessage/MessageRequestResponse';
 import { SharedConfigMessage } from '../../messages/outgoing/controlMessage/SharedConfigMessage';
-import _, { isEmpty } from 'lodash';
 import {
   AttachmentPointerWithUrl,
   PreviewWithAttachmentUrl,
@@ -389,9 +389,8 @@ export const buildSyncMessage = (
   if (dataMessage.flags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE) {
     if (expireUpdate && !isEmpty(expireUpdate)) {
       return buildSyncExpireTimerMessage(identifier, expireUpdate, timestamp, syncTarget);
-    } else {
-      window.log.warn('Building Sync Expire Timer Message failed', dataMessage, expireUpdate);
     }
+    window.log.warn('Building Sync Expire Timer Message failed', dataMessage, expireUpdate);
   }
   return buildSyncVisibleMessage(identifier, dataMessage, timestamp, syncTarget);
 };
