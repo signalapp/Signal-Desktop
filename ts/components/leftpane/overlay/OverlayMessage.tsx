@@ -86,7 +86,7 @@ export const OverlayMessage = () => {
     const pubkeyorOnsTrimmed = pubkeyOrOns.trim();
 
     if (!PubKey.validateWithErrorNoBlinding(pubkeyorOnsTrimmed)) {
-      await openConvoOnceResolved(pubkeyOrOns);
+      await openConvoOnceResolved(pubkeyorOnsTrimmed);
       return;
     }
 

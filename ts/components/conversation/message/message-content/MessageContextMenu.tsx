@@ -25,18 +25,6 @@ import {
   toggleSelectedMessageId,
 } from '../../../../state/ducks/conversations';
 import {
-  useSelectedConversationKey,
-  useSelectedIsBlocked,
-  useSelectedIsPublic,
-  useSelectedWeAreAdmin,
-  useSelectedWeAreModerator,
-} from '../../../../state/selectors/selectedConversation';
-import { saveAttachmentToDisk } from '../../../../util/attachmentsUtil';
-import { Reactions } from '../../../../util/reactions';
-import { SessionContextMenuContainer } from '../../../SessionContextMenuContainer';
-import { SessionEmojiPanel, StyledEmojiPanel } from '../../SessionEmojiPanel';
-import { MessageReactBar } from './MessageReactBar';
-import {
   useMessageAttachments,
   useMessageBody,
   useMessageDirection,
@@ -48,7 +36,18 @@ import {
   useMessageStatus,
   useMessageTimestamp,
 } from '../../../../state/selectors';
-import { useIsPublic } from '../../../../hooks/useParamSelector';
+import {
+  useSelectedConversationKey,
+  useSelectedIsBlocked,
+  useSelectedIsPublic,
+  useSelectedWeAreAdmin,
+  useSelectedWeAreModerator,
+} from '../../../../state/selectors/selectedConversation';
+import { saveAttachmentToDisk } from '../../../../util/attachmentsUtil';
+import { Reactions } from '../../../../util/reactions';
+import { SessionContextMenuContainer } from '../../../SessionContextMenuContainer';
+import { SessionEmojiPanel, StyledEmojiPanel } from '../../SessionEmojiPanel';
+import { MessageReactBar } from './MessageReactBar';
 
 export type MessageContextMenuSelectorProps = Pick<
   MessageRenderingProps,
@@ -149,10 +148,11 @@ const SaveAttachment = ({ messageId }: MessageId) => {
 
 const AdminActionItems = ({ messageId }: MessageId) => {
   const convoId = useSelectedConversationKey();
-  const isPublic = useIsPublic();
+  const isPublic = useSelectedIsPublic();
   const weAreModerator = useSelectedWeAreModerator();
   const weAreAdmin = useSelectedWeAreAdmin();
   const showAdminActions = (weAreAdmin || weAreModerator) && isPublic;
+
   const sender = useMessageSender(messageId);
   const isSenderAdmin = useMessageSenderIsAdmin(messageId);
 
