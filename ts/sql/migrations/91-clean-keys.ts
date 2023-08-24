@@ -1,7 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Database } from '@signalapp/better-sqlite3';
+import type { Database, RunResult } from '@signalapp/better-sqlite3';
 
 import type { LoggerType } from '../../types/Logging';
 import { sql } from '../util';
@@ -93,6 +93,15 @@ export default function updateToSchemaVersion91(
       return;
     }
 
+    // Grab PNI-specific count
+
+    const [
+      beforeQuery,
+      beforeParams,
+    ] = sql`SELECT count(*) from preKeys WHERE ourServiceId = ${pni}`;
+    const beforeKeys = db.prepare(beforeQuery).pluck(true).get(beforeParams);
+    logger.info(`updateToSchemaVersion91: Found ${beforeKeys} preKeys for PNI`);
+
     // Create index to help us with all these queries
 
     db.exec(`
@@ -103,15 +112,7 @@ export default function updateToSchemaVersion91(
       CREATE INDEX preKeys_date
         ON preKeys (ourServiceId, createdAt);
     `);
-
-    // Grab PNI-specific count - if it's less than 1000, move on
-
-    const [
-      beforeQuery,
-      beforeParams,
-    ] = sql`SELECT count(*) from preKeys WHERE ourServiceId = ${pni}`;
-    const beforeKeys = db.prepare(beforeQuery).pluck(true).get(beforeParams);
-    logger.info(`updateToSchemaVersion91: Found ${beforeKeys} preKeys for PNI`);
+    logger.info('updateToSchemaVersion91: Temporary index created');
 
     // Fetch 500th-oldest timestamp for PNI
 
@@ -126,6 +127,9 @@ export default function updateToSchemaVersion91(
       OFFSET 499
     `;
     const oldBoundary = db.prepare(oldQuery).pluck(true).get(oldParams);
+    logger.info(
+      `updateToSchemaVersion91: Found 500th-oldest timestamp: ${oldBoundary}`
+    );
 
     // Fetch 500th-newest timestamp for PNI
 
@@ -140,18 +144,31 @@ export default function updateToSchemaVersion91(
       OFFSET 499
     `;
     const newBoundary = db.prepare(newQuery).pluck(true).get(newParams);
+    logger.info(
+      `updateToSchemaVersion91: Found 500th-newest timestamp: ${newBoundary}`
+    );
 
     // Delete everything in between for PNI
 
+    let result: RunResult;
     const [deleteQuery, deleteParams] = sql`
       DELETE FROM preKeys
-      WHERE 
-        createdAt IS NOT NULL AND
-        createdAt > ${oldBoundary} AND 
-        createdAt < ${newBoundary} AND
-        ourServiceId = ${pni};
+      WHERE rowid IN (
+        SELECT rowid FROM preKeys
+        WHERE
+          createdAt IS NOT NULL AND
+          createdAt > ${oldBoundary} AND 
+          createdAt < ${newBoundary} AND
+          ourServiceId = ${pni}
+        LIMIT 10000
+      );
     `;
-    db.prepare(deleteQuery).run(deleteParams);
+    const preparedQuery = db.prepare(deleteQuery);
+    do {
+      result = preparedQuery.run(deleteParams);
+      logger.info(`updateToSchemaVersion91: Deleted ${result.changes} items`);
+    } while (result.changes > 0);
+    logger.info('updateToSchemaVersion91: Delete is complete!');
 
     // Get updated count for PNI
 
