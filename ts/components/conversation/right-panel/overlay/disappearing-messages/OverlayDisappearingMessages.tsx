@@ -3,12 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { useTimerOptionsByMode } from '../../../../../hooks/useParamSelector';
 import { setDisappearingMessagesByConvoId } from '../../../../../interactions/conversationInteractions';
-import { getConversationController } from '../../../../../session/conversations';
 import { closeRightPanel } from '../../../../../state/ducks/conversations';
 import { resetRightOverlayMode } from '../../../../../state/ducks/section';
 import {
   getSelectedConversationExpirationModes,
-  getSelectedConversationExpirationModesWithLegacy,
   useSelectedConversationKey,
   useSelectedExpirationType,
   useSelectedExpireTimer,
@@ -25,6 +23,7 @@ import { SpacerLG, SpacerXL } from '../../../../basic/Text';
 import { DisappearingModes } from './DisappearingModes';
 import { Header } from './Header';
 import { TimeOptions } from './TimeOptions';
+import { ReleasedFeatures } from '../../../../../util/releaseFeature';
 
 const StyledScrollContainer = styled.div`
   width: 100%;
@@ -70,14 +69,10 @@ export type PropsForExpirationSettings = {
   weAreAdmin: boolean | undefined;
 };
 
-export const OverlayDisappearingMessages = ({ unlockNewModes }: { unlockNewModes: boolean }) => {
+export const OverlayDisappearingMessages = () => {
   const dispatch = useDispatch();
   const selectedConversationKey = useSelectedConversationKey();
-  const disappearingModeOptions = useSelector(
-    unlockNewModes
-      ? getSelectedConversationExpirationModes
-      : getSelectedConversationExpirationModesWithLegacy
-  );
+  const disappearingModeOptions = useSelector(getSelectedConversationExpirationModes);
 
   // NOTE if there is only 'off' and one disappearing message mode then we trigger single mode
   const singleMode =
@@ -96,7 +91,8 @@ export const OverlayDisappearingMessages = ({ unlockNewModes }: { unlockNewModes
   const [modeSelected, setModeSelected] = useState<DisappearingMessageConversationType | undefined>(
     expirationType
   );
-  const [timeSelected, setTimeSelected] = useState<number>(0);
+
+  const [timeSelected, setTimeSelected] = useState(expireTimer || 0);
   const timerOptions = useTimerOptionsByMode(modeSelected, hasOnlyOneMode);
 
   const handleSetMode = async () => {
@@ -124,29 +120,21 @@ export const OverlayDisappearingMessages = ({ unlockNewModes }: { unlockNewModes
   };
 
   useEffect(() => {
+    if (!ReleasedFeatures.isDisappearMessageV2FeatureReleasedCached()) {
+      setModeSelected(
+        expirationType === 'deleteAfterRead' || expirationType === 'deleteAfterSend'
+          ? 'legacy'
+          : expirationType
+      );
+    }
+  }, [expirationType]);
+
+  useEffect(() => {
     // NOTE loads a time value from the conversation model or the default
     handleSetTime(
-      modeSelected === expirationType && expireTimer && expireTimer > -1
-        ? expireTimer
-        : loadDefaultTimeValue(modeSelected)
+      expireTimer && expireTimer > -1 ? expireTimer : loadDefaultTimeValue(modeSelected)
     );
-  }, [expirationType, expireTimer, modeSelected]);
-
-  // TODO legacy messages support will be removed in a future
-  useEffect(() => {
-    if (unlockNewModes && modeSelected === 'legacy' && selectedConversationKey) {
-      const convo = getConversationController().get(selectedConversationKey);
-      if (convo) {
-        let defaultExpirationType: DisappearingMessageConversationType = 'deleteAfterRead';
-        if (convo.isMe() || convo.isClosedGroup()) {
-          defaultExpirationType = 'deleteAfterSend';
-        }
-        convo.set('expirationType', defaultExpirationType);
-        // TODO do we need to add libsession stuff here probably not?
-        setModeSelected(defaultExpirationType);
-      }
-    }
-  }, [unlockNewModes, selectedConversationKey, modeSelected]);
+  }, [expireTimer, modeSelected]);
 
   if (!disappearingModeOptions) {
     return null;
@@ -155,6 +143,7 @@ export const OverlayDisappearingMessages = ({ unlockNewModes }: { unlockNewModes
   if (!selectedConversationKey) {
     return null;
   }
+
   return (
     <StyledScrollContainer>
       <StyledContainer container={true} flexDirection={'column'} alignItems={'center'}>

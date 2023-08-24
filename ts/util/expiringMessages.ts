@@ -13,12 +13,11 @@ import { MessageModel } from '../models/message';
 import { GetNetworkTime } from '../session/apis/snode_api/getNetworkTime';
 import { ReleasedFeatures } from './releaseFeature';
 
-// TODO do we need to add legacy here now that it's explicitly in the protobuf?
 export const DisappearingMessageMode = ['deleteAfterRead', 'deleteAfterSend'];
-export type DisappearingMessageType = typeof DisappearingMessageMode[number] | null;
+export type DisappearingMessageType = typeof DisappearingMessageMode[number];
 // NOTE these cannot be imported in the nodejs side yet. We need to move the types to the own file with no window imports
 // TODO legacy messages support will be removed in a future release
-// TODO NOTE do we need to remove 'legacy' from here?
+// TODO NOTE legacy is strictly used in the UI and is not a valid disappearing message mode
 export const DisappearingMessageConversationSetting = ['off', ...DisappearingMessageMode, 'legacy'];
 export type DisappearingMessageConversationType = typeof DisappearingMessageConversationSetting[number]; // TODO we should make this type a bit more hardcoded than being just resolved as a string
 
@@ -277,6 +276,30 @@ export function setExpirationStartTimestamp(
 }
 
 // TODO legacy messages support will be removed in a future release
+export function isLegacyDisappearingModeEnabled(
+  expirationType: DisappearingMessageConversationType | DisappearingMessageType | undefined
+): boolean {
+  return Boolean(
+    expirationType &&
+      expirationType !== 'off' &&
+      !ReleasedFeatures.isDisappearMessageV2FeatureReleasedCached()
+  );
+}
+
+// TODO legacy messages support will be removed in a future release
+/**
+ * This function is used to set the mode for legacy disappearing messages depending on the default for the conversation type
+ * @param convo Conversation we want to set
+ * @returns Disappearing mode we should use
+ */
+export function resolveLegacyDisappearingMode(convo: ConversationModel): DisappearingMessageType {
+  if (convo.isMe() || convo.isClosedGroup()) {
+    return 'deleteAfterSend';
+  }
+  return 'deleteAfterRead';
+}
+
+// TODO legacy messages support will be removed in a future release
 // NOTE We need this to check for legacy disappearing messages where the expirationType and expireTimer should be undefined on the ContentMessage
 function checkIsLegacyContentMessage(contentMessage: SignalService.Content): boolean {
   return (
@@ -436,14 +459,4 @@ export async function checkHasOutdatedClient(
     });
     await convoToUpdate.commit();
   }
-}
-
-export function isLegacyDisappearingModeEnabled(
-  expirationType: DisappearingMessageConversationType | DisappearingMessageType | undefined
-): boolean {
-  return Boolean(
-    expirationType &&
-      expirationType !== 'off' &&
-      !ReleasedFeatures.isDisappearMessageV2FeatureReleasedCached()
-  );
 }

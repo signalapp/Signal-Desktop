@@ -95,6 +95,7 @@ import {
   DisappearingMessageUpdate,
   ExpirationTimerOptions,
   isLegacyDisappearingModeEnabled,
+  resolveLegacyDisappearingMode,
   setExpirationStartTimestamp,
 } from '../util/expiringMessages';
 import { LinkPreviews } from '../util/linkPreviews';
@@ -1017,11 +1018,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       let expirationType: DisappearingMessageType = DisappearingMessageMode[content.expirationType];
 
       if (isLegacyDisappearingDataMessage) {
-        if (conversation.isMe() || conversation.isClosedGroup()) {
-          expirationType = 'deleteAfterSend';
-        } else {
-          expirationType = 'deleteAfterRead';
-        }
+        expirationType = resolveLegacyDisappearingMode(conversation);
       }
 
       const expirationTimer = isLegacyDisappearingDataMessage

@@ -120,6 +120,7 @@ import {
 import {
   DisappearingMessageConversationType,
   isLegacyDisappearingModeEnabled,
+  resolveLegacyDisappearingMode,
 } from '../util/expiringMessages';
 import { markAttributesAsReadIfNeeded } from './messageFactory';
 
@@ -852,6 +853,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     const isOutgoing = Boolean(!receivedAt);
     source = source || UserUtils.getOurPubKeyStrFromCache();
+
+    // Note the legacy type should only be in the UI, it should change the the conversation type default before we send
+    if (expirationType === 'legacy') {
+      expirationType = resolveLegacyDisappearingMode(this);
+    }
 
     // When we add a disappearing messages notification to the conversation, we want it
     // to be above the message that initiated that change, hence the subtraction.
