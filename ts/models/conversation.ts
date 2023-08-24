@@ -2310,14 +2310,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   private isDisappearingMode(mode: DisappearingMessageConversationType) {
-    // TODO legacy messages support will be removed in a future release
     const success =
       mode === 'deleteAfterRead'
         ? this.get('expirationType') === 'deleteAfterRead'
         : mode === 'deleteAfterSend'
         ? this.get('expirationType') === 'deleteAfterSend'
-        : mode === 'legacy'
-        ? this.get('expirationType') === 'legacy'
         : mode === 'off'
         ? this.get('expirationType') === 'off'
         : false;

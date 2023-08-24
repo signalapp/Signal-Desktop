@@ -106,7 +106,7 @@ function isUserConfigFeatureReleasedCached(): boolean {
   return !!isUserConfigLibsessionFeatureReleased;
 }
 
-function isDisappearMessageV2FeatureReleasedCached() {
+function isDisappearMessageV2FeatureReleasedCached(): boolean {
   return !!isDisappearingMessageFeatureReleased;
 }
 

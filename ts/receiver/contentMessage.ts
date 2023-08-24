@@ -38,6 +38,7 @@ import { ContactsWrapperActions } from '../webworker/workers/browser/libsession_
 import {
   checkForExpireUpdate,
   checkHasOutdatedClient,
+  isLegacyDisappearingModeEnabled,
   setExpirationStartTimestamp,
 } from '../util/expiringMessages';
 
@@ -826,7 +827,8 @@ export async function handleDataExtractionNotification(
     const referencedAttachmentTimestamp = toNumber(referencedAttachment);
     const expirationType = convo.get('expirationType');
     // TODO legacy messages support will be removed in a future release
-    const isLegacyMode = convo && convo.isPrivate() && expirationType === 'legacy';
+    const isLegacyMode =
+      convo && convo.isPrivate() && isLegacyDisappearingModeEnabled(expirationType);
 
     await convo.addSingleIncomingMessage({
       source,

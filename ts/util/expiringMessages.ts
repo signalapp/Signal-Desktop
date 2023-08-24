@@ -437,3 +437,13 @@ export async function checkHasOutdatedClient(
     await convoToUpdate.commit();
   }
 }
+
+export function isLegacyDisappearingModeEnabled(
+  expirationType: DisappearingMessageConversationType | DisappearingMessageType | undefined
+): boolean {
+  return Boolean(
+    expirationType &&
+      expirationType !== 'off' &&
+      !ReleasedFeatures.isDisappearMessageV2FeatureReleasedCached()
+  );
+}

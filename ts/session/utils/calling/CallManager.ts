@@ -33,7 +33,10 @@ import { approveConvoAndSendResponse } from '../../../interactions/conversationI
 import { GetNetworkTime } from '../../apis/snode_api/getNetworkTime';
 import { SnodeNamespaces } from '../../apis/snode_api/namespaces';
 import { READ_MESSAGE_STATE } from '../../../models/conversationAttributes';
-import { setExpirationStartTimestamp } from '../../../util/expiringMessages';
+import {
+  isLegacyDisappearingModeEnabled,
+  setExpirationStartTimestamp,
+} from '../../../util/expiringMessages';
 
 // tslint:disable: function-name
 
@@ -514,7 +517,7 @@ export async function USER_callRecipient(recipient: string) {
   weAreCallerOnCurrentCall = true;
 
   // TODO legacy messages support will be removed in a future release
-  const isLegacyMode = calledConvo.get('expirationType') === 'legacy';
+  const isLegacyMode = isLegacyDisappearingModeEnabled(calledConvo.get('expirationType'));
   const expirationType = !isLegacyMode ? calledConvo.get('expirationType') : 'deleteAfterSend';
   await calledConvo?.addSingleOutgoingMessage({
     callNotificationType: 'started-call',
@@ -888,7 +891,7 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
   await callerConvo.unhideIfNeeded(false);
 
   // TODO legacy messages support will be removed in a future release
-  const isLegacyMode = callerConvo.get('expirationType') === 'legacy';
+  const isLegacyMode = isLegacyDisappearingModeEnabled(callerConvo.get('expirationType'));
   const expirationType = !isLegacyMode ? callerConvo.get('expirationType') : 'deleteAfterSend';
   await callerConvo?.addSingleIncomingMessage({
     callNotificationType: 'answered-a-call',
@@ -1234,7 +1237,9 @@ async function addMissedCallMessage(callerPubkey: string, sentAt: number) {
   }
 
   // TODO legacy messages support will be removed in a future release
-  const isLegacyMode = incomingCallConversation.get('expirationType') === 'legacy';
+  const isLegacyMode = isLegacyDisappearingModeEnabled(
+    incomingCallConversation.get('expirationType')
+  );
   const expirationType = !isLegacyMode
     ? incomingCallConversation.get('expirationType')
     : 'deleteAfterSend';

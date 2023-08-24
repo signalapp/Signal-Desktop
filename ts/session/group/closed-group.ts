@@ -27,6 +27,7 @@ import { UserUtils } from '../utils';
 import { fromHexToArray, toHex } from '../utils/String';
 import {
   DisappearingMessageConversationType,
+  isLegacyDisappearingModeEnabled,
   setExpirationStartTimestamp,
 } from '../../util/expiringMessages';
 
@@ -172,7 +173,11 @@ export async function addUpdateMessage(
     expireTimer: expireTimer || 0,
     // closed groups are always deleteAfterSend
     expirationStartTimestamp: expirationType
-      ? setExpirationStartTimestamp('deleteAfterSend', sentAt, expirationType === 'legacy')
+      ? setExpirationStartTimestamp(
+          'deleteAfterSend',
+          sentAt,
+          isLegacyDisappearingModeEnabled(expirationType)
+        )
       : undefined,
   };
 

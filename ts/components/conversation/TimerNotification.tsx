@@ -8,6 +8,7 @@ import { ExpirableReadableMessage } from './message/message-item/ExpirableReadab
 import { SessionIcon } from '../icon';
 import { SpacerSM, Text } from '../basic/Text';
 import { Flex } from '../basic/Flex';
+import { isLegacyDisappearingModeEnabled } from '../../util/expiringMessages';
 
 const StyledTimerNotification = styled(Flex)`
   text-align: center;
@@ -18,12 +19,11 @@ export const TimerNotification = (props: PropsForExpirationTimer) => {
 
   const contact = profileName || pubkey;
   // TODO legacy messages support will be removed in a future release
-  const mode =
-    expirationType === 'legacy'
-      ? null
-      : expirationType === 'deleteAfterRead'
-      ? window.i18n('timerModeRead')
-      : window.i18n('timerModeSent');
+  const mode = isLegacyDisappearingModeEnabled(expirationType)
+    ? null
+    : expirationType === 'deleteAfterRead'
+    ? window.i18n('timerModeRead')
+    : window.i18n('timerModeSent');
 
   let textToRender: string | undefined;
   switch (type) {

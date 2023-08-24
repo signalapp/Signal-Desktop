@@ -1,7 +1,10 @@
 import _ from 'lodash';
 import { Data } from '../../data/data';
 import { SignalService } from '../../protobuf';
-import { setExpirationStartTimestamp } from '../../util/expiringMessages';
+import {
+  isLegacyDisappearingModeEnabled,
+  setExpirationStartTimestamp,
+} from '../../util/expiringMessages';
 import { PnServer } from '../apis/push_notification_api';
 import { OpenGroupVisibleMessage } from '../messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
 import { RawMessage } from '../types';
@@ -124,10 +127,9 @@ async function handleMessageSentSuccess(
   const expirationType = fetchedMessage.get('expirationType');
   // TODO legacy messages support will be removed in a future release
   const convo = fetchedMessage.getConversation();
-  const isLegacyReadMode =
-    convo && !convo.isMe() && convo.isPrivate() && expirationType === 'legacy';
-  const isLegacySentMode =
-    convo && (convo.isMe() || convo.isClosedGroup()) && expirationType === 'legacy';
+  const isLegacyMode = isLegacyDisappearingModeEnabled(expirationType);
+  const isLegacyReadMode = convo && !convo.isMe() && convo.isPrivate() && isLegacyMode;
+  const isLegacySentMode = convo && (convo.isMe() || convo.isClosedGroup()) && isLegacyMode;
 
   fetchedMessage.set({
     sent_to: sentTo,

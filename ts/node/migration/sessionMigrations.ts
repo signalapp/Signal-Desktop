@@ -1688,7 +1688,7 @@ function updateToSessionSchemaVersion34(currentVersion: number, db: BetterSqlite
 
       db.prepare(`ALTER TABLE ${CONVERSATIONS_TABLE} ADD COLUMN hasOutdatedClient TEXT;`).run();
 
-      // region Disappearing Messages Note to Self
+      // region v34 Disappearing Messages Note to Self
       const noteToSelfInfo = db
         .prepare(
           `UPDATE ${CONVERSATIONS_TABLE} SET
@@ -1739,7 +1739,7 @@ function updateToSessionSchemaVersion34(currentVersion: number, db: BetterSqlite
 
       // endregion
 
-      // region Disappearing Messages Private Conversations
+      // region v34 Disappearing Messages Private Conversations
       const privateConversationsInfo = db
         .prepare(
           `UPDATE ${CONVERSATIONS_TABLE} SET
@@ -1815,12 +1815,12 @@ function updateToSessionSchemaVersion34(currentVersion: number, db: BetterSqlite
 
       // endregion
 
-      // region Disappearing Messages Groups
+      // region v34 Disappearing Messages Groups
       const groupConversationsInfo = db
         .prepare(
           `UPDATE ${CONVERSATIONS_TABLE} SET
       expirationType = $expirationType
-      WHERE type = 'group' AND id LIKE '05%' AND expireTimer > 0;`
+      WHERE type = 'group' AND id LIKE '05%' AND expirationType = 'off' AND expireTimer > 0;`
         )
         .run({ expirationType: 'deleteAfterSend' });
 

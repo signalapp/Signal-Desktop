@@ -15,7 +15,10 @@ import { ProfileManager } from '../session/profile_manager/ProfileManager';
 import { showMessageRequestBannerOutsideRedux } from '../state/ducks/userConfig';
 import { getHideMessageRequestBannerOutsideRedux } from '../state/selectors/userConfig';
 import { GoogleChrome } from '../util';
-import { setExpirationStartTimestamp } from '../util/expiringMessages';
+import {
+  isLegacyDisappearingModeEnabled,
+  setExpirationStartTimestamp,
+} from '../util/expiringMessages';
 import { LinkPreviews } from '../util/linkPreviews';
 import { ReleasedFeatures } from '../util/releaseFeature';
 import { PropsForMessageWithoutConvoProps, lookupQuote } from '../state/ducks/conversations';
@@ -180,7 +183,11 @@ function updateReadStatus(message: MessageModel) {
     const expirationType = message.get('expirationType');
     // TODO legacy messages support will be removed in a future release
     const convo = message.getConversation();
-    const isLegacyMode = convo && !convo.isMe() && convo.isPrivate() && expirationType === 'legacy';
+    const isLegacyMode =
+      convo &&
+      !convo.isMe() &&
+      convo.isPrivate() &&
+      isLegacyDisappearingModeEnabled(expirationType);
     if ((isLegacyMode || expirationType === 'deleteAfterRead') && message.get('expireTimer')) {
       message.set({
         expirationStartTimestamp: setExpirationStartTimestamp(
@@ -384,18 +391,18 @@ export async function handleMessageJob(
     messageModel.set({ flags: regularDataMessage.flags });
 
     // TODO legacy messages support will be removed in a future release
+    const isLegacyMode = isLegacyDisappearingModeEnabled(messageModel.get('expirationType'));
     if (
       messageModel.isIncoming() &&
       Boolean(messageModel.get('expirationStartTimestamp')) === false &&
-      ((messageModel.get('expirationType') === 'legacy' &&
-        (conversation.isMe() || conversation.isClosedGroup())) ||
+      ((isLegacyMode && (conversation.isMe() || conversation.isClosedGroup())) ||
         messageModel.get('expirationType') === 'deleteAfterSend')
     ) {
       messageModel.set({
         expirationStartTimestamp: setExpirationStartTimestamp(
           'deleteAfterSend',
           messageModel.get('sent_at'),
-          messageModel.get('expirationType') === 'legacy'
+          isLegacyMode
         ),
       });
     }

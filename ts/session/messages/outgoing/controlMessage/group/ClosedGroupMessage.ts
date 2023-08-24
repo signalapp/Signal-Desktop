@@ -36,7 +36,7 @@ export abstract class ClosedGroupMessage extends ExpirableMessage {
       expirationType:
         this.expirationType === 'deleteAfterSend'
           ? SignalService.Content.ExpirationType.DELETE_AFTER_SEND
-          : !this.expirationType || this.expirationType === 'legacy'
+          : this.expirationType
           ? SignalService.Content.ExpirationType.UNKNOWN
           : undefined,
     });

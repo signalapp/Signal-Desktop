@@ -7,6 +7,8 @@ import { StateType } from '../reducer';
 import { getCanWrite, getModerators, getSubscriberCount } from './sogsRoomInfo';
 import { getIsMessageSelectionMode, getSelectedConversation } from './conversations';
 import { DisappearingMessageConversationSetting } from '../../util/expiringMessages';
+import { ReleasedFeatures } from '../../util/releaseFeature';
+import { ReduxConversationType } from '../ducks/conversations';
 
 /**
  * Returns the formatted text for notification setting.
@@ -155,36 +157,8 @@ const getSelectedSubscriberCount = (state: StateType): number | undefined => {
   return getSubscriberCount(state, convo.id);
 };
 
-export const getSelectedConversationExpirationModes = (state: StateType) => {
-  const convo = getSelectedConversation(state);
-  if (!convo) {
-    return undefined;
-  }
-
-  let modes = DisappearingMessageConversationSetting;
-  // TODO legacy messages support will be removed in a future release
-  // TODO remove legacy mode
-  modes = modes.slice(0, -1);
-
-  // Note to Self and Closed Groups only support deleteAfterSend
-  const isClosedGroup = !convo.isPrivate && !convo.isPublic;
-  if (convo?.isMe || isClosedGroup) {
-    modes = [modes[0], modes[2]];
-  }
-
-  const modesWithDisabledState: Record<string, boolean> = {};
-  if (modes && modes.length > 1) {
-    modes.forEach(mode => {
-      modesWithDisabledState[mode] = isClosedGroup ? !convo.weAreAdmin : false;
-    });
-  }
-
-  return modesWithDisabledState;
-};
-
 // TODO legacy messages support will be removed in a future release
-export const getSelectedConversationExpirationModesWithLegacy = (state: StateType) => {
-  const convo = getSelectedConversation(state);
+const getSelectedConversationExpirationModesWithLegacy = (convo: ReduxConversationType) => {
   if (!convo) {
     return undefined;
   }
@@ -208,6 +182,37 @@ export const getSelectedConversationExpirationModesWithLegacy = (state: StateTyp
       modesWithDisabledState[mode] = Boolean(
         (mode !== 'legacy' && mode !== 'off') || (isClosedGroup && !convo.weAreAdmin)
       );
+    });
+  }
+
+  return modesWithDisabledState;
+};
+
+export const getSelectedConversationExpirationModes = (state: StateType) => {
+  const convo = getSelectedConversation(state);
+  if (!convo) {
+    return undefined;
+  }
+
+  if (!ReleasedFeatures.isDisappearMessageV2FeatureReleasedCached()) {
+    return getSelectedConversationExpirationModesWithLegacy(convo);
+  }
+
+  let modes = DisappearingMessageConversationSetting;
+  // TODO legacy messages support will be removed in a future release
+  // TODO remove legacy mode
+  modes = modes.slice(0, -1);
+
+  // Note to Self and Closed Groups only support deleteAfterSend
+  const isClosedGroup = !convo.isPrivate && !convo.isPublic;
+  if (convo?.isMe || isClosedGroup) {
+    modes = [modes[0], modes[2]];
+  }
+
+  const modesWithDisabledState: Record<string, boolean> = {};
+  if (modes && modes.length > 1) {
+    modes.forEach(mode => {
+      modesWithDisabledState[mode] = isClosedGroup ? !convo.weAreAdmin : false;
     });
   }
 
