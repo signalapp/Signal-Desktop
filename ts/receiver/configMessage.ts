@@ -567,9 +567,9 @@ async function handleLegacyGroupUpdate(latestEnvelopeTimestamp: number) {
           ? legacyGroupConvo.get('active_at')
           : latestEnvelopeTimestamp,
       expirationType:
-        !!fromWrapper.disappearingTimerSeconds && fromWrapper.disappearingTimerSeconds === 0
-          ? 'off'
-          : 'deleteAfterSend',
+        fromWrapper.disappearingTimerSeconds && fromWrapper.disappearingTimerSeconds > 0
+          ? 'deleteAfterSend'
+          : 'off',
       expireTimer: fromWrapper.disappearingTimerSeconds,
     };
 

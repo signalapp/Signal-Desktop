@@ -117,8 +117,10 @@ import {
   getSubscriberCountOutsideRedux,
 } from '../state/selectors/sogsRoomInfo'; // decide it it makes sense to move this to a redux slice?
 
-import { DisappearingMessageConversationType } from '../util/expiringMessages';
-import { ReleasedFeatures } from '../util/releaseFeature';
+import {
+  DisappearingMessageConversationType,
+  isLegacyDisappearingModeEnabled,
+} from '../util/expiringMessages';
 import { markAttributesAsReadIfNeeded } from './messageFactory';
 
 type InMemoryConvoInfos = {
@@ -848,9 +850,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       return;
     }
 
-    // We will only support legacy disappearing messages for a short period before disappearing messages v2 is unlocked
-    const isDisappearingMessagesV2Released = await ReleasedFeatures.checkIsDisappearMessageV2FeatureReleased();
-
     const isOutgoing = Boolean(!receivedAt);
     source = source || UserUtils.getOurPubKeyStrFromCache();
 
@@ -886,10 +885,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
           fromSync,
         },
         // TODO legacy messages support will be removed in a future release
-        expirationType:
-          expirationType !== 'off' || isDisappearingMessagesV2Released ? expirationType : undefined,
-        expireTimer:
-          expirationType !== 'off' || isDisappearingMessagesV2Released ? expireTimer : undefined,
+        expirationType: isLegacyDisappearingModeEnabled(expirationType)
+          ? undefined
+          : expirationType,
+        expireTimer: isLegacyDisappearingModeEnabled(expirationType) ? undefined : expireTimer,
       };
 
       if (!message) {

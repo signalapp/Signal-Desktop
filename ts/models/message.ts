@@ -90,8 +90,8 @@ import {
 import { ReactionList } from '../types/Reaction';
 import { roomHasBlindEnabled } from '../types/sqlSharedTypes';
 import {
-  DisappearingMessageConversationSetting,
-  DisappearingMessageConversationType,
+  DisappearingMessageMode,
+  DisappearingMessageType,
   DisappearingMessageUpdate,
   ExpirationTimerOptions,
   isLegacyDisappearingModeEnabled,
@@ -1008,20 +1008,26 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       }
 
       // TODO legacy messages support will be removed in a future release
-      const isLegacyDataMessage = Boolean(
+      const isLegacyDisappearingDataMessage = Boolean(
         (dataMessage.expireTimer && dataMessage.expireTimer > -1) ||
           (!content.expirationTimer &&
             dataMessage.flags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE)
       );
 
-      const expirationType: DisappearingMessageConversationType = content.expirationType
-        ? DisappearingMessageConversationSetting[content.expirationType]
-        : isLegacyDataMessage
-        ? DisappearingMessageConversationSetting[3]
-        : 'off';
-      const expirationTimer = isLegacyDataMessage
+      let expirationType: DisappearingMessageType = DisappearingMessageMode[content.expirationType];
+
+      if (isLegacyDisappearingDataMessage) {
+        if (conversation.isMe() || conversation.isClosedGroup()) {
+          expirationType = 'deleteAfterSend';
+        } else {
+          expirationType = 'deleteAfterRead';
+        }
+      }
+
+      const expirationTimer = isLegacyDisappearingDataMessage
         ? Number(dataMessage.expireTimer)
         : content.expirationTimer;
+
       const lastDisappearingMessageChangeTimestamp = content.lastDisappearingMessageChangeTimestamp
         ? Number(content.lastDisappearingMessageChangeTimestamp)
         : undefined;
