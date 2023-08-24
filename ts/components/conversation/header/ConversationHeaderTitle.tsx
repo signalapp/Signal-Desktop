@@ -77,16 +77,11 @@ export const ConversationHeaderTitle = () => {
   }
 
   const disappearingMessageSettingText =
-    expirationType === 'off'
-      ? null
-      : expirationType === 'deleteAfterRead'
+    expirationType === 'deleteAfterRead'
       ? window.i18n('disappearingMessagesModeAfterRead')
       : expirationType === 'deleteAfterSend'
       ? window.i18n('disappearingMessagesModeAfterSend')
-      : // legacy mode support
-      isMe || isGroup
-      ? window.i18n('disappearingMessagesModeAfterSend')
-      : window.i18n('disappearingMessagesModeAfterRead');
+      : null;
   const abbreviatedExpireTime = isNumber(expireTimer)
     ? ExpirationTimerOptions.getAbbreviated(expireTimer)
     : null;

@@ -869,7 +869,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       lastDisappearingMessageChangeTimestamp,
     });
 
-    window?.log?.debug('Updating conversation disappearing messages setting', {
+    window?.log?.debug('WIP: Updating conversation disappearing messages setting', {
       id: this.idForLogging(),
       expirationType,
       expireTimer,
