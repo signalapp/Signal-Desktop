@@ -106,8 +106,13 @@ function isUserConfigFeatureReleasedCached(): boolean {
   return !!isUserConfigLibsessionFeatureReleased;
 }
 
+function isDisappearMessageV2FeatureReleasedCached() {
+  return !!isDisappearingMessageFeatureReleased;
+}
+
 export const ReleasedFeatures = {
   checkIsUserConfigFeatureReleased,
   checkIsDisappearMessageV2FeatureReleased,
   isUserConfigFeatureReleasedCached,
+  isDisappearMessageV2FeatureReleasedCached,
 };

@@ -1,42 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import { useSelector } from 'react-redux';
 import { getRightOverlayMode } from '../../../state/selectors/section';
-import { ReleasedFeatures } from '../../../util/releaseFeature';
 import { OverlayDisappearingMessages } from './overlay/disappearing-messages/OverlayDisappearingMessages';
 import { OverlayRightPanelSettings } from './overlay/OverlayRightPanelSettings';
 
 const ClosableOverlay = () => {
   const rightOverlayMode = useSelector(getRightOverlayMode);
-  // TODO we can probably use the ReleasedFeatures.isDisappearMessageV2FeatureReleased instead here so we can remove the state.
-  const [showNewDisappearingMessageModes, setShowNewDisappearingMessageModes] = useState(false);
-
-  useEffect(() => {
-    let isCancelled = false;
-    const checkFeature = async () => {
-      try {
-        const result = await ReleasedFeatures.checkIsDisappearMessageV2FeatureReleased();
-        if (!isCancelled) {
-          setShowNewDisappearingMessageModes(result);
-        }
-      } catch (error) {
-        if (!isCancelled) {
-          window.log.debug(`ClosableOverlay checkFeature error: ${error}`);
-        }
-      }
-    };
-
-    void checkFeature();
-
-    return () => {
-      isCancelled = true;
-    };
-  }, []);
 
   switch (rightOverlayMode) {
     case 'disappearing-messages':
-      // TODO legacy messages support will be removed in a future release
-      return <OverlayDisappearingMessages unlockNewModes={showNewDisappearingMessageModes} />;
+      return <OverlayDisappearingMessages />;
     default:
       return <OverlayRightPanelSettings />;
   }
