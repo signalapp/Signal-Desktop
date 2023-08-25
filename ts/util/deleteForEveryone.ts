@@ -66,5 +66,5 @@ function isDeletionTooOld(
   const messageTimestamp =
     message.get('serverTimestamp') || message.get('sent_at') || 0;
   const delta = Math.abs(doe.serverTimestamp - messageTimestamp);
-  return delta > DAY;
+  return delta > DAY * 2;
 }

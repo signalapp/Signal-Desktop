@@ -2390,9 +2390,9 @@ export default class MessageReceiver
     }
 
     // Timing check
-    if (isOlderThan(envelope.serverTimestamp, durations.DAY)) {
+    if (isOlderThan(envelope.serverTimestamp, durations.DAY * 2)) {
       log.info(
-        'MessageReceiver.handleEditMessage: cannot edit message older than 24h',
+        'MessageReceiver.handleEditMessage: cannot edit message older than 48h',
         logId,
         envelope.serverTimestamp
       );
