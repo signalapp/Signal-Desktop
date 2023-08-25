@@ -1,5 +1,5 @@
 import { isNumber } from 'lodash';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useConversationUsername } from '../../../hooks/useParamSelector';
 import { closeRightPanel, openRightPanel } from '../../../state/ducks/conversations';
@@ -57,39 +57,47 @@ export const ConversationHeaderTitle = () => {
 
   const { i18n } = window;
 
-  const notificationSubtitle = notificationSetting
-    ? i18n('notificationSubtitle', [notificationSetting])
-    : null;
+  const notificationSubtitle = useMemo(
+    () => (notificationSetting ? i18n('notificationSubtitle', [notificationSetting]) : null),
+    [i18n, notificationSetting]
+  );
 
-  let memberCount = 0;
-  if (isGroup) {
-    if (isPublic) {
-      memberCount = subscriberCount || 0;
-    } else {
-      memberCount = members.length;
+  const memberCountSubtitle = useMemo(() => {
+    let memberCount = 0;
+    if (isGroup) {
+      if (isPublic) {
+        memberCount = subscriberCount || 0;
+      } else {
+        memberCount = members.length;
+      }
     }
-  }
 
-  let memberCountSubtitle: string | null = null;
-  if (isGroup && memberCount > 0 && !isKickedFromGroup) {
-    const count = String(memberCount);
-    memberCountSubtitle = isPublic ? i18n('activeMembers', [count]) : i18n('members', [count]);
-  }
+    if (isGroup && memberCount > 0 && !isKickedFromGroup) {
+      const count = String(memberCount);
+      return isPublic ? i18n('activeMembers', [count]) : i18n('members', [count]);
+    }
 
-  const disappearingMessageSettingText =
-    expirationType === 'deleteAfterRead'
-      ? window.i18n('disappearingMessagesModeAfterRead')
-      : expirationType === 'deleteAfterSend'
-      ? window.i18n('disappearingMessagesModeAfterSend')
+    return null;
+  }, [i18n, isGroup, isKickedFromGroup, isPublic, members.length, subscriberCount]);
+
+  const disappearingMessageSubtitle = useMemo(() => {
+    const disappearingMessageSettingText =
+      expirationType === 'deleteAfterRead'
+        ? window.i18n('disappearingMessagesModeAfterRead')
+        : expirationType === 'deleteAfterSend'
+        ? window.i18n('disappearingMessagesModeAfterSend')
+        : null;
+
+    const abbreviatedExpireTime = isNumber(expireTimer)
+      ? ExpirationTimerOptions.getAbbreviated(expireTimer)
       : null;
-  const abbreviatedExpireTime = isNumber(expireTimer)
-    ? ExpirationTimerOptions.getAbbreviated(expireTimer)
-    : null;
-  const disappearingMessageSubtitle = disappearingMessageSettingText
-    ? `${disappearingMessageSettingText}${
-        abbreviatedExpireTime ? ` - ${abbreviatedExpireTime}` : ''
-      }`
-    : null;
+
+    return disappearingMessageSettingText
+      ? `${disappearingMessageSettingText}${
+          abbreviatedExpireTime ? ` - ${abbreviatedExpireTime}` : ''
+        }`
+      : null;
+  }, [expirationType, expireTimer]);
 
   const handleRightPanelToggle = () => {
     if (isRightPanelOn) {
@@ -105,7 +113,11 @@ export const ConversationHeaderTitle = () => {
   };
 
   useEffect(() => {
-    setVisibleSubtitle('notifications');
+    if (visibleSubtitle !== 'notifications') {
+      setVisibleSubtitle('notifications');
+    }
+    // We only want this to change when a new conversation is selected
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [convoName]);
 
   useEffect(() => {
@@ -133,13 +145,7 @@ export const ConversationHeaderTitle = () => {
 
     setSubtitleStrings(newSubtitlesStrings);
     setSubtitleArray(newSubtitlesArray);
-  }, [
-    disappearingMessageSubtitle,
-    memberCountSubtitle,
-    notificationSubtitle,
-    subtitleStrings,
-    visibleSubtitle,
-  ]);
+  }, [disappearingMessageSubtitle, memberCountSubtitle, notificationSubtitle, visibleSubtitle]);
 
   return (
     <div className="module-conversation-header__title-container">
