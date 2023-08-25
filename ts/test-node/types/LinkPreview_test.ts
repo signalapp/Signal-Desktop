@@ -62,12 +62,6 @@ describe('Link previews', () => {
       assert.isFalse(shouldLinkifyMessage('\u202e'));
     });
 
-    it('returns false for strings with unicode drawing characters', () => {
-      assert.isFalse(shouldLinkifyMessage('\u2500'));
-      assert.isFalse(shouldLinkifyMessage('\u2588'));
-      assert.isFalse(shouldLinkifyMessage('\u25FF'));
-    });
-
     it('returns true other strings', () => {
       assert.isTrue(shouldLinkifyMessage(null));
       assert.isTrue(shouldLinkifyMessage(undefined));
@@ -164,6 +158,21 @@ describe('Link previews', () => {
     it('returns true for =', () => {
       const link = 'r.id=s.id';
       assert.strictEqual(isLinkSneaky(link), true);
+    });
+
+    it('returns true for strings with unicode drawing characters', () => {
+      assert.strictEqual(
+        isLinkSneaky('https://example.com/\u2500/stuff'),
+        true
+      );
+      assert.strictEqual(
+        isLinkSneaky('https://example.com/\u2588/stuff'),
+        true
+      );
+      assert.strictEqual(
+        isLinkSneaky('https://example.com/\u25FF/stuff'),
+        true
+      );
     });
 
     it('returns true for $', () => {

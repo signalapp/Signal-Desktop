@@ -90,9 +90,6 @@ export function shouldLinkifyMessage(
   if (DIRECTIONAL_OVERRIDES.test(message)) {
     return false;
   }
-  if (UNICODE_DRAWING.test(message)) {
-    return false;
-  }
 
   return true;
 }
@@ -184,6 +181,10 @@ export function isLinkSneaky(href: string): boolean {
   // This helps users avoid extremely long links (which could be hiding something
   //   sketchy) and also sidesteps the performance implications of extremely long hrefs.
   if (href.length > MAX_HREF_LENGTH) {
+    return true;
+  }
+
+  if (UNICODE_DRAWING.test(href)) {
     return true;
   }
 
