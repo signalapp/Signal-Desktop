@@ -5515,6 +5515,9 @@ async function removeAll(): Promise<void> {
 
   db.transaction(() => {
     db.exec(`
+      --- Remove messages delete trigger for performance
+      DROP   TRIGGER messages_on_delete;
+
       DELETE FROM attachment_downloads;
       DELETE FROM badgeImageFiles;
       DELETE FROM badges;
@@ -5546,6 +5549,21 @@ async function removeAll(): Promise<void> {
       DELETE FROM uninstalled_sticker_packs;
 
       INSERT INTO messages_fts(messages_fts) VALUES('optimize');
+
+      --- Re-create the messages delete trigger
+      --- See migration 45
+      CREATE TRIGGER messages_on_delete AFTER DELETE ON messages BEGIN
+        DELETE FROM messages_fts WHERE rowid = old.rowid;
+        DELETE FROM sendLogPayloads WHERE id IN (
+          SELECT payloadId FROM sendLogMessageIds
+          WHERE messageId = old.id
+        );
+        DELETE FROM reactions WHERE rowid IN (
+          SELECT rowid FROM reactions
+          WHERE messageId = old.id
+        );
+        DELETE FROM storyReads WHERE storyId = old.storyId;
+      END;
     `);
   })();
 }
