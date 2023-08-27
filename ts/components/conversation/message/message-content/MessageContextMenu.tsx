@@ -132,6 +132,7 @@ const SaveAttachment = ({ messageId }: MessageId) => {
         messageTimestamp,
         messageSender: sender,
         conversationId: convoId,
+        index: targetAttachmentIndex,
       });
     },
     [convoId, sender, attachments, serverTimestamp, timestamp]
