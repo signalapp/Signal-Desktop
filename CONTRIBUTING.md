@@ -51,6 +51,12 @@ If you are using a Debian based Linux distribution gcc, g++ and make can be inst
 apt install build-essential 
 ```
 
+In Ubuntu, you may also need to install
+```
+sudo apt install cmake
+npm install cmake-js
+```
+
 ### All platforms
 
 Now, run these commands in your preferred terminal in a good directory for development:
