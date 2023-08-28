@@ -69,7 +69,7 @@ export const StyledEmojiPanel = styled.div<{
         content: '';
         position: absolute;
         top: calc(100% - 40px);
-        left: calc(100% - 79px);
+        left: calc(100% - 106px);
         width: 22px;
         height: 22px;
         transform: rotate(45deg);
@@ -78,6 +78,10 @@ export const StyledEmojiPanel = styled.div<{
         border: 0.7px solid var(--border-color);
         clip-path: polygon(100% 100%, 7.2px 100%, 100% 7.2px);
         ${props.panelBackgroundRGB && `background-color: rgb(${props.panelBackgroundRGB})`};
+
+        [dir='rtl'] & {
+          left: 75px;
+        }
       }
     `};
   }

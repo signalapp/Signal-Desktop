@@ -6,6 +6,7 @@ from os import path, listdir
 from glob import glob
 import json
 import sys
+from collections import OrderedDict
 
 LOCALES_FOLDER = './_locales'
 
@@ -16,10 +17,10 @@ LOCALIZED_KEYS_FILE = './ts/types/LocalizerKeys.ts'
 stringToWrite = "export type LocalizerKeys =\n  | "
 
 with open(EN_FILE,'r') as jsonFile:
-    data = json.load(jsonFile)
-    keys = data.keys()
+    data = json.loads(jsonFile.read(), object_pairs_hook=OrderedDict)
+    keys = sorted(list(data.keys()))
 
-    stringToWrite += json.dumps(list(keys), sort_keys=True).replace(',', '\n  |').replace('"', '\'')[1:-1]
+    stringToWrite += json.dumps(keys, sort_keys=True).replace(',', '\n  |').replace('"', '\'')[1:-1]
 
 
     stringToWrite += ';\n'

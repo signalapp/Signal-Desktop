@@ -16,8 +16,13 @@ import { getSelectedConversationKey } from '../selectors/selectedConversation';
 import { getStagedAttachmentsForCurrentConversation } from '../selectors/stagedAttachments';
 import { getTheme } from '../selectors/theme';
 import { getOurNumber } from '../selectors/user';
+import { HTMLDirection } from '../../util/i18n';
 
-const mapStateToProps = (state: StateType) => {
+type SmartSessionConversationOwnProps = {
+  htmlDirection: HTMLDirection;
+};
+
+const mapStateToProps = (state: StateType, ownProps: SmartSessionConversationOwnProps) => {
   return {
     selectedConversation: getSelectedConversation(state),
     selectedConversationKey: getSelectedConversationKey(state),
@@ -31,6 +36,7 @@ const mapStateToProps = (state: StateType) => {
     stagedAttachments: getStagedAttachmentsForCurrentConversation(state),
     hasOngoingCallWithFocusedConvo: getHasOngoingCallWithFocusedConvo(state),
     isSelectedConvoInitialLoadingInProgress: getIsSelectedConvoInitialLoadingInProgress(state),
+    htmlDirection: ownProps.htmlDirection,
   };
 };
 
