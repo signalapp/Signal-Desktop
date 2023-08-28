@@ -15,6 +15,7 @@ import type { ConversationModel } from '../../models/conversations';
 import * as reactionUtil from '../../reactions/util';
 import { isSent, SendStatus } from '../../messages/MessageSendState';
 import { getMessageById } from '../../messages/getMessageById';
+import { isIncoming } from '../../messages/helpers';
 import {
   isMe,
   isDirectConversation,
@@ -26,7 +27,8 @@ import { handleMessageSend } from '../../util/handleMessageSend';
 import { ourProfileKeyService } from '../../services/ourProfileKey';
 import { canReact, isStory } from '../../state/selectors/message';
 import { findAndFormatContact } from '../../util/findAndFormatContact';
-import type { ServiceIdString } from '../../types/ServiceId';
+import type { AciString, ServiceIdString } from '../../types/ServiceId';
+import { isAciString } from '../../types/ServiceId';
 import { handleMultipleSendErrors } from './handleMultipleSendErrors';
 import { incrementMessageCounter } from '../../util/incrementMessageCounter';
 
@@ -136,8 +138,18 @@ export async function sendReaction(
       ? await ourProfileKeyService.get()
       : undefined;
 
-    const { emoji, targetAuthorAci, ...restOfPendingReaction } =
-      pendingReaction;
+    const { emoji, ...restOfPendingReaction } = pendingReaction;
+
+    let targetAuthorAci: AciString;
+    if (isIncoming(message.attributes)) {
+      strictAssert(
+        isAciString(message.attributes.sourceServiceId),
+        'incoming message does not have sender ACI'
+      );
+      ({ sourceServiceId: targetAuthorAci } = message.attributes);
+    } else {
+      targetAuthorAci = ourAci;
+    }
 
     const reactionForSend = {
       ...restOfPendingReaction,

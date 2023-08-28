@@ -1607,7 +1607,6 @@ describe('both/state/ducks/conversations', () => {
               fromId: 'some-other-id',
               timestamp: 2222,
               targetTimestamp: 1111,
-              targetAuthorAci: generateAci(),
             },
           ],
         };
@@ -1638,7 +1637,6 @@ describe('both/state/ducks/conversations', () => {
                   fromId: 'some-other-id',
                   timestamp: 2222,
                   targetTimestamp: 1111,
-                  targetAuthorAci: generateAci(),
                 },
               ],
             },

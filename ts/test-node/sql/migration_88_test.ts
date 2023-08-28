@@ -247,8 +247,8 @@ describe('SQL/updateToSchemaVersion88', () => {
           expirationTimerUpdate: {
             sourceUuid: THEIR_UUID,
           },
-          reactions: [{ authorUuid: THEIR_UUID }],
-          storyReaction: { authorUuid: THEIR_UUID },
+          reactions: [{ targetAuthorUuid: THEIR_UUID }],
+          storyReaction: { targetAuthorUuid: THEIR_UUID },
           storyReplyContext: {
             authorUuid: THEIR_UUID,
           },
@@ -290,8 +290,8 @@ describe('SQL/updateToSchemaVersion88', () => {
           expirationTimerUpdate: {
             sourceServiceId: THEIR_UUID,
           },
-          reactions: [{ authorAci: THEIR_UUID }],
-          storyReaction: { authorAci: THEIR_UUID },
+          reactions: [{}],
+          storyReaction: {},
           storyReplyContext: {
             authorAci: THEIR_UUID,
           },

@@ -799,11 +799,9 @@ function migrateMessages(db: Database, logger: LoggerType): void {
                 ),
               }
             : undefined,
-          reactions: reactions?.map(r =>
-            migrateReaction(r, 'reactions', logger)
-          ),
+          reactions: reactions?.map(r => migrateReaction(r)),
           storyReaction: storyReaction
-            ? migrateReaction(storyReaction, 'storyReaction', logger)
+            ? migrateReaction(storyReaction)
             : undefined,
           storyReplyContext: storyReplyContext
             ? {
@@ -1231,22 +1229,13 @@ function migrateBodyRanges(
 }
 
 type LegacyReaction = JSONWithUnknownFields<{
-  authorUuid?: string;
+  targetAuthorUuid?: string;
 }>;
 
-type UpdatedReaction = JSONWithUnknownFields<{
-  authorAci: AciString | undefined;
-}>;
+type UpdatedReaction = JSONWithUnknownFields<Record<string, unknown>>;
 
-function migrateReaction(
-  { authorUuid, ...legacy }: LegacyReaction,
-  context: string,
-  logger: LoggerType
-): UpdatedReaction {
-  return {
-    ...legacy,
-    authorAci: normalizeAci(authorUuid, context, logger),
-  };
+function migrateReaction(legacy: LegacyReaction): UpdatedReaction {
+  return omit(legacy, 'targetAuthorUuid');
 }
 
 type LegacyGroupChange = JSONWithUnknownFields<{

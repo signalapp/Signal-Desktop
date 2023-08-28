@@ -111,7 +111,6 @@ export type GroupV1Update = {
 export type MessageReactionType = {
   emoji: undefined | string;
   fromId: string;
-  targetAuthorAci: AciString;
   targetTimestamp: number;
   timestamp: number;
   isSentByConversationId?: Record<string, boolean>;
