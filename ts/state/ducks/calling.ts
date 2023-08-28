@@ -345,9 +345,13 @@ const doGroupCallPeek = (
       conversationId
     );
     if (
-      existingCall?.callMode === CallMode.Group &&
+      existingCall != null &&
+      existingCall.callMode === CallMode.Group &&
       existingCall.connectionState !== GroupCallConnectionState.NotConnected
     ) {
+      log.info(
+        `doGroupCallPeek/groupv2: Not peeking because the connection state is ${existingCall.connectionState}`
+      );
       return;
     }
 
@@ -375,11 +379,18 @@ const doGroupCallPeek = (
     const joinState =
       existingCall?.callMode === CallMode.Group ? existingCall.joinState : null;
 
-    await calling.updateCallHistoryForGroupCall(
-      conversationId,
-      joinState,
-      peekInfo
-    );
+    try {
+      await calling.updateCallHistoryForGroupCall(
+        conversationId,
+        joinState,
+        peekInfo
+      );
+    } catch (error) {
+      log.error(
+        'doGroupCallPeek/groupv2: Failed to update call history',
+        Errors.toLogFormat(error)
+      );
+    }
 
     const formattedPeekInfo = calling.formatGroupCallPeekInfoForRedux(peekInfo);
 
@@ -874,6 +885,12 @@ function groupCallStateChange(
     const { ourAci } = getState().user;
     strictAssert(ourAci, 'groupCallStateChange failed to fetch our ACI');
 
+    log.info(
+      'groupCallStateChange:',
+      payload.conversationId,
+      GroupCallConnectionState[payload.connectionState],
+      GroupCallJoinState[payload.joinState]
+    );
     dispatch({
       type: GROUP_CALL_STATE_CHANGE,
       payload: {
