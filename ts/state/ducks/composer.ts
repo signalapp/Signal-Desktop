@@ -20,16 +20,12 @@ import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import type { DraftBodyRanges } from '../../types/BodyRange';
 import { BodyRange } from '../../types/BodyRange';
 import type { LinkPreviewType } from '../../types/message/LinkPreviews';
-import type {
-  DraftEditMessageType,
-  MessageAttributesType,
-} from '../../model-types.d';
+import type { MessageAttributesType } from '../../model-types.d';
 import type { NoopActionType } from './noop';
 import type { ShowToastActionType } from './toast';
 import type { StateType as RootStateType } from '../reducer';
 import * as log from '../../logging/log';
 import * as Errors from '../../types/errors';
-import * as LinkPreview from '../../types/LinkPreview';
 import {
   ADD_PREVIEW as ADD_LINK_PREVIEW,
   REMOVE_PREVIEW as REMOVE_LINK_PREVIEW,
@@ -254,24 +250,6 @@ export const actions = {
   setQuoteByMessageId,
   setQuotedMessage,
 };
-
-function hadSameLinkPreviewDismissed(
-  messageText: string,
-  draftEditMessage: DraftEditMessageType | undefined
-): boolean {
-  if (!draftEditMessage) {
-    return false;
-  }
-
-  const currentLink = LinkPreview.findLinks(messageText).find(
-    LinkPreview.shouldPreviewHref
-  );
-  const prevLink = LinkPreview.findLinks(draftEditMessage.body).find(
-    LinkPreview.shouldPreviewHref
-  );
-
-  return currentLink === prevLink && !draftEditMessage.preview;
-}
 
 function incrementSendCounter(conversationId: string): IncrementSendActionType {
   return {
@@ -1014,11 +992,7 @@ function onEditorStateChange({
       hasDraftAttachments(conversation.attributes.draftAttachments, {
         includePending: true,
       }) ||
-      Boolean(conversation.attributes.draftEditMessage?.attachmentThumbnail) ||
-      hadSameLinkPreviewDismissed(
-        messageText,
-        conversation.attributes.draftEditMessage
-      )
+      Boolean(conversation.attributes.draftEditMessage?.attachmentThumbnail)
     ) {
       return;
     }
