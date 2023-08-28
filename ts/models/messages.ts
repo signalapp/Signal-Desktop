@@ -2967,7 +2967,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     const newReaction: MessageReactionType = {
       emoji: reaction.remove ? undefined : reaction.emoji,
       fromId: reaction.fromId,
-      targetAuthorAci: reaction.targetAuthorAci,
       targetTimestamp: reaction.targetTimestamp,
       timestamp: reaction.timestamp,
       isSentByConversationId: isFromThisDevice
