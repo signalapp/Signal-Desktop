@@ -1664,19 +1664,10 @@ function updateToSessionSchemaVersion34(currentVersion: number, db: BetterSqlite
     return;
   }
 
-  // TODO we actually want to update the config wrappers that relate to disappearing messages with the type and seconds
-
   console.log(`updateToSessionSchemaVersion${targetVersion}: starting...`);
   db.transaction(() => {
     try {
-      const loggedInUser = getLoggedInUserConvoDuringMigration(db);
-
-      if (!loggedInUser || !loggedInUser.ourKeys) {
-        throw new Error('privateEd25519 was empty. Considering no users are logged in');
-      }
-
-      const { privateEd25519, publicKeyHex } = loggedInUser.ourKeys;
-
+      // region v34 Disappearing Messages Database Model Changes
       // Conversation changes
       db.prepare(
         `ALTER TABLE ${CONVERSATIONS_TABLE} ADD COLUMN expirationType TEXT DEFAULT "off";`
@@ -1687,6 +1678,19 @@ function updateToSessionSchemaVersion34(currentVersion: number, db: BetterSqlite
       ).run();
 
       db.prepare(`ALTER TABLE ${CONVERSATIONS_TABLE} ADD COLUMN hasOutdatedClient TEXT;`).run();
+
+      // Message changes
+      db.prepare(`ALTER TABLE ${MESSAGES_TABLE} ADD COLUMN expirationType TEXT;`).run();
+
+      // endregion
+
+      const loggedInUser = getLoggedInUserConvoDuringMigration(db);
+
+      if (!loggedInUser || !loggedInUser.ourKeys) {
+        throw new Error('privateEd25519 was empty. Considering no users are logged in');
+      }
+
+      const { privateEd25519, publicKeyHex } = loggedInUser.ourKeys;
 
       // region v34 Disappearing Messages Note to Self
       const noteToSelfInfo = db
@@ -1888,9 +1892,6 @@ function updateToSessionSchemaVersion34(currentVersion: number, db: BetterSqlite
       }
 
       // endregion
-
-      // Message changes
-      db.prepare(`ALTER TABLE ${MESSAGES_TABLE} ADD COLUMN expirationType TEXT;`).run();
     } catch (e) {
       console.error(
         `Failed to migrate to disappearing messages v2. Might just not have a logged in user yet? `,
