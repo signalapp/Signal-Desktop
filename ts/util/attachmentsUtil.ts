@@ -2,7 +2,7 @@
 import imageType from 'image-type';
 
 import { arrayBufferToBlob } from 'blob-util';
-import loadImage, { LoadImageOptions } from 'blueimp-load-image';
+import loadImage from 'blueimp-load-image';
 import { StagedAttachmentType } from '../components/conversation/composition/CompositionBox';
 import { SignalService } from '../protobuf';
 import { getDecryptedMediaUrl } from '../session/crypto/DecryptedAttachmentsManager';
@@ -189,28 +189,32 @@ export async function autoScale<T extends { contentType: string; blob: Blob }>(
     throw new Error(`GIF is too large, required size is ${maxSize}`);
   }
 
-  const loadImgOpts: LoadImageOptions = {
-    maxWidth: makeSquare ? maxMeasurements?.maxSide : maxWidth,
-    maxHeight: makeSquare ? maxMeasurements?.maxSide : maxHeight,
-    crop: !!makeSquare,
-    orientation: 1,
-    aspectRatio: makeSquare ? 1 : undefined,
-    canvas: true,
-    imageSmoothingQuality: 'medium',
-  };
-
   perfStart(`loadimage-*${blob.size}`);
-  const canvas = await loadImage(blob, loadImgOpts);
+  const canvasLoad = await loadImage(blob, {});
+  const canvasScaled = loadImage.scale(
+    canvasLoad.image, // img or canvas element
+    {
+      maxWidth: makeSquare ? maxMeasurements?.maxSide : maxWidth,
+      maxHeight: makeSquare ? maxMeasurements?.maxSide : maxHeight,
+      crop: !!makeSquare,
+      cover: !!makeSquare,
+      orientation: 1,
+      // aspectRatio: makeSquare ? 1 : undefined,
+      canvas: true,
+      imageSmoothingQuality: 'medium',
+      meta: false,
+    }
+  );
   perfEnd(`loadimage-*${blob.size}`, `loadimage-*${blob.size}`);
-  if (!canvas || !canvas.originalWidth || !canvas.originalHeight) {
+  if (!canvasScaled || !canvasScaled.width || !canvasScaled.height) {
     throw new Error('failed to scale image');
   }
 
   let readAndResizedBlob = blob;
 
   if (
-    canvas.originalWidth <= maxWidth &&
-    canvas.originalHeight <= maxHeight &&
+    canvasScaled.width <= maxWidth &&
+    canvasScaled.height <= maxHeight &&
     blob.size <= maxSize &&
     !makeSquare
   ) {
@@ -218,15 +222,15 @@ export async function autoScale<T extends { contentType: string; blob: Blob }>(
     // so we have to return those measures as the loaded file has now those measures.
     return {
       ...attachment,
-      width: canvas.image.width,
-      height: canvas.image.height,
+      width: canvasScaled.width,
+      height: canvasScaled.height,
       blob,
     };
   }
   if (DEBUG_ATTACHMENTS_SCALE) {
-    window.log.debug('canvas.originalWidth', {
-      canvasOriginalWidth: canvas.originalWidth,
-      canvasOriginalHeight: canvas.originalHeight,
+    window.log.info('canvasOri.originalWidth', {
+      canvasOriginalWidth: canvasScaled.width,
+      canvasOriginalHeight: canvasScaled.height,
       maxWidth,
       maxHeight,
       blobsize: blob.size,
@@ -240,10 +244,10 @@ export async function autoScale<T extends { contentType: string; blob: Blob }>(
   do {
     i -= 1;
     if (DEBUG_ATTACHMENTS_SCALE) {
-      // window.log.info(`autoscale iteration: [${i}] for:`, attachment);
+      window.log.info(`autoscale iteration: [${i}] for:`, JSON.stringify(readAndResizedBlob.size));
     }
     // eslint-disable-next-line no-await-in-loop
-    const tempBlob = await canvasToBlob(canvas.image as HTMLCanvasElement, 'image/jpeg', quality);
+    const tempBlob = await canvasToBlob(canvasScaled, 'image/jpeg', quality);
 
     if (!tempBlob) {
       throw new Error('Failed to get blob during canvasToBlob.');
@@ -265,8 +269,8 @@ export async function autoScale<T extends { contentType: string; blob: Blob }>(
     contentType: attachment.contentType,
     blob: readAndResizedBlob,
 
-    width: canvas.image.width,
-    height: canvas.image.height,
+    width: canvasScaled.width,
+    height: canvasScaled.height,
   };
 }
 
