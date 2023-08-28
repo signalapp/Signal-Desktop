@@ -82,7 +82,7 @@ async function processExpirationResults(
 
   // TODO need proper typing for swarm and results
   const results: Record<string, { hashes: Array<string>; expiry: number }> = {};
-  // window.log.debug(`processExpirationResults start`, swarm, messageHashes);
+  window.log.debug(`WIP: processExpirationResults start`, swarm, messageHashes);
 
   for (const nodeKey of Object.keys(swarm)) {
     if (!isEmpty(swarm[nodeKey].failed)) {

@@ -106,6 +106,7 @@ function isUserConfigFeatureReleasedCached(): boolean {
   return !!isUserConfigLibsessionFeatureReleased;
 }
 
+// NOTE Make sure to call checkIsDisappearMessageV2FeatureReleased at least once and then use this. It's mostly used in components that are rendered where we don't want to do async calls
 function isDisappearMessageV2FeatureReleasedCached(): boolean {
   return !!isDisappearingMessageFeatureReleased;
 }

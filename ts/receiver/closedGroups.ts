@@ -323,7 +323,7 @@ export async function handleNewClosedGroup(
         providedChangeTimestamp: GetNetworkTime.getNowWithNetworkOffset(),
         providedSource: sender,
         receivedAt: Date.now(),
-        fromConfigMessage: false,
+        fromConfigMessage: fromLegacyConfig,
       });
 
       if (isKeyPairAlreadyHere) {
@@ -371,22 +371,13 @@ export async function handleNewClosedGroup(
 
   // be sure to call this before sending the message.
   // the sending pipeline needs to know from GroupUtils when a message is for a medium group
-  await ClosedGroup.updateOrCreateClosedGroup(groupDetails);
+  await ClosedGroup.updateOrCreateClosedGroup(groupDetails, fromLegacyConfig);
 
   // ClosedGroup.updateOrCreateClosedGroup will mark the activeAt to Date.now if it's active
   // But we need to override this value with the sent timestamp of the message creating this group for us.
   // Having that timestamp set will allow us to pickup incoming group update which were sent between
   // envelope.timestamp and Date.now(). And we need to listen to those (some might even remove us)
   convo.set('lastJoinedTimestamp', envelopeTimestamp);
-  // TODO This is only applicable for old closed groups - will be removed in future
-  await convo.updateExpireTimer({
-    providedExpirationType: expireTimer === 0 ? 'off' : 'deleteAfterSend',
-    providedExpireTimer: expireTimer,
-    providedChangeTimestamp: GetNetworkTime.getNowWithNetworkOffset(),
-    providedSource: sender,
-    receivedAt: envelopeTimestamp,
-    fromConfigMessage: fromLegacyConfig,
-  });
   convo.updateLastMessage();
 
   await convo.commit();

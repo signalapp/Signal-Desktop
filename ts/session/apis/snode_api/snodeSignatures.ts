@@ -101,6 +101,7 @@ async function generateUpdateExpirySignature({
   timestamp,
   messageHashes,
 }: {
+  // NOTE empty string means we want to hardcode the expiry to a TTL value, otherwise it's a shorten or extension of the TTL
   shortenOrExtend: 'extend' | 'shorten' | '';
   timestamp: number;
   messageHashes: Array<string>;

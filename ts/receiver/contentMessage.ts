@@ -36,7 +36,7 @@ import { ConfigMessageHandler } from './configMessage';
 import { ECKeyPair } from './keypairs';
 import { ContactsWrapperActions } from '../webworker/workers/browser/libsession_worker_interface';
 import {
-  checkForExpireUpdate,
+  checkForExpireUpdateInContentMessage,
   checkHasOutdatedClient,
   isLegacyDisappearingModeEnabled,
   setExpirationStartTimestamp,
@@ -451,7 +451,10 @@ export async function innerHandleSwarmContentMessage(
         content.dataMessage.profileKey = null;
       }
 
-      const expireUpdate = await checkForExpireUpdate(conversationModelForUIUpdate, content);
+      const expireUpdate = await checkForExpireUpdateInContentMessage(
+        conversationModelForUIUpdate,
+        content
+      );
 
       // TODO legacy messages support will be removed in a future release
       if (expireUpdate && !isEmpty(expireUpdate) && expireUpdate.isDisappearingMessagesV2Released) {
@@ -461,7 +464,10 @@ export async function innerHandleSwarmContentMessage(
           expireUpdate
         );
         if (expireUpdate.isLegacyConversationSettingMessage) {
-          window.log.info('The legacy message is an expiration timer update. Ignoring it.');
+          window.log.debug(
+            'The legacy message is an expiration timer update. Ignoring it.',
+            content
+          );
           return;
         }
       }

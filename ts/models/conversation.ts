@@ -880,6 +880,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     let message: MessageModel | undefined = existingMessage || undefined;
 
     // we don't have info about who made the change and when, when we get a change from a config message, so do not add a control message
+    // TODO NOTE We might not show it in the UI but still need to process it using the senttimestamp as the lastchange timestamp for config messages
     if (!fromConfigMessage) {
       const commonAttributes = {
         flags: SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,

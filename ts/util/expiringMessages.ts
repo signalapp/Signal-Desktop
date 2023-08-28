@@ -316,7 +316,7 @@ function checkIsLegacyDataMessage(dataMessage: SignalService.DataMessage): boole
 }
 
 // TODO legacy messages support will be removed in a future release
-export async function checkForExpireUpdate(
+export async function checkForExpireUpdateInContentMessage(
   convoToUpdate: ConversationModel,
   content: SignalService.Content
 ): Promise<DisappearingMessageUpdate | undefined> {
@@ -338,12 +338,18 @@ export async function checkForExpireUpdate(
   let expirationTimer = isLegacyDataMessage
     ? Number(dataMessage.expireTimer)
     : content.expirationTimer;
+
   let expirationType =
     expirationTimer > 0
       ? DisappearingMessageConversationSetting[
-          !isDisappearingMessagesV2Released || isLegacyContentMessage ? 3 : content.expirationType
+          !isDisappearingMessagesV2Released || isLegacyContentMessage
+            ? resolveLegacyDisappearingMode(convoToUpdate) === 'deleteAfterRead'
+              ? 1
+              : 2
+            : content.expirationType
         ]
       : DisappearingMessageConversationSetting[0];
+
   const lastDisappearingMessageChangeTimestamp = content.lastDisappearingMessageChangeTimestamp
     ? Number(content.lastDisappearingMessageChangeTimestamp)
     : undefined;

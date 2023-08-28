@@ -38,7 +38,7 @@ export type GroupInfo = {
   zombies?: Array<string>;
   activeAt?: number;
   expirationType?: DisappearingMessageConversationType[0] | DisappearingMessageConversationType[2];
-  expireTimer?: number | null;
+  expireTimer?: number;
   admins?: Array<string>;
 };
 
@@ -222,7 +222,7 @@ function buildGroupDiff(convo: ConversationModel, update: GroupInfo): GroupDiff 
   return groupDiff;
 }
 
-export async function updateOrCreateClosedGroup(details: GroupInfo) {
+export async function updateOrCreateClosedGroup(details: GroupInfo, fromLegacyConfig?: boolean) {
   const { id, expirationType, expireTimer } = details;
 
   const conversation = await getConversationController().getOrCreateAndWait(
@@ -232,13 +232,7 @@ export async function updateOrCreateClosedGroup(details: GroupInfo) {
 
   const updates: Pick<
     ConversationAttributes,
-    | 'type'
-    | 'members'
-    | 'displayNameInProfile'
-    | 'active_at'
-    | 'left'
-    | 'expirationType'
-    | 'expireTimer'
+    'type' | 'members' | 'displayNameInProfile' | 'active_at' | 'left'
   > = {
     displayNameInProfile: details.name,
     members: details.members,
@@ -246,8 +240,6 @@ export async function updateOrCreateClosedGroup(details: GroupInfo) {
     type: ConversationTypeEnum.GROUP,
     active_at: details.activeAt ? details.activeAt : 0,
     left: !details.activeAt,
-    expirationType: details.expirationType || 'off',
-    expireTimer: details.expireTimer || 0,
   };
 
   conversation.set(updates);
@@ -259,25 +251,16 @@ export async function updateOrCreateClosedGroup(details: GroupInfo) {
 
   await conversation.commit();
 
-  if (
-    expirationType === undefined ||
-    expirationType === 'off' ||
-    expireTimer === undefined ||
-    typeof expireTimer !== 'number'
-  ) {
-    return;
-  }
-
   await conversation.updateExpireTimer({
     // TODO legacy messages support will be removed in a future release
-    // TODO What are we cleaning?
-    providedExpirationType: expirationType || 'deleteAfterSend',
-    providedExpireTimer: expireTimer,
+    providedExpirationType:
+      expirationType || (expireTimer && expireTimer > 0) ? 'deleteAfterSend' : 'off',
+    providedExpireTimer: expireTimer || 0,
     providedChangeTimestamp: GetNetworkTime.getNowWithNetworkOffset(),
     providedSource: UserUtils.getOurPubKeyStrFromCache(),
     receivedAt: Date.now(),
     fromSync: true,
-    fromConfigMessage: false,
+    fromConfigMessage: Boolean(fromLegacyConfig),
   });
 }
 

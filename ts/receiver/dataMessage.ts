@@ -232,7 +232,7 @@ export async function handleSwarmDataMessage(
   }
 
   if (!messageHasVisibleContent(cleanDataMessage)) {
-    window?.log?.warn(`Message ${getEnvelopeId(envelope)} ignored; it was empty`);
+    window?.log?.debug(`WIP: Message ${getEnvelopeId(envelope)} ignored; it was empty`);
     await removeFromCache(envelope);
     return;
   }
