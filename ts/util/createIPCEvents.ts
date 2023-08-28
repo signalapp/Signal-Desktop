@@ -566,9 +566,12 @@ export function createIPCEvents(
       }
 
       const maybeUsernameBase64 = parseUsernameBase64FromSignalDotMeHash(hash);
+      let username: string | undefined;
       if (maybeUsernameBase64) {
-        const username = await resolveUsernameByLinkBase64(maybeUsernameBase64);
+        username = await resolveUsernameByLinkBase64(maybeUsernameBase64);
+      }
 
+      if (username) {
         const convoId = await lookupConversationWithoutServiceId({
           type: 'username',
           username,
