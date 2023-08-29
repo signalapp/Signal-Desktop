@@ -184,6 +184,16 @@ export const aciSchema = z
     return x;
   });
 
+export const untaggedPniSchema = z
+  .string()
+  .refine(isUntaggedPniString)
+  .transform(x => {
+    if (!isUntaggedPniString(x)) {
+      throw new Error('Refine did not throw!');
+    }
+    return x;
+  });
+
 export const serviceIdSchema = z
   .string()
   .refine(isServiceIdString)

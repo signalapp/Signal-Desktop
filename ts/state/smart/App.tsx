@@ -6,8 +6,10 @@ import { connect } from 'react-redux';
 import type { MenuItemConstructorOptions } from 'electron';
 
 import type { MenuActionType } from '../../types/menu';
+import type { VerificationTransport } from '../../types/VerificationTransport';
 import { App } from '../../components/App';
 import OS from '../../util/os/osMain';
+import { strictAssert } from '../../util/assert';
 import { SmartCallManager } from './CallManager';
 import { SmartGlobalModalContainer } from './GlobalModalContainer';
 import { SmartLightbox } from './Lightbox';
@@ -61,20 +63,23 @@ const mapStateToProps = (state: StateType) => {
     ),
     renderInbox,
     requestVerification: (
-      type: 'sms' | 'voice',
       number: string,
-      token: string
-    ): Promise<void> => {
-      const accountManager = window.getAccountManager();
+      captcha: string,
+      transport: VerificationTransport
+    ): Promise<{ sessionId: string }> => {
+      const { server } = window.textsecure;
+      strictAssert(server !== undefined, 'WebAPI not available');
 
-      if (type === 'sms') {
-        return accountManager.requestSMSVerification(number, token);
-      }
-
-      return accountManager.requestVoiceVerification(number, token);
+      return server.requestVerification(number, captcha, transport);
     },
-    registerSingleDevice: (number: string, code: string): Promise<void> => {
-      return window.getAccountManager().registerSingleDevice(number, code);
+    registerSingleDevice: (
+      number: string,
+      code: string,
+      sessionId: string
+    ): Promise<void> => {
+      return window
+        .getAccountManager()
+        .registerSingleDevice(number, code, sessionId);
     },
     theme: getTheme(state),
 

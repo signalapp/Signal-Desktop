@@ -10,6 +10,7 @@ import type { MenuOptionsType, MenuActionType } from '../types/menu';
 import type { AnyToast } from '../types/Toast';
 import type { ViewStoryActionCreatorType } from '../state/ducks/stories';
 import type { LocalizerType } from '../types/Util';
+import type { VerificationTransport } from '../types/VerificationTransport';
 import { ThemeType } from '../types/Util';
 import { AppViewType } from '../state/ducks/app';
 import { SmartInstallScreen } from '../state/smart/InstallScreen';
@@ -22,7 +23,11 @@ import { useReducedMotion } from '../hooks/useReducedMotion';
 type PropsType = {
   appView: AppViewType;
   openInbox: () => void;
-  registerSingleDevice: (number: string, code: string) => Promise<void>;
+  registerSingleDevice: (
+    number: string,
+    code: string,
+    sessionId: string
+  ) => Promise<void>;
   renderCallManager: () => JSX.Element;
   renderGlobalModalContainer: () => JSX.Element;
   i18n: LocalizerType;
@@ -30,10 +35,10 @@ type PropsType = {
   renderStoryViewer: (closeView: () => unknown) => JSX.Element;
   renderLightbox: () => JSX.Element | null;
   requestVerification: (
-    type: 'sms' | 'voice',
     number: string,
-    token: string
-  ) => Promise<void>;
+    captcha: string,
+    transport: VerificationTransport
+  ) => Promise<{ sessionId: string }>;
   theme: ThemeType;
   isMaximized: boolean;
   isFullScreen: boolean;

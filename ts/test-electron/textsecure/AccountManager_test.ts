@@ -66,7 +66,7 @@ describe('AccountManager', () => {
 
     it('handles falsey deviceName', () => {
       const encrypted = accountManager.encryptDeviceName('', identityKey);
-      assert.strictEqual(encrypted, null);
+      assert.strictEqual(encrypted, undefined);
     });
   });
 

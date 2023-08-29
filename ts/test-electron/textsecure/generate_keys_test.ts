@@ -7,7 +7,7 @@ import { constantTimeEqual } from '../../Crypto';
 import { generateKeyPair } from '../../Curve';
 import type { UploadKeysType } from '../../textsecure/WebAPI';
 import AccountManager from '../../textsecure/AccountManager';
-import type { PreKeyType, SignedPreKeyType } from '../../textsecure/Types.d';
+import type { PreKeyType } from '../../textsecure/Types.d';
 import { ServiceIdKind, normalizeAci } from '../../types/ServiceId';
 
 const { textsecure } = window;
@@ -43,15 +43,6 @@ describe('Key generation', function thisNeeded() {
       assert(key, `kyber pre key ${keyId} not found`);
     });
   }
-  function itStoresSignedPreKey(keyId: number): void {
-    it(`signed prekey ${keyId} is valid`, async () => {
-      const keyPair = await textsecure.storage.protocol.loadSignedPreKey(
-        ourServiceId,
-        keyId
-      );
-      assert(keyPair, `SignedPreKey ${keyId} not found`);
-    });
-  }
 
   async function validateResultPreKey(
     resultKey: Pick<PreKeyType, 'keyId' | 'publicKey'>
@@ -64,24 +55,6 @@ describe('Key generation', function thisNeeded() {
       throw new Error(`PreKey ${resultKey.keyId} not found`);
     }
     assertEqualBuffers(resultKey.publicKey, keyPair.publicKey().serialize());
-  }
-  async function validateResultSignedKey(
-    resultSignedKey?: Pick<SignedPreKeyType, 'keyId' | 'publicKey'>
-  ) {
-    if (!resultSignedKey) {
-      throw new Error('validateResultSignedKey: No signed prekey provided!');
-    }
-    const keyPair = await textsecure.storage.protocol.loadSignedPreKey(
-      ourServiceId,
-      resultSignedKey.keyId
-    );
-    if (!keyPair) {
-      throw new Error(`SignedPreKey ${resultSignedKey.keyId} not found`);
-    }
-    assertEqualBuffers(
-      resultSignedKey.publicKey,
-      keyPair.publicKey().serialize()
-    );
   }
 
   before(async () => {
@@ -108,17 +81,19 @@ describe('Key generation', function thisNeeded() {
     before(async () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const accountManager = new AccountManager({} as any);
-      result = await accountManager._generateKeys(count, ServiceIdKind.ACI);
+      result = await accountManager._generateSingleUseKeys(
+        ServiceIdKind.ACI,
+        count
+      );
     });
 
     describe('generates the basics', () => {
       for (let i = 1; i <= count; i += 1) {
         itStoresPreKey(i);
       }
-      for (let i = 1; i <= count + 1; i += 1) {
+      for (let i = 1; i <= count; i += 1) {
         itStoresKyberPreKey(i);
       }
-      itStoresSignedPreKey(1);
     });
 
     it(`result contains ${count} preKeys`, () => {
@@ -139,28 +114,24 @@ describe('Key generation', function thisNeeded() {
       const preKeys = result.preKeys || [];
       await Promise.all(preKeys.map(validateResultPreKey));
     });
-    it('returns a signed prekey', () => {
-      assert.strictEqual(result.signedPreKey?.keyId, 1);
-      assert.instanceOf(result.signedPreKey?.signature, Uint8Array);
-      return validateResultSignedKey(result.signedPreKey);
-    });
   });
   describe('the second time', () => {
     before(async () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const accountManager = new AccountManager({} as any);
-      result = await accountManager._generateKeys(count, ServiceIdKind.ACI);
+      result = await accountManager._generateSingleUseKeys(
+        ServiceIdKind.ACI,
+        count
+      );
     });
 
     describe('generates the basics', () => {
       for (let i = 1; i <= 2 * count; i += 1) {
         itStoresPreKey(i);
       }
-      for (let i = 1; i <= 2 * count + 2; i += 1) {
+      for (let i = 1; i <= 2 * count; i += 1) {
         itStoresKyberPreKey(i);
       }
-      itStoresSignedPreKey(1);
-      itStoresSignedPreKey(2);
     });
 
     it(`result contains ${count} preKeys`, () => {
@@ -181,11 +152,6 @@ describe('Key generation', function thisNeeded() {
       const preKeys = result.preKeys || [];
       await Promise.all(preKeys.map(validateResultPreKey));
     });
-    it('returns a signed prekey', () => {
-      assert.strictEqual(result.signedPreKey?.keyId, 2);
-      assert.instanceOf(result.signedPreKey?.signature, Uint8Array);
-      return validateResultSignedKey(result.signedPreKey);
-    });
   });
   describe('the third time, after keys are confirmed', () => {
     before(async () => {
@@ -194,7 +160,10 @@ describe('Key generation', function thisNeeded() {
 
       await accountManager._confirmKeys(result, ServiceIdKind.ACI);
 
-      result = await accountManager._generateKeys(count, ServiceIdKind.ACI);
+      result = await accountManager._generateSingleUseKeys(
+        ServiceIdKind.ACI,
+        count
+      );
     });
 
     describe('generates the basics', () => {
@@ -202,11 +171,9 @@ describe('Key generation', function thisNeeded() {
         itStoresPreKey(i);
       }
       // Note: no new last resort kyber key generated
-      for (let i = 1; i <= 3 * count + 2; i += 1) {
+      for (let i = 1; i <= 3 * count; i += 1) {
         itStoresKyberPreKey(i);
       }
-      itStoresSignedPreKey(1);
-      itStoresSignedPreKey(2);
     });
 
     it(`result contains ${count} preKeys`, () => {

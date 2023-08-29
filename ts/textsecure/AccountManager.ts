@@ -3,6 +3,7 @@
 
 import PQueue from 'p-queue';
 import { isNumber, omit, orderBy } from 'lodash';
+import type { KyberPreKeyRecord } from '@signalapp/libsignal-client';
 
 import EventTarget from './EventTarget';
 import type {
@@ -13,6 +14,7 @@ import type {
   WebAPIType,
 } from './WebAPI';
 import type {
+  CompatSignedPreKeyType,
   CompatPreKeyType,
   KeyPairType,
   KyberPreKeyType,
@@ -38,10 +40,11 @@ import {
   generatePreKey,
   generateKyberPreKey,
 } from '../Curve';
-import type { ServiceIdString, PniString } from '../types/ServiceId';
+import type { ServiceIdString, AciString, PniString } from '../types/ServiceId';
 import {
   ServiceIdKind,
   normalizeAci,
+  normalizePni,
   toTaggedPni,
   isUntaggedPniString,
 } from '../types/ServiceId';
@@ -51,6 +54,7 @@ import { assertDev, strictAssert } from '../util/assert';
 import { getRegionCodeForNumber } from '../util/libphonenumberUtil';
 import { getProvisioningUrl } from '../util/getProvisioningUrl';
 import { isNotNil } from '../util/isNotNil';
+import { missingCaseError } from '../util/missingCaseError';
 import { SignalService as Proto } from '../protobuf';
 import * as log from '../logging/log';
 import type { StorageAccessType } from '../types/Storage';
@@ -105,17 +109,52 @@ const SIGNED_PRE_KEY_UPDATE_TIME_KEY: StorageKeyByServiceIdKind = {
   [ServiceIdKind.PNI]: 'signedKeyUpdateTimePNI',
 };
 
-type CreateAccountOptionsType = Readonly<{
+enum AccountType {
+  Primary = 'Primary',
+  Linked = 'Linked',
+}
+
+type CreateAccountSharedOptionsType = Readonly<{
   number: string;
   verificationCode: string;
   aciKeyPair: KeyPairType;
-  pniKeyPair?: KeyPairType;
-  profileKey?: Uint8Array;
-  deviceName?: string;
-  userAgent?: string;
-  readReceipts?: boolean;
-  accessKey?: Uint8Array;
+  pniKeyPair: KeyPairType;
+  profileKey: Uint8Array;
 }>;
+
+type CreatePrimaryDeviceOptionsType = Readonly<{
+  type: AccountType.Primary;
+
+  deviceName?: undefined;
+  ourAci?: undefined;
+  ourPni?: undefined;
+  userAgent?: undefined;
+
+  readReceipts: true;
+
+  accessKey: Uint8Array;
+  sessionId: string;
+}> &
+  CreateAccountSharedOptionsType;
+
+type CreateLinkedDeviceOptionsType = Readonly<{
+  type: AccountType.Linked;
+
+  deviceName: string;
+  ourAci: AciString;
+  ourPni: PniString;
+  userAgent?: string;
+
+  readReceipts: boolean;
+
+  accessKey?: undefined;
+  sessionId?: undefined;
+}> &
+  CreateAccountSharedOptionsType;
+
+type CreateAccountOptionsType =
+  | CreatePrimaryDeviceOptionsType
+  | CreateLinkedDeviceOptionsType;
 
 function getNextKeyId(
   kind: ServiceIdKind,
@@ -133,6 +172,42 @@ function getNextKeyId(
   }
 
   return STARTING_KEY_ID;
+}
+
+function kyberPreKeyToUploadSignedPreKey(
+  record: KyberPreKeyRecord
+): UploadSignedPreKeyType {
+  return {
+    keyId: record.id(),
+    publicKey: record.publicKey().serialize(),
+    signature: record.signature(),
+  };
+}
+
+function kyberPreKeyToStoredSignedPreKey(
+  record: KyberPreKeyRecord,
+  ourServiceId: ServiceIdString
+): Omit<KyberPreKeyType, 'id'> {
+  return {
+    createdAt: Date.now(),
+    data: record.serialize(),
+    isConfirmed: false,
+    isLastResort: true,
+    keyId: record.id(),
+    ourServiceId,
+  };
+}
+
+function signedPreKeyToUploadSignedPreKey({
+  keyId,
+  keyPair,
+  signature,
+}: CompatSignedPreKeyType): UploadSignedPreKeyType {
+  return {
+    keyId,
+    publicKey: keyPair.pubKey,
+    signature,
+  };
 }
 
 export default class AccountManager extends EventTarget {
@@ -153,17 +228,12 @@ export default class AccountManager extends EventTarget {
     return this.pendingQueue.add(taskWithTimeout);
   }
 
-  async requestVoiceVerification(number: string, token: string): Promise<void> {
-    return this.server.requestVerificationVoice(number, token);
-  }
-
-  async requestSMSVerification(number: string, token: string): Promise<void> {
-    return this.server.requestVerificationSMS(number, token);
-  }
-
-  encryptDeviceName(name: string, identityKey: KeyPairType): string | null {
+  encryptDeviceName(
+    name: string,
+    identityKey: KeyPairType
+  ): string | undefined {
     if (!name) {
-      return null;
+      return undefined;
     }
     const encrypted = encryptDeviceName(name, identityKey.pubKey);
 
@@ -224,7 +294,8 @@ export default class AccountManager extends EventTarget {
 
   async registerSingleDevice(
     number: string,
-    verificationCode: string
+    verificationCode: string,
+    sessionId: string
   ): Promise<void> {
     await this.queueTask(async () => {
       const aciKeyPair = generateKeyPair();
@@ -235,22 +306,16 @@ export default class AccountManager extends EventTarget {
       const registrationBaton = this.server.startRegistration();
       try {
         await this.createAccount({
+          type: AccountType.Primary,
           number,
           verificationCode,
+          sessionId,
           aciKeyPair,
           pniKeyPair,
           profileKey,
           accessKey,
+          readReceipts: true,
         });
-
-        const uploadKeys = async (kind: ServiceIdKind) => {
-          const keys = await this._generateKeys(PRE_KEY_GEN_BATCH_SIZE, kind);
-          await this.server.registerKeys(keys, kind);
-          await this._confirmKeys(keys, kind);
-        };
-
-        await uploadKeys(ServiceIdKind.ACI);
-        await uploadKeys(ServiceIdKind.PNI);
       } finally {
         this.server.finishRegistration(registrationBaton);
       }
@@ -332,17 +397,27 @@ export default class AccountManager extends EventTarget {
       if (
         !provisionMessage.number ||
         !provisionMessage.provisioningCode ||
-        !provisionMessage.aciKeyPair
+        !provisionMessage.aciKeyPair ||
+        !provisionMessage.pniKeyPair ||
+        !provisionMessage.profileKey ||
+        !provisionMessage.aci ||
+        !isUntaggedPniString(provisionMessage.pni)
       ) {
         throw new Error(
           'AccountManager.registerSecondDevice: Provision message was missing key data'
         );
       }
 
-      const registrationBaton = this.server.startRegistration();
+      const ourAci = normalizeAci(provisionMessage.aci, 'provisionMessage.aci');
+      const ourPni = normalizePni(
+        toTaggedPni(provisionMessage.pni),
+        'provisionMessage.pni'
+      );
 
+      const registrationBaton = this.server.startRegistration();
       try {
         await this.createAccount({
+          type: AccountType.Linked,
           number: provisionMessage.number,
           verificationCode: provisionMessage.provisioningCode,
           aciKeyPair: provisionMessage.aciKeyPair,
@@ -350,32 +425,10 @@ export default class AccountManager extends EventTarget {
           profileKey: provisionMessage.profileKey,
           deviceName,
           userAgent: provisionMessage.userAgent,
-          readReceipts: provisionMessage.readReceipts,
+          ourAci,
+          ourPni,
+          readReceipts: Boolean(provisionMessage.readReceipts),
         });
-
-        const uploadKeys = async (kind: ServiceIdKind) => {
-          const keys = await this._generateKeys(PRE_KEY_GEN_BATCH_SIZE, kind);
-
-          try {
-            await this.server.registerKeys(keys, kind);
-            await this._confirmKeys(keys, kind);
-          } catch (error) {
-            if (kind === ServiceIdKind.PNI) {
-              log.error(
-                'Failed to upload PNI prekeys. Moving on',
-                Errors.toLogFormat(error)
-              );
-              return;
-            }
-
-            throw error;
-          }
-        };
-
-        await uploadKeys(ServiceIdKind.ACI);
-        if (provisionMessage.pniKeyPair) {
-          await uploadKeys(ServiceIdKind.PNI);
-        }
       } finally {
         this.server.finishRegistration(registrationBaton);
       }
@@ -406,8 +459,10 @@ export default class AccountManager extends EventTarget {
 
   private async generateNewPreKeys(
     serviceIdKind: ServiceIdKind,
-    count: number
+    count = PRE_KEY_GEN_BATCH_SIZE
   ): Promise<Array<UploadPreKeyType>> {
+    const ourServiceId =
+      window.textsecure.storage.user.getCheckedServiceId(serviceIdKind);
     const logId = `AccountManager.generateNewPreKeys(${serviceIdKind})`;
     const { storage } = window.textsecure;
     const store = storage.protocol;
@@ -415,7 +470,6 @@ export default class AccountManager extends EventTarget {
     const startId = getNextKeyId(serviceIdKind, PRE_KEY_ID_KEY);
     log.info(`${logId}: Generating ${count} new keys starting at ${startId}`);
 
-    const ourServiceId = storage.user.getCheckedServiceId(serviceIdKind);
     if (typeof startId !== 'number') {
       throw new Error(
         `${logId}: Invalid ${PRE_KEY_ID_KEY[serviceIdKind]} in storage`
@@ -440,7 +494,7 @@ export default class AccountManager extends EventTarget {
 
   private async generateNewKyberPreKeys(
     serviceIdKind: ServiceIdKind,
-    count: number
+    count = PRE_KEY_GEN_BATCH_SIZE
   ): Promise<Array<UploadKyberPreKeyType>> {
     const logId = `AccountManager.generateNewKyberPreKeys(${serviceIdKind})`;
     const { storage } = window.textsecure;
@@ -449,13 +503,13 @@ export default class AccountManager extends EventTarget {
     const startId = getNextKeyId(serviceIdKind, KYBER_KEY_ID_KEY);
     log.info(`${logId}: Generating ${count} new keys starting at ${startId}`);
 
-    const ourServiceId = storage.user.getCheckedServiceId(serviceIdKind);
     if (typeof startId !== 'number') {
       throw new Error(
         `${logId}: Invalid ${KYBER_KEY_ID_KEY[serviceIdKind]} in storage`
       );
     }
 
+    const ourServiceId = storage.user.getCheckedServiceId(serviceIdKind);
     const identityKey = this.getIdentityKeyOrThrow(ourServiceId);
 
     const toSave: Array<Omit<KyberPreKeyType, 'id'>> = [];
@@ -515,10 +569,7 @@ export default class AccountManager extends EventTarget {
         log.info(
           `${logId}: Server prekey count is ${preKeyCount}, generating a new set`
         );
-        preKeys = await this.generateNewPreKeys(
-          serviceIdKind,
-          PRE_KEY_GEN_BATCH_SIZE
-        );
+        preKeys = await this.generateNewPreKeys(serviceIdKind);
       }
 
       let pqPreKeys: Array<UploadKyberPreKeyType> | undefined;
@@ -526,10 +577,7 @@ export default class AccountManager extends EventTarget {
         log.info(
           `${logId}: Server kyber prekey count is ${kyberPreKeyCount}, generating a new set`
         );
-        pqPreKeys = await this.generateNewKyberPreKeys(
-          serviceIdKind,
-          PRE_KEY_GEN_BATCH_SIZE
-        );
+        pqPreKeys = await this.generateNewKyberPreKeys(serviceIdKind);
       }
 
       const pqLastResortPreKey = await this.maybeUpdateLastResortKyberKey(
@@ -608,20 +656,38 @@ export default class AccountManager extends EventTarget {
     return false;
   }
 
-  private async maybeUpdateSignedPreKey(
-    serviceIdKind: ServiceIdKind
-  ): Promise<UploadSignedPreKeyType | undefined> {
-    const logId = `AccountManager.maybeUpdateSignedPreKey(${serviceIdKind})`;
-    const store = window.textsecure.storage.protocol;
+  private async generateSignedPreKey(
+    serviceIdKind: ServiceIdKind,
+    identityKey: KeyPairType
+  ): Promise<CompatSignedPreKeyType> {
+    const logId = `AccountManager.generateSignedPreKey(${serviceIdKind})`;
 
-    const ourServiceId =
-      window.textsecure.storage.user.getCheckedServiceId(serviceIdKind);
     const signedKeyId = getNextKeyId(serviceIdKind, SIGNED_PRE_KEY_ID_KEY);
     if (typeof signedKeyId !== 'number') {
       throw new Error(
         `${logId}: Invalid ${SIGNED_PRE_KEY_ID_KEY[serviceIdKind]} in storage`
       );
     }
+
+    const key = await generateSignedPreKey(identityKey, signedKeyId);
+    log.info(`${logId}: Saving new signed prekey`, key.keyId);
+
+    await window.textsecure.storage.put(
+      SIGNED_PRE_KEY_ID_KEY[serviceIdKind],
+      signedKeyId + 1
+    );
+
+    return key;
+  }
+
+  private async maybeUpdateSignedPreKey(
+    serviceIdKind: ServiceIdKind
+  ): Promise<UploadSignedPreKeyType | undefined> {
+    const ourServiceId =
+      window.textsecure.storage.user.getCheckedServiceId(serviceIdKind);
+    const identityKey = this.getIdentityKeyOrThrow(ourServiceId);
+    const logId = `AccountManager.maybeUpdateSignedPreKey(${serviceIdKind}, ${ourServiceId})`;
+    const store = window.textsecure.storage.protocol;
 
     const keys = await store.loadSignedPreKeys(ourServiceId);
     const sortedKeys = orderBy(keys, ['created_at'], ['desc']);
@@ -647,40 +713,47 @@ export default class AccountManager extends EventTarget {
       return;
     }
 
-    const identityKey = this.getIdentityKeyOrThrow(ourServiceId);
-
-    const key = await generateSignedPreKey(identityKey, signedKeyId);
+    const key = await this.generateSignedPreKey(serviceIdKind, identityKey);
     log.info(`${logId}: Saving new signed prekey`, key.keyId);
 
-    await Promise.all([
-      window.textsecure.storage.put(
-        SIGNED_PRE_KEY_ID_KEY[serviceIdKind],
-        signedKeyId + 1
-      ),
-      store.storeSignedPreKey(ourServiceId, key.keyId, key.keyPair),
-    ]);
+    await store.storeSignedPreKey(ourServiceId, key.keyId, key.keyPair);
 
-    return {
-      keyId: key.keyId,
-      publicKey: key.keyPair.pubKey,
-      signature: key.signature,
-    };
+    return signedPreKeyToUploadSignedPreKey(key);
   }
 
-  private async maybeUpdateLastResortKyberKey(
-    serviceIdKind: ServiceIdKind
-  ): Promise<UploadSignedPreKeyType | undefined> {
-    const logId = `maybeUpdateLastResortKyberKey(${serviceIdKind})`;
-    const store = window.textsecure.storage.protocol;
+  private async generateLastResortKyberKey(
+    serviceIdKind: ServiceIdKind,
+    identityKey: KeyPairType
+  ): Promise<KyberPreKeyRecord> {
+    const logId = `generateLastRestortKyberKey(${serviceIdKind})`;
 
-    const ourServiceId =
-      window.textsecure.storage.user.getCheckedServiceId(serviceIdKind);
     const kyberKeyId = getNextKeyId(serviceIdKind, KYBER_KEY_ID_KEY);
     if (typeof kyberKeyId !== 'number') {
       throw new Error(
         `${logId}: Invalid ${KYBER_KEY_ID_KEY[serviceIdKind]} in storage`
       );
     }
+
+    const keyId = kyberKeyId;
+    const record = await generateKyberPreKey(identityKey, keyId);
+    log.info(`${logId}: Saving new last resort prekey`, keyId);
+
+    await window.textsecure.storage.put(
+      KYBER_KEY_ID_KEY[serviceIdKind],
+      kyberKeyId + 1
+    );
+
+    return record;
+  }
+
+  private async maybeUpdateLastResortKyberKey(
+    serviceIdKind: ServiceIdKind
+  ): Promise<UploadSignedPreKeyType | undefined> {
+    const ourServiceId =
+      window.textsecure.storage.user.getCheckedServiceId(serviceIdKind);
+    const identityKey = this.getIdentityKeyOrThrow(ourServiceId);
+    const logId = `maybeUpdateLastResortKyberKey(${serviceIdKind}, ${ourServiceId})`;
+    const store = window.textsecure.storage.protocol;
 
     const keys = store.loadKyberPreKeys(ourServiceId, { isLastResort: true });
     const sortedKeys = orderBy(keys, ['createdAt'], ['desc']);
@@ -706,33 +779,16 @@ export default class AccountManager extends EventTarget {
       return;
     }
 
-    const identityKey = this.getIdentityKeyOrThrow(ourServiceId);
+    const record = await this.generateLastResortKyberKey(
+      serviceIdKind,
+      identityKey
+    );
+    log.info(`${logId}: Saving new last resort prekey`, record.id());
+    const key = kyberPreKeyToStoredSignedPreKey(record, ourServiceId);
 
-    const keyId = kyberKeyId;
-    const record = await generateKyberPreKey(identityKey, keyId);
-    log.info(`${logId}: Saving new last resort prekey`, keyId);
-    const key = {
-      createdAt: Date.now(),
-      data: record.serialize(),
-      isConfirmed: false,
-      isLastResort: true,
-      keyId,
-      ourServiceId,
-    };
+    await store.storeKyberPreKeys(ourServiceId, [key]);
 
-    await Promise.all([
-      window.textsecure.storage.put(
-        KYBER_KEY_ID_KEY[serviceIdKind],
-        kyberKeyId + 1
-      ),
-      store.storeKyberPreKeys(ourServiceId, [key]),
-    ]);
-
-    return {
-      keyId,
-      publicKey: record.publicKey().serialize(),
-      signature: record.signature(),
-    };
+    return kyberPreKeyToUploadSignedPreKey(record);
   }
 
   // Exposed only for tests
@@ -846,10 +902,10 @@ export default class AccountManager extends EventTarget {
   }
 
   async _cleanPreKeys(serviceIdKind: ServiceIdKind): Promise<void> {
-    const ourServiceId =
-      window.textsecure.storage.user.getCheckedServiceId(serviceIdKind);
     const store = window.textsecure.storage.protocol;
     const logId = `AccountManager.cleanPreKeys(${serviceIdKind})`;
+    const ourServiceId =
+      window.textsecure.storage.user.getCheckedServiceId(serviceIdKind);
 
     const preKeys = store.loadPreKeys(ourServiceId);
     const toDelete: Array<number> = [];
@@ -874,10 +930,10 @@ export default class AccountManager extends EventTarget {
   }
 
   async _cleanKyberPreKeys(serviceIdKind: ServiceIdKind): Promise<void> {
-    const ourServiceId =
-      window.textsecure.storage.user.getCheckedServiceId(serviceIdKind);
     const store = window.textsecure.storage.protocol;
     const logId = `AccountManager.cleanKyberPreKeys(${serviceIdKind})`;
+    const ourServiceId =
+      window.textsecure.storage.user.getCheckedServiceId(serviceIdKind);
 
     const preKeys = store.loadKyberPreKeys(ourServiceId, {
       isLastResort: false,
@@ -903,17 +959,19 @@ export default class AccountManager extends EventTarget {
     }
   }
 
-  async createAccount({
-    number,
-    verificationCode,
-    aciKeyPair,
-    pniKeyPair,
-    profileKey,
-    deviceName,
-    userAgent,
-    readReceipts,
-    accessKey,
-  }: CreateAccountOptionsType): Promise<void> {
+  private async createAccount(
+    options: CreateAccountOptionsType
+  ): Promise<void> {
+    const {
+      number,
+      verificationCode,
+      aciKeyPair,
+      pniKeyPair,
+      profileKey,
+      readReceipts,
+      userAgent,
+    } = options;
+
     const { storage } = window.textsecure;
     let password = Bytes.toBase64(getRandomBytes(16));
     password = password.substring(0, password.length - 2);
@@ -924,36 +982,20 @@ export default class AccountManager extends EventTarget {
     const previousACI = storage.user.getAci();
     const previousPNI = storage.user.getPni();
 
-    let encryptedDeviceName;
-    if (deviceName) {
-      encryptedDeviceName = this.encryptDeviceName(deviceName, aciKeyPair);
-      await this.deviceNameIsEncrypted();
-    }
-
     log.info(
       `createAccount: Number is ${number}, password has length: ${
         password ? password.length : 'none'
       }`
     );
 
-    const response = await this.server.confirmCode({
-      number,
-      code: verificationCode,
-      newPassword: password,
-      registrationId,
-      pniRegistrationId,
-      deviceName: encryptedDeviceName,
-      accessKey,
-    });
-
-    const ourAci = normalizeAci(response.uuid, 'createAccount');
-    strictAssert(
-      isUntaggedPniString(response.pni),
-      'Response pni must be untagged'
-    );
-    const ourPni = toTaggedPni(response.pni);
-
-    const uuidChanged = previousACI && ourAci && previousACI !== ourAci;
+    let uuidChanged: boolean;
+    if (options.type === AccountType.Primary) {
+      uuidChanged = true;
+    } else if (options.type === AccountType.Linked) {
+      uuidChanged = previousACI != null && previousACI !== options.ourAci;
+    } else {
+      throw missingCaseError(options);
+    }
 
     // We only consider the number changed if we didn't have a UUID before
     const numberChanged =
@@ -1004,6 +1046,96 @@ export default class AccountManager extends EventTarget {
       ]);
     }
 
+    let ourAci: AciString;
+    let ourPni: PniString;
+    let deviceId: number;
+
+    const aciPqLastResortPreKey = await this.generateLastResortKyberKey(
+      ServiceIdKind.ACI,
+      aciKeyPair
+    );
+    const pniPqLastResortPreKey = await this.generateLastResortKyberKey(
+      ServiceIdKind.PNI,
+      pniKeyPair
+    );
+    const aciSignedPreKey = await this.generateSignedPreKey(
+      ServiceIdKind.ACI,
+      aciKeyPair
+    );
+    const pniSignedPreKey = await this.generateSignedPreKey(
+      ServiceIdKind.PNI,
+      pniKeyPair
+    );
+
+    const keysToUpload = {
+      aciPqLastResortPreKey: kyberPreKeyToUploadSignedPreKey(
+        aciPqLastResortPreKey
+      ),
+      aciSignedPreKey: signedPreKeyToUploadSignedPreKey(aciSignedPreKey),
+      pniPqLastResortPreKey: kyberPreKeyToUploadSignedPreKey(
+        pniPqLastResortPreKey
+      ),
+      pniSignedPreKey: signedPreKeyToUploadSignedPreKey(pniSignedPreKey),
+    };
+
+    if (options.type === AccountType.Primary) {
+      const response = await this.server.createAccount({
+        number,
+        code: verificationCode,
+        newPassword: password,
+        registrationId,
+        pniRegistrationId,
+        accessKey: options.accessKey,
+        sessionId: options.sessionId,
+        aciPublicKey: aciKeyPair.pubKey,
+        pniPublicKey: pniKeyPair.pubKey,
+        ...keysToUpload,
+      });
+
+      ourAci = normalizeAci(response.uuid, 'createAccount');
+      strictAssert(
+        isUntaggedPniString(response.pni),
+        'Response pni must be untagged'
+      );
+      ourPni = toTaggedPni(response.pni);
+      deviceId = 1;
+    } else if (options.type === AccountType.Linked) {
+      const encryptedDeviceName = this.encryptDeviceName(
+        options.deviceName,
+        aciKeyPair
+      );
+      await this.deviceNameIsEncrypted();
+
+      const response = await this.server.linkDevice({
+        number,
+        verificationCode,
+        encryptedDeviceName,
+        newPassword: password,
+        registrationId,
+        pniRegistrationId,
+        ...keysToUpload,
+      });
+
+      ourAci = normalizeAci(response.uuid, 'createAccount');
+      strictAssert(
+        isUntaggedPniString(response.pni),
+        'Response pni must be untagged'
+      );
+      ourPni = toTaggedPni(response.pni);
+      deviceId = response.deviceId ?? 1;
+
+      strictAssert(
+        ourAci === options.ourAci,
+        'Server response has unexpected ACI'
+      );
+      strictAssert(
+        ourPni === options.ourPni,
+        'Server response has unexpected PNI'
+      );
+    } else {
+      throw missingCaseError(options);
+    }
+
     // `setCredentials` needs to be called
     // before `saveIdentifyWithAttributes` since `saveIdentityWithAttributes`
     // indirectly calls `ConversationController.getConversationId()` which
@@ -1014,8 +1146,8 @@ export default class AccountManager extends EventTarget {
       aci: ourAci,
       pni: ourPni,
       number,
-      deviceId: response.deviceId ?? 1,
-      deviceName: deviceName ?? undefined,
+      deviceId,
+      deviceName: options.deviceName,
       password,
     });
 
@@ -1047,22 +1179,16 @@ export default class AccountManager extends EventTarget {
         ...identityAttrs,
         publicKey: aciKeyPair.pubKey,
       }),
-      pniKeyPair
-        ? storage.protocol.saveIdentityWithAttributes(ourPni, {
-            ...identityAttrs,
-            publicKey: pniKeyPair.pubKey,
-          })
-        : Promise.resolve(),
+      storage.protocol.saveIdentityWithAttributes(ourPni, {
+        ...identityAttrs,
+        publicKey: pniKeyPair.pubKey,
+      }),
     ]);
 
     const identityKeyMap = {
       ...(storage.get('identityKeyMap') || {}),
       [ourAci]: aciKeyPair,
-      ...(pniKeyPair
-        ? {
-            [ourPni]: pniKeyPair,
-          }
-        : {}),
+      [ourPni]: pniKeyPair,
     };
     const registrationIdMap = {
       ...(storage.get('registrationIdMap') || {}),
@@ -1072,9 +1198,7 @@ export default class AccountManager extends EventTarget {
 
     await storage.put('identityKeyMap', identityKeyMap);
     await storage.put('registrationIdMap', registrationIdMap);
-    if (profileKey) {
-      await ourProfileKeyService.set(profileKey);
-    }
+    await ourProfileKeyService.set(profileKey);
     if (userAgent) {
       await storage.put('userAgent', userAgent);
     }
@@ -1084,20 +1208,82 @@ export default class AccountManager extends EventTarget {
     const regionCode = getRegionCodeForNumber(number);
     await storage.put('regionCode', regionCode);
     await storage.protocol.hydrateCaches();
+
+    const store = storage.protocol;
+
+    await store.storeSignedPreKey(
+      ourAci,
+      aciSignedPreKey.keyId,
+      aciSignedPreKey.keyPair
+    );
+    await store.storeSignedPreKey(
+      ourPni,
+      pniSignedPreKey.keyId,
+      pniSignedPreKey.keyPair
+    );
+    await store.storeKyberPreKeys(ourAci, [
+      kyberPreKeyToStoredSignedPreKey(aciPqLastResortPreKey, ourAci),
+    ]);
+    await store.storeKyberPreKeys(ourPni, [
+      kyberPreKeyToStoredSignedPreKey(pniPqLastResortPreKey, ourPni),
+    ]);
+
+    await this._confirmKeys(
+      {
+        pqLastResortPreKey: keysToUpload.aciPqLastResortPreKey,
+        signedPreKey: keysToUpload.aciSignedPreKey,
+      },
+      ServiceIdKind.ACI
+    );
+    await this._confirmKeys(
+      {
+        pqLastResortPreKey: keysToUpload.pniPqLastResortPreKey,
+        signedPreKey: keysToUpload.pniSignedPreKey,
+      },
+      ServiceIdKind.PNI
+    );
+
+    const uploadKeys = async (kind: ServiceIdKind) => {
+      try {
+        const keys = await this._generateSingleUseKeys(kind);
+        await this.server.registerKeys(keys, kind);
+      } catch (error) {
+        if (kind === ServiceIdKind.PNI) {
+          log.error(
+            'Failed to upload PNI prekeys. Moving on',
+            Errors.toLogFormat(error)
+          );
+          return;
+        }
+
+        throw error;
+      }
+    };
+
+    await Promise.all([
+      uploadKeys(ServiceIdKind.ACI),
+      uploadKeys(ServiceIdKind.PNI),
+    ]);
   }
 
   // Exposed only for testing
   public async _confirmKeys(
-    keys: UploadKeysType,
+    {
+      signedPreKey,
+      pqLastResortPreKey,
+    }: Readonly<{
+      signedPreKey?: UploadSignedPreKeyType;
+      pqLastResortPreKey?: UploadSignedPreKeyType;
+    }>,
     serviceIdKind: ServiceIdKind
   ): Promise<void> {
+    const ourServiceId =
+      window.textsecure.storage.user.getCheckedServiceId(serviceIdKind);
     const logId = `AccountManager.confirmKeys(${serviceIdKind})`;
     const { storage } = window.textsecure;
     const store = storage.protocol;
-    const ourServiceId = storage.user.getCheckedServiceId(serviceIdKind);
 
     const updatedAt = Date.now();
-    const { signedPreKey, pqLastResortPreKey } = keys;
     if (signedPreKey) {
       log.info(`${logId}: confirming signed prekey key`, signedPreKey.keyId);
       await store.confirmSignedPreKey(ourServiceId, signedPreKey.keyId);
@@ -1125,47 +1311,31 @@ export default class AccountManager extends EventTarget {
   }
 
   // Very similar to maybeUpdateKeys, but will always generate prekeys and doesn't upload
-  async _generateKeys(
-    count: number,
+  async _generateSingleUseKeys(
     serviceIdKind: ServiceIdKind,
-    maybeIdentityKey?: KeyPairType
+    count = PRE_KEY_GEN_BATCH_SIZE
   ): Promise<UploadKeysType> {
-    const logId = `AcountManager.generateKeys(${serviceIdKind})`;
-    const { storage } = window.textsecure;
-    const store = storage.protocol;
-    const ourServiceId = storage.user.getCheckedServiceId(serviceIdKind);
-
-    const identityKey =
-      maybeIdentityKey ?? store.getIdentityKeyPair(ourServiceId);
-    strictAssert(identityKey, 'generateKeys: No identity key pair!');
+    const ourServiceId =
+      window.textsecure.storage.user.getCheckedServiceId(serviceIdKind);
+    const logId = `AccountManager.generateKeys(${serviceIdKind}, ${ourServiceId})`;
 
     const preKeys = await this.generateNewPreKeys(serviceIdKind, count);
     const pqPreKeys = await this.generateNewKyberPreKeys(serviceIdKind, count);
-    const pqLastResortPreKey = await this.maybeUpdateLastResortKyberKey(
-      serviceIdKind
-    );
-    const signedPreKey = await this.maybeUpdateSignedPreKey(serviceIdKind);
 
     log.info(
       `${logId}: Generated ` +
         `${preKeys.length} pre keys, ` +
-        `${pqPreKeys.length} kyber pre keys, ` +
-        `${pqLastResortPreKey ? 'a' : 'NO'} last resort kyber pre key, ` +
-        `and ${signedPreKey ? 'a' : 'NO'} signed pre key.`
+        `${pqPreKeys.length} kyber pre keys`
     );
 
     // These are primarily for the summaries they log out
     await this._cleanPreKeys(serviceIdKind);
     await this._cleanKyberPreKeys(serviceIdKind);
-    await this._cleanLastResortKeys(serviceIdKind);
-    await this._cleanSignedPreKeys(serviceIdKind);
 
     return {
-      identityKey: identityKey.pubKey,
+      identityKey: this.getIdentityKeyOrThrow(ourServiceId).pubKey,
       preKeys,
       pqPreKeys,
-      pqLastResortPreKey,
-      signedPreKey,
     };
   }
 
