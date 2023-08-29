@@ -26,10 +26,10 @@ export type ViewSyncAttributesType = {
   viewedAt: number;
 };
 
-const viewSyncs = new Map<string, ViewSyncAttributesType>();
+const viewSyncs = new Map<number, ViewSyncAttributesType>();
 
 function remove(sync: ViewSyncAttributesType): void {
-  viewSyncs.delete(sync.envelopeId);
+  viewSyncs.delete(sync.timestamp);
   sync.removeFromMessageReceiverCache();
 }
 
@@ -68,7 +68,7 @@ export function forMessage(
 }
 
 export async function onSync(sync: ViewSyncAttributesType): Promise<void> {
-  viewSyncs.set(sync.envelopeId, sync);
+  viewSyncs.set(sync.timestamp, sync);
 
   const logId = `ViewSyncs.onSync(timestamp=${sync.timestamp})`;
 

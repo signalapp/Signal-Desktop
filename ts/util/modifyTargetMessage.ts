@@ -111,10 +111,13 @@ export async function modifyTargetMessage(
 
     const viewSyncs = ViewSyncs.forMessage(message);
 
+    log.info(`${logId}: ReadSync-1`, { length: readSyncs.length });
+
     const isGroupStoryReply =
       isGroup(conversation.attributes) && message.get('storyId');
 
     if (readSyncs.length !== 0 || viewSyncs.length !== 0) {
+      log.info(`${logId}: ReadSync-2`);
       const markReadAt = Math.min(
         Date.now(),
         ...readSyncs.map(sync => sync.readAt),
@@ -149,6 +152,7 @@ export async function modifyTargetMessage(
       });
       changed = true;
 
+      log.info(`${logId}: ReadSync-3`);
       message.setPendingMarkRead(
         Math.min(message.getPendingMarkRead() ?? Date.now(), markReadAt)
       );
@@ -157,10 +161,12 @@ export async function modifyTargetMessage(
       !isGroupStoryReply &&
       canConversationBeUnarchived(conversation.attributes)
     ) {
+      log.info(`${logId}: ReadSync-4`);
       conversation.setArchived(false);
     }
 
     if (!isFirstRun && message.getPendingMarkRead()) {
+      log.info(`${logId}: ReadSync-5`);
       const markReadAt = message.getPendingMarkRead();
       message.setPendingMarkRead(undefined);
 
