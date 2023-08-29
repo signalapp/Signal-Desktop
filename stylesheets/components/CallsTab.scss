@@ -232,8 +232,14 @@
 }
 
 // Override .ListTile__subtitle so ellipsis is correct color
-.CallsList__Item--missed .ListTile__subtitle {
-  color: $color-accent-red;
+.CallsList__ItemTile .ListTile__subtitle {
+  // Need to override the themed selector specificity of .ListTile__subtitle
+  @include light-theme {
+    color: $color-accent-red;
+  }
+  @include dark-theme {
+    color: $color-accent-red;
+  }
 }
 
 // Override .ListTile
