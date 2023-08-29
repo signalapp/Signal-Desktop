@@ -37,7 +37,7 @@ type GroupCallHistoryDetailsType = {
   callMode: CallMode.Group;
   creatorUuid: string;
   eraId: string;
-  startedTime: number;
+  startedTime?: number; // Treat this as optional, some calls may be missing it
 };
 export type CallHistoryDetailsType =
   | DirectCallHistoryDetailsType
@@ -113,7 +113,8 @@ function convertLegacyCallDetails(
   ourUuid: string | undefined,
   peerId: string,
   message: MessageType,
-  partialDetails: CallHistoryDetailsFromDiskType
+  partialDetails: CallHistoryDetailsFromDiskType,
+  logger: LoggerType
 ): CallHistoryDetails {
   const details = upcastCallHistoryDetailsFromDiskType(partialDetails);
   const { callMode: mode } = details;
@@ -126,6 +127,10 @@ function convertLegacyCallDetails(
   let ringerId: string | null = null;
 
   strictAssert(mode != null, 'mode must exist');
+
+  // If we cannot find any timestamp on the message, we'll use 0
+  const fallbackTimestamp =
+    message.timestamp ?? message.sent_at ?? message.received_at_ms ?? 0;
 
   if (mode === CallMode.Direct) {
     // We don't have a callId for older calls, generating a uuid instead
@@ -141,7 +146,7 @@ function convertLegacyCallDetails(
         ? DirectCallStatus.Declined
         : DirectCallStatus.Missed;
     }
-    timestamp = details.acceptedTime ?? details.endedTime ?? message.timestamp;
+    timestamp = details.acceptedTime ?? details.endedTime ?? fallbackTimestamp;
   } else if (mode === CallMode.Group) {
     callId = Long.fromValue(callIdFromEra(details.eraId)).toString();
     type = CallType.Group;
@@ -150,7 +155,7 @@ function convertLegacyCallDetails(
         ? CallDirection.Outgoing
         : CallDirection.Incoming;
     status = GroupCallStatus.GenericGroupCall;
-    timestamp = details.startedTime;
+    timestamp = details.startedTime ?? fallbackTimestamp;
     ringerId = details.creatorUuid;
   } else {
     throw missingCaseError(mode);
@@ -167,7 +172,16 @@ function convertLegacyCallDetails(
     timestamp,
   };
 
-  return callHistoryDetailsSchema.parse(callHistory);
+  const result = callHistoryDetailsSchema.safeParse(callHistory);
+  if (result.success) {
+    return result.data;
+  }
+
+  logger.error(
+    `convertLegacyCallDetails: Could not convert ${mode} call`,
+    result.error.toString()
+  );
+  throw new Error(`Failed to convert legacy ${mode} call details`);
 }
 
 export default function updateToSchemaVersion89(
@@ -265,7 +279,8 @@ export default function updateToSchemaVersion89(
         ourUuid,
         peerId,
         message,
-        details
+        details,
+        logger
       );
 
       const [insertQuery, insertParams] = sql`

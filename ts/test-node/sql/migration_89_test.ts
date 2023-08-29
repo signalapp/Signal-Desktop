@@ -41,6 +41,7 @@ describe('SQL/updateToSchemaVersion89', () => {
     callId: string | null;
     noCallMode?: boolean;
     wasDeclined?: boolean;
+    noTimestamps?: boolean;
   }): CallHistoryDetailsFromDiskType {
     return {
       callId: options.callId ?? undefined,
@@ -56,27 +57,42 @@ describe('SQL/updateToSchemaVersion89', () => {
   function getGroupCallHistoryDetails(options: {
     eraId: string;
     noCallMode?: boolean;
+    noTimestamps?: boolean;
   }): CallHistoryDetailsFromDiskType {
     return {
       eraId: options.eraId,
       callMode: options.noCallMode ? undefined : CallMode.Group,
       creatorUuid: generateGuid(),
-      startedTime: Date.now(),
+      startedTime: options.noTimestamps ? undefined : Date.now(),
     };
   }
+
+  type Timestamps = Pick<
+    MessageWithCallHistoryDetails,
+    'sent_at' | 'received_at_ms' | 'timestamp'
+  >;
 
   function createCallHistoryMessage(options: {
     messageId: string;
     conversationId: string;
     callHistoryDetails: CallHistoryDetailsFromDiskType;
+    timestamps?: Partial<Timestamps>;
   }): MessageWithCallHistoryDetails {
+    // @ts-expect-error Purposefully violating the type to test the migration
+    const timestamps: Timestamps = options.timestamps
+      ? options.timestamps
+      : {
+          sent_at: Date.now(),
+          received_at_ms: Date.now(),
+          timestamp: Date.now(),
+        };
+
     const message: MessageWithCallHistoryDetails = {
       id: options.messageId,
       type: 'call-history',
       conversationId: options.conversationId,
-      sent_at: Date.now() - 10,
-      received_at: Date.now() - 10,
-      timestamp: Date.now() - 10,
+      received_at: Date.now(),
+      ...timestamps,
       callHistoryDetails: options.callHistoryDetails,
     };
 
@@ -298,6 +314,69 @@ describe('SQL/updateToSchemaVersion89', () => {
     const callHistory = getAllCallHistory();
     assert.strictEqual(callHistory.length, 1);
     assert.strictEqual(callHistory[0].peerId, conversation.id);
+  });
+
+  it('migrates call-history messages with no timestamp', () => {
+    updateToVersion(db, 88);
+
+    const conversation = createConversation('private', Date.now());
+
+    const timestampCases = {
+      noTimestamps: {
+        sent_at: undefined,
+        received_at_ms: undefined,
+        timestamp: undefined,
+      },
+      onlyTimestamp: {
+        sent_at: undefined,
+        received_at_ms: undefined,
+        timestamp: 1,
+      },
+      onlySentAt: {
+        sent_at: 2,
+        received_at_ms: undefined,
+        timestamp: undefined,
+      },
+      onlyReceivedAt: {
+        sent_at: undefined,
+        received_at_ms: 3,
+        timestamp: undefined,
+      },
+    } satisfies Record<string, Partial<Timestamps>>;
+
+    for (const [id, timestamps] of Object.entries(timestampCases)) {
+      createCallHistoryMessage({
+        messageId: generateGuid(),
+        conversationId: conversation.id,
+        callHistoryDetails: getDirectCallHistoryDetails({
+          callId: id,
+          noTimestamps: true,
+        }),
+        timestamps,
+      });
+      createCallHistoryMessage({
+        messageId: generateGuid(),
+        conversationId: conversation.id,
+        callHistoryDetails: getGroupCallHistoryDetails({
+          eraId: id,
+          noTimestamps: true,
+        }),
+        timestamps,
+      });
+    }
+
+    updateToVersion(db, 89);
+
+    const callHistory = getAllCallHistory();
+    assert.strictEqual(callHistory.length, 8);
+    assert.strictEqual(callHistory[0].timestamp, 0);
+    assert.strictEqual(callHistory[1].timestamp, 0);
+    assert.strictEqual(callHistory[2].timestamp, 1);
+    assert.strictEqual(callHistory[3].timestamp, 1);
+    assert.strictEqual(callHistory[4].timestamp, 2);
+    assert.strictEqual(callHistory[5].timestamp, 2);
+    assert.strictEqual(callHistory[6].timestamp, 3);
+    assert.strictEqual(callHistory[7].timestamp, 3);
   });
 
   describe('clients with schema version 87', () => {
