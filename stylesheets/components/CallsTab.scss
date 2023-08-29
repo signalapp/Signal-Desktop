@@ -117,10 +117,9 @@
 
   &:focus {
     outline: none;
-  }
-
-  &:focus-visible {
-    box-shadow: 0 0 0 2px $color-white, 0 0 0 4px $color-ultramarine;
+    @include keyboard-mode {
+      box-shadow: 0 0 0 2px $color-white, 0 0 0 4px $color-ultramarine;
+    }
   }
 
   &::before {
@@ -307,9 +306,9 @@
   }
   &:focus {
     outline: none;
-  }
-  &:focus-visible {
-    box-shadow: 0 0 0 2px $color-ultramarine;
+    @include keyboard-mode {
+      box-shadow: 0 0 0 2px $color-ultramarine;
+    }
   }
   &:disabled,
   &[aria-disabled='true'] {

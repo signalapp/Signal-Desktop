@@ -64,7 +64,7 @@ $NavTabs__ProfileAvatar__size: 28px;
   padding-block: $NavTabs__ItemButton__blockPadding;
   border-radius: 8px;
   .NavTabs__Item:hover &,
-  .NavTabs__Item:focus-visible & {
+  .NavTabs__Item:focus & {
     @include light-theme {
       background-color: $color-black-alpha-06;
     }
@@ -72,8 +72,11 @@ $NavTabs__ProfileAvatar__size: 28px;
       background-color: $color-white-alpha-06;
     }
   }
-  .NavTabs__Item:focus-visible & {
-    box-shadow: 0 0 0 2px $color-ultramarine;
+  .NavTabs__Item:focus & {
+    outline: none;
+    @include keyboard-mode {
+      box-shadow: 0 0 0 2px $color-ultramarine;
+    }
   }
   .NavTabs__Item:active &,
   .NavTabs__Item[aria-selected='true'] & {

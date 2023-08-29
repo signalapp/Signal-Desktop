@@ -96,10 +96,9 @@
 
   &:focus {
     outline: none;
-  }
-
-  &:focus-visible {
-    box-shadow: 0 0 0 2px $color-ultramarine;
+    @include keyboard-mode {
+      box-shadow: 0 0 0 2px $color-ultramarine;
+    }
   }
 
   &::before {
@@ -147,9 +146,11 @@
   background: transparent;
   cursor: col-resize;
 
-  &:focus-visible {
+  &:focus {
     outline: none;
-    box-shadow: inset 0 0 0 2px $color-ultramarine;
+    @include keyboard-mode {
+      box-shadow: inset 0 0 0 2px $color-ultramarine;
+    }
   }
 }
 
@@ -194,10 +195,9 @@
 
   &:focus {
     outline: none;
-  }
-
-  &:focus-visible {
-    box-shadow: 0 0 0 2px $color-ultramarine;
+    @include keyboard-mode {
+      box-shadow: 0 0 0 2px $color-ultramarine;
+    }
   }
 }
 
