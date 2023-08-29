@@ -163,13 +163,13 @@ export function SendStoryModal({
     () =>
       distributionLists
         .filter(list => selectedListIds.has(list.id))
-        .map(list => list.name)
+        .map(list => getStoryDistributionListName(i18n, list.id, list.name))
         .concat(
           groupStories
             .filter(group => selectedGroupIds.has(group.id))
             .map(group => group.title)
         ),
-    [distributionLists, groupStories, selectedGroupIds, selectedListIds]
+    [distributionLists, groupStories, selectedGroupIds, selectedListIds, i18n]
   );
 
   const [searchTerm, setSearchTerm] = useState('');
@@ -268,9 +268,7 @@ export function SendStoryModal({
   if (page === Page.ChooseGroups) {
     selectedNames = chosenGroupNames.join(', ');
   } else {
-    selectedNames = selectedStoryNames
-      .map(listName => getStoryDistributionListName(i18n, undefined, listName))
-      .join(', ');
+    selectedNames = selectedStoryNames.join(', ');
   }
 
   const [objectUrl, setObjectUrl] = useState<string | undefined>(undefined);
