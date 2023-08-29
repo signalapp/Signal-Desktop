@@ -44,8 +44,12 @@ export function combineNames(
   given?: string,
   family?: string
 ): undefined | string {
-  if (!given) {
+  if (!given && !family) {
     return undefined;
+  }
+
+  if (!given) {
+    return family;
   }
 
   // Users who haven't upgraded to dual-name, or went minimal, will just have a given name
