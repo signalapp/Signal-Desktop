@@ -111,5 +111,45 @@ function lookupAll(
   drop(run());
 }
 
+export function interleaveAddresses(
+  addresses: ReadonlyArray<LookupAddress>
+): Array<LookupAddress> {
+  const firstAddr = addresses.find(
+    ({ family }) => family === 4 || family === 6
+  );
+  if (!firstAddr) {
+    throw new Error('interleaveAddresses: no addresses to interleave');
+  }
+
+  const v4 = addresses.filter(({ family }) => family === 4);
+  const v6 = addresses.filter(({ family }) => family === 6);
+
+  // Interleave addresses for Happy Eyeballs, but keep the first address
+  // type from the DNS response first in the list.
+  const interleaved = new Array<LookupAddress>();
+  while (v4.length !== 0 || v6.length !== 0) {
+    const v4Entry = v4.pop();
+    const v6Entry = v6.pop();
+
+    if (firstAddr.family === 4) {
+      if (v4Entry !== undefined) {
+        interleaved.push(v4Entry);
+      }
+      if (v6Entry !== undefined) {
+        interleaved.push(v6Entry);
+      }
+    } else {
+      if (v6Entry !== undefined) {
+        interleaved.push(v6Entry);
+      }
+      if (v4Entry !== undefined) {
+        interleaved.push(v4Entry);
+      }
+    }
+  }
+
+  return interleaved;
+}
+
 // Note: `nodeLookup` has a complicated type due to compatibility requirements.
 export const electronLookup = lookupAll as typeof nodeLookup;

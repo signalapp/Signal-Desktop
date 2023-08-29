@@ -1,7 +1,6 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type ProxyAgent from 'proxy-agent';
 import { client as WebSocketClient } from 'websocket';
 import type { connection as WebSocket } from 'websocket';
 
@@ -10,6 +9,7 @@ import { strictAssert } from '../util/assert';
 import { explodePromise } from '../util/explodePromise';
 import { getUserAgent } from '../util/getUserAgent';
 import * as durations from '../util/durations';
+import type { createProxyAgent } from '../util/createProxyAgent';
 import { createHTTPSAgent } from '../util/createHTTPSAgent';
 import * as log from '../logging/log';
 import * as Timers from '../Timers';
@@ -28,7 +28,7 @@ export type ConnectOptionsType<Resource extends IResource> = Readonly<{
   url: string;
   certificateAuthority?: string;
   version: string;
-  proxyAgent?: ReturnType<typeof ProxyAgent>;
+  proxyAgent?: ReturnType<typeof createProxyAgent>;
   timeout?: number;
   extraHeaders?: Record<string, string>;
 

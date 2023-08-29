@@ -623,6 +623,13 @@
   },
   {
     "rule": "eval",
+    "path": "node_modules/@tootallnate/quickjs-emscripten/dist/context.js",
+    "line": "     * Like [`eval(code)`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/eval#Description).",
+    "reasonCategory": "falseMatch",
+    "updated": "2023-08-29T19:25:52.732Z"
+  },
+  {
+    "rule": "eval",
     "path": "node_modules/agentkeepalive/node_modules/depd/index.js",
     "line": "  var deprecatedfn = eval('(function (' + args + ') {\\n' +",
     "reasonCategory": "usageTrusted",
@@ -695,13 +702,6 @@
     "line": "\t\t\t\t} else if (opts.multiArgs) {",
     "reasonCategory": "usageTrusted",
     "updated": "2023-04-20T16:43:40.643Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/make-dir/node_modules/pify/index.js",
-    "line": "\t\tif (options.multiArgs) {",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-08-21T18:28:53.361Z"
   },
   {
     "rule": "DOM-outerHTML",
@@ -1134,6 +1134,13 @@
     "updated": "2023-06-29T17:01:25.145Z"
   },
   {
+    "rule": "thenify-multiArgs",
+    "path": "node_modules/make-dir/node_modules/pify/index.js",
+    "line": "\t\tif (options.multiArgs) {",
+    "reasonCategory": "usageTrusted",
+    "updated": "2023-08-21T18:28:53.361Z"
+  },
+  {
     "rule": "DOM-innerHTML",
     "path": "node_modules/min-document/serialize.js",
     "line": "        } else if (elem.innerHTML) {",
@@ -1198,13 +1205,6 @@
     "line": "\t\tconst value = options.multiArgs ? args : args[0];",
     "reasonCategory": "falseMatch",
     "updated": "2022-06-04T00:50:49.405Z"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/pac-proxy-agent/node_modules/depd/index.js",
-    "line": "  var deprecatedfn = eval('(function (' + args + ') {\\n' +",
-    "reasonCategory": "usageTrusted",
-    "updated": "2022-12-13T00:55:48.389Z"
   },
   {
     "rule": "DOM-innerHTML",
@@ -1934,22 +1934,6 @@
     "line": "  var ref = React.useRef(value);",
     "reasonCategory": "usageTrusted",
     "updated": "2022-06-16T23:23:32.306Z"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/vm2/lib/nodevm.js",
-    "line": "\t * @param {boolean} [options.eval=true] - Allow the dynamic evaluation of code via eval(code) or Function(code)().<br>",
-    "reasonCategory": "falseMatch",
-    "updated": "2022-02-16T15:30:35.122Z",
-    "reasonDetail": "falseMatch"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/vm2/lib/vm.js",
-    "line": "\t * @param {boolean} [options.eval=true] - Allow the dynamic evaluation of code via eval(code) or Function(code)().<br>",
-    "reasonCategory": "falseMatch",
-    "updated": "2022-02-16T15:30:35.122Z",
-    "reasonDetail": "This is a comment."
   },
   {
     "rule": "eval",

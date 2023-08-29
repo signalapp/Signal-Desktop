@@ -1,8 +1,6 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import ProxyAgent from 'proxy-agent';
-
 import type {
   CDSAuthType,
   CDSRequestOptionsType,
@@ -11,6 +9,7 @@ import type {
 import type { LoggerType } from '../../types/Logging';
 import { isOlderThan } from '../../util/timestamp';
 import { HOUR } from '../../util/durations';
+import { createProxyAgent } from '../../util/createProxyAgent';
 
 // It is 24 hours, but we don't want latency between server and client to be
 // count.
@@ -31,14 +30,14 @@ export abstract class CDSBase<
   Options extends CDSBaseOptionsType = CDSBaseOptionsType
 > {
   protected readonly logger: LoggerType;
-  protected readonly proxyAgent?: ReturnType<typeof ProxyAgent>;
+  protected readonly proxyAgent?: ReturnType<typeof createProxyAgent>;
   protected cachedAuth?: CachedAuthType;
 
   constructor(protected readonly options: Options) {
     this.logger = options.logger;
 
     if (options.proxyUrl) {
-      this.proxyAgent = new ProxyAgent(options.proxyUrl);
+      this.proxyAgent = createProxyAgent(options.proxyUrl);
     }
   }
 

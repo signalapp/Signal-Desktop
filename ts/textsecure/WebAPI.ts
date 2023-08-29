@@ -8,7 +8,6 @@
 
 import type { Response } from 'node-fetch';
 import fetch from 'node-fetch';
-import ProxyAgent from 'proxy-agent';
 import type { Agent } from 'https';
 import { escapeRegExp, isNumber, isString, isObject } from 'lodash';
 import PQueue from 'p-queue';
@@ -29,6 +28,7 @@ import { toWebSafeBase64, fromWebSafeBase64 } from '../util/webSafeBase64';
 import { getBasicAuth } from '../util/getBasicAuth';
 import { isPnpEnabled } from '../util/isPnpEnabled';
 import { createHTTPSAgent } from '../util/createHTTPSAgent';
+import { createProxyAgent } from '../util/createProxyAgent';
 import type { SocketStatus } from '../types/SocketStatus';
 import { VerificationTransport } from '../types/VerificationTransport';
 import { toLogFormat } from '../types/errors';
@@ -117,7 +117,7 @@ const GET_ATTACHMENT_CHUNK_TIMEOUT = 10 * durations.SECOND;
 type AgentCacheType = {
   [name: string]: {
     timestamp: number;
-    agent: ReturnType<typeof ProxyAgent> | Agent;
+    agent: ReturnType<typeof createProxyAgent> | Agent;
   };
 };
 const agents: AgentCacheType = {};
@@ -256,7 +256,7 @@ async function _promiseAjax(
     }
     agents[cacheKey] = {
       agent: proxyUrl
-        ? new ProxyAgent(proxyUrl)
+        ? createProxyAgent(proxyUrl)
         : createHTTPSAgent({
             keepAlive: !options.disableSessionResumption,
             maxCachedSessions: options.disableSessionResumption ? 0 : undefined,
@@ -1360,7 +1360,7 @@ export function initialize({
 
     let fetchForLinkPreviews: linkPreviewFetch.FetchFn;
     if (proxyUrl) {
-      const agent = new ProxyAgent(proxyUrl);
+      const agent = createProxyAgent(proxyUrl);
       fetchForLinkPreviews = (href, init) => fetch(href, { ...init, agent });
     } else {
       fetchForLinkPreviews = fetch;
