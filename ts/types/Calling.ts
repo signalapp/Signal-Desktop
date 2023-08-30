@@ -3,7 +3,7 @@
 
 import type { AudioDevice } from '@signalapp/ringrtc';
 import type { ConversationType } from '../state/ducks/conversations';
-import type { ServiceIdString } from './ServiceId';
+import type { AciString, ServiceIdString } from './ServiceId';
 
 // These are strings (1) for the database (2) for Storybook.
 export enum CallMode {
@@ -135,6 +135,7 @@ export enum GroupCallJoinState {
 }
 
 export type GroupCallRemoteParticipantType = ConversationType & {
+  aci: AciString;
   demuxId: number;
   hasRemoteAudio: boolean;
   hasRemoteVideo: boolean;

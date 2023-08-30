@@ -229,6 +229,7 @@ const mapStateToActiveCallProp = (
 
         remoteParticipants.push({
           ...remoteConversation,
+          aci: remoteParticipant.aci,
           demuxId: remoteParticipant.demuxId,
           hasRemoteAudio: remoteParticipant.hasRemoteAudio,
           hasRemoteVideo: remoteParticipant.hasRemoteVideo,

@@ -304,6 +304,7 @@ export function GroupCall1(): JSX.Element {
         callMode: CallMode.Group,
         remoteParticipants: [
           {
+            aci: generateAci(),
             demuxId: 0,
             hasRemoteAudio: true,
             hasRemoteVideo: true,
@@ -328,6 +329,7 @@ GroupCall1.story = {
 
 // We generate these upfront so that the list is stable when you move the slider.
 const allRemoteParticipants = times(MAX_PARTICIPANTS).map(index => ({
+  aci: generateAci(),
   demuxId: index,
   hasRemoteAudio: index % 3 !== 0,
   hasRemoteVideo: index % 4 !== 0,
@@ -371,6 +373,7 @@ export function GroupCallReconnecting(): JSX.Element {
         connectionState: GroupCallConnectionState.Reconnecting,
         remoteParticipants: [
           {
+            aci: generateAci(),
             demuxId: 0,
             hasRemoteAudio: true,
             hasRemoteVideo: true,
