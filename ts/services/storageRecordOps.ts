@@ -24,6 +24,7 @@ import {
   PhoneNumberDiscoverability,
   parsePhoneNumberDiscoverability,
 } from '../util/phoneNumberDiscoverability';
+import { isPnpEnabled } from '../util/isPnpEnabled';
 import { arePinnedConversationsEqual } from '../util/arePinnedConversationsEqual';
 import type { ConversationModel } from '../models/conversations';
 import {
@@ -1219,9 +1220,13 @@ export async function mergeAccountRecord(
     await window.storage.put('primarySendsSms', primarySendsSms);
   }
 
-  if (typeof accountE164 === 'string' && accountE164) {
+  if (typeof accountE164 === 'string') {
     await window.storage.put('accountE164', accountE164);
-    if (!RemoteConfig.isEnabled('desktop.pnp')) {
+    if (
+      !RemoteConfig.isEnabled('desktop.pnp') &&
+      !RemoteConfig.isEnabled('desktop.pnp.accountE164Deprecation') &&
+      !isPnpEnabled()
+    ) {
       await window.storage.user.setNumber(accountE164);
     }
   }
