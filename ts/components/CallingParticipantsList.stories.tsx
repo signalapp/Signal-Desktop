@@ -20,6 +20,7 @@ function createParticipant(
   participantProps: Partial<GroupCallRemoteParticipantType>
 ): GroupCallRemoteParticipantType {
   return {
+    aci: generateAci(),
     demuxId: 2,
     hasRemoteAudio: Boolean(participantProps.hasRemoteAudio),
     hasRemoteVideo: Boolean(participantProps.hasRemoteVideo),

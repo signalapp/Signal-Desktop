@@ -51,6 +51,7 @@ const createProps = (
   i18n,
   audioLevel: 0,
   remoteParticipant: {
+    aci: generateAci(),
     demuxId: 123,
     hasRemoteAudio,
     hasRemoteVideo: true,

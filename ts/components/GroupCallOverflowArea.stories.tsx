@@ -12,12 +12,14 @@ import { getDefaultConversationWithServiceId } from '../test-both/helpers/getDef
 import { fakeGetGroupCallVideoFrameSource } from '../test-both/helpers/fakeGetGroupCallVideoFrameSource';
 import { FRAME_BUFFER_SIZE } from '../calling/constants';
 import enMessages from '../../_locales/en/messages.json';
+import { generateAci } from '../types/ServiceId';
 
 const MAX_PARTICIPANTS = 32;
 
 const i18n = setupI18n('en', enMessages);
 
 const allRemoteParticipants = times(MAX_PARTICIPANTS).map(index => ({
+  aci: generateAci(),
   demuxId: index,
   hasRemoteAudio: index % 3 !== 0,
   hasRemoteVideo: index % 4 !== 0,
