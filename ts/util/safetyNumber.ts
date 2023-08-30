@@ -15,6 +15,7 @@ import {
   SafetyNumberIdentifierType,
   SafetyNumberMode,
 } from '../types/safetyNumber';
+import { isAciString } from '../types/ServiceId';
 
 const ITERATION_COUNT = 5200;
 const E164_VERSION = 1;
@@ -37,8 +38,9 @@ export async function generateSafetyNumbers(
   const us = storage.protocol.getIdentityRecord(ourAci);
   const ourKeyBuffer = us ? us.publicKey : null;
 
-  const theirAci =
-    contact.pni !== contact.serviceId ? contact.serviceId : undefined;
+  const theirAci = isAciString(contact.serviceId)
+    ? contact.serviceId
+    : undefined;
   const them = theirAci
     ? await storage.protocol.getOrMigrateIdentityRecord(theirAci)
     : undefined;
