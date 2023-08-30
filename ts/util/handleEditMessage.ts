@@ -84,9 +84,9 @@ export async function handleEditMessage(
   if (
     serverTimestamp &&
     !isNoteToSelf &&
-    isOlderThan(serverTimestamp, durations.DAY)
+    isOlderThan(serverTimestamp, durations.DAY * 2)
   ) {
-    log.warn(`${idLog}: cannot edit message older than 24h`, serverTimestamp);
+    log.warn(`${idLog}: cannot edit message older than 48h`, serverTimestamp);
     return;
   }
 
