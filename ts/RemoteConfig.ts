@@ -30,6 +30,7 @@ export type ConfigKeyType =
   | 'desktop.messageCleanup'
   | 'desktop.messageRequests'
   | 'desktop.pnp'
+  | 'desktop.pnp.accountE164Deprecation'
   | 'desktop.retryRespondMaxAge'
   | 'desktop.safetyNumberAci'
   | 'desktop.safetyNumberAci.beta'
