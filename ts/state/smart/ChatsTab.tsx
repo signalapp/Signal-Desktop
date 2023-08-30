@@ -1,7 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { ChatsTab } from '../../components/ChatsTab';
 import { SmartConversationView } from './ConversationView';
@@ -57,17 +57,11 @@ export function SmartChatsTab(): JSX.Element {
   const { showWhatsNewModal } = useGlobalModalActions();
   const { toggleNavTabsCollapse } = useItemsActions();
 
-  const prevConversationId = usePrevious(
-    selectedConversationId,
-    selectedConversationId
-  );
+  const lastOpenedConversationId = useRef<string | undefined>();
 
   useEffect(() => {
-    if (prevConversationId !== selectedConversationId) {
-      if (prevConversationId) {
-        onConversationClosed(prevConversationId, 'opened another conversation');
-      }
-
+    if (selectedConversationId !== lastOpenedConversationId.current) {
+      lastOpenedConversationId.current = selectedConversationId;
       if (selectedConversationId) {
         onConversationOpened(selectedConversationId, targetedMessage);
       }
@@ -78,7 +72,20 @@ export function SmartChatsTab(): JSX.Element {
     ) {
       scrollToMessage(selectedConversationId, targetedMessage);
     }
+  }, [
+    onConversationOpened,
+    selectedConversationId,
+    scrollToMessage,
+    targetedMessage,
+    targetedMessageSource,
+  ]);
 
+  const prevConversationId = usePrevious(
+    selectedConversationId,
+    selectedConversationId
+  );
+
+  useEffect(() => {
     if (
       selectedConversationId != null &&
       selectedConversationId !== prevConversationId
@@ -89,15 +96,7 @@ export function SmartChatsTab(): JSX.Element {
       strictAssert(conversation, 'Conversation must be found');
       conversation.setMarkedUnread(false);
     }
-  }, [
-    onConversationClosed,
-    onConversationOpened,
-    prevConversationId,
-    scrollToMessage,
-    selectedConversationId,
-    targetedMessage,
-    targetedMessageSource,
-  ]);
+  }, [prevConversationId, selectedConversationId]);
 
   useEffect(() => {
     function refreshConversation({

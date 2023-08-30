@@ -2886,6 +2886,13 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/state/smart/ChatsTab.tsx",
+    "line": "  const lastOpenedConversationId = useRef<string | undefined>();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2023-08-25T17:37:23.002Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/state/smart/ConversationPanel.tsx",
     "line": "  const animateRef = useRef<HTMLDivElement | null>(null);",
     "reasonCategory": "usageTrusted",
