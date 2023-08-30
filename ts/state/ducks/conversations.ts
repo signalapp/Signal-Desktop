@@ -3963,6 +3963,12 @@ function showConversation({
     // notify composer in case we need to stop recording a voice note
     if (conversations.selectedConversationId) {
       dispatch(handleLeaveConversation(conversations.selectedConversationId));
+      dispatch(
+        onConversationClosed(
+          conversations.selectedConversationId,
+          'showConversation'
+        )
+      );
     }
 
     dispatch({
