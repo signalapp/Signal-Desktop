@@ -12,5 +12,5 @@ export const isSafetyNumberNotAvailable = (
     return true;
   }
 
-  return isAciString(contact.serviceId);
+  return !isAciString(contact.serviceId);
 };
