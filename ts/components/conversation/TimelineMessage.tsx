@@ -298,8 +298,8 @@ export function TimelineMessage(props: Props): JSX.Element {
           menuTriggerRef={menuTriggerRef}
           showMenu={handleContextMenu}
           onDownload={handleDownload}
-          onReplyToMessage={handleReplyToMessage}
-          onReact={handleReact}
+          onReplyToMessage={canReply ? handleReplyToMessage : undefined}
+          onReact={canReact ? handleReact : undefined}
         />
         {reactionPickerRoot &&
           createPortal(
@@ -337,9 +337,10 @@ export function TimelineMessage(props: Props): JSX.Element {
     isWindowWidthNotNarrow,
     direction,
     menuTriggerRef,
+    canReply,
+    canReact,
     handleContextMenu,
     handleDownload,
-
     handleReplyToMessage,
     handleReact,
     reactionPickerRoot,
