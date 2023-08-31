@@ -25,13 +25,14 @@ async function insertUserProfileIntoWrapper(convoId: string) {
 
   const areBlindedMsgRequestEnabled = !!Storage.get(SettingsKey.hasBlindedMsgRequestsEnabled);
 
+  const expirySeconds = ourConvo.get('expireTimer') || 0;
+
   window.log.debug(
     `inserting into userprofile wrapper: username:"${dbName}", priority:${priority} image:${JSON.stringify(
       { url: dbProfileUrl, key: dbProfileKey }
-    )}, settings: ${JSON.stringify({ areBlindedMsgRequestEnabled })}`
+    )}, settings: ${JSON.stringify({ areBlindedMsgRequestEnabled, expirySeconds })}`
   );
-  // const expirySeconds = ourConvo.get('expireTimer') || 0;
-  // TODO setup getExpiry and setExpiry
+
   if (dbProfileUrl && !isEmpty(dbProfileKey)) {
     await UserConfigWrapperActions.setUserInfo(dbName, priority, {
       url: dbProfileUrl,
@@ -41,6 +42,7 @@ async function insertUserProfileIntoWrapper(convoId: string) {
     await UserConfigWrapperActions.setUserInfo(dbName, priority, null);
   }
   await UserConfigWrapperActions.setEnableBlindedMsgRequest(areBlindedMsgRequestEnabled);
+  await UserConfigWrapperActions.setNoteToSelfExpiry(expirySeconds);
 }
 
 function isUserProfileToStoreInWrapper(convoId: string) {

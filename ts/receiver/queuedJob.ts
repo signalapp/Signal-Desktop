@@ -446,6 +446,7 @@ export async function handleMessageJob(
         providedChangeTimestamp: lastDisappearingMessageChangeTimestamp,
         providedSource: source,
         receivedAt: messageModel.get('received_at'),
+        // NOTE we don't commit yet because we want to get the message id, see below
         shouldCommit: false,
         existingMessage: messageModel,
         fromConfigMessage: false,

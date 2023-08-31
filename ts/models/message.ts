@@ -976,7 +976,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   }
 
   public async sendSyncMessageOnly(contentMessage: ContentMessage) {
-    const now = Date.now();
+    const now = GetNetworkTime.getNowWithNetworkOffset();
 
     this.set({
       sent_to: [UserUtils.getOurPubKeyStrFromCache()],
@@ -1015,15 +1015,15 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
             dataMessage.flags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE)
       );
 
-      let expirationType: DisappearingMessageType = DisappearingMessageMode[content.expirationType];
-
-      if (isLegacyDisappearingDataMessage) {
-        expirationType = resolveLegacyDisappearingMode(conversation);
-      }
-
       const expirationTimer = isLegacyDisappearingDataMessage
         ? Number(dataMessage.expireTimer)
         : content.expirationTimer;
+
+      let expirationType: DisappearingMessageType = DisappearingMessageMode[content.expirationType];
+
+      if (isLegacyDisappearingDataMessage) {
+        expirationType = resolveLegacyDisappearingMode(conversation, expirationTimer);
+      }
 
       const lastDisappearingMessageChangeTimestamp = content.lastDisappearingMessageChangeTimestamp
         ? Number(content.lastDisappearingMessageChangeTimestamp)

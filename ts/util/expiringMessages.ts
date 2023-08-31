@@ -13,7 +13,9 @@ import { MessageModel } from '../models/message';
 import { GetNetworkTime } from '../session/apis/snode_api/getNetworkTime';
 import { ReleasedFeatures } from './releaseFeature';
 
-export const DisappearingMessageMode = ['deleteAfterRead', 'deleteAfterSend'];
+// NOTE this must match Content.ExpirationType in the protobuf
+// TODO double check this
+export const DisappearingMessageMode = ['unknown', 'deleteAfterRead', 'deleteAfterSend'];
 export type DisappearingMessageType = typeof DisappearingMessageMode[number];
 // NOTE these cannot be imported in the nodejs side yet. We need to move the types to the own file with no window imports
 // TODO legacy messages support will be removed in a future release
@@ -289,10 +291,21 @@ export function isLegacyDisappearingModeEnabled(
 // TODO legacy messages support will be removed in a future release
 /**
  * This function is used to set the mode for legacy disappearing messages depending on the default for the conversation type
+ *
+ * NOTE Should only be used when sending or receiving data messages (protobuf)
+ *
  * @param convo Conversation we want to set
  * @returns Disappearing mode we should use
  */
-export function resolveLegacyDisappearingMode(convo: ConversationModel): DisappearingMessageType {
+export function resolveLegacyDisappearingMode(
+  convo: ConversationModel,
+  expireTimer?: number
+): DisappearingMessageType {
+  if (expireTimer === 0) {
+    // NOTE we would want this to be undefined but because of an issue with the protobuf implement we need to have a value
+    return 'unknown';
+  }
+
   if (convo.isMe() || convo.isClosedGroup()) {
     return 'deleteAfterSend';
   }

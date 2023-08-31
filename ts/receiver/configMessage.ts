@@ -18,7 +18,7 @@ import { getOpenGroupV2ConversationId } from '../session/apis/open_group_api/uti
 import { getSwarmPollingInstance } from '../session/apis/snode_api';
 import { getConversationController } from '../session/conversations';
 import { IncomingMessage } from '../session/messages/incoming/IncomingMessage';
-import { ProfileManager } from '../session/profile_manager/ProfileManager';
+import { Profile, ProfileManager } from '../session/profile_manager/ProfileManager';
 import { PubKey } from '../session/types';
 import { StringUtils, UserUtils } from '../session/utils';
 import { toHex } from '../session/utils/String';
@@ -192,6 +192,10 @@ async function updateLibsessionLatestProcessedUserTimestamp(
   }
 }
 
+/**
+ * NOTE When adding new properties to the wrapper, don't update the conversation model here because the merge has not been done yet.
+ * Instead you will need to updateOurProfileLegacyOrViaLibSession() to support them
+ */
 async function handleUserProfileUpdate(result: IncomingConfResult): Promise<IncomingConfResult> {
   const updateUserInfo = await UserConfigWrapperActions.getUserInfo();
   if (!updateUserInfo) {
@@ -206,14 +210,52 @@ async function handleUserProfileUpdate(result: IncomingConfResult): Promise<Inco
 
   const picUpdate = !isEmpty(updateUserInfo.key) && !isEmpty(updateUserInfo.url);
 
-  // NOTE: if you do any changes to the settings of a user which are synced, it should be done above the `updateOurProfileLegacyOrViaLibSession` call
-  await updateOurProfileLegacyOrViaLibSession(
-    result.latestEnvelopeTimestamp,
-    updateUserInfo.name,
-    picUpdate ? updateUserInfo.url : null,
-    picUpdate ? updateUserInfo.key : null,
-    updateUserInfo.priority
-  );
+  // NOTE: if you do any changes to the user's settings which are synced, it should be done above the `updateOurProfileLegacyOrViaLibSession` call
+  await updateOurProfileLegacyOrViaLibSession({
+    sentAt: result.latestEnvelopeTimestamp,
+    displayName: updateUserInfo.name,
+    profileUrl: picUpdate ? updateUserInfo.url : null,
+    profileKey: picUpdate ? updateUserInfo.key : null,
+    priority: updateUserInfo.priority,
+  });
+
+  // NOTE: If we want to update the conversation in memory with changes from the updated user profile we need to wait untl the profile has been updated to prevent multiple merge conflicts
+  const ourConvo = getConversationController().get(UserUtils.getOurPubKeyStrFromCache());
+
+  if (ourConvo) {
+    window.log.debug(`WIP: [userProfileWrapper] Checking for disappearing messages changes`);
+    let changes = false;
+
+    const expireTimer = ourConvo.get('expireTimer');
+    const wrapperNoteToSelfExpirySeconds = await UserConfigWrapperActions.getNoteToSelfExpiry();
+
+    if (wrapperNoteToSelfExpirySeconds !== expireTimer) {
+      // we trust the wrapper more than the DB, so let's update the DB but we don't show it in the UI
+      ourConvo.set('expireTimer', wrapperNoteToSelfExpirySeconds);
+
+      // NOTE Can only be 'off' or 'deleteAfterSend' so we don't need to check the expirationType we can just override it
+      ourConvo.set(
+        'expirationType',
+        wrapperNoteToSelfExpirySeconds && wrapperNoteToSelfExpirySeconds > 0
+          ? 'deleteAfterSend'
+          : 'off'
+      );
+      changes = true;
+      window.log.debug(
+        `WIP: [userProfileWrapper] updating disappearing messages to`,
+        wrapperNoteToSelfExpirySeconds && wrapperNoteToSelfExpirySeconds > 0
+          ? 'deleteAfterSend'
+          : 'off',
+        ' ',
+        wrapperNoteToSelfExpirySeconds
+      );
+    }
+
+    // make sure to write the changes to the database now as the `AvatarDownloadJob` triggered by updateOurProfileLegacyOrViaLibSession might take some time before getting run
+    if (changes) {
+      await ourConvo.commit();
+    }
+  }
 
   const settingsKey = SettingsKey.latestUserProfileEnvelopeTimestamp;
   const currentLatestEnvelopeProcessed = Storage.get(settingsKey) || 0;
@@ -867,14 +909,19 @@ async function handleConfigMessagesViaLibSession(
   await processMergingResults(incomingMergeResult);
 }
 
-async function updateOurProfileLegacyOrViaLibSession(
-  sentAt: number,
-  displayName: string,
-  profileUrl: string | null,
-  profileKey: Uint8Array | null,
-  priority: number | null // passing null means to not update the priority at all (used for legacy config message for now)
-) {
-  await ProfileManager.updateOurProfileSync(displayName, profileUrl, profileKey, priority);
+async function updateOurProfileLegacyOrViaLibSession({
+  sentAt,
+  displayName,
+  profileUrl,
+  profileKey,
+  priority,
+}: Profile & { sentAt: number }) {
+  await ProfileManager.updateOurProfileSync({
+    displayName,
+    profileUrl,
+    profileKey,
+    priority,
+  });
 
   await setLastProfileUpdateTimestamp(toNumber(sentAt));
   // do not trigger a signin by linking if the display name is empty
@@ -901,13 +948,13 @@ async function handleOurProfileUpdateLegacy(
     );
     const { profileKey, profilePicture, displayName } = configMessage;
 
-    await updateOurProfileLegacyOrViaLibSession(
-      toNumber(sentAt),
+    await updateOurProfileLegacyOrViaLibSession({
+      sentAt: toNumber(sentAt),
       displayName,
-      profilePicture,
+      profileUrl: profilePicture,
       profileKey,
-      null // passing null to say do not the prioroti, as we do not get one from the legacy config message
-    );
+      priority: null, // passing null to say do not set the priority, as we do not get one from the legacy config message
+    });
   }
 }
 

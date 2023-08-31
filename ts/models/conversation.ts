@@ -119,10 +119,10 @@ import {
 
 import {
   DisappearingMessageConversationType,
-  isLegacyDisappearingModeEnabled,
   resolveLegacyDisappearingMode,
 } from '../util/expiringMessages';
 import { markAttributesAsReadIfNeeded } from './messageFactory';
+import { ReleasedFeatures } from '../util/releaseFeature';
 
 type InMemoryConvoInfos = {
   mentionedUs: boolean;
@@ -837,16 +837,18 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     if (
       this.get('lastDisappearingMessageChangeTimestamp') > lastDisappearingMessageChangeTimestamp
     ) {
-      window.log.info('updateExpireTimer() This is an outdated disappearing message setting');
+      window.log.info('WIP: updateExpireTimer() This is an outdated disappearing message setting');
       return;
     }
 
+    // NOTE: We don' mind if the message is the same, we still want to update the conversation because we want to show visible control messages we receive an ExpirationTimerUpdate
     if (
+      fromConfigMessage &&
       isEqual(expirationType, this.get('expirationType')) &&
       isEqual(expireTimer, this.get('expireTimer'))
     ) {
       window.log.info(
-        'updateExpireTimer()  Dropping ExpireTimerUpdate message as we already have the same one set.'
+        'WIP: updateExpireTimer()  Dropping ExpireTimerUpdate message as we already have the same one set.'
       );
       return;
     }
@@ -856,7 +858,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     // Note the legacy type should only be in the UI, it should change the the conversation type default before we send
     if (expirationType === 'legacy') {
-      expirationType = resolveLegacyDisappearingMode(this);
+      expirationType = resolveLegacyDisappearingMode(this, expireTimer);
+      window.log.debug(`WIP: resolving legacy disappearing mode to ${expirationType}`);
     }
 
     // When we add a disappearing messages notification to the conversation, we want it
@@ -892,10 +895,12 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
           fromSync,
         },
         // TODO legacy messages support will be removed in a future release
-        expirationType: isLegacyDisappearingModeEnabled(expirationType)
-          ? undefined
-          : expirationType,
-        expireTimer: isLegacyDisappearingModeEnabled(expirationType) ? undefined : expireTimer,
+        expirationType: ReleasedFeatures.isDisappearMessageV2FeatureReleasedCached()
+          ? expirationType
+          : undefined,
+        expireTimer: ReleasedFeatures.isDisappearMessageV2FeatureReleasedCached()
+          ? expireTimer
+          : undefined,
       };
 
       if (!message) {
@@ -929,6 +934,9 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     // if change was made remotely, don't send it to the contact/group
     if (receivedAt || fromSync || fromConfigMessage) {
+      window.log.debug(
+        `WIP: updateExpireTimer() Not sending an ExpireTimerUpdate message because the change was made remotely receivedAt:${receivedAt} fromSync:${fromSync} fromConfigMessage:${fromConfigMessage} `
+      );
       return;
     }
 
@@ -942,13 +950,17 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     if (this.isMe()) {
       // TODO Check that the args are correct
-      // This might be happening too late in the message pipeline. Maybe should be moved to handleExpirationTimerUpdateNoCommit()
       if (expireUpdate.expirationType === 'deleteAfterRead') {
         window.log.info('Note to Self messages cannot be delete after read!');
         return;
       }
 
       const expirationTimerMessage = new ExpirationTimerUpdateMessage(expireUpdate);
+      window.log.debug(
+        `WIP: Sending ExpirationTimerUpdate message to Note to Self expirationTimerMessage:${JSON.stringify(
+          expirationTimerMessage
+        )}`
+      );
       await message?.sendSyncMessageOnly(expirationTimerMessage);
       return;
     }

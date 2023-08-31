@@ -232,7 +232,11 @@ export async function handleSwarmDataMessage(
   }
 
   if (!messageHasVisibleContent(cleanDataMessage)) {
-    window?.log?.debug(`WIP: Message ${getEnvelopeId(envelope)} ignored; it was empty`);
+    window?.log?.debug(
+      `WIP: Message ${getEnvelopeId(envelope)} ignored; it was empty`,
+      cleanDataMessage
+    );
+
     await removeFromCache(envelope);
     return;
   }
@@ -257,10 +261,7 @@ export async function handleSwarmDataMessage(
           sentAt: sentAtTimestamp,
         });
 
-  if (isSyncedMessage) {
-    // TODO handle sync messages expiring separately?
-    window.log.debug('WIP: Sync Message dropping');
-  } else {
+  if (!isEmpty(expireUpdate)) {
     msgModel = handleExpireUpdate(convoToAddMessageTo, msgModel, expireUpdate);
   }
 

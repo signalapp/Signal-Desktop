@@ -4,15 +4,17 @@ import { UserUtils } from '../utils';
 import { toHex } from '../utils/String';
 import { AvatarDownload } from '../utils/job_runners/jobs/AvatarDownloadJob';
 
+export type Profile = {
+  displayName: string | undefined;
+  profileUrl: string | null;
+  profileKey: Uint8Array | null;
+  priority: number | null; // passing null means to not update the priority at all (used for legacy config message for now)
+};
+
 /**
  * This can be used to update our conversation display name with the given name right away, and plan an AvatarDownloadJob to retrieve the new avatar if needed to download it
  */
-async function updateOurProfileSync(
-  displayName: string | undefined,
-  profileUrl: string | null,
-  profileKey: Uint8Array | null,
-  priority: number | null
-) {
+async function updateOurProfileSync({ displayName, profileUrl, profileKey, priority }: Profile) {
   const us = UserUtils.getOurPubKeyStrFromCache();
   const ourConvo = getConversationController().get(us);
   if (!ourConvo?.id) {
