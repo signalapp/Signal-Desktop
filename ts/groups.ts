@@ -5566,7 +5566,7 @@ async function applyGroupState({
 
       return {
         role: member.role || MEMBER_ROLE_ENUM.DEFAULT,
-        joinedAtVersion: member.joinedAtVersion || version,
+        joinedAtVersion: member.joinedAtVersion,
         aci: member.userId,
       };
     });
@@ -6665,7 +6665,7 @@ type DecryptedMember = Readonly<{
   userId: AciString;
   profileKey: Uint8Array;
   role: Proto.Member.Role;
-  joinedAtVersion?: number;
+  joinedAtVersion: number;
 }>;
 
 function decryptMember(
@@ -6716,7 +6716,7 @@ function decryptMember(
     userId,
     profileKey,
     role,
-    joinedAtVersion: dropNull(member.joinedAtVersion),
+    joinedAtVersion: dropNull(member.joinedAtVersion) ?? 0,
   };
 }
 
