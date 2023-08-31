@@ -3355,10 +3355,10 @@
     "@react-types/overlays" "^3.7.1"
     "@react-types/shared" "^3.18.0"
 
-"@signalapp/better-sqlite3@8.4.3":
-  version "8.4.3"
-  resolved "https://registry.yarnpkg.com/@signalapp/better-sqlite3/-/better-sqlite3-8.4.3.tgz#7ffa8d03d2a12543247936bfb7b9f74cdbc6fe9b"
-  integrity sha512-6HaN8a90fWHBPIIZRRmSG7wc3BPczLx3Mb9MJ8wsatYqf8C1+2NdFae5AzII8Oe9YE9SSHzCjdPd8ST1m9+Qag==
+"@signalapp/better-sqlite3@8.5.1":
+  version "8.5.1"
+  resolved "https://registry.yarnpkg.com/@signalapp/better-sqlite3/-/better-sqlite3-8.5.1.tgz#b2bcf69d29f4d01cfecf2ad940ecd138f32470b3"
+  integrity sha512-s9NDufkbTAuKShFmEg7eOew4cprdLI7mn5ISQFKgcFSiA/TG3wgLJW5wUff9S2vednIV9utyqRJZXrwcSAEQUg==
   dependencies:
     bindings "^1.5.0"
     tar "^6.1.0"

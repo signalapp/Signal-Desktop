@@ -69,7 +69,6 @@ import { migrateLegacyReadStatus } from '../messages/migrateLegacyReadStatus';
 import { migrateLegacySendAttributes } from '../messages/migrateLegacySendAttributes';
 import { getOwn } from '../util/getOwn';
 import { markRead, markViewed } from '../services/MessageUpdater';
-import { scheduleOptimizeFTS } from '../services/ftsOptimizer';
 import {
   isDirectConversation,
   isGroup,
@@ -1157,8 +1156,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     }
 
     await window.Signal.Data.deleteSentProtoByMessageId(this.id);
-
-    scheduleOptimizeFTS();
   }
 
   override isEmpty(): boolean {

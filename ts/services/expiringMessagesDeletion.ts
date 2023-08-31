@@ -8,7 +8,6 @@ import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
 import { sleep } from '../util/sleep';
 import { SECOND } from '../util/durations';
 import * as Errors from '../types/errors';
-import { scheduleOptimizeFTS } from './ftsOptimizer';
 
 class ExpiringMessagesDeletionService {
   public update: typeof this.checkExpiringMessages;
@@ -57,10 +56,6 @@ class ExpiringMessagesDeletionService {
         message.trigger('expired');
         window.reduxActions.conversations.messageExpired(message.id);
       });
-
-      if (messages.length > 0) {
-        scheduleOptimizeFTS();
-      }
     } catch (error) {
       window.SignalContext.log.error(
         'destroyExpiredMessages: Error deleting expired messages',
