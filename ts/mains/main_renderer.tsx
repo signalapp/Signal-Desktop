@@ -267,13 +267,17 @@ async function start() {
     await connect();
   });
 
-  function openInbox() {
+  function switchBodyToRtlIfNeeded() {
     const rtlLocales = ['fa', 'ar', 'he'];
 
     const loc = (window.i18n as any).getLocale();
     if (rtlLocales.includes(loc) && !document.getElementById('body')?.classList.contains('rtl')) {
       document.getElementById('body')?.classList.add('rtl');
     }
+  }
+
+  function openInbox() {
+    switchBodyToRtlIfNeeded();
     const hideMenuBar = Storage.get('hide-menu-bar', true) as boolean;
     window.setAutoHideMenuBar(hideMenuBar);
     window.setMenuBarVisibility(!hideMenuBar);
@@ -287,6 +291,7 @@ async function start() {
 
   function showRegistrationView() {
     ReactDOM.render(<SessionRegistrationView />, document.getElementById('root'));
+    switchBodyToRtlIfNeeded();
   }
   ExpirationTimerOptions.initExpiringMessageListener();
 

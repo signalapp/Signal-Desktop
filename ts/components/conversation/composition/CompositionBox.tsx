@@ -36,16 +36,17 @@ import {
   StagedAttachmentImportedType,
   StagedPreviewImportedType,
 } from '../../../util/attachmentsUtil';
+import { HTMLDirection } from '../../../util/i18n';
 import { LinkPreviews } from '../../../util/linkPreviews';
-import { Flex } from '../../basic/Flex';
 import { CaptionEditor } from '../../CaptionEditor';
+import { Flex } from '../../basic/Flex';
 import { getMediaPermissionsSettings } from '../../settings/SessionSettings';
 import { getDraftForConversation, updateDraftForConversation } from '../SessionConversationDrafts';
 import { SessionQuotedMessageComposition } from '../SessionQuotedMessageComposition';
 import {
-  getPreview,
   LINK_PREVIEW_TIMEOUT,
   SessionStagedLinkPreview,
+  getPreview,
 } from '../SessionStagedLinkPreview';
 import { StagedAttachmentList } from '../StagedAttachmentList';
 import {
@@ -108,6 +109,7 @@ interface Props {
   quotedMessageProps?: ReplyingToMessageProps;
   stagedAttachments: Array<StagedAttachmentType>;
   onChoseAttachments: (newAttachments: Array<File>) => void;
+  htmlDirection: HTMLDirection;
 }
 
 interface State {
@@ -119,26 +121,28 @@ interface State {
   showCaptionEditor?: AttachmentType;
 }
 
-const sendMessageStyle = {
-  control: {
-    wordBreak: 'break-all',
-  },
-  input: {
-    overflow: 'auto',
-    maxHeight: '50vh',
-    wordBreak: 'break-word',
-    padding: '0px',
-    margin: '0px',
-  },
-  highlighter: {
-    boxSizing: 'border-box',
-    overflow: 'hidden',
-    maxHeight: '50vh',
-  },
-  flexGrow: 1,
-  minHeight: '24px',
-  width: '100%',
-  ...styleForCompositionBoxSuggestions,
+const sendMessageStyle = (dir?: HTMLDirection) => {
+  return {
+    control: {
+      wordBreak: 'break-all',
+    },
+    input: {
+      overflow: 'auto',
+      maxHeight: '50vh',
+      wordBreak: 'break-word',
+      padding: '0px',
+      margin: '0px',
+    },
+    highlighter: {
+      boxSizing: 'border-box',
+      overflow: 'hidden',
+      maxHeight: '50vh',
+    },
+    flexGrow: 1,
+    minHeight: '24px',
+    width: '100%',
+    ...styleForCompositionBoxSuggestions(dir),
+  };
 };
 
 const getDefaultState = (newConvoId?: string) => {
@@ -209,21 +213,23 @@ const getSelectionBasedOnMentions = (draft: string, index: number) => {
   return Number.MAX_SAFE_INTEGER;
 };
 
-const StyledEmojiPanelContainer = styled.div`
+const StyledEmojiPanelContainer = styled.div<{ dir?: HTMLDirection }>`
   ${StyledEmojiPanel} {
     position: absolute;
     bottom: 68px;
-    right: 0px;
+    ${props => (props.dir === 'rtl' ? 'left: 0px' : 'right: 0px;')}
   }
 `;
 
-const StyledSendMessageInput = styled.div`
+const StyledSendMessageInput = styled.div<{ dir?: HTMLDirection }>`
+  position: relative;
   cursor: text;
   display: flex;
   align-items: center;
   flex-grow: 1;
   min-height: var(--composition-container-height);
   padding: var(--margins-xs) 0;
+  ${props => props.dir === 'rtl' && 'margin-inline-start: var(--margins-sm);'}
   z-index: 1;
   background-color: inherit;
 
@@ -235,7 +241,7 @@ const StyledSendMessageInput = styled.div`
   textarea {
     font-family: var(--font-default);
     min-height: calc(var(--composition-container-height) / 3);
-    max-height: 3 * var(--composition-container-height);
+    max-height: calc(3 * var(--composition-container-height));
     margin-right: var(--margins-md);
     color: var(--text-color-primary);
 
@@ -417,7 +423,13 @@ class CompositionBoxInner extends React.Component<Props, State> {
     /* eslint-disable @typescript-eslint/no-misused-promises */
 
     return (
-      <>
+      <Flex
+        dir={this.props.htmlDirection}
+        container={true}
+        flexDirection={'row'}
+        alignItems={'center'}
+        width={'100%'}
+      >
         {typingEnabled && <AddStagedAttachmentButton onClick={this.onChooseAttachment} />}
         <input
           className="hidden"
@@ -430,6 +442,7 @@ class CompositionBoxInner extends React.Component<Props, State> {
         {typingEnabled && <StartRecordingButton onClick={this.onLoadVoiceNoteView} />}
         <StyledSendMessageInput
           role="main"
+          dir={this.props.htmlDirection}
           onClick={this.focusCompositionBox} // used to focus on the textarea when clicking in its container
           ref={el => {
             this.container = el;
@@ -443,7 +456,7 @@ class CompositionBoxInner extends React.Component<Props, State> {
         )}
         {typingEnabled && <SendMessageButton onClick={this.onSendMessage} />}
         {typingEnabled && showEmojiPanel && (
-          <StyledEmojiPanelContainer role="button">
+          <StyledEmojiPanelContainer role="button" dir={this.props.htmlDirection}>
             <SessionEmojiPanel
               ref={this.emojiPanel}
               show={showEmojiPanel}
@@ -452,7 +465,7 @@ class CompositionBoxInner extends React.Component<Props, State> {
             />
           </StyledEmojiPanelContainer>
         )}
-      </>
+      </Flex>
     );
   }
   /* eslint-enable @typescript-eslint/no-misused-promises */
@@ -460,6 +473,7 @@ class CompositionBoxInner extends React.Component<Props, State> {
   private renderTextArea() {
     const { i18n } = window;
     const { draft } = this.state;
+    const { htmlDirection } = this.props;
 
     if (!this.props.selectedConversation) {
       return null;
@@ -483,6 +497,8 @@ class CompositionBoxInner extends React.Component<Props, State> {
     const { typingEnabled } = this.props;
     const neverMatchingRegex = /($a)/;
 
+    const style = sendMessageStyle(htmlDirection);
+
     return (
       <MentionsInput
         value={draft}
@@ -493,11 +509,12 @@ class CompositionBoxInner extends React.Component<Props, State> {
         onKeyUp={this.onKeyUp}
         placeholder={messagePlaceHolder}
         spellCheck={true}
+        dir={htmlDirection}
         inputRef={this.textarea}
         disabled={!typingEnabled}
         rows={1}
         data-testid="message-input-text-area"
-        style={sendMessageStyle}
+        style={style}
         suggestionsPortalHost={this.container as any}
         forceSuggestionsAboveCursor={true} // force mentions to be rendered on top of the cursor, this is working with a fork of react-mentions for now
       >
@@ -507,7 +524,9 @@ class CompositionBoxInner extends React.Component<Props, State> {
           markup="@ￒ__id__ￗ__display__ￒ" // ￒ = \uFFD2 is one of the forbidden char for a display name (check displayNameRegex)
           trigger="@"
           // this is only for the composition box visible content. The real stuff on the backend box is the @markup
-          displayTransform={(_id, display) => `@${display}`}
+          displayTransform={(_id, display) =>
+            htmlDirection === 'rtl' ? `${display}@` : `@${display}`
+          }
           data={this.fetchUsersForGroup}
           renderSuggestion={renderUserMentionRow}
         />
