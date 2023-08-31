@@ -380,18 +380,22 @@ async function handleContactsUpdate(result: IncomingConfResult): Promise<Incomin
         await contactConvo.setDidApproveMe(Boolean(wrapperConvo.approvedMe), false);
         changes = true;
       }
-      // FIXME Will unsure
-      // if (wrapperConvo.expirationTimerSeconds !== contactConvo.get('expireTimer')) {
-      //   await contactConvo.updateExpireTimer({
-      //     providedExpireTimer: wrapperConvo.expirationTimerSeconds,
-      //     fromSync: true,
-      //     providedExpirationType: wrapperConvo.expirationMode,
-      //     shouldCommit: false,
-      //     providedChangeTimestamp: result.latestEnvelopeTimestamp,
-      //     fromConfigMessage: true,
-      //   });
-      //   changes = true;
-      // }
+
+      if (
+        wrapperConvo.expirationTimerSeconds !== contactConvo.get('expireTimer') ||
+        wrapperConvo.expirationMode !== contactConvo.get('expirationType')
+      ) {
+        await contactConvo.updateExpireTimer({
+          providedExpirationType: wrapperConvo.expirationMode || 'off',
+          providedExpireTimer: wrapperConvo.expirationTimerSeconds || 0,
+          providedChangeTimestamp: result.latestEnvelopeTimestamp,
+          providedSource: wrapperConvo.id,
+          shouldCommit: false,
+          fromConfigMessage: true,
+          fromSync: true,
+        });
+        changes = true;
+      }
 
       // we want to set the active_at to the created_at timestamp if active_at is unset, so that it shows up in our list.
       if (!contactConvo.get('active_at') && wrapperConvo.createdAtSeconds) {
