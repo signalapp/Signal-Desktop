@@ -30,9 +30,9 @@ export function SendEditWarningModal({
       i18n={i18n}
       onCancel={onCancel}
       onClose={onCancel}
-      title={i18n('icu:SendEdit--dialog--title')}
+      title={i18n('icu:SendEdit--dialog--title2')}
     >
-      {i18n('icu:SendEdit--dialog--body')}
+      {i18n('icu:SendEdit--dialog--body2')}
     </ConfirmationDialog>
   );
 }
