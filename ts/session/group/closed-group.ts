@@ -249,8 +249,6 @@ export async function updateOrCreateClosedGroup(details: GroupInfo, fromLegacyCo
     await conversation.updateGroupAdmins(details.admins, false);
   }
 
-  await conversation.commit();
-
   await conversation.updateExpireTimer({
     // TODO legacy messages support will be removed in a future release
     providedExpirationType:
@@ -262,6 +260,8 @@ export async function updateOrCreateClosedGroup(details: GroupInfo, fromLegacyCo
     fromSync: true,
     fromConfigMessage: Boolean(fromLegacyConfig),
   });
+
+  await conversation.commit();
 }
 
 async function sendNewName(convo: ConversationModel, name: string, messageId: string) {
