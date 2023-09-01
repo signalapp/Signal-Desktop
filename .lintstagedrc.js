@@ -1,4 +1,10 @@
-const ignoredFiles = ['package.json', 'yarn.lock', 'tsconfig.json', '.lintstagedrc.js'];
+const ignoredFiles = [
+  'package.json',
+  'yarn.lock',
+  'tsconfig.json',
+  '.lintstagedrc.js',
+  '.eslintrc.js',
+];
 
 const path = require('path');
 
@@ -15,7 +21,7 @@ const buildLintCommand = filenames => {
     .map(f => path.relative(process.cwd(), f))
     .filter(f => !ignoredFiles.includes(f));
 
-  return results.length ? `eslint ${results.join(' ')}`: '';
+  return results.length ? `eslint ${results.join(' ')}` : '';
 };
 
 module.exports = {
