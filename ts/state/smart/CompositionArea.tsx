@@ -21,7 +21,11 @@ import {
   getTheme,
   getUserConversationId,
 } from '../selectors/user';
-import { getEmojiSkinTone, getTextFormattingEnabled } from '../selectors/items';
+import {
+  getDefaultConversationColor,
+  getEmojiSkinTone,
+  getTextFormattingEnabled,
+} from '../selectors/items';
 import {
   getConversationSelector,
   getGroupAdminsSelector,
@@ -169,6 +173,7 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
       ? getPropsForQuote(quotedMessage, {
           conversationSelector,
           ourConversationId: getUserConversationId(state),
+          defaultConversationColor: getDefaultConversationColor(state),
         })
       : undefined,
     quotedMessageAuthorAci: quotedMessage?.quote?.authorAci,

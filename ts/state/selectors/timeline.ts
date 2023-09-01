@@ -19,6 +19,7 @@ import {
   getUserACI,
   getUserPNI,
 } from './user';
+import { getDefaultConversationColor } from './items';
 import { getActiveCall, getCallSelector } from './calling';
 import { getPropsForBubble } from './message';
 import { getCallHistorySelector } from './callHistory';
@@ -51,6 +52,7 @@ export const getTimelineItem = (
   const accountSelector = getAccountSelector(state);
   const contactNameColorSelector = getContactNameColorSelector(state);
   const selectedMessageIds = getSelectedMessageIds(state);
+  const defaultConversationColor = getDefaultConversationColor(state);
 
   return getPropsForBubble(message, {
     conversationSelector,
@@ -67,5 +69,6 @@ export const getTimelineItem = (
     activeCall,
     accountSelector,
     selectedMessageIds,
+    defaultConversationColor,
   });
 };

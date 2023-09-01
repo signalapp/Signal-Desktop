@@ -12,6 +12,7 @@ import {
   getConversationsWithCustomColorSelector,
 } from '../selectors/conversations';
 import { getIntl } from '../selectors/user';
+import { getDefaultConversationColor } from '../selectors/items';
 import { getConversationColorAttributes } from '../../util/getConversationColorAttributes';
 
 export type SmartChatColorPickerProps = {
@@ -25,7 +26,11 @@ const mapStateToProps = (
   const conversation = props.conversationId
     ? getConversationSelector(state)(props.conversationId)
     : {};
-  const colorValues = getConversationColorAttributes(conversation);
+  const defaultConversationColor = getDefaultConversationColor(state);
+  const colorValues = getConversationColorAttributes(
+    conversation,
+    defaultConversationColor
+  );
 
   const { customColors } = state.items;
 

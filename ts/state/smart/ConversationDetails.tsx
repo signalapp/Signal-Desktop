@@ -16,7 +16,10 @@ import {
 } from '../selectors/conversations';
 import { getGroupMemberships } from '../../util/getGroupMemberships';
 import { getActiveCallState } from '../selectors/calling';
-import { getAreWeASubscriber } from '../selectors/items';
+import {
+  getAreWeASubscriber,
+  getDefaultConversationColor,
+} from '../selectors/items';
 import { getIntl, getTheme } from '../selectors/user';
 import {
   getBadgesSelector,
@@ -82,6 +85,7 @@ const mapStateToProps = (
   );
 
   const badges = getBadgesSelector(state)(conversation.badges);
+  const defaultConversationColor = getDefaultConversationColor(state);
 
   const groupsInCommon =
     conversation.type === 'direct'
@@ -107,7 +111,7 @@ const mapStateToProps = (
     canAddNewMembers,
     conversation: {
       ...conversation,
-      ...getConversationColorAttributes(conversation),
+      ...getConversationColorAttributes(conversation, defaultConversationColor),
     },
     getPreferredBadge: getPreferredBadgeSelector(state),
     hasActiveCall: Boolean(getActiveCallState(state)),

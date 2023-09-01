@@ -61,6 +61,7 @@ import { getMentionsRegex } from '../../types/Message';
 import { SignalService as Proto } from '../../protobuf';
 import type { AttachmentType } from '../../types/Attachment';
 import { isVoiceMessage, canBeDownloaded } from '../../types/Attachment';
+import type { DefaultConversationColorType } from '../../types/Colors';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 
 import type { CallingNotificationType } from '../../util/callingNotification';
@@ -73,6 +74,7 @@ import { strictAssert } from '../../util/assert';
 import { canEditMessage } from '../../util/canEditMessage';
 
 import { getAccountSelector } from './accounts';
+import { getDefaultConversationColor } from './items';
 import {
   getContactNameColorSelector,
   getConversationSelector,
@@ -176,6 +178,7 @@ export type GetPropsForBubbleOptions = Readonly<{
   activeCall?: CallStateType;
   accountSelector: AccountSelectorType;
   contactNameColorSelector: ContactNameColorSelectorType;
+  defaultConversationColor: DefaultConversationColorType;
 }>;
 
 export function hasErrors(
@@ -474,9 +477,11 @@ const getPropsForStoryReplyContext = (
   {
     conversationSelector,
     ourConversationId,
+    defaultConversationColor,
   }: {
     conversationSelector: GetConversationByIdType;
     ourConversationId?: string;
+    defaultConversationColor: DefaultConversationColorType;
   }
 ): PropsData['storyReplyContext'] => {
   const { storyReaction, storyReplyContext } = message;
@@ -491,8 +496,10 @@ const getPropsForStoryReplyContext = (
 
   const conversation = getConversation(message, conversationSelector);
 
-  const { conversationColor, customColor } =
-    getConversationColorAttributes(conversation);
+  const { conversationColor, customColor } = getConversationColorAttributes(
+    conversation,
+    defaultConversationColor
+  );
 
   return {
     authorTitle,
@@ -515,9 +522,11 @@ export const getPropsForQuote = (
   {
     conversationSelector,
     ourConversationId,
+    defaultConversationColor,
   }: {
     conversationSelector: GetConversationByIdType;
     ourConversationId?: string;
+    defaultConversationColor: DefaultConversationColorType;
   }
 ): PropsData['quote'] => {
   const { quote } = message;
@@ -548,8 +557,10 @@ export const getPropsForQuote = (
   const firstAttachment = quote.attachments && quote.attachments[0];
   const conversation = getConversation(message, conversationSelector);
 
-  const { conversationColor, customColor } =
-    getConversationColorAttributes(conversation);
+  const { conversationColor, customColor } = getConversationColorAttributes(
+    conversation,
+    defaultConversationColor
+  );
 
   return {
     authorId,
@@ -587,6 +598,7 @@ export type GetPropsForMessageOptions = Pick<
   | 'regionCode'
   | 'accountSelector'
   | 'contactNameColorSelector'
+  | 'defaultConversationColor'
 >;
 
 function getTextAttachment(
@@ -681,6 +693,7 @@ export const getPropsForMessage = (
     targetedMessageCounter,
     selectedMessageIds,
     contactNameColorSelector,
+    defaultConversationColor,
   } = options;
 
   const { expireTimer, expirationStartTimestamp, conversationId } = message;
@@ -710,8 +723,10 @@ export const getPropsForMessage = (
   });
   const contactNameColor = contactNameColorSelector(conversationId, authorId);
 
-  const { conversationColor, customColor } =
-    getConversationColorAttributes(conversation);
+  const { conversationColor, customColor } = getConversationColorAttributes(
+    conversation,
+    defaultConversationColor
+  );
 
   return {
     attachments,
@@ -785,6 +800,7 @@ export const getMessagePropsSelector = createSelector(
   getContactNameColorSelector,
   getTargetedMessage,
   getSelectedMessageIds,
+  getDefaultConversationColor,
   (
       conversationSelector,
       ourConversationId,
@@ -795,7 +811,8 @@ export const getMessagePropsSelector = createSelector(
       accountSelector,
       contactNameColorSelector,
       targetedMessage,
-      selectedMessageIds
+      selectedMessageIds,
+      defaultConversationColor
     ) =>
     (message: MessageWithUIFieldsType) => {
       return getPropsForMessage(message, {
@@ -810,6 +827,7 @@ export const getMessagePropsSelector = createSelector(
         targetedMessageCounter: targetedMessage?.counter,
         targetedMessageId: targetedMessage?.id,
         selectedMessageIds,
+        defaultConversationColor,
       });
     }
 );
@@ -1919,6 +1937,7 @@ export const getMessageDetails = createSelector(
   getUserConversationId,
   getUserNumber,
   getSelectedMessageIds,
+  getDefaultConversationColor,
   (
     accountSelector,
     contactNameColorSelector,
@@ -1930,7 +1949,8 @@ export const getMessageDetails = createSelector(
     ourPni,
     ourConversationId,
     ourNumber,
-    selectedMessageIds
+    selectedMessageIds,
+    defaultConversationColor
   ): SmartMessageDetailPropsType | undefined => {
     if (!message || !ourConversationId) {
       return;
@@ -2066,6 +2086,7 @@ export const getMessageDetails = createSelector(
         ourNumber,
         regionCode,
         selectedMessageIds,
+        defaultConversationColor,
       }),
       receivedAt: Number(message.received_at_ms || message.received_at),
     };
