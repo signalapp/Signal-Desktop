@@ -133,6 +133,9 @@
     "webrtc-adapter": "^4.1.1"
   },
   "devDependencies": {
+    "@commitlint/cli": "^17.7.1",
+    "@commitlint/config-conventional": "^17.7.0",
+    "@commitlint/types": "^17.4.4",
     "@electron/notarize": "^2.1.0",
     "@types/backbone": "1.4.2",
     "@types/blueimp-load-image": "5.14.4",
