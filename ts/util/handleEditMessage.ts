@@ -326,8 +326,9 @@ export async function handleEditMessage(
     drop(mainMessageConversation.updateLastMessage());
     // Apply any other operations, excluding edits that target this message
     await modifyTargetMessage(mainMessageModel, mainMessageConversation, {
-      isFirstRun: true,
+      isFirstRun: false,
       skipEdits: true,
+      skipSave: true,
     });
   }
 
