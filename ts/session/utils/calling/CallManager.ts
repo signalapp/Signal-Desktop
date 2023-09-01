@@ -34,6 +34,7 @@ import { GetNetworkTime } from '../../apis/snode_api/getNetworkTime';
 import { SnodeNamespaces } from '../../apis/snode_api/namespaces';
 import { READ_MESSAGE_STATE } from '../../../models/conversationAttributes';
 import {
+  changeToDisappearingMessageType,
   isLegacyDisappearingModeEnabled,
   setExpirationStartTimestamp,
 } from '../../../util/expiringMessages';
@@ -518,11 +519,14 @@ export async function USER_callRecipient(recipient: string) {
 
   // TODO legacy messages support will be removed in a future release
   const isLegacyMode = isLegacyDisappearingModeEnabled(calledConvo.get('expirationType'));
-  const expirationType = !isLegacyMode ? calledConvo.get('expirationType') : 'deleteAfterSend';
+  const expirationType = changeToDisappearingMessageType(
+    calledConvo,
+    calledConvo.get('expirationType')
+  );
   await calledConvo?.addSingleOutgoingMessage({
     callNotificationType: 'started-call',
     sent_at: now,
-    expirationType: expirationType !== 'off' ? expirationType : undefined,
+    expirationType: calledConvo.get('expireTimer') > 0 ? expirationType : undefined,
     expireTimer: calledConvo.get('expireTimer') ? calledConvo.get('expireTimer') : 0,
     expirationStartTimestamp: setExpirationStartTimestamp(
       expirationType,
@@ -892,14 +896,17 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
 
   // TODO legacy messages support will be removed in a future release
   const isLegacyMode = isLegacyDisappearingModeEnabled(callerConvo.get('expirationType'));
-  const expirationType = !isLegacyMode ? callerConvo.get('expirationType') : 'deleteAfterSend';
+  const expirationType = changeToDisappearingMessageType(
+    callerConvo,
+    callerConvo.get('expirationType')
+  );
   await callerConvo?.addSingleIncomingMessage({
     callNotificationType: 'answered-a-call',
     source: UserUtils.getOurPubKeyStrFromCache(),
     sent_at: networkTimestamp,
     received_at: networkTimestamp,
     unread: READ_MESSAGE_STATE.read,
-    expirationType: expirationType !== 'off' ? expirationType : undefined,
+    expirationType: callerConvo.get('expireTimer') > 0 ? expirationType : undefined,
     expireTimer: callerConvo.get('expireTimer') ? callerConvo.get('expireTimer') : 0,
     expirationStartTimestamp: setExpirationStartTimestamp(
       expirationType,
@@ -1240,16 +1247,17 @@ async function addMissedCallMessage(callerPubkey: string, sentAt: number) {
   const isLegacyMode = isLegacyDisappearingModeEnabled(
     incomingCallConversation.get('expirationType')
   );
-  const expirationType = !isLegacyMode
-    ? incomingCallConversation.get('expirationType')
-    : 'deleteAfterSend';
+  const expirationType = changeToDisappearingMessageType(
+    incomingCallConversation,
+    incomingCallConversation.get('expirationType')
+  );
   await incomingCallConversation?.addSingleIncomingMessage({
     callNotificationType: 'missed-call',
     source: callerPubkey,
     sent_at: sentAt,
     received_at: GetNetworkTime.getNowWithNetworkOffset(),
     unread: READ_MESSAGE_STATE.unread,
-    expirationType: expirationType !== 'off' ? expirationType : undefined,
+    expirationType: incomingCallConversation.get('expireTimer') > 0 ? expirationType : undefined,
     expireTimer: incomingCallConversation.get('expireTimer')
       ? incomingCallConversation.get('expireTimer')
       : 0,

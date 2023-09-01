@@ -7,7 +7,7 @@ import { resetRightOverlayMode, setRightOverlayMode } from '../../../state/ducks
 import { isRightPanelShowing } from '../../../state/selectors/conversations';
 import {
   useSelectedConversationKey,
-  useSelectedExpirationType,
+  useSelectedConversationExpirationType,
   useSelectedExpireTimer,
   useSelectedIsGroup,
   useSelectedIsKickedFromGroup,
@@ -47,7 +47,7 @@ export const ConversationHeaderTitle = () => {
   const members = useSelectedMembers();
 
   const expireTimer = useSelectedExpireTimer();
-  const expirationType = useSelectedExpirationType();
+  const expirationType = useSelectedConversationExpirationType();
   const convoName = useConversationUsername(selectedConvoKey);
 
   const [visibleSubtitle, setVisibleSubtitle] = useState<SubtitleStringsType>('notifications');

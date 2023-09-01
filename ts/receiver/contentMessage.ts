@@ -36,6 +36,7 @@ import { ConfigMessageHandler } from './configMessage';
 import { ECKeyPair } from './keypairs';
 import { ContactsWrapperActions } from '../webworker/workers/browser/libsession_worker_interface';
 import {
+  changeToDisappearingMessageType,
   checkForExpireUpdateInContentMessage,
   checkHasOutdatedClient,
   isLegacyDisappearingModeEnabled,
@@ -846,7 +847,10 @@ export async function handleDataExtractionNotification(
       },
 
       unread: READ_MESSAGE_STATE.unread, // 1 means unread
-      expirationType: expirationType !== 'off' ? expirationType : undefined,
+      expirationType:
+        expirationType !== 'off'
+          ? changeToDisappearingMessageType(convo, expirationType)
+          : undefined,
       expireTimer: convo.get('expireTimer') ? convo.get('expireTimer') : 0,
       // TODO should this only be for delete after send?
       expirationStartTimestamp:

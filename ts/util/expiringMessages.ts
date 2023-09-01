@@ -15,12 +15,17 @@ import { ReleasedFeatures } from './releaseFeature';
 
 // NOTE this must match Content.ExpirationType in the protobuf
 // TODO double check this
-export const DisappearingMessageMode = ['unknown', 'deleteAfterRead', 'deleteAfterSend'];
+export const DisappearingMessageMode = ['unknown', 'deleteAfterRead', 'deleteAfterSend'] as const;
 export type DisappearingMessageType = typeof DisappearingMessageMode[number];
 // NOTE these cannot be imported in the nodejs side yet. We need to move the types to the own file with no window imports
 // TODO legacy messages support will be removed in a future release
 // TODO NOTE legacy is strictly used in the UI and is not a valid disappearing message mode
-export const DisappearingMessageConversationSetting = ['off', ...DisappearingMessageMode, 'legacy'];
+export const DisappearingMessageConversationSetting = [
+  'off',
+  DisappearingMessageMode[1], // deleteAfterRead
+  DisappearingMessageMode[2], // deleteAfterSend
+  'legacy',
+] as const;
 export type DisappearingMessageConversationType = typeof DisappearingMessageConversationSetting[number]; // TODO we should make this type a bit more hardcoded than being just resolved as a string
 
 export const DEFAULT_TIMER_OPTION = {
@@ -266,8 +271,11 @@ export function setExpirationStartTimestamp(
         isLegacyMode ? 'legacy ' : ''
       }delete after send message to ${new Date(expirationStartTimestamp).toLocaleTimeString()}`
     );
-  } else if (mode === 'off') {
-    window.log.debug(`Disappearing message mode "${mode}" set. We can safely ignore this.`);
+    // TODO needs improvement
+  } else if (mode === 'unknown') {
+    window.log.debug(
+      `Disappearing message mode "${mode}"set. This could be a legacy message or we are turning off disappearing messages`
+    );
     expirationStartTimestamp = undefined;
   } else {
     window.log.debug(`Invalid disappearing message mode "${mode}" set. Ignoring`);
@@ -290,18 +298,19 @@ export function isLegacyDisappearingModeEnabled(
 
 // TODO legacy messages support will be removed in a future release
 /**
- * This function is used to set the mode for legacy disappearing messages depending on the default for the conversation type
+ * Converts DisappearingMessageConversationType to DisappearingMessageType
  *
- * NOTE Should only be used when sending or receiving data messages (protobuf)
+ * NOTE Used for sending or receiving data messages (protobuf)
  *
  * @param convo Conversation we want to set
+ * @param expirationType DisappearingMessageConversationType
  * @returns Disappearing mode we should use
  */
-export function resolveLegacyDisappearingMode(
+export function changeToDisappearingMessageType(
   convo: ConversationModel,
-  expireTimer?: number
+  expirationType?: DisappearingMessageConversationType
 ): DisappearingMessageType {
-  if (expireTimer === 0) {
+  if (expirationType === 'off' || expirationType === 'legacy') {
     // NOTE we would want this to be undefined but because of an issue with the protobuf implement we need to have a value
     return 'unknown';
   }
@@ -309,6 +318,33 @@ export function resolveLegacyDisappearingMode(
   if (convo.isMe() || convo.isClosedGroup()) {
     return 'deleteAfterSend';
   }
+  return 'deleteAfterRead';
+}
+
+// TODO legacy messages support will be removed in a future release
+/**
+ * Converts DisappearingMessageType to DisappearingMessageConversationType
+ *
+ * NOTE Used for the UI
+ *
+ * @param convo  Conversation we want to set
+ * @param expirationType DisappearingMessageType
+ * @param expireTimer
+ * @returns
+ */
+export function changeToDisappearingMessageConversationType(
+  convo: ConversationModel,
+  expirationType?: DisappearingMessageType,
+  expireTimer?: number
+): DisappearingMessageConversationType {
+  if (expirationType === 'unknown') {
+    return expireTimer && expireTimer > 0 ? 'legacy' : 'off';
+  }
+
+  if (convo.isMe() || convo.isClosedGroup()) {
+    return 'deleteAfterSend';
+  }
+
   return 'deleteAfterRead';
 }
 
@@ -352,11 +388,12 @@ export async function checkForExpireUpdateInContentMessage(
     ? Number(dataMessage.expireTimer)
     : content.expirationTimer;
 
-  let expirationType =
+  // NOTE This starts are a DisappearingMessageConversationType but we will convert it to a DisappearingMessageType
+  let expirationType: any =
     expirationTimer > 0
       ? DisappearingMessageConversationSetting[
           !isDisappearingMessagesV2Released || isLegacyContentMessage
-            ? resolveLegacyDisappearingMode(convoToUpdate) === 'deleteAfterRead'
+            ? changeToDisappearingMessageType(convoToUpdate) === 'deleteAfterRead'
               ? 1
               : 2
             : content.expirationType
@@ -381,8 +418,11 @@ export async function checkForExpireUpdateInContentMessage(
     (isLegacyDataMessage || isLegacyConversationSettingMessage || shouldDisappearButIsntMessage)
   ) {
     window.log.warn('Received a legacy disappearing message after v2 was released.', content);
-    expirationType = convoToUpdate.get('expirationType');
     expirationTimer = convoToUpdate.get('expireTimer');
+    expirationType = changeToDisappearingMessageType(
+      convoToUpdate,
+      convoToUpdate.get('expirationType')
+    );
   }
 
   const expireUpdate: DisappearingMessageUpdate = {

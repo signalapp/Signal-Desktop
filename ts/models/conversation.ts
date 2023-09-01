@@ -119,7 +119,7 @@ import {
 
 import {
   DisappearingMessageConversationType,
-  resolveLegacyDisappearingMode,
+  changeToDisappearingMessageType,
 } from '../util/expiringMessages';
 import { markAttributesAsReadIfNeeded } from './messageFactory';
 import { ReleasedFeatures } from '../util/releaseFeature';
@@ -739,8 +739,9 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public async sendMessage(msg: SendMessageType) {
     const { attachments, body, groupInvitation, preview, quote } = msg;
     this.clearTypingTimers();
-    const expirationType = this.get('expirationType');
     const expireTimer = this.get('expireTimer');
+    const expirationType = changeToDisappearingMessageType(this, this.get('expirationType'));
+
     const networkTimestamp = GetNetworkTime.getNowWithNetworkOffset();
 
     window?.log?.info(
@@ -856,12 +857,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const isOutgoing = Boolean(!receivedAt);
     source = source || UserUtils.getOurPubKeyStrFromCache();
 
-    // Note the legacy type should only be in the UI, it should change the the conversation type default before we send
-    if (expirationType === 'legacy') {
-      expirationType = resolveLegacyDisappearingMode(this, expireTimer);
-      window.log.debug(`WIP: resolving legacy disappearing mode to ${expirationType}`);
-    }
-
     // When we add a disappearing messages notification to the conversation, we want it
     // to be above the message that initiated that change, hence the subtraction.
     const timestamp = (receivedAt || Date.now()) - 1;
@@ -881,6 +876,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     });
 
     let message: MessageModel | undefined = existingMessage || undefined;
+    const messageExpirationType = changeToDisappearingMessageType(this, expirationType);
 
     // we don't have info about who made the change and when, when we get a change from a config message, so do not add a control message
     // TODO NOTE We might not show it in the UI but still need to process it using the senttimestamp as the lastchange timestamp for config messages
@@ -888,7 +884,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       const commonAttributes = {
         flags: SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
         expirationTimerUpdate: {
-          expirationType,
+          expirationType: messageExpirationType,
           expireTimer,
           lastDisappearingMessageChangeTimestamp,
           source,
@@ -896,7 +892,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         },
         // TODO legacy messages support will be removed in a future release
         expirationType: ReleasedFeatures.isDisappearMessageV2FeatureReleasedCached()
-          ? expirationType
+          ? messageExpirationType
           : undefined,
         expireTimer: ReleasedFeatures.isDisappearMessageV2FeatureReleasedCached()
           ? expireTimer
@@ -943,7 +939,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const expireUpdate = {
       identifier: message?.id,
       timestamp,
-      expirationType,
+      expirationType: messageExpirationType,
       expireTimer,
       lastDisappearingMessageChangeTimestamp,
     };

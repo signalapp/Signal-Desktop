@@ -8,7 +8,7 @@ import { resetRightOverlayMode } from '../../../../../state/ducks/section';
 import {
   getSelectedConversationExpirationModes,
   useSelectedConversationKey,
-  useSelectedExpirationType,
+  useSelectedConversationExpirationType,
   useSelectedExpireTimer,
   useSelectedIsGroup,
   useSelectedWeAreAdmin,
@@ -63,7 +63,7 @@ function loadDefaultTimeValue(modeSelected: DisappearingMessageConversationType 
 }
 
 export type PropsForExpirationSettings = {
-  expirationType: string | undefined;
+  expirationType: DisappearingMessageConversationType | undefined;
   expireTimer: number | undefined;
   isGroup: boolean | undefined;
   weAreAdmin: boolean | undefined;
@@ -75,16 +75,16 @@ export const OverlayDisappearingMessages = () => {
   const disappearingModeOptions = useSelector(getSelectedConversationExpirationModes);
 
   // NOTE if there is only 'off' and one disappearing message mode then we trigger single mode
-  const singleMode =
+  const singleMode: DisappearingMessageConversationType | undefined =
     disappearingModeOptions &&
     disappearingModeOptions.off !== undefined &&
     Object.keys(disappearingModeOptions).length === 2
-      ? Object.keys(disappearingModeOptions)[1]
+      ? (Object.keys(disappearingModeOptions)[1] as DisappearingMessageConversationType)
       : undefined;
   const hasOnlyOneMode = Boolean(singleMode && singleMode.length > 0);
 
   const isGroup = useSelectedIsGroup();
-  const expirationType = useSelectedExpirationType();
+  const expirationType = useSelectedConversationExpirationType();
   const expireTimer = useSelectedExpireTimer();
   const weAreAdmin = useSelectedWeAreAdmin();
 

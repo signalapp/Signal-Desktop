@@ -21,7 +21,7 @@ function loadDataTestId(mode: DisappearingMessageConversationType) {
 type DisappearingModesProps = {
   options: Record<DisappearingMessageConversationType, boolean>;
   selected?: DisappearingMessageConversationType;
-  setSelected: (value: string) => void;
+  setSelected: (value: DisappearingMessageConversationType) => void;
   hasOnlyOneMode?: boolean;
 };
 
@@ -36,7 +36,7 @@ export const DisappearingModes = (props: DisappearingModesProps) => {
     <>
       <PanelLabel>{window.i18n('disappearingMessagesModeLabel')}</PanelLabel>
       <PanelButtonGroup>
-        {Object.keys(options).map((mode: DisappearingMessageConversationType) => {
+        {Object.keys(options).map(mode => {
           const optionI18n =
             mode === 'legacy'
               ? window.i18n('disappearingMessagesModeLegacy')
@@ -63,11 +63,11 @@ export const DisappearingModes = (props: DisappearingModesProps) => {
               value={mode}
               isSelected={selected === mode}
               onSelect={() => {
-                setSelected(mode);
+                setSelected(mode as DisappearingMessageConversationType);
               }}
-              disabled={options[mode]}
+              disabled={options[mode as DisappearingMessageConversationType]}
               noBackgroundColor={true}
-              dataTestId={loadDataTestId(mode)}
+              dataTestId={loadDataTestId(mode as DisappearingMessageConversationType)}
             />
           );
         })}

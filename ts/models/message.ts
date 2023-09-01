@@ -95,8 +95,8 @@ import {
   DisappearingMessageUpdate,
   ExpirationTimerOptions,
   isLegacyDisappearingModeEnabled,
-  resolveLegacyDisappearingMode,
   setExpirationStartTimestamp,
+  changeToDisappearingMessageConversationType,
 } from '../util/expiringMessages';
 import { LinkPreviews } from '../util/linkPreviews';
 import { Notifications } from '../util/notifications';
@@ -264,8 +264,18 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     }
     if (this.isExpirationTimerUpdate()) {
       const expireTimerUpdate = this.get('expirationTimerUpdate');
-      const expirationType = expireTimerUpdate?.expirationType;
       const expireTimer = expireTimerUpdate?.expireTimer;
+      const convo = this.getConversation();
+      if (!convo) {
+        return '';
+      }
+
+      const expirationType = changeToDisappearingMessageConversationType(
+        convo,
+        expireTimerUpdate?.expirationType,
+        expireTimer
+      );
+
       if (!expireTimerUpdate || expirationType === 'off' || !expireTimer || expireTimer === 0) {
         return window.i18n('disappearingMessagesDisabled');
       }
@@ -320,11 +330,19 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     }
 
     const timerUpdate = this.get('expirationTimerUpdate');
-    if (!timerUpdate || !timerUpdate.source) {
+    const convo = this.getConversation();
+
+    if (!timerUpdate || !timerUpdate.source || !convo) {
       return null;
     }
 
-    const { expirationType, expireTimer, fromSync, source } = timerUpdate;
+    const { expireTimer, fromSync, source } = timerUpdate;
+    const expirationType = changeToDisappearingMessageConversationType(
+      convo,
+      timerUpdate?.expirationType || 'unknown',
+      expireTimer || 0
+    );
+
     const timespan = ExpirationTimerOptions.getName(expireTimer || 0);
     const disabled = !expireTimer;
 
@@ -1019,11 +1037,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         ? Number(dataMessage.expireTimer)
         : content.expirationTimer;
 
-      let expirationType: DisappearingMessageType = DisappearingMessageMode[content.expirationType];
-
-      if (isLegacyDisappearingDataMessage) {
-        expirationType = resolveLegacyDisappearingMode(conversation, expirationTimer);
-      }
+      const expirationType: DisappearingMessageType =
+        DisappearingMessageMode[content.expirationType];
 
       const lastDisappearingMessageChangeTimestamp = content.lastDisappearingMessageChangeTimestamp
         ? Number(content.lastDisappearingMessageChangeTimestamp)

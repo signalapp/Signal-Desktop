@@ -27,6 +27,7 @@ import { UserUtils } from '../utils';
 import { fromHexToArray, toHex } from '../utils/String';
 import {
   DisappearingMessageConversationType,
+  changeToDisappearingMessageType,
   isLegacyDisappearingModeEnabled,
   setExpirationStartTimestamp,
 } from '../../util/expiringMessages';
@@ -163,7 +164,7 @@ export async function addUpdateMessage(
     groupUpdate.kicked = diff.kickedMembers;
   }
 
-  const expirationType = convo.get('expirationType');
+  const expirationType = changeToDisappearingMessageType(convo, convo.get('expirationType'));
   const expireTimer = convo.get('expireTimer');
 
   const msgModel = {

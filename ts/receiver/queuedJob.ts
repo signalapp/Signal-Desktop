@@ -16,6 +16,7 @@ import { showMessageRequestBannerOutsideRedux } from '../state/ducks/userConfig'
 import { getHideMessageRequestBannerOutsideRedux } from '../state/selectors/userConfig';
 import { GoogleChrome } from '../util';
 import {
+  changeToDisappearingMessageConversationType,
   isLegacyDisappearingModeEnabled,
   setExpirationStartTimestamp,
 } from '../util/expiringMessages';
@@ -422,8 +423,12 @@ export async function handleMessageJob(
         return;
       }
 
-      const expirationType = expirationTimerUpdate?.expirationType || 'off';
       const expireTimer = expirationTimerUpdate?.expireTimer || 0;
+      const expirationType = changeToDisappearingMessageConversationType(
+        conversation,
+        expirationTimerUpdate?.expirationType,
+        expireTimer
+      );
       const lastDisappearingMessageChangeTimestamp =
         expirationTimerUpdate?.lastDisappearingMessageChangeTimestamp ||
         GetNetworkTime.getNowWithNetworkOffset();

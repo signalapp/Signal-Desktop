@@ -6,7 +6,10 @@ import { UserUtils } from '../../session/utils';
 import { StateType } from '../reducer';
 import { getCanWrite, getModerators, getSubscriberCount } from './sogsRoomInfo';
 import { getIsMessageSelectionMode, getSelectedConversation } from './conversations';
-import { DisappearingMessageConversationSetting } from '../../util/expiringMessages';
+import {
+  DisappearingMessageConversationSetting,
+  DisappearingMessageConversationType,
+} from '../../util/expiringMessages';
 import { ReleasedFeatures } from '../../util/releaseFeature';
 import { ReduxConversationType } from '../ducks/conversations';
 
@@ -163,7 +166,8 @@ const getSelectedConversationExpirationModesWithLegacy = (convo: ReduxConversati
     return undefined;
   }
 
-  let modes = DisappearingMessageConversationSetting;
+  // NOTE this needs to be as any because the number of modes can change depending on if v2 is released or we are in single mode
+  let modes: any = DisappearingMessageConversationSetting;
 
   // Note to Self and Closed Groups only support deleteAfterSend and legacy modes
   const isClosedGroup = !convo.isPrivate && !convo.isPublic;
@@ -178,7 +182,7 @@ const getSelectedConversationExpirationModesWithLegacy = (convo: ReduxConversati
   const modesWithDisabledState: Record<string, boolean> = {};
   // The new modes are disabled by default
   if (modes && modes.length > 1) {
-    modes.forEach(mode => {
+    modes.forEach((mode: any) => {
       modesWithDisabledState[mode] = Boolean(
         (mode !== 'legacy' && mode !== 'off') || (isClosedGroup && !convo.weAreAdmin)
       );
@@ -198,7 +202,8 @@ export const getSelectedConversationExpirationModes = (state: StateType) => {
     return getSelectedConversationExpirationModesWithLegacy(convo);
   }
 
-  let modes = DisappearingMessageConversationSetting;
+  // NOTE this needs to be as any because the number of modes can change depending on if v2 is released or we are in single mode
+  let modes: any = DisappearingMessageConversationSetting;
   // TODO legacy messages support will be removed in a future release
   // TODO remove legacy mode
   modes = modes.slice(0, -1);
@@ -211,7 +216,7 @@ export const getSelectedConversationExpirationModes = (state: StateType) => {
 
   const modesWithDisabledState: Record<string, boolean> = {};
   if (modes && modes.length > 1) {
-    modes.forEach(mode => {
+    modes.forEach((mode: any) => {
       modesWithDisabledState[mode] = isClosedGroup ? !convo.weAreAdmin : false;
     });
   }
@@ -308,7 +313,9 @@ export function useSelectedExpireTimer(): number | undefined {
   return useSelector((state: StateType) => getSelectedConversation(state)?.expireTimer);
 }
 
-export function useSelectedExpirationType(): string | undefined {
+export function useSelectedConversationExpirationType():
+  | DisappearingMessageConversationType
+  | undefined {
   return useSelector((state: StateType) => getSelectedConversation(state)?.expirationType);
 }
 
