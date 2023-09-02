@@ -67,10 +67,11 @@ import updateToSchemaVersion89 from './89-call-history';
 import updateToSchemaVersion90 from './90-delete-story-reply-screenshot';
 import updateToSchemaVersion91 from './91-clean-keys';
 import { updateToSchemaVersion920 } from './920-clean-more-keys';
+import { updateToSchemaVersion930 } from './930-fts5-secure-delete';
 import {
   version as MAX_VERSION,
-  updateToSchemaVersion930,
-} from './930-fts5-secure-delete';
+  updateToSchemaVersion940,
+} from './940-fts5-revert';
 
 function updateToSchemaVersion1(
   currentVersion: number,
@@ -2012,6 +2013,7 @@ export const SCHEMA_VERSIONS = [
   // From here forward, all migrations should be multiples of 10
   updateToSchemaVersion920,
   updateToSchemaVersion930,
+  updateToSchemaVersion940,
 ];
 
 export function updateSchema(db: Database, logger: LoggerType): void {

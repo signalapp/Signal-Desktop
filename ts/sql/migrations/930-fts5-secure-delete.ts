@@ -17,12 +17,8 @@ export function updateToSchemaVersion930(
   }
 
   db.transaction(() => {
-    db.exec(`
-      INSERT INTO messages_fts
-      (messages_fts, rank)
-      VALUES
-      ('secure-delete', 1);
-    `);
+    // This was a migration that enabled 'secure-delete' in FTS
+
     db.pragma('user_version = 930');
   })();
 
