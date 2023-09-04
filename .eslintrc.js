@@ -3,8 +3,9 @@ module.exports = {
   settings: {
     'import/core-modules': ['electron'],
     'import/resolver': {
-      typescript: true,
-      node: true,
+      node: {
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+      },
     },
     react: {
       version: 'detect',

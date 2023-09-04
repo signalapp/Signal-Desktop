@@ -52,6 +52,7 @@ import { NoMessageInConversation } from './SubtleNotification';
 import { ConversationHeaderWithDetails } from './header/ConversationHeader';
 import { MessageDetail } from './message/message-item/MessageDetail';
 
+import { HTMLDirection } from '../../util/i18n';
 import { NoticeBanner } from '../NoticeBanner';
 import { SessionSpinner } from '../basic/SessionSpinner';
 import { RightPanel } from './right-panel/RightPanel';
@@ -76,6 +77,7 @@ interface Props {
   showMessageDetails: boolean;
   isRightPanelShowing: boolean;
   hasOngoingCallWithFocusedConvo: boolean;
+  htmlDirection: HTMLDirection;
 
   // lightbox options
   lightBoxOptions?: LightBoxOptions;
@@ -304,6 +306,7 @@ export class SessionConversation extends React.Component<Props, State> {
                 stagedAttachments={this.props.stagedAttachments}
                 // eslint-disable-next-line @typescript-eslint/no-misused-promises
                 onChoseAttachments={this.onChoseAttachments}
+                htmlDirection={this.props.htmlDirection}
               />
             </div>
             <div

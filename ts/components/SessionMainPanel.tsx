@@ -5,12 +5,14 @@ import { getFocusedSettingsSection } from '../state/selectors/section';
 
 import { SmartSessionConversation } from '../state/smart/SessionConversation';
 import { SessionSettingsView } from './settings/SessionSettings';
+import { useHTMLDirection } from '../util/i18n';
 
 const FilteredSettingsView = SessionSettingsView as any;
 
 export const SessionMainPanel = () => {
   const focusedSettingsSection = useSelector(getFocusedSettingsSection);
   const isSettingsView = focusedSettingsSection !== undefined;
+  const htmlDirection = useHTMLDirection();
 
   // even if it looks like this does nothing, this does update the redux store.
   useAppIsFocused();
@@ -20,7 +22,7 @@ export const SessionMainPanel = () => {
   }
   return (
     <div className="session-conversation">
-      <SmartSessionConversation />
+      <SmartSessionConversation htmlDirection={htmlDirection} />
     </div>
   );
 };

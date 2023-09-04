@@ -525,6 +525,7 @@
   "reactionPopupMany": "$name$, $name2$, $name3$ &",
   "reactionListCountSingular": "And $otherSingular$ has reacted <span>$emoji$</span> to this message",
   "reactionListCountPlural": "And $otherPlural$ have reacted <span>$emoji$</span> to this message",
+  "setDisplayPicture": "Set Display Picture",
   "settingAppliesToEveryone": "This setting applies to everyone in this conversation.",
   "onlyGroupAdminsCanChange": "Only group admins can change this setting."
 }

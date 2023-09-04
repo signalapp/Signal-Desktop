@@ -1,3 +1,4 @@
+import { isNil } from 'lodash';
 import {
   ConversationNotificationSettingType,
   ConversationTypeEnum,
@@ -500,6 +501,37 @@ export async function uploadOurAvatar(newAvatarDecrypted?: ArrayBuffer) {
     avatarPointer: ourConvo.get('avatarPointer'),
     profileKey: ourConvo.get('profileKey'),
   };
+}
+
+/**
+ * This function can be used for clearing our avatar.
+ */
+export async function clearOurAvatar(commit: boolean = true) {
+  const ourConvo = getConversationController().get(UserUtils.getOurPubKeyStrFromCache());
+  if (!ourConvo) {
+    window.log.warn('ourConvo not found... This is not a valid case');
+    return;
+  }
+
+  // return early if no change are needed at all
+  if (
+    isNil(ourConvo.get('avatarPointer')) &&
+    isNil(ourConvo.get('avatarInProfile')) &&
+    isNil(ourConvo.get('profileKey'))
+  ) {
+    return;
+  }
+
+  ourConvo.set('avatarPointer', undefined);
+  ourConvo.set('avatarInProfile', undefined);
+  ourConvo.set('profileKey', undefined);
+
+  await setLastProfileUpdateTimestamp(Date.now());
+
+  if (commit) {
+    await ourConvo.commit();
+    await SyncUtils.forceSyncConfigurationNowIfNeeded(true);
+  }
 }
 
 export async function replyToMessage(messageId: string) {

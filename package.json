@@ -64,7 +64,8 @@
     "postinstall": "yarn patch-package && yarn electron-builder install-app-deps",
     "update-git-info": "node ./build/updateLocalConfig.js",
     "worker:utils": "webpack  --config=./utils.worker.config.js",
-    "worker:libsession": "rimraf 'ts/webworker/workers/node/libsession/*.node' && webpack  --config=./libsession.worker.config.js"
+    "worker:libsession": "rimraf 'ts/webworker/workers/node/libsession/*.node' && webpack  --config=./libsession.worker.config.js",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@emoji-mart/data": "^1.1.2",
@@ -132,6 +133,9 @@
     "webrtc-adapter": "^4.1.1"
   },
   "devDependencies": {
+    "@commitlint/cli": "^17.7.1",
+    "@commitlint/config-conventional": "^17.7.0",
+    "@commitlint/types": "^17.4.4",
     "@electron/notarize": "^2.1.0",
     "@types/backbone": "1.4.2",
     "@types/blueimp-load-image": "5.14.4",
@@ -183,8 +187,10 @@
     "eslint-plugin-react": "^7.33.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "events": "^3.3.0",
+    "husky": "^8.0.0",
     "jsdom": "^22.1.0",
     "jsdom-global": "^3.0.2",
+    "lint-staged": "^14.0.1",
     "mini-css-extract-plugin": "^2.7.5",
     "mocha": "10.0.0",
     "node-loader": "^2.0.0",
