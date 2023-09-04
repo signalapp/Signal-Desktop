@@ -21,7 +21,7 @@ const buildLintCommand = filenames => {
     .map(f => path.relative(process.cwd(), f))
     .filter(f => !ignoredFiles.includes(f));
 
-  return results.length ? `eslint ${results.join(' ')}` : '';
+  return results.length ? `eslint --cache ${results.join(' ')}` : '';
 };
 
 module.exports = {
