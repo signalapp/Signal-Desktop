@@ -1,4 +1,5 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-npx lint-staged
+# Disabling this hook for now because the BuildLintCommand has issues. If you have an error in a file that eslint catches the commit fails silently instead of explaining the error (Will 04/09/2023)
+# npx lint-staged

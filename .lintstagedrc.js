@@ -1,25 +1,38 @@
-const ignoredFiles = [
-  'package.json',
-  'yarn.lock',
-  'tsconfig.json',
-  '.lintstagedrc.js',
-  '.eslintrc.js',
-];
+const { ESLint } = require('eslint');
 
-const path = require('path');
-
-const buildFormatCommand = filenames => {
-  const results = filenames
-    .map(f => path.relative(process.cwd(), f))
-    .filter(f => !ignoredFiles.includes(f));
-
-  return results.length ? `prettier --list-different --write ${results.join(' ')}` : '';
+const removeIgnoredFiles = async files => {
+  const eslint = new ESLint();
+  const isIgnored = await Promise.all(
+    files.map(file => {
+      return eslint.isPathIgnored(file);
+    })
+  );
+  const filteredFiles = files.filter((_, i) => !isIgnored[i]);
+  return filteredFiles.join(' ');
 };
 
-const buildLintCommand = filenames => {
-  const results = filenames
-    .map(f => path.relative(process.cwd(), f))
-    .filter(f => !ignoredFiles.includes(f));
+const buildFormatCommand = async files => {
+  const filesToLint = await removeIgnoredFiles(files);
+
+  if (!filesToLint || !filesToLint.length) {
+    return '';
+  }
+
+  const results = filesToLint.map(f => path.relative(process.cwd(), f));
+
+  return results.length
+    ? `prettier --ignore-unknown --list-different --write ${results.join(' ')}`
+    : '';
+};
+
+const buildLintCommand = async files => {
+  const filesToLint = await removeIgnoredFiles(files);
+
+  if (!filesToLint || !filesToLint.length) {
+    return '';
+  }
+
+  const results = filesToLint.map(f => path.relative(process.cwd(), f));
 
   return results.length ? `eslint --cache ${results.join(' ')}` : '';
 };
