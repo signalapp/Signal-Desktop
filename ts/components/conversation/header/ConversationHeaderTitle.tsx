@@ -46,8 +46,9 @@ export const ConversationHeaderTitle = () => {
   const isGroup = useSelectedIsGroup();
   const members = useSelectedMembers();
 
-  const expireTimer = useSelectedExpireTimer();
   const expirationType = useSelectedConversationExpirationType();
+  const expireTimer = useSelectedExpireTimer();
+
   const convoName = useConversationUsername(selectedConvoKey);
 
   const [visibleSubtitle, setVisibleSubtitle] = useState<SubtitleStringsType>('notifications');
@@ -80,24 +81,29 @@ export const ConversationHeaderTitle = () => {
     return null;
   }, [i18n, isGroup, isKickedFromGroup, isPublic, members.length, subscriberCount]);
 
+  // TODO legacy messages support will be removed in a future release
   const disappearingMessageSubtitle = useMemo(() => {
     const disappearingMessageSettingText =
       expirationType === 'deleteAfterRead'
         ? window.i18n('disappearingMessagesModeAfterRead')
         : expirationType === 'deleteAfterSend'
         ? window.i18n('disappearingMessagesModeAfterSend')
+        : expirationType === 'legacy'
+        ? isMe || (isGroup && !isPublic)
+          ? window.i18n('disappearingMessagesModeAfterSend')
+          : window.i18n('disappearingMessagesModeAfterRead')
         : null;
 
     const abbreviatedExpireTime = isNumber(expireTimer)
       ? ExpirationTimerOptions.getAbbreviated(expireTimer)
       : null;
 
-    return disappearingMessageSettingText
+    return expireTimer && disappearingMessageSettingText
       ? `${disappearingMessageSettingText}${
           abbreviatedExpireTime ? ` - ${abbreviatedExpireTime}` : ''
         }`
       : null;
-  }, [expirationType, expireTimer]);
+  }, [expirationType, expireTimer, isGroup, isMe, isPublic]);
 
   const handleRightPanelToggle = () => {
     if (isRightPanelOn) {
