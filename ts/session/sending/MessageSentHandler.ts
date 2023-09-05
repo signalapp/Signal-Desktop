@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { Data } from '../../data/data';
 import { SignalService } from '../../protobuf';
 import {
-  isLegacyDisappearingModeEnabled,
+  changeToDisappearingMessageConversationType,
   setExpirationStartTimestamp,
 } from '../../util/expiringMessages';
 import { PnServer } from '../apis/push_notification_api';
@@ -124,40 +124,37 @@ async function handleMessageSentSuccess(
 
   sentTo = _.union(sentTo, [sentMessage.device]);
 
-  const expirationType = fetchedMessage.get('expirationType');
-  // TODO legacy messages support will be removed in a future release
-  const convo = fetchedMessage.getConversation();
-  const isLegacyMode = isLegacyDisappearingModeEnabled(expirationType);
-  const isLegacyReadMode = convo && !convo.isMe() && convo.isPrivate() && isLegacyMode;
-  const isLegacySentMode = convo && (convo.isMe() || convo.isClosedGroup()) && isLegacyMode;
-
   fetchedMessage.set({
     sent_to: sentTo,
     sent: true,
     sent_at: effectiveTimestamp,
   });
 
-  // TODO legacy messages support will be removed in a future release
-  // NOTE we treat all outbound disappearing messages as read as soon as they are sent.
+  const convo = fetchedMessage.getConversation();
+  const expireTimer = fetchedMessage.get('expireTimer');
+  const expirationType = fetchedMessage.get('expirationType');
+
   if (
-    (isLegacyReadMode ||
-      isLegacySentMode ||
-      expirationType === 'deleteAfterRead' ||
-      expirationType === 'deleteAfterSend') &&
+    convo &&
+    expirationType &&
+    expireTimer > 0 &&
     Boolean(fetchedMessage.get('expirationStartTimestamp')) === false
   ) {
-    const expirationMode =
-      isLegacyReadMode || expirationType === 'deleteAfterRead'
-        ? 'deleteAfterRead'
-        : 'deleteAfterSend';
+    const expirationMode = changeToDisappearingMessageConversationType(
+      convo,
+      expirationType,
+      expireTimer
+    );
 
-    fetchedMessage.set({
-      expirationStartTimestamp: setExpirationStartTimestamp(
-        expirationMode,
-        fetchedMessage.get('sent_at'),
-        isLegacyReadMode || isLegacySentMode
-      ),
-    });
+    // NOTE we treat all outbound disappearing messages as read as soon as they are sent.
+    if (expirationMode !== 'off') {
+      fetchedMessage.set({
+        expirationStartTimestamp: setExpirationStartTimestamp(
+          expirationMode,
+          fetchedMessage.get('sent_at')
+        ),
+      });
+    }
   }
 
   await fetchedMessage.commit();

@@ -30,7 +30,7 @@ export class ExpirableMessage extends ContentMessage {
           ? SignalService.Content.ExpirationType.DELETE_AFTER_SEND
           : this.expirationType === 'deleteAfterRead'
           ? SignalService.Content.ExpirationType.DELETE_AFTER_READ
-          : this.expirationType
+          : this.expirationType === 'unknown'
           ? SignalService.Content.ExpirationType.UNKNOWN
           : undefined,
       expirationTimer: this.expireTimer && this.expireTimer > -1 ? this.expireTimer : undefined,
@@ -40,7 +40,12 @@ export class ExpirableMessage extends ContentMessage {
   public dataProto(): SignalService.DataMessage {
     return new SignalService.DataMessage({
       // TODO legacy messages support will be removed in a future release
-      expireTimer: !this.expirationType ? this.expireTimer : undefined,
+      expireTimer:
+        (this.expirationType === 'unknown' || !this.expirationType) &&
+        this.expireTimer &&
+        this.expireTimer > -1
+          ? this.expireTimer
+          : undefined,
     });
   }
 

@@ -35,7 +35,6 @@ import { SnodeNamespaces } from '../../apis/snode_api/namespaces';
 import { READ_MESSAGE_STATE } from '../../../models/conversationAttributes';
 import {
   changeToDisappearingMessageType,
-  isLegacyDisappearingModeEnabled,
   setExpirationStartTimestamp,
 } from '../../../util/expiringMessages';
 
@@ -517,22 +516,25 @@ export async function USER_callRecipient(recipient: string) {
   await calledConvo.unhideIfNeeded(false);
   weAreCallerOnCurrentCall = true;
 
-  // TODO legacy messages support will be removed in a future release
-  const isLegacyMode = isLegacyDisappearingModeEnabled(calledConvo.get('expirationType'));
-  const expirationType = changeToDisappearingMessageType(
-    calledConvo,
-    calledConvo.get('expirationType')
-  );
+  const expirationMode = calledConvo.get('expirationType');
+  const expireTimer = calledConvo.get('expireTimer') || 0;
+  let expirationType;
+  let expirationStartTimestamp;
+
+  if (calledConvo && expirationMode && expireTimer > 0) {
+    expirationType = changeToDisappearingMessageType(calledConvo, expirationMode);
+
+    if (expirationMode === 'legacy' || expirationMode === 'deleteAfterSend') {
+      expirationStartTimestamp = setExpirationStartTimestamp(expirationMode, now);
+    }
+  }
+
   await calledConvo?.addSingleOutgoingMessage({
     callNotificationType: 'started-call',
     sent_at: now,
-    expirationType: calledConvo.get('expireTimer') > 0 ? expirationType : undefined,
-    expireTimer: calledConvo.get('expireTimer') ? calledConvo.get('expireTimer') : 0,
-    expirationStartTimestamp: setExpirationStartTimestamp(
-      expirationType,
-      expirationType === 'deleteAfterSend' ? now : undefined,
-      isLegacyMode
-    ),
+    expirationType,
+    expireTimer,
+    expirationStartTimestamp,
   });
 
   // initiating a call is analogous to sending a message request
@@ -894,25 +896,28 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
   callerConvo.set('active_at', networkTimestamp);
   await callerConvo.unhideIfNeeded(false);
 
-  // TODO legacy messages support will be removed in a future release
-  const isLegacyMode = isLegacyDisappearingModeEnabled(callerConvo.get('expirationType'));
-  const expirationType = changeToDisappearingMessageType(
-    callerConvo,
-    callerConvo.get('expirationType')
-  );
+  const expirationMode = callerConvo.get('expirationType');
+  const expireTimer = callerConvo.get('expireTimer') || 0;
+  let expirationType;
+  let expirationStartTimestamp;
+
+  if (callerConvo && expirationMode && expireTimer > 0) {
+    expirationType = changeToDisappearingMessageType(callerConvo, expirationMode);
+
+    if (expirationMode === 'legacy' || expirationMode === 'deleteAfterSend') {
+      expirationStartTimestamp = setExpirationStartTimestamp(expirationMode, networkTimestamp);
+    }
+  }
+
   await callerConvo?.addSingleIncomingMessage({
     callNotificationType: 'answered-a-call',
     source: UserUtils.getOurPubKeyStrFromCache(),
     sent_at: networkTimestamp,
     received_at: networkTimestamp,
     unread: READ_MESSAGE_STATE.read,
-    expirationType: callerConvo.get('expireTimer') > 0 ? expirationType : undefined,
-    expireTimer: callerConvo.get('expireTimer') ? callerConvo.get('expireTimer') : 0,
-    expirationStartTimestamp: setExpirationStartTimestamp(
-      expirationType,
-      expirationType === 'deleteAfterSend' ? networkTimestamp : undefined,
-      isLegacyMode
-    ),
+    expirationType,
+    expireTimer,
+    expirationStartTimestamp,
   });
   await buildAnswerAndSendIt(fromSender);
 
@@ -1243,29 +1248,28 @@ async function addMissedCallMessage(callerPubkey: string, sentAt: number) {
     await incomingCallConversation.unhideIfNeeded(false);
   }
 
-  // TODO legacy messages support will be removed in a future release
-  const isLegacyMode = isLegacyDisappearingModeEnabled(
-    incomingCallConversation.get('expirationType')
-  );
-  const expirationType = changeToDisappearingMessageType(
-    incomingCallConversation,
-    incomingCallConversation.get('expirationType')
-  );
+  const expirationMode = incomingCallConversation.get('expirationType');
+  const expireTimer = incomingCallConversation.get('expireTimer') || 0;
+  let expirationType;
+  let expirationStartTimestamp;
+
+  if (incomingCallConversation && expirationMode && expireTimer > 0) {
+    expirationType = changeToDisappearingMessageType(incomingCallConversation, expirationMode);
+
+    if (expirationMode === 'legacy' || expirationMode === 'deleteAfterSend') {
+      expirationStartTimestamp = setExpirationStartTimestamp(expirationMode, sentAt);
+    }
+  }
+
   await incomingCallConversation?.addSingleIncomingMessage({
     callNotificationType: 'missed-call',
     source: callerPubkey,
     sent_at: sentAt,
     received_at: GetNetworkTime.getNowWithNetworkOffset(),
     unread: READ_MESSAGE_STATE.unread,
-    expirationType: incomingCallConversation.get('expireTimer') > 0 ? expirationType : undefined,
-    expireTimer: incomingCallConversation.get('expireTimer')
-      ? incomingCallConversation.get('expireTimer')
-      : 0,
-    expirationStartTimestamp: setExpirationStartTimestamp(
-      expirationType,
-      expirationType === 'deleteAfterSend' ? sentAt : undefined,
-      isLegacyMode
-    ),
+    expirationType,
+    expireTimer,
+    expirationStartTimestamp,
   });
 }
 

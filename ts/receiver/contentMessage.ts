@@ -39,7 +39,6 @@ import {
   changeToDisappearingMessageType,
   checkForExpireUpdateInContentMessage,
   checkHasOutdatedClient,
-  isLegacyDisappearingModeEnabled,
   setExpirationStartTimestamp,
 } from '../util/expiringMessages';
 
@@ -451,10 +450,15 @@ export async function innerHandleSwarmContentMessage(
       if (isEmpty(content.dataMessage.profileKey)) {
         content.dataMessage.profileKey = null;
       }
+      window.log.debug(`WIP: innerHandleSwarmContentMessage: ${JSON.stringify(content)}`);
 
       const expireUpdate = await checkForExpireUpdateInContentMessage(
         conversationModelForUIUpdate,
         content
+      );
+
+      window.log.debug(
+        `WIP:innerHandleSwarmContentMessage expireUpdate: ${JSON.stringify(expireUpdate)}`
       );
 
       // TODO legacy messages support will be removed in a future release
@@ -832,10 +836,22 @@ export async function handleDataExtractionNotification(
   if (timestamp) {
     const envelopeTimestamp = toNumber(timestamp);
     const referencedAttachmentTimestamp = toNumber(referencedAttachment);
-    const expirationType = convo.get('expirationType');
-    // TODO legacy messages support will be removed in a future release
-    const isLegacyMode =
-      convo && convo.isPrivate() && isLegacyDisappearingModeEnabled(expirationType);
+
+    const expirationMode = convo.get('expirationType');
+    const expireTimer = convo.get('expireTimer');
+    let expirationType;
+    let expirationStartTimestamp;
+
+    if (convo && expirationMode && expireTimer > 0) {
+      expirationType =
+        expirationType !== 'off'
+          ? changeToDisappearingMessageType(convo, expirationMode)
+          : undefined;
+
+      if (expirationMode === 'legacy' || expirationMode === 'deleteAfterSend') {
+        expirationStartTimestamp = setExpirationStartTimestamp(expirationMode);
+      }
+    }
 
     await convo.addSingleIncomingMessage({
       source,
@@ -847,16 +863,9 @@ export async function handleDataExtractionNotification(
       },
 
       unread: READ_MESSAGE_STATE.unread, // 1 means unread
-      expirationType:
-        expirationType !== 'off'
-          ? changeToDisappearingMessageType(convo, expirationType)
-          : undefined,
-      expireTimer: convo.get('expireTimer') ? convo.get('expireTimer') : 0,
-      // TODO should this only be for delete after send?
-      expirationStartTimestamp:
-        isLegacyMode || expirationType === 'deleteAfterSend'
-          ? setExpirationStartTimestamp('deleteAfterSend', undefined, isLegacyMode)
-          : undefined,
+      expirationType,
+      expireTimer,
+      expirationStartTimestamp,
     });
 
     convo.updateLastMessage();

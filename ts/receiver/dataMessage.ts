@@ -263,6 +263,7 @@ export async function handleSwarmDataMessage(
 
   if (!isEmpty(expireUpdate)) {
     msgModel = handleExpireUpdate(convoToAddMessageTo, msgModel, expireUpdate);
+    window.log.debug(`WIP: innerHandleSwarmContentMessage msgModel ${JSON.stringify(msgModel)}`);
   }
 
   await handleSwarmMessage(

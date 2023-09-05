@@ -239,18 +239,15 @@ export const ExpirationTimerOptions = {
 };
 
 export function setExpirationStartTimestamp(
-  mode: DisappearingMessageType,
-  timestamp?: number,
-  isLegacyMode?: boolean
+  mode: DisappearingMessageConversationType,
+  timestamp?: number
 ): number | undefined {
   let expirationStartTimestamp: number | undefined = GetNetworkTime.getNowWithNetworkOffset();
 
   // TODO legacy messages support will be removed in a future release
   if (timestamp) {
     window.log.debug(
-      `We compare 2 timestamps for a disappear ${
-        isLegacyMode ? 'legacy' : mode === 'deleteAfterRead' ? 'after read' : 'after send'
-      } message: expirationStartTimestamp `,
+      `WIP: We compare 2 timestamps for a disappearing message (${mode}): expirationStartTimestamp `,
       new Date(expirationStartTimestamp).toLocaleTimeString(),
       '\ntimestamp ',
       new Date(timestamp).toLocaleTimeString()
@@ -261,24 +258,28 @@ export function setExpirationStartTimestamp(
   // TODO legacy messages support will be removed in a future release
   if (mode === 'deleteAfterRead') {
     window.log.debug(
-      `We set the start timestamp for a ${
-        isLegacyMode ? 'legacy ' : ''
-      }delete after read message to ${new Date(expirationStartTimestamp).toLocaleTimeString()}`
+      `WIP: We set the start timestamp for a delete after read message to ${new Date(
+        expirationStartTimestamp
+      ).toLocaleTimeString()}`
     );
   } else if (mode === 'deleteAfterSend') {
     window.log.debug(
-      `We set the start timestamp for a ${
-        isLegacyMode ? 'legacy ' : ''
-      }delete after send message to ${new Date(expirationStartTimestamp).toLocaleTimeString()}`
+      `WIP: We set the start timestamp for a delete after send message to ${new Date(
+        expirationStartTimestamp
+      ).toLocaleTimeString()}`
     );
     // TODO needs improvement
-  } else if (mode === 'unknown') {
+  } else if (mode === 'legacy') {
     window.log.debug(
-      `Disappearing message mode "${mode}"set. This could be a legacy message or we are turning off disappearing messages`
+      `WIP: We set the start timestamp for a legacy message to ${new Date(
+        expirationStartTimestamp
+      ).toLocaleTimeString()}`
     );
+  } else if (mode === 'off') {
+    window.log.debug('Disappearing message mode has been turned off. We can safely ignore this.');
     expirationStartTimestamp = undefined;
   } else {
-    window.log.debug(`Invalid disappearing message mode "${mode}" set. Ignoring`);
+    window.log.debug(`WIP: Invalid disappearing message mode "${mode}" set. Ignoring`);
     expirationStartTimestamp = undefined;
   }
 
@@ -372,6 +373,7 @@ export async function checkForExpireUpdateInContentMessage(
   const dataMessage = content.dataMessage as SignalService.DataMessage;
   // We will only support legacy disappearing messages for a short period before disappearing messages v2 is unlocked
   const isDisappearingMessagesV2Released = await ReleasedFeatures.checkIsDisappearMessageV2FeatureReleased();
+  // debugger;
 
   const isLegacyContentMessage = checkIsLegacyContentMessage(content);
   const isLegacyDataMessage = Boolean(

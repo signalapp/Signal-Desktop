@@ -122,7 +122,6 @@ import {
   changeToDisappearingMessageType,
 } from '../util/expiringMessages';
 import { markAttributesAsReadIfNeeded } from './messageFactory';
-import { ReleasedFeatures } from '../util/releaseFeature';
 
 type InMemoryConvoInfos = {
   mentionedUs: boolean;
@@ -890,13 +889,9 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
           source,
           fromSync,
         },
-        // TODO legacy messages support will be removed in a future release
-        expirationType: ReleasedFeatures.isDisappearMessageV2FeatureReleasedCached()
-          ? messageExpirationType
-          : undefined,
-        expireTimer: ReleasedFeatures.isDisappearMessageV2FeatureReleasedCached()
-          ? expireTimer
-          : undefined,
+        // TODO Confirm that legacy devices ignore this and that everything works
+        expirationType: messageExpirationType,
+        expireTimer,
       };
 
       if (!message) {

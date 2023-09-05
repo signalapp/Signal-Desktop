@@ -28,7 +28,6 @@ import { fromHexToArray, toHex } from '../utils/String';
 import {
   DisappearingMessageConversationType,
   changeToDisappearingMessageType,
-  isLegacyDisappearingModeEnabled,
   setExpirationStartTimestamp,
 } from '../../util/expiringMessages';
 
@@ -164,22 +163,26 @@ export async function addUpdateMessage(
     groupUpdate.kicked = diff.kickedMembers;
   }
 
-  const expirationType = changeToDisappearingMessageType(convo, convo.get('expirationType'));
-  const expireTimer = convo.get('expireTimer');
+  const expirationMode = convo.get('expirationType');
+  const expireTimer = convo.get('expireTimer') || 0;
+  let expirationType;
+  let expirationStartTimestamp;
+
+  if (convo && expirationMode && expireTimer > 0) {
+    expirationType =
+      expirationMode !== 'off' ? changeToDisappearingMessageType(convo, expirationMode) : undefined;
+
+    if (expirationMode === 'legacy' || expirationMode === 'deleteAfterSend') {
+      expirationStartTimestamp = setExpirationStartTimestamp(expirationMode, sentAt);
+    }
+  }
 
   const msgModel = {
     sent_at: sentAt,
     group_update: groupUpdate,
-    expirationType: expirationType || undefined,
-    expireTimer: expireTimer || 0,
-    // closed groups are always deleteAfterSend
-    expirationStartTimestamp: expirationType
-      ? setExpirationStartTimestamp(
-          'deleteAfterSend',
-          sentAt,
-          isLegacyDisappearingModeEnabled(expirationType)
-        )
-      : undefined,
+    expirationType,
+    expireTimer,
+    expirationStartTimestamp,
   };
 
   if (UserUtils.isUsFromCache(sender)) {

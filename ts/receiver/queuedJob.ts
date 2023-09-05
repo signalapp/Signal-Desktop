@@ -17,7 +17,6 @@ import { getHideMessageRequestBannerOutsideRedux } from '../state/selectors/user
 import { GoogleChrome } from '../util';
 import {
   changeToDisappearingMessageConversationType,
-  isLegacyDisappearingModeEnabled,
   setExpirationStartTimestamp,
 } from '../util/expiringMessages';
 import { LinkPreviews } from '../util/linkPreviews';
@@ -181,22 +180,23 @@ async function processProfileKeyNoCommit(
 function updateReadStatus(message: MessageModel) {
   if (message.isExpirationTimerUpdate()) {
     message.set({ unread: READ_MESSAGE_STATE.read });
-    const expirationType = message.get('expirationType');
-    // TODO legacy messages support will be removed in a future release
     const convo = message.getConversation();
-    const isLegacyMode =
-      convo &&
-      !convo.isMe() &&
-      convo.isPrivate() &&
-      isLegacyDisappearingModeEnabled(expirationType);
-    if ((isLegacyMode || expirationType === 'deleteAfterRead') && message.get('expireTimer')) {
-      message.set({
-        expirationStartTimestamp: setExpirationStartTimestamp(
-          'deleteAfterRead',
-          undefined,
-          isLegacyMode
-        ),
-      });
+    const canBeDeleteAfterRead = convo && !convo.isMe() && convo.isPrivate();
+    const expirationType = message.get('expirationType');
+    const expireTimer = message.get('expireTimer');
+
+    if (canBeDeleteAfterRead && expirationType && expireTimer > 0) {
+      const expirationMode = changeToDisappearingMessageConversationType(
+        convo,
+        expirationType,
+        expireTimer
+      );
+
+      if (expirationMode === 'legacy' || expirationMode === 'deleteAfterRead') {
+        message.set({
+          expirationStartTimestamp: setExpirationStartTimestamp(expirationMode),
+        });
+      }
     }
   }
 }
@@ -391,21 +391,31 @@ export async function handleMessageJob(
   try {
     messageModel.set({ flags: regularDataMessage.flags });
 
-    // TODO legacy messages support will be removed in a future release
-    const isLegacyMode = isLegacyDisappearingModeEnabled(messageModel.get('expirationType'));
+    const expirationType = messageModel.get('expirationType');
+    const expireTimer = messageModel.get('expireTimer');
+
+    // NOTE we handle incoming disappear afer send messages and are Note To Self sync messages here
     if (
-      messageModel.isIncoming() &&
-      Boolean(messageModel.get('expirationStartTimestamp')) === false &&
-      ((isLegacyMode && (conversation.isMe() || conversation.isClosedGroup())) ||
-        messageModel.get('expirationType') === 'deleteAfterSend')
+      conversation &&
+      (messageModel.isIncoming() || conversation.isMe()) &&
+      expirationType &&
+      expireTimer > 0 &&
+      Boolean(messageModel.get('expirationStartTimestamp')) === false
     ) {
-      messageModel.set({
-        expirationStartTimestamp: setExpirationStartTimestamp(
-          'deleteAfterSend',
-          messageModel.get('sent_at'),
-          isLegacyMode
-        ),
-      });
+      const expirationMode = changeToDisappearingMessageConversationType(
+        conversation,
+        expirationType,
+        expireTimer
+      );
+
+      if (expirationMode === 'legacy' || expirationMode === 'deleteAfterSend') {
+        messageModel.set({
+          expirationStartTimestamp: setExpirationStartTimestamp(
+            expirationMode,
+            messageModel.get('sent_at')
+          ),
+        });
+      }
     }
 
     if (messageModel.isExpirationTimerUpdate()) {
@@ -423,11 +433,11 @@ export async function handleMessageJob(
         return;
       }
 
-      const expireTimer = expirationTimerUpdate?.expireTimer || 0;
-      const expirationType = changeToDisappearingMessageConversationType(
+      const expireTimerUpdate = expirationTimerUpdate?.expireTimer || 0;
+      const expirationTypeUpdate = changeToDisappearingMessageConversationType(
         conversation,
         expirationTimerUpdate?.expirationType,
-        expireTimer
+        expireTimerUpdate
       );
       const lastDisappearingMessageChangeTimestamp =
         expirationTimerUpdate?.lastDisappearingMessageChangeTimestamp ||
@@ -435,8 +445,8 @@ export async function handleMessageJob(
 
       // Compare mode and timestamp
       if (
-        isEqual(expirationType, conversation.get('expirationType')) &&
-        isEqual(expireTimer, conversation.get('expireTimer'))
+        isEqual(expirationTypeUpdate, conversation.get('expirationType')) &&
+        isEqual(expireTimerUpdate, conversation.get('expireTimer'))
       ) {
         confirm?.();
         window?.log?.info(
@@ -446,8 +456,8 @@ export async function handleMessageJob(
       }
 
       await conversation.updateExpireTimer({
-        providedExpirationType: expirationType,
-        providedExpireTimer: expireTimer,
+        providedExpirationType: expirationTypeUpdate,
+        providedExpireTimer: expireTimerUpdate,
         providedChangeTimestamp: lastDisappearingMessageChangeTimestamp,
         providedSource: source,
         receivedAt: messageModel.get('received_at'),

@@ -94,7 +94,6 @@ import {
   DisappearingMessageType,
   DisappearingMessageUpdate,
   ExpirationTimerOptions,
-  isLegacyDisappearingModeEnabled,
   setExpirationStartTimestamp,
   changeToDisappearingMessageConversationType,
 } from '../util/expiringMessages';
@@ -1129,22 +1128,23 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   public markMessageReadNoCommit(readAt: number) {
     this.set({ unread: READ_MESSAGE_STATE.read });
 
-    const expirationType = this.get('expirationType');
-    // TODO legacy messages support will be removed in a future release
     const convo = this.getConversation();
-    const isLegacyMode =
-      convo &&
-      !convo.isMe() &&
-      convo.isPrivate() &&
-      isLegacyDisappearingModeEnabled(expirationType);
-    if ((isLegacyMode || expirationType === 'deleteAfterRead') && this.get('expireTimer')) {
-      this.set({
-        expirationStartTimestamp: setExpirationStartTimestamp(
-          'deleteAfterRead',
-          readAt,
-          isLegacyMode
-        ),
-      });
+    const canBeDeleteAfterRead = convo && !convo.isMe() && convo.isPrivate();
+    const expirationType = this.get('expirationType');
+    const expireTimer = this.get('expireTimer');
+
+    if (canBeDeleteAfterRead && expirationType && expireTimer > 0) {
+      const expirationMode = changeToDisappearingMessageConversationType(
+        convo,
+        expirationType,
+        expireTimer
+      );
+
+      if (expirationMode === 'legacy' || expirationMode === 'deleteAfterRead') {
+        this.set({
+          expirationStartTimestamp: setExpirationStartTimestamp(expirationMode, readAt),
+        });
+      }
     }
 
     Notifications.clearByMessageId(this.id);
