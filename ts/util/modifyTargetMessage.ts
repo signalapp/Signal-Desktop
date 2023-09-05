@@ -34,9 +34,13 @@ import { strictAssert } from './assert';
 export async function modifyTargetMessage(
   message: MessageModel,
   conversation: ConversationModel,
-  options?: { isFirstRun: boolean; skipEdits: boolean }
+  options?: { isFirstRun: boolean; skipEdits: boolean; skipSave: boolean }
 ): Promise<void> {
-  const { isFirstRun = false, skipEdits = false } = options ?? {};
+  const {
+    isFirstRun = false,
+    skipEdits = false,
+    skipSave = false,
+  } = options ?? {};
 
   const logId = `modifyTargetMessage/${message.idForLogging()}`;
   const type = message.get('type');
@@ -263,7 +267,7 @@ export async function modifyTargetMessage(
     );
   }
 
-  if (changed && !isFirstRun) {
+  if (!skipSave && changed && !isFirstRun) {
     log.info(`${logId}: Changes in second run; saving.`);
     await window.Signal.Data.saveMessage(message.attributes, {
       ourAci,

@@ -6,6 +6,7 @@ import type { MessageModel } from '../models/messages';
 import * as Errors from '../types/errors';
 import * as log from '../logging/log';
 import { StartupQueue } from '../util/StartupQueue';
+import { drop } from '../util/drop';
 import { getMessageIdForLogging } from '../util/idForLogging';
 import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp';
 import { isIncoming } from '../state/selectors/message';
@@ -136,7 +137,7 @@ export async function onSync(sync: ReadSyncAttributesType): Promise<void> {
         // onReadMessage may result in messages older than this one being
         //   marked read. We want those messages to have the same expire timer
         //   start time as this one, so we pass the readAt value through.
-        void message.getConversation()?.onReadMessage(message, readAt);
+        drop(message.getConversation()?.onReadMessage(message, readAt));
       };
 
       // only available during initialization
@@ -155,7 +156,7 @@ export async function onSync(sync: ReadSyncAttributesType): Promise<void> {
         log.info(`${logId}: ReadSync-10 ${sync.envelopeId}`);
         // not awaiting since we don't want to block work happening in the
         // eventHandlerQueue
-        void updateConversation();
+        drop(updateConversation());
       }
     } else {
       log.info(`${logId}: ReadSync-11 ${sync.envelopeId}`);

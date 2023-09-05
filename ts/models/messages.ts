@@ -2918,6 +2918,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     return modifyTargetMessage(this, conversation, {
       isFirstRun,
       skipEdits: false,
+      skipSave: false,
     });
   }
 
