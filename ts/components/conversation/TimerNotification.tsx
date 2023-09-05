@@ -53,7 +53,6 @@ export const TimerNotification = (props: PropsForExpirationTimer) => {
   return (
     <ExpirableReadableMessage
       messageId={messageId}
-      direction={type === 'fromOther' ? 'incoming' : 'outgoing'}
       isCentered={true}
       marginInlineStart={'calc(var(--margins-lg) + 6px)'}
       marginInlineEnd={'calc(var(--margins-lg) + 6px)'}

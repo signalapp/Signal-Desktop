@@ -13,7 +13,6 @@ import { useMessageExpirationPropsById } from '../../../../hooks/useParamSelecto
 
 const EXPIRATION_CHECK_MINIMUM = 2000;
 
-// TODO Check that this isn't broken
 function useIsExpired(
   props: Omit<PropsForExpiringMessage, 'messageId' | 'direction'> & {
     messageId: string | undefined;
@@ -23,7 +22,6 @@ function useIsExpired(
   const {
     convoId,
     messageId,
-    direction,
     expirationLength,
     expirationTimestamp,
     isExpired: isExpiredProps,
@@ -36,7 +34,7 @@ function useIsExpired(
   const checkExpired = useCallback(async () => {
     const now = Date.now();
 
-    if (!messageId || !direction || !expirationTimestamp || !expirationLength) {
+    if (!messageId || !expirationTimestamp || !expirationLength) {
       return;
     }
 
@@ -55,7 +53,7 @@ function useIsExpired(
         convo?.updateLastMessage();
       }
     }
-  }, [messageId, direction, expirationTimestamp, expirationLength, isExpired, convoId, dispatch]);
+  }, [messageId, expirationTimestamp, expirationLength, isExpired, convoId, dispatch]);
 
   let checkFrequency: number | null = null;
   if (expirationLength) {
@@ -84,8 +82,6 @@ const StyledReadableMessage = styled(ReadableMessage)<{
 export interface ExpirableReadableMessageProps
   extends Omit<ReadableMessageProps, 'receivedAt' | 'isUnread'> {
   messageId: string;
-  // Note: this direction is used to override the message model direction in cases where it isn't set i.e. Timer Notifications rely on the 'type' prop to determine direction
-  direction?: MessageModelType;
   isCentered?: boolean;
   marginInlineStart?: string;
   marginInlineEnd?: string;
@@ -94,18 +90,12 @@ export interface ExpirableReadableMessageProps
 export const ExpirableReadableMessage = (props: ExpirableReadableMessageProps) => {
   const selected = useMessageExpirationPropsById(props.messageId);
 
-  const {
-    direction,
-    isCentered,
-    marginInlineStart = '6px',
-    marginInlineEnd = '6px',
-    dataTestId,
-  } = props;
+  const { isCentered, marginInlineStart = '6px', marginInlineEnd = '6px', dataTestId } = props;
 
   const { isExpired } = useIsExpired({
     convoId: selected?.convoId,
     messageId: selected?.messageId,
-    direction: direction || selected?.direction,
+    direction: selected?.direction,
     expirationTimestamp: selected?.expirationTimestamp,
     expirationLength: selected?.expirationLength,
     isExpired: selected?.isExpired,
@@ -115,7 +105,14 @@ export const ExpirableReadableMessage = (props: ExpirableReadableMessageProps) =
     return null;
   }
 
-  const { messageId, receivedAt, isUnread, expirationLength, expirationTimestamp } = selected;
+  const {
+    messageId,
+    direction,
+    receivedAt,
+    isUnread,
+    expirationLength,
+    expirationTimestamp,
+  } = selected;
 
   const isIncoming = direction === 'incoming';
 
