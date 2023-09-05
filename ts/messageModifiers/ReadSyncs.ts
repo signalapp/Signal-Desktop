@@ -23,10 +23,10 @@ export type ReadSyncAttributesType = {
   timestamp: number;
 };
 
-const readSyncs = new Map<string, ReadSyncAttributesType>();
+const readSyncs = new Map<number, ReadSyncAttributesType>();
 
 function remove(sync: ReadSyncAttributesType): void {
-  readSyncs.delete(sync.envelopeId);
+  readSyncs.delete(sync.timestamp);
   sync.removeFromMessageReceiverCache();
 }
 
@@ -41,9 +41,12 @@ async function maybeItIsAReactionReadSync(
   );
 
   if (!readReaction) {
+    log.info(`${logId}: ReadSync-3 ${sync.envelopeId}`);
     log.info(`${logId} not found:`, sync.senderId, sync.sender, sync.senderAci);
     return;
   }
+
+  log.info(`${logId}: ReadSync-4 ${sync.envelopeId}`);
 
   remove(sync);
 
@@ -86,9 +89,11 @@ export function forMessage(
 }
 
 export async function onSync(sync: ReadSyncAttributesType): Promise<void> {
-  readSyncs.set(sync.envelopeId, sync);
+  readSyncs.set(sync.timestamp, sync);
 
   const logId = `ReadSyncs.onSync(timestamp=${sync.timestamp})`;
+
+  log.info(`${logId}: ReadSync-1 ${sync.envelopeId}`);
 
   try {
     const messages = await window.Signal.Data.getMessagesBySentAt(
@@ -106,9 +111,12 @@ export async function onSync(sync: ReadSyncAttributesType): Promise<void> {
     });
 
     if (!found) {
+      log.info(`${logId}: ReadSync-2 ${sync.envelopeId}`);
       await maybeItIsAReactionReadSync(sync);
       return;
     }
+
+    log.info(`${logId}: ReadSync-5 ${sync.envelopeId}`);
 
     notificationService.removeBy({ messageId: found.id });
 
@@ -119,10 +127,12 @@ export async function onSync(sync: ReadSyncAttributesType): Promise<void> {
     //   timer to the time specified by the read sync if it's earlier than
     //   the previous read time.
     if (isMessageUnread(message.attributes)) {
+      log.info(`${logId}: ReadSync-6 ${sync.envelopeId}`);
       // TODO DESKTOP-1509: use MessageUpdater.markRead once this is TS
       message.markRead(readAt, { skipSave: true });
 
       const updateConversation = async () => {
+        log.info(`${logId}: ReadSync-7 ${sync.envelopeId}`);
         // onReadMessage may result in messages older than this one being
         //   marked read. We want those messages to have the same expire timer
         //   start time as this one, so we pass the readAt value through.
@@ -131,8 +141,10 @@ export async function onSync(sync: ReadSyncAttributesType): Promise<void> {
 
       // only available during initialization
       if (StartupQueue.isAvailable()) {
+        log.info(`${logId}: ReadSync-8 ${sync.envelopeId}`);
         const conversation = message.getConversation();
         if (conversation) {
+          log.info(`${logId}: ReadSync-9 ${sync.envelopeId}`);
           StartupQueue.add(
             conversation.get('id'),
             message.get('sent_at'),
@@ -140,11 +152,13 @@ export async function onSync(sync: ReadSyncAttributesType): Promise<void> {
           );
         }
       } else {
+        log.info(`${logId}: ReadSync-10 ${sync.envelopeId}`);
         // not awaiting since we don't want to block work happening in the
         // eventHandlerQueue
         void updateConversation();
       }
     } else {
+      log.info(`${logId}: ReadSync-11 ${sync.envelopeId}`);
       const now = Date.now();
       const existingTimestamp = message.get('expirationStartTimestamp');
       const expirationStartTimestamp = Math.min(
@@ -154,10 +168,12 @@ export async function onSync(sync: ReadSyncAttributesType): Promise<void> {
       message.set({ expirationStartTimestamp });
     }
 
+    log.info(`${logId}: ReadSync-12 ${sync.envelopeId}`);
     queueUpdateMessage(message.attributes);
 
     remove(sync);
   } catch (error) {
+    log.info(`${logId}: ReadSync-13 ${sync.envelopeId}`);
     remove(sync);
     log.error(`${logId} error:`, Errors.toLogFormat(error));
   }
