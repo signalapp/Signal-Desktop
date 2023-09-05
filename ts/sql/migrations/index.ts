@@ -66,6 +66,10 @@ import updateToSchemaVersion88 from './88-service-ids';
 import updateToSchemaVersion89 from './89-call-history';
 import updateToSchemaVersion90 from './90-delete-story-reply-screenshot';
 import updateToSchemaVersion91 from './91-clean-keys';
+import {
+  version as MAX_VERSION,
+  updateToSchemaVersion920,
+} from './920-clean-more-keys';
 
 function updateToSchemaVersion1(
   currentVersion: number,
@@ -1908,7 +1912,7 @@ export const SCHEMA_VERSIONS = [
   updateToSchemaVersion2,
   updateToSchemaVersion3,
   updateToSchemaVersion4,
-  (_v: number, _i: Database, _l: LoggerType): void => undefined, // version 5 was dropped
+  // version 5 was dropped
   updateToSchemaVersion6,
   updateToSchemaVersion7,
   updateToSchemaVersion8,
@@ -1998,44 +2002,45 @@ export const SCHEMA_VERSIONS = [
   updateToSchemaVersion84,
   updateToSchemaVersion85,
   updateToSchemaVersion86,
-  (_v: number, _i: Database, _l: LoggerType): void => undefined, // version 87 was dropped
+  // version 87 was dropped
   updateToSchemaVersion88,
   updateToSchemaVersion89,
-  updateToSchemaVersion90,
 
+  updateToSchemaVersion90,
   updateToSchemaVersion91,
+  // From here forward, all migrations should be multiples of 10
+  updateToSchemaVersion920,
 ];
 
 export function updateSchema(db: Database, logger: LoggerType): void {
   const sqliteVersion = getSQLiteVersion(db);
   const sqlcipherVersion = getSQLCipherVersion(db);
-  const userVersion = getUserVersion(db);
-  const maxUserVersion = SCHEMA_VERSIONS.length;
+  const startingVersion = getUserVersion(db);
   const schemaVersion = getSchemaVersion(db);
 
   logger.info(
     'updateSchema:\n',
-    ` Current user_version: ${userVersion};\n`,
-    ` Most recent db schema: ${maxUserVersion};\n`,
+    ` Current user_version: ${startingVersion};\n`,
+    ` Most recent db schema: ${MAX_VERSION};\n`,
     ` SQLite version: ${sqliteVersion};\n`,
     ` SQLCipher version: ${sqlcipherVersion};\n`,
     ` (deprecated) schema_version: ${schemaVersion};\n`
   );
 
-  if (userVersion > maxUserVersion) {
+  if (startingVersion > MAX_VERSION) {
     throw new Error(
-      `SQL: User version is ${userVersion} but the expected maximum version ` +
-        `is ${maxUserVersion}. Did you try to start an old version of Signal?`
+      `SQL: User version is ${startingVersion} but the expected maximum version ` +
+        `is ${MAX_VERSION}. Did you try to start an old version of Signal?`
     );
   }
 
-  for (let index = 0; index < maxUserVersion; index += 1) {
+  for (let index = 0, max = SCHEMA_VERSIONS.length; index < max; index += 1) {
     const runSchemaUpdate = SCHEMA_VERSIONS[index];
 
-    runSchemaUpdate(userVersion, db, logger);
+    runSchemaUpdate(startingVersion, db, logger);
   }
 
-  if (userVersion !== maxUserVersion) {
+  if (startingVersion !== MAX_VERSION) {
     const start = Date.now();
     db.pragma('optimize');
     const duration = Date.now() - start;

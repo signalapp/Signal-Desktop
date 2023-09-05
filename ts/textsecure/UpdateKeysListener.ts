@@ -1,14 +1,13 @@
 // Copyright 2017 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isNumber } from 'lodash';
-
 import * as durations from '../util/durations';
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
 import * as Registration from '../util/registration';
 import { ServiceIdKind } from '../types/ServiceId';
 import * as log from '../logging/log';
 import * as Errors from '../types/errors';
+import { HTTPError } from './Errors';
 
 const UPDATE_INTERVAL = 2 * durations.DAY;
 const UPDATE_TIME_STORAGE_KEY = 'nextScheduledUpdateKeyTime';
@@ -57,14 +56,36 @@ export class UpdateKeysListener {
       const accountManager = window.getAccountManager();
 
       await accountManager.maybeUpdateKeys(ServiceIdKind.ACI);
-      await accountManager.maybeUpdateKeys(ServiceIdKind.PNI);
+
+      try {
+        await accountManager.maybeUpdateKeys(ServiceIdKind.PNI);
+      } catch (error) {
+        if (
+          error instanceof HTTPError &&
+          (error.code === 422 || error.code === 403)
+        ) {
+          log.error(
+            `UpdateKeysListener.run: Got a ${error.code} uploading PNI keys; unlinking`
+          );
+          window.Whisper.events.trigger('unlinkAndDisconnect');
+        } else {
+          const errorString =
+            error instanceof HTTPError
+              ? error.code.toString()
+              : Errors.toLogFormat(error);
+          log.error(
+            `UpdateKeysListener.run: Failure uploading PNI keys. Not trying again. ${errorString}`
+          );
+        }
+      }
 
       this.scheduleNextUpdate();
       this.setTimeoutForNextRun();
     } catch (error) {
-      const errorString = isNumber(error.code)
-        ? error.code.toString()
-        : Errors.toLogFormat(error);
+      const errorString =
+        error instanceof HTTPError
+          ? error.code.toString()
+          : Errors.toLogFormat(error);
       log.error(
         `UpdateKeysListener.run failure - trying again in five minutes ${errorString}`
       );

@@ -570,14 +570,7 @@ export default class AccountManager extends EventTarget {
         signedPreKey,
       };
 
-      try {
-        await this.server.registerKeys(toUpload, serviceIdKind);
-      } catch (error) {
-        log.error(`${logId} upload error:`, Errors.toLogFormat(error));
-
-        throw error;
-      }
-
+      await this.server.registerKeys(toUpload, serviceIdKind);
       await this._confirmKeys(toUpload, serviceIdKind);
 
       const { count: updatedPreKeyCount, pqCount: updatedKyberPreKeyCount } =
