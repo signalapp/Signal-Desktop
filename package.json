@@ -416,7 +416,10 @@
         "libnss3",
         "libasound2",
         "libxss1",
-        "libc6 (>= 2.31)"
+        "libc6 (>= 2.31)",
+        "libgtk-3-0",
+        "libgbm1",
+        "libx11-xcb1"
       ]
     },
     "protocols": {
