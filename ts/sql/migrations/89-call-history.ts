@@ -5,6 +5,8 @@ import type { Database } from '@signalapp/better-sqlite3';
 import { callIdFromEra } from '@signalapp/ringrtc';
 import Long from 'long';
 import { v4 as generateUuid } from 'uuid';
+import { isObject } from 'lodash';
+
 import type { SetOptional } from 'type-fest';
 import type { LoggerType } from '../../types/Logging';
 import { jsonToObject, sql } from '../util';
@@ -248,6 +250,7 @@ export default function updateToSchemaVersion89(
     const [selectQuery] = sql`
       SELECT
         messages.json AS messageJson,
+        conversations.id AS conversationId,
         conversations.json AS conversationJson
       FROM messages
       LEFT JOIN conversations ON conversations.id = messages.conversationId
@@ -261,15 +264,24 @@ export default function updateToSchemaVersion89(
     // Must match query above
     type CallHistoryRow = {
       messageJson: string;
+      conversationId: string;
       conversationJson: string;
     };
 
     const rows: Array<CallHistoryRow> = db.prepare(selectQuery).all();
 
     for (const row of rows) {
-      const { messageJson, conversationJson } = row;
+      const { messageJson, conversationId, conversationJson } = row;
       const message = jsonToObject<MessageWithCallHistoryDetails>(messageJson);
       const conversation = jsonToObject<ConversationType>(conversationJson);
+
+      if (!isObject(conversation)) {
+        logger.warn(
+          `updateToSchemaVersion89: Private conversation (${conversationId}) ` +
+            'has non-object json column'
+        );
+        continue;
+      }
 
       const details = message.callHistoryDetails;
 
