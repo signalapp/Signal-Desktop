@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { animation, contextMenu, Item, Menu } from 'react-contexify';
+import { contextMenu, Item, Menu } from 'react-contexify';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
@@ -20,7 +20,7 @@ const VideoInputMenu = ({
 }) => {
   return (
     <SessionContextMenuContainer>
-      <Menu id={triggerId} animation={animation.fade}>
+      <Menu id={triggerId} animation="fade">
         {camerasList.map(m => {
           return (
             <Item
@@ -93,7 +93,7 @@ const AudioInputMenu = ({
 }) => {
   return (
     <SessionContextMenuContainer>
-      <Menu id={triggerId} animation={animation.fade}>
+      <Menu id={triggerId} animation="fade">
         {audioInputsList.map(m => {
           return (
             <Item
@@ -162,7 +162,7 @@ const AudioOutputMenu = ({
 }) => {
   return (
     <SessionContextMenuContainer>
-      <Menu id={triggerId} animation={animation.fade}>
+      <Menu id={triggerId} animation="fade">
         {audioOutputsList.map(m => {
           return (
             <Item
