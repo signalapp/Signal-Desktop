@@ -612,6 +612,10 @@
     "messageformat": "Truca-li tanmateix",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "Join anyway",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "Continua la trucada",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
@@ -3158,10 +3162,18 @@
   },
   "icu:SendEdit--dialog--title": {
     "messageformat": "Només per a la versió beta de Signal",
-    "description": "Title of the modal shown before sending your first edit message"
+    "description": "(deleted 8/30) Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body": {
     "messageformat": "La funció d'edició de missatges només està disponible per a les persones que tinguin la versió beta de Signal. Si edites un missatge, només serà visible per a aquelles persones que tinguin la darrera versió de Signal beta.",
+    "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
+  },
+  "icu:SendEdit--dialog--title2": {
+    "messageformat": "Edit Message",
+    "description": "Title of the modal shown before sending your first edit message"
+  },
+  "icu:SendEdit--dialog--body2": {
+    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -6772,13 +6784,10 @@
     "messageformat": "Petits ajustos, correccions d'errors i tasques de millora de rendiment. Gràcies per utilitzar Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "Ara, la pantalla de personalització del color del xat es mostra correctament en diferents idiomes i configuracions regionals seleccionades."
-  },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Hem millorat el suport de notificacions a Windows. Si no cliques sobre una notificació tan bon punt arribi, la darrera notificació perduda apareixerà al Centre de notificacions de Windows. Ara, quan facis clic sobre aquesta notificació, aniràs directament al xat. Ens agradaria donar les gràcies a Julien Richard pels seus comentaris."
-  },
   "icu:WhatsNew__v6.30--0": {
     "messageformat": "La nova pestanya de trucades t'ajuda a iniciar una nova trucada o tornar una perduda amb més facilitat."
+  },
+  "icu:WhatsNew__v6.31--0": {
+    "messageformat": "This update fixes a handful of bugs, including one that caused the main Signal window to go blank if you viewed a debug log in full-screen mode on macOS. Seeing a completely Light or completely Dark window is arguably the purest possible expression of the Light Theme and Dark Theme, but we ultimately decided that the app is easier to use when you can see the interface too."
   }
 }

@@ -612,6 +612,10 @@
     "messageformat": "چاقىرىۋەر",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "Join anyway",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "داۋاملىق چاقىر",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
@@ -3158,10 +3162,18 @@
   },
   "icu:SendEdit--dialog--title": {
     "messageformat": "Signal سىناق نەشرى ئۈچۈنلا",
-    "description": "Title of the modal shown before sending your first edit message"
+    "description": "(deleted 8/30) Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body": {
     "messageformat": "ئۇچۇرلارنى پەقەت Signal سىناق نەشرى ئىشلەتكۈچىلىرىلا تەھرىرلىيەلەيدۇ. ئەگەر ئۇچۇر تەھرىرلىسىڭىز، ئۇنى پەقەت Signal ئەڭ يېڭى سىناق نەشرىنى ئىشلىتىۋاتقان كىشىلەرلا كۆرەلەيدۇ.",
+    "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
+  },
+  "icu:SendEdit--dialog--title2": {
+    "messageformat": "Edit Message",
+    "description": "Title of the modal shown before sending your first edit message"
+  },
+  "icu:SendEdit--dialog--body2": {
+    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -6772,13 +6784,10 @@
     "messageformat": "كىچىك ئۆزگەرتىشلەر كىرگۈزۈلدى، كاشىلا ھەل قىلىندى ۋە ئىقتىدار ئەلالاشتۇرۇلدى. Signal نى ئىشلەتكەنلىكىڭىزگە رەھمەت!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "پاراڭ رەڭگى خاسلاشتۇرۇش ئېكرانى ھازىر ئوخشىمىغان تىللار ۋە تاللانغان جايلاردا توغرا كۆرسىتىلدى."
-  },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Windows نىڭ ئۇقتۇرۇش قوللىشىنى كۈچەيتتۇق. ئۇقتۇرۇش دەسلەپ كۆرۈلگەن جاغدا ئۇنى چەكمىڭسىڭز، ئەڭ يېڭى يېتىشەلمىگەن ئۇقتۇرۇش Windowsنىڭ ئۇقتۇرۇش مەركىزىدە كۆرۈنىدۇ. بۇنى چەكسىڭىز، ئۇقتۇرۇش بىۋاستىلا پاراڭغا ئاتلاپ كىرىدۇ. بىز جۇلىئېن رىچاردنىڭ پىكىر-تەكلىپلىرىگە رەھمەت ئېيتىمىز."
-  },
   "icu:WhatsNew__v6.30--0": {
     "messageformat": "يېڭى چاقىرىقلار بەتكۈچى بىلەن چاقىرىقىڭىزدا بەتكۈچلەرنى تۇتۇڭ. ماس كەلگەن پاراڭلارنى ئىزدەشكە مەجبۇر بولماي تۇرۇپ، يېڭى بىر چاقىرىق باشلىتىڭ ياكى كۆرمەي قالغان چاقىرىقلارغا جاۋاپ قايتۇرۇڭ. ھازىر سىز بۇ تېمىدىكى ئۇچۇرلارنىڭ ئوقۇلمىدى دەپ كۆسەتكەن بەلگە قويغۇچىسىغا خەير-خوش دېمەي تۇرۇپ ئاۋازىڭىز بىلەن سالام ئېيتالايسىز."
+  },
+  "icu:WhatsNew__v6.31--0": {
+    "messageformat": "This update fixes a handful of bugs, including one that caused the main Signal window to go blank if you viewed a debug log in full-screen mode on macOS. Seeing a completely Light or completely Dark window is arguably the purest possible expression of the Light Theme and Dark Theme, but we ultimately decided that the app is easier to use when you can see the interface too."
   }
 }

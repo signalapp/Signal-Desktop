@@ -612,6 +612,10 @@
     "messageformat": "Thirre, sido qoftë",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "Join anyway",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "Vazhdoje Thirrjen",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
@@ -3158,10 +3162,18 @@
   },
   "icu:SendEdit--dialog--title": {
     "messageformat": "Vetëm Signal beta",
-    "description": "Title of the modal shown before sending your first edit message"
+    "description": "(deleted 8/30) Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body": {
     "messageformat": "Përpunimi i mesazheve është i disponueshëm vetëm për përdoruesit e Signal beta. Nëse përpunon një mesazh, ai do të jetë i dukshëm vetëm për personat që kanë versionin më të fundit të Signal beta.",
+    "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
+  },
+  "icu:SendEdit--dialog--title2": {
+    "messageformat": "Edit Message",
+    "description": "Title of the modal shown before sending your first edit message"
+  },
+  "icu:SendEdit--dialog--body2": {
+    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -6772,13 +6784,10 @@
     "messageformat": "Rregullme të vogla, riparime të gabimeve dhe përmirësime të mbarëvajtjes.  Faleminderit që përdorni Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "Ekrani i personalizimit të ngjyrave të sfondit të bisedës tani shfaqet saktë në gjuhë të ndryshme dhe në zonat e zgjedhura."
-  },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Kemi përmirësuar mbështetjen e njoftimeve në Windows. Nëse nuk klikoni mbi një njoftim, kur mbërrin për herë të parë, njoftimi më i fundit i humbur do të shfaqet në Qendrën e Njoftimeve të Windows. Duke klikuar mbi atë njoftim, tani do t'ju kalojë direkt në atë bisedë. Dëshirojmë të falënderojmë Julien Richard për komentet e tyre."
-  },
   "icu:WhatsNew__v6.30--0": {
     "messageformat": "Mbaj skedat e telefonatave të tua me skedën e re të thirrjeve. Fillo një telefonatë të re ose kthe një telefonatë që ke humbur pa pasur nevojë të gjesh bisedën përkatëse. Tani mund të thuash \"Ç'kemi!\" me zërin tënd pa i thënë lamtumirë shënuesit të mesazheve të palexuar në atë bisedë."
+  },
+  "icu:WhatsNew__v6.31--0": {
+    "messageformat": "This update fixes a handful of bugs, including one that caused the main Signal window to go blank if you viewed a debug log in full-screen mode on macOS. Seeing a completely Light or completely Dark window is arguably the purest possible expression of the Light Theme and Dark Theme, but we ultimately decided that the app is easier to use when you can see the interface too."
   }
 }

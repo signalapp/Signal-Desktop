@@ -612,6 +612,10 @@
     "messageformat": "இருந்தாலும் அழைக்கவும்",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "Join anyway",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "அழைப்பைத் தொடரவும்",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
@@ -3158,10 +3162,18 @@
   },
   "icu:SendEdit--dialog--title": {
     "messageformat": "Signal பீட்டா மட்டும்",
-    "description": "Title of the modal shown before sending your first edit message"
+    "description": "(deleted 8/30) Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body": {
     "messageformat": "மெசேஜ்களைத் திருத்துவது Signal பீட்டா பயனர்களுக்கு மட்டுமே கிடைக்கும். நீங்கள் ஒரு மெசேஜைத் திருத்தினால், அது Signal பீட்டாவின் சமீபத்திய பதிப்பில் உள்ளவர்களுக்கு மட்டுமே தெரியும்.",
+    "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
+  },
+  "icu:SendEdit--dialog--title2": {
+    "messageformat": "Edit Message",
+    "description": "Title of the modal shown before sending your first edit message"
+  },
+  "icu:SendEdit--dialog--body2": {
+    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -6772,13 +6784,10 @@
     "messageformat": "சிறு மாற்றங்கள், பிழை திருத்தங்கள் மற்றும் செயல்திறன் மேம்பாடுகள். சிக்னலைப் பயன்படுத்தியதற்கு நன்றி!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "சாட் வண்ணத் தனிப்பயனாக்கத் திரை இப்போது வெவ்வேறு மொழிகளிலும் தேர்ந்தெடுக்கப்பட்ட மொழிகளிலும் சரியாகக் காட்டப்படுகிறது."
-  },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Windows இல் அறிவிப்பு ஆதரவை மேம்படுத்தியுள்ளோம். அறிவிப்பு முதலில் வரும்போது அதைக் கிளிக் செய்யவில்லை என்றால், சமீபத்திய தவறவிட்ட அறிவிப்பு Windows அறிவிப்பு மையத்தில் தோன்றும். அந்த அறிவிப்பைக் கிளிக் செய்வதன் மூலம் இப்போது நேரடியாக அந்த அரட்டைக்குச் செல்லும். ஜூலியன் ரிச்சர்ட் அவர்களின் கருத்துக்கு நன்றி தெரிவிக்க விரும்புகிறோம்."
-  },
   "icu:WhatsNew__v6.30--0": {
     "messageformat": "புதிய அழைப்புகள் டேப் மூலம் உங்கள் அழைப்புகளை டேபுகளில் வைக்கலாம். புதிய அழைப்பைத் தொடங்கவும் அல்லது தொடர்புடைய சாட்டைத் தேட வேண்டிய அவசியமின்றி நீங்கள் தவறவிட்ட அழைப்புக்குத் திரும்ப அழைக்கலாம். இப்போது அந்த தொடரில் உள்ள மெசேஜ்களுக்கான படிக்காதது என்ற குறிப்பு நீங்காமல் இப்போது உங்கள் குரலில் நீங்கள் ஹலோ சொல்லலாம்."
+  },
+  "icu:WhatsNew__v6.31--0": {
+    "messageformat": "This update fixes a handful of bugs, including one that caused the main Signal window to go blank if you viewed a debug log in full-screen mode on macOS. Seeing a completely Light or completely Dark window is arguably the purest possible expression of the Light Theme and Dark Theme, but we ultimately decided that the app is easier to use when you can see the interface too."
   }
 }

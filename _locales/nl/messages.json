@@ -612,6 +612,10 @@
     "messageformat": "Toch bellen",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "Join anyway",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "Oproep voortzetten",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
@@ -3158,10 +3162,18 @@
   },
   "icu:SendEdit--dialog--title": {
     "messageformat": "Alleen Signal-bèta",
-    "description": "Title of the modal shown before sending your first edit message"
+    "description": "(deleted 8/30) Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body": {
     "messageformat": "Berichten bewerken is alleen beschikbaar voor gebruikers van Signal-bèta. Als je een bericht bewerkt, is dat alleen zichtbaar voor mensen met de laatste versie van Signal-bèta.",
+    "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
+  },
+  "icu:SendEdit--dialog--title2": {
+    "messageformat": "Edit Message",
+    "description": "Title of the modal shown before sending your first edit message"
+  },
+  "icu:SendEdit--dialog--body2": {
+    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -6772,13 +6784,10 @@
     "messageformat": "Kleine aanpassingen, bugfixes en prestatieverbeteringen. Bedankt dat je Signal gebruikt!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "Het aanpassingsscherm voor de chatkleur wordt nu correct getoond in verschillende talen en geselecteerde landinstellingen."
-  },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "We hebben de ondersteuning voor meldingen in Windows verbeterd. Als je niet direct op een melding klikt als hij binnenkomt, vind je de laatst gemiste melding in het Windows Notification Center. Als je op die melding klinkt, ga je direct naar de chat. We willen Julien Richard bedanken voor de feedback."
-  },
   "icu:WhatsNew__v6.30--0": {
     "messageformat": "Het nieuwe oproepentabblad maakt het gemakkelijk een oproep te beginnen of iemand na een gemiste oproep terug te bellen. Start een nieuwe oproep of bel iemand na een gemiste oproep terug zonder de bijbehorende chat te hoeven zoeken. Nu kun je bellen zonder berichten als gelezen te markeren voor een bepaald contact."
+  },
+  "icu:WhatsNew__v6.31--0": {
+    "messageformat": "This update fixes a handful of bugs, including one that caused the main Signal window to go blank if you viewed a debug log in full-screen mode on macOS. Seeing a completely Light or completely Dark window is arguably the purest possible expression of the Light Theme and Dark Theme, but we ultimately decided that the app is easier to use when you can see the interface too."
   }
 }

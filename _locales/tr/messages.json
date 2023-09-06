@@ -612,6 +612,10 @@
     "messageformat": "Yine de ara",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "Join anyway",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "Aramaya Devam Et",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
@@ -3158,10 +3162,18 @@
   },
   "icu:SendEdit--dialog--title": {
     "messageformat": "Yalnızca Signal beta",
-    "description": "Title of the modal shown before sending your first edit message"
+    "description": "(deleted 8/30) Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body": {
     "messageformat": "Mesajları düzenleme yalnızca Signal beta kullanıcıları tarafından kullanılabilir. Bir mesajı düzenlersen, düzenlemen yalnızca Signal beta'nın son sürümünü kullanan kişiler tarafından görülebilir.",
+    "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
+  },
+  "icu:SendEdit--dialog--title2": {
+    "messageformat": "Edit Message",
+    "description": "Title of the modal shown before sending your first edit message"
+  },
+  "icu:SendEdit--dialog--body2": {
+    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -6772,13 +6784,10 @@
     "messageformat": "Küçük ince ayarlar, hata düzeltmeleri ve performans geliştirmeleri yaptık. Signal'i kullandığın için teşekkürler!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "Sohbet Rengi özelleştirme ekranı artık farklı dillerde ve seçili yerel ayarlarda doğru şekilde görüntüleniyor."
-  },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Windows'taki bildirim desteğini geliştirdik. İlk geldiğinde bir bildirime tıklamazsan, kaçırdığın en son bildirim Windows Bildirim Merkezi'nde görünecektir. Bu bildirime tıklayarak artık doğrudan o sohbete gidilir. Geri bildirimleri için Julien Richard'a teşekkür ederiz."
-  },
   "icu:WhatsNew__v6.30--0": {
     "messageformat": "Yeni aramalar sekmesi kolayca bir arama başlatmana ya da kaçırdığın bir aramaya dönmene yardımcı olur. Hangi sohbet olduğunu bulmak zorunda kalmadan yeni bir arama başlat veya kaçırdığın bir aramaya geri dön. Artık aramasını kaçırdığın kişinin mesajlarını okumadan ona sesli olarak geri dönebilirsin."
+  },
+  "icu:WhatsNew__v6.31--0": {
+    "messageformat": "This update fixes a handful of bugs, including one that caused the main Signal window to go blank if you viewed a debug log in full-screen mode on macOS. Seeing a completely Light or completely Dark window is arguably the purest possible expression of the Light Theme and Dark Theme, but we ultimately decided that the app is easier to use when you can see the interface too."
   }
 }

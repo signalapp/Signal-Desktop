@@ -612,6 +612,10 @@
     "messageformat": "Piga simu tu",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "Join anyway",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "Endelea na Mazungumzo ya Simu",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
@@ -3158,10 +3162,18 @@
   },
   "icu:SendEdit--dialog--title": {
     "messageformat": "Signal beta pekee",
-    "description": "Title of the modal shown before sending your first edit message"
+    "description": "(deleted 8/30) Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body": {
     "messageformat": "Kuhariri ujumbe kunapatikana kwa watumiaji wa beta wa Signal pekee. Ukihariri ujumbe, utaonekana kwa watu walio kwenye toleo jipya la beta la Signal pekee.",
+    "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
+  },
+  "icu:SendEdit--dialog--title2": {
+    "messageformat": "Edit Message",
+    "description": "Title of the modal shown before sending your first edit message"
+  },
+  "icu:SendEdit--dialog--body2": {
+    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -6772,13 +6784,10 @@
     "messageformat": "Mabadiliko madogo, marekebisho ya bugs na uboreshaji wa utendaji. Asante kwa kutumia Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "Skrini ya kuweka mapendeleo ya Rangi ya Gumzo sasa inaonyeshwa ipasavyo katika lugha mbalimbali na lahaja zilizochaguliwa."
-  },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Tumeboresha usaidizi wa arifa kwenye Windows. Ikiwa hutabofya arifa inapofika mara ya kwanza, arifa iliyokupita itaonekana kwenye Kituo cha Arifa cha Windows. Kubofya kwenye arifa hiyo itakupeleka moja kwa moja kwenye gumzo hiyo. Tungependa kumshukuru Julien Richard kwa mchango wake."
-  },
   "icu:WhatsNew__v6.30--0": {
     "messageformat": "Fuatilia simu zako na kichupo kipya cha simu. Anzisha simu mpya au piga simu ambayo haukupokea bila kupata gumzo husika. Sasa unaweza kusalimia kwa sauti yako bila pia kukiaga kiweka alama ambacho hakijasomwa kwa ujumbe katika ujumbe huo."
+  },
+  "icu:WhatsNew__v6.31--0": {
+    "messageformat": "This update fixes a handful of bugs, including one that caused the main Signal window to go blank if you viewed a debug log in full-screen mode on macOS. Seeing a completely Light or completely Dark window is arguably the purest possible expression of the Light Theme and Dark Theme, but we ultimately decided that the app is easier to use when you can see the interface too."
   }
 }

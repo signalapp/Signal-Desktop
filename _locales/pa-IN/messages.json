@@ -612,6 +612,10 @@
     "messageformat": "ਫਿਰ ਵੀ ਕਾਲ ਕਰੋ",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "Join anyway",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "ਕਾਲ ਜਾਰੀ ਰੱਖੋ",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
@@ -3158,10 +3162,18 @@
   },
   "icu:SendEdit--dialog--title": {
     "messageformat": "ਸਿਰਫ਼ Signal ਬੀਟਾ",
-    "description": "Title of the modal shown before sending your first edit message"
+    "description": "(deleted 8/30) Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body": {
     "messageformat": "ਸੁਨੇਹਿਆਂ ਨੂੰ ਸੋਧਣ ਦੀ ਸਹੂਲਤ ਸਿਰਫ਼ Signal ਬੀਟਾ ਦੇ ਵਰਤੋਂਕਾਰਾਂ ਲਈ ਉਪਲਬਧ ਹੈ। ਜੇਕਰ ਤੁਸੀਂ ਕਿਸੇ ਸੁਨੇਹੇ ਨੂੰ ਸੋਧਦੇ ਹੋ, ਤਾਂ ਇਹ ਸਿਰਫ਼ ਉਹਨਾਂ ਲੋਕਾਂ ਨੂੰ ਦਿਖਾਈ ਦੇਵੇਗਾ ਜਿਹਨਾਂ ਕੋਲ Signal ਬੀਟਾ ਦਾ ਨਵਾਂ ਵਰਜ਼ਨ ਹੈ।",
+    "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
+  },
+  "icu:SendEdit--dialog--title2": {
+    "messageformat": "Edit Message",
+    "description": "Title of the modal shown before sending your first edit message"
+  },
+  "icu:SendEdit--dialog--body2": {
+    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -6772,13 +6784,10 @@
     "messageformat": "ਛੋਟੇ-ਮੋਟੇ ਸੁਧਾਰ, ਖ਼ਰਾਬੀਆਂ ਨੂੰ ਦਰੁਸਤ ਅਤੇ ਪ੍ਰਦਰਸ਼ਨ ਨੂੰ ਬਿਹਤਰ ਬਣਾਇਆ ਗਿਆ ਹੈ। Signal ਦੀ ਵਰਤੋਂ ਕਰਨ ਲਈ ਤੁਹਾਡਾ ਧੰਨਵਾਦ!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "ਚੈਟ ਦਾ ਰੰਗ ਕਸਟਮਾਈਜ਼ੇਸ਼ਨ ਕਰਨ ਵਾਲੀ ਸਕ੍ਰੀਨ ਹੁਣ ਵੱਖ-ਵੱਖ ਭਾਸ਼ਾਵਾਂ ਵਿੱਚ ਅਤੇ ਚੁਣੇ ਹੋਏ ਸਥਾਨਾਂ ਵਿੱਚ ਸਹੀ ਢੰਗ ਨਾਲ ਦਿਖਾਈ ਦਿੰਦੀ ਹੈ।"
-  },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "ਅਸੀਂ Windows ਉੱਤੇ ਸੂਚਨਾ ਸਹਾਇਤਾ ਨੂੰ ਬਿਹਤਰ ਬਣਾਇਆ ਹੈ। ਜੇਕਰ ਤੁਸੀਂ ਸੂਚਨਾ ਆਉਣ 'ਤੇ ਪਹਿਲੀ ਵਾਰ ਉਸ ਉੱਤੇ ਕਲਿੱਕ ਨਹੀਂ ਕਰਦੇ ਹੋ, ਤਾਂ ਮਿਸ ਹੋਈ ਤਾਜ਼ਾ ਸੂਚਨਾ Windows ਸੂਚਨਾ ਕੇਂਦਰ ਵਿੱਚ ਦਿਖਾਈ ਦੇਵੇਗੀ। ਉਸ ਸੂਚਨਾ 'ਤੇ ਕਲਿੱਕ ਕਰਨ ਨਾਲ ਤੁਸੀਂ ਸਿੱਧਾ ਉਸ ਚੈਟ 'ਤੇ ਪਹੁੰਚ ਜਾਓਗੇ। ਅਸੀਂ ਜੂਲੀਅਨ ਰਿਚਰਡ ਨੂੰ ਉਹਨਾਂ ਦੇ ਫੀਡਬੈਕ ਲਈ ਧੰਨਵਾਦ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹਾਂ।"
-  },
   "icu:WhatsNew__v6.30--0": {
     "messageformat": "ਨਵੀਂ ਕਾਲ ਟੈਬ ਤੁਹਾਨੂੰ ਆਸਾਨੀ ਨਾਲ ਕਾਲ ਸ਼ੁਰੂ ਕਰਨ ਜਾਂ ਮਿਸ ਹੋਈ ਕਾਲ ਨੂੰ ਵਾਪਸ ਕਾਲ ਕਰਨ ਦੀ ਸਹੂਲਤ ਦਿੰਦੀ ਹੈ।"
+  },
+  "icu:WhatsNew__v6.31--0": {
+    "messageformat": "This update fixes a handful of bugs, including one that caused the main Signal window to go blank if you viewed a debug log in full-screen mode on macOS. Seeing a completely Light or completely Dark window is arguably the purest possible expression of the Light Theme and Dark Theme, but we ultimately decided that the app is easier to use when you can see the interface too."
   }
 }

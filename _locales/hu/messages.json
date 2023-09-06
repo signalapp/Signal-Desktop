@@ -612,6 +612,10 @@
     "messageformat": "Hívás ennek ellenére",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "Join anyway",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "Hívás folytatása",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
@@ -3158,10 +3162,18 @@
   },
   "icu:SendEdit--dialog--title": {
     "messageformat": "Kizárólag Signal béta",
-    "description": "Title of the modal shown before sending your first edit message"
+    "description": "(deleted 8/30) Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body": {
     "messageformat": "Az üzenetek szerkesztése csak a Signal béta felhasználói számára érhető el. Ha szerkesztesz egy üzenetet, azt csak azok láthatják, akik a Signal béta legújabb verzióját használják.",
+    "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
+  },
+  "icu:SendEdit--dialog--title2": {
+    "messageformat": "Edit Message",
+    "description": "Title of the modal shown before sending your first edit message"
+  },
+  "icu:SendEdit--dialog--body2": {
+    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -6772,13 +6784,10 @@
     "messageformat": "Apró finomítások, hibajavítások és teljesítménynövelések. Köszönjük, hogy a Signalt használod!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "A képernyő, amelyen a Csevegés színét szabhatod testre, mostantól megfelelően jelenik meg a különböző nyelveken és kiválasztott területeken."
-  },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Javítottuk az értesítések támogatását Windowson. Ha nem kattintasz rá az értesítésre, amikor először megkapod, a legutóbbi elmulasztott értesítés megjelenik a Windows Értesítési Központban. Az értesítésre kattintva közvetlenül az adott csevegésre ugrasz. Szeretnénk megköszönni Julien Richardnak a visszajelzését."
-  },
   "icu:WhatsNew__v6.30--0": {
     "messageformat": "Az új hívások lap segítségével egyszerűen indíthatsz hívást, vagy visszahívhatsz egy nem fogadott hívást. Indíts új hívást, vagy hívd vissza ismerősödet anélkül, hogy meg kellene találnod a vele folytatott csevegést. Mostantól a hangoddal is köszönhetsz anélkül, hogy búcsút mondanál a beszélgetés olvasatlan üzeneteinek."
+  },
+  "icu:WhatsNew__v6.31--0": {
+    "messageformat": "This update fixes a handful of bugs, including one that caused the main Signal window to go blank if you viewed a debug log in full-screen mode on macOS. Seeing a completely Light or completely Dark window is arguably the purest possible expression of the Light Theme and Dark Theme, but we ultimately decided that the app is easier to use when you can see the interface too."
   }
 }

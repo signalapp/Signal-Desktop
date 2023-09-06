@@ -612,6 +612,10 @@
     "messageformat": "Cuir glao air/uirthi mar sin féin",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "Join anyway",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "Continue Call",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
@@ -3158,10 +3162,18 @@
   },
   "icu:SendEdit--dialog--title": {
     "messageformat": "Leagan béite Signal amháin",
-    "description": "Title of the modal shown before sending your first edit message"
+    "description": "(deleted 8/30) Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body": {
     "messageformat": "Níl cur teachtaireachtaí in eagar ar fáil ach ag béite-úsáideoirí Signal. Má chuirfidh tú teachtaireacht in eagar, ní fheicfidh ach na daoine a bhfuil an leagan is déanaí de Signal acu é.",
+    "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
+  },
+  "icu:SendEdit--dialog--title2": {
+    "messageformat": "Edit Message",
+    "description": "Title of the modal shown before sending your first edit message"
+  },
+  "icu:SendEdit--dialog--body2": {
+    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -6772,13 +6784,10 @@
     "messageformat": "Mionathruithe, paistí fabhtanna agus feabhsuithe ar fheidhmíocht. Go raibh maith agat as Signal a úsáid!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "Tá an scáileán saincheaptha do Dhath an Chomhrá ar taispeáint i gceart thar theangacha éagsúla agus logchaighdeáin roghnaithe."
-  },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "D'fheabhsaíomar tacaíocht do fhógraí ar Windows. Mura gcliceálann tú ar fhógra ar a theacht isteach ar dtús, taispeánfar an fógra is déanaí a cailleadh in Ionad Fógraí Windows. Léimfear díreach chuig an gcomhrá sin ar chliceáil ar an bhfógra sin. Ba mhaith linn buíochas a ghabháil le Julien Richard as an aiseolas."
-  },
   "icu:WhatsNew__v6.30--0": {
     "messageformat": "Cabhraíonn an táb glaonna nua leat tosú ar ghlao nó glao caillte a fhreagairt go héasca."
+  },
+  "icu:WhatsNew__v6.31--0": {
+    "messageformat": "This update fixes a handful of bugs, including one that caused the main Signal window to go blank if you viewed a debug log in full-screen mode on macOS. Seeing a completely Light or completely Dark window is arguably the purest possible expression of the Light Theme and Dark Theme, but we ultimately decided that the app is easier to use when you can see the interface too."
   }
 }

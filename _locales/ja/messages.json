@@ -612,6 +612,10 @@
     "messageformat": "とにかく発信する",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "Join anyway",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "通話を続ける",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
@@ -3158,10 +3162,18 @@
   },
   "icu:SendEdit--dialog--title": {
     "messageformat": "Signalのベータ版にのみ反映されます",
-    "description": "Title of the modal shown before sending your first edit message"
+    "description": "(deleted 8/30) Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body": {
     "messageformat": "メッセージの編集はSignalのベータ版ユーザーのみ利用可能です。メッセージを編集した場合、Signalのベータ版の最新バージョンを利用している人にのみ反映されます。",
+    "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
+  },
+  "icu:SendEdit--dialog--title2": {
+    "messageformat": "Edit Message",
+    "description": "Title of the modal shown before sending your first edit message"
+  },
+  "icu:SendEdit--dialog--body2": {
+    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -6772,13 +6784,10 @@
     "messageformat": "細かな微調整、バグ修正、パフォーマンスの向上。 Signalをご利用いただきありがとうございます。",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "チャットの色のカスタマイズ画面が、さまざまな言語および選択したロケールで正確に表示されるようになりました。"
-  },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Windowsでの通知サポートを改善しました。届いたときにすぐに通知をクリックしなかった場合、最新の未読通知はWindowsの通知センターに表示されます。通知をクリックした場合は、直接そのチャットへ移動します。フィードバックをお寄せいただいたJulien Richardに御礼を申し上げます。"
-  },
   "icu:WhatsNew__v6.30--0": {
     "messageformat": "新しい通話タブを使うと、簡単に通話を始めたり不在着信に対して折り返しの電話をかけたりできます。"
+  },
+  "icu:WhatsNew__v6.31--0": {
+    "messageformat": "This update fixes a handful of bugs, including one that caused the main Signal window to go blank if you viewed a debug log in full-screen mode on macOS. Seeing a completely Light or completely Dark window is arguably the purest possible expression of the Light Theme and Dark Theme, but we ultimately decided that the app is easier to use when you can see the interface too."
   }
 }

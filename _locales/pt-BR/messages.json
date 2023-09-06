@@ -612,6 +612,10 @@
     "messageformat": "Ligar mesmo assim",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "Join anyway",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "Continuar a chamada",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
@@ -3158,10 +3162,18 @@
   },
   "icu:SendEdit--dialog--title": {
     "messageformat": "Somente no Signal Beta",
-    "description": "Title of the modal shown before sending your first edit message"
+    "description": "(deleted 8/30) Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body": {
     "messageformat": "A edição de mensagens está disponível apenas para usuários do Signal Beta. Se você editar uma mensagem, ela ficará visível para pessoas que estejam usando a versão mais recente do Signal Beta.",
+    "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
+  },
+  "icu:SendEdit--dialog--title2": {
+    "messageformat": "Edit Message",
+    "description": "Title of the modal shown before sending your first edit message"
+  },
+  "icu:SendEdit--dialog--body2": {
+    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -6772,13 +6784,10 @@
     "messageformat": "Pequenas alterações adicionais, correções de bugs e melhorias de desempenho. Agradecemos por usar o Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "A tela de personalização da cor do chat já está aparecendo de forma correta em outros idiomas e locais selecionados."
-  },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Melhoramos o suporte a notificações no Windows. Se você não clicar em uma notificação quando recebê-la, a notificação perdida mais recente aparecerá na Central de Notificações do Windows. Ao clicar nesta notificação, você irá diretamente para este chat. Gostaríamos de agradecer Julien Richard pelo feedback."
-  },
   "icu:WhatsNew__v6.30--0": {
     "messageformat": "Com a nova aba Chamadas, você pode iniciar uma nova ligação ou ligar de volta, caso tenha perdido uma chamada."
+  },
+  "icu:WhatsNew__v6.31--0": {
+    "messageformat": "This update fixes a handful of bugs, including one that caused the main Signal window to go blank if you viewed a debug log in full-screen mode on macOS. Seeing a completely Light or completely Dark window is arguably the purest possible expression of the Light Theme and Dark Theme, but we ultimately decided that the app is easier to use when you can see the interface too."
   }
 }

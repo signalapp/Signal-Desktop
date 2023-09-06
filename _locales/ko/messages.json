@@ -612,6 +612,10 @@
     "messageformat": "그냥 전화",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "Join anyway",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "계속 전화",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
@@ -3158,10 +3162,18 @@
   },
   "icu:SendEdit--dialog--title": {
     "messageformat": "Signal 베타 전용",
-    "description": "Title of the modal shown before sending your first edit message"
+    "description": "(deleted 8/30) Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body": {
     "messageformat": "메시지 수정은 Signal 베타 사용자만 사용할 수 있습니다. 메시지를 수정하면 Signal 베타 최신 버전을 사용하는 사용자에게만 표시됩니다.",
+    "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
+  },
+  "icu:SendEdit--dialog--title2": {
+    "messageformat": "Edit Message",
+    "description": "Title of the modal shown before sending your first edit message"
+  },
+  "icu:SendEdit--dialog--body2": {
+    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -6772,13 +6784,10 @@
     "messageformat": "사소한 변경 사항과 버그 수정 및 성능 개선. Signal을 이용해 주셔서 감사합니다!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "이제 대화창 색 사용자 지정 화면이 여러 언어와 선택한 로캘에서 올바르게 표시됩니다."
-  },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Windows의 알림 지원을 개선했습니다. 처음 메시지가 도착했을 때 알림을 클릭하지 않을 경우, Windows 알림 센터에 최근에 무시한 알림이 표시됩니다. 해당 알림을 클릭하면 채팅으로 바로 이동합니다. 의견을 보내주신 Julien Richard 님께 감사드립니다."
-  },
   "icu:WhatsNew__v6.30--0": {
     "messageformat": "새 통화 탭을 사용하면 간편하게 통화를 시작하거나 부재중 통화에 회신할 수 있습니다."
+  },
+  "icu:WhatsNew__v6.31--0": {
+    "messageformat": "This update fixes a handful of bugs, including one that caused the main Signal window to go blank if you viewed a debug log in full-screen mode on macOS. Seeing a completely Light or completely Dark window is arguably the purest possible expression of the Light Theme and Dark Theme, but we ultimately decided that the app is easier to use when you can see the interface too."
   }
 }

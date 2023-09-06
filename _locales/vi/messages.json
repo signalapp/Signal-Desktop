@@ -612,6 +612,10 @@
     "messageformat": "Vẫn gọi",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "Join anyway",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "Tiếp tục Cuộc gọi",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
@@ -3158,10 +3162,18 @@
   },
   "icu:SendEdit--dialog--title": {
     "messageformat": "Chỉ có trên bản beta của Signal",
-    "description": "Title of the modal shown before sending your first edit message"
+    "description": "(deleted 8/30) Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body": {
     "messageformat": "Tính năng sửa tin nhắn chỉ khả dụng cho người dùng bản beta của Signal. Nếu bạn sửa một tin nhắn, nội dung sau khi thay đổi sẽ chỉ hiển thị với người dùng bản beta mới nhất của Signal.",
+    "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
+  },
+  "icu:SendEdit--dialog--title2": {
+    "messageformat": "Edit Message",
+    "description": "Title of the modal shown before sending your first edit message"
+  },
+  "icu:SendEdit--dialog--body2": {
+    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -6772,13 +6784,10 @@
     "messageformat": "Các tinh chỉnh, sửa lỗi, và cải thiện hiệu năng. Cảm ơn bạn đã sử dụng Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "Màn hình tùy chỉnh Màu cuộc trò chuyện giờ đây được hiển thị đúng cho các ngôn ngữ và vùng được chọn."
-  },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Chúng tôi đã cải thiện hỗ trợ thông báo trên Windows. Nếu bạn không bấm vào một thông báo khi nhận được, thông báo bị bỏ lỡ mới nhất sẽ hiển thị ở Windows Notification Center. Khi bấm vào thông báo đó bạn sẽ được chuyển trực tiếp đến cuộc trò chuyện. Cảm ơn Julien Richard vì đóng góp của bạn."
-  },
   "icu:WhatsNew__v6.30--0": {
     "messageformat": "Tab cuộc gọi mới giúp bạn dễ dàng bắt đầu cuộc gọi hoặc gọi lại cho một cuộc gọi bạn đã bỏ lỡ."
+  },
+  "icu:WhatsNew__v6.31--0": {
+    "messageformat": "This update fixes a handful of bugs, including one that caused the main Signal window to go blank if you viewed a debug log in full-screen mode on macOS. Seeing a completely Light or completely Dark window is arguably the purest possible expression of the Light Theme and Dark Theme, but we ultimately decided that the app is easier to use when you can see the interface too."
   }
 }

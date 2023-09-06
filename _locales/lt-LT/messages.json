@@ -612,6 +612,10 @@
     "messageformat": "Vis tiek skambinti",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "Join anyway",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "Tęsti skambutį",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
@@ -3158,10 +3162,18 @@
   },
   "icu:SendEdit--dialog--title": {
     "messageformat": "Tik „Signal“ beta versijai",
-    "description": "Title of the modal shown before sending your first edit message"
+    "description": "(deleted 8/30) Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body": {
     "messageformat": "Redaguoti žinutes gali tik „Signal“ beta versijos naudotojai. Jei redaguosi žinutę, tai bus matoma tik naujausią „Signal“ beta versiją naudojantiems žmonėms.",
+    "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
+  },
+  "icu:SendEdit--dialog--title2": {
+    "messageformat": "Edit Message",
+    "description": "Title of the modal shown before sending your first edit message"
+  },
+  "icu:SendEdit--dialog--body2": {
+    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -6772,13 +6784,10 @@
     "messageformat": "Smulkūs patobulinimai, klaidų pataisymai ir veikimo pagerinimas. Ačiū, kad naudoji „Signal“!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "Pokalbio spalvos tinkinimo ekranas nuo šiol tinkamai rodomas skirtingomis kalbomis ir pasirinktose vietovėse."
-  },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Patobulinome pranešimų palaikymą sistemoje „Windows“. Jei iškart nespustelėsi gauto pranešimo, paskutinis praleistas pranešimas bus matomas „Windows“ pranešimų centre. Kai spustelėsi tą pranešimą, pereisi tiesiai į atitinkamą pokalbį. Norime padėkoti Julienui Richardui už atsiliepimą."
-  },
   "icu:WhatsNew__v6.30--0": {
     "messageformat": "Su nauju skambučių skirtuku bus lengva pradėti skambutį arba perskambinti, jei jį praleidai."
+  },
+  "icu:WhatsNew__v6.31--0": {
+    "messageformat": "This update fixes a handful of bugs, including one that caused the main Signal window to go blank if you viewed a debug log in full-screen mode on macOS. Seeing a completely Light or completely Dark window is arguably the purest possible expression of the Light Theme and Dark Theme, but we ultimately decided that the app is easier to use when you can see the interface too."
   }
 }

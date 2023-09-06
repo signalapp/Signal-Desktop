@@ -612,6 +612,10 @@
     "messageformat": "Сепак повикај",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "Join anyway",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "Продолжи повик",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
@@ -3158,10 +3162,18 @@
   },
   "icu:SendEdit--dialog--title": {
     "messageformat": "Само во бета верзијата на Signal",
-    "description": "Title of the modal shown before sending your first edit message"
+    "description": "(deleted 8/30) Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body": {
     "messageformat": "Изменувањето пораки е достапно само за бета корисниците на Signal. Ако измените порака, ќе биде видлива само за лицата кои ја користат последната верзија на Signal.",
+    "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
+  },
+  "icu:SendEdit--dialog--title2": {
+    "messageformat": "Edit Message",
+    "description": "Title of the modal shown before sending your first edit message"
+  },
+  "icu:SendEdit--dialog--body2": {
+    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -6772,13 +6784,10 @@
     "messageformat": "Mали подобрувања, решени багови и подобрувања на перформансот. Ви благодариме што користите Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "Екранот за прилагодување на боја на разговор сега правилно се прикажува на различни јазици и на избраните локации."
-  },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Ја подобривме поддршката за известувања на Windows. Доколку не кликнете на известувањето кога ќе се појави, последното пропуштено известување ќе биде видливо во Центарот за известувања на Windows. Сo кликнувањето на тоа известување, ќе се отвори директно тој разговор. Сакаме да се заблагодариме на Џулијен Ричард за повратната информација."
-  },
   "icu:WhatsNew__v6.30--0": {
     "messageformat": "Новата картичка за повици ви помага лесно да започнете повик или да одговорите на пропуштен повик. Започнете нов повик или одговорете на пропуштен повик без да го барате соодветниот разговор. Сега може да кажете здраво наглас без да кажете чао на ознаката за непрочитани пораки во тој разговор."
+  },
+  "icu:WhatsNew__v6.31--0": {
+    "messageformat": "This update fixes a handful of bugs, including one that caused the main Signal window to go blank if you viewed a debug log in full-screen mode on macOS. Seeing a completely Light or completely Dark window is arguably the purest possible expression of the Light Theme and Dark Theme, but we ultimately decided that the app is easier to use when you can see the interface too."
   }
 }

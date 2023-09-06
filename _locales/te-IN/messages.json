@@ -612,6 +612,10 @@
     "messageformat": "ఏమైనా కాల్ చేయండి",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "Join anyway",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "కాల్ కొనసాగించండి",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
@@ -3158,10 +3162,18 @@
   },
   "icu:SendEdit--dialog--title": {
     "messageformat": "Signal బీటా మాత్రమే",
-    "description": "Title of the modal shown before sending your first edit message"
+    "description": "(deleted 8/30) Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body": {
     "messageformat": "Signal బీటా యూజర్లకు మాత్రమే సందేశాలను సవరించడం అందుబాటులో ఉంది. ఒకవేళ మీరు ఒక సందేశాన్ని సవరిస్తే, Signal బీటా యొక్క తాజా వెర్షన్‌పై ఉన్న వ్యక్తులకు మాత్రమే ఇది కనపడుతుంది.",
+    "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
+  },
+  "icu:SendEdit--dialog--title2": {
+    "messageformat": "Edit Message",
+    "description": "Title of the modal shown before sending your first edit message"
+  },
+  "icu:SendEdit--dialog--body2": {
+    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -6772,13 +6784,10 @@
     "messageformat": "చిన్న ట్వీక్‌లు, బగ్ ఫిక్స్‌లు, మరియు పనితీరు మెరుగుదలలు. Signal ఉపయోగించినందుకు మీకు ధన్యవాదాలు!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "చాట్ రంగు అనుకూలీకరణ స్క్రీన్ ఇప్పుడు వివిధ భాషలు మరియు ఎంచుకున్న ప్రదేశాలలో సరిగ్గా ప్రదర్శించబడుతుంది."
-  },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Windows లో నోటిఫికేషన్ మద్దతును మేము మెరుగుపరిచాము. మొదటిసారి నోటిఫికేషన్ వచ్చినప్పుడు ఒకవేళ మీరు దానిపై క్లిక్ చేయకపోతే, ఇటీవలి తప్పిపోయిన నోటిఫికేషన్ Windows నోటిఫికేషన్ సెంటర్‌లో కనిపిస్తుంది. ఆ నోటిఫికేషన్‌పై క్లిక్ చేస్తే ఇప్పుడు నేరుగా ఆ చాట్‌కు వెళ్తుంది. వారి అభిప్రాయాన్ని తెలియజేసినందుకు జూలియన్ రిచర్డ్‌కు ధన్యవాదాలు."
-  },
   "icu:WhatsNew__v6.30--0": {
     "messageformat": "కొత్త కాల్‌ల ట్యాబ్ మీకు కాల్‌ను సులభంగా ప్రారంభించేందుకు లేదా మీరు మిస్ అయిన కాల్‌ను తిరిగి ఇచ్చేందుకు సహాయపడుతుంది. సంబంధిత చాట్‌ను కనుగొనాల్సిన అవసరం లేకుండానే కొత్త కాల్ ప్రారంభించండి లేదా మీరు మిస్ అయిన కాల్‌ను తిరిగి ఇవ్వండి. ఆ థ్రెడ్‌లో సందేశాలకు చదవని మార్కర్‌కు వీడ్కోలు చెప్పకనే మీ స్వరంతో ఇప్పుడు మీరు హలో చెప్పచ్చు."
+  },
+  "icu:WhatsNew__v6.31--0": {
+    "messageformat": "This update fixes a handful of bugs, including one that caused the main Signal window to go blank if you viewed a debug log in full-screen mode on macOS. Seeing a completely Light or completely Dark window is arguably the purest possible expression of the Light Theme and Dark Theme, but we ultimately decided that the app is easier to use when you can see the interface too."
   }
 }
