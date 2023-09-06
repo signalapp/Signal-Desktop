@@ -313,7 +313,12 @@ const actions = () => ({
 
   toggleSafetyNumberModal: action('toggleSafetyNumberModal'),
 
-  startCallingLobby: action('startCallingLobby'),
+  onOutgoingAudioCallInConversation: action(
+    'onOutgoingAudioCallInConversation'
+  ),
+  onOutgoingVideoCallInConversation: action(
+    'onOutgoingVideoCallInConversation'
+  ),
   startConversation: action('startConversation'),
   returnToActiveCall: action('returnToActiveCall'),
 

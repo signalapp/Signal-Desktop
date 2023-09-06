@@ -149,7 +149,11 @@ export function SmartTimelineItem(props: ExternalProps): JSX.Element {
 
   const { viewStory } = useStoriesActions();
 
-  const { returnToActiveCall, startCallingLobby } = useCallingActions();
+  const {
+    onOutgoingAudioCallInConversation,
+    onOutgoingVideoCallInConversation,
+    returnToActiveCall,
+  } = useCallingActions();
 
   return (
     <TimelineItem
@@ -186,6 +190,8 @@ export function SmartTimelineItem(props: ExternalProps): JSX.Element {
       pushPanelForConversation={pushPanelForConversation}
       reactToMessage={reactToMessage}
       copyMessageText={copyMessageText}
+      onOutgoingAudioCallInConversation={onOutgoingAudioCallInConversation}
+      onOutgoingVideoCallInConversation={onOutgoingVideoCallInConversation}
       retryDeleteForEveryone={retryDeleteForEveryone}
       retryMessageSend={retryMessageSend}
       returnToActiveCall={returnToActiveCall}
@@ -201,7 +207,6 @@ export function SmartTimelineItem(props: ExternalProps): JSX.Element {
       showLightbox={showLightbox}
       showLightboxForViewOnceMedia={showLightboxForViewOnceMedia}
       showSpoiler={showSpoiler}
-      startCallingLobby={startCallingLobby}
       startConversation={startConversation}
       toggleDeleteMessagesModal={toggleDeleteMessagesModal}
       toggleForwardMessagesModal={toggleForwardMessagesModal}

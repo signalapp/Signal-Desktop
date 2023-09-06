@@ -193,6 +193,8 @@ export const TimelineItem = memo(function TimelineItem({
   isNextItemCallingNotification,
   isTargeted,
   item,
+  onOutgoingAudioCallInConversation,
+  onOutgoingVideoCallInConversation,
   platform,
   renderUniversalTimerNotification,
   returnToActiveCall,
@@ -202,7 +204,6 @@ export const TimelineItem = memo(function TimelineItem({
   shouldCollapseBelow,
   shouldHideMetadata,
   shouldRenderDateHeader,
-  startCallingLobby,
   theme,
   ...reducedProps
 }: PropsType): JSX.Element | null {
@@ -248,8 +249,9 @@ export const TimelineItem = memo(function TimelineItem({
           conversationId={conversationId}
           i18n={i18n}
           isNextItemCallingNotification={isNextItemCallingNotification}
+          onOutgoingAudioCallInConversation={onOutgoingAudioCallInConversation}
+          onOutgoingVideoCallInConversation={onOutgoingVideoCallInConversation}
           returnToActiveCall={returnToActiveCall}
-          startCallingLobby={startCallingLobby}
           {...item.data}
         />
       );

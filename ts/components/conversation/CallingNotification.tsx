@@ -26,11 +26,9 @@ import {
 } from '../../types/CallDisposition';
 
 export type PropsActionsType = {
+  onOutgoingAudioCallInConversation: (conversationId: string) => void;
+  onOutgoingVideoCallInConversation: (conversationId: string) => void;
   returnToActiveCall: () => void;
-  startCallingLobby: (_: {
-    conversationId: string;
-    isVideoCall: boolean;
-  }) => void;
 };
 
 type PropsHousekeeping = {
@@ -86,8 +84,9 @@ function renderCallingNotificationButton(
     conversationId,
     i18n,
     isNextItemCallingNotification,
+    onOutgoingAudioCallInConversation,
+    onOutgoingVideoCallInConversation,
     returnToActiveCall,
-    startCallingLobby,
   } = props;
 
   if (isNextItemCallingNotification) {
@@ -114,10 +113,11 @@ function renderCallingNotificationButton(
         onClick = noop;
       } else {
         onClick = () => {
-          startCallingLobby({
-            conversationId,
-            isVideoCall: type === CallType.Video,
-          });
+          if (type === CallType.Video) {
+            onOutgoingVideoCallInConversation(conversationId);
+          } else {
+            onOutgoingAudioCallInConversation(conversationId);
+          }
         };
       }
       break;
@@ -147,7 +147,7 @@ function renderCallingNotificationButton(
       } else {
         buttonText = i18n('icu:calling__join');
         onClick = () => {
-          startCallingLobby({ conversationId, isVideoCall: true });
+          onOutgoingVideoCallInConversation(conversationId);
         };
       }
       break;

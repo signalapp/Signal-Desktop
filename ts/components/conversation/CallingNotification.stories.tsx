@@ -61,8 +61,13 @@ const getCommonProps = (options: {
     conversationId: conversation.id,
     i18n,
     isNextItemCallingNotification: false,
+    onOutgoingAudioCallInConversation: action(
+      'onOutgoingAudioCallInConversation'
+    ),
+    onOutgoingVideoCallInConversation: action(
+      'onOutgoingVideoCallInConversation'
+    ),
     returnToActiveCall: action('returnToActiveCall'),
-    startCallingLobby: action('startCallingLobby'),
     callHistory: {
       callId: '123',
       peerId: conversation.id,

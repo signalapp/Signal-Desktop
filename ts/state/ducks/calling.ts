@@ -56,6 +56,7 @@ import type { ShowToastActionType } from './toast';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
 import { useBoundActions } from '../../hooks/useBoundActions';
 import { isAnybodyElseInGroupCall } from './callingHelpers';
+import { SafetyNumberChangeSource } from '../../components/SafetyNumberChangeDialog';
 
 // State
 
@@ -1259,24 +1260,20 @@ function onOutgoingVideoCallInConversation(
 
     log.info('onOutgoingVideoCallInConversation: about to start a video call');
 
-    // if it's a group call on an announcementsOnly group
-    // only allow join if the call has already been started (presumably by the admin)
+    const call = getOwn(getState().calling.callsByConversation, conversationId);
+
+    // Technically not necessary, but isAnybodyElseInGroupCall requires it
+    const ourAci = window.storage.user.getCheckedAci();
+    const isOngoingGroupCall =
+      call &&
+      ourAci &&
+      call.callMode === CallMode.Group &&
+      call.peekInfo &&
+      isAnybodyElseInGroupCall(call.peekInfo, ourAci);
+
+    // If it's a group call on an announcementsOnly group, only allow join if the call
+    //   has already been started (presumably by the admin)
     if (conversation.get('announcementsOnly') && !conversation.areWeAdmin()) {
-      const call = getOwn(
-        getState().calling.callsByConversation,
-        conversationId
-      );
-
-      // technically not necessary, but isAnybodyElseInGroupCall requires it
-      const ourAci = window.storage.user.getCheckedAci();
-
-      const isOngoingGroupCall =
-        call &&
-        ourAci &&
-        call.callMode === CallMode.Group &&
-        call.peekInfo &&
-        isAnybodyElseInGroupCall(call.peekInfo, ourAci);
-
       if (!isOngoingGroupCall) {
         dispatch({
           type: SHOW_TOAST,
@@ -1288,7 +1285,11 @@ function onOutgoingVideoCallInConversation(
       }
     }
 
-    if (await isCallSafe(conversation.attributes)) {
+    const source = isOngoingGroupCall
+      ? SafetyNumberChangeSource.JoinCall
+      : SafetyNumberChangeSource.InitiateCall;
+
+    if (await isCallSafe(conversation.attributes, source)) {
       log.info(
         'onOutgoingVideoCallInConversation: call is deemed "safe". Making call'
       );
@@ -1323,10 +1324,13 @@ function onOutgoingAudioCallInConversation(
         `onOutgoingAudioCallInConversation: Conversation ${conversation.idForLogging()} is not 1:1`
       );
     }
+    // Because audio calls are currently restricted to 1:1 conversations, this will always
+    //   be a new call we are initiating.
+    const source = SafetyNumberChangeSource.InitiateCall;
 
     log.info('onOutgoingAudioCallInConversation: about to start an audio call');
 
-    if (await isCallSafe(conversation.attributes)) {
+    if (await isCallSafe(conversation.attributes, source)) {
       log.info(
         'onOutgoingAudioCallInConversation: call is deemed "safe". Making call'
       );

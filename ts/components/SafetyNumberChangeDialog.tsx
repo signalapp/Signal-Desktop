@@ -26,7 +26,8 @@ import type { StoryDistributionIdString } from '../types/StoryDistributionId';
 import { UserText } from './UserText';
 
 export enum SafetyNumberChangeSource {
-  Calling = 'Calling',
+  InitiateCall = 'InitiateCall',
+  JoinCall = 'JoinCall',
   MessageSend = 'MessageSend',
   Story = 'Story',
 }

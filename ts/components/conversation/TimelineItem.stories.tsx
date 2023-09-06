@@ -79,6 +79,12 @@ const getDefaultProps = () => ({
   showConversation: action('showConversation'),
   openGiftBadge: action('openGiftBadge'),
   saveAttachment: action('saveAttachment'),
+  onOutgoingAudioCallInConversation: action(
+    'onOutgoingAudioCallInConversation'
+  ),
+  onOutgoingVideoCallInConversation: action(
+    'onOutgoingVideoCallInConversation'
+  ),
   pushPanelForConversation: action('pushPanelForConversation'),
   showContactModal: action('showContactModal'),
   showLightbox: action('showLightbox'),
@@ -94,7 +100,6 @@ const getDefaultProps = () => ({
   ),
   scrollToQuotedMessage: action('scrollToQuotedMessage'),
   showSpoiler: action('showSpoiler'),
-  startCallingLobby: action('startCallingLobby'),
   startConversation: action('startConversation'),
   returnToActiveCall: action('returnToActiveCall'),
   shouldCollapseAbove: false,

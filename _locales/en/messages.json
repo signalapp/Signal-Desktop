@@ -611,6 +611,10 @@
     "messageformat": "Call anyway",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "Join anyway",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "Continue Call",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
