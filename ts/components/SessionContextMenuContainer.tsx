@@ -18,7 +18,7 @@ export const SessionContextMenuContainer = styled.div.attrs({
       background: var(--context-menu-background-color);
     }
 
-    .contexify_item:not(.react-contexify_item-disabled):hover > .contexify_itemContent {
+    .contexify_item:not(.contexify_item-disabled):hover > .contexify_itemContent {
       background: var(--context-menu-background-hover-color);
       color: var(--context-menu-text-hover-color);
     }

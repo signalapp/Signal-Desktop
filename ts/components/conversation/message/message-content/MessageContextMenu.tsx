@@ -66,7 +66,7 @@ type Props = { messageId: string; contextMenuId: string; enableReactions: boolea
 const StyledMessageContextMenu = styled.div`
   position: relative;
 
-  .react-contexify {
+  .contexify {
     margin-left: -104px;
   }
 `;
