@@ -319,30 +319,32 @@ type GetThemeSettingOptionsType = Readonly<{
 async function getThemeSetting({
   ephemeralOnly = false,
 }: GetThemeSettingOptionsType = {}): Promise<ThemeSettingType> {
+  let result: unknown;
+
   const fastValue = ephemeralConfig.get('theme-setting');
   if (fastValue !== undefined) {
     getLogger().info('got fast theme-setting value', fastValue);
-    return fastValue as ThemeSettingType;
-  }
-
-  if (ephemeralOnly) {
+    result = fastValue;
+  } else if (ephemeralOnly) {
     return 'system';
-  }
+  } else {
+    const json = await sql.sqlCall('getItemById', 'theme-setting');
 
-  const json = await sql.sqlCall('getItemById', 'theme-setting');
+    result = json?.value;
+  }
 
   // Default to `system` if setting doesn't exist or is invalid
-  const setting: unknown = json?.value;
-  const slowValue =
-    setting === 'light' || setting === 'dark' || setting === 'system'
-      ? setting
+  const validatedResult =
+    result === 'light' || result === 'dark' || result === 'system'
+      ? result
       : 'system';
 
-  ephemeralConfig.set('theme-setting', slowValue);
+  if (fastValue !== validatedResult) {
+    ephemeralConfig.set('theme-setting', validatedResult);
+    getLogger().info('got slow theme-setting value', result);
+  }
 
-  getLogger().info('got slow theme-setting value', slowValue);
-
-  return slowValue;
+  return validatedResult;
 }
 
 async function getResolvedThemeSetting(
