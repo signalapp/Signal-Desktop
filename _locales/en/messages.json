@@ -6783,13 +6783,10 @@
     "messageformat": "Small tweaks, bug fixes, and performance enhancements. Thanks for using Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "The Chat Color customization screen is now displayed correctly across different languages and selected locales."
-  },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "We improved notification support on Windows. If you don't click on a notification when it first arrives, the latest missed notification will appear in the Windows Notification Center. Clicking on that notification will now jump directly to that chat. We'd like to thank Julien Richard for their feedback."
-  },
   "icu:WhatsNew__v6.30--0": {
     "messageformat": "Keep tabs on your calls with the new calls tab. Start a new call or return a call that you missed without having to find the corresponding chat. Now you can say hello with your voice without also saying goodbye to the unread marker for messages in that thread."
+  },
+  "icu:WhatsNew__v6.31--0": {
+    "messageformat": "This update fixes a handful of bugs, including one that caused the main Signal window to go blank if you viewed a debug log in full-screen mode on macOS. Seeing a completely Light or completely Dark window is arguably the purest possible expression of the Light Theme and Dark Theme, but we ultimately decided that the app is easier to use when you can see the interface too."
   }
 }
