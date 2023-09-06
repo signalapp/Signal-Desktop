@@ -1,5 +1,5 @@
 import React from 'react';
-import { animation, Item, Menu } from 'react-contexify';
+import { Item, Menu } from 'react-contexify';
 import { useDispatch } from 'react-redux';
 
 import { SessionContextMenuContainer } from '../SessionContextMenuContainer';
@@ -28,7 +28,7 @@ export const MessageRequestBannerContextMenu = (props: PropsContextConversationI
 
   return (
     <SessionContextMenuContainer>
-      <Menu id={triggerId} animation={animation.fade}>
+      <Menu id={triggerId} animation="fade">
         <HideBannerMenuItem />
       </Menu>
     </SessionContextMenuContainer>

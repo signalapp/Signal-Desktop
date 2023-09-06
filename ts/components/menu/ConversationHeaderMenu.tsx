@@ -1,5 +1,5 @@
 import React from 'react';
-import { animation, Item, Menu, Submenu } from 'react-contexify';
+import { Item, Menu, Submenu } from 'react-contexify';
 import { useSelector } from 'react-redux';
 import { setDisappearingMessagesByConvoId } from '../../interactions/conversationInteractions';
 import { isSearching } from '../../state/selectors/search';
@@ -64,7 +64,7 @@ export const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
   return (
     <ContextConversationProvider value={convoId}>
       <SessionContextMenuContainer>
-        <Menu id={triggerId} animation={animation.fade}>
+        <Menu id={triggerId} animation="fade">
           <DisappearingMessageMenuItem />
           <NotificationForConvoMenuItem />
           <BlockMenuItem />

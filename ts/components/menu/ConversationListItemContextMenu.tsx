@@ -1,5 +1,5 @@
 import React from 'react';
-import { animation, Item, Menu } from 'react-contexify';
+import { Item, Menu } from 'react-contexify';
 
 import { useSelector } from 'react-redux';
 import { useIsPinned, useIsPrivate, useIsPrivateAndFriend } from '../../hooks/useParamSelector';
@@ -44,7 +44,7 @@ const ConversationListItemContextMenu = (props: PropsContextConversationItem) =>
 
   return (
     <SessionContextMenuContainer>
-      <Menu id={triggerId} animation={animation.fade}>
+      <Menu id={triggerId} animation="fade">
         {/* Message request related actions */}
         <AcceptMsgRequestMenuItem />
         <DeclineMsgRequestMenuItem />
