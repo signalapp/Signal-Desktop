@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import semver from 'semver';
-import { readFileSync } from 'fs-extra';
 
 function createIsPlatform(
   platform: typeof process.platform,
@@ -27,7 +26,6 @@ export type OSType = {
   isLinux: (minVersion?: string) => boolean;
   isMacOS: (minVersion?: string) => boolean;
   isWindows: (minVersion?: string) => boolean;
-  getLinuxName: () => string | undefined;
 };
 
 export function getOSFunctions(osRelease: string): OSType {
@@ -59,20 +57,6 @@ export function getOSFunctions(osRelease: string): OSType {
     return 'os-linux';
   };
 
-  const getLinuxName = (): string | undefined => {
-    if (!isLinux()) {
-      return undefined;
-    }
-
-    const etcOsRelease = readFileSync('/etc/os-release', 'utf-8');
-    const match = etcOsRelease.match(/^PRETTY_NAME=(.+?)$/m);
-    if (!match) {
-      return undefined;
-    }
-
-    return match[1];
-  };
-
   return {
     getClassName,
     getName,
@@ -80,6 +64,5 @@ export function getOSFunctions(osRelease: string): OSType {
     isLinux,
     isMacOS,
     isWindows,
-    getLinuxName,
   };
 }
