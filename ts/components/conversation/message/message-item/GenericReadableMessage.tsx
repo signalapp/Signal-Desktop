@@ -180,6 +180,10 @@ export const GenericReadableMessage = (props: Props) => {
 
   const handleContextMenu = useCallback(
     (e: React.MouseEvent<HTMLElement>) => {
+      // this is quite dirty but considering that we want the context menu of the message to show on click on the attachment
+      // and the context menu save attachment item to save the right attachment I did not find a better way for now.
+
+      // Note: If you change this, also make sure to update the `saveAttachment()` in MessageContextMenu.tsx
       const enableContextMenu = !multiSelectMode && !msgProps?.isKickedFromGroup;
       const attachmentIndexStr = (e?.target as any)?.parentElement?.getAttribute?.(
         'data-attachmentindex'

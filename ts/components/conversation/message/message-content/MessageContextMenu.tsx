@@ -281,6 +281,7 @@ export const MessageContextMenu = (props: Props) => {
   const saveAttachment = (e: ItemParams) => {
     // this is quite dirty but considering that we want the context menu of the message to show on click on the attachment
     // and the context menu save attachment item to save the right attachment I did not find a better way for now.
+    // Note: If you change this, also make sure to update the `handleContextMenu()` in GenericReadableMessage.tsx
     const targetAttachmentIndex = isNumber(e?.props?.dataAttachmentIndex)
       ? e.props.dataAttachmentIndex
       : 0;
