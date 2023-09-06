@@ -42,7 +42,8 @@ const getHeader = (
   nodeVersion: string,
   appVersion: string,
   osVersion: string,
-  userAgent: string
+  userAgent: string,
+  linuxVersion?: string
 ): string =>
   [
     headerSection('System info', {
@@ -52,6 +53,7 @@ const getHeader = (
       Environment: getEnvironment(),
       'App version': appVersion,
       'OS version': osVersion,
+      ...(linuxVersion && { 'Linux version': linuxVersion }),
     }),
     headerSection('User info', user),
     headerSection('Capabilities', capabilities),
@@ -84,13 +86,21 @@ export function getLog(
   nodeVersion: string,
   appVersion: string,
   osVersion: string,
-  userAgent: string
+  userAgent: string,
+  linuxVersion?: string
 ): string {
   let header: string;
   let body: string;
   if (isFetchLogIpcData(data)) {
     const { logEntries } = data;
-    header = getHeader(data, nodeVersion, appVersion, osVersion, userAgent);
+    header = getHeader(
+      data,
+      nodeVersion,
+      appVersion,
+      osVersion,
+      userAgent,
+      linuxVersion
+    );
     body = logEntries.map(formatLine).join('\n');
   } else {
     header = headerSectionTitle('Partial logs');

@@ -2415,7 +2415,8 @@ ipc.handle(
       process.versions.node,
       app.getVersion(),
       os.version(),
-      userAgent
+      userAgent,
+      OS.getLinuxName()
     );
   }
 );
