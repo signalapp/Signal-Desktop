@@ -7,6 +7,7 @@ import styled, { keyframes } from 'styled-components';
 import useInterval from 'react-use/lib/useInterval';
 import useMount from 'react-use/lib/useMount';
 
+import { isNil, isString, toNumber } from 'lodash';
 import { Data } from '../../../../data/data';
 import { MessageRenderingProps } from '../../../../models/messageType';
 import { getConversationController } from '../../../../session/conversations';
@@ -180,12 +181,22 @@ export const GenericReadableMessage = (props: Props) => {
   const handleContextMenu = useCallback(
     (e: React.MouseEvent<HTMLElement>) => {
       const enableContextMenu = !multiSelectMode && !msgProps?.isKickedFromGroup;
+      const attachmentIndexStr = (e?.target as any)?.parentElement?.getAttribute?.(
+        'data-attachmentindex'
+      );
+      const attachmentIndex =
+        isString(attachmentIndexStr) && !isNil(toNumber(attachmentIndexStr))
+          ? toNumber(attachmentIndexStr)
+          : 0;
 
       if (enableContextMenu) {
         contextMenu.hideAll();
         contextMenu.show({
           id: ctxMenuID,
           event: e,
+          props: {
+            dataAttachmentIndex: attachmentIndex,
+          },
         });
       }
       setIsRightClicked(enableContextMenu);
