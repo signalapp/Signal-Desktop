@@ -21,7 +21,7 @@
     "description": "Shown as the title of the dialog that allows you to add a caption to a story"
   },
   "icu:AddCaptionModal__placeholder": {
-    "messageformat": "Bericht verzenden",
+    "messageformat": "Bericht",
     "description": "Placeholder text for textarea when adding a caption/message (we don't know which yet so we default to message)"
   },
   "icu:AddCaptionModal__submit-button": {
@@ -57,7 +57,7 @@
     "description": "Label of cancel button on voice note recording UI"
   },
   "icu:RecordingComposer__send": {
-    "messageformat": "Uploaden",
+    "messageformat": "Versturen",
     "description": "Label of send button on voice note recording UI"
   },
   "icu:GroupListItem__message-default": {
@@ -301,39 +301,39 @@
     "description": "Shown as a header for non-pinned conversations in the left pane"
   },
   "icu:NavTabsToggle__showTabs": {
-    "messageformat": "Show Tabs",
+    "messageformat": "Tabbladen weergeven",
     "description": "Show in the left pane when the nav tabs are hidden, shows the nav tabs"
   },
   "icu:NavTabsToggle__hideTabs": {
-    "messageformat": "Hide Tabs",
+    "messageformat": "Tabbladen verbergen",
     "description": "Show in the nav tabs when the nav tabs are visible, hides the nav tabs"
   },
   "icu:NavTabs__ItemIconLabel--HasError": {
-    "messageformat": "An error occurred",
+    "messageformat": "Er is een fout opgetreden",
     "description": "Nav Tabs > Tab has error > Accessibility Text"
   },
   "icu:NavTabs__ItemIconLabel--UnreadCount": {
-    "messageformat": "{count,number} unread",
+    "messageformat": "{count,number} ongelezen",
     "description": "Nav Tabs > Unread badge > Accessibility Text"
   },
   "icu:NavTabs__ItemIconLabel--MarkedUnread": {
-    "messageformat": "Marked unread",
+    "messageformat": "Gemarkeerd als ongelezen",
     "description": "Nav Tabs > Unread badge > when conversation is marked unread > Accessibility Text"
   },
   "icu:NavTabs__ItemLabel--Settings": {
-    "messageformat": "Settings",
+    "messageformat": "Instellingen",
     "description": "Nav Tabs > Settings Button > Label & Accessibility Text"
   },
   "icu:NavTabs__ItemLabel--Update": {
-    "messageformat": "Update Signal",
+    "messageformat": "Signal bijwerken",
     "description": "Nav Tabs > Settings Button > Label & Accessibility Text"
   },
   "icu:NavTabs__ItemLabel--Profile": {
-    "messageformat": "Profile",
+    "messageformat": "Profiel",
     "description": "Nav Tabs > Profile Button > Accessibility Text"
   },
   "icu:NavSidebar__BackButtonLabel": {
-    "messageformat": "Back",
+    "messageformat": "Terug",
     "description": "Shown in the sidebar header when on a nested panel within the current sidebar, takes the user back to the previous step or default sidebar state"
   },
   "icu:archiveHelperText": {
@@ -625,7 +625,7 @@
     "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
   },
   "icu:debugLogExplanation": {
-    "messageformat": "Dit log bevat geen persoonlijke details zoals telefoonnummers. Als je op uploaden klikt dan wordt dit log 30 dagen lang online beschikbaar gesteld op een unieke nergens onthulde verwijzing. Die verwijzing kun je zelf naar de ontwikkelaars sturen. Je kunt dit log ook offline op je eigen apparaat opslaan.",
+    "messageformat": "Dit log bevat geen persoonlijke details zoals telefoonnummers. Als je op uploaden klikt dan wordt dit log 30 dagen lang online beschikbaar gesteld op een unieke nergens onthulde URL. Die URL kun je zelf naar de ontwikkelaars sturen. Je kunt dit log ook offline op je eigen apparaat opslaan.",
     "description": "Description of what will happen with your debug log"
   },
   "icu:debugLogError": {
@@ -1984,7 +1984,7 @@
     "description": "Shown on a message which was edited if the edit wasn't successfully sent to anyone"
   },
   "icu:sendPaused": {
-    "messageformat": "Verzending is gepauzeerd",
+    "messageformat": "Verzenden is gepauzeerd",
     "description": "Shown on outgoing message if it cannot be sent immediately"
   },
   "icu:partiallySent": {
@@ -2180,7 +2180,7 @@
     "description": "In conversation details, label for button to view safety number, opens safety number modal"
   },
   "icu:ConversationDetails__HeaderButton--Message": {
-    "messageformat": "Message",
+    "messageformat": "Bericht versturen",
     "description": "In conversation details, label for button to switch to the conversation view in order to draft a message in that converation"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
@@ -2212,7 +2212,7 @@
     "description": "Name for the conversation with your own phone number"
   },
   "icu:noteToSelfHero": {
-    "messageformat": "Je kunt in deze chat notities voor jezelf achterlaten. Voeg teksten toe en lees ze terug vanaf al je gekoppelde apparaten. Alle nieuwe notities worden gesynchroniseerd met de apparaten die gekoppeld zijn met je account.",
+    "messageformat": "Je kunt in deze chat notities voor jezelf achterlaten. Alle nieuwe notities worden gesynchroniseerd met apparaten die gekoppeld zijn met je account.",
     "description": "Description for the Note to Self conversation"
   },
   "icu:notificationDrawAttention": {
@@ -3158,10 +3158,18 @@
   },
   "icu:SendEdit--dialog--title": {
     "messageformat": "Alleen Signal-bèta",
-    "description": "Title of the modal shown before sending your first edit message"
+    "description": "(deleted 8/30) Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body": {
     "messageformat": "Berichten bewerken is alleen beschikbaar voor gebruikers van Signal-bèta. Als je een bericht bewerkt, is dat alleen zichtbaar voor mensen met de laatste versie van Signal-bèta.",
+    "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
+  },
+  "icu:SendEdit--dialog--title2": {
+    "messageformat": "Edit Message",
+    "description": "Title of the modal shown before sending your first edit message"
+  },
+  "icu:SendEdit--dialog--body2": {
+    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -3417,11 +3425,11 @@
     "description": "Shown in both the incoming call bar and notification for an incoming video call"
   },
   "icu:outgoingAudioCall": {
-    "messageformat": "Outgoing voice call",
+    "messageformat": "Uitgaande spraakoproep",
     "description": "Shown in the timeline for an outgoing voice call"
   },
   "icu:outgoingVideoCall": {
-    "messageformat": "Outgoing video call",
+    "messageformat": "Uitgaande video-oproep",
     "description": "Shown in the timeline for an outgoing video call"
   },
   "icu:incomingGroupCall__ringing-you": {
@@ -5029,7 +5037,7 @@
     "description": "First paragraph in the captcha dialog"
   },
   "icu:CaptchaDialog__second-paragraph": {
-    "messageformat": "Je kunt doorgaan met het verzenden van berichten nadat je hebt geverifieerd dat je een mens bent. Enig bericht waarvan verzending is gepauzeerd zal dan automatisch verzonden worden.",
+    "messageformat": "Je kunt doorgaan met het verzenden van berichten nadat je hebt geverifieerd dat je een mens bent. Enig bericht waarvan verzenden is gepauzeerd zal dan automatisch verzonden worden.",
     "description": "First paragraph in the captcha dialog"
   },
   "icu:CaptchaDialog--can-close__title": {
@@ -5641,7 +5649,7 @@
     "description": "Label to enable stories"
   },
   "icu:Preferences__turn-stories-off": {
-    "messageformat": "Zet verhalen uit",
+    "messageformat": "Verhalen uitzetten",
     "description": "Label to disable stories"
   },
   "icu:Preferences__turn-stories-off--action": {
@@ -5901,7 +5909,7 @@
     "description": "Payment event activation from you label"
   },
   "icu:payment-event-notification-label": {
-    "messageformat": "Overschrijving",
+    "messageformat": "Betaling",
     "description": "Payment event notification label"
   },
   "icu:payment-event-notification-check-primary-device": {
@@ -6153,7 +6161,7 @@
     "description": "Shown during the first time posting a story"
   },
   "icu:SendStoryModal__title": {
-    "messageformat": "Verzonden aan",
+    "messageformat": "Versturen naar",
     "description": "Title for the send story modal"
   },
   "icu:SendStoryModal__send": {
@@ -6249,7 +6257,7 @@
     "description": "Select box description for the stories on/off toggle"
   },
   "icu:Stories__settings-toggle--button": {
-    "messageformat": "Zet verhalen uit",
+    "messageformat": "Verhalen uitzetten",
     "description": "Button to turn off stories in stories settings modal"
   },
   "icu:StoryViewer__pause": {
@@ -6469,7 +6477,7 @@
     "description": "aria-label for adding a link preview"
   },
   "icu:StoryCreator__link-preview-placeholder": {
-    "messageformat": "Typ of plak een verwijzing",
+    "messageformat": "Typ of plak een URL",
     "description": "Placeholder for the URL input for link previews"
   },
   "icu:StoryCreator__link-preview-empty": {
@@ -6573,7 +6581,7 @@
     "description": "Text of button at the bottom of the username link modal"
   },
   "icu:UsernameLinkModalBody__done": {
-    "messageformat": "Done",
+    "messageformat": "Klaar",
     "description": "Text of button at the bottom of the username link modal"
   },
   "icu:UsernameLinkModalBody__color__radio": {
@@ -6637,107 +6645,107 @@
     "description": "Button text for the confirmation dialog shown to user when attempting to resend message edit"
   },
   "icu:StoriesTab__MoreActionsLabel": {
-    "messageformat": "More actions",
+    "messageformat": "Meer acties",
     "description": "Stories Tab > More Actions Button (opens context menu) > Accessibility Label"
   },
   "icu:CallsTab__HeaderTitle--CallsList": {
-    "messageformat": "Calls",
+    "messageformat": "Oproepen",
     "description": "Calls Tab > Header > Title > On Calls List screen"
   },
   "icu:CallsTab__HeaderTitle--NewCall": {
-    "messageformat": "New Call",
+    "messageformat": "Nieuwe oproep",
     "description": "Calls Tab > Header > Title > On New Call screen"
   },
   "icu:CallsTab__NewCallActionLabel": {
-    "messageformat": "New Call",
+    "messageformat": "Nieuwe oproep",
     "description": "Calls Tab > New Call Action Button > Accessibility Label"
   },
   "icu:CallsTab__MoreActionsLabel": {
-    "messageformat": "More actions",
+    "messageformat": "Meer acties",
     "description": "Calls Tab > More Actions Button (opens context menu) > Accessibility Label"
   },
   "icu:CallsTab__ClearCallHistoryLabel": {
-    "messageformat": "Clear call history",
+    "messageformat": "Oproepgeschiedenis wissen",
     "description": "Calls Tab > More Actions Context Menu > Clear Call History Button Label"
   },
   "icu:CallsTab__ConfirmClearCallHistory__Title": {
-    "messageformat": "Clear call history?",
+    "messageformat": "Oproepgeschiedenis wissen?",
     "description": "Calls Tab > Confirm Clear Call History Dialog > Title"
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body": {
-    "messageformat": "This will permanently delete all call history",
+    "messageformat": "Hiermee wordt de oproepgeschiedenis voorgoed verwijderd",
     "description": "Calls Tab > Confirm Clear Call History Dialog > Body Text"
   },
   "icu:CallsTab__ConfirmClearCallHistory__ConfirmButton": {
-    "messageformat": "Clear",
+    "messageformat": "Verwijderen",
     "description": "Calls Tab > Confirm Clear Call History Dialog > Confirm Button"
   },
   "icu:CallsTab__ToastCallHistoryCleared": {
-    "messageformat": "Call history cleared",
+    "messageformat": "Oproepgeschiedenis gewist",
     "description": "Calls Tab > Clear Call History > Toast"
   },
   "icu:CallsTab__EmptyStateText": {
-    "messageformat": "Click to view or start a call",
+    "messageformat": "Klik om te bekijken of een oproep te starten",
     "description": "Calls Tab > When no call is selected > Empty state > Call to action text"
   },
   "icu:CallsList__SearchInputPlaceholder": {
-    "messageformat": "Search",
+    "messageformat": "Zoeken",
     "description": "Calls Tab > Calls List > Search Input > Placeholder"
   },
   "icu:CallsList__ToggleFilterByMissedLabel": {
-    "messageformat": "Filter by missed",
+    "messageformat": "Filteren op gemist",
     "description": "Calls Tab > Calls List > Toggle search filter by missed > Accessibility label"
   },
   "icu:CallsList__ToggleFilterByMissed__RoleDescription": {
-    "messageformat": "Toggle",
+    "messageformat": "Schuifschakelaar",
     "description": "Calls Tab > Calls List > Toggle search filter by missed > Accessibility role description ('A toggle button')"
   },
   "icu:CallsList__EmptyState--noQuery": {
-    "messageformat": "No recent calls. Get started by calling a friend.",
+    "messageformat": "Geen recente oproepen. Ga aan de slag door een contact te bellen.",
     "description": "Calls Tab > Calls List > When no results found > With no search query"
   },
   "icu:CallsList__EmptyState--hasQuery": {
-    "messageformat": "No results for “{query}”",
+    "messageformat": "Geen resultaten voor “{query}”",
     "description": "Calls Tab > Calls List > When no results found > With a search query"
   },
   "icu:CallsList__ItemCallInfo--Incoming": {
-    "messageformat": "Incoming",
+    "messageformat": "Inkomend",
     "description": "Calls Tab > Calls List > Call Item > Call Status > When call was accepted and was incoming"
   },
   "icu:CallsList__ItemCallInfo--Outgoing": {
-    "messageformat": "Outgoing",
+    "messageformat": "Uitgaand",
     "description": "Calls Tab > Calls List > Call Item > Call Status > When call was accepted and was outgoing"
   },
   "icu:CallsList__ItemCallInfo--Missed": {
-    "messageformat": "Missed",
+    "messageformat": "Gemist",
     "description": "Calls Tab > Calls List > Call Item > Call Status > When call was missed"
   },
   "icu:CallsList__ItemCallInfo--GroupCall": {
-    "messageformat": "Group call",
+    "messageformat": "Groepsoproep",
     "description": "Calls Tab > Calls List > Call Item > Call Status > When group call is in its default state"
   },
   "icu:CallsNewCall__EmptyState--noQuery": {
-    "messageformat": "No recent conversations.",
+    "messageformat": "Geen recente gesprekken.",
     "description": "Calls Tab > New Call > Conversations List > When no results found > With no search query"
   },
   "icu:CallsNewCall__EmptyState--hasQuery": {
-    "messageformat": "No results for “{query}”",
+    "messageformat": "Geen resultaten voor “{query}”",
     "description": "Calls Tab > New Call > Conversations List > When no results found > With a search query"
   },
   "icu:CallHistory__Description--Default": {
-    "messageformat": "{type, select, Audio {{direction, select, Outgoing {Outgoing voice call} other {Incoming voice call}}} Video {{direction, select, Outgoing {Outgoing video call} other {Incoming video call}}} Group {{direction, select, Outgoing {Outgoing group call} other {Incoming group call}}} other {{direction, select, Outgoing {Outgoing  call} other {Incoming  call}}}}",
+    "messageformat": "{type, select, Audio {{direction, select, Outgoing {Uitgaande spraakoproep} other {Inkomende spraakoproep}}} Video {{direction, select, Outgoing {Uitgaande video-oproep} other {Inkomende video-oproep}}} Group {{direction, select, Outgoing {Uitgaande groepsoproep} other {Inkomende groepsoproep}}} other {{direction, select, Outgoing {Uitgaande oproep} other {Inkomende oproep}}}}",
     "description": "Call History > Short description of call > When call was not missed or declined (generally accepted)"
   },
   "icu:CallHistory__Description--Missed": {
-    "messageformat": "{type, select, Audio {Missed voice call} Video {Missed video call} Group {Missed group call} other {Missed  call}}",
+    "messageformat": "{type, select, Audio {Gemiste spraakoproep} Video {Video-oproep gemist} Group {Gemiste groepsoproep} other {Gemiste oproep}}",
     "description": "Call History > Short description of call > When incoming call was missed"
   },
   "icu:CallHistory__Description--Unanswered": {
-    "messageformat": "{type, select, Audio {Unanswered voice call} Video {Unanswered video call} Group {Unanswered group call} other {Unanswered  call}}",
+    "messageformat": "{type, select, Audio {Onbeantwoorde spraakoproep} Video {Onbeantwoorde video-oproep} Group {Onbeantwoorde groepsoproep} other {Onbeantwoorde  oproep}}",
     "description": "Call History > Short description of call > When outgoing call was unanswered"
   },
   "icu:CallHistory__Description--Declined": {
-    "messageformat": "{type, select, Audio {Declined voice call} Video {Declined video call} Group {Declined group call} other {Declined  call}}",
+    "messageformat": "{type, select, Audio {Spraakoproep geweigerd} Video {Video-oproep geweigerd} Group {Groepsoproep geweigerd} other {Oproep geweigerd}}",
     "description": "Call History > Short description of call > When call was declined"
   },
   "icu:WhatsNew__modal-title": {
@@ -6779,6 +6787,6 @@
     "messageformat": "We hebben de ondersteuning voor meldingen in Windows verbeterd. Als je niet direct op een melding klikt als hij binnenkomt, vind je de laatst gemiste melding in het Windows Notification Center. Als je op die melding klinkt, ga je direct naar de chat. We willen Julien Richard bedanken voor de feedback."
   },
   "icu:WhatsNew__v6.30--0": {
-    "messageformat": "Keep tabs on your calls with the new calls tab. Start a new call or return a call that you missed without having to find the corresponding chat. Now you can say hello with your voice without also saying goodbye to the unread marker for messages in that thread."
+    "messageformat": "Het nieuwe oproepentabblad maakt het gemakkelijk een oproep te beginnen of iemand na een gemiste oproep terug te bellen. Start een nieuwe oproep of bel iemand na een gemiste oproep terug zonder de bijbehorende chat te hoeven zoeken. Nu kun je bellen zonder berichten als gelezen te markeren voor een bepaald contact."
   }
 }

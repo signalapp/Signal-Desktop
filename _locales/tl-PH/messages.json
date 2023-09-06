@@ -301,15 +301,15 @@
     "description": "Shown as a header for non-pinned conversations in the left pane"
   },
   "icu:NavTabsToggle__showTabs": {
-    "messageformat": "Show Tabs",
+    "messageformat": "Ipakita ang Tabs",
     "description": "Show in the left pane when the nav tabs are hidden, shows the nav tabs"
   },
   "icu:NavTabsToggle__hideTabs": {
-    "messageformat": "Hide Tabs",
+    "messageformat": "Itago ang Tabs",
     "description": "Show in the nav tabs when the nav tabs are visible, hides the nav tabs"
   },
   "icu:NavTabs__ItemIconLabel--HasError": {
-    "messageformat": "An error occurred",
+    "messageformat": "Nagkaroon ng error",
     "description": "Nav Tabs > Tab has error > Accessibility Text"
   },
   "icu:NavTabs__ItemIconLabel--UnreadCount": {
@@ -317,7 +317,7 @@
     "description": "Nav Tabs > Unread badge > Accessibility Text"
   },
   "icu:NavTabs__ItemIconLabel--MarkedUnread": {
-    "messageformat": "Marked unread",
+    "messageformat": "I-mark as unread",
     "description": "Nav Tabs > Unread badge > when conversation is marked unread > Accessibility Text"
   },
   "icu:NavTabs__ItemLabel--Settings": {
@@ -325,7 +325,7 @@
     "description": "Nav Tabs > Settings Button > Label & Accessibility Text"
   },
   "icu:NavTabs__ItemLabel--Update": {
-    "messageformat": "Update Signal",
+    "messageformat": "I-update ang Signal",
     "description": "Nav Tabs > Settings Button > Label & Accessibility Text"
   },
   "icu:NavTabs__ItemLabel--Profile": {
@@ -333,7 +333,7 @@
     "description": "Nav Tabs > Profile Button > Accessibility Text"
   },
   "icu:NavSidebar__BackButtonLabel": {
-    "messageformat": "Back",
+    "messageformat": "Bumalik",
     "description": "Shown in the sidebar header when on a nested panel within the current sidebar, takes the user back to the previous step or default sidebar state"
   },
   "icu:archiveHelperText": {
@@ -3158,10 +3158,18 @@
   },
   "icu:SendEdit--dialog--title": {
     "messageformat": "Sa Signal beta lang",
-    "description": "Title of the modal shown before sending your first edit message"
+    "description": "(deleted 8/30) Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body": {
     "messageformat": "Available lang sa Signal beta users ang pag-edit ng messages. Kung mag-edit ka ng message, ang mga taong may latest version lang ng Signal beta ang makakakita nito.",
+    "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
+  },
+  "icu:SendEdit--dialog--title2": {
+    "messageformat": "Edit Message",
+    "description": "Title of the modal shown before sending your first edit message"
+  },
+  "icu:SendEdit--dialog--body2": {
+    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -6573,7 +6581,7 @@
     "description": "Text of button at the bottom of the username link modal"
   },
   "icu:UsernameLinkModalBody__done": {
-    "messageformat": "Done",
+    "messageformat": "Tapos na",
     "description": "Text of button at the bottom of the username link modal"
   },
   "icu:UsernameLinkModalBody__color__radio": {
@@ -6637,35 +6645,35 @@
     "description": "Button text for the confirmation dialog shown to user when attempting to resend message edit"
   },
   "icu:StoriesTab__MoreActionsLabel": {
-    "messageformat": "More actions",
+    "messageformat": "Iba pang actions",
     "description": "Stories Tab > More Actions Button (opens context menu) > Accessibility Label"
   },
   "icu:CallsTab__HeaderTitle--CallsList": {
-    "messageformat": "Calls",
+    "messageformat": "Mga Tawag",
     "description": "Calls Tab > Header > Title > On Calls List screen"
   },
   "icu:CallsTab__HeaderTitle--NewCall": {
-    "messageformat": "New Call",
+    "messageformat": "Bagong call",
     "description": "Calls Tab > Header > Title > On New Call screen"
   },
   "icu:CallsTab__NewCallActionLabel": {
-    "messageformat": "New Call",
+    "messageformat": "Bagong call",
     "description": "Calls Tab > New Call Action Button > Accessibility Label"
   },
   "icu:CallsTab__MoreActionsLabel": {
-    "messageformat": "More actions",
+    "messageformat": "Iba pang actions",
     "description": "Calls Tab > More Actions Button (opens context menu) > Accessibility Label"
   },
   "icu:CallsTab__ClearCallHistoryLabel": {
-    "messageformat": "Clear call history",
+    "messageformat": "I-clear ang call history",
     "description": "Calls Tab > More Actions Context Menu > Clear Call History Button Label"
   },
   "icu:CallsTab__ConfirmClearCallHistory__Title": {
-    "messageformat": "Clear call history?",
+    "messageformat": "Gusto mo bang i-clear ang call history?",
     "description": "Calls Tab > Confirm Clear Call History Dialog > Title"
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body": {
-    "messageformat": "This will permanently delete all call history",
+    "messageformat": "Permanenteng mabubura ang lahat ng call history dito",
     "description": "Calls Tab > Confirm Clear Call History Dialog > Body Text"
   },
   "icu:CallsTab__ConfirmClearCallHistory__ConfirmButton": {
@@ -6677,15 +6685,15 @@
     "description": "Calls Tab > Clear Call History > Toast"
   },
   "icu:CallsTab__EmptyStateText": {
-    "messageformat": "Click to view or start a call",
+    "messageformat": "I-click para makita o magsimula ng call",
     "description": "Calls Tab > When no call is selected > Empty state > Call to action text"
   },
   "icu:CallsList__SearchInputPlaceholder": {
-    "messageformat": "Search",
+    "messageformat": "Maghanap",
     "description": "Calls Tab > Calls List > Search Input > Placeholder"
   },
   "icu:CallsList__ToggleFilterByMissedLabel": {
-    "messageformat": "Filter by missed",
+    "messageformat": "Missed calls lang ang ipakita",
     "description": "Calls Tab > Calls List > Toggle search filter by missed > Accessibility label"
   },
   "icu:CallsList__ToggleFilterByMissed__RoleDescription": {
@@ -6693,11 +6701,11 @@
     "description": "Calls Tab > Calls List > Toggle search filter by missed > Accessibility role description ('A toggle button')"
   },
   "icu:CallsList__EmptyState--noQuery": {
-    "messageformat": "No recent calls. Get started by calling a friend.",
+    "messageformat": "Walang recent calls. Magsimula sa pamamagitan ng pagtawag sa kaibigan mo.",
     "description": "Calls Tab > Calls List > When no results found > With no search query"
   },
   "icu:CallsList__EmptyState--hasQuery": {
-    "messageformat": "No results for “{query}”",
+    "messageformat": "Walang resulta para sa \"{query}\"",
     "description": "Calls Tab > Calls List > When no results found > With a search query"
   },
   "icu:CallsList__ItemCallInfo--Incoming": {
@@ -6717,11 +6725,11 @@
     "description": "Calls Tab > Calls List > Call Item > Call Status > When group call is in its default state"
   },
   "icu:CallsNewCall__EmptyState--noQuery": {
-    "messageformat": "No recent conversations.",
+    "messageformat": "Walang recent conversations.",
     "description": "Calls Tab > New Call > Conversations List > When no results found > With no search query"
   },
   "icu:CallsNewCall__EmptyState--hasQuery": {
-    "messageformat": "No results for “{query}”",
+    "messageformat": "Walang resulta para sa \"{query}\"",
     "description": "Calls Tab > New Call > Conversations List > When no results found > With a search query"
   },
   "icu:CallHistory__Description--Default": {
@@ -6733,7 +6741,7 @@
     "description": "Call History > Short description of call > When incoming call was missed"
   },
   "icu:CallHistory__Description--Unanswered": {
-    "messageformat": "{type, select, Audio {Unanswered voice call} Video {Unanswered video call} Group {Unanswered group call} other {Unanswered  call}}",
+    "messageformat": "{type, select, Audio {'Di nasagot na voice call} Video {Unanswered video call} Group {Unanswered group call} other {Unanswered  call}}",
     "description": "Call History > Short description of call > When outgoing call was unanswered"
   },
   "icu:CallHistory__Description--Declined": {
@@ -6779,6 +6787,6 @@
     "messageformat": "Mas pinaganda na namin ang notification support sa Windows. Kung hindi mo i-click agad ang isang notification pagkadating nito, lalabas ang pinakabagong missed notification sa Windows Notification Center. Mapupunta ka na kaagad sa chat pagkatapos mong i-click ang notification nito. Nais naming magpasalamat kay Julien Richard sa kanyang feedback."
   },
   "icu:WhatsNew__v6.30--0": {
-    "messageformat": "Keep tabs on your calls with the new calls tab. Start a new call or return a call that you missed without having to find the corresponding chat. Now you can say hello with your voice without also saying goodbye to the unread marker for messages in that thread."
+    "messageformat": "I-monitor ang mga tawag gamit ang bagong calls tab. Magsimula ng bagong tawag o mag-call back nang hindi kinakailangang hanapin kung saang chat ito galing. Pwede ka na ring mag-hello gamit ang boses mo nang hindi nawawala ang unread marker sa messages sa thread na 'yun."
   }
 }

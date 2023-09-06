@@ -301,39 +301,39 @@
     "description": "Shown as a header for non-pinned conversations in the left pane"
   },
   "icu:NavTabsToggle__showTabs": {
-    "messageformat": "Show Tabs",
+    "messageformat": "Wys navigasie-ikone",
     "description": "Show in the left pane when the nav tabs are hidden, shows the nav tabs"
   },
   "icu:NavTabsToggle__hideTabs": {
-    "messageformat": "Hide Tabs",
+    "messageformat": "Versteek navigasie-ikone",
     "description": "Show in the nav tabs when the nav tabs are visible, hides the nav tabs"
   },
   "icu:NavTabs__ItemIconLabel--HasError": {
-    "messageformat": "An error occurred",
+    "messageformat": "'n Fout het voorgekom",
     "description": "Nav Tabs > Tab has error > Accessibility Text"
   },
   "icu:NavTabs__ItemIconLabel--UnreadCount": {
-    "messageformat": "{count,number} unread",
+    "messageformat": "{count,number} ongelees",
     "description": "Nav Tabs > Unread badge > Accessibility Text"
   },
   "icu:NavTabs__ItemIconLabel--MarkedUnread": {
-    "messageformat": "Marked unread",
+    "messageformat": "As ongelees gemerk",
     "description": "Nav Tabs > Unread badge > when conversation is marked unread > Accessibility Text"
   },
   "icu:NavTabs__ItemLabel--Settings": {
-    "messageformat": "Settings",
+    "messageformat": "Instellings",
     "description": "Nav Tabs > Settings Button > Label & Accessibility Text"
   },
   "icu:NavTabs__ItemLabel--Update": {
-    "messageformat": "Update Signal",
+    "messageformat": "Dateer Signal op",
     "description": "Nav Tabs > Settings Button > Label & Accessibility Text"
   },
   "icu:NavTabs__ItemLabel--Profile": {
-    "messageformat": "Profile",
+    "messageformat": "Profiel",
     "description": "Nav Tabs > Profile Button > Accessibility Text"
   },
   "icu:NavSidebar__BackButtonLabel": {
-    "messageformat": "Back",
+    "messageformat": "Terug",
     "description": "Shown in the sidebar header when on a nested panel within the current sidebar, takes the user back to the previous step or default sidebar state"
   },
   "icu:archiveHelperText": {
@@ -2180,7 +2180,7 @@
     "description": "In conversation details, label for button to view safety number, opens safety number modal"
   },
   "icu:ConversationDetails__HeaderButton--Message": {
-    "messageformat": "Message",
+    "messageformat": "Boodskap",
     "description": "In conversation details, label for button to switch to the conversation view in order to draft a message in that converation"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
@@ -3158,10 +3158,18 @@
   },
   "icu:SendEdit--dialog--title": {
     "messageformat": "Slegs Signal-beta",
-    "description": "Title of the modal shown before sending your first edit message"
+    "description": "(deleted 8/30) Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body": {
     "messageformat": "Wysiging van boodskappe is slegs vir Signal-beta-gebruikers beskikbaar. Indien jy 'n boodskap wysig, sal dit slegs sigbaar wees vir mense wat op die jongste weergawe van Signal-beta is.",
+    "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
+  },
+  "icu:SendEdit--dialog--title2": {
+    "messageformat": "Edit Message",
+    "description": "Title of the modal shown before sending your first edit message"
+  },
+  "icu:SendEdit--dialog--body2": {
+    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -3417,11 +3425,11 @@
     "description": "Shown in both the incoming call bar and notification for an incoming video call"
   },
   "icu:outgoingAudioCall": {
-    "messageformat": "Outgoing voice call",
+    "messageformat": "Uitgaande stemoproep",
     "description": "Shown in the timeline for an outgoing voice call"
   },
   "icu:outgoingVideoCall": {
-    "messageformat": "Outgoing video call",
+    "messageformat": "Uitgaande video-oproep",
     "description": "Shown in the timeline for an outgoing video call"
   },
   "icu:incomingGroupCall__ringing-you": {
@@ -6573,7 +6581,7 @@
     "description": "Text of button at the bottom of the username link modal"
   },
   "icu:UsernameLinkModalBody__done": {
-    "messageformat": "Done",
+    "messageformat": "Klaar",
     "description": "Text of button at the bottom of the username link modal"
   },
   "icu:UsernameLinkModalBody__color__radio": {
@@ -6637,107 +6645,107 @@
     "description": "Button text for the confirmation dialog shown to user when attempting to resend message edit"
   },
   "icu:StoriesTab__MoreActionsLabel": {
-    "messageformat": "More actions",
+    "messageformat": "Meer aksies",
     "description": "Stories Tab > More Actions Button (opens context menu) > Accessibility Label"
   },
   "icu:CallsTab__HeaderTitle--CallsList": {
-    "messageformat": "Calls",
+    "messageformat": "Oproepe",
     "description": "Calls Tab > Header > Title > On Calls List screen"
   },
   "icu:CallsTab__HeaderTitle--NewCall": {
-    "messageformat": "New Call",
+    "messageformat": "Nuwe oproep",
     "description": "Calls Tab > Header > Title > On New Call screen"
   },
   "icu:CallsTab__NewCallActionLabel": {
-    "messageformat": "New Call",
+    "messageformat": "Nuwe oproep",
     "description": "Calls Tab > New Call Action Button > Accessibility Label"
   },
   "icu:CallsTab__MoreActionsLabel": {
-    "messageformat": "More actions",
+    "messageformat": "Meer aksies",
     "description": "Calls Tab > More Actions Button (opens context menu) > Accessibility Label"
   },
   "icu:CallsTab__ClearCallHistoryLabel": {
-    "messageformat": "Clear call history",
+    "messageformat": "Vee oproepgeskiedenis uit",
     "description": "Calls Tab > More Actions Context Menu > Clear Call History Button Label"
   },
   "icu:CallsTab__ConfirmClearCallHistory__Title": {
-    "messageformat": "Clear call history?",
+    "messageformat": "Vee oproepgeskiedenis uit?",
     "description": "Calls Tab > Confirm Clear Call History Dialog > Title"
   },
   "icu:CallsTab__ConfirmClearCallHistory__Body": {
-    "messageformat": "This will permanently delete all call history",
+    "messageformat": "Dit sal die hele oproepgeskiedenis permanent uitvee",
     "description": "Calls Tab > Confirm Clear Call History Dialog > Body Text"
   },
   "icu:CallsTab__ConfirmClearCallHistory__ConfirmButton": {
-    "messageformat": "Clear",
+    "messageformat": "Vee uit",
     "description": "Calls Tab > Confirm Clear Call History Dialog > Confirm Button"
   },
   "icu:CallsTab__ToastCallHistoryCleared": {
-    "messageformat": "Call history cleared",
+    "messageformat": "Oproepgeskiedenis uitgevee",
     "description": "Calls Tab > Clear Call History > Toast"
   },
   "icu:CallsTab__EmptyStateText": {
-    "messageformat": "Click to view or start a call",
+    "messageformat": "Klik om 'n oproep te sien of te begin",
     "description": "Calls Tab > When no call is selected > Empty state > Call to action text"
   },
   "icu:CallsList__SearchInputPlaceholder": {
-    "messageformat": "Search",
+    "messageformat": "Soek",
     "description": "Calls Tab > Calls List > Search Input > Placeholder"
   },
   "icu:CallsList__ToggleFilterByMissedLabel": {
-    "messageformat": "Filter by missed",
+    "messageformat": "Filtreer volgens gemis",
     "description": "Calls Tab > Calls List > Toggle search filter by missed > Accessibility label"
   },
   "icu:CallsList__ToggleFilterByMissed__RoleDescription": {
-    "messageformat": "Toggle",
+    "messageformat": "Skakel aan of af",
     "description": "Calls Tab > Calls List > Toggle search filter by missed > Accessibility role description ('A toggle button')"
   },
   "icu:CallsList__EmptyState--noQuery": {
-    "messageformat": "No recent calls. Get started by calling a friend.",
+    "messageformat": "Geen onlangse oproepe nie. Begin deur 'n vriend te bel.",
     "description": "Calls Tab > Calls List > When no results found > With no search query"
   },
   "icu:CallsList__EmptyState--hasQuery": {
-    "messageformat": "No results for “{query}”",
+    "messageformat": "Geen resultate vir \"{query}\" nie",
     "description": "Calls Tab > Calls List > When no results found > With a search query"
   },
   "icu:CallsList__ItemCallInfo--Incoming": {
-    "messageformat": "Incoming",
+    "messageformat": "Inkomend",
     "description": "Calls Tab > Calls List > Call Item > Call Status > When call was accepted and was incoming"
   },
   "icu:CallsList__ItemCallInfo--Outgoing": {
-    "messageformat": "Outgoing",
+    "messageformat": "Uitgaande",
     "description": "Calls Tab > Calls List > Call Item > Call Status > When call was accepted and was outgoing"
   },
   "icu:CallsList__ItemCallInfo--Missed": {
-    "messageformat": "Missed",
+    "messageformat": "Gemis",
     "description": "Calls Tab > Calls List > Call Item > Call Status > When call was missed"
   },
   "icu:CallsList__ItemCallInfo--GroupCall": {
-    "messageformat": "Group call",
+    "messageformat": "Groepoproep",
     "description": "Calls Tab > Calls List > Call Item > Call Status > When group call is in its default state"
   },
   "icu:CallsNewCall__EmptyState--noQuery": {
-    "messageformat": "No recent conversations.",
+    "messageformat": "Geen onlangse gesprekke nie.",
     "description": "Calls Tab > New Call > Conversations List > When no results found > With no search query"
   },
   "icu:CallsNewCall__EmptyState--hasQuery": {
-    "messageformat": "No results for “{query}”",
+    "messageformat": "Geen resultate vir \"{query}\" nie",
     "description": "Calls Tab > New Call > Conversations List > When no results found > With a search query"
   },
   "icu:CallHistory__Description--Default": {
-    "messageformat": "{type, select, Audio {{direction, select, Outgoing {Outgoing voice call} other {Incoming voice call}}} Video {{direction, select, Outgoing {Outgoing video call} other {Incoming video call}}} Group {{direction, select, Outgoing {Outgoing group call} other {Incoming group call}}} other {{direction, select, Outgoing {Outgoing  call} other {Incoming  call}}}}",
+    "messageformat": "{type, select, Audio {{direction, select, Outgoing {Uitgaande stemoproep} other {Inkomende stemoproep}}} Video {{direction, select, Outgoing {Uitgaande video-oproep} other {Inkomende video-oproep}}} Group {{direction, select, Outgoing {Uitgaande groepoproep} other {Inkomende groepoproep}}} other {{direction, select, Outgoing {Uitgaande oproep} other {Inkomende oproep}}}}",
     "description": "Call History > Short description of call > When call was not missed or declined (generally accepted)"
   },
   "icu:CallHistory__Description--Missed": {
-    "messageformat": "{type, select, Audio {Missed voice call} Video {Missed video call} Group {Missed group call} other {Missed  call}}",
+    "messageformat": "{type, select, Audio {Gemiste stemoproep} Video {Gemiste video-oproep} Group {Gemiste groepoproep} other {Gemiste oproep}}",
     "description": "Call History > Short description of call > When incoming call was missed"
   },
   "icu:CallHistory__Description--Unanswered": {
-    "messageformat": "{type, select, Audio {Unanswered voice call} Video {Unanswered video call} Group {Unanswered group call} other {Unanswered  call}}",
+    "messageformat": "{type, select, Audio {Onbeantwoorde stemoproep} Video {Onbeantwoorde video-oproep} Group {Onbeantwoorde groepoproep} other {Onbeantwoorde oproep}}",
     "description": "Call History > Short description of call > When outgoing call was unanswered"
   },
   "icu:CallHistory__Description--Declined": {
-    "messageformat": "{type, select, Audio {Declined voice call} Video {Declined video call} Group {Declined group call} other {Declined  call}}",
+    "messageformat": "{type, select, Audio {Stemoproep geweier} Video {Video-oproep geweier} Group {Groepoproep geweier} other {Oproep geweier}}",
     "description": "Call History > Short description of call > When call was declined"
   },
   "icu:WhatsNew__modal-title": {
@@ -6779,6 +6787,6 @@
     "messageformat": "Ons het kennisgewingondersteuning in Windows verbeter. As jy nie op 'n kennisgewing klik wanneer dit die eerste keer aankom nie, sal die jongste gemiste kennisgewing in die Windows-kennisgewingsentrum verskyn. As jy op daardie kennisgewing klik, sal dit jou nou direk na daardie klets toe neem. Ons wil graag vir Julien Richard bedank vir sy terugvoer."
   },
   "icu:WhatsNew__v6.30--0": {
-    "messageformat": "Keep tabs on your calls with the new calls tab. Start a new call or return a call that you missed without having to find the corresponding chat. Now you can say hello with your voice without also saying goodbye to the unread marker for messages in that thread."
+    "messageformat": "Hou 'n oog op jou oproepe met die nuwe oproep-ikoon. Begin 'n nuwe oproep of beantwoord 'n oproep wat jy gemis het sonder om die betrokke klets te moet vind. Nou kan jy ongeleesde boodskappe in daardie string ignoreer en 'n stemgesprek begin."
   }
 }
