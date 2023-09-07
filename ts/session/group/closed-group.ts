@@ -26,7 +26,8 @@ import { ClosedGroupRemovedMembersMessage } from '../messages/outgoing/controlMe
 import { UserUtils } from '../utils';
 import { fromHexToArray, toHex } from '../utils/String';
 import {
-  DisappearingMessageConversationType,
+  DisappearAfterSendOnly,
+  changeToDisappearingMessageConversationType,
   changeToDisappearingMessageType,
   setExpirationStartTimestamp,
 } from '../../util/expiringMessages';
@@ -37,7 +38,7 @@ export type GroupInfo = {
   members: Array<string>;
   zombies?: Array<string>;
   activeAt?: number;
-  expirationType?: DisappearingMessageConversationType[0] | DisappearingMessageConversationType[2];
+  expirationType?: DisappearAfterSendOnly;
   expireTimer?: number;
   admins?: Array<string>;
 };
@@ -72,6 +73,12 @@ export async function initiateClosedGroupUpdate(
     isGroupV3 ? ConversationTypeEnum.GROUPV3 : ConversationTypeEnum.GROUP
   );
 
+  const expirationType = changeToDisappearingMessageType(convo, convo.get('expirationType'));
+
+  if (expirationType === 'deleteAfterRead') {
+    throw new Error(`Groups cannot be deleteAfterRead. convo id: ${convo.id}`);
+  }
+
   // do not give an admins field here. We don't want to be able to update admins and
   // updateOrCreateClosedGroup() will update them if given the choice.
   const groupDetails: GroupInfo = {
@@ -81,7 +88,7 @@ export async function initiateClosedGroupUpdate(
     // remove from the zombies list the zombies not which are not in the group anymore
     zombies: convo.get('zombies')?.filter(z => members.includes(z)),
     activeAt: Date.now(),
-    expirationType: convo.get('expirationType') || undefined,
+    expirationType,
     expireTimer: convo.get('expireTimer') || 0,
   };
 
@@ -253,17 +260,24 @@ export async function updateOrCreateClosedGroup(details: GroupInfo, fromLegacyCo
     await conversation.updateGroupAdmins(details.admins, false);
   }
 
-  await conversation.updateExpireTimer({
-    // TODO legacy messages support will be removed in a future release
-    providedExpirationType:
-      expirationType || (expireTimer && expireTimer > 0) ? 'deleteAfterSend' : 'off',
-    providedExpireTimer: expireTimer || 0,
-    providedChangeTimestamp: GetNetworkTime.getNowWithNetworkOffset(),
-    providedSource: UserUtils.getOurPubKeyStrFromCache(),
-    receivedAt: Date.now(),
-    fromSync: true,
-    fromConfigMessage: Boolean(fromLegacyConfig),
-  });
+  // if (
+  //   details.expirationType !== conversation.get('expirationType') ||
+  //   details.expireTimer !== conversation.get('expireTimer')
+  // ) {
+  //   await conversation.updateExpireTimer({
+  //     providedExpirationType: changeToDisappearingMessageConversationType(
+  //       conversation,
+  //       expirationType,
+  //       expireTimer
+  //     ),
+  //     providedExpireTimer: expireTimer || 0,
+  //     providedChangeTimestamp: GetNetworkTime.getNowWithNetworkOffset(),
+  //     providedSource: UserUtils.getOurPubKeyStrFromCache(),
+  //     receivedAt: Date.now(),
+  //     fromSync: true,
+  //     fromConfigMessage: Boolean(fromLegacyConfig),
+  //   });
+  // }
 
   await conversation.commit();
 }

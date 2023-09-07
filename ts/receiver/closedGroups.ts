@@ -366,7 +366,8 @@ export async function handleNewClosedGroup(
     members,
     admins,
     activeAt: envelopeTimestamp,
-    expirationType: 'off',
+    expirationType: 'unknown',
+    expireTimer: 0,
   };
 
   // be sure to call this before sending the message.

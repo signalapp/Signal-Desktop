@@ -615,7 +615,7 @@ async function handleLegacyGroupUpdate(latestEnvelopeTimestamp: number) {
       expirationType:
         fromWrapper.disappearingTimerSeconds && fromWrapper.disappearingTimerSeconds > 0
           ? 'deleteAfterSend'
-          : 'off',
+          : 'unknown',
       expireTimer: fromWrapper.disappearingTimerSeconds,
     };
 

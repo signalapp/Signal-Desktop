@@ -849,7 +849,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       isEqual(expireTimer, this.get('expireTimer'))
     ) {
       window.log.info(
-        'WIP: updateExpireTimer()  Dropping ExpireTimerUpdate message as we already have the same one set.'
+        'WIP: conversation: updateExpireTimer()  Dropping ExpireTimerUpdate message as we already have the same one set.'
       );
       return;
     }

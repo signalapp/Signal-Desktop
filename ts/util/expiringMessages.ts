@@ -17,6 +17,7 @@ import { ReleasedFeatures } from './releaseFeature';
 // TODO double check this
 export const DisappearingMessageMode = ['unknown', 'deleteAfterRead', 'deleteAfterSend'] as const;
 export type DisappearingMessageType = typeof DisappearingMessageMode[number];
+export type DisappearAfterSendOnly = Exclude<DisappearingMessageType, 'deleteAfterRead'>;
 // NOTE these cannot be imported in the nodejs side yet. We need to move the types to the own file with no window imports
 // TODO legacy messages support will be removed in a future release
 // TODO NOTE legacy is strictly used in the UI and is not a valid disappearing message mode

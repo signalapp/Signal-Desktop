@@ -395,6 +395,7 @@ export async function handleMessageJob(
     const expireTimer = messageModel.get('expireTimer');
 
     // NOTE we handle incoming disappear afer send messages and are Note To Self sync messages here
+    // TODO I think this is incorrect? Let's fix
     if (
       conversation &&
       (messageModel.isIncoming() || conversation.isMe()) &&
@@ -450,7 +451,7 @@ export async function handleMessageJob(
       ) {
         confirm?.();
         window?.log?.info(
-          'Dropping ExpireTimerUpdate message as we already have the same one set.'
+          'WIP: queuedJob: Dropping ExpireTimerUpdate message as we already have the same one set.'
         );
         return;
       }
