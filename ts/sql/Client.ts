@@ -3,6 +3,7 @@
 
 import { ipcRenderer as ipc } from 'electron';
 import PQueue from 'p-queue';
+import { batch } from 'react-redux';
 
 import { has, get, groupBy, isTypedArray, last, map, omit } from 'lodash';
 
@@ -23,7 +24,11 @@ import * as Errors from '../types/errors';
 
 import type { StoredJob } from '../jobs/types';
 import { formatJobForInsert } from '../jobs/formatJobForInsert';
-import { cleanupMessage } from '../util/cleanup';
+import {
+  cleanupMessage,
+  cleanupMessageFromMemory,
+  deleteMessageData,
+} from '../util/cleanup';
 import { drop } from '../util/drop';
 import { ipcInvoke, doShutdown } from './channels';
 
@@ -590,11 +595,18 @@ async function removeMessage(id: string): Promise<void> {
 async function _cleanupMessages(
   messages: ReadonlyArray<MessageAttributesType>
 ): Promise<void> {
+  // First, remove messages from memory, so we can batch the updates in redux
+  batch(() => {
+    messages.forEach(message => cleanupMessageFromMemory(message));
+  });
+
+  // Then, handle any asynchronous actions (e.g. deleting data from disk)
   const queue = new PQueue({ concurrency: 3, timeout: MINUTE * 30 });
   drop(
     queue.addAll(
       messages.map(
-        (message: MessageAttributesType) => async () => cleanupMessage(message)
+        (message: MessageAttributesType) => async () =>
+          deleteMessageData(message)
       )
     )
   );

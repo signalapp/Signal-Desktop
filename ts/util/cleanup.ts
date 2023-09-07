@@ -10,6 +10,14 @@ import * as log from '../logging/log';
 export async function cleanupMessage(
   message: MessageAttributesType
 ): Promise<void> {
+  cleanupMessageFromMemory(message);
+  await deleteMessageData(message);
+}
+
+/** Removes a message from redux caches & backbone, but does NOT delete files on disk,
+ * story replies, edit histories, attachments, etc. Should ONLY be called in conjunction
+ * with deleteMessageData.  */
+export function cleanupMessageFromMemory(message: MessageAttributesType): void {
   const { id, conversationId } = message;
 
   window.reduxActions?.conversations.messageDeleted(id, conversationId);
@@ -18,8 +26,6 @@ export async function cleanupMessage(
   parentConversation?.debouncedUpdateLastMessage();
 
   window.MessageController.unregister(id);
-
-  await deleteMessageData(message);
 }
 
 async function cleanupStoryReplies(
