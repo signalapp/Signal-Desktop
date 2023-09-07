@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
-import { animation, Item, Menu, useContextMenu } from 'react-contexify';
-
+import { Item, ItemParams, Menu, useContextMenu } from 'react-contexify';
 import { useDispatch } from 'react-redux';
 import { useClickAway, useMouse } from 'react-use';
 import styled from 'styled-components';
+import { isNumber } from 'lodash';
 import { Data } from '../../../../data/data';
 
 import { MessageInteraction } from '../../../../interactions';
@@ -66,7 +66,7 @@ type Props = { messageId: string; contextMenuId: string; enableReactions: boolea
 const StyledMessageContextMenu = styled.div`
   position: relative;
 
-  .react-contexify {
+  .contexify {
     margin-left: -104px;
   }
 `;
@@ -102,49 +102,6 @@ const DeleteForEveryone = ({ messageId }: { messageId: string }) => {
 };
 
 type MessageId = { messageId: string };
-
-const SaveAttachment = ({ messageId }: MessageId) => {
-  const convoId = useSelectedConversationKey();
-  const attachments = useMessageAttachments(messageId);
-  const timestamp = useMessageTimestamp(messageId);
-  const serverTimestamp = useMessageServerTimestamp(messageId);
-
-  const sender = useMessageSender(messageId);
-  const saveAttachment = useCallback(
-    (e: any) => {
-      // this is quite dirty but considering that we want the context menu of the message to show on click on the attachment
-      // and the context menu save attachment item to save the right attachment I did not find a better way for now.
-      let targetAttachmentIndex = e.triggerEvent.path[1].getAttribute('data-attachmentindex');
-      e.event.stopPropagation();
-      if (!attachments?.length || !convoId || !sender) {
-        return;
-      }
-
-      if (!targetAttachmentIndex) {
-        targetAttachmentIndex = 0;
-      }
-      if (targetAttachmentIndex > attachments.length) {
-        return;
-      }
-      const messageTimestamp = timestamp || serverTimestamp || 0;
-      void saveAttachmentToDisk({
-        attachment: attachments[targetAttachmentIndex],
-        messageTimestamp,
-        messageSender: sender,
-        conversationId: convoId,
-      });
-    },
-    [convoId, sender, attachments, serverTimestamp, timestamp]
-  );
-
-  if (!convoId) {
-    return null;
-  }
-
-  return attachments?.length ? (
-    <Item onClick={saveAttachment}>{window.i18n('downloadAttachment')}</Item>
-  ) : null;
-};
 
 const AdminActionItems = ({ messageId }: MessageId) => {
   const convoId = useSelectedConversationKey();
@@ -218,6 +175,11 @@ export const MessageContextMenu = (props: Props) => {
   const status = useMessageStatus(messageId);
   const isDeletable = useMessageIsDeletable(messageId);
   const text = useMessageBody(messageId);
+  const attachments = useMessageAttachments(messageId);
+  const timestamp = useMessageTimestamp(messageId);
+  const serverTimestamp = useMessageServerTimestamp(messageId);
+
+  const sender = useMessageSender(messageId);
 
   const isOutgoing = direction === 'outgoing';
   const isSent = status === 'sent' || status === 'read'; // a read message should be replyable
@@ -233,21 +195,24 @@ export const MessageContextMenu = (props: Props) => {
   const [mouseX, setMouseX] = useState(0);
   const [mouseY, setMouseY] = useState(0);
 
-  const onContextMenuShown = () => {
-    if (showEmojiPanel) {
-      setShowEmojiPanel(false);
-    }
-    window.contextMenuShown = true;
-  };
-
-  const onContextMenuHidden = useCallback(() => {
-    // This function will called before the click event
-    // on the message would trigger (and I was unable to
-    // prevent propagation in this case), so use a short timeout
-    setTimeout(() => {
-      window.contextMenuShown = false;
-    }, 100);
-  }, []);
+  const onVisibilityChange = useCallback(
+    (isVisible: boolean) => {
+      if (isVisible) {
+        if (showEmojiPanel) {
+          setShowEmojiPanel(false);
+        }
+        window.contextMenuShown = true;
+        return;
+      }
+      // This function will called before the click event
+      // on the message would trigger (and I was unable to
+      // prevent propagation in this case), so use a short timeout
+      setTimeout(() => {
+        window.contextMenuShown = false;
+      }, 100);
+    },
+    [showEmojiPanel]
+  );
 
   const onShowDetail = async () => {
     const found = await Data.getMessageById(messageId);
@@ -313,6 +278,30 @@ export const MessageContextMenu = (props: Props) => {
     }
   };
 
+  const saveAttachment = (e: ItemParams) => {
+    // this is quite dirty but considering that we want the context menu of the message to show on click on the attachment
+    // and the context menu save attachment item to save the right attachment I did not find a better way for now.
+    // Note: If you change this, also make sure to update the `handleContextMenu()` in GenericReadableMessage.tsx
+    const targetAttachmentIndex = isNumber(e?.props?.dataAttachmentIndex)
+      ? e.props.dataAttachmentIndex
+      : 0;
+    e.event.stopPropagation();
+    if (!attachments?.length || !convoId || !sender) {
+      return;
+    }
+
+    if (targetAttachmentIndex > attachments.length) {
+      return;
+    }
+    const messageTimestamp = timestamp || serverTimestamp || 0;
+    void saveAttachmentToDisk({
+      attachment: attachments[targetAttachmentIndex],
+      messageTimestamp,
+      messageSender: sender,
+      conversationId: convoId,
+    });
+  };
+
   useClickAway(emojiPanelRef, () => {
     onEmojiLoseFocus();
   });
@@ -360,18 +349,14 @@ export const MessageContextMenu = (props: Props) => {
         </StyledEmojiPanelContainer>
       )}
       <SessionContextMenuContainer>
-        <Menu
-          id={contextMenuId}
-          onShown={onContextMenuShown}
-          onHidden={onContextMenuHidden}
-          animation={animation.fade}
-        >
+        <Menu id={contextMenuId} onVisibilityChange={onVisibilityChange} animation="fade">
           {enableReactions && (
             // eslint-disable-next-line @typescript-eslint/no-misused-promises
             <MessageReactBar action={onEmojiClick} additionalAction={onShowEmoji} />
           )}
-          <SaveAttachment messageId={messageId} />
-
+          {attachments?.length ? (
+            <Item onClick={saveAttachment}>{window.i18n('downloadAttachment')}</Item>
+          ) : null}
           <Item onClick={copyText}>{window.i18n('copyMessage')}</Item>
           {(isSent || !isOutgoing) && (
             <Item onClick={onReply}>{window.i18n('replyToMessage')}</Item>

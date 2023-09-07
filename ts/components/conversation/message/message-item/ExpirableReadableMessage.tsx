@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useInterval } from 'react-use';
+import { useInterval, useMount } from 'react-use';
 import styled from 'styled-components';
 import { Data } from '../../../../data/data';
 import { getConversationController } from '../../../../session/conversations';
@@ -61,9 +61,9 @@ function useIsExpired(
     checkFrequency = Math.max(EXPIRATION_CHECK_MINIMUM, increment);
   }
 
-  useEffect(() => {
+  useMount(() => {
     void checkExpired();
-  }, [checkExpired]); // check on mount
+  }); // check on mount
 
   useInterval(checkExpired, checkFrequency); // check every 2sec or sooner if needed
 

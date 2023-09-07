@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { contextMenu } from 'react-contexify';
 import { useSelector } from 'react-redux';
 import styled, { keyframes } from 'styled-components';
+import { isNil, isString, toNumber } from 'lodash';
 import { MessageRenderingProps } from '../../../../models/messageType';
 import { getConversationController } from '../../../../session/conversations';
 import {
@@ -99,13 +100,27 @@ export const GenericReadableMessage = (props: Props) => {
 
   const handleContextMenu = useCallback(
     (e: React.MouseEvent<HTMLElement>) => {
+      // this is quite dirty but considering that we want the context menu of the message to show on click on the attachment
+      // and the context menu save attachment item to save the right attachment I did not find a better way for now.
+
+      // Note: If you change this, also make sure to update the `saveAttachment()` in MessageContextMenu.tsx
       const enableContextMenu = !multiSelectMode && !msgProps?.isKickedFromGroup;
+      const attachmentIndexStr = (e?.target as any)?.parentElement?.getAttribute?.(
+        'data-attachmentindex'
+      );
+      const attachmentIndex =
+        isString(attachmentIndexStr) && !isNil(toNumber(attachmentIndexStr))
+          ? toNumber(attachmentIndexStr)
+          : 0;
 
       if (enableContextMenu) {
         contextMenu.hideAll();
         contextMenu.show({
           id: ctxMenuID,
           event: e,
+          props: {
+            dataAttachmentIndex: attachmentIndex,
+          },
         });
       }
       setIsRightClicked(enableContextMenu);

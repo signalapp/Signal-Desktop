@@ -1,6 +1,6 @@
 // Modules
 @import 'react-h5-audio-player/lib/styles.css';
-@import 'react-contexify/dist/ReactContexify.min.css';
+@import 'react-contexify/dist/ReactContexify.css'; // the .css is actually referencing the .min.css in the 6.0.0
 @import 'react-toastify/dist/ReactToastify.css';
 
 @import 'sanitize.css/sanitize.css';

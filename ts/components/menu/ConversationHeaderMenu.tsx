@@ -1,5 +1,5 @@
 import React from 'react';
-import { animation, Menu } from 'react-contexify';
+import { Menu } from 'react-contexify';
 import { useSelector } from 'react-redux';
 import { isSearching } from '../../state/selectors/search';
 import {
@@ -58,7 +58,7 @@ export const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
   return (
     <ContextConversationProvider value={convoId}>
       <SessionContextMenuContainer>
-        <Menu id={triggerId} animation={animation.fade}>
+        <Menu id={triggerId} animation="fade">
           <NotificationForConvoMenuItem />
           <BlockMenuItem />
           <CopyMenuItem />

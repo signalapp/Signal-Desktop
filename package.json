@@ -2,7 +2,7 @@
   "name": "session-desktop",
   "productName": "Session",
   "description": "Private messaging from your desktop",
-  "version": "1.11.1",
+  "version": "1.11.2",
   "license": "GPL-3.0",
   "author": {
     "name": "Oxen Labs",
@@ -109,7 +109,7 @@
     "protobufjs": "^7.2.4",
     "rc-slider": "^10.2.1",
     "react": "^17.0.2",
-    "react-contexify": "5.0.0",
+    "react-contexify": "^6.0.0",
     "react-dom": "^17.0.2",
     "react-draggable": "^4.4.4",
     "react-h5-audio-player": "^3.2.0",
