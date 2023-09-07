@@ -43,6 +43,7 @@ import {
   resolveStorySendStatus,
 } from '../../util/resolveStorySendStatus';
 import { BodyRange, hydrateRanges } from '../../types/BodyRange';
+import { getStoriesEnabled } from './items';
 
 export const getStoriesState = (state: StateType): StoriesStateType =>
   state.stories;
@@ -467,9 +468,18 @@ export const getStories = createSelector(
 );
 
 export const getStoriesNotificationCount = createSelector(
+  getStoriesEnabled,
   getHideStoryConversationIds,
   getStoriesState,
-  (hideStoryConversationIds, { lastOpenedAtTimestamp, stories }): number => {
+  (
+    storiesEnabled,
+    hideStoryConversationIds,
+    { lastOpenedAtTimestamp, stories }
+  ): number => {
+    if (!storiesEnabled) {
+      return 0;
+    }
+
     const hiddenConversationIds = new Set(hideStoryConversationIds);
 
     return new Set(
