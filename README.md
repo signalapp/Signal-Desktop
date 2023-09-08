@@ -12,6 +12,10 @@ Session integrates directly with [Oxen Service Nodes](https://docs.oxen.io/about
 
 Please search for any [existing issues](https://github.com/oxen-io/session-desktop/issues) that describe your bug in order to avoid duplicate submissions. <br><br>Submissions can be made by making a pull request to our development branch.If you don't know where to start contributing please read [Contributing.md](CONTRIBUTING.md) and refer to issues tagged with the [Good-first-issue](https://github.com/oxen-io/session-desktop/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22) tag.
 
+## Supported platforms
+
+Session requires Windows 10 or later, macOS Catalina (10.15) or later, or a linux distribution with glibc 2.28 or later like Debian 10 or Ubuntu 20.04.
+
 ## Build instruction
 
 Build instructions can be found in [Contributing.md](CONTRIBUTING.md).
@@ -21,7 +25,7 @@ Build instructions can be found in [Contributing.md](CONTRIBUTING.md).
 
 Get Kee's key and import it:
 ```
-wget https://raw.githubusercontent.com/oxen-io/oxen-core/master/utils/gpg_keys/KeeJef.asc
+wget https://raw.githubusercontent.com/oxen-io/oxen-core/dev/utils/gpg_keys/KeeJef.asc
 gpg --import KeeJef.asc
 ```
 

@@ -530,7 +530,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       // an OpenGroupV2 message is just a visible message
       const chatMessageParams: VisibleMessageParams = {
         body: '',
-        timestamp: sentAt,
+        // we need to use a new timestamp here, otherwise android&iOS will consider this message as a duplicate and drop the synced reaction
+        timestamp: GetNetworkTime.getNowWithNetworkOffset(),
         reaction,
         lokiProfile: UserUtils.getOurProfile(),
       };
