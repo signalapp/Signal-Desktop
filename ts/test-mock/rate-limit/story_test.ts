@@ -94,13 +94,12 @@ describe('story/no-sender-key', function needsName() {
         .click();
 
       debug('Focusing textarea');
-      // Note: For some reason `.click()` doesn't work here anymore.
-      await storiesCreator.locator('.TextAttachment').dispatchEvent('click');
+      await storiesCreator.locator('.TextAttachment__story').click();
 
       debug('Entering text');
       await storiesCreator
         .locator('.TextAttachment__text__textarea')
-        .fill('123');
+        .type('123');
 
       debug('Clicking "Next"');
       await storiesCreator
