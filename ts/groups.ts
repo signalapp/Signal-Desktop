@@ -4925,10 +4925,17 @@ async function applyGroupChange({
       );
     }
 
-    newProfileKeys.push({
-      profileKey,
-      aci,
-    });
+    if (aci === sourceServiceId || !hasProfileKey(aci)) {
+      newProfileKeys.push({
+        profileKey,
+        aci,
+      });
+    } else {
+      log.warn(
+        `applyGroupChange/${logId}: Attempt to modify member profile key ` +
+          'failed; sourceServiceId is not the same as change aci'
+      );
+    }
   });
 
   // addPendingMembers?: Array<
@@ -5433,6 +5440,16 @@ function profileKeyHasChanged(
   return newBase64 !== existingBase64;
 }
 
+function hasProfileKey(userId: ServiceIdString) {
+  const conversation = window.ConversationController.get(userId);
+  if (!conversation) {
+    return true;
+  }
+
+  const existingBase64 = conversation.get('profileKey');
+  return existingBase64 !== undefined;
+}
+
 async function applyGroupState({
   group,
   groupState,
@@ -5540,15 +5557,19 @@ async function applyGroupState({
       }
 
       const previousMember = members[member.userId];
-      if (
-        member.profileKey &&
-        (!previousMember ||
-          profileKeyHasChanged(member.userId, member.profileKey))
-      ) {
+      if (member.profileKey && !hasProfileKey(member.userId)) {
         newProfileKeys.push({
           profileKey: member.profileKey,
           aci: member.userId,
         });
+      } else if (
+        member.profileKey &&
+        profileKeyHasChanged(member.userId, member.profileKey)
+      ) {
+        log.warn(
+          `applyGroupState(${logId}): Member ${member.userId} had different profileKey`
+        );
+        otherChanges = true;
       } else if (!previousMember) {
         otherChanges = true;
       }
@@ -5634,15 +5655,19 @@ async function applyGroupState({
     result.pendingAdminApprovalV2 = groupState.membersPendingAdminApproval.map(
       member => {
         const previousMember = pendingAdminApprovalMembers[member.userId];
-        if (
-          member.profileKey &&
-          (!previousMember ||
-            profileKeyHasChanged(member.userId, member.profileKey))
-        ) {
+        if (member.profileKey && !hasProfileKey(member.userId)) {
           newProfileKeys.push({
             profileKey: member.profileKey,
             aci: member.userId,
           });
+        } else if (
+          member.profileKey &&
+          profileKeyHasChanged(member.userId, member.profileKey)
+        ) {
+          log.warn(
+            `applyGroupState(${logId}): Member ${member.userId} had different profileKey`
+          );
+          otherChanges = true;
         } else if (!previousMember) {
           otherChanges = true;
         }
