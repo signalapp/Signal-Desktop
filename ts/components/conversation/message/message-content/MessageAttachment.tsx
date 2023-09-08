@@ -98,7 +98,7 @@ export const MessageAttachment = (props: Props) => {
           messageTimestamp,
           messageSender: attachmentProps?.sender,
           conversationId: attachmentProps?.convoId,
-	  index: 0,
+          index: 0,
         });
       }
     },
