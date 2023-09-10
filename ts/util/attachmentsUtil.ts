@@ -401,7 +401,7 @@ export const saveAttachmentToDisk = async ({
     document,
     getAbsolutePath: getAbsoluteAttachmentPath,
     timestamp: messageTimestamp,
-    index: index,
+    index,
   });
   await sendDataExtractionNotification(conversationId, messageSender, messageTimestamp);
 };
