@@ -25,7 +25,7 @@ Build instructions can be found in [Contributing.md](CONTRIBUTING.md).
 
 Get Kee's key and import it:
 ```
-wget https://raw.githubusercontent.com/oxen-io/oxen-core/master/utils/gpg_keys/KeeJef.asc
+wget https://raw.githubusercontent.com/oxen-io/oxen-core/dev/utils/gpg_keys/KeeJef.asc
 gpg --import KeeJef.asc
 ```
 
