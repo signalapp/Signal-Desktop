@@ -34,7 +34,7 @@
   letter-spacing: -0.0025em;
   font-weight: 400;
 
-  .module-left-pane--width-narrow & {
+  &--width-narrow {
     padding-inline-start: 36px;
   }
 
@@ -56,10 +56,6 @@
   &__container-close {
     display: flex;
     justify-content: flex-end;
-
-    .module-left-pane--width-narrow & {
-      display: none;
-    }
   }
 
   &__spinner-container {
@@ -169,10 +165,6 @@
 
   &__message {
     width: 100%;
-
-    .module-left-pane--width-narrow & {
-      display: none;
-    }
   }
 
   &__message,

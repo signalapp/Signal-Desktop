@@ -109,7 +109,7 @@ export function LeftPaneDialog({
   }
 
   let xButton: ReactNode;
-  if (hasXButton) {
+  if (hasXButton && containerWidthBreakpoint !== WidthBreakpoint.Narrow) {
     xButton = (
       <div className={`${BASE_CLASS_NAME}__container-close`}>
         <button
@@ -124,11 +124,12 @@ export function LeftPaneDialog({
     );
   }
 
-  const className = classNames([
-    BASE_CLASS_NAME,
-    type === undefined ? undefined : `${BASE_CLASS_NAME}--${type}`,
-    onClick === undefined ? undefined : `${BASE_CLASS_NAME}--clickable`,
-  ]);
+  const className = classNames(BASE_CLASS_NAME, {
+    [`${BASE_CLASS_NAME}--width-narrow`]:
+      containerWidthBreakpoint === WidthBreakpoint.Narrow,
+    [`${BASE_CLASS_NAME}--${type}`]: type != null,
+    [`${BASE_CLASS_NAME}--clickable`]: onClick != null,
+  });
 
   const message = (
     <>
@@ -143,7 +144,9 @@ export function LeftPaneDialog({
     <>
       <div className={`${BASE_CLASS_NAME}__container`}>
         {typeof icon === 'string' ? <div className={iconClassName} /> : icon}
-        <div className={`${BASE_CLASS_NAME}__message`}>{message}</div>
+        {containerWidthBreakpoint !== WidthBreakpoint.Narrow && (
+          <div className={`${BASE_CLASS_NAME}__message`}>{message}</div>
+        )}
       </div>
       {xButton}
     </>
