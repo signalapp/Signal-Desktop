@@ -27,7 +27,6 @@ import { UserUtils } from '../utils';
 import { fromHexToArray, toHex } from '../utils/String';
 import {
   DisappearAfterSendOnly,
-  changeToDisappearingMessageConversationType,
   changeToDisappearingMessageType,
   setExpirationStartTimestamp,
 } from '../../util/expiringMessages';
@@ -233,8 +232,8 @@ function buildGroupDiff(convo: ConversationModel, update: GroupInfo): GroupDiff 
   return groupDiff;
 }
 
-export async function updateOrCreateClosedGroup(details: GroupInfo, fromLegacyConfig?: boolean) {
-  const { id, expirationType, expireTimer } = details;
+export async function updateOrCreateClosedGroup(details: GroupInfo) {
+  const { id } = details;
 
   const conversation = await getConversationController().getOrCreateAndWait(
     id,
@@ -259,25 +258,6 @@ export async function updateOrCreateClosedGroup(details: GroupInfo, fromLegacyCo
   if (details.admins?.length) {
     await conversation.updateGroupAdmins(details.admins, false);
   }
-
-  // if (
-  //   details.expirationType !== conversation.get('expirationType') ||
-  //   details.expireTimer !== conversation.get('expireTimer')
-  // ) {
-  //   await conversation.updateExpireTimer({
-  //     providedExpirationType: changeToDisappearingMessageConversationType(
-  //       conversation,
-  //       expirationType,
-  //       expireTimer
-  //     ),
-  //     providedExpireTimer: expireTimer || 0,
-  //     providedChangeTimestamp: GetNetworkTime.getNowWithNetworkOffset(),
-  //     providedSource: UserUtils.getOurPubKeyStrFromCache(),
-  //     receivedAt: Date.now(),
-  //     fromSync: true,
-  //     fromConfigMessage: Boolean(fromLegacyConfig),
-  //   });
-  // }
 
   await conversation.commit();
 }
@@ -324,6 +304,7 @@ async function sendAddedMembers(
   }
 
   const encryptionKeyPair = ECKeyPair.fromHexKeyPair(hexEncryptionKeyPair);
+  const expirationMode = convo.get('expirationType') || 'off';
   const existingExpireTimer = convo.get('expireTimer') || 0;
   // Send the Added Members message to the group (only members already in the group will get it)
   const closedGroupControlMessage = new ClosedGroupAddedMembersMessage({
@@ -346,6 +327,7 @@ async function sendAddedMembers(
     members,
     keypair: encryptionKeyPair,
     identifier: messageId || uuidv4(),
+    expirationType: changeToDisappearingMessageType(convo, expirationMode),
     expireTimer: existingExpireTimer,
   });
 

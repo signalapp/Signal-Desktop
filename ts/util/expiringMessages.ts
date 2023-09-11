@@ -374,7 +374,6 @@ export async function checkForExpireUpdateInContentMessage(
   const dataMessage = content.dataMessage as SignalService.DataMessage;
   // We will only support legacy disappearing messages for a short period before disappearing messages v2 is unlocked
   const isDisappearingMessagesV2Released = await ReleasedFeatures.checkIsDisappearMessageV2FeatureReleased();
-  // debugger;
 
   const isLegacyContentMessage = checkIsLegacyContentMessage(content);
   const isLegacyDataMessage = Boolean(

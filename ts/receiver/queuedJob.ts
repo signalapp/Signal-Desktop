@@ -398,8 +398,6 @@ export async function handleMessageJob(
     // TODO I think this is incorrect? Let's fix
     if (
       conversation &&
-      (messageModel.isIncoming() || conversation.isMe()) &&
-      expirationType &&
       expireTimer > 0 &&
       Boolean(messageModel.get('expirationStartTimestamp')) === false
     ) {
