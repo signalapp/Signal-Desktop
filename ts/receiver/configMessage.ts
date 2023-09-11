@@ -386,8 +386,8 @@ async function handleContactsUpdate(result: IncomingConfResult): Promise<Incomin
         wrapperConvo.expirationMode !== contactConvo.get('expirationType')
       ) {
         await contactConvo.updateExpireTimer({
-          providedExpirationType: wrapperConvo.expirationMode || 'off',
-          providedExpireTimer: wrapperConvo.expirationTimerSeconds || 0,
+          providedExpirationType: wrapperConvo.expirationMode,
+          providedExpireTimer: wrapperConvo.expirationTimerSeconds,
           providedChangeTimestamp: result.latestEnvelopeTimestamp,
           providedSource: wrapperConvo.id,
           shouldCommit: false,

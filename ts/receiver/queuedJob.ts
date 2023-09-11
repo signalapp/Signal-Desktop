@@ -193,6 +193,10 @@ function updateReadStatus(message: MessageModel) {
       );
 
       if (expirationMode === 'legacy' || expirationMode === 'deleteAfterRead') {
+        window.log.debug(
+          `WIP: updateReadStatus ${message.idForLogging()} is deleteAfterRead`,
+          message
+        );
         message.set({
           expirationStartTimestamp: setExpirationStartTimestamp(expirationMode),
         });

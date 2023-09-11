@@ -1126,6 +1126,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   }
 
   public markMessageReadNoCommit(readAt: number) {
+    window.log.debug(`WIP: markMessageReadNoCommit ${this.idForLogging()}`, this);
     this.set({ unread: READ_MESSAGE_STATE.read });
 
     const convo = this.getConversation();
@@ -1134,6 +1135,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const expireTimer = this.get('expireTimer');
 
     if (canBeDeleteAfterRead && expirationType && expireTimer > 0) {
+      window.log.debug(`WIP: markMessageReadNoCommit ${this.idForLogging()} is deleteAfterRead`);
       const expirationMode = changeToDisappearingMessageConversationType(
         convo,
         expirationType,

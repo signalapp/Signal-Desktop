@@ -810,7 +810,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     shouldCommit = true,
     existingMessage,
   }: {
-    providedExpirationType: DisappearingMessageConversationType;
+    providedExpirationType?: DisappearingMessageConversationType;
     providedExpireTimer?: number;
     providedChangeTimestamp: number;
     providedSource?: string;
@@ -838,7 +838,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     if (
       this.get('lastDisappearingMessageChangeTimestamp') > lastDisappearingMessageChangeTimestamp
     ) {
-      window.log.info('WIP: updateExpireTimer() This is an outdated disappearing message setting');
+      window.log.info(
+        'WIP: updateExpireTimer() This is an outdated disappearing message setting',
+        `fromConfigMessage = ${fromConfigMessage}`,
+        `fromSync: ${fromSync}`
+      );
       return;
     }
 
@@ -877,6 +881,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     let message: MessageModel | undefined = existingMessage || undefined;
     const messageExpirationType = changeToDisappearingMessageType(this, expirationType);
+    window.log.debug(`WIP: updateExpireTimer() messageExpirationType: ${messageExpirationType}`);
 
     // we don't have info about who made the change and when, when we get a change from a config message, so do not add a control message
     // TODO NOTE We might not show it in the UI but still need to process it using the senttimestamp as the lastchange timestamp for config messages
@@ -925,7 +930,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
 
     // if change was made remotely, don't send it to the contact/group
-    if (receivedAt || fromSync || fromConfigMessage) {
+    if (fromSync || fromConfigMessage) {
       window.log.debug(
         `WIP: updateExpireTimer() Not sending an ExpireTimerUpdate message because the change was made remotely receivedAt:${receivedAt} fromSync:${fromSync} fromConfigMessage:${fromConfigMessage} `
       );
@@ -948,17 +953,22 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       }
 
       const expirationTimerMessage = new ExpirationTimerUpdateMessage(expireUpdate);
+
       window.log.debug(
-        `WIP: Sending ExpirationTimerUpdate message to Note to Self expirationTimerMessage:${JSON.stringify(
-          expirationTimerMessage
-        )}`
+        `WIP: updateExpireTimer() isMe() expirationTimerMessage`,
+        JSON.stringify(expirationTimerMessage)
       );
+
       await message?.sendSyncMessageOnly(expirationTimerMessage);
       return;
     }
 
     if (this.isPrivate()) {
       const expirationTimerMessage = new ExpirationTimerUpdateMessage(expireUpdate);
+      window.log.debug(
+        `WIP: updateExpireTimer() isPrivate() expirationTimerMessage`,
+        JSON.stringify(expirationTimerMessage)
+      );
       const pubkey = new PubKey(this.get('id'));
       await getMessageQueue().sendToPubKey(
         pubkey,
@@ -974,6 +984,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       };
 
       const expirationTimerMessage = new ExpirationTimerUpdateMessage(expireUpdateForGroup);
+
+      window.log.debug(
+        `WIP: updateExpireTimer() isClosedGroup() expirationTimerMessage`,
+        JSON.stringify(expirationTimerMessage)
+      );
 
       await getMessageQueue().sendToGroup({
         message: expirationTimerMessage,
