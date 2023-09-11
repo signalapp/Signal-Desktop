@@ -346,7 +346,6 @@ export async function handleNewClosedGroup(
       isKickedFromGroup: false,
       lastJoinedTimestamp: toNumber(envelope.timestamp),
       // we just got readded. Consider the zombie list to have been cleared
-
       zombies: [],
     });
   }
@@ -372,7 +371,7 @@ export async function handleNewClosedGroup(
 
   // be sure to call this before sending the message.
   // the sending pipeline needs to know from GroupUtils when a message is for a medium group
-  await ClosedGroup.updateOrCreateClosedGroup(groupDetails, fromLegacyConfig);
+  await ClosedGroup.updateOrCreateClosedGroup(groupDetails);
 
   // ClosedGroup.updateOrCreateClosedGroup will mark the activeAt to Date.now if it's active
   // But we need to override this value with the sent timestamp of the message creating this group for us.

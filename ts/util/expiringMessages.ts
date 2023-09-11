@@ -352,7 +352,7 @@ export function changeToDisappearingMessageConversationType(
 
 // TODO legacy messages support will be removed in a future release
 // NOTE We need this to check for legacy disappearing messages where the expirationType and expireTimer should be undefined on the ContentMessage
-function checkIsLegacyContentMessage(contentMessage: SignalService.Content): boolean {
+function checkIsLegacyDisappearingContentMessage(contentMessage: SignalService.Content): boolean {
   return (
     (contentMessage.expirationType === SignalService.Content.ExpirationType.UNKNOWN ||
       !ProtobufUtils.hasDefinedProperty(contentMessage, 'expirationType')) &&
@@ -360,7 +360,7 @@ function checkIsLegacyContentMessage(contentMessage: SignalService.Content): boo
   );
 }
 
-function checkIsLegacyDataMessage(dataMessage: SignalService.DataMessage): boolean {
+function checkIsLegacyDisappearingDataMessage(dataMessage: SignalService.DataMessage): boolean {
   return (
     ProtobufUtils.hasDefinedProperty(dataMessage, 'expireTimer') && dataMessage.expireTimer > -1
   );
@@ -375,9 +375,10 @@ export async function checkForExpireUpdateInContentMessage(
   // We will only support legacy disappearing messages for a short period before disappearing messages v2 is unlocked
   const isDisappearingMessagesV2Released = await ReleasedFeatures.checkIsDisappearMessageV2FeatureReleased();
 
-  const isLegacyContentMessage = checkIsLegacyContentMessage(content);
+  const isLegacyContentMessage = checkIsLegacyDisappearingContentMessage(content);
   const isLegacyDataMessage = Boolean(
-    isLegacyContentMessage && checkIsLegacyDataMessage(dataMessage as SignalService.DataMessage)
+    isLegacyContentMessage &&
+      checkIsLegacyDisappearingDataMessage(dataMessage as SignalService.DataMessage)
   );
   const isLegacyConversationSettingMessage = isDisappearingMessagesV2Released
     ? isLegacyContentMessage &&
@@ -414,12 +415,38 @@ export async function checkForExpireUpdateInContentMessage(
     convoToUpdate.get('expirationType') !== 'off' &&
     convoToUpdate.get('expireTimer') !== 0;
 
-  // If it is a legacy message and disappearing messages v2 is released then we ignore it and use the local client's conversation settings
+  // NOTE some platforms do not include the diappearing message values in the Data Message for sent messages so we have to trust the conversation settings until v2 is released
+  if (
+    !isDisappearingMessagesV2Released &&
+    !isLegacyConversationSettingMessage &&
+    isLegacyContentMessage &&
+    convoToUpdate.get('expirationType') !== 'off'
+  ) {
+    if (
+      expirationType !== convoToUpdate.get('expirationType') ||
+      expirationTimer !== convoToUpdate.get('expireTimer')
+    ) {
+      window.log.debug(
+        'WIP: Received a legacy disappearing message before v2 was released without values set. Using the conversation settings.',
+        content
+      );
+      expirationTimer = convoToUpdate.get('expireTimer');
+      expirationType = changeToDisappearingMessageType(
+        convoToUpdate,
+        convoToUpdate.get('expirationType')
+      );
+    }
+  }
+
+  // NOTE If it is a legacy message and disappearing messages v2 is released then we ignore it and use the local client's conversation settings
   if (
     isDisappearingMessagesV2Released &&
     (isLegacyDataMessage || isLegacyConversationSettingMessage || shouldDisappearButIsntMessage)
   ) {
-    window.log.warn('Received a legacy disappearing message after v2 was released.', content);
+    window.log.warn(
+      'Received a legacy disappearing message after v2 was released. Overriding it with the conversation settings',
+      content
+    );
     expirationTimer = convoToUpdate.get('expireTimer');
     expirationType = changeToDisappearingMessageType(
       convoToUpdate,

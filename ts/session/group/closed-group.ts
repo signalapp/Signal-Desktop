@@ -88,7 +88,7 @@ export async function initiateClosedGroupUpdate(
     zombies: convo.get('zombies')?.filter(z => members.includes(z)),
     activeAt: Date.now(),
     expirationType,
-    expireTimer: convo.get('expireTimer') || 0,
+    expireTimer: convo.get('expireTimer'),
   };
 
   const diff = buildGroupDiff(convo, groupDetails);
@@ -170,7 +170,7 @@ export async function addUpdateMessage(
   }
 
   const expirationMode = convo.get('expirationType');
-  const expireTimer = convo.get('expireTimer') || 0;
+  const expireTimer = convo.get('expireTimer');
   let expirationType;
   let expirationStartTimestamp;
 
