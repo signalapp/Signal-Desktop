@@ -89,7 +89,7 @@ import { DAY, HOUR, MINUTE, SECOND } from '../../util/durations';
 import { BadgeImageTheme } from '../../badges/BadgeImageTheme';
 import { getBadgeImageFileLocalPath } from '../../badges/getBadgeImageFileLocalPath';
 import { handleOutsideClick } from '../../util/handleOutsideClick';
-import { PaymentEventKind } from '../../types/Payment';
+import { isPaymentNotificationEvent } from '../../types/Payment';
 import type { AnyPaymentEvent } from '../../types/Payment';
 import { getPaymentEventDescription } from '../../messages/helpers';
 import { PanelType } from '../../types/Panels';
@@ -1470,7 +1470,7 @@ export class Message extends React.PureComponent<Props, State> {
       conversationColor,
       i18n,
     } = this.props;
-    if (payment == null || payment.kind !== PaymentEventKind.Notification) {
+    if (payment == null || !isPaymentNotificationEvent(payment)) {
       return null;
     }
 
@@ -1769,6 +1769,7 @@ export class Message extends React.PureComponent<Props, State> {
       isSpoilerExpanded,
       kickOffAttachmentDownload,
       messageExpanded,
+      payment,
       showConversation,
       showSpoiler,
       status,
@@ -1785,6 +1786,12 @@ export class Message extends React.PureComponent<Props, State> {
       : text;
 
     if (!contents) {
+      return null;
+    }
+
+    // Payment notifications are rendered in renderPayment, but they may have additional
+    // text in message.body for backwards-compatibility that we don't want to render
+    if (payment && isPaymentNotificationEvent(payment)) {
       return null;
     }
 
