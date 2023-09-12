@@ -4,10 +4,10 @@
 import type { DeleteAttributesType } from '../messageModifiers/Deletes';
 import type { MessageModel } from '../models/messages';
 import * as log from '../logging/log';
-import { DAY } from './durations';
 import { isMe } from './whatTypeOfConversation';
 import { getContactId } from '../messages/helpers';
 import { isStory } from '../state/selectors/message';
+import { isTooOldToModifyMessage } from './isTooOldToModifyMessage';
 
 export async function deleteForEveryone(
   message: MessageModel,
@@ -33,7 +33,7 @@ export async function deleteForEveryone(
     return;
   }
 
-  if (isDeletionTooOld(message, doe)) {
+  if (isTooOldToModifyMessage(doe.serverTimestamp, message.attributes)) {
     log.warn('Received late DOE. Dropping.', {
       fromId: doe.fromId,
       targetSentTimestamp: doe.targetSentTimestamp,
@@ -57,14 +57,4 @@ function isDeletionByMe(
     getContactId(message.attributes) === ourConversationId &&
     doe.fromId === ourConversationId
   );
-}
-
-function isDeletionTooOld(
-  message: Readonly<MessageModel>,
-  doe: Pick<DeleteAttributesType, 'serverTimestamp'>
-): boolean {
-  const messageTimestamp =
-    message.get('serverTimestamp') || message.get('sent_at') || 0;
-  const delta = Math.abs(doe.serverTimestamp - messageTimestamp);
-  return delta > DAY * 2;
 }
