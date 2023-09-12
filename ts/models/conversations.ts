@@ -3724,7 +3724,6 @@ export class ConversationModel extends window.Backbone
     if (!storyId || isDirectConversation(this.attributes)) {
       await this.maybeApplyUniversalTimer();
       expireTimer = this.get('expireTimer');
-      await this.restoreContact();
     }
 
     const recipientMaybeConversations = map(
@@ -3859,6 +3858,12 @@ export class ConversationModel extends window.Backbone
       now,
       extraReduxActions,
     });
+
+    // The call above enables profile sharing so we have to restore contact
+    // afterwards, otherwise Message Request state will flash.
+    if (!storyId || isDirectConversation(this.attributes)) {
+      await this.restoreContact();
+    }
 
     const renderDuration = Date.now() - renderStart;
 
