@@ -51,7 +51,9 @@ export const ConversationHeaderTitle = () => {
 
   const convoName = useConversationUsername(selectedConvoKey);
 
-  const [visibleSubtitle, setVisibleSubtitle] = useState<SubtitleStringsType>('notifications');
+  const [visibleSubtitle, setVisibleSubtitle] = useState<SubtitleStringsType>(
+    'disappearingMessages'
+  );
 
   const [subtitleStrings, setSubtitleStrings] = useState<SubtitleStrings>({});
   const [subtitleArray, setSubtitleArray] = useState<Array<SubtitleStringsType>>([]);
@@ -82,6 +84,7 @@ export const ConversationHeaderTitle = () => {
   }, [i18n, isGroup, isKickedFromGroup, isPublic, members.length, subscriberCount]);
 
   // TODO legacy messages support will be removed in a future release
+  // NOTE If disappearing messages is defined we must show it first
   const disappearingMessageSubtitle = useMemo(() => {
     const disappearingMessageSettingText =
       expirationType === 'deleteAfterRead'
@@ -119,8 +122,12 @@ export const ConversationHeaderTitle = () => {
   };
 
   useEffect(() => {
-    if (visibleSubtitle !== 'notifications') {
-      setVisibleSubtitle('notifications');
+    if (visibleSubtitle !== 'disappearingMessages') {
+      if (disappearingMessageSubtitle) {
+        setVisibleSubtitle('disappearingMessages');
+      } else {
+        setVisibleSubtitle('notifications');
+      }
     }
     // We only want this to change when a new conversation is selected
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -130,6 +137,11 @@ export const ConversationHeaderTitle = () => {
     const newSubtitlesArray: any = [];
     const newSubtitlesStrings: any = {};
 
+    if (disappearingMessageSubtitle) {
+      newSubtitlesStrings.disappearingMessages = disappearingMessageSubtitle;
+      newSubtitlesArray.push('disappearingMessages');
+    }
+
     if (notificationSubtitle) {
       newSubtitlesStrings.notifications = notificationSubtitle;
       newSubtitlesArray.push('notifications');
@@ -138,11 +150,6 @@ export const ConversationHeaderTitle = () => {
     if (memberCountSubtitle) {
       newSubtitlesStrings.members = memberCountSubtitle;
       newSubtitlesArray.push('members');
-    }
-
-    if (disappearingMessageSubtitle) {
-      newSubtitlesStrings.disappearingMessages = disappearingMessageSubtitle;
-      newSubtitlesArray.push('disappearingMessages');
     }
 
     if (newSubtitlesArray.indexOf(visibleSubtitle) < 0) {
