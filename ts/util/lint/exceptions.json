@@ -2668,9 +2668,10 @@
   {
     "rule": "React-useRef",
     "path": "ts/components/conversation/MessageDetail.tsx",
-    "line": "  const messageContainerRef = useRef<HTMLDivElement>(null);",
+    "line": "  const messageDetailRef = useRef<HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",
-    "updated": "2023-04-12T15:51:28.066Z"
+    "updated": "2023-09-11T22:53:43.464Z",
+    "reasonDetail": "Used to pass ref of MessageDetail to Message. Used for ReactionViewer overflow detection."
   },
   {
     "rule": "React-useRef",

@@ -149,7 +149,7 @@ export function MessageDetail({
   toggleSafetyNumberModal,
   viewStory,
 }: Props): JSX.Element {
-  const messageContainerRef = useRef<HTMLDivElement>(null);
+  const messageDetailRef = useRef<HTMLDivElement>(null);
 
   function renderAvatar(contact: Contact): JSX.Element {
     const {
@@ -315,19 +315,16 @@ export function MessageDetail({
     : undefined;
 
   return (
-    <div className="module-message-detail">
+    <div className="module-message-detail" ref={messageDetailRef}>
       <PanelSection>
-        <div
-          className="module-message-detail__message-container"
-          ref={messageContainerRef}
-        >
+        <div className="module-message-detail__message-container">
           <Message
             {...message}
             renderingContext="conversation/MessageDetail"
             checkForAccount={checkForAccount}
             clearTargetedMessage={clearTargetedMessage}
             contactNameColor={contactNameColor}
-            containerElementRef={messageContainerRef}
+            containerElementRef={messageDetailRef}
             containerWidthBreakpoint={WidthBreakpoint.Wide}
             renderMenu={undefined}
             disableScroll
