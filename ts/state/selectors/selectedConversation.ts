@@ -178,7 +178,6 @@ const getSelectedConversationExpirationModesWithLegacy = (convo: ReduxConversati
   // Legacy mode is the 2nd option in the UI
   modes = [modes[0], modes[modes.length - 1], ...modes.slice(1, modes.length - 1)];
 
-  // TODO it would be nice to type those with something else that string but it causes a lot of issues
   const modesWithDisabledState: Record<string, boolean> = {};
   // The new modes are disabled by default
   if (modes && modes.length > 1) {
