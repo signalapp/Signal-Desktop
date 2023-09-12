@@ -740,7 +740,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const { attachments, body, groupInvitation, preview, quote } = msg;
     this.clearTypingTimers();
     const expireTimer = this.get('expireTimer');
-    const expirationType = changeToDisappearingMessageType(this, this.get('expirationType'));
+    const expirationType = changeToDisappearingMessageType(
+      this,
+      expireTimer,
+      this.get('expirationType')
+    );
 
     const networkTimestamp = GetNetworkTime.getNowWithNetworkOffset();
 
@@ -882,7 +886,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     });
 
     let message: MessageModel | undefined = existingMessage || undefined;
-    const messageExpirationType = changeToDisappearingMessageType(this, expirationType);
+    const messageExpirationType = changeToDisappearingMessageType(
+      this,
+      expireTimer,
+      expirationType
+    );
     window.log.debug(`WIP: updateExpireTimer() messageExpirationType: ${messageExpirationType}`);
 
     // we don't have info about who made the change and when, when we get a change from a config message, so do not add a control message
@@ -897,7 +905,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
           source,
           fromSync,
         },
-        // TODO Confirm that legacy devices ignore this and that everything works
         expirationType: messageExpirationType,
         expireTimer,
       };

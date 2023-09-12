@@ -72,7 +72,11 @@ export async function initiateClosedGroupUpdate(
     isGroupV3 ? ConversationTypeEnum.GROUPV3 : ConversationTypeEnum.GROUP
   );
 
-  const expirationType = changeToDisappearingMessageType(convo, convo.get('expirationType'));
+  const expirationType = changeToDisappearingMessageType(
+    convo,
+    convo.get('expireTimer'),
+    convo.get('expirationType')
+  );
 
   if (expirationType === 'deleteAfterRead') {
     throw new Error(`Groups cannot be deleteAfterRead. convo id: ${convo.id}`);
@@ -176,7 +180,9 @@ export async function addUpdateMessage(
 
   if (convo && expirationMode && expireTimer > 0) {
     expirationType =
-      expirationMode !== 'off' ? changeToDisappearingMessageType(convo, expirationMode) : undefined;
+      expirationMode !== 'off'
+        ? changeToDisappearingMessageType(convo, convo.get('expireTimer'), expirationMode)
+        : undefined;
 
     if (expirationMode === 'legacy' || expirationMode === 'deleteAfterSend') {
       expirationStartTimestamp = setExpirationStartTimestamp(expirationMode, sentAt);
@@ -327,7 +333,7 @@ async function sendAddedMembers(
     members,
     keypair: encryptionKeyPair,
     identifier: messageId || uuidv4(),
-    expirationType: changeToDisappearingMessageType(convo, expirationMode),
+    expirationType: changeToDisappearingMessageType(convo, existingExpireTimer, expirationMode),
     expireTimer: existingExpireTimer,
   });
 

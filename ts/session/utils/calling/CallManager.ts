@@ -522,7 +522,7 @@ export async function USER_callRecipient(recipient: string) {
   let expirationStartTimestamp;
 
   if (calledConvo && expirationMode && expireTimer > 0) {
-    expirationType = changeToDisappearingMessageType(calledConvo, expirationMode);
+    expirationType = changeToDisappearingMessageType(calledConvo, expireTimer, expirationMode);
 
     if (expirationMode === 'legacy' || expirationMode === 'deleteAfterSend') {
       expirationStartTimestamp = setExpirationStartTimestamp(expirationMode, now);
@@ -902,7 +902,7 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
   let expirationStartTimestamp;
 
   if (callerConvo && expirationMode && expireTimer > 0) {
-    expirationType = changeToDisappearingMessageType(callerConvo, expirationMode);
+    expirationType = changeToDisappearingMessageType(callerConvo, expireTimer, expirationMode);
 
     if (expirationMode === 'legacy' || expirationMode === 'deleteAfterSend') {
       expirationStartTimestamp = setExpirationStartTimestamp(expirationMode, networkTimestamp);
@@ -1254,7 +1254,11 @@ async function addMissedCallMessage(callerPubkey: string, sentAt: number) {
   let expirationStartTimestamp;
 
   if (incomingCallConversation && expirationMode && expireTimer > 0) {
-    expirationType = changeToDisappearingMessageType(incomingCallConversation, expirationMode);
+    expirationType = changeToDisappearingMessageType(
+      incomingCallConversation,
+      expireTimer,
+      expirationMode
+    );
 
     if (expirationMode === 'legacy' || expirationMode === 'deleteAfterSend') {
       expirationStartTimestamp = setExpirationStartTimestamp(expirationMode, sentAt);

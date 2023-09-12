@@ -84,7 +84,7 @@ export async function handleClosedGroupControlMessage(
   const { type } = groupUpdate;
   const { Type } = SignalService.DataMessage.ClosedGroupControlMessage;
   window?.log?.info(
-    ` handle closed group update from ${envelope.senderIdentity || envelope.source} about group ${
+    `handle closed group update from ${envelope.senderIdentity || envelope.source} about group ${
       envelope.source
     }`
   );

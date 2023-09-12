@@ -469,8 +469,8 @@ export async function innerHandleSwarmContentMessage(
       window.log.debug(`WIP: innerHandleSwarmContentMessage: ${JSON.stringify(content)}`);
 
       const expireUpdate = await checkForExpireUpdateInContentMessage(
-        conversationModelForUIUpdate,
-        content
+        content,
+        conversationModelForUIUpdate
       );
 
       window.log.debug(
@@ -478,7 +478,7 @@ export async function innerHandleSwarmContentMessage(
       );
 
       // TODO legacy messages support will be removed in a future release
-      if (expireUpdate && !isEmpty(expireUpdate) && expireUpdate.isDisappearingMessagesV2Released) {
+      if (expireUpdate.isDisappearingMessagesV2Released) {
         await checkHasOutdatedClient(
           conversationModelForUIUpdate,
           senderConversationModel,
@@ -486,7 +486,7 @@ export async function innerHandleSwarmContentMessage(
         );
         if (expireUpdate.isLegacyConversationSettingMessage) {
           window.log.debug(
-            'The legacy message is an expiration timer update. Ignoring it.',
+            'WIP: The legacy message is an expiration timer update. Ignoring it.',
             content
           );
           return;
@@ -861,7 +861,7 @@ export async function handleDataExtractionNotification(
     if (convo && expirationMode && expireTimer > 0) {
       expirationType =
         expirationType !== 'off'
-          ? changeToDisappearingMessageType(convo, expirationMode)
+          ? changeToDisappearingMessageType(convo, expireTimer, expirationMode)
           : undefined;
 
       if (expirationMode === 'legacy' || expirationMode === 'deleteAfterSend') {

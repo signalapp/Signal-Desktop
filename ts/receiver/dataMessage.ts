@@ -25,7 +25,7 @@ import { isUsFromCache } from '../session/utils/User';
 import { Action, Reaction } from '../types/Reaction';
 import { toLogFormat } from '../types/attachments/Errors';
 import { Reactions } from '../util/reactions';
-import { DisappearingMessageUpdate, handleExpireUpdate } from '../util/expiringMessages';
+import { DisappearingMessageUpdate, updateMessageModelToExpire } from '../util/expiringMessages';
 
 function cleanAttachment(attachment: any) {
   return {
@@ -159,7 +159,7 @@ export async function handleSwarmDataMessage(
   rawDataMessage: SignalService.DataMessage,
   messageHash: string,
   senderConversationModel: ConversationModel,
-  expireUpdate?: DisappearingMessageUpdate
+  expireUpdate: DisappearingMessageUpdate
 ): Promise<void> {
   window.log.info('handleSwarmDataMessage');
 
@@ -261,10 +261,8 @@ export async function handleSwarmDataMessage(
           sentAt: sentAtTimestamp,
         });
 
-  if (!isEmpty(expireUpdate)) {
-    msgModel = handleExpireUpdate(convoToAddMessageTo, msgModel, expireUpdate);
-    window.log.debug(`WIP: innerHandleSwarmContentMessage msgModel ${JSON.stringify(msgModel)}`);
-  }
+  msgModel = updateMessageModelToExpire(convoToAddMessageTo, msgModel, expireUpdate);
+  window.log.debug(`WIP: innerHandleSwarmContentMessage msgModel ${JSON.stringify(msgModel)}`);
 
   await handleSwarmMessage(
     msgModel,
