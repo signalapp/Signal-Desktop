@@ -832,10 +832,13 @@ async function updateLocalCallHistory(
         id: prevMessage?.id ?? generateGuid(),
         conversationId: conversation.id,
         type: 'call-history',
-        sent_at: callHistory.timestamp,
-        timestamp: callHistory.timestamp,
-        received_at: receivedAtCounter ?? incrementMessageCounter(),
-        received_at_ms: callHistory.timestamp,
+        timestamp: prevMessage?.timestamp ?? callHistory.timestamp,
+        sent_at: prevMessage?.sent_at ?? callHistory.timestamp,
+        received_at:
+          prevMessage?.received_at ??
+          receivedAtCounter ??
+          incrementMessageCounter(),
+        received_at_ms: prevMessage?.received_at_ms ?? callHistory.timestamp,
         readStatus,
         seenStatus,
         callId: callHistory.callId,
