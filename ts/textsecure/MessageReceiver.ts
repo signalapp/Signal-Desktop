@@ -134,7 +134,6 @@ import type { SendTypesType } from '../util/handleMessageSend';
 import { getStoriesBlocked } from '../util/stories';
 import { isNotNil } from '../util/isNotNil';
 import { chunk } from '../util/iterables';
-import { isOlderThan } from '../util/timestamp';
 import { inspectUnknownFieldTags } from '../util/inspectProtobufs';
 import { incrementMessageCounter } from '../util/incrementMessageCounter';
 import { filterAndClean } from '../types/BodyRange';
@@ -2385,17 +2384,6 @@ export default class MessageReceiver
 
     if (!msg.dataMessage) {
       log.info(`${logId}: cannot edit message. No dataMessage`);
-      this.removeFromCache(envelope);
-      return;
-    }
-
-    // Timing check
-    if (isOlderThan(envelope.serverTimestamp, durations.DAY * 2)) {
-      log.info(
-        'MessageReceiver.handleEditMessage: cannot edit message older than 48h',
-        logId,
-        envelope.serverTimestamp
-      );
       this.removeFromCache(envelope);
       return;
     }

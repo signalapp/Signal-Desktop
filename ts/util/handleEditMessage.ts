@@ -10,7 +10,6 @@ import type {
 } from '../model-types.d';
 import type { LinkPreviewType } from '../types/message/LinkPreviews';
 import * as Edits from '../messageModifiers/Edits';
-import * as durations from './durations';
 import * as log from '../logging/log';
 import { ReadStatus } from '../messages/MessageReadStatus';
 import dataInterface from '../sql/Client';
@@ -20,8 +19,8 @@ import { isAciString } from '../types/ServiceId';
 import { getMessageIdForLogging } from './idForLogging';
 import { hasErrors } from '../state/selectors/message';
 import { isIncoming, isOutgoing } from '../messages/helpers';
-import { isOlderThan } from './timestamp';
 import { isDirectConversation } from './whatTypeOfConversation';
+import { isTooOldToModifyMessage } from './isTooOldToModifyMessage';
 import { queueAttachmentDownloads } from './queueAttachmentDownloads';
 import { modifyTargetMessage } from './modifyTargetMessage';
 
@@ -84,7 +83,7 @@ export async function handleEditMessage(
   if (
     serverTimestamp &&
     !isNoteToSelf &&
-    isOlderThan(serverTimestamp, durations.DAY * 2)
+    isTooOldToModifyMessage(serverTimestamp, mainMessage)
   ) {
     log.warn(`${idLog}: cannot edit message older than 48h`, serverTimestamp);
     return;
