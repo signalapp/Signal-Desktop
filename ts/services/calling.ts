@@ -1690,7 +1690,7 @@ export class CallingClass {
       );
 
       const message = new CallingMessage();
-      message.legacyHangup = hangup;
+      message.hangup = hangup;
 
       await this.handleOutgoingSignaling(remoteUserId, message);
 
