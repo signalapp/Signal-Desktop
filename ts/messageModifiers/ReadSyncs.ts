@@ -115,6 +115,7 @@ export async function onSync(sync: ReadSyncAttributesType): Promise<void> {
 
     const message = window.MessageController.register(found.id, found);
     const readAt = Math.min(sync.readAt, Date.now());
+    const newestSentAt = sync.timestamp;
 
     // If message is unread, we mark it read. Otherwise, we update the expiration
     //   timer to the time specified by the read sync if it's earlier than
@@ -127,7 +128,11 @@ export async function onSync(sync: ReadSyncAttributesType): Promise<void> {
         // onReadMessage may result in messages older than this one being
         //   marked read. We want those messages to have the same expire timer
         //   start time as this one, so we pass the readAt value through.
-        drop(message.getConversation()?.onReadMessage(message, readAt));
+        drop(
+          message
+            .getConversation()
+            ?.onReadMessage(message, readAt, newestSentAt)
+        );
       };
 
       // only available during initialization

@@ -3306,7 +3306,11 @@ export class ConversationModel extends window.Backbone
     );
   }
 
-  async onReadMessage(message: MessageModel, readAt?: number): Promise<void> {
+  async onReadMessage(
+    message: MessageModel,
+    readAt?: number,
+    newestSentAt?: number
+  ): Promise<void> {
     // We mark as read everything older than this message - to clean up old stuff
     //   still marked unread in the database. If the user generally doesn't read in
     //   the desktop app, so the desktop app only gets read syncs, we can very
@@ -3321,7 +3325,7 @@ export class ConversationModel extends window.Backbone
     return this.queueJob('onReadMessage', () =>
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       this.markRead(message.get('received_at')!, {
-        newestSentAt: message.get('sent_at'),
+        newestSentAt: newestSentAt || message.get('sent_at'),
         sendReadReceipts: false,
         readAt,
       })
