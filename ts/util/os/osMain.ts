@@ -19,9 +19,14 @@ function getLinuxName(): string | undefined {
   return match[1];
 }
 
+function isWaylandEnabled(): boolean {
+  return Boolean(process.env.WAYLAND_DISPLAY);
+}
+
 const OS = {
   ...getOSFunctions(os.release()),
   getLinuxName,
+  isWaylandEnabled,
 };
 
 export default OS;

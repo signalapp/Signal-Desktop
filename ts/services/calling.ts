@@ -95,6 +95,7 @@ import {
 import { callingMessageToProto } from '../util/callingMessageToProto';
 import { getSendOptions } from '../util/getSendOptions';
 import { requestMicrophonePermissions } from '../util/requestMicrophonePermissions';
+import OS from '../util/os/osMain';
 import { SignalService as Proto } from '../protobuf';
 import dataInterface from '../sql/Client';
 import {
@@ -1329,8 +1330,20 @@ export class CallingClass {
   }
 
   async getPresentingSources(): Promise<Array<PresentableSource>> {
+    // There's a Linux Wayland Electron bug where requesting desktopCapturer.
+    // getSources() with types as ['screen', 'window'] (the default) pops 2
+    // OS permissions dialogs in an unusable state (Dialog 1 for Share Window
+    // is the foreground and ignores input; Dialog 2 for Share Screen is background
+    // and requires input. As a workaround, request both sources sequentially.
+    // https://github.com/signalapp/Signal-Desktop/issues/5350#issuecomment-1688614149
     const sources: ReadonlyArray<DesktopCapturerSource> =
-      await ipcRenderer.invoke('getScreenCaptureSources');
+      OS.isLinux() && OS.isWaylandEnabled()
+        ? (
+            await ipcRenderer.invoke('getScreenCaptureSources', ['screen'])
+          ).concat(
+            await ipcRenderer.invoke('getScreenCaptureSources', ['window'])
+          )
+        : await ipcRenderer.invoke('getScreenCaptureSources');
 
     const presentableSources: Array<PresentableSource> = [];
 

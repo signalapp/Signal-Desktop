@@ -2630,13 +2630,16 @@ ipc.handle('show-save-dialog', async (_event, { defaultPath }) => {
   return { canceled: false, filePath: finalFilePath };
 });
 
-ipc.handle('getScreenCaptureSources', async () => {
-  return desktopCapturer.getSources({
-    fetchWindowIcons: true,
-    thumbnailSize: { height: 102, width: 184 },
-    types: ['window', 'screen'],
-  });
-});
+ipc.handle(
+  'getScreenCaptureSources',
+  async (_event, types: Array<'screen' | 'window'> = ['screen', 'window']) => {
+    return desktopCapturer.getSources({
+      fetchWindowIcons: true,
+      thumbnailSize: { height: 102, width: 184 },
+      types,
+    });
+  }
+);
 
 ipc.handle('executeMenuRole', async ({ sender }, untypedRole) => {
   const role = untypedRole as MenuItemConstructorOptions['role'];
