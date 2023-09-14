@@ -594,7 +594,14 @@ export class Timeline extends React.Component<
       }
     }
 
-    if (oldItems.length !== newItems.length) {
+    // We know that all items will be in order and that items can only be added at either
+    // end, so we can check for equality without checking each item in the array
+    const haveItemsChanged =
+      oldItems.length !== newItems.length ||
+      oldItems.at(0) !== newItems.at(0) ||
+      oldItems.at(-1) !== newItems.at(-1);
+
+    if (haveItemsChanged) {
       this.updateIntersectionObserver();
 
       // This condition is somewhat arbitrary.
