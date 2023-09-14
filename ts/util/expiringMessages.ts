@@ -451,7 +451,7 @@ export async function checkForExpireUpdateInContentMessage(
     convoToUpdate.get('expirationType') !== 'off' &&
     convoToUpdate.get('expireTimer') !== 0;
 
-  // NOTE If it is a legacy message and disappearing messages v2 is released then we ignore it and use the local client's conversation settings andshow the outdated client banner
+  // NOTE If it is a legacy message and disappearing messages v2 is released then we ignore it and use the local client's conversation settings and show the outdated client banner
   if (
     isDisappearingMessagesV2Released &&
     (isLegacyDataMessage || isLegacyConversationSettingMessage || shouldDisappearButIsntMessage)
