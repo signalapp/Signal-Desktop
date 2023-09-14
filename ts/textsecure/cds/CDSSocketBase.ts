@@ -9,11 +9,8 @@ import Long from 'long';
 
 import type { LoggerType } from '../../types/Logging';
 import { strictAssert } from '../../util/assert';
-import {
-  isAciString,
-  isUntaggedPniString,
-  toTaggedPni,
-} from '../../types/ServiceId';
+import { isUntaggedPniString, toTaggedPni } from '../../types/ServiceId';
+import { isAciString } from '../../util/isAciString';
 import * as Bytes from '../../Bytes';
 import { UUID_BYTE_SIZE } from '../../Crypto';
 import { uuidToBytes, bytesToUuid } from '../../util/uuidToBytes';

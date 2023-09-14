@@ -29,7 +29,8 @@ import { SECOND, DurationInSeconds } from '../util/durations';
 import type { AnyPaymentEvent } from '../types/Payment';
 import { PaymentEventKind } from '../types/Payment';
 import { filterAndClean } from '../types/BodyRange';
-import { isAciString, normalizeAci } from '../types/ServiceId';
+import { isAciString } from '../util/isAciString';
+import { normalizeAci } from '../util/normalizeAci';
 
 const FLAGS = Proto.DataMessage.Flags;
 export const ATTACHMENT_MAX = 32;

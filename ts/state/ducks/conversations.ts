@@ -70,7 +70,7 @@ import type {
   AciString,
   PniString,
 } from '../../types/ServiceId';
-import { isAciString } from '../../types/ServiceId';
+import { isAciString } from '../../util/isAciString';
 import { MY_STORY_ID, StorySendMode } from '../../types/Stories';
 import * as Errors from '../../types/errors';
 import {

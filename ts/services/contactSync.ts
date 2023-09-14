@@ -5,7 +5,7 @@ import PQueue from 'p-queue';
 
 import type { ContactSyncEvent } from '../textsecure/messageReceiverEvents';
 import type { ModifiedContactDetails } from '../textsecure/ContactsParser';
-import { normalizeAci } from '../types/ServiceId';
+import { normalizeAci } from '../util/normalizeAci';
 import * as Conversation from '../types/Conversation';
 import * as Errors from '../types/errors';
 import type { ValidateConversationType } from '../model-types.d';

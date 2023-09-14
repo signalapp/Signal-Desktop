@@ -13,7 +13,7 @@ import { isDirectConversation } from '../util/whatTypeOfConversation';
 import { incrementMessageCounter } from '../util/incrementMessageCounter';
 import { repeat, zipObject } from '../util/iterables';
 import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp';
-import { isAciString } from '../types/ServiceId';
+import { isAciString } from '../util/isAciString';
 import { SendStatus } from '../messages/MessageSendState';
 import * as log from '../logging/log';
 

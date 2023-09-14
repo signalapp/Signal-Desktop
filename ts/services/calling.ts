@@ -70,7 +70,8 @@ import {
   findBestMatchingCameraId,
 } from '../calling/findBestMatchingDevice';
 import type { LocalizerType } from '../types/Util';
-import { normalizeAci, isAciString } from '../types/ServiceId';
+import { normalizeAci } from '../util/normalizeAci';
+import { isAciString } from '../util/isAciString';
 import * as Errors from '../types/errors';
 import type { ConversationModel } from '../models/conversations';
 import * as Bytes from '../Bytes';

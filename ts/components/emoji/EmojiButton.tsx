@@ -25,6 +25,7 @@ export type OwnProps = Readonly<{
   emoji?: string;
   i18n: LocalizerType;
   onClose?: () => unknown;
+  onOpen?: () => unknown;
   emojiButtonApi?: MutableRefObject<EmojiButtonAPI | undefined>;
   variant?: EmojiButtonVariant;
 }>;
@@ -47,6 +48,7 @@ export const EmojiButton = React.memo(function EmojiButtonInner({
   i18n,
   doSend,
   onClose,
+  onOpen,
   onPickEmoji,
   skinTone,
   onSetSkinTone,
@@ -57,6 +59,13 @@ export const EmojiButton = React.memo(function EmojiButtonInner({
   const buttonRef = React.useRef<HTMLButtonElement | null>(null);
   const popperRef = React.useRef<HTMLDivElement | null>(null);
   const refMerger = useRefMerger();
+
+  React.useEffect(() => {
+    if (!open) {
+      return;
+    }
+    onOpen?.();
+  }, [open, onOpen]);
 
   const handleClickButton = React.useCallback(() => {
     if (open) {

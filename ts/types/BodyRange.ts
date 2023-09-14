@@ -17,7 +17,7 @@ import {
 } from '../util/search';
 import { assertDev } from '../util/assert';
 import type { AciString } from './ServiceId';
-import { normalizeAci } from './ServiceId';
+import { normalizeAci } from '../util/normalizeAci';
 
 // Cold storage of body ranges
 

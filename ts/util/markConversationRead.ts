@@ -23,7 +23,7 @@ import {
 } from '../jobs/conversationJobQueue';
 import { ReceiptType } from '../types/Receipt';
 import type { AciString } from '../types/ServiceId';
-import { isAciString } from '../types/ServiceId';
+import { isAciString } from './isAciString';
 
 export async function markConversationRead(
   conversationAttrs: ConversationAttributesType,

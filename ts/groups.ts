@@ -77,10 +77,10 @@ import type { AvatarDataType } from './types/Avatar';
 import type { ServiceIdString, AciString, PniString } from './types/ServiceId';
 import {
   ServiceIdKind,
-  isAciString,
   isPniString,
   isServiceIdString,
 } from './types/ServiceId';
+import { isAciString } from './util/isAciString';
 import * as Errors from './types/errors';
 import { SignalService as Proto } from './protobuf';
 import { isNotNil } from './util/isNotNil';

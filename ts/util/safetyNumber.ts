@@ -15,7 +15,7 @@ import {
   SafetyNumberIdentifierType,
   SafetyNumberMode,
 } from '../types/safetyNumber';
-import { isAciString } from '../types/ServiceId';
+import { isAciString } from './isAciString';
 
 const ITERATION_COUNT = 5200;
 const E164_VERSION = 1;

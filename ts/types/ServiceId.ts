@@ -8,6 +8,7 @@ import { Aci, Pni, ServiceId } from '@signalapp/libsignal-client';
 import { isValidUuid } from '../util/isValidUuid';
 import * as log from '../logging/log';
 import type { LoggerType } from './Logging';
+import { isAciString } from '../util/isAciString';
 
 export enum ServiceIdKind {
   ACI = 'ACI',
@@ -24,10 +25,6 @@ export function isServiceIdString(
   value?: string | null
 ): value is ServiceIdString {
   return isAciString(value) || isPniString(value);
-}
-
-export function isAciString(value?: string | null): value is AciString {
-  return isValidUuid(value);
 }
 
 export function isPniString(value?: string | null): value is PniString {
@@ -82,41 +79,6 @@ export function normalizeServiceId(
 
     // Cast anyway we don't want to throw here
     return result as ServiceIdString;
-  }
-
-  return result;
-}
-
-export function normalizeAci(
-  rawAci: string,
-  context: string,
-  logger?: Pick<LoggerType, 'warn'>
-): AciString;
-
-export function normalizeAci(
-  rawAci: string | undefined | null,
-  context: string,
-  logger?: Pick<LoggerType, 'warn'>
-): AciString | undefined;
-
-export function normalizeAci(
-  rawAci: string | undefined | null,
-  context: string,
-  logger: Pick<LoggerType, 'warn'> = log
-): AciString | undefined {
-  if (rawAci == null) {
-    return undefined;
-  }
-
-  const result = rawAci.toLowerCase();
-
-  if (!isAciString(result)) {
-    logger.warn(
-      `Normalizing invalid serviceId: ${rawAci} to ${result} in context "${context}"`
-    );
-
-    // Cast anyway we don't want to throw here
-    return result as AciString;
   }
 
   return result;

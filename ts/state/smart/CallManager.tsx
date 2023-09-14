@@ -17,7 +17,7 @@ import type {
   ActiveCallType,
   GroupCallRemoteParticipantType,
 } from '../../types/Calling';
-import { isAciString } from '../../types/ServiceId';
+import { isAciString } from '../../util/isAciString';
 import type { AciString } from '../../types/ServiceId';
 import { CallMode, CallState } from '../../types/Calling';
 import type { StateType } from '../reducer';

@@ -5,7 +5,10 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 import type { ReadonlyDeep } from 'type-fest';
 
-import type { DraftBodyRanges } from '../types/BodyRange';
+import type {
+  DraftBodyRanges,
+  HydratedBodyRangesType,
+} from '../types/BodyRange';
 import type { LocalizerType, ThemeType } from '../types/Util';
 import type { ErrorDialogAudioRecorderType } from '../types/AudioRecorder';
 import { RecordingState } from '../types/AudioRecorder';
@@ -85,6 +88,9 @@ export type OwnProps = Readonly<{
     conversationId: string,
     onRecordingComplete: (rec: InMemoryAttachmentDraftType) => unknown
   ) => unknown;
+  convertDraftBodyRangesIntoHydrated: (
+    bodyRanges: DraftBodyRanges | undefined
+  ) => HydratedBodyRangesType | undefined;
   conversationId: string;
   discardEditMessage: (id: string) => unknown;
   draftEditMessage?: DraftEditMessageType;
@@ -221,6 +227,7 @@ export function CompositionArea({
   // Base props
   addAttachment,
   conversationId,
+  convertDraftBodyRangesIntoHydrated,
   discardEditMessage,
   draftEditMessage,
   focusCounter,
@@ -853,12 +860,25 @@ export function CompositionArea({
         'url' in attachmentToEdit &&
         attachmentToEdit.url && (
           <MediaEditor
+            draftBodyRanges={draftBodyRanges}
+            draftText={draftText}
+            getPreferredBadge={getPreferredBadge}
             i18n={i18n}
             imageSrc={attachmentToEdit.url}
             imageToBlurHash={imageToBlurHash}
+            installedPacks={installedPacks}
+            isFormattingEnabled={isFormattingEnabled}
+            isFormattingFlagEnabled={isFormattingFlagEnabled}
+            isFormattingSpoilersFlagEnabled={isFormattingSpoilersFlagEnabled}
             isSending={false}
             onClose={() => setAttachmentToEdit(undefined)}
-            onDone={({ data, contentType, blurHash }) => {
+            onDone={({
+              caption,
+              captionBodyRanges,
+              data,
+              contentType,
+              blurHash,
+            }) => {
               const newAttachment = {
                 ...attachmentToEdit,
                 contentType,
@@ -869,9 +889,25 @@ export function CompositionArea({
 
               addAttachment(conversationId, newAttachment);
               setAttachmentToEdit(undefined);
+              onEditorStateChange?.({
+                bodyRanges: captionBodyRanges ?? [],
+                conversationId,
+                messageText: caption ?? '',
+                sendCounter,
+              });
+
+              inputApiRef.current?.setContents(
+                caption ?? '',
+                convertDraftBodyRangesIntoHydrated(captionBodyRanges),
+                true
+              );
             }}
-            installedPacks={installedPacks}
+            onPickEmoji={onPickEmoji}
+            onTextTooLong={onTextTooLong}
+            platform={platform}
             recentStickers={recentStickers}
+            skinTone={skinTone}
+            sortedGroupMembers={sortedGroupMembers}
           />
         )}
       <div className="CompositionArea__toggle-large">

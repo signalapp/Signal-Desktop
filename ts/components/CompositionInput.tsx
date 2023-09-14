@@ -26,7 +26,7 @@ import { BodyRange, collapseRangeTree, insertRange } from '../types/BodyRange';
 import type { LocalizerType, ThemeType } from '../types/Util';
 import type { ConversationType } from '../state/ducks/conversations';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
-import { isAciString } from '../types/ServiceId';
+import { isAciString } from '../util/isAciString';
 import { MentionBlot } from '../quill/mentions/blot';
 import {
   matchEmojiImage,

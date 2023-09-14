@@ -10,7 +10,8 @@ import type {
   PniString,
   ServiceIdString,
 } from '../../types/ServiceId';
-import { ServiceIdKind, isAciString, isPniString } from '../../types/ServiceId';
+import { ServiceIdKind, isPniString } from '../../types/ServiceId';
+import { isAciString } from '../../util/isAciString';
 import * as log from '../../logging/log';
 
 import Helpers from '../Helpers';

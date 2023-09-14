@@ -9,11 +9,8 @@ import sinon from 'sinon';
 import { ConversationModel } from '../models/conversations';
 import type { ConversationAttributesType } from '../model-types.d';
 import type { WebAPIType } from '../textsecure/WebAPI';
-import {
-  generateAci,
-  normalizeAci,
-  normalizeServiceId,
-} from '../types/ServiceId';
+import { generateAci, normalizeServiceId } from '../types/ServiceId';
+import { normalizeAci } from '../util/normalizeAci';
 
 import { updateConversationsWithUuidLookup } from '../updateConversationsWithUuidLookup';
 

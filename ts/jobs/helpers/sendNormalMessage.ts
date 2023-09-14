@@ -51,7 +51,7 @@ import { isConversationAccepted } from '../../util/isConversationAccepted';
 import { sendToGroup } from '../../util/sendToGroup';
 import type { DurationInSeconds } from '../../util/durations';
 import type { ServiceIdString } from '../../types/ServiceId';
-import { normalizeAci } from '../../types/ServiceId';
+import { normalizeAci } from '../../util/normalizeAci';
 import * as Bytes from '../../Bytes';
 
 const LONG_ATTACHMENT_LIMIT = 2048;

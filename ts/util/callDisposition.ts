@@ -22,7 +22,7 @@ import {
   GroupCallJoinState,
 } from '../types/Calling';
 import type { AciString } from '../types/ServiceId';
-import { isAciString } from '../types/ServiceId';
+import { isAciString } from './isAciString';
 import { isMe } from './whatTypeOfConversation';
 import * as log from '../logging/log';
 import * as Errors from '../types/errors';

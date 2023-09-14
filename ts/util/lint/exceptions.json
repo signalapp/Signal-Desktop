@@ -2006,13 +2006,6 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/AddCaptionModal.tsx",
-    "line": "  const scrollerRef = React.useRef<HTMLDivElement>(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2022-10-03T16:06:12.837Z"
-  },
-  {
-    "rule": "React-useRef",
     "path": "ts/components/AvatarTextEditor.tsx",
     "line": "  const measureElRef = useRef<null | HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",
@@ -2389,6 +2382,13 @@
     "line": "  const listRef = useRef<null | List>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2022-11-11T17:11:07.659Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/MediaEditor.tsx",
+    "line": "  const inputApiRef = useRef<InputApi | undefined>();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2023-09-11T20:19:18.681Z"
   },
   {
     "rule": "React-useRef",

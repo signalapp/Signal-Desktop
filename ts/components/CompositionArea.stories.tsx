@@ -34,6 +34,7 @@ export default {
 const useProps = (overrideProps: Partial<Props> = {}): Props => ({
   addAttachment: action('addAttachment'),
   conversationId: '123',
+  convertDraftBodyRangesIntoHydrated: () => undefined,
   discardEditMessage: action('discardEditMessage'),
   focusCounter: 0,
   sendCounter: 0,

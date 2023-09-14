@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { normalizeAci } from '../types/ServiceId';
+import { normalizeAci } from '../util/normalizeAci';
 import {
   getCountryCodeValue,
   getBucketValue,

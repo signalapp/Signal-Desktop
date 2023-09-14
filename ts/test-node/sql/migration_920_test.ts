@@ -9,7 +9,8 @@ import { range } from 'lodash';
 
 import { insertData, updateToVersion } from './helpers';
 import type { ServiceIdString } from '../../types/ServiceId';
-import { normalizeAci, normalizePni } from '../../types/ServiceId';
+import { normalizePni } from '../../types/ServiceId';
+import { normalizeAci } from '../../util/normalizeAci';
 import type { KyberPreKeyType, SignedPreKeyType } from '../../sql/Interface';
 
 type TestingKyberKey = Omit<

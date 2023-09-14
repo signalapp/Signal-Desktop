@@ -6,7 +6,7 @@ import { get } from 'lodash';
 
 import type { ConversationType } from '../state/ducks/conversations';
 import type { AciString } from '../types/ServiceId';
-import { isAciString } from '../types/ServiceId';
+import { isAciString } from '../util/isAciString';
 import { filter, map } from '../util/iterables';
 import { removeDiacritics } from '../util/removeDiacritics';
 import { isNotNil } from '../util/isNotNil';

@@ -5,7 +5,7 @@ import { assertDev } from '../../util/assert';
 import { isDirectConversation } from '../../util/whatTypeOfConversation';
 import * as log from '../../logging/log';
 import type { ConversationAttributesType } from '../../model-types.d';
-import { isAciString } from '../../types/ServiceId';
+import { isAciString } from '../../util/isAciString';
 import type { reportSpamJobQueue } from '../reportSpamJobQueue';
 
 export async function addReportSpamJob({

@@ -6,7 +6,7 @@ import type { RefObject } from 'react';
 import type { Matcher, AttributeMap } from 'quill';
 
 import { assertDev } from '../../util/assert';
-import { isAciString } from '../../types/ServiceId';
+import { isAciString } from '../../util/isAciString';
 import type { MemberRepository } from '../memberRepository';
 
 export const matchMention: (

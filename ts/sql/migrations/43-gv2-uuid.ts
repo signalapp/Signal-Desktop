@@ -6,7 +6,7 @@ import { omit } from 'lodash';
 
 import type { LoggerType } from '../../types/Logging';
 import type { AciString, ServiceIdString } from '../../types/ServiceId';
-import { normalizeAci } from '../../types/ServiceId';
+import { normalizeAci } from '../../util/normalizeAci';
 import { isNotNil } from '../../util/isNotNil';
 import { assertDev } from '../../util/assert';
 import {

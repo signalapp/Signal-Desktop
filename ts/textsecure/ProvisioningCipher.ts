@@ -13,7 +13,8 @@ import {
 import { calculateAgreement, createKeyPair, generateKeyPair } from '../Curve';
 import { SignalService as Proto } from '../protobuf';
 import type { PniString, AciString } from '../types/ServiceId';
-import { normalizeAci, normalizePni } from '../types/ServiceId';
+import { normalizePni } from '../types/ServiceId';
+import { normalizeAci } from '../util/normalizeAci';
 import { strictAssert } from '../util/assert';
 
 type ProvisionDecryptResult = {

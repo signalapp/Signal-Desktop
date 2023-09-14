@@ -8,7 +8,8 @@ import { generateKeyPair } from '../../Curve';
 import type { UploadKeysType } from '../../textsecure/WebAPI';
 import AccountManager from '../../textsecure/AccountManager';
 import type { PreKeyType } from '../../textsecure/Types.d';
-import { ServiceIdKind, normalizeAci } from '../../types/ServiceId';
+import { ServiceIdKind } from '../../types/ServiceId';
+import { normalizeAci } from '../../util/normalizeAci';
 
 const { textsecure } = window;
 

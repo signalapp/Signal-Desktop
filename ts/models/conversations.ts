@@ -67,10 +67,10 @@ import { IMAGE_JPEG, IMAGE_WEBP } from '../types/MIME';
 import type { AciString, PniString, ServiceIdString } from '../types/ServiceId';
 import {
   ServiceIdKind,
-  isAciString,
   normalizeServiceId,
   normalizePni,
 } from '../types/ServiceId';
+import { isAciString } from '../util/isAciString';
 import {
   constantTimeEqual,
   decryptProfile,

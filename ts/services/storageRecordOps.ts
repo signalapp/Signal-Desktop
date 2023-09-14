@@ -47,10 +47,10 @@ import type { StoryDistributionIdString } from '../types/StoryDistributionId';
 import type { ServiceIdString } from '../types/ServiceId';
 import {
   normalizeServiceId,
-  normalizeAci,
   normalizePni,
   ServiceIdKind,
 } from '../types/ServiceId';
+import { normalizeAci } from '../util/normalizeAci';
 import * as Stickers from '../types/Stickers';
 import type {
   StoryDistributionWithMembersType,

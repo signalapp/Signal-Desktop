@@ -142,12 +142,9 @@ import { themeChanged } from './shims/themeChanged';
 import { createIPCEvents } from './util/createIPCEvents';
 import { RemoveAllConfiguration } from './types/RemoveAllConfiguration';
 import type { ServiceIdString } from './types/ServiceId';
-import {
-  ServiceIdKind,
-  isAciString,
-  isServiceIdString,
-  normalizeAci,
-} from './types/ServiceId';
+import { ServiceIdKind, isServiceIdString } from './types/ServiceId';
+import { isAciString } from './util/isAciString';
+import { normalizeAci } from './util/normalizeAci';
 import * as log from './logging/log';
 import { loadRecentEmojis } from './util/loadRecentEmojis';
 import { deleteAllLogs } from './util/deleteAllLogs';

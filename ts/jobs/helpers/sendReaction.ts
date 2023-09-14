@@ -28,7 +28,7 @@ import { ourProfileKeyService } from '../../services/ourProfileKey';
 import { canReact, isStory } from '../../state/selectors/message';
 import { findAndFormatContact } from '../../util/findAndFormatContact';
 import type { AciString, ServiceIdString } from '../../types/ServiceId';
-import { isAciString } from '../../types/ServiceId';
+import { isAciString } from '../../util/isAciString';
 import { handleMultipleSendErrors } from './handleMultipleSendErrors';
 import { incrementMessageCounter } from '../../util/incrementMessageCounter';
 

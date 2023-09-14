@@ -29,26 +29,19 @@ export class MediaEditorFabricCropRect extends fabric.Rect {
     const canvasHeight = this.canvas.getHeight();
     const canvasWidth = this.canvas.getWidth();
 
-    if (height > canvasHeight || width > canvasWidth) {
-      this.canvas.discardActiveObject();
-    } else {
-      this.set(
-        'left',
-        clamp(
-          left / zoom,
-          MediaEditorFabricCropRect.PADDING / zoom,
-          (canvasWidth - width - MediaEditorFabricCropRect.PADDING) / zoom
-        )
-      );
-      this.set(
-        'top',
-        clamp(
-          top / zoom,
-          MediaEditorFabricCropRect.PADDING / zoom,
-          (canvasHeight - height - MediaEditorFabricCropRect.PADDING) / zoom
-        )
-      );
-    }
+    const nextLeft = clamp(
+      left / zoom,
+      MediaEditorFabricCropRect.PADDING / zoom,
+      (canvasWidth - width - MediaEditorFabricCropRect.PADDING) / zoom
+    );
+    const nextTop = clamp(
+      top / zoom,
+      MediaEditorFabricCropRect.PADDING / zoom,
+      (canvasHeight - height - MediaEditorFabricCropRect.PADDING) / zoom
+    );
+
+    this.set('left', nextLeft);
+    this.set('top', nextTop);
 
     this.setCoords();
   }

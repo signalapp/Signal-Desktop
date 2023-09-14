@@ -4,7 +4,7 @@
 import { chunk } from 'lodash';
 import type { LoggerType } from '../../types/Logging';
 import type { AciString } from '../../types/ServiceId';
-import { normalizeAci } from '../../types/ServiceId';
+import { normalizeAci } from '../../util/normalizeAci';
 import { getSendOptions } from '../../util/getSendOptions';
 import type { SendTypesType } from '../../util/handleMessageSend';
 import { handleMessageSend } from '../../util/handleMessageSend';

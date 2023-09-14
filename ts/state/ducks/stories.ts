@@ -21,7 +21,7 @@ import type { StoryViewTargetType, StoryViewType } from '../../types/Stories';
 import type { SyncType } from '../../jobs/helpers/syncHelpers';
 import type { StoryDistributionIdString } from '../../types/StoryDistributionId';
 import type { ServiceIdString } from '../../types/ServiceId';
-import { isAciString } from '../../types/ServiceId';
+import { isAciString } from '../../util/isAciString';
 import * as log from '../../logging/log';
 import { TARGETED_CONVERSATION_CHANGED } from './conversations';
 import { SIGNAL_ACI } from '../../types/SignalConversation';

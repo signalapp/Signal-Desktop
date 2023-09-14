@@ -10,11 +10,8 @@ import type {
   AciString,
   PniString,
 } from '../../types/ServiceId';
-import {
-  normalizeServiceId,
-  normalizeAci,
-  normalizePni,
-} from '../../types/ServiceId';
+import { normalizeServiceId, normalizePni } from '../../types/ServiceId';
+import { normalizeAci } from '../../util/normalizeAci';
 import type { JSONWithUnknownFields } from '../../types/Util';
 import { isNotNil } from '../../util/isNotNil';
 

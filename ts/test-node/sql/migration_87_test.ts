@@ -13,7 +13,8 @@ import type {
   PniString,
   ServiceIdString,
 } from '../../types/ServiceId';
-import { normalizeAci, normalizePni } from '../../types/ServiceId';
+import { normalizePni } from '../../types/ServiceId';
+import { normalizeAci } from '../../util/normalizeAci';
 import type {
   KyberPreKeyType,
   PreKeyType,

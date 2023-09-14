@@ -25,10 +25,10 @@ import { isGroupV1, isGroupV2 } from './util/whatTypeOfConversation';
 import type { ServiceIdString, AciString, PniString } from './types/ServiceId';
 import {
   isServiceIdString,
-  normalizeAci,
   normalizePni,
   normalizeServiceId,
 } from './types/ServiceId';
+import { normalizeAci } from './util/normalizeAci';
 import { sleep } from './util/sleep';
 import { isNotNil } from './util/isNotNil';
 import { MINUTE, SECOND } from './util/durations';

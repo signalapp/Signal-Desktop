@@ -43,11 +43,11 @@ import {
 import type { ServiceIdString, AciString, PniString } from '../types/ServiceId';
 import {
   ServiceIdKind,
-  normalizeAci,
   normalizePni,
   toTaggedPni,
   isUntaggedPniString,
 } from '../types/ServiceId';
+import { normalizeAci } from '../util/normalizeAci';
 import { isMoreRecentThan, isOlderThan } from '../util/timestamp';
 import { ourProfileKeyService } from '../services/ourProfileKey';
 import { assertDev, strictAssert } from '../util/assert';

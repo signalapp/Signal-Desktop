@@ -6,7 +6,7 @@
 import protobuf from '../protobuf/wrap';
 
 import { SignalService as Proto } from '../protobuf';
-import { normalizeAci } from '../types/ServiceId';
+import { normalizeAci } from '../util/normalizeAci';
 import { DurationInSeconds } from '../util/durations';
 import * as Errors from '../types/errors';
 import * as log from '../logging/log';

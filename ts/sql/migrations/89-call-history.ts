@@ -23,7 +23,7 @@ import { CallMode } from '../../types/Calling';
 import type { MessageType, ConversationType } from '../Interface';
 import { strictAssert } from '../../util/assert';
 import { missingCaseError } from '../../util/missingCaseError';
-import { isAciString } from '../../types/ServiceId';
+import { isAciString } from '../../util/isAciString';
 
 // Legacy type for calls that never had a call id
 type DirectCallHistoryDetailsType = {

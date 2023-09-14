@@ -3,7 +3,8 @@
 
 import { assert } from 'chai';
 import type { ConversationType } from '../../state/ducks/conversations';
-import { generateAci, normalizeAci } from '../../types/ServiceId';
+import { generateAci } from '../../types/ServiceId';
+import { normalizeAci } from '../../util/normalizeAci';
 import type { ServiceIdString } from '../../types/ServiceId';
 import { getDefaultConversationWithServiceId } from '../helpers/getDefaultConversation';
 

@@ -15,7 +15,7 @@ import { ReadStatus } from '../messages/MessageReadStatus';
 import dataInterface from '../sql/Client';
 import { drop } from './drop';
 import { getAttachmentSignature, isVoiceMessage } from '../types/Attachment';
-import { isAciString } from '../types/ServiceId';
+import { isAciString } from './isAciString';
 import { getMessageIdForLogging } from './idForLogging';
 import { hasErrors } from '../state/selectors/message';
 import { isIncoming, isOutgoing } from '../messages/helpers';

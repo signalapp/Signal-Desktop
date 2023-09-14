@@ -56,14 +56,14 @@ import { normalizeStoryDistributionId } from '../types/StoryDistributionId';
 import type { ServiceIdString } from '../types/ServiceId';
 import {
   ServiceIdKind,
-  normalizeAci,
   normalizeServiceId,
   normalizePni,
-  isAciString,
   isPniString,
   isServiceIdString,
   fromPniObject,
 } from '../types/ServiceId';
+import { normalizeAci } from '../util/normalizeAci';
+import { isAciString } from '../util/isAciString';
 import * as Errors from '../types/errors';
 
 import { SignalService as Proto } from '../protobuf';

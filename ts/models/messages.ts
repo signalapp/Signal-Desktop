@@ -45,7 +45,8 @@ import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp';
 
 import type { ReactionType } from '../types/Reactions';
 import type { ServiceIdString } from '../types/ServiceId';
-import { isAciString, normalizeServiceId } from '../types/ServiceId';
+import { normalizeServiceId } from '../types/ServiceId';
+import { isAciString } from '../util/isAciString';
 import * as reactionUtil from '../reactions/util';
 import * as Stickers from '../types/Stickers';
 import * as Errors from '../types/errors';
