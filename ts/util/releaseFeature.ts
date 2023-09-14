@@ -6,7 +6,7 @@ import { FEATURE_RELEASE_TIMESTAMPS } from '../session/constants';
 
 let isDisappearingMessageFeatureReleased: boolean | undefined;
 let isUserConfigLibsessionFeatureReleased: boolean | undefined;
-type FeatureNameTracked = 'disappearing_messages' | 'user_config_libsession';
+export type FeatureNameTracked = 'disappearing_messages' | 'user_config_libsession';
 
 /**
  * This is only intended for testing. Do not call this in production.
@@ -117,3 +117,13 @@ export const ReleasedFeatures = {
   isUserConfigFeatureReleasedCached,
   isDisappearMessageV2FeatureReleasedCached,
 };
+
+// DO NOT MERGE
+// TODO Remove before PR
+async function setIsFeatureReleased(featureName: FeatureNameTracked, value: boolean) {
+  await Storage.put(featureStorageItemId(featureName), value);
+  setIsFeatureReleasedCached(featureName, value);
+  window.log.debug(`WIP: setIsFeatureReleased: ${featureName} ${value}`);
+}
+
+window.setIsFeatureReleased = setIsFeatureReleased;
