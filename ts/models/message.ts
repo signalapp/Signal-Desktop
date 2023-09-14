@@ -90,12 +90,10 @@ import {
 import { ReactionList } from '../types/Reaction';
 import { roomHasBlindEnabled } from '../types/sqlSharedTypes';
 import {
-  DisappearingMessageMode,
-  DisappearingMessageType,
-  DisappearingMessageUpdate,
   ExpirationTimerOptions,
   setExpirationStartTimestamp,
   changeToDisappearingMessageConversationType,
+  checkForExpireUpdateInContentMessage,
 } from '../util/expiringMessages';
 import { LinkPreviews } from '../util/linkPreviews';
 import { Notifications } from '../util/notifications';
@@ -1025,40 +1023,16 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         throw new Error('Cannot trigger syncMessage with unknown convo.');
       }
 
-      // TODO legacy messages support will be removed in a future release
-      const isLegacyDisappearingDataMessage = Boolean(
-        (dataMessage.expireTimer && dataMessage.expireTimer > -1) ||
-          (!content.expirationTimer &&
-            dataMessage.flags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE)
-      );
-
-      const expirationTimer = isLegacyDisappearingDataMessage
-        ? Number(dataMessage.expireTimer)
-        : content.expirationTimer;
-
-      const expirationType: DisappearingMessageType =
-        DisappearingMessageMode[content.expirationType];
-
-      const lastDisappearingMessageChangeTimestamp = content.lastDisappearingMessageChangeTimestamp
-        ? Number(content.lastDisappearingMessageChangeTimestamp)
-        : undefined;
-
-      let expireUpdate: DisappearingMessageUpdate | null = null;
-      if (expirationType && expirationTimer !== undefined) {
-        expireUpdate = {
-          expirationType,
-          expirationTimer,
-          lastDisappearingMessageChangeTimestamp,
-        };
-      }
+      const expireUpdate = await checkForExpireUpdateInContentMessage(content, conversation);
 
       const syncMessage = buildSyncMessage(
         this.id,
         dataMessage as SignalService.DataMessage,
         conversation.id,
         sentTimestamp,
-        expireUpdate || undefined
+        expireUpdate
       );
+
       await getMessageQueue().sendSyncMessage({
         namespace: SnodeNamespaces.UserMessages,
         message: syncMessage,

@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import _, { isEmpty } from 'lodash';
+import _ from 'lodash';
 import { UserUtils } from '..';
 import { getMessageQueue } from '../..';
 import { Data } from '../../../data/data';
@@ -370,7 +370,7 @@ export const buildSyncMessage = (
   data: DataMessage | SignalService.DataMessage,
   syncTarget: string,
   sentTimestamp: number,
-  expireUpdate?: DisappearingMessageUpdate
+  expireUpdate: DisappearingMessageUpdate
 ): VisibleMessage | ExpirationTimerUpdateMessage => {
   if (
     (data as any).constructor.name !== 'DataMessage' &&
@@ -387,7 +387,7 @@ export const buildSyncMessage = (
   // don't include our profileKey on syncing message. This is to be done by a ConfigurationMessage now
   const timestamp = _.toNumber(sentTimestamp);
   if (dataMessage.flags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE) {
-    if (expireUpdate && !isEmpty(expireUpdate)) {
+    if (expireUpdate.lastDisappearingMessageChangeTimestamp) {
       return buildSyncExpireTimerMessage(identifier, expireUpdate, timestamp, syncTarget);
     }
     window.log.warn('WIP: Building Sync Expire Timer Message failed', dataMessage, expireUpdate);
