@@ -598,7 +598,7 @@ function addPniSignatureMessageToProto({
   proto.pniSignatureMessage = {
     pni: Pni.parseFromServiceIdString(
       pniSignatureMessage.pni
-    ).getServiceIdBinary(),
+    ).getRawUuidBytes(),
     signature: pniSignatureMessage.signature,
   };
 }
