@@ -2754,9 +2754,7 @@ export default class MessageReceiver
 
     const { pni: pniBytes, signature } = pniSignatureMessage;
     strictAssert(Bytes.isNotEmpty(pniBytes), `${logId}: missing PNI bytes`);
-    const pni = fromPniObject(
-      Pni.parseFromServiceIdBinary(Buffer.from(pniBytes))
-    );
+    const pni = fromPniObject(Pni.fromUuidBytes(Buffer.from(pniBytes)));
     strictAssert(pni, `${logId}: missing PNI`);
     strictAssert(Bytes.isNotEmpty(signature), `${logId}: empty signature`);
     strictAssert(isAciString(aci), `${logId}: invalid ACI`);

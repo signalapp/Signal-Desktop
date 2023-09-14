@@ -128,9 +128,7 @@ describe('pnp/PNI Signature', function needsName() {
       }
 
       assert.deepEqual(
-        Pni.parseFromServiceIdBinary(
-          Buffer.from(message.pni)
-        ).getServiceIdString(),
+        Pni.fromUuidBytes(Buffer.from(message.pni)).getServiceIdString(),
         desktop.pni,
         `Incorrect pni in pni signature message from ${source}`
       );
