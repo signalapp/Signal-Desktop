@@ -129,9 +129,9 @@ export const ConversationHeaderTitle = () => {
         setVisibleSubtitle('notifications');
       }
     }
-    // We only want this to change when a new conversation is selected
+    // We only want this to change when a new conversation is selected or disappearing messages is toggled
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [convoName]);
+  }, [convoName, disappearingMessageSubtitle]);
 
   useEffect(() => {
     const newSubtitlesArray: any = [];
