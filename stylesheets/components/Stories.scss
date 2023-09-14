@@ -31,10 +31,29 @@
       border-inline-end: 1px solid $color-white-alpha-16;
     }
 
+    &__add-story__container {
+      padding: 4px;
+      border-radius: 4px;
+      &:hover,
+      &:focus {
+        @include light-theme {
+          background-color: $color-black-alpha-06;
+        }
+        @include dark-theme {
+          background-color: $color-white-alpha-06;
+        }
+      }
+    }
+
     &__add-story__button {
       height: 20px;
       width: 20px;
-      @include color-svg('../images/icons/v3/plus/plus.svg', $color-white);
+      @include light-theme {
+        @include color-svg('../images/icons/v3/plus/plus.svg', $color-black);
+      }
+      @include dark-theme {
+        @include color-svg('../images/icons/v3/plus/plus.svg', $color-gray-15);
+      }
 
       &:focus {
         @include keyboard-mode {

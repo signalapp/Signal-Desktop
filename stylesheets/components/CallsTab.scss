@@ -108,10 +108,10 @@
 
   &:not(.CallsList__ToggleFilterByMissed--pressed):hover {
     @include light-theme {
-      background: $color-gray-20;
+      background-color: $color-black-alpha-06;
     }
     @include dark-theme {
-      background: $color-gray-62;
+      background-color: $color-white-alpha-06;
     }
   }
 
