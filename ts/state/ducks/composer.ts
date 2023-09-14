@@ -1135,14 +1135,6 @@ function preProcessAttachment(
     return;
   }
 
-  const limitKb = getMaximumAttachmentSizeInKb(getRemoteConfigValue);
-  if (file.size / KIBIBYTE > limitKb) {
-    return {
-      toastType: ToastType.FileSize,
-      parameters: getRenderDetailsForLimit(limitKb),
-    };
-  }
-
   if (isFileDangerous(file.name)) {
     return { toastType: ToastType.DangerousFileType };
   }
@@ -1169,6 +1161,16 @@ function preProcessAttachment(
   // You can't add a non-image attachment if you already have attachments staged
   if (!imageOrVideo && draftAttachments.length > 0) {
     return { toastType: ToastType.CannotMixMultiAndNonMultiAttachments };
+  }
+
+  // Putting this after everything else because the other checks are more
+  // important to show to the user.
+  const limitKb = getMaximumAttachmentSizeInKb(getRemoteConfigValue);
+  if (file.size / KIBIBYTE > limitKb) {
+    return {
+      toastType: ToastType.FileSize,
+      parameters: getRenderDetailsForLimit(limitKb),
+    };
   }
 
   return undefined;
