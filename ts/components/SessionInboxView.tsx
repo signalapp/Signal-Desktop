@@ -71,6 +71,7 @@ function createSessionInboxStore() {
       conversationLookup: makeLookup(conversations, 'id'),
     },
     user: {
+      ourDisplayNameInProfile: UserUtils.getOurProfile()?.displayName || '',
       ourNumber: UserUtils.getOurPubKeyStrFromCache(),
     },
     section: initialSectionState,

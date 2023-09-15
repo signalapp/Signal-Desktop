@@ -69,6 +69,7 @@ export interface LightBoxOptions {
 }
 
 interface Props {
+  ourDisplayNameInProfile: string;
   ourNumber: string;
   selectedConversationKey: string;
   selectedConversation?: ReduxConversationType;
@@ -235,6 +236,7 @@ export class SessionConversation extends React.Component<Props, State> {
     const { isDraggingFile } = this.state;
 
     const {
+      ourDisplayNameInProfile,
       selectedConversation,
       messagesProps,
       showMessageDetails,
@@ -251,6 +253,12 @@ export class SessionConversation extends React.Component<Props, State> {
     // TODOLATER break showMessageDetails & selectionMode into it's own container component so we can use hooks to fetch relevant state from the store
     const selectionMode = selectedMessages.length > 0;
 
+    const bannerText =
+      selectedConversation.hasOutdatedClient &&
+      selectedConversation.hasOutdatedClient !== ourDisplayNameInProfile
+        ? window.i18n('disappearingMessagesModeOutdated', [selectedConversation.hasOutdatedClient])
+        : window.i18n('someOfYourDeviceUseOutdatedVersion');
+
     return (
       <SessionTheme>
         <div className="conversation-header">
@@ -258,9 +266,7 @@ export class SessionConversation extends React.Component<Props, State> {
           {selectedConversation?.hasOutdatedClient &&
             selectedConversation.hasOutdatedClient.length > 0 && (
               <NoticeBanner
-                text={window.i18n('disappearingMessagesModeOutdated', [
-                  selectedConversation.hasOutdatedClient,
-                ])}
+                text={bannerText}
                 dismissCallback={() => {
                   const conversation = getConversationController().get(selectedConversation.id);
                   conversation.set({ hasOutdatedClient: undefined });
