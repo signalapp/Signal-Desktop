@@ -39,7 +39,7 @@ import { isUsFromCache } from '../session/utils/User';
 import {
   changeToDisappearingMessageType,
   checkForExpireUpdateInContentMessage,
-  checkHasOutdatedClient,
+  checkHasOutdatedDisappearingMessageClient,
   setExpirationStartTimestamp,
 } from '../util/expiringMessages';
 
@@ -449,6 +449,14 @@ export async function innerHandleSwarmContentMessage(
     // We need to make sure that we trigger the outdated client banner ui on the correct model for the conversation and not the author (for closed groups)
     let conversationModelForUIUpdate = senderConversationModel;
 
+    // For a private synced message, we need to make sure we have the conversation with the syncTarget
+    if (isPrivateConversationMessage && content.dataMessage?.syncTarget) {
+      conversationModelForUIUpdate = await getConversationController().getOrCreateAndWait(
+        content.dataMessage.syncTarget,
+        ConversationTypeEnum.PRIVATE
+      );
+    }
+
     /**
      * For a closed group message, this holds the closed group's conversation.
      * For a private conversation message, this is just the conversation with that user
@@ -479,7 +487,7 @@ export async function innerHandleSwarmContentMessage(
 
       // TODO legacy messages support will be removed in a future release
       if (expireUpdate.isDisappearingMessagesV2Released) {
-        await checkHasOutdatedClient(
+        await checkHasOutdatedDisappearingMessageClient(
           conversationModelForUIUpdate,
           senderConversationModel,
           expireUpdate

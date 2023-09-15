@@ -44,6 +44,7 @@ export type DisappearingMessageUpdate = {
   isLegacyConversationSettingMessage?: boolean;
   isLegacyDataMessage?: boolean;
   isDisappearingMessagesV2Released?: boolean;
+  shouldDisappearButIsntMessage?: boolean;
 };
 
 export async function destroyMessagesAndUpdateRedux(
@@ -365,7 +366,34 @@ function checkIsLegacyDisappearingContentMessage(contentMessage: SignalService.C
   );
 }
 
-function checkIsLegacyDisappearingDataMessage(dataMessage: SignalService.DataMessage): boolean {
+/**
+ * Checks if a message is meant to disappear but doesn't have the correct expiration values set
+ *
+ * NOTE Examples: legacy disappearing message conversation settings, synced messages from legacy devices
+ */
+function checkDisappearButIsntMessage(
+  content: SignalService.Content,
+  convo: ConversationModel,
+  expirationMode: DisappearingMessageConversationType,
+  expirationTimer: number
+): boolean {
+  window.log.debug(
+    `WIP: expirationMode ${expirationMode} expirationTimer ${expirationTimer} content ${JSON.stringify(
+      content
+    )} convo ${JSON.stringify(convo)}`
+  );
+  return (
+    content.dataMessage?.flags !== SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE &&
+    expirationMode === 'off' &&
+    expirationTimer === 0 &&
+    convo.get('expirationType') !== 'off' &&
+    convo.get('expireTimer') !== 0
+  );
+}
+
+export function checkIsLegacyDisappearingDataMessage(
+  dataMessage: SignalService.DataMessage
+): boolean {
   return (
     ProtobufUtils.hasDefinedProperty(dataMessage, 'expireTimer') && dataMessage.expireTimer > -1
   );
@@ -406,6 +434,13 @@ export async function checkForExpireUpdateInContentMessage(
     ? Number(content.lastDisappearingMessageChangeTimestamp)
     : undefined;
 
+  const shouldDisappearButIsntMessage = checkDisappearButIsntMessage(
+    content,
+    convoToUpdate,
+    expirationMode,
+    expirationTimer
+  );
+
   const expireUpdate: DisappearingMessageUpdate = {
     expirationType: changeToDisappearingMessageType(convoToUpdate, expirationTimer, expirationMode),
     expirationTimer,
@@ -413,6 +448,7 @@ export async function checkForExpireUpdateInContentMessage(
     isLegacyConversationSettingMessage,
     isLegacyDataMessage,
     isDisappearingMessagesV2Released,
+    shouldDisappearButIsntMessage,
   };
 
   // NOTE some platforms do not include the diappearing message values in the Data Message for sent messages so we have to trust the conversation settings until v2 is released
@@ -441,15 +477,6 @@ export async function checkForExpireUpdateInContentMessage(
       expireUpdate.isLegacyDataMessage = true;
     }
   }
-
-  // TODO should review this
-  // NOTE this is only required for legacy disappearing message conversation settings I think?
-  const shouldDisappearButIsntMessage =
-    dataMessage.flags !== SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE &&
-    expirationMode === 'off' &&
-    expirationTimer === 0 &&
-    convoToUpdate.get('expirationType') !== 'off' &&
-    convoToUpdate.get('expireTimer') !== 0;
 
   // NOTE If it is a legacy message and disappearing messages v2 is released then we ignore it and use the local client's conversation settings and show the outdated client banner
   if (
@@ -525,13 +552,16 @@ export function updateMessageModelToExpire(
   return messageModel;
 }
 
-export async function checkHasOutdatedClient(
+export async function checkHasOutdatedDisappearingMessageClient(
   convoToUpdate: ConversationModel,
   sender: ConversationModel,
   expireUpdate: DisappearingMessageUpdate
 ) {
   const isOutdated =
-    expireUpdate.isLegacyDataMessage || expireUpdate.isLegacyConversationSettingMessage;
+    expireUpdate.isLegacyDataMessage ||
+    expireUpdate.isLegacyConversationSettingMessage ||
+    expireUpdate.shouldDisappearButIsntMessage;
+
   const outdatedSender =
     sender.get('nickname') || sender.get('displayNameInProfile') || sender.get('id');
 
