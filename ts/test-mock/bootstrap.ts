@@ -63,6 +63,8 @@ for (const firstName of CONTACT_FIRST_NAMES) {
 
 const MAX_CONTACTS = CONTACT_NAMES.length;
 
+const DEFAULT_START_APP_TIMEOUT = 10 * durations.SECOND;
+
 export type BootstrapOptions = Readonly<{
   extraConfig?: Record<string, unknown>;
   benchmark?: boolean;
@@ -260,7 +262,7 @@ export class Bootstrap {
     await app.close();
   }
 
-  public async startApp(): Promise<App> {
+  public async startApp(timeout = DEFAULT_START_APP_TIMEOUT): Promise<App> {
     assert(
       this.storagePath !== undefined,
       'Bootstrap has to be initialized first, see: bootstrap.init()'
@@ -269,21 +271,33 @@ export class Bootstrap {
     debug('starting the app');
 
     const { port } = this.server.address();
+    const config = await this.generateConfig(port);
 
-    const app = new App({
-      main: ELECTRON,
-      args: [CI_SCRIPT],
-      config: await this.generateConfig(port),
-    });
-
-    await app.start();
-
-    this.lastApp = app;
-    app.on('close', () => {
-      if (this.lastApp === app) {
-        this.lastApp = undefined;
+    let app: App | undefined;
+    while (!app) {
+      const startedApp = new App({
+        main: ELECTRON,
+        args: [CI_SCRIPT],
+        config,
+      });
+      try {
+        // eslint-disable-next-line no-await-in-loop
+        await pTimeout(startedApp.start(), timeout);
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error('Failed to start the app on time, retrying', error);
+        continue;
       }
-    });
+
+      this.lastApp = startedApp;
+      startedApp.on('close', () => {
+        if (this.lastApp === startedApp) {
+          this.lastApp = undefined;
+        }
+      });
+
+      app = startedApp;
+    }
 
     return app;
   }
