@@ -23,6 +23,7 @@ import { LinkPreviews } from '../util/linkPreviews';
 import { ReleasedFeatures } from '../util/releaseFeature';
 import { PropsForMessageWithoutConvoProps, lookupQuote } from '../state/ducks/conversations';
 import { PubKey } from '../session/types';
+import { UserUtils } from '../session/utils';
 
 function contentTypeSupported(type: string): boolean {
   const Chrome = GoogleChrome;
@@ -398,8 +399,7 @@ export async function handleMessageJob(
     const expirationType = messageModel.get('expirationType');
     const expireTimer = messageModel.get('expireTimer');
 
-    // NOTE we handle incoming disappear afer send messages and are Note To Self sync messages here
-    // TODO I think this is incorrect? Let's fix
+    // NOTE we handle incoming disappear afer send messages and sync messages here
     if (
       conversation &&
       expireTimer > 0 &&
@@ -411,15 +411,30 @@ export async function handleMessageJob(
         expireTimer
       );
 
-      if (expirationMode === 'legacy' || expirationMode === 'deleteAfterSend') {
+      // TODO legacy messages support will be removed in a future release
+      // NOTE if the expirationMode is deleteAfterRead then legacy sync messages need to explicitly set the expirationStartTimestamp since they are alread marked as read
+      const legacySyncMessageMustDisappearAfterRead =
+        expirationMode === 'deleteAfterRead' &&
+        source === UserUtils.getOurPubKeyStrFromCache() &&
+        messageModel.get('type') === 'outgoing';
+
+      if (
+        expirationMode === 'legacy' ||
+        expirationMode === 'deleteAfterSend' ||
+        legacySyncMessageMustDisappearAfterRead
+      ) {
         messageModel.set({
           expirationStartTimestamp: setExpirationStartTimestamp(
             expirationMode,
-            messageModel.get('sent_at')
+            !legacySyncMessageMustDisappearAfterRead ? messageModel.get('sent_at') : undefined
           ),
         });
       }
     }
+
+    window.log.debug(
+      `WIP: handleMessageJob ${messageModel.idForLogging()} is ${JSON.stringify(messageModel)}`
+    );
 
     if (messageModel.isExpirationTimerUpdate()) {
       // NOTE if we turn off disappearing messages from a legacy client expirationTimerUpdate can be undefined but the flags value is correctly set

@@ -486,7 +486,7 @@ export async function innerHandleSwarmContentMessage(
       );
 
       // TODO legacy messages support will be removed in a future release
-      if (expireUpdate.isDisappearingMessagesV2Released) {
+      if (expireUpdate?.isDisappearingMessagesV2Released) {
         await checkHasOutdatedDisappearingMessageClient(
           conversationModelForUIUpdate,
           senderConversationModel,
@@ -494,8 +494,9 @@ export async function innerHandleSwarmContentMessage(
         );
         if (expireUpdate.isLegacyConversationSettingMessage) {
           window.log.debug(
-            'WIP: The legacy message is an expiration timer update. Ignoring it.',
-            content
+            `WIP: The legacy message is an expiration timer update. Ignoring it. ${JSON.stringify(
+              content
+            )}}`
           );
           return;
         }

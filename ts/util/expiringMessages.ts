@@ -323,7 +323,8 @@ export function changeToDisappearingMessageType(
     if (convo.isMe() || convo.isClosedGroup()) {
       return 'deleteAfterSend';
     }
-    return 'deleteAfterRead';
+
+    return expirationType === 'deleteAfterSend' ? 'deleteAfterSend' : 'deleteAfterRead';
   }
 
   return 'unknown';
@@ -353,7 +354,7 @@ export function changeToDisappearingMessageConversationType(
     return 'deleteAfterSend';
   }
 
-  return 'deleteAfterRead';
+  return expirationType === 'deleteAfterSend' ? 'deleteAfterSend' : 'deleteAfterRead';
 }
 
 // TODO legacy messages support will be removed in a future release
@@ -403,7 +404,7 @@ export function checkIsLegacyDisappearingDataMessage(
 export async function checkForExpireUpdateInContentMessage(
   content: SignalService.Content,
   convoToUpdate: ConversationModel
-): Promise<DisappearingMessageUpdate> {
+): Promise<DisappearingMessageUpdate | undefined> {
   const dataMessage = content.dataMessage as SignalService.DataMessage;
   // We will only support legacy disappearing messages for a short period before disappearing messages v2 is unlocked
   const isDisappearingMessagesV2Released = await ReleasedFeatures.checkIsDisappearMessageV2FeatureReleased();
@@ -507,6 +508,7 @@ export function updateMessageModelToExpire(
   expireUpdate?: DisappearingMessageUpdate
 ) {
   if (!expireUpdate) {
+    window.log.debug(`WIP: callced updateMessageModelToExpire() without expireUpdate`);
     return messageModel;
   }
 

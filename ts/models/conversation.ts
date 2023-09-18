@@ -877,13 +877,16 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       lastDisappearingMessageChangeTimestamp,
     });
 
-    window?.log?.debug('WIP: Updating conversation disappearing messages setting', {
-      id: this.idForLogging(),
-      expirationType,
-      expireTimer,
-      lastDisappearingMessageChangeTimestamp,
-      source,
-    });
+    window?.log?.debug(
+      'WIP: updateExpireTimer() Updating conversation disappearing messages setting',
+      {
+        id: this.idForLogging(),
+        expirationType,
+        expireTimer,
+        lastDisappearingMessageChangeTimestamp,
+        source,
+      }
+    );
 
     let message: MessageModel | undefined = existingMessage || undefined;
     const messageExpirationType = changeToDisappearingMessageType(
