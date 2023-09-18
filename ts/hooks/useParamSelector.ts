@@ -331,7 +331,7 @@ export function useTimerOptionsByMode(disappearingMessageMode?: string, hasOnlyO
           );
         });
       default:
-        return options;
+        return [];
     }
   });
 }

@@ -89,7 +89,7 @@ export const OverlayDisappearingMessages = () => {
   const weAreAdmin = useSelectedWeAreAdmin();
 
   const [modeSelected, setModeSelected] = useState<DisappearingMessageConversationType | undefined>(
-    expirationType
+    hasOnlyOneMode ? singleMode : expirationType
   );
 
   const [timeSelected, setTimeSelected] = useState(expireTimer || 0);
