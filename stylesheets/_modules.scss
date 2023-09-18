@@ -1386,6 +1386,64 @@ $message-padding-horizontal: 12px;
   }
 }
 
+.module-message__typing-avatar-container {
+  align-items: center;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center;
+  margin-inline-end: 8px;
+
+  &--with-reactions {
+    padding-bottom: 15px;
+  }
+}
+
+.module-message__typing-avatar {
+  display: flex;
+  justify-content: center;
+  z-index: $z-index-base;
+
+  &:not(:last-child) {
+    margin-inline-start: -4px;
+  }
+
+  &--overflow-count {
+    .module-Avatar__contents {
+      @include light-theme() {
+        background: $color-gray-05;
+        color: $color-gray-60;
+      }
+
+      @include dark-theme() {
+        background: $color-gray-75;
+        color: $color-gray-25;
+      }
+    }
+
+    .module-Avatar__label {
+      @include font-caption-bold;
+    }
+  }
+
+  .module-Avatar {
+    min-width: 28px;
+    width: 28px;
+    height: 28px;
+  }
+
+  .module-Avatar__contents {
+    outline: 3px solid;
+
+    @include light-theme() {
+      outline-color: $color-white;
+    }
+
+    @include dark-theme() {
+      outline-color: $color-gray-95;
+    }
+  }
+}
+
 .module-message__unopened-gift-badge {
   width: 240px;
   height: 132px;

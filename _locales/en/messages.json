@@ -6751,6 +6751,10 @@
     "messageformat": "Declined {type, select, Audio {voice} Video {video} Group {group} other {}} call",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, one {# other is} other {# others are}} typing.",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "What's New",
     "description": "Title for the whats new modal"

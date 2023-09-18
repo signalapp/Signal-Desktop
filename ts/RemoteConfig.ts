@@ -24,6 +24,7 @@ export type ConfigKeyType =
   | 'desktop.contactManagement'
   | 'desktop.groupCallOutboundRing2.beta'
   | 'desktop.groupCallOutboundRing2'
+  | 'desktop.groupMultiTypingIndicators'
   | 'desktop.internalUser'
   | 'desktop.mandatoryProfileSharing'
   | 'desktop.mediaQuality.levels'

@@ -441,16 +441,23 @@ const renderHeroRow = () => {
 };
 const renderTypingBubble = () => (
   <TypingBubble
-    acceptedMessageRequest
-    badge={undefined}
-    color={getRandomColor()}
+    typingContacts={[
+      {
+        acceptedMessageRequest: true,
+        badge: undefined,
+        color: getRandomColor(),
+        phoneNumber: '+18005552222',
+        id: getDefaultConversation().id,
+        isMe: false,
+        sharedGroupNames: [],
+        title: 'title',
+      },
+    ]}
+    conversationId="123"
     conversationType="direct"
-    phoneNumber="+18005552222"
+    showContactModal={action('showContactModal')}
     i18n={i18n}
-    isMe={false}
-    title="title"
     theme={ThemeType.light}
-    sharedGroupNames={[]}
   />
 );
 const renderMiniPlayer = () => (

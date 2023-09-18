@@ -370,7 +370,7 @@ export function ConversationList({
             'shouldShowDraft',
             'title',
             'type',
-            'typingContactId',
+            'typingContactIds',
             'unblurredAvatarPath',
             'unreadCount',
             'unreadMentionsCount',

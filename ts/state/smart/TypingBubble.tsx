@@ -1,41 +1,62 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { connect } from 'react-redux';
-import { mapDispatchToProps } from '../actions';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { TypingBubble } from '../../components/conversation/TypingBubble';
 import { strictAssert } from '../../util/assert';
-import type { StateType } from '../reducer';
 
+import { useGlobalModalActions } from '../ducks/globalModals';
 import { getIntl, getTheme } from '../selectors/user';
 import { getConversationSelector } from '../selectors/conversations';
 import { getPreferredBadgeSelector } from '../selectors/badges';
+import { isInternalUser } from '../selectors/items';
 
 type ExternalProps = {
-  id: string;
+  conversationId: string;
 };
 
-const mapStateToProps = (state: StateType, props: ExternalProps) => {
-  const { id } = props;
-
-  const conversationSelector = getConversationSelector(state);
-  const conversation = conversationSelector(id);
+export function SmartTypingBubble(props: ExternalProps): JSX.Element {
+  const { conversationId } = props;
+  const i18n = useSelector(getIntl);
+  const theme = useSelector(getTheme);
+  const getConversation = useSelector(getConversationSelector);
+  const conversation = getConversation(conversationId);
   if (!conversation) {
-    throw new Error(`Did not find conversation ${id} in state!`);
+    throw new Error(`Did not find conversation ${conversationId} in state!`);
   }
 
-  strictAssert(conversation.typingContactId, 'Missing typing contact ID');
-  const typingContact = conversationSelector(conversation.typingContactId);
+  strictAssert(
+    conversation.typingContactIds?.[0],
+    'Missing typing contact IDs'
+  );
 
-  return {
-    ...typingContact,
-    badge: getPreferredBadgeSelector(state)(typingContact.badges),
-    conversationType: conversation.type,
-    i18n: getIntl(state),
-    theme: getTheme(state),
-  };
-};
+  const { showContactModal } = useGlobalModalActions();
 
-const smart = connect(mapStateToProps, mapDispatchToProps);
+  const preferredBadgeSelector = useSelector(getPreferredBadgeSelector);
 
-export const SmartTypingBubble = smart(TypingBubble);
+  const internalUser = useSelector(isInternalUser);
+  const typingContactIdsVisible = internalUser
+    ? conversation.typingContactIds
+    : conversation.typingContactIds.slice(0, 1);
+
+  const typingContacts = typingContactIdsVisible
+    .map(contactId => getConversation(contactId))
+    .map(typingConversation => {
+      return {
+        ...typingConversation,
+        badge: preferredBadgeSelector(typingConversation.badges),
+      };
+    });
+
+  return (
+    <TypingBubble
+      showContactModal={showContactModal}
+      conversationId={conversationId}
+      conversationType={conversation.type}
+      i18n={i18n}
+      theme={theme}
+      typingContacts={typingContacts}
+    />
+  );
+}
