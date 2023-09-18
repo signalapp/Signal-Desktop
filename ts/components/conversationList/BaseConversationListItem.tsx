@@ -257,7 +257,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
           className={classNames(
             commonClassNames,
             `${BASE_CLASS_NAME}--is-checkbox`,
-            { [`${BASE_CLASS_NAME}--is-checkbox--disabled`]: disabled }
+            { [`${BASE_CLASS_NAME}--disabled`]: disabled }
           )}
           data-id={identifier}
           data-testid={testId}

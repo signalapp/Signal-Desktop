@@ -3,7 +3,7 @@
 
 import { v4 as generateUuid } from 'uuid';
 import { z } from 'zod';
-import { Aci, Pni, ServiceId } from '@signalapp/libsignal-client';
+import type { ServiceId, Aci, Pni } from '@signalapp/libsignal-client';
 
 import { isValidUuid } from '../util/isValidUuid';
 import * as log from '../logging/log';
@@ -165,18 +165,6 @@ export const serviceIdSchema = z
     }
     return x;
   });
-
-export function toServiceIdObject(serviceId: ServiceIdString): ServiceId {
-  return ServiceId.parseFromServiceIdString(serviceId);
-}
-
-export function toAciObject(aci: AciString): Aci {
-  return Aci.parseFromServiceIdString(aci);
-}
-
-export function toPniObject(pni: PniString): Pni {
-  return Pni.parseFromServiceIdString(pni);
-}
 
 // Note: getServiceIdString() returns normalized string so we can cast it
 //   without normalizing.
