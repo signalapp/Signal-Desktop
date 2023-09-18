@@ -4380,22 +4380,6 @@ button.module-image__border-overlay:focus {
         &:disabled {
           cursor: inherit;
         }
-
-        &:hover:not(:disabled),
-        &:focus:not(:disabled) {
-          @include light-theme {
-            background-color: $color-gray-05;
-            #{$unread-indicator} {
-              border-color: $color-gray-05;
-            }
-          }
-          @include dark-theme {
-            background-color: $color-gray-75;
-            #{$unread-indicator} {
-              border-color: $color-gray-75;
-            }
-          }
-        }
       }
 
       &--is-checkbox {
@@ -4404,15 +4388,20 @@ button.module-image__border-overlay:focus {
         &--disabled {
           cursor: not-allowed;
         }
+      }
 
-        $disabled-selector: '#{&}--disabled';
-        &:hover:not(#{$disabled-selector}),
-        &:focus:not(#{$disabled-selector}) {
-          @include light-theme {
-            background-color: $color-gray-05;
+      &:hover:not(:disabled, &--disabled, &--is-selected),
+      &:focus:not(:disabled, &--disabled, &--is-selected) {
+        @include light-theme {
+          background-color: $color-gray-05;
+          #{$unread-indicator} {
+            border-color: $color-gray-05;
           }
-          @include dark-theme {
-            background-color: $color-gray-75;
+        }
+        @include dark-theme {
+          background-color: $color-gray-75;
+          #{$unread-indicator} {
+            border-color: $color-gray-75;
           }
         }
       }

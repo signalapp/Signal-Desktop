@@ -12,7 +12,8 @@ import * as durations from '../util/durations';
 import { BackOff } from '../util/BackOff';
 import { sleep } from '../util/sleep';
 import { toDayMillis } from '../util/timestamp';
-import { toAciObject, toPniObject, toTaggedPni } from '../types/ServiceId';
+import { toTaggedPni } from '../types/ServiceId';
+import { toPniObject, toAciObject } from '../util/ServiceId';
 import * as log from '../logging/log';
 
 export const GROUP_CREDENTIALS_KEY = 'groupCredentials';

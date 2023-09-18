@@ -21,11 +21,11 @@ import {
 import { Aci, Pni, type ServiceId } from '@signalapp/libsignal-client';
 import type { ServiceIdString, AciString, PniString } from '../types/ServiceId';
 import {
-  toServiceIdObject,
   fromServiceIdObject,
   fromAciObject,
   fromPniObject,
 } from '../types/ServiceId';
+import { toServiceIdObject } from './ServiceId';
 import { strictAssert } from './assert';
 
 export * from '@signalapp/libsignal-client/zkgroup';

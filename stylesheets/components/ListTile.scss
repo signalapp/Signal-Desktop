@@ -88,7 +88,9 @@ button.ListTile {
 
   &--clickable {
     cursor: pointer;
-    &:hover:not([aria-disabled='true']) {
+
+    &:hover:not([aria-disabled='true'], [aria-selected='true']),
+    &:focus:not([aria-disabled='true'], [aria-selected='true']) {
       @include light-theme {
         background-color: $color-black-alpha-06;
       }
