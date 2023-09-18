@@ -5111,8 +5111,8 @@ export class ConversationModel extends window.Backbone
         this.clearContactTypingTimer.bind(this, typingToken),
         15 * 1000
       );
+      // User was not previously typing before. State change!
       if (!record) {
-        // User was not previously typing before. State change!
         this.trigger('change', this, { force: true });
       }
     } else {
