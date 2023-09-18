@@ -218,7 +218,6 @@ export class MessageQueue {
     }
 
     const ourPubKey = UserUtils.getOurPubKeyStrFromCache();
-
     await this.process(PubKey.cast(ourPubKey), message, namespace, sentCb);
   }
 

@@ -148,10 +148,6 @@ async function handleMessageSentSuccess(
 
     // NOTE we treat all outbound disappearing messages as read as soon as they are sent.
     if (expirationMode !== 'off') {
-      window.log.debug(
-        `WIP: handleMessageSentSuccess ${fetchedMessage.idForLogging()} is deleteAfterRead`,
-        fetchedMessage
-      );
       fetchedMessage.set({
         expirationStartTimestamp: setExpirationStartTimestamp(
           expirationMode,

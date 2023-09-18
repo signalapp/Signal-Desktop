@@ -4,7 +4,10 @@ import { Storage } from '../../../../util/storage';
 import { VisibleMessage, VisibleMessageParams } from './VisibleMessage';
 
 // eslint-disable-next-line @typescript-eslint/ban-types
-export type OpenGroupVisibleMessageParams = VisibleMessageParams & {};
+export type OpenGroupVisibleMessageParams = Omit<
+  VisibleMessageParams,
+  'expirationType' | 'expireTimer'
+>;
 
 export class OpenGroupVisibleMessage extends VisibleMessage {
   private readonly blocksCommunityMessageRequests: boolean;

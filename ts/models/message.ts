@@ -1023,6 +1023,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         throw new Error('Cannot trigger syncMessage with unknown convo.');
       }
 
+      // TODO things be broken
+      // debugger;
       const expireUpdate = await checkForExpireUpdateInContentMessage(content, conversation);
 
       const syncMessage = buildSyncMessage(
@@ -1100,7 +1102,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   }
 
   public markMessageReadNoCommit(readAt: number) {
-    window.log.debug(`WIP: markMessageReadNoCommit ${this.idForLogging()}`, this);
     this.set({ unread: READ_MESSAGE_STATE.read });
 
     const convo = this.getConversation();
@@ -1109,7 +1110,9 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const expireTimer = this.get('expireTimer');
 
     if (canBeDeleteAfterRead && expirationType && expireTimer > 0) {
-      window.log.debug(`WIP: markMessageReadNoCommit ${this.idForLogging()} is deleteAfterRead`);
+      window.log.debug(
+        `WIP: markMessageReadNoCommit ${this.idForLogging()} is deleteAfterRead starting expiration`
+      );
       const expirationMode = changeToDisappearingMessageConversationType(
         convo,
         expirationType,

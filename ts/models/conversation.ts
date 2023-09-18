@@ -739,13 +739,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public async sendMessage(msg: SendMessageType) {
     const { attachments, body, groupInvitation, preview, quote } = msg;
     this.clearTypingTimers();
-    const expireTimer = this.get('expireTimer');
-    const expirationType = changeToDisappearingMessageType(
-      this,
-      expireTimer,
-      this.get('expirationType')
-    );
-
     const networkTimestamp = GetNetworkTime.getNowWithNetworkOffset();
 
     window?.log?.info(
@@ -761,8 +754,12 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       preview,
       attachments,
       sent_at: networkTimestamp,
-      expirationType,
-      expireTimer,
+      expirationType: changeToDisappearingMessageType(
+        this,
+        this.get('expireTimer'),
+        this.get('expirationType')
+      ),
+      expireTimer: this.get('expireTimer'),
       serverTimestamp: this.isPublic() ? networkTimestamp : undefined,
       groupInvitation,
     });
@@ -783,6 +780,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       lastMessageStatus: 'sending',
       active_at: networkTimestamp,
     });
+
     await this.commit();
 
     void this.queueJob(async () => {
@@ -853,13 +851,16 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
 
     // NOTE: We don' mind if the message is the same, we still want to update the conversation because we want to show visible control messages we receive an ExpirationTimerUpdate
+    // Compare mode and timestamp
     if (
-      fromConfigMessage &&
       isEqual(expirationType, this.get('expirationType')) &&
       isEqual(expireTimer, this.get('expireTimer'))
     ) {
       window.log.info(
-        'WIP: conversation: updateExpireTimer()  Dropping ExpireTimerUpdate message as we already have the same one set.'
+        `WIP: conversation: updateExpireTimer()  Ignoring ExpireTimerUpdate ${
+          fromSync ? 'sync ' : ''
+        }message as we already have the same one set.`,
+        fromConfigMessage && 'This came from libsession.'
       );
       return;
     }
@@ -894,41 +895,38 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       expireTimer,
       expirationType
     );
-    window.log.debug(`WIP: updateExpireTimer() messageExpirationType: ${messageExpirationType}`);
 
     // we don't have info about who made the change and when, when we get a change from a config message, so do not add a control message
-    // TODO NOTE We might not show it in the UI but still need to process it using the senttimestamp as the lastchange timestamp for config messages
-    if (!fromConfigMessage) {
-      const commonAttributes = {
-        flags: SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
-        expirationTimerUpdate: {
-          expirationType: messageExpirationType,
-          expireTimer,
-          lastDisappearingMessageChangeTimestamp,
-          source,
-          fromSync,
-        },
+    // TODO NOTE We might not show it in the UI but still need to process it using the sentTimestamp as the lastChange timestamp for config messages
+    const commonAttributes = {
+      flags: SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
+      expirationTimerUpdate: {
         expirationType: messageExpirationType,
         expireTimer,
-      };
+        lastDisappearingMessageChangeTimestamp,
+        source,
+        fromSync,
+      },
+      expirationType: messageExpirationType,
+      expireTimer,
+    };
 
-      if (!message) {
-        if (isOutgoing) {
-          message = await this.addSingleOutgoingMessage({
-            ...commonAttributes,
-            sent_at: timestamp,
-          });
-        } else {
-          message = await this.addSingleIncomingMessage({
-            ...commonAttributes,
-            // Even though this isn't reflected to the user, we want to place the last seen
-            //   indicator above it. We set it to 'unread' to trigger that placement.
-            unread: READ_MESSAGE_STATE.unread,
-            source,
-            sent_at: timestamp,
-            received_at: timestamp,
-          });
-        }
+    if (!message) {
+      if (isOutgoing) {
+        message = await this.addSingleOutgoingMessage({
+          ...commonAttributes,
+          sent_at: timestamp,
+        });
+      } else {
+        message = await this.addSingleIncomingMessage({
+          ...commonAttributes,
+          // Even though this isn't reflected to the user, we want to place the last seen
+          //   indicator above it. We set it to 'unread' to trigger that placement.
+          unread: READ_MESSAGE_STATE.unread,
+          source,
+          sent_at: timestamp,
+          received_at: timestamp,
+        });
       }
     }
 
@@ -944,7 +942,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     // if change was made remotely, don't send it to the contact/group
     if (fromSync || fromConfigMessage) {
       window.log.debug(
-        `WIP: updateExpireTimer() Not sending an ExpireTimerUpdate message because the change was made remotely receivedAt:${receivedAt} fromSync:${fromSync} fromConfigMessage:${fromConfigMessage} `
+        `WIP: updateExpireTimer() Not sending an ExpireTimerUpdate message because change was made remotely receivedAt:${receivedAt} fromSync:${fromSync} fromConfigMessage:${fromConfigMessage} `
       );
       return;
     }
@@ -966,10 +964,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
       const expirationTimerMessage = new ExpirationTimerUpdateMessage(expireUpdate);
 
-      window.log.debug(
-        `WIP: updateExpireTimer() isMe() expirationTimerMessage`,
-        JSON.stringify(expirationTimerMessage)
-      );
+      // window.log.debug(
+      //   `WIP: updateExpireTimer() isMe() expirationTimerMessage`,
+      //   JSON.stringify(expirationTimerMessage)
+      // );
 
       await message?.sendSyncMessageOnly(expirationTimerMessage);
       return;
@@ -977,10 +975,12 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     if (this.isPrivate()) {
       const expirationTimerMessage = new ExpirationTimerUpdateMessage(expireUpdate);
-      window.log.debug(
-        `WIP: updateExpireTimer() isPrivate() expirationTimerMessage`,
-        JSON.stringify(expirationTimerMessage)
-      );
+
+      // window.log.debug(
+      //   `WIP: updateExpireTimer() isPrivate() expirationTimerMessage`,
+      //   JSON.stringify(expirationTimerMessage)
+      // );
+
       const pubkey = new PubKey(this.get('id'));
       await getMessageQueue().sendToPubKey(
         pubkey,
@@ -997,10 +997,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
       const expirationTimerMessage = new ExpirationTimerUpdateMessage(expireUpdateForGroup);
 
-      window.log.debug(
-        `WIP: updateExpireTimer() isClosedGroup() expirationTimerMessage`,
-        JSON.stringify(expirationTimerMessage)
-      );
+      // window.log.debug(
+      //   `WIP: updateExpireTimer() isClosedGroup() expirationTimerMessage`,
+      //   JSON.stringify(expirationTimerMessage)
+      // );
 
       await getMessageQueue().sendToGroup({
         message: expirationTimerMessage,
@@ -1812,8 +1812,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
       // we are trying to send a message to someone. Make sure this convo is not hidden
       await this.unhideIfNeeded(true);
-      const expirationType = message.get('expirationType');
-      const expireTimer = message.get('expireTimer');
 
       // an OpenGroupV2 message is just a visible message
       const chatMessageParams: VisibleMessageParams = {
@@ -1821,9 +1819,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         identifier: id,
         timestamp: sentAt,
         attachments,
-        // TODO not supported in open groups
-        expirationType,
-        expireTimer,
+        expirationType: message.get('expirationType'),
+        expireTimer: message.get('expireTimer'),
         preview: preview ? [preview] : [],
         quote,
         lokiProfile: UserUtils.getOurProfile(),
@@ -1897,8 +1894,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
             timestamp: sentAt,
             name: groupInvitation.name,
             url: groupInvitation.url,
-            expirationType,
-            expireTimer,
+            expirationType: chatMessageParams.expirationType,
+            expireTimer: chatMessageParams.expireTimer,
           });
           // we need the return await so that errors are caught in the catch {}
           await getMessageQueue().sendToPubKey(

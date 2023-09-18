@@ -474,15 +474,17 @@ export async function innerHandleSwarmContentMessage(
       if (isEmpty(content.dataMessage.profileKey)) {
         content.dataMessage.profileKey = null;
       }
-      window.log.debug(`WIP: innerHandleSwarmContentMessage: ${JSON.stringify(content)}`);
-
       const expireUpdate = await checkForExpireUpdateInContentMessage(
         content,
         conversationModelForUIUpdate
       );
 
       window.log.debug(
-        `WIP:innerHandleSwarmContentMessage expireUpdate: ${JSON.stringify(expireUpdate)}`
+        `WIP:innerHandleSwarmContentMessage: ${
+          content.dataMessage.syncTarget ? 'This is a sync message.\n' : ''
+        } content: ${JSON.stringify(content)} ${
+          expireUpdate ? `\nexpireUpdate: ${JSON.stringify(expireUpdate)}` : ''
+        }`
       );
 
       // TODO legacy messages support will be removed in a future release
@@ -494,7 +496,7 @@ export async function innerHandleSwarmContentMessage(
         );
         if (expireUpdate.isLegacyConversationSettingMessage) {
           window.log.debug(
-            `WIP: The legacy message is an expiration timer update. Ignoring it. ${JSON.stringify(
+            `WIP: The legacy message is an expiration timer update. Ignoring it.\ncontent:${JSON.stringify(
               content
             )}}`
           );

@@ -223,12 +223,12 @@ async function handleUserProfileUpdate(result: IncomingConfResult): Promise<Inco
   const ourConvo = getConversationController().get(UserUtils.getOurPubKeyStrFromCache());
 
   if (ourConvo) {
-    window.log.debug(`WIP: [userProfileWrapper] Checking for disappearing messages changes`);
     let changes = false;
 
     const expireTimer = ourConvo.get('expireTimer');
     const wrapperNoteToSelfExpirySeconds = await UserConfigWrapperActions.getNoteToSelfExpiry();
 
+    // TODO Should use updateExpireTimer instead
     if (wrapperNoteToSelfExpirySeconds !== expireTimer) {
       // we trust the wrapper more than the DB, so let's update the DB but we don't show it in the UI
       ourConvo.set('expireTimer', wrapperNoteToSelfExpirySeconds);
@@ -591,13 +591,6 @@ async function handleLegacyGroupUpdate(latestEnvelopeTimestamp: number) {
       continue;
     }
 
-    window.log.debug(
-      `WIP: handleLegacyGroupUpdate for ${fromWrapper.pubkeyHex}legacyGroupConvo `,
-      legacyGroupConvo,
-      'fromWrapper',
-      fromWrapper
-    );
-
     const members = fromWrapper.members.map(m => m.pubkeyHex);
     const admins = fromWrapper.members.filter(m => m.isAdmin).map(m => m.pubkeyHex);
     // then for all the existing legacy group in the wrapper, we need to override the field of what we have in the DB with what is in the wrapper
@@ -618,8 +611,6 @@ async function handleLegacyGroupUpdate(latestEnvelopeTimestamp: number) {
           : 'unknown',
       expireTimer: fromWrapper.disappearingTimerSeconds,
     };
-
-    window.log.debug(`WIP: groupDetails for ${fromWrapper.pubkeyHex} `, groupDetails);
 
     await ClosedGroup.updateOrCreateClosedGroup(groupDetails);
 

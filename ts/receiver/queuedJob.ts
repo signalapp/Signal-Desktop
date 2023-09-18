@@ -1,4 +1,4 @@
-import _, { isEmpty, isEqual, isNumber } from 'lodash';
+import _, { isEmpty, isNumber } from 'lodash';
 import { queueAttachmentDownloads } from './attachments';
 
 import { Data } from '../data/data';
@@ -10,7 +10,6 @@ import { Quote } from './types';
 import { ConversationTypeEnum, READ_MESSAGE_STATE } from '../models/conversationAttributes';
 import { MessageDirection } from '../models/messageType';
 import { SignalService } from '../protobuf';
-import { GetNetworkTime } from '../session/apis/snode_api/getNetworkTime';
 import { ProfileManager } from '../session/profile_manager/ProfileManager';
 import { showMessageRequestBannerOutsideRedux } from '../state/ducks/userConfig';
 import { getHideMessageRequestBannerOutsideRedux } from '../state/selectors/userConfig';
@@ -23,7 +22,6 @@ import { LinkPreviews } from '../util/linkPreviews';
 import { ReleasedFeatures } from '../util/releaseFeature';
 import { PropsForMessageWithoutConvoProps, lookupQuote } from '../state/ducks/conversations';
 import { PubKey } from '../session/types';
-import { UserUtils } from '../session/utils';
 
 function contentTypeSupported(type: string): boolean {
   const Chrome = GoogleChrome;
@@ -194,10 +192,6 @@ function updateReadStatus(message: MessageModel) {
       );
 
       if (expirationMode === 'legacy' || expirationMode === 'deleteAfterRead') {
-        window.log.debug(
-          `WIP: updateReadStatus ${message.idForLogging()} is deleteAfterRead`,
-          message
-        );
         message.set({
           expirationStartTimestamp: setExpirationStartTimestamp(expirationMode),
         });
@@ -396,45 +390,41 @@ export async function handleMessageJob(
   try {
     messageModel.set({ flags: regularDataMessage.flags });
 
-    const expirationType = messageModel.get('expirationType');
-    const expireTimer = messageModel.get('expireTimer');
-
     // NOTE we handle incoming disappear afer send messages and sync messages here
     if (
       conversation &&
-      expireTimer > 0 &&
+      messageModel.get('expireTimer') > 0 &&
       Boolean(messageModel.get('expirationStartTimestamp')) === false
     ) {
       const expirationMode = changeToDisappearingMessageConversationType(
         conversation,
-        expirationType,
-        expireTimer
+        messageModel.get('expirationType'),
+        messageModel.get('expireTimer')
       );
 
       // TODO legacy messages support will be removed in a future release
       // NOTE if the expirationMode is deleteAfterRead then legacy sync messages need to explicitly set the expirationStartTimestamp since they are alread marked as read
-      const legacySyncMessageMustDisappearAfterRead =
-        expirationMode === 'deleteAfterRead' &&
-        source === UserUtils.getOurPubKeyStrFromCache() &&
-        messageModel.get('type') === 'outgoing';
+      // NOTE 2: Not sure about this code needs retested
+      // const legacySyncMessageMustDisappearAfterRead =
+      //   expirationMode === 'deleteAfterRead' &&
+      //   source === UserUtils.getOurPubKeyStrFromCache() &&
+      //   messageModel.get('type') === 'outgoing';
 
       if (
         expirationMode === 'legacy' ||
-        expirationMode === 'deleteAfterSend' ||
-        legacySyncMessageMustDisappearAfterRead
+        expirationMode === 'deleteAfterSend'
+        // ||
+        // legacySyncMessageMustDisappearAfterRead
       ) {
         messageModel.set({
           expirationStartTimestamp: setExpirationStartTimestamp(
             expirationMode,
-            !legacySyncMessageMustDisappearAfterRead ? messageModel.get('sent_at') : undefined
+            messageModel.get('sent_at')
+            // !legacySyncMessageMustDisappearAfterRead ? messageModel.get('sent_at') : undefined
           ),
         });
       }
     }
-
-    window.log.debug(
-      `WIP: handleMessageJob ${messageModel.idForLogging()} is ${JSON.stringify(messageModel)}`
-    );
 
     if (messageModel.isExpirationTimerUpdate()) {
       // NOTE if we turn off disappearing messages from a legacy client expirationTimerUpdate can be undefined but the flags value is correctly set
@@ -443,10 +433,10 @@ export async function handleMessageJob(
         messageModel.get('flags') !== SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE &&
         (!expirationTimerUpdate || isEmpty(expirationTimerUpdate))
       ) {
-        window.log.info(
-          'There is a problem with the expiration timer update',
-          messageModel,
-          expirationTimerUpdate
+        window.log.debug(
+          `WIP: There is a problem with the expiration timer update.\nmessage model: ${JSON.stringify(
+            messageModel
+          )}\nexpirationTimerUpdte: ${JSON.stringify(expirationTimerUpdate)}`
         );
         return;
       }
@@ -458,17 +448,13 @@ export async function handleMessageJob(
         expireTimerUpdate
       );
       const lastDisappearingMessageChangeTimestamp =
-        expirationTimerUpdate?.lastDisappearingMessageChangeTimestamp ||
-        GetNetworkTime.getNowWithNetworkOffset();
+        expirationTimerUpdate?.lastDisappearingMessageChangeTimestamp;
 
-      // Compare mode and timestamp
-      if (
-        isEqual(expirationTypeUpdate, conversation.get('expirationType')) &&
-        isEqual(expireTimerUpdate, conversation.get('expireTimer'))
-      ) {
-        confirm?.();
-        window?.log?.info(
-          'WIP: queuedJob: Dropping ExpireTimerUpdate message as we already have the same one set.'
+      if (!lastDisappearingMessageChangeTimestamp) {
+        window.log.debug(
+          `WIP: There is a problem with the expiration timer update. The lastDisappearingMessageChangeTimestamp is missing.\nmessage model: ${JSON.stringify(
+            messageModel
+          )}\nexpirationTimerUpdte: ${JSON.stringify(expirationTimerUpdate)}`
         );
         return;
       }

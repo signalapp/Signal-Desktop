@@ -25,7 +25,7 @@ import { isUsFromCache } from '../session/utils/User';
 import { Action, Reaction } from '../types/Reaction';
 import { toLogFormat } from '../types/attachments/Errors';
 import { Reactions } from '../util/reactions';
-import { DisappearingMessageUpdate, updateMessageModelToExpire } from '../util/expiringMessages';
+import { DisappearingMessageUpdate, getMessageReadyToDisappear } from '../util/expiringMessages';
 
 function cleanAttachment(attachment: any) {
   return {
@@ -262,8 +262,7 @@ export async function handleSwarmDataMessage(
         });
 
   if (!isEmpty(expireUpdate)) {
-    msgModel = updateMessageModelToExpire(convoToAddMessageTo, msgModel, expireUpdate);
-    window.log.debug(`WIP: innerHandleSwarmContentMessage msgModel ${JSON.stringify(msgModel)}`);
+    msgModel = getMessageReadyToDisappear(convoToAddMessageTo, msgModel, expireUpdate);
   }
 
   await handleSwarmMessage(
