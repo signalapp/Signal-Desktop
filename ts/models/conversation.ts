@@ -830,7 +830,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     let expirationType = providedExpirationType;
     let expireTimer = providedExpireTimer;
     const lastDisappearingMessageChangeTimestamp = providedChangeTimestamp;
-    let source = providedSource;
+    const source = providedSource || UserUtils.getOurPubKeyStrFromCache();
 
     if (expirationType === undefined || expireTimer === undefined) {
       expirationType = 'off';
@@ -866,7 +866,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
 
     const isOutgoing = Boolean(!receivedAt);
-    source = source || UserUtils.getOurPubKeyStrFromCache();
 
     // When we add a disappearing messages notification to the conversation, we want it
     // to be above the message that initiated that change, hence the subtraction.
@@ -940,9 +939,9 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
 
     // if change was made remotely, don't send it to the contact/group
-    if (fromSync || fromConfigMessage) {
+    if (receivedAt || fromSync || fromConfigMessage) {
       window.log.debug(
-        `WIP: updateExpireTimer() Not sending an ExpireTimerUpdate message because change was made remotely receivedAt:${receivedAt} fromSync:${fromSync} fromConfigMessage:${fromConfigMessage} `
+        `WIP: updateExpireTimer() We dont send an ExpireTimerUpdate because this was a remote change receivedAt:${receivedAt} fromSync:${fromSync} fromConfigMessage:${fromConfigMessage} `
       );
       return;
     }

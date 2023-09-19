@@ -438,6 +438,7 @@ export async function handleMessageJob(
             messageModel
           )}\n\nexpirationTimerUpdate: ${JSON.stringify(expirationTimerUpdate)}`
         );
+        confirm?.();
         return;
       }
 
@@ -456,6 +457,7 @@ export async function handleMessageJob(
             messageModel
           )}\n\nexpirationTimerUpdate: ${JSON.stringify(expirationTimerUpdate)}`
         );
+        confirm?.();
         return;
       }
 
