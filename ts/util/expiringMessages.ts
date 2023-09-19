@@ -45,6 +45,7 @@ export type DisappearingMessageUpdate = {
   isLegacyDataMessage?: boolean;
   isDisappearingMessagesV2Released?: boolean;
   shouldDisappearButIsntMessage?: boolean;
+  isOutdated?: boolean;
 };
 
 export async function destroyMessagesAndUpdateRedux(
@@ -420,6 +421,17 @@ export async function checkForExpireUpdateInContentMessage(
     : couldBeLegacyContentMessage &&
       dataMessage.flags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
 
+  const expirationTimer = isLegacyDataMessage
+    ? Number(dataMessage.expireTimer)
+    : content.expirationTimer;
+
+  // NOTE we don't use the expirationType directly from the Content Message because we need to resolve it to the correct convo type first in case it is legacy or has errors
+  const expirationMode = changeToDisappearingMessageConversationType(
+    convoToUpdate,
+    DisappearingMessageMode[content.expirationType],
+    expirationTimer
+  );
+
   const lastDisappearingMessageChangeTimestamp = content.lastDisappearingMessageChangeTimestamp
     ? Number(content.lastDisappearingMessageChangeTimestamp)
     : undefined;
@@ -435,19 +447,16 @@ export async function checkForExpireUpdateInContentMessage(
         content
       )}\n\nconvoToUpdate: ${JSON.stringify(convoToUpdate)}`
     );
-    return undefined;
+    return {
+      expirationType: changeToDisappearingMessageType(
+        convoToUpdate,
+        expirationTimer,
+        expirationMode
+      ),
+      expirationTimer,
+      isOutdated: true,
+    };
   }
-
-  const expirationTimer = isLegacyDataMessage
-    ? Number(dataMessage.expireTimer)
-    : content.expirationTimer;
-
-  // NOTE we don't use the expirationType directly from the Content Message because we need to resolve it to the correct convo type first in case it is legacy or has errors
-  const expirationMode = changeToDisappearingMessageConversationType(
-    convoToUpdate,
-    DisappearingMessageMode[content.expirationType],
-    expirationTimer
-  );
 
   const shouldDisappearButIsntMessage = checkDisappearButIsntMessage(
     content,

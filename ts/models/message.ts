@@ -1025,7 +1025,11 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
       const expireUpdate = await checkForExpireUpdateInContentMessage(content, conversation);
 
-      if (!isEmpty(expireUpdate) && expireUpdate.lastDisappearingMessageChangeTimestamp) {
+      if (
+        !isEmpty(expireUpdate) &&
+        !expireUpdate.isOutdated &&
+        expireUpdate.lastDisappearingMessageChangeTimestamp
+      ) {
         const syncMessage = buildSyncMessage(
           this.id,
           dataMessage as SignalService.DataMessage,

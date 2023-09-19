@@ -436,7 +436,7 @@ export async function handleMessageJob(
         window.log.debug(
           `WIP: There is a problem with the expiration timer update.\nmessage model: ${JSON.stringify(
             messageModel
-          )}\nexpirationTimerUpdate: ${JSON.stringify(expirationTimerUpdate)}`
+          )}\n\nexpirationTimerUpdate: ${JSON.stringify(expirationTimerUpdate)}`
         );
         return;
       }
@@ -454,7 +454,7 @@ export async function handleMessageJob(
         window.log.debug(
           `WIP: There is a problem with the expiration timer update. The lastDisappearingMessageChangeTimestamp is missing.\nmessage model: ${JSON.stringify(
             messageModel
-          )}\nexpirationTimerUpdate: ${JSON.stringify(expirationTimerUpdate)}`
+          )}\n\nexpirationTimerUpdate: ${JSON.stringify(expirationTimerUpdate)}`
         );
         return;
       }

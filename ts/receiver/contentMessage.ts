@@ -487,6 +487,18 @@ export async function innerHandleSwarmContentMessage(
         }`
       );
 
+      if (expireUpdate?.isOutdated) {
+        // window.log.debug(
+        //   `WIP: innerHandleSwarmContentMessage: This ${
+        //     content.dataMessage.syncTarget ? 'sync' : ''
+        //   } message is outdated. Ignoring it.\n\ncontent:${JSON.stringify(
+        //     content
+        //   )}\n\nexpireUpdate: ${JSON.stringify(expireUpdate)}`
+        // );
+        await removeFromCache(envelope);
+        return;
+      }
+
       // TODO legacy messages support will be removed in a future release
       if (expireUpdate?.isDisappearingMessagesV2Released) {
         await checkHasOutdatedDisappearingMessageClient(
@@ -498,8 +510,9 @@ export async function innerHandleSwarmContentMessage(
           window.log.debug(
             `WIP: The legacy message is an expiration timer update. Ignoring it.\ncontent:${JSON.stringify(
               content
-            )}}`
+            )}\n\nexpireUpdate: ${JSON.stringify(expireUpdate)}`
           );
+          await removeFromCache(envelope);
           return;
         }
       }
