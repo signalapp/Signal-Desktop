@@ -10,6 +10,7 @@ import type {
   IPCResponse as ChallengeResponseType,
 } from '../challenge';
 import type { ReceiptType } from '../types/Receipt';
+import { SECOND } from '../util/durations';
 
 export type AppLoadedInfoType = Readonly<{
   loadTime: number;
@@ -39,6 +40,8 @@ export type AppOptionsType = Readonly<{
   args: ReadonlyArray<string>;
   config: string;
 }>;
+
+const WAIT_FOR_EVENT_TIMEOUT = 30 * SECOND;
 
 export class App extends EventEmitter {
   private privApp: ElectronApplication | undefined;
@@ -152,11 +155,15 @@ export class App extends EventEmitter {
   // Private
   //
 
-  private async waitForEvent<T>(event: string): Promise<T> {
+  private async waitForEvent<T>(
+    event: string,
+    timeout = WAIT_FOR_EVENT_TIMEOUT
+  ): Promise<T> {
     const window = await this.getWindow();
 
     const result = await window.evaluate(
-      `window.SignalCI.waitForEvent(${JSON.stringify(event)})`
+      `window.SignalCI.waitForEvent(${JSON.stringify(event)})`,
+      { timeout }
     );
 
     return result as T;

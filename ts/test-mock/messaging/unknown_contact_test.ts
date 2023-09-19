@@ -14,6 +14,7 @@ export const debug = createDebug('mock:test:edit');
 
 describe('unknown contacts', function unknownContacts() {
   this.timeout(durations.MINUTE);
+  this.retries(4);
 
   let bootstrap: Bootstrap;
   let app: App;

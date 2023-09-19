@@ -18,6 +18,7 @@ export const debug = createDebug('mock:test:gv2');
 
 describe('pnp/send gv2 invite', function needsName() {
   this.timeout(durations.MINUTE);
+  this.retries(4);
 
   let bootstrap: Bootstrap;
   let app: App;

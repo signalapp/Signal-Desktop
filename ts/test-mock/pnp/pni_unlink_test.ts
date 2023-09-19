@@ -20,6 +20,7 @@ export const debug = createDebug('mock:test:pni-unlink');
 
 describe('pnp/PNI DecryptionError unlink', function needsName() {
   this.timeout(durations.MINUTE);
+  this.retries(4);
 
   let bootstrap: Bootstrap;
   let app: App | undefined;

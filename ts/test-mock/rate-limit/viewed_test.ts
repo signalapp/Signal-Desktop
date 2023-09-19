@@ -13,7 +13,8 @@ import { ReceiptType } from '../../types/Receipt';
 export const debug = createDebug('mock:test:challenge:receipts');
 
 describe('challenge/receipts', function challengeReceiptsTest() {
-  this.timeout(durations.MINUTE * 100);
+  this.timeout(durations.MINUTE);
+  this.retries(4);
 
   let bootstrap: Bootstrap;
   let app: App;

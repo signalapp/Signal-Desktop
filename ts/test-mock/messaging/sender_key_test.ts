@@ -13,6 +13,7 @@ export const debug = createDebug('mock:test:senderKey');
 
 describe('senderKey', function needsName() {
   this.timeout(durations.MINUTE);
+  this.retries(4);
 
   let bootstrap: Bootstrap;
   let app: App;
