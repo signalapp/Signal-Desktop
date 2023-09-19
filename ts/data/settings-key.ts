@@ -1,7 +1,7 @@
 const settingsReadReceipt = 'read-receipt-setting';
 const settingsTypingIndicator = 'typing-indicators-setting';
 const settingsAutoUpdate = 'auto-update';
-
+const settingsEnterKeyFunction = 'enter-key-function-setting';
 const settingsMenuBar = 'hide-menu-bar';
 const settingsSpellCheck = 'spell-check';
 const settingsLinkPreview = 'link-preview-setting';
@@ -24,6 +24,7 @@ export const SettingsKey = {
   settingsReadReceipt,
   settingsTypingIndicator,
   settingsAutoUpdate,
+  settingsEnterKeyFunction,
   settingsMenuBar,
   settingsSpellCheck,
   settingsLinkPreview,

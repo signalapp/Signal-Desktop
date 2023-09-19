@@ -6,10 +6,9 @@ import { SettingsKey } from '../../../data/settings-key';
 import { ToastUtils } from '../../../session/utils';
 import { toggleAudioAutoplay } from '../../../state/ducks/userConfig';
 import { getAudioAutoplay } from '../../../state/selectors/userConfig';
-
+import { SessionRadioGroup } from '../../basic/SessionRadioGroup';
 import { BlockedContactsList } from '../BlockedList';
-
-import { SessionToggleWithDescription } from '../SessionSettingListItem';
+import { SessionSettingsItemWrapper, SessionToggleWithDescription } from '../SessionSettingListItem';
 
 async function toggleCommunitiesPruning() {
   try {
@@ -81,13 +80,48 @@ const AudioMessageAutoPlaySetting = () => {
   );
 };
 
+const EnterKeyFunctionSetting = () => {
+  const forceUpdate = useUpdate();
+
+  const initialSetting = window.getSettingValue(SettingsKey.settingsEnterKeyFunction) || true;
+
+  const items = [
+    {
+      label: window.i18n('enterSendNewMessageDescription'),
+      value: 'enterSend',
+    },
+    {
+      label: window.i18n('enterNewLineDescription'),
+      value: 'enterNewLine',
+    },
+  ];
+
+  return (
+    <SessionSettingsItemWrapper
+      title={window.i18n('enterKeySettingTitle')}
+      description={window.i18n('enterKeySettingDescription')}
+      inline={false}
+    >
+      <SessionRadioGroup
+        initialItem={initialSetting}
+        group={SettingsKey.settingsEnterKeyFunction} // make sure to define this key in your SettingsKey enum
+        items={items}
+        onClick={async (selectedRadioValue: string) => {
+          await window.setSettingValue(SettingsKey.settingsEnterKeyFunction, selectedRadioValue);
+          forceUpdate();
+        }}
+      />
+    </SessionSettingsItemWrapper>
+  );
+};
+
 export const CategoryConversations = () => {
   return (
     <>
       <CommunitiesPruningSetting />
       <SpellCheckSetting />
       <AudioMessageAutoPlaySetting />
-
+      <EnterKeyFunctionSetting />
       <BlockedContactsList />
     </>
   );
