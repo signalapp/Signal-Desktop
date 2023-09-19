@@ -5046,16 +5046,16 @@ export function reducer(
       return state;
     }
 
-    const toIncrement =
-      data.reactions?.length ||
-      existingMessage.editHistory?.length !== data.editHistory?.length
-        ? 1
-        : 0;
+    const hasNewEdit =
+      existingMessage.editHistory?.length !== data.editHistory?.length ? 1 : 0;
+    const toIncrement = data.reactions?.length || hasNewEdit;
 
     const updatedMessage = {
       ...data,
       displayLimit: existingMessage.displayLimit,
-      isSpoilerExpanded: existingMessage.isSpoilerExpanded,
+      isSpoilerExpanded: hasNewEdit
+        ? undefined
+        : existingMessage.isSpoilerExpanded,
     };
 
     return {
