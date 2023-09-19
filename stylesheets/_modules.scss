@@ -5272,15 +5272,16 @@ button.module-image__border-overlay:focus {
 
   // This is a modified version of ["Pin Scrolling to Bottom"][0].
   // [0]: https://css-tricks.com/books/greatest-css-tricks/pin-scrolling-to-bottom/
-  &--have-newest {
+  &::after {
+    content: '';
+    height: 1px; // Always show the element to not mess with the height of the scroll area
+    display: block;
+  }
+  &--have-newest:not(&--scroll-locked) {
     & > * {
       overflow-anchor: none;
     }
-
     &::after {
-      content: '';
-      height: 1px;
-      display: block;
       overflow-anchor: auto;
     }
   }

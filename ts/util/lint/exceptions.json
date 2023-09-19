@@ -2855,6 +2855,13 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/hooks/useScrollLock.tsx",
+    "line": "  const onUserInterruptRef = useRef(onUserInterrupt);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2023-09-19T17:05:51.321Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/quill/formatting/menu.tsx",
     "line": "  const buttonRef = React.useRef<HTMLButtonElement | null>(null);",
     "reasonCategory": "usageTrusted",

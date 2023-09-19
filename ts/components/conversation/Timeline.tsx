@@ -3,7 +3,7 @@
 
 import { first, get, isNumber, last, throttle } from 'lodash';
 import classNames from 'classnames';
-import type { ReactChild, ReactNode, RefObject } from 'react';
+import type { ReactChild, ReactNode, RefObject, UIEvent } from 'react';
 import React from 'react';
 
 import type { ReadonlyDeep } from 'type-fest';
@@ -43,6 +43,10 @@ import {
 import { LastSeenIndicator } from './LastSeenIndicator';
 import { MINUTE } from '../../util/durations';
 import { SizeObserver } from '../../hooks/useSizeObserver';
+import {
+  createScrollerLock,
+  ScrollerLockContext,
+} from '../../hooks/useScrollLock';
 
 const AT_BOTTOM_THRESHOLD = 15;
 const AT_BOTTOM_DETECTOR_STYLE = { height: AT_BOTTOM_THRESHOLD };
@@ -177,6 +181,7 @@ export type PropsType = PropsDataType &
   PropsActionsType;
 
 type StateType = {
+  scrollLocked: boolean;
   hasDismissedDirectContactSpoofingWarning: boolean;
   hasRecentlyScrolled: boolean;
   lastMeasuredWarningHeight: number;
@@ -214,6 +219,7 @@ export class Timeline extends React.Component<
 
   // eslint-disable-next-line react/state-in-constructor
   override state: StateType = {
+    scrollLocked: false,
     hasRecentlyScrolled: true,
     hasDismissedDirectContactSpoofingWarning: false,
 
@@ -222,7 +228,21 @@ export class Timeline extends React.Component<
     widthBreakpoint: WidthBreakpoint.Wide,
   };
 
-  private onScroll = (): void => {
+  private onScrollLockChange = (): void => {
+    this.setState({
+      scrollLocked: this.scrollerLock.isLocked(),
+    });
+  };
+
+  private scrollerLock = createScrollerLock(
+    'Timeline',
+    this.onScrollLockChange
+  );
+
+  private onScroll = (event: UIEvent): void => {
+    if (event.isTrusted) {
+      this.scrollerLock.onUserInterrupt('onScroll');
+    }
     this.setState(oldState =>
       // `onScroll` is called frequently, so it's performance-sensitive. We try our best
       //   to return `null` from this updater because [that won't cause a re-render][0].
@@ -237,12 +257,20 @@ export class Timeline extends React.Component<
   };
 
   private scrollToItemIndex(itemIndex: number): void {
+    if (this.scrollerLock.isLocked()) {
+      return;
+    }
+
     this.messagesRef.current
       ?.querySelector(`[data-item-index="${itemIndex}"]`)
       ?.scrollIntoViewIfNeeded();
   }
 
   private scrollToBottom = (setFocus?: boolean): void => {
+    if (this.scrollerLock.isLocked()) {
+      return;
+    }
+
     const { targetMessage, id, items } = this.props;
 
     if (setFocus && items && items.length > 0) {
@@ -258,10 +286,15 @@ export class Timeline extends React.Component<
   };
 
   private onClickScrollDownButton = (): void => {
+    this.scrollerLock.onUserInterrupt('onClickScrollDownButton');
     this.scrollDown(false);
   };
 
   private scrollDown = (setFocus?: boolean): void => {
+    if (this.scrollerLock.isLocked()) {
+      return;
+    }
+
     const {
       haveNewest,
       id,
@@ -573,7 +606,7 @@ export class Timeline extends React.Component<
     } = this.props;
 
     const containerEl = this.containerRef.current;
-    if (containerEl && snapshot) {
+    if (!this.scrollerLock.isLocked() && containerEl && snapshot) {
       if (snapshot === scrollToUnreadIndicator) {
         const lastSeenIndicatorEl = this.lastSeenIndicatorRef.current;
         if (lastSeenIndicatorEl) {
@@ -781,6 +814,7 @@ export class Timeline extends React.Component<
       unreadMentionsCount,
     } = this.props;
     const {
+      scrollLocked,
       hasRecentlyScrolled,
       lastMeasuredWarningHeight,
       newestBottomVisibleMessageId,
@@ -1050,7 +1084,7 @@ export class Timeline extends React.Component<
     }
 
     return (
-      <>
+      <ScrollerLockContext.Provider value={this.scrollerLock}>
         <SizeObserver
           onSizeChange={size => {
             const { isNearBottom } = this.props;
@@ -1093,7 +1127,8 @@ export class Timeline extends React.Component<
                   className={classNames(
                     'module-timeline__messages',
                     haveNewest && 'module-timeline__messages--have-newest',
-                    haveOldest && 'module-timeline__messages--have-oldest'
+                    haveOldest && 'module-timeline__messages--have-oldest',
+                    scrollLocked && 'module-timeline__messages--scroll-locked'
                   )}
                   ref={this.messagesRef}
                   role="list"
@@ -1152,7 +1187,7 @@ export class Timeline extends React.Component<
         )}
 
         {contactSpoofingReviewDialog}
-      </>
+      </ScrollerLockContext.Provider>
     );
   }
 
