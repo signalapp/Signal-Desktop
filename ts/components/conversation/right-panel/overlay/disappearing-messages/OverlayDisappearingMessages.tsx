@@ -132,7 +132,9 @@ export const OverlayDisappearingMessages = () => {
   useEffect(() => {
     // NOTE loads a time value from the conversation model or the default
     handleSetTime(
-      expireTimer && expireTimer > -1 ? expireTimer : loadDefaultTimeValue(modeSelected)
+      expireTimer !== undefined && expireTimer > -1
+        ? expireTimer
+        : loadDefaultTimeValue(modeSelected)
     );
   }, [expireTimer, modeSelected]);
 
