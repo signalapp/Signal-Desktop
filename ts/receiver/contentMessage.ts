@@ -483,7 +483,7 @@ export async function innerHandleSwarmContentMessage(
         `WIP:innerHandleSwarmContentMessage: ${
           content.dataMessage.syncTarget ? 'This is a sync message.\n' : ''
         } content: ${JSON.stringify(content)} ${
-          expireUpdate ? `\nexpireUpdate: ${JSON.stringify(expireUpdate)}` : ''
+          expireUpdate ? `\n\nexpireUpdate: ${JSON.stringify(expireUpdate)}` : ''
         }`
       );
 

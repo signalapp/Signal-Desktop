@@ -136,6 +136,14 @@ export const OverlayDisappearingMessages = () => {
     );
   }, [expireTimer, modeSelected]);
 
+  // useEffect(() => {
+  //   window.log.debug(
+  //     `WIP: OverlayDisappearingMessages: \nmodeSelected ${modeSelected} \nsingleMode ${singleMode} \ntimeSelected ${timeSelected} \ntimerOptions ${JSON.stringify(
+  //       timerOptions.map(option => option.name)
+  //     )}`
+  //   );
+  // }, [modeSelected, timeSelected]);
+
   if (!disappearingModeOptions) {
     return null;
   }

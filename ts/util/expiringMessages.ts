@@ -433,7 +433,7 @@ export async function checkForExpireUpdateInContentMessage(
     window.log.info(
       `WIP: checkForExpireUpdateInContentMessage() This is an outdated disappearing message setting.\ncontent: ${JSON.stringify(
         content
-      )}\nconvoToUpdate: ${JSON.stringify(convoToUpdate)}`
+      )}\n\nconvoToUpdate: ${JSON.stringify(convoToUpdate)}`
     );
     return undefined;
   }
@@ -480,7 +480,7 @@ export async function checkForExpireUpdateInContentMessage(
       window.log.debug(
         `WIP: Received a legacy disappearing message before v2 was released without values set. Using the conversation settings.\ncontent: ${JSON.stringify(
           content
-        )}\nconvoToUpdate: ${JSON.stringify(convoToUpdate)}`
+        )}\n\nconvoToUpdate: ${JSON.stringify(convoToUpdate)}`
       );
 
       expireUpdate.expirationTimer = convoToUpdate.get('expireTimer');
@@ -501,7 +501,7 @@ export async function checkForExpireUpdateInContentMessage(
     window.log.debug(
       `WIP: Received a legacy disappearing message after v2 was released. Overriding it with the conversation settings\ncontent: ${JSON.stringify(
         content
-      )}\nconvoToUpdate: ${JSON.stringify(convoToUpdate)}`
+      )}\n\nconvoToUpdate: ${JSON.stringify(convoToUpdate)}`
     );
 
     expireUpdate.expirationTimer = convoToUpdate.get('expireTimer');
