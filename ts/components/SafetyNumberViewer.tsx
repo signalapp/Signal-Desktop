@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import classNames from 'classnames';
 
 import { Button, ButtonVariant } from './Button';
@@ -16,6 +16,7 @@ import {
   SafetyNumberIdentifierType,
   SafetyNumberMode,
 } from '../types/safetyNumber';
+import { arrow } from '../util/keyboard';
 
 export type PropsType = {
   contact: ConversationType;
@@ -49,7 +50,38 @@ export function SafetyNumberViewer({
     generateSafetyNumber(contact);
   }, [contact, generateSafetyNumber]);
 
+  // Keyboard navigation
+
   const [selectedIndex, setSelectedIndex] = useState(0);
+
+  const selectPrevNumber = useCallback(() => {
+    setSelectedIndex(x => Math.max(x - 1, 0));
+  }, []);
+
+  const selectNextNumber = useCallback(() => {
+    if (!safetyNumbers || safetyNumbers.length === 0) {
+      setSelectedIndex(0);
+      return;
+    }
+    setSelectedIndex(x => Math.min(x + 1, safetyNumbers.length - 1));
+  }, [safetyNumbers]);
+
+  React.useEffect(() => {
+    const handleKeyDown = (ev: KeyboardEvent) => {
+      if (ev.key === arrow('start')) {
+        selectPrevNumber();
+      }
+
+      if (ev.key === arrow('end')) {
+        selectNextNumber();
+      }
+    };
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [selectPrevNumber, selectNextNumber]);
 
   if (!contact || !hasSafetyNumbers) {
     return null;
@@ -118,7 +150,7 @@ export function SafetyNumberViewer({
             type="button"
             aria-label={i18n('icu:SafetyNumberViewer__card__prev')}
             className="module-SafetyNumberViewer__card__prev"
-            onClick={() => setSelectedIndex(x => x - 1)}
+            onClick={selectPrevNumber}
           />
         )}
 
@@ -127,7 +159,7 @@ export function SafetyNumberViewer({
             type="button"
             aria-label={i18n('icu:SafetyNumberViewer__card__next')}
             className="module-SafetyNumberViewer__card__next"
-            onClick={() => setSelectedIndex(x => x + 1)}
+            onClick={selectNextNumber}
           />
         )}
       </div>
