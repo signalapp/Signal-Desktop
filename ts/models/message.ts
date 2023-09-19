@@ -1121,9 +1121,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const expireTimer = this.get('expireTimer');
 
     if (canBeDeleteAfterRead && expirationType && expireTimer > 0) {
-      window.log.debug(
-        `WIP: markMessageReadNoCommit ${this.idForLogging()} is deleteAfterRead starting expiration`
-      );
       const expirationMode = changeToDisappearingMessageConversationType(
         convo,
         expirationType,
@@ -1131,6 +1128,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       );
 
       if (expirationMode === 'legacy' || expirationMode === 'deleteAfterRead') {
+        window.log.debug(`WIP: markMessageReadNoCommit setExpirationStartTimestamp is starting`);
         this.set({
           expirationStartTimestamp: setExpirationStartTimestamp(expirationMode, readAt),
         });

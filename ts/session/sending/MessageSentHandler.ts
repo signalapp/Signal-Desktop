@@ -146,8 +146,9 @@ async function handleMessageSentSuccess(
       expireTimer
     );
 
-    // NOTE we treat all outbound disappearing messages as read as soon as they are sent.
+    // NOTE starting disappearing messages timer for all outbound messages
     if (expirationMode !== 'off') {
+      window.log.debug(`WIP: handleMessageSentSuccess setExpirationStartTimestamp is starting`);
       fetchedMessage.set({
         expirationStartTimestamp: setExpirationStartTimestamp(
           expirationMode,

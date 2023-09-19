@@ -180,6 +180,7 @@ function updateReadStatus(message: MessageModel) {
   if (message.isExpirationTimerUpdate()) {
     message.set({ unread: READ_MESSAGE_STATE.read });
     const convo = message.getConversation();
+    // TODO legacy messages support will be removed in a future release
     const canBeDeleteAfterRead = convo && !convo.isMe() && convo.isPrivate();
     const expirationType = message.get('expirationType');
     const expireTimer = message.get('expireTimer');
@@ -192,6 +193,7 @@ function updateReadStatus(message: MessageModel) {
       );
 
       if (expirationMode === 'legacy' || expirationMode === 'deleteAfterRead') {
+        window.log.debug(`WIP: updateReadStatus setExpirationStartTimestamp is starting`);
         message.set({
           expirationStartTimestamp: setExpirationStartTimestamp(expirationMode),
         });
@@ -410,12 +412,16 @@ export async function handleMessageJob(
       //   source === UserUtils.getOurPubKeyStrFromCache() &&
       //   messageModel.get('type') === 'outgoing';
 
+      // TODO legacy messages support will be removed in a future release
+      const canBeDeleteAfterSend = conversation && conversation.isMe() && conversation.isGroup();
+      // TODO legacy support could be broken after V2 is released on a modern client on a 1-1 with disapearAfterRead
       if (
-        expirationMode === 'legacy' ||
+        (canBeDeleteAfterSend && expirationMode === 'legacy') ||
         expirationMode === 'deleteAfterSend'
         // ||
         // legacySyncMessageMustDisappearAfterRead
       ) {
+        window.log.debug(`WIP: handleMessageJob setExpirationStartTimestamp is starting`);
         messageModel.set({
           expirationStartTimestamp: setExpirationStartTimestamp(
             expirationMode,

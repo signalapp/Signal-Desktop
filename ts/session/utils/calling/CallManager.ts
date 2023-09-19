@@ -522,6 +522,7 @@ export async function USER_callRecipient(recipient: string) {
   let expirationStartTimestamp;
 
   if (calledConvo && expirationMode && expireTimer > 0) {
+    // TODO legacy messages support will be removed in a future release
     expirationType = changeToDisappearingMessageType(calledConvo, expireTimer, expirationMode);
 
     if (expirationMode === 'legacy' || expirationMode === 'deleteAfterSend') {
@@ -902,6 +903,7 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
   let expirationStartTimestamp;
 
   if (callerConvo && expirationMode && expireTimer > 0) {
+    // TODO legacy messages support will be removed in a future release
     expirationType = changeToDisappearingMessageType(callerConvo, expireTimer, expirationMode);
 
     if (expirationMode === 'legacy' || expirationMode === 'deleteAfterSend') {
@@ -1254,6 +1256,7 @@ async function addMissedCallMessage(callerPubkey: string, sentAt: number) {
   let expirationStartTimestamp;
 
   if (incomingCallConversation && expirationMode && expireTimer > 0) {
+    // TODO legacy messages support will be removed in a future release
     expirationType = changeToDisappearingMessageType(
       incomingCallConversation,
       expireTimer,

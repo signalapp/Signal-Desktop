@@ -893,6 +893,8 @@ export async function handleDataExtractionNotification(
           ? changeToDisappearingMessageType(convo, expireTimer, expirationMode)
           : undefined;
 
+      // NOTE Trigger for an incoming message
+      // TODO legacy messages support will be removed in a future release
       if (expirationMode === 'legacy' || expirationMode === 'deleteAfterSend') {
         expirationStartTimestamp = setExpirationStartTimestamp(expirationMode);
       }
