@@ -1023,7 +1023,10 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         throw new Error('Cannot trigger syncMessage with unknown convo.');
       }
 
-      const expireUpdate = await checkForExpireUpdateInContentMessage(content, conversation);
+      // window.log.debug(
+      //   `WIP: sendSyncMessage: running checkForExpireUpdateInContentMessage for ${this.id}`
+      // );
+      const expireUpdate = await checkForExpireUpdateInContentMessage(content, conversation, true);
 
       if (
         !isEmpty(expireUpdate) &&

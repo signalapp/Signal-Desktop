@@ -403,7 +403,8 @@ export function checkIsLegacyDisappearingDataMessage(
 // TODO legacy messages support will be removed in a future release
 export async function checkForExpireUpdateInContentMessage(
   content: SignalService.Content,
-  convoToUpdate: ConversationModel
+  convoToUpdate: ConversationModel,
+  isOutgoing?: boolean
 ): Promise<DisappearingMessageUpdate | undefined> {
   const dataMessage = content.dataMessage as SignalService.DataMessage;
   // We will only support legacy disappearing messages for a short period before disappearing messages v2 is unlocked
@@ -436,17 +437,26 @@ export async function checkForExpireUpdateInContentMessage(
     ? Number(content.lastDisappearingMessageChangeTimestamp)
     : undefined;
 
+  // NOTE if we are checking an outgoing content message then the conversation's lastDisappearingMessageChangeTimestamp has just been set to match the content message so it can't be outdated if equal
   if (
     convoToUpdate.get('lastDisappearingMessageChangeTimestamp') &&
     lastDisappearingMessageChangeTimestamp &&
-    convoToUpdate.get('lastDisappearingMessageChangeTimestamp') >=
-      lastDisappearingMessageChangeTimestamp
+    ((isOutgoing &&
+      convoToUpdate.get('lastDisappearingMessageChangeTimestamp') >
+        lastDisappearingMessageChangeTimestamp) ||
+      (!isOutgoing &&
+        convoToUpdate.get('lastDisappearingMessageChangeTimestamp') >=
+          lastDisappearingMessageChangeTimestamp))
   ) {
-    // window.log.info(
-    //   `WIP: checkForExpireUpdateInContentMessage() This is an outdated disappearing message setting. So we will ignore it.\ncontent: ${JSON.stringify(
-    //     content
-    //   )}
-    // );
+    window.log.info(
+      `WIP: checkForExpireUpdateInContentMessage() This is an outdated ${
+        isOutgoing ? 'outgoing' : 'incoming'
+      } disappearing message setting. So we will ignore it.\nconvoToUpdate.get('lastDisappearingMessageChangeTimestamp'): ${convoToUpdate.get(
+        'lastDisappearingMessageChangeTimestamp'
+      )}\nlastDisappearingMessageChangeTimestamp: ${lastDisappearingMessageChangeTimestamp}\n\ncontent: ${JSON.stringify(
+        content
+      )}`
+    );
 
     return {
       expirationType: changeToDisappearingMessageType(
