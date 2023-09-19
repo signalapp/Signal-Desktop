@@ -371,7 +371,7 @@ export const buildSyncMessage = (
   syncTarget: string,
   sentTimestamp: number,
   expireUpdate?: DisappearingMessageUpdate
-): VisibleMessage | ExpirationTimerUpdateMessage => {
+): VisibleMessage | ExpirationTimerUpdateMessage | null => {
   if (
     (data as any).constructor.name !== 'DataMessage' &&
     !(data instanceof SignalService.DataMessage)
@@ -392,17 +392,32 @@ export const buildSyncMessage = (
     !isEmpty(expireUpdate) &&
     expireUpdate.lastDisappearingMessageChangeTimestamp
   ) {
-    const syncExpireTimerMessage = buildSyncExpireTimerMessage(
+    if (expireUpdate.isOutdated) {
+      window.log.debug(`WIP: buildSyncMessage:  \nexpireUpdate is outdated`);
+      return null;
+    }
+
+    const expireTimerSyncMessage = buildSyncExpireTimerMessage(
       identifier,
       expireUpdate,
       timestamp,
       syncTarget
     );
+
     window.log.warn(
-      `WIP: buildSyncMessage:  \nsyncExpireTimerMessage: ${JSON.stringify(syncExpireTimerMessage)}`
+      `WIP: buildSyncMessage:  \nexpireTimerSyncMessage: ${JSON.stringify(expireTimerSyncMessage)}`
     );
-    return syncExpireTimerMessage;
+    return expireTimerSyncMessage;
   }
 
-  return buildSyncVisibleMessage(identifier, dataMessage, timestamp, syncTarget);
+  const visibleSyncMessage = buildSyncVisibleMessage(
+    identifier,
+    dataMessage,
+    timestamp,
+    syncTarget
+  );
+  window.log.warn(
+    `WIP: buildSyncMessage:  \nvisibleSyncMessage: ${JSON.stringify(visibleSyncMessage)}`
+  );
+  return visibleSyncMessage;
 };

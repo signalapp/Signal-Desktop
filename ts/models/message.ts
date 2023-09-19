@@ -1011,7 +1011,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     }
     const { dataMessage } = content;
 
-    // TODO maybe we need to account for lastDisappearingMessageChangeTimestamp?
     if (
       dataMessage &&
       (dataMessage.body?.length ||
@@ -1028,32 +1027,23 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       // );
       const expireUpdate = await checkForExpireUpdateInContentMessage(content, conversation, true);
 
-      if (
-        !isEmpty(expireUpdate) &&
-        !expireUpdate.isOutdated &&
-        expireUpdate.lastDisappearingMessageChangeTimestamp
-      ) {
-        const syncMessage = buildSyncMessage(
-          this.id,
-          dataMessage as SignalService.DataMessage,
-          conversation.id,
-          sentTimestamp,
-          expireUpdate
-        );
+      const syncMessage = buildSyncMessage(
+        this.id,
+        dataMessage as SignalService.DataMessage,
+        conversation.id,
+        sentTimestamp,
+        expireUpdate
+      );
 
+      if (syncMessage) {
         await getMessageQueue().sendSyncMessage({
           namespace: SnodeNamespaces.UserMessages,
           message: syncMessage,
         });
       }
-    } else {
-      // NOTE if the expireUpdate is not defined then this settings is most likely out of date so we should not sync it
-      return;
     }
 
-    this.set({
-      sentSync: true,
-    });
+    this.set({ sentSync: true });
     await this.commit();
   }
 
