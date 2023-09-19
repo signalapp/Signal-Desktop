@@ -484,22 +484,16 @@ export async function innerHandleSwarmContentMessage(
         conversationModelForUIUpdate
       );
 
-      // window.log.debug(
-      //   `WIP:innerHandleSwarmContentMessage: ${
-      //     content.dataMessage.syncTarget ? 'This is a sync message.\n' : ''
-      //   } content: ${JSON.stringify(content)} ${
-      //     expireUpdate ? `\n\nexpireUpdate: ${JSON.stringify(expireUpdate)}` : ''
-      //   }`
-      // );
+      window.log.debug(
+        `WIP:innerHandleSwarmContentMessage: ${
+          content.dataMessage.syncTarget ? 'This is a sync message.\n' : ''
+        } content: ${JSON.stringify(content)} ${
+          expireUpdate ? `\n\nexpireUpdate: ${JSON.stringify(expireUpdate)}` : ''
+        }`
+      );
 
       if (expireUpdate?.isOutdated) {
-        // window.log.debug(
-        //   `WIP: innerHandleSwarmContentMessage: This ${
-        //     content.dataMessage.syncTarget ? 'sync' : ''
-        //   } message is outdated. Ignoring it.\n\ncontent:${JSON.stringify(
-        //     content
-        //   )}\n\nexpireUpdate: ${JSON.stringify(expireUpdate)}`
-        // );
+        window.log.debug(`WIP: ExpireUpdate is outdated. Ignoring it and removing from cache.`);
         await removeFromCache(envelope);
         return;
       }

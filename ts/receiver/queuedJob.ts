@@ -392,7 +392,7 @@ export async function handleMessageJob(
   try {
     messageModel.set({ flags: regularDataMessage.flags });
 
-    // NOTE we handle incoming disappear afer send messages and sync messages here
+    // NOTE we handle incoming disappear after send messages and sync messages here
     if (
       conversation &&
       messageModel.get('expireTimer') > 0 &&
@@ -413,7 +413,7 @@ export async function handleMessageJob(
       //   messageModel.get('type') === 'outgoing';
 
       // TODO legacy messages support will be removed in a future release
-      const canBeDeleteAfterSend = conversation && conversation.isMe() && conversation.isGroup();
+      const canBeDeleteAfterSend = conversation && (conversation.isMe() || conversation.isGroup());
       // TODO legacy support could be broken after V2 is released on a modern client on a 1-1 with disapearAfterRead
       if (
         (canBeDeleteAfterSend && expirationMode === 'legacy') ||
