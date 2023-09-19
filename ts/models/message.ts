@@ -1023,23 +1023,27 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         throw new Error('Cannot trigger syncMessage with unknown convo.');
       }
 
-      // TODO things be broken
-      // debugger;
       const expireUpdate = await checkForExpireUpdateInContentMessage(content, conversation);
 
-      const syncMessage = buildSyncMessage(
-        this.id,
-        dataMessage as SignalService.DataMessage,
-        conversation.id,
-        sentTimestamp,
-        expireUpdate
-      );
+      if (!isEmpty(expireUpdate) && expireUpdate.lastDisappearingMessageChangeTimestamp) {
+        const syncMessage = buildSyncMessage(
+          this.id,
+          dataMessage as SignalService.DataMessage,
+          conversation.id,
+          sentTimestamp,
+          expireUpdate
+        );
 
-      await getMessageQueue().sendSyncMessage({
-        namespace: SnodeNamespaces.UserMessages,
-        message: syncMessage,
-      });
+        await getMessageQueue().sendSyncMessage({
+          namespace: SnodeNamespaces.UserMessages,
+          message: syncMessage,
+        });
+      }
+    } else {
+      // NOTE if the expireUpdate is not defined then this settings is most likely out of date so we should not sync it
+      return;
     }
+
     this.set({
       sentSync: true,
     });
