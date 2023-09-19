@@ -840,7 +840,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     if (
       this.get('lastDisappearingMessageChangeTimestamp') &&
       lastDisappearingMessageChangeTimestamp &&
-      this.get('lastDisappearingMessageChangeTimestamp') > lastDisappearingMessageChangeTimestamp
+      this.get('lastDisappearingMessageChangeTimestamp') >= lastDisappearingMessageChangeTimestamp
     ) {
       window.log.info(
         'WIP: updateExpireTimer() This is an outdated disappearing message setting',

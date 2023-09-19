@@ -427,11 +427,11 @@ export async function checkForExpireUpdateInContentMessage(
   if (
     convoToUpdate.get('lastDisappearingMessageChangeTimestamp') &&
     lastDisappearingMessageChangeTimestamp &&
-    convoToUpdate.get('lastDisappearingMessageChangeTimestamp') >
+    convoToUpdate.get('lastDisappearingMessageChangeTimestamp') >=
       lastDisappearingMessageChangeTimestamp
   ) {
     window.log.info(
-      `WIP: checkForExpireUpdateInContentMessage() This is an outdated disappearing message setting.\ncontent: ${JSON.stringify(
+      `WIP: checkForExpireUpdateInContentMessage() This is an outdated disappearing message setting. So we will ignore it.\ncontent: ${JSON.stringify(
         content
       )}\n\nconvoToUpdate: ${JSON.stringify(convoToUpdate)}`
     );
