@@ -72,6 +72,7 @@ describe('state/selectors/calling', () => {
       outgoingRing: true,
       pip: false,
       settingsDialogOpen: false,
+      joinedAt: null,
     },
   };
 

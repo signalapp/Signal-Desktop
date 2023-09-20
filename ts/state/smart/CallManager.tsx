@@ -14,7 +14,10 @@ import type { ConversationType } from '../ducks/conversations';
 import { getIncomingCall } from '../selectors/calling';
 import { isGroupCallOutboundRingEnabled } from '../../util/isGroupCallOutboundRingEnabled';
 import type {
+  ActiveCallBaseType,
   ActiveCallType,
+  ActiveDirectCallType,
+  ActiveGroupCallType,
   GroupCallRemoteParticipantType,
 } from '../../types/Calling';
 import { isAciString } from '../../util/isAciString';
@@ -138,7 +141,7 @@ const mapStateToActiveCallProp = (
     return convoForAci ? conversationSelector(convoForAci.id) : undefined;
   });
 
-  const baseResult = {
+  const baseResult: ActiveCallBaseType = {
     conversation,
     hasLocalAudio: activeCallState.hasLocalAudio,
     hasLocalVideo: activeCallState.hasLocalVideo,
@@ -185,7 +188,7 @@ const mapStateToActiveCallProp = (
             serviceId: conversation.serviceId,
           },
         ],
-      };
+      } satisfies ActiveDirectCallType;
     case CallMode.Group: {
       const conversationsWithSafetyNumberChanges: Array<ConversationType> = [];
       const groupMembers: Array<ConversationType> = [];
@@ -282,7 +285,7 @@ const mapStateToActiveCallProp = (
         peekedParticipants,
         remoteParticipants,
         remoteAudioLevels: call.remoteAudioLevels || new Map<number, number>(),
-      };
+      } satisfies ActiveGroupCallType;
     }
     default:
       throw missingCaseError(call);

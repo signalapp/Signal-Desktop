@@ -32,14 +32,14 @@ export type PresentedSource = {
   name: string;
 };
 
-type ActiveCallBaseType = {
+export type ActiveCallBaseType = {
   conversation: ConversationType;
   hasLocalAudio: boolean;
   hasLocalVideo: boolean;
   localAudioLevel: number;
   viewMode: CallViewMode;
   isSharingScreen?: boolean;
-  joinedAt?: number;
+  joinedAt: number | null;
   outgoingRing: boolean;
   pip: boolean;
   presentingSource?: PresentedSource;

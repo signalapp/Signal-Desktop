@@ -121,7 +121,7 @@ export type ActiveCallStateType = {
   hasLocalVideo: boolean;
   localAudioLevel: number;
   viewMode: CallViewMode;
-  joinedAt?: number;
+  joinedAt: number | null;
   outgoingRing: boolean;
   pip: boolean;
   presentingSource?: PresentedSource;
@@ -150,7 +150,7 @@ export type AcceptCallType = ReadonlyDeep<{
 
 export type CallStateChangeType = ReadonlyDeep<{
   conversationId: string;
-  acceptedTime?: number;
+  acceptedTime: number | null;
   callState: CallState;
   callEndedReason?: CallEndedReason;
 }>;
@@ -1647,6 +1647,7 @@ export function reducer(
         settingsDialogOpen: false,
         showParticipantsList: false,
         outgoingRing,
+        joinedAt: null,
       },
     };
   }
@@ -1675,6 +1676,7 @@ export function reducer(
         settingsDialogOpen: false,
         showParticipantsList: false,
         outgoingRing: true,
+        joinedAt: null,
       },
     };
   }
@@ -1698,6 +1700,7 @@ export function reducer(
         settingsDialogOpen: false,
         showParticipantsList: false,
         outgoingRing: false,
+        joinedAt: null,
       },
     };
   }
@@ -1852,6 +1855,7 @@ export function reducer(
         settingsDialogOpen: false,
         showParticipantsList: false,
         outgoingRing: true,
+        joinedAt: null,
       },
     };
   }
@@ -1882,7 +1886,7 @@ export function reducer(
     ) {
       activeCallState = {
         ...state.activeCallState,
-        joinedAt: action.payload.acceptedTime,
+        joinedAt: action.payload.acceptedTime ?? null,
       };
     } else {
       ({ activeCallState } = state);

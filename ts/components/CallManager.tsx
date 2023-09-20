@@ -149,7 +149,6 @@ function ActiveCallManager({
     conversation,
     hasLocalAudio,
     hasLocalVideo,
-    joinedAt,
     peekedParticipants,
     pip,
     presentingSourcesAvailable,
@@ -327,7 +326,6 @@ function ActiveCallManager({
         groupMembers={groupMembers}
         hangUpActiveCall={hangUpActiveCall}
         i18n={i18n}
-        joinedAt={joinedAt}
         me={me}
         openSystemPreferencesAction={openSystemPreferencesAction}
         setGroupCallVideoRequest={setGroupCallVideoRequestForConversation}
