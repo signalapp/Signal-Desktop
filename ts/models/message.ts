@@ -521,7 +521,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const expirationLength = this.get('expireTimer') * DURATION.SECONDS;
     const expireTimerStart = this.get('expirationStartTimestamp');
     const expirationTimestamp =
-      expirationType && expirationLength && expireTimerStart
+      expirationType && expireTimerStart && expirationLength
         ? expireTimerStart + expirationLength
         : null;
 
@@ -1170,13 +1170,14 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         await this.commit();
       }
 
-      window?.log?.debug('Set message expiration', {
+      window?.log?.debug('WIP: Set message expiration', {
         expiresAt,
         sentAt: this.get('sent_at'),
       });
 
       const messageHash = this.get('messageHash');
       if (messageHash) {
+        // TODO Consolidate the snode /expire logic across all the different functions that call it.
         await expireMessageOnSnode({
           messageHash,
           expireTimer: this.get('expireTimer'),

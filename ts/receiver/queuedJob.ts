@@ -359,12 +359,42 @@ async function handleRegularMessage(
   });
 }
 
-function markConvoAsReadIfOutgoingMessage(conversation: ConversationModel, message: MessageModel) {
+async function markConvoAsReadIfOutgoingMessage(
+  conversation: ConversationModel,
+  message: MessageModel
+) {
   const isOutgoingMessage =
     message.get('type') === 'outgoing' || message.get('direction') === 'outgoing';
   if (isOutgoingMessage) {
     const sentAt = message.get('sent_at') || message.get('serverTimestamp');
     if (sentAt) {
+      const expirationType = message.get('expirationType');
+      const expireTimer = message.get('expireTimer');
+      // NOTE starting disappearing messages timer for all outbound messages
+      if (
+        expirationType &&
+        expireTimer > 0 &&
+        Boolean(message.get('expirationStartTimestamp')) === false
+      ) {
+        const expirationMode = changeToDisappearingMessageConversationType(
+          conversation,
+          expirationType,
+          expireTimer
+        );
+
+        if (expirationMode !== 'off') {
+          window.log.debug(
+            `WIP: markConvoAsReadIfOutgoingMessage setExpirationStartTimestamp is starting`
+          );
+          message.set({
+            expirationStartTimestamp: setExpirationStartTimestamp(
+              expirationMode,
+              message.get('sent_at')
+            ),
+          });
+          await message.commit();
+        }
+      }
       conversation.markConversationRead(sentAt);
     }
   }
@@ -522,7 +552,7 @@ export async function handleMessageJob(
       );
     }
 
-    markConvoAsReadIfOutgoingMessage(conversation, messageModel);
+    await markConvoAsReadIfOutgoingMessage(conversation, messageModel);
     if (messageModel.get('unread')) {
       conversation.throttledNotify(messageModel);
     }

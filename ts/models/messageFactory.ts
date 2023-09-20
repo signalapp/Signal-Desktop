@@ -80,7 +80,7 @@ function getSharedAttributesForPublicMessage({
     isPublic: true,
     conversationId,
     messageHash: '', // we do not care of a messageHash for an opengroup message. we have serverId for that
-    // TODO do we need to worry about this?
+    // Note Community messages do not have an expiration
     expirationStartTimestamp: undefined,
   };
 }
