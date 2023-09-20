@@ -2980,10 +2980,10 @@ electron@*:
     "@types/node" "^18.11.18"
     extract-zip "^2.0.1"
 
-electron@25.3.0:
-  version "25.3.0"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-25.3.0.tgz#e818ab3ebd3e7a45f8fca0f47e607c9af2dc92c7"
-  integrity sha512-cyqotxN+AroP5h2IxUsJsmehYwP5LrFAOO7O7k9tILME3Sa1/POAg3shrhx4XEnaAMyMqMLxzGvkzCVxzEErnA==
+electron@^25.8.1:
+  version "25.8.1"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-25.8.1.tgz#092fab5a833db4d9240d4d6f36218cf7ca954f86"
+  integrity sha512-GtcP1nMrROZfFg0+mhyj1hamrHvukfF6of2B/pcWxmWkd5FVY1NJib0tlhiorFZRzQN5Z+APLPr7aMolt7i2AQ==
   dependencies:
     "@electron/get" "^2.0.0"
     "@types/node" "^18.11.18"
