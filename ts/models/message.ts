@@ -1170,7 +1170,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         await this.commit();
       }
 
-      window?.log?.debug('WIP: Set message expiration', {
+      window?.log?.debug('Set message expiration', {
         expiresAt,
         sentAt: this.get('sent_at'),
       });

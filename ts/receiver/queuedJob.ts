@@ -22,6 +22,7 @@ import { LinkPreviews } from '../util/linkPreviews';
 import { ReleasedFeatures } from '../util/releaseFeature';
 import { PropsForMessageWithoutConvoProps, lookupQuote } from '../state/ducks/conversations';
 import { PubKey } from '../session/types';
+import { UserUtils } from '../session/utils';
 
 function contentTypeSupported(type: string): boolean {
   const Chrome = GoogleChrome;
@@ -502,11 +503,11 @@ export async function handleMessageJob(
         providedExpireTimer: expireTimerUpdate,
         providedChangeTimestamp: lastDisappearingMessageChangeTimestamp,
         providedSource: source,
+        fromSync: source === UserUtils.getOurPubKeyStrFromCache(),
         receivedAt: messageModel.get('received_at'),
-        // NOTE we don't commit yet because we want to get the message id, see below
-        shouldCommit: false,
         existingMessage: messageModel,
-        fromConfigMessage: false,
+        shouldCommit: false,
+        // NOTE we don't commit yet because we want to get the message id, see below
       });
     } else {
       // this does not commit to db nor UI unless we need to approve a convo

@@ -807,8 +807,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     providedChangeTimestamp,
     providedSource,
     receivedAt, // is set if it comes from outside
-    fromConfigMessage,
-    fromSync = false,
+    fromSync = false, // if the update comes from a config or sync message
     shouldCommit = true,
     existingMessage,
   }: {
@@ -818,7 +817,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     providedSource?: string;
     receivedAt?: number; // is set if it comes from outside
     fromSync?: boolean;
-    fromConfigMessage: boolean;
     shouldCommit?: boolean;
     existingMessage?: MessageModel;
   }): Promise<void> {
@@ -826,7 +824,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       window.log.warn("updateExpireTimer() Disappearing messages aren't supported in communities");
       return;
     }
-
     let expirationType = providedExpirationType;
     let expireTimer = providedExpireTimer;
     const lastDisappearingMessageChangeTimestamp = providedChangeTimestamp;
@@ -844,7 +841,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     ) {
       window.log.info(
         'WIP: updateExpireTimer() This is an outdated disappearing message setting',
-        `fromConfigMessage = ${fromConfigMessage}`,
         `fromSync: ${fromSync}`
       );
       return;
@@ -858,9 +854,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     ) {
       window.log.info(
         `WIP: conversation: updateExpireTimer()  Ignoring ExpireTimerUpdate ${
-          fromSync ? 'sync ' : ''
-        }message as we already have the same one set.`,
-        fromConfigMessage && 'This came from libsession.'
+          fromSync ? 'config/sync ' : ''
+        }message as we already have the same one set.`
       );
       return;
     }
@@ -939,9 +934,9 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
 
     // if change was made remotely, don't send it to the contact/group
-    if (receivedAt || fromSync || fromConfigMessage) {
+    if (receivedAt || fromSync) {
       window.log.debug(
-        `WIP: updateExpireTimer() We dont send an ExpireTimerUpdate because this was a remote change receivedAt:${receivedAt} fromSync:${fromSync} fromConfigMessage:${fromConfigMessage} `
+        `WIP: updateExpireTimer() We dont send an ExpireTimerUpdate because this was a remote change receivedAt:${receivedAt} fromSync:${fromSync}`
       );
       return;
     }

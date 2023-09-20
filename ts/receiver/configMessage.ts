@@ -390,9 +390,9 @@ async function handleContactsUpdate(result: IncomingConfResult): Promise<Incomin
           providedExpireTimer: wrapperConvo.expirationTimerSeconds,
           providedChangeTimestamp: result.latestEnvelopeTimestamp,
           providedSource: wrapperConvo.id,
-          shouldCommit: false,
-          fromConfigMessage: true,
+          receivedAt: result.latestEnvelopeTimestamp,
           fromSync: true,
+          shouldCommit: false,
         });
         changes = true;
       }

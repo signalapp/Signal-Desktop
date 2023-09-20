@@ -322,8 +322,8 @@ export async function handleNewClosedGroup(
         providedExpireTimer: expireTimer,
         providedChangeTimestamp: GetNetworkTime.getNowWithNetworkOffset(),
         providedSource: sender,
-        receivedAt: Date.now(),
-        fromConfigMessage: fromLegacyConfig,
+        receivedAt: GetNetworkTime.getNowWithNetworkOffset(),
+        fromSync: fromLegacyConfig,
       });
 
       if (isKeyPairAlreadyHere) {
