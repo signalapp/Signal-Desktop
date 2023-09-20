@@ -612,6 +612,10 @@
     "messageformat": "Tetap panggil",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "Lanjut bergabung",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "Lanjutkan Panggilan",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
@@ -3165,11 +3169,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "Edit Pesan",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "Jika Anda mengedit pesan, pengeditan hanya bisa terlihat oleh pengguna Signal versi terbaru. Mereka akan dapat melihat bahwa Anda telah mengedit pesan.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -6780,13 +6784,10 @@
     "messageformat": "Tambahan penyesuaian kecil, perbaikan bug, dan peningkatan performa. Terima kasih telah menggunakan Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "Layar pengaturan Warna Obrolan kini ditampilkan dengan benar di berbagai bahasa dan wilayah yang dipilih."
-  },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Kami meningkatkan dukungan notifikasi di Windows. Jika Anda tidak mengeklik saat notifikasi masuk pertama kali, notifikasi yang terakhir kali terlewatkan tersebut akan muncul di Windows Notification Center. Dengan mengeklik notifikasi ini, kini Anda akan langsung diarahkan ke obrolan terkait. Kami ingin berterima kasih kepada Julien Richard atas masukannya."
-  },
   "icu:WhatsNew__v6.30--0": {
     "messageformat": "Tab panggilan baru memudahkan Anda memulai panggilan atau membalas panggilan yang tidak terjawab."
+  },
+  "icu:WhatsNew__v6.31--0": {
+    "messageformat": "Pembaruan ini memperbaiki beberapa bug, termasuk bug yang menyebabkan jendela Signal tampak kosong jika Anda melihat catatan debug di mode layar penuh di macOS."
   }
 }

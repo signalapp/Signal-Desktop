@@ -612,6 +612,10 @@
     "messageformat": "എന്തായാലും വിളിക്കുക",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "എങ്ങനെയായാലും ചേരുക",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "കോൾ തുടരുക",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
@@ -3165,11 +3169,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "സന്ദേശം എഡിറ്റ് ചെയ്യുക",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "നിങ്ങളൊരു സന്ദേശം എഡിറ്റ് ചെയ്‌താൽ, Signal ബീറ്റയുടെ ഏറ്റവും പുതിയ പതിപ്പിലുള്ളവർക്ക് മാത്രമെ അത് കാണാനാകൂ. നിങ്ങളൊരു സന്ദേശം എഡിറ്റ് ചെയ്‌തുവെന്ന് അവർക്ക് കാണാനാകും.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -6780,13 +6784,10 @@
     "messageformat": "ചെറിയ മാറ്റങ്ങളും ബഗ് പരിഹരിക്കലുകളും പ്രകടന മെച്ചപ്പെടുത്തലുകളും. Signal ഉപയോഗിക്കുന്നതിന് നന്ദി!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "ചാറ്റ് നിറത്തിന്‍റെ ഇഷ്ടാനുസൃതമാക്കൽ സ്ക്രീൻ ഇപ്പോൾ തിരഞ്ഞെടുത്ത വിവിധ ഭാഷകളിൽ ശരിയായി പ്രദർശിപ്പിക്കുന്നു."
-  },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Windows-ലെ അറിയിപ്പ് പിന്തുണ ഞങ്ങൾ മെച്ചപ്പെടുത്തി. ഒരു അറിയിപ്പ് ആദ്യമായി വരുമ്പോൾ അതിൽ നിങ്ങൾ ക്ലിക്ക് ചെയ്‌തില്ലെങ്കിൽ, നിങ്ങൾ മിസ്‌ ചെയ്‌ത ഏറ്റവും പുതിയ അറിയിപ്പ് Windows അറിയിപ്പ് കേന്ദ്രത്തിൽ ദൃശ്യമാകും. ആ അറിയിപ്പിൽ ക്ലിക്ക് ചെയ്യുന്നതിലൂടെ നേരിട്ട് ചാറ്റിലേക്ക് എത്താനാകും. ഫീഡ്ബാക്ക് നൽകിയതിന് ജൂലിയൻ റിച്ചാർഡിന് നന്ദി."
-  },
   "icu:WhatsNew__v6.30--0": {
     "messageformat": "★ പുതിയ കോളുകൾ ടാബിലൂടെ നിങ്ങളുടെ കോളുകളെക്കുറിച്ച് അറിഞ്ഞിരിക്കൂ. പുതിയൊരു കോൾ തുടങ്ങുക അല്ലെങ്കിൽ നിങ്ങൾ മിസ് ചെയ്‌ത ഒരു കോളിന് മറുപടി നൽകുക, അതിനായി ബന്ധപ്പെട്ട ചാറ്റ് കണ്ടെത്തേണ്ടി വരില്ല. സന്ദേശ ത്രെഡുകളിലെ വായിച്ചിട്ടില്ലാത്തവ എന്ന മാർക്കർ നിലനിർത്തിക്കൊണ്ട് തന്നെ നിങ്ങളുടെ ശബ്ദത്തിലൂടെ നിങ്ങൾക്കിപ്പോൾ ഹലോ പറയാം."
+  },
+  "icu:WhatsNew__v6.31--0": {
+    "messageformat": "macOS-ൽ ഫുൾ സ്ക്രീൻ മോഡിൽ ഡീബഗ് ലോഗ് കാണുമ്പോൾ പ്രധാന Signal വിൻഡോ ശൂന്യമാകുന്നത് ഉൾപ്പെടെ ഏതാനും ബഗുകൾ ഈ അപ്ഡേറ്റ് പരിഹരിക്കുന്നു. ലൈറ്റ് തീം, ഡാർക്ക് തീം എന്നിവയുടെ ഉദ്ദേശ്യം പൂർണമായും ലൈറ്റായ അല്ലെങ്കിൽ പൂർണമായും ഡാർക്കായ ഒരു വിൻഡോ കാണുക എന്നതാണ്, പക്ഷെ ആപ്പ് ഉപയോഗം എളുപ്പത്തിലാക്കാൻ ഇന്‍റർഫേസ് കൂടി കാണാനാകണം എന്ന് ഞങ്ങൾ തീരുമാനിച്ചു."
   }
 }

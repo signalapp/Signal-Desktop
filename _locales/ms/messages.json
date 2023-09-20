@@ -612,6 +612,10 @@
     "messageformat": "Panggil sahaja",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "Sertai juga",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "Teruskan Panggilan",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
@@ -3165,11 +3169,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "Edit mesej",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "Jika anda mengedit mesej, ia hanya akan kelihatan kepada orang yang menggunakan versi terkini Signal. Mereka akan dapat melihat anda mengedit mesej.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -6780,13 +6784,10 @@
     "messageformat": "Sedikit pengubahsuaian, pembaikan pepijat dan peningkatan prestasi. Terima kasih kerana menggunakan Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "Skrin penyesuaian Warna Sembang kini dipaparkan dengan betul untuk pelbagai bahasa dan tempat terpilih."
-  },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Kami menambah baik sokongan pemberitahuan pada Windows. Jika anda tidak mengklik pada pemberitahuan apabila ia muncul, pemberitahuan terlepas terkini akan muncul di Pusat Pemberitahuan Windows. Mengklik pada pemberitahuan tersebut akan membawa anda terus ke sembang itu. Kami ingin mengucapkan terima kasih kepada Julien Richard atas maklum balas mereka."
-  },
   "icu:WhatsNew__v6.30--0": {
     "messageformat": "Pantau panggilan anda dengan tab panggilan baharu. Mulakan panggilan baharu atau buat panggilan semula untuk panggilan terlepas tanpa perlu mencari sembang yang sama. Kini anda boleh ucap helo dengan suara anda melalui panggilan. Biarkan sahaja tanda belum dibaca untuk mesej dalam urutan."
+  },
+  "icu:WhatsNew__v6.31--0": {
+    "messageformat": "Kemas kini ini membaiki beberapa pepijat, termasuk yang menyebabkan tetingkap Signal utama menjadi kosong jika anda melihat log nyahpepijat dalam mod skrin penuh pada macOS."
   }
 }

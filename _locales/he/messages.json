@@ -612,6 +612,10 @@
     "messageformat": "התקשר בכל זאת",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "להצטרף בכל זאת",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "המשך שיחה",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
@@ -3165,11 +3169,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "עריכת הודעה",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "אם עורכים הודעה, היא תהיה זמינה רק לאנשים שמשתמשים בגרסאות האחרונות של Signal. הם יוכלו לראות שערכת הודעה.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -6780,13 +6784,10 @@
     "messageformat": "התאמות קטנות, תיקוני באגים ושיפורי ביצועים. תודה על השימוש ב-Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "מסך ההתאמה האישית של צבע הצ׳אט מוצג עכשיו כמו שצריך בשפות שונות ובאזורים נבחרים."
-  },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "שיפרנו את התמיכה בהתראות ב–Windows. אם לא לוחצים על התראה כשהיא מגיעה לראשונה, ההתראה האחרונה שהוחמצה תופיע במרכז ההתראות של Windows. לחיצה על ההתראה הזו תקפוץ עכשיו ישירות לצ׳אט הרלוונטי. אנחנו רוצים להודות לג׳וליאן ריצ׳רד על הפידבק."
-  },
   "icu:WhatsNew__v6.30--0": {
     "messageformat": "לשונית השיחות החדשה עוזרת לך להתחיל שיחה או לחזור לשיחה שפספסת בקלות."
+  },
+  "icu:WhatsNew__v6.31--0": {
+    "messageformat": "העדכון הזה מתקן כמה באגים, כולל אחד שגרם לחלון הראשי של Signal להתרוקן אם צופים ביומן ניפוי באגים במצב מסך מלא ב–macOS."
   }
 }

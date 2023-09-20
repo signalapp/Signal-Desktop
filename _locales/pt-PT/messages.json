@@ -612,6 +612,10 @@
     "messageformat": "Telefonar mesmo assim",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "Aderir na mesma",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "Continuar chamada",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
@@ -3165,11 +3169,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "Editar mensagem",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "Se editar uma mensagem, esta só ficará visível para pessoas que estejam na versão beta do Signal. Elas poderão ver que editou uma mensagem.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -6780,13 +6784,10 @@
     "messageformat": "Pequenos ajustes adicionais, correções de bugs e melhorias de desempenho. Obrigado por usar o Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "O ecrã de personalização Cor do Chat é agora exibido corretamente em diferentes idiomas e certas localizações."
-  },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Melhorámos o suporte de notificações no Windows. Se não clicar numa notificação quando ela chegar pela primeira vez, a última notificação perdida aparecerá na Central de Notificações do Windows. Clicar numa notificação irá agora saltar diretamente para esse chat. Agradecemos a Julien Richard pelo feedback."
-  },
   "icu:WhatsNew__v6.30--0": {
     "messageformat": "O novo separador de chamadas permite-lhe iniciar ou devolver facilmente uma chamada perdida."
+  },
+  "icu:WhatsNew__v6.31--0": {
+    "messageformat": "Esta atualização corrigiu um punhado de erros, incluindo um que fazia a janela principal do Signal ficar totalmente branca caso visses um registo de depuração em ecrã inteiro no macOS."
   }
 }

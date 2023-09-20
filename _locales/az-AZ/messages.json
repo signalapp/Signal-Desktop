@@ -612,6 +612,10 @@
     "messageformat": "Yenə də zəng et",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "Yenə də qoşul",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "Zəngə davam et",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
@@ -3165,11 +3169,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "Mesajı redaktə et",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "Bir mesajı redaktə etsəniz, onu yalnız Signal-ın son versiyasından istifadə edən şəxslər görə biləcək. Onlar bir mesajı redaktə etdiyinizi görə biləcək.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -6780,13 +6784,10 @@
     "messageformat": "Kiçik spesifik tənzimləmələr, xəta düzəlişləri və məhsuldarlığın artırılması. Signal istifadə etdiyiniz üçün təşəkkürlər!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "Çat rənginin fərdiləşdirilməsi ekranı artıq müxtəlif dillər və seçilmiş dil parametrlərində düzgün göstərilir."
-  },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Windows-da bildiriş dəstəyini təkmilləşdirdik. İlk qəbul edilən zaman bildirişə klikləməsəniz, buraxılmış ən sonuncu bildiriş Windows Bildiriş Mərkəzində görünəcək. Bu bildirişin üzərinə klikləməklə artıq birbaşa çata keçmək mümkündür. Julien Richard-a rəyi üçün təşəkkür edirik."
-  },
   "icu:WhatsNew__v6.30--0": {
     "messageformat": "Zənglər siyahısında tabları yeni zəng tabı ilə saxlayın. Əlaqəli çatı tapmaq məcburiyyətində qalmadan, yeni zəngə başlayın və ya buraxılmış zəngə cavab verin. Artıq həmin mesajlar silsiləsində \"oxunmamış\" markerini itirmədən səsinizlə salamlaşa bilərsiniz."
+  },
+  "icu:WhatsNew__v6.31--0": {
+    "messageformat": "Bu yeniləmə macOS-da nasazlıqların aşkarlanması jurnalına tam ekran rejimində baxarkən əsas Signal pəncərəsinin boş qalmasına səbəb olan xəta da daxil olmaqla, bir sıra xətaları aradan qaldırır. Tamamilə açıq və ya tünd rəngli pəncərə görmək, İşıqlı və Qaranlıq Temaların ehtimal olunan ən təmiz ifadəsidir, ancaq interfeysi görmənizin də tətbiqdən istifadənizi daha da asanlaşdıracağı qərarına gəldik."
   }
 }

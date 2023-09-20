@@ -612,6 +612,10 @@
     "messageformat": "ဘာပဲဖြစ်ဖြစ်ဖုန်းခေါ်ပါ",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "မည်သို့ပင်ဖြစ်စေ ပါဝင်မည်",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "ခေါ်ဆိုမှုသို့ ဆက်မယ်",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
@@ -3165,11 +3169,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "မက်ဆေ့ချ် တည်းဖြတ်ရန်",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "မက်ဆေ့ချ်တစ်စောင်ကို တည်းဖြတ်ပါက ၎င်းကို Signal နောက်ဆုံးထွက်ဗားရှင်းများကို သုံးနေသူများသာ မြင်ရပါမည်။ ၎င်းတို့သည် မက်ဆေ့ချ်တစ်စောင်ကို သင် တည်းဖြတ်လိုက်ကြောင်း တွေ့မြင်ရပါမည်။",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -6780,13 +6784,10 @@
     "messageformat": "အနေအထား ပြုပြင်မှုလေးများ၊ ချို့ယွင်းချက် ပြင်ဆင်မှုများနှင့် စွမ်းဆောင်ရည် မြှင့်တင်မှုများ။ Signal ကို သုံးသည့်အတွက် ကျေးဇူးတင်ပါသည်။",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "ယခုအခါ ချက်(တ်)အရောင် စိတ်ကြိုက်သတ်မှတ်မှု မျက်နှာပြင်ကို မတူညီသော ဘာသာစကားများနှင့် ရွေးချယ်ထားသော ဒေသများတွင် မှန်ကန်စွာ ပြသနေပြီဖြစ်ပါသည်။"
-  },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Windows တွင် အသိပေးချက်ဆိုင်ရာ ပံ့ပိုးမှုကို ပိုကောင်းအောင်လုပ်ထားပါသည်။ အသိပေးချက်တစ်ခု စတင်ရောက်ရှိလာချိန်တွင် ၎င်းကို သင် မနှိပ်ပါက နောက်ဆုံး လွတ်သွားသော အသိပေးချက်မှာ Windows အသိပေးချက်စင်တာတွင် ပေါ်နေပါမည်။ ယခုအခါ ထိုအသိပေးချက်ကို နှိပ်လိုက်လျှင် ထိုချက်(တ်)သို့ တိုက်ရိုက်ရောက်ရှိသွားပါမည်။ Julien Richard ကို ၎င်း၏တုံ့ပြန်အကြံပြုချက်အတွက် ကျေးဇူးတင်ပါသည်။"
-  },
   "icu:WhatsNew__v6.30--0": {
     "messageformat": "ကောလ်တက်ဘ်အသစ်သည် ကောလ်အသစ်စခြင်း သို့မဟုတ် လွတ်သွားသောကောလ်ကို ပြန်ခေါ်ခြင်းအား လွယ်ကူစွာပြုလုပ်နိုင်ရန် သင့်ကို ကူညီပေးပါသည်။"
+  },
+  "icu:WhatsNew__v6.31--0": {
+    "messageformat": "ဤအပ်ဒိတ်တွင် macOS တွင် မျက်နှာပြင်အပြည့် စနစ်၌ ပြစ်ချက်ရှာဖွေပြုပြင်မှု မှတ်တမ်းတစ်ခုကို ကြည့်ရှုလိုက်ပါက ပင်မ Signal ဝင်းဒိုး ဗလာဖြစ်သွားစေသော ချွတ်ယွင်းချက်အပါအဝင် ချွတ်ယွင်းချက်အချို့ကို ပြုပြင်ထားသည်။ လုံးဝလင်းနေသော သို့မဟုတ် လုံးဝမှောင်နေသော ဝင်းဒိုးတစ်ခုကို တွေ့မြင်ရခြင်းသည် အလင်း Theme နှင့် အမှောင် Theme အား အခြေခံအကျဆုံး ဖော်ပြနိုင်သည်ဟု ဆိုနိုင်သော်လည်း အင်တာဖေ့စ်ကိုပါ သင် မြင်တွေ့ရပါက အက်ပ်ကို သုံးရပိုလွယ်သည်ဟု ကျွန်ုပ်တို့ နောက်ဆုံးတွင် ဆုံးဖြတ်ခဲ့ပါသည်။"
   }
 }

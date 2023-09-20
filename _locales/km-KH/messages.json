@@ -612,6 +612,10 @@
     "messageformat": "ហៅ យ៉ាងណាក៏ដោយ",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "ចូលរួមតែម្តង",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "បន្តការហៅ",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
@@ -3165,11 +3169,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "កែសារ",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "ប្រសិនបើអ្នកកែសារ មានតែអ្នកដែលមានកំណែចុងក្រោយបំផុតនៃ Signal ប៉ុណ្ណោះទើបអាចមើលវាឃើញ។ ពួកគេនឹងអាចមើលឃើញថាអ្នកបានកែសារ។",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -6780,13 +6784,10 @@
     "messageformat": "ការកែប្រែបន្តិចបន្តួច ការដោះស្រាយបញ្ហា និងការបង្កើនប្រតិបត្តិការ។ សូមអរគុណចំពោះការប្រើប្រាស់ Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "ឥឡូវនេះ អេក្រង់ប្ដូរពណ៌ការជជែកបង្ហាញបានត្រឹមត្រូវហើយទៅតាមភាសាផ្សេងៗគ្នា និងមូលដ្ឋានដែលបានជ្រើសរើស។"
-  },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "យើងបានកែលម្អជំនួយលើការជូនដំណឹងនៅលើ Windows។ ប្រសិនបើអ្នកមិនចុចលើការជូនដំណឹងនៅពេលវាមកដល់ដំបូងទេ ការជូនដំណឹងដែលខកមិនបានចុចចុងក្រោយបង្អស់នឹងបង្ហាញនៅក្នុងមជ្ឈមណ្ឌលជូនដំណឹងរបស់ Windows។ ឥឡូវនេះ ពេលចុចលើការជូនដំណឹងនោះ វានឹងលោតទៅដល់ការជជែកនោះផ្ទាល់តែម្តង។ យើងសូមថ្លែងអំណរគុណដល់ Julien Richard ដែលបានផ្តល់មតិកែលម្អ។"
-  },
   "icu:WhatsNew__v6.30--0": {
     "messageformat": "រក្សាផ្ទាំងនៅលើការហៅទូរសព្ទរបស់អ្នកជាមួយនឹងផ្ទាំងហៅថ្មី។ ផ្ទាំងហៅថ្មីជួយឲ្យអ្នកងាយស្រួលចាប់ផ្តើមការហៅ ឬហៅត្រឡប់ទៅវិញទៅកាន់ការហៅណាមួយដែលអ្នកខកមិនបានទទួល ដោយមិនចាំបាច់ស្វែងរកការជជែកដែលត្រូវគ្នាទេ។ ឥឡូវនេះ អ្នកអាចហៅចេញបានដោយមិនចាំបាច់សម្គាល់ថាបានអានចំពោះសារនៅក្នុងប្រវត្តិសារសន្ទនានោះទេ។"
+  },
+  "icu:WhatsNew__v6.31--0": {
+    "messageformat": "ការដំឡើងកំណែនេះបានដោះស្រាយបញ្ហាមួយចំនួន រួមទាំងបញ្ហាដែលបណ្តាលឲ្យផ្ទាំងវីនដូខាងមុខរបស់ Signal ទៅជាទទេស្អាត ប្រសិនបើអ្នកបានមើលកំណត់ហេតុកែបញ្ហានៅក្នុងមុខងារពេញអេក្រង់នៅលើ macOS។ មានការលើកឡើងថា ការមើលឃើញផ្ទាំងវីនដូដែលភ្លឺច្បាស់ ឬងងឹតស្លុប គឺជាការបង្ហាញយ៉ាងច្បាស់បំផុតថាវានោះគឺជាផ្ទៃពណ៌ភ្លឺ និងផ្ទៃពណ៌ងងឹត ប៉ុន្តែទីបំផុតយើងបានសម្រេចថាកម្មវិធីនេះកាន់តែងាយស្រួលប្រើនៅពេលដែលអ្នកអាចមើលឃើញអ៊ីនធើហ្វេសដែរ។"
   }
 }

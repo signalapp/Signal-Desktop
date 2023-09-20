@@ -612,6 +612,10 @@
     "messageformat": "الاتصال على كل حال",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "انضم على أي حال",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "استئناف المكالمة",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
@@ -3165,11 +3169,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "تعديل الرسالة",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "إذا قُمت بتعديل رسالة، فلن يظهر إلا للأشخاص الذين يستخدمون أحدث إصدار سيجنال. سَيتمكنون من رؤية أنك قمت بتعديل رسالة.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -6780,13 +6784,10 @@
     "messageformat": "تعديلات صغيرة، تصليح الأعطال، وتحسينات للأداء. شكرًا على استخدامكم سيجنال!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "يتم الآن عرض شاشة تخصيص لون الدردشة بشكل صحيح عبر لغات مختلفة ولغات محلية محددة."
-  },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "لقد حسّنا دعم الإشعارات على ويندوز. إذا لم تنقر على إشعار عند التوصل به أول مرة، سيظهر آخر إشعار فاتك في مركز إشعارات ويندوز. سيُؤدي النقر على ذلك الإشعار إلى التنقل مباشرة إلى الدردشة. نود أن نشكر Julien Richard على ملاحظاته."
-  },
   "icu:WhatsNew__v6.30--0": {
     "messageformat": "علامة تبويب المُكالمات الجديدة تُساعدك على بدء مكالمة أو إعادة مكالمة فاتتك بسهولة تامة. اِبدأ مكالمة جديدة أو أعد مكالمة فاتتك دون الحاجة إلى العُثور على الدردشة المناسبة. يُمكنك الآن الترحيب بصوتك دون الاضطرار إلى قراءة الرسائل في المحادثة."
+  },
+  "icu:WhatsNew__v6.31--0": {
+    "messageformat": "يَعمل هذا التحديث على إصلاح عدد من الأخطاء، بما في ذلك الخطأ الذي تسبب في جعل نافذة Signal الرئيسية فارغة إذا شاهدت سِجل تصحيح الأخطاء في وضع ملء الشاشة على macOS. يُمكن القول إن رؤية نافذة فاتحة تمامًا أو نافذة داكنة تمامًا هي أنقى تعبير مُمكن عن Light Theme وDark Theme، لكننا قررنا في النهاية أن التطبيق أسهل في الاستخدام عندما يمكنك رؤية الواجهة أيضًا."
   }
 }

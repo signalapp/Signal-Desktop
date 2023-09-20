@@ -612,6 +612,10 @@
     "messageformat": "照樣通話",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "照樣加入",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "繼續通話",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
@@ -3165,11 +3169,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "編輯訊息",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "只有用 Signal 最新版本嘅用戶先可以睇到你嘅編輯訊息。佢哋會見到你編輯咗訊息。",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -6780,13 +6784,10 @@
     "messageformat": "我哋做咗啲調整、修復咗一啲錯誤，同埋加強咗程式功能。多謝你使用 Signal！",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "聊天顏色自訂畫面宜家可以喺唔同語言同指定地區版本度正確顯示喇。"
-  },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "我哋改善咗 Windows 嘅通知支援。如果你冇喺通知第一次出現時點擊，錯過咗嘅最新通知就會喺 Windows 通知中心度顯示。點擊嗰個通知，就可以直接跳到相關聊天。多謝 Julien Richard 提出嘅意見！"
-  },
   "icu:WhatsNew__v6.30--0": {
     "messageformat": "用新嘅通話選項標籤，輕鬆睇返你嘅通話紀錄。宜家開始，你唔使搵返相關嘅聊天，就可以開始新通話或者打返俾你冇接到嘅電話號碼。咁就唔使驚冇咗訊息串入面嘅未讀標記啦！"
+  },
+  "icu:WhatsNew__v6.31--0": {
+    "messageformat": "呢次更新整好咗一啲錯誤，包括喺 macOS 用全螢幕模式瀏覽除錯紀錄時令 Signal 主畫面一片空白嘅錯誤。"
   }
 }

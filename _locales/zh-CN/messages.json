@@ -612,6 +612,10 @@
     "messageformat": "仍要呼叫",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "仍然加入",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "继续通话",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
@@ -3165,11 +3169,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "编辑消息",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "如果您编辑消息，其将仅对使用最新版 Signal 的用户可见。这些用户将会看到您编辑了消息。",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -6780,13 +6784,10 @@
     "messageformat": "我们进行了功能微调、漏洞修复和性能强化。感谢使用 Signal！",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "现在，在不同语言和部分区域中，聊天颜色自定义页面可以正确显示了。"
-  },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "我们优化了对 Windows 系统的通知支持。如果您收到通知时不点击查看，那么最新的未读通知将会显示在 Windows 系统的通知中心上。点击通知时，您将会直接前往通知页面。对此我们由衷感谢Julien Richard提供的反馈。"
-  },
   "icu:WhatsNew__v6.30--0": {
     "messageformat": "新推出的通话选项卡可以让您轻松发起通话或回拨未接来电。"
+  },
+  "icu:WhatsNew__v6.31--0": {
+    "messageformat": "此次更新修复了一些漏洞，包括在 macOS 上全屏查看调试日志时导致 Signal 主窗口变成空白窗口。"
   }
 }

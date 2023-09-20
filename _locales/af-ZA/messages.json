@@ -612,6 +612,10 @@
     "messageformat": "Skakel in elk geval",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "Sluit in elk geval aan",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "Sit oproep voort",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
@@ -3165,11 +3169,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "Wysig boodskap",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "Indien jy 'n boodskap wysig, sal dit slegs sigbaar wees vir mense wat op die jongste weergawes van Signal is. Hulle sal kan sien dat jy 'n boodskap gewysig het.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -6780,13 +6784,10 @@
     "messageformat": "Klein veranderings, foutregstellings en prestasieverbeterings. Dankie dat jy Signal gebruik!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "Die Kletskleur-pasmaakskerm word nou korrek oor verskillende tale en geselekteerde lokaliteite vertoon."
-  },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Ons het kennisgewingondersteuning in Windows verbeter. As jy nie op 'n kennisgewing klik wanneer dit die eerste keer aankom nie, sal die jongste gemiste kennisgewing in die Windows-kennisgewingsentrum verskyn. As jy op daardie kennisgewing klik, sal dit jou nou direk na daardie klets toe neem. Ons wil graag vir Julien Richard bedank vir sy terugvoer."
-  },
   "icu:WhatsNew__v6.30--0": {
     "messageformat": "Hou 'n oog op jou oproepe met die nuwe oproep-ikoon. Begin 'n nuwe oproep of beantwoord 'n oproep wat jy gemis het sonder om die betrokke klets te moet vind. Nou kan jy ongeleesde boodskappe in daardie string ignoreer en 'n stemgesprek begin."
+  },
+  "icu:WhatsNew__v6.31--0": {
+    "messageformat": "Hierdie opdatering maak 'n handvol foute reg, waaronder een wat veroorsaak het dat die Signal se hoofvenster leeg raak as jy 'n ontfoutlog in volskermmodus op macOS bekyk het."
   }
 }

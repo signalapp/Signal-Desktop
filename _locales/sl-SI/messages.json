@@ -612,6 +612,10 @@
     "messageformat": "Vseeno kliči",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "Vseeno se pridruži",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "Nadaljuj s klicem",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
@@ -3165,11 +3169,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "Uredi sporočilo",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "Če uredite sporočilo, bo vidno samo ljudem, ki uporabljajo najnovejše različice Signala. Videli bodo lahko, da ste uredili sporočilo.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -6780,13 +6784,10 @@
     "messageformat": "Majhne prilagoditve, popravki napak in izboljšave zmogljivosti. Hvala, da uporabljate Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "Zaslon za prilagajanje barve klepeta je zdaj pravilno prikazan v različnih jezikih in izbranih območjih."
-  },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Izboljšali smo podporo za obvestila v sistemu Windows. Če ne kliknete na obvestilo, ko prvič prispe, se bo zadnje zgrešeno obvestilo prikazalo v centru za obvestila Windows. Če kliknete to obvestilo, boste skočili neposredno na ta klepet. Julienu Richardu bi se radi zahvalili za povratne informacije."
-  },
   "icu:WhatsNew__v6.30--0": {
     "messageformat": "Spremljajte svoje klice z novim zavihkom za klice. Začnite nov klic ali vrnite zgrešenega, ne da bi morali poiskati ustrezen klepet. Zdaj lahko pozdravite z glasom, ne da bi morali opustiti oznako za neprebrana sporočila v pogovoru."
+  },
+  "icu:WhatsNew__v6.31--0": {
+    "messageformat": "Ta posodobitev odpravi nekaj napak, vključno s tisto, zaradi katere je bilo glavno okno Signala prazno, če ste si ogledali dnevnik odpravljanja napak v celozaslonskem načinu v sistemu macOS. Videti popolnoma svetlo ali popolnoma temno okno je verjetno najčistejši možni izraz Svetle teme in Temne teme, vendar smo se na koncu odločili, da je uporaba aplikacije enostavnejša, če vidite tudi vmesnik."
   }
 }

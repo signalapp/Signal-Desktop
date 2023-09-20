@@ -612,6 +612,10 @@
     "messageformat": "Appeler quand même",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "Participer quand même",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "Poursuivre l’appel",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
@@ -3165,11 +3169,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "Modifier le message",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "Les modifications apportées aux messages ne seront visibles que par les personnes utilisant les dernières versions de Signal. Elles pourront voir que vous avez modifié un message.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -6780,13 +6784,10 @@
     "messageformat": "Petits ajustements, corrections de bugs et améliorations des performances. Nous vous remercions d’utiliser Signal !",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "L’écran de personnalisation de couleur de la conversation s’affiche désormais correctement dans toutes les langues et certaines langues régionales."
-  },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Nous avons amélioré la prise en charge des notifications sous Windows. Si vous ne cliquez pas sur les notifications dès leur apparition, la dernière en date apparaîtra dans le centre de notifications Windows. En cliquant sur une notification, vous accéderez directement à la conversation correspondante. Nous aimerions remercier Julien Richard pour son commentaire."
-  },
   "icu:WhatsNew__v6.30--0": {
     "messageformat": "Gardez un œil sur vos appels grâce au nouvel onglet Appels. Appelez (ou rappelez) vos contacts sans avoir à retrouver la conversation correspondante. Désormais, vous pouvez appeler en gardant le marqueur « non lu » dans ce fil de discussion."
+  },
+  "icu:WhatsNew__v6.31--0": {
+    "messageformat": "Cette mise à jour permet de corriger plusieurs bugs, y compris celui qui entraînait la disparition de la page Signal lors de l’affichage des journaux de débogage en mode plein écran du macOS. Afficher une page blanche ou noire est sans aucun doute la façon la plus extrême de tester les modes clair et sombre, mais on s’est dit que l’appli était quand même plus facile à utiliser avec une interface visible."
   }
 }

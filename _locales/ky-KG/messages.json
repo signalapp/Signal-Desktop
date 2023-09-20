@@ -612,6 +612,10 @@
     "messageformat": "Баары бир чалам",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "Баары бир кошулуу",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "Чалууну улантуу",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
@@ -3165,11 +3169,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "Билдирүүнү оңдоо",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "Эгер билдирүүнү оңдосоңуз, ал Signal'дын эң акыркы версиясын колдонгон адамдарга гана көрүнөт. Алар оңдолгон билдирүүнү көрө алышат.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -6780,13 +6784,10 @@
     "messageformat": "Майда-барат өзгөрүүлөрдү киргизип, мүчүлүштүктөрдү оңдоп, колдонмонун иштешин жакшыртып жатабыз. Signal'ды колдонгонуңуз үчүн чоң рахмат!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "Маектин түсүн жекелештирүү экраны эми ар кайсы тилдерде жана тандалган тилдерде туура көрүнө баштады."
-  },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Windows'тогу билдирмелер кызматы жакшырды. Эгер жаңы келген билдирмени дароо ачып окубасаңыз, ал Widnows Билдирмелер борборунда көрүнөт. Ошол билдирмени бассаңыз, дароо ошол маекке киресиз. Жулиен Ричардга пикир билдиргени үчүн терең ыраазычылык айтабыз."
-  },
   "icu:WhatsNew__v6.30--0": {
     "messageformat": "Жаңы чалуулар өтмөгүндө бардык чалууларыңыз көрүнүп турат. Жаңы чалууну баштоо же өткөрүп жиберген чалууңузга кайтуу үчүн тийиштүү маекти издеп убара болбойсуз. Башка өтмөктөн чалып, андан соң окула элек билдирүүлөрүңүзгө жооп бере аласыз."
+  },
+  "icu:WhatsNew__v6.31--0": {
+    "messageformat": "Бул версияда бир катар мүчүлүштүктөр, ошону менен катар macOS системасында аныкталган мүчүлүштүктөрдү толук экран режиминде көрүүдө Signal'дын башкы терезеси өчүп калган көйгөй оңдолду. Терезени таптакыр жарык же таптакыр күңүрт кылганда, Жарык тема менен Күңүрт тема даана көрүнбөй калгандыктан, колдонмону оңой пайдалануу үчүн интерфейсти толук көрсөтүүнү туура көрдүк."
   }
 }
