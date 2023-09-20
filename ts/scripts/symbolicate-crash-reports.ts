@@ -109,7 +109,7 @@ async function symbolicate(
 
   const encoded = await fs.readFile(fileName);
   let reports: ReadonlyArray<Proto.ICrashReport>;
-  if (fileName.endsWith('.dmp')) {
+  if (fileName.endsWith('.raw')) {
     reports = [
       {
         filename: 'report.dmp',
