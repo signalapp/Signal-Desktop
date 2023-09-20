@@ -612,6 +612,10 @@
     "messageformat": "Soita silti",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "Liity silti",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "Jatka puhelua",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
@@ -3165,11 +3169,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "Muokkaa viestiä",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "Jos muokkaat viestiä, se näkyy vain Signalin uusimpien versioiden käyttäjille. He näkevät, että muokkasit viestiä.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -6780,13 +6784,10 @@
     "messageformat": "Pieniä säätöjä, virheenkorjauksia ja suorituskykyparannuksia. Kiitos, että käytät Signalia!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "Keskustelun värin mukautusnäyttö näkyy nyt oikein kaikilla kielillä ja valituilla alueilla."
-  },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Paransimme ilmoitusten tukea Windowsissa. Jos et napsauta ilmoitusta sen saapuessa, viimeisimmät lukemattomat ilmoitukset näytetään Windowsin ilmoituskeskuksessa. Voit siirtyä suoraan kyseiseen keskusteluun ilmoitusta napsauttamalla. Kiitos palautteesta, Julien Richard."
-  },
   "icu:WhatsNew__v6.30--0": {
     "messageformat": "Uuden Puhelut-välilehden avulla voit helposti aloittaa puhelun tai soittaa takaisin vastaamattomaan puheluun."
+  },
+  "icu:WhatsNew__v6.31--0": {
+    "messageformat": "Tämä päivitys korjaa joukon virheitä, mukaan lukien yhden, joka aiheutti Signal-pääikkunan pimenemisen, jos katselit virheenkorjauslokia koko näytön tilassa macOS:ssä. Täysin vaalean tai tumman ikkunan näkeminen on varmasti puhtain mahdollinen ilmaisu vaaleasta ja tummasta teemasta. Päätimme kuitenkin lopulta, että sovellusta on helpompi käyttää, kun myös käyttöliittymä on näkyvissä."
   }
 }

@@ -612,6 +612,10 @@
     "messageformat": "ยืนยันที่จะโทร",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "ยืนยันที่จะเข้าร่วม",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "ดำเนินการโทรต่อ",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
@@ -3165,11 +3169,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "แก้ไขข้อความ",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "ผู้ติดต่อต้องใช้ Signal เวอร์ชันล่าสุดจึงจะสามารถเห็นข้อความที่คุณแก้ไขแล้ว และคนคนนั้นจะเห็นว่าคุณแก้ไขข้อความ",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -6780,13 +6784,10 @@
     "messageformat": "มีการปรับเปลี่ยนเล็กน้อย พร้อมแก้ไขบั๊ก และการพัฒนาประสิทธิภาพให้ดียิ่งขึ้น ขอขอบคุณที่เลือกใช้ Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "ปรับปรุงหน้าจอของการปรับแต่งสีแชทให้แสดงได้ถูกต้องไร้ปัญหา ไม่ว่าคุณจะเลือกใช้ภาษาและพิกัดที่ตั้งไหน"
-  },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "เราปรับปรุงการรองรับการแจ้งเตือนบน Windows ให้ดียิ่งขึ้น หากคุณไม่ได้คลิกเปิดดูการแจ้งเตือนโดยทันที การแจ้งเตือนเหล่านั้นจะไปปรากฏอยู่ที่ศูนย์การแจ้งเตือน (Notification Center) ของ Windows และเมื่อคุณคลิกที่การแจ้งเตือนเหล่านั้น ระบบก็จะนำทางไปยังแชทนั้นได้โดยตรงเลย เราอยากขอบคุณ Julien Richard สำหรับข้อเสนอแนะดีๆ"
-  },
   "icu:WhatsNew__v6.30--0": {
     "messageformat": "สะดวกยิ่งกว่าเดิมด้วยแท็บใหม่สำหรับการโทรโดยเฉพาะ ที่จะช่วยให้คุณโทรออกได้ง่ายดายและเร็วทันใจ พร้อมโทรกลับสายที่ไม่ได้รับได้ทันที"
+  },
+  "icu:WhatsNew__v6.31--0": {
+    "messageformat": "การอัปเดตครั้งนี้มาพร้อมการแก้ไขบั๊กเพิ่มเติมหลายตัว ซึ่งรวมถึงบั๊กที่ทำให้หน้าต่างหลักของ Signal กลายเป็นหน้าว่างในตอนที่คุณเปิดดูบันทึกดีบักในโหมดเต็มจอบน macOS"
   }
 }

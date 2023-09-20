@@ -612,6 +612,10 @@
     "messageformat": "Helista siiski",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "Liitu siiski",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "Kõnega jätkamine",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
@@ -3165,11 +3169,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "Muuda sõnumit",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "Kui sõnumit muudad, on see nähtav ainult inimestele, kellel on Signali uusimad versioonid. Nad näevad, et oled sõnumit muutnud.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -6780,13 +6784,10 @@
     "messageformat": "Väikesed muudatused, vigade parandused ja jõudluse täiustused. Aitäh, et kasutad Signalit!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "Vestluse värvi kohandamise akent kuvatakse nüüd erinevates keeltes ja valitud asukohtades õigesti."
-  },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Muutsime Windowsi teavituste tuge paremaks. Kui sa ei klõpsa teavitusel selle esmakordsel saabumisel, kuvatakse viimane nägemata teavitus Windowsi teavituskeskuses. Kui sellel teavitusel klõpsad, suunatakse sind otse vastava vestluse juurde. Täname Julien Richardit antud tagasiside eest."
-  },
   "icu:WhatsNew__v6.30--0": {
     "messageformat": "Pea oma kõnede üle arvet uuel kõnede vahekaardil. Alusta uut kõnet või mine vastamata kõne juurde, ilma et peaksid otsima üles vastava vestluse. Nüüd saad teha häälkõnesid, ilma kaotamata sealjuures vastava vestluse lugemata sõnumite märgist."
+  },
+  "icu:WhatsNew__v6.31--0": {
+    "messageformat": "Selle uuendusega parandatakse mitmeid vigu, sealhulgas Signali kokkujooksmine Mac OS-i täisekraanivaates silumislogi vaatamisel."
   }
 }

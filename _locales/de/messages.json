@@ -612,6 +612,10 @@
     "messageformat": "Trotzdem anrufen",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "Trotzdem beitreten",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "Anruf fortsetzen",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
@@ -3165,11 +3169,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "Nachricht bearbeiten",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "Wenn du eine Nachricht bearbeitest, ist sie nur für Personen sichtbar, die die neuesten Versionen von Signal verwenden. Sie können dann sehen, dass du eine Nachricht bearbeitet hast.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -6780,13 +6784,10 @@
     "messageformat": "Kleine Optimierungen, Fehlerbehebungen und Leistungsverbesserungen. Danke, dass du Signal nutzt!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "Das Fenster zur Anpassung der Chat-Farbe wird jetzt in verschiedenen Sprachen und ausgewählten Regionen korrekt angezeigt."
-  },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Wir haben den Support für Benachrichtigungen unter Windows verbessert. Wenn du nicht auf eine Benachrichtigung klickst, sobald sie eintrifft, wird die letzte verpasste Benachrichtigung im Windows Notification Center angezeigt. Wenn du auf die Benachrichtigung klickst, gelangst du jetzt direkt zu diesem Chat. Wir möchten uns bei Julien Richard für das Feedback bedanken."
-  },
   "icu:WhatsNew__v6.30--0": {
     "messageformat": "Behalte deine Anrufe im Blick – mit dem neuen Tab »Anrufe«. Beginne einen neuen Anruf oder erwidere einen Anruf, den du verpasst hast, ohne den jeweiligen Chat suchen zu müssen. Jetzt kannst du Hallo sagen, ohne dich von den ungelesenen Nachrichten im Thread trennen zu müssen."
+  },
+  "icu:WhatsNew__v6.31--0": {
+    "messageformat": "Mit diesem Update werden eine Handvoll Fehler behoben, darunter das Anzeigen eines leeren Hauptfensters von Signal, wenn unter macOS ein Debug-Protokoll im Vollbildmodus aufgerufen wird. Mit einem vollständig hellen bzw. dunklen Fenster kommt die Funktion eines hellen bzw. dunklen Designs wohl am besten zum Ausdruck. Letztendlich haben wir jedoch entschieden, dass die App einfacher zu verwenden ist, wenn auch du die Benutzeroberfläche sehen kannst."
   }
 }

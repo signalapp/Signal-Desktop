@@ -612,6 +612,10 @@
     "messageformat": "Сонда да қоңырау шалу",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "Сонда да қосылу",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "Қоңырауды жалғастыру",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
@@ -3165,11 +3169,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "Хатты өзгерту",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "Егер сіз хатты түзетсеңіз, ол Signal-дың ең соңғы нұсқаларын пайдаланатындарға ғана көрінеді. Олар сіздің хатты өзгерткеніңізді көре алады.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -6780,13 +6784,10 @@
     "messageformat": "Кішігірім түзетпелер жасалды, ақаулар жөнделді және жұмысы жақсартылды. Signal-ды қолданғаныңыз үшін рақмет!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "Чат түсін бейімдеу экраны енді әртүрлі тілдерде және таңдалған жерлерде дұрыс көрсетіледі."
-  },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Windows жүйесіндегі хабарландыруларды жақсарттық. Хабарландыру алғаш келген кезде, оны баспасаңыз, соңғы өткізіп алған хабарландыру Windows хабарландырулар орталығында пайда болады. Сол хабарландыруды бассаңыз, тікелей сол чатқа ауысасыз. Пікір қалдырғаны үшін Жульен Ричардқа алғыс білдіргіміз келеді."
-  },
   "icu:WhatsNew__v6.30--0": {
     "messageformat": "Соғылған қоңырауларды жаңа \"Қоңыраулар\" қойындысынан көре аласыз. Керекті чатты іздемей-ақ, жаңа қоңырау бастаңыз немесе көтерілмей қалған қоңырауыңызға оралыңыз. Енді оқылмаған хаттарды ашпастан, контактіге бірден қоңырау шалуыңызға болады."
+  },
+  "icu:WhatsNew__v6.31--0": {
+    "messageformat": "Бұл нұсқада бірнеше ақау түзетілді, оның ішінде macOS құрылғысында толық экран режимінде ақауларды түзету журналын көрсеңіз, негізгі Signal терезесі бос болып тұратын ақау түзетілді. Толықтай жарық немесе толықтай қараңғы терезенің көрінуі Жарық тақырып пен Қараңғы тақырып үшін заңдылық болуы мүмкін, дегенмен ондай режимдерде интерфейс те көрініп тұрса, қолданбаны пайдаланған оңайырақ болады деп шештік."
   }
 }

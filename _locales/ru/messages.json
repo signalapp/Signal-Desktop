@@ -612,6 +612,10 @@
     "messageformat": "Всё равно позвонить",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "Всё равно отправить",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "Продолжить звонок",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
@@ -3165,11 +3169,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "Редактировать сообщение",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "Если вы отредактируете сообщение, это увидят только те, кто пользуется последними версиями Signal. Они увидят, что вы отредактировали сообщение.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -6780,13 +6784,10 @@
     "messageformat": "Небольшие изменения, исправления ошибок и улучшения производительности. Спасибо за то, что пользуетесь Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "Окно настройки цвета чата теперь корректно отображается на разных языках и в выбранных языковых стандартах."
-  },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Улучшена поддержка уведомлений в Windows. Если вы не нажали на уведомление при его появлении, то последнее пропущенное уведомление появится в Центре уведомлений Windows. При нажатии на это уведомление теперь можно перейти непосредственно к чату. Благодарим Жюльена Ришара за его отзыв."
-  },
   "icu:WhatsNew__v6.30--0": {
     "messageformat": "Следите за своими звонками с помощью вкладки «Новые звонки». Начните новый звонок или вернитесь к пропущенному без необходимости искать чат с этим контактом. Теперь вы можете поздороваться голосом, не закрывая непрочитанные сообщения в треде."
+  },
+  "icu:WhatsNew__v6.31--0": {
+    "messageformat": "В этом обновлении исправлено несколько ошибок — в том числе та, из-за которой главное окно Signal становилось пустым при просмотре журнала отладки на macOS в полноэкранном режиме. Появление на экране полностью светлого или полностью тёмного окна — это, пожалуй, самое полное проявление Светлой и Тёмной темы, но в итоге мы решили, что пользоваться приложением удобнее, когда интерфейс тоже виден."
   }
 }

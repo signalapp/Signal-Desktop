@@ -612,6 +612,10 @@
     "messageformat": "მაინც დარეკვა",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "მაინც შესვლა",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "ზარის გაგრძელება",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
@@ -3165,11 +3169,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "შეტყობინების რედაქტირება",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "თუ ამ შეტყობინებას დაარედაქტირებ, მას მხოლოდ Signal-ის უახლესი ვერსიის მომხმარებლები ნახავენ. იმათ შესაძლებლობა ექნებათ ნახონ, რომ შეტყობინება დაარედაქტირე.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -6780,13 +6784,10 @@
     "messageformat": "მცირე შესწორებები, ბაგების გამოსწორება და წარმადობის გაუმჯობესება. მადლობას გიხდით სიგნალის გამოყენებისთვის!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "ჩატის ფერის პერსონალიზაციის ეკრანი ახლა სწორად არის ნაჩვენები სხვადასხვა ენასა და არჩეულ ლოკაციებზე."
-  },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "გავაუმჯობესეთ შეტყობინებების მხარდაჭერა Windows-ზე. თუ შეტყობინებაზე მისი მიღებისთანავე არ დააწკაპუნებ, უახლესი გამოტოვებული შეტყობინება Windows-ის შეტყობინებების ცენტრში გამოჩნდება. ამ შეტყობინებაზე დაწკაპუნებით ახლა პირდაპირ ჩატში გადახვალ. გვსურს გამოხმაურებისთვის ჯულიენ რიჩარდს მადლობა გადავუხადოთ."
-  },
   "icu:WhatsNew__v6.30--0": {
     "messageformat": "ზარების ახალი ჩანართები დაგეხმარება მარტივად წამოიწყო ზარი ან გადაურეკო გამოტოვებულზე. წამოიწყე ახალი ზარი ან უპასუხე გამოტოვებულ ზარს, შესაბამისი ჩატის პოვნის გარეშე. ახლა უკვე შეგიძლია ზარის წამოწყებისას სალამი ისე თქვა, რომ ამ მიმოწერაში წაუკითხავ სანიშნს არ დაემშვიდობო."
+  },
+  "icu:WhatsNew__v6.31--0": {
+    "messageformat": "ეს განახლება ასწორებს რამდენიმე ტექნიკურ შეცდომას, მათ შორის იმას, რომელმაც Signal-ის ძირითადი ფანჯარის დაცარიელებას იწვევდა, როდესაც გამართვის ჟურნალს სრულ ეკრანზე ადიდებდი macOS-ზე. სრულად ნათელი ან სრულად ბნელი ფანჯრის ნახვა, სავარაუდოდ, ნათელი თემისა და მუქი თემის ყველაზე სუფთა შესაძლო გამოხატულებაა, მაგრამ საბოლოოდ გადავწყვიტეთ, რომ აპლიკაციის გამოყენება უფრო ადვილია, როცა ინტერფეისსაც ხედავთ."
   }
 }

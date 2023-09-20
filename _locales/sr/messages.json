@@ -73,7 +73,7 @@
     "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
   },
   "icu:Preferences__sent-media-quality": {
-    "messageformat": "Квалитет сланог медија",
+    "messageformat": "Квалитет послатог медија",
     "description": "Title for the sent media quality setting"
   },
   "icu:sentMediaQualityStandard": {
@@ -611,6 +611,10 @@
   "icu:callAnyway": {
     "messageformat": "Нема везе, позови",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
+  },
+  "icu:joinAnyway": {
+    "messageformat": "Свеједно се придружите",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
   },
   "icu:continueCall": {
     "messageformat": "Настави позив",
@@ -3165,11 +3169,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "Измените поруку",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "Ако измените поруку, она ће бити видљива само људима који су на најновијим верзијама Signal-а. Они ће моћи да виде да сте изменили поруку.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -3645,7 +3649,7 @@
     "description": "Shown if we are unable to parse a group link"
   },
   "icu:GroupV2--join--invalid-link": {
-    "messageformat": "Ovaj link za grupu nije ispravan. Proverite da li je ceo link kompletan i ispravan pre nego što pokušate da se pridružite.",
+    "messageformat": "Овај линк за групу није исправан. Проверите да ли је цео линк комплетан и исправан пре него што покушате да се придружите.",
     "description": "Shown if we are unable to parse a group link"
   },
   "icu:GroupV2--join--prompt": {
@@ -3673,7 +3677,7 @@
     "description": "Shown if you click a group link and we can't get information about it"
   },
   "icu:GroupV2--join--link-revoked": {
-    "messageformat": "Link za grupu više nije ispravan.",
+    "messageformat": "Линк за групу више није исправан.",
     "description": "Shown if you click a group link and we can't get information about it"
   },
   "icu:GroupV2--join--link-forbidden--title": {
@@ -3853,27 +3857,27 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
-    "messageformat": "Isključili ste obavezno odobrenje administratora za link za grupu.",
+    "messageformat": "Искључили сте обавезно одобрење администратора за линк за групу.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--access-invite-link--disabled--other": {
-    "messageformat": "{adminName} je isključio/la obavezno odobrenje administratora za link za grupu.",
+    "messageformat": "{adminName} је искључио/ла обавезно одобрење администратора за линк за групу.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--access-invite-link--disabled--unknown": {
-    "messageformat": "Isključeno je obavezno odobrenje administratora za link za grupu.",
+    "messageformat": "Искључено је обавезно одобрење администратора за линк за групу.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--access-invite-link--enabled--you": {
-    "messageformat": "Uključili ste obavezno odobrenje administratora za link za grupu.",
+    "messageformat": "Укључили сте обавезно одобрење администратора за линк за групу.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--access-invite-link--enabled--other": {
-    "messageformat": "{adminName} je uključio/la obavezno odobrenje administratora za link za grupu.",
+    "messageformat": "{adminName} је укључио/ла обавезно одобрење администратора за линк за групу.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--access-invite-link--enabled--unknown": {
-    "messageformat": "Uključeno je obavezno odobrenje administratora za link za grupu.",
+    "messageformat": "Укључено је обавезно одобрење администратора за линк за групу.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--member-add--invited--you": {
@@ -4193,51 +4197,51 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
-    "messageformat": "Uključili ste link za grupu bez obaveznog odobrenja administratora.",
+    "messageformat": "Укључили сте линк за групу без обавезног одобрења администратора.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--group-link-add--disabled--other": {
-    "messageformat": "{adminName} je uključio/la link za grupu bez obaveznog odobrenja administratora.",
+    "messageformat": "{adminName} је укључио/ла линк за групу без обавезног одобрења администратора.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--group-link-add--disabled--unknown": {
-    "messageformat": "Uključen je link za grupu bez obaveznog odobrenja administratora.",
+    "messageformat": "Укључен је линк за групу без обавезног одобрења администратора.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--group-link-add--enabled--you": {
-    "messageformat": "Uključili ste link za grupu sa obaveznim odobrenjem administratora.",
+    "messageformat": "Укључили сте линк за групу са обавезним одобрењем администратора.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--group-link-add--enabled--other": {
-    "messageformat": "{adminName} je uključio/la link za grupu sa obaveznim odobrenjem administratora.",
+    "messageformat": "{adminName} је укључио/ла линк за групу са обавезним одобрењем администратора.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--group-link-add--enabled--unknown": {
-    "messageformat": "Uključen je link za grupu sa obaveznim odobrenjem administratora.",
+    "messageformat": "Укључен је линк за групу са обавезним одобрењем администратора.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--group-link-remove--you": {
-    "messageformat": "Isključili ste link za grupu.",
+    "messageformat": "Искључили сте линк за групу.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--group-link-remove--other": {
-    "messageformat": "{adminName} je isključio/la link za grupu.",
+    "messageformat": "{adminName} је искључио/ла линк за групу.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--group-link-remove--unknown": {
-    "messageformat": "Link za grupu je isključen.",
+    "messageformat": "Линк за групу је искључен.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--group-link-reset--you": {
-    "messageformat": "Resetovali ste link za grupu.",
+    "messageformat": "Ресетовали сте линк за групу.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--group-link-reset--other": {
-    "messageformat": "{adminName} je resetovao/la link za grupu.",
+    "messageformat": "{adminName} је ресетовао/ла линк за групу.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--group-link-reset--unknown": {
-    "messageformat": "Link za grupu je resetovan.",
+    "messageformat": "Линк за групу је ресетован.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--description--remove--you": {
@@ -4493,7 +4497,7 @@
     "description": "Title for the modal to unmute a chat"
   },
   "icu:ConversationDetails--group-link": {
-    "messageformat": "Link za grupu",
+    "messageformat": "Линк за групу",
     "description": "This is the label for the group link management panel"
   },
   "icu:ConversationDetails--disappearing-messages-label": {
@@ -4649,7 +4653,7 @@
     "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
   },
   "icu:GroupLinkManagement--clipboard": {
-    "messageformat": "Link za grupu je kopiran.",
+    "messageformat": "Линк за групу је копиран.",
     "description": "Shown in a toast when a user selects to copy group link"
   },
   "icu:GroupLinkManagement--share": {
@@ -4657,11 +4661,11 @@
     "description": "This lets users share their group link"
   },
   "icu:GroupLinkManagement--confirm-reset": {
-    "messageformat": "Da li ste sigurni da želite da resetujete link za grupu? Ljudi više neće moći da se pridruže grupi preko trenutnog linka.",
+    "messageformat": "Да ли сте сигурни да желите да ресетујете линк за групу? Људи више неће моћи да се придруже групи преко тренутног линка.",
     "description": "Shown in the confirmation dialog when an admin is about to reset the group link"
   },
   "icu:GroupLinkManagement--reset": {
-    "messageformat": "Resetuj link",
+    "messageformat": "Ресетуj линк",
     "description": "This lets users generate a new group link"
   },
   "icu:GroupLinkManagement--approve-label": {
@@ -4669,7 +4673,7 @@
     "description": "Title for the approve new members select area"
   },
   "icu:GroupLinkManagement--approve-info": {
-    "messageformat": "Obavezno je da administrator odobri nove članove koji se pridružuju preko linka za grupu.",
+    "messageformat": "Обавезно је да администратор групе одобри нове чланове који се придружују групи преко линка за групу.",
     "description": "Description for the approve new members select area"
   },
   "icu:PendingInvites--tab-requests": {
@@ -5165,7 +5169,7 @@
     "description": "Text for an option in Disappearing Messages menu and Conversation Details Disappearing Messages setting when no user value is available"
   },
   "icu:selectedCustomDisappearingTimeOption": {
-    "messageformat": "Прилагодити време",
+    "messageformat": "Прилагођено време",
     "description": "Text for an option in Conversation Details Disappearing Messages setting when user previously selected custom time"
   },
   "icu:DisappearingTimeDialog__label--value": {
@@ -5177,7 +5181,7 @@
     "description": "aria-label for the units of time select box"
   },
   "icu:DisappearingTimeDialog__title": {
-    "messageformat": "Прилагодити време",
+    "messageformat": "Прилагођено време",
     "description": "Title for the custom disappearing message timeout dialog"
   },
   "icu:DisappearingTimeDialog__body": {
@@ -6780,13 +6784,10 @@
     "messageformat": "Obavili smo manja fina prilagođavanja, ispravke grešaka i poboljšanja performansi. Hvala što koristite Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "Екран за прилагођавање боје ћаскања се сада правилно приказује на различитим језицима и изабраним локацијама."
-  },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Побољшали смо подршку за обавештења у Windows-у. Ако не кликнете на обавештење када први пут стигне, најновије пропуштено обавештење ће се појавити у Windows-овом Центру за обавештења. Кликом на то обавештење сада ћете директно отворити то ћаскање. Хвала Џулијену Ричарду на повратним информацијама."
-  },
   "icu:WhatsNew__v6.30--0": {
     "messageformat": "Нова картица за позиве вам омогућава да лако започнете позив или да позовете особу чији сте позив пропустили."
+  },
+  "icu:WhatsNew__v6.31--0": {
+    "messageformat": "У овом ажурирању исправљено је прегршт грешака, укључујући и ону због које је главни прозор Signal-а био празан ако бисте прегледали евиденцију за отклањање грешака у режиму целог екрана у macOS-у."
   }
 }

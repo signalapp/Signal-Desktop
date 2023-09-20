@@ -612,6 +612,10 @@
     "messageformat": "তারপরও কল করুন",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "তারপরও যোগ দিন",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "কল চালিয়ে যান",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
@@ -3165,11 +3169,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "মেসেজ এডিট করুন",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "আপনি যদি কোনো মেসেজ এডিট করেন, তবে এটি শুধুমাত্র Signal-এর সর্বশেষ সংস্করণ ব্যবহারকারীদের কাছে দৃশ্যমান হবে। আপনি যে একটি মেসেজ এডিট করেছেন তারা তা দেখতে পাবেন।",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -6780,13 +6784,10 @@
     "messageformat": "ছোট ছোট কিছু পরিবর্তন, বাগ সংশোধন এবং পারফর্মেন্স সমৃদ্ধ করা হয়েছে। Signal ব্যবহার করার জন্য ধন্যবাদ!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "চ্যাট-এর রং কাস্টমাইজেশন স্ক্রিন এখন বিভিন্ন ভাষায় ও নির্বাচিত এলাকায় সঠিকভাবে প্রদর্শিত হয়।"
-  },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "আমরা Windows-এ নোটিফিকেশন সমর্থন উন্নত করেছি। যখন একটি নোটিফিকেশন আসে, ঠিক তখনই আপনি যদি সেটিতে ক্লিক না করেন, তাহলে সর্বশেষ মিস করা নোটিফিকেশনটি Windows নোটিফিকেশন সেন্টারে প্রদর্শিত হবে। নোটিফিকেশনটিতে ক্লিক করলে এখন সরাসরি সেই চ্যাটে চলে যাবে। প্রতিক্রিয়া জানানোর কারণে আমরা জুলিয়েন রিচার্ডকে ধন্যবাদ জানাই।"
-  },
   "icu:WhatsNew__v6.30--0": {
     "messageformat": "নতুন কল ট্যাব আপনাকে সহজেই একটি কল শুরু করতে বা আপনি মিস করেছেন এমন একটি কলে ফিরে যেতে সাহায্য করে।"
+  },
+  "icu:WhatsNew__v6.31--0": {
+    "messageformat": "এই আপডেটটিতে কিছু সংখ্যক বাগ সংশোধন করা হয়েছে, যার মধ্যে একটি সংশোধিত বাগ হলো - আপনি যদি macOS-এ ফুল-স্ক্রিন মোডে একটি ডিবাগ লগ দেখেন, তবে প্রধান Signal উইন্ডোটি ফাঁকা হয়ে যায়।"
   }
 }

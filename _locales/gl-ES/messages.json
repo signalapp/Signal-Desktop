@@ -612,6 +612,10 @@
     "messageformat": "Chamar igualmente",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "Unirse igualmente",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "Continuar a chamada",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
@@ -3165,11 +3169,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "Editar mensaxe",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "Se editas unha mensaxe, só será visible para as persoas que teñan as últimas versións de Signal. Poderán ver que editaches a mensaxe.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -6780,13 +6784,10 @@
     "messageformat": "Comprende pequenas modificacións e melloras no rendemento. Moitas grazas por empregar Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "Agora, a personalización da Cor da conversa móstrase de forma correcta nos diferentes idiomas e lugares."
-  },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Melloramos o soporte das notificacións en Windows. Se non premes nunha notificación cando emerxe, a última notificación ser ler aparecerá no Centro de notificacións de Windows. Premer nesa notificación agora levarate directamente á conversa. Queremos agradecer a Julien Richard polos seus comentarios."
-  },
   "icu:WhatsNew__v6.30--0": {
     "messageformat": "A nova lapela de chamadas axúdache a poder empezar unha chamada ou a devolver unha chamada perdida de xeito máis sinxelo."
+  },
+  "icu:WhatsNew__v6.31--0": {
+    "messageformat": "Esta actualización corrixe varios erros, como o que causaba que a lapela principal de Signal quedara en branco se consultabas un rexistro de depuración en modo pantalla completa en macOS."
   }
 }

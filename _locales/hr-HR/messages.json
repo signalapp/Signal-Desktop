@@ -612,6 +612,10 @@
     "messageformat": "Svejedno nazovi",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "Svejedno se pridruži",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "Nastavi poziv",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
@@ -3165,11 +3169,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "Uredi poruku",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "Ako uredite poruku, izmjene će biti vidljive samo osobama koje koriste najnovije verzije Signala. Moći će vidjeti da ste uredili poruku.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -6780,13 +6784,10 @@
     "messageformat": "Manja podešavanja, ispravci grešaka i poboljšanje rada aplikacije. Hvala vam što koristite Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "Zaslon za prilagodbu boje razgovora sada se ispravno prikazuje na različitim jezicima i odabranim lokacijama."
-  },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Poboljšali smo podršku za obavijesti u sustavu Windows. Ako ne kliknete na obavijest kad prvi put stigne, zadnja propuštena obavijest pojavit će se u Windows centru za obavijesti. Sada će klik na tu obavijest izravno otvoriti taj razgovor. Željeli bismo se zahvaliti Julienu Richardu na povratnoj informaciji."
-  },
   "icu:WhatsNew__v6.30--0": {
     "messageformat": "Nova kartica poziva omogućuje vam da jednostavno započnete novi poziv ili uzvratite propušteni."
+  },
+  "icu:WhatsNew__v6.31--0": {
+    "messageformat": "Ovo ažuriranje ispravlja nekoliko programskih pogrešaka, uključujući onu koja je uzrokovala da glavni prozor Signala postane prazan nakon pregledavanja zapisnika o otklanjanju pogrešaka preko cijelog zaslona na macOS-u."
   }
 }

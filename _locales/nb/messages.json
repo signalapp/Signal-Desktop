@@ -612,6 +612,10 @@
     "messageformat": "Ring allikevel",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "Bli med likevel",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "Fortsett samtale",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
@@ -3165,11 +3169,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "Rediger melding",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "Hvis du redigerer en melding, vises endringen kun for personer som bruker den nyeste versjonen av Signal. De kan se at du redigerte en melding.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -6780,13 +6784,10 @@
     "messageformat": "Noen små justeringer, feilrettinger og ytelsesforbedringer. Takk for at du bruker Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "Nå ser siden for valg av samtalefarger lik ut på alle språk og i alle områder."
-  },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Vi har gjort støtten for varsler på Windows bedre. Hvis du ikke trykker på varsler når de først dukker opp, vil du kunne se dem i Windows' varslingssenter. Når du trykker på et varsel, blir du sendt direkte til samtalen det handler om. Vi takker Julien Richard for denne tilbakemeldingen."
-  },
   "icu:WhatsNew__v6.30--0": {
     "messageformat": "Den nye anropsoversikten gjør det enkelt å starte en samtale eller ringe tilbake til noen som har forsøkt å nå deg."
+  },
+  "icu:WhatsNew__v6.31--0": {
+    "messageformat": "Denne oppdateringen retter opp i et par feil, blant annet en som førte til at Signal-fanen ble helt hvit når man åpnet feilsøkingslogger i fullskjermsmodus i macOS."
   }
 }

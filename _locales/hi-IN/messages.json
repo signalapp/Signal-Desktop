@@ -612,6 +612,10 @@
     "messageformat": "फिर भी कॉल करें",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "फिर भी जुड़ें",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "कॉल जारी रखें",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
@@ -3165,11 +3169,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "संदेश संपादित करें",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "यदि आप किसी संदेश को संपादित करते हैं, तो वह केवल उन लोगों को दिखाई देगा जो Signal के नवीनतम संस्करण पर हैं। वे आपके द्वारा संपादित संदेश देख सकेंगे।",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -6780,13 +6784,10 @@
     "messageformat": "छोटे-छोटे ट्वीक, बग फ़िक्स, और प्रदर्शन में सुधार। Signal इस्तेमाल करने के लिए धन्यवाद।",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "चैट कलर कस्टमाइजेशन स्क्रीन अब अलग-अलग भाषाओं और चयनित स्थानों में सही ढंग से प्रदर्शित होती है।"
-  },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "हमने विंडोज़ पर नोटिफ़िकेशन सपोर्ट को बेहतर बनाया है। यदि आप पहली बार किसी नोटिफ़िकेशन के आने पर उस पर क्लिक नहीं करते, तो नवीनतम छूटा हुआ नोटिफ़िकेशन विंडोज नोटिफ़िकेशन सेंटर में दिखाई देगा। उस नोटिफ़िकेशन पर क्लिक करने से अब आप सीधे उसी चैट पर पहुंच जाएंगे। हम जूलियन रिचर्ड को उनके फीडबैक के लिए धन्यवाद देना चाहेंगे।"
-  },
   "icu:WhatsNew__v6.30--0": {
     "messageformat": "नए कॉल टैब से अपने कॉल पर नज़र रखें। एक नई कॉल शुरू करें या संबंधित चैट को ढूंढे बिना उस कॉल पर वापस जाए, जिसका जवाब देने से आप चूक गए थे। अब आप उस थ्रेड में संदेश के लिए अनरीड मार्कर को अलविदा कहे बिना भी अपनी आवाज़ से हेलो कह सकते हैं।"
+  },
+  "icu:WhatsNew__v6.31--0": {
+    "messageformat": "यह अपडेट कुछ बगों को ठीक करता है, जिसमें ऐसा भी एक बग शामिल है जिसके कारण यदि आपने मैकOS पर फुल-स्क्रीन मोड में डीबग लॉग देखा है तो मुख्य Signal विंडो ब्लैंक हो जाती है। पूरी तरह से लाइट या पूरी तरह से डार्क विंडो को देखना निश्चित रूप से लाइट थीम और डार्क थीम की सबसे शुद्ध संभव अभिव्यक्ति है, लेकिन हमने अंततः पाया है कि ऐप का उपयोग करना तब आसान होता है जब आप इंटरफेस भी देख सकते हैं।"
   }
 }

@@ -612,6 +612,10 @@
     "messageformat": "Svakako nazovi",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "Svejedno se pridruži",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "Nastavite poziv",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
@@ -3165,11 +3169,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "Uredi poruku",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "Ako uredite poruku, bit će vidljiva samo osobama koje koriste najnovije verzije Signala. Moći će vidjeti da ste uredili poruku.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -6780,13 +6784,10 @@
     "messageformat": "Mala podešavanja, otklanjanje grešaka i poboljšanja performansi. Hvala vam što koristite Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "Ekran za prilagođavanje boje razgovora sada se ispravno prikazuje na različitim jezicima i odabranim mjestima."
-  },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Poboljšali smo podršku za obavijesti na Windowsu. Ako ne kliknete na obavijest kada prvi put stigne, najnovija propuštena obavijest će se pojaviti u Windows centru za obavijesti. Klikom na tu obavijest sada ćete preći direktno na taj chat. Željeli bismo zahvaliti Julienu Richardu na povratnim informacijama."
-  },
   "icu:WhatsNew__v6.30--0": {
     "messageformat": "Nova kartica za pozive pomaže vam da jednostavno započnete poziv ili uzvratite onaj koji ste propustili."
+  },
+  "icu:WhatsNew__v6.31--0": {
+    "messageformat": "Ovo ažuriranje popravlja pregršt grešaka, uključujući i onu zbog koje je glavni prozor signala bio prazan ako ste pregledali dnevnik otklanjanja grešaka u režimu preko cijelog ekrana na macOS-u. Gledanje potpuno svijetlog ili potpuno tamnog prozora je vjerovatno najčistiji mogući izraz svijetle teme i tamne teme, ali smo na kraju odlučili da je aplikacija lakša za korištenje kada možete vidjeti i interfejs."
   }
 }

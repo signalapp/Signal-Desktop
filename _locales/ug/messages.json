@@ -612,6 +612,10 @@
     "messageformat": "چاقىرىۋەر",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "يەنىلا قوشۇلۇڭ",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "داۋاملىق چاقىر",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
@@ -3165,11 +3169,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "ئۇچۇر تەھرىرلەڭ",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "ئەگەر سىز ئۇچۇرنى تەھرىرلىسىڭىز، ئۇنى پەقەت Signalنىڭ ئەڭ يېڭى نەشرىنى ئىشلىتىۋاتقان كىشىلەرلا كۆرەلەيدۇ. ئۇلار سىزنىڭ ئۇچۇرنى تەھرىرلىگەنلىكىڭىزنى كۆرەلەيدۇ.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -6780,13 +6784,10 @@
     "messageformat": "كىچىك ئۆزگەرتىشلەر كىرگۈزۈلدى، كاشىلا ھەل قىلىندى ۋە ئىقتىدار ئەلالاشتۇرۇلدى. Signal نى ئىشلەتكەنلىكىڭىزگە رەھمەت!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "پاراڭ رەڭگى خاسلاشتۇرۇش ئېكرانى ھازىر ئوخشىمىغان تىللار ۋە تاللانغان جايلاردا توغرا كۆرسىتىلدى."
-  },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Windows نىڭ ئۇقتۇرۇش قوللىشىنى كۈچەيتتۇق. ئۇقتۇرۇش دەسلەپ كۆرۈلگەن جاغدا ئۇنى چەكمىڭسىڭز، ئەڭ يېڭى يېتىشەلمىگەن ئۇقتۇرۇش Windowsنىڭ ئۇقتۇرۇش مەركىزىدە كۆرۈنىدۇ. بۇنى چەكسىڭىز، ئۇقتۇرۇش بىۋاستىلا پاراڭغا ئاتلاپ كىرىدۇ. بىز جۇلىئېن رىچاردنىڭ پىكىر-تەكلىپلىرىگە رەھمەت ئېيتىمىز."
-  },
   "icu:WhatsNew__v6.30--0": {
     "messageformat": "يېڭى چاقىرىقلار بەتكۈچى بىلەن چاقىرىقىڭىزدا بەتكۈچلەرنى تۇتۇڭ. ماس كەلگەن پاراڭلارنى ئىزدەشكە مەجبۇر بولماي تۇرۇپ، يېڭى بىر چاقىرىق باشلىتىڭ ياكى كۆرمەي قالغان چاقىرىقلارغا جاۋاپ قايتۇرۇڭ. ھازىر سىز بۇ تېمىدىكى ئۇچۇرلارنىڭ ئوقۇلمىدى دەپ كۆسەتكەن بەلگە قويغۇچىسىغا خەير-خوش دېمەي تۇرۇپ ئاۋازىڭىز بىلەن سالام ئېيتالايسىز."
+  },
+  "icu:WhatsNew__v6.31--0": {
+    "messageformat": "بۇ يېڭىلاش macOS تىكى پۈتۈن ئېكران ھالىتىدىكى خاتالىق خاتىرىسىنى كۆرگىنىڭزدە، ئاساسلىق سىگنال كۆزنىكىنىڭ قۇرۇقدىلىپ قېلىشىنى كەلتۈرۈپ چىقىرىدىغان كەمتۈكنى ئۆز ئىىچىگە ئالغان بىر قانچە كەمتۈكنى تۈزىتىدۇ. پۈتۈنلەي يورۇق ياكى پۈتۈنلەي قاراڭغۇ كۆزنەكنى كۆرۈش بولسا بەلكىم «يورۇق تېما» ۋە «قاراڭغۇتېما»نىڭ ئەڭ ساپ ئىپادلىنىشنى بولسا كېرەك، بىراق بىز ئەڭ ئاخىرىدا سىزنڭ باغلانمىلارنى كۆرگىنىڭىزدە، بۇ ئەپنى تېخىمۇ ئاسان ئىشلىتەلەيدىغانلىقىڭىزغا قارار قىلدۇق."
   }
 }

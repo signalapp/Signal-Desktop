@@ -612,6 +612,10 @@
     "messageformat": "Call anyway",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "Mag-join pa rin",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "Continue call",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
@@ -3165,11 +3169,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "I-edit ang message",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "Kung mag-edit ka ng message, ang mga taong may latest versions lang ng Signal ang makakakita nito. Makikita nilang nag-edit ka ng message.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -6780,13 +6784,10 @@
     "messageformat": "Dagdag na maliliit na pag-aayos, pag-alis ng bugs, at pagpapaganda ng takbo ng app. Maraming salamat sa paggamit ng Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "Naka-display na nang maayos sa iba't ibang languages at piling lugar ang Chat Color customization screen."
-  },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Mas pinaganda na namin ang notification support sa Windows. Kung hindi mo i-click agad ang isang notification pagkadating nito, lalabas ang pinakabagong missed notification sa Windows Notification Center. Mapupunta ka na kaagad sa chat pagkatapos mong i-click ang notification nito. Nais naming magpasalamat kay Julien Richard sa kanyang feedback."
-  },
   "icu:WhatsNew__v6.30--0": {
     "messageformat": "I-monitor ang mga tawag gamit ang bagong calls tab. Magsimula ng bagong tawag o mag-call back nang hindi kinakailangang hanapin kung saang chat ito galing. Pwede ka na ring mag-hello gamit ang boses mo nang hindi nawawala ang unread marker sa messages sa thread na 'yun."
+  },
+  "icu:WhatsNew__v6.31--0": {
+    "messageformat": "Inayos ng update na ito ang ilang bugs, kasama ang isang bug kung saan nagiging blangko ang main Signal window kung tumingin ka ng debug log habang naka-full-screen mode sa macOS."
   }
 }

@@ -612,6 +612,10 @@
     "messageformat": "Přesto zavolat",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "Připojit se i tak",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "Pokračovat ve volání",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
@@ -3165,11 +3169,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "Úprava zprávy",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "Pokud zprávu upravíte, zobrazí se jen lidem, kteří používají nejnovější verzi aplikace Signal. Ti uvidí, že jste zprávu upravili.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -6780,13 +6784,10 @@
     "messageformat": "Drobná vylepšení, opravy chyb a zvýšení výkonu. Děkujeme, že používáte Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "Obrazovka pro přizpůsobení barvy chatu se teď zobrazuje správně v různých jazycích a vybraných prostředích."
-  },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Vylepšili jsme podporu oznámení v systému Windows. Pokud na oznámení nekliknete hned po jeho doručení, zobrazí se v oznamovacím centru systému Windows poslední zmeškané oznámení. Kliknutím na toto oznámení nyní rovnou přejdete na daný chat. Rádi bychom poděkovali Julienu Richardovi za jeho zpětnou vazbu."
-  },
   "icu:WhatsNew__v6.30--0": {
     "messageformat": "Nová karta Hovory vám pomůže snadno zahájit hovor nebo zavolat zpět na hovor, který jste zmeškali."
+  },
+  "icu:WhatsNew__v6.31--0": {
+    "messageformat": "Tato aktualizace opravuje několik chyb, včetně té, která způsobovala, že hlavní okno aplikace Signal bylo prázdné, pokud jste si v systému MacOS prohlíželi protokol ladění v celoobrazovkovém režimu."
   }
 }

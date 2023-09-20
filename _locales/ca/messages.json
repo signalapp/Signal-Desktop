@@ -612,6 +612,10 @@
     "messageformat": "Truca-li tanmateix",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "Unir-me de totes maneres",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "Continua la trucada",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
@@ -3165,11 +3169,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "Editar missatge",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "Si edites un missatge, només serà visible per a aquelles persones que tinguin les darreres versions de Signal. Podran veure que has editat un missatge.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -6780,13 +6784,10 @@
     "messageformat": "Petits ajustos, correccions d'errors i tasques de millora de rendiment. Gràcies per utilitzar Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "Ara, la pantalla de personalització del color del xat es mostra correctament en diferents idiomes i configuracions regionals seleccionades."
-  },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Hem millorat el suport de notificacions a Windows. Si no cliques sobre una notificació tan bon punt arribi, la darrera notificació perduda apareixerà al Centre de notificacions de Windows. Ara, quan facis clic sobre aquesta notificació, aniràs directament al xat. Ens agradaria donar les gràcies a Julien Richard pels seus comentaris."
-  },
   "icu:WhatsNew__v6.30--0": {
     "messageformat": "La nova pestanya de trucades t'ajuda a iniciar una nova trucada o tornar una perduda amb més facilitat."
+  },
+  "icu:WhatsNew__v6.31--0": {
+    "messageformat": "Aquesta actualització corregeix diversos errors, inclòs un que feia que la finestra principal de Signal es quedés en blanc si visualitzaves un registre de depuració en mode de pantalla completa a macOS."
   }
 }

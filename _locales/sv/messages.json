@@ -612,6 +612,10 @@
     "messageformat": "Ring ändå",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "Gå med ändå",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "Fortsätt samtalet",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
@@ -3165,11 +3169,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "Redigera meddelande",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "Om du redigerar ett meddelande kommer det bara att vara synligt för personer som använder de senaste versionerna av Signal. De kommer att kunna se att du redigerade ett meddelande.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -6780,13 +6784,10 @@
     "messageformat": "Små justeringer, buggfixar och prestandaförbättringar. Tack för att du använder Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "Skärmen för anpassning av chattfärg visas nu korrekt på olika språk och valda platser."
-  },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Vi förbättrade aviseringsstöd på Windows. Om du inte klickar på en avisering när den först kommer så visas det senaste missade meddelandet i Windows Notification Center. Klickar du på den aviseringen kommer du nu direkt till den chatten. Vi vill tacka Julien Richard för deras feedback."
-  },
   "icu:WhatsNew__v6.30--0": {
     "messageformat": "Den nya samtalsfliken hjälper dig att enkelt starta ett samtal eller svara på ett missat samtal."
+  },
+  "icu:WhatsNew__v6.31--0": {
+    "messageformat": "Den här uppdateringen fixar en handfull buggar, inklusive en som gjorde att huvudfönstret i Signal blev tomt om du visade en felsökningslogg i helskärmsläge på macOS."
   }
 }

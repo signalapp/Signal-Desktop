@@ -612,6 +612,10 @@
     "messageformat": "ಹೇಗಾದರೂ ಕರೆ ಮಾಡಿ",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "ಹೇಗಾದರೂ ಸೇರಿ",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "ಕರೆಯನ್ನು ಮುಂದುವರಿಸಿ",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
@@ -3165,11 +3169,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "ಮೆಸೇಜ್ ಎಡಿಟ್ ಮಾಡಿ",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "ನೀವು ಮೆಸೇಜ್ ಅನ್ನು ಎಡಿಟ್ ಮಾಡಿದರೆ, ಅದು Signal ನ ಇತ್ತೀಚಿನ ಆವೃತ್ತಿಗಳಲ್ಲಿ ಇರುವವರಿಗೆ ಮಾತ್ರ ಕಾಣುತ್ತದೆ. ನೀವು ಮೆಸೇಜ್ ಅನ್ನು ಎಡಿಟ್ ಮಾಡಿದರೆ ಅವರಿಗೆ ನೋಡಲು ಸಾಧ್ಯವಾಗುತ್ತದೆ.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -6780,13 +6784,10 @@
     "messageformat": "ಸಣ್ಣ ಟ್ವೀಕ್‌ಗಳು, ಬಗ್ ಫಿಕ್ಸ್‌ಗಳು ಮತ್ತು ಕಾರ್ಯಕ್ಷಮತೆ ವರ್ಧನೆಗಳು. Signal ಬಳಸುತ್ತಿರುವುದಕ್ಕಾಗಿ ಧನ್ಯವಾದಗಳು!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "ಚಾಟ್ ಬಣ್ಣದ ಕಸ್ಟಮೈಸೇಶನ್ ಸ್ಕ್ರೀನ್ ಈಗ ವಿವಿಧ ಭಾಷೆಗಳು ಮತ್ತು ಆಯ್ದ ಸ್ಥಳಗಳಾದ್ಯಂತ ಸರಿಯಾಗಿ ಪ್ರದರ್ಶನಗೊಳ್ಳುತ್ತದೆ."
-  },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Windows ನಲ್ಲಿ ಅಧಿಸೂಚನೆ ಬೆಂಬಲವನ್ನು ನಾವು ಸುಧಾರಿಸಿದ್ದೇವೆ. ಅಧಿಸೂಚನೆ ಮೊದಲು ಬಂದಾಗ, ನೀವು ಅದನ್ನು ಕ್ಲಿಕ್ ಮಾಡದೇ ಇದ್ದಲ್ಲಿ, ಇತ್ತೀಚಿನ ತಪ್ಪಿಹೋದ ಅಧಿಸೂಚನೆಯು Windows ಅಧಿಸೂಚನೆ ಕೇಂದ್ರದಲ್ಲಿ ಕಾಣಿಸುತ್ತದೆ. ಈಗ ಅಧಿಸೂಚನೆಯ ಮೇಲೆ ಕ್ಲಿಕ್ ಮಾಡಿದಾಗ ಅದು ಆ ಚಾಟ್‌ಗೆ ನೇರವಾಗಿ ಜಿಗಿಯುತ್ತದೆ. ತಮ್ಮ ಪ್ರತಿಕ್ರಿಯೆ ನೀಡಿದ ಜ್ಯುಲಿಯನ್ ರಿಚರ್ಡ್ ಅವರಿಗೆ ನಾವು ಧನ್ಯವಾದ ಸಲ್ಲಿಸಲು ಬಯಸುತ್ತೇವೆ."
-  },
   "icu:WhatsNew__v6.30--0": {
     "messageformat": "ಹೊಸ ಕರೆಗಳ ಟ್ಯಾಬ್ ಬಳಸಿ ನಿಮ್ಮ ಕರೆಗಳ ಮೇಲೆ ಟ್ಯಾಬ್‌ಗಳನ್ನು ಇರಿಸಿ. ಸಂಬಂಧಿತ ಚಾಟ್ ಕಂಡುಕೊಳ್ಳುವ ಅಗತ್ಯವಿಲ್ಲದೆ ತಪ್ಪಿಹೋದ ಕರೆಗಳಿಗೆ ಮರಳಿ ಅಥವಾ ಹೊಸ ಕರೆಯನ್ನು ಪ್ರಾರಂಭಿಸಿ. ಈಗ ನೀವು ಆ ಥ್ರೆಡ್‌ನಲ್ಲಿನ ಓದದಿರುವ ಮೆಸೇಜ್‌ಗಳಿಗೆ ವಿದಾಯ ಹೇಳದೆಯೂ ನಿಮ್ಮ ಧ್ವನಿಯಲ್ಲಿ ಹಲೋ ಹೇಳಬಹುದು."
+  },
+  "icu:WhatsNew__v6.31--0": {
+    "messageformat": "macOS ನಲ್ಲಿ ಫುಲ್ ಸ್ಕ್ರೀನ್ ಮೋಡ್‌ನಲ್ಲಿ ಡೀಬಗ್ ಲಾಗ್ ಅನ್ನು ನೀವು ವೀಕ್ಷಿಸಿದಾಗ ಮುಖ್ಯ Signal ವಿಂಡೋ ಬ್ಲಾಂಕ್ ಆಗುವುದರ ಸಹಿತ ಕೆಲವೊಂದಿಷ್ಟು ದೋಷಗಳನ್ನು ಈ ಅಪ್‌ಡೇಟ್ ಸರಿಪಡಿಸುತ್ತದೆ. ಸಂಪೂರ್ಣವಾಗಿ ಲೈಟ್ ಅಥವಾ ಸಂಪೂರ್ಣವಾಗಿ ಡಾರ್ಕ್ ವಿಂಡೋವನ್ನು ನೋಡುವುದು ತಾರ್ಕಿಕವಾಗಿ ಲೈಟ್ ಥೀಮ್ ಮತ್ತು ಡಾರ್ಕ್ ಥೀಮ್‌ನ ಸಂಪೂರ್ಣ ಅಭಿವ್ಯಕ್ತಿಯಾಗಿದೆ, ಆದರೆ ಇಂಟರ್‌ಫೇಸ್ ಅನ್ನು ಕೂಡಾ ನೀವು ನೋಡಿದಾಗ ಆ್ಯಪ್ ಬಳಕೆ ಸುಲಭವಾಗುತ್ತದೆ ಎಂದು ನಾವು ಅಂತಿಮವಾಗಿ ನಿರ್ಧರಿಸಿದ್ದೇವೆ."
   }
 }

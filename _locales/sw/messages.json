@@ -612,6 +612,10 @@
     "messageformat": "Piga simu tu",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "Jiunge hata hivyo",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "Endelea na Mazungumzo ya Simu",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
@@ -3165,11 +3169,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "Hariri Ujumbe",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "Ukihariri ujumbe, utaonekana kwa watu walio kwenye toleo jipya la Signal pekee. Wataweza kuona kuwa umehariri ujumbe.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -6780,13 +6784,10 @@
     "messageformat": "Mabadiliko madogo, marekebisho ya bugs na uboreshaji wa utendaji. Asante kwa kutumia Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "Skrini ya kuweka mapendeleo ya Rangi ya Gumzo sasa inaonyeshwa ipasavyo katika lugha mbalimbali na lahaja zilizochaguliwa."
-  },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Tumeboresha usaidizi wa arifa kwenye Windows. Ikiwa hutabofya arifa inapofika mara ya kwanza, arifa iliyokupita itaonekana kwenye Kituo cha Arifa cha Windows. Kubofya kwenye arifa hiyo itakupeleka moja kwa moja kwenye gumzo hiyo. Tungependa kumshukuru Julien Richard kwa mchango wake."
-  },
   "icu:WhatsNew__v6.30--0": {
     "messageformat": "Fuatilia simu zako na kichupo kipya cha simu. Anzisha simu mpya au piga simu ambayo haukupokea bila kupata gumzo husika. Sasa unaweza kusalimia kwa sauti yako bila pia kukiaga kiweka alama ambacho hakijasomwa kwa ujumbe katika ujumbe huo."
+  },
+  "icu:WhatsNew__v6.31--0": {
+    "messageformat": "Sasisho hili linarekebisha hitilafu kadhaa, ikiwemo inayosababisha dirisha kuu la Signal kuwa tupu ikiwa umetazama orodha ya hitilafu katika hali ya skrini nzima kwenye macOS. Kuona dirisha lenye Mwanga kabisa au Giza kabisa ni dhahiri kuwa ni uwakilishi kamili zaidi wa Mandhari ya Mwanga na Mandhari ya Giza, lakini mwishowe tuliamua kuwa programu itakuwa rahisi kutumia pale unapoweza kuona kiolesura pia."
   }
 }

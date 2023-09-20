@@ -612,6 +612,10 @@
     "messageformat": "در هر صورت تماس بگیر",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "به هر حال می‌پیوندم",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "ادامه تماس",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
@@ -3165,11 +3169,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "ویرایش پیام",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "اگر پیامی را ویرایش کنید، فقط برای افرادی که از تازه‌ترین نسخه سیگنال استفاده می‌کنند قابل مشاهده خواهد بود. آن‌ها می‌توانند ببینند که پیامی را ویرایش کرده‌اید.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -6780,13 +6784,10 @@
     "messageformat": "تغییرات کوچک، رفع اشکالات و بهبود عملکرد. بابت استفاده از سیگنال سپاسگزاریم!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "صفحه‌نمایش سفارشی‌سازی رنگ گفتگو اکنون در زبان‌های مختلف و گویش‌های انتخاب‌شده به‌درستی نمایش داده می‌شود."
-  },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "پشتیبانی اعلان‌ها در ویندوز را بهبود دادیم. اگر در هنگام دریافت اعلان روی آن کلیک نکنید، آخرین اعلان ازدست‌رفته در «مرکز اعلان» ویندوز نمایش داده خواهد شد. اکنون با کلیک روی اعلان مستقیماً به آن گفتگو هدایت می‌شوید. از جولین ریچارد به‌خاطر بازخوردی که داد متشکریم."
-  },
   "icu:WhatsNew__v6.30--0": {
     "messageformat": "زبانه جدید تماس‌ها به شما کمک می‌کند که به راحتی تماسی شروع کنید یا با کسی که تماس ازدست‌رفته‌ای از او داشته‌اید تماس بگیرید."
+  },
+  "icu:WhatsNew__v6.31--0": {
+    "messageformat": "این به‌روزرسانی چند اشکال را برطرف می‌کند، از جمله اشکالی که موجب می‌شد صفحۀ اصلی سیگنال در هنگام مشاهدۀ گزارش عیب‌یابی در حالت تمام صفحه در macOS خالی باشد."
   }
 }
