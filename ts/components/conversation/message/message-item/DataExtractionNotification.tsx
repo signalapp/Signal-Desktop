@@ -17,18 +17,27 @@ export const DataExtractionNotification = (props: PropsForDataExtractionNotifica
   }
 
   return (
-    <ExpirableReadableMessage messageId={messageId} key={`readable-message-${messageId}`}>
+    <ExpirableReadableMessage
+      messageId={messageId}
+      marginInlineStart={'calc(var(--margins-lg) + 6px)'}
+      marginInlineEnd={'calc(var(--margins-lg) + 6px)'}
+      key={`readable-message-${messageId}`}
+    >
       <Flex
         container={true}
-        flexDirection="row"
+        flexDirection="column"
         alignItems="center"
         justifyContent="center"
-        margin={'var(--margins-sm)'}
+        width="90%"
+        maxWidth="700px"
+        margin="10px auto"
+        padding="5px 10px"
         id={`msg-${messageId}`}
+        style={{ textAlign: 'center' }}
       >
-        <SessionIcon iconType="upload" iconSize="small" iconRotation={180} />
+        <SessionIcon iconType="upload" iconColor="inherit" iconSize="medium" iconRotation={180} />
         <SpacerSM />
-        <Text text={contentText} subtle={true} ellipsisOverflow={true} />
+        <Text text={contentText} ellipsisOverflow={true} />
       </Flex>
     </ExpirableReadableMessage>
   );

@@ -6,6 +6,62 @@ import { acceptOpenGroupInvitation } from '../../../../interactions/messageInter
 import { PropsForGroupInvitation } from '../../../../state/ducks/conversations';
 import { SessionIconButton } from '../../../icon';
 import { ExpirableReadableMessage } from './ExpirableReadableMessage';
+import { Flex } from '../../../basic/Flex';
+
+const StyledGroupInvitation = styled.div`
+  background-color: var(--message-bubbles-received-background-color);
+
+  &.invitation-outgoing {
+    background-color: var(--message-bubbles-sent-background-color);
+    align-self: flex-end;
+
+    .contents {
+      .group-details {
+        color: var(--message-bubbles-sent-text-color);
+      }
+      .session-icon-button {
+        background-color: var(--transparent-color);
+      }
+    }
+  }
+
+  display: inline-block;
+  margin: 4px 16px;
+  padding: 4px;
+
+  border-radius: var(--border-radius-message-box);
+
+  align-self: flex-start;
+
+  box-shadow: none;
+
+  .contents {
+    display: flex;
+    align-items: center;
+    margin: 6px;
+
+    .invite-group-avatar {
+      height: 48px;
+      width: 48px;
+    }
+
+    .group-details {
+      display: inline-flex;
+      flex-direction: column;
+      color: var(--message-bubbles-received-text-color);
+
+      padding: 0px 12px;
+      .group-name {
+        font-weight: bold;
+        font-size: 18px;
+      }
+    }
+
+    .session-icon-button {
+      background-color: var(--primary-color);
+    }
+  }
+`;
 
 const StyledIconContainer = styled.div`
   background-color: var(--message-link-preview-background-color);
@@ -23,8 +79,8 @@ export const GroupInvitation = (props: PropsForGroupInvitation) => {
 
   return (
     <ExpirableReadableMessage messageId={messageId} key={`readable-message-${messageId}`}>
-      <div className="group-invitation-container" id={`msg-${props.messageId}`}>
-        <div className={classNames(classes)}>
+      <Flex container={true} flexDirection={'column'} flexGrow={1} id={`msg-${props.messageId}`}>
+        <StyledGroupInvitation className={classNames(classes)}>
           <div className="contents">
             <StyledIconContainer>
               <SessionIconButton
@@ -46,8 +102,8 @@ export const GroupInvitation = (props: PropsForGroupInvitation) => {
               <span className="group-address">{props.url}</span>
             </span>
           </div>
-        </div>
-      </div>
+        </StyledGroupInvitation>
+      </Flex>
     </ExpirableReadableMessage>
   );
 };

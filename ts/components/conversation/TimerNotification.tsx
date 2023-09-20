@@ -1,6 +1,5 @@
 import React from 'react';
 
-import styled from 'styled-components';
 import { PropsForExpirationTimer } from '../../state/ducks/conversations';
 import { assertUnreachable } from '../../types/sqlSharedTypes';
 
@@ -9,10 +8,6 @@ import { SessionIcon } from '../icon';
 import { SpacerSM, Text } from '../basic/Text';
 import { Flex } from '../basic/Flex';
 import { isLegacyDisappearingModeEnabled } from '../../util/expiringMessages';
-
-const StyledTimerNotification = styled(Flex)`
-  text-align: center;
-`;
 
 export const TimerNotification = (props: PropsForExpirationTimer) => {
   const { messageId, pubkey, profileName, expirationType, timespan, type, disabled } = props;
@@ -59,7 +54,7 @@ export const TimerNotification = (props: PropsForExpirationTimer) => {
       key={`readable-message-${messageId}`}
       dataTestId={'disappear-control-message'}
     >
-      <StyledTimerNotification
+      <Flex
         container={true}
         flexDirection="column"
         alignItems="center"
@@ -68,11 +63,12 @@ export const TimerNotification = (props: PropsForExpirationTimer) => {
         maxWidth="700px"
         margin="10px auto"
         padding="5px 10px"
+        style={{ textAlign: 'center' }}
       >
         <SessionIcon iconType="stopwatch" iconColor="inherit" iconSize="medium" />
         <SpacerSM />
         <Text text={textToRender} />
-      </StyledTimerNotification>
+      </Flex>
     </ExpirableReadableMessage>
   );
 };
