@@ -57,7 +57,6 @@ export type PropsType = {
   groupMembers?: Array<Pick<ConversationType, 'id' | 'firstName' | 'title'>>;
   hangUpActiveCall: (reason: string) => void;
   i18n: LocalizerType;
-  joinedAt?: number;
   me: ConversationType;
   openSystemPreferencesAction: () => unknown;
   setGroupCallVideoRequest: (
@@ -82,7 +81,7 @@ export type PropsType = {
 type DirectCallHeaderMessagePropsType = {
   i18n: LocalizerType;
   callState: CallState;
-  joinedAt?: number;
+  joinedAt: number | null;
 };
 
 export const isInSpeakerView = (
@@ -104,7 +103,7 @@ function DirectCallHeaderMessage({
   >();
 
   useEffect(() => {
-    if (!joinedAt) {
+    if (joinedAt == null) {
       return noop;
     }
     // It's really jumpy with a value of 500ms.
@@ -136,7 +135,6 @@ export function CallScreen({
   groupMembers,
   hangUpActiveCall,
   i18n,
-  joinedAt,
   me,
   openSystemPreferencesAction,
   setGroupCallVideoRequest,
@@ -289,7 +287,7 @@ export function CallScreen({
         <DirectCallHeaderMessage
           i18n={i18n}
           callState={activeCall.callState || CallState.Prering}
-          joinedAt={joinedAt}
+          joinedAt={activeCall.joinedAt}
         />
       );
       headerTitle = isRinging ? undefined : conversation.title;

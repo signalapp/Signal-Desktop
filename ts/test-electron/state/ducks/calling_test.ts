@@ -4,12 +4,16 @@
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 import { cloneDeep, noop } from 'lodash';
+import type { PeekInfo } from '@signalapp/ringrtc';
 import type { StateType as RootStateType } from '../../../state/reducer';
 import { reducer as rootReducer } from '../../../state/reducer';
 import { noopAction } from '../../../state/ducks/noop';
 import type {
+  ActiveCallStateType,
   CallingStateType,
+  DirectCallStateType,
   GroupCallStateChangeActionType,
+  GroupCallStateType,
 } from '../../../state/ducks/calling';
 import {
   actions,
@@ -33,25 +37,30 @@ import type { UnwrapPromise } from '../../../types/Util';
 
 const ACI_1 = generateAci();
 
+type CallingStateTypeWithActiveCall = CallingStateType & {
+  activeCallState: ActiveCallStateType;
+};
+
 describe('calling duck', () => {
+  const directCallState: DirectCallStateType = {
+    callMode: CallMode.Direct,
+    conversationId: 'fake-direct-call-conversation-id',
+    callState: CallState.Accepted,
+    isIncoming: false,
+    isVideoCall: false,
+    hasRemoteVideo: false,
+  };
   const stateWithDirectCall: CallingStateType = {
     ...getEmptyState(),
     callsByConversation: {
-      'fake-direct-call-conversation-id': {
-        callMode: CallMode.Direct as CallMode.Direct,
-        conversationId: 'fake-direct-call-conversation-id',
-        callState: CallState.Accepted,
-        isIncoming: false,
-        isVideoCall: false,
-        hasRemoteVideo: false,
-      },
+      [directCallState.conversationId]: directCallState,
     },
   };
 
-  const stateWithActiveDirectCall = {
+  const stateWithActiveDirectCall: CallingStateTypeWithActiveCall = {
     ...stateWithDirectCall,
     activeCallState: {
-      conversationId: 'fake-direct-call-conversation-id',
+      conversationId: directCallState.conversationId,
       hasLocalAudio: true,
       hasLocalVideo: false,
       localAudioLevel: 0,
@@ -61,20 +70,21 @@ describe('calling duck', () => {
       outgoingRing: true,
       pip: false,
       settingsDialogOpen: false,
+      joinedAt: null,
     },
   };
 
-  const stateWithIncomingDirectCall = {
+  const stateWithIncomingDirectCall: CallingStateType = {
     ...getEmptyState(),
     callsByConversation: {
       'fake-direct-call-conversation-id': {
-        callMode: CallMode.Direct as CallMode.Direct,
+        callMode: CallMode.Direct,
         conversationId: 'fake-direct-call-conversation-id',
         callState: CallState.Ringing,
         isIncoming: true,
         isVideoCall: false,
         hasRemoteVideo: false,
-      },
+      } satisfies DirectCallStateType,
     },
   };
 
@@ -83,11 +93,11 @@ describe('calling duck', () => {
   const remoteAci = generateAci();
   const ringerAci = generateAci();
 
-  const stateWithGroupCall = {
+  const stateWithGroupCall: CallingStateType = {
     ...getEmptyState(),
     callsByConversation: {
       'fake-group-call-conversation-id': {
-        callMode: CallMode.Group as CallMode.Group,
+        callMode: CallMode.Group,
         conversationId: 'fake-group-call-conversation-id',
         connectionState: GroupCallConnectionState.Connected,
         joinState: GroupCallJoinState.NotJoined,
@@ -109,11 +119,11 @@ describe('calling duck', () => {
             videoAspectRatio: 4 / 3,
           },
         ],
-      },
+      } satisfies GroupCallStateType,
     },
   };
 
-  const stateWithIncomingGroupCall = {
+  const stateWithIncomingGroupCall: CallingStateType = {
     ...stateWithGroupCall,
     callsByConversation: {
       ...stateWithGroupCall.callsByConversation,
@@ -127,7 +137,7 @@ describe('calling duck', () => {
     },
   };
 
-  const stateWithActiveGroupCall = {
+  const stateWithActiveGroupCall: CallingStateTypeWithActiveCall = {
     ...stateWithGroupCall,
     activeCallState: {
       conversationId: 'fake-group-call-conversation-id',
@@ -140,18 +150,20 @@ describe('calling duck', () => {
       outgoingRing: false,
       pip: false,
       settingsDialogOpen: false,
+      joinedAt: null,
     },
   };
 
-  const stateWithActivePresentationViewGroupCall = {
-    ...stateWithGroupCall,
-    activeCallState: {
-      ...stateWithActiveGroupCall.activeCallState,
-      viewMode: CallViewMode.Presentation,
-    },
-  };
+  const stateWithActivePresentationViewGroupCall: CallingStateTypeWithActiveCall =
+    {
+      ...stateWithGroupCall,
+      activeCallState: {
+        ...stateWithActiveGroupCall.activeCallState,
+        viewMode: CallViewMode.Presentation,
+      },
+    };
 
-  const stateWithActiveSpeakerViewGroupCall = {
+  const stateWithActiveSpeakerViewGroupCall: CallingStateTypeWithActiveCall = {
     ...stateWithGroupCall,
     activeCallState: {
       ...stateWithActiveGroupCall.activeCallState,
@@ -240,20 +252,18 @@ describe('calling duck', () => {
           isSharingScreen: true,
         };
 
-        const state = {
+        const state: CallingStateTypeWithActiveCall = {
           ...stateWithActiveDirectCall,
         };
         const nextState = reducer(state, remoteSharingScreenChange(payload));
 
-        const expectedState = {
+        const expectedState: CallingStateTypeWithActiveCall = {
           ...stateWithActiveDirectCall,
           callsByConversation: {
-            'fake-direct-call-conversation-id': {
-              ...stateWithActiveDirectCall.callsByConversation[
-                'fake-direct-call-conversation-id'
-              ],
+            [directCallState.conversationId]: {
+              ...directCallState,
               isSharingScreen: true,
-            },
+            } satisfies DirectCallStateType,
           },
         };
 
@@ -276,7 +286,7 @@ describe('calling duck', () => {
           id: 'window:786',
           name: 'Application',
         };
-        const getState = () => ({
+        const getState = (): RootStateType => ({
           ...getEmptyRootState(),
           calling: {
             ...stateWithActiveGroupCall,
@@ -301,7 +311,7 @@ describe('calling duck', () => {
           id: 'window:786',
           name: 'Application',
         };
-        const getState = () => ({
+        const getState = (): RootStateType => ({
           ...getEmptyRootState(),
           calling: {
             ...stateWithActiveGroupCall,
@@ -325,7 +335,7 @@ describe('calling duck', () => {
           name: 'Application',
         };
 
-        const getState = () => ({
+        const getState = (): RootStateType => ({
           ...getEmptyRootState(),
           calling: {
             ...stateWithActiveGroupCall,
@@ -352,7 +362,7 @@ describe('calling duck', () => {
         const dispatch = sinon.spy();
         const { setPresenting } = actions;
 
-        const getState = () => ({
+        const getState = (): RootStateType => ({
           ...getEmptyRootState(),
           calling: {
             ...stateWithActiveGroupCall,
@@ -386,7 +396,7 @@ describe('calling duck', () => {
       });
 
       describe('accepting a direct call', () => {
-        const getState = () => ({
+        const getState = (): RootStateType => ({
           ...getEmptyRootState(),
           calling: stateWithIncomingDirectCall,
         });
@@ -472,12 +482,13 @@ describe('calling duck', () => {
             outgoingRing: false,
             pip: false,
             settingsDialogOpen: false,
-          });
+            joinedAt: null,
+          } satisfies ActiveCallStateType);
         });
       });
 
       describe('accepting a group call', () => {
-        const getState = () => ({
+        const getState = (): RootStateType => ({
           ...getEmptyRootState(),
           calling: stateWithIncomingGroupCall,
         });
@@ -565,7 +576,8 @@ describe('calling duck', () => {
             outgoingRing: false,
             pip: false,
             settingsDialogOpen: false,
-          });
+            joinedAt: null,
+          } satisfies ActiveCallStateType);
         });
       });
     });
@@ -677,7 +689,7 @@ describe('calling duck', () => {
       });
 
       describe('declining a direct call', () => {
-        const getState = () => ({
+        const getState = (): RootStateType => ({
           ...getEmptyRootState(),
           calling: stateWithIncomingDirectCall,
         });
@@ -735,7 +747,7 @@ describe('calling duck', () => {
       });
 
       describe('declining a group call', () => {
-        const getState = () => ({
+        const getState = (): RootStateType => ({
           ...getEmptyRootState(),
           calling: stateWithIncomingGroupCall,
         });
@@ -1157,7 +1169,8 @@ describe('calling duck', () => {
           outgoingRing: false,
           pip: false,
           settingsDialogOpen: false,
-        });
+          joinedAt: null,
+        } satisfies ActiveCallStateType);
       });
 
       it('if the call is active, updates the active call state', () => {
@@ -1225,7 +1238,7 @@ describe('calling duck', () => {
       });
 
       it('stops ringing if someone enters the call', () => {
-        const state = {
+        const state: CallingStateType = {
           ...stateWithActiveGroupCall,
           activeCallState: {
             ...stateWithActiveGroupCall.activeCallState,
@@ -1328,7 +1341,7 @@ describe('calling duck', () => {
       });
 
       it('closes the PiP', () => {
-        const state = {
+        const state: CallingStateType = {
           ...stateWithActiveDirectCall,
           activeCallState: {
             ...stateWithActiveDirectCall.activeCallState,
@@ -1576,9 +1589,11 @@ describe('calling duck', () => {
             noop,
             () => {
               const callingState = cloneDeep(stateWithGroupCall);
-              callingState.callsByConversation[
+              const call = callingState.callsByConversation[
                 'fake-group-call-conversation-id'
-              ].peekInfo.deviceCount = 8;
+              ] as GroupCallStateType;
+              const peekInfo = call.peekInfo as unknown as PeekInfo;
+              peekInfo.deviceCount = 8;
               return { ...rootState, calling: callingState };
             },
             null
@@ -1686,7 +1701,8 @@ describe('calling duck', () => {
             pip: false,
             settingsDialogOpen: false,
             outgoingRing: true,
-          });
+            joinedAt: null,
+          } satisfies ActiveCallStateType);
         });
 
         it('saves a group call and makes it active', async () => {
@@ -1972,6 +1988,7 @@ describe('calling duck', () => {
           pip: false,
           settingsDialogOpen: false,
           outgoingRing: true,
+          joinedAt: null,
         });
       });
 

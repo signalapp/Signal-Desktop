@@ -2101,8 +2101,14 @@ export class CallingClass {
       return;
     }
 
+    let acceptedTime: number | null = null;
+
     // eslint-disable-next-line no-param-reassign
     call.handleStateChanged = async () => {
+      if (call.state === CallState.Accepted) {
+        acceptedTime = acceptedTime ?? Date.now();
+      }
+
       if (call.state === CallState.Ended) {
         this.stopDeviceReselectionTimer();
         this.lastMediaDeviceSettings = undefined;
@@ -2121,6 +2127,7 @@ export class CallingClass {
         conversationId: conversation.id,
         callState: call.state,
         callEndedReason: call.endedReason,
+        acceptedTime,
       });
     };
 
