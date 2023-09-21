@@ -11,15 +11,22 @@ export const DURATION = {
 };
 
 export const TTL_DEFAULT = {
+  /** 20 seconds */
   TYPING_MESSAGE: 20 * DURATION.SECONDS,
+  /** 5 minutes */
   CALL_MESSAGE: 5 * 60 * DURATION.SECONDS,
+  /** 14 days */
   TTL_MAX: 14 * DURATION.DAYS,
+  /** 30 days */
   TTL_CONFIG: 30 * DURATION.DAYS,
 };
 
 export const SWARM_POLLING_TIMEOUT = {
+  /** 5 seconds */
   ACTIVE: DURATION.SECONDS * 5,
+  /** 1 minute */
   MEDIUM_ACTIVE: DURATION.SECONDS * 60,
+  /** 2 minutes */
   INACTIVE: DURATION.SECONDS * 120,
 };
 
