@@ -220,7 +220,7 @@ export function StoryCreator({
               ourConversationId={ourConversationId}
               i18n={i18n}
               me={me}
-              onClose={() => setDraftAttachment(undefined)}
+              onClose={() => setIsReadyToSend(false)}
               onDeleteList={onDeleteList}
               onDistributionListCreated={onDistributionListCreated}
               onHideMyStoriesFrom={onHideMyStoriesFrom}

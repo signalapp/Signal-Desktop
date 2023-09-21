@@ -953,10 +953,10 @@ export function MediaEditor({
           >
             {i18n('icu:MediaEditor__crop--reset')}
           </Button>
-          <div className="MediaEditor__toolbar">
+          <div className="MediaEditor__toolbar__crop">
             <button
               aria-label={i18n('icu:MediaEditor__crop--rotate')}
-              className="MediaEditor__toolbar__tool MediaEditor__toolbar__button MediaEditor__toolbar__button--rotate"
+              className="MediaEditor__toolbar__crop__button MediaEditor__toolbar__button--rotate"
               onClick={() => {
                 if (!fabricCanvas) {
                   return;
@@ -992,7 +992,7 @@ export function MediaEditor({
             />
             <button
               aria-label={i18n('icu:MediaEditor__crop--flip')}
-              className="MediaEditor__toolbar__tool MediaEditor__toolbar__button MediaEditor__toolbar__button--flip"
+              className="MediaEditor__toolbar__crop__button MediaEditor__toolbar__button--flip"
               onClick={() => {
                 if (!fabricCanvas) {
                   return;
@@ -1012,7 +1012,7 @@ export function MediaEditor({
             <button
               aria-label={i18n('icu:MediaEditor__crop--lock')}
               className={classNames(
-                'MediaEditor__toolbar__button',
+                'MediaEditor__toolbar__crop__button',
                 `MediaEditor__toolbar__button--crop-${
                   cropAspectRatioLock ? '' : 'un'
                 }locked`
@@ -1283,7 +1283,7 @@ export function MediaEditor({
               />
             </div>
             <div className="MediaEditor__tools-row-2">
-              <div className="MediaEditor__tools--input">
+              <div className="MediaEditor__tools--input dark-theme">
                 <CompositionInput
                   draftText={draftText}
                   draftBodyRanges={draftBodyRanges}
