@@ -10,50 +10,41 @@ import { doSnodeBatchRequest } from './batchRequest';
 import { GetNetworkTime } from './getNetworkTime';
 import { getSwarmFor } from './snodePool';
 import { SnodeSignature } from './snodeSignatures';
+import { ExpireMessageResultItem, ExpireMessagesResultsContent } from './types';
 
-async function verifySignature({
+async function verifyExpireMsgsResponseSignature({
   pubkey,
   snodePubkey,
-  expiryApplied,
-  signature,
   messageHashes,
-  updatedHashes,
-  unchangedHashes,
-}: {
+  expiry,
+  signature,
+  updated,
+  unchanged,
+}: ExpireMessageResultItem & {
   pubkey: string;
   snodePubkey: any;
-  expiryApplied: number;
-  signature: string;
   messageHashes: Array<string>;
-  updatedHashes: Array<string>;
-  // only used when shorten or extend is in the request
-  unchangedHashes?: Record<string, string>;
 }): Promise<boolean> {
-  if (!expiryApplied || isEmpty(messageHashes) || isEmpty(signature)) {
-    window.log.warn('WIP: [verifySignature] missing argument');
+  if (!expiry || isEmpty(messageHashes) || isEmpty(signature)) {
+    window.log.warn('WIP: [verifyExpireMsgsSignature] missing argument');
     return false;
   }
 
   const edKeyPrivBytes = fromHexToArray(snodePubkey);
-  /* PUBKEY_HEX || EXPIRY || RMSGs... || UMSGs... || CMSG_EXPs...
-  where RMSGs are the requested expiry hashes,
-  UMSGs are the actual updated hashes, and
-  CMSG_EXPs are (HASH || EXPIRY) values, ascii-sorted by hash, for the unchanged message hashes included in the "unchanged" field.
-  */
-  const hashes = [...messageHashes, ...updatedHashes];
-  if (unchangedHashes && Object.keys(unchangedHashes).length > 0) {
+  const hashes = [...messageHashes, ...updated];
+  if (unchanged && Object.keys(unchanged).length > 0) {
     hashes.push(
-      ...Object.entries(unchangedHashes)
-        .map(([key, value]: [string, string]) => {
+      ...Object.entries(unchanged)
+        .map(([key, value]: [string, number]) => {
           return `${key}${value}`;
         })
         .sort()
     );
   }
 
-  const verificationString = `${pubkey}${expiryApplied}${hashes.join('')}`;
+  const verificationString = `${pubkey}${expiry}${hashes.join('')}`;
   const verificationData = StringUtils.encode(verificationString, 'utf8');
-  window.log.debug('WIP: [verifySignature] verificationString', verificationString);
+  // window.log.debug('WIP: [verifyExpireMsgsSignature] verificationString', verificationString);
 
   const sodium = await getSodiumRenderer();
   try {
@@ -65,24 +56,25 @@ async function verifySignature({
 
     return isValid;
   } catch (e) {
-    window.log.warn('WIP: [verifySignature] failed with: ', e.message);
+    window.log.warn('WIP: [verifyExpireMsgsSignature] failed with: ', e.message);
     return false;
   }
 }
 
-async function processExpirationResults(
+type ExpireRequestResponseResults = Record<string, { hashes: Array<string>; expiry: number }>;
+
+async function processExpireRequestResponse(
   pubkey: string,
   targetNode: Snode,
-  swarm: Record<string, any>,
+  swarm: ExpireMessagesResultsContent,
   messageHashes: Array<string>
-) {
+): Promise<ExpireRequestResponseResults> {
   if (isEmpty(swarm)) {
     throw Error(`[expireOnNodes] failed! ${messageHashes}`);
   }
 
-  // TODO need proper typing for swarm and results
-  const results: Record<string, { hashes: Array<string>; expiry: number }> = {};
-  window.log.debug(`WIP: [processExpirationResults] start`, swarm, messageHashes);
+  const results: ExpireRequestResponseResults = {};
+  window.log.debug(`WIP: [processExpireRequestResponse] initial results: `, swarm, messageHashes);
 
   for (const nodeKey of Object.keys(swarm)) {
     if (!isEmpty(swarm[nodeKey].failed)) {
@@ -93,24 +85,24 @@ async function processExpirationResults(
           targetNode.pubkey_ed25519
         }${reason && statusCode && ` due to an error ${reason} (${statusCode})`}`
       );
-      // TODO This might be a redundant step
+      // Make sure to clear the result since it failed
       results[nodeKey] = { hashes: [], expiry: 0 };
     }
 
     const updatedHashes = swarm[nodeKey].updated;
     const unchangedHashes = swarm[nodeKey].unchanged;
-    const expiryApplied = swarm[nodeKey].expiry;
+    const expiry = swarm[nodeKey].expiry;
     const signature = swarm[nodeKey].signature;
 
     // eslint-disable-next-line no-await-in-loop
-    const isValid = await verifySignature({
+    const isValid = await verifyExpireMsgsResponseSignature({
       pubkey,
       snodePubkey: nodeKey,
-      expiryApplied,
-      signature,
       messageHashes,
-      updatedHashes,
-      unchangedHashes,
+      expiry,
+      signature,
+      updated: updatedHashes,
+      unchanged: unchangedHashes,
     });
 
     if (!isValid) {
@@ -119,7 +111,7 @@ async function processExpirationResults(
         messageHashes
       );
     }
-    results[nodeKey] = { hashes: updatedHashes, expiry: expiryApplied };
+    results[nodeKey] = { hashes: updatedHashes, expiry };
   }
 
   return results;
@@ -135,25 +127,41 @@ async function expireOnNodes(targetNode: Snode, expireRequest: UpdateExpiryOnNod
       'batch'
     );
 
-    if (!result || result.length !== 1 || result[0]?.code !== 200 || !result[0]?.body) {
+    if (!result || result.length !== 1) {
       window?.log?.warn(
-        `WIP: [expireOnNodes] - sessionRpc could not talk to ${targetNode.ip}:${targetNode.port}`
+        `WIP: [expireOnNodes] - There was an issue with the results. sessionRpc ${targetNode.ip}:${
+          targetNode.port
+        } expireRequest ${JSON.stringify(expireRequest)}`
       );
       return false;
     }
 
+    // TODOLATER make sure that this code still works once disappearing messages is merged
+    // do a basic check to know if we have something kind of looking right (status 200 should always be there for a retrieve)
+    const firstResult = result[0];
+
+    if (firstResult.code !== 200) {
+      window?.log?.warn(`WIP: [expireOnNods] result is not 200 but ${firstResult.code}`);
+      return false;
+    }
+
     try {
-      // TODOLATER make sure that this code still works once disappearing messages is merged
-      const parsed = result[0].body;
-      const expirationResults = await processExpirationResults(
+      const bodyFirstResult = firstResult.body;
+      const expirationResults = await processExpireRequestResponse(
         expireRequest.params.pubkey,
         targetNode,
-        parsed.swarm,
+        bodyFirstResult.swarm as ExpireMessagesResultsContent,
         expireRequest.params.messages
       );
+      const firstExpirationResult = Object.entries(expirationResults).at(0);
       window.log.debug(
-        'WIP: expireOnNodes attempt complete. Here are the results',
-        expirationResults
+        `WIP: expireOnNodes attempt complete. Here are the results from one of the snodes.\nmessageHash: ${
+          firstExpirationResult?.[0]
+        } \nexpires at: ${
+          firstExpirationResult?.[1]?.expiry
+            ? new Date(firstExpirationResult?.[1]?.expiry).toUTCString()
+            : 'unknown'
+        }\nnow: ${new Date(GetNetworkTime.getNowWithNetworkOffset()).toUTCString()}`
       );
 
       return true;
@@ -202,6 +210,11 @@ async function buildExpireRequest(
   }
 
   const expiry = GetNetworkTime.getNowWithNetworkOffset() + expireTimer;
+  window.log.debug(
+    `WIP: [buildExpireRequest] messageHash: ${messageHash} should expire at ${new Date(
+      expiry
+    ).toUTCString()}`
+  );
   const signResult = await SnodeSignature.generateUpdateExpirySignature({
     shortenOrExtend,
     timestamp: expiry,
