@@ -123,6 +123,7 @@ import { load as loadLocale } from './locale';
 
 import type { LoggerType } from '../ts/types/Logging';
 import { HourCyclePreference } from '../ts/types/I18N';
+import { DBVersionFromFutureError } from '../ts/sql/migrations';
 
 const STICKER_CREATOR_PARTITION = 'sticker-creator';
 
@@ -1596,28 +1597,69 @@ const onDatabaseError = async (error: string) => {
   }
   mainWindow = undefined;
 
+  const { i18n } = getResolvedMessagesLocale();
+
+  let deleteAllDataButtonIndex: number | undefined;
+  let messageDetail: string;
+
+  const buttons = [i18n('icu:copyErrorAndQuit')];
+  const copyErrorAndQuitButtonIndex = 0;
+
+  if (error.includes(DBVersionFromFutureError.name)) {
+    // If the DB version is too new, the user likely opened an older version of Signal,
+    // and they would almost never want to delete their data as a result, so we don't show
+    // that option
+    messageDetail = i18n('icu:databaseError__startOldVersion');
+  } else {
+    // Otherwise, this is some other kind of DB error, let's give them the option to
+    // delete.
+    messageDetail = i18n('icu:databaseError__detail');
+
+    buttons.push(i18n('icu:deleteAndRestart'));
+    deleteAllDataButtonIndex = 1;
+  }
+
   const buttonIndex = dialog.showMessageBoxSync({
-    buttons: [
-      getResolvedMessagesLocale().i18n('icu:deleteAndRestart'),
-      getResolvedMessagesLocale().i18n('icu:copyErrorAndQuit'),
-    ],
-    defaultId: 1,
-    cancelId: 1,
-    detail: redactAll(error),
-    message: getResolvedMessagesLocale().i18n('icu:databaseError'),
+    buttons,
+    defaultId: copyErrorAndQuitButtonIndex,
+    cancelId: copyErrorAndQuitButtonIndex,
+    message: i18n('icu:databaseError'),
+    detail: messageDetail,
     noLink: true,
     type: 'error',
   });
 
-  if (buttonIndex === 1) {
+  if (buttonIndex === copyErrorAndQuitButtonIndex) {
     clipboard.writeText(`Database startup error:\n\n${redactAll(error)}`);
-  } else {
-    await sql.removeDB();
-    userConfig.remove();
-    getLogger().error(
-      'onDatabaseError: Requesting immediate restart after quit'
-    );
-    app.relaunch();
+  } else if (
+    typeof deleteAllDataButtonIndex === 'number' &&
+    buttonIndex === deleteAllDataButtonIndex
+  ) {
+    const confirmationButtons = [
+      i18n('icu:cancel'),
+      i18n('icu:deleteAndRestart'),
+    ];
+    const cancelButtonIndex = 0;
+    const confirmDeleteAllDataButtonIndex = 1;
+    const confirmationButtonIndex = dialog.showMessageBoxSync({
+      buttons: confirmationButtons,
+      defaultId: cancelButtonIndex,
+      cancelId: cancelButtonIndex,
+      message: i18n('icu:databaseError__deleteDataConfirmation'),
+      detail: i18n('icu:databaseError__deleteDataConfirmation__detail'),
+      noLink: true,
+      type: 'warning',
+    });
+
+    if (confirmationButtonIndex === confirmDeleteAllDataButtonIndex) {
+      getLogger().error('onDatabaseError: Deleting all data');
+      await sql.removeDB();
+      userConfig.remove();
+      getLogger().error(
+        'onDatabaseError: Requesting immediate restart after quit'
+      );
+      app.relaunch();
+    }
   }
 
   getLogger().error('onDatabaseError: Quitting application');
