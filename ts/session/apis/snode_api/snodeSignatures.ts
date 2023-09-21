@@ -96,12 +96,14 @@ async function getSnodeSignatureParams(params: {
   }
 }
 
+/**
+ * NOTE if shortenOrExtend is an empty string it means we want to hardcode the expiry to a TTL value, otherwise it's to shorten or extend the TTL
+ */
 async function generateUpdateExpirySignature({
   shortenOrExtend,
   timestamp,
   messageHashes,
 }: {
-  // NOTE empty string means we want to hardcode the expiry to a TTL value, otherwise it's a shorten or extension of the TTL
   shortenOrExtend: 'extend' | 'shorten' | '';
   timestamp: number;
   messageHashes: Array<string>;

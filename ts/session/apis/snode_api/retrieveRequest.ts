@@ -5,7 +5,7 @@ import { doSnodeBatchRequest } from './batchRequest';
 import { GetNetworkTime } from './getNetworkTime';
 import { SnodeNamespace, SnodeNamespaces } from './namespaces';
 
-import { DURATION } from '../../constants';
+import { TTL_DEFAULT } from '../../constants';
 import { UserUtils } from '../../utils';
 import {
   RetrieveLegacyClosedGroupSubRequestType,
@@ -74,7 +74,7 @@ async function buildRetrieveRequest(
   );
 
   if (configHashesToBump?.length) {
-    const expiry = GetNetworkTime.getNowWithNetworkOffset() + DURATION.DAYS * 30;
+    const expiry = GetNetworkTime.getNowWithNetworkOffset() + TTL_DEFAULT.TTL_CONFIG;
     const signResult = await SnodeSignature.generateUpdateExpirySignature({
       shortenOrExtend: '',
       timestamp: expiry,

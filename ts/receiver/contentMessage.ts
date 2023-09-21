@@ -475,22 +475,18 @@ export async function innerHandleSwarmContentMessage(
         content.dataMessage.profileKey = null;
       }
 
-      // window.log.debug(
-      //   `WIP: innerHandleSwarmContentMessage: running checkForExpireUpdateInContentMessage for ${envelope.id}`
-      // );
-
       const expireUpdate = await checkForExpireUpdateInContentMessage(
         content,
         conversationModelForUIUpdate
       );
 
-      window.log.debug(
-        `WIP:innerHandleSwarmContentMessage: ${
-          content.dataMessage.syncTarget ? 'This is a sync message.\n' : ''
-        } content: ${JSON.stringify(content)} ${
-          expireUpdate ? `\n\nexpireUpdate: ${JSON.stringify(expireUpdate)}` : ''
-        }`
-      );
+      // window.log.debug(
+      //   `WIP:innerHandleSwarmContentMessage: ${
+      //     content.dataMessage.syncTarget ? 'This is a sync message.\n' : ''
+      //   } content: ${JSON.stringify(content)} ${
+      //     expireUpdate ? `\n\nexpireUpdate: ${JSON.stringify(expireUpdate)}` : ''
+      //   }`
+      // );
 
       if (expireUpdate?.isOutdated) {
         window.log.debug(`WIP: ExpireUpdate is outdated. Ignoring it and removing from cache.`);

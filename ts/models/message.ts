@@ -1177,7 +1177,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
       const messageHash = this.get('messageHash');
       if (messageHash) {
-        // TODO Consolidate the snode /expire logic across all the different functions that call it.
         await expireMessageOnSnode({
           messageHash,
           expireTimer: this.get('expireTimer'),
