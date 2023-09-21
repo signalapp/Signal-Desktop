@@ -35,7 +35,7 @@ export const DataExtractionNotification = (props: PropsForDataExtractionNotifica
         id={`msg-${messageId}`}
         style={{ textAlign: 'center' }}
       >
-        <SessionIcon iconType="upload" iconColor="inherit" iconSize="medium" iconRotation={180} />
+        <SessionIcon iconType="save" iconColor="inherit" iconSize="large" />
         <SpacerSM />
         <Text text={contentText} ellipsisOverflow={true} />
       </Flex>
