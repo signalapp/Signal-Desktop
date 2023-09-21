@@ -2011,6 +2011,10 @@ export const SCHEMA_VERSIONS = [
   updateToSchemaVersion940,
 ];
 
+export class DBVersionFromFutureError extends Error {
+  override name = 'DBVersionFromFutureError';
+}
+
 export function updateSchema(db: Database, logger: LoggerType): void {
   const sqliteVersion = getSQLiteVersion(db);
   const sqlcipherVersion = getSQLCipherVersion(db);
@@ -2027,9 +2031,9 @@ export function updateSchema(db: Database, logger: LoggerType): void {
   );
 
   if (startingVersion > MAX_VERSION) {
-    throw new Error(
+    throw new DBVersionFromFutureError(
       `SQL: User version is ${startingVersion} but the expected maximum version ` +
-        `is ${MAX_VERSION}. Did you try to start an old version of Signal?`
+        `is ${MAX_VERSION}.`
     );
   }
 
