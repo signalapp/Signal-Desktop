@@ -1,0 +1,19 @@
+# Copyright 2023 Signal Messenger, LLC
+# SPDX-License-Identifier: AGPL-3.0-only
+
+name: Commits Check
+on:
+  push:
+    branches:
+      - main
+      - '[0-9]+.[0-9]+.x'
+jobs:
+  linux:
+    runs-on: ubuntu-latest
+    if: ${{ github.repository == 'signalapp/Signal-Desktop-Private' }}
+    steps:
+      - uses: signalapp/Signal-Check-Commits-Action-Private@main
+        with:
+          commit-pattern: "\\(#\\d{1,}\\)" # i.e. "Example commit message (#1234)"
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          issue-title: Pushed to "${{ github.ref_name }}" with issue references
