@@ -228,26 +228,26 @@ async function handleUserProfileUpdate(result: IncomingConfResult): Promise<Inco
     const expireTimer = ourConvo.get('expireTimer');
     const wrapperNoteToSelfExpirySeconds = await UserConfigWrapperActions.getNoteToSelfExpiry();
 
-    // TODO Should use updateExpireTimer instead
     if (wrapperNoteToSelfExpirySeconds !== expireTimer) {
-      // we trust the wrapper more than the DB, so let's update the DB but we don't show it in the UI
-      ourConvo.set('expireTimer', wrapperNoteToSelfExpirySeconds);
-
-      // NOTE Can only be 'off' or 'deleteAfterSend' so we don't need to check the expirationType we can just override it
-      ourConvo.set(
-        'expirationType',
-        wrapperNoteToSelfExpirySeconds && wrapperNoteToSelfExpirySeconds > 0
-          ? 'deleteAfterSend'
-          : 'off'
-      );
+      await ourConvo.updateExpireTimer({
+        providedExpirationType:
+          wrapperNoteToSelfExpirySeconds && wrapperNoteToSelfExpirySeconds > 0
+            ? 'deleteAfterSend'
+            : 'off',
+        providedExpireTimer: wrapperNoteToSelfExpirySeconds,
+        providedChangeTimestamp: result.latestEnvelopeTimestamp,
+        providedSource: ourConvo.id,
+        receivedAt: result.latestEnvelopeTimestamp,
+        fromSync: true,
+        shouldCommit: false,
+      });
       changes = true;
       window.log.debug(
-        `WIP: [userProfileWrapper] updating disappearing messages to`,
-        wrapperNoteToSelfExpirySeconds && wrapperNoteToSelfExpirySeconds > 0
-          ? 'deleteAfterSend'
-          : 'off',
-        ' ',
-        wrapperNoteToSelfExpirySeconds
+        `WIP: [userProfileWrapper] updating disappearing messages to expiratonMode: ${
+          wrapperNoteToSelfExpirySeconds && wrapperNoteToSelfExpirySeconds > 0
+            ? 'deleteAfterSend'
+            : 'off'
+        } wrapperNoteToSelfExpirySeconds: ${wrapperNoteToSelfExpirySeconds}`
       );
     }
 
@@ -395,6 +395,9 @@ async function handleContactsUpdate(result: IncomingConfResult): Promise<Incomin
           shouldCommit: false,
         });
         changes = true;
+        window.log.debug(
+          `WIP: [contactsWrapper] updating disappearing messages to expirationMode: ${wrapperConvo.expirationMode} expirationTimerSeconds: ${wrapperConvo.expirationTimerSeconds}`
+        );
       }
 
       // we want to set the active_at to the created_at timestamp if active_at is unset, so that it shows up in our list.
