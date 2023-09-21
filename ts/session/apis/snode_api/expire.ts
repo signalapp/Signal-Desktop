@@ -5,7 +5,7 @@ import { getSodiumRenderer } from '../../crypto';
 import { StringUtils, UserUtils } from '../../utils';
 import { fromBase64ToArray, fromHexToArray } from '../../utils/String';
 import { EmptySwarmError } from '../../utils/errors';
-import { UpdateExpireNodeParams } from './SnodeRequestTypes';
+import { UpdateExpiryOnNodeSubRequest } from './SnodeRequestTypes';
 import { doSnodeBatchRequest } from './batchRequest';
 import { GetNetworkTime } from './getNetworkTime';
 import { getSwarmFor } from './snodePool';
@@ -30,7 +30,7 @@ async function verifySignature({
   unchangedHashes?: Record<string, string>;
 }): Promise<boolean> {
   if (!expiryApplied || isEmpty(messageHashes) || isEmpty(signature)) {
-    window.log.warn('verifySignature missing argument');
+    window.log.warn('WIP: [verifySignature] missing argument');
     return false;
   }
 
@@ -53,7 +53,7 @@ async function verifySignature({
 
   const verificationString = `${pubkey}${expiryApplied}${hashes.join('')}`;
   const verificationData = StringUtils.encode(verificationString, 'utf8');
-  window.log.debug('verifySignature verificationString', verificationString);
+  window.log.debug('WIP: [verifySignature] verificationString', verificationString);
 
   const sodium = await getSodiumRenderer();
   try {
@@ -65,7 +65,7 @@ async function verifySignature({
 
     return isValid;
   } catch (e) {
-    window.log.warn('verifySignature failed with: ', e.message);
+    window.log.warn('WIP: [verifySignature] failed with: ', e.message);
     return false;
   }
 }
@@ -77,19 +77,19 @@ async function processExpirationResults(
   messageHashes: Array<string>
 ) {
   if (isEmpty(swarm)) {
-    throw Error(`expireOnNodes failed! ${messageHashes}`);
+    throw Error(`[expireOnNodes] failed! ${messageHashes}`);
   }
 
   // TODO need proper typing for swarm and results
   const results: Record<string, { hashes: Array<string>; expiry: number }> = {};
-  // window.log.debug(`WIP: processExpirationResults start`, swarm, messageHashes);
+  window.log.debug(`WIP: [processExpirationResults] start`, swarm, messageHashes);
 
   for (const nodeKey of Object.keys(swarm)) {
     if (!isEmpty(swarm[nodeKey].failed)) {
       const reason = 'Unknown';
       const statusCode = '404';
       window?.log?.warn(
-        `loki_message:::expireMessage - Couldn't delete data from: ${
+        `WIP: loki_message:::expireMessage - Couldn't delete data from: ${
           targetNode.pubkey_ed25519
         }${reason && statusCode && ` due to an error ${reason} (${statusCode})`}`
       );
@@ -115,7 +115,7 @@ async function processExpirationResults(
 
     if (!isValid) {
       window.log.warn(
-        'loki_message:::expireMessage - Signature verification failed!',
+        'WIP: loki_message:::expireMessage - Signature verification failed!',
         messageHashes
       );
     }
@@ -125,22 +125,20 @@ async function processExpirationResults(
   return results;
 }
 
-async function expireOnNodes(targetNode: Snode, params: UpdateExpireNodeParams) {
+async function expireOnNodes(targetNode: Snode, expireRequest: UpdateExpiryOnNodeSubRequest) {
   try {
     const result = await doSnodeBatchRequest(
-      [
-        {
-          method: 'expire',
-          params,
-        },
-      ],
+      [expireRequest],
       targetNode,
       4000,
-      params.pubkey,
+      expireRequest.params.pubkey,
       'batch'
     );
 
     if (!result || result.length !== 1 || result[0]?.code !== 200 || !result[0]?.body) {
+      window?.log?.warn(
+        `WIP: [expireOnNodes] - sessionRpc could not talk to ${targetNode.ip}:${targetNode.port}`
+      );
       return false;
     }
 
@@ -148,20 +146,27 @@ async function expireOnNodes(targetNode: Snode, params: UpdateExpireNodeParams) 
       // TODOLATER make sure that this code still works once disappearing messages is merged
       const parsed = result[0].body;
       const expirationResults = await processExpirationResults(
-        params.pubkey,
+        expireRequest.params.pubkey,
         targetNode,
         parsed.swarm,
-        params.messages
+        expireRequest.params.messages
       );
-      window.log.debug('expireOnNodes attempt complete. Here are the results', expirationResults);
+      window.log.debug(
+        'WIP: expireOnNodes attempt complete. Here are the results',
+        expirationResults
+      );
 
       return true;
     } catch (e) {
-      window?.log?.warn('expireOnNodes Failed to parse "swarm" result: ', e.msg);
+      window?.log?.warn('WIP: expireOnNodes Failed to parse "swarm" result: ', e.msg);
     }
     return false;
   } catch (e) {
-    window?.log?.warn('expire - send error:', e, `destination ${targetNode.ip}:${targetNode.port}`);
+    window?.log?.warn(
+      'WIP: expire - send error:',
+      e,
+      `destination ${targetNode.ip}:${targetNode.port}`
+    );
     throw e;
   }
 }
@@ -173,28 +178,29 @@ type ExpireMessageOnSnodeProps = {
   shorten?: boolean;
 };
 
-// TODO make this retry in case of updated swarm
-export async function expireMessageOnSnode(props: ExpireMessageOnSnodeProps) {
+async function buildExpireRequest(
+  props: ExpireMessageOnSnodeProps
+): Promise<UpdateExpiryOnNodeSubRequest | null> {
   const { messageHash, expireTimer, extend, shorten } = props;
 
   if (extend && shorten) {
     window.log.error(
-      '[expireMessageOnSnode] We cannot extend and shorten a message at the same time',
+      'WIP: [buildExpireRequest] We cannot extend and shorten a message at the same time',
       messageHash
     );
-    return;
+    return null;
   }
 
+  // NOTE empty string means we want to hardcode the expiry to a TTL value, otherwise it's a shorten or extension of the TTL
   const shortenOrExtend = shorten ? 'shorten' : extend ? 'extend' : ('' as const);
 
   const ourPubKey = UserUtils.getOurPubKeyStrFromCache();
 
   if (!ourPubKey) {
-    window.log.eror('[expireMessageOnSnode] No pubkey found', messageHash);
-    return;
+    window.log.eror('WIP: [buildExpireRequest] No pubkey found', messageHash);
+    return null;
   }
 
-  const swarm = await getSwarmFor(ourPubKey);
   const expiry = GetNetworkTime.getNowWithNetworkOffset() + expireTimer;
   const signResult = await SnodeSignature.generateUpdateExpirySignature({
     shortenOrExtend,
@@ -203,33 +209,62 @@ export async function expireMessageOnSnode(props: ExpireMessageOnSnodeProps) {
   });
 
   if (!signResult) {
-    window.log.error('[expireMessageOnSnode] Signing message expiry on swarm failed', messageHash);
+    window.log.error(
+      `WIP: [buildExpireRequest] SnodeSignature.generateUpdateExpirySignature returned an empty result ${messageHash}`
+    );
+    return null;
+  }
+
+  const expireParams: UpdateExpiryOnNodeSubRequest = {
+    method: 'expire',
+    params: {
+      pubkey: ourPubKey,
+      pubkey_ed25519: signResult.pubkey_ed25519.toUpperCase(),
+      // TODO better testing for failed case
+      messages: [messageHash],
+      expiry,
+      extend: extend || undefined,
+      shorten: shorten || undefined,
+      signature: signResult?.signature,
+    },
+  };
+
+  window.log.debug(`WIP: [buildExpireRequest] ${messageHash} ${JSON.stringify(expireParams)}`);
+
+  return expireParams;
+}
+
+// TODO make this retry in case of updated swarm
+export async function expireMessageOnSnode(props: ExpireMessageOnSnodeProps) {
+  const { messageHash } = props;
+
+  const ourPubKey = UserUtils.getOurPubKeyStrFromCache();
+  if (!ourPubKey) {
+    window.log.eror('WIP: [expireMessageOnSnode] No pubkey found', messageHash);
     return;
   }
 
-  const params: UpdateExpireNodeParams = {
-    pubkey: ourPubKey,
-    pubkey_ed25519: signResult.pubkey_ed25519.toUpperCase(),
-    // TODO better testing for failed case
-    messages: [messageHash],
-    expiry,
-    extend: extend || undefined,
-    shorten: shorten || undefined,
-    signature: signResult?.signature,
-  };
-
+  const swarm = await getSwarmFor(ourPubKey);
   const snode = sample(swarm);
   if (!snode) {
     throw new EmptySwarmError(ourPubKey, 'Ran out of swarm nodes to query');
   }
 
+  const expireRequestParams = await buildExpireRequest(props);
+  if (!expireRequestParams) {
+    window.log.eror(
+      `WIP: [expireMessageOnSnode] Failed to build expire request ${JSON.stringify(props)}`
+    );
+    return;
+  }
+
   try {
     // TODO make this whole function `expireMessageOnSnode` retry
-    await expireOnNodes(snode, params);
+    await expireOnNodes(snode, expireRequestParams);
   } catch (e) {
     const snodeStr = snode ? `${snode.ip}:${snode.port}` : 'null';
     window?.log?.warn(
-      `loki_message:::expireMessage - ${e.code ? `${e.code} ` : ''}${
+      `WIP: loki_message:::expireMessage - ${e.code ? `${e.code} ` : ''}${
         e.message
       } by ${ourPubKey} for ${messageHash} via snode:${snodeStr}`
     );
