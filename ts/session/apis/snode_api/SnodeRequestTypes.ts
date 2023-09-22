@@ -146,6 +146,19 @@ export type UpdateExpiryOnNodeSubRequest = {
   params: UpdateExpireNodeParams;
 };
 
+export type GetExpiriesNodeParams = {
+  pubkey: string;
+  pubkey_ed25519: string;
+  messages: Array<string>;
+  timestamp: number;
+  signature: string;
+};
+
+export type GetExpiriesFromNodeSubRequest = {
+  method: 'get_expiries';
+  params: GetExpiriesNodeParams;
+};
+
 export type OxendSubRequest = OnsResolveSubRequest | GetServiceNodesSubRequest;
 
 export type SnodeApiSubRequests =
@@ -156,7 +169,8 @@ export type SnodeApiSubRequests =
   | NetworkTimeSubRequest
   | DeleteFromNodeSubRequest
   | DeleteAllFromNodeSubRequest
-  | UpdateExpiryOnNodeSubRequest;
+  | UpdateExpiryOnNodeSubRequest
+  | GetExpiriesFromNodeSubRequest;
 
 // eslint-disable-next-line @typescript-eslint/array-type
 export type NonEmptyArray<T> = [T, ...T[]];

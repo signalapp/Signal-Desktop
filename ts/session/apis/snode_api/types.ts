@@ -42,3 +42,8 @@ export type ExpireMessageResultItem = {
 
 /** <pubkey, ExpireMessageResultItem> */
 export type ExpireMessagesResultsContent = Record<string, ExpireMessageResultItem>;
+
+/** <messageHash, expiry (milliseconds since unix epoch)>
+ *
+ * NOTE Only messages that exist on the server are included */
+export type GetExpiriesResultsContent = Record<string, number>;

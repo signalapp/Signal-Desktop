@@ -146,7 +146,7 @@ async function expireOnNodes(
     const firstResult = result[0];
 
     if (firstResult.code !== 200) {
-      window?.log?.warn(`WIP: [expireOnNods] result is not 200 but ${firstResult.code}`);
+      window?.log?.warn(`WIP: [expireOnNodes] result is not 200 but ${firstResult.code}`);
       return null;
     }
 
@@ -243,7 +243,6 @@ async function buildExpireRequest(
     params: {
       pubkey: ourPubKey,
       pubkey_ed25519: signResult.pubkey_ed25519.toUpperCase(),
-      // TODO better testing for failed case
       messages: [messageHash],
       expiry,
       extend: extend || undefined,
