@@ -404,9 +404,9 @@ export const buildSyncMessage = (
       syncTarget
     );
 
-    window.log.warn(
-      `WIP: buildSyncMessage:  \nexpireTimerSyncMessage: ${JSON.stringify(expireTimerSyncMessage)}`
-    );
+    // window.log.warn(
+    //   `WIP: buildSyncMessage:  \nexpireTimerSyncMessage: ${JSON.stringify(expireTimerSyncMessage)}`
+    // );
     return expireTimerSyncMessage;
   }
 
@@ -416,8 +416,8 @@ export const buildSyncMessage = (
     timestamp,
     syncTarget
   );
-  window.log.warn(
-    `WIP: buildSyncMessage:  \nvisibleSyncMessage: ${JSON.stringify(visibleSyncMessage)}`
-  );
+  // window.log.warn(
+  //   `WIP: buildSyncMessage:  \nvisibleSyncMessage: ${JSON.stringify(visibleSyncMessage)}`
+  // );
   return visibleSyncMessage;
 };

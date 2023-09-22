@@ -148,7 +148,7 @@ async function handleMessageSentSuccess(
 
     // NOTE starting disappearing messages timer for all outbound messages
     if (expirationMode !== 'off') {
-      window.log.debug(`WIP: handleMessageSentSuccess setExpirationStartTimestamp is starting`);
+      // window.log.debug(`WIP: handleMessageSentSuccess setExpirationStartTimestamp is starting`);
       fetchedMessage.set({
         expirationStartTimestamp: setExpirationStartTimestamp(
           expirationMode,

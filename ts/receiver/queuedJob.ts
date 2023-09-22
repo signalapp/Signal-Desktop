@@ -194,7 +194,7 @@ function updateReadStatus(message: MessageModel) {
       );
 
       if (expirationMode === 'legacy' || expirationMode === 'deleteAfterRead') {
-        window.log.debug(`WIP: updateReadStatus setExpirationStartTimestamp is starting`);
+        // window.log.debug(`WIP: updateReadStatus setExpirationStartTimestamp is starting`);
         message.set({
           expirationStartTimestamp: setExpirationStartTimestamp(expirationMode),
         });
@@ -384,9 +384,9 @@ async function markConvoAsReadIfOutgoingMessage(
         );
 
         if (expirationMode !== 'off') {
-          window.log.debug(
-            `WIP: markConvoAsReadIfOutgoingMessage setExpirationStartTimestamp is starting`
-          );
+          // window.log.debug(
+          //   `WIP: markConvoAsReadIfOutgoingMessage setExpirationStartTimestamp is starting`
+          // );
           message.set({
             expirationStartTimestamp: setExpirationStartTimestamp(
               expirationMode,
@@ -436,28 +436,16 @@ export async function handleMessageJob(
       );
 
       // TODO legacy messages support will be removed in a future release
-      // NOTE if the expirationMode is deleteAfterRead then legacy sync messages need to explicitly set the expirationStartTimestamp since they are alread marked as read
-      // NOTE 2: Not sure about this code needs retested
-      // const legacySyncMessageMustDisappearAfterRead =
-      //   expirationMode === 'deleteAfterRead' &&
-      //   source === UserUtils.getOurPubKeyStrFromCache() &&
-      //   messageModel.get('type') === 'outgoing';
-
-      // TODO legacy messages support will be removed in a future release
       const canBeDeleteAfterSend = conversation && (conversation.isMe() || conversation.isGroup());
-      // TODO legacy support could be broken after V2 is released on a modern client on a 1-1 with disapearAfterRead
       if (
         (canBeDeleteAfterSend && expirationMode === 'legacy') ||
         expirationMode === 'deleteAfterSend'
-        // ||
-        // legacySyncMessageMustDisappearAfterRead
       ) {
-        window.log.debug(`WIP: handleMessageJob setExpirationStartTimestamp is starting`);
+        // window.log.debug(`WIP: handleMessageJob setExpirationStartTimestamp is starting`);
         messageModel.set({
           expirationStartTimestamp: setExpirationStartTimestamp(
             expirationMode,
             messageModel.get('sent_at')
-            // !legacySyncMessageMustDisappearAfterRead ? messageModel.get('sent_at') : undefined
           ),
         });
       }
