@@ -1,5 +1,6 @@
 /* eslint-disable no-restricted-syntax */
 import { isEmpty, sample } from 'lodash';
+import pRetry from 'p-retry';
 import { Snode } from '../../../data/data';
 import { getSodiumRenderer } from '../../crypto';
 import { StringUtils, UserUtils } from '../../utils';
@@ -11,6 +12,7 @@ import { GetNetworkTime } from './getNetworkTime';
 import { getSwarmFor } from './snodePool';
 import { SnodeSignature } from './snodeSignatures';
 import { ExpireMessageResultItem, ExpireMessagesResultsContent } from './types';
+import { SeedNodeAPI } from '../seed_node_api';
 
 async function verifyExpireMsgsResponseSignature({
   pubkey,
@@ -203,9 +205,8 @@ async function buildExpireRequest(
   const shortenOrExtend = shorten ? 'shorten' : extend ? 'extend' : ('' as const);
 
   const ourPubKey = UserUtils.getOurPubKeyStrFromCache();
-
   if (!ourPubKey) {
-    window.log.eror('WIP: [buildExpireRequest] No pubkey found', messageHash);
+    window.log.error('WIP: [buildExpireRequest] No pubkey found', messageHash);
     return null;
   }
 
@@ -247,33 +248,69 @@ async function buildExpireRequest(
   return expireParams;
 }
 
-// TODO make this retry in case of updated swarm
+/**
+ * Sends an 'expire' request to the user's swarm for a specific message.
+ * This supports both extending and shortening a message's TTL.
+ * @param messageHash the hash of the message to expire
+ * @param expireTimer the new TTL for the message
+ * @param extend whether to extend the message's TTL
+ * @param shorten whether to shorten the message's TTL
+ */
 export async function expireMessageOnSnode(props: ExpireMessageOnSnodeProps) {
   const { messageHash } = props;
 
   const ourPubKey = UserUtils.getOurPubKeyStrFromCache();
   if (!ourPubKey) {
-    window.log.eror('WIP: [expireMessageOnSnode] No pubkey found', messageHash);
+    window.log.error('WIP: [expireMessageOnSnode] No pubkey found', messageHash);
     return;
   }
 
-  const swarm = await getSwarmFor(ourPubKey);
-  const snode = sample(swarm);
-  if (!snode) {
-    throw new EmptySwarmError(ourPubKey, 'Ran out of swarm nodes to query');
-  }
+  let snode: Snode | undefined;
 
-  const expireRequestParams = await buildExpireRequest(props);
-  if (!expireRequestParams) {
-    window.log.eror(
-      `WIP: [expireMessageOnSnode] Failed to build expire request ${JSON.stringify(props)}`
-    );
-    return;
-  }
+  await pRetry(
+    async () => {
+      const swarm = await getSwarmFor(ourPubKey);
+      snode = sample(swarm);
+      if (!snode) {
+        throw new EmptySwarmError(ourPubKey, 'Ran out of swarm nodes to query');
+      }
+    },
+    {
+      retries: 3,
+      factor: 2,
+      minTimeout: SeedNodeAPI.getMinTimeout(),
+      onFailedAttempt: e => {
+        window?.log?.warn(
+          `WIP: [expireMessageOnSnode] get snode attempt #${e.attemptNumber} failed. ${e.retriesLeft} retries left... Error: ${e.message}`
+        );
+      },
+    }
+  );
 
   try {
-    // TODO make this whole function `expireMessageOnSnode` retry
-    await expireOnNodes(snode, expireRequestParams);
+    const expireRequestParams = await buildExpireRequest(props);
+    if (!expireRequestParams) {
+      throw new Error(`Failed to build expire request ${JSON.stringify(props)}`);
+    }
+
+    await pRetry(
+      async () => {
+        if (!snode) {
+          throw new Error(`No snode found.\n${JSON.stringify(props)}`);
+        }
+        await expireOnNodes(snode, expireRequestParams);
+      },
+      {
+        retries: 3,
+        factor: 2,
+        minTimeout: SeedNodeAPI.getMinTimeout(),
+        onFailedAttempt: e => {
+          window?.log?.warn(
+            `WIP: [expireMessageOnSnode] expire message on snode attempt #${e.attemptNumber} failed. ${e.retriesLeft} retries left... Error: ${e.message}`
+          );
+        },
+      }
+    );
   } catch (e) {
     const snodeStr = snode ? `${snode.ip}:${snode.port}` : 'null';
     window?.log?.warn(
