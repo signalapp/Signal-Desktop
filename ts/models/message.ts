@@ -1179,7 +1179,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       if (messageHash) {
         await expireMessageOnSnode({
           messageHash,
-          expireTimer: this.get('expireTimer'),
+          expireTimer: this.get('expireTimer') * 1000,
           shorten: true,
         });
       }

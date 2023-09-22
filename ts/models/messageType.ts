@@ -25,9 +25,9 @@ export interface MessageAttributes {
   reacts?: ReactionList;
   reactsIndex?: number;
   body?: string;
-  // NOTE this is used for the logic
   expirationType?: DisappearingMessageType;
-  expireTimer: number; // in seconds, 0 means no expiration
+  /** in seconds, 0 means no expiration */
+  expireTimer: number;
   expirationStartTimestamp: number;
   expires_at?: number;
   // NOTE this is used for conversation setting

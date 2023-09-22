@@ -157,7 +157,7 @@ async function expireOnNodes(targetNode: Snode, expireRequest: UpdateExpiryOnNod
       );
       const firstExpirationResult = Object.entries(expirationResults).at(0);
       window.log.debug(
-        `WIP: expireOnNodes attempt complete. Here are the results from one of the snodes.\nmessageHash: ${
+        `WIP: expireOnNodes succeeded! Here are the results from one of the snodes.\nmessageHash: ${
           firstExpirationResult?.[0]
         } \nexpires at: ${
           firstExpirationResult?.[1]?.expiry
@@ -252,7 +252,7 @@ async function buildExpireRequest(
  * Sends an 'expire' request to the user's swarm for a specific message.
  * This supports both extending and shortening a message's TTL.
  * @param messageHash the hash of the message to expire
- * @param expireTimer the new TTL for the message
+ * @param expireTimer amount of time until we expire the message from now in milliseconds
  * @param extend whether to extend the message's TTL
  * @param shorten whether to shorten the message's TTL
  */
