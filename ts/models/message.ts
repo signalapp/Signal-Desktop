@@ -1118,7 +1118,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       );
 
       if (expirationMode === 'legacy' || expirationMode === 'deleteAfterRead') {
-        window.log.debug(`WIP: markMessageReadNoCommit setExpirationStartTimestamp is starting`);
+        // window.log.debug(`WIP: markMessageReadNoCommit setExpirationStartTimestamp is starting`);
         this.set({
           expirationStartTimestamp: setExpirationStartTimestamp(expirationMode, readAt),
         });
@@ -1160,6 +1160,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       if (!start) {
         return;
       }
+
+      // NOTE we use the locally calculated TTL here until we get the server TTL response
       const expiresAt = start + delta;
 
       this.set({
@@ -1177,11 +1179,23 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
       const messageHash = this.get('messageHash');
       if (messageHash) {
-        await expireMessageOnSnode({
+        const newTTL = await expireMessageOnSnode({
           messageHash,
           expireTimer: this.get('expireTimer') * 1000,
           shorten: true,
         });
+
+        if (newTTL) {
+          window.log.debug(
+            `WIP: [setToExpire] messageHash ${messageHash} has a new TTL of ${newTTL}`
+          );
+          this.set({
+            expires_at: newTTL,
+          });
+          if (id) {
+            await this.commit();
+          }
+        }
       }
     }
   }

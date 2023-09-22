@@ -76,7 +76,7 @@ async function processExpireRequestResponse(
   }
 
   const results: ExpireRequestResponseResults = {};
-  window.log.debug(`WIP: [processExpireRequestResponse] initial results: `, swarm, messageHashes);
+  // window.log.debug(`WIP: [processExpireRequestResponse] initial results: `, swarm, messageHashes);
 
   for (const nodeKey of Object.keys(swarm)) {
     if (!isEmpty(swarm[nodeKey].failed)) {
@@ -119,7 +119,10 @@ async function processExpireRequestResponse(
   return results;
 }
 
-async function expireOnNodes(targetNode: Snode, expireRequest: UpdateExpiryOnNodeSubRequest) {
+async function expireOnNodes(
+  targetNode: Snode,
+  expireRequest: UpdateExpiryOnNodeSubRequest
+): Promise<number | null> {
   try {
     const result = await doSnodeBatchRequest(
       [expireRequest],
@@ -131,11 +134,11 @@ async function expireOnNodes(targetNode: Snode, expireRequest: UpdateExpiryOnNod
 
     if (!result || result.length !== 1) {
       window?.log?.warn(
-        `WIP: [expireOnNodes] - There was an issue with the results. sessionRpc ${targetNode.ip}:${
+        `WIP: [expireOnNodes] There was an issue with the results. sessionRpc ${targetNode.ip}:${
           targetNode.port
         } expireRequest ${JSON.stringify(expireRequest)}`
       );
-      return false;
+      return null;
     }
 
     // TODOLATER make sure that this code still works once disappearing messages is merged
@@ -144,7 +147,7 @@ async function expireOnNodes(targetNode: Snode, expireRequest: UpdateExpiryOnNod
 
     if (firstResult.code !== 200) {
       window?.log?.warn(`WIP: [expireOnNods] result is not 200 but ${firstResult.code}`);
-      return false;
+      return null;
     }
 
     try {
@@ -156,24 +159,30 @@ async function expireOnNodes(targetNode: Snode, expireRequest: UpdateExpiryOnNod
         expireRequest.params.messages
       );
       const firstExpirationResult = Object.entries(expirationResults).at(0);
+      if (!firstExpirationResult) {
+        window?.log?.warn(
+          'WIP: [expireOnNodes] failed to parse "swarm" result. firstExpirationResult is null'
+        );
+        throw new Error('firstExpirationResult is null');
+      }
+
+      const messageHash = firstExpirationResult[0];
+      const expiry = firstExpirationResult[1].expiry;
+
       window.log.debug(
-        `WIP: expireOnNodes succeeded! Here are the results from one of the snodes.\nmessageHash: ${
-          firstExpirationResult?.[0]
-        } \nexpires at: ${
-          firstExpirationResult?.[1]?.expiry
-            ? new Date(firstExpirationResult?.[1]?.expiry).toUTCString()
-            : 'unknown'
-        }\nnow: ${new Date(GetNetworkTime.getNowWithNetworkOffset()).toUTCString()}`
+        `WIP: [expireOnNodes] Success!\nHere are the results from one of the snodes.\nmessageHash: ${messageHash} \nexpiry: ${expiry} \nexpires at: ${new Date(
+          expiry
+        ).toUTCString()}\nnow: ${new Date(GetNetworkTime.getNowWithNetworkOffset()).toUTCString()}`
       );
 
-      return true;
+      return expiry;
     } catch (e) {
-      window?.log?.warn('WIP: expireOnNodes Failed to parse "swarm" result: ', e.msg);
+      window?.log?.warn('WIP: [expireOnNodes] Failed to parse "swarm" result: ', e.msg);
     }
-    return false;
+    return null;
   } catch (e) {
     window?.log?.warn(
-      'WIP: expire - send error:',
+      'WIP: [expireOnNodes] - send error:',
       e,
       `destination ${targetNode.ip}:${targetNode.port}`
     );
@@ -243,7 +252,7 @@ async function buildExpireRequest(
     },
   };
 
-  window.log.debug(`WIP: [buildExpireRequest] ${messageHash} ${JSON.stringify(expireParams)}`);
+  window.log.debug(`WIP: [buildExpireRequest] ${messageHash}\n${JSON.stringify(expireParams)}`);
 
   return expireParams;
 }
@@ -251,18 +260,22 @@ async function buildExpireRequest(
 /**
  * Sends an 'expire' request to the user's swarm for a specific message.
  * This supports both extending and shortening a message's TTL.
+ * The returned TTL should be assigned to the message to expire.
  * @param messageHash the hash of the message to expire
  * @param expireTimer amount of time until we expire the message from now in milliseconds
  * @param extend whether to extend the message's TTL
  * @param shorten whether to shorten the message's TTL
+ * @returns the TTL of the message as set by the server
  */
-export async function expireMessageOnSnode(props: ExpireMessageOnSnodeProps) {
+export async function expireMessageOnSnode(
+  props: ExpireMessageOnSnodeProps
+): Promise<number | null> {
   const { messageHash } = props;
 
   const ourPubKey = UserUtils.getOurPubKeyStrFromCache();
   if (!ourPubKey) {
     window.log.error('WIP: [expireMessageOnSnode] No pubkey found', messageHash);
-    return;
+    return null;
   }
 
   let snode: Snode | undefined;
@@ -293,12 +306,14 @@ export async function expireMessageOnSnode(props: ExpireMessageOnSnodeProps) {
       throw new Error(`Failed to build expire request ${JSON.stringify(props)}`);
     }
 
+    let newTTL = null;
+
     await pRetry(
       async () => {
         if (!snode) {
           throw new Error(`No snode found.\n${JSON.stringify(props)}`);
         }
-        await expireOnNodes(snode, expireRequestParams);
+        newTTL = await expireOnNodes(snode, expireRequestParams);
       },
       {
         retries: 3,
@@ -311,6 +326,8 @@ export async function expireMessageOnSnode(props: ExpireMessageOnSnodeProps) {
         },
       }
     );
+
+    return newTTL;
   } catch (e) {
     const snodeStr = snode ? `${snode.ip}:${snode.port}` : 'null';
     window?.log?.warn(
