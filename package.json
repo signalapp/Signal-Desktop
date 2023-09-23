@@ -250,8 +250,7 @@
     "nsis": {
       "deleteAppDataOnUninstall": true,
       "oneClick": false,
-      "allowToChangeInstallationDirectory": true,
-      "script": "build/installer.nsh"
+      "allowToChangeInstallationDirectory": true
     },
     "linux": {
       "category": "Network",
