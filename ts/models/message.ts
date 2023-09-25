@@ -1190,7 +1190,9 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
         if (newTTL) {
           window.log.debug(
-            `WIP: [setToExpire] messageHash ${messageHash} has a new TTL of ${newTTL}`
+            `WIP: [setToExpire] messageHash ${messageHash} has a new TTL of ${newTTL} which expires at ${new Date(
+              newTTL
+            ).toUTCString()}`
           );
           this.set({
             expires_at: newTTL,

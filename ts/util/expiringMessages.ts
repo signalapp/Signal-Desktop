@@ -255,7 +255,7 @@ export function setExpirationStartTimestamp(
   // TODO legacy messages support will be removed in a future release
   if (timestamp) {
     window.log.debug(
-      `WIP: [setExpirationStartTimestamp] We compare 2 timestamps for a disappearing message (${mode}): expirationStartTimestamp `,
+      `WIP: [setExpirationStartTimestamp] We compare 2 timestamps for a disappearing message (${mode}):\nexpirationStartTimestamp `,
       new Date(expirationStartTimestamp).toLocaleTimeString(),
       '\ntimestamp ',
       new Date(timestamp).toLocaleTimeString()

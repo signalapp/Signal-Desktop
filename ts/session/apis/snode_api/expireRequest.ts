@@ -28,7 +28,9 @@ async function verifyExpireMsgsResponseSignature({
   messageHashes: Array<string>;
 }): Promise<boolean> {
   if (!expiry || isEmpty(messageHashes) || isEmpty(signature)) {
-    window.log.warn('WIP: [verifyExpireMsgsSignature] missing argument');
+    window.log.warn(
+      `WIP: [verifyExpireMsgsSignature] missing argument\nexpiry:${expiry}\nmessageHashes:${messageHashes}\nsignature:${signature}`
+    );
     return false;
   }
 
@@ -72,7 +74,7 @@ async function processExpireRequestResponse(
   messageHashes: Array<string>
 ): Promise<ExpireRequestResponseResults> {
   if (isEmpty(swarm)) {
-    throw Error(`[expireOnNodes] failed! ${messageHashes}`);
+    throw Error(`[processExpireRequestResponse] Swarm is missing! ${messageHashes}`);
   }
 
   const results: ExpireRequestResponseResults = {};
@@ -80,21 +82,29 @@ async function processExpireRequestResponse(
 
   for (const nodeKey of Object.keys(swarm)) {
     if (!isEmpty(swarm[nodeKey].failed)) {
-      const reason = 'Unknown';
-      const statusCode = '404';
-      window?.log?.warn(
-        `WIP: loki_message:::expireMessage - Couldn't delete data from: ${
+      window.log.warn(
+        `WIP: [processExpireRequestResponse] Swarm result failure on ${
           targetNode.pubkey_ed25519
-        }${reason && statusCode && ` due to an error ${reason} (${statusCode})`}`
+        } for nodeKey ${nodeKey}\n${JSON.stringify(swarm[nodeKey])}`
       );
-      // Make sure to clear the result since it failed
-      results[nodeKey] = { hashes: [], expiry: 0 };
+      continue;
     }
 
     const updatedHashes = swarm[nodeKey].updated;
     const unchangedHashes = swarm[nodeKey].unchanged;
     const expiry = swarm[nodeKey].expiry;
     const signature = swarm[nodeKey].signature;
+
+    if (!updatedHashes || !expiry || !signature) {
+      window.log.warn(
+        `WIP: [processExpireRequestResponse] Missing arguments on ${
+          targetNode.pubkey_ed25519
+        } so we will ignore this result (${nodeKey}) and trust in the force.\n${JSON.stringify(
+          swarm[nodeKey]
+        )}`
+      );
+      continue;
+    }
 
     // eslint-disable-next-line no-await-in-loop
     const isValid = await verifyExpireMsgsResponseSignature({
@@ -109,9 +119,11 @@ async function processExpireRequestResponse(
 
     if (!isValid) {
       window.log.warn(
-        'WIP: loki_message:::expireMessage - Signature verification failed!',
-        messageHashes
+        `WIP: [processExpireRequestResponse] Signature verification failed on ${
+          targetNode.pubkey_ed25519
+        }!\n${JSON.stringify(messageHashes)}`
       );
+      continue;
     }
     results[nodeKey] = { hashes: updatedHashes, expiry };
   }
@@ -169,6 +181,14 @@ async function expireOnNodes(
       const messageHash = firstExpirationResult[0];
       const expiry = firstExpirationResult[1].expiry;
 
+      if (!expiry || !messageHash) {
+        throw new Error(
+          `Something is wrong with the firstExpirationResult: ${JSON.stringify(
+            JSON.stringify(firstExpirationResult)
+          )}`
+        );
+      }
+
       window.log.debug(
         `WIP: [expireOnNodes] Success!\nHere are the results from one of the snodes.\nmessageHash: ${messageHash} \nexpiry: ${expiry} \nexpires at: ${new Date(
           expiry
@@ -177,7 +197,7 @@ async function expireOnNodes(
 
       return expiry;
     } catch (e) {
-      window?.log?.warn('WIP: [expireOnNodes] Failed to parse "swarm" result: ', e.msg);
+      window?.log?.warn('WIP: [expireOnNodes] Failed to parse "swarm" result: ', e);
     }
     return null;
   } catch (e) {
@@ -221,7 +241,7 @@ async function buildExpireRequest(
 
   const expiry = GetNetworkTime.getNowWithNetworkOffset() + expireTimer;
   window.log.debug(
-    `WIP: [buildExpireRequest] messageHash: ${messageHash} should expire at ${new Date(
+    `WIP: [buildExpireRequest]\nmessageHash: ${messageHash} should expire at ${new Date(
       expiry
     ).toUTCString()}`
   );
