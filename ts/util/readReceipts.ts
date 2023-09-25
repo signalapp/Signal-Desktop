@@ -44,7 +44,6 @@ async function onReadReceipt(receipt: { source: string; timestamp: number; readA
     // readBy is only used for private conversations
     // we do not care of who read it. If the length is > 0 , it is read and false otherwise
     let readBy = message.get('read_by') || [];
-    const expirationStartTimestamp = message.get('expirationStartTimestamp') || undefined;
 
     if (!readBy.length) {
       readBy.push(receipt.source);
@@ -55,17 +54,10 @@ async function onReadReceipt(receipt: { source: string; timestamp: number; readA
 
     message.set({
       read_by: readBy,
-      expirationStartTimestamp,
       sent: true,
     });
 
-    // TODO this needs verification through qa once merged that it works
-    if (message.isExpiring() && !expirationStartTimestamp) {
-      // This will save the message for us while starting the timer
-      await message.setToExpire();
-    } else {
-      await message.commit();
-    }
+    await message.commit();
 
     // notify frontend listeners
     const conversation = getConversationController().get(message.get('conversationId'));
