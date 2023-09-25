@@ -243,14 +243,19 @@ export const ExpirationTimerOptions = {
 
 export function setExpirationStartTimestamp(
   mode: DisappearingMessageConversationType,
-  timestamp?: number
+  timestamp?: number,
+  callLocation?: string // this is for debugging purposes
 ): number | undefined {
   let expirationStartTimestamp: number | undefined = GetNetworkTime.getNowWithNetworkOffset();
+
+  if (callLocation) {
+    window.log.debug(`WIP: [setExpirationStartTimestamp] called from: ${callLocation} `);
+  }
 
   // TODO legacy messages support will be removed in a future release
   if (timestamp) {
     window.log.debug(
-      `WIP: We compare 2 timestamps for a disappearing message (${mode}): expirationStartTimestamp `,
+      `WIP: [setExpirationStartTimestamp] We compare 2 timestamps for a disappearing message (${mode}): expirationStartTimestamp `,
       new Date(expirationStartTimestamp).toLocaleTimeString(),
       '\ntimestamp ',
       new Date(timestamp).toLocaleTimeString()
@@ -261,28 +266,32 @@ export function setExpirationStartTimestamp(
   // TODO legacy messages support will be removed in a future release
   if (mode === 'deleteAfterRead') {
     window.log.debug(
-      `WIP: We set the start timestamp for a delete after read message to ${new Date(
+      `WIP: [setExpirationStartTimestamp] We set the start timestamp for a delete after read message to ${new Date(
         expirationStartTimestamp
       ).toLocaleTimeString()}`
     );
   } else if (mode === 'deleteAfterSend') {
     window.log.debug(
-      `WIP: We set the start timestamp for a delete after send message to ${new Date(
+      `WIP: [setExpirationStartTimestamp] We set the start timestamp for a delete after send message to ${new Date(
         expirationStartTimestamp
       ).toLocaleTimeString()}`
     );
     // TODO needs improvement
   } else if (mode === 'legacy') {
     window.log.debug(
-      `WIP: We set the start timestamp for a legacy message to ${new Date(
+      `WIP: [setExpirationStartTimestamp] We set the start timestamp for a legacy message to ${new Date(
         expirationStartTimestamp
       ).toLocaleTimeString()}`
     );
   } else if (mode === 'off') {
-    window.log.debug('Disappearing message mode has been turned off. We can safely ignore this.');
+    window.log.debug(
+      'WIP: [setExpirationStartTimestamp] Disappearing message mode has been turned off. We can safely ignore this.'
+    );
     expirationStartTimestamp = undefined;
   } else {
-    window.log.debug(`WIP: Invalid disappearing message mode "${mode}" set. Ignoring`);
+    window.log.debug(
+      `WIP: [setExpirationStartTimestamp] Invalid disappearing message mode "${mode}" set. Ignoring`
+    );
     expirationStartTimestamp = undefined;
   }
 

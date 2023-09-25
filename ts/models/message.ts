@@ -1118,9 +1118,12 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       );
 
       if (expirationMode === 'legacy' || expirationMode === 'deleteAfterRead') {
-        // window.log.debug(`WIP: markMessageReadNoCommit setExpirationStartTimestamp is starting`);
         this.set({
-          expirationStartTimestamp: setExpirationStartTimestamp(expirationMode, readAt),
+          expirationStartTimestamp: setExpirationStartTimestamp(
+            expirationMode,
+            readAt,
+            'markMessageReadNoCommit'
+          ),
         });
       }
     }
@@ -1195,6 +1198,12 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
           if (id) {
             await this.commit();
           }
+        } else {
+          window.log.warn(
+            `WIP: [setToExpire]\nmessageHash ${messageHash} has no new TTL.\n Keeping the old one ${expiresAt} which expires at ${new Date(
+              expiresAt
+            ).toUTCString()}`
+          );
         }
       }
     }

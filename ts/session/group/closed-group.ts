@@ -187,7 +187,11 @@ export async function addUpdateMessage(
     // NOTE Trigger for an incoming message
     // TODO legacy messages support will be removed in a future release
     if (expirationMode === 'legacy' || expirationMode === 'deleteAfterSend') {
-      expirationStartTimestamp = setExpirationStartTimestamp(expirationMode, sentAt);
+      expirationStartTimestamp = setExpirationStartTimestamp(
+        expirationMode,
+        sentAt,
+        'addUpdateMessage'
+      );
     }
   }
 

@@ -194,9 +194,12 @@ function updateReadStatus(message: MessageModel) {
       );
 
       if (expirationMode === 'legacy' || expirationMode === 'deleteAfterRead') {
-        // window.log.debug(`WIP: updateReadStatus setExpirationStartTimestamp is starting`);
         message.set({
-          expirationStartTimestamp: setExpirationStartTimestamp(expirationMode),
+          expirationStartTimestamp: setExpirationStartTimestamp(
+            expirationMode,
+            undefined,
+            'updateReadStatus'
+          ),
         });
       }
     }
@@ -384,13 +387,11 @@ async function markConvoAsReadIfOutgoingMessage(
         );
 
         if (expirationMode !== 'off') {
-          // window.log.debug(
-          //   `WIP: markConvoAsReadIfOutgoingMessage setExpirationStartTimestamp is starting`
-          // );
           message.set({
             expirationStartTimestamp: setExpirationStartTimestamp(
               expirationMode,
-              message.get('sent_at')
+              message.get('sent_at'),
+              'markConvoAsReadIfOutgoingMessage'
             ),
           });
           await message.commit();
@@ -441,11 +442,11 @@ export async function handleMessageJob(
         (canBeDeleteAfterSend && expirationMode === 'legacy') ||
         expirationMode === 'deleteAfterSend'
       ) {
-        // window.log.debug(`WIP: handleMessageJob setExpirationStartTimestamp is starting`);
         messageModel.set({
           expirationStartTimestamp: setExpirationStartTimestamp(
             expirationMode,
-            messageModel.get('sent_at')
+            messageModel.get('sent_at'),
+            'handleMessageJob'
           ),
         });
       }

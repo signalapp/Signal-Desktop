@@ -526,7 +526,11 @@ export async function USER_callRecipient(recipient: string) {
     expirationType = changeToDisappearingMessageType(calledConvo, expireTimer, expirationMode);
 
     if (expirationMode === 'legacy' || expirationMode === 'deleteAfterSend') {
-      expirationStartTimestamp = setExpirationStartTimestamp(expirationMode, now);
+      expirationStartTimestamp = setExpirationStartTimestamp(
+        expirationMode,
+        now,
+        'USER_callRecipient'
+      );
     }
   }
 
@@ -907,7 +911,11 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
     expirationType = changeToDisappearingMessageType(callerConvo, expireTimer, expirationMode);
 
     if (expirationMode === 'legacy' || expirationMode === 'deleteAfterSend') {
-      expirationStartTimestamp = setExpirationStartTimestamp(expirationMode, networkTimestamp);
+      expirationStartTimestamp = setExpirationStartTimestamp(
+        expirationMode,
+        networkTimestamp,
+        'USER_acceptIncomingCallRequest'
+      );
     }
   }
 
@@ -1264,7 +1272,11 @@ async function addMissedCallMessage(callerPubkey: string, sentAt: number) {
     );
 
     if (expirationMode === 'legacy' || expirationMode === 'deleteAfterSend') {
-      expirationStartTimestamp = setExpirationStartTimestamp(expirationMode, sentAt);
+      expirationStartTimestamp = setExpirationStartTimestamp(
+        expirationMode,
+        sentAt,
+        'addMissedCallMessage'
+      );
     }
   }
 

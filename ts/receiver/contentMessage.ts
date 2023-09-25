@@ -886,7 +886,11 @@ export async function handleDataExtractionNotification(
       // NOTE Trigger for an incoming message
       // TODO legacy messages support will be removed in a future release
       if (expirationMode === 'legacy' || expirationMode === 'deleteAfterSend') {
-        expirationStartTimestamp = setExpirationStartTimestamp(expirationMode);
+        expirationStartTimestamp = setExpirationStartTimestamp(
+          expirationMode,
+          undefined,
+          'handleDataExtractionNotification'
+        );
       }
     }
 
