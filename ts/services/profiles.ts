@@ -141,6 +141,12 @@ export class ProfileService {
             `ProfileServices.get: Job for ${conversation.idForLogging()} finished ${delta}ms after queue`
           );
         }
+        const remainingItems = this.jobQueue.size;
+        if (remainingItems && remainingItems % 10 === 0) {
+          log.info(
+            `ProfileServices.get: ${remainingItems} jobs remaining in the queue`
+          );
+        }
       }
     };
 

@@ -23,7 +23,7 @@ import dataInterface from './sql/Client';
 import { toWebSafeBase64, fromWebSafeBase64 } from './util/webSafeBase64';
 import { assertDev, strictAssert } from './util/assert';
 import { isMoreRecentThan } from './util/timestamp';
-import { MINUTE, DurationInSeconds } from './util/durations';
+import { MINUTE, DurationInSeconds, SECOND } from './util/durations';
 import { dropNull } from './util/dropNull';
 import type {
   ConversationAttributesType,
@@ -93,6 +93,7 @@ import {
 import { ReadStatus } from './messages/MessageReadStatus';
 import { SeenStatus } from './MessageSeenStatus';
 import { incrementMessageCounter } from './util/incrementMessageCounter';
+import { sleep } from './util/sleep';
 
 type AccessRequiredEnum = Proto.AccessControl.AccessRequired;
 
@@ -3135,7 +3136,12 @@ async function updateGroup(
 
   if (changeMessagesToSave.length > 0) {
     try {
-      await profileFetches;
+      if (contactsWithoutProfileKey && contactsWithoutProfileKey.length > 0) {
+        await Promise.race([profileFetches, sleep(30 * SECOND)]);
+        log.info(
+          `updateGroup/${logId}: timed out or finished fetching ${contactsWithoutProfileKey.length} profiles`
+        );
+      }
     } catch (error) {
       log.error(
         `updateGroup/${logId}: failed to fetch missing profiles`,
