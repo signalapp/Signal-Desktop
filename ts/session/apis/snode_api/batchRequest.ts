@@ -21,8 +21,8 @@ export async function doSnodeBatchRequest(
   associatedWith: string | null,
   method: 'batch' | 'sequence' = 'batch'
 ): Promise<NotEmptyArrayOfBatchResults> {
-  // console.warn(
-  //   `doSnodeBatchRequest "${method}":`,
+  // window.log.debug(
+  //   `WIP: [doSnodeBatchRequest] "${method}":`,
   //   subRequests.map(m => m.method),
   //   subRequests
   // );

@@ -11,6 +11,7 @@ export interface ExpirableMessageParams extends MessageParams {
 
 export class ExpirableMessage extends ContentMessage {
   public readonly expirationType?: DisappearingMessageType;
+  /** in seconds, 0 means no expiration */
   public readonly expireTimer?: number;
 
   constructor(params: ExpirableMessageParams) {

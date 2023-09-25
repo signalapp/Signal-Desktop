@@ -54,6 +54,7 @@ import { addKeyPairToCacheAndDBIfNeeded, handleNewClosedGroup } from './closedGr
 import { HexKeyPair } from './keypairs';
 import { queueAllCachedFromSource } from './receiver';
 import { EnvelopePlus } from './types';
+import { getExpiriesFromSnode } from '../session/apis/snode_api/getExpiriesRequest';
 
 function groupByVariant(
   incomingConfigs: Array<IncomingMessage<SignalService.ISharedConfigMessage>>
@@ -396,7 +397,7 @@ async function handleContactsUpdate(result: IncomingConfResult): Promise<Incomin
         });
         changes = true;
         window.log.debug(
-          `WIP: [contactsWrapper] updating disappearing messages to expirationMode: ${wrapperConvo.expirationMode} expirationTimerSeconds: ${wrapperConvo.expirationTimerSeconds}`
+          `WIP: [contactsWrapper] updating disappearing messages for\nconvoId:${wrapperConvo.id} expirationMode: ${wrapperConvo.expirationMode} expirationTimerSeconds: ${wrapperConvo.expirationTimerSeconds}`
         );
       }
 
@@ -689,6 +690,61 @@ async function applyConvoVolatileUpdateFromWrapper(
   }
 
   try {
+    const canBeDeleteAfterRead = foundConvo && !foundConvo.isMe() && foundConvo.isPrivate();
+    // TODO legacy messages support will be removed in a future release
+    if (
+      canBeDeleteAfterRead &&
+      (foundConvo.get('expirationType') === 'deleteAfterRead' ||
+        foundConvo.get('expirationType') === 'legacy') &&
+      foundConvo.get('expireTimer') > 0
+    ) {
+      const messages2Expire = await Data.getUnreadByConversation(convoId, lastReadMessageTimestamp);
+
+      if (messages2Expire.length) {
+        const messageHashes = compact(
+          messages2Expire
+            .filter(m =>
+              Boolean(
+                m.get('expirationType') &&
+                  m.get('expirationType') !== 'deleteAfterSend' &&
+                  m.get('expireTimer') > 0
+              )
+            )
+            .map(m => m.get('messageHash'))
+        );
+        window.log.debug(
+          `WIP: [applyConvoVolatileUpdateFromWrapper]\nmessages2Expire: ${JSON.stringify(
+            messages2Expire
+          )}`
+        );
+        const currentExpiryTimestamps = await getExpiriesFromSnode({
+          messageHashes,
+          timestamp: lastReadMessageTimestamp,
+        });
+
+        window.log.debug(
+          `WIP: [applyConvoVolatileUpdateFromWrapper] currentExpiryTimestamps: ${JSON.stringify(
+            currentExpiryTimestamps
+          )} `
+        );
+
+        if (currentExpiryTimestamps.length) {
+          for (let index = 0; index < messages2Expire.length; index++) {
+            if (currentExpiryTimestamps[index] === -1) {
+              window.log.debug(
+                `WIP: [applyConvoVolatileUpdateFromWrapper] invalid expiry value returned from snode. We will keep the local value.\nmessageHash: ${messageHashes[index]},`
+              );
+              continue;
+            }
+            messages2Expire.at(index).set('expires_at', currentExpiryTimestamps[index]);
+          }
+          window.log.debug(
+            `WIP: [applyConvoVolatileUpdateFromWrapper] disappear after read messages updated!`
+          );
+        }
+      }
+    }
+
     // window.log.debug(
     //   `applyConvoVolatileUpdateFromWrapper: ${convoId}: forcedUnread:${forcedUnread}, lastReadMessage:${lastReadMessageTimestamp}`
     // );

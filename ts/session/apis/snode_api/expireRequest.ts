@@ -350,7 +350,7 @@ export async function expireMessageOnSnode(
   } catch (e) {
     const snodeStr = snode ? `${snode.ip}:${snode.port}` : 'null';
     window?.log?.warn(
-      `WIP: loki_message:::expireMessage - ${e.code ? `${e.code} ` : ''}${
+      `WIP: [expireMessageOnSnode] ${e.code ? `${e.code} ` : ''}${
         e.message
       } by ${ourPubKey} for ${messageHash} via snode:${snodeStr}`
     );

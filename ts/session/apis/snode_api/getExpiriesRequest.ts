@@ -2,127 +2,68 @@
 import { isEmpty, sample } from 'lodash';
 import pRetry from 'p-retry';
 import { Snode } from '../../../data/data';
-import { getSodiumRenderer } from '../../crypto';
-import { StringUtils, UserUtils } from '../../utils';
-import { fromBase64ToArray, fromHexToArray } from '../../utils/String';
+import { UserUtils } from '../../utils';
 import { EmptySwarmError } from '../../utils/errors';
-import { UpdateExpiryOnNodeSubRequest } from './SnodeRequestTypes';
+import { GetExpiriesFromNodeSubRequest } from './SnodeRequestTypes';
 import { doSnodeBatchRequest } from './batchRequest';
-import { GetNetworkTime } from './getNetworkTime';
 import { getSwarmFor } from './snodePool';
 import { SnodeSignature } from './snodeSignatures';
-import { ExpireMessageResultItem, ExpireMessagesResultsContent } from './types';
+import { GetExpiriesResultsContent } from './types';
 import { SeedNodeAPI } from '../seed_node_api';
 
-async function verifyExpireMsgsResponseSignature({
-  pubkey,
-  snodePubkey,
-  messageHashes,
-  expiry,
-  signature,
-  updated,
-  unchanged,
-}: ExpireMessageResultItem & {
-  pubkey: string;
-  snodePubkey: any;
-  messageHashes: Array<string>;
-}): Promise<boolean> {
-  if (!expiry || isEmpty(messageHashes) || isEmpty(signature)) {
-    window.log.warn('WIP: [verifyExpireMsgsSignature] missing argument');
-    return false;
-  }
+type GetExpiriesRequestResponseResults = Record<string, number>;
 
-  const edKeyPrivBytes = fromHexToArray(snodePubkey);
-  const hashes = [...messageHashes, ...updated];
-  if (unchanged && Object.keys(unchanged).length > 0) {
-    hashes.push(
-      ...Object.entries(unchanged)
-        .map(([key, value]: [string, number]) => {
-          return `${key}${value}`;
-        })
-        .sort()
-    );
-  }
-
-  const verificationString = `${pubkey}${expiry}${hashes.join('')}`;
-  const verificationData = StringUtils.encode(verificationString, 'utf8');
-  // window.log.debug('WIP: [verifyExpireMsgsSignature] verificationString', verificationString);
-
-  const sodium = await getSodiumRenderer();
-  try {
-    const isValid = sodium.crypto_sign_verify_detached(
-      fromBase64ToArray(signature),
-      new Uint8Array(verificationData),
-      edKeyPrivBytes
-    );
-
-    return isValid;
-  } catch (e) {
-    window.log.warn('WIP: [verifyExpireMsgsSignature] failed with: ', e.message);
-    return false;
-  }
-}
-
-type ExpireRequestResponseResults = Record<string, { hashes: Array<string>; expiry: number }>;
-
-async function processExpireRequestResponse(
-  pubkey: string,
+async function processGetExpiriesRequestResponse(
   targetNode: Snode,
-  swarm: ExpireMessagesResultsContent,
+  expiries: GetExpiriesResultsContent,
   messageHashes: Array<string>
-): Promise<ExpireRequestResponseResults> {
-  if (isEmpty(swarm)) {
-    throw Error(`[expireOnNodes] failed! ${messageHashes}`);
+): Promise<GetExpiriesRequestResponseResults> {
+  if (isEmpty(expiries)) {
+    throw Error(
+      `[processExpireRequestResponse] Expiries are missing! ${JSON.stringify(messageHashes)}`
+    );
   }
 
-  const results: ExpireRequestResponseResults = {};
-  // window.log.debug(`WIP: [processExpireRequestResponse] initial results: `, swarm, messageHashes);
+  const results: GetExpiriesRequestResponseResults = {};
+  // window.log.debug(
+  //   `WIP: [processGetExpiriesRequestResponse] initial results:\nexpiries:${JSON.stringify(
+  //     expiries
+  //   )}`
+  // );
 
-  for (const nodeKey of Object.keys(swarm)) {
-    if (!isEmpty(swarm[nodeKey].failed)) {
-      const reason = 'Unknown';
-      const statusCode = '404';
-      window?.log?.warn(
-        `WIP: loki_message:::expireMessage - Couldn't delete data from: ${
-          targetNode.pubkey_ed25519
-        }${reason && statusCode && ` due to an error ${reason} (${statusCode})`}`
-      );
-      // Make sure to clear the result since it failed
-      results[nodeKey] = { hashes: [], expiry: 0 };
-    }
-
-    const updatedHashes = swarm[nodeKey].updated;
-    const unchangedHashes = swarm[nodeKey].unchanged;
-    const expiry = swarm[nodeKey].expiry;
-    const signature = swarm[nodeKey].signature;
-
-    // eslint-disable-next-line no-await-in-loop
-    const isValid = await verifyExpireMsgsResponseSignature({
-      pubkey,
-      snodePubkey: nodeKey,
-      messageHashes,
-      expiry,
-      signature,
-      updated: updatedHashes,
-      unchanged: unchangedHashes,
-    });
-
-    if (!isValid) {
+  for (const messageHash of Object.keys(expiries)) {
+    if (!expiries[messageHash]) {
       window.log.warn(
-        'WIP: loki_message:::expireMessage - Signature verification failed!',
-        messageHashes
+        `WIP: [processExpireRequestResponse] Expiries result failure on ${
+          targetNode.pubkey_ed25519
+        } for messageHash ${messageHash}\n${JSON.stringify(expiries[messageHash])}`
       );
+      continue;
     }
-    results[nodeKey] = { hashes: updatedHashes, expiry };
+
+    const expiryMs = expiries[messageHash];
+
+    if (!expiryMs) {
+      window.log.warn(
+        `WIP: [processGetExpiriesRequestResponse] Missing expiry value on ${
+          targetNode.pubkey_ed25519
+        } so we will ignore this result (${messageHash}) and trust in the force.\n${JSON.stringify(
+          expiries[messageHash]
+        )}`
+      );
+      results[messageHash] = -1; // explicit failure value
+    } else {
+      results[messageHash] = expiryMs;
+    }
   }
 
   return results;
 }
 
-async function expireOnNodes(
+async function getExpiriesFromNodes(
   targetNode: Snode,
-  expireRequest: UpdateExpiryOnNodeSubRequest
-): Promise<number | null> {
+  expireRequest: GetExpiriesFromNodeSubRequest
+): Promise<Array<number>> {
   try {
     const result = await doSnodeBatchRequest(
       [expireRequest],
@@ -132,13 +73,15 @@ async function expireOnNodes(
       'batch'
     );
 
+    window.log.debug(`WIP: [getExpiriesFromNodes] result: ${JSON.stringify(result)}`);
+
     if (!result || result.length !== 1) {
       window?.log?.warn(
-        `WIP: [expireOnNodes] There was an issue with the results. sessionRpc ${targetNode.ip}:${
-          targetNode.port
-        } expireRequest ${JSON.stringify(expireRequest)}`
+        `WIP: [getExpiriesFromNodes] There was an issue with the results. sessionRpc ${
+          targetNode.ip
+        }:${targetNode.port} expireRequest ${JSON.stringify(expireRequest)}`
       );
-      return null;
+      return [];
     }
 
     // TODOLATER make sure that this code still works once disappearing messages is merged
@@ -146,43 +89,41 @@ async function expireOnNodes(
     const firstResult = result[0];
 
     if (firstResult.code !== 200) {
-      window?.log?.warn(`WIP: [expireOnNods] result is not 200 but ${firstResult.code}`);
-      return null;
+      window?.log?.warn(`WIP: [getExpiriesFromNodes] result is not 200 but ${firstResult.code}`);
+      return [];
     }
 
     try {
       const bodyFirstResult = firstResult.body;
-      const expirationResults = await processExpireRequestResponse(
-        expireRequest.params.pubkey,
+      const expirationResults = await processGetExpiriesRequestResponse(
         targetNode,
-        bodyFirstResult.swarm as ExpireMessagesResultsContent,
+        bodyFirstResult.expiries as GetExpiriesResultsContent,
         expireRequest.params.messages
       );
-      const firstExpirationResult = Object.entries(expirationResults).at(0);
-      if (!firstExpirationResult) {
+
+      if (!Object.keys(expirationResults).length) {
         window?.log?.warn(
-          'WIP: [expireOnNodes] failed to parse "swarm" result. firstExpirationResult is null'
+          'WIP: [getExpiriesFromNodes] failed to parse "get_expiries" results. expirationResults is empty'
         );
-        throw new Error('firstExpirationResult is null');
+        throw new Error('expirationResults is empty');
       }
 
-      const messageHash = firstExpirationResult[0];
-      const expiry = firstExpirationResult[1].expiry;
+      const expiryTimestamps: Array<number> = Object.values(expirationResults);
 
       window.log.debug(
-        `WIP: [expireOnNodes] Success!\nHere are the results from one of the snodes.\nmessageHash: ${messageHash} \nexpiry: ${expiry} \nexpires at: ${new Date(
-          expiry
-        ).toUTCString()}\nnow: ${new Date(GetNetworkTime.getNowWithNetworkOffset()).toUTCString()}`
+        `WIP: [getExpiriesFromNodes] Success!\nHere are the results.\nexpirationResults: ${Object.entries(
+          expirationResults
+        )}`
       );
 
-      return expiry;
+      return expiryTimestamps;
     } catch (e) {
-      window?.log?.warn('WIP: [expireOnNodes] Failed to parse "swarm" result: ', e.msg);
+      window?.log?.warn('WIP: [getExpiriesFromNodes] Failed to parse "swarm" result: ', e);
     }
-    return null;
+    return [];
   } catch (e) {
     window?.log?.warn(
-      'WIP: [expireOnNodes] - send error:',
+      'WIP: [getExpiriesFromNodes] - send error:',
       e,
       `destination ${targetNode.ip}:${targetNode.port}`
     );
@@ -197,7 +138,7 @@ type GetExpiriesFromSnodeProps = {
 
 async function buildGetExpiriesRequest(
   props: GetExpiriesFromSnodeProps
-): Promise<UpdateExpiryOnNodeSubRequest | null> {
+): Promise<GetExpiriesFromNodeSubRequest | null> {
   const { messageHashes, timestamp } = props;
 
   const ourPubKey = UserUtils.getOurPubKeyStrFromCache();
@@ -207,7 +148,7 @@ async function buildGetExpiriesRequest(
   }
 
   window.log.debug(
-    `WIP: [buildGetExpiriesRequest] gettig expiries for messageHashes: ${messageHashes} from ${new Date(
+    `WIP: [buildGetExpiriesRequest] starting\nlastReadMessageTimestamp: ${new Date(
       timestamp
     ).toUTCString()}`
   );
@@ -224,42 +165,41 @@ async function buildGetExpiriesRequest(
     return null;
   }
 
-  const expireParams: UpdateExpiryOnNodeSubRequest = {
-    method: 'expire',
+  const getExpiriesParams: GetExpiriesFromNodeSubRequest = {
+    method: 'get_expiries',
     params: {
       pubkey: ourPubKey,
       pubkey_ed25519: signResult.pubkey_ed25519.toUpperCase(),
-      // TODO better testing for failed case
-      messages: [messageHashes],
-      expiry,
-      extend: extend || undefined,
-      shorten: shorten || undefined,
+      messages: messageHashes,
+      timestamp,
       signature: signResult?.signature,
     },
   };
 
   window.log.debug(
-    `WIP: [buildGetExpiriesRequest] ${messageHashes}\n${JSON.stringify(expireParams)}`
+    `WIP: [buildGetExpiriesRequest] getExpiriesParams: ${JSON.stringify(getExpiriesParams)}`
   );
 
-  return expireParams;
+  return getExpiriesParams;
 }
 
 /**
- * Sends an 'expire' request to the user's swarm for a specific message.
- * This supports both extending and shortening a message's TTL.
- * The returned TTL should be assigned to the message to expire.
+ * Sends an 'get_expiries' request which retrieves the current expiry timestamps of the given messages.
+ *
+ * The returned TTLs should be assigned to the given disappearing messages.
  * @param messageHashes the hashes of the messages we want the current expiries for
  * @param timestamp the time (ms) the request was initiated, must be within ±60s of the current time so using the server time is recommended.
- * @returns the TTL of the message as set by the server
+ * @returns an arrray of the expiry timestamps (TTL) for the given messages
  */
-export async function getExpiriesFromSnode(props: GetExpiriesFromSnodeProps) {
+export async function getExpiriesFromSnode(
+  props: GetExpiriesFromSnodeProps
+): Promise<Array<number>> {
   const { messageHashes } = props;
 
   const ourPubKey = UserUtils.getOurPubKeyStrFromCache();
   if (!ourPubKey) {
     window.log.error('WIP: [getExpiriesFromSnode] No pubkey found', messageHashes);
-    return null;
+    return [];
   }
 
   let snode: Snode | undefined;
@@ -287,17 +227,17 @@ export async function getExpiriesFromSnode(props: GetExpiriesFromSnodeProps) {
   try {
     const expireRequestParams = await buildGetExpiriesRequest(props);
     if (!expireRequestParams) {
-      throw new Error(`Failed to build expire request ${JSON.stringify(props)}`);
+      throw new Error(`Failed to build get_expiries request ${JSON.stringify(props)}`);
     }
 
-    let newTTL = null;
+    let expiryTimestamps: Array<number> = [];
 
     await pRetry(
       async () => {
         if (!snode) {
           throw new Error(`No snode found.\n${JSON.stringify(props)}`);
         }
-        newTTL = await expireOnNodes(snode, expireRequestParams);
+        expiryTimestamps = await getExpiriesFromNodes(snode, expireRequestParams);
       },
       {
         retries: 3,
@@ -311,11 +251,11 @@ export async function getExpiriesFromSnode(props: GetExpiriesFromSnodeProps) {
       }
     );
 
-    return newTTL;
+    return expiryTimestamps;
   } catch (e) {
     const snodeStr = snode ? `${snode.ip}:${snode.port}` : 'null';
     window?.log?.warn(
-      `WIP: loki_message:::expireMessage - ${e.code ? `${e.code} ` : ''}${
+      `WIP: [getExpiriesFromSnode] ${e.code ? `${e.code} ` : ''}${
         e.message
       } by ${ourPubKey} for ${messageHashes} via snode:${snodeStr}`
     );

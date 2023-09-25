@@ -3,11 +3,16 @@ const minutes = seconds * 60;
 const hours = minutes * 60;
 const days = hours * 24;
 
+/** in millisecond */
 export const DURATION = {
-  SECONDS: seconds, // in ms
-  MINUTES: minutes, // in ms
-  HOURS: hours, // in ms
-  DAYS: days, // in ms
+  /** 1000ms */
+  SECONDS: seconds,
+  /** 60 * 1000 = 60,000 ms */
+  MINUTES: minutes,
+  /** 60 * 60 * 1000 = 3,600,000 ms */
+  HOURS: hours,
+  /** 24 * 60 * 60 * 1000 = 86,400,000 ms */
+  DAYS: days,
 };
 
 export const TTL_DEFAULT = {
