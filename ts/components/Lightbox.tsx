@@ -776,7 +776,7 @@ function LightboxHeader({
       <div className="Lightbox__header--content">
         <div className="Lightbox__header--name">{conversation.title}</div>
         <div className="Lightbox__header--timestamp">
-          {formatDateTimeForAttachment(i18n, message.received_at_ms ?? now)}
+          {formatDateTimeForAttachment(i18n, message.sent_at ?? now)}
         </div>
       </div>
     </div>
