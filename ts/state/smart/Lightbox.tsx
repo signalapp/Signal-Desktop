@@ -32,7 +32,7 @@ export function SmartLightbox(): JSX.Element | null {
     closeLightbox,
     showLightboxForNextMessage,
     showLightboxForPrevMessage,
-    setSelectedLightboxPath,
+    setSelectedLightboxIndex,
   } = useLightboxActions();
   const { toggleForwardMessagesModal } = useGlobalModalActions();
   const { pauseVoiceNotePlayer } = useAudioPlayerActions();
@@ -58,12 +58,11 @@ export function SmartLightbox(): JSX.Element | null {
       }
       return;
     }
-    setSelectedLightboxPath(media[selectedIndex - 1]?.attachment.path);
+    setSelectedLightboxIndex(selectedIndex - 1);
   }, [
     showLightboxForPrevMessage,
-    media,
     selectedIndex,
-    setSelectedLightboxPath,
+    setSelectedLightboxIndex,
     hasPrevMessage,
   ]);
 
@@ -74,21 +73,14 @@ export function SmartLightbox(): JSX.Element | null {
       }
       return;
     }
-    setSelectedLightboxPath(media[selectedIndex + 1]?.attachment.path);
+    setSelectedLightboxIndex(selectedIndex + 1);
   }, [
     showLightboxForNextMessage,
     media,
     selectedIndex,
-    setSelectedLightboxPath,
+    setSelectedLightboxIndex,
     hasNextMessage,
   ]);
-
-  const onSelectAttachment = useCallback(
-    (newIndex: number) => {
-      setSelectedLightboxPath(media[newIndex]?.attachment.path);
-    },
-    [setSelectedLightboxPath, media]
-  );
 
   if (!isShowingLightbox) {
     return null;
@@ -107,7 +99,7 @@ export function SmartLightbox(): JSX.Element | null {
       onMediaPlaybackStart={pauseVoiceNotePlayer}
       onPrevAttachment={onPrevAttachment}
       onNextAttachment={onNextAttachment}
-      onSelectAttachment={onSelectAttachment}
+      onSelectAttachment={setSelectedLightboxIndex}
       hasNextMessage={hasNextMessage}
       hasPrevMessage={hasPrevMessage}
     />
