@@ -7,7 +7,7 @@ import { MessageModel } from '../models/message';
 import { getConversationController } from '../session/conversations';
 import { Quote } from './types';
 
-import { ConversationTypeEnum, READ_MESSAGE_STATE } from '../models/conversationAttributes';
+import { ConversationTypeEnum } from '../models/conversationAttributes';
 import { MessageDirection } from '../models/messageType';
 import { SignalService } from '../protobuf';
 import { ProfileManager } from '../session/profile_manager/ProfileManager';
@@ -177,35 +177,6 @@ async function processProfileKeyNoCommit(
   }
 }
 
-function updateReadStatus(message: MessageModel) {
-  if (message.isExpirationTimerUpdate()) {
-    message.set({ unread: READ_MESSAGE_STATE.read });
-    const convo = message.getConversation();
-    // TODO legacy messages support will be removed in a future release
-    const canBeDeleteAfterRead = convo && !convo.isMe() && convo.isPrivate();
-    const expirationType = message.get('expirationType');
-    const expireTimer = message.get('expireTimer');
-
-    if (canBeDeleteAfterRead && expirationType && expireTimer > 0) {
-      const expirationMode = changeToDisappearingMessageConversationType(
-        convo,
-        expirationType,
-        expireTimer
-      );
-
-      if (expirationMode === 'legacy' || expirationMode === 'deleteAfterRead') {
-        message.set({
-          expirationStartTimestamp: setExpirationStartTimestamp(
-            expirationMode,
-            undefined,
-            'updateReadStatus'
-          ),
-        });
-      }
-    }
-  }
-}
-
 function handleSyncedReceiptsNoCommit(message: MessageModel, conversation: ConversationModel) {
   // If the newly received message is from us, we assume that we've seen the messages up until that point
   const sentTimestamp = message.get('sent_at');
@@ -296,7 +267,6 @@ async function handleRegularMessage(
 
   if (type === 'incoming') {
     if (conversation.isPrivate()) {
-      updateReadStatus(message);
       const incomingMessageCount = await Data.getMessageCountByType(
         conversation.id,
         MessageDirection.incoming
