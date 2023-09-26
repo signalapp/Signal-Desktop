@@ -27,11 +27,7 @@ export const getSelectedIndex = createSelector(
       return 0;
     }
 
-    const index = state.media.findIndex(
-      item => item.attachment.path === state.selectedAttachmentPath
-    );
-
-    return index > 0 ? index : 0;
+    return state.selectedIndex ?? 0;
   }
 );
 

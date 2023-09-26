@@ -7,5 +7,6 @@ import type { AttachmentType } from '../../../../types/Attachment';
 export type ItemClickEvent = {
   message: Pick<MessageAttributesType, 'sent_at'>;
   attachment: AttachmentType;
+  index: number;
   type: 'media' | 'documents';
 };
