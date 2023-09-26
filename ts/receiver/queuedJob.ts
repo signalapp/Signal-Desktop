@@ -262,9 +262,6 @@ async function handleRegularMessage(
     await sendingDeviceConversation.updateBlocksSogsMsgReqsTimestamp(updateBlockTimestamp, false);
   }
 
-  // Expire timer updates are now explicit.
-  // We don't handle an expire timer from a incoming message except if it is an ExpireTimerUpdate message.
-
   if (type === 'incoming') {
     if (conversation.isPrivate()) {
       const incomingMessageCount = await Data.getMessageCountByType(

@@ -12,6 +12,7 @@ import { ConversationModel } from '../models/conversation';
 import { MessageModel } from '../models/message';
 import { GetNetworkTime } from '../session/apis/snode_api/getNetworkTime';
 import { ReleasedFeatures } from './releaseFeature';
+import { expireMessageOnSnode } from '../session/apis/snode_api/expireRequest';
 
 // NOTE this must match Content.ExpirationType in the protobuf
 // TODO double check this
@@ -634,4 +635,52 @@ export async function checkHasOutdatedDisappearingMessageClient(
     });
     await convoToUpdate.commit();
   }
+}
+
+export async function updateMessageExpiryOnSwarm(message: MessageModel, shouldCommit?: boolean) {
+  window.log.debug(`WIP: [updateMessageExpiryOnSwarm]\nmessage: ${JSON.stringify(message)}`);
+
+  const messageHash = message.get('messageHash');
+  const expiresAt = message.get('expires_at');
+
+  if (!messageHash) {
+    window.log.debug(
+      `WIP: [updateMessageExpiryOnSwarm] Missing messageHash message: ${JSON.stringify(message)}`
+    );
+    return message;
+  }
+
+  const newTTL = await expireMessageOnSnode({
+    messageHash,
+    expireTimer: message.get('expireTimer') * 1000,
+    shorten: true,
+  });
+
+  if (newTTL && newTTL !== expiresAt) {
+    message.set({
+      expires_at: newTTL,
+    });
+
+    window.log.debug(
+      `WIP: [updateMessageExpiryOnSwarm] messageHash ${messageHash} has a new TTL of ${newTTL} which expires at ${new Date(
+        newTTL
+      ).toUTCString()}`
+    );
+
+    if (shouldCommit) {
+      await message.commit();
+    }
+  } else {
+    window.log.warn(
+      `WIP: [updateMessageExpiryOnSwarm]\nmessageHash ${messageHash} has no new TTL.${
+        expiresAt
+          ? `\nKeeping the old one ${expiresAt}which expires at ${new Date(
+              expiresAt
+            ).toUTCString()}`
+          : ''
+      }`
+    );
+  }
+
+  return message;
 }

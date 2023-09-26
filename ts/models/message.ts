@@ -42,7 +42,6 @@ import { Data } from '../data/data';
 import { OpenGroupData } from '../data/opengroups';
 import { SettingsKey } from '../data/settings-key';
 import { isUsAnySogsFromCache } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
-import { expireMessageOnSnode } from '../session/apis/snode_api/expireRequest';
 import { GetNetworkTime } from '../session/apis/snode_api/getNetworkTime';
 import { SnodeNamespaces } from '../session/apis/snode_api/namespaces';
 import { DURATION } from '../session/constants';
@@ -1179,35 +1178,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         expiresAt,
         sentAt: this.get('sent_at'),
       });
-
-      const messageHash = this.get('messageHash');
-      if (messageHash) {
-        const newTTL = await expireMessageOnSnode({
-          messageHash,
-          expireTimer: this.get('expireTimer') * 1000,
-          shorten: true,
-        });
-
-        if (newTTL) {
-          window.log.debug(
-            `WIP: [setToExpire] messageHash ${messageHash} has a new TTL of ${newTTL} which expires at ${new Date(
-              newTTL
-            ).toUTCString()}`
-          );
-          this.set({
-            expires_at: newTTL,
-          });
-          if (id) {
-            await this.commit();
-          }
-        } else {
-          window.log.warn(
-            `WIP: [setToExpire]\nmessageHash ${messageHash} has no new TTL.\n Keeping the old one ${expiresAt} which expires at ${new Date(
-              expiresAt
-            ).toUTCString()}`
-          );
-        }
-      }
     }
   }
 

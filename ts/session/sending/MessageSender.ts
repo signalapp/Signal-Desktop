@@ -37,6 +37,10 @@ import { OpenGroupVisibleMessage } from '../messages/outgoing/visibleMessage/Ope
 import { ed25519Str } from '../onions/onionPath';
 import { PubKey } from '../types';
 import { RawMessage } from '../types/RawMessage';
+import {
+  changeToDisappearingMessageConversationType,
+  updateMessageExpiryOnSwarm,
+} from '../../util/expiringMessages';
 
 // ================ SNODE STORE ================
 
@@ -154,9 +158,37 @@ async function send(
         !isEmpty(batchResult[0].body.hash)
       ) {
         const messageSendHash = batchResult[0].body.hash;
-        const foundMessage = await Data.getMessageById(encryptedAndWrapped.identifier);
+        let foundMessage = await Data.getMessageById(encryptedAndWrapped.identifier);
         if (foundMessage) {
           await foundMessage.updateMessageHash(messageSendHash);
+          const convo = foundMessage.getConversation();
+          const expireTimer = foundMessage.get('expireTimer');
+          const expirationType = foundMessage.get('expirationType');
+
+          if (
+            convo &&
+            expirationType &&
+            expireTimer > 0 &&
+            // a message has started to disappear
+            foundMessage.get('expirationStartTimestamp')
+          ) {
+            const expirationMode = changeToDisappearingMessageConversationType(
+              convo,
+              expirationType,
+              expireTimer
+            );
+
+            const canBeDeleteAfterRead = convo && !convo.isMe() && convo.isPrivate();
+
+            // TODO legacy messages support will be removed in a future release
+            if (
+              canBeDeleteAfterRead &&
+              (expirationMode === 'legacy' || expirationMode === 'deleteAfterRead')
+            ) {
+              foundMessage = await updateMessageExpiryOnSwarm(foundMessage);
+            }
+          }
+
           await foundMessage.commit();
           window?.log?.info(
             `updated message ${foundMessage.get('id')} with hash: ${foundMessage.get(
@@ -343,7 +375,7 @@ async function encryptMessagesAndWrap(
 
 /**
  * Send a list of messages to a single service node.
- * Used currently only for sending SharedConfigMessage to multiple messages at a time.
+ * Used currently only for sending SharedConfigMessage for multiple messages at a time.
  *
  * @param params the messages to deposit
  * @param destination the pubkey we should deposit those message for
