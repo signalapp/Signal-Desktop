@@ -797,7 +797,8 @@ async function createWindow() {
   setupSpellChecker(
     mainWindow,
     getPreferredSystemLocales(),
-    getResolvedMessagesLocale().i18n
+    getResolvedMessagesLocale().i18n,
+    getLogger()
   );
   if (!startInTray && windowConfig && windowConfig.maximized) {
     mainWindow.maximize();
