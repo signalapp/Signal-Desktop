@@ -140,6 +140,13 @@
   }
 }
 
+@mixin any-theme {
+  &,
+  .dark-theme & {
+    @content;
+  }
+}
+
 // Utilities
 
 @mixin rounded-corners() {
