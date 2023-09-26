@@ -637,8 +637,15 @@ export async function checkHasOutdatedDisappearingMessageClient(
   }
 }
 
-export async function updateMessageExpiryOnSwarm(message: MessageModel, shouldCommit?: boolean) {
-  window.log.debug(`WIP: [updateMessageExpiryOnSwarm]\nmessage: ${JSON.stringify(message)}`);
+export async function updateMessageExpiryOnSwarm(
+  message: MessageModel,
+  callLocation?: string, // this is for debugging purposes
+  shouldCommit?: boolean
+) {
+  if (callLocation) {
+    window.log.debug(`WIP: [updateMessageExpiryOnSwarm] called from: ${callLocation} `);
+  }
+  // window.log.debug(`WIP: [updateMessageExpiryOnSwarm]\nmessage: ${JSON.stringify(message)}`);
 
   const messageHash = message.get('messageHash');
   const expiresAt = message.get('expires_at');

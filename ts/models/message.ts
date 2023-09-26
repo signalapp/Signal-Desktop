@@ -93,6 +93,7 @@ import {
   setExpirationStartTimestamp,
   changeToDisappearingMessageConversationType,
   checkForExpireUpdateInContentMessage,
+  updateMessageExpiryOnSwarm,
 } from '../util/expiringMessages';
 import { LinkPreviews } from '../util/linkPreviews';
 import { Notifications } from '../util/notifications';
@@ -1092,7 +1093,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   }
 
   public async markMessageAsRead(readAt: number) {
-    this.markMessageReadNoCommit(readAt);
+    await this.markMessageReadNoCommit(readAt);
     await this.commit();
     // the line below makes sure that getNextExpiringMessage will find this message as expiring.
     // getNextExpiringMessage is used on app start to clean already expired messages which should have been removed already, but are not
@@ -1101,7 +1102,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     await this.getConversation()?.refreshInMemoryDetails();
   }
 
-  public markMessageReadNoCommit(readAt: number) {
+  public async markMessageReadNoCommit(readAt: number) {
     this.set({ unread: READ_MESSAGE_STATE.read });
 
     const convo = this.getConversation();
@@ -1117,6 +1118,10 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       );
 
       if (expirationMode === 'legacy' || expirationMode === 'deleteAfterRead') {
+        if (this.isIncoming() && !this.isExpiring()) {
+          await updateMessageExpiryOnSwarm(this, 'markMessageReadNoCommit()', true);
+        }
+
         this.set({
           expirationStartTimestamp: setExpirationStartTimestamp(
             expirationMode,

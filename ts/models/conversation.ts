@@ -2058,7 +2058,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const readDetails = [];
     // eslint-disable-next-line no-restricted-syntax
     for (const nowRead of oldUnreadNowRead) {
-      nowRead.markMessageReadNoCommit(readAt);
+      // eslint-disable-next-line no-await-in-loop
+      await nowRead.markMessageReadNoCommit(readAt);
 
       const validTimestamp = nowRead.get('sent_at') || nowRead.get('serverTimestamp');
       if (nowRead.get('source') && validTimestamp && isFinite(validTimestamp)) {

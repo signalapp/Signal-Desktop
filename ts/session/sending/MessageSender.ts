@@ -185,7 +185,7 @@ async function send(
               canBeDeleteAfterRead &&
               (expirationMode === 'legacy' || expirationMode === 'deleteAfterRead')
             ) {
-              foundMessage = await updateMessageExpiryOnSwarm(foundMessage);
+              foundMessage = await updateMessageExpiryOnSwarm(foundMessage, 'send()');
             }
           }
 
