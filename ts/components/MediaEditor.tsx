@@ -1,10 +1,17 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import classNames from 'classnames';
 import { createPortal } from 'react-dom';
 import { fabric } from 'fabric';
+import { useSelector } from 'react-redux';
 import { get, has, noop } from 'lodash';
 
 import type {
@@ -49,6 +56,8 @@ import { Theme } from '../util/theme';
 import { ThemeType } from '../types/Util';
 import { arrow } from '../util/keyboard';
 import { canvasToBytes } from '../util/canvasToBytes';
+import { getConversationSelector } from '../state/selectors/conversations';
+import { hydrateRanges } from '../types/BodyRange';
 import { useConfirmDiscard } from '../hooks/useConfirmDiscard';
 import { useFabricHistory } from '../mediaEditor/useFabricHistory';
 import { usePortal } from '../hooks/usePortal';
@@ -174,6 +183,12 @@ export function MediaEditor({
   const [captionBodyRanges, setCaptionBodyRanges] = useState<
     DraftBodyRanges | undefined
   >(draftBodyRanges);
+
+  const conversationSelector = useSelector(getConversationSelector);
+  const hydratedBodyRanges = useMemo(
+    () => hydrateRanges(captionBodyRanges, conversationSelector),
+    [captionBodyRanges, conversationSelector]
+  );
 
   const inputApiRef = useRef<InputApi | undefined>();
 
@@ -1285,8 +1300,8 @@ export function MediaEditor({
             <div className="MediaEditor__tools-row-2">
               <div className="MediaEditor__tools--input dark-theme">
                 <CompositionInput
-                  draftText={draftText}
-                  draftBodyRanges={draftBodyRanges}
+                  draftText={caption}
+                  draftBodyRanges={hydratedBodyRanges}
                   getPreferredBadge={getPreferredBadge}
                   i18n={i18n}
                   inputApi={inputApiRef}
@@ -1302,11 +1317,9 @@ export function MediaEditor({
                     setCaption(messageText);
                   }}
                   onPickEmoji={onPickEmoji}
-                  onSubmit={() => {
-                    inputApiRef.current?.reset();
-                  }}
+                  onSubmit={noop}
                   onTextTooLong={onTextTooLong}
-                  placeholder="Message"
+                  placeholder={i18n('icu:MediaEditor__input-placeholder')}
                   platform={platform}
                   sendCounter={0}
                   sortedGroupMembers={sortedGroupMembers}
