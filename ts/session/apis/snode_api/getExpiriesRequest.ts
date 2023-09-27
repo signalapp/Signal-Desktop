@@ -147,12 +147,6 @@ async function buildGetExpiriesRequest(
     return null;
   }
 
-  window.log.debug(
-    `WIP: [buildGetExpiriesRequest] starting\nlastReadMessageTimestamp: ${new Date(
-      timestamp
-    ).toUTCString()}`
-  );
-
   const signResult = await SnodeSignature.generateGetExpiriesSignature({
     timestamp,
     messageHashes,
@@ -195,6 +189,11 @@ export async function getExpiriesFromSnode(
   props: GetExpiriesFromSnodeProps
 ): Promise<Array<number>> {
   const { messageHashes } = props;
+
+  // FIXME There is a bug in the snode code that requires at least 2 messages to be requested. Will be fixed in next storage server release
+  if (messageHashes.length === 1) {
+    messageHashes.push('fakehash');
+  }
 
   const ourPubKey = UserUtils.getOurPubKeyStrFromCache();
   if (!ourPubKey) {
