@@ -13,6 +13,7 @@ import { isIncoming } from '../state/selectors/message';
 import { isMessageUnread } from '../util/isMessageUnread';
 import { notificationService } from '../services/notifications';
 import { queueUpdateMessage } from '../util/messageBatcher';
+import { strictAssert } from '../util/assert';
 
 export type ReadSyncAttributesType = {
   envelopeId: string;
@@ -125,32 +126,33 @@ export async function onSync(sync: ReadSyncAttributesType): Promise<void> {
       message.markRead(readAt, { skipSave: true });
 
       const updateConversation = async () => {
+        const conversation = message.getConversation();
+        strictAssert(conversation, `${logId}: conversation not found`);
         // onReadMessage may result in messages older than this one being
         //   marked read. We want those messages to have the same expire timer
         //   start time as this one, so we pass the readAt value through.
-        drop(
-          message
-            .getConversation()
-            ?.onReadMessage(message, readAt, newestSentAt)
-        );
+        drop(conversation.onReadMessage(message, readAt, newestSentAt));
       };
 
       // only available during initialization
       if (StartupQueue.isAvailable()) {
         const conversation = message.getConversation();
-        if (conversation) {
-          StartupQueue.add(
-            conversation.get('id'),
-            message.get('sent_at'),
-            updateConversation
-          );
-        }
+        strictAssert(
+          conversation,
+          `${logId}: conversation not found (StartupQueue)`
+        );
+        StartupQueue.add(
+          conversation.get('id'),
+          message.get('sent_at'),
+          updateConversation
+        );
       } else {
         // not awaiting since we don't want to block work happening in the
         // eventHandlerQueue
         drop(updateConversation());
       }
     } else {
+      log.info(`${logId}: updating expiration`);
       const now = Date.now();
       const existingTimestamp = message.get('expirationStartTimestamp');
       const expirationStartTimestamp = Math.min(
