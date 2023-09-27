@@ -43,7 +43,7 @@ import type {
   ConversationChangedActionType,
   ConversationRemovedActionType,
 } from './conversations';
-import { getConversationCallMode } from './conversations';
+import { getConversationCallMode, updateLastMessage } from './conversations';
 import * as log from '../../logging/log';
 import { strictAssert } from '../../util/assert';
 import { waitForOnline } from '../../util/waitForOnline';
@@ -402,6 +402,8 @@ const doGroupCallPeek = (
         peekInfo: formattedPeekInfo,
       },
     });
+
+    dispatch(updateLastMessage(conversationId));
   });
 };
 
