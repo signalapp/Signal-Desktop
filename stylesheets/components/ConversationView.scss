@@ -32,6 +32,7 @@
       margin: 0;
       max-width: 100%;
       position: relative;
+      z-index: 0;
     }
 
     -webkit-padding-start: 0px;
@@ -46,6 +47,9 @@
   }
 
   &__composition-area {
+    position: relative;
+    z-index: 1;
+
     // We need to use the wrapper because the conversation view calculates the height of all
     //   things in the composition area. A margin on an inner div won't be included in that
     //   height calculation.
