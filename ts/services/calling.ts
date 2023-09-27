@@ -825,6 +825,9 @@ export class CallingClass {
             remoteDeviceStates,
           });
         },
+        onLowBandwidthForVideo: (_groupCall, _recovered) => {
+          // TODO: Implement handling of "low outgoing bandwidth for video" notification.
+        },
         onPeekChanged: groupCall => {
           const localDeviceState = groupCall.getLocalDeviceState();
           const peekInfo = groupCall.getPeekInfo() ?? null;
@@ -2145,6 +2148,11 @@ export class CallingClass {
         conversationId: conversation.id,
         isSharingScreen: Boolean(call.remoteSharingScreen),
       });
+    };
+
+    // eslint-disable-next-line no-param-reassign
+    call.handleLowBandwidthForVideo = _recovered => {
+      // TODO: Implement handling of "low outgoing bandwidth for video" notification.
     };
   }
 
