@@ -241,14 +241,16 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
       'unreadCount',
       'unreadMentionsCount',
       'isGroupV1AndDisabled',
-      'typingContactIds',
+      'typingContactIdTimestamps',
     ]),
     isConversationSelected: state.conversations.selectedConversationId === id,
     isIncomingMessageRequest: Boolean(
       conversation.messageRequestsEnabled &&
         !conversation.acceptedMessageRequest
     ),
-    isSomeoneTyping: Boolean(conversation.typingContactIds?.[0]),
+    isSomeoneTyping: Boolean(
+      Object.keys(conversation.typingContactIdTimestamps ?? {}).length > 0
+    ),
     ...conversationMessages,
 
     invitedContactsForNewlyCreatedGroup:

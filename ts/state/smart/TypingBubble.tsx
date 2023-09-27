@@ -1,23 +1,28 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { last } from 'lodash';
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { TypingBubble } from '../../components/conversation/TypingBubble';
-import { strictAssert } from '../../util/assert';
 
+import { TypingBubble } from '../../components/conversation/TypingBubble';
 import { useGlobalModalActions } from '../ducks/globalModals';
+import { useProxySelector } from '../../hooks/useProxySelector';
 import { getIntl, getTheme } from '../selectors/user';
-import { getConversationSelector } from '../selectors/conversations';
+import { getTimelineItem } from '../selectors/timeline';
+import {
+  getConversationSelector,
+  getConversationMessagesSelector,
+} from '../selectors/conversations';
 import { getPreferredBadgeSelector } from '../selectors/badges';
-import { isInternalUser } from '../selectors/items';
 
 type ExternalProps = {
   conversationId: string;
 };
 
-export function SmartTypingBubble(props: ExternalProps): JSX.Element {
-  const { conversationId } = props;
+export function SmartTypingBubble({
+  conversationId,
+}: ExternalProps): JSX.Element {
   const i18n = useSelector(getIntl);
   const theme = useSelector(getTheme);
   const getConversation = useSelector(getConversationSelector);
@@ -26,37 +31,39 @@ export function SmartTypingBubble(props: ExternalProps): JSX.Element {
     throw new Error(`Did not find conversation ${conversationId} in state!`);
   }
 
-  strictAssert(
-    conversation.typingContactIds?.[0],
-    'Missing typing contact IDs'
+  const typingContactIdTimestamps =
+    conversation.typingContactIdTimestamps ?? {};
+  const conversationMessages = useSelector(getConversationMessagesSelector)(
+    conversationId
   );
+  const lastMessageId = last(conversationMessages.items);
+  const lastItem = useProxySelector(getTimelineItem, lastMessageId);
+  let lastItemAuthorId: string | undefined;
+  let lastItemTimestamp: number | undefined;
+  if (lastItem?.data) {
+    if ('author' in lastItem.data) {
+      lastItemAuthorId = lastItem.data.author?.id;
+    }
+    if ('timestamp' in lastItem.data) {
+      lastItemTimestamp = lastItem.data.timestamp;
+    }
+  }
 
   const { showContactModal } = useGlobalModalActions();
-
-  const preferredBadgeSelector = useSelector(getPreferredBadgeSelector);
-
-  const internalUser = useSelector(isInternalUser);
-  const typingContactIdsVisible = internalUser
-    ? conversation.typingContactIds
-    : conversation.typingContactIds.slice(0, 1);
-
-  const typingContacts = typingContactIdsVisible
-    .map(contactId => getConversation(contactId))
-    .map(typingConversation => {
-      return {
-        ...typingConversation,
-        badge: preferredBadgeSelector(typingConversation.badges),
-      };
-    });
+  const getPreferredBadge = useSelector(getPreferredBadgeSelector);
 
   return (
     <TypingBubble
-      showContactModal={showContactModal}
       conversationId={conversationId}
       conversationType={conversation.type}
+      typingContactIdTimestamps={typingContactIdTimestamps}
+      lastItemAuthorId={lastItemAuthorId}
+      lastItemTimestamp={lastItemTimestamp}
       i18n={i18n}
       theme={theme}
-      typingContacts={typingContacts}
+      getConversation={getConversation}
+      getPreferredBadge={getPreferredBadge}
+      showContactModal={showContactModal}
     />
   );
 }

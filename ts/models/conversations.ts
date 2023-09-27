@@ -217,7 +217,11 @@ export class ConversationModel extends window.Backbone
 
   contactTypingTimers?: Record<
     string,
-    { senderId: string; timer: NodeJS.Timer }
+    {
+      senderId: string;
+      timer: NodeJS.Timer;
+      timestamp: number;
+    }
   >;
 
   contactCollection?: Backbone.Collection<ConversationModel>;

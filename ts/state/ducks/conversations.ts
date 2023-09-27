@@ -298,7 +298,7 @@ export type ConversationType = ReadonlyDeep<
     unreadMentionsCount?: number;
     isSelected?: boolean;
     isFetchingUUID?: boolean;
-    typingContactIds?: Array<string>;
+    typingContactIdTimestamps?: Record<string, number>;
     recentMediaItems?: ReadonlyArray<MediaItemType>;
     profileSharing?: boolean;
 

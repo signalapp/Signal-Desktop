@@ -1386,6 +1386,10 @@ $message-padding-horizontal: 12px;
   }
 }
 
+.module-message--typing-bubble {
+  height: 44px;
+}
+
 .module-message__typing-avatar-container {
   align-items: center;
   display: flex;
@@ -1729,7 +1733,7 @@ $message-padding-horizontal: 12px;
   }
 }
 
-.module-message__typing-container {
+.module-message__typing-animation-container {
   height: 16px;
 
   display: flex;

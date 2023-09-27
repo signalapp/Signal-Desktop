@@ -81,7 +81,9 @@ export function getConversation(model: ConversationModel): ConversationType {
     Object.values(model.contactTypingTimers || {}),
     'timestamp'
   );
-  const typingContactIds = typingValues.map(({ senderId }) => senderId);
+  const typingContactIdTimestamps = Object.fromEntries(
+    typingValues.map(({ senderId, timestamp }) => [senderId, timestamp])
+  );
 
   const ourAci = window.textsecure.storage.user.getAci();
   const ourPni = window.textsecure.storage.user.getPni();
@@ -222,7 +224,7 @@ export function getConversation(model: ConversationModel): ConversationType {
     timestamp: dropNull(timestamp),
     title: getTitle(attributes),
     titleNoDefault: getTitleNoDefault(attributes),
-    typingContactIds,
+    typingContactIdTimestamps,
     searchableTitle: isMe(attributes)
       ? window.i18n('icu:noteToSelf')
       : getTitle(attributes),

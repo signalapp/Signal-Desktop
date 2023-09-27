@@ -795,7 +795,6 @@ export class Timeline extends React.Component<
       invitedContactsForNewlyCreatedGroup,
       isConversationSelected,
       isGroupV1AndDisabled,
-      isSomeoneTyping,
       items,
       messageLoadingState,
       oldestUnseenIndex,
@@ -1144,7 +1143,7 @@ export class Timeline extends React.Component<
 
                   {messageNodes}
 
-                  {isSomeoneTyping && haveNewest && renderTypingBubble(id)}
+                  {haveNewest && renderTypingBubble(id)}
 
                   <div
                     className="module-timeline__messages__at-bottom-detector"

@@ -60,7 +60,7 @@ export type PropsData = Pick<
   | 'shouldShowDraft'
   | 'title'
   | 'type'
-  | 'typingContactIds'
+  | 'typingContactIdTimestamps'
   | 'unblurredAvatarPath'
   | 'unreadCount'
   | 'unreadMentionsCount'
@@ -104,14 +104,15 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
     theme,
     title,
     type,
-    typingContactIds,
+    typingContactIdTimestamps,
     unblurredAvatarPath,
     unreadCount,
     unreadMentionsCount,
     serviceId,
   }) {
     const isMuted = Boolean(muteExpiresAt && Date.now() < muteExpiresAt);
-    const isSomeoneTyping = (typingContactIds?.length ?? 0) > 0;
+    const isSomeoneTyping =
+      Object.keys(typingContactIdTimestamps ?? {}).length > 0;
     const headerName = (
       <>
         {isMe ? (
