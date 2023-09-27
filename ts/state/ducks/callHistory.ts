@@ -3,6 +3,7 @@
 
 import type { ReadonlyDeep } from 'type-fest';
 import type { ThunkAction } from 'redux-thunk';
+import { omit } from 'lodash';
 import type { StateType as RootStateType } from '../reducer';
 import { clearCallHistoryDataAndSync } from '../../util/callDisposition';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions';
@@ -22,13 +23,19 @@ export type CallHistoryState = ReadonlyDeep<{
   callHistoryByCallId: Record<string, CallHistoryDetails>;
 }>;
 
-const CALL_HISTORY_CACHE = 'callHistory/CACHE';
+const CALL_HISTORY_ADD = 'callHistory/ADD';
+const CALL_HISTORY_REMOVE = 'callHistory/REMOVE';
 const CALL_HISTORY_RESET = 'callHistory/RESET';
 const CALL_HISTORY_UPDATE_UNREAD = 'callHistory/UPDATE_UNREAD';
 
-export type CallHistoryCache = ReadonlyDeep<{
-  type: typeof CALL_HISTORY_CACHE;
+export type CallHistoryAdd = ReadonlyDeep<{
+  type: typeof CALL_HISTORY_ADD;
   payload: CallHistoryDetails;
+}>;
+
+export type CallHistoryRemove = ReadonlyDeep<{
+  type: typeof CALL_HISTORY_REMOVE;
+  payload: CallHistoryDetails['callId'];
 }>;
 
 export type CallHistoryReset = ReadonlyDeep<{
@@ -41,7 +48,10 @@ export type CallHistoryUpdateUnread = ReadonlyDeep<{
 }>;
 
 export type CallHistoryAction = ReadonlyDeep<
-  CallHistoryCache | CallHistoryReset | CallHistoryUpdateUnread
+  | CallHistoryAdd
+  | CallHistoryRemove
+  | CallHistoryReset
+  | CallHistoryUpdateUnread
 >;
 
 export function getEmptyState(): CallHistoryState {
@@ -113,11 +123,24 @@ function markCallsTabViewed(): ThunkAction<
   };
 }
 
-function cacheCallHistory(callHistory: CallHistoryDetails): CallHistoryCache {
+function addCallHistory(callHistory: CallHistoryDetails): CallHistoryAdd {
   return {
-    type: CALL_HISTORY_CACHE,
+    type: CALL_HISTORY_ADD,
     payload: callHistory,
   };
+}
+
+function removeCallHistory(
+  callId: CallHistoryDetails['callId']
+): CallHistoryRemove {
+  return {
+    type: CALL_HISTORY_REMOVE,
+    payload: callId,
+  };
+}
+
+function resetCallHistory(): CallHistoryReset {
+  return { type: CALL_HISTORY_RESET };
 }
 
 function clearAllCallHistory(): ThunkAction<
@@ -134,14 +157,16 @@ function clearAllCallHistory(): ThunkAction<
       log.error('Error clearing call history', Errors.toLogFormat(error));
     } finally {
       // Just force a reset, even if the clear failed.
-      dispatch({ type: CALL_HISTORY_RESET });
+      dispatch(resetCallHistory());
       dispatch(updateCallHistoryUnreadCount());
     }
   };
 }
 
 export const actions = {
-  cacheCallHistory,
+  addCallHistory,
+  removeCallHistory,
+  resetCallHistory,
   clearAllCallHistory,
   updateCallHistoryUnreadCount,
   markCallHistoryRead,
@@ -159,13 +184,18 @@ export function reducer(
   switch (action.type) {
     case CALL_HISTORY_RESET:
       return { ...state, edition: state.edition + 1, callHistoryByCallId: {} };
-    case CALL_HISTORY_CACHE:
+    case CALL_HISTORY_ADD:
       return {
         ...state,
         callHistoryByCallId: {
           ...state.callHistoryByCallId,
           [action.payload.callId]: action.payload,
         },
+      };
+    case CALL_HISTORY_REMOVE:
+      return {
+        ...state,
+        callHistoryByCallId: omit(state.callHistoryByCallId, action.payload),
       };
     case CALL_HISTORY_UPDATE_UNREAD:
       return {

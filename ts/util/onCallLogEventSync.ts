@@ -18,7 +18,12 @@ export async function onCallLogEventSync(
 
   if (event === CallLogEvent.Clear) {
     log.info(`onCallLogEventSync: Clearing call history before ${timestamp}`);
-    await window.Signal.Data.clearCallHistory(timestamp);
+    try {
+      await window.Signal.Data.clearCallHistory(timestamp);
+    } finally {
+      // We want to reset the call history even if the clear fails.
+      window.reduxActions.callHistory.resetCallHistory();
+    }
     confirm();
   } else {
     throw missingCaseError(event);

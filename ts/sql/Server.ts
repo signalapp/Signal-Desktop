@@ -305,6 +305,7 @@ const dataInterface: ServerInterface = {
   getLastConversationMessage,
   getAllCallHistory,
   clearCallHistory,
+  cleanupCallHistoryMessages,
   getCallHistoryUnreadCount,
   markCallHistoryRead,
   markAllCallHistoryRead,
@@ -3292,6 +3293,24 @@ async function clearCallHistory(
 
     return messageIds;
   })();
+}
+
+async function cleanupCallHistoryMessages(): Promise<void> {
+  const db = getInstance();
+  return db
+    .transaction(() => {
+      const [query, params] = sql`
+        DELETE FROM messages
+        WHERE messages.id IN (
+          SELECT messages.id FROM messages
+          LEFT JOIN callsHistory ON callsHistory.callId IS messages.callId
+          WHERE messages.type IS 'call-history'
+          AND callsHistory.status IS ${CALL_STATUS_DELETED}
+        )
+      `;
+      db.prepare(query).run(params);
+    })
+    .immediate();
 }
 
 async function getCallHistoryMessageByCallId(options: {
