@@ -785,8 +785,18 @@ async function updateLocalCallHistory(
         'updateLocalCallHistory: Saving call history:',
         formatCallHistory(callHistory)
       );
+
+      const isDeleted =
+        callHistory.status === DirectCallStatus.Deleted ||
+        callHistory.status === GroupCallStatus.Deleted;
+
       await window.Signal.Data.saveCallHistory(callHistory);
-      window.reduxActions.callHistory.cacheCallHistory(callHistory);
+
+      if (isDeleted) {
+        window.reduxActions.callHistory.removeCallHistory(callHistory.callId);
+      } else {
+        window.reduxActions.callHistory.addCallHistory(callHistory);
+      }
 
       const prevMessage =
         await window.Signal.Data.getCallHistoryMessageByCallId({
@@ -804,6 +814,13 @@ async function updateLocalCallHistory(
           'updateLocalCallHistory: No previous call history message',
           conversation.id
         );
+      }
+
+      if (isDeleted) {
+        if (prevMessage != null) {
+          await window.Signal.Data.removeMessage(prevMessage.id);
+        }
+        return callHistory;
       }
 
       let unread = false;

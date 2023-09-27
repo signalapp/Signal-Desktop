@@ -8,6 +8,7 @@ import { strictAssert } from '../util/assert';
 let callsHistoryData: ReadonlyArray<CallHistoryDetails>;
 
 export async function loadCallsHistory(): Promise<void> {
+  await dataInterface.cleanupCallHistoryMessages();
   callsHistoryData = await dataInterface.getAllCallHistory();
 }
 
