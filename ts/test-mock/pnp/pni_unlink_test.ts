@@ -12,7 +12,7 @@ import {
 import createDebug from 'debug';
 
 import * as durations from '../../util/durations';
-import { generatePni } from '../../types/ServiceId';
+import { generatePni, toUntaggedPni } from '../../types/ServiceId';
 import { Bootstrap } from '../bootstrap';
 import type { App } from '../bootstrap';
 
@@ -92,7 +92,10 @@ describe('pnp/PNI DecryptionError unlink', function needsName() {
             pniChangeNumber,
           },
         },
-        { timestamp: bootstrap.getTimestamp(), updatedPni: generatePni() }
+        {
+          timestamp: bootstrap.getTimestamp(),
+          updatedPni: toUntaggedPni(generatePni()),
+        }
       )
     );
     sendPromises.push(
@@ -103,7 +106,10 @@ describe('pnp/PNI DecryptionError unlink', function needsName() {
             pniChangeNumber,
           },
         },
-        { timestamp: bootstrap.getTimestamp(), updatedPni: desktop.pni }
+        {
+          timestamp: bootstrap.getTimestamp(),
+          updatedPni: toUntaggedPni(desktop.pni),
+        }
       )
     );
 

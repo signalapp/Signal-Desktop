@@ -401,7 +401,7 @@ export default class AccountManager extends EventTarget {
         !provisionMessage.pniKeyPair ||
         !provisionMessage.profileKey ||
         !provisionMessage.aci ||
-        !isUntaggedPniString(provisionMessage.pni)
+        !isUntaggedPniString(provisionMessage.untaggedPni)
       ) {
         throw new Error(
           'AccountManager.registerSecondDevice: Provision message was missing key data'
@@ -410,7 +410,7 @@ export default class AccountManager extends EventTarget {
 
       const ourAci = normalizeAci(provisionMessage.aci, 'provisionMessage.aci');
       const ourPni = normalizePni(
-        toTaggedPni(provisionMessage.pni),
+        toTaggedPni(provisionMessage.untaggedPni),
         'provisionMessage.pni'
       );
 

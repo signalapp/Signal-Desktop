@@ -59,8 +59,10 @@ import {
   normalizeServiceId,
   normalizePni,
   isPniString,
+  isUntaggedPniString,
   isServiceIdString,
   fromPniObject,
+  toTaggedPni,
 } from '../types/ServiceId';
 import { normalizeAci } from '../util/normalizeAci';
 import { isAciString } from '../util/isAciString';
@@ -421,12 +423,13 @@ export default class MessageReceiver
                 'MessageReceiver.handleRequest.destinationServiceId'
               )
             : ourAci,
-          updatedPni: decoded.updatedPni
-            ? normalizePni(
-                decoded.updatedPni,
-                'MessageReceiver.handleRequest.updatedPni'
-              )
-            : undefined,
+          updatedPni:
+            decoded.updatedPni && isUntaggedPniString(decoded.updatedPni)
+              ? normalizePni(
+                  toTaggedPni(decoded.updatedPni),
+                  'MessageReceiver.handleRequest.updatedPni'
+                )
+              : undefined,
           timestamp: decoded.timestamp?.toNumber(),
           content: dropNull(decoded.content),
           serverGuid: decoded.serverGuid,
@@ -878,8 +881,11 @@ export default class MessageReceiver
           decoded.destinationServiceId || item.destinationServiceId || ourAci,
           'CachedEnvelope.destinationServiceId'
         ),
-        updatedPni: decoded.updatedPni
-          ? normalizePni(decoded.updatedPni, 'CachedEnvelope.updatedPni')
+        updatedPni: isUntaggedPniString(decoded.updatedPni)
+          ? normalizePni(
+              toTaggedPni(decoded.updatedPni),
+              'CachedEnvelope.updatedPni'
+            )
           : undefined,
         timestamp: decoded.timestamp?.toNumber(),
         content: dropNull(decoded.content),

@@ -7,7 +7,7 @@ import type { PrimaryDevice } from '@signalapp/mock-server';
 import createDebug from 'debug';
 
 import * as durations from '../../util/durations';
-import { generatePni } from '../../types/ServiceId';
+import { generatePni, toUntaggedPni } from '../../types/ServiceId';
 import { Bootstrap } from '../bootstrap';
 import type { App } from '../bootstrap';
 
@@ -48,7 +48,7 @@ describe('pnp/PNI Change', function needsName() {
         whitelisted: true,
         serviceE164: contactA.device.number,
         identityKey: contactA.getPublicKey(ServiceIdKind.PNI).serialize(),
-        pni: contactA.device.getServiceIdByKind(ServiceIdKind.PNI),
+        pni: toUntaggedPni(contactA.device.pni),
         givenName: 'ContactA',
       },
       ServiceIdKind.PNI
@@ -132,8 +132,7 @@ describe('pnp/PNI Change', function needsName() {
         state
           .removeRecord(
             item =>
-              item.record.contact?.pni ===
-              contactA.device.getServiceIdByKind(ServiceIdKind.PNI)
+              item.record.contact?.pni === toUntaggedPni(contactA.device.pni)
           )
           .addContact(
             contactA,
@@ -141,8 +140,7 @@ describe('pnp/PNI Change', function needsName() {
               identityState: Proto.ContactRecord.IdentityState.DEFAULT,
               whitelisted: true,
               serviceE164: contactA.device.number,
-              aci: updatedPni,
-              pni: updatedPni,
+              pni: toUntaggedPni(updatedPni),
               identityKey: contactA.getPublicKey(ServiceIdKind.PNI).serialize(),
             },
             ServiceIdKind.PNI
@@ -232,8 +230,7 @@ describe('pnp/PNI Change', function needsName() {
         state
           .removeRecord(
             item =>
-              item.record.contact?.pni ===
-              contactA.device.getServiceIdByKind(ServiceIdKind.PNI)
+              item.record.contact?.pni === toUntaggedPni(contactA.device.pni)
           )
           .addContact(
             contactB,
@@ -241,7 +238,7 @@ describe('pnp/PNI Change', function needsName() {
               identityState: Proto.ContactRecord.IdentityState.DEFAULT,
               whitelisted: true,
               serviceE164: contactA.device.number,
-              pni: contactB.device.getServiceIdByKind(ServiceIdKind.PNI),
+              pni: toUntaggedPni(contactB.device.pni),
 
               // Key change - different identity key
               identityKey: contactB.publicKey.serialize(),
@@ -336,8 +333,7 @@ describe('pnp/PNI Change', function needsName() {
         state
           .removeRecord(
             item =>
-              item.record.contact?.pni ===
-              contactA.device.getServiceIdByKind(ServiceIdKind.PNI)
+              item.record.contact?.pni === toUntaggedPni(contactA.device.pni)
           )
           .addContact(
             contactB,
@@ -345,7 +341,7 @@ describe('pnp/PNI Change', function needsName() {
               identityState: Proto.ContactRecord.IdentityState.DEFAULT,
               whitelisted: true,
               serviceE164: contactA.device.number,
-              pni: contactB.device.getServiceIdByKind(ServiceIdKind.PNI),
+              pni: toUntaggedPni(contactB.device.pni),
 
               // Note: No identityKey key provided here!
             },
@@ -470,8 +466,7 @@ describe('pnp/PNI Change', function needsName() {
         state
           .removeRecord(
             item =>
-              item.record.contact?.pni ===
-              contactA.device.getServiceIdByKind(ServiceIdKind.PNI)
+              item.record.contact?.pni === toUntaggedPni(contactA.device.pni)
           )
           .addContact(
             contactB,
@@ -479,7 +474,7 @@ describe('pnp/PNI Change', function needsName() {
               identityState: Proto.ContactRecord.IdentityState.DEFAULT,
               whitelisted: true,
               serviceE164: contactA.device.number,
-              pni: contactB.device.getServiceIdByKind(ServiceIdKind.PNI),
+              pni: toUntaggedPni(contactB.device.pni),
 
               // Note: No identityKey key provided here!
             },
@@ -503,8 +498,7 @@ describe('pnp/PNI Change', function needsName() {
         state
           .removeRecord(
             item =>
-              item.record.contact?.pni ===
-              contactB.device.getServiceIdByKind(ServiceIdKind.PNI)
+              item.record.contact?.pni === toUntaggedPni(contactB.device.pni)
           )
           .addContact(
             contactB,
@@ -512,7 +506,7 @@ describe('pnp/PNI Change', function needsName() {
               identityState: Proto.ContactRecord.IdentityState.DEFAULT,
               whitelisted: true,
               serviceE164: contactA.device.number,
-              pni: contactA.device.getServiceIdByKind(ServiceIdKind.PNI),
+              pni: toUntaggedPni(contactA.device.pni),
             },
             ServiceIdKind.PNI
           )

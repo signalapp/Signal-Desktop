@@ -15,6 +15,7 @@ import createDebug from 'debug';
 import * as durations from '../../util/durations';
 import { uuidToBytes } from '../../util/uuidToBytes';
 import { MY_STORY_ID } from '../../types/Stories';
+import { isUntaggedPniString, toTaggedPni } from '../../types/ServiceId';
 import { Bootstrap } from '../bootstrap';
 import type { App } from '../bootstrap';
 
@@ -345,17 +346,22 @@ describe('pnp/PNI Signature', function needsName() {
         after: state,
       });
 
-      const pni = newState.getContact(pniContact, ServiceIdKind.PNI);
-      const aci = newState.getContact(pniContact, ServiceIdKind.ACI);
+      const pniRecord = newState.getContact(pniContact, ServiceIdKind.PNI);
+      const aciRecord = newState.getContact(pniContact, ServiceIdKind.ACI);
       assert.strictEqual(
-        aci,
-        pni,
+        aciRecord,
+        pniRecord,
         'ACI Contact must be the same as PNI Contact storage service'
       );
-      assert(aci, 'ACI Contact must be in storage service');
+      assert(aciRecord, 'ACI Contact must be in storage service');
 
-      assert.strictEqual(aci?.aci, pniContact.device.aci);
-      assert.strictEqual(aci?.pni, pniContact.device.pni);
+      assert.strictEqual(aciRecord?.aci, pniContact.device.aci);
+      assert.strictEqual(
+        aciRecord?.pni &&
+          isUntaggedPniString(aciRecord?.pni) &&
+          toTaggedPni(aciRecord?.pni),
+        pniContact.device.pni
+      );
 
       // Two outgoing, one incoming
       const messages = window.locator('.module-message__text');

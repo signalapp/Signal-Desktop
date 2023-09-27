@@ -49,6 +49,9 @@ import {
   normalizeServiceId,
   normalizePni,
   ServiceIdKind,
+  isUntaggedPniString,
+  toUntaggedPni,
+  toTaggedPni,
 } from '../types/ServiceId';
 import { normalizeAci } from '../util/normalizeAci';
 import * as Stickers from '../types/Stickers';
@@ -171,7 +174,7 @@ export async function toContactRecord(
   }
   const pni = conversation.getPni();
   if (pni && RemoteConfig.isEnabled('desktop.pnp')) {
-    contactRecord.pni = pni;
+    contactRecord.pni = toUntaggedPni(pni);
   }
   const profileKey = conversation.get('profileKey');
   if (profileKey) {
@@ -972,9 +975,14 @@ export async function mergeContactRecord(
     aci: originalContactRecord.aci
       ? normalizeAci(originalContactRecord.aci, 'ContactRecord.aci')
       : undefined,
-    pni: originalContactRecord.pni
-      ? normalizePni(originalContactRecord.pni, 'ContactRecord.pni')
-      : undefined,
+    pni:
+      originalContactRecord.pni &&
+      isUntaggedPniString(originalContactRecord.pni)
+        ? normalizePni(
+            toTaggedPni(originalContactRecord.pni),
+            'ContactRecord.pni'
+          )
+        : undefined,
   };
 
   const isPniSupported = RemoteConfig.isEnabled('desktop.pnp');

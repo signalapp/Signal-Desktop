@@ -31,7 +31,7 @@ export function normalizeAci(
 
   if (!isAciString(result)) {
     logger.warn(
-      `Normalizing invalid serviceId: ${rawAci} to ${result} in context "${context}"`
+      `Normalizing invalid aci: ${rawAci} to ${result} in context "${context}"`
     );
 
     // Cast anyway we don't want to throw here
