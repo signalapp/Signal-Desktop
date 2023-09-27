@@ -1132,6 +1132,7 @@ export const actions = {
   unblurAvatar,
   updateConversationModelSharedGroups,
   updateGroupAttributes,
+  updateLastMessage,
   updateSharedGroups,
   verifyConversationsStoppingSend,
 };
@@ -4430,6 +4431,20 @@ function maybeUpdateSelectedMessageForDetails(
   return {
     ...state,
     targetedMessageForDetails,
+  };
+}
+
+export function updateLastMessage(
+  conversationId: string
+): ThunkAction<void, RootStateType, unknown, never> {
+  return async () => {
+    const conversationModel = window.ConversationController.get(conversationId);
+    if (conversationModel == null) {
+      throw new Error(
+        `updateLastMessage: Could not find conversation ${conversationId}`
+      );
+    }
+    await conversationModel.updateLastMessage();
   };
 }
 
