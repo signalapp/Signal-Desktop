@@ -189,11 +189,11 @@ async function expireOnNodes(
         );
       }
 
-      window.log.debug(
-        `WIP: [expireOnNodes] Success!\nHere are the results from one of the snodes.\nmessageHash: ${messageHash} \nexpiry: ${expiry} \nexpires at: ${new Date(
-          expiry
-        ).toUTCString()}\nnow: ${new Date(GetNetworkTime.getNowWithNetworkOffset()).toUTCString()}`
-      );
+      // window.log.debug(
+      //   `WIP: [expireOnNodes] Success!\nHere are the results from one of the snodes.\nmessageHash: ${messageHash} \nexpiry: ${expiry} \nexpires at: ${new Date(
+      //     expiry
+      //   ).toUTCString()}\nnow: ${new Date(GetNetworkTime.getNowWithNetworkOffset()).toUTCString()}`
+      // );
 
       return expiry;
     } catch (e) {
@@ -240,11 +240,11 @@ async function buildExpireRequest(
   }
 
   const expiry = GetNetworkTime.getNowWithNetworkOffset() + expireTimer;
-  window.log.debug(
-    `WIP: [buildExpireRequest]\nmessageHash: ${messageHash} should expire at ${new Date(
-      expiry
-    ).toUTCString()}`
-  );
+  // window.log.debug(
+  //   `WIP: [buildExpireRequest]\nmessageHash: ${messageHash} should expire at ${new Date(
+  //     expiry
+  //   ).toUTCString()}`
+  // );
   const signResult = await SnodeSignature.generateUpdateExpirySignature({
     shortenOrExtend,
     timestamp: expiry,
@@ -271,7 +271,7 @@ async function buildExpireRequest(
     },
   };
 
-  window.log.debug(`WIP: [buildExpireRequest] ${messageHash}\n${JSON.stringify(expireParams)}`);
+  // window.log.debug(`WIP: [buildExpireRequest] ${messageHash}\n${JSON.stringify(expireParams)}`);
 
   return expireParams;
 }

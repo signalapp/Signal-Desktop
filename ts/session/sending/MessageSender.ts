@@ -190,11 +190,11 @@ async function send(
           }
 
           await foundMessage.commit();
-          window?.log?.info(
-            `updated message ${foundMessage.get('id')} with hash: ${foundMessage.get(
-              'messageHash'
-            )}`
-          );
+          // window?.log?.info(
+          //   `updated message ${foundMessage.get('id')} with hash: ${foundMessage.get(
+          //     'messageHash'
+          //   )}`
+          // );
         }
       }
 

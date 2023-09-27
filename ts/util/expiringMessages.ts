@@ -668,25 +668,25 @@ export async function updateMessageExpiryOnSwarm(
       expires_at: newTTL,
     });
 
-    window.log.debug(
-      `WIP: [updateMessageExpiryOnSwarm] messageHash ${messageHash} has a new TTL of ${newTTL} which expires at ${new Date(
-        newTTL
-      ).toUTCString()}`
-    );
+    // window.log.debug(
+    //   `WIP: [updateMessageExpiryOnSwarm] messageHash ${messageHash} has a new TTL of ${newTTL} which expires at ${new Date(
+    //     newTTL
+    //   ).toUTCString()}`
+    // );
 
     if (shouldCommit) {
       await message.commit();
     }
   } else {
-    window.log.warn(
-      `WIP: [updateMessageExpiryOnSwarm]\nmessageHash ${messageHash} has no new TTL.${
-        expiresAt
-          ? `\nKeeping the old one ${expiresAt}which expires at ${new Date(
-              expiresAt
-            ).toUTCString()}`
-          : ''
-      }`
-    );
+    // window.log.warn(
+    //   `WIP: [updateMessageExpiryOnSwarm]\nmessageHash ${messageHash} has no new TTL.${
+    //     expiresAt
+    //       ? `\nKeeping the old one ${expiresAt}which expires at ${new Date(
+    //           expiresAt
+    //         ).toUTCString()}`
+    //       : ''
+    //   }`
+    // );
   }
 
   return message;
