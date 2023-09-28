@@ -828,6 +828,9 @@ export class CallingClass {
         onLowBandwidthForVideo: (_groupCall, _recovered) => {
           // TODO: Implement handling of "low outgoing bandwidth for video" notification.
         },
+        onReactions: (_groupCall, _reactions) => {
+          // TODO: Implement handling of reactions.
+        },
         onPeekChanged: groupCall => {
           const localDeviceState = groupCall.getLocalDeviceState();
           const peekInfo = groupCall.getPeekInfo() ?? null;
