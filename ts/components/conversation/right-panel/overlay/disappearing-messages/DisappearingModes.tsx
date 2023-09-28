@@ -1,9 +1,9 @@
 import React from 'react';
-import { DisappearingMessageConversationType } from '../../../../../util/expiringMessages';
+import { DisappearingMessageConversationModeType } from '../../../../../util/expiringMessages';
 import { PanelButtonGroup, PanelLabel } from '../../../../buttons/PanelButton';
 import { PanelRadioButton } from '../../../../buttons/PanelRadioButton';
 
-function loadDataTestId(mode: DisappearingMessageConversationType) {
+function loadDataTestId(mode: DisappearingMessageConversationModeType) {
   const dataTestId = 'disappear-%-option';
   switch (mode) {
     case 'legacy':
@@ -19,9 +19,9 @@ function loadDataTestId(mode: DisappearingMessageConversationType) {
 }
 
 type DisappearingModesProps = {
-  options: Record<DisappearingMessageConversationType, boolean>;
-  selected?: DisappearingMessageConversationType;
-  setSelected: (value: DisappearingMessageConversationType) => void;
+  options: Record<DisappearingMessageConversationModeType, boolean>;
+  selected?: DisappearingMessageConversationModeType;
+  setSelected: (value: DisappearingMessageConversationModeType) => void;
   hasOnlyOneMode?: boolean;
 };
 
@@ -63,11 +63,11 @@ export const DisappearingModes = (props: DisappearingModesProps) => {
               value={mode}
               isSelected={selected === mode}
               onSelect={() => {
-                setSelected(mode as DisappearingMessageConversationType);
+                setSelected(mode as DisappearingMessageConversationModeType);
               }}
-              disabled={options[mode as DisappearingMessageConversationType]}
+              disabled={options[mode as DisappearingMessageConversationModeType]}
               noBackgroundColor={true}
-              dataTestId={loadDataTestId(mode as DisappearingMessageConversationType)}
+              dataTestId={loadDataTestId(mode as DisappearingMessageConversationModeType)}
             />
           );
         })}

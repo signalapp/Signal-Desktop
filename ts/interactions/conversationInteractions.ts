@@ -44,7 +44,7 @@ import { encryptProfile } from '../util/crypto/profileEncrypter';
 import { ReleasedFeatures } from '../util/releaseFeature';
 import { Storage, setLastProfileUpdateTimestamp } from '../util/storage';
 import { UserGroupsWrapperActions } from '../webworker/workers/browser/libsession_worker_interface';
-import { DisappearingMessageConversationType } from '../util/expiringMessages';
+import { DisappearingMessageConversationModeType } from '../util/expiringMessages';
 import { GetNetworkTime } from '../session/apis/snode_api/getNetworkTime';
 
 export async function copyPublicKeyByConvoId(convoId: string) {
@@ -367,7 +367,7 @@ export function deleteAllMessagesByConvoIdWithConfirmation(conversationId: strin
 
 export async function setDisappearingMessagesByConvoId(
   conversationId: string,
-  expirationType: DisappearingMessageConversationType,
+  expirationType: DisappearingMessageConversationModeType,
   seconds?: number
 ) {
   const conversation = getConversationController().get(conversationId);

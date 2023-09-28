@@ -18,7 +18,7 @@ import {
 import { getConversationController } from '../../session/conversations';
 import { ReactionList } from '../../types/Reaction';
 import {
-  DisappearingMessageConversationType,
+  DisappearingMessageConversationModeType,
   DisappearingMessageType,
 } from '../../util/expiringMessages';
 
@@ -86,7 +86,7 @@ export type PropsForExpiringMessage = {
 };
 
 export type PropsForExpirationTimer = {
-  expirationType: DisappearingMessageConversationType;
+  expirationType: DisappearingMessageConversationModeType;
   timespan: string;
   disabled: boolean;
   pubkey: string;
@@ -247,7 +247,7 @@ export interface ReduxConversationType {
   weAreAdmin?: boolean;
   unreadCount?: number;
   mentionedUs?: boolean;
-  expirationType?: DisappearingMessageConversationType;
+  expirationType?: DisappearingMessageConversationModeType;
   expireTimer?: number;
   lastDisappearingMessageChangeTimestamp?: number;
   hasOutdatedClient?: string;

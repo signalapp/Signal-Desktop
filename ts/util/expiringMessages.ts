@@ -22,13 +22,13 @@ export type DisappearAfterSendOnly = Exclude<DisappearingMessageType, 'deleteAft
 // NOTE these cannot be imported in the nodejs side yet. We need to move the types to the own file with no window imports
 // TODO legacy messages support will be removed in a future release
 // TODO NOTE legacy is strictly used in the UI and is not a valid disappearing message mode
-export const DisappearingMessageConversationSetting = [
+export const DisappearingMessageConversationModes = [
   'off',
   DisappearingMessageMode[1], // deleteAfterRead
   DisappearingMessageMode[2], // deleteAfterSend
   'legacy',
 ] as const;
-export type DisappearingMessageConversationType = typeof DisappearingMessageConversationSetting[number]; // TODO we should make this type a bit more hardcoded than being just resolved as a string
+export type DisappearingMessageConversationModeType = typeof DisappearingMessageConversationModes[number]; // TODO we should make this type a bit more hardcoded than being just resolved as a string
 
 export const DEFAULT_TIMER_OPTION = {
   DELETE_AFTER_READ: 43200, // 12 hours
@@ -243,7 +243,7 @@ export const ExpirationTimerOptions = {
 };
 
 export function setExpirationStartTimestamp(
-  mode: DisappearingMessageConversationType,
+  mode: DisappearingMessageConversationModeType,
   timestamp?: number,
   callLocation?: string // this is for debugging purposes
 ): number | undefined {
@@ -301,7 +301,7 @@ export function setExpirationStartTimestamp(
 
 // TODO legacy messages support will be removed in a future release
 export function isLegacyDisappearingModeEnabled(
-  expirationType: DisappearingMessageConversationType | DisappearingMessageType | undefined
+  expirationType: DisappearingMessageConversationModeType | DisappearingMessageType | undefined
 ): boolean {
   return Boolean(
     expirationType &&
@@ -323,7 +323,7 @@ export function isLegacyDisappearingModeEnabled(
 export function changeToDisappearingMessageType(
   convo: ConversationModel,
   expireTimer: number,
-  expirationType?: DisappearingMessageConversationType
+  expirationType?: DisappearingMessageConversationModeType
 ): DisappearingMessageType {
   if (expirationType === 'off' || expirationType === 'legacy') {
     // NOTE we would want this to be undefined but because of an issue with the protobuf implement we need to have a value
@@ -356,7 +356,7 @@ export function changeToDisappearingMessageConversationType(
   convo: ConversationModel,
   expirationType?: DisappearingMessageType,
   expireTimer?: number
-): DisappearingMessageConversationType {
+): DisappearingMessageConversationModeType {
   if (!expirationType || expirationType === 'unknown') {
     return expireTimer && expireTimer > 0 ? 'legacy' : 'off';
   }
@@ -387,7 +387,7 @@ function couldBeLegacyDisappearingMessageContent(contentMessage: SignalService.C
 function checkDisappearButIsntMessage(
   content: SignalService.Content,
   convo: ConversationModel,
-  expirationMode: DisappearingMessageConversationType,
+  expirationMode: DisappearingMessageConversationModeType,
   expirationTimer: number
 ): boolean {
   return (

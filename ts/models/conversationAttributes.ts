@@ -1,6 +1,6 @@
 import { defaults } from 'lodash';
 import { LastMessageStatusType } from '../state/ducks/conversations';
-import { DisappearingMessageConversationType } from '../util/expiringMessages';
+import { DisappearingMessageConversationModeType } from '../util/expiringMessages';
 
 /**
  * Private chats have always the type `Private`
@@ -105,7 +105,7 @@ export interface ConversationAttributes {
 
   blocksSogsMsgReqsTimestamp: number; // if the convo is blinded and the user has denied contact through sogs, this field be set to the user's latest message timestamp
 
-  expirationType: DisappearingMessageConversationType; // the type of expiring messages for this conversation
+  expirationType: DisappearingMessageConversationModeType; // disappearing messages setting for this conversation
   lastDisappearingMessageChangeTimestamp: number; // to avoid applying a change of disappear change when our current one was applied more recently
   hasOutdatedClient?: string; // to warn the user that the person he is talking to is using an old client which might cause issues
 }

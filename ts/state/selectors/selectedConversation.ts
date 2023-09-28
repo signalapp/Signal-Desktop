@@ -7,8 +7,8 @@ import { StateType } from '../reducer';
 import { getCanWrite, getModerators, getSubscriberCount } from './sogsRoomInfo';
 import { getIsMessageSelectionMode, getSelectedConversation } from './conversations';
 import {
-  DisappearingMessageConversationSetting,
-  DisappearingMessageConversationType,
+  DisappearingMessageConversationModes,
+  DisappearingMessageConversationModeType,
 } from '../../util/expiringMessages';
 import { ReleasedFeatures } from '../../util/releaseFeature';
 import { ReduxConversationType } from '../ducks/conversations';
@@ -167,7 +167,7 @@ const getSelectedConversationExpirationModesWithLegacy = (convo: ReduxConversati
   }
 
   // NOTE this needs to be as any because the number of modes can change depending on if v2 is released or we are in single mode
-  let modes: any = DisappearingMessageConversationSetting;
+  let modes: any = DisappearingMessageConversationModes;
 
   // Note to Self and Closed Groups only support deleteAfterSend and legacy modes
   const isClosedGroup = !convo.isPrivate && !convo.isPublic;
@@ -202,7 +202,7 @@ export const getSelectedConversationExpirationModes = (state: StateType) => {
   }
 
   // NOTE this needs to be as any because the number of modes can change depending on if v2 is released or we are in single mode
-  let modes: any = DisappearingMessageConversationSetting;
+  let modes: any = DisappearingMessageConversationModes;
   // TODO legacy messages support will be removed in a future release
   // TODO remove legacy mode
   modes = modes.slice(0, -1);
@@ -313,7 +313,7 @@ export function useSelectedExpireTimer(): number | undefined {
 }
 
 export function useSelectedConversationExpirationType():
-  | DisappearingMessageConversationType
+  | DisappearingMessageConversationModeType
   | undefined {
   return useSelector((state: StateType) => getSelectedConversation(state)?.expirationType);
 }

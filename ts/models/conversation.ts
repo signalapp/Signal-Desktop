@@ -118,7 +118,7 @@ import {
 } from '../state/selectors/sogsRoomInfo'; // decide it it makes sense to move this to a redux slice?
 
 import {
-  DisappearingMessageConversationType,
+  DisappearingMessageConversationModeType,
   changeToDisappearingMessageType,
 } from '../util/expiringMessages';
 import { markAttributesAsReadIfNeeded } from './messageFactory';
@@ -811,7 +811,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     shouldCommit = true,
     existingMessage,
   }: {
-    providedExpirationType?: DisappearingMessageConversationType;
+    providedExpirationType?: DisappearingMessageConversationModeType;
     providedExpireTimer?: number;
     providedChangeTimestamp: number;
     providedSource?: string;
@@ -2338,7 +2338,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     return [];
   }
 
-  private isDisappearingMode(mode: DisappearingMessageConversationType) {
+  private isDisappearingMode(mode: DisappearingMessageConversationModeType) {
     const success =
       mode === 'deleteAfterRead'
         ? this.get('expirationType') === 'deleteAfterRead'

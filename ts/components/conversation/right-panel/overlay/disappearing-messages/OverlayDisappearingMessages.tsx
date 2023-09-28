@@ -15,7 +15,7 @@ import {
 } from '../../../../../state/selectors/selectedConversation';
 import {
   DEFAULT_TIMER_OPTION,
-  DisappearingMessageConversationType,
+  DisappearingMessageConversationModeType,
 } from '../../../../../util/expiringMessages';
 import { Flex } from '../../../../basic/Flex';
 import { SessionButton } from '../../../../basic/SessionButton';
@@ -52,7 +52,7 @@ const StyledNonAdminDescription = styled.div`
 `;
 
 // TODO legacy messages support will be removed in a future release
-function loadDefaultTimeValue(modeSelected: DisappearingMessageConversationType | undefined) {
+function loadDefaultTimeValue(modeSelected: DisappearingMessageConversationModeType | undefined) {
   return modeSelected !== 'off'
     ? modeSelected !== 'legacy'
       ? modeSelected === 'deleteAfterSend'
@@ -63,7 +63,7 @@ function loadDefaultTimeValue(modeSelected: DisappearingMessageConversationType 
 }
 
 export type PropsForExpirationSettings = {
-  expirationType: DisappearingMessageConversationType | undefined;
+  expirationType: DisappearingMessageConversationModeType | undefined;
   expireTimer: number | undefined;
   isGroup: boolean | undefined;
   weAreAdmin: boolean | undefined;
@@ -75,11 +75,11 @@ export const OverlayDisappearingMessages = () => {
   const disappearingModeOptions = useSelector(getSelectedConversationExpirationModes);
 
   // NOTE if there is only 'off' and one disappearing message mode then we trigger single mode
-  const singleMode: DisappearingMessageConversationType | undefined =
+  const singleMode: DisappearingMessageConversationModeType | undefined =
     disappearingModeOptions &&
     disappearingModeOptions.off !== undefined &&
     Object.keys(disappearingModeOptions).length === 2
-      ? (Object.keys(disappearingModeOptions)[1] as DisappearingMessageConversationType)
+      ? (Object.keys(disappearingModeOptions)[1] as DisappearingMessageConversationModeType)
       : undefined;
   const hasOnlyOneMode = Boolean(singleMode && singleMode.length > 0);
 
@@ -88,9 +88,9 @@ export const OverlayDisappearingMessages = () => {
   const expireTimer = useSelectedExpireTimer();
   const weAreAdmin = useSelectedWeAreAdmin();
 
-  const [modeSelected, setModeSelected] = useState<DisappearingMessageConversationType | undefined>(
-    hasOnlyOneMode ? singleMode : expirationType
-  );
+  const [modeSelected, setModeSelected] = useState<
+    DisappearingMessageConversationModeType | undefined
+  >(hasOnlyOneMode ? singleMode : expirationType);
 
   const [timeSelected, setTimeSelected] = useState(expireTimer || 0);
   const timerOptions = useTimerOptionsByMode(modeSelected, hasOnlyOneMode);
