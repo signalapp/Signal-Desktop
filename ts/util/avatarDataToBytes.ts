@@ -101,15 +101,14 @@ export async function avatarDataToBytes(
     );
   } else if (color && text) {
     const { bg, fg } = getAvatarColor(color);
-    const textToWrite = text.toLocaleUpperCase();
 
     setCanvasBackground(bg, context, canvas);
     context.fillStyle = fg;
-    const font = await getFont(textToWrite);
+    const font = await getFont(text);
     context.font = font;
     context.textBaseline = 'middle';
     context.textAlign = 'center';
-    context.fillText(textToWrite, CANVAS_SIZE / 2, CANVAS_SIZE / 2 + 30);
+    context.fillText(text, CANVAS_SIZE / 2, CANVAS_SIZE / 2 + 30);
   } else if (color && icon) {
     const iconPath = `images/avatars/avatar_${icon}.svg`;
     await drawImage(iconPath, context, canvas);

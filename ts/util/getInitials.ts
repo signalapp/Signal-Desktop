@@ -22,7 +22,7 @@ export function getInitials(name?: string): string | undefined {
     return parsedName;
   }
 
-  const parts = parsedName.toUpperCase().split(' ');
+  const parts = parsedName.split(' ');
   const partsLen = parts.length;
 
   return partsLen === 1
