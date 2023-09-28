@@ -52,7 +52,15 @@ const StyledNonAdminDescription = styled.div`
 `;
 
 // TODO legacy messages support will be removed in a future release
-function loadDefaultTimeValue(modeSelected: DisappearingMessageConversationModeType | undefined) {
+function loadDefaultTimeValue(
+  modeSelected: DisappearingMessageConversationModeType | undefined,
+  hasOnlyOneMode: boolean
+) {
+  // NOTE if there is only 1 disappearing message mode available the default state is that it is turned off
+  if (hasOnlyOneMode) {
+    return 0;
+  }
+
   return modeSelected !== 'off'
     ? modeSelected !== 'legacy'
       ? modeSelected === 'deleteAfterSend'
@@ -134,9 +142,9 @@ export const OverlayDisappearingMessages = () => {
     handleSetTime(
       expireTimer !== undefined && expireTimer > -1
         ? expireTimer
-        : loadDefaultTimeValue(modeSelected)
+        : loadDefaultTimeValue(modeSelected, hasOnlyOneMode)
     );
-  }, [expireTimer, modeSelected]);
+  }, [expireTimer, hasOnlyOneMode, modeSelected]);
 
   // useEffect(() => {
   //   window.log.debug(
