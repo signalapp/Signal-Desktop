@@ -802,7 +802,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
   // tslint:disable: cyclomatic-complexity
   public async updateExpireTimer({
-    providedExpirationType,
+    providedDisappearingMode,
     providedExpireTimer,
     providedChangeTimestamp,
     providedSource,
@@ -811,7 +811,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     shouldCommit = true,
     existingMessage,
   }: {
-    providedExpirationType?: DisappearingMessageConversationModeType;
+    providedDisappearingMode?: DisappearingMessageConversationModeType;
     providedExpireTimer?: number;
     providedChangeTimestamp: number;
     providedSource?: string;
@@ -824,7 +824,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       window.log.warn("updateExpireTimer() Disappearing messages aren't supported in communities");
       return;
     }
-    let expirationMode = providedExpirationType;
+    let expirationMode = providedDisappearingMode;
     let expireTimer = providedExpireTimer;
     const lastDisappearingMessageChangeTimestamp = providedChangeTimestamp;
     const source = providedSource || UserUtils.getOurPubKeyStrFromCache();

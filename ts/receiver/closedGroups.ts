@@ -318,7 +318,7 @@ export async function handleNewClosedGroup(
 
       // TODO This is only applicable for old closed groups - will be removed in future
       await groupConvo.updateExpireTimer({
-        providedExpirationType: expireTimer === 0 ? 'off' : 'deleteAfterSend',
+        providedDisappearingMode: expireTimer === 0 ? 'off' : 'deleteAfterSend',
         providedExpireTimer: expireTimer,
         providedChangeTimestamp: GetNetworkTime.getNowWithNetworkOffset(),
         providedSource: sender,

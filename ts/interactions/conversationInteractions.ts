@@ -383,13 +383,13 @@ export async function setDisappearingMessagesByConvoId(
 
   if (!expirationMode || expirationMode === 'off' || !seconds || seconds <= 0) {
     await conversation.updateExpireTimer({
-      providedExpirationType: 'off',
+      providedDisappearingMode: 'off',
       providedExpireTimer: 0,
       providedChangeTimestamp,
     });
   } else {
     await conversation.updateExpireTimer({
-      providedExpirationType: expirationMode,
+      providedDisappearingMode: expirationMode,
       providedExpireTimer: seconds,
       providedChangeTimestamp,
     });

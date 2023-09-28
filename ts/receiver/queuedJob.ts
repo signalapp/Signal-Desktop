@@ -455,7 +455,7 @@ export async function handleMessageJob(
       }
 
       await conversation.updateExpireTimer({
-        providedExpirationType: expirationTypeUpdate,
+        providedDisappearingMode: expirationTypeUpdate,
         providedExpireTimer: expireTimerUpdate,
         providedChangeTimestamp: lastDisappearingMessageChangeTimestamp,
         providedSource: source,

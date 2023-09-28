@@ -231,7 +231,7 @@ async function handleUserProfileUpdate(result: IncomingConfResult): Promise<Inco
 
     if (wrapperNoteToSelfExpirySeconds !== expireTimer) {
       await ourConvo.updateExpireTimer({
-        providedExpirationType:
+        providedDisappearingMode:
           wrapperNoteToSelfExpirySeconds && wrapperNoteToSelfExpirySeconds > 0
             ? 'deleteAfterSend'
             : 'off',
@@ -387,7 +387,7 @@ async function handleContactsUpdate(result: IncomingConfResult): Promise<Incomin
         wrapperConvo.expirationMode !== contactConvo.get('expirationMode')
       ) {
         await contactConvo.updateExpireTimer({
-          providedExpirationType: wrapperConvo.expirationMode,
+          providedDisappearingMode: wrapperConvo.expirationMode,
           providedExpireTimer: wrapperConvo.expirationTimerSeconds,
           providedChangeTimestamp: result.latestEnvelopeTimestamp,
           providedSource: wrapperConvo.id,
