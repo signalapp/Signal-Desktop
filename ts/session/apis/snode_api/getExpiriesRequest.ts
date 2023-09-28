@@ -73,15 +73,12 @@ async function getExpiriesFromNodes(
       'batch'
     );
 
-    window.log.debug(`WIP: [getExpiriesFromNodes] result: ${JSON.stringify(result)}`);
-
     if (!result || result.length !== 1) {
-      window?.log?.warn(
-        `WIP: [getExpiriesFromNodes] There was an issue with the results. sessionRpc ${
-          targetNode.ip
-        }:${targetNode.port} expireRequest ${JSON.stringify(expireRequest)}`
+      throw Error(
+        `There was an issue with the results. sessionRpc ${targetNode.ip}:${
+          targetNode.port
+        } expireRequest ${JSON.stringify(expireRequest)}`
       );
-      return [];
     }
 
     // TODOLATER make sure that this code still works once disappearing messages is merged
@@ -89,45 +86,42 @@ async function getExpiriesFromNodes(
     const firstResult = result[0];
 
     if (firstResult.code !== 200) {
-      window?.log?.warn(`WIP: [getExpiriesFromNodes] result is not 200 but ${firstResult.code}`);
-      return [];
+      throw Error(`result is not 200 but ${firstResult.code}`);
     }
 
-    try {
-      const bodyFirstResult = firstResult.body;
-      const expirationResults = await processGetExpiriesRequestResponse(
-        targetNode,
-        bodyFirstResult.expiries as GetExpiriesResultsContent,
-        expireRequest.params.messages
-      );
+    const bodyFirstResult = firstResult.body;
+    const expirationResults = await processGetExpiriesRequestResponse(
+      targetNode,
+      bodyFirstResult.expiries as GetExpiriesResultsContent,
+      expireRequest.params.messages
+    );
 
-      if (!Object.keys(expirationResults).length) {
-        window?.log?.warn(
-          'WIP: [getExpiriesFromNodes] failed to parse "get_expiries" results. expirationResults is empty'
-        );
-        throw new Error('expirationResults is empty');
-      }
-
-      const expiryTimestamps: Array<number> = Object.values(expirationResults);
-
-      window.log.debug(
-        `WIP: [getExpiriesFromNodes] Success!\nHere are the results.\nexpirationResults: ${Object.entries(
-          expirationResults
-        )}`
-      );
-
-      return expiryTimestamps;
-    } catch (e) {
-      window?.log?.warn('WIP: [getExpiriesFromNodes] Failed to parse "swarm" result: ', e);
+    if (!Object.keys(expirationResults).length) {
+      throw new Error('expirationResults is empty');
     }
-    return [];
-  } catch (e) {
+
+    const expiryTimestamps: Array<number> = Object.values(expirationResults);
+
+    window.log.debug(
+      `WIP: [getExpiriesFromNodes] Success!\nHere are the results.\nexpirationResults: ${Object.entries(
+        expirationResults
+      )}`
+    );
+
+    return expiryTimestamps;
+  } catch (err) {
     window?.log?.warn(
       'WIP: [getExpiriesFromNodes] - send error:',
-      e,
+      err.message || err,
       `destination ${targetNode.ip}:${targetNode.port}`
     );
-    throw e;
+
+    // NOTE batch requests have their own retry logic which includes abort errors that will break our retry logic so we need to catch them and throw regular errors
+    if (err instanceof pRetry.AbortError) {
+      throw Error(err.message);
+    }
+
+    throw err;
   }
 }
 
@@ -203,26 +197,6 @@ export async function getExpiriesFromSnode(
 
   let snode: Snode | undefined;
 
-  await pRetry(
-    async () => {
-      const swarm = await getSwarmFor(ourPubKey);
-      snode = sample(swarm);
-      if (!snode) {
-        throw new EmptySwarmError(ourPubKey, 'Ran out of swarm nodes to query');
-      }
-    },
-    {
-      retries: 3,
-      factor: 2,
-      minTimeout: SeedNodeAPI.getMinTimeout(),
-      onFailedAttempt: e => {
-        window?.log?.warn(
-          `WIP: [getExpiriesFromSnode] get snode attempt #${e.attemptNumber} failed. ${e.retriesLeft} retries left... Error: ${e.message}`
-        );
-      },
-    }
-  );
-
   try {
     const expireRequestParams = await buildGetExpiriesRequest(props);
     if (!expireRequestParams) {
@@ -233,8 +207,10 @@ export async function getExpiriesFromSnode(
 
     await pRetry(
       async () => {
+        const swarm = await getSwarmFor(ourPubKey);
+        snode = sample(swarm);
         if (!snode) {
-          throw new Error(`No snode found.\n${JSON.stringify(props)}`);
+          throw new EmptySwarmError(ourPubKey, 'Ran out of swarm nodes to query');
         }
         expiryTimestamps = await getExpiriesFromNodes(snode, expireRequestParams);
       },
@@ -254,9 +230,8 @@ export async function getExpiriesFromSnode(
   } catch (e) {
     const snodeStr = snode ? `${snode.ip}:${snode.port}` : 'null';
     window?.log?.warn(
-      `WIP: [getExpiriesFromSnode] ${e.code ? `${e.code} ` : ''}${
-        e.message
-      } by ${ourPubKey} for ${messageHashes} via snode:${snodeStr}`
+      `WIP: [getExpiriesFromSnode] ${e.code ? `${e.code} ` : ''}${e.message ||
+        e} by ${ourPubKey} for ${messageHashes} via snode:${snodeStr}`
     );
     throw e;
   }
