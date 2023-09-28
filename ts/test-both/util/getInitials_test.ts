@@ -23,9 +23,18 @@ describe('getInitials', () => {
     assert.strictEqual(getInitials('Bo'), 'B');
   });
 
+  it('returns lowercase initials for lowercase names', () => {
+    assert.strictEqual(getInitials('alice'), 'a');
+    assert.strictEqual(getInitials('foo bar'), 'fb');
+  });
+
+  it('returns initials for lowercase with uppercase names', () => {
+    assert.strictEqual(getInitials('foo Bar'), 'fB');
+    assert.strictEqual(getInitials('Foo bar'), 'Fb');
+  });
+
   [
     'Foo Bar',
-    'foo bar',
     'F Bar',
     'Foo B',
     'FB',
@@ -38,7 +47,6 @@ describe('getInitials', () => {
     'Foo "Qux" Bar',
     'Foo-Qux Bar',
     'Foo Bar-Qux',
-    "Foo b'Arr",
   ].forEach(name => {
     it(`returns 'FB' for '${name}'`, () => {
       assert.strictEqual(getInitials(name), 'FB');
