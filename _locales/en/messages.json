@@ -5763,6 +5763,10 @@
     "messageformat": "There was an error when saving your settings. Please try again.",
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
+  "icu:MediaEditor__input-placeholder": {
+    "messageformat": "Message",
+    "description": "Placeholder for the input in the media editor"
+  },
   "icu:MediaEditor__clock-more-styles": {
     "messageformat": "More styles",
     "description": "Action button for switching up the clock styles"
