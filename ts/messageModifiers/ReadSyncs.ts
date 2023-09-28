@@ -42,10 +42,21 @@ async function maybeItIsAReactionReadSync(
     Number(sync.timestamp)
   );
 
-  if (!readReaction) {
+  if (
+    !readReaction ||
+    readReaction?.targetAuthorAci !== window.storage.user.getCheckedAci()
+  ) {
     log.info(`${logId} not found:`, sync.senderId, sync.sender, sync.senderAci);
     return;
   }
+
+  log.info(
+    `${logId} read reaction sync found:`,
+    readReaction.conversationId,
+    sync.senderId,
+    sync.sender,
+    sync.senderAci
+  );
 
   remove(sync);
 
