@@ -186,7 +186,10 @@ import {
   getCallsHistoryForRedux,
   loadCallsHistory,
 } from './services/callHistoryLoader';
-import { getCallIdFromEra } from './util/callDisposition';
+import {
+  getCallIdFromEra,
+  updateLocalGroupCallHistoryTimestamp,
+} from './util/callDisposition';
 
 export function isOverHourIntoPast(timestamp: number): boolean {
   return isNumber(timestamp) && isOlderThan(timestamp, HOUR);
@@ -2908,16 +2911,29 @@ export async function startApp(): Promise<void> {
   ): boolean {
     if (message.groupCallUpdate) {
       if (message.groupV2 && messageDescriptor.type === Message.GROUP) {
+        const conversationId = messageDescriptor.id;
+        const callId =
+          message.groupCallUpdate?.eraId != null
+            ? getCallIdFromEra(message.groupCallUpdate.eraId)
+            : null;
         log.info(
           'handleGroupCallUpdateMessage',
           message.timestamp,
-          message.groupCallUpdate?.eraId != null
-            ? getCallIdFromEra(message.groupCallUpdate.eraId)
-            : null
+          callId,
+          conversationId
         );
         window.reduxActions.calling.peekNotConnectedGroupCall({
-          conversationId: messageDescriptor.id,
+          conversationId,
         });
+        if (callId != null) {
+          drop(
+            updateLocalGroupCallHistoryTimestamp(
+              conversationId,
+              callId,
+              message.timestamp
+            )
+          );
+        }
         return true;
       }
       log.warn(
