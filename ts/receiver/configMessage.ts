@@ -698,7 +698,10 @@ async function applyConvoVolatileUpdateFromWrapper(
         foundConvo.get('expirationMode') === 'legacy') &&
       foundConvo.get('expireTimer') > 0
     ) {
-      const messages2Expire = await Data.getUnreadByConversation(convoId, lastReadMessageTimestamp);
+      const messages2Expire = await Data.getDisappearingUnreadByConversation(
+        convoId,
+        lastReadMessageTimestamp
+      );
 
       if (messages2Expire.length) {
         const messageHashes = compact(

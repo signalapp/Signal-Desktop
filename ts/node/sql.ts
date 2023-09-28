@@ -1143,6 +1143,24 @@ function getUnreadByConversation(conversationId: string, sentBeforeTimestamp: nu
   return map(rows, row => jsonToObject(row.json));
 }
 
+function getDisappearingUnreadByConversation(conversationId: string, sentBeforeTimestamp: number) {
+  const rows = assertGlobalInstance()
+    .prepare(
+      `SELECT * FROM ${MESSAGES_TABLE} WHERE
+      unread = $unread AND expireTimer > 0 AND
+      conversationId = $conversationId AND
+      COALESCE(serverTimestamp, sent_at) <= $sentBeforeTimestamp
+     ${orderByClauseASC};`
+    )
+    .all({
+      unread: toSqliteBoolean(true),
+      conversationId,
+      sentBeforeTimestamp,
+    });
+
+  return map(rows, row => jsonToObject(row.json));
+}
+
 /**
  * Warning: This does not start expiration timer
  */
@@ -2383,6 +2401,7 @@ export const sqlNode = {
   removeMessagesByIds,
   removeAllMessagesInConversation,
   getUnreadByConversation,
+  getDisappearingUnreadByConversation,
   markAllAsReadByConversationNoExpiration,
   getUnreadCountByConversation,
   getMessageCountByType,

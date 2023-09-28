@@ -345,6 +345,17 @@ async function getUnreadByConversation(
   return new MessageCollection(messages);
 }
 
+async function getDisappearingUnreadByConversation(
+  conversationId: string,
+  sentBeforeTimestamp: number
+): Promise<MessageCollection> {
+  const messages = await channels.getDisappearingUnreadByConversation(
+    conversationId,
+    sentBeforeTimestamp
+  );
+  return new MessageCollection(messages);
+}
+
 async function markAllAsReadByConversationNoExpiration(
   conversationId: string,
   returnMessagesUpdated: boolean // for performance reason we do not return them because usually they are not needed
@@ -795,6 +806,7 @@ export const Data = {
   getMessageByServerId,
   filterAlreadyFetchedOpengroupMessage,
   getUnreadByConversation,
+  getDisappearingUnreadByConversation,
   getUnreadCountByConversation,
   markAllAsReadByConversationNoExpiration,
   getMessageCountByType,
