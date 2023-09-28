@@ -15,7 +15,7 @@ import { showMessageRequestBannerOutsideRedux } from '../state/ducks/userConfig'
 import { getHideMessageRequestBannerOutsideRedux } from '../state/selectors/userConfig';
 import { GoogleChrome } from '../util';
 import {
-  changeToDisappearingMessageConversationType,
+  changeToDisappearingConversationMode,
   setExpirationStartTimestamp,
 } from '../util/expiringMessages';
 import { LinkPreviews } from '../util/linkPreviews';
@@ -347,7 +347,7 @@ async function markConvoAsReadIfOutgoingMessage(
         expireTimer > 0 &&
         Boolean(message.get('expirationStartTimestamp')) === false
       ) {
-        const expirationMode = changeToDisappearingMessageConversationType(
+        const expirationMode = changeToDisappearingConversationMode(
           conversation,
           expirationType,
           expireTimer
@@ -397,7 +397,7 @@ export async function handleMessageJob(
       messageModel.get('expireTimer') > 0 &&
       Boolean(messageModel.get('expirationStartTimestamp')) === false
     ) {
-      const expirationMode = changeToDisappearingMessageConversationType(
+      const expirationMode = changeToDisappearingConversationMode(
         conversation,
         messageModel.get('expirationType'),
         messageModel.get('expireTimer')
@@ -436,7 +436,7 @@ export async function handleMessageJob(
       }
 
       const expireTimerUpdate = expirationTimerUpdate?.expireTimer || 0;
-      const expirationTypeUpdate = changeToDisappearingMessageConversationType(
+      const expirationTypeUpdate = changeToDisappearingConversationMode(
         conversation,
         expirationTimerUpdate?.expirationType,
         expireTimerUpdate

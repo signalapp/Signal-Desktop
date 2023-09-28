@@ -91,7 +91,7 @@ import { roomHasBlindEnabled } from '../types/sqlSharedTypes';
 import {
   ExpirationTimerOptions,
   setExpirationStartTimestamp,
-  changeToDisappearingMessageConversationType,
+  changeToDisappearingConversationMode,
   checkForExpireUpdateInContentMessage,
   updateMessageExpiryOnSwarm,
 } from '../util/expiringMessages';
@@ -267,7 +267,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         return '';
       }
 
-      const expirationMode = changeToDisappearingMessageConversationType(
+      const expirationMode = changeToDisappearingConversationMode(
         convo,
         expireTimerUpdate?.expirationType,
         expireTimer
@@ -334,7 +334,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     }
 
     const { expireTimer, fromSync, source } = timerUpdate;
-    const expirationMode = changeToDisappearingMessageConversationType(
+    const expirationMode = changeToDisappearingConversationMode(
       convo,
       timerUpdate?.expirationType || 'unknown',
       expireTimer || 0
@@ -1111,7 +1111,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const expireTimer = this.get('expireTimer');
 
     if (canBeDeleteAfterRead && expirationType && expireTimer > 0) {
-      const expirationMode = changeToDisappearingMessageConversationType(
+      const expirationMode = changeToDisappearingConversationMode(
         convo,
         expirationType,
         expireTimer

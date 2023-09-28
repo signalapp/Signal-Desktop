@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { Data } from '../../data/data';
 import { SignalService } from '../../protobuf';
 import {
-  changeToDisappearingMessageConversationType,
+  changeToDisappearingConversationMode,
   setExpirationStartTimestamp,
 } from '../../util/expiringMessages';
 import { PnServer } from '../apis/push_notification_api';
@@ -140,11 +140,7 @@ async function handleMessageSentSuccess(
     expireTimer > 0 &&
     Boolean(fetchedMessage.get('expirationStartTimestamp')) === false
   ) {
-    const expirationMode = changeToDisappearingMessageConversationType(
-      convo,
-      expirationType,
-      expireTimer
-    );
+    const expirationMode = changeToDisappearingConversationMode(convo, expirationType, expireTimer);
 
     // NOTE starting disappearing messages timer for all outbound messages
     if (expirationMode !== 'off') {

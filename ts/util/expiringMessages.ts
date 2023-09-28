@@ -352,7 +352,7 @@ export function changeToDisappearingMessageType(
  * @param expireTimer
  * @returns
  */
-export function changeToDisappearingMessageConversationType(
+export function changeToDisappearingConversationMode(
   convo: ConversationModel,
   expirationType?: DisappearingMessageType,
   expireTimer?: number
@@ -437,7 +437,7 @@ export async function checkForExpireUpdateInContentMessage(
     : content.expirationTimer;
 
   // NOTE we don't use the expirationType directly from the Content Message because we need to resolve it to the correct convo type first in case it is legacy or has errors
-  const expirationMode = changeToDisappearingMessageConversationType(
+  const expirationMode = changeToDisappearingConversationMode(
     convoToUpdate,
     DisappearingMessageMode[content.expirationType],
     expirationTimer

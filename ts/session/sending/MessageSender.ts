@@ -38,7 +38,7 @@ import { ed25519Str } from '../onions/onionPath';
 import { PubKey } from '../types';
 import { RawMessage } from '../types/RawMessage';
 import {
-  changeToDisappearingMessageConversationType,
+  changeToDisappearingConversationMode,
   updateMessageExpiryOnSwarm,
 } from '../../util/expiringMessages';
 
@@ -172,7 +172,7 @@ async function send(
             // a message has started to disappear
             foundMessage.get('expirationStartTimestamp')
           ) {
-            const expirationMode = changeToDisappearingMessageConversationType(
+            const expirationMode = changeToDisappearingConversationMode(
               convo,
               expirationType,
               expireTimer
