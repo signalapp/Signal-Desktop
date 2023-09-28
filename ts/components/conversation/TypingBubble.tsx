@@ -56,14 +56,14 @@ const AVATAR_ANIMATION_PROPS: Record<'visible' | 'hidden', object> = {
     scale: 1,
     width: '28px',
     x: '0px',
-    y: '0px',
+    top: '0px',
   },
   hidden: {
     opacity: 0.5,
     scale: 0.5,
     width: '4px', // Match value of module-message__typing-avatar margin-inline-start
     x: '14px',
-    y: '30px',
+    top: '30px',
   },
 };
 
@@ -242,12 +242,12 @@ const BUBBLE_ANIMATION_PROPS: Record<'visible' | 'hidden', object> = {
   visible: {
     opacity: 1,
     scale: 1,
-    y: '0px',
+    top: '0px',
   },
   hidden: {
     opacity: 0.5,
     scale: 0.5,
-    y: '30px',
+    top: '30px',
   },
 };
 
@@ -347,13 +347,14 @@ export function TypingBubble({
       className="module-timeline__typing-bubble-container"
       style={outerDivStyle}
     >
-      <div
+      <animated.div
         className={classNames(
           'module-message',
           'module-message--incoming',
           'module-message--typing-bubble',
           isGroup ? 'module-message--group' : null
         )}
+        style={outerDivStyle}
       >
         {isGroup && (
           <TypingBubbleGroupAvatars
@@ -366,7 +367,7 @@ export function TypingBubble({
             theme={theme}
           />
         )}
-        <div className="module-message__container-outer">
+        <div className="module-message__container-outer module-message__container-outer--typing-bubble">
           <animated.div
             className={classNames(
               'module-message__container',
@@ -379,7 +380,7 @@ export function TypingBubble({
             </div>
           </animated.div>
         </div>
-      </div>
+      </animated.div>
     </animated.div>
   );
 }

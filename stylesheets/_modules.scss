@@ -1386,8 +1386,8 @@ $message-padding-horizontal: 12px;
   }
 }
 
-.module-message--typing-bubble {
-  height: 44px;
+.module-message__container-outer--typing-bubble {
+  overflow-y: clip;
 }
 
 .module-message__typing-avatar-container {
@@ -1396,6 +1396,7 @@ $message-padding-horizontal: 12px;
   flex-direction: row-reverse;
   justify-content: center;
   margin-inline-end: 8px;
+  overflow-y: clip;
 
   &--with-reactions {
     padding-bottom: 15px;
@@ -1405,6 +1406,7 @@ $message-padding-horizontal: 12px;
 .module-message__typing-avatar {
   display: flex;
   justify-content: center;
+  position: relative;
   z-index: $z-index-base;
 
   &:not(:last-child) {
@@ -1735,6 +1737,7 @@ $message-padding-horizontal: 12px;
 
 .module-message__typing-animation-container {
   height: 16px;
+  overflow-y: clip;
 
   display: flex;
   flex-direction: row;
