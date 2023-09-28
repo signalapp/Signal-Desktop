@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { contextBridge, ipcRenderer } from 'electron';
+import { contextBridge, ipcRenderer, webFrame } from 'electron';
 import { MinimalSignalContext } from '../minimalContext';
 
 import type { PropsPreloadType } from '../../components/Preferences';
@@ -418,7 +418,11 @@ async function renderPreferences() {
     // 2. Trigger `preferred-size-changed` in the main process
     // 3. Finally result in `window.storage` update which will cause the
     //    rerender.
-    onZoomFactorChange: settingZoomFactor.setValue,
+    onZoomFactorChange: (value: number) => {
+      // Update Settings window zoom factor to match the selected value.
+      webFrame.setZoomFactor(value);
+      return settingZoomFactor.setValue(value);
+    },
 
     hasCustomTitleBar: MinimalSignalContext.OS.hasCustomTitleBar(),
     executeMenuRole: MinimalSignalContext.executeMenuRole,

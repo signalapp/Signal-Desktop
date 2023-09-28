@@ -532,7 +532,7 @@ function handleCommonWindowEvents(
   const focusInterval = setInterval(setWindowFocus, 10000);
   window.on('closed', () => clearInterval(focusInterval));
 
-  // Works only for mainWindow because it has `enablePreferredSizeMode`
+  // Works only for mainWindow and settings because they have `enablePreferredSizeMode`
   let lastZoomFactor = window.webContents.getZoomFactor();
   const onZoomChanged = () => {
     if (
@@ -548,15 +548,33 @@ function handleCommonWindowEvents(
       return;
     }
 
-    drop(
-      settingsChannel?.invokeCallbackInMainWindow('persistZoomFactor', [
-        zoomFactor,
-      ])
-    );
-
     lastZoomFactor = zoomFactor;
+    if (!mainWindow) {
+      return;
+    }
+
+    if (window === mainWindow) {
+      drop(
+        settingsChannel?.invokeCallbackInMainWindow('persistZoomFactor', [
+          zoomFactor,
+        ])
+      );
+    } else {
+      mainWindow.webContents.setZoomFactor(zoomFactor);
+    }
   };
-  window.webContents.on('preferred-size-changed', onZoomChanged);
+  window.once('ready-to-show', async () => {
+    // Workaround to apply zoomFactor because webPreferences does not handle it correctly
+    // https://github.com/electron/electron/issues/10572
+    const zoomFactor =
+      (await settingsChannel?.getSettingFromMainWindow('zoomFactor')) ?? 1;
+    window.webContents.setZoomFactor(zoomFactor);
+  });
+  window.on('show', () => {
+    // Install handler here after we init zoomFactor otherwise an initial
+    // preferred-size-changed event emits with an undesired zoomFactor.
+    window.webContents.on('preferred-size-changed', onZoomChanged);
+  });
 
   nativeThemeNotifier.addWindow(window);
 
@@ -1323,6 +1341,7 @@ async function showSettingsWindow() {
       contextIsolation: true,
       preload: join(__dirname, '../bundles/settings/preload.js'),
       nativeWindowOpen: true,
+      enablePreferredSizeMode: true,
     },
   };
 
