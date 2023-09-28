@@ -7,6 +7,7 @@ import protobuf from '../protobuf/wrap';
 
 import { SignalService as Proto } from '../protobuf';
 import { normalizeAci } from '../util/normalizeAci';
+import { isAciString } from '../util/isAciString';
 import { DurationInSeconds } from '../util/durations';
 import * as Errors from '../types/errors';
 import * as log from '../logging/log';
@@ -115,33 +116,44 @@ export class ContactBuffer extends ParserBase<
   }
 
   public override next(): ModifiedContactDetails | undefined {
-    const proto = this.decodeDelimited();
-    if (!proto) {
-      return undefined;
+    while (this.reader.pos < this.reader.len) {
+      const proto = this.decodeDelimited();
+      if (!proto) {
+        return undefined;
+      }
+
+      if (!proto.aci) {
+        return proto;
+      }
+
+      const { verified } = proto;
+
+      if (
+        !isAciString(proto.aci) ||
+        (verified?.destinationAci && !isAciString(verified.destinationAci))
+      ) {
+        continue;
+      }
+
+      return {
+        ...proto,
+
+        verified:
+          verified && verified.destinationAci
+            ? {
+                ...verified,
+
+                destinationAci: normalizeAci(
+                  verified.destinationAci,
+                  'ContactBuffer.verified.destinationAci'
+                ),
+              }
+            : verified,
+
+        aci: normalizeAci(proto.aci, 'ContactBuffer.aci'),
+      };
     }
 
-    if (!proto.aci) {
-      return proto;
-    }
-
-    const { verified } = proto;
-
-    return {
-      ...proto,
-
-      verified:
-        verified && verified.destinationAci
-          ? {
-              ...verified,
-
-              destinationAci: normalizeAci(
-                verified.destinationAci,
-                'ContactBuffer.verified.destinationAci'
-              ),
-            }
-          : verified,
-
-      aci: normalizeAci(proto.aci, 'ContactBuffer.aci'),
-    };
+    return undefined;
   }
 }
