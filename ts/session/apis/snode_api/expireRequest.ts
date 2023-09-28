@@ -134,7 +134,7 @@ async function processExpireRequestResponse(
 async function expireOnNodes(
   targetNode: Snode,
   expireRequest: UpdateExpiryOnNodeSubRequest
-): Promise<number | null> {
+): Promise<number> {
   try {
     const result = await doSnodeBatchRequest(
       [expireRequest],
@@ -145,12 +145,11 @@ async function expireOnNodes(
     );
 
     if (!result || result.length !== 1) {
-      window?.log?.warn(
-        `WIP: [expireOnNodes] There was an issue with the results. sessionRpc ${targetNode.ip}:${
+      throw Error(
+        `There was an issue with the results. sessionRpc ${targetNode.ip}:${
           targetNode.port
         } expireRequest ${JSON.stringify(expireRequest)}`
       );
-      return null;
     }
 
     // TODOLATER make sure that this code still works once disappearing messages is merged
@@ -158,55 +157,51 @@ async function expireOnNodes(
     const firstResult = result[0];
 
     if (firstResult.code !== 200) {
-      window?.log?.warn(`WIP: [expireOnNodes] result is not 200 but ${firstResult.code}`);
-      return null;
+      throw Error(`result is not 200 but ${firstResult.code}`);
     }
 
-    try {
-      const bodyFirstResult = firstResult.body;
-      const expirationResults = await processExpireRequestResponse(
-        expireRequest.params.pubkey,
-        targetNode,
-        bodyFirstResult.swarm as ExpireMessagesResultsContent,
-        expireRequest.params.messages
+    const bodyFirstResult = firstResult.body;
+    const expirationResults = await processExpireRequestResponse(
+      expireRequest.params.pubkey,
+      targetNode,
+      bodyFirstResult.swarm as ExpireMessagesResultsContent,
+      expireRequest.params.messages
+    );
+    const firstExpirationResult = Object.entries(expirationResults).at(0);
+    if (!firstExpirationResult) {
+      throw new Error('firstExpirationResult is null');
+    }
+
+    const messageHash = firstExpirationResult[0];
+    const expiry = firstExpirationResult[1].expiry;
+
+    if (!expiry || !messageHash) {
+      throw new Error(
+        `Something is wrong with the firstExpirationResult: ${JSON.stringify(
+          JSON.stringify(firstExpirationResult)
+        )}`
       );
-      const firstExpirationResult = Object.entries(expirationResults).at(0);
-      if (!firstExpirationResult) {
-        window?.log?.warn(
-          'WIP: [expireOnNodes] failed to parse "swarm" result. firstExpirationResult is null'
-        );
-        throw new Error('firstExpirationResult is null');
-      }
-
-      const messageHash = firstExpirationResult[0];
-      const expiry = firstExpirationResult[1].expiry;
-
-      if (!expiry || !messageHash) {
-        throw new Error(
-          `Something is wrong with the firstExpirationResult: ${JSON.stringify(
-            JSON.stringify(firstExpirationResult)
-          )}`
-        );
-      }
-
-      // window.log.debug(
-      //   `WIP: [expireOnNodes] Success!\nHere are the results from one of the snodes.\nmessageHash: ${messageHash} \nexpiry: ${expiry} \nexpires at: ${new Date(
-      //     expiry
-      //   ).toUTCString()}\nnow: ${new Date(GetNetworkTime.getNowWithNetworkOffset()).toUTCString()}`
-      // );
-
-      return expiry;
-    } catch (e) {
-      window?.log?.warn('WIP: [expireOnNodes] Failed to parse "swarm" result: ', e);
     }
-    return null;
-  } catch (e) {
+
+    // window.log.debug(
+    //   `WIP: [expireOnNodes] Success!\nHere are the results from one of the snodes.\nmessageHash: ${messageHash} \nexpiry: ${expiry} \nexpires at: ${new Date(
+    //     expiry
+    //   ).toUTCString()}\nnow: ${new Date(GetNetworkTime.getNowWithNetworkOffset()).toUTCString()}`
+    // );
+
+    return expiry;
+  } catch (err) {
     window?.log?.warn(
-      'WIP: [expireOnNodes] - send error:',
-      e,
+      'WIP: [expireOnNodes]',
+      err.message || err,
       `destination ${targetNode.ip}:${targetNode.port}`
     );
-    throw e;
+    // NOTE batch requests have their own retry logic which includes abort errors that will break our retry logic so we need to catch them and throw regular errors
+    if (err instanceof pRetry.AbortError) {
+      throw Error(err.message);
+    }
+
+    throw err;
   }
 }
 
@@ -299,38 +294,19 @@ export async function expireMessageOnSnode(
 
   let snode: Snode | undefined;
 
-  await pRetry(
-    async () => {
-      const swarm = await getSwarmFor(ourPubKey);
-      snode = sample(swarm);
-      if (!snode) {
-        throw new EmptySwarmError(ourPubKey, 'Ran out of swarm nodes to query');
-      }
-    },
-    {
-      retries: 3,
-      factor: 2,
-      minTimeout: SeedNodeAPI.getMinTimeout(),
-      onFailedAttempt: e => {
-        window?.log?.warn(
-          `WIP: [expireMessageOnSnode] get snode attempt #${e.attemptNumber} failed. ${e.retriesLeft} retries left... Error: ${e.message}`
-        );
-      },
-    }
-  );
-
   try {
     const expireRequestParams = await buildExpireRequest(props);
     if (!expireRequestParams) {
       throw new Error(`Failed to build expire request ${JSON.stringify(props)}`);
     }
-
     let newTTL = null;
 
     await pRetry(
       async () => {
+        const swarm = await getSwarmFor(ourPubKey);
+        snode = sample(swarm);
         if (!snode) {
-          throw new Error(`No snode found.\n${JSON.stringify(props)}`);
+          throw new EmptySwarmError(ourPubKey, 'Ran out of swarm nodes to query');
         }
         newTTL = await expireOnNodes(snode, expireRequestParams);
       },
@@ -350,9 +326,8 @@ export async function expireMessageOnSnode(
   } catch (e) {
     const snodeStr = snode ? `${snode.ip}:${snode.port}` : 'null';
     window?.log?.warn(
-      `WIP: [expireMessageOnSnode] ${e.code ? `${e.code} ` : ''}${
-        e.message
-      } by ${ourPubKey} for ${messageHash} via snode:${snodeStr}`
+      `WIP: [expireMessageOnSnode] ${e.code ? `${e.code} ` : ''}${e.message ||
+        e} by ${ourPubKey} for ${messageHash} via snode:${snodeStr}`
     );
     throw e;
   }

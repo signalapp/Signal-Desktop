@@ -244,7 +244,7 @@ export async function getExpiriesFromSnode(
         minTimeout: SeedNodeAPI.getMinTimeout(),
         onFailedAttempt: e => {
           window?.log?.warn(
-            `WIP: [getExpiriesFromSnode] expire message on snode attempt #${e.attemptNumber} failed. ${e.retriesLeft} retries left... Error: ${e.message}`
+            `WIP: [getExpiriesFromSnode] get expiries from snode attempt #${e.attemptNumber} failed. ${e.retriesLeft} retries left... Error: ${e.message}`
           );
         },
       }
