@@ -54,6 +54,7 @@ import {
   toTaggedPni,
 } from '../types/ServiceId';
 import { normalizeAci } from '../util/normalizeAci';
+import { isAciString } from '../util/isAciString';
 import * as Stickers from '../types/Stickers';
 import type {
   StoryDistributionWithMembersType,
@@ -995,6 +996,11 @@ export async function mergeContactRecord(
   // All contacts must have UUID
   if (!serviceId) {
     return { hasConflict: false, shouldDrop: true, details: ['no uuid'] };
+  }
+
+  // Contacts should not have PNI as ACI
+  if (aci && !isAciString(aci)) {
+    return { hasConflict: false, shouldDrop: true, details: ['invalid aci'] };
   }
 
   if (
