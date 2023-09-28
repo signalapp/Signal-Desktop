@@ -425,7 +425,7 @@ function saveConversation(data: ConversationAttributes): SaveConversationReturn 
     profileKey,
     zombies,
     left,
-    expirationType,
+    expirationMode,
     // TODO rename expireTimer to expirationTimer
     expireTimer,
     lastDisappearingMessageChangeTimestamp,
@@ -478,7 +478,7 @@ function saveConversation(data: ConversationAttributes): SaveConversationReturn 
       profileKey,
       zombies: zombies && zombies.length ? arrayStrToJson(zombies) : '[]',
       left: toSqliteBoolean(left),
-      expirationType,
+      expirationMode,
       expireTimer,
       lastDisappearingMessageChangeTimestamp,
       hasOutdatedClient,

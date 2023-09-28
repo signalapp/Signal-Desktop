@@ -46,7 +46,7 @@ export const ConversationHeaderTitle = () => {
   const isGroup = useSelectedIsGroup();
   const members = useSelectedMembers();
 
-  const expirationType = useSelectedConversationExpirationType();
+  const expirationMode = useSelectedConversationExpirationType();
   const expireTimer = useSelectedExpireTimer();
 
   const convoName = useConversationUsername(selectedConvoKey);
@@ -87,11 +87,11 @@ export const ConversationHeaderTitle = () => {
   // NOTE If disappearing messages is defined we must show it first
   const disappearingMessageSubtitle = useMemo(() => {
     const disappearingMessageSettingText =
-      expirationType === 'deleteAfterRead'
+      expirationMode === 'deleteAfterRead'
         ? window.i18n('disappearingMessagesModeAfterRead')
-        : expirationType === 'deleteAfterSend'
+        : expirationMode === 'deleteAfterSend'
         ? window.i18n('disappearingMessagesModeAfterSend')
-        : expirationType === 'legacy'
+        : expirationMode === 'legacy'
         ? isMe || (isGroup && !isPublic)
           ? window.i18n('disappearingMessagesModeAfterSend')
           : window.i18n('disappearingMessagesModeAfterRead')
@@ -106,7 +106,7 @@ export const ConversationHeaderTitle = () => {
           abbreviatedExpireTime ? ` - ${abbreviatedExpireTime}` : ''
         }`
       : null;
-  }, [expirationType, expireTimer, isGroup, isMe, isPublic]);
+  }, [expirationMode, expireTimer, isGroup, isMe, isPublic]);
 
   const handleRightPanelToggle = () => {
     if (isRightPanelOn) {
@@ -190,7 +190,7 @@ export const ConversationHeaderTitle = () => {
               subtitleStrings={subtitleStrings}
               onClickFunction={handleRightPanelToggle}
               showDisappearingMessageIcon={
-                visibleSubtitle === 'disappearingMessages' && expirationType !== 'off'
+                visibleSubtitle === 'disappearingMessages' && expirationMode !== 'off'
               }
             />
           )}

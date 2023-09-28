@@ -301,11 +301,11 @@ export function setExpirationStartTimestamp(
 
 // TODO legacy messages support will be removed in a future release
 export function isLegacyDisappearingModeEnabled(
-  expirationType: DisappearingMessageConversationModeType | DisappearingMessageType | undefined
+  expirationMode: DisappearingMessageConversationModeType | undefined
 ): boolean {
   return Boolean(
-    expirationType &&
-      expirationType !== 'off' &&
+    expirationMode &&
+      expirationMode !== 'off' &&
       !ReleasedFeatures.isDisappearMessageV2FeatureReleasedCached()
   );
 }
@@ -317,15 +317,15 @@ export function isLegacyDisappearingModeEnabled(
  * NOTE Used for sending or receiving data messages (protobuf)
  *
  * @param convo Conversation we want to set
- * @param expirationType DisappearingMessageConversationType
+ * @param expirationMode DisappearingMessageConversationModeType
  * @returns Disappearing mode we should use
  */
 export function changeToDisappearingMessageType(
   convo: ConversationModel,
   expireTimer: number,
-  expirationType?: DisappearingMessageConversationModeType
+  expirationMode?: DisappearingMessageConversationModeType
 ): DisappearingMessageType {
-  if (expirationType === 'off' || expirationType === 'legacy') {
+  if (expirationMode === 'off' || expirationMode === 'legacy') {
     // NOTE we would want this to be undefined but because of an issue with the protobuf implement we need to have a value
     return 'unknown';
   }
@@ -335,7 +335,7 @@ export function changeToDisappearingMessageType(
       return 'deleteAfterSend';
     }
 
-    return expirationType === 'deleteAfterSend' ? 'deleteAfterSend' : 'deleteAfterRead';
+    return expirationMode === 'deleteAfterSend' ? 'deleteAfterSend' : 'deleteAfterRead';
   }
 
   return 'unknown';
@@ -394,7 +394,7 @@ function checkDisappearButIsntMessage(
     content.dataMessage?.flags !== SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE &&
     expirationMode === 'off' &&
     expirationTimer === 0 &&
-    convo.get('expirationType') !== 'off' &&
+    convo.get('expirationMode') !== 'off' &&
     convo.get('expireTimer') !== 0
   );
 }
@@ -501,10 +501,10 @@ export async function checkForExpireUpdateInContentMessage(
     !isDisappearingMessagesV2Released &&
     !isLegacyConversationSettingMessage &&
     couldBeLegacyContentMessage &&
-    convoToUpdate.get('expirationType') !== 'off'
+    convoToUpdate.get('expirationMode') !== 'off'
   ) {
     if (
-      expirationMode !== convoToUpdate.get('expirationType') ||
+      expirationMode !== convoToUpdate.get('expirationMode') ||
       expirationTimer !== convoToUpdate.get('expireTimer')
     ) {
       window.log.debug(
@@ -517,7 +517,7 @@ export async function checkForExpireUpdateInContentMessage(
       expireUpdate.expirationType = changeToDisappearingMessageType(
         convoToUpdate,
         expireUpdate.expirationTimer,
-        convoToUpdate.get('expirationType')
+        convoToUpdate.get('expirationMode')
       );
       expireUpdate.isLegacyDataMessage = true;
     }
@@ -538,7 +538,7 @@ export async function checkForExpireUpdateInContentMessage(
     expireUpdate.expirationType = changeToDisappearingMessageType(
       convoToUpdate,
       expireUpdate.expirationTimer,
-      convoToUpdate.get('expirationType')
+      convoToUpdate.get('expirationMode')
     );
     expireUpdate.isLegacyDataMessage = true;
   }
@@ -645,11 +645,17 @@ export async function updateMessageExpiryOnSwarm(
   if (callLocation) {
     window.log.debug(`WIP: [updateMessageExpiryOnSwarm] called from: ${callLocation} `);
   }
-  // window.log.debug(`WIP: [updateMessageExpiryOnSwarm]\nmessage: ${JSON.stringify(message)}`);
+
+  if (!message.get('expirationType') || !message.get('expireTimer')) {
+    window.log.debug(
+      `WIP: [updateMessageExpiryOnSwarm] Message ${message.get(
+        'messageHash'
+      )} has no expirationType or expireTimer set. Ignoring`
+    );
+    return message;
+  }
 
   const messageHash = message.get('messageHash');
-  const expiresAt = message.get('expires_at');
-
   if (!messageHash) {
     window.log.debug(
       `WIP: [updateMessageExpiryOnSwarm] Missing messageHash message: ${JSON.stringify(message)}`
@@ -657,11 +663,14 @@ export async function updateMessageExpiryOnSwarm(
     return message;
   }
 
+  // window.log.debug(`WIP: [updateMessageExpiryOnSwarm]\nmessage: ${JSON.stringify(message)}`);
+
   const newTTL = await expireMessageOnSnode({
     messageHash,
     expireTimer: message.get('expireTimer') * 1000,
     shorten: true,
   });
+  const expiresAt = message.get('expires_at');
 
   if (newTTL && newTTL !== expiresAt) {
     message.set({

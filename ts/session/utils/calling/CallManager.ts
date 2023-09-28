@@ -516,7 +516,7 @@ export async function USER_callRecipient(recipient: string) {
   await calledConvo.unhideIfNeeded(false);
   weAreCallerOnCurrentCall = true;
 
-  const expirationMode = calledConvo.get('expirationType');
+  const expirationMode = calledConvo.get('expirationMode');
   const expireTimer = calledConvo.get('expireTimer') || 0;
   let expirationType;
   let expirationStartTimestamp;
@@ -901,7 +901,7 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
   callerConvo.set('active_at', networkTimestamp);
   await callerConvo.unhideIfNeeded(false);
 
-  const expirationMode = callerConvo.get('expirationType');
+  const expirationMode = callerConvo.get('expirationMode');
   const expireTimer = callerConvo.get('expireTimer') || 0;
   let expirationType;
   let expirationStartTimestamp;
@@ -1258,7 +1258,7 @@ async function addMissedCallMessage(callerPubkey: string, sentAt: number) {
     await incomingCallConversation.unhideIfNeeded(false);
   }
 
-  const expirationMode = incomingCallConversation.get('expirationType');
+  const expirationMode = incomingCallConversation.get('expirationMode');
   const expireTimer = incomingCallConversation.get('expireTimer') || 0;
   let expirationType;
   let expirationStartTimestamp;

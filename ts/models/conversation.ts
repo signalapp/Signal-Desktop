@@ -327,8 +327,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       toRet.avatarPath = avatarPath;
     }
 
-    if (this.get('expirationType')) {
-      toRet.expirationType = this.get('expirationType');
+    if (this.get('expirationMode')) {
+      toRet.expirationMode = this.get('expirationMode');
     }
 
     if (this.get('lastDisappearingMessageChangeTimestamp')) {
@@ -757,7 +757,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       expirationType: changeToDisappearingMessageType(
         this,
         this.get('expireTimer'),
-        this.get('expirationType')
+        this.get('expirationMode')
       ),
       expireTimer: this.get('expireTimer'),
       serverTimestamp: this.isPublic() ? networkTimestamp : undefined,
@@ -824,13 +824,13 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       window.log.warn("updateExpireTimer() Disappearing messages aren't supported in communities");
       return;
     }
-    let expirationType = providedExpirationType;
+    let expirationMode = providedExpirationType;
     let expireTimer = providedExpireTimer;
     const lastDisappearingMessageChangeTimestamp = providedChangeTimestamp;
     const source = providedSource || UserUtils.getOurPubKeyStrFromCache();
 
-    if (expirationType === undefined || expireTimer === undefined) {
-      expirationType = 'off';
+    if (expirationMode === undefined || expireTimer === undefined) {
+      expirationMode = 'off';
       expireTimer = 0;
     }
 
@@ -849,7 +849,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     // NOTE: We don' mind if the message is the same, we still want to update the conversation because we want to show visible control messages we receive an ExpirationTimerUpdate
     // Compare mode and timestamp
     if (
-      isEqual(expirationType, this.get('expirationType')) &&
+      isEqual(expirationMode, this.get('expirationMode')) &&
       isEqual(expireTimer, this.get('expireTimer'))
     ) {
       window.log.info(
@@ -867,7 +867,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const timestamp = (receivedAt || Date.now()) - 1;
 
     this.set({
-      expirationType,
+      expirationMode,
       expireTimer,
       lastDisappearingMessageChangeTimestamp,
     });
@@ -876,7 +876,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       'WIP: updateExpireTimer() Updating conversation disappearing messages setting',
       {
         id: this.idForLogging(),
-        expirationType,
+        expirationMode,
         expireTimer,
         lastDisappearingMessageChangeTimestamp,
         source,
@@ -884,24 +884,20 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     );
 
     let message: MessageModel | undefined = existingMessage || undefined;
-    const messageExpirationType = changeToDisappearingMessageType(
-      this,
-      expireTimer,
-      expirationType
-    );
+    const expirationType = changeToDisappearingMessageType(this, expireTimer, expirationMode);
 
     // we don't have info about who made the change and when, when we get a change from a config message, so do not add a control message
     // TODO NOTE We might not show it in the UI but still need to process it using the sentTimestamp as the lastChange timestamp for config messages
     const commonAttributes = {
       flags: SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
       expirationTimerUpdate: {
-        expirationType: messageExpirationType,
+        expirationType,
         expireTimer,
         lastDisappearingMessageChangeTimestamp,
         source,
         fromSync,
       },
-      expirationType: messageExpirationType,
+      expirationType,
       expireTimer,
     };
 
@@ -944,7 +940,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const expireUpdate = {
       identifier: message?.id,
       timestamp,
-      expirationType: messageExpirationType,
+      expirationType,
       expireTimer,
       lastDisappearingMessageChangeTimestamp,
     };
@@ -2341,11 +2337,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   private isDisappearingMode(mode: DisappearingMessageConversationModeType) {
     const success =
       mode === 'deleteAfterRead'
-        ? this.get('expirationType') === 'deleteAfterRead'
+        ? this.get('expirationMode') === 'deleteAfterRead'
         : mode === 'deleteAfterSend'
-        ? this.get('expirationType') === 'deleteAfterSend'
+        ? this.get('expirationMode') === 'deleteAfterSend'
         : mode === 'off'
-        ? this.get('expirationType') === 'off'
+        ? this.get('expirationMode') === 'off'
         : false;
 
     return success;

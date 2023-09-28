@@ -75,7 +75,7 @@ export async function initiateClosedGroupUpdate(
   const expirationType = changeToDisappearingMessageType(
     convo,
     convo.get('expireTimer'),
-    convo.get('expirationType')
+    convo.get('expirationMode')
   );
 
   if (expirationType === 'deleteAfterRead') {
@@ -173,7 +173,7 @@ export async function addUpdateMessage(
     groupUpdate.kicked = diff.kickedMembers;
   }
 
-  const expirationMode = convo.get('expirationType');
+  const expirationMode = convo.get('expirationMode');
   const expireTimer = convo.get('expireTimer');
   let expirationType;
   let expirationStartTimestamp;
@@ -316,7 +316,7 @@ async function sendAddedMembers(
   }
 
   const encryptionKeyPair = ECKeyPair.fromHexKeyPair(hexEncryptionKeyPair);
-  const expirationMode = convo.get('expirationType') || 'off';
+  const expirationMode = convo.get('expirationMode') || 'off';
   const existingExpireTimer = convo.get('expireTimer') || 0;
   // Send the Added Members message to the group (only members already in the group will get it)
   const closedGroupControlMessage = new ClosedGroupAddedMembersMessage({

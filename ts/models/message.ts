@@ -267,13 +267,13 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         return '';
       }
 
-      const expirationType = changeToDisappearingMessageConversationType(
+      const expirationMode = changeToDisappearingMessageConversationType(
         convo,
         expireTimerUpdate?.expirationType,
         expireTimer
       );
 
-      if (!expireTimerUpdate || expirationType === 'off' || !expireTimer || expireTimer === 0) {
+      if (!expireTimerUpdate || expirationMode === 'off' || !expireTimer || expireTimer === 0) {
         return window.i18n('disappearingMessagesDisabled');
       }
 
@@ -334,7 +334,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     }
 
     const { expireTimer, fromSync, source } = timerUpdate;
-    const expirationType = changeToDisappearingMessageConversationType(
+    const expirationMode = changeToDisappearingMessageConversationType(
       convo,
       timerUpdate?.expirationType || 'unknown',
       expireTimer || 0
@@ -350,7 +350,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       type: fromSync ? 'fromSync' : UserUtils.isUsFromCache(source) ? 'fromMe' : 'fromOther',
       receivedAt: this.get('received_at'),
       isUnread: this.isUnread(),
-      expirationType: expirationType || 'off',
+      expirationMode: expirationMode || 'off',
       ...this.getPropsForExpiringMessage(),
     };
 
@@ -1119,7 +1119,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
       if (expirationMode === 'legacy' || expirationMode === 'deleteAfterRead') {
         if (this.isIncoming() && !this.isExpiring()) {
-          await updateMessageExpiryOnSwarm(this, 'markMessageReadNoCommit()', true);
+          // NOTE We want to trigger disappearing now and then the TTL can update itself while it is running. Otherwise the UI is blocked until the request is completed.
+          void updateMessageExpiryOnSwarm(this, 'markMessageReadNoCommit()', true);
         }
 
         this.set({

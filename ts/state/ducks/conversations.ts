@@ -86,7 +86,7 @@ export type PropsForExpiringMessage = {
 };
 
 export type PropsForExpirationTimer = {
-  expirationType: DisappearingMessageConversationModeType;
+  expirationMode: DisappearingMessageConversationModeType;
   timespan: string;
   disabled: boolean;
   pubkey: string;
@@ -247,7 +247,7 @@ export interface ReduxConversationType {
   weAreAdmin?: boolean;
   unreadCount?: number;
   mentionedUs?: boolean;
-  expirationType?: DisappearingMessageConversationModeType;
+  expirationMode?: DisappearingMessageConversationModeType;
   expireTimer?: number;
   lastDisappearingMessageChangeTimestamp?: number;
   hasOutdatedClient?: string;

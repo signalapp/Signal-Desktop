@@ -10,13 +10,13 @@ import { Flex } from '../basic/Flex';
 import { isLegacyDisappearingModeEnabled } from '../../util/expiringMessages';
 
 export const TimerNotification = (props: PropsForExpirationTimer) => {
-  const { messageId, pubkey, profileName, expirationType, timespan, type, disabled } = props;
+  const { messageId, pubkey, profileName, expirationMode, timespan, type, disabled } = props;
 
   const contact = profileName || pubkey;
   // TODO legacy messages support will be removed in a future release
-  const mode = isLegacyDisappearingModeEnabled(expirationType)
+  const mode = isLegacyDisappearingModeEnabled(expirationMode)
     ? null
-    : expirationType === 'deleteAfterRead'
+    : expirationMode === 'deleteAfterRead'
     ? window.i18n('timerModeRead')
     : window.i18n('timerModeSent');
 

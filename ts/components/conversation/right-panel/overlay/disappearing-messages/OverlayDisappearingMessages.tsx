@@ -63,7 +63,7 @@ function loadDefaultTimeValue(modeSelected: DisappearingMessageConversationModeT
 }
 
 export type PropsForExpirationSettings = {
-  expirationType: DisappearingMessageConversationModeType | undefined;
+  expirationMode: DisappearingMessageConversationModeType | undefined;
   expireTimer: number | undefined;
   isGroup: boolean | undefined;
   weAreAdmin: boolean | undefined;
@@ -84,13 +84,13 @@ export const OverlayDisappearingMessages = () => {
   const hasOnlyOneMode = Boolean(singleMode && singleMode.length > 0);
 
   const isGroup = useSelectedIsGroup();
-  const expirationType = useSelectedConversationExpirationType();
+  const expirationMode = useSelectedConversationExpirationType();
   const expireTimer = useSelectedExpireTimer();
   const weAreAdmin = useSelectedWeAreAdmin();
 
   const [modeSelected, setModeSelected] = useState<
     DisappearingMessageConversationModeType | undefined
-  >(hasOnlyOneMode ? singleMode : expirationType);
+  >(hasOnlyOneMode ? singleMode : expirationMode);
 
   const [timeSelected, setTimeSelected] = useState(expireTimer || 0);
   const timerOptions = useTimerOptionsByMode(modeSelected, hasOnlyOneMode);
@@ -122,12 +122,12 @@ export const OverlayDisappearingMessages = () => {
   useEffect(() => {
     if (!ReleasedFeatures.isDisappearMessageV2FeatureReleasedCached()) {
       setModeSelected(
-        expirationType === 'deleteAfterRead' || expirationType === 'deleteAfterSend'
+        expirationMode === 'deleteAfterRead' || expirationMode === 'deleteAfterSend'
           ? 'legacy'
-          : expirationType
+          : expirationMode
       );
     }
-  }, [expirationType]);
+  }, [expirationMode]);
 
   useEffect(() => {
     // NOTE loads a time value from the conversation model or the default

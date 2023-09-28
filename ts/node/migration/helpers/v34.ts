@@ -3,7 +3,7 @@ import * as BetterSqlite3 from '@signalapp/better-sqlite3';
 import {
   ContactInfoSet,
   ContactsConfigWrapperNode,
-  DisappearingMessageConversationType,
+  DisappearingMessageConversationModeType,
   LegacyGroupInfo,
   LegacyGroupMemberInfo,
   UserGroupsWrapperNode,
@@ -86,7 +86,7 @@ function getContactInfoFromDBValues({
   dbProfileUrl,
   dbProfileKey,
   dbCreatedAtSeconds,
-  expirationType,
+  expirationMode,
   expireTimer,
 }: {
   id: string;
@@ -99,7 +99,7 @@ function getContactInfoFromDBValues({
   dbProfileUrl: string | undefined;
   dbProfileKey: string | undefined;
   dbCreatedAtSeconds: number;
-  expirationType: string | undefined;
+  expirationMode: string | undefined;
   expireTimer: number | undefined;
 }): ContactInfoSet {
   const wrapperContact: ContactInfoSet = {
@@ -111,8 +111,8 @@ function getContactInfoFromDBValues({
     nickname: dbNickname,
     name: dbName,
     createdAtSeconds: dbCreatedAtSeconds,
-    expirationMode: expirationType
-      ? (expirationType as DisappearingMessageConversationType)
+    expirationMode: expirationMode
+      ? (expirationMode as DisappearingMessageConversationModeType)
       : undefined,
     expirationTimerSeconds: !!expireTimer && expireTimer > 0 ? expireTimer : 0,
   };
@@ -155,7 +155,7 @@ function updateContactInContactWrapper(
       dbProfileUrl: contact.avatarPointer || undefined,
       priority,
       dbCreatedAtSeconds: Math.floor((contact.active_at || Date.now()) / 1000),
-      expirationType: contact.expirationType || 'off',
+      expirationMode: contact.expirationMode || 'off',
       // TODO rename expireTimer to expirationTimer
       expireTimer: contact.expireTimer || 0,
     });
@@ -183,7 +183,7 @@ function updateContactInContactWrapper(
             dbProfileUrl: undefined,
             priority: CONVERSATION_PRIORITIES.default,
             dbCreatedAtSeconds: Math.floor(Date.now() / 1000),
-            expirationType: 'off',
+            expirationMode: 'off',
             expireTimer: 0,
           })
         );
@@ -202,7 +202,7 @@ function getLegacyGroupInfoFromDBValues({
   priority,
   members: maybeMembers,
   displayNameInProfile,
-  expirationType,
+  expirationMode,
   expireTimer,
   encPubkeyHex,
   encSeckeyHex,
@@ -212,7 +212,7 @@ function getLegacyGroupInfoFromDBValues({
   id: string;
   priority: number;
   displayNameInProfile: string | undefined;
-  expirationType: string | undefined;
+  expirationMode: string | undefined;
   expireTimer: number | undefined;
   encPubkeyHex: string;
   encSeckeyHex: string;
@@ -232,8 +232,8 @@ function getLegacyGroupInfoFromDBValues({
   const legacyGroup: LegacyGroupInfo = {
     pubkeyHex: id,
     disappearingTimerSeconds:
-      expirationType &&
-      (expirationType as DisappearingMessageConversationType) !== 'off' &&
+      expirationMode &&
+      (expirationMode as DisappearingMessageConversationModeType) !== 'off' &&
       !!expireTimer &&
       expireTimer > 0
         ? expireTimer
@@ -268,7 +268,7 @@ function updateLegacyGroupInWrapper(
     const wrapperLegacyGroup = getLegacyGroupInfoFromDBValues({
       id: legacyGroup.id,
       priority,
-      expirationType: legacyGroup.expirationType || 'off',
+      expirationMode: legacyGroup.expirationMode || 'off',
       expireTimer: legacyGroup.expireTimer || 0,
       groupAdmins: legacyGroup.groupAdmins || [],
       members: legacyGroup.members || [],

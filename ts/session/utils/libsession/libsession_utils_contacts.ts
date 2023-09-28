@@ -54,7 +54,7 @@ async function insertContactFromDBIntoWrapperAndRefresh(id: string): Promise<voi
   const dbApprovedMe = !!foundConvo.get('didApproveMe') || false;
   const dbBlocked = !!foundConvo.isBlocked() || false;
   const priority = foundConvo.get('priority') || 0;
-  const expirationType = foundConvo.get('expirationType') || undefined;
+  const expirationMode = foundConvo.get('expirationMode') || undefined;
   const expireTimer = foundConvo.get('expireTimer') || 0;
 
   const wrapperContact = getContactInfoFromDBValues({
@@ -68,7 +68,7 @@ async function insertContactFromDBIntoWrapperAndRefresh(id: string): Promise<voi
     dbProfileUrl,
     priority,
     dbCreatedAtSeconds: 0, // just give 0, now() will be used internally by the wrapper if the contact does not exist yet.
-    expirationType,
+    expirationMode,
     expireTimer,
   });
   try {

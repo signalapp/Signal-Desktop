@@ -367,7 +367,7 @@ export function deleteAllMessagesByConvoIdWithConfirmation(conversationId: strin
 
 export async function setDisappearingMessagesByConvoId(
   conversationId: string,
-  expirationType: DisappearingMessageConversationModeType,
+  expirationMode: DisappearingMessageConversationModeType,
   seconds?: number
 ) {
   const conversation = getConversationController().get(conversationId);
@@ -381,7 +381,7 @@ export async function setDisappearingMessagesByConvoId(
 
   const providedChangeTimestamp = GetNetworkTime.getNowWithNetworkOffset();
 
-  if (!expirationType || expirationType === 'off' || !seconds || seconds <= 0) {
+  if (!expirationMode || expirationMode === 'off' || !seconds || seconds <= 0) {
     await conversation.updateExpireTimer({
       providedExpirationType: 'off',
       providedExpireTimer: 0,
@@ -389,7 +389,7 @@ export async function setDisappearingMessagesByConvoId(
     });
   } else {
     await conversation.updateExpireTimer({
-      providedExpirationType: expirationType,
+      providedExpirationType: expirationMode,
       providedExpireTimer: seconds,
       providedChangeTimestamp,
     });

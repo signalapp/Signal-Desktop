@@ -3,7 +3,7 @@
 // eslint-disable-next-line camelcase
 import {
   ContactInfoSet,
-  DisappearingMessageConversationType,
+  DisappearingMessageConversationModeType,
   LegacyGroupInfo,
   LegacyGroupMemberInfo,
 } from 'libsession_util_nodejs';
@@ -125,7 +125,7 @@ export function getContactInfoFromDBValues({
   dbProfileUrl,
   dbProfileKey,
   dbCreatedAtSeconds,
-  expirationType,
+  expirationMode,
   expireTimer,
 }: {
   id: string;
@@ -138,7 +138,7 @@ export function getContactInfoFromDBValues({
   dbProfileUrl: string | undefined;
   dbProfileKey: string | undefined;
   dbCreatedAtSeconds: number;
-  expirationType: string | undefined;
+  expirationMode: string | undefined;
   expireTimer: number | undefined;
 }): ContactInfoSet {
   const wrapperContact: ContactInfoSet = {
@@ -150,8 +150,8 @@ export function getContactInfoFromDBValues({
     nickname: dbNickname,
     name: dbName,
     createdAtSeconds: dbCreatedAtSeconds,
-    expirationMode: expirationType
-      ? (expirationType as DisappearingMessageConversationType)
+    expirationMode: expirationMode
+      ? (expirationMode as DisappearingMessageConversationModeType)
       : undefined,
     expirationTimerSeconds: !!expireTimer && expireTimer > 0 ? expireTimer : 0,
   };
@@ -214,7 +214,7 @@ export function getLegacyGroupInfoFromDBValues({
   priority,
   members: maybeMembers,
   displayNameInProfile,
-  expirationType,
+  expirationMode,
   expireTimer,
   encPubkeyHex,
   encSeckeyHex,
@@ -224,7 +224,7 @@ export function getLegacyGroupInfoFromDBValues({
   id: string;
   priority: number;
   displayNameInProfile: string | undefined;
-  expirationType: string | undefined;
+  expirationMode: string | undefined;
   expireTimer: number | undefined;
   encPubkeyHex: string;
   encSeckeyHex: string;
@@ -245,8 +245,8 @@ export function getLegacyGroupInfoFromDBValues({
   const legacyGroup: LegacyGroupInfo = {
     pubkeyHex: id,
     disappearingTimerSeconds:
-      expirationType &&
-      (expirationType as DisappearingMessageConversationType) !== 'off' &&
+      expirationMode &&
+      (expirationMode as DisappearingMessageConversationModeType) !== 'off' &&
       !!expireTimer &&
       expireTimer > 0
         ? expireTimer

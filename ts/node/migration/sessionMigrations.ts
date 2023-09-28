@@ -1670,7 +1670,7 @@ function updateToSessionSchemaVersion34(currentVersion: number, db: BetterSqlite
       // region v34 Disappearing Messages Database Model Changes
       // Conversation changes
       db.prepare(
-        `ALTER TABLE ${CONVERSATIONS_TABLE} ADD COLUMN expirationType TEXT DEFAULT "off";`
+        `ALTER TABLE ${CONVERSATIONS_TABLE} ADD COLUMN expirationMode TEXT DEFAULT "off";`
       ).run();
 
       db.prepare(
@@ -1696,10 +1696,10 @@ function updateToSessionSchemaVersion34(currentVersion: number, db: BetterSqlite
       const noteToSelfInfo = db
         .prepare(
           `UPDATE ${CONVERSATIONS_TABLE} SET
-      expirationType = $expirationType
+      expirationMode = $expirationMode
       WHERE id = $id AND type = 'private' AND expireTimer > 0;`
         )
-        .run({ expirationType: 'deleteAfterSend', id: publicKeyHex });
+        .run({ expirationMode: 'deleteAfterSend', id: publicKeyHex });
 
       if (noteToSelfInfo.changes) {
         const ourConversation = db
@@ -1747,16 +1747,16 @@ function updateToSessionSchemaVersion34(currentVersion: number, db: BetterSqlite
       const privateConversationsInfo = db
         .prepare(
           `UPDATE ${CONVERSATIONS_TABLE} SET
-      expirationType = $expirationType
-      WHERE type = 'private' AND expirationType = 'off' AND expireTimer > 0;`
+      expirationMode = $expirationMode
+      WHERE type = 'private' AND expirationMode = 'off' AND expireTimer > 0;`
         )
-        .run({ expirationType: 'deleteAfterRead' });
+        .run({ expirationMode: 'deleteAfterRead' });
 
       if (privateConversationsInfo.changes) {
         // this filter is based on the `isContactToStoreInWrapper` function. Note, it has been expanded to check if disappearing messages is on
         const contactsToUpdateInWrapper = db
           .prepare(
-            `SELECT * FROM ${CONVERSATIONS_TABLE} WHERE type = 'private' AND active_at > 0 AND priority <> ${CONVERSATION_PRIORITIES.hidden} AND (didApproveMe OR isApproved) AND id <> '$us' AND id NOT LIKE '15%' AND id NOT LIKE '25%' AND expirationType = 'deleteAfterRead' AND expireTimer > 0;`
+            `SELECT * FROM ${CONVERSATIONS_TABLE} WHERE type = 'private' AND active_at > 0 AND priority <> ${CONVERSATION_PRIORITIES.hidden} AND (didApproveMe OR isApproved) AND id <> '$us' AND id NOT LIKE '15%' AND id NOT LIKE '25%' AND expirationMode = 'deleteAfterRead' AND expireTimer > 0;`
           )
           .all({
             us: publicKeyHex,
@@ -1823,16 +1823,16 @@ function updateToSessionSchemaVersion34(currentVersion: number, db: BetterSqlite
       const groupConversationsInfo = db
         .prepare(
           `UPDATE ${CONVERSATIONS_TABLE} SET
-      expirationType = $expirationType
-      WHERE type = 'group' AND id LIKE '05%' AND expirationType = 'off' AND expireTimer > 0;`
+      expirationMode = $expirationMode
+      WHERE type = 'group' AND id LIKE '05%' AND expirationMode = 'off' AND expireTimer > 0;`
         )
-        .run({ expirationType: 'deleteAfterSend' });
+        .run({ expirationMode: 'deleteAfterSend' });
 
       if (groupConversationsInfo.changes) {
         // this filter is based on the `isLegacyGroupToStoreInWrapper` function. Note, it has been expanded to check if disappearing messages is on
         const legacyGroupsToWriteInWrapper = db
           .prepare(
-            `SELECT * FROM ${CONVERSATIONS_TABLE} WHERE type = 'group' AND active_at > 0 AND id LIKE '05%' AND NOT isKickedFromGroup AND NOT left AND expirationType = 'deleteAfterSend' AND expireTimer > 0;`
+            `SELECT * FROM ${CONVERSATIONS_TABLE} WHERE type = 'group' AND active_at > 0 AND id LIKE '05%' AND NOT isKickedFromGroup AND NOT left AND expirationMode = 'deleteAfterSend' AND expireTimer > 0;`
           )
           .all({});
 

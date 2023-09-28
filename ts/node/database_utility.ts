@@ -74,7 +74,7 @@ const allowedKeysFormatRowOfConversation = [
   'markedAsUnread',
   'blocksSogsMsgReqsTimestamp',
   'priority',
-  'expirationType',
+  'expirationMode',
   'lastDisappearingMessageChangeTimestamp',
   'hasOutdatedClient',
 ];
@@ -199,7 +199,7 @@ const allowedKeysOfConversationAttributes = [
   'markedAsUnread',
   'blocksSogsMsgReqsTimestamp',
   'priority',
-  'expirationType',
+  'expirationMode',
   'lastDisappearingMessageChangeTimestamp',
   'hasOutdatedClient',
 ];
