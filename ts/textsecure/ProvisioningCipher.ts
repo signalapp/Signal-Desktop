@@ -12,17 +12,14 @@ import {
 } from '../Crypto';
 import { calculateAgreement, createKeyPair, generateKeyPair } from '../Curve';
 import { SignalService as Proto } from '../protobuf';
-import type { PniString, AciString } from '../types/ServiceId';
-import { normalizePni } from '../types/ServiceId';
-import { normalizeAci } from '../util/normalizeAci';
 import { strictAssert } from '../util/assert';
 
 type ProvisionDecryptResult = {
   aciKeyPair: KeyPairType;
   pniKeyPair?: KeyPairType;
   number?: string;
-  aci?: AciString;
-  pni?: PniString;
+  aci?: string;
+  untaggedPni?: string;
   provisioningCode?: string;
   userAgent?: string;
   readReceipts?: boolean;
@@ -75,13 +72,14 @@ class ProvisioningCipherInner {
 
     const { aci, pni } = provisionMessage;
     strictAssert(aci, 'Missing aci in provisioning message');
+    strictAssert(pni, 'Missing pni in provisioning message');
 
     const ret: ProvisionDecryptResult = {
       aciKeyPair,
       pniKeyPair,
       number: provisionMessage.number,
-      aci: normalizeAci(aci, 'ProvisionMessage.aci'),
-      pni: pni ? normalizePni(pni, 'ProvisionMessage.pni') : undefined,
+      aci,
+      untaggedPni: pni,
       provisioningCode: provisionMessage.provisioningCode,
       userAgent: provisionMessage.userAgent,
       readReceipts: provisionMessage.readReceipts,

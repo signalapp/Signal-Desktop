@@ -49,6 +49,10 @@ export function toTaggedPni(untagged: UntaggedPniString): PniString {
   return `PNI:${untagged}` as PniString;
 }
 
+export function toUntaggedPni(pni: PniString): UntaggedPniString {
+  return pni.replace(/^PNI:/i, '') as UntaggedPniString;
+}
+
 export function normalizeServiceId(
   rawServiceId: string,
   context: string,
@@ -106,10 +110,9 @@ export function normalizePni(
   }
 
   const result = rawPni.toLowerCase().replace(/^pni:/, 'PNI:');
-
   if (!isPniString(result)) {
     logger.warn(
-      `Normalizing invalid serviceId: ${rawPni} to ${result} in context "${context}"`
+      `Normalizing invalid pni: ${rawPni} to ${result} in context "${context}"`
     );
 
     // Cast anyway we don't want to throw here

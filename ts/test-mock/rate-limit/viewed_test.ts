@@ -9,6 +9,7 @@ import * as durations from '../../util/durations';
 import { Bootstrap } from '../bootstrap';
 import type { App } from '../bootstrap';
 import { ReceiptType } from '../../types/Receipt';
+import { toUntaggedPni } from '../../types/ServiceId';
 
 export const debug = createDebug('mock:test:challenge:receipts');
 
@@ -49,7 +50,7 @@ describe('challenge/receipts', function challengeReceiptsTest() {
         whitelisted: true,
         serviceE164: contact.device.number,
         identityKey: contact.getPublicKey(ServiceIdKind.PNI).serialize(),
-        pni: contact.device.getServiceIdByKind(ServiceIdKind.PNI),
+        pni: toUntaggedPni(contact.device.pni),
         givenName: 'Jamie',
       },
       ServiceIdKind.PNI

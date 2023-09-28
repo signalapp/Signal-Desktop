@@ -9,6 +9,7 @@ import Long from 'long';
 
 import * as durations from '../../util/durations';
 import { uuidToBytes } from '../../util/uuidToBytes';
+import { toUntaggedPni } from '../../types/ServiceId';
 import { MY_STORY_ID } from '../../types/Stories';
 import { Bootstrap } from '../bootstrap';
 import type { App } from '../bootstrap';
@@ -392,7 +393,7 @@ describe('pnp/merge', function needsName() {
           aciContacts += 1;
           assert.strictEqual(pni, '');
           assert.strictEqual(serviceE164, '');
-        } else if (pni === pniContact.device.pni) {
+        } else if (pni === toUntaggedPni(pniContact.device.pni)) {
           pniContacts += 1;
           assert.strictEqual(aci, '');
           assert.strictEqual(serviceE164, pniContact.device.number);
@@ -401,7 +402,10 @@ describe('pnp/merge', function needsName() {
       assert.strictEqual(aciContacts, 1);
       assert.strictEqual(pniContacts, 1);
 
-      assert.strictEqual(removed[0].contact?.pni, pniContact.device.pni);
+      assert.strictEqual(
+        removed[0].contact?.pni,
+        toUntaggedPni(pniContact.device.pni)
+      );
       assert.strictEqual(removed[0].contact?.aci, pniContact.device.aci);
 
       // Pin PNI so that it appears in the left pane
