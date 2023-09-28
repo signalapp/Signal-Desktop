@@ -7,7 +7,7 @@ import { resetRightOverlayMode, setRightOverlayMode } from '../../../state/ducks
 import { isRightPanelShowing } from '../../../state/selectors/conversations';
 import {
   useSelectedConversationKey,
-  useSelectedConversationExpirationType,
+  useSelectedConversationDisappearingMode,
   useSelectedExpireTimer,
   useSelectedIsGroup,
   useSelectedIsKickedFromGroup,
@@ -46,7 +46,7 @@ export const ConversationHeaderTitle = () => {
   const isGroup = useSelectedIsGroup();
   const members = useSelectedMembers();
 
-  const expirationMode = useSelectedConversationExpirationType();
+  const expirationMode = useSelectedConversationDisappearingMode();
   const expireTimer = useSelectedExpireTimer();
 
   const convoName = useConversationUsername(selectedConvoKey);

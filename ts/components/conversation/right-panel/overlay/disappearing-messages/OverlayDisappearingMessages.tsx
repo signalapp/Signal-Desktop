@@ -8,7 +8,7 @@ import { resetRightOverlayMode } from '../../../../../state/ducks/section';
 import {
   getSelectedConversationExpirationModes,
   useSelectedConversationKey,
-  useSelectedConversationExpirationType,
+  useSelectedConversationDisappearingMode,
   useSelectedExpireTimer,
   useSelectedIsGroup,
   useSelectedWeAreAdmin,
@@ -84,7 +84,7 @@ export const OverlayDisappearingMessages = () => {
   const hasOnlyOneMode = Boolean(singleMode && singleMode.length > 0);
 
   const isGroup = useSelectedIsGroup();
-  const expirationMode = useSelectedConversationExpirationType();
+  const expirationMode = useSelectedConversationDisappearingMode();
   const expireTimer = useSelectedExpireTimer();
   const weAreAdmin = useSelectedWeAreAdmin();
 
