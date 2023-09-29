@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "데이터베이스 오류",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "데이터베이스 오류가 발생했습니다. 오류를 복사하여 Signal 지원 팀에 문제 해결을 요청할 수 있습니다. Signal을 바로 사용해야 하는 경우 데이터를 삭제하고 다시 시작할 수 있습니다.\n\nhttps://support.signal.org/hc/requests/new?desktop을 방문하여 지원 팀에 연락하세요.",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "모든 데이터 삭제 후 재시작",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "데이터 삭제 후 다시 시작",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "모든 데이터를 영구 삭제하시겠습니까?",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "모든 메시지 기록과 미디어가 이 기기에서 영구 삭제됩니다. 다시 연결한 후 이 기기에서 Signal을 사용할 수 있습니다. 휴대폰 데이터는 삭제하지 않습니다.",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "데이터베이스 버전이 이 버전의 Signal과 일치하지 않습니다. 컴퓨터에서 최신 버전 Signal을 열었는지 확인하세요.",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "파일 (&F)",
@@ -611,6 +627,10 @@
   "icu:callAnyway": {
     "messageformat": "그냥 전화",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
+  },
+  "icu:joinAnyway": {
+    "messageformat": "보내기",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
   },
   "icu:continueCall": {
     "messageformat": "계속 전화",
@@ -3165,11 +3185,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "메시지 수정",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "메시지를 수정하면 Signal 최신 버전을 사용하는 사용자에게만 표시됩니다. 해당 사용자는 수정 메시지를 볼 수 있습니다.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -5744,6 +5764,10 @@
     "messageformat": "설정 저장 중 문제가 발생했습니다. 다시 시도하세요.",
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
+  "icu:MediaEditor__input-placeholder": {
+    "messageformat": "Message",
+    "description": "Placeholder for the input in the media editor"
+  },
   "icu:MediaEditor__clock-more-styles": {
     "messageformat": "더 많은 스타일",
     "description": "Action button for switching up the clock styles"
@@ -6748,6 +6772,10 @@
     "messageformat": "{type, select, Audio {음성 통화를 거부함} Video {영상 통화를 거부함} Group {그룹 통화를 거부함} other {통화를 거부함}}",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, other {{count,number}명이 입력하는 중입니다.}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "업데이트 내용",
     "description": "Title for the whats new modal"
@@ -6780,13 +6808,13 @@
     "messageformat": "사소한 변경 사항과 버그 수정 및 성능 개선. Signal을 이용해 주셔서 감사합니다!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "이제 대화창 색 사용자 지정 화면이 여러 언어와 선택한 로캘에서 올바르게 표시됩니다."
+  "icu:WhatsNew__v6.32--0": {
+    "messageformat": "훨씬 더 쉽게 사용할 수 있도록 미디어 편집기를 업데이트했습니다."
   },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Windows의 알림 지원을 개선했습니다. 처음 메시지가 도착했을 때 알림을 클릭하지 않을 경우, Windows 알림 센터에 최근에 무시한 알림이 표시됩니다. 해당 알림을 클릭하면 채팅으로 바로 이동합니다. 의견을 보내주신 Julien Richard 님께 감사드립니다."
+  "icu:WhatsNew__v6.32--1": {
+    "messageformat": "이제 대화에서 새 메시지를 보내면 Signal이 자동으로 대화 맨 아래로 이동합니다."
   },
-  "icu:WhatsNew__v6.30--0": {
-    "messageformat": "새 통화 탭을 사용하면 간편하게 통화를 시작하거나 부재중 통화에 회신할 수 있습니다."
+  "icu:WhatsNew__v6.33--0": {
+    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
   }
 }

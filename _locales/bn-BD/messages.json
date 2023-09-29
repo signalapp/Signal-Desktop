@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "ডাটাবেস ত্রুটি",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "ডাটাবেজ সংক্রান্ত একটি ত্রুটি দেখা দিয়েছে। আপনি ত্রুটিটি কপি করতে পারেন এবং সমস্যাটি সমাধানে সাহায্য করতে Signal সহায়তার সাথে যোগাযোগ করতে পারেন। আপনার যদি এখনই Signal ব্যবহার করার প্রয়োজন হয়, তবে আপনি আপনার ডেটা মুছে ফেলতে পারেন এবং পুনরায় চালু করতে পারেন।\n\nসহায়তা পেতে এখানে যোগাযোগ করুন: https://support.signal.org/hc/requests/new?desktop",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "সকল ডেটা মুছে ফেলুন এবং পুনরায় চালু করুন",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "ডেটা মুছুন এবং পুনরায় চালু করুন",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "স্থায়ীভাবে সব তথ্য মুছে ফেলবেন?",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "এই ডিভাইস থেকে আপনার যাবতীয় মেসেজের ইতিহাস এবং মিডিয়া স্থায়ীভাবে মুছে ফেলা হবে। আপনি এই ডিভাইসটি পুনরায় লিংক করার পরে Signal ব্যবহার করতে পারবেন। এটি আপনার ফোন থেকে কোনো ডেটা মুছে ফেলবে না।",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "আপনার ডাটাবেজের সংস্করণ Signal-এর এই সংস্করণের সাথে মিলে না। নিশ্চিত করুন যে আপনি আপনার কম্পিউটারে Signal-এর নতুন সংস্করণ খুলছেন।",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&ফাইল",
@@ -611,6 +627,10 @@
   "icu:callAnyway": {
     "messageformat": "তারপরও কল করুন",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
+  },
+  "icu:joinAnyway": {
+    "messageformat": "তারপরও যোগ দিন",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
   },
   "icu:continueCall": {
     "messageformat": "কল চালিয়ে যান",
@@ -3165,11 +3185,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "মেসেজ এডিট করুন",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "আপনি যদি কোনো মেসেজ এডিট করেন, তবে এটি শুধুমাত্র Signal-এর সর্বশেষ সংস্করণ ব্যবহারকারীদের কাছে দৃশ্যমান হবে। আপনি যে একটি মেসেজ এডিট করেছেন তারা তা দেখতে পাবেন।",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -5744,6 +5764,10 @@
     "messageformat": "আপনার সেটিংস সংরক্ষণ করার সময় একটি ত্রুটি ছিল। অনুগ্রহপূর্বক আবার চেষ্টা করুন।",
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
+  "icu:MediaEditor__input-placeholder": {
+    "messageformat": "Message",
+    "description": "Placeholder for the input in the media editor"
+  },
   "icu:MediaEditor__clock-more-styles": {
     "messageformat": "আরো স্টাইল",
     "description": "Action button for switching up the clock styles"
@@ -6748,6 +6772,10 @@
     "messageformat": "{type, select, Audio {প্রত্যাখ্যান করা হয়েছে এমন ভয়েস কল} Video {প্রত্যাখ্যান করা হয়েছে এমন ভিডিও কল} Group {প্রত্যাখ্যান করা হয়েছে এমন গ্ৰুপ কল} other {প্রত্যাখ্যান করা হয়েছে এমন কল}}",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, one {আরো {count,number} জন টাইপ করছেন।} other {আরো {count,number} জন টাইপ করছেন।}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "নতুন কি",
     "description": "Title for the whats new modal"
@@ -6780,13 +6808,13 @@
     "messageformat": "ছোট ছোট কিছু পরিবর্তন, বাগ সংশোধন এবং পারফর্মেন্স সমৃদ্ধ করা হয়েছে। Signal ব্যবহার করার জন্য ধন্যবাদ!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "চ্যাট-এর রং কাস্টমাইজেশন স্ক্রিন এখন বিভিন্ন ভাষায় ও নির্বাচিত এলাকায় সঠিকভাবে প্রদর্শিত হয়।"
+  "icu:WhatsNew__v6.32--0": {
+    "messageformat": "আমরা মিডিয়া এডিটর আপডেট করেছি এবং এটি ব্যবহার করা আরো সহজ করেছি।"
   },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "আমরা Windows-এ নোটিফিকেশন সমর্থন উন্নত করেছি। যখন একটি নোটিফিকেশন আসে, ঠিক তখনই আপনি যদি সেটিতে ক্লিক না করেন, তাহলে সর্বশেষ মিস করা নোটিফিকেশনটি Windows নোটিফিকেশন সেন্টারে প্রদর্শিত হবে। নোটিফিকেশনটিতে ক্লিক করলে এখন সরাসরি সেই চ্যাটে চলে যাবে। প্রতিক্রিয়া জানানোর কারণে আমরা জুলিয়েন রিচার্ডকে ধন্যবাদ জানাই।"
+  "icu:WhatsNew__v6.32--1": {
+    "messageformat": "Signal এখন স্বয়ংক্রিয়ভাবে স্ক্রল করে চ্যাটের নিচের দিকে চলে যাবে, যখন আপনি সেই চ্যাটে একটি নতুন ম্যাসেজ পাঠাবেন।"
   },
-  "icu:WhatsNew__v6.30--0": {
-    "messageformat": "নতুন কল ট্যাব আপনাকে সহজেই একটি কল শুরু করতে বা আপনি মিস করেছেন এমন একটি কলে ফিরে যেতে সাহায্য করে।"
+  "icu:WhatsNew__v6.33--0": {
+    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
   }
 }

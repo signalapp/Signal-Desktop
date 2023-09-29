@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "Databasefejl",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "Der opstod en databasefejl. Du kan kopiere fejlen og kontakte Signal support for at få hjælp til at løse problemet. Hvis du skal bruge Signal med det samme, kan du slette dine data og genstarte.\n\nKontakt support ved at besøge: https://support.signal.org/hc/requests/new?desktop",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "Slet alle data og genstart",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "Slet data og genstart",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "Slet alle data permanent?",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "Din samlede beskedhistorik og dine medier slettes permanent fra denne enhed. Du vil kunne bruge Signal på denne enhed, når du har genoprettet forbindelsen. Dette sletter ikke data fra din telefon.",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "Din version af databasen stemmer ikke overens med denne version af Signal. Sørg for, at du åbner den nyeste version af Signal på din computer.",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Fil",
@@ -611,6 +627,10 @@
   "icu:callAnyway": {
     "messageformat": "Ring alligevel",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
+  },
+  "icu:joinAnyway": {
+    "messageformat": "Deltag alligevel",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
   },
   "icu:continueCall": {
     "messageformat": "Fortsæt opkald",
@@ -3165,11 +3185,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "Rediger besked",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "Hvis du redigerer en besked, vil den kun være synlig for folk, der bruger de nyeste versioner af Signal. De vil kunne se, at du har redigeret en besked.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -5744,6 +5764,10 @@
     "messageformat": "Der opstod en fejl, da du gemte dine indstillinger. Prøv venligst igen.",
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
+  "icu:MediaEditor__input-placeholder": {
+    "messageformat": "Message",
+    "description": "Placeholder for the input in the media editor"
+  },
   "icu:MediaEditor__clock-more-styles": {
     "messageformat": "Flere looks",
     "description": "Action button for switching up the clock styles"
@@ -6748,6 +6772,10 @@
     "messageformat": "{type, select, Audio {Afvist taleopkald} Video {Afvist videoopkald} Group {Afvist gruppeopkald} other {Afvist opkald}}",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, one {{count,number} anden skriver.} other {{count,number} andre skriver.}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Nyheder",
     "description": "Title for the whats new modal"
@@ -6780,13 +6808,13 @@
     "messageformat": "Små tweaks, rettelser og forbedringer af appens præstation. Tak fordi du bruger Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "Skærmen til tilpasning af chatfarver vises nu korrekt på tværs af forskellige sprog og valgte lokaliteter."
+  "icu:WhatsNew__v6.32--0": {
+    "messageformat": "Hvis du siger \"medieværktøj\" fem gange hurtigt, begynder det at lyde som \"mediator\", hvis man bytter lidt rundt på bogstaver, eller sletter lidt – men det nye medieværktøj er så meget nemmere at bruge, at du ikke længere vil føle, at du har brug for en mediator til at afgøre en strid mellem dig og beskæringsværktøjet."
   },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Vi har forbedret understøttelsen af notifikationer på Windows. Hvis du ikke klikker på en notifikation, når den kommer første gang, vises den seneste ubesvarede notifikation i Windows Notification Center. Hvis du klikker på notifikationen, bliver du sendt videre til den pågældende chat. Vi vil gerne takke Julien Richard for deres feedback."
+  "icu:WhatsNew__v6.32--1": {
+    "messageformat": "Nogle gange kan det rigtige svar virkelig hjælpe dig med at komme til bunds i, hvad folk siger, og nu vil Signal automatisk scrolle til det, du lige har sagt, når du sender en besked i en chat."
   },
-  "icu:WhatsNew__v6.30--0": {
-    "messageformat": "Hold styr på dine opkald med fanen Nye opkald. Start et nyt opkald, eller ring tilbage til et opkald, du ikke fik besvaret, uden at skulle finde den tilsvarende chat. Nu kan du sige hej med din stemme uden også at sige farvel til ulæst-markøren for beskeder i den pågældende tråd."
+  "icu:WhatsNew__v6.33--0": {
+    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
   }
 }

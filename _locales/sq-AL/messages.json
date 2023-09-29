@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "Gabim Baze të Dhënash",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "Ndodhi një gabim i bazës së të dhënave. Mund ta kopjosh gabimin dhe të kontaktosh mbështetjen e Signal për të ndihmuar në rregullimin e problemit. Nëse ke nevojë të përdorësh Signal menjëherë, mund t'i fshish të dhënat e tua dhe ta rinisësh.\n\nKontakto mbështetjen duke vizituar: https://support.signal.org/hc/requests/new?desktop",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "Fshiji të gjitha të dhënat dhe rifillo",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "Fshiji të dhënat dhe rinise",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "Të fshihen përgjithmonë të gjitha të dhënat?",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "I gjithë historiku dhe media jote e mesazheve do të fshihen përgjithmonë nga kjo pajisje. Do të mund të përdorësh Signal në këtë pajisje pasi ta rilidhësh atë. Kjo nuk do të fshijë ndonjë të dhënë nga telefoni yt.",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "Versioni i bazës së të dhënave nuk përputhet me këtë version të Signal. Sigurohu që po hap versionin më të ri të Signal në kompjuterin tënd.",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Kartelë",
@@ -611,6 +627,10 @@
   "icu:callAnyway": {
     "messageformat": "Thirre, sido qoftë",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
+  },
+  "icu:joinAnyway": {
+    "messageformat": "Bashkohu, sidoqoftë",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
   },
   "icu:continueCall": {
     "messageformat": "Vazhdoje Thirrjen",
@@ -3165,11 +3185,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "Përpuno mesazhin",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "Nëse përpunon një mesazh, ai do të jetë i dukshëm vetëm për personat që kanë versionin më të fundit të Signal. Ata do shohin se ti ke redaktuar një mesazh.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -5744,6 +5764,10 @@
     "messageformat": "Pati një gabim teksa ruheshin rregullimet tuaja. Ju lutemi, riprovoni.",
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
+  "icu:MediaEditor__input-placeholder": {
+    "messageformat": "Message",
+    "description": "Placeholder for the input in the media editor"
+  },
   "icu:MediaEditor__clock-more-styles": {
     "messageformat": "Më shumë lloje",
     "description": "Action button for switching up the clock styles"
@@ -6748,6 +6772,10 @@
     "messageformat": "{type, select, Audio {Thirrje zanore e refuzuar} Video {Thirrje me video e refuzuar} Group {Thirrje në grup e refuzuar} other {Thirrje  e refuzuar}}",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, one {{count,number} tjetër po shkruan.} other {{count,number} tjerë po shkruajnë.}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Ç’ka të Re",
     "description": "Title for the whats new modal"
@@ -6780,13 +6808,13 @@
     "messageformat": "Rregullme të vogla, riparime të gabimeve dhe përmirësime të mbarëvajtjes.  Faleminderit që përdorni Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "Ekrani i personalizimit të ngjyrave të sfondit të bisedës tani shfaqet saktë në gjuhë të ndryshme dhe në zonat e zgjedhura."
+  "icu:WhatsNew__v6.32--0": {
+    "messageformat": "Përditësuam redaktorin e medias dhe e bëmë shumë më të lehtë në përdorim."
   },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Kemi përmirësuar mbështetjen e njoftimeve në Windows. Nëse nuk klikoni mbi një njoftim, kur mbërrin për herë të parë, njoftimi më i fundit i humbur do të shfaqet në Qendrën e Njoftimeve të Windows. Duke klikuar mbi atë njoftim, tani do t'ju kalojë direkt në atë bisedë. Dëshirojmë të falënderojmë Julien Richard për komentet e tyre."
+  "icu:WhatsNew__v6.32--1": {
+    "messageformat": "Signal tani do të lëvizë automatikisht në fund të bisedës kur të dërgosh një mesazh të ri në atë bisedë."
   },
-  "icu:WhatsNew__v6.30--0": {
-    "messageformat": "Mbaj skedat e telefonatave të tua me skedën e re të thirrjeve. Fillo një telefonatë të re ose kthe një telefonatë që ke humbur pa pasur nevojë të gjesh bisedën përkatëse. Tani mund të thuash \"Ç'kemi!\" me zërin tënd pa i thënë lamtumirë shënuesit të mesazheve të palexuar në atë bisedë."
+  "icu:WhatsNew__v6.33--0": {
+    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
   }
 }

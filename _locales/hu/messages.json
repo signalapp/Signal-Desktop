@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "Adatbázishiba",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "Adatbázishiba történt. Kimásolhatod a hibát, és kapcsolatba léphetsz a Signal ügyfélszolgálatával a probléma megoldásához. Ha azonnal használnod kell a Signalt, törölheted az adataid, és újraindíthatod.\n\nLépj kapcsolatba az ügyfélszolgálattal a következő címen: https://support.signal.org/hc/requests/new?desktop",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "Összes adat törlése és újraindítás",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "Adatok törlése és újraindítás",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "Véglegesen törlöd az összes adatot?",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "Az összes üzenetelőzmény és médiafájl véglegesen törlésre kerül erről az eszközről. Az újbóli összekapcsolás után használhatod a Signalt ezen az eszközön. Ez nem törli az adatokat a telefonodról.",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "Az adatbázisod verziója nem egyezik a Signal ezen verziójával. Győződj meg róla, hogy a Signal legújabb verzióját nyitod meg a számítógépeden.",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Fájl",
@@ -611,6 +627,10 @@
   "icu:callAnyway": {
     "messageformat": "Hívás ennek ellenére",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
+  },
+  "icu:joinAnyway": {
+    "messageformat": "Csatlakozás mindenképp",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
   },
   "icu:continueCall": {
     "messageformat": "Hívás folytatása",
@@ -3165,11 +3185,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "Üzenet szerkesztése",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "Ha szerkesztesz egy üzenetet, azt csak azok láthatják, akik a Signal béta legújabb verzióját használják. Ők látni fogják, hogy szerkesztettél egy üzenetet.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -5744,6 +5764,10 @@
     "messageformat": "Nem sikerült elmenteni a beállításokat. Próbáld újra!",
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
+  "icu:MediaEditor__input-placeholder": {
+    "messageformat": "Message",
+    "description": "Placeholder for the input in the media editor"
+  },
   "icu:MediaEditor__clock-more-styles": {
     "messageformat": "Több stílus",
     "description": "Action button for switching up the clock styles"
@@ -6748,6 +6772,10 @@
     "messageformat": "{type, select, Audio {Elutasított hanghívás} Video {Elutasított videohívás} Group {Elutasított csoporthívás} other {Elutasított hívás}}",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, one {{count,number} másik személy ír.} other {{count,number} másik személy ír.}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Újdonságok",
     "description": "Title for the whats new modal"
@@ -6780,13 +6808,13 @@
     "messageformat": "Apró finomítások, hibajavítások és teljesítménynövelések. Köszönjük, hogy a Signalt használod!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "A képernyő, amelyen a Csevegés színét szabhatod testre, mostantól megfelelően jelenik meg a különböző nyelveken és kiválasztott területeken."
+  "icu:WhatsNew__v6.32--0": {
+    "messageformat": "Frissítettük a médiaszerkesztőt, és sokkal egyszerűbbé tettük a használatát."
   },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Javítottuk az értesítések támogatását Windowson. Ha nem kattintasz rá az értesítésre, amikor először megkapod, a legutóbbi elmulasztott értesítés megjelenik a Windows Értesítési Központban. Az értesítésre kattintva közvetlenül az adott csevegésre ugrasz. Szeretnénk megköszönni Julien Richardnak a visszajelzését."
+  "icu:WhatsNew__v6.32--1": {
+    "messageformat": "A Signal mostantól automatikusan a csevegés aljára görget, amikor új üzenetet küldesz a csevegésben."
   },
-  "icu:WhatsNew__v6.30--0": {
-    "messageformat": "Az új hívások lap segítségével egyszerűen indíthatsz hívást, vagy visszahívhatsz egy nem fogadott hívást. Indíts új hívást, vagy hívd vissza ismerősödet anélkül, hogy meg kellene találnod a vele folytatott csevegést. Mostantól a hangoddal is köszönhetsz anélkül, hogy búcsút mondanál a beszélgetés olvasatlan üzeneteinek."
+  "icu:WhatsNew__v6.33--0": {
+    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
   }
 }

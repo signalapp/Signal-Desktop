@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "Lỗi Cơ sở dữ liệu",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "Đã xảy ra lỗi cơ sở dữ liệu. Bạn có thể sao chép lỗi và liên hệ bộ phận hỗ trợ của Signal để được hỗ trợ khắc phục vấn đề. Nếu bạn cần sử dụng Signal ngay, bạn có thể xóa dữ liệu của mình và khởi động lại.\n\nLiên hệ bộ phận hỗ trợ bằng cách truy cập: https://support.signal.org/hc/requests/new?desktop",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "Xóa tất cả dữ liệu và khởi động lại",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "Xóa dữ liệu và khởi động lại",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "Xóa vĩnh viễn tất cả dữ liệu?",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "Tất cả lịch sử tin nhắn và tệp đa phương tiện của bạn sẽ bị xóa vĩnh viễn khỏi thiết bị này. Bạn sẽ có thể sử dụng Signal trên thiết bị này sau khi liên kết lại. Thao tác này sẽ không xóa bất kỳ dữ liệu nào trên điện thoại của bạn.",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "Phiên bản cơ sở dữ liệu của bạn không khớp với phiên bản Signal này. Đảm bảo bạn đang sử dụng phiên bản Signal mới nhất trên máy tính của mình.",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Tập tin",
@@ -611,6 +627,10 @@
   "icu:callAnyway": {
     "messageformat": "Vẫn gọi",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
+  },
+  "icu:joinAnyway": {
+    "messageformat": "Tiếp tục tham gia",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
   },
   "icu:continueCall": {
     "messageformat": "Tiếp tục Cuộc gọi",
@@ -1399,7 +1419,7 @@
     "description": "Conversation Header > Leave Group Action > Cannot Leave Group Because You Are Last Admin Alert > Description"
   },
   "icu:sessionEnded": {
-    "messageformat": "Thiết lập lại phiên bảo mật",
+    "messageformat": "Đặt lại phiên bảo mật",
     "description": "This is a past tense, informational message. In other words, your secure session has been reset."
   },
   "icu:ChatRefresh--notification": {
@@ -3165,11 +3185,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "Chỉnh sửa Tin nhắn",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "Nếu bạn sửa một tin nhắn, thông tin về việc thay đổi sẽ chỉ hiển thị với người dùng các phiên bản mới nhất của Signal. Những người dùng này sẽ có thể thấy bạn đã chỉnh sửa một tin nhắn.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -4233,7 +4253,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--group-link-reset--other": {
-    "messageformat": "{adminName} đã cài lại đường dẫn nhóm.",
+    "messageformat": "{adminName} đã đặt lại đường dẫn nhóm.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--group-link-reset--unknown": {
@@ -4657,11 +4677,11 @@
     "description": "This lets users share their group link"
   },
   "icu:GroupLinkManagement--confirm-reset": {
-    "messageformat": "Bạn có muốn cài lại đường dẫn nhóm? Người dùng khác sẽ không thể tham gia nhóm bằng đường dẫn hiện tại.",
+    "messageformat": "Bạn có muốn đặt lại đường dẫn nhóm? Người dùng khác sẽ không thể tham gia nhóm bằng đường dẫn hiện tại.",
     "description": "Shown in the confirmation dialog when an admin is about to reset the group link"
   },
   "icu:GroupLinkManagement--reset": {
-    "messageformat": "Cài lại đường dẫn",
+    "messageformat": "Đặt lại đường dẫn",
     "description": "This lets users generate a new group link"
   },
   "icu:GroupLinkManagement--approve-label": {
@@ -5081,19 +5101,19 @@
     "description": "View title for the chat color picker and editor"
   },
   "icu:ChatColorPicker__reset": {
-    "messageformat": "Cài lại màu cuộc trò chuyện",
+    "messageformat": "Đặt lại màu cuộc trò chuyện",
     "description": "Button label for resetting chat colors"
   },
   "icu:ChatColorPicker__resetDefault": {
-    "messageformat": "Cài lại các Màu Cuộc trò chuyện",
+    "messageformat": "Đặt lại màu cuộc trò chuyện",
     "description": "Confirmation dialog title for resetting all chat colors or only the global default one"
   },
   "icu:ChatColorPicker__resetAll": {
-    "messageformat": "Cài lại tất cả các màu cuộc trò chuyện",
+    "messageformat": "Đặt lại tất cả màu cuộc trò chuyện",
     "description": "Button label for resetting all chat colors"
   },
   "icu:ChatColorPicker__confirm-reset-default": {
-    "messageformat": "Cài lại mặc định",
+    "messageformat": "Đặt lại mặc định",
     "description": "Button label for resetting only global chat color"
   },
   "icu:ChatColorPicker__confirm-reset": {
@@ -5743,6 +5763,10 @@
   "icu:CustomizingPreferredReactions__had-save-error": {
     "messageformat": "Đã xảy ra lỗi khi lưu cài đặt của bạn. Vui lòng thử lại.",
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
+  },
+  "icu:MediaEditor__input-placeholder": {
+    "messageformat": "Message",
+    "description": "Placeholder for the input in the media editor"
   },
   "icu:MediaEditor__clock-more-styles": {
     "messageformat": "Thêm phong cách",
@@ -6589,7 +6613,7 @@
     "description": "ARIA label of button for selecting username link color"
   },
   "icu:UsernameLinkModalBody__reset__confirm": {
-    "messageformat": "Nếu đặt lại mã QR, mã QR và đường dẫn hiện tại của bạn sẽ không còn hiệu lực nữa.",
+    "messageformat": "Nếu đặt lại mã QR, mã QR và đường dẫn thiện tại của bạn sẽ không còn hiệu lực nữa.",
     "description": "Text of confirmation modal when resetting the username link"
   },
   "icu:UsernameOnboardingModalBody__title": {
@@ -6748,6 +6772,10 @@
     "messageformat": "{type, select, Audio {Cuộc gọi thoại đã từ chối} Video {Cuộc gọi video đã từ chối} Group {Cuộc gọi nhóm đã từ chối} other {Cuộc gọi đã từ chối}}",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, other {{count,number} người khác đang nhập.}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Có gì mới",
     "description": "Title for the whats new modal"
@@ -6780,13 +6808,13 @@
     "messageformat": "Các tinh chỉnh, sửa lỗi, và cải thiện hiệu năng. Cảm ơn bạn đã sử dụng Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "Màn hình tùy chỉnh Màu cuộc trò chuyện giờ đây được hiển thị đúng cho các ngôn ngữ và vùng được chọn."
+  "icu:WhatsNew__v6.32--0": {
+    "messageformat": "Chúng tôi đã cập nhật công cụ chỉnh sửa tệp đa phương tiện và giúp công cụ dễ sử dụng hơn."
   },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Chúng tôi đã cải thiện hỗ trợ thông báo trên Windows. Nếu bạn không bấm vào một thông báo khi nhận được, thông báo bị bỏ lỡ mới nhất sẽ hiển thị ở Windows Notification Center. Khi bấm vào thông báo đó bạn sẽ được chuyển trực tiếp đến cuộc trò chuyện. Cảm ơn Julien Richard vì đóng góp của bạn."
+  "icu:WhatsNew__v6.32--1": {
+    "messageformat": "Signal giờ đây sẽ tự động cuộn xuống dòng tin nhắn mới nhất của một cuộc trò chuyện khi bạn gửi một tin nhắn mới trong cuộc trò chuyện đó."
   },
-  "icu:WhatsNew__v6.30--0": {
-    "messageformat": "Tab cuộc gọi mới giúp bạn dễ dàng bắt đầu cuộc gọi hoặc gọi lại cho một cuộc gọi bạn đã bỏ lỡ."
+  "icu:WhatsNew__v6.33--0": {
+    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
   }
 }

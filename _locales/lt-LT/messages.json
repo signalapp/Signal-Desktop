@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "Duomenų bazės klaida",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "Įvyko duomenų bazės klaida. Tu gali nukopijuoti klaidą ir kreiptis pagalbos į „Signal“ klientų aptarnavimo komandą. Jei tau skubiai reikia pasinaudoti „Signal“, gali ištrinti duomenis ir paleisti iš naujo.\n\nKreipkis į klientų aptarnavimo komandą: https://support.signal.org/hc/requests/new?desktop",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "Ištrinti visus duomenis ir paleisti iš naujo",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "Ištrinti duomenis ir paleisti iš naujo",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "Ištrinti visus duomenis visam laikui?",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "Visa tavo žinučių istorija ir įrašai bus ištrinti iš šio įrenginio visam laikui. Galėsi naudoti „Signal“ šiame įrenginyje po to, kai iš naujo susiesi. Iš tavo telefono nebus ištrinti jokie duomenys.",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "Tavo duomenų bazės versija neatitinka šios „Signal“ versijos. Įsitikink, kad savo kompiuteryje bandai atidaryti naujausią „Signal“ versiją.",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Failas",
@@ -611,6 +627,10 @@
   "icu:callAnyway": {
     "messageformat": "Vis tiek skambinti",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
+  },
+  "icu:joinAnyway": {
+    "messageformat": "Vis tiek prisijungti",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
   },
   "icu:continueCall": {
     "messageformat": "Tęsti skambutį",
@@ -3165,11 +3185,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "Redaguoti žinutę",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "Jei redaguosi žinutę, tai bus matoma tik naujausias „Signal“ versijas naudojantiems žmonėms. Jie matys, kad redagavai žinutę.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -5744,6 +5764,10 @@
     "messageformat": "Įrašant jūsų nustatymus, įvyko klaida. Bandykite dar kartą.",
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
+  "icu:MediaEditor__input-placeholder": {
+    "messageformat": "Message",
+    "description": "Placeholder for the input in the media editor"
+  },
   "icu:MediaEditor__clock-more-styles": {
     "messageformat": "Daugiau stilių",
     "description": "Action button for switching up the clock styles"
@@ -6748,6 +6772,10 @@
     "messageformat": "{type, select, Audio {Atmestas balso skambutis} Video {Atmestas vaizdo skambutis} Group {Atmestas grupės skambutis} other {Atmestas  skambutis}}",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, one {{count,number} žmogus rašo.} few {{count,number} žmonės rašo.} many {{count,number} žmonių rašo.} other {{count,number} žmonių rašo.}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Kas naujo",
     "description": "Title for the whats new modal"
@@ -6780,13 +6808,13 @@
     "messageformat": "Smulkūs patobulinimai, klaidų pataisymai ir veikimo pagerinimas. Ačiū, kad naudoji „Signal“!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "Pokalbio spalvos tinkinimo ekranas nuo šiol tinkamai rodomas skirtingomis kalbomis ir pasirinktose vietovėse."
+  "icu:WhatsNew__v6.32--0": {
+    "messageformat": "Atnaujinome įrašų redagavimo įrankį, kad būtų daug lengviau jį naudoti."
   },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Patobulinome pranešimų palaikymą sistemoje „Windows“. Jei iškart nespustelėsi gauto pranešimo, paskutinis praleistas pranešimas bus matomas „Windows“ pranešimų centre. Kai spustelėsi tą pranešimą, pereisi tiesiai į atitinkamą pokalbį. Norime padėkoti Julienui Richardui už atsiliepimą."
+  "icu:WhatsNew__v6.32--1": {
+    "messageformat": "Nuo šiol „Signal“ automatiškai paslinks į pokalbio apačią, kai tame pokalbyje išsiųsi naują žinutę."
   },
-  "icu:WhatsNew__v6.30--0": {
-    "messageformat": "Su nauju skambučių skirtuku bus lengva pradėti skambutį arba perskambinti, jei jį praleidai."
+  "icu:WhatsNew__v6.33--0": {
+    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
   }
 }

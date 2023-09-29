@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "Database Error",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "Nagkaroon ng database error. Pwede mong kopyahin ang error at kontakin ang Signal support para tulungan kang ayusin ang isyung ito. Kung kailangan mo nang gamitin ang Signal, pwede mong burahin ang iyong data at mag-restart.\n\nKontakin ang aming support sa pamamagitan ng pagpunta sa: https://support.signal.org/hc/requests/new?desktop",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "Burahin ang lahat ng data at i-restart",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "Burahin ang data at mag-restart",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "Gusto mo bang permanenteng burahin ang lahat ng data?",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "Ang lahat ng message history at media mo ay permanenteng buburahin sa device na ito. Pwede mong gamitin ang Signal sa device na ito pagkatapos mo itong i-relink. Hindi nito buburahin ang anumang data sa phone mo.",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "Hindi magka-match ang version ng database mo at ang version na ito ng Signal. Siguraduhing buksan ang pinakabagong version ng Signal sa computer mo.",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&File",
@@ -611,6 +627,10 @@
   "icu:callAnyway": {
     "messageformat": "Call anyway",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
+  },
+  "icu:joinAnyway": {
+    "messageformat": "Mag-join pa rin",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
   },
   "icu:continueCall": {
     "messageformat": "Continue call",
@@ -3165,11 +3185,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "I-edit ang message",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "Kung mag-edit ka ng message, ang mga taong may latest versions lang ng Signal ang makakakita nito. Makikita nilang nag-edit ka ng message.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -5744,6 +5764,10 @@
     "messageformat": "Nagkaroon ng error when saving your settings. Subukan ulit.",
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
+  "icu:MediaEditor__input-placeholder": {
+    "messageformat": "Message",
+    "description": "Placeholder for the input in the media editor"
+  },
   "icu:MediaEditor__clock-more-styles": {
     "messageformat": "Iba pang styles",
     "description": "Action button for switching up the clock styles"
@@ -6748,6 +6772,10 @@
     "messageformat": "{type, select, Audio {Declined voice call} Video {Declined video call} Group {Declined group call} other {Declined  call}}",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, one {{count,number} ang nagta-type.} other {{count,number} ang nagta-type.}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "what's new",
     "description": "Title for the whats new modal"
@@ -6780,13 +6808,13 @@
     "messageformat": "Dagdag na maliliit na pag-aayos, pag-alis ng bugs, at pagpapaganda ng takbo ng app. Maraming salamat sa paggamit ng Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "Naka-display na nang maayos sa iba't ibang languages at piling lugar ang Chat Color customization screen."
+  "icu:WhatsNew__v6.32--0": {
+    "messageformat": "In-update namin ang media editor at mas pinadali ang paggamit nito."
   },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Mas pinaganda na namin ang notification support sa Windows. Kung hindi mo i-click agad ang isang notification pagkadating nito, lalabas ang pinakabagong missed notification sa Windows Notification Center. Mapupunta ka na kaagad sa chat pagkatapos mong i-click ang notification nito. Nais naming magpasalamat kay Julien Richard sa kanyang feedback."
+  "icu:WhatsNew__v6.32--1": {
+    "messageformat": "Automatic na pupunta sa pinakababa ng chat ang Signal kapag nag-send ka ng panibagong message sa nasabing chat."
   },
-  "icu:WhatsNew__v6.30--0": {
-    "messageformat": "I-monitor ang mga tawag gamit ang bagong calls tab. Magsimula ng bagong tawag o mag-call back nang hindi kinakailangang hanapin kung saang chat ito galing. Pwede ka na ring mag-hello gamit ang boses mo nang hindi nawawala ang unread marker sa messages sa thread na 'yun."
+  "icu:WhatsNew__v6.33--0": {
+    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
   }
 }

@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "Errore del database",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "Si è verificato un errore nel database. Puoi copiare il codice/tipo dell'errore e contattare il supporto di Signal per aiutarci a risolvere il problema. Se hai bisogno di usare subito Signal, puoi sempre eliminare i tuoi dati e riavviarlo.\n\nContatta il supporto visitando la seguente pagina: https://support.signal.org/hc/requests/new?desktop",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "Elimina tutti i dati e riavvia",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "Elimina dati e riavvia",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "Rimuovere definitivamente tutti i dati?",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "Tutta la tua cronologia messaggi e media verrà eliminata in modo permanente da questo dispositivo. Potrai continuare a usare Signal su questo dispositivo dopo che l'avrai ricollegato. Questa azione non comporterà l'eliminazione dei dati dal tuo telefono.",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "La versione del tuo database non combacia con questa versione di Signal. Accertati di stare usando la versione più recente di Signal sul tuo computer.",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&File",
@@ -611,6 +627,10 @@
   "icu:callAnyway": {
     "messageformat": "Chiama comunque",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
+  },
+  "icu:joinAnyway": {
+    "messageformat": "Partecipa lo stesso",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
   },
   "icu:continueCall": {
     "messageformat": "Continua chiamata",
@@ -3165,11 +3185,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "Modifica messaggio",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "Se modifichi un messaggio, la modifica sarà visibile solamente alle persone che usano la versione più recente di Signal. Potranno quindi vedere che hai effettuato una modifica.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -5744,6 +5764,10 @@
     "messageformat": "Si è verificato un errore durante il salvataggio delle impostazioni. Si prega di riprovare.",
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
+  "icu:MediaEditor__input-placeholder": {
+    "messageformat": "Message",
+    "description": "Placeholder for the input in the media editor"
+  },
   "icu:MediaEditor__clock-more-styles": {
     "messageformat": "Più stili",
     "description": "Action button for switching up the clock styles"
@@ -6748,6 +6772,10 @@
     "messageformat": "{type, select, Audio {Chiamata vocale rifiutata} Video {Videochiamata rifiutata} Group {Chiamata di gruppo rifiutata} other {Chiamata rifiutata}}",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, one {{count,number} persona sta scrivendo.} other {{count,number} persone stanno scrivendo.}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Cosa c'è di nuovo",
     "description": "Title for the whats new modal"
@@ -6780,13 +6808,13 @@
     "messageformat": "Altre piccole modifiche e correzioni di bug per far funzionare l'app senza problemi. Grazie per usare Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "La schermata per la personalizzazione del Colore chat ora viene mostrata correttamente in tutte le lingue selezionate."
+  "icu:WhatsNew__v6.32--0": {
+    "messageformat": "Abbiamo aggiornato il media editor per renderlo più facile da usare: modificare e inviare le tue immagini o video da ora sarà più semplice."
   },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Abbiamo migliorato il supporto alle notifiche su Windows. Se non clicchi su una notifica nel momento in cui arriva, troverai la notifica in questione nel Centro Notifiche di Windows. Cliccare sulla notifica nel Centro Notifiche ti porterà direttamente a quella determinata chat. Vorremmo ringraziare Julien Richard per il suo feedback in merito!"
+  "icu:WhatsNew__v6.32--1": {
+    "messageformat": "Da adesso in poi, quando invii un messaggio in chat, Signal scorrerà automaticamente in basso fino a raggiungere il tuo ultimo messaggio appena inviato (facendo così riposare un po' i tuoi polpastrelli: non male, eh?)."
   },
-  "icu:WhatsNew__v6.30--0": {
-    "messageformat": "Abbiamo una nuova scheda tutta dedicata alle chiamate. Inizia una nuova chiamata o recupera quelle perse senza dover trovare la chat corrispondente. Non avrai più scuse per tutte quelle volte che non hai sentito squillare!"
+  "icu:WhatsNew__v6.33--0": {
+    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
   }
 }

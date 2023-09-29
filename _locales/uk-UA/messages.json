@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "Помилка бази даних",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "Із базою даних сталася помилка. Ви можете скопіювати помилку і зв'язатися з підтримкою Signal, щоб допомогти нам вирішити цю проблему. Якщо вам потрібно використати Signal просто зараз, спробуйте видалити свої дані та перезапустити програму.\n\nЗвернутися до служби підтримки можна тут: https://support.signal.org/hc/requests/new?desktop",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "Видалити усі дані та перезапустити",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "Видалити дані і перезапустити",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "Видалити всі дані назавжди?",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "Усю історію повідомлень і медіафайли буде назавжди видалено з цього пристрою. Ви зможете використовувати Signal на цьому пристрої після того, як знову його прив'яжете. Ця дія не видалить дані з вашого телефона.",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "Версія вашої бази даних не відповідає цій версії Signal. Переконайтеся, що відкриваєте на комп'ютері останню версію Signal.",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Файл",
@@ -611,6 +627,10 @@
   "icu:callAnyway": {
     "messageformat": "Усе одно зателефонувати",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
+  },
+  "icu:joinAnyway": {
+    "messageformat": "Усе одно приєднатися",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
   },
   "icu:continueCall": {
     "messageformat": "Продовжити дзвінок",
@@ -3165,11 +3185,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "Змінити повідомлення",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "Якщо ви відредагуєте повідомлення, воно буде показано тільки користувачам останніх версій Signal. Такі користувачі зможуть побачити, що ви відредагували повідомлення.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -5744,6 +5764,10 @@
     "messageformat": "Під час збереження налаштувань виникла помилка. Спробуйте пізніше, будь ласка.",
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
+  "icu:MediaEditor__input-placeholder": {
+    "messageformat": "Message",
+    "description": "Placeholder for the input in the media editor"
+  },
   "icu:MediaEditor__clock-more-styles": {
     "messageformat": "Більше стилів",
     "description": "Action button for switching up the clock styles"
@@ -6748,6 +6772,10 @@
     "messageformat": "{type, select, Audio {Відхилений голосовий виклик} Video {Відхилений відеовиклик} Group {Відхилений груповий виклик} other {Відхилений виклик}}",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, one {Ще {count,number} пише.} few {Ще {count,number} пишуть.} many {Ще {count,number} пишуть.} other {Ще {count,number} пише.}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Що нового",
     "description": "Title for the whats new modal"
@@ -6780,13 +6808,13 @@
     "messageformat": "Дрібні поліпшення, виправлення помилок і покращення роботи застосунку. Дякуємо, що ви з Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "Екран із налаштуванням кольору чату тепер правильно відображається різними мовами та у вибраних регіонах."
+  "icu:WhatsNew__v6.32--0": {
+    "messageformat": "Ми оновили медіаредактор, зробивши його більш зручним і простим у використанні."
   },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Ми покращили підтримку сповіщень у Windows. Якщо не натиснути сповіщення одразу після надходження, воно з'явиться в центрі сповіщень Windows. Натисніть на сповіщення, щоб одразу перейти до відповідного чату. Ми дякуємо Julien Richard за відгук."
+  "icu:WhatsNew__v6.32--1": {
+    "messageformat": "Тепер, коли ви надсилатимете повідомлення, Signal автоматично прокручуватиметься вниз чату."
   },
-  "icu:WhatsNew__v6.30--0": {
-    "messageformat": "Слідкуйте за дзвінками з новою вкладкою. Тепер ви можете почати новий виклик або передзвонити, не витрачаючи час на пошук потрібного чату. Відповідайте на важливі дзвінки, а повідомлення зможуть почекати, адже вони залишаться непрочитаними."
+  "icu:WhatsNew__v6.33--0": {
+    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
   }
 }

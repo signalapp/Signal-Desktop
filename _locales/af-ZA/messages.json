@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "Databasisfout",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "'n Databasisfout het voorgekom. Jy kan die fout kopieer en Signal-steundiens kontak om die probleem te help oplos. As jy Signal dadelik moet gebruik, kan jy jou data skrap en weer begin.\n\nKontak die steundiens deur te gaan na: https://support.signal.org/hc/requests/new?desktop",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "Skrap alle data en begin weer",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "Skrap data en begin weer",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "Skrap alle data permanent?",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "Jou hele boodskapgeskiedenis en media sal permanent van hierdie toestel geskrap word. Jy sal Signal op hierdie toestel kan gebruik nadat jy dit herkoppel het. Dit sal nie enige data van jou foon af skrap nie.",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "Die weergawe van jou databasis pas nie by hierdie weergawe van Signal nie. Maak seker dat jy die jongste weergawe van Signal op jou rekenaar oopmaak.",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Lêer",
@@ -611,6 +627,10 @@
   "icu:callAnyway": {
     "messageformat": "Skakel in elk geval",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
+  },
+  "icu:joinAnyway": {
+    "messageformat": "Sluit in elk geval aan",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
   },
   "icu:continueCall": {
     "messageformat": "Sit oproep voort",
@@ -3165,11 +3185,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "Wysig boodskap",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "Indien jy 'n boodskap wysig, sal dit slegs sigbaar wees vir mense wat op die jongste weergawes van Signal is. Hulle sal kan sien dat jy 'n boodskap gewysig het.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -5744,6 +5764,10 @@
     "messageformat": "Jou instellings kon nie gestoor word nie. Probeer asb. weer.",
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
+  "icu:MediaEditor__input-placeholder": {
+    "messageformat": "Message",
+    "description": "Placeholder for the input in the media editor"
+  },
   "icu:MediaEditor__clock-more-styles": {
     "messageformat": "Meer style",
     "description": "Action button for switching up the clock styles"
@@ -6748,6 +6772,10 @@
     "messageformat": "{type, select, Audio {Stemoproep geweier} Video {Video-oproep geweier} Group {Groepoproep geweier} other {Oproep geweier}}",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, one {{count,number} ander persoon is besig om te tik.} other {{count,number} ander persone is besig om te tik.}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Wat is nuut",
     "description": "Title for the whats new modal"
@@ -6780,13 +6808,13 @@
     "messageformat": "Klein veranderings, foutregstellings en prestasieverbeterings. Dankie dat jy Signal gebruik!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "Die Kletskleur-pasmaakskerm word nou korrek oor verskillende tale en geselekteerde lokaliteite vertoon."
+  "icu:WhatsNew__v6.32--0": {
+    "messageformat": "Ons het die mediaredigeerder opdateer en baie makliker gemaak om te gebruik."
   },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Ons het kennisgewingondersteuning in Windows verbeter. As jy nie op 'n kennisgewing klik wanneer dit die eerste keer aankom nie, sal die jongste gemiste kennisgewing in die Windows-kennisgewingsentrum verskyn. As jy op daardie kennisgewing klik, sal dit jou nou direk na daardie klets toe neem. Ons wil graag vir Julien Richard bedank vir sy terugvoer."
+  "icu:WhatsNew__v6.32--1": {
+    "messageformat": "Signal sal nou outomaties afrol na die onderkant van die gesprekstring wanneer ook al jy 'n nuwe boodskap in daardie gesprekstring stuur."
   },
-  "icu:WhatsNew__v6.30--0": {
-    "messageformat": "Hou 'n oog op jou oproepe met die nuwe oproep-ikoon. Begin 'n nuwe oproep of beantwoord 'n oproep wat jy gemis het sonder om die betrokke klets te moet vind. Nou kan jy ongeleesde boodskappe in daardie string ignoreer en 'n stemgesprek begin."
+  "icu:WhatsNew__v6.33--0": {
+    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
   }
 }
