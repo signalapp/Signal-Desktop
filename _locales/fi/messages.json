@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "Tietokantavirhe",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "Tapahtui tietokantavirhe. Voit kopioida virheen tiedot ja ottaa yhteyttä Signal-tukeen ongelman korjaamiseksi. Jos sinun on käytettävä Signalia heti, voit poistaa Signalin tiedot ja käynnistää ohjelman uudelleen.\n\nOta yhteyttä tukeen osoitteessa: https://support.signal.org/hc/requests/new?desktop",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "Tuhoa kaikki tiedot ja käynnistä uudelleen",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "Tuhoa tiedot ja käynnistä uudelleen",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "Poistetaanko kaikki tiedot pysyvästi?",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "Kaikki viestihistoriasi ja mediasi poistetaan tältä laitteelta pysyvästi. Voit käyttää Signalia tällä laitteella, kun olet yhdistänyt sen tiliisi uudelleen. Tämä ei poista mitään tietoja puhelimestasi.",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "Tietokantasi versio ei vastaa tätä Signal-versiota. Varmista, että avaat Signalin uusimman version tietokoneellasi.",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Tiedosto",
@@ -6752,6 +6768,10 @@
     "messageformat": "{type, select, Audio {Hylätty äänipuhelu} Video {Hylätty videopuhelu} Group {Hylätty ryhmäpuhelu} other {Hylätty puhelu}}",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, one {{count,number} käyttäjä kirjoittaa.} other {{count,number} käyttäjää kirjoittaa.}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Uudet ominaisuudet",
     "description": "Title for the whats new modal"
@@ -6784,10 +6804,13 @@
     "messageformat": "Pieniä säätöjä, virheenkorjauksia ja suorituskykyparannuksia. Kiitos, että käytät Signalia!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.30--0": {
-    "messageformat": "Uuden Puhelut-välilehden avulla voit helposti aloittaa puhelun tai soittaa takaisin vastaamattomaan puheluun."
-  },
   "icu:WhatsNew__v6.31--0": {
     "messageformat": "Tämä päivitys korjaa joukon virheitä, mukaan lukien yhden, joka aiheutti Signal-pääikkunan pimenemisen, jos katselit virheenkorjauslokia koko näytön tilassa macOS:ssä. Täysin vaalean tai tumman ikkunan näkeminen on varmasti puhtain mahdollinen ilmaisu vaaleasta ja tummasta teemasta. Päätimme kuitenkin lopulta, että sovellusta on helpompi käyttää, kun myös käyttöliittymä on näkyvissä."
+  },
+  "icu:WhatsNew__v6.32--0": {
+    "messageformat": "Olemme tehneet mediaeditorista helppokäyttöisemmän."
+  },
+  "icu:WhatsNew__v6.32--1": {
+    "messageformat": "Signal vierittää nyt automaattisesti keskustelun alaosaan, kun lähetät uuden viestin keskusteluun."
   }
 }

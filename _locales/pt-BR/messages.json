@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "Erro no banco de dados",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "Ocorreu um erro de base de dados. Copie o erro e entre em contato com o suporte do Signal para resolver o problema. Se precisar usar o Signal imediatamente, exclua seus dados e reinicie.\n\nEntre em contato com o suporte aqui: https://support.signal.org/hc/requests/new?desktop",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "Excluir todos os dados e reiniciar",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "Excluir dados e reiniciar",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "Excluir todos os dados permanentemente?",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "Todo o seu histórico de mensagens e mídia serão excluídos permanentemente deste dispositivo. Você poderá usar o Signal neste dispositivo após vinculá-lo novamente. Os dados do seu telefone não serão excluídos.",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "A versão da sua base de dados não corresponde a esta versão do Signal. Confira se está abrindo a versão mais recente do Signal no seu computador.",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Arquivo",
@@ -6752,6 +6768,10 @@
     "messageformat": "{type, select, Audio {Chamada de voz recusada} Video {Chamada de vídeo recusada} Group {Chamada em grupo recusada} other {Chamada recusada}}",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, one {{count,number} outra pessoa está digitando.} other {{count,number} outras pessoas estão digitando.}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Novidades",
     "description": "Title for the whats new modal"
@@ -6784,10 +6804,13 @@
     "messageformat": "Pequenas alterações adicionais, correções de bugs e melhorias de desempenho. Agradecemos por usar o Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.30--0": {
-    "messageformat": "Com a nova aba Chamadas, você pode iniciar uma nova ligação ou ligar de volta, caso tenha perdido uma chamada."
-  },
   "icu:WhatsNew__v6.31--0": {
     "messageformat": "Esta atualização corrige vários bugs, incluindo o que estava deixando a janela principal do Signal em branco na visualização de um log de depuração no modo tela cheia no macOS."
+  },
+  "icu:WhatsNew__v6.32--0": {
+    "messageformat": "Atualizamos o editor de mídia para facilitar o uso."
+  },
+  "icu:WhatsNew__v6.32--1": {
+    "messageformat": "Agora, quando você enviar uma mensagem em uma conversa, o Signal vai levar você diretamente pro fim do chat."
   }
 }

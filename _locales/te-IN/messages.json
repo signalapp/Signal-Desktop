@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "దత్తాంశమూల లోపం",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "డేటాబేస్ లోపం ఏర్పడింది. మీరు లోపాన్ని కాపీ చేసి, సమస్యను పరిష్కరించడంలో సహాయపడటానికి Signal మద్దతును సంప్రదించవచ్చు. ఒకవేళ మీరు Signal ను తక్షణమే ఉపయోగించవలసి వస్తే, మీరు మీ డేటాను తొలగించి, రీస్టార్ట్ చేయవచ్చు.\n\nఈ లింకును సందర్శించడం ద్వారా మద్దతును సంప్రదించండి: https://support.signal.org/hc/requests/new?desktop",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "మొత్తం సమాచారమును తొలగించి పునఃప్రారంభించండి",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "డేటాను తొలగించి, రీస్టార్ట్ చేయండి",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "మొత్తం డేటాను శాశ్వతంగా తొలగించేదా?",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "మీ మొత్తం సందేశ చరిత్ర మరియు మీడియా ఈ పరికరం నుండి శాశ్వతంగా తొలగించబడతాయి. Signal ను మళ్ళీ లింక్ చేసిన తర్వాత మీరు ఈ పరికరంలో దాన్ని ఉపయోగించగలుగుతారు. దీని వలన మీ ఫోన్ నుండి డేటా ఏదీ తొలగించబడదు.",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "మీ డేటాబేస్ యొక్క వెర్షన్ Signal యొక్క ఈ వెర్షన్‌తో సరిపోలడం లేదు. మీరు మీ కంప్యూటరులో Signal యొక్క తాజా వెర్షన్‌ను తెరుస్తున్నారని నిర్ధారించుకోండి.",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&పంక్తి",
@@ -6752,6 +6768,10 @@
     "messageformat": "{type, select, Audio {స్వర కాల్ తిరస్కరించబడింది} Video {వీడియో కాల్ తిరస్కరించబడింది} Group {గ్రూప్ కాల్ తిరస్కరించబడింది} other {కాల్  తిరస్కరించబడింది}}",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, one {{count,number} ఇతర వ్యక్తి టైప్ చేస్తున్నారు.} other {{count,number} మంది ఇతర వ్యక్తులు టైప్ చేస్తున్నారు.}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "కొత్తది ఏమిటి",
     "description": "Title for the whats new modal"
@@ -6784,10 +6804,13 @@
     "messageformat": "చిన్న ట్వీక్‌లు, బగ్ ఫిక్స్‌లు, మరియు పనితీరు మెరుగుదలలు. Signal ఉపయోగించినందుకు మీకు ధన్యవాదాలు!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.30--0": {
-    "messageformat": "కొత్త కాల్‌ల ట్యాబ్ మీకు కాల్‌ను సులభంగా ప్రారంభించేందుకు లేదా మీరు మిస్ అయిన కాల్‌ను తిరిగి ఇచ్చేందుకు సహాయపడుతుంది. సంబంధిత చాట్‌ను కనుగొనాల్సిన అవసరం లేకుండానే కొత్త కాల్ ప్రారంభించండి లేదా మీరు మిస్ అయిన కాల్‌ను తిరిగి ఇవ్వండి. ఆ థ్రెడ్‌లో సందేశాలకు చదవని మార్కర్‌కు వీడ్కోలు చెప్పకనే మీ స్వరంతో ఇప్పుడు మీరు హలో చెప్పచ్చు."
-  },
   "icu:WhatsNew__v6.31--0": {
     "messageformat": "macOS లో పూర్తి-స్క్రీన్ మోడ్‌లో డీబగ్ లాగ్‌ను ఒకవేళ మీరు వీక్షించినట్లయితే, ప్రధాన Signal విండో ఖాళీగా ఉండటానికి కారణమైన దానితో సహా కొన్ని బగ్‌లను ఈ అప్‌డేట్ పరిష్కరిస్తుంది."
+  },
+  "icu:WhatsNew__v6.32--0": {
+    "messageformat": "మేము మీడియా ఎడిటర్‌ను అప్‌డేట్ చేశాము మరియు దానిని ఉపయోగించడం చాలా సులభతరం చేశాము."
+  },
+  "icu:WhatsNew__v6.32--1": {
+    "messageformat": "మీరు చాట్‌లో కొత్త సందేశాన్ని పంపినప్పుడు Signal ఇప్పుడు ఆటోమేటిక్‌గా ఆ చాట్ దిగువకు స్క్రోల్ అవుతుంది."
   }
 }

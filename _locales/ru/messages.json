@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "Ошибка базы данных",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "Произошла ошибка базы данных. Вы можете создать копию ошибки и обратиться в службу поддержки Signal для решения проблемы. Если вы хотите использовать Signal немедленно, вы можете удалить данные и перезагрузиться.\n\nСвязаться с поддержкой можно по адресу: https://support.signal.org/hc/requests/new?desktop.",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "Удалить все данные и перезапустить",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "Удалить данные и перезапустить",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "Удалить все данные безвозвратно?",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "Вся история сообщений и медиафайлы будут безвозвратно удалены с этого устройства. Вы сможете пользоваться Signal на этом устройстве после переподключения. Это не приведет к удалению данных из вашего телефона.",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "Ваша версия базы данных не соответствует этой версии Signal. Убедитесь, что на вашем компьютере установлена самая последняя версия Signal.",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Файл",
@@ -6752,6 +6768,10 @@
     "messageformat": "{type, select, Audio {Отклонённый аудиозвонок} Video {Отклонённый видеозвонок} Group {Отклонённый групповой звонок} other {Отклонить звонок}}",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, one {Ещё {count,number} печатает.} few {Ещё {count,number} печатают.} many {Ещё {count,number} печатают.} other {Ещё {count,number} печатают.}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Что нового",
     "description": "Title for the whats new modal"
@@ -6784,10 +6804,13 @@
     "messageformat": "Небольшие изменения, исправления ошибок и улучшения производительности. Спасибо за то, что пользуетесь Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.30--0": {
-    "messageformat": "Следите за своими звонками с помощью вкладки «Новые звонки». Начните новый звонок или вернитесь к пропущенному без необходимости искать чат с этим контактом. Теперь вы можете поздороваться голосом, не закрывая непрочитанные сообщения в треде."
-  },
   "icu:WhatsNew__v6.31--0": {
     "messageformat": "В этом обновлении исправлено несколько ошибок — в том числе та, из-за которой главное окно Signal становилось пустым при просмотре журнала отладки на macOS в полноэкранном режиме. Появление на экране полностью светлого или полностью тёмного окна — это, пожалуй, самое полное проявление Светлой и Тёмной темы, но в итоге мы решили, что пользоваться приложением удобнее, когда интерфейс тоже виден."
+  },
+  "icu:WhatsNew__v6.32--0": {
+    "messageformat": "Мы обновили медиаредактор, и теперь он стал ещё проще в использовании."
+  },
+  "icu:WhatsNew__v6.32--1": {
+    "messageformat": "Теперь, когда вы отправляете в чате новое сообщение, Signal будет автоматически прокручиваться в самый низ чата."
   }
 }

@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "Ralat Pangkalan Data",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "Ralat pangkalan data telah berlaku. Anda boleh menyalin ralat dan menghubungi sokongan Signal untuk membantu menyelesaikan isu tersebut. Jika anda perlu menggunakan Signal dengan segera, anda boleh memadamkan data anda dan mulakan semula.\n\nHubungi sokongan dengan melawati: https://support.signal.org/hc/requests/new?desktop",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "Padam semua data dan mula semula",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "Padam data dan mula semula",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "Padamkan semua data secara kekal?",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "Semua sejarah mesej dan media anda akan dipadamkan secara kekal daripada peranti ini. Anda akan dapat menggunakan Signal pada peranti ini selepas memautkannya semula. Ini tidak akan memadamkan sebarang data daripada telefon anda.",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "Versi pangkalan data anda tidak sepadan dengan versi Signal ini. Pastikan anda membuka versi terbaru Signal pada komputer anda.",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Fail",
@@ -6752,6 +6768,10 @@
     "messageformat": "{type, select, Audio {Panggilan suara ditolak} Video {Panggilan video ditolak} Group {Panggilan kumpulan ditolak} other {Panggilan ditolak}}",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, other {{count,number} yang lain sedang menaip.}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Perkara Baharu",
     "description": "Title for the whats new modal"
@@ -6784,10 +6804,13 @@
     "messageformat": "Sedikit pengubahsuaian, pembaikan pepijat dan peningkatan prestasi. Terima kasih kerana menggunakan Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.30--0": {
-    "messageformat": "Pantau panggilan anda dengan tab panggilan baharu. Mulakan panggilan baharu atau buat panggilan semula untuk panggilan terlepas tanpa perlu mencari sembang yang sama. Kini anda boleh ucap helo dengan suara anda melalui panggilan. Biarkan sahaja tanda belum dibaca untuk mesej dalam urutan."
-  },
   "icu:WhatsNew__v6.31--0": {
     "messageformat": "Kemas kini ini membaiki beberapa pepijat, termasuk yang menyebabkan tetingkap Signal utama menjadi kosong jika anda melihat log nyahpepijat dalam mod skrin penuh pada macOS."
+  },
+  "icu:WhatsNew__v6.32--0": {
+    "messageformat": "Kami telah mengemas kini editor media dan menjadikannya lebih mudah untuk digunakan."
+  },
+  "icu:WhatsNew__v6.32--1": {
+    "messageformat": "Signal kini akan menatal ke bawah sembang secara automatik apabila anda menghantar mesej baru dalam sembang tersebut."
   }
 }

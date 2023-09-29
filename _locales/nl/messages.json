@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "Databankfout",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "Er is een databasefout opgetreden. Je kan de foutmelding kopiëren en contact opnemen met Signal-support om het probleem op te lossen. Als je Signal meteen wilt gebruiken, kan je je gegevens wissen en opnieuw opstarten .\n\nVoor contact met support ga naar: https://support.signal.org/hc/requests/new?desktop",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "Alle gegevens wissen en herstarten",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "Gegevens wissen en opnieuw opstarten",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "Alle gegevens definitief verwijderen?",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "Je gespreksgeschiedenis en media worden permanent van dit apparaat verwijderd. Je kunt Signal op dit apparaat gebruiken nadat je het opnieuw hebt gekoppeld. Er worden geen gegevens van je telefoon verwijderd.",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "De versie van je database komt niet overeen met deze versie van Signal. Zorg ervoor dat je de nieuwste versie van Signal op je computer opent.",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Bestand",
@@ -817,7 +833,7 @@
     "description": "Shown in toast when user attempts to send .exe file, for example"
   },
   "icu:loadingPreview": {
-    "messageformat": "Voorbeeldafbeelding aan het laden …",
+    "messageformat": "Linkvoorbeeld aan het laden …",
     "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
   },
   "icu:stagedPreviewThumbnail": {
@@ -2977,7 +2993,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "icu:Keyboard--remove-draft-link-preview": {
-    "messageformat": "Concept-voorbeeldafbeelding verwijderen",
+    "messageformat": "Concept-linkvoorbeeld verwijderen",
     "description": "Shown in the shortcuts guide"
   },
   "icu:Keyboard--remove-draft-attachments": {
@@ -4505,11 +4521,11 @@
     "description": "This is the label for the disappearing messages setting panel"
   },
   "icu:ConversationDetails--disappearing-messages-info--group": {
-    "messageformat": "Indien ingeschakeld, worden nieuwe berichten die in deze groep zijn verstuurd en ontvangen gewist nadat ze zijn gezien.",
+    "messageformat": "Indien ingeschakeld, worden nieuwe berichten die in deze groep zijn verstuurd en ontvangen gewist nadat ze zijn gezien en de timer is afgelopen.",
     "description": "This is the info about the disappearing messages setting, in groups"
   },
   "icu:ConversationDetails--disappearing-messages-info--direct": {
-    "messageformat": "Indien ingeschakeld, worden nieuwe berichten die in deze chat zijn verstuurd en ontvangen gewist nadat ze zijn gezien.",
+    "messageformat": "Indien ingeschakeld, worden nieuwe berichten die in deze chat zijn verstuurd en ontvangen gewist nadat ze zijn gezien en de timer is afgelopen.",
     "description": "This is the info about the disappearing messages setting, for direct conversations"
   },
   "icu:ConversationDetails--notifications": {
@@ -5533,7 +5549,7 @@
     "description": "Label for changing the zoom level"
   },
   "icu:Preferences__link-previews--title": {
-    "messageformat": "Voorbeeld van website meesturen",
+    "messageformat": "Linkvoorbeelden meesturen",
     "description": "Title for the generate link previews setting"
   },
   "icu:Preferences__link-previews--description": {
@@ -6752,6 +6768,10 @@
     "messageformat": "{type, select, Audio {Spraakoproep geweigerd} Video {Video-oproep geweigerd} Group {Groepsoproep geweigerd} other {Oproep geweigerd}}",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, one {{count,number} ander is aan het typen.} other {{count,number} anderen zijn aan het typen.}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "wat er nieuw is",
     "description": "Title for the whats new modal"
@@ -6784,10 +6804,13 @@
     "messageformat": "Kleine aanpassingen, bugfixes en prestatieverbeteringen. Bedankt dat je Signal gebruikt!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.30--0": {
-    "messageformat": "Het nieuwe oproepentabblad maakt het gemakkelijk een oproep te beginnen of iemand na een gemiste oproep terug te bellen. Start een nieuwe oproep of bel iemand na een gemiste oproep terug zonder de bijbehorende chat te hoeven zoeken. Nu kun je bellen zonder berichten als gelezen te markeren voor een bepaald contact."
-  },
   "icu:WhatsNew__v6.31--0": {
     "messageformat": "Deze update lost een aantal bugs op, waaronder het blanco Signal-hoofdscherm dat verscheen als je een logboek voor foutopsporingen op volledig scherm op macOS bekeek."
+  },
+  "icu:WhatsNew__v6.32--0": {
+    "messageformat": "Als je media-editor heel snel achter elkaar zegt, klinkt het een beetje als 'mediator'. Maar onze nieuwe media-editor is zo simpel in gebruik, dat je geen mediator meer nodig hebt als je weer eens ruzie hebt met de tool voor bijsnijden."
+  },
+  "icu:WhatsNew__v6.32--1": {
+    "messageformat": "Soms helpt het juiste antwoord je iets tot op de bodem uit te zoeken. Signal scrolt nu automatisch naar beneden in een chat, zodat je direct het nieuwste bericht kunt lezen."
   }
 }

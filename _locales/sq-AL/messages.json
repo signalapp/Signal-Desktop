@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "Gabim Baze të Dhënash",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "Ndodhi një gabim i bazës së të dhënave. Mund ta kopjosh gabimin dhe të kontaktosh mbështetjen e Signal për të ndihmuar në rregullimin e problemit. Nëse ke nevojë të përdorësh Signal menjëherë, mund t'i fshish të dhënat e tua dhe ta rinisësh.\n\nKontakto mbështetjen duke vizituar: https://support.signal.org/hc/requests/new?desktop",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "Fshiji të gjitha të dhënat dhe rifillo",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "Fshiji të dhënat dhe rinise",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "Të fshihen përgjithmonë të gjitha të dhënat?",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "I gjithë historiku dhe media jote e mesazheve do të fshihen përgjithmonë nga kjo pajisje. Do të mund të përdorësh Signal në këtë pajisje pasi ta rilidhësh atë. Kjo nuk do të fshijë ndonjë të dhënë nga telefoni yt.",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "Versioni i bazës së të dhënave nuk përputhet me këtë version të Signal. Sigurohu që po hap versionin më të ri të Signal në kompjuterin tënd.",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Kartelë",
@@ -6752,6 +6768,10 @@
     "messageformat": "{type, select, Audio {Thirrje zanore e refuzuar} Video {Thirrje me video e refuzuar} Group {Thirrje në grup e refuzuar} other {Thirrje  e refuzuar}}",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, one {{count,number} tjetër po shkruan.} other {{count,number} tjerë po shkruajnë.}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Ç’ka të Re",
     "description": "Title for the whats new modal"
@@ -6784,10 +6804,13 @@
     "messageformat": "Rregullme të vogla, riparime të gabimeve dhe përmirësime të mbarëvajtjes.  Faleminderit që përdorni Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.30--0": {
-    "messageformat": "Mbaj skedat e telefonatave të tua me skedën e re të thirrjeve. Fillo një telefonatë të re ose kthe një telefonatë që ke humbur pa pasur nevojë të gjesh bisedën përkatëse. Tani mund të thuash \"Ç'kemi!\" me zërin tënd pa i thënë lamtumirë shënuesit të mesazheve të palexuar në atë bisedë."
-  },
   "icu:WhatsNew__v6.31--0": {
     "messageformat": "Ky përditësim rregullon një sërë gabimesh, duke përfshirë atë që bëri që dritarja kryesore e Signal të zbrazej, nëse shikonit një regjistër të korrigjimit në modalitetin e ekranit të plotë në macOS. Të shohësh një dritare krejtësisht të çelur ose plotësisht të errët është padyshim shprehja më e pastër e Temës së Dritës dhe Temës së Errët, por përfundimisht vendosëm që aplikacioni të jetë më i lehtë për t'u përdorur, kur mund të shihni edhe ndërfaqen."
+  },
+  "icu:WhatsNew__v6.32--0": {
+    "messageformat": "Përditësuam redaktorin e medias dhe e bëmë shumë më të lehtë në përdorim."
+  },
+  "icu:WhatsNew__v6.32--1": {
+    "messageformat": "Signal tani do të lëvizë automatikisht në fund të bisedës kur të dërgosh një mesazh të ri në atë bisedë."
   }
 }

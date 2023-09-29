@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "خطای پایگاه داده",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "خطای پایگاه داده رخ داد. می‌توانید خطا را کپی کنید و برای کمک به رفع مشکل با پشتیبانی سیگنال تماس بگیرید. اگر فوراً نیاز به استفاده از سیگنال دارید، می‌توانید داده‌هایتان را پاک کنید و سیگنال را دوباره راه‌اندازی کنید.\n\nاز طریق مراجعه به این نشانی، با پشتیبانی تماس بگیرید: https://support.signal.org/hc/requests/new?desktop",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "پاک کردن همه اطلاعات و راه‌اندازی دوباره",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "پاک کردن داده‌ها و راه‌اندازی مجدد",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "همه داده‌ها به‌طور دائم پاک شود؟",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "کل تاریخچه پیام و رسانه شما به‌طور دائم از این دستگاه پاک خواهد شد. پس از پیوند دادن مجدد سیگنال، قادر به استفاده از آن در این دستگاه خواهید بود. این موجب پاک شدن داده‌ها از تلفن شما نمی‌شود.",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "نسخه پایگاه داده شما با این نسخه سیگنال مطابقت ندارد. مطمئن شوید که جدیدترین نسخه سیگنال را در رایانه‌تان باز می‌کنید.",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&فایل",
@@ -6752,6 +6768,10 @@
     "messageformat": "{type, select, Audio {تماس صوتی رد شده} Video {تماس تصویری رد شده} Group {تماس گروهی رد شده} other {تماس رد شده}}",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, one {{count,number} نفر دیگر در حال تایپ است.} other {{count,number} نفر دیگر در حال تایپ هستند.}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "تازه‌ها",
     "description": "Title for the whats new modal"
@@ -6784,10 +6804,13 @@
     "messageformat": "تغییرات کوچک، رفع اشکالات و بهبود عملکرد. بابت استفاده از سیگنال سپاسگزاریم!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.30--0": {
-    "messageformat": "زبانه جدید تماس‌ها به شما کمک می‌کند که به راحتی تماسی شروع کنید یا با کسی که تماس ازدست‌رفته‌ای از او داشته‌اید تماس بگیرید."
-  },
   "icu:WhatsNew__v6.31--0": {
     "messageformat": "این به‌روزرسانی چند اشکال را برطرف می‌کند، از جمله اشکالی که موجب می‌شد صفحۀ اصلی سیگنال در هنگام مشاهدۀ گزارش عیب‌یابی در حالت تمام صفحه در macOS خالی باشد."
+  },
+  "icu:WhatsNew__v6.32--0": {
+    "messageformat": "«ویرایشگر رسانه» را به‌روز کرده‌ایم و استفاده از آن بسیار ساده‌تر شده است."
+  },
+  "icu:WhatsNew__v6.32--1": {
+    "messageformat": "حالا دیگر هرزمان که پیام جدیدی در یک گفتگو ارسال می‌کنید، سیگنال به‌طور خودکار شما را به انتهای آن گفتگو می‌برد."
   }
 }

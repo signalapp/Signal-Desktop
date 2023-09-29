@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "ഡാറ്റാബേസ് പിശക്",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "ഡാറ്റാബേസ് പിശകുണ്ടായി. പിശക് പകർത്തി Signal പിന്തുണയുമായി ബന്ധപ്പെട്ട് നിങ്ങൾക്ക് പ്രശ്‌നം പരിഹരിക്കാം. നിങ്ങൾക്ക് Signal ഇപ്പോൾ തന്നെ ഉപയോഗിക്കണമെങ്കിൽ, നിങ്ങൾക്ക് ഡാറ്റ ഇല്ലാതാക്കി പുനരാരംഭിക്കാം.\n\nഈ ലിങ്ക് സന്ദർശിച്ച് പിന്തുണയെ ബന്ധപ്പെടുക: https://support.signal.org/hc/requests/new?desktop",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "എല്ലാ ഡാറ്റയും ഇല്ലാതാക്കി പുനരാരംഭിക്കുക",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "ഡാറ്റാ ഇല്ലാതാക്കി പുനരാരംഭിക്കുക",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "എല്ലാ ഡാറ്റയും ശാശ്വതമായി ഇല്ലാതാക്കണോ?",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "നിങ്ങളുടെ എല്ലാ സന്ദേശ ചരിത്രവും മീഡിയയും ഈ ഉപകരണത്തിൽ നിന്ന് ശാശ്വതമായി ഇല്ലാതാക്കും. Signal വീണ്ടും ലിങ്ക് ചെയ്‌ത ശേഷം നിങ്ങൾക്ക് ഈ ഉപകരണത്തിൽ Signal ഉപയോഗിക്കാനാകും. ഇത് നിങ്ങളുടെ ഫോണിൽ നിന്ന് ഡാറ്റയൊന്നും ഇല്ലാതാക്കില്ല.",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "നിങ്ങളുടെ ഡാറ്റാബേസിന്റെ പതിപ്പ് നിങ്ങളുടെ Signal പതിപ്പുമായി പൊരുത്തപ്പെടുന്നില്ല. നിങ്ങളുടെ കമ്പ്യൂട്ടറിൽ Signal-ന്റെ ഏറ്റവും പുതിയ പതിപ്പാണ് തുറക്കുന്നതെന്ന് ഉറപ്പാക്കുക.",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&ഫയൽ",
@@ -6752,6 +6768,10 @@
     "messageformat": "{type, select, Audio {നിരസിച്ച വോയിസ് കോൾ} Video {നിരസിച്ച വീഡിയോ കോൾ} Group {നിരസിച്ച ഗ്രൂപ്പ് കോൾ} other {നിരസിച്ച  കോൾ}}",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, one {മറ്റ് {count,number} ആൾ ടൈപ്പ് ചെയ്യുന്നു.} other {മറ്റ് {count,number} പേർ ടൈപ്പ് ചെയ്യുന്നു.}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "പുതിയതായി എന്തുണ്ട്",
     "description": "Title for the whats new modal"
@@ -6784,10 +6804,13 @@
     "messageformat": "ചെറിയ മാറ്റങ്ങളും ബഗ് പരിഹരിക്കലുകളും പ്രകടന മെച്ചപ്പെടുത്തലുകളും. Signal ഉപയോഗിക്കുന്നതിന് നന്ദി!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.30--0": {
-    "messageformat": "★ പുതിയ കോളുകൾ ടാബിലൂടെ നിങ്ങളുടെ കോളുകളെക്കുറിച്ച് അറിഞ്ഞിരിക്കൂ. പുതിയൊരു കോൾ തുടങ്ങുക അല്ലെങ്കിൽ നിങ്ങൾ മിസ് ചെയ്‌ത ഒരു കോളിന് മറുപടി നൽകുക, അതിനായി ബന്ധപ്പെട്ട ചാറ്റ് കണ്ടെത്തേണ്ടി വരില്ല. സന്ദേശ ത്രെഡുകളിലെ വായിച്ചിട്ടില്ലാത്തവ എന്ന മാർക്കർ നിലനിർത്തിക്കൊണ്ട് തന്നെ നിങ്ങളുടെ ശബ്ദത്തിലൂടെ നിങ്ങൾക്കിപ്പോൾ ഹലോ പറയാം."
-  },
   "icu:WhatsNew__v6.31--0": {
     "messageformat": "macOS-ൽ ഫുൾ സ്ക്രീൻ മോഡിൽ ഡീബഗ് ലോഗ് കാണുമ്പോൾ പ്രധാന Signal വിൻഡോ ശൂന്യമാകുന്നത് ഉൾപ്പെടെ ഏതാനും ബഗുകൾ ഈ അപ്ഡേറ്റ് പരിഹരിക്കുന്നു. ലൈറ്റ് തീം, ഡാർക്ക് തീം എന്നിവയുടെ ഉദ്ദേശ്യം പൂർണമായും ലൈറ്റായ അല്ലെങ്കിൽ പൂർണമായും ഡാർക്കായ ഒരു വിൻഡോ കാണുക എന്നതാണ്, പക്ഷെ ആപ്പ് ഉപയോഗം എളുപ്പത്തിലാക്കാൻ ഇന്‍റർഫേസ് കൂടി കാണാനാകണം എന്ന് ഞങ്ങൾ തീരുമാനിച്ചു."
+  },
+  "icu:WhatsNew__v6.32--0": {
+    "messageformat": "നിങ്ങൾ \"മീഡിയാ എഡിറ്റർ\" എന്ന് വേഗത്തിൽ 5 തവണ പറഞ്ഞാൽ, അത് കേൾക്കുന്നവർക്ക് \"മീഡിയേറ്റർ\" എന്നാണ് പറയുന്നതെന്ന് തോന്നും - പുതിയ മീഡിയാ എഡിറ്റർ ഉപയോഗിക്കാൻ അത്രമേൽ എളുപ്പമായതിനാൽ നിങ്ങളും ക്രോപ്പ് ടൂളും തമ്മിലുള്ള പ്രശ്‌ന പരിഹാരത്തിന് മീഡിയേറ്ററുടെ ആവശ്യമില്ലെന്ന് നിങ്ങൾക്ക് തോന്നും."
+  },
+  "icu:WhatsNew__v6.32--1": {
+    "messageformat": "ചിലപ്പോൾ ആളുകൾ എന്താണ് പറയുന്നതെന്ന് മനസ്സിലാക്കാൻ കുറിക്ക്കൊള്ളുന്ന മറുപടി ഉപകരിക്കും, നിങ്ങൾ ഇപ്പോൾ ചാറ്റിൽ ഒരു സന്ദേശം അയയ്ക്കുമ്പോൾ നിങ്ങൾ എന്താണ് പറഞ്ഞതെന്ന് കാണിക്കാൻ Signal സ്വയമേവ ആ സന്ദേശത്തിലേക്ക് സ്ക്രോൾ ചെയ്യും."
   }
 }

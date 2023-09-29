@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "Erreur de base de données",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "Une erreur liée à la base de données s’est produite. Vous pouvez transférer les détails du problème à l’équipe d’assistance Signal pour qu’elle vous aide à le résoudre. Si vous devez utiliser Signal immédiatement, vous pouvez supprimer les données et redémarrer. \n\nContactez l’équipe d’assistance en vous rendant sur https://support.signal.org/hc/requests/new?desktop",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "Supprimer toutes les données et relancer",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "Supprimer les données et redémarrer",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "Supprimer définitivement toutes les données ?",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "Tout l’historique de vos messages et de vos fichiers sera définitivement supprimé de cet appareil. Vous pourrez utiliser Signal sur cet appareil après l’avoir relié. Cette action ne supprimera aucune donnée de votre téléphone.",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "La version de votre base de données ne peut pas supporter cette version de Signal. Assurez-vous d’ouvrir la dernière version de Signal sur votre ordinateur.",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Fichier",
@@ -6752,6 +6768,10 @@
     "messageformat": "{type, select, Audio {Appel vocal rejeté} Video {Appel vidéo rejeté} Group {Appel de groupe rejeté} other {Appel rejeté}}",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, one {{count,number} autre personne est en train d’écrire.} other {{count,number} autres personnes sont en train d’écrire.}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Les nouveautés",
     "description": "Title for the whats new modal"
@@ -6784,10 +6804,13 @@
     "messageformat": "Petits ajustements, corrections de bugs et améliorations des performances. Nous vous remercions d’utiliser Signal !",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.30--0": {
-    "messageformat": "Gardez un œil sur vos appels grâce au nouvel onglet Appels. Appelez (ou rappelez) vos contacts sans avoir à retrouver la conversation correspondante. Désormais, vous pouvez appeler en gardant le marqueur « non lu » dans ce fil de discussion."
-  },
   "icu:WhatsNew__v6.31--0": {
     "messageformat": "Cette mise à jour permet de corriger plusieurs bugs, y compris celui qui entraînait la disparition de la page Signal lors de l’affichage des journaux de débogage en mode plein écran du macOS. Afficher une page blanche ou noire est sans aucun doute la façon la plus extrême de tester les modes clair et sombre, mais on s’est dit que l’appli était quand même plus facile à utiliser avec une interface visible."
+  },
+  "icu:WhatsNew__v6.32--0": {
+    "messageformat": "Si le terme « éditeur de contenus » vous rappelle les logiciels de manipulation d’images aux fonctions quelque peu limitées des années 90, nous avons de quoi vous surprendre !"
+  },
+  "icu:WhatsNew__v6.32--1": {
+    "messageformat": "Il suffit parfois d’un message pour voir toute une conversation défiler devant nos yeux. Désormais, Signal affichera automatiquement le dernier message lorsque vous en envoyez un dans une conversation."
   }
 }

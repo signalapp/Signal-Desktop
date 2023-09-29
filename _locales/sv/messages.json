@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "Databasfel",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "Ett databasfel inträffade. Du kan kopiera felet och kontakta Signal-supporten för att hjälpa till att åtgärda problemet. Om du behöver använda Signal på en gång kan du radera dina data och starta om.\n\nKontakta supporten genom att besöka: https://support.signal.org/hc/requests/new?desktop",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "Ta bort alla data och starta om",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "Ta bort data och starta om",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "Ta bort alla data permanent?",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "All din meddelandehistorik och media kommer att tas bort permanent från den här enheten. Du kommer att kunna använda Signal på den här enheten efter att du har länkat om den. Detta tar inte bort några data från din telefon.",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "Versionen av din databas matchar inte den här versionen av Signal. Se till att du öppnar den senaste versionen av Signal på din dator.",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Arkiv",
@@ -6752,6 +6768,10 @@
     "messageformat": "{type, select, Audio {Avvisat röstsamtal} Video {Avvisat videosamtal} Group {Avvisat gruppsamtal} other {Avvisat samtal}}",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, one {{count,number} annan skriver.} other {{count,number} andra skriver.}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Vad är nytt",
     "description": "Title for the whats new modal"
@@ -6784,10 +6804,13 @@
     "messageformat": "Små justeringer, buggfixar och prestandaförbättringar. Tack för att du använder Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.30--0": {
-    "messageformat": "Den nya samtalsfliken hjälper dig att enkelt starta ett samtal eller svara på ett missat samtal."
-  },
   "icu:WhatsNew__v6.31--0": {
     "messageformat": "Den här uppdateringen fixar en handfull buggar, inklusive en som gjorde att huvudfönstret i Signal blev tomt om du visade en felsökningslogg i helskärmsläge på macOS."
+  },
+  "icu:WhatsNew__v6.32--0": {
+    "messageformat": "Vi har uppdaterat medieredigeraren och gjort den mycket enklare att använda."
+  },
+  "icu:WhatsNew__v6.32--1": {
+    "messageformat": "Signal kommer nu automatiskt att rulla till botten av chatten när du skickar ett nytt meddelande i den chatten."
   }
 }

@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "資料庫錯誤",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "資料庫發生錯誤。你可以複製錯誤，然後聯絡 Signal 支援團隊幫手解決問題。如果你需要即刻用 Signal，可以選擇刪除資料然後重新啟動。\n\n要聯絡支援團隊，請去呢度：https://support.signal.org/hc/requests/new?desktop",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "刪除所有資料，然後重新啟動",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "刪除資料，然後重新啟動",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "係咪要永久刪除所有資料呀？",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "你嘅所有訊息紀錄同媒體將會喺呢部機度永久刪除。重新連結之後，你就可以喺呢部機度用 Signal 喇。呢個操作唔會刪除你手機嘅任何資料。",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "你嘅資料庫版本同呢個 Signal 版本唔相符。請確定你喺電腦用緊嘅係最新版本嘅 Signal。",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&File",
@@ -6752,6 +6768,10 @@
     "messageformat": "{type, select, Audio {拒接嘅語音通話} Video {拒接嘅視像通話} Group {拒接嘅群組通話} other {拒接嘅  通話}}",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, other {另外有 {count,number} 個人打緊字。}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "最新消息",
     "description": "Title for the whats new modal"
@@ -6784,10 +6804,13 @@
     "messageformat": "我哋做咗啲調整、修復咗一啲錯誤，同埋加強咗程式功能。多謝你使用 Signal！",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.30--0": {
-    "messageformat": "用新嘅通話選項標籤，輕鬆睇返你嘅通話紀錄。宜家開始，你唔使搵返相關嘅聊天，就可以開始新通話或者打返俾你冇接到嘅電話號碼。咁就唔使驚冇咗訊息串入面嘅未讀標記啦！"
-  },
   "icu:WhatsNew__v6.31--0": {
     "messageformat": "呢次更新整好咗一啲錯誤，包括喺 macOS 用全螢幕模式瀏覽除錯紀錄時令 Signal 主畫面一片空白嘅錯誤。"
+  },
+  "icu:WhatsNew__v6.32--0": {
+    "messageformat": "我哋更新咗媒體編輯器，令佢更方便易用。"
+  },
+  "icu:WhatsNew__v6.32--1": {
+    "messageformat": "而家，當你想喺聊天度發送新訊息時，Signal 會自動碌返去聊天嘅底部，方便你繼續對話。"
   }
 }

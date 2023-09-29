@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "Eroare de bază de date",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "A apărut o eroare la baza de date. Poți copia eroarea și contacta asistența Signal pentru a ajuta la remedierea problemei. Dacă trebuie să utilizezi Signal imediat, îți poți șterge datele și să repornești.\n\nContactează asistența vizitând: https://support.signal.org/hc/requests/new?desktop",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "Șterge toate datele și repornește",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "Șterge datele și repornește",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "Ștergi toate datele permanent?",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "Tot istoricul mesajelor și conținutul media vor fi șterse definitiv de pe acest dispozitiv. Vei putea folosi Signal pe acest dispozitiv după ce îl reconectezi. Asta nu va șterge datele de pe telefonul tău.",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "Versiunea bazei de date nu se potrivește cu această versiune de Signal. Asigură-te că deschizi cea mai nouă versiune de Signal pe computer.",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Fișier",
@@ -6752,6 +6768,10 @@
     "messageformat": "{type, select, Audio {Apel video respins} Video {Apel video respins} Group {Apel de grup respins} other {Respinge apelul}}",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, one {încă {count,number} scrie.} few {încă {count,number} alții scriu.} other {încă {count,number} alții scriu.}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Ce este nou",
     "description": "Title for the whats new modal"
@@ -6784,10 +6804,13 @@
     "messageformat": "Mici ajustări, soluționări de bug-uri și îmbunătățiri ale performanței. Mersi că folosești Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.30--0": {
-    "messageformat": "★ Noua filă de apeluri te ajută să vezi clar toate apelurile. Începe un apel nou sau returnează un apel pierdut fără să găsești conversația corespunzătoare. Acum poți să spui bună cu vocea ta fără să spui și la revedere semnului de necitit."
-  },
   "icu:WhatsNew__v6.31--0": {
     "messageformat": "Această actualizare repară mai multe bug-uri, inclusiv unul care a făcut ca principala fereastră Signal să dispară dacă priveai un registru de soluționare a bug-urilor în ecran complet pe macOS. Să vezi o fereastră complet luminoasă sau complet întunecată este, fără îndoială, cea mai pură expresie posibilă a temei luminoase și a temei întunecate, dar în cele din urmă am decis că aplicația este mai ușor de utilizat atunci când poți vedea și interfața."
+  },
+  "icu:WhatsNew__v6.32--0": {
+    "messageformat": "Dacă spui „editor media” de cinci ori repede, începe să sune ca „mediator” – dar noul editor media este atât de mai ușor de folosit încât nu vei mai simți că ai nevoie de un mediator pentru a rezolva o ceartă între tine și instrumentul de decupare."
+  },
+  "icu:WhatsNew__v6.32--1": {
+    "messageformat": "Uneori, răspunsul corect te poate ajuta cu adevărat să ajungi la ceea ce vor oamenii să spună de fapt, iar acum Signal va derula automat la ceea ce tocmai ai spus ori de câte ori trimiți un mesaj într-un chat."
   }
 }

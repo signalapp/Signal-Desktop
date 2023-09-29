@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "データベースのエラー",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "データベースエラーが発生しました。 エラーをコピーしてSignalサポートへ連絡すると、問題の解決に役立てることができます。 すぐにSignalを使用する必要がある場合は、データを消去して再起動することができます。\n\nサポートへのお問い合わせはhttps://support.signal.org/hc/requests/new?desktopまでお願いします。",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "すべてのデータを消去して再起動",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "すべてのデータを消去して再起動する",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "すべてのデータを完全に消去しますか？",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "過去のすべてのメッセージとメディアはお使いの端末から完全に消去されます。再リンクすると、この端末でSignalを使用できるようになります。ご利用中のスマートフォンのデータは消去されません。",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "データベースのバージョンと、開いたSignalのバージョンが一致しません。 ご利用のコンピューターで、最新バージョンのSignalを開いているかをお確かめください。",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "ファイル (&F)",
@@ -6752,6 +6768,10 @@
     "messageformat": "{type, select, Audio {音声通話が拒否されました} Video {ビデオ通話が拒否されました} Group {グループ通話が拒否されました} other {ビデオ通話が拒否されました}}",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, other {{count,number} 人が入力中です。}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "更新情報",
     "description": "Title for the whats new modal"
@@ -6784,10 +6804,13 @@
     "messageformat": "細かな微調整、バグ修正、パフォーマンスの向上。 Signalをご利用いただきありがとうございます。",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.30--0": {
-    "messageformat": "新しい通話タブを使うと、簡単に通話を始めたり不在着信に対して折り返しの電話をかけたりできます。"
-  },
   "icu:WhatsNew__v6.31--0": {
     "messageformat": "このアップデートでは、macOSの全画面モードでデバッグログを表示した時に、Signalのメインウィンドウがブランクになるなどのバグが修正されました。"
+  },
+  "icu:WhatsNew__v6.32--0": {
+    "messageformat": "メディアエディターが更新され、より使いやすくなりました。"
+  },
+  "icu:WhatsNew__v6.32--1": {
+    "messageformat": "チャットに新しいメッセージを送信すると、Signalが自動的にチャットの一番下までスクロールするようになりました。"
   }
 }

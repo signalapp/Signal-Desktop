@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "Datu bāzes kļūda",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "Radusies datubāzes kļūda. Varat nokopēt kļūdu un sazināties ar Signal atbalsta dienestu, lai novērstu radušos problēmu. Ja nepieciešams Signal izmantot nekavējoties, varat dzēst savus datus un sākt no jauna.\n\nSazinieties ar atbalsta dienestu, apmeklējot https://support.signal.org/hc/requests/new?desktop",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "Dzēst visus datus un restartēt",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "Dzēst datus un restartēt",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "Vai neatgriezeniski dzēst visus datus?",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "Visa ziņojumu vēsture un multivides faili tiks neatgriezeniski dzēsti no šīs ierīces. Šajā ierīcē Signal varēsiet lietot pēc tās atkārtotas pievienošanas. Šī darbība nedzēsīs datus no jūsu tālruņa.",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "Jūsu datubāzes versija neatbilst šai Signal versijai. Pārliecinieties, vai datorā atvērta jaunākā Signal versija.",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Fails",
@@ -6752,6 +6768,10 @@
     "messageformat": "{type, select, Audio {Noraidīts balss zvans} Video {Noraidīts video zvans} Group {Noraidīts grupas zvans} other {Noraidīts zvans}}",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, zero {{count,number} citi raksta.} one {{count,number} cits raksta.} other {{count,number} citi raksta.}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Jaunumi",
     "description": "Title for the whats new modal"
@@ -6784,10 +6804,13 @@
     "messageformat": "Nelielas izmaiņas, kļūdu labojumi un darbības uzlabojumi. Paldies, ka lietojat Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.30--0": {
-    "messageformat": "Iegūstiet pārskatu par zvaniem jaunajā zvanu cilnē. Sāciet jaunu zvanu vai atgriezieties pie neatbildēta zvana, nemeklējot atbilstošo sarunu. Tagad varat sveicināties ar savu balsi, nezaudējot nelasīto ziņu atzīmes sarakstē."
-  },
   "icu:WhatsNew__v6.31--0": {
     "messageformat": "Šis atjauninājums novērš dažas kļūdas, tostarp tādas, kuru dēļ galvenais Signal logs kļuva tukšs, ja operētājsistēmā macOS atkļūdošanas žurnāls tika atvērts pilnekrāna režīmā. Pilnīgi gaišs vai pilnīgi tumšs logs neapšaubāmi ir tīrākā iespējamā gaišā un tumšā dizaina izpausme, taču mēs tomēr nolēmām, ka lietotni ir vieglāk izmantot, ja varat redzēt arī saskarni."
+  },
+  "icu:WhatsNew__v6.32--0": {
+    "messageformat": "\"Multivides redaktors\" varbūt izklausās sarežģīti, taču mūsu jaunās multivides failu rediģēšanas funkcijas izmantot ir vieglāk par vieglu un, piemēram, failu apgriešanas rīks ir ērts kā klubkrēsls!"
+  },
+  "icu:WhatsNew__v6.32--1": {
+    "messageformat": "Lai saprastu, par ko cilvēki runā, dažreiz pietiek izlasīt attiecīgo atbildi uz ziņu, tāpēc tagad Signal automātiski aizritinās līdz jūsu tikko teiktajam ikreiz, kad nosūtāt ziņojumu čatā."
   }
 }

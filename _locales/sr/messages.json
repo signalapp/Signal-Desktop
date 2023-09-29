@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "Грешка у бази",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "Десила се грешка са базом података. Можете да копирате грешку и обратите се подршци за Signal да допринесете решавању проблема. Ако желите одмах да користите Signal, можете да избришете своје податке и поново покренете апликацију.\n\nОбратите се подршци тако што ћете посетити: https://support.signal.org/hc/requests/new?desktop",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "Избришите све податке и поново покрените",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "Избришите податке и поново покрените апликацију",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "Желите ли да трајно избришете све податке?",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "Ваша целокупна историја порука и садржаји биће трајно избрисани са овог уређаја. Моћи ћете да користите Signal на овом уређају након што га поново повежете. Тиме нећете избрисати никакве податке са телефона.",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "Верзија ваше базе података не одговара овој верзији Signal-а. Проверите да ли сте отворили најновију верзију Signal-а на рачунару.",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Fajl",
@@ -6752,6 +6768,10 @@
     "messageformat": "{type, select, Audio {Одбијен гласовни позив} Video {Одбијен видео позив} Group {Одбијен групни позив} other {Одбијен позив}}",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, one {Још {count,number} особа куца.} other {Још њих {count,number} куцају.}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Шта ново",
     "description": "Title for the whats new modal"
@@ -6784,10 +6804,13 @@
     "messageformat": "Obavili smo manja fina prilagođavanja, ispravke grešaka i poboljšanja performansi. Hvala što koristite Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.30--0": {
-    "messageformat": "Нова картица за позиве вам омогућава да лако започнете позив или да позовете особу чији сте позив пропустили."
-  },
   "icu:WhatsNew__v6.31--0": {
     "messageformat": "У овом ажурирању исправљено је прегршт грешака, укључујући и ону због које је главни прозор Signal-а био празан ако бисте прегледали евиденцију за отклањање грешака у режиму целог екрана у macOS-у."
+  },
+  "icu:WhatsNew__v6.32--0": {
+    "messageformat": "Ажурирали смо уређивач садржаја и учинили га много лакшим за коришћење."
+  },
+  "icu:WhatsNew__v6.32--1": {
+    "messageformat": "Signal ће сада аутоматски ићи на дно ћаскања када пошаљете нову поруку у том ћаскању."
   }
 }

@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "Błąd bazy danych",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "Wystąpił błąd bazy danych. Możesz skopiować błąd i skontaktować się z działem wsparcia Signal, by uzyskać pomoc w jego naprawieniu. Jeśli musisz skorzystać z aplikacji Signal już teraz, możesz usunąć swoje dane i uruchomić ponownie.\n\nSkontaktuj się z działem wsparcia pod adresem https://support.signal.org/hc/requests/new?desktop",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "Usuń wszystkie dane i uruchom ponownie",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "Usuń dane i zrestartuj",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "Trwale usunąć wszystkie dane?",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "Twoja cała historia wiadomości i media zostaną trwale usunięte z tego urządzenia. Będziesz mógł/mogła używać aplikacji Signal na tym urządzeniu po jej ponownym połączeniu. Operacja ta nie spowoduje usunięcia żadnych danych na Twoim telefonie.",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "Wersja Twojej bazy danych jest niezgodna z tą wersją aplikacji Signal. Upewnij się, że otwierasz najnowszą wersję Signal na swoim komputerze.",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Plik",
@@ -549,7 +565,7 @@
     "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change"
   },
   "icu:safetyNumberChangeDialog__message": {
-    "messageformat": "Następujące osoby mogły ponownie zainstalować aplikację Signal albo zmienić urządzenie. Kliknij odbiorcę, aby potwierdzić nowy number bezpieczeństwa. Ta czynność jest opcjonalna.",
+    "messageformat": "Następujące osoby mogły ponownie zainstalować aplikację Signal albo zmienić urządzenie. Kliknij odbiorcę, aby potwierdzić nowy numer bezpieczeństwa. Ta czynność jest opcjonalna.",
     "description": "Shown on confirmation dialog when user attempts to send a message"
   },
   "icu:safetyNumberChangeDialog__pending-messages": {
@@ -2180,7 +2196,7 @@
     "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name"
   },
   "icu:ConversationDetails__viewSafetyNumber": {
-    "messageformat": "Zobacz number bezpieczeństwa",
+    "messageformat": "Zobacz numer bezpieczeństwa",
     "description": "In conversation details, label for button to view safety number, opens safety number modal"
   },
   "icu:ConversationDetails__HeaderButton--Message": {
@@ -2188,7 +2204,7 @@
     "description": "In conversation details, label for button to switch to the conversation view in order to draft a message in that converation"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
-    "messageformat": "Zobacz number bezpieczeństwa",
+    "messageformat": "Zobacz numer bezpieczeństwa",
     "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
   },
   "icu:cannotGenerateSafetyNumber": {
@@ -6752,6 +6768,10 @@
     "messageformat": "{type, select, Audio {Odrzucone połączenie głosowe} Video {Odrzucone połączenie wideo} Group {Odrzucone połączenie grupowe} other {Odrzucone połączenie}}",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, one {{count,number} inna osoba pisze.} few {{count,number} inne osoby piszą.} many {{count,number} innych osób pisze.} other {{count,number} innej osoby pisze.}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Co nowego",
     "description": "Title for the whats new modal"
@@ -6784,10 +6804,13 @@
     "messageformat": "Małe ulepszenia, poprawki błędów i zwiększona funkcjonalność. Dzięki za korzystanie z Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.30--0": {
-    "messageformat": "Trzymaj rękę na pulsie dzięki nowej karcie połączeń. Rozpocznij nowe połączenie lub oddzwoń po nieodebraniu rozmowy bez konieczności szukania odpowiedniego czatu. Teraz możesz dzwonić bez oznaczania wiadomości jako przeczytanych w danym wątku."
-  },
   "icu:WhatsNew__v6.31--0": {
     "messageformat": "Ta aktualizacja naprawia kilka błędów, w tym ten, który powodował, że główne okno Signal stawało się puste po wyświetleniu logów debugowania w trybie pełnoekranowym na macOS. Całkowicie jasne lub całkowicie ciemne okno to z pewnością najczystsza forma jasnego i ciemnego motywu, ale ostatecznie stwierdziliśmy, że aplikacja jest jednak bardziej przydatna, gdy interfejs jest widoczny."
+  },
+  "icu:WhatsNew__v6.32--0": {
+    "messageformat": "Edytor multimediów to dość długa i skomplikowana nazwa, ale nowa wersja tego narzędzia jest tak prosta w obsłudze, że nazwa ta już nigdy nie skojarzy Ci się z niczym skomplikowanym. Serio – przycinanie jeszcze nigdy nie było tak proste."
+  },
+  "icu:WhatsNew__v6.32--1": {
+    "messageformat": "Czasami trudno dogrzebać się do sedna sprawy, bo tkwi gdzieś na samym dnie, dlatego teraz Signal automatycznie przewinie czat do Twojej ostatniej wiadomości tuż po jej wysłaniu."
   }
 }

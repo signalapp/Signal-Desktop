@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "ဒေတာဘေ့စ် ချို့ယွင်းချက်",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "ဒေတာဘေ့စ် ချို့ယွင်းချက်တစ်ခု ဖြစ်နေပါသည်။ ချို့ယွင်းချက်ကို ကူးယူပြီးနောက် ဤပြဿနာကို ဖြေရှင်းရန်အတွက် အကူအညီပေးရန် Signal ပံ့ပိုးရေးသို့ ဆက်သွယ်နိုင်ပါသည်။ Signal ကို သင် ချက်ချင်းအသုံးပြုရန် လိုအပ်ပါက သင့်ဒေတာကို ဖျက်ပြီး ပြန်လည်စတင်နိုင်ပါသည်။\n\nhttps://support.signal.org/hc/requests/new?desktop သို့ ဝင်ရောက်ပြီး ပံ့ပိုးရေးသို့ ဆက်သွယ်ပါ",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "ဒေတာ အားလုံးကို ဖျက်ပြီး ပြန်လည်စတင်ရန်",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "ဒေတာကို ဖျက်ပြီး ပြန်လည်စတင်ရန်",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "ဒေတာအားလုံးကို အပြီးအပိုင်ဖျက်မည်လား။",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "သင်၏ မက်ဆေ့ချ်မှတ်တမ်းနှင့် မီဒီယာအားလုံးကို ဤစက်မှ အပြီးအပိုင်ဖျက်လိုက်ပါမည်။ Signal ကို ပြန်လည်ချိတ်ဆက်ပြီးနောက် ဤစက်တွင် Signal ကို အသုံးပြုနိုင်ပါမည်။ ၎င်းသည် သင့်ဖုန်းမှ မည်သည့်ဒေတာကိုမျှ ဖျက်မည်မဟုတ်ပါ။",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "သင်၏ ဒေတာဘေ့စ်ဗားရှင်းသည် ဤ Signal ဗားရှင်းနှင့် မကိုက်ညီပါ။ သင့်ကွန်ပျူတာတွင် Signal နောက်ဆုံးထွက်ဗားရှင်းကို ဖွင့်ထားခြင်းဖြစ်ကြောင်း သေချာအောင်လုပ်ပါ။",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&ဖိုင်",
@@ -6752,6 +6768,10 @@
     "messageformat": "{type, select, Audio {ငြင်းပယ်ခဲ့သော အော်ဒီယိုကောလ်} Video {ငြင်းပယ်ခဲ့သော ဗီဒီယိုကောလ်} Group {ငြင်းပယ်ခဲ့သော အဖွဲ့ကောလ်} other {ငြင်းပယ်ခဲ့သော  ကောလ်}}",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, other {အခြား {count,number} ဦး စာရိုက်နေသည်။}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "အသစ်များ",
     "description": "Title for the whats new modal"
@@ -6784,10 +6804,13 @@
     "messageformat": "အနေအထား ပြုပြင်မှုလေးများ၊ ချို့ယွင်းချက် ပြင်ဆင်မှုများနှင့် စွမ်းဆောင်ရည် မြှင့်တင်မှုများ။ Signal ကို သုံးသည့်အတွက် ကျေးဇူးတင်ပါသည်။",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.30--0": {
-    "messageformat": "ကောလ်တက်ဘ်အသစ်သည် ကောလ်အသစ်စခြင်း သို့မဟုတ် လွတ်သွားသောကောလ်ကို ပြန်ခေါ်ခြင်းအား လွယ်ကူစွာပြုလုပ်နိုင်ရန် သင့်ကို ကူညီပေးပါသည်။"
-  },
   "icu:WhatsNew__v6.31--0": {
     "messageformat": "ဤအပ်ဒိတ်တွင် macOS တွင် မျက်နှာပြင်အပြည့် စနစ်၌ ပြစ်ချက်ရှာဖွေပြုပြင်မှု မှတ်တမ်းတစ်ခုကို ကြည့်ရှုလိုက်ပါက ပင်မ Signal ဝင်းဒိုး ဗလာဖြစ်သွားစေသော ချွတ်ယွင်းချက်အပါအဝင် ချွတ်ယွင်းချက်အချို့ကို ပြုပြင်ထားသည်။ လုံးဝလင်းနေသော သို့မဟုတ် လုံးဝမှောင်နေသော ဝင်းဒိုးတစ်ခုကို တွေ့မြင်ရခြင်းသည် အလင်း Theme နှင့် အမှောင် Theme အား အခြေခံအကျဆုံး ဖော်ပြနိုင်သည်ဟု ဆိုနိုင်သော်လည်း အင်တာဖေ့စ်ကိုပါ သင် မြင်တွေ့ရပါက အက်ပ်ကို သုံးရပိုလွယ်သည်ဟု ကျွန်ုပ်တို့ နောက်ဆုံးတွင် ဆုံးဖြတ်ခဲ့ပါသည်။"
+  },
+  "icu:WhatsNew__v6.32--0": {
+    "messageformat": "\"media editor\" ကို ငါးဆပိုပြီးမြန်မြန် ပြောကြည့်လျင် \"mediator\" ဟုပြောခြင်းနှင့် တူသွားပါမည်။ — သို့သော် မီဒီယာ တည်းဖြတ်ကိရိယာအသစ်က အများကြီး သုံးရပိုလွယ်သောကြောင့် Crop Tool နှင့် သင့်အကြား Mediator လိုအပ်နေသလို မခံစားရတော့ပါ။"
+  },
+  "icu:WhatsNew__v6.32--1": {
+    "messageformat": "တစ်ခါတစ်ရံမှာ မှန်ကန်တဲ့ အကြောင်းပြန်စကားသည် အခြားသူများ ပြောနေသည့်အကြောင်းအရာကို နားလည်စေဖို့ တကယ်ကို အထောက်အကူပြုနိုင်ပါသည်၊ ယခုအခါ Signal သည် ချက်(တ်)ထဲတွင် သင် မက်ဆေ့ချ်ပို့လိုက်တိုင်း သင် လတ်တလောပြောထားသည့် စာကြောင်းသို့ အလိုအလျောက်ရွှေ့သွားပေးပါမည်။"
   }
 }

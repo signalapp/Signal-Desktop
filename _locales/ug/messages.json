@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "ساندان خاتالىقى",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "سانداندا خاتالىق كۆرۈلدى. خاتالىقنى كۆچۈرىۋالالايسىز ۋە ئۇنى ئوڭشاش ئۈچۈن Sigal ياردەم بىلەن ئالاقىلىشىڭ. ئەگەر Signalنى دەرھال ئىشلەتمەكچى بولسىڭىز، سانلىق مەلۇماتلىرىڭىزنى ئۆچۈرۈپ، قايتا قوزغاتسىڭىز بولىدۇ.\n\nياردەمگە ئېرىشىش ئۈچۈن زىيارەت قىلىڭ: https://support.signal.org/hc/requests/new?desktop",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "بارلىق سانلىق مەلۇماتلارنى ئۆچۈرۈپ قايتا قوزغىتىش",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "سانلىق مەلۇماتلارنى ئۆچۈرۈپ، قايتا قوزغىتىش",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "سانلىق مەلۇماتلارنى پۈتۈنلەي ئۆچۈرەمسىز؟",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "بارلىق ئۇچۇر خاتىرىڭىز ۋە مېديالىرىڭىز بۇ ئۈسكۈنىدىن مەڭگۈلۈككە ئۆچۈرىلىۋېتىدۇ. ئۇنى قايتا ئۇلىغاندىن كېيىن Signalنى بۇ ئۈسكۈنىدە ئىشلىتەلەيسىز. بۇ سىزنىڭ تېلېفونىڭىزدىكى ھېچقانداق سانلىق مەلۇماتنى ئۆچۈرمەيدۇ.",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "سىزنىڭ ساندانىڭىزنىڭ نەشرى Signalنىڭ بۇ نەشرىگە ماس كەلمەيدۇ. كومپيۇتېرىڭىزدا Signalنىڭ ئەڭ يېڭى نەشىرىنى ئېچىۋاتقانلىقىڭىزنى جەزملەشتۈرۈڭ.",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&ھۆججەت",
@@ -6752,6 +6768,10 @@
     "messageformat": "{type, select, Audio {رەت قىلىنغان ئاۋازلىق چاقىرىق} Video {رەت قىلىنغان ۋىدېيولۇق چاقىرىق} Group {رەت قىلىنغان توپ چاقىرىقى} other {رەت قىلىنغان  چاقىرىق}}",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, other {{count,number} باشقىلار يېزىۋاتىدۇ.}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "يېڭىلىقلار",
     "description": "Title for the whats new modal"
@@ -6784,10 +6804,13 @@
     "messageformat": "كىچىك ئۆزگەرتىشلەر كىرگۈزۈلدى، كاشىلا ھەل قىلىندى ۋە ئىقتىدار ئەلالاشتۇرۇلدى. Signal نى ئىشلەتكەنلىكىڭىزگە رەھمەت!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.30--0": {
-    "messageformat": "يېڭى چاقىرىقلار بەتكۈچى بىلەن چاقىرىقىڭىزدا بەتكۈچلەرنى تۇتۇڭ. ماس كەلگەن پاراڭلارنى ئىزدەشكە مەجبۇر بولماي تۇرۇپ، يېڭى بىر چاقىرىق باشلىتىڭ ياكى كۆرمەي قالغان چاقىرىقلارغا جاۋاپ قايتۇرۇڭ. ھازىر سىز بۇ تېمىدىكى ئۇچۇرلارنىڭ ئوقۇلمىدى دەپ كۆسەتكەن بەلگە قويغۇچىسىغا خەير-خوش دېمەي تۇرۇپ ئاۋازىڭىز بىلەن سالام ئېيتالايسىز."
-  },
   "icu:WhatsNew__v6.31--0": {
     "messageformat": "بۇ يېڭىلاش macOS تىكى پۈتۈن ئېكران ھالىتىدىكى خاتالىق خاتىرىسىنى كۆرگىنىڭزدە، ئاساسلىق سىگنال كۆزنىكىنىڭ قۇرۇقدىلىپ قېلىشىنى كەلتۈرۈپ چىقىرىدىغان كەمتۈكنى ئۆز ئىىچىگە ئالغان بىر قانچە كەمتۈكنى تۈزىتىدۇ. پۈتۈنلەي يورۇق ياكى پۈتۈنلەي قاراڭغۇ كۆزنەكنى كۆرۈش بولسا بەلكىم «يورۇق تېما» ۋە «قاراڭغۇتېما»نىڭ ئەڭ ساپ ئىپادلىنىشنى بولسا كېرەك، بىراق بىز ئەڭ ئاخىرىدا سىزنڭ باغلانمىلارنى كۆرگىنىڭىزدە، بۇ ئەپنى تېخىمۇ ئاسان ئىشلىتەلەيدىغانلىقىڭىزغا قارار قىلدۇق."
+  },
+  "icu:WhatsNew__v6.32--0": {
+    "messageformat": "ئەگەر سىز «media editor»نى بەش ھەسسە تېز دېسىڭىز، ئۇ «mediator» دېگەندەك ئاڭلىنىشقا باشلايدۇ— بىراق يېڭى مېدىيا تەھرېرلىگۈچىنى ئىشلىتىش بەك ئاسان بولۇپ، سىز بۇندىن كىيىن كېسىپ ئوڭشاش قورالى بىلەن بولغان جىدەلنى تىنجىتىش ئۈچۈن مېدىياتورغا ئىھتىياجىڭىز قالمىغانلىقىنى ھېس قىلىسىز."
+  },
+  "icu:WhatsNew__v6.32--1": {
+    "messageformat": "بەزىدە باشقىلارنىڭ نېمە دەۋاتقانلىقىنىڭ تېگىگە يېتىش ئۈچۈن توغرا جاۋاپ ھەقىقەتەن پايدىلىق بولىدۇ، ۋە ھازىر سىزنىڭ ھەرقانداق بىر پاراڭدا ئۇچۇرنى قاچان يوللىغان بولىشىڭىزدىن قەتئىينەزەر Signal سىزنىڭ دېگەنلىرىڭىزگە ئاپتوماتىك يۆتكىلىدۇ."
   }
 }

@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "தரவுத் தளம் பிழை",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "தரவுத்தளப் பிழை ஏற்பட்டது. நீங்கள் பிழையை நகலெடுத்து, சிக்கலைச் சரிசெய்ய Signal ஆதரவைத் தொடர்புகொள்ளலாம். நீங்கள் உடனடியாக Signalஐப் பயன்படுத்த வேண்டுமென்றால், உங்கள் தரவை நீக்கிவிட்டு மீண்டும் தொடங்கவும்.\n\nஆதரவை இங்கே தொடர்புகொள்ளவும்: https://support.signal.org/hc/requests/new?desktop",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "எல்லா தரவையும் நீக்கி மறுதொடக்கம் செய்",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "தரவை நீக்கி மீண்டும் தொடங்கவும்",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "எல்லா தரவையும் நிரந்தரமாக நீக்க வேண்டுமா?",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "உங்கள் மெசேஜ் வரலாறு மற்றும் மீடியா அனைத்தும் இந்த டிவைஸில் இருந்து நிரந்தரமாக நீக்கப்படும். இந்த டிவைஸை மீண்டும் இணைத்த பிறகு நீங்கள் Signalஐப் பயன்படுத்த முடியும். இது உங்கள் ஃபோனில் இருந்து எந்த தரவையும் நீக்காது.",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "உங்கள் தரவுத்தளத்தின் பதிப்பு Signal இன் இந்தப் பதிப்போடு பொருந்தவில்லை. உங்கள் கணினியில் Signal இன் புதிய பதிப்பைத் திறக்கிறீர்கள் என்பதை உறுதிப்படுத்தவும்.",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&கோப்பு",
@@ -6752,6 +6768,10 @@
     "messageformat": "{type, select, Audio {நிராகரிக்கப்பட்ட குரல் அழைப்பு} Video {நிராகரிக்கப்பட்ட வீடியோ அழைப்பு} Group {நிராகரிக்கப்பட்ட குழு அழைப்பு} other {நிராகரிக்கப்பட்ட அழைப்பு}}",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, one {மேலும் {count,number} நபர் டைப் செய்கிறார்.} other {மேலும் {count,number} பேர் டைப் செய்கின்றனர்.}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "புதிதாக என்ன உள்ளது",
     "description": "Title for the whats new modal"
@@ -6784,10 +6804,13 @@
     "messageformat": "சிறு மாற்றங்கள், பிழை திருத்தங்கள் மற்றும் செயல்திறன் மேம்பாடுகள். சிக்னலைப் பயன்படுத்தியதற்கு நன்றி!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.30--0": {
-    "messageformat": "புதிய அழைப்புகள் டேப் மூலம் உங்கள் அழைப்புகளை டேபுகளில் வைக்கலாம். புதிய அழைப்பைத் தொடங்கவும் அல்லது தொடர்புடைய சாட்டைத் தேட வேண்டிய அவசியமின்றி நீங்கள் தவறவிட்ட அழைப்புக்குத் திரும்ப அழைக்கலாம். இப்போது அந்த தொடரில் உள்ள மெசேஜ்களுக்கான படிக்காதது என்ற குறிப்பு நீங்காமல் இப்போது உங்கள் குரலில் நீங்கள் ஹலோ சொல்லலாம்."
-  },
   "icu:WhatsNew__v6.31--0": {
     "messageformat": "இந்த புதுப்பிப்பு ஒரு சில பிழைகளை சரிசெய்கிறது, இதில் நீங்கள் macOS -இல் ஒரு பிழைத்திருத்த பதிவை முழுத் திரை பயன்முறையில் பார்த்தால் பிரதான Signal விண்டோ காலியாக காணப்படும். முற்றிலும் ஒளி மிகுந்த அல்லது முற்றிலும் இருண்ட விண்டோவைப் பார்ப்பது லைட் தீம் மற்றும் டார்க் தீமினால் ஏற்படக்கூடிய வெளிப்பாடாகும், ஆனால் உங்களால் இன்டர்ஃபேஸையும் காண முடியும்போது செயலியைப் பயன்படுத்த எளிதாக இருக்கும் என்று உணர்ந்தோம்."
+  },
+  "icu:WhatsNew__v6.32--0": {
+    "messageformat": "\"மீடியா எடிட்டர்\" என்ற சொல்லை ஐந்து முறை வேகமாகக் கூறினால், அது \"மீடியேட்டர்\" என்ற சொல் போல் ஒலிக்கும் —ஆனால் உங்களுக்கும் கிராப் கருவிக்கும் இடையே ஏற்படும் போராட்டத்தைத் தீர்க்க ஒரு மீடியேட்டர் தேவைப்படாத அளவுக்கு மிகவும் எளிதாகப் பயன்படுத்தக்கூடியதாக புதிய மீடியா எடிட்டர் இருக்கும்."
+  },
+  "icu:WhatsNew__v6.32--1": {
+    "messageformat": "சில சமயங்களில் சரியான பதில் மக்கள் என்ன பேசுகிறார்களோ அதன் முக்கியத்துவத்தை உணரச்செய்யும் அளவுக்கு உங்களுக்கு உதவக்கூடும், இப்போது ஒரு அரட்டையில் ஒரு மெசேஜை நீங்கள் அனுப்பும்போது நீங்கள் என்ன சொல்கிறீர்கள் என்பதை Signal தானாகவே ஸ்குரோல் செய்கிறது."
   }
 }

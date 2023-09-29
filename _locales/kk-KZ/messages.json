@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "Дерекқор қатесі",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "Дерекқорда қате шықты. Ақауды түзету үшін қатені көшіріп, Signal қолдау көрсету қызметіне хабарласа аласыз. Егер Signal-ды дереу қолдану керек болса, деректерді жойып, оны өшіріп, қайта қосыңыз. \n\nҚолдау көрсету орталығы: https://support.signal.org/hc/requests/new?desktop",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "Деректің барлығын жойып, қайта қосыңыз",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "Деректерді жойып, қайта іске қосыңыз",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "Деректердің барлығын біржола жою керек пе?",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "Хаттардың тарихы және мультимедиа түгелдей осы құрылғыдан біржола жойылып кетеді. Қайта байланыстырған соң, бұл құрылғыда Signal-ды пайдалана аласыз. Бұл телефоныңыздағы деректерді жойып жібермейді.",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "Дерекқордың нұсқасы Signal-дың бұл нұсқасына сәйкес келмейді. Компьютеріңізде Signal-дың соңғы нұсқасын ашып отырғаныңзға көз жеткізіңіз.",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Файл",
@@ -6752,6 +6768,10 @@
     "messageformat": "{type, select, Audio {Қабылданбаған дауыстық қоңырау} Video {Қабылданбаған видеоқоңырау} Group {Қабылданбаған топтық қоңырау} other {Қабылданбаған қоңырау}}",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, one {Тағы {count,number} адам жазып жатыр.} other {Тағы {count,number} адам жазып жатыр.}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Жаңалықтар",
     "description": "Title for the whats new modal"
@@ -6784,10 +6804,13 @@
     "messageformat": "Кішігірім түзетпелер жасалды, ақаулар жөнделді және жұмысы жақсартылды. Signal-ды қолданғаныңыз үшін рақмет!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.30--0": {
-    "messageformat": "Соғылған қоңырауларды жаңа \"Қоңыраулар\" қойындысынан көре аласыз. Керекті чатты іздемей-ақ, жаңа қоңырау бастаңыз немесе көтерілмей қалған қоңырауыңызға оралыңыз. Енді оқылмаған хаттарды ашпастан, контактіге бірден қоңырау шалуыңызға болады."
-  },
   "icu:WhatsNew__v6.31--0": {
     "messageformat": "Бұл нұсқада бірнеше ақау түзетілді, оның ішінде macOS құрылғысында толық экран режимінде ақауларды түзету журналын көрсеңіз, негізгі Signal терезесі бос болып тұратын ақау түзетілді. Толықтай жарық немесе толықтай қараңғы терезенің көрінуі Жарық тақырып пен Қараңғы тақырып үшін заңдылық болуы мүмкін, дегенмен ондай режимдерде интерфейс те көрініп тұрса, қолданбаны пайдаланған оңайырақ болады деп шештік."
+  },
+  "icu:WhatsNew__v6.32--0": {
+    "messageformat": "Жаңа мультимедиалық редакторды пайдаланған оңай болғаны соншалық, ондағы функцияларды түсіндіріп беретін адамның керегі де болмай қалады."
+  },
+  "icu:WhatsNew__v6.32--1": {
+    "messageformat": "Адамдардың не туралы сөйлесіп жатқанын түсіну үшін керекті жауапты басу жеткілікті және сіз чатта хат жіберген кезде, Signal автоматты түрде жаңа ғана жіберген хатыңызды көрсетіп тұрады."
   }
 }

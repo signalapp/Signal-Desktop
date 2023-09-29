@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "Hitilafu ya hifadhidata",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "Hitilafu ya kanzidata imetokea. Unaweza kunakili tatizo na kuwasiliana na watoa huduma wa Signal ili kukusaidia kurekebisha tatizo. Ikiwa unahitaji kutumia Signal haraka sana, unaweza kufuta data yako na kuanza upya. \n\nWasiliana na wasaidizi kwa kutembelea https://support.signal.org/hc/requests/new?desktop",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "Futa data yote na washa upya",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "Futa data na anza upya",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "Je, unataka kufuta data yote daima?",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "Historia yote ya jumbe na media zako zitafutwa daima kwenye kifaa hiki. Utaweza kutumia Signal kwenye kifaa hiki baada ya kukiunganisha upya. Hii haitafuta data yoyote kwenye simu yako.",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "Toleo hili la kanzidata halilingani na toleo la Signal. Hakikisha unafungua toleo jipya zaidi la Signal kwenye kompyuta yako.",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Faili",
@@ -6752,6 +6768,10 @@
     "messageformat": "{type, select, Audio {Simu ya kawaida iliyokataliwa} Video {Simu ya video iliyokataliwa} Group {Simu ya kikundi iliyokataliwa} other {Simu  iliyokataliwa}}",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, one {Mwingine {count,number} anaandika.} other {Wengine {count,number} wanaandika.}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Kuna Lipi Jipya?",
     "description": "Title for the whats new modal"
@@ -6784,10 +6804,13 @@
     "messageformat": "Mabadiliko madogo, marekebisho ya bugs na uboreshaji wa utendaji. Asante kwa kutumia Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.30--0": {
-    "messageformat": "Fuatilia simu zako na kichupo kipya cha simu. Anzisha simu mpya au piga simu ambayo haukupokea bila kupata gumzo husika. Sasa unaweza kusalimia kwa sauti yako bila pia kukiaga kiweka alama ambacho hakijasomwa kwa ujumbe katika ujumbe huo."
-  },
   "icu:WhatsNew__v6.31--0": {
     "messageformat": "Sasisho hili linarekebisha hitilafu kadhaa, ikiwemo inayosababisha dirisha kuu la Signal kuwa tupu ikiwa umetazama orodha ya hitilafu katika hali ya skrini nzima kwenye macOS. Kuona dirisha lenye Mwanga kabisa au Giza kabisa ni dhahiri kuwa ni uwakilishi kamili zaidi wa Mandhari ya Mwanga na Mandhari ya Giza, lakini mwishowe tuliamua kuwa programu itakuwa rahisi kutumia pale unapoweza kuona kiolesura pia."
+  },
+  "icu:WhatsNew__v6.32--0": {
+    "messageformat": "Ukisema \"mhariri wa video\" kwa haraka haraka mara tano, utaanza kusikia kitu kisicho — lakini kihariri video chetu kipya ni kirahisi sana kukitumia na hutahitaji tena mpatanishi kusuluhisha vita kati yako na kifaa cha kuhariri."
+  },
+  "icu:WhatsNew__v6.32--1": {
+    "messageformat": "Wakati mwingine jibu sahihi linaweza kukusaidia kuelewa nini hasa watu wanasema, na sasa Signal itakupeleka kiotomatiki katika kile ulichosema kila unapotuma ujumbe kwenye gumzo."
   }
 }

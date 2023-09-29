@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "Kesalahan Basis Data",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "Terjadi kesalahan pada basis data. Anda dapat menyalin kode kesalahan dan menghubungi dukungan Signal untuk membantu mengatasi masalah ini. Jika Anda perlu segera menggunakan Signal, Anda dapat menghapus data Anda dan memulai ulang.\n\nHubungi dukungan dengan mengunjungi: https://support.signal.org/hc/requests/new?desktop",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "Hapus semua data dan mulai ulang",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "Hapus data dan mulai ulang",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "Hapus semua data secara permanen?",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "Semua riwayat pesan dan media Anda akan dihapus secara permanen dari perangkat ini. Anda akan dapat menggunakan Signal di perangkat ini setelah menyambungkannya kembali. Ini tidak akan menghapus data apa pun dari ponsel Anda.",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "Versi basis data Anda tidak cocok dengan versi Signal ini. Pastikan Anda membuka Signal versi terbaru di komputer Anda.",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Berkas",
@@ -6752,6 +6768,10 @@
     "messageformat": "{type, select, Audio {Panggilan suara ditolak} Video {Panggilan video ditolak} Group {Panggilan grup ditolak} other {Panggilan ditolak}}",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, other {{count,number} orang lainnya sedang mengetik.}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Yang Baru",
     "description": "Title for the whats new modal"
@@ -6784,10 +6804,13 @@
     "messageformat": "Tambahan penyesuaian kecil, perbaikan bug, dan peningkatan performa. Terima kasih telah menggunakan Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.30--0": {
-    "messageformat": "Tab panggilan baru memudahkan Anda memulai panggilan atau membalas panggilan yang tidak terjawab."
-  },
   "icu:WhatsNew__v6.31--0": {
     "messageformat": "Pembaruan ini memperbaiki beberapa bug, termasuk bug yang menyebabkan jendela Signal tampak kosong jika Anda melihat catatan debug di mode layar penuh di macOS."
+  },
+  "icu:WhatsNew__v6.32--0": {
+    "messageformat": "Kami telah memperbarui editor media dan membuatnya jauh lebih praktis."
+  },
+  "icu:WhatsNew__v6.32--1": {
+    "messageformat": "Signal kini akan otomatis menggulir ke bagian bawah obrolan saat Anda mengirim pesan baru dalam obrolan tersebut."
   }
 }

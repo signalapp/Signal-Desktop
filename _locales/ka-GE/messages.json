@@ -41,7 +41,7 @@
     "description": "Shown in the affirmative button of the confirmation dialog when adding a contact to a group"
   },
   "icu:AddUserToAnotherGroupModal__confirm-message": {
-    "messageformat": "\"{contact}\"-ის დამატება \"{group}\"-ში",
+    "messageformat": "\"{contact}\"-ის დამატება ჯგუფში \"{group}\"",
     "description": "Shown in the confirmation dialog body when adding a contact to a group"
   },
   "icu:AddUserToAnotherGroupModal__toast--user-added-to-group": {
@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "მონაცემთა ბაზის ხარვეზი",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "მონაცემთა ბაზის ხარვეზს გადავაწყდით. შეგიძლია შეცდომა დააკოპირო და Signal-ის მხარდაჭერის გუნდს დაუკავშირდე, რათა პრობლემის მოგვარებაში დაგეხმაროთ. თუ Signal-ის გამოყენება დაუყოვნებლივ გჭირდება, შეგიძლია შენი მონაცემები წაშალო და გადატვირთო.\n\nმხარდაჭერის გუნდთან დასაკავშირებლად ეწვიე ბმულს: https://support.signal.org/hc/requests/new?desktop",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "მონაცემების სრულად წაშლა და თავიდან დაწყება",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "მონაცემთა წაშლა და გადატვირთვა",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "გსურს სამუდამოდ წაშალო ყველა მონაცემი?",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "შენი მიმოწერის მთელი ისტორია და მედია ფაილები ამ მოწყობილობიდან სამუდამოდ წაიშლება. Signal-ის გამოყენებას ამ მოწყობილობაზე ხელახლა დაკავშირების შემდეგ შეძლებ. ეს შენი ტელეფონიდან არცერთ მონაცემს არ წაშლის.",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "შენი მონაცემთა ბაზის ვერსია Signal-ის ამ ვერსიას არ ემთხვევა. დარწმუნდი, რომ შენს კომპიუტერში Signal-ის უახლეს ვერსიას ხსნი.",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&ფაილი",
@@ -321,7 +337,7 @@
     "description": "Nav Tabs > Unread badge > when conversation is marked unread > Accessibility Text"
   },
   "icu:NavTabs__ItemLabel--Settings": {
-    "messageformat": "Settings",
+    "messageformat": "პარამეტრები",
     "description": "Nav Tabs > Settings Button > Label & Accessibility Text"
   },
   "icu:NavTabs__ItemLabel--Update": {
@@ -385,7 +401,7 @@
     "description": "Shown as the title in the confirmation modal for removing a contact from the contact list"
   },
   "icu:ContactListItem__remove--body": {
-    "messageformat": "ძებნისას ამ ადამიანს ვერ ნახავ. თუ მომავალში მოგწერს, შეტყობინების მოთხოვნას მიიღებ.",
+    "messageformat": "ძებნისას ამ ადამიანს ვერ ნახავ. თუ მომავალში შეტყობინებას გამოგიგზავნის, მიმოწერის მოთხოვნას მიიღებ.",
     "description": "Shown as the body in the confirmation modal for removing a contact from the contact list"
   },
   "icu:ContactListItem__remove--confirm": {
@@ -417,7 +433,7 @@
     "description": "Shown in a toast when a user attempts to pin more than the maximum number of chats"
   },
   "icu:chooseDirectory": {
-    "messageformat": "Choose folder",
+    "messageformat": "აირჩიე შენახვის ადგილი",
     "description": "Button to allow the user to find a folder on disk"
   },
   "icu:chooseFile": {
@@ -437,7 +453,7 @@
     "description": "Title of the popup window used to select data previously exported"
   },
   "icu:importErrorHeader": {
-    "messageformat": "Something went wrong!",
+    "messageformat": "Რაღაც არასწორად წავიდა!",
     "description": "Header of the error screen after a failed import"
   },
   "icu:importingHeader": {
@@ -445,7 +461,7 @@
     "description": "Header of screen shown as data is import"
   },
   "icu:importErrorFirst": {
-    "messageformat": "დარწმუნდი, რომ სწორი კატალოგი აირჩიე, რომელიც შეიცავს შენი Signal-ის შენახულ მონაცემებს. მისი სახელი უნდა იწყებოდეს „Signal-ის ექსპორტი“. ასევე შეგიძლია შენი მონაცემების ახალი კოპია Chrome-ის აპიდან შეინახო.",
+    "messageformat": "დარწმუნდი, რომ სწორი კატალოგი აირჩიე, რომელიც შეიცავს შენი Signal-ის შენახულ მონაცემებს. მისი სახელი უნდა იწყებოდეს 'Signal Export.' ასევე შეგიძლია შენი მონაცემების ახალი კოპია Chrome-ის აპიდან შეინახო.",
     "description": "Message shown if the import went wrong; first paragraph"
   },
   "icu:importErrorSecond": {
@@ -453,11 +469,11 @@
     "description": "Message shown if the import went wrong; second paragraph"
   },
   "icu:importAgain": {
-    "messageformat": "Choose folder and try again",
+    "messageformat": "აირჩიე შენახვის ადგილი და სცადე ხელახლა",
     "description": "Button shown if the user runs into an error during import, allowing them to start over"
   },
   "icu:importCompleteHeader": {
-    "messageformat": "Success!",
+    "messageformat": "წარმატებულია!",
     "description": "Header shown on the screen at the end of a successful import process"
   },
   "icu:importCompleteStartButton": {
@@ -469,7 +485,7 @@
     "description": "Button shown at end of successful 'light' import process, so the standard linking process still needs to happen"
   },
   "icu:selectedLocation": {
-    "messageformat": "your selected location",
+    "messageformat": "შენ მიერ არჩეული მდებარეობა",
     "description": "Message shown as the export location if we didn't capture the target directory"
   },
   "icu:upgradingDatabase": {
@@ -477,15 +493,15 @@
     "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
   },
   "icu:loadingMessages--other": {
-    "messageformat": "{daysAgo, plural, one {იტვირთება 1 დღის წინანდელი წერილები...} other {იტვირთება {daysAgo,number} დღის წინანდელი წერილები...}}",
+    "messageformat": "{daysAgo, plural, one {იტვირთება 1 დღის წინანდელი შეტყობინებები...} other {იტვირთება {daysAgo,number} დღის წინანდელი შეტყობინებები...}}",
     "description": "Message shown on the loading screen when we're catching up on the backlog of messages from day before yesterday and earlier"
   },
   "icu:loadingMessages--yesterday": {
-    "messageformat": "იტვირთება გუშინდელი წერილები...",
+    "messageformat": "იტვირთება გუშინდელი შეტყობინებები...",
     "description": "Message shown on the loading screen when we're catching up on the backlog of messages from yesterday"
   },
   "icu:loadingMessages--today": {
-    "messageformat": "იტვირთება დღევანდელი წერილები...",
+    "messageformat": "იტვირთება დღევანდელი შეტყობინებები...",
     "description": "Message shown on the loading screen when we're catching up on the backlog of messages from today"
   },
   "icu:view": {
@@ -505,7 +521,7 @@
     "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
   },
   "icu:messagesBelow": {
-    "messageformat": "New messages below",
+    "messageformat": "ახალი შეტყობინებები ქვემოთ",
     "description": "Alt text for button to take user down to bottom of conversation with more than one message out of screen"
   },
   "icu:mentionsBelow": {
@@ -513,7 +529,7 @@
     "description": "Alt text for button to take user down to next mention of them further down the message list (currently out of screen)"
   },
   "icu:unreadMessage": {
-    "messageformat": "1 Unread Message",
+    "messageformat": "1 წაუკითხავი შეტყობინება",
     "description": "Text for unread message separator, just one message"
   },
   "icu:unreadMessages": {
@@ -541,7 +557,7 @@
     "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device."
   },
   "icu:membersNeedingVerification": {
-    "messageformat": "Your safety numbers with these group members have changed since you last verified. Click a group member to see your new safety number with them.",
+    "messageformat": "შეენი უსაფრთხოების ნომრები ამ ჯგუფის წევრებთან შეიცვალა მას შემდეგ, რაც ბოლოს დაადასტურე. დააწკაპუნე ჯგუფის წევრზე, რომ დაინახო შენი ახალი უსაფრთხოების ნომერი მასთან ერთად.",
     "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
   },
   "icu:changedRightAfterVerify": {
@@ -621,11 +637,11 @@
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
   },
   "icu:noLongerVerified": {
-    "messageformat": "Your safety number with {name} has changed and is no longer verified. Click to show.",
+    "messageformat": "შენი უსაფრთხოების ნომერი {name}-სთან შეიცვალა და აღარ არის დადასტურებული. დააწკაპუნე საჩვენებლად.",
     "description": "Shown in conversation banner when user's safety number has changed, but they were previously verified."
   },
   "icu:multipleNoLongerVerified": {
-    "messageformat": "Your safety numbers with multiple members of this group have changed and are no longer verified. Click to show.",
+    "messageformat": "შენი უსაფრთხოების ნომრები ამ ჯგუფის რამდენიმე წევრთან შეიცვალა და აღარ არის დადასტურებული. დააწკაპუნე საჩვენებლად.",
     "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
   },
   "icu:debugLogExplanation": {
@@ -665,14 +681,14 @@
     "description": "Link to open the issue tracker"
   },
   "icu:gotIt": {
-    "messageformat": "Got it!",
+    "messageformat": "გასაგებია!",
     "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
   },
   "icu:submit": {
-    "messageformat": "Submit"
+    "messageformat": "დადასტურება"
   },
   "icu:acceptNewKey": {
-    "messageformat": "დასტური",
+    "messageformat": "მიღება",
     "description": "Label for a button to accept a new safety number"
   },
   "icu:SafetyNumberViewer__migration__text": {
@@ -740,22 +756,22 @@
     "description": "Text of 'Learn more' button of SafetyNumberNotReady modal"
   },
   "icu:isVerified": {
-    "messageformat": "You have verified your safety number with {name}.",
+    "messageformat": "შენ დაადასტურე შენი უსაფრთხოების ნომერი {name}-სთან.",
     "description": "Summary state shown at top of the safety number screen if user has verified contact."
   },
   "icu:isNotVerified": {
-    "messageformat": "You have not verified your safety number with {name}.",
+    "messageformat": "შენ არ დაადასტურე შენი უსაფრთხოების ნომერი {name}-სთან.",
     "description": "Summary state shown at top of the safety number screen if user has not verified contact."
   },
   "icu:verified": {
-    "messageformat": "Verified"
+    "messageformat": "დადასტურებულია"
   },
   "icu:newIdentity": {
-    "messageformat": "New safety number",
+    "messageformat": "უსაფრთხოების ახალი ნომერი",
     "description": "Header for a key change dialog"
   },
   "icu:identityChanged": {
-    "messageformat": "Your safety number with this contact has changed. This could either mean that someone is trying to intercept your communication, or this contact simply reinstalled Signal. You may wish to verify the new safety number below."
+    "messageformat": "შენი უსაფრთხოების ნომერი ამ კონტაქტთან შეიცვალა. ეს შეიძლება ნიშნავდეს, რომ ვიღაც ცდილობს თქვენს კომუნიკაციაში ჩარევას, ან ამ კონტაქტმა უბრალოდ გადააყენა Signa-იl. შეგიძლია დაადასტურო უსაფრთხოების ახალი ნომერი ქვემოთ."
   },
   "icu:incomingError": {
     "messageformat": "ხარვეზი შემომავალი შეტყობინების დამუშავებისას"
@@ -857,7 +873,7 @@
     "description": "An error popup when the user has attempted to add an attachment"
   },
   "icu:fileSizeWarning": {
-    "messageformat": "Sorry, the selected file exceeds message size restrictions. {limit,number} {units}",
+    "messageformat": "უკაცრავად, არჩეული ფაილი აჭარბებს შეტყობინების ზომის შეზღუდვებს. {limit,number}{units}",
     "description": "Shown in a toast if the user tries to attach too-large file"
   },
   "icu:unableToLoadAttachment": {
@@ -6752,6 +6768,10 @@
     "messageformat": "{type, select, Audio {უარყოფილი ხმოვანი ზარი} Video {უარყოფილი ვიდეო ზარი} Group {უარყოფილი ჯგუფური ზარი} other {უარყოფილი  ზარი}}",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, one {{count,number} სხვა ბეჭდავს.} other {{count,number} სხვა ბეჭდავს.}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "რა არის ახალი",
     "description": "Title for the whats new modal"
@@ -6784,10 +6804,13 @@
     "messageformat": "მცირე შესწორებები, ბაგების გამოსწორება და წარმადობის გაუმჯობესება. მადლობას გიხდით სიგნალის გამოყენებისთვის!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.30--0": {
-    "messageformat": "ზარების ახალი ჩანართები დაგეხმარება მარტივად წამოიწყო ზარი ან გადაურეკო გამოტოვებულზე. წამოიწყე ახალი ზარი ან უპასუხე გამოტოვებულ ზარს, შესაბამისი ჩატის პოვნის გარეშე. ახლა უკვე შეგიძლია ზარის წამოწყებისას სალამი ისე თქვა, რომ ამ მიმოწერაში წაუკითხავ სანიშნს არ დაემშვიდობო."
-  },
   "icu:WhatsNew__v6.31--0": {
     "messageformat": "ეს განახლება ასწორებს რამდენიმე ტექნიკურ შეცდომას, მათ შორის იმას, რომელმაც Signal-ის ძირითადი ფანჯარის დაცარიელებას იწვევდა, როდესაც გამართვის ჟურნალს სრულ ეკრანზე ადიდებდი macOS-ზე. სრულად ნათელი ან სრულად ბნელი ფანჯრის ნახვა, სავარაუდოდ, ნათელი თემისა და მუქი თემის ყველაზე სუფთა შესაძლო გამოხატულებაა, მაგრამ საბოლოოდ გადავწყვიტეთ, რომ აპლიკაციის გამოყენება უფრო ადვილია, როცა ინტერფეისსაც ხედავთ."
+  },
+  "icu:WhatsNew__v6.32--0": {
+    "messageformat": "ჩვენი ახალი მედია რედაქტორი უფრო მარტივი გამოსაყენებელია, ამიტომ ფოტოს მოსაჭრელად ბრძოლა აღარ დაგჭირდება."
+  },
+  "icu:WhatsNew__v6.32--1": {
+    "messageformat": "ხანდახან ერთი პასუხი გეხმარება გაიგო, რაზე საუბრობდით. ახლა Signal-ი ავტომატურად გადაგიყვანს იმაზე, რაც შენ მიიწერე, როდესაც ჩატში წერილს გაგზავნი."
   }
 }

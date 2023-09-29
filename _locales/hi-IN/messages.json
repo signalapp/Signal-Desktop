@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "डेटाबेस त्रुटि",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "कोई डेटाबेस त्रुटि हुई। आप त्रुटि को कॉपी कर सकते हैं और समस्या को ठीक करने में मदद के लिए सिग्नल सपोर्ट से संपर्क कर सकते हैं। यदि आपको बिल्कुल अभी सिग्नल का उपयोग करने की जरूरत है, तो आप अपना डेटा डिलीट करके रीस्टार्ट कर सकते हैं।\n\nयहां जाकर सपोर्ट से संपर्क करें: https://support.signal.org/hc/requests/new?desktop",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "सारा डेटा डिलीट करें और रीस्टार्ट करें",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "डेटा को डिलीट करें और रीस्टार्ट करें",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "सारा डेटा हमेशा के लिए डिलीट करें?",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "आपकी सारी संदेश हिस्ट्री और मीडिया को हमेशा के लिए इस डिवाइस से डिलीट कर दिया जाएगा। दोबारा लिंक करने के बाद ही आप इस डिवाइस पर सिग्नल का उपयोग कर पाएंगे। इससे आपके फोन से कोई भी डेटा डिलीट नहीं होगा।",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "आपके डेटाबेस का वर्ज़न सिग्नल के इस वर्ज़न से मेल नहीं खाता है। सुनिश्चित करें कि आप अपने कंप्यूटर पर सिग्नल का सबसे नया वर्ज़न खोल रहे हैं।",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&File",
@@ -6752,6 +6768,10 @@
     "messageformat": "{type, select, Audio {अस्वीकृत वॉयस कॉल} Video {अस्वीकृत वीडियो कॉल} Group {अस्वीकृत ग्रुप कॉल} other {अस्वीकृत  कॉल}}",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, one {{count,number} अन्य टाइप कर रहा/रही है।} other {{count,number} अन्य टाइप कर रहे/रही हैं।}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "नया क्या है",
     "description": "Title for the whats new modal"
@@ -6784,10 +6804,13 @@
     "messageformat": "छोटे-छोटे ट्वीक, बग फ़िक्स, और प्रदर्शन में सुधार। Signal इस्तेमाल करने के लिए धन्यवाद।",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.30--0": {
-    "messageformat": "नए कॉल टैब से अपने कॉल पर नज़र रखें। एक नई कॉल शुरू करें या संबंधित चैट को ढूंढे बिना उस कॉल पर वापस जाए, जिसका जवाब देने से आप चूक गए थे। अब आप उस थ्रेड में संदेश के लिए अनरीड मार्कर को अलविदा कहे बिना भी अपनी आवाज़ से हेलो कह सकते हैं।"
-  },
   "icu:WhatsNew__v6.31--0": {
     "messageformat": "यह अपडेट कुछ बगों को ठीक करता है, जिसमें ऐसा भी एक बग शामिल है जिसके कारण यदि आपने मैकOS पर फुल-स्क्रीन मोड में डीबग लॉग देखा है तो मुख्य Signal विंडो ब्लैंक हो जाती है। पूरी तरह से लाइट या पूरी तरह से डार्क विंडो को देखना निश्चित रूप से लाइट थीम और डार्क थीम की सबसे शुद्ध संभव अभिव्यक्ति है, लेकिन हमने अंततः पाया है कि ऐप का उपयोग करना तब आसान होता है जब आप इंटरफेस भी देख सकते हैं।"
+  },
+  "icu:WhatsNew__v6.32--0": {
+    "messageformat": "यदि आप पांच बार तेजी से \"मीडिया एडिटर\" कहते हैं, तो यह सुनने में \"मीडियेटर\" की तरह लगने लगता है - लेकिन नए मीडिया एडिटर का उपयोग करना इतना आसान है कि अब आपको ऐसा महसूस नहीं होगा कि आपको अपने और क्रॉप टूल के बीच का झगड़ा निपटाने के लिए किसी मीडियेटर की जरूरत है।"
+  },
+  "icu:WhatsNew__v6.32--1": {
+    "messageformat": "कभी-कभी सही उत्तर सच में आपको यह जानने में मददगार हो सकता है कि लोग क्या कह रहे हैं, और अब जब भी आप चैट में कोई संदेश भेजेंगे तो सिग्नल स्वतः ही आपके द्वारा कही गई बात पर स्क्रॉल करेगा।"
   }
 }

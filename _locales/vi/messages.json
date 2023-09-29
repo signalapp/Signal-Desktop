@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "Lỗi Cơ sở dữ liệu",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "Đã xảy ra lỗi cơ sở dữ liệu. Bạn có thể sao chép lỗi và liên hệ bộ phận hỗ trợ của Signal để được hỗ trợ khắc phục vấn đề. Nếu bạn cần sử dụng Signal ngay, bạn có thể xóa dữ liệu của mình và khởi động lại.\n\nLiên hệ bộ phận hỗ trợ bằng cách truy cập: https://support.signal.org/hc/requests/new?desktop",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "Xóa tất cả dữ liệu và khởi động lại",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "Xóa dữ liệu và khởi động lại",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "Xóa vĩnh viễn tất cả dữ liệu?",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "Tất cả lịch sử tin nhắn và tệp đa phương tiện của bạn sẽ bị xóa vĩnh viễn khỏi thiết bị này. Bạn sẽ có thể sử dụng Signal trên thiết bị này sau khi liên kết lại. Thao tác này sẽ không xóa bất kỳ dữ liệu nào trên điện thoại của bạn.",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "Phiên bản cơ sở dữ liệu của bạn không khớp với phiên bản Signal này. Đảm bảo bạn đang sử dụng phiên bản Signal mới nhất trên máy tính của mình.",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Tập tin",
@@ -6752,6 +6768,10 @@
     "messageformat": "{type, select, Audio {Cuộc gọi thoại đã từ chối} Video {Cuộc gọi video đã từ chối} Group {Cuộc gọi nhóm đã từ chối} other {Cuộc gọi đã từ chối}}",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, other {{count,number} người khác đang nhập.}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Có gì mới",
     "description": "Title for the whats new modal"
@@ -6784,10 +6804,13 @@
     "messageformat": "Các tinh chỉnh, sửa lỗi, và cải thiện hiệu năng. Cảm ơn bạn đã sử dụng Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.30--0": {
-    "messageformat": "Tab cuộc gọi mới giúp bạn dễ dàng bắt đầu cuộc gọi hoặc gọi lại cho một cuộc gọi bạn đã bỏ lỡ."
-  },
   "icu:WhatsNew__v6.31--0": {
     "messageformat": "Bản cập nhật này sửa một số lỗi, trong đó có lỗi gây tình trạng cửa sổ chính của Signal chuyển thành trống không sau khi bạn xem nhật ký gỡ lỗi ở chế độ toàn màn hình trên macOS."
+  },
+  "icu:WhatsNew__v6.32--0": {
+    "messageformat": "Chúng tôi đã cập nhật công cụ chỉnh sửa tệp đa phương tiện và giúp công cụ dễ sử dụng hơn."
+  },
+  "icu:WhatsNew__v6.32--1": {
+    "messageformat": "Signal giờ đây sẽ tự động cuộn xuống dòng tin nhắn mới nhất của một cuộc trò chuyện khi bạn gửi một tin nhắn mới trong cuộc trò chuyện đó."
   }
 }

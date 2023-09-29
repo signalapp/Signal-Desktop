@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "حدث خطأ في قاعدة البيانات",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "حدث خطأ في قاعدة البيانات. يُمكنك نسخ الخطأ والاتصال بدعم سيجنال لمُساعدتك على حل المشكلة. إذا كنت في حاجة إلى استخدام سيجنال في الحين، يُمكنك مسح بياناتك وإعادة التشغيل.\n\nاتصل بالدعم من خلال زيارة:https://support.signal.org/hc/requests/new?desktop",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "مسح جميع البيانات ثم إعادة التشغيل",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "مسح البيانات ثم إعادة التشغيل",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "مسح جميع البيانات للأبد؟",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "سيُحذف سِجل رسائلك والوسائط بشكل نهائي من هذا الجهاز. ستتمكّن من استخدام سيجنال على هذا الجهاز بعد إعادة ربطه. لن يُؤدي هذا إلى حذف أي بيانات من هاتفك.",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "لا يتطابق إصدار قاعدة بياناتك مع إصدار سيجنال هذا. تأكد من فتح أحدث إصدار لِسيجنال على حاسوبك.",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&ملف",
@@ -6752,6 +6768,10 @@
     "messageformat": "{type, select, Audio {مكالمة صوتية مرفوضة} Video {مكالمة فيديو مرفوضة} Group {مكالمة جماعية مرفوضة} other {مكالمة  مرفوضة}}",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, zero {{count,number} آخرون يكتبون.} one {{count,number} آخر يكتب.} two {{count,number} آخران يكتبان.} few {{count,number} آخرون يكتبون.} many {{count,number} آخرين يكتبون.} other {{count,number} آخرون يكتبون.}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "ما الجديد",
     "description": "Title for the whats new modal"
@@ -6784,10 +6804,13 @@
     "messageformat": "تعديلات صغيرة، تصليح الأعطال، وتحسينات للأداء. شكرًا على استخدامكم سيجنال!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.30--0": {
-    "messageformat": "علامة تبويب المُكالمات الجديدة تُساعدك على بدء مكالمة أو إعادة مكالمة فاتتك بسهولة تامة. اِبدأ مكالمة جديدة أو أعد مكالمة فاتتك دون الحاجة إلى العُثور على الدردشة المناسبة. يُمكنك الآن الترحيب بصوتك دون الاضطرار إلى قراءة الرسائل في المحادثة."
-  },
   "icu:WhatsNew__v6.31--0": {
     "messageformat": "يَعمل هذا التحديث على إصلاح عدد من الأخطاء، بما في ذلك الخطأ الذي تسبب في جعل نافذة Signal الرئيسية فارغة إذا شاهدت سِجل تصحيح الأخطاء في وضع ملء الشاشة على macOS. يُمكن القول إن رؤية نافذة فاتحة تمامًا أو نافذة داكنة تمامًا هي أنقى تعبير مُمكن عن Light Theme وDark Theme، لكننا قررنا في النهاية أن التطبيق أسهل في الاستخدام عندما يمكنك رؤية الواجهة أيضًا."
+  },
+  "icu:WhatsNew__v6.32--0": {
+    "messageformat": "لقد قمنا بتحديث مُحرر الوسائط وجعلناه أسهل في الاستخدام."
+  },
+  "icu:WhatsNew__v6.32--1": {
+    "messageformat": "سيقوم سيجنال الآن بالتمرير تلقائيًا إلى أسفل الدردشة عندما ترسل رسالة جديدة في تلك الدردشة."
   }
 }

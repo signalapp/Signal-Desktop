@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "Databasisfout",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "'n Databasisfout het voorgekom. Jy kan die fout kopieer en Signal-steundiens kontak om die probleem te help oplos. As jy Signal dadelik moet gebruik, kan jy jou data skrap en weer begin.\n\nKontak die steundiens deur te gaan na: https://support.signal.org/hc/requests/new?desktop",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "Skrap alle data en begin weer",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "Skrap data en begin weer",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "Skrap alle data permanent?",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "Jou hele boodskapgeskiedenis en media sal permanent van hierdie toestel geskrap word. Jy sal Signal op hierdie toestel kan gebruik nadat jy dit herkoppel het. Dit sal nie enige data van jou foon af skrap nie.",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "Die weergawe van jou databasis pas nie by hierdie weergawe van Signal nie. Maak seker dat jy die jongste weergawe van Signal op jou rekenaar oopmaak.",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Lêer",
@@ -6752,6 +6768,10 @@
     "messageformat": "{type, select, Audio {Stemoproep geweier} Video {Video-oproep geweier} Group {Groepoproep geweier} other {Oproep geweier}}",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, one {{count,number} ander persoon is besig om te tik.} other {{count,number} ander persone is besig om te tik.}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Wat is nuut",
     "description": "Title for the whats new modal"
@@ -6784,10 +6804,13 @@
     "messageformat": "Klein veranderings, foutregstellings en prestasieverbeterings. Dankie dat jy Signal gebruik!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.30--0": {
-    "messageformat": "Hou 'n oog op jou oproepe met die nuwe oproep-ikoon. Begin 'n nuwe oproep of beantwoord 'n oproep wat jy gemis het sonder om die betrokke klets te moet vind. Nou kan jy ongeleesde boodskappe in daardie string ignoreer en 'n stemgesprek begin."
-  },
   "icu:WhatsNew__v6.31--0": {
     "messageformat": "Hierdie opdatering maak 'n handvol foute reg, waaronder een wat veroorsaak het dat die Signal se hoofvenster leeg raak as jy 'n ontfoutlog in volskermmodus op macOS bekyk het."
+  },
+  "icu:WhatsNew__v6.32--0": {
+    "messageformat": "Ons het die mediaredigeerder opdateer en baie makliker gemaak om te gebruik."
+  },
+  "icu:WhatsNew__v6.32--1": {
+    "messageformat": "Signal sal nou outomaties afrol na die onderkant van die gesprekstring wanneer ook al jy 'n nuwe boodskap in daardie gesprekstring stuur."
   }
 }

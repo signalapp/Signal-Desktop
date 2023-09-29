@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "Datenbankfehler",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "Ein Datenbank-Fehler ist aufgetreten. Du kannst den Fehler kopieren und den Signal-Support kontaktieren, um dabei zu helfen, dieses Problem zu beheben. Wenn du Signal sofort verwenden möchtest, kannst du deine Daten löschen und neu starten.\n\nKontaktiere den Support unter: https://support.signal.org/hc/requests/new?desktop",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "Alle Daten löschen und neu starten",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "Daten löschen und neu starten",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "Alle Daten unwiderruflich löschen?",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "Dein Nachrichtenverlauf und deine Medieninhalte werden dauerhaft von diesem Gerät gelöscht. Du kannst Signal auf diesem Gerät verwenden, nachdem du es neu gekoppelt hast. Dabei werden keine Daten von deinem Telefon gelöscht.",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "Die Version in deiner Datenbank stimmt nicht mit dieser Version von Signal überein. Überprüfe, ob du die neueste Version von Signal auf deinem Computer geöffnet hast.",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Datei",
@@ -6752,6 +6768,10 @@
     "messageformat": "{type, select, Audio {Abgelehnter Sprachanruf} Video {Abgelehnter Videoanruf} Group {Abgelehnter Gruppenanruf} other {Abgelehnter Anruf}}",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, one {{count,number} andere*r schreibt etwas.} other {{count,number} andere schreiben etwas.}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Was ist neu",
     "description": "Title for the whats new modal"
@@ -6784,10 +6804,13 @@
     "messageformat": "Kleine Optimierungen, Fehlerbehebungen und Leistungsverbesserungen. Danke, dass du Signal nutzt!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.30--0": {
-    "messageformat": "Behalte deine Anrufe im Blick – mit dem neuen Tab »Anrufe«. Beginne einen neuen Anruf oder erwidere einen Anruf, den du verpasst hast, ohne den jeweiligen Chat suchen zu müssen. Jetzt kannst du Hallo sagen, ohne dich von den ungelesenen Nachrichten im Thread trennen zu müssen."
-  },
   "icu:WhatsNew__v6.31--0": {
     "messageformat": "Mit diesem Update werden eine Handvoll Fehler behoben, darunter das Anzeigen eines leeren Hauptfensters von Signal, wenn unter macOS ein Debug-Protokoll im Vollbildmodus aufgerufen wird. Mit einem vollständig hellen bzw. dunklen Fenster kommt die Funktion eines hellen bzw. dunklen Designs wohl am besten zum Ausdruck. Letztendlich haben wir jedoch entschieden, dass die App einfacher zu verwenden ist, wenn auch du die Benutzeroberfläche sehen kannst."
+  },
+  "icu:WhatsNew__v6.32--0": {
+    "messageformat": "Wir haben den Medien-Editor aktualisiert, sodass du ihn jetzt noch viel einfacher bedienen kannst als zuvor."
+  },
+  "icu:WhatsNew__v6.32--1": {
+    "messageformat": "Manchmal kann die richtige Antwort dir wirklich helfen, dem Gesagten auf den Grund zu gehen. Signal scrollt jetzt automatisch an das Ende des Chats, wenn du eine neue Nachricht in diesem Chat sendest."
   }
 }

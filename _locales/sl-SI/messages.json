@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "Napaka v bazi podatkov",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "Prišlo je do napake v zbirki podatkov. Napako lahko kopirate in se obrnete na podporo za Signal, da vam pomaga odpraviti težavo. Če morate Signal uporabiti takoj, lahko izbrišete podatke in ga znova zaženete.\n\nObrnite se na podporo tako, da obiščete: https://support.signal.org/hc/requests/new?desktop",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
     "messageformat": "Izbris vseh podatkov in ponovni zagon",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "Želite trajno izbrisati vse podatke?",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "Vsa vaša zgodovina sporočil in mediji bodo trajno izbrisani iz te naprave. Signal boste lahko uporabljali v tej napravi, ko jo znova povežete. S tem ne boste izbrisali nobenih podatkov iz svojega telefona.",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "Različica vaše zbirke podatkov se ne ujema s to različico Signala. Prepričajte se, da v računalniku odpirate najnovejšo različico Signala.",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Datoteka",
@@ -6752,6 +6768,10 @@
     "messageformat": "{type, select, Audio {Zavrnjen zvočni klic} Video {Zavrnjen video klic} Group {Zavrnjen skupinski klic} other {Zavrnjen klic}}",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, one {Še ena oseba tipka.} two {Še {count,number} osebi tipkata.} few {Še {count,number} osebe tipkajo.} other {Še {count,number} oseb tipka.}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Kaj je novega",
     "description": "Title for the whats new modal"
@@ -6784,10 +6804,13 @@
     "messageformat": "Majhne prilagoditve, popravki napak in izboljšave zmogljivosti. Hvala, da uporabljate Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.30--0": {
-    "messageformat": "Spremljajte svoje klice z novim zavihkom za klice. Začnite nov klic ali vrnite zgrešenega, ne da bi morali poiskati ustrezen klepet. Zdaj lahko pozdravite z glasom, ne da bi morali opustiti oznako za neprebrana sporočila v pogovoru."
-  },
   "icu:WhatsNew__v6.31--0": {
     "messageformat": "Ta posodobitev odpravi nekaj napak, vključno s tisto, zaradi katere je bilo glavno okno Signala prazno, če ste si ogledali dnevnik odpravljanja napak v celozaslonskem načinu v sistemu macOS. Videti popolnoma svetlo ali popolnoma temno okno je verjetno najčistejši možni izraz Svetle teme in Temne teme, vendar smo se na koncu odločili, da je uporaba aplikacije enostavnejša, če vidite tudi vmesnik."
+  },
+  "icu:WhatsNew__v6.32--0": {
+    "messageformat": "Posodobili smo medijski urejevalnik, katerega je sedaj veliko lažje uporabljati."
+  },
+  "icu:WhatsNew__v6.32--1": {
+    "messageformat": "Včasih vam pravi odgovor lahko resnično pomaga priti do dna tega, kar ljudje govorijo, in zdaj se bo Signal samodejno pomaknil do tega, kar ste pravkar rekli, kadarkoli pošljete sporočilo v klepetu."
   }
 }

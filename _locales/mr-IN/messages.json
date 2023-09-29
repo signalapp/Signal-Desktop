@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "डेटाबेस त्रुटी",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "डेटाबेस त्रुटी उद्भवली. आपण त्रुटी कॉपी करू शकता आणि Signal च्या सपोर्ट शी समस्येला दुरूस्त करण्यास मदतीसाठी संपर्क करू शकता. आपणाला जर लगेचच Signal वापरण्याची गरज असल्यास, आपण आपला डेटा हटवू शकता आणि पुन्हा सुरू करू शकता.\n\nभेट देऊन सपोर्टशी संपर्क साधा: https://support.signal.org/hc/requests/new?desktop",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "सर्व डेटा हटवा आणि पुन्हा सुरू करा",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "डेटा हटवा आणि पुन्हा सुरू करा",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "सर्व डेटा कायमस्वरूपी हटवायचा?",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "या डिव्हाइस वरून आपल्या सर्व संदेशांचा इतिहास आणि मिडीया कायमस्वरूपी हटवला जाईल. आपण या डिव्हाइसला पुन्हा लिंक करून त्यावर Signal वापरू शकाल. हे आपल्या फोनवरील कोणताही डेटा हटवणार नाही.",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "आपल्या डेटाबेसची आवृत्ती या Signal च्या आवृत्ती बरोबर जुळत नाही. आपण आपल्या संगणकावर Signal ची नवीनतम आवृत्ती उघडत असल्याची खात्री करा.",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "फाईल",
@@ -6752,6 +6768,10 @@
     "messageformat": "{type, select, Audio {व्हॉईस कॉल नाकारा} Video {व्हिडिओ कॉल नाकारा} Group {नाकारलेला ग्रुप कॉल} other {नाकारलेला कॉल}}",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, one {{count,number} इतर टाईप करत आहे.} other {{count,number} इतर टाईप करत आहेत.}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "नवीन काय आहे",
     "description": "Title for the whats new modal"
@@ -6784,10 +6804,13 @@
     "messageformat": "लहान ट्विक्स, दोष निवारण, आणि कामगिरी सुधारणा. Signal वापरल्याबद्दल आभारी आहोत!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.30--0": {
-    "messageformat": "नवीन कॉल्स टॅब सह आपल्या कॉल्स वर नजर ठेवा. नवीन कॉल सुरू करा किंवा संबंधित चॅट्स न शोधता आपल्या मिस्ड कॉलवर परत जा. आता आपण आपल्या आवाजासह हॅलो म्हणू शकता याशिवाय त्या थ्रेडमधील संदेशांसाठी न वाचलेल्या मार्करला गुडबाय देखील म्हणू शकता."
-  },
   "icu:WhatsNew__v6.31--0": {
     "messageformat": "आपण जर macOS मध्ये फुल स्क्रिन मोड मध्ये डिबग लॉग पाहिल्यास, मुख्य Signal विंडो ब्लॅंक होण्यास कारणीभूत होणार्‍या दोषासह, अनेक दोष या अपडेटने दुरूस्त केले आहेत. पूर्णपणे हलकी किंवा पूर्णपणे गडद विंडो पाहणे हे हलकी थीम आणि गडद थीम यांची शक्य अभिव्यक्ती आहे, परंतु आम्ही शेवटी असे ठरवले आहे की जेव्हा आपणाला इंटरफेस देखील दिसतो तेव्हा ॲप वापरणे सोपे असते."
+  },
+  "icu:WhatsNew__v6.32--0": {
+    "messageformat": "आपण जर \"मिडीया एडिटर\" पाच वेळा वेगाने म्हटल्यास, ते \"मिडीएटर\" असे ऐकू येण्यास सुरू होऊ शकते — परंतु नवीन मिडीया संपादक हा वापरण्यास अधिक सोपा आहे ज्यामुळे आपण आणि क्रॉप साधन यांच्यामधील लढाई थांबवण्यास मध्यस्थाची गरज असल्याचे आपणाला वाटेल."
+  },
+  "icu:WhatsNew__v6.32--1": {
+    "messageformat": "काही वेळा योग्य प्रत्त्युत्तर आपणाला लोक काय म्हणत आहेत त्याच्या तळाशी जाण्यास खरोखर मदत करू शकतात, आणि आता जेव्हा कधी आपण चॅट्स मध्ये एक संदेश पाठवाल, तेव्हा Signal स्वयंचलितपणे आपण आता काय म्हणालात त्याकडे स्क्रोल होईल ."
   }
 }

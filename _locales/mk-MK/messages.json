@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "Грешка со базата на податоци",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "Настана грешка со базата на податоци. Можете да ја копирате грешката и да го контактирате тимот за поддршка на Signal за да ви помогне во решавање на проблемот. Ако сакате веднаш да користите Signal, можете да ги избришете вашите податоци и да рестартирате.\n\nКонтактирајте го тимот за поддршка преку: https://support.signal.org/hc/requests/new?desktop",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "Избриши ги сите податоци и рестартирај",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "Избриши ги податоците и рестартирај",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "Сакате трајно да се избришат сите податоци?",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "Целата историја на ваши разговори и медиумски датотеки ќе бидат трајно избришани од овој уред. Ќе можете да користите Signal на овој уред откако одново ќе го поврзете. Ова нема да ги избрише податоците на вашиот телефон.",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "Верзијата од вашата база на податоци не се совпаѓа со оваа верзија на Signal. Проверете дали ја отворате најновата верзија на Signal на вашиот компјутер.",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Датотека",
@@ -6752,6 +6768,10 @@
     "messageformat": "{type, select, Audio {Одбиен гласовен повик} Video {Одбиен видео повик} Group {Одбиен групен повик} other {Одбиен  повик}}",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, one {Уште {count,number} лице пишува.} other {Уште {count,number} лица пишуваат.}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Што е ново",
     "description": "Title for the whats new modal"
@@ -6784,10 +6804,13 @@
     "messageformat": "Mали подобрувања, решени багови и подобрувања на перформансот. Ви благодариме што користите Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.30--0": {
-    "messageformat": "Новата картичка за повици ви помага лесно да започнете повик или да одговорите на пропуштен повик. Започнете нов повик или одговорете на пропуштен повик без да го барате соодветниот разговор. Сега може да кажете здраво наглас без да кажете чао на ознаката за непрочитани пораки во тој разговор."
-  },
   "icu:WhatsNew__v6.31--0": {
     "messageformat": "Со оваа верзија се средени повеќе грешки, вклучувајќи ја и грешката поради која главниот Signal прозорец беше празен доколку гледавте извештај за отстранување грешки на цел екран на macOS."
+  },
+  "icu:WhatsNew__v6.32--0": {
+    "messageformat": "Уредувачот на медиумски датотеки е ажуриран и полесен за користење."
+  },
+  "icu:WhatsNew__v6.32--1": {
+    "messageformat": "Отсега Signal автоматски ќе ве однесе на дното на разговорот кога испраќате нова порака."
   }
 }
