@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "データベースのエラー",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "データベースエラーが発生しました。 エラーをコピーしてSignalサポートへ連絡すると、問題の解決に役立てることができます。 すぐにSignalを使用する必要がある場合は、データを消去して再起動することができます。\n\nサポートへのお問い合わせはhttps://support.signal.org/hc/requests/new?desktopまでお願いします。",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "すべてのデータを消去して再起動",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "すべてのデータを消去して再起動する",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "すべてのデータを完全に消去しますか？",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "過去のすべてのメッセージとメディアはお使いの端末から完全に消去されます。再リンクすると、この端末でSignalを使用できるようになります。ご利用中のスマートフォンのデータは消去されません。",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "データベースのバージョンと、開いたSignalのバージョンが一致しません。 ご利用のコンピューターで、最新バージョンのSignalを開いているかをお確かめください。",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "ファイル (&F)",
@@ -611,6 +627,10 @@
   "icu:callAnyway": {
     "messageformat": "とにかく発信する",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
+  },
+  "icu:joinAnyway": {
+    "messageformat": "それでも参加する",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
   },
   "icu:continueCall": {
     "messageformat": "通話を続ける",
@@ -3165,11 +3185,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "メッセージの編集",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "メッセージを編集した場合、Signalの最新バージョンを利用しているユーザーにのみ反映されます。そのユーザー達は、あなたが編集したメッセージを見ることができます。",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -5744,6 +5764,10 @@
     "messageformat": "設定の保存時にエラーが発生しました。再度試してください。",
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
+  "icu:MediaEditor__input-placeholder": {
+    "messageformat": "Message",
+    "description": "Placeholder for the input in the media editor"
+  },
   "icu:MediaEditor__clock-more-styles": {
     "messageformat": "その他のスタイル",
     "description": "Action button for switching up the clock styles"
@@ -6748,6 +6772,10 @@
     "messageformat": "{type, select, Audio {音声通話が拒否されました} Video {ビデオ通話が拒否されました} Group {グループ通話が拒否されました} other {ビデオ通話が拒否されました}}",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, other {{count,number} 人が入力中です。}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "更新情報",
     "description": "Title for the whats new modal"
@@ -6780,13 +6808,13 @@
     "messageformat": "細かな微調整、バグ修正、パフォーマンスの向上。 Signalをご利用いただきありがとうございます。",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "チャットの色のカスタマイズ画面が、さまざまな言語および選択したロケールで正確に表示されるようになりました。"
+  "icu:WhatsNew__v6.32--0": {
+    "messageformat": "メディアエディターが更新され、より使いやすくなりました。"
   },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Windowsでの通知サポートを改善しました。届いたときにすぐに通知をクリックしなかった場合、最新の未読通知はWindowsの通知センターに表示されます。通知をクリックした場合は、直接そのチャットへ移動します。フィードバックをお寄せいただいたJulien Richardに御礼を申し上げます。"
+  "icu:WhatsNew__v6.32--1": {
+    "messageformat": "チャットに新しいメッセージを送信すると、Signalが自動的にチャットの一番下までスクロールするようになりました。"
   },
-  "icu:WhatsNew__v6.30--0": {
-    "messageformat": "新しい通話タブを使うと、簡単に通話を始めたり不在着信に対して折り返しの電話をかけたりできます。"
+  "icu:WhatsNew__v6.33--0": {
+    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
   }
 }

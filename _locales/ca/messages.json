@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "Error de la base de dades",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "S'ha produït un error de la base de dades. Pots copiar l'error i posar-te en contacte amb el servei d'assistència de Signal per ajudar-te a solucionar el problema. Si necessites fer servir Signal immediatament, pots eliminar les teves dades i reiniciar-lo.\n\nPoseu-vos en contacte amb el servei d'assistència anant a: https://support.signal.org/hc/requests/new?desktop",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "Suprimeix-ne totes les dades i reinicia'l",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "Eliminar les dades i reiniciar",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "Vols eliminar totes les dades permanentment?",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "Tot el teu historial de missatges i arxius multimèdia s'eliminaran permanentment d'aquest dispositiu. Podràs utilitzar Signal en aquest dispositiu després de tornar-lo a enllaçar. Això no eliminarà cap dada del teu telèfon.",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "La versió de la teva base de dades no coincideix amb aquesta versió de Signal. Assegura't d'estar obrint la versió més recent de Signal al teu ordinador.",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Fitxer",
@@ -611,6 +627,10 @@
   "icu:callAnyway": {
     "messageformat": "Truca-li tanmateix",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
+  },
+  "icu:joinAnyway": {
+    "messageformat": "Unir-me de totes maneres",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
   },
   "icu:continueCall": {
     "messageformat": "Continua la trucada",
@@ -3165,11 +3185,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "Editar missatge",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "Si edites un missatge, només serà visible per a aquelles persones que tinguin les darreres versions de Signal. Podran veure que has editat un missatge.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -5744,6 +5764,10 @@
     "messageformat": "Hi ha hagut un error en desar la configuració. Torneu-ho a provar.",
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
+  "icu:MediaEditor__input-placeholder": {
+    "messageformat": "Message",
+    "description": "Placeholder for the input in the media editor"
+  },
   "icu:MediaEditor__clock-more-styles": {
     "messageformat": "Més estils",
     "description": "Action button for switching up the clock styles"
@@ -6748,6 +6772,10 @@
     "messageformat": "{type, select, Audio {Trucada de veu rebutjada} Video {Videotrucada rebutjada} Group {Trucada de grup rebutjada} other {Trucada rebutjada}}",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, one {{count,number} persona més està escrivint.} other {{count,number} persones més estan escrivint.}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Què hi ha de nou",
     "description": "Title for the whats new modal"
@@ -6780,13 +6808,13 @@
     "messageformat": "Petits ajustos, correccions d'errors i tasques de millora de rendiment. Gràcies per utilitzar Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "Ara, la pantalla de personalització del color del xat es mostra correctament en diferents idiomes i configuracions regionals seleccionades."
+  "icu:WhatsNew__v6.32--0": {
+    "messageformat": "Hem actualitzat l'editor d'arxius multimèdia perquè sigui molt més senzill d'utilitzar."
   },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Hem millorat el suport de notificacions a Windows. Si no cliques sobre una notificació tan bon punt arribi, la darrera notificació perduda apareixerà al Centre de notificacions de Windows. Ara, quan facis clic sobre aquesta notificació, aniràs directament al xat. Ens agradaria donar les gràcies a Julien Richard pels seus comentaris."
+  "icu:WhatsNew__v6.32--1": {
+    "messageformat": "Ara, Signal et dirigirà automàticament al final de la conversa quan enviïs un nou missatge en un xat."
   },
-  "icu:WhatsNew__v6.30--0": {
-    "messageformat": "La nova pestanya de trucades t'ajuda a iniciar una nova trucada o tornar una perduda amb més facilitat."
+  "icu:WhatsNew__v6.33--0": {
+    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
   }
 }

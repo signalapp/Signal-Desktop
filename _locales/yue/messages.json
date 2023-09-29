@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "資料庫錯誤",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "資料庫發生錯誤。你可以複製錯誤，然後聯絡 Signal 支援團隊幫手解決問題。如果你需要即刻用 Signal，可以選擇刪除資料然後重新啟動。\n\n要聯絡支援團隊，請去呢度：https://support.signal.org/hc/requests/new?desktop",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "刪除所有資料，然後重新啟動",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "刪除資料，然後重新啟動",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "係咪要永久刪除所有資料呀？",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "你嘅所有訊息紀錄同媒體將會喺呢部機度永久刪除。重新連結之後，你就可以喺呢部機度用 Signal 喇。呢個操作唔會刪除你手機嘅任何資料。",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "你嘅資料庫版本同呢個 Signal 版本唔相符。請確定你喺電腦用緊嘅係最新版本嘅 Signal。",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&File",
@@ -611,6 +627,10 @@
   "icu:callAnyway": {
     "messageformat": "照樣通話",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
+  },
+  "icu:joinAnyway": {
+    "messageformat": "照樣加入",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
   },
   "icu:continueCall": {
     "messageformat": "繼續通話",
@@ -3165,11 +3185,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "編輯訊息",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "只有用 Signal 最新版本嘅用戶先可以睇到你嘅編輯訊息。佢哋會見到你編輯咗訊息。",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -5744,6 +5764,10 @@
     "messageformat": "儲存你嘅設定嘅時候出現錯誤。請你再試過啦。",
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
+  "icu:MediaEditor__input-placeholder": {
+    "messageformat": "Message",
+    "description": "Placeholder for the input in the media editor"
+  },
   "icu:MediaEditor__clock-more-styles": {
     "messageformat": "更多款式",
     "description": "Action button for switching up the clock styles"
@@ -6748,6 +6772,10 @@
     "messageformat": "{type, select, Audio {拒接嘅語音通話} Video {拒接嘅視像通話} Group {拒接嘅群組通話} other {拒接嘅  通話}}",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, other {另外有 {count,number} 個人打緊字。}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "最新消息",
     "description": "Title for the whats new modal"
@@ -6780,13 +6808,13 @@
     "messageformat": "我哋做咗啲調整、修復咗一啲錯誤，同埋加強咗程式功能。多謝你使用 Signal！",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "聊天顏色自訂畫面宜家可以喺唔同語言同指定地區版本度正確顯示喇。"
+  "icu:WhatsNew__v6.32--0": {
+    "messageformat": "我哋更新咗媒體編輯器，令佢更方便易用。"
   },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "我哋改善咗 Windows 嘅通知支援。如果你冇喺通知第一次出現時點擊，錯過咗嘅最新通知就會喺 Windows 通知中心度顯示。點擊嗰個通知，就可以直接跳到相關聊天。多謝 Julien Richard 提出嘅意見！"
+  "icu:WhatsNew__v6.32--1": {
+    "messageformat": "而家，當你想喺聊天度發送新訊息時，Signal 會自動碌返去聊天嘅底部，方便你繼續對話。"
   },
-  "icu:WhatsNew__v6.30--0": {
-    "messageformat": "用新嘅通話選項標籤，輕鬆睇返你嘅通話紀錄。宜家開始，你唔使搵返相關嘅聊天，就可以開始新通話或者打返俾你冇接到嘅電話號碼。咁就唔使驚冇咗訊息串入面嘅未讀標記啦！"
+  "icu:WhatsNew__v6.33--0": {
+    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
   }
 }

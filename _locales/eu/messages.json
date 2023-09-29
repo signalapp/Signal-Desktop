@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "Datubasearen Errorea",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "Datu-baseko errore bat gertatu da. Errorea kopiatu, eta Signal-en zerbitzu teknikoarekin harremanetan jar zaitezke, arazoa konpontzen lagun diezazuten. Signal berehala erabili behar baduzu, zure datuak ezabatu, eta berrabiarazi egin dezakezu.\n\nJarri harremanetan zerbitzu teknikoarekin: https://support.signal.org/hc/requests/new?desktop",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "Ezabatu datu guztiak eta berrabiarazi",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "Ezabatu datuak eta berrabiarazi",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "Datu guztiak behin betiko ezabatu nahi dituzu?",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "Zure mezuen historia eta multimedia-elementu guztiak betiko ezabatuko dira gailu honetatik. Gailu honetan Signal erabili ahal izateko, berriro lotu beharko duzu. Horrek ez du daturik ezabatuko telefonotik.",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "Zure datu-basearen bertsioa ez dator bat Signal-en bertsio honekin. Ziurtatu Signal-en bertsio berriena erabiltzen ari zarela ordenagailuan.",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Fitxategia",
@@ -611,6 +627,10 @@
   "icu:callAnyway": {
     "messageformat": "Deitu edonola ere",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
+  },
+  "icu:joinAnyway": {
+    "messageformat": "Sartu hala ere",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
   },
   "icu:continueCall": {
     "messageformat": "Deia jarraitu",
@@ -3165,11 +3185,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "Editatu mezua",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "Mezu bat editatzen baduzu, Signal-en azken bertsioak darabiltzaten pertsonek soilik izango dute ikusgai. Mezu bat editatu duzula ikusi ahal izango dute.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -5744,6 +5764,10 @@
     "messageformat": "Errore bat gertatu da ezarpenak gordetzean. Saiatu berriro mesedez.",
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
+  "icu:MediaEditor__input-placeholder": {
+    "messageformat": "Message",
+    "description": "Placeholder for the input in the media editor"
+  },
   "icu:MediaEditor__clock-more-styles": {
     "messageformat": "Estilo gehiago",
     "description": "Action button for switching up the clock styles"
@@ -6748,6 +6772,10 @@
     "messageformat": "{type, select, Audio {Ahots-deia baztertu da} Video {Bideodeia baztertu da} Group {Talde-deia baztertu da} other {Deia baztertu da}}",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, one {Beste {count,number} idazten ari da.} other {Beste {count,number} idazten ari dira.}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Zer berri",
     "description": "Title for the whats new modal"
@@ -6780,13 +6808,13 @@
     "messageformat": "Doikuntza txikiak, akats-konponketak eta errendimendu-hobekuntzak. Eskerrik asko Signal erabiltzeagatik!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "Txataren kolorea pertsonalizatzeko pantaila behar bezala bistaratzen da hizkuntza ezberdinetan eta hautatutako tokietan."
+  "icu:WhatsNew__v6.32--0": {
+    "messageformat": "Multimedia-edukien editore berria askoz errazagoa da erabiltzeko, eta aurrerantzean ez duzu borrokan aritu beharko irudiak mozteko tresnarekin."
   },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Windows-en jakinarazpenen laguntza hobetu dugu. Ez baduzu sakatzen jakinarazpen bat lehen aldiz iristen denean, galdutako azken jakinarazpena Windows Jakinarazpen Zentroan agertuko da. Jakinarazpen horretan klik eginez gero, zuzenean txat horretara joango da. Eskerrak eman nahi dizkiogu Julien Richard bere iritziagatik."
+  "icu:WhatsNew__v6.32--1": {
+    "messageformat": "Orain, txat batean mezu bat bidaltzen duzun bakoitzean, Signal-ek automatikoki eramango zaitu txataren behealderaino."
   },
-  "icu:WhatsNew__v6.30--0": {
-    "messageformat": "Izan deiak kontrolpean deien fitxa berriarekin. Hasi deiak edo itzuli dei galduak dagokion txata bilatu beharrik gabe. Orain, ahotsarekin \"kaixo\" esan dezakezu, mezuak irakurri ez izanaren markatzaileei \"agur\" esan beharrik gabe."
+  "icu:WhatsNew__v6.33--0": {
+    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
   }
 }

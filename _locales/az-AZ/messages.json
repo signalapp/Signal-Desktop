@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "Verilənlər bazası xətası",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "Məlumat bazası xətası baş verdi. Xətanın surətini köçürüb, problemin həlli üçün Signal dəstək xidməti ilə əlaqə saxlayın. Signal-dan elə indi istifadə etmək üçün verilənlərinizi silib yenidən başladın.\n\nBu linkə daxil olaraq dəstək xidməti ilə əlaqə saxlayın: https://support.signal.org/hc/requests/new?desktop",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "Bütün verilənləri sil və yenidən başlat",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "Verilənləri silib yenidən başladın",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "Bütün verilənlər daimi olaraq silinsin?",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "Bütün mesaj tarixçəniz və media bu cihazdan daimi olaraq silinəcək. Signal-ı bu cihazda yenidən əlaqələndirdikdən sonra ondan istifadə edə bilərsiniz. Bu əməliyyat telefonunuzdan heç bir verilənləri silməyəcək.",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "Məlumat bazanızın versiyası Signal-ın bu versiyasına uyğun gəlmir. Kompüterinizdə Signal-ın ən son versiyasını açdığınızdan əmin olun.",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Fayl",
@@ -611,6 +627,10 @@
   "icu:callAnyway": {
     "messageformat": "Yenə də zəng et",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
+  },
+  "icu:joinAnyway": {
+    "messageformat": "Yenə də qoşul",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
   },
   "icu:continueCall": {
     "messageformat": "Zəngə davam et",
@@ -3165,11 +3185,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "Mesajı redaktə et",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "Bir mesajı redaktə etsəniz, onu yalnız Signal-ın son versiyasından istifadə edən şəxslər görə biləcək. Onlar bir mesajı redaktə etdiyinizi görə biləcək.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -5744,6 +5764,10 @@
     "messageformat": "Tənzimləmələriniz saxlanılarkən xəta baş verdi. Zəhmət olmasa yenidən sınayın.",
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
+  "icu:MediaEditor__input-placeholder": {
+    "messageformat": "Message",
+    "description": "Placeholder for the input in the media editor"
+  },
   "icu:MediaEditor__clock-more-styles": {
     "messageformat": "Əlavə üslublar",
     "description": "Action button for switching up the clock styles"
@@ -6748,6 +6772,10 @@
     "messageformat": "{type, select, Audio {İmtina edilmiş audio-zəng} Video {İmtina edilmiş video-zəng} Group {İmtina edilmiş qrup zəngi} other {İmtina edilmiş zəng}}",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, one {Əlavə {count,number} nəfər də yazır.} other {Əlavə {count,number} nəfər də yazır.}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Yeni nə var",
     "description": "Title for the whats new modal"
@@ -6780,13 +6808,13 @@
     "messageformat": "Kiçik spesifik tənzimləmələr, xəta düzəlişləri və məhsuldarlığın artırılması. Signal istifadə etdiyiniz üçün təşəkkürlər!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "Çat rənginin fərdiləşdirilməsi ekranı artıq müxtəlif dillər və seçilmiş dil parametrlərində düzgün göstərilir."
+  "icu:WhatsNew__v6.32--0": {
+    "messageformat": "Beş dəfə tez \"media redaktoru\" deyirsinizsə, bu, \"vasitəçi\" kimi səslənir — lakin yeni media redaktorundan istifadə etmək o qədər asandır ki, artıq sizinlə kəsmə aləti arasındakı savaşı həll etmək üçün vasitəçiyə ehtiyacınız qalmayacaq."
   },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Windows-da bildiriş dəstəyini təkmilləşdirdik. İlk qəbul edilən zaman bildirişə klikləməsəniz, buraxılmış ən sonuncu bildiriş Windows Bildiriş Mərkəzində görünəcək. Bu bildirişin üzərinə klikləməklə artıq birbaşa çata keçmək mümkündür. Julien Richard-a rəyi üçün təşəkkür edirik."
+  "icu:WhatsNew__v6.32--1": {
+    "messageformat": "Bəzən düzgün cavab həqiqətən insanların dediklərini başa düşməyinizə kömək edə bilər və indi çatda mesaj göndərəndə Signal avtomatik olaraq dediklərinizə keçəcək."
   },
-  "icu:WhatsNew__v6.30--0": {
-    "messageformat": "Zənglər siyahısında tabları yeni zəng tabı ilə saxlayın. Əlaqəli çatı tapmaq məcburiyyətində qalmadan, yeni zəngə başlayın və ya buraxılmış zəngə cavab verin. Artıq həmin mesajlar silsiləsində \"oxunmamış\" markerini itirmədən səsinizlə salamlaşa bilərsiniz."
+  "icu:WhatsNew__v6.33--0": {
+    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
   }
 }

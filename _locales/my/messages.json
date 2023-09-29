@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "ဒေတာဘေ့စ် ချို့ယွင်းချက်",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "ဒေတာဘေ့စ် ချို့ယွင်းချက်တစ်ခု ဖြစ်နေပါသည်။ ချို့ယွင်းချက်ကို ကူးယူပြီးနောက် ဤပြဿနာကို ဖြေရှင်းရန်အတွက် အကူအညီပေးရန် Signal ပံ့ပိုးရေးသို့ ဆက်သွယ်နိုင်ပါသည်။ Signal ကို သင် ချက်ချင်းအသုံးပြုရန် လိုအပ်ပါက သင့်ဒေတာကို ဖျက်ပြီး ပြန်လည်စတင်နိုင်ပါသည်။\n\nhttps://support.signal.org/hc/requests/new?desktop သို့ ဝင်ရောက်ပြီး ပံ့ပိုးရေးသို့ ဆက်သွယ်ပါ",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "ဒေတာ အားလုံးကို ဖျက်ပြီး ပြန်လည်စတင်ရန်",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "ဒေတာကို ဖျက်ပြီး ပြန်လည်စတင်ရန်",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "ဒေတာအားလုံးကို အပြီးအပိုင်ဖျက်မည်လား။",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "သင်၏ မက်ဆေ့ချ်မှတ်တမ်းနှင့် မီဒီယာအားလုံးကို ဤစက်မှ အပြီးအပိုင်ဖျက်လိုက်ပါမည်။ Signal ကို ပြန်လည်ချိတ်ဆက်ပြီးနောက် ဤစက်တွင် Signal ကို အသုံးပြုနိုင်ပါမည်။ ၎င်းသည် သင့်ဖုန်းမှ မည်သည့်ဒေတာကိုမျှ ဖျက်မည်မဟုတ်ပါ။",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "သင်၏ ဒေတာဘေ့စ်ဗားရှင်းသည် ဤ Signal ဗားရှင်းနှင့် မကိုက်ညီပါ။ သင့်ကွန်ပျူတာတွင် Signal နောက်ဆုံးထွက်ဗားရှင်းကို ဖွင့်ထားခြင်းဖြစ်ကြောင်း သေချာအောင်လုပ်ပါ။",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&ဖိုင်",
@@ -611,6 +627,10 @@
   "icu:callAnyway": {
     "messageformat": "ဘာပဲဖြစ်ဖြစ်ဖုန်းခေါ်ပါ",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
+  },
+  "icu:joinAnyway": {
+    "messageformat": "မည်သို့ပင်ဖြစ်စေ ပါဝင်မည်",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
   },
   "icu:continueCall": {
     "messageformat": "ခေါ်ဆိုမှုသို့ ဆက်မယ်",
@@ -3165,11 +3185,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "မက်ဆေ့ချ် တည်းဖြတ်ရန်",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "မက်ဆေ့ချ်တစ်စောင်ကို တည်းဖြတ်ပါက ၎င်းကို Signal နောက်ဆုံးထွက်ဗားရှင်းများကို သုံးနေသူများသာ မြင်ရပါမည်။ ၎င်းတို့သည် မက်ဆေ့ချ်တစ်စောင်ကို သင် တည်းဖြတ်လိုက်ကြောင်း တွေ့မြင်ရပါမည်။",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -5744,6 +5764,10 @@
     "messageformat": "သင့်ဆက်တင်ကို သိမ်းချိန်တွင် ပြဿနာ ရှိခဲ့ပါသည်။ နောက်မှ ထပ်ကြိုးစားပေးပါ။",
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
+  "icu:MediaEditor__input-placeholder": {
+    "messageformat": "Message",
+    "description": "Placeholder for the input in the media editor"
+  },
   "icu:MediaEditor__clock-more-styles": {
     "messageformat": "နောက်ထပ်စတိုင်များ",
     "description": "Action button for switching up the clock styles"
@@ -6748,6 +6772,10 @@
     "messageformat": "{type, select, Audio {ငြင်းပယ်ခဲ့သော အော်ဒီယိုကောလ်} Video {ငြင်းပယ်ခဲ့သော ဗီဒီယိုကောလ်} Group {ငြင်းပယ်ခဲ့သော အဖွဲ့ကောလ်} other {ငြင်းပယ်ခဲ့သော  ကောလ်}}",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, other {အခြား {count,number} ဦး စာရိုက်နေသည်။}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "အသစ်များ",
     "description": "Title for the whats new modal"
@@ -6780,13 +6808,13 @@
     "messageformat": "အနေအထား ပြုပြင်မှုလေးများ၊ ချို့ယွင်းချက် ပြင်ဆင်မှုများနှင့် စွမ်းဆောင်ရည် မြှင့်တင်မှုများ။ Signal ကို သုံးသည့်အတွက် ကျေးဇူးတင်ပါသည်။",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "ယခုအခါ ချက်(တ်)အရောင် စိတ်ကြိုက်သတ်မှတ်မှု မျက်နှာပြင်ကို မတူညီသော ဘာသာစကားများနှင့် ရွေးချယ်ထားသော ဒေသများတွင် မှန်ကန်စွာ ပြသနေပြီဖြစ်ပါသည်။"
+  "icu:WhatsNew__v6.32--0": {
+    "messageformat": "\"media editor\" ကို ငါးဆပိုပြီးမြန်မြန် ပြောကြည့်လျင် \"mediator\" ဟုပြောခြင်းနှင့် တူသွားပါမည်။ — သို့သော် မီဒီယာ တည်းဖြတ်ကိရိယာအသစ်က အများကြီး သုံးရပိုလွယ်သောကြောင့် Crop Tool နှင့် သင့်အကြား Mediator လိုအပ်နေသလို မခံစားရတော့ပါ။"
   },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Windows တွင် အသိပေးချက်ဆိုင်ရာ ပံ့ပိုးမှုကို ပိုကောင်းအောင်လုပ်ထားပါသည်။ အသိပေးချက်တစ်ခု စတင်ရောက်ရှိလာချိန်တွင် ၎င်းကို သင် မနှိပ်ပါက နောက်ဆုံး လွတ်သွားသော အသိပေးချက်မှာ Windows အသိပေးချက်စင်တာတွင် ပေါ်နေပါမည်။ ယခုအခါ ထိုအသိပေးချက်ကို နှိပ်လိုက်လျှင် ထိုချက်(တ်)သို့ တိုက်ရိုက်ရောက်ရှိသွားပါမည်။ Julien Richard ကို ၎င်း၏တုံ့ပြန်အကြံပြုချက်အတွက် ကျေးဇူးတင်ပါသည်။"
+  "icu:WhatsNew__v6.32--1": {
+    "messageformat": "တစ်ခါတစ်ရံမှာ မှန်ကန်တဲ့ အကြောင်းပြန်စကားသည် အခြားသူများ ပြောနေသည့်အကြောင်းအရာကို နားလည်စေဖို့ တကယ်ကို အထောက်အကူပြုနိုင်ပါသည်၊ ယခုအခါ Signal သည် ချက်(တ်)ထဲတွင် သင် မက်ဆေ့ချ်ပို့လိုက်တိုင်း သင် လတ်တလောပြောထားသည့် စာကြောင်းသို့ အလိုအလျောက်ရွှေ့သွားပေးပါမည်။"
   },
-  "icu:WhatsNew__v6.30--0": {
-    "messageformat": "ကောလ်တက်ဘ်အသစ်သည် ကောလ်အသစ်စခြင်း သို့မဟုတ် လွတ်သွားသောကောလ်ကို ပြန်ခေါ်ခြင်းအား လွယ်ကူစွာပြုလုပ်နိုင်ရန် သင့်ကို ကူညီပေးပါသည်။"
+  "icu:WhatsNew__v6.33--0": {
+    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
   }
 }

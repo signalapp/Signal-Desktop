@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "Pogreška baze podataka",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "Došlo je do pogreške u bazi podataka. Kopirajte pogrešku i kontaktirajte korisničku podršku Signala kako bi vam pomogli riješiti problem. Ako vam je odmah potreban pristup Signalu, možete izbrisati svoje podatke i ponovno ga pokrenuti.\n\nKontaktirajte korisničku podršku putem ove poveznice: https://support.signal.org/hc/requests/new?desktop",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "Izbriši sve podatke i ponovno pokreni",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "Izbriši podatke i ponovno pokreni",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "Želite li trajno izbrisati sve podatke?",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "Vaša čitava povijest poruka i svi medijski zapisi bit će trajno izbrisani s ovog uređaja. Moći ćete koristiti Signal na ovom uređaju nakon ponovnog povezivanja. Time se neće izbrisati podaci s vašeg mobilnog uređaja.",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "Verzija vaše baze podataka ne odgovara ovoj verziji Signala. Provjerite jeste li pokrenuli najnoviju verziju Signala na svom računalu.",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Datoteka",
@@ -611,6 +627,10 @@
   "icu:callAnyway": {
     "messageformat": "Svejedno nazovi",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
+  },
+  "icu:joinAnyway": {
+    "messageformat": "Svejedno se pridruži",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
   },
   "icu:continueCall": {
     "messageformat": "Nastavi poziv",
@@ -3165,11 +3185,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "Uredi poruku",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "Ako uredite poruku, izmjene će biti vidljive samo osobama koje koriste najnovije verzije Signala. Moći će vidjeti da ste uredili poruku.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -5744,6 +5764,10 @@
     "messageformat": "Došlo je do pogreške prilikom spremanja vaših postavki. Molimo pokušajte ponovo.",
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
+  "icu:MediaEditor__input-placeholder": {
+    "messageformat": "Message",
+    "description": "Placeholder for the input in the media editor"
+  },
   "icu:MediaEditor__clock-more-styles": {
     "messageformat": "Više stilova",
     "description": "Action button for switching up the clock styles"
@@ -6748,6 +6772,10 @@
     "messageformat": "{type, select, Audio {Odbijen glasovni poziv} Video {Odbijen videopoziv} Group {Odbijen grupni poziv} other {Odbijen poziv}}",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, one {{count,number} osoba tipka.} few {{count,number} osobe tipkaju.} many {{count,number} osoba tipka.} other {{count,number} osoba tipka.}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Novosti",
     "description": "Title for the whats new modal"
@@ -6780,13 +6808,13 @@
     "messageformat": "Manja podešavanja, ispravci grešaka i poboljšanje rada aplikacije. Hvala vam što koristite Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "Zaslon za prilagodbu boje razgovora sada se ispravno prikazuje na različitim jezicima i odabranim lokacijama."
+  "icu:WhatsNew__v6.32--0": {
+    "messageformat": "Ažurirali smo uređivač medija i učinili ga puno jednostavnijim za korištenje."
   },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Poboljšali smo podršku za obavijesti u sustavu Windows. Ako ne kliknete na obavijest kad prvi put stigne, zadnja propuštena obavijest pojavit će se u Windows centru za obavijesti. Sada će klik na tu obavijest izravno otvoriti taj razgovor. Željeli bismo se zahvaliti Julienu Richardu na povratnoj informaciji."
+  "icu:WhatsNew__v6.32--1": {
+    "messageformat": "Od sada će se Signal automatski pomaknuti na dno razgovora kada pošaljete novu poruku u razgovor."
   },
-  "icu:WhatsNew__v6.30--0": {
-    "messageformat": "Nova kartica poziva omogućuje vam da jednostavno započnete novi poziv ili uzvratite propušteni."
+  "icu:WhatsNew__v6.33--0": {
+    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
   }
 }

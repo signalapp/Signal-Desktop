@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "Andmebaasi tõrge",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "Tekkis andmebaasi viga. Saad vea kopeerida ja Signali kasutajatoega ühendust võtta, et probleem lahendada. Kui sul on vaja Signalit kohe kasutada, saad oma andmed kustutada ja taaskäivitada.\n\nKasutajatoega saad ühendust võtta aadressil https://support.signal.org/hc/requests/new?desktop",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "Kustuta kõik andmed ja taaskäivita",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "Kustuta andmed ja taaskäivita",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "Kas kustutada jäädavalt kõik andmed?",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "Kogu sinu sõnumiajalugu ja meedia kustutatakse sellest seadmest jäädavalt. Saad Signalit selles seadmes kasutada, kui selle taasühendad. Selle käigus ei kustutata andmeid sinu telefonist.",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "Sinu andmebaasi versioon ei klapi selle Signali versiooniga. Veendu, et avasid oma arvutis uusima Signali versiooni.",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Fail",
@@ -611,6 +627,10 @@
   "icu:callAnyway": {
     "messageformat": "Helista siiski",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
+  },
+  "icu:joinAnyway": {
+    "messageformat": "Liitu siiski",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
   },
   "icu:continueCall": {
     "messageformat": "Kõnega jätkamine",
@@ -3165,11 +3185,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "Muuda sõnumit",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "Kui sõnumit muudad, on see nähtav ainult inimestele, kellel on Signali uusimad versioonid. Nad näevad, et oled sõnumit muutnud.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -5744,6 +5764,10 @@
     "messageformat": "Sätete salvestamisel tekkis tõrge. Palun proovi uuesti.",
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
+  "icu:MediaEditor__input-placeholder": {
+    "messageformat": "Message",
+    "description": "Placeholder for the input in the media editor"
+  },
   "icu:MediaEditor__clock-more-styles": {
     "messageformat": "Rohkem stiile",
     "description": "Action button for switching up the clock styles"
@@ -6748,6 +6772,10 @@
     "messageformat": "{type, select, Audio {Sa keeldusid häälkõnest} Video {Sa keeldusid videokõnest} Group {Sa keeldusid grupikõnest} other {Sa keeldusid kõnest}}",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, one {{count,number} veel kirjutab.} other {{count,number} veel kirjutavad.}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Mis on uut",
     "description": "Title for the whats new modal"
@@ -6780,13 +6808,13 @@
     "messageformat": "Väikesed muudatused, vigade parandused ja jõudluse täiustused. Aitäh, et kasutad Signalit!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "Vestluse värvi kohandamise akent kuvatakse nüüd erinevates keeltes ja valitud asukohtades õigesti."
+  "icu:WhatsNew__v6.32--0": {
+    "messageformat": "Uuendasime meedia muutmise võimalusi, nii et seda on nüüd palju lihtsam teha."
   },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Muutsime Windowsi teavituste tuge paremaks. Kui sa ei klõpsa teavitusel selle esmakordsel saabumisel, kuvatakse viimane nägemata teavitus Windowsi teavituskeskuses. Kui sellel teavitusel klõpsad, suunatakse sind otse vastava vestluse juurde. Täname Julien Richardit antud tagasiside eest."
+  "icu:WhatsNew__v6.32--1": {
+    "messageformat": "Kui mingis vestluses uue sõnumi saadad, viib Signal su nüüd automaatselt vestluse lõppu."
   },
-  "icu:WhatsNew__v6.30--0": {
-    "messageformat": "Pea oma kõnede üle arvet uuel kõnede vahekaardil. Alusta uut kõnet või mine vastamata kõne juurde, ilma et peaksid otsima üles vastava vestluse. Nüüd saad teha häälkõnesid, ilma kaotamata sealjuures vastava vestluse lugemata sõnumite märgist."
+  "icu:WhatsNew__v6.33--0": {
+    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
   }
 }

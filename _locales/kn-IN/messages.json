@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "ಡೇಟಾಬೇಸಿನಲ್ಲಿ ದೋಷ",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "ಡೇಟಾಬೇಸ್ ದೋಷ ಸಂಭವಿಸಿದೆ. ನೀವು ದೋಷವನ್ನು ನಕಲಿಸಬಹುದು ಮತ್ತು ಈ ಸಮಸ್ಯೆಯನ್ನು ಸರಿಪಡಿಸಲು ನೆರವಾಗಲು Signal ಬೆಂಬಲವನ್ನು ಸಂಪರ್ಕಿಸಬಹುದು. ನೀವು Signal ಅನ್ನು ಈಗಲೇ ಬಳಸಬೇಕಿದ್ದಲ್ಲಿ, ನಿಮ್ಮ ಡೇಟಾವನ್ನು ಅಳಿಸಿ ಮರುಪ್ರಾರಂಭಿಸಬಹುದು.\n\nಇಲ್ಲಿಗೆ ಭೇಟಿ ನೀಡುವ ಮೂಲಕ ಬೆಂಬಲವನ್ನು ಸಂಪರ್ಕಿಸಿ: https://support.signal.org/hc/requests/new?desktop",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "ಎಲ್ಲಾ ಮಾಹಿತಿಯನ್ನು ಅಳಿಸಿ ಮರುಪ್ರಾರಂಭಿಸಿ",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "ಡೇಟಾವನ್ನು ಅಳಿಸಿ ಮತ್ತು ಮರುಪ್ರಾರಂಭಿಸಿ",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "ಎಲ್ಲಾ ಡೇಟಾವನ್ನು ಶಾಶ್ವತವಾಗಿ ಅಳಿಸಬೇಕೆ?",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "ನಿಮ್ಮ ಎಲ್ಲಾ ಮೆಸೇಜಿಂಗ್ ಇತಿಹಾಸ ಮತ್ತು ಮೀಡಿಯಾವನ್ನು ಶಾಶ್ವತವಾಗಿ ಈ ಸಾಧನದಿಂದ ಅಳಿಸಲಾಗುತ್ತದೆ. ಸಾಧನವನ್ನು ಮರುಲಿಂಕ್ ಮಾಡಿದ ನಂತರ ನಿಮಗೆ Signal ಅನ್ನು ಈ ಸಾಧನದಲ್ಲಿ ಬಳಸಲು ಸಾಧ್ಯವಾಗುತ್ತದೆ. ಇದು ನಿಮ್ಮ ಫೋನ್‌ನಿಂದ ಯಾವುದೇ ಡೇಟಾವನ್ನು ಅಳಿಸುವುದಿಲ್ಲ.",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "ನಿಮ್ಮ ಡೇಟಾಬೇಸ್‌ನ ಈ ಆವೃತ್ತಿಯು Signal ನ ಈ ಆವೃತ್ತಿಗೆ ಹೊಂದಿಕೆಯಾಗುವುದಿಲ್ಲ. ನಿಮ್ಮ ಕಂಪ್ಯೂಟರ್‌ನಲ್ಲಿ Signal ನ ಹೊಚ್ಚಹೊಸ ಆವೃತ್ತಿಯನ್ನು ತೆರೆಯುತ್ತಿರುವುದನ್ನು ಖಾತ್ರಿಗೊಳಿಸಿ.",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&ಫೈಲ್",
@@ -611,6 +627,10 @@
   "icu:callAnyway": {
     "messageformat": "ಹೇಗಾದರೂ ಕರೆ ಮಾಡಿ",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
+  },
+  "icu:joinAnyway": {
+    "messageformat": "ಹೇಗಾದರೂ ಸೇರಿ",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
   },
   "icu:continueCall": {
     "messageformat": "ಕರೆಯನ್ನು ಮುಂದುವರಿಸಿ",
@@ -3165,11 +3185,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "ಮೆಸೇಜ್ ಎಡಿಟ್ ಮಾಡಿ",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "ನೀವು ಮೆಸೇಜ್ ಅನ್ನು ಎಡಿಟ್ ಮಾಡಿದರೆ, ಅದು Signal ನ ಇತ್ತೀಚಿನ ಆವೃತ್ತಿಗಳಲ್ಲಿ ಇರುವವರಿಗೆ ಮಾತ್ರ ಕಾಣುತ್ತದೆ. ನೀವು ಮೆಸೇಜ್ ಅನ್ನು ಎಡಿಟ್ ಮಾಡಿದರೆ ಅವರಿಗೆ ನೋಡಲು ಸಾಧ್ಯವಾಗುತ್ತದೆ.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -5744,6 +5764,10 @@
     "messageformat": "ನಿಮ್ಮ ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ಉಳಿಸುವಾಗ ದೋಷ ಸಂಭವಿಸಿದೆ. ದಯವಿಟ್ಟು ಮತ್ತೊಮ್ಮೆ ಪ್ರಯತ್ನಿಸಿ.",
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
+  "icu:MediaEditor__input-placeholder": {
+    "messageformat": "Message",
+    "description": "Placeholder for the input in the media editor"
+  },
   "icu:MediaEditor__clock-more-styles": {
     "messageformat": "ಇನ್ನಷ್ಟು ಶೈಲಿಗಳು",
     "description": "Action button for switching up the clock styles"
@@ -6748,6 +6772,10 @@
     "messageformat": "{type, select, Audio {ನಿರಾಕರಿಸಿದ ಧ್ವನಿ ಕರೆ} Video {ನಿರಾಕರಿಸಿದ ವೀಡಿಯೊ ಕರೆ} Group {ನಿರಾಕರಿಸಿದ ಗ್ರೂಪ್ ಕರೆ} other {ನಿರಾಕರಿಸಿದ  ಕರೆ}}",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, one {{count,number} ಇತರೆ ವ್ಯಕ್ತಿ ಟೈಪ್ ಮಾಡುತ್ತಿದ್ದಾರೆ.} other {{count,number} ಇತರ ಮಂದಿ ಟೈಪ್ ಮಾಡುತ್ತಿದ್ದಾರೆ.}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "ಹೊಸತೇನಿದೆ",
     "description": "Title for the whats new modal"
@@ -6780,13 +6808,13 @@
     "messageformat": "ಸಣ್ಣ ಟ್ವೀಕ್‌ಗಳು, ಬಗ್ ಫಿಕ್ಸ್‌ಗಳು ಮತ್ತು ಕಾರ್ಯಕ್ಷಮತೆ ವರ್ಧನೆಗಳು. Signal ಬಳಸುತ್ತಿರುವುದಕ್ಕಾಗಿ ಧನ್ಯವಾದಗಳು!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "ಚಾಟ್ ಬಣ್ಣದ ಕಸ್ಟಮೈಸೇಶನ್ ಸ್ಕ್ರೀನ್ ಈಗ ವಿವಿಧ ಭಾಷೆಗಳು ಮತ್ತು ಆಯ್ದ ಸ್ಥಳಗಳಾದ್ಯಂತ ಸರಿಯಾಗಿ ಪ್ರದರ್ಶನಗೊಳ್ಳುತ್ತದೆ."
+  "icu:WhatsNew__v6.32--0": {
+    "messageformat": "\"ಮೀಡಿಯಾ ಎಡಿಟರ್\" ಅನ್ನು ಐದು ಪಟ್ಟು ವೇಗದಲ್ಲಿ ನೀವು ಹೇಳಿದರೆ, \"ಮೀಡಿಯೇಟರ್\" ಎಂದು ಕೇಳಲು ಶುರುವಾಗುತ್ತದೆ — ಆದರೆ ಹೊಸ ಮೀಡಿಯಾ ಎಡಿಟರ್ ಬಳಕೆಗೆ ಎಷ್ಟು ಸುಲಭವೆಂದರೆ ನಿಮ್ಮ ಹಾಗೂ ಕ್ರಾಪ್ ಟೂಲ್ ನಡುವಿನ ಘರ್ಷಣೆಯನ್ನು ಪರಿಹರಿಸಲು ಇನ್ನು ಮುಂದೆ ಮೀಡಿಯೇಟರ್ ಬೇಕಿಲ್ಲ ಎಂದು ನಿಮಗನ್ನಿಸುತ್ತದೆ."
   },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Windows ನಲ್ಲಿ ಅಧಿಸೂಚನೆ ಬೆಂಬಲವನ್ನು ನಾವು ಸುಧಾರಿಸಿದ್ದೇವೆ. ಅಧಿಸೂಚನೆ ಮೊದಲು ಬಂದಾಗ, ನೀವು ಅದನ್ನು ಕ್ಲಿಕ್ ಮಾಡದೇ ಇದ್ದಲ್ಲಿ, ಇತ್ತೀಚಿನ ತಪ್ಪಿಹೋದ ಅಧಿಸೂಚನೆಯು Windows ಅಧಿಸೂಚನೆ ಕೇಂದ್ರದಲ್ಲಿ ಕಾಣಿಸುತ್ತದೆ. ಈಗ ಅಧಿಸೂಚನೆಯ ಮೇಲೆ ಕ್ಲಿಕ್ ಮಾಡಿದಾಗ ಅದು ಆ ಚಾಟ್‌ಗೆ ನೇರವಾಗಿ ಜಿಗಿಯುತ್ತದೆ. ತಮ್ಮ ಪ್ರತಿಕ್ರಿಯೆ ನೀಡಿದ ಜ್ಯುಲಿಯನ್ ರಿಚರ್ಡ್ ಅವರಿಗೆ ನಾವು ಧನ್ಯವಾದ ಸಲ್ಲಿಸಲು ಬಯಸುತ್ತೇವೆ."
+  "icu:WhatsNew__v6.32--1": {
+    "messageformat": "ಕೆಲವೊಮ್ಮೆ ಸರಿಯಾದ ಪ್ರತಿಕ್ರಿಯೆಯು ಜನರು ಏನು ಹೇಳುತ್ತಿದ್ದಾರೆ ಎಂಬುದನ್ನು ಸರಿಯಾಗಿ ಅರ್ಥಮಾಡಿಕೊಳ್ಳಲು ನಿಮಗೆ ನೆರವಾಗುತ್ತದೆ ಮತ್ತು ಈಗ ನೀವು ಚಾಟ್‌ನಲ್ಲಿ ಮೆಸೇಜ್ ಕಳುಹಿಸಿದಾಗ Signal ನೀವು ಈಗಷ್ಟೇ ಹೇಳಿರುವುದನ್ನು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಸ್ಕ್ರಾಲ್ ಮಾಡುತ್ತದೆ."
   },
-  "icu:WhatsNew__v6.30--0": {
-    "messageformat": "ಹೊಸ ಕರೆಗಳ ಟ್ಯಾಬ್ ಬಳಸಿ ನಿಮ್ಮ ಕರೆಗಳ ಮೇಲೆ ಟ್ಯಾಬ್‌ಗಳನ್ನು ಇರಿಸಿ. ಸಂಬಂಧಿತ ಚಾಟ್ ಕಂಡುಕೊಳ್ಳುವ ಅಗತ್ಯವಿಲ್ಲದೆ ತಪ್ಪಿಹೋದ ಕರೆಗಳಿಗೆ ಮರಳಿ ಅಥವಾ ಹೊಸ ಕರೆಯನ್ನು ಪ್ರಾರಂಭಿಸಿ. ಈಗ ನೀವು ಆ ಥ್ರೆಡ್‌ನಲ್ಲಿನ ಓದದಿರುವ ಮೆಸೇಜ್‌ಗಳಿಗೆ ವಿದಾಯ ಹೇಳದೆಯೂ ನಿಮ್ಮ ಧ್ವನಿಯಲ್ಲಿ ಹಲೋ ಹೇಳಬಹುದು."
+  "icu:WhatsNew__v6.33--0": {
+    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
   }
 }

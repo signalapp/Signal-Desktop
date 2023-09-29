@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "Hitilafu ya hifadhidata",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "Hitilafu ya kanzidata imetokea. Unaweza kunakili tatizo na kuwasiliana na watoa huduma wa Signal ili kukusaidia kurekebisha tatizo. Ikiwa unahitaji kutumia Signal haraka sana, unaweza kufuta data yako na kuanza upya. \n\nWasiliana na wasaidizi kwa kutembelea https://support.signal.org/hc/requests/new?desktop",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "Futa data yote na washa upya",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "Futa data na anza upya",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "Je, unataka kufuta data yote daima?",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "Historia yote ya jumbe na media zako zitafutwa daima kwenye kifaa hiki. Utaweza kutumia Signal kwenye kifaa hiki baada ya kukiunganisha upya. Hii haitafuta data yoyote kwenye simu yako.",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "Toleo hili la kanzidata halilingani na toleo la Signal. Hakikisha unafungua toleo jipya zaidi la Signal kwenye kompyuta yako.",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Faili",
@@ -611,6 +627,10 @@
   "icu:callAnyway": {
     "messageformat": "Piga simu tu",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
+  },
+  "icu:joinAnyway": {
+    "messageformat": "Jiunge hata hivyo",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
   },
   "icu:continueCall": {
     "messageformat": "Endelea na Mazungumzo ya Simu",
@@ -3165,11 +3185,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "Hariri Ujumbe",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "Ukihariri ujumbe, utaonekana kwa watu walio kwenye toleo jipya la Signal pekee. Wataweza kuona kuwa umehariri ujumbe.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -5744,6 +5764,10 @@
     "messageformat": "Kulikuwa na hitilafu wakati wa kuhifadhi mipangilio yako. Tafadhali jaribu tena.",
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
+  "icu:MediaEditor__input-placeholder": {
+    "messageformat": "Message",
+    "description": "Placeholder for the input in the media editor"
+  },
   "icu:MediaEditor__clock-more-styles": {
     "messageformat": "Mitindo zaidi",
     "description": "Action button for switching up the clock styles"
@@ -6748,6 +6772,10 @@
     "messageformat": "{type, select, Audio {Simu ya kawaida iliyokataliwa} Video {Simu ya video iliyokataliwa} Group {Simu ya kikundi iliyokataliwa} other {Simu  iliyokataliwa}}",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, one {Mwingine {count,number} anaandika.} other {Wengine {count,number} wanaandika.}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Kuna Lipi Jipya?",
     "description": "Title for the whats new modal"
@@ -6780,13 +6808,13 @@
     "messageformat": "Mabadiliko madogo, marekebisho ya bugs na uboreshaji wa utendaji. Asante kwa kutumia Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "Skrini ya kuweka mapendeleo ya Rangi ya Gumzo sasa inaonyeshwa ipasavyo katika lugha mbalimbali na lahaja zilizochaguliwa."
+  "icu:WhatsNew__v6.32--0": {
+    "messageformat": "Ukisema \"mhariri wa video\" kwa haraka haraka mara tano, utaanza kusikia kitu kisicho — lakini kihariri video chetu kipya ni kirahisi sana kukitumia na hutahitaji tena mpatanishi kusuluhisha vita kati yako na kifaa cha kuhariri."
   },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Tumeboresha usaidizi wa arifa kwenye Windows. Ikiwa hutabofya arifa inapofika mara ya kwanza, arifa iliyokupita itaonekana kwenye Kituo cha Arifa cha Windows. Kubofya kwenye arifa hiyo itakupeleka moja kwa moja kwenye gumzo hiyo. Tungependa kumshukuru Julien Richard kwa mchango wake."
+  "icu:WhatsNew__v6.32--1": {
+    "messageformat": "Wakati mwingine jibu sahihi linaweza kukusaidia kuelewa nini hasa watu wanasema, na sasa Signal itakupeleka kiotomatiki katika kile ulichosema kila unapotuma ujumbe kwenye gumzo."
   },
-  "icu:WhatsNew__v6.30--0": {
-    "messageformat": "Fuatilia simu zako na kichupo kipya cha simu. Anzisha simu mpya au piga simu ambayo haukupokea bila kupata gumzo husika. Sasa unaweza kusalimia kwa sauti yako bila pia kukiaga kiweka alama ambacho hakijasomwa kwa ujumbe katika ujumbe huo."
+  "icu:WhatsNew__v6.33--0": {
+    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
   }
 }

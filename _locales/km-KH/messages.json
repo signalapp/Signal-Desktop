@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "បញ្ហាទិន្នន័យ",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "មានបញ្ហាមូលដ្ឋានទិន្នន័យបានកើតឡើង។ អ្នកអាចចម្លងបញ្ហានេះ ហើយទាក់ទងផ្នែកជំនួយរបស់ Signal ឲ្យជួយដោះស្រាយបញ្ហា។ ប្រសិនបើអ្នកត្រូវការប្រើ Signal ភ្លាមៗ អ្នកអាចលុបទិន្នន័យរបស់អ្នក ហើយចាប់ផ្តើមឡើងវិញ។\n\nទាក់ទងផ្នែកជំនួយដោយចូលទៅកាន់៖ https://support.signal.org/hc/requests/new?desktop",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "លុបទិន្នន័យទាំងអស់ និងចាប់ផ្តើមឡើងវិញ",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "លុបទិន្នន័យ និងចាប់ផ្តើមឡើងវិញ",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "លុបទិន្នន័យទាំងអស់ជារៀងរហូតឬ?",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "ប្រវត្តិសារ និងមេឌៀទាំងអស់របស់អ្នកនឹងត្រូវបានលុបជារៀងរហូតពីឧបករណ៍នេះ។ អ្នកនឹងអាចប្រើ Signal នៅលើឧបករណ៍នេះ បន្ទាប់ពីភ្ជាប់វាឡើងវិញ។ ការធ្វើបែបនេះនឹងមិនលុបទិន្នន័យណាមួយចេញពីទូរសព្ទរបស់អ្នកទេ។",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "កំណែនៃមូលដ្ឋានទិន្នន័យរបស់អ្នកមិនត្រូវគ្នានឹងកំណែរបស់ Signal នេះទេ។ ត្រូវប្រាកដថាអ្នកកំពុងបើកកំណែថ្មីបំផុតនៃ Signal នៅលើកុំព្យូទ័ររបស់អ្នក។",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&ឯកសារ",
@@ -611,6 +627,10 @@
   "icu:callAnyway": {
     "messageformat": "ហៅ យ៉ាងណាក៏ដោយ",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
+  },
+  "icu:joinAnyway": {
+    "messageformat": "ចូលរួមតែម្តង",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
   },
   "icu:continueCall": {
     "messageformat": "បន្តការហៅ",
@@ -3165,11 +3185,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "កែសារ",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "ប្រសិនបើអ្នកកែសារ មានតែអ្នកដែលមានកំណែចុងក្រោយបំផុតនៃ Signal ប៉ុណ្ណោះទើបអាចមើលវាឃើញ។ ពួកគេនឹងអាចមើលឃើញថាអ្នកបានកែសារ។",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -5744,6 +5764,10 @@
     "messageformat": "មានបញ្ហាមួយកើតឡើងនៅពេលរក្សាទុកការកំណត់របស់អ្នក។ សូមព្យាយាមម្តងទៀត។",
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
+  "icu:MediaEditor__input-placeholder": {
+    "messageformat": "Message",
+    "description": "Placeholder for the input in the media editor"
+  },
   "icu:MediaEditor__clock-more-styles": {
     "messageformat": "ស្តាយល៍ជាច្រើនទៀត",
     "description": "Action button for switching up the clock styles"
@@ -6748,6 +6772,10 @@
     "messageformat": "{type, select, Audio {ការហៅជាសំឡេងដែលបានបដិសេធ} Video {ការហៅជាវីដេអូដែលបានបដិសេធ} Group {ការហៅជាក្រុមដែលបានបដិសេធ} other {ការហៅដែលបានបដិសេធ}}",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, other {{count,number} នាក់ផ្សេងទៀតកំពុងវាយអក្សរ។}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "អ្វីដែលថ្មី",
     "description": "Title for the whats new modal"
@@ -6780,13 +6808,13 @@
     "messageformat": "ការកែប្រែបន្តិចបន្តួច ការដោះស្រាយបញ្ហា និងការបង្កើនប្រតិបត្តិការ។ សូមអរគុណចំពោះការប្រើប្រាស់ Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "ឥឡូវនេះ អេក្រង់ប្ដូរពណ៌ការជជែកបង្ហាញបានត្រឹមត្រូវហើយទៅតាមភាសាផ្សេងៗគ្នា និងមូលដ្ឋានដែលបានជ្រើសរើស។"
+  "icu:WhatsNew__v6.32--0": {
+    "messageformat": "យើងបានកែលម្អមុខងារ \"កែមេឌៀ\" ឲ្យកាន់តែមានភាពងាយស្រួល រលូន និងរហ័សជាងមុនក្នុងការប្រើ។"
   },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "យើងបានកែលម្អជំនួយលើការជូនដំណឹងនៅលើ Windows។ ប្រសិនបើអ្នកមិនចុចលើការជូនដំណឹងនៅពេលវាមកដល់ដំបូងទេ ការជូនដំណឹងដែលខកមិនបានចុចចុងក្រោយបង្អស់នឹងបង្ហាញនៅក្នុងមជ្ឈមណ្ឌលជូនដំណឹងរបស់ Windows។ ឥឡូវនេះ ពេលចុចលើការជូនដំណឹងនោះ វានឹងលោតទៅដល់ការជជែកនោះផ្ទាល់តែម្តង។ យើងសូមថ្លែងអំណរគុណដល់ Julien Richard ដែលបានផ្តល់មតិកែលម្អ។"
+  "icu:WhatsNew__v6.32--1": {
+    "messageformat": "ពេលខ្លះការឆ្លើយតបដ៏ត្រឹមត្រូវពិតជាអាចជួយអ្នកឲ្យយល់ដឹងពីប្រភពនៃរឿងរ៉ាវដែលមនុស្សទាំងឡាយកំពុងនិយាយ ហើយឥឡូវនេះ Signal នឹងអូសដោយស្វ័យប្រវត្តិទៅដល់ចំណុចដើមដំបូងនៃការជជែក នៅពេលដែលអ្នកផ្ញើសារថ្មីមួយនៅក្នុងការជជែកនោះ។"
   },
-  "icu:WhatsNew__v6.30--0": {
-    "messageformat": "រក្សាផ្ទាំងនៅលើការហៅទូរសព្ទរបស់អ្នកជាមួយនឹងផ្ទាំងហៅថ្មី។ ផ្ទាំងហៅថ្មីជួយឲ្យអ្នកងាយស្រួលចាប់ផ្តើមការហៅ ឬហៅត្រឡប់ទៅវិញទៅកាន់ការហៅណាមួយដែលអ្នកខកមិនបានទទួល ដោយមិនចាំបាច់ស្វែងរកការជជែកដែលត្រូវគ្នាទេ។ ឥឡូវនេះ អ្នកអាចហៅចេញបានដោយមិនចាំបាច់សម្គាល់ថាបានអានចំពោះសារនៅក្នុងប្រវត្តិសារសន្ទនានោះទេ។"
+  "icu:WhatsNew__v6.33--0": {
+    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
   }
 }

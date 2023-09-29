@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "Chyba databázy",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "Vyskytla sa chyba databázy. Môžete skopírovať chybu a kontaktovať podporu Signal, aby vám pomohla problém vyriešiť. Ak potrebujete Signal použiť hneď teraz, môžete vymazať svoje údaje a reštartovať aplikáciu.\n\nKontaktujte podporu na: https://support.signal.org/hc/requests/new?desktop",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "Vymazať všetky dáta a reštartovať",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "Vymazať údaje a reštartovať",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "Chcete natrvalo odstrániť všetky údaje?",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "Celá história správ a všetky médiá budú natrvalo odstránené z tohto zariadenia. Po opätovnom prepojení budete môcť Signal znovu používať na tomto zariadení. Týmto sa nevymažú žiadne údaje z vášho telefónu.",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "Verzia vašej databázy sa nezhoduje s touto verziou Signalu. Uistite sa, že na počítači otvárate najnovšiu verziu aplikácie Signal.",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Súbor",
@@ -611,6 +627,10 @@
   "icu:callAnyway": {
     "messageformat": "Aj tak zavolať",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
+  },
+  "icu:joinAnyway": {
+    "messageformat": "Aj tak sa pripojiť",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
   },
   "icu:continueCall": {
     "messageformat": "Pokračovať v hovore",
@@ -3165,11 +3185,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "Upraviť správu",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "Ak upravíte správu, zobrazí sa iba ľuďom, ktorí používajú najnovšie verzie Signalu. Uvidia, že ste upravili správu.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -5744,6 +5764,10 @@
     "messageformat": "Pri ukladaní vašich nastavení sa vyskytla chyba. Prosím skúste to znova.",
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
+  "icu:MediaEditor__input-placeholder": {
+    "messageformat": "Message",
+    "description": "Placeholder for the input in the media editor"
+  },
   "icu:MediaEditor__clock-more-styles": {
     "messageformat": "Viac štýlov",
     "description": "Action button for switching up the clock styles"
@@ -6748,6 +6772,10 @@
     "messageformat": "{type, select, Audio {Odmietnutý hlasový hovor} Video {Odmietnutý videohovor} Group {Odmietnutý skupinový hovor} other {Odmietnutý hovor}}",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, one {{count,number} ďalší píše.} few {{count,number} ďalší píšu.} many {{count,number} ďalšieho píše.} other {{count,number} ďalších píše.}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Čo je nové",
     "description": "Title for the whats new modal"
@@ -6780,13 +6808,13 @@
     "messageformat": "Malé úpravy, opravy chýb a vylepšenia výkonu. Ďakujeme, že používate Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "Obrazovka na prispôsobenie farby četu sa teraz zobrazuje správne v rôznych jazykoch a vybraných lokalitách."
+  "icu:WhatsNew__v6.32--0": {
+    "messageformat": "Aktualizovali sme editor médií a výrazne sme tak zjednodušili jeho používanie."
   },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Vylepšili sme podporu pre upozornenia v systéme Windows. Ak nekliknete na upozornenie pri jeho prvom doručení, najnovšie zmeškané upozornenie sa zobrazí v Centre upozornení systému Windows. Kliknutím na toto upozornenie teraz prejdete priamo na daný čet. Ďakujeme Julienovi Richardovi za spätnú väzbu."
+  "icu:WhatsNew__v6.32--1": {
+    "messageformat": "Signal sa teraz automaticky posunie naspodok četu, keď v príslušnom čete odošlete novú správu."
   },
-  "icu:WhatsNew__v6.30--0": {
-    "messageformat": "Nová karta hovorov vám pomôže jednoducho začať hovor alebo vrátiť hovor, ktorý ste zmeškali."
+  "icu:WhatsNew__v6.33--0": {
+    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
   }
 }

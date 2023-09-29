@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "ڈیٹا بیس ایرر",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "ڈیٹا بیس کا نقص پیش آیا ہے۔ آپ نقص کو کاپی کر سکتے اور مسئلے کو ٹھیک کرنے میں مدد کے لیے Signal سپورٹ سے رابطہ کر سکتے ہیں۔ اگر آپ کو فوری طور پر Signal استعمال کرنے کی ضرورت ہے، تو آپ اپنا ڈیٹا حذف کر سکتے ہیں اور ری اسٹارٹ کر سکتے ہیں۔\n\nسپورٹ سے رابطہ کرنے کے لیے اسے ملاحظہ کریں: https://support.signal.org/hc/requests/new?desktop",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "سارا ڈیٹا حذف کریں اور دوبارہ شروع کریں",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "ڈیٹا حذف کریں اور ری اسٹارٹ کریں",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "تمام ڈیٹا کو مستقل طور پر حذف کر دیں؟",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "اس ڈیوائس میں موجود آپ کی ساری میسج ہسٹری اور میڈیا ہمیشہ کے لیے حذف کر دیا جائے گا۔ آپ اس ڈیوائس پر Signal کو دوبارہ لنک کرنے کے بعد اسے استعمال کرنے کے قابل ہوں گے۔ اس طرح آپ کے فون میں موجود کوئی بھی ڈیٹا حذف نہیں ہو گا۔",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "آپ کے ڈیٹا بیس کا ورژن Signal کے اس ورژن سے ملتا نہیں ہے۔ اس بات کو یقینی بنائیں کہ آپ اپنے کمپیوٹر پر Signal کا تازہ ترین ورژن کھول رہے ہیں۔",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "اور فائل",
@@ -611,6 +627,10 @@
   "icu:callAnyway": {
     "messageformat": "ویسے بھی کال کریں",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
+  },
+  "icu:joinAnyway": {
+    "messageformat": "بہرصورت شامل ہوں",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
   },
   "icu:continueCall": {
     "messageformat": "کال جاری رکھیں",
@@ -3165,11 +3185,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "میسج میں ترمیم کریں",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "اگر آپ کسی میسج میں تدوین کرتے ہیں، تو یہ صرف ان لوگوں کو نظر آئے گی جو Signal کے تازہ ترین ورژنز پر ہیں۔ وہ یہ دیکھ سکیں گے کہ آپ نے کسی میسج میں ترمیم کی ہے۔",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -5744,6 +5764,10 @@
     "messageformat": "آپ کی ترتیبات محفوظ کرتے ہوئے ایک نقص واقع ہوا ہے۔ براہ کرم دوبارہ کوشش کریں۔",
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
+  "icu:MediaEditor__input-placeholder": {
+    "messageformat": "Message",
+    "description": "Placeholder for the input in the media editor"
+  },
   "icu:MediaEditor__clock-more-styles": {
     "messageformat": "مزید اسٹائلز",
     "description": "Action button for switching up the clock styles"
@@ -6748,6 +6772,10 @@
     "messageformat": "{type, select, Audio {مسترد کردہ وائس کال} Video {مسترد کردہ ویڈیو کال} Group {مسترد کردہ گروپ کال} other {مسترد کردہ  کال}}",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, one {{count,number} دوسرا ٹائپ کر رہا ہے۔} other {{count,number} دوسرے ٹائپ کر رہے ہیں۔}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "نیا کیا ہے",
     "description": "Title for the whats new modal"
@@ -6780,13 +6808,13 @@
     "messageformat": "معمولی تبدیلیاں کی گئیں، بگ ٹھیک کیے گئے، اور کارکردگی اور بھی بہتر بنائی گئی ہے۔ Signal استعمال کرنے کے لیے شکریہ!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "چیٹ کے رنگ کو حسبِ ضرورت بنانے کے لیے اسکرین اب مختلف زبانوں اور منتخب کردہ لوکلز میں درست طریقے سے ڈسپلے کی جاتی ہے۔"
+  "icu:WhatsNew__v6.32--0": {
+    "messageformat": "ہم نے میڈیا ایڈیٹر کو اپ ڈیٹ کر دیا ہے اور اس کو استعمال کے لیے بہت زیادہ آسان بنا دیا ہے۔"
   },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "ہم نے ونڈوز پر اطلاعاتی سپورٹ کو بہتر کیا ہے۔ اگر آپ کسی اطلاع کے پہلی بار ظاہر ہونے پر اس پر کلک نہیں کرتے، تو وہ تازہ ترین اطلاع جو آپ سے مس ہو گئی ہے وہ ونڈوز اطلاعات کے سینٹر میں ظاہر ہو گی۔ اس اطلاع پر کلک کرنے سے اب آپ براہ راست اس چیٹ تک پہنچ جائیں گے۔ ہم فیڈ بیک دینے کے لیے جولین رچرڈ کا شکریہ ادا کرنا چاہیں گے۔"
+  "icu:WhatsNew__v6.32--1": {
+    "messageformat": "آپ کے کسی چیٹ میں نیا میسج بھیجنے پر اب Signal خود کار طور پر اس چیٹ کے آخر تک اسکرول کرے گا۔"
   },
-  "icu:WhatsNew__v6.30--0": {
-    "messageformat": "نئی کالز ٹیب کے ساتھ اپنی کالز پر نظر رکھیں۔ متعلقہ چیٹ تلاش کیے بغیر ایک نئی کال شروع کریں یا کال جو آپ سے مِس ہو گئی ہے کو واپس کال کریں۔ اب آپ اس تھریڈ میں موجود میسجز کے لیے بغیر پڑھے ہوئے مارکر کو ہٹائے بغیر آپ اپنی آواز کے ساتھ بھی ہیلو کہہ سکتے ہیں۔"
+  "icu:WhatsNew__v6.33--0": {
+    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
   }
 }

@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "Databankfout",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "Er is een databasefout opgetreden. Je kan de foutmelding kopiëren en contact opnemen met Signal-support om het probleem op te lossen. Als je Signal meteen wilt gebruiken, kan je je gegevens wissen en opnieuw opstarten .\n\nVoor contact met support ga naar: https://support.signal.org/hc/requests/new?desktop",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "Alle gegevens wissen en herstarten",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "Gegevens wissen en opnieuw opstarten",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "Alle gegevens definitief verwijderen?",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "Je gespreksgeschiedenis en media worden permanent van dit apparaat verwijderd. Je kunt Signal op dit apparaat gebruiken nadat je het opnieuw hebt gekoppeld. Er worden geen gegevens van je telefoon verwijderd.",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "De versie van je database komt niet overeen met deze versie van Signal. Zorg ervoor dat je de nieuwste versie van Signal op je computer opent.",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Bestand",
@@ -612,6 +628,10 @@
     "messageformat": "Toch bellen",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
   },
+  "icu:joinAnyway": {
+    "messageformat": "Toch deelnemen",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
+  },
   "icu:continueCall": {
     "messageformat": "Oproep voortzetten",
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
@@ -813,7 +833,7 @@
     "description": "Shown in toast when user attempts to send .exe file, for example"
   },
   "icu:loadingPreview": {
-    "messageformat": "Voorbeeldafbeelding aan het laden …",
+    "messageformat": "Linkvoorbeeld aan het laden …",
     "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
   },
   "icu:stagedPreviewThumbnail": {
@@ -2092,19 +2112,19 @@
     "description": "Brief message shown when trying to message a blocked group"
   },
   "icu:youChangedTheTimer": {
-    "messageformat": "Je hebt de tijdsspanne voor verlopende berichten op {time} ingesteld.",
+    "messageformat": "Je hebt de timer voor verdwijnende berichten op {time} ingesteld.",
     "description": "Message displayed when you change the message expiration timer in a conversation."
   },
   "icu:timerSetOnSync": {
-    "messageformat": "De tijdsspanne voor verlopende berichten is bijgewerkt naar {time}.",
+    "messageformat": "De timer voor verdwijnende berichten is bijgewerkt naar {time}.",
     "description": "Message displayed when timer is set on initial link of desktop device."
   },
   "icu:timerSetByMember": {
-    "messageformat": "Een groepslid heeft de tijdsspanne voor verlopende berichten op {time} ingesteld.",
+    "messageformat": "Een groepslid heeft de timer voor verdwijnende berichten op {time} ingesteld.",
     "description": "Message displayed when timer is by an unknown group member."
   },
   "icu:theyChangedTheTimer": {
-    "messageformat": "{name} heeft de tijdsspanne voor verlopende berichten op {time} ingesteld.",
+    "messageformat": "{name} heeft de timer voor verdwijnende berichten op {time} ingesteld.",
     "description": "Message displayed when someone else changes the message expiration timer in a conversation."
   },
   "icu:disappearingMessages__off": {
@@ -2112,27 +2132,27 @@
     "description": "Label for option to turn off message expiration in the timer menu"
   },
   "icu:disappearingMessages": {
-    "messageformat": "Verlopende berichten",
+    "messageformat": "Verdwijnende berichten",
     "description": "Conversation menu option to enable disappearing messages. Title of the settings section for Disappearing Messages. Label of the disappearing timer select in group creation flow"
   },
   "icu:disappearingMessagesDisabled": {
-    "messageformat": "Verlopende berichten zijn uitgeschakeld",
+    "messageformat": "Verdwijnende berichten zijn uitgeschakeld",
     "description": "Displayed in the left pane when the timer is turned off"
   },
   "icu:disappearingMessagesDisabledByMember": {
-    "messageformat": "Een groepslid heeft verlopende berichten uitgeschakeld.",
+    "messageformat": "Een groepslid heeft verdwijnende berichten uitgeschakeld.",
     "description": "Displayed in the left pane when the timer is turned off"
   },
   "icu:disabledDisappearingMessages": {
-    "messageformat": "{name} heeft verlopende berichten uitgeschakeld.",
+    "messageformat": "{name} heeft verdwijnende berichten uitgeschakeld.",
     "description": "Displayed in the conversation list when the timer is turned off"
   },
   "icu:youDisabledDisappearingMessages": {
-    "messageformat": "Je hebt verlopende berichten uitgeschakeld.",
+    "messageformat": "Je hebt verdwijnende berichten uitgeschakeld.",
     "description": "Displayed in the conversation list when the timer is turned off"
   },
   "icu:timerSetTo": {
-    "messageformat": "Tijdsspanne ingesteld op {time}",
+    "messageformat": "De timer voor verdwijnende berichten is op {time} ingesteld",
     "description": "Displayed in the conversation list when the timer is updated by some automatic action, or in the left pane"
   },
   "icu:audioNotificationDescription": {
@@ -2973,7 +2993,7 @@
     "description": "Shown in the shortcuts guide"
   },
   "icu:Keyboard--remove-draft-link-preview": {
-    "messageformat": "Concept-voorbeeldafbeelding verwijderen",
+    "messageformat": "Concept-linkvoorbeeld verwijderen",
     "description": "Shown in the shortcuts guide"
   },
   "icu:Keyboard--remove-draft-attachments": {
@@ -3165,11 +3185,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "Bericht bewerken",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "Als je een bericht bewerkt, is dat alleen zichtbaar voor mensen met de laatste versie van Signal. Ze kunnen zien dat je een bericht hebt bewerkt.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -4497,15 +4517,15 @@
     "description": "This is the label for the group link management panel"
   },
   "icu:ConversationDetails--disappearing-messages-label": {
-    "messageformat": "Verlopende berichten",
+    "messageformat": "Verdwijnende berichten",
     "description": "This is the label for the disappearing messages setting panel"
   },
   "icu:ConversationDetails--disappearing-messages-info--group": {
-    "messageformat": "Nieuwe berichten in dit gesprek zullen voor iedereen worden gewist nadat de ingestelde tijdspanne is verlopen. De tijdspanne begint voor iedere persoon individueel pas te lopen vanaf het moment dat hij of zij het bericht heeft gezien. — Gebruik verlopende berichten niet ter beveiliging, want Signal kan niet garanderen dat berichten op het apparaat van een ander ook daadwerkelijk worden gewist.",
+    "messageformat": "Indien ingeschakeld, worden nieuwe berichten die in deze groep zijn verstuurd en ontvangen gewist nadat ze zijn gezien en de timer is afgelopen.",
     "description": "This is the info about the disappearing messages setting, in groups"
   },
   "icu:ConversationDetails--disappearing-messages-info--direct": {
-    "messageformat": "Als dit aanstaat, verdwijnen berichten die in deze individuele chat zijn verstuurd en ontvangen nadat ze zijn gezien.",
+    "messageformat": "Indien ingeschakeld, worden nieuwe berichten die in deze chat zijn verstuurd en ontvangen gewist nadat ze zijn gezien en de timer is afgelopen.",
     "description": "This is the info about the disappearing messages setting, for direct conversations"
   },
   "icu:ConversationDetails--notifications": {
@@ -4517,7 +4537,7 @@
     "description": "This is the label for the 'who can edit the group' panel"
   },
   "icu:ConversationDetails--group-info-info": {
-    "messageformat": "Kies wie de groepsnaam, -afbeelding, -omschrijving en de tijdspanne voor verlopende berichten kan bewerken.",
+    "messageformat": "Kies wie de groepsnaam, -afbeelding, -omschrijving en de timer voor verdwijnende berichten kan bewerken.",
     "description": "This is the additional info for the 'who can edit the group' panel"
   },
   "icu:ConversationDetails--add-members-label": {
@@ -5161,11 +5181,11 @@
     "description": "aria-label for the custom color gradient creator knob"
   },
   "icu:customDisappearingTimeOption": {
-    "messageformat": "Zelfgekozen tijdspanne",
+    "messageformat": "Zelfgekozen tijd",
     "description": "Text for an option in Disappearing Messages menu and Conversation Details Disappearing Messages setting when no user value is available"
   },
   "icu:selectedCustomDisappearingTimeOption": {
-    "messageformat": "Zelfgekozen tijdspanne",
+    "messageformat": "Zelfgekozen tijd",
     "description": "Text for an option in Conversation Details Disappearing Messages setting when user previously selected custom time"
   },
   "icu:DisappearingTimeDialog__label--value": {
@@ -5177,11 +5197,11 @@
     "description": "aria-label for the units of time select box"
   },
   "icu:DisappearingTimeDialog__title": {
-    "messageformat": "Zelfgekozen tijdspanne",
+    "messageformat": "Zelfgekozen tijd",
     "description": "Title for the custom disappearing message timeout dialog"
   },
   "icu:DisappearingTimeDialog__body": {
-    "messageformat": "Kies zelf een tijdspanne voor verlopende berichten.",
+    "messageformat": "Kies zelf een timer voor verdwijnende berichten.",
     "description": "Body for the custom disappearing message timeout dialog"
   },
   "icu:DisappearingTimeDialog__set": {
@@ -5209,7 +5229,7 @@
     "description": "Name of the 'weeks' unit select for the custom disappearing message timeout dialog"
   },
   "icu:settings__DisappearingMessages__footer": {
-    "messageformat": "Stel een standaardtimer voor verlopende berichten in voor alle nieuwe chats die door jou zijn gestart.",
+    "messageformat": "Stel een standaardtimer voor verdwijnende berichten in voor alle nieuwe chats die jij zelf begint.",
     "description": "Footer for the Disappearing Messages settings section"
   },
   "icu:settings__DisappearingMessages__timer__label": {
@@ -5217,7 +5237,7 @@
     "description": "Label for the Disappearing Messages default timer setting"
   },
   "icu:UniversalTimerNotification__text": {
-    "messageformat": "Zodra je een bericht verzend zal de tijdspanne voor verlopende berichten op {timeValue} worden ingesteld.",
+    "messageformat": "Zodra je een bericht verzendt zal de timer voor verdwijnende berichten op {timeValue} worden ingesteld.",
     "description": "A message displayed when default disappearing message timeout is about to be applied"
   },
   "icu:ContactRemovedNotification__text": {
@@ -5253,7 +5273,7 @@
     "description": "Title for option for standard quality"
   },
   "icu:MediaQualitySelector--standard-quality-description": {
-    "messageformat": "Sneller, minder gegevensoverdracht",
+    "messageformat": "Sneller, minder dataverbruik",
     "description": "Description of standard quality selector"
   },
   "icu:MediaQualitySelector--high-quality-title": {
@@ -5261,7 +5281,7 @@
     "description": "Title for option for high quality"
   },
   "icu:MediaQualitySelector--high-quality-description": {
-    "messageformat": "Langzamer, meer gegevensoverdracht",
+    "messageformat": "Langzamer, meer dataverbruik",
     "description": "Description of high quality selector"
   },
   "icu:MessageDetailsHeader--Failed": {
@@ -5529,11 +5549,11 @@
     "description": "Label for changing the zoom level"
   },
   "icu:Preferences__link-previews--title": {
-    "messageformat": "Voorbeeld van website meesturen",
+    "messageformat": "Linkvoorbeelden meesturen",
     "description": "Title for the generate link previews setting"
   },
   "icu:Preferences__link-previews--description": {
-    "messageformat": "Open de Signal-app op je mobiele telefoon en ga naar Instellingen > Chats om deze instellingen te veranderen",
+    "messageformat": "Open de Signal-app op je mobiele telefoon en ga naar Instellingen > Chats om deze instelling te veranderen",
     "description": "Description for the generate link previews setting"
   },
   "icu:Preferences--advanced": {
@@ -5743,6 +5763,10 @@
   "icu:CustomizingPreferredReactions__had-save-error": {
     "messageformat": "Er is een fout opgetreden bij het opslaan van je instellingen. Probeer het opnieuw.",
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
+  },
+  "icu:MediaEditor__input-placeholder": {
+    "messageformat": "Message",
+    "description": "Placeholder for the input in the media editor"
   },
   "icu:MediaEditor__clock-more-styles": {
     "messageformat": "Meer stijlen",
@@ -6037,7 +6061,7 @@
     "description": "Story settings modal group story selection subtitle"
   },
   "icu:StoriesSettings__viewers": {
-    "messageformat": "{count, plural, one {Door {count,number} persoon gezien} other {Door {count,number} personen gezien}}",
+    "messageformat": "{count, plural, one {{count,number} kijker} other {{count,number} kijkers}}",
     "description": "The number of viewers for a story distribution list"
   },
   "icu:StoriesSettings__who-can-see": {
@@ -6137,7 +6161,7 @@
     "description": "Label of view receipts checkbox in story settings"
   },
   "icu:StoriesSettings__view-receipts--description": {
-    "messageformat": "Open de Signal-app op je mobiele telefoon en navigeer naar Instellingen > Verhalen om deze instellingen te veranderen",
+    "messageformat": "Open de Signal-app op je mobiele telefoon en navigeer naar Instellingen > Verhalen om deze instelling te veranderen",
     "description": "Description of how view receipts can be changed in story settings"
   },
   "icu:GroupStorySettingsModal__members_title": {
@@ -6748,6 +6772,10 @@
     "messageformat": "{type, select, Audio {Spraakoproep geweigerd} Video {Video-oproep geweigerd} Group {Groepsoproep geweigerd} other {Oproep geweigerd}}",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, one {{count,number} ander is aan het typen.} other {{count,number} anderen zijn aan het typen.}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "wat er nieuw is",
     "description": "Title for the whats new modal"
@@ -6780,13 +6808,13 @@
     "messageformat": "Kleine aanpassingen, bugfixes en prestatieverbeteringen. Bedankt dat je Signal gebruikt!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "Het aanpassingsscherm voor de chatkleur wordt nu correct getoond in verschillende talen en geselecteerde landinstellingen."
+  "icu:WhatsNew__v6.32--0": {
+    "messageformat": "Als je media-editor heel snel achter elkaar zegt, klinkt het een beetje als 'mediator'. Maar onze nieuwe media-editor is zo simpel in gebruik, dat je geen mediator meer nodig hebt als je weer eens ruzie hebt met de tool voor bijsnijden."
   },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "We hebben de ondersteuning voor meldingen in Windows verbeterd. Als je niet direct op een melding klikt als hij binnenkomt, vind je de laatst gemiste melding in het Windows Notification Center. Als je op die melding klinkt, ga je direct naar de chat. We willen Julien Richard bedanken voor de feedback."
+  "icu:WhatsNew__v6.32--1": {
+    "messageformat": "Soms helpt het juiste antwoord je iets tot op de bodem uit te zoeken. Signal scrolt nu automatisch naar beneden in een chat, zodat je direct het nieuwste bericht kunt lezen."
   },
-  "icu:WhatsNew__v6.30--0": {
-    "messageformat": "Het nieuwe oproepentabblad maakt het gemakkelijk een oproep te beginnen of iemand na een gemiste oproep terug te bellen. Start een nieuwe oproep of bel iemand na een gemiste oproep terug zonder de bijbehorende chat te hoeven zoeken. Nu kun je bellen zonder berichten als gelezen te markeren voor een bepaald contact."
+  "icu:WhatsNew__v6.33--0": {
+    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
   }
 }

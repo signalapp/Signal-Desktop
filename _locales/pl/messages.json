@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "Błąd bazy danych",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "Wystąpił błąd bazy danych. Możesz skopiować błąd i skontaktować się z działem wsparcia Signal, by uzyskać pomoc w jego naprawieniu. Jeśli musisz skorzystać z aplikacji Signal już teraz, możesz usunąć swoje dane i uruchomić ponownie.\n\nSkontaktuj się z działem wsparcia pod adresem https://support.signal.org/hc/requests/new?desktop",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "Usuń wszystkie dane i uruchom ponownie",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "Usuń dane i zrestartuj",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "Trwale usunąć wszystkie dane?",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "Twoja cała historia wiadomości i media zostaną trwale usunięte z tego urządzenia. Będziesz mógł/mogła używać aplikacji Signal na tym urządzeniu po jej ponownym połączeniu. Operacja ta nie spowoduje usunięcia żadnych danych na Twoim telefonie.",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "Wersja Twojej bazy danych jest niezgodna z tą wersją aplikacji Signal. Upewnij się, że otwierasz najnowszą wersję Signal na swoim komputerze.",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Plik",
@@ -549,7 +565,7 @@
     "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change"
   },
   "icu:safetyNumberChangeDialog__message": {
-    "messageformat": "Następujące osoby mogły ponownie zainstalować aplikację Signal albo zmienić urządzenie. Kliknij odbiorcę, aby potwierdzić nowy number bezpieczeństwa. Ta czynność jest opcjonalna.",
+    "messageformat": "Następujące osoby mogły ponownie zainstalować aplikację Signal albo zmienić urządzenie. Kliknij odbiorcę, aby potwierdzić nowy numer bezpieczeństwa. Ta czynność jest opcjonalna.",
     "description": "Shown on confirmation dialog when user attempts to send a message"
   },
   "icu:safetyNumberChangeDialog__pending-messages": {
@@ -611,6 +627,10 @@
   "icu:callAnyway": {
     "messageformat": "Zadzwoń mimo to",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
+  },
+  "icu:joinAnyway": {
+    "messageformat": "Dołącz mimo to",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
   },
   "icu:continueCall": {
     "messageformat": "Kontynuuj rozmowę",
@@ -2176,7 +2196,7 @@
     "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name"
   },
   "icu:ConversationDetails__viewSafetyNumber": {
-    "messageformat": "Zobacz number bezpieczeństwa",
+    "messageformat": "Zobacz numer bezpieczeństwa",
     "description": "In conversation details, label for button to view safety number, opens safety number modal"
   },
   "icu:ConversationDetails__HeaderButton--Message": {
@@ -2184,7 +2204,7 @@
     "description": "In conversation details, label for button to switch to the conversation view in order to draft a message in that converation"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
-    "messageformat": "Zobacz number bezpieczeństwa",
+    "messageformat": "Zobacz numer bezpieczeństwa",
     "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
   },
   "icu:cannotGenerateSafetyNumber": {
@@ -3165,11 +3185,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "Edytuj wiadomość",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "Twoje zmiany w wiadomości będą widoczne wyłącznie u osób, które używają najnowszej wersji Signal. Osoby te będą mogły zobaczyć Twoją edycję wiadomości.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -5744,6 +5764,10 @@
     "messageformat": "Podczas zapisywania Twoich ustawień wystąpił błąd. Spróbuj ponownie.",
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
+  "icu:MediaEditor__input-placeholder": {
+    "messageformat": "Message",
+    "description": "Placeholder for the input in the media editor"
+  },
   "icu:MediaEditor__clock-more-styles": {
     "messageformat": "Więcej stylów",
     "description": "Action button for switching up the clock styles"
@@ -6748,6 +6772,10 @@
     "messageformat": "{type, select, Audio {Odrzucone połączenie głosowe} Video {Odrzucone połączenie wideo} Group {Odrzucone połączenie grupowe} other {Odrzucone połączenie}}",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, one {{count,number} inna osoba pisze.} few {{count,number} inne osoby piszą.} many {{count,number} innych osób pisze.} other {{count,number} innej osoby pisze.}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Co nowego",
     "description": "Title for the whats new modal"
@@ -6780,13 +6808,13 @@
     "messageformat": "Małe ulepszenia, poprawki błędów i zwiększona funkcjonalność. Dzięki za korzystanie z Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "Ekran dopasowywania własnego koloru czatu jest teraz wyświetlany prawidłowo we wszystkich wersjach językowych i wybranych regionach."
+  "icu:WhatsNew__v6.32--0": {
+    "messageformat": "Edytor multimediów to dość długa i skomplikowana nazwa, ale nowa wersja tego narzędzia jest tak prosta w obsłudze, że nazwa ta już nigdy nie skojarzy Ci się z niczym skomplikowanym. Serio – przycinanie jeszcze nigdy nie było tak proste."
   },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Poprawiliśmy wsparcie dla powiadomień na systemie Windows. Jeśli nie klikniesz na powiadomienie, gdy pojawi się po raz pierwszy, ostatnie przegapione powiadomienie pojawi się w Centrum powiadomień systemu Windows. Kliknięcie na to powiadomienie spowoduje bezpośrednie przejście do tego czatu. Julien Richard, dziękujemy za Twoją opinię."
+  "icu:WhatsNew__v6.32--1": {
+    "messageformat": "Czasami trudno dogrzebać się do sedna sprawy, bo tkwi gdzieś na samym dnie, dlatego teraz Signal automatycznie przewinie czat do Twojej ostatniej wiadomości tuż po jej wysłaniu."
   },
-  "icu:WhatsNew__v6.30--0": {
-    "messageformat": "Trzymaj rękę na pulsie dzięki nowej karcie połączeń. Rozpocznij nowe połączenie lub oddzwoń po nieodebraniu rozmowy bez konieczności szukania odpowiedniego czatu. Teraz możesz dzwonić bez oznaczania wiadomości jako przeczytanych w danym wątku."
+  "icu:WhatsNew__v6.33--0": {
+    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
   }
 }

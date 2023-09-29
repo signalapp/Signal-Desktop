@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "Earráid leis an mBunachar Sonraí",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "Tharla earráid leis an mbunachar sonraí. Is féidir leat an earráid a chóipeáil agus teagmháil a dhéanamh le foireann tacaíochta Signal leis an bhfadhb a réiteach. Más gá duit Signal a úsáid díreach anois, is féidir leat do shonraí a scriosadh agus atosú air.\n\nDéan teagmháil leis an bhfoireann tacaíochta: https://support.signal.org/hc/requests/new?desktop",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
-    "messageformat": "Scrios na sonraí go léir agus atosaigh",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "messageformat": "Scrios sonraí agus atosaigh",
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "Scrios na sonraí ar fad go buan?",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "Scriosfar stair do theachtaireachtaí agus do mheán uile go buan ón ngléas seo. Beidh tú in ann Signal a úsáid ar an ngléas seo tar éis é a athnascadh. Ní scriosfar aon sonraí ó do ghuthán leis sin.",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "Ní hionann an leagan bunachair shonraí atá agat agus an leagan seo de Signal. Cinntigh go bhfuil an leagan is nuaí de Signal á oscailt agat ar do ríomhaire.",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Comhad",
@@ -611,6 +627,10 @@
   "icu:callAnyway": {
     "messageformat": "Cuir glao air/uirthi mar sin féin",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
+  },
+  "icu:joinAnyway": {
+    "messageformat": "Téigh isteach ar aon nós",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
   },
   "icu:continueCall": {
     "messageformat": "Continue Call",
@@ -3165,11 +3185,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "Cuir Teachtaireacht in Eagar",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "Má chuirfidh tú teachtaireacht in eagar, ní fheicfidh ach na daoine a bhfuil na leaganacha is déanaí de Signal acu í. Feicfidh siad gur chuir tú teachtaireacht in eagar.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -5744,6 +5764,10 @@
     "messageformat": "Tharla earráid agus do shocruithe á sábháil. Triail arís.",
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
+  "icu:MediaEditor__input-placeholder": {
+    "messageformat": "Message",
+    "description": "Placeholder for the input in the media editor"
+  },
   "icu:MediaEditor__clock-more-styles": {
     "messageformat": "Tuilleadh stíleanna",
     "description": "Action button for switching up the clock styles"
@@ -6748,6 +6772,10 @@
     "messageformat": "{type, select, Audio {Guthghlao a diúltaíodh dó} Video {Físghlao a diúltaíodh dó} Group {Grúpghlao a diúltaíodh dó} other {Glao a diúltaíodh dó}}",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, one {Tá {count,number} duine eile ag clóscríobh.} two {Tá {count,number} dhuine eile ag clóscríobh.} few {Tá {count,number} dhuine eile ag clóscríobh.} many {Tá {count,number} nduine eile ag clóscríobh.} other {Tá {count,number} duine eile ag clóscríobh.}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Cad Atá Nua",
     "description": "Title for the whats new modal"
@@ -6780,13 +6808,13 @@
     "messageformat": "Mionathruithe, paistí fabhtanna agus feabhsuithe ar fheidhmíocht. Go raibh maith agat as Signal a úsáid!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "Tá an scáileán saincheaptha do Dhath an Chomhrá ar taispeáint i gceart thar theangacha éagsúla agus logchaighdeáin roghnaithe."
+  "icu:WhatsNew__v6.32--0": {
+    "messageformat": "Rinneamar an t-eagarthóir meán a nuashonrú go mbeidh sé i bhfad níos éasca le húsáid."
   },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "D'fheabhsaíomar tacaíocht do fhógraí ar Windows. Mura gcliceálann tú ar fhógra ar a theacht isteach ar dtús, taispeánfar an fógra is déanaí a cailleadh in Ionad Fógraí Windows. Léimfear díreach chuig an gcomhrá sin ar chliceáil ar an bhfógra sin. Ba mhaith linn buíochas a ghabháil le Julien Richard as an aiseolas."
+  "icu:WhatsNew__v6.32--1": {
+    "messageformat": "Anois scrollóidh Signal go bun an chomhrá go huathoibríoch nuair a sheolfaidh tú teachtaireacht nua i gcomhrá."
   },
-  "icu:WhatsNew__v6.30--0": {
-    "messageformat": "Cabhraíonn an táb glaonna nua leat tosú ar ghlao nó glao caillte a fhreagairt go héasca."
+  "icu:WhatsNew__v6.33--0": {
+    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
   }
 }

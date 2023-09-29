@@ -110,11 +110,27 @@
   },
   "icu:databaseError": {
     "messageformat": "Databasefeil",
-    "description": "Shown in a popup if the database cannot start up properly"
+    "description": "Title of a popup if the database cannot start up properly"
+  },
+  "icu:databaseError__detail": {
+    "messageformat": "Det oppsto en feil med databasen. Du kan kopiere feilen og ta kontakt med Signals brukerstøtte for å få hjelp. Hvis du trenger tilgang til Signal umiddelbart, kan du slette alle dataene og starte på nytt.\n\nTa kontakt med brukerstøtten ved å gå til https://support.signal.org/hc/requests/new?desktop",
+    "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
     "messageformat": "Slett alle data og start på nytt",
-    "description": "Shown in a popup if the database cannot start up properly; allows user to delete database and restart"
+    "description": "Text of a button shown in a popup if the database cannot start up properly; allows user to delete all data in their database and restart"
+  },
+  "icu:databaseError__deleteDataConfirmation": {
+    "messageformat": "Vil du slette alle dataene permanent?",
+    "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__deleteDataConfirmation__detail": {
+    "messageformat": "Alle meldingene og mediefilene dine slettes fra denne enheten for godt. Du kan bruke Signal på denne enheten hvis du kobler den til brukeren din på nytt. Ingen data fra mobilen din slettes.",
+    "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
+  },
+  "icu:databaseError__startOldVersion": {
+    "messageformat": "Versjonen av databasen passer ikke sammen med denne versjonen av Signal. Sørg for at du bruker den nyeste versjonen av Signal på datamaskinen din.",
+    "description": "Text in a popup shown if the app cannot start because the user started an older version of Signal"
   },
   "icu:mainMenuFile": {
     "messageformat": "&Fil",
@@ -611,6 +627,10 @@
   "icu:callAnyway": {
     "messageformat": "Ring allikevel",
     "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
+  },
+  "icu:joinAnyway": {
+    "messageformat": "Bli med likevel",
+    "description": "Used on a warning dialog to make it clear that it might be risky to join the call."
   },
   "icu:continueCall": {
     "messageformat": "Fortsett samtale",
@@ -3165,11 +3185,11 @@
     "description": "(deleted 8/30) Body text of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--title2": {
-    "messageformat": "Edit Message",
+    "messageformat": "Rediger melding",
     "description": "Title of the modal shown before sending your first edit message"
   },
   "icu:SendEdit--dialog--body2": {
-    "messageformat": "If you edit a message, it will only be visible to people who are on the latest versions of Signal. They will be able to see you edited a message.",
+    "messageformat": "Hvis du redigerer en melding, vises endringen kun for personer som bruker den nyeste versjonen av Signal. De kan se at du redigerte en melding.",
     "description": "Body text of the modal shown before sending your first edit message"
   },
   "icu:SendFormatting--dialog--title": {
@@ -5744,6 +5764,10 @@
     "messageformat": "Kunne ikke lagre innstillingene. Prøv igjen.",
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
+  "icu:MediaEditor__input-placeholder": {
+    "messageformat": "Message",
+    "description": "Placeholder for the input in the media editor"
+  },
   "icu:MediaEditor__clock-more-styles": {
     "messageformat": "Flere stilarter",
     "description": "Action button for switching up the clock styles"
@@ -6748,6 +6772,10 @@
     "messageformat": "{type, select, Audio {Avvist taleanrop} Video {Avvist videoanrop} Group {Avvist gruppeanrop} other {Avvist anrop}}",
     "description": "Call History > Short description of call > When call was declined"
   },
+  "icu:TypingBubble__avatar--overflow-count": {
+    "messageformat": "{count, plural, one {{count,number} annen person skriver.} other {{count,number} andre personer skriver.}}",
+    "description": "Group chat multiple person typing indicator when space isn't available to show every avatar, this is the count of avatars hidden."
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Siste nytt",
     "description": "Title for the whats new modal"
@@ -6780,13 +6808,13 @@
     "messageformat": "Noen små justeringer, feilrettinger og ytelsesforbedringer. Takk for at du bruker Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.29--0": {
-    "messageformat": "Nå ser siden for valg av samtalefarger lik ut på alle språk og i alle områder."
+  "icu:WhatsNew__v6.32--0": {
+    "messageformat": "Vi har gjort et par endringer i medieredigeringsprogrammet slik at det har blitt mye enklere å bruke det."
   },
-  "icu:WhatsNew__v6.29--1": {
-    "messageformat": "Vi har gjort støtten for varsler på Windows bedre. Hvis du ikke trykker på varsler når de først dukker opp, vil du kunne se dem i Windows' varslingssenter. Når du trykker på et varsel, blir du sendt direkte til samtalen det handler om. Vi takker Julien Richard for denne tilbakemeldingen."
+  "icu:WhatsNew__v6.32--1": {
+    "messageformat": "Nå sendes du automatisk til de nyeste meldingene nederst i samtalen når du sender en melding."
   },
-  "icu:WhatsNew__v6.30--0": {
-    "messageformat": "Den nye anropsoversikten gjør det enkelt å starte en samtale eller ringe tilbake til noen som har forsøkt å nå deg."
+  "icu:WhatsNew__v6.33--0": {
+    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
   }
 }
