@@ -182,9 +182,7 @@ const getSelectedConversationExpirationModesWithLegacy = (convo: ReduxConversati
   // The new modes are disabled by default
   if (modes && modes.length > 1) {
     modes.forEach((mode: any) => {
-      modesWithDisabledState[mode] = Boolean(
-        (mode !== 'legacy' && mode !== 'off') || (isClosedGroup && !convo.weAreAdmin)
-      );
+      modesWithDisabledState[mode] = Boolean(mode !== 'legacy' && mode !== 'off');
     });
   }
 
@@ -213,6 +211,7 @@ export const getSelectedConversationExpirationModes = (state: StateType) => {
     modes = [modes[0], modes[2]];
   }
 
+  // NOTE disabled = true
   const modesWithDisabledState: Record<string, boolean> = {};
   if (modes && modes.length > 1) {
     modes.forEach((mode: any) => {

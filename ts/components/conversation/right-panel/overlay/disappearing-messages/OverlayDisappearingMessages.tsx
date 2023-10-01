@@ -103,6 +103,8 @@ export const OverlayDisappearingMessages = () => {
   const [timeSelected, setTimeSelected] = useState(expireTimer || 0);
   const timerOptions = useTimerOptionsByMode(modeSelected, hasOnlyOneMode);
 
+  const isV2Released = ReleasedFeatures.isDisappearMessageV2FeatureReleasedCached();
+
   const handleSetMode = async () => {
     if (hasOnlyOneMode) {
       if (selectedConversationKey && singleMode) {
@@ -128,14 +130,14 @@ export const OverlayDisappearingMessages = () => {
   };
 
   useEffect(() => {
-    if (!ReleasedFeatures.isDisappearMessageV2FeatureReleasedCached()) {
+    if (!isV2Released) {
       setModeSelected(
         expirationMode === 'deleteAfterRead' || expirationMode === 'deleteAfterSend'
           ? 'legacy'
           : expirationMode
       );
     }
-  }, [expirationMode]);
+  }, [expirationMode, isV2Released]);
 
   useEffect(() => {
     // NOTE loads a time value from the conversation model or the default
@@ -199,7 +201,7 @@ export const OverlayDisappearingMessages = () => {
             />
           </>
         )}
-        {isGroup && !weAreAdmin && (
+        {isGroup && isV2Released && !weAreAdmin && (
           <>
             <SpacerLG />
             <StyledNonAdminDescription>
