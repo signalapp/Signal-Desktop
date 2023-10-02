@@ -384,7 +384,7 @@ async function handleContactsUpdate(result: IncomingConfResult): Promise<Incomin
 
       if (
         wrapperConvo.expirationTimerSeconds !== contactConvo.get('expireTimer') ||
-        wrapperConvo.expirationMode !== contactConvo.get('expirationMode')
+        wrapperConvo.expirationMode !== contactConvo.getExpirationMode()
       ) {
         await contactConvo.updateExpireTimer({
           providedDisappearingMode: wrapperConvo.expirationMode,
@@ -694,8 +694,8 @@ async function applyConvoVolatileUpdateFromWrapper(
     // TODO legacy messages support will be removed in a future release
     if (
       canBeDeleteAfterRead &&
-      (foundConvo.get('expirationMode') === 'deleteAfterRead' ||
-        foundConvo.get('expirationMode') === 'legacy') &&
+      (foundConvo.getExpirationMode() === 'deleteAfterRead' ||
+        foundConvo.getExpirationMode() === 'legacy') &&
       foundConvo.get('expireTimer') > 0
     ) {
       const messages2Expire = await Data.getDisappearingUnreadByConversation(

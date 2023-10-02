@@ -872,7 +872,7 @@ export async function handleDataExtractionNotification(
     const envelopeTimestamp = toNumber(timestamp);
     const referencedAttachmentTimestamp = toNumber(referencedAttachment);
 
-    const expirationMode = convo.get('expirationMode');
+    const expirationMode = convo.getExpirationMode();
     const expireTimer = convo.get('expireTimer');
     let expirationType;
     let expirationStartTimestamp;

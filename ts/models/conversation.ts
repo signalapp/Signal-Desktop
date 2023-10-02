@@ -327,8 +327,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       toRet.avatarPath = avatarPath;
     }
 
-    if (this.get('expirationMode')) {
-      toRet.expirationMode = this.get('expirationMode');
+    if (this.getExpirationMode()) {
+      toRet.expirationMode = this.getExpirationMode();
     }
 
     if (this.get('lastDisappearingMessageChangeTimestamp')) {
@@ -757,7 +757,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       expirationType: changeToDisappearingMessageType(
         this,
         this.get('expireTimer'),
-        this.get('expirationMode')
+        this.getExpirationMode()
       ),
       expireTimer: this.get('expireTimer'),
       serverTimestamp: this.isPublic() ? networkTimestamp : undefined,
@@ -849,7 +849,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     // NOTE: We don' mind if the message is the same, we still want to update the conversation because we want to show visible control messages we receive an ExpirationTimerUpdate
     // Compare mode and timestamp
     if (
-      isEqual(expirationMode, this.get('expirationMode')) &&
+      isEqual(expirationMode, this.getExpirationMode()) &&
       isEqual(expireTimer, this.get('expireTimer'))
     ) {
       window.log.info(
@@ -2337,15 +2337,35 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   private isDisappearingMode(mode: DisappearingMessageConversationModeType) {
     const success =
       mode === 'deleteAfterRead'
-        ? this.get('expirationMode') === 'deleteAfterRead'
+        ? this.getExpirationMode() === 'deleteAfterRead'
         : mode === 'deleteAfterSend'
-        ? this.get('expirationMode') === 'deleteAfterSend'
+        ? this.getExpirationMode() === 'deleteAfterSend'
         : mode === 'off'
-        ? this.get('expirationMode') === 'off'
+        ? this.getExpirationMode() === 'off'
         : false;
 
     return success;
   }
+
+  // NOTE We want to replace Backbone .get() calls with these getters as we migrate to Redux completely eventually
+  // region Start of getters
+  public getExpirationMode() {
+    return this.get('expirationMode');
+  }
+
+  public getExpireTimer() {
+    return this.get('expireTimer');
+  }
+
+  public getHasOutdatedClient() {
+    return this.get('hasOutdatedClient');
+  }
+
+  public getLastDisappearingMessageChangeTimestamp() {
+    return this.get('lastDisappearingMessageChangeTimestamp');
+  }
+
+  // endregon
 }
 
 export async function commitConversationAndRefreshWrapper(id: string) {

@@ -394,7 +394,7 @@ function checkDisappearButIsntMessage(
     content.dataMessage?.flags !== SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE &&
     expirationMode === 'off' &&
     expirationTimer === 0 &&
-    convo.get('expirationMode') !== 'off' &&
+    convo.getExpirationMode() !== 'off' &&
     convo.get('expireTimer') !== 0
   );
 }
@@ -501,10 +501,10 @@ export async function checkForExpireUpdateInContentMessage(
     !isDisappearingMessagesV2Released &&
     !isLegacyConversationSettingMessage &&
     couldBeLegacyContentMessage &&
-    convoToUpdate.get('expirationMode') !== 'off'
+    convoToUpdate.getExpirationMode() !== 'off'
   ) {
     if (
-      expirationMode !== convoToUpdate.get('expirationMode') ||
+      expirationMode !== convoToUpdate.getExpirationMode() ||
       expirationTimer !== convoToUpdate.get('expireTimer')
     ) {
       window.log.debug(
@@ -517,7 +517,7 @@ export async function checkForExpireUpdateInContentMessage(
       expireUpdate.expirationType = changeToDisappearingMessageType(
         convoToUpdate,
         expireUpdate.expirationTimer,
-        convoToUpdate.get('expirationMode')
+        convoToUpdate.getExpirationMode()
       );
       expireUpdate.isLegacyDataMessage = true;
     }
@@ -538,7 +538,7 @@ export async function checkForExpireUpdateInContentMessage(
     expireUpdate.expirationType = changeToDisappearingMessageType(
       convoToUpdate,
       expireUpdate.expirationTimer,
-      convoToUpdate.get('expirationMode')
+      convoToUpdate.getExpirationMode()
     );
     expireUpdate.isLegacyDataMessage = true;
   }
