@@ -1655,6 +1655,10 @@ export async function startApp(): Promise<void> {
       log.warn('Already online. Had a blip in online/offline status.');
       Timers.clearTimeout(disconnectTimer);
       disconnectTimer = undefined;
+
+      if (challengeHandler) {
+        drop(challengeHandler.onOnline());
+      }
       return;
     }
     if (disconnectTimer) {
