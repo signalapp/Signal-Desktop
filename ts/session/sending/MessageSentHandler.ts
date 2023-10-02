@@ -131,7 +131,7 @@ async function handleMessageSentSuccess(
   });
 
   const convo = fetchedMessage.getConversation();
-  const expireTimer = fetchedMessage.get('expireTimer');
+  const expireTimer = fetchedMessage.getExpireTimer();
   const expirationType = fetchedMessage.getExpirationType();
 
   if (
@@ -188,7 +188,7 @@ async function handleMessageSentFailure(
   });
 
   // Disappeared messages that fail to send should not disappear
-  if (fetchedMessage.getExpirationType() && fetchedMessage.get('expireTimer') > 0) {
+  if (fetchedMessage.getExpirationType() && fetchedMessage.getExpireTimer() > 0) {
     fetchedMessage.set({
       expirationStartTimestamp: undefined,
     });

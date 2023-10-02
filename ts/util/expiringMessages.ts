@@ -646,7 +646,7 @@ export async function updateMessageExpiryOnSwarm(
     window.log.debug(`WIP: [updateMessageExpiryOnSwarm] called from: ${callLocation} `);
   }
 
-  if (!message.getExpirationType() || !message.get('expireTimer')) {
+  if (!message.getExpirationType() || !message.getExpireTimer()) {
     window.log.debug(
       `WIP: [updateMessageExpiryOnSwarm] Message ${message.get(
         'messageHash'
@@ -667,7 +667,7 @@ export async function updateMessageExpiryOnSwarm(
 
   const newTTL = await expireMessageOnSnode({
     messageHash,
-    expireTimer: message.get('expireTimer') * 1000,
+    expireTimer: message.getExpireTimer() * 1000,
     shorten: true,
   });
   const expiresAt = message.get('expires_at');

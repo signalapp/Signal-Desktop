@@ -710,7 +710,7 @@ async function applyConvoVolatileUpdateFromWrapper(
               Boolean(
                 m.getExpirationType() &&
                   m.getExpirationType() !== 'deleteAfterSend' &&
-                  m.get('expireTimer') > 0
+                  m.getExpireTimer() > 0
               )
             )
             .map(m => m.get('messageHash'))
