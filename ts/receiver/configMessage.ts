@@ -708,8 +708,8 @@ async function applyConvoVolatileUpdateFromWrapper(
           messages2Expire
             .filter(m =>
               Boolean(
-                m.get('expirationType') &&
-                  m.get('expirationType') !== 'deleteAfterSend' &&
+                m.getExpirationType() &&
+                  m.getExpirationType() !== 'deleteAfterSend' &&
                   m.get('expireTimer') > 0
               )
             )

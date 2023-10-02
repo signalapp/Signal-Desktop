@@ -294,7 +294,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   }
 
   public getPropsForExpiringMessage(): PropsForExpiringMessage {
-    const expirationType = this.get('expirationType');
+    const expirationType = this.getExpirationType();
     const expirationLength = this.get('expireTimer')
       ? this.get('expireTimer') * DURATION.SECONDS
       : null;
@@ -517,7 +517,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
   public getPropsForMessage(): PropsForMessageWithoutConvoProps {
     const sender = this.getSource();
-    const expirationType = this.get('expirationType');
+    const expirationType = this.getExpirationType();
     const expirationLength = this.get('expireTimer') * DURATION.SECONDS;
     const expireTimerStart = this.get('expirationStartTimestamp');
     const expirationTimestamp =
@@ -1107,7 +1107,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
     const convo = this.getConversation();
     const canBeDeleteAfterRead = convo && !convo.isMe() && convo.isPrivate();
-    const expirationType = this.get('expirationType');
+    const expirationType = this.getExpirationType();
     const expireTimer = this.get('expireTimer');
 
     if (canBeDeleteAfterRead && expirationType && expireTimer > 0) {
@@ -1349,6 +1349,30 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     }
     return this.get('body');
   }
+
+  // NOTE We want to replace Backbone .get() calls with these getters as we migrate to Redux completely eventually
+  // region Start of getters
+  public getExpirationType() {
+    return this.get('expirationType');
+  }
+
+  public getExpireTimer() {
+    return this.get('expireTimer');
+  }
+
+  public getExpirationStartTimestamp() {
+    return this.get('expirationStartTimestamp');
+  }
+
+  public getExpiresAt() {
+    return this.get('expires_at');
+  }
+
+  public getExpirationTimerUpdate() {
+    return this.get('expirationTimerUpdate');
+  }
+
+  // endregon
 }
 
 const throttledAllMessagesDispatch = debounce(

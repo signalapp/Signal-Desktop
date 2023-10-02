@@ -339,7 +339,7 @@ async function markConvoAsReadIfOutgoingMessage(
   if (isOutgoingMessage) {
     const sentAt = message.get('sent_at') || message.get('serverTimestamp');
     if (sentAt) {
-      const expirationType = message.get('expirationType');
+      const expirationType = message.getExpirationType();
       const expireTimer = message.get('expireTimer');
       // NOTE starting disappearing messages timer for all outbound messages
       if (
@@ -399,7 +399,7 @@ export async function handleMessageJob(
     ) {
       const expirationMode = changeToDisappearingConversationMode(
         conversation,
-        messageModel.get('expirationType'),
+        messageModel.getExpirationType(),
         messageModel.get('expireTimer')
       );
 

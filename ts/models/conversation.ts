@@ -1809,7 +1809,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         identifier: id,
         timestamp: sentAt,
         attachments,
-        expirationType: message.get('expirationType'),
+        expirationType: message.getExpirationType(),
         expireTimer: message.get('expireTimer'),
         preview: preview ? [preview] : [],
         quote,

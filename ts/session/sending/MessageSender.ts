@@ -163,7 +163,7 @@ async function send(
           await foundMessage.updateMessageHash(messageSendHash);
           const convo = foundMessage.getConversation();
           const expireTimer = foundMessage.get('expireTimer');
-          const expirationType = foundMessage.get('expirationType');
+          const expirationType = foundMessage.getExpirationType();
 
           if (
             convo &&

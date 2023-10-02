@@ -646,7 +646,7 @@ export async function updateMessageExpiryOnSwarm(
     window.log.debug(`WIP: [updateMessageExpiryOnSwarm] called from: ${callLocation} `);
   }
 
-  if (!message.get('expirationType') || !message.get('expireTimer')) {
+  if (!message.getExpirationType() || !message.get('expireTimer')) {
     window.log.debug(
       `WIP: [updateMessageExpiryOnSwarm] Message ${message.get(
         'messageHash'
