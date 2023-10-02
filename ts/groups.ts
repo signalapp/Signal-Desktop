@@ -24,6 +24,7 @@ import { toWebSafeBase64, fromWebSafeBase64 } from './util/webSafeBase64';
 import { assertDev, strictAssert } from './util/assert';
 import { isMoreRecentThan } from './util/timestamp';
 import { MINUTE, DurationInSeconds, SECOND } from './util/durations';
+import { drop } from './util/drop';
 import { dropNull } from './util/dropNull';
 import type {
   ConversationAttributesType,
@@ -267,16 +268,12 @@ if (!isNumber(MAX_MESSAGE_SCHEMA)) {
   );
 }
 
-type MemberType = {
-  profileKey: string;
-  aci: ServiceIdString;
-};
 type UpdatesResultType = {
   // The array of new messages to be added into the message timeline
   groupChangeMessages: Array<GroupChangeMessageType>;
-  // The set of members in the group, and we largely just pull profile keys for each,
+  // The map of members in the group, and we largely just pull profile keys for each,
   //   because the group membership is updated in newAttributes
-  members: Array<MemberType>;
+  newProfileKeys: Map<AciString, string>;
   // To be merged into the conversation model
   newAttributes: ConversationAttributesType;
 };
@@ -2442,7 +2439,7 @@ export async function initiateMigrationToGroupV2(
         updates: {
           newAttributes,
           groupChangeMessages,
-          members: [],
+          newProfileKeys: new Map(),
         },
       });
 
@@ -2645,7 +2642,7 @@ export async function joinGroupV2ViaLinkAndMigrate({
     updates: {
       newAttributes,
       groupChangeMessages,
-      members: [],
+      newProfileKeys: new Map(),
     },
   });
 
@@ -2806,7 +2803,7 @@ export async function respondToGroupV2Migration({
                     seenStatus: SeenStatus.Unseen,
                   },
                 ],
-                members: [],
+                newProfileKeys: new Map(),
               },
             });
             return;
@@ -2828,7 +2825,7 @@ export async function respondToGroupV2Migration({
                   seenStatus: SeenStatus.Seen,
                 },
               ],
-              members: [],
+              newProfileKeys: new Map(),
             },
           });
           return;
@@ -2899,7 +2896,7 @@ export async function respondToGroupV2Migration({
     updates: {
       newAttributes,
       groupChangeMessages,
-      members: profileKeysToMembers(newProfileKeys),
+      newProfileKeys: profileKeysToMap(newProfileKeys),
     },
   });
 
@@ -3035,7 +3032,7 @@ async function updateGroup(
 ): Promise<void> {
   const logId = conversation.idForLogging();
 
-  const { newAttributes, groupChangeMessages, members } = updates;
+  const { newAttributes, groupChangeMessages, newProfileKeys } = updates;
   const ourAci = window.textsecure.storage.user.getCheckedAci();
   const ourPni = window.textsecure.storage.user.getPni();
 
@@ -3105,22 +3102,19 @@ async function updateGroup(
   const contactsWithoutProfileKey = new Array<ConversationModel>();
 
   // Capture profile key for each member in the group, if we don't have it yet
-  members.forEach(member => {
-    const contact = window.ConversationController.getOrCreate(
-      member.aci,
-      'private'
-    );
+  for (const [aci, profileKey] of newProfileKeys) {
+    const contact = window.ConversationController.getOrCreate(aci, 'private');
 
     if (
       !isMe(contact.attributes) &&
-      member.profileKey &&
-      member.profileKey.length > 0 &&
-      contact.get('profileKey') !== member.profileKey
+      profileKey &&
+      profileKey.length > 0 &&
+      contact.get('profileKey') !== profileKey
     ) {
       contactsWithoutProfileKey.push(contact);
-      void contact.setProfileKey(member.profileKey);
+      drop(contact.setProfileKey(profileKey));
     }
-  });
+  }
 
   let profileFetches: Promise<Array<void>> | undefined;
   if (contactsWithoutProfileKey.length !== 0) {
@@ -3469,7 +3463,7 @@ async function getGroupUpdates({
           return {
             newAttributes: group,
             groupChangeMessages: [],
-            members: [],
+            newProfileKeys: new Map(),
           };
         }
       }
@@ -3563,7 +3557,7 @@ async function getGroupUpdates({
   return {
     newAttributes: group,
     groupChangeMessages: [],
-    members: [],
+    newProfileKeys: new Map(),
   };
 }
 
@@ -3637,7 +3631,7 @@ async function updateGroupViaPreJoinInfo({
       current: newAttributes,
       dropInitialJoinMessage: false,
     }),
-    members: [],
+    newProfileKeys: new Map(),
   };
 }
 
@@ -3687,7 +3681,7 @@ async function updateGroupViaState({
       current: newAttributes,
       dropInitialJoinMessage,
     }),
-    members: profileKeysToMembers(newProfileKeys),
+    newProfileKeys: profileKeysToMap(newProfileKeys),
   };
 }
 
@@ -3721,7 +3715,7 @@ async function updateGroupViaSingleChange({
     );
     const {
       newAttributes,
-      members,
+      newProfileKeys,
       groupChangeMessages: catchupMessages,
     } = await updateGroupViaLogs({
       group: singleChangeResult.newAttributes,
@@ -3756,7 +3750,10 @@ async function updateGroupViaSingleChange({
     //   keep the final group attributes generated, as well as any new members.
     return {
       groupChangeMessages,
-      members: [...singleChangeResult.members, ...members],
+      newProfileKeys: new Map([
+        ...singleChangeResult.newProfileKeys,
+        ...newProfileKeys,
+      ]),
       newAttributes,
     };
   }
@@ -3886,7 +3883,7 @@ async function generateLeftGroupChanges(
       current: newAttributes,
       old: group,
     }),
-    members: [],
+    newProfileKeys: new Map(),
   };
 }
 
@@ -3929,7 +3926,7 @@ async function integrateGroupChanges({
   const logId = idForLogging(group.groupId);
   let attributes = group;
   const finalMessages: Array<Array<GroupChangeMessageType>> = [];
-  const finalMembers: Array<Array<MemberType>> = [];
+  const finalNewProfileKeys = new Map<AciString, string>();
 
   const imax = changes.length;
   for (let i = 0; i < imax; i += 1) {
@@ -3956,7 +3953,7 @@ async function integrateGroupChanges({
         const {
           newAttributes,
           groupChangeMessages,
-          members,
+          newProfileKeys,
           // eslint-disable-next-line no-await-in-loop
         } = await integrateGroupChange({
           group: attributes,
@@ -3967,7 +3964,9 @@ async function integrateGroupChanges({
 
         attributes = newAttributes;
         finalMessages.push(groupChangeMessages);
-        finalMembers.push(members);
+        for (const [aci, profileKey] of newProfileKeys) {
+          finalNewProfileKeys.set(aci, profileKey);
+        }
       } catch (error) {
         log.error(
           `integrateGroupChanges/${logId}: Failed to apply change log, continuing to apply remaining change logs.`,
@@ -4000,14 +3999,14 @@ async function integrateGroupChanges({
     return {
       newAttributes: attributes,
       groupChangeMessages,
-      members: flatten(finalMembers),
+      newProfileKeys: finalNewProfileKeys,
     };
   }
 
   return {
     newAttributes: attributes,
     groupChangeMessages: flatten(finalMessages),
-    members: flatten(finalMembers),
+    newProfileKeys: finalNewProfileKeys,
   };
 }
 
@@ -4067,7 +4066,7 @@ async function integrateGroupChange({
       return {
         newAttributes: group,
         groupChangeMessages: [],
-        members: [],
+        newProfileKeys: new Map(),
       };
     }
 
@@ -4099,7 +4098,7 @@ async function integrateGroupChange({
         return {
           newAttributes: group,
           groupChangeMessages: [],
-          members: [],
+          newProfileKeys: new Map(),
         };
       }
       if (groupChangeActions.version === group.revision) {
@@ -4115,7 +4114,7 @@ async function integrateGroupChange({
 
   let attributes = group;
   const aggregatedChangeMessages = [];
-  const aggregatedMembers = [];
+  const finalNewProfileKeys = new Map<AciString, string>();
 
   const canApplyChange =
     groupChange &&
@@ -4153,7 +4152,9 @@ async function integrateGroupChange({
 
     attributes = newAttributes;
     aggregatedChangeMessages.push(groupChangeMessages);
-    aggregatedMembers.push(profileKeysToMembers(newProfileKeys));
+    for (const [aci, profileKey] of profileKeysToMap(newProfileKeys)) {
+      finalNewProfileKeys.set(aci, profileKey);
+    }
   }
 
   // Apply the group state afterwards to verify that we didn't miss anything
@@ -4177,12 +4178,15 @@ async function integrateGroupChange({
       logId
     );
 
-    const { newAttributes, newProfileKeys, otherChanges } =
-      await applyGroupState({
-        group: attributes,
-        groupState: decryptedGroupState,
-        sourceServiceId: isFirstFetch ? sourceServiceId : undefined,
-      });
+    const {
+      newAttributes,
+      newProfileKeys: newProfileKeysList,
+      otherChanges,
+    } = await applyGroupState({
+      group: attributes,
+      groupState: decryptedGroupState,
+      sourceServiceId: isFirstFetch ? sourceServiceId : undefined,
+    });
 
     const groupChangeMessages = extractDiffs({
       old: attributes,
@@ -4190,12 +4194,12 @@ async function integrateGroupChange({
       sourceServiceId: isFirstFetch ? sourceServiceId : undefined,
     });
 
-    const newMembers = profileKeysToMembers(newProfileKeys);
+    const newProfileKeys = profileKeysToMap(newProfileKeysList);
 
     if (
       canApplyChange &&
       (groupChangeMessages.length !== 0 ||
-        newMembers.length !== 0 ||
+        newProfileKeys.size !== 0 ||
         otherChanges)
     ) {
       assertDev(
@@ -4207,14 +4211,16 @@ async function integrateGroupChange({
         `integrateGroupChange/${logId}: local state was different from ` +
           'the remote final state. ' +
           `Got ${groupChangeMessages.length} change messages, ` +
-          `${newMembers.length} updated members, and ` +
+          `${newProfileKeys.size} updated members, and ` +
           `otherChanges=${otherChanges}`
       );
     }
 
     attributes = newAttributes;
     aggregatedChangeMessages.push(groupChangeMessages);
-    aggregatedMembers.push(newMembers);
+    for (const [aci, profileKey] of newProfileKeys) {
+      finalNewProfileKeys.set(aci, profileKey);
+    }
   } else {
     strictAssert(
       canApplyChange,
@@ -4225,7 +4231,7 @@ async function integrateGroupChange({
   return {
     newAttributes: attributes,
     groupChangeMessages: aggregatedChangeMessages.flat(),
-    members: aggregatedMembers.flat(),
+    newProfileKeys: finalNewProfileKeys,
   };
 }
 
@@ -4774,11 +4780,12 @@ function extractDiffs({
   return result;
 }
 
-function profileKeysToMembers(items: ReadonlyArray<GroupChangeMemberType>) {
-  return items.map(item => ({
-    profileKey: Bytes.toBase64(item.profileKey),
-    aci: item.aci,
-  }));
+function profileKeysToMap(items: ReadonlyArray<GroupChangeMemberType>) {
+  const map = new Map<AciString, string>();
+  for (const { aci, profileKey } of items) {
+    map.set(aci, Bytes.toBase64(profileKey));
+  }
+  return map;
 }
 
 type GroupChangeMemberType = {
