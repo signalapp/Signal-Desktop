@@ -34,22 +34,12 @@ Then you need `git`, if you don't have that yet: https://git-scm.com/
 
 ### Windows
 
-Building on Windows versions 8+ is supported out of the box
+Building on Windows is a pain, but is possible see our CI/Windows build machine prerequisites here [Windows-2022 GH image](https://github.com/actions/runner-images/blob/main/images/win/Windows2022-Readme.md)
 
 ### Linux
 
-1.  Pick your favorite package manager.
-1.  Install `python`
-1.  Install `gcc`
-1.  Install `g++`
-1.  Install `make`
-1.  Depending on your distro, you might need to install `hunspell` and `hunspell-<lan>` (e.g. `hunspell-en-au`)
-
-If you are using a Debian based Linux distribution gcc, g++ and make can be installed as part of the `build-essential` package using
-
-```
-apt install build-essential
-```
+1.  Install build tools `apt install build-essential cmake` (this installs make, g++, gcc)
+2.  Depending on your distro, you might need to install `hunspell` and `hunspell-<lan>` (e.g. `hunspell-en-au`)
 
 ### All platforms
 
