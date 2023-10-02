@@ -226,7 +226,7 @@ async function handleUserProfileUpdate(result: IncomingConfResult): Promise<Inco
   if (ourConvo) {
     let changes = false;
 
-    const expireTimer = ourConvo.get('expireTimer');
+    const expireTimer = ourConvo.getExpireTimer();
     const wrapperNoteToSelfExpirySeconds = await UserConfigWrapperActions.getNoteToSelfExpiry();
 
     if (wrapperNoteToSelfExpirySeconds !== expireTimer) {
@@ -383,7 +383,7 @@ async function handleContactsUpdate(result: IncomingConfResult): Promise<Incomin
       }
 
       if (
-        wrapperConvo.expirationTimerSeconds !== contactConvo.get('expireTimer') ||
+        wrapperConvo.expirationTimerSeconds !== contactConvo.getExpireTimer() ||
         wrapperConvo.expirationMode !== contactConvo.getExpirationMode()
       ) {
         await contactConvo.updateExpireTimer({
@@ -696,7 +696,7 @@ async function applyConvoVolatileUpdateFromWrapper(
       canBeDeleteAfterRead &&
       (foundConvo.getExpirationMode() === 'deleteAfterRead' ||
         foundConvo.getExpirationMode() === 'legacy') &&
-      foundConvo.get('expireTimer') > 0
+      foundConvo.getExpireTimer() > 0
     ) {
       const messages2Expire = await Data.getDisappearingUnreadByConversation(
         convoId,

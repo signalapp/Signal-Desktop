@@ -74,7 +74,7 @@ export async function initiateClosedGroupUpdate(
 
   const expirationType = changeToDisappearingMessageType(
     convo,
-    convo.get('expireTimer'),
+    convo.getExpireTimer(),
     convo.getExpirationMode()
   );
 
@@ -92,7 +92,7 @@ export async function initiateClosedGroupUpdate(
     zombies: convo.get('zombies')?.filter(z => members.includes(z)),
     activeAt: Date.now(),
     expirationType,
-    expireTimer: convo.get('expireTimer'),
+    expireTimer: convo.getExpireTimer(),
   };
 
   const diff = buildGroupDiff(convo, groupDetails);
@@ -174,14 +174,14 @@ export async function addUpdateMessage(
   }
 
   const expirationMode = convo.getExpirationMode();
-  const expireTimer = convo.get('expireTimer');
+  const expireTimer = convo.getExpireTimer();
   let expirationType;
   let expirationStartTimestamp;
 
   if (convo && expirationMode && expireTimer > 0) {
     expirationType =
       expirationMode !== 'off'
-        ? changeToDisappearingMessageType(convo, convo.get('expireTimer'), expirationMode)
+        ? changeToDisappearingMessageType(convo, expireTimer, expirationMode)
         : undefined;
 
     // NOTE Trigger for an incoming message
@@ -317,7 +317,7 @@ async function sendAddedMembers(
 
   const encryptionKeyPair = ECKeyPair.fromHexKeyPair(hexEncryptionKeyPair);
   const expirationMode = convo.getExpirationMode() || 'off';
-  const existingExpireTimer = convo.get('expireTimer') || 0;
+  const existingExpireTimer = convo.getExpireTimer() || 0;
   // Send the Added Members message to the group (only members already in the group will get it)
   const closedGroupControlMessage = new ClosedGroupAddedMembersMessage({
     timestamp: Date.now(),

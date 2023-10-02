@@ -55,7 +55,7 @@ async function insertContactFromDBIntoWrapperAndRefresh(id: string): Promise<voi
   const dbBlocked = !!foundConvo.isBlocked() || false;
   const priority = foundConvo.get('priority') || 0;
   const expirationMode = foundConvo.getExpirationMode() || undefined;
-  const expireTimer = foundConvo.get('expireTimer') || 0;
+  const expireTimer = foundConvo.getExpireTimer() || 0;
 
   const wrapperContact = getContactInfoFromDBValues({
     id,

@@ -395,7 +395,7 @@ function checkDisappearButIsntMessage(
     expirationMode === 'off' &&
     expirationTimer === 0 &&
     convo.getExpirationMode() !== 'off' &&
-    convo.get('expireTimer') !== 0
+    convo.getExpireTimer() !== 0
   );
 }
 
@@ -505,7 +505,7 @@ export async function checkForExpireUpdateInContentMessage(
   ) {
     if (
       expirationMode !== convoToUpdate.getExpirationMode() ||
-      expirationTimer !== convoToUpdate.get('expireTimer')
+      expirationTimer !== convoToUpdate.getExpireTimer()
     ) {
       window.log.debug(
         `WIP: Received a legacy disappearing message before v2 was released without values set. Using the conversation settings.\ncontent: ${JSON.stringify(
@@ -513,7 +513,7 @@ export async function checkForExpireUpdateInContentMessage(
         )}\n\nconvoToUpdate: ${JSON.stringify(convoToUpdate)}`
       );
 
-      expireUpdate.expirationTimer = convoToUpdate.get('expireTimer');
+      expireUpdate.expirationTimer = convoToUpdate.getExpireTimer();
       expireUpdate.expirationType = changeToDisappearingMessageType(
         convoToUpdate,
         expireUpdate.expirationTimer,
@@ -534,7 +534,7 @@ export async function checkForExpireUpdateInContentMessage(
       )}\n\nconvoToUpdate: ${JSON.stringify(convoToUpdate)}`
     );
 
-    expireUpdate.expirationTimer = convoToUpdate.get('expireTimer');
+    expireUpdate.expirationTimer = convoToUpdate.getExpireTimer();
     expireUpdate.expirationType = changeToDisappearingMessageType(
       convoToUpdate,
       expireUpdate.expirationTimer,

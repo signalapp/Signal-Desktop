@@ -363,8 +363,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     if (this.get('isApproved')) {
       toRet.isApproved = this.get('isApproved');
     }
-    if (this.get('expireTimer')) {
-      toRet.expireTimer = this.get('expireTimer');
+    if (this.getExpireTimer()) {
+      toRet.expireTimer = this.getExpireTimer();
     }
     // those are values coming only from both the DB or the wrapper. Currently we display the data from the DB
     if (this.isClosedGroup()) {
@@ -756,10 +756,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       sent_at: networkTimestamp,
       expirationType: changeToDisappearingMessageType(
         this,
-        this.get('expireTimer'),
+        this.getExpireTimer(),
         this.getExpirationMode()
       ),
-      expireTimer: this.get('expireTimer'),
+      expireTimer: this.getExpireTimer(),
       serverTimestamp: this.isPublic() ? networkTimestamp : undefined,
       groupInvitation,
     });
@@ -850,7 +850,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     // Compare mode and timestamp
     if (
       isEqual(expirationMode, this.getExpirationMode()) &&
-      isEqual(expireTimer, this.get('expireTimer'))
+      isEqual(expireTimer, this.getExpireTimer())
     ) {
       window.log.info(
         `WIP: conversation: updateExpireTimer()  Ignoring ExpireTimerUpdate ${
@@ -1091,7 +1091,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
      *
      * (if there is an expireTimer, we do it the slow way, handling each message separately)
      */
-    const expireTimerSet = !!this.get('expireTimer');
+    const expireTimerSet = !!this.getExpireTimer();
     const isOpenGroup = this.isOpenGroupV2();
 
     if (isOpenGroup || !expireTimerSet) {

@@ -25,7 +25,7 @@ async function insertUserProfileIntoWrapper(convoId: string) {
 
   const areBlindedMsgRequestEnabled = !!Storage.get(SettingsKey.hasBlindedMsgRequestsEnabled);
 
-  const expirySeconds = ourConvo.get('expireTimer') || 0;
+  const expirySeconds = ourConvo.getExpireTimer() || 0;
 
   window.log.debug(
     `inserting into userprofile wrapper: username:"${dbName}", priority:${priority} image:${JSON.stringify(
