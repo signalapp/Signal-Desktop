@@ -421,7 +421,7 @@ export async function handleMessageJob(
 
     if (messageModel.isExpirationTimerUpdate()) {
       // NOTE if we turn off disappearing messages from a legacy client expirationTimerUpdate can be undefined but the flags value is correctly set
-      const expirationTimerUpdate = messageModel.get('expirationTimerUpdate');
+      const expirationTimerUpdate = messageModel.getExpirationTimerUpdate();
       if (
         messageModel.get('flags') !== SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE &&
         (!expirationTimerUpdate || isEmpty(expirationTimerUpdate))

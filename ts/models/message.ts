@@ -196,7 +196,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   public isExpirationTimerUpdate() {
     const expirationTimerFlag = SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
     const flags = this.get('flags') || 0;
-    const expirationTimerUpdate = this.get('expirationTimerUpdate');
+    const expirationTimerUpdate = this.getExpirationTimerUpdate();
 
     // eslint-disable-next-line no-bitwise
     return Boolean(flags & expirationTimerFlag) || !isEmpty(expirationTimerUpdate);
@@ -260,7 +260,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       return window.i18n('mediaMessage');
     }
     if (this.isExpirationTimerUpdate()) {
-      const expireTimerUpdate = this.get('expirationTimerUpdate');
+      const expireTimerUpdate = this.getExpirationTimerUpdate();
       const expireTimer = expireTimerUpdate?.expireTimer;
       const convo = this.getConversation();
       if (!convo) {
@@ -326,7 +326,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       return null;
     }
 
-    const timerUpdate = this.get('expirationTimerUpdate');
+    const timerUpdate = this.getExpirationTimerUpdate();
     const convo = this.getConversation();
 
     if (!timerUpdate || !timerUpdate.source || !convo) {
