@@ -138,7 +138,7 @@ async function handleMessageSentSuccess(
     convo &&
     expirationType &&
     expireTimer > 0 &&
-    Boolean(fetchedMessage.get('expirationStartTimestamp')) === false
+    Boolean(fetchedMessage.getExpirationStartTimestamp()) === false
   ) {
     const expirationMode = changeToDisappearingConversationMode(convo, expirationType, expireTimer);
 

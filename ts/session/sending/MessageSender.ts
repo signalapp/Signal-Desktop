@@ -170,7 +170,7 @@ async function send(
             expirationType &&
             expireTimer > 0 &&
             // a message has started to disappear
-            foundMessage.get('expirationStartTimestamp')
+            foundMessage.getExpirationStartTimestamp()
           ) {
             const expirationMode = changeToDisappearingConversationMode(
               convo,

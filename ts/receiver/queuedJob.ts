@@ -345,7 +345,7 @@ async function markConvoAsReadIfOutgoingMessage(
       if (
         expirationType &&
         expireTimer > 0 &&
-        Boolean(message.get('expirationStartTimestamp')) === false
+        Boolean(message.getExpirationStartTimestamp()) === false
       ) {
         const expirationMode = changeToDisappearingConversationMode(
           conversation,
@@ -395,7 +395,7 @@ export async function handleMessageJob(
     if (
       conversation &&
       messageModel.getExpireTimer() > 0 &&
-      Boolean(messageModel.get('expirationStartTimestamp')) === false
+      Boolean(messageModel.getExpirationStartTimestamp()) === false
     ) {
       const expirationMode = changeToDisappearingConversationMode(
         conversation,
