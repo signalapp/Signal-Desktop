@@ -337,8 +337,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       );
     }
 
-    if (this.get('hasOutdatedClient')) {
-      toRet.hasOutdatedClient = this.get('hasOutdatedClient');
+    if (this.getHasOutdatedClient()) {
+      toRet.hasOutdatedClient = this.getHasOutdatedClient();
     }
 
     if (

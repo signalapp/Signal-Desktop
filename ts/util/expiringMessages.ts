@@ -612,10 +612,10 @@ export async function checkHasOutdatedDisappearingMessageClient(
   const outdatedSender =
     sender.get('nickname') || sender.get('displayNameInProfile') || sender.get('id');
 
-  if (convoToUpdate.get('hasOutdatedClient')) {
+  if (convoToUpdate.getHasOutdatedClient()) {
     // trigger notice banner
     if (isOutdated) {
-      if (convoToUpdate.get('hasOutdatedClient') !== outdatedSender) {
+      if (convoToUpdate.getHasOutdatedClient() !== outdatedSender) {
         convoToUpdate.set({
           hasOutdatedClient: outdatedSender,
         });
