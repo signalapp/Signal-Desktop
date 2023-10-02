@@ -187,6 +187,18 @@ async function handleMessageSentFailure(
     sent: true,
   });
 
+  // Disappeared messages that fail to send should not disappear
+  if (fetchedMessage.get('expirationType') && fetchedMessage.get('expireTimer') > 0) {
+    fetchedMessage.set({
+      expirationStartTimestamp: undefined,
+    });
+    window.log.debug(
+      `WIP: [handleMessageSentFailure] Stopping a disappearing message from disppearing until we retry the send operation.\n${JSON.stringify(
+        fetchedMessage
+      )}`
+    );
+  }
+
   // We don't set the expirationStartTimestamp on a disappearing message here incase the user wishes to try and resend the message
 
   await fetchedMessage.commit();
