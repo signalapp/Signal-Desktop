@@ -1384,6 +1384,11 @@ $message-padding-horizontal: 12px;
   &--with-reactions {
     padding-bottom: 15px;
   }
+
+  &--typing {
+    flex-direction: row-reverse;
+    overflow-y: clip;
+  }
 }
 
 .module-message__container-outer--typing-bubble {
@@ -1391,16 +1396,8 @@ $message-padding-horizontal: 12px;
 }
 
 .module-message__typing-avatar-container {
-  align-items: center;
-  display: flex;
   flex-direction: row-reverse;
-  justify-content: center;
-  margin-inline-end: 8px;
   overflow-y: clip;
-
-  &--with-reactions {
-    padding-bottom: 15px;
-  }
 }
 
 .module-message__typing-avatar {
@@ -2846,6 +2843,10 @@ button.module-image__border-overlay:focus {
   height: 8px;
   width: 38px;
   padding-inline: 1px;
+}
+
+.module-message__typing-animation-container .module-typing-animation {
+  width: 30px;
 }
 
 .module-typing-animation__dot {

@@ -2690,6 +2690,14 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/conversation/TypingBubble.tsx",
+    "line": "  const prevTypingContactIds = React.useRef<",
+    "reasonCategory": "usageTrusted",
+    "updated": "2023-09-28T21:48:57.488Z",
+    "reasonDetail": "Used to track change of typing contacts while a conversation is actively viewed."
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/conversation/WaveformScrubber.tsx",
     "line": "  const waveformRef = useRef<HTMLDivElement | null>(null);",
     "reasonCategory": "usageTrusted",
@@ -2806,6 +2814,13 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/hooks/useScrollLock.tsx",
+    "line": "  const onUserInterruptRef = useRef(onUserInterrupt);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2023-09-19T17:05:51.321Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/hooks/useSizeObserver.tsx",
     "line": "  const sizeRef = useRef<Size | null>(null);",
     "reasonCategory": "usageTrusted",
@@ -2852,13 +2867,6 @@
     "line": "  const onScrollChangeRef = useRef<ScrollChangeHandler>(onScrollChange);",
     "reasonCategory": "usageTrusted",
     "updated": "2023-07-25T21:55:26.191Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/hooks/useScrollLock.tsx",
-    "line": "  const onUserInterruptRef = useRef(onUserInterrupt);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2023-09-19T17:05:51.321Z"
   },
   {
     "rule": "React-useRef",
