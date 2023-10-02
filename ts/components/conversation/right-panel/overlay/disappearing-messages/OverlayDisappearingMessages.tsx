@@ -12,6 +12,7 @@ import {
   useSelectedExpireTimer,
   useSelectedIsGroup,
   useSelectedWeAreAdmin,
+  useSelectedIsNoteToSelf,
 } from '../../../../../state/selectors/selectedConversation';
 import {
   DEFAULT_TIMER_OPTION,
@@ -91,6 +92,7 @@ export const OverlayDisappearingMessages = () => {
       : undefined;
   const hasOnlyOneMode = Boolean(singleMode && singleMode.length > 0);
 
+  const isMe = useSelectedIsNoteToSelf();
   const isGroup = useSelectedIsGroup();
   const expirationMode = useSelectedConversationDisappearingMode();
   const expireTimer = useSelectedExpireTimer();
@@ -138,6 +140,32 @@ export const OverlayDisappearingMessages = () => {
       );
     }
   }, [expirationMode, isV2Released]);
+
+  // TODO legacy messages support will be removed in a future release
+  useEffect(() => {
+    if (isV2Released && modeSelected === 'legacy') {
+      const newModeSelected = isMe || isGroup ? 'deleteAfterSend' : 'deleteAfterRead';
+      const newTimeSelected = loadDefaultTimeValue(newModeSelected, hasOnlyOneMode);
+
+      if (selectedConversationKey) {
+        void setDisappearingMessagesByConvoId(
+          selectedConversationKey,
+          newModeSelected,
+          newTimeSelected
+        );
+        dispatch(closeRightPanel());
+        dispatch(resetRightOverlayMode());
+      }
+    }
+  }, [
+    dispatch,
+    hasOnlyOneMode,
+    isGroup,
+    isMe,
+    isV2Released,
+    modeSelected,
+    selectedConversationKey,
+  ]);
 
   useEffect(() => {
     // NOTE loads a time value from the conversation model or the default
