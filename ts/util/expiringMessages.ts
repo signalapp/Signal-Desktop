@@ -449,19 +449,19 @@ export async function checkForExpireUpdateInContentMessage(
 
   // NOTE if we are checking an outgoing content message then the conversation's lastDisappearingMessageChangeTimestamp has just been set to match the content message so it can't be outdated if equal
   if (
-    convoToUpdate.get('lastDisappearingMessageChangeTimestamp') &&
+    convoToUpdate.getLastDisappearingMessageChangeTimestamp() &&
     lastDisappearingMessageChangeTimestamp &&
     ((isOutgoing &&
-      convoToUpdate.get('lastDisappearingMessageChangeTimestamp') >
+      convoToUpdate.getLastDisappearingMessageChangeTimestamp() >
         lastDisappearingMessageChangeTimestamp) ||
       (!isOutgoing &&
-        convoToUpdate.get('lastDisappearingMessageChangeTimestamp') >=
+        convoToUpdate.getLastDisappearingMessageChangeTimestamp() >=
           lastDisappearingMessageChangeTimestamp))
   ) {
     window.log.info(
       `WIP: checkForExpireUpdateInContentMessage() This is an outdated ${
         isOutgoing ? 'outgoing' : 'incoming'
-      } disappearing message setting. So we will ignore it.\nconvoToUpdate.get('lastDisappearingMessageChangeTimestamp'): ${convoToUpdate.get(
+      } disappearing message setting. So we will ignore it.\nconvoToUpdate.getLastDisappearingMessageChangeTimestamp(): ${convoToUpdate.get(
         'lastDisappearingMessageChangeTimestamp'
       )}\nlastDisappearingMessageChangeTimestamp: ${lastDisappearingMessageChangeTimestamp}\n\ncontent: ${JSON.stringify(
         content
