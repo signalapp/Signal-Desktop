@@ -128,7 +128,7 @@ async function checkExpiringMessages() {
     return;
   }
 
-  const expiresAt = next.get('expires_at');
+  const expiresAt = next.getExpiresAt();
   if (!expiresAt) {
     return;
   }
@@ -670,7 +670,7 @@ export async function updateMessageExpiryOnSwarm(
     expireTimer: message.getExpireTimer() * 1000,
     shorten: true,
   });
-  const expiresAt = message.get('expires_at');
+  const expiresAt = message.getExpiresAt();
 
   if (newTTL && newTTL !== expiresAt) {
     message.set({

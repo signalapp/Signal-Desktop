@@ -1162,7 +1162,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   }
 
   public async setToExpire() {
-    if (this.isExpiring() && !this.get('expires_at')) {
+    if (this.isExpiring() && !this.getExpiresAt()) {
       const start = this.getExpirationStartTimestamp();
       const delta = this.getExpireTimer() * 1000;
       if (!start) {
