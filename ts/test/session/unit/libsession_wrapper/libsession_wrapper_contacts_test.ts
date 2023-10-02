@@ -13,7 +13,7 @@ describe('libsession_contacts', () => {
   describe('filter contacts for wrapper', () => {
     const ourNumber = '051234567890acbdef';
     const validArgs = {
-      id: '051111567890acbdef',
+      id: '050123456789abcdef050123456789abcdef0123456789abcdef050123456789ab',
       type: ConversationTypeEnum.PRIVATE,
       isApproved: true,
       active_at: 123,
@@ -132,6 +132,58 @@ describe('libsession_contacts', () => {
             didApproveMe: false,
             isApproved: true,
             active_at: undefined,
+          } as any)
+        )
+      ).to.be.eq(false);
+    });
+
+    it('excludes contacts not matching a pubkey syntax (space in middle)', () => {
+      const validIdWithSpaceInIt =
+        '050123456789abcdef050123456789 bcdef0123456789abcdef050123456789ab'; // len 66 but has a ' ' in the middle
+      expect(
+        SessionUtilContact.isContactToStoreInWrapper(
+          new ConversationModel({
+            ...validArgs,
+            id: validIdWithSpaceInIt,
+          } as any)
+        )
+      ).to.be.eq(false);
+    });
+
+    it('excludes contacts not matching a pubkey syntax (space at the end)', () => {
+      const validIdWithSpaceInIt =
+        '050123456789abcdef050123456789abcdef0123456789abcdef050123456789a '; // len 66 but has a ' ' at the end
+      expect(
+        SessionUtilContact.isContactToStoreInWrapper(
+          new ConversationModel({
+            ...validArgs,
+            id: validIdWithSpaceInIt,
+          } as any)
+        )
+      ).to.be.eq(false);
+    });
+
+    it('excludes contacts not matching a pubkey syntax (space at the start)', () => {
+      const validIdWithSpaceInIt =
+        ' 050123456789abcdef050123456789abcdef0123456789abcdef050123456789ab'; // len 66 but has a ' ' at the start
+      expect(
+        SessionUtilContact.isContactToStoreInWrapper(
+          new ConversationModel({
+            ...validArgs,
+            id: validIdWithSpaceInIt,
+          } as any)
+        )
+      ).to.be.eq(false);
+    });
+
+    it('excludes contacts not matching a pubkey syntax (non hex char)', () => {
+      const validIdWithSpaceInIt =
+        '050123456789abcdef050123456789abcdef0123456789abcdef050123456789aU'; // len 66 but has 'U' at the end
+      expect(
+        SessionUtilContact.isContactToStoreInWrapper(
+          new ConversationModel({
+            ...validArgs,
+            id: validIdWithSpaceInIt,
           } as any)
         )
       ).to.be.eq(false);

@@ -29,6 +29,11 @@ const mappedContactWrapperValues = new Map<string, ContactInfo>();
  * We want to sync the message request status so we need to allow a contact even if it's not approved, did not approve us and is not blocked.
  */
 function isContactToStoreInWrapper(convo: ConversationModel): boolean {
+  try {
+    PubKey.cast(convo.id as string);
+  } catch (e) {
+    return false;
+  }
   return !convo.isMe() && convo.isPrivate() && convo.isActive() && !PubKey.isBlinded(convo.id);
 }
 
