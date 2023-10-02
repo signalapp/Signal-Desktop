@@ -3954,9 +3954,14 @@ function showConversation({
     }
 
     if (conversationId === conversations.selectedConversationId) {
-      if (conversationId && messageId) {
+      if (!conversationId) {
+        return;
+      }
+
+      if (messageId) {
         dispatch(scrollToMessage(conversationId, messageId));
       }
+      dispatch(setComposerFocus(conversationId));
 
       return;
     }
