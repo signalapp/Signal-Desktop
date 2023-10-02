@@ -34,11 +34,14 @@ export function useConversationUsername(convoId?: string) {
 /**
  * Returns either the nickname, displayNameInProfile, or the shorten pubkey
  */
-export function useConversationUsernameOrShorten(convoId?: string) {
+export function useNicknameOrProfileNameOrShortenedPubkey(convoId?: string) {
   const convoProps = useConversationPropsById(convoId);
 
   return (
-    convoProps?.nickname || convoProps?.displayNameInProfile || (convoId && PubKey.shorten(convoId))
+    convoProps?.nickname ||
+    convoProps?.displayNameInProfile ||
+    (convoId && PubKey.shorten(convoId)) ||
+    window.i18n('unknown')
   );
 }
 
