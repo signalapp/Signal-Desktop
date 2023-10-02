@@ -1,12 +1,10 @@
 import { isNumber } from 'lodash';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useConversationUsername } from '../../../hooks/useParamSelector';
 import { closeRightPanel, openRightPanel } from '../../../state/ducks/conversations';
 import { resetRightOverlayMode, setRightOverlayMode } from '../../../state/ducks/section';
 import { isRightPanelShowing } from '../../../state/selectors/conversations';
 import {
-  useSelectedConversationKey,
   useSelectedConversationDisappearingMode,
   useSelectedExpireTimer,
   useSelectedIsGroup,
@@ -16,6 +14,7 @@ import {
   useSelectedMembers,
   useSelectedNotificationSetting,
   useSelectedSubscriberCount,
+  useSelectedNicknameOrProfileNameOrShortenedPubkey,
 } from '../../../state/selectors/selectedConversation';
 import { ExpirationTimerOptions } from '../../../util/expiringMessages';
 import { ConversationHeaderSubtitle } from './ConversationHeaderSubtitle';
@@ -34,7 +33,7 @@ export type SubtitleStringsType = keyof Pick<
 // tslint:disable: cyclomatic-complexity max-func-body-length
 export const ConversationHeaderTitle = () => {
   const dispatch = useDispatch();
-  const selectedConvoKey = useSelectedConversationKey();
+  const convoName = useSelectedNicknameOrProfileNameOrShortenedPubkey();
 
   const notificationSetting = useSelectedNotificationSetting();
   const isRightPanelOn = useSelector(isRightPanelShowing);
@@ -48,8 +47,6 @@ export const ConversationHeaderTitle = () => {
 
   const expirationMode = useSelectedConversationDisappearingMode();
   const expireTimer = useSelectedExpireTimer();
-
-  const convoName = useConversationUsername(selectedConvoKey);
 
   const [visibleSubtitle, setVisibleSubtitle] = useState<SubtitleStringsType>(
     'disappearingMessages'
