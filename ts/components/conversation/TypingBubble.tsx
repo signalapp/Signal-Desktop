@@ -44,8 +44,8 @@ export type TypingBubblePropsType = {
 
 const SPRING_CONFIG = {
   mass: 1,
-  tension: 986,
-  friction: 64,
+  tension: 439,
+  friction: 42,
   precision: 0,
   velocity: 0,
 };
@@ -53,17 +53,15 @@ const SPRING_CONFIG = {
 const AVATAR_ANIMATION_PROPS: Record<'visible' | 'hidden', object> = {
   visible: {
     opacity: 1,
-    scale: 1,
     width: '28px',
     x: '0px',
     top: '0px',
   },
   hidden: {
     opacity: 0.5,
-    scale: 0.5,
     width: '4px', // Match value of module-message__typing-avatar margin-inline-start
     x: '14px',
-    top: '30px',
+    top: '34px',
   },
 };
 
@@ -71,6 +69,7 @@ function TypingBubbleAvatar({
   conversationId,
   contact,
   visible,
+  shouldAnimate,
   getPreferredBadge,
   onContactExit,
   showContactModal,
@@ -80,6 +79,7 @@ function TypingBubbleAvatar({
   conversationId: string;
   contact: TypingContactType | undefined;
   visible: boolean;
+  shouldAnimate: boolean;
   getPreferredBadge: PreferredBadgeSelectorType;
   onContactExit: (id: string | undefined) => void;
   showContactModal: (contactId: string, conversationId?: string) => void;
@@ -89,7 +89,9 @@ function TypingBubbleAvatar({
   const [springProps, springApi] = useSpring(
     {
       config: SPRING_CONFIG,
-      from: AVATAR_ANIMATION_PROPS[visible ? 'hidden' : 'visible'],
+      from: shouldAnimate
+        ? AVATAR_ANIMATION_PROPS[visible ? 'hidden' : 'visible']
+        : {},
       to: AVATAR_ANIMATION_PROPS[visible ? 'visible' : 'hidden'],
       onRest: () => {
         if (!visible) {
@@ -138,6 +140,7 @@ function TypingBubbleAvatar({
 function TypingBubbleGroupAvatars({
   conversationId,
   typingContactIds,
+  shouldAnimate,
   getConversation,
   getPreferredBadge,
   showContactModal,
@@ -153,6 +156,7 @@ function TypingBubbleGroupAvatars({
   | 'theme'
 > & {
   typingContactIds: ReadonlyArray<string>;
+  shouldAnimate: boolean;
 }): ReactElement {
   const [allContactsById, setAllContactsById] = useState<
     Map<string, TypingContactType>
@@ -195,7 +199,7 @@ function TypingBubbleGroupAvatars({
 
   // Avatars are rendered Right-to-Left so the leftmost avatars can render on top.
   return (
-    <div className="module-message__typing-avatar-container">
+    <div className="module-message__author-avatar-container module-message__author-avatar-container--typing">
       {typingContactsOverflowCount > 0 && (
         <div
           className="module-message__typing-avatar module-message__typing-avatar--overflow-count
@@ -228,6 +232,7 @@ function TypingBubbleGroupAvatars({
             i18n={i18n}
             theme={theme}
             visible={visibleContactIds.has(contactId)}
+            shouldAnimate={shouldAnimate}
           />
         ))}
     </div>
@@ -241,12 +246,10 @@ const OUTER_DIV_ANIMATION_PROPS: Record<'visible' | 'hidden', object> = {
 const BUBBLE_ANIMATION_PROPS: Record<'visible' | 'hidden', object> = {
   visible: {
     opacity: 1,
-    scale: 1,
     top: '0px',
   },
   hidden: {
     opacity: 0.5,
-    scale: 0.5,
     top: '30px',
   },
 };
@@ -269,13 +272,17 @@ export function TypingBubble({
     () => Object.keys(typingContactIdTimestamps),
     [typingContactIdTimestamps]
   );
+  const [shouldAnimate, setShouldAnimate] = useState(false);
+  const prevTypingContactIds = React.useRef<
+    ReadonlyArray<string> | undefined
+  >();
   const isSomeoneTyping = useMemo(
     () => typingContactIds.length > 0,
     [typingContactIds]
   );
+
   const [outerDivStyle, outerDivSpringApi] = useSpring(
     {
-      from: OUTER_DIV_ANIMATION_PROPS[isSomeoneTyping ? 'hidden' : 'visible'],
       to: OUTER_DIV_ANIMATION_PROPS[isSomeoneTyping ? 'visible' : 'hidden'],
       config: SPRING_CONFIG,
     },
@@ -283,7 +290,6 @@ export function TypingBubble({
   );
   const [typingAnimationStyle, typingAnimationSpringApi] = useSpring(
     {
-      from: BUBBLE_ANIMATION_PROPS[isSomeoneTyping ? 'hidden' : 'visible'],
       to: BUBBLE_ANIMATION_PROPS[isSomeoneTyping ? 'visible' : 'hidden'],
       config: SPRING_CONFIG,
       onRest: () => {
@@ -336,6 +342,23 @@ export function TypingBubble({
     typingContactIdTimestamps,
   ]);
 
+  // Only animate when the user observes a change in typing contacts, not when first
+  // switching to a conversation.
+  useEffect(() => {
+    if (shouldAnimate) {
+      return;
+    }
+
+    if (!prevTypingContactIds.current) {
+      prevTypingContactIds.current = typingContactIds;
+      return;
+    }
+
+    if (prevTypingContactIds.current !== typingContactIds) {
+      setShouldAnimate(true);
+    }
+  }, [shouldAnimate, typingContactIds]);
+
   if (!isVisible) {
     return null;
   }
@@ -360,6 +383,7 @@ export function TypingBubble({
           <TypingBubbleGroupAvatars
             conversationId={conversationId}
             typingContactIds={typingContactIds}
+            shouldAnimate={shouldAnimate}
             getConversation={getConversation}
             getPreferredBadge={getPreferredBadge}
             showContactModal={showContactModal}
