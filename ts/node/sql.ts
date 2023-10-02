@@ -4,10 +4,12 @@ import path from 'path';
 import * as BetterSqlite3 from '@signalapp/better-sqlite3';
 import rimraf from 'rimraf';
 
+import { base64_variants, from_base64, to_hex } from 'libsodium-wrappers-sumo';
 import {
   chunk,
   compact,
   difference,
+  differenceBy,
   forEach,
   fromPairs,
   isArray,
@@ -20,7 +22,6 @@ import {
   omit,
   uniq,
 } from 'lodash';
-import { base64_variants, from_base64, to_hex } from 'libsodium-wrappers-sumo';
 
 import { ConversationAttributes } from '../models/conversationAttributes';
 import { PubKey } from '../session/types/PubKey'; // checked - only node
@@ -60,11 +61,13 @@ import {
 } from '../types/sqlSharedTypes';
 
 import { KNOWN_BLINDED_KEYS_ITEM, SettingsKey } from '../data/settings-key';
+import { Quote } from '../receiver/types';
 import {
   getSQLCipherIntegrityCheck,
   openAndMigrateDatabase,
   updateSchema,
 } from './migration/signalMigrations';
+import { configDumpData } from './sql_calls/config_dump';
 import {
   assertGlobalInstance,
   assertGlobalInstanceOrInstance,
@@ -72,8 +75,6 @@ import {
   initDbInstanceWith,
   isInstanceInitialized,
 } from './sqlInstance';
-import { configDumpData } from './sql_calls/config_dump';
-import { Quote } from '../receiver/types';
 
 // eslint:disable: function-name non-literal-fs-path
 
@@ -620,11 +621,28 @@ function getAllConversations() {
     .prepare(`SELECT * FROM ${CONVERSATIONS_TABLE} ORDER BY id ASC;`)
     .all();
 
-  return (rows || []).map(m => {
-    const unreadCount = getUnreadCountByConversation(m.id) || 0;
-    const mentionedUsStillUnread = !!getFirstUnreadMessageWithMention(m.id);
-    return formatRowOfConversation(m, 'getAllConversations', unreadCount, mentionedUsStillUnread);
+  const formatted = compact(
+    (rows || []).map(m => {
+      const unreadCount = getUnreadCountByConversation(m.id) || 0;
+      const mentionedUsStillUnread = !!getFirstUnreadMessageWithMention(m.id);
+      return formatRowOfConversation(m, 'getAllConversations', unreadCount, mentionedUsStillUnread);
+    })
+  );
+
+  const invalidOnLoad = formatted.filter(m => {
+    return isString(m.id) && m.id.startsWith('05') && m.id.includes(' ');
   });
+
+  if (!isEmpty(invalidOnLoad)) {
+    const idsInvalid = invalidOnLoad.map(m => m.id);
+    console.info(
+      'getAllConversations removing those conversations with invalid ids before load',
+      idsInvalid
+    );
+    removeConversation(idsInvalid);
+  }
+
+  return differenceBy(formatted, invalidOnLoad, c => c.id);
 }
 
 function getPubkeysInPublicConversation(conversationId: string) {
