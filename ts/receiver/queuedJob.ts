@@ -436,7 +436,7 @@ export async function handleMessageJob(
       }
 
       const expireTimerUpdate = expirationTimerUpdate?.expireTimer || 0;
-      const expirationTypeUpdate = changeToDisappearingConversationMode(
+      const expirationModeUpdate = changeToDisappearingConversationMode(
         conversation,
         expirationTimerUpdate?.expirationType,
         expireTimerUpdate
@@ -455,7 +455,7 @@ export async function handleMessageJob(
       }
 
       await conversation.updateExpireTimer({
-        providedDisappearingMode: expirationTypeUpdate,
+        providedDisappearingMode: expirationModeUpdate,
         providedExpireTimer: expireTimerUpdate,
         providedChangeTimestamp: lastDisappearingMessageChangeTimestamp,
         providedSource: source,
@@ -465,6 +465,9 @@ export async function handleMessageJob(
         shouldCommit: false,
         // NOTE we don't commit yet because we want to get the message id, see below
       });
+      window.log.debug(
+        `WIP: [handleMessageJob] updating disappearing messages to expiratonModeUpdate: ${expirationModeUpdate} expireTimerUpdate: ${expireTimerUpdate}`
+      );
     } else {
       // this does not commit to db nor UI unless we need to approve a convo
       await handleRegularMessage(

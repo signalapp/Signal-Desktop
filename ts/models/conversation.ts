@@ -802,6 +802,18 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   // tslint:disable: cyclomatic-complexity
+  /**
+   * Updates the disappearing message settings for this conversation and sends an ExpirationTimerUpdate message if required
+   * @param providedDisappearingMode
+   * @param providedExpireTimer
+   * @param providedChangeTimestamp the timestamp of when the change was made
+   * @param providedSource the pubkey of the user who made the change
+   * @param receivedAt the timestamp of when the change was received
+   * @param fromSync if the change was made from a sync message
+   * @param shouldCommit if the change should be committed to the DB
+   * @param existingMessage if we have an existing message model to update
+   * @returns true, if the change was made or false if it was ignored
+   */
   public async updateExpireTimer({
     providedDisappearingMode,
     providedExpireTimer,
@@ -820,10 +832,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     fromSync?: boolean;
     shouldCommit?: boolean;
     existingMessage?: MessageModel;
-  }): Promise<void> {
+  }): Promise<boolean> {
     if (this.isPublic()) {
       window.log.warn("updateExpireTimer() Disappearing messages aren't supported in communities");
-      return;
+      return false;
     }
     let expirationMode = providedDisappearingMode;
     let expireTimer = providedExpireTimer;
@@ -844,7 +856,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         'WIP: updateExpireTimer() This is an outdated disappearing message setting',
         `fromSync: ${fromSync}`
       );
-      return;
+      return false;
     }
 
     // NOTE: We don' mind if the message is the same, we still want to update the conversation because we want to show visible control messages we receive an ExpirationTimerUpdate
@@ -858,7 +870,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
           fromSync ? 'config/sync ' : ''
         }message as we already have the same one set.`
       );
-      return;
+      return false;
     }
 
     const isOutgoing = Boolean(!receivedAt);
@@ -935,16 +947,22 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       window.log.debug(
         `WIP: updateExpireTimer() We dont send an ExpireTimerUpdate because this was a remote change receivedAt: ${receivedAt} fromSync: ${fromSync}`
       );
-      if (expirationMode !== 'off' && !message.getExpirationStartTimestamp()) {
-        message.set({
-          expirationStartTimestamp: setExpirationStartTimestamp(
-            expirationMode,
-            message.get('sent_at'),
-            'updateExpireTimer() remote change'
-          ),
-        });
+      if (!message.getExpirationStartTimestamp()) {
+        const canBeDeleteAfterSend = this.isMe() || this.isGroup();
+        if (
+          (canBeDeleteAfterSend && expirationMode === 'legacy') ||
+          expirationMode === 'deleteAfterSend'
+        ) {
+          message.set({
+            expirationStartTimestamp: setExpirationStartTimestamp(
+              expirationMode,
+              message.get('sent_at'),
+              'updateExpireTimer() remote change'
+            ),
+          });
+        }
       }
-      return;
+      return true;
     }
 
     const expireUpdate = {
@@ -959,7 +977,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       // TODO Check that the args are correct
       if (expireUpdate.expirationType === 'deleteAfterRead') {
         window.log.info('Note to Self messages cannot be delete after read!');
-        return;
+        return true;
       }
 
       const expirationTimerMessage = new ExpirationTimerUpdateMessage(expireUpdate);
@@ -970,7 +988,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       // );
 
       await message?.sendSyncMessageOnly(expirationTimerMessage);
-      return;
+      return true;
     }
 
     if (this.isPrivate()) {
@@ -987,7 +1005,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         expirationTimerMessage,
         SnodeNamespaces.UserMessages
       );
-      return;
+      return true;
     }
     if (this.isClosedGroup()) {
       const expireUpdateForGroup = {
@@ -1006,7 +1024,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         message: expirationTimerMessage,
         namespace: SnodeNamespaces.ClosedGroupMessage,
       });
-      return;
+      return true;
     }
     throw new Error('Communities should not use disappearing messages');
   }

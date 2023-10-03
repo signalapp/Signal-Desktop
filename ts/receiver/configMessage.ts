@@ -231,7 +231,7 @@ async function handleUserProfileUpdate(result: IncomingConfResult): Promise<Inco
 
     if (wrapperNoteToSelfExpirySeconds !== expireTimer) {
       // TODO legacy messages support will be removed in a future release
-      await ourConvo.updateExpireTimer({
+      const success = await ourConvo.updateExpireTimer({
         providedDisappearingMode:
           wrapperNoteToSelfExpirySeconds && wrapperNoteToSelfExpirySeconds > 0
             ? ReleasedFeatures.isDisappearMessageV2FeatureReleasedCached()
@@ -245,16 +245,20 @@ async function handleUserProfileUpdate(result: IncomingConfResult): Promise<Inco
         fromSync: true,
         shouldCommit: false,
       });
-      changes = true;
-      window.log.debug(
-        `WIP: [userProfileWrapper] updating disappearing messages to expiratonMode: ${
-          wrapperNoteToSelfExpirySeconds && wrapperNoteToSelfExpirySeconds > 0
-            ? ReleasedFeatures.isDisappearMessageV2FeatureReleasedCached()
-              ? 'deleteAfterSend'
-              : 'legacy'
-            : 'off'
-        } wrapperNoteToSelfExpirySeconds: ${wrapperNoteToSelfExpirySeconds}`
-      );
+      changes = success;
+      if (success) {
+        window.log.debug(
+          `WIP: [userProfileWrapper] updating disappearing messages for\nconvoId:${
+            ourConvo.id
+          } expiratonMode: ${
+            wrapperNoteToSelfExpirySeconds && wrapperNoteToSelfExpirySeconds > 0
+              ? ReleasedFeatures.isDisappearMessageV2FeatureReleasedCached()
+                ? 'deleteAfterSend'
+                : 'legacy'
+              : 'off'
+          } wrapperNoteToSelfExpirySeconds: ${wrapperNoteToSelfExpirySeconds}`
+        );
+      }
     }
 
     // make sure to write the changes to the database now as the `AvatarDownloadJob` triggered by updateOurProfileLegacyOrViaLibSession might take some time before getting run
@@ -391,7 +395,7 @@ async function handleContactsUpdate(result: IncomingConfResult): Promise<Incomin
         wrapperConvo.expirationTimerSeconds !== contactConvo.getExpireTimer() ||
         wrapperConvo.expirationMode !== contactConvo.getExpirationMode()
       ) {
-        await contactConvo.updateExpireTimer({
+        const success = await contactConvo.updateExpireTimer({
           providedDisappearingMode: wrapperConvo.expirationMode,
           providedExpireTimer: wrapperConvo.expirationTimerSeconds,
           providedChangeTimestamp: result.latestEnvelopeTimestamp,
@@ -400,10 +404,12 @@ async function handleContactsUpdate(result: IncomingConfResult): Promise<Incomin
           fromSync: true,
           shouldCommit: false,
         });
-        changes = true;
-        window.log.debug(
-          `WIP: [contactsWrapper] updating disappearing messages for\nconvoId:${wrapperConvo.id} expirationMode: ${wrapperConvo.expirationMode} expirationTimerSeconds: ${wrapperConvo.expirationTimerSeconds}`
-        );
+        changes = success;
+        if (success) {
+          window.log.debug(
+            `WIP: [contactsWrapper] updating disappearing messages for\nconvoId:${wrapperConvo.id} expirationMode: ${wrapperConvo.expirationMode} expirationTimerSeconds: ${wrapperConvo.expirationTimerSeconds}`
+          );
+        }
       }
 
       // we want to set the active_at to the created_at timestamp if active_at is unset, so that it shows up in our list.
@@ -614,16 +620,43 @@ async function handleLegacyGroupUpdate(latestEnvelopeTimestamp: number) {
         legacyGroupConvo.get('active_at') < latestEnvelopeTimestamp
           ? legacyGroupConvo.get('active_at')
           : latestEnvelopeTimestamp,
-      expirationType:
-        fromWrapper.disappearingTimerSeconds && fromWrapper.disappearingTimerSeconds > 0
-          ? 'deleteAfterSend'
-          : 'unknown',
-      expireTimer: fromWrapper.disappearingTimerSeconds,
     };
 
     await ClosedGroup.updateOrCreateClosedGroup(groupDetails);
 
     let changes = await legacyGroupConvo.setPriorityFromWrapper(fromWrapper.priority, false);
+
+    if (fromWrapper.disappearingTimerSeconds !== legacyGroupConvo.getExpireTimer()) {
+      // TODO legacy messages support will be removed in a future release
+      const success = await legacyGroupConvo.updateExpireTimer({
+        providedDisappearingMode:
+          fromWrapper.disappearingTimerSeconds && fromWrapper.disappearingTimerSeconds > 0
+            ? ReleasedFeatures.isDisappearMessageV2FeatureReleasedCached()
+              ? 'deleteAfterSend'
+              : 'legacy'
+            : 'off',
+        providedExpireTimer: fromWrapper.disappearingTimerSeconds,
+        providedChangeTimestamp: latestEnvelopeTimestamp,
+        providedSource: legacyGroupConvo.id,
+        receivedAt: latestEnvelopeTimestamp,
+        fromSync: true,
+        shouldCommit: false,
+      });
+      changes = success;
+      if (success) {
+        window.log.debug(
+          `WIP: [userGroupWrapper] updating disappearing messages for\nconvoId:${
+            legacyGroupConvo.id
+          }  expiratonMode: ${
+            fromWrapper.disappearingTimerSeconds && fromWrapper.disappearingTimerSeconds > 0
+              ? ReleasedFeatures.isDisappearMessageV2FeatureReleasedCached()
+                ? 'deleteAfterSend'
+                : 'legacy'
+              : 'off'
+          } wrapperNoteToSelfExpirySeconds: ${fromWrapper.disappearingTimerSeconds}`
+        );
+      }
+    }
 
     const existingTimestampMs = legacyGroupConvo.get('lastJoinedTimestamp');
     const existingJoinedAtSeconds = Math.floor(existingTimestampMs / 1000);
@@ -671,7 +704,6 @@ async function handleUserGroupsUpdate(result: IncomingConfResult): Promise<Incom
       case 'Community':
         await handleCommunitiesUpdate();
         break;
-
       case 'LegacyGroup':
         await handleLegacyGroupUpdate(result.latestEnvelopeTimestamp);
         break;
