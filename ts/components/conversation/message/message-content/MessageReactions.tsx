@@ -10,6 +10,7 @@ import { Flex } from '../../../basic/Flex';
 import { SessionIcon } from '../../../icon';
 import { Reaction, ReactionProps } from '../reactions/Reaction';
 import { StyledPopupContainer } from '../reactions/ReactionPopup';
+import { REACT_LIMIT } from '../../../../session/constants';
 
 export const popupXDefault = -81;
 export const popupYDefault = -90;
@@ -148,7 +149,7 @@ type Props = {
   noAvatar: boolean;
 };
 
-export const MessageReactions = (props: Props): ReactElement => {
+export const MessageReactions = (props: Props) => {
   const {
     messageId,
     hasReactLimit = true,
@@ -185,12 +186,14 @@ export const MessageReactions = (props: Props): ReactElement => {
   }, [msgProps?.sortedReacts, reactions]);
 
   if (!msgProps) {
-    return <></>;
+    return null;
   }
 
   const { sortedReacts } = msgProps;
 
-  const reactLimit = 6;
+  if (!sortedReacts || !sortedReacts.length) {
+    return null;
+  }
 
   const reactionsProps = {
     messageId,
@@ -220,7 +223,7 @@ export const MessageReactions = (props: Props): ReactElement => {
     >
       {sortedReacts &&
         sortedReacts?.length !== 0 &&
-        (!hasReactLimit || sortedReacts.length <= reactLimit ? (
+        (!hasReactLimit || sortedReacts.length <= REACT_LIMIT ? (
           <Reactions {...reactionsProps} />
         ) : (
           <ExtendedReactions handleExpand={handleExpand} {...reactionsProps} />

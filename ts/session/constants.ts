@@ -71,6 +71,7 @@ export const UI = {
 };
 
 export const DEFAULT_RECENT_REACTS = ['😂', '🥰', '😢', '😡', '😮', '😈'];
+export const REACT_LIMIT = 6;
 
 export const MAX_USERNAME_BYTES = 64;
 
