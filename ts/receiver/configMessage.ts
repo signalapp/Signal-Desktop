@@ -230,10 +230,13 @@ async function handleUserProfileUpdate(result: IncomingConfResult): Promise<Inco
     const wrapperNoteToSelfExpirySeconds = await UserConfigWrapperActions.getNoteToSelfExpiry();
 
     if (wrapperNoteToSelfExpirySeconds !== expireTimer) {
+      // TODO legacy messages support will be removed in a future release
       await ourConvo.updateExpireTimer({
         providedDisappearingMode:
           wrapperNoteToSelfExpirySeconds && wrapperNoteToSelfExpirySeconds > 0
-            ? 'deleteAfterSend'
+            ? ReleasedFeatures.isDisappearMessageV2FeatureReleasedCached()
+              ? 'deleteAfterSend'
+              : 'legacy'
             : 'off',
         providedExpireTimer: wrapperNoteToSelfExpirySeconds,
         providedChangeTimestamp: result.latestEnvelopeTimestamp,
@@ -246,7 +249,9 @@ async function handleUserProfileUpdate(result: IncomingConfResult): Promise<Inco
       window.log.debug(
         `WIP: [userProfileWrapper] updating disappearing messages to expiratonMode: ${
           wrapperNoteToSelfExpirySeconds && wrapperNoteToSelfExpirySeconds > 0
-            ? 'deleteAfterSend'
+            ? ReleasedFeatures.isDisappearMessageV2FeatureReleasedCached()
+              ? 'deleteAfterSend'
+              : 'legacy'
             : 'off'
         } wrapperNoteToSelfExpirySeconds: ${wrapperNoteToSelfExpirySeconds}`
       );

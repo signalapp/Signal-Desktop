@@ -317,8 +317,14 @@ export async function handleNewClosedGroup(
       );
 
       // TODO This is only applicable for old closed groups - will be removed in future
+      // TODO legacy messages support will be removed in a future release
       await groupConvo.updateExpireTimer({
-        providedDisappearingMode: expireTimer === 0 ? 'off' : 'deleteAfterSend',
+        providedDisappearingMode:
+          expireTimer === 0
+            ? 'off'
+            : ReleasedFeatures.isDisappearMessageV2FeatureReleasedCached()
+            ? 'deleteAfterSend'
+            : 'legacy',
         providedExpireTimer: expireTimer,
         providedChangeTimestamp: GetNetworkTime.getNowWithNetworkOffset(),
         providedSource: sender,
