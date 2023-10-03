@@ -1351,7 +1351,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   }
 
   // NOTE We want to replace Backbone .get() calls with these getters as we migrate to Redux completely eventually
-  // region Start of getters
+  // #region Start of getters
   public getExpirationType() {
     return this.get('expirationType');
   }
@@ -1372,7 +1372,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     return this.get('expirationTimerUpdate');
   }
 
-  // endregon
+  // #endregion
 }
 
 const throttledAllMessagesDispatch = debounce(

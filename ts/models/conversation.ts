@@ -2377,7 +2377,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   // NOTE We want to replace Backbone .get() calls with these getters as we migrate to Redux completely eventually
-  // region Start of getters
+  // #region Start of getters
   public getExpirationMode() {
     return this.get('expirationMode');
   }
@@ -2394,7 +2394,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     return this.get('lastDisappearingMessageChangeTimestamp');
   }
 
-  // endregon
+  // #endregion
 }
 
 export async function commitConversationAndRefreshWrapper(id: string) {
