@@ -120,6 +120,7 @@ import {
 import {
   DisappearingMessageConversationModeType,
   changeToDisappearingMessageType,
+  setExpirationStartTimestamp,
 } from '../util/expiringMessages';
 import { markAttributesAsReadIfNeeded } from './messageFactory';
 
@@ -932,8 +933,17 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     // if change was made remotely, don't send it to the contact/group
     if (receivedAt || fromSync) {
       window.log.debug(
-        `WIP: updateExpireTimer() We dont send an ExpireTimerUpdate because this was a remote change receivedAt:${receivedAt} fromSync:${fromSync}`
+        `WIP: updateExpireTimer() We dont send an ExpireTimerUpdate because this was a remote change receivedAt: ${receivedAt} fromSync: ${fromSync}`
       );
+      if (expirationMode !== 'off' && !message.getExpirationStartTimestamp()) {
+        message.set({
+          expirationStartTimestamp: setExpirationStartTimestamp(
+            expirationMode,
+            message.get('sent_at'),
+            'updateExpireTimer() remote change'
+          ),
+        });
+      }
       return;
     }
 
