@@ -960,6 +960,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
               'updateExpireTimer() remote change'
             ),
           });
+          await message.commit();
         }
       }
       return true;
