@@ -42,6 +42,7 @@ import { SendMessageProtoError } from '../textsecure/Errors';
 import * as expirationTimer from '../util/expirationTimer';
 import { getUserLanguages } from '../util/userLanguages';
 import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp';
+import { copyCdnFields } from '../util/attachments';
 
 import type { ReactionType } from '../types/Reactions';
 import type { ServiceIdString } from '../types/ServiceId';
@@ -2007,6 +2008,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   ): Promise<void> {
     const { attachments } = quote;
     const firstAttachment = attachments ? attachments[0] : undefined;
+    const firstThumbnailCdnFields = copyCdnFields(firstAttachment?.thumbnail);
 
     if (messageHasPaymentEvent(originalMessage.attributes)) {
       // eslint-disable-next-line no-param-reassign
@@ -2100,6 +2102,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
       if (thumbnail && thumbnail.path) {
         firstAttachment.thumbnail = {
+          ...firstThumbnailCdnFields,
           ...thumbnail,
           copied: true,
         };
@@ -2113,6 +2116,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
       if (image && image.path) {
         firstAttachment.thumbnail = {
+          ...firstThumbnailCdnFields,
           ...image,
           copied: true,
         };
@@ -2122,6 +2126,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     const sticker = originalMessage.get('sticker');
     if (sticker && sticker.data && sticker.data.path) {
       firstAttachment.thumbnail = {
+        ...firstThumbnailCdnFields,
         ...sticker.data,
         copied: true,
       };

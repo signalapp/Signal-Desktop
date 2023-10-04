@@ -31,6 +31,7 @@ import type {
   UploadedAttachmentType,
   AttachmentWithHydratedData,
 } from '../../types/Attachment';
+import { copyCdnFields } from '../../util/attachments';
 import { LONG_MESSAGE, MIMETypeToString } from '../../types/MIME';
 import type { RawBodyRange } from '../../types/BodyRange';
 import type {
@@ -628,7 +629,10 @@ async function uploadSingleAttachment(
   );
 
   const newAttachments = [...oldAttachments];
-  newAttachments[index].digest = Bytes.toBase64(uploaded.digest);
+  newAttachments[index] = {
+    ...newAttachments[index],
+    ...copyCdnFields(uploaded),
+  };
 
   message.set('attachments', newAttachments);
 
@@ -698,14 +702,11 @@ async function uploadMessageQuote(
 
       const attachmentAfterThumbnailUpload =
         attachmentsAfterThumbnailUpload[index];
-      const digest = attachmentAfterThumbnailUpload.thumbnail
-        ? Bytes.toBase64(attachmentAfterThumbnailUpload.thumbnail.digest)
-        : undefined;
       return {
         ...attachment,
         thumbnail: {
           ...attachment.thumbnail,
-          digest,
+          ...copyCdnFields(attachmentAfterThumbnailUpload.thumbnail),
         },
       };
     }),
@@ -783,7 +784,7 @@ async function uploadMessagePreviews(
       ...preview,
       image: {
         ...preview.image,
-        digest: Bytes.toBase64(uploaded.image.digest),
+        ...copyCdnFields(uploaded.image),
       },
     };
   });
@@ -829,7 +830,7 @@ async function uploadMessageSticker(
     ...existingSticker,
     data: {
       ...existingSticker.data,
-      digest: Bytes.toBase64(uploaded.digest),
+      ...copyCdnFields(uploaded),
     },
   });
 
@@ -917,7 +918,7 @@ async function uploadMessageContacts(
         ...contact.avatar,
         avatar: {
           ...contact.avatar.avatar,
-          digest: Bytes.toBase64(uploaded.avatar.avatar.digest),
+          ...copyCdnFields(uploaded.avatar.avatar),
         },
       },
     };

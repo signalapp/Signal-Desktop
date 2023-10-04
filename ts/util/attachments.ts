@@ -4,11 +4,16 @@
 import { blobToArrayBuffer } from 'blob-util';
 
 import { scaleImageToLevel } from './scaleImageToLevel';
-import type { AttachmentType } from '../types/Attachment';
+import { dropNull } from './dropNull';
+import type {
+  AttachmentType,
+  UploadedAttachmentType,
+} from '../types/Attachment';
 import { canBeTranscoded } from '../types/Attachment';
 import type { LoggerType } from '../types/Logging';
 import * as MIME from '../types/MIME';
 import * as Errors from '../types/errors';
+import * as Bytes from '../Bytes';
 
 // Upgrade steps
 // NOTE: This step strips all EXIF metadata from JPEG images as
@@ -73,4 +78,24 @@ export async function autoOrientJPEG(
 
     return attachment;
   }
+}
+
+export type CdnFieldsType = Pick<
+  AttachmentType,
+  'cdnId' | 'cdnKey' | 'cdnNumber' | 'key' | 'digest'
+>;
+
+export function copyCdnFields(
+  uploaded?: UploadedAttachmentType
+): CdnFieldsType {
+  if (!uploaded) {
+    return {};
+  }
+  return {
+    cdnId: dropNull(uploaded.cdnId)?.toString(),
+    cdnKey: uploaded.cdnKey,
+    cdnNumber: dropNull(uploaded.cdnNumber),
+    key: Bytes.toBase64(uploaded.key),
+    digest: Bytes.toBase64(uploaded.digest),
+  };
 }
