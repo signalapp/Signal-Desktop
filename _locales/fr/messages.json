@@ -6815,6 +6815,6 @@
     "messageformat": "Il suffit parfois d’un message pour voir toute une conversation défiler devant nos yeux. Désormais, Signal affichera automatiquement le dernier message lorsque vous en envoyez un dans une conversation."
   },
   "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "Vous pouvez désormais cliquer droit sur un message envoyé pour le modifier ! Corrigez une erreur d’orthographe, ajoutez l’ingrédient manquant de la recette de confiture de votre grand-mère ou finissez la blague que vous aviez envoyée trop rapidement dans votre hâte de la raconter. Tout est possible ! Signal vous indiquera lorsque les messages ont été modifiés et vous pouvez cliquer sur « Modifié » pour consulter l’historique des modifications de chacun de ces messages. Mettez à jour vos messages passés aujourd’hui pour éviter toutes confusions à l’avenir !"
   }
 }

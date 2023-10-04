@@ -5765,7 +5765,7 @@
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
   "icu:MediaEditor__input-placeholder": {
-    "messageformat": "Message",
+    "messageformat": "Sporočilo",
     "description": "Placeholder for the input in the media editor"
   },
   "icu:MediaEditor__clock-more-styles": {
@@ -6815,6 +6815,6 @@
     "messageformat": "Včasih vam pravi odgovor lahko resnično pomaga priti do dna tega, kar ljudje govorijo, in zdaj se bo Signal samodejno pomaknil do tega, kar ste pravkar rekli, kadarkoli pošljete sporočilo v klepetu."
   },
   "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "Zdaj lahko z desnim klikom urejate sporočilo, tudi ko je že poslano! Popravite tipkarsko napako, vključite manjkajočo sestavino v babičin recept za čokoladne piškote ali dodajte bistvo šali, če ste prehitro pritisnili gumb za pošiljanje. Izbira je vaša. Sporočila bodo vedno prikazana, ko so bila urejena. Kliknete lahko indikator »Urejeno«, če si želite ogledati celotno zgodovino urejanja vseh urejenih sporočil. Posodobite preteklost v sedanjosti, da preprečite prihodnjo zmedo!"
   }
 }

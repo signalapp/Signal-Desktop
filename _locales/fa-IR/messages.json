@@ -5765,7 +5765,7 @@
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
   "icu:MediaEditor__input-placeholder": {
-    "messageformat": "Message",
+    "messageformat": "پیام",
     "description": "Placeholder for the input in the media editor"
   },
   "icu:MediaEditor__clock-more-styles": {
@@ -6815,6 +6815,6 @@
     "messageformat": "حالا دیگر هرزمان که پیام جدیدی در یک گفتگو ارسال می‌کنید، سیگنال به‌طور خودکار شما را به انتهای آن گفتگو می‌برد."
   },
   "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "حالا می‌توانید با کلیک راست روی هر پیام ارسالی یا با فشار دادن دکمه فلش بالا روی کیبوردتان، هرآن‌چه گفته‌اید را ویرایش کنید! غلط‌های املایی را تصحیح کنید، مورد جاافتاده از مواد مورد نیاز شیرینی شکلاتی مادربزرگ را اضافه کنید، یا لطیفه‌ای را که با عجله فرستاده‌اید و ناتمام مانده تکمیل کنید. انتخاب با شماست. اینکه پیام ویرایش شده است همیشه نشان داده می‌شود و می‌توانید با کلیک روی نشانگر Edited (ویرایش‌شده)، کل تاریخچۀ ویرایش را برای هر پیام ویرایش‌شده مشاهده کنید."
   }
 }

@@ -5765,7 +5765,7 @@
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
   "icu:MediaEditor__input-placeholder": {
-    "messageformat": "Message",
+    "messageformat": "메시지",
     "description": "Placeholder for the input in the media editor"
   },
   "icu:MediaEditor__clock-more-styles": {
@@ -6815,6 +6815,6 @@
     "messageformat": "이제 대화에서 새 메시지를 보내면 Signal이 자동으로 대화 맨 아래로 이동합니다."
   },
   "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "• 이제 보낸 메시지를 오른쪽 마우스 단추로 클릭하거나 키보드의 위쪽 화살표를 눌러 방금 한 말을 수정할 수 있습니다! 오타를 수정하거나, 할머니의 초콜릿 쿠키 레시피에서 빠진 재료를 추가하거나, 결정적인 한 마디를 얹어 농담을 완성해 보세요. 선택은 여러분의 몫입니다. 메시지에는 항상 언제 수정했는지가 표시되며, 모든 수정 메시지의 전체 수정 기록을 확인할 수 있습니다."
   }
 }

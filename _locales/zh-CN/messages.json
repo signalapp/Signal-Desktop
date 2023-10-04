@@ -5765,7 +5765,7 @@
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
   "icu:MediaEditor__input-placeholder": {
-    "messageformat": "Message",
+    "messageformat": "消息",
     "description": "Placeholder for the input in the media editor"
   },
   "icu:MediaEditor__clock-more-styles": {
@@ -6815,6 +6815,6 @@
     "messageformat": "现在当您在聊天中发送一条新消息后，Signal 会自动滚动到聊天的底部。"
   },
   "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "现在您可以在发送消息后通过右击该消息或按键盘上的向上箭头来对其进行编辑了！您可以修改错别字，补充遗漏的信息，或者增添一点笑料，以弥补“手快”的遗憾。编辑的选择权在于你。当消息被编辑后，它会始终显示已被编辑，同时您可以看到任何已编辑消息的完整编辑记录。"
   }
 }

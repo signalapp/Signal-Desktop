@@ -5765,7 +5765,7 @@
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
   "icu:MediaEditor__input-placeholder": {
-    "messageformat": "Message",
+    "messageformat": "Ujumbe",
     "description": "Placeholder for the input in the media editor"
   },
   "icu:MediaEditor__clock-more-styles": {
@@ -6815,6 +6815,6 @@
     "messageformat": "Wakati mwingine jibu sahihi linaweza kukusaidia kuelewa nini hasa watu wanasema, na sasa Signal itakupeleka kiotomatiki katika kile ulichosema kila unapotuma ujumbe kwenye gumzo."
   },
   "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "Sasa unaweza kuhariri ujumbe kwa kubofya kulia baada ya ujumbe kutumwa! Rekebisha makosa, ikiwemo hitaji lililokosekana katika pishi la biskuti ya bibi, au weka kichekesho cha utani endapo utabofya kitufe cha kutuma haraka. Uamuzi ni wako. Jumbe mara zote zitaonyesha kuwa zimehaririwa, na unaweza kubofya kwenye kiashiria cha \"Imehaririwa\" ili kuona historia kamili ya uhariri kwa ujumbe wowote uliohaririwa. Sasisha ya zamani sasa hivi ili kuepuka mkanganyiko wa baadaye leo!"
   }
 }

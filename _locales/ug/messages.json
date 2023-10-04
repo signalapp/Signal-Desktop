@@ -5765,7 +5765,7 @@
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
   "icu:MediaEditor__input-placeholder": {
-    "messageformat": "Message",
+    "messageformat": "ئۇچۇر",
     "description": "Placeholder for the input in the media editor"
   },
   "icu:MediaEditor__clock-more-styles": {
@@ -6815,6 +6815,6 @@
     "messageformat": "بەزىدە باشقىلارنىڭ نېمە دەۋاتقانلىقىنىڭ تېگىگە يېتىش ئۈچۈن توغرا جاۋاپ ھەقىقەتەن پايدىلىق بولىدۇ، ۋە ھازىر سىزنىڭ ھەرقانداق بىر پاراڭدا ئۇچۇرنى قاچان يوللىغان بولىشىڭىزدىن قەتئىينەزەر Signal سىزنىڭ دېگەنلىرىڭىزگە ئاپتوماتىك يۆتكىلىدۇ."
   },
   "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "ئەمدى سىز ئەۋەتىلگەن بىر ئۇچۇرنى ئۇزۇن بېسىش ئارقىلىق تەھرېرلىيەلەيسىز! خاتالىقلارنىڭ تۈزىتىڭ، چوڭ ئانىڭىزنىڭ شاكىلاتلىق نېپىز پېچىنە رېتسىپىدىكى كەم تەركىپلەرنى تولۇقلاڭ، ياكى تېزلا ئەۋەتىۋېتىپ قالغان چاقچاقلانى مۇشتلاپ قويۇڭ. بۇ تاللاش سىزنىڭ. تەھرېرلەنگەن ئۇچۇرلار ھەمىشە كۆرۈنىدۇ، ۋە خالىغان بىر تەھرېرلەنگەن ئۇچۇر ئۈچۈن «تەھرېرلەنگەن» كۆرسەتكۈچىنى چېكىپ تولۇق تەھرېرلەش خاتىرىسىنى كۆرەلەيسىز. كەلگۈسىدىكى ئۇقۇشماسلىقنىڭ ئالدىنى ئېلىش ئۈچۈن ھازىر ئۆتمۈشنى يېڭىلاڭ!"
   }
 }

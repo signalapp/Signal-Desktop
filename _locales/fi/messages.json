@@ -5765,7 +5765,7 @@
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
   "icu:MediaEditor__input-placeholder": {
-    "messageformat": "Message",
+    "messageformat": "Viesti",
     "description": "Placeholder for the input in the media editor"
   },
   "icu:MediaEditor__clock-more-styles": {
@@ -6815,6 +6815,6 @@
     "messageformat": "Signal vierittää nyt automaattisesti keskustelun alaosaan, kun lähetät uuden viestin keskusteluun."
   },
   "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "• Nyt voit muokata viestiä myös sen lähettämisen jälkeen painamalla sitä pitkään. Valinta on sinun. Viesteistä näkyy, milloin niitä on muokattu. Voit myös katsoa muokattujen viestien koko muokkaushistoriaa napauttamalla kohtaa Muokattu viestin kohdalla, johon on tehty muutoksia."
   }
 }

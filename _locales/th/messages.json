@@ -5765,7 +5765,7 @@
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
   "icu:MediaEditor__input-placeholder": {
-    "messageformat": "Message",
+    "messageformat": "ข้อความ",
     "description": "Placeholder for the input in the media editor"
   },
   "icu:MediaEditor__clock-more-styles": {
@@ -6815,6 +6815,6 @@
     "messageformat": "ข้อความไหนก็ไม่พลาด! เพราะ Signal จะเลื่อนลงไปด้านล่างสุดของแชทนั้นให้คุณโดยอัตโนมัติทุกเมื่อที่มีข้อความใหม่"
   },
   "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "แก้ไขข้อความที่ส่งแล้วได้แบบทันใจ ทำได้ง่ายๆ แค่คลิกขวาหรือกดปุ่มลูกศรชี้ขึ้นบนแป้นพิมพ์เท่านั้น! ตอบโจทย์สำหรับคนมือ (กดส่ง) ไว ไม่ว่าจะเป็นการแก้คำผิด เพิ่มเติมรายละเอียดในเรื่องที่กำลังเล่า หรืออธิบายมุกที่เพื่อนอาจยังไม่เข้าใจ โดยคุณจะทราบเสมอเมื่อมีการแก้ไขข้อความ ทั้งยังสามารถคลิกดูประวัติการแก้ไขทั้งหมดได้อีกด้วย อัปเดตอดีตในปัจจุบันเพื่อป้องกันความสับสนในอนาคตวันนี้"
   }
 }

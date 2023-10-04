@@ -5765,7 +5765,7 @@
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
   "icu:MediaEditor__input-placeholder": {
-    "messageformat": "Message",
+    "messageformat": "సందేశం",
     "description": "Placeholder for the input in the media editor"
   },
   "icu:MediaEditor__clock-more-styles": {
@@ -6815,6 +6815,6 @@
     "messageformat": "మీరు చాట్‌లో కొత్త సందేశాన్ని పంపినప్పుడు Signal ఇప్పుడు ఆటోమేటిక్‌గా ఆ చాట్ దిగువకు స్క్రోల్ అవుతుంది."
   },
   "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "పంపబడిన ఏదైనా సందేశంపై ఇప్పుడు మీరు కుడి-క్లిక్ చేయవచ్చు లేదా మీరు ఇప్పుడే చెప్పినదానిని సవరించడానికి మీ కీబోర్డ్‌లోని అప్ బాణాన్ని నొక్కండి! అక్షర దోషాన్ని సరి చేయండి, అమ్మమ్మ చాక్లెట్ చిప్ కుకీ రెసిపీలో తప్పిపోయిన పదార్ధాన్ని చేర్చండి, లేదా ఒకవేళ మీరు పంపండి బటన్‌ను చాలా త్వరగా నొక్కితే జోక్‌కు పంచ్‌లైన్‌ను జోడించండి. ఎంపిక మీదే. సందేశాలు సవరించబడినప్పుడు ఎల్లప్పుడూ చూపబడతాయి మరియు సవరించిన ఏవైనా సందేశాల కోసం పూర్తి సవరణ చరిత్రను మీరు చూడవచ్చు. భవిష్యత్తు గందరగోళాన్ని ఈరోజే నివారించడానికి గతాన్ని వర్తమానంలో అప్‌డేట్ చేయండి!"
   }
 }

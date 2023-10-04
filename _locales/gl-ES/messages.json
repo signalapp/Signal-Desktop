@@ -5765,7 +5765,7 @@
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
   "icu:MediaEditor__input-placeholder": {
-    "messageformat": "Message",
+    "messageformat": "Mensaxe",
     "description": "Placeholder for the input in the media editor"
   },
   "icu:MediaEditor__clock-more-styles": {
@@ -6815,6 +6815,6 @@
     "messageformat": "Agora, cando envíes unha nova mensaxe Signal irá automaticamente ata o final da conversa para que non perdas ningunha mensaxe nova."
   },
   "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "Agora podes editar unha mensaxe aínda que a enviaras premendo o botón dereito do rato ou a frecha cara a arriba do teclado! Corrixe un erro, engade o número que falta na mensaxe ou achega máis contexto para que saiban do que estás a falar. A elección é túa. Nas mensaxes aparecerá cando se editaron, e poderás comprobar o historial de edicións completo."
   }
 }

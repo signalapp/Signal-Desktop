@@ -5765,7 +5765,7 @@
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
   "icu:MediaEditor__input-placeholder": {
-    "messageformat": "Message",
+    "messageformat": "Wiadomość",
     "description": "Placeholder for the input in the media editor"
   },
   "icu:MediaEditor__clock-more-styles": {
@@ -6815,6 +6815,6 @@
     "messageformat": "Czasami trudno dogrzebać się do sedna sprawy, bo tkwi gdzieś na samym dnie, dlatego teraz Signal automatycznie przewinie czat do Twojej ostatniej wiadomości tuż po jej wysłaniu."
   },
   "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "Od teraz możesz edytować wiadomość po wysłaniu, klikając na nią prawym przyciskiem myszy! Popraw literówkę, dodaj brakujący składnik do sekretnego przepisu babci lub uzupełnij żart o brakującą puentę, jeśli zdarzy Ci się nacisnąć przycisk wysłania zbyt wcześnie. Wybór należy do Ciebie. Wiadomości zawsze będą oznaczone jako edytowane i po kliknięciu na napis „Edytowana” zobaczysz pełną historię edycji każdej zmienionej wiadomości. Napraw przeszłość w teraźniejszości, by zapobiec zamieszaniu w przyszłości już dziś!"
   }
 }

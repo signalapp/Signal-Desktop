@@ -5765,7 +5765,7 @@
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
   "icu:MediaEditor__input-placeholder": {
-    "messageformat": "Message",
+    "messageformat": "സന്ദേശം",
     "description": "Placeholder for the input in the media editor"
   },
   "icu:MediaEditor__clock-more-styles": {
@@ -6815,6 +6815,6 @@
     "messageformat": "ചിലപ്പോൾ ആളുകൾ എന്താണ് പറയുന്നതെന്ന് മനസ്സിലാക്കാൻ കുറിക്ക്കൊള്ളുന്ന മറുപടി ഉപകരിക്കും, നിങ്ങൾ ഇപ്പോൾ ചാറ്റിൽ ഒരു സന്ദേശം അയയ്ക്കുമ്പോൾ നിങ്ങൾ എന്താണ് പറഞ്ഞതെന്ന് കാണിക്കാൻ Signal സ്വയമേവ ആ സന്ദേശത്തിലേക്ക് സ്ക്രോൾ ചെയ്യും."
   },
   "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "സന്ദേശം അയച്ച് കഴിഞ്ഞ ശേഷം ഡബിൾ ക്ലിക്ക് ചെയ്ത് നിങ്ങൾക്ക് അത് എഡിറ്റ് ചെയ്യാം! അയയ്ക്കുക എന്ന ബട്ടൺ വളരെപ്പെട്ടെന്ന് അമർത്തിപ്പോയാൽ, അതിലെ അക്ഷരത്തെറ്റ് തിരുത്താനോ, ചോക്ലേറ്റ് കുക്കി റെസിപ്പിയിൽ എഴുതാൻ മറന്നുപോയ ചേരുവ കൂട്ടിച്ചേർക്കാനോ, പഞ്ച്ലൈൻ ജോക്ക് കൂട്ടിച്ചേർക്കാനോ നിങ്ങൾക്കിപ്പോൾ സാധിക്കും. ചോയ്‌സ് നിങ്ങളുടേതാണ്. എഡിറ്റ് ചെയ്തിട്ടുണ്ടെങ്കിൽ അത് സന്ദേശത്തിൽ നിന്ന് അറിയാനാകും, എഡിറ്റ് ചെയ്ത ഏത് സന്ദേശത്തിന്റെയും മുഴുവൻ എഡിറ്റ് ചരിത്രവും കാണാൻ നിങ്ങൾക്ക് \"എഡിറ്റ് ചെയ്തത്\" എന്ന ഇൻഡിക്കേറ്ററിൽ ക്ലിക്ക് ചെയ്യാം. ഭാവിയിലെ ബുദ്ധിമുട്ടുകളൊഴിവാക്കാൻ, അയച്ച സന്ദേശങ്ങളിലെ പിശകുകൾ ഇപ്പോൾ തന്നെ എഡിറ്റ് ചെയ്യൂ!"
   }
 }

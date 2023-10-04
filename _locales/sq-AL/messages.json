@@ -5765,7 +5765,7 @@
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
   "icu:MediaEditor__input-placeholder": {
-    "messageformat": "Message",
+    "messageformat": "Mesazh",
     "description": "Placeholder for the input in the media editor"
   },
   "icu:MediaEditor__clock-more-styles": {
@@ -6815,6 +6815,6 @@
     "messageformat": "Signal tani do të lëvizë automatikisht në fund të bisedës kur të dërgosh një mesazh të ri në atë bisedë."
   },
   "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "Tani mund të klikosh me të djathtën mbi çdo mesazh të dërguar ose të shtypësh shigjetën lart në tastierën tënde për të përpunuar atë që sapo the! Rregullo një gabim shkrimi, përfshij përbërësin që mungon në recetën e biskotave me çokollatë të gjyshes ose shto dozën e ironisë në një batutë, nëse ke shtypur shumë shpejt butonin e dërgimit. Zgjedhja është jotja. Mesazhet do të shfaqen gjithmonë kur të jenë përpunuar dhe mund të shohësh historinë e plotë të redaktimit për çdo mesazh të redaktuar."
   }
 }

@@ -5765,7 +5765,7 @@
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
   "icu:MediaEditor__input-placeholder": {
-    "messageformat": "Message",
+    "messageformat": "ਸੁਨੇਹਾ",
     "description": "Placeholder for the input in the media editor"
   },
   "icu:MediaEditor__clock-more-styles": {
@@ -6815,6 +6815,6 @@
     "messageformat": "ਹੁਣ ਜਦੋਂ ਵੀ ਤੁਸੀਂ ਚੈਟ ਵਿੱਚ ਕੋਈ ਨਵਾਂ ਸੁਨੇਹਾ ਭੇਜੋਗੇ ਤਾਂ Signal ਆਪਣੇ-ਆਪ ਸਕ੍ਰੌਲ ਕਰਕੇ ਚੈਟ ਦੇ ਹੇਠਾਂ ਤੱਕ ਪਹੁੰਚ ਜਾਵੇਗਾ।"
   },
   "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "ਹੁਣ ਤੁਸੀਂ ਸੁਨੇਹਾ ਭੇਜਣ ਤੋਂ ਬਾਅਦ ਵੀ ਉਸ ਉੱਤੇ ਸੱਜਾ ਕਲਿੱਕ ਕਰਕੇ ਉਸ ਨੂੰ ਸੋਧ ਸਕਦੇ ਹੋ! ਜੇਕਰ ਤੁਸੀਂ ਆਪਣੇ ਸੁਨੇਹੇ ਵਿੱਚ ਕੋਈ ਜ਼ਰੂਰ ਗੱਲ ਲਿਖਣਾ ਭੁੱਲ ਗਏ ਸੀ ਜਾਂ ਕਿਸੇ ਚੁਟਕਲੇ ਵਿੱਚ ਇਮੋਜੀ ਪਾਉਣਾ ਰਹਿ ਗਿਆ ਸੀ ਤਾਂ ਹੁਣ ਤੁਸੀਂ ਆਪਣੇ ਸੁਨੇਹੇ ਸੋਧ ਕੇ ਉਸਨੂੰ ਠੀਕ ਕਰ ਸਕਦੇ ਹੋ। ਮਰਜ਼ੀ ਤੁਹਾਡੀ ਹੈ।\n\n ਸੁਨੇਹੇ ਉੱਤੇ ਹਮੇਸ਼ਾ ਦਿਖਾਇਆ ਜਾਵੇਗਾ ਕਿ ਉਸਨੂੰ ਕਦੋਂ ਸੋਧਿਆ ਗਿਆ ਸੀ ਅਤੇ ਤੁਸੀਂ ਕਦੇ ਵੀ ਸੋਧੇ ਗਏ ਸੁਨੇਹੇ ਦਾ ਪੂਰਾ ਸੋਧਣ ਦਾ ਇਤਿਹਾਸ ਦੇਖ \"ਸੋਧਿਆ ਗਿਆ\" 'ਤੇ ਕਲਿੱਕ ਕਰ ਸਕਦੇ ਹੋ। ਭਵਿੱਖ ਦੀਆਂ ਉਲਝਣਾਂ ਤੋਂ ਬਚਣ ਲਈ ਅਤੀਤ ਵਿੱਚ ਹੋਈਆਂ ਗਲਤੀਆਂ ਨੂੰ ਵਰਤਮਾਨ ਵਿੱਚ ਠੀਕ ਕਰੋ!"
   }
 }

@@ -5765,7 +5765,7 @@
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
   "icu:MediaEditor__input-placeholder": {
-    "messageformat": "Message",
+    "messageformat": "Meddelande",
     "description": "Placeholder for the input in the media editor"
   },
   "icu:MediaEditor__clock-more-styles": {
@@ -6815,6 +6815,6 @@
     "messageformat": "Signal kommer nu automatiskt att rulla till botten av chatten när du skickar ett nytt meddelande i den chatten."
   },
   "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "Nu kan du högerklicka på ett skickat meddelande eller trycka på uppåtpilen på tangentbordet för att redigera det du just skrivit. Fixa ett stavfel, lägg till den saknade ingrediensen i mormors kakrecept eller lägg till slutklämmen i ett skämt om du trycker på skicka-knappen för snabbt. Valet är ditt. Meddelanden visar alltid när de har redigerats, och du kan se hela redigeringshistoriken för alla redigerade meddelanden."
   }
 }

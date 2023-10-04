@@ -5765,7 +5765,7 @@
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
   "icu:MediaEditor__input-placeholder": {
-    "messageformat": "Message",
+    "messageformat": "Sõnum",
     "description": "Placeholder for the input in the media editor"
   },
   "icu:MediaEditor__clock-more-styles": {
@@ -6815,6 +6815,6 @@
     "messageformat": "Kui mingis vestluses uue sõnumi saadad, viib Signal su nüüd automaatselt vestluse lõppu."
   },
   "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "Nüüd saad sõnumeid paremklõpsuga muuta isegi pärast saatmist! Paranda trükivigu, lisa jagatud retsepti puuduvad koostisosad, või lisa liiga vara teele pandud naljale lõpupüant. Valik on sinu. Sõnumites kuvatakse alati, millal neid on muudetud, ning samuti saad vaadata muudetud sõnumi täielikku muutmiste ajalugu, klõpsates märget „Muudetud“. Uuenda saadetud sõnumit, et vältida edaspidist segadust!"
   }
 }

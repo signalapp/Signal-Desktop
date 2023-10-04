@@ -541,19 +541,19 @@
     "description": "Shown in the conversation history when a user links a new device to explain what is not supported."
   },
   "icu:youMarkedAsVerified": {
-    "messageformat": "შენი უსაფრთხოების ნომერი {name}-ი ვერიფიცირებულად მონიშნე",
+    "messageformat": "შენი უსაფრთხოების ნომერი {name}-სთან ვერიფიცირებულად მონიშნე",
     "description": "Shown in the conversation history when the user marks a contact as verified."
   },
   "icu:youMarkedAsNotVerified": {
-    "messageformat": "შენი უსაფრთხოების ნომერი {name}-ი არა-ვერიფიცირებულად მონიშნე",
+    "messageformat": "შენი უსაფრთხოების ნომერი {name}-სთან არა-ვერიფიცირებულად მონიშნე",
     "description": "Shown in the conversation history when the user marks a contact as not verified, whether on the Safety Number screen or by dismissing a banner or dialog."
   },
   "icu:youMarkedAsVerifiedOtherDevice": {
-    "messageformat": "შენი უსაფრთხოების ნომერი{name}-ი ვერიფიცირებულად მონიშნე სხვა მოწყობილობიდან",
+    "messageformat": "შენი უსაფრთხოების ნომერი{name}-სთან ვერიფიცირებულად მონიშნე სხვა მოწყობილობიდან",
     "description": "Shown in the conversation history when we discover that the user marked a contact as verified on another device."
   },
   "icu:youMarkedAsNotVerifiedOtherDevice": {
-    "messageformat": "შენი უსაფრთხოების ნომერი {name}-ი არა-ვერიფიცირებულად მონიშნე სხვა მოწყობილობიდან",
+    "messageformat": "შენი უსაფრთხოების ნომერი {name}-სთან არა-ვერიფიცირებულად მონიშნე სხვა მოწყობილობიდან",
     "description": "Shown in the conversation history when we discover that the user marked a contact as not verified on another device."
   },
   "icu:membersNeedingVerification": {
@@ -561,7 +561,7 @@
     "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
   },
   "icu:changedRightAfterVerify": {
-    "messageformat": "უსაფრთხოების ნომერი, რომლის ვერიფიცირებასაც ცდილობ, შეიცვალა. გთხოვთ, გადახედო {name1}-ის ახალ უსაფრთხოების ნომერს. დაიმახსოვრე, ეს ცვლილება შეიძლება ნიშნავს, რომ ვიღაც ცდილობს შენს კომუნიკაციაში შემოწრას ან რომ {name2}-მა უბრალოდ გადააყენა Signal-ი.",
+    "messageformat": "უსაფრთხოების ნომერი, რომლის ვერიფიცირებასაც ცდილობ, შეიცვალა. გთხოვთ, გადახედო {name1}-ის ახალ უსაფრთხოების ნომერს. დაიმახსოვრე, ეს ცვლილება შეიძლება ნიშნავს, რომ ვიღაც ცდილობს შენს კომუნიკაციაში შემოჭრას ან რომ {name2}-მა უბრალოდ გადააყენა Signal-ი.",
     "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change"
   },
   "icu:safetyNumberChangeDialog__message": {
@@ -609,7 +609,7 @@
     "description": "Label for button that opens context menu for story"
   },
   "icu:identityKeyErrorOnSend": {
-    "messageformat": "{name1}-ის შენი უსაფრთხოების ნომერი შეიცვალა. ეს შეიძლება ნიშნავდეს, რომ ვიღაც ცდილობს შენს კომუნიკაციაში შეჭრას ან რომ {name2}-მა უბრალოდ გადააყენა Signal-ი. შენ შეგიძლია დაადასტურო ამ კონტაქტთან არსებული უსაფრთხოების ნომერი.",
+    "messageformat": "{name1}-სთან შენი უსაფრთხოების ნომერი შეიცვალა. ეს შეიძლება ნიშნავდეს, რომ ვიღაც ცდილობს შენს კომუნიკაციაში შეჭრას ან რომ {name2}-მა უბრალოდ გადააყენა Signal-ი. შენ შეგიძლია დაადასტურო ამ კონტაქტთან არსებული უსაფრთხოების ნომერი.",
     "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change"
   },
   "icu:sendAnyway": {
@@ -637,11 +637,11 @@
     "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
   },
   "icu:noLongerVerified": {
-    "messageformat": "შენი უსაფრთხოების ნომერი {name}-სთან შეიცვალა და აღარ არის დადასტურებული. დააწკაპუნე საჩვენებლად.",
+    "messageformat": "შენი უსაფრთხოების ნომერი {name}-სთან შეიცვალა და აღარ არის ვერიფიცირებული. დააწკაპუნე საჩვენებლად.",
     "description": "Shown in conversation banner when user's safety number has changed, but they were previously verified."
   },
   "icu:multipleNoLongerVerified": {
-    "messageformat": "შენი უსაფრთხოების ნომრები ამ ჯგუფის რამდენიმე წევრთან შეიცვალა და აღარ არის დადასტურებული. დააწკაპუნე საჩვენებლად.",
+    "messageformat": "შენი უსაფრთხოების ნომრები ამ ჯგუფის რამდენიმე წევრთან შეიცვალა და აღარ არის ვერიფიცირებული. დააწკაპუნე საჩვენებლად.",
     "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
   },
   "icu:debugLogExplanation": {
@@ -720,11 +720,11 @@
     "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
   "icu:SafetyNumberViewer__hint--migration": {
-    "messageformat": "{name}-თან ბოლომდე დაშიფვრის დასადასტურებლად, შეადარე მის მოწყობილობაში ფერად ბარათზე მოცემული ციფრებს. თუ ისინი არ ემთხვევა, გადასქროლე და უსაფრთხოების ნომრების სხვა წყვილი სცადე. მხოლოდ ერთი წყვილი უნდა შეესაბამებოდეს.",
+    "messageformat": "{name}-თან ბოლომდე დაშიფვრის დასადასტურებლად, შეადარე მის მოწყობილობაში ფერად ბარათზე მოცემული ციფრები. თუ ისინი არ ემთხვევა, გადასქროლე და უსაფრთხოების ნომრების სხვა წყვილი სცადე. მხოლოდ ერთი წყვილი უნდა შეესაბამებოდეს.",
     "description": "Safety number viewer, text of the hint during migration period"
   },
   "icu:SafetyNumberViewer__hint--normal": {
-    "messageformat": "{name}-თან ბოლომდე დაშიფვრის დასადასტურებლად, შეუსაბამე მის მოწყობილობაში მოცემული ციფრები. მას ასევე შეუძლია შენი კოდი თავისი მოწყობილობით დაასკანიროს.",
+    "messageformat": "{name}-თან ბოლომდე დაშიფვრის დასადასტურებლად, შეედარე მის მოწყობილობაში მოცემული ციფრებს. მას ასევე შეუძლია შენი კოდი თავისი მოწყობილობით დაასკანიროს.",
     "description": "Safety number viewer, text of the hint after migration period"
   },
   "icu:SafetyNumberOnboarding__title": {
@@ -764,14 +764,14 @@
     "description": "Summary state shown at top of the safety number screen if user has not verified contact."
   },
   "icu:verified": {
-    "messageformat": "დადასტურებულია"
+    "messageformat": "ვერიფიცირებულია"
   },
   "icu:newIdentity": {
     "messageformat": "უსაფრთხოების ახალი ნომერი",
     "description": "Header for a key change dialog"
   },
   "icu:identityChanged": {
-    "messageformat": "შენი უსაფრთხოების ნომერი ამ კონტაქტთან შეიცვალა. ეს შეიძლება ნიშნავდეს, რომ ვიღაც ცდილობს თქვენს კომუნიკაციაში ჩარევას, ან ამ კონტაქტმა უბრალოდ გადააყენა Signa-იl. შეგიძლია დაადასტურო უსაფრთხოების ახალი ნომერი ქვემოთ."
+    "messageformat": "შენი უსაფრთხოების ნომერი ამ კონტაქტთან შეიცვალა. ეს შეიძლება ნიშნავდეს, რომ ვიღაც ცდილობს თქვენს კომუნიკაციაში ჩარევას, ან ამ კონტაქტმა უბრალოდ გადააყენა Signal-ი. შეგიძლია დაადასტურო უსაფრთხოების ახალი ნომერი ქვემოთ."
   },
   "icu:incomingError": {
     "messageformat": "ხარვეზი შემომავალი შეტყობინების დამუშავებისას"
@@ -5765,7 +5765,7 @@
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
   "icu:MediaEditor__input-placeholder": {
-    "messageformat": "Message",
+    "messageformat": "მიწერა",
     "description": "Placeholder for the input in the media editor"
   },
   "icu:MediaEditor__clock-more-styles": {
@@ -6815,6 +6815,6 @@
     "messageformat": "ხანდახან ერთი პასუხი გეხმარება გაიგო, რაზე საუბრობდით. ახლა Signal-ი ავტომატურად გადაგიყვანს იმაზე, რაც შენ მიიწერე, როდესაც ჩატში წერილს გაგზავნი."
   },
   "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "ახლა უკვე შეგიძლია ნებისმიერ გაგზავნილ წერილზე მაუსის მარჯვენა ღილაკით დააწკაპუნო ან კლავიატურაზე ისარს დააჭირო, რომ შენი ნათქვამი შეცვალო! გამოასწორე შეცდომა, შეიტანე დაკარგული ინგრედიენტი ბებიას შოკოლადის ნამცხვრის რეცეპტში, ან დაამატე ხუმრობა, თუ შემთხვევით გაგზავნის ღილაკზე უკვე დაგეჭირა. არჩევანი შენზეა.\n\n ყოველთვის გამოჩნდება, თუ წერილი რედაქტირებულია და შეძლებ ნებისმიერი შესწორებული წერილის რედაქტირების სრული ისტორია ნახო. შეცვალე წარსული აწმყოში, რათა მომავალი გაურკვევლობა თავიდან აიცილო!"
   }
 }

@@ -5765,7 +5765,7 @@
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
   "icu:MediaEditor__input-placeholder": {
-    "messageformat": "Message",
+    "messageformat": "Повідомлення",
     "description": "Placeholder for the input in the media editor"
   },
   "icu:MediaEditor__clock-more-styles": {
@@ -6815,6 +6815,6 @@
     "messageformat": "Тепер, коли ви надсилатимете повідомлення, Signal автоматично прокручуватиметься вниз чату."
   },
   "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "Тепер повідомлення можна редагувати навіть після надсилання! Потрібно просто натиснути й утримувати. Виправте помилку, додайте в рецепт бабусиного фірмового печива забутий інгредієнт або допишіть жарт, який ви зарано надіслали. Вибір за вами. Користувачі завжди бачитимуть, що повідомлення відредагували, а якщо натиснути «Змінено», можна переглянути повну історію редагування. Змініть минуле зараз, щоб не допустити плутанини в майбутньому!"
   }
 }

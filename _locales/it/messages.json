@@ -5765,7 +5765,7 @@
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
   "icu:MediaEditor__input-placeholder": {
-    "messageformat": "Message",
+    "messageformat": "Messaggio",
     "description": "Placeholder for the input in the media editor"
   },
   "icu:MediaEditor__clock-more-styles": {
@@ -6815,6 +6815,6 @@
     "messageformat": "Da adesso in poi, quando invii un messaggio in chat, Signal scorrerà automaticamente in basso fino a raggiungere il tuo ultimo messaggio appena inviato (facendo così riposare un po' i tuoi polpastrelli: non male, eh?)."
   },
   "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "Adesso puoi modificare un messaggio già inviato cliccandoci sopra con il tasto destro del mouse! Correggi un errore di battitura, sostituisci un'emoji sbagliata o aggiungi una nuova frase. Scegli tu come perfezionare i tuoi messaggi! Potrai sempre riconoscere i messaggi che sono stati modificati e cliccare su \"Modificato\" per vedere la cronologia completa delle modifiche al messaggio. Ora i tuoi messaggi su Signal saranno ancora più chiari e precisi."
   }
 }

@@ -5765,7 +5765,7 @@
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
   "icu:MediaEditor__input-placeholder": {
-    "messageformat": "Message",
+    "messageformat": "メッセージ",
     "description": "Placeholder for the input in the media editor"
   },
   "icu:MediaEditor__clock-more-styles": {
@@ -6815,6 +6815,6 @@
     "messageformat": "チャットに新しいメッセージを送信すると、Signalが自動的にチャットの一番下までスクロールするようになりました。"
   },
   "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "送信後のメッセージを右クリックする、またはキーボードの上矢印を押すと、そのメッセージを編集できるようになりました！ これで、誤字を直すことはもちろん、とっておきのレシピに書き忘れた隠し味を追加したり、送信してしまった面白くない冗談にオチをつけてみんなの笑いを誘うこともできます。お好みでご自由にご利用ください。メッセージの編集履歴は常に表示されます。「編集済み」インジケーターをクリックすると、編集されたメッセージの全編集履歴をご覧になれます。"
   }
 }

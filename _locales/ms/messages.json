@@ -5765,7 +5765,7 @@
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
   "icu:MediaEditor__input-placeholder": {
-    "messageformat": "Message",
+    "messageformat": "Mesej",
     "description": "Placeholder for the input in the media editor"
   },
   "icu:MediaEditor__clock-more-styles": {
@@ -6815,6 +6815,6 @@
     "messageformat": "Signal kini akan menatal ke bawah sembang secara automatik apabila anda menghantar mesej baru dalam sembang tersebut."
   },
   "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "Kini anda boleh edit mesej dengan klik kanan selepas ia dihantar! Betulkan kesilapan ejaan, termasuk bahan dalam resipi biskut coklat cip nenek, atau tambahkan \"punchline\" lawak anda, sekiranya tertekan butang hantar terlalu cepat. Pilihan itu milik anda. Mesej akan sentiasa ditunjukkan apabila ia telah diedit dan anda boleh melihat sejarah edit penuh untuk sebarang mesej yang telah diedit."
   }
 }

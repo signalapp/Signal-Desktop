@@ -6815,6 +6815,6 @@
     "messageformat": "Automatic na pupunta sa pinakababa ng chat ang Signal kapag nag-send ka ng panibagong message sa nasabing chat."
   },
   "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "Ngayon, pwede mo nang i-right click ang sent message o pindutin ang up arrow sa keyboard para i-edit ang sinabi mo! Ayusin ang typo, o magdagdag ng iba pang detalyeng hindi mo nailagay. The choice is yours. Makikita mo palagi kapag edited ang message, at makikita mo ang buong edit history nito."
   }
 }

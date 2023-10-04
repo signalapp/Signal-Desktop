@@ -113,7 +113,7 @@
     "description": "Title of a popup if the database cannot start up properly"
   },
   "icu:databaseError__detail": {
-    "messageformat": "Er is een databasefout opgetreden. Je kan de foutmelding kopiëren en contact opnemen met Signal-support om het probleem op te lossen. Als je Signal meteen wilt gebruiken, kan je je gegevens wissen en opnieuw opstarten .\n\nVoor contact met support ga naar: https://support.signal.org/hc/requests/new?desktop",
+    "messageformat": "Er is een databasefout opgetreden. Je kunt de foutmelding kopiëren en contact opnemen met Signal-support om het probleem op te lossen. Als je Signal meteen wilt gebruiken, kun je je gegevens wissen en opnieuw opstarten .\n\nVoor contact met support ga naar: https://support.signal.org/hc/requests/new?desktop",
     "description": "Description shown in a popup if the database cannot start up properly"
   },
   "icu:deleteAndRestart": {
@@ -413,7 +413,7 @@
     "description": "Shown as the title in the confirmation modal for removing a system contact from the contact list"
   },
   "icu:ContactListItem__remove-system--body": {
-    "messageformat": "Deze persoon is opgeslagen in de contactenlijst van je apparaat. Verwijder ze uit je Contacten op je mobiele apparaat en probeer het opnieuw.",
+    "messageformat": "Deze persoon is opgeslagen in de contactenlijst van je apparaat. Verwijder hem of haar uit je Contacten op je mobiele apparaat en probeer het opnieuw.",
     "description": "Shown as the body in the confirmation modal for removing a system contact from the contact list"
   },
   "icu:moveConversationToInbox": {
@@ -1475,7 +1475,7 @@
     "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we have the phone number for the old conversation"
   },
   "icu:ConversationMerge--notification--no-title": {
-    "messageformat": "Je berichtengeschiedenis met {conversationTitle} en een andere chat met hen zijn samengevoegd.",
+    "messageformat": "Je berichtengeschiedenis met {conversationTitle} en een andere chat met hem of haar zijn samengevoegd.",
     "description": "Shown when we've discovered that two local conversations are the same remote account in an unusual way, but we don't have the title for the old conversation"
   },
   "icu:ConversationMerge--learn-more": {
@@ -2172,11 +2172,11 @@
     "description": "Description for incoming calls setting"
   },
   "icu:contactChangedProfileName": {
-    "messageformat": "{sender} heeft zijn of haar profielnaam van {oldProfile} naar {newProfile} gewijzigd.",
+    "messageformat": "{sender} heeft zijn of haar profielnaam van “{oldProfile}” naar “{newProfile}” gewijzigd.",
     "description": "Description for incoming calls setting"
   },
   "icu:changedProfileName": {
-    "messageformat": "{oldProfile} wijzigde zijn of haar profielnaam naar {newProfile}.",
+    "messageformat": "{oldProfile} heeft zijn of haar profielnaam naar “{newProfile}” gewijzigd.",
     "description": "Shown when a contact not in your address book changes their profile name"
   },
   "icu:SafetyNumberModal__title": {
@@ -4197,7 +4197,7 @@
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--admin-approval-remove-one--other--own": {
-    "messageformat": "{joinerName} heeft zijn of haar verzoek om lid te worden van de groep ingetrokken.",
+    "messageformat": "{joinerName} heeft het verzoek om lid te worden van de groep ingetrokken.",
     "description": "Shown in timeline or conversation preview when v2 group changes"
   },
   "icu:GroupV2--admin-approval-remove-one--other--other": {
@@ -4641,7 +4641,7 @@
     "description": "Title of the groups-in-common panel, in the contact details"
   },
   "icu:ConversationDetailsGroups--title--with-zero-groups-in-common": {
-    "messageformat": "Geen andere gemeenschappelijke groepen",
+    "messageformat": "Geen gemeenschappelijke groepen",
     "description": "Title of the groups-in-common panel, in the contact details, with zero groups in common"
   },
   "icu:ConversationDetailsGroups--add-to-group": {
@@ -5033,7 +5033,7 @@
     "description": "Header in the group contact spoofing review dialog. After this header, there will be a list of members"
   },
   "icu:ContactSpoofingReviewDialog__group__name-change-info": {
-    "messageformat": "Heette kort geleden nog {oldName} maar heeft zijn of haar profielnaam naar {newName} gewijzigd.",
+    "messageformat": "Heeft recent zijn of haar profielnaam gewijzigd van “{oldName}” naar “{newName}”",
     "description": "In the group contact spoofing review dialog, this text is shown when someone has changed their name recently"
   },
   "icu:RemoveGroupMemberConfirmation__remove-button": {
@@ -5241,7 +5241,7 @@
     "description": "A message displayed when default disappearing message timeout is about to be applied"
   },
   "icu:ContactRemovedNotification__text": {
-    "messageformat": "Je hebt deze persoon verwijderd. Als je hen opnieuw een bericht stuurt, wordt diegene weer aan je lijst toegevoegd.",
+    "messageformat": "Je hebt deze persoon verwijderd. Als je hem of haar opnieuw een bericht stuurt, wordt diegene weer aan je lijst toegevoegd.",
     "description": "A message displayed when contact was removed and will be added back on an outgoing message"
   },
   "icu:ErrorBoundaryNotification__text": {
@@ -5765,7 +5765,7 @@
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
   "icu:MediaEditor__input-placeholder": {
-    "messageformat": "Message",
+    "messageformat": "Bericht",
     "description": "Placeholder for the input in the media editor"
   },
   "icu:MediaEditor__clock-more-styles": {
@@ -6815,6 +6815,6 @@
     "messageformat": "Soms helpt het juiste antwoord je iets tot op de bodem uit te zoeken. Signal scrolt nu automatisch naar beneden in een chat, zodat je direct het nieuwste bericht kunt lezen."
   },
   "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "Je kunt nu een bericht bewerken nadat je het verstuurd hebt door op de rechter muisknop te klikken! Verbeter een tpyo, voeg het ontbrekende ingrediënt aan oma's appeltaartrecept toe, of voeg de clou toe aan een grap als je te snel op de verzendknop hebt gedrukt. Jij mag het weten. Je kunt altijd zien wanneer berichten zijn bewerkt en je kunt op 'Bewerkt' tikken om de volledige bewerkingsgeschiedenis van bewerkte berichten te bekijken. Bewerk het verleden in het heden om in de toekomst verwarring te voorkomen!"
   }
 }

@@ -5765,7 +5765,7 @@
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
   "icu:MediaEditor__input-placeholder": {
-    "messageformat": "Message",
+    "messageformat": "Сообщение",
     "description": "Placeholder for the input in the media editor"
   },
   "icu:MediaEditor__clock-more-styles": {
@@ -6815,6 +6815,6 @@
     "messageformat": "Теперь, когда вы отправляете в чате новое сообщение, Signal будет автоматически прокручиваться в самый низ чата."
   },
   "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "Теперь вы можете изменить сообщение после отправки с помощью нажатия на правую кнопку мыши! Исправьте очепятку, добавьте недостающий ингредиент в бабушкин рецепт шоколадного печенья или добавьте изюминку в шутку, если вы слишком быстро нажали на «Отправить». Выбор за вами. После внесения изменений сообщения всегда будут отображаться, и, кликнув на индикатор «Изменено», вы сможете увидеть всю историю изменений любого сообщения. Обновите прошлое в настоящем, чтобы избежать путаницы в будущем!"
   }
 }

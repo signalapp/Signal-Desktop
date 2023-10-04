@@ -5765,7 +5765,7 @@
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
   "icu:MediaEditor__input-placeholder": {
-    "messageformat": "Message",
+    "messageformat": "Mesaj",
     "description": "Placeholder for the input in the media editor"
   },
   "icu:MediaEditor__clock-more-styles": {
@@ -6815,6 +6815,6 @@
     "messageformat": "Bəzən düzgün cavab həqiqətən insanların dediklərini başa düşməyinizə kömək edə bilər və indi çatda mesaj göndərəndə Signal avtomatik olaraq dediklərinizə keçəcək."
   },
   "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "Artıq göndərilmiş istənilən mesajın üzərinə sağla klik edərək onu redaktə edə bilərsiniz! Tələsib \"Göndər\" düyməsinə tez basdınız? Artıq buraxdığınız bir hərf səhvini düzəldə, göndərdiyiniz şirniyyat reseptinə unutduğunuz bir şeyi əlavə edə, yaxud da mesajınıza son nöqtəni qoya bilərsiniz. Seçim sizindir.\n\n Mesajlar həmişə redaktə olunduqda görünəcək və siz redaktə edilmiş mesajların tarixçəsini görmək üçün \"Redaktə edilmişlər\" indikatoruna klikləyə bilərsiniz. Sonradan çətinlik çəkməmək üçün gələcəkdə problem yaradacaq mesajı əvvəldən redaktə edin!"
   }
 }

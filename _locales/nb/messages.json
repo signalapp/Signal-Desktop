@@ -5765,7 +5765,7 @@
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
   "icu:MediaEditor__input-placeholder": {
-    "messageformat": "Message",
+    "messageformat": "Melding",
     "description": "Placeholder for the input in the media editor"
   },
   "icu:MediaEditor__clock-more-styles": {
@@ -6815,6 +6815,6 @@
     "messageformat": "Nå sendes du automatisk til de nyeste meldingene nederst i samtalen når du sender en melding."
   },
   "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "Nå er det mulig å redigere meldinger som allerede er sendt, med et høyreklikk! Du kan for eksempel fikse en skriveleif, legge til den hemmelige ingrediensen i kakeoppskriften til bestemor, eller ta med punchlinen i vitsen hvis du trykket på «send» litt for kjapt. Valget er ditt. Det vil alltid vises at en melding har blitt redigert, og alle kan se redigeringshistorikken til meldingene i samtalen. Rett opp i gårsdagens feil i dag for å unngå forvirring i morgen!"
   }
 }
