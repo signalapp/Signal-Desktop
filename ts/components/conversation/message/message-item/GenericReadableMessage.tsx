@@ -12,9 +12,7 @@ import {
   isMessageSelectionMode,
 } from '../../../../state/selectors/conversations';
 import { MessageContentWithStatuses } from '../message-content/MessageContentWithStatus';
-import { ReadableMessage } from './ReadableMessage';
 import { isOpenOrClosedGroup } from '../../../../models/conversationAttributes';
-import { ExpirableReadableMessage } from './ExpirableReadableMessage';
 import { StyledMessageReactionsContainer } from '../message-content/MessageReactions';
 
 export type GenericReadableMessageSelectorProps = Pick<
@@ -40,7 +38,7 @@ const highlightedMessageAnimation = keyframes`
   }
 `;
 
-const StyledReadableMessage = styled(ReadableMessage)<{
+const StyledReadableMessage = styled.div<{
   selected: boolean;
   isRightClicked: boolean;
 }>`
@@ -148,14 +146,13 @@ export const GenericReadableMessage = (props: Props) => {
   if (!msgProps) {
     return null;
   }
-  const { conversationType, receivedAt, isUnread } = msgProps;
+  const { conversationType } = msgProps;
 
   const selected = isMessageSelected || false;
   const isGroup = isOpenOrClosedGroup(conversationType);
 
   return (
     <StyledReadableMessage
-      messageId={messageId}
       selected={selected}
       isRightClicked={isRightClicked}
       className={classNames(
@@ -163,19 +160,15 @@ export const GenericReadableMessage = (props: Props) => {
         isGroup && 'public-chat-message-wrapper'
       )}
       onContextMenu={handleContextMenu}
-      receivedAt={receivedAt}
-      isUnread={!!isUnread}
       key={`readable-message-${messageId}`}
     >
-      <ExpirableReadableMessage messageId={messageId}>
-        <MessageContentWithStatuses
-          ctxMenuID={ctxMenuID}
-          messageId={messageId}
-          isDetailView={isDetailView}
-          dataTestId={`message-content-${messageId}`}
-          enableReactions={enableReactions}
-        />
-      </ExpirableReadableMessage>
+      <MessageContentWithStatuses
+        ctxMenuID={ctxMenuID}
+        messageId={messageId}
+        isDetailView={isDetailView}
+        dataTestId={`message-content-${messageId}`}
+        enableReactions={enableReactions}
+      />
     </StyledReadableMessage>
   );
 };

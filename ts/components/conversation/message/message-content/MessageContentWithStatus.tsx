@@ -17,6 +17,7 @@ import { MessageContent } from './MessageContent';
 import { MessageContextMenu } from './MessageContextMenu';
 import { MessageReactions, StyledMessageReactions } from './MessageReactions';
 import { MessageStatus } from './MessageStatus';
+import { ExpirableReadableMessage } from '../message-item/ExpirableReadableMessage';
 
 export type MessageContentWithStatusSelectorProps = Pick<
   MessageRenderingProps,
@@ -115,9 +116,10 @@ export const MessageContentWithStatuses = (props: Props) => {
         setPopupReaction('');
       }}
     >
-      <div
+      <ExpirableReadableMessage
+        messageId={messageId}
         className={classNames('module-message', `module-message--${direction}`)}
-        role="button"
+        role={'button'}
         onClick={onClickOnMessageOuterContainer}
         onDoubleClickCapture={onDoubleClickReplyToMessage}
         data-testid={dataTestId}
@@ -144,7 +146,7 @@ export const MessageContentWithStatuses = (props: Props) => {
             enableReactions={enableReactions}
           />
         )}
-      </div>
+      </ExpirableReadableMessage>
       {enableReactions && (
         <MessageReactions
           messageId={messageId}

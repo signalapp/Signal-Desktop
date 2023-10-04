@@ -83,14 +83,12 @@ export interface ExpirableReadableMessageProps
   extends Omit<ReadableMessageProps, 'receivedAt' | 'isUnread'> {
   messageId: string;
   isCentered?: boolean;
-  marginInlineStart?: string;
-  marginInlineEnd?: string;
 }
 
 export const ExpirableReadableMessage = (props: ExpirableReadableMessageProps) => {
   const selected = useMessageExpirationPropsById(props.messageId);
 
-  const { isCentered, marginInlineStart = '6px', marginInlineEnd = '6px', dataTestId } = props;
+  const { isCentered, onClick, onDoubleClickCapture, role, dataTestId } = props;
 
   const { isExpired } = useIsExpired({
     convoId: selected?.convoId,
@@ -122,6 +120,9 @@ export const ExpirableReadableMessage = (props: ExpirableReadableMessageProps) =
       receivedAt={receivedAt}
       isUnread={!!isUnread}
       isIncoming={isIncoming}
+      onClick={onClick}
+      onDoubleClickCapture={onDoubleClickCapture}
+      role={role}
       key={`readable-message-${messageId}`}
       dataTestId={dataTestId}
     >
@@ -132,7 +133,6 @@ export const ExpirableReadableMessage = (props: ExpirableReadableMessageProps) =
           style={{
             display: !isCentered && isIncoming ? 'none' : 'block',
             visibility: !isIncoming ? 'visible' : 'hidden',
-            marginInlineStart,
           }}
         />
       )}
@@ -144,7 +144,6 @@ export const ExpirableReadableMessage = (props: ExpirableReadableMessageProps) =
           style={{
             display: !isCentered && !isIncoming ? 'none' : 'block',
             visibility: isIncoming ? 'visible' : 'hidden',
-            marginInlineEnd,
           }}
         />
       )}

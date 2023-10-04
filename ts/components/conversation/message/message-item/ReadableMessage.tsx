@@ -1,5 +1,12 @@
 import { debounce, noop } from 'lodash';
-import React, { useCallback, useContext, useLayoutEffect, useState } from 'react';
+import React, {
+  AriaRole,
+  MouseEventHandler,
+  useCallback,
+  useContext,
+  useLayoutEffect,
+  useState,
+} from 'react';
 import { InView } from 'react-intersection-observer';
 import { useDispatch, useSelector } from 'react-redux';
 import { Data } from '../../../../data/data';
@@ -29,6 +36,9 @@ export type ReadableMessageProps = {
   className?: string;
   receivedAt: number | undefined;
   isUnread: boolean;
+  onClick?: MouseEventHandler<HTMLElement>;
+  onDoubleClickCapture?: MouseEventHandler<HTMLElement>;
+  role?: AriaRole;
   dataTestId?: string;
   onContextMenu?: (e: React.MouseEvent<HTMLElement>) => void;
 };
@@ -58,7 +68,17 @@ const debouncedTriggerLoadMoreBottom = debounce(
 );
 
 export const ReadableMessage = (props: ReadableMessageProps) => {
-  const { messageId, onContextMenu, className, receivedAt, isUnread, dataTestId } = props;
+  const {
+    messageId,
+    onContextMenu,
+    className,
+    receivedAt,
+    isUnread,
+    onClick,
+    onDoubleClickCapture,
+    role,
+    dataTestId,
+  } = props;
 
   const isAppFocused = useSelector(getIsAppFocused);
   const dispatch = useDispatch();
@@ -183,6 +203,9 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
       onChange={isAppFocused ? onVisible : noop}
       triggerOnce={false}
       trackVisibility={true}
+      onClick={onClick}
+      onDoubleClickCapture={onDoubleClickCapture}
+      role={role}
       key={`inview-msg-${messageId}`}
       // TODO We will need to update the integration tests to use that new value, or update the values given in the `dataTestId` props to match what they expect
       data-testid={dataTestId || 'readable-message'}

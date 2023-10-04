@@ -17,12 +17,7 @@ export const DataExtractionNotification = (props: PropsForDataExtractionNotifica
   }
 
   return (
-    <ExpirableReadableMessage
-      messageId={messageId}
-      marginInlineStart={'calc(var(--margins-lg) + 6px)'}
-      marginInlineEnd={'calc(var(--margins-lg) + 6px)'}
-      key={`readable-message-${messageId}`}
-    >
+    <ExpirableReadableMessage messageId={messageId} key={`readable-message-${messageId}`}>
       <Flex
         container={true}
         flexDirection="column"

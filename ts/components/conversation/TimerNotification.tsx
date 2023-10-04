@@ -49,8 +49,6 @@ export const TimerNotification = (props: PropsForExpirationTimer) => {
     <ExpirableReadableMessage
       messageId={messageId}
       isCentered={true}
-      marginInlineStart={'calc(var(--margins-lg) + 6px)'}
-      marginInlineEnd={'calc(var(--margins-lg) + 6px)'}
       key={`readable-message-${messageId}`}
       dataTestId={'disappear-control-message'}
     >
