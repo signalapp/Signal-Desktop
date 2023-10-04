@@ -563,18 +563,23 @@ function handleCommonWindowEvents(
       mainWindow.webContents.setZoomFactor(zoomFactor);
     }
   };
-  window.once('ready-to-show', async () => {
-    // Workaround to apply zoomFactor because webPreferences does not handle it correctly
-    // https://github.com/electron/electron/issues/10572
-    const zoomFactor =
-      (await settingsChannel?.getSettingFromMainWindow('zoomFactor')) ?? 1;
-    window.webContents.setZoomFactor(zoomFactor);
-  });
   window.on('show', () => {
     // Install handler here after we init zoomFactor otherwise an initial
     // preferred-size-changed event emits with an undesired zoomFactor.
     window.webContents.on('preferred-size-changed', onZoomChanged);
   });
+
+  // Workaround to apply zoomFactor because webPreferences does not handle it
+  // https://github.com/electron/electron/issues/10572
+  // But main window emits ready-to-show before window.Events is available
+  // so set main window zoom in background.ts
+  if (window !== mainWindow) {
+    window.once('ready-to-show', async () => {
+      const zoomFactor =
+        (await settingsChannel?.getSettingFromMainWindow('zoomFactor')) ?? 1;
+      window.webContents.setZoomFactor(zoomFactor);
+    });
+  }
 
   nativeThemeNotifier.addWindow(window);
 
