@@ -47,7 +47,7 @@ export class MessageCache {
     const messageAttributes = this.accessAttributes(messageId);
     strictAssert(
       messageAttributes,
-      `MessageCache.accessAttributesOrThrow/${source}: no message`
+      `MessageCache.accessAttributesOrThrow/${source}: no message for id ${messageId}`
     );
     return messageAttributes;
   }
@@ -131,7 +131,7 @@ export class MessageCache {
 
     strictAssert(
       messageAttributesFromDatabase,
-      `MessageCache.resolveAttributes/${source}: no message`
+      `MessageCache.resolveAttributes/${source}: no message for id ${messageId}`
     );
 
     return this.freezeAttributes(messageAttributesFromDatabase);

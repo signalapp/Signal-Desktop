@@ -18,10 +18,15 @@ export async function hydrateStoryContext(
     shouldSave?: boolean;
   } = {}
 ): Promise<void> {
-  const messageAttributes = await window.MessageCache.resolveAttributes(
-    'hydrateStoryContext',
-    messageId
-  );
+  let messageAttributes: MessageAttributesType;
+  try {
+    messageAttributes = await window.MessageCache.resolveAttributes(
+      'hydrateStoryContext',
+      messageId
+    );
+  } catch {
+    return;
+  }
 
   const { storyId } = messageAttributes;
   if (!storyId) {
@@ -34,13 +39,18 @@ export async function hydrateStoryContext(
     return;
   }
 
-  const storyMessage =
-    storyMessageParam === undefined
-      ? await window.MessageCache.resolveAttributes(
-          'hydrateStoryContext/story',
-          storyId
-        )
-      : window.MessageCache.toMessageAttributes(storyMessageParam);
+  let storyMessage: MessageAttributesType | undefined;
+  try {
+    storyMessage =
+      storyMessageParam === undefined
+        ? await window.MessageCache.resolveAttributes(
+            'hydrateStoryContext/story',
+            storyId
+          )
+        : window.MessageCache.toMessageAttributes(storyMessageParam);
+  } catch {
+    storyMessage = undefined;
+  }
 
   if (!storyMessage) {
     const conversation = window.ConversationController.get(
