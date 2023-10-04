@@ -883,12 +883,13 @@ async function saveCallHistory(
   });
   log.info('saveCallHistory: Saved call history message:', id);
 
-  const model = window.MessageController.register(
+  const model = window.MessageCache.__DEPRECATED$register(
     id,
     new window.Whisper.Message({
       ...message,
       id,
-    })
+    }),
+    'callDisposition'
   );
 
   if (callHistory.direction === CallDirection.Outgoing) {
@@ -986,7 +987,7 @@ export async function clearCallHistoryDataAndSync(): Promise<void> {
     const messageIds = await window.Signal.Data.clearCallHistory(timestamp);
 
     messageIds.forEach(messageId => {
-      const message = window.MessageController.getById(messageId);
+      const message = window.MessageCache.__DEPRECATED$getById(messageId);
       const conversation = message?.getConversation();
       if (message == null || conversation == null) {
         return;
@@ -996,7 +997,7 @@ export async function clearCallHistoryDataAndSync(): Promise<void> {
         message.get('conversationId')
       );
       conversation.debouncedUpdateLastMessage();
-      window.MessageController.unregister(messageId);
+      window.MessageCache.__DEPRECATED$unregister(messageId);
     });
 
     const ourAci = window.textsecure.storage.user.getCheckedAci();

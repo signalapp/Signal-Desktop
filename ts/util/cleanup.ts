@@ -25,7 +25,7 @@ export function cleanupMessageFromMemory(message: MessageAttributesType): void {
   const parentConversation = window.ConversationController.get(conversationId);
   parentConversation?.debouncedUpdateLastMessage();
 
-  window.MessageController.unregister(id);
+  window.MessageCache.__DEPRECATED$unregister(id);
 }
 
 async function cleanupStoryReplies(
@@ -72,9 +72,10 @@ async function cleanupStoryReplies(
     // Cleanup all group replies
     await Promise.all(
       replies.map(reply => {
-        const replyMessageModel = window.MessageController.register(
+        const replyMessageModel = window.MessageCache.__DEPRECATED$register(
           reply.id,
-          reply
+          reply,
+          'cleanupStoryReplies/group'
         );
         return replyMessageModel.eraseContents();
       })
@@ -83,7 +84,11 @@ async function cleanupStoryReplies(
     // Refresh the storyReplyContext data for 1:1 conversations
     await Promise.all(
       replies.map(async reply => {
-        const model = window.MessageController.register(reply.id, reply);
+        const model = window.MessageCache.__DEPRECATED$register(
+          reply.id,
+          reply,
+          'cleanupStoryReplies/1:1'
+        );
         model.unset('storyReplyContext');
         await model.hydrateStoryContext(story, { shouldSave: true });
       })

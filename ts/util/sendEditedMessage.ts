@@ -23,7 +23,7 @@ import {
 import { concat, filter, map, repeat, zipObject, find } from './iterables';
 import { getConversationIdForLogging } from './idForLogging';
 import { isQuoteAMatch } from '../messages/helpers';
-import { getMessageById } from '../messages/getMessageById';
+import { __DEPRECATED$getMessageById } from '../messages/getMessageById';
 import { handleEditMessage } from './handleEditMessage';
 import { incrementMessageCounter } from './incrementMessageCounter';
 import { isGroupV1 } from './whatTypeOfConversation';
@@ -64,7 +64,7 @@ export async function sendEditedMessage(
     conversation.attributes
   )})`;
 
-  const targetMessage = await getMessageById(targetMessageId);
+  const targetMessage = await __DEPRECATED$getMessageById(targetMessageId);
   strictAssert(targetMessage, 'could not find message to edit');
 
   if (isGroupV1(conversation.attributes)) {

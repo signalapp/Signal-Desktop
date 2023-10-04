@@ -1354,27 +1354,6 @@
   {
     "rule": "DOM-innerHTML",
     "path": "node_modules/quill/dist/quill.js",
-    "line": "        // this.container.innerHTML = html.replace(/\\>\\r?\\n +\\</g, '><'); // Remove spaces between tags",
-    "reasonCategory": "falseMatch",
-    "updated": "2023-05-17T01:41:49.734Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/quill/dist/quill.js",
-    "line": "      //  this.container.innerHTML = '';",
-    "reasonCategory": "falseMatch",
-    "updated": "2023-05-17T01:41:49.734Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/quill/dist/quill.js",
-    "line": "      // this.container.innerHTML = '';",
-    "reasonCategory": "falseMatch",
-    "updated": "2023-05-17T01:41:49.734Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/quill/dist/quill.js",
     "line": "    var html = this.container.innerHTML.trim();",
     "reasonCategory": "usageTrusted",
     "updated": "2020-10-13T18:36:57.012Z",
@@ -1467,6 +1446,27 @@
     "reasonCategory": "usageTrusted",
     "updated": "2020-10-13T18:36:57.012Z",
     "reasonDetail": "necessary for quill"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/quill/dist/quill.js",
+    "line": "        // this.container.innerHTML = html.replace(/\\>\\r?\\n +\\</g, '><'); // Remove spaces between tags",
+    "reasonCategory": "usageTrusted",
+    "updated": "2023-09-28T00:50:24.377Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/quill/dist/quill.js",
+    "line": "      //  this.container.innerHTML = '';",
+    "reasonCategory": "usageTrusted",
+    "updated": "2023-09-28T00:50:24.377Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/quill/dist/quill.js",
+    "line": "      // this.container.innerHTML = '';",
+    "reasonCategory": "usageTrusted",
+    "updated": "2023-09-28T00:50:24.377Z"
   },
   {
     "rule": "DOM-innerHTML",

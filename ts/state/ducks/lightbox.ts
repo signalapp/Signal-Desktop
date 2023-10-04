@@ -17,7 +17,7 @@ import type { ShowToastActionType } from './toast';
 import type { StateType as RootStateType } from '../reducer';
 
 import * as log from '../../logging/log';
-import { getMessageById } from '../../messages/getMessageById';
+import { __DEPRECATED$getMessageById } from '../../messages/getMessageById';
 import type { MessageAttributesType } from '../../model-types.d';
 import { isGIF } from '../../types/Attachment';
 import {
@@ -137,7 +137,7 @@ function showLightboxForViewOnceMedia(
   return async dispatch => {
     log.info('showLightboxForViewOnceMedia: attempting to display message');
 
-    const message = await getMessageById(messageId);
+    const message = await __DEPRECATED$getMessageById(messageId);
     if (!message) {
       throw new Error(
         `showLightboxForViewOnceMedia: Message ${messageId} missing!`
@@ -232,7 +232,7 @@ function showLightbox(opts: {
   return async (dispatch, getState) => {
     const { attachment, messageId } = opts;
 
-    const message = await getMessageById(messageId);
+    const message = await __DEPRECATED$getMessageById(messageId);
     if (!message) {
       throw new Error(`showLightbox: Message ${messageId} missing!`);
     }
@@ -373,7 +373,7 @@ function showLightboxForAdjacentMessage(
       sent_at: sentAt,
     } = media.message;
 
-    const message = await getMessageById(messageId);
+    const message = await __DEPRECATED$getMessageById(messageId);
     if (!message) {
       log.warn('showLightboxForAdjacentMessage: original message is gone');
       dispatch({

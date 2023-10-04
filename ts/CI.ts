@@ -120,7 +120,12 @@ export function getCI(deviceName: string): CIType {
       [sentAt]
     );
     return messages.map(
-      m => window.MessageController.register(m.id, m).attributes
+      m =>
+        window.MessageCache.__DEPRECATED$register(
+          m.id,
+          m,
+          'CI.getMessagesBySentAt'
+        ).attributes
     );
   }
 

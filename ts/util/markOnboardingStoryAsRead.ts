@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as log from '../logging/log';
-import { getMessageById } from '../messages/getMessageById';
+import { __DEPRECATED$getMessageById } from '../messages/getMessageById';
 import { isNotNil } from './isNotNil';
 import { DurationInSeconds } from './durations';
 import { markViewed } from '../services/MessageUpdater';
@@ -19,7 +19,7 @@ export async function markOnboardingStoryAsRead(): Promise<boolean> {
   }
 
   const messages = await Promise.all(
-    existingOnboardingStoryMessageIds.map(getMessageById)
+    existingOnboardingStoryMessageIds.map(__DEPRECATED$getMessageById)
   );
 
   const storyReadDate = Date.now();

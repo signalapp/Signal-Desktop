@@ -85,9 +85,10 @@ export async function onDelete(del: DeleteAttributesType): Promise<void> {
           return;
         }
 
-        const message = window.MessageController.register(
+        const message = window.MessageCache.__DEPRECATED$register(
           targetMessage.id,
-          targetMessage
+          targetMessage,
+          'Deletes.onDelete'
         );
 
         await deleteForEveryone(message, del);

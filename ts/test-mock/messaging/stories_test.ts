@@ -13,7 +13,7 @@ import { generateStoryDistributionId } from '../../types/StoryDistributionId';
 import type { App } from '../playwright';
 import { Bootstrap } from '../bootstrap';
 
-export const debug = createDebug('mock:test:edit');
+export const debug = createDebug('mock:test:stories');
 
 const IdentifierType = Proto.ManifestRecord.Identifier.Type;
 
@@ -236,7 +236,10 @@ describe('story/messaging', function unknownContacts() {
     }
     const sentAt = new Date(time).valueOf();
 
-    debug('Contact sends reply to group story');
+    debug('Contact sends reply to group story', {
+      story: sentAt,
+      reply: sentAt + 1,
+    });
     await contacts[0].sendRaw(
       desktop,
       {

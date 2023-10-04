@@ -14,7 +14,7 @@ import type { ConversationModel } from '../../models/conversations';
 
 import * as reactionUtil from '../../reactions/util';
 import { isSent, SendStatus } from '../../messages/MessageSendState';
-import { getMessageById } from '../../messages/getMessageById';
+import { __DEPRECATED$getMessageById } from '../../messages/getMessageById';
 import { isIncoming } from '../../messages/helpers';
 import {
   isMe,
@@ -60,7 +60,7 @@ export async function sendReaction(
   const ourConversationId =
     window.ConversationController.getOurConversationIdOrThrow();
 
-  const message = await getMessageById(messageId);
+  const message = await __DEPRECATED$getMessageById(messageId);
   if (!message) {
     log.info(
       `message ${messageId} was not found, maybe because it was deleted. Giving up on sending its reactions`
@@ -334,7 +334,11 @@ export async function sendReaction(
         });
 
         void conversation.addSingleMessage(
-          window.MessageController.register(reactionMessage.id, reactionMessage)
+          window.MessageCache.__DEPRECATED$register(
+            reactionMessage.id,
+            reactionMessage,
+            'sendReaction'
+          )
         );
       }
     }

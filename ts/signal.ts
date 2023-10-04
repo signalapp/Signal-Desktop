@@ -18,8 +18,6 @@ import { ConfirmationDialog } from './components/ConfirmationDialog';
 import { createApp } from './state/roots/createApp';
 import { createSafetyNumberViewer } from './state/roots/createSafetyNumberViewer';
 
-import { createStore } from './state/createStore';
-
 // Types
 import * as TypesAttachment from './types/Attachment';
 import * as VisualAttachment from './types/VisualAttachment';
@@ -379,7 +377,6 @@ export const setup = (options: {
   };
 
   const State = {
-    createStore,
     Roots,
   };
 

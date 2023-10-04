@@ -2008,8 +2008,12 @@ export async function createGroupV2(
     forceSave: true,
     ourAci,
   });
-  const model = new window.Whisper.Message(createdTheGroupMessage);
-  window.MessageController.register(model.id, model);
+  let model = new window.Whisper.Message(createdTheGroupMessage);
+  model = window.MessageCache.__DEPRECATED$register(
+    model.id,
+    model,
+    'createGroupV2'
+  );
   conversation.trigger('newmessage', model);
 
   if (expireTimer) {
@@ -3371,7 +3375,7 @@ async function appendChangeMessages(
 
   let newMessages = 0;
   for (const changeMessage of mergedMessages) {
-    const existing = window.MessageController.getById(changeMessage.id);
+    const existing = window.MessageCache.__DEPRECATED$getById(changeMessage.id);
 
     // Update existing message
     if (existing) {
@@ -3383,8 +3387,12 @@ async function appendChangeMessages(
       continue;
     }
 
-    const model = new window.Whisper.Message(changeMessage);
-    window.MessageController.register(model.id, model);
+    let model = new window.Whisper.Message(changeMessage);
+    model = window.MessageCache.__DEPRECATED$register(
+      model.id,
+      model,
+      'appendChangeMessages'
+    );
     conversation.trigger('newmessage', model);
     newMessages += 1;
   }

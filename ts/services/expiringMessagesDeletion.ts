@@ -33,9 +33,10 @@ class ExpiringMessagesDeletionService {
       const inMemoryMessages: Array<MessageModel> = [];
 
       messages.forEach(dbMessage => {
-        const message = window.MessageController.register(
+        const message = window.MessageCache.__DEPRECATED$register(
           dbMessage.id,
-          dbMessage
+          dbMessage,
+          'destroyExpiredMessages'
         );
         messageIds.push(message.id);
         inMemoryMessages.push(message);

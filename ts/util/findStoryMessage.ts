@@ -31,7 +31,8 @@ export async function findStoryMessages(
   const ourConversationId =
     window.ConversationController.getOurConversationIdOrThrow();
 
-  const inMemoryMessages = window.MessageController.filterBySentAt(sentAt);
+  const inMemoryMessages =
+    window.MessageCache.__DEPRECATED$filterBySentAt(sentAt);
   const matchingMessages = [
     ...filter(inMemoryMessages, item =>
       isStoryAMatch(
@@ -60,7 +61,11 @@ export async function findStoryMessages(
   }
 
   const result = found.map(attributes =>
-    window.MessageController.register(attributes.id, attributes)
+    window.MessageCache.__DEPRECATED$register(
+      attributes.id,
+      attributes,
+      'findStoryMessages'
+    )
   );
   return result;
 }

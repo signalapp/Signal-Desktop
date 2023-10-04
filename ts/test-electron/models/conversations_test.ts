@@ -83,7 +83,11 @@ describe('Conversations', () => {
       forceSave: true,
       ourAci,
     });
-    message = window.MessageController.register(message.id, message);
+    message = window.MessageCache.__DEPRECATED$register(
+      message.id,
+      message,
+      'test'
+    );
     await window.Signal.Data.updateConversation(conversation.attributes);
     await conversation.updateLastMessage();
 

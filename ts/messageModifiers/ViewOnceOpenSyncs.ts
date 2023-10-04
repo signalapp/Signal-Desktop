@@ -97,7 +97,11 @@ export async function onSync(
       return;
     }
 
-    const message = window.MessageController.register(found.id, found);
+    const message = window.MessageCache.__DEPRECATED$register(
+      found.id,
+      found,
+      'ViewOnceOpenSyncs.onSync'
+    );
     await message.markViewOnceMessageViewed({ fromSync: true });
 
     viewOnceSyncs.delete(sync.timestamp);

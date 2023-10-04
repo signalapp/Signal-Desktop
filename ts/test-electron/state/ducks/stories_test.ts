@@ -861,7 +861,11 @@ describe('both/state/ducks/stories', () => {
       const storyId = generateUuid();
       const messageAttributes = getStoryMessage(storyId);
 
-      window.MessageController.register(storyId, messageAttributes);
+      window.MessageCache.__DEPRECATED$register(
+        storyId,
+        messageAttributes,
+        'test'
+      );
 
       const dispatch = sinon.spy();
       await queueStoryDownload(storyId)(dispatch, getEmptyRootState, null);
@@ -883,7 +887,11 @@ describe('both/state/ducks/stories', () => {
         ],
       };
 
-      window.MessageController.register(storyId, messageAttributes);
+      window.MessageCache.__DEPRECATED$register(
+        storyId,
+        messageAttributes,
+        'test'
+      );
 
       const dispatch = sinon.spy();
       await queueStoryDownload(storyId)(dispatch, getEmptyRootState, null);
@@ -905,7 +913,11 @@ describe('both/state/ducks/stories', () => {
         ],
       };
 
-      window.MessageController.register(storyId, messageAttributes);
+      window.MessageCache.__DEPRECATED$register(
+        storyId,
+        messageAttributes,
+        'test'
+      );
 
       const dispatch = sinon.spy();
       await queueStoryDownload(storyId)(dispatch, getEmptyRootState, null);
@@ -947,7 +959,11 @@ describe('both/state/ducks/stories', () => {
         },
       });
 
-      window.MessageController.register(storyId, messageAttributes);
+      window.MessageCache.__DEPRECATED$register(
+        storyId,
+        messageAttributes,
+        'test'
+      );
 
       const dispatch = sinon.spy();
       await queueStoryDownload(storyId)(dispatch, getState, null);
@@ -1004,7 +1020,11 @@ describe('both/state/ducks/stories', () => {
         },
       });
 
-      window.MessageController.register(storyId, messageAttributes);
+      window.MessageCache.__DEPRECATED$register(
+        storyId,
+        messageAttributes,
+        'test'
+      );
 
       const dispatch = sinon.spy();
       await queueStoryDownload(storyId)(dispatch, getState, null);

@@ -3,7 +3,6 @@
 
 import { webFrame } from 'electron';
 import { isNumber, throttle, groupBy } from 'lodash';
-import { bindActionCreators } from 'redux';
 import { render } from 'react-dom';
 import { batch as batchDispatch } from 'react-redux';
 import PQueue from 'p-queue';
@@ -108,7 +107,6 @@ import { AppViewType } from './state/ducks/app';
 import type { BadgesStateType } from './state/ducks/badges';
 import { areAnyCallsActiveOrRinging } from './state/selectors/calling';
 import { badgeImageFileDownloader } from './badges/badgeImageFileDownloader';
-import { actionCreators } from './state/actions';
 import * as Deletes from './messageModifiers/Deletes';
 import type { EditAttributesType } from './messageModifiers/Edits';
 import * as Edits from './messageModifiers/Edits';
@@ -154,7 +152,6 @@ import { startInteractionMode } from './services/InteractionMode';
 import type { MainWindowStatsType } from './windows/context';
 import { ReactionSource } from './reactions/ReactionSource';
 import { singleProtoJobQueue } from './jobs/singleProtoJobQueue';
-import { getInitialState } from './state/getInitialState';
 import {
   conversationJobQueue,
   conversationQueueJobEnum,
@@ -164,6 +161,7 @@ import MessageSender from './textsecure/SendMessage';
 import type AccountManager from './textsecure/AccountManager';
 import { onStoryRecipientUpdate } from './util/onStoryRecipientUpdate';
 import { flushAttachmentDownloadQueue } from './util/attachmentDownloadQueue';
+import { initializeRedux } from './state/initializeRedux';
 import { StartupQueue } from './util/StartupQueue';
 import { showConfirmationDialog } from './util/showConfirmationDialog';
 import { onCallEventSync } from './util/onCallEventSync';
@@ -1151,7 +1149,7 @@ export async function startApp(): Promise<void> {
         Errors.toLogFormat(error)
       );
     } finally {
-      initializeRedux({ mainWindowStats, menuOptions });
+      setupAppState({ mainWindowStats, menuOptions });
       drop(start());
       window.Signal.Services.initializeNetworkObserver(
         window.reduxActions.network
@@ -1173,89 +1171,24 @@ export async function startApp(): Promise<void> {
     }
   });
 
-  function initializeRedux({
+  function setupAppState({
     mainWindowStats,
     menuOptions,
   }: {
     mainWindowStats: MainWindowStatsType;
     menuOptions: MenuOptionsType;
   }) {
-    // Here we set up a full redux store with initial state for our LeftPane Root
-    const convoCollection = window.getConversations();
-    const initialState = getInitialState({
-      badges: initialBadgesState,
+    initializeRedux({
+      callsHistory: getCallsHistoryForRedux(),
+      initialBadgesState,
       mainWindowStats,
       menuOptions,
       stories: getStoriesForRedux(),
       storyDistributionLists: getDistributionListsForRedux(),
-      callsHistory: getCallsHistoryForRedux(),
     });
 
-    const store = window.Signal.State.createStore(initialState);
-    window.reduxStore = store;
-
-    // Binding these actions to our redux store and exposing them allows us to update
-    //   redux when things change in the backbone world.
-    window.reduxActions = {
-      accounts: bindActionCreators(actionCreators.accounts, store.dispatch),
-      app: bindActionCreators(actionCreators.app, store.dispatch),
-      audioPlayer: bindActionCreators(
-        actionCreators.audioPlayer,
-        store.dispatch
-      ),
-      audioRecorder: bindActionCreators(
-        actionCreators.audioRecorder,
-        store.dispatch
-      ),
-      badges: bindActionCreators(actionCreators.badges, store.dispatch),
-      callHistory: bindActionCreators(
-        actionCreators.callHistory,
-        store.dispatch
-      ),
-      calling: bindActionCreators(actionCreators.calling, store.dispatch),
-      composer: bindActionCreators(actionCreators.composer, store.dispatch),
-      conversations: bindActionCreators(
-        actionCreators.conversations,
-        store.dispatch
-      ),
-      crashReports: bindActionCreators(
-        actionCreators.crashReports,
-        store.dispatch
-      ),
-      inbox: bindActionCreators(actionCreators.inbox, store.dispatch),
-      emojis: bindActionCreators(actionCreators.emojis, store.dispatch),
-      expiration: bindActionCreators(actionCreators.expiration, store.dispatch),
-      globalModals: bindActionCreators(
-        actionCreators.globalModals,
-        store.dispatch
-      ),
-      items: bindActionCreators(actionCreators.items, store.dispatch),
-      lightbox: bindActionCreators(actionCreators.lightbox, store.dispatch),
-      linkPreviews: bindActionCreators(
-        actionCreators.linkPreviews,
-        store.dispatch
-      ),
-      mediaGallery: bindActionCreators(
-        actionCreators.mediaGallery,
-        store.dispatch
-      ),
-      network: bindActionCreators(actionCreators.network, store.dispatch),
-      safetyNumber: bindActionCreators(
-        actionCreators.safetyNumber,
-        store.dispatch
-      ),
-      search: bindActionCreators(actionCreators.search, store.dispatch),
-      stickers: bindActionCreators(actionCreators.stickers, store.dispatch),
-      stories: bindActionCreators(actionCreators.stories, store.dispatch),
-      storyDistributionLists: bindActionCreators(
-        actionCreators.storyDistributionLists,
-        store.dispatch
-      ),
-      toast: bindActionCreators(actionCreators.toast, store.dispatch),
-      updates: bindActionCreators(actionCreators.updates, store.dispatch),
-      user: bindActionCreators(actionCreators.user, store.dispatch),
-      username: bindActionCreators(actionCreators.username, store.dispatch),
-    };
+    // Here we set up a full redux store with initial state for our LeftPane Root
+    const convoCollection = window.getConversations();
 
     const {
       conversationAdded,

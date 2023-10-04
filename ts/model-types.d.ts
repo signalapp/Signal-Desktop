@@ -1,15 +1,12 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable max-classes-per-file */
-
 import * as Backbone from 'backbone';
 
 import type { GroupV2ChangeType } from './groups';
 import type { DraftBodyRanges, RawBodyRange } from './types/BodyRange';
 import type { CustomColorType, ConversationColorType } from './types/Colors';
 import type { SendMessageChallengeData } from './textsecure/Errors';
-import type { MessageModel } from './models/messages';
 import type { ConversationModel } from './models/conversations';
 import type { ProfileNameChangeType } from './util/getStringForProfileChange';
 import type { CapabilitiesType } from './textsecure/WebAPI';
@@ -503,5 +500,3 @@ export type ShallowChallengeError = CustomError & {
 export declare class ConversationModelCollectionType extends Backbone.Collection<ConversationModel> {
   resetLookups(): void;
 }
-
-export declare class MessageModelCollectionType extends Backbone.Collection<MessageModel> {}

@@ -391,7 +391,7 @@ async function _getMessageById(
   id: string,
   messageId: string
 ): Promise<MessageModel | undefined> {
-  const message = window.MessageController.getById(messageId);
+  const message = window.MessageCache.__DEPRECATED$getById(messageId);
 
   if (message) {
     return message;
@@ -408,7 +408,11 @@ async function _getMessageById(
   }
 
   strictAssert(messageId === messageAttributes.id, 'message id mismatch');
-  return window.MessageController.register(messageId, messageAttributes);
+  return window.MessageCache.__DEPRECATED$register(
+    messageId,
+    messageAttributes,
+    'AttachmentDownloads._getMessageById'
+  );
 }
 
 async function _finishJob(

@@ -6,7 +6,7 @@ import { v4 as generateUuid } from 'uuid';
 
 import type { ReactionAttributesType } from '../messageModifiers/Reactions';
 import { ReactionSource } from './ReactionSource';
-import { getMessageById } from '../messages/getMessageById';
+import { __DEPRECATED$getMessageById } from '../messages/getMessageById';
 import { getSourceServiceId, isStory } from '../messages/helpers';
 import { strictAssert } from '../util/assert';
 import { isDirectConversation } from '../util/whatTypeOfConversation';
@@ -26,7 +26,7 @@ export async function enqueueReactionForSend({
   messageId: string;
   remove: boolean;
 }>): Promise<void> {
-  const message = await getMessageById(messageId);
+  const message = await __DEPRECATED$getMessageById(messageId);
   strictAssert(message, 'enqueueReactionForSend: no message found');
 
   const targetAuthorAci = getSourceServiceId(message.attributes);

@@ -95,7 +95,11 @@ async function getTargetMessage(
       (isOutgoing(item) || isStory(item)) && sourceId === item.conversationId
   );
   if (message) {
-    return window.MessageController.register(message.id, message);
+    return window.MessageCache.__DEPRECATED$register(
+      message.id,
+      message,
+      'MessageReceipts.getTargetMessage 1'
+    );
   }
 
   const groups = await window.Signal.Data.getAllGroupsInvolvingServiceId(
@@ -113,7 +117,11 @@ async function getTargetMessage(
     return null;
   }
 
-  return window.MessageController.register(target.id, target);
+  return window.MessageCache.__DEPRECATED$register(
+    target.id,
+    target,
+    'MessageReceipts.getTargetMessage 2'
+  );
 }
 
 const wasDeliveredWithSealedSender = (
@@ -376,7 +384,11 @@ export async function onReceipt(
 
       await Promise.all(
         targetMessages.map(msg => {
-          const model = window.MessageController.register(msg.id, msg);
+          const model = window.MessageCache.__DEPRECATED$register(
+            msg.id,
+            msg,
+            'MessageReceipts.onReceipt'
+          );
           return updateMessageSendState(receipt, model);
         })
       );

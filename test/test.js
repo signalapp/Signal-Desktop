@@ -1,8 +1,6 @@
 // Copyright 2014 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* global Whisper, _, Backbone */
-
 /*
  * global helpers for tests
  */
@@ -18,20 +16,21 @@ function deleteIndexedDB() {
   });
 }
 
+window.Events = {
+  getThemeSetting: () => 'light',
+};
+
 /* Delete the database before running any tests */
 before(async () => {
-  window.testUtilities.installMessageController();
-
+  await window.testUtilities.initialize();
   await deleteIndexedDB();
-  await window.testUtilities.initializeMessageCounter();
   await window.Signal.Data.removeAll();
   await window.storage.fetch();
 });
 
-window.textsecure.storage.protocol = window.getSignalProtocolStore();
-
 window.testUtilities.prepareTests();
 delete window.testUtilities.prepareTests;
+window.textsecure.storage.protocol = window.getSignalProtocolStore();
 
 !(function () {
   const passed = [];

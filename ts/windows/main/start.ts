@@ -13,11 +13,11 @@ import './phase3-post-signal';
 import './phase4-test';
 import '../../backbone/reliable_trigger';
 
+import type { CdsLookupOptionsType } from '../../textsecure/WebAPI';
 import type { FeatureFlagType } from '../../window.d';
 import type { StorageAccessType } from '../../types/Storage.d';
-import type { CdsLookupOptionsType } from '../../textsecure/WebAPI';
 import { start as startConversationController } from '../../ConversationController';
-import { MessageController } from '../../util/MessageController';
+import { initMessageCleanup } from '../../services/messageStateCleanup';
 import { Environment, getEnvironment } from '../../environment';
 import { isProduction } from '../../util/version';
 import { ipcInvoke } from '../../sql/channels';
@@ -43,7 +43,7 @@ if (window.SignalContext.config.proxyUrl) {
 }
 
 window.Whisper.events = clone(window.Backbone.Events);
-MessageController.install();
+initMessageCleanup();
 startConversationController();
 
 if (!isProduction(window.SignalContext.getVersion())) {
@@ -51,7 +51,8 @@ if (!isProduction(window.SignalContext.getVersion())) {
     cdsLookup: (options: CdsLookupOptionsType) =>
       window.textsecure.server?.cdsLookup(options),
     getConversation: (id: string) => window.ConversationController.get(id),
-    getMessageById: (id: string) => window.MessageController.getById(id),
+    getMessageById: (id: string) =>
+      window.MessageCache.__DEPRECATED$getById(id),
     getReduxState: () => window.reduxStore.getState(),
     getSfuUrl: () => window.Signal.Services.calling._sfuUrl,
     getStorageItem: (name: keyof StorageAccessType) => window.storage.get(name),

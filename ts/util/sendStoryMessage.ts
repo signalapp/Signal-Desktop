@@ -311,7 +311,11 @@ export async function sendStoryMessage(
   await Promise.all(
     distributionListMessages.map(messageAttributes => {
       const model = new window.Whisper.Message(messageAttributes);
-      const message = window.MessageController.register(model.id, model);
+      const message = window.MessageCache.__DEPRECATED$register(
+        model.id,
+        model,
+        'sendStoryMessage'
+      );
 
       void ourConversation.addSingleMessage(model, { isJustSent: true });
 
@@ -361,7 +365,11 @@ export async function sendStoryMessage(
         },
         async jobToInsert => {
           const model = new window.Whisper.Message(messageAttributes);
-          const message = window.MessageController.register(model.id, model);
+          const message = window.MessageCache.__DEPRECATED$register(
+            model.id,
+            model,
+            'sendStoryMessage'
+          );
 
           const conversation = message.getConversation();
           void conversation?.addSingleMessage(model, { isJustSent: true });

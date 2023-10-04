@@ -106,9 +106,10 @@ export async function onEdit(edit: EditAttributesType): Promise<void> {
           return;
         }
 
-        const message = window.MessageController.register(
+        const message = window.MessageCache.__DEPRECATED$register(
           targetMessage.id,
-          targetMessage
+          targetMessage,
+          'Edits.onEdit'
         );
 
         await handleEditMessage(message.attributes, edit);

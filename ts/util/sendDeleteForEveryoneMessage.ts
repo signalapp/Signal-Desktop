@@ -15,7 +15,7 @@ import {
   getConversationIdForLogging,
   getMessageIdForLogging,
 } from './idForLogging';
-import { getMessageById } from '../messages/getMessageById';
+import { __DEPRECATED$getMessageById } from '../messages/getMessageById';
 import { getRecipientConversationIds } from './getRecipientConversationIds';
 import { getRecipients } from './getRecipients';
 import { repeat, zipObject } from './iterables';
@@ -35,7 +35,7 @@ export async function sendDeleteForEveryoneMessage(
     timestamp: targetTimestamp,
     id: messageId,
   } = options;
-  const message = await getMessageById(messageId);
+  const message = await __DEPRECATED$getMessageById(messageId);
   if (!message) {
     throw new Error('sendDeleteForEveryoneMessage: Cannot find message!');
   }

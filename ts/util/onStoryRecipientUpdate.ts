@@ -161,7 +161,11 @@ export async function onStoryRecipientUpdate(
           return true;
         }
 
-        const message = window.MessageController.register(item.id, item);
+        const message = window.MessageCache.__DEPRECATED$register(
+          item.id,
+          item,
+          'onStoryRecipientUpdate'
+        );
 
         const sendStateConversationIds = new Set(
           Object.keys(nextSendStateByConversationId)

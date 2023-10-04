@@ -30,7 +30,7 @@ import type { StickerType } from '../types/Stickers';
 import type { LinkPreviewType } from '../types/message/LinkPreviews';
 import { isNotNil } from './isNotNil';
 
-type ReturnType = {
+export type MessageAttachmentsDownloadedType = {
   bodyAttachment?: AttachmentType;
   attachments: Array<AttachmentType>;
   editHistory?: Array<EditHistoryType>;
@@ -45,7 +45,7 @@ type ReturnType = {
 // count then you'll also have to modify ./hasAttachmentsDownloads
 export async function queueAttachmentDownloads(
   message: MessageAttributesType
-): Promise<ReturnType | undefined> {
+): Promise<MessageAttachmentsDownloadedType | undefined> {
   const attachmentsToQueue = message.attachments || [];
   const messageId = message.id;
   const idForLogging = getMessageIdForLogging(message);

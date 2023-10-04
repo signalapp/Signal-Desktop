@@ -99,7 +99,11 @@ export async function onSync(sync: ViewSyncAttributesType): Promise<void> {
 
     notificationService.removeBy({ messageId: found.id });
 
-    const message = window.MessageController.register(found.id, found);
+    const message = window.MessageCache.__DEPRECATED$register(
+      found.id,
+      found,
+      'ViewSyncs.onSync'
+    );
     let didChangeMessage = false;
 
     if (message.get('readStatus') !== ReadStatus.Viewed) {

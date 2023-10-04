@@ -101,7 +101,11 @@ function loadMediaItems(
     await Promise.all(
       rawMedia.map(async message => {
         const { schemaVersion } = message;
-        const model = window.MessageController.register(message.id, message);
+        const model = window.MessageCache.__DEPRECATED$register(
+          message.id,
+          message,
+          'loadMediaItems'
+        );
 
         if (schemaVersion && schemaVersion < VERSION_NEEDED_FOR_DISPLAY) {
           const upgradedMsgAttributes = await upgradeMessageSchema(message);

@@ -20,6 +20,16 @@ const rules = {
   'brace-style': ['error', '1tbs', { allowSingleLine: false }],
   curly: ['error', 'all'],
 
+  // Immer support
+  'no-param-reassign': [
+    'error',
+    {
+      props: true,
+      ignorePropertyModificationsForRegex: ['^draft'],
+      ignorePropertyModificationsFor: ['acc', 'ctx', 'context'],
+    },
+  ],
+
   // Always use === and !== except when directly comparing to null
   // (which only will equal null or undefined)
   eqeqeq: ['error', 'always', { null: 'never' }],

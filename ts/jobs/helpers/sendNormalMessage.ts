@@ -7,7 +7,7 @@ import PQueue from 'p-queue';
 import * as Errors from '../../types/errors';
 import { strictAssert } from '../../util/assert';
 import type { MessageModel } from '../../models/messages';
-import { getMessageById } from '../../messages/getMessageById';
+import { __DEPRECATED$getMessageById } from '../../messages/getMessageById';
 import type { ConversationModel } from '../../models/conversations';
 import { isGroup, isGroupV2, isMe } from '../../util/whatTypeOfConversation';
 import { getSendOptions } from '../../util/getSendOptions';
@@ -72,7 +72,7 @@ export async function sendNormalMessage(
   const { Message } = window.Signal.Types;
 
   const { messageId, revision, editedMessageTimestamp } = data;
-  const message = await getMessageById(messageId);
+  const message = await __DEPRECATED$getMessageById(messageId);
   if (!message) {
     log.info(
       `message ${messageId} was not found, maybe because it was deleted. Giving up on sending it`
@@ -551,7 +551,7 @@ async function getMessageSendData({
     uploadMessagePreviews(message, uploadQueue),
     uploadMessageQuote(message, uploadQueue),
     uploadMessageSticker(message, uploadQueue),
-    storyId ? getMessageById(storyId) : undefined,
+    storyId ? __DEPRECATED$getMessageById(storyId) : undefined,
   ]);
 
   // Save message after uploading attachments

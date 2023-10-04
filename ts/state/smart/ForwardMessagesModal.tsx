@@ -19,7 +19,6 @@ import {
 } from '../selectors/conversations';
 import { getIntl, getTheme, getRegionCode } from '../selectors/user';
 import { getLinkPreview } from '../selectors/linkPreviews';
-import { getMessageById } from '../../messages/getMessageById';
 import { getPreferredBadgeSelector } from '../selectors/badges';
 import type {
   ForwardMessageData,
@@ -36,6 +35,8 @@ import { SmartCompositionTextArea } from './CompositionTextArea';
 import { useToastActions } from '../ducks/toast';
 import { hydrateRanges } from '../../types/BodyRange';
 import { isDownloaded } from '../../types/Attachment';
+import { __DEPRECATED$getMessageById } from '../../messages/getMessageById';
+import { strictAssert } from '../../util/assert';
 
 function toMessageForwardDraft(
   props: ForwardMessagePropsType,
@@ -119,10 +120,10 @@ function SmartForwardMessagesModalInner({
         try {
           const messages = await Promise.all(
             finalDrafts.map(async (draft): Promise<ForwardMessageData> => {
-              const message = await getMessageById(draft.originalMessageId);
-              if (message == null) {
-                throw new Error('No message found');
-              }
+              const message = await __DEPRECATED$getMessageById(
+                draft.originalMessageId
+              );
+              strictAssert(message, 'no message found');
               return {
                 draft,
                 originalMessage: message.attributes,

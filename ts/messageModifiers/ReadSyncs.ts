@@ -125,7 +125,11 @@ export async function onSync(sync: ReadSyncAttributesType): Promise<void> {
 
     notificationService.removeBy({ messageId: found.id });
 
-    const message = window.MessageController.register(found.id, found);
+    const message = window.MessageCache.__DEPRECATED$register(
+      found.id,
+      found,
+      'ReadSyncs.onSync'
+    );
     const readAt = Math.min(sync.readAt, Date.now());
     const newestSentAt = sync.timestamp;
 

@@ -776,8 +776,9 @@ async function createWindow() {
   }
 
   const startInTray =
+    isTestEnvironment(getEnvironment()) ||
     (await systemTraySettingCache.get()) ===
-    SystemTraySetting.MinimizeToAndStartInSystemTray;
+      SystemTraySetting.MinimizeToAndStartInSystemTray;
 
   const visibleOnAnyScreen = some(screen.getAllDisplays(), display => {
     if (
@@ -2882,6 +2883,10 @@ async function showStickerCreatorWindow() {
 }
 
 if (isTestEnvironment(getEnvironment())) {
+  ipc.handle('ci:test-electron:debug', async (_event, info) => {
+    process.stdout.write(`ci:test-electron:debug=${JSON.stringify(info)}\n`);
+  });
+
   ipc.handle('ci:test-electron:done', async (_event, info) => {
     if (!process.env.TEST_QUIT_ON_COMPLETE) {
       return;

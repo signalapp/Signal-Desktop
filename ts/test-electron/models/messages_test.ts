@@ -5,17 +5,30 @@ import { assert } from 'chai';
 import * as sinon from 'sinon';
 import { v4 as generateUuid } from 'uuid';
 
-import { setupI18n } from '../../util/setupI18n';
+import type { AttachmentType } from '../../types/Attachment';
+import type { CallbackResultType } from '../../textsecure/Types.d';
+import type { ConversationModel } from '../../models/conversations';
+import type { MessageAttributesType } from '../../model-types.d';
+import type { MessageModel } from '../../models/messages';
+import type { RawBodyRange } from '../../types/BodyRange';
+import type { StorageAccessType } from '../../types/Storage.d';
+import type { WebAPIType } from '../../textsecure/WebAPI';
+import MessageSender from '../../textsecure/SendMessage';
 import enMessages from '../../../_locales/en/messages.json';
 import { SendStatus } from '../../messages/MessageSendState';
-import MessageSender from '../../textsecure/SendMessage';
-import type { WebAPIType } from '../../textsecure/WebAPI';
-import type { CallbackResultType } from '../../textsecure/Types.d';
-import type { StorageAccessType } from '../../types/Storage.d';
-import { generateAci } from '../../types/ServiceId';
 import { SignalService as Proto } from '../../protobuf';
+import { generateAci } from '../../types/ServiceId';
 import { getContact } from '../../messages/helpers';
-import type { ConversationModel } from '../../models/conversations';
+import { setupI18n } from '../../util/setupI18n';
+import {
+  APPLICATION_JSON,
+  AUDIO_MP3,
+  IMAGE_GIF,
+  IMAGE_PNG,
+  LONG_MESSAGE,
+  TEXT_ATTACHMENT,
+  VIDEO_MP4,
+} from '../../types/MIME';
 
 describe('Message', () => {
   const STORAGE_KEYS_TO_RESTORE: Array<keyof StorageAccessType> = [
@@ -28,7 +41,7 @@ describe('Message', () => {
   const i18n = setupI18n('en', enMessages);
 
   const attributes = {
-    type: 'outgoing',
+    type: 'outgoing' as const,
     body: 'hi',
     conversationId: 'foo',
     attachments: [],
@@ -39,12 +52,12 @@ describe('Message', () => {
   const me = '+14155555556';
   const ourServiceId = generateAci();
 
-  function createMessage(attrs: { [key: string]: unknown }) {
-    const messages = new window.Whisper.MessageCollection();
-    return messages.add({
-      received_at: Date.now(),
+  function createMessage(attrs: Partial<MessageAttributesType>): MessageModel {
+    return new window.Whisper.Message({
+      id: generateUuid(),
       ...attrs,
-    });
+      received_at: Date.now(),
+    } as MessageAttributesType);
   }
 
   function createMessageAndGetNotificationData(attrs: {
@@ -214,14 +227,12 @@ describe('Message', () => {
 
   describe('getContact', () => {
     it('gets outgoing contact', () => {
-      const messages = new window.Whisper.MessageCollection();
-      const message = messages.add(attributes);
+      const message = createMessage(attributes);
       assert.exists(getContact(message.attributes));
     });
 
     it('gets incoming contact', () => {
-      const messages = new window.Whisper.MessageCollection();
-      const message = messages.add({
+      const message = createMessage({
         type: 'incoming',
         source,
       });
@@ -287,7 +298,8 @@ describe('Message', () => {
           isErased: false,
           attachments: [
             {
-              contentType: 'image/png',
+              contentType: IMAGE_PNG,
+              size: 0,
             },
           ],
         }),
@@ -302,7 +314,8 @@ describe('Message', () => {
           isErased: false,
           attachments: [
             {
-              contentType: 'video/mp4',
+              contentType: VIDEO_MP4,
+              size: 0,
             },
           ],
         }),
@@ -317,7 +330,8 @@ describe('Message', () => {
           isErased: false,
           attachments: [
             {
-              contentType: 'text/plain',
+              contentType: LONG_MESSAGE,
+              size: 0,
             },
           ],
         }),
@@ -482,7 +496,7 @@ describe('Message', () => {
         createMessageAndGetNotificationData({
           type: 'incoming',
           source,
-          flags: true,
+          flags: 1,
         }),
         { text: i18n('icu:sessionEnded') }
       );
@@ -493,17 +507,26 @@ describe('Message', () => {
         createMessageAndGetNotificationData({
           type: 'incoming',
           source,
-          errors: [{}],
+          errors: [new Error()],
         }),
         { text: i18n('icu:incomingError') }
       );
     });
 
-    const attachmentTestCases = [
+    const attachmentTestCases: Array<{
+      title: string;
+      attachment: AttachmentType;
+      expectedResult: {
+        text: string;
+        emoji: string;
+        bodyRanges?: Array<RawBodyRange>;
+      };
+    }> = [
       {
         title: 'GIF',
         attachment: {
-          contentType: 'image/gif',
+          contentType: IMAGE_GIF,
+          size: 0,
         },
         expectedResult: {
           text: 'GIF',
@@ -514,7 +537,8 @@ describe('Message', () => {
       {
         title: 'photo',
         attachment: {
-          contentType: 'image/png',
+          contentType: IMAGE_PNG,
+          size: 0,
         },
         expectedResult: {
           text: 'Photo',
@@ -525,7 +549,8 @@ describe('Message', () => {
       {
         title: 'video',
         attachment: {
-          contentType: 'video/mp4',
+          contentType: VIDEO_MP4,
+          size: 0,
         },
         expectedResult: {
           text: 'Video',
@@ -536,8 +561,9 @@ describe('Message', () => {
       {
         title: 'voice message',
         attachment: {
-          contentType: 'audio/ogg',
+          contentType: AUDIO_MP3,
           flags: Proto.AttachmentPointer.Flags.VOICE_MESSAGE,
+          size: 0,
         },
         expectedResult: {
           text: 'Voice Message',
@@ -548,8 +574,9 @@ describe('Message', () => {
       {
         title: 'audio message',
         attachment: {
-          contentType: 'audio/ogg',
-          fileName: 'audio.ogg',
+          contentType: AUDIO_MP3,
+          fileName: 'audio.mp3',
+          size: 0,
         },
         expectedResult: {
           text: 'Audio Message',
@@ -560,7 +587,8 @@ describe('Message', () => {
       {
         title: 'plain text',
         attachment: {
-          contentType: 'text/plain',
+          contentType: LONG_MESSAGE,
+          size: 0,
         },
         expectedResult: {
           text: 'File',
@@ -571,7 +599,8 @@ describe('Message', () => {
       {
         title: 'unspecified-type',
         attachment: {
-          contentType: null,
+          contentType: APPLICATION_JSON,
+          size: 0,
         },
         expectedResult: {
           text: 'File',
@@ -600,7 +629,8 @@ describe('Message', () => {
             attachments: [
               attachment,
               {
-                contentType: 'text/html',
+                contentType: TEXT_ATTACHMENT,
+                size: 0,
               },
             ],
           }),
@@ -671,7 +701,8 @@ describe('Message', () => {
           source,
           attachments: [
             {
-              contentType: 'image/png',
+              contentType: IMAGE_PNG,
+              size: 0,
             },
           ],
         }).getNotificationText(),
@@ -699,35 +730,13 @@ describe('Message', () => {
           source,
           attachments: [
             {
-              contentType: 'image/png',
+              contentType: IMAGE_PNG,
+              size: 0,
             },
           ],
         }).getNotificationText(),
         'Photo'
       );
     });
-  });
-});
-
-describe('MessageCollection', () => {
-  it('should be ordered oldest to newest', () => {
-    const messages = new window.Whisper.MessageCollection();
-    // Timestamps
-    const today = Date.now();
-    const tomorrow = today + 12345;
-
-    // Add threads
-    messages.add({ received_at: today });
-    messages.add({ received_at: tomorrow });
-
-    const { models } = messages;
-    const firstTimestamp = models[0].get('received_at');
-    const secondTimestamp = models[1].get('received_at');
-
-    // Compare timestamps
-    assert(typeof firstTimestamp === 'number');
-    assert(typeof secondTimestamp === 'number');
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    assert(firstTimestamp! < secondTimestamp!);
   });
 });

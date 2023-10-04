@@ -196,9 +196,10 @@ export async function onReaction(
         return;
       }
 
-      const message = window.MessageController.register(
+      const message = window.MessageCache.__DEPRECATED$register(
         targetMessage.id,
-        targetMessage
+        targetMessage,
+        'Reactions.onReaction'
       );
 
       // Use the generated message in ts/background.ts to create a message

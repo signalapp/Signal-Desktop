@@ -89,9 +89,10 @@ export async function handleEditMessage(
     return;
   }
 
-  const mainMessageModel = window.MessageController.register(
+  const mainMessageModel = window.MessageCache.__DEPRECATED$register(
     mainMessage.id,
-    mainMessage
+    mainMessage,
+    'handleEditMessage'
   );
 
   // Pull out the edit history from the main message. If this is the first edit
