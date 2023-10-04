@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isNumber, omit } from 'lodash';
+import { isNumber } from 'lodash';
 
 import { strictAssert } from '../util/assert';
 import { dropNull } from '../util/dropNull';
@@ -58,7 +58,7 @@ export async function downloadAttachment(
   const data = getFirstBytes(paddedData, size);
 
   return {
-    ...omit(attachment, 'key'),
+    ...attachment,
 
     size,
     contentType: contentType
