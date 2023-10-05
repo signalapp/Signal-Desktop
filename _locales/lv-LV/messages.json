@@ -125,7 +125,7 @@
     "description": "Header of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
   },
   "icu:databaseError__deleteDataConfirmation__detail": {
-    "messageformat": "Visa ziņojumu vēsture un multivides faili tiks neatgriezeniski dzēsti no šīs ierīces. Šajā ierīcē Signal varēsiet lietot pēc tās atkārtotas pievienošanas. Šī darbība nedzēsīs datus no jūsu tālruņa.",
+    "messageformat": "Visa ziņojumu vēsture un multivides faili tiks neatgriezeniski dzēsti no šīs ierīces. Šajā ierīcē Signal varēsiet lietot pēc tās atkārtotas pievienošanas. Veicot šo darbību, dati netiks dzēsti no jūsu tālruņa.",
     "description": "Description of a confirmation popup shown if the database cannot start up properly and the user selects 'delete data and restart'"
   },
   "icu:databaseError__startOldVersion": {
@@ -5765,7 +5765,7 @@
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
   "icu:MediaEditor__input-placeholder": {
-    "messageformat": "Message",
+    "messageformat": "Ziņa",
     "description": "Placeholder for the input in the media editor"
   },
   "icu:MediaEditor__clock-more-styles": {
@@ -6808,13 +6808,13 @@
     "messageformat": "Nelielas izmaiņas, kļūdu labojumi un darbības uzlabojumi. Paldies, ka lietojat Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.32--0": {
-    "messageformat": "\"Multivides redaktors\" varbūt izklausās sarežģīti, taču mūsu jaunās multivides failu rediģēšanas funkcijas izmantot ir vieglāk par vieglu un, piemēram, failu apgriešanas rīks ir ērts kā klubkrēsls!"
-  },
-  "icu:WhatsNew__v6.32--1": {
-    "messageformat": "Lai saprastu, par ko cilvēki runā, dažreiz pietiek izlasīt attiecīgo atbildi uz ziņu, tāpēc tagad Signal automātiski aizritinās līdz jūsu tikko teiktajam ikreiz, kad nosūtāt ziņojumu čatā."
-  },
   "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "Tagad varat rediģēt ziņu arī pēc nosūtīšanas, noklikšķinot uz tās ar peles labo pogu! Izlabojiet drukas kļūdu, iekļaujiet trūkstošo sastāvdaļu mammas siera kūkas receptē vai pievienojiet joka svarīgāko daļu, ja pārāk ātri nospiežat sūtīšanas pogu. Viss ir jūsu rokās. To, ka ziņas ir rediģētas, vienmēr varēs redzēt. Tāpat varat noklikšķināt uz norādes \"Rediģēta\", lai skatītu pilnu ziņas rediģēšanas vēsturi. Izmainiet pagātni tagadnē, lai novērstu nākotnes neskaidrības jau šodien!"
+  },
+  "icu:WhatsNew__v6.34--0": {
+    "messageformat": "Typing indicators in group chats will now display multiple profile pictures if more than one person is typing. James Cameron convinced us that we didn't need to stop after one avatar."
+  },
+  "icu:WhatsNew__v6.34--1": {
+    "messageformat": "Now you can right-click on any sent message or press the up arrow on your keyboard to edit what you just said! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
   }
 }

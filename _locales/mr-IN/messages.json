@@ -5765,7 +5765,7 @@
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
   "icu:MediaEditor__input-placeholder": {
-    "messageformat": "Message",
+    "messageformat": "संदेश",
     "description": "Placeholder for the input in the media editor"
   },
   "icu:MediaEditor__clock-more-styles": {
@@ -6808,13 +6808,13 @@
     "messageformat": "लहान ट्विक्स, दोष निवारण, आणि कामगिरी सुधारणा. Signal वापरल्याबद्दल आभारी आहोत!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.32--0": {
-    "messageformat": "आपण जर \"मिडीया एडिटर\" पाच वेळा वेगाने म्हटल्यास, ते \"मिडीएटर\" असे ऐकू येण्यास सुरू होऊ शकते — परंतु नवीन मिडीया संपादक हा वापरण्यास अधिक सोपा आहे ज्यामुळे आपण आणि क्रॉप साधन यांच्यामधील लढाई थांबवण्यास मध्यस्थाची गरज असल्याचे आपणाला वाटेल."
-  },
-  "icu:WhatsNew__v6.32--1": {
-    "messageformat": "काही वेळा योग्य प्रत्त्युत्तर आपणाला लोक काय म्हणत आहेत त्याच्या तळाशी जाण्यास खरोखर मदत करू शकतात, आणि आता जेव्हा कधी आपण चॅट्स मध्ये एक संदेश पाठवाल, तेव्हा Signal स्वयंचलितपणे आपण आता काय म्हणालात त्याकडे स्क्रोल होईल ."
-  },
   "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "आता आपण संदेश पाठवल्यानंतर उजव्या क्लिकने संदेशाना संपादित करू शकता! आपण जर पाठवा बटण फार घाईने दाबले असता, आपण आजीच्या चॉकलेट चीप्स कुकीच्या पाककृती मधील विसरलेले घटक समाविष्ट करू शकता, किंवा विनोदामध्ये पंचलाइन जोडू शकता. निवड आपली आहे. संदेशांना केव्हा संपादित करण्यात आले होते ते संदेश नेहमीच दाखवतील, आणि आपण कोणत्याही संपादित संदेशासाठी त्याचा पूर्ण संपादनाचा इतिहास पाहण्यासाठी \"संपादित\" निदर्शकावर टॅप करू शकता. आज भविष्यातीला गोंधळ टाळण्यासाठी भूतकाळ वर्तमानामध्ये अपडेट करा!"
+  },
+  "icu:WhatsNew__v6.34--0": {
+    "messageformat": "Typing indicators in group chats will now display multiple profile pictures if more than one person is typing. James Cameron convinced us that we didn't need to stop after one avatar."
+  },
+  "icu:WhatsNew__v6.34--1": {
+    "messageformat": "Now you can right-click on any sent message or press the up arrow on your keyboard to edit what you just said! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
   }
 }

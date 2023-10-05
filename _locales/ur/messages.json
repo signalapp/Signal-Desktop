@@ -5765,7 +5765,7 @@
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
   "icu:MediaEditor__input-placeholder": {
-    "messageformat": "Message",
+    "messageformat": "میسج",
     "description": "Placeholder for the input in the media editor"
   },
   "icu:MediaEditor__clock-more-styles": {
@@ -6808,13 +6808,13 @@
     "messageformat": "معمولی تبدیلیاں کی گئیں، بگ ٹھیک کیے گئے، اور کارکردگی اور بھی بہتر بنائی گئی ہے۔ Signal استعمال کرنے کے لیے شکریہ!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.32--0": {
-    "messageformat": "ہم نے میڈیا ایڈیٹر کو اپ ڈیٹ کر دیا ہے اور اس کو استعمال کے لیے بہت زیادہ آسان بنا دیا ہے۔"
-  },
-  "icu:WhatsNew__v6.32--1": {
-    "messageformat": "آپ کے کسی چیٹ میں نیا میسج بھیجنے پر اب Signal خود کار طور پر اس چیٹ کے آخر تک اسکرول کرے گا۔"
-  },
   "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "اب آپ کسی بھی بھیجے گئے میسج پر دایاں کلک کر سکتے یا جو آپ نے ابھی کہا ہے اس میں ترمیم کے لیے اپنے کی بورڈ پر اوپر کے نشان والے تیر کو دبا سکتے ہیں! ٹائپنگ کی غلطی درست کریں، دادی کی چاکلیٹ چپ کوکی کی ترکیب میں رہ جانے والے جزو کو شامل کریں، یا اگر آپ بھیجیں بٹن کو جلدی سے دبا دیتے ہیں تو مزاحیہ فقرے کو لطیفے میں شامل کریں۔ انتخاب آپ کا ہے۔ میسجز ہمیشہ ظاہر کریں گے کہ ان میں ترمیم کب کی گئی ہے، اور آپ کسی بھی ترمیم شدہ میسجز کی ترمیم کی مکمل ہسٹری دیکھ سکتے ہیں!"
+  },
+  "icu:WhatsNew__v6.34--0": {
+    "messageformat": "Typing indicators in group chats will now display multiple profile pictures if more than one person is typing. James Cameron convinced us that we didn't need to stop after one avatar."
+  },
+  "icu:WhatsNew__v6.34--1": {
+    "messageformat": "Now you can right-click on any sent message or press the up arrow on your keyboard to edit what you just said! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
   }
 }

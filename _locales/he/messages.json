@@ -5765,7 +5765,7 @@
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
   "icu:MediaEditor__input-placeholder": {
-    "messageformat": "Message",
+    "messageformat": "הודעה",
     "description": "Placeholder for the input in the media editor"
   },
   "icu:MediaEditor__clock-more-styles": {
@@ -6808,13 +6808,13 @@
     "messageformat": "התאמות קטנות, תיקוני באגים ושיפורי ביצועים. תודה על השימוש ב-Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.32--0": {
-    "messageformat": "עדכנו את עורך המדיה והפכנו אותו להרבה יותר קל לשימוש."
-  },
-  "icu:WhatsNew__v6.32--1": {
-    "messageformat": "עכשיו Signal תגלול אוטומטית לתחתית הצ׳אט לאחר ששלחת בו הודעה חדשה."
-  },
   "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "עכשיו אפשר לערוך הודעה לאחר השליחה באמצעות קליק ימני או לחיצה על חץ למעלה במקלדת! מתקנים שגיאות ומוסיפים פרטים ששכחת, כולל המרכיב החסר במתכון של סבתא לעוגיות שוקולד צ׳יפס, או מוסיפים את הפאנצ׳ליין לבדיחה אם לחצת על שליחה לפני הזמן. הבחירה היא שלך. תמיד יהיה אפשר לראות כשהודעה נערכה, וניתן לראות את היסטוריית העריכות המלאה עבור כל ההודעות שנערכו."
+  },
+  "icu:WhatsNew__v6.34--0": {
+    "messageformat": "Typing indicators in group chats will now display multiple profile pictures if more than one person is typing. James Cameron convinced us that we didn't need to stop after one avatar."
+  },
+  "icu:WhatsNew__v6.34--1": {
+    "messageformat": "Now you can right-click on any sent message or press the up arrow on your keyboard to edit what you just said! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
   }
 }

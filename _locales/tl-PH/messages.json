@@ -6808,13 +6808,13 @@
     "messageformat": "Dagdag na maliliit na pag-aayos, pag-alis ng bugs, at pagpapaganda ng takbo ng app. Maraming salamat sa paggamit ng Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.32--0": {
-    "messageformat": "In-update namin ang media editor at mas pinadali ang paggamit nito."
-  },
-  "icu:WhatsNew__v6.32--1": {
-    "messageformat": "Automatic na pupunta sa pinakababa ng chat ang Signal kapag nag-send ka ng panibagong message sa nasabing chat."
-  },
   "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "Ngayon, pwede mo nang i-right click ang sent message o pindutin ang up arrow sa keyboard para i-edit ang sinabi mo! Ayusin ang typo, o magdagdag ng iba pang detalyeng hindi mo nailagay. The choice is yours. Makikita mo palagi kapag edited ang message, at makikita mo ang buong edit history nito."
+  },
+  "icu:WhatsNew__v6.34--0": {
+    "messageformat": "Typing indicators in group chats will now display multiple profile pictures if more than one person is typing. James Cameron convinced us that we didn't need to stop after one avatar."
+  },
+  "icu:WhatsNew__v6.34--1": {
+    "messageformat": "Now you can right-click on any sent message or press the up arrow on your keyboard to edit what you just said! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
   }
 }

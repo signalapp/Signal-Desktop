@@ -5765,7 +5765,7 @@
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
   "icu:MediaEditor__input-placeholder": {
-    "messageformat": "Message",
+    "messageformat": "Tin nhắn",
     "description": "Placeholder for the input in the media editor"
   },
   "icu:MediaEditor__clock-more-styles": {
@@ -6808,13 +6808,13 @@
     "messageformat": "Các tinh chỉnh, sửa lỗi, và cải thiện hiệu năng. Cảm ơn bạn đã sử dụng Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.32--0": {
-    "messageformat": "Chúng tôi đã cập nhật công cụ chỉnh sửa tệp đa phương tiện và giúp công cụ dễ sử dụng hơn."
-  },
-  "icu:WhatsNew__v6.32--1": {
-    "messageformat": "Signal giờ đây sẽ tự động cuộn xuống dòng tin nhắn mới nhất của một cuộc trò chuyện khi bạn gửi một tin nhắn mới trong cuộc trò chuyện đó."
-  },
   "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "Giờ đây bạn có thể chỉnh sửa một tin nhắn bằng cách nhấn và giữ sau khi đã gửi đi! Nhờ đó bạn có thể sửa lỗi chính tả, thêm, bớt nội dung một cách nhanh chóng, tiện lợi nếu trước đó lỡ nhấn gửi quá nhanh. Lựa chọn là của bạn. Người đọc tin nhắn sẽ biết nếu tin nhắn đã được chỉnh sửa và bạn có thể xem toàn bộ lịch sử của tin nhắn đã được chỉnh sửa."
+  },
+  "icu:WhatsNew__v6.34--0": {
+    "messageformat": "Typing indicators in group chats will now display multiple profile pictures if more than one person is typing. James Cameron convinced us that we didn't need to stop after one avatar."
+  },
+  "icu:WhatsNew__v6.34--1": {
+    "messageformat": "Now you can right-click on any sent message or press the up arrow on your keyboard to edit what you just said! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
   }
 }

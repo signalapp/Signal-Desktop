@@ -5765,7 +5765,7 @@
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
   "icu:MediaEditor__input-placeholder": {
-    "messageformat": "Message",
+    "messageformat": "Nachricht",
     "description": "Placeholder for the input in the media editor"
   },
   "icu:MediaEditor__clock-more-styles": {
@@ -6808,13 +6808,13 @@
     "messageformat": "Kleine Optimierungen, Fehlerbehebungen und Leistungsverbesserungen. Danke, dass du Signal nutzt!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.32--0": {
-    "messageformat": "Wir haben den Medien-Editor aktualisiert, sodass du ihn jetzt noch viel einfacher bedienen kannst als zuvor."
-  },
-  "icu:WhatsNew__v6.32--1": {
-    "messageformat": "Manchmal kann die richtige Antwort dir wirklich helfen, dem Gesagten auf den Grund zu gehen. Signal scrollt jetzt automatisch an das Ende des Chats, wenn du eine neue Nachricht in diesem Chat sendest."
-  },
   "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "Jetzt kannst du eine Nachricht nach dem Versenden einfach mit einem Rechtsklick bearbeiten! Korrigiere einen Schreibfehler, ergänze die fehlende Zutat in Omas Rezept für Schokoplätzchen oder verrate die Pointe eines Witzes, solltest du zu schnell auf »Senden« getippt haben. Du hast die Wahl. Bei Nachrichten wird immer angezeigt, ob sie bearbeitet wurden. Du kannst auf den »Bearbeitet«-Indikator klicken, um den vollständigen Bearbeitungsverlauf für alle bearbeiteten Nachrichten zu sehen. Aktualisiere jetzt die Vergangenheit, um künftige Verwirrungen schon heute zu vermeiden!"
+  },
+  "icu:WhatsNew__v6.34--0": {
+    "messageformat": "Typing indicators in group chats will now display multiple profile pictures if more than one person is typing. James Cameron convinced us that we didn't need to stop after one avatar."
+  },
+  "icu:WhatsNew__v6.34--1": {
+    "messageformat": "Now you can right-click on any sent message or press the up arrow on your keyboard to edit what you just said! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
   }
 }
