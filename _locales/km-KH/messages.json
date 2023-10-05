@@ -5765,7 +5765,7 @@
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
   "icu:MediaEditor__input-placeholder": {
-    "messageformat": "Message",
+    "messageformat": "សារ",
     "description": "Placeholder for the input in the media editor"
   },
   "icu:MediaEditor__clock-more-styles": {
@@ -6808,13 +6808,13 @@
     "messageformat": "ការកែប្រែបន្តិចបន្តួច ការដោះស្រាយបញ្ហា និងការបង្កើនប្រតិបត្តិការ។ សូមអរគុណចំពោះការប្រើប្រាស់ Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.32--0": {
-    "messageformat": "យើងបានកែលម្អមុខងារ \"កែមេឌៀ\" ឲ្យកាន់តែមានភាពងាយស្រួល រលូន និងរហ័សជាងមុនក្នុងការប្រើ។"
-  },
-  "icu:WhatsNew__v6.32--1": {
-    "messageformat": "ពេលខ្លះការឆ្លើយតបដ៏ត្រឹមត្រូវពិតជាអាចជួយអ្នកឲ្យយល់ដឹងពីប្រភពនៃរឿងរ៉ាវដែលមនុស្សទាំងឡាយកំពុងនិយាយ ហើយឥឡូវនេះ Signal នឹងអូសដោយស្វ័យប្រវត្តិទៅដល់ចំណុចដើមដំបូងនៃការជជែក នៅពេលដែលអ្នកផ្ញើសារថ្មីមួយនៅក្នុងការជជែកនោះ។"
-  },
   "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "ឥឡូវនេះ អ្នកអាចចុចត្រង់ម៉ៅខាងស្ដាំនៅលើសារណាមួយដែលបានផ្ញើរួច ឬចុចរូបព្រួញឡើងលើនៅលើក្ដារចុចរបស់អ្នក ដើម្បីកែអ្វីដែលអ្នកទើបតែនិយាយរួច! កែអក្សរខុស បន្ថែមរូបអារម្មណ៍ ឬបន្ថែមពាក្យពេចន៍កំប្លែងៗ ប្រសិនបើអ្នកច្រឡំចុចប៊ូតុងផ្ញើលឿនពេក។ អ្នកមានជម្រើសធ្វើបែបនេះបាន។ សារទាំងឡាយនឹងបង្ហាញឡើងជានិច្ចនៅពេលដែលវាត្រូវបានកែ ហើយអ្នកអាចចុចលើសូចនាករ \"បានកែ\" ដើម្បីមើលប្រវត្តិកែទាំងមូលបានចំពោះសារដែលបានកែ។ ធ្វើបច្ចុប្បន្នភាពដើម្បីកែលម្អអតីតកាលនៅក្នុងបច្ចុប្បន្នកាល ដើម្បីជៀសវាងការភាន់ច្រឡំក្នុងអនាគតកាលនៅថ្ងៃនេះ!"
+  },
+  "icu:WhatsNew__v6.34--0": {
+    "messageformat": "Typing indicators in group chats will now display multiple profile pictures if more than one person is typing. James Cameron convinced us that we didn't need to stop after one avatar."
+  },
+  "icu:WhatsNew__v6.34--1": {
+    "messageformat": "Now you can right-click on any sent message or press the up arrow on your keyboard to edit what you just said! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
   }
 }

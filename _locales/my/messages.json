@@ -5765,7 +5765,7 @@
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
   "icu:MediaEditor__input-placeholder": {
-    "messageformat": "Message",
+    "messageformat": "မက်ဆေ့ချ်",
     "description": "Placeholder for the input in the media editor"
   },
   "icu:MediaEditor__clock-more-styles": {
@@ -6808,13 +6808,13 @@
     "messageformat": "အနေအထား ပြုပြင်မှုလေးများ၊ ချို့ယွင်းချက် ပြင်ဆင်မှုများနှင့် စွမ်းဆောင်ရည် မြှင့်တင်မှုများ။ Signal ကို သုံးသည့်အတွက် ကျေးဇူးတင်ပါသည်။",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.32--0": {
-    "messageformat": "\"media editor\" ကို ငါးဆပိုပြီးမြန်မြန် ပြောကြည့်လျင် \"mediator\" ဟုပြောခြင်းနှင့် တူသွားပါမည်။ — သို့သော် မီဒီယာ တည်းဖြတ်ကိရိယာအသစ်က အများကြီး သုံးရပိုလွယ်သောကြောင့် Crop Tool နှင့် သင့်အကြား Mediator လိုအပ်နေသလို မခံစားရတော့ပါ။"
-  },
-  "icu:WhatsNew__v6.32--1": {
-    "messageformat": "တစ်ခါတစ်ရံမှာ မှန်ကန်တဲ့ အကြောင်းပြန်စကားသည် အခြားသူများ ပြောနေသည့်အကြောင်းအရာကို နားလည်စေဖို့ တကယ်ကို အထောက်အကူပြုနိုင်ပါသည်၊ ယခုအခါ Signal သည် ချက်(တ်)ထဲတွင် သင် မက်ဆေ့ချ်ပို့လိုက်တိုင်း သင် လတ်တလောပြောထားသည့် စာကြောင်းသို့ အလိုအလျောက်ရွှေ့သွားပေးပါမည်။"
-  },
   "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "ယခုအခါ သင် လတ်တလော ပြောလိုက်သည့်အရာကို တည်းဖြတ်ရန်အတွက် ပေးပို့ပြီးသည့် မည်သည့်မက်ဆေ့ချ်ကိုမဆို ညာဘက်ကလစ်ဖြစ်စေ ကီးဘုတ်ပေါ်ရှိ အပေါ်မြှားကိုဖြစ်စေ နှိပ်နိုင်ပါသည်။ ပေးပို့ရန်ခလုတ်ကို အလျင်စလိုနှိပ်မိပြီးမှ စာလုံးပေါင်းအမှား ပြင်ဆင်ခြင်း၊ မုန့်လုပ်နည်း စာပို့ရာတွင် ပါဝင်ပစ္စည်း ကျန်ခဲ့၍ ထပ်ဖြည့်ခြင်း သို့မဟုတ် ဟာသစာတိုပို့ရာတွင် အပိတ်စာကြောင်း ထပ်ထည့်ခြင်း စသည်တို့ကို ပြုလုပ်လိုက်ပါ။ သင့်စိတ်ကြိုက် ရွေးချယ်နိုင်ပါသည်။ မက်ဆေ့ချ်များတွင် ၎င်းတို့အား တည်းဖြတ်ခဲ့သည့်အချိန်ကို အမြဲပြထားမည်ဖြစ်ပြီး တည်းဖြတ်ထားသည့် မက်ဆေ့ချ်တိုင်းအတွက် တည်းဖြတ်မှု မှတ်တမ်းအပြည့်အစုံကို ကြည့်နိုင်ပါသည်။"
+  },
+  "icu:WhatsNew__v6.34--0": {
+    "messageformat": "Typing indicators in group chats will now display multiple profile pictures if more than one person is typing. James Cameron convinced us that we didn't need to stop after one avatar."
+  },
+  "icu:WhatsNew__v6.34--1": {
+    "messageformat": "Now you can right-click on any sent message or press the up arrow on your keyboard to edit what you just said! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
   }
 }

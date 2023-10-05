@@ -5765,7 +5765,7 @@
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
   "icu:MediaEditor__input-placeholder": {
-    "messageformat": "Message",
+    "messageformat": "Üzenet",
     "description": "Placeholder for the input in the media editor"
   },
   "icu:MediaEditor__clock-more-styles": {
@@ -6808,13 +6808,13 @@
     "messageformat": "Apró finomítások, hibajavítások és teljesítménynövelések. Köszönjük, hogy a Signalt használod!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.32--0": {
-    "messageformat": "Frissítettük a médiaszerkesztőt, és sokkal egyszerűbbé tettük a használatát."
-  },
-  "icu:WhatsNew__v6.32--1": {
-    "messageformat": "A Signal mostantól automatikusan a csevegés aljára görget, amikor új üzenetet küldesz a csevegésben."
-  },
   "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "Mostantól bármelyik elküldött üzenetre rákattinthatsz jobb gombbal, vagy megnyomhatod a felfelé mutató nyilat a billentyűzeten a szerkesztéshez! Kijavíthatod az elírást, beírhatsz egy hiányzó összetevőt nagyi csokis süti receptjébe, vagy hozzáadhatod a poént a viccedhez, ha túl gyorsan nyomtad meg a Küldés gombot. A választás a te kezedben van. Az üzeneteknél mindig látszódni fog, ha szerkesztették azokat, és a szerkesztett üzenetek teljes szerkesztési előzményei megtekinthetők. Frissítsd a múltat a jelenben, hogy még ma elkerüld a jövőbeli félreértéseket!"
+  },
+  "icu:WhatsNew__v6.34--0": {
+    "messageformat": "Typing indicators in group chats will now display multiple profile pictures if more than one person is typing. James Cameron convinced us that we didn't need to stop after one avatar."
+  },
+  "icu:WhatsNew__v6.34--1": {
+    "messageformat": "Now you can right-click on any sent message or press the up arrow on your keyboard to edit what you just said! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
   }
 }

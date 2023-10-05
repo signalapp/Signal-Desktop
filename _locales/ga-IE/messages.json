@@ -5765,7 +5765,7 @@
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
   "icu:MediaEditor__input-placeholder": {
-    "messageformat": "Message",
+    "messageformat": "Teachtaireacht",
     "description": "Placeholder for the input in the media editor"
   },
   "icu:MediaEditor__clock-more-styles": {
@@ -6808,13 +6808,13 @@
     "messageformat": "Mionathruithe, paistí fabhtanna agus feabhsuithe ar fheidhmíocht. Go raibh maith agat as Signal a úsáid!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.32--0": {
-    "messageformat": "Rinneamar an t-eagarthóir meán a nuashonrú go mbeidh sé i bhfad níos éasca le húsáid."
-  },
-  "icu:WhatsNew__v6.32--1": {
-    "messageformat": "Anois scrollóidh Signal go bun an chomhrá go huathoibríoch nuair a sheolfaidh tú teachtaireacht nua i gcomhrá."
-  },
   "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "Anois is féidir leat deaschliceáil ar aon teachtaireacht a seoladh nó an tsaighead suas a bhrú ar do mhéarchlár lena cur in eagar! Ceartaigh earráid chló, cuir comhábhar atá ar iarraidh le hoideas Mhamó, nó cuir deireadh an jóc leis má sheol tú róluath é. Is leatsa an rogha. Taispeánfar i gcónaí nuair a cuireadh in eagar iad, agus is féidir leat stair iomlán aon teachtaireachtaí a cuireadh in eagar a fheiceáil."
+  },
+  "icu:WhatsNew__v6.34--0": {
+    "messageformat": "Typing indicators in group chats will now display multiple profile pictures if more than one person is typing. James Cameron convinced us that we didn't need to stop after one avatar."
+  },
+  "icu:WhatsNew__v6.34--1": {
+    "messageformat": "Now you can right-click on any sent message or press the up arrow on your keyboard to edit what you just said! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
   }
 }

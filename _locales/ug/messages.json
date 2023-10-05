@@ -5765,7 +5765,7 @@
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
   "icu:MediaEditor__input-placeholder": {
-    "messageformat": "Message",
+    "messageformat": "ئۇچۇر",
     "description": "Placeholder for the input in the media editor"
   },
   "icu:MediaEditor__clock-more-styles": {
@@ -6808,13 +6808,13 @@
     "messageformat": "كىچىك ئۆزگەرتىشلەر كىرگۈزۈلدى، كاشىلا ھەل قىلىندى ۋە ئىقتىدار ئەلالاشتۇرۇلدى. Signal نى ئىشلەتكەنلىكىڭىزگە رەھمەت!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.32--0": {
-    "messageformat": "ئەگەر سىز «media editor»نى بەش ھەسسە تېز دېسىڭىز، ئۇ «mediator» دېگەندەك ئاڭلىنىشقا باشلايدۇ— بىراق يېڭى مېدىيا تەھرېرلىگۈچىنى ئىشلىتىش بەك ئاسان بولۇپ، سىز بۇندىن كىيىن كېسىپ ئوڭشاش قورالى بىلەن بولغان جىدەلنى تىنجىتىش ئۈچۈن مېدىياتورغا ئىھتىياجىڭىز قالمىغانلىقىنى ھېس قىلىسىز."
-  },
-  "icu:WhatsNew__v6.32--1": {
-    "messageformat": "بەزىدە باشقىلارنىڭ نېمە دەۋاتقانلىقىنىڭ تېگىگە يېتىش ئۈچۈن توغرا جاۋاپ ھەقىقەتەن پايدىلىق بولىدۇ، ۋە ھازىر سىزنىڭ ھەرقانداق بىر پاراڭدا ئۇچۇرنى قاچان يوللىغان بولىشىڭىزدىن قەتئىينەزەر Signal سىزنىڭ دېگەنلىرىڭىزگە ئاپتوماتىك يۆتكىلىدۇ."
-  },
   "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Now you can edit a message with a right click after it has been sent! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "ئەمدى سىز ئەۋەتىلگەن بىر ئۇچۇرنى ئۇزۇن بېسىش ئارقىلىق تەھرېرلىيەلەيسىز! خاتالىقلارنىڭ تۈزىتىڭ، چوڭ ئانىڭىزنىڭ شاكىلاتلىق نېپىز پېچىنە رېتسىپىدىكى كەم تەركىپلەرنى تولۇقلاڭ، ياكى تېزلا ئەۋەتىۋېتىپ قالغان چاقچاقلانى مۇشتلاپ قويۇڭ. بۇ تاللاش سىزنىڭ. تەھرېرلەنگەن ئۇچۇرلار ھەمىشە كۆرۈنىدۇ، ۋە خالىغان بىر تەھرېرلەنگەن ئۇچۇر ئۈچۈن «تەھرېرلەنگەن» كۆرسەتكۈچىنى چېكىپ تولۇق تەھرېرلەش خاتىرىسىنى كۆرەلەيسىز. كەلگۈسىدىكى ئۇقۇشماسلىقنىڭ ئالدىنى ئېلىش ئۈچۈن ھازىر ئۆتمۈشنى يېڭىلاڭ!"
+  },
+  "icu:WhatsNew__v6.34--0": {
+    "messageformat": "Typing indicators in group chats will now display multiple profile pictures if more than one person is typing. James Cameron convinced us that we didn't need to stop after one avatar."
+  },
+  "icu:WhatsNew__v6.34--1": {
+    "messageformat": "Now you can right-click on any sent message or press the up arrow on your keyboard to edit what you just said! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
   }
 }
