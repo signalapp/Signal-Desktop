@@ -365,7 +365,7 @@
     "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
   },
   "icu:markUnread": {
-    "messageformat": "Voor mij markeren als ongelezen",
+    "messageformat": "Markeren als ongelezen",
     "description": "Shown in menu for conversation, and marks conversation as unread"
   },
   "icu:ConversationHeader__menu__selectMessages": {
