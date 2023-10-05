@@ -938,8 +938,12 @@ export const getMessageContentWithStatusesSelectorProps = createSelector(
       return undefined;
     }
 
+    const isGroup =
+      props.propsForMessage.conversationType !== 'private' && !props.propsForMessage.isPublic;
+
     const msgProps: MessageContentWithStatusSelectorProps = {
       ...pick(props.propsForMessage, ['conversationType', 'direction', 'isDeleted']),
+      isGroup,
     };
 
     return msgProps;

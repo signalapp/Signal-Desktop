@@ -36,10 +36,10 @@ export type MessageAvatarSelectorProps = Pick<
   'sender' | 'isSenderAdmin' | 'lastMessageOfSeries'
 >;
 
-type Props = { messageId: string; hideAvatar: boolean; isPrivate: boolean };
+type Props = { messageId: string; hideAvatar: boolean; isPrivate: boolean; isGroup: boolean };
 
 export const MessageAvatar = (props: Props) => {
-  const { messageId, hideAvatar, isPrivate } = props;
+  const { messageId, hideAvatar, isPrivate, isGroup } = props;
 
   const dispatch = useDispatch();
   const selectedConvoKey = useSelectedConversationKey();
@@ -137,6 +137,8 @@ export const MessageAvatar = (props: Props) => {
     <StyledAvatar
       key={`msg-avatar-${sender}`}
       style={{
+        // isGroup is used to align the ExpireTimer with the member avatars
+        marginInlineStart: isGroup ? '-11px' : undefined,
         visibility: hideAvatar ? 'hidden' : undefined,
       }}
     >

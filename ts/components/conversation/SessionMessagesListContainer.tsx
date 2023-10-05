@@ -144,6 +144,7 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
             onPageUpPressed={this.scrollPgUp}
             onHomePressed={this.scrollTop}
             onEndPressed={this.scrollEnd}
+            isGroup={!conversation.isMe && !conversation.isPrivate && !conversation.isPublic}
           />
         </ScrollToLoadedMessageContext.Provider>
 

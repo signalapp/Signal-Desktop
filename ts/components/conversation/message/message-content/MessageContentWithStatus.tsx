@@ -19,7 +19,7 @@ import { MessageReactions, StyledMessageReactions } from './MessageReactions';
 import { MessageStatus } from './MessageStatus';
 import { ExpirableReadableMessage } from '../message-item/ExpirableReadableMessage';
 
-export type MessageContentWithStatusSelectorProps = Pick<
+export type MessageContentWithStatusSelectorProps = { isGroup: boolean } & Pick<
   MessageRenderingProps,
   'conversationType' | 'direction' | 'isDeleted'
 >;
@@ -95,7 +95,8 @@ export const MessageContentWithStatuses = (props: Props) => {
   if (!contentProps) {
     return null;
   }
-  const { conversationType, direction, isDeleted } = contentProps;
+
+  const { conversationType, direction, isDeleted, isGroup } = contentProps;
   const isIncoming = direction === 'incoming';
 
   const isPrivate = conversationType === 'private';
@@ -124,7 +125,12 @@ export const MessageContentWithStatuses = (props: Props) => {
         onDoubleClickCapture={onDoubleClickReplyToMessage}
         data-testid={dataTestId}
       >
-        <MessageAvatar messageId={messageId} hideAvatar={hideAvatar} isPrivate={isPrivate} />
+        <MessageAvatar
+          messageId={messageId}
+          hideAvatar={hideAvatar}
+          isPrivate={isPrivate}
+          isGroup={isGroup}
+        />
         <MessageStatus
           dataTestId="msg-status-incoming"
           messageId={messageId}

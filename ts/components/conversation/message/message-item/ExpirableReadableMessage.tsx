@@ -9,10 +9,7 @@ import { getIncrement } from '../../../../util/timer';
 import { ExpireTimer } from '../../ExpireTimer';
 import { ReadableMessage, ReadableMessageProps } from './ReadableMessage';
 import { MessageModelType } from '../../../../models/messageType';
-import {
-  useIsClosedGroup,
-  useMessageExpirationPropsById,
-} from '../../../../hooks/useParamSelector';
+import { useMessageExpirationPropsById } from '../../../../hooks/useParamSelector';
 
 const EXPIRATION_CHECK_MINIMUM = 2000;
 
@@ -90,7 +87,6 @@ export interface ExpirableReadableMessageProps
 
 export const ExpirableReadableMessage = (props: ExpirableReadableMessageProps) => {
   const selected = useMessageExpirationPropsById(props.messageId);
-  const isClosedGroup = useIsClosedGroup(selected?.convoId);
 
   const { isCentered, onClick, onDoubleClickCapture, role, dataTestId } = props;
 
@@ -138,8 +134,6 @@ export const ExpirableReadableMessage = (props: ExpirableReadableMessageProps) =
             display: !isCentered && isIncoming ? 'none' : 'block',
             visibility: !isIncoming ? 'visible' : 'hidden',
             flexGrow: !isCentered ? 1 : undefined,
-            // Align timer with group member avatar
-            marginLeft: !isCentered && isClosedGroup ? '11px' : undefined,
           }}
         />
       )}
