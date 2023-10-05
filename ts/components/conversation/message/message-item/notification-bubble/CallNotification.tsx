@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from 'styled-components';
 import { PubKey } from '../../../../../session/types';
 
 import {
@@ -39,10 +38,6 @@ const style: StyleType = {
   },
 };
 
-const StyledCallNotificationContainer = styled.div`
-  padding: 0 var(--margins-lg) 0;
-`;
-
 export const CallNotification = (props: PropsForCallNotification) => {
   const { messageId, notificationType } = props;
   const selectedConvoId = useSelectedConversationKey();
@@ -64,18 +59,16 @@ export const CallNotification = (props: PropsForCallNotification) => {
   const iconColor = styleItem.iconColor;
 
   return (
-    <StyledCallNotificationContainer>
-      <ExpirableReadableMessage
-        messageId={messageId}
-        key={`readable-message-${messageId}`}
-        isCentered={true}
-      >
-        <NotificationBubble
-          notificationText={notificationText}
-          iconType={iconType}
-          iconColor={iconColor}
-        />
-      </ExpirableReadableMessage>
-    </StyledCallNotificationContainer>
+    <ExpirableReadableMessage
+      messageId={messageId}
+      key={`readable-message-${messageId}`}
+      isCentered={true}
+    >
+      <NotificationBubble
+        notificationText={notificationText}
+        iconType={iconType}
+        iconColor={iconColor}
+      />
+    </ExpirableReadableMessage>
   );
 };

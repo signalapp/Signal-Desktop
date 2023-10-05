@@ -7,10 +7,6 @@ import { PropsForGroupInvitation } from '../../../../state/ducks/conversations';
 import { SessionIconButton } from '../../../icon';
 import { ExpirableReadableMessage } from './ExpirableReadableMessage';
 
-const StyledGroupInvitationContainer = styled.div`
-  padding: 0 var(--margins-lg) 0;
-`;
-
 const StyledGroupInvitation = styled.div`
   background-color: var(--message-bubbles-received-background-color);
 
@@ -80,36 +76,34 @@ export const GroupInvitation = (props: PropsForGroupInvitation) => {
   const openGroupInvitation = window.i18n('openGroupInvitation');
 
   return (
-    <StyledGroupInvitationContainer>
-      <ExpirableReadableMessage
-        messageId={messageId}
-        key={`readable-message-${messageId}`}
-        dataTestId="control-message"
-      >
-        <StyledGroupInvitation className={classNames(classes)}>
-          <div className="contents">
-            <StyledIconContainer>
-              <SessionIconButton
-                iconColor={
-                  props.direction === 'outgoing'
-                    ? 'var(--message-bubbles-sent-text-color)'
-                    : 'var(--message-bubbles-received-text-color)'
-                }
-                iconType={props.direction === 'outgoing' ? 'communities' : 'plus'}
-                iconSize={'large'}
-                onClick={() => {
-                  acceptOpenGroupInvitation(props.acceptUrl, props.serverName);
-                }}
-              />
-            </StyledIconContainer>
-            <span className="group-details">
-              <span className="group-name">{props.serverName}</span>
-              <span className="group-type">{openGroupInvitation}</span>
-              <span className="group-address">{props.url}</span>
-            </span>
-          </div>
-        </StyledGroupInvitation>
-      </ExpirableReadableMessage>
-    </StyledGroupInvitationContainer>
+    <ExpirableReadableMessage
+      messageId={messageId}
+      key={`readable-message-${messageId}`}
+      dataTestId="control-message"
+    >
+      <StyledGroupInvitation className={classNames(classes)}>
+        <div className="contents">
+          <StyledIconContainer>
+            <SessionIconButton
+              iconColor={
+                props.direction === 'outgoing'
+                  ? 'var(--message-bubbles-sent-text-color)'
+                  : 'var(--message-bubbles-received-text-color)'
+              }
+              iconType={props.direction === 'outgoing' ? 'communities' : 'plus'}
+              iconSize={'large'}
+              onClick={() => {
+                acceptOpenGroupInvitation(props.acceptUrl, props.serverName);
+              }}
+            />
+          </StyledIconContainer>
+          <span className="group-details">
+            <span className="group-name">{props.serverName}</span>
+            <span className="group-type">{openGroupInvitation}</span>
+            <span className="group-address">{props.url}</span>
+          </span>
+        </div>
+      </StyledGroupInvitation>
+    </ExpirableReadableMessage>
   );
 };

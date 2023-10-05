@@ -1,6 +1,5 @@
 import React from 'react';
 
-import styled from 'styled-components';
 import { PropsForExpirationTimer } from '../../state/ducks/conversations';
 import { assertUnreachable } from '../../types/sqlSharedTypes';
 
@@ -9,10 +8,6 @@ import { SessionIcon } from '../icon';
 import { SpacerSM, Text } from '../basic/Text';
 import { Flex } from '../basic/Flex';
 import { isLegacyDisappearingModeEnabled } from '../../util/expiringMessages';
-
-const StyledTimerNotificationContainer = styled.div`
-  padding: 0 var(--margins-lg) 0;
-`;
 
 export const TimerNotification = (props: PropsForExpirationTimer) => {
   const { messageId, pubkey, profileName, expirationMode, timespan, type, disabled } = props;
@@ -51,29 +46,27 @@ export const TimerNotification = (props: PropsForExpirationTimer) => {
   }
 
   return (
-    <StyledTimerNotificationContainer>
-      <ExpirableReadableMessage
-        messageId={messageId}
-        isCentered={true}
-        key={`readable-message-${messageId}`}
-        dataTestId={'disappear-control-message'}
+    <ExpirableReadableMessage
+      messageId={messageId}
+      isCentered={true}
+      key={`readable-message-${messageId}`}
+      dataTestId={'disappear-control-message'}
+    >
+      <Flex
+        container={true}
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="center"
+        width="90%"
+        maxWidth="700px"
+        margin="10px auto"
+        padding="5px 10px"
+        style={{ textAlign: 'center' }}
       >
-        <Flex
-          container={true}
-          flexDirection="column"
-          alignItems="center"
-          justifyContent="center"
-          width="90%"
-          maxWidth="700px"
-          margin="10px auto"
-          padding="5px 10px"
-          style={{ textAlign: 'center' }}
-        >
-          <SessionIcon iconType="stopwatch" iconColor="inherit" iconSize="medium" />
-          <SpacerSM />
-          <Text text={textToRender} />
-        </Flex>
-      </ExpirableReadableMessage>
-    </StyledTimerNotificationContainer>
+        <SessionIcon iconType="stopwatch" iconColor="inherit" iconSize="medium" />
+        <SpacerSM />
+        <Text text={textToRender} />
+      </Flex>
+    </ExpirableReadableMessage>
   );
 };

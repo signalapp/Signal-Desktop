@@ -1,6 +1,5 @@
 import React from 'react';
 
-import styled from 'styled-components';
 import {
   PropsForGroupUpdate,
   PropsForGroupUpdateType,
@@ -73,23 +72,17 @@ const ChangeItem = (change: PropsForGroupUpdateType): string => {
   }
 };
 
-const StyledGroupUpdateContainer = styled.div`
-  padding: 0 var(--margins-lg) 0;
-`;
-
 export const GroupUpdateMessage = (props: PropsForGroupUpdate) => {
   const { change, messageId } = props;
 
   return (
-    <StyledGroupUpdateContainer>
-      <ExpirableReadableMessage
-        messageId={messageId}
-        key={`readable-message-${messageId}`}
-        dataTestId="group-update-message"
-        isCentered={true}
-      >
-        <NotificationBubble notificationText={ChangeItem(change)} iconType="users" />
-      </ExpirableReadableMessage>
-    </StyledGroupUpdateContainer>
+    <ExpirableReadableMessage
+      messageId={messageId}
+      key={`readable-message-${messageId}`}
+      dataTestId="group-update-message"
+      isCentered={true}
+    >
+      <NotificationBubble notificationText={ChangeItem(change)} iconType="users" />
+    </ExpirableReadableMessage>
   );
 };

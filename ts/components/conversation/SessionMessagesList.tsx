@@ -2,6 +2,7 @@ import React, { useLayoutEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import useKey from 'react-use/lib/useKey';
+import styled from 'styled-components';
 import {
   PropsForDataExtractionNotification,
   PropsForMessageRequestResponse,
@@ -32,6 +33,10 @@ import { TimerNotification } from './TimerNotification';
 function isNotTextboxEvent(e: KeyboardEvent) {
   return (e?.target as any)?.type === undefined;
 }
+
+const StyledMessagesList = styled.div`
+  padding: 0 var(--margins-lg) 0;
+`;
 
 let previousRenderedConvo: string | undefined;
 
@@ -96,7 +101,7 @@ export const SessionMessagesList = (props: {
   }
 
   return (
-    <>
+    <StyledMessagesList>
       {messagesProps.map(messageProps => {
         const messageId = messageProps.message.props.messageId;
         const unreadIndicator = messageProps.showUnreadIndicator ? (
@@ -161,6 +166,6 @@ export const SessionMessagesList = (props: {
 
         return [<Message messageId={messageId} key={messageId} />, ...componentToMerge];
       })}
-    </>
+    </StyledMessagesList>
   );
 };
