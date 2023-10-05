@@ -40,6 +40,20 @@ export type MessageAttachmentsDownloadedType = {
   sticker?: StickerType;
 };
 
+function getAttachmentSignatureSafe(
+  attachment: AttachmentType
+): string | undefined {
+  try {
+    return getAttachmentSignature(attachment);
+  } catch {
+    log.warn(
+      'queueAttachmentDownloads: attachment was missing digest',
+      attachment.blurHash
+    );
+    return undefined;
+  }
+}
+
 // Receive logic
 // NOTE: If you're changing any logic in this function that deals with the
 // count then you'll also have to modify ./hasAttachmentsDownloads
@@ -273,7 +287,7 @@ async function queueNormalAttachments(
   // then not be added to the AttachmentDownloads job.
   const attachmentSignatures: Map<string, AttachmentType> = new Map();
   otherAttachments?.forEach(attachment => {
-    const signature = getAttachmentSignature(attachment);
+    const signature = getAttachmentSignatureSafe(attachment);
     if (signature) {
       attachmentSignatures.set(signature, attachment);
     }
@@ -291,7 +305,7 @@ async function queueNormalAttachments(
         return attachment;
       }
 
-      const signature = getAttachmentSignature(attachment);
+      const signature = getAttachmentSignatureSafe(attachment);
       const existingAttachment = signature
         ? attachmentSignatures.get(signature)
         : undefined;
@@ -332,7 +346,12 @@ function getLinkPreviewSignature(preview: LinkPreviewType): string | undefined {
     return;
   }
 
-  return `<${url}>${getAttachmentSignature(image)}`;
+  const signature = getAttachmentSignatureSafe(image);
+  if (!signature) {
+    return;
+  }
+
+  return `<${url}>${signature}`;
 }
 
 async function queuePreviews(
@@ -406,7 +425,11 @@ function getQuoteThumbnailSignature(
   if (!thumbnail) {
     return undefined;
   }
-  return `<${quote.id}>${getAttachmentSignature(thumbnail)}`;
+  const signature = getAttachmentSignatureSafe(thumbnail);
+  if (!signature) {
+    return;
+  }
+  return `<${quote.id}>${signature}`;
 }
 
 async function queueQuoteAttachments(
