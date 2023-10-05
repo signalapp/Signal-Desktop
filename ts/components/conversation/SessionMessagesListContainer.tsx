@@ -51,7 +51,8 @@ type Props = SessionMessageListProps & {
   scrollToNow: () => Promise<void>;
 };
 
-const StyledMessagesContainer = styled.div`
+// isGroup is used to align the ExpireTimer with the member avatars
+const StyledMessagesContainer = styled.div<{ isGroup: boolean }>`
   display: flex;
   flex-grow: 1;
   gap: var(--margins-xxs);
@@ -60,7 +61,12 @@ const StyledMessagesContainer = styled.div`
   overflow-x: hidden;
   min-width: 370px;
   scrollbar-width: 4px;
-  padding: var(--margins-sm) 0 var(--margins-lg);
+
+  padding-top: var(--margins-sm);
+  padding-right: var(--margins-lg);
+  padding-bottom: var(--margins-lg);
+  padding-left: ${props =>
+    props.isGroup ? 'calc(var(--margins-lg) + 11px)' : 'var(--margins-lg)'};
 
   .session-icon-button {
     display: flex;
@@ -121,6 +127,7 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
       <StyledMessagesContainer
         className="messages-container"
         id={messageContainerDomID}
+        isGroup={!conversation.isMe && !conversation.isPrivate && !conversation.isPublic}
         onScroll={this.handleScroll}
         ref={this.props.messageContainerRef}
         data-testid="messages-container"
@@ -144,7 +151,6 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
             onPageUpPressed={this.scrollPgUp}
             onHomePressed={this.scrollTop}
             onEndPressed={this.scrollEnd}
-            isGroup={!conversation.isMe && !conversation.isPrivate && !conversation.isPublic}
           />
         </ScrollToLoadedMessageContext.Provider>
 

@@ -2,7 +2,6 @@ import React, { useLayoutEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import useKey from 'react-use/lib/useKey';
-import styled from 'styled-components';
 import {
   PropsForDataExtractionNotification,
   PropsForMessageRequestResponse,
@@ -34,14 +33,6 @@ function isNotTextboxEvent(e: KeyboardEvent) {
   return (e?.target as any)?.type === undefined;
 }
 
-// isGroup is used to align the ExpireTimer with the member avatars
-const StyledMessagesList = styled.div<{ isGroup: boolean }>`
-  padding: ${props =>
-    props.isGroup
-      ? '0 var(--margins-lg) 0 calc(var(--margins-lg) + 11px)'
-      : '0 var(--margins-lg) 0'};
-`;
-
 let previousRenderedConvo: string | undefined;
 
 export const SessionMessagesList = (props: {
@@ -53,7 +44,6 @@ export const SessionMessagesList = (props: {
   onPageDownPressed: () => void;
   onHomePressed: () => void;
   onEndPressed: () => void;
-  isGroup: boolean;
 }) => {
   const messagesProps = useSelector(getSortedMessagesTypesOfSelectedConversation);
   const convoKey = useSelectedConversationKey();
@@ -106,7 +96,7 @@ export const SessionMessagesList = (props: {
   }
 
   return (
-    <StyledMessagesList isGroup={props.isGroup}>
+    <>
       {messagesProps.map(messageProps => {
         const messageId = messageProps.message.props.messageId;
         const unreadIndicator = messageProps.showUnreadIndicator ? (
@@ -171,6 +161,6 @@ export const SessionMessagesList = (props: {
 
         return [<Message messageId={messageId} key={messageId} />, ...componentToMerge];
       })}
-    </StyledMessagesList>
+    </>
   );
 };
