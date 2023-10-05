@@ -842,11 +842,13 @@ async function saveCallHistory(
   if (callHistory.mode === CallMode.Direct) {
     unread =
       callHistory.direction === CallDirection.Incoming &&
-      callHistory.status === DirectCallStatus.Missed;
+      (callHistory.status === DirectCallStatus.Missed ||
+        callHistory.status === DirectCallStatus.Pending);
   } else if (callHistory.mode === CallMode.Group) {
     unread =
       callHistory.direction === CallDirection.Incoming &&
-      (callHistory.status === GroupCallStatus.GenericGroupCall ||
+      (callHistory.status === GroupCallStatus.Ringing ||
+        callHistory.status === GroupCallStatus.GenericGroupCall ||
         callHistory.status === GroupCallStatus.Missed);
   }
 
