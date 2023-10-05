@@ -26,6 +26,20 @@ import { modifyTargetMessage } from './modifyTargetMessage';
 
 const RECURSION_LIMIT = 15;
 
+function getAttachmentSignatureSafe(
+  attachment: AttachmentType
+): string | undefined {
+  try {
+    return getAttachmentSignature(attachment);
+  } catch {
+    log.warn(
+      'handleEditMessage: attachment was missing digest',
+      attachment.blurHash
+    );
+    return undefined;
+  }
+}
+
 export async function handleEditMessage(
   mainMessage: MessageAttributesType,
   editAttributes: Pick<
@@ -128,7 +142,7 @@ export async function handleEditMessage(
   const quoteSignatures: Map<string, AttachmentType> = new Map();
 
   mainMessage.attachments?.forEach(attachment => {
-    const signature = getAttachmentSignature(attachment);
+    const signature = getAttachmentSignatureSafe(attachment);
     if (signature) {
       attachmentSignatures.set(signature, attachment);
     }
@@ -137,7 +151,7 @@ export async function handleEditMessage(
     if (!preview.image) {
       return;
     }
-    const signature = getAttachmentSignature(preview.image);
+    const signature = getAttachmentSignatureSafe(preview.image);
     if (signature) {
       previewSignatures.set(signature, preview);
     }
@@ -147,7 +161,7 @@ export async function handleEditMessage(
       if (!attachment.thumbnail) {
         continue;
       }
-      const signature = getAttachmentSignature(attachment.thumbnail);
+      const signature = getAttachmentSignatureSafe(attachment.thumbnail);
       if (signature) {
         quoteSignatures.set(signature, attachment);
       }
@@ -157,7 +171,7 @@ export async function handleEditMessage(
   let newAttachments = 0;
   const nextEditedMessageAttachments =
     upgradedEditedMessageData.attachments?.map(attachment => {
-      const signature = getAttachmentSignature(attachment);
+      const signature = getAttachmentSignatureSafe(attachment);
       const existingAttachment = signature
         ? attachmentSignatures.get(signature)
         : undefined;
@@ -177,7 +191,7 @@ export async function handleEditMessage(
         return preview;
       }
 
-      const signature = getAttachmentSignature(preview.image);
+      const signature = getAttachmentSignatureSafe(preview.image);
       const existingPreview = signature
         ? previewSignatures.get(signature)
         : undefined;
@@ -207,7 +221,7 @@ export async function handleEditMessage(
         if (!attachment.thumbnail) {
           return attachment;
         }
-        const signature = getAttachmentSignature(attachment.thumbnail);
+        const signature = getAttachmentSignatureSafe(attachment.thumbnail);
         const existingThumbnail = signature
           ? quoteSignatures.get(signature)
           : undefined;
