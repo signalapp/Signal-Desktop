@@ -6,7 +6,10 @@ import { acceptOpenGroupInvitation } from '../../../../interactions/messageInter
 import { PropsForGroupInvitation } from '../../../../state/ducks/conversations';
 import { SessionIconButton } from '../../../icon';
 import { ExpirableReadableMessage } from './ExpirableReadableMessage';
-import { Flex } from '../../../basic/Flex';
+
+const StyledGroupInvitationContainer = styled.div`
+  padding: 0 var(--margins-lg) 0;
+`;
 
 const StyledGroupInvitation = styled.div`
   background-color: var(--message-bubbles-received-background-color);
@@ -26,7 +29,6 @@ const StyledGroupInvitation = styled.div`
   }
 
   display: inline-block;
-  margin: 4px 16px;
   padding: 4px;
 
   border-radius: var(--border-radius-message-box);
@@ -78,8 +80,12 @@ export const GroupInvitation = (props: PropsForGroupInvitation) => {
   const openGroupInvitation = window.i18n('openGroupInvitation');
 
   return (
-    <ExpirableReadableMessage messageId={messageId} key={`readable-message-${messageId}`}>
-      <Flex container={true} flexDirection={'column'} flexGrow={1} id={`msg-${props.messageId}`}>
+    <StyledGroupInvitationContainer>
+      <ExpirableReadableMessage
+        messageId={messageId}
+        key={`readable-message-${messageId}`}
+        dataTestId="control-message"
+      >
         <StyledGroupInvitation className={classNames(classes)}>
           <div className="contents">
             <StyledIconContainer>
@@ -103,7 +109,7 @@ export const GroupInvitation = (props: PropsForGroupInvitation) => {
             </span>
           </div>
         </StyledGroupInvitation>
-      </Flex>
-    </ExpirableReadableMessage>
+      </ExpirableReadableMessage>
+    </StyledGroupInvitationContainer>
   );
 };
