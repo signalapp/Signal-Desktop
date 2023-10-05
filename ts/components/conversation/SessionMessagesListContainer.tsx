@@ -55,7 +55,7 @@ type Props = SessionMessageListProps & {
 const StyledMessagesContainer = styled.div<{ isGroup: boolean }>`
   display: flex;
   flex-grow: 1;
-  gap: var(--margins-xxs);
+  gap: var(--margins-sm);
   flex-direction: column-reverse;
   position: relative;
   overflow-x: hidden;
@@ -64,7 +64,7 @@ const StyledMessagesContainer = styled.div<{ isGroup: boolean }>`
 
   padding-top: var(--margins-sm);
   padding-right: var(--margins-lg);
-  padding-bottom: var(--margins-lg);
+  padding-bottom: var(--margins-xl);
   padding-left: ${props =>
     props.isGroup ? 'calc(var(--margins-lg) + 11px)' : 'var(--margins-lg)'};
 
