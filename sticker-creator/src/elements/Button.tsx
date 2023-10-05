@@ -31,7 +31,6 @@ const getClassName = ({ primary, pill }: Props) => {
 export function Button({
   className,
   children,
-  buttonRef,
   primary,
   ...otherProps
 }: React.PropsWithChildren<Props>): JSX.Element {
@@ -42,7 +41,6 @@ export function Button({
         getClassName({ primary, ...otherProps }),
         className
       )}
-      ref={buttonRef}
       {...otherProps}
     >
       {children}

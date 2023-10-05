@@ -1,7 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { useRef } from 'react';
 import { createPortal } from 'react-dom';
 import classNames from 'classnames';
 import {
@@ -11,6 +11,7 @@ import {
 } from 'react-popper';
 import type { EmojiClickData } from '@indutny/emoji-picker-react';
 
+import { useInteractOutside } from '@react-aria/interactions';
 import { AddEmoji } from '../elements/icons';
 import type { Props as DropZoneProps } from '../elements/DropZone';
 import { DropZone } from '../elements/DropZone';
@@ -19,11 +20,9 @@ import { Spinner } from '../elements/Spinner';
 import styles from './ArtFrame.module.scss';
 import { useI18n } from '../contexts/I18n';
 import { assert } from '../util/assert';
-import { noop } from '../util/noop';
 import { ArtType } from '../constants';
 import type { EmojiData } from '../types.d';
 import EMOJI_SHEET from '../assets/emoji.webp';
-import { PopperRootContext } from './PopperRootContext';
 import EmojiPicker from './EmojiPicker';
 
 export type Mode = 'removable' | 'pick-emoji' | 'add';
@@ -71,11 +70,9 @@ export const ArtFrame = React.memo(function ArtFrame({
 }: Props) {
   const i18n = useI18n();
   const [emojiPickerOpen, setEmojiPickerOpen] = React.useState(false);
-  const [emojiPopperRoot, setEmojiPopperRoot] =
-    React.useState<HTMLElement | null>(null);
+  const emojiPickerPopperRef = useRef<HTMLElement>(null);
   const [previewActive, setPreviewActive] = React.useState(false);
-  const [previewPopperRoot, setPreviewPopperRoot] =
-    React.useState<HTMLElement | null>(null);
+  const previewPopperRef = useRef<HTMLElement>(null);
   const timerRef = React.useRef<number>();
 
   const handleToggleEmojiPicker = React.useCallback(() => {
@@ -138,51 +135,19 @@ export const ArtFrame = React.memo(function ArtFrame({
     [timerRef]
   );
 
-  const { createRoot, removeRoot } = React.useContext(PopperRootContext);
+  useInteractOutside({
+    ref: emojiPickerPopperRef,
+    onInteractOutside() {
+      setEmojiPickerOpen(false);
+    },
+  });
 
-  // Create popper root and handle outside clicks
-  React.useEffect(() => {
-    if (emojiPickerOpen) {
-      const root = createRoot();
-      setEmojiPopperRoot(root);
-      const handleOutsideClick = ({ target }: MouseEvent) => {
-        const targetNode = target as HTMLElement;
-        const button = targetNode.closest(`button.${styles.emojiButton}`);
-        if (!root.contains(targetNode) && !button) {
-          setEmojiPickerOpen(false);
-        }
-      };
-      document.addEventListener('click', handleOutsideClick);
-
-      return () => {
-        removeRoot(root);
-        setEmojiPopperRoot(null);
-        document.removeEventListener('click', handleOutsideClick);
-      };
-    }
-
-    return noop;
-  }, [createRoot, emojiPickerOpen, removeRoot]);
-
-  React.useEffect(() => {
-    if (mode !== 'pick-emoji' && image && previewActive) {
-      const root = createRoot();
-      setPreviewPopperRoot(root);
-
-      return () => {
-        removeRoot(root);
-      };
-    }
-
-    return noop;
-  }, [
-    createRoot,
-    image,
-    mode,
-    previewActive,
-    removeRoot,
-    setPreviewPopperRoot,
-  ]);
+  useInteractOutside({
+    ref: previewPopperRef,
+    onInteractOutside() {
+      setPreviewActive(false);
+    },
+  });
 
   const [dragActive, setDragActive] = React.useState<boolean>(false);
 
@@ -246,23 +211,27 @@ export const ArtFrame = React.memo(function ArtFrame({
               </button>
             )}
           </PopperReference>
-          {emojiPickerOpen && emojiPopperRoot
+          {emojiPickerOpen
             ? createPortal(
-                <Popper placement="bottom-start">
+                <Popper
+                  innerRef={emojiPickerPopperRef}
+                  placement="bottom-start"
+                >
                   {({ ref, style }) => (
                     <div ref={ref} style={{ ...style, marginTop: '8px' }}>
                       <EmojiPicker onEmojiClick={handlePickEmoji} />
                     </div>
                   )}
                 </Popper>,
-                emojiPopperRoot
+                document.body
               )
             : null}
         </PopperManager>
       ) : null}
-      {mode !== 'pick-emoji' && image && previewActive && previewPopperRoot
+      {mode !== 'pick-emoji' && image && previewActive
         ? createPortal(
             <Popper
+              innerRef={previewPopperRef}
               placement="bottom"
               modifiers={[
                 { name: 'offset', options: { offset: [undefined, 8] } },
@@ -281,7 +250,7 @@ export const ArtFrame = React.memo(function ArtFrame({
                 );
               }}
             </Popper>,
-            previewPopperRoot
+            document.body
           )
         : null}
     </div>
