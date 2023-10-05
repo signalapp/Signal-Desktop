@@ -12,7 +12,6 @@ import {
   isMessageSelectionMode,
 } from '../../../../state/selectors/conversations';
 import { MessageContentWithStatuses } from '../message-content/MessageContentWithStatus';
-import { isOpenOrClosedGroup } from '../../../../models/conversationAttributes';
 import { StyledMessageReactionsContainer } from '../message-content/MessageReactions';
 
 export type GenericReadableMessageSelectorProps = Pick<
@@ -145,19 +144,14 @@ export const GenericReadableMessage = (props: Props) => {
   if (!msgProps) {
     return null;
   }
-  const { conversationType } = msgProps;
 
   const selected = isMessageSelected || false;
-  const isGroup = isOpenOrClosedGroup(conversationType);
 
   return (
     <StyledReadableMessage
       selected={selected}
       isRightClicked={isRightClicked}
-      className={classNames(
-        selected && 'message-selected',
-        isGroup && 'public-chat-message-wrapper'
-      )}
+      className={classNames(selected && 'message-selected')}
       onContextMenu={handleContextMenu}
       key={`readable-message-${messageId}`}
     >
