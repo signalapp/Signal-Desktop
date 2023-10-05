@@ -20,6 +20,7 @@ import { v4 as generateUuid } from 'uuid';
 import { signal } from '../protobuf/compiled';
 import { sessionStructureToBytes } from '../util/sessionTranslation';
 import * as durations from '../util/durations';
+import { explodePromise } from '../util/explodePromise';
 import { Zone } from '../util/Zone';
 
 import * as Bytes from '../Bytes';
@@ -261,6 +262,29 @@ describe('SignalProtocolStore', () => {
       const newIdentity = getPublicKey();
       await store.saveIdentity(identifier, testKey.pubKey);
       await store.saveIdentity(identifier, newIdentity);
+    });
+    it('should not deadlock', async () => {
+      const newIdentity = getPublicKey();
+      const zone = new Zone('zone', {
+        pendingSenderKeys: true,
+        pendingSessions: true,
+        pendingUnprocessed: true,
+      });
+
+      await store.saveIdentity(identifier, testKey.pubKey);
+
+      const { promise, resolve } = explodePromise<void>();
+
+      await Promise.all([
+        store.withZone(zone, 'test', async () => {
+          await promise;
+          return store.saveIdentity(identifier, newIdentity, false, { zone });
+        }),
+        store.saveIdentity(identifier, newIdentity, false, {
+          zone: GLOBAL_ZONE,
+        }),
+        resolve(),
+      ]);
     });
 
     describe('When there is no existing key (first use)', () => {
