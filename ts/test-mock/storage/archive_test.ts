@@ -98,7 +98,7 @@ describe('storage service', function needsName() {
       );
       await moreButton.click();
 
-      const archiveButton = conversationStack.locator(
+      const archiveButton = window.locator(
         '.react-contextmenu-item >> "Archive"'
       );
       await archiveButton.click();

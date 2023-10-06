@@ -67,9 +67,7 @@ describe('storage service', function needsName() {
       );
       await moreButton.click();
 
-      const pinButton = conversationStack.locator(
-        '.react-contextmenu-item >> "Pin chat"'
-      );
+      const pinButton = window.locator('.react-contextmenu-item >> "Pin chat"');
       await pinButton.click();
 
       const newState = await phone.waitForStorageState({
@@ -111,7 +109,7 @@ describe('storage service', function needsName() {
         );
         await moreButton.click();
 
-        const pinButton = conversationStack.locator(
+        const pinButton = window.locator(
           '.react-contextmenu-item >> "Pin chat"'
         );
         await pinButton.click();

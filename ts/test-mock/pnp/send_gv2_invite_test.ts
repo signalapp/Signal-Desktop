@@ -166,9 +166,7 @@ describe('pnp/send gv2 invite', function needsName() {
       .locator('button.module-ConversationHeader__button--more')
       .click();
 
-    await conversationStack
-      .locator('.react-contextmenu-item >> "Group settings"')
-      .click();
+    await window.locator('.react-contextmenu-item >> "Group settings"').click();
 
     debug('editing group title');
     {

@@ -40,7 +40,7 @@ type PropsType = ComponentProps<typeof AddGroupMembersModal>;
 
 const createProps = (
   overrideProps: Partial<PropsType> = {},
-  candidateContacts: Array<ConversationType> = []
+  candidateContacts: Array<ConversationType> = allCandidateContacts
 ): PropsType => ({
   clearRequestError: action('clearRequestError'),
   conversationIdsAlreadyInGroup: new Set(),
