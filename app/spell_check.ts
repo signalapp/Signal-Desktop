@@ -20,14 +20,12 @@ strictAssert(
   "Ensure Intl doesn't change our fake locale ever"
 );
 
-export function getLanguages(
+export function getPreferredLanguage(
   preferredSystemLocales: ReadonlyArray<string>,
   availableLocales: ReadonlyArray<string>,
   defaultLocale: string
-): Array<string> {
-  const matchedLocales = [];
-
-  preferredSystemLocales.forEach(preferredSystemLocale => {
+): string {
+  for (const preferredSystemLocale of preferredSystemLocales) {
     const matchedLocale = LocaleMatcher.match(
       [preferredSystemLocale],
       availableLocales as Array<string>, // bad types
@@ -41,16 +39,13 @@ export function getLanguages(
       FAKE_DEFAULT_LOCALE,
       { algorithm: 'best fit' }
     );
-    if (matchedLocale !== FAKE_DEFAULT_LOCALE) {
-      matchedLocales.push(matchedLocale);
-    }
-  });
 
-  if (matchedLocales.length === 0) {
-    matchedLocales.push(defaultLocale);
+    if (matchedLocale !== FAKE_DEFAULT_LOCALE) {
+      return matchedLocale;
+    }
   }
 
-  return matchedLocales;
+  return defaultLocale;
 }
 
 export const setup = (
@@ -75,7 +70,8 @@ export const setup = (
   });
 
   const availableLocales = session.availableSpellCheckerLanguages;
-  const languages = getLanguages(
+
+  const language = getPreferredLanguage(
     preferredSystemLocales,
     availableLocales,
     'en'
@@ -85,8 +81,8 @@ export const setup = (
     'spellcheck: available spellchecker languages:',
     availableLocales
   );
-  console.log('spellcheck: setting languages to:', languages);
-  session.setSpellCheckerLanguages(languages);
+  console.log('spellcheck: setting languages to:', language);
+  session.setSpellCheckerLanguages([language]);
 
   browserWindow.webContents.on('context-menu', (_event, params) => {
     const { editFlags } = params;
