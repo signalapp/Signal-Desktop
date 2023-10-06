@@ -204,7 +204,6 @@ describe('Disappearing Messages', () => {
       });
     });
 
-    // TODO move below
     describe('changeToDisappearingConversationMode', () => {
       it("if it's a Note to Self Conversation and expireTimer > 0 then the conversation mode is always deleteAfterSend", async () => {
         const ourConversation = new ConversationModel({
