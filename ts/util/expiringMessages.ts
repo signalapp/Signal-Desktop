@@ -318,7 +318,7 @@ export function isLegacyDisappearingModeEnabled(
 
 // TODO legacy messages support will be removed in a future release
 /**
- * Converts DisappearingMessageConversationType to DisappearingMessageType
+ * Converts DisappearingMessageConversationModeType to DisappearingMessageType
  *
  * NOTE Used for sending or receiving data messages (protobuf)
  *
@@ -349,13 +349,13 @@ export function changeToDisappearingMessageType(
 
 // TODO legacy messages support will be removed in a future release
 /**
- * Converts DisappearingMessageType to DisappearingMessageConversationType
+ * Converts DisappearingMessageType to DisappearingMessageConversationModeType
  *
  * NOTE Used for the UI
  *
  * @param convo  Conversation we want to set
  * @param expirationType DisappearingMessageType
- * @param expireTimer
+ * @param expireTimer in seconds, 0 means no expiration
  * @returns
  */
 export function changeToDisappearingConversationMode(

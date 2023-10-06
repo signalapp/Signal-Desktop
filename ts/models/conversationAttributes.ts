@@ -91,7 +91,8 @@ export interface ConversationAttributes {
   profileKey?: string; // Consider this being a hex string if it is set
   triggerNotificationsFor: ConversationNotificationSettingType;
   avatarPointer?: string; // this is the url of the avatar on the file server v2. we use this to detect if we need to redownload the avatar from someone (not used for opengroups)
-  expireTimer: number; // in seconds, 0 means no expiration
+  /** in seconds, 0 means no expiration */
+  expireTimer: number;
 
   members: Array<string>; // groups only members are all members for this group. zombies excluded (not used for communities)
   groupAdmins: Array<string>; // for sogs and closed group: the unique admins of that group
@@ -105,9 +106,12 @@ export interface ConversationAttributes {
 
   blocksSogsMsgReqsTimestamp: number; // if the convo is blinded and the user has denied contact through sogs, this field be set to the user's latest message timestamp
 
-  expirationMode: DisappearingMessageConversationModeType; // disappearing messages setting for this conversation
-  lastDisappearingMessageChangeTimestamp: number; // to avoid applying a change of disappear change when our current one was applied more recently
-  hasOutdatedClient?: string; // to warn the user that the person he is talking to is using an old client which might cause issues
+  /** disappearing messages setting for this conversation */
+  expirationMode: DisappearingMessageConversationModeType;
+  /** to avoid applying a change of disappear change when our current one was applied more recently */
+  lastDisappearingMessageChangeTimestamp: number;
+  /** to warn the user that the person he is talking to is using an old client which might cause issues */
+  hasOutdatedClient?: string;
 }
 
 /**
