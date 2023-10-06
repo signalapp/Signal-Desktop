@@ -8,7 +8,10 @@ import { toggleAudioAutoplay } from '../../../state/ducks/userConfig';
 import { getAudioAutoplay } from '../../../state/selectors/userConfig';
 import { SessionRadioGroup } from '../../basic/SessionRadioGroup';
 import { BlockedContactsList } from '../BlockedList';
-import { SessionSettingsItemWrapper, SessionToggleWithDescription } from '../SessionSettingListItem';
+import {
+  SessionSettingsItemWrapper,
+  SessionToggleWithDescription,
+} from '../SessionSettingListItem';
 
 async function toggleCommunitiesPruning() {
   try {
@@ -83,16 +86,16 @@ const AudioMessageAutoPlaySetting = () => {
 const EnterKeyFunctionSetting = () => {
   const forceUpdate = useUpdate();
 
-  const initialSetting = window.getSettingValue(SettingsKey.settingsEnterKeyFunction) || true;
+  const initialSetting = window.getSettingValue(SettingsKey.hasShiftSendEnabled) || false;
 
   const items = [
     {
       label: window.i18n('enterSendNewMessageDescription'),
-      value: 'enterSend',
+      value: false,
     },
     {
       label: window.i18n('enterNewLineDescription'),
-      value: 'enterNewLine',
+      value: true,
     },
   ];
 
@@ -104,11 +107,14 @@ const EnterKeyFunctionSetting = () => {
     >
       <SessionRadioGroup
         initialItem={initialSetting}
-        group={SettingsKey.settingsEnterKeyFunction} // make sure to define this key in your SettingsKey enum
+        group={SettingsKey.hasShiftSendEnabled} // make sure to define this key in your SettingsKey enum
         items={items}
-        onClick={async (selectedRadioValue: string) => {
-          await window.setSettingValue(SettingsKey.settingsEnterKeyFunction, selectedRadioValue);
-          forceUpdate();
+        onClick={(selectedRadioValue: string | boolean) => {
+          async function updateSetting() {
+            await window.setSettingValue(SettingsKey.hasShiftSendEnabled, selectedRadioValue);
+            forceUpdate();
+          }
+          updateSetting().catch(error => window.log.error('Error updating setting:', error));
         }}
       />
     </SessionSettingsItemWrapper>

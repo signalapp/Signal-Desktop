@@ -834,10 +834,10 @@ class CompositionBoxInner extends React.Component<Props, State> {
   private async onKeyDown(event: any) {
     const isEnter = event.key === 'Enter';
     const isShiftEnter = event.shiftKey && isEnter;
-    const isEnterNewLineSetting = (window.getSettingValue(SettingsKey.settingsEnterKeyFunction) as string) === 'enterNewLine';
+    const isShiftSendEnabled = window.getSettingValue(SettingsKey.hasShiftSendEnabled) as boolean;
     const isNotComposing = !event.nativeEvent.isComposing;
-  
-    if (isEnterNewLineSetting && isEnter && isNotComposing) {
+
+    if (isShiftSendEnabled && isEnter && isNotComposing) {
       event.preventDefault();
       if (isShiftEnter) {
         await this.onSendMessage();
@@ -861,27 +861,27 @@ class CompositionBoxInner extends React.Component<Props, State> {
     if (!messageBox) {
       return;
     }
-  
+
     const { draft } = this.state;
     const { selectedConversationKey } = this.props;
-    
+
     if (!selectedConversationKey) {
-      return;  // add this check to prevent undefined from being used
+      return; // add this check to prevent undefined from being used
     }
-  
+
     const currentSelectionStart = Number(messageBox.selectionStart);
     const realSelectionStart = getSelectionBasedOnMentions(draft, currentSelectionStart);
-  
+
     const before = draft.slice(0, realSelectionStart);
     const after = draft.slice(realSelectionStart);
-  
+
     this.setState({ draft: `${before}\n${after}` });
     updateDraftForConversation({
       conversationKey: selectedConversationKey,
       draft: `${before}\n${after}`,
     });
   }
-  
+
   private async onKeyUp() {
     if (!this.props.selectedConversationKey) {
       throw new Error('selectedConversationKey is needed');
