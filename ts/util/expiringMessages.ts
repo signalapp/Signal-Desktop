@@ -13,6 +13,7 @@ import { MessageModel } from '../models/message';
 import { GetNetworkTime } from '../session/apis/snode_api/getNetworkTime';
 import { ReleasedFeatures } from './releaseFeature';
 import { expireMessageOnSnode } from '../session/apis/snode_api/expireRequest';
+import { isValidUnixTimestamp } from '../session/utils/Timestamps';
 
 // NOTE this must match Content.ExpirationType in the protobuf
 // TODO double check this
@@ -255,6 +256,12 @@ export function setExpirationStartTimestamp(
 
   // TODO legacy messages support will be removed in a future release
   if (timestamp) {
+    if (!isValidUnixTimestamp(timestamp)) {
+      window.log.debug(
+        `WIP: [setExpirationStartTimestamp] We compared 2 timestamps for a disappearing message (${mode}) and the argument timestamp is invalid`
+      );
+      return undefined;
+    }
     window.log.debug(
       `WIP: [setExpirationStartTimestamp] We compare 2 timestamps for a disappearing message (${mode}):\nexpirationStartTimestamp `,
       new Date(expirationStartTimestamp).toLocaleTimeString(),
@@ -277,7 +284,6 @@ export function setExpirationStartTimestamp(
         expirationStartTimestamp
       ).toLocaleTimeString()}`
     );
-    // TODO needs improvement
   } else if (mode === 'legacy') {
     window.log.debug(
       `WIP: [setExpirationStartTimestamp] We set the start timestamp for a legacy message to ${new Date(
