@@ -60,7 +60,7 @@ const AVATAR_ANIMATION_PROPS: Record<'visible' | 'hidden', object> = {
   hidden: {
     opacity: 0.5,
     width: '4px', // Match value of module-message__typing-avatar margin-inline-start
-    x: '14px',
+    x: '12px',
     top: '34px',
   },
 };
@@ -200,6 +200,7 @@ function TypingBubbleGroupAvatars({
   // Avatars are rendered Right-to-Left so the leftmost avatars can render on top.
   return (
     <div className="module-message__author-avatar-container module-message__author-avatar-container--typing">
+      <div className="module-message__typing-avatar-spacer" />
       {typingContactsOverflowCount > 0 && (
         <div
           className="module-message__typing-avatar module-message__typing-avatar--overflow-count

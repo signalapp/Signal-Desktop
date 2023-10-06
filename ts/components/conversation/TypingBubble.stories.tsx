@@ -113,6 +113,29 @@ Group.story = {
   name: 'Group (1 person typing)',
 };
 
+export function GroupStartsTyping(): JSX.Element {
+  const props = createProps({
+    conversationType: 'group',
+    typingContactIdTimestamps: {},
+  });
+  const [afterTimeoutProps, setAfterTimeoutProps] = useState({});
+  useEffect(() => {
+    setTimeout(
+      () =>
+        setAfterTimeoutProps({
+          typingContactIdTimestamps: getTypingContactIdTimestamps(1),
+        }),
+      500
+    );
+  }, []);
+
+  return <TypingBubble {...props} {...afterTimeoutProps} />;
+}
+
+GroupStartsTyping.story = {
+  name: 'Group (0 to 1 person starts typing)',
+};
+
 export function GroupStoppedTyping(): JSX.Element {
   const props = createProps({
     conversationType: 'group',
