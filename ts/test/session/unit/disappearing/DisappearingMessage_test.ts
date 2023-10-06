@@ -5,6 +5,7 @@ import {
   DisappearingMessageConversationModeType,
   DisappearingMessageType,
   changeToDisappearingConversationMode,
+  changeToDisappearingMessageType,
   setExpirationStartTimestamp,
 } from '../../../../util/expiringMessages';
 import { isValidUnixTimestamp } from '../../../../session/utils/Timestamps';
@@ -103,6 +104,108 @@ describe('Disappearing Messages', () => {
     });
 
     describe('changeToDisappearingMessageType', () => {
+      it("if it's a Private Conversation and the expirationMode is off and expireTimer = 0 then the message's expirationType is unknown", async () => {
+        const conversation = new ConversationModel({
+          ...conversationArgs,
+        } as any);
+        const expireTimer = 0; // seconds
+        const expirationMode = 'off';
+        const messageExpirationType = changeToDisappearingMessageType(
+          conversation,
+          expireTimer,
+          expirationMode
+        );
+
+        expect(messageExpirationType, 'returns unknown').to.be.eq('unknown');
+      });
+      it("if it's a Private Conversation and the expirationMode is deleteAfterRead and expireTimer > 0 then the message's expirationType is deleteAfterRead", async () => {
+        const conversation = new ConversationModel({
+          ...conversationArgs,
+        } as any);
+        const expireTimer = 60; // seconds
+        const expirationMode = 'deleteAfterRead';
+        const messageExpirationType = changeToDisappearingMessageType(
+          conversation,
+          expireTimer,
+          expirationMode
+        );
+
+        expect(messageExpirationType, 'returns deleteAfterRead').to.be.eq('deleteAfterRead');
+      });
+      it("if it's a Private Conversation and the expirationMode is deleteAfterSend and expireTimer > 0 then the message's expirationType is deleteAfterSend", async () => {
+        const conversation = new ConversationModel({
+          ...conversationArgs,
+        } as any);
+        const expireTimer = 60; // seconds
+        const expirationMode = 'deleteAfterSend';
+        const messageExpirationType = changeToDisappearingMessageType(
+          conversation,
+          expireTimer,
+          expirationMode
+        );
+
+        expect(messageExpirationType, 'returns deleteAfterSend').to.be.eq('deleteAfterSend');
+      });
+      it("if it's a Note to Self Conversation and expireTimer > 0 then the message's expirationType is always deleteAfterSend", async () => {
+        const ourConversation = new ConversationModel({
+          ...conversationArgs,
+          id: ourNumber,
+        } as any);
+        const expireTimer = 60; // seconds
+        const expirationMode = 'deleteAfterRead'; // not correct
+        const messageExpirationType = changeToDisappearingMessageType(
+          ourConversation,
+          expireTimer,
+          expirationMode
+        );
+
+        expect(messageExpirationType, 'returns deleteAfterSend').to.be.eq('deleteAfterSend');
+      });
+      it("if it's a Group Conversation and expireTimer > 0 then the message's expirationType is always deleteAfterSend", async () => {
+        const ourConversation = new ConversationModel({
+          ...conversationArgs,
+          type: ConversationTypeEnum.GROUP,
+          // TODO update to 03 prefix when we release new groups
+          id: '05123456564',
+        } as any);
+        const expireTimer = 60; // seconds
+        const expirationMode = 'deleteAfterRead'; // not correct
+        const messageExpirationType = changeToDisappearingMessageType(
+          ourConversation,
+          expireTimer,
+          expirationMode
+        );
+
+        expect(messageExpirationType, 'returns deleteAfterSend').to.be.eq('deleteAfterSend');
+      });
+      // TODO legacy messages support will be removed in a future release
+      it("if it's a Private Conversation and the expirationMode is legacy and expireTimer = 0 then the message's expirationType is unknown", async () => {
+        const conversation = new ConversationModel({
+          ...conversationArgs,
+        } as any);
+        const expireTimer = 0; // seconds
+        const expirationMode = 'legacy';
+        const messageExpirationType = changeToDisappearingMessageType(
+          conversation,
+          expireTimer,
+          expirationMode
+        );
+
+        expect(messageExpirationType, 'returns unknown').to.be.eq('unknown');
+      });
+      it("if it's a Private Conversation and the expirationMode is undefined and expireTimer > 0 then the message's expirationType is unknown", async () => {
+        const conversation = new ConversationModel({
+          ...conversationArgs,
+        } as any);
+        const expireTimer = 0; // seconds
+        const messageExpirationType = changeToDisappearingMessageType(conversation, expireTimer);
+
+        expect(messageExpirationType, 'returns unknown').to.be.eq('unknown');
+      });
+    });
+
+    // TODO move below
+    describe('changeToDisappearingConversationMode', () => {
       it("if it's a Note to Self Conversation and expireTimer > 0 then the conversation mode is always deleteAfterSend", async () => {
         const ourConversation = new ConversationModel({
           ...conversationArgs,
@@ -118,7 +221,6 @@ describe('Disappearing Messages', () => {
 
         expect(conversationMode, 'returns deleteAfterSend').to.be.eq('deleteAfterSend');
       });
-
       it("if it's a Group Conversation and expireTimer > 0 then the conversation mode is always deleteAfterSend", async () => {
         const ourConversation = new ConversationModel({
           ...conversationArgs,
@@ -136,7 +238,6 @@ describe('Disappearing Messages', () => {
 
         expect(conversationMode, 'returns deleteAfterSend').to.be.eq('deleteAfterSend');
       });
-
       it("if it's a Private Conversation and expirationType is deleteAfterRead and expireTimer > 0 then the conversation mode stays as deleteAfterRead", async () => {
         const ourConversation = new ConversationModel({
           ...conversationArgs,
@@ -151,7 +252,6 @@ describe('Disappearing Messages', () => {
 
         expect(conversationMode, 'returns deleteAfterRead').to.be.eq('deleteAfterRead');
       });
-
       it("if it's a Private Conversation and expirationType is deleteAfterSend and expireTimer > 0 then the conversation mode stays as deleteAfterSend", async () => {
         const ourConversation = new ConversationModel({
           ...conversationArgs,
@@ -166,7 +266,6 @@ describe('Disappearing Messages', () => {
 
         expect(conversationMode, 'returns deleteAfterSend').to.be.eq('deleteAfterSend');
       });
-
       it('if the type is unknown and expireTimer = 0 then the conversation mode is off', async () => {
         const conversation = new ConversationModel({ ...conversationArgs } as any);
         const expirationType: DisappearingMessageType = 'unknown';
@@ -179,7 +278,6 @@ describe('Disappearing Messages', () => {
 
         expect(conversationMode, 'returns off').to.be.eq('off');
       });
-
       it('if the type is undefined and expireTimer = 0 then the conversation mode is off', async () => {
         const conversation = new ConversationModel({ ...conversationArgs } as any);
         const expireTimer = 0; // seconds
@@ -191,14 +289,12 @@ describe('Disappearing Messages', () => {
 
         expect(conversationMode, 'returns off').to.be.eq('off');
       });
-
       it('if the type and expireTimer are undefined then the conversation mode is off', async () => {
         const conversation = new ConversationModel({ ...conversationArgs } as any);
         const conversationMode = changeToDisappearingConversationMode(conversation);
 
         expect(conversationMode, 'returns off').to.be.eq('off');
       });
-
       // TODO legacy messages support will be removed in a future release
       it('if the type is unknown and expireTimer > 0 then the conversation mode is legacy', async () => {
         const conversation = new ConversationModel({ ...conversationArgs } as any);
@@ -212,7 +308,6 @@ describe('Disappearing Messages', () => {
 
         expect(conversationMode, 'returns legacy').to.be.eq('legacy');
       });
-
       it('if the type is undefined and expireTimer > 0 then the conversation mode is legacy', async () => {
         const conversation = new ConversationModel({ ...conversationArgs } as any);
         const expireTimer = 60; // seconds
@@ -223,12 +318,6 @@ describe('Disappearing Messages', () => {
         );
 
         expect(conversationMode, 'returns legacy').to.be.eq('legacy');
-      });
-    });
-
-    describe('changeToDisappearingConversationMode', () => {
-      it('TODO', async () => {
-        expect('TODO').to.be.eq('TODO');
       });
     });
 
