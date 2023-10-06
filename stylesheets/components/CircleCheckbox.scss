@@ -52,6 +52,7 @@
         &:disabled:checked {
           &::before {
             background: $color-gray-15;
+            border-color: $color-gray-15;
           }
         }
       }
@@ -65,6 +66,7 @@
         &:disabled:checked {
           &::before {
             background: $color-gray-45;
+            border-color: $color-gray-45;
           }
         }
       }
@@ -80,7 +82,7 @@
 
     input[type='checkbox'] {
       &:checked {
-        &::before {
+        &:not([disabled])::before {
           background: $color-ultramarine;
           border: 1.5px solid $color-ultramarine;
         }

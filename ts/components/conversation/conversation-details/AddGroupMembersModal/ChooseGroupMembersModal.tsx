@@ -329,6 +329,7 @@ export function ChooseGroupMembersModal({
             onClick={handleContactClick}
             isChecked={row.isChecked}
             badge={undefined}
+            disabledReason={row.disabledReason}
           />
         );
         break;

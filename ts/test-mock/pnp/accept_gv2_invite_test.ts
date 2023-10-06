@@ -110,14 +110,11 @@ describe('pnp/accept gv2 invite', function needsName() {
       .waitFor({ state: 'hidden' });
 
     debug('Leave the group through settings');
-
-    await conversationStack
+    await window
       .locator('button.module-ConversationHeader__button--more')
       .click();
 
-    await conversationStack
-      .locator('.react-contextmenu-item >> "Group settings"')
-      .click();
+    await window.locator('.react-contextmenu-item >> "Group settings"').click();
 
     await conversationStack
       .locator('.conversation-details-panel >> "Leave group"')
