@@ -159,3 +159,31 @@ export function generateDisappearingVisibleMessage({
     preview: undefined,
   });
 }
+
+export function generateFakeExpirationTimerUpdate({
+  expirationType,
+  expireTimer,
+  lastDisappearingMessageChangeTimestamp,
+  source = '',
+}: {
+  expirationType: DisappearingMessageType;
+  expireTimer: number;
+  lastDisappearingMessageChangeTimestamp: number;
+  source?: string;
+}): MessageModel {
+  const convoId = TestUtils.generateFakePubKeyStr();
+  return new MessageModel({
+    conversationId: convoId,
+    source: convoId,
+    type: 'incoming',
+    expirationType,
+    expireTimer,
+    expirationTimerUpdate: {
+      expirationType,
+      expireTimer,
+      lastDisappearingMessageChangeTimestamp,
+      source,
+    },
+    flags: 2,
+  });
+}

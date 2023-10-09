@@ -3,6 +3,7 @@ import Sinon from 'sinon';
 import chaiAsPromised from 'chai-as-promised';
 import {
   generateDisappearingVisibleMessage,
+  generateFakeExpirationTimerUpdate,
   generateVisibleMessage,
   stubWindowLog,
 } from '../../../test-utils/utils';
@@ -576,8 +577,24 @@ describe('Disappearing Messages', () => {
 
   describe('message.ts', () => {
     describe('isExpirationTimerUpdate', () => {
-      it('TODO', async () => {
-        expect('TODO').to.be.eq('TODO');
+      it('should return true if valid', async () => {
+        const expirationTimerUpdateMessage = generateFakeExpirationTimerUpdate({
+          expirationType: 'deleteAfterSend',
+          expireTimer: 300,
+          lastDisappearingMessageChangeTimestamp: GetNetworkTime.getNowWithNetworkOffset(),
+          source: '050123456789abcdef050123456789abcdef0123456789abcdef050123456789ab',
+        });
+
+        expect(expirationTimerUpdateMessage.get('flags'), 'flags should be 2').to.equal(2);
+        expect(
+          expirationTimerUpdateMessage.getExpirationTimerUpdate(),
+          'expirationTimerUpdate should not be empty'
+        ).to.not.be.empty;
+        expect(
+          expirationTimerUpdateMessage.getExpirationTimerUpdate(),
+          'expirationTimerUpdate should not be empty'
+        ).to.not.be.empty;
+        expect(expirationTimerUpdateMessage.isExpirationTimerUpdate(), 'should be true').to.be.true;
       });
     });
   });
