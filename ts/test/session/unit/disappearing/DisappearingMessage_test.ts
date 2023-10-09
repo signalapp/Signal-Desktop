@@ -1,11 +1,17 @@
-import { expect } from 'chai';
+import chai, { expect } from 'chai';
 import Sinon from 'sinon';
-import { stubWindowLog } from '../../../test-utils/utils';
+import chaiAsPromised from 'chai-as-promised';
+import {
+  generateDisappearingMessage,
+  generateVisibleMessage,
+  stubWindowLog,
+} from '../../../test-utils/utils';
 import {
   DisappearingMessageConversationModeType,
   DisappearingMessageType,
   changeToDisappearingConversationMode,
   changeToDisappearingMessageType,
+  checkForExpireUpdateInContentMessage,
   setExpirationStartTimestamp,
 } from '../../../../util/expiringMessages';
 import { isValidUnixTimestamp } from '../../../../session/utils/Timestamps';
@@ -13,6 +19,9 @@ import { GetNetworkTime } from '../../../../session/apis/snode_api/getNetworkTim
 import { ConversationModel } from '../../../../models/conversation';
 import { ConversationTypeEnum } from '../../../../models/conversationAttributes';
 import { UserUtils } from '../../../../session/utils';
+import { ReleasedFeatures } from '../../../../util/releaseFeature';
+
+chai.use(chaiAsPromised as any);
 
 describe('Disappearing Messages', () => {
   stubWindowLog();
@@ -321,8 +330,152 @@ describe('Disappearing Messages', () => {
     });
 
     describe('checkForExpireUpdateInContentMessage', () => {
-      it('TODO', async () => {
-        expect('TODO').to.be.eq('TODO');
+      it('if we receive a regular message then it returns falsy values', async () => {
+        const visibleMessage = generateVisibleMessage();
+        const convoToUpdate = new ConversationModel({
+          ...conversationArgs,
+        } as any);
+        // TODO legacy messages support will be removed in a future release
+        Sinon.stub(ReleasedFeatures, 'checkIsDisappearMessageV2FeatureReleased').resolves(true);
+
+        const expireUpdate = await checkForExpireUpdateInContentMessage(
+          visibleMessage.contentProto(),
+          convoToUpdate,
+          true
+        );
+
+        expect(expireUpdate?.expirationType, 'expirationType should be unknown').to.equal(
+          'unknown'
+        );
+        expect(expireUpdate?.expirationTimer, 'expirationTimer should be 0').to.equal(0);
+        expect(
+          expireUpdate?.lastDisappearingMessageChangeTimestamp,
+          'lastDisappearingMessageChangeTimestamp should be 0'
+        ).to.equal(0);
+        expect(
+          expireUpdate?.isLegacyConversationSettingMessage,
+          'isLegacyConversationSettingMessage should be false'
+        ).to.be.false;
+        expect(expireUpdate?.isLegacyDataMessage, 'isLegacyDataMessage should be false').to.be
+          .false;
+        expect(expireUpdate?.isOutdated, 'isOutdated should be undefined').to.be.undefined;
+      });
+      it('if we receive a deleteAfterRead message after 1 minute then it returns those values', async () => {
+        const disappearingMessage = generateDisappearingMessage({
+          expirationType: 'deleteAfterRead',
+          expireTimer: 60,
+        });
+
+        const convoToUpdate = new ConversationModel({
+          ...conversationArgs,
+        } as any);
+        // TODO legacy messages support will be removed in a future release
+        Sinon.stub(ReleasedFeatures, 'checkIsDisappearMessageV2FeatureReleased').resolves(true);
+
+        const expireUpdate = await checkForExpireUpdateInContentMessage(
+          disappearingMessage.contentProto(),
+          convoToUpdate,
+          true
+        );
+
+        expect(expireUpdate?.expirationType, 'expirationType should be deleteAfterRead').to.equal(
+          'deleteAfterRead'
+        );
+        expect(expireUpdate?.expirationTimer, 'expirationTimer should be 60').to.equal(60);
+        expect(
+          expireUpdate?.lastDisappearingMessageChangeTimestamp,
+          'lastDisappearingMessageChangeTimestamp should be 0'
+        ).to.equal(0);
+        expect(
+          expireUpdate?.isLegacyConversationSettingMessage,
+          'isLegacyConversationSettingMessage should be false'
+        ).to.be.false;
+        expect(expireUpdate?.isLegacyDataMessage, 'isLegacyDataMessage should be false').to.be
+          .false;
+        expect(expireUpdate?.isOutdated, 'isOutdated should be undefined').to.be.undefined;
+      });
+      it('if we receive an ExpirationTimerUpdate message for deleteAfterSend after 5 minutes then it returns those values', async () => {
+        const lastDisappearingMessageChangeTimestamp = GetNetworkTime.getNowWithNetworkOffset();
+        const expirationTimerUpdateMessage = generateDisappearingMessage({
+          expirationType: 'deleteAfterSend',
+          expireTimer: 300,
+          expirationTimerUpdate: {
+            expirationType: 'deleteAfterSend',
+            expireTimer: 300,
+            lastDisappearingMessageChangeTimestamp,
+            source: '050123456789abcdef050123456789abcdef0123456789abcdef050123456789ab',
+          },
+        });
+
+        const convoToUpdate = new ConversationModel({
+          ...conversationArgs,
+        } as any);
+        // TODO legacy messages support will be removed in a future release
+        Sinon.stub(ReleasedFeatures, 'checkIsDisappearMessageV2FeatureReleased').resolves(true);
+
+        const expireUpdate = await checkForExpireUpdateInContentMessage(
+          expirationTimerUpdateMessage.contentProto(),
+          convoToUpdate,
+          true
+        );
+
+        expect(expireUpdate?.expirationType, 'expirationType should be deleteAfterSend').to.equal(
+          'deleteAfterSend'
+        );
+        expect(expireUpdate?.expirationTimer, 'expirationTimer should be 300').to.equal(300);
+        expect(
+          expireUpdate?.lastDisappearingMessageChangeTimestamp,
+          'lastDisappearingMessageChangeTimestamp should match input value'
+        ).to.equal(lastDisappearingMessageChangeTimestamp);
+        expect(
+          expireUpdate?.isLegacyConversationSettingMessage,
+          'isLegacyConversationSettingMessage should be false'
+        ).to.be.false;
+        expect(expireUpdate?.isLegacyDataMessage, 'isLegacyDataMessage should be false').to.be
+          .false;
+        expect(expireUpdate?.isOutdated, 'isOutdated should be undefined').to.be.undefined;
+      });
+      it('if we receive an outdated ExpirationTimerUpdate message then it should be ignored and is outdated', async () => {
+        const lastDisappearingMessageChangeTimestamp = GetNetworkTime.getNowWithNetworkOffset();
+        const expirationTimerUpdateMessage = generateDisappearingMessage({
+          expirationType: 'deleteAfterSend',
+          expireTimer: 300,
+          expirationTimerUpdate: {
+            expirationType: 'deleteAfterSend',
+            expireTimer: 300,
+            lastDisappearingMessageChangeTimestamp: lastDisappearingMessageChangeTimestamp - 20000,
+            source: '050123456789abcdef050123456789abcdef0123456789abcdef050123456789ab',
+          },
+        });
+
+        const convoToUpdate = new ConversationModel({
+          ...conversationArgs,
+          lastDisappearingMessageChangeTimestamp,
+        } as any);
+        // TODO legacy messages support will be removed in a future release
+        Sinon.stub(ReleasedFeatures, 'checkIsDisappearMessageV2FeatureReleased').resolves(true);
+
+        const expireUpdate = await checkForExpireUpdateInContentMessage(
+          expirationTimerUpdateMessage.contentProto(),
+          convoToUpdate,
+          true
+        );
+
+        expect(expireUpdate?.expirationType, 'expirationType should be deleteAfterSend').to.equal(
+          'deleteAfterSend'
+        );
+        expect(expireUpdate?.expirationTimer, 'expirationTimer should be 300').to.equal(300);
+        expect(
+          expireUpdate?.lastDisappearingMessageChangeTimestamp,
+          'lastDisappearingMessageChangeTimestamp should be undefined'
+        ).to.equal(undefined);
+        expect(
+          expireUpdate?.isLegacyConversationSettingMessage,
+          'isLegacyConversationSettingMessage should be undefined'
+        ).to.be.undefined;
+        expect(expireUpdate?.isLegacyDataMessage, 'isLegacyDataMessage should be undefined').to.be
+          .undefined;
+        expect(expireUpdate?.isOutdated, 'isOutdated should be true').to.be.true;
       });
     });
   });
