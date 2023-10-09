@@ -834,11 +834,13 @@
 
   color: var(--white-color);
 
-  font-size: 20px;
+  font-size: 30px;
   font-weight: normal;
   letter-spacing: 0;
 
   text-align: center;
+  --text-shadow-offset: 0.05em;
+  text-shadow: var(--black-color) var(--text-shadow-offset) var(--text-shadow-offset) 0.15em;
 }
 
 .module-image__close-button {
