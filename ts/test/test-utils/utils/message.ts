@@ -1,4 +1,5 @@
 import { v4 as uuid } from 'uuid';
+import { isEmpty } from 'lodash';
 import { generateFakePubKey } from './pubkey';
 import { ClosedGroupVisibleMessage } from '../../../session/messages/outgoing/visibleMessage/ClosedGroupVisibleMessage';
 import { VisibleMessage } from '../../../session/messages/outgoing/visibleMessage/VisibleMessage';
@@ -12,6 +13,8 @@ import {
   OpenGroupReactionMessageV4,
 } from '../../../session/apis/open_group_api/opengroupV2/OpenGroupServerPoller';
 import { OpenGroupReaction } from '../../../types/Reaction';
+import { DisappearingMessageType, ExpirationTimerUpdate } from '../../../util/expiringMessages';
+import { ExpirationTimerUpdateMessage } from '../../../session/messages/outgoing/controlMessage/ExpirationTimerUpdateMessage';
 
 export function generateVisibleMessage({
   identifier,
@@ -26,6 +29,7 @@ export function generateVisibleMessage({
     timestamp: timestamp || Date.now(),
     attachments: undefined,
     quote: undefined,
+    expirationType: undefined,
     expireTimer: undefined,
     lokiProfile: undefined,
     preview: undefined,
@@ -117,4 +121,41 @@ export function generateFakeIncomingOpenGroupMessageV4({
     posted: Date.now(),
     reactions: reactions ?? {},
   };
+}
+
+export function generateDisappearingMessage({
+  identifier,
+  timestamp,
+  expirationType,
+  expireTimer,
+  expirationTimerUpdate,
+}: {
+  identifier?: string;
+  timestamp?: number;
+  expirationType?: DisappearingMessageType;
+  expireTimer?: number;
+  expirationTimerUpdate?: ExpirationTimerUpdate;
+} = {}): ExpirationTimerUpdateMessage | VisibleMessage {
+  if (!isEmpty(expirationTimerUpdate)) {
+    return new ExpirationTimerUpdateMessage({
+      identifier: identifier ?? uuid(),
+      timestamp: timestamp || Date.now(),
+      expirationType: expirationTimerUpdate.expirationType,
+      expireTimer: expirationTimerUpdate.expireTimer,
+      lastDisappearingMessageChangeTimestamp:
+        expirationTimerUpdate.lastDisappearingMessageChangeTimestamp,
+    });
+  }
+
+  return new VisibleMessage({
+    body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
+    identifier: identifier ?? uuid(),
+    timestamp: timestamp || Date.now(),
+    attachments: undefined,
+    quote: undefined,
+    expirationType,
+    expireTimer,
+    lokiProfile: undefined,
+    preview: undefined,
+  });
 }
