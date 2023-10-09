@@ -8,7 +8,7 @@ import {
 import { AttachmentTypeWithPath } from '../types/Attachment';
 import { Reaction, ReactionList, SortedReactionList } from '../types/Reaction';
 import { READ_MESSAGE_STATE } from './conversationAttributes';
-import { DisappearingMessageType } from '../util/expiringMessages';
+import { DisappearingMessageType, ExpirationTimerUpdate } from '../util/expiringMessages';
 
 export type MessageModelType = 'incoming' | 'outgoing';
 
@@ -30,14 +30,7 @@ export interface MessageAttributes {
   expireTimer: number;
   expirationStartTimestamp: number;
   expires_at?: number;
-  // NOTE this is used for conversation setting
-  expirationTimerUpdate?: {
-    expirationType: DisappearingMessageType;
-    expireTimer: number;
-    lastDisappearingMessageChangeTimestamp: number;
-    source: string;
-    fromSync?: boolean;
-  };
+  expirationTimerUpdate?: ExpirationTimerUpdate;
   read_by: Array<string>; // we actually only care about the length of this. values are not used for anything
   type: MessageModelType;
   group_update?: MessageGroupUpdate;
@@ -177,15 +170,7 @@ export interface MessageAttributesOptionals {
   expireTimer?: number;
   expirationStartTimestamp?: number;
   expires_at?: number;
-  // TODO legacy messages support will be removed in a future release
-  // types will no longer have an undefined option
-  expirationTimerUpdate?: {
-    expirationType: DisappearingMessageType | undefined;
-    expireTimer: number;
-    lastDisappearingMessageChangeTimestamp: number | undefined;
-    source: string;
-    fromSync?: boolean;
-  };
+  expirationTimerUpdate?: ExpirationTimerUpdate;
   read_by?: Array<string>; // we actually only care about the length of this. values are not used for anything
   type: MessageModelType;
   group_update?: MessageGroupUpdate;

@@ -37,6 +37,18 @@ export const DEFAULT_TIMER_OPTION = {
   LEGACY: 86400, // 1 day
 };
 
+// TODO legacy messages support will be removed in a future release
+// expirationType and lastDisappearingMessageChangeTimestamp will no longer have an undefined option
+/** Used for setting disappearing messages in conversations */
+export type ExpirationTimerUpdate = {
+  expirationType: DisappearingMessageType | undefined;
+  expireTimer: number;
+  lastDisappearingMessageChangeTimestamp: number | undefined;
+  source: string;
+  /** updated setting from another device */
+  fromSync?: boolean;
+};
+
 export type DisappearingMessageUpdate = {
   expirationType: DisappearingMessageType;
   expirationTimer: number;
