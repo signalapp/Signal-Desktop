@@ -462,7 +462,7 @@ export async function handleMessageJob(
         fromSync: source === UserUtils.getOurPubKeyStrFromCache(),
         receivedAt: messageModel.get('received_at'),
         existingMessage: messageModel,
-        shouldCommit: false,
+        shouldCommitConvo: false,
         // NOTE we don't commit yet because we want to get the message id, see below
       });
       window.log.debug(

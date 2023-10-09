@@ -243,7 +243,7 @@ async function handleUserProfileUpdate(result: IncomingConfResult): Promise<Inco
         providedSource: ourConvo.id,
         receivedAt: result.latestEnvelopeTimestamp,
         fromSync: true,
-        shouldCommit: false,
+        shouldCommitConvo: false,
       });
       changes = success;
       if (success) {
@@ -402,7 +402,7 @@ async function handleContactsUpdate(result: IncomingConfResult): Promise<Incomin
           providedSource: wrapperConvo.id,
           receivedAt: result.latestEnvelopeTimestamp,
           fromSync: true,
-          shouldCommit: false,
+          shouldCommitConvo: false,
         });
         changes = success;
         if (success) {
@@ -640,7 +640,7 @@ async function handleLegacyGroupUpdate(latestEnvelopeTimestamp: number) {
         providedSource: legacyGroupConvo.id,
         receivedAt: latestEnvelopeTimestamp,
         fromSync: true,
-        shouldCommit: false,
+        shouldCommitConvo: false,
       });
       changes = success;
       if (success) {

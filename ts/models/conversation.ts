@@ -810,7 +810,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
    * @param providedSource the pubkey of the user who made the change
    * @param receivedAt the timestamp of when the change was received
    * @param fromSync if the change was made from a sync message
-   * @param shouldCommit if the change should be committed to the DB
+   * @param shouldCommitConvo if the conversation change should be committed to the DB
+   * @param shouldCommitMessage if the timer update message change should be committed to the DB
    * @param existingMessage if we have an existing message model to update
    * @returns true, if the change was made or false if it was ignored
    */
@@ -821,7 +822,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     providedSource,
     receivedAt, // is set if it comes from outside
     fromSync = false, // if the update comes from a config or sync message
-    shouldCommit = true,
+    shouldCommitConvo = true,
+    shouldCommitMessage = true,
     existingMessage,
   }: {
     providedDisappearingMode?: DisappearingMessageConversationModeType;
@@ -830,7 +832,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     providedSource?: string;
     receivedAt?: number; // is set if it comes from outside
     fromSync?: boolean;
-    shouldCommit?: boolean;
+    shouldCommitConvo?: boolean;
+    shouldCommitMessage?: boolean;
     existingMessage?: MessageModel;
   }): Promise<boolean> {
     if (this.isPublic()) {
@@ -937,7 +940,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       this.set('active_at', timestamp);
     }
 
-    if (shouldCommit) {
+    if (shouldCommitConvo) {
       // tell the UI this conversation was updated
       await this.commit();
     }
@@ -960,7 +963,9 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
               'updateExpireTimer() remote change'
             ),
           });
-          await message.commit();
+          if (shouldCommitMessage) {
+            await message.commit();
+          }
         }
       }
       return true;
