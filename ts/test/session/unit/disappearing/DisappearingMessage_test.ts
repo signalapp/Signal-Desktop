@@ -2,7 +2,7 @@ import chai, { expect } from 'chai';
 import Sinon from 'sinon';
 import chaiAsPromised from 'chai-as-promised';
 import {
-  generateDisappearingMessage,
+  generateDisappearingVisibleMessage,
   generateVisibleMessage,
   stubWindowLog,
 } from '../../../test-utils/utils';
@@ -362,7 +362,7 @@ describe('Disappearing Messages', () => {
         expect(expireUpdate?.isOutdated, 'isOutdated should be undefined').to.be.undefined;
       });
       it('if we receive a deleteAfterRead message after 1 minute then it returns those values', async () => {
-        const disappearingMessage = generateDisappearingMessage({
+        const disappearingMessage = generateDisappearingVisibleMessage({
           expirationType: 'deleteAfterRead',
           expireTimer: 60,
         });
@@ -397,7 +397,7 @@ describe('Disappearing Messages', () => {
       });
       it('if we receive an ExpirationTimerUpdate message for deleteAfterSend after 5 minutes then it returns those values', async () => {
         const lastDisappearingMessageChangeTimestamp = GetNetworkTime.getNowWithNetworkOffset();
-        const expirationTimerUpdateMessage = generateDisappearingMessage({
+        const expirationTimerUpdateMessage = generateDisappearingVisibleMessage({
           expirationType: 'deleteAfterSend',
           expireTimer: 300,
           expirationTimerUpdate: {
@@ -438,7 +438,7 @@ describe('Disappearing Messages', () => {
       });
       it('if we receive an outdated ExpirationTimerUpdate message then it should be ignored and is outdated', async () => {
         const lastDisappearingMessageChangeTimestamp = GetNetworkTime.getNowWithNetworkOffset();
-        const expirationTimerUpdateMessage = generateDisappearingMessage({
+        const expirationTimerUpdateMessage = generateDisappearingVisibleMessage({
           expirationType: 'deleteAfterSend',
           expireTimer: 300,
           expirationTimerUpdate: {
@@ -571,7 +571,6 @@ describe('Disappearing Messages', () => {
           'lastDisappearingMessageChangeTimestamp should match the input value'
         ).to.equal(lastDisappearingMessageChangeTimestamp);
       });
-      // TODO Continue
     });
   });
 

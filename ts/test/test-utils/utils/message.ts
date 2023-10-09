@@ -123,7 +123,7 @@ export function generateFakeIncomingOpenGroupMessageV4({
   };
 }
 
-export function generateDisappearingMessage({
+export function generateDisappearingVisibleMessage({
   identifier,
   timestamp,
   expirationType,
