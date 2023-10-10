@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 export enum SqliteErrorKind {
-  Corrupted,
-  Readonly,
-  Unknown,
+  Corrupted = 'Corrupted',
+  Readonly = 'Readonly',
+  Unknown = 'Unknown',
 }
 
 export function parseSqliteError(error?: Error): SqliteErrorKind {

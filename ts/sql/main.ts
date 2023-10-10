@@ -9,7 +9,7 @@ import { app } from 'electron';
 import { strictAssert } from '../util/assert';
 import { explodePromise } from '../util/explodePromise';
 import type { LoggerType } from '../types/Logging';
-import { parseSqliteError, SqliteErrorKind } from './errors';
+import { SqliteErrorKind } from './errors';
 import type DB from './Server';
 
 const MIN_TRACE_DURATION = 40;
@@ -54,6 +54,7 @@ export type WrappedWorkerResponse =
       type: 'response';
       seq: number;
       error: string | undefined;
+      errorKind: SqliteErrorKind | undefined;
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       response: any;
     }>
@@ -102,7 +103,7 @@ export class MainSQL {
         return;
       }
 
-      const { seq, error, response } = wrappedResponse;
+      const { seq, error, errorKind, response } = wrappedResponse;
 
       const pair = this.onResponse.get(seq);
       this.onResponse.delete(seq);
@@ -112,7 +113,7 @@ export class MainSQL {
 
       if (error) {
         const errorObj = new Error(error);
-        this.onError(errorObj);
+        this.onError(errorKind ?? SqliteErrorKind.Unknown, errorObj);
 
         pair.reject(errorObj);
       } else {
@@ -227,8 +228,7 @@ export class MainSQL {
     return result;
   }
 
-  private onError(error: Error): void {
-    const errorKind = parseSqliteError(error);
+  private onError(errorKind: SqliteErrorKind, error: Error): void {
     if (errorKind === SqliteErrorKind.Unknown) {
       return;
     }

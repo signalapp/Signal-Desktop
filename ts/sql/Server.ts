@@ -413,6 +413,8 @@ const dataInterface: ServerInterface = {
   removeKnownStickers,
   removeKnownDraftAttachments,
   getAllBadgeImageFileLocalPaths,
+
+  runCorruptionChecks,
 };
 export default dataInterface;
 
@@ -693,6 +695,27 @@ function getReadonlyInstance(): Database {
 async function getWritableInstance(): Promise<Database> {
   if (!globalWritableInstance) {
     throw new Error('getWritableInstance: globalWritableInstance not set!');
+  }
+
+  return globalWritableInstance;
+}
+
+// This is okay to use for queries that:
+//
+// - Don't modify persistent tables, but create and do work in temporary
+//   tables
+// - Integrity checks
+//
+function getUnsafeWritableInstance(
+  reason: 'only temp table use' | 'integrity check'
+): Database {
+  // Not actually used
+  void reason;
+
+  if (!globalWritableInstance) {
+    throw new Error(
+      'getUnsafeWritableInstance: globalWritableInstance not set!'
+    );
   }
 
   return globalWritableInstance;
@@ -1722,9 +1745,7 @@ async function searchMessages({
 }): Promise<Array<ServerSearchResultMessageType>> {
   const { limit = conversationId ? 100 : 500 } = options ?? {};
 
-  // We don't actually write to the database, but temporary tables below
-  // require write access.
-  const db = await getWritableInstance();
+  const db = getUnsafeWritableInstance('only temp table use');
 
   // sqlite queries with a join on a virtual table (like FTS5) are de-optimized
   // and can't use indices for ordering results. Instead an in-memory index of
@@ -3637,7 +3658,7 @@ async function getCallHistoryGroupsCount(
 ): Promise<number> {
   // getCallHistoryGroupDataSync creates a temporary table and thus requires
   // write access.
-  const db = await getWritableInstance();
+  const db = getUnsafeWritableInstance('only temp table use');
   const result = getCallHistoryGroupDataSync(db, true, filter, {
     limit: 0,
     offset: 0,
@@ -3665,7 +3686,7 @@ async function getCallHistoryGroups(
 ): Promise<Array<CallHistoryGroup>> {
   // getCallHistoryGroupDataSync creates a temporary table and thus requires
   // write access.
-  const db = await getWritableInstance();
+  const db = getUnsafeWritableInstance('only temp table use');
   const groupsData = groupsDataSchema.parse(
     getCallHistoryGroupDataSync(db, false, filter, pagination)
   );
@@ -5189,6 +5210,32 @@ async function getAllBadgeImageFileLocalPaths(): Promise<Set<string>> {
     .pluck()
     .all();
   return new Set(localPaths);
+}
+
+function runCorruptionChecks(): void {
+  const db = getUnsafeWritableInstance('integrity check');
+  try {
+    const result = db.pragma('integrity_check');
+    if (result.length === 1 && result.at(0)?.integrity_check === 'ok') {
+      logger.info('runCorruptionChecks: general integrity is ok');
+    } else {
+      logger.error('runCorruptionChecks: general integrity is not ok', result);
+    }
+  } catch (error) {
+    logger.error(
+      'runCorruptionChecks: general integrity check error',
+      Errors.toLogFormat(error)
+    );
+  }
+  try {
+    db.exec("INSERT INTO messages_fts(messages_fts) VALUES('integrity-check')");
+    logger.info('runCorruptionChecks: FTS5 integrity ok');
+  } catch (error) {
+    logger.error(
+      'runCorruptionChecks: FTS5 integrity check error.',
+      Errors.toLogFormat(error)
+    );
+  }
 }
 
 type StoryDistributionForDatabase = Readonly<

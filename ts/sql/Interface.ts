@@ -911,6 +911,8 @@ export type ServerInterface = DataInterface & {
     allStickers: ReadonlyArray<string>
   ) => Promise<Array<string>>;
   getAllBadgeImageFileLocalPaths: () => Promise<Set<string>>;
+
+  runCorruptionChecks: () => void;
 };
 
 export type GetRecentStoryRepliesOptionsType = {
