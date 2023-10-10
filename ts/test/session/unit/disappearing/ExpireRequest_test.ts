@@ -239,5 +239,14 @@ describe('ExpireRequest', () => {
         'the result hashes array should contain our messageHash'
       ).to.equal(props.messageHashes[0]);
     });
+    it('returns an error if the swarm is empty', async () => {
+      try {
+        await processExpireRequestResponse(props.pubkey, props.targetNode, {}, props.messageHashes);
+      } catch (err) {
+        expect(err.message).to.equal(
+          `[processExpireRequestResponse] Swarm is missing! ${props.messageHashes}`
+        );
+      }
+    });
   });
 });
