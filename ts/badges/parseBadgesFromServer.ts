@@ -23,7 +23,7 @@ const badgeFromServerSchema = z.object({
   visible: z.boolean().optional(),
 });
 
-// GET /v1/subscription/boost/badges
+// GET /v1/subscription/configuration
 const boostBadgesFromServerSchema = z.object({
   levels: z.record(
     z

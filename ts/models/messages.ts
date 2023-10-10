@@ -2262,7 +2262,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           if (!messaging) {
             throw new Error(`${idLog}: messaging is not available`);
           }
-          const response = await messaging.server.getBoostBadgesFromServer(
+          const response = await messaging.server.getSubscriptionConfiguration(
             userLanguages
           );
           const boostBadgesByLevel = parseBoostBadgeListFromServer(

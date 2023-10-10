@@ -492,7 +492,6 @@ const URL_CALLS = {
   attachmentId: 'v3/attachments/form/upload',
   attestation: 'v1/attestation',
   batchIdentityCheck: 'v1/profile/identity_check/batch',
-  boostBadges: 'v1/subscription/boost/badges',
   challenge: 'v1/challenge',
   config: 'v1/config',
   deliveryCert: 'v1/certificate/delivery',
@@ -525,6 +524,7 @@ const URL_CALLS = {
   storageRead: 'v1/storage/read',
   storageToken: 'v1/storage/auth',
   subscriptions: 'v1/subscription',
+  subscriptionConfiguration: 'v1/subscription/configuration',
   supportUnauthenticatedDelivery: 'v1/devices/unauthenticated_delivery',
   updateDeviceName: 'v1/accounts/name',
   username: 'v1/accounts/username_hash',
@@ -1015,7 +1015,7 @@ export type WebAPIType = {
     options: GetProfileUnauthOptionsType
   ) => Promise<ProfileType>;
   getBadgeImageFile: (imageUrl: string) => Promise<Uint8Array>;
-  getBoostBadgesFromServer: (
+  getSubscriptionConfiguration: (
     userLanguages: ReadonlyArray<string>
   ) => Promise<unknown>;
   getProvisioningResource: (
@@ -1388,7 +1388,6 @@ export function initialize({
       getAttachment,
       getAvatar,
       getBadgeImageFile,
-      getBoostBadgesFromServer,
       getConfig,
       getGroup,
       getGroupAvatar,
@@ -1412,6 +1411,7 @@ export function initialize({
       getStorageCredentials,
       getStorageManifest,
       getStorageRecords,
+      getSubscriptionConfiguration,
       linkDevice,
       logout,
       makeProxiedRequest,
@@ -1940,11 +1940,11 @@ export function initialize({
       );
     }
 
-    async function getBoostBadgesFromServer(
+    async function getSubscriptionConfiguration(
       userLanguages: ReadonlyArray<string>
     ): Promise<unknown> {
       return _ajax({
-        call: 'boostBadges',
+        call: 'subscriptionConfiguration',
         httpType: 'GET',
         headers: {
           'Accept-Language': formatAcceptLanguageHeader(userLanguages),
