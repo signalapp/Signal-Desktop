@@ -67,9 +67,12 @@ export async function verifyExpireMsgsResponseSignature({
   }
 }
 
-type ExpireRequestResponseResults = Record<string, { hashes: Array<string>; expiry: number }>;
+export type ExpireRequestResponseResults = Record<
+  string,
+  { hashes: Array<string>; expiry: number }
+>;
 
-async function processExpireRequestResponse(
+export async function processExpireRequestResponse(
   pubkey: string,
   targetNode: Snode,
   swarm: ExpireMessagesResultsContent,
