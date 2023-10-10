@@ -17,6 +17,12 @@ type DataFunction = typeof Data;
 type OpenGroupDataFunction = typeof OpenGroupData;
 type ConfigDumpDataFunction = typeof ConfigDumpData;
 
+export type TypedStub<T extends Record<string, unknown>, K extends keyof T> = T[K] extends (
+  ...args: any
+) => any
+  ? Sinon.SinonStub<Parameters<T[K]>, ReturnType<T[K]>>
+  : never;
+
 /**
  * Stub a function inside Data.
  *

@@ -1,7 +1,7 @@
 import chai, { expect } from 'chai';
 import Sinon from 'sinon';
 import chaiAsPromised from 'chai-as-promised';
-import { generateFakeSnode, stubWindowLog } from '../../../test-utils/utils';
+import { TypedStub, generateFakeSnode, stubWindowLog } from '../../../test-utils/utils';
 import {
   ExpireRequestResponseResults,
   buildExpireRequest,
@@ -18,6 +18,7 @@ import {
   GetExpiriesFromSnodeProps,
   buildGetExpiriesRequest,
 } from '../../../../session/apis/snode_api/getExpiriesRequest';
+import { SnodeSignature } from '../../../../session/apis/snode_api/snodeSignatures';
 
 chai.use(chaiAsPromised as any);
 
@@ -32,7 +33,7 @@ describe('GetExpiriesRequest', () => {
       'be1d11154ff9b6de77873f0b6b0bcc460000000000000000000000000000000037e1631b002de498caf7c5c1712718bde7f257c6dadeed0c21abf5e939e6c309',
   };
 
-  let getOurPubKeyStrFromCacheStub: Sinon.SinonStub;
+  let getOurPubKeyStrFromCacheStub: TypedStub<typeof UserUtils, 'getOurPubKeyStrFromCache'>;
 
   beforeEach(() => {
     Sinon.stub(GetNetworkTime, 'getLatestTimestampOffset').returns(getLatestTimestampOffset);
@@ -69,8 +70,16 @@ describe('GetExpiriesRequest', () => {
       expect(request?.params.signature, 'signature should not be empty').to.not.be.empty;
     });
     it('fails to build a request if our pubkey is missing', async () => {
-      getOurPubKeyStrFromCacheStub.restore();
-      getOurPubKeyStrFromCacheStub.returns('');
+      // Modify the stub behavior for this test only we need to return an unsupported type to simulate a missing pubkey
+      (getOurPubKeyStrFromCacheStub as any).returns(undefined);
+
+      const request: GetExpiriesFromNodeSubRequest | null = await buildGetExpiriesRequest(props);
+
+      expect(request, 'should return null').to.be.null;
+    });
+    it('fails to build a request if our signature is missing', async () => {
+      // Modify the stub behavior for this test only we need to return an unsupported type to simulate a missing pubkey
+      Sinon.stub(SnodeSignature, 'generateGetExpiriesSignature').resolves(null);
 
       const request: GetExpiriesFromNodeSubRequest | null = await buildGetExpiriesRequest(props);
 
