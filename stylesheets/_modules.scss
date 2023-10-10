@@ -1379,6 +1379,7 @@ $message-padding-horizontal: 12px;
   display: flex;
   justify-content: center;
   margin-inline-end: 8px;
+  min-width: 28px;
   padding-bottom: 6px;
 
   &--with-reactions {
@@ -1445,6 +1446,10 @@ $message-padding-horizontal: 12px;
       outline-color: $color-gray-95;
     }
   }
+}
+
+.module-message__typing-avatar-spacer {
+  flex: 0 1 24px;
 }
 
 .module-message__unopened-gift-badge {
