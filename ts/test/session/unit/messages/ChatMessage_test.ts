@@ -32,6 +32,7 @@ describe('VisibleMessage', () => {
     expect(decoded.dataMessage).to.have.deep.property('body', 'body');
   });
 
+  // TODO move into Disappearing Messages test
   it('can create message with a expire timer', () => {
     const message = new VisibleMessage({
       timestamp: Date.now(),

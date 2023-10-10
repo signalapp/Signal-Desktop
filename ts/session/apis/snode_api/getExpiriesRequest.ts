@@ -125,12 +125,12 @@ async function getExpiriesFromNodes(
   }
 }
 
-type GetExpiriesFromSnodeProps = {
+export type GetExpiriesFromSnodeProps = {
   messageHashes: Array<string>;
   timestamp: number;
 };
 
-async function buildGetExpiriesRequest(
+export async function buildGetExpiriesRequest(
   props: GetExpiriesFromSnodeProps
 ): Promise<GetExpiriesFromNodeSubRequest | null> {
   const { messageHashes, timestamp } = props;
