@@ -14,7 +14,13 @@ import { SnodeSignature } from './snodeSignatures';
 import { ExpireMessageResultItem, ExpireMessagesResultsContent } from './types';
 import { SeedNodeAPI } from '../seed_node_api';
 
-async function verifyExpireMsgsResponseSignature({
+export type verifyExpireMsgsResponseSignatureProps = ExpireMessageResultItem & {
+  pubkey: string;
+  snodePubkey: any;
+  messageHashes: Array<string>;
+};
+
+export async function verifyExpireMsgsResponseSignature({
   pubkey,
   snodePubkey,
   messageHashes,
@@ -22,11 +28,7 @@ async function verifyExpireMsgsResponseSignature({
   signature,
   updated,
   unchanged,
-}: ExpireMessageResultItem & {
-  pubkey: string;
-  snodePubkey: any;
-  messageHashes: Array<string>;
-}): Promise<boolean> {
+}: verifyExpireMsgsResponseSignatureProps): Promise<boolean> {
   if (!expiry || isEmpty(messageHashes) || isEmpty(signature)) {
     window.log.warn(
       `WIP: [verifyExpireMsgsSignature] missing argument\nexpiry:${expiry}\nmessageHashes:${messageHashes}\nsignature:${signature}`
