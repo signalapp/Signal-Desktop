@@ -93,6 +93,7 @@ import type {
   DeleteSentProtoRecipientResultType,
   EditedMessageType,
   EmojiType,
+  FTSOptimizationStateType,
   GetAllStoriesResultType,
   GetConversationRangeCenteredOnMessageResultType,
   GetKnownMessageAttachmentsResultType,
@@ -403,6 +404,8 @@ const dataInterface: ServerInterface = {
 
   getStatisticsForLogging,
 
+  optimizeFTS,
+
   // Server-only
 
   initialize,
@@ -574,10 +577,12 @@ SQL.setLogHandler((code, value) => {
 });
 
 async function initialize({
+  appVersion,
   configDir,
   key,
   logger: suppliedLogger,
 }: {
+  appVersion: string;
   configDir: string;
   key: string;
   logger: LoggerType;
@@ -614,7 +619,7 @@ async function initialize({
     // For profiling use:
     // db.pragma('cipher_profile=\'sqlcipher.log\'');
 
-    updateSchema(writable, logger);
+    updateSchema(writable, logger, appVersion);
 
     readonly = openAndSetUpSQLCipher(databaseFilePath, { key, readonly: true });
 
@@ -2274,6 +2279,7 @@ async function _removeAllMessages(): Promise<void> {
   const db = await getWritableInstance();
   db.exec(`
     DELETE FROM messages;
+    INSERT INTO messages_fts(messages_fts) VALUES('optimize');
   `);
 }
 
@@ -5656,6 +5662,8 @@ async function removeAll(): Promise<void> {
       DELETE FROM unprocessed;
       DELETE FROM uninstalled_sticker_packs;
 
+      INSERT INTO messages_fts(messages_fts) VALUES('optimize');
+
       --- Re-create the messages delete trigger
       --- See migration 45
       CREATE TRIGGER messages_on_delete AFTER DELETE ON messages BEGIN
@@ -6237,6 +6245,48 @@ async function removeKnownDraftAttachments(
   );
 
   return Object.keys(lookup);
+}
+
+const OPTIMIZE_FTS_PAGE_COUNT = 64;
+
+// This query is incremental. It gets the `state` from the return value of
+// previous `optimizeFTS` call. When `state.done` is `true` - optimization is
+// complete.
+async function optimizeFTS(
+  state?: FTSOptimizationStateType
+): Promise<FTSOptimizationStateType | undefined> {
+  // See https://www.sqlite.org/fts5.html#the_merge_command
+  let pageCount = OPTIMIZE_FTS_PAGE_COUNT;
+  if (state === undefined) {
+    pageCount = -pageCount;
+  }
+  const db = await getWritableInstance();
+  const getChanges = prepare(db, 'SELECT total_changes() as changes;', {
+    pluck: true,
+  });
+
+  const changeDifference = db.transaction(() => {
+    const before: number = getChanges.get({});
+
+    prepare(
+      db,
+      `
+        INSERT INTO messages_fts(messages_fts, rank) VALUES ('merge', $pageCount);
+      `
+    ).run({ pageCount });
+
+    const after: number = getChanges.get({});
+
+    return after - before;
+  })();
+
+  const nextSteps = (state?.steps ?? 0) + 1;
+
+  // From documentation:
+  // "If the difference is less than 2, then the 'merge' command was a no-op"
+  const done = changeDifference < 2;
+
+  return { steps: nextSteps, done };
 }
 
 async function getJobsInQueue(queueType: string): Promise<Array<StoredJob>> {

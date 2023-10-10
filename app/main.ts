@@ -1590,6 +1590,7 @@ async function initializeSQL(
     // `sql.sqlCall` will throw an uninitialized error instead of waiting for
     // init to finish.
     await sql.initialize({
+      appVersion: app.getVersion(),
       configDir: userDataPath,
       key,
       logger: getLogger(),

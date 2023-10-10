@@ -17,37 +17,7 @@ export function updateToSchemaVersion940(
   }
 
   db.transaction(() => {
-    const wasEnabled =
-      db
-        .prepare(
-          `
-            SELECT v FROM messages_fts_config WHERE k is 'secure-delete';
-          `
-        )
-        .pluck()
-        .get() === 1;
-
-    if (wasEnabled) {
-      logger.info('updateToSchemaVersion940: rebuilding fts5 index');
-      db.exec(`
-        --- Disable 'secure-delete'
-        INSERT INTO messages_fts
-        (messages_fts, rank)
-        VALUES
-        ('secure-delete', 0);
-
-        --- Rebuild the index to fix the corruption
-        INSERT INTO messages_fts
-        (messages_fts)
-        VALUES
-        ('rebuild');
-      `);
-    } else {
-      logger.info(
-        'updateToSchemaVersion940: secure delete was not enabled, skipping'
-      );
-    }
-
+    // This was a migration that disabled secure-delete and rebuilt the index
     db.pragma('user_version = 940');
   })();
 
