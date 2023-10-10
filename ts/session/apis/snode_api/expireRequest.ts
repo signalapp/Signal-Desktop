@@ -205,14 +205,14 @@ async function expireOnNodes(
   }
 }
 
-type ExpireMessageOnSnodeProps = {
+export type ExpireMessageOnSnodeProps = {
   messageHash: string;
   expireTimer: number;
   extend?: boolean;
   shorten?: boolean;
 };
 
-async function buildExpireRequest(
+export async function buildExpireRequest(
   props: ExpireMessageOnSnodeProps
 ): Promise<UpdateExpiryOnNodeSubRequest | null> {
   const { messageHash, expireTimer, extend, shorten } = props;
