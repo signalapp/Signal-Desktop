@@ -4,6 +4,7 @@ import chaiAsPromised from 'chai-as-promised';
 import {
   generateDisappearingVisibleMessage,
   generateFakeExpirationTimerUpdate,
+  generateFakeIncomingPrivateMessage,
   generateVisibleMessage,
   stubWindowLog,
 } from '../../../test-utils/utils';
@@ -577,7 +578,7 @@ describe('Disappearing Messages', () => {
 
   describe('message.ts', () => {
     describe('isExpirationTimerUpdate', () => {
-      it('should return true if valid', async () => {
+      it('should return true if the message is an expirationTimerUpdate', async () => {
         const expirationTimerUpdateMessage = generateFakeExpirationTimerUpdate({
           expirationType: 'deleteAfterSend',
           expireTimer: 300,
@@ -595,6 +596,10 @@ describe('Disappearing Messages', () => {
           'expirationTimerUpdate should not be empty'
         ).to.not.be.empty;
         expect(expirationTimerUpdateMessage.isExpirationTimerUpdate(), 'should be true').to.be.true;
+      });
+      it('should return false if the message is not an expirationTimerUpdate', async () => {
+        const message = generateFakeIncomingPrivateMessage();
+        expect(message.isExpirationTimerUpdate(), 'should be false').to.be.false;
       });
     });
   });
