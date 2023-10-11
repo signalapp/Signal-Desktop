@@ -11,6 +11,7 @@ import type {
   WrappedWorkerLogEntry,
 } from './main';
 import db from './Server';
+import { SqliteErrorKind, parseSqliteError } from './errors';
 
 if (!parentPort) {
   throw new Error('Must run as a worker thread');
@@ -20,10 +21,22 @@ const port = parentPort;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function respond(seq: number, error: Error | undefined, response?: any) {
+  let errorKind: SqliteErrorKind | undefined;
+  let errorString: string | undefined;
+  if (error !== undefined) {
+    errorKind = parseSqliteError(error);
+    errorString = Errors.toLogFormat(error);
+
+    if (errorKind === SqliteErrorKind.Corrupted) {
+      db.runCorruptionChecks();
+    }
+  }
+
   const wrappedResponse: WrappedWorkerResponse = {
     type: 'response',
     seq,
-    error: error === undefined ? undefined : Errors.toLogFormat(error),
+    error: errorString,
+    errorKind,
     response,
   };
   port.postMessage(wrappedResponse);
