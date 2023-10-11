@@ -1,7 +1,7 @@
 import chai, { expect } from 'chai';
 import Sinon from 'sinon';
 import chaiAsPromised from 'chai-as-promised';
-import { generateFakeSnode, stubWindowLog } from '../../../test-utils/utils';
+import { generateFakeSnode } from '../../../test-utils/utils';
 import {
   ExpireMessageOnSnodeProps,
   ExpireRequestResponseResults,
@@ -18,8 +18,6 @@ import { GetNetworkTime } from '../../../../session/apis/snode_api/getNetworkTim
 chai.use(chaiAsPromised as any);
 
 describe('ExpireRequest', () => {
-  stubWindowLog();
-
   const getLatestTimestampOffset = 200000;
   const ourNumber = '37e1631b002de498caf7c5c1712718bde7f257c6dadeed0c21abf5e939e6c309';
   const ourUserEd25516Keypair = {

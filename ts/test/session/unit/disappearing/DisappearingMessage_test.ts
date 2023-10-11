@@ -6,7 +6,6 @@ import {
   generateFakeExpirationTimerUpdate,
   generateFakeIncomingPrivateMessage,
   generateVisibleMessage,
-  stubWindowLog,
 } from '../../../test-utils/utils';
 import {
   DisappearingMessageConversationModeType,
@@ -27,8 +26,6 @@ import { TestUtils } from '../../../test-utils';
 chai.use(chaiAsPromised as any);
 
 describe('Disappearing Messages', () => {
-  stubWindowLog();
-
   const getLatestTimestampOffset = 200000;
   const ourNumber = '051234567890acbdef';
   const conversationArgs = {
