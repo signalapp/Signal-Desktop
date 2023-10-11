@@ -61,7 +61,6 @@ async function insertContactFromDBIntoWrapperAndRefresh(
   const dbApprovedMe = !!foundConvo.get('didApproveMe') || false;
   const dbBlocked = !!foundConvo.isBlocked() || false;
   const priority = foundConvo.get('priority') || 0;
-  window.log.debug(`WIP: [unit testing]\nfoundConvo.get('priority') ${foundConvo.get('priority')}`);
   const expirationMode = foundConvo.getExpirationMode() || undefined;
   const expireTimer = foundConvo.getExpireTimer() || 0;
 
