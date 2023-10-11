@@ -20,7 +20,7 @@ const IdentifierType = Proto.ManifestRecord.Identifier.Type;
 const DISTRIBUTION1 = generateStoryDistributionId();
 const DISTRIBUTION2 = generateStoryDistributionId();
 
-describe('story/messaging', function unknownContacts() {
+describe('story/messaging', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);
   this.retries(4);
 
@@ -114,7 +114,7 @@ describe('story/messaging', function unknownContacts() {
     app = await bootstrap.link();
   });
 
-  afterEach(async function after() {
+  afterEach(async function (this: Mocha.Context) {
     if (!bootstrap) {
       return;
     }

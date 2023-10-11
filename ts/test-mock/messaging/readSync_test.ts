@@ -11,7 +11,7 @@ import { Bootstrap } from '../bootstrap';
 
 export const debug = createDebug('mock:test:readSync');
 
-describe('readSync', function needsName() {
+describe('readSync', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);
   this.retries(4);
 
@@ -24,7 +24,7 @@ describe('readSync', function needsName() {
     app = await bootstrap.link();
   });
 
-  afterEach(async function after() {
+  afterEach(async function (this: Mocha.Context) {
     if (!bootstrap) {
       return;
     }

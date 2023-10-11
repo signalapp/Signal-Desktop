@@ -300,6 +300,12 @@ module.exports = {
         'local-rules/type-alias-readonlydeep': 'error',
       },
     },
+    {
+      files: ['ts/**/*_test.{ts,tsx}'],
+      rules: {
+        'func-names': 'off',
+      },
+    },
   ],
 
   rules: {

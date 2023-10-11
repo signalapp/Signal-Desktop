@@ -2,10 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useState } from 'react';
-
-import { text } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
-
+import type { Meta } from '@storybook/react';
 import type { PropsType } from './Input';
 import { Input } from './Input';
 import { setupI18n } from '../util/setupI18n';
@@ -15,7 +13,9 @@ const i18n = setupI18n('en', enMessages);
 
 export default {
   title: 'Components/Input',
-};
+  argTypes: {},
+  args: {},
+} satisfies Meta<PropsType>;
 
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   disabled: Boolean(overrideProps.disabled),
@@ -26,11 +26,8 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   icon: overrideProps.icon,
   maxLengthCount: overrideProps.maxLengthCount,
   onChange: action('onChange'),
-  placeholder: text(
-    'placeholder',
-    overrideProps.placeholder || 'Enter some text here'
-  ),
-  value: text('value', overrideProps.value || ''),
+  placeholder: overrideProps.placeholder ?? 'Enter some text here',
+  value: overrideProps.value ?? '',
   whenToShowRemainingCount: overrideProps.whenToShowRemainingCount,
 });
 
@@ -55,10 +52,6 @@ export function HasClearButton(): JSX.Element {
   );
 }
 
-HasClearButton.story = {
-  name: 'hasClearButton',
-};
-
 export function CharacterCount(): JSX.Element {
   return (
     <Controller
@@ -68,10 +61,6 @@ export function CharacterCount(): JSX.Element {
     />
   );
 }
-
-CharacterCount.story = {
-  name: 'character count',
-};
 
 export function CharacterCountCustomizableShow(): JSX.Element {
   return (
@@ -84,10 +73,6 @@ export function CharacterCountCustomizableShow(): JSX.Element {
   );
 }
 
-CharacterCountCustomizableShow.story = {
-  name: 'character count (customizable show)',
-};
-
 export function Expandable(): JSX.Element {
   return (
     <Controller
@@ -97,10 +82,6 @@ export function Expandable(): JSX.Element {
     />
   );
 }
-
-Expandable.story = {
-  name: 'expandable',
-};
 
 export function ExpandableWCount(): JSX.Element {
   return (
@@ -115,10 +96,6 @@ export function ExpandableWCount(): JSX.Element {
   );
 }
 
-ExpandableWCount.story = {
-  name: 'expandable w/count',
-};
-
 export function Disabled(): JSX.Element {
   return (
     <Controller
@@ -129,10 +106,6 @@ export function Disabled(): JSX.Element {
   );
 }
 
-Disabled.story = {
-  name: 'disabled',
-};
-
 export function SpellcheckDisabled(): JSX.Element {
   return (
     <Controller
@@ -142,7 +115,3 @@ export function SpellcheckDisabled(): JSX.Element {
     />
   );
 }
-
-SpellcheckDisabled.story = {
-  name: 'spellcheck disabled',
-};

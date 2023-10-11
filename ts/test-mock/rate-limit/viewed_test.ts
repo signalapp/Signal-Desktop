@@ -13,7 +13,7 @@ import { toUntaggedPni } from '../../types/ServiceId';
 
 export const debug = createDebug('mock:test:challenge:receipts');
 
-describe('challenge/receipts', function challengeReceiptsTest() {
+describe('challenge/receipts', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);
   this.retries(4);
 
@@ -65,7 +65,7 @@ describe('challenge/receipts', function challengeReceiptsTest() {
     await phone.setStorageState(state);
   });
 
-  afterEach(async function after() {
+  afterEach(async function (this: Mocha.Context) {
     await bootstrap.maybeSaveLogs(this.currentTest, app);
     await app.close();
     await bootstrap.teardown();

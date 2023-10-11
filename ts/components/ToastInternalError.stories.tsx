@@ -3,11 +3,12 @@
 
 import React from 'react';
 import { action } from '@storybook/addon-actions';
+import type { Meta } from '@storybook/react';
+import type { PropsType } from './ToastInternalError';
 import {
   ToastInternalError,
   ToastInternalErrorKind,
 } from './ToastInternalError';
-
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
 
@@ -21,7 +22,7 @@ const defaultProps = {
 
 export default {
   title: 'Components/ToastInternalError',
-};
+} satisfies Meta<PropsType>;
 
 export function ToastDecryptionError(): JSX.Element {
   return (
@@ -34,10 +35,6 @@ export function ToastDecryptionError(): JSX.Element {
   );
 }
 
-ToastDecryptionError.story = {
-  name: 'ToastDecryptionError',
-};
-
 export function ToastCDSMirroringError(): JSX.Element {
   return (
     <ToastInternalError
@@ -46,7 +43,3 @@ export function ToastCDSMirroringError(): JSX.Element {
     />
   );
 }
-
-ToastDecryptionError.story = {
-  name: 'ToastCDSMirroringError',
-};

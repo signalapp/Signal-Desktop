@@ -62,7 +62,7 @@ function getStickerPackRecordPredicate(
   };
 }
 
-describe('storage service', function needsName() {
+describe('storage service', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);
   this.retries(4);
 
@@ -95,7 +95,7 @@ describe('storage service', function needsName() {
     );
   });
 
-  afterEach(async function after() {
+  afterEach(async function (this: Mocha.Context) {
     if (!bootstrap) {
       return;
     }

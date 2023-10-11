@@ -15,7 +15,7 @@ export const debug = createDebug('mock:test:rate-limit');
 
 const IdentifierType = Proto.ManifestRecord.Identifier.Type;
 
-describe('story/no-sender-key', function needsName() {
+describe('story/no-sender-key', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);
   this.retries(4);
 
@@ -57,7 +57,7 @@ describe('story/no-sender-key', function needsName() {
     app = await bootstrap.link();
   });
 
-  afterEach(async function after() {
+  afterEach(async function (this: Mocha.Context) {
     await bootstrap.maybeSaveLogs(this.currentTest, app);
     await app.close();
     await bootstrap.teardown();

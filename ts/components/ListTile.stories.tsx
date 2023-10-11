@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Story } from '@storybook/react';
+import type { Meta, StoryFn } from '@storybook/react';
 import React from 'react';
 import { ListTile } from './ListTile';
 import type { Props } from './ListTile';
@@ -11,12 +11,12 @@ import { UserText } from './UserText';
 export default {
   title: 'Components/ListTile',
   component: ListTile,
-};
+} satisfies Meta<Props>;
 
 const lorem =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam feugiat quam vitae semper facilisis. Praesent eu efficitur dui. Donec semper mattis nisl non hendrerit.';
 
-function TemplateList(width: number): Story<Props> {
+function TemplateList(width: number): StoryFn<Props> {
   // eslint-disable-next-line react/display-name
   return args => {
     return (

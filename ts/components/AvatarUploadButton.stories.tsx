@@ -4,6 +4,7 @@
 import React from 'react';
 
 import { action } from '@storybook/addon-actions';
+import type { Meta } from '@storybook/react';
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
 
@@ -20,7 +21,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
 
 export default {
   title: 'Components/AvatarUploadButton',
-};
+} satisfies Meta<PropsType>;
 
 export function Default(): JSX.Element {
   return <AvatarUploadButton {...createProps()} />;

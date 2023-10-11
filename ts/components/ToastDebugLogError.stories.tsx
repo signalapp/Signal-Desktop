@@ -3,8 +3,9 @@
 
 import React from 'react';
 import { action } from '@storybook/addon-actions';
+import type { Meta } from '@storybook/react';
+import type { PropsType } from './ToastDebugLogError';
 import { ToastDebugLogError } from './ToastDebugLogError';
-
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
 
@@ -17,12 +18,8 @@ const defaultProps = {
 
 export default {
   title: 'Components/ToastDebugLogError',
-};
+} satisfies Meta<PropsType>;
 
 export const _ToastDebugLogError = (): JSX.Element => (
   <ToastDebugLogError {...defaultProps} />
 );
-
-_ToastDebugLogError.story = {
-  name: 'ToastDebugLogError',
-};

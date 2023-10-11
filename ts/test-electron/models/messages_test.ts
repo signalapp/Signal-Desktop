@@ -91,11 +91,11 @@ describe('Message', () => {
     );
   });
 
-  beforeEach(function beforeEach() {
+  beforeEach(function (this: Mocha.Context) {
     this.sandbox = sinon.createSandbox();
   });
 
-  afterEach(function afterEach() {
+  afterEach(function (this: Mocha.Context) {
     this.sandbox.restore();
   });
 
@@ -103,7 +103,7 @@ describe('Message', () => {
   describe('send', () => {
     let oldMessageSender: undefined | MessageSender;
 
-    beforeEach(function beforeEach() {
+    beforeEach(function (this: Mocha.Context) {
       oldMessageSender = window.textsecure.messaging;
 
       window.textsecure.messaging =
@@ -124,7 +124,7 @@ describe('Message', () => {
       }
     });
 
-    it('updates `sendStateByConversationId`', async function test() {
+    it('updates `sendStateByConversationId`', async function (this: Mocha.Context) {
       this.sandbox.useFakeTimers(1234);
 
       const ourConversationId =
@@ -681,7 +681,7 @@ describe('Message', () => {
       );
     });
 
-    it("shows a notification's emoji on non-Linux", async function test() {
+    it("shows a notification's emoji on non-Linux", async function (this: Mocha.Context) {
       this.sandbox.replace(window.Signal, 'OS', {
         ...window.Signal.OS,
         isLinux() {
@@ -710,7 +710,7 @@ describe('Message', () => {
       );
     });
 
-    it('hides emoji on Linux', async function test() {
+    it('hides emoji on Linux', async function (this: Mocha.Context) {
       this.sandbox.replace(window.Signal, 'OS', {
         ...window.Signal.OS,
         isLinux() {

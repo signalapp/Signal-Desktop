@@ -3,9 +3,8 @@
 
 import * as React from 'react';
 import { times } from 'lodash';
-
 import { action } from '@storybook/addon-actions';
-
+import type { Meta } from '@storybook/react';
 import { generateAci } from '../../../types/ServiceId';
 import { StorySendMode } from '../../../types/Stories';
 import { setupI18n } from '../../../util/setupI18n';
@@ -21,7 +20,7 @@ const i18n = setupI18n('en', enMessages);
 
 export default {
   title: 'Components/Conversation/ConversationDetails/PendingInvites',
-};
+} satisfies Meta<PropsType>;
 
 const sortedGroupMembers = Array.from(Array(32)).map((_, i) =>
   i === 0
@@ -90,7 +89,3 @@ export function WithBadges(): JSX.Element {
 
   return <PendingInvites {...props} />;
 }
-
-WithBadges.story = {
-  name: 'With badges',
-};

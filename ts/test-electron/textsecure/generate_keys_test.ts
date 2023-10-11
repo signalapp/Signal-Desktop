@@ -17,7 +17,7 @@ const assertEqualBuffers = (a: Uint8Array, b: Uint8Array) => {
   assert.isTrue(constantTimeEqual(a, b));
 };
 
-describe('Key generation', function thisNeeded() {
+describe('Key generation', function (this: Mocha.Suite) {
   const count = 10;
   const ourServiceId = normalizeAci(
     'aaaaaaaa-bbbb-4ccc-9ddd-eeeeeeeeeeee',

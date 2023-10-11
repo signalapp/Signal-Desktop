@@ -6,6 +6,7 @@ import { v4 as uuid } from 'uuid';
 import { action } from '@storybook/addon-actions';
 import { noop } from 'lodash';
 
+import type { Meta } from '@storybook/react';
 import type { PropsType } from './StoryImage';
 import { StoryImage } from './StoryImage';
 import enMessages from '../../_locales/en/messages.json';
@@ -20,7 +21,7 @@ const i18n = setupI18n('en', enMessages);
 
 export default {
   title: 'Components/StoryImage',
-};
+} satisfies Meta<PropsType>;
 
 function getDefaultProps(): PropsType {
   return {
@@ -41,25 +42,13 @@ export function GoodStory(): JSX.Element {
   return <StoryImage {...getDefaultProps()} />;
 }
 
-GoodStory.story = {
-  name: 'Good story',
-};
-
 export function GoodStoryThumbnail(): JSX.Element {
   return <StoryImage {...getDefaultProps()} isThumbnail />;
 }
 
-GoodStoryThumbnail.story = {
-  name: 'Good story (thumbnail)',
-};
-
 export function NotDownloaded(): JSX.Element {
   return <StoryImage {...getDefaultProps()} attachment={fakeAttachment()} />;
 }
-
-NotDownloaded.story = {
-  name: 'Not downloaded',
-};
 
 export function NotDownloadedThumbnail(): JSX.Element {
   return (
@@ -70,10 +59,6 @@ export function NotDownloadedThumbnail(): JSX.Element {
     />
   );
 }
-
-NotDownloadedThumbnail.story = {
-  name: 'Not downloaded (thumbnail)',
-};
 
 export function PendingDownload(): JSX.Element {
   return (
@@ -86,10 +71,6 @@ export function PendingDownload(): JSX.Element {
   );
 }
 
-PendingDownload.story = {
-  name: 'Pending download',
-};
-
 export function PendingDownloadThumbnail(): JSX.Element {
   return (
     <StoryImage
@@ -101,10 +82,6 @@ export function PendingDownloadThumbnail(): JSX.Element {
     />
   );
 }
-
-PendingDownloadThumbnail.story = {
-  name: 'Pending download (thumbnail)',
-};
 
 export function BrokenImage(): JSX.Element {
   return (
@@ -128,10 +105,6 @@ export function BrokenImageThumbnail(): JSX.Element {
     />
   );
 }
-
-BrokenImageThumbnail.story = {
-  name: 'Broken Image (thumbnail)',
-};
 
 export function Video(): JSX.Element {
   return (
@@ -169,10 +142,6 @@ export function ErrorImageThumbnail(): JSX.Element {
     />
   );
 }
-
-ErrorImageThumbnail.story = {
-  name: 'Error Image (thumbnail)',
-};
 
 export function ErrorImageYou(): JSX.Element {
   return (

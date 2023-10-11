@@ -2,12 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
+import type { Meta } from '@storybook/react';
 import type { Props } from './Emojify';
 import { Emojify } from './Emojify';
 
 export default {
   title: 'Components/Conversation/Emojify',
-};
+} satisfies Meta<Props>;
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   renderNonEmoji: overrideProps.renderNonEmoji,
@@ -92,10 +93,6 @@ export function AllTextNoEmoji(): JSX.Element {
   return <Emojify {...props} />;
 }
 
-AllTextNoEmoji.story = {
-  name: 'All Text, No Emoji',
-};
-
 export function CustomTextRender(): JSX.Element {
   const props = createProps({
     text: 'this 😹 cat 😹 is 😹 so 😹 joyful',
@@ -117,10 +114,6 @@ export function TensOfThousandsOfEmoji(): JSX.Element {
   return <Emojify {...props} />;
 }
 
-TensOfThousandsOfEmoji.story = {
-  name: 'Tens of thousands of emoji',
-};
-
 export function TensOfThousandsOfEmojiInterspersedWithText(): JSX.Element {
   const props = createProps({
     text: '💅 hi '.repeat(40000),
@@ -128,7 +121,3 @@ export function TensOfThousandsOfEmojiInterspersedWithText(): JSX.Element {
 
   return <Emojify {...props} />;
 }
-
-TensOfThousandsOfEmojiInterspersedWithText.story = {
-  name: 'Tens of thousands of emoji, interspersed with text',
-};

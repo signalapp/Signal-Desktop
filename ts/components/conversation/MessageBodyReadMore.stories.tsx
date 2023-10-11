@@ -2,9 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useState } from 'react';
-
 import { action } from '@storybook/addon-actions';
-
+import type { Meta } from '@storybook/react';
 import type { Props } from './MessageBodyReadMore';
 import { MessageBodyReadMore } from './MessageBodyReadMore';
 import { setupI18n } from '../../util/setupI18n';
@@ -18,7 +17,7 @@ const i18n = setupI18n('en', enMessages);
 
 export default {
   title: 'Components/Conversation/MessageBodyReadMore',
-};
+} satisfies Meta<Props>;
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   bodyRanges: overrideProps.bodyRanges,
@@ -68,19 +67,11 @@ export function LongText100More(): JSX.Element {
   );
 }
 
-LongText100More.story = {
-  name: 'Long text + 100 more',
-};
-
 export function LotsOfCakeWithSomeCherriesOnTop(): JSX.Element {
   return (
     <MessageBodyReadMoreTest text={`x${'🍰'.repeat(399)}${'🍒'.repeat(100)}`} />
   );
 }
-
-LotsOfCakeWithSomeCherriesOnTop.story = {
-  name: 'Lots of cake with some cherries on top',
-};
 
 export function LeafyNotBuffered(): JSX.Element {
   return <MessageBodyReadMoreTest text={`x${'🌿'.repeat(450)}`} />;
@@ -154,10 +145,6 @@ export function LongTextMostlySpoiler(): JSX.Element {
   );
 }
 
-LeafyNotBuffered.story = {
-  name: 'Leafy not buffered',
-};
-
 export function Links(): JSX.Element {
   return (
     <MessageBodyReadMoreTest
@@ -169,10 +156,6 @@ export function Links(): JSX.Element {
 export function ExcessiveAmountsOfCake(): JSX.Element {
   return <MessageBodyReadMoreTest text={`x${'🍰'.repeat(20000)}`} />;
 }
-
-ExcessiveAmountsOfCake.story = {
-  name: 'Excessive amounts of cake',
-};
 
 export function LongText(): JSX.Element {
   return (
@@ -278,7 +261,3 @@ export function LongText(): JSX.Element {
     />
   );
 }
-
-LongText.story = {
-  name: 'Long text',
-};

@@ -24,7 +24,7 @@ export type ToastPropsType = {
     }
 );
 
-type PropsType = {
+export type PropsType = {
   i18n: LocalizerType;
   onClose: () => unknown;
 } & ToastPropsType;

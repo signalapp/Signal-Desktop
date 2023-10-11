@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useEffect, useState } from 'react';
+import type { Meta } from '@storybook/react';
+import type { Props } from './MiniPlayer';
 import { MiniPlayer, PlayerState } from './MiniPlayer';
 
 import { setupI18n } from '../util/setupI18n';
@@ -15,7 +17,7 @@ audio.src = '/fixtures/incompetech-com-Agnus-Dei-X.mp3';
 export default {
   title: 'components/MiniPlayer',
   component: MiniPlayer,
-};
+} satisfies Meta<Props>;
 
 export function Default(): JSX.Element {
   const [active, setActive] = useState(false);

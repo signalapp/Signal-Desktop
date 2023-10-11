@@ -3,8 +3,9 @@
 
 import React from 'react';
 import { action } from '@storybook/addon-actions';
+import type { Meta } from '@storybook/react';
+import type { PropsType } from './ToastVoiceNoteMustBeOnlyAttachment';
 import { ToastVoiceNoteMustBeOnlyAttachment } from './ToastVoiceNoteMustBeOnlyAttachment';
-
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
 
@@ -17,12 +18,8 @@ const defaultProps = {
 
 export default {
   title: 'Components/ToastVoiceNoteMustBeOnlyAttachment',
-};
+} satisfies Meta<PropsType>;
 
 export const _ToastVoiceNoteMustBeOnlyAttachment = (): JSX.Element => (
   <ToastVoiceNoteMustBeOnlyAttachment {...defaultProps} />
 );
-
-_ToastVoiceNoteMustBeOnlyAttachment.story = {
-  name: 'ToastVoiceNoteMustBeOnlyAttachment',
-};

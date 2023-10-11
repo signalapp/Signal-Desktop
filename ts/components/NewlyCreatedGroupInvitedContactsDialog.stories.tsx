@@ -5,6 +5,8 @@ import React from 'react';
 
 import { action } from '@storybook/addon-actions';
 
+import type { Meta } from '@storybook/react';
+import type { PropsType } from './NewlyCreatedGroupInvitedContactsDialog';
 import { NewlyCreatedGroupInvitedContactsDialog } from './NewlyCreatedGroupInvitedContactsDialog';
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
@@ -21,7 +23,7 @@ const conversations: Array<ConversationType> = [
 
 export default {
   title: 'Components/NewlyCreatedGroupInvitedContactsDialog',
-};
+} satisfies Meta<PropsType>;
 
 export function OneContact(): JSX.Element {
   return (
@@ -35,10 +37,6 @@ export function OneContact(): JSX.Element {
   );
 }
 
-OneContact.story = {
-  name: 'One contact',
-};
-
 export function TwoContacts(): JSX.Element {
   return (
     <NewlyCreatedGroupInvitedContactsDialog
@@ -50,7 +48,3 @@ export function TwoContacts(): JSX.Element {
     />
   );
 }
-
-TwoContacts.story = {
-  name: 'Two contacts',
-};

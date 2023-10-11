@@ -3,8 +3,7 @@
 
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
-import { boolean, text } from '@storybook/addon-knobs';
-
+import type { Meta } from '@storybook/react';
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
 import type { ContactType, Props } from './SafetyNumberNotification';
@@ -14,53 +13,54 @@ const i18n = setupI18n('en', enMessages);
 
 const createContact = (props: Partial<ContactType>): ContactType => ({
   id: '',
-  title: text('contact title', props.title || ''),
-});
-
-const createProps = (overrideProps: Partial<Props> = {}): Props => ({
-  i18n,
-  contact: overrideProps.contact || ({} as ContactType),
-  isGroup: boolean('isGroup', overrideProps.isGroup || false),
-  toggleSafetyNumberModal: action('toggleSafetyNumberModal'),
+  title: props.title ?? '',
 });
 
 export default {
   title: 'Components/Conversation/SafetyNumberNotification',
-};
-
-export function GroupConversation(): JSX.Element {
-  const props = createProps({
-    isGroup: true,
-    contact: createContact({
-      title: 'Mr. Fire',
-    }),
-  });
-
-  return <SafetyNumberNotification {...props} />;
-}
-
-export function DirectConversation(): JSX.Element {
-  const props = createProps({
+  argTypes: {
+    isGroup: { control: { type: 'boolean' } },
+  },
+  args: {
+    i18n,
+    contact: {} as ContactType,
     isGroup: false,
-    contact: createContact({
-      title: 'Mr. Fire',
-    }),
-  });
+    toggleSafetyNumberModal: action('toggleSafetyNumberModal'),
+  },
+} satisfies Meta<Props>;
 
-  return <SafetyNumberNotification {...props} />;
+export function GroupConversation(args: Props): JSX.Element {
+  return (
+    <SafetyNumberNotification
+      {...args}
+      isGroup
+      contact={createContact({
+        title: 'Mr. Fire',
+      })}
+    />
+  );
 }
 
-export function LongNameInGroup(): JSX.Element {
-  const props = createProps({
-    isGroup: true,
-    contact: createContact({
-      title: '🐈‍⬛🍕🎂'.repeat(50),
-    }),
-  });
-
-  return <SafetyNumberNotification {...props} />;
+export function DirectConversation(args: Props): JSX.Element {
+  return (
+    <SafetyNumberNotification
+      {...args}
+      isGroup
+      contact={createContact({
+        title: 'Mr. Fire',
+      })}
+    />
+  );
 }
 
-LongNameInGroup.story = {
-  name: 'Long name in group',
-};
+export function LongNameInGroup(args: Props): JSX.Element {
+  return (
+    <SafetyNumberNotification
+      {...args}
+      isGroup
+      contact={createContact({
+        title: '🐈‍⬛🍕🎂'.repeat(50),
+      })}
+    />
+  );
+}

@@ -54,7 +54,7 @@ function createEditedMessage(
   };
 }
 
-describe('editing', function needsName() {
+describe('editing', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);
   this.retries(4);
 
@@ -67,7 +67,7 @@ describe('editing', function needsName() {
     app = await bootstrap.link();
   });
 
-  afterEach(async function after() {
+  afterEach(async function (this: Mocha.Context) {
     if (!bootstrap) {
       return;
     }

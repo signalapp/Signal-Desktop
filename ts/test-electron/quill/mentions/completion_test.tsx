@@ -74,7 +74,7 @@ describe('MentionCompletion', () => {
   };
   let mentionCompletion: MentionCompletion;
 
-  beforeEach(function beforeEach() {
+  beforeEach(() => {
     const memberRepositoryRef: MutableRefObject<MemberRepository> = {
       current: new MemberRepository(conversations),
     };
@@ -234,7 +234,7 @@ describe('MentionCompletion', () => {
         const text = '@Sh';
         const index = text.length;
 
-        beforeEach(function beforeEach() {
+        beforeEach(() => {
           mockQuill.getSelection?.returns({ index });
 
           const blot = {

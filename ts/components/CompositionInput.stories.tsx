@@ -2,11 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-
 import 'react-quill/dist/quill.core.css';
-import { boolean, select } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
-
+import type { Meta } from '@storybook/react';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import type { Props } from './CompositionInput';
 import { CompositionInput } from './CompositionInput';
@@ -19,11 +17,13 @@ const i18n = setupI18n('en', enMessages);
 
 export default {
   title: 'Components/CompositionInput',
-};
+  argTypes: {},
+  args: {},
+} satisfies Meta<Props>;
 
 const useProps = (overrideProps: Partial<Props> = {}): Props => ({
   i18n,
-  disabled: boolean('disabled', overrideProps.disabled || false),
+  disabled: overrideProps.disabled ?? false,
   draftText: overrideProps.draftText || undefined,
   draftBodyRanges: overrideProps.draftBodyRanges || [],
   clearQuotedMessage: action('clearQuotedMessage'),
@@ -41,7 +41,7 @@ const useProps = (overrideProps: Partial<Props> = {}): Props => ({
     overrideProps.isFormattingEnabled === false
       ? overrideProps.isFormattingEnabled
       : true,
-  large: boolean('large', overrideProps.large || false),
+  large: overrideProps.large ?? false,
   onCloseLinkPreview: action('onCloseLinkPreview'),
   onEditorStateChange: action('onEditorStateChange'),
   onPickEmoji: action('onPickEmoji'),
@@ -49,19 +49,8 @@ const useProps = (overrideProps: Partial<Props> = {}): Props => ({
   onTextTooLong: action('onTextTooLong'),
   platform: 'darwin',
   sendCounter: 0,
-  sortedGroupMembers: overrideProps.sortedGroupMembers || [],
-  skinTone: select(
-    'skinTone',
-    {
-      skinTone0: 0,
-      skinTone1: 1,
-      skinTone2: 2,
-      skinTone3: 3,
-      skinTone4: 4,
-      skinTone5: 5,
-    },
-    overrideProps.skinTone || undefined
-  ),
+  sortedGroupMembers: overrideProps.sortedGroupMembers ?? [],
+  skinTone: overrideProps.skinTone ?? undefined,
   theme: React.useContext(StorybookThemeContext),
 });
 

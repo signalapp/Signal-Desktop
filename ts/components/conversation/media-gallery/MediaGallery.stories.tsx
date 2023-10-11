@@ -3,25 +3,23 @@
 
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
-
+import type { Meta } from '@storybook/react';
 import { setupI18n } from '../../../util/setupI18n';
 import enMessages from '../../../../_locales/en/messages.json';
-
+import type { Props } from './MediaGallery';
+import { MediaGallery } from './MediaGallery';
 import {
   createPreparedMediaItems,
   createRandomDocuments,
   createRandomMedia,
   days,
-  now,
-} from './AttachmentSection.stories';
-import type { Props } from './MediaGallery';
-import { MediaGallery } from './MediaGallery';
+} from './utils/mocks';
 
 const i18n = setupI18n('en', enMessages);
 
 export default {
   title: 'Components/Conversation/MediaGallery/MediaGallery',
-};
+} satisfies Meta<Props>;
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   conversationId: '123',
@@ -34,7 +32,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
 });
 
 export function Populated(): JSX.Element {
-  const documents = createRandomDocuments(now, days(1)).slice(0, 1);
+  const documents = createRandomDocuments(Date.now(), days(1)).slice(0, 1);
   const media = createPreparedMediaItems(createRandomMedia);
   const props = createProps({ documents, media });
 
@@ -56,8 +54,8 @@ export function NoMedia(): JSX.Element {
 }
 
 export function OneEach(): JSX.Element {
-  const media = createRandomMedia(now, days(1)).slice(0, 1);
-  const documents = createRandomDocuments(now, days(1)).slice(0, 1);
+  const media = createRandomMedia(Date.now(), days(1)).slice(0, 1);
+  const documents = createRandomDocuments(Date.now(), days(1)).slice(0, 1);
 
   const props = createProps({ documents, media });
 

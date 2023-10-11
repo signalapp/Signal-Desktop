@@ -2,9 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { boolean, number, text } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
-
+import type { Meta } from '@storybook/react';
 import type { PropsType } from './GroupV2JoinDialog';
 import { GroupV2JoinDialog } from './GroupV2JoinDialog';
 import { setupI18n } from '../util/setupI18n';
@@ -13,13 +12,10 @@ import enMessages from '../../_locales/en/messages.json';
 const i18n = setupI18n('en', enMessages);
 
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
-  memberCount: number('memberCount', overrideProps.memberCount || 12),
+  memberCount: overrideProps.memberCount ?? 12,
   avatar: overrideProps.avatar,
-  title: text('title', overrideProps.title || 'Random Group!'),
-  approvalRequired: boolean(
-    'approvalRequired',
-    overrideProps.approvalRequired || false
-  ),
+  title: overrideProps.title ?? 'Random Group!',
+  approvalRequired: overrideProps.approvalRequired ?? false,
   groupDescription: overrideProps.groupDescription,
   join: action('join'),
   onClose: action('onClose'),
@@ -28,7 +24,9 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
 
 export default {
   title: 'Components/GroupV2JoinDialog',
-};
+  argTypes: {},
+  args: {},
+} satisfies Meta<PropsType>;
 
 export function Basic(): JSX.Element {
   return <GroupV2JoinDialog {...createProps()} />;
@@ -45,10 +43,6 @@ export function ApprovalRequired(): JSX.Element {
   );
 }
 
-ApprovalRequired.story = {
-  name: 'Approval required',
-};
-
 export function WithAvatar(): JSX.Element {
   return (
     <GroupV2JoinDialog
@@ -62,10 +56,6 @@ export function WithAvatar(): JSX.Element {
   );
 }
 
-WithAvatar.story = {
-  name: 'With avatar',
-};
-
 export function WithOneMember(): JSX.Element {
   return (
     <GroupV2JoinDialog
@@ -76,10 +66,6 @@ export function WithOneMember(): JSX.Element {
     />
   );
 }
-
-WithOneMember.story = {
-  name: 'With one member',
-};
 
 export function AvatarLoadingState(): JSX.Element {
   return (
@@ -93,10 +79,6 @@ export function AvatarLoadingState(): JSX.Element {
     />
   );
 }
-
-AvatarLoadingState.story = {
-  name: 'Avatar loading state',
-};
 
 export function Full(): JSX.Element {
   return (

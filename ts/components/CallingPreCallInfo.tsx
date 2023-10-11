@@ -15,7 +15,7 @@ export enum RingMode {
   IsRinging,
 }
 
-type PropsType = {
+export type PropsType = {
   conversation: Pick<
     ConversationType,
     | 'acceptedMessageRequest'

@@ -18,7 +18,7 @@ export const debug = createDebug('mock:test:merge');
 
 const IdentifierType = Proto.ManifestRecord.Identifier.Type;
 
-describe('pnp/merge', function needsName() {
+describe('pnp/merge', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);
   this.retries(4);
 
@@ -93,7 +93,7 @@ describe('pnp/merge', function needsName() {
     app = await bootstrap.link();
   });
 
-  afterEach(async function after() {
+  afterEach(async function (this: Mocha.Context) {
     await bootstrap.maybeSaveLogs(this.currentTest, app);
     await app.close();
     await bootstrap.teardown();

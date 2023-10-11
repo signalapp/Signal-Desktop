@@ -23,7 +23,7 @@ const USERNAME = 'signalapp.55';
 const NICKNAME = 'signalapp';
 const CARL_USERNAME = 'carl.84';
 
-describe('pnp/username', function needsName() {
+describe('pnp/username', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);
   this.retries(4);
 
@@ -75,7 +75,7 @@ describe('pnp/username', function needsName() {
     app = await bootstrap.link();
   });
 
-  afterEach(async function after() {
+  afterEach(async function (this: Mocha.Context) {
     await bootstrap.maybeSaveLogs(this.currentTest, app);
     await app.close();
     await bootstrap.teardown();

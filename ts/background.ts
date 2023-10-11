@@ -3288,13 +3288,14 @@ export async function startApp(): Promise<void> {
       'onDeliveryReceipt: missing valid sourceServiceId'
     );
     strictAssert(sourceDevice, 'onDeliveryReceipt: missing sourceDevice');
+    strictAssert(sourceConversation, 'onDeliveryReceipt: missing conversation');
 
     const attributes: MessageReceiptAttributesType = {
       envelopeId: ev.deliveryReceipt.envelopeId,
       removeFromMessageReceiverCache: ev.confirm,
       messageSentAt: timestamp,
       receiptTimestamp: envelopeTimestamp,
-      sourceConversationId: sourceConversation?.id,
+      sourceConversationId: sourceConversation.id,
       sourceServiceId,
       sourceDevice,
       type: MessageReceipts.MessageReceiptType.Delivery,

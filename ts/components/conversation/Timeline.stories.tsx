@@ -4,9 +4,8 @@
 import * as React from 'react';
 import { times } from 'lodash';
 import { v4 as uuid } from 'uuid';
-import { text, boolean, number } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
-
+import type { Meta } from '@storybook/react';
 import { setupI18n } from '../../util/setupI18n';
 import { DurationInSeconds } from '../../util/durations';
 import enMessages from '../../../_locales/en/messages.json';
@@ -32,7 +31,9 @@ const i18n = setupI18n('en', enMessages);
 
 export default {
   title: 'Components/Conversation/Timeline',
-};
+  argTypes: {},
+  args: {},
+} satisfies Meta<PropsType>;
 
 // eslint-disable-next-line
 const noop = () => {};
@@ -405,12 +406,11 @@ const renderContactSpoofingReviewDialog = (
   return <ContactSpoofingReviewDialog {...props} {...sharedProps} />;
 };
 
-const getAbout = () => text('about', '👍 Free to chat');
-const getTitle = () => text('name', 'Cayce Bollard');
-const getProfileName = () => text('profileName', 'Cayce Bollard (profile)');
-const getAvatarPath = () =>
-  text('avatarPath', '/fixtures/kitten-4-112-112.jpg');
-const getPhoneNumber = () => text('phoneNumber', '+1 (808) 555-1234');
+const getAbout = () => '👍 Free to chat';
+const getTitle = () => 'Cayce Bollard';
+const getProfileName = () => 'Cayce Bollard (profile)';
+const getAvatarPath = () => '/fixtures/kitten-4-112-112.jpg';
+const getPhoneNumber = () => '+1 (808) 555-1234';
 
 const renderHeroRow = () => {
   function Wrapper() {
@@ -463,22 +463,17 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   theme: React.useContext(StorybookThemeContext),
 
   getTimestampForMessage: Date.now,
-  haveNewest: boolean('haveNewest', overrideProps.haveNewest !== false),
-  haveOldest: boolean('haveOldest', overrideProps.haveOldest !== false),
+  haveNewest: overrideProps.haveNewest ?? false,
+  haveOldest: overrideProps.haveOldest ?? false,
   isConversationSelected: true,
-  isIncomingMessageRequest: boolean(
-    'isIncomingMessageRequest',
-    overrideProps.isIncomingMessageRequest === true
-  ),
-  items: overrideProps.items || Object.keys(items),
+  isIncomingMessageRequest: overrideProps.isIncomingMessageRequest ?? false,
+  items: overrideProps.items ?? Object.keys(items),
   messageChangeCounter: 0,
   scrollToIndex: overrideProps.scrollToIndex,
   scrollToIndexCounter: 0,
   shouldShowMiniPlayer: Boolean(overrideProps.shouldShowMiniPlayer),
-  totalUnseen: number('totalUnseen', overrideProps.totalUnseen || 0),
-  oldestUnseenIndex:
-    number('oldestUnseenIndex', overrideProps.oldestUnseenIndex || 0) ||
-    undefined,
+  totalUnseen: overrideProps.totalUnseen ?? 0,
+  oldestUnseenIndex: overrideProps.oldestUnseenIndex ?? 0,
   invitedContactsForNewlyCreatedGroup:
     overrideProps.invitedContactsForNewlyCreatedGroup || [],
   warning: overrideProps.warning,
@@ -500,10 +495,6 @@ export function OldestAndNewest(): JSX.Element {
   return <Timeline {...props} />;
 }
 
-OldestAndNewest.story = {
-  name: 'Oldest and Newest',
-};
-
 export function WithActiveMessageRequest(): JSX.Element {
   const props = useProps({
     isIncomingMessageRequest: true,
@@ -511,10 +502,6 @@ export function WithActiveMessageRequest(): JSX.Element {
 
   return <Timeline {...props} />;
 }
-
-WithActiveMessageRequest.story = {
-  name: 'With active message request',
-};
 
 export function WithoutNewestMessage(): JSX.Element {
   const props = useProps({
@@ -533,10 +520,6 @@ export function WithoutNewestMessageActiveMessageRequest(): JSX.Element {
   return <Timeline {...props} />;
 }
 
-WithoutNewestMessageActiveMessageRequest.story = {
-  name: 'Without newest message, active message request',
-};
-
 export function WithoutOldestMessage(): JSX.Element {
   const props = useProps({
     haveOldest: false,
@@ -554,10 +537,6 @@ export function EmptyJustHero(): JSX.Element {
   return <Timeline {...props} />;
 }
 
-EmptyJustHero.story = {
-  name: 'Empty (just hero)',
-};
-
 export function LastSeen(): JSX.Element {
   const props = useProps({
     oldestUnseenIndex: 13,
@@ -574,10 +553,6 @@ export function TargetIndexToTop(): JSX.Element {
 
   return <Timeline {...props} />;
 }
-
-TargetIndexToTop.story = {
-  name: 'Target Index to Top',
-};
 
 export function TypingIndicator(): JSX.Element {
   const props = useProps({ isSomeoneTyping: true });
@@ -602,10 +577,6 @@ export function WithInvitedContactsForANewlyCreatedGroup(): JSX.Element {
   return <Timeline {...props} />;
 }
 
-WithInvitedContactsForANewlyCreatedGroup.story = {
-  name: 'With invited contacts for a newly-created group',
-};
-
 export function WithSameNameInDirectConversationWarning(): JSX.Element {
   const props = useProps({
     warning: {
@@ -617,10 +588,6 @@ export function WithSameNameInDirectConversationWarning(): JSX.Element {
 
   return <Timeline {...props} />;
 }
-
-WithSameNameInDirectConversationWarning.story = {
-  name: 'With "same name in direct conversation" warning',
-};
 
 export function WithSameNameInGroupConversationWarning(): JSX.Element {
   const props = useProps({
@@ -637,10 +604,6 @@ export function WithSameNameInGroupConversationWarning(): JSX.Element {
 
   return <Timeline {...props} />;
 }
-
-WithSameNameInGroupConversationWarning.story = {
-  name: 'With "same name in group conversation" warning',
-};
 
 export function WithJustMiniPlayer(): JSX.Element {
   const props = useProps({

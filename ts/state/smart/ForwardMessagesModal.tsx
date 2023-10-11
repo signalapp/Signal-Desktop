@@ -20,10 +20,6 @@ import {
 import { getIntl, getTheme, getRegionCode } from '../selectors/user';
 import { getLinkPreview } from '../selectors/linkPreviews';
 import { getPreferredBadgeSelector } from '../selectors/badges';
-import type {
-  ForwardMessageData,
-  MessageForwardDraft,
-} from '../../util/maybeForwardMessages';
 import { maybeForwardMessages } from '../../util/maybeForwardMessages';
 import {
   maybeGrabLinkPreview,
@@ -37,6 +33,10 @@ import { hydrateRanges } from '../../types/BodyRange';
 import { isDownloaded } from '../../types/Attachment';
 import { __DEPRECATED$getMessageById } from '../../messages/getMessageById';
 import { strictAssert } from '../../util/assert';
+import type {
+  ForwardMessageData,
+  MessageForwardDraft,
+} from '../../types/ForwardDraft';
 
 function toMessageForwardDraft(
   props: ForwardMessagePropsType,

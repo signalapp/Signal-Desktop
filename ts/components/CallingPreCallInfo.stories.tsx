@@ -3,10 +3,11 @@
 
 import React from 'react';
 import { times } from 'lodash';
+import type { Meta } from '@storybook/react';
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
-
+import type { PropsType } from './CallingPreCallInfo';
 import { CallingPreCallInfo, RingMode } from './CallingPreCallInfo';
 
 const i18n = setupI18n('en', enMessages);
@@ -22,7 +23,7 @@ const otherMembers = times(6, () => getDefaultConversation());
 
 export default {
   title: 'Components/CallingPreCallInfo',
-};
+} satisfies Meta<PropsType>;
 
 export function DirectConversation(): JSX.Element {
   return (
@@ -34,10 +35,6 @@ export function DirectConversation(): JSX.Element {
     />
   );
 }
-
-DirectConversation.story = {
-  name: 'Direct conversation',
-};
 
 export function Ring0(): JSX.Element {
   return (
@@ -52,10 +49,6 @@ export function Ring0(): JSX.Element {
   );
 }
 
-Ring0.story = {
-  name: 'Group call: Will ring 0 people',
-};
-
 export function Ring1(): JSX.Element {
   return (
     <CallingPreCallInfo
@@ -68,10 +61,6 @@ export function Ring1(): JSX.Element {
     />
   );
 }
-
-Ring1.story = {
-  name: 'Group call: Will ring 1 person',
-};
 
 export function Ring2(): JSX.Element {
   return (
@@ -86,10 +75,6 @@ export function Ring2(): JSX.Element {
   );
 }
 
-Ring2.story = {
-  name: 'Group call: Will ring 2 people',
-};
-
 export function Ring3(): JSX.Element {
   return (
     <CallingPreCallInfo
@@ -102,10 +87,6 @@ export function Ring3(): JSX.Element {
     />
   );
 }
-
-Ring3.story = {
-  name: 'Group call: Will ring 3 people',
-};
 
 export function Ring4(): JSX.Element {
   return (
@@ -120,10 +101,6 @@ export function Ring4(): JSX.Element {
   );
 }
 
-Ring3.story = {
-  name: 'Group call: Will ring 4 people',
-};
-
 export function Notify0(): JSX.Element {
   return (
     <CallingPreCallInfo
@@ -136,10 +113,6 @@ export function Notify0(): JSX.Element {
     />
   );
 }
-
-Notify0.story = {
-  name: 'Group call: Will notify 0 people',
-};
 
 export function Notify1(): JSX.Element {
   return (
@@ -154,10 +127,6 @@ export function Notify1(): JSX.Element {
   );
 }
 
-Notify1.story = {
-  name: 'Group call: Will notify 1 person',
-};
-
 export function Notify2(): JSX.Element {
   return (
     <CallingPreCallInfo
@@ -170,10 +139,6 @@ export function Notify2(): JSX.Element {
     />
   );
 }
-
-Notify2.story = {
-  name: 'Group call: Will notify 2 people',
-};
 
 export function Notify3(): JSX.Element {
   return (
@@ -188,10 +153,6 @@ export function Notify3(): JSX.Element {
   );
 }
 
-Notify3.story = {
-  name: 'Group call: Will notify 3 people',
-};
-
 export function Notify4(): JSX.Element {
   return (
     <CallingPreCallInfo
@@ -204,10 +165,6 @@ export function Notify4(): JSX.Element {
     />
   );
 }
-
-Notify4.story = {
-  name: 'Group call: Will notify 4 people',
-};
 
 export function Peek1(): JSX.Element {
   return (
@@ -222,10 +179,6 @@ export function Peek1(): JSX.Element {
   );
 }
 
-Peek1.story = {
-  name: 'Group call: 1 participant peeked',
-};
-
 export function Peek2(): JSX.Element {
   return (
     <CallingPreCallInfo
@@ -238,10 +191,6 @@ export function Peek2(): JSX.Element {
     />
   );
 }
-
-Peek2.story = {
-  name: 'Group call: 2 participants peeked',
-};
 
 export function Peek3(): JSX.Element {
   return (
@@ -256,10 +205,6 @@ export function Peek3(): JSX.Element {
   );
 }
 
-Peek3.story = {
-  name: 'Group call: 3 participants peeked',
-};
-
 export function Peek4(): JSX.Element {
   return (
     <CallingPreCallInfo
@@ -272,10 +217,6 @@ export function Peek4(): JSX.Element {
     />
   );
 }
-
-Peek4.story = {
-  name: 'Group call: 4 participants peeked',
-};
 
 export function GroupConversationYouOnAnOtherDevice(): JSX.Element {
   const me = getDefaultConversation();
@@ -291,10 +232,6 @@ export function GroupConversationYouOnAnOtherDevice(): JSX.Element {
   );
 }
 
-GroupConversationYouOnAnOtherDevice.story = {
-  name: 'Group conversation, you on an other device',
-};
-
 export function GroupConversationCallIsFull(): JSX.Element {
   return (
     <CallingPreCallInfo
@@ -308,7 +245,3 @@ export function GroupConversationCallIsFull(): JSX.Element {
     />
   );
 }
-
-GroupConversationCallIsFull.story = {
-  name: 'Group conversation, call is full',
-};

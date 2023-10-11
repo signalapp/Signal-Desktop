@@ -12,7 +12,7 @@ import { strictAssert } from '../../util/assert';
 import { isUntaggedPniString, toTaggedPni } from '../../types/ServiceId';
 import { isAciString } from '../../util/isAciString';
 import * as Bytes from '../../Bytes';
-import { UUID_BYTE_SIZE } from '../../Crypto';
+import { UUID_BYTE_SIZE } from '../../types/Crypto';
 import { uuidToBytes, bytesToUuid } from '../../util/uuidToBytes';
 import { SignalService as Proto } from '../../protobuf';
 import type {

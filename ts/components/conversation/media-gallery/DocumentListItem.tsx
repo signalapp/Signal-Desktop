@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import moment from 'moment';
 import formatFileSize from 'filesize';
 
-type Props = {
+export type Props = {
   // Required
   timestamp: number;
 

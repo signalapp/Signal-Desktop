@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Meta, Story } from '@storybook/react';
+import type { Meta, StoryFn } from '@storybook/react';
 import * as React from 'react';
 
 import type { Props } from './Intl';
@@ -14,7 +14,7 @@ const i18n = setupI18n('en', enMessages);
 export default {
   title: 'Components/Intl',
   component: Intl,
-} as Meta;
+} satisfies Meta<Props>;
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   i18n,
@@ -24,7 +24,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
 
 // eslint-disable-next-line max-len
 // eslint-disable-next-line react/function-component-definition, local-rules/valid-i18n-keys
-const Template: Story<Props> = args => <Intl {...args} />;
+const Template: StoryFn<Props> = args => <Intl {...args} />;
 
 export const NoReplacements = Template.bind({});
 NoReplacements.args = createProps({

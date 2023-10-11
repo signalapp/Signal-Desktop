@@ -57,7 +57,7 @@ describe('async iterable utilities', () => {
     });
 
     it('resolves to an array when wrapping an asynchronous iterable', async () => {
-      const iterable = (async function* test() {
+      const iterable = (async function* () {
         yield 1;
         yield 2;
         yield 3;

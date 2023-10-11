@@ -2,10 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-
 import { action } from '@storybook/addon-actions';
-import { boolean, select } from '@storybook/addon-knobs';
-
+import type { Meta } from '@storybook/react';
 import type { PropsType } from './LeftPane';
 import { LeftPane, LeftPaneMode } from './LeftPane';
 import { CaptchaDialog } from './CaptchaDialog';
@@ -45,7 +43,9 @@ type OverridePropsType = Partial<PropsType> & {
 
 export default {
   title: 'Components/LeftPane',
-};
+  argTypes: {},
+  args: {},
+} satisfies Meta<PropsType>;
 
 const defaultConversations: Array<ConversationType> = [
   getDefaultConversation({
@@ -126,11 +126,8 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
     };
   }
 
-  const isUpdateDownloaded = boolean('isUpdateDownloaded', false);
-  const isContactManagementEnabled = boolean(
-    'isContactManagementEnabled',
-    true
-  );
+  const isUpdateDownloaded = false;
+  const isContactManagementEnabled = true;
 
   return {
     otherTabsUnreadStats: {
@@ -151,28 +148,20 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
     hasFailedStorySends: false,
     hasPendingUpdate: false,
     i18n,
-    isMacOS: boolean('isMacOS', false),
+    isMacOS: false,
     preferredWidthFromStorage: 320,
     regionCode: 'US',
-    challengeStatus: select(
-      'challengeStatus',
-      ['idle', 'required', 'pending'],
-      'idle'
-    ),
-    crashReportCount: select('challengeReportCount', [0, 1], 0),
+    challengeStatus: 'idle',
+    crashReportCount: 0,
 
-    hasNetworkDialog: boolean('hasNetworkDialog', false),
-    hasExpiredDialog: boolean('hasExpiredDialog', false),
-    hasRelinkDialog: boolean('hasRelinkDialog', false),
-    hasUpdateDialog: boolean('hasUpdateDialog', false),
-    unsupportedOSDialogType: select(
-      'unsupportedOSDialogType',
-      ['error', 'warning', undefined],
-      undefined
-    ),
+    hasNetworkDialog: false,
+    hasExpiredDialog: false,
+    hasRelinkDialog: false,
+    hasUpdateDialog: false,
+    unsupportedOSDialogType: undefined,
     isUpdateDownloaded,
     isContactManagementEnabled,
-    navTabsCollapsed: boolean('navTabsCollapsed', false),
+    navTabsCollapsed: false,
 
     setChallengeStatus: action('setChallengeStatus'),
     lookupConversationWithoutServiceId:
@@ -315,10 +304,6 @@ export function InboxNoConversations(): JSX.Element {
   );
 }
 
-InboxNoConversations.story = {
-  name: 'Inbox: no conversations',
-};
-
 export function InboxOnlyPinnedConversations(): JSX.Element {
   return (
     <LeftPaneInContainer
@@ -335,10 +320,6 @@ export function InboxOnlyPinnedConversations(): JSX.Element {
     />
   );
 }
-
-InboxOnlyPinnedConversations.story = {
-  name: 'Inbox: only pinned conversations',
-};
 
 export function InboxOnlyNonPinnedConversations(): JSX.Element {
   return (
@@ -357,10 +338,6 @@ export function InboxOnlyNonPinnedConversations(): JSX.Element {
   );
 }
 
-InboxOnlyNonPinnedConversations.story = {
-  name: 'Inbox: only non-pinned conversations',
-};
-
 export function InboxOnlyArchivedConversations(): JSX.Element {
   return (
     <LeftPaneInContainer
@@ -377,10 +354,6 @@ export function InboxOnlyArchivedConversations(): JSX.Element {
     />
   );
 }
-
-InboxOnlyArchivedConversations.story = {
-  name: 'Inbox: only archived conversations',
-};
 
 export function InboxPinnedAndArchivedConversations(): JSX.Element {
   return (
@@ -399,10 +372,6 @@ export function InboxPinnedAndArchivedConversations(): JSX.Element {
   );
 }
 
-InboxPinnedAndArchivedConversations.story = {
-  name: 'Inbox: pinned and archived conversations',
-};
-
 export function InboxNonPinnedAndArchivedConversations(): JSX.Element {
   return (
     <LeftPaneInContainer
@@ -419,10 +388,6 @@ export function InboxNonPinnedAndArchivedConversations(): JSX.Element {
     />
   );
 }
-
-InboxNonPinnedAndArchivedConversations.story = {
-  name: 'Inbox: non-pinned and archived conversations',
-};
 
 export function InboxPinnedAndNonPinnedConversations(): JSX.Element {
   return (
@@ -441,17 +406,9 @@ export function InboxPinnedAndNonPinnedConversations(): JSX.Element {
   );
 }
 
-InboxPinnedAndNonPinnedConversations.story = {
-  name: 'Inbox: pinned and non-pinned conversations',
-};
-
 export function InboxPinnedNonPinnedAndArchivedConversations(): JSX.Element {
   return <LeftPaneInContainer {...useProps()} />;
 }
-
-InboxPinnedNonPinnedAndArchivedConversations.story = {
-  name: 'Inbox: pinned, non-pinned, and archived conversations',
-};
 
 export function SearchNoResultsWhenSearchingEverywhere(): JSX.Element {
   return (
@@ -470,10 +427,6 @@ export function SearchNoResultsWhenSearchingEverywhere(): JSX.Element {
   );
 }
 
-SearchNoResultsWhenSearchingEverywhere.story = {
-  name: 'Search: no results when searching everywhere',
-};
-
 export function SearchNoResultsWhenSearchingEverywhereSms(): JSX.Element {
   return (
     <LeftPaneInContainer
@@ -490,10 +443,6 @@ export function SearchNoResultsWhenSearchingEverywhereSms(): JSX.Element {
     />
   );
 }
-
-SearchNoResultsWhenSearchingEverywhereSms.story = {
-  name: 'Search: no results when searching everywhere (SMS)',
-};
 
 export function SearchNoResultsWhenSearchingInAConversation(): JSX.Element {
   return (
@@ -513,10 +462,6 @@ export function SearchNoResultsWhenSearchingInAConversation(): JSX.Element {
   );
 }
 
-SearchNoResultsWhenSearchingInAConversation.story = {
-  name: 'Search: no results when searching in a conversation',
-};
-
 export function SearchAllResultsLoading(): JSX.Element {
   return (
     <LeftPaneInContainer
@@ -533,10 +478,6 @@ export function SearchAllResultsLoading(): JSX.Element {
     />
   );
 }
-
-SearchAllResultsLoading.story = {
-  name: 'Search: all results loading',
-};
 
 export function SearchSomeResultsLoading(): JSX.Element {
   return (
@@ -558,10 +499,6 @@ export function SearchSomeResultsLoading(): JSX.Element {
   );
 }
 
-SearchSomeResultsLoading.story = {
-  name: 'Search: some results loading',
-};
-
 export function SearchHasConversationsAndContactsButNotMessages(): JSX.Element {
   return (
     <LeftPaneInContainer
@@ -581,10 +518,6 @@ export function SearchHasConversationsAndContactsButNotMessages(): JSX.Element {
     />
   );
 }
-
-SearchHasConversationsAndContactsButNotMessages.story = {
-  name: 'Search: has conversations and contacts, but not messages',
-};
 
 export function SearchAllResults(): JSX.Element {
   return (
@@ -612,10 +545,6 @@ export function SearchAllResults(): JSX.Element {
   );
 }
 
-SearchAllResults.story = {
-  name: 'Search: all results',
-};
-
 export function ArchiveNoArchivedConversations(): JSX.Element {
   return (
     <LeftPaneInContainer
@@ -631,10 +560,6 @@ export function ArchiveNoArchivedConversations(): JSX.Element {
     />
   );
 }
-
-ArchiveNoArchivedConversations.story = {
-  name: 'Archive: no archived conversations',
-};
 
 export function ArchiveArchivedConversations(): JSX.Element {
   return (
@@ -652,10 +577,6 @@ export function ArchiveArchivedConversations(): JSX.Element {
   );
 }
 
-ArchiveArchivedConversations.story = {
-  name: 'Archive: archived conversations',
-};
-
 export function ArchiveSearchingAConversation(): JSX.Element {
   return (
     <LeftPaneInContainer
@@ -671,10 +592,6 @@ export function ArchiveSearchingAConversation(): JSX.Element {
     />
   );
 }
-
-ArchiveSearchingAConversation.story = {
-  name: 'Archive: searching a conversation',
-};
 
 export function ComposeNoResults(): JSX.Element {
   return (
@@ -694,10 +611,6 @@ export function ComposeNoResults(): JSX.Element {
   );
 }
 
-ComposeNoResults.story = {
-  name: 'Compose: no results',
-};
-
 export function ComposeSomeContactsNoSearchTerm(): JSX.Element {
   return (
     <LeftPaneInContainer
@@ -715,10 +628,6 @@ export function ComposeSomeContactsNoSearchTerm(): JSX.Element {
     />
   );
 }
-
-ComposeSomeContactsNoSearchTerm.story = {
-  name: 'Compose: some contacts, no search term',
-};
 
 export function ComposeSomeContactsWithASearchTerm(): JSX.Element {
   return (
@@ -738,10 +647,6 @@ export function ComposeSomeContactsWithASearchTerm(): JSX.Element {
   );
 }
 
-ComposeSomeContactsWithASearchTerm.story = {
-  name: 'Compose: some contacts, with a search term',
-};
-
 export function ComposeSomeGroupsNoSearchTerm(): JSX.Element {
   return (
     <LeftPaneInContainer
@@ -759,10 +664,6 @@ export function ComposeSomeGroupsNoSearchTerm(): JSX.Element {
     />
   );
 }
-
-ComposeSomeGroupsNoSearchTerm.story = {
-  name: 'Compose: some groups, no search term',
-};
 
 export function ComposeSomeGroupsWithSearchTerm(): JSX.Element {
   return (
@@ -782,10 +683,6 @@ export function ComposeSomeGroupsWithSearchTerm(): JSX.Element {
   );
 }
 
-ComposeSomeGroupsWithSearchTerm.story = {
-  name: 'Compose: some groups, with search term',
-};
-
 export function ComposeSearchIsValidUsername(): JSX.Element {
   return (
     <LeftPaneInContainer
@@ -803,10 +700,6 @@ export function ComposeSearchIsValidUsername(): JSX.Element {
     />
   );
 }
-
-ComposeSearchIsValidUsername.story = {
-  name: 'Compose: search is valid username',
-};
 
 export function ComposeSearchIsValidUsernameFetchingUsername(): JSX.Element {
   return (
@@ -828,10 +721,6 @@ export function ComposeSearchIsValidUsernameFetchingUsername(): JSX.Element {
   );
 }
 
-ComposeSearchIsValidUsernameFetchingUsername.story = {
-  name: 'Compose: search is valid username, fetching username',
-};
-
 export function ComposeSearchIsValidUsernameButFlagIsNotEnabled(): JSX.Element {
   return (
     <LeftPaneInContainer
@@ -849,10 +738,6 @@ export function ComposeSearchIsValidUsernameButFlagIsNotEnabled(): JSX.Element {
     />
   );
 }
-
-ComposeSearchIsValidUsernameButFlagIsNotEnabled.story = {
-  name: 'Compose: search is valid username, but flag is not enabled',
-};
 
 export function ComposeSearchIsPartialPhoneNumber(): JSX.Element {
   return (
@@ -872,10 +757,6 @@ export function ComposeSearchIsPartialPhoneNumber(): JSX.Element {
   );
 }
 
-ComposeSearchIsPartialPhoneNumber.story = {
-  name: 'Compose: search is partial phone number',
-};
-
 export function ComposeSearchIsValidPhoneNumber(): JSX.Element {
   return (
     <LeftPaneInContainer
@@ -893,10 +774,6 @@ export function ComposeSearchIsValidPhoneNumber(): JSX.Element {
     />
   );
 }
-
-ComposeSearchIsValidPhoneNumber.story = {
-  name: 'Compose: search is valid phone number',
-};
 
 export function ComposeSearchIsValidPhoneNumberFetchingPhoneNumber(): JSX.Element {
   return (
@@ -918,10 +795,6 @@ export function ComposeSearchIsValidPhoneNumberFetchingPhoneNumber(): JSX.Elemen
   );
 }
 
-ComposeSearchIsValidPhoneNumberFetchingPhoneNumber.story = {
-  name: 'Compose: search is valid phone number, fetching phone number',
-};
-
 export function ComposeAllKindsOfResultsNoSearchTerm(): JSX.Element {
   return (
     <LeftPaneInContainer
@@ -940,10 +813,6 @@ export function ComposeAllKindsOfResultsNoSearchTerm(): JSX.Element {
   );
 }
 
-ComposeAllKindsOfResultsNoSearchTerm.story = {
-  name: 'Compose: all kinds of results, no search term',
-};
-
 export function ComposeAllKindsOfResultsWithASearchTerm(): JSX.Element {
   return (
     <LeftPaneInContainer
@@ -961,10 +830,6 @@ export function ComposeAllKindsOfResultsWithASearchTerm(): JSX.Element {
     />
   );
 }
-
-ComposeAllKindsOfResultsWithASearchTerm.story = {
-  name: 'Compose: all kinds of results, with a search term',
-};
 
 export function CaptchaDialogRequired(): JSX.Element {
   return (
@@ -985,10 +850,6 @@ export function CaptchaDialogRequired(): JSX.Element {
   );
 }
 
-CaptchaDialogRequired.story = {
-  name: 'Captcha dialog: required',
-};
-
 export function CaptchaDialogPending(): JSX.Element {
   return (
     <LeftPaneInContainer
@@ -1008,30 +869,24 @@ export function CaptchaDialogPending(): JSX.Element {
   );
 }
 
-CaptchaDialogPending.story = {
-  name: 'Captcha dialog: pending',
-};
-
-export const _CrashReportDialog = (): JSX.Element => (
-  <LeftPaneInContainer
-    {...useProps({
-      modeSpecificProps: {
-        ...defaultSearchProps,
-        mode: LeftPaneMode.Inbox,
-        pinnedConversations,
-        conversations: defaultConversations,
-        archivedConversations: [],
-        isAboutToSearch: false,
-        searchTerm: '',
-      },
-      crashReportCount: 42,
-    })}
-  />
-);
-
-_CrashReportDialog.story = {
-  name: 'Crash report dialog',
-};
+export function _CrashReportDialog(): JSX.Element {
+  return (
+    <LeftPaneInContainer
+      {...useProps({
+        modeSpecificProps: {
+          ...defaultSearchProps,
+          mode: LeftPaneMode.Inbox,
+          pinnedConversations,
+          conversations: defaultConversations,
+          archivedConversations: [],
+          isAboutToSearch: false,
+          searchTerm: '',
+        },
+        crashReportCount: 42,
+      })}
+    />
+  );
+}
 
 export function ChooseGroupMembersPartialPhoneNumber(): JSX.Element {
   return (
@@ -1055,10 +910,6 @@ export function ChooseGroupMembersPartialPhoneNumber(): JSX.Element {
   );
 }
 
-ChooseGroupMembersPartialPhoneNumber.story = {
-  name: 'Choose Group Members: Partial phone number',
-};
-
 export function ChooseGroupMembersValidPhoneNumber(): JSX.Element {
   return (
     <LeftPaneInContainer
@@ -1080,10 +931,6 @@ export function ChooseGroupMembersValidPhoneNumber(): JSX.Element {
     />
   );
 }
-
-ChooseGroupMembersValidPhoneNumber.story = {
-  name: 'Choose Group Members: Valid phone number',
-};
 
 export function ChooseGroupMembersUsername(): JSX.Element {
   return (
@@ -1107,10 +954,6 @@ export function ChooseGroupMembersUsername(): JSX.Element {
   );
 }
 
-ChooseGroupMembersUsername.story = {
-  name: 'Choose Group Members: username',
-};
-
 export function GroupMetadataNoTimer(): JSX.Element {
   return (
     <LeftPaneInContainer
@@ -1130,10 +973,6 @@ export function GroupMetadataNoTimer(): JSX.Element {
     />
   );
 }
-
-GroupMetadataNoTimer.story = {
-  name: 'Group Metadata: No Timer',
-};
 
 export function GroupMetadataRegularTimer(): JSX.Element {
   return (
@@ -1155,10 +994,6 @@ export function GroupMetadataRegularTimer(): JSX.Element {
   );
 }
 
-GroupMetadataRegularTimer.story = {
-  name: 'Group Metadata: Regular Timer',
-};
-
 export function GroupMetadataCustomTimer(): JSX.Element {
   return (
     <LeftPaneInContainer
@@ -1178,10 +1013,6 @@ export function GroupMetadataCustomTimer(): JSX.Element {
     />
   );
 }
-
-GroupMetadataCustomTimer.story = {
-  name: 'Group Metadata: Custom Timer',
-};
 
 export function SearchingConversation(): JSX.Element {
   return (

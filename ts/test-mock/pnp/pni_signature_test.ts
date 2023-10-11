@@ -23,7 +23,7 @@ export const debug = createDebug('mock:test:pni-signature');
 
 const IdentifierType = Proto.ManifestRecord.Identifier.Type;
 
-describe('pnp/PNI Signature', function needsName() {
+describe('pnp/PNI Signature', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);
   this.retries(4);
 
@@ -88,7 +88,7 @@ describe('pnp/PNI Signature', function needsName() {
     app = await bootstrap.link();
   });
 
-  afterEach(async function after() {
+  afterEach(async function (this: Mocha.Context) {
     await bootstrap.maybeSaveLogs(this.currentTest, app);
     await app.close();
     await bootstrap.teardown();

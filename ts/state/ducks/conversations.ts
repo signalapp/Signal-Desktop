@@ -162,11 +162,11 @@ import {
   handleLeaveConversation,
 } from './composer';
 import { ReceiptType } from '../../types/Receipt';
-import { sortByMessageOrder } from '../../util/maybeForwardMessages';
 import { Sound, SoundType } from '../../util/Sound';
 import { canEditMessage } from '../../util/canEditMessage';
 import type { ChangeNavTabActionType } from './nav';
 import { CHANGE_NAV_TAB, NavTab, actions as navActions } from './nav';
+import { sortByMessageOrder } from '../../types/ForwardDraft';
 
 // State
 

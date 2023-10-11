@@ -11,7 +11,7 @@ export enum SystemMessageKind {
   Error = 'Error',
 }
 
-type PropsType = {
+export type PropsType = {
   icon: string;
   contents: ReactNode;
   button?: ReactNode;

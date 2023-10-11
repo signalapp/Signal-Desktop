@@ -11,3 +11,5 @@ export enum CipherType {
   AES256CTR = 'aes-256-ctr',
   AES256GCM = 'aes-256-gcm',
 }
+
+export const UUID_BYTE_SIZE = 16;

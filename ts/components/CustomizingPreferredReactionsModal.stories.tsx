@@ -5,16 +5,18 @@ import type { ComponentProps } from 'react';
 import React from 'react';
 
 import { action } from '@storybook/addon-actions';
+import type { Meta } from '@storybook/react';
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
 
+import type { PropsType } from './CustomizingPreferredReactionsModal';
 import { CustomizingPreferredReactionsModal } from './CustomizingPreferredReactionsModal';
 
 const i18n = setupI18n('en', enMessages);
 
 export default {
   title: 'Components/CustomizingPreferredReactionsModal',
-};
+} satisfies Meta<PropsType>;
 
 const defaultProps: ComponentProps<typeof CustomizingPreferredReactionsModal> =
   {
@@ -50,10 +52,6 @@ export function DraftEmojiSelected(): JSX.Element {
   );
 }
 
-DraftEmojiSelected.story = {
-  name: 'Draft emoji selected',
-};
-
 export function Saving(): JSX.Element {
   return <CustomizingPreferredReactionsModal {...defaultProps} isSaving />;
 }
@@ -61,7 +59,3 @@ export function Saving(): JSX.Element {
 export function HadError(): JSX.Element {
   return <CustomizingPreferredReactionsModal {...defaultProps} hadSaveError />;
 }
-
-HadError.story = {
-  name: 'Had error',
-};

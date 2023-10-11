@@ -1,9 +1,10 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Meta, Story } from '@storybook/react';
+import type { Meta } from '@storybook/react';
 import React from 'react';
 
+import { action } from '@storybook/addon-actions';
 import type { PropsType } from './SendStoryModal';
 import enMessages from '../../_locales/en/messages.json';
 import { SendStoryModal } from './SendStoryModal';
@@ -17,6 +18,7 @@ import {
   getFakeDistributionListsWithMembers,
 } from '../test-both/helpers/getFakeDistributionLists';
 import { VIDEO_MP4 } from '../types/MIME';
+import type { StoryDistributionIdString } from '../types/StoryDistributionId';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -28,99 +30,104 @@ const myStories = {
 export default {
   title: 'Components/SendStoryModal',
   component: SendStoryModal,
-  argTypes: {
+  args: {
     draftAttachment: {
-      defaultValue: {
-        contentType: VIDEO_MP4,
-        fileName: 'pixabay-Soap-Bubble-7141.mp4',
-        url: '/fixtures/pixabay-Soap-Bubble-7141.mp4',
-      },
+      contentType: VIDEO_MP4,
+      fileName: 'pixabay-Soap-Bubble-7141.mp4',
+      url: '/fixtures/pixabay-Soap-Bubble-7141.mp4',
+      size: 1,
     },
-    candidateConversations: {
-      defaultValue: Array.from(Array(100), () => getDefaultConversation()),
-    },
-    distributionLists: {
-      defaultValue: [myStories],
-    },
-    getPreferredBadge: { action: true },
-    groupConversations: {
-      defaultValue: Array.from(Array(7), getDefaultGroup),
-    },
-    groupStories: {
-      defaultValue: Array.from(Array(2), getDefaultGroup),
-    },
-    hasFirstStoryPostExperience: {
-      defaultValue: false,
-    },
-    i18n: {
-      defaultValue: i18n,
-    },
-    me: {
-      defaultValue: getDefaultConversation(),
-    },
-    onClose: { action: true },
-    onDeleteList: { action: true },
-    onDistributionListCreated: { action: true },
-    onHideMyStoriesFrom: { action: true },
-    onMediaPlaybackStart: { action: true },
-    onSend: { action: true },
-    onViewersUpdated: { action: true },
-    setMyStoriesToAllSignalConnections: { action: true },
-    mostRecentActiveStoryTimestampByGroupOrDistributionList: {
-      defaultValue: {},
-    },
-    signalConnections: {
-      defaultValue: Array.from(Array(42), getDefaultConversation),
-    },
-    toggleGroupsForStorySend: { action: true },
-    toggleSignalConnectionsModal: { action: true },
+    candidateConversations: Array.from(Array(100), () =>
+      getDefaultConversation()
+    ),
+    distributionLists: [myStories],
+    getPreferredBadge: () => undefined,
+    groupConversations: Array.from(Array(7), getDefaultGroup),
+    groupStories: Array.from(Array(2), getDefaultGroup),
+    hasFirstStoryPostExperience: false,
+    i18n,
+    me: getDefaultConversation(),
+    onClose: action('onClose'),
+    onDeleteList: action('onDeleteList'),
+    onDistributionListCreated: () =>
+      Promise.resolve('' as StoryDistributionIdString),
+    onHideMyStoriesFrom: action('onHideMyStoriesFrom'),
+    onMediaPlaybackStart: action('onMediaPlaybackStart'),
+    onSend: action('onSend'),
+    onViewersUpdated: action('onViewersUpdated'),
+    setMyStoriesToAllSignalConnections: action(
+      'setMyStoriesToAllSignalConnections'
+    ),
+    mostRecentActiveStoryTimestampByGroupOrDistributionList: {},
+    signalConnections: Array.from(Array(42), getDefaultConversation),
+    toggleGroupsForStorySend: () => Promise.resolve(),
+    toggleSignalConnectionsModal: action('toggleSignalConnectionsModal'),
   },
-} as Meta;
+} satisfies Meta<PropsType>;
 
-// eslint-disable-next-line react/function-component-definition
-const Template: Story<PropsType> = args => <SendStoryModal {...args} />;
+export function Modal(args: PropsType): JSX.Element {
+  return (
+    <SendStoryModal
+      {...args}
+      distributionLists={getFakeDistributionListsWithMembers()}
+    />
+  );
+}
 
-export const Modal = Template.bind({});
-Modal.args = {
-  distributionLists: getFakeDistributionListsWithMembers(),
-};
+export function BlockList(args: PropsType): JSX.Element {
+  return (
+    <SendStoryModal
+      {...args}
+      distributionLists={[
+        { ...getMyStories(), members: [getDefaultConversation()] },
+      ]}
+      groupStories={[]}
+    />
+  );
+}
 
-export const BlockList = Template.bind({});
-BlockList.args = {
-  distributionLists: [
-    { ...getMyStories(), members: [getDefaultConversation()] },
-  ],
-  groupStories: [],
-};
+export function AllowList(args: PropsType): JSX.Element {
+  return (
+    <SendStoryModal
+      {...args}
+      distributionLists={[
+        {
+          ...getMyStories(),
+          isBlockList: false,
+          members: [getDefaultConversation()],
+        },
+      ]}
+      groupStories={[]}
+    />
+  );
+}
 
-export const AllowList = Template.bind({});
-AllowList.args = {
-  distributionLists: [
-    {
-      ...getMyStories(),
-      isBlockList: false,
-      members: [getDefaultConversation()],
-    },
-  ],
-  groupStories: [],
-};
+export function FirstTime(args: PropsType): JSX.Element {
+  return (
+    <SendStoryModal
+      {...args}
+      distributionLists={[myStories]}
+      groupStories={[]}
+      hasFirstStoryPostExperience
+    />
+  );
+}
 
-export const FirstTime = Template.bind({});
-FirstTime.args = {
-  distributionLists: [myStories],
-  groupStories: [],
-  hasFirstStoryPostExperience: true,
-};
-
-export const FirstTimeAlreadyConfiguredOnMobile = Template.bind({});
-FirstTime.args = {
-  distributionLists: [
-    {
-      ...myStories,
-      isBlockList: false,
-      members: Array.from(Array(3), getDefaultConversation),
-    },
-  ],
-  groupStories: [],
-  hasFirstStoryPostExperience: true,
-};
+export function FirstTimeAlreadyConfiguredOnMobile(
+  args: PropsType
+): JSX.Element {
+  return (
+    <SendStoryModal
+      {...args}
+      distributionLists={[
+        {
+          ...myStories,
+          isBlockList: false,
+          members: Array.from(Array(3), getDefaultConversation),
+        },
+      ]}
+      groupStories={[]}
+      hasFirstStoryPostExperience
+    />
+  );
+}

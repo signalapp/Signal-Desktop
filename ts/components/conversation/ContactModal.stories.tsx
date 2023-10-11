@@ -1,10 +1,10 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Meta, Story } from '@storybook/react';
+import type { Meta, StoryFn } from '@storybook/react';
 import * as React from 'react';
 import casual from 'casual';
-
+import { action } from '@storybook/addon-actions';
 import type { ConversationType } from '../../state/ducks/conversations';
 import type { PropsType } from './ContactModal';
 import enMessages from '../../../_locales/en/messages.json';
@@ -31,64 +31,40 @@ const defaultGroup: ConversationType = getDefaultConversation({
 export default {
   title: 'Components/Conversation/ContactModal',
   component: ContactModal,
-  argTypes: {
-    i18n: {
-      defaultValue: i18n,
-    },
-    areWeASubscriber: {
-      defaultValue: false,
-    },
-    areWeAdmin: {
-      defaultValue: false,
-    },
-    badges: {
-      defaultValue: [],
-    },
-    contact: {
-      defaultValue: defaultContact,
-    },
-    conversation: {
-      defaultValue: defaultGroup,
-    },
-    hasStories: {
-      defaultValue: undefined,
-    },
-    hideContactModal: { action: true },
-    isAdmin: {
-      defaultValue: false,
-    },
-    isMember: {
-      defaultValue: true,
-    },
-    removeMemberFromGroup: { action: true },
-    showConversation: { action: true },
-    theme: {
-      defaultValue: ThemeType.light,
-    },
-    toggleAdmin: { action: true },
-    toggleSafetyNumberModal: { action: true },
-    updateConversationModelSharedGroups: { action: true },
-    viewUserStories: { action: true },
+  args: {
+    i18n,
+    areWeASubscriber: false,
+    areWeAdmin: false,
+    badges: [],
+    contact: defaultContact,
+    conversation: defaultGroup,
+    hasStories: undefined,
+    hideContactModal: action('hideContactModal'),
+    isAdmin: false,
+    isMember: true,
+    removeMemberFromGroup: action('removeMemberFromGroup'),
+    showConversation: action('showConversation'),
+    theme: ThemeType.light,
+    toggleAdmin: action('toggleAdmin'),
+    toggleSafetyNumberModal: action('toggleSafetyNumberModal'),
+    updateConversationModelSharedGroups: action(
+      'updateConversationModelSharedGroups'
+    ),
+    viewUserStories: action('viewUserStories'),
   },
-} as Meta;
+} satisfies Meta<PropsType>;
 
 // eslint-disable-next-line react/function-component-definition
-const Template: Story<PropsType> = args => <ContactModal {...args} />;
+const Template: StoryFn<PropsType> = args => <ContactModal {...args} />;
 
 export const AsNonAdmin = Template.bind({});
 AsNonAdmin.args = {
   areWeAdmin: false,
 };
-AsNonAdmin.story = {
-  name: 'As non-admin',
-};
 
 export const AsAdmin = Template.bind({});
 AsAdmin.args = {
   areWeAdmin: true,
-};
-AsAdmin.story = {
-  name: 'As admin',
 };
 
 export const AsAdminWithNoGroupLink = Template.bind({});
@@ -99,16 +75,10 @@ AsAdminWithNoGroupLink.args = {
     groupLink: undefined,
   },
 };
-AsAdminWithNoGroupLink.story = {
-  name: 'As admin with no group link',
-};
 
 export const AsAdminViewingNonMemberOfGroup = Template.bind({});
 AsAdminViewingNonMemberOfGroup.args = {
   isMember: false,
-};
-AsAdminViewingNonMemberOfGroup.story = {
-  name: 'As admin, viewing non-member of group',
 };
 
 export const WithoutPhoneNumber = Template.bind({});
@@ -118,9 +88,6 @@ WithoutPhoneNumber.args = {
     phoneNumber: undefined,
   },
 };
-WithoutPhoneNumber.story = {
-  name: 'Without phone number',
-};
 
 export const ViewingSelf = Template.bind({});
 ViewingSelf.args = {
@@ -129,16 +96,10 @@ ViewingSelf.args = {
     isMe: true,
   },
 };
-ViewingSelf.story = {
-  name: 'Viewing self',
-};
 
 export const WithBadges = Template.bind({});
 WithBadges.args = {
   badges: getFakeBadges(2),
-};
-WithBadges.story = {
-  name: 'With badges',
 };
 
 export const WithUnreadStories = Template.bind({});

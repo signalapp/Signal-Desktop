@@ -3,8 +3,7 @@
 
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
-import { boolean, text } from '@storybook/addon-knobs';
-
+import type { Meta } from '@storybook/react';
 import type { PropsType } from './SafetyNumberViewer';
 import { SafetyNumberViewer } from './SafetyNumberViewer';
 import { setupI18n } from '../util/setupI18n';
@@ -78,26 +77,21 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   safetyNumbers: overrideProps.safetyNumbers ?? [
     {
       identifierType: SafetyNumberIdentifierType.ACIIdentifier,
-      numberBlocks: text(
-        'safetyNumber',
-        generateNumberBlocks().join(' ')
-      ).split(' '),
+      numberBlocks: generateNumberBlocks(),
       qrData: generateQRData(),
     },
   ],
   toggleVerified: action('toggle-verified'),
-  verificationDisabled: boolean(
-    'verificationDisabled',
+  verificationDisabled:
     overrideProps.verificationDisabled !== undefined
       ? overrideProps.verificationDisabled
-      : false
-  ),
+      : false,
   onClose: action('onClose'),
 });
 
 export default {
   title: 'Components/SafetyNumberViewer',
-};
+} satisfies Meta<PropsType>;
 
 export function SafetyNumber(): JSX.Element {
   return <SafetyNumberViewer {...createProps({})} />;
@@ -111,10 +105,7 @@ export function SafetyNumberBeforeE164Transition(): JSX.Element {
         safetyNumbers: [
           {
             identifierType: SafetyNumberIdentifierType.E164Identifier,
-            numberBlocks: text(
-              'safetyNumber',
-              generateNumberBlocks().join(' ')
-            ).split(' '),
+            numberBlocks: generateNumberBlocks(),
             qrData: generateQRData(),
           },
         ],
@@ -122,10 +113,6 @@ export function SafetyNumberBeforeE164Transition(): JSX.Element {
     />
   );
 }
-
-SafetyNumberBeforeE164Transition.story = {
-  name: 'Safety Number (before e164 transition)',
-};
 
 export function SafetyNumberE164Transition(): JSX.Element {
   return (
@@ -149,10 +136,6 @@ export function SafetyNumberE164Transition(): JSX.Element {
   );
 }
 
-SafetyNumberE164Transition.story = {
-  name: 'Safety Number (e164 transition)',
-};
-
 export function SafetyNumberNotVerified(): JSX.Element {
   return (
     <SafetyNumberViewer
@@ -165,10 +148,6 @@ export function SafetyNumberNotVerified(): JSX.Element {
     />
   );
 }
-
-SafetyNumberNotVerified.story = {
-  name: 'Safety Number (not verified)',
-};
 
 export function VerificationDisabled(): JSX.Element {
   return (
@@ -190,10 +169,6 @@ export function SafetyNumberDialogClose(): JSX.Element {
   );
 }
 
-SafetyNumberDialogClose.story = {
-  name: 'Safety Number (dialog close)',
-};
-
 export function JustProfileAndNumber(): JSX.Element {
   return (
     <SafetyNumberViewer
@@ -203,10 +178,6 @@ export function JustProfileAndNumber(): JSX.Element {
     />
   );
 }
-
-JustProfileAndNumber.story = {
-  name: 'Just Profile and Number',
-};
 
 export function JustNumber(): JSX.Element {
   return (
@@ -227,7 +198,3 @@ export function NoPhoneNumberCannotVerify(): JSX.Element {
     />
   );
 }
-
-NoPhoneNumberCannotVerify.story = {
-  name: 'No Phone Number (cannot verify)',
-};

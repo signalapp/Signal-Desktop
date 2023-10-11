@@ -1,13 +1,12 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Meta, Story } from '@storybook/react';
+import type { Meta, StoryFn } from '@storybook/react';
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
-import { expect } from '@storybook/jest';
+import { expect, jest } from '@storybook/jest';
 import { isBoolean } from 'lodash';
 import { within, userEvent } from '@storybook/testing-library';
-
 import type { AvatarColorType } from '../types/Colors';
 import type { Props } from './Avatar';
 import enMessages from '../../_locales/en/messages.json';
@@ -42,7 +41,6 @@ export default {
     },
     blur: {
       control: { type: 'radio' },
-      defaultValue: undefined,
       options: {
         Undefined: undefined,
         NoBlur: AvatarBlur.NoBlur,
@@ -51,14 +49,12 @@ export default {
       },
     },
     color: {
-      defaultValue: AvatarColors[0],
       options: colorMap,
     },
     conversationType: {
       control: { type: 'radio' },
       options: conversationTypeMap,
     },
-    onClick: { action: true },
     size: {
       control: false,
     },
@@ -68,11 +64,16 @@ export default {
     },
     theme: {
       control: { type: 'radio' },
-      defaultValue: ThemeType.light,
       options: ThemeType,
     },
   },
-} as Meta;
+  args: {
+    blur: undefined,
+    color: AvatarColors[0],
+    onClick: action('onClick'),
+    theme: ThemeType.light,
+  },
+} satisfies Meta<Props>;
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   acceptedMessageRequest: isBoolean(overrideProps.acceptedMessageRequest)
@@ -87,7 +88,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   isMe: false,
   loading: Boolean(overrideProps.loading),
   noteToSelf: Boolean(overrideProps.noteToSelf),
-  onClick: action('onClick'),
+  onClick: jest.fn(action('onClick')),
   onClickBadge: action('onClickBadge'),
   phoneNumber: overrideProps.phoneNumber || '',
   searchResult: Boolean(overrideProps.searchResult),
@@ -103,16 +104,18 @@ const sizes = Object.values(AvatarSize).filter(
 ) as Array<AvatarSize>;
 
 // eslint-disable-next-line react/function-component-definition
-const Template: Story<Props> = args => (
-  <>
-    {sizes.map(size => (
-      <Avatar key={size} {...args} size={size} />
-    ))}
-  </>
-);
+const Template: StoryFn<Props> = (args: Props) => {
+  return (
+    <>
+      {sizes.map(size => (
+        <Avatar key={size} {...args} size={size} />
+      ))}
+    </>
+  );
+};
 
 // eslint-disable-next-line react/function-component-definition
-const TemplateSingle: Story<Props> = args => (
+const TemplateSingle: StoryFn<Props> = (args: Props) => (
   <Avatar {...args} size={AvatarSize.EIGHTY} />
 );
 
@@ -120,14 +123,13 @@ export const Default = Template.bind({});
 Default.args = createProps({
   avatarPath: '/fixtures/giphy-GVNvOUpeYmI7e.gif',
 });
-Default.play = async ({ args, canvasElement }) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+Default.play = async (context: any) => {
+  const { args, canvasElement } = context;
   const canvas = within(canvasElement);
   const [avatar] = canvas.getAllByRole('button');
   await userEvent.click(avatar);
   await expect(args.onClick).toHaveBeenCalled();
-};
-Default.story = {
-  name: 'Avatar',
 };
 
 export const WithBadge = Template.bind({});
@@ -135,57 +137,36 @@ WithBadge.args = createProps({
   avatarPath: '/fixtures/kitten-3-64-64.jpg',
   badge: getFakeBadge(),
 });
-WithBadge.story = {
-  name: 'With badge',
-};
 
 export const WideImage = Template.bind({});
 WideImage.args = createProps({
   avatarPath: '/fixtures/wide.jpg',
 });
-WideImage.story = {
-  name: 'Wide image',
-};
 
 export const OneWordName = Template.bind({});
 OneWordName.args = createProps({
   title: 'John',
 });
-OneWordName.story = {
-  name: 'One-word Name',
-};
 
 export const TwoWordName = Template.bind({});
 TwoWordName.args = createProps({
   title: 'John Smith',
 });
-TwoWordName.story = {
-  name: 'Two-word Name',
-};
 
 export const WideInitials = Template.bind({});
 WideInitials.args = createProps({
   title: 'Walter White',
 });
-WideInitials.story = {
-  name: 'Wide initials',
-};
 
 export const ThreeWordName = Template.bind({});
 ThreeWordName.args = createProps({
   title: 'Walter H. White',
 });
-ThreeWordName.story = {
-  name: 'Three-word name',
-};
 
 export const NoteToSelf = Template.bind({});
 NoteToSelf.args = createProps({
   noteToSelf: true,
 });
-NoteToSelf.story = {
-  name: 'Note to Self',
-};
 
 export const ContactIcon = Template.bind({});
 ContactIcon.args = createProps();
@@ -227,9 +208,6 @@ BrokenAvatarForGroup.args = createProps({
   avatarPath: 'badimage.png',
   conversationType: 'group',
 });
-BrokenAvatarForGroup.story = {
-  name: 'Broken Avatar for Group',
-};
 
 export const Loading = Template.bind({});
 Loading.args = createProps({
@@ -242,42 +220,26 @@ BlurredBasedOnProps.args = createProps({
   avatarPath: '/fixtures/kitten-3-64-64.jpg',
 });
 
-BlurredBasedOnProps.story = {
-  name: 'Blurred based on props',
-};
-
 export const ForceBlurred = TemplateSingle.bind({});
 ForceBlurred.args = createProps({
   avatarPath: '/fixtures/kitten-3-64-64.jpg',
   blur: AvatarBlur.BlurPicture,
 });
-ForceBlurred.story = {
-  name: 'Force-blurred',
-};
 
 export const BlurredWithClickToView = TemplateSingle.bind({});
 BlurredWithClickToView.args = createProps({
   avatarPath: '/fixtures/kitten-3-64-64.jpg',
   blur: AvatarBlur.BlurPictureWithClickToView,
 });
-BlurredWithClickToView.story = {
-  name: 'Blurred with "click to view"',
-};
 
 export const StoryUnread = TemplateSingle.bind({});
 StoryUnread.args = createProps({
   avatarPath: '/fixtures/kitten-3-64-64.jpg',
   storyRing: HasStories.Unread,
 });
-StoryUnread.story = {
-  name: 'Story: unread',
-};
 
 export const StoryRead = TemplateSingle.bind({});
 StoryRead.args = createProps({
   avatarPath: '/fixtures/kitten-3-64-64.jpg',
   storyRing: HasStories.Read,
 });
-StoryRead.story = {
-  name: 'Story: read',
-};

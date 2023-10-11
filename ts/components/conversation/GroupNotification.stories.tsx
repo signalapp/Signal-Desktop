@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-
+import type { Meta } from '@storybook/react';
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
 import type { Props } from './GroupNotification';
@@ -11,7 +11,7 @@ import { getDefaultConversation } from '../../test-both/helpers/getDefaultConver
 
 export default {
   title: 'Components/Conversation',
-};
+} satisfies Meta<Props>;
 
 const i18n = setupI18n('en', enMessages);
 
@@ -394,7 +394,3 @@ export const _GroupNotification = (): JSX.Element => (
     ))}
   </>
 );
-
-_GroupNotification.story = {
-  name: 'GroupNotification',
-};

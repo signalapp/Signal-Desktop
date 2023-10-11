@@ -27,11 +27,6 @@ import {
   shouldNeverBeCalled,
   asyncShouldNeverBeCalled,
 } from '../util/shouldNeverBeCalled';
-import type { MessageForwardDraft } from '../util/maybeForwardMessages';
-import {
-  isDraftEditable,
-  isDraftForwardable,
-} from '../util/maybeForwardMessages';
 import type { LinkPreviewType } from '../types/message/LinkPreviews';
 import { LinkPreviewSourceType } from '../types/LinkPreview';
 import { ToastType } from '../types/Toast';
@@ -41,6 +36,11 @@ import { BodyRange } from '../types/BodyRange';
 import { UserText } from './UserText';
 import { Modal } from './Modal';
 import { SizeObserver } from '../hooks/useSizeObserver';
+import {
+  isDraftEditable,
+  isDraftForwardable,
+  type MessageForwardDraft,
+} from '../types/ForwardDraft';
 
 export type DataPropsType = {
   candidateConversations: ReadonlyArray<ConversationType>;

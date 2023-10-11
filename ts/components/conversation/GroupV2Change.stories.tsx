@@ -3,7 +3,7 @@
 
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
-
+import type { Meta } from '@storybook/react';
 import { setupI18n } from '../../util/setupI18n';
 import { generateAci, generatePni } from '../../types/ServiceId';
 import type { ServiceIdString, AciString } from '../../types/ServiceId';
@@ -11,6 +11,7 @@ import enMessages from '../../../_locales/en/messages.json';
 import type { GroupV2ChangeType } from '../../groups';
 import { SignalService as Proto } from '../../protobuf';
 import type { SmartContactRendererType } from '../../groupChange';
+import type { PropsType } from './GroupV2Change';
 import { GroupV2Change } from './GroupV2Change';
 import type { FullJSXType } from '../Intl';
 
@@ -69,7 +70,7 @@ const renderChange = (
 
 export default {
   title: 'Components/Conversation/GroupV2Change',
-};
+} satisfies Meta<PropsType>;
 
 export function Multiple(): JSX.Element {
   return (
@@ -313,10 +314,6 @@ export function AccessAttributes(): JSX.Element {
   );
 }
 
-AccessAttributes.story = {
-  name: 'Access (Attributes)',
-};
-
 export function AccessMembers(): JSX.Element {
   return (
     <>
@@ -376,10 +373,6 @@ export function AccessMembers(): JSX.Element {
   );
 }
 
-AccessMembers.story = {
-  name: 'Access (Members)',
-};
-
 export function AccessInviteLink(): JSX.Element {
   return (
     <>
@@ -438,10 +431,6 @@ export function AccessInviteLink(): JSX.Element {
     </>
   );
 }
-
-AccessInviteLink.story = {
-  name: 'Access (Invite Link)',
-};
 
 export function MemberAdd(): JSX.Element {
   return (
@@ -619,10 +608,6 @@ export function MemberAddFromInvited(): JSX.Element {
   );
 }
 
-MemberAddFromInvited.story = {
-  name: 'Member Add (from invited)',
-};
-
 export function MemberAddFromLink(): JSX.Element {
   return (
     <>
@@ -655,10 +640,6 @@ export function MemberAddFromLink(): JSX.Element {
     </>
   );
 }
-
-MemberAddFromLink.story = {
-  name: 'Member Add (from link)',
-};
 
 export function MemberAddFromAdminApproval(): JSX.Element {
   return (
@@ -709,10 +690,6 @@ export function MemberAddFromAdminApproval(): JSX.Element {
     </>
   );
 }
-
-MemberAddFromAdminApproval.story = {
-  name: 'Member Add (from admin approval)',
-};
 
 export function MemberRemove(): JSX.Element {
   return (
@@ -935,10 +912,6 @@ export function PendingAddOne(): JSX.Element {
   );
 }
 
-PendingAddOne.story = {
-  name: 'Pending Add - one',
-};
-
 export function PendingAddMany(): JSX.Element {
   return (
     <>
@@ -971,10 +944,6 @@ export function PendingAddMany(): JSX.Element {
     </>
   );
 }
-
-PendingAddMany.story = {
-  name: 'Pending Add - many',
-};
 
 export function PendingRemoveOne(): JSX.Element {
   return (
@@ -1119,10 +1088,6 @@ export function PendingRemoveOne(): JSX.Element {
   );
 }
 
-PendingRemoveOne.story = {
-  name: 'Pending Remove - one',
-};
-
 export function PendingRemoveMany(): JSX.Element {
   return (
     <>
@@ -1215,10 +1180,6 @@ export function PendingRemoveMany(): JSX.Element {
   );
 }
 
-PendingRemoveMany.story = {
-  name: 'Pending Remove - many',
-};
-
 export function AdminApprovalAdd(): JSX.Element {
   return (
     <>
@@ -1241,10 +1202,6 @@ export function AdminApprovalAdd(): JSX.Element {
     </>
   );
 }
-
-AdminApprovalAdd.story = {
-  name: 'Admin Approval (Add)',
-};
 
 export function AdminApprovalRemove(): JSX.Element {
   return (
@@ -1278,10 +1235,6 @@ export function AdminApprovalRemove(): JSX.Element {
     </>
   );
 }
-
-AdminApprovalRemove.story = {
-  name: 'Admin Approval (Remove)',
-};
 
 export function AdminApprovalBounce(): JSX.Element {
   return (
@@ -1384,10 +1337,6 @@ export function AdminApprovalBounce(): JSX.Element {
   );
 }
 
-AdminApprovalBounce.story = {
-  name: 'Admin Approval (Bounce)',
-};
-
 export function GroupLinkAdd(): JSX.Element {
   return (
     <>
@@ -1447,10 +1396,6 @@ export function GroupLinkAdd(): JSX.Element {
   );
 }
 
-GroupLinkAdd.story = {
-  name: 'Group Link (Add)',
-};
-
 export function GroupLinkReset(): JSX.Element {
   return (
     <>
@@ -1481,10 +1426,6 @@ export function GroupLinkReset(): JSX.Element {
   );
 }
 
-GroupLinkReset.story = {
-  name: 'Group Link (Reset)',
-};
-
 export function GroupLinkRemove(): JSX.Element {
   return (
     <>
@@ -1514,10 +1455,6 @@ export function GroupLinkRemove(): JSX.Element {
     </>
   );
 }
-
-GroupLinkRemove.story = {
-  name: 'Group Link (Remove)',
-};
 
 export function DescriptionRemove(): JSX.Element {
   return (
@@ -1551,10 +1488,6 @@ export function DescriptionRemove(): JSX.Element {
     </>
   );
 }
-
-DescriptionRemove.story = {
-  name: 'Description (Remove)',
-};
 
 export function DescriptionChange(): JSX.Element {
   return (
@@ -1600,10 +1533,6 @@ export function DescriptionChange(): JSX.Element {
     </>
   );
 }
-
-DescriptionChange.story = {
-  name: 'Description (Change)',
-};
 
 export function AnnouncementGroupChange(): JSX.Element {
   return (
@@ -1663,10 +1592,6 @@ export function AnnouncementGroupChange(): JSX.Element {
     </>
   );
 }
-
-AnnouncementGroupChange.story = {
-  name: 'Announcement Group (Change)',
-};
 
 export function Summary(): JSX.Element {
   return (

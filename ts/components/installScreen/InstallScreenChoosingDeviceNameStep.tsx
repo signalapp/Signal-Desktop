@@ -16,7 +16,7 @@ import { InstallScreenSignalLogo } from './InstallScreenSignalLogo';
 //   DESKTOP-2844.
 export const MAX_DEVICE_NAME_LENGTH = 50;
 
-type PropsType = {
+export type PropsType = {
   deviceName: string;
   i18n: LocalizerType;
   onSubmit: () => void;

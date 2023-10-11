@@ -1,10 +1,10 @@
 diff --git a/node_modules/@types/jest/index.d.ts b/node_modules/@types/jest/index.d.ts
-index 272822a..87ebd1f 100755
+index b37b188..1908c0c 100755
 --- a/node_modules/@types/jest/index.d.ts
 +++ b/node_modules/@types/jest/index.d.ts
 @@ -30,18 +30,18 @@
  // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
- // Minimum TypeScript Version: 3.8
+ // Minimum TypeScript Version: 4.3
 
 -declare var beforeAll: jest.Lifecycle;
 -declare var beforeEach: jest.Lifecycle;

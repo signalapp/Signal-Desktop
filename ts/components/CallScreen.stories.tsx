@@ -3,9 +3,9 @@
 
 import * as React from 'react';
 import { times } from 'lodash';
-import { boolean, select, number } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
+import type { Meta } from '@storybook/react';
 import type { GroupCallRemoteParticipantType } from '../types/Calling';
 import {
   CallMode,
@@ -60,6 +60,7 @@ type GroupCallOverrideProps = OverridePropsBase & {
   connectionState?: GroupCallConnectionState;
   peekedParticipants?: Array<ConversationType>;
   remoteParticipants?: Array<GroupCallRemoteParticipantType>;
+  remoteAudioLevel?: number;
 };
 
 const createActiveDirectCallProp = (
@@ -67,18 +68,11 @@ const createActiveDirectCallProp = (
 ) => ({
   callMode: CallMode.Direct as CallMode.Direct,
   conversation,
-  callState: select(
-    'callState',
-    CallState,
-    overrideProps.callState || CallState.Accepted
-  ),
+  callState: overrideProps.callState ?? CallState.Accepted,
   peekedParticipants: [] as [],
   remoteParticipants: [
     {
-      hasRemoteVideo: boolean(
-        'hasRemoteVideo',
-        Boolean(overrideProps.hasRemoteVideo)
-      ),
+      hasRemoteVideo: overrideProps.hasRemoteVideo ?? false,
       presenting: false,
       title: 'test',
     },
@@ -109,12 +103,7 @@ const createActiveGroupCallProp = (overrideProps: GroupCallOverrideProps) => ({
   remoteAudioLevels: new Map<number, number>(
     overrideProps.remoteParticipants?.map((_participant, index) => [
       index,
-      number('remoteAudioLevel', 0, {
-        range: true,
-        min: 0,
-        max: 1,
-        step: 0.01,
-      }),
+      overrideProps.remoteAudioLevel ?? 0,
     ])
   ),
 });
@@ -125,24 +114,10 @@ const createActiveCallProp = (
   const baseResult = {
     joinedAt: Date.now(),
     conversation,
-    hasLocalAudio: boolean(
-      'hasLocalAudio',
-      overrideProps.hasLocalAudio || false
-    ),
-    hasLocalVideo: boolean(
-      'hasLocalVideo',
-      overrideProps.hasLocalVideo || false
-    ),
-    localAudioLevel: select(
-      'localAudioLevel',
-      [0, 0.5, 1],
-      overrideProps.localAudioLevel || 0
-    ),
-    viewMode: select(
-      'viewMode',
-      [CallViewMode.Grid, CallViewMode.Speaker, CallViewMode.Presentation],
-      overrideProps.viewMode || CallViewMode.Grid
-    ),
+    hasLocalAudio: overrideProps.hasLocalAudio ?? false,
+    hasLocalVideo: overrideProps.hasLocalVideo ?? false,
+    localAudioLevel: overrideProps.localAudioLevel ?? 0,
+    viewMode: overrideProps.viewMode ?? CallViewMode.Grid,
     outgoingRing: true,
     pip: false,
     settingsDialogOpen: false,
@@ -184,7 +159,7 @@ const createProps = (
   setLocalVideo: action('set-local-video'),
   setPresenting: action('toggle-presenting'),
   setRendererCanvas: action('set-renderer-canvas'),
-  stickyControls: boolean('stickyControls', false),
+  stickyControls: false,
   switchToPresentationView: action('switch-to-presentation-view'),
   switchFromPresentationView: action('switch-from-presentation-view'),
   toggleParticipants: action('toggle-participants'),
@@ -198,7 +173,9 @@ const createProps = (
 
 export default {
   title: 'Components/CallScreen',
-};
+  argTypes: {},
+  args: {},
+} satisfies Meta<PropsType>;
 
 export function Default(): JSX.Element {
   return <CallScreen {...createProps()} />;
@@ -215,11 +192,7 @@ export function PreRing(): JSX.Element {
   );
 }
 
-PreRing.story = {
-  name: 'Pre-Ring',
-};
-
-export const _Ringing = (): JSX.Element => {
+export function Ringing(): JSX.Element {
   return (
     <CallScreen
       {...createProps({
@@ -228,9 +201,9 @@ export const _Ringing = (): JSX.Element => {
       })}
     />
   );
-};
+}
 
-export const _Reconnecting = (): JSX.Element => {
+export function Reconnecting(): JSX.Element {
   return (
     <CallScreen
       {...createProps({
@@ -239,9 +212,9 @@ export const _Reconnecting = (): JSX.Element => {
       })}
     />
   );
-};
+}
 
-export const _Ended = (): JSX.Element => {
+export function Ended(): JSX.Element {
   return (
     <CallScreen
       {...createProps({
@@ -250,7 +223,7 @@ export const _Ended = (): JSX.Element => {
       })}
     />
   );
-};
+}
 
 export function HasLocalAudio(): JSX.Element {
   return (
@@ -263,10 +236,6 @@ export function HasLocalAudio(): JSX.Element {
   );
 }
 
-HasLocalAudio.story = {
-  name: 'hasLocalAudio',
-};
-
 export function HasLocalVideo(): JSX.Element {
   return (
     <CallScreen
@@ -278,10 +247,6 @@ export function HasLocalVideo(): JSX.Element {
   );
 }
 
-HasLocalVideo.story = {
-  name: 'hasLocalVideo',
-};
-
 export function HasRemoteVideo(): JSX.Element {
   return (
     <CallScreen
@@ -292,10 +257,6 @@ export function HasRemoteVideo(): JSX.Element {
     />
   );
 }
-
-HasRemoteVideo.story = {
-  name: 'hasRemoteVideo',
-};
 
 export function GroupCall1(): JSX.Element {
   return (
@@ -323,10 +284,6 @@ export function GroupCall1(): JSX.Element {
   );
 }
 
-GroupCall1.story = {
-  name: 'Group call - 1',
-};
-
 // We generate these upfront so that the list is stable when you move the slider.
 const allRemoteParticipants = times(MAX_PARTICIPANTS).map(index => ({
   aci: generateAci(),
@@ -347,23 +304,11 @@ export function GroupCallMany(): JSX.Element {
     <CallScreen
       {...createProps({
         callMode: CallMode.Group,
-        remoteParticipants: allRemoteParticipants.slice(
-          0,
-          number('Participant count', 40, {
-            range: true,
-            min: 0,
-            max: MAX_PARTICIPANTS,
-            step: 1,
-          })
-        ),
+        remoteParticipants: allRemoteParticipants.slice(0, 40),
       })}
     />
   );
 }
-
-GroupCallMany.story = {
-  name: 'Group call - Many',
-};
 
 export function GroupCallReconnecting(): JSX.Element {
   return (
@@ -392,10 +337,6 @@ export function GroupCallReconnecting(): JSX.Element {
   );
 }
 
-GroupCallReconnecting.story = {
-  name: 'Group call - reconnecting',
-};
-
 export function GroupCall0(): JSX.Element {
   return (
     <CallScreen
@@ -406,10 +347,6 @@ export function GroupCall0(): JSX.Element {
     />
   );
 }
-
-GroupCall0.story = {
-  name: 'Group call - 0',
-};
 
 export function GroupCallSomeoneIsSharingScreen(): JSX.Element {
   return (
@@ -428,10 +365,6 @@ export function GroupCallSomeoneIsSharingScreen(): JSX.Element {
   );
 }
 
-GroupCallSomeoneIsSharingScreen.story = {
-  name: 'Group call - someone is sharing screen',
-};
-
 export function GroupCallSomeoneIsSharingScreenAndYoureReconnecting(): JSX.Element {
   return (
     <CallScreen
@@ -449,7 +382,3 @@ export function GroupCallSomeoneIsSharingScreenAndYoureReconnecting(): JSX.Eleme
     />
   );
 }
-
-GroupCallSomeoneIsSharingScreenAndYoureReconnecting.story = {
-  name: "Group call - someone is sharing screen and you're reconnecting",
-};

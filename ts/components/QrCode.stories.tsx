@@ -2,12 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-
+import type { Meta } from '@storybook/react';
+import type { PropsType } from './QrCode';
 import { QrCode } from './QrCode';
 
 export default {
   title: 'Components/QrCode',
-};
+} satisfies Meta<PropsType>;
 
 export function Default(): JSX.Element {
   return (

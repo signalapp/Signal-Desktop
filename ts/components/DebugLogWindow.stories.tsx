@@ -4,6 +4,7 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
 
+import type { Meta } from '@storybook/react';
 import enMessages from '../../_locales/en/messages.json';
 import type { PropsType } from './DebugLogWindow';
 import { DebugLogWindow } from './DebugLogWindow';
@@ -31,12 +32,8 @@ const createProps = (): PropsType => ({
 
 export default {
   title: 'Components/DebugLogWindow',
-};
+} satisfies Meta<PropsType>;
 
-export const _DebugLogWindow = (): JSX.Element => (
-  <DebugLogWindow {...createProps()} />
-);
-
-_DebugLogWindow.story = {
-  name: 'DebugLogWindow',
-};
+export function Basic(): JSX.Element {
+  return <DebugLogWindow {...createProps()} />;
+}

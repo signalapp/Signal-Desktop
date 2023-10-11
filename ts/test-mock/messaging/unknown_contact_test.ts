@@ -12,7 +12,7 @@ import { Bootstrap } from '../bootstrap';
 
 export const debug = createDebug('mock:test:edit');
 
-describe('unknown contacts', function unknownContacts() {
+describe('unknown contacts', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);
   this.retries(4);
 
@@ -36,7 +36,7 @@ describe('unknown contacts', function unknownContacts() {
     await unknownContact.addSingleUseKey(desktop, ourKey);
   });
 
-  afterEach(async function after() {
+  afterEach(async function (this: Mocha.Context) {
     if (!bootstrap) {
       return;
     }

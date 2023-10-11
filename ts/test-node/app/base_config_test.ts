@@ -83,7 +83,7 @@ describe('base_config', () => {
         assert.deepEqual(_getCachedValue(), Object.create(null));
       });
 
-      it('handles a file that cannot be opened, if told to', function test() {
+      it('handles a file that cannot be opened, if told to', function (this: Mocha.Context) {
         if (process.platform === 'win32') {
           this.skip();
         }
@@ -227,7 +227,7 @@ describe('base_config', () => {
     });
 
     describe('throwOnFilesystemErrors: true', () => {
-      it("doesn't update the local cache if file removal fails", async function test() {
+      it("doesn't update the local cache if file removal fails", async function (this: Mocha.Context) {
         if (process.platform === 'win32') {
           this.skip();
         }
@@ -252,7 +252,7 @@ describe('base_config', () => {
     });
 
     describe('throwOnFilesystemErrors: false', () => {
-      it('updates the local cache even if file removal fails', async function test() {
+      it('updates the local cache even if file removal fails', async function (this: Mocha.Context) {
         if (process.platform === 'win32') {
           this.skip();
         }

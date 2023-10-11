@@ -13,7 +13,7 @@ type PropsActionsType = {
   eraseCrashReports: () => void;
 };
 
-type PropsType = {
+export type PropsType = {
   i18n: LocalizerType;
   isPending: boolean;
 } & PropsActionsType;

@@ -5,6 +5,7 @@ import * as React from 'react';
 import { sample } from 'lodash';
 import { action } from '@storybook/addon-actions';
 
+import type { Meta } from '@storybook/react';
 import type { PropsType } from './CallingParticipantsList';
 import { CallingParticipantsList } from './CallingParticipantsList';
 import { AvatarColors } from '../types/Colors';
@@ -47,16 +48,12 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
 
 export default {
   title: 'Components/CallingParticipantsList',
-};
+} satisfies Meta<PropsType>;
 
 export function NoOne(): JSX.Element {
   const props = createProps();
   return <CallingParticipantsList {...props} />;
 }
-
-NoOne.story = {
-  name: 'No one',
-};
 
 export function SoloCall(): JSX.Element {
   const props = createProps({

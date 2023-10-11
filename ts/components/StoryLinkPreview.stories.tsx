@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Meta, Story } from '@storybook/react';
+import type { Meta, StoryFn } from '@storybook/react';
 import React from 'react';
 
 import type { Props } from './StoryLinkPreview';
@@ -21,35 +21,23 @@ const i18n = setupI18n('en', enMessages);
 export default {
   title: 'Components/StoryLinkPreview',
   component: StoryLinkPreview,
-  argTypes: {
-    description: {
-      defaultValue:
-        'Introducing Mac Studio. Stunningly compact. Endless connectivity. And astonishing performance with M1 Max or the new M1 Ultra chip.',
-    },
-    forceCompactMode: {
-      defaultValue: false,
-    },
-    i18n: {
-      defaultValue: i18n,
-    },
-    image: {
-      defaultValue: fakeAttachment({
-        // url: 'https://www.apple.com/v/mac-studio/c/images/meta/mac-studio_overview__eedzbosm1t26_og.png',
-        url: '/fixtures/kitten-4-112-112.jpg',
-        contentType: IMAGE_JPEG,
-      }),
-    },
-    title: {
-      defaultValue: 'Mac Studio',
-    },
-    url: {
-      defaultValue: 'https://www.apple.com/mac-studio/',
-    },
+  args: {
+    description:
+      'Introducing Mac Studio. Stunningly compact. Endless connectivity. And astonishing performance with M1 Max or the new M1 Ultra chip.',
+    forceCompactMode: false,
+    i18n,
+    image: fakeAttachment({
+      // url: 'https://www.apple.com/v/mac-studio/c/images/meta/mac-studio_overview__eedzbosm1t26_og.png',
+      url: '/fixtures/kitten-4-112-112.jpg',
+      contentType: IMAGE_JPEG,
+    }),
+    title: 'Mac Studio',
+    url: 'https://www.apple.com/mac-studio/',
   },
-} as Meta;
+} satisfies Meta<Props>;
 
 // eslint-disable-next-line react/function-component-definition
-const Template: Story<Props> = args => <StoryLinkPreview {...args} />;
+const Template: StoryFn<Props> = args => <StoryLinkPreview {...args} />;
 
 export const Default = Template.bind({});
 

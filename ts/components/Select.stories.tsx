@@ -3,12 +3,13 @@
 
 import React, { useState } from 'react';
 import { action } from '@storybook/addon-actions';
-
+import type { Meta } from '@storybook/react';
+import type { PropsType } from './Select';
 import { Select } from './Select';
 
 export default {
   title: 'Components/Select',
-};
+} satisfies Meta<PropsType>;
 
 export function Normal(): JSX.Element {
   const [value, setValue] = useState(0);
@@ -45,7 +46,3 @@ export function WithDisabledOptions(): JSX.Element {
     />
   );
 }
-
-WithDisabledOptions.story = {
-  name: 'With disabled options',
-};

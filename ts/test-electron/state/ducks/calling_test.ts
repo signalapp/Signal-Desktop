@@ -186,7 +186,7 @@ describe('calling duck', () => {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let oldEvents: any;
-  beforeEach(function beforeEach() {
+  beforeEach(function (this: Mocha.Context) {
     this.sandbox = sinon.createSandbox();
 
     oldEvents = window.Events;
@@ -196,7 +196,7 @@ describe('calling duck', () => {
     } as any;
   });
 
-  afterEach(function afterEach() {
+  afterEach(function (this: Mocha.Context) {
     this.sandbox.restore();
 
     window.Events = oldEvents;
@@ -204,7 +204,7 @@ describe('calling duck', () => {
 
   describe('actions', () => {
     describe('getPresentingSources', () => {
-      beforeEach(function beforeEach() {
+      beforeEach(function (this: Mocha.Context) {
         this.callingServiceGetPresentingSources = this.sandbox
           .stub(callingService, 'getPresentingSources')
           .resolves([
@@ -216,7 +216,7 @@ describe('calling duck', () => {
           ]);
       });
 
-      it('retrieves sources from the calling service', async function test() {
+      it('retrieves sources from the calling service', async function (this: Mocha.Context) {
         const { getPresentingSources } = actions;
         const dispatch = sinon.spy();
         await getPresentingSources()(dispatch, getEmptyRootState, null);
@@ -224,7 +224,7 @@ describe('calling duck', () => {
         sinon.assert.calledOnce(this.callingServiceGetPresentingSources);
       });
 
-      it('dispatches SET_PRESENTING_SOURCES', async function test() {
+      it('dispatches SET_PRESENTING_SOURCES', async () => {
         const { getPresentingSources } = actions;
         const dispatch = sinon.spy();
         await getPresentingSources()(dispatch, getEmptyRootState, null);
@@ -272,14 +272,14 @@ describe('calling duck', () => {
     });
 
     describe('setPresenting', () => {
-      beforeEach(function beforeEach() {
+      beforeEach(function (this: Mocha.Context) {
         this.callingServiceSetPresenting = this.sandbox.stub(
           callingService,
           'setPresenting'
         );
       });
 
-      it('calls setPresenting on the calling service', async function test() {
+      it('calls setPresenting on the calling service', async function (this: Mocha.Context) {
         const { setPresenting } = actions;
         const dispatch = sinon.spy();
         const presentedSource = {
@@ -386,7 +386,7 @@ describe('calling duck', () => {
     describe('acceptCall', () => {
       const { acceptCall } = actions;
 
-      beforeEach(function beforeEach() {
+      beforeEach(function (this: Mocha.Context) {
         this.callingServiceAccept = this.sandbox
           .stub(callingService, 'acceptDirectCall')
           .resolves();
@@ -433,7 +433,7 @@ describe('calling duck', () => {
           });
         });
 
-        it('asks the calling service to accept the call', async function test() {
+        it('asks the calling service to accept the call', async function (this: Mocha.Context) {
           const dispatch = sinon.spy();
 
           await acceptCall({
@@ -525,7 +525,7 @@ describe('calling duck', () => {
           });
         });
 
-        it('asks the calling service to join the call', async function test() {
+        it('asks the calling service to join the call', async function (this: Mocha.Context) {
           const dispatch = sinon.spy();
 
           await acceptCall({
@@ -585,14 +585,14 @@ describe('calling duck', () => {
     describe('cancelCall', () => {
       const { cancelCall } = actions;
 
-      beforeEach(function beforeEach() {
+      beforeEach(function (this: Mocha.Context) {
         this.callingServiceStopCallingLobby = this.sandbox.stub(
           callingService,
           'stopCallingLobby'
         );
       });
 
-      it('stops the calling lobby for that conversation', function test() {
+      it('stops the calling lobby for that conversation', function (this: Mocha.Context) {
         cancelCall({ conversationId: '123' });
 
         sinon.assert.calledOnce(this.callingServiceStopCallingLobby);
@@ -677,7 +677,7 @@ describe('calling duck', () => {
       let declineDirectCall: sinon.SinonStub;
       let declineGroupCall: sinon.SinonStub;
 
-      beforeEach(function beforeEach() {
+      beforeEach(function (this: Mocha.Context) {
         declineDirectCall = this.sandbox.stub(
           callingService,
           'declineDirectCall'
@@ -1269,7 +1269,7 @@ describe('calling duck', () => {
     describe('peekNotConnectedGroupCall', () => {
       const { peekNotConnectedGroupCall } = actions;
 
-      beforeEach(function beforeEach() {
+      beforeEach(function (this: Mocha.Context) {
         this.callingServicePeekGroupCall = this.sandbox.stub(
           callingService,
           'peekGroupCall'
@@ -1439,7 +1439,7 @@ describe('calling duck', () => {
     describe('setLocalAudio', () => {
       const { setLocalAudio } = actions;
 
-      beforeEach(function beforeEach() {
+      beforeEach(function (this: Mocha.Context) {
         this.callingServiceSetOutgoingAudio = this.sandbox.stub(
           callingService,
           'setOutgoingAudio'
@@ -1465,7 +1465,7 @@ describe('calling duck', () => {
         });
       });
 
-      it('updates the outgoing audio for the active call', function test() {
+      it('updates the outgoing audio for the active call', function (this: Mocha.Context) {
         const dispatch = sinon.spy();
 
         setLocalAudio({ enabled: false })(
@@ -1543,7 +1543,7 @@ describe('calling duck', () => {
       let rootState: RootStateType;
       let startCallingLobbyStub: sinon.SinonStub;
 
-      beforeEach(function beforeEach() {
+      beforeEach(function (this: Mocha.Context) {
         startCallingLobbyStub = this.sandbox
           .stub(callingService, 'startCallingLobby')
           .resolves();
@@ -1913,7 +1913,7 @@ describe('calling duck', () => {
     describe('startCall', () => {
       const { startCall } = actions;
 
-      beforeEach(function beforeEach() {
+      beforeEach(function (this: Mocha.Context) {
         this.callingStartOutgoingDirectCall = this.sandbox.stub(
           callingService,
           'startOutgoingDirectCall'
@@ -1923,7 +1923,7 @@ describe('calling duck', () => {
           .resolves();
       });
 
-      it('asks the calling service to start an outgoing direct call', async function test() {
+      it('asks the calling service to start an outgoing direct call', async function (this: Mocha.Context) {
         const dispatch = sinon.spy();
         await startCall({
           callMode: CallMode.Direct,
@@ -1943,7 +1943,7 @@ describe('calling duck', () => {
         sinon.assert.notCalled(this.callingJoinGroupCall);
       });
 
-      it('asks the calling service to join a group call', async function test() {
+      it('asks the calling service to join a group call', async function (this: Mocha.Context) {
         const dispatch = sinon.spy();
         await startCall({
           callMode: CallMode.Group,

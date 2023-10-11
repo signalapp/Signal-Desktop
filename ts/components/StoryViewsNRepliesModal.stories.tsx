@@ -1,11 +1,12 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Meta, Story } from '@storybook/react';
+import type { Meta, StoryFn } from '@storybook/react';
 import React from 'react';
 import { v4 as generateUuid } from 'uuid';
 
 import { useArgs } from '@storybook/addons';
+import { action } from '@storybook/addon-actions';
 import type { PropsType } from './StoryViewsNRepliesModal';
 import * as durations from '../util/durations';
 import enMessages from '../../_locales/en/messages.json';
@@ -21,51 +22,35 @@ export default {
   title: 'Components/StoryViewsNRepliesModal',
   component: StoryViewsNRepliesModal,
   argTypes: {
-    authorTitle: {
-      defaultValue: getDefaultConversation().title,
-    },
-    canReply: {
-      defaultValue: true,
-    },
-    getPreferredBadge: { action: true },
     hasViewReceiptSetting: {
       control: 'boolean',
-      defaultValue: true,
     },
     hasViewsCapability: {
       control: 'boolean',
-      defaultValue: false,
-    },
-    i18n: {
-      defaultValue: i18n,
-    },
-    platform: {
-      defaultValue: 'darwin',
-    },
-    onClose: { action: true },
-    onSetSkinTone: { action: true },
-    onReact: { action: true },
-    onReply: { action: true },
-    onTextTooLong: { action: true },
-    onUseEmoji: { action: true },
-    preferredReactionEmoji: {
-      defaultValue: ['❤️', '👍', '👎', '😂', '😮', '😢'],
-    },
-    renderEmojiPicker: { action: true },
-    replies: {
-      defaultValue: [],
-    },
-    views: {
-      defaultValue: [],
-    },
-    viewTarget: {
-      defaultValue: StoryViewTargetType.Views,
-    },
-    onChangeViewTarget: {
-      action: true,
     },
   },
-} as Meta;
+  args: {
+    authorTitle: getDefaultConversation().title,
+    canReply: true,
+    getPreferredBadge: () => undefined,
+    hasViewReceiptSetting: true,
+    hasViewsCapability: false,
+    i18n,
+    platform: 'darwin',
+    onClose: action('onClose'),
+    onSetSkinTone: action('onSetSkinTone'),
+    onReact: action('onReact'),
+    onReply: action('onReply'),
+    onTextTooLong: action('onTextTooLong'),
+    onUseEmoji: action('onUseEmoji'),
+    preferredReactionEmoji: ['❤️', '👍', '👎', '😂', '😮', '😢'],
+    renderEmojiPicker: () => <>EmojiPicker</>,
+    replies: [],
+    views: [],
+    viewTarget: StoryViewTargetType.Views,
+    onChangeViewTarget: action('onChangeViewTarget'),
+  },
+} satisfies Meta<PropsType>;
 
 function getViewsAndReplies() {
   const p1 = getDefaultConversation();
@@ -162,7 +147,7 @@ function getViewsAndReplies() {
 }
 
 // eslint-disable-next-line react/function-component-definition
-const Template: Story<PropsType> = args => {
+const Template: StoryFn<PropsType> = args => {
   const [, updateArgs] = useArgs();
 
   function onChangeViewTarget(viewTarget: StoryViewTargetType) {

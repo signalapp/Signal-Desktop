@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import { Tooltip } from './Tooltip';
 import type { LocalizerType } from '../types/Util';
 
-type PropsType = {
+export type PropsType = {
   className?: string;
   tooltipContainerRef?: React.RefObject<HTMLElement>;
   i18n: LocalizerType;

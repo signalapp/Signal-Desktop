@@ -2,8 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import type { Meta, Story } from '@storybook/react';
+import type { Meta, StoryFn } from '@storybook/react';
 
+import { action } from '@storybook/addon-actions';
 import enMessages from '../../_locales/en/messages.json';
 import { setupI18n } from '../util/setupI18n';
 
@@ -15,23 +16,15 @@ const i18n = setupI18n('en', enMessages);
 export default {
   component: UsernameOnboardingModalBody,
   title: 'Components/UsernameOnboardingModalBody',
-  argTypes: {
-    i18n: {
-      defaultValue: i18n,
-    },
-    onNext: { action: true },
+  args: {
+    i18n,
+    onNext: action('onNext'),
   },
-} as Meta;
-
-type ArgsType = PropsType;
+} satisfies Meta<PropsType>;
 
 // eslint-disable-next-line react/function-component-definition
-const Template: Story<ArgsType> = args => {
+const Template: StoryFn<PropsType> = args => {
   return <UsernameOnboardingModalBody {...args} />;
 };
 
 export const Normal = Template.bind({});
-Normal.args = {};
-Normal.story = {
-  name: 'normal',
-};

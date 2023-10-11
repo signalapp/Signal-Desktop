@@ -13,7 +13,7 @@ import type { App } from '../bootstrap';
 
 export const debug = createDebug('mock:test:pni-change');
 
-describe('pnp/PNI Change', function needsName() {
+describe('pnp/PNI Change', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);
   this.retries(4);
 
@@ -62,7 +62,7 @@ describe('pnp/PNI Change', function needsName() {
     app = await bootstrap.link();
   });
 
-  afterEach(async function after() {
+  afterEach(async function (this: Mocha.Context) {
     await bootstrap.maybeSaveLogs(this.currentTest, app);
     await app.close();
     await bootstrap.teardown();

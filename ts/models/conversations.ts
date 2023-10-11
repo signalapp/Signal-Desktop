@@ -362,9 +362,13 @@ export class ConversationModel extends window.Backbone
     if (sealedSender === undefined) {
       this.set({ sealedSender: SEALED_SENDER.UNKNOWN });
     }
+    // @ts-expect-error -- Removing legacy prop
     this.unset('unidentifiedDelivery');
+    // @ts-expect-error -- Removing legacy prop
     this.unset('unidentifiedDeliveryUnrestricted');
+    // @ts-expect-error -- Removing legacy prop
     this.unset('hasFetchedProfile');
+    // @ts-expect-error -- Removing legacy prop
     this.unset('tokens');
 
     this.on('change:members change:membersV2', this.fetchContacts);

@@ -6,6 +6,7 @@ import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import { times } from 'lodash';
 
+import type { Meta } from '@storybook/react';
 import { setupI18n } from '../../../util/setupI18n';
 import enMessages from '../../../../_locales/en/messages.json';
 import type { Props } from './ConversationDetails';
@@ -29,7 +30,7 @@ const i18n = setupI18n('en', enMessages);
 
 export default {
   title: 'Components/Conversation/ConversationDetails/ConversationDetails',
-};
+} satisfies Meta<Props>;
 
 const conversation: ConversationType = getDefaultConversation({
   id: '',
@@ -145,10 +146,6 @@ export function AsAdmin(): JSX.Element {
   return <ConversationDetails {...props} isAdmin />;
 }
 
-AsAdmin.story = {
-  name: 'as Admin',
-};
-
 export function AsLastAdmin(): JSX.Element {
   const props = createProps();
 
@@ -165,10 +162,6 @@ export function AsLastAdmin(): JSX.Element {
     />
   );
 }
-
-AsLastAdmin.story = {
-  name: 'as last admin',
-};
 
 export function AsOnlyAdmin(): JSX.Element {
   const props = createProps();
@@ -189,10 +182,6 @@ export function AsOnlyAdmin(): JSX.Element {
   );
 }
 
-AsOnlyAdmin.story = {
-  name: 'as only admin',
-};
-
 export function GroupEditable(): JSX.Element {
   const props = createProps();
 
@@ -205,10 +194,6 @@ export function GroupEditableWithCustomDisappearingTimeout(): JSX.Element {
   return <ConversationDetails {...props} canEditGroupInfo />;
 }
 
-GroupEditableWithCustomDisappearingTimeout.story = {
-  name: 'Group Editable with custom disappearing timeout',
-};
-
 export function GroupLinksOn(): JSX.Element {
   const props = createProps(true);
 
@@ -218,10 +203,6 @@ export function GroupLinksOn(): JSX.Element {
 export const _11 = (): JSX.Element => (
   <ConversationDetails {...createProps()} isGroup={false} />
 );
-
-_11.story = {
-  name: '1:1',
-};
 
 function mins(n: number) {
   return DurationInSeconds.toMillis(DurationInSeconds.fromMinutes(n));

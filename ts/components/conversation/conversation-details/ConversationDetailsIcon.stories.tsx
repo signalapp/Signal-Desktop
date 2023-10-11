@@ -2,15 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-
 import { action } from '@storybook/addon-actions';
-
+import type { Meta } from '@storybook/react';
 import type { Props } from './ConversationDetailsIcon';
 import { ConversationDetailsIcon, IconType } from './ConversationDetailsIcon';
 
 export default {
   title: 'Components/Conversation/ConversationDetails/ConversationDetailIcon',
-};
+} satisfies Meta<Props>;
 
 const createProps = (overrideProps: Partial<Props>): Props => ({
   ariaLabel: overrideProps.ariaLabel || '',

@@ -3,8 +3,7 @@
 
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
-import { boolean, select, text } from '@storybook/addon-knobs';
-
+import type { Meta } from '@storybook/react';
 import type { PropsType } from './CallManager';
 import { CallManager } from './CallManager';
 import {
@@ -16,7 +15,6 @@ import {
   GroupCallJoinState,
 } from '../types/Calling';
 import type { ConversationTypeType } from '../state/ducks/conversations';
-import type { AvatarColorType } from '../types/Colors';
 import { AvatarColors } from '../types/Colors';
 import { generateAci } from '../types/ServiceId';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
@@ -33,13 +31,9 @@ const getConversation = () =>
   getDefaultConversation({
     id: '3051234567',
     avatarPath: undefined,
-    color: select(
-      'Callee color',
-      AvatarColors,
-      'ultramarine' as AvatarColorType
-    ),
-    title: text('Callee Title', 'Rick Sanchez'),
-    name: text('Callee Name', 'Rick Sanchez'),
+    color: AvatarColors[0],
+    title: 'Rick Sanchez',
+    name: 'Rick Sanchez',
     phoneNumber: '3051234567',
     profileName: 'Rick Sanchez',
     markedUnread: false,
@@ -50,18 +44,14 @@ const getConversation = () =>
 const getCommonActiveCallData = () => ({
   conversation: getConversation(),
   joinedAt: Date.now(),
-  hasLocalAudio: boolean('hasLocalAudio', true),
-  hasLocalVideo: boolean('hasLocalVideo', false),
-  localAudioLevel: select('localAudioLevel', [0, 0.5, 1], 0),
-  viewMode: select(
-    'viewMode',
-    [CallViewMode.Grid, CallViewMode.Presentation, CallViewMode.Speaker],
-    CallViewMode.Grid
-  ),
-  outgoingRing: boolean('outgoingRing', true),
-  pip: boolean('pip', false),
-  settingsDialogOpen: boolean('settingsDialogOpen', false),
-  showParticipantsList: boolean('showParticipantsList', false),
+  hasLocalAudio: true,
+  hasLocalVideo: false,
+  localAudioLevel: 0,
+  viewMode: CallViewMode.Grid,
+  outgoingRing: true,
+  pip: false,
+  settingsDialogOpen: false,
+  showParticipantsList: false,
 });
 
 const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
@@ -83,12 +73,8 @@ const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
   keyChangeOk: action('key-change-ok'),
   me: {
     ...getDefaultConversation({
-      color: select(
-        'Caller color',
-        AvatarColors,
-        'ultramarine' as AvatarColorType
-      ),
-      title: text('Caller Title', 'Morty Smith'),
+      color: AvatarColors[0],
+      title: 'Morty Smith',
     }),
     serviceId: generateAci(),
   },
@@ -123,7 +109,9 @@ const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
 
 export default {
   title: 'Components/CallManager',
-};
+  argTypes: {},
+  args: {},
+} satisfies Meta<PropsType>;
 
 export function NoCall(): JSX.Element {
   return <CallManager {...createProps()} />;
@@ -184,10 +172,6 @@ export function RingingDirectCall(): JSX.Element {
   );
 }
 
-RingingDirectCall.story = {
-  name: 'Ringing (direct call)',
-};
-
 export function RingingGroupCall(): JSX.Element {
   return (
     <CallManager
@@ -211,10 +195,6 @@ export function RingingGroupCall(): JSX.Element {
     />
   );
 }
-
-RingingGroupCall.story = {
-  name: 'Ringing (group call)',
-};
 
 export function CallRequestNeeded(): JSX.Element {
   return (
@@ -263,7 +243,3 @@ export function GroupCallSafetyNumberChanged(): JSX.Element {
     />
   );
 }
-
-GroupCallSafetyNumberChanged.story = {
-  name: 'Group call - Safety Number Changed',
-};

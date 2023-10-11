@@ -19,17 +19,19 @@ export enum InstallError {
   QRCodeFailed,
 }
 
+export type Props = Readonly<{
+  error: InstallError;
+  i18n: LocalizerType;
+  quit: () => unknown;
+  tryAgain: () => unknown;
+}>;
+
 export function InstallScreenErrorStep({
   error,
   i18n,
   quit,
   tryAgain,
-}: Readonly<{
-  error: InstallError;
-  i18n: LocalizerType;
-  quit: () => unknown;
-  tryAgain: () => unknown;
-}>): ReactElement {
+}: Props): ReactElement {
   let errorMessage: string;
   let buttonText = i18n('icu:installTryAgain');
   let onClickButton = () => tryAgain();

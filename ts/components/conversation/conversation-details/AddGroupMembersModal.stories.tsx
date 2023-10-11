@@ -4,9 +4,8 @@
 import type { ComponentProps } from 'react';
 import React, { useState } from 'react';
 import { times } from 'lodash';
-
 import { action } from '@storybook/addon-actions';
-
+import type { Meta } from '@storybook/react';
 import { sleep } from '../../../util/sleep';
 import { makeLookup } from '../../../util/makeLookup';
 import { deconstructLookup } from '../../../util/deconstructLookup';
@@ -25,7 +24,7 @@ const i18n = setupI18n('en', enMessages);
 
 export default {
   title: 'Components/Conversation/ConversationDetails/AddGroupMembersModal',
-};
+} satisfies Meta<PropsType>;
 
 const allCandidateContacts = times(50, () => getDefaultConversation());
 let allCandidateContactsLookup = makeLookup(allCandidateContacts, 'id');
@@ -101,17 +100,9 @@ export function Only3Contacts(): JSX.Element {
   );
 }
 
-Only3Contacts.story = {
-  name: 'Only 3 contacts',
-};
-
 export function NoCandidateContacts(): JSX.Element {
   return <AddGroupMembersModal {...createProps({}, [])} />;
 }
-
-NoCandidateContacts.story = {
-  name: 'No candidate contacts',
-};
 
 export function EveryoneAlreadyAdded(): JSX.Element {
   return (
@@ -124,10 +115,6 @@ export function EveryoneAlreadyAdded(): JSX.Element {
     />
   );
 }
-
-EveryoneAlreadyAdded.story = {
-  name: 'Everyone already added',
-};
 
 function RequestFailsAfter1SecondWrapper() {
   const [requestState, setRequestState] = useState(RequestState.Inactive);
@@ -152,7 +139,3 @@ function RequestFailsAfter1SecondWrapper() {
 export function RequestFailsAfter1Second(): JSX.Element {
   return <RequestFailsAfter1SecondWrapper />;
 }
-
-RequestFailsAfter1Second.story = {
-  name: 'Request fails after 1 second',
-};

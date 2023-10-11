@@ -2,9 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-
 import { action } from '@storybook/addon-actions';
-
+import type { Meta } from '@storybook/react';
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
 import type { Props as ReactionPickerProps } from './ReactionPicker';
@@ -33,7 +32,7 @@ const renderEmojiPicker: ReactionPickerProps['renderEmojiPicker'] = ({
 
 export default {
   title: 'Components/Conversation/ReactionPicker',
-};
+} satisfies Meta<ReactionPickerProps>;
 
 export function Base(): JSX.Element {
   return (

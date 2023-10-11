@@ -1,0 +1,23 @@
+# Copyright 2023 Signal Messenger, LLC
+# SPDX-License-Identifier: AGPL-3.0-only
+name: Stories
+on:
+  push:
+    branches:
+      - development
+      - main
+      - '[0-9]+.[0-9]+.x'
+  pull_request:
+jobs:
+  test:
+    runs-on: ubuntu-latest-8-cores
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18.15.0'
+          cache: 'yarn'
+      - run: yarn install --frozen-lockfile
+      - run: yarn build:storybook
+      - run: yarn run-p --race test:storybook:serve test:storybook:test

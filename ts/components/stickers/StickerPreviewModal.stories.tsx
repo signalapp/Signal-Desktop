@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { text } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
-
+import type { Meta } from '@storybook/react';
+import type { Props } from './StickerPreviewModal';
 import { StickerPreviewModal } from './StickerPreviewModal';
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
@@ -18,7 +18,9 @@ const i18n = setupI18n('en', enMessages);
 
 export default {
   title: 'Components/Stickers/StickerPreviewModal',
-};
+  argTypes: {},
+  args: {},
+} satisfies Meta<Props>;
 
 const abeSticker = {
   id: -1,
@@ -40,8 +42,8 @@ const tallSticker = {
 };
 
 export function Full(): JSX.Element {
-  const title = text('title', 'Foo');
-  const author = text('author', 'Foo McBarrington');
+  const title = 'Foo';
+  const author = 'Foo McBarrington';
 
   const pack = {
     id: 'foo',
@@ -76,8 +78,8 @@ export function Full(): JSX.Element {
 }
 
 export function JustFourStickers(): JSX.Element {
-  const title = text('title', 'Foo');
-  const author = text('author', 'Foo McBarrington');
+  const title = 'Foo';
+  const author = 'Foo McBarrington';
 
   const pack = {
     id: 'foo',
@@ -104,10 +106,6 @@ export function JustFourStickers(): JSX.Element {
   );
 }
 
-JustFourStickers.story = {
-  name: 'Just four stickers',
-};
-
 export function InitialDownload(): JSX.Element {
   return (
     <StickerPreviewModal
@@ -122,10 +120,6 @@ export function InitialDownload(): JSX.Element {
   );
 }
 
-InitialDownload.story = {
-  name: 'Initial download',
-};
-
 export function PackDeleted(): JSX.Element {
   return (
     <StickerPreviewModal
@@ -138,7 +132,3 @@ export function PackDeleted(): JSX.Element {
     />
   );
 }
-
-PackDeleted.story = {
-  name: 'Pack deleted',
-};
