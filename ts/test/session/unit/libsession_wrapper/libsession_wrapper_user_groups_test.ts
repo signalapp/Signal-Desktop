@@ -216,7 +216,7 @@ describe('libsession_user_groups', () => {
         expect(
           wrapperGroup.disappearingTimerSeconds,
           'disappearingTimerSeconds in the wrapper should match the inputted group'
-        ).to.equal(group.get('expireTimer'));
+        ).to.equal(group.getExpireTimer());
         expect(
           wrapperGroup.encPubkey.toString(),
           'encPubkey in the wrapper should match the inputted group'
@@ -257,7 +257,7 @@ describe('libsession_user_groups', () => {
         expect(
           wrapperGroup.disappearingTimerSeconds,
           'disappearingTimerSeconds in the wrapper should match the inputted group expireTimer'
-        ).to.equal(group.get('expireTimer'));
+        ).to.equal(group.getExpireTimer());
       });
     });
   });

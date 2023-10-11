@@ -271,11 +271,11 @@ describe('libsession_contacts', () => {
       expect(
         wrapperContact.expirationMode,
         'expirationMode in the wrapper should match the inputted contact'
-      ).to.equal(contact.get('expirationMode'));
+      ).to.equal(contact.getExpirationMode());
       expect(
         wrapperContact.expirationTimerSeconds,
         'expirationTimerSeconds in the wrapper should match the inputted contact'
-      ).to.equal(contact.get('expireTimer'));
+      ).to.equal(contact.getExpireTimer());
     });
     it('if disappearing messages is on then the wrapper returned values should match the inputted contact', async () => {
       const contact = new ConversationModel({
@@ -299,11 +299,11 @@ describe('libsession_contacts', () => {
       expect(
         wrapperContact.expirationMode,
         'expirationMode in the wrapper should match the inputted contact'
-      ).to.equal(contact.get('expirationMode'));
+      ).to.equal(contact.getExpirationMode());
       expect(
         wrapperContact.expirationTimerSeconds,
         'expirationTimerSeconds in the wrapper should match the inputted contact expireTimer'
-      ).to.equal(contact.get('expireTimer'));
+      ).to.equal(contact.getExpireTimer());
     });
   });
 });

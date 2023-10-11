@@ -92,7 +92,7 @@ describe('libsession_user_profile', () => {
       expect(
         wrapperUserProfile.expirySeconds,
         'expirySeconds in the wrapper should match the inputted user profile'
-      ).to.equal(contact.get('expireTimer'));
+      ).to.equal(contact.getExpireTimer());
     });
     it("returns an error if the inputted user profile isn't our conversation", async () => {
       const contact = new ConversationModel({
@@ -132,7 +132,7 @@ describe('libsession_user_profile', () => {
       expect(
         wrapperUserProfile.expirySeconds,
         'expirySeconds in the wrapper should match the inputted user profile expireTimer'
-      ).to.equal(contact.get('expireTimer'));
+      ).to.equal(contact.getExpireTimer());
     });
   });
 });

@@ -1,5 +1,6 @@
 import autoBind from 'auto-bind';
 import Backbone from 'backbone';
+import { from_hex } from 'libsodium-wrappers-sumo';
 import {
   debounce,
   includes,
@@ -15,7 +16,6 @@ import {
   uniq,
   xor,
 } from 'lodash';
-import { from_hex } from 'libsodium-wrappers-sumo';
 
 import { SignalService } from '../protobuf';
 import { getMessageQueue } from '../session';
@@ -118,8 +118,8 @@ import {
 } from '../state/selectors/sogsRoomInfo'; // decide it it makes sense to move this to a redux slice?
 
 import {
-  DisappearingMessageConversationModeType,
   changeToDisappearingMessageType,
+  DisappearingMessageConversationModeType,
   setExpirationStartTimestamp,
 } from '../util/expiringMessages';
 import { markAttributesAsReadIfNeeded } from './messageFactory';

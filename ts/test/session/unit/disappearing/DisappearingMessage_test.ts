@@ -563,12 +563,12 @@ describe('Disappearing Messages', () => {
         });
         expect(updateSuccess, 'should be true').to.be.true;
         expect(
-          conversation.get('expirationMode'),
+          conversation.getExpirationMode(),
           'expirationMode should be deleteAfterSend'
         ).to.equal('deleteAfterSend');
-        expect(conversation.get('expireTimer'), 'expireTimer should be 5 minutes').to.equal(600);
+        expect(conversation.getExpireTimer(), 'expireTimer should be 5 minutes').to.equal(600);
         expect(
-          conversation.get('lastDisappearingMessageChangeTimestamp'),
+          conversation.getLastDisappearingMessageChangeTimestamp(),
           'lastDisappearingMessageChangeTimestamp should match the input value'
         ).to.equal(lastDisappearingMessageChangeTimestamp);
       });
