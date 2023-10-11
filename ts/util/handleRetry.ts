@@ -46,9 +46,10 @@ const RETRY_LIMIT = 5;
 
 // Entrypoints
 
-const retryRecord = new Map<number, number>();
+type RetryKeyType = `${AciString}.${number}:${number}`;
+const retryRecord = new Map<RetryKeyType, number>();
 
-export function _getRetryRecord(): Map<number, number> {
+export function _getRetryRecord(): Map<string, number> {
   return retryRecord;
 }
 
@@ -73,8 +74,9 @@ export async function onRetryRequest(event: RetryRequestEvent): Promise<void> {
     return;
   }
 
-  const retryCount = (retryRecord.get(sentAt) || 0) + 1;
-  retryRecord.set(sentAt, retryCount);
+  const retryKey: RetryKeyType = `${requesterAci}.${requesterDevice}:${sentAt}`;
+  const retryCount = (retryRecord.get(retryKey) || 0) + 1;
+  retryRecord.set(retryKey, retryCount);
   if (retryCount > RETRY_LIMIT) {
     log.warn(
       `onRetryRequest/${logId}: retryCount is ${retryCount}; returning early.`
@@ -232,8 +234,9 @@ export async function onDecryptionError(
 
   log.info(`onDecryptionError/${logId}: Starting...`);
 
-  const retryCount = (retryRecord.get(timestamp) || 0) + 1;
-  retryRecord.set(timestamp, retryCount);
+  const retryKey: RetryKeyType = `${senderAci}.${senderDevice}:${timestamp}`;
+  const retryCount = (retryRecord.get(retryKey) || 0) + 1;
+  retryRecord.set(retryKey, retryCount);
   if (retryCount > RETRY_LIMIT) {
     log.warn(
       `onDecryptionError/${logId}: retryCount is ${retryCount}; returning early.`
