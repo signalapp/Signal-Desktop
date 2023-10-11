@@ -63,7 +63,6 @@ describe('libsession_user_profile', () => {
       } as any);
       Sinon.stub(getConversationController(), 'get').returns(contact);
       Sinon.stub(SessionUtilUserProfile, 'isUserProfileToStoreInWrapper').returns(true);
-      // Sinon.stub(ContactsWrapperActions, 'set').resolves();
 
       const wrapperUserProfile = await SessionUtilUserProfile.insertUserProfileIntoWrapper(
         ourNumber
@@ -103,7 +102,6 @@ describe('libsession_user_profile', () => {
       } as any);
       Sinon.stub(getConversationController(), 'get').returns(contact);
       Sinon.stub(SessionUtilUserProfile, 'isUserProfileToStoreInWrapper').returns(true);
-      // Sinon.stub(ContactsWrapperActions, 'set').resolves();
 
       try {
         await SessionUtilUserProfile.insertUserProfileIntoWrapper(ourNumber);
@@ -121,7 +119,6 @@ describe('libsession_user_profile', () => {
       } as any);
       Sinon.stub(getConversationController(), 'get').returns(contact);
       Sinon.stub(SessionUtilUserProfile, 'isUserProfileToStoreInWrapper').returns(true);
-      // Sinon.stub(ContactsWrapperActions, 'set').resolves();
 
       const wrapperUserProfile = await SessionUtilUserProfile.insertUserProfileIntoWrapper(
         ourNumber

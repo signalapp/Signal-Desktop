@@ -10,7 +10,7 @@ import { GetNetworkTime } from '../../../../session/apis/snode_api/getNetworkTim
 import { getConversationController } from '../../../../session/conversations';
 import { UserUtils } from '../../../../session/utils';
 import { SessionUtilContact } from '../../../../session/utils/libsession/libsession_utils_contacts';
-import { ContactsWrapperActions } from '../../../../webworker/workers/browser/libsession_worker_interface';
+import { TestUtils } from '../../../test-utils';
 import { stubWindowLog } from '../../../test-utils/utils/stubbing';
 
 describe('libsession_contacts', () => {
@@ -30,7 +30,9 @@ describe('libsession_contacts', () => {
   beforeEach(() => {
     Sinon.stub(GetNetworkTime, 'getLatestTimestampOffset').returns(getLatestTimestampOffset);
     Sinon.stub(UserUtils, 'getOurPubKeyStrFromCache').returns(ourNumber);
+    TestUtils.stubLibSessionWorker(undefined);
   });
+
   afterEach(() => {
     Sinon.restore();
   });
@@ -230,7 +232,6 @@ describe('libsession_contacts', () => {
       } as any);
       Sinon.stub(getConversationController(), 'get').returns(contact);
       Sinon.stub(SessionUtilContact, 'isContactToStoreInWrapper').returns(true);
-      Sinon.stub(ContactsWrapperActions, 'set').resolves();
 
       const wrapperContact = await SessionUtilContact.insertContactFromDBIntoWrapperAndRefresh(
         contact.get('id')
@@ -285,7 +286,6 @@ describe('libsession_contacts', () => {
       } as any);
       Sinon.stub(getConversationController(), 'get').returns(contact);
       Sinon.stub(SessionUtilContact, 'isContactToStoreInWrapper').returns(true);
-      Sinon.stub(ContactsWrapperActions, 'set').resolves();
 
       const wrapperContact = await SessionUtilContact.insertContactFromDBIntoWrapperAndRefresh(
         contact.get('id')
