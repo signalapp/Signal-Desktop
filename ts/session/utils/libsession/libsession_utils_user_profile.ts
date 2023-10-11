@@ -1,15 +1,15 @@
 import { isEmpty } from 'lodash';
 import { UserUtils } from '..';
+import { SettingsKey } from '../../../data/settings-key';
+import { CONVERSATION_PRIORITIES } from '../../../models/conversationAttributes';
+import { Storage } from '../../../util/storage';
 import { UserConfigWrapperActions } from '../../../webworker/workers/browser/libsession_worker_interface';
 import { getConversationController } from '../../conversations';
 import { fromHexToArray } from '../String';
-import { CONVERSATION_PRIORITIES } from '../../../models/conversationAttributes';
-import { Storage } from '../../../util/storage';
-import { SettingsKey } from '../../../data/settings-key';
 
 async function insertUserProfileIntoWrapper(convoId: string) {
-  if (!isUserProfileToStoreInWrapper(convoId)) {
-    return;
+  if (!SessionUtilUserProfile.isUserProfileToStoreInWrapper(convoId)) {
+    return null;
   }
   const us = UserUtils.getOurPubKeyStrFromCache();
   const ourConvo = getConversationController().get(us);
@@ -29,8 +29,14 @@ async function insertUserProfileIntoWrapper(convoId: string) {
 
   window.log.debug(
     `inserting into userprofile wrapper: username:"${dbName}", priority:${priority} image:${JSON.stringify(
-      { url: dbProfileUrl, key: dbProfileKey }
-    )}, settings: ${JSON.stringify({ areBlindedMsgRequestEnabled, expirySeconds })}`
+      {
+        url: dbProfileUrl,
+        key: dbProfileKey,
+      }
+    )}, settings: ${JSON.stringify({
+      areBlindedMsgRequestEnabled,
+      expirySeconds,
+    })}`
   );
 
   if (dbProfileUrl && !isEmpty(dbProfileKey)) {
@@ -43,6 +49,15 @@ async function insertUserProfileIntoWrapper(convoId: string) {
   }
   await UserConfigWrapperActions.setEnableBlindedMsgRequest(areBlindedMsgRequestEnabled);
   await UserConfigWrapperActions.setNoteToSelfExpiry(expirySeconds);
+
+  // returned testing purposes only
+  return {
+    id: convoId,
+    name: dbName,
+    priority,
+    avatarPointer: dbProfileUrl,
+    expirySeconds,
+  };
 }
 
 function isUserProfileToStoreInWrapper(convoId: string) {

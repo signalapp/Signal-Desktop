@@ -19,6 +19,7 @@ describe('libsession_contacts', () => {
   const getLatestTimestampOffset = 200000;
   const ourNumber = '051234567890acbdef';
   const validArgs = {
+    // NOTE we hardcode this key to make testing easier for bad whitespaces
     id: '050123456789abcdef050123456789abcdef0123456789abcdef050123456789ab',
     type: ConversationTypeEnum.PRIVATE,
     isApproved: true,
@@ -222,7 +223,7 @@ describe('libsession_contacts', () => {
       expireTimer: 0,
     };
 
-    it('the returned wrapper values matche with the inputted contact', async () => {
+    it('returns wrapper values that match with the inputted contact', async () => {
       const contact = new ConversationModel({
         ...validArgs,
         ...contactArgs,
