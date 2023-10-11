@@ -169,6 +169,11 @@ export function getContactInfoFromDBValues({
   return wrapperContact;
 }
 
+export type CommunityInfoFromDBValues = {
+  priority: number;
+  fullUrl: string;
+};
+
 /**
  * NOTE This code should always match the last known version of the same function used in a libsession migration (V31)
  *
@@ -181,7 +186,7 @@ export function getCommunityInfoFromDBValues({
 }: {
   priority: number;
   fullUrl: string;
-}) {
+}): CommunityInfoFromDBValues {
   const community = {
     fullUrl,
     priority: priority || 0,
@@ -244,6 +249,9 @@ export function getLegacyGroupInfoFromDBValues({
 
   const legacyGroup: LegacyGroupInfo = {
     pubkeyHex: id,
+    name: displayNameInProfile || '',
+    priority: priority || 0,
+    members: wrappedMembers,
     disappearingTimerSeconds:
       expirationMode &&
       (expirationMode as DisappearingMessageConversationModeType) !== 'off' &&
@@ -251,9 +259,6 @@ export function getLegacyGroupInfoFromDBValues({
       expireTimer > 0
         ? expireTimer
         : 0,
-    name: displayNameInProfile || '',
-    priority: priority || 0,
-    members: wrappedMembers,
     encPubkey: !isEmpty(encPubkeyHex) ? from_hex(encPubkeyHex) : new Uint8Array(),
     encSeckey: !isEmpty(encSeckeyHex) ? from_hex(encSeckeyHex) : new Uint8Array(),
     joinedAtSeconds: Math.floor(lastJoinedTimestamp / 1000),
