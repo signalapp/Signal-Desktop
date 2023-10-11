@@ -3,7 +3,6 @@ import { expect } from 'chai';
 import { LegacyGroupInfo } from 'libsession_util_nodejs';
 import { describe } from 'mocha';
 import Sinon from 'sinon';
-import { Data } from '../../../../data/data';
 import { ConversationModel } from '../../../../models/conversation';
 import {
   CONVERSATION_PRIORITIES,
@@ -173,11 +172,8 @@ describe('libsession_user_groups', () => {
         displayNameInProfile: 'Test Group',
         expirationMode: 'off',
         expireTimer: 0,
+        members: [groupECKeyPair.publicKeyData.toString()],
       };
-
-      Sinon.stub(Data, 'getLatestClosedGroupEncryptionKeyPair').resolves(
-        groupECKeyPair.toHexKeyPair()
-      );
 
       it('returns wrapper values that match with the inputted group', async () => {
         const group = new ConversationModel({
@@ -185,7 +181,10 @@ describe('libsession_user_groups', () => {
           ...groupArgs,
         } as any);
         Sinon.stub(getConversationController(), 'get').returns(group);
-        // Sinon.stub(SessionUtilUserGroups, 'isLegacyGroupToStoreInWrapper').returns(true);
+        Sinon.stub(SessionUtilUserGroups, 'isUserGroupToStoreInWrapper').returns(true);
+        TestUtils.stubData('getLatestClosedGroupEncryptionKeyPair').resolves(
+          groupECKeyPair.toHexKeyPair()
+        );
 
         const wrapperGroup = await SessionUtilUserGroups.insertGroupsFromDBIntoWrapperAndRefresh(
           group.get('id')
@@ -208,22 +207,24 @@ describe('libsession_user_groups', () => {
           (wrapperGroup as LegacyGroupInfo).priority,
           'priority in the wrapper should match the inputted group'
         ).to.equal(group.get('priority'));
+        expect((wrapperGroup as LegacyGroupInfo).members, 'members should not be empty').to.not.be
+          .empty;
         expect(
-          (wrapperGroup as LegacyGroupInfo).members,
-          'members in the wrapper should match the inputted group'
-        ).to.equal(group.get('members'));
+          (wrapperGroup as LegacyGroupInfo).members[0].pubkeyHex,
+          'the member pubkey in the wrapper should match the inputted group member'
+        ).to.equal(group.get('members')[0]);
         expect(
           (wrapperGroup as LegacyGroupInfo).disappearingTimerSeconds,
           'disappearingTimerSeconds in the wrapper should match the inputted group'
         ).to.equal(group.get('expireTimer'));
         expect(
-          (wrapperGroup as LegacyGroupInfo).encPubkey,
+          (wrapperGroup as LegacyGroupInfo).encPubkey.toString(),
           'encPubkey in the wrapper should match the inputted group'
-        ).to.equal(groupECKeyPair.toHexKeyPair().publicHex);
+        ).to.equal(groupECKeyPair.publicKeyData.toString());
         expect(
-          (wrapperGroup as LegacyGroupInfo).encSeckey,
+          (wrapperGroup as LegacyGroupInfo).encSeckey.toString(),
           'encSeckey in the wrapper should match the inputted group'
-        ).to.equal(groupECKeyPair.toHexKeyPair().privateHex);
+        ).to.equal(groupECKeyPair.privateKeyData.toString());
         expect(
           (wrapperGroup as LegacyGroupInfo).joinedAtSeconds,
           'joinedAtSeconds in the wrapper should match the inputted group'

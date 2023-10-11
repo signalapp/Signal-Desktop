@@ -70,11 +70,11 @@ async function insertGroupsFromDBIntoWrapperAndRefresh(
     return null;
   }
 
-  if (!isUserGroupToStoreInWrapper(foundConvo)) {
+  if (!SessionUtilUserGroups.isUserGroupToStoreInWrapper(foundConvo)) {
     return null;
   }
 
-  const convoType: UserGroupsType = isCommunityToStoreInWrapper(foundConvo)
+  const convoType: UserGroupsType = SessionUtilUserGroups.isCommunityToStoreInWrapper(foundConvo)
     ? 'Community'
     : 'LegacyGroup';
 
