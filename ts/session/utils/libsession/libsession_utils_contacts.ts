@@ -1,4 +1,4 @@
-import { ContactInfo } from 'libsession_util_nodejs';
+import { ContactInfo, ContactInfoSet } from 'libsession_util_nodejs';
 import { ConversationModel } from '../../../models/conversation';
 import { getContactInfoFromDBValues } from '../../../types/sqlSharedTypes';
 import { ContactsWrapperActions } from '../../../webworker/workers/browser/libsession_worker_interface';
@@ -41,14 +41,16 @@ function isContactToStoreInWrapper(convo: ConversationModel): boolean {
  * Fetches the specified convo and updates the required field in the wrapper.
  * If that contact does not exist in the wrapper, it is created before being updated.
  */
-async function insertContactFromDBIntoWrapperAndRefresh(id: string): Promise<void> {
+async function insertContactFromDBIntoWrapperAndRefresh(
+  id: string
+): Promise<ContactInfoSet | null> {
   const foundConvo = getConversationController().get(id);
   if (!foundConvo) {
-    return;
+    return null;
   }
 
-  if (!isContactToStoreInWrapper(foundConvo)) {
-    return;
+  if (!SessionUtilContact.isContactToStoreInWrapper(foundConvo)) {
+    return null;
   }
 
   const dbName = foundConvo.get('displayNameInProfile') || undefined;
@@ -59,6 +61,7 @@ async function insertContactFromDBIntoWrapperAndRefresh(id: string): Promise<voi
   const dbApprovedMe = !!foundConvo.get('didApproveMe') || false;
   const dbBlocked = !!foundConvo.isBlocked() || false;
   const priority = foundConvo.get('priority') || 0;
+  window.log.debug(`WIP: [unit testing]\nfoundConvo.get('priority') ${foundConvo.get('priority')}`);
   const expirationMode = foundConvo.getExpirationMode() || undefined;
   const expireTimer = foundConvo.getExpireTimer() || 0;
 
@@ -79,12 +82,15 @@ async function insertContactFromDBIntoWrapperAndRefresh(id: string): Promise<voi
   try {
     window.log.debug('inserting into contact wrapper: ', JSON.stringify(wrapperContact));
     await ContactsWrapperActions.set(wrapperContact);
+    // returned testing purposes only
+    return wrapperContact;
   } catch (e) {
     window.log.warn(`ContactsWrapperActions.set of ${id} failed with ${e.message}`);
     // we still let this go through
   }
 
   await refreshMappedValue(id);
+  return null;
 }
 
 /**
