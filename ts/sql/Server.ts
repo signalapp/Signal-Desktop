@@ -413,6 +413,8 @@ const dataInterface: ServerInterface = {
   removeKnownStickers,
   removeKnownDraftAttachments,
   getAllBadgeImageFileLocalPaths,
+
+  runCorruptionChecks,
 };
 export default dataInterface;
 
@@ -5143,6 +5145,32 @@ async function getAllBadgeImageFileLocalPaths(): Promise<Set<string>> {
     .pluck()
     .all();
   return new Set(localPaths);
+}
+
+function runCorruptionChecks(): void {
+  const db = getInstance();
+  try {
+    const result = db.pragma('integrity_check');
+    if (result.length === 1 && result.at(0)?.integrity_check === 'ok') {
+      logger.info('runCorruptionChecks: general integrity is ok');
+    } else {
+      logger.error('runCorruptionChecks: general integrity is not ok', result);
+    }
+  } catch (error) {
+    logger.error(
+      'runCorruptionChecks: general integrity check error',
+      Errors.toLogFormat(error)
+    );
+  }
+  try {
+    db.exec("INSERT INTO messages_fts(messages_fts) VALUES('integrity-check')");
+    logger.info('runCorruptionChecks: FTS5 integrity ok');
+  } catch (error) {
+    logger.error(
+      'runCorruptionChecks: FTS5 integrity check error.',
+      Errors.toLogFormat(error)
+    );
+  }
 }
 
 type StoryDistributionForDatabase = Readonly<
