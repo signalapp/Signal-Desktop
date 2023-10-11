@@ -50,7 +50,7 @@ async function insertUserProfileIntoWrapper(convoId: string) {
   await UserConfigWrapperActions.setEnableBlindedMsgRequest(areBlindedMsgRequestEnabled);
   await UserConfigWrapperActions.setNoteToSelfExpiry(expirySeconds);
 
-  // returned testing purposes only
+  // returned for testing purposes only
   return {
     id: convoId,
     name: dbName,

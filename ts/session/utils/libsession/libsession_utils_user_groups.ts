@@ -107,7 +107,7 @@ async function insertGroupsFromDBIntoWrapperAndRefresh(
           wrapperComm.priority
         );
 
-        // returned testing purposes only
+        // returned for testing purposes only
         return {
           fullUrl: wrapperComm.fullUrl,
           priority: wrapperComm.priority,
@@ -140,7 +140,7 @@ async function insertGroupsFromDBIntoWrapperAndRefresh(
         );
         // this does the create or the update of the matching existing legacy group
         await UserGroupsWrapperActions.setLegacyGroup(wrapperLegacyGroup);
-        // returned testing purposes only
+        // returned for testing purposes only
         return wrapperLegacyGroup;
       } catch (e) {
         window.log.warn(`UserGroupsWrapperActions.set of ${convoId} failed with ${e.message}`);
