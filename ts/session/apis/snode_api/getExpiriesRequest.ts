@@ -11,16 +11,16 @@ import { SnodeSignature } from './snodeSignatures';
 import { GetExpiriesResultsContent } from './types';
 import { SeedNodeAPI } from '../seed_node_api';
 
-type GetExpiriesRequestResponseResults = Record<string, number>;
+export type GetExpiriesRequestResponseResults = Record<string, number>;
 
-async function processGetExpiriesRequestResponse(
+export async function processGetExpiriesRequestResponse(
   targetNode: Snode,
   expiries: GetExpiriesResultsContent,
   messageHashes: Array<string>
 ): Promise<GetExpiriesRequestResponseResults> {
   if (isEmpty(expiries)) {
     throw Error(
-      `[processExpireRequestResponse] Expiries are missing! ${JSON.stringify(messageHashes)}`
+      `[processGetExpiriesRequestResponse] Expiries are missing! ${JSON.stringify(messageHashes)}`
     );
   }
 
@@ -34,7 +34,7 @@ async function processGetExpiriesRequestResponse(
   for (const messageHash of Object.keys(expiries)) {
     if (!expiries[messageHash]) {
       window.log.warn(
-        `WIP: [processExpireRequestResponse] Expiries result failure on ${
+        `WIP: [processGetExpiriesRequestResponse] Expiries result failure on ${
           targetNode.pubkey_ed25519
         } for messageHash ${messageHash}\n${JSON.stringify(expiries[messageHash])}`
       );
