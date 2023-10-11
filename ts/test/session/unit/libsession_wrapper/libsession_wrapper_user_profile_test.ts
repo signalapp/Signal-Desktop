@@ -131,7 +131,7 @@ describe('libsession_user_profile', () => {
 
       expect(
         wrapperUserProfile.expirySeconds,
-        'expirySeconds in the wrapper should match the inputted user profile'
+        'expirySeconds in the wrapper should match the inputted user profile expireTimer'
       ).to.equal(contact.get('expireTimer'));
     });
   });

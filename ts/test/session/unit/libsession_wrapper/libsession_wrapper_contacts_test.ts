@@ -302,7 +302,7 @@ describe('libsession_contacts', () => {
       ).to.equal(contact.get('expirationMode'));
       expect(
         wrapperContact.expirationTimerSeconds,
-        'expirationTimerSeconds in the wrapper should match the inputted contact'
+        'expirationTimerSeconds in the wrapper should match the inputted contact expireTimer'
       ).to.equal(contact.get('expireTimer'));
     });
   });

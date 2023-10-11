@@ -186,7 +186,7 @@ describe('libsession_user_groups', () => {
           groupECKeyPair.toHexKeyPair()
         );
 
-        const wrapperGroup = await SessionUtilUserGroups.insertGroupsFromDBIntoWrapperAndRefresh(
+        let wrapperGroup = await SessionUtilUserGroups.insertGroupsFromDBIntoWrapperAndRefresh(
           group.get('id')
         );
 
@@ -195,69 +195,70 @@ describe('libsession_user_groups', () => {
           throw Error('something should be returned from the wrapper');
         }
 
+        wrapperGroup = wrapperGroup as LegacyGroupInfo;
+
         expect(
-          (wrapperGroup as LegacyGroupInfo).pubkeyHex,
+          wrapperGroup.pubkeyHex,
           'pubkeyHex in the wrapper should match the inputted group'
         ).to.equal(group.id);
+        expect(wrapperGroup.name, 'name in the wrapper should match the inputted group').to.equal(
+          group.get('displayNameInProfile')
+        );
         expect(
-          (wrapperGroup as LegacyGroupInfo).name,
-          'name in the wrapper should match the inputted group'
-        ).to.equal(group.get('displayNameInProfile'));
-        expect(
-          (wrapperGroup as LegacyGroupInfo).priority,
+          wrapperGroup.priority,
           'priority in the wrapper should match the inputted group'
         ).to.equal(group.get('priority'));
-        expect((wrapperGroup as LegacyGroupInfo).members, 'members should not be empty').to.not.be
-          .empty;
+        expect(wrapperGroup.members, 'members should not be empty').to.not.be.empty;
         expect(
-          (wrapperGroup as LegacyGroupInfo).members[0].pubkeyHex,
+          wrapperGroup.members[0].pubkeyHex,
           'the member pubkey in the wrapper should match the inputted group member'
         ).to.equal(group.get('members')[0]);
         expect(
-          (wrapperGroup as LegacyGroupInfo).disappearingTimerSeconds,
+          wrapperGroup.disappearingTimerSeconds,
           'disappearingTimerSeconds in the wrapper should match the inputted group'
         ).to.equal(group.get('expireTimer'));
         expect(
-          (wrapperGroup as LegacyGroupInfo).encPubkey.toString(),
+          wrapperGroup.encPubkey.toString(),
           'encPubkey in the wrapper should match the inputted group'
         ).to.equal(groupECKeyPair.publicKeyData.toString());
         expect(
-          (wrapperGroup as LegacyGroupInfo).encSeckey.toString(),
+          wrapperGroup.encSeckey.toString(),
           'encSeckey in the wrapper should match the inputted group'
         ).to.equal(groupECKeyPair.privateKeyData.toString());
         expect(
-          (wrapperGroup as LegacyGroupInfo).joinedAtSeconds,
+          wrapperGroup.joinedAtSeconds,
           'joinedAtSeconds in the wrapper should match the inputted group'
         ).to.equal(group.get('lastJoinedTimestamp'));
       });
-      // it('if disappearing messages is on then the wrapper returned values should match the inputted group', async () => {
-      //   const contact = new ConversationModel({
-      //     ...validArgs,
-      //     ...groupArgs,
-      //     expirationMode: 'deleteAfterSend',
-      //     expireTimer: 300,
-      //   } as any);
-      //   Sinon.stub(getConversationController(), 'get').returns(contact);
-      //   Sinon.stub(SessionUtilContact, 'isContactToStoreInWrapper').returns(true);
+      it('if disappearing messages is on then the wrapper returned values should match the inputted group', async () => {
+        const group = new ConversationModel({
+          ...validArgs,
+          ...groupArgs,
+          expirationMode: 'deleteAfterSend',
+          expireTimer: 300,
+        } as any);
+        Sinon.stub(getConversationController(), 'get').returns(group);
+        Sinon.stub(SessionUtilUserGroups, 'isUserGroupToStoreInWrapper').returns(true);
+        TestUtils.stubData('getLatestClosedGroupEncryptionKeyPair').resolves(
+          groupECKeyPair.toHexKeyPair()
+        );
 
-      //   const wrapperContact = await SessionUtilContact.insertContactFromDBIntoWrapperAndRefresh(
-      //     contact.get('id')
-      //   );
+        let wrapperGroup = await SessionUtilUserGroups.insertGroupsFromDBIntoWrapperAndRefresh(
+          group.get('id')
+        );
 
-      //   expect(wrapperContact, 'something should be returned from the wrapper').to.not.be.null;
-      //   if (!wrapperContact) {
-      //     throw Error('something should be returned from the wrapper');
-      //   }
+        expect(wrapperGroup, 'something should be returned from the wrapper').to.not.be.null;
+        if (!wrapperGroup) {
+          throw Error('something should be returned from the wrapper');
+        }
 
-      //   expect(
-      //     wrapperContact.expirationMode,
-      //     'expirationMode in the wrapper should match the inputted group'
-      //   ).to.equal(contact.get('expirationMode'));
-      //   expect(
-      //     wrapperContact.expirationTimerSeconds,
-      //     'expirationTimerSeconds in the wrapper should match the inputted group'
-      //   ).to.equal(contact.get('expireTimer'));
-      // });
+        wrapperGroup = wrapperGroup as LegacyGroupInfo;
+
+        expect(
+          wrapperGroup.disappearingTimerSeconds,
+          'disappearingTimerSeconds in the wrapper should match the inputted group expireTimer'
+        ).to.equal(group.get('expireTimer'));
+      });
     });
   });
 });
