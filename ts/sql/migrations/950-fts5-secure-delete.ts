@@ -17,14 +17,7 @@ export function updateToSchemaVersion950(
   }
 
   db.transaction(() => {
-    db.exec(`
-      --- Enable 'secure-delete'
-      INSERT INTO messages_fts
-      (messages_fts, rank)
-      VALUES
-      ('secure-delete', 1);
-    `);
-
+    // This was a migration that enable secure-delete
     db.pragma('user_version = 950');
   })();
 
