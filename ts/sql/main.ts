@@ -15,6 +15,7 @@ import type DB from './Server';
 const MIN_TRACE_DURATION = 40;
 
 export type InitializeOptions = Readonly<{
+  appVersion: string;
   configDir: string;
   key: string;
   logger: LoggerType;
@@ -127,6 +128,7 @@ export class MainSQL {
   }
 
   public async initialize({
+    appVersion,
     configDir,
     key,
     logger,
@@ -141,7 +143,7 @@ export class MainSQL {
 
     this.onReady = this.send({
       type: 'init',
-      options: { configDir, key },
+      options: { appVersion, configDir, key },
     });
 
     await this.onReady;
