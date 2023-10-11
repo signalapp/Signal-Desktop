@@ -1,22 +1,24 @@
 import chai, { expect } from 'chai';
-import Sinon from 'sinon';
 import chaiAsPromised from 'chai-as-promised';
-import { TypedStub, generateFakeSnode } from '../../../test-utils/utils';
+import Sinon from 'sinon';
 import { GetExpiriesFromNodeSubRequest } from '../../../../session/apis/snode_api/SnodeRequestTypes';
-import { UserUtils } from '../../../../session/utils';
-import { isValidUnixTimestamp } from '../../../../session/utils/Timestamps';
-import { GetNetworkTime } from '../../../../session/apis/snode_api/getNetworkTime';
 import {
   GetExpiriesFromSnodeProps,
   GetExpiriesRequestResponseResults,
   buildGetExpiriesRequest,
   processGetExpiriesRequestResponse,
 } from '../../../../session/apis/snode_api/getExpiriesRequest';
+import { GetNetworkTime } from '../../../../session/apis/snode_api/getNetworkTime';
 import { SnodeSignature } from '../../../../session/apis/snode_api/snodeSignatures';
+import { UserUtils } from '../../../../session/utils';
+import { isValidUnixTimestamp } from '../../../../session/utils/Timestamps';
+import { TypedStub, generateFakeSnode, stubWindowLog } from '../../../test-utils/utils';
 
 chai.use(chaiAsPromised as any);
 
 describe('GetExpiriesRequest', () => {
+  stubWindowLog();
+
   const getLatestTimestampOffset = 200000;
   const ourNumber = '37e1631b002de498caf7c5c1712718bde7f257c6dadeed0c21abf5e939e6c309';
   const ourUserEd25516Keypair = {
@@ -50,16 +52,20 @@ describe('GetExpiriesRequest', () => {
 
       expect(request, 'should not return null').to.not.be.null;
       expect(request, 'should not return undefined').to.not.be.undefined;
+      if (!request) {
+        throw Error('nothing was returned when getting the expiries');
+      }
+
       expect(request, "method should be 'get_expiries'").to.have.property('method', 'get_expiries');
-      expect(request?.params.pubkey, 'should have a matching pubkey').to.equal(ourNumber);
-      expect(request?.params.messages, 'messageHashes should match our input').to.deep.equal(
+      expect(request.params.pubkey, 'should have a matching pubkey').to.equal(ourNumber);
+      expect(request.params.messages, 'messageHashes should match our input').to.deep.equal(
         props.messageHashes
       );
       expect(
-        request?.params.timestamp && isValidUnixTimestamp(request?.params.timestamp),
+        request.params.timestamp && isValidUnixTimestamp(request?.params.timestamp),
         'the timestamp should be a valid unix timestamp'
       ).to.be.true;
-      expect(request?.params.signature, 'signature should not be empty').to.not.be.empty;
+      expect(request.params.signature, 'signature should not be empty').to.not.be.empty;
     });
     it('fails to build a request if our pubkey is missing', async () => {
       // Modify the stub behavior for this test only we need to return an unsupported type to simulate a missing pubkey

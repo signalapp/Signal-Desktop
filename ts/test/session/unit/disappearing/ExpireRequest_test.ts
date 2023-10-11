@@ -1,7 +1,7 @@
 import chai, { expect } from 'chai';
-import Sinon from 'sinon';
 import chaiAsPromised from 'chai-as-promised';
-import { generateFakeSnode } from '../../../test-utils/utils';
+import Sinon from 'sinon';
+import { UpdateExpiryOnNodeSubRequest } from '../../../../session/apis/snode_api/SnodeRequestTypes';
 import {
   ExpireMessageOnSnodeProps,
   ExpireRequestResponseResults,
@@ -10,10 +10,10 @@ import {
   verifyExpireMsgsResponseSignature,
   verifyExpireMsgsResponseSignatureProps,
 } from '../../../../session/apis/snode_api/expireRequest';
-import { UpdateExpiryOnNodeSubRequest } from '../../../../session/apis/snode_api/SnodeRequestTypes';
+import { GetNetworkTime } from '../../../../session/apis/snode_api/getNetworkTime';
 import { UserUtils } from '../../../../session/utils';
 import { isValidUnixTimestamp } from '../../../../session/utils/Timestamps';
-import { GetNetworkTime } from '../../../../session/apis/snode_api/getNetworkTime';
+import { generateFakeSnode } from '../../../test-utils/utils';
 
 chai.use(chaiAsPromised as any);
 
@@ -47,18 +47,22 @@ describe('ExpireRequest', () => {
 
       expect(request, 'should not return null').to.not.be.null;
       expect(request, 'should not return undefined').to.not.be.undefined;
+      if (!request) {
+        throw Error('nothing was returned when building the request');
+      }
+
       expect(request, "method should be 'expire'").to.have.property('method', 'expire');
-      expect(request?.params.pubkey, 'should have a matching pubkey').to.equal(ourNumber);
-      expect(request?.params.messages[0], 'messageHash should be in messages array').to.equal(
+      expect(request.params.pubkey, 'should have a matching pubkey').to.equal(ourNumber);
+      expect(request.params.messages[0], 'messageHash should be in messages array').to.equal(
         props.messageHash
       );
       expect(
-        request?.params.expiry && isValidUnixTimestamp(request?.params.expiry),
+        request.params.expiry && isValidUnixTimestamp(request?.params.expiry),
         'expiry should be a valid unix timestamp'
       ).to.be.true;
-      expect(request?.params.extend, 'extend should be undefined').to.be.undefined;
-      expect(request?.params.shorten, 'shorten should be undefined').to.be.undefined;
-      expect(request?.params.signature, 'signature should not be empty').to.not.be.empty;
+      expect(request.params.extend, 'extend should be undefined').to.be.undefined;
+      expect(request.params.shorten, 'shorten should be undefined').to.be.undefined;
+      expect(request.params.signature, 'signature should not be empty').to.not.be.empty;
     });
     it('builds a request with extend enabled', async () => {
       const request: UpdateExpiryOnNodeSubRequest | null = await buildExpireRequest({
@@ -68,18 +72,22 @@ describe('ExpireRequest', () => {
 
       expect(request, 'should not return null').to.not.be.null;
       expect(request, 'should not return undefined').to.not.be.undefined;
+      if (!request) {
+        throw Error('nothing was returned when building the request');
+      }
+
       expect(request, "method should be 'expire'").to.have.property('method', 'expire');
-      expect(request?.params.pubkey, 'should have a matching pubkey').to.equal(ourNumber);
-      expect(request?.params.messages[0], 'messageHash should be in messages array').to.equal(
+      expect(request.params.pubkey, 'should have a matching pubkey').to.equal(ourNumber);
+      expect(request.params.messages[0], 'messageHash should be in messages array').to.equal(
         props.messageHash
       );
       expect(
-        request?.params.expiry && isValidUnixTimestamp(request?.params.expiry),
+        request.params.expiry && isValidUnixTimestamp(request?.params.expiry),
         'expiry should be a valid unix timestamp'
       ).to.be.true;
-      expect(request?.params.extend, 'extend should be true').to.be.true;
-      expect(request?.params.shorten, 'shorten should be undefined').to.be.undefined;
-      expect(request?.params.signature, 'signature should not be empty').to.not.be.empty;
+      expect(request.params.extend, 'extend should be true').to.be.true;
+      expect(request.params.shorten, 'shorten should be undefined').to.be.undefined;
+      expect(request.params.signature, 'signature should not be empty').to.not.be.empty;
     });
     it('builds a request with shorten enabled', async () => {
       const request: UpdateExpiryOnNodeSubRequest | null = await buildExpireRequest({
@@ -89,18 +97,22 @@ describe('ExpireRequest', () => {
 
       expect(request, 'should not return null').to.not.be.null;
       expect(request, 'should not return undefined').to.not.be.undefined;
+      if (!request) {
+        throw Error('nothing was returned when building the request');
+      }
+
       expect(request, "method should be 'expire'").to.have.property('method', 'expire');
-      expect(request?.params.pubkey, 'should have a matching pubkey').to.equal(ourNumber);
-      expect(request?.params.messages[0], 'messageHash should be in messages array').to.equal(
+      expect(request.params.pubkey, 'should have a matching pubkey').to.equal(ourNumber);
+      expect(request.params.messages[0], 'messageHash should be in messages array').to.equal(
         props.messageHash
       );
       expect(
-        request?.params.expiry && isValidUnixTimestamp(request?.params.expiry),
+        request.params.expiry && isValidUnixTimestamp(request?.params.expiry),
         'expiry should be a valid unix timestamp'
       ).to.be.true;
-      expect(request?.params.extend, 'extend should be undefined').to.be.undefined;
-      expect(request?.params.shorten, 'shorten should be true').to.be.true;
-      expect(request?.params.signature, 'signature should not be empty').to.not.be.empty;
+      expect(request.params.extend, 'extend should be undefined').to.be.undefined;
+      expect(request.params.shorten, 'shorten should be true').to.be.true;
+      expect(request.params.signature, 'signature should not be empty').to.not.be.empty;
     });
     it('fails to build a request if extend and shorten are both enabled', async () => {
       const request: UpdateExpiryOnNodeSubRequest | null = await buildExpireRequest({

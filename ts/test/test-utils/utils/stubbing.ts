@@ -1,12 +1,12 @@
 /* eslint-disable func-names */
 import { expect } from 'chai';
 import Sinon from 'sinon';
+import { ConfigDumpData } from '../../../data/configDump/configDump';
 import { Data } from '../../../data/data';
 import { OpenGroupData } from '../../../data/opengroups';
-import { ConfigDumpData } from '../../../data/configDump/configDump';
 
-import * as utilWorker from '../../../webworker/workers/browser/util_worker_interface';
 import * as libsessionWorker from '../../../webworker/workers/browser/libsession_worker_interface';
+import * as utilWorker from '../../../webworker/workers/browser/util_worker_interface';
 
 const globalAny: any = global;
 
@@ -84,7 +84,7 @@ export function stubWindow<K extends keyof Window>(fn: K, value: WindowValue<K>)
   };
 }
 
-export const enableLogRedirect = true;
+export const enableLogRedirect = false;
 
 export const stubWindowLog = () => {
   stubWindow('log', {
