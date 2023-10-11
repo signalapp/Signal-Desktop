@@ -5728,7 +5728,10 @@ async function removeAllConfiguration(
     }
 
     db.exec(
-      "UPDATE conversations SET json = json_remove(json, '$.senderKeyInfo');"
+      `
+      UPDATE conversations SET json = json_remove(json, '$.senderKeyInfo');
+      UPDATE storyDistributions SET senderKeyInfoJson = NULL;
+      `
     );
   })();
 }
