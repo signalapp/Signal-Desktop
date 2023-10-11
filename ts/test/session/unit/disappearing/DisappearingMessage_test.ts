@@ -1,12 +1,11 @@
 import chai, { expect } from 'chai';
-import Sinon from 'sinon';
 import chaiAsPromised from 'chai-as-promised';
-import {
-  generateDisappearingVisibleMessage,
-  generateFakeExpirationTimerUpdate,
-  generateFakeIncomingPrivateMessage,
-  generateVisibleMessage,
-} from '../../../test-utils/utils';
+import Sinon from 'sinon';
+import { ConversationModel } from '../../../../models/conversation';
+import { ConversationTypeEnum } from '../../../../models/conversationAttributes';
+import { GetNetworkTime } from '../../../../session/apis/snode_api/getNetworkTime';
+import { UserUtils } from '../../../../session/utils';
+import { isValidUnixTimestamp } from '../../../../session/utils/Timestamps';
 import {
   DisappearingMessageConversationModeType,
   DisappearingMessageType,
@@ -15,21 +14,24 @@ import {
   checkForExpireUpdateInContentMessage,
   setExpirationStartTimestamp,
 } from '../../../../util/expiringMessages';
-import { isValidUnixTimestamp } from '../../../../session/utils/Timestamps';
-import { GetNetworkTime } from '../../../../session/apis/snode_api/getNetworkTime';
-import { ConversationModel } from '../../../../models/conversation';
-import { ConversationTypeEnum } from '../../../../models/conversationAttributes';
-import { UserUtils } from '../../../../session/utils';
 import { ReleasedFeatures } from '../../../../util/releaseFeature';
 import { TestUtils } from '../../../test-utils';
+import {
+  generateDisappearingVisibleMessage,
+  generateFakeExpirationTimerUpdate,
+  generateFakeIncomingPrivateMessage,
+  generateVisibleMessage,
+} from '../../../test-utils/utils';
 
 chai.use(chaiAsPromised as any);
 
+const testPubkey = TestUtils.generateFakePubKeyStr();
+
 describe('Disappearing Messages', () => {
   const getLatestTimestampOffset = 200000;
-  const ourNumber = '051234567890acbdef';
+  const ourNumber = TestUtils.generateFakePubKeyStr();
   const conversationArgs = {
-    id: '050123456789abcdef050123456789abcdef0123456789abcdef050123456789ab',
+    id: testPubkey,
     type: ConversationTypeEnum.PRIVATE,
     isApproved: true,
     active_at: 123,
@@ -403,7 +405,7 @@ describe('Disappearing Messages', () => {
             expirationType: 'deleteAfterSend',
             expireTimer: 300,
             lastDisappearingMessageChangeTimestamp,
-            source: '050123456789abcdef050123456789abcdef0123456789abcdef050123456789ab',
+            source: testPubkey,
           },
         });
 
@@ -444,7 +446,7 @@ describe('Disappearing Messages', () => {
             expirationType: 'deleteAfterSend',
             expireTimer: 300,
             lastDisappearingMessageChangeTimestamp: lastDisappearingMessageChangeTimestamp - 20000,
-            source: '050123456789abcdef050123456789abcdef0123456789abcdef050123456789ab',
+            source: testPubkey,
           },
         });
 
@@ -552,7 +554,7 @@ describe('Disappearing Messages', () => {
           providedDisappearingMode: 'deleteAfterSend',
           providedExpireTimer: 600,
           providedChangeTimestamp: lastDisappearingMessageChangeTimestamp,
-          providedSource: '050123456789abcdef050123456789abcdef0123456789abcdef050123456789ab',
+          providedSource: testPubkey,
           receivedAt: GetNetworkTime.getNowWithNetworkOffset(),
           fromSync: true,
           shouldCommitConvo: false,
@@ -580,7 +582,7 @@ describe('Disappearing Messages', () => {
           expirationType: 'deleteAfterSend',
           expireTimer: 300,
           lastDisappearingMessageChangeTimestamp: GetNetworkTime.getNowWithNetworkOffset(),
-          source: '050123456789abcdef050123456789abcdef0123456789abcdef050123456789ab',
+          source: testPubkey,
         });
 
         expect(expirationTimerUpdateMessage.get('flags'), 'flags should be 2').to.equal(2);
