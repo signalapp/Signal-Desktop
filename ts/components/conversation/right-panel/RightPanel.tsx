@@ -1,12 +1,11 @@
 import React from 'react';
 
-import { useSelector } from 'react-redux';
-import { getRightOverlayMode } from '../../../state/selectors/section';
-import { OverlayDisappearingMessages } from './overlay/disappearing-messages/OverlayDisappearingMessages';
+import { useRightOverlayMode } from '../../../hooks/useUI';
 import { OverlayRightPanelSettings } from './overlay/OverlayRightPanelSettings';
+import { OverlayDisappearingMessages } from './overlay/disappearing-messages/OverlayDisappearingMessages';
 
 const ClosableOverlay = () => {
-  const rightOverlayMode = useSelector(getRightOverlayMode);
+  const rightOverlayMode = useRightOverlayMode();
 
   switch (rightOverlayMode) {
     case 'disappearing-messages':

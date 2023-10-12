@@ -1,8 +1,8 @@
 import { createSelector } from '@reduxjs/toolkit';
 
-import { StateType } from '../reducer';
-import { OverlayMode, RightOverlayMode, SectionStateType, SectionType } from '../ducks/section';
 import { SessionSettingCategory } from '../../components/settings/SessionSettings';
+import { OverlayMode, SectionStateType, SectionType } from '../ducks/section';
+import { StateType } from '../reducer';
 
 export const getSection = (state: StateType): SectionStateType => state.section;
 
@@ -36,8 +36,4 @@ export const getIsMessageRequestOverlayShown = (state: StateType) => {
   const overlayMode = getOverlayMode(state);
 
   return focusedSection === SectionType.Message && overlayMode === 'message-requests';
-};
-
-export const getRightOverlayMode = (state: StateType): RightOverlayMode | undefined => {
-  return state.section.rightOverlayMode;
 };
