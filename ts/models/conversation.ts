@@ -333,9 +333,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
 
     if (this.getLastDisappearingMessageChangeTimestamp()) {
-      toRet.lastDisappearingMessageChangeTimestamp = this.get(
-        'lastDisappearingMessageChangeTimestamp'
-      );
+      toRet.lastDisappearingMessageChangeTimestamp = this.getLastDisappearingMessageChangeTimestamp();
     }
 
     if (this.getHasOutdatedClient()) {
