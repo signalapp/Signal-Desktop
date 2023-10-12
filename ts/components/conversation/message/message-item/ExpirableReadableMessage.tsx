@@ -3,13 +3,13 @@ import { useDispatch } from 'react-redux';
 import { useInterval, useMount } from 'react-use';
 import styled from 'styled-components';
 import { Data } from '../../../../data/data';
+import { useMessageExpirationPropsById } from '../../../../hooks/useParamSelector';
+import { MessageModelType } from '../../../../models/messageType';
 import { getConversationController } from '../../../../session/conversations';
-import { messagesExpired, PropsForExpiringMessage } from '../../../../state/ducks/conversations';
+import { PropsForExpiringMessage, messagesExpired } from '../../../../state/ducks/conversations';
 import { getIncrement } from '../../../../util/timer';
 import { ExpireTimer } from '../../ExpireTimer';
 import { ReadableMessage, ReadableMessageProps } from './ReadableMessage';
-import { MessageModelType } from '../../../../models/messageType';
-import { useMessageExpirationPropsById } from '../../../../hooks/useParamSelector';
 
 const EXPIRATION_CHECK_MINIMUM = 2000;
 
@@ -126,7 +126,7 @@ export const ExpirableReadableMessage = (props: ExpirableReadableMessageProps) =
       key={`readable-message-${messageId}`}
       dataTestId={dataTestId}
     >
-      {expirationLength && expirationTimestamp && (
+      {expirationLength && expirationTimestamp ? (
         <ExpireTimer
           expirationLength={expirationLength}
           expirationTimestamp={expirationTimestamp}
@@ -136,9 +136,9 @@ export const ExpirableReadableMessage = (props: ExpirableReadableMessageProps) =
             flexGrow: !isCentered ? 1 : undefined,
           }}
         />
-      )}
+      ) : null}
       {props.children}
-      {expirationLength && expirationTimestamp && (
+      {expirationLength && expirationTimestamp ? (
         <ExpireTimer
           expirationLength={expirationLength}
           expirationTimestamp={expirationTimestamp}
@@ -149,7 +149,7 @@ export const ExpirableReadableMessage = (props: ExpirableReadableMessageProps) =
             textAlign: !isCentered ? 'end' : undefined,
           }}
         />
-      )}
+      ) : null}
     </StyledReadableMessage>
   );
 };
