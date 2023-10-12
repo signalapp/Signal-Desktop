@@ -1,5 +1,5 @@
-import { TextEncoder } from 'util';
 import { expect } from 'chai';
+import { TextEncoder } from 'util';
 
 import { toNumber } from 'lodash';
 import { SignalService } from '../../../../protobuf';
@@ -32,15 +32,40 @@ describe('VisibleMessage', () => {
     expect(decoded.dataMessage).to.have.deep.property('body', 'body');
   });
 
-  // TODO move into Disappearing Messages test
-  it('can create message with a expire timer', () => {
+  it('can create a disappear after read message', () => {
     const message = new VisibleMessage({
       timestamp: Date.now(),
-      expireTimer: 3600,
+      expirationType: 'deleteAfterRead',
+      expireTimer: 300,
     });
     const plainText = message.plainTextBuffer();
     const decoded = SignalService.Content.decode(plainText);
-    expect(decoded.dataMessage).to.have.deep.property('expireTimer', 3600);
+    expect(decoded, 'should have an expirationType of deleteAfterRead').to.have.deep.property(
+      'expirationType',
+      SignalService.Content.ExpirationType.DELETE_AFTER_READ
+    );
+    expect(decoded, 'should have an expirationTimer of 5 minutes').to.have.deep.property(
+      'expirationTimer',
+      300
+    );
+  });
+
+  it('can create a disappear after send message', () => {
+    const message = new VisibleMessage({
+      timestamp: Date.now(),
+      expirationType: 'deleteAfterSend',
+      expireTimer: 60,
+    });
+    const plainText = message.plainTextBuffer();
+    const decoded = SignalService.Content.decode(plainText);
+    expect(decoded, 'should have an expirationType of deleteAfterSend').to.have.deep.property(
+      'expirationType',
+      SignalService.Content.ExpirationType.DELETE_AFTER_SEND
+    );
+    expect(decoded, 'should have an expirationTimer of 1 minute').to.have.deep.property(
+      'expirationTimer',
+      60
+    );
   });
 
   it('can create message with a full loki profile', () => {
