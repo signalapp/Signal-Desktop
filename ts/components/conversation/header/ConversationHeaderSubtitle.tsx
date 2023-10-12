@@ -54,7 +54,7 @@ const SubtitleDotMenu = ({
 
       return (
         <StyledSubtitleDot
-          key={`subtitleDotMenu-${index}`}
+          key={`subtitleDotMenu-${option}-${index}`}
           active={selectedOptionIndex === index}
         />
       );
