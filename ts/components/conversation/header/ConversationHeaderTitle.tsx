@@ -6,6 +6,7 @@ import { closeRightPanel, openRightPanel } from '../../../state/ducks/conversati
 import { resetRightOverlayMode, setRightOverlayMode } from '../../../state/ducks/section';
 import {
   useSelectedConversationDisappearingMode,
+  useSelectedConversationKey,
   useSelectedExpireTimer,
   useSelectedIsGroup,
   useSelectedIsKickedFromGroup,
@@ -33,6 +34,7 @@ export type SubtitleStringsType = keyof Pick<
 // tslint:disable: cyclomatic-complexity max-func-body-length
 export const ConversationHeaderTitle = () => {
   const dispatch = useDispatch();
+  const convoId = useSelectedConversationKey();
   const convoName = useSelectedNicknameOrProfileNameOrShortenedPubkey();
 
   const notificationSetting = useSelectedNotificationSetting();
@@ -129,7 +131,7 @@ export const ConversationHeaderTitle = () => {
     }
     // We only want this to change when a new conversation is selected or disappearing messages is toggled
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [convoName, disappearingMessageSubtitle]);
+  }, [convoId, disappearingMessageSubtitle]);
 
   useEffect(() => {
     const newSubtitlesArray: any = [];
