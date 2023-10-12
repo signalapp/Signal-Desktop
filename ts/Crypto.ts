@@ -127,6 +127,10 @@ export function decryptDeviceName(
   return Bytes.toString(plaintext);
 }
 
+export function deriveStorageServiceKey(masterKey: Uint8Array): Uint8Array {
+  return hmacSha256(masterKey, Bytes.fromString('Storage Service Encryption'));
+}
+
 export function deriveStorageManifestKey(
   storageServiceKey: Uint8Array,
   version: Long = Long.fromNumber(0)

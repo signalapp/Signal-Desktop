@@ -355,12 +355,23 @@ export class FetchLatestEvent extends ConfirmableEvent {
   }
 }
 
+export type KeysEventData = Readonly<{
+  storageServiceKey: Uint8Array | undefined;
+  masterKey: Uint8Array | undefined;
+}>;
+
 export class KeysEvent extends ConfirmableEvent {
+  public readonly storageServiceKey: Uint8Array | undefined;
+  public readonly masterKey: Uint8Array | undefined;
+
   constructor(
-    public readonly storageServiceKey: Uint8Array,
+    { storageServiceKey, masterKey }: KeysEventData,
     confirm: ConfirmCallback
   ) {
     super('keys', confirm);
+
+    this.storageServiceKey = storageServiceKey;
+    this.masterKey = masterKey;
   }
 }
 
