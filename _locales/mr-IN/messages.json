@@ -6812,9 +6812,9 @@
     "messageformat": "आता आपण संदेश पाठवल्यानंतर उजव्या क्लिकने संदेशाना संपादित करू शकता! आपण जर पाठवा बटण फार घाईने दाबले असता, आपण आजीच्या चॉकलेट चीप्स कुकीच्या पाककृती मधील विसरलेले घटक समाविष्ट करू शकता, किंवा विनोदामध्ये पंचलाइन जोडू शकता. निवड आपली आहे. संदेशांना केव्हा संपादित करण्यात आले होते ते संदेश नेहमीच दाखवतील, आणि आपण कोणत्याही संपादित संदेशासाठी त्याचा पूर्ण संपादनाचा इतिहास पाहण्यासाठी \"संपादित\" निदर्शकावर टॅप करू शकता. आज भविष्यातीला गोंधळ टाळण्यासाठी भूतकाळ वर्तमानामध्ये अपडेट करा!"
   },
   "icu:WhatsNew__v6.34--0": {
-    "messageformat": "Typing indicators in group chats will now display multiple profile pictures if more than one person is typing. James Cameron convinced us that we didn't need to stop after one avatar."
+    "messageformat": "एकापेक्षा जास्त व्यक्ती टायपिंग करत असतील तर समूह चॅट्स मधील टायपिंग निर्देशक एकाधिक प्रोफाइल चित्र दाखवतील. जेम्स कॅमेरॉनने आमची खात्री पटवून दिली की आपण एका अवतार नंतर थांबणार नाही."
   },
   "icu:WhatsNew__v6.34--1": {
-    "messageformat": "Now you can right-click on any sent message or press the up arrow on your keyboard to edit what you just said! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "आपण आता काय म्हणालात त्याला संपादित करण्यासाठी आता आपण पाठवलेल्या कोणत्याही संदेशावर उजवे-क्लिक करा किंवा आपल्या कीबोर्डवरील वरचा बाण दाबा! आपण पाठवा बटण फार घाईने दाबले असता, आपण आजीच्या चॉकलेट चीप्स कुकीच्या पाककृती मधील विसरलेले घटक समाविष्ट करू शकता, किंवा विनोदामध्ये पंचलाइन जोडू शकता. निवड आपली आहे. संदेशांना केव्हा संपादित करण्यात आले होते ते संदेश नेहमीच दाखवतील, आणि आपण कोणत्याही संपादित संदेशासाठी त्याचा पूर्ण संपादनाचा इतिहास पाहण्यासाठी \"संपादित\" निदर्शकावर टॅप करू शकता. आज भविष्यातीला गोंधळ टाळण्यासाठी भूतकाळाला वर्तमानामध्ये अद्ययावत करा!"
   }
 }

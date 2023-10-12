@@ -6812,9 +6812,9 @@
     "messageformat": "• Nyt voit muokata viestiä myös sen lähettämisen jälkeen painamalla sitä pitkään. Valinta on sinun. Viesteistä näkyy, milloin niitä on muokattu. Voit myös katsoa muokattujen viestien koko muokkaushistoriaa napauttamalla kohtaa Muokattu viestin kohdalla, johon on tehty muutoksia."
   },
   "icu:WhatsNew__v6.34--0": {
-    "messageformat": "Typing indicators in group chats will now display multiple profile pictures if more than one person is typing. James Cameron convinced us that we didn't need to stop after one avatar."
+    "messageformat": "Ryhmäkeskustelujen kirjoittamisen ilmaisimet ilmaisimet näyttävät nyt useita profiilikuvia, jos useampi kuin yksi henkilö kirjoittaa."
   },
   "icu:WhatsNew__v6.34--1": {
-    "messageformat": "Now you can right-click on any sent message or press the up arrow on your keyboard to edit what you just said! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "Nyt voit muokata viestiä sen lähettämisen jälkeen napsauttamalla viestiä hiiren oikealla painikkeella tai painamalla näppäimistön nuolta ylöspäin. Korjaa kirjoitusvirheet, sisällytä puuttuva ainesosa isoäidin suklaakeksireseptiin tai lisää loppuhuipennus vitsiin, jos painoit lähetyspainiketta liian nopeasti. Valinta on sinun. Viesteistä näkyy, milloin niitä on muokattu. Voit myös katsoa muokattujen viestien koko muokkaushistoriaa napauttamalla kohtaa Muokattu viestin kohdalla, johon on tehty muutoksia."
   }
 }

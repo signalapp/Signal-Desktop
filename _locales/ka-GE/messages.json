@@ -6812,9 +6812,9 @@
     "messageformat": "ახლა უკვე შეგიძლია ნებისმიერ გაგზავნილ წერილზე მაუსის მარჯვენა ღილაკით დააწკაპუნო ან კლავიატურაზე ისარს დააჭირო, რომ შენი ნათქვამი შეცვალო! გამოასწორე შეცდომა, შეიტანე დაკარგული ინგრედიენტი ბებიას შოკოლადის ნამცხვრის რეცეპტში, ან დაამატე ხუმრობა, თუ შემთხვევით გაგზავნის ღილაკზე უკვე დაგეჭირა. არჩევანი შენზეა.\n\n ყოველთვის გამოჩნდება, თუ წერილი რედაქტირებულია და შეძლებ ნებისმიერი შესწორებული წერილის რედაქტირების სრული ისტორია ნახო. შეცვალე წარსული აწმყოში, რათა მომავალი გაურკვევლობა თავიდან აიცილო!"
   },
   "icu:WhatsNew__v6.34--0": {
-    "messageformat": "Typing indicators in group chats will now display multiple profile pictures if more than one person is typing. James Cameron convinced us that we didn't need to stop after one avatar."
+    "messageformat": "ჯგუფურ ჩატებში ბეჭდვის ინდიკატორები ახლა რამდენიმე პროფილის სურათს აჩვენებს, თუ ერთზე მეტი ადამიანი კრეფს."
   },
   "icu:WhatsNew__v6.34--1": {
-    "messageformat": "Now you can right-click on any sent message or press the up arrow on your keyboard to edit what you just said! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "ახლა უკვე შეგიძლია მარჯვენა ღილაკით ნებისმიერ გაგზავნილ შეტყობინებაზე დააწკაპუნო ან კლავიატურაზე \"მაღლა\" ისარს დააჭირო, რომ შეცვალო ის, რაც ახლახანს თქვი! გამოასწორე შეცდომა, შეიტანე დაკარგული ინგრედიენტი ბებიას შოკოლადის ნამცხვრის რეცეპტში, ან დაამატე ხუმრობა, თუ შემთხვევით გაგზავნის ღილაკზე უკვე დაგეჭირა. არჩევანი შენზეა. ყოველთვის გამოჩნდება, თუ შეტყობინება რედაქტირებულია და შეძლებ ნებისმიერი შესწორებული შეტყობინების რედაქტირების სრული ისტორია ნახო."
   }
 }

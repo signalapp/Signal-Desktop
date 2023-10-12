@@ -509,7 +509,7 @@
     "description": "Used as a label on a button allowing user to see more information"
   },
   "icu:youLeftTheGroup": {
-    "messageformat": "Je bent niet langer lid van deze groep en je zult daarom geen nieuwe berichten zien.",
+    "messageformat": "Je bent niet langer lid van deze groep.",
     "description": "Displayed when a user can't send a message because they have left the group"
   },
   "icu:invalidConversation": {
@@ -696,7 +696,7 @@
     "description": "An explanatory note in SafetyNumberViewer describing the safety number migration process."
   },
   "icu:SafetyNumberViewer__migration__learn_more": {
-    "messageformat": "Meer leren hierover",
+    "messageformat": "Meer informatie",
     "description": "A link text in SafetyNumberViewer describing the safety number migration process."
   },
   "icu:SafetyNumberViewer__card__prev": {
@@ -752,7 +752,7 @@
     "description": "Body of SafetyNumberNotReady modal"
   },
   "icu:SafetyNumberNotReady__learn-more": {
-    "messageformat": "Meer leren hierover",
+    "messageformat": "Meer informatie",
     "description": "Text of 'Learn more' button of SafetyNumberNotReady modal"
   },
   "icu:isVerified": {
@@ -1407,7 +1407,7 @@
     "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Title"
   },
   "icu:ConversationHeader__LeaveGroupConfirmation__description": {
-    "messageformat": "Je kunt in dit groepsgesprek niet langer berichten verzenden of ontvangen.",
+    "messageformat": "Je zult in deze groep niet langer berichten kunnen verzenden of ontvangen.",
     "description": "Conversation Header > Leave Group Action > Leave Group Confirmation Modal > Description"
   },
   "icu:ConversationHeader__LeaveGroupConfirmation__confirmButton": {
@@ -1455,7 +1455,7 @@
     "description": "Shown on explainer dialog available from delivery issue timeline events"
   },
   "icu:DeliveryIssue--summary": {
-    "messageformat": "Een bericht, media, sticker, emoji-reactie, of een bevestiging dat een bericht gelezen is van {sender} kan niet aan jou worden afgeleverd. Het kan zijn dat hij of zij iets probeerde naar je te verzenden in een één-op-één-gesprek of in een groepsgesprek.",
+    "messageformat": "Een bericht, media, sticker, emoji-reactie, of leesbevestiging van {sender} kon niet aan jou worden afgeleverd. Het kan zijn dat hij of zij iets naar je probeerde te verzenden in een één-op-één-gesprek of in een groepsgesprek.",
     "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations"
   },
   "icu:DeliveryIssue--summary--group": {
@@ -1539,7 +1539,7 @@
     "description": "The menu option shown in Signal iOS to add a new linked device"
   },
   "icu:Install__learn-more": {
-    "messageformat": "Meer leren hierover",
+    "messageformat": "Meer informatie",
     "description": "Button text for learn more button during error screen"
   },
   "icu:Install__scan-this-code": {
@@ -2340,7 +2340,7 @@
     "description": "Shown in the alert when you add the maximum recommended number of group members"
   },
   "icu:setGroupMetadata__title": {
-    "messageformat": "Geef dit groepsgesprek een naam",
+    "messageformat": "Geef deze groep een naam",
     "description": "The title for the 'set group metadata' left pane screen"
   },
   "icu:setGroupMetadata__back-button": {
@@ -3129,7 +3129,7 @@
     "description": "Shown in the calling keyboard shortcuts guide"
   },
   "icu:Keyboard--start-audio-call": {
-    "messageformat": "Spraakgesprek beginnen?",
+    "messageformat": "Spraakoproep beginnen?",
     "description": "Shown in the calling keyboard shortcuts guide"
   },
   "icu:Keyboard--start-video-call": {
@@ -3373,7 +3373,7 @@
     "description": "Shown to indicate this user is not a member of any groups"
   },
   "icu:no-groups-in-common-warning": {
-    "messageformat": "Deze persoon is een onbekende, je zit zelfs niet in een groepsgesprek met deze persoon. Overweeg daarom zorgvuldig of je dit gespreksverzoek wilt aanvaarden.",
+    "messageformat": "Je hebt geen gemeenschappelijke groepen met deze persoon. Beoordeel dit gespreksverzoek zorgvuldig.",
     "description": "When a user has no common groups, show this warning"
   },
   "icu:acceptCall": {
@@ -3437,7 +3437,7 @@
     "description": "Shown in a notification body when Signal is minimized to tray"
   },
   "icu:incomingAudioCall": {
-    "messageformat": "Inkomend spraakgesprek...",
+    "messageformat": "Inkomende spraakoproep...",
     "description": "Shown in both the incoming call bar and notification for an incoming voice call"
   },
   "icu:incomingVideoCall": {
@@ -4501,7 +4501,7 @@
     "description": "This is a button in the conversation context menu to show the chat color editor"
   },
   "icu:showConversationDetails": {
-    "messageformat": "Groepsgesprek-instellingen",
+    "messageformat": "Groepsinstellingen",
     "description": "This is a button in the conversation context menu to show group settings"
   },
   "icu:showConversationDetails--direct": {
@@ -4581,7 +4581,7 @@
     "description": "This is the modal title for confirming leaving a group"
   },
   "icu:ConversationDetailsActions--leave-group-modal-content": {
-    "messageformat": "Je zult in dit groepsgesprek niet langer berichten kunnen verzenden of ontvangen.",
+    "messageformat": "Je zult in deze groep niet langer berichten kunnen verzenden of ontvangen.",
     "description": "This is the modal content for confirming leaving a group"
   },
   "icu:ConversationDetailsActions--leave-group-modal-confirm": {
@@ -4873,7 +4873,7 @@
     "description": "When creating a new group and inviting users, this is shown in the dialog"
   },
   "icu:NewlyCreatedGroupInvitedContactsDialog--body--learn-more": {
-    "messageformat": "Meer leren hierover",
+    "messageformat": "Meer informatie",
     "description": "When creating a new group and inviting users, this is shown in the dialog"
   },
   "icu:AddGroupMembersModal--title": {
@@ -4977,7 +4977,7 @@
     "description": "Toast message shown when trying to forward an empty or deleted message"
   },
   "icu:MessageRequestWarning__learn-more": {
-    "messageformat": "Meer leren hierover",
+    "messageformat": "Meer informatie",
     "description": "Shown on the message request warning. Clicking this button will open a dialog with more information"
   },
   "icu:MessageRequestWarning__dialog__details": {
@@ -6812,9 +6812,9 @@
     "messageformat": "Je kunt nu een bericht bewerken nadat je het verstuurd hebt door op de rechter muisknop te klikken! Verbeter een tpyo, voeg het ontbrekende ingrediënt aan oma's appeltaartrecept toe, of voeg de clou toe aan een grap als je te snel op de verzendknop hebt gedrukt. Jij mag het weten. Je kunt altijd zien wanneer berichten zijn bewerkt en je kunt op 'Bewerkt' tikken om de volledige bewerkingsgeschiedenis van bewerkte berichten te bekijken. Bewerk het verleden in het heden om in de toekomst verwarring te voorkomen!"
   },
   "icu:WhatsNew__v6.34--0": {
-    "messageformat": "Typing indicators in group chats will now display multiple profile pictures if more than one person is typing. James Cameron convinced us that we didn't need to stop after one avatar."
+    "messageformat": "Typindicatoren in groepsgesprekken geven nu meerdere profielfoto's weer wanneer meer dan één persoon aan het typen is. Avatar-regisseur James Cameron heeft ons ervan overtuigd dat het niet bij één avatar hoeft te blijven."
   },
   "icu:WhatsNew__v6.34--1": {
-    "messageformat": "Now you can right-click on any sent message or press the up arrow on your keyboard to edit what you just said! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "Om te bewerken wat je net hebt getypt, kun je nu met de rechtermuisknop op een bericht klikken of de knop met de pijl omhoog op je toetsenbord gebruiken! Verbeter een tpyo, voeg het ontbrekende ingrediënt aan oma's appeltaartrecept toe, of voeg de clou toe aan een grap als je te snel op de verzendknop hebt gedrukt. Jij mag het weten. Je kunt altijd zien wanneer berichten zijn bewerkt en je kunt op 'Bewerkt' tikken om de volledige bewerkingsgeschiedenis van bewerkte berichten te bekijken. Bewerk het verleden in het heden om in de toekomst verwarring te voorkomen!"
   }
 }

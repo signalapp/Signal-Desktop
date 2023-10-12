@@ -6812,9 +6812,9 @@
     "messageformat": "Agora você pode editar uma mensagem a clicar com o botão direito após enviar. Corrija um erro de digitação, inclua o ingrediente que falta na receita de biscoito de chocolate da vovó ou adicione a parte final de uma piada se você clicar no botão enviar muito rapidamente. Você decide. Os participantes do chat saberão quando as mensagens forem editadas. Você pode ver o histórico de edições completo de todas as mensagens editadas."
   },
   "icu:WhatsNew__v6.34--0": {
-    "messageformat": "Typing indicators in group chats will now display multiple profile pictures if more than one person is typing. James Cameron convinced us that we didn't need to stop after one avatar."
+    "messageformat": "Os indicadores de digitação nos chats de grupo agora vão exibir várias fotos de perfil se mais de uma pessoa estiver digitando."
   },
   "icu:WhatsNew__v6.34--1": {
-    "messageformat": "Now you can right-click on any sent message or press the up arrow on your keyboard to edit what you just said! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "Agora você pode clicar com o botão direito em qualquer mensagem enviada ou pressionar a seta para cima no seu teclado para editar o que acabou de escrever! Corrija um erro de digitação, inclua o ingrediente que falta na receita de biscoito de chocolate da vovó ou adicione a parte final de uma piada se você clicar no botão enviar antes da hora. Você decide. Será sempre possível saber se as mensagens foram editadas, é só clicar no indicador \"Editada\" para ver o histórico de edições completo."
   }
 }

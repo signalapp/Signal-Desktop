@@ -6812,9 +6812,9 @@
     "messageformat": "Nu kan du redigere en besked ved at holde højreklikke efter afsendelse! Ret en stavefejl, inkluder den sidste ingrediens i bedstemors chokoladekage, eller få jokens punchline med, hvis du var lidt for hurtig til at trykke send. Valget er dit. Beskeder viser altid at de er blevet rettet, og du kan klikke på \"Redigeret\" for at se redigeringshistorikken for hvilken som helst redigeret besked."
   },
   "icu:WhatsNew__v6.34--0": {
-    "messageformat": "Typing indicators in group chats will now display multiple profile pictures if more than one person is typing. James Cameron convinced us that we didn't need to stop after one avatar."
+    "messageformat": "Skriveindikatorer i gruppechats viser nu flere profilbilleder, hvis der er mere end én person, der skriver. James Cameron overbeviste os om, at vi ikke behøvede at stoppe efter én avatar."
   },
   "icu:WhatsNew__v6.34--1": {
-    "messageformat": "Now you can right-click on any sent message or press the up arrow on your keyboard to edit what you just said! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "Nu kan du højreklikke på enhver sendt besked eller trykke på pil op på dit tastatur for at redigere det, du lige har sagt! Ret en stavefejl, inkluder den manglende ingrediens i bedstemors chokoladekageopskrift, eller tilføj pointen til en vittighed, hvis du trykkede for hurtigt på Send-knappen. Valget er dit. Beskederne vil altid vise, når de er blevet redigeret, og du kan klikke på teksten \"Redigeret\" for at se den fulde redigeringshistorik for alle redigerede beskeder. Opdater fortiden i nutiden for at forhindre fremtidig forvirring i dag!"
   }
 }

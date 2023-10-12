@@ -6812,9 +6812,9 @@
     "messageformat": "Nüüd saad sõnumeid paremklõpsuga muuta isegi pärast saatmist! Paranda trükivigu, lisa jagatud retsepti puuduvad koostisosad, või lisa liiga vara teele pandud naljale lõpupüant. Valik on sinu. Sõnumites kuvatakse alati, millal neid on muudetud, ning samuti saad vaadata muudetud sõnumi täielikku muutmiste ajalugu, klõpsates märget „Muudetud“. Uuenda saadetud sõnumit, et vältida edaspidist segadust!"
   },
   "icu:WhatsNew__v6.34--0": {
-    "messageformat": "Typing indicators in group chats will now display multiple profile pictures if more than one person is typing. James Cameron convinced us that we didn't need to stop after one avatar."
+    "messageformat": "Kui grupivestluses trükib korraga rohkem kui üks inimene, siis kuvatakse nüüd trükkimise sümboliga mitu profiilipilti."
   },
   "icu:WhatsNew__v6.34--1": {
-    "messageformat": "Now you can right-click on any sent message or press the up arrow on your keyboard to edit what you just said! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "Nüüd saad paremklõpsata ükskõik millisele saadetud sõnumile või vajutada klaviatuuril ülesnoolt, et saadetud sõnumit muuta! Paranda trükivigu, lisa vanaema küpsiseretsepti puuduvad koostisosad, või lisa liiga vara teele pandud naljale lõpupüant. Valik on sinu. Sõnumites kuvatakse alati, millal neid on muudetud, ning samuti saad vaadata muudetud sõnumi täielikku muutmiste ajalugu."
   }
 }

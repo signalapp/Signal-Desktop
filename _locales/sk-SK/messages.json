@@ -6812,9 +6812,9 @@
     "messageformat": "Chcete upraviť to, čo ste práve napísali? Jednoducho kliknite pravým tlačidlom myši na akúkoľvek odoslanú správu alebo stlačte šípku nahor na klávesnici. Opravte preklep, pridajte chýbajúcu ingredienciu do receptu na čokoládové sušienky alebo doplňte vtip o pointu, ak ste ho omylom odoslali príliš rýchlo. Je to len na vás. Správy vždy zobrazia, kedy boli upravené, a pri každej upravenej správe si môžete pozrieť celú históriu úprav."
   },
   "icu:WhatsNew__v6.34--0": {
-    "messageformat": "Typing indicators in group chats will now display multiple profile pictures if more than one person is typing. James Cameron convinced us that we didn't need to stop after one avatar."
+    "messageformat": "Indikátory písania v skupinových četoch budú odteraz zobrazovať viacero profilových fotiek, ak píše viac osôb."
   },
   "icu:WhatsNew__v6.34--1": {
-    "messageformat": "Now you can right-click on any sent message or press the up arrow on your keyboard to edit what you just said! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "Chcete upraviť to, čo ste práve napísali? Jednoducho kliknite pravým tlačidlom myši na akúkoľvek odoslanú správu alebo stlačte šípku nahor na klávesnici. Opravte preklep, pridajte chýbajúcu ingredienciu do receptu na čokoládové sušienky alebo doplňte vtip o pointu, ak ste ho omylom odoslali príliš rýchlo. Je to len na vás. Správy vždy zobrazia, kedy boli upravené, a pri každej upravenej správe si môžete pozrieť celú históriu jej úprav."
   }
 }

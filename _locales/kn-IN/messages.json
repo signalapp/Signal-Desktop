@@ -6812,9 +6812,9 @@
     "messageformat": "ನೀವೀಗ ಮೆಸೇಜ್ ಅನ್ನು ಕಳುಹಿಸಿದ ನಂತರ ರೈಟ್ ಕ್ಲಿಕ್ ಮೂಲಕ ಅದನ್ನು ಎಡಿಟ್ ಮಾಡಬಹುದು! ನೀವು ತೀರಾ ತ್ವರಿತವಾಗಿ ಕಳಿಸಿದ ಮೆಸೇಜ್‌ನ ಬಟನ್‌ನನ್ನು ಒತ್ತಿದಲ್ಲಿ, ಅಕ್ಷರದೋಷವನ್ನು ಸರಿಪಡಿಸಿ, ಅಜ್ಜಿಯ ಚಾಕಲೇಟ್ ಚಿಪ್ ಕುಕೀ ರೆಸಿಪಿಯಲ್ಲಿ ಬಿಟ್ಟುಹೋದ ಪದಾರ್ಥವನ್ನು ಸೇರಿಸಿ ಅಥವಾ ನೀವು ಕಳಿಸಿದ ಜೋಕ್‌ಗೆ ಪಂಚ್‌ಲೈನ್ ಸೇರಿಸಿ. ಆಯ್ಕೆ ನಿಮ್ಮದು. ಮೆಸೇಜ್‌ಗಳನ್ನು ಎಡಿಟ್ ಮಾಡಿದಾಗಲೆಲ್ಲಾ ಅವುಗಳು ಕಾಣಿಸಿಕೊಳ್ಳುತ್ತವೆ ಮತ್ತು ಎಡಿಟ್ ಮಾಡಿದ ಯಾವುದೇ ಮೆಸೇಜ್‌ಗಳ ಪೂರ್ಣ ಎಡಿಟ್ ಇತಿಹಾಸವನ್ನು ನೋಡಲು ನೀವು \"ಎಡಿಟ್ ಮಾಡಲಾಗಿದೆ\" ಇಂಡಿಕೇಟರ್ ಮೇಲೆ ಕ್ಲಿಕ್ ಮಾಡಬಹುದು. ಭವಿಷ್ಯದ ಗೊಂದಲವನ್ನು ತಡೆಯಲು ಹಿಂದಿನ ತಪ್ಪನ್ನು ಈಗಲೇ ಸರಿಪಡಿಸಿ!"
   },
   "icu:WhatsNew__v6.34--0": {
-    "messageformat": "Typing indicators in group chats will now display multiple profile pictures if more than one person is typing. James Cameron convinced us that we didn't need to stop after one avatar."
+    "messageformat": "ಗ್ರೂಪ್ ಚಾಟ್‌ಗಳಲ್ಲಿ ಒಬ್ಬರಿಗಿಂತ ಹೆಚ್ಚು ವ್ಯಕ್ತಿಗಳು ಟೈಪ್ ಮಾಡುತ್ತಿದ್ದರೆ ಟೈಪಿಂಗ್ ಸೂಚಕಗಳು ಈಗ ಬಹು ಪ್ರೊಫೈಲ್ ಚಿತ್ರಗಳನ್ನು ಡಿಸ್‌ಪ್ಲೇ ಮಾಡುತ್ತವೆ. ಒಂದು ಅವತಾರದ ನಂತರ ನಾವು ನಿಲ್ಲಿಸಬೇಕಿಲ್ಲ ಎಂದು ಜೇಮ್ಸ್ ಕ್ಯಾಮರೂನ್ ನಮಗೆ ಮನವರಿಕೆ ಮಾಡಿದ್ದಾರೆ."
   },
   "icu:WhatsNew__v6.34--1": {
-    "messageformat": "Now you can right-click on any sent message or press the up arrow on your keyboard to edit what you just said! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "ನೀವೀಗ ಯಾವುದೇ ಕಳುಹಿಸಿದ ಮೆಸೇಜ್ ಮೇಲೆ ರೈಟ್ ಕ್ಲಿಕ್ ಮಾಡುವ ಮೂಲಕ ಅಥವಾ ನಿಮ್ಮ ಕೀಬೋರ್ಡ್‌ನಲ್ಲಿ ಮೇಲ್ಮುಖ ಬಾಣವನ್ನು ಒತ್ತುವ ಮೂಲಕ ಕಳುಹಿಸಿದ ಮೆಸೇಜ್ ಅನ್ನು ಎಡಿಟ್ ಮಾಡಬಹುದು! ನೀವು ತೀರಾ ತ್ವರಿತವಾಗಿ ಕಳಿಸಿದ ಮೆಸೇಜ್‌ನ ಬಟನ್‌ನನ್ನು ಒತ್ತಿದಲ್ಲಿ, ಅಕ್ಷರದೋಷವನ್ನು ಸರಿಪಡಿಸಿ, ಅಜ್ಜಿಯ ಚಾಕಲೇಟ್ ಚಿಪ್ ಕುಕೀ ರೆಸಿಪಿಯಲ್ಲಿ ಬಿಟ್ಟುಹೋದ ಪದಾರ್ಥವನ್ನು ಸೇರಿಸಿ ಅಥವಾ ನೀವು ಕಳಿಸಿದ ಜೋಕ್‌ಗೆ ಪಂಚ್‌ಲೈನ್ ಸೇರಿಸಿ. ಆಯ್ಕೆ ನಿಮ್ಮದು. ಮೆಸೇಜ್‌ಗಳನ್ನು ಎಡಿಟ್ ಮಾಡಿದಾಗಲೆಲ್ಲಾ ಅವುಗಳು ಕಾಣಿಸಿಕೊಳ್ಳುತ್ತವೆ ಮತ್ತು ಎಡಿಟ್ ಮಾಡಿದ ಯಾವುದೇ ಮೆಸೇಜ್‌ಗಳ ಪೂರ್ಣ ಎಡಿಟ್ ಇತಿಹಾಸವನ್ನು ನೋಡಲು ನೀವು \"ಎಡಿಟ್ ಮಾಡಲಾಗಿದೆ\" ಇಂಡಿಕೇಟರ್ ಮೇಲೆ ಕ್ಲಿಕ್ ಮಾಡಬಹುದು. ಭವಿಷ್ಯದ ಗೊಂದಲವನ್ನು ತಡೆಯಲು ಹಿಂದಿನ ತಪ್ಪನ್ನು ಈಗಲೇ ಸರಿಪಡಿಸಿ!"
   }
 }

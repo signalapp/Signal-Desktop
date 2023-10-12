@@ -6812,9 +6812,9 @@
     "messageformat": "Тепер повідомлення можна редагувати навіть після надсилання! Потрібно просто натиснути й утримувати. Виправте помилку, додайте в рецепт бабусиного фірмового печива забутий інгредієнт або допишіть жарт, який ви зарано надіслали. Вибір за вами. Користувачі завжди бачитимуть, що повідомлення відредагували, а якщо натиснути «Змінено», можна переглянути повну історію редагування. Змініть минуле зараз, щоб не допустити плутанини в майбутньому!"
   },
   "icu:WhatsNew__v6.34--0": {
-    "messageformat": "Typing indicators in group chats will now display multiple profile pictures if more than one person is typing. James Cameron convinced us that we didn't need to stop after one avatar."
+    "messageformat": "Тепер, якщо більше ніж одна людина набирає текст у груповому чаті, відображатиметься кілька фото профілів. Джеймс Кемерон переконав нас, що не варто зупинятися на одному аватарі."
   },
   "icu:WhatsNew__v6.34--1": {
-    "messageformat": "Now you can right-click on any sent message or press the up arrow on your keyboard to edit what you just said! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "Тепер надіслане повідомлення можна редагувати! Потрібно лише клацнути на нього правою кнопкою миші або натиснути на клавіатурі стрілку вгору. Виправте помилку, додайте в рецепт бабусиного фірмового печива забутий інгредієнт або допишіть жарт, який ви зарано надіслали. Вибір за вами. Користувачі завжди бачитимуть, що повідомлення відредагували, а якщо натиснути «Змінено», можна переглянути повну історію редагування. Змініть минуле зараз, щоб не допустити плутанини в майбутньому!"
   }
 }

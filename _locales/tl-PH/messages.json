@@ -6812,9 +6812,9 @@
     "messageformat": "Ngayon, pwede mo nang i-right click ang sent message o pindutin ang up arrow sa keyboard para i-edit ang sinabi mo! Ayusin ang typo, o magdagdag ng iba pang detalyeng hindi mo nailagay. The choice is yours. Makikita mo palagi kapag edited ang message, at makikita mo ang buong edit history nito."
   },
   "icu:WhatsNew__v6.34--0": {
-    "messageformat": "Typing indicators in group chats will now display multiple profile pictures if more than one person is typing. James Cameron convinced us that we didn't need to stop after one avatar."
+    "messageformat": "Magpapakita na ngayon ng multiple profile pictures ang typing indicator sa group chat kapag higit isang tao ang nagta-type."
   },
   "icu:WhatsNew__v6.34--1": {
-    "messageformat": "Now you can right-click on any sent message or press the up arrow on your keyboard to edit what you just said! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "Pwede mo nang i-right click ang anumang sinend mong message o pindutin ang up arrow sa keyboard para i-edit ang sinabi mo. Ayusin ang typo o magdagdag ng detalyeng nakalimutan mong ilagay kung napindot mo kaagad ang send button. The choice is yours. Palaging makikita kapag edited ang message, at makikita mo ang buong edit history nito."
   }
 }
