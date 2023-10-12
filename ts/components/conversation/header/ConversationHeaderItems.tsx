@@ -1,12 +1,8 @@
-import React, { KeyboardEvent } from 'react';
-import { contextMenu, TriggerEvent } from 'react-contexify';
+import React from 'react';
 import { useSelector } from 'react-redux';
-import styled from 'styled-components';
 import { callRecipient } from '../../../interactions/conversationInteractions';
 import { getHasIncomingCall, getHasOngoingCall } from '../../../state/selectors/call';
 
-import { Avatar, AvatarSize } from '../../avatar/Avatar';
-import { SessionIconButton } from '../../icon';
 import {
   useSelectedConversationKey,
   useSelectedIsActive,
@@ -15,49 +11,8 @@ import {
   useSelectedIsPrivate,
   useSelectedIsPrivateFriend,
 } from '../../../state/selectors/selectedConversation';
-
-const TripleDotContainer = styled.div`
-  user-select: none;
-  flex-grow: 0;
-  flex-shrink: 0;
-`;
-export const TripleDotsMenu = (props: { triggerId: string; showBackButton: boolean }) => {
-  const { showBackButton } = props;
-
-  const isPrivateFriend = useSelectedIsPrivateFriend();
-  const isPrivate = useSelectedIsPrivate();
-  if (showBackButton) {
-    return null;
-  }
-  if (isPrivate && !isPrivateFriend) {
-    return null;
-  }
-
-  const handleOnClick = (e: TriggerEvent) => {
-    contextMenu.show({
-      id: props.triggerId,
-      event: e,
-    });
-  };
-
-  const handleOnKeyPress = (e: KeyboardEvent<HTMLDivElement>) => {
-    if (e.key === 'Enter') {
-      e.stopPropagation();
-      handleOnClick(e);
-    }
-  };
-  return (
-    <TripleDotContainer
-      role="button"
-      onKeyPress={handleOnKeyPress}
-      onClick={handleOnClick}
-      tabIndex={0}
-      data-testid="three-dots-conversation-options"
-    >
-      <SessionIconButton iconType="ellipses" iconSize="medium" />
-    </TripleDotContainer>
-  );
-};
+import { Avatar, AvatarSize } from '../../avatar/Avatar';
+import { SessionIconButton } from '../../icon';
 
 export const AvatarHeader = (props: {
   pubkey: string;

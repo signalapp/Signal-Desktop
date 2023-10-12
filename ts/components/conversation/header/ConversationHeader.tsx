@@ -8,12 +8,11 @@ import {
 
 import { closeMessageDetailsView, openRightPanel } from '../../../state/ducks/conversations';
 
+import { useSelectedConversationKey } from '../../../state/selectors/selectedConversation';
 import { Flex } from '../../basic/Flex';
-import { ConversationHeaderMenu } from '../../menu/ConversationHeaderMenu';
-import { AvatarHeader, BackButton, CallButton, TripleDotsMenu } from './ConversationHeaderItems';
+import { AvatarHeader, BackButton, CallButton } from './ConversationHeaderItems';
 import { SelectionOverlay } from './ConversationHeaderSelectionOverlay';
 import { ConversationHeaderTitle } from './ConversationHeaderTitle';
-import { useSelectedConversationKey } from '../../../state/selectors/selectedConversation';
 
 export const ConversationHeaderWithDetails = () => {
   const isSelectionMode = useSelector(isMessageSelectionMode);
@@ -25,18 +24,21 @@ export const ConversationHeaderWithDetails = () => {
     return null;
   }
 
-  const triggerId = 'conversation-header';
-
   return (
     <div className="module-conversation-header">
-      <div className="conversation-header--items-wrapper">
+      <Flex
+        container={true}
+        justifyContent={isMessageDetailOpened ? 'space-between' : 'flex-end'}
+        alignItems="center"
+        width="100%"
+        flexGrow={1}
+      >
         <BackButton
           onGoBack={() => {
             dispatch(closeMessageDetailsView());
           }}
           showBackButton={isMessageDetailOpened}
         />
-        <TripleDotsMenu triggerId={triggerId} showBackButton={isMessageDetailOpened} />
         <ConversationHeaderTitle />
 
         {!isSelectionMode && (
@@ -57,9 +59,7 @@ export const ConversationHeaderWithDetails = () => {
             />
           </Flex>
         )}
-
-        <ConversationHeaderMenu triggerId={triggerId} />
-      </div>
+      </Flex>
 
       {isSelectionMode && <SelectionOverlay />}
     </div>
