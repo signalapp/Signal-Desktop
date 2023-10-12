@@ -6812,9 +6812,9 @@
     "messageformat": "送信後のメッセージを右クリックする、またはキーボードの上矢印を押すと、そのメッセージを編集できるようになりました！ これで、誤字を直すことはもちろん、とっておきのレシピに書き忘れた隠し味を追加したり、送信してしまった面白くない冗談にオチをつけてみんなの笑いを誘うこともできます。お好みでご自由にご利用ください。メッセージの編集履歴は常に表示されます。「編集済み」インジケーターをクリックすると、編集されたメッセージの全編集履歴をご覧になれます。"
   },
   "icu:WhatsNew__v6.34--0": {
-    "messageformat": "Typing indicators in group chats will now display multiple profile pictures if more than one person is typing. James Cameron convinced us that we didn't need to stop after one avatar."
+    "messageformat": "グループチャットでの入力中アイコンが、複数の人が入力している場合に複数のプロフィール画像を表示するようになりました。"
   },
   "icu:WhatsNew__v6.34--1": {
-    "messageformat": "Now you can right-click on any sent message or press the up arrow on your keyboard to edit what you just said! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "送信後のメッセージを右クリックする、またはキーボードの上矢印を押すと、そのメッセージを編集できるようになりました。これで、誤字を直すことはもちろん、とっておきのレシピに書き忘れた隠し味を追加したり、急いで送信してしまった冗談にオチをつけてみんなの笑いを誘ったりすることもできます。お好みでご自由にご利用ください。メッセージはいつ編集されたかが常に表示され、また、編集されたメッセージの完全な編集履歴を見ることができます。これで混乱の発生を防止することができます。"
   }
 }

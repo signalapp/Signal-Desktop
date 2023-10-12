@@ -6812,9 +6812,9 @@
     "messageformat": "Τώρα μπορείς να επεξεργαστείς οποιοδήποτε μήνυμα με ένα δεξί κλικ αφού το στείλεις! Διόρθωσε ένα τυπογραφικό λάθος, πρόσθεσε το συστατικό που λείπει από τη συνταγή της γιαγιάς ή την ατάκα σε ένα ανέκδοτο, αν πάτησες το κουμπί αποστολής πριν την ώρα του. Η επιλογή είναι δική σου. Τα μηνύματα θα δείχνουν πάντα ότι έχουν υποστεί επεξεργασία και με την «Επεξεργασία» μπορείς να δεις το πλήρες ιστορικό επεξεργασίας για όλα τα μηνύματα που έχεις επεξεργαστεί. Ενημέρωσε το παρελθόν στο παρόν για να αποφύγεις οποιοδήποτε μελλοντικό μπέρδεμα σήμερα!"
   },
   "icu:WhatsNew__v6.34--0": {
-    "messageformat": "Typing indicators in group chats will now display multiple profile pictures if more than one person is typing. James Cameron convinced us that we didn't need to stop after one avatar."
+    "messageformat": "Η ένδειξη πληκτρολόγησης σε ομαδικές συνομιλίες θα εμφανίζουν πλέον πολλές φωτογραφίες προφίλ εάν πληκτρολογούν περισσότερα από ένα άτομα."
   },
   "icu:WhatsNew__v6.34--1": {
-    "messageformat": "Now you can right-click on any sent message or press the up arrow on your keyboard to edit what you just said! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "Τώρα μπορείς να επεξεργαστείς οποιοδήποτε μήνυμα με ένα δεξί κλικ αφού το στείλεις! Διόρθωσε ένα τυπογραφικό λάθος, πρόσθεσε το συστατικό που λείπει από τη συνταγή της γιαγιάς ή την ατάκα σε ένα ανέκδοτο, αν πάτησες το κουμπί αποστολής πριν την ώρα του. Η επιλογή είναι δική σου. Τα μηνύματα θα δείχνουν πάντα ότι έχουν υποστεί επεξεργασία και με την «Επεξεργασία» μπορείς να δεις το πλήρες ιστορικό επεξεργασίας για όλα τα μηνύματα που έχεις επεξεργαστεί. Ενημέρωσε το παρελθόν στο παρόν για να αποφύγεις οποιοδήποτε μελλοντικό μπέρδεμα σήμερα!"
   }
 }

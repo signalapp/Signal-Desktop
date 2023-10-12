@@ -6812,9 +6812,9 @@
     "messageformat": "Сада можете да кликнете десним кликом на послату поруку или притиснете стрелицу нагоре на тастатури да измените то што сте управо рекли! Исправите грешку у куцању, упишите састојак који сте изоставили у бакином рецепту за торту или додајте кључну фору у виц ако сте пребрзо притисли дугме за слање. Избор је ваш. Увек ће се видети информација да је порука измењена и можете да видите комплетну историју измена свих измењених порука."
   },
   "icu:WhatsNew__v6.34--0": {
-    "messageformat": "Typing indicators in group chats will now display multiple profile pictures if more than one person is typing. James Cameron convinced us that we didn't need to stop after one avatar."
+    "messageformat": "Индикатори куцања у групним ћаскањима сада приказују више профилних слика ако куца више особа."
   },
   "icu:WhatsNew__v6.34--1": {
-    "messageformat": "Now you can right-click on any sent message or press the up arrow on your keyboard to edit what you just said! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "Сада можете да кликнете десним кликом на послату поруку или притиснете стрелицу нагоре на тастатури да измените то што сте управо послали! Исправите грешку у куцању, упишите састојак који сте изоставили у бакином рецепту за торту или додајте кључну фору у виц ако сте пребрзо притисли дугме за слање. Избор је ваш. Увек ће се видети информација да је порука измењена и можете да видите комплетну историју измена свих измењених порука."
   }
 }

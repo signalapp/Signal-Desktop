@@ -6812,9 +6812,9 @@
     "messageformat": "Енді хатті жіберіп қойған соң, тінтуірдің оң жақ түймесін басып, оны өзгерте аласыз! \"Жіберу\" түймесін ерте басып қойған болсаңыз да емле қатесін түзетіңіз, әжеңіздің шоколад түйіршіктері қосылған печенье рецептісіне жетіспейтін ингредиентті қосыңыз немесе қалжыңыңыз өтіп кететін сөз қосып жіберіңіз. Таңдау өз еркіңізде.\n\n Хаттардың өзгертілгендігі көрсетіліп тұрады. \"Өзгертілді\" индикаторын түртіп, хаттардың қалай өзгертілгенін толық көре аласыз. Болашақта шатаспау үшін ескі қателерді қазір түзетіңіз!"
   },
   "icu:WhatsNew__v6.34--0": {
-    "messageformat": "Typing indicators in group chats will now display multiple profile pictures if more than one person is typing. James Cameron convinced us that we didn't need to stop after one avatar."
+    "messageformat": "Бірнеше адам жазып жатса, топтық чаттағы мәтін теру индикаторлары енді бірнеше профиль суретін көрсетеді. Джеймс Кэмерон бір ғана аватармен шектеліп қалмау керектігіне көндірді."
   },
   "icu:WhatsNew__v6.34--1": {
-    "messageformat": "Now you can right-click on any sent message or press the up arrow on your keyboard to edit what you just said! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "Енді тінтуірдің оң жақ түймесін немесе пернетақтадағы жоғары көрсеткісін басып, қазір ғана жіберілген хатты түзете аласыз! \"Жіберу\" түймесін ерте басып қойған болсаңыз да емле қатесін түзетіңіз, әжеңіздің шоколад түйіршіктері қосылған печенье рецептісіне жетіспейтін ингредиентті қосыңыз немесе қалжыңыңыз өтіп кететін сөз қосып жіберіңіз. Таңдау өз еркіңізде.\n\n Хаттардың өзгертілгендігі көрсетіліп тұрады. \"Өзгертілді\" индикаторын түртіп, хаттардың қалай өзгертілгенін толық көре аласыз. Болашақта шатаспау үшін ескі қателерді қазір түзетіңіз!"
   }
 }

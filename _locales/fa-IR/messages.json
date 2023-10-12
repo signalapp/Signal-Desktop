@@ -6812,9 +6812,9 @@
     "messageformat": "حالا می‌توانید با کلیک راست روی هر پیام ارسالی یا با فشار دادن دکمه فلش بالا روی کیبوردتان، هرآن‌چه گفته‌اید را ویرایش کنید! غلط‌های املایی را تصحیح کنید، مورد جاافتاده از مواد مورد نیاز شیرینی شکلاتی مادربزرگ را اضافه کنید، یا لطیفه‌ای را که با عجله فرستاده‌اید و ناتمام مانده تکمیل کنید. انتخاب با شماست. اینکه پیام ویرایش شده است همیشه نشان داده می‌شود و می‌توانید با کلیک روی نشانگر Edited (ویرایش‌شده)، کل تاریخچۀ ویرایش را برای هر پیام ویرایش‌شده مشاهده کنید."
   },
   "icu:WhatsNew__v6.34--0": {
-    "messageformat": "Typing indicators in group chats will now display multiple profile pictures if more than one person is typing. James Cameron convinced us that we didn't need to stop after one avatar."
+    "messageformat": "اگر بیش از یک نفر در حال تایپ کردن باشد، نشانگرهای تایپ در گفتگوهای گروهی اکنون چند تصویر نمایه را نمایش می‌دهند. جیمز کامرون، کارگردان آواتار، هم بعد به یک آواتار رضایت نداد."
   },
   "icu:WhatsNew__v6.34--1": {
-    "messageformat": "Now you can right-click on any sent message or press the up arrow on your keyboard to edit what you just said! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "حالا می‌توانید با کلیک راست روی هر پیام ارسالی یا با فشار دادن دکمه فلش بالا روی کیبوردتان، هرآن‌چه فرستاده‌اید را ویرایش کنید! غلط املایی‌تان را تصحیح کنید، چیزی که از دستور پخت بیسکوییت شکلاتی مخصوصتان جا انداخته‌اید را اضافه کنید یا لطیفه‌ای که فرستاده‌اید را بامزه‌تر کنید. انتخاب با شماست. اینکه پیام ویرایش شده است همیشه نشان داده می‌شود و با کلیک روی نشانگر Edited (ویرایش‌شده) می‌توانید کل تاریخچه ویرایش را برای هر پیام ویرایش‌شده مشاهده کنید. گذشته را در حال به‌روز کنید!"
   }
 }

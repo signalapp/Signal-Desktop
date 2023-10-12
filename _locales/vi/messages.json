@@ -6812,9 +6812,9 @@
     "messageformat": "Giờ đây bạn có thể chỉnh sửa một tin nhắn bằng cách nhấn và giữ sau khi đã gửi đi! Nhờ đó bạn có thể sửa lỗi chính tả, thêm, bớt nội dung một cách nhanh chóng, tiện lợi nếu trước đó lỡ nhấn gửi quá nhanh. Lựa chọn là của bạn. Người đọc tin nhắn sẽ biết nếu tin nhắn đã được chỉnh sửa và bạn có thể xem toàn bộ lịch sử của tin nhắn đã được chỉnh sửa."
   },
   "icu:WhatsNew__v6.34--0": {
-    "messageformat": "Typing indicators in group chats will now display multiple profile pictures if more than one person is typing. James Cameron convinced us that we didn't need to stop after one avatar."
+    "messageformat": "Thông báo đang nhập trong các cuộc trò chuyện nhóm giờ đây hiển thị nhiều ảnh đại diện nếu có hơn một người đang nhập."
   },
   "icu:WhatsNew__v6.34--1": {
-    "messageformat": "Now you can right-click on any sent message or press the up arrow on your keyboard to edit what you just said! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "Giờ đây bạn có thể ấn chuột phải vào bất kỳ tin nhắn nào đã gửi hoặc ấn phím mũi tên đi lên trên bàn phím để chỉnh sửa nội dung vừa gửi! Nhờ đó bạn có thể sửa lỗi chính tả, thêm, bớt nội dung một cách nhanh chóng, tiện lợi nếu trước đó lỡ nhấn gửi quá nhanh. Lựa chọn là của bạn. Người đọc tin nhắn sẽ biết nếu tin nhắn đã được chỉnh sửa và bạn có thể xem toàn bộ lịch sử của tin nhắn đã được chỉnh sửa."
   }
 }

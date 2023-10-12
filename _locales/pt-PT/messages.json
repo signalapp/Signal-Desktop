@@ -6812,9 +6812,9 @@
     "messageformat": "Agora pode editar uma mensagem pressionando durante algum tempo após ela ter sido enviada! Por exemplo, caso se esqueça de um ingrediente ao partilhar a receita secreta da sopa da sua avó. As mensagens vão sempre mostrar que foram editadas e pode ver o histórico completo de edição em qualquer mensagem editada. Mais vale corrigir o passado no presente para não haver confusão no futuro!"
   },
   "icu:WhatsNew__v6.34--0": {
-    "messageformat": "Typing indicators in group chats will now display multiple profile pictures if more than one person is typing. James Cameron convinced us that we didn't need to stop after one avatar."
+    "messageformat": "Os indicadores de escrita em chats de grupo agora irão mostrar várias fotos de perfil caso mais que uma pessoa esteja a escrever."
   },
   "icu:WhatsNew__v6.34--1": {
-    "messageformat": "Now you can right-click on any sent message or press the up arrow on your keyboard to edit what you just said! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "Agora pode editar uma mensagem clicando com o botão direito do rato ou pressionando na seta de cima do teclado! Por exemplo, caso escreva uma gralha ou se esqueça de um ingrediente ao partilhar a receita secreta da sopa da sua avó. As mensagens vão sempre mostrar que foram editadas e pode ver o histórico completo de edição em qualquer mensagem editada. Mais vale corrigir o passado no presente para não haver confusão no futuro!"
   }
 }

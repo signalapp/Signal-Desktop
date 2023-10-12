@@ -6812,9 +6812,9 @@
     "messageformat": "แก้ไขข้อความที่ส่งแล้วได้แบบทันใจ ทำได้ง่ายๆ แค่คลิกขวาหรือกดปุ่มลูกศรชี้ขึ้นบนแป้นพิมพ์เท่านั้น! ตอบโจทย์สำหรับคนมือ (กดส่ง) ไว ไม่ว่าจะเป็นการแก้คำผิด เพิ่มเติมรายละเอียดในเรื่องที่กำลังเล่า หรืออธิบายมุกที่เพื่อนอาจยังไม่เข้าใจ โดยคุณจะทราบเสมอเมื่อมีการแก้ไขข้อความ ทั้งยังสามารถคลิกดูประวัติการแก้ไขทั้งหมดได้อีกด้วย อัปเดตอดีตในปัจจุบันเพื่อป้องกันความสับสนในอนาคตวันนี้"
   },
   "icu:WhatsNew__v6.34--0": {
-    "messageformat": "Typing indicators in group chats will now display multiple profile pictures if more than one person is typing. James Cameron convinced us that we didn't need to stop after one avatar."
+    "messageformat": "เราอัปเกรดฟีเจอร์สัญลักษณ์ที่บ่งบอกว่าพิมพ์อยู่สำหรับแชทกลุ่ม ให้แสดงรูปโปรไฟล์ของสมาชิกได้หลายคนเมื่อมีมากกว่าหนึ่งรายกำลังพิมพ์อยู่ในห้อง"
   },
   "icu:WhatsNew__v6.34--1": {
-    "messageformat": "Now you can right-click on any sent message or press the up arrow on your keyboard to edit what you just said! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "แก้ไขข้อความที่ส่งแล้วได้แบบทันใจ ทำได้ง่ายๆ แค่คลิกขวาหรือกดปุ่มลูกศรชี้ขึ้นบนแป้นพิมพ์เท่านั้น! ตอบโจทย์สำหรับคนมือ(กดส่ง)ไว ไม่ว่าจะเป็นการแก้คำผิด เพิ่มเติมรายละเอียดในเรื่องที่กำลังเล่า หรืออธิบายมุกที่เพื่อนอาจยังไม่เข้าใจ โดยคุณจะทราบเสมอเมื่อมีการแก้ไขข้อความ ทั้งยังสามารถคลิกดูประวัติการแก้ไขทั้งหมดได้อีกด้วย"
   }
 }

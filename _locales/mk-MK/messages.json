@@ -6812,9 +6812,9 @@
     "messageformat": "Сега можете да измените порака со десен клик дури и откако е испратена! Поправете грешка, додајте ја состојката која сте ја испуштиле од рецептот за колачиња на вашата баба или допишете ја шегата доколку пребрзо сте стиснале на копчето за испраќање. Изборот е ваш. Секогаш ќе биде видливо кога пораките се изменети и можете да ја видите целосната историја на измени на сите изменети пораки."
   },
   "icu:WhatsNew__v6.34--0": {
-    "messageformat": "Typing indicators in group chats will now display multiple profile pictures if more than one person is typing. James Cameron convinced us that we didn't need to stop after one avatar."
+    "messageformat": "Индикаторите за пишување во групните разговори сега ќе прикажуваат повеќе профилни слики доколку пишуваат повеќе лица."
   },
   "icu:WhatsNew__v6.34--1": {
-    "messageformat": "Now you can right-click on any sent message or press the up arrow on your keyboard to edit what you just said! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "Сега можете да измените порака со десен клик на пораката или со стискање на стрелката за нагоре на вашата тастатура! Поправете грешка, додајте ја состојката која сте ја испуштиле од рецептот за колачиња на вашата баба или допишете ја шегата доколку пребрзо сте стиснале на копчето за испраќање. Изборот е ваш. Секогаш ќе биде видливо кога пораките се изменети и ќе можете да ја видите целосната историја на измени на сите изменети пораки."
   }
 }

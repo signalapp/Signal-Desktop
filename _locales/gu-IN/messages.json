@@ -6812,9 +6812,9 @@
     "messageformat": "હવે કોઈ પણ મોકલાઈ ગયેલ મેસેજ પર રાઇટ-ક્લિક કરીને અથવા કીબોર્ડ પર ઉપરનો એરો દબાવીને તમે છેલ્લે જે કહ્યું હતું તેમાં ફેરફાર કરી શકો છો! જો તમે મોકલવાના બટનને બહુ જલ્દી દબાવી દીધું હોય તો પણ તે મોકલાઈ ગયેલા મેસેજમાં કોઈ ટાઈપિંગ ભૂલ સુધારો, દાદીમાંની સુખડી બનાવવાની રેસિપીમાં કોઈ વસ્તુ રહી ગઈ હોય તેને ઉમેરો કે પછી રમૂજમાં પંચલાઇન ઉમેરો. પસંદગી તમારી છે. મેસેજમાં ક્યારે ફેરફાર કરવામાં આવ્યા છે તે હંમેશા દેખાશે અને તમે કોઈ પણ ફેરફાર કરેલ મેસેજ માટે સંપૂર્ણ ફેરફારોની હિસ્ટ્રી જોઈ શકો છો."
   },
   "icu:WhatsNew__v6.34--0": {
-    "messageformat": "Typing indicators in group chats will now display multiple profile pictures if more than one person is typing. James Cameron convinced us that we didn't need to stop after one avatar."
+    "messageformat": "જો ગ્રૂપ ચેટમાં એકથી વધુ વ્યક્તિ ટાઈપ કરી રહ્યાં હશે, તો ટાઈપિંગ સૂચકો હવે બહુવિધ પ્રોફાઇલ ફોટા બતાવશે."
   },
   "icu:WhatsNew__v6.34--1": {
-    "messageformat": "Now you can right-click on any sent message or press the up arrow on your keyboard to edit what you just said! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "તમે હમણાં જ જે કહ્યું હતું તેમાં ફેરફાર કરવા માટે કોઈ પણ મોકલાઈ ગયેલા મેસેજ પર રાઇટ-ક્લિક કરી શકો છો અથવા તમારા કીબોર્ડની ઉપરની એરો કી દબાવી શકો છો! જો તમે મોકલવાના બટનને બહુ જલ્દી દબાવી દીધું હોય તો પણ તે મોકલાઈ ગયેલા મેસેજમાં કોઈ ટાઈપિંગ ભૂલ સુધારો, દાદીમાંની સુખડી બનાવવાની રેસિપીમાં કોઈ વસ્તુ રહી ગઈ હોય તેને ઉમેરો કે પછી રમૂજમાં પંચલાઇન ઉમેરો. પસંદગી તમારી છે. મેસેજમાં ક્યારે ફેરફાર કરવામાં આવ્યા હતા તે હંમેશા દેખાશે અને તમે કોઈ પણ ફેરફાર કરેલા મેસેજની સંપૂર્ણ ફેરફારોની હિસ્ટ્રી જોઈ શકશો."
   }
 }

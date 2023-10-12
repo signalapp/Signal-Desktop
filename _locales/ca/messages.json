@@ -6812,9 +6812,9 @@
     "messageformat": "Ara pots editar un missatge d'haver-lo enviat amb un simple clic al botó dret o prement la fletxa cap amunt al teu teclat! Si has pitjat el botó d'enviar abans d'hora, ara podràs arreglar una falta d'ortografia, afegir l'ingredient que faltava a la recepta de croquetes de l'àvia o rematar la broma que havies deixat a mitges. La decisió és teva. Els missatges sempre mostraran que han estat editats, i podràs tocar l'indicador \"Editat\" per veure l'historial d'edicions complet de qualsevol missatge editat. Fes que els teus errors siguin només aigua passada!"
   },
   "icu:WhatsNew__v6.34--0": {
-    "messageformat": "Typing indicators in group chats will now display multiple profile pictures if more than one person is typing. James Cameron convinced us that we didn't need to stop after one avatar."
+    "messageformat": "Ara, l'indicador d'escriptura als xats de grup mostrarà diverses fotos de perfil si hi ha més d'una persona escrivint."
   },
   "icu:WhatsNew__v6.34--1": {
-    "messageformat": "Now you can right-click on any sent message or press the up arrow on your keyboard to edit what you just said! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "Ara pots fer clic al botó dret o prémer la fletxa cap amunt al teu teclat per editar allò que acabes de dir! Si has pitjat el botó d'enviar abans d'hora, ara podràs arreglar una falta d'ortografia, afegir l'ingredient que faltava a la recepta de croquetes de l'àvia o rematar la broma que havies deixat a mitges. La decisió és teva. Els missatges sempre mostraran que han estat editats, i podràs tocar l'indicador \"Editat\" per veure l'historial d'edicions complet de qualsevol missatge editat."
   }
 }

@@ -6812,9 +6812,9 @@
     "messageformat": "Теперь вы можете изменить сообщение после отправки с помощью нажатия на правую кнопку мыши! Исправьте очепятку, добавьте недостающий ингредиент в бабушкин рецепт шоколадного печенья или добавьте изюминку в шутку, если вы слишком быстро нажали на «Отправить». Выбор за вами. После внесения изменений сообщения всегда будут отображаться, и, кликнув на индикатор «Изменено», вы сможете увидеть всю историю изменений любого сообщения. Обновите прошлое в настоящем, чтобы избежать путаницы в будущем!"
   },
   "icu:WhatsNew__v6.34--0": {
-    "messageformat": "Typing indicators in group chats will now display multiple profile pictures if more than one person is typing. James Cameron convinced us that we didn't need to stop after one avatar."
+    "messageformat": "Индикаторы набора текста в групповых чатах теперь отображают несколько картинок профиля, если текст набирают несколько человек. Джеймс Кэмерон убедил нас, что не нужно останавливаться на одном аватаре."
   },
   "icu:WhatsNew__v6.34--1": {
-    "messageformat": "Now you can right-click on any sent message or press the up arrow on your keyboard to edit what you just said! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "Теперь вы можете кликнуть правой кнопкой мыши на любое сообщение после отправки или нажать стрелку вверх на клавиатуре, чтобы изменить то, что вы только что написали! Исправьте очепятку, добавьте недостающий ингредиент в бабушкин рецепт шоколадного печенья или добавьте изюминку в шутку, если вы слишком быстро нажали на «Отправить». Выбор за вами. После внесения изменений сообщения всегда будут отображаться, и, кликнув на индикатор «Изменено», вы сможете увидеть всю историю изменений любого сообщения. Обновите прошлое в настоящем, чтобы избежать путаницы в будущем!"
   }
 }
