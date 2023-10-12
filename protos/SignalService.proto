@@ -224,7 +224,7 @@ message DataMessage {
   repeated AttachmentPointer         attachments               = 2;
   optional GroupContext              group                     = 3;
   optional uint32                    flags                     = 4;
-  // TODO this will be removed 2 weeks after the release
+  // TODO legacy messages support will be removed in a future release
   optional uint32                    expireTimer               = 5;
   optional bytes                     profileKey                = 6;
   optional uint64                    timestamp                 = 7;
