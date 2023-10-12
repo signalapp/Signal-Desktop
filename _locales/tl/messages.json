@@ -178,7 +178,7 @@
   "messageBodyMissing": "Please enter a message body.",
   "messageBody": "Message body",
   "unblockToSend": "Unblock this contact to send a message.",
-  "unblockGroupToSend": "This group is blocked. Unlock it if you would like to send a message.",
+  "unblockGroupToSend": "This group is blocked. Unblock it if you would like to send a message.",
   "youChangedTheTimer": "You set the disappearing message timer to $time$",
   "timerSetOnSync": "Updated disappearing message timer to $time$",
   "theyChangedTheTimer": "$name$ set the disappearing message timer to $time$",
