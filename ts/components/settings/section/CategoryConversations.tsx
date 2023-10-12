@@ -109,13 +109,12 @@ const EnterKeyFunctionSetting = () => {
         initialItem={initialSetting}
         group={SettingsKey.hasShiftSendEnabled} // make sure to define this key in your SettingsKey enum
         items={items}
-        onClick={(selectedRadioValue: string | boolean) => {
-          async function updateSetting() {
-            await window.setSettingValue(SettingsKey.hasShiftSendEnabled, selectedRadioValue);
-            forceUpdate();
-          }
-          updateSetting().catch(error => window.log.error('Error updating setting:', error));
+        /* eslint-disable @typescript-eslint/no-misused-promises */
+        onClick={async (selectedRadioValue: string | boolean) => {
+          await window.setSettingValue(SettingsKey.hasShiftSendEnabled, selectedRadioValue);
+          forceUpdate();
         }}
+        /* eslint-enable @typescript-eslint/no-misused-promises */
       />
     </SessionSettingsItemWrapper>
   );
