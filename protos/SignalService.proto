@@ -192,11 +192,11 @@ message DataMessage {
   message ClosedGroupControlMessage {
 
 	  enum Type {
-	    NEW                           = 1; // publicKey, name, encryptionKeyPair, members, admins, expirationTimer
-      ENCRYPTION_KEY_PAIR           = 3; // publicKey, wrappers
-      NAME_CHANGE                   = 4; // name
-      MEMBERS_ADDED                 = 5; // members
-      MEMBERS_REMOVED               = 6; // members
+	    NEW                           = 1;
+      ENCRYPTION_KEY_PAIR           = 3;
+      NAME_CHANGE                   = 4;
+      MEMBERS_ADDED                 = 5;
+      MEMBERS_REMOVED               = 6;
       MEMBER_LEFT                   = 7;
       ENCRYPTION_KEY_PAIR_REQUEST   = 8;
     }
