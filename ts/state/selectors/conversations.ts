@@ -1,6 +1,6 @@
 /* eslint-disable no-restricted-syntax */
 import { createSelector } from '@reduxjs/toolkit';
-import { filter, isEmpty, isNumber, pick, sortBy, toNumber, isFinite } from 'lodash';
+import { filter, isEmpty, isFinite, isNumber, pick, sortBy, toNumber } from 'lodash';
 
 import {
   ConversationLookupType,

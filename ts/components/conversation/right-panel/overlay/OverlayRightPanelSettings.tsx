@@ -2,12 +2,13 @@ import { compact, flatten, isEqual } from 'lodash';
 import React, { useEffect, useState } from 'react';
 
 // tslint:disable-next-line: no-submodule-imports
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import useInterval from 'react-use/lib/useInterval';
 import styled from 'styled-components';
 import { Data } from '../../../../data/data';
 import { SessionIconButton } from '../../../icon';
 
+import { useIsRightPanelShowing } from '../../../../hooks/useUI';
 import {
   deleteAllMessagesByConvoIdWithConfirmation,
   showAddModeratorsByConvoId,
@@ -20,7 +21,6 @@ import {
 import { Constants } from '../../../../session';
 import { closeRightPanel } from '../../../../state/ducks/conversations';
 import { setRightOverlayMode } from '../../../../state/ducks/section';
-import { isRightPanelShowing } from '../../../../state/selectors/conversations';
 import {
   useSelectedConversationKey,
   useSelectedDisplayNameInProfile,
@@ -210,7 +210,7 @@ export const OverlayRightPanelSettings = () => {
 
   const selectedConvoKey = useSelectedConversationKey();
   const dispatch = useDispatch();
-  const isShowing = useSelector(isRightPanelShowing);
+  const isShowing = useIsRightPanelShowing();
   const subscriberCount = useSelectedSubscriberCount();
 
   const isActive = useSelectedIsActive();

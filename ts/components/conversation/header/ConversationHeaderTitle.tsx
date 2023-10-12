@@ -1,9 +1,9 @@
 import { isNumber } from 'lodash';
 import React, { useEffect, useMemo, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { useIsRightPanelShowing } from '../../../hooks/useUI';
 import { closeRightPanel, openRightPanel } from '../../../state/ducks/conversations';
 import { resetRightOverlayMode, setRightOverlayMode } from '../../../state/ducks/section';
-import { isRightPanelShowing } from '../../../state/selectors/conversations';
 import {
   useSelectedConversationDisappearingMode,
   useSelectedExpireTimer,
@@ -12,9 +12,9 @@ import {
   useSelectedIsNoteToSelf,
   useSelectedIsPublic,
   useSelectedMembers,
+  useSelectedNicknameOrProfileNameOrShortenedPubkey,
   useSelectedNotificationSetting,
   useSelectedSubscriberCount,
-  useSelectedNicknameOrProfileNameOrShortenedPubkey,
 } from '../../../state/selectors/selectedConversation';
 import { ExpirationTimerOptions } from '../../../util/expiringMessages';
 import { ConversationHeaderSubtitle } from './ConversationHeaderSubtitle';
@@ -36,7 +36,7 @@ export const ConversationHeaderTitle = () => {
   const convoName = useSelectedNicknameOrProfileNameOrShortenedPubkey();
 
   const notificationSetting = useSelectedNotificationSetting();
-  const isRightPanelOn = useSelector(isRightPanelShowing);
+  const isRightPanelOn = useIsRightPanelShowing();
   const subscriberCount = useSelectedSubscriberCount();
 
   const isPublic = useSelectedIsPublic();
