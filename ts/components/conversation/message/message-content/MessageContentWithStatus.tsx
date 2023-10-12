@@ -6,18 +6,19 @@ import { replyToMessage } from '../../../../interactions/conversationInteraction
 import { MessageRenderingProps } from '../../../../models/messageType';
 import { toggleSelectedMessageId } from '../../../../state/ducks/conversations';
 import { updateReactListModal } from '../../../../state/ducks/modalDialog';
+import { StateType } from '../../../../state/reducer';
 import {
   getMessageContentWithStatusesSelectorProps,
   isMessageSelectionMode,
 } from '../../../../state/selectors/conversations';
 import { Reactions } from '../../../../util/reactions';
-import { MessageAvatar } from './MessageAvatar';
+import { ExpirableReadableMessage } from '../message-item/ExpirableReadableMessage';
 import { MessageAuthorText } from './MessageAuthorText';
+import { MessageAvatar } from './MessageAvatar';
 import { MessageContent } from './MessageContent';
 import { MessageContextMenu } from './MessageContextMenu';
 import { MessageReactions, StyledMessageReactions } from './MessageReactions';
 import { MessageStatus } from './MessageStatus';
-import { ExpirableReadableMessage } from '../message-item/ExpirableReadableMessage';
 
 export type MessageContentWithStatusSelectorProps = { isGroup: boolean } & Pick<
   MessageRenderingProps,
@@ -52,8 +53,8 @@ const StyledMessageWithAuthor = styled.div<{ isIncoming: boolean }>`
 `;
 
 export const MessageContentWithStatuses = (props: Props) => {
-  const contentProps = useSelector(state =>
-    getMessageContentWithStatusesSelectorProps(state as any, props.messageId)
+  const contentProps = useSelector((state: StateType) =>
+    getMessageContentWithStatusesSelectorProps(state, props.messageId)
   );
   const dispatch = useDispatch();
 

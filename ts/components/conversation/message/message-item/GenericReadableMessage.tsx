@@ -1,11 +1,12 @@
 import classNames from 'classnames';
+import { isNil, isString, toNumber } from 'lodash';
 import React, { useCallback, useEffect, useState } from 'react';
 import { contextMenu } from 'react-contexify';
 import { useSelector } from 'react-redux';
 import styled, { keyframes } from 'styled-components';
-import { isNil, isString, toNumber } from 'lodash';
 import { MessageRenderingProps } from '../../../../models/messageType';
 import { getConversationController } from '../../../../session/conversations';
+import { StateType } from '../../../../state/reducer';
 import {
   getGenericReadableMessageSelectorProps,
   getIsMessageSelected,
@@ -78,8 +79,8 @@ export const GenericReadableMessage = (props: Props) => {
 
   const [enableReactions, setEnableReactions] = useState(true);
 
-  const msgProps = useSelector(state =>
-    getGenericReadableMessageSelectorProps(state as any, props.messageId)
+  const msgProps = useSelector((state: StateType) =>
+    getGenericReadableMessageSelectorProps(state, props.messageId)
   );
 
   const isMessageSelected = useSelector(state =>

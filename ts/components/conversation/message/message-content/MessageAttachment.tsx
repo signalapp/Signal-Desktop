@@ -1,8 +1,8 @@
+import classNames from 'classnames';
+import { clone } from 'lodash';
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import classNames from 'classnames';
-import { clone } from 'lodash';
 import { Data } from '../../../../data/data';
 import { MessageModelType, MessageRenderingProps } from '../../../../models/messageType';
 import {
@@ -10,6 +10,7 @@ import {
   showLightBox,
   toggleSelectedMessageId,
 } from '../../../../state/ducks/conversations';
+import { StateType } from '../../../../state/reducer';
 import {
   getMessageAttachmentProps,
   isMessageSelectionMode,
@@ -66,7 +67,9 @@ export const MessageAttachment = (props: Props) => {
   const { messageId, imageBroken, handleImageError, highlight = false } = props;
 
   const dispatch = useDispatch();
-  const attachmentProps = useSelector(state => getMessageAttachmentProps(state as any, messageId));
+  const attachmentProps = useSelector((state: StateType) =>
+    getMessageAttachmentProps(state as any, messageId)
+  );
 
   const multiSelectMode = useSelector(isMessageSelectionMode);
   const onClickOnImageGrid = useCallback(

@@ -6,6 +6,7 @@ import { InView } from 'react-intersection-observer';
 import { useSelector } from 'react-redux';
 import styled, { css, keyframes } from 'styled-components';
 import { MessageModelType, MessageRenderingProps } from '../../../../models/messageType';
+import { StateType } from '../../../../state/reducer';
 import { useMessageIsDeleted } from '../../../../state/selectors';
 import {
   getMessageContentSelectorProps,
@@ -94,8 +95,8 @@ export const IsMessageVisibleContext = createContext(false);
 export const MessageContent = (props: Props) => {
   const [highlight, setHighlight] = useState(false);
   const [didScroll, setDidScroll] = useState(false);
-  const contentProps = useSelector(state =>
-    getMessageContentSelectorProps(state as any, props.messageId)
+  const contentProps = useSelector((state: StateType) =>
+    getMessageContentSelectorProps(state, props.messageId)
   );
   const isDeleted = useMessageIsDeleted(props.messageId);
   const [isMessageVisible, setMessageIsVisible] = useState(false);
