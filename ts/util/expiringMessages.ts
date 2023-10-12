@@ -1,7 +1,6 @@
 import { throttle, uniq } from 'lodash';
 import moment from 'moment';
 import { messagesExpired } from '../state/ducks/conversations';
-import { TimerOptionsArray } from '../state/ducks/timerOptions';
 import { LocalizerKeys } from '../types/LocalizerKeys';
 import { initWallClockListener } from './wallClockListener';
 
@@ -30,12 +29,6 @@ export const DisappearingMessageConversationModes = [
   'legacy',
 ] as const;
 export type DisappearingMessageConversationModeType = typeof DisappearingMessageConversationModes[number]; // TODO we should make this type a bit more hardcoded than being just resolved as a string
-
-export const DEFAULT_TIMER_OPTION = {
-  DELETE_AFTER_READ: 43200, // 12 hours
-  DELETE_AFTER_SEND: 86400, // 1 day
-  LEGACY: 86400, // 1 day
-};
 
 // TODO legacy messages support will be removed in a future release
 // expirationType and lastDisappearingMessageChangeTimestamp will no longer have an undefined option
@@ -185,15 +178,7 @@ const updateExpiringMessagesCheck = () => {
   void throttledCheckExpiringMessages();
 };
 
-function getTimerOptionName(time: number, unit: moment.DurationInputArg2) {
-  return (
-    window.i18n(['timerOption', time, unit].join('_') as LocalizerKeys) ||
-    moment.duration(time, unit).humanize()
-  );
-}
-function getTimerOptionAbbreviated(time: number, unit: string) {
-  return window.i18n(['timerOption', time, unit, 'abbreviated'].join('_') as LocalizerKeys);
-}
+// #region Timer Options
 
 const timerOptionsDurations: Array<{
   time: number;
@@ -222,6 +207,17 @@ const timerOptionsDurations: Array<{
   };
 });
 
+function getTimerOptionName(time: number, unit: moment.DurationInputArg2) {
+  return (
+    window.i18n(['timerOption', time, unit].join('_') as LocalizerKeys) ||
+    moment.duration(time, unit).humanize()
+  );
+}
+
+function getTimerOptionAbbreviated(time: number, unit: string) {
+  return window.i18n(['timerOption', time, unit, 'abbreviated'].join('_') as LocalizerKeys);
+}
+
 function getName(seconds = 0) {
   const o = timerOptionsDurations.find(m => m.seconds === seconds);
 
@@ -230,6 +226,7 @@ function getName(seconds = 0) {
   }
   return [seconds, 'seconds'].join(' ');
 }
+
 function getAbbreviated(seconds = 0) {
   const o = timerOptionsDurations.find(m => m.seconds === seconds);
 
@@ -240,19 +237,71 @@ function getAbbreviated(seconds = 0) {
   return [seconds, 's'].join('');
 }
 
-function getTimerSecondsWithName(): TimerOptionsArray {
-  return timerOptionsDurations.map(t => {
-    return { name: getName(t.seconds), value: t.seconds };
-  });
-}
+type TimerOptionsEntry = { name: string; value: number };
+export type TimerOptionsArray = Array<TimerOptionsEntry>;
+
+export const TIMER_OPTIONS: Array<number> = timerOptionsDurations.map(t => {
+  return t.seconds;
+});
+
+export const DELETE_AFTER_READ_OPTIONS = TIMER_OPTIONS.filter(option => {
+  return (
+    option === 10 || // 10 seconds (for development or qa)
+    option === 30 || // 30 seconds (for development or qa)
+    option === 60 || // 1 minute (for testing)
+    option === 300 || // 5 minutes
+    option === 3600 || // 1 hour
+    option === 43200 || // 12 hours
+    option === 86400 || // 1 day
+    option === 604800 || // 1 week
+    option === 1209600 // 2 weeks
+  );
+});
+
+export const DELETE_AFTER_SEND_OPTIONS = TIMER_OPTIONS.filter(option => {
+  return (
+    option === 10 || // 10 seconds (for development or qa)
+    option === 30 || // 30 seconds (for development or qa)
+    option === 60 || // 1 minute (for testing)
+    option === 43200 || // 12 hours
+    option === 86400 || // 1 day
+    option === 604800 || // 1 week
+    option === 1209600 // 2 weeks
+  );
+});
+
+// TODO legacy messages support will be removed in a future release
+export const DELETE_LEGACY_OPTIONS = TIMER_OPTIONS.filter(option => {
+  return (
+    option === 5 || // 5 seconds
+    option === 10 || // 10 seconds
+    option === 30 || // 30 seconds
+    option === 60 || // 1 minute
+    option === 300 || // 5 minutes
+    option === 1800 || // 30 minutes
+    option === 3600 || // 1 hour
+    option === 21600 || // 6 hours
+    option === 43200 || // 12 hours
+    option === 86400 || // 1 day
+    option === 604800 // 1 week
+  );
+});
+
+export const DEFAULT_TIMER_OPTION = {
+  DELETE_AFTER_READ: 43200, // 12 hours
+  DELETE_AFTER_SEND: 86400, // 1 day
+  // TODO legacy messages support will be removed in a future release
+  LEGACY: 86400, // 1 day
+};
 
 export const ExpirationTimerOptions = {
   getName,
   getAbbreviated,
   updateExpiringMessagesCheck,
   initExpiringMessageListener,
-  getTimerSecondsWithName,
 };
+
+// #endregion Timer Options
 
 export function setExpirationStartTimestamp(
   mode: DisappearingMessageConversationModeType,

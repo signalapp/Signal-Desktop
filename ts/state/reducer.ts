@@ -1,25 +1,24 @@
 import { combineReducers } from '@reduxjs/toolkit';
 
-import { reducer as search, SearchStateType } from './ducks/search';
-import { ConversationsStateType, reducer as conversations } from './ducks/conversations';
-import { reducer as user, UserStateType } from './ducks/user';
-import { reducer as theme } from './ducks/theme';
-import { reducer as primaryColor } from './ducks/primaryColor';
-import { reducer as section, SectionStateType } from './ducks/section';
-import { defaultRoomReducer as defaultRooms, DefaultRoomsState } from './ducks/defaultRooms';
-import { ReduxSogsRoomInfos, SogsRoomInfoState } from './ducks/sogsRoomInfo';
 import { callReducer as call, CallStateType } from './ducks/call';
+import { reducer as conversations, ConversationsStateType } from './ducks/conversations';
+import { defaultRoomReducer as defaultRooms, DefaultRoomsState } from './ducks/defaultRooms';
+import { reducer as primaryColor } from './ducks/primaryColor';
+import { reducer as search, SearchStateType } from './ducks/search';
+import { reducer as section, SectionStateType } from './ducks/section';
+import { ReduxSogsRoomInfos, SogsRoomInfoState } from './ducks/sogsRoomInfo';
+import { reducer as theme } from './ducks/theme';
+import { reducer as user, UserStateType } from './ducks/user';
 
-import { defaultOnionReducer as onionPaths, OnionState } from './ducks/onion';
+import { PrimaryColorStateType, ThemeStateType } from '../themes/constants/colors';
 import { modalReducer as modals, ModalState } from './ducks/modalDialog';
-import { userConfigReducer as userConfig, UserConfigState } from './ducks/userConfig';
-import { timerOptionReducer as timerOptions, TimerOptionsState } from './ducks/timerOptions';
+import { defaultOnionReducer as onionPaths, OnionState } from './ducks/onion';
+import { settingsReducer, SettingsState } from './ducks/settings';
 import {
   reducer as stagedAttachments,
   StagedAttachmentsStateType,
 } from './ducks/stagedAttachments';
-import { PrimaryColorStateType, ThemeStateType } from '../themes/constants/colors';
-import { settingsReducer, SettingsState } from './ducks/settings';
+import { userConfigReducer as userConfig, UserConfigState } from './ducks/userConfig';
 
 export type StateType = {
   search: SearchStateType;
@@ -32,7 +31,6 @@ export type StateType = {
   onionPaths: OnionState;
   modals: ModalState;
   userConfig: UserConfigState;
-  timerOptions: TimerOptionsState;
   stagedAttachments: StagedAttachmentsStateType;
   call: CallStateType;
   sogsRoomInfo: SogsRoomInfoState;
@@ -50,7 +48,6 @@ export const reducers = {
   onionPaths,
   modals,
   userConfig,
-  timerOptions,
   stagedAttachments,
   call,
   sogsRoomInfo: ReduxSogsRoomInfos.sogsRoomInfoReducer,
