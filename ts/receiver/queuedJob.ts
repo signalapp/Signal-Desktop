@@ -10,6 +10,10 @@ import { Quote } from './types';
 import { ConversationTypeEnum } from '../models/conversationAttributes';
 import { MessageDirection } from '../models/messageType';
 import { SignalService } from '../protobuf';
+import {
+  changeToDisappearingConversationMode,
+  setExpirationStartTimestamp,
+} from '../session/disappearing_messages';
 import { ProfileManager } from '../session/profile_manager/ProfileManager';
 import { PubKey } from '../session/types';
 import { UserUtils } from '../session/utils';
@@ -17,10 +21,6 @@ import { PropsForMessageWithoutConvoProps, lookupQuote } from '../state/ducks/co
 import { showMessageRequestBannerOutsideRedux } from '../state/ducks/userConfig';
 import { getHideMessageRequestBannerOutsideRedux } from '../state/selectors/userConfig';
 import { GoogleChrome } from '../util';
-import {
-  changeToDisappearingConversationMode,
-  setExpirationStartTimestamp,
-} from '../util/expiringMessages';
 import { LinkPreviews } from '../util/linkPreviews';
 import { ReleasedFeatures } from '../util/releaseFeature';
 

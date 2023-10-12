@@ -45,6 +45,12 @@ import { isUsAnySogsFromCache } from '../session/apis/open_group_api/sogsv3/know
 import { GetNetworkTime } from '../session/apis/snode_api/getNetworkTime';
 import { SnodeNamespaces } from '../session/apis/snode_api/namespaces';
 import { DURATION } from '../session/constants';
+import {
+  changeToDisappearingConversationMode,
+  checkForExpireUpdateInContentMessage,
+  setExpirationStartTimestamp,
+  updateMessageExpiryOnSwarm,
+} from '../session/disappearing_messages';
 import { TimerOptions } from '../session/disappearing_messages/timerOptions';
 import { OpenGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
 import {
@@ -89,12 +95,6 @@ import {
 import { ReactionList } from '../types/Reaction';
 import { getAttachmentMetadata } from '../types/message/initializeAttachmentMetadata';
 import { roomHasBlindEnabled } from '../types/sqlSharedTypes';
-import {
-  changeToDisappearingConversationMode,
-  checkForExpireUpdateInContentMessage,
-  setExpirationStartTimestamp,
-  updateMessageExpiryOnSwarm,
-} from '../util/expiringMessages';
 import { LinkPreviews } from '../util/linkPreviews';
 import { Notifications } from '../util/notifications';
 import { Storage } from '../util/storage';

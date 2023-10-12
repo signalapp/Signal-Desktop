@@ -26,14 +26,14 @@ import { getCallMediaPermissionsSettings } from '../../../components/settings/Se
 import { Data } from '../../../data/data';
 import { approveConvoAndSendResponse } from '../../../interactions/conversationInteractions';
 import { READ_MESSAGE_STATE } from '../../../models/conversationAttributes';
-import {
-  changeToDisappearingMessageType,
-  setExpirationStartTimestamp,
-} from '../../../util/expiringMessages';
 import { PnServer } from '../../apis/push_notification_api';
 import { GetNetworkTime } from '../../apis/snode_api/getNetworkTime';
 import { SnodeNamespaces } from '../../apis/snode_api/namespaces';
 import { DURATION } from '../../constants';
+import {
+  changeToDisappearingMessageType,
+  setExpirationStartTimestamp,
+} from '../../disappearing_messages';
 import { MessageSender } from '../../sending';
 import { getIsRinging } from '../RingingManager';
 import { getBlackSilenceMediaStream } from './Silence';

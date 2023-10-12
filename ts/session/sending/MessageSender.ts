@@ -8,39 +8,39 @@ import { Data } from '../../data/data';
 import { SignalService } from '../../protobuf';
 import { OpenGroupRequestCommonType } from '../apis/open_group_api/opengroupV2/ApiUtil';
 import { OpenGroupMessageV2 } from '../apis/open_group_api/opengroupV2/OpenGroupMessageV2';
-import { fromUInt8ArrayToBase64 } from '../utils/String';
-import { EmptySwarmError } from '../utils/errors';
 import {
   sendMessageOnionV4BlindedRequest,
   sendSogsMessageOnionV4,
 } from '../apis/open_group_api/sogsv3/sogsV3SendMessage';
-import { GetNetworkTime } from '../apis/snode_api/getNetworkTime';
-import { SnodeNamespace, SnodeNamespaces } from '../apis/snode_api/namespaces';
-import { getSwarmFor } from '../apis/snode_api/snodePool';
 import {
   NotEmptyArrayOfBatchResults,
   StoreOnNodeMessage,
   StoreOnNodeParams,
   StoreOnNodeParamsNoSig,
 } from '../apis/snode_api/SnodeRequestTypes';
+import { GetNetworkTime } from '../apis/snode_api/getNetworkTime';
+import { SnodeNamespace, SnodeNamespaces } from '../apis/snode_api/namespaces';
+import { getSwarmFor } from '../apis/snode_api/snodePool';
 import { SnodeSignature, SnodeSignatureResult } from '../apis/snode_api/snodeSignatures';
 import { SnodeAPIStore } from '../apis/snode_api/storeMessage';
 import { getConversationController } from '../conversations';
 import { MessageEncrypter } from '../crypto';
 import { addMessagePadding } from '../crypto/BufferPadding';
+import {
+  changeToDisappearingConversationMode,
+  updateMessageExpiryOnSwarm,
+} from '../disappearing_messages';
 import { ContentMessage } from '../messages/outgoing';
 import { ConfigurationMessage } from '../messages/outgoing/controlMessage/ConfigurationMessage';
-import { ClosedGroupNewMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupNewMessage';
 import { SharedConfigMessage } from '../messages/outgoing/controlMessage/SharedConfigMessage';
 import { UnsendMessage } from '../messages/outgoing/controlMessage/UnsendMessage';
+import { ClosedGroupNewMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupNewMessage';
 import { OpenGroupVisibleMessage } from '../messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
 import { ed25519Str } from '../onions/onionPath';
 import { PubKey } from '../types';
 import { RawMessage } from '../types/RawMessage';
-import {
-  changeToDisappearingConversationMode,
-  updateMessageExpiryOnSwarm,
-} from '../../util/expiringMessages';
+import { fromUInt8ArrayToBase64 } from '../utils/String';
+import { EmptySwarmError } from '../utils/errors';
 
 // ================ SNODE STORE ================
 

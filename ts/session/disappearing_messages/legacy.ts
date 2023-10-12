@@ -1,0 +1,38 @@
+import { ProtobufUtils, SignalService } from '../../protobuf';
+import { ReleasedFeatures } from '../../util/releaseFeature';
+import { DisappearingMessageConversationModeType } from './types';
+
+// TODO legacy messages support will be removed in a future release
+export function isLegacyDisappearingModeEnabled(
+  expirationMode: DisappearingMessageConversationModeType | undefined
+): boolean {
+  return Boolean(
+    expirationMode &&
+      expirationMode !== 'off' &&
+      !ReleasedFeatures.isDisappearMessageV2FeatureReleasedCached()
+  );
+}
+
+export function checkIsLegacyDisappearingDataMessage(
+  couldBeLegacyContent: boolean,
+  dataMessage: SignalService.DataMessage
+): boolean {
+  return (
+    couldBeLegacyContent &&
+    ProtobufUtils.hasDefinedProperty(dataMessage, 'expireTimer') &&
+    dataMessage.expireTimer > -1
+  );
+}
+
+// TODO legacy messages support will be removed in a future release
+// NOTE We need this to check for legacy disappearing messages where the expirationType and expireTimer should be undefined on the ContentMessage
+export function couldBeLegacyDisappearingMessageContent(
+  contentMessage: SignalService.Content
+): boolean {
+  return (
+    (contentMessage.expirationType === SignalService.Content.ExpirationType.UNKNOWN ||
+      (ReleasedFeatures.isDisappearMessageV2FeatureReleasedCached() &&
+        !ProtobufUtils.hasDefinedProperty(contentMessage, 'expirationType'))) &&
+    !ProtobufUtils.hasDefinedProperty(contentMessage, 'expirationTimer')
+  );
+}

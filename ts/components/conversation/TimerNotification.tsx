@@ -3,11 +3,11 @@ import React from 'react';
 import { PropsForExpirationTimer } from '../../state/ducks/conversations';
 import { assertUnreachable } from '../../types/sqlSharedTypes';
 
-import { ExpirableReadableMessage } from './message/message-item/ExpirableReadableMessage';
-import { SessionIcon } from '../icon';
-import { SpacerSM, Text } from '../basic/Text';
+import { isLegacyDisappearingModeEnabled } from '../../session/disappearing_messages/legacy';
 import { Flex } from '../basic/Flex';
-import { isLegacyDisappearingModeEnabled } from '../../util/expiringMessages';
+import { SpacerSM, Text } from '../basic/Text';
+import { SessionIcon } from '../icon';
+import { ExpirableReadableMessage } from './message/message-item/ExpirableReadableMessage';
 
 export const TimerNotification = (props: PropsForExpirationTimer) => {
   const { messageId, pubkey, profileName, expirationMode, timespan, type, disabled } = props;

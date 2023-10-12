@@ -22,26 +22,26 @@ import { findCachedBlindedMatchOrLookupOnAllServers } from '../session/apis/open
 import { getConversationController } from '../session/conversations';
 import { concatUInt8Array, getSodiumRenderer } from '../session/crypto';
 import { removeMessagePadding } from '../session/crypto/BufferPadding';
-import { ProfileManager } from '../session/profile_manager/ProfileManager';
-import { GroupUtils, UserUtils } from '../session/utils';
-import { perfEnd, perfStart } from '../session/utils/Performance';
-import { fromHexToArray, toHex } from '../session/utils/String';
-import { assertUnreachable } from '../types/sqlSharedTypes';
-import { BlockedNumberController } from '../util';
-import { ReadReceipts } from '../util/readReceipts';
-import { Storage } from '../util/storage';
-import { handleCallMessage } from './callMessage';
-import { getAllCachedECKeyPair, sentAtMoreRecentThanWrapper } from './closedGroups';
-import { ConfigMessageHandler } from './configMessage';
-import { ECKeyPair } from './keypairs';
-import { ContactsWrapperActions } from '../webworker/workers/browser/libsession_worker_interface';
-import { isUsFromCache } from '../session/utils/User';
 import {
   changeToDisappearingMessageType,
   checkForExpireUpdateInContentMessage,
   checkHasOutdatedDisappearingMessageClient,
   setExpirationStartTimestamp,
-} from '../util/expiringMessages';
+} from '../session/disappearing_messages';
+import { ProfileManager } from '../session/profile_manager/ProfileManager';
+import { GroupUtils, UserUtils } from '../session/utils';
+import { perfEnd, perfStart } from '../session/utils/Performance';
+import { fromHexToArray, toHex } from '../session/utils/String';
+import { isUsFromCache } from '../session/utils/User';
+import { assertUnreachable } from '../types/sqlSharedTypes';
+import { BlockedNumberController } from '../util';
+import { ReadReceipts } from '../util/readReceipts';
+import { Storage } from '../util/storage';
+import { ContactsWrapperActions } from '../webworker/workers/browser/libsession_worker_interface';
+import { handleCallMessage } from './callMessage';
+import { getAllCachedECKeyPair, sentAtMoreRecentThanWrapper } from './closedGroups';
+import { ConfigMessageHandler } from './configMessage';
+import { ECKeyPair } from './keypairs';
 
 export async function handleSwarmContentMessage(envelope: EnvelopePlus, messageHash: string) {
   try {

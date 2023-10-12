@@ -1,22 +1,26 @@
 import { throttle, uniq } from 'lodash';
-import { messagesExpired } from '../state/ducks/conversations';
-import { initWallClockListener } from './wallClockListener';
+import { messagesExpired } from '../../state/ducks/conversations';
+import { initWallClockListener } from '../../util/wallClockListener';
 
-import { Data } from '../data/data';
-import { ConversationModel } from '../models/conversation';
-import { MessageModel } from '../models/message';
-import { ProtobufUtils, SignalService } from '../protobuf';
-import { expireMessageOnSnode } from '../session/apis/snode_api/expireRequest';
-import { GetNetworkTime } from '../session/apis/snode_api/getNetworkTime';
-import { getConversationController } from '../session/conversations';
+import { Data } from '../../data/data';
+import { ConversationModel } from '../../models/conversation';
+import { MessageModel } from '../../models/message';
+import { SignalService } from '../../protobuf';
+import { ReleasedFeatures } from '../../util/releaseFeature';
+import { expireMessageOnSnode } from '../apis/snode_api/expireRequest';
+import { GetNetworkTime } from '../apis/snode_api/getNetworkTime';
+import { getConversationController } from '../conversations';
+import { isValidUnixTimestamp } from '../utils/Timestamps';
+import {
+  checkIsLegacyDisappearingDataMessage,
+  couldBeLegacyDisappearingMessageContent,
+} from './legacy';
 import {
   DisappearingMessageConversationModeType,
   DisappearingMessageMode,
   DisappearingMessageType,
   DisappearingMessageUpdate,
-} from '../session/disappearing_messages/types';
-import { isValidUnixTimestamp } from '../session/utils/Timestamps';
-import { ReleasedFeatures } from './releaseFeature';
+} from './types';
 
 export async function destroyMessagesAndUpdateRedux(
   messages: Array<{
@@ -126,7 +130,7 @@ const throttledCheckExpiringMessages = throttle(checkExpiringMessages, 1000);
 
 let isInit = false;
 
-const initExpiringMessageListener = () => {
+export const initExpiringMessageListener = () => {
   if (isInit) {
     throw new Error('expiring messages listener is already init');
   }
@@ -138,13 +142,8 @@ const initExpiringMessageListener = () => {
   isInit = true;
 };
 
-const updateExpiringMessagesCheck = () => {
+export const updateExpiringMessagesCheck = () => {
   void throttledCheckExpiringMessages();
-};
-
-export const ExpirationTimerOptions = {
-  initExpiringMessageListener,
-  updateExpiringMessagesCheck,
 };
 
 export function setExpirationStartTimestamp(
@@ -210,17 +209,6 @@ export function setExpirationStartTimestamp(
 }
 
 // TODO legacy messages support will be removed in a future release
-export function isLegacyDisappearingModeEnabled(
-  expirationMode: DisappearingMessageConversationModeType | undefined
-): boolean {
-  return Boolean(
-    expirationMode &&
-      expirationMode !== 'off' &&
-      !ReleasedFeatures.isDisappearMessageV2FeatureReleasedCached()
-  );
-}
-
-// TODO legacy messages support will be removed in a future release
 /**
  * Converts DisappearingMessageConversationModeType to DisappearingMessageType
  *
@@ -278,17 +266,6 @@ export function changeToDisappearingConversationMode(
   return expirationType === 'deleteAfterSend' ? 'deleteAfterSend' : 'deleteAfterRead';
 }
 
-// TODO legacy messages support will be removed in a future release
-// NOTE We need this to check for legacy disappearing messages where the expirationType and expireTimer should be undefined on the ContentMessage
-function couldBeLegacyDisappearingMessageContent(contentMessage: SignalService.Content): boolean {
-  return (
-    (contentMessage.expirationType === SignalService.Content.ExpirationType.UNKNOWN ||
-      (ReleasedFeatures.isDisappearMessageV2FeatureReleasedCached() &&
-        !ProtobufUtils.hasDefinedProperty(contentMessage, 'expirationType'))) &&
-    !ProtobufUtils.hasDefinedProperty(contentMessage, 'expirationTimer')
-  );
-}
-
 /**
  * Checks if a message is meant to disappear but doesn't have the correct expiration values set
  *
@@ -306,17 +283,6 @@ function checkDisappearButIsntMessage(
     expirationTimer === 0 &&
     convo.getExpirationMode() !== 'off' &&
     convo.getExpireTimer() !== 0
-  );
-}
-
-export function checkIsLegacyDisappearingDataMessage(
-  couldBeLegacyContent: boolean,
-  dataMessage: SignalService.DataMessage
-): boolean {
-  return (
-    couldBeLegacyContent &&
-    ProtobufUtils.hasDefinedProperty(dataMessage, 'expireTimer') &&
-    dataMessage.expireTimer > -1
   );
 }
 

@@ -10,6 +10,7 @@ import { StorageItem } from '../node/storage_item';
 import { HexKeyPair } from '../receiver/keypairs';
 import { Quote } from '../receiver/types';
 import { getSodiumRenderer } from '../session/crypto';
+import { updateExpiringMessagesCheck } from '../session/disappearing_messages';
 import { PubKey } from '../session/types';
 import { fromArrayBufferToBase64, fromBase64ToArrayBuffer } from '../session/utils/String';
 import {
@@ -19,7 +20,6 @@ import {
   UnprocessedDataNode,
   UpdateLastHashType,
 } from '../types/sqlSharedTypes';
-import { ExpirationTimerOptions } from '../util/expiringMessages';
 import { Storage } from '../util/storage';
 import { channels } from './channels';
 import * as dataInit from './dataInit';
@@ -244,7 +244,7 @@ async function updateLastHash(data: UpdateLastHashType): Promise<void> {
 async function saveMessage(data: MessageAttributes): Promise<string> {
   const cleanedData = cleanData(data);
   const id = await channels.saveMessage(cleanedData);
-  ExpirationTimerOptions.updateExpiringMessagesCheck();
+  updateExpiringMessagesCheck();
   return id;
 }
 

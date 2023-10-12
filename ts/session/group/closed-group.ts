@@ -12,15 +12,15 @@ import {
   distributingClosedGroupEncryptionKeyPairs,
 } from '../../receiver/closedGroups';
 import { ECKeyPair } from '../../receiver/keypairs';
-import {
-  changeToDisappearingMessageType,
-  setExpirationStartTimestamp,
-} from '../../util/expiringMessages';
 import { GetNetworkTime } from '../apis/snode_api/getNetworkTime';
 import { SnodeNamespaces } from '../apis/snode_api/namespaces';
 import { getConversationController } from '../conversations';
 import { generateCurve25519KeyPairWithoutPrefix } from '../crypto';
 import { encryptUsingSessionProtocol } from '../crypto/MessageEncrypter';
+import {
+  changeToDisappearingMessageType,
+  setExpirationStartTimestamp,
+} from '../disappearing_messages';
 import { DisappearAfterSendOnly } from '../disappearing_messages/types';
 import { ClosedGroupAddedMembersMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupAddedMembersMessage';
 import { ClosedGroupEncryptionPairMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupEncryptionPairMessage';

@@ -20,12 +20,12 @@ import {
   createSwarmMessageSentFromNotUs,
   createSwarmMessageSentFromUs,
 } from '../models/messageFactory';
+import { getMessageReadyToDisappear } from '../session/disappearing_messages';
 import { DisappearingMessageUpdate } from '../session/disappearing_messages/types';
 import { ProfileManager } from '../session/profile_manager/ProfileManager';
 import { isUsFromCache } from '../session/utils/User';
 import { Action, Reaction } from '../types/Reaction';
 import { toLogFormat } from '../types/attachments/Errors';
-import { getMessageReadyToDisappear } from '../util/expiringMessages';
 import { Reactions } from '../util/reactions';
 
 function cleanAttachment(attachment: any) {
