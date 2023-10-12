@@ -49,7 +49,7 @@ const settingsSlice = createSlice({
         SettingsKey.hasBlindedMsgRequestsEnabled,
         false
       );
-      const hasShiftSendEnabled = Storage.get(SettingsKey.hasShiftSendEnabled);
+      const hasShiftSendEnabled = Storage.get(SettingsKey.hasShiftSendEnabled, false);
 
       state.settingsBools.someDeviceOutdatedSyncing = isBoolean(outdatedSync)
         ? outdatedSync
