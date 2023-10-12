@@ -262,17 +262,16 @@ export class SessionConversation extends React.Component<Props, State> {
       <SessionTheme>
         <div className="conversation-header">
           <ConversationHeaderWithDetails />
-          {selectedConversation?.hasOutdatedClient &&
-            selectedConversation.hasOutdatedClient.length > 0 && (
-              <NoticeBanner
-                text={bannerText}
-                dismissCallback={() => {
-                  const conversation = getConversationController().get(selectedConversation.id);
-                  conversation.set({ hasOutdatedClient: undefined });
-                  void conversation.commit();
-                }}
-              />
-            )}
+          {selectedConversation?.hasOutdatedClient?.length ? (
+            <NoticeBanner
+              text={bannerText}
+              dismissCallback={() => {
+                const conversation = getConversationController().get(selectedConversation.id);
+                conversation.set({ hasOutdatedClient: undefined });
+                void conversation.commit();
+              }}
+            />
+          ) : null}
         </div>
         {isSelectedConvoInitialLoadingInProgress ? (
           <ConvoLoadingSpinner />
