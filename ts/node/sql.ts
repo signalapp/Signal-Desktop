@@ -1,7 +1,7 @@
+import * as BetterSqlite3 from '@signalapp/better-sqlite3';
 import { app, clipboard, dialog, Notification } from 'electron';
 import fs from 'fs';
 import path from 'path';
-import * as BetterSqlite3 from '@signalapp/better-sqlite3';
 import rimraf from 'rimraf';
 
 import { base64_variants, from_base64, to_hex } from 'libsodium-wrappers-sumo';
@@ -1161,7 +1161,7 @@ function getUnreadByConversation(conversationId: string, sentBeforeTimestamp: nu
   return map(rows, row => jsonToObject(row.json));
 }
 
-function getDisappearingUnreadByConversation(conversationId: string, sentBeforeTimestamp: number) {
+function getUnreadDisappearingByConversation(conversationId: string, sentBeforeTimestamp: number) {
   const rows = assertGlobalInstance()
     .prepare(
       `SELECT * FROM ${MESSAGES_TABLE} WHERE
@@ -2419,7 +2419,7 @@ export const sqlNode = {
   removeMessagesByIds,
   removeAllMessagesInConversation,
   getUnreadByConversation,
-  getDisappearingUnreadByConversation,
+  getUnreadDisappearingByConversation,
   markAllAsReadByConversationNoExpiration,
   getUnreadCountByConversation,
   getMessageCountByType,

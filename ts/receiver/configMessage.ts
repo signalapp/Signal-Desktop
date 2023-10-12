@@ -5,6 +5,7 @@ import { ConfigDumpData } from '../data/configDump/configDump';
 import { Data } from '../data/data';
 import { SettingsKey } from '../data/settings-key';
 import { ConversationInteraction } from '../interactions';
+import { deleteAllMessagesByConvoIdNoConfirmation } from '../interactions/conversationInteractions';
 import { CONVERSATION_PRIORITIES, ConversationTypeEnum } from '../models/conversationAttributes';
 import { SignalService } from '../protobuf';
 import { ClosedGroup } from '../session';
@@ -16,6 +17,7 @@ import { getOpenGroupManager } from '../session/apis/open_group_api/opengroupV2/
 import { OpenGroupUtils } from '../session/apis/open_group_api/utils';
 import { getOpenGroupV2ConversationId } from '../session/apis/open_group_api/utils/OpenGroupUtils';
 import { getSwarmPollingInstance } from '../session/apis/snode_api';
+import { getExpiriesFromSnode } from '../session/apis/snode_api/getExpiriesRequest';
 import { getConversationController } from '../session/conversations';
 import { IncomingMessage } from '../session/messages/incoming/IncomingMessage';
 import { Profile, ProfileManager } from '../session/profile_manager/ProfileManager';
@@ -39,7 +41,6 @@ import {
   isSignInByLinking,
   setLastProfileUpdateTimestamp,
 } from '../util/storage';
-import { deleteAllMessagesByConvoIdNoConfirmation } from '../interactions/conversationInteractions';
 // eslint-disable-next-line import/no-unresolved, import/extensions
 import { ConfigWrapperObjectTypes } from '../webworker/workers/browser/libsession_worker_functions';
 import {
@@ -54,7 +55,6 @@ import { addKeyPairToCacheAndDBIfNeeded, handleNewClosedGroup } from './closedGr
 import { HexKeyPair } from './keypairs';
 import { queueAllCachedFromSource } from './receiver';
 import { EnvelopePlus } from './types';
-import { getExpiriesFromSnode } from '../session/apis/snode_api/getExpiriesRequest';
 
 function groupByVariant(
   incomingConfigs: Array<IncomingMessage<SignalService.ISharedConfigMessage>>
@@ -735,7 +735,7 @@ async function applyConvoVolatileUpdateFromWrapper(
         foundConvo.getExpirationMode() === 'legacy') &&
       foundConvo.getExpireTimer() > 0
     ) {
-      const messages2Expire = await Data.getDisappearingUnreadByConversation(
+      const messages2Expire = await Data.getUnreadDisappearingByConversation(
         convoId,
         lastReadMessageTimestamp
       );

@@ -345,11 +345,11 @@ async function getUnreadByConversation(
   return new MessageCollection(messages);
 }
 
-async function getDisappearingUnreadByConversation(
+async function getUnreadDisappearingByConversation(
   conversationId: string,
   sentBeforeTimestamp: number
 ): Promise<MessageCollection> {
-  const messages = await channels.getDisappearingUnreadByConversation(
+  const messages = await channels.getUnreadDisappearingByConversation(
     conversationId,
     sentBeforeTimestamp
   );
@@ -806,7 +806,7 @@ export const Data = {
   getMessageByServerId,
   filterAlreadyFetchedOpengroupMessage,
   getUnreadByConversation,
-  getDisappearingUnreadByConversation,
+  getUnreadDisappearingByConversation,
   getUnreadCountByConversation,
   markAllAsReadByConversationNoExpiration,
   getMessageCountByType,
