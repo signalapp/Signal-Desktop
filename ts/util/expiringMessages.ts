@@ -6,14 +6,14 @@ import { LocalizerKeys } from '../types/LocalizerKeys';
 import { initWallClockListener } from './wallClockListener';
 
 import { Data } from '../data/data';
-import { getConversationController } from '../session/conversations';
-import { ProtobufUtils, SignalService } from '../protobuf';
 import { ConversationModel } from '../models/conversation';
 import { MessageModel } from '../models/message';
-import { GetNetworkTime } from '../session/apis/snode_api/getNetworkTime';
-import { ReleasedFeatures } from './releaseFeature';
+import { ProtobufUtils, SignalService } from '../protobuf';
 import { expireMessageOnSnode } from '../session/apis/snode_api/expireRequest';
+import { GetNetworkTime } from '../session/apis/snode_api/getNetworkTime';
+import { getConversationController } from '../session/conversations';
 import { isValidUnixTimestamp } from '../session/utils/Timestamps';
+import { ReleasedFeatures } from './releaseFeature';
 
 // NOTE this must match Content.ExpirationType in the protobuf
 // TODO double check this
@@ -77,7 +77,6 @@ export async function destroyMessagesAndUpdateRedux(
     const messageIds = messages.map(m => m.messageId);
 
     // Delete any attachments
-    // tslint:disable-next-line: prefer-for-of
     for (let i = 0; i < messageIds.length; i++) {
       /* eslint-disable no-await-in-loop */
       const message = await Data.getMessageById(messageIds[i]);

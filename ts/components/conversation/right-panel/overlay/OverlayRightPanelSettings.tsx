@@ -1,7 +1,6 @@
 import { compact, flatten, isEqual } from 'lodash';
 import React, { useEffect, useState } from 'react';
 
-// tslint:disable-next-line: no-submodule-imports
 import { useDispatch } from 'react-redux';
 import useInterval from 'react-use/lib/useInterval';
 import styled from 'styled-components';
@@ -202,8 +201,6 @@ const StyledName = styled.h4`
   font-size: var(--font-size-md);
 `;
 
-// tslint:disable: cyclomatic-complexity
-// tslint:disable: max-func-body-length
 export const OverlayRightPanelSettings = () => {
   const [documents, setDocuments] = useState<Array<MediaItemType>>([]);
   const [media, setMedia] = useState<Array<MediaItemType>>([]);
@@ -366,7 +363,6 @@ export const OverlayRightPanelSettings = () => {
 
       <MediaGallery documents={documents} media={media} />
       {isGroup && (
-        // tslint:disable-next-line: use-simple-attributes
         <StyledLeaveButton>
           <SessionButton
             text={leaveGroupString}

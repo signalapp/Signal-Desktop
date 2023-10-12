@@ -31,7 +31,6 @@ export type SubtitleStringsType = keyof Pick<
   'notifications' | 'members' | 'disappearingMessages'
 >;
 
-// tslint:disable: cyclomatic-complexity max-func-body-length
 export const ConversationHeaderTitle = () => {
   const dispatch = useDispatch();
   const convoId = useSelectedConversationKey();

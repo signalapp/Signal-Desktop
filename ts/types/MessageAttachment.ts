@@ -1,11 +1,12 @@
 import { ipcRenderer } from 'electron';
 import { isArrayBuffer, isEmpty, isString, isUndefined, omit } from 'lodash';
+import { ConversationAttributes } from '../models/conversationAttributes';
+import { createDeleter, getAttachmentsPath } from '../shared/attachments/shared_attachments';
 import {
   createAbsolutePathGetter,
   createReader,
   createWriterForNew,
 } from '../util/attachments_files';
-import { createDeleter, getAttachmentsPath } from '../shared/attachments/shared_attachments';
 import {
   autoOrientJPEGAttachment,
   captureDimensionsAndScreenshot,
@@ -13,7 +14,6 @@ import {
   loadData,
   replaceUnicodeV2,
 } from './attachments/migrations';
-import { ConversationAttributes } from '../models/conversationAttributes';
 
 // I think this is only used on the renderer side, but how?!
 
@@ -30,7 +30,8 @@ export const deleteExternalMessageFiles = async (message: {
 
   if (quote && quote.attachments && quote.attachments.length) {
     await Promise.all(
-      quote.attachments.map(async (attachment: { thumbnail: any }) => {
+      quote.attachments.map(async (_attachment: { thumbnail: any }) => {
+        const attachment = _attachment;
         const { thumbnail } = attachment;
 
         // To prevent spoofing, we copy the original image from the quoted message.
@@ -48,7 +49,8 @@ export const deleteExternalMessageFiles = async (message: {
 
   if (preview && preview.length) {
     await Promise.all(
-      preview.map(async (item: { image: any }) => {
+      preview.map(async (_item: { image: any }) => {
+        const item = _item;
         const { image } = item;
 
         if (image && image.path) {

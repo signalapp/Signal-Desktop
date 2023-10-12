@@ -1,19 +1,19 @@
 import React, { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { ed25519Str } from '../../session/onions/onionPath';
 import { SnodeAPI } from '../../session/apis/snode_api/SNodeAPI';
+import { ed25519Str } from '../../session/onions/onionPath';
 import { forceSyncConfigurationNowIfNeeded } from '../../session/utils/sync/syncUtils';
 import { updateConfirmModal, updateDeleteAccountModal } from '../../state/ducks/modalDialog';
-import { SpacerLG } from '../basic/Text';
+import { SessionWrapperModal } from '../SessionWrapperModal';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { SessionSpinner } from '../basic/SessionSpinner';
-import { SessionWrapperModal } from '../SessionWrapperModal';
+import { SpacerLG } from '../basic/Text';
 
 import { Data } from '../../data/data';
 import { deleteAllLogs } from '../../node/logs';
-import { SessionRadioGroup } from '../basic/SessionRadioGroup';
 import { clearInbox } from '../../session/apis/open_group_api/sogsv3/sogsV3ClearInbox';
 import { getAllValidOpenGroupV2ConversationRoomInfos } from '../../session/apis/open_group_api/utils/OpenGroupUtils';
+import { SessionRadioGroup } from '../basic/SessionRadioGroup';
 
 const deleteDbLocally = async () => {
   window?.log?.info('last message sent successfully. Deleting everything');
@@ -63,9 +63,10 @@ async function deleteEverythingAndNetworkData() {
     const allRoomInfos = await getAllValidOpenGroupV2ConversationRoomInfos();
     if (allRoomInfos && allRoomInfos.size > 0) {
       // clear each inbox per sogs
+      // eslint-disable-next-line no-restricted-syntax
       for (const roomInfo of allRoomInfos.values()) {
-        // TODO CONTINUE testing - use a dummy account with some message requests and then if we restore from seed there should be no message requests.
         try {
+          // eslint-disable-next-line no-await-in-loop
           const success = await clearInbox(roomInfo);
           if (!success) {
             throw Error(`Failed to clear inbox for ${roomInfo.conversationId}`);

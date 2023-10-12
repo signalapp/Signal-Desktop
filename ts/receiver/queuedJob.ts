@@ -11,6 +11,9 @@ import { ConversationTypeEnum } from '../models/conversationAttributes';
 import { MessageDirection } from '../models/messageType';
 import { SignalService } from '../protobuf';
 import { ProfileManager } from '../session/profile_manager/ProfileManager';
+import { PubKey } from '../session/types';
+import { UserUtils } from '../session/utils';
+import { PropsForMessageWithoutConvoProps, lookupQuote } from '../state/ducks/conversations';
 import { showMessageRequestBannerOutsideRedux } from '../state/ducks/userConfig';
 import { getHideMessageRequestBannerOutsideRedux } from '../state/selectors/userConfig';
 import { GoogleChrome } from '../util';
@@ -20,9 +23,6 @@ import {
 } from '../util/expiringMessages';
 import { LinkPreviews } from '../util/linkPreviews';
 import { ReleasedFeatures } from '../util/releaseFeature';
-import { PropsForMessageWithoutConvoProps, lookupQuote } from '../state/ducks/conversations';
-import { PubKey } from '../session/types';
-import { UserUtils } from '../session/utils';
 
 function contentTypeSupported(type: string): boolean {
   const Chrome = GoogleChrome;
@@ -369,7 +369,6 @@ async function markConvoAsReadIfOutgoingMessage(
   }
 }
 
-// tslint:disable: max-func-body-length cyclomatic-complexity
 export async function handleMessageJob(
   messageModel: MessageModel,
   conversation: ConversationModel,

@@ -801,7 +801,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     });
   }
 
-  // tslint:disable: cyclomatic-complexity
   /**
    * Updates the disappearing message settings for this conversation and sends an ExpirationTimerUpdate message if required
    * @param providedDisappearingMode
