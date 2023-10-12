@@ -6812,9 +6812,9 @@
     "messageformat": "Kini Anda bisa mengeklik kanan pada pesan yang telah terkirim atau menekan panah atas di keyboard untuk mengedit isi pesan! Perbaiki salah ketik, termasuk saat ada bahan yang lupa belum ditulis dalam resep soto betawi ala nenek, atau tambahkan punchline pada lelucon jika Anda telanjur menekan tombol kirim. Pilihan ada di tangan Anda. Pesan akan selalu terlihat jika telah diedit, dan Anda bisa melihat riwayat pengeditan lengkap untuk pesan apa pun yang diedit."
   },
   "icu:WhatsNew__v6.34--0": {
-    "messageformat": "Typing indicators in group chats will now display multiple profile pictures if more than one person is typing. James Cameron convinced us that we didn't need to stop after one avatar."
+    "messageformat": "Indikator pengetikan dalam obrolan grup kini menampilkan beberapa foto profil jika orang yang sedang mengetik lebih dari satu."
   },
   "icu:WhatsNew__v6.34--1": {
-    "messageformat": "Now you can right-click on any sent message or press the up arrow on your keyboard to edit what you just said! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "Kini Anda bisa klik kanan pesan yang telah terkirim atau menekan tombol panah atas di keyboard untuk mengedit isi pesan sebelumnya! Perbaiki salah ketik, termasuk saat ada bahan yang lupa belum ditulis dalam resep soto betawi ala nenek, atau tambahkan punchline pada lelucon jika Anda telanjur menekan tombol kirim. Pilihan ada di tangan Anda. Pesan akan selalu terlihat jika telah diedit, dan Anda bisa melihat riwayat pengeditan lengkap untuk setiap pesan yang diedit."
   }
 }

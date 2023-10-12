@@ -6812,9 +6812,9 @@
     "messageformat": "এখন আপনি একটি ম্যাসেজ পাঠানোর পর তার উপর রাইট ক্লিক করে এডিট করতে পারবেন! যদি 'পাঠান' বাটনটি তড়িঘড়ি করে চেপে ফেলার পর চোখে পড়ে, তবে ভুল করা বানানগুলো শুধরে নিন, বাদ পড়ে যাওয়া কোনো কথা যোগ করুন বা কৌতুকের ছলে লেখা ম্যাসেজটিতে একটি পাঞ্চলাইন যোগ করুন। ইচ্ছা আপনার। কোনো ম্যাসেজ যখন এডিট করা হবে তখন সবসময় তা এডিটকৃত অবস্থায় দেখাবে এবং আপনি যেকোনো এডিটকৃত ম্যাসেজের সম্পূর্ণ এডিট ইতিহাস দেখতে \"এডিটকৃত\" লেখাটিতে ট্যাপ করতে পারবেন। ভবিষ্যতের বিভ্রান্তি দূর করতে অতীতকে বর্তমানে আপডেট করুন আজই!"
   },
   "icu:WhatsNew__v6.34--0": {
-    "messageformat": "Typing indicators in group chats will now display multiple profile pictures if more than one person is typing. James Cameron convinced us that we didn't need to stop after one avatar."
+    "messageformat": "গ্রুপ চ্যাটে একাধিক ব্যক্তি টাইপ করলে টাইপিং সূচকে এখন একাধিক প্রোফাইল ছবি প্রদর্শন করবে।"
   },
   "icu:WhatsNew__v6.34--1": {
-    "messageformat": "Now you can right-click on any sent message or press the up arrow on your keyboard to edit what you just said! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "এখন আপনি একটি ম্যাসেজ পাঠানোর পর তার উপর রাইট ক্লিক করে বা কী-বোর্ডে ঊর্ধ্বমুখী তীর চিহ্ন চেপে ধরে এডিট করতে পারবেন! যদি 'পাঠান' বাটনটি তড়িঘড়ি করে চেপে ফেলার পর চোখে পড়ে, তবে ভুল করা বানানগুলো শুধরে নিন, বাদ পড়ে যাওয়া কোনো কথা যোগ করুন বা কৌতুকের ছলে লেখা ম্যাসেজটিতে একটি পাঞ্চলাইন যোগ করুন। ইচ্ছা আপনার। কোনো ম্যাসেজ যখন এডিট করা হবে তখন সবসময় তা এডিটকৃত অবস্থায় দেখাবে এবং আপনি যেকোনো এডিটকৃত ম্যাসেজের সম্পূর্ণ এডিট ইতিহাস দেখতে \"এডিটকৃত\" লেখাটিতে ট্যাপ করতে পারবেন। ভবিষ্যতের বিভ্রান্তি দূর করতে অতীতকে বর্তমানে আপডেট করুন আজই!"
   }
 }

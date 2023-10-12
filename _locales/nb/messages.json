@@ -6812,9 +6812,9 @@
     "messageformat": "Nå er det mulig å redigere meldinger som allerede er sendt, med et høyreklikk! Du kan for eksempel fikse en skriveleif, legge til den hemmelige ingrediensen i kakeoppskriften til bestemor, eller ta med punchlinen i vitsen hvis du trykket på «send» litt for kjapt. Valget er ditt. Det vil alltid vises at en melding har blitt redigert, og alle kan se redigeringshistorikken til meldingene i samtalen. Rett opp i gårsdagens feil i dag for å unngå forvirring i morgen!"
   },
   "icu:WhatsNew__v6.34--0": {
-    "messageformat": "Typing indicators in group chats will now display multiple profile pictures if more than one person is typing. James Cameron convinced us that we didn't need to stop after one avatar."
+    "messageformat": "Nå vil profilbildene til alle som skriver, vises nederst i gruppesamtaler dersom flere personer skriver på samme tid."
   },
   "icu:WhatsNew__v6.34--1": {
-    "messageformat": "Now you can right-click on any sent message or press the up arrow on your keyboard to edit what you just said! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "Nå er det mulig å redigere meldinger som allerede er sendt, med et høyreklikk! Eller du kan trykke på pil opp på tastaturet for å redigere hva du akkurat har skrevet! Du kan for eksempel fikse en skriveleif, legge til den hemmelige ingrediensen i kakeoppskriften til bestemor, eller ta med punchlinen i vitsen hvis du trykket på «send» litt for kjapt. Valget er ditt. Det vil alltid vises at en melding har blitt redigert, og alle kan se redigeringshistorikken til meldingene i samtalen. Rett opp i gårsdagens feil i dag for å unngå forvirring i morgen!"
   }
 }

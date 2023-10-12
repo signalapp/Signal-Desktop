@@ -6812,9 +6812,9 @@
     "messageformat": "يُمكنك الآن تعديل الرسالة بالنقر على زر الماوس الأيمن بعد إرسالها! أصلح خطأ إملائيًا، أو أضف المكوّن المفقود في وصفة كعكة الشوكولاتة لجدّتك، أو أكمل نكتة إذا ضغطت على زر الإرسال قبل الأوان. الخيار لك. سَتظهر الرسائل التي تم تعديلها دائمًا، ويمكنك النقر فوق مُؤشر \"تعديل\" لرؤية سِجل التعديل الكامل لأي رسائل تم تعديلُها. يُمكنك تعديل رسائل الماضي في الحاضر لِمنع ارتباك المستقبل اليوم!"
   },
   "icu:WhatsNew__v6.34--0": {
-    "messageformat": "Typing indicators in group chats will now display multiple profile pictures if more than one person is typing. James Cameron convinced us that we didn't need to stop after one avatar."
+    "messageformat": "سَتستعرض مؤشرات الكتابة عددًا من صور الحسابات الشخصية في الدردشات الجماعية إذا كان أكثر من شخص واحد يكتب. فلا ضرر في ذلك."
   },
   "icu:WhatsNew__v6.34--1": {
-    "messageformat": "Now you can right-click on any sent message or press the up arrow on your keyboard to edit what you just said! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "يُمكنك الآن الضغط بزر الفأرة الأيمن على أي رسالة مُرسلة أو النقر على السهم العلوي في لوحة المفاتيح لتعديل ما قلته للتوا! أصلح خطأ إملائيًا، أو أضف المكوّن المفقود في وصفة كعكة الشوكولاتة لجدّتك، أو أكمل نكتة في حال ما تسرّعت في الضغط على زر الإرسال. الخيار لك. ستَظهر التعديلات على الرسائل دائمًا، ويُمكنك إلقاء نظرة على سِجل التعديلات لأي رسائل تم تعديلُها."
   }
 }

@@ -6812,9 +6812,9 @@
     "messageformat": "ئەمدى سىز ئەۋەتىلگەن بىر ئۇچۇرنى ئۇزۇن بېسىش ئارقىلىق تەھرېرلىيەلەيسىز! خاتالىقلارنىڭ تۈزىتىڭ، چوڭ ئانىڭىزنىڭ شاكىلاتلىق نېپىز پېچىنە رېتسىپىدىكى كەم تەركىپلەرنى تولۇقلاڭ، ياكى تېزلا ئەۋەتىۋېتىپ قالغان چاقچاقلانى مۇشتلاپ قويۇڭ. بۇ تاللاش سىزنىڭ. تەھرېرلەنگەن ئۇچۇرلار ھەمىشە كۆرۈنىدۇ، ۋە خالىغان بىر تەھرېرلەنگەن ئۇچۇر ئۈچۈن «تەھرېرلەنگەن» كۆرسەتكۈچىنى چېكىپ تولۇق تەھرېرلەش خاتىرىسىنى كۆرەلەيسىز. كەلگۈسىدىكى ئۇقۇشماسلىقنىڭ ئالدىنى ئېلىش ئۈچۈن ھازىر ئۆتمۈشنى يېڭىلاڭ!"
   },
   "icu:WhatsNew__v6.34--0": {
-    "messageformat": "Typing indicators in group chats will now display multiple profile pictures if more than one person is typing. James Cameron convinced us that we didn't need to stop after one avatar."
+    "messageformat": "گۇرۇپپا پاراڭلىرىدا كۆپ ئادەم خەت كىرگۈزىۋاتقان بولسا خەت كىرگۈزۈش ھالەت كۆرسەتكۈچى كۆپ ئادەمنىڭ ئارخىپ رەسىمىنى كۆرسىتىدۇ. جامىېس كامېرون بۇ خىل كۆپ باش سۈرەتنى كۆرسىتىش ئۇسۇلىنى ئوتتۇرىغا قويدى."
   },
   "icu:WhatsNew__v6.34--1": {
-    "messageformat": "Now you can right-click on any sent message or press the up arrow on your keyboard to edit what you just said! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "ھازىر ھەرقانداق يوللاپ بولغان ئۇچۇرنى مائۇس ئوڭ تەرەپ بىلەن چېكىپ ياكى كۇنۇپكا تاختىسىدىكى يۇقىرى يۆنىلىش كۇنۇپكىسىنى بېسىپ يوللىغان ئۇچۇرنى تەھرىرلەشكە بولىدۇ! بۇ تاللاش سىزنىڭ. ئۇچۇرلارنىڭ تەھرىرلەنگە ۋاقتىنى داۋاملىق كۆرگىلى بولىدۇ. «تەھرىرلەنگەن» كۆرسەتكۈچنى چېكىپ ھەرقانداق تەھرىرلەنگەن ئۇچۇرنىڭ تەھرىرلەش تارىخىنى كۆرەلەيسىز. كەلگۈسىدىكى ئۇقۇشماسلىقنىڭ ئالدىنى ئېلىش ئۈچۈن ھازىر ئۆتمۈشنى يېڭىلاڭ!"
   }
 }

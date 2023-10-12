@@ -6812,9 +6812,9 @@
     "messageformat": "Artık bir mesajı gönderildikten sonra sağ tıklamayla düzenleyebilir ya da az önce söylediğini düzenlemek için klavyendeki yukarı oka basabilirsin! İster bir yazım hatasını düzelt ister babaannenin çikolatalı kek tarifine eksik olan malzemeyi ekle ya da gönder düğmesine çok hızlı bastığında, şakanın unuttuğun can alıcı noktasını ekle. Seçim senin. Mesajlar daima ne zaman düzenlendiklerini gösterir ve düzenlenen mesajların tam düzenleme geçmişini görmek için \"Düzenlendi\" göstergesine tıklayabilirsin. Gelecekteki kafa karışıklığını önlemek için geçmişi bugünden güncelle!"
   },
   "icu:WhatsNew__v6.34--0": {
-    "messageformat": "Typing indicators in group chats will now display multiple profile pictures if more than one person is typing. James Cameron convinced us that we didn't need to stop after one avatar."
+    "messageformat": "Grup sohbetlerindeki yazma göstergeleri artık birden fazla kişi yazıyorsa birden fazla profil resmi gösterecek. Sadece bir avatarla yetinmemeyi öğrendik."
   },
   "icu:WhatsNew__v6.34--1": {
-    "messageformat": "Now you can right-click on any sent message or press the up arrow on your keyboard to edit what you just said! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "Artık gönderilen bir mesaja sağ tıklayabilir ya da az önce söylediğini düzenlemek için klavyendeki yukarı oka basabilirsin! İster bir yazım hatasını düzelt ister babaannenin çikolatalı kek tarifine eksik olan malzemeyi ekle ya da gönder düğmesine çok hızlı bastığında, şakanın unuttuğun can alıcı noktasını ekle. Seçim senin. Mesajlar daima ne zaman düzenlendiklerini gösterir ve düzenlenen mesajların tüm düzenleme geçmişini görebilirsin. Gelecekteki kafa karışıklığını önlemek için geçmişi bugünden güncelle!"
   }
 }

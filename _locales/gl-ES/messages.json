@@ -6812,9 +6812,9 @@
     "messageformat": "Agora podes editar unha mensaxe aínda que a enviaras premendo o botón dereito do rato ou a frecha cara a arriba do teclado! Corrixe un erro, engade o número que falta na mensaxe ou achega máis contexto para que saiban do que estás a falar. A elección é túa. Nas mensaxes aparecerá cando se editaron, e poderás comprobar o historial de edicións completo."
   },
   "icu:WhatsNew__v6.34--0": {
-    "messageformat": "Typing indicators in group chats will now display multiple profile pictures if more than one person is typing. James Cameron convinced us that we didn't need to stop after one avatar."
+    "messageformat": "Os indicadores de escritura nas conversas grupais agora mostrarán varias imaxes de perfil se máis dunha persoa está a escribir."
   },
   "icu:WhatsNew__v6.34--1": {
-    "messageformat": "Now you can right-click on any sent message or press the up arrow on your keyboard to edit what you just said! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "Agora podes editar unha mensaxe aínda que a enviaras premendo o botón dereito do rato ou a frecha cara a arriba do teclado! Corrixe un erro, engade o número que falta na mensaxe ou achega máis contexto para que saiban do que estás a falar. A elección é túa.\n\n Nas mensaxes aparecerá cando se editaron, e poderás comprobar o historial de edicións completo."
   }
 }

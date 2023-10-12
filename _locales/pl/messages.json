@@ -6812,9 +6812,9 @@
     "messageformat": "Od teraz możesz edytować wiadomość po wysłaniu, klikając na nią prawym przyciskiem myszy! Popraw literówkę, dodaj brakujący składnik do sekretnego przepisu babci lub uzupełnij żart o brakującą puentę, jeśli zdarzy Ci się nacisnąć przycisk wysłania zbyt wcześnie. Wybór należy do Ciebie. Wiadomości zawsze będą oznaczone jako edytowane i po kliknięciu na napis „Edytowana” zobaczysz pełną historię edycji każdej zmienionej wiadomości. Napraw przeszłość w teraźniejszości, by zapobiec zamieszaniu w przyszłości już dziś!"
   },
   "icu:WhatsNew__v6.34--0": {
-    "messageformat": "Typing indicators in group chats will now display multiple profile pictures if more than one person is typing. James Cameron convinced us that we didn't need to stop after one avatar."
+    "messageformat": "Wskaźniki pisania w czatach grupowych będą teraz wyświetlać kilka zdjęć profilowych, jeśli w danej chwili pisze więcej niż jedna osoba. James Cameron przekonał nas, że nie musimy poprzestawać na jednym awatarze."
   },
   "icu:WhatsNew__v6.34--1": {
-    "messageformat": "Now you can right-click on any sent message or press the up arrow on your keyboard to edit what you just said! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "Od teraz możesz kliknąć prawym przyciskiem myszy na wysłaną wiadomość lub nacisnąć strzałkę w górę na klawiaturze, by edytować swoją wypowiedź! Popraw literówkę, dodaj brakujący składnik do sekretnego przepisu babci lub uzupełnij żart o brakującą puentę, jeśli zdarzy Ci się nacisnąć przycisk wysłania zbyt wcześnie. Wybór należy do Ciebie. Wiadomości zawsze będą oznaczone jako edytowane i po kliknięciu na napis „Edytowana” zobaczysz pełną historię edycji każdej zmienionej wiadomości. Napraw przeszłość w teraźniejszości, by zapobiec zamieszaniu w przyszłości już dziś!"
   }
 }

@@ -6812,9 +6812,9 @@
     "messageformat": "Sada možete urediti svoje poruke desnim klikom na bilo koju poslanu poruku ili pritiskom na strelicu prema gore na vašoj tipkovnici! Ispravite tipfeler, dodajte sastojak koji nedostaje u bakinom receptu za kekse s čokoladom ili napišite kraj vica ako ste prerano pritisnuli \"pošalji\". Ma što god vam trebalo. Uvijek će biti naznačeno kada su poruke uređene, a moći ćete vidjeti i cijelu povijest uređivanja za sve uređene poruke."
   },
   "icu:WhatsNew__v6.34--0": {
-    "messageformat": "Typing indicators in group chats will now display multiple profile pictures if more than one person is typing. James Cameron convinced us that we didn't need to stop after one avatar."
+    "messageformat": "Pokazatelji tipkanja u grupnim razgovorima sada će prikazivati više profilnih slika ako više osoba tipka u isto vrijeme."
   },
   "icu:WhatsNew__v6.34--1": {
-    "messageformat": "Now you can right-click on any sent message or press the up arrow on your keyboard to edit what you just said! Fix a tpyo, include the missing ingredient in grandma's chocolate chip cookie recipe, or add the punchline to a joke if you hit the send button too quickly. The choice is yours. Messages will always show when they have been edited, and you can click on the \"Edited\" indicator to see the full edit history for any edited messages. Update the past in the present to prevent future confusion today!"
+    "messageformat": "Sada možete urediti svoje poruke desnim klikom na bilo koju poslanu poruku ili pritiskom na strelicu prema gore na vašoj tipkovnici! Ispravite tipfeler, dodajte sastojak koji nedostaje u bakinom receptu za kekse s čokoladom ili napišite kraj vica ako ste prerano pritisnuli \"pošalji\". Ma što god vam trebalo. Uvijek će biti naznačeno kada su poruke uređene, a moći ćete vidjeti i cijelu povijest uređivanja za sve uređene poruke."
   }
 }
