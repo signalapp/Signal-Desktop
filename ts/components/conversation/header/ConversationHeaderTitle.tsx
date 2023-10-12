@@ -108,14 +108,15 @@ export const ConversationHeaderTitle = () => {
   const handleRightPanelToggle = () => {
     if (isRightPanelOn) {
       dispatch(closeRightPanel());
-    } else {
-      if (visibleSubtitle === 'disappearingMessages') {
-        dispatch(setRightOverlayMode('disappearing-messages'));
-      } else {
-        dispatch(resetRightOverlayMode());
-      }
-      dispatch(openRightPanel());
+      return;
     }
+
+    if (visibleSubtitle === 'disappearingMessages') {
+      dispatch(setRightOverlayMode('disappearing-messages'));
+    } else {
+      dispatch(resetRightOverlayMode());
+    }
+    dispatch(openRightPanel());
   };
 
   useEffect(() => {
