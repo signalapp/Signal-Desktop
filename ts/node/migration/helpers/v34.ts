@@ -8,18 +8,18 @@ import {
   LegacyGroupMemberInfo,
   UserGroupsWrapperNode,
 } from 'libsession_util_nodejs';
-import { isEmpty, isEqual } from 'lodash';
 import { from_hex } from 'libsodium-wrappers-sumo';
+import { isEmpty, isEqual } from 'lodash';
 import { CONVERSATION_PRIORITIES } from '../../../models/conversationAttributes';
+import { HexKeyPair } from '../../../receiver/keypairs';
 import { fromHexToArray } from '../../../session/utils/String';
-import { checkTargetMigration, hasDebugEnvVariable } from '../utils';
 import {
-  ConfigDumpRow,
   CONFIG_DUMP_TABLE,
+  ConfigDumpRow,
   maybeArrayJSONtoArray,
 } from '../../../types/sqlSharedTypes';
-import { HexKeyPair } from '../../../receiver/keypairs';
 import { sqlNode } from '../../sql';
+import { checkTargetMigration, hasDebugEnvVariable } from '../utils';
 
 const targetVersion = 34;
 
@@ -99,7 +99,7 @@ function getContactInfoFromDBValues({
   dbProfileUrl: string | undefined;
   dbProfileKey: string | undefined;
   dbCreatedAtSeconds: number;
-  expirationMode: string | undefined;
+  expirationMode: DisappearingMessageConversationModeType | undefined;
   expireTimer: number | undefined;
 }): ContactInfoSet {
   const wrapperContact: ContactInfoSet = {
@@ -111,9 +111,7 @@ function getContactInfoFromDBValues({
     nickname: dbNickname,
     name: dbName,
     createdAtSeconds: dbCreatedAtSeconds,
-    expirationMode: expirationMode
-      ? (expirationMode as DisappearingMessageConversationModeType)
-      : undefined,
+    expirationMode,
     expirationTimerSeconds: !!expireTimer && expireTimer > 0 ? expireTimer : 0,
   };
 
@@ -212,7 +210,7 @@ function getLegacyGroupInfoFromDBValues({
   id: string;
   priority: number;
   displayNameInProfile: string | undefined;
-  expirationMode: string | undefined;
+  expirationMode: DisappearingMessageConversationModeType | undefined;
   expireTimer: number | undefined;
   encPubkeyHex: string;
   encSeckeyHex: string;
@@ -232,10 +230,7 @@ function getLegacyGroupInfoFromDBValues({
   const legacyGroup: LegacyGroupInfo = {
     pubkeyHex: id,
     disappearingTimerSeconds:
-      expirationMode &&
-      (expirationMode as DisappearingMessageConversationModeType) !== 'off' &&
-      !!expireTimer &&
-      expireTimer > 0
+      expirationMode && expirationMode !== 'off' && !!expireTimer && expireTimer > 0
         ? expireTimer
         : 0,
     name: displayNameInProfile || '',

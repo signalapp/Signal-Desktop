@@ -36,7 +36,8 @@ export const DisappearingModes = (props: DisappearingModesProps) => {
     <>
       <PanelLabel>{window.i18n('disappearingMessagesModeLabel')}</PanelLabel>
       <PanelButtonGroup>
-        {Object.keys(options).map(mode => {
+        {Object.keys(options).map(_mode => {
+          const mode = _mode as DisappearingMessageConversationModeType;
           const optionI18n =
             mode === 'legacy'
               ? window.i18n('disappearingMessagesModeLegacy')
@@ -63,10 +64,10 @@ export const DisappearingModes = (props: DisappearingModesProps) => {
               value={mode}
               isSelected={selected === mode}
               onSelect={() => {
-                setSelected(mode as DisappearingMessageConversationModeType);
+                setSelected(mode);
               }}
-              disabled={options[mode as DisappearingMessageConversationModeType]}
-              dataTestId={loadDataTestId(mode as DisappearingMessageConversationModeType)}
+              disabled={options[mode]}
+              dataTestId={loadDataTestId(mode)}
             />
           );
         })}

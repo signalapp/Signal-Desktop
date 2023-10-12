@@ -138,7 +138,7 @@ export function getContactInfoFromDBValues({
   dbProfileUrl: string | undefined;
   dbProfileKey: string | undefined;
   dbCreatedAtSeconds: number;
-  expirationMode: string | undefined;
+  expirationMode: DisappearingMessageConversationModeType | undefined;
   expireTimer: number | undefined;
 }): ContactInfoSet {
   const wrapperContact: ContactInfoSet = {
@@ -150,9 +150,7 @@ export function getContactInfoFromDBValues({
     nickname: dbNickname,
     name: dbName,
     createdAtSeconds: dbCreatedAtSeconds,
-    expirationMode: expirationMode
-      ? (expirationMode as DisappearingMessageConversationModeType)
-      : undefined,
+    expirationMode,
     expirationTimerSeconds: !!expireTimer && expireTimer > 0 ? expireTimer : 0,
   };
 
@@ -229,7 +227,7 @@ export function getLegacyGroupInfoFromDBValues({
   id: string;
   priority: number;
   displayNameInProfile: string | undefined;
-  expirationMode: string | undefined;
+  expirationMode: DisappearingMessageConversationModeType | undefined;
   expireTimer: number | undefined;
   encPubkeyHex: string;
   encSeckeyHex: string;
@@ -253,10 +251,7 @@ export function getLegacyGroupInfoFromDBValues({
     priority: priority || 0,
     members: wrappedMembers,
     disappearingTimerSeconds:
-      expirationMode &&
-      (expirationMode as DisappearingMessageConversationModeType) !== 'off' &&
-      !!expireTimer &&
-      expireTimer > 0
+      expirationMode && expirationMode !== 'off' && !!expireTimer && expireTimer > 0
         ? expireTimer
         : 0,
     encPubkey: !isEmpty(encPubkeyHex) ? from_hex(encPubkeyHex) : new Uint8Array(),
