@@ -1,6 +1,10 @@
 import { defaultsDeep } from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
 import {
+  DisappearingMessageType,
+  ExpirationTimerUpdate,
+} from '../session/disappearing_messages/types';
+import {
   CallNotificationType,
   LastMessageStatusType,
   PropsForMessageWithConvoProps,
@@ -8,7 +12,6 @@ import {
 import { AttachmentTypeWithPath } from '../types/Attachment';
 import { Reaction, ReactionList, SortedReactionList } from '../types/Reaction';
 import { READ_MESSAGE_STATE } from './conversationAttributes';
-import { DisappearingMessageType, ExpirationTimerUpdate } from '../util/expiringMessages';
 
 export type MessageModelType = 'incoming' | 'outgoing';
 

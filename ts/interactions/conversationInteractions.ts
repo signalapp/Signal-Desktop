@@ -11,9 +11,11 @@ import { Data } from '../data/data';
 import { SettingsKey } from '../data/settings-key';
 import { uploadFileToFsWithOnionV4 } from '../session/apis/file_server_api/FileServerApi';
 import { OpenGroupUtils } from '../session/apis/open_group_api/utils';
+import { GetNetworkTime } from '../session/apis/snode_api/getNetworkTime';
 import { getConversationController } from '../session/conversations';
 import { getSodiumRenderer } from '../session/crypto';
 import { getDecryptedMediaUrl } from '../session/crypto/DecryptedAttachmentsManager';
+import { DisappearingMessageConversationModeType } from '../session/disappearing_messages/types';
 import { perfEnd, perfStart } from '../session/utils/Performance';
 import { fromHexToArray, toHex } from '../session/utils/String';
 import { ConfigurationSync } from '../session/utils/job_runners/jobs/ConfigurationSyncJob';
@@ -44,8 +46,6 @@ import { encryptProfile } from '../util/crypto/profileEncrypter';
 import { ReleasedFeatures } from '../util/releaseFeature';
 import { Storage, setLastProfileUpdateTimestamp } from '../util/storage';
 import { UserGroupsWrapperActions } from '../webworker/workers/browser/libsession_worker_interface';
-import { DisappearingMessageConversationModeType } from '../util/expiringMessages';
-import { GetNetworkTime } from '../session/apis/snode_api/getNetworkTime';
 
 export async function copyPublicKeyByConvoId(convoId: string) {
   if (OpenGroupUtils.isOpenGroupV2(convoId)) {

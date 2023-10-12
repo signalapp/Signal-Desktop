@@ -117,9 +117,9 @@ import {
   getSubscriberCountOutsideRedux,
 } from '../state/selectors/sogsRoomInfo'; // decide it it makes sense to move this to a redux slice?
 
+import { DisappearingMessageConversationModeType } from '../session/disappearing_messages/types';
 import {
   changeToDisappearingMessageType,
-  DisappearingMessageConversationModeType,
   setExpirationStartTimestamp,
 } from '../util/expiringMessages';
 import { markAttributesAsReadIfNeeded } from './messageFactory';

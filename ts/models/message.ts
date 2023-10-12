@@ -1,6 +1,7 @@
 import Backbone from 'backbone';
 
 import autoBind from 'auto-bind';
+import filesize from 'filesize';
 import {
   cloneDeep,
   debounce,
@@ -14,28 +15,27 @@ import {
   sortBy,
   uniq,
 } from 'lodash';
-import filesize from 'filesize';
 import { SignalService } from '../protobuf';
 import { getMessageQueue } from '../session';
 import { getConversationController } from '../session/conversations';
 import { ContentMessage } from '../session/messages/outgoing';
+import { ClosedGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/ClosedGroupVisibleMessage';
 import { PubKey } from '../session/types';
 import {
+  UserUtils,
   uploadAttachmentsToFileServer,
   uploadLinkPreviewToFileServer,
   uploadQuoteThumbnailsToFileServer,
-  UserUtils,
 } from '../session/utils';
-import { ClosedGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/ClosedGroupVisibleMessage';
 import {
   DataExtractionNotificationMsg,
-  fillMessageAttributesWithDefaults,
   MessageAttributes,
   MessageAttributesOptionals,
   MessageGroupUpdate,
   MessageModelType,
   PropsForDataExtractionNotification,
   PropsForMessageRequestResponse,
+  fillMessageAttributesWithDefaults,
 } from './messageType';
 
 import { Data } from '../data/data';
@@ -45,6 +45,7 @@ import { isUsAnySogsFromCache } from '../session/apis/open_group_api/sogsv3/know
 import { GetNetworkTime } from '../session/apis/snode_api/getNetworkTime';
 import { SnodeNamespaces } from '../session/apis/snode_api/namespaces';
 import { DURATION } from '../session/constants';
+import { TimerOptions } from '../session/disappearing_messages/timerOptions';
 import { OpenGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
 import {
   VisibleMessage,
@@ -56,14 +57,13 @@ import {
   uploadQuoteThumbnailsV3,
 } from '../session/utils/AttachmentsV2';
 import { perfEnd, perfStart } from '../session/utils/Performance';
-import { buildSyncMessage } from '../session/utils/sync/syncUtils';
 import { isUsFromCache } from '../session/utils/User';
+import { buildSyncMessage } from '../session/utils/sync/syncUtils';
 import {
   FindAndFormatContactType,
   LastMessageStatusType,
   MessageModelPropsWithoutConvoProps,
   MessagePropsDetails,
-  messagesChanged,
   PropsForAttachment,
   PropsForExpirationTimer,
   PropsForExpiringMessage,
@@ -76,9 +76,9 @@ import {
   PropsForGroupUpdateName,
   PropsForMessageWithoutConvoProps,
   PropsForQuote,
+  messagesChanged,
 } from '../state/ducks/conversations';
 import { AttachmentTypeWithPath, isVoiceMessage } from '../types/Attachment';
-import { getAttachmentMetadata } from '../types/message/initializeAttachmentMetadata';
 import {
   deleteExternalMessageFiles,
   getAbsoluteAttachmentPath,
@@ -87,12 +87,12 @@ import {
   loadQuoteData,
 } from '../types/MessageAttachment';
 import { ReactionList } from '../types/Reaction';
+import { getAttachmentMetadata } from '../types/message/initializeAttachmentMetadata';
 import { roomHasBlindEnabled } from '../types/sqlSharedTypes';
 import {
-  ExpirationTimerOptions,
-  setExpirationStartTimestamp,
   changeToDisappearingConversationMode,
   checkForExpireUpdateInContentMessage,
+  setExpirationStartTimestamp,
   updateMessageExpiryOnSwarm,
 } from '../util/expiringMessages';
 import { LinkPreviews } from '../util/linkPreviews';
@@ -278,7 +278,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       }
 
       return window.i18n('timerSetTo', [
-        ExpirationTimerOptions.getAbbreviated(expireTimerUpdate.expireTimer || 0),
+        TimerOptions.getAbbreviated(expireTimerUpdate.expireTimer || 0),
       ]);
     }
 
@@ -340,7 +340,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       expireTimer || 0
     );
 
-    const timespan = ExpirationTimerOptions.getName(expireTimer || 0);
+    const timespan = TimerOptions.getName(expireTimer || 0);
     const disabled = !expireTimer;
 
     const basicProps: PropsForExpirationTimer = {

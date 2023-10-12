@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
 
-import { PubKey } from '../types';
 import { getMessageQueue } from '..';
 import { Data } from '../../data/data';
 import { ConversationModel } from '../../models/conversation';
@@ -13,23 +12,24 @@ import {
   distributingClosedGroupEncryptionKeyPairs,
 } from '../../receiver/closedGroups';
 import { ECKeyPair } from '../../receiver/keypairs';
+import {
+  changeToDisappearingMessageType,
+  setExpirationStartTimestamp,
+} from '../../util/expiringMessages';
 import { GetNetworkTime } from '../apis/snode_api/getNetworkTime';
 import { SnodeNamespaces } from '../apis/snode_api/namespaces';
 import { getConversationController } from '../conversations';
 import { generateCurve25519KeyPairWithoutPrefix } from '../crypto';
 import { encryptUsingSessionProtocol } from '../crypto/MessageEncrypter';
+import { DisappearAfterSendOnly } from '../disappearing_messages/types';
 import { ClosedGroupAddedMembersMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupAddedMembersMessage';
 import { ClosedGroupEncryptionPairMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupEncryptionPairMessage';
 import { ClosedGroupNameChangeMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupNameChangeMessage';
 import { ClosedGroupNewMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupNewMessage';
 import { ClosedGroupRemovedMembersMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupRemovedMembersMessage';
+import { PubKey } from '../types';
 import { UserUtils } from '../utils';
 import { fromHexToArray, toHex } from '../utils/String';
-import {
-  DisappearAfterSendOnly,
-  changeToDisappearingMessageType,
-  setExpirationStartTimestamp,
-} from '../../util/expiringMessages';
 
 export type GroupInfo = {
   id: string;

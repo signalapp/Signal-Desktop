@@ -1,20 +1,23 @@
-import { v4 as uuid } from 'uuid';
 import { isEmpty } from 'lodash';
-import { generateFakePubKey } from './pubkey';
-import { ClosedGroupVisibleMessage } from '../../../session/messages/outgoing/visibleMessage/ClosedGroupVisibleMessage';
-import { VisibleMessage } from '../../../session/messages/outgoing/visibleMessage/VisibleMessage';
-import { OpenGroupMessageV2 } from '../../../session/apis/open_group_api/opengroupV2/OpenGroupMessageV2';
+import { v4 as uuid } from 'uuid';
 import { TestUtils } from '..';
-import { OpenGroupRequestCommonType } from '../../../session/apis/open_group_api/opengroupV2/ApiUtil';
-import { OpenGroupVisibleMessage } from '../../../session/messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
 import { MessageModel } from '../../../models/message';
+import { OpenGroupRequestCommonType } from '../../../session/apis/open_group_api/opengroupV2/ApiUtil';
+import { OpenGroupMessageV2 } from '../../../session/apis/open_group_api/opengroupV2/OpenGroupMessageV2';
 import {
   OpenGroupMessageV4,
   OpenGroupReactionMessageV4,
 } from '../../../session/apis/open_group_api/opengroupV2/OpenGroupServerPoller';
-import { OpenGroupReaction } from '../../../types/Reaction';
-import { DisappearingMessageType, ExpirationTimerUpdate } from '../../../util/expiringMessages';
+import {
+  DisappearingMessageType,
+  ExpirationTimerUpdate,
+} from '../../../session/disappearing_messages/types';
 import { ExpirationTimerUpdateMessage } from '../../../session/messages/outgoing/controlMessage/ExpirationTimerUpdateMessage';
+import { ClosedGroupVisibleMessage } from '../../../session/messages/outgoing/visibleMessage/ClosedGroupVisibleMessage';
+import { OpenGroupVisibleMessage } from '../../../session/messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
+import { VisibleMessage } from '../../../session/messages/outgoing/visibleMessage/VisibleMessage';
+import { OpenGroupReaction } from '../../../types/Reaction';
+import { generateFakePubKey } from './pubkey';
 
 export function generateVisibleMessage({
   identifier,

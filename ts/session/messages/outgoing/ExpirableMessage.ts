@@ -1,6 +1,6 @@
 import { SignalService } from '../../../protobuf';
-import { DisappearingMessageType } from '../../../util/expiringMessages';
 import { DURATION, TTL_DEFAULT } from '../../constants';
+import { DisappearingMessageType } from '../../disappearing_messages/types';
 import { ContentMessage } from './ContentMessage';
 import { MessageParams } from './Message';
 

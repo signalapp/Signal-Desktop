@@ -3,28 +3,26 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { useTimerOptionsByMode } from '../../../../../hooks/useParamSelector';
 import { setDisappearingMessagesByConvoId } from '../../../../../interactions/conversationInteractions';
+import { TimerOptions } from '../../../../../session/disappearing_messages/timerOptions';
+import { DisappearingMessageConversationModeType } from '../../../../../session/disappearing_messages/types';
 import { closeRightPanel } from '../../../../../state/ducks/conversations';
 import { resetRightOverlayMode } from '../../../../../state/ducks/section';
 import {
   getSelectedConversationExpirationModes,
-  useSelectedConversationKey,
   useSelectedConversationDisappearingMode,
+  useSelectedConversationKey,
   useSelectedExpireTimer,
   useSelectedIsGroup,
-  useSelectedWeAreAdmin,
   useSelectedIsNoteToSelf,
+  useSelectedWeAreAdmin,
 } from '../../../../../state/selectors/selectedConversation';
-import {
-  DEFAULT_TIMER_OPTION,
-  DisappearingMessageConversationModeType,
-} from '../../../../../util/expiringMessages';
+import { ReleasedFeatures } from '../../../../../util/releaseFeature';
 import { Flex } from '../../../../basic/Flex';
 import { SessionButton } from '../../../../basic/SessionButton';
 import { SpacerLG, SpacerXL } from '../../../../basic/Text';
 import { DisappearingModes } from './DisappearingModes';
 import { Header } from './Header';
 import { TimeOptions } from './TimeOptions';
-import { ReleasedFeatures } from '../../../../../util/releaseFeature';
 
 const StyledScrollContainer = styled.div`
   width: 100%;
@@ -65,9 +63,9 @@ function loadDefaultTimeValue(
   return modeSelected !== 'off'
     ? modeSelected !== 'legacy'
       ? modeSelected === 'deleteAfterSend'
-        ? DEFAULT_TIMER_OPTION.DELETE_AFTER_SEND
-        : DEFAULT_TIMER_OPTION.DELETE_AFTER_READ
-      : DEFAULT_TIMER_OPTION.LEGACY
+        ? TimerOptions.DEFAULT_OPTIONS.DELETE_AFTER_SEND
+        : TimerOptions.DEFAULT_OPTIONS.DELETE_AFTER_READ
+      : TimerOptions.DEFAULT_OPTIONS.LEGACY
     : 0;
 }
 

@@ -1,5 +1,5 @@
-import { v4 as uuidv4 } from 'uuid';
 import _, { isEmpty } from 'lodash';
+import { v4 as uuidv4 } from 'uuid';
 import { UserUtils } from '..';
 import { getMessageQueue } from '../..';
 import { Data } from '../../../data/data';
@@ -8,32 +8,32 @@ import { ConversationModel } from '../../../models/conversation';
 import { SignalService } from '../../../protobuf';
 import { ECKeyPair } from '../../../receiver/keypairs';
 import { ConfigurationSyncJobDone } from '../../../shims/events';
+import { ReleasedFeatures } from '../../../util/releaseFeature';
+import { Storage } from '../../../util/storage';
+import { getCompleteUrlFromRoom } from '../../apis/open_group_api/utils/OpenGroupUtils';
 import { SnodeNamespaces } from '../../apis/snode_api/namespaces';
 import { DURATION } from '../../constants';
 import { getConversationController } from '../../conversations';
+import { DisappearingMessageUpdate } from '../../disappearing_messages/types';
+import { DataMessage } from '../../messages/outgoing';
 import {
   ConfigurationMessage,
   ConfigurationMessageClosedGroup,
   ConfigurationMessageContact,
 } from '../../messages/outgoing/controlMessage/ConfigurationMessage';
+import { ExpirationTimerUpdateMessage } from '../../messages/outgoing/controlMessage/ExpirationTimerUpdateMessage';
 import { MessageRequestResponse } from '../../messages/outgoing/controlMessage/MessageRequestResponse';
 import { SharedConfigMessage } from '../../messages/outgoing/controlMessage/SharedConfigMessage';
+import { UnsendMessage } from '../../messages/outgoing/controlMessage/UnsendMessage';
 import {
   AttachmentPointerWithUrl,
   PreviewWithAttachmentUrl,
   Quote,
   VisibleMessage,
 } from '../../messages/outgoing/visibleMessage/VisibleMessage';
-import { ConfigurationSync } from '../job_runners/jobs/ConfigurationSyncJob';
-import { fromBase64ToArray, fromHexToArray } from '../String';
-import { Storage } from '../../../util/storage';
-import { ReleasedFeatures } from '../../../util/releaseFeature';
-import { getCompleteUrlFromRoom } from '../../apis/open_group_api/utils/OpenGroupUtils';
 import { PubKey } from '../../types';
-import { DisappearingMessageUpdate } from '../../../util/expiringMessages';
-import { ExpirationTimerUpdateMessage } from '../../messages/outgoing/controlMessage/ExpirationTimerUpdateMessage';
-import { UnsendMessage } from '../../messages/outgoing/controlMessage/UnsendMessage';
-import { DataMessage } from '../../messages/outgoing';
+import { fromBase64ToArray, fromHexToArray } from '../String';
+import { ConfigurationSync } from '../job_runners/jobs/ConfigurationSyncJob';
 
 const ITEM_ID_LAST_SYNC_TIMESTAMP = 'lastSyncedTimestamp';
 

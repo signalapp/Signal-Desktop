@@ -4,11 +4,13 @@ import Sinon from 'sinon';
 import { ConversationModel } from '../../../../models/conversation';
 import { ConversationTypeEnum } from '../../../../models/conversationAttributes';
 import { GetNetworkTime } from '../../../../session/apis/snode_api/getNetworkTime';
-import { UserUtils } from '../../../../session/utils';
-import { isValidUnixTimestamp } from '../../../../session/utils/Timestamps';
 import {
   DisappearingMessageConversationModeType,
   DisappearingMessageType,
+} from '../../../../session/disappearing_messages/types';
+import { UserUtils } from '../../../../session/utils';
+import { isValidUnixTimestamp } from '../../../../session/utils/Timestamps';
+import {
   changeToDisappearingConversationMode,
   changeToDisappearingMessageType,
   checkForExpireUpdateInContentMessage,

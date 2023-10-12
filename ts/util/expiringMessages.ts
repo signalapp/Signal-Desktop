@@ -1,7 +1,5 @@
 import { throttle, uniq } from 'lodash';
-import moment from 'moment';
 import { messagesExpired } from '../state/ducks/conversations';
-import { LocalizerKeys } from '../types/LocalizerKeys';
 import { initWallClockListener } from './wallClockListener';
 
 import { Data } from '../data/data';
@@ -11,49 +9,14 @@ import { ProtobufUtils, SignalService } from '../protobuf';
 import { expireMessageOnSnode } from '../session/apis/snode_api/expireRequest';
 import { GetNetworkTime } from '../session/apis/snode_api/getNetworkTime';
 import { getConversationController } from '../session/conversations';
+import {
+  DisappearingMessageConversationModeType,
+  DisappearingMessageMode,
+  DisappearingMessageType,
+  DisappearingMessageUpdate,
+} from '../session/disappearing_messages/types';
 import { isValidUnixTimestamp } from '../session/utils/Timestamps';
 import { ReleasedFeatures } from './releaseFeature';
-
-// NOTE this must match Content.ExpirationType in the protobuf
-// TODO double check this
-export const DisappearingMessageMode = ['unknown', 'deleteAfterRead', 'deleteAfterSend'] as const;
-export type DisappearingMessageType = typeof DisappearingMessageMode[number];
-export type DisappearAfterSendOnly = Exclude<DisappearingMessageType, 'deleteAfterRead'>;
-// NOTE these cannot be imported in the nodejs side yet. We need to move the types to the own file with no window imports
-// TODO legacy messages support will be removed in a future release
-// TODO NOTE legacy is strictly used in the UI and is not a valid disappearing message mode
-export const DisappearingMessageConversationModes = [
-  'off',
-  DisappearingMessageMode[1], // deleteAfterRead
-  DisappearingMessageMode[2], // deleteAfterSend
-  'legacy',
-] as const;
-export type DisappearingMessageConversationModeType = typeof DisappearingMessageConversationModes[number]; // TODO we should make this type a bit more hardcoded than being just resolved as a string
-
-// TODO legacy messages support will be removed in a future release
-// expirationType and lastDisappearingMessageChangeTimestamp will no longer have an undefined option
-/** Used for setting disappearing messages in conversations */
-export type ExpirationTimerUpdate = {
-  expirationType: DisappearingMessageType | undefined;
-  expireTimer: number;
-  lastDisappearingMessageChangeTimestamp: number | undefined;
-  source: string;
-  /** updated setting from another device */
-  fromSync?: boolean;
-};
-
-export type DisappearingMessageUpdate = {
-  expirationType: DisappearingMessageType;
-  expirationTimer: number;
-  // This is used for the expirationTimerUpdate
-  lastDisappearingMessageChangeTimestamp?: number;
-  // TODO legacy messages support will be removed in a future release
-  isLegacyConversationSettingMessage?: boolean;
-  isLegacyDataMessage?: boolean;
-  isDisappearingMessagesV2Released?: boolean;
-  shouldDisappearButIsntMessage?: boolean;
-  isOutdated?: boolean;
-};
 
 export async function destroyMessagesAndUpdateRedux(
   messages: Array<{
@@ -125,6 +88,7 @@ async function destroyExpiredMessages() {
 }
 
 let timeout: NodeJS.Timeout | undefined;
+
 async function checkExpiringMessages() {
   // Look up the next expiring message and set a timer to destroy it
   const messages = await Data.getNextExpiringMessage();
@@ -178,130 +142,10 @@ const updateExpiringMessagesCheck = () => {
   void throttledCheckExpiringMessages();
 };
 
-// #region Timer Options
-
-const timerOptionsDurations: Array<{
-  time: number;
-  unit: moment.DurationInputArg2;
-  seconds: number;
-}> = [
-  { time: 0, unit: 'seconds' as moment.DurationInputArg2 },
-  { time: 5, unit: 'seconds' as moment.DurationInputArg2 },
-  { time: 10, unit: 'seconds' as moment.DurationInputArg2 },
-  { time: 30, unit: 'seconds' as moment.DurationInputArg2 },
-  { time: 1, unit: 'minute' as moment.DurationInputArg2 },
-  { time: 5, unit: 'minutes' as moment.DurationInputArg2 },
-  { time: 30, unit: 'minutes' as moment.DurationInputArg2 },
-  { time: 1, unit: 'hour' as moment.DurationInputArg2 },
-  { time: 6, unit: 'hours' as moment.DurationInputArg2 },
-  { time: 12, unit: 'hours' as moment.DurationInputArg2 },
-  { time: 1, unit: 'day' as moment.DurationInputArg2 },
-  { time: 1, unit: 'week' as moment.DurationInputArg2 },
-  { time: 2, unit: 'weeks' as moment.DurationInputArg2 },
-].map(o => {
-  const duration = moment.duration(o.time, o.unit); // 5, 'seconds'
-  return {
-    time: o.time,
-    unit: o.unit,
-    seconds: duration.asSeconds(),
-  };
-});
-
-function getTimerOptionName(time: number, unit: moment.DurationInputArg2) {
-  return (
-    window.i18n(['timerOption', time, unit].join('_') as LocalizerKeys) ||
-    moment.duration(time, unit).humanize()
-  );
-}
-
-function getTimerOptionAbbreviated(time: number, unit: string) {
-  return window.i18n(['timerOption', time, unit, 'abbreviated'].join('_') as LocalizerKeys);
-}
-
-function getName(seconds = 0) {
-  const o = timerOptionsDurations.find(m => m.seconds === seconds);
-
-  if (o) {
-    return getTimerOptionName(o.time, o.unit);
-  }
-  return [seconds, 'seconds'].join(' ');
-}
-
-function getAbbreviated(seconds = 0) {
-  const o = timerOptionsDurations.find(m => m.seconds === seconds);
-
-  if (o) {
-    return getTimerOptionAbbreviated(o.time, o.unit);
-  }
-
-  return [seconds, 's'].join('');
-}
-
-type TimerOptionsEntry = { name: string; value: number };
-export type TimerOptionsArray = Array<TimerOptionsEntry>;
-
-export const TIMER_OPTIONS: Array<number> = timerOptionsDurations.map(t => {
-  return t.seconds;
-});
-
-export const DELETE_AFTER_READ_OPTIONS = TIMER_OPTIONS.filter(option => {
-  return (
-    option === 10 || // 10 seconds (for development or qa)
-    option === 30 || // 30 seconds (for development or qa)
-    option === 60 || // 1 minute (for testing)
-    option === 300 || // 5 minutes
-    option === 3600 || // 1 hour
-    option === 43200 || // 12 hours
-    option === 86400 || // 1 day
-    option === 604800 || // 1 week
-    option === 1209600 // 2 weeks
-  );
-});
-
-export const DELETE_AFTER_SEND_OPTIONS = TIMER_OPTIONS.filter(option => {
-  return (
-    option === 10 || // 10 seconds (for development or qa)
-    option === 30 || // 30 seconds (for development or qa)
-    option === 60 || // 1 minute (for testing)
-    option === 43200 || // 12 hours
-    option === 86400 || // 1 day
-    option === 604800 || // 1 week
-    option === 1209600 // 2 weeks
-  );
-});
-
-// TODO legacy messages support will be removed in a future release
-export const DELETE_LEGACY_OPTIONS = TIMER_OPTIONS.filter(option => {
-  return (
-    option === 5 || // 5 seconds
-    option === 10 || // 10 seconds
-    option === 30 || // 30 seconds
-    option === 60 || // 1 minute
-    option === 300 || // 5 minutes
-    option === 1800 || // 30 minutes
-    option === 3600 || // 1 hour
-    option === 21600 || // 6 hours
-    option === 43200 || // 12 hours
-    option === 86400 || // 1 day
-    option === 604800 // 1 week
-  );
-});
-
-export const DEFAULT_TIMER_OPTION = {
-  DELETE_AFTER_READ: 43200, // 12 hours
-  DELETE_AFTER_SEND: 86400, // 1 day
-  // TODO legacy messages support will be removed in a future release
-  LEGACY: 86400, // 1 day
-};
-
 export const ExpirationTimerOptions = {
-  getName,
-  getAbbreviated,
-  updateExpiringMessagesCheck,
   initExpiringMessageListener,
+  updateExpiringMessagesCheck,
 };
-
-// #endregion Timer Options
 
 export function setExpirationStartTimestamp(
   mode: DisappearingMessageConversationModeType,

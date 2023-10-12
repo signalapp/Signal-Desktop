@@ -16,11 +16,11 @@ import {
   PropsForMessageRequestResponse,
 } from '../../models/messageType';
 import { getConversationController } from '../../session/conversations';
-import { ReactionList } from '../../types/Reaction';
 import {
   DisappearingMessageConversationModeType,
   DisappearingMessageType,
-} from '../../util/expiringMessages';
+} from '../../session/disappearing_messages/types';
+import { ReactionList } from '../../types/Reaction';
 
 export type CallNotificationType = 'missed-call' | 'started-call' | 'answered-a-call';
 

@@ -2,6 +2,7 @@ import { isNumber } from 'lodash';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useIsRightPanelShowing } from '../../../hooks/useUI';
+import { TimerOptions } from '../../../session/disappearing_messages/timerOptions';
 import { closeRightPanel, openRightPanel } from '../../../state/ducks/conversations';
 import { resetRightOverlayMode, setRightOverlayMode } from '../../../state/ducks/section';
 import {
@@ -17,7 +18,6 @@ import {
   useSelectedNotificationSetting,
   useSelectedSubscriberCount,
 } from '../../../state/selectors/selectedConversation';
-import { ExpirationTimerOptions } from '../../../util/expiringMessages';
 import { ConversationHeaderSubtitle } from './ConversationHeaderSubtitle';
 
 export type SubtitleStrings = Record<string, string> & {
@@ -96,7 +96,7 @@ export const ConversationHeaderTitle = () => {
         : null;
 
     const abbreviatedExpireTime = isNumber(expireTimer)
-      ? ExpirationTimerOptions.getAbbreviated(expireTimer)
+      ? TimerOptions.getAbbreviated(expireTimer)
       : null;
 
     return expireTimer && disappearingMessageSettingText

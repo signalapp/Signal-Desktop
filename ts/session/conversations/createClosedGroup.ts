@@ -8,6 +8,7 @@ import { updateConfirmModal } from '../../state/ducks/modalDialog';
 import { getSwarmPollingInstance } from '../apis/snode_api';
 import { SnodeNamespaces } from '../apis/snode_api/namespaces';
 import { generateClosedGroupPublicKey, generateCurve25519KeyPairWithoutPrefix } from '../crypto';
+import { DisappearAfterSendOnly, DisappearingMessageType } from '../disappearing_messages/types';
 import {
   ClosedGroupNewMessage,
   ClosedGroupNewMessageParams,
@@ -16,7 +17,6 @@ import { PubKey } from '../types';
 import { UserUtils } from '../utils';
 import { forceSyncConfigurationNowIfNeeded } from '../utils/sync/syncUtils';
 import { getConversationController } from './ConversationController';
-import { DisappearAfterSendOnly, DisappearingMessageType } from '../../util/expiringMessages';
 
 export async function createClosedGroup(groupName: string, members: Array<string>, isV3: boolean) {
   const setOfMembers = new Set(members);

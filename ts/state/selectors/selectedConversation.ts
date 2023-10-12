@@ -1,17 +1,17 @@
 import { isString } from 'lodash';
 import { useSelector } from 'react-redux';
 import { ConversationTypeEnum, isOpenOrClosedGroup } from '../../models/conversationAttributes';
+import {
+  DisappearingMessageConversationModeType,
+  DisappearingMessageConversationModes,
+} from '../../session/disappearing_messages/types';
 import { PubKey } from '../../session/types';
 import { UserUtils } from '../../session/utils';
-import { StateType } from '../reducer';
-import { getCanWrite, getModerators, getSubscriberCount } from './sogsRoomInfo';
-import { getIsMessageSelectionMode, getSelectedConversation } from './conversations';
-import {
-  DisappearingMessageConversationModes,
-  DisappearingMessageConversationModeType,
-} from '../../util/expiringMessages';
 import { ReleasedFeatures } from '../../util/releaseFeature';
 import { ReduxConversationType } from '../ducks/conversations';
+import { StateType } from '../reducer';
+import { getIsMessageSelectionMode, getSelectedConversation } from './conversations';
+import { getCanWrite, getModerators, getSubscriberCount } from './sogsRoomInfo';
 
 /**
  * Returns the formatted text for notification setting.

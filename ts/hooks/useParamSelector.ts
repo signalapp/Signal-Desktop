@@ -7,19 +7,12 @@ import {
 } from '../models/conversation';
 import { isUsAnySogsFromCache } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
 import { CONVERSATION } from '../session/constants';
+import { TimerOptions, TimerOptionsArray } from '../session/disappearing_messages/timerOptions';
 import { PubKey } from '../session/types';
 import { UserUtils } from '../session/utils';
 import { StateType } from '../state/reducer';
 import { getMessageExpirationProps, getMessageReactsProps } from '../state/selectors/conversations';
 import { isPrivateAndFriend } from '../state/selectors/selectedConversation';
-import {
-  DELETE_AFTER_READ_OPTIONS,
-  DELETE_AFTER_SEND_OPTIONS,
-  DELETE_LEGACY_OPTIONS,
-  ExpirationTimerOptions,
-  TIMER_OPTIONS,
-  TimerOptionsArray,
-} from '../util/expiringMessages';
 
 export function useAvatarPath(convoId: string | undefined) {
   const convoProps = useConversationPropsById(convoId);
@@ -294,32 +287,32 @@ export function useTimerOptionsByMode(disappearingMessageMode?: string, hasOnlyO
     const options: TimerOptionsArray = [];
     if (hasOnlyOneMode) {
       options.push({
-        name: ExpirationTimerOptions.getName(TIMER_OPTIONS[0]),
-        value: TIMER_OPTIONS[0],
+        name: TimerOptions.getName(TimerOptions.VALUES[0]),
+        value: TimerOptions.VALUES[0],
       });
     }
     switch (disappearingMessageMode) {
       // TODO legacy messages support will be removed in a future release
       case 'legacy':
         options.push(
-          ...DELETE_LEGACY_OPTIONS.map(option => ({
-            name: ExpirationTimerOptions.getName(option),
+          ...TimerOptions.DELETE_LEGACY.map(option => ({
+            name: TimerOptions.getName(option),
             value: option,
           }))
         );
         break;
       case 'deleteAfterRead':
         options.push(
-          ...DELETE_AFTER_READ_OPTIONS.map(option => ({
-            name: ExpirationTimerOptions.getName(option),
+          ...TimerOptions.DELETE_AFTER_READ.map(option => ({
+            name: TimerOptions.getName(option),
             value: option,
           }))
         );
         break;
       case 'deleteAfterSend':
         options.push(
-          ...DELETE_AFTER_SEND_OPTIONS.map(option => ({
-            name: ExpirationTimerOptions.getName(option),
+          ...TimerOptions.DELETE_AFTER_SEND.map(option => ({
+            name: TimerOptions.getName(option),
             value: option,
           }))
         );

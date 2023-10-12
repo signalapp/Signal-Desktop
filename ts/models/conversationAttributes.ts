@@ -1,6 +1,6 @@
 import { defaults } from 'lodash';
+import { DisappearingMessageConversationModeType } from '../session/disappearing_messages/types';
 import { LastMessageStatusType } from '../state/ducks/conversations';
-import { DisappearingMessageConversationModeType } from '../util/expiringMessages';
 
 /**
  * Private chats have always the type `Private`

@@ -1,6 +1,6 @@
 import { isEmpty } from 'lodash';
 import React from 'react';
-import { TimerOptionsArray } from '../../../../../util/expiringMessages';
+import { TimerOptionsArray } from '../../../../../session/disappearing_messages/timerOptions';
 import { PanelButtonGroup, PanelLabel } from '../../../../buttons/PanelButton';
 import { PanelRadioButton } from '../../../../buttons/PanelRadioButton';
 
