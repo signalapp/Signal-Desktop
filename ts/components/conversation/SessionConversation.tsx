@@ -58,7 +58,6 @@ import { SessionSpinner } from '../basic/SessionSpinner';
 import { RightPanel } from './right-panel/RightPanel';
 
 const DEFAULT_JPEG_QUALITY = 0.85;
-// tslint:disable: jsx-curly-spacing
 
 interface State {
   isDraggingFile: boolean;
