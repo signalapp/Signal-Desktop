@@ -26,8 +26,8 @@ import {
   getShowScrollButton,
   getYoungestMessageId,
 } from '../../../../state/selectors/conversations';
-import { useSelectedConversationKey } from '../../../../state/selectors/selectedConversation';
 import { getIsAppFocused } from '../../../../state/selectors/section';
+import { useSelectedConversationKey } from '../../../../state/selectors/selectedConversation';
 import { ScrollToLoadedMessageContext } from '../../SessionMessagesListContainer';
 
 export type ReadableMessageProps = {
@@ -39,7 +39,7 @@ export type ReadableMessageProps = {
   onClick?: MouseEventHandler<HTMLElement>;
   onDoubleClickCapture?: MouseEventHandler<HTMLElement>;
   role?: AriaRole;
-  dataTestId?: string;
+  dataTestId: string;
   onContextMenu?: (e: React.MouseEvent<HTMLElement>) => void;
 };
 
@@ -207,8 +207,7 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
       onDoubleClickCapture={onDoubleClickCapture}
       role={role}
       key={`inview-msg-${messageId}`}
-      // TODO We will need to update the integration tests to use that new value, or update the values given in the `dataTestId` props to match what they expect
-      data-testid={dataTestId || 'readable-message'}
+      data-testid={dataTestId}
     >
       {props.children}
     </InView>

@@ -62,6 +62,7 @@ export const CallNotification = (props: PropsForCallNotification) => {
     <ExpirableReadableMessage
       messageId={messageId}
       key={`readable-message-${messageId}`}
+      dataTestId={`call-notification-${notificationType}`}
       isCentered={true}
     >
       <NotificationBubble

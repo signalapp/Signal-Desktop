@@ -29,7 +29,7 @@ type Props = {
   messageId: string;
   ctxMenuID: string;
   isDetailView?: boolean;
-  dataTestId?: string;
+  dataTestId: string;
   enableReactions: boolean;
 };
 
@@ -124,7 +124,7 @@ export const MessageContentWithStatuses = (props: Props) => {
         role={'button'}
         onClick={onClickOnMessageOuterContainer}
         onDoubleClickCapture={onDoubleClickReplyToMessage}
-        data-testid={dataTestId}
+        dataTestId={dataTestId}
       >
         <MessageAvatar
           messageId={messageId}

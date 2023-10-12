@@ -19,6 +19,7 @@ export const DataExtractionNotification = (props: PropsForDataExtractionNotifica
   return (
     <ExpirableReadableMessage
       messageId={messageId}
+      dataTestId="data-extraction-notification"
       key={`readable-message-${messageId}`}
       isCentered
     >
