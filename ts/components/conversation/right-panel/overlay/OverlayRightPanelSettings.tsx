@@ -5,8 +5,8 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import useInterval from 'react-use/lib/useInterval';
 import styled from 'styled-components';
-import { SessionIconButton } from '../../../icon';
 import { Data } from '../../../../data/data';
+import { SessionIconButton } from '../../../icon';
 
 import {
   deleteAllMessagesByConvoIdWithConfirmation,
@@ -357,7 +357,6 @@ export const OverlayRightPanelSettings = () => {
           <PanelIconButton
             iconType={'timer50'}
             text={window.i18n('disappearingMessages')}
-            noBackgroundColor={true}
             onClick={() => {
               dispatch(setRightOverlayMode('disappearing-messages'));
             }}

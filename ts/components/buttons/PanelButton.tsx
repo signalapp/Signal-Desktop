@@ -63,7 +63,6 @@ export const PanelButtonGroup = (props: PanelButtonGroupProps) => {
 };
 
 const StyledPanelButton = styled.button<{
-  noBackgroundColor?: boolean;
   disabled: boolean;
 }>`
   cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
@@ -77,8 +76,6 @@ const StyledPanelButton = styled.button<{
   min-height: 50px;
   width: 100%;
   transition: var(--default-duration);
-  background-color: ${props =>
-    !props.noBackgroundColor ? 'var(--right-panel-item-background-hover-color) !important' : null};
   color: ${props => (props.disabled ? 'var(--disabled-color)' : 'inherit')};
 
   :not(:last-child) {
@@ -90,7 +87,6 @@ export type PanelButtonProps = {
   // https://styled-components.com/docs/basics#styling-any-component
   className?: string;
   disabled?: boolean;
-  noBackgroundColor?: boolean;
   children: ReactNode;
   onClick: (...args: Array<any>) => void;
   dataTestId?: string;
@@ -98,20 +94,11 @@ export type PanelButtonProps = {
 };
 
 export const PanelButton = (props: PanelButtonProps) => {
-  const {
-    className,
-    disabled = false,
-    noBackgroundColor,
-    children,
-    onClick,
-    dataTestId,
-    style,
-  } = props;
+  const { className, disabled = false, children, onClick, dataTestId, style } = props;
 
   return (
     <StyledPanelButton
       className={className}
-      noBackgroundColor={noBackgroundColor}
       disabled={disabled}
       onClick={onClick}
       style={style}

@@ -33,7 +33,6 @@ export const TimeOptions = (props: TimerOptionsProps) => {
               onSelect={() => {
                 setSelected(option.value);
               }}
-              noBackgroundColor={true}
               disabled={disabled}
               dataTestId={`disappear-time-${option.value}-option`}
             />

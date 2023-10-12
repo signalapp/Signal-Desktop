@@ -53,14 +53,12 @@ export const PanelRadioButton = (props: PanelRadioButtonProps) => {
     onSelect,
     onUnselect,
     disabled = false,
-    noBackgroundColor,
     dataTestId,
   } = props;
 
   return (
     <StyledPanelButton
       disabled={disabled}
-      noBackgroundColor={noBackgroundColor}
       onClick={() => {
         return isSelected ? onUnselect?.('bye') : onSelect?.('hi');
       }}

@@ -8,15 +8,10 @@ interface PanelIconButton extends Omit<PanelButtonProps, 'children'> {
 }
 
 export const PanelIconButton = (props: PanelIconButton) => {
-  const { iconType, text, disabled = false, noBackgroundColor, onClick, dataTestId } = props;
+  const { iconType, text, disabled = false, onClick, dataTestId } = props;
 
   return (
-    <PanelButton
-      disabled={disabled}
-      noBackgroundColor={noBackgroundColor}
-      onClick={onClick}
-      dataTestId={dataTestId}
-    >
+    <PanelButton disabled={disabled} onClick={onClick} dataTestId={dataTestId}>
       <StyledContent disabled={disabled}>
         <SessionIcon iconType={iconType} iconSize="medium" />
         <StyledText>{text}</StyledText>

@@ -66,7 +66,6 @@ export const DisappearingModes = (props: DisappearingModesProps) => {
                 setSelected(mode as DisappearingMessageConversationModeType);
               }}
               disabled={options[mode as DisappearingMessageConversationModeType]}
-              noBackgroundColor={true}
               dataTestId={loadDataTestId(mode as DisappearingMessageConversationModeType)}
             />
           );
