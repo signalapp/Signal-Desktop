@@ -183,10 +183,6 @@ export const OverlayDisappearingMessages = () => {
     }
   };
 
-  const handleSetTime = (value: number) => {
-    setTimeSelected(value);
-  };
-
   useLegacyModeBeforeV2Release(isV2Released, expirationMode, setModeSelected);
   useMigrateLegacyToV2AfterRelease(
     isV2Released,
@@ -200,7 +196,7 @@ export const OverlayDisappearingMessages = () => {
 
   useEffect(() => {
     // NOTE loads a time value from the conversation model or the default
-    handleSetTime(
+    setTimeSelected(
       expireTimer !== undefined && expireTimer > -1
         ? expireTimer
         : loadDefaultTimeValue(modeSelected, hasOnlyOneMode)
@@ -240,7 +236,7 @@ export const OverlayDisappearingMessages = () => {
             <TimeOptions
               options={timerOptions}
               selected={timeSelected}
-              setSelected={handleSetTime}
+              setSelected={setTimeSelected}
               hasOnlyOneMode={hasOnlyOneMode}
               disabled={
                 singleMode
