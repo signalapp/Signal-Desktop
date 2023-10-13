@@ -743,12 +743,11 @@ async function applyConvoVolatileUpdateFromWrapper(
       if (messages2Expire.length) {
         const messageHashes = compact(
           messages2Expire
-            .filter(m =>
-              Boolean(
-                m.getExpirationType() &&
-                  m.getExpirationType() !== 'deleteAfterSend' &&
-                  m.getExpireTimer() > 0
-              )
+            .filter(
+              m =>
+                m.getExpirationType() !== undefined &&
+                m.getExpirationType() !== 'deleteAfterSend' &&
+                m.getExpireTimer() > 0
             )
             .map(m => m.get('messageHash'))
         );
