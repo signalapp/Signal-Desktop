@@ -118,7 +118,6 @@ const STICKER_SIZE = 200;
 const GIF_SIZE = 300;
 // Note: this needs to match the animation time
 const TARGETED_TIMEOUT = 1200;
-const THREE_HOURS = 3 * 60 * 60 * 1000;
 const SENT_STATUSES = new Set<MessageStatusType>([
   'delivered',
   'read',
@@ -679,7 +678,7 @@ export class Message extends React.PureComponent<Props, State> {
 
   private getTimeRemainingForDeleteForEveryone(): number {
     const { timestamp } = this.props;
-    return Math.max(timestamp - Date.now() + THREE_HOURS, 0);
+    return Math.max(timestamp - Date.now() + DAY, 0);
   }
 
   private startDeleteForEveryoneTimerIfApplicable(): void {

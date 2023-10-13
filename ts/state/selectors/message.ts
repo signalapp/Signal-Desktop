@@ -116,7 +116,7 @@ import {
 } from '../../messages/MessageSendState';
 import * as log from '../../logging/log';
 import { getConversationColorAttributes } from '../../util/getConversationColorAttributes';
-import { DAY, HOUR, DurationInSeconds } from '../../util/durations';
+import { DAY, DurationInSeconds } from '../../util/durations';
 import { getStoryReplyText } from '../../util/getStoryReplyText';
 import type { MessageAttributesWithPaymentEvent } from '../../messages/helpers';
 import {
@@ -139,7 +139,6 @@ import { getCallIdFromEra } from '../../util/callDisposition';
 
 export { isIncoming, isOutgoing, isStory };
 
-const THREE_HOURS = 3 * HOUR;
 const linkify = LinkifyIt();
 
 type FormattedContact = Partial<ConversationType> &
@@ -1842,7 +1841,7 @@ export function canDeleteForEveryone(
     // Has the message already been deleted?
     !message.deletedForEveryone &&
     // Is it too old to delete?
-    isMoreRecentThan(message.sent_at, THREE_HOURS) &&
+    isMoreRecentThan(message.sent_at, DAY) &&
     // Is it sent to anyone?
     someSendStatus(message.sendStateByConversationId, isSent)
   );
