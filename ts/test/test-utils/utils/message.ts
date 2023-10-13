@@ -107,6 +107,15 @@ export function generateFakeIncomingPrivateMessage(): MessageModel {
   });
 }
 
+export function generateFakeOutgoingPrivateMessage(pubkey?: string): MessageModel {
+  const convoId = pubkey || TestUtils.generateFakePubKeyStr();
+  return new MessageModel({
+    conversationId: convoId,
+    source: convoId,
+    type: 'outgoing',
+  });
+}
+
 export function generateFakeIncomingOpenGroupMessageV4({
   id,
   reactions,

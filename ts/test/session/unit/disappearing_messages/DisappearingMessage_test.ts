@@ -8,6 +8,7 @@ import {
   changeToDisappearingConversationMode,
   changeToDisappearingMessageType,
   checkForExpireUpdateInContentMessage,
+  checkForExpiringOutgoingMessage,
   setExpirationStartTimestamp,
 } from '../../../../session/disappearing_messages';
 import {
@@ -22,6 +23,7 @@ import {
   generateDisappearingVisibleMessage,
   generateFakeExpirationTimerUpdate,
   generateFakeIncomingPrivateMessage,
+  generateFakeOutgoingPrivateMessage,
   generateVisibleMessage,
 } from '../../../test-utils/utils';
 
@@ -466,6 +468,91 @@ describe('DisappearingMessage', () => {
       expect(expireUpdate?.isLegacyDataMessage, 'isLegacyDataMessage should be undefined').to.be
         .undefined;
       expect(expireUpdate?.isOutdated, 'isOutdated should be true').to.be.true;
+    });
+  });
+
+  describe('checkForExpiringInOutgoingMessage', () => {
+    it('if the message is supposed to disappear then the expirationStartTimestamp should be set to the sent_at value', async () => {
+      const conversation = new ConversationModel({
+        ...conversationArgs,
+        id: ourNumber,
+      } as any);
+      const message = generateFakeOutgoingPrivateMessage(conversation.get('id'));
+      message.set({
+        expirationType: 'deleteAfterRead',
+        expireTimer: 300,
+        sent_at: GetNetworkTime.getNowWithNetworkOffset(),
+      });
+      Sinon.stub(message, 'getConversation').returns(conversation);
+
+      checkForExpiringOutgoingMessage(message, 'unit tests');
+
+      expect(message.getExpirationStartTimestamp(), 'it should be defined').to.not.be.undefined;
+      expect(
+        isValidUnixTimestamp(message.getExpirationStartTimestamp()),
+        'it should be a valid unix timestamp'
+      ).to.be.true;
+      expect(message.getExpirationStartTimestamp(), 'it should equal the sent_at value').to.equal(
+        message.get('sent_at')
+      );
+    });
+    it('if there is no expireTimer then the expirationStartTimestamp should be undefined', async () => {
+      const conversation = new ConversationModel({
+        ...conversationArgs,
+        id: ourNumber,
+      } as any);
+      const message = generateFakeOutgoingPrivateMessage(conversation.get('id'));
+      message.set({
+        expirationType: 'deleteAfterRead',
+        sent_at: GetNetworkTime.getNowWithNetworkOffset(),
+      });
+      Sinon.stub(message, 'getConversation').returns(conversation);
+
+      checkForExpiringOutgoingMessage(message, 'unit tests');
+
+      expect(message.getExpirationStartTimestamp(), 'it should be undefined').to.be.undefined;
+    });
+    it('if there is no expirationType then the expirationStartTimestamp should be undefined', async () => {
+      const conversation = new ConversationModel({
+        ...conversationArgs,
+        id: ourNumber,
+      } as any);
+      const message = generateFakeOutgoingPrivateMessage(conversation.get('id'));
+      message.set({
+        expireTimer: 300,
+        sent_at: GetNetworkTime.getNowWithNetworkOffset(),
+      });
+      Sinon.stub(message, 'getConversation').returns(conversation);
+
+      checkForExpiringOutgoingMessage(message, 'unit tests');
+
+      expect(message.getExpirationStartTimestamp(), 'it should be undefined').to.be.undefined;
+    });
+    it('if expirationStartTimestamp is already defined then it should not have changed', async () => {
+      const now = GetNetworkTime.getNowWithNetworkOffset();
+      const conversation = new ConversationModel({
+        ...conversationArgs,
+        id: ourNumber,
+      } as any);
+      const message = generateFakeOutgoingPrivateMessage(conversation.get('id'));
+      message.set({
+        expirationType: 'deleteAfterRead',
+        expireTimer: 300,
+        sent_at: now,
+        expirationStartTimestamp: now + 10000,
+      });
+      Sinon.stub(message, 'getConversation').returns(conversation);
+
+      checkForExpiringOutgoingMessage(message, 'unit tests');
+
+      expect(message.getExpirationStartTimestamp(), 'it should be defined').to.not.be.undefined;
+      expect(
+        isValidUnixTimestamp(message.getExpirationStartTimestamp()),
+        'it should be a valid unix timestamp'
+      ).to.be.true;
+      expect(message.getExpirationStartTimestamp(), 'it should equal its original value').to.equal(
+        now + 10000
+      );
     });
   });
 

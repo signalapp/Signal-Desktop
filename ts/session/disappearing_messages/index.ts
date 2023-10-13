@@ -422,6 +422,34 @@ export async function checkForExpireUpdateInContentMessage(
   return expireUpdate;
 }
 
+/**
+ * Checks if an outgoing message is meant to disappear and if so trigger the timer
+ */
+export function checkForExpiringOutgoingMessage(message: MessageModel, location?: string) {
+  const convo = message.getConversation();
+  const expireTimer = message.getExpireTimer();
+  const expirationType = message.getExpirationType();
+
+  if (
+    convo &&
+    expirationType &&
+    expireTimer > 0 &&
+    Boolean(message.getExpirationStartTimestamp()) === false
+  ) {
+    const expirationMode = changeToDisappearingConversationMode(convo, expirationType, expireTimer);
+
+    if (expirationMode !== 'off') {
+      message.set({
+        expirationStartTimestamp: setExpirationStartTimestamp(
+          expirationMode,
+          message.get('sent_at'),
+          location
+        ),
+      });
+    }
+  }
+}
+
 // TODO legacy messages support will be removed in a future release
 export function getMessageReadyToDisappear(
   conversationModel: ConversationModel,
