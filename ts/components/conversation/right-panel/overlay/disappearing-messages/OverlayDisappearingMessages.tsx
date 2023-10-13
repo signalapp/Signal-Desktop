@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Dispatch, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { useTimerOptionsByMode } from '../../../../../hooks/useParamSelector';
@@ -69,6 +69,72 @@ function loadDefaultTimeValue(
     : 0;
 }
 
+/** if there is only one disappearing message mode and 'off' enabled then we trigger single mode UI */
+function useSingleMode(disappearingModeOptions: any) {
+  const singleMode: DisappearingMessageConversationModeType | undefined =
+    disappearingModeOptions &&
+    disappearingModeOptions.off !== undefined &&
+    Object.keys(disappearingModeOptions).length === 2
+      ? (Object.keys(disappearingModeOptions)[1] as DisappearingMessageConversationModeType)
+      : undefined;
+  const hasOnlyOneMode = Boolean(singleMode && singleMode.length > 0);
+
+  return { singleMode, hasOnlyOneMode };
+}
+
+// TODO legacy messages support will be removed in a future release
+function useLegacyModeBeforeV2Release(
+  isV2Released: boolean,
+  expirationMode: DisappearingMessageConversationModeType | undefined,
+  setModeSelected: (mode: DisappearingMessageConversationModeType | undefined) => void
+) {
+  useEffect(() => {
+    if (!isV2Released) {
+      setModeSelected(
+        expirationMode === 'deleteAfterRead' || expirationMode === 'deleteAfterSend'
+          ? 'legacy'
+          : expirationMode
+      );
+    }
+  }, [expirationMode, isV2Released, setModeSelected]);
+}
+
+// TODO legacy messages support will be removed in a future release
+function useMigrateLegacyToV2AfterRelease(
+  isV2Released: boolean,
+  modeSelected: DisappearingMessageConversationModeType | undefined,
+  hasOnlyOneMode: boolean,
+  isGroup: boolean | undefined,
+  isMe: boolean | undefined,
+  selectedConversationKey: string | undefined,
+  dispatch: Dispatch<any>
+) {
+  useEffect(() => {
+    if (isV2Released && modeSelected === 'legacy') {
+      const newModeSelected = isMe || isGroup ? 'deleteAfterSend' : 'deleteAfterRead';
+      const newTimeSelected = loadDefaultTimeValue(newModeSelected, hasOnlyOneMode);
+
+      if (selectedConversationKey) {
+        void setDisappearingMessagesByConvoId(
+          selectedConversationKey,
+          newModeSelected,
+          newTimeSelected
+        );
+        dispatch(closeRightPanel());
+        dispatch(resetRightOverlayMode());
+      }
+    }
+  }, [
+    dispatch,
+    hasOnlyOneMode,
+    isGroup,
+    isMe,
+    isV2Released,
+    modeSelected,
+    selectedConversationKey,
+  ]);
+}
+
 export type PropsForExpirationSettings = {
   expirationMode: DisappearingMessageConversationModeType | undefined;
   expireTimer: number | undefined;
@@ -80,15 +146,7 @@ export const OverlayDisappearingMessages = () => {
   const dispatch = useDispatch();
   const selectedConversationKey = useSelectedConversationKey();
   const disappearingModeOptions = useSelector(getSelectedConversationExpirationModes);
-
-  // NOTE if there is only 'off' and one disappearing message mode then we trigger single mode
-  const singleMode: DisappearingMessageConversationModeType | undefined =
-    disappearingModeOptions &&
-    disappearingModeOptions.off !== undefined &&
-    Object.keys(disappearingModeOptions).length === 2
-      ? (Object.keys(disappearingModeOptions)[1] as DisappearingMessageConversationModeType)
-      : undefined;
-  const hasOnlyOneMode = Boolean(singleMode && singleMode.length > 0);
+  const { singleMode, hasOnlyOneMode } = useSingleMode(disappearingModeOptions);
 
   const isMe = useSelectedIsNoteToSelf();
   const isGroup = useSelectedIsGroup();
@@ -129,41 +187,16 @@ export const OverlayDisappearingMessages = () => {
     setTimeSelected(value);
   };
 
-  useEffect(() => {
-    if (!isV2Released) {
-      setModeSelected(
-        expirationMode === 'deleteAfterRead' || expirationMode === 'deleteAfterSend'
-          ? 'legacy'
-          : expirationMode
-      );
-    }
-  }, [expirationMode, isV2Released]);
-
-  // TODO legacy messages support will be removed in a future release
-  useEffect(() => {
-    if (isV2Released && modeSelected === 'legacy') {
-      const newModeSelected = isMe || isGroup ? 'deleteAfterSend' : 'deleteAfterRead';
-      const newTimeSelected = loadDefaultTimeValue(newModeSelected, hasOnlyOneMode);
-
-      if (selectedConversationKey) {
-        void setDisappearingMessagesByConvoId(
-          selectedConversationKey,
-          newModeSelected,
-          newTimeSelected
-        );
-        dispatch(closeRightPanel());
-        dispatch(resetRightOverlayMode());
-      }
-    }
-  }, [
-    dispatch,
+  useLegacyModeBeforeV2Release(isV2Released, expirationMode, setModeSelected);
+  useMigrateLegacyToV2AfterRelease(
+    isV2Released,
+    modeSelected,
     hasOnlyOneMode,
     isGroup,
     isMe,
-    isV2Released,
-    modeSelected,
     selectedConversationKey,
-  ]);
+    dispatch
+  );
 
   useEffect(() => {
     // NOTE loads a time value from the conversation model or the default
@@ -173,14 +206,6 @@ export const OverlayDisappearingMessages = () => {
         : loadDefaultTimeValue(modeSelected, hasOnlyOneMode)
     );
   }, [expireTimer, hasOnlyOneMode, modeSelected]);
-
-  // useEffect(() => {
-  //   window.log.debug(
-  //     `WIP: OverlayDisappearingMessages: \nmodeSelected ${modeSelected} \nsingleMode ${singleMode} \ntimeSelected ${timeSelected} \ntimerOptions ${JSON.stringify(
-  //       timerOptions.map(option => option.name)
-  //     )}`
-  //   );
-  // }, [modeSelected, timeSelected]);
 
   if (!disappearingModeOptions) {
     return null;
