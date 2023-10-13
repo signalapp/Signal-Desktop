@@ -110,6 +110,8 @@ export interface ConversationAttributes {
   expirationMode: DisappearingMessageConversationModeType;
   /** to avoid applying a change of disappear change when our current one was applied more recently */
   lastDisappearingMessageChangeTimestamp: number;
+  // TODO legacy messages support will be removed in a future release
+  // TODO we need to make a migration to remove this value from the db since the implementation is hacky
   /** to warn the user that the person he is talking to is using an old client which might cause issues */
   hasOutdatedClient?: string;
 }
