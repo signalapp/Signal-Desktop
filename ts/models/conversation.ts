@@ -859,8 +859,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       return false;
     }
 
-    // NOTE: We don' mind if the message is the same, we still want to update the conversation because we want to show visible control messages we receive an ExpirationTimerUpdate
-    // Compare mode and timestamp
     if (
       isEqual(expirationMode, this.getExpirationMode()) &&
       isEqual(expireTimer, this.getExpireTimer())
@@ -899,8 +897,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     let message: MessageModel | undefined = existingMessage || undefined;
     const expirationType = changeToDisappearingMessageType(this, expireTimer, expirationMode);
 
-    // we don't have info about who made the change and when, when we get a change from a config message, so do not add a control message
-    // TODO NOTE We might not show it in the UI but still need to process it using the sentTimestamp as the lastChange timestamp for config messages
     const commonAttributes = {
       flags: SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
       expirationTimerUpdate: {
@@ -923,8 +919,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       } else {
         message = await this.addSingleIncomingMessage({
           ...commonAttributes,
-          // Even though this isn't reflected to the user, we want to place the last seen
-          //   indicator above it. We set it to 'unread' to trigger that placement.
+          // Even though this isn't reflected to the user, we want to place the last seen indicator above it. We set it to 'unread' to trigger that placement.
           unread: READ_MESSAGE_STATE.unread,
           source,
           sent_at: timestamp,
@@ -977,7 +972,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     };
 
     if (this.isMe()) {
-      // TODO Check that the args are correct
       if (expireUpdate.expirationType === 'deleteAfterRead') {
         window.log.info('Note to Self messages cannot be delete after read!');
         return true;
@@ -985,22 +979,12 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
       const expirationTimerMessage = new ExpirationTimerUpdateMessage(expireUpdate);
 
-      // window.log.debug(
-      //   `WIP: updateExpireTimer() isMe() expirationTimerMessage`,
-      //   JSON.stringify(expirationTimerMessage)
-      // );
-
       await message?.sendSyncMessageOnly(expirationTimerMessage);
       return true;
     }
 
     if (this.isPrivate()) {
       const expirationTimerMessage = new ExpirationTimerUpdateMessage(expireUpdate);
-
-      // window.log.debug(
-      //   `WIP: updateExpireTimer() isPrivate() expirationTimerMessage`,
-      //   JSON.stringify(expirationTimerMessage)
-      // );
 
       const pubkey = new PubKey(this.get('id'));
       await getMessageQueue().sendToPubKey(
@@ -1017,11 +1001,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       };
 
       const expirationTimerMessage = new ExpirationTimerUpdateMessage(expireUpdateForGroup);
-
-      // window.log.debug(
-      //   `WIP: updateExpireTimer() isClosedGroup() expirationTimerMessage`,
-      //   JSON.stringify(expirationTimerMessage)
-      // );
 
       await getMessageQueue().sendToGroup({
         message: expirationTimerMessage,
@@ -1895,8 +1874,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
       if (this.isPrivate()) {
         if (this.isMe()) {
-          if (this.isDisappearingMode('deleteAfterRead')) {
-            return;
+          if (this.matchesDisappearingMode('deleteAfterRead')) {
+            throw new Error('Note to Self disappearing messages must be deleteAterSend');
           }
           chatMessageParams.syncTarget = this.id;
           const chatMessageMe = new VisibleMessage(chatMessageParams);
@@ -1936,8 +1915,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       }
 
       if (this.isClosedGroup()) {
-        if (this.isDisappearingMode('deleteAfterRead')) {
-          return;
+        if (this.matchesDisappearingMode('deleteAfterRead')) {
+          throw new Error('Group disappearing messages must be deleteAterSend');
         }
         const chatMessageMediumGroup = new VisibleMessage(chatMessageParams);
         const closedGroupVisibleMessage = new ClosedGroupVisibleMessage({
@@ -2085,8 +2064,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const readDetails = [];
     // eslint-disable-next-line no-restricted-syntax
     for (const nowRead of oldUnreadNowRead) {
-      // eslint-disable-next-line no-await-in-loop
-      await nowRead.markMessageReadNoCommit(readAt);
+      nowRead.markMessageReadNoCommit(readAt);
 
       const validTimestamp = nowRead.get('sent_at') || nowRead.get('serverTimestamp');
       if (nowRead.get('source') && validTimestamp && isFinite(validTimestamp)) {
@@ -2365,7 +2343,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     return [];
   }
 
-  private isDisappearingMode(mode: DisappearingMessageConversationModeType) {
+  private matchesDisappearingMode(mode: DisappearingMessageConversationModeType) {
     const success =
       mode === 'deleteAfterRead'
         ? this.getExpirationMode() === 'deleteAfterRead'
