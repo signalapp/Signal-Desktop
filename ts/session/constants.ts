@@ -23,7 +23,7 @@ export const TTL_DEFAULT = {
   /** 14 days */
   TTL_MAX: 14 * DURATION.DAYS,
   /** 30 days */
-  TTL_CONFIG: 30 * DURATION.DAYS,
+  CONFIG_MESSAGE: 30 * DURATION.DAYS,
 };
 
 export const SWARM_POLLING_TIMEOUT = {

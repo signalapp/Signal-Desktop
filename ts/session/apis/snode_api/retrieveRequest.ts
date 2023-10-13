@@ -74,7 +74,7 @@ async function buildRetrieveRequest(
   );
 
   if (configHashesToBump?.length) {
-    const expiry = GetNetworkTime.getNowWithNetworkOffset() + TTL_DEFAULT.TTL_CONFIG;
+    const expiry = GetNetworkTime.getNowWithNetworkOffset() + TTL_DEFAULT.CONFIG_MESSAGE;
     const signResult = await SnodeSignature.generateUpdateExpirySignature({
       shortenOrExtend: '',
       timestamp: expiry,
