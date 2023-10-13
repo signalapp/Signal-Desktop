@@ -43,6 +43,7 @@ import {
   getFreshSwarmFor,
 } from '../../session/apis/snode_api/snodePool';
 import { isDarkTheme } from '../../state/selectors/theme';
+import { getOppositeTheme, checkThemeCongruency } from '../../themes/SessionTheme';
 import { ThemeStateType } from '../../themes/constants/colors';
 import { switchThemeTo } from '../../themes/switchTheme';
 import { ConfigurationSync } from '../../session/utils/job_runners/jobs/ConfigurationSyncJob';
@@ -62,10 +63,7 @@ const Section = (props: { type: SectionType }) => {
       dispatch(editProfileModal({}));
     } else if (type === SectionType.ColorMode) {
       const currentTheme = String(window.Events.getThemeSetting());
-      const newTheme = (isDarkMode
-        ? currentTheme.replace('dark', 'light')
-        : currentTheme.replace('light', 'dark')) as ThemeStateType;
-
+      const newTheme = getOppositeTheme(currentTheme) as ThemeStateType;
       // We want to persist the primary color when using the color mode button
       void switchThemeTo({
         theme: newTheme,
@@ -149,14 +147,25 @@ const cleanUpMediasInterval = DURATION.MINUTES * 60;
 const fetchReleaseFromFileServerInterval = 1000 * 60; // try to fetch the latest release from the fileserver every minute
 
 const setupTheme = async () => {
+  const shouldFollowSystemTheme = window.getSettingValue(SettingsKey.hasFollowSystemThemeEnabled);
   const theme = window.Events.getThemeSetting();
-  // We don't want to reset the primary color on startup
-  await switchThemeTo({
+  const themeConfig = {
     theme,
     mainWindow: true,
     usePrimaryColor: true,
     dispatch: window?.inboxStore?.dispatch || undefined,
-  });
+  };
+
+  if (shouldFollowSystemTheme) {
+    const themeIsCongruent = await checkThemeCongruency();
+    // Only set theme if it matches with native theme, otherwise handled by checkThemeCongruency()
+    if (!themeIsCongruent) {
+      await switchThemeTo(themeConfig);
+    }
+    return;
+  }
+
+  await switchThemeTo(themeConfig);
 };
 
 // Do this only if we created a new Session ID, or if we already received the initial configuration message
