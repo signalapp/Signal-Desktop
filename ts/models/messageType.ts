@@ -136,10 +136,10 @@ export enum MessageDirection {
   any = '%',
 }
 
-export interface PropsForDataExtractionNotification extends DataExtractionNotificationMsg {
+export type PropsForDataExtractionNotification = DataExtractionNotificationMsg & {
   name: string;
   messageId: string;
-}
+};
 
 export type PropsForMessageRequestResponse = MessageRequestResponseMsg & {
   conversationId?: string;
