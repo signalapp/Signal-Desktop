@@ -1912,7 +1912,7 @@ export function printTableColumns(table: string, db: BetterSqlite3.Database) {
   console.info(db.pragma(`table_info('${table}');`));
 }
 
-export function writeSessionSchemaVersion(newVersion: number, db: BetterSqlite3.Database) {
+function writeSessionSchemaVersion(newVersion: number, db: BetterSqlite3.Database) {
   db.prepare(
     `INSERT INTO loki_schema(
         version
