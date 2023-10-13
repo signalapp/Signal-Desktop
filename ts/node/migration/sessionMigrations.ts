@@ -26,15 +26,15 @@ import {
   rebuildFtsTable,
 } from '../database_utility';
 
-import { sqlNode } from '../sql';
-import { sleepFor } from '../../session/utils/Promise';
 import { SettingsKey } from '../../data/settings-key';
+import { sleepFor } from '../../session/utils/Promise';
+import { sqlNode } from '../sql';
+import MIGRATION_HELPERS from './helpers';
 import {
   getBlockedNumbersDuringMigration,
   getLoggedInUserConvoDuringMigration,
   hasDebugEnvVariable,
 } from './utils';
-import MIGRATION_HELPERS from './helpers';
 
 // eslint:disable: quotemark one-variable-per-declaration no-unused-expression
 
@@ -1667,7 +1667,7 @@ function updateToSessionSchemaVersion34(currentVersion: number, db: BetterSqlite
   console.log(`updateToSessionSchemaVersion${targetVersion}: starting...`);
   db.transaction(() => {
     try {
-      // region v34 Disappearing Messages Database Model Changes
+      // #region v34 Disappearing Messages Database Model Changes
       // Conversation changes
       db.prepare(
         `ALTER TABLE ${CONVERSATIONS_TABLE} ADD COLUMN expirationMode TEXT DEFAULT "off";`
@@ -1682,7 +1682,7 @@ function updateToSessionSchemaVersion34(currentVersion: number, db: BetterSqlite
       // Message changes
       db.prepare(`ALTER TABLE ${MESSAGES_TABLE} ADD COLUMN expirationType TEXT;`).run();
 
-      // endregion
+      // #endregion
 
       const loggedInUser = getLoggedInUserConvoDuringMigration(db);
 
@@ -1692,7 +1692,7 @@ function updateToSessionSchemaVersion34(currentVersion: number, db: BetterSqlite
 
       const { privateEd25519, publicKeyHex } = loggedInUser.ourKeys;
 
-      // region v34 Disappearing Messages Note to Self
+      // #region v34 Disappearing Messages Note to Self
       const noteToSelfInfo = db
         .prepare(
           `UPDATE ${CONVERSATIONS_TABLE} SET
@@ -1741,9 +1741,9 @@ function updateToSessionSchemaVersion34(currentVersion: number, db: BetterSqlite
         }
       }
 
-      // endregion
+      // #endregion
 
-      // region v34 Disappearing Messages Private Conversations
+      // #region v34 Disappearing Messages Private Conversations
       const privateConversationsInfo = db
         .prepare(
           `UPDATE ${CONVERSATIONS_TABLE} SET
@@ -1817,9 +1817,9 @@ function updateToSessionSchemaVersion34(currentVersion: number, db: BetterSqlite
         }
       }
 
-      // endregion
+      // #endregion
 
-      // region v34 Disappearing Messages Groups
+      // #region v34 Disappearing Messages Groups
       const groupConversationsInfo = db
         .prepare(
           `UPDATE ${CONVERSATIONS_TABLE} SET
@@ -1891,7 +1891,7 @@ function updateToSessionSchemaVersion34(currentVersion: number, db: BetterSqlite
         }
       }
 
-      // endregion
+      // #endregion
     } catch (e) {
       console.error(
         `Failed to migrate to disappearing messages v2. Might just not have a logged in user yet? `,
