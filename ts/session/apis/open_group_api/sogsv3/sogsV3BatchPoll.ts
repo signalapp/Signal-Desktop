@@ -257,8 +257,7 @@ const makeBatchRequestPayload = (
       break;
 
     case 'inbox':
-      const isDelete = Boolean(options.inbox?.type === 'delete');
-      if (isDelete) {
+      if (options.inbox?.type === 'delete') {
         return {
           method: 'DELETE',
           path: '/inbox',
