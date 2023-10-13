@@ -138,9 +138,6 @@ async function generateUpdateExpirySignature({
   }
 }
 
-/**
- * NOTE if shortenOrExtend is an empty string it means we want to hardcode the expiry to a TTL value, otherwise it's to shorten or extend the TTL
- */
 async function generateGetExpiriesSignature({
   timestamp,
   messageHashes,

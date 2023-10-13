@@ -103,7 +103,7 @@ async function sendToGroupMembers(
   groupName: string,
   admins: Array<string>,
   encryptionKeyPair: ECKeyPair,
-  existingExprationType: DisappearAfterSendOnly,
+  existingExpirationType: DisappearAfterSendOnly,
   existingExpireTimer: number,
   isRetry: boolean = false
 ): Promise<any> {
@@ -113,7 +113,7 @@ async function sendToGroupMembers(
     groupName,
     admins,
     encryptionKeyPair,
-    existingExprationType,
+    existingExpirationType,
     existingExpireTimer
   );
   window?.log?.info(`Sending invites for group ${groupPublicKey} to ${listOfMembers}`);
@@ -169,7 +169,7 @@ async function sendToGroupMembers(
             groupName,
             admins,
             encryptionKeyPair,
-            existingExprationType,
+            existingExpirationType,
             existingExpireTimer,
             isRetrySend
           );
@@ -187,7 +187,7 @@ function createInvitePromises(
   groupName: string,
   admins: Array<string>,
   encryptionKeyPair: ECKeyPair,
-  existingExprationType: DisappearingMessageType,
+  existingExpirationType: DisappearingMessageType,
   existingExpireTimer: number
 ) {
   return listOfMembers.map(async m => {
@@ -198,7 +198,7 @@ function createInvitePromises(
       admins,
       keypair: encryptionKeyPair,
       timestamp: Date.now(),
-      expirationType: existingExprationType,
+      expirationType: existingExpirationType,
       expireTimer: existingExpireTimer,
     };
     const message = new ClosedGroupNewMessage(messageParams);

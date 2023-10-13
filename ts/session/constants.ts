@@ -3,7 +3,7 @@ const minutes = seconds * 60;
 const hours = minutes * 60;
 const days = hours * 24;
 
-/** in millisecond */
+/** in milliseconds */
 export const DURATION = {
   /** 1000ms */
   SECONDS: seconds,
