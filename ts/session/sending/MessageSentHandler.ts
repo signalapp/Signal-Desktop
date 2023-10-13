@@ -174,8 +174,6 @@ async function handleMessageSentFailure(
     );
   }
 
-  // We don't set the expirationStartTimestamp on a disappearing message here incase the user wishes to try and resend the message
-
   await fetchedMessage.commit();
   await fetchedMessage.getConversation()?.updateLastMessage();
 }

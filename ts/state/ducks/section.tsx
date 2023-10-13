@@ -1,3 +1,4 @@
+// TODOLATER move into redux slice
 import { SessionSettingCategory } from '../../components/settings/SessionSettings';
 
 export const FOCUS_SECTION = 'FOCUS_SECTION';
