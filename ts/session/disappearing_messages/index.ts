@@ -448,10 +448,11 @@ export function getMessageReadyToDisappear(
   }
 
   if (conversationModel.isPublic()) {
-    window.log.warn(
-      "getMessageReadyToDisappear() Disappearing messages aren't supported in communities"
+    throw Error(
+      `getMessageReadyToDisappear() Disappearing messages aren't supported in communities. Message id: ${messageModel.get(
+        'id'
+      )}`
     );
-    return messageModel;
   }
 
   const {
