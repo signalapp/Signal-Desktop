@@ -10,7 +10,6 @@ import {
   MessageModelPropsWithConvoProps,
   MessageModelPropsWithoutConvoProps,
   MessagePropsDetails,
-  PropsForExpiringMessage,
   PropsForQuote,
   QuoteLookupType,
   ReduxConversationType,
@@ -867,29 +866,6 @@ export const getMessageAttachmentProps = createSelector(getMessagePropsByMessage
       'sender',
       'convoId',
     ]),
-  };
-
-  return msgProps;
-});
-
-export const getMessageExpirationProps = createSelector(getMessagePropsByMessageId, (props):
-  | PropsForExpiringMessage
-  | undefined => {
-  if (!props || isEmpty(props)) {
-    return undefined;
-  }
-
-  const msgProps: PropsForExpiringMessage = {
-    ...pick(props.propsForMessage, [
-      'convoId',
-      'direction',
-      'receivedAt',
-      'isUnread',
-      'expirationTimestamp',
-      'expirationDurationMs',
-      'isExpired',
-    ]),
-    messageId: props.propsForMessage.id,
   };
 
   return msgProps;

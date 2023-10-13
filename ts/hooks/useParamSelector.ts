@@ -1,4 +1,5 @@
-import { compact, isEmpty, isFinite, isNumber } from 'lodash';
+import { createSelector } from '@reduxjs/toolkit';
+import { compact, isEmpty, isFinite, isNumber, pick } from 'lodash';
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import {
@@ -10,8 +11,12 @@ import { CONVERSATION } from '../session/constants';
 import { TimerOptions, TimerOptionsArray } from '../session/disappearing_messages/timerOptions';
 import { PubKey } from '../session/types';
 import { UserUtils } from '../session/utils';
+import { PropsForExpiringMessage } from '../state/ducks/conversations';
 import { StateType } from '../state/reducer';
-import { getMessageExpirationProps, getMessageReactsProps } from '../state/selectors/conversations';
+import {
+  getMessagePropsByMessageId,
+  getMessageReactsProps,
+} from '../state/selectors/conversations';
 import { isPrivateAndFriend } from '../state/selectors/selectedConversation';
 
 export function useAvatarPath(convoId: string | undefined) {
@@ -268,6 +273,29 @@ export function useMentionedUs(conversationId?: string): boolean {
 export function useIsTyping(conversationId?: string): boolean {
   return useConversationPropsById(conversationId)?.isTyping || false;
 }
+
+const getMessageExpirationProps = createSelector(getMessagePropsByMessageId, (props):
+  | PropsForExpiringMessage
+  | undefined => {
+  if (!props || isEmpty(props)) {
+    return undefined;
+  }
+
+  const msgProps: PropsForExpiringMessage = {
+    ...pick(props.propsForMessage, [
+      'convoId',
+      'direction',
+      'receivedAt',
+      'isUnread',
+      'expirationTimestamp',
+      'expirationDurationMs',
+      'isExpired',
+    ]),
+    messageId: props.propsForMessage.id,
+  };
+
+  return msgProps;
+});
 
 export function useMessageExpirationPropsById(messageId?: string) {
   return useSelector((state: StateType) => {
