@@ -13,6 +13,7 @@ import { getConversationController } from '../conversations';
 import { isValidUnixTimestamp } from '../utils/Timestamps';
 import {
   checkIsLegacyDisappearingDataMessage,
+  checkShouldDisappearButIsntMessage,
   couldBeLegacyDisappearingMessageContent,
 } from './legacy';
 import {
@@ -229,7 +230,7 @@ export function changeToDisappearingMessageType(
   expirationMode?: DisappearingMessageConversationModeType
 ): DisappearingMessageType {
   if (expirationMode === 'off' || expirationMode === 'legacy') {
-    // NOTE we would want this to be undefined but because of an issue with the protobuf implement we need to have a value
+    // NOTE we would want this to be undefined but because of an issue with the protobuf implementation we need to have a value
     return 'unknown';
   }
 
@@ -269,26 +270,6 @@ export function changeToDisappearingConversationMode(
   }
 
   return expirationType === 'deleteAfterSend' ? 'deleteAfterSend' : 'deleteAfterRead';
-}
-
-/**
- * Checks if a message is meant to disappear but doesn't have the correct expiration values set
- *
- * NOTE Examples: legacy disappearing message conversation settings, synced messages from legacy devices
- */
-function checkDisappearButIsntMessage(
-  content: SignalService.Content,
-  convo: ConversationModel,
-  expirationMode: DisappearingMessageConversationModeType,
-  expirationTimer: number
-): boolean {
-  return (
-    content.dataMessage?.flags !== SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE &&
-    expirationMode === 'off' &&
-    expirationTimer === 0 &&
-    convo.getExpirationMode() !== 'off' &&
-    convo.getExpireTimer() !== 0
-  );
 }
 
 // TODO legacy messages support will be removed in a future release
@@ -360,7 +341,7 @@ export async function checkForExpireUpdateInContentMessage(
     };
   }
 
-  const shouldDisappearButIsntMessage = checkDisappearButIsntMessage(
+  const shouldDisappearButIsntMessage = checkShouldDisappearButIsntMessage(
     content,
     convoToUpdate,
     expirationMode,
