@@ -919,7 +919,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
       const closedGroupVisibleMessage = new ClosedGroupVisibleMessage({
         identifier: this.id,
-        groupId: this.get('conversationId'),
+        groupId: PubKey.cast(this.get('conversationId')),
         timestamp,
         chatMessage,
       });

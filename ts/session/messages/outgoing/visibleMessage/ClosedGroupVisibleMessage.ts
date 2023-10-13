@@ -1,15 +1,14 @@
 import { SignalService } from '../../../../protobuf';
 import { PubKey } from '../../../types';
 import { StringUtils } from '../../../utils';
-import { VisibleMessage } from './VisibleMessage';
 import {
   ClosedGroupMessage,
   ClosedGroupMessageParams,
 } from '../controlMessage/group/ClosedGroupMessage';
+import { VisibleMessage } from './VisibleMessage';
 
 interface ClosedGroupVisibleMessageParams extends ClosedGroupMessageParams {
-  // TODO Refactor closed groups typings so groupId is PubKey only
-  // groupId: PubKey;
+  groupId: PubKey;
   chatMessage: VisibleMessage;
 }
 

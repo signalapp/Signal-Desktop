@@ -16,6 +16,7 @@ import { ExpirationTimerUpdateMessage } from '../../../session/messages/outgoing
 import { ClosedGroupVisibleMessage } from '../../../session/messages/outgoing/visibleMessage/ClosedGroupVisibleMessage';
 import { OpenGroupVisibleMessage } from '../../../session/messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
 import { VisibleMessage } from '../../../session/messages/outgoing/visibleMessage/VisibleMessage';
+import { PubKey } from '../../../session/types';
 import { OpenGroupReaction } from '../../../types/Reaction';
 import { generateFakePubKey } from './pubkey';
 
@@ -91,7 +92,7 @@ export function generateClosedGroupMessage(
 ): ClosedGroupVisibleMessage {
   return new ClosedGroupVisibleMessage({
     identifier: uuid(),
-    groupId: groupId ?? generateFakePubKey().key,
+    groupId: groupId ? PubKey.cast(groupId) : generateFakePubKey(),
     timestamp: timestamp || Date.now(),
     chatMessage: generateVisibleMessage(),
   });

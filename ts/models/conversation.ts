@@ -627,7 +627,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         const chatMessageMediumGroup = new VisibleMessage(chatMessageParams);
         const closedGroupVisibleMessage = new ClosedGroupVisibleMessage({
           chatMessage: chatMessageMediumGroup,
-          groupId: destination,
+          groupId: destinationPubkey,
           timestamp: sentAt,
         });
         // we need the return await so that errors are caught in the catch {}
@@ -1921,7 +1921,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         const chatMessageMediumGroup = new VisibleMessage(chatMessageParams);
         const closedGroupVisibleMessage = new ClosedGroupVisibleMessage({
           chatMessage: chatMessageMediumGroup,
-          groupId: destination,
+          groupId: destinationPubkey,
           timestamp: sentAt,
           expirationType: chatMessageParams.expirationType,
           expireTimer: chatMessageParams.expireTimer,
