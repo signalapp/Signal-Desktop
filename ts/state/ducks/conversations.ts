@@ -81,7 +81,7 @@ export type PropsForExpiringMessage = {
   receivedAt?: number;
   isUnread?: boolean;
   expirationTimestamp?: number | null;
-  expirationLength?: number | null;
+  expirationDurationMs?: number | null;
   isExpired?: boolean;
 };
 
@@ -202,7 +202,7 @@ export type PropsForMessageWithoutConvoProps = {
   isDeleted?: boolean;
   isUnread?: boolean;
   expirationType?: DisappearingMessageType;
-  expirationLength?: number;
+  expirationDurationMs?: number;
   expirationTimestamp?: number | null;
   isExpired?: boolean;
   isTrustedForAttachmentDownload?: boolean;

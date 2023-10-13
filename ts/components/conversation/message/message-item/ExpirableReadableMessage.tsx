@@ -22,7 +22,7 @@ function useIsExpired(
   const {
     convoId,
     messageId,
-    expirationLength,
+    expirationDurationMs,
     expirationTimestamp,
     isExpired: isExpiredProps,
   } = props;
@@ -34,7 +34,7 @@ function useIsExpired(
   const checkExpired = useCallback(async () => {
     const now = Date.now();
 
-    if (!messageId || !expirationTimestamp || !expirationLength) {
+    if (!messageId || !expirationTimestamp || !expirationDurationMs) {
       return;
     }
 
@@ -53,11 +53,11 @@ function useIsExpired(
         convo?.updateLastMessage();
       }
     }
-  }, [messageId, expirationTimestamp, expirationLength, isExpired, convoId, dispatch]);
+  }, [messageId, expirationTimestamp, expirationDurationMs, isExpired, convoId, dispatch]);
 
   let checkFrequency: number | null = null;
-  if (expirationLength) {
-    const increment = getIncrement(expirationLength || EXPIRATION_CHECK_MINIMUM);
+  if (expirationDurationMs) {
+    const increment = getIncrement(expirationDurationMs || EXPIRATION_CHECK_MINIMUM);
     checkFrequency = Math.max(EXPIRATION_CHECK_MINIMUM, increment);
   }
 
@@ -95,7 +95,7 @@ export const ExpirableReadableMessage = (props: ExpirableReadableMessageProps) =
     messageId: selected?.messageId,
     direction: selected?.direction,
     expirationTimestamp: selected?.expirationTimestamp,
-    expirationLength: selected?.expirationLength,
+    expirationDurationMs: selected?.expirationDurationMs,
     isExpired: selected?.isExpired,
   });
 
@@ -108,7 +108,7 @@ export const ExpirableReadableMessage = (props: ExpirableReadableMessageProps) =
     direction,
     receivedAt,
     isUnread,
-    expirationLength,
+    expirationDurationMs,
     expirationTimestamp,
   } = selected;
 
@@ -126,9 +126,9 @@ export const ExpirableReadableMessage = (props: ExpirableReadableMessageProps) =
       key={`readable-message-${messageId}`}
       dataTestId={dataTestId}
     >
-      {expirationLength && expirationTimestamp ? (
+      {expirationDurationMs && expirationTimestamp ? (
         <ExpireTimer
-          expirationLength={expirationLength}
+          expirationDurationMs={expirationDurationMs}
           expirationTimestamp={expirationTimestamp}
           style={{
             display: !isCentered && isIncoming ? 'none' : 'block',
@@ -138,9 +138,9 @@ export const ExpirableReadableMessage = (props: ExpirableReadableMessageProps) =
         />
       ) : null}
       {props.children}
-      {expirationLength && expirationTimestamp ? (
+      {expirationDurationMs && expirationTimestamp ? (
         <ExpireTimer
-          expirationLength={expirationLength}
+          expirationDurationMs={expirationDurationMs}
           expirationTimestamp={expirationTimestamp}
           style={{
             display: !isCentered && !isIncoming ? 'none' : 'block',

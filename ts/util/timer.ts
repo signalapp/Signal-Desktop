@@ -13,9 +13,9 @@ export function getIncrement(length: number): number {
   return Math.ceil(length / 12);
 }
 
-export function getTimerBucketIcon(expiration: number, length: number): SessionIconType {
+export function getTimerBucketIcon(expirationMs: number, length: number): SessionIconType {
   const now = Date.now();
-  const delta = expiration - now;
+  const delta = expirationMs - now;
 
   if (delta < 0) {
     return 'timer60';

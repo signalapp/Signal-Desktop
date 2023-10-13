@@ -16,13 +16,13 @@ const ExpireTimerBucket = styled.div`
 `;
 
 type Props = {
-  expirationLength: number; // should be in milliseconds
+  expirationDurationMs: number;
   expirationTimestamp: number | null;
   style: CSSProperties;
 };
 
 export const ExpireTimer = (props: Props) => {
-  const { expirationLength, expirationTimestamp, style } = props;
+  const { expirationDurationMs, expirationTimestamp, style } = props;
 
   const initialTimeLeft = Math.max(Math.round(((expirationTimestamp || 0) - Date.now()) / 1000), 0);
   const [timeLeft, setTimeLeft] = useState(initialTimeLeft);
@@ -39,13 +39,13 @@ export const ExpireTimer = (props: Props) => {
   const updateFrequency = 500;
   useInterval(update, updateFrequency);
 
-  if (!(expirationLength && expirationTimestamp)) {
+  if (!(expirationDurationMs && expirationTimestamp)) {
     return null;
   }
 
   const expireTimerColor = 'var(--primary-text-color)';
 
-  const bucket = getTimerBucketIcon(expirationTimestamp, expirationLength);
+  const bucket = getTimerBucketIcon(expirationTimestamp, expirationDurationMs);
 
   return (
     <ExpireTimerBucket style={style}>

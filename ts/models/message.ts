@@ -295,15 +295,15 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
   public getPropsForExpiringMessage(): PropsForExpiringMessage {
     const expirationType = this.getExpirationType();
-    const expirationLength = this.getExpireTimer()
+    const expirationDurationMs = this.getExpireTimer()
       ? this.getExpireTimer() * DURATION.SECONDS
       : null;
 
     const expireTimerStart = this.getExpirationStartTimestamp() || null;
 
     const expirationTimestamp =
-      expirationType && expireTimerStart && expirationLength
-        ? expireTimerStart + expirationLength
+      expirationType && expireTimerStart && expirationDurationMs
+        ? expireTimerStart + expirationDurationMs
         : null;
 
     const direction =
@@ -315,7 +315,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       convoId: this.get('conversationId'),
       messageId: this.get('id'),
       direction,
-      expirationLength,
+      expirationDurationMs,
       expirationTimestamp,
       isExpired: this.isExpired(),
     };
@@ -518,11 +518,11 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   public getPropsForMessage(): PropsForMessageWithoutConvoProps {
     const sender = this.getSource();
     const expirationType = this.getExpirationType();
-    const expirationLength = this.getExpireTimer() * DURATION.SECONDS;
+    const expirationDurationMs = this.getExpireTimer() * DURATION.SECONDS;
     const expireTimerStart = this.getExpirationStartTimestamp();
     const expirationTimestamp =
-      expirationType && expireTimerStart && expirationLength
-        ? expireTimerStart + expirationLength
+      expirationType && expireTimerStart && expirationDurationMs
+        ? expireTimerStart + expirationDurationMs
         : null;
 
     const attachments = this.get('attachments') || [];
@@ -557,8 +557,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     if (expirationType) {
       props.expirationType = expirationType;
     }
-    if (expirationLength) {
-      props.expirationLength = expirationLength;
+    if (expirationDurationMs) {
+      props.expirationDurationMs = expirationDurationMs;
     }
     if (expirationTimestamp) {
       props.expirationTimestamp = expirationTimestamp;
