@@ -468,7 +468,7 @@ export function getMessageReadyToDisappear(
     expireTimer,
   });
 
-  // This message is conversation setting change message
+  // This message is an ExpirationTimerUpdate
   if (lastDisappearingMessageChangeTimestamp || isLegacyConversationSettingMessage) {
     const expirationTimerUpdate = {
       expirationType,

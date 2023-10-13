@@ -6,6 +6,7 @@ import { Storage } from './storage';
 
 let isDisappearingMessageFeatureReleased: boolean | undefined;
 let isUserConfigLibsessionFeatureReleased: boolean | undefined;
+// TODO DO NOT MERGE Remove export after QA
 export type FeatureNameTracked = 'disappearing_messages' | 'user_config_libsession';
 
 /**
