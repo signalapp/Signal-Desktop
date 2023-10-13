@@ -105,8 +105,7 @@ declare global {
     setAutoUpdateEnabled: (enabled: boolean) => void;
     setZoomFactor: (newZoom: number) => void;
     updateZoomFactor: () => void;
-    // DO NOT MERGE
-    // TODO Remove before PR
+    // TODO DO NOT MERGE Remove after QA
     setIsFeatureReleased: (featureName: FeatureNameTracked, value: boolean) => Promise<void>;
 
     Signal: any;

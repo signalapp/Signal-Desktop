@@ -342,7 +342,6 @@ const buildSyncExpireTimerMessage = (
 ) => {
   const {
     expirationType,
-    // TODO rename expireTimer to expirationTimer
     expirationTimer: expireTimer,
     lastDisappearingMessageChangeTimestamp,
   } = expireUpdate;

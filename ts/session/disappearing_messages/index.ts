@@ -442,7 +442,6 @@ export function getMessageReadyToDisappear(
 
   const {
     expirationType,
-    // TODO renamed expireTimer to expirationTimer
     expirationTimer: expireTimer,
     lastDisappearingMessageChangeTimestamp,
     isLegacyConversationSettingMessage,

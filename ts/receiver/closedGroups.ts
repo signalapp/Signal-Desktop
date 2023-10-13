@@ -16,6 +16,7 @@ import { ConversationModel } from '../models/conversation';
 import { ConversationTypeEnum } from '../models/conversationAttributes';
 
 import { getSwarmPollingInstance } from '../session/apis/snode_api';
+import { GetNetworkTime } from '../session/apis/snode_api/getNetworkTime';
 import { SnodeNamespaces } from '../session/apis/snode_api/namespaces';
 import { ClosedGroupEncryptionPairReplyMessage } from '../session/messages/outgoing/controlMessage/group/ClosedGroupEncryptionPairReplyMessage';
 import { UserUtils } from '../session/utils';
@@ -27,7 +28,6 @@ import { ConfigWrapperObjectTypes } from '../webworker/workers/browser/libsessio
 import { getSettingsKeyFromLibsessionWrapper } from './configMessage';
 import { ECKeyPair, HexKeyPair } from './keypairs';
 import { queueAllCachedFromSource } from './receiver';
-import { GetNetworkTime } from '../session/apis/snode_api/getNetworkTime';
 
 export const distributingClosedGroupEncryptionKeyPairs = new Map<string, ECKeyPair>();
 
@@ -301,7 +301,6 @@ export async function handleNewClosedGroup(
     return;
   }
   const groupConvo = getConversationController().get(groupId);
-  // TODO Rename to expirationTimer
   const expireTimer = groupUpdate.expirationTimer;
 
   if (groupConvo) {

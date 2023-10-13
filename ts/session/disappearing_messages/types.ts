@@ -11,7 +11,7 @@ export const DisappearingMessageConversationModes = [
   // TODO legacy messages support will be removed in a future release
   'legacy',
 ] as const;
-export type DisappearingMessageConversationModeType = typeof DisappearingMessageConversationModes[number]; // TODO we should make this type a bit more hardcoded than being just resolved as a string
+export type DisappearingMessageConversationModeType = typeof DisappearingMessageConversationModes[number];
 
 // TODO legacy messages support will be removed in a future release
 // expirationType and lastDisappearingMessageChangeTimestamp will no longer have an undefined option

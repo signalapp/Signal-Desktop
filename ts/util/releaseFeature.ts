@@ -1,8 +1,8 @@
 import { GetNetworkTime } from '../session/apis/snode_api/getNetworkTime';
+import { FEATURE_RELEASE_TIMESTAMPS } from '../session/constants';
 import { ConfigurationSync } from '../session/utils/job_runners/jobs/ConfigurationSyncJob';
 import { assertUnreachable } from '../types/sqlSharedTypes';
 import { Storage } from './storage';
-import { FEATURE_RELEASE_TIMESTAMPS } from '../session/constants';
 
 let isDisappearingMessageFeatureReleased: boolean | undefined;
 let isUserConfigLibsessionFeatureReleased: boolean | undefined;
@@ -118,8 +118,7 @@ export const ReleasedFeatures = {
   isDisappearMessageV2FeatureReleasedCached,
 };
 
-// DO NOT MERGE
-// TODO Remove before PR
+// TODO DO NOT MERGE Remove after QA
 async function setIsFeatureReleased(featureName: FeatureNameTracked, value: boolean) {
   await Storage.put(featureStorageItemId(featureName), value);
   setIsFeatureReleasedCached(featureName, value);

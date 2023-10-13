@@ -3,8 +3,8 @@ import { pathExists } from 'fs-extra';
 
 import { isString } from 'lodash';
 
-import * as MIME from '../MIME';
 import * as GoogleChrome from '../../util/GoogleChrome';
+import * as MIME from '../MIME';
 import { toLogFormat } from './Errors';
 
 import {
@@ -14,13 +14,13 @@ import {
   writeNewAttachmentData,
 } from '../MessageAttachment';
 import {
+  THUMBNAIL_CONTENT_TYPE,
+  THUMBNAIL_SIDE,
   getImageDimensions,
   makeImageThumbnailBuffer,
   makeObjectUrl,
   makeVideoScreenshot,
   revokeObjectUrl,
-  THUMBNAIL_CONTENT_TYPE,
-  THUMBNAIL_SIDE,
 } from './VisualAttachment';
 
 // Returns true if `rawAttachment` is a valid attachment based on our current schema.
@@ -177,7 +177,6 @@ export const deleteData = async (attachment: {
     throw new TypeError('deleteData: attachment is not valid');
   }
 
-  // TODO verify this works correctly
   let { path, thumbnail, screenshot } = attachment;
 
   if (path && isString(path)) {

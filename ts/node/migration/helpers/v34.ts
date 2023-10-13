@@ -154,7 +154,6 @@ function updateContactInContactWrapper(
       priority,
       dbCreatedAtSeconds: Math.floor((contact.active_at || Date.now()) / 1000),
       expirationMode: contact.expirationMode || 'off',
-      // TODO rename expireTimer to expirationTimer
       expireTimer: contact.expireTimer || 0,
     });
 

@@ -63,7 +63,7 @@ export const NoMessageInConversation = () => {
   const isMe = useSelectedIsNoteToSelf();
   const canWrite = useSelector(getSelectedCanWrite);
   const privateBlindedAndBlockingMsgReqs = useSelectedHasDisabledBlindedMsgRequests();
-  // TODOLATER use this selector accross the whole application (left pane excluded)
+  // TODOLATER use this selector across the whole application (left pane excluded)
   const nameToRender = useSelectedNicknameOrProfileNameOrShortenedPubkey();
 
   if (!selectedConversation || hasMessage) {

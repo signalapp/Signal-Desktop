@@ -427,7 +427,6 @@ function saveConversation(data: ConversationAttributes): SaveConversationReturn 
     zombies,
     left,
     expirationMode,
-    // TODO rename expireTimer to expirationTimer
     expireTimer,
     lastDisappearingMessageChangeTimestamp,
     hasOutdatedClient,
