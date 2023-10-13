@@ -158,7 +158,7 @@ async function send(
         !isEmpty(batchResult[0].body.hash)
       ) {
         const messageSendHash = batchResult[0].body.hash;
-        let foundMessage = await Data.getMessageById(encryptedAndWrapped.identifier);
+        const foundMessage = await Data.getMessageById(encryptedAndWrapped.identifier);
         if (foundMessage) {
           await foundMessage.updateMessageHash(messageSendHash);
           const convo = foundMessage.getConversation();
@@ -185,7 +185,7 @@ async function send(
               canBeDeleteAfterRead &&
               (expirationMode === 'legacy' || expirationMode === 'deleteAfterRead')
             ) {
-              foundMessage = await updateMessageExpiryOnSwarm(foundMessage, 'send()');
+              await updateMessageExpiryOnSwarm(foundMessage, 'send()');
             }
           }
 
