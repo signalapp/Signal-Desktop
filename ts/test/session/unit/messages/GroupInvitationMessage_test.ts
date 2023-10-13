@@ -28,7 +28,7 @@ describe('GroupInvitationMessage', () => {
   });
 
   it('correct ttl', () => {
-    expect(message.ttl()).to.equal(Constants.TTL_DEFAULT.TTL_MAX);
+    expect(message.ttl()).to.equal(Constants.TTL_DEFAULT.CONTENT_MESSAGE);
   });
 
   it('has an identifier', () => {

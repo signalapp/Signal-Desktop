@@ -1,12 +1,12 @@
 import { expect } from 'chai';
 
 import { SignalService } from '../../../../../protobuf';
-import { TestUtils } from '../../../../test-utils';
-import { StringUtils } from '../../../../../session/utils';
-import { PubKey } from '../../../../../session/types';
 import { Constants } from '../../../../../session';
 import { ClosedGroupVisibleMessage } from '../../../../../session/messages/outgoing/visibleMessage/ClosedGroupVisibleMessage';
 import { VisibleMessage } from '../../../../../session/messages/outgoing/visibleMessage/VisibleMessage';
+import { PubKey } from '../../../../../session/types';
+import { StringUtils } from '../../../../../session/utils';
+import { TestUtils } from '../../../../test-utils';
 
 describe('ClosedGroupVisibleMessage', () => {
   let groupId: PubKey;
@@ -54,7 +54,7 @@ describe('ClosedGroupVisibleMessage', () => {
       timestamp,
       chatMessage,
     });
-    expect(message.ttl()).to.equal(Constants.TTL_DEFAULT.TTL_MAX);
+    expect(message.ttl()).to.equal(Constants.TTL_DEFAULT.CONTENT_MESSAGE);
   });
 
   it('has an identifier', () => {

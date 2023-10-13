@@ -57,11 +57,11 @@ export class ExpirableMessage extends ContentMessage {
   public ttl(): number {
     switch (this.expirationType) {
       case 'deleteAfterSend':
-        return this.expireTimer ? this.expireTimer * DURATION.SECONDS : TTL_DEFAULT.TTL_MAX;
+        return this.expireTimer ? this.expireTimer * DURATION.SECONDS : TTL_DEFAULT.CONTENT_MESSAGE;
       case 'deleteAfterRead':
-        return TTL_DEFAULT.TTL_MAX;
+        return TTL_DEFAULT.CONTENT_MESSAGE;
       default:
-        return TTL_DEFAULT.TTL_MAX;
+        return TTL_DEFAULT.CONTENT_MESSAGE;
     }
   }
 }

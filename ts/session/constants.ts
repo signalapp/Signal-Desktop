@@ -21,7 +21,7 @@ export const TTL_DEFAULT = {
   /** 5 minutes */
   CALL_MESSAGE: 5 * 60 * DURATION.SECONDS,
   /** 14 days */
-  TTL_MAX: 14 * DURATION.DAYS,
+  CONTENT_MESSAGE: 14 * DURATION.DAYS,
   /** 30 days */
   CONFIG_MESSAGE: 30 * DURATION.DAYS,
 };
