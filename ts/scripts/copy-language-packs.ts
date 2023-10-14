@@ -32,9 +32,10 @@ export async function afterPack({
     );
   } else if (
     electronPlatformName === 'linux' ||
-    electronPlatformName === 'win32'
+    electronPlatformName === 'win32' ||
+    electronPlatformName === 'freebsd'
   ) {
-    // Shared between windows and linux
+    // Shared between windows, linux and freebsd
     // en-US.pak
     // zh-CN.pak
     defaultLocale = 'en-US.pak';

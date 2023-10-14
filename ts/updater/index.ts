@@ -72,6 +72,6 @@ export async function force(): Promise<void> {
 
 function autoUpdateDisabled() {
   return (
-    process.platform === 'linux' || process.mas || !config.get('updatesEnabled')
+    process.platform === 'linux' || process.platform === 'freebsd' || process.mas || !config.get('updatesEnabled')
   );
 }

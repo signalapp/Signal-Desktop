@@ -9,6 +9,7 @@ const PLATFORM_STRINGS: { [platform: string]: string } = {
   win32: 'Windows',
   darwin: 'macOS',
   linux: 'Linux',
+  freebsd: 'FreeBSD',
 };
 
 export function getUserAgent(

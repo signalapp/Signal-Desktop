@@ -32,6 +32,7 @@ export function getOSFunctions(osRelease: string): OSType {
   const isMacOS = createIsPlatform('darwin', osRelease);
   const isLinux = createIsPlatform('linux', osRelease);
   const isWindows = createIsPlatform('win32', osRelease);
+  const isFreeBSD = createIsPlatform('freebsd', osRelease);
 
   // Windows 10 and above
   const hasCustomTitleBar = (): boolean =>
@@ -44,6 +45,9 @@ export function getOSFunctions(osRelease: string): OSType {
     if (isWindows()) {
       return 'Windows';
     }
+    if (isFreeBSD()) {
+      return 'FreeBSD';
+    }
     return 'Linux';
   };
 
@@ -53,6 +57,9 @@ export function getOSFunctions(osRelease: string): OSType {
     }
     if (isWindows()) {
       return 'os-windows';
+    }
+    if (isFreeBSD()) {
+      return 'os-freebsd';
     }
     return 'os-linux';
   };
@@ -64,5 +71,6 @@ export function getOSFunctions(osRelease: string): OSType {
     isLinux,
     isMacOS,
     isWindows,
+    isFreeBSD,
   };
 }
