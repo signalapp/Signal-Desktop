@@ -4,12 +4,12 @@ import pRetry from 'p-retry';
 import { Snode } from '../../../data/data';
 import { UserUtils } from '../../utils';
 import { EmptySwarmError } from '../../utils/errors';
+import { SeedNodeAPI } from '../seed_node_api';
 import { GetExpiriesFromNodeSubRequest } from './SnodeRequestTypes';
 import { doSnodeBatchRequest } from './batchRequest';
 import { getSwarmFor } from './snodePool';
 import { SnodeSignature } from './snodeSignatures';
 import { GetExpiriesResultsContent } from './types';
-import { SeedNodeAPI } from '../seed_node_api';
 
 export type GetExpiriesRequestResponseResults = Record<string, number>;
 
@@ -25,18 +25,15 @@ export async function processGetExpiriesRequestResponse(
   }
 
   const results: GetExpiriesRequestResponseResults = {};
-  // window.log.debug(
-  //   `WIP: [processGetExpiriesRequestResponse] initial results:\nexpiries:${JSON.stringify(
-  //     expiries
-  //   )}`
-  // );
 
   for (const messageHash of Object.keys(expiries)) {
     if (!expiries[messageHash]) {
       window.log.warn(
-        `WIP: [processGetExpiriesRequestResponse] Expiries result failure on ${
+        `[processGetExpiriesRequestResponse] Expiries result failure on ${
           targetNode.pubkey_ed25519
-        } for messageHash ${messageHash}\n${JSON.stringify(expiries[messageHash])}`
+        } for messageHash ${messageHash}\n${JSON.stringify(
+          expiries[messageHash]
+        )} moving to the next node`
       );
       continue;
     }
@@ -45,9 +42,9 @@ export async function processGetExpiriesRequestResponse(
 
     if (!expiryMs) {
       window.log.warn(
-        `WIP: [processGetExpiriesRequestResponse] Missing expiry value on ${
+        `[processGetExpiriesRequestResponse] Missing expiry value on ${
           targetNode.pubkey_ed25519
-        } so we will ignore this result (${messageHash}) and trust in the force.\n${JSON.stringify(
+        } so we will ignore this result (${messageHash}) and move onto the next node.\n${JSON.stringify(
           expiries[messageHash]
         )}`
       );
@@ -101,21 +98,8 @@ async function getExpiriesFromNodes(
     }
 
     const expiryTimestamps: Array<number> = Object.values(expirationResults);
-
-    window.log.debug(
-      `WIP: [getExpiriesFromNodes] Success!\nHere are the results.\nexpirationResults: ${Object.entries(
-        expirationResults
-      )}`
-    );
-
     return expiryTimestamps;
   } catch (err) {
-    window?.log?.warn(
-      'WIP: [getExpiriesFromNodes] - send error:',
-      err.message || err,
-      `destination ${targetNode.ip}:${targetNode.port}`
-    );
-
     // NOTE batch requests have their own retry logic which includes abort errors that will break our retry logic so we need to catch them and throw regular errors
     if (err instanceof pRetry.AbortError) {
       throw Error(err.message);
@@ -137,7 +121,7 @@ export async function buildGetExpiriesRequest(
 
   const ourPubKey = UserUtils.getOurPubKeyStrFromCache();
   if (!ourPubKey) {
-    window.log.error('WIP: [buildGetExpiriesRequest] No pubkey found', messageHashes);
+    window.log.error('[buildGetExpiriesRequest] No pubkey found', messageHashes);
     return null;
   }
 
@@ -148,7 +132,7 @@ export async function buildGetExpiriesRequest(
 
   if (!signResult) {
     window.log.error(
-      `WIP: [buildGetExpiriesRequest] SnodeSignature.generateUpdateExpirySignature returned an empty result ${messageHashes}`
+      `[buildGetExpiriesRequest] SnodeSignature.generateUpdateExpirySignature returned an empty result ${messageHashes}`
     );
     return null;
   }
@@ -163,10 +147,6 @@ export async function buildGetExpiriesRequest(
       signature: signResult?.signature,
     },
   };
-
-  window.log.debug(
-    `WIP: [buildGetExpiriesRequest] getExpiriesParams: ${JSON.stringify(getExpiriesParams)}`
-  );
 
   return getExpiriesParams;
 }
@@ -191,7 +171,7 @@ export async function getExpiriesFromSnode(
 
   const ourPubKey = UserUtils.getOurPubKeyStrFromCache();
   if (!ourPubKey) {
-    window.log.error('WIP: [getExpiriesFromSnode] No pubkey found', messageHashes);
+    window.log.error('[getExpiriesFromSnode] No pubkey found', messageHashes);
     return [];
   }
 
@@ -220,7 +200,7 @@ export async function getExpiriesFromSnode(
         minTimeout: SeedNodeAPI.getMinTimeout(),
         onFailedAttempt: e => {
           window?.log?.warn(
-            `WIP: [getExpiriesFromSnode] get expiries from snode attempt #${e.attemptNumber} failed. ${e.retriesLeft} retries left... Error: ${e.message}`
+            `[getExpiriesFromSnode] get expiries from snode attempt #${e.attemptNumber} failed. ${e.retriesLeft} retries left... Error: ${e.message}`
           );
         },
       }
@@ -230,7 +210,7 @@ export async function getExpiriesFromSnode(
   } catch (e) {
     const snodeStr = snode ? `${snode.ip}:${snode.port}` : 'null';
     window?.log?.warn(
-      `WIP: [getExpiriesFromSnode] ${e.code ? `${e.code} ` : ''}${e.message ||
+      `[getExpiriesFromSnode] ${e.code ? `${e.code} ` : ''}${e.message ||
         e} by ${ourPubKey} for ${messageHashes} via snode:${snodeStr}`
     );
     throw e;

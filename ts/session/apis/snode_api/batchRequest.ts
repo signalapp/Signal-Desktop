@@ -21,11 +21,6 @@ export async function doSnodeBatchRequest(
   associatedWith: string | null,
   method: 'batch' | 'sequence' = 'batch'
 ): Promise<NotEmptyArrayOfBatchResults> {
-  // window.log.debug(
-  //   `WIP: [doSnodeBatchRequest] "${method}":`,
-  //   subRequests.map(m => m.method),
-  //   subRequests
-  // );
   const result = await snodeRpc({
     method,
     params: { requests: subRequests },

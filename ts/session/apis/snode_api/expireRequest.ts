@@ -6,13 +6,13 @@ import { getSodiumRenderer } from '../../crypto';
 import { StringUtils, UserUtils } from '../../utils';
 import { fromBase64ToArray, fromHexToArray } from '../../utils/String';
 import { EmptySwarmError } from '../../utils/errors';
+import { SeedNodeAPI } from '../seed_node_api';
 import { UpdateExpiryOnNodeSubRequest } from './SnodeRequestTypes';
 import { doSnodeBatchRequest } from './batchRequest';
 import { GetNetworkTime } from './getNetworkTime';
 import { getSwarmFor } from './snodePool';
 import { SnodeSignature } from './snodeSignatures';
 import { ExpireMessageResultItem, ExpireMessagesResultsContent } from './types';
-import { SeedNodeAPI } from '../seed_node_api';
 
 export type verifyExpireMsgsResponseSignatureProps = ExpireMessageResultItem & {
   pubkey: string;
@@ -30,8 +30,8 @@ export async function verifyExpireMsgsResponseSignature({
   unchanged,
 }: verifyExpireMsgsResponseSignatureProps): Promise<boolean> {
   if (!expiry || isEmpty(messageHashes) || isEmpty(signature)) {
-    window.log.warn(
-      `WIP: [verifyExpireMsgsSignature] missing argument\nexpiry:${expiry}\nmessageHashes:${messageHashes}\nsignature:${signature}`
+    window.log.error(
+      `[verifyExpireMsgsSignature] missing argument\nexpiry:${expiry}\nmessageHashes:${messageHashes}\nsignature:${signature}`
     );
     return false;
   }
@@ -50,7 +50,6 @@ export async function verifyExpireMsgsResponseSignature({
 
   const verificationString = `${pubkey}${expiry}${hashes.join('')}`;
   const verificationData = StringUtils.encode(verificationString, 'utf8');
-  // window.log.debug('WIP: [verifyExpireMsgsSignature] verificationString', verificationString);
 
   const sodium = await getSodiumRenderer();
   try {
@@ -62,7 +61,7 @@ export async function verifyExpireMsgsResponseSignature({
 
     return isValid;
   } catch (e) {
-    window.log.warn('WIP: [verifyExpireMsgsSignature] failed with: ', e.message);
+    window.log.error('[verifyExpireMsgsSignature] operation failed with: ', e.message);
     return false;
   }
 }
@@ -83,14 +82,13 @@ export async function processExpireRequestResponse(
   }
 
   const results: ExpireRequestResponseResults = {};
-  // window.log.debug(`WIP: [processExpireRequestResponse] initial results: `, swarm, messageHashes);
 
   for (const nodeKey of Object.keys(swarm)) {
     if (!isEmpty(swarm[nodeKey].failed)) {
       window.log.warn(
-        `WIP: [processExpireRequestResponse] Swarm result failure on ${
+        `[processExpireRequestResponse] Swarm result failure on ${
           targetNode.pubkey_ed25519
-        } for nodeKey ${nodeKey}\n${JSON.stringify(swarm[nodeKey])}`
+        } for nodeKey ${nodeKey}\n${JSON.stringify(swarm[nodeKey])} moving to next node`
       );
       continue;
     }
@@ -102,9 +100,9 @@ export async function processExpireRequestResponse(
 
     if (!updatedHashes || !expiry || !signature) {
       window.log.warn(
-        `WIP: [processExpireRequestResponse] Missing arguments on ${
+        `[processExpireRequestResponse] Missing arguments on ${
           targetNode.pubkey_ed25519
-        } so we will ignore this result (${nodeKey}) and trust in the force.\n${JSON.stringify(
+        } so we will ignore this result on (${nodeKey}) and move onto the next node.\n${JSON.stringify(
           swarm[nodeKey]
         )}`
       );
@@ -123,10 +121,10 @@ export async function processExpireRequestResponse(
     });
 
     if (!isValid) {
-      window.log.warn(
-        `WIP: [processExpireRequestResponse] Signature verification failed on ${
+      window.log.error(
+        `[processExpireRequestResponse] Signature verification failed on ${
           targetNode.pubkey_ed25519
-        }!\n${JSON.stringify(messageHashes)}`
+        }\n${JSON.stringify(messageHashes)}`
       );
       continue;
     }
@@ -188,19 +186,8 @@ async function expireOnNodes(
       );
     }
 
-    // window.log.debug(
-    //   `WIP: [expireOnNodes] Success!\nHere are the results from one of the snodes.\nmessageHash: ${messageHash} \nexpiry: ${expiry} \nexpires at: ${new Date(
-    //     expiry
-    //   ).toUTCString()}\nnow: ${new Date(GetNetworkTime.getNowWithNetworkOffset()).toUTCString()}`
-    // );
-
     return expiry;
   } catch (err) {
-    window?.log?.warn(
-      'WIP: [expireOnNodes]',
-      err.message || err,
-      `destination ${targetNode.ip}:${targetNode.port}`
-    );
     // NOTE batch requests have their own retry logic which includes abort errors that will break our retry logic so we need to catch them and throw regular errors
     if (err instanceof pRetry.AbortError) {
       throw Error(err.message);
@@ -224,7 +211,7 @@ export async function buildExpireRequest(
 
   if (extend && shorten) {
     window.log.error(
-      'WIP: [buildExpireRequest] We cannot extend and shorten a message at the same time',
+      '[buildExpireRequest] We cannot extend and shorten a message at the same time',
       messageHash
     );
     return null;
@@ -235,16 +222,11 @@ export async function buildExpireRequest(
 
   const ourPubKey = UserUtils.getOurPubKeyStrFromCache();
   if (!ourPubKey) {
-    window.log.error('WIP: [buildExpireRequest] No pubkey found', messageHash);
+    window.log.error('[buildExpireRequest] No pubkey found', messageHash);
     return null;
   }
 
   const expiry = GetNetworkTime.getNowWithNetworkOffset() + expireTimer;
-  // window.log.debug(
-  //   `WIP: [buildExpireRequest]\nmessageHash: ${messageHash} should expire at ${new Date(
-  //     expiry
-  //   ).toUTCString()}`
-  // );
   const signResult = await SnodeSignature.generateUpdateExpirySignature({
     shortenOrExtend,
     timestamp: expiry,
@@ -253,7 +235,7 @@ export async function buildExpireRequest(
 
   if (!signResult) {
     window.log.error(
-      `WIP: [buildExpireRequest] SnodeSignature.generateUpdateExpirySignature returned an empty result ${messageHash}`
+      `[buildExpireRequest] SnodeSignature.generateUpdateExpirySignature returned an empty result ${messageHash}`
     );
     return null;
   }
@@ -270,8 +252,6 @@ export async function buildExpireRequest(
       signature: signResult?.signature,
     },
   };
-
-  // window.log.debug(`WIP: [buildExpireRequest] ${messageHash}\n${JSON.stringify(expireParams)}`);
 
   return expireParams;
 }
@@ -293,7 +273,7 @@ export async function expireMessageOnSnode(
 
   const ourPubKey = UserUtils.getOurPubKeyStrFromCache();
   if (!ourPubKey) {
-    window.log.error('WIP: [expireMessageOnSnode] No pubkey found', messageHash);
+    window.log.error('[expireMessageOnSnode] No pubkey found', messageHash);
     return null;
   }
 
@@ -321,7 +301,7 @@ export async function expireMessageOnSnode(
         minTimeout: SeedNodeAPI.getMinTimeout(),
         onFailedAttempt: e => {
           window?.log?.warn(
-            `WIP: [expireMessageOnSnode] expire message on snode attempt #${e.attemptNumber} failed. ${e.retriesLeft} retries left... Error: ${e.message}`
+            `[expireMessageOnSnode] expire message on snode attempt #${e.attemptNumber} failed. ${e.retriesLeft} retries left... Error: ${e.message}`
           );
         },
       }
@@ -331,7 +311,7 @@ export async function expireMessageOnSnode(
   } catch (e) {
     const snodeStr = snode ? `${snode.ip}:${snode.port}` : 'null';
     window?.log?.warn(
-      `WIP: [expireMessageOnSnode] ${e.code ? `${e.code} ` : ''}${e.message ||
+      `[expireMessageOnSnode] ${e.code ? `${e.code} ` : ''}${e.message ||
         e} by ${ourPubKey} for ${messageHash} via snode:${snodeStr}`
     );
     throw e;

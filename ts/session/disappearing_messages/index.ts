@@ -150,63 +150,63 @@ export const updateExpiringMessagesCheck = () => {
 export function setExpirationStartTimestamp(
   mode: DisappearingMessageConversationModeType,
   timestamp?: number,
-  callLocation?: string // this is for debugging purposes
+  // these are for debugging purposes
+  callLocation?: string,
+  messageId?: string
 ): number | undefined {
   let expirationStartTimestamp: number | undefined = GetNetworkTime.getNowWithNetworkOffset();
 
   if (callLocation) {
-    window.log.debug(`WIP: [setExpirationStartTimestamp] called from: ${callLocation} `);
+    // window.log.debug(`[setExpirationStartTimestamp] called from: ${callLocation} ${messageId ?  `messageId: ${messageId} ` : ''}`);
   }
 
   // TODO legacy messages support will be removed in a future release
   if (timestamp) {
     if (!isValidUnixTimestamp(timestamp)) {
       window.log.debug(
-        `WIP: [setExpirationStartTimestamp] We compared 2 timestamps for a disappearing message (${mode}) and the argument timestamp is invalid`
+        `[setExpirationStartTimestamp] We compared 2 timestamps for a disappearing message (${mode}) and the argument timestamp is not a invalid unix timestamp.${
+          messageId ? `messageId: ${messageId} ` : ''
+        }`
       );
       return undefined;
     }
-    window.log.debug(
-      `WIP: [setExpirationStartTimestamp] We compare 2 timestamps for a disappearing message (${mode}):\nexpirationStartTimestamp `,
-      new Date(expirationStartTimestamp).toLocaleTimeString(),
-      '\ntimestamp ',
-      new Date(timestamp).toLocaleTimeString()
-    );
     expirationStartTimestamp = Math.min(expirationStartTimestamp, timestamp);
   }
 
   switch (mode) {
     case 'deleteAfterRead':
-      window.log.debug(
-        `WIP: [setExpirationStartTimestamp] We set the start timestamp for a delete after read message to ${new Date(
-          expirationStartTimestamp
-        ).toLocaleTimeString()}`
-      );
+      // window.log.debug(
+      //   `[setExpirationStartTimestamp] We set the start timestamp for a delete after read message to ${new Date(
+      //     expirationStartTimestamp
+      //   ).toLocaleTimeString()}${messageId ?  `messageId: ${messageId} ` : ''}`
+      // );
       break;
     case 'deleteAfterSend':
-      window.log.debug(
-        `WIP: [setExpirationStartTimestamp] We set the start timestamp for a delete after send message to ${new Date(
-          expirationStartTimestamp
-        ).toLocaleTimeString()}`
-      );
+      // window.log.debug(
+      //   `[setExpirationStartTimestamp] We set the start timestamp for a delete after send message to ${new Date(
+      //     expirationStartTimestamp
+      //   ).toLocaleTimeString()}${messageId ?  `messageId: ${messageId} ` : ''}`
+      // );
       break;
     // TODO legacy messages support will be removed in a future release
     case 'legacy':
-      window.log.debug(
-        `WIP: [setExpirationStartTimestamp] We set the start timestamp for a legacy message to ${new Date(
-          expirationStartTimestamp
-        ).toLocaleTimeString()}`
-      );
+      // window.log.debug(
+      //   `[setExpirationStartTimestamp] We set the start timestamp for a legacy message to ${new Date(
+      //     expirationStartTimestamp
+      //   ).toLocaleTimeString()} ${messageId ?  `messageId: ${messageId} ` : ''}`
+      // );
       break;
     case 'off':
-      window.log.debug(
-        'WIP: [setExpirationStartTimestamp] Disappearing message mode has been turned off. We can safely ignore this.'
-      );
+      // window.log.debug(
+      //   `[setExpirationStartTimestamp] Disappearing message mode has been turned off. We can safely ignore this. ${messageId ?  `messageId: ${messageId} ` : ''}`
+      // );
       expirationStartTimestamp = undefined;
       break;
     default:
       window.log.debug(
-        `WIP: [setExpirationStartTimestamp] Invalid disappearing message mode "${mode}" set. Ignoring`
+        `[setExpirationStartTimestamp] Invalid disappearing message mode "${mode}" set. Ignoring.${
+          messageId ? `messageId: ${messageId} ` : ''
+        }`
       );
       expirationStartTimestamp = undefined;
   }
@@ -320,12 +320,14 @@ export async function checkForExpireUpdateInContentMessage(
         convoToUpdate.getLastDisappearingMessageChangeTimestamp() >=
           lastDisappearingMessageChangeTimestamp))
   ) {
-    window.log.info(
-      `WIP: checkForExpireUpdateInContentMessage() This is an outdated ${
+    window.log.debug(
+      `[checkForExpireUpdateInContentMessage] This is an outdated ${
         isOutgoing ? 'outgoing' : 'incoming'
-      } disappearing message setting. So we will ignore it.\nconvoToUpdate.getLastDisappearingMessageChangeTimestamp(): ${convoToUpdate.get(
+      } disappearing message setting for ${convoToUpdate.get(
+        'id'
+      )}. So we will ignore it. Current lastDisappearingMessageChangeTimestamp: ${convoToUpdate.get(
         'lastDisappearingMessageChangeTimestamp'
-      )}\nlastDisappearingMessageChangeTimestamp: ${lastDisappearingMessageChangeTimestamp}\n\ncontent: ${JSON.stringify(
+      )} New lastDisappearingMessageChangeTimestamp: ${lastDisappearingMessageChangeTimestamp}\n\ncontent: ${JSON.stringify(
         content
       )}`
     );
@@ -370,9 +372,11 @@ export async function checkForExpireUpdateInContentMessage(
       expirationTimer !== convoToUpdate.getExpireTimer()
     ) {
       window.log.debug(
-        `WIP: Received a legacy disappearing message before v2 was released without values set. Using the conversation settings.\ncontent: ${JSON.stringify(
+        `[checkForExpireUpdateInContentMessage] Received a legacy disappearing message before v2 was released for ${convoToUpdate.get(
+          'id'
+        )}. Overriding it with the conversation disappearing settings.\ncontent: ${JSON.stringify(
           content
-        )}\n\nconvoToUpdate: ${JSON.stringify(convoToUpdate)}`
+        )}`
       );
 
       expireUpdate.expirationTimer = convoToUpdate.getExpireTimer();
@@ -391,9 +395,9 @@ export async function checkForExpireUpdateInContentMessage(
     (isLegacyDataMessage || isLegacyConversationSettingMessage || shouldDisappearButIsntMessage)
   ) {
     window.log.debug(
-      `WIP: Received a legacy disappearing message after v2 was released. Overriding it with the conversation settings\ncontent: ${JSON.stringify(
-        content
-      )}\n\nconvoToUpdate: ${JSON.stringify(convoToUpdate)}`
+      `[checkForExpireUpdateInContentMessage] Received a legacy disappearing message after v2 was released for ${convoToUpdate.get(
+        'id'
+      )}. Overriding it with the conversation settings\ncontent: ${JSON.stringify(content)}`
     );
 
     expireUpdate.expirationTimer = convoToUpdate.getExpireTimer();
@@ -443,7 +447,9 @@ export function getMessageReadyToDisappear(
   expireUpdate?: DisappearingMessageUpdate
 ) {
   if (!expireUpdate) {
-    window.log.debug(`WIP: called getMessageReadyToDisappear() without an expireUpdate`);
+    // window.log.debug(
+    //   `[getMessageReadyToDisappear] called getMessageReadyToDisappear() without an expireUpdate`
+    // );
     return messageModel;
   }
 
@@ -533,12 +539,12 @@ export async function updateMessageExpiryOnSwarm(
   shouldCommit?: boolean
 ) {
   if (callLocation) {
-    window.log.debug(`WIP: [updateMessageExpiryOnSwarm] called from: ${callLocation} `);
+    // window.log.debug(`[updateMessageExpiryOnSwarm] called from: ${callLocation} `);
   }
 
   if (!message.getExpirationType() || !message.getExpireTimer()) {
     window.log.debug(
-      `WIP: [updateMessageExpiryOnSwarm] Message ${message.get(
+      `[updateMessageExpiryOnSwarm] Message ${message.get(
         'messageHash'
       )} has no expirationType or expireTimer set. Ignoring`
     );
@@ -548,12 +554,10 @@ export async function updateMessageExpiryOnSwarm(
   const messageHash = message.get('messageHash');
   if (!messageHash) {
     window.log.debug(
-      `WIP: [updateMessageExpiryOnSwarm] Missing messageHash message: ${JSON.stringify(message)}`
+      `[updateMessageExpiryOnSwarm] Missing messageHash messageId: ${message.get('id')}`
     );
     return message;
   }
-
-  // window.log.debug(`WIP: [updateMessageExpiryOnSwarm]\nmessage: ${JSON.stringify(message)}`);
 
   const newTTL = await expireMessageOnSnode({
     messageHash,
@@ -567,18 +571,12 @@ export async function updateMessageExpiryOnSwarm(
       expires_at: newTTL,
     });
 
-    window.log.debug(
-      `WIP: [updateMessageExpiryOnSwarm] messageHash ${messageHash} has a new TTL of ${newTTL} which expires at ${new Date(
-        newTTL
-      ).toUTCString()}`
-    );
-
     if (shouldCommit) {
       await message.commit();
     }
   } else {
-    window.log.warn(
-      `WIP: [updateMessageExpiryOnSwarm]\nmessageHash ${messageHash} has no new TTL.${
+    window.log.debug(
+      `[updateMessageExpiryOnSwarm]\nmessageHash ${messageHash} has no new TTL.${
         expiresAt
           ? `\nKeeping the old one ${expiresAt}which expires at ${new Date(
               expiresAt

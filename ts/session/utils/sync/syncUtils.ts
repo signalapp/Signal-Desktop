@@ -392,7 +392,6 @@ export const buildSyncMessage = (
     expireUpdate.lastDisappearingMessageChangeTimestamp
   ) {
     if (expireUpdate.isOutdated) {
-      window.log.debug(`WIP: buildSyncMessage:  \nexpireUpdate is outdated`);
       return null;
     }
 
@@ -403,9 +402,6 @@ export const buildSyncMessage = (
       syncTarget
     );
 
-    // window.log.warn(
-    //   `WIP: buildSyncMessage:  \nexpireTimerSyncMessage: ${JSON.stringify(expireTimerSyncMessage)}`
-    // );
     return expireTimerSyncMessage;
   }
 
@@ -415,8 +411,5 @@ export const buildSyncMessage = (
     timestamp,
     syncTarget
   );
-  // window.log.warn(
-  //   `WIP: buildSyncMessage:  \nvisibleSyncMessage: ${JSON.stringify(visibleSyncMessage)}`
-  // );
   return visibleSyncMessage;
 };

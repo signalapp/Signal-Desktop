@@ -852,9 +852,9 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       lastDisappearingMessageChangeTimestamp &&
       this.getLastDisappearingMessageChangeTimestamp() >= lastDisappearingMessageChangeTimestamp
     ) {
-      window.log.info(
-        'WIP: updateExpireTimer() This is an outdated disappearing message setting',
-        `fromSync: ${fromSync}`
+      window.log.debug(
+        '[updateExpireTimer] This is an outdated disappearing message setting',
+        `fromSync: ${fromSync}${existingMessage ? ` messageId: ${existingMessage.get('id')}` : ''}`
       );
       return false;
     }
@@ -863,10 +863,12 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       isEqual(expirationMode, this.getExpirationMode()) &&
       isEqual(expireTimer, this.getExpireTimer())
     ) {
-      window.log.info(
-        `WIP: conversation: updateExpireTimer()  Ignoring ExpireTimerUpdate ${
+      window.log.debug(
+        `[updateExpireTimer]  Ignoring ExpireTimerUpdate ${
           fromSync ? 'config/sync ' : ''
-        }message as we already have the same one set.`
+        }message as we already have the same one set.${
+          existingMessage ? ` messageId: ${existingMessage.get('id')}` : ''
+        }`
       );
       return false;
     }
@@ -882,17 +884,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       expireTimer,
       lastDisappearingMessageChangeTimestamp,
     });
-
-    window?.log?.debug(
-      'WIP: updateExpireTimer() Updating conversation disappearing messages setting',
-      {
-        id: this.idForLogging(),
-        expirationMode,
-        expireTimer,
-        lastDisappearingMessageChangeTimestamp,
-        source,
-      }
-    );
 
     let message: MessageModel | undefined = existingMessage || undefined;
     const expirationType = changeToDisappearingMessageType(this, expireTimer, expirationMode);
@@ -940,7 +931,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     // if change was made remotely, don't send it to the contact/group
     if (receivedAt || fromSync) {
       window.log.debug(
-        `WIP: updateExpireTimer() We dont send an ExpireTimerUpdate because this was a remote change receivedAt: ${receivedAt} fromSync: ${fromSync}`
+        `[updateExpireTimer] We dont send an ExpireTimerUpdate because this was a remote change receivedAt: ${receivedAt} fromSync: ${fromSync} for ${this.id}`
       );
       if (!message.getExpirationStartTimestamp()) {
         const canBeDeleteAfterSend = this.isMe() || this.isGroup();
@@ -952,7 +943,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
             expirationStartTimestamp: setExpirationStartTimestamp(
               expirationMode,
               message.get('sent_at'),
-              'updateExpireTimer() remote change'
+              'updateExpireTimer() remote change',
+              message.get('id')
             ),
           });
           if (shouldCommitMessage) {

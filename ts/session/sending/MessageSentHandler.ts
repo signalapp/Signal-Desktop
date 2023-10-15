@@ -167,9 +167,9 @@ async function handleMessageSentFailure(
     fetchedMessage.set({
       expirationStartTimestamp: undefined,
     });
-    window.log.debug(
-      `WIP: [handleMessageSentFailure] Stopping a disappearing message from disppearing until we retry the send operation.\n${JSON.stringify(
-        fetchedMessage
+    window.log.warn(
+      `[handleMessageSentFailure] Stopping a message from disppearing until we retry the send operation. messageId: ${fetchedMessage.get(
+        'id'
       )}`
     );
   }

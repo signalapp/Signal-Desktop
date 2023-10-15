@@ -3,7 +3,6 @@ import { isEmpty, isFinite, noop, omit, toNumber } from 'lodash';
 
 import { SignalService } from '../protobuf';
 import { removeFromCache } from './cache';
-import { getEnvelopeId } from './common';
 import { EnvelopePlus } from './types';
 
 import { Data } from '../data/data';
@@ -233,11 +232,6 @@ export async function handleSwarmDataMessage(
   }
 
   if (!messageHasVisibleContent(cleanDataMessage)) {
-    window?.log?.debug(
-      `WIP: Message ${getEnvelopeId(envelope)} ignored; it was empty`,
-      cleanDataMessage
-    );
-
     await removeFromCache(envelope);
     return;
   }

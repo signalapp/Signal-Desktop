@@ -358,7 +358,8 @@ async function markConvoAsReadIfOutgoingMessage(
             expirationStartTimestamp: setExpirationStartTimestamp(
               expirationMode,
               message.get('sent_at'),
-              'markConvoAsReadIfOutgoingMessage'
+              'markConvoAsReadIfOutgoingMessage',
+              message.get('id')
             ),
           });
           await message.commit();
@@ -412,7 +413,8 @@ export async function handleMessageJob(
           expirationStartTimestamp: setExpirationStartTimestamp(
             expirationMode,
             messageModel.get('sent_at'),
-            'handleMessageJob'
+            'handleMessageJob',
+            messageModel.get('id')
           ),
         });
       }
@@ -426,9 +428,9 @@ export async function handleMessageJob(
         (!expirationTimerUpdate || isEmpty(expirationTimerUpdate))
       ) {
         window.log.debug(
-          `WIP: There is a problem with the expiration timer update.\nmessage model: ${JSON.stringify(
-            messageModel
-          )}\n\nexpirationTimerUpdate: ${JSON.stringify(expirationTimerUpdate)}`
+          `[handleMessageJob] The ExpirationTimerUpdate is not defined correctly message: ${messageModel.get(
+            'id'
+          )}\nexpirationTimerUpdate: ${JSON.stringify(expirationTimerUpdate)}`
         );
         confirm?.();
         return;
@@ -445,9 +447,9 @@ export async function handleMessageJob(
 
       if (!lastDisappearingMessageChangeTimestamp) {
         window.log.debug(
-          `WIP: There is a problem with the expiration timer update. The lastDisappearingMessageChangeTimestamp is missing.\nmessage model: ${JSON.stringify(
-            messageModel
-          )}\n\nexpirationTimerUpdate: ${JSON.stringify(expirationTimerUpdate)}`
+          `The ExpirationTimerUpdate's lastDisappearingMessageChangeTimestamp is missing. message model: ${messageModel.get(
+            'id'
+          )}\nexpirationTimerUpdate: ${JSON.stringify(expirationTimerUpdate)}`
         );
         confirm?.();
         return;
@@ -464,9 +466,6 @@ export async function handleMessageJob(
         shouldCommitConvo: false,
         // NOTE we don't commit yet because we want to get the message id, see below
       });
-      window.log.debug(
-        `WIP: [handleMessageJob] updating disappearing messages to expiratonModeUpdate: ${expirationModeUpdate} expireTimerUpdate: ${expireTimerUpdate}`
-      );
     } else {
       // this does not commit to db nor UI unless we need to approve a convo
       await handleRegularMessage(

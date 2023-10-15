@@ -480,16 +480,7 @@ export async function innerHandleSwarmContentMessage(
         conversationModelForUIUpdate
       );
 
-      // window.log.debug(
-      //   `WIP:innerHandleSwarmContentMessage: ${
-      //     content.dataMessage.syncTarget ? 'This is a sync message.\n' : ''
-      //   } content: ${JSON.stringify(content)} ${
-      //     expireUpdate ? `\n\nexpireUpdate: ${JSON.stringify(expireUpdate)}` : ''
-      //   }`
-      // );
-
       if (expireUpdate?.isOutdated) {
-        window.log.debug(`WIP: ExpireUpdate is outdated. Ignoring it and removing from cache.`);
         await removeFromCache(envelope);
         return;
       }
@@ -502,11 +493,6 @@ export async function innerHandleSwarmContentMessage(
           expireUpdate
         );
         if (expireUpdate.isLegacyConversationSettingMessage) {
-          window.log.debug(
-            `WIP: The legacy message is an expiration timer update. Ignoring it.\ncontent:${JSON.stringify(
-              content
-            )}\n\nexpireUpdate: ${JSON.stringify(expireUpdate)}`
-          );
           await removeFromCache(envelope);
           return;
         }

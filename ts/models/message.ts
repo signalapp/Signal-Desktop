@@ -1124,7 +1124,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
           expirationStartTimestamp: setExpirationStartTimestamp(
             expirationMode,
             readAt,
-            'markMessageReadNoCommit'
+            'markMessageReadNoCommit',
+            this.get('id')
           ),
         });
       }

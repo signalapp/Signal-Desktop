@@ -246,19 +246,6 @@ async function handleUserProfileUpdate(result: IncomingConfResult): Promise<Inco
         shouldCommitConvo: false,
       });
       changes = success;
-      if (success) {
-        window.log.debug(
-          `WIP: [userProfileWrapper] updating disappearing messages for\nconvoId:${
-            ourConvo.id
-          } expiratonMode: ${
-            wrapperNoteToSelfExpirySeconds && wrapperNoteToSelfExpirySeconds > 0
-              ? ReleasedFeatures.isDisappearMessageV2FeatureReleasedCached()
-                ? 'deleteAfterSend'
-                : 'legacy'
-              : 'off'
-          } wrapperNoteToSelfExpirySeconds: ${wrapperNoteToSelfExpirySeconds}`
-        );
-      }
     }
 
     // make sure to write the changes to the database now as the `AvatarDownloadJob` triggered by updateOurProfileLegacyOrViaLibSession might take some time before getting run
@@ -405,11 +392,6 @@ async function handleContactsUpdate(result: IncomingConfResult): Promise<Incomin
           shouldCommitConvo: false,
         });
         changes = success;
-        if (success) {
-          window.log.debug(
-            `WIP: [contactsWrapper] updating disappearing messages for\nconvoId:${wrapperConvo.id} expirationMode: ${wrapperConvo.expirationMode} expirationTimerSeconds: ${wrapperConvo.expirationTimerSeconds}`
-          );
-        }
       }
 
       // we want to set the active_at to the created_at timestamp if active_at is unset, so that it shows up in our list.
@@ -643,19 +625,6 @@ async function handleLegacyGroupUpdate(latestEnvelopeTimestamp: number) {
         shouldCommitConvo: false,
       });
       changes = success;
-      if (success) {
-        window.log.debug(
-          `WIP: [userGroupWrapper] updating disappearing messages for\nconvoId:${
-            legacyGroupConvo.id
-          }  expiratonMode: ${
-            fromWrapper.disappearingTimerSeconds && fromWrapper.disappearingTimerSeconds > 0
-              ? ReleasedFeatures.isDisappearMessageV2FeatureReleasedCached()
-                ? 'deleteAfterSend'
-                : 'legacy'
-              : 'off'
-          } wrapperNoteToSelfExpirySeconds: ${fromWrapper.disappearingTimerSeconds}`
-        );
-      }
     }
 
     const existingTimestampMs = legacyGroupConvo.get('lastJoinedTimestamp');
@@ -751,35 +720,23 @@ async function applyConvoVolatileUpdateFromWrapper(
             )
             .map(m => m.get('messageHash'))
         );
-        window.log.debug(
-          `WIP: [applyConvoVolatileUpdateFromWrapper]\nmessages2Expire: ${JSON.stringify(
-            messages2Expire
-          )}`
-        );
         const currentExpiryTimestamps = await getExpiriesFromSnode({
           messageHashes,
           timestamp: lastReadMessageTimestamp,
         });
 
-        window.log.debug(
-          `WIP: [applyConvoVolatileUpdateFromWrapper] currentExpiryTimestamps: ${JSON.stringify(
-            currentExpiryTimestamps
-          )} `
-        );
-
         if (currentExpiryTimestamps.length) {
           for (let index = 0; index < messages2Expire.length; index++) {
             if (currentExpiryTimestamps[index] === -1) {
               window.log.debug(
-                `WIP: [applyConvoVolatileUpdateFromWrapper] invalid expiry value returned from snode. We will keep the local value.\nmessageHash: ${messageHashes[index]},`
+                `[applyConvoVolatileUpdateFromWrapper] invalid expiry value returned from snode. We will keep the local value of ${messages2Expire
+                  .get(index)
+                  .get('id')}.\nmessageHash: ${messageHashes[index]},`
               );
               continue;
             }
             messages2Expire.at(index).set('expires_at', currentExpiryTimestamps[index]);
           }
-          window.log.debug(
-            `WIP: [applyConvoVolatileUpdateFromWrapper] disappear after read messages updated!`
-          );
         }
       }
     }

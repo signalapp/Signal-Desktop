@@ -123,7 +123,7 @@ export const ReleasedFeatures = {
 async function setIsFeatureReleased(featureName: FeatureNameTracked, value: boolean) {
   await Storage.put(featureStorageItemId(featureName), value);
   setIsFeatureReleasedCached(featureName, value);
-  window.log.debug(`WIP: setIsFeatureReleased: ${featureName} ${value}`);
+  window.log.debug(`WIP: [releaseFeature]: ${featureName} ${value}`);
 }
 
 window.setIsFeatureReleased = setIsFeatureReleased;
