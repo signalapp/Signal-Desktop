@@ -4,7 +4,7 @@
 import type { ConversationAttributesType } from '../model-types.d';
 import type { ConversationQueueJobData } from '../jobs/conversationJobQueue';
 import * as Errors from '../types/errors';
-import * as durations from './durations';
+import { DAY } from './durations';
 import * as log from '../logging/log';
 import {
   conversationJobQueue,
@@ -19,8 +19,6 @@ import { __DEPRECATED$getMessageById } from '../messages/getMessageById';
 import { getRecipientConversationIds } from './getRecipientConversationIds';
 import { getRecipients } from './getRecipients';
 import { repeat, zipObject } from './iterables';
-
-const THREE_HOURS = durations.HOUR * 3;
 
 export async function sendDeleteForEveryoneMessage(
   conversationAttributes: ConversationAttributesType,
@@ -42,7 +40,7 @@ export async function sendDeleteForEveryoneMessage(
   const idForLogging = getMessageIdForLogging(message.attributes);
 
   const timestamp = Date.now();
-  const maxDuration = deleteForEveryoneDuration || THREE_HOURS;
+  const maxDuration = deleteForEveryoneDuration || DAY;
   if (timestamp - targetTimestamp > maxDuration) {
     throw new Error(`Cannot send DOE for a message older than ${maxDuration}`);
   }
