@@ -83,8 +83,8 @@ export const GenericReadableMessage = (props: Props) => {
     getGenericReadableMessageSelectorProps(state, props.messageId)
   );
 
-  const isMessageSelected = useSelector(state =>
-    getIsMessageSelected(state as any, props.messageId)
+  const isMessageSelected = useSelector((state: StateType) =>
+    getIsMessageSelected(state, props.messageId)
   );
   const multiSelectMode = useSelector(isMessageSelectionMode);
 

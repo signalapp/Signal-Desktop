@@ -68,7 +68,7 @@ export const MessageAttachment = (props: Props) => {
 
   const dispatch = useDispatch();
   const attachmentProps = useSelector((state: StateType) =>
-    getMessageAttachmentProps(state as any, messageId)
+    getMessageAttachmentProps(state, messageId)
   );
 
   const multiSelectMode = useSelector(isMessageSelectionMode);
