@@ -37,3 +37,7 @@ Gruntfile.js
 
 !istanbul-reports/lib/html/assets
 !istanbul-api/node_modules/istanbul-reports/lib/html/assets
+
+# lint-staged fix
+# https://github.com/eemeli/yaml/issues/384#issuecomment-1368496106
+!**/yaml/dist/**/doc

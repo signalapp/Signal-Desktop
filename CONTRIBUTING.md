@@ -10,7 +10,7 @@ It's a good idea to gauge interest in your intended work by finding the current 
 for it or creating a new one yourself. Use Github issues as a place to signal
 your intentions and get feedback from the users most likely to appreciate your changes.
 
-You're most likely to have your pull request accepted if it addresses an existing Github issue marked with the [good-first-issue](https://github.com/oxen-io/session-desktop/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22) tag, these issues are specifically tagged, because they are generally features/bug fixes which can be cleanly merged on a single platform without requiring cross platform work, are generally of lower complexity than larger features and are non contentious, meaning that the core team doesn't need to try and assess the community desire for such a feature before merging. 
+You're most likely to have your pull request accepted if it addresses an existing Github issue marked with the [good-first-issue](https://github.com/oxen-io/session-desktop/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22) tag, these issues are specifically tagged, because they are generally features/bug fixes which can be cleanly merged on a single platform without requiring cross platform work, are generally of lower complexity than larger features and are non contentious, meaning that the core team doesn't need to try and assess the community desire for such a feature before merging.
 
 Of course we encourage community developers to work on ANY issue filed on our Github regardless of how it’s tagged, however if you pick up or create an issue without the “Good first issue” tag it would be best if you leave a comment on the issue so that the core team can give you any guidance required, especially around UI heavy features or issues which require cross platform integration.
 
@@ -34,22 +34,12 @@ Then you need `git`, if you don't have that yet: https://git-scm.com/
 
 ### Windows
 
-Building on Windows versions 8+ is supported out of the box
+Building on Windows is a pain, but is possible see our CI/Windows build machine prerequisites here [Windows-2022 GH image](https://github.com/actions/runner-images/blob/main/images/win/Windows2022-Readme.md)
 
 ### Linux
 
-1.  Pick your favorite package manager.
-1.  Install `python`
-1.  Install `gcc`
-1.  Install `g++`
-1.  Install `make`
-1.  Depending on your distro, you might need to install `hunspell` and `hunspell-<lan>` (e.g. `hunspell-en-au`)
-
-If you are using a Debian based Linux distribution gcc, g++ and make can be installed as part of the `build-essential` package using 
-
-``` 
-apt install build-essential 
-```
+1.  Install build tools `apt install build-essential cmake` (this installs make, g++, gcc)
+2.  Depending on your distro, you might need to install `hunspell` and `hunspell-<lan>` (e.g. `hunspell-en-au`)
 
 ### All platforms
 
@@ -128,6 +118,16 @@ Please write tests! Our testing framework is
 [chai](http://chaijs.com/api/assert/).
 
 The easiest way to run all tests at once is `yarn test`.
+
+## Committing your changes
+
+Before a commit is accepted the staged changes will be formatted using [prettier](https://prettier.io/) and linted using [eslint](https://eslint.org/). The commit will be reverted if files are formatted or lint errors are returned.
+
+### Commit Message Convention
+
+This project follows [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
+
+Commit messages will be checked using [husky](https://typicode.github.io/husky/#/) and [commitlint](https://commitlint.js.org/).
 
 ## Pull requests
 
