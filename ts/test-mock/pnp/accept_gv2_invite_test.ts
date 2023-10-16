@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import type { Group } from '@signalapp/mock-server';
+import type { Group, PrimaryDevice } from '@signalapp/mock-server';
 import { Proto, ServiceIdKind } from '@signalapp/mock-server';
 import createDebug from 'debug';
 
@@ -19,18 +19,22 @@ describe('pnp/accept gv2 invite', function needsName() {
   let bootstrap: Bootstrap;
   let app: App;
   let group: Group;
+  let unknownContact: PrimaryDevice;
 
   beforeEach(async () => {
-    bootstrap = new Bootstrap();
+    bootstrap = new Bootstrap({
+      contactCount: 10,
+      unknownContactCount: 3,
+    });
     await bootstrap.init();
 
-    const { contacts } = bootstrap;
-
+    const { contacts, unknownContacts } = bootstrap;
     const [first, second] = contacts;
+    [unknownContact] = unknownContacts;
 
     group = await first.createGroup({
       title: 'Invite by PNI',
-      members: [first, second],
+      members: [first, second, unknownContact],
     });
 
     app = await bootstrap.link();
@@ -42,7 +46,7 @@ describe('pnp/accept gv2 invite', function needsName() {
     });
 
     // Verify that created group has pending member
-    assert.strictEqual(group.state?.members?.length, 2);
+    assert.strictEqual(group.state?.members?.length, 3);
     assert(!group.getMemberByServiceId(desktop.aci));
     assert(!group.getMemberByServiceId(desktop.pni));
     assert(!group.getPendingMemberByServiceId(desktop.aci));
@@ -77,7 +81,7 @@ describe('pnp/accept gv2 invite', function needsName() {
 
     group = await phone.waitForGroupUpdate(group);
     assert.strictEqual(group.revision, 2);
-    assert.strictEqual(group.state?.members?.length, 3);
+    assert.strictEqual(group.state?.members?.length, 4);
     assert(group.getMemberByServiceId(desktop.aci));
     assert(!group.getMemberByServiceId(desktop.pni));
     assert(!group.getPendingMemberByServiceId(desktop.aci));
@@ -109,12 +113,21 @@ describe('pnp/accept gv2 invite', function needsName() {
       .locator('.module-message-request-actions button >> "Accept"')
       .waitFor({ state: 'hidden' });
 
-    debug('Leave the group through settings');
     await window
       .locator('button.module-ConversationHeader__button--more')
       .click();
 
     await window.locator('.react-contextmenu-item >> "Group settings"').click();
+
+    debug(
+      'Checking that we see all members of group, including (previously) unknown contact'
+    );
+    await window
+      .locator('.ConversationDetails-panel-section__title >> "4 members"')
+      .waitFor();
+    await window.getByText(unknownContact.profileName).waitFor();
+
+    debug('Leave the group through settings');
 
     await conversationStack
       .locator('.conversation-details-panel >> "Leave group"')
@@ -125,7 +138,7 @@ describe('pnp/accept gv2 invite', function needsName() {
     debug('Waiting for final group update');
     group = await phone.waitForGroupUpdate(group);
     assert.strictEqual(group.revision, 4);
-    assert.strictEqual(group.state?.members?.length, 2);
+    assert.strictEqual(group.state?.members?.length, 3);
     assert(!group.getMemberByServiceId(desktop.aci));
     assert(!group.getMemberByServiceId(desktop.pni));
     assert(!group.getPendingMemberByServiceId(desktop.aci));
@@ -149,7 +162,7 @@ describe('pnp/accept gv2 invite', function needsName() {
 
     group = await phone.waitForGroupUpdate(group);
     assert.strictEqual(group.revision, 2);
-    assert.strictEqual(group.state?.members?.length, 2);
+    assert.strictEqual(group.state?.members?.length, 3);
     assert(!group.getMemberByServiceId(desktop.aci));
     assert(!group.getMemberByServiceId(desktop.pni));
     assert(!group.getPendingMemberByServiceId(desktop.aci));
@@ -209,7 +222,7 @@ describe('pnp/accept gv2 invite', function needsName() {
 
     group = await phone.waitForGroupUpdate(group);
     assert.strictEqual(group.revision, 3);
-    assert.strictEqual(group.state?.members?.length, 3);
+    assert.strictEqual(group.state?.members?.length, 4);
     assert(group.getMemberByServiceId(desktop.aci));
     assert(!group.getMemberByServiceId(desktop.pni));
     assert(!group.getPendingMemberByServiceId(desktop.aci));
@@ -261,7 +274,7 @@ describe('pnp/accept gv2 invite', function needsName() {
 
     group = await phone.waitForGroupUpdate(group);
     assert.strictEqual(group.revision, 3);
-    assert.strictEqual(group.state?.members?.length, 2);
+    assert.strictEqual(group.state?.members?.length, 3);
     assert(!group.getMemberByServiceId(desktop.aci));
     assert(!group.getMemberByServiceId(desktop.pni));
     assert(!group.getPendingMemberByServiceId(desktop.aci));

@@ -72,6 +72,7 @@ export type BootstrapOptions = Readonly<{
   linkedDevices?: number;
   contactCount?: number;
   contactsWithoutProfileKey?: number;
+  unknownContactCount?: number;
   contactNames?: ReadonlyArray<string>;
   contactPreKeyCount?: number;
 }>;
@@ -82,6 +83,7 @@ type BootstrapInternalOptions = Pick<BootstrapOptions, 'extraConfig'> &
     linkedDevices: number;
     contactCount: number;
     contactsWithoutProfileKey: number;
+    unknownContactCount: number;
     contactNames: ReadonlyArray<string>;
   }>;
 
@@ -116,6 +118,7 @@ export class Bootstrap {
   private readonly options: BootstrapInternalOptions;
   private privContacts?: ReadonlyArray<PrimaryDevice>;
   private privContactsWithoutProfileKey?: ReadonlyArray<PrimaryDevice>;
+  private privUnknownContacts?: ReadonlyArray<PrimaryDevice>;
   private privPhone?: PrimaryDevice;
   private privDesktop?: Device;
   private storagePath?: string;
@@ -132,6 +135,7 @@ export class Bootstrap {
       linkedDevices: 5,
       contactCount: MAX_CONTACTS,
       contactsWithoutProfileKey: 0,
+      unknownContactCount: 0,
       contactNames: CONTACT_NAMES,
       benchmark: false,
 
@@ -139,7 +143,9 @@ export class Bootstrap {
     };
 
     assert(
-      this.options.contactCount + this.options.contactsWithoutProfileKey <=
+      this.options.contactCount +
+        this.options.contactsWithoutProfileKey +
+        this.options.unknownContactCount <=
         this.options.contactNames.length
     );
   }
@@ -152,13 +158,8 @@ export class Bootstrap {
     const { port } = this.server.address();
     debug('started server on port=%d', port);
 
-    const contactNames = this.options.contactNames.slice(
-      0,
-      this.options.contactCount + this.options.contactsWithoutProfileKey
-    );
-
     const allContacts = await Promise.all(
-      contactNames.map(async profileName => {
+      this.options.contactNames.map(async profileName => {
         const primary = await this.server.createPrimaryDevice({
           profileName,
         });
@@ -172,9 +173,14 @@ export class Bootstrap {
       })
     );
 
-    this.privContacts = allContacts.slice(0, this.options.contactCount);
-    this.privContactsWithoutProfileKey = allContacts.slice(
-      this.contacts.length
+    this.privContacts = allContacts.splice(0, this.options.contactCount);
+    this.privContactsWithoutProfileKey = allContacts.splice(
+      0,
+      this.options.contactsWithoutProfileKey
+    );
+    this.privUnknownContacts = allContacts.splice(
+      0,
+      this.options.unknownContactCount
     );
 
     this.privPhone = await this.server.createPrimaryDevice({
@@ -386,9 +392,20 @@ export class Bootstrap {
     );
     return this.privContactsWithoutProfileKey;
   }
+  public get unknownContacts(): ReadonlyArray<PrimaryDevice> {
+    assert(
+      this.privUnknownContacts,
+      'Bootstrap has to be initialized first, see: bootstrap.init()'
+    );
+    return this.privUnknownContacts;
+  }
 
   public get allContacts(): ReadonlyArray<PrimaryDevice> {
-    return [...this.contacts, ...this.contactsWithoutProfileKey];
+    return [
+      ...this.contacts,
+      ...this.contactsWithoutProfileKey,
+      ...this.unknownContacts,
+    ];
   }
 
   //
