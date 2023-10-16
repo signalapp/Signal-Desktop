@@ -505,7 +505,8 @@ message SyncMessage {
   }
 
   message Keys {
-    optional bytes storageService = 1;
+    optional bytes storageService = 1; // deprecated: this field will be removed in a future release.
+    optional bytes master = 2;
   }
 
   message Read {

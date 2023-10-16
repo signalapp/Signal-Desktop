@@ -3292,12 +3292,15 @@ export default class MessageReceiver
 
     logUnexpectedUrgentValue(envelope, 'keySync');
 
-    if (!sync.storageService) {
+    if (!sync.storageService && !sync.master) {
       return undefined;
     }
 
     const ev = new KeysEvent(
-      sync.storageService,
+      {
+        storageServiceKey: dropNull(sync.storageService),
+        masterKey: dropNull(sync.master),
+      },
       this.removeFromCache.bind(this, envelope)
     );
 
