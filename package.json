@@ -82,7 +82,6 @@
     "bunyan": "^1.8.15",
     "bytebuffer": "^5.0.1",
     "classnames": "2.2.5",
-    "cmake-js": "^7.2.1",
     "config": "1.28.1",
     "country-code-lookup": "^0.0.19",
     "curve25519-js": "https://github.com/oxen-io/curve25519-js",
