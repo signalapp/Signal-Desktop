@@ -5464,7 +5464,7 @@ function profileKeyHasChanged(
 function hasProfileKey(userId: ServiceIdString) {
   const conversation = window.ConversationController.get(userId);
   if (!conversation) {
-    return true;
+    return false;
   }
 
   const existingBase64 = conversation.get('profileKey');
