@@ -45,12 +45,7 @@ import { isUsAnySogsFromCache } from '../session/apis/open_group_api/sogsv3/know
 import { GetNetworkTime } from '../session/apis/snode_api/getNetworkTime';
 import { SnodeNamespaces } from '../session/apis/snode_api/namespaces';
 import { DURATION } from '../session/constants';
-import {
-  changeToDisappearingConversationMode,
-  checkForExpireUpdateInContentMessage,
-  setExpirationStartTimestamp,
-  updateMessageExpiryOnSwarm,
-} from '../session/disappearing_messages';
+import { DisappearingMessages } from '../session/disappearing_messages';
 import { TimerOptions } from '../session/disappearing_messages/timerOptions';
 import { OpenGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
 import {
@@ -267,7 +262,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         return '';
       }
 
-      const expirationMode = changeToDisappearingConversationMode(
+      const expirationMode = DisappearingMessages.changeToDisappearingConversationMode(
         convo,
         expireTimerUpdate?.expirationType,
         expireTimer
@@ -334,7 +329,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     }
 
     const { expireTimer, fromSync, source } = timerUpdate;
-    const expirationMode = changeToDisappearingConversationMode(
+    const expirationMode = DisappearingMessages.changeToDisappearingConversationMode(
       convo,
       timerUpdate?.expirationType || 'unknown',
       expireTimer || 0
@@ -1022,7 +1017,11 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         throw new Error('Cannot trigger syncMessage with unknown convo.');
       }
 
-      const expireUpdate = await checkForExpireUpdateInContentMessage(content, conversation, true);
+      const expireUpdate = await DisappearingMessages.checkForExpireUpdateInContentMessage(
+        content,
+        conversation,
+        true
+      );
 
       const syncMessage = buildSyncMessage(
         this.id,
@@ -1108,7 +1107,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const expireTimer = this.getExpireTimer();
 
     if (canBeDeleteAfterRead && expirationType && expireTimer > 0) {
-      const expirationMode = changeToDisappearingConversationMode(
+      const expirationMode = DisappearingMessages.changeToDisappearingConversationMode(
         convo,
         expirationType,
         expireTimer
@@ -1117,11 +1116,15 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       if (expirationMode === 'legacy' || expirationMode === 'deleteAfterRead') {
         if (this.isIncoming() && !this.isExpiring()) {
           // NOTE We want to trigger disappearing now and then the TTL can update itself while it is running. Otherwise the UI is blocked until the request is completed.
-          void updateMessageExpiryOnSwarm(this, 'markMessageReadNoCommit()', true);
+          void DisappearingMessages.updateMessageExpiryOnSwarm(
+            this,
+            'markMessageReadNoCommit()',
+            true
+          );
         }
 
         this.set({
-          expirationStartTimestamp: setExpirationStartTimestamp(
+          expirationStartTimestamp: DisappearingMessages.setExpirationStartTimestamp(
             expirationMode,
             readAt,
             'markMessageReadNoCommit',

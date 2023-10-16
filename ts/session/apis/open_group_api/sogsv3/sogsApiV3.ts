@@ -38,7 +38,7 @@ import { EnvelopePlus } from '../../../../receiver/types';
 import { assertUnreachable } from '../../../../types/sqlSharedTypes';
 import { getSodiumRenderer } from '../../../crypto';
 import { removeMessagePadding } from '../../../crypto/BufferPadding';
-import { destroyMessagesAndUpdateRedux } from '../../../disappearing_messages';
+import { DisappearingMessages } from '../../../disappearing_messages';
 import { UserUtils } from '../../../utils';
 import { sogsRollingDeletions } from './sogsRollingDeletions';
 import { processMessagesUsingCache } from './sogsV3MutationCache';
@@ -182,7 +182,7 @@ const handleSogsV3DeletedMessages = async (
     });
 
     if (messageIds && messageIds.length) {
-      await destroyMessagesAndUpdateRedux(
+      await DisappearingMessages.destroyMessagesAndUpdateRedux(
         messageIds.map(messageId => ({
           conversationKey: convoId,
           messageId,

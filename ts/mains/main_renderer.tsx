@@ -16,7 +16,7 @@ import { deleteAllLogs } from '../node/logs';
 import { queueAllCached } from '../receiver/receiver';
 import { loadKnownBlindedKeys } from '../session/apis/open_group_api/sogsv3/knownBlindedkeys';
 import { getConversationController } from '../session/conversations';
-import { initExpiringMessageListener } from '../session/disappearing_messages';
+import { DisappearingMessages } from '../session/disappearing_messages';
 import { AttachmentDownloads, ToastUtils } from '../session/utils';
 import { getOurPubKeyStrFromCache } from '../session/utils/User';
 import { runners } from '../session/utils/job_runners/JobRunner';
@@ -293,7 +293,7 @@ async function start() {
     ReactDOM.render(<SessionRegistrationView />, document.getElementById('root'));
     switchBodyToRtlIfNeeded();
   }
-  initExpiringMessageListener();
+  DisappearingMessages.initExpiringMessageListener();
 
   if (Registration.isDone() && !isSignInByLinking()) {
     await connect();

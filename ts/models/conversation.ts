@@ -117,10 +117,7 @@ import {
   getSubscriberCountOutsideRedux,
 } from '../state/selectors/sogsRoomInfo'; // decide it it makes sense to move this to a redux slice?
 
-import {
-  changeToDisappearingMessageType,
-  setExpirationStartTimestamp,
-} from '../session/disappearing_messages';
+import { DisappearingMessages } from '../session/disappearing_messages';
 import { DisappearingMessageConversationModeType } from '../session/disappearing_messages/types';
 import { markAttributesAsReadIfNeeded } from './messageFactory';
 
@@ -753,7 +750,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       preview,
       attachments,
       sent_at: networkTimestamp,
-      expirationType: changeToDisappearingMessageType(
+      expirationType: DisappearingMessages.changeToDisappearingMessageType(
         this,
         this.getExpireTimer(),
         this.getExpirationMode()
@@ -886,7 +883,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     });
 
     let message: MessageModel | undefined = existingMessage || undefined;
-    const expirationType = changeToDisappearingMessageType(this, expireTimer, expirationMode);
+    const expirationType = DisappearingMessages.changeToDisappearingMessageType(
+      this,
+      expireTimer,
+      expirationMode
+    );
 
     const commonAttributes = {
       flags: SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
@@ -940,7 +941,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
           expirationMode === 'deleteAfterSend'
         ) {
           message.set({
-            expirationStartTimestamp: setExpirationStartTimestamp(
+            expirationStartTimestamp: DisappearingMessages.setExpirationStartTimestamp(
               expirationMode,
               message.get('sent_at'),
               'updateExpireTimer() remote change',

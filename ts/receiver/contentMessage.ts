@@ -22,12 +22,7 @@ import { findCachedBlindedMatchOrLookupOnAllServers } from '../session/apis/open
 import { getConversationController } from '../session/conversations';
 import { concatUInt8Array, getSodiumRenderer } from '../session/crypto';
 import { removeMessagePadding } from '../session/crypto/BufferPadding';
-import {
-  changeToDisappearingMessageType,
-  checkForExpireUpdateInContentMessage,
-  checkHasOutdatedDisappearingMessageClient,
-  setExpirationStartTimestamp,
-} from '../session/disappearing_messages';
+import { DisappearingMessages } from '../session/disappearing_messages';
 import { ProfileManager } from '../session/profile_manager/ProfileManager';
 import { GroupUtils, UserUtils } from '../session/utils';
 import { perfEnd, perfStart } from '../session/utils/Performance';
@@ -475,7 +470,7 @@ export async function innerHandleSwarmContentMessage(
         content.dataMessage.profileKey = null;
       }
 
-      const expireUpdate = await checkForExpireUpdateInContentMessage(
+      const expireUpdate = await DisappearingMessages.checkForExpireUpdateInContentMessage(
         content,
         conversationModelForUIUpdate
       );
@@ -487,7 +482,7 @@ export async function innerHandleSwarmContentMessage(
 
       // TODO legacy messages support will be removed in a future release
       if (expireUpdate?.isDisappearingMessagesV2Released) {
-        await checkHasOutdatedDisappearingMessageClient(
+        await DisappearingMessages.checkHasOutdatedDisappearingMessageClient(
           conversationModelForUIUpdate,
           senderConversationModel,
           expireUpdate
@@ -866,13 +861,13 @@ export async function handleDataExtractionNotification(
     if (convo && expirationMode && expireTimer > 0) {
       expirationType =
         expirationMode !== 'off'
-          ? changeToDisappearingMessageType(convo, expireTimer, expirationMode)
+          ? DisappearingMessages.changeToDisappearingMessageType(convo, expireTimer, expirationMode)
           : undefined;
 
       // NOTE Triggers disappearing for an incoming DataExtractionNotification message
       // TODO legacy messages support will be removed in a future release
       if (expirationMode === 'legacy' || expirationMode === 'deleteAfterSend') {
-        expirationStartTimestamp = setExpirationStartTimestamp(
+        expirationStartTimestamp = DisappearingMessages.setExpirationStartTimestamp(
           expirationMode,
           undefined,
           'handleDataExtractionNotification'

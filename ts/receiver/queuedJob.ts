@@ -10,10 +10,7 @@ import { Quote } from './types';
 import { ConversationTypeEnum } from '../models/conversationAttributes';
 import { MessageDirection } from '../models/messageType';
 import { SignalService } from '../protobuf';
-import {
-  changeToDisappearingConversationMode,
-  setExpirationStartTimestamp,
-} from '../session/disappearing_messages';
+import { DisappearingMessages } from '../session/disappearing_messages';
 import { ProfileManager } from '../session/profile_manager/ProfileManager';
 import { PubKey } from '../session/types';
 import { UserUtils } from '../session/utils';
@@ -347,7 +344,7 @@ async function markConvoAsReadIfOutgoingMessage(
         expireTimer > 0 &&
         Boolean(message.getExpirationStartTimestamp()) === false
       ) {
-        const expirationMode = changeToDisappearingConversationMode(
+        const expirationMode = DisappearingMessages.changeToDisappearingConversationMode(
           conversation,
           expirationType,
           expireTimer
@@ -355,7 +352,7 @@ async function markConvoAsReadIfOutgoingMessage(
 
         if (expirationMode !== 'off') {
           message.set({
-            expirationStartTimestamp: setExpirationStartTimestamp(
+            expirationStartTimestamp: DisappearingMessages.setExpirationStartTimestamp(
               expirationMode,
               message.get('sent_at'),
               'markConvoAsReadIfOutgoingMessage',
@@ -397,7 +394,7 @@ export async function handleMessageJob(
       messageModel.getExpireTimer() > 0 &&
       Boolean(messageModel.getExpirationStartTimestamp()) === false
     ) {
-      const expirationMode = changeToDisappearingConversationMode(
+      const expirationMode = DisappearingMessages.changeToDisappearingConversationMode(
         conversation,
         messageModel.getExpirationType(),
         messageModel.getExpireTimer()
@@ -410,7 +407,7 @@ export async function handleMessageJob(
         expirationMode === 'deleteAfterSend'
       ) {
         messageModel.set({
-          expirationStartTimestamp: setExpirationStartTimestamp(
+          expirationStartTimestamp: DisappearingMessages.setExpirationStartTimestamp(
             expirationMode,
             messageModel.get('sent_at'),
             'handleMessageJob',
@@ -437,7 +434,7 @@ export async function handleMessageJob(
       }
 
       const expireTimerUpdate = expirationTimerUpdate?.expireTimer || 0;
-      const expirationModeUpdate = changeToDisappearingConversationMode(
+      const expirationModeUpdate = DisappearingMessages.changeToDisappearingConversationMode(
         conversation,
         expirationTimerUpdate?.expirationType,
         expireTimerUpdate

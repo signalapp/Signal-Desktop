@@ -19,7 +19,7 @@ import {
   createSwarmMessageSentFromNotUs,
   createSwarmMessageSentFromUs,
 } from '../models/messageFactory';
-import { getMessageReadyToDisappear } from '../session/disappearing_messages';
+import { DisappearingMessages } from '../session/disappearing_messages';
 import { DisappearingMessageUpdate } from '../session/disappearing_messages/types';
 import { ProfileManager } from '../session/profile_manager/ProfileManager';
 import { isUsFromCache } from '../session/utils/User';
@@ -257,7 +257,11 @@ export async function handleSwarmDataMessage(
         });
 
   if (!isEmpty(expireUpdate)) {
-    msgModel = getMessageReadyToDisappear(convoToAddMessageTo, msgModel, expireUpdate);
+    msgModel = DisappearingMessages.getMessageReadyToDisappear(
+      convoToAddMessageTo,
+      msgModel,
+      expireUpdate
+    );
   }
 
   await handleSwarmMessage(

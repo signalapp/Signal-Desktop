@@ -23,7 +23,7 @@ import {
   DisappearingMessageUpdate,
 } from './types';
 
-export async function destroyMessagesAndUpdateRedux(
+async function destroyMessagesAndUpdateRedux(
   messages: Array<{
     conversationKey: string;
     messageId: string;
@@ -131,7 +131,7 @@ const throttledCheckExpiringMessages = throttle(checkExpiringMessages, 1000);
 
 let isInit = false;
 
-export const initExpiringMessageListener = () => {
+const initExpiringMessageListener = () => {
   if (isInit) {
     throw new Error('expiring messages listener is already init');
   }
@@ -143,11 +143,11 @@ export const initExpiringMessageListener = () => {
   isInit = true;
 };
 
-export const updateExpiringMessagesCheck = () => {
+const updateExpiringMessagesCheck = () => {
   void throttledCheckExpiringMessages();
 };
 
-export function setExpirationStartTimestamp(
+function setExpirationStartTimestamp(
   mode: DisappearingMessageConversationModeType,
   timestamp?: number,
   // these are for debugging purposes
@@ -224,7 +224,7 @@ export function setExpirationStartTimestamp(
  * @param expirationMode DisappearingMessageConversationModeType
  * @returns Disappearing mode we should use
  */
-export function changeToDisappearingMessageType(
+function changeToDisappearingMessageType(
   convo: ConversationModel,
   expireTimer: number,
   expirationMode?: DisappearingMessageConversationModeType
@@ -256,7 +256,7 @@ export function changeToDisappearingMessageType(
  * @param expireTimer in seconds, 0 means no expiration
  * @returns
  */
-export function changeToDisappearingConversationMode(
+function changeToDisappearingConversationMode(
   convo: ConversationModel,
   expirationType?: DisappearingMessageType,
   expireTimer?: number
@@ -273,7 +273,7 @@ export function changeToDisappearingConversationMode(
 }
 
 // TODO legacy messages support will be removed in a future release
-export async function checkForExpireUpdateInContentMessage(
+async function checkForExpireUpdateInContentMessage(
   content: SignalService.Content,
   convoToUpdate: ConversationModel,
   isOutgoing?: boolean
@@ -415,7 +415,7 @@ export async function checkForExpireUpdateInContentMessage(
 /**
  * Checks if an outgoing message is meant to disappear and if so trigger the timer
  */
-export function checkForExpiringOutgoingMessage(message: MessageModel, location?: string) {
+function checkForExpiringOutgoingMessage(message: MessageModel, location?: string) {
   const convo = message.getConversation();
   const expireTimer = message.getExpireTimer();
   const expirationType = message.getExpirationType();
@@ -441,7 +441,7 @@ export function checkForExpiringOutgoingMessage(message: MessageModel, location?
 }
 
 // TODO legacy messages support will be removed in a future release
-export function getMessageReadyToDisappear(
+function getMessageReadyToDisappear(
   conversationModel: ConversationModel,
   messageModel: MessageModel,
   expireUpdate?: DisappearingMessageUpdate
@@ -495,7 +495,7 @@ export function getMessageReadyToDisappear(
   return messageModel;
 }
 
-export async function checkHasOutdatedDisappearingMessageClient(
+async function checkHasOutdatedDisappearingMessageClient(
   convoToUpdate: ConversationModel,
   sender: ConversationModel,
   expireUpdate: DisappearingMessageUpdate
@@ -533,7 +533,7 @@ export async function checkHasOutdatedDisappearingMessageClient(
   }
 }
 
-export async function updateMessageExpiryOnSwarm(
+async function updateMessageExpiryOnSwarm(
   message: MessageModel,
   callLocation?: string, // this is for debugging purposes
   shouldCommit?: boolean
@@ -588,3 +588,17 @@ export async function updateMessageExpiryOnSwarm(
 
   return message;
 }
+
+export const DisappearingMessages = {
+  destroyMessagesAndUpdateRedux,
+  initExpiringMessageListener,
+  updateExpiringMessagesCheck,
+  setExpirationStartTimestamp,
+  changeToDisappearingMessageType,
+  changeToDisappearingConversationMode,
+  checkForExpireUpdateInContentMessage,
+  checkForExpiringOutgoingMessage,
+  getMessageReadyToDisappear,
+  checkHasOutdatedDisappearingMessageClient,
+  updateMessageExpiryOnSwarm,
+};

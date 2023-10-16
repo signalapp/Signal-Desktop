@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { Data } from '../../data/data';
 import { SignalService } from '../../protobuf';
 import { PnServer } from '../apis/push_notification_api';
-import { checkForExpiringOutgoingMessage } from '../disappearing_messages';
+import { DisappearingMessages } from '../disappearing_messages';
 import { OpenGroupVisibleMessage } from '../messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
 import { RawMessage } from '../types';
 import { UserUtils } from '../utils';
@@ -127,7 +127,7 @@ async function handleMessageSentSuccess(
     sent_at: effectiveTimestamp,
   });
 
-  checkForExpiringOutgoingMessage(fetchedMessage, 'handleMessageSentSuccess');
+  DisappearingMessages.checkForExpiringOutgoingMessage(fetchedMessage, 'handleMessageSentSuccess');
 
   await fetchedMessage.commit();
   fetchedMessage.getConversation()?.updateLastMessage();

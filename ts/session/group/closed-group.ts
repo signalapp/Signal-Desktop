@@ -17,10 +17,7 @@ import { SnodeNamespaces } from '../apis/snode_api/namespaces';
 import { getConversationController } from '../conversations';
 import { generateCurve25519KeyPairWithoutPrefix } from '../crypto';
 import { encryptUsingSessionProtocol } from '../crypto/MessageEncrypter';
-import {
-  changeToDisappearingMessageType,
-  setExpirationStartTimestamp,
-} from '../disappearing_messages';
+import { DisappearingMessages } from '../disappearing_messages';
 import { DisappearAfterSendOnly } from '../disappearing_messages/types';
 import { ClosedGroupAddedMembersMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupAddedMembersMessage';
 import { ClosedGroupEncryptionPairMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupEncryptionPairMessage';
@@ -72,7 +69,7 @@ export async function initiateClosedGroupUpdate(
     isGroupV3 ? ConversationTypeEnum.GROUPV3 : ConversationTypeEnum.GROUP
   );
 
-  const expirationType = changeToDisappearingMessageType(
+  const expirationType = DisappearingMessages.changeToDisappearingMessageType(
     convo,
     convo.getExpireTimer(),
     convo.getExpirationMode()
@@ -181,13 +178,13 @@ export async function addUpdateMessage(
   if (convo && expirationMode && expireTimer > 0) {
     expirationType =
       expirationMode !== 'off'
-        ? changeToDisappearingMessageType(convo, expireTimer, expirationMode)
+        ? DisappearingMessages.changeToDisappearingMessageType(convo, expireTimer, expirationMode)
         : undefined;
 
     // NOTE Triggers disappearing for an incoming groupUpdate message
     // TODO legacy messages support will be removed in a future release
     if (expirationMode === 'legacy' || expirationMode === 'deleteAfterSend') {
-      expirationStartTimestamp = setExpirationStartTimestamp(
+      expirationStartTimestamp = DisappearingMessages.setExpirationStartTimestamp(
         expirationMode,
         sentAt,
         'addUpdateMessage'
@@ -339,7 +336,11 @@ async function sendAddedMembers(
     members,
     keypair: encryptionKeyPair,
     identifier: messageId || uuidv4(),
-    expirationType: changeToDisappearingMessageType(convo, existingExpireTimer, expirationMode),
+    expirationType: DisappearingMessages.changeToDisappearingMessageType(
+      convo,
+      existingExpireTimer,
+      expirationMode
+    ),
     expireTimer: existingExpireTimer,
   });
 

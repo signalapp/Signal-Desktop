@@ -4,13 +4,7 @@ import Sinon from 'sinon';
 import { ConversationModel } from '../../../../models/conversation';
 import { ConversationTypeEnum } from '../../../../models/conversationAttributes';
 import { GetNetworkTime } from '../../../../session/apis/snode_api/getNetworkTime';
-import {
-  changeToDisappearingConversationMode,
-  changeToDisappearingMessageType,
-  checkForExpireUpdateInContentMessage,
-  checkForExpiringOutgoingMessage,
-  setExpirationStartTimestamp,
-} from '../../../../session/disappearing_messages';
+import { DisappearingMessages } from '../../../../session/disappearing_messages';
 import {
   DisappearingMessageConversationModeType,
   DisappearingMessageType,
@@ -54,7 +48,7 @@ describe('DisappearingMessage', () => {
   describe('setExpirationStartTimestamp', () => {
     it('returns a valid unix timestamp for deleteAfterRead', async () => {
       const mode: DisappearingMessageConversationModeType = 'deleteAfterRead';
-      const expirationStartTimestamp = setExpirationStartTimestamp(mode);
+      const expirationStartTimestamp = DisappearingMessages.setExpirationStartTimestamp(mode);
 
       expect(expirationStartTimestamp, 'it should return a number').to.be.is.a('number');
       expect(isValidUnixTimestamp(expirationStartTimestamp!), 'it should be a valid unix timestamp')
@@ -62,7 +56,7 @@ describe('DisappearingMessage', () => {
     });
     it('returns a valid unix timestamp for deleteAfterSend', async () => {
       const mode: DisappearingMessageConversationModeType = 'deleteAfterSend';
-      const expirationStartTimestamp = setExpirationStartTimestamp(mode);
+      const expirationStartTimestamp = DisappearingMessages.setExpirationStartTimestamp(mode);
 
       expect(expirationStartTimestamp, 'it should return a number').to.be.is.a('number');
       expect(isValidUnixTimestamp(expirationStartTimestamp!), 'it should be a valid unix timestamp')
@@ -70,14 +64,17 @@ describe('DisappearingMessage', () => {
     });
     it('returns undefined when disappearing messages is off', async () => {
       const mode: DisappearingMessageConversationModeType = 'off';
-      const expirationStartTimestamp = setExpirationStartTimestamp(mode);
+      const expirationStartTimestamp = DisappearingMessages.setExpirationStartTimestamp(mode);
 
       expect(expirationStartTimestamp, 'it should return undefined').to.be.undefined;
     });
     it('if we give it a timestamp it returns the older timestamp for deleteAfterRead', async () => {
       const mode: DisappearingMessageConversationModeType = 'deleteAfterRead';
       const timestamp = new Date().valueOf();
-      const expirationStartTimestamp = setExpirationStartTimestamp(mode, timestamp);
+      const expirationStartTimestamp = DisappearingMessages.setExpirationStartTimestamp(
+        mode,
+        timestamp
+      );
 
       expect(expirationStartTimestamp, 'it should return a number').to.be.is.a('number');
       expect(isValidUnixTimestamp(expirationStartTimestamp!), 'it should be a valid unix timestamp')
@@ -90,7 +87,10 @@ describe('DisappearingMessage', () => {
     it('if we give it a timestamp it returns the older timestamp for deleteAfterSend', async () => {
       const mode: DisappearingMessageConversationModeType = 'deleteAfterSend';
       const timestamp = new Date().valueOf();
-      const expirationStartTimestamp = setExpirationStartTimestamp(mode, timestamp);
+      const expirationStartTimestamp = DisappearingMessages.setExpirationStartTimestamp(
+        mode,
+        timestamp
+      );
 
       expect(expirationStartTimestamp, 'it should return a number').to.be.is.a('number');
       expect(isValidUnixTimestamp(expirationStartTimestamp!), 'it should be a valid unix timestamp')
@@ -103,7 +103,10 @@ describe('DisappearingMessage', () => {
     it('if we give it an invalid timestamp it returns undefined', async () => {
       const mode: DisappearingMessageConversationModeType = 'deleteAfterSend';
       const timestamp = -1;
-      const expirationStartTimestamp = setExpirationStartTimestamp(mode, timestamp);
+      const expirationStartTimestamp = DisappearingMessages.setExpirationStartTimestamp(
+        mode,
+        timestamp
+      );
 
       expect(expirationStartTimestamp, 'it should return undefined').to.be.undefined;
     });
@@ -116,7 +119,7 @@ describe('DisappearingMessage', () => {
       } as any);
       const expireTimer = 0; // seconds
       const expirationMode = 'off';
-      const messageExpirationType = changeToDisappearingMessageType(
+      const messageExpirationType = DisappearingMessages.changeToDisappearingMessageType(
         conversation,
         expireTimer,
         expirationMode
@@ -130,7 +133,7 @@ describe('DisappearingMessage', () => {
       } as any);
       const expireTimer = 60; // seconds
       const expirationMode = 'deleteAfterRead';
-      const messageExpirationType = changeToDisappearingMessageType(
+      const messageExpirationType = DisappearingMessages.changeToDisappearingMessageType(
         conversation,
         expireTimer,
         expirationMode
@@ -144,7 +147,7 @@ describe('DisappearingMessage', () => {
       } as any);
       const expireTimer = 60; // seconds
       const expirationMode = 'deleteAfterSend';
-      const messageExpirationType = changeToDisappearingMessageType(
+      const messageExpirationType = DisappearingMessages.changeToDisappearingMessageType(
         conversation,
         expireTimer,
         expirationMode
@@ -159,7 +162,7 @@ describe('DisappearingMessage', () => {
       } as any);
       const expireTimer = 60; // seconds
       const expirationMode = 'deleteAfterRead'; // not correct
-      const messageExpirationType = changeToDisappearingMessageType(
+      const messageExpirationType = DisappearingMessages.changeToDisappearingMessageType(
         ourConversation,
         expireTimer,
         expirationMode
@@ -176,7 +179,7 @@ describe('DisappearingMessage', () => {
       } as any);
       const expireTimer = 60; // seconds
       const expirationMode = 'deleteAfterRead'; // not correct
-      const messageExpirationType = changeToDisappearingMessageType(
+      const messageExpirationType = DisappearingMessages.changeToDisappearingMessageType(
         ourConversation,
         expireTimer,
         expirationMode
@@ -191,7 +194,7 @@ describe('DisappearingMessage', () => {
       } as any);
       const expireTimer = 0; // seconds
       const expirationMode = 'legacy';
-      const messageExpirationType = changeToDisappearingMessageType(
+      const messageExpirationType = DisappearingMessages.changeToDisappearingMessageType(
         conversation,
         expireTimer,
         expirationMode
@@ -204,7 +207,10 @@ describe('DisappearingMessage', () => {
         ...conversationArgs,
       } as any);
       const expireTimer = 0; // seconds
-      const messageExpirationType = changeToDisappearingMessageType(conversation, expireTimer);
+      const messageExpirationType = DisappearingMessages.changeToDisappearingMessageType(
+        conversation,
+        expireTimer
+      );
 
       expect(messageExpirationType, 'returns unknown').to.be.eq('unknown');
     });
@@ -218,7 +224,7 @@ describe('DisappearingMessage', () => {
       } as any);
       const expirationType = 'deleteAfterRead'; // not correct
       const expireTimer = 60; // seconds
-      const conversationMode = changeToDisappearingConversationMode(
+      const conversationMode = DisappearingMessages.changeToDisappearingConversationMode(
         ourConversation,
         expirationType,
         expireTimer
@@ -235,7 +241,7 @@ describe('DisappearingMessage', () => {
       } as any);
       const expirationType = 'deleteAfterRead'; // not correct
       const expireTimer = 60; // seconds
-      const conversationMode = changeToDisappearingConversationMode(
+      const conversationMode = DisappearingMessages.changeToDisappearingConversationMode(
         ourConversation,
         expirationType,
         expireTimer
@@ -249,7 +255,7 @@ describe('DisappearingMessage', () => {
       } as any);
       const expirationType = 'deleteAfterRead';
       const expireTimer = 60; // seconds
-      const conversationMode = changeToDisappearingConversationMode(
+      const conversationMode = DisappearingMessages.changeToDisappearingConversationMode(
         ourConversation,
         expirationType,
         expireTimer
@@ -263,7 +269,7 @@ describe('DisappearingMessage', () => {
       } as any);
       const expirationType = 'deleteAfterSend';
       const expireTimer = 60; // seconds
-      const conversationMode = changeToDisappearingConversationMode(
+      const conversationMode = DisappearingMessages.changeToDisappearingConversationMode(
         ourConversation,
         expirationType,
         expireTimer
@@ -275,7 +281,7 @@ describe('DisappearingMessage', () => {
       const conversation = new ConversationModel({ ...conversationArgs } as any);
       const expirationType: DisappearingMessageType = 'unknown';
       const expireTimer = 0; // seconds
-      const conversationMode = changeToDisappearingConversationMode(
+      const conversationMode = DisappearingMessages.changeToDisappearingConversationMode(
         conversation,
         expirationType,
         expireTimer
@@ -286,7 +292,7 @@ describe('DisappearingMessage', () => {
     it('if the type is undefined and expireTimer = 0 then the conversation mode is off', async () => {
       const conversation = new ConversationModel({ ...conversationArgs } as any);
       const expireTimer = 0; // seconds
-      const conversationMode = changeToDisappearingConversationMode(
+      const conversationMode = DisappearingMessages.changeToDisappearingConversationMode(
         conversation,
         undefined,
         expireTimer
@@ -296,7 +302,9 @@ describe('DisappearingMessage', () => {
     });
     it('if the type and expireTimer are undefined then the conversation mode is off', async () => {
       const conversation = new ConversationModel({ ...conversationArgs } as any);
-      const conversationMode = changeToDisappearingConversationMode(conversation);
+      const conversationMode = DisappearingMessages.changeToDisappearingConversationMode(
+        conversation
+      );
 
       expect(conversationMode, 'returns off').to.be.eq('off');
     });
@@ -305,7 +313,7 @@ describe('DisappearingMessage', () => {
       const conversation = new ConversationModel({ ...conversationArgs } as any);
       const expirationType: DisappearingMessageType = 'unknown';
       const expireTimer = 60; // seconds
-      const conversationMode = changeToDisappearingConversationMode(
+      const conversationMode = DisappearingMessages.changeToDisappearingConversationMode(
         conversation,
         expirationType,
         expireTimer
@@ -316,7 +324,7 @@ describe('DisappearingMessage', () => {
     it('if the type is undefined and expireTimer > 0 then the conversation mode is legacy', async () => {
       const conversation = new ConversationModel({ ...conversationArgs } as any);
       const expireTimer = 60; // seconds
-      const conversationMode = changeToDisappearingConversationMode(
+      const conversationMode = DisappearingMessages.changeToDisappearingConversationMode(
         conversation,
         undefined,
         expireTimer
@@ -335,7 +343,7 @@ describe('DisappearingMessage', () => {
       // TODO legacy messages support will be removed in a future release
       Sinon.stub(ReleasedFeatures, 'checkIsDisappearMessageV2FeatureReleased').resolves(true);
 
-      const expireUpdate = await checkForExpireUpdateInContentMessage(
+      const expireUpdate = await DisappearingMessages.checkForExpireUpdateInContentMessage(
         visibleMessage.contentProto(),
         convoToUpdate,
         true
@@ -366,7 +374,7 @@ describe('DisappearingMessage', () => {
       // TODO legacy messages support will be removed in a future release
       Sinon.stub(ReleasedFeatures, 'checkIsDisappearMessageV2FeatureReleased').resolves(true);
 
-      const expireUpdate = await checkForExpireUpdateInContentMessage(
+      const expireUpdate = await DisappearingMessages.checkForExpireUpdateInContentMessage(
         disappearingMessage.contentProto(),
         convoToUpdate,
         true
@@ -406,7 +414,7 @@ describe('DisappearingMessage', () => {
       // TODO legacy messages support will be removed in a future release
       Sinon.stub(ReleasedFeatures, 'checkIsDisappearMessageV2FeatureReleased').resolves(true);
 
-      const expireUpdate = await checkForExpireUpdateInContentMessage(
+      const expireUpdate = await DisappearingMessages.checkForExpireUpdateInContentMessage(
         expirationTimerUpdateMessage.contentProto(),
         convoToUpdate,
         true
@@ -447,7 +455,7 @@ describe('DisappearingMessage', () => {
       // TODO legacy messages support will be removed in a future release
       Sinon.stub(ReleasedFeatures, 'checkIsDisappearMessageV2FeatureReleased').resolves(true);
 
-      const expireUpdate = await checkForExpireUpdateInContentMessage(
+      const expireUpdate = await DisappearingMessages.checkForExpireUpdateInContentMessage(
         expirationTimerUpdateMessage.contentProto(),
         convoToUpdate,
         true
@@ -485,7 +493,7 @@ describe('DisappearingMessage', () => {
       });
       Sinon.stub(message, 'getConversation').returns(conversation);
 
-      checkForExpiringOutgoingMessage(message, 'unit tests');
+      DisappearingMessages.checkForExpiringOutgoingMessage(message, 'unit tests');
 
       expect(message.getExpirationStartTimestamp(), 'it should be defined').to.not.be.undefined;
       expect(
@@ -508,7 +516,7 @@ describe('DisappearingMessage', () => {
       });
       Sinon.stub(message, 'getConversation').returns(conversation);
 
-      checkForExpiringOutgoingMessage(message, 'unit tests');
+      DisappearingMessages.checkForExpiringOutgoingMessage(message, 'unit tests');
 
       expect(message.getExpirationStartTimestamp(), 'it should be undefined').to.be.undefined;
     });
@@ -524,7 +532,7 @@ describe('DisappearingMessage', () => {
       });
       Sinon.stub(message, 'getConversation').returns(conversation);
 
-      checkForExpiringOutgoingMessage(message, 'unit tests');
+      DisappearingMessages.checkForExpiringOutgoingMessage(message, 'unit tests');
 
       expect(message.getExpirationStartTimestamp(), 'it should be undefined').to.be.undefined;
     });
@@ -543,7 +551,7 @@ describe('DisappearingMessage', () => {
       });
       Sinon.stub(message, 'getConversation').returns(conversation);
 
-      checkForExpiringOutgoingMessage(message, 'unit tests');
+      DisappearingMessages.checkForExpiringOutgoingMessage(message, 'unit tests');
 
       expect(message.getExpirationStartTimestamp(), 'it should be defined').to.not.be.undefined;
       expect(

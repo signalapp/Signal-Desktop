@@ -26,10 +26,7 @@ import { SnodeAPIStore } from '../apis/snode_api/storeMessage';
 import { getConversationController } from '../conversations';
 import { MessageEncrypter } from '../crypto';
 import { addMessagePadding } from '../crypto/BufferPadding';
-import {
-  changeToDisappearingConversationMode,
-  updateMessageExpiryOnSwarm,
-} from '../disappearing_messages';
+import { DisappearingMessages } from '../disappearing_messages';
 import { ContentMessage } from '../messages/outgoing';
 import { ConfigurationMessage } from '../messages/outgoing/controlMessage/ConfigurationMessage';
 import { SharedConfigMessage } from '../messages/outgoing/controlMessage/SharedConfigMessage';
@@ -172,7 +169,7 @@ async function send(
             // a message has started to disappear
             foundMessage.getExpirationStartTimestamp()
           ) {
-            const expirationMode = changeToDisappearingConversationMode(
+            const expirationMode = DisappearingMessages.changeToDisappearingConversationMode(
               convo,
               expirationType,
               expireTimer
@@ -185,7 +182,7 @@ async function send(
               canBeDeleteAfterRead &&
               (expirationMode === 'legacy' || expirationMode === 'deleteAfterRead')
             ) {
-              await updateMessageExpiryOnSwarm(foundMessage, 'send()');
+              await DisappearingMessages.updateMessageExpiryOnSwarm(foundMessage, 'send()');
             }
           }
 

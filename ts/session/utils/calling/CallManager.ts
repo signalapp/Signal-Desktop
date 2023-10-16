@@ -30,10 +30,7 @@ import { PnServer } from '../../apis/push_notification_api';
 import { GetNetworkTime } from '../../apis/snode_api/getNetworkTime';
 import { SnodeNamespaces } from '../../apis/snode_api/namespaces';
 import { DURATION } from '../../constants';
-import {
-  changeToDisappearingMessageType,
-  setExpirationStartTimestamp,
-} from '../../disappearing_messages';
+import { DisappearingMessages } from '../../disappearing_messages';
 import { MessageSender } from '../../sending';
 import { getIsRinging } from '../RingingManager';
 import { getBlackSilenceMediaStream } from './Silence';
@@ -521,10 +518,14 @@ export async function USER_callRecipient(recipient: string) {
 
   if (calledConvo && expirationMode && expireTimer > 0) {
     // TODO legacy messages support will be removed in a future release
-    expirationType = changeToDisappearingMessageType(calledConvo, expireTimer, expirationMode);
+    expirationType = DisappearingMessages.changeToDisappearingMessageType(
+      calledConvo,
+      expireTimer,
+      expirationMode
+    );
 
     if (expirationMode === 'legacy' || expirationMode === 'deleteAfterSend') {
-      expirationStartTimestamp = setExpirationStartTimestamp(
+      expirationStartTimestamp = DisappearingMessages.setExpirationStartTimestamp(
         expirationMode,
         now,
         'USER_callRecipient'
@@ -906,10 +907,14 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
 
   if (callerConvo && expirationMode && expireTimer > 0) {
     // TODO legacy messages support will be removed in a future release
-    expirationType = changeToDisappearingMessageType(callerConvo, expireTimer, expirationMode);
+    expirationType = DisappearingMessages.changeToDisappearingMessageType(
+      callerConvo,
+      expireTimer,
+      expirationMode
+    );
 
     if (expirationMode === 'legacy' || expirationMode === 'deleteAfterSend') {
-      expirationStartTimestamp = setExpirationStartTimestamp(
+      expirationStartTimestamp = DisappearingMessages.setExpirationStartTimestamp(
         expirationMode,
         networkTimestamp,
         'USER_acceptIncomingCallRequest'
@@ -1263,14 +1268,14 @@ async function addMissedCallMessage(callerPubkey: string, sentAt: number) {
 
   if (incomingCallConversation && expirationMode && expireTimer > 0) {
     // TODO legacy messages support will be removed in a future release
-    expirationType = changeToDisappearingMessageType(
+    expirationType = DisappearingMessages.changeToDisappearingMessageType(
       incomingCallConversation,
       expireTimer,
       expirationMode
     );
 
     if (expirationMode === 'legacy' || expirationMode === 'deleteAfterSend') {
-      expirationStartTimestamp = setExpirationStartTimestamp(
+      expirationStartTimestamp = DisappearingMessages.setExpirationStartTimestamp(
         expirationMode,
         sentAt,
         'addMissedCallMessage'
