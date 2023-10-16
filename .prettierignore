@@ -30,6 +30,9 @@ js/WebAudioRecorderMp3.js
 /images/
 /fixtures/
 
+# Version control
+**/.git
+
 # Github workflows
 .github/**
 
