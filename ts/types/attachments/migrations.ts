@@ -150,7 +150,7 @@ const handleDiskDeletion = async (path: string) => {
   try {
     const exists = await pathExists(path);
 
-    // Note we want to confirm the path no longer exists
+    // NOTE we want to confirm the path no longer exists
     if (exists) {
       throw Error('Error: File path still exists.');
     }
