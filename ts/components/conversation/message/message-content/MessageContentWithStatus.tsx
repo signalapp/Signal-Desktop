@@ -52,6 +52,11 @@ const StyledMessageWithAuthor = styled.div<{ isIncoming: boolean }>`
   min-width: 0;
 `;
 
+// NOTE aligns group member avatars with the ExpireTimer
+const StyledAvatarContainer = styled.div<{ hideAvatar: boolean; isGroup: boolean }>`
+  margin-inline-start: ${props => (!props.hideAvatar && props.isGroup ? '-11px' : '')};
+`;
+
 export const MessageContentWithStatuses = (props: Props) => {
   const contentProps = useSelector((state: StateType) =>
     getMessageContentWithStatusesSelectorProps(state, props.messageId)
@@ -126,12 +131,9 @@ export const MessageContentWithStatuses = (props: Props) => {
         onDoubleClickCapture={onDoubleClickReplyToMessage}
         dataTestId={dataTestId}
       >
-        <MessageAvatar
-          messageId={messageId}
-          hideAvatar={hideAvatar}
-          isPrivate={isPrivate}
-          isGroup={isGroup}
-        />
+        <StyledAvatarContainer hideAvatar={hideAvatar} isGroup={isGroup}>
+          <MessageAvatar messageId={messageId} hideAvatar={hideAvatar} isPrivate={isPrivate} />
+        </StyledAvatarContainer>
         <MessageStatus
           dataTestId="msg-status-incoming"
           messageId={messageId}
