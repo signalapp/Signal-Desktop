@@ -49,6 +49,7 @@ import {
   useKeyboardShortcuts,
 } from '../hooks/useKeyboardShortcuts';
 import { useValueAtFixedRate } from '../hooks/useValueAtFixedRate';
+import { isReconnecting } from '../util/callingIsReconnecting';
 
 export type PropsType = {
   activeCall: ActiveCallType;
@@ -113,9 +114,6 @@ function DirectCallHeaderMessage({
     return clearInterval.bind(null, interval);
   }, [joinedAt]);
 
-  if (callState === CallState.Reconnecting) {
-    return <>{i18n('icu:callReconnecting')}</>;
-  }
   if (callState === CallState.Accepted && acceptedDuration) {
     return (
       <>
@@ -298,6 +296,7 @@ export function CallScreen({
           conversation={conversation}
           hasRemoteVideo={hasRemoteVideo}
           i18n={i18n}
+          isReconnecting={isReconnecting(activeCall)}
           setRendererCanvas={setRendererCanvas}
         />
       ) : (
@@ -333,6 +332,7 @@ export function CallScreen({
           remoteParticipants={activeCall.remoteParticipants}
           setGroupCallVideoRequest={setGroupCallVideoRequest}
           remoteAudioLevels={activeCall.remoteAudioLevels}
+          isCallReconnecting={isReconnecting(activeCall)}
         />
       );
       break;
@@ -343,15 +343,9 @@ export function CallScreen({
   let lonelyInCallNode: ReactNode;
   let localPreviewNode: ReactNode;
 
-  const isLonelyInGroup =
-    activeCall.callMode === CallMode.Group &&
-    !activeCall.remoteParticipants.length;
+  const isLonelyInCall = !activeCall.remoteParticipants.length;
 
-  const isLonelyInDirectCall =
-    activeCall.callMode === CallMode.Direct &&
-    activeCall.callState !== CallState.Accepted;
-
-  if (isLonelyInGroup || isLonelyInDirectCall) {
+  if (isLonelyInCall) {
     lonelyInCallNode = (
       <div
         className={classNames(

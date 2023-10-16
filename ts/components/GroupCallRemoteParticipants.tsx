@@ -46,6 +46,7 @@ type GridArrangement = {
 type PropsType = {
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
   i18n: LocalizerType;
+  isCallReconnecting: boolean;
   isInSpeakerView: boolean;
   remoteParticipants: ReadonlyArray<GroupCallRemoteParticipantType>;
   setGroupCallVideoRequest: (
@@ -87,6 +88,7 @@ enum VideoRequestMode {
 export function GroupCallRemoteParticipants({
   getGroupCallVideoFrameSource,
   i18n,
+  isCallReconnecting,
   isInSpeakerView,
   remoteParticipants,
   setGroupCallVideoRequest,
@@ -297,6 +299,7 @@ export function GroupCallRemoteParticipants({
             width={renderedWidth}
             remoteParticipantsCount={remoteParticipants.length}
             isActiveSpeakerInSpeakerView={isInSpeakerView}
+            isCallReconnecting={isCallReconnecting}
           />
         );
       });
@@ -424,6 +427,7 @@ export function GroupCallRemoteParticipants({
             getFrameBuffer={getFrameBuffer}
             getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
             i18n={i18n}
+            isCallReconnecting={isCallReconnecting}
             onParticipantVisibilityChanged={onParticipantVisibilityChanged}
             overflowedParticipants={overflowedParticipants}
             remoteAudioLevels={remoteAudioLevels}
