@@ -21,7 +21,7 @@ export const DataExtractionNotification = (props: PropsForDataExtractionNotifica
       messageId={messageId}
       dataTestId="data-extraction-notification"
       key={`readable-message-${messageId}`}
-      isCentered
+      isCentered={true}
     >
       <Flex
         container={true}
