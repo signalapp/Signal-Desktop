@@ -3,11 +3,12 @@
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import type { ActiveCallType } from '../types/Calling';
-import { CallMode, GroupCallConnectionState } from '../types/Calling';
+import { CallMode } from '../types/Calling';
 import type { ConversationType } from '../state/ducks/conversations';
 import type { LocalizerType } from '../types/Util';
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
 import { CallingToast, DEFAULT_LIFETIME } from './CallingToast';
+import { isReconnecting } from '../util/callingIsReconnecting';
 
 type PropsType = {
   activeCall: ActiveCallType;
@@ -22,10 +23,7 @@ type ToastType =
   | undefined;
 
 function getReconnectingToast({ activeCall, i18n }: PropsType): ToastType {
-  if (
-    activeCall.callMode === CallMode.Group &&
-    activeCall.connectionState === GroupCallConnectionState.Reconnecting
-  ) {
+  if (isReconnecting(activeCall)) {
     return {
       message: i18n('icu:callReconnecting'),
       type: 'static',

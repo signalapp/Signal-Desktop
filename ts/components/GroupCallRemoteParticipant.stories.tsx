@@ -67,6 +67,7 @@ const createProps = (
   },
   remoteParticipantsCount: 1,
   isActiveSpeakerInSpeakerView: false,
+  isCallReconnecting: false,
   ...overrideProps,
 });
 

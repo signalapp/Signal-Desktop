@@ -28,7 +28,7 @@ import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 import { MAX_FRAME_HEIGHT, MAX_FRAME_WIDTH } from '../calling/constants';
 import { useValueAtFixedRate } from '../hooks/useValueAtFixedRate';
 
-const MAX_TIME_TO_SHOW_STALE_VIDEO_FRAMES = 5000;
+const MAX_TIME_TO_SHOW_STALE_VIDEO_FRAMES = 10000;
 const MAX_TIME_TO_SHOW_STALE_SCREENSHARE_FRAMES = 60000;
 
 type BasePropsType = {
@@ -36,6 +36,7 @@ type BasePropsType = {
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
   i18n: LocalizerType;
   isActiveSpeakerInSpeakerView: boolean;
+  isCallReconnecting: boolean;
   onVisibilityChanged?: (demuxId: number, isVisible: boolean) => unknown;
   remoteParticipant: GroupCallRemoteParticipantType;
   remoteParticipantsCount: number;
@@ -69,6 +70,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
       onVisibilityChanged,
       remoteParticipantsCount,
       isActiveSpeakerInSpeakerView,
+      isCallReconnecting,
     } = props;
 
     const {
@@ -136,7 +138,13 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
         ? MAX_TIME_TO_SHOW_STALE_SCREENSHARE_FRAMES
         : MAX_TIME_TO_SHOW_STALE_VIDEO_FRAMES;
       if (frameAge > maxFrameAge) {
-        setHasReceivedVideoRecently(false);
+        // We consider that we have received video recently from a remote participant if
+        // we have received it recently relative to the last time we had a connection. If
+        // we lost their video due to our reconnecting, we still want to show the last
+        // frame of video (blurred out) until we have reconnected.
+        if (!isCallReconnecting) {
+          setHasReceivedVideoRecently(false);
+        }
       }
 
       const canvasEl = remoteVideoRef.current;
@@ -191,7 +199,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
 
       setHasReceivedVideoRecently(true);
       setIsWide(frameWidth > frameHeight);
-    }, [getFrameBuffer, videoFrameSource, sharingScreen]);
+    }, [getFrameBuffer, videoFrameSource, sharingScreen, isCallReconnecting]);
 
     useEffect(() => {
       if (!hasRemoteVideo) {
@@ -310,7 +318,11 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
           )}
           {wantsToShowVideo && (
             <canvas
-              className="module-ongoing-call__group-call-remote-participant__remote-video"
+              className={classNames(
+                'module-ongoing-call__group-call-remote-participant__remote-video',
+                isCallReconnecting &&
+                  'module-ongoing-call__group-call-remote-participant__remote-video--reconnecting'
+              )}
               style={{
                 ...canvasStyles,
                 // If we want to show video but don't have any yet, we still render the

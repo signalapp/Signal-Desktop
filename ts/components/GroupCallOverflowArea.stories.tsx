@@ -42,6 +42,7 @@ const defaultProps = {
   getFrameBuffer: memoize(() => Buffer.alloc(FRAME_BUFFER_SIZE)),
   getGroupCallVideoFrameSource: fakeGetGroupCallVideoFrameSource,
   i18n,
+  isCallReconnecting: false,
   onParticipantVisibilityChanged: action('onParticipantVisibilityChanged'),
   remoteAudioLevels: new Map<number, number>(),
   remoteParticipantsCount: 1,

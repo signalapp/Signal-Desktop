@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useRef, useEffect } from 'react';
+import classNames from 'classnames';
 import type { SetRendererCanvasType } from '../state/ducks/calling';
 import type { ConversationType } from '../state/ducks/conversations';
 import type { LocalizerType } from '../types/Util';
@@ -12,6 +13,7 @@ type PropsType = {
   conversation: ConversationType;
   hasRemoteVideo: boolean;
   i18n: LocalizerType;
+  isReconnecting: boolean;
   setRendererCanvas: (_: SetRendererCanvasType) => void;
 };
 
@@ -19,6 +21,7 @@ export function DirectCallRemoteParticipant({
   conversation,
   hasRemoteVideo,
   i18n,
+  isReconnecting,
   setRendererCanvas,
 }: PropsType): JSX.Element {
   const remoteVideoRef = useRef<HTMLCanvasElement | null>(null);
@@ -32,7 +35,11 @@ export function DirectCallRemoteParticipant({
 
   return hasRemoteVideo ? (
     <canvas
-      className="module-ongoing-call__remote-video-enabled"
+      className={classNames(
+        'module-ongoing-call__remote-video-enabled',
+        isReconnecting &&
+          'module-ongoing-call__remote-video-enabled--reconnecting'
+      )}
       ref={remoteVideoRef}
     />
   ) : (

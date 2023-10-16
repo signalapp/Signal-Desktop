@@ -3655,6 +3655,9 @@ button.module-image__border-overlay:focus {
     background-color: $color-gray-95;
     height: 100%;
     width: 100%;
+    &--reconnecting {
+      filter: blur(15px);
+    }
   }
 
   &__remote-video-disabled {
@@ -3844,6 +3847,9 @@ button.module-image__border-overlay:focus {
     &__remote-video {
       // The background-color is seen while the video loads.
       background-color: $color-gray-75;
+      &--reconnecting {
+        filter: blur(15px);
+      }
     }
 
     &__blocked {
