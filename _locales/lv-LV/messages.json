@@ -6808,13 +6808,13 @@
     "messageformat": "Nelielas izmaiņas, kļūdu labojumi un darbības uzlabojumi. Paldies, ka lietojat Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Tagad varat rediģēt ziņu arī pēc nosūtīšanas, noklikšķinot uz tās ar peles labo pogu! Izlabojiet drukas kļūdu, iekļaujiet trūkstošo sastāvdaļu mammas siera kūkas receptē vai pievienojiet joka svarīgāko daļu, ja pārāk ātri nospiežat sūtīšanas pogu. Viss ir jūsu rokās. To, ka ziņas ir rediģētas, vienmēr varēs redzēt. Tāpat varat noklikšķināt uz norādes \"Rediģēta\", lai skatītu pilnu ziņas rediģēšanas vēsturi. Izmainiet pagātni tagadnē, lai novērstu nākotnes neskaidrības jau šodien!"
-  },
   "icu:WhatsNew__v6.34--0": {
     "messageformat": "Rakstīšanas indikatori grupu sarunās tagad parāda vairākus profila attēlus, ja raksta vairākas personas. Džeimss Kamerons mūs pārliecināja, ka tikai viens avatārs ir par maz."
   },
   "icu:WhatsNew__v6.34--1": {
     "messageformat": "Tagad varat ar peles labo pogu noklikšķināt uz jebkuras nosūtītās ziņas vai nospiest tastatūras augšupvērsto bultiņu, lai rediģētu tikko teikto! Izlabojiet drukas kļūdu, iekļaujiet trūkstošo sastāvdaļu mammas siera kūkas receptē vai pievienojiet joka svarīgāko daļu, ja pārāk ātri nospiežat sūtīšanas pogu. Viss ir jūsu rokās. To, ka ziņas ir rediģētas, vienmēr varēs redzēt. Tāpat varat noklikšķināt uz norādes \"Rediģēta\", lai skatītu pilnu ziņas rediģēšanas vēsturi. Izmainiet pagātni tagadnē, lai novērstu nākotnes neskaidrības jau šodien!"
+  },
+  "icu:WhatsNew__v6.35--0": {
+    "messageformat": "Mēs bijām nolēmuši, ka nekad nekļūsim tādi kā citas lietotnes ar bezpersoniskiem paziņojumiem par uzlabojumiem, taču šis atjauninājums patiešām ietver \"kļūdu novēršanas un lietotāja pieredzes uzlabojumus\"."
   }
 }

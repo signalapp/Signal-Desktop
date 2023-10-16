@@ -6808,13 +6808,13 @@
     "messageformat": "Rregullme të vogla, riparime të gabimeve dhe përmirësime të mbarëvajtjes.  Faleminderit që përdorni Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Tani mund të klikosh me të djathtën mbi çdo mesazh të dërguar ose të shtypësh shigjetën lart në tastierën tënde për të përpunuar atë që sapo the! Rregullo një gabim shkrimi, përfshij përbërësin që mungon në recetën e biskotave me çokollatë të gjyshes ose shto dozën e ironisë në një batutë, nëse ke shtypur shumë shpejt butonin e dërgimit. Zgjedhja është jotja. Mesazhet do të shfaqen gjithmonë kur të jenë përpunuar dhe mund të shohësh historinë e plotë të redaktimit për çdo mesazh të redaktuar."
-  },
   "icu:WhatsNew__v6.34--0": {
     "messageformat": "Treguesit e shkrimit në bisedat në grup tani do të shfaqin disa fotografi profili nëse po shkruan më shumë se një person. James Cameron na bindi se nuk kishim nevojë të ndaleshim me një avatar të vetëm."
   },
   "icu:WhatsNew__v6.34--1": {
     "messageformat": "Tani mund të klikosh me të djathtën mbi çdo mesazh të dërguar ose të shtypësh shigjetën lart në tastierën tënde për të përpunuar atë që sapo the! Rregullo një gabim shkrimi, përfshi përbërësin që mungon në recetën e biskotave me çokollatë të gjyshes ose shto dozën e ironisë në një batutë, nëse ke shtypur shumë shpejt butonin e dërgimit. Ti zgjedh. Mesazhet do të shfaqen gjithmonë kur të jenë përpunuar dhe mund të shohësh historinë e plotë të redaktimit për çdo mesazh të redaktuar. Përditëso të kaluarën në të tashmen për ta parandaluar sot rrëmujën e së ardhmes!"
+  },
+  "icu:WhatsNew__v6.35--0": {
+    "messageformat": "I kemi thënë vetes se nuk do ta bënim kurrë këtë, se nuk do të ishim si aplikacionet e tjera me deklaratat e tyre dembele publike, por ky përditësim me të vërtetë përfshin \"rregullime të gabimeve dhe përmirësime UX\"."
   }
 }

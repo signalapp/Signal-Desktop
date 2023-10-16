@@ -6808,13 +6808,13 @@
     "messageformat": "Apró finomítások, hibajavítások és teljesítménynövelések. Köszönjük, hogy a Signalt használod!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Mostantól bármelyik elküldött üzenetre rákattinthatsz jobb gombbal, vagy megnyomhatod a felfelé mutató nyilat a billentyűzeten a szerkesztéshez! Kijavíthatod az elírást, beírhatsz egy hiányzó összetevőt nagyi csokis süti receptjébe, vagy hozzáadhatod a poént a viccedhez, ha túl gyorsan nyomtad meg a Küldés gombot. A választás a te kezedben van. Az üzeneteknél mindig látszódni fog, ha szerkesztették azokat, és a szerkesztett üzenetek teljes szerkesztési előzményei megtekinthetők. Frissítsd a múltat a jelenben, hogy még ma elkerüld a jövőbeli félreértéseket!"
-  },
   "icu:WhatsNew__v6.34--0": {
     "messageformat": "A csoportos csevegésekben a gépelésjelzők több profilképet jelenítenek meg, ha egynél több személy gépel. James Cameron meggyőzött minket, hogy nem kell megállnunk egy avatar után."
   },
   "icu:WhatsNew__v6.34--1": {
     "messageformat": "Mostantól bármelyik elküldött üzenetre rákattinthatsz jobb gombbal, vagy megnyomhatod a felfelé mutató nyilat a billentyűzeten az imént elmondottak szerkesztéséhez. Kijavíthatod az elírást, beírhatsz egy hiányzó összetevőt a Nagyi csokis süti receptjébe, vagy hozzáadhatod a poént a viccedhez, ha túl gyorsan nyomtad meg a Küldés gombot. A választás a te kezedben van. Az üzeneteknél mindig látszódni fog, ha szerkesztették azokat, és a szerkesztett üzenetek teljes szerkesztési előzményei megtekinthetők. Frissítsd a múltat a jelenben, hogy még ma elkerüld a jövőbeli félreértéseket!"
+  },
+  "icu:WhatsNew__v6.35--0": {
+    "messageformat": "We told ourselves that we would never do this, that we wouldn't be like the other apps with their lazy release notes, but this update really does include \"bug fixes and UX improvements.\""
   }
 }

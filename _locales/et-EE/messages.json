@@ -6808,13 +6808,13 @@
     "messageformat": "Väikesed muudatused, vigade parandused ja jõudluse täiustused. Aitäh, et kasutad Signalit!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Nüüd saad sõnumeid paremklõpsuga muuta isegi pärast saatmist! Paranda trükivigu, lisa jagatud retsepti puuduvad koostisosad, või lisa liiga vara teele pandud naljale lõpupüant. Valik on sinu. Sõnumites kuvatakse alati, millal neid on muudetud, ning samuti saad vaadata muudetud sõnumi täielikku muutmiste ajalugu, klõpsates märget „Muudetud“. Uuenda saadetud sõnumit, et vältida edaspidist segadust!"
-  },
   "icu:WhatsNew__v6.34--0": {
     "messageformat": "Kui grupivestluses trükib korraga rohkem kui üks inimene, siis kuvatakse nüüd trükkimise sümboliga mitu profiilipilti."
   },
   "icu:WhatsNew__v6.34--1": {
     "messageformat": "Nüüd saad paremklõpsata ükskõik millisele saadetud sõnumile või vajutada klaviatuuril ülesnoolt, et saadetud sõnumit muuta! Paranda trükivigu, lisa vanaema küpsiseretsepti puuduvad koostisosad, või lisa liiga vara teele pandud naljale lõpupüant. Valik on sinu. Sõnumites kuvatakse alati, millal neid on muudetud, ning samuti saad vaadata muudetud sõnumi täielikku muutmiste ajalugu."
+  },
+  "icu:WhatsNew__v6.35--0": {
+    "messageformat": "Bugiparandused ja kasutajaliidese täiustused."
   }
 }

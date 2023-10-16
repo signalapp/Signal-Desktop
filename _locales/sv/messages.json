@@ -6808,13 +6808,13 @@
     "messageformat": "Små justeringer, buggfixar och prestandaförbättringar. Tack för att du använder Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Nu kan du högerklicka på ett skickat meddelande eller trycka på uppåtpilen på tangentbordet för att redigera det du just skrivit. Fixa ett stavfel, lägg till den saknade ingrediensen i mormors kakrecept eller lägg till slutklämmen i ett skämt om du trycker på skicka-knappen för snabbt. Valet är ditt. Meddelanden visar alltid när de har redigerats, och du kan se hela redigeringshistoriken för alla redigerade meddelanden."
-  },
   "icu:WhatsNew__v6.34--0": {
     "messageformat": "Skrivindikatorer i gruppchattar visar nu flera profilbilder om mer än en person skriver."
   },
   "icu:WhatsNew__v6.34--1": {
     "messageformat": "Nu kan du högerklicka på ett skickat meddelande eller trycka på uppåtpilen på tangentbordet för att redigera det du just skrivit. Fixa ett stavfel, lägg till den saknade ingrediensen i mormors kakrecept eller lägg till slutklämmen i ett skämt om du trycker på skicka-knappen för snabbt. Valet är ditt. Meddelanden visar alltid när de har redigerats, och du kan se hela redigeringshistoriken för alla redigerade meddelanden."
+  },
+  "icu:WhatsNew__v6.35--0": {
+    "messageformat": "Buggfixar och förbättringar av användargränssnittet."
   }
 }

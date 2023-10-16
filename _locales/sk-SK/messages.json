@@ -6808,13 +6808,13 @@
     "messageformat": "Malé úpravy, opravy chýb a vylepšenia výkonu. Ďakujeme, že používate Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Chcete upraviť to, čo ste práve napísali? Jednoducho kliknite pravým tlačidlom myši na akúkoľvek odoslanú správu alebo stlačte šípku nahor na klávesnici. Opravte preklep, pridajte chýbajúcu ingredienciu do receptu na čokoládové sušienky alebo doplňte vtip o pointu, ak ste ho omylom odoslali príliš rýchlo. Je to len na vás. Správy vždy zobrazia, kedy boli upravené, a pri každej upravenej správe si môžete pozrieť celú históriu úprav."
-  },
   "icu:WhatsNew__v6.34--0": {
     "messageformat": "Indikátory písania v skupinových četoch budú odteraz zobrazovať viacero profilových fotiek, ak píše viac osôb."
   },
   "icu:WhatsNew__v6.34--1": {
     "messageformat": "Chcete upraviť to, čo ste práve napísali? Jednoducho kliknite pravým tlačidlom myši na akúkoľvek odoslanú správu alebo stlačte šípku nahor na klávesnici. Opravte preklep, pridajte chýbajúcu ingredienciu do receptu na čokoládové sušienky alebo doplňte vtip o pointu, ak ste ho omylom odoslali príliš rýchlo. Je to len na vás. Správy vždy zobrazia, kedy boli upravené, a pri každej upravenej správe si môžete pozrieť celú históriu jej úprav."
+  },
+  "icu:WhatsNew__v6.35--0": {
+    "messageformat": "Opravy chýb a vylepšenia používateľského rozhrania."
   }
 }

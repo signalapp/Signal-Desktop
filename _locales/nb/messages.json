@@ -6808,13 +6808,13 @@
     "messageformat": "Noen små justeringer, feilrettinger og ytelsesforbedringer. Takk for at du bruker Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Nå er det mulig å redigere meldinger som allerede er sendt, med et høyreklikk! Du kan for eksempel fikse en skriveleif, legge til den hemmelige ingrediensen i kakeoppskriften til bestemor, eller ta med punchlinen i vitsen hvis du trykket på «send» litt for kjapt. Valget er ditt. Det vil alltid vises at en melding har blitt redigert, og alle kan se redigeringshistorikken til meldingene i samtalen. Rett opp i gårsdagens feil i dag for å unngå forvirring i morgen!"
-  },
   "icu:WhatsNew__v6.34--0": {
     "messageformat": "Nå vil profilbildene til alle som skriver, vises nederst i gruppesamtaler dersom flere personer skriver på samme tid."
   },
   "icu:WhatsNew__v6.34--1": {
     "messageformat": "Nå er det mulig å redigere meldinger som allerede er sendt, med et høyreklikk! Eller du kan trykke på pil opp på tastaturet for å redigere hva du akkurat har skrevet! Du kan for eksempel fikse en skriveleif, legge til den hemmelige ingrediensen i kakeoppskriften til bestemor, eller ta med punchlinen i vitsen hvis du trykket på «send» litt for kjapt. Valget er ditt. Det vil alltid vises at en melding har blitt redigert, og alle kan se redigeringshistorikken til meldingene i samtalen. Rett opp i gårsdagens feil i dag for å unngå forvirring i morgen!"
+  },
+  "icu:WhatsNew__v6.35--0": {
+    "messageformat": "Forbedringer i brukergrensesnittet og andre feilrettinger."
   }
 }

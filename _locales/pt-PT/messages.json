@@ -6808,13 +6808,13 @@
     "messageformat": "Pequenos ajustes adicionais, correções de bugs e melhorias de desempenho. Obrigado por usar o Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Agora pode editar uma mensagem pressionando durante algum tempo após ela ter sido enviada! Por exemplo, caso se esqueça de um ingrediente ao partilhar a receita secreta da sopa da sua avó. As mensagens vão sempre mostrar que foram editadas e pode ver o histórico completo de edição em qualquer mensagem editada. Mais vale corrigir o passado no presente para não haver confusão no futuro!"
-  },
   "icu:WhatsNew__v6.34--0": {
     "messageformat": "Os indicadores de escrita em chats de grupo agora irão mostrar várias fotos de perfil caso mais que uma pessoa esteja a escrever."
   },
   "icu:WhatsNew__v6.34--1": {
     "messageformat": "Agora pode editar uma mensagem clicando com o botão direito do rato ou pressionando na seta de cima do teclado! Por exemplo, caso escreva uma gralha ou se esqueça de um ingrediente ao partilhar a receita secreta da sopa da sua avó. As mensagens vão sempre mostrar que foram editadas e pode ver o histórico completo de edição em qualquer mensagem editada. Mais vale corrigir o passado no presente para não haver confusão no futuro!"
+  },
+  "icu:WhatsNew__v6.35--0": {
+    "messageformat": "We told ourselves that we would never do this, that we wouldn't be like the other apps with their lazy release notes, but this update really does include \"bug fixes and UX improvements.\""
   }
 }

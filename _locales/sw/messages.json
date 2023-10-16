@@ -6808,13 +6808,13 @@
     "messageformat": "Mabadiliko madogo, marekebisho ya bugs na uboreshaji wa utendaji. Asante kwa kutumia Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Sasa unaweza kuhariri ujumbe kwa kubofya kulia baada ya ujumbe kutumwa! Rekebisha makosa, ikiwemo hitaji lililokosekana katika pishi la biskuti ya bibi, au weka kichekesho cha utani endapo utabofya kitufe cha kutuma haraka. Uamuzi ni wako. Jumbe mara zote zitaonyesha kuwa zimehaririwa, na unaweza kubofya kwenye kiashiria cha \"Imehaririwa\" ili kuona historia kamili ya uhariri kwa ujumbe wowote uliohaririwa. Sasisha ya zamani sasa hivi ili kuepuka mkanganyiko wa baadaye leo!"
-  },
   "icu:WhatsNew__v6.34--0": {
     "messageformat": "Viashiria vya kuandika kwenye magumzo ya vikundi sasa yataonyesha picha mbalimbali za wasifu endapo zaidi ya mtu mmoja anachapisha. James Cameron alitushawishi kuwa hatukuhitaji kukoma baada ya avatar moja."
   },
   "icu:WhatsNew__v6.34--1": {
     "messageformat": "Sasa unaweza ukabofya upande wa kulia kwenye jumbe zozote zilizotumwa au kubofya mshale wa juu kwenye kibodi yako kuhariri ulichotoka kusema! Rekebisha makosa, ikiwemo hitaji lililokosekana katika pishi la biskuti ya bibi, au weka kichekesho cha utani endapo utabofya kitufe cha kutuma haraka. Uamuzi ni wako. Jumbe mara zote zitaonyesha wakati ambapo zimehaririwa, na unaweza kubofya kwenye kiashiria cha \"Imehaririwa\" ili kuona historia kamili ya uhariri kwa ujumbe wowote uliohaririwa. Sasisha ya zamani sasa hivi ili kuepuka mkanganyiko siku za usoni leo!"
+  },
+  "icu:WhatsNew__v6.35--0": {
+    "messageformat": "Tulijiambia kwamba kamwe hatungefanya hivi, kwamba hatungekuwa kama programu zingine na matoleo yao dhaifu, lakini sasisho hili kweli linajumuisha \"masahihisho ya hitilafu na maboresho ya UX.\""
   }
 }

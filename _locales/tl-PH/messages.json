@@ -6808,13 +6808,13 @@
     "messageformat": "Dagdag na maliliit na pag-aayos, pag-alis ng bugs, at pagpapaganda ng takbo ng app. Maraming salamat sa paggamit ng Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Ngayon, pwede mo nang i-right click ang sent message o pindutin ang up arrow sa keyboard para i-edit ang sinabi mo! Ayusin ang typo, o magdagdag ng iba pang detalyeng hindi mo nailagay. The choice is yours. Makikita mo palagi kapag edited ang message, at makikita mo ang buong edit history nito."
-  },
   "icu:WhatsNew__v6.34--0": {
     "messageformat": "Magpapakita na ngayon ng multiple profile pictures ang typing indicator sa group chat kapag higit isang tao ang nagta-type."
   },
   "icu:WhatsNew__v6.34--1": {
     "messageformat": "Pwede mo nang i-right click ang anumang sinend mong message o pindutin ang up arrow sa keyboard para i-edit ang sinabi mo. Ayusin ang typo o magdagdag ng detalyeng nakalimutan mong ilagay kung napindot mo kaagad ang send button. The choice is yours. Palaging makikita kapag edited ang message, at makikita mo ang buong edit history nito."
+  },
+  "icu:WhatsNew__v6.35--0": {
+    "messageformat": "Bug fixes at improvements sa user interface."
   }
 }

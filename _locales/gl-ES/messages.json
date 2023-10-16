@@ -6808,13 +6808,13 @@
     "messageformat": "Comprende pequenas modificacións e melloras no rendemento. Moitas grazas por empregar Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Agora podes editar unha mensaxe aínda que a enviaras premendo o botón dereito do rato ou a frecha cara a arriba do teclado! Corrixe un erro, engade o número que falta na mensaxe ou achega máis contexto para que saiban do que estás a falar. A elección é túa. Nas mensaxes aparecerá cando se editaron, e poderás comprobar o historial de edicións completo."
-  },
   "icu:WhatsNew__v6.34--0": {
     "messageformat": "Os indicadores de escritura nas conversas grupais agora mostrarán varias imaxes de perfil se máis dunha persoa está a escribir."
   },
   "icu:WhatsNew__v6.34--1": {
     "messageformat": "Agora podes editar unha mensaxe aínda que a enviaras premendo o botón dereito do rato ou a frecha cara a arriba do teclado! Corrixe un erro, engade o número que falta na mensaxe ou achega máis contexto para que saiban do que estás a falar. A elección é túa.\n\n Nas mensaxes aparecerá cando se editaron, e poderás comprobar o historial de edicións completo."
+  },
+  "icu:WhatsNew__v6.35--0": {
+    "messageformat": "Corriximos pequenos erros e melloramos a interface de usuario."
   }
 }
