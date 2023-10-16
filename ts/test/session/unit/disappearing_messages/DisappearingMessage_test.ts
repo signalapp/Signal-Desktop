@@ -2,7 +2,10 @@ import chai, { expect } from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import Sinon from 'sinon';
 import { ConversationModel } from '../../../../models/conversation';
-import { ConversationTypeEnum } from '../../../../models/conversationAttributes';
+import {
+  ConversationAttributes,
+  ConversationTypeEnum,
+} from '../../../../models/conversationAttributes';
 import { GetNetworkTime } from '../../../../session/apis/snode_api/getNetworkTime';
 import { DisappearingMessages } from '../../../../session/disappearing_messages';
 import {
@@ -34,7 +37,7 @@ describe('DisappearingMessage', () => {
     isApproved: true,
     active_at: 123,
     didApproveMe: true,
-  };
+  } as ConversationAttributes;
 
   beforeEach(() => {
     Sinon.stub(GetNetworkTime, 'getLatestTimestampOffset').returns(getLatestTimestampOffset);
@@ -116,7 +119,7 @@ describe('DisappearingMessage', () => {
     it("if it's a Private Conversation and the expirationMode is off and expireTimer = 0 then the message's expirationType is unknown", async () => {
       const conversation = new ConversationModel({
         ...conversationArgs,
-      } as any);
+      });
       const expireTimer = 0; // seconds
       const expirationMode = 'off';
       const messageExpirationType = DisappearingMessages.changeToDisappearingMessageType(
@@ -130,7 +133,7 @@ describe('DisappearingMessage', () => {
     it("if it's a Private Conversation and the expirationMode is deleteAfterRead and expireTimer > 0 then the message's expirationType is deleteAfterRead", async () => {
       const conversation = new ConversationModel({
         ...conversationArgs,
-      } as any);
+      });
       const expireTimer = 60; // seconds
       const expirationMode = 'deleteAfterRead';
       const messageExpirationType = DisappearingMessages.changeToDisappearingMessageType(
@@ -144,7 +147,7 @@ describe('DisappearingMessage', () => {
     it("if it's a Private Conversation and the expirationMode is deleteAfterSend and expireTimer > 0 then the message's expirationType is deleteAfterSend", async () => {
       const conversation = new ConversationModel({
         ...conversationArgs,
-      } as any);
+      });
       const expireTimer = 60; // seconds
       const expirationMode = 'deleteAfterSend';
       const messageExpirationType = DisappearingMessages.changeToDisappearingMessageType(
@@ -159,7 +162,7 @@ describe('DisappearingMessage', () => {
       const ourConversation = new ConversationModel({
         ...conversationArgs,
         id: ourNumber,
-      } as any);
+      });
       const expireTimer = 60; // seconds
       const expirationMode = 'deleteAfterRead'; // not correct
       const messageExpirationType = DisappearingMessages.changeToDisappearingMessageType(
@@ -176,7 +179,7 @@ describe('DisappearingMessage', () => {
         type: ConversationTypeEnum.GROUP,
         // TODO update to 03 prefix when we release new groups
         id: '05123456564',
-      } as any);
+      });
       const expireTimer = 60; // seconds
       const expirationMode = 'deleteAfterRead'; // not correct
       const messageExpirationType = DisappearingMessages.changeToDisappearingMessageType(
@@ -191,7 +194,7 @@ describe('DisappearingMessage', () => {
     it("if it's a Private Conversation and the expirationMode is legacy and expireTimer = 0 then the message's expirationType is unknown", async () => {
       const conversation = new ConversationModel({
         ...conversationArgs,
-      } as any);
+      });
       const expireTimer = 0; // seconds
       const expirationMode = 'legacy';
       const messageExpirationType = DisappearingMessages.changeToDisappearingMessageType(
@@ -205,7 +208,7 @@ describe('DisappearingMessage', () => {
     it("if it's a Private Conversation and the expirationMode is undefined and expireTimer > 0 then the message's expirationType is unknown", async () => {
       const conversation = new ConversationModel({
         ...conversationArgs,
-      } as any);
+      });
       const expireTimer = 0; // seconds
       const messageExpirationType = DisappearingMessages.changeToDisappearingMessageType(
         conversation,
@@ -221,7 +224,7 @@ describe('DisappearingMessage', () => {
       const ourConversation = new ConversationModel({
         ...conversationArgs,
         id: ourNumber,
-      } as any);
+      });
       const expirationType = 'deleteAfterRead'; // not correct
       const expireTimer = 60; // seconds
       const conversationMode = DisappearingMessages.changeToDisappearingConversationMode(
@@ -238,7 +241,7 @@ describe('DisappearingMessage', () => {
         type: ConversationTypeEnum.GROUP,
         // TODO update to 03 prefix when we release new groups
         id: '05123456564',
-      } as any);
+      });
       const expirationType = 'deleteAfterRead'; // not correct
       const expireTimer = 60; // seconds
       const conversationMode = DisappearingMessages.changeToDisappearingConversationMode(
@@ -252,7 +255,7 @@ describe('DisappearingMessage', () => {
     it("if it's a Private Conversation and expirationType is deleteAfterRead and expireTimer > 0 then the conversation mode stays as deleteAfterRead", async () => {
       const ourConversation = new ConversationModel({
         ...conversationArgs,
-      } as any);
+      });
       const expirationType = 'deleteAfterRead';
       const expireTimer = 60; // seconds
       const conversationMode = DisappearingMessages.changeToDisappearingConversationMode(
@@ -266,7 +269,7 @@ describe('DisappearingMessage', () => {
     it("if it's a Private Conversation and expirationType is deleteAfterSend and expireTimer > 0 then the conversation mode stays as deleteAfterSend", async () => {
       const ourConversation = new ConversationModel({
         ...conversationArgs,
-      } as any);
+      });
       const expirationType = 'deleteAfterSend';
       const expireTimer = 60; // seconds
       const conversationMode = DisappearingMessages.changeToDisappearingConversationMode(
@@ -278,7 +281,7 @@ describe('DisappearingMessage', () => {
       expect(conversationMode, 'returns deleteAfterSend').to.be.eq('deleteAfterSend');
     });
     it('if the type is unknown and expireTimer = 0 then the conversation mode is off', async () => {
-      const conversation = new ConversationModel({ ...conversationArgs } as any);
+      const conversation = new ConversationModel({ ...conversationArgs });
       const expirationType: DisappearingMessageType = 'unknown';
       const expireTimer = 0; // seconds
       const conversationMode = DisappearingMessages.changeToDisappearingConversationMode(
@@ -290,7 +293,7 @@ describe('DisappearingMessage', () => {
       expect(conversationMode, 'returns off').to.be.eq('off');
     });
     it('if the type is undefined and expireTimer = 0 then the conversation mode is off', async () => {
-      const conversation = new ConversationModel({ ...conversationArgs } as any);
+      const conversation = new ConversationModel({ ...conversationArgs });
       const expireTimer = 0; // seconds
       const conversationMode = DisappearingMessages.changeToDisappearingConversationMode(
         conversation,
@@ -301,7 +304,7 @@ describe('DisappearingMessage', () => {
       expect(conversationMode, 'returns off').to.be.eq('off');
     });
     it('if the type and expireTimer are undefined then the conversation mode is off', async () => {
-      const conversation = new ConversationModel({ ...conversationArgs } as any);
+      const conversation = new ConversationModel({ ...conversationArgs });
       const conversationMode = DisappearingMessages.changeToDisappearingConversationMode(
         conversation
       );
@@ -310,7 +313,7 @@ describe('DisappearingMessage', () => {
     });
     // TODO legacy messages support will be removed in a future release
     it('if the type is unknown and expireTimer > 0 then the conversation mode is legacy', async () => {
-      const conversation = new ConversationModel({ ...conversationArgs } as any);
+      const conversation = new ConversationModel({ ...conversationArgs });
       const expirationType: DisappearingMessageType = 'unknown';
       const expireTimer = 60; // seconds
       const conversationMode = DisappearingMessages.changeToDisappearingConversationMode(
@@ -322,7 +325,7 @@ describe('DisappearingMessage', () => {
       expect(conversationMode, 'returns legacy').to.be.eq('legacy');
     });
     it('if the type is undefined and expireTimer > 0 then the conversation mode is legacy', async () => {
-      const conversation = new ConversationModel({ ...conversationArgs } as any);
+      const conversation = new ConversationModel({ ...conversationArgs });
       const expireTimer = 60; // seconds
       const conversationMode = DisappearingMessages.changeToDisappearingConversationMode(
         conversation,
@@ -339,7 +342,7 @@ describe('DisappearingMessage', () => {
       const visibleMessage = generateVisibleMessage();
       const convoToUpdate = new ConversationModel({
         ...conversationArgs,
-      } as any);
+      });
       // TODO legacy messages support will be removed in a future release
       Sinon.stub(ReleasedFeatures, 'checkIsDisappearMessageV2FeatureReleased').resolves(true);
 
@@ -370,7 +373,7 @@ describe('DisappearingMessage', () => {
 
       const convoToUpdate = new ConversationModel({
         ...conversationArgs,
-      } as any);
+      });
       // TODO legacy messages support will be removed in a future release
       Sinon.stub(ReleasedFeatures, 'checkIsDisappearMessageV2FeatureReleased').resolves(true);
 
@@ -410,7 +413,7 @@ describe('DisappearingMessage', () => {
 
       const convoToUpdate = new ConversationModel({
         ...conversationArgs,
-      } as any);
+      });
       // TODO legacy messages support will be removed in a future release
       Sinon.stub(ReleasedFeatures, 'checkIsDisappearMessageV2FeatureReleased').resolves(true);
 
@@ -451,7 +454,7 @@ describe('DisappearingMessage', () => {
       const convoToUpdate = new ConversationModel({
         ...conversationArgs,
         lastDisappearingMessageChangeTimestamp,
-      } as any);
+      });
       // TODO legacy messages support will be removed in a future release
       Sinon.stub(ReleasedFeatures, 'checkIsDisappearMessageV2FeatureReleased').resolves(true);
 
@@ -484,7 +487,7 @@ describe('DisappearingMessage', () => {
       const conversation = new ConversationModel({
         ...conversationArgs,
         id: ourNumber,
-      } as any);
+      });
       const message = generateFakeOutgoingPrivateMessage(conversation.get('id'));
       message.set({
         expirationType: 'deleteAfterRead',
@@ -508,7 +511,7 @@ describe('DisappearingMessage', () => {
       const conversation = new ConversationModel({
         ...conversationArgs,
         id: ourNumber,
-      } as any);
+      });
       const message = generateFakeOutgoingPrivateMessage(conversation.get('id'));
       message.set({
         expirationType: 'deleteAfterRead',
@@ -524,7 +527,7 @@ describe('DisappearingMessage', () => {
       const conversation = new ConversationModel({
         ...conversationArgs,
         id: ourNumber,
-      } as any);
+      });
       const message = generateFakeOutgoingPrivateMessage(conversation.get('id'));
       message.set({
         expireTimer: 300,
@@ -541,7 +544,7 @@ describe('DisappearingMessage', () => {
       const conversation = new ConversationModel({
         ...conversationArgs,
         id: ourNumber,
-      } as any);
+      });
       const message = generateFakeOutgoingPrivateMessage(conversation.get('id'));
       message.set({
         expirationType: 'deleteAfterRead',
@@ -569,7 +572,7 @@ describe('DisappearingMessage', () => {
       it('if the coversation is public it should return false', async () => {
         const conversation = new ConversationModel({
           ...conversationArgs,
-        } as any);
+        });
 
         Sinon.stub(conversation, 'isPublic').returns(true);
         const updateSuccess = await conversation.updateExpireTimer({
@@ -586,7 +589,7 @@ describe('DisappearingMessage', () => {
         const lastDisappearingMessageChangeTimestamp = GetNetworkTime.getNowWithNetworkOffset();
         const conversation = new ConversationModel({
           ...conversationArgs,
-        } as any);
+        });
         conversation.set({
           expirationMode: 'deleteAfterRead',
           expireTimer: 60,
@@ -606,7 +609,7 @@ describe('DisappearingMessage', () => {
       it('if we receive the same settings we ignore it', async () => {
         const conversation = new ConversationModel({
           ...conversationArgs,
-        } as any);
+        });
         conversation.set({
           expirationMode: 'deleteAfterRead',
           expireTimer: 60,
@@ -626,7 +629,7 @@ describe('DisappearingMessage', () => {
         const lastDisappearingMessageChangeTimestamp = GetNetworkTime.getNowWithNetworkOffset();
         const conversation = new ConversationModel({
           ...conversationArgs,
-        } as any);
+        });
         Sinon.stub(conversation, 'addSingleOutgoingMessage').resolves();
         Sinon.stub(conversation, 'commit').resolves();
         TestUtils.stubData('saveMessage').resolves();

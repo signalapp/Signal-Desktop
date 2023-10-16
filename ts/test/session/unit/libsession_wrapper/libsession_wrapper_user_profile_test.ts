@@ -3,7 +3,10 @@ import { expect } from 'chai';
 import Sinon from 'sinon';
 
 import { ConversationModel } from '../../../../models/conversation';
-import { ConversationTypeEnum } from '../../../../models/conversationAttributes';
+import {
+  ConversationAttributes,
+  ConversationTypeEnum,
+} from '../../../../models/conversationAttributes';
 import { GetNetworkTime } from '../../../../session/apis/snode_api/getNetworkTime';
 import { getConversationController } from '../../../../session/conversations';
 import { UserUtils } from '../../../../session/utils';
@@ -22,7 +25,7 @@ describe('libsession_user_profile', () => {
     isApproved: true,
     active_at: 123,
     didApproveMe: true,
-  };
+  } as ConversationAttributes;
 
   beforeEach(() => {
     Sinon.stub(GetNetworkTime, 'getLatestTimestampOffset').returns(getLatestTimestampOffset);
@@ -60,7 +63,7 @@ describe('libsession_user_profile', () => {
       const contact = new ConversationModel({
         ...validArgs,
         ...contactArgs,
-      } as any);
+      } as ConversationAttributes);
       Sinon.stub(getConversationController(), 'get').returns(contact);
       Sinon.stub(SessionUtilUserProfile, 'isUserProfileToStoreInWrapper').returns(true);
 
@@ -99,7 +102,7 @@ describe('libsession_user_profile', () => {
         ...validArgs,
         ...contactArgs,
         id: TestUtils.generateFakePubKeyStr(),
-      } as any);
+      } as ConversationAttributes);
       Sinon.stub(getConversationController(), 'get').returns(contact);
       Sinon.stub(SessionUtilUserProfile, 'isUserProfileToStoreInWrapper').returns(true);
 
@@ -116,7 +119,7 @@ describe('libsession_user_profile', () => {
         expirationMode: 'deleteAfterSend',
         expireTimer: 300,
         id: ourNumber,
-      } as any);
+      });
       Sinon.stub(getConversationController(), 'get').returns(contact);
       Sinon.stub(SessionUtilUserProfile, 'isUserProfileToStoreInWrapper').returns(true);
 

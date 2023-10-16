@@ -6,6 +6,7 @@ import Sinon from 'sinon';
 import { ConversationModel } from '../../../../models/conversation';
 import {
   CONVERSATION_PRIORITIES,
+  ConversationAttributes,
   ConversationTypeEnum,
 } from '../../../../models/conversationAttributes';
 import { GetNetworkTime } from '../../../../session/apis/snode_api/getNetworkTime';
@@ -25,7 +26,7 @@ describe('libsession_user_groups', () => {
   const validArgs = {
     type: ConversationTypeEnum.GROUP,
     active_at: 1234,
-  };
+  } as ConversationAttributes;
 
   beforeEach(() => {
     Sinon.stub(GetNetworkTime, 'getLatestTimestampOffset').returns(getLatestTimestampOffset);
@@ -45,7 +46,7 @@ describe('libsession_user_groups', () => {
       it('includes public group/community', () => {
         expect(
           SessionUtilUserGroups.isUserGroupToStoreInWrapper(
-            new ConversationModel({ ...validArgs, ...communityArgs } as any)
+            new ConversationModel({ ...validArgs, ...communityArgs })
           )
         ).to.be.eq(true);
       });
@@ -64,7 +65,7 @@ describe('libsession_user_groups', () => {
         ...validArgs,
         type: ConversationTypeEnum.GROUP,
         id: '05123456564',
-      } as any;
+      } as ConversationAttributes;
 
       it('includes legacy group', () => {
         expect(
@@ -103,7 +104,7 @@ describe('libsession_user_groups', () => {
             new ConversationModel({
               ...validLegacyGroupArgs,
               active_at: undefined,
-            })
+            } as any)
           )
         ).to.be.eq(false);
       });
@@ -127,7 +128,7 @@ describe('libsession_user_groups', () => {
             ...validArgs,
             type: ConversationTypeEnum.GROUPV3,
             id: '03123456564',
-          } as any)
+          })
         )
       ).to.be.eq(false);
     });
@@ -138,7 +139,7 @@ describe('libsession_user_groups', () => {
           new ConversationModel({
             ...validArgs,
             id: '',
-          } as any)
+          })
         )
       ).to.be.eq(false);
 
@@ -147,7 +148,7 @@ describe('libsession_user_groups', () => {
           new ConversationModel({
             ...validArgs,
             id: '9871',
-          } as any)
+          })
         )
       ).to.be.eq(false);
     });
@@ -159,7 +160,7 @@ describe('libsession_user_groups', () => {
             ...validArgs,
             id: '0511111',
             type: ConversationTypeEnum.PRIVATE,
-          } as any)
+          })
         )
       ).to.be.eq(false);
     });
@@ -173,13 +174,13 @@ describe('libsession_user_groups', () => {
         expirationMode: 'off',
         expireTimer: 0,
         members: [groupECKeyPair.publicKeyData.toString()],
-      };
+      } as ConversationAttributes;
 
       it('returns wrapper values that match with the inputted group', async () => {
         const group = new ConversationModel({
           ...validArgs,
           ...groupArgs,
-        } as any);
+        });
         Sinon.stub(getConversationController(), 'get').returns(group);
         Sinon.stub(SessionUtilUserGroups, 'isUserGroupToStoreInWrapper').returns(true);
         TestUtils.stubData('getLatestClosedGroupEncryptionKeyPair').resolves(
@@ -236,7 +237,7 @@ describe('libsession_user_groups', () => {
           ...groupArgs,
           expirationMode: 'deleteAfterSend',
           expireTimer: 300,
-        } as any);
+        });
         Sinon.stub(getConversationController(), 'get').returns(group);
         Sinon.stub(SessionUtilUserGroups, 'isUserGroupToStoreInWrapper').returns(true);
         TestUtils.stubData('getLatestClosedGroupEncryptionKeyPair').resolves(
