@@ -26,6 +26,8 @@
       max-width: $base-max-width + 44px;
       padding: 44px;
       margin-top: 44px; // Avoids overlap with the Signal logo
+      background: $color-gray-90;
+      color: $color-white;
     }
   }
 
@@ -43,6 +45,11 @@
     min-height: $size;
     min-width: $size;
     width: $size;
+
+    @include dark-theme {
+      padding: 0.5rem;
+      border-radius: $NavTabs__Toggle__blockPadding;
+    }
 
     &--loaded {
       background: $color-white;
