@@ -107,7 +107,7 @@ export interface MessageAttributes {
   messageRequestResponse?: MessageRequestResponseMsg;
 
   /**
-   * This field is used for unsending messages and used in sending expire,get_expiries and unsend message requests.
+   * This field is used for unsending messages and used in sending update expiry, get expiries and unsend message requests.
    */
   messageHash?: string;
 
