@@ -22,18 +22,13 @@ describe('unknown contacts', function unknownContacts() {
   let unknownContact: PrimaryDevice;
 
   beforeEach(async () => {
-    bootstrap = new Bootstrap();
+    bootstrap = new Bootstrap({ contactCount: 1, unknownContactCount: 1 });
     await bootstrap.init();
     app = await bootstrap.link();
     page = await app.getWindow();
 
-    const { server, desktop } = bootstrap;
-    unknownContact = await server.createPrimaryDevice({
-      profileName: 'Hugh Ameye',
-    });
-
-    const ourKey = await desktop.popSingleUseKey();
-    await unknownContact.addSingleUseKey(desktop, ourKey);
+    const { unknownContacts } = bootstrap;
+    [unknownContact] = unknownContacts;
   });
 
   afterEach(async function after() {
