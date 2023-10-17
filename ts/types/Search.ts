@@ -1,6 +1,7 @@
 export type SearchOptions = {
   ourNumber: string;
   noteToSelf: string;
+  savedMessages: string;
 };
 
 export type AdvancedSearchOptions = {
