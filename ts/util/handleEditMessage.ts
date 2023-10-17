@@ -342,7 +342,6 @@ export async function handleEditMessage(
     await modifyTargetMessage(mainMessageModel, mainMessageConversation, {
       isFirstRun: false,
       skipEdits: true,
-      skipSave: true,
     });
   }
 
