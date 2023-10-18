@@ -270,6 +270,11 @@ export function useEditLastMessageSent(
 
       const key = KeyboardLayout.lookup(ev);
 
+      const { shiftKey } = ev;
+      if (shiftKey || isCtrlOrAlt(ev)) {
+        return false;
+      }
+
       if (key === 'ArrowUp') {
         const value = maybeEditMessage();
         if (value) {
