@@ -35,6 +35,9 @@ export function ConversationView({
 }: PropsType): JSX.Element {
   const onDrop = React.useCallback(
     (event: React.DragEvent<HTMLDivElement>) => {
+      event.stopPropagation();
+      event.preventDefault();
+
       if (!event.dataTransfer) {
         return;
       }
@@ -42,9 +45,6 @@ export function ConversationView({
       if (event.dataTransfer.types[0] !== 'Files') {
         return;
       }
-
-      event.stopPropagation();
-      event.preventDefault();
 
       const { files } = event.dataTransfer;
       processAttachments({
@@ -57,35 +57,42 @@ export function ConversationView({
 
   const onPaste = React.useCallback(
     (event: React.ClipboardEvent<HTMLDivElement>) => {
+      event.stopPropagation();
+      event.preventDefault();
+
       if (!event.clipboardData) {
         return;
       }
       const { items } = event.clipboardData;
 
-      const anyImages = [...items].some(
-        item => item.type.split('/')[0] === 'image'
-      );
-      if (!anyImages) {
-        return;
-      }
-
-      event.stopPropagation();
-      event.preventDefault();
-
-      const files: Array<File> = [];
-      for (let i = 0; i < items.length; i += 1) {
-        if (items[i].type.split('/')[0] === 'image') {
+      const allVisual = [...items].every(item => {
+        const type = item.type.split('/')[0];
+        return type === 'image' || type === 'video';
+      });
+      if (allVisual) {
+        const files: Array<File> = [];
+        for (let i = 0; i < items.length; i += 1) {
           const file = items[i].getAsFile();
           if (file) {
             files.push(file);
           }
         }
+
+        processAttachments({
+          conversationId,
+          files,
+        });
+
+        return;
       }
 
-      processAttachments({
-        conversationId,
-        files,
-      });
+      const firstAttachment = items[0]?.getAsFile();
+      if (firstAttachment) {
+        processAttachments({
+          conversationId,
+          files: [firstAttachment],
+        });
+      }
     },
     [conversationId, processAttachments]
   );
