@@ -109,7 +109,7 @@ export const SessionNotificationGroupSettings = (props: { hasPassword: boolean |
             initialItem={initialNotificationEnabled}
             group={SettingsKey.settingsNotification}
             items={items}
-            onClick={async (selectedRadioValue: string | boolean) => {
+            onClick={async (selectedRadioValue: string) => {
               await window.setSettingValue(SettingsKey.settingsNotification, selectedRadioValue);
               forceUpdate();
             }}

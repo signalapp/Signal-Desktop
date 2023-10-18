@@ -4,11 +4,11 @@ import { Flex } from './Flex';
 
 type Props = {
   label: string;
-  value: string | boolean;
+  value: string;
   active: boolean;
   inputName?: string;
   beforeMargins?: string;
-  onClick?: (value: string | boolean) => void;
+  onClick?: (value: string) => void;
 };
 
 const StyledInput = styled.input<{
@@ -68,7 +68,7 @@ export const SessionRadio = (props: Props) => {
       <StyledInput
         type="radio"
         name={inputName || ''}
-        value={value.toString()}
+        value={value}
         aria-checked={active}
         checked={active}
         onChange={clickHandler}

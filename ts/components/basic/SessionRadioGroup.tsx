@@ -5,10 +5,10 @@ import styled, { CSSProperties } from 'styled-components';
 import { SessionRadio } from './SessionRadio';
 
 interface Props {
-  initialItem: string | boolean;
-  items: Array<{ value: string | boolean; label: string }>;
+  initialItem: string;
+  items: Array<{ value: string; label: string }>;
   group: string;
-  onClick: (selectedValue: string | boolean) => void;
+  onClick: (selectedValue: string) => any;
   style?: CSSProperties;
 }
 
@@ -30,7 +30,7 @@ const StyledFieldSet = styled.fieldset`
 
 export const SessionRadioGroup = (props: Props) => {
   const { items, group, initialItem, style } = props;
-  const [activeItem, setActiveItem] = useState<string | boolean>(initialItem);
+  const [activeItem, setActiveItem] = useState('');
 
   useMount(() => {
     setActiveItem(initialItem);
@@ -43,12 +43,12 @@ export const SessionRadioGroup = (props: Props) => {
 
         return (
           <SessionRadio
-            key={item.value.toString()}
+            key={item.value}
             label={item.label}
             active={itemIsActive}
             value={item.value}
             inputName={group}
-            onClick={(value: string | boolean) => {
+            onClick={(value: string) => {
               setActiveItem(value);
               props.onClick(value);
             }}

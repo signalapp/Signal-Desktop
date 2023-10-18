@@ -12,6 +12,7 @@ import {
   SessionSettingsItemWrapper,
   SessionToggleWithDescription,
 } from '../SessionSettingListItem';
+import { useHasEnterSendEnabled } from '../../../state/selectors/settings';
 
 async function toggleCommunitiesPruning() {
   try {
@@ -84,18 +85,17 @@ const AudioMessageAutoPlaySetting = () => {
 };
 
 const EnterKeyFunctionSetting = () => {
-  const forceUpdate = useUpdate();
-
-  const initialSetting = window.getSettingValue(SettingsKey.hasShiftSendEnabled) || false;
+  const initialSetting = useHasEnterSendEnabled();
+  const selectedWithSettingTrue = 'enterForNewLine';
 
   const items = [
     {
       label: window.i18n('enterSendNewMessageDescription'),
-      value: false,
+      value: 'enterForSend',
     },
     {
       label: window.i18n('enterNewLineDescription'),
-      value: true,
+      value: selectedWithSettingTrue,
     },
   ];
 
@@ -106,15 +106,15 @@ const EnterKeyFunctionSetting = () => {
       inline={false}
     >
       <SessionRadioGroup
-        initialItem={initialSetting}
+        initialItem={initialSetting ? 'enterForNewLine' : 'enterForSend'}
         group={SettingsKey.hasShiftSendEnabled} // make sure to define this key in your SettingsKey enum
         items={items}
-        /* eslint-disable @typescript-eslint/no-misused-promises */
-        onClick={async (selectedRadioValue: string | boolean) => {
-          await window.setSettingValue(SettingsKey.hasShiftSendEnabled, selectedRadioValue);
-          forceUpdate();
+        onClick={(selectedRadioValue: string) => {
+          void window.setSettingValue(
+            SettingsKey.hasShiftSendEnabled,
+            selectedRadioValue === selectedWithSettingTrue
+          );
         }}
-        /* eslint-enable @typescript-eslint/no-misused-promises */
       />
     </SessionSettingsItemWrapper>
   );

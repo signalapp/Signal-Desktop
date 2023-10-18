@@ -875,10 +875,12 @@ class CompositionBoxInner extends React.Component<Props, State> {
     const before = draft.slice(0, realSelectionStart);
     const after = draft.slice(realSelectionStart);
 
-    this.setState({ draft: `${before}\n${after}` });
+    const updatedDraft = `${before}\n${after}`;
+
+    this.setState({ draft: updatedDraft });
     updateDraftForConversation({
       conversationKey: selectedConversationKey,
-      draft: `${before}\n${after}`,
+      draft: updatedDraft,
     });
   }
 
