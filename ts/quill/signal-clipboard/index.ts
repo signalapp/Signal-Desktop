@@ -30,27 +30,29 @@ export class SignalClipboard {
 
   onCapturePaste(event: ClipboardEvent): void {
     if (event.clipboardData == null) {
+      event.preventDefault();
+      event.stopPropagation();
+
       return;
     }
 
     const clipboard = this.quill.getModule('clipboard');
     const selection = this.quill.getSelection();
-
-    if (selection == null) {
-      return;
-    }
-
     const text = event.clipboardData.getData('text/plain');
     const signal = event.clipboardData.getData('text/signal');
-
-    if (!text && !signal) {
-      return;
-    }
 
     const clipboardContainsFiles = event.clipboardData.files?.length > 0;
     if (!clipboardContainsFiles) {
       event.preventDefault();
       event.stopPropagation();
+    }
+
+    if (selection == null) {
+      return;
+    }
+
+    if (!text && !signal) {
+      return;
     }
 
     const clipboardDelta = signal
