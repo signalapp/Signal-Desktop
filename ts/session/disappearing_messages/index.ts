@@ -157,7 +157,11 @@ function setExpirationStartTimestamp(
   let expirationStartTimestamp: number | undefined = GetNetworkTime.getNowWithNetworkOffset();
 
   if (callLocation) {
-    // window.log.debug(`[setExpirationStartTimestamp] called from: ${callLocation} ${messageId ?  `messageId: ${messageId} ` : ''}`);
+    // window.log.debug(
+    //   `[setExpirationStartTimestamp] called from: ${callLocation} ${
+    //     messageId ? `messageId: ${messageId} ` : ''
+    //   }`
+    // );
   }
 
   // TODO legacy messages support will be removed in a future release

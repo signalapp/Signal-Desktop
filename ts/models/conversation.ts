@@ -934,6 +934,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       window.log.debug(
         `[updateExpireTimer] We dont send an ExpireTimerUpdate because this was a remote change receivedAt: ${receivedAt} fromSync: ${fromSync} for ${this.id}`
       );
+
       if (!message.getExpirationStartTimestamp()) {
         const canBeDeleteAfterSend = this.isMe() || this.isGroup();
         if (

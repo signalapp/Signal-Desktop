@@ -117,13 +117,16 @@ async function mergeConfigsWithIncomingUpdates(
         }
       }
 
-      const mergedCount = await GenericWrapperActions.merge(variant, toMerge);
+      const hashesMerged = await GenericWrapperActions.merge(variant, toMerge);
       const needsPush = await GenericWrapperActions.needsPush(variant);
       const needsDump = await GenericWrapperActions.needsDump(variant);
-      const latestEnvelopeTimestamp = Math.max(...sameVariant.map(m => m.envelopeTimestamp));
+      const mergedTimestamps = sameVariant
+        .filter(m => hashesMerged.includes(m.messageHash))
+        .map(m => m.envelopeTimestamp);
+      const latestEnvelopeTimestamp = Math.max(...mergedTimestamps);
 
       window.log.debug(
-        `${variant}: "${publicKey}" needsPush:${needsPush} needsDump:${needsDump}; mergedCount:${mergedCount} `
+        `${variant}: "${publicKey}" needsPush:${needsPush} needsDump:${needsDump}; mergedCount:${hashesMerged.length}`
       );
 
       if (window.sessionFeatureFlags.debug.debugLibsessionDumps) {
