@@ -38,6 +38,8 @@ import { MIME } from '../../types';
 import { AttachmentTypeWithPath } from '../../types/Attachment';
 import {
   THUMBNAIL_CONTENT_TYPE,
+  getAudioDuration,
+  getVideoDuration,
   makeImageThumbnailBuffer,
   makeVideoScreenshot,
 } from '../../types/attachments/VisualAttachment';
@@ -52,6 +54,7 @@ import { NoMessageInConversation } from './SubtleNotification';
 import { ConversationHeaderWithDetails } from './header/ConversationHeader';
 import { MessageDetail } from './message/message-item/MessageDetail';
 
+import { isAudio } from '../../types/MIME';
 import { HTMLDirection } from '../../util/i18n';
 import { NoticeBanner } from '../NoticeBanner';
 import { SessionSpinner } from '../basic/SessionSpinner';
@@ -452,19 +455,25 @@ export class SessionConversation extends React.Component<Props, State> {
         const attachmentWithVideoPreview = await renderVideoPreview(contentType, file, fileName);
         this.addAttachments([attachmentWithVideoPreview]);
       } else {
-        this.addAttachments([
-          {
-            file,
-            size: file.size,
-            contentType,
-            fileName,
-            url: '',
-            isVoiceMessage: false,
-            fileSize: null,
-            screenshot: null,
-            thumbnail: null,
-          },
-        ]);
+        const attachment: StagedAttachmentType = {
+          file,
+          size: file.size,
+          contentType,
+          fileName,
+          url: '',
+          isVoiceMessage: false,
+          fileSize: null,
+          screenshot: null,
+          thumbnail: null,
+        };
+
+        if (isAudio(contentType)) {
+          const objectUrl = URL.createObjectURL(file);
+          const duration = await getAudioDuration({ objectUrl, contentType });
+          attachment.duration = duration;
+        }
+
+        this.addAttachments([attachment]);
       }
     } catch (e) {
       window?.log?.error(
@@ -567,6 +576,10 @@ const renderVideoPreview = async (contentType: string, file: File, fileName: str
       objectUrl,
       contentType: type,
     });
+    const duration = await getVideoDuration({
+      objectUrl,
+      contentType: type,
+    });
     const data = await blobToArrayBuffer(thumbnail);
     const url = arrayBufferToObjectURL({
       data,
@@ -577,6 +590,7 @@ const renderVideoPreview = async (contentType: string, file: File, fileName: str
       size: file.size,
       fileName,
       contentType,
+      duration,
       videoUrl: objectUrl,
       url,
       isVoiceMessage: false,
