@@ -113,7 +113,7 @@ export const ConversationHeaderTitle = () => {
     }
 
     if (visibleSubtitle === 'disappearingMessages') {
-      dispatch(setRightOverlayMode('disappearing-messages'));
+      dispatch(setRightOverlayMode({ type: 'disappearing_messages', params: null }));
     } else {
       dispatch(resetRightOverlayMode());
     }

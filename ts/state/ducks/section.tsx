@@ -87,8 +87,17 @@ export function resetOverlayMode(): ResetOverlayModeActionType {
   };
 }
 
-// TODO possibly more overlays here
-export type RightOverlayMode = 'disappearing-messages';
+type RightPanelDefaultState = { type: 'default'; params: null };
+type RightPanelMessageInfoState = {
+  type: 'message_info';
+  params: { messageId: string; visibleAttachmentIndex: number | undefined };
+};
+type RightPanelDisappearingMessagesState = { type: 'disappearing_messages'; params: null };
+
+export type RightOverlayMode =
+  | RightPanelDefaultState
+  | RightPanelMessageInfoState
+  | RightPanelDisappearingMessagesState;
 
 export function setRightOverlayMode(overlayMode: RightOverlayMode): RightOverlayModeActionType {
   return {
@@ -126,7 +135,7 @@ export const initialSectionState: SectionStateType = {
   focusedSettingsSection: undefined,
   isAppFocused: false,
   overlayMode: undefined,
-  rightOverlayMode: undefined,
+  rightOverlayMode: { type: 'default', params: null },
 };
 
 export type SectionStateType = {

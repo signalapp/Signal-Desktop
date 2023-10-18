@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { Dispatch, useCallback, useEffect, useRef, useState } from 'react';
 
+import { isNumber } from 'lodash';
 import { Item, ItemParams, Menu, useContextMenu } from 'react-contexify';
 import { useDispatch } from 'react-redux';
 import { useClickAway, useMouse } from 'react-use';
 import styled from 'styled-components';
-import { isNumber } from 'lodash';
 import { Data } from '../../../../data/data';
 
 import { MessageInteraction } from '../../../../interactions';
@@ -21,9 +21,11 @@ import {
 import { MessageRenderingProps } from '../../../../models/messageType';
 import { pushUnblockToSend } from '../../../../session/utils/Toast';
 import {
+  openRightPanel,
   showMessageDetailsView,
   toggleSelectedMessageId,
 } from '../../../../state/ducks/conversations';
+import { setRightOverlayMode } from '../../../../state/ducks/section';
 import {
   useMessageAttachments,
   useMessageBody,
@@ -162,6 +164,29 @@ const RetryItem = ({ messageId }: MessageId) => {
   return showRetry ? <Item onClick={onRetry}>{window.i18n('resend')}</Item> : null;
 };
 
+export const showMessageInfoOverlay = async ({
+  messageId,
+  dispatch,
+}: {
+  messageId: string;
+  dispatch: Dispatch<any>;
+}) => {
+  const found = await Data.getMessageById(messageId);
+  if (found) {
+    const messageDetailsProps = await found.getPropsForMessageDetail();
+    dispatch(showMessageDetailsView(messageDetailsProps));
+    dispatch(
+      setRightOverlayMode({
+        type: 'message_info',
+        params: { messageId, visibleAttachmentIndex: 0 },
+      })
+    );
+    dispatch(openRightPanel());
+  } else {
+    window.log.warn(`[showMessageInfoOverlay] Message ${messageId} not found in db`);
+  }
+};
+
 export const MessageContextMenu = (props: Props) => {
   const { messageId, contextMenuId, enableReactions } = props;
   const dispatch = useDispatch();
@@ -213,16 +238,6 @@ export const MessageContextMenu = (props: Props) => {
     },
     [showEmojiPanel]
   );
-
-  const onShowDetail = async () => {
-    const found = await Data.getMessageById(messageId);
-    if (found) {
-      const messageDetailsProps = await found.getPropsForMessageDetail();
-      dispatch(showMessageDetailsView(messageDetailsProps));
-    } else {
-      window.log.warn(`Message ${messageId} not found in db`);
-    }
-  };
 
   const selectMessageText = window.i18n('selectMessage');
   const deleteMessageJustForMeText = window.i18n('deleteJustForMe');
@@ -361,9 +376,13 @@ export const MessageContextMenu = (props: Props) => {
           {(isSent || !isOutgoing) && (
             <Item onClick={onReply}>{window.i18n('replyToMessage')}</Item>
           )}
-          {(!isPublic || isOutgoing) && (
-            <Item onClick={onShowDetail}>{window.i18n('moreInformation')}</Item>
-          )}
+          <Item
+            onClick={async () => {
+              await showMessageInfoOverlay({ messageId, dispatch });
+            }}
+          >
+            {window.i18n('moreInformation')}
+          </Item>
           <RetryItem messageId={messageId} />
           {isDeletable ? <Item onClick={onSelect}>{selectMessageText}</Item> : null}
           {isDeletable && !isPublic ? (

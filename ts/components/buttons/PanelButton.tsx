@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
 import styled, { CSSProperties } from 'styled-components';
+import { Flex } from '../basic/Flex';
 
 // NOTE Used for descendant components
 export const StyledContent = styled.div<{ disabled: boolean }>`
@@ -44,7 +45,9 @@ const StyledRoundedPanelButtonGroup = styled.div`
 
 const PanelButtonContainer = styled.div`
   overflow: auto;
-  min-height: 50px;
+  // TODO clear
+  /* min-height: 50px; */
+  min-height: 40px;
   max-height: 100%;
 `;
 
@@ -106,5 +109,28 @@ export const PanelButton = (props: PanelButtonProps) => {
     >
       {children}
     </StyledPanelButton>
+  );
+};
+
+const StyledSubtitle = styled.p<{ color?: string }>`
+  font-size: var(--font-size-xs);
+  margin: 0;
+  text-align: initial;
+  ${props => props.color && `color: ${props.color};`}
+`;
+
+export const PanelButtonText = (props: { text: string; subtitle?: string; color?: string }) => {
+  return (
+    <Flex
+      container={true}
+      width={'100%'}
+      flexDirection={'column'}
+      alignItems={'flex-start'}
+      margin="0 var(--margins-lg) 0 var(--margins-lg)"
+      minWidth="0"
+    >
+      <StyledText color={props.color}>{props.text}</StyledText>
+      {!!props.subtitle && <StyledSubtitle color={props.color}>{props.subtitle}</StyledSubtitle>}
+    </Flex>
   );
 };

@@ -355,7 +355,7 @@ export const OverlayRightPanelSettings = () => {
             iconType={'timer50'}
             text={window.i18n('disappearingMessages')}
             onClick={() => {
-              dispatch(setRightOverlayMode('disappearing-messages'));
+              dispatch(setRightOverlayMode({ type: 'disappearing_messages', params: null }));
             }}
           />
         </PanelButtonGroup>

@@ -1,15 +1,92 @@
 import React from 'react';
 
+import styled from 'styled-components';
 import { useRightOverlayMode } from '../../../hooks/useUI';
+import { Flex } from '../../basic/Flex';
 import { OverlayRightPanelSettings } from './overlay/OverlayRightPanelSettings';
 import { OverlayDisappearingMessages } from './overlay/disappearing-messages/OverlayDisappearingMessages';
+
+const StyledRightPanel = styled(Flex)`
+  h2 {
+    word-break: break-word;
+  }
+  .description {
+    margin: var(--margins-md) 0;
+    min-height: 4rem;
+    width: inherit;
+    color: var(--text-secondary-color);
+    text-align: center;
+    display: none;
+  }
+  // no double border (top and bottom) between two elements
+  &-item + &-item {
+    border-top: none;
+  }
+  .module-empty-state {
+    text-align: center;
+  }
+  .module-attachment-section__items {
+    &-media {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      width: 100%;
+    }
+    &-documents {
+      width: 100%;
+    }
+  }
+  .module-media {
+    &-gallery {
+      &__tab-container {
+        padding-top: 1rem;
+      }
+      &__tab {
+        color: var(--text-primary-color);
+        font-weight: bold;
+        font-size: 0.9rem;
+        padding: 0.6rem;
+        opacity: 0.8;
+        &--active {
+          border-bottom: none;
+          opacity: 1;
+          &:after {
+            content: ''; /* This is necessary for the pseudo element to work. */
+            display: block;
+            margin: 0 auto;
+            width: 70%;
+            padding-top: 0.5rem;
+            border-bottom: 4px solid var(--primary-color);
+          }
+        }
+      }
+      &__content {
+        padding: var(--margins-xs);
+        margin-bottom: 1vh;
+        .module-media-grid-item__image,
+        .module-media-grid-item {
+          height: calc(
+            var(--right-panel-width) / 4
+          ); //.right-panel is var(--right-panel-width) and we want three rows with some space so divide it by 4
+          width: calc(
+            var(--right-panel-width) / 4
+          ); //.right-panel is var(--right-panel-width) and we want three rows with some space so divide it by 4
+          margin: auto;
+        }
+      }
+    }
+  }
+`;
 
 const ClosableOverlay = () => {
   const rightOverlayMode = useRightOverlayMode();
 
-  switch (rightOverlayMode) {
-    case 'disappearing-messages':
+  switch (rightOverlayMode?.type) {
+    case 'disappearing_messages':
       return <OverlayDisappearingMessages />;
+    case 'message_info':
+      // TODO: copy this
+      // return <OverlayMessageInfo />;
+      return <></>;
     default:
       return <OverlayRightPanelSettings />;
   }
@@ -17,8 +94,15 @@ const ClosableOverlay = () => {
 
 export const RightPanel = () => {
   return (
-    <div className="right-panel">
+    <StyledRightPanel
+      container={true}
+      flexDirection={'column'}
+      alignItems={'center'}
+      width={'var(--right-panel-width)'}
+      height={'var(--right-panel-height)'}
+      className="right-panel"
+    >
       <ClosableOverlay />
-    </div>
+    </StyledRightPanel>
   );
 };
