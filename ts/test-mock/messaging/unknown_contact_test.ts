@@ -12,7 +12,7 @@ import { Bootstrap } from '../bootstrap';
 
 export const debug = createDebug('mock:test:edit');
 
-describe('unknown contacts', function unknownContacts() {
+describe('unknown contacts', function unknownContactsTest() {
   this.timeout(durations.MINUTE);
   this.retries(4);
 
