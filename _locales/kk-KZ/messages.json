@@ -6808,13 +6808,13 @@
     "messageformat": "Кішігірім түзетпелер жасалды, ақаулар жөнделді және жұмысы жақсартылды. Signal-ды қолданғаныңыз үшін рақмет!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.34--0": {
-    "messageformat": "Бірнеше адам жазып жатса, топтық чаттағы мәтін теру индикаторлары енді бірнеше профиль суретін көрсетеді. Джеймс Кэмерон бір ғана аватармен шектеліп қалмау керектігіне көндірді."
-  },
-  "icu:WhatsNew__v6.34--1": {
-    "messageformat": "Енді тінтуірдің оң жақ түймесін немесе пернетақтадағы жоғары көрсеткісін басып, қазір ғана жіберілген хатты түзете аласыз! \"Жіберу\" түймесін ерте басып қойған болсаңыз да емле қатесін түзетіңіз, әжеңіздің шоколад түйіршіктері қосылған печенье рецептісіне жетіспейтін ингредиентті қосыңыз немесе қалжыңыңыз өтіп кететін сөз қосып жіберіңіз. Таңдау өз еркіңізде.\n\n Хаттардың өзгертілгендігі көрсетіліп тұрады. \"Өзгертілді\" индикаторын түртіп, хаттардың қалай өзгертілгенін толық көре аласыз. Болашақта шатаспау үшін ескі қателерді қазір түзетіңіз!"
-  },
   "icu:WhatsNew__v6.35--0": {
-    "messageformat": "We told ourselves that we would never do this, that we wouldn't be like the other apps with their lazy release notes, but this update really does include \"bug fixes and UX improvements.\""
+    "messageformat": "Басқа қолданбалар сияқты жаңа нұсқа жайлы іш пыстырарлық ескертпелер жасамаймыз деп өзімізге уәде бергенбіз және бұл нұсқада шынымен де \"ақаулар түзетіліп, графикалық интерфейс жақсартылды.\""
+  },
+  "icu:WhatsNew__v6.36--0": {
+    "messageformat": "We updated the user interface to better indicate when a group video call is reconnecting. Now you'll see blurred thumbnails instead of what used to look like an elaborate prank where everyone pretended to freeze at the same time."
+  },
+  "icu:WhatsNew__v6.36--1": {
+    "messageformat": "The system tray icon will no longer appear pixelated on Ubuntu Linux, unless you've managed to get Ubuntu Linux running on an old smart refrigerator with a low-res screen."
   }
 }

@@ -6808,13 +6808,13 @@
     "messageformat": "Tambahan penyesuaian kecil, perbaikan bug, dan peningkatan performa. Terima kasih telah menggunakan Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.34--0": {
-    "messageformat": "Indikator pengetikan dalam obrolan grup kini menampilkan beberapa foto profil jika orang yang sedang mengetik lebih dari satu."
-  },
-  "icu:WhatsNew__v6.34--1": {
-    "messageformat": "Kini Anda bisa klik kanan pesan yang telah terkirim atau menekan tombol panah atas di keyboard untuk mengedit isi pesan sebelumnya! Perbaiki salah ketik, termasuk saat ada bahan yang lupa belum ditulis dalam resep soto betawi ala nenek, atau tambahkan punchline pada lelucon jika Anda telanjur menekan tombol kirim. Pilihan ada di tangan Anda. Pesan akan selalu terlihat jika telah diedit, dan Anda bisa melihat riwayat pengeditan lengkap untuk setiap pesan yang diedit."
-  },
   "icu:WhatsNew__v6.35--0": {
     "messageformat": "Perbaikan bug dan penyempurnaan pada antarmuka pengguna."
+  },
+  "icu:WhatsNew__v6.36--0": {
+    "messageformat": "We updated the user interface to better indicate when a group video call is reconnecting. Now you'll see blurred thumbnails instead of what used to look like an elaborate prank where everyone pretended to freeze at the same time."
+  },
+  "icu:WhatsNew__v6.36--1": {
+    "messageformat": "The system tray icon will no longer appear pixelated on Ubuntu Linux, unless you've managed to get Ubuntu Linux running on an old smart refrigerator with a low-res screen."
   }
 }

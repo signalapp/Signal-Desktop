@@ -6808,13 +6808,13 @@
     "messageformat": "Pequenas alterações adicionais, correções de bugs e melhorias de desempenho. Agradecemos por usar o Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.34--0": {
-    "messageformat": "Os indicadores de digitação nos chats de grupo agora vão exibir várias fotos de perfil se mais de uma pessoa estiver digitando."
-  },
-  "icu:WhatsNew__v6.34--1": {
-    "messageformat": "Agora você pode clicar com o botão direito em qualquer mensagem enviada ou pressionar a seta para cima no seu teclado para editar o que acabou de escrever! Corrija um erro de digitação, inclua o ingrediente que falta na receita de biscoito de chocolate da vovó ou adicione a parte final de uma piada se você clicar no botão enviar antes da hora. Você decide. Será sempre possível saber se as mensagens foram editadas, é só clicar no indicador \"Editada\" para ver o histórico de edições completo."
-  },
   "icu:WhatsNew__v6.35--0": {
     "messageformat": "Correções de bugs e melhorias na interface do usuário."
+  },
+  "icu:WhatsNew__v6.36--0": {
+    "messageformat": "We updated the user interface to better indicate when a group video call is reconnecting. Now you'll see blurred thumbnails instead of what used to look like an elaborate prank where everyone pretended to freeze at the same time."
+  },
+  "icu:WhatsNew__v6.36--1": {
+    "messageformat": "The system tray icon will no longer appear pixelated on Ubuntu Linux, unless you've managed to get Ubuntu Linux running on an old smart refrigerator with a low-res screen."
   }
 }

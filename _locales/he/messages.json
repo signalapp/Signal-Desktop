@@ -6808,13 +6808,13 @@
     "messageformat": "התאמות קטנות, תיקוני באגים ושיפורי ביצועים. תודה על השימוש ב-Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.34--0": {
-    "messageformat": "מחווני הקלדה בצ׳אטים קבוצתיים יציגו מעכשיו תמונות פרופיל מרובות אם יותר מאדם אחד מקליד."
-  },
-  "icu:WhatsNew__v6.34--1": {
-    "messageformat": "עכשיו אפשר להשתמש בקליק ימני על כל הודעה שנשלחה או ללחוץ על חץ למעלה במקלדת כדי לערוך את מה שהרגע אמרת! מתקנים שגיאות ומוסיפים פרטים ששכחת, כולל המרכיב החסר במתכון של סבתא לעוגיות שוקולד צ׳יפס, או מוסיפים את הפאנצ׳ליין לבדיחה אם לחצת על שליחה לפני הזמן. הבחירה היא שלך. תמיד יהיה אפשר לראות כשהודעה נערכה, וניתן לראות את היסטוריית העריכות המלאה עבור כל ההודעות שנערכו."
-  },
   "icu:WhatsNew__v6.35--0": {
     "messageformat": "תיקוני באגים ושיפורים בממשק המשתמש."
+  },
+  "icu:WhatsNew__v6.36--0": {
+    "messageformat": "We updated the user interface to better indicate when a group video call is reconnecting. Now you'll see blurred thumbnails instead of what used to look like an elaborate prank where everyone pretended to freeze at the same time."
+  },
+  "icu:WhatsNew__v6.36--1": {
+    "messageformat": "The system tray icon will no longer appear pixelated on Ubuntu Linux, unless you've managed to get Ubuntu Linux running on an old smart refrigerator with a low-res screen."
   }
 }

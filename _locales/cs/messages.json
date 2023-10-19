@@ -6808,13 +6808,13 @@
     "messageformat": "Drobná vylepšení, opravy chyb a zvýšení výkonu. Děkujeme, že používáte Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.34--0": {
-    "messageformat": "Ukazatele psaní ve skupinových chatech teď budou zobrazovat více profilových obrázků, pokud bude psát několik lidí najednou."
-  },
-  "icu:WhatsNew__v6.34--1": {
-    "messageformat": "Teď můžete na jakoukoli odeslanou zprávu kliknout pravým tlačítkem myši nebo stisknout šipku nahoru na klávesnici a upravit to, co jste právě napsali! Opravte překlep, doplňte chybějící přísadu do babiččina receptu na čokoládové sušenky nebo přidejte pointu do vtipu, jestli jste se s odesláním zprávy příliš unáhlili. Je to jen na vás. U zpráv se vždy zobrazí, kdy byly upraveny, a u všech upravených zpráv si můžete prohlédnout celou historii úprav."
-  },
   "icu:WhatsNew__v6.35--0": {
     "messageformat": "Opravy chyb a vylepšení uživatelského prostředí."
+  },
+  "icu:WhatsNew__v6.36--0": {
+    "messageformat": "We updated the user interface to better indicate when a group video call is reconnecting. Now you'll see blurred thumbnails instead of what used to look like an elaborate prank where everyone pretended to freeze at the same time."
+  },
+  "icu:WhatsNew__v6.36--1": {
+    "messageformat": "The system tray icon will no longer appear pixelated on Ubuntu Linux, unless you've managed to get Ubuntu Linux running on an old smart refrigerator with a low-res screen."
   }
 }

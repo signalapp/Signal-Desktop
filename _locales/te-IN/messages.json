@@ -6808,13 +6808,13 @@
     "messageformat": "చిన్న ట్వీక్‌లు, బగ్ ఫిక్స్‌లు, మరియు పనితీరు మెరుగుదలలు. Signal ఉపయోగించినందుకు మీకు ధన్యవాదాలు!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.34--0": {
-    "messageformat": "ఒకరి కంటే ఎక్కువ మంది టైప్ చేస్తుంటే గ్రూప్ చాట్‌ల లోని టైపింగ్ ఇండికేటర్లు ఇప్పుడు బహుళ ప్రొఫైల్ చిత్రాలను ప్రదర్శిస్తాయి. ఒక అవతార్ తర్వాత మనం ఆపాల్సిన అవసరం లేదని జేమ్స్ కామెరూన్ మమ్మల్ని ఒప్పించారు."
-  },
-  "icu:WhatsNew__v6.34--1": {
-    "messageformat": "పంపబడిన ఏదైనా సందేశంపై ఇప్పుడు మీరు కుడి-క్లిక్ చేయవచ్చు లేదా మీరు ఇప్పుడే చెప్పినదానిని సవరించడానికి మీ కీబోర్డ్‌లోని అప్ బాణాన్ని నొక్కండి! అక్షర దోషాన్ని సరి చేయండి, అమ్మమ్మ చాక్లెట్ చిప్ కుకీ రెసిపీలో తప్పిపోయిన పదార్ధాన్ని చేర్చండి, లేదా ఒకవేళ మీరు పంపండి బటన్‌ను చాలా త్వరగా నొక్కితే జోక్‌కు పంచ్‌లైన్‌ను జోడించండి. ఎంపిక మీదే. సందేశాలు సవరించబడినప్పుడు ఎల్లప్పుడూ చూపబడతాయి మరియు సవరించిన ఏవైనా సందేశాల కోసం పూర్తి సవరణ చరిత్రను మీరు చూడవచ్చు. భవిష్యత్తు గందరగోళాన్ని ఈరోజే నివారించడానికి గతాన్ని వర్తమానంలో అప్‌డేట్ చేయండి!"
-  },
   "icu:WhatsNew__v6.35--0": {
     "messageformat": "బగ్ పరిష్కారాలు మరియు యూజర్ ఇంటర్‌ఫేస్ మెరుగుదలలు"
+  },
+  "icu:WhatsNew__v6.36--0": {
+    "messageformat": "We updated the user interface to better indicate when a group video call is reconnecting. Now you'll see blurred thumbnails instead of what used to look like an elaborate prank where everyone pretended to freeze at the same time."
+  },
+  "icu:WhatsNew__v6.36--1": {
+    "messageformat": "The system tray icon will no longer appear pixelated on Ubuntu Linux, unless you've managed to get Ubuntu Linux running on an old smart refrigerator with a low-res screen."
   }
 }

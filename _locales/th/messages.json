@@ -6808,13 +6808,13 @@
     "messageformat": "มีการปรับเปลี่ยนเล็กน้อย พร้อมแก้ไขบั๊ก และการพัฒนาประสิทธิภาพให้ดียิ่งขึ้น ขอขอบคุณที่เลือกใช้ Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.34--0": {
-    "messageformat": "เราอัปเกรดฟีเจอร์สัญลักษณ์ที่บ่งบอกว่าพิมพ์อยู่สำหรับแชทกลุ่ม ให้แสดงรูปโปรไฟล์ของสมาชิกได้หลายคนเมื่อมีมากกว่าหนึ่งรายกำลังพิมพ์อยู่ในห้อง"
-  },
-  "icu:WhatsNew__v6.34--1": {
-    "messageformat": "แก้ไขข้อความที่ส่งแล้วได้แบบทันใจ ทำได้ง่ายๆ แค่คลิกขวาหรือกดปุ่มลูกศรชี้ขึ้นบนแป้นพิมพ์เท่านั้น! ตอบโจทย์สำหรับคนมือ(กดส่ง)ไว ไม่ว่าจะเป็นการแก้คำผิด เพิ่มเติมรายละเอียดในเรื่องที่กำลังเล่า หรืออธิบายมุกที่เพื่อนอาจยังไม่เข้าใจ โดยคุณจะทราบเสมอเมื่อมีการแก้ไขข้อความ ทั้งยังสามารถคลิกดูประวัติการแก้ไขทั้งหมดได้อีกด้วย"
-  },
   "icu:WhatsNew__v6.35--0": {
     "messageformat": "แก้ไขบั๊กและปรับปรุงอินเทอร์เฟซผู้ใช้"
+  },
+  "icu:WhatsNew__v6.36--0": {
+    "messageformat": "We updated the user interface to better indicate when a group video call is reconnecting. Now you'll see blurred thumbnails instead of what used to look like an elaborate prank where everyone pretended to freeze at the same time."
+  },
+  "icu:WhatsNew__v6.36--1": {
+    "messageformat": "The system tray icon will no longer appear pixelated on Ubuntu Linux, unless you've managed to get Ubuntu Linux running on an old smart refrigerator with a low-res screen."
   }
 }

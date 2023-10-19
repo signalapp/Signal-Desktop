@@ -6808,13 +6808,13 @@
     "messageformat": "تغییرات کوچک، رفع اشکالات و بهبود عملکرد. بابت استفاده از سیگنال سپاسگزاریم!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.34--0": {
-    "messageformat": "اگر بیش از یک نفر در حال تایپ کردن باشد، نشانگرهای تایپ در گفتگوهای گروهی اکنون چند تصویر نمایه را نمایش می‌دهند. جیمز کامرون، کارگردان آواتار، هم بعد به یک آواتار رضایت نداد."
-  },
-  "icu:WhatsNew__v6.34--1": {
-    "messageformat": "حالا می‌توانید با کلیک راست روی هر پیام ارسالی یا با فشار دادن دکمه فلش بالا روی کیبوردتان، هرآن‌چه فرستاده‌اید را ویرایش کنید! غلط املایی‌تان را تصحیح کنید، چیزی که از دستور پخت بیسکوییت شکلاتی مخصوصتان جا انداخته‌اید را اضافه کنید یا لطیفه‌ای که فرستاده‌اید را بامزه‌تر کنید. انتخاب با شماست. اینکه پیام ویرایش شده است همیشه نشان داده می‌شود و با کلیک روی نشانگر Edited (ویرایش‌شده) می‌توانید کل تاریخچه ویرایش را برای هر پیام ویرایش‌شده مشاهده کنید. گذشته را در حال به‌روز کنید!"
-  },
   "icu:WhatsNew__v6.35--0": {
     "messageformat": "رفع اشکال‌ها و بهبود رابط کاربری."
+  },
+  "icu:WhatsNew__v6.36--0": {
+    "messageformat": "We updated the user interface to better indicate when a group video call is reconnecting. Now you'll see blurred thumbnails instead of what used to look like an elaborate prank where everyone pretended to freeze at the same time."
+  },
+  "icu:WhatsNew__v6.36--1": {
+    "messageformat": "The system tray icon will no longer appear pixelated on Ubuntu Linux, unless you've managed to get Ubuntu Linux running on an old smart refrigerator with a low-res screen."
   }
 }

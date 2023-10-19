@@ -6808,13 +6808,13 @@
     "messageformat": "Małe ulepszenia, poprawki błędów i zwiększona funkcjonalność. Dzięki za korzystanie z Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.34--0": {
-    "messageformat": "Wskaźniki pisania w czatach grupowych będą teraz wyświetlać kilka zdjęć profilowych, jeśli w danej chwili pisze więcej niż jedna osoba. James Cameron przekonał nas, że nie musimy poprzestawać na jednym awatarze."
-  },
-  "icu:WhatsNew__v6.34--1": {
-    "messageformat": "Od teraz możesz kliknąć prawym przyciskiem myszy na wysłaną wiadomość lub nacisnąć strzałkę w górę na klawiaturze, by edytować swoją wypowiedź! Popraw literówkę, dodaj brakujący składnik do sekretnego przepisu babci lub uzupełnij żart o brakującą puentę, jeśli zdarzy Ci się nacisnąć przycisk wysłania zbyt wcześnie. Wybór należy do Ciebie. Wiadomości zawsze będą oznaczone jako edytowane i po kliknięciu na napis „Edytowana” zobaczysz pełną historię edycji każdej zmienionej wiadomości. Napraw przeszłość w teraźniejszości, by zapobiec zamieszaniu w przyszłości już dziś!"
-  },
   "icu:WhatsNew__v6.35--0": {
     "messageformat": "Obiecaliśmy sobie, że nigdy tego nie zrobimy – że nie będziemy tacy jak wydawcy innych aplikacji i nie opublikujemy lakonicznych informacji dotyczących aktualizacji, ale tym razem to naprawdę tylko „poprawki błędów i ulepszenia interfejsu”."
+  },
+  "icu:WhatsNew__v6.36--0": {
+    "messageformat": "We updated the user interface to better indicate when a group video call is reconnecting. Now you'll see blurred thumbnails instead of what used to look like an elaborate prank where everyone pretended to freeze at the same time."
+  },
+  "icu:WhatsNew__v6.36--1": {
+    "messageformat": "The system tray icon will no longer appear pixelated on Ubuntu Linux, unless you've managed to get Ubuntu Linux running on an old smart refrigerator with a low-res screen."
   }
 }

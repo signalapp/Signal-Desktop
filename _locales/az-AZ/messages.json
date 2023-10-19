@@ -6808,13 +6808,13 @@
     "messageformat": "Kiçik spesifik tənzimləmələr, xəta düzəlişləri və məhsuldarlığın artırılması. Signal istifadə etdiyiniz üçün təşəkkürlər!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.34--0": {
-    "messageformat": "Qrup çatlarındakı yazı göstəriciləri birdən çox insan yazdıqda artıq bir neçə profil şəkli göstərəcək. James Cameron kimi biz də bir avatarla kifayətlənmək niyyətində deyilik."
-  },
-  "icu:WhatsNew__v6.34--1": {
-    "messageformat": "Göndərilmiş istənilən mesaja sağla klikləyərək və ya klaviaturadakı \"yuxarı ox\" düyməsinə basaraq, həmin mesajı redaktə etmək artıq mümkündür! Buraxdığınız səhvi düzəldin, nənənin şokoladlı peçenye reseptində çatışmayan inqrediyenti daxil edin və ya göndər düyməsini çox tez basarsanız, zarafat üçün kuliminasiya xəttini əlavə edin. Seçim sizindir. Mesajlar həmişə redaktə olunduqda görünəcək və siz redaktə edilmiş mesajların tarixçəsini görmək üçün \"Redaktə edilmişlər\" indikatoruna klikləyə bilərsiniz. Sonradan çətinlik çəkməmək üçün gələcəkdə problem yaradacaq mesajı əvvəldən redaktə edin!"
-  },
   "icu:WhatsNew__v6.35--0": {
     "messageformat": "Özümüzə istifadəçiləri digər tətbiqlər kimi lazımsız bir sürü bildirişlərlə bezdirməmək sözü vermişik, sadəcə bu yeniləmə \"xətaların düzəldilməsi və UX təkmilləşdirməsini\" əhatə edir."
+  },
+  "icu:WhatsNew__v6.36--0": {
+    "messageformat": "We updated the user interface to better indicate when a group video call is reconnecting. Now you'll see blurred thumbnails instead of what used to look like an elaborate prank where everyone pretended to freeze at the same time."
+  },
+  "icu:WhatsNew__v6.36--1": {
+    "messageformat": "The system tray icon will no longer appear pixelated on Ubuntu Linux, unless you've managed to get Ubuntu Linux running on an old smart refrigerator with a low-res screen."
   }
 }

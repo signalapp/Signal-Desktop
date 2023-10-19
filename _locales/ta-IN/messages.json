@@ -6808,13 +6808,13 @@
     "messageformat": "சிறு மாற்றங்கள், பிழை திருத்தங்கள் மற்றும் செயல்திறன் மேம்பாடுகள். சிக்னலைப் பயன்படுத்தியதற்கு நன்றி!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.34--0": {
-    "messageformat": "ஒன்றுக்கு மேற்பட்ட நபர்கள் டைப் செய்தால் குழு அரட்டைகளில் உள்ள டைப்பிங் குறிகாட்டிகள் இப்போது பல புரொஃபைல் படங்களைக் காண்பிக்கும். ஒரு புரொஃபைல் படத்தோடு நிறுத்த வேண்டாமென்று நினைத்தோம்."
-  },
-  "icu:WhatsNew__v6.34--1": {
-    "messageformat": "இப்போது நீங்கள் அனுப்பிய மெசேஜ் மீது வலது கிளிக் செய்யலாம் அல்லது நீங்கள் சொன்னதைத் திருத்த உங்கள் கீபோர்டிலுள்ள மேல் அம்புக்குறியை அழுத்தவும்! அது பாட்டியின் சாக்லேட் சிப்ஸ் குக்கீ ரெசிப்பியில் ஒரு தேவையான பொருள் விடுபட்டதைச் சேர்க்க வேண்டியதாக இருந்தாலும் சரி, அல்லது ஒரு ஜோக்கை டைப் செய்துவிட்டு பஞ்ச் லைனைச் சேர்க மறந்து அனுப்பியிருந்தாலும் சரி, எழுத்துப்பிழையைச் சரிசெய்யலாம். முடிவு உங்களுடையது. மெசேஜ்களில் அவை எப்போது திருத்தப்பட்டன என்பது எப்போதும் காட்டப்படும், திருத்தப்பட்ட மெசேஜ்களின் முழு திருத்த வரலாற்றைக் காண \"திருத்தப்பட்டது\" என்ற அடையாளத்தைக் க்ளிக் செய்யலாம். நிகழ்காலத்தில் கடந்த காலத்தை அப்டேட் செய்வதன் மூலம் எதிர்கால குழப்பத்தைத் தடுத்திடுங்கள்!"
-  },
   "icu:WhatsNew__v6.35--0": {
-    "messageformat": "We told ourselves that we would never do this, that we wouldn't be like the other apps with their lazy release notes, but this update really does include \"bug fixes and UX improvements.\""
+    "messageformat": "இதை ஒருபோதும் செய்யக்கூடாது எனத் தீர்மானித்துள்ளோம், அதாவது மற்ற செயலிகளைப் போல் சோம்பலான ரிலீஸ் குறிப்புகளைப் போல் இருக்கக்கூடாது என்று, ஆனால் இந்தப் புதுப்பிப்பில் நிஜமாகவே \"பிழை திருத்தங்களும் UX மேம்படுத்தல்களும்\" உள்ளன."
+  },
+  "icu:WhatsNew__v6.36--0": {
+    "messageformat": "We updated the user interface to better indicate when a group video call is reconnecting. Now you'll see blurred thumbnails instead of what used to look like an elaborate prank where everyone pretended to freeze at the same time."
+  },
+  "icu:WhatsNew__v6.36--1": {
+    "messageformat": "The system tray icon will no longer appear pixelated on Ubuntu Linux, unless you've managed to get Ubuntu Linux running on an old smart refrigerator with a low-res screen."
   }
 }

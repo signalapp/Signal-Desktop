@@ -6808,13 +6808,13 @@
     "messageformat": "નાના ફેરફારો, ભૂલ સુધારા અને પ્રદર્શનમાં વધારો. Signalનો ઉપયોગ કરવા બદલ આભાર!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.34--0": {
-    "messageformat": "જો ગ્રૂપ ચેટમાં એકથી વધુ વ્યક્તિ ટાઈપ કરી રહ્યાં હશે, તો ટાઈપિંગ સૂચકો હવે બહુવિધ પ્રોફાઇલ ફોટા બતાવશે."
-  },
-  "icu:WhatsNew__v6.34--1": {
-    "messageformat": "તમે હમણાં જ જે કહ્યું હતું તેમાં ફેરફાર કરવા માટે કોઈ પણ મોકલાઈ ગયેલા મેસેજ પર રાઇટ-ક્લિક કરી શકો છો અથવા તમારા કીબોર્ડની ઉપરની એરો કી દબાવી શકો છો! જો તમે મોકલવાના બટનને બહુ જલ્દી દબાવી દીધું હોય તો પણ તે મોકલાઈ ગયેલા મેસેજમાં કોઈ ટાઈપિંગ ભૂલ સુધારો, દાદીમાંની સુખડી બનાવવાની રેસિપીમાં કોઈ વસ્તુ રહી ગઈ હોય તેને ઉમેરો કે પછી રમૂજમાં પંચલાઇન ઉમેરો. પસંદગી તમારી છે. મેસેજમાં ક્યારે ફેરફાર કરવામાં આવ્યા હતા તે હંમેશા દેખાશે અને તમે કોઈ પણ ફેરફાર કરેલા મેસેજની સંપૂર્ણ ફેરફારોની હિસ્ટ્રી જોઈ શકશો."
-  },
   "icu:WhatsNew__v6.35--0": {
     "messageformat": "બગ ફિક્સિસ અને યુઝર ઇન્ટરફેસ સુધારણાઓ."
+  },
+  "icu:WhatsNew__v6.36--0": {
+    "messageformat": "We updated the user interface to better indicate when a group video call is reconnecting. Now you'll see blurred thumbnails instead of what used to look like an elaborate prank where everyone pretended to freeze at the same time."
+  },
+  "icu:WhatsNew__v6.36--1": {
+    "messageformat": "The system tray icon will no longer appear pixelated on Ubuntu Linux, unless you've managed to get Ubuntu Linux running on an old smart refrigerator with a low-res screen."
   }
 }

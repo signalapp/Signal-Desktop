@@ -6808,13 +6808,13 @@
     "messageformat": "მცირე შესწორებები, ბაგების გამოსწორება და წარმადობის გაუმჯობესება. მადლობას გიხდით სიგნალის გამოყენებისთვის!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.34--0": {
-    "messageformat": "ჯგუფურ ჩატებში ბეჭდვის ინდიკატორები ახლა რამდენიმე პროფილის სურათს აჩვენებს, თუ ერთზე მეტი ადამიანი კრეფს."
-  },
-  "icu:WhatsNew__v6.34--1": {
-    "messageformat": "ახლა უკვე შეგიძლია მარჯვენა ღილაკით ნებისმიერ გაგზავნილ შეტყობინებაზე დააწკაპუნო ან კლავიატურაზე \"მაღლა\" ისარს დააჭირო, რომ შეცვალო ის, რაც ახლახანს თქვი! გამოასწორე შეცდომა, შეიტანე დაკარგული ინგრედიენტი ბებიას შოკოლადის ნამცხვრის რეცეპტში, ან დაამატე ხუმრობა, თუ შემთხვევით გაგზავნის ღილაკზე უკვე დაგეჭირა. არჩევანი შენზეა. ყოველთვის გამოჩნდება, თუ შეტყობინება რედაქტირებულია და შეძლებ ნებისმიერი შესწორებული შეტყობინების რედაქტირების სრული ისტორია ნახო."
-  },
   "icu:WhatsNew__v6.35--0": {
     "messageformat": "გამოსწორებული ხარვეზები და გაუმჯობესებული მომხმარებლის ინტერფეისი."
+  },
+  "icu:WhatsNew__v6.36--0": {
+    "messageformat": "We updated the user interface to better indicate when a group video call is reconnecting. Now you'll see blurred thumbnails instead of what used to look like an elaborate prank where everyone pretended to freeze at the same time."
+  },
+  "icu:WhatsNew__v6.36--1": {
+    "messageformat": "The system tray icon will no longer appear pixelated on Ubuntu Linux, unless you've managed to get Ubuntu Linux running on an old smart refrigerator with a low-res screen."
   }
 }

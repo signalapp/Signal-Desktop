@@ -6808,13 +6808,13 @@
     "messageformat": "Mala podešavanja, otklanjanje grešaka i poboljšanja performansi. Hvala vam što koristite Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.34--0": {
-    "messageformat": "Indikatori tipkanja u grupnim razgovorima sada će prikazivati više profilnih slika ako tipka više od jedne osobe."
-  },
-  "icu:WhatsNew__v6.34--1": {
-    "messageformat": "Desnom tipkom miša sada možete kliknuti bilo koju poslanu poruku ili pritisnuti strelicu gore na tipkovnici da uredite ono što ste upravo rekli! Ispravite grešku pri unosu, dodajte sastojak koji nedostaje u bakinom receptu za čokoladne keksiće ili dodajte ključnu rečenicu u šalu ako prebrzo pritisnete dugme za slanje. Vi birate. Poruke će se uvijek prikazivati kada su uređene, a možete vidjeti potpunu historiju uređivanja za sve uređene poruke."
-  },
   "icu:WhatsNew__v6.35--0": {
     "messageformat": "Ispravke grešaka i poboljšanja korisničkog sučelja."
+  },
+  "icu:WhatsNew__v6.36--0": {
+    "messageformat": "We updated the user interface to better indicate when a group video call is reconnecting. Now you'll see blurred thumbnails instead of what used to look like an elaborate prank where everyone pretended to freeze at the same time."
+  },
+  "icu:WhatsNew__v6.36--1": {
+    "messageformat": "The system tray icon will no longer appear pixelated on Ubuntu Linux, unless you've managed to get Ubuntu Linux running on an old smart refrigerator with a low-res screen."
   }
 }

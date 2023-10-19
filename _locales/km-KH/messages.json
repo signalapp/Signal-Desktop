@@ -6808,13 +6808,13 @@
     "messageformat": "ការកែប្រែបន្តិចបន្តួច ការដោះស្រាយបញ្ហា និងការបង្កើនប្រតិបត្តិការ។ សូមអរគុណចំពោះការប្រើប្រាស់ Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.34--0": {
-    "messageformat": "ឥឡូវនេះ សញ្ញាវាយអក្សរនៅក្នុងការជជែកជាក្រុមនឹងបង្ហាញរូបភាពប្រូហ្វាល់ជាច្រើន ប្រសិនបើមានមនុស្សលើសពីម្នាក់កំពុងវាយអក្សរ។ James Cameron បានបញ្ចុះបញ្ចូលយើងថា យើងមិនចាំបាច់ឈប់តាមដានរឿង Avatar បន្ទាប់ពីមើលវគ្គមួយចប់។"
-  },
-  "icu:WhatsNew__v6.34--1": {
-    "messageformat": "ឥឡូវនេះ អ្នកអាចចុចត្រង់ម៉ៅខាងស្ដាំនៅលើសារណាមួយដែលបានផ្ញើរួច ឬចុចរូបព្រួញឡើងលើនៅលើក្ដារចុចរបស់អ្នក ដើម្បីកែអ្វីដែលអ្នកទើបតែនិយាយរួច! កែអក្សរខុស បន្ថែមរូបអារម្មណ៍ ឬបន្ថែមពាក្យពេចន៍កំប្លែងៗ ប្រសិនបើអ្នកច្រឡំចុចប៊ូតុងផ្ញើលឿនពេក។ អ្នកមានជម្រើសធ្វើបែបនេះបាន។ សារទាំងឡាយនឹងបង្ហាញឡើងជានិច្ចនៅពេលដែលវាត្រូវបានកែ ហើយអ្នកអាចចុចលើសូចនាករ \"បានកែ\" ដើម្បីមើលប្រវត្តិកែទាំងមូលបានចំពោះសារដែលបានកែ។ ធ្វើបច្ចុប្បន្នភាពដើម្បីកែលម្អអតីតកាលនៅក្នុងបច្ចុប្បន្នកាល ដើម្បីជៀសវាងការភាន់ច្រឡំក្នុងអនាគតកាលនៅថ្ងៃនេះ!"
-  },
   "icu:WhatsNew__v6.35--0": {
     "messageformat": "យើងបានប្រាប់ខ្លួនឯងថា យើងនឹងមិនធ្វើដូចកម្មវិធីផ្សេងទៀតដែលមិនសូវមានកំណត់សម្គាល់អំពីការចេញផ្សាយនោះឡើយ ប៉ុន្តែការដំឡើងកំណែនេះពិតជារួមបញ្ចូលនូវ \"ការដោះស្រាយបញ្ហា និងការកែលម្អបទពិសោធន៍អ្នកប្រើ\"។"
+  },
+  "icu:WhatsNew__v6.36--0": {
+    "messageformat": "We updated the user interface to better indicate when a group video call is reconnecting. Now you'll see blurred thumbnails instead of what used to look like an elaborate prank where everyone pretended to freeze at the same time."
+  },
+  "icu:WhatsNew__v6.36--1": {
+    "messageformat": "The system tray icon will no longer appear pixelated on Ubuntu Linux, unless you've managed to get Ubuntu Linux running on an old smart refrigerator with a low-res screen."
   }
 }
