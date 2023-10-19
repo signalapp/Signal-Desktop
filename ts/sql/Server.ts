@@ -742,10 +742,10 @@ async function bulkAddIdentityKeys(
 ): Promise<void> {
   return bulkAdd(await getWritableInstance(), IDENTITY_KEYS_TABLE, array);
 }
-async function removeIdentityKeyById(id: IdentityKeyIdType): Promise<void> {
+async function removeIdentityKeyById(id: IdentityKeyIdType): Promise<number> {
   return removeById(await getWritableInstance(), IDENTITY_KEYS_TABLE, id);
 }
-async function removeAllIdentityKeys(): Promise<void> {
+async function removeAllIdentityKeys(): Promise<number> {
   return removeAllFromTable(await getWritableInstance(), IDENTITY_KEYS_TABLE);
 }
 async function getAllIdentityKeys(): Promise<Array<StoredIdentityKeyType>> {
@@ -774,7 +774,7 @@ async function bulkAddKyberPreKeys(
 }
 async function removeKyberPreKeyById(
   id: PreKeyIdType | Array<PreKeyIdType>
-): Promise<void> {
+): Promise<number> {
   return removeById(await getWritableInstance(), KYBER_PRE_KEYS_TABLE, id);
 }
 async function removeKyberPreKeysByServiceId(
@@ -787,7 +787,7 @@ async function removeKyberPreKeysByServiceId(
     serviceId,
   });
 }
-async function removeAllKyberPreKeys(): Promise<void> {
+async function removeAllKyberPreKeys(): Promise<number> {
   return removeAllFromTable(await getWritableInstance(), KYBER_PRE_KEYS_TABLE);
 }
 async function getAllKyberPreKeys(): Promise<Array<StoredKyberPreKeyType>> {
@@ -808,7 +808,7 @@ async function bulkAddPreKeys(array: Array<StoredPreKeyType>): Promise<void> {
 }
 async function removePreKeyById(
   id: PreKeyIdType | Array<PreKeyIdType>
-): Promise<void> {
+): Promise<number> {
   return removeById(await getWritableInstance(), PRE_KEYS_TABLE, id);
 }
 async function removePreKeysByServiceId(
@@ -821,7 +821,7 @@ async function removePreKeysByServiceId(
     serviceId,
   });
 }
-async function removeAllPreKeys(): Promise<void> {
+async function removeAllPreKeys(): Promise<number> {
   return removeAllFromTable(await getWritableInstance(), PRE_KEYS_TABLE);
 }
 async function getAllPreKeys(): Promise<Array<StoredPreKeyType>> {
@@ -850,7 +850,7 @@ async function bulkAddSignedPreKeys(
 }
 async function removeSignedPreKeyById(
   id: SignedPreKeyIdType | Array<SignedPreKeyIdType>
-): Promise<void> {
+): Promise<number> {
   return removeById(await getWritableInstance(), SIGNED_PRE_KEYS_TABLE, id);
 }
 async function removeSignedPreKeysByServiceId(
@@ -863,7 +863,7 @@ async function removeSignedPreKeysByServiceId(
     serviceId,
   });
 }
-async function removeAllSignedPreKeys(): Promise<void> {
+async function removeAllSignedPreKeys(): Promise<number> {
   return removeAllFromTable(await getWritableInstance(), SIGNED_PRE_KEYS_TABLE);
 }
 async function getAllSignedPreKeys(): Promise<Array<StoredSignedPreKeyType>> {
@@ -912,10 +912,10 @@ async function getAllItems(): Promise<StoredAllItemsType> {
 }
 async function removeItemById(
   id: ItemKeyType | Array<ItemKeyType>
-): Promise<void> {
+): Promise<number> {
   return removeById(await getWritableInstance(), ITEMS_TABLE, id);
 }
-async function removeAllItems(): Promise<void> {
+async function removeAllItems(): Promise<number> {
   return removeAllFromTable(await getWritableInstance(), ITEMS_TABLE);
 }
 
@@ -1421,7 +1421,7 @@ async function commitDecryptResult({
 async function bulkAddSessions(array: Array<SessionType>): Promise<void> {
   return bulkAdd(await getWritableInstance(), SESSIONS_TABLE, array);
 }
-async function removeSessionById(id: SessionIdType): Promise<void> {
+async function removeSessionById(id: SessionIdType): Promise<number> {
   return removeById(await getWritableInstance(), SESSIONS_TABLE, id);
 }
 async function removeSessionsByConversation(
@@ -1450,7 +1450,7 @@ async function removeSessionsByServiceId(
     serviceId,
   });
 }
-async function removeAllSessions(): Promise<void> {
+async function removeAllSessions(): Promise<number> {
   return removeAllFromTable(await getWritableInstance(), SESSIONS_TABLE);
 }
 async function getAllSessions(): Promise<Array<SessionType>> {
@@ -4331,14 +4331,14 @@ async function resetAttachmentDownloadPending(): Promise<void> {
     `
   ).run();
 }
-function removeAttachmentDownloadJobSync(db: Database, id: string): void {
+function removeAttachmentDownloadJobSync(db: Database, id: string): number {
   return removeById(db, ATTACHMENT_DOWNLOADS_TABLE, id);
 }
-async function removeAttachmentDownloadJob(id: string): Promise<void> {
+async function removeAttachmentDownloadJob(id: string): Promise<number> {
   const db = await getWritableInstance();
   return removeAttachmentDownloadJobSync(db, id);
 }
-async function removeAllAttachmentDownloadJobs(): Promise<void> {
+async function removeAllAttachmentDownloadJobs(): Promise<number> {
   return removeAllFromTable(
     await getWritableInstance(),
     ATTACHMENT_DOWNLOADS_TABLE

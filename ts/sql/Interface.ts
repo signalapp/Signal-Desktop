@@ -428,27 +428,27 @@ export type DataInterface = {
   removeDB: () => Promise<void>;
   removeIndexedDBFiles: () => Promise<void>;
 
-  removeIdentityKeyById: (id: IdentityKeyIdType) => Promise<void>;
-  removeAllIdentityKeys: () => Promise<void>;
+  removeIdentityKeyById: (id: IdentityKeyIdType) => Promise<number>;
+  removeAllIdentityKeys: () => Promise<number>;
 
   removeKyberPreKeyById: (
     id: PreKeyIdType | Array<PreKeyIdType>
-  ) => Promise<void>;
+  ) => Promise<number>;
   removeKyberPreKeysByServiceId: (serviceId: ServiceIdString) => Promise<void>;
-  removeAllKyberPreKeys: () => Promise<void>;
+  removeAllKyberPreKeys: () => Promise<number>;
 
-  removePreKeyById: (id: PreKeyIdType | Array<PreKeyIdType>) => Promise<void>;
+  removePreKeyById: (id: PreKeyIdType | Array<PreKeyIdType>) => Promise<number>;
   removePreKeysByServiceId: (serviceId: ServiceIdString) => Promise<void>;
-  removeAllPreKeys: () => Promise<void>;
+  removeAllPreKeys: () => Promise<number>;
 
   removeSignedPreKeyById: (
     id: SignedPreKeyIdType | Array<SignedPreKeyIdType>
-  ) => Promise<void>;
+  ) => Promise<number>;
   removeSignedPreKeysByServiceId: (serviceId: ServiceIdString) => Promise<void>;
-  removeAllSignedPreKeys: () => Promise<void>;
+  removeAllSignedPreKeys: () => Promise<number>;
 
-  removeAllItems: () => Promise<void>;
-  removeItemById: (id: ItemKeyType | Array<ItemKeyType>) => Promise<void>;
+  removeAllItems: () => Promise<number>;
+  removeItemById: (id: ItemKeyType | Array<ItemKeyType>) => Promise<number>;
 
   createOrUpdateSenderKey: (key: SenderKeyType) => Promise<void>;
   getSenderKeyById: (id: SenderKeyIdType) => Promise<SenderKeyType | undefined>;
@@ -494,10 +494,10 @@ export type DataInterface = {
     unprocessed: Array<UnprocessedType>;
   }): Promise<void>;
   bulkAddSessions: (array: Array<SessionType>) => Promise<void>;
-  removeSessionById: (id: SessionIdType) => Promise<void>;
+  removeSessionById: (id: SessionIdType) => Promise<number>;
   removeSessionsByConversation: (conversationId: string) => Promise<void>;
   removeSessionsByServiceId: (serviceId: ServiceIdString) => Promise<void>;
-  removeAllSessions: () => Promise<void>;
+  removeAllSessions: () => Promise<number>;
   getAllSessions: () => Promise<Array<SessionType>>;
 
   getConversationCount: () => Promise<number>;
@@ -704,8 +704,8 @@ export type DataInterface = {
     id: string,
     pending: boolean
   ) => Promise<void>;
-  removeAttachmentDownloadJob: (id: string) => Promise<void>;
-  removeAllAttachmentDownloadJobs: () => Promise<void>;
+  removeAttachmentDownloadJob: (id: string) => Promise<number>;
+  removeAllAttachmentDownloadJobs: () => Promise<number>;
 
   createOrUpdateStickerPack: (pack: StickerPackType) => Promise<void>;
   updateStickerPackStatus: (

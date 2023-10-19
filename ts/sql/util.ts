@@ -323,37 +323,39 @@ export function getById<Key extends string | number, Result = unknown>(
 
 export function removeById<Key extends string | number>(
   db: Database,
-  table: TableType,
+  tableName: TableType,
   id: Key | Array<Key>
-): void {
+): number {
+  const table = sqlConstant(tableName);
   if (!Array.isArray(id)) {
-    db.prepare<Query>(
-      `
+    const [query, params] = sql`
       DELETE FROM ${table}
-      WHERE id = $id;
-      `
-    ).run({ id });
-    return;
+      WHERE id = ${id};
+    `;
+    return db.prepare(query).run(params).changes;
   }
 
   if (!id.length) {
     throw new Error('removeById: No ids to delete!');
   }
 
+  let totalChanges = 0;
+
   const removeByIdsSync = (ids: ReadonlyArray<string | number>): void => {
-    db.prepare<ArrayQuery>(
-      `
+    const [query, params] = sql`
       DELETE FROM ${table}
-      WHERE id IN ( ${id.map(() => '?').join(', ')} );
-      `
-    ).run(ids);
+      WHERE id IN (${sqlJoin(ids, ', ')});
+    `;
+    totalChanges += db.prepare(query).run(params).changes;
   };
 
   batchMultiVarQuery(db, id, removeByIdsSync);
+
+  return totalChanges;
 }
 
-export function removeAllFromTable(db: Database, table: TableType): void {
-  db.prepare<EmptyQuery>(`DELETE FROM ${table};`).run();
+export function removeAllFromTable(db: Database, table: TableType): number {
+  return db.prepare<EmptyQuery>(`DELETE FROM ${table};`).run().changes;
 }
 
 export function getAllFromTable<T>(db: Database, table: TableType): Array<T> {
