@@ -27,6 +27,8 @@ export const StyledSubtitleContainer = styled.div`
   }
 `;
 
+export const StyledSubtitleDotMenu = styled(Flex)``;
+
 const StyledSubtitleDot = styled.span<{ active: boolean }>`
   border-radius: 50%;
   background-color: ${props =>
@@ -37,16 +39,18 @@ const StyledSubtitleDot = styled.span<{ active: boolean }>`
   margin: 0 2px;
 `;
 
-const SubtitleDotMenu = ({
+export const SubtitleDotMenu = ({
+  id,
   options,
   selectedOptionIndex,
   style,
 }: {
+  id?: string;
   options: Array<string | null>;
   selectedOptionIndex: number;
   style: CSSProperties;
 }) => (
-  <Flex container={true} alignItems={'center'} style={style}>
+  <Flex id={} container={true} alignItems={'center'} style={style}>
     {options.map((option, index) => {
       if (!option) {
         return null;

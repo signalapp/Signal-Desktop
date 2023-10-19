@@ -720,6 +720,10 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       messageId: this.get('id'),
       errors,
       direction: this.get('direction'),
+      sender: this.get('source'),
+      attachments,
+      timestamp: this.get('timestamp'),
+      serverTimestamp: this.get('serverTimestamp'),
       contacts: sortedContacts || [],
     };
 
