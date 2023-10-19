@@ -491,7 +491,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       }
 
       if (this.get('storyReplyContext')) {
-        this.unset('storyReplyContext');
+        this.set('storyReplyContext', undefined);
       }
       await this.hydrateStoryContext(message.attributes, { shouldSave: true });
       return;

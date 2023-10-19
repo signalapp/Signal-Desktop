@@ -89,7 +89,7 @@ async function cleanupStoryReplies(
           reply,
           'cleanupStoryReplies/1:1'
         );
-        model.unset('storyReplyContext');
+        model.set('storyReplyContext', undefined);
         await model.hydrateStoryContext(story, { shouldSave: true });
       })
     );
