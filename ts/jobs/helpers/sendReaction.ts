@@ -382,7 +382,7 @@ const setReactions = (
   if (reactions.length) {
     message.set('reactions', reactions);
   } else {
-    message.unset('reactions');
+    message.set('reactions', undefined);
   }
 };
 
