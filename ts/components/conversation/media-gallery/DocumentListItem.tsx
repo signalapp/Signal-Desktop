@@ -35,6 +35,7 @@ export const DocumentListItem = (props: Props) => {
       messageTimestamp: props.mediaItem.messageTimestamp,
       attachment: props.mediaItem.attachment,
       conversationId: selectedConversationKey,
+      index: 0,
     });
   }, [
     selectedConversationKey,
