@@ -133,7 +133,7 @@ export function StoriesTab({
         />
       ) : (
         <NavSidebar
-          title="Stories"
+          title={i18n('icu:Stories__title')}
           i18n={i18n}
           hasFailedStorySends={hasFailedStorySends}
           hasPendingUpdate={hasPendingUpdate}
