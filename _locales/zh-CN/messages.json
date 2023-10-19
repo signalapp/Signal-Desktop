@@ -6808,13 +6808,13 @@
     "messageformat": "我们进行了功能微调、漏洞修复和性能强化。感谢使用 Signal！",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.33--0": {
-    "messageformat": "现在您可以在发送消息后通过右击该消息或按键盘上的向上箭头来对其进行编辑了！您可以修改错别字，补充遗漏的信息，或者增添一点笑料，以弥补“手快”的遗憾。编辑的选择权在于你。当消息被编辑后，它会始终显示已被编辑，同时您可以看到任何已编辑消息的完整编辑记录。"
+  "icu:WhatsNew__v6.35--0": {
+    "messageformat": "我们修复了一些漏洞，并对用户界面进行了优化。"
   },
-  "icu:WhatsNew__v6.34--0": {
-    "messageformat": "在群组聊天中，如果多人正在输入，输入状态指示器现在会显示多个个人资料头像。"
+  "icu:WhatsNew__v6.36--0": {
+    "messageformat": "We updated the user interface to better indicate when a group video call is reconnecting. Now you'll see blurred thumbnails instead of what used to look like an elaborate prank where everyone pretended to freeze at the same time."
   },
-  "icu:WhatsNew__v6.34--1": {
-    "messageformat": "现在您可以通过右击已发的消息或按键盘上的向上箭头来对该消息进行编辑了！您可以修改错别字，补充遗漏的信息，或者增添一点笑料，以弥补“手快”的遗憾。编辑的选择权在于您。当消息被编辑后，它会始终显示已被编辑，同时您可以看到任何已编辑消息的完整编辑记录。"
+  "icu:WhatsNew__v6.36--1": {
+    "messageformat": "The system tray icon will no longer appear pixelated on Ubuntu Linux, unless you've managed to get Ubuntu Linux running on an old smart refrigerator with a low-res screen."
   }
 }

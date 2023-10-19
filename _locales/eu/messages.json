@@ -6808,13 +6808,13 @@
     "messageformat": "Doikuntza txikiak, akats-konponketak eta errendimendu-hobekuntzak. Eskerrik asko Signal erabiltzeagatik!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Orain, bidali ondoren ere edita ditzakezu mezuak, eskuineko botoiarekin klik eginda! Bidaltzeko botoia bizkorregi sakatu baduzu, ez kezkatu: zuzendu akatzak, gehitu falta den osagaia amonaren gazta-tartaren errezetan, edo azaldu hobeto txiste bat. Aukera zurea da. Mezu bat editatuta badago, hala dela adieraziko da. Halako mezuetan, \"Editatuta\" adierazlean klik egin ahalko duzu edizio-historia osoa ikusteko. Eguneratu iragana orainaldian etorkizuneko nahasketa saihesteko!"
+  "icu:WhatsNew__v6.35--0": {
+    "messageformat": "Geure buruari esan genion ez genuela horrelakorik egingo, ez ginela izango beste aplikazioak bezalakoak, beren kaleratze ohar eskasekin, baina eguneratze honek \"akatsen konponketak eta UX hobekuntzak\" barne hartzen ditu."
   },
-  "icu:WhatsNew__v6.34--0": {
-    "messageformat": "Orain taldeko txatetan idazteko adierazleek profileko argazki anitz bistaratuko dituzte pertsona bat baino gehiago idazten ari bada. James Cameronek konbentzitu egin gaitu: ez genuen zertan konformatu \"Avatar\" bakarrarekin."
+  "icu:WhatsNew__v6.36--0": {
+    "messageformat": "We updated the user interface to better indicate when a group video call is reconnecting. Now you'll see blurred thumbnails instead of what used to look like an elaborate prank where everyone pretended to freeze at the same time."
   },
-  "icu:WhatsNew__v6.34--1": {
-    "messageformat": "Orain bidalitako edozein mezutan eskuineko botoiarekin klik egin dezakezu edo teklatuko gorako gezia sakatu esan berri duzuna editatzeko! Konpondu akats bat, sartu falta den osagaia amonaren txokolatezko gaileten errezetan edo gehitu esaldi bat txantxa bati bidaltzeko botoia azkarregi sakatu baduzu. Aukera zurea da. Mezuak beti agertuko dira editatu direnean, eta \"Editatu\" adierazlean klik egin dezakezu editatutako mezuen edizio-historia osoa ikusteko. Eguneratu iragana orainaldian etorkizuneko nahasketa saihesteko!"
+  "icu:WhatsNew__v6.36--1": {
+    "messageformat": "The system tray icon will no longer appear pixelated on Ubuntu Linux, unless you've managed to get Ubuntu Linux running on an old smart refrigerator with a low-res screen."
   }
 }

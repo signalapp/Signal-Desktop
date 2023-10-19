@@ -6808,13 +6808,13 @@
     "messageformat": "Petits ajustos, correccions d'errors i tasques de millora de rendiment. Gràcies per utilitzar Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Ara pots editar un missatge d'haver-lo enviat amb un simple clic al botó dret o prement la fletxa cap amunt al teu teclat! Si has pitjat el botó d'enviar abans d'hora, ara podràs arreglar una falta d'ortografia, afegir l'ingredient que faltava a la recepta de croquetes de l'àvia o rematar la broma que havies deixat a mitges. La decisió és teva. Els missatges sempre mostraran que han estat editats, i podràs tocar l'indicador \"Editat\" per veure l'historial d'edicions complet de qualsevol missatge editat. Fes que els teus errors siguin només aigua passada!"
+  "icu:WhatsNew__v6.35--0": {
+    "messageformat": "Hem corregit alguns errors i hem millorat la interfície d'usuari."
   },
-  "icu:WhatsNew__v6.34--0": {
-    "messageformat": "Ara, l'indicador d'escriptura als xats de grup mostrarà diverses fotos de perfil si hi ha més d'una persona escrivint."
+  "icu:WhatsNew__v6.36--0": {
+    "messageformat": "We updated the user interface to better indicate when a group video call is reconnecting. Now you'll see blurred thumbnails instead of what used to look like an elaborate prank where everyone pretended to freeze at the same time."
   },
-  "icu:WhatsNew__v6.34--1": {
-    "messageformat": "Ara pots fer clic al botó dret o prémer la fletxa cap amunt al teu teclat per editar allò que acabes de dir! Si has pitjat el botó d'enviar abans d'hora, ara podràs arreglar una falta d'ortografia, afegir l'ingredient que faltava a la recepta de croquetes de l'àvia o rematar la broma que havies deixat a mitges. La decisió és teva. Els missatges sempre mostraran que han estat editats, i podràs tocar l'indicador \"Editat\" per veure l'historial d'edicions complet de qualsevol missatge editat."
+  "icu:WhatsNew__v6.36--1": {
+    "messageformat": "The system tray icon will no longer appear pixelated on Ubuntu Linux, unless you've managed to get Ubuntu Linux running on an old smart refrigerator with a low-res screen."
   }
 }

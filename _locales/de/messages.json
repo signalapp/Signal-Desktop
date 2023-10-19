@@ -6808,13 +6808,13 @@
     "messageformat": "Kleine Optimierungen, Fehlerbehebungen und Leistungsverbesserungen. Danke, dass du Signal nutzt!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Jetzt kannst du eine Nachricht nach dem Versenden einfach mit einem Rechtsklick bearbeiten! Korrigiere einen Schreibfehler, ergänze die fehlende Zutat in Omas Rezept für Schokoplätzchen oder verrate die Pointe eines Witzes, solltest du zu schnell auf »Senden« getippt haben. Du hast die Wahl. Bei Nachrichten wird immer angezeigt, ob sie bearbeitet wurden. Du kannst auf den »Bearbeitet«-Indikator klicken, um den vollständigen Bearbeitungsverlauf für alle bearbeiteten Nachrichten zu sehen. Aktualisiere jetzt die Vergangenheit, um künftige Verwirrungen schon heute zu vermeiden!"
+  "icu:WhatsNew__v6.35--0": {
+    "messageformat": "Wir hatten uns eigentlich vorgenommen, dass wir das nie tun würden, dass wir nicht wie die anderen Apps mit ihren lahmen Versionshinweisen sein würden – aber in diesem Update geht es tatsächlich nur um »Fehlerbehebungen und UX-Verbesserungen«."
   },
-  "icu:WhatsNew__v6.34--0": {
-    "messageformat": "Tipp-Indikatoren in Gruppenchats zeigen jetzt mehrere Profilbilder an, wenn mehr als eine Person tippt. James Cameron hat uns davon überzeugt, dass wir nicht nach einem Avatar aufhören müssen."
+  "icu:WhatsNew__v6.36--0": {
+    "messageformat": "We updated the user interface to better indicate when a group video call is reconnecting. Now you'll see blurred thumbnails instead of what used to look like an elaborate prank where everyone pretended to freeze at the same time."
   },
-  "icu:WhatsNew__v6.34--1": {
-    "messageformat": "Jetzt kannst du mit der rechten Maustaste auf eine gesendete Nachricht klicken oder den Aufwärtspfeil auf deiner Tastatur antippen, um zu bearbeiten, was du gerade gesagt hast! Korrigiere einen Schreibfehler, ergänze die fehlende Zutat in Omas Rezept für Schokoplätzchen oder verrate die Pointe eines Witzes, solltest du zu schnell auf »Senden« getippt haben. Du hast die Wahl. Bei Nachrichten wird immer angezeigt, ob sie bearbeitet wurden. Du kannst auf den »Bearbeitet«-Indikator klicken, um den vollständigen Bearbeitungsverlauf für alle bearbeiteten Nachrichten zu sehen. Aktualisiere jetzt die Vergangenheit, um künftige Verwirrungen schon heute zu vermeiden!"
+  "icu:WhatsNew__v6.36--1": {
+    "messageformat": "The system tray icon will no longer appear pixelated on Ubuntu Linux, unless you've managed to get Ubuntu Linux running on an old smart refrigerator with a low-res screen."
   }
 }
