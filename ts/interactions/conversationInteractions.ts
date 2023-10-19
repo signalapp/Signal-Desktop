@@ -536,7 +536,7 @@ export async function replyToMessage(messageId: string) {
   const quotedMessageModel = await Data.getMessageById(messageId);
   if (!quotedMessageModel) {
     window.log.warn('Failed to find message to reply to');
-    return;
+    return false;
   }
   const conversationModel = getConversationController().getOrThrow(
     quotedMessageModel.get('conversationId')
@@ -549,6 +549,20 @@ export async function replyToMessage(messageId: string) {
   } else {
     window.inboxStore?.dispatch(quoteMessage(undefined));
   }
+
+  return true;
+}
+
+export async function resendMessage(messageId: string) {
+  const foundMessageModel = await Data.getMessageById(messageId);
+
+  if (!foundMessageModel) {
+    window.log.warn('Failed to find message to resend');
+    return false;
+  }
+
+  await foundMessageModel.retrySend();
+  return true;
 }
 
 /**

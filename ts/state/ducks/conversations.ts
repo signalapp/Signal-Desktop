@@ -58,10 +58,14 @@ export type MessagePropsDetails = {
   sentAt: number;
   receivedAt: number;
   errors: Array<Error>;
+  sender: string;
   contacts: Array<ContactPropsMessageDetail>;
   convoId: string;
   messageId: string;
   direction: MessageModelType;
+  attachments: Array<PropsForAttachment>;
+  timestamp?: number;
+  serverTimestamp?: number;
 };
 
 export type LastMessageStatusType = 'sending' | 'sent' | 'read' | 'error' | undefined;
@@ -148,6 +152,7 @@ export type PropsForAttachment = {
   size: number;
   width?: number;
   height?: number;
+  duration?: string;
   url: string;
   path: string;
   fileSize: string | null;

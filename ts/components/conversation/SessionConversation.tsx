@@ -52,7 +52,6 @@ import { InConversationCallContainer } from '../calling/InConversationCallContai
 import { LightboxGallery, MediaItemType } from '../lightbox/LightboxGallery';
 import { NoMessageInConversation } from './SubtleNotification';
 import { ConversationHeaderWithDetails } from './header/ConversationHeader';
-import { MessageDetail } from './message/message-item/MessageDetail';
 
 import { isAudio } from '../../types/MIME';
 import { HTMLDirection } from '../../util/i18n';
@@ -241,7 +240,6 @@ export class SessionConversation extends React.Component<Props, State> {
       ourDisplayNameInProfile,
       selectedConversation,
       messagesProps,
-      showMessageDetails,
       selectedMessages,
       isRightPanelShowing,
       lightBoxOptions,
@@ -287,9 +285,6 @@ export class SessionConversation extends React.Component<Props, State> {
               onKeyDown={this.onKeyDown}
               role="navigation"
             >
-              <div className={classNames('conversation-info-panel', showMessageDetails && 'show')}>
-                <MessageDetail />
-              </div>
               {lightBoxOptions?.media && this.renderLightBox(lightBoxOptions)}
 
               <div className="conversation-messages">
