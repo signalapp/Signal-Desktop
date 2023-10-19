@@ -6808,13 +6808,13 @@
     "messageformat": "Obavili smo manja fina prilagođavanja, ispravke grešaka i poboljšanja performansi. Hvala što koristite Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Сада можете да кликнете десним кликом на послату поруку или притиснете стрелицу нагоре на тастатури да измените то што сте управо рекли! Исправите грешку у куцању, упишите састојак који сте изоставили у бакином рецепту за торту или додајте кључну фору у виц ако сте пребрзо притисли дугме за слање. Избор је ваш. Увек ће се видети информација да је порука измењена и можете да видите комплетну историју измена свих измењених порука."
+  "icu:WhatsNew__v6.35--0": {
+    "messageformat": "Исправљене су неке грешке и побољшан је кориснички интерфејс."
   },
-  "icu:WhatsNew__v6.34--0": {
-    "messageformat": "Индикатори куцања у групним ћаскањима сада приказују више профилних слика ако куца више особа."
+  "icu:WhatsNew__v6.36--0": {
+    "messageformat": "We updated the user interface to better indicate when a group video call is reconnecting. Now you'll see blurred thumbnails instead of what used to look like an elaborate prank where everyone pretended to freeze at the same time."
   },
-  "icu:WhatsNew__v6.34--1": {
-    "messageformat": "Сада можете да кликнете десним кликом на послату поруку или притиснете стрелицу нагоре на тастатури да измените то што сте управо послали! Исправите грешку у куцању, упишите састојак који сте изоставили у бакином рецепту за торту или додајте кључну фору у виц ако сте пребрзо притисли дугме за слање. Избор је ваш. Увек ће се видети информација да је порука измењена и можете да видите комплетну историју измена свих измењених порука."
+  "icu:WhatsNew__v6.36--1": {
+    "messageformat": "The system tray icon will no longer appear pixelated on Ubuntu Linux, unless you've managed to get Ubuntu Linux running on an old smart refrigerator with a low-res screen."
   }
 }

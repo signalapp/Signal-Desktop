@@ -6808,13 +6808,13 @@
     "messageformat": "Pequeños ajustes, soluciones a errores y mejoras al desempeño. ¡Gracias por usar Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.33--0": {
-    "messageformat": "¡Ahora puedes editar un mensaje después de haberlo enviado simplemente con un clic derecho o presionando la flecha hacia arriba de tu teclado! Si le diste al botón de enviar antes de tiempo, ahora podrás arreglar una falta de ortografía, añadir el ingrediente que faltaba en la receta de bizcocho de tu abuela o terminar el chiste que dejaste a medias. La decisión es tuya. Los mensajes siempre mostrarán que han sido editados, y podrás tocar el indicador \"Editado\" para ver el historial de edición completo de cualquier mensaje editado."
+  "icu:WhatsNew__v6.35--0": {
+    "messageformat": "Hemos arreglado algunos errores y mejorado la interfaz del usuario."
   },
-  "icu:WhatsNew__v6.34--0": {
-    "messageformat": "Ahora, el indicador de tecleo en los chats de grupo mostrará varias fotos de perfil si hay más de una persona escribiendo."
+  "icu:WhatsNew__v6.36--0": {
+    "messageformat": "We updated the user interface to better indicate when a group video call is reconnecting. Now you'll see blurred thumbnails instead of what used to look like an elaborate prank where everyone pretended to freeze at the same time."
   },
-  "icu:WhatsNew__v6.34--1": {
-    "messageformat": "¡Ahora puedes darle al clic derecho o a la flecha hacia arriba de tu teclado para editar lo que acabas de decir! Si le diste al botón de enviar antes de tiempo, ahora podrás arreglar una falta de ortografía, añadir el ingrediente que faltaba en la receta de bizcocho de tu abuela o terminar el chiste que dejaste a medias. La decisión es tuya. Los mensajes siempre mostrarán que han sido editados, y podrás tocar el indicado \"Editado\" para ver el historial de cambios completo de cualquier mensaje editado."
+  "icu:WhatsNew__v6.36--1": {
+    "messageformat": "The system tray icon will no longer appear pixelated on Ubuntu Linux, unless you've managed to get Ubuntu Linux running on an old smart refrigerator with a low-res screen."
   }
 }

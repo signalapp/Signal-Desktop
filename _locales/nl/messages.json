@@ -2308,7 +2308,7 @@
     "description": "Shown in dialog if phone number is not valid."
   },
   "icu:chooseGroupMembers__title": {
-    "messageformat": "Groepsleden kiezen",
+    "messageformat": "Kies leden",
     "description": "The title for the 'choose group members' left pane screen"
   },
   "icu:chooseGroupMembers__back-button": {
@@ -4901,7 +4901,7 @@
     "description": "When adding new members to an existing group, this is shown on the confirmation dialog button"
   },
   "icu:createNewGroupButton": {
-    "messageformat": "Nieuwe groep aanmaken",
+    "messageformat": "Nieuwe groep",
     "description": "The text of the button to create new groups"
   },
   "icu:selectContact": {
@@ -6808,13 +6808,13 @@
     "messageformat": "Kleine aanpassingen, bugfixes en prestatieverbeteringen. Bedankt dat je Signal gebruikt!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Je kunt nu een bericht bewerken nadat je het verstuurd hebt door op de rechter muisknop te klikken! Verbeter een tpyo, voeg het ontbrekende ingrediënt aan oma's appeltaartrecept toe, of voeg de clou toe aan een grap als je te snel op de verzendknop hebt gedrukt. Jij mag het weten. Je kunt altijd zien wanneer berichten zijn bewerkt en je kunt op 'Bewerkt' tikken om de volledige bewerkingsgeschiedenis van bewerkte berichten te bekijken. Bewerk het verleden in het heden om in de toekomst verwarring te voorkomen!"
+  "icu:WhatsNew__v6.35--0": {
+    "messageformat": "• We zeiden tegen onszelf dat we dit nooit zouden doen, dat we niet zijn zoals andere apps met hun nietszeggende release notes. Maar deze update bevat 'bugfixes en UX-verbeteringen'."
   },
-  "icu:WhatsNew__v6.34--0": {
-    "messageformat": "Typindicatoren in groepsgesprekken geven nu meerdere profielfoto's weer wanneer meer dan één persoon aan het typen is. Avatar-regisseur James Cameron heeft ons ervan overtuigd dat het niet bij één avatar hoeft te blijven."
+  "icu:WhatsNew__v6.36--0": {
+    "messageformat": "We updated the user interface to better indicate when a group video call is reconnecting. Now you'll see blurred thumbnails instead of what used to look like an elaborate prank where everyone pretended to freeze at the same time."
   },
-  "icu:WhatsNew__v6.34--1": {
-    "messageformat": "Om te bewerken wat je net hebt getypt, kun je nu met de rechtermuisknop op een bericht klikken of de knop met de pijl omhoog op je toetsenbord gebruiken! Verbeter een tpyo, voeg het ontbrekende ingrediënt aan oma's appeltaartrecept toe, of voeg de clou toe aan een grap als je te snel op de verzendknop hebt gedrukt. Jij mag het weten. Je kunt altijd zien wanneer berichten zijn bewerkt en je kunt op 'Bewerkt' tikken om de volledige bewerkingsgeschiedenis van bewerkte berichten te bekijken. Bewerk het verleden in het heden om in de toekomst verwarring te voorkomen!"
+  "icu:WhatsNew__v6.36--1": {
+    "messageformat": "The system tray icon will no longer appear pixelated on Ubuntu Linux, unless you've managed to get Ubuntu Linux running on an old smart refrigerator with a low-res screen."
   }
 }

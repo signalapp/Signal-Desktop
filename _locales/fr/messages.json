@@ -6808,13 +6808,13 @@
     "messageformat": "Petits ajustements, corrections de bugs et améliorations des performances. Nous vous remercions d’utiliser Signal !",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Vous pouvez désormais cliquer droit sur un message envoyé pour le modifier ! Corrigez une erreur d’orthographe, ajoutez l’ingrédient manquant de la recette de confiture de votre grand-mère ou finissez la blague que vous aviez envoyée trop rapidement dans votre hâte de la raconter. Tout est possible ! Signal vous indiquera lorsque les messages ont été modifiés et vous pouvez cliquer sur « Modifié » pour consulter l’historique des modifications de chacun de ces messages. Mettez à jour vos messages passés aujourd’hui pour éviter toutes confusions à l’avenir !"
+  "icu:WhatsNew__v6.35--0": {
+    "messageformat": "On s’était toujours dit que ça n’arriverait jamais… qu’on ne ferait pas comme les autres applications qui publient toujours les mêmes notes de mise à jour… et pourtant, notre nouvelle version comprend aussi « des corrections de bugs et des améliorations de l’interface utilisateur. »"
   },
-  "icu:WhatsNew__v6.34--0": {
-    "messageformat": "Les indicateurs de saisie dans les conversations de groupe seront accompagnés de plusieurs photos de profils lorsque plus d’une personne sera en train d’écrire. Si l’on peut retenir quelque chose de James Cameron, c’est que plusieurs avatars valent mieux qu’un."
+  "icu:WhatsNew__v6.36--0": {
+    "messageformat": "We updated the user interface to better indicate when a group video call is reconnecting. Now you'll see blurred thumbnails instead of what used to look like an elaborate prank where everyone pretended to freeze at the same time."
   },
-  "icu:WhatsNew__v6.34--1": {
-    "messageformat": "Vous pouvez désormais appuyer sur la flèche du haut ou cliquer droit sur un message envoyé pour le modifier. Corrigez une erreur d’orthographe, ajoutez l’ingrédient manquant de la recette de confiture de votre grand-mère ou finissez la blague que vous aviez envoyée trop rapidement tellement vous aviez hâte de la raconter. Tout est possible ! Signal vous indiquera lorsque les messages ont été modifiés et vous pouvez cliquer sur « Modifié » pour consulter l’historique des modifications de chacun de ces messages. Mettez à jour vos messages passés aujourd’hui pour éviter toutes confusions à l’avenir !"
+  "icu:WhatsNew__v6.36--1": {
+    "messageformat": "The system tray icon will no longer appear pixelated on Ubuntu Linux, unless you've managed to get Ubuntu Linux running on an old smart refrigerator with a low-res screen."
   }
 }

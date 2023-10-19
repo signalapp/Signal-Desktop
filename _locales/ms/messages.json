@@ -6808,13 +6808,13 @@
     "messageformat": "Sedikit pengubahsuaian, pembaikan pepijat dan peningkatan prestasi. Terima kasih kerana menggunakan Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Kini anda boleh edit mesej dengan klik kanan selepas ia dihantar! Betulkan kesilapan ejaan, termasuk bahan dalam resipi biskut coklat cip nenek, atau tambahkan \"punchline\" lawak anda, sekiranya tertekan butang hantar terlalu cepat. Pilihan itu milik anda. Mesej akan sentiasa ditunjukkan apabila ia telah diedit dan anda boleh melihat sejarah edit penuh untuk sebarang mesej yang telah diedit."
+  "icu:WhatsNew__v6.35--0": {
+    "messageformat": "Pembaikan pepijat dan penambahbaikan antara muka pengguna."
   },
-  "icu:WhatsNew__v6.34--0": {
-    "messageformat": "Penunjuk menaip dalam sembang kumpulan kini akan memaparkan berbilang gambar profil jika lebih daripada seorang sedang menaip."
+  "icu:WhatsNew__v6.36--0": {
+    "messageformat": "We updated the user interface to better indicate when a group video call is reconnecting. Now you'll see blurred thumbnails instead of what used to look like an elaborate prank where everyone pretended to freeze at the same time."
   },
-  "icu:WhatsNew__v6.34--1": {
-    "messageformat": "Kini anda boleh klik kanan pada sebarang mesej yang telah dihantar atau tekan anak panah ke atas pada papan kekunci untuk edit ayat anda! Betulkan kesilapan ejaan, termasuk bahan dalam resipi biskut coklat cip nenek, atau tambahkan \"punchline\" lawak anda, sekiranya tertekan butang hantar terlalu cepat. Pilihan itu milik anda. Mesej akan sentiasa ditunjukkan apabila ia telah diedit dan anda boleh melihat sejarah edit penuh untuk sebarang mesej yang telah diedit."
+  "icu:WhatsNew__v6.36--1": {
+    "messageformat": "The system tray icon will no longer appear pixelated on Ubuntu Linux, unless you've managed to get Ubuntu Linux running on an old smart refrigerator with a low-res screen."
   }
 }

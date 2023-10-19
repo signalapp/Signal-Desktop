@@ -6808,13 +6808,13 @@
     "messageformat": "Küçük ince ayarlar, hata düzeltmeleri ve performans geliştirmeleri yaptık. Signal'i kullandığın için teşekkürler!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Artık bir mesajı gönderildikten sonra sağ tıklamayla düzenleyebilir ya da az önce söylediğini düzenlemek için klavyendeki yukarı oka basabilirsin! İster bir yazım hatasını düzelt ister babaannenin çikolatalı kek tarifine eksik olan malzemeyi ekle ya da gönder düğmesine çok hızlı bastığında, şakanın unuttuğun can alıcı noktasını ekle. Seçim senin. Mesajlar daima ne zaman düzenlendiklerini gösterir ve düzenlenen mesajların tam düzenleme geçmişini görmek için \"Düzenlendi\" göstergesine tıklayabilirsin. Gelecekteki kafa karışıklığını önlemek için geçmişi bugünden güncelle!"
+  "icu:WhatsNew__v6.35--0": {
+    "messageformat": "Hata düzeltmeleri ve kullanıcı arayüzü iyileştirmeleri."
   },
-  "icu:WhatsNew__v6.34--0": {
-    "messageformat": "Grup sohbetlerindeki yazma göstergeleri artık birden fazla kişi yazıyorsa birden fazla profil resmi gösterecek. Sadece bir avatarla yetinmemeyi öğrendik."
+  "icu:WhatsNew__v6.36--0": {
+    "messageformat": "We updated the user interface to better indicate when a group video call is reconnecting. Now you'll see blurred thumbnails instead of what used to look like an elaborate prank where everyone pretended to freeze at the same time."
   },
-  "icu:WhatsNew__v6.34--1": {
-    "messageformat": "Artık gönderilen bir mesaja sağ tıklayabilir ya da az önce söylediğini düzenlemek için klavyendeki yukarı oka basabilirsin! İster bir yazım hatasını düzelt ister babaannenin çikolatalı kek tarifine eksik olan malzemeyi ekle ya da gönder düğmesine çok hızlı bastığında, şakanın unuttuğun can alıcı noktasını ekle. Seçim senin. Mesajlar daima ne zaman düzenlendiklerini gösterir ve düzenlenen mesajların tüm düzenleme geçmişini görebilirsin. Gelecekteki kafa karışıklığını önlemek için geçmişi bugünden güncelle!"
+  "icu:WhatsNew__v6.36--1": {
+    "messageformat": "The system tray icon will no longer appear pixelated on Ubuntu Linux, unless you've managed to get Ubuntu Linux running on an old smart refrigerator with a low-res screen."
   }
 }

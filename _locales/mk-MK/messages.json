@@ -6808,13 +6808,13 @@
     "messageformat": "Mали подобрувања, решени багови и подобрувања на перформансот. Ви благодариме што користите Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Сега можете да измените порака со десен клик дури и откако е испратена! Поправете грешка, додајте ја состојката која сте ја испуштиле од рецептот за колачиња на вашата баба или допишете ја шегата доколку пребрзо сте стиснале на копчето за испраќање. Изборот е ваш. Секогаш ќе биде видливо кога пораките се изменети и можете да ја видите целосната историја на измени на сите изменети пораки."
+  "icu:WhatsNew__v6.35--0": {
+    "messageformat": "Средени грешки и подобрувања на корисничкиот интерфејс."
   },
-  "icu:WhatsNew__v6.34--0": {
-    "messageformat": "Индикаторите за пишување во групните разговори сега ќе прикажуваат повеќе профилни слики доколку пишуваат повеќе лица."
+  "icu:WhatsNew__v6.36--0": {
+    "messageformat": "We updated the user interface to better indicate when a group video call is reconnecting. Now you'll see blurred thumbnails instead of what used to look like an elaborate prank where everyone pretended to freeze at the same time."
   },
-  "icu:WhatsNew__v6.34--1": {
-    "messageformat": "Сега можете да измените порака со десен клик на пораката или со стискање на стрелката за нагоре на вашата тастатура! Поправете грешка, додајте ја состојката која сте ја испуштиле од рецептот за колачиња на вашата баба или допишете ја шегата доколку пребрзо сте стиснале на копчето за испраќање. Изборот е ваш. Секогаш ќе биде видливо кога пораките се изменети и ќе можете да ја видите целосната историја на измени на сите изменети пораки."
+  "icu:WhatsNew__v6.36--1": {
+    "messageformat": "The system tray icon will no longer appear pixelated on Ubuntu Linux, unless you've managed to get Ubuntu Linux running on an old smart refrigerator with a low-res screen."
   }
 }

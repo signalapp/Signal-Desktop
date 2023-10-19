@@ -6808,13 +6808,13 @@
     "messageformat": "Altre piccole modifiche e correzioni di bug per far funzionare l'app senza problemi. Grazie per usare Signal!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Adesso puoi modificare un messaggio già inviato cliccandoci sopra con il tasto destro del mouse! Correggi un errore di battitura, sostituisci un'emoji sbagliata o aggiungi una nuova frase. Scegli tu come perfezionare i tuoi messaggi! Potrai sempre riconoscere i messaggi che sono stati modificati e cliccare su \"Modificato\" per vedere la cronologia completa delle modifiche al messaggio. Ora i tuoi messaggi su Signal saranno ancora più chiari e precisi."
+  "icu:WhatsNew__v6.35--0": {
+    "messageformat": "Quante volte hai letto \"Bug risolti e miglioramenti vari\" nelle note dell'aggiornamento di un'app? Tante. Beh, aggiungi anche questa: stavolta abbiamo effettivamente risolto bug e migliorato l'interfaccia dell'app."
   },
-  "icu:WhatsNew__v6.34--0": {
-    "messageformat": "Da ora se più persone scrivono contemporaneamente in una chat di gruppo, l'icona di scrittura in corso mostrerà le foto profilo di ogni persona. Così sarà tutto più chiaro, no?"
+  "icu:WhatsNew__v6.36--0": {
+    "messageformat": "We updated the user interface to better indicate when a group video call is reconnecting. Now you'll see blurred thumbnails instead of what used to look like an elaborate prank where everyone pretended to freeze at the same time."
   },
-  "icu:WhatsNew__v6.34--1": {
-    "messageformat": "Adesso puoi modificare un messaggio già inviato cliccandoci sopra con il tasto destro del mouse o premendo il tasto \"freccia su\"! Correggi un errore di battitura, sostituisci un'emoji sbagliata o aggiungi una nuova frase. Scegli tu come perfezionare i tuoi messaggi! Potrai sempre riconoscere i messaggi che sono stati modificati e cliccare su \"Modificato\" per vedere la cronologia completa delle modifiche al messaggio. In questo modo i tuoi messaggi su Signal saranno ancora più chiari e precisi."
+  "icu:WhatsNew__v6.36--1": {
+    "messageformat": "The system tray icon will no longer appear pixelated on Ubuntu Linux, unless you've managed to get Ubuntu Linux running on an old smart refrigerator with a low-res screen."
   }
 }

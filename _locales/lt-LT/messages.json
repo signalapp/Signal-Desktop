@@ -6808,13 +6808,13 @@
     "messageformat": "Smulkūs patobulinimai, klaidų pataisymai ir veikimo pagerinimas. Ačiū, kad naudoji „Signal“!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.33--0": {
-    "messageformat": "Dabar gali spustelėti dešinį pelės klavišą ant bet kurios išsiųstos žinutės arba paspausti viršutinę rodyklę klaviatūroje ir redaguoti, ką parašei! Palikai rašybos klaidą? Išsiuntei pyrago receptą be vieno ingrediento? Parašei juokelį ir per greitai paspaudei siuntimo mygtuką? Viskas kontroliuojama. Visada matysi, kad žinutės buvo redaguotos, ir galėsi peržiūrėti išsamią bet kurios iš jų redagavimo istoriją."
+  "icu:WhatsNew__v6.35--0": {
+    "messageformat": "Klaidų pataisymai ir naudotojo sąsajos patobulinimai."
   },
-  "icu:WhatsNew__v6.34--0": {
-    "messageformat": "Rašymo indikatoriai grupės pokalbiuose dabar rodys kelias profilio nuotraukas, jei rašo daugiau negu vienas asmuo."
+  "icu:WhatsNew__v6.36--0": {
+    "messageformat": "We updated the user interface to better indicate when a group video call is reconnecting. Now you'll see blurred thumbnails instead of what used to look like an elaborate prank where everyone pretended to freeze at the same time."
   },
-  "icu:WhatsNew__v6.34--1": {
-    "messageformat": "Dabar gali spustelėti dešinį pelės klavišą ant bet kurios išsiųstos žinutės arba paspausti viršutinę rodyklę klaviatūroje ir redaguoti, ką parašei! Palikai rašybos klaidą? Išsiuntei pyrago receptą be vieno ingrediento? Parašei juokelį ir per greitai paspaudei siuntimo mygtuką? Viskas kontroliuojama. Visada matysi, kad žinutės buvo redaguotos, ir galėsi peržiūrėti išsamią bet kurios iš jų redagavimo istoriją."
+  "icu:WhatsNew__v6.36--1": {
+    "messageformat": "The system tray icon will no longer appear pixelated on Ubuntu Linux, unless you've managed to get Ubuntu Linux running on an old smart refrigerator with a low-res screen."
   }
 }
