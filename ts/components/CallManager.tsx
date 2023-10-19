@@ -41,6 +41,7 @@ import type {
 } from '../state/ducks/calling';
 import type { LocalizerType, ThemeType } from '../types/Util';
 import { missingCaseError } from '../util/missingCaseError';
+import { CallingToastProvider } from './CallingToast';
 
 const GROUP_CALL_RING_DURATION = 60 * 1000;
 
@@ -439,7 +440,11 @@ export function CallManager(props: PropsType): JSX.Element | null {
   if (activeCall) {
     // `props` should logically have an `activeCall` at this point, but TypeScript can't
     //   figure that out, so we pass it in again.
-    return <ActiveCallManager {...props} activeCall={activeCall} />;
+    return (
+      <CallingToastProvider i18n={props.i18n}>
+        <ActiveCallManager {...props} activeCall={activeCall} />
+      </CallingToastProvider>
+    );
   }
 
   // In the future, we may want to show the incoming call bar when a call is active.

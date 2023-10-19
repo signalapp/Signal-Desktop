@@ -13,7 +13,6 @@ import { CallingButton, CallingButtonType } from './CallingButton';
 import { TooltipPlacement } from './Tooltip';
 import { CallBackgroundBlur } from './CallBackgroundBlur';
 import { CallingHeader } from './CallingHeader';
-import { CallingToast, DEFAULT_LIFETIME } from './CallingToast';
 import { CallingPreCallInfo, RingMode } from './CallingPreCallInfo';
 import {
   CallingLobbyJoinButton,
@@ -23,6 +22,7 @@ import type { LocalizerType } from '../types/Util';
 import { useIsOnline } from '../hooks/useIsOnline';
 import * as KeyboardLayout from '../services/keyboardLayout';
 import type { ConversationType } from '../state/ducks/conversations';
+import { useCallingToasts } from './CallingToast';
 
 export type PropsType = {
   availableCameras: Array<MediaDeviceInfo>;
@@ -89,21 +89,6 @@ export function CallingLobby({
   toggleSettings,
   outgoingRing,
 }: PropsType): JSX.Element {
-  const [isMutedToastVisible, setIsMutedToastVisible] = React.useState(
-    !hasLocalAudio
-  );
-  React.useEffect(() => {
-    if (!isMutedToastVisible) {
-      return;
-    }
-    const timeout = setTimeout(() => {
-      setIsMutedToastVisible(false);
-    }, DEFAULT_LIFETIME);
-    return () => {
-      clearTimeout(timeout);
-    };
-  }, [isMutedToastVisible]);
-
   const localVideoRef = React.useRef<null | HTMLVideoElement>(null);
 
   const shouldShowLocalVideo = hasLocalVideo && availableCameras.length > 0;
@@ -157,6 +142,8 @@ export function CallingLobby({
   const isOnline = useIsOnline();
 
   const [isCallConnecting, setIsCallConnecting] = React.useState(false);
+
+  useWasInitiallyMutedToast(hasLocalAudio, i18n);
 
   // eslint-disable-next-line no-nested-ternary
   const videoButtonType = hasLocalVideo
@@ -231,15 +218,6 @@ export function CallingLobby({
           />
         )}
 
-        <CallingToast
-          isVisible={isMutedToastVisible}
-          onClick={() => setIsMutedToastVisible(false)}
-        >
-          {i18n(
-            'icu:calling__lobby-automatically-muted-because-there-are-a-lot-of-people'
-          )}
-        </CallingToast>
-
         <CallingHeader
           i18n={i18n}
           isGroupCall={isGroupCall}
@@ -305,4 +283,33 @@ export function CallingLobby({
       </div>
     </FocusTrap>
   );
+}
+
+function useWasInitiallyMutedToast(
+  hasLocalAudio: boolean,
+  i18n: LocalizerType
+) {
+  const [wasInitiallyMuted] = React.useState(!hasLocalAudio);
+  const { showToast, hideToast } = useCallingToasts();
+  const INITIALLY_MUTED_KEY = 'initially-muted-group-size';
+  React.useEffect(() => {
+    if (wasInitiallyMuted) {
+      showToast({
+        key: INITIALLY_MUTED_KEY,
+        content: i18n(
+          'icu:calling__lobby-automatically-muted-because-there-are-a-lot-of-people'
+        ),
+        autoClose: true,
+        dismissable: true,
+        onlyShowOnce: true,
+      });
+    }
+  }, [wasInitiallyMuted, i18n, showToast]);
+
+  // Hide this toast if the user unmutes
+  React.useEffect(() => {
+    if (wasInitiallyMuted && hasLocalAudio) {
+      hideToast(INITIALLY_MUTED_KEY);
+    }
+  }, [hideToast, wasInitiallyMuted, hasLocalAudio]);
 }

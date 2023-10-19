@@ -1,35 +1,40 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import type { ActiveCallType } from '../types/Calling';
 import { CallMode } from '../types/Calling';
 import type { ConversationType } from '../state/ducks/conversations';
 import type { LocalizerType } from '../types/Util';
-import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
-import { CallingToast, DEFAULT_LIFETIME } from './CallingToast';
 import { isReconnecting } from '../util/callingIsReconnecting';
+import { useCallingToasts } from './CallingToast';
+import { Spinner } from './Spinner';
 
 type PropsType = {
   activeCall: ActiveCallType;
   i18n: LocalizerType;
 };
 
-type ToastType =
-  | {
-      message: string;
-      type: 'dismissable' | 'static';
-    }
-  | undefined;
+export function useReconnectingToast({ activeCall, i18n }: PropsType): void {
+  const { showToast, hideToast } = useCallingToasts();
+  const RECONNECTING_TOAST_KEY = 'reconnecting';
 
-function getReconnectingToast({ activeCall, i18n }: PropsType): ToastType {
-  if (isReconnecting(activeCall)) {
-    return {
-      message: i18n('icu:callReconnecting'),
-      type: 'static',
-    };
-  }
-  return undefined;
+  useEffect(() => {
+    if (isReconnecting(activeCall)) {
+      showToast({
+        key: RECONNECTING_TOAST_KEY,
+        content: (
+          <span className="CallingToast__reconnecting">
+            <Spinner svgSize="small" size="16px" />
+            {i18n('icu:callReconnecting')}
+          </span>
+        ),
+        autoClose: false,
+      });
+    } else {
+      hideToast(RECONNECTING_TOAST_KEY);
+    }
+  }, [activeCall, i18n, showToast, hideToast]);
 }
 
 const ME = Symbol('me');
@@ -54,34 +59,14 @@ function getCurrentPresenter(
   return undefined;
 }
 
-function useScreenSharingToast({ activeCall, i18n }: PropsType): ToastType {
-  const [result, setResult] = useState<undefined | ToastType>(undefined);
-
+export function useScreenSharingStoppedToast({
+  activeCall,
+  i18n,
+}: PropsType): void {
   const [previousPresenter, setPreviousPresenter] = useState<
     undefined | { id: string | typeof ME; title?: string }
   >(undefined);
-
-  const previousPresenterId = previousPresenter?.id;
-  const previousPresenterTitle = previousPresenter?.title;
-
-  useEffect(() => {
-    const currentPresenter = getCurrentPresenter(activeCall);
-    if (!currentPresenter && previousPresenterId) {
-      if (previousPresenterId === ME) {
-        setResult({
-          type: 'dismissable',
-          message: i18n('icu:calling__presenting--you-stopped'),
-        });
-      } else if (previousPresenterTitle) {
-        setResult({
-          type: 'dismissable',
-          message: i18n('icu:calling__presenting--person-stopped', {
-            name: previousPresenterTitle,
-          }),
-        });
-      }
-    }
-  }, [activeCall, i18n, previousPresenterId, previousPresenterTitle]);
+  const { showToast } = useCallingToasts();
 
   useEffect(() => {
     const currentPresenter = getCurrentPresenter(activeCall);
@@ -97,49 +82,19 @@ function useScreenSharingToast({ activeCall, i18n }: PropsType): ToastType {
     }
   }, [activeCall]);
 
-  return result;
-}
-
-// In the future, this component should show toasts when users join or leave. See
-//   DESKTOP-902.
-export function CallingToastManager(props: PropsType): JSX.Element {
-  const reconnectingToast = getReconnectingToast(props);
-  const screenSharingToast = useScreenSharingToast(props);
-
-  let toast: ToastType;
-  if (reconnectingToast) {
-    toast = reconnectingToast;
-  } else if (screenSharingToast) {
-    toast = screenSharingToast;
-  }
-
-  const [isVisible, setIsVisible] = useState(false);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-  const dismissToast = useCallback(() => {
-    if (timeoutRef) {
-      setIsVisible(false);
-    }
-  }, [setIsVisible, timeoutRef]);
-
   useEffect(() => {
-    setIsVisible(toast !== undefined);
-  }, [toast]);
+    const currentPresenter = getCurrentPresenter(activeCall);
 
-  useEffect(() => {
-    if (toast?.type === 'dismissable') {
-      clearTimeoutIfNecessary(timeoutRef.current);
-      timeoutRef.current = setTimeout(dismissToast, DEFAULT_LIFETIME);
+    if (!currentPresenter && previousPresenter && previousPresenter.title) {
+      showToast({
+        content:
+          previousPresenter.id === ME
+            ? i18n('icu:calling__presenting--you-stopped')
+            : i18n('icu:calling__presenting--person-stopped', {
+                name: previousPresenter.title,
+              }),
+        autoClose: true,
+      });
     }
-
-    return () => {
-      clearTimeoutIfNecessary(timeoutRef.current);
-    };
-  }, [dismissToast, setIsVisible, timeoutRef, toast]);
-
-  return (
-    <CallingToast isVisible={isVisible} onClick={dismissToast}>
-      {toast?.message}
-    </CallingToast>
-  );
+  }, [activeCall, previousPresenter, showToast, i18n]);
 }

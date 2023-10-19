@@ -32,7 +32,10 @@ import {
 } from '../types/Calling';
 import { AvatarColors } from '../types/Colors';
 import type { ConversationType } from '../state/ducks/conversations';
-import { CallingToastManager } from './CallingToastManager';
+import {
+  useReconnectingToast,
+  useScreenSharingStoppedToast,
+} from './CallingToastManager';
 import { DirectCallRemoteParticipant } from './DirectCallRemoteParticipant';
 import { GroupCallRemoteParticipants } from './GroupCallRemoteParticipants';
 import type { LocalizerType } from '../types/Util';
@@ -257,6 +260,9 @@ export function CallScreen({
     };
   }, [toggleAudio, toggleVideo]);
 
+  useReconnectingToast({ activeCall, i18n });
+  useScreenSharingStoppedToast({ activeCall, i18n });
+
   const currentPresenter = remoteParticipants.find(
     participant => participant.presenting
   );
@@ -476,7 +482,6 @@ export function CallScreen({
           openSystemPreferencesAction={openSystemPreferencesAction}
         />
       ) : null}
-      <CallingToastManager activeCall={activeCall} i18n={i18n} />
       <div
         className={classNames('module-ongoing-call__header', controlsFadeClass)}
       >

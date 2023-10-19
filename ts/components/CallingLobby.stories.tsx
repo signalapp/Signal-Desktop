@@ -10,7 +10,7 @@ import type { Meta } from '@storybook/react';
 import { AvatarColors } from '../types/Colors';
 import type { ConversationType } from '../state/ducks/conversations';
 import type { PropsType } from './CallingLobby';
-import { CallingLobby } from './CallingLobby';
+import { CallingLobby as UnwrappedCallingLobby } from './CallingLobby';
 import { setupI18n } from '../util/setupI18n';
 import { generateAci } from '../types/ServiceId';
 import enMessages from '../../_locales/en/messages.json';
@@ -18,6 +18,7 @@ import {
   getDefaultConversation,
   getDefaultConversationWithServiceId,
 } from '../test-both/helpers/getDefaultConversation';
+import { CallingToastProvider } from './CallingToast';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -73,6 +74,14 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => {
     toggleSettings: action('toggle-settings'),
   };
 };
+
+function CallingLobby(props: ReturnType<typeof createProps>) {
+  return (
+    <CallingToastProvider i18n={i18n}>
+      <UnwrappedCallingLobby {...props} />
+    </CallingToastProvider>
+  );
+}
 
 const fakePeekedParticipant = (conversationProps: Partial<ConversationType>) =>
   getDefaultConversationWithServiceId({

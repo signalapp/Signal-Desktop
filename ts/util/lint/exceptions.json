@@ -2994,26 +2994,45 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/CallingToastManager.tsx",
-    "line": "  const timeoutRef = useRef<NodeJS.Timeout | null>(null);",
+    "path": "ts/components/CallingToast.tsx",
+    "line": "  const shownToasts = React.useRef<Set<string>>(new Set());",
     "reasonCategory": "usageTrusted",
-    "updated": "2021-07-30T16:57:33.618Z"
+    "updated": "2023-10-04T20:50:45.297Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CallingToast.tsx",
+    "line": "  const timeouts = React.useRef<Map<string, TimeoutType>>(new Map());",
+    "reasonCategory": "usageTrusted",
+    "updated": "2023-10-10T17:05:02.468Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CallingToast.tsx",
+    "line": "  const timeoutsStatus = React.useRef<'active' | 'paused'>('active');",
+    "reasonCategory": "usageTrusted",
+    "updated": "2023-10-10T17:05:02.468Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CallingToast.tsx",
+    "line": "  const toastsShown = useRef<Set<string>>(new Set());",
+    "reasonCategory": "usageTrusted",
+    "updated": "2023-10-10T17:05:02.468Z"
   },
   {
     "rule": "React-useRef",
     "path": "ts/components/CallsList.tsx",
     "line": "  const infiniteLoaderRef = useRef<InfiniteLoader>(null);",
     "reasonCategory": "usageTrusted",
-    "updated": "2023-08-02T00:21:37.858Z",
-    "reasonDetail": "<optional>"
+    "updated": "2023-08-02T00:21:37.858Z"
   },
   {
     "rule": "React-useRef",
     "path": "ts/components/CallsList.tsx",
     "line": "  const listRef = useRef<List>(null);",
     "reasonCategory": "usageTrusted",
-    "updated": "2023-08-02T00:21:37.858Z",
-    "reasonDetail": "<optional>"
+    "updated": "2023-08-02T00:21:37.858Z"
   },
   {
     "rule": "React-useRef",
@@ -3699,6 +3718,13 @@
     "line": "  const unobserveRef = useRef<(() => unknown) | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-09-17T20:16:37.959Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/hooks/useIsMounted.ts",
+    "line": "  const isMounted = useRef(false);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2023-10-04T20:50:45.297Z"
   },
   {
     "rule": "React-useRef",

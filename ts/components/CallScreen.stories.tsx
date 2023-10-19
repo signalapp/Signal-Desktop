@@ -18,7 +18,7 @@ import { generateAci } from '../types/ServiceId';
 import type { ConversationType } from '../state/ducks/conversations';
 import { AvatarColors } from '../types/Colors';
 import type { PropsType } from './CallScreen';
-import { CallScreen } from './CallScreen';
+import { CallScreen as UnwrappedCallScreen } from './CallScreen';
 import { setupI18n } from '../util/setupI18n';
 import { missingCaseError } from '../util/missingCaseError';
 import {
@@ -27,6 +27,7 @@ import {
 } from '../test-both/helpers/getDefaultConversation';
 import { fakeGetGroupCallVideoFrameSource } from '../test-both/helpers/fakeGetGroupCallVideoFrameSource';
 import enMessages from '../../_locales/en/messages.json';
+import { CallingToastProvider, useCallingToasts } from './CallingToast';
 
 const MAX_PARTICIPANTS = 64;
 
@@ -170,6 +171,14 @@ const createProps = (
   toggleSettings: action('toggle-settings'),
   toggleSpeakerView: action('toggle-speaker-view'),
 });
+
+function CallScreen(props: ReturnType<typeof createProps>): JSX.Element {
+  return (
+    <CallingToastProvider i18n={i18n}>
+      <UnwrappedCallScreen {...props} />
+    </CallingToastProvider>
+  );
+}
 
 export default {
   title: 'Components/CallScreen',
@@ -380,5 +389,61 @@ export function GroupCallSomeoneIsSharingScreenAndYoureReconnecting(): JSX.Eleme
           })),
       })}
     />
+  );
+}
+
+export function GroupCallSomeoneStoppedSharingScreen(): JSX.Element {
+  const [remoteParticipants, setRemoteParticipants] = React.useState(
+    allRemoteParticipants.slice(0, 5).map((participant, index) => ({
+      ...participant,
+      presenting: index === 1,
+      sharingScreen: index === 1,
+    }))
+  );
+
+  React.useEffect(() => {
+    setTimeout(
+      () => setRemoteParticipants(allRemoteParticipants.slice(0, 5)),
+      1000
+    );
+  });
+
+  return (
+    <CallScreen
+      {...createProps({
+        callMode: CallMode.Group,
+        remoteParticipants,
+      })}
+    />
+  );
+}
+
+function ToastEmitter(): null {
+  const { showToast } = useCallingToasts();
+  const toastCount = React.useRef(0);
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      const autoClose = toastCount.current % 2 === 0;
+      showToast({
+        key: Date.now().toString(),
+        content: `${
+          autoClose ? 'Disappearing' : 'Non-disappearing'
+        } toast sent: ${Date.now()}`,
+        dismissable: true,
+        autoClose,
+      });
+      toastCount.current += 1;
+    }, 1500);
+    return () => clearInterval(interval);
+  }, [showToast]);
+  return null;
+}
+
+export function CallScreenToastAPalooza(): JSX.Element {
+  return (
+    <CallingToastProvider i18n={i18n}>
+      <UnwrappedCallScreen {...createProps()} />
+      <ToastEmitter />
+    </CallingToastProvider>
   );
 }

@@ -1652,6 +1652,10 @@
     "messageformat": "Microphone muted due to the size of the call",
     "description": "Shown in a call lobby toast if there are a lot of people already on the call"
   },
+  "icu:calling__toasts--aria-label": {
+    "messageformat": "Call notifications",
+    "description": "Aria label for region of toasts shown during a call (for, e.g. reconnecting, person joined, audio device changed notifications)"
+  },
   "icu:calling__call-is-full": {
     "messageformat": "Call is full",
     "description": "Text in the call lobby when you can't join because the call is full"
