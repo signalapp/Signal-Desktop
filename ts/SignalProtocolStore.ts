@@ -64,6 +64,7 @@ import {
   KYBER_KEY_ID_KEY,
   SIGNED_PRE_KEY_ID_KEY,
 } from './textsecure/AccountManager';
+import { formatGroups, groupWhile } from './util/groupWhile';
 
 const TIMESTAMP_THRESHOLD = 5 * 1000; // 5 seconds
 const LOW_KEYS_THRESHOLD = 25;
@@ -526,7 +527,8 @@ export class SignalProtocolStore extends EventEmitter {
 
     const ids = keyIds.map(keyId => this._getKeyId(ourServiceId, keyId));
 
-    await window.Signal.Data.removeKyberPreKeyById(ids);
+    const changes = await window.Signal.Data.removeKyberPreKeyById(ids);
+    log.info(`removeKyberPreKeys: Removed ${changes} kyber prekeys`);
     ids.forEach(id => {
       kyberPreKeyCache.delete(id);
     });
@@ -543,7 +545,8 @@ export class SignalProtocolStore extends EventEmitter {
     if (this.kyberPreKeys) {
       this.kyberPreKeys.clear();
     }
-    await window.Signal.Data.removeAllKyberPreKeys();
+    const changes = await window.Signal.Data.removeAllKyberPreKeys();
+    log.info(`clearKyberPreKeyStore: Removed ${changes} kyber prekeys`);
   }
 
   // PreKeys
@@ -623,6 +626,7 @@ export class SignalProtocolStore extends EventEmitter {
       toSave.push(preKey);
     });
 
+    log.info(`storePreKeys: Saving ${toSave.length} prekeys`);
     await window.Signal.Data.bulkAddPreKeys(toSave);
     toSave.forEach(preKey => {
       preKeyCache.set(preKey.id, {
@@ -643,7 +647,22 @@ export class SignalProtocolStore extends EventEmitter {
 
     const ids = keyIds.map(keyId => this._getKeyId(ourServiceId, keyId));
 
-    await window.Signal.Data.removePreKeyById(ids);
+    log.info(
+      'removePreKeys: Removing prekeys:',
+      // Potentially hundreds of items, so we'll group together sequences,
+      // take the first 10 of the sequences, format them as ranges,
+      // and log that once.
+      // => '1-10, 12, 14-20'
+      formatGroups(
+        groupWhile(keyIds.sort(), (a, b) => a + 1 === b).slice(0, 10),
+        '-',
+        ', ',
+        String
+      )
+    );
+
+    const changes = await window.Signal.Data.removePreKeyById(ids);
+    log.info(`removePreKeys: Removed ${changes} prekeys`);
     ids.forEach(id => {
       preKeyCache.delete(id);
     });
@@ -657,7 +676,8 @@ export class SignalProtocolStore extends EventEmitter {
     if (this.preKeys) {
       this.preKeys.clear();
     }
-    await window.Signal.Data.removeAllPreKeys();
+    const changes = await window.Signal.Data.removeAllPreKeys();
+    log.info(`clearPreKeyStore: Removed ${changes} prekeys`);
   }
 
   // Signed PreKeys
@@ -797,7 +817,8 @@ export class SignalProtocolStore extends EventEmitter {
     if (this.signedPreKeys) {
       this.signedPreKeys.clear();
     }
-    await window.Signal.Data.removeAllSignedPreKeys();
+    const changes = await window.Signal.Data.removeAllSignedPreKeys();
+    log.info(`clearSignedPreKeysStore: Removed ${changes} signed prekeys`);
   }
 
   // Sender Key
@@ -1728,7 +1749,8 @@ export class SignalProtocolStore extends EventEmitter {
         this.sessions.clear();
       }
       this.pendingSessions.clear();
-      await window.Signal.Data.removeAllSessions();
+      const changes = await window.Signal.Data.removeAllSessions();
+      log.info(`clearSessionStore: Removed ${changes} sessions`);
     });
   }
 
@@ -1848,7 +1870,13 @@ export class SignalProtocolStore extends EventEmitter {
     await this._saveIdentityKey(newRecord);
 
     this.identityKeys.delete(record.fromDB.id);
-    await window.Signal.Data.removeIdentityKeyById(record.fromDB.id);
+    const changes = await window.Signal.Data.removeIdentityKeyById(
+      record.fromDB.id
+    );
+
+    log.info(
+      `getOrMigrateIdentityRecord: Removed ${changes} old identity keys for ${record.fromDB.id}`
+    );
 
     return newRecord;
   }
