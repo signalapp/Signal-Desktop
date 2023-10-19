@@ -1,8 +1,9 @@
-import { ipcRenderer } from 'electron';
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { LastMessageStatusType } from '../../../../state/ducks/conversations';
 import { SessionIcon } from '../../../icon';
+import { showMessageInfoOverlay } from './MessageContextMenu';
 
 const MessageStatusSendingContainer = styled.div`
   display: inline-block;
@@ -38,16 +39,24 @@ const MessageStatusRead = ({ dataTestId }: { dataTestId?: string }) => {
   );
 };
 
-const MessageStatusError = ({ dataTestId }: { dataTestId?: string }) => {
-  const showDebugLog = () => {
-    ipcRenderer.send('show-debug-log');
-  };
+const MessageStatusError = ({
+  messageId,
+  dataTestId,
+}: {
+  messageId?: string;
+  dataTestId?: string;
+}) => {
+  const dispatch = useDispatch();
 
   return (
     <MessageStatusSendingContainer
       data-testid={dataTestId}
       data-testtype="failed"
-      onClick={showDebugLog}
+      onClick={() => {
+        if (messageId) {
+          void showMessageInfoOverlay({ messageId, dispatch });
+        }
+      }}
       title={window.i18n('sendFailed')}
     >
       <SessionIcon iconColor={'var(--danger-color'} iconType="error" iconSize="tiny" />
@@ -57,9 +66,10 @@ const MessageStatusError = ({ dataTestId }: { dataTestId?: string }) => {
 
 export const OutgoingMessageStatus = (props: {
   status: LastMessageStatusType | null;
+  messageId?: string;
   dataTestId?: string;
 }) => {
-  const { status, dataTestId } = props;
+  const { status, messageId, dataTestId } = props;
   switch (status) {
     case 'sending':
       return <MessageStatusSending dataTestId={dataTestId} />;
@@ -68,7 +78,7 @@ export const OutgoingMessageStatus = (props: {
     case 'read':
       return <MessageStatusRead dataTestId={dataTestId} />;
     case 'error':
-      return <MessageStatusError dataTestId={dataTestId} />;
+      return <MessageStatusError messageId={messageId} dataTestId={dataTestId} />;
     default:
       return null;
   }

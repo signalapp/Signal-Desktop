@@ -36,6 +36,7 @@ export type ThemeGlobals = {
   '--main-view-header-height': string;
   '--composition-container-height': string;
   '--search-input-height': string;
+  '--toggle-width': string;
 
   /* Animations */
   '--default-duration': string;
@@ -83,6 +84,12 @@ export type ThemeGlobals = {
   /* Also used for FileDropZone */
   /* Used for Quote References Not Found */
   '--message-link-preview-background-color': string;
+
+  /* Right Panel */
+  '--right-panel-width': string;
+  '--right-panel-height': string;
+  '--right-panel-attachment-width': string;
+  '--right-panel-attachment-height': string;
 };
 
 // These are only set once in the global style (at root).
@@ -115,6 +122,7 @@ export const THEME_GLOBALS: ThemeGlobals = {
   '--main-view-header-height': '68px',
   '--composition-container-height': '60px',
   '--search-input-height': '34px',
+  '--toggle-width': '51px',
 
   '--default-duration': '0.25s',
 
@@ -149,6 +157,11 @@ export const THEME_GLOBALS: ThemeGlobals = {
   '--avatar-border-color': 'var(--transparent-color)',
 
   '--message-link-preview-background-color': `rgba(${hexColorToRGB(COLORS.BLACK)}, 0.06)`,
+
+  '--right-panel-width': '420px',
+  '--right-panel-height': '100%',
+  '--right-panel-attachment-width': '350px',
+  '--right-panel-attachment-height': '350px',
 };
 
 // These should only be needed for the global style (at root).

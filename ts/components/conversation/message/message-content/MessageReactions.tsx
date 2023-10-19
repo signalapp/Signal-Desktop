@@ -3,6 +3,7 @@ import React, { ReactElement, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useMessageReactsPropsById } from '../../../../hooks/useParamSelector';
 import { MessageRenderingProps } from '../../../../models/messageType';
+import { REACT_LIMIT } from '../../../../session/constants';
 import { useSelectedIsGroup } from '../../../../state/selectors/selectedConversation';
 import { SortedReactionList } from '../../../../types/Reaction';
 import { nativeEmojiData } from '../../../../util/emoji';
@@ -10,7 +11,6 @@ import { Flex } from '../../../basic/Flex';
 import { SessionIcon } from '../../../icon';
 import { Reaction, ReactionProps } from '../reactions/Reaction';
 import { StyledPopupContainer } from '../reactions/ReactionPopup';
-import { REACT_LIMIT } from '../../../../session/constants';
 
 export const popupXDefault = -81;
 export const popupYDefault = -90;
@@ -147,6 +147,7 @@ type Props = {
   inModal?: boolean;
   onSelected?: (emoji: string) => boolean;
   noAvatar: boolean;
+  isDetailView?: boolean;
 };
 
 export const MessageReactions = (props: Props) => {
@@ -160,6 +161,7 @@ export const MessageReactions = (props: Props) => {
     inModal = false,
     onSelected,
     noAvatar,
+    isDetailView,
   } = props;
   const [reactions, setReactions] = useState<SortedReactionList>([]);
 
@@ -202,10 +204,10 @@ export const MessageReactions = (props: Props) => {
     inGroup,
     handlePopupX: setPopupX,
     handlePopupY: setPopupY,
-    onClick,
+    onClick: !isDetailView ? onClick : undefined,
     popupReaction,
     onSelected,
-    handlePopupReaction: setPopupReaction,
+    handlePopupReaction: !isDetailView ? setPopupReaction : undefined,
     handlePopupClick: onPopupClick,
   };
 

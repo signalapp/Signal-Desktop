@@ -1,16 +1,24 @@
 import React, { ReactElement, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useMouse } from 'react-use';
 import styled from 'styled-components';
 import { isUsAnySogsFromCache } from '../../../../session/apis/open_group_api/sogsv3/knownBlindedkeys';
 import { UserUtils } from '../../../../session/utils';
+import { getRightOverlayMode } from '../../../../state/selectors/section';
 import { useIsMessageSelectionMode } from '../../../../state/selectors/selectedConversation';
+import { THEME_GLOBALS } from '../../../../themes/globals';
 import { SortedReactionList } from '../../../../types/Reaction';
 import { abbreviateNumber } from '../../../../util/abbreviateNumber';
 import { nativeEmojiData } from '../../../../util/emoji';
 import { popupXDefault, popupYDefault } from '../message-content/MessageReactions';
 import { POPUP_WIDTH, ReactionPopup, TipPosition } from './ReactionPopup';
 
-const StyledReaction = styled.button<{ selected: boolean; inModal: boolean; showCount: boolean }>`
+const StyledReaction = styled.button<{
+  selected: boolean;
+  inModal: boolean;
+  showCount: boolean;
+  hasOnClick?: boolean;
+}>`
   display: flex;
   justify-content: ${props => (props.showCount ? 'flex-start' : 'center')};
   align-items: center;
@@ -29,6 +37,8 @@ const StyledReaction = styled.button<{ selected: boolean; inModal: boolean; show
   span {
     width: 100%;
   }
+
+  ${props => !props.hasOnClick && 'cursor: not-allowed;'}
 `;
 
 const StyledReactionContainer = styled.div<{
@@ -46,7 +56,7 @@ export type ReactionProps = {
   inGroup: boolean;
   handlePopupX: (x: number) => void;
   handlePopupY: (y: number) => void;
-  onClick: (emoji: string) => void;
+  onClick?: (emoji: string) => void;
   popupReaction?: string;
   onSelected?: (emoji: string) => boolean;
   handlePopupReaction?: (emoji: string) => void;
@@ -69,6 +79,7 @@ export const Reaction = (props: ReactionProps): ReactElement => {
     handlePopupClick,
   } = props;
 
+  const rightOverlayMode = useSelector(getRightOverlayMode);
   const isMessageSelection = useIsMessageSelectionMode();
   const reactionsMap = (reactions && Object.fromEntries(reactions)) || {};
   const senders = reactionsMap[emoji]?.senders || [];
@@ -76,7 +87,7 @@ export const Reaction = (props: ReactionProps): ReactElement => {
   const showCount = count !== undefined && (count > 1 || inGroup);
 
   const reactionRef = useRef<HTMLDivElement>(null);
-  const { docX, elW } = useMouse(reactionRef);
+  const { docX: _docX, elW } = useMouse(reactionRef);
 
   const gutterWidth = 380; // TODOLATER make this a variable which can be shared in CSS and JS
   const tooltipMidPoint = POPUP_WIDTH / 2; // px
@@ -96,7 +107,9 @@ export const Reaction = (props: ReactionProps): ReactElement => {
 
   const handleReactionClick = () => {
     if (!isMessageSelection) {
-      onClick(emoji);
+      if (onClick) {
+        onClick(emoji);
+      }
     }
   };
 
@@ -107,12 +120,28 @@ export const Reaction = (props: ReactionProps): ReactElement => {
         selected={selected()}
         inModal={inModal}
         onClick={handleReactionClick}
+        hasOnClick={Boolean(onClick)}
         onMouseEnter={() => {
           if (inGroup && !isMessageSelection) {
-            const { innerWidth: windowWidth } = window;
+            const { innerWidth } = window;
+            let windowWidth = innerWidth;
+
+            let docX = _docX;
+            // if the right panel is open we may need to show a reaction tooltip relative to it
+            if (rightOverlayMode && rightOverlayMode.type === 'message_info') {
+              const rightPanelWidth = Number(THEME_GLOBALS['--right-panel-width'].split('px')[0]);
+
+              // we need to check that the reaction we are hovering over is inside of the right panel and not in the messages list
+              if (docX > windowWidth - rightPanelWidth) {
+                // make the values relative to the right panel
+                docX = docX - windowWidth + rightPanelWidth;
+                windowWidth = rightPanelWidth;
+              }
+            }
+
             if (handlePopupReaction) {
               // overflow on far right means we shift left
-              if (docX + elW + tooltipMidPoint > windowWidth) {
+              if (docX + elW + tooltipMidPoint > innerWidth) {
                 handlePopupX(Math.abs(popupXDefault) * 1.5 * -1);
                 setTooltipPosition('right');
                 // overflow onto conversations means we lock to the right
