@@ -134,6 +134,7 @@ export const MessageContentWithStatuses = (props: Props) => {
         messageId={messageId}
         className={classNames('module-message', `module-message--${direction}`)}
         role={'button'}
+        isDetailView={isDetailView}
         onClick={onClickOnMessageOuterContainer}
         onDoubleClickCapture={onDoubleClickReplyToMessage}
         dataTestId={dataTestId}

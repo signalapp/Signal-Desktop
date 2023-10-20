@@ -16,6 +16,7 @@ import { ConversationHeaderTitle } from './ConversationHeaderTitle';
 
 export const ConversationHeaderWithDetails = () => {
   const isSelectionMode = useSelector(isMessageSelectionMode);
+  // TODO remove I think?
   const isMessageDetailOpened = useSelector(isMessageDetailView);
   const selectedConvoKey = useSelectedConversationKey();
   const dispatch = useDispatch();
@@ -33,6 +34,7 @@ export const ConversationHeaderWithDetails = () => {
         width="100%"
         flexGrow={1}
       >
+        {/* TODO do we remove */}
         <BackButton
           onGoBack={() => {
             dispatch(closeMessageDetailsView());

@@ -185,7 +185,7 @@ export const OverlayMessageInfo = () => {
             )}
             <MessageInfo />
             <SpacerLG />
-            <PanelButtonGroup>
+            <PanelButtonGroup style={{ margin: '0' }}>
               <PanelIconButton
                 text={window.i18n('replyToMessage')}
                 iconType="reply"
