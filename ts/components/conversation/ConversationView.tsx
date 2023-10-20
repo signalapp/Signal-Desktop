@@ -64,8 +64,9 @@ export function ConversationView({
         return;
       }
       const { items } = event.clipboardData;
+      const fileItems = [...items].filter(item => item.kind === 'file');
 
-      const allVisual = [...items].every(item => {
+      const allVisual = fileItems.every(item => {
         const type = item.type.split('/')[0];
         return type === 'image' || type === 'video';
       });
@@ -86,7 +87,7 @@ export function ConversationView({
         return;
       }
 
-      const firstAttachment = items[0]?.getAsFile();
+      const firstAttachment = fileItems[0]?.getAsFile();
       if (firstAttachment) {
         processAttachments({
           conversationId,
