@@ -21,7 +21,7 @@ export const MessageStatus = (props: Props) => {
     return null;
   }
 
-  if (!isCorrectSide || !isDetailView) {
+  if (!isCorrectSide || isDetailView) {
     return null;
   }
   const isIncoming = direction === 'incoming';
