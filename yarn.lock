@@ -3917,10 +3917,10 @@
     ws "^8.4.2"
     zod "^3.20.2"
 
-"@signalapp/ringrtc@2.33.0":
-  version "2.33.0"
-  resolved "https://registry.yarnpkg.com/@signalapp/ringrtc/-/ringrtc-2.33.0.tgz#a18baa71c43e4a4d5ea996febcdfaac4e5a62f51"
-  integrity sha512-PEgvEkcSzliN74hnCA3ffFDmmjCcAck4Xwu3sFqMTrVJ/XGcZqfcuGX6q/+3+P8UlsWrCeMgg6t7Ept1KqVOTg==
+"@signalapp/ringrtc@2.34.0":
+  version "2.34.0"
+  resolved "https://registry.yarnpkg.com/@signalapp/ringrtc/-/ringrtc-2.34.0.tgz#a6665fe6587610d9bdf971890249fd5df2207473"
+  integrity sha512-IHyopnLTEthd/LQqE1b/kdLv1tmsfpqtROX/X1H3ZpqZXhNHtJISx2J7WcxQB7WIVLiWGUE+B7DEThPRHqhjdA==
   dependencies:
     tar "^6.1.0"
 

@@ -831,6 +831,9 @@ export class CallingClass {
         onReactions: (_groupCall, _reactions) => {
           // TODO: Implement handling of reactions.
         },
+        onRaisedHands: (_groupCall, _raisedHands) => {
+          // TODO: Implement handling of raised hands.
+        },
         onPeekChanged: groupCall => {
           const localDeviceState = groupCall.getLocalDeviceState();
           const peekInfo = groupCall.getPeekInfo() ?? null;
