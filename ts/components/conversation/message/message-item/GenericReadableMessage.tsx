@@ -160,7 +160,7 @@ export const GenericReadableMessage = (props: Props) => {
         ctxMenuID={ctxMenuID}
         messageId={messageId}
         isDetailView={isDetailView}
-        dataTestId={`message-content-${messageId}`}
+        dataTestId={'message-content'}
         enableReactions={enableReactions}
       />
     </StyledReadableMessage>

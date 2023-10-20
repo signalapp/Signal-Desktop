@@ -67,9 +67,9 @@ const VALUES: Array<number> = timerOptionsDurations.map(t => {
 
 const DELETE_AFTER_READ = VALUES.filter(option => {
   return (
-    option === 10 || // 10 seconds (for development or qa)
-    option === 30 || // 30 seconds (for development or qa)
-    option === 60 || // 1 minute (for testing)
+    option === 10 || // 10 seconds // TODO DO NOT MERGE Remove after QA
+    option === 30 || // 30 seconds // TODO DO NOT MERGE Remove after QA
+    option === 60 || // 1 minute // TODO DO NOT MERGE Remove after QA
     option === 300 || // 5 minutes
     option === 3600 || // 1 hour
     option === 43200 || // 12 hours
@@ -81,9 +81,9 @@ const DELETE_AFTER_READ = VALUES.filter(option => {
 
 const DELETE_AFTER_SEND = VALUES.filter(option => {
   return (
-    option === 10 || // 10 seconds (for development or qa)
-    option === 30 || // 30 seconds (for development or qa)
-    option === 60 || // 1 minute (for testing)
+    option === 10 || // 10 seconds // TODO DO NOT MERGE Remove after QA
+    option === 30 || // 30 seconds // TODO DO NOT MERGE Remove after QA
+    option === 60 || // 1 minute // TODO DO NOT MERGE Remove after QA
     option === 43200 || // 12 hours
     option === 86400 || // 1 day
     option === 604800 || // 1 week
@@ -94,17 +94,13 @@ const DELETE_AFTER_SEND = VALUES.filter(option => {
 // TODO legacy messages support will be removed in a future release
 const DELETE_LEGACY = VALUES.filter(option => {
   return (
-    option === 5 || // 5 seconds
-    option === 10 || // 10 seconds
-    option === 30 || // 30 seconds
-    option === 60 || // 1 minute
-    option === 300 || // 5 minutes
-    option === 1800 || // 30 minutes
-    option === 3600 || // 1 hour
-    option === 21600 || // 6 hours
+    option === 10 || // 10 seconds  // TODO DO NOT MERGE Remove after QA
+    option === 30 || // 30 seconds  // TODO DO NOT MERGE Remove after QA
+    option === 60 || // 1 minute  // TODO DO NOT MERGE Remove after QA
     option === 43200 || // 12 hours
     option === 86400 || // 1 day
-    option === 604800 // 1 week
+    option === 604800 || // 1 week
+    option === 1209600 // 2 weeks
   );
 });
 
