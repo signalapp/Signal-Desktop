@@ -108,7 +108,6 @@ export const makeVideoScreenshot = async ({
     });
   });
 
-// TODO need to confirm this works
 export async function getVideoDuration({
   objectUrl,
   contentType,
@@ -139,7 +138,6 @@ export async function getVideoDuration({
   });
 }
 
-// TODO need to confirm this works
 export async function getAudioDuration({
   objectUrl,
   contentType,
