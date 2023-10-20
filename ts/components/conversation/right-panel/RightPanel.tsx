@@ -5,6 +5,7 @@ import { useRightOverlayMode } from '../../../hooks/useUI';
 import { Flex } from '../../basic/Flex';
 import { OverlayRightPanelSettings } from './overlay/OverlayRightPanelSettings';
 import { OverlayDisappearingMessages } from './overlay/disappearing-messages/OverlayDisappearingMessages';
+import { OverlayMessageInfo } from './overlay/message-info/OverlayMessageInfo';
 
 const StyledRightPanel = styled(Flex)`
   h2 {
@@ -84,9 +85,7 @@ const ClosableOverlay = () => {
     case 'disappearing_messages':
       return <OverlayDisappearingMessages />;
     case 'message_info':
-      // TODO: copy this
-      // return <OverlayMessageInfo />;
-      return <></>;
+      return <OverlayMessageInfo />;
     default:
       return <OverlayRightPanelSettings />;
   }
