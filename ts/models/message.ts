@@ -5,14 +5,11 @@ import filesize from 'filesize';
 import {
   cloneDeep,
   debounce,
-  groupBy,
   isEmpty,
   size as lodashSize,
   map,
   partition,
   pick,
-  reject,
-  sortBy,
   uniq,
 } from 'lodash';
 import { SignalService } from '../protobuf';
@@ -80,6 +77,7 @@ import {
   messagesChanged,
 } from '../state/ducks/conversations';
 import { AttachmentTypeWithPath, isVoiceMessage } from '../types/Attachment';
+import { isAudio } from '../types/MIME';
 import {
   deleteExternalMessageFiles,
   getAbsoluteAttachmentPath,
@@ -88,8 +86,10 @@ import {
   loadQuoteData,
 } from '../types/MessageAttachment';
 import { ReactionList } from '../types/Reaction';
+import { getAudioDuration, getVideoDuration } from '../types/attachments/VisualAttachment';
 import { getAttachmentMetadata } from '../types/message/initializeAttachmentMetadata';
 import { roomHasBlindEnabled } from '../types/sqlSharedTypes';
+import { GoogleChrome } from '../util';
 import { LinkPreviews } from '../util/linkPreviews';
 import { Notifications } from '../util/notifications';
 import { Storage } from '../util/storage';
@@ -680,38 +680,44 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   }
 
   public async getPropsForMessageDetail(): Promise<MessagePropsDetails> {
-    // We include numbers we didn't successfully send to so we can display errors.
-    // Older messages don't have the recipients included on the message, so we fall
-    //   back to the conversation's current recipients
-    const contacts: Array<string> = this.isIncoming()
-      ? [this.get('source')]
-      : this.get('sent_to') || [];
+    // process attachments so we have the fileSize, url and screenshots
+    const attachments = this.get('attachments') || [];
+    for (let i = 0; i < attachments.length; i++) {
+      let props = this.getPropsForAttachment(attachments[i]);
+      if (
+        props?.contentType &&
+        GoogleChrome.isVideoTypeSupported(props?.contentType) &&
+        !props.duration &&
+        props.url
+      ) {
+        // eslint-disable-next-line no-await-in-loop
+        const duration = await getVideoDuration({
+          objectUrl: props.url,
+          contentType: props.contentType,
+        });
+        props = {
+          ...props,
+          duration,
+        };
+      }
+      if (props?.contentType && isAudio(props?.contentType) && !props.duration && props.url) {
+        // eslint-disable-next-line no-await-in-loop
+        const duration = await getAudioDuration({
+          objectUrl: props.url,
+          contentType: props.contentType,
+        });
+        props = {
+          ...props,
+          duration,
+        };
+      }
+      attachments[i] = props;
+    }
 
     // This will make the error message for outgoing key errors a bit nicer
-    const allErrors = (this.get('errors') || []).map((error: any) => {
+    const errors = (this.get('errors') || []).map((error: any) => {
       return error;
     });
-
-    // If an error has a specific number it's associated with, we'll show it next to
-    //   that contact. Otherwise, it will be a standalone entry.
-    const errors = reject(allErrors, error => Boolean(error.number));
-    const errorsGroupedById = groupBy(allErrors, 'number');
-    const finalContacts = await Promise.all(
-      (contacts || []).map(async id => {
-        const errorsForContact = errorsGroupedById[id];
-
-        const contact = findAndFormatContact(id);
-        return {
-          ...contact,
-          status: this.getMessagePropStatus(),
-          errors: errorsForContact,
-          profileName: contact.profileName,
-        };
-      })
-    );
-
-    // sort by pubkey
-    const sortedContacts = sortBy(finalContacts, contact => contact.pubkey);
 
     const toRet: MessagePropsDetails = {
       sentAt: this.get('sent_at') || 0,
@@ -724,7 +730,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       attachments,
       timestamp: this.get('timestamp'),
       serverTimestamp: this.get('serverTimestamp'),
-      contacts: sortedContacts || [],
     };
 
     return toRet;
@@ -843,7 +848,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       const conversation: ConversationModel | undefined = this.getConversation();
       if (!conversation) {
         window?.log?.info(
-          'cannot retry send message, the corresponding conversation was not found.'
+          '[retrySend] Cannot retry send message, the corresponding conversation was not found.'
         );
         return null;
       }
@@ -861,7 +866,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         };
         const roomInfos = OpenGroupData.getV2OpenGroupRoom(conversation.id);
         if (!roomInfos) {
-          throw new Error('Could not find roomInfos for this conversation');
+          throw new Error('[retrySend] Could not find roomInfos for this conversation');
         }
 
         const openGroupMessage = new OpenGroupVisibleMessage(openGroupParams);
@@ -912,7 +917,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       // as they are all polling from the same group swarm pubkey
       if (!conversation.isClosedGroup()) {
         throw new Error(
-          'We should only end up with a closed group here. Anything else is an error'
+          '[retrySend] We should only end up with a closed group here. Anything else is an error'
         );
       }
 
