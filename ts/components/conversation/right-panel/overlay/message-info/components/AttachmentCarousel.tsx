@@ -113,7 +113,7 @@ export const AttachmentCarousel = (props: Props) => {
         <SubtitleDotMenu
           id={'attachment-carousel-subtitle-dots'}
           selectedOptionIndex={visibleIndex}
-          options={attachments.length}
+          optionsCount={attachments.length}
           style={{
             display: attachments.length < 2 ? 'none' : undefined,
             backgroundColor: 'var(--modal-background-color)',

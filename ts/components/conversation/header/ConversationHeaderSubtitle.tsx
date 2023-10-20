@@ -41,28 +41,26 @@ const StyledSubtitleDot = styled.span<{ active: boolean }>`
 
 export const SubtitleDotMenu = ({
   id,
-  options,
   selectedOptionIndex,
+  optionsCount,
   style,
 }: {
-  id?: string;
-  options: Array<string | null>;
+  id: string;
   selectedOptionIndex: number;
+  optionsCount: number;
   style: CSSProperties;
 }) => (
-  <Flex id={} container={true} alignItems={'center'} style={style}>
-    {options.map((option, index) => {
-      if (!option) {
-        return null;
-      }
-
-      return (
-        <StyledSubtitleDot
-          key={`subtitleDotMenu-${option}-${index}`}
-          active={selectedOptionIndex === index}
-        />
-      );
-    })}
+  <Flex id={id} container={true} alignItems={'center'} style={style}>
+    {Array(optionsCount)
+      .fill(0)
+      .map((_, index) => {
+        return (
+          <StyledSubtitleDot
+            key={`subtitleDotMenu-${id}-${index}`}
+            active={selectedOptionIndex === index}
+          />
+        );
+      })}
   </Flex>
 );
 
@@ -158,8 +156,9 @@ export const ConversationHeaderSubtitle = (props: ConversationHeaderSubtitleProp
         />
       </Flex>
       <SubtitleDotMenu
-        options={subtitlesArray}
+        id={'conversation-header-subtitle-dots'}
         selectedOptionIndex={subtitlesArray.indexOf(currentSubtitle)}
+        optionsCount={subtitlesArray.length}
         style={{ display: subtitlesArray.length < 2 ? 'none' : undefined, margin: '8px 0' }}
       />
     </StyledSubtitleContainer>

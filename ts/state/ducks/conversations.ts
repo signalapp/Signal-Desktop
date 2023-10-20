@@ -59,7 +59,6 @@ export type MessagePropsDetails = {
   receivedAt: number;
   errors: Array<Error>;
   sender: string;
-  contacts: Array<ContactPropsMessageDetail>;
   convoId: string;
   messageId: string;
   direction: MessageModelType;
