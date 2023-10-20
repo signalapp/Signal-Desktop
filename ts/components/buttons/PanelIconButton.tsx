@@ -12,7 +12,8 @@ interface PanelIconButton extends Omit<PanelButtonProps, 'children'> {
 
 const IconContainer = styled.div`
   flex-shrink: 0;
-  width: var(--toggle-width);
+  margin: 0 var(--margins-lg) 0 var(--margins-sm);
+  padding: 0;
 `;
 
 export const PanelIconButton = (props: PanelIconButton) => {
@@ -22,7 +23,7 @@ export const PanelIconButton = (props: PanelIconButton) => {
     <PanelButton disabled={disabled} onClick={onClick} dataTestId={dataTestId}>
       <StyledContent disabled={disabled}>
         <IconContainer>
-          <SessionIcon iconType={iconType} iconColor={color} iconSize="medium" />
+          <SessionIcon iconType={iconType} iconColor={color} iconSize="large" />
         </IconContainer>
         <PanelButtonText text={text} subtitle={subtitle} color={color} />
       </StyledContent>

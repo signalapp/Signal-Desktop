@@ -250,7 +250,7 @@ export class SessionConversation extends React.Component<Props, State> {
       // return an empty message view
       return <MessageView />;
     }
-    // TODOLATER break showMessageDetails & selectionMode into it's own container component so we can use hooks to fetch relevant state from the store
+    // TODOLATER break selectionMode into it's own container component so we can use hooks to fetch relevant state from the store
     const selectionMode = selectedMessages.length > 0;
 
     const bannerText =

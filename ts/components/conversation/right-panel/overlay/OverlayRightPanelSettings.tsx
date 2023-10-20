@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import { Data } from '../../../../data/data';
 import { SessionIconButton } from '../../../icon';
 
+import { useDisappearingMessageSettingText } from '../../../../hooks/useParamSelector';
 import { useIsRightPanelShowing } from '../../../../hooks/useUI';
 import {
   deleteAllMessagesByConvoIdWithConfirmation,
@@ -216,6 +217,10 @@ export const OverlayRightPanelSettings = () => {
   const isGroup = useSelectedIsGroup();
   const isPublic = useSelectedIsPublic();
   const weAreAdmin = useSelectedWeAreAdmin();
+  const disappearingMessagesSubtitle = useDisappearingMessageSettingText({
+    convoId: selectedConvoKey,
+    separator: ': ',
+  });
 
   useEffect(() => {
     let isCancelled = false;
@@ -322,7 +327,7 @@ export const OverlayRightPanelSettings = () => {
 
         {showUpdateGroupMembersButton && (
           <PanelIconButton
-            iconType={'groupMembers'}
+            iconType={'group'}
             text={window.i18n('groupMembers')}
             onClick={() => {
               void showUpdateGroupMembersByConvoId(selectedConvoKey);
@@ -334,6 +339,7 @@ export const OverlayRightPanelSettings = () => {
           <PanelIconButton
             iconType={'timer50'}
             text={window.i18n('disappearingMessages')}
+            subtitle={disappearingMessagesSubtitle}
             onClick={() => {
               dispatch(setRightOverlayMode({ type: 'disappearing_messages', params: null }));
             }}

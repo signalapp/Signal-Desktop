@@ -1,14 +1,13 @@
-import { isNumber } from 'lodash';
+import { isEmpty } from 'lodash';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useDisappearingMessageSettingText } from '../../../hooks/useParamSelector';
 import { useIsRightPanelShowing } from '../../../hooks/useUI';
-import { TimerOptions } from '../../../session/disappearing_messages/timerOptions';
 import { closeRightPanel, openRightPanel } from '../../../state/ducks/conversations';
 import { resetRightOverlayMode, setRightOverlayMode } from '../../../state/ducks/section';
 import {
   useSelectedConversationDisappearingMode,
   useSelectedConversationKey,
-  useSelectedExpireTimer,
   useSelectedIsGroup,
   useSelectedIsKickedFromGroup,
   useSelectedIsNoteToSelf,
@@ -47,7 +46,10 @@ export const ConversationHeaderTitle = () => {
   const members = useSelectedMembers();
 
   const expirationMode = useSelectedConversationDisappearingMode();
-  const expireTimer = useSelectedExpireTimer();
+  const disappearingMessageSubtitle = useDisappearingMessageSettingText({
+    convoId,
+    abbreviate: true,
+  });
 
   const [visibleSubtitle, setVisibleSubtitle] = useState<SubtitleStringsType>(
     'disappearingMessages'
@@ -81,39 +83,20 @@ export const ConversationHeaderTitle = () => {
     return null;
   }, [i18n, isGroup, isKickedFromGroup, isPublic, members.length, subscriberCount]);
 
-  // TODO legacy messages support will be removed in a future release
-  // NOTE If disappearing messages is defined we must show it first
-  const disappearingMessageSubtitle = useMemo(() => {
-    const disappearingMessageSettingText =
-      expirationMode === 'deleteAfterRead'
-        ? window.i18n('disappearingMessagesModeAfterRead')
-        : expirationMode === 'deleteAfterSend'
-        ? window.i18n('disappearingMessagesModeAfterSend')
-        : expirationMode === 'legacy'
-        ? isMe || (isGroup && !isPublic)
-          ? window.i18n('disappearingMessagesModeAfterSend')
-          : window.i18n('disappearingMessagesModeAfterRead')
-        : null;
-
-    const abbreviatedExpireTime = isNumber(expireTimer)
-      ? TimerOptions.getAbbreviated(expireTimer)
-      : null;
-
-    return expireTimer && disappearingMessageSettingText
-      ? `${disappearingMessageSettingText}${
-          abbreviatedExpireTime ? ` - ${abbreviatedExpireTime}` : ''
-        }`
-      : null;
-  }, [expirationMode, expireTimer, isGroup, isMe, isPublic]);
-
   const handleRightPanelToggle = () => {
     if (isRightPanelOn) {
       dispatch(closeRightPanel());
       return;
     }
 
+    // NOTE If disappearing messages is defined we must show it first
     if (visibleSubtitle === 'disappearingMessages') {
-      dispatch(setRightOverlayMode({ type: 'disappearing_messages', params: null }));
+      dispatch(
+        setRightOverlayMode({
+          type: 'disappearing_messages',
+          params: null,
+        })
+      );
     } else {
       dispatch(resetRightOverlayMode());
     }
@@ -122,7 +105,7 @@ export const ConversationHeaderTitle = () => {
 
   useEffect(() => {
     if (visibleSubtitle !== 'disappearingMessages') {
-      if (disappearingMessageSubtitle) {
+      if (!isEmpty(disappearingMessageSubtitle)) {
         setVisibleSubtitle('disappearingMessages');
       } else {
         setVisibleSubtitle('notifications');

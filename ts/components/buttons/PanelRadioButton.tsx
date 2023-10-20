@@ -7,13 +7,6 @@ const StyledPanelButton = styled(PanelButton)`
   padding-top: var(--margins-lg);
   padding-bottom: var(--margins-lg);
   text-align: left;
-
-  div {
-    span {
-      margin-inline-start: 0;
-      margin-inline-end: 0;
-    }
-  }
 `;
 
 const StyledCheckContainer = styled.div`

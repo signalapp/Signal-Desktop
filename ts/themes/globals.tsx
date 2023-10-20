@@ -36,7 +36,6 @@ export type ThemeGlobals = {
   '--main-view-header-height': string;
   '--composition-container-height': string;
   '--search-input-height': string;
-  '--toggle-width': string;
 
   /* Animations */
   '--default-duration': string;
@@ -122,7 +121,6 @@ export const THEME_GLOBALS: ThemeGlobals = {
   '--main-view-header-height': '68px',
   '--composition-container-height': '60px',
   '--search-input-height': '34px',
-  '--toggle-width': '51px',
 
   '--default-duration': '0.25s',
 

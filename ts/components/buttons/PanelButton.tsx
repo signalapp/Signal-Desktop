@@ -13,8 +13,6 @@ export const StyledContent = styled.div<{ disabled: boolean }>`
 export const StyledText = styled.span`
   font-size: var(--font-size-md);
   font-weight: 500;
-  margin-inline-start: var(--margins-lg);
-  margin-inline-end: var(--margins-lg);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -38,16 +36,14 @@ const StyledRoundedPanelButtonGroup = styled.div`
   overflow: hidden;
   background: var(--right-panel-item-background-color);
   border-radius: 16px;
-  padding: var(--margins-lg);
+  padding: 0 var(--margins-lg) var(--margins-xs);
   margin: 0 var(--margins-lg);
   width: -webkit-fill-available;
 `;
 
 const PanelButtonContainer = styled.div`
   overflow: auto;
-  // TODO clear
-  /* min-height: 50px; */
-  min-height: 40px;
+  min-height: 65px;
   max-height: 100%;
 `;
 
@@ -75,8 +71,7 @@ const StyledPanelButton = styled.button<{
   flex-shrink: 0;
   flex-grow: 1;
   font-family: var(--font-default);
-  padding: 0px var(--margins-sm);
-  min-height: 50px;
+  height: 65px;
   width: 100%;
   transition: var(--default-duration);
   color: ${props => (props.disabled ? 'var(--disabled-color)' : 'inherit')};
@@ -114,8 +109,11 @@ export const PanelButton = (props: PanelButtonProps) => {
 
 const StyledSubtitle = styled.p<{ color?: string }>`
   font-size: var(--font-size-xs);
-  margin: 0;
-  text-align: initial;
+  line-height: 1.1;
+  margin-top: 0;
+  margin-bottom: 0;
+  /* TODO needs RTL support */
+  text-align: left;
   ${props => props.color && `color: ${props.color};`}
 `;
 
@@ -126,7 +124,7 @@ export const PanelButtonText = (props: { text: string; subtitle?: string; color?
       width={'100%'}
       flexDirection={'column'}
       alignItems={'flex-start'}
-      margin="0 var(--margins-lg) 0 var(--margins-lg)"
+      margin="0 var(--margins-lg) 0 0"
       minWidth="0"
     >
       <StyledText color={props.color}>{props.text}</StyledText>

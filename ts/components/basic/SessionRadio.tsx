@@ -1,5 +1,5 @@
 import React, { ChangeEvent } from 'react';
-import styled from 'styled-components';
+import styled, { CSSProperties } from 'styled-components';
 import { Flex } from './Flex';
 
 const StyledInput = styled.input<{
@@ -54,10 +54,20 @@ type SessionRadioProps = {
   beforeMargins?: string;
   onClick?: (value: string) => void;
   disabled?: boolean;
+  style?: CSSProperties;
 };
 
 export const SessionRadio = (props: SessionRadioProps) => {
-  const { label, inputName, value, active, onClick, beforeMargins, disabled = false } = props;
+  const {
+    label,
+    inputName,
+    value,
+    active,
+    onClick,
+    beforeMargins,
+    disabled = false,
+    style,
+  } = props;
 
   const clickHandler = (e: ChangeEvent<any>) => {
     if (!disabled && onClick) {
@@ -71,7 +81,7 @@ export const SessionRadio = (props: SessionRadioProps) => {
   const outlineOffset = 2;
 
   return (
-    <Flex container={true} padding="0 0 0 var(--margins-lg)">
+    <Flex container={true} style={style}>
       <StyledInput
         type="radio"
         name={inputName || ''}
