@@ -281,7 +281,7 @@ export const OverlayRightPanelSettings = () => {
           </div>
           <SpacerLG />
         </>
-      )}{' '}
+      )}
       <PanelButtonGroup>
         {showUpdateGroupNameButton && (
           <PanelIconButton
@@ -290,6 +290,7 @@ export const OverlayRightPanelSettings = () => {
             }}
             text={isPublic ? window.i18n('editGroup') : window.i18n('editGroupName')}
             iconType={null}
+            dataTestId="edit-group"
           />
         )}
         {showAddRemoveModeratorsButton && (
@@ -300,6 +301,7 @@ export const OverlayRightPanelSettings = () => {
                 showAddModeratorsByConvoId(selectedConvoKey);
               }}
               text={window.i18n('addModerators')}
+              dataTestId="add-moderators"
             />
             <PanelIconButton
               iconType={null}
@@ -307,6 +309,7 @@ export const OverlayRightPanelSettings = () => {
                 showRemoveModeratorsByConvoId(selectedConvoKey);
               }}
               text={window.i18n('removeModerators')}
+              dataTestId="remove-moderators"
             />
           </>
         )}
@@ -318,6 +321,7 @@ export const OverlayRightPanelSettings = () => {
               void showUpdateGroupMembersByConvoId(selectedConvoKey);
             }}
             text={window.i18n('groupMembers')}
+            dataTestId="group-members"
           />
         )}
 
@@ -325,6 +329,7 @@ export const OverlayRightPanelSettings = () => {
           <PanelIconButton
             iconType={'timer50'}
             text={window.i18n('disappearingMessages')}
+            dataTestId="disappearing-messages"
             onClick={() => {
               dispatch(setRightOverlayMode('disappearing-messages'));
             }}

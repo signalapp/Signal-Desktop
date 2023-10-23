@@ -100,7 +100,7 @@ export type PanelButtonProps = {
   disabled?: boolean;
   children: ReactNode;
   onClick: (...args: Array<any>) => void;
-  dataTestId?: string;
+  dataTestId: string;
   style?: CSSProperties;
 };
 
