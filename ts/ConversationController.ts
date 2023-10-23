@@ -471,7 +471,7 @@ export class ConversationController {
     e164,
     pni: providedPni,
     reason,
-    fromPniSignature,
+    fromPniSignature = false,
     mergeOldAndNew = safeCombineConversations,
   }: {
     aci?: AciString;
@@ -526,6 +526,12 @@ export class ConversationController {
     let unusedMatches: Array<ConvoMatchType> = [];
 
     let targetConversation: ConversationModel | undefined;
+    let targetOldServiceIds:
+      | {
+          aci?: AciString;
+          pni?: PniString;
+        }
+      | undefined;
     let matchCount = 0;
     matches.forEach(item => {
       const { key, value, match } = item;
@@ -596,6 +602,11 @@ export class ConversationController {
               `so created new target conversation - ${targetConversation.idForLogging()}`
           );
         }
+
+        targetOldServiceIds = {
+          aci: targetConversation.getAci(),
+          pni: targetConversation.getPni(),
+        };
 
         log.info(
           `${logId}: Applying new value for ${unused.key} to target conversation`
@@ -686,8 +697,31 @@ export class ConversationController {
         //   `${logId}: Match on ${key} is target conversation - ${match.idForLogging()}`
         // );
         targetConversation = match;
+        targetOldServiceIds = {
+          aci: targetConversation.getAci(),
+          pni: targetConversation.getPni(),
+        };
       }
     });
+
+    // If the change is not coming from PNI Signature, and target conversation
+    // had PNI and has acquired new ACI and/or PNI we should check if it had
+    // a PNI session on the original PNI. If yes - add a PhoneNumberDiscovery notification
+    if (
+      e164 &&
+      pni &&
+      targetConversation &&
+      targetOldServiceIds?.pni &&
+      !fromPniSignature &&
+      (targetOldServiceIds.pni !== pni ||
+        (aci && targetOldServiceIds.aci !== aci))
+    ) {
+      mergePromises.push(
+        targetConversation.addPhoneNumberDiscoveryIfNeeded(
+          targetOldServiceIds.pni
+        )
+      );
+    }
 
     if (targetConversation) {
       return { conversation: targetConversation, mergePromises };

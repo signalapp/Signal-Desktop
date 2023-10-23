@@ -1460,6 +1460,18 @@ export class SignalProtocolStore extends EventEmitter {
     });
   }
 
+  async hasSessionWith(serviceId: ServiceIdString): Promise<boolean> {
+    return this.withZone(GLOBAL_ZONE, 'hasSessionWith', async () => {
+      if (!this.sessions) {
+        throw new Error('getOpenDevices: this.sessions not yet cached!');
+      }
+
+      return this._getAllSessions().some(
+        ({ fromDB }) => fromDB.serviceId === serviceId
+      );
+    });
+  }
+
   async getOpenDevices(
     ourServiceId: ServiceIdString,
     serviceIds: ReadonlyArray<ServiceIdString>,

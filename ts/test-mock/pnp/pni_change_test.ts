@@ -13,6 +13,9 @@ import type { App } from '../bootstrap';
 
 export const debug = createDebug('mock:test:pni-change');
 
+// Note that all tests also generate an PhoneNumberDiscovery notification, also known as a
+// Session Switchover Event (SSE). See for reference:
+// https://github.com/signalapp/Signal-Android-Private/blob/df83c941804512c613a1010b7d8e5ce4f0aec71c/app/src/androidTest/java/org/thoughtcrime/securesms/database/RecipientTableTest_getAndPossiblyMerge.kt#L266-L270
 describe('pnp/PNI Change', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);
   this.retries(4);
@@ -68,7 +71,7 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
     await bootstrap.teardown();
   });
 
-  it('shows no identity change if identity key is the same', async () => {
+  it('shows phone number change if identity key is the same, learned via storage service', async () => {
     const { desktop, phone } = bootstrap;
 
     const window = await app.getWindow();
@@ -162,13 +165,16 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
       const messages = window.locator('.module-message__text');
       assert.strictEqual(await messages.count(), 1, 'message count');
 
-      // No notifications - PNI changed, but identity key is the same
+      // Only a PhoneNumberDiscovery notification
       const notifications = window.locator('.SystemMessage');
-      assert.strictEqual(await notifications.count(), 0, 'notification count');
+      assert.strictEqual(await notifications.count(), 1, 'notification count');
+
+      const first = await notifications.first();
+      assert.match(await first.innerText(), /.* belongs to ContactA/);
     }
   });
 
-  it('shows identity change if identity key has changed', async () => {
+  it('shows identity and phone number change if identity key has changed', async () => {
     const { desktop, phone } = bootstrap;
 
     const window = await app.getWindow();
@@ -262,16 +268,19 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
       const messages = window.locator('.module-message__text');
       assert.strictEqual(await messages.count(), 1, 'message count');
 
-      // One notification - the safety number change
+      // Two notifications - the safety number change and PhoneNumberDiscovery
       const notifications = window.locator('.SystemMessage');
-      assert.strictEqual(await notifications.count(), 1, 'notification count');
+      assert.strictEqual(await notifications.count(), 2, 'notification count');
 
       const first = await notifications.first();
-      assert.match(await first.innerText(), /Safety Number has changed/);
+      assert.match(await first.innerText(), /.* belongs to ContactA/);
+
+      const second = await notifications.nth(1);
+      assert.match(await second.innerText(), /Safety Number has changed/);
     }
   });
 
-  it('shows identity change when sending to contact', async () => {
+  it('shows identity and phone number change on send to contact when e165 has changed owners', async () => {
     const { desktop, phone } = bootstrap;
 
     const window = await app.getWindow();
@@ -395,16 +404,19 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
       const messages = window.locator('.module-message__text');
       assert.strictEqual(await messages.count(), 2, 'message count');
 
-      // One notification - the safety number change
+      // Two notifications - the safety number change and PhoneNumberDiscovery
       const notifications = window.locator('.SystemMessage');
-      assert.strictEqual(await notifications.count(), 1, 'notification count');
+      assert.strictEqual(await notifications.count(), 2, 'notification count');
 
       const first = await notifications.first();
-      assert.match(await first.innerText(), /Safety Number has changed/);
+      assert.match(await first.innerText(), /.* belongs to ContactA/);
+
+      const second = await notifications.nth(1);
+      assert.match(await second.innerText(), /Safety Number has changed/);
     }
   });
 
-  it('Sends with no warning when key is the same', async () => {
+  it('Get phone number change warning when e164 leaves contact then goes back to same contact', async () => {
     const { desktop, phone } = bootstrap;
 
     const window = await app.getWindow();
@@ -551,9 +563,12 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
       const messages = window.locator('.module-message__text');
       assert.strictEqual(await messages.count(), 2, 'message count');
 
-      // No notifications - the key is the same
+      // Only a PhoneNumberDiscovery notification
       const notifications = window.locator('.SystemMessage');
-      assert.strictEqual(await notifications.count(), 0, 'notification count');
+      assert.strictEqual(await notifications.count(), 1, 'notification count');
+
+      const first = await notifications.first();
+      assert.match(await first.innerText(), /.* belongs to ContactA/);
     }
   });
 });

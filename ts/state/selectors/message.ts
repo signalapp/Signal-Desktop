@@ -34,6 +34,7 @@ import type { PropsDataType as GroupV1MigrationPropsType } from '../../component
 import type { PropsDataType as DeliveryIssuePropsType } from '../../components/conversation/DeliveryIssueNotification';
 import type { PropsType as PaymentEventNotificationPropsType } from '../../components/conversation/PaymentEventNotification';
 import type { PropsDataType as ConversationMergePropsType } from '../../components/conversation/ConversationMergeNotification';
+import type { PropsDataType as PhoneNumberDiscoveryPropsType } from '../../components/conversation/PhoneNumberDiscoveryNotification';
 import type {
   PropsData as GroupNotificationProps,
   ChangeType,
@@ -130,7 +131,11 @@ import { calculateExpirationTimestamp } from '../../util/expirationTimer';
 import { isSignalConversation } from '../../util/isSignalConversation';
 import type { AnyPaymentEvent } from '../../types/Payment';
 import { isPaymentNotificationEvent } from '../../types/Payment';
-import { getTitleNoDefault, getNumber } from '../../util/getTitle';
+import {
+  getTitleNoDefault,
+  getNumber,
+  renderNumber,
+} from '../../util/getTitle';
 import { getMessageSentTimestamp } from '../../util/getMessageSentTimestamp';
 import type { CallHistorySelectorType } from './callHistory';
 import { CallMode } from '../../types/Calling';
@@ -951,6 +956,13 @@ export function getPropsForBubble(
       timestamp,
     };
   }
+  if (isPhoneNumberDiscovery(message)) {
+    return {
+      type: 'phoneNumberDiscovery',
+      data: getPropsForPhoneNumberDiscovery(message, options),
+      timestamp,
+    };
+  }
 
   if (
     messageHasPaymentEvent(message) &&
@@ -1514,6 +1526,34 @@ export function getPropsForConversationMerge(
     conversationTitle,
     obsoleteConversationTitle,
     obsoleteConversationNumber,
+  };
+}
+
+export function isPhoneNumberDiscovery(
+  message: MessageWithUIFieldsType
+): boolean {
+  return message.type === 'phone-number-discovery';
+}
+export function getPropsForPhoneNumberDiscovery(
+  message: MessageWithUIFieldsType,
+  { conversationSelector }: GetPropsForBubbleOptions
+): PhoneNumberDiscoveryPropsType {
+  const { phoneNumberDiscovery } = message;
+  if (!phoneNumberDiscovery) {
+    throw new Error(
+      'getPropsForPhoneNumberDiscovery: message is missing phoneNumberDiscovery!'
+    );
+  }
+
+  const conversation = getConversation(message, conversationSelector);
+  const conversationTitle = conversation.title;
+  const sharedGroup = conversation.sharedGroupNames[0];
+  const { e164 } = phoneNumberDiscovery;
+
+  return {
+    conversationTitle,
+    phoneNumber: renderNumber(e164) ?? e164,
+    sharedGroup,
   };
 }
 

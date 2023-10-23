@@ -3032,6 +3032,59 @@ export class ConversationModel extends window.Backbone
     this.trigger('newmessage', model);
   }
 
+  async addPhoneNumberDiscoveryIfNeeded(originalPni: PniString): Promise<void> {
+    const logId = `addPhoneNumberDiscoveryIfNeeded(${this.idForLogging()}, ${originalPni})`;
+
+    const e164 = this.get('e164');
+
+    if (!e164) {
+      log.info(`${logId}: not adding, no e164`);
+      return;
+    }
+
+    const hadSession = await window.textsecure.storage.protocol.hasSessionWith(
+      originalPni
+    );
+
+    if (!hadSession) {
+      log.info(`${logId}: not adding, no PNI session`);
+      return;
+    }
+
+    log.info(`${logId}: adding notification`);
+    const timestamp = Date.now();
+    const message: MessageAttributesType = {
+      id: generateGuid(),
+      conversationId: this.id,
+      type: 'phone-number-discovery',
+      sent_at: timestamp,
+      timestamp,
+      received_at: incrementMessageCounter(),
+      received_at_ms: timestamp,
+      phoneNumberDiscovery: {
+        e164,
+      },
+      readStatus: ReadStatus.Read,
+      seenStatus: SeenStatus.Unseen,
+      schemaVersion: Message.VERSION_NEEDED_FOR_DISPLAY,
+    };
+
+    const id = await window.Signal.Data.saveMessage(message, {
+      ourAci: window.textsecure.storage.user.getCheckedAci(),
+      forceSave: true,
+    });
+    const model = window.MessageCache.__DEPRECATED$register(
+      id,
+      new window.Whisper.Message({
+        ...message,
+        id,
+      }),
+      'addPhoneNumberDiscoveryIfNeeded'
+    );
+
+    this.trigger('newmessage', model);
+  }
+
   async addVerifiedChange(
     verifiedChangeId: string,
     verified: boolean,
