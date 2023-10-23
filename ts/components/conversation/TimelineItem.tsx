@@ -50,6 +50,8 @@ import type { PropsType as PaymentEventNotificationPropsType } from './PaymentEv
 import { PaymentEventNotification } from './PaymentEventNotification';
 import type { PropsDataType as ConversationMergeNotificationPropsType } from './ConversationMergeNotification';
 import { ConversationMergeNotification } from './ConversationMergeNotification';
+import type { PropsDataType as PhoneNumberDiscoveryNotificationPropsType } from './PhoneNumberDiscoveryNotification';
+import { PhoneNumberDiscoveryNotification } from './PhoneNumberDiscoveryNotification';
 import { SystemMessage } from './SystemMessage';
 import type { FullJSXType } from '../Intl';
 import { TimelineMessage } from './TimelineMessage';
@@ -122,6 +124,10 @@ type ConversationMergeNotificationType = {
   type: 'conversationMerge';
   data: ConversationMergeNotificationPropsType;
 };
+type PhoneNumberDiscoveryNotificationType = {
+  type: 'phoneNumberDiscovery';
+  data: PhoneNumberDiscoveryNotificationPropsType;
+};
 type PaymentEventType = {
   type: 'paymentEvent';
   data: Omit<PaymentEventNotificationPropsType, 'i18n'>;
@@ -137,6 +143,7 @@ export type TimelineItemType = (
   | GroupV1MigrationType
   | GroupV2ChangeType
   | MessageType
+  | PhoneNumberDiscoveryNotificationType
   | ProfileChangeNotificationType
   | ResetSessionNotificationType
   | SafetyNumberNotificationType
@@ -325,6 +332,14 @@ export const TimelineItem = memo(function TimelineItem({
     } else if (item.type === 'conversationMerge') {
       notification = (
         <ConversationMergeNotification
+          {...reducedProps}
+          {...item.data}
+          i18n={i18n}
+        />
+      );
+    } else if (item.type === 'phoneNumberDiscovery') {
+      notification = (
+        <PhoneNumberDiscoveryNotification
           {...reducedProps}
           {...item.data}
           i18n={i18n}
