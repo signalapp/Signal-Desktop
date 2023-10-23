@@ -524,7 +524,11 @@ export async function USER_callRecipient(recipient: string) {
       expirationMode
     );
 
-    if (expirationMode === 'legacy' || expirationMode === 'deleteAfterSend') {
+    if (
+      expirationMode === 'legacy' ||
+      expirationMode === 'deleteAfterSend' ||
+      expirationMode === 'deleteAfterRead' // we are the one iniating the call, so that message is already read
+    ) {
       expirationStartTimestamp = DisappearingMessages.setExpirationStartTimestamp(
         expirationMode,
         now,
