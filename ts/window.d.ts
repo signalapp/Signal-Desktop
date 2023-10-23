@@ -5,7 +5,6 @@ import { LocalizerType } from './types/Util';
 
 import { ConversationCollection } from './models/conversation';
 import { PrimaryColorStateType, ThemeStateType } from './themes/constants/colors';
-import { FeatureNameTracked } from './util/releaseFeature';
 
 export interface LibTextsecure {
   messaging: boolean;
@@ -105,8 +104,6 @@ declare global {
     setAutoUpdateEnabled: (enabled: boolean) => void;
     setZoomFactor: (newZoom: number) => void;
     updateZoomFactor: () => void;
-    // TODO DO NOT MERGE Remove after QA
-    setIsFeatureReleased: (featureName: FeatureNameTracked, value: boolean) => Promise<void>;
 
     Signal: any;
   }
