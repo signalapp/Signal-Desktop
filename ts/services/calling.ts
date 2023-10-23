@@ -170,6 +170,7 @@ type CallingReduxInterface = Pick<
   | 'remoteVideoChange'
   | 'setPresenting'
   | 'startCallingLobby'
+  | 'peekNotConnectedGroupCall'
 > & {
   areAnyCallsActiveOrRinging(): boolean;
 };
@@ -1885,6 +1886,12 @@ export class CallingClass {
     if (!conversation) {
       log.error('handleGroupCallRingUpdate(): could not find conversation');
       return;
+    }
+
+    if (update === RingUpdate.Requested) {
+      this.reduxInterface?.peekNotConnectedGroupCall({
+        conversationId: conversation.id,
+      });
     }
 
     const logId = `handleGroupCallRingUpdate(${conversation.idForLogging()})`;
