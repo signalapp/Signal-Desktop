@@ -173,6 +173,11 @@ export async function sendReaction(
         })
       ),
     });
+    // Adds the reaction's attributes to the message cache so that we can
+    // safely `set` on it later.
+    window.MessageCache.toMessageAttributes(
+      ephemeralMessageForReactionSend.attributes
+    );
 
     ephemeralMessageForReactionSend.doNotSave = true;
 
