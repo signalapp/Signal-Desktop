@@ -127,6 +127,7 @@ import {
 } from '../util/callDisposition';
 import { isNormalNumber } from '../util/isNormalNumber';
 import { LocalCallEvent } from '../types/CallDisposition';
+import { isInSystemContacts } from '../util/isInSystemContacts';
 
 const {
   processGroupCallRingCancellation,
@@ -2291,15 +2292,15 @@ export class CallingClass {
       return false;
     }
 
-    // If the peer is 'unknown', i.e. not in the contact list, force IP hiding.
-    const isContactUnknown = !conversation.isFromOrAddedByTrustedContact();
+    // If the peer is not in the user's system contacts, force IP hiding.
+    const isContactUntrusted = !isInSystemContacts(conversation.attributes);
 
     const callSettings = {
       iceServer: {
         ...iceServer,
         urls: iceServer.urls.slice(),
       },
-      hideIp: shouldRelayCalls || isContactUnknown,
+      hideIp: shouldRelayCalls || isContactUntrusted,
       dataMode: DataMode.Normal,
       // TODO: DESKTOP-3101
       // audioLevelsIntervalMillis: AUDIO_LEVEL_INTERVAL_MS,
