@@ -6,7 +6,6 @@ import { ipcRenderer } from 'electron';
 import type {
   AudioDevice,
   CallId,
-  CallMessageUrgency,
   DeviceId,
   PeekInfo,
   UserId,
@@ -18,6 +17,7 @@ import {
   BusyMessage,
   Call,
   CallingMessage,
+  CallMessageUrgency,
   CallLogLevel,
   CallState,
   CanvasVideoRenderer,
@@ -1144,6 +1144,7 @@ export class CallingClass {
     });
   }
 
+  // Used specifically to send updates about in-progress group calls, nothing else
   private async sendGroupCallUpdateMessage(
     conversationId: string,
     eraId: string
@@ -1186,7 +1187,7 @@ export class CallingClass {
             sendOptions,
             sendTarget: conversation.toSenderKeyTarget(),
             sendType: 'callingMessage',
-            urgent: false,
+            urgent: true,
           })
         ),
       sendType: 'callingMessage',
@@ -1820,6 +1821,7 @@ export class CallingClass {
     return this.handleOutgoingSignaling(userId, message, urgency);
   }
 
+  // Used to send a variety of group call messages, including the initial call message
   private async handleSendCallMessageToGroup(
     groupIdBytes: Buffer,
     data: Buffer,
@@ -1843,6 +1845,10 @@ export class CallingClass {
       urgency
     );
 
+    // If this message isn't droppable, we'll wake up recipient devices. The important one
+    //   is the first message to start the call.
+    const urgent = urgency === CallMessageUrgency.HandleImmediately;
+
     // We "fire and forget" because sending this message is non-essential.
     // We also don't sync this message.
     const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
@@ -1858,7 +1864,7 @@ export class CallingClass {
           sendTarget: conversation.toSenderKeyTarget(),
           sendType: 'callingMessage',
           timestamp,
-          urgent: false,
+          urgent,
         }),
         { messageIds: [], sendType: 'callingMessage' }
       )
@@ -1970,6 +1976,7 @@ export class CallingClass {
     }
   }
 
+  // Used for all 1:1 call messages, including the initial message to start the call
   private async handleOutgoingSignaling(
     remoteUserId: UserId,
     message: CallingMessage,
@@ -1985,12 +1992,18 @@ export class CallingClass {
       return false;
     }
 
+    // We want 1:1 call initiate messages to wake up recipient devices, but not others
+    const urgent =
+      urgency === CallMessageUrgency.HandleImmediately ||
+      Boolean(message.offer);
+
     try {
       assertDev(isAciString(remoteUserId), 'remoteUserId is not a aci');
       const result = await handleMessageSend(
         window.textsecure.messaging.sendCallingMessage(
           remoteUserId,
           callingMessageToProto(message, urgency),
+          urgent,
           sendOptions
         ),
         { messageIds: [], sendType: 'callingMessage' }

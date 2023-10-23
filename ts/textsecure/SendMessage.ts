@@ -1702,6 +1702,7 @@ export default class MessageSender {
   async sendCallingMessage(
     serviceId: ServiceIdString,
     callingMessage: Readonly<Proto.ICallingMessage>,
+    urgent: boolean,
     options?: Readonly<SendOptionsType>
   ): Promise<CallbackResultType> {
     const recipients = [serviceId];
@@ -1727,7 +1728,7 @@ export default class MessageSender {
       contentHint: ContentHint.DEFAULT,
       groupId: undefined,
       options,
-      urgent: true,
+      urgent,
     });
   }
 
