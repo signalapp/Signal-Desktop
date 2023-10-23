@@ -176,6 +176,26 @@ const StyledLeaveButton = styled.div`
   }
 `;
 
+const StyledGroupSettingsItem = styled.div`
+  display: flex;
+  align-items: center;
+  min-height: 3rem;
+  font-size: var(--font-size-md);
+  color: var(--right-panel-item-text-color);
+  background-color: var(--right-panel-item-background-color);
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+
+  width: -webkit-fill-available;
+  padding: 0 var(--margins-md);
+  transition: var(--default-duration);
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--right-panel-item-background-hover-color);
+  }
+`;
+
 const StyledName = styled.h4`
   padding-inline: var(--margins-md);
   font-size: var(--font-size-md);
@@ -282,50 +302,58 @@ export const OverlayRightPanelSettings = () => {
           <SpacerLG />
         </>
       )}
-      <PanelButtonGroup>
-        {showUpdateGroupNameButton && (
-          <PanelIconButton
-            onClick={() => {
-              void showUpdateGroupNameByConvoId(selectedConvoKey);
-            }}
-            text={isPublic ? window.i18n('editGroup') : window.i18n('editGroupName')}
-            iconType={null}
-            dataTestId="edit-group"
-          />
-        )}
-        {showAddRemoveModeratorsButton && (
-          <>
-            <PanelIconButton
-              iconType={null}
-              onClick={() => {
-                showAddModeratorsByConvoId(selectedConvoKey);
-              }}
-              text={window.i18n('addModerators')}
-              dataTestId="add-moderators"
-            />
-            <PanelIconButton
-              iconType={null}
-              onClick={() => {
-                showRemoveModeratorsByConvoId(selectedConvoKey);
-              }}
-              text={window.i18n('removeModerators')}
-              dataTestId="remove-moderators"
-            />
-          </>
-        )}
 
-        {showUpdateGroupMembersButton && (
-          <PanelIconButton
-            iconType={null}
+      {showUpdateGroupNameButton && (
+        <StyledGroupSettingsItem
+          className="right-panel-item"
+          role="button"
+          onClick={() => {
+            void showUpdateGroupNameByConvoId(selectedConvoKey);
+          }}
+        >
+          {isPublic ? window.i18n('editGroup') : window.i18n('editGroupName')}
+        </StyledGroupSettingsItem>
+      )}
+      {showAddRemoveModeratorsButton && (
+        <>
+          <StyledGroupSettingsItem
+            className="right-panel-item"
+            role="button"
             onClick={() => {
-              void showUpdateGroupMembersByConvoId(selectedConvoKey);
+              showAddModeratorsByConvoId(selectedConvoKey);
             }}
-            text={window.i18n('groupMembers')}
-            dataTestId="group-members"
-          />
-        )}
+          >
+            {window.i18n('addModerators')}
+          </StyledGroupSettingsItem>
+          <StyledGroupSettingsItem
+            className="right-panel-item"
+            role="button"
+            onClick={() => {
+              showRemoveModeratorsByConvoId(selectedConvoKey);
+            }}
+          >
+            {window.i18n('removeModerators')}
+          </StyledGroupSettingsItem>
+        </>
+      )}
 
-        {hasDisappearingMessages && (
+      {showUpdateGroupMembersButton && (
+        <StyledGroupSettingsItem
+          className="right-panel-item"
+          role="button"
+          onClick={() => {
+            void showUpdateGroupMembersByConvoId(selectedConvoKey);
+          }}
+        >
+          {window.i18n('groupMembers')}
+        </StyledGroupSettingsItem>
+      )}
+      <SpacerLG />
+      <SpacerLG />
+
+      {hasDisappearingMessages && (
+        /* TODO Move ButtonGroup around all settings items */
+        <PanelButtonGroup>
           <PanelIconButton
             iconType={'timer50'}
             text={window.i18n('disappearingMessages')}
@@ -334,8 +362,9 @@ export const OverlayRightPanelSettings = () => {
               dispatch(setRightOverlayMode('disappearing-messages'));
             }}
           />
-        )}
-      </PanelButtonGroup>
+        </PanelButtonGroup>
+      )}
+
       <MediaGallery documents={documents} media={media} />
       {isGroup && (
         <StyledLeaveButton>

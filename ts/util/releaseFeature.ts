@@ -102,7 +102,7 @@ async function checkIsUserConfigFeatureReleased() {
 
 async function checkIsDisappearMessageV2FeatureReleased() {
   return (
-    checkIsFeatureReleased('disappearing_messages') ||
+    (await checkIsFeatureReleased('disappearing_messages')) ||
     !isEmpty(process.env.SESSION_FORCE_DISAPPEAR_V2_ENABLED) // FIXME to remove after QA
   );
 }

@@ -81,17 +81,6 @@ const StyledPanelButton = styled.button<{
   :not(:last-child) {
     border-bottom: 1px solid var(--border-color);
   }
-  padding-top: var(--margins-lg);
-  padding-bottom: var(--margins-lg);
-  text-align: left;
-
-  :first-child {
-    padding-top: 0;
-  }
-
-  :last-child {
-    padding-bottom: 0;
-  }
 `;
 
 export type PanelButtonProps = {
