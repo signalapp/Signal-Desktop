@@ -1,7 +1,16 @@
 diff --git a/node_modules/quill/dist/quill.js b/node_modules/quill/dist/quill.js
-index 811b3d0..fe5d034 100644
+index 811b3d0..9243ab6 100644
 --- a/node_modules/quill/dist/quill.js
 +++ b/node_modules/quill/dist/quill.js
+@@ -4295,7 +4295,7 @@ var Scroll = function (_Parchment$Scroll) {
+     value: function enable() {
+       var enabled = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+ 
+-      this.domNode.setAttribute('contenteditable', enabled);
++      this.domNode.setAttribute('contenteditable', enabled ? 'plaintext-only' : false);
+     }
+   }, {
+     key: 'formatAt',
 @@ -8896,7 +8896,8 @@ var debug = (0, _logger2.default)('quill:clipboard');
  
  var DOM_KEY = '__ql-matcher';
