@@ -16,7 +16,7 @@ export function createEventHandler({
       if (
         !activeElement ||
         activeElement.matches('input, textarea') ||
-        !activeElement.closest('[contenteditable=true]')
+        !activeElement.closest('[contenteditable=plaintext-only]')
       ) {
         return;
       }
