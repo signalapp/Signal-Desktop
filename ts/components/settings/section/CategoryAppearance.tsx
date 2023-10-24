@@ -4,7 +4,7 @@ import useUpdate from 'react-use/lib/useUpdate';
 import { SettingsKey } from '../../../data/settings-key';
 import { isHideMenuBarSupported } from '../../../types/Settings';
 import { useHasFollowSystemThemeEnabled } from '../../../state/selectors/settings';
-import { checkThemeCongruency } from '../../../themes/SessionTheme';
+import { ensureThemeConsistency } from '../../../themes/SessionTheme';
 import { SessionToggleWithDescription } from '../SessionSettingListItem';
 import { SettingsThemeSwitcher } from '../SettingsThemeSwitcher';
 import { ZoomingSessionSlider } from '../ZoomingSessionSlider';
@@ -35,16 +35,18 @@ export const SettingsCategoryAppearance = (props: { hasPassword: boolean | null 
           />
         )}
         <SessionToggleWithDescription
-          onClickToggle={() => {
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
+          onClickToggle={async () => {
             const toggledValue = !isFollowSystemThemeEnabled;
-            void window.setSettingValue(SettingsKey.hasFollowSystemThemeEnabled, toggledValue);
+            await window.setSettingValue(SettingsKey.hasFollowSystemThemeEnabled, toggledValue);
             if (!isFollowSystemThemeEnabled) {
-              void checkThemeCongruency();
+              await ensureThemeConsistency();
             }
           }}
           title={window.i18n('matchThemeSystemSettingTitle')}
           description={window.i18n('matchThemeSystemSettingDescription')}
           active={isFollowSystemThemeEnabled}
+          dataTestId="enable-follow-system-theme"
         />
       </>
     );

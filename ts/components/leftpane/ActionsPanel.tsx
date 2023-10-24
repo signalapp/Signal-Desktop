@@ -43,8 +43,8 @@ import {
   getFreshSwarmFor,
 } from '../../session/apis/snode_api/snodePool';
 import { isDarkTheme } from '../../state/selectors/theme';
-import { getOppositeTheme, checkThemeCongruency } from '../../themes/SessionTheme';
-import { ThemeStateType } from '../../themes/constants/colors';
+import { ensureThemeConsistency } from '../../themes/SessionTheme';
+import { getOppositeTheme } from '../../util/theme';
 import { switchThemeTo } from '../../themes/switchTheme';
 import { ConfigurationSync } from '../../session/utils/job_runners/jobs/ConfigurationSyncJob';
 
@@ -63,7 +63,7 @@ const Section = (props: { type: SectionType }) => {
       dispatch(editProfileModal({}));
     } else if (type === SectionType.ColorMode) {
       const currentTheme = String(window.Events.getThemeSetting());
-      const newTheme = getOppositeTheme(currentTheme) as ThemeStateType;
+      const newTheme = getOppositeTheme(currentTheme);
       // We want to persist the primary color when using the color mode button
       void switchThemeTo({
         theme: newTheme,
@@ -157,9 +157,10 @@ const setupTheme = async () => {
   };
 
   if (shouldFollowSystemTheme) {
-    const themeIsCongruent = await checkThemeCongruency();
-    // Only set theme if it matches with native theme, otherwise handled by checkThemeCongruency()
-    if (!themeIsCongruent) {
+    // Check if system theme matches currently set theme, if not switch it and return true, if matching return false
+    const wasThemeSwitched = await ensureThemeConsistency();
+    if (!wasThemeSwitched) {
+      // if theme wasn't switched them set theme to default
       await switchThemeTo(themeConfig);
     }
     return;

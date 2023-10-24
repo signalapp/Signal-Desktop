@@ -27,9 +27,8 @@ import { switchPrimaryColorTo } from '../themes/switchPrimaryColor';
 import { LibSessionUtil } from '../session/utils/libsession/libsession_utils';
 import { runners } from '../session/utils/job_runners/JobRunner';
 import { SettingsKey } from '../data/settings-key';
-import { getOppositeTheme } from '../themes/SessionTheme';
+import { getOppositeTheme, isThemeMismatched } from '../util/theme';
 import { switchThemeTo } from '../themes/switchTheme';
-import { ThemeStateType } from '../themes/constants/colors';
 
 // Globally disable drag and drop
 document.body.addEventListener(
@@ -118,11 +117,8 @@ ipcRenderer.on('native-theme-update', (__unused, shouldUseDarkColors) => {
 
   if (shouldFollowSystemTheme) {
     const theme = window.Events.getThemeSetting();
-    if (
-      (shouldUseDarkColors && theme.includes('light')) ||
-      (!shouldUseDarkColors && theme.includes('dark'))
-    ) {
-      const newTheme = getOppositeTheme(theme) as ThemeStateType;
+    if (isThemeMismatched(theme, shouldUseDarkColors)) {
+      const newTheme = getOppositeTheme(theme);
       void switchThemeTo({
         theme: newTheme,
         mainWindow: true,

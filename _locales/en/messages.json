@@ -222,7 +222,7 @@
   "noteToSelf": "Note to Self",
   "hideMenuBarTitle": "Hide Menu Bar",
   "hideMenuBarDescription": "Toggle system menu bar visibility.",
-  "matchThemeSystemSettingTitle": "Auto night-mode",
+  "matchThemeSystemSettingTitle": "Auto dark-mode",
   "matchThemeSystemSettingDescription": "Match system settings",
   "startConversation": "Start New Conversation",
   "invalidNumberError": "Please check the Session ID or ONS name and try again",
