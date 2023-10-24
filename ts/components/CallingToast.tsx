@@ -204,7 +204,7 @@ export function CallingToastProvider({
         // index is toasts.length instead of toasts.length - 1 since it has already been
         // removed from state
         index === toasts.length
-          ? 0
+          ? '0px'
           : `${-1 * (TOAST_HEIGHT_PX + TOAST_GAP_PX)}px`,
       config: (key: string) => {
         if (key === 'zIndex') {
@@ -266,9 +266,9 @@ function CallingToast(
     props.dismissable && 'CallingToast--dismissable'
   );
 
-  const elementHtmlProps = {
+  const elementHtmlProps: React.HTMLAttributes<HTMLDivElement> = {
     role: 'alert',
-    ariaLive: props.autoClose ? 'assertive' : 'polite',
+    'aria-live': props.autoClose ? 'assertive' : 'polite',
   };
 
   if (props.dismissable) {
