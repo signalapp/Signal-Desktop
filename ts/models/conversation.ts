@@ -876,6 +876,15 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     // to be above the message that initiated that change, hence the subtraction.
     const timestamp = (receivedAt || Date.now()) - 1;
 
+    // NOTE if we turn off disappearing messages we want the control message to expire based on the last available setting
+    const oldExpirationMode = this.getExpirationMode();
+    const oldExpireTimer = this.getExpireTimer();
+    const oldExpirationType = DisappearingMessages.changeToDisappearingMessageType(
+      this,
+      oldExpireTimer,
+      oldExpirationMode
+    );
+
     this.set({
       expirationMode,
       expireTimer,
@@ -898,8 +907,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         source,
         fromSync,
       },
-      expirationType,
-      expireTimer,
+      expirationType: expireTimer === 0 ? oldExpirationType : expirationType,
+      expireTimer: expireTimer === 0 ? oldExpireTimer : expireTimer,
     };
 
     if (!message) {
