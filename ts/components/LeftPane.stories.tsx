@@ -127,7 +127,6 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
   }
 
   const isUpdateDownloaded = false;
-  const isContactManagementEnabled = true;
 
   return {
     otherTabsUnreadStats: {
@@ -160,7 +159,6 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
     hasUpdateDialog: false,
     unsupportedOSDialogType: undefined,
     isUpdateDownloaded,
-    isContactManagementEnabled,
     navTabsCollapsed: false,
 
     setChallengeStatus: action('setChallengeStatus'),

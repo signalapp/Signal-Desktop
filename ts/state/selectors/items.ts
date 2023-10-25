@@ -167,27 +167,6 @@ export const getStoriesEnabled = createSelector(
   }
 );
 
-export const getContactManagementEnabled = createSelector(
-  getRemoteConfig,
-  (remoteConfig: ConfigMapType): boolean => {
-    if (isRemoteConfigFlagEnabled(remoteConfig, 'desktop.contactManagement')) {
-      return true;
-    }
-
-    if (
-      isRemoteConfigFlagEnabled(
-        remoteConfig,
-        'desktop.contactManagement.beta'
-      ) &&
-      isBeta(window.getVersion())
-    ) {
-      return true;
-    }
-
-    return false;
-  }
-);
-
 export const getSafetyNumberMode = createSelector(
   getRemoteConfig,
   getServerTimeSkew,

@@ -68,7 +68,6 @@ export type PropsType = {
   hasRelinkDialog: boolean;
   hasUpdateDialog: boolean;
   isUpdateDownloaded: boolean;
-  isContactManagementEnabled: boolean;
   unsupportedOSDialogType: 'error' | 'warning' | undefined;
 
   // These help prevent invalid states. For example, we don't need the list of pinned
@@ -182,7 +181,6 @@ export function LeftPane({
   lookupConversationWithoutServiceId,
   isMacOS,
   isUpdateDownloaded,
-  isContactManagementEnabled,
   modeSpecificProps,
   navTabsCollapsed,
   onOutgoingAudioCallInConversation,
@@ -687,9 +685,7 @@ export function LeftPane({
                 onOutgoingVideoCallInConversation={
                   onOutgoingVideoCallInConversation
                 }
-                removeConversation={
-                  isContactManagementEnabled ? removeConversation : undefined
-                }
+                removeConversation={removeConversation}
                 renderMessageSearchResult={renderMessageSearchResult}
                 rowCount={helper.getRowCount()}
                 scrollBehavior={scrollBehavior}
