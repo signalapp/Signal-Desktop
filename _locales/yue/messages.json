@@ -6812,9 +6812,9 @@
     "messageformat": "• 錯誤修復同用戶體驗 (UX) 改善項目。"
   },
   "icu:WhatsNew__v6.36--0": {
-    "messageformat": "We updated the user interface to better indicate when a group video call is reconnecting. Now you'll see blurred thumbnails instead of what used to look like an elaborate prank where everyone pretended to freeze at the same time."
+    "messageformat": "我哋更新咗用戶界面，方便你睇到群組視像通話重新連接緊。縮圖會變朦咗，咁你唔使再懷疑其他人張定格相係咪扮嘢啦。"
   },
   "icu:WhatsNew__v6.36--1": {
-    "messageformat": "The system tray icon will no longer appear pixelated on Ubuntu Linux, unless you've managed to get Ubuntu Linux running on an old smart refrigerator with a low-res screen."
+    "messageformat": "Ubuntu Linux 嘅系統匣圖示唔會再用像素化格式顯示。"
   }
 }

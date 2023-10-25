@@ -6812,9 +6812,9 @@
     "messageformat": "យើងបានប្រាប់ខ្លួនឯងថា យើងនឹងមិនធ្វើដូចកម្មវិធីផ្សេងទៀតដែលមិនសូវមានកំណត់សម្គាល់អំពីការចេញផ្សាយនោះឡើយ ប៉ុន្តែការដំឡើងកំណែនេះពិតជារួមបញ្ចូលនូវ \"ការដោះស្រាយបញ្ហា និងការកែលម្អបទពិសោធន៍អ្នកប្រើ\"។"
   },
   "icu:WhatsNew__v6.36--0": {
-    "messageformat": "We updated the user interface to better indicate when a group video call is reconnecting. Now you'll see blurred thumbnails instead of what used to look like an elaborate prank where everyone pretended to freeze at the same time."
+    "messageformat": "យើងបានធ្វើបច្ចុប្បន្នភាពអ៊ីនធើហ្វេសអ្នកប្រើ ដើម្បីបង្ហាញឲ្យកាន់តែច្បាស់នៅពេលដែលការហៅជាវីដេអូជាក្រុមកំពុងភ្ជាប់ឡើងវិញ។ ឥឡូវនេះ អ្នកនឹងឃើញរូបភាពតូចៗបែបព្រាលៗវិញ ជាជាងការមើលឃើញអ្វីដែលមើលទៅដូចជាការលេងសើចបែបពញ្ញាក់អារម្មណ៍តាមការគ្រោងទុកយ៉ាងល្អិតល្អន់ ដែលមនុស្សគ្រប់គ្នាធ្វើពុតជានឹងថ្កល់ក្នុងពេលតែមួយ។"
   },
   "icu:WhatsNew__v6.36--1": {
-    "messageformat": "The system tray icon will no longer appear pixelated on Ubuntu Linux, unless you've managed to get Ubuntu Linux running on an old smart refrigerator with a low-res screen."
+    "messageformat": "រូបកម្មវិធីរបស់ប្រព័ន្ធនៅថាសបារនឹងលែងបង្ហាញជារូបភាពព្រាលៗនៅលើ Ubuntu Linux ទៀតហើយ លើកលែងតែអ្នកអាចធ្វើឲ្យ Ubuntu Linux ដំណើរការនៅលើទូទឹកកកចាស់ឆ្លាតវៃដែលបំពាក់ជាមួយអេក្រង់ដែលមានគុណភាពបង្ហាញទាប។"
   }
 }
