@@ -20,8 +20,6 @@ export type ConfigKeyType =
   | 'desktop.cdsi.returnAcisWithoutUaks'
   | 'desktop.clientExpiration'
   | 'desktop.editMessageSend'
-  | 'desktop.contactManagement.beta'
-  | 'desktop.contactManagement'
   | 'desktop.groupCallOutboundRing2.beta'
   | 'desktop.groupCallOutboundRing2'
   | 'desktop.groupMultiTypingIndicators'

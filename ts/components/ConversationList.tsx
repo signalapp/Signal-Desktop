@@ -185,7 +185,7 @@ export type PropsType = {
   onSelectConversation: (conversationId: string, messageId?: string) => void;
   onOutgoingAudioCallInConversation: (conversationId: string) => void;
   onOutgoingVideoCallInConversation: (conversationId: string) => void;
-  removeConversation?: (conversationId: string) => void;
+  removeConversation: (conversationId: string) => void;
   renderMessageSearchResult?: (id: string) => JSX.Element;
   showChooseGroupMembers: () => void;
   showConversation: ShowConversationType;
