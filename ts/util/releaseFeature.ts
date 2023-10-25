@@ -1,4 +1,3 @@
-import { isEmpty } from 'lodash';
 import { GetNetworkTime } from '../session/apis/snode_api/getNetworkTime';
 import { FEATURE_RELEASE_TIMESTAMPS } from '../session/constants';
 import { ConfigurationSync } from '../session/utils/job_runners/jobs/ConfigurationSyncJob';
@@ -103,7 +102,7 @@ async function checkIsUserConfigFeatureReleased() {
 async function checkIsDisappearMessageV2FeatureReleased() {
   return (
     (await checkIsFeatureReleased('disappearing_messages')) ||
-    !isEmpty(process.env.SESSION_FORCE_DISAPPEAR_V2_ENABLED) // FIXME to remove after QA
+    !!process.env.MULTI?.toLocaleLowerCase().includes('disappear_v2') // FIXME to remove after QA
   );
 }
 
@@ -115,7 +114,7 @@ function isUserConfigFeatureReleasedCached(): boolean {
 function isDisappearMessageV2FeatureReleasedCached(): boolean {
   return (
     !!isDisappearingMessageFeatureReleased ||
-    !isEmpty(process.env.SESSION_FORCE_DISAPPEAR_V2_ENABLED) // FIXME to remove after QA
+    !!process.env.MULTI?.toLocaleLowerCase().includes('disappear_v2') // FIXME to remove after QA
   );
 }
 
