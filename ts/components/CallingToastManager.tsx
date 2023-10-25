@@ -98,3 +98,35 @@ export function useScreenSharingStoppedToast({
     }
   }, [activeCall, previousPresenter, showToast, i18n]);
 }
+
+export function useMutedToast(
+  hasLocalAudio: boolean,
+  i18n: LocalizerType
+): void {
+  const [previousHasLocalAudio, setPreviousHasLocalAudio] = useState<
+    undefined | boolean
+  >(undefined);
+  const { showToast, hideToast } = useCallingToasts();
+  const MUTED_TOAST_KEY = 'muted';
+
+  useEffect(() => {
+    setPreviousHasLocalAudio(hasLocalAudio);
+  }, [hasLocalAudio]);
+
+  useEffect(() => {
+    if (
+      previousHasLocalAudio !== undefined &&
+      hasLocalAudio !== previousHasLocalAudio
+    ) {
+      hideToast(MUTED_TOAST_KEY);
+      showToast({
+        key: MUTED_TOAST_KEY,
+        content: hasLocalAudio
+          ? i18n('icu:CallControls__MutedToast--unmuted')
+          : i18n('icu:CallControls__MutedToast--muted'),
+        autoClose: true,
+        dismissable: true,
+      });
+    }
+  }, [hasLocalAudio, previousHasLocalAudio, hideToast, showToast, i18n]);
+}

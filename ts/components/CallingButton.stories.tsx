@@ -26,7 +26,7 @@ export default {
     },
   },
   args: {
-    buttonType: CallingButtonType.HANG_UP,
+    buttonType: CallingButtonType.RING_ON,
     i18n,
     onClick: action('on-click'),
     onMouseEnter: action('on-mouse-enter'),

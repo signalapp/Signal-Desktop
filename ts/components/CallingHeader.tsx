@@ -15,9 +15,7 @@ export type PropsType = {
   message?: ReactNode;
   onCancel?: () => void;
   participantCount: number;
-  showParticipantsList: boolean;
   title?: string;
-  toggleParticipants?: () => void;
   togglePip?: () => void;
   toggleSettings: () => void;
   toggleSpeakerView?: () => void;
@@ -30,9 +28,7 @@ export function CallingHeader({
   message,
   onCancel,
   participantCount,
-  showParticipantsList,
   title,
-  toggleParticipants,
   togglePip,
   toggleSettings,
   toggleSpeakerView,
@@ -46,48 +42,24 @@ export function CallingHeader({
         <div className="module-ongoing-call__header-message">{message}</div>
       ) : null}
       <div className="module-calling-tools">
-        {isGroupCall && participantCount ? (
+        {togglePip && (
           <div className="module-calling-tools__button">
             <Tooltip
-              content={i18n('icu:calling__participants', {
-                people: String(participantCount),
-              })}
+              content={i18n('icu:calling__pip--on')}
+              className="CallingButton__tooltip"
               theme={Theme.Dark}
             >
               <button
-                aria-label={i18n('icu:calling__participants', {
-                  people: String(participantCount),
-                })}
-                className={classNames(
-                  'CallingButton__participants--container',
-                  {
-                    'CallingButton__participants--shown': showParticipantsList,
-                  }
-                )}
-                onClick={toggleParticipants}
+                aria-label={i18n('icu:calling__pip--on')}
+                className="CallSettingsButton__Button"
+                onClick={togglePip}
                 type="button"
               >
-                <i className="CallingButton__participants" />
-                <span className="CallingButton__participants--count">
-                  {participantCount}
-                </span>
+                <span className="CallSettingsButton__Icon CallSettingsButton__Icon--Pip" />
               </button>
             </Tooltip>
           </div>
-        ) : null}
-        <div className="module-calling-tools__button">
-          <Tooltip
-            content={i18n('icu:callingDeviceSelection__settings')}
-            theme={Theme.Dark}
-          >
-            <button
-              aria-label={i18n('icu:callingDeviceSelection__settings')}
-              className="CallingButton__settings"
-              onClick={toggleSettings}
-              type="button"
-            />
-          </Tooltip>
-        </div>
+        )}
         {isGroupCall && participantCount > 2 && toggleSpeakerView && (
           <div className="module-calling-tools__button">
             <Tooltip
@@ -96,6 +68,7 @@ export function CallingHeader({
                   ? i18n('icu:calling__switch-view--to-grid')
                   : i18n('icu:calling__switch-view--to-speaker')
               }
+              className="CallingButton__tooltip"
               theme={Theme.Dark}
             >
               <button
@@ -104,38 +77,53 @@ export function CallingHeader({
                     ? i18n('icu:calling__switch-view--to-grid')
                     : i18n('icu:calling__switch-view--to-speaker')
                 }
-                className={
-                  isInSpeakerView
-                    ? 'CallingButton__grid-view'
-                    : 'CallingButton__speaker-view'
-                }
+                className="CallSettingsButton__Button"
                 onClick={toggleSpeakerView}
                 type="button"
-              />
+              >
+                <span
+                  className={classNames(
+                    'CallSettingsButton__Icon',
+                    isInSpeakerView
+                      ? 'CallSettingsButton__Icon--GridView'
+                      : 'CallSettingsButton__Icon--SpeakerView'
+                  )}
+                />
+              </button>
             </Tooltip>
           </div>
         )}
-        {togglePip && (
-          <div className="module-calling-tools__button">
-            <Tooltip content={i18n('icu:calling__pip--on')} theme={Theme.Dark}>
-              <button
-                aria-label={i18n('icu:calling__pip--on')}
-                className="CallingButton__pip"
-                onClick={togglePip}
-                type="button"
-              />
-            </Tooltip>
-          </div>
-        )}
+        <div className="module-calling-tools__button">
+          <Tooltip
+            content={i18n('icu:callingDeviceSelection__settings')}
+            className="CallingButton__tooltip"
+            theme={Theme.Dark}
+          >
+            <button
+              aria-label={i18n('icu:callingDeviceSelection__settings')}
+              className="CallSettingsButton__Button"
+              onClick={toggleSettings}
+              type="button"
+            >
+              <span className="CallSettingsButton__Icon CallSettingsButton__Icon--Settings" />
+            </button>
+          </Tooltip>
+        </div>
         {onCancel && (
           <div className="module-calling-tools__button">
-            <Tooltip content={i18n('icu:cancel')} theme={Theme.Dark}>
+            <Tooltip
+              content={i18n('icu:cancel')}
+              theme={Theme.Dark}
+              className="CallingButton__tooltip"
+            >
               <button
                 aria-label={i18n('icu:cancel')}
-                className="CallingButton__cancel"
+                className="CallSettingsButton__Button CallSettingsButton__Button--Cancel"
                 onClick={onCancel}
                 type="button"
-              />
+              >
+                <span className="CallSettingsButton__Icon CallSettingsButton__Icon--Cancel" />
+              </button>
             </Tooltip>
           </div>
         )}

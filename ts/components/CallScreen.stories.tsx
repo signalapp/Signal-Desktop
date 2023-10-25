@@ -319,6 +319,18 @@ export function GroupCallMany(): JSX.Element {
   );
 }
 
+export function GroupCallSpeakerView(): JSX.Element {
+  return (
+    <CallScreen
+      {...createProps({
+        callMode: CallMode.Group,
+        viewMode: CallViewMode.Speaker,
+        remoteParticipants: allRemoteParticipants.slice(0, 3),
+      })}
+    />
+  );
+}
+
 export function GroupCallReconnecting(): JSX.Element {
   return (
     <CallScreen

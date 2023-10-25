@@ -11,22 +11,28 @@
 
   &__icon {
     align-items: center;
-    border-radius: 52px;
+    border-radius: 40px;
     border: none;
     display: flex;
-    height: 52px;
+    height: 36px;
     justify-content: center;
     outline: none;
-    width: 52px;
-    margin-inline: 6px;
+    width: 36px;
+
+    @include keyboard-mode {
+      &:focus {
+        outline-offset: 1px;
+        outline: 2px solid $color-ultramarine;
+      }
+    }
 
     @mixin calling-button-icon($icon, $background-color, $icon-color) {
       background-color: $background-color;
 
       div {
         @include color-svg($icon, $icon-color);
-        height: 24px;
-        width: 24px;
+        height: 22px;
+        width: 22px;
       }
     }
 
@@ -111,55 +117,11 @@
     }
   }
 
-  &__participants {
-    @include icon('../images/icons/v3/group/group.svg');
-    display: inline-block;
-
-    &--container {
-      @include button-reset;
-      border: none;
-      color: $color-white;
-    }
-
-    &--shown {
-      background-color: $color-gray-75;
-      border-radius: 16px;
-      padding-block: 6px;
-      padding-inline: 8px;
-    }
-
-    &--count {
-      @include font-body-2;
-      margin-inline-start: 5px;
-      vertical-align: top;
-    }
-  }
-
-  &__settings {
-    @include icon('../images/icons/v3/tune/tune.svg');
-  }
-
-  &__grid-view {
-    @include icon('../images/icons/v3/grid/grid.svg');
-  }
-
-  &__speaker-view {
-    @include icon('../images/icons/v3/speaker_view/speaker_view.svg');
-  }
-
-  &__pip {
-    @include icon('../images/icons/v3/pip/pip.svg');
-  }
-
-  &__cancel {
-    @include icon('../images/icons/v3/x/x.svg');
-  }
-
-  &__container {
+  &__button-container {
     display: inline-flex;
     flex-direction: column;
-    margin-inline: 6px;
     max-width: 64px;
+    margin-inline: 10px;
 
     transition: margin-inline-start 0.3s ease-out, opacity 0.3s ease-out;
     @media (prefers-reduced-motion) {
@@ -179,12 +141,40 @@
     }
   }
 
-  &__label {
-    @include font-subtitle;
-    margin-top: 8px;
-    text-align: center;
-    color: $color-white;
-    @include calling-text-shadow;
-    user-select: none;
+  &__tooltip {
+    background-color: $color-gray-80;
+    color: $color-gray-15;
+    font-size: 13px;
+    outline: 1px solid $color-gray-62;
+    padding-block: 5px;
+    padding-inline: 12px;
+    filter: drop-shadow(0px 4px 3px $color-black-alpha-20);
+  }
+
+  &__tooltip .module-tooltip-arrow::before {
+    position: absolute;
+    content: '';
+    border-style: solid;
+    border-width: 7px;
+  }
+
+  &__tooltip[data-placement='bottom'] .module-tooltip-arrow::before {
+    border-color: transparent transparent $color-gray-62 transparent;
+    margin-block-start: -14px;
+    margin-inline-start: -7px;
+  }
+
+  &__tooltip[data-placement='bottom'] .module-tooltip-arrow::after {
+    border-bottom-color: $color-gray-80 !important;
+  }
+
+  &__tooltip[data-placement='top'] .module-tooltip-arrow::before {
+    border-color: $color-gray-62 transparent transparent transparent;
+    margin-block-start: 0;
+    margin-inline-start: -7px;
+  }
+
+  &__tooltip[data-placement='top'] .module-tooltip-arrow::after {
+    border-top-color: $color-gray-80 !important;
   }
 }

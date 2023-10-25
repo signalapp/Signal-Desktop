@@ -12,6 +12,7 @@ import type {
 import { CallingButton, CallingButtonType } from './CallingButton';
 import { TooltipPlacement } from './Tooltip';
 import { CallBackgroundBlur } from './CallBackgroundBlur';
+import { CallParticipantCount } from './CallParticipantCount';
 import { CallingHeader } from './CallingHeader';
 import { CallingPreCallInfo, RingMode } from './CallingPreCallInfo';
 import {
@@ -23,6 +24,7 @@ import { useIsOnline } from '../hooks/useIsOnline';
 import * as KeyboardLayout from '../services/keyboardLayout';
 import type { ConversationType } from '../state/ducks/conversations';
 import { useCallingToasts } from './CallingToast';
+import { useMutedToast } from './CallingToastManager';
 
 export type PropsType = {
   availableCameras: Array<MediaDeviceInfo>;
@@ -84,7 +86,6 @@ export function CallingLobby({
   setLocalPreview,
   setLocalVideo,
   setOutgoingRing,
-  showParticipantsList,
   toggleParticipants,
   toggleSettings,
   outgoingRing,
@@ -143,8 +144,6 @@ export function CallingLobby({
 
   const [isCallConnecting, setIsCallConnecting] = React.useState(false);
 
-  useWasInitiallyMutedToast(hasLocalAudio, i18n);
-
   // eslint-disable-next-line no-nested-ternary
   const videoButtonType = hasLocalVideo
     ? CallingButtonType.VIDEO_ON
@@ -201,6 +200,38 @@ export function CallingLobby({
     callingLobbyJoinButtonVariant = CallingLobbyJoinButtonVariant.Start;
   }
 
+  const callStatus = React.useMemo(() => {
+    if (isGroupCall) {
+      return (
+        <CallParticipantCount
+          i18n={i18n}
+          groupMemberCount={groupMembers?.length ?? 0}
+          participantCount={peekedParticipants.length}
+          toggleParticipants={toggleParticipants}
+        />
+      );
+    }
+    if (hasLocalVideo) {
+      return i18n('icu:ContactListItem__menu__video-call');
+    }
+    if (hasLocalAudio) {
+      return i18n('icu:CallControls__InfoDisplay--audio-call');
+    }
+    return null;
+  }, [
+    isGroupCall,
+    peekedParticipants.length,
+    i18n,
+    hasLocalVideo,
+    hasLocalAudio,
+    groupMembers?.length,
+    toggleParticipants,
+  ]);
+
+  useMutedToast(hasLocalAudio, i18n);
+  useWasInitiallyMutedToast(hasLocalAudio, i18n);
+  useOutgoingRingToast(isRingButtonVisible, outgoingRing, i18n);
+
   return (
     <FocusTrap>
       <div className="module-calling__container">
@@ -222,8 +253,6 @@ export function CallingLobby({
           i18n={i18n}
           isGroupCall={isGroupCall}
           participantCount={peekedParticipants.length}
-          showParticipantsList={showParticipantsList}
-          toggleParticipants={toggleParticipants}
           toggleSettings={toggleSettings}
           onCancel={onCallCanceled}
         />
@@ -249,37 +278,44 @@ export function CallingLobby({
           {i18n('icu:calling__your-video-is-off')}
         </div>
 
-        <div className="module-calling__buttons module-calling__buttons--inline">
-          <CallingButton
-            buttonType={videoButtonType}
-            i18n={i18n}
-            onClick={toggleVideo}
-            tooltipDirection={TooltipPlacement.Top}
-          />
-          <CallingButton
-            buttonType={audioButtonType}
-            i18n={i18n}
-            onClick={toggleAudio}
-            tooltipDirection={TooltipPlacement.Top}
-          />
-          <CallingButton
-            buttonType={ringButtonType}
-            i18n={i18n}
-            isVisible={isRingButtonVisible}
-            onClick={toggleOutgoingRing}
-            tooltipDirection={TooltipPlacement.Top}
-          />
+        <div className="CallControls">
+          <div className="CallControls__InfoDisplay">
+            <div className="CallControls__CallTitle">{conversation.title}</div>
+            <div className="CallControls__Status">{callStatus}</div>
+          </div>
+          <div className="CallControls__ButtonContainer">
+            <CallingButton
+              buttonType={videoButtonType}
+              i18n={i18n}
+              onClick={toggleVideo}
+              tooltipDirection={TooltipPlacement.Top}
+            />
+            <CallingButton
+              buttonType={audioButtonType}
+              i18n={i18n}
+              onClick={toggleAudio}
+              tooltipDirection={TooltipPlacement.Top}
+            />
+            <CallingButton
+              buttonType={ringButtonType}
+              i18n={i18n}
+              isVisible={isRingButtonVisible}
+              onClick={toggleOutgoingRing}
+              tooltipDirection={TooltipPlacement.Top}
+            />
+          </div>
+          <div className="CallControls__JoinLeaveButtonContainer">
+            <CallingLobbyJoinButton
+              disabled={!canJoin}
+              i18n={i18n}
+              onClick={() => {
+                setIsCallConnecting(true);
+                onJoinCall();
+              }}
+              variant={callingLobbyJoinButtonVariant}
+            />
+          </div>
         </div>
-
-        <CallingLobbyJoinButton
-          disabled={!canJoin}
-          i18n={i18n}
-          onClick={() => {
-            setIsCallConnecting(true);
-            onJoinCall();
-          }}
-          variant={callingLobbyJoinButtonVariant}
-        />
       </div>
     </FocusTrap>
   );
@@ -312,4 +348,52 @@ function useWasInitiallyMutedToast(
       hideToast(INITIALLY_MUTED_KEY);
     }
   }, [hideToast, wasInitiallyMuted, hasLocalAudio]);
+}
+
+function useOutgoingRingToast(
+  isRingButtonVisible: boolean,
+  outgoingRing: boolean,
+  i18n: LocalizerType
+): void {
+  const [previousOutgoingRing, setPreviousOutgoingRing] = React.useState<
+    undefined | boolean
+  >(undefined);
+  const { showToast, hideToast } = useCallingToasts();
+  const RINGING_TOAST_KEY = 'ringing';
+
+  React.useEffect(() => {
+    if (!isRingButtonVisible) {
+      return;
+    }
+
+    setPreviousOutgoingRing(outgoingRing);
+  }, [isRingButtonVisible, outgoingRing]);
+
+  React.useEffect(() => {
+    if (!isRingButtonVisible) {
+      return;
+    }
+
+    if (
+      previousOutgoingRing !== undefined &&
+      outgoingRing !== previousOutgoingRing
+    ) {
+      hideToast(RINGING_TOAST_KEY);
+      showToast({
+        key: RINGING_TOAST_KEY,
+        content: outgoingRing
+          ? i18n('icu:CallControls__RingingToast--ringing-on')
+          : i18n('icu:CallControls__RingingToast--ringing-off'),
+        autoClose: true,
+        dismissable: true,
+      });
+    }
+  }, [
+    isRingButtonVisible,
+    outgoingRing,
+    previousOutgoingRing,
+    hideToast,
+    showToast,
+    i18n,
+  ]);
 }

@@ -146,15 +146,15 @@ export const CallingParticipantsList = React.memo(
                         </>
                       )}
                     </div>
-                    <div>
-                      {participant.hasRemoteAudio === false ? (
-                        <span className="module-calling-participants-list__muted--audio" />
-                      ) : null}
+                    <div className="module-calling-participants-list__status">
                       {participant.hasRemoteVideo === false ? (
                         <span className="module-calling-participants-list__muted--video" />
                       ) : null}
                       {participant.presenting ? (
                         <span className="module-calling-participants-list__presenting" />
+                      ) : null}
+                      {participant.hasRemoteAudio === false ? (
+                        <span className="module-calling-participants-list__muted--audio" />
                       ) : null}
                     </div>
                   </li>

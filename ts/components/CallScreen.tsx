@@ -17,6 +17,8 @@ import { Avatar, AvatarSize } from './Avatar';
 import { CallingHeader } from './CallingHeader';
 import { CallingPreCallInfo, RingMode } from './CallingPreCallInfo';
 import { CallingButton, CallingButtonType } from './CallingButton';
+import { Button, ButtonVariant } from './Button';
+import { TooltipPlacement } from './Tooltip';
 import { CallBackgroundBlur } from './CallBackgroundBlur';
 import type {
   ActiveCallType,
@@ -33,11 +35,13 @@ import {
 import { AvatarColors } from '../types/Colors';
 import type { ConversationType } from '../state/ducks/conversations';
 import {
+  useMutedToast,
   useReconnectingToast,
   useScreenSharingStoppedToast,
 } from './CallingToastManager';
 import { DirectCallRemoteParticipant } from './DirectCallRemoteParticipant';
 import { GroupCallRemoteParticipants } from './GroupCallRemoteParticipants';
+import { CallParticipantCount } from './CallParticipantCount';
 import type { LocalizerType } from '../types/Util';
 import { NeedsScreenRecordingPermissionsModal } from './NeedsScreenRecordingPermissionsModal';
 import { missingCaseError } from '../util/missingCaseError';
@@ -52,7 +56,7 @@ import {
   useKeyboardShortcuts,
 } from '../hooks/useKeyboardShortcuts';
 import { useValueAtFixedRate } from '../hooks/useValueAtFixedRate';
-import { isReconnecting } from '../util/callingIsReconnecting';
+import { isReconnecting as callingIsReconnecting } from '../util/callingIsReconnecting';
 
 export type PropsType = {
   activeCall: ActiveCallType;
@@ -82,12 +86,6 @@ export type PropsType = {
   toggleSpeakerView: () => void;
 };
 
-type DirectCallHeaderMessagePropsType = {
-  i18n: LocalizerType;
-  callState: CallState;
-  joinedAt: number | null;
-};
-
 export const isInSpeakerView = (
   call: Pick<ActiveCallStateType, 'viewMode'> | undefined
 ): boolean => {
@@ -97,11 +95,11 @@ export const isInSpeakerView = (
   );
 };
 
-function DirectCallHeaderMessage({
-  callState,
-  i18n,
+function CallDuration({
   joinedAt,
-}: DirectCallHeaderMessagePropsType): JSX.Element | null {
+}: {
+  joinedAt: number | null;
+}): JSX.Element | null {
   const [acceptedDuration, setAcceptedDuration] = useState<
     number | undefined
   >();
@@ -117,14 +115,8 @@ function DirectCallHeaderMessage({
     return clearInterval.bind(null, interval);
   }, [joinedAt]);
 
-  if (callState === CallState.Accepted && acceptedDuration) {
-    return (
-      <>
-        {i18n('icu:callDuration', {
-          duration: renderDuration(acceptedDuration),
-        })}
-      </>
-    );
+  if (acceptedDuration) {
+    return <>{renderDuration(acceptedDuration)}</>;
   }
   return null;
 }
@@ -161,7 +153,6 @@ export function CallScreen({
     presentingSource,
     remoteParticipants,
     showNeedsScreenRecordingPermissionsWarning,
-    showParticipantsList,
   } = activeCall;
 
   const isSpeaking = useValueAtFixedRate(
@@ -260,6 +251,7 @@ export function CallScreen({
     };
   }, [toggleAudio, toggleVideo]);
 
+  useMutedToast(hasLocalAudio, i18n);
   useReconnectingToast({ activeCall, i18n });
   useScreenSharingStoppedToast({ activeCall, i18n });
 
@@ -272,10 +264,10 @@ export function CallScreen({
   );
 
   const isSendingVideo = hasLocalVideo || presentingSource;
+  const isReconnecting: boolean = callingIsReconnecting(activeCall);
 
   let isRinging: boolean;
   let hasCallStarted: boolean;
-  let headerMessage: ReactNode | undefined;
   let headerTitle: string | undefined;
   let isConnected: boolean;
   let participantCount: number;
@@ -287,14 +279,6 @@ export function CallScreen({
         activeCall.callState === CallState.Prering ||
         activeCall.callState === CallState.Ringing;
       hasCallStarted = !isRinging;
-      headerMessage = (
-        <DirectCallHeaderMessage
-          i18n={i18n}
-          callState={activeCall.callState || CallState.Prering}
-          joinedAt={activeCall.joinedAt}
-        />
-      );
-      headerTitle = isRinging ? undefined : conversation.title;
       isConnected = activeCall.callState === CallState.Accepted;
       participantCount = isConnected ? 2 : 0;
       remoteParticipantsElement = hasCallStarted ? (
@@ -302,7 +286,7 @@ export function CallScreen({
           conversation={conversation}
           hasRemoteVideo={hasRemoteVideo}
           i18n={i18n}
-          isReconnecting={isReconnecting(activeCall)}
+          isReconnecting={isReconnecting}
           setRendererCanvas={setRendererCanvas}
         />
       ) : (
@@ -338,7 +322,7 @@ export function CallScreen({
           remoteParticipants={activeCall.remoteParticipants}
           setGroupCallVideoRequest={setGroupCallVideoRequest}
           remoteAudioLevels={activeCall.remoteAudioLevels}
-          isCallReconnecting={isReconnecting(activeCall)}
+          isCallReconnecting={isReconnecting}
         />
       );
       break;
@@ -454,6 +438,46 @@ export function CallScreen({
     presentingButtonType = CallingButtonType.PRESENTING_OFF;
   }
 
+  const callStatus: ReactNode | string = React.useMemo(() => {
+    if (isRinging) {
+      return i18n('icu:outgoingCallRinging');
+    }
+    if (isReconnecting) {
+      return i18n('icu:callReconnecting');
+    }
+    if (isGroupCall) {
+      return (
+        <CallParticipantCount
+          i18n={i18n}
+          participantCount={participantCount}
+          toggleParticipants={toggleParticipants}
+        />
+      );
+    }
+    // joinedAt is only available for direct calls
+    if (isConnected) {
+      return <CallDuration joinedAt={activeCall.joinedAt} />;
+    }
+    if (hasLocalVideo) {
+      return i18n('icu:ContactListItem__menu__video-call');
+    }
+    if (hasLocalAudio) {
+      return i18n('icu:CallControls__InfoDisplay--audio-call');
+    }
+    return null;
+  }, [
+    i18n,
+    isRinging,
+    isConnected,
+    activeCall.joinedAt,
+    isReconnecting,
+    isGroupCall,
+    participantCount,
+    hasLocalVideo,
+    hasLocalAudio,
+    toggleParticipants,
+  ]);
+
   return (
     <div
       className={classNames(
@@ -489,11 +513,8 @@ export function CallScreen({
           i18n={i18n}
           isInSpeakerView={isInSpeakerView(activeCall)}
           isGroupCall={isGroupCall}
-          message={headerMessage}
           participantCount={participantCount}
-          showParticipantsList={showParticipantsList}
           title={headerTitle}
-          toggleParticipants={toggleParticipants}
           togglePip={togglePip}
           toggleSettings={toggleSettings}
           toggleSpeakerView={toggleSpeakerView}
@@ -516,38 +537,56 @@ export function CallScreen({
         <div className="module-ongoing-call__footer__local-preview-offset" />
         <div
           className={classNames(
+            'CallControls',
             'module-ongoing-call__footer__actions',
             controlsFadeClass
           )}
         >
-          <CallingButton
-            buttonType={presentingButtonType}
-            i18n={i18n}
+          <div className="CallControls__InfoDisplay">
+            <div className="CallControls__CallTitle">{conversation.title}</div>
+            <div className="CallControls__Status">{callStatus}</div>
+          </div>
+          <div className="CallControls__ButtonContainer">
+            <CallingButton
+              buttonType={presentingButtonType}
+              i18n={i18n}
+              onMouseEnter={onControlsMouseEnter}
+              onMouseLeave={onControlsMouseLeave}
+              onClick={togglePresenting}
+              tooltipDirection={TooltipPlacement.Top}
+            />
+            <CallingButton
+              buttonType={videoButtonType}
+              i18n={i18n}
+              onMouseEnter={onControlsMouseEnter}
+              onMouseLeave={onControlsMouseLeave}
+              onClick={toggleVideo}
+              tooltipDirection={TooltipPlacement.Top}
+            />
+            <CallingButton
+              buttonType={audioButtonType}
+              i18n={i18n}
+              onMouseEnter={onControlsMouseEnter}
+              onMouseLeave={onControlsMouseLeave}
+              onClick={toggleAudio}
+              tooltipDirection={TooltipPlacement.Top}
+            />
+          </div>
+          <div
+            className="CallControls__JoinLeaveButtonContainer"
             onMouseEnter={onControlsMouseEnter}
             onMouseLeave={onControlsMouseLeave}
-            onClick={togglePresenting}
-          />
-          <CallingButton
-            buttonType={videoButtonType}
-            i18n={i18n}
-            onMouseEnter={onControlsMouseEnter}
-            onMouseLeave={onControlsMouseLeave}
-            onClick={toggleVideo}
-          />
-          <CallingButton
-            buttonType={audioButtonType}
-            i18n={i18n}
-            onMouseEnter={onControlsMouseEnter}
-            onMouseLeave={onControlsMouseLeave}
-            onClick={toggleAudio}
-          />
-          <CallingButton
-            buttonType={CallingButtonType.HANG_UP}
-            i18n={i18n}
-            onMouseEnter={onControlsMouseEnter}
-            onMouseLeave={onControlsMouseLeave}
-            onClick={hangUp}
-          />
+          >
+            <Button
+              className="CallControls__JoinLeaveButton CallControls__JoinLeaveButton--hangup"
+              onClick={hangUp}
+              variant={ButtonVariant.Destructive}
+            >
+              {isGroupCall
+                ? i18n('icu:CallControls__JoinLeaveButton--hangup-group')
+                : i18n('icu:CallControls__JoinLeaveButton--hangup-1-1')}
+            </Button>
+          </div>
         </div>
         <div className="module-ongoing-call__footer__local-preview">
           {localPreviewNode}

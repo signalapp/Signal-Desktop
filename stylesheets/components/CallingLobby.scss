@@ -8,6 +8,10 @@
 
     &--camera-is-on {
       @include lonely-local-video-preview;
+      top: 15px;
+      height: 100%;
+      max-height: calc(100% - 127px);
+      width: auto;
       opacity: 0.6;
     }
 

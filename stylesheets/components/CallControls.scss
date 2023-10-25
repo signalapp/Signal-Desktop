@@ -1,0 +1,108 @@
+// Copyright 2023 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.CallControls {
+  position: static;
+  bottom: 0;
+  display: flex;
+  flex-grow: 0;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: space-between;
+  width: 480px;
+  min-width: 480px;
+  height: 80px;
+  background-color: $color-gray-78;
+  border-radius: 18px;
+  margin-block-end: 16px;
+  padding-block: 22px;
+  padding-inline: 24px;
+  text-align: center;
+}
+
+.CallControls__InfoDisplay {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  text-align: start;
+}
+
+.CallControls__CallTitle {
+  display: flex;
+  max-height: 40px;
+  color: $color-gray-15;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 20px;
+  overflow: hidden;
+}
+
+.CallControls__Status {
+  display: flex;
+  min-height: 18px;
+  max-height: 36px;
+  color: $color-gray-20;
+  font-size: 13px;
+  line-height: 18px;
+  overflow: hidden;
+
+  @include keyboard-mode {
+    &:focus-within {
+      outline: 2px solid $color-ultramarine;
+      outline-offset: 2px;
+    }
+  }
+}
+
+.CallControls__Status--ParticipantCount {
+  @include button-reset;
+  display: flex;
+  flex-basis: 100%;
+  align-items: center;
+  &::after {
+    content: '';
+    display: flex;
+    width: 14px;
+    height: 14px;
+    margin-inline-start: 1px;
+    @include color-svg(
+      '../images/icons/v3/chevron/chevron-right.svg',
+      $color-gray-20
+    );
+  }
+}
+
+.CallControls__ButtonContainer {
+  display: flex;
+}
+
+.CallControls__JoinLeaveButtonContainer {
+  display: flex;
+  flex: 1;
+  justify-content: end;
+}
+
+.CallControls__JoinLeaveButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  line-height: 17px;
+  padding-block: 7px;
+  padding-inline: 16px;
+  border-radius: 40px;
+
+  @include keyboard-mode {
+    &:focus {
+      box-shadow: 0 0 0 1px $color-gray-80, 0 0 0 3px $color-ultramarine !important;
+    }
+  }
+}
+
+.CallControls__JoinLeaveButton--hangup {
+  background-color: $color-accent-red;
+}
+
+.CallControls__JoinLeaveButton .module-spinner__container {
+  margin-block: -5px;
+}

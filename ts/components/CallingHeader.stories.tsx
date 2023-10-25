@@ -24,9 +24,7 @@ export default {
     isGroupCall: false,
     message: '',
     participantCount: 0,
-    showParticipantsList: false,
     title: 'With Someone',
-    toggleParticipants: action('toggle-participants'),
     togglePip: action('toggle-pip'),
     toggleSettings: action('toggle-settings'),
   },
@@ -52,14 +50,7 @@ export function WithParticipants(args: PropsType): JSX.Element {
 }
 
 export function WithParticipantsShown(args: PropsType): JSX.Element {
-  return (
-    <CallingHeader
-      {...args}
-      isGroupCall
-      participantCount={10}
-      showParticipantsList
-    />
-  );
+  return <CallingHeader {...args} isGroupCall participantCount={10} />;
 }
 
 export function LongTitle(args: PropsType): JSX.Element {

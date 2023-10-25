@@ -3568,21 +3568,6 @@ button.module-image__border-overlay:focus {
     }
   }
 
-  &__buttons {
-    bottom: 0;
-    display: flex;
-    justify-content: center;
-    padding-bottom: 32px;
-    padding-top: 32px;
-    position: absolute;
-    text-align: center;
-    width: 100%;
-
-    &--inline {
-      position: static;
-    }
-  }
-
   &__background {
     align-items: center;
     display: flex;
@@ -3648,8 +3633,8 @@ button.module-image__border-overlay:focus {
 }
 
 .module-ongoing-call {
-  $local-preview-width: 136px;
-  $local-preview-height: 102px;
+  $local-preview-width: 107px;
+  $local-preview-height: 80px;
 
   &__remote-video-enabled {
     background-color: $color-gray-95;
@@ -3817,7 +3802,7 @@ button.module-image__border-overlay:focus {
 
     line-height: 0;
     overflow: hidden;
-    border-radius: 5px;
+    border-radius: 10px;
     // stylelint-disable-next-line declaration-property-value-disallowed-list
     transform: translate(0, 0);
     transition: transform 200ms linear, width 200ms linear, height 200ms linear;
@@ -3829,7 +3814,7 @@ button.module-image__border-overlay:focus {
       width: 100%;
       height: 100%;
       border: 0 solid transparent;
-      border-radius: 5px;
+      border-radius: 10px;
       transition-property: border-width, border-color;
       // Turn on the transition when the user stops speaking to fade out.
       transition-duration: 300ms;
@@ -3918,14 +3903,13 @@ button.module-image__border-overlay:focus {
   }
 
   &__local-preview-fullsize {
-    align-items: center;
-    display: flex;
-    height: 100%;
-    justify-content: center;
-    inset-inline-start: 0;
     position: absolute;
     top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
+    height: 100%;
     z-index: $z-index-negative;
 
     video {
@@ -3959,14 +3943,15 @@ button.module-image__border-overlay:focus {
     &__local-preview-offset {
       flex: 1 0;
       max-width: $local-preview-width;
+      margin-inline-start: 16px;
       visibility: hidden;
     }
 
     &__local-preview {
-      border-radius: 5px;
+      border-radius: 10px;
       display: flex;
       height: $local-preview-height;
-      margin-block: 2px 16px;
+      margin-block-end: 16px;
       margin-inline: 0 16px;
       overflow: hidden;
       position: relative;
@@ -4020,7 +4005,11 @@ button.module-image__border-overlay:focus {
   width: 100%;
 
   &__button {
-    margin-inline-end: 25px;
+    margin-inline-end: 16px;
+  }
+
+  &__button:last-child {
+    margin-inline-end: 24px;
   }
 }
 
@@ -4118,24 +4107,32 @@ button.module-image__border-overlay:focus {
 }
 
 .module-calling-participants-list {
+  display: flex;
+  flex-direction: column;
+  width: 320px;
+  height: 440px;
   background-color: $color-gray-80;
-  border-radius: 8px;
+  border-radius: 10px;
   color: $color-white;
-  margin-inline-end: 12px;
-  margin-top: 54px;
+  filter: drop-shadow(0px 4px 3px $color-black-alpha-20);
+  margin-inline-end: 340px;
+  margin-block-end: 85px;
+  margin-block-start: 20px;
+  outline: 1px solid $color-gray-62;
   overflow: hidden;
-  padding: 14px;
-  width: 280px;
-  padding-bottom: 0;
+  padding-block: 5px 0;
+  padding-inline: 5px;
 
   &__overlay {
+    position: absolute;
+    top: 0;
     display: flex;
+    flex-direction: column;
+    align-items: center;
     width: var(--window-width);
     height: var(--window-height);
     justify-content: flex-end;
     inset-inline-start: 0;
-    position: absolute;
-    top: 0;
     z-index: $z-index-calling;
   }
 
@@ -4149,36 +4146,34 @@ button.module-image__border-overlay:focus {
 
   &__list {
     height: 100%;
-    margin-bottom: 0;
-    margin-inline: -14px;
-    margin-top: 22px;
-    overflow: scroll;
-    padding-bottom: 24px;
-    padding-inline: 14px;
-    padding-top: 0;
+    overflow: auto;
+    margin: 0;
+    padding-block: 0;
+    padding-inline: 0;
 
     &::-webkit-scrollbar {
-      width: 6px;
+      width: 4px;
     }
 
-    &::-webkit-scrollbar-thumb {
-      border: none;
-      border-radius: 4px;
-      background-color: $color-gray-45;
-    }
-
+    &::-webkit-scrollbar-corner,
     &::-webkit-scrollbar-track {
-      background-color: $color-gray-80;
+      background: transparent;
     }
   }
 
   &__contact {
     @include font-body-1;
-    align-items: center;
     display: flex;
+    align-items: center;
     justify-content: space-between;
+    margin-block: 2px;
+    padding-block: 5px;
+    padding-inline: 10px;
     list-style-type: none;
-    margin-bottom: 16px;
+    border-radius: 6px;
+    &:hover {
+      background-color: $color-gray-62;
+    }
   }
 
   &__avatar-and-name {
@@ -4189,6 +4184,7 @@ button.module-image__border-overlay:focus {
 
   &__name {
     display: inline-block;
+    font-size: 13px;
     margin-inline-start: 8px;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -4199,6 +4195,9 @@ button.module-image__border-overlay:focus {
   &__header {
     display: flex;
     justify-content: space-between;
+    margin-block-end: 2px;
+    padding-block: 8px;
+    padding-inline: 10px 5px;
   }
 
   &__close {
@@ -4206,15 +4205,20 @@ button.module-image__border-overlay:focus {
 
     @include color-svg('../images/icons/v3/x/x.svg', $color-gray-15);
 
-    height: 20px;
-    width: 20px;
+    height: 18px;
+    width: 18px;
     z-index: $z-index-above-base;
 
     @include keyboard-mode {
       &:focus {
-        outline: 2px solid $color-ultramarine;
+        background: $color-ultramarine;
       }
     }
+  }
+
+  &__status {
+    display: flex;
+    flex-basis: 64px;
   }
 
   &__muted {
@@ -4224,9 +4228,9 @@ button.module-image__border-overlay:focus {
         $color-white
       );
       display: inline-block;
-      margin-inline-start: 18px;
-      height: 18px;
-      width: 18px;
+      margin-inline-start: 16px;
+      height: 16px;
+      width: 16px;
     }
 
     &--audio {
@@ -4235,9 +4239,9 @@ button.module-image__border-overlay:focus {
         $color-white
       );
       display: inline-block;
-      margin-inline-start: 18px;
-      height: 18px;
-      width: 18px;
+      margin-inline-start: 16px;
+      height: 16px;
+      width: 16px;
     }
   }
 
@@ -4247,9 +4251,9 @@ button.module-image__border-overlay:focus {
       $color-white
     );
     display: inline-block;
-    margin-inline-start: 18px;
-    height: 18px;
-    width: 18px;
+    margin-inline-start: 16px;
+    height: 16px;
+    width: 16px;
   }
 }
 
