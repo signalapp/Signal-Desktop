@@ -27,6 +27,7 @@
   transform: translateX(100%);
   will-change: transform;
   width: 25vw;
+  min-width: 350px; // because the disappear messages don't render well with less than this, and 25vw can be less than that
   z-index: 5;
 
   background-color: var(--background-primary-color);

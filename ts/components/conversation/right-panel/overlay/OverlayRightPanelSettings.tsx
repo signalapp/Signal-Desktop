@@ -302,6 +302,7 @@ export const OverlayRightPanelSettings = () => {
           <SpacerLG />
         </>
       )}
+
       {showUpdateGroupNameButton && (
         <StyledGroupSettingsItem
           className="right-panel-item"
@@ -347,6 +348,8 @@ export const OverlayRightPanelSettings = () => {
           {window.i18n('groupMembers')}
         </StyledGroupSettingsItem>
       )}
+      <SpacerLG />
+      <SpacerLG />
 
       {hasDisappearingMessages && (
         /* TODO Move ButtonGroup around all settings items */
@@ -354,6 +357,7 @@ export const OverlayRightPanelSettings = () => {
           <PanelIconButton
             iconType={'timer50'}
             text={window.i18n('disappearingMessages')}
+            dataTestId="disappearing-messages"
             onClick={() => {
               dispatch(setRightOverlayMode('disappearing-messages'));
             }}

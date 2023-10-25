@@ -1,15 +1,13 @@
 import { v4 as uuid } from 'uuid';
 
-import { SignalService } from '../../../../protobuf';
-import { MessageParams } from '../Message';
 import { ContentMessage } from '..';
-import { PubKey } from '../../../types';
 import { getMessageQueue } from '../../..';
-import { getConversationController } from '../../../conversations';
-import { UserUtils } from '../../../utils';
-import { SettingsKey } from '../../../../data/settings-key';
-import { Storage } from '../../../../util/storage';
+import { SignalService } from '../../../../protobuf';
 import { SnodeNamespaces } from '../../../apis/snode_api/namespaces';
+import { getConversationController } from '../../../conversations';
+import { PubKey } from '../../../types';
+import { UserUtils } from '../../../utils';
+import { MessageParams } from '../Message';
 
 interface DataExtractionNotificationMessageParams extends MessageParams {
   referencedAttachmentTimestamp: number;
@@ -54,13 +52,7 @@ export const sendDataExtractionNotification = async (
   referencedAttachmentTimestamp: number
 ) => {
   const convo = getConversationController().get(conversationId);
-  if (
-    !convo ||
-    !convo.isPrivate() ||
-    convo.isMe() ||
-    UserUtils.isUsFromCache(attachmentSender) ||
-    !Storage.get(SettingsKey.settingsReadReceipt)
-  ) {
+  if (!convo || !convo.isPrivate() || convo.isMe() || UserUtils.isUsFromCache(attachmentSender)) {
     window.log.warn('Not sending saving attachment notification for', attachmentSender);
     return;
   }

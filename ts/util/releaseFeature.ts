@@ -100,7 +100,10 @@ async function checkIsUserConfigFeatureReleased() {
 }
 
 async function checkIsDisappearMessageV2FeatureReleased() {
-  return checkIsFeatureReleased('disappearing_messages');
+  return (
+    (await checkIsFeatureReleased('disappearing_messages')) ||
+    !!process.env.MULTI?.toLocaleLowerCase().includes('disappear_v2') // FIXME to remove after QA
+  );
 }
 
 function isUserConfigFeatureReleasedCached(): boolean {
@@ -109,7 +112,10 @@ function isUserConfigFeatureReleasedCached(): boolean {
 
 // NOTE Make sure to call checkIsDisappearMessageV2FeatureReleased at least once and then use this. It's mostly used in components that are rendered where we don't want to do async calls
 function isDisappearMessageV2FeatureReleasedCached(): boolean {
-  return !!isDisappearingMessageFeatureReleased;
+  return (
+    !!isDisappearingMessageFeatureReleased ||
+    !!process.env.MULTI?.toLocaleLowerCase().includes('disappear_v2') // FIXME to remove after QA
+  );
 }
 
 export const ReleasedFeatures = {
@@ -118,12 +124,3 @@ export const ReleasedFeatures = {
   isUserConfigFeatureReleasedCached,
   isDisappearMessageV2FeatureReleasedCached,
 };
-
-// TODO DO NOT MERGE Remove after QA
-async function setIsFeatureReleased(featureName: FeatureNameTracked, value: boolean) {
-  await Storage.put(featureStorageItemId(featureName), value);
-  setIsFeatureReleasedCached(featureName, value);
-  window.log.debug(`WIP: [releaseFeature]: ${featureName} ${value}`);
-}
-
-window.setIsFeatureReleased = setIsFeatureReleased;
