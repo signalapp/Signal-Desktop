@@ -6812,9 +6812,9 @@
     "messageformat": "On s’était toujours dit que ça n’arriverait jamais… qu’on ne ferait pas comme les autres applications qui publient toujours les mêmes notes de mise à jour… et pourtant, notre nouvelle version comprend aussi « des corrections de bugs et des améliorations de l’interface utilisateur. »"
   },
   "icu:WhatsNew__v6.36--0": {
-    "messageformat": "We updated the user interface to better indicate when a group video call is reconnecting. Now you'll see blurred thumbnails instead of what used to look like an elaborate prank where everyone pretended to freeze at the same time."
+    "messageformat": "Nous avons mis à jour l’interface utilisateur pour mieux indiquer lorsque la connexion d’un appel vidéo de groupe est en cours. Le temps que la connexion se rétablisse, vous verrez désormais des avatars floutés au lieu de visages figés. Personne n’aime avoir l’impression de passer un entretien avec des personnes immobiles qui restent vous fixer…"
   },
   "icu:WhatsNew__v6.36--1": {
-    "messageformat": "The system tray icon will no longer appear pixelated on Ubuntu Linux, unless you've managed to get Ubuntu Linux running on an old smart refrigerator with a low-res screen."
+    "messageformat": "L’icône de la zone de notifications ne sera plus pixelisée sur Ubuntu Linux (à moins que vous fassiez fonctionner Ubuntu Linux sur un ancien frigo connecté doté d’un écran basse résolution)."
   }
 }

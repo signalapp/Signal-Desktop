@@ -6812,9 +6812,9 @@
     "messageformat": "Басқа қолданбалар сияқты жаңа нұсқа жайлы іш пыстырарлық ескертпелер жасамаймыз деп өзімізге уәде бергенбіз және бұл нұсқада шынымен де \"ақаулар түзетіліп, графикалық интерфейс жақсартылды.\""
   },
   "icu:WhatsNew__v6.36--0": {
-    "messageformat": "We updated the user interface to better indicate when a group video call is reconnecting. Now you'll see blurred thumbnails instead of what used to look like an elaborate prank where everyone pretended to freeze at the same time."
+    "messageformat": "Топтық видеоқоңырау үзіліп, қайта қосылған сәтін дұрыстап көрсету үшін пайдаланушы интерфейсін жаңарттық. Бұрын желі сигналы нашарлағанда, қатысушылардың барлығы бір уақытта қатып қалып, пранк деп ойлауға болатын еді. Енді сигнал шынымен нашарлағанда нобайлар бұлыңғырланып көрінеді."
   },
   "icu:WhatsNew__v6.36--1": {
-    "messageformat": "The system tray icon will no longer appear pixelated on Ubuntu Linux, unless you've managed to get Ubuntu Linux running on an old smart refrigerator with a low-res screen."
+    "messageformat": "Жүйе науасының белгішесі енді Ubuntu Linux жүйесінде пиксельденіп көрінбейтін болады. Әйтеуір Ubuntu Linux жүйесін ажыратымдылығы төмен экранды ескі компьютерде пайдаланбасаңыз болды."
   }
 }
