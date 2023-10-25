@@ -6812,9 +6812,9 @@
     "messageformat": "I kemi thënë vetes se nuk do ta bënim kurrë këtë, se nuk do të ishim si aplikacionet e tjera me deklaratat e tyre dembele publike, por ky përditësim me të vërtetë përfshin \"rregullime të gabimeve dhe përmirësime UX\"."
   },
   "icu:WhatsNew__v6.36--0": {
-    "messageformat": "We updated the user interface to better indicate when a group video call is reconnecting. Now you'll see blurred thumbnails instead of what used to look like an elaborate prank where everyone pretended to freeze at the same time."
+    "messageformat": "Ndërfaqja e përdoruesit u përditësua për të treguar më mirë se kur një thirrje me video në grup po rilidhet. Tani do të shohësh miniatura të paqarta në vend të asaj që dikur dukej si një shaka e mirëmenduar ku të gjithë pretendonin se ngrinin në të njëjtën kohë."
   },
   "icu:WhatsNew__v6.36--1": {
-    "messageformat": "The system tray icon will no longer appear pixelated on Ubuntu Linux, unless you've managed to get Ubuntu Linux running on an old smart refrigerator with a low-res screen."
+    "messageformat": "Ikona e kutisë së sistemit nuk do të shfaqet më e pikseluar në Ubuntu Linux, përveç nëse arrin ta përdorësh Ubuntu Linux në një frigorifer të vjetër inteligjent me ekran me rezolucion të ulët."
   }
 }
