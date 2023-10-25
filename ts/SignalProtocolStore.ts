@@ -100,6 +100,20 @@ function validateIdentityKey(attrs: unknown): attrs is IdentityKeyType {
   identityKeySchema.parse(attrs);
   return true;
 }
+/*
+ * Potentially hundreds of items, so we'll group together sequences,
+ * take the first 10 of the sequences, format them as ranges,
+ * and log that once.
+ * => '1-10, 12, 14-20'
+ */
+function formatKeys(keys: Array<number>): string {
+  return formatGroups(
+    groupWhile(keys.sort(), (a, b) => a + 1 === b).slice(0, 10),
+    '-',
+    ', ',
+    String
+  );
+}
 
 type HasIdType<T> = {
   id: T;
@@ -527,6 +541,7 @@ export class SignalProtocolStore extends EventEmitter {
 
     const ids = keyIds.map(keyId => this._getKeyId(ourServiceId, keyId));
 
+    log.info('removeKyberPreKeys: Removing kyber prekeys:', formatKeys(keyIds));
     const changes = await window.Signal.Data.removeKyberPreKeyById(ids);
     log.info(`removeKyberPreKeys: Removed ${changes} kyber prekeys`);
     ids.forEach(id => {
@@ -647,19 +662,7 @@ export class SignalProtocolStore extends EventEmitter {
 
     const ids = keyIds.map(keyId => this._getKeyId(ourServiceId, keyId));
 
-    log.info(
-      'removePreKeys: Removing prekeys:',
-      // Potentially hundreds of items, so we'll group together sequences,
-      // take the first 10 of the sequences, format them as ranges,
-      // and log that once.
-      // => '1-10, 12, 14-20'
-      formatGroups(
-        groupWhile(keyIds.sort(), (a, b) => a + 1 === b).slice(0, 10),
-        '-',
-        ', ',
-        String
-      )
-    );
+    log.info('removePreKeys: Removing prekeys:', formatKeys(keyIds));
 
     const changes = await window.Signal.Data.removePreKeyById(ids);
     log.info(`removePreKeys: Removed ${changes} prekeys`);
@@ -807,6 +810,10 @@ export class SignalProtocolStore extends EventEmitter {
 
     const ids = keyIds.map(keyId => this._getKeyId(ourServiceId, keyId));
 
+    log.info(
+      'removeSignedPreKeys: Removing signed prekeys:',
+      formatKeys(keyIds)
+    );
     await window.Signal.Data.removeSignedPreKeyById(ids);
     ids.forEach(id => {
       signedPreKeyCache.delete(id);
