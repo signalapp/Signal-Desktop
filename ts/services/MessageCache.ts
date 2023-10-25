@@ -14,6 +14,8 @@ import { getSenderIdentifier } from '../util/getSenderIdentifier';
 import { isNotNil } from '../util/isNotNil';
 import { map } from '../util/iterables';
 import { softAssert, strictAssert } from '../util/assert';
+import { isStory } from '../messages/helpers';
+import { getStoryDataFromMessageAttributes } from './storyLoader';
 
 export class MessageCache {
   private state = {
@@ -197,6 +199,21 @@ export class MessageCache {
     this.markModelStale(nextMessageAttributes);
 
     if (window.reduxActions) {
+      if (isStory(nextMessageAttributes)) {
+        const storyData = getStoryDataFromMessageAttributes({
+          ...nextMessageAttributes,
+        });
+
+        if (!storyData) {
+          return;
+        }
+
+        window.reduxActions.stories.storyChanged(storyData);
+
+        // We don't want messageChanged to run
+        return;
+      }
+
       window.reduxActions.conversations.messageChanged(
         messageId,
         nextMessageAttributes.conversationId,
