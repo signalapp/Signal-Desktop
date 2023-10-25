@@ -57,14 +57,15 @@ export function ConversationView({
 
   const onPaste = React.useCallback(
     (event: React.ClipboardEvent<HTMLDivElement>) => {
-      event.stopPropagation();
-      event.preventDefault();
-
       if (!event.clipboardData) {
         return;
       }
       const { items } = event.clipboardData;
+
       const fileItems = [...items].filter(item => item.kind === 'file');
+      if (fileItems.length === 0) {
+        return;
+      }
 
       const allVisual = fileItems.every(item => {
         const type = item.type.split('/')[0];
@@ -84,6 +85,9 @@ export function ConversationView({
           files,
         });
 
+        event.stopPropagation();
+        event.preventDefault();
+
         return;
       }
 
@@ -93,6 +97,9 @@ export function ConversationView({
           conversationId,
           files: [firstAttachment],
         });
+
+        event.stopPropagation();
+        event.preventDefault();
       }
     },
     [conversationId, processAttachments]
