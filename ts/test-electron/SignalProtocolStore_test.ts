@@ -71,6 +71,7 @@ describe('SignalProtocolStore', () => {
 
       proto.currentSession.rootKey = getPrivateKey();
       proto.currentSession.sessionVersion = 3;
+      proto.currentSession.senderChain = {};
     }
 
     return SessionRecord.deserialize(

@@ -96,7 +96,7 @@
     "@react-aria/utils": "3.16.0",
     "@react-spring/web": "9.5.5",
     "@signalapp/better-sqlite3": "8.5.2",
-    "@signalapp/libsignal-client": "0.31.0",
+    "@signalapp/libsignal-client": "0.32.1",
     "@signalapp/ringrtc": "2.33.0",
     "@signalapp/windows-dummy-keystroke": "1.0.0",
     "@types/fabric": "4.5.3",
