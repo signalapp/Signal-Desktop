@@ -16,6 +16,7 @@ import classNames from 'classnames';
 import { v4 as uuid } from 'uuid';
 import { useIsMounted } from '../hooks/useIsMounted';
 import type { LocalizerType } from '../types/I18N';
+import { usePrevious } from '../hooks/usePrevious';
 
 const DEFAULT_LIFETIME = 5000;
 
@@ -55,11 +56,14 @@ const CallingToastContext = createContext<CallingToastContextType | null>(null);
 export function CallingToastProvider({
   i18n,
   children,
+  maxToasts = 5,
 }: {
   i18n: LocalizerType;
   children: React.ReactNode;
+  maxToasts?: number;
 }): JSX.Element {
   const [toasts, setToasts] = React.useState<Array<CallingToastStateType>>([]);
+  const previousToasts = usePrevious([], toasts);
   const timeouts = React.useRef<Map<string, TimeoutType>>(new Map());
   // All toasts are paused on hover or focus so that toasts don't disappear while a user
   // is attempting to interact with them
@@ -67,17 +71,21 @@ export function CallingToastProvider({
   const shownToasts = React.useRef<Set<string>>(new Set());
   const isMounted = useIsMounted();
 
+  const clearToastTimeout = useCallback((key: string) => {
+    const timeout = timeouts.current.get(key);
+    if (timeout?.status === 'active') {
+      clearTimeout(timeout.timeout);
+    }
+    timeouts.current.delete(key);
+  }, []);
+
   const hideToast = useCallback(
     (key: string) => {
       if (!isMounted()) {
         return;
       }
 
-      const timeout = timeouts.current.get(key);
-      if (timeout?.status === 'active') {
-        clearTimeout(timeout.timeout);
-      }
-      timeouts.current.delete(key);
+      clearToastTimeout(key);
 
       setToasts(state => {
         const existingIndex = state.findIndex(toast => toast.key === key);
@@ -92,7 +100,7 @@ export function CallingToastProvider({
         ];
       });
     },
-    [isMounted]
+    [isMounted, clearToastTimeout]
   );
 
   const startTimer = useCallback(
@@ -127,17 +135,24 @@ export function CallingToastProvider({
           return state;
         }
 
+        if (state.length === maxToasts) {
+          const toastToBePushedOut = state.at(-1);
+          if (toastToBePushedOut) {
+            clearToastTimeout(toastToBePushedOut.key);
+          }
+        }
+
         if (toast.autoClose) {
           startTimer(key, DEFAULT_LIFETIME);
         }
         shownToasts.current.add(key);
 
-        return [{ ...toast, key }, ...state];
+        return [{ ...toast, key }, ...state.slice(0, maxToasts - 1)];
       });
 
       return key;
     },
-    [startTimer]
+    [startTimer, clearToastTimeout, maxToasts]
   );
 
   const pauseAll = useCallback(() => {
@@ -181,7 +196,15 @@ export function CallingToastProvider({
   const TOAST_HEIGHT_PX = 42;
   const TOAST_GAP_PX = 8;
   const transitions = useTransition(toasts, {
-    from: { opacity: 0, marginTop: `${-1 * TOAST_HEIGHT_PX}px` },
+    from: item => ({
+      opacity: 0,
+      marginTop:
+        // If this is the first toast shown, or if this is replacing the
+        // first toast, we just fade-in (and don't slide down)
+        previousToasts.length === 0 || item.key === previousToasts[0].key
+          ? '0px'
+          : `${-1 * TOAST_HEIGHT_PX}px`,
+    }),
     enter: {
       opacity: 1,
       zIndex: 1,
@@ -196,28 +219,34 @@ export function CallingToastProvider({
         return {};
       },
     },
-    leave: (_item, index) => ({
-      zIndex: 0,
-      opacity: 0,
-      marginTop:
-        // If the last toast in the list is leaving, we don't need to move it up. Its
-        // index is toasts.length instead of toasts.length - 1 since it has already been
-        // removed from state
-        index === toasts.length
-          ? '0px'
-          : `${-1 * (TOAST_HEIGHT_PX + TOAST_GAP_PX)}px`,
-      config: (key: string) => {
-        if (key === 'zIndex') {
-          return { duration: 0 };
-        }
-        if (key === 'opacity') {
-          return { duration: 100 };
-        }
-        return {
-          duration: 300,
-        };
-      },
-    }),
+    leave: item => {
+      return {
+        zIndex: 0,
+        opacity: 0,
+        // If the last toast in the list is leaving, we don't need to move it up.
+        marginTop:
+          previousToasts.findIndex(toast => toast.key === item.key) ===
+          previousToasts.length - 1
+            ? '0px'
+            : `${-1 * (TOAST_HEIGHT_PX + TOAST_GAP_PX)}px`,
+        // If this toast is being replaced by another one with the same key, immediately
+        // hide it
+        display: toasts.some(toast => toast.key === item.key)
+          ? 'none'
+          : 'block',
+        config: (key: string) => {
+          if (key === 'zIndex') {
+            return { duration: 0 };
+          }
+          if (key === 'opacity') {
+            return { duration: 100 };
+          }
+          return {
+            duration: 300,
+          };
+        },
+      };
+    },
   });
 
   const contextValue = useMemo(() => {
