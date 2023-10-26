@@ -34,7 +34,7 @@ export const TimeOptions = (props: TimerOptionsProps) => {
                 setSelected(option.value);
               }}
               disabled={disabled}
-              dataTestId={option.name.replace(' ', '-')} // we want just "1-minute", etc as accessibility id
+              dataTestId={`time-option-${option.name.replace(' ', '-')}`} // we want  "time-option-1-minute", etc as accessibility id
             />
           );
         })}
