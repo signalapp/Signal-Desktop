@@ -2304,6 +2304,10 @@
   },
   "icu:ToastManager__CannotEditMessage": {
     "messageformat": "Edits can only be applied within 3 hours from the time you sent this message.",
+    "description": "(deleted 2023/10/26) Error message when you try to send an edit after message becomes too old"
+  },
+  "icu:ToastManager__CannotEditMessage_24": {
+    "messageformat": "Edits can only be applied within 24 hours from the time you sent this message.",
     "description": "Error message when you try to send an edit after message becomes too old"
   },
   "icu:startConversation--username-not-found": {
