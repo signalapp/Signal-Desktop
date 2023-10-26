@@ -1,4 +1,6 @@
 import { shell } from 'electron';
+import { readFileSync } from 'fs';
+import path from 'path';
 import React from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,8 +8,6 @@ import useHover from 'react-use/lib/useHover';
 import styled from 'styled-components';
 
 import { CityResponse, Reader } from 'maxmind';
-import { readFileSync } from 'fs';
-import path from 'path';
 import { Snode } from '../../data/data';
 import { onionPathModal } from '../../state/ducks/modalDialog';
 import {
@@ -80,8 +80,8 @@ const OnionCountryDisplay = ({ labelText, snodeIp }: { snodeIp?: string; labelTe
 const OnionPathModalInner = () => {
   const onionPath = useSelector(getFirstOnionPath);
   const isOnline = useSelector(getIsOnline);
-  // including the device and destination in calculation
   const glowDuration = onionPath.length + 2;
+
   if (!isOnline || !onionPath || onionPath.length === 0) {
     return <SessionSpinner loading={true} />;
   }
@@ -96,12 +96,10 @@ const OnionPathModalInner = () => {
     },
   ];
 
-  // Ensure we can always find the GeoLite2 database, regardless of whether
-  // this is a dev or a prod build.
   const binPath = (process.env.NODE_APP_INSTANCE || '').startsWith('devprod')
     ? path.resolve(`${__dirname}/../../..`)
     : path.resolve(`${process.resourcesPath}/..`);
-  const buffer = readFileSync(`${binPath}/mmdb/GeoLite2-City.mmdb`);
+  const buffer = readFileSync(`${binPath}/mmdb/GeoLite2-Country.mmdb`);
   const reader = new Reader<CityResponse>(buffer);
   const lang = 'en';
 
@@ -114,7 +112,6 @@ const OnionPathModalInner = () => {
         <Flex container={true}>
           <StyledLightsContainer>
             <StyledVerticalLine />
-
             <Flex container={true} flexDirection="column" alignItems="center" height="100%">
               {nodes.map((_snode: Snode | any, index: number) => {
                 return (
@@ -128,33 +125,18 @@ const OnionPathModalInner = () => {
             </Flex>
           </StyledLightsContainer>
           <Flex container={true} flexDirection="column" alignItems="flex-start">
-            {nodes.map((snode: Snode | any, index: number) => {
-	      const geoLookup = reader.get(snode.ip || '0.0.0.0');
-	      const cityName = geoLookup?.city?.names[lang];
-	      const countryName = geoLookup?.country?.names[lang];
-	      //const isoCode = geoLookup?.country?.iso_code;
+            {nodes.map((snode: Snode | any) => {
+              const geoLookup = reader.get(snode.ip || '0.0.0.0');
+              const countryName = geoLookup?.country?.names[lang] || window.i18n('unknownCountry');
+              const labelText = snode.label || countryName;
 
-	      // If the city is unknown, or the city and country are identical
-	      // (e.g. Luxembourg or Singapore), use just the country.
-	      const cityCountry = cityName
-		? cityName === countryName
-		  ? countryName
-		  : `${cityName}, ${countryName}`
-		: countryName
-
-              let labelText = snode.label
-                ? snode.label
-                : cityCountry
-              if (!labelText) {
-                labelText = window.i18n('unknownCountry');
-              }
-              return labelText ? (
+              return (
                 <OnionCountryDisplay
                   labelText={labelText}
                   snodeIp={snode.ip}
                   key={`country-${snode.ip}`}
                 />
-              ) : null;
+              );
             })}
           </Flex>
         </Flex>
