@@ -3022,6 +3022,13 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/CallingToastManager.tsx",
+    "line": "  const toastRegionRef = useRef<HTMLDivElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2023-10-26T13:57:41.860Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/CallsList.tsx",
     "line": "  const infiniteLoaderRef = useRef<InfiniteLoader>(null);",
     "reasonCategory": "usageTrusted",
