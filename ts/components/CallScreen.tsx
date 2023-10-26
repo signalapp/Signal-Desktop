@@ -35,7 +35,7 @@ import {
 import { AvatarColors } from '../types/Colors';
 import type { ConversationType } from '../state/ducks/conversations';
 import {
-  useMutedToast,
+  CallingButtonToastsContainer,
   useReconnectingToast,
   useScreenSharingStoppedToast,
 } from './CallingToastManager';
@@ -251,7 +251,6 @@ export function CallScreen({
     };
   }, [toggleAudio, toggleVideo]);
 
-  useMutedToast(hasLocalAudio, i18n);
   useReconnectingToast({ activeCall, i18n });
   useScreenSharingStoppedToast({ activeCall, i18n });
 
@@ -546,6 +545,13 @@ export function CallScreen({
             <div className="CallControls__CallTitle">{conversation.title}</div>
             <div className="CallControls__Status">{callStatus}</div>
           </div>
+
+          <CallingButtonToastsContainer
+            hasLocalAudio={hasLocalAudio}
+            outgoingRing={undefined}
+            i18n={i18n}
+          />
+
           <div className="CallControls__ButtonContainer">
             <CallingButton
               buttonType={presentingButtonType}

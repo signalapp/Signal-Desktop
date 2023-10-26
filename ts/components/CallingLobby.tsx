@@ -24,7 +24,7 @@ import { useIsOnline } from '../hooks/useIsOnline';
 import * as KeyboardLayout from '../services/keyboardLayout';
 import type { ConversationType } from '../state/ducks/conversations';
 import { useCallingToasts } from './CallingToast';
-import { useMutedToast } from './CallingToastManager';
+import { CallingButtonToastsContainer } from './CallingToastManager';
 
 export type PropsType = {
   availableCameras: Array<MediaDeviceInfo>;
@@ -228,9 +228,7 @@ export function CallingLobby({
     toggleParticipants,
   ]);
 
-  useMutedToast(hasLocalAudio, i18n);
   useWasInitiallyMutedToast(hasLocalAudio, i18n);
-  useOutgoingRingToast(isRingButtonVisible, outgoingRing, i18n);
 
   return (
     <FocusTrap>
@@ -283,6 +281,11 @@ export function CallingLobby({
             <div className="CallControls__CallTitle">{conversation.title}</div>
             <div className="CallControls__Status">{callStatus}</div>
           </div>
+          <CallingButtonToastsContainer
+            hasLocalAudio={hasLocalAudio}
+            outgoingRing={outgoingRing}
+            i18n={i18n}
+          />
           <div className="CallControls__ButtonContainer">
             <CallingButton
               buttonType={videoButtonType}
@@ -348,52 +351,4 @@ function useWasInitiallyMutedToast(
       hideToast(INITIALLY_MUTED_KEY);
     }
   }, [hideToast, wasInitiallyMuted, hasLocalAudio]);
-}
-
-function useOutgoingRingToast(
-  isRingButtonVisible: boolean,
-  outgoingRing: boolean,
-  i18n: LocalizerType
-): void {
-  const [previousOutgoingRing, setPreviousOutgoingRing] = React.useState<
-    undefined | boolean
-  >(undefined);
-  const { showToast, hideToast } = useCallingToasts();
-  const RINGING_TOAST_KEY = 'ringing';
-
-  React.useEffect(() => {
-    if (!isRingButtonVisible) {
-      return;
-    }
-
-    setPreviousOutgoingRing(outgoingRing);
-  }, [isRingButtonVisible, outgoingRing]);
-
-  React.useEffect(() => {
-    if (!isRingButtonVisible) {
-      return;
-    }
-
-    if (
-      previousOutgoingRing !== undefined &&
-      outgoingRing !== previousOutgoingRing
-    ) {
-      hideToast(RINGING_TOAST_KEY);
-      showToast({
-        key: RINGING_TOAST_KEY,
-        content: outgoingRing
-          ? i18n('icu:CallControls__RingingToast--ringing-on')
-          : i18n('icu:CallControls__RingingToast--ringing-off'),
-        autoClose: true,
-        dismissable: true,
-      });
-    }
-  }, [
-    isRingButtonVisible,
-    outgoingRing,
-    previousOutgoingRing,
-    hideToast,
-    showToast,
-    i18n,
-  ]);
 }
