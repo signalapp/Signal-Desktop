@@ -3551,7 +3551,7 @@ button.module-image__border-overlay:focus {
   &__header {
     color: #ffffff;
     font-style: normal;
-    padding-bottom: 24px;
+    padding-bottom: 19px;
     padding-top: calc(24px + var(--title-bar-drag-area-height));
     text-align: center;
     @include calling-text-shadow;
@@ -3670,7 +3670,6 @@ button.module-image__border-overlay:focus {
     top: 0;
     width: 100%;
     z-index: $z-index-above-base;
-    padding-bottom: 1rem;
     -webkit-app-region: drag;
   }
 
@@ -4001,11 +4000,11 @@ button.module-image__border-overlay:focus {
   display: flex;
   justify-content: flex-end;
   position: absolute;
-  top: calc(24px + var(--title-bar-drag-area-height));
+  top: calc(32px + var(--title-bar-drag-area-height));
   width: 100%;
 
   &__button {
-    margin-inline-end: 16px;
+    margin-inline-end: 12px;
   }
 
   &__button:last-child {
