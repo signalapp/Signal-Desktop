@@ -62,7 +62,7 @@ const Section = (props: { type: SectionType }) => {
     if (type === SectionType.Profile) {
       dispatch(editProfileModal({}));
     } else if (type === SectionType.ColorMode) {
-      const currentTheme = String(window.Events.getThemeSetting());
+      const currentTheme = window.Events.getThemeSetting();
       const newTheme = getOppositeTheme(currentTheme);
       // We want to persist the primary color when using the color mode button
       void switchThemeTo({
