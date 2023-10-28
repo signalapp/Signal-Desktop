@@ -147,7 +147,7 @@ describe('editing', function (this: Mocha.Suite) {
         .locator(`.module-message__text >> "${initialMessageBody}"`)
         .waitFor();
 
-      debug('waiting for receipts for original message');
+      debug('waiting for outgoing receipts for original message');
       const receipts = await app.waitForReceipts();
       assert.strictEqual(receipts.type, ReceiptType.Read);
       assert.strictEqual(receipts.timestamps.length, 1);

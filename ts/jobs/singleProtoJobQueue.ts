@@ -8,6 +8,7 @@ import * as Bytes from '../Bytes';
 import type { LoggerType } from '../types/Logging';
 import { exponentialBackoffMaxAttempts } from '../util/exponentialBackoff';
 import type { ParsedJob } from './types';
+import type { JOB_STATUS } from './JobQueue';
 import { JobQueue } from './JobQueue';
 import { jobQueueDatabaseStore } from './JobQueueDatabaseStore';
 import { DAY } from '../util/durations';
@@ -51,7 +52,7 @@ export class SingleProtoJobQueue extends JobQueue<SingleProtoJobData> {
       timestamp,
     }: Readonly<{ data: SingleProtoJobData; timestamp: number }>,
     { attempt, log }: Readonly<{ attempt: number; log: LoggerType }>
-  ): Promise<void> {
+  ): Promise<typeof JOB_STATUS.NEEDS_RETRY | undefined> {
     const timeRemaining = timestamp + MAX_RETRY_TIME - Date.now();
     const isFinalAttempt = attempt >= MAX_ATTEMPTS;
 
@@ -62,7 +63,7 @@ export class SingleProtoJobQueue extends JobQueue<SingleProtoJobData> {
       skipWait: false,
     });
     if (!shouldContinue) {
-      return;
+      return undefined;
     }
 
     const {
@@ -87,19 +88,19 @@ export class SingleProtoJobQueue extends JobQueue<SingleProtoJobData> {
       log.info(
         `conversation ${conversation.idForLogging()} is not accepted; refusing to send`
       );
-      return;
+      return undefined;
     }
     if (isConversationUnregistered(conversation.attributes)) {
       log.info(
         `conversation ${conversation.idForLogging()} is unregistered; refusing to send`
       );
-      return;
+      return undefined;
     }
     if (conversation.isBlocked()) {
       log.info(
         `conversation ${conversation.idForLogging()} is blocked; refusing to send`
       );
-      return;
+      return undefined;
     }
 
     const proto = Proto.Content.decode(Bytes.fromBase64(protoBase64));
@@ -133,6 +134,8 @@ export class SingleProtoJobQueue extends JobQueue<SingleProtoJobData> {
         toThrow: error,
       });
     }
+
+    return undefined;
   }
 }
 

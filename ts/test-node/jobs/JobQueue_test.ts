@@ -16,6 +16,7 @@ import { missingCaseError } from '../../util/missingCaseError';
 import { drop } from '../../util/drop';
 import type { LoggerType } from '../../types/Logging';
 
+import type { JOB_STATUS } from '../../jobs/JobQueue';
 import { JobQueue } from '../../jobs/JobQueue';
 import type { ParsedJob, StoredJob, JobQueueStore } from '../../jobs/types';
 import { sleep } from '../../util/sleep';
@@ -38,8 +39,13 @@ describe('JobQueue', () => {
           return testJobSchema.parse(data);
         }
 
-        async run({ data }: ParsedJob<TestJobData>): Promise<void> {
+        async run({
+          data,
+        }: ParsedJob<TestJobData>): Promise<
+          typeof JOB_STATUS.NEEDS_RETRY | undefined
+        > {
           results.add(data.a + data.b);
+          return undefined;
         }
       }
 
@@ -83,13 +89,15 @@ describe('JobQueue', () => {
           return z.number().parse(data);
         }
 
-        async run(): Promise<void> {
+        async run(): Promise<typeof JOB_STATUS.NEEDS_RETRY | undefined> {
           try {
             updateActiveJobCount(1);
             await sleep(1);
           } finally {
             updateActiveJobCount(-1);
           }
+
+          return undefined;
         }
       }
 
@@ -142,8 +150,8 @@ describe('JobQueue', () => {
           return testQueue;
         }
 
-        run(): Promise<void> {
-          return Promise.resolve();
+        run(): Promise<typeof JOB_STATUS.NEEDS_RETRY | undefined> {
+          return Promise.resolve(undefined);
         }
       }
 
@@ -175,8 +183,8 @@ describe('JobQueue', () => {
           return z.string().parse(data);
         }
 
-        async run(): Promise<void> {
-          return Promise.resolve();
+        async run(): Promise<typeof JOB_STATUS.NEEDS_RETRY | undefined> {
+          return Promise.resolve(undefined);
         }
       }
 
@@ -243,8 +251,8 @@ describe('JobQueue', () => {
           return z.string().parse(data);
         }
 
-        async run(): Promise<void> {
-          return Promise.resolve();
+        async run(): Promise<typeof JOB_STATUS.NEEDS_RETRY | undefined> {
+          return Promise.resolve(undefined);
         }
       }
 
@@ -291,7 +299,11 @@ describe('JobQueue', () => {
           return data;
         }
 
-        async run({ data }: ParsedJob<TestJobData>): Promise<void> {
+        async run({
+          data,
+        }: ParsedJob<TestJobData>): Promise<
+          typeof JOB_STATUS.NEEDS_RETRY | undefined
+        > {
           switch (data) {
             case 'foo':
               fooAttempts += 1;
@@ -308,6 +320,7 @@ describe('JobQueue', () => {
             default:
               throw missingCaseError(data);
           }
+          return undefined;
         }
       }
 
@@ -360,7 +373,7 @@ describe('JobQueue', () => {
         async run(
           _: unknown,
           { attempt }: Readonly<{ attempt: number }>
-        ): Promise<void> {
+        ): Promise<typeof JOB_STATUS.NEEDS_RETRY | undefined> {
           attempts.push(attempt);
           throw new Error('this job always fails');
         }
@@ -405,10 +418,12 @@ describe('JobQueue', () => {
         async run(
           _: unknown,
           { log }: Readonly<{ log: LoggerType }>
-        ): Promise<void> {
+        ): Promise<typeof JOB_STATUS.NEEDS_RETRY | undefined> {
           log.info(uniqueString);
           log.warn(uniqueString);
           log.error(uniqueString);
+
+          return undefined;
         }
       }
 
@@ -450,8 +465,8 @@ describe('JobQueue', () => {
           throw new Error('uh oh');
         }
 
-        async run(): Promise<void> {
-          return Promise.resolve();
+        async run(): Promise<typeof JOB_STATUS.NEEDS_RETRY | undefined> {
+          return Promise.resolve(undefined);
         }
       }
 
@@ -494,7 +509,9 @@ describe('JobQueue', () => {
           throw new Error('invalid data!');
         }
 
-        run(job: { data: string }): Promise<void> {
+        run(job: {
+          data: string;
+        }): Promise<typeof JOB_STATUS.NEEDS_RETRY | undefined> {
           return run(job);
         }
       }
@@ -528,8 +545,8 @@ describe('JobQueue', () => {
           throw new Error('invalid data!');
         }
 
-        async run(): Promise<void> {
-          return Promise.resolve();
+        async run(): Promise<typeof JOB_STATUS.NEEDS_RETRY | undefined> {
+          return Promise.resolve(undefined);
         }
       }
 
@@ -562,8 +579,8 @@ describe('JobQueue', () => {
           return undefined;
         }
 
-        async run(): Promise<void> {
-          return Promise.resolve();
+        async run(): Promise<typeof JOB_STATUS.NEEDS_RETRY | undefined> {
+          return Promise.resolve(undefined);
         }
       }
 
@@ -596,8 +613,9 @@ describe('JobQueue', () => {
           return data;
         }
 
-        async run(): Promise<void> {
+        async run(): Promise<typeof JOB_STATUS.NEEDS_RETRY | undefined> {
           events.push('running');
+          return undefined;
         }
       }
 
@@ -629,8 +647,8 @@ describe('JobQueue', () => {
           return undefined;
         }
 
-        async run(): Promise<void> {
-          return Promise.resolve();
+        async run(): Promise<typeof JOB_STATUS.NEEDS_RETRY | undefined> {
+          return Promise.resolve(undefined);
         }
       }
 
@@ -670,7 +688,7 @@ describe('JobQueue', () => {
           return undefined;
         }
 
-        async run(): Promise<void> {
+        async run(): Promise<typeof JOB_STATUS.NEEDS_RETRY | undefined> {
           events.push('running');
           throw new Error('uh oh');
         }
@@ -751,8 +769,13 @@ describe('JobQueue', () => {
           return z.number().parse(data);
         }
 
-        async run({ data }: Readonly<{ data: number }>): Promise<void> {
+        async run({
+          data,
+        }: Readonly<{ data: number }>): Promise<
+          typeof JOB_STATUS.NEEDS_RETRY | undefined
+        > {
           eventEmitter.emit('run', data);
+          return undefined;
         }
       }
 
@@ -794,8 +817,8 @@ describe('JobQueue', () => {
           return data;
         }
 
-        async run(): Promise<void> {
-          return Promise.resolve();
+        async run(): Promise<typeof JOB_STATUS.NEEDS_RETRY | undefined> {
+          return Promise.resolve(undefined);
         }
       }
 
@@ -827,8 +850,8 @@ describe('JobQueue', () => {
           return undefined;
         }
 
-        async run(): Promise<void> {
-          return Promise.resolve();
+        async run(): Promise<typeof JOB_STATUS.NEEDS_RETRY | undefined> {
+          return Promise.resolve(undefined);
         }
       }
 

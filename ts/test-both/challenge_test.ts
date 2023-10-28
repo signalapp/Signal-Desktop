@@ -57,6 +57,7 @@ describe('ChallengeHandler', () => {
       retryAt: NOW + DEFAULT_RETRY_AFTER,
       createdAt: NOW - SECOND,
       reason: 'test',
+      silent: false,
       ...options,
     };
   };
@@ -185,7 +186,7 @@ describe('ChallengeHandler', () => {
     await createHandler();
 
     for (const challenge of challenges) {
-      await handler.unregister(challenge.conversationId);
+      await handler.unregister(challenge.conversationId, 'test');
     }
 
     for (const challenge of challenges) {
@@ -223,7 +224,7 @@ describe('ChallengeHandler', () => {
       autoSolve: true,
       expireAfter: -1,
     });
-    await handler.unregister(one.conversationId);
+    await handler.unregister(one.conversationId, 'test');
 
     challengeStatus = 'idle';
     await newHandler.load();
