@@ -836,7 +836,7 @@ export async function handleDataExtractionNotification(
   await removeFromCache(envelope);
 
   const convo = getConversationController().get(source);
-  if (!convo || !convo.isPrivate() || !Storage.get(SettingsKey.settingsReadReceipt)) {
+  if (!convo || !convo.isPrivate()) {
     window?.log?.info(
       'Got DataNotification for unknown or non private convo or read receipt not enabled'
     );
