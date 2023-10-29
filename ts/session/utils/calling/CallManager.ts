@@ -917,7 +917,11 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
       expirationMode
     );
 
-    if (expirationMode === 'legacy' || expirationMode === 'deleteAfterSend') {
+    if (
+      expirationMode === 'legacy' ||
+      expirationMode === 'deleteAfterSend' ||
+      expirationMode === 'deleteAfterRead'
+    ) {
       expirationStartTimestamp = DisappearingMessages.setExpirationStartTimestamp(
         expirationMode,
         networkTimestamp,
@@ -1278,7 +1282,11 @@ async function addMissedCallMessage(callerPubkey: string, sentAt: number) {
       expirationMode
     );
 
-    if (expirationMode === 'legacy' || expirationMode === 'deleteAfterSend') {
+    if (
+      expirationMode === 'legacy' ||
+      expirationMode === 'deleteAfterSend' ||
+      expirationMode === 'deleteAfterRead'
+    ) {
       expirationStartTimestamp = DisappearingMessages.setExpirationStartTimestamp(
         expirationMode,
         sentAt,
