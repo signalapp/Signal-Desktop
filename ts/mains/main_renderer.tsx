@@ -123,7 +123,7 @@ ipcRenderer.on('native-theme-update', (__unused, shouldUseDarkColors) => {
         theme: newTheme,
         mainWindow: true,
         usePrimaryColor: true,
-        dispatch: window?.inboxStore?.dispatch || undefined,
+        dispatch: window?.inboxStore?.dispatch,
       });
     }
   }

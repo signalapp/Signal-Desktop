@@ -34,7 +34,7 @@ export async function ensureThemeConsistency(): Promise<boolean> {
           theme: newTheme,
           mainWindow: true,
           usePrimaryColor: true,
-          dispatch: window?.inboxStore?.dispatch || undefined,
+          dispatch: window?.inboxStore?.dispatch,
         });
         resolve(true); // Theme was switched
       } else {
