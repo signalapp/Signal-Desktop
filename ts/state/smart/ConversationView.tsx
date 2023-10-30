@@ -3,20 +3,21 @@
 
 import React from 'react';
 import { useSelector } from 'react-redux';
-import type { StateType } from '../reducer';
-import { ConversationPanel } from './ConversationPanel';
 import { ConversationView } from '../../components/conversation/ConversationView';
-import { SmartCompositionArea } from './CompositionArea';
-import { SmartConversationHeader } from './ConversationHeader';
-import { SmartTimeline } from './Timeline';
+import { useComposerActions } from '../ducks/composer';
+import { useConversationsActions } from '../ducks/conversations';
+import type { StateType } from '../reducer';
 import {
   getActivePanel,
   getIsPanelAnimating,
   getSelectedConversationId,
   getSelectedMessageIds,
 } from '../selectors/conversations';
-import { useComposerActions } from '../ducks/composer';
-import { useConversationsActions } from '../ducks/conversations';
+import { SmartCompositionArea } from './CompositionArea';
+import { SmartConversationHeader } from './ConversationHeader';
+import { ConversationPanel } from './ConversationPanel';
+import { SmartDocTimeline } from './DocTimeline';
+import { SmartTimeline } from './Timeline';
 
 export function SmartConversationView(): JSX.Element {
   const conversationId = useSelector(getSelectedConversationId);
@@ -45,6 +46,10 @@ export function SmartConversationView(): JSX.Element {
     return activePanel && !isAnimating;
   });
 
+  const docView = useSelector((state: StateType) => {
+    return state.docs.docViewEnabled;
+  });
+
   return (
     <ConversationView
       conversationId={conversationId}
@@ -54,13 +59,19 @@ export function SmartConversationView(): JSX.Element {
         toggleSelectMode(false);
       }}
       processAttachments={processAttachments}
-      renderCompositionArea={() => <SmartCompositionArea id={conversationId} />}
+      renderCompositionArea={() =>
+        docView ? <div /> : <SmartCompositionArea id={conversationId} />
+      }
       renderConversationHeader={() => (
         <SmartConversationHeader id={conversationId} />
       )}
-      renderTimeline={() => (
-        <SmartTimeline key={conversationId} id={conversationId} />
-      )}
+      renderTimeline={() =>
+        docView ? (
+          <SmartDocTimeline key={conversationId} id={conversationId} />
+        ) : (
+          <SmartTimeline key={conversationId} id={conversationId} />
+        )
+      }
       renderPanel={() => <ConversationPanel conversationId={conversationId} />}
       shouldHideConversationView={shouldHideConversationView}
     />

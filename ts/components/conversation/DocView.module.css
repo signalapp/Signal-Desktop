@@ -1,0 +1,92 @@
+import b64 from 'base64-js';
+import { exampleSetup } from 'prosemirror-example-setup';
+import { Schema } from 'prosemirror-model';
+import { schema } from 'prosemirror-schema-basic';
+import { addListNodes } from 'prosemirror-schema-list';
+import { EditorState } from 'prosemirror-state';
+import { EditorView } from 'prosemirror-view';
+import * as React from 'react';
+import * as Y from 'yjs';
+import { useProxySelector } from '../../hooks/useProxySelector';
+import { StateType } from '../../state/reducer';
+
+class YjsBridge {
+  private seenMessages = new Set<string>();
+
+  private readonly doc = new Y.Doc();
+  constructor(send: (message: any) => void) {
+    this.doc.on('update', (update, _origin) => {
+      debugger;
+      send(b64.fromByteArray(update));
+    });
+  }
+
+  public addMessage(message: any) {
+    if (this.seenMessages.has(message.id)) {
+      return;
+    }
+    this.seenMessages.add(message.id);
+    if (!message.startsWith('$$')) {
+      return;
+    }
+    Y.applyUpdate(this.doc, b64.toByteArray(message));
+  }
+}
+
+export function DocView(props: { messages: string[]; addMessage: () => void }) {
+  const manager = React.useMemo(
+    () => new YjsBridge(props.addMessage),
+    [props.addMessage]
+  );
+
+  React.useEffect(() => {
+    props.messages.forEach(m => {
+      manager.addMessage(m);
+    });
+  }, [manager, props.messages]);
+
+  const lookup = useProxySelector((state: StateType) => {
+    return state.conversations.messagesLookup;
+  });
+
+  // const messages = props.messages.map(id => lookup[id].body);
+  // return <div />;
+  // return
+  // const editor = useBlockNote({});
+
+  // Renders the editor instance using a React component.
+  // React.useEffect(async () => {
+  //   // const lib = await import('@blocknote/react');
+  //   console.log('HELLO', useBlockNote);
+  // }, []);
+
+  function setup(el: any) {
+    // Mix the nodes from prosemirror-schema-list into the basic schema to
+    // create a schema with list support.
+    const mySchema = new Schema({
+      nodes: addListNodes(schema.spec.nodes, 'paragraph block*', 'block'),
+      marks: schema.spec.marks,
+    });
+
+    const view = new EditorView(el, {
+      state: EditorState.create({
+        // doc: DOMParser.fromSchema(mySchema).parse(
+        //   document.querySelector('#content')
+        // ),
+        schema: mySchema,
+        plugins: exampleSetup({ schema: mySchema }),
+      }),
+    });
+  }
+
+  const editor = React.useCallback(el => {
+    setup(el);
+  }, []);
+
+  return (
+    <div>
+      hello
+      <div ref={editor} />
+    </div>
+  );
+}

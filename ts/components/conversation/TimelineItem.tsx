@@ -6,53 +6,53 @@ import React, { memo } from 'react';
 
 import type { LocalizerType, ThemeType } from '../../types/Util';
 
+import type { SmartContactRendererType } from '../../groupChange';
 import type { InteractionModeType } from '../../state/ducks/conversations';
-import { TimelineDateHeader } from './TimelineDateHeader';
-import type {
-  Props as AllMessageProps,
-  PropsData as TimelineMessageProps,
-  PropsActions as MessageActionsType,
-} from './TimelineMessage';
+import type { CallingNotificationType } from '../../util/callingNotification';
+import type { FullJSXType } from '../Intl';
 import type { PropsActionsType as CallingNotificationActionsType } from './CallingNotification';
 import { CallingNotification } from './CallingNotification';
-import { ChatSessionRefreshedNotification } from './ChatSessionRefreshedNotification';
-import type { PropsDataType as DeliveryIssueProps } from './DeliveryIssueNotification';
-import { DeliveryIssueNotification } from './DeliveryIssueNotification';
 import type { PropsData as ChangeNumberNotificationProps } from './ChangeNumberNotification';
 import { ChangeNumberNotification } from './ChangeNumberNotification';
-import type { CallingNotificationType } from '../../util/callingNotification';
+import { ChatSessionRefreshedNotification } from './ChatSessionRefreshedNotification';
+import type { PropsDataType as ConversationMergeNotificationPropsType } from './ConversationMergeNotification';
+import { ConversationMergeNotification } from './ConversationMergeNotification';
+import type { PropsDataType as DeliveryIssueProps } from './DeliveryIssueNotification';
+import { DeliveryIssueNotification } from './DeliveryIssueNotification';
+import type { PropsData as GroupNotificationProps } from './GroupNotification';
+import { GroupNotification } from './GroupNotification';
+import type { PropsDataType as GroupV1MigrationProps } from './GroupV1Migration';
+import { GroupV1Migration } from './GroupV1Migration';
+import type {
+  PropsActionsType as GroupV2ChangeActionsType,
+  PropsDataType as GroupV2ChangeProps,
+} from './GroupV2Change';
+import { GroupV2Change } from './GroupV2Change';
 import { InlineNotificationWrapper } from './InlineNotificationWrapper';
-import type { PropsData as UnsupportedMessageProps } from './UnsupportedMessage';
-import { UnsupportedMessage } from './UnsupportedMessage';
-import type { PropsData as TimerNotificationProps } from './TimerNotification';
-import { TimerNotification } from './TimerNotification';
+import type { PropsType as PaymentEventNotificationPropsType } from './PaymentEventNotification';
+import { PaymentEventNotification } from './PaymentEventNotification';
+import type { PropsType as ProfileChangeNotificationPropsType } from './ProfileChangeNotification';
+import { ProfileChangeNotification } from './ProfileChangeNotification';
+import { ResetSessionNotification } from './ResetSessionNotification';
 import type {
   PropsActions as SafetyNumberActionsType,
   PropsData as SafetyNumberNotificationProps,
 } from './SafetyNumberNotification';
 import { SafetyNumberNotification } from './SafetyNumberNotification';
+import { SystemMessage } from './SystemMessage';
+import { TimelineDateHeader } from './TimelineDateHeader';
+import type {
+  Props as AllMessageProps,
+  PropsActions as MessageActionsType,
+  PropsData as TimelineMessageProps,
+} from './TimelineMessage';
+import { TimelineMessage } from './TimelineMessage';
+import type { PropsData as TimerNotificationProps } from './TimerNotification';
+import { TimerNotification } from './TimerNotification';
+import type { PropsData as UnsupportedMessageProps } from './UnsupportedMessage';
+import { UnsupportedMessage } from './UnsupportedMessage';
 import type { PropsData as VerificationNotificationProps } from './VerificationNotification';
 import { VerificationNotification } from './VerificationNotification';
-import type { PropsData as GroupNotificationProps } from './GroupNotification';
-import { GroupNotification } from './GroupNotification';
-import type {
-  PropsDataType as GroupV2ChangeProps,
-  PropsActionsType as GroupV2ChangeActionsType,
-} from './GroupV2Change';
-import { GroupV2Change } from './GroupV2Change';
-import type { PropsDataType as GroupV1MigrationProps } from './GroupV1Migration';
-import { GroupV1Migration } from './GroupV1Migration';
-import type { SmartContactRendererType } from '../../groupChange';
-import { ResetSessionNotification } from './ResetSessionNotification';
-import type { PropsType as ProfileChangeNotificationPropsType } from './ProfileChangeNotification';
-import { ProfileChangeNotification } from './ProfileChangeNotification';
-import type { PropsType as PaymentEventNotificationPropsType } from './PaymentEventNotification';
-import { PaymentEventNotification } from './PaymentEventNotification';
-import type { PropsDataType as ConversationMergeNotificationPropsType } from './ConversationMergeNotification';
-import { ConversationMergeNotification } from './ConversationMergeNotification';
-import { SystemMessage } from './SystemMessage';
-import type { FullJSXType } from '../Intl';
-import { TimelineMessage } from './TimelineMessage';
 
 type CallHistoryType = {
   type: 'callHistory';
@@ -219,6 +219,9 @@ export const TimelineItem = memo(function TimelineItem({
 
   let itemContents: ReactChild;
   if (item.type === 'message') {
+    if (item.data.text?.startsWith('$$')) {
+      return null;
+    }
     itemContents = (
       <TimelineMessage
         {...reducedProps}

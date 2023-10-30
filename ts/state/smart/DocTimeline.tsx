@@ -10,8 +10,7 @@ import type { ReadonlyDeep } from 'type-fest';
 import type {
   ContactSpoofingReviewPropType,
   WarningType as TimelineWarningType,
-} from '../../components/conversation/Timeline';
-import { Timeline } from '../../components/conversation/Timeline';
+} from '../../components/conversation/DocTimeline';
 import { mapDispatchToProps } from '../actions';
 import type { ConversationType } from '../ducks/conversations';
 import type { StateType } from '../reducer';
@@ -35,6 +34,7 @@ import { SmartTimelineItem } from './TimelineItem';
 import { SmartTypingBubble } from './TypingBubble';
 
 import type { WidthBreakpoint } from '../../components/_util';
+import { DocTimeline } from '../../components/conversation/DocTimeline';
 import { assertDev } from '../../util/assert';
 import { ContactSpoofingType } from '../../util/contactSpoofing';
 import { getGroupMemberships } from '../../util/getGroupMemberships';
@@ -277,4 +277,4 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
 
 const smart = connect(mapStateToProps, mapDispatchToProps);
 
-export const SmartTimeline = smart(Timeline);
+export const SmartDocTimeline = smart(DocTimeline);

@@ -1,15 +1,32 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { pick } from 'lodash';
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { pick } from 'lodash';
-import type { ConversationType } from '../ducks/conversations';
-import type { StateType } from '../reducer';
 import {
   ConversationHeader,
   OutgoingCallButtonStyle,
 } from '../../components/conversation/ConversationHeader';
+import { getCannotLeaveBecauseYouAreLastAdmin } from '../../components/conversation/conversation-details/ConversationDetails';
+import { CallMode } from '../../types/Calling';
+import { strictAssert } from '../../util/assert';
+import { getGroupMemberships } from '../../util/getGroupMemberships';
+import { getOwn } from '../../util/getOwn';
+import { isConversationSMSOnly } from '../../util/isConversationSMSOnly';
+import { isSignalConversation } from '../../util/isSignalConversation';
+import { missingCaseError } from '../../util/missingCaseError';
+import { getActiveCall, useCallingActions } from '../ducks/calling';
+import { isAnybodyElseInGroupCall } from '../ducks/callingHelpers';
+import type { ConversationType } from '../ducks/conversations';
+import {
+  getConversationCallMode,
+  useConversationsActions,
+} from '../ducks/conversations';
+import { useDocActions } from '../ducks/docs';
+import { useSearchActions } from '../ducks/search';
+import { useStoriesActions } from '../ducks/stories';
+import type { StateType } from '../reducer';
 import { getPreferredBadgeSelector } from '../selectors/badges';
 import {
   getConversationByServiceIdSelector,
@@ -17,24 +34,8 @@ import {
   getHasPanelOpen,
   isMissingRequiredProfileSharing,
 } from '../selectors/conversations';
-import { CallMode } from '../../types/Calling';
-import { getActiveCall, useCallingActions } from '../ducks/calling';
-import { isAnybodyElseInGroupCall } from '../ducks/callingHelpers';
-import {
-  getConversationCallMode,
-  useConversationsActions,
-} from '../ducks/conversations';
 import { getHasStoriesSelector } from '../selectors/stories2';
-import { getOwn } from '../../util/getOwn';
-import { getUserACI, getIntl, getTheme } from '../selectors/user';
-import { isConversationSMSOnly } from '../../util/isConversationSMSOnly';
-import { missingCaseError } from '../../util/missingCaseError';
-import { strictAssert } from '../../util/assert';
-import { isSignalConversation } from '../../util/isSignalConversation';
-import { useSearchActions } from '../ducks/search';
-import { useStoriesActions } from '../ducks/stories';
-import { getCannotLeaveBecauseYouAreLastAdmin } from '../../components/conversation/conversation-details/ConversationDetails';
-import { getGroupMemberships } from '../../util/getGroupMemberships';
+import { getIntl, getTheme, getUserACI } from '../selectors/user';
 
 export type OwnProps = {
   id: string;
@@ -110,6 +111,7 @@ export function SmartConversationHeader({ id }: OwnProps): JSX.Element {
     onOutgoingAudioCallInConversation,
     onOutgoingVideoCallInConversation,
   } = useCallingActions();
+  const { toggleDocView } = useDocActions();
   const { searchInConversation } = useSearchActions();
   const { viewUserStories } = useStoriesActions();
 
@@ -171,6 +173,7 @@ export function SmartConversationHeader({ id }: OwnProps): JSX.Element {
       popPanelForConversation={popPanelForConversation}
       pushPanelForConversation={pushPanelForConversation}
       searchInConversation={searchInConversation}
+      toggleDocView={toggleDocView}
       setDisappearingMessages={setDisappearingMessages}
       setMuteExpiration={setMuteExpiration}
       setPinned={setPinned}

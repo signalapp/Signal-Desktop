@@ -10,6 +10,7 @@ import { getEmptyState as calling } from './ducks/calling';
 import { getEmptyState as composer } from './ducks/composer';
 import { getEmptyState as conversations } from './ducks/conversations';
 import { getEmptyState as crashReports } from './ducks/crashReports';
+import { getEmptyState as docs } from './ducks/docs';
 import { getEmptyState as expiration } from './ducks/expiration';
 import { getEmptyState as globalModals } from './ducks/globalModals';
 import { getEmptyState as inbox } from './ducks/inbox';
@@ -28,19 +29,19 @@ import { getEmptyState as updates } from './ducks/updates';
 import { getEmptyState as user } from './ducks/user';
 import { getEmptyState as username } from './ducks/username';
 
-import type { StateType } from './reducer';
-import type { BadgesStateType } from './ducks/badges';
-import type { MainWindowStatsType } from '../windows/context';
+import { getInteractionMode } from '../services/InteractionMode';
+import type { CallHistoryDetails } from '../types/CallDisposition';
+import { getInitialState as stickers } from '../types/Stickers';
 import type { MenuOptionsType } from '../types/menu';
+import { getThemeType } from '../util/getThemeType';
+import { getEmojiReducerState as emojis } from '../util/loadRecentEmojis';
+import { makeLookup } from '../util/makeLookup';
+import OS from '../util/os/osMain';
+import type { MainWindowStatsType } from '../windows/context';
+import type { BadgesStateType } from './ducks/badges';
 import type { StoryDataType } from './ducks/stories';
 import type { StoryDistributionListDataType } from './ducks/storyDistributionLists';
-import OS from '../util/os/osMain';
-import { getEmojiReducerState as emojis } from '../util/loadRecentEmojis';
-import { getInitialState as stickers } from '../types/Stickers';
-import { getThemeType } from '../util/getThemeType';
-import { getInteractionMode } from '../services/InteractionMode';
-import { makeLookup } from '../util/makeLookup';
-import type { CallHistoryDetails } from '../types/CallDisposition';
+import type { StateType } from './reducer';
 
 export function getInitialState({
   badges,
@@ -94,6 +95,7 @@ export function getInitialState({
     },
     calling: calling(),
     composer: composer(),
+    docs: docs(),
     conversations: {
       ...conversations(),
       conversationLookup: makeLookup(formattedConversations, 'id'),

@@ -1,9 +1,9 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import classNames from 'classnames';
 import type { ReactNode } from 'react';
 import React from 'react';
-import classNames from 'classnames';
 import {
   ContextMenu,
   ContextMenuTrigger,
@@ -12,35 +12,35 @@ import {
 } from 'react-contextmenu';
 
 import { createPortal } from 'react-dom';
-import { DisappearingTimeDialog } from '../DisappearingTimeDialog';
 import { Avatar, AvatarSize } from '../Avatar';
+import { DisappearingTimeDialog } from '../DisappearingTimeDialog';
 import { InContactsIcon } from '../InContactsIcon';
 
-import type { LocalizerType, ThemeType } from '../../types/Util';
+import type { BadgeType } from '../../badges/types';
+import {
+  useKeyboardShortcuts,
+  useStartCallShortcuts,
+} from '../../hooks/useKeyboardShortcuts';
+import { SizeObserver } from '../../hooks/useSizeObserver';
 import type {
   ConversationType,
   PopPanelForConversationActionType,
   PushPanelForConversationActionType,
 } from '../../state/ducks/conversations';
-import type { BadgeType } from '../../badges/types';
-import type { HasStories } from '../../types/Stories';
 import type { ViewUserStoriesActionCreatorType } from '../../state/ducks/stories';
-import { StoryViewModeType } from '../../types/Stories';
-import { getMuteOptions } from '../../util/getMuteOptions';
-import * as expirationTimer from '../../util/expirationTimer';
-import { missingCaseError } from '../../util/missingCaseError';
-import { isInSystemContacts } from '../../util/isInSystemContacts';
-import { isConversationMuted } from '../../util/isConversationMuted';
-import { ConfirmationDialog } from '../ConfirmationDialog';
-import { DurationInSeconds } from '../../util/durations';
-import {
-  useStartCallShortcuts,
-  useKeyboardShortcuts,
-} from '../../hooks/useKeyboardShortcuts';
 import { PanelType } from '../../types/Panels';
-import { UserText } from '../UserText';
+import type { HasStories } from '../../types/Stories';
+import { StoryViewModeType } from '../../types/Stories';
+import type { LocalizerType, ThemeType } from '../../types/Util';
+import { DurationInSeconds } from '../../util/durations';
+import * as expirationTimer from '../../util/expirationTimer';
+import { getMuteOptions } from '../../util/getMuteOptions';
+import { isConversationMuted } from '../../util/isConversationMuted';
+import { isInSystemContacts } from '../../util/isInSystemContacts';
+import { missingCaseError } from '../../util/missingCaseError';
 import { Alert } from '../Alert';
-import { SizeObserver } from '../../hooks/useSizeObserver';
+import { ConfirmationDialog } from '../ConfirmationDialog';
+import { UserText } from '../UserText';
 
 export enum OutgoingCallButtonStyle {
   None,
@@ -98,6 +98,7 @@ export type PropsActionsType = {
   pushPanelForConversation: PushPanelForConversationActionType;
   popPanelForConversation: PopPanelForConversationActionType;
   searchInConversation: (conversationId: string) => void;
+  toggleDocView: () => void;
   setDisappearingMessages: (
     conversationId: string,
     seconds: DurationInSeconds
@@ -814,6 +815,14 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
                   outgoingCallButtonStyle={outgoingCallButtonStyle}
                 />
               )}
+              <button
+                className={classNames(
+                  'module-ConversationHeader__button',
+                  'module-ConversationHeader__button--doc'
+                )}
+                type="button"
+                onClick={() => this.props.toggleDocView()}
+              />
               {this.renderSearchButton()}
               {this.renderMoreButton(triggerId)}
               {this.renderMenu(triggerId)}

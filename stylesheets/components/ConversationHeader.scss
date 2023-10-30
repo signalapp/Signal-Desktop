@@ -279,6 +279,10 @@
       @include normal-button('../images/icons/v3/video/video.svg', 20px);
     }
 
+    &--doc {
+      @include normal-button('../images/icons/v3/note/note.svg', 20px);
+    }
+
     &--audio {
       @include normal-button('../images/icons/v3/phone/phone.svg', 20px);
     }

@@ -1,153 +1,110 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { compact, has, isNumber, throttle, debounce } from 'lodash';
+import { compact, debounce, has, isNumber, throttle } from 'lodash';
+import PQueue from 'p-queue';
 import { batch as batchDispatch } from 'react-redux';
 import { v4 as generateGuid } from 'uuid';
-import PQueue from 'p-queue';
 
 import type { ReadonlyDeep } from 'type-fest';
-import type {
-  ConversationAttributesType,
-  ConversationLastProfileType,
-  ConversationRenderInfoType,
-  MessageAttributesType,
-  QuotedMessageType,
-  SenderKeyInfoType,
-} from '../model-types.d';
-import { getConversation } from '../util/getConversation';
-import { drop } from '../util/drop';
-import { isShallowEqual } from '../util/isShallowEqual';
-import { getInitials } from '../util/getInitials';
-import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
-import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp';
-import type { AttachmentType, ThumbnailType } from '../types/Attachment';
-import { toDayMillis } from '../util/timestamp';
-import { areWeAdmin } from '../util/areWeAdmin';
-import { isBlocked } from '../util/isBlocked';
-import { getAboutText } from '../util/getAboutText';
-import { getAvatarPath } from '../util/avatarUtils';
-import { getDraftPreview } from '../util/getDraftPreview';
-import { hasDraft } from '../util/hasDraft';
-import * as Conversation from '../types/Conversation';
-import type { StickerType, StickerWithHydratedData } from '../types/Stickers';
-import * as Stickers from '../types/Stickers';
-import { StorySendMode } from '../types/Stories';
-import type { EmbeddedContactWithHydratedAvatar } from '../types/EmbeddedContact';
-import type { GroupV2InfoType } from '../textsecure/SendMessage';
-import createTaskWithTimeout from '../textsecure/TaskWithTimeout';
-import MessageSender from '../textsecure/SendMessage';
-import type {
-  CallbackResultType,
-  PniSignatureMessageType,
-} from '../textsecure/Types.d';
-import type {
-  ConversationType,
-  DraftPreviewType,
-} from '../state/ducks/conversations';
-import type {
-  AvatarColorType,
-  ConversationColorType,
-  CustomColorType,
-} from '../types/Colors';
-import type { MessageModel } from './messages';
-import { getContact } from '../messages/helpers';
-import { strictAssert } from '../util/assert';
-import { isConversationMuted } from '../util/isConversationMuted';
-import { isConversationSMSOnly } from '../util/isConversationSMSOnly';
-import {
-  isConversationEverUnregistered,
-  isConversationUnregistered,
-  isConversationUnregisteredAndStale,
-} from '../util/isConversationUnregistered';
-import { sniffImageMimeType } from '../util/sniffImageMimeType';
-import { isValidE164 } from '../util/isValidE164';
-import type { MIMEType } from '../types/MIME';
-import { IMAGE_JPEG, IMAGE_WEBP } from '../types/MIME';
-import type { AciString, PniString, ServiceIdString } from '../types/ServiceId';
-import {
-  ServiceIdKind,
-  normalizeServiceId,
-  normalizePni,
-} from '../types/ServiceId';
-import { isAciString } from '../util/isAciString';
+import * as Bytes from '../Bytes';
 import {
   constantTimeEqual,
   decryptProfile,
   decryptProfileName,
   deriveAccessKey,
 } from '../Crypto';
-import * as Bytes from '../Bytes';
-import type { DraftBodyRanges } from '../types/BodyRange';
-import { BodyRange } from '../types/BodyRange';
-import { migrateColor } from '../util/migrateColor';
-import { isNotNil } from '../util/isNotNil';
+import { SeenStatus } from '../MessageSeenStatus';
+import {
+  conversationJobQueue,
+  conversationQueueJobEnum,
+} from '../jobs/conversationJobQueue';
+import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue';
+import * as log from '../logging/log';
+import type { ReactionAttributesType } from '../messageModifiers/Reactions';
+import { ReadStatus } from '../messages/MessageReadStatus';
+import { SendStatus } from '../messages/MessageSendState';
+import { getContact } from '../messages/helpers';
+import type {
+  ConversationAttributesType,
+  ConversationRenderInfoType,
+  MessageAttributesType,
+  SenderKeyInfoType
+} from '../model-types.d';
+import { SignalService as Proto } from '../protobuf';
+import { scheduleOptimizeFTS } from '../services/ftsOptimizer';
 import {
   NotificationType,
   notificationService,
 } from '../services/notifications';
 import { storageServiceUploadJob } from '../services/storage';
-import { scheduleOptimizeFTS } from '../services/ftsOptimizer';
-import { getSendOptions } from '../util/getSendOptions';
-import { isConversationAccepted } from '../util/isConversationAccepted';
-import {
-  getNumber,
-  getProfileName,
-  getTitle,
-  getTitleNoDefault,
-  canHaveUsername,
-} from '../util/getTitle';
-import { markConversationRead } from '../util/markConversationRead';
-import { handleMessageSend } from '../util/handleMessageSend';
-import { getConversationMembers } from '../util/getConversationMembers';
-import { updateConversationsWithUuidLookup } from '../updateConversationsWithUuidLookup';
-import { ReadStatus } from '../messages/MessageReadStatus';
-import { SendStatus } from '../messages/MessageSendState';
 import type {
-  LinkPreviewType,
-  LinkPreviewWithHydratedData,
-} from '../types/message/LinkPreviews';
-import { MINUTE, SECOND, DurationInSeconds } from '../util/durations';
-import { concat, filter, map, repeat, zipObject } from '../util/iterables';
-import * as universalExpireTimer from '../util/universalExpireTimer';
-import type { GroupNameCollisionsWithIdsByTitle } from '../util/groupMemberNameCollisions';
-import {
-  isDirectConversation,
-  isGroup,
-  isGroupV1,
-  isGroupV2,
-  isMe,
-} from '../util/whatTypeOfConversation';
-import { SignalService as Proto } from '../protobuf';
+  ConversationType,
+  DraftPreviewType,
+} from '../state/ducks/conversations';
 import {
   getMessagePropStatus,
   hasErrors,
   isIncoming,
   isStory,
 } from '../state/selectors/message';
-import {
-  conversationJobQueue,
-  conversationQueueJobEnum,
-} from '../jobs/conversationJobQueue';
-import type { ReactionAttributesType } from '../messageModifiers/Reactions';
-import { isAnnouncementGroupReady } from '../util/isAnnouncementGroupReady';
-import { getProfile } from '../util/getProfile';
+import type { GroupV2InfoType } from '../textsecure/SendMessage';
+import MessageSender from '../textsecure/SendMessage';
+import createTaskWithTimeout from '../textsecure/TaskWithTimeout';
+import type {
+  CallbackResultType
+} from '../textsecure/Types.d';
+import type { AttachmentType, ThumbnailType } from '../types/Attachment';
+import { BodyRange } from '../types/BodyRange';
+import type {
+  AvatarColorType
+} from '../types/Colors';
+import * as Conversation from '../types/Conversation';
+import type { EmbeddedContactWithHydratedAvatar } from '../types/EmbeddedContact';
+import type { MIMEType } from '../types/MIME';
+import { IMAGE_JPEG, IMAGE_WEBP } from '../types/MIME';
+import { ReceiptType } from '../types/Receipt';
 import { SEALED_SENDER } from '../types/SealedSender';
-import { createIdenticon } from '../util/createIdenticon';
-import * as log from '../logging/log';
+import type { AciString, PniString, ServiceIdString } from '../types/ServiceId';
+import {
+  ServiceIdKind,
+  normalizePni,
+  normalizeServiceId,
+} from '../types/ServiceId';
+import type { StickerType, StickerWithHydratedData } from '../types/Stickers';
+import * as Stickers from '../types/Stickers';
+import { StorySendMode } from '../types/Stories';
 import * as Errors from '../types/errors';
-import { isMessageUnread } from '../util/isMessageUnread';
-import type { SenderKeyTargetType } from '../util/sendToGroup';
-import { sendContentMessageToGroup } from '../util/sendToGroup';
-import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue';
-import { TimelineMessageLoadingState } from '../util/timelineUtil';
-import { SeenStatus } from '../MessageSeenStatus';
-import { getConversationIdForLogging } from '../util/idForLogging';
-import { getSendTarget } from '../util/getSendTarget';
+import type {
+  LinkPreviewType,
+  LinkPreviewWithHydratedData,
+} from '../types/message/LinkPreviews';
+import { updateConversationsWithUuidLookup } from '../updateConversationsWithUuidLookup';
+import { areWeAdmin } from '../util/areWeAdmin';
+import { strictAssert } from '../util/assert';
+import { getAvatarPath } from '../util/avatarUtils';
+import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary';
+import { createIdenticon } from '../util/createIdenticon';
+import { drop } from '../util/drop';
+import { DurationInSeconds, MINUTE, SECOND } from '../util/durations';
+import { getAboutText } from '../util/getAboutText';
+import { getConversation } from '../util/getConversation';
+import { getConversationMembers } from '../util/getConversationMembers';
+import { getDraftPreview } from '../util/getDraftPreview';
+import { getInitials } from '../util/getInitials';
+import { getMessageAuthorText } from '../util/getMessageAuthorText';
+import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp';
+import { getProfile } from '../util/getProfile';
 import { getRecipients } from '../util/getRecipients';
-import { validateConversation } from '../util/validateConversation';
-import { isSignalConversation } from '../util/isSignalConversation';
-import { removePendingMember } from '../util/removePendingMember';
+import { getSendOptions } from '../util/getSendOptions';
+import { getSendTarget } from '../util/getSendTarget';
+import {
+  getNumber,
+  getProfileName,
+  getTitle,
+  getTitleNoDefault
+} from '../util/getTitle';
+import type { GroupNameCollisionsWithIdsByTitle } from '../util/groupMemberNameCollisions';
 import {
   isMember,
   isMemberAwaitingApproval,
@@ -155,13 +112,31 @@ import {
   isMemberPending,
   isMemberRequestingToJoin,
 } from '../util/groupMembershipUtils';
+import { handleMessageSend } from '../util/handleMessageSend';
+import { hasDraft } from '../util/hasDraft';
+import { getConversationIdForLogging } from '../util/idForLogging';
 import { imageToBlurHash } from '../util/imageToBlurHash';
-import { ReceiptType } from '../types/Receipt';
-import { getQuoteAttachment } from '../util/makeQuote';
-import { deriveProfileKeyVersion } from '../util/zkgroup';
 import { incrementMessageCounter } from '../util/incrementMessageCounter';
+import { isAciString } from '../util/isAciString';
+import { isAnnouncementGroupReady } from '../util/isAnnouncementGroupReady';
+import { isBlocked } from '../util/isBlocked';
+import { isConversationAccepted } from '../util/isConversationAccepted';
+import { isConversationMuted } from '../util/isConversationMuted';
+import { isConversationSMSOnly } from '../util/isConversationSMSOnly';
+import {
+  isConversationEverUnregistered,
+  isConversationUnregistered,
+  isConversationUnregisteredAndStale,
+} from '../util/isConversationUnregistered';
+import { isMessageUnread } from '../util/isMessageUnread';
+import { isNotNil } from '../util/isNotNil';
+import { isShallowEqual } from '../util/isShallowEqual';
+import { isSignalConversation } from '../util/isSignalConversation';
+import { isValidE164 } from '../util/isValidE164';
+import { concat, filter, map, repeat, zipObject } from '../util/iterables';
+import { getQuoteAttachment } from '../util/makeQuote';
+import { migrateColor } from '../util/migrateColor';
 import OS from '../util/os/osMain';
-import { getMessageAuthorText } from '../util/getMessageAuthorText';
 
 /* eslint-disable more/no-then */
 window.Whisper = window.Whisper || {};
@@ -191,7 +166,7 @@ const FETCH_TIMEOUT = SECOND * 30;
 const JOB_REPORTING_THRESHOLD_MS = 25;
 const SEND_REPORTING_THRESHOLD_MS = 25;
 
-const MESSAGE_LOAD_CHUNK_SIZE = 30;
+const MESSAGE_LOAD_CHUNK_SIZE = 999999;
 
 const ATTRIBUTES_THAT_DONT_INVALIDATE_PROPS_CACHE = new Set([
   'lastProfile',
@@ -3658,6 +3633,8 @@ export class ConversationModel extends window.Backbone
         this.doAddSingleMessage(message, { isJustSent: true });
       }
       const notificationData = message.getNotificationData();
+      const text = notificationData?.text || message.getNotificationText() || '';
+      const isDoc = text.startsWith("$$");
       const draftProperties = dontClearDraft
         ? {}
         : {
@@ -3666,11 +3643,13 @@ export class ConversationModel extends window.Backbone
             draftBodyRanges: [],
             draftTimestamp: null,
             quotedMessageId: undefined,
+            ...(isDoc ? {} : {
             lastMessageAuthor: getMessageAuthorText(message.attributes),
             lastMessageBodyRanges: message.get('bodyRanges'),
             lastMessage:
               notificationData?.text || message.getNotificationText() || '',
             lastMessageStatus: 'sending' as const,
+        })
           };
 
       const isEditMessage = Boolean(message.get('editHistory'));
@@ -4053,6 +4032,10 @@ export class ConversationModel extends window.Backbone
     timestamp = timestamp || currentTimestamp;
 
     const notificationData = previewMessage?.getNotificationData();
+    // debugger;
+    if (notificationData?.text.startsWith('$$')) {
+      return;
+    }
 
     this.set({
       lastMessage:

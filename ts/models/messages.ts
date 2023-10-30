@@ -15,6 +15,7 @@ import {
 } from 'lodash';
 import { v4 as generateUuid } from 'uuid';
 
+import type { DeleteAttributesType } from '../messageModifiers/Deletes';
 import type {
   CustomError,
   MessageAttributesType,
@@ -32,10 +33,10 @@ import { hydrateStoryContext } from '../util/hydrateStoryContext';
 import { drop } from '../util/drop';
 import type { ConversationModel } from './conversations';
 import type {
+  CallbackResultType,
   ProcessedDataMessage,
   ProcessedQuote,
   ProcessedUnidentifiedDeliveryStatus,
-  CallbackResultType,
 } from '../textsecure/Types.d';
 import { SendMessageProtoError } from '../textsecure/Errors';
 import { getUserLanguages } from '../util/userLanguages';
@@ -61,9 +62,22 @@ import {
   sendStateReducer,
   someSendStatus,
 } from '../messages/MessageSendState';
+import { getMessageById } from '../messages/getMessageById';
+import {
+  getContact,
+  getPaymentEventNotificationText,
+  getSource,
+  getSourceServiceId,
+  isCustomError,
+  isQuoteAMatch,
+  messageHasPaymentEvent,
+} from '../messages/helpers';
 import { migrateLegacyReadStatus } from '../messages/migrateLegacyReadStatus';
 import { migrateLegacySendAttributes } from '../messages/migrateLegacySendAttributes';
-import { getOwn } from '../util/getOwn';
+import { SignalService as Proto } from '../protobuf';
+import { ReactionSource } from '../reactions/ReactionSource';
+import * as reactionUtil from '../reactions/util';
+import { isNewReactionReplacingPrevious } from '../reactions/util';
 import { markRead, markViewed } from '../services/MessageUpdater';
 import { scheduleOptimizeFTS } from '../services/ftsOptimizer';
 import {
@@ -81,6 +95,7 @@ import {
   isCallHistory,
   isChatSessionRefreshed,
   isContactRemovedNotification,
+  isConversationMerge,
   isDeliveryIssue,
   isEndSession,
   isExpirationTimerUpdate,
@@ -91,8 +106,8 @@ import {
   isIncoming,
   isKeyChange,
   isOutgoing,
-  isStory,
   isProfileChange,
+  isStory,
   isTapToView,
   isUniversalTimerNotification,
   isUnsupportedMessage,
@@ -103,15 +118,14 @@ import type { ReactionAttributesType } from '../messageModifiers/Reactions';
 import { isInCall } from '../state/selectors/calling';
 import { ReactionSource } from '../reactions/ReactionSource';
 import * as LinkPreview from '../types/LinkPreview';
-import { SignalService as Proto } from '../protobuf';
-import {
-  conversationJobQueue,
-  conversationQueueJobEnum,
-} from '../jobs/conversationJobQueue';
-import {
-  NotificationType,
-  notificationService,
-} from '../services/notifications';
+import * as MIME from '../types/MIME';
+import { stringToMIMEType } from '../types/MIME';
+import type { ReactionType } from '../types/Reactions';
+import type { ServiceIdString } from '../types/ServiceId';
+import { normalizeServiceId } from '../types/ServiceId';
+import type { StickerWithHydratedData } from '../types/Stickers';
+import * as Stickers from '../types/Stickers';
+import * as Errors from '../types/errors';
 import type {
   LinkPreviewType,
   LinkPreviewWithHydratedData,
@@ -2226,11 +2240,13 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
             message.get('sent_at') > conversationTimestamp) &&
           messageHasPaymentEvent(message.attributes)
         ) {
+          if (!message.getNotificationText().startsWith('$$')) {
           conversation.set({
             lastMessage: message.getNotificationText(),
             lastMessageAuthor: getMessageAuthorText(message.attributes),
             timestamp: message.get('sent_at'),
           });
+        }
         }
 
         message = window.MessageCache.__DEPRECATED$register(

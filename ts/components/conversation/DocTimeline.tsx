@@ -7,7 +7,6 @@ import type { ReactChild, ReactNode, RefObject, UIEvent } from 'react';
 import React from 'react';
 
 import type { ReadonlyDeep } from 'type-fest';
-import { ScrollDownButton, ScrollDownButtonVariant } from './ScrollDownButton';
 
 import type { ConversationType } from '../../state/ducks/conversations';
 import type { PreferredBadgeSelectorType } from '../../state/selectors/badges';
@@ -23,6 +22,11 @@ import {
 } from '../../hooks/useScrollLock';
 import { SizeObserver } from '../../hooks/useSizeObserver';
 import type { PropsType as SmartContactSpoofingReviewDialogPropsType } from '../../state/smart/ContactSpoofingReviewDialog';
+import {
+  AttachmentDraftType,
+  InMemoryAttachmentDraftType,
+} from '../../types/Attachment';
+import { DraftBodyRanges } from '../../types/BodyRange';
 import { ContactSpoofingType } from '../../util/contactSpoofing';
 import { MINUTE } from '../../util/durations';
 import type { GroupNameCollisionsWithIdsByTitle } from '../../util/groupMemberNameCollisions';
@@ -42,6 +46,7 @@ import {
 import type { FullJSXType } from '../Intl';
 import { Intl } from '../Intl';
 import { NewlyCreatedGroupInvitedContactsDialog } from '../NewlyCreatedGroupInvitedContactsDialog';
+import { DocView } from './DocView';
 import { ErrorBoundary } from './ErrorBoundary';
 import { LastSeenIndicator } from './LastSeenIndicator';
 import { TimelineFloatingHeader } from './TimelineFloatingHeader';
@@ -175,6 +180,16 @@ export type PropsActionsType = {
     }>
   ) => void;
   scrollToOldestUnreadMention: (conversationId: string) => unknown;
+  sendMultiMediaMessage: (
+    conversationId: string,
+    options: {
+      draftAttachments?: ReadonlyArray<AttachmentDraftType>;
+      bodyRanges?: DraftBodyRanges;
+      message?: string;
+      timestamp?: number;
+      voiceNoteAttachment?: InMemoryAttachmentDraftType;
+    }
+  ) => unknown;
 };
 
 export type PropsType = PropsDataType &
@@ -200,7 +215,7 @@ type SnapshotType =
   | { scrollTop: number }
   | { scrollBottom: number };
 
-export class Timeline extends React.Component<
+export class DocTimeline extends React.Component<
   PropsType,
   StateType,
   SnapshotType
@@ -501,6 +516,7 @@ export class Timeline extends React.Component<
   }, 500);
 
   public override componentDidMount(): void {
+    console.log('DID MOUNT');
     const containerEl = this.containerRef.current;
     const messagesEl = this.messagesRef.current;
     const { isConversationSelected } = this.props;
@@ -953,7 +969,7 @@ export class Timeline extends React.Component<
       );
     }
 
-    const warning = Timeline.getWarning(this.props, this.state);
+    const warning = DocTimeline.getWarning(this.props, this.state);
     let headerElements: ReactNode;
     if (warning || shouldShowMiniPlayer) {
       let text: ReactChild | undefined;
@@ -1141,17 +1157,35 @@ export class Timeline extends React.Component<
                 >
                   {haveOldest && (
                     <>
-                      {Timeline.getWarning(this.props, this.state) && (
+                      {DocTimeline.getWarning(this.props, this.state) && (
                         <div style={{ height: lastMeasuredWarningHeight }} />
                       )}
                       {renderHeroRow(id)}
                     </>
                   )}
 
-                  {/* <div>NR {items.length + ' ' + this.props.docViewEnabled}</div> */}
-                  {messageNodes}
+                  {/* <div>NR {items.length + ' ' + this.props.docViewEnabled}</div>
+                  <button
+                    onClick={() => {
+                      this.props.sendMultiMediaMessage(this.props.id, {
+                        message: 'test123',
+                      });
+                    }}
+                    type="button"
+                  >
+                    TEST
+                  </button> */}
+                  {/* {messageNodes} */}
+                  <DocView
+                    messages={items}
+                    addMessage={msg => {
+                      this.props.sendMultiMediaMessage(this.props.id, {
+                        message: msg,
+                      });
+                    }}
+                  />
                   {/* <div>{items.length}</div> */}
-                  {haveNewest && renderTypingBubble(id)}
+                  {/* {haveNewest && renderTypingBubble(id)} */}
 
                   <div
                     className="module-timeline__messages__at-bottom-detector"
@@ -1160,7 +1194,7 @@ export class Timeline extends React.Component<
                   />
                 </div>
               </main>
-              {shouldShowScrollDownButtons ? (
+              {/* {shouldShowScrollDownButtons ? (
                 <div className="module-timeline__scrolldown-buttons">
                   {unreadMentionsCount ? (
                     <ScrollDownButton
@@ -1178,7 +1212,7 @@ export class Timeline extends React.Component<
                     i18n={i18n}
                   />
                 </div>
-              ) : null}
+              ) : null} */}
             </div>
           )}
         </SizeObserver>

@@ -1,8 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
 import classNames from 'classnames';
+import React from 'react';
 import { useEscapeHandling } from '../../hooks/useEscapeHandling';
 
 export type PropsType = {

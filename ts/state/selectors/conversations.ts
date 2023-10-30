@@ -1,12 +1,36 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import memoizee from 'memoizee';
 import { isNumber, pick } from 'lodash';
+import memoizee from 'memoizee';
 import { createSelector } from 'reselect';
 
 import type { StateType } from '../reducer';
 
+import type { PropsDataType as TimelinePropsType } from '../../components/conversation/Timeline';
+import type { AvatarDataType } from '../../types/Avatar';
+import type { ContactNameColorType } from '../../types/Colors';
+import { ContactNameColors } from '../../types/Colors';
+import type { AciString, ServiceIdString } from '../../types/ServiceId';
+import { assertDev } from '../../util/assert';
+import { deconstructLookup } from '../../util/deconstructLookup';
+import { DurationInSeconds } from '../../util/durations';
+import {
+  filterAndSortConversationsAlphabetically,
+  filterAndSortConversationsByRecent,
+} from '../../util/filterAndSortConversations';
+import { getOwn } from '../../util/getOwn';
+import { isSignalConnection } from '../../util/getSignalConnections';
+import { isConversationUnregistered } from '../../util/isConversationUnregistered';
+import { isGroupInStoryMode } from '../../util/isGroupInStoryMode';
+import { isInSystemContacts } from '../../util/isInSystemContacts';
+import { sortByTitle } from '../../util/sortByTitle';
+import type { UUIDFetchStateType } from '../../util/uuidFetchState';
+import {
+  isDirectConversation,
+  isGroupV1,
+  isGroupV2,
+} from '../../util/whatTypeOfConversation';
 import type {
   ConversationLookupType,
   ConversationMessageType,
@@ -18,58 +42,34 @@ import type {
   MessageTimestamps,
   PreJoinConversationType,
 } from '../ducks/conversations';
-import type { StoriesStateType, StoryDataType } from '../ducks/stories';
 import {
   ComposerStep,
-  OneTimeModalState,
   ConversationVerificationState,
+  OneTimeModalState,
 } from '../ducks/conversationsEnums';
-import { getOwn } from '../../util/getOwn';
-import type { UUIDFetchStateType } from '../../util/uuidFetchState';
-import { deconstructLookup } from '../../util/deconstructLookup';
-import type { PropsDataType as TimelinePropsType } from '../../components/conversation/Timeline';
-import { assertDev } from '../../util/assert';
-import { isConversationUnregistered } from '../../util/isConversationUnregistered';
-import {
-  filterAndSortConversationsAlphabetically,
-  filterAndSortConversationsByRecent,
-} from '../../util/filterAndSortConversations';
-import type { ContactNameColorType } from '../../types/Colors';
-import { ContactNameColors } from '../../types/Colors';
-import type { AvatarDataType } from '../../types/Avatar';
-import type { AciString, ServiceIdString } from '../../types/ServiceId';
-import { isInSystemContacts } from '../../util/isInSystemContacts';
-import { isSignalConnection } from '../../util/getSignalConnections';
-import { sortByTitle } from '../../util/sortByTitle';
-import { DurationInSeconds } from '../../util/durations';
-import {
-  isDirectConversation,
-  isGroupV1,
-  isGroupV2,
-} from '../../util/whatTypeOfConversation';
-import { isGroupInStoryMode } from '../../util/isGroupInStoryMode';
+import type { StoriesStateType, StoryDataType } from '../ducks/stories';
 
+import * as log from '../../logging/log';
+import { isOutgoing } from '../../messages/helpers';
+import type { PanelRenderType } from '../../types/Panels';
+import type { HasStories } from '../../types/Stories';
+import { canEditMessage } from '../../util/canEditMessage';
+import {
+  countAllConversationsUnreadStats,
+  type UnreadStats,
+} from '../../util/countUnreadStats';
+import { getConversationTitleForPanelType } from '../../util/getConversationTitleForPanelType';
+import { isSignalConversation } from '../../util/isSignalConversation';
+import { reduce } from '../../util/iterables';
+import { TimelineMessageLoadingState } from '../../util/timelineUtil';
+import { getPinnedConversationIds } from './items';
+import { getHasStoriesSelector } from './stories2';
 import {
   getIntl,
   getRegionCode,
   getUserConversationId,
   getUserNumber,
 } from './user';
-import { getPinnedConversationIds } from './items';
-import * as log from '../../logging/log';
-import { TimelineMessageLoadingState } from '../../util/timelineUtil';
-import { isSignalConversation } from '../../util/isSignalConversation';
-import { reduce } from '../../util/iterables';
-import { getConversationTitleForPanelType } from '../../util/getConversationTitleForPanelType';
-import type { PanelRenderType } from '../../types/Panels';
-import type { HasStories } from '../../types/Stories';
-import { getHasStoriesSelector } from './stories2';
-import { canEditMessage } from '../../util/canEditMessage';
-import { isOutgoing } from '../../messages/helpers';
-import {
-  countAllConversationsUnreadStats,
-  type UnreadStats,
-} from '../../util/countUnreadStats';
 
 export type ConversationWithStoriesType = ConversationType & {
   hasStories?: HasStories;
@@ -991,7 +991,7 @@ export const getCachedSelectorForConversationMessages = createSelector(
   (): CachedConversationMessagesSelectorType => {
     // Note: memoizee will check all parameters provided, and only run our selector
     //   if any of them have changed.
-    return memoizee(_conversationMessagesSelector, { max: 50 });
+    return memoizee(_conversationMessagesSelector, { max: 999999 });
   }
 );
 
