@@ -3603,6 +3603,8 @@ button.module-image__border-overlay:focus {
   }
 
   &__header {
+    position: fixed;
+    top: 0;
     color: #ffffff;
     font-style: normal;
     padding-bottom: 19px;
@@ -3640,6 +3642,8 @@ button.module-image__border-overlay:focus {
       height: 100%;
       position: absolute;
       width: 100%;
+      // Improve appearance of blurred edges by reducing edge gradient effect
+      transform: scale(1.2, 1.2);
     }
   }
 
@@ -3743,6 +3747,7 @@ button.module-image__border-overlay:focus {
     display: flex;
     flex: 1 1 0;
     width: 100%;
+    margin-block-start: 24px;
     z-index: $z-index-above-base;
 
     &__grid {
@@ -3978,7 +3983,6 @@ button.module-image__border-overlay:focus {
   }
 
   &__footer {
-    background: linear-gradient(transparent, $color-black-alpha-40);
     bottom: 0;
     display: flex;
     justify-content: space-between;
@@ -4010,6 +4014,7 @@ button.module-image__border-overlay:focus {
       overflow: hidden;
       position: relative;
       width: $local-preview-width;
+      box-shadow: 0px 4px 14px 0px $color-black-alpha-40;
 
       &__video {
         // The background-color is seen while the video loads.
