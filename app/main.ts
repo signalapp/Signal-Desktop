@@ -1008,6 +1008,8 @@ async function createWindow() {
       return;
     }
 
+    mainWindow.webContents.send('ci:event', 'db-initialized', {});
+
     const shouldShowWindow =
       !app.getLoginItemSettings().wasOpenedAsHidden && !startInTray;
 

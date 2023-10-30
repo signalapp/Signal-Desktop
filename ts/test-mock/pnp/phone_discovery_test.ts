@@ -20,7 +20,6 @@ const IdentifierType = Proto.ManifestRecord.Identifier.Type;
 // PhoneNumberDiscovery notifications are also known as a Session Switchover Events (SSE).
 describe('pnp/phone discovery', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);
-  this.retries(4);
 
   let bootstrap: Bootstrap;
   let app: App;

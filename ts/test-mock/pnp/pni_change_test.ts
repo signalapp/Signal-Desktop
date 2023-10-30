@@ -18,7 +18,6 @@ export const debug = createDebug('mock:test:pni-change');
 // https://github.com/signalapp/Signal-Android-Private/blob/df83c941804512c613a1010b7d8e5ce4f0aec71c/app/src/androidTest/java/org/thoughtcrime/securesms/database/RecipientTableTest_getAndPossiblyMerge.kt#L266-L270
 describe('pnp/PNI Change', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);
-  this.retries(4);
 
   let bootstrap: Bootstrap;
   let app: App;

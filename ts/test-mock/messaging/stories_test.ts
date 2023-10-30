@@ -22,7 +22,6 @@ const DISTRIBUTION2 = generateStoryDistributionId();
 
 describe('story/messaging', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);
-  this.retries(4);
 
   let bootstrap: Bootstrap;
   let app: App;

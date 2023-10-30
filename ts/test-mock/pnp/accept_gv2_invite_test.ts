@@ -14,7 +14,6 @@ export const debug = createDebug('mock:test:gv2');
 
 describe('pnp/accept gv2 invite', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);
-  this.retries(4);
 
   let bootstrap: Bootstrap;
   let app: App;
