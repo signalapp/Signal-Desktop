@@ -2,8 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { MessageAttributesType } from '../model-types.d';
-import { BodyRange, applyRangesForText } from '../types/BodyRange';
-import { extractHydratedMentions } from '../state/selectors/message';
+import { applyRangesToText, hydrateRanges } from '../types/BodyRange';
 import { findAndFormatContact } from './findAndFormatContact';
 import { getNotificationDataForMessage } from './getNotificationDataForMessage';
 import { isConversationAccepted } from './isConversationAccepted';
@@ -12,7 +11,7 @@ import { strictAssert } from './assert';
 export function getNotificationTextForMessage(
   attributes: MessageAttributesType
 ): string {
-  const { text, emoji } = getNotificationDataForMessage(attributes);
+  const { text, emoji, bodyRanges } = getNotificationDataForMessage(attributes);
 
   const conversation = window.ConversationController.get(
     attributes.conversationId
@@ -64,25 +63,23 @@ export function getNotificationTextForMessage(
     return window.i18n('icu:Quote__story-reaction--single');
   }
 
-  const mentions =
-    extractHydratedMentions(attributes, {
-      conversationSelector: findAndFormatContact,
-    }) || [];
-  const spoilers = (attributes.bodyRanges || []).filter(
-    range =>
-      BodyRange.isFormatting(range) && range.style === BodyRange.Style.SPOILER
-  ) as Array<BodyRange<BodyRange.Formatting>>;
-  const modifiedText = applyRangesForText({ text, mentions, spoilers });
+  const result = applyRangesToText(
+    {
+      body: text,
+      bodyRanges: hydrateRanges(bodyRanges, findAndFormatContact) ?? [],
+    },
+    { replaceMentions: true, replaceSpoilers: true }
+  );
 
   // Linux emoji support is mixed, so we disable it. (Note that this doesn't touch
   //   the `text`, which can contain emoji.)
   const shouldIncludeEmoji = Boolean(emoji) && !window.Signal.OS.isLinux();
   if (shouldIncludeEmoji) {
     return window.i18n('icu:message--getNotificationText--text-with-emoji', {
-      text: modifiedText,
+      text: result.body,
       emoji,
     });
   }
 
-  return modifiedText || '';
+  return result.body ?? '';
 }
