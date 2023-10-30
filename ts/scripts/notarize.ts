@@ -59,7 +59,7 @@ export async function afterSign({
   console.log(`  file: ${appPath}`);
 
   await notarize({
-    tool: 'notarytool',
+    appBundleId,
     appPath,
     appleId,
     appleIdPassword,
