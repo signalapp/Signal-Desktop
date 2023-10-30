@@ -1369,6 +1369,7 @@ export default class AccountManager extends EventTarget {
 
     if (oldPni) {
       await storage.protocol.removeOurOldPni(oldPni);
+      await window.ConversationController.clearShareMyPhoneNumber();
     }
 
     await storage.user.setPni(pni);
