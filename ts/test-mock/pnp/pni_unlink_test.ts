@@ -20,7 +20,6 @@ export const debug = createDebug('mock:test:pni-unlink');
 
 describe('pnp/PNI DecryptionError unlink', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);
-  this.retries(4);
 
   let bootstrap: Bootstrap;
   let app: App | undefined;

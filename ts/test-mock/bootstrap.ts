@@ -268,6 +268,11 @@ export class Bootstrap {
     await app.close();
   }
 
+  private async waitForAppToStart(app: App): Promise<void> {
+    await app.start();
+    await app.waitForDbInitialized();
+  }
+
   public async startApp(timeout = DEFAULT_START_APP_TIMEOUT): Promise<App> {
     assert(
       this.storagePath !== undefined,
@@ -279,8 +284,16 @@ export class Bootstrap {
     const { port } = this.server.address();
     const config = await this.generateConfig(port);
 
+    let startAttempts = 0;
+    const MAX_ATTEMPTS = 5;
     let app: App | undefined;
     while (!app) {
+      startAttempts += 1;
+      if (startAttempts > MAX_ATTEMPTS) {
+        throw new Error(
+          `App failed to start after ${MAX_ATTEMPTS} times, giving up`
+        );
+      }
       const startedApp = new App({
         main: ELECTRON,
         args: [CI_SCRIPT],
@@ -288,10 +301,13 @@ export class Bootstrap {
       });
       try {
         // eslint-disable-next-line no-await-in-loop
-        await pTimeout(startedApp.start(), timeout);
+        await pTimeout(this.waitForAppToStart(startedApp), timeout);
       } catch (error) {
         // eslint-disable-next-line no-console
-        console.error('Failed to start the app on time, retrying', error);
+        console.error(
+          `Failed to start the app on time, attempt ${startAttempts}, retrying`,
+          error
+        );
         continue;
       }
 

@@ -20,7 +20,6 @@ const IdentifierType = Proto.ManifestRecord.Identifier.Type;
 
 describe('pnp/merge', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);
-  this.retries(4);
 
   let bootstrap: Bootstrap;
   let app: App;

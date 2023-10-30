@@ -15,7 +15,6 @@ export const debug = createDebug('mock:test:challenge:receipts');
 
 describe('challenge/receipts', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);
-  this.retries(4);
 
   let bootstrap: Bootstrap;
   let app: App;
