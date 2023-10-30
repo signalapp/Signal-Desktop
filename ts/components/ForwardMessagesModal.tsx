@@ -32,7 +32,7 @@ import { LinkPreviewSourceType } from '../types/LinkPreview';
 import { ToastType } from '../types/Toast';
 import type { ShowToastAction } from '../state/ducks/toast';
 import type { HydratedBodyRangesType } from '../types/BodyRange';
-import { BodyRange } from '../types/BodyRange';
+import { applyRangesToText } from '../types/BodyRange';
 import { UserText } from './UserText';
 import { Modal } from './Modal';
 import { SizeObserver } from '../hooks/useSizeObserver';
@@ -135,11 +135,25 @@ export function ForwardMessagesModal({
     } else {
       doForwardMessages(
         conversationIds,
-        drafts.map(draft => ({
-          ...draft,
+        drafts.map(draft => {
           // We don't keep @mention bodyRanges in multi-forward scenarios
-          bodyRanges: draft.bodyRanges?.filter(BodyRange.isFormatting),
-        }))
+          const result = applyRangesToText(
+            {
+              body: draft.messageBody ?? '',
+              bodyRanges: draft.bodyRanges ?? [],
+            },
+            {
+              replaceMentions: true,
+              replaceSpoilers: false,
+            }
+          );
+
+          return {
+            ...draft,
+            messageBody: result.body,
+            bodyRanges: result.bodyRanges,
+          };
+        })
       );
     }
   }, [
