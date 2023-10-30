@@ -3,7 +3,7 @@
 
 import type { BuildResult } from 'electron-builder';
 
-import { notarize } from 'electron-notarize';
+import { notarize } from '@electron/notarize';
 
 import * as packageJson from '../../package.json';
 
@@ -47,6 +47,14 @@ export async function afterAllArtifactBuild({
     return;
   }
 
+  const teamId = process.env.APPLE_TEAM_ID;
+  if (!teamId) {
+    console.warn(
+      'teamId must be provided in environment variable APPLE_TEAM_ID'
+    );
+    return;
+  }
+
   const artifactsToStaple = artifactPaths.filter(artifactPath =>
     /^.*mac-universal.*\.dmg$/.test(artifactPath)
   );
@@ -57,10 +65,12 @@ export async function afterAllArtifactBuild({
 
   const [dmgPath] = artifactsToStaple;
   console.log(`Notarizing dmg: ${dmgPath}`);
+
   await notarize({
     appBundleId,
     appPath: dmgPath,
     appleId,
     appleIdPassword,
+    teamId,
   });
 }
