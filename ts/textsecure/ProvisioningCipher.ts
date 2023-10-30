@@ -24,6 +24,7 @@ type ProvisionDecryptResult = {
   userAgent?: string;
   readReceipts?: boolean;
   profileKey?: Uint8Array;
+  masterKey?: Uint8Array;
 };
 
 class ProvisioningCipherInner {
@@ -86,6 +87,9 @@ class ProvisioningCipherInner {
     };
     if (provisionMessage.profileKey) {
       ret.profileKey = provisionMessage.profileKey;
+    }
+    if (provisionMessage.masterKey) {
+      ret.masterKey = provisionMessage.masterKey;
     }
     return ret;
   }
