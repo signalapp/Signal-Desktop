@@ -22,7 +22,10 @@ import * as durations from '../util/durations';
 import type { ExplodePromiseResultType } from '../util/explodePromise';
 import { explodePromise } from '../util/explodePromise';
 import { getUserAgent } from '../util/getUserAgent';
-import { getStreamWithTimeout } from '../util/getStreamWithTimeout';
+import {
+  getTimeoutStream,
+  getStreamWithTimeout,
+} from '../util/getStreamWithTimeout';
 import { formatAcceptLanguageHeader } from '../util/userLanguages';
 import { toWebSafeBase64, fromWebSafeBase64 } from '../util/webSafeBase64';
 import { getBasicAuth } from '../util/getBasicAuth';
@@ -970,6 +973,14 @@ export type WebAPIType = {
       timeout?: number;
     }
   ) => Promise<Uint8Array>;
+  getAttachmentV2: (
+    cdnKey: string,
+    cdnNumber?: number,
+    options?: {
+      disableRetries?: boolean;
+      timeout?: number;
+    }
+  ) => Promise<Readable>;
   getAvatar: (path: string) => Promise<Uint8Array>;
   getHasSubscription: (subscriberId: Uint8Array) => Promise<boolean>;
   getGroup: (options: GroupCredentialsType) => Promise<Proto.Group>;
@@ -1386,6 +1397,7 @@ export function initialize({
       getArtAuth,
       getArtProvisioningSocket,
       getAttachment,
+      getAttachmentV2,
       getAvatar,
       getBadgeImageFile,
       getConfig,
@@ -2874,6 +2886,61 @@ export function initialize({
       } finally {
         unregisterInFlightRequest(inflightRequest);
       }
+    }
+
+    async function getAttachmentV2(
+      cdnKey: string,
+      cdnNumber?: number,
+      options?: {
+        disableRetries?: boolean;
+        timeout?: number;
+      }
+    ): Promise<Readable> {
+      const abortController = new AbortController();
+
+      const cdnUrl = isNumber(cdnNumber)
+        ? cdnUrlObject[cdnNumber] ?? cdnUrlObject['0']
+        : cdnUrlObject['0'];
+      // This is going to the CDN, not the service, so we use _outerAjax
+      const downloadStream = await _outerAjax(
+        `${cdnUrl}/attachments/${cdnKey}`,
+        {
+          certificateAuthority,
+          disableRetries: options?.disableRetries,
+          proxyUrl,
+          responseType: 'stream',
+          timeout: options?.timeout || 0,
+          type: 'GET',
+          redactUrl: _createRedactor(cdnKey),
+          version,
+          abortSignal: abortController.signal,
+        }
+      );
+
+      const timeoutStream = getTimeoutStream({
+        name: `getAttachment(${cdnKey})`,
+        timeout: GET_ATTACHMENT_CHUNK_TIMEOUT,
+        abortController,
+      });
+
+      const combinedStream = downloadStream
+        // We do this manually; pipe() doesn't flow errors through the streams for us
+        .on('error', (error: Error) => {
+          timeoutStream.emit('error', error);
+        })
+        .pipe(timeoutStream);
+
+      const cancelRequest = (error: Error) => {
+        combinedStream.emit('error', error);
+        abortController.abort();
+      };
+      registerInflightRequest(cancelRequest);
+
+      combinedStream.on('done', () => {
+        unregisterInFlightRequest(cancelRequest);
+      });
+
+      return combinedStream;
     }
 
     async function putEncryptedAttachment(encryptedBin: Uint8Array) {

@@ -8,7 +8,7 @@ import type { LocalizerType } from '../../types/Util';
 import type { StateType } from '../reducer';
 import { SmartStoryCreator } from './StoryCreator';
 import { StoriesTab } from '../../components/StoriesTab';
-import { getMaximumAttachmentSizeInKb } from '../../types/AttachmentSize';
+import { getMaximumOutgoingAttachmentSizeInKb } from '../../types/AttachmentSize';
 import type { ConfigKeyType } from '../../RemoteConfig';
 import { getMe } from '../selectors/conversations';
 import { getIntl, getTheme } from '../selectors/user';
@@ -74,7 +74,7 @@ export function SmartStoriesTab(): JSX.Element | null {
   const otherTabsUnreadStats = useSelector(getOtherTabsUnreadStats);
 
   const remoteConfig = useSelector(getRemoteConfig);
-  const maxAttachmentSizeInKb = getMaximumAttachmentSizeInKb(
+  const maxAttachmentSizeInKb = getMaximumOutgoingAttachmentSizeInKb(
     (name: ConfigKeyType) => {
       const value = remoteConfig[name]?.value;
       return value ? String(value) : undefined;

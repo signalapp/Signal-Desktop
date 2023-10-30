@@ -15,12 +15,21 @@ import type {
   AttachmentDownloadJobTypeType,
 } from '../sql/Interface';
 
+import { getValue } from '../RemoteConfig';
 import type { MessageModel } from '../models/messages';
 import type { AttachmentType } from '../types/Attachment';
-import { getAttachmentSignature, isDownloaded } from '../types/Attachment';
+import {
+  AttachmentSizeError,
+  getAttachmentSignature,
+  isDownloaded,
+} from '../types/Attachment';
 import * as Errors from '../types/errors';
 import type { LoggerType } from '../types/Logging';
 import * as log from '../logging/log';
+import {
+  KIBIBYTE,
+  getMaximumIncomingAttachmentSizeInKb,
+} from '../types/AttachmentSize';
 
 const {
   getMessageById,
@@ -269,13 +278,40 @@ async function _runJob(job?: AttachmentDownloadJobType): Promise<void> {
       return;
     }
 
-    await _addAttachmentToMessage(
-      message,
-      { ...attachment, pending: true },
-      { type, index }
-    );
+    let downloaded: AttachmentType | null = null;
 
-    const downloaded = await downloadAttachment(attachment);
+    try {
+      const { size } = attachment;
+      const maxInKib = getMaximumIncomingAttachmentSizeInKb(getValue);
+      const sizeInKib = size / KIBIBYTE;
+      if (!size || sizeInKib > maxInKib) {
+        throw new AttachmentSizeError(
+          `Attachment Job ${id}: Attachment was ${sizeInKib}kib, max is ${maxInKib}kib`
+        );
+      }
+
+      await _addAttachmentToMessage(
+        message,
+        { ...attachment, pending: true },
+        { type, index }
+      );
+
+      // If the download is bigger than expected, we'll stop in the middle
+      downloaded = await downloadAttachment(attachment);
+    } catch (error) {
+      if (error instanceof AttachmentSizeError) {
+        log.error(Errors.toLogFormat(error));
+        await _addAttachmentToMessage(
+          message,
+          _markAttachmentAsTooBig(attachment),
+          { type, index }
+        );
+        await _finishJob(message, id);
+        return;
+      }
+
+      throw error;
+    }
 
     if (!downloaded) {
       logger.warn(
@@ -441,6 +477,14 @@ function _markAttachmentAsPermanentError(
   return {
     ...omit(attachment, ['key', 'id']),
     error: true,
+  };
+}
+
+function _markAttachmentAsTooBig(attachment: AttachmentType): AttachmentType {
+  return {
+    ...omit(attachment, ['key', 'id']),
+    error: true,
+    wasTooBig: true,
   };
 }
 

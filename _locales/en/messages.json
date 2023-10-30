@@ -2571,6 +2571,14 @@
     "messageformat": "This message was deleted.",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
   },
+  "icu:message--attachmentTooBig--one": {
+    "messageformat": "Attachment too large to display.",
+    "description": "Shown in a message bubble if no attachments are left on message when too-large attachments are dropped"
+  },
+  "icu:message--attachmentTooBig--multiple": {
+    "messageformat": "Some attachments are too large to display.",
+    "description": "Shown in a message bubble if any attachments are left on message when too-large attachments are dropped"
+  },
   "icu:donation--missing": {
     "messageformat": "Unable to fetch donation details",
     "description": "Aria label for donation when we can't fetch the details."

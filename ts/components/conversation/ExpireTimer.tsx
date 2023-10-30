@@ -7,20 +7,20 @@ import classNames from 'classnames';
 import { getIncrement, getTimerBucket } from '../../util/timer';
 
 export type Props = {
-  deletedForEveryone?: boolean;
   direction?: 'incoming' | 'outgoing';
   expirationLength: number;
   expirationTimestamp?: number;
+  isOutlineOnlyBubble?: boolean;
   withImageNoCaption?: boolean;
   withSticker?: boolean;
   withTapToViewExpired?: boolean;
 };
 
 export function ExpireTimer({
-  deletedForEveryone,
   direction,
   expirationLength,
   expirationTimestamp,
+  isOutlineOnlyBubble,
   withImageNoCaption,
   withSticker,
   withTapToViewExpired,
@@ -44,7 +44,7 @@ export function ExpireTimer({
         'module-expire-timer',
         `module-expire-timer--${bucket}`,
         direction ? `module-expire-timer--${direction}` : null,
-        deletedForEveryone ? 'module-expire-timer--deleted-for-everyone' : null,
+        isOutlineOnlyBubble ? 'module-expire-timer--outline-only-bubble' : null,
         withTapToViewExpired
           ? `module-expire-timer--${direction}-with-tap-to-view-expired`
           : null,

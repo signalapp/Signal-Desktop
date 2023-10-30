@@ -297,6 +297,16 @@ export function getNotificationDataForMessage(
     const attachment = attachments[0] || {};
     const { contentType } = attachment;
 
+    const tooBigAttachmentCount = attachments.filter(
+      item => item.wasTooBig
+    ).length;
+    if (tooBigAttachmentCount === attachments.length) {
+      return {
+        emoji: '📎',
+        text: window.i18n('icu:message--attachmentTooBig--one'),
+      };
+    }
+
     if (contentType === MIME.IMAGE_GIF || Attachment.isGIF(attachments)) {
       return {
         bodyRanges,

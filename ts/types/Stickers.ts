@@ -11,7 +11,7 @@ import { makeLookup } from '../util/makeLookup';
 import { maybeParseUrl } from '../util/url';
 import * as Bytes from '../Bytes';
 import * as Errors from './errors';
-import { deriveStickerPackKey, decryptAttachment } from '../Crypto';
+import { deriveStickerPackKey, decryptAttachmentV1 } from '../Crypto';
 import { IMAGE_WEBP } from './MIME';
 import type { MIMEType } from './MIME';
 import { sniffImageMimeType } from '../util/sniffImageMimeType';
@@ -310,7 +310,10 @@ function getReduxStickerActions() {
 function decryptSticker(packKey: string, ciphertext: Uint8Array): Uint8Array {
   const binaryKey = Bytes.fromBase64(packKey);
   const derivedKey = deriveStickerPackKey(binaryKey);
-  const plaintext = decryptAttachment(ciphertext, derivedKey);
+
+  // Note this download and decrypt in memory is okay because these files are maximum
+  //   300kb, enforced by the server.
+  const plaintext = decryptAttachmentV1(ciphertext, derivedKey);
 
   return plaintext;
 }

@@ -42,17 +42,28 @@ export async function autoOrientJPEG(
   // already been scaled to level, oriented, stripped of exif data, and saved
   // in high quality format. If we want to send the image in HQ we can return
   // the attachment as-is. Otherwise we'll have to further scale it down.
-  if (!attachment.data || sendHQImages) {
+  const { data, path, size } = attachment;
+
+  if (sendHQImages) {
     return attachment;
   }
+  let scaleTarget: string | Blob;
+  if (path) {
+    scaleTarget = window.Signal.Migrations.getAbsoluteAttachmentPath(path);
+  } else {
+    if (!data) {
+      return attachment;
+    }
+    scaleTarget = new Blob([data], {
+      type: attachment.contentType,
+    });
+  }
 
-  const dataBlob = new Blob([attachment.data], {
-    type: attachment.contentType,
-  });
   try {
     const { blob: xcodedDataBlob } = await scaleImageToLevel(
-      dataBlob,
+      scaleTarget,
       attachment.contentType,
+      size,
       isIncoming
     );
     const xcodedDataArrayBuffer = await blobToArrayBuffer(xcodedDataBlob);

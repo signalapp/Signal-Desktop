@@ -4,7 +4,7 @@
 import { useContext, createContext, useEffect, useRef } from 'react';
 import * as log from '../logging/log';
 
-type ScrollerLock = Readonly<{
+export type ScrollerLock = Readonly<{
   isLocked(): boolean;
   lock(reason: string, onUserInterrupt: () => void): () => void;
   onUserInterrupt(reason: string): void;

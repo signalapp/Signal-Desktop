@@ -12,7 +12,7 @@ import type {
   ProcessedDataMessage,
   ProcessedSent,
 } from './Types.d';
-import type { ModifiedContactDetails } from './ContactsParser';
+import type { ContactDetailsWithAvatar } from './ContactsParser';
 import type { CallEventDetails, CallLogEvent } from '../types/CallDisposition';
 
 export class EmptyEvent extends Event {
@@ -74,7 +74,7 @@ export class ErrorEvent extends Event {
 
 export class ContactSyncEvent extends Event {
   constructor(
-    public readonly contacts: ReadonlyArray<ModifiedContactDetails>,
+    public readonly contacts: ReadonlyArray<ContactDetailsWithAvatar>,
     public readonly complete: boolean,
     public readonly receivedAtCounter: number,
     public readonly sentAt: number

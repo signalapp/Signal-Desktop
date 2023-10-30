@@ -244,6 +244,7 @@ const renderAudioAttachment: Props['renderAudioAttachment'] = props => (
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   attachments: overrideProps.attachments,
+  attachmentDroppedDueToSize: overrideProps.attachmentDroppedDueToSize || false,
   author: overrideProps.author || getDefaultConversation(),
   bodyRanges: overrideProps.bodyRanges,
   canCopy: true,
@@ -835,6 +836,25 @@ CanDeleteForEveryone.args = {
   direction: 'outgoing',
 };
 
+export function AttachmentTooBig(): JSX.Element {
+  const propsSent = createProps({
+    conversationType: 'direct',
+    attachmentDroppedDueToSize: true,
+  });
+
+  return <>{renderBothDirections(propsSent)}</>;
+}
+
+export function AttachmentTooBigWithText(): JSX.Element {
+  const propsSent = createProps({
+    conversationType: 'direct',
+    attachmentDroppedDueToSize: true,
+    text: 'Check out this file!',
+  });
+
+  return <>{renderBothDirections(propsSent)}</>;
+}
+
 export const Error = Template.bind({});
 Error.args = {
   status: 'error',
@@ -1230,6 +1250,51 @@ MultipleImages5.args = {
       width: 320,
     }),
   ],
+  status: 'sent',
+};
+
+export const MultipleImagesWithOneTooBig = Template.bind({});
+MultipleImagesWithOneTooBig.args = {
+  attachments: [
+    fakeAttachment({
+      url: pngUrl,
+      fileName: 'the-sax.png',
+      contentType: IMAGE_PNG,
+      height: 240,
+      width: 320,
+    }),
+    fakeAttachment({
+      url: pngUrl,
+      fileName: 'the-sax.png',
+      contentType: IMAGE_PNG,
+      height: 240,
+      width: 320,
+    }),
+  ],
+  attachmentDroppedDueToSize: true,
+  status: 'sent',
+};
+
+export const MultipleImagesWithBodyTextOneTooBig = Template.bind({});
+MultipleImagesWithBodyTextOneTooBig.args = {
+  attachments: [
+    fakeAttachment({
+      url: pngUrl,
+      fileName: 'the-sax.png',
+      contentType: IMAGE_PNG,
+      height: 240,
+      width: 320,
+    }),
+    fakeAttachment({
+      url: pngUrl,
+      fileName: 'the-sax.png',
+      contentType: IMAGE_PNG,
+      height: 240,
+      width: 320,
+    }),
+  ],
+  attachmentDroppedDueToSize: true,
+  text: 'Hey, check out these images!',
   status: 'sent',
 };
 
@@ -1968,6 +2033,7 @@ PaymentNotification.args = {
 
 function MultiSelectMessage() {
   const [selected, setSelected] = React.useState(false);
+
   return (
     <TimelineMessage
       {...createProps({

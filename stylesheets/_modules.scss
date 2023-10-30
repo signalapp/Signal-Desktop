@@ -558,6 +558,60 @@ $message-padding-horizontal: 12px;
   }
 }
 
+.module-message__attachment-too-big {
+  user-select: none;
+
+  margin-inline: -$message-padding-horizontal;
+  margin-top: -$message-padding-vertical;
+  margin-bottom: -$message-padding-vertical;
+  padding-top: $message-padding-vertical;
+  padding-bottom: $message-padding-vertical;
+  padding-inline: $message-padding-horizontal;
+
+  border-radius: 18px;
+
+  @include font-body-1-italic;
+
+  @include light-theme {
+    color: $color-gray-90;
+    border: 1px solid $color-gray-05;
+    background-color: $color-white;
+    background-image: none;
+  }
+
+  @include dark-theme {
+    color: $color-gray-05;
+    border: 1px solid $color-gray-75;
+    background-color: $color-gray-95;
+    background-image: none;
+  }
+}
+
+.module-message__attachment-too-big--content-above {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.module-message__attachment-too-big--content-below {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+
+  border-bottom: none;
+  margin-bottom: 7px;
+}
+
+.module-message__attachment-too-big--collapse-above--incoming {
+  border-top-left-radius: 4px;
+}
+.module-message__attachment-too-big--collapse-above--outgoing {
+  border-top-right-radius: 4px;
+}
+.module-message__attachment-too-big--collapse-below--incoming {
+  border-bottom-left-radius: 4px;
+}
+.module-message__attachment-too-big--collapse-below--outgoing {
+  border-bottom-right-radius: 4px;
+}
+
 .module-message__tap-to-view {
   margin-top: 2px;
   display: flex;
@@ -1165,7 +1219,7 @@ $message-padding-horizontal: 12px;
   pointer-events: none;
 }
 
-.module-message__metadata--deleted-for-everyone {
+.module-message__metadata--outline-only-bubble {
   @include light-theme {
     color: $color-gray-60;
   }
@@ -1207,7 +1261,7 @@ $message-padding-horizontal: 12px;
     color: $color-white-alpha-80;
   }
 }
-.module-message__metadata__date--deleted-for-everyone {
+.module-message__metadata__date--outline-only-bubble {
   @include light-theme {
     color: $color-gray-60;
   }
@@ -1319,7 +1373,7 @@ $message-padding-horizontal: 12px;
   }
 }
 
-.module-message__metadata__status-icon--deleted-for-everyone {
+.module-message__metadata__status-icon--outline-only-bubble {
   @include light-theme {
     background-color: $color-gray-60;
   }
@@ -1916,7 +1970,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   }
 }
 
-.module-expire-timer--deleted-for-everyone {
+.module-expire-timer--outline-only-bubble {
   @include light-theme {
     background-color: $color-gray-60;
   }
@@ -2662,7 +2716,7 @@ button.ConversationDetails__action-button {
 
 .module-image__border-overlay--with-border {
   @include light-theme {
-    box-shadow: inset 0px 0px 0px 1px $color-black-alpha-20;
+    box-shadow: inset 0px 0px 0px 1px $color-black-alpha-085;
   }
   @include dark-theme {
     box-shadow: inset 0px 0px 0px 1px $color-white-alpha-20;

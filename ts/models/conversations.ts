@@ -4660,8 +4660,8 @@ export class ConversationModel extends window.Backbone
     if (decrypted) {
       const newAttributes = await Conversation.maybeUpdateProfileAvatar(
         this.attributes,
-        decrypted,
         {
+          data: decrypted,
           writeNewAttachmentData,
           deleteAttachmentData,
           doesAttachmentExist,

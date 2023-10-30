@@ -45,6 +45,7 @@ export type ConfigKeyType =
   | 'desktop.textFormatting'
   | 'desktop.usernames'
   | 'global.attachments.maxBytes'
+  | 'global.attachments.maxReceiveBytes'
   | 'global.calling.maxGroupCallRingSize'
   | 'global.groupsv2.groupSizeHardLimit'
   | 'global.groupsv2.maxGroupSize'

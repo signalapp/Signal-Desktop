@@ -676,6 +676,9 @@ export const getPropsForMessage = (
   message: MessageWithUIFieldsType,
   options: GetPropsForMessageOptions
 ): Omit<PropsForMessage, 'renderingContext' | 'menu' | 'contextMenu'> => {
+  const attachmentDroppedDueToSize = message.attachments?.some(
+    item => item.wasTooBig
+  );
   const attachments = getAttachmentsForMessage(message);
   const bodyRanges = processBodyRanges(message, options);
   const author = getAuthorForMessage(message, options);
@@ -734,6 +737,7 @@ export const getPropsForMessage = (
 
   return {
     attachments,
+    attachmentDroppedDueToSize,
     author,
     bodyRanges,
     previews,

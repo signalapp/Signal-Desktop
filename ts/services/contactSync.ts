@@ -4,7 +4,7 @@
 import PQueue from 'p-queue';
 
 import type { ContactSyncEvent } from '../textsecure/messageReceiverEvents';
-import type { ModifiedContactDetails } from '../textsecure/ContactsParser';
+import type { ContactDetailsWithAvatar } from '../textsecure/ContactsParser';
 import { normalizeAci } from '../util/normalizeAci';
 import * as Conversation from '../types/Conversation';
 import * as Errors from '../types/errors';
@@ -13,6 +13,7 @@ import type { ConversationModel } from '../models/conversations';
 import { validateConversation } from '../util/validateConversation';
 import { isDirectConversation, isMe } from '../util/whatTypeOfConversation';
 import * as log from '../logging/log';
+import { dropNull } from '../util/dropNull';
 
 // When true - we are running the very first storage and contact sync after
 // linking.
@@ -25,7 +26,7 @@ export function setIsInitialSync(newValue: boolean): void {
 
 async function updateConversationFromContactSync(
   conversation: ConversationModel,
-  details: ModifiedContactDetails,
+  details: ContactDetailsWithAvatar,
   receivedAtCounter: number,
   sentAt: number
 ): Promise<void> {
@@ -33,17 +34,17 @@ async function updateConversationFromContactSync(
     window.Signal.Migrations;
 
   conversation.set({
-    name: details.name,
-    inbox_position: details.inboxPosition,
+    name: dropNull(details.name),
+    inbox_position: dropNull(details.inboxPosition),
   });
 
   // Update the conversation avatar only if new avatar exists and hash differs
   const { avatar } = details;
-  if (avatar && avatar.data) {
+  if (avatar && avatar.path) {
     const newAttributes = await Conversation.maybeUpdateAvatar(
       conversation.attributes,
-      avatar.data,
       {
+        newAvatar: avatar,
         writeNewAttachmentData,
         deleteAttachmentData,
         doesAttachmentExist,

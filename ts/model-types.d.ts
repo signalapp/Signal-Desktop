@@ -17,7 +17,7 @@ import type { GroupNameCollisionsWithIdsByTitle } from './util/groupMemberNameCo
 import type { AttachmentDraftType, AttachmentType } from './types/Attachment';
 import type { EmbeddedContactType } from './types/EmbeddedContact';
 import { SignalService as Proto } from './protobuf';
-import type { AvatarDataType } from './types/Avatar';
+import type { AvatarDataType, ContactAvatarType } from './types/Avatar';
 import type { AciString, PniString, ServiceIdString } from './types/ServiceId';
 import type { StoryDistributionIdString } from './types/StoryDistributionId';
 import type { SeenStatus } from './MessageSeenStatus';
@@ -331,10 +331,7 @@ export type ConversationAttributesType = {
   messageRequestResponseType?: number;
   muteExpiresAt?: number;
   dontNotifyForMentionsIfMuted?: boolean;
-  profileAvatar?: null | {
-    hash: string;
-    path: string;
-  };
+  profileAvatar?: ContactAvatarType | null;
   profileKeyCredential?: string | null;
   profileKeyCredentialExpiration?: number | null;
   lastProfile?: ConversationLastProfileType;
@@ -415,11 +412,7 @@ export type ConversationAttributesType = {
     addFromInviteLink: AccessRequiredEnum;
   };
   announcementsOnly?: boolean;
-  avatar?: {
-    url: string;
-    path: string;
-    hash?: string;
-  } | null;
+  avatar?: ContactAvatarType | null;
   avatars?: Array<AvatarDataType>;
   description?: string;
   expireTimer?: DurationInSeconds;
