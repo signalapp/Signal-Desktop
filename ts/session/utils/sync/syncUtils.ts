@@ -294,7 +294,8 @@ const buildSyncVisibleMessage = (
   identifier: string,
   dataMessage: SignalService.DataMessage,
   timestamp: number,
-  syncTarget: string
+  syncTarget: string,
+  expireUpdate?: DisappearingMessageUpdate
 ) => {
   const body = dataMessage.body || undefined;
 
@@ -320,7 +321,7 @@ const buildSyncVisibleMessage = (
   }) as Array<AttachmentPointerWithUrl>;
   const quote = (dataMessage.quote as Quote) || undefined;
   const preview = (dataMessage.preview as Array<PreviewWithAttachmentUrl>) || [];
-  const expireTimer = dataMessage.expireTimer;
+  const dataMessageExpireTimer = dataMessage.expireTimer;
 
   return new VisibleMessage({
     identifier,
@@ -330,7 +331,8 @@ const buildSyncVisibleMessage = (
     quote,
     preview,
     syncTarget,
-    expireTimer,
+    expireTimer: expireUpdate?.expirationTimer || dataMessageExpireTimer,
+    expirationType: expireUpdate?.expirationType,
   });
 };
 
@@ -409,7 +411,8 @@ export const buildSyncMessage = (
     identifier,
     dataMessage,
     timestamp,
-    syncTarget
+    syncTarget,
+    expireUpdate
   );
   return visibleSyncMessage;
 };
