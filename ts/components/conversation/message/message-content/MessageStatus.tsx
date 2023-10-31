@@ -1,9 +1,11 @@
 import { ipcRenderer } from 'electron';
-import React from 'react';
+import React, { useCallback } from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { useMessageExpirationPropsById } from '../../../../hooks/useParamSelector';
 import { useMessageStatus } from '../../../../state/selectors';
 
+import { getMostRecentMessageId } from '../../../../state/selectors/conversations';
 import { SpacerXS } from '../../../basic/Text';
 import { SessionIcon, SessionIconType } from '../../../icon';
 import { ExpireTimer } from '../../ExpireTimer';
@@ -13,6 +15,19 @@ type Props = {
   dataTestId?: string | undefined;
 };
 
+/**
+ * MessageStatus is used to display the status of an outgoing OR incoming message.
+ * There are 3 parts to this status: a status text, a status icon and a expiring stopwatch.
+ * At all times, we either display `text + icon` OR `text + stopwatch`.
+ *
+ * The logic to display the text is :
+ *   - if the message is expiring:
+ *        - if the message is incoming: display its 'read' state and the stopwatch icon (1)
+ *        - if the message is outgoing: display its status and the stopwatch, unless when the status is error or sending (just display icon and text in this case, no stopwatch) (2)
+ *   - if the message is not expiring:
+ *        - if the message is incoming: do not show anything (3)
+ *        - if the message is outgoing: show the text for the last message, or a message sending, or in the error state. (4)
+ */
 export const MessageStatus = (props: Props) => {
   const { dataTestId, messageId } = props;
   const status = useMessageStatus(props.messageId);
@@ -25,40 +40,39 @@ export const MessageStatus = (props: Props) => {
 
   if (isIncoming) {
     if (selected.isUnread || !selected.expirationDurationMs || !selected.expirationTimestamp) {
-      return null;
+      return null; // incoming and not expiring, this is case (3) above
     }
-    return (
-      <MessageStatusRead dataTestId={dataTestId} messageId={messageId} reserveDirection={true} />
-    );
+    // incoming and  expiring, this is case (1) above
+    return <MessageStatusRead dataTestId={dataTestId} messageId={messageId} isIncoming={true} />;
   }
 
-  // this is the outgoing state: we display the text and the icon or the text and the expiretimer stopwatch when the message is expiring
   switch (status) {
     case 'sending':
-      return <MessageStatusSending dataTestId={dataTestId} messageId={messageId} />;
+      return <MessageStatusSending dataTestId={dataTestId} messageId={messageId} />; // we always show sending state
     case 'sent':
       return <MessageStatusSent dataTestId={dataTestId} messageId={messageId} />;
     case 'read':
-      return <MessageStatusRead dataTestId={dataTestId} messageId={messageId} />;
+      return <MessageStatusRead dataTestId={dataTestId} messageId={messageId} isIncoming={false} />; // read is used for both incoming and outgoing messages, but not with the same UI
     case 'error':
-      return <MessageStatusError dataTestId={dataTestId} messageId={messageId} />;
+      return <MessageStatusError dataTestId={dataTestId} messageId={messageId} />; // we always show error state
     default:
       return null;
   }
 };
 
-const MessageStatusContainer = styled.div<{ reserveDirection?: boolean }>`
+const MessageStatusContainer = styled.div<{ isIncoming: boolean }>`
   display: inline-block;
-  align-self: flex-end;
+  align-self: ${props => (props.isIncoming ? 'flex-start' : 'flex-end')};
+  flex-direction: ${props =>
+    props.isIncoming
+      ? 'row-reverse'
+      : 'row'}; // we want {icon}{text} for incoming read messages, but {text}{icon} for outgoing messages
+
   margin-bottom: 2px;
   margin-inline-start: 5px;
   cursor: pointer;
   display: flex;
   align-items: baseline;
-  flex-direction: ${props =>
-    props.reserveDirection
-      ? 'row-reverse'
-      : 'row'}; // we want {icon}{text} for incoming read messages, but {text}{icon} for outgoing messages
 `;
 
 const StyledStatusText = styled.div`
@@ -103,6 +117,12 @@ function useIsExpiring(messageId: string) {
   );
 }
 
+function useIsMostRecentMessage(messageId: string) {
+  const mostRecentMessageId = useSelector(getMostRecentMessageId);
+  const isMostRecentMessage = mostRecentMessageId === messageId;
+  return isMostRecentMessage;
+}
+
 function MessageStatusExpireTimer(props: Props) {
   const selected = useMessageExpirationPropsById(props.messageId);
   if (
@@ -124,24 +144,42 @@ function MessageStatusExpireTimer(props: Props) {
 const MessageStatusSending = ({ dataTestId }: Props) => {
   // while sending, we do not display the expire timer at all.
   return (
-    <MessageStatusContainer data-testid={dataTestId} data-testtype="sending">
+    <MessageStatusContainer data-testid={dataTestId} data-testtype="sending" isIncoming={false}>
       <TextDetails text={window.i18n('sending')} />
       <IconNormal rotateDuration={2} iconType="sending" />
     </MessageStatusContainer>
   );
 };
 
-const MessageStatusSent = ({ dataTestId, messageId }: Props) => {
+/**
+ * Returns the correct expiring stopwatch icon if this message is expiring, or a normal status icon otherwise.
+ * Only to be used with the status "read" and "sent"
+ */
+function IconForExpiringMessageId({
+  messageId,
+  iconType,
+}: Pick<Props, 'messageId'> & { iconType: SessionIconType }) {
   const isExpiring = useIsExpiring(messageId);
 
+  return isExpiring ? (
+    <MessageStatusExpireTimer messageId={messageId} />
+  ) : (
+    <IconNormal iconType={iconType} />
+  );
+}
+
+const MessageStatusSent = ({ dataTestId, messageId }: Props) => {
+  const isExpiring = useIsExpiring(messageId);
+  const isMostRecentMessage = useIsMostRecentMessage(messageId);
+
+  // we hide a "sent" message status which is not expiring except for the most recent message
+  if (!isExpiring && !isMostRecentMessage) {
+    return null;
+  }
   return (
-    <MessageStatusContainer data-testid={dataTestId} data-testtype="sent">
+    <MessageStatusContainer data-testid={dataTestId} data-testtype="sent" isIncoming={false}>
       <TextDetails text={window.i18n('sent')} />
-      {isExpiring ? (
-        <MessageStatusExpireTimer messageId={messageId} />
-      ) : (
-        <IconNormal iconType="circleCheck" />
-      )}
+      <IconForExpiringMessageId messageId={messageId} iconType="circleCheck" />
     </MessageStatusContainer>
   );
 };
@@ -149,29 +187,29 @@ const MessageStatusSent = ({ dataTestId, messageId }: Props) => {
 const MessageStatusRead = ({
   dataTestId,
   messageId,
-  reserveDirection,
-}: Props & { reserveDirection?: boolean }) => {
+  isIncoming,
+}: Props & { isIncoming: boolean }) => {
   const isExpiring = useIsExpiring(messageId);
+
+  const isMostRecentMessage = useIsMostRecentMessage(messageId);
+
+  // we hide an outgoing "read" message status which is not expiring except for the most recent message
+  if (!isIncoming && !isExpiring && !isMostRecentMessage) {
+    return null;
+  }
+
   return (
-    <MessageStatusContainer
-      data-testid={dataTestId}
-      data-testtype="read"
-      reserveDirection={reserveDirection}
-    >
+    <MessageStatusContainer data-testid={dataTestId} data-testtype="read" isIncoming={isIncoming}>
       <TextDetails text={window.i18n('read')} />
-      {isExpiring ? (
-        <MessageStatusExpireTimer messageId={messageId} />
-      ) : (
-        <IconNormal iconType="doubleCheckCircleFilled" />
-      )}
+      <IconForExpiringMessageId messageId={messageId} iconType="doubleCheckCircleFilled" />
     </MessageStatusContainer>
   );
 };
 
 const MessageStatusError = ({ dataTestId }: Props) => {
-  const showDebugLog = () => {
+  const showDebugLog = useCallback(() => {
     ipcRenderer.send('show-debug-log');
-  };
+  }, []);
   // when on errro, we do not display the expire timer at all.
 
   return (
@@ -180,6 +218,7 @@ const MessageStatusError = ({ dataTestId }: Props) => {
       data-testtype="failed"
       onClick={showDebugLog}
       title={window.i18n('sendFailed')}
+      isIncoming={false}
     >
       <TextDetails text={window.i18n('failed')} />
       <IconDanger iconType="error" />

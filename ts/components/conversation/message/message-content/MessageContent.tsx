@@ -5,7 +5,7 @@ import React, { createContext, useCallback, useContext, useLayoutEffect, useStat
 import { InView } from 'react-intersection-observer';
 import { useSelector } from 'react-redux';
 import styled, { css, keyframes } from 'styled-components';
-import { MessageModelType, MessageRenderingProps } from '../../../../models/messageType';
+import { MessageRenderingProps } from '../../../../models/messageType';
 import { StateType } from '../../../../state/reducer';
 import { useMessageIsDeleted } from '../../../../state/selectors';
 import {
@@ -77,14 +77,14 @@ export const StyledMessageHighlighter = styled.div<{
 `;
 
 const StyledMessageOpaqueContent = styled(StyledMessageHighlighter)<{
-  messageDirection: MessageModelType;
+  isIncoming: boolean;
   highlight: boolean;
 }>`
   background: ${props =>
-    props.messageDirection === 'incoming'
+    props.isIncoming
       ? 'var(--message-bubbles-received-background-color)'
       : 'var(--message-bubbles-sent-background-color)'};
-  align-self: ${props => (props.messageDirection === 'incoming' ? 'flex-start' : 'flex-end')};
+  align-self: ${props => (props.isIncoming ? 'flex-start' : 'flex-end')};
   padding: var(--padding-message-content);
   border-radius: var(--border-radius-message-box);
   width: 100%;
@@ -183,7 +183,7 @@ export const MessageContent = (props: Props) => {
       >
         <IsMessageVisibleContext.Provider value={isMessageVisible}>
           {hasContentBeforeAttachment && (
-            <StyledMessageOpaqueContent messageDirection={direction} highlight={highlight}>
+            <StyledMessageOpaqueContent isIncoming={direction === 'incoming'} highlight={highlight}>
               {!isDeleted && (
                 <>
                   <MessageQuote messageId={props.messageId} />
