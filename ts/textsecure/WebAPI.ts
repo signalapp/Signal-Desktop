@@ -763,8 +763,7 @@ export type WhoamiResultType = z.infer<typeof whoamiResultZod>;
 
 export type CdsLookupOptionsType = Readonly<{
   e164s: ReadonlyArray<string>;
-  acis?: ReadonlyArray<AciString>;
-  accessKeys?: ReadonlyArray<string>;
+  acisAndAccessKeys?: ReadonlyArray<{ aci: AciString; accessKey: string }>;
   returnAcisWithoutUaks?: boolean;
 }>;
 
@@ -3481,14 +3480,12 @@ export function initialize({
 
     async function cdsLookup({
       e164s,
-      acis = [],
-      accessKeys = [],
+      acisAndAccessKeys = [],
       returnAcisWithoutUaks,
     }: CdsLookupOptionsType): Promise<CDSResponseType> {
       return cds.request({
         e164s,
-        acis,
-        accessKeys,
+        acisAndAccessKeys,
         returnAcisWithoutUaks,
       });
     }

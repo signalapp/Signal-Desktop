@@ -65,8 +65,7 @@ export abstract class CDSSocketBase<
 
   public async request({
     e164s,
-    acis,
-    accessKeys,
+    acisAndAccessKeys,
     returnAcisWithoutUaks = false,
   }: CDSRequestOptionsType): Promise<CDSResponseType> {
     const log = this.logger;
@@ -81,23 +80,11 @@ export abstract class CDSSocketBase<
       'CDS Connection not established'
     );
 
-    const aciUakPairs = new Array<Uint8Array>();
-
     const version = 2;
-    strictAssert(
-      acis.length === accessKeys.length,
-      `Number of ACIs ${acis.length} is different ` +
-        `from number of access keys ${accessKeys.length}`
-    );
 
-    for (let i = 0; i < acis.length; i += 1) {
-      aciUakPairs.push(
-        Bytes.concatenate([
-          uuidToBytes(acis[i]),
-          Bytes.fromBase64(accessKeys[i]),
-        ])
-      );
-    }
+    const aciUakPairs = acisAndAccessKeys.map(({ aci, accessKey }) =>
+      Bytes.concatenate([uuidToBytes(aci), Bytes.fromBase64(accessKey)])
+    );
 
     const request = Proto.CDSClientRequest.encode({
       newE164s: Buffer.concat(

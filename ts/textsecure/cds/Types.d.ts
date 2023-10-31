@@ -17,8 +17,7 @@ export type CDSResponseType = ReadonlyMap<string, CDSResponseEntryType>;
 
 export type CDSRequestOptionsType = Readonly<{
   e164s: ReadonlyArray<string>;
-  acis: ReadonlyArray<AciString>;
-  accessKeys: ReadonlyArray<string>;
+  acisAndAccessKeys: ReadonlyArray<{ aci: AciString; accessKey: string }>;
   returnAcisWithoutUaks?: boolean;
   timeout?: number;
 }>;
