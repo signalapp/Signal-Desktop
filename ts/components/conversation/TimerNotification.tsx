@@ -5,8 +5,7 @@ import { assertUnreachable } from '../../types/sqlSharedTypes';
 
 import { isLegacyDisappearingModeEnabled } from '../../session/disappearing_messages/legacy';
 import { Flex } from '../basic/Flex';
-import { SpacerSM, Text } from '../basic/Text';
-import { SessionIcon } from '../icon';
+import { Text } from '../basic/Text';
 import { ExpirableReadableMessage } from './message/message-item/ExpirableReadableMessage';
 
 export const TimerNotification = (props: PropsForExpirationTimer) => {
@@ -48,7 +47,7 @@ export const TimerNotification = (props: PropsForExpirationTimer) => {
   return (
     <ExpirableReadableMessage
       messageId={messageId}
-      isCentered={true}
+      isControlMessage={true}
       key={`readable-message-${messageId}`}
       dataTestId={'disappear-control-message'}
     >
@@ -59,13 +58,11 @@ export const TimerNotification = (props: PropsForExpirationTimer) => {
         justifyContent="center"
         width="90%"
         maxWidth="700px"
-        margin="10px auto"
+        margin="5px auto 10px auto" // top margin is smaller that bottom one to make the stopwatch icon of expirable message closer to its content
         padding="5px 10px"
         style={{ textAlign: 'center' }}
       >
-        <SessionIcon iconType="stopwatch" iconColor="inherit" iconSize="medium" />
-        <SpacerSM />
-        <Text text={textToRender} />
+        <Text text={textToRender} subtle={true} />
       </Flex>
     </ExpirableReadableMessage>
   );

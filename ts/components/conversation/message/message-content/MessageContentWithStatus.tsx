@@ -12,6 +12,7 @@ import {
   isMessageSelectionMode,
 } from '../../../../state/selectors/conversations';
 import { Reactions } from '../../../../util/reactions';
+import { Flex } from '../../../basic/Flex';
 import { ExpirableReadableMessage } from '../message-item/ExpirableReadableMessage';
 import { MessageAuthorText } from './MessageAuthorText';
 import { MessageAvatar } from './MessageAvatar';
@@ -33,11 +34,11 @@ type Props = {
   enableReactions: boolean;
 };
 
-const StyledMessageContentContainer = styled.div<{ direction: 'left' | 'right' }>`
+const StyledMessageContentContainer = styled.div<{ isIncoming: boolean }>`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: ${props => (props.direction === 'left' ? 'flex-start' : 'flex-end')};
+  align-items: ${props => (props.isIncoming ? 'flex-start' : 'flex-end')};
   width: 100%;
 
   ${StyledMessageReactions} {
@@ -46,7 +47,7 @@ const StyledMessageContentContainer = styled.div<{ direction: 'left' | 'right' }
 `;
 
 const StyledMessageWithAuthor = styled.div<{ isIncoming: boolean }>`
-  max-width: ${props => (props.isIncoming ? '100%' : 'calc(100% - 17px)')};
+  max-width: '100%';
   display: flex;
   flex-direction: column;
   min-width: 0;
@@ -118,7 +119,7 @@ export const MessageContentWithStatuses = (props: Props) => {
 
   return (
     <StyledMessageContentContainer
-      direction={isIncoming ? 'left' : 'right'}
+      isIncoming={isIncoming}
       onMouseLeave={() => {
         setPopupReaction('');
       }}
@@ -134,20 +135,14 @@ export const MessageContentWithStatuses = (props: Props) => {
         <StyledAvatarContainer hideAvatar={hideAvatar} isGroup={isGroup}>
           <MessageAvatar messageId={messageId} hideAvatar={hideAvatar} isPrivate={isPrivate} />
         </StyledAvatarContainer>
-        <MessageStatus
-          dataTestId="msg-status-incoming"
-          messageId={messageId}
-          isCorrectSide={isIncoming}
-        />
-        <StyledMessageWithAuthor isIncoming={isIncoming}>
-          <MessageAuthorText messageId={messageId} />
-          <MessageContent messageId={messageId} isDetailView={isDetailView} />
-        </StyledMessageWithAuthor>
-        <MessageStatus
-          dataTestId="msg-status-outgoing"
-          messageId={messageId}
-          isCorrectSide={!isIncoming}
-        />
+
+        <Flex container={true} flexDirection="column" flexShrink={0}>
+          <StyledMessageWithAuthor isIncoming={isIncoming}>
+            <MessageAuthorText messageId={messageId} />
+            <MessageContent messageId={messageId} isDetailView={isDetailView} />
+          </StyledMessageWithAuthor>
+          <MessageStatus dataTestId="msg-status" messageId={messageId} />
+        </Flex>
         {!isDeleted && (
           <MessageContextMenu
             messageId={messageId}

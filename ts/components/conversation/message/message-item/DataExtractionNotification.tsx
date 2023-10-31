@@ -21,7 +21,7 @@ export const DataExtractionNotification = (props: PropsForDataExtractionNotifica
       messageId={messageId}
       dataTestId="data-extraction-notification"
       key={`readable-message-${messageId}`}
-      isCentered={true}
+      isControlMessage={true}
     >
       <Flex
         container={true}
@@ -30,7 +30,7 @@ export const DataExtractionNotification = (props: PropsForDataExtractionNotifica
         justifyContent="center"
         width="90%"
         maxWidth="700px"
-        margin="10px auto"
+        margin="5px auto 10px auto" // top margin is smaller that bottom one to make the stopwatch icon of expirable message closer to its content
         padding="5px 10px"
         id={`msg-${messageId}`}
         style={{ textAlign: 'center' }}

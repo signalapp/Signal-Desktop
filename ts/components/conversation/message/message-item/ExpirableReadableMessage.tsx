@@ -74,21 +74,42 @@ const StyledReadableMessage = styled(ReadableMessage)<{
   isIncoming: boolean;
 }>`
   display: flex;
-  justify-content: ${props => (props.isIncoming ? 'flex-start' : 'flex-end')};
-  align-items: center;
+  justify-content: flex-end; // ${props => (props.isIncoming ? 'flex-start' : 'flex-end')};
+  align-items: ${props => (props.isIncoming ? 'flex-start' : 'flex-end')};
   width: 100%;
+  flex-direction: column;
 `;
 
 export interface ExpirableReadableMessageProps
   extends Omit<ReadableMessageProps, 'receivedAt' | 'isUnread'> {
   messageId: string;
-  isCentered?: boolean;
+  isControlMessage?: boolean;
+}
+
+function ExpireTimerControlMessage({
+  expirationTimestamp,
+  expirationDurationMs,
+  isControlMessage,
+}: {
+  expirationDurationMs: number | null | undefined;
+  expirationTimestamp: number | null | undefined;
+  isControlMessage: boolean | undefined;
+}) {
+  if (!isControlMessage) {
+    return null;
+  }
+  return (
+    <ExpireTimer
+      expirationDurationMs={expirationDurationMs || undefined}
+      expirationTimestamp={expirationTimestamp}
+    />
+  );
 }
 
 export const ExpirableReadableMessage = (props: ExpirableReadableMessageProps) => {
   const selected = useMessageExpirationPropsById(props.messageId);
 
-  const { isCentered, onClick, onDoubleClickCapture, role, dataTestId } = props;
+  const { isControlMessage, onClick, onDoubleClickCapture, role, dataTestId } = props;
 
   const { isExpired } = useIsExpired({
     convoId: selected?.convoId,
@@ -126,30 +147,12 @@ export const ExpirableReadableMessage = (props: ExpirableReadableMessageProps) =
       key={`readable-message-${messageId}`}
       dataTestId={dataTestId}
     >
-      {expirationDurationMs && expirationTimestamp ? (
-        <ExpireTimer
-          expirationDurationMs={expirationDurationMs}
-          expirationTimestamp={expirationTimestamp}
-          style={{
-            display: !isCentered && isIncoming ? 'none' : 'block',
-            visibility: !isIncoming ? 'visible' : 'hidden',
-            flexGrow: !isCentered ? 1 : undefined,
-          }}
-        />
-      ) : null}
+      <ExpireTimerControlMessage
+        expirationDurationMs={expirationDurationMs}
+        expirationTimestamp={expirationTimestamp}
+        isControlMessage={isControlMessage}
+      />
       {props.children}
-      {expirationDurationMs && expirationTimestamp ? (
-        <ExpireTimer
-          expirationDurationMs={expirationDurationMs}
-          expirationTimestamp={expirationTimestamp}
-          style={{
-            display: !isCentered && !isIncoming ? 'none' : 'block',
-            visibility: isIncoming ? 'visible' : 'hidden',
-            flexGrow: !isCentered ? 1 : undefined,
-            textAlign: !isCentered ? 'end' : undefined,
-          }}
-        />
-      ) : null}
     </StyledReadableMessage>
   );
 };
