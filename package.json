@@ -398,6 +398,7 @@
         }
       },
       "signDlls": true,
+      "signExts": [".node"],
       "target": [
         "nsis"
       ]
