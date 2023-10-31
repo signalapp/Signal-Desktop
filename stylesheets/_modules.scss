@@ -3649,27 +3649,44 @@ button.module-image__border-overlay:focus {
 
   &__camera-is-off {
     @include calling-text-shadow;
-    @include font-body-1;
+    align-items: center;
     color: $color-white;
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    flex-grow: 1;
+    font-size: 15px;
+    line-height: 20px;
+    margin-block-start: 15px;
+    margin-block-end: 15px;
+    justify-content: center;
+    text-align: center;
+    transition: opacity 100ms ease-out;
+    user-select: none;
     z-index: $z-index-base;
-    margin-top: 10px;
-
-    // To match the icon height in ::before
-    line-height: 24px;
 
     &::before {
       content: '';
       display: block;
-      background-image: url('../images/icons/v3/video/video-slash-fill-white.svg');
-      background-size: 100%;
-      -webkit-filter: drop-shadow(0 0 4px $color-black-alpha-40);
-      height: 20px;
-      margin-inline-end: 10px;
-      width: 20px;
+      background-color: $color-white;
+      -webkit-mask-repeat: no-repeat;
+      -webkit-mask-position: center;
+      -webkit-mask-size: 100%;
+      -webkit-mask-image: url('../images/icons/v3/video/video-slash-light.svg');
+      height: 24px;
+      width: 24px;
+      margin-block-end: 12px;
     }
   }
+
+  &__camera-is-off-spacer {
+    flex-basis: 120px;
+  }
+}
+
+.module-calling__spacer {
+  display: flex;
+  flex-grow: 0;
+  flex-shrink: 1;
 }
 
 @keyframes module-ongoing-call__controls--fade-in {
@@ -4014,7 +4031,10 @@ button.module-image__border-overlay:focus {
       overflow: hidden;
       position: relative;
       width: $local-preview-width;
-      box-shadow: 0px 4px 14px 0px $color-black-alpha-40;
+
+      &--active {
+        box-shadow: 0px 4px 14px 0px $color-black-alpha-40;
+      }
 
       &__video {
         // The background-color is seen while the video loads.

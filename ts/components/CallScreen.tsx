@@ -347,23 +347,7 @@ export function CallScreen({
           <video ref={localVideoRef} autoPlay />
         ) : (
           <CallBackgroundBlur avatarPath={me.avatarPath} color={me.color}>
-            <Avatar
-              acceptedMessageRequest
-              avatarPath={me.avatarPath}
-              badge={undefined}
-              color={me.color || AvatarColors[0]}
-              noteToSelf={false}
-              conversationType="direct"
-              i18n={i18n}
-              isMe
-              phoneNumber={me.phoneNumber}
-              profileName={me.profileName}
-              title={me.title}
-              // `sharedGroupNames` makes no sense for yourself, but `<Avatar>` needs it
-              //   to determine blurring.
-              sharedGroupNames={[]}
-              size={AvatarSize.EIGHTY}
-            />
+            <div className="module-calling__spacer module-calling__camera-is-off-spacer" />
             <div className="module-calling__camera-is-off">
               {i18n('icu:calling__your-video-is-off')}
             </div>
@@ -398,7 +382,7 @@ export function CallScreen({
           title={me.title}
           // See comment above about `sharedGroupNames`.
           sharedGroupNames={[]}
-          size={AvatarSize.EIGHTY}
+          size={AvatarSize.FORTY}
         />
       </CallBackgroundBlur>
     );
@@ -520,13 +504,16 @@ export function CallScreen({
         />
       </div>
       {isRinging && (
-        <CallingPreCallInfo
-          conversation={conversation}
-          groupMembers={groupMembers}
-          i18n={i18n}
-          me={me}
-          ringMode={RingMode.IsRinging}
-        />
+        <>
+          <div className="module-CallingPreCallInfo-spacer " />
+          <CallingPreCallInfo
+            conversation={conversation}
+            groupMembers={groupMembers}
+            i18n={i18n}
+            me={me}
+            ringMode={RingMode.IsRinging}
+          />
+        </>
       )}
       {remoteParticipantsElement}
       {lonelyInCallNode}
@@ -594,7 +581,14 @@ export function CallScreen({
             </Button>
           </div>
         </div>
-        <div className="module-ongoing-call__footer__local-preview">
+        <div
+          className={classNames(
+            'module-ongoing-call__footer__local-preview',
+            `module-ongoing-call__footer__local-preview--${
+              localPreviewNode ? 'active' : 'inactive'
+            }`
+          )}
+        >
           {localPreviewNode}
           <CallingAudioIndicator
             hasAudio={hasLocalAudio}

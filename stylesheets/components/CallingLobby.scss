@@ -5,35 +5,26 @@
   &__local-preview {
     position: absolute;
     z-index: $z-index-negative;
+    top: 28px;
 
     &--camera-is-on {
       @include lonely-local-video-preview;
-      top: 15px;
-      height: 100%;
-      max-height: calc(100% - 127px);
       width: auto;
+      height: 100%;
+      max-height: calc(100% - 140px);
       opacity: 0.6;
     }
 
     &--camera-is-off {
+      @include lonely-local-video-preview;
+      width: auto;
       height: 100%;
-      width: 100%;
+      max-height: calc(100% - 140px);
+      aspect-ratio: 4 / 3;
     }
   }
 
   &__camera-is-off {
-    @include calling-text-shadow;
-    @include font-subtitle;
-    align-items: center;
-    color: $color-white;
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    justify-content: center;
-    text-align: center;
-    transition: opacity 100ms ease-out;
-    user-select: none;
-
     &--visible {
       opacity: 1;
     }
@@ -41,16 +32,9 @@
     &--invisible {
       opacity: 0;
     }
-
-    &::before {
-      content: '';
-      display: block;
-      background-image: url('../images/icons/v3/video/video-slash-fill-light-white.svg');
-      background-size: 100%;
-      -webkit-filter: drop-shadow(0 0 4px $color-black-alpha-40);
-      height: 20px;
-      margin-bottom: 8px;
-      width: 20px;
-    }
   }
+}
+
+.module-CallingLobby__CallControls-spacer {
+  flex-basis: 70px;
 }
