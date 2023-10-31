@@ -38,7 +38,6 @@ import { isWindowDragElement } from './util/isWindowDragElement';
 import { assertDev, strictAssert } from './util/assert';
 import { filter } from './util/iterables';
 import { isNotNil } from './util/isNotNil';
-import { isPnpEnabled } from './util/isPnpEnabled';
 import { setAppLoadingScreenMessage } from './setAppLoadingScreenMessage';
 import { IdleDetector } from './IdleDetector';
 import { expiringMessagesDeletionService } from './services/expiringMessagesDeletion';
@@ -1787,7 +1786,7 @@ export async function startApp(): Promise<void> {
           // Note: we always have to register our capabilities all at once, so we do this
           //   after connect on every startup
           await server.registerCapabilities({
-            pni: isPnpEnabled(),
+            pni: true,
           });
         } catch (error) {
           log.error(
