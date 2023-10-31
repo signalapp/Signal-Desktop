@@ -1329,6 +1329,26 @@ export class ConversationController {
     }
   }
 
+  async clearShareMyPhoneNumber(): Promise<void> {
+    const sharedWith = this.getAll().filter(c => c.get('shareMyPhoneNumber'));
+
+    if (sharedWith.length === 0) {
+      return;
+    }
+
+    log.info(
+      'ConversationController.clearShareMyPhoneNumber: ' +
+        `updating ${sharedWith.length} conversations`
+    );
+
+    await window.Signal.Data.updateConversations(
+      sharedWith.map(c => {
+        c.unset('shareMyPhoneNumber');
+        return c.attributes;
+      })
+    );
+  }
+
   // For testing
   async _forgetE164(e164: string): Promise<void> {
     const { server } = window.textsecure;
