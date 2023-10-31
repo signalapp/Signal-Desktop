@@ -525,6 +525,7 @@ function handleMessageChangedOrAdded(
   );
   if (messageInStoreIndex >= 0) {
     state.messages[messageInStoreIndex] = changedOrAddedMessageProps;
+    state.mostRecentMessageId = updateMostRecentMessageId(state);
 
     return state;
   }
@@ -535,10 +536,28 @@ function handleMessageChangedOrAdded(
   if (state.showScrollButton) {
     return state;
   }
+
   // sorting happens in the selector
 
-  state.messages.push(changedOrAddedMessageProps);
+  state.mostRecentMessageId = updateMostRecentMessageId(state);
   return state;
+}
+
+function updateMostRecentMessageId(state: ConversationsStateType) {
+  // update the most recent message id as this is the one used to display the last MessageStatus
+  let foundSoFarMaxId = '';
+  let foundSoFarMaxTimestamp = 0;
+
+  state.messages.forEach(m => {
+    if (
+      (m.propsForMessage.serverTimestamp || m.propsForMessage.timestamp || 0) >
+      foundSoFarMaxTimestamp
+    ) {
+      foundSoFarMaxId = m.propsForMessage.id;
+      foundSoFarMaxTimestamp = m.propsForMessage.serverTimestamp || m.propsForMessage.timestamp;
+    }
+  });
+  return foundSoFarMaxId;
 }
 
 function handleMessagesChangedOrAdded(
