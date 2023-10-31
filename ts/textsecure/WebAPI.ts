@@ -26,7 +26,6 @@ import { getStreamWithTimeout } from '../util/getStreamWithTimeout';
 import { formatAcceptLanguageHeader } from '../util/userLanguages';
 import { toWebSafeBase64, fromWebSafeBase64 } from '../util/webSafeBase64';
 import { getBasicAuth } from '../util/getBasicAuth';
-import { isPnpEnabled } from '../util/isPnpEnabled';
 import { createHTTPSAgent } from '../util/createHTTPSAgent';
 import { createProxyAgent } from '../util/createProxyAgent';
 import type { SocketStatus } from '../types/SocketStatus';
@@ -2243,7 +2242,7 @@ export function initialize({
           registrationId,
           pniRegistrationId,
           capabilities: {
-            pni: isPnpEnabled(),
+            pni: true,
           },
           unidentifiedAccessKey: Bytes.toBase64(accessKey),
         },
@@ -2296,7 +2295,7 @@ export function initialize({
           registrationId,
           pniRegistrationId,
           capabilities: {
-            pni: isPnpEnabled(),
+            pni: true,
           },
         },
         aciSignedPreKey: serializeSignedPreKey(aciSignedPreKey),
