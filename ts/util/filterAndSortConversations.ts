@@ -106,7 +106,7 @@ function searchConversations(
   const phoneNumber = parseAndFormatPhoneNumber(searchTerm, regionCode);
 
   const currentConversations = conversations.filter(conversation => {
-    return !conversation.left && !conversation.hiddenFromConversationSearch;
+    return !conversation.left;
   });
 
   // Escape the search term
