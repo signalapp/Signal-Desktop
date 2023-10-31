@@ -255,6 +255,7 @@ export function CallingLobby({
           onCancel={onCallCanceled}
         />
 
+        <div className="module-calling__spacer module-CallingPreCallInfo-spacer" />
         <CallingPreCallInfo
           conversation={conversation}
           groupMembers={groupMembers}
@@ -267,7 +268,7 @@ export function CallingLobby({
 
         <div
           className={classNames(
-            'module-CallingLobby__camera-is-off',
+            'module-calling__camera-is-off module-CallingLobby__camera-is-off',
             `module-CallingLobby__camera-is-off--${
               shouldShowLocalVideo ? 'invisible' : 'visible'
             }`
@@ -275,6 +276,8 @@ export function CallingLobby({
         >
           {i18n('icu:calling__your-video-is-off')}
         </div>
+
+        <div className="module-calling__spacer module-CallingLobby__CallControls-spacer" />
 
         <div className="CallControls">
           <div className="CallControls__InfoDisplay">

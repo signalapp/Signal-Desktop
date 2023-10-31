@@ -184,7 +184,7 @@ export function CallingPreCallInfo({
         phoneNumber={conversation.phoneNumber}
         profileName={conversation.profileName}
         sharedGroupNames={conversation.sharedGroupNames}
-        size={AvatarSize.EIGHTY}
+        size={AvatarSize.NINETY_SIX}
         title={conversation.title}
         unblurredAvatarPath={conversation.unblurredAvatarPath}
         i18n={i18n}
