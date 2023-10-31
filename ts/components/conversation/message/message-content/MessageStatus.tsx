@@ -72,7 +72,7 @@ const MessageStatusContainer = styled.div<{ isIncoming: boolean }>`
   margin-inline-start: 5px;
   cursor: pointer;
   display: flex;
-  align-items: baseline;
+  align-items: center;
 `;
 
 const StyledStatusText = styled.div`

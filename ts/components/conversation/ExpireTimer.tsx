@@ -8,7 +8,6 @@ import { SessionIcon } from '../icon/SessionIcon';
 
 const ExpireTimerBucket = styled.div`
   font-size: var(--font-size-xs);
-  line-height: 16px;
   letter-spacing: 0.3px;
   text-transform: uppercase;
   user-select: none;

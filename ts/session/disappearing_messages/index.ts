@@ -459,9 +459,7 @@ function getMessageReadyToDisappear(
 
   if (conversationModel.isPublic()) {
     throw Error(
-      `getMessageReadyToDisappear() Disappearing messages aren't supported in communities. Message id: ${messageModel.get(
-        'id'
-      )}`
+      `getMessageReadyToDisappear() Disappearing messages aren't supported in communities`
     );
   }
 
@@ -480,6 +478,20 @@ function getMessageReadyToDisappear(
 
   // This message is an ExpirationTimerUpdate
   if (lastDisappearingMessageChangeTimestamp || isLegacyConversationSettingMessage) {
+    const previousExpirationMode = conversationModel.getExpirationMode();
+    const previousExpirationTimer = conversationModel.getExpireTimer();
+    const shouldUsePreviousExpiration =
+      expirationType === 'unknown' &&
+      previousExpirationMode !== 'off' &&
+      previousExpirationMode !== 'legacy';
+
+    if (shouldUsePreviousExpiration) {
+      messageModel.set({
+        expirationType: previousExpirationMode,
+        expireTimer: previousExpirationTimer,
+      });
+    }
+
     const expirationTimerUpdate = {
       expirationType,
       expireTimer,
