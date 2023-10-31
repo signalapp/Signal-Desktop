@@ -18,7 +18,7 @@ import type { AciString } from '../../types/ServiceId';
 import { DEFAULT_CONVERSATION_COLOR } from '../../types/Colors';
 import { getPreferredReactionEmoji as getPreferredReactionEmojiFromStoredValue } from '../../reactions/preferredReactionEmoji';
 import { isBeta } from '../../util/version';
-import { DurationInSeconds } from '../../util/durations';
+import { DurationInSeconds, SECOND } from '../../util/durations';
 import { generateUsernameLink } from '../../util/sgnlHref';
 import * as Bytes from '../../Bytes';
 import { getUserNumber, getUserACI } from './user';
@@ -188,14 +188,14 @@ export const getSafetyNumberMode = createSelector(
       return SafetyNumberMode.JustE164;
     }
 
-    const timestamp = remoteConfig['global.safetyNumberAci']?.value;
-    if (typeof timestamp !== 'number') {
+    const timestampInSeconds = remoteConfig['global.safetyNumberAci']?.value;
+    if (typeof timestampInSeconds !== 'number') {
       return SafetyNumberMode.DefaultE164AndThenACI;
     }
 
     // Note: serverTimeSkew is a difference between server time and local time,
     // so we have to add local time to it to correct it for a skew.
-    return now + serverTimeSkew >= timestamp
+    return now + serverTimeSkew >= timestampInSeconds * SECOND
       ? SafetyNumberMode.DefaultACIAndMaybeE164
       : SafetyNumberMode.DefaultE164AndThenACI;
   }
