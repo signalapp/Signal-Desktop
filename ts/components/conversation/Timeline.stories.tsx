@@ -1,31 +1,31 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
-import { times } from 'lodash';
-import { v4 as uuid } from 'uuid';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import { setupI18n } from '../../util/setupI18n';
-import { DurationInSeconds } from '../../util/durations';
+import { times } from 'lodash';
+import * as React from 'react';
+import { v4 as uuid } from 'uuid';
+import { StorybookThemeContext } from '../../../.storybook/StorybookThemeContext';
 import enMessages from '../../../_locales/en/messages.json';
+import { ReadStatus } from '../../messages/MessageReadStatus';
+import type { PropsType as SmartContactSpoofingReviewDialogPropsType } from '../../state/smart/ContactSpoofingReviewDialog';
+import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
+import { PaymentEventKind } from '../../types/Payment';
+import { ThemeType } from '../../types/Util';
+import { ContactSpoofingType } from '../../util/contactSpoofing';
+import { DurationInSeconds } from '../../util/durations';
+import { setupI18n } from '../../util/setupI18n';
+import type { WidthBreakpoint } from '../_util';
+import { ContactSpoofingReviewDialog } from './ContactSpoofingReviewDialog';
+import { ConversationHero } from './ConversationHero';
+import { TextDirection } from './Message';
 import type { PropsType } from './Timeline';
 import { Timeline } from './Timeline';
 import type { TimelineItemType } from './TimelineItem';
 import { TimelineItem } from './TimelineItem';
-import { ContactSpoofingReviewDialog } from './ContactSpoofingReviewDialog';
-import { StorybookThemeContext } from '../../../.storybook/StorybookThemeContext';
-import { ConversationHero } from './ConversationHero';
-import type { PropsType as SmartContactSpoofingReviewDialogPropsType } from '../../state/smart/ContactSpoofingReviewDialog';
-import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
-import { TypingBubble } from './TypingBubble';
-import { ContactSpoofingType } from '../../util/contactSpoofing';
-import { ReadStatus } from '../../messages/MessageReadStatus';
-import type { WidthBreakpoint } from '../_util';
-import { ThemeType } from '../../types/Util';
-import { TextDirection } from './Message';
-import { PaymentEventKind } from '../../types/Payment';
 import type { PropsData as TimelineMessageProps } from './TimelineMessage';
+import { TypingBubble } from './TypingBubble';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -477,7 +477,7 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   invitedContactsForNewlyCreatedGroup:
     overrideProps.invitedContactsForNewlyCreatedGroup || [],
   warning: overrideProps.warning,
-
+  docViewEnabled: false,
   id: uuid(),
   renderItem,
   renderHeroRow,

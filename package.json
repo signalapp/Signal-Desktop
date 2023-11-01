@@ -87,6 +87,7 @@
   },
   "dependencies": {
     "@automerge/automerge": "^2.1.6",
+    "@automerge/automerge-wasm": "0.4.0",
     "@formatjs/fast-memoize": "1.2.6",
     "@formatjs/intl-localematcher": "0.2.32",
     "@indutny/frameless-titlebar": "2.3.5",
@@ -159,7 +160,7 @@
     "prosemirror-schema-basic": "1.2.2",
     "prosemirror-schema-list": "1.3.0",
     "prosemirror-state": "1.4.3",
-    "prosemirror-view": "1.32.2",
+    "prosemirror-view": "^1.32.2",
     "protobufjs": "7.2.4",
     "proxy-agent": "6.3.0",
     "qrcode-generator": "1.4.4",

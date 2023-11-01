@@ -22,37 +22,36 @@ import type {
   MessageReactionType,
   QuotedMessageType,
 } from '../model-types.d';
-import { filter, find, map, repeat, zipObject } from '../util/iterables';
-import * as GoogleChrome from '../util/GoogleChrome';
-import type { DeleteAttributesType } from '../messageModifiers/Deletes';
-import type { SentEventData } from '../textsecure/messageReceiverEvents';
-import { isNotNil } from '../util/isNotNil';
-import { isNormalNumber } from '../util/isNormalNumber';
-import { strictAssert } from '../util/assert';
-import { hydrateStoryContext } from '../util/hydrateStoryContext';
-import { drop } from '../util/drop';
-import type { ConversationModel } from './conversations';
+import { SendMessageProtoError } from '../textsecure/Errors';
 import type {
   CallbackResultType,
   ProcessedDataMessage,
   ProcessedQuote,
   ProcessedUnidentifiedDeliveryStatus,
 } from '../textsecure/Types.d';
-import { SendMessageProtoError } from '../textsecure/Errors';
-import { getUserLanguages } from '../util/userLanguages';
-import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp';
+import type { SentEventData } from '../textsecure/messageReceiverEvents';
+import * as GoogleChrome from '../util/GoogleChrome';
+import { strictAssert } from '../util/assert';
 import { copyCdnFields } from '../util/attachments';
+import { drop } from '../util/drop';
+import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp';
+import { hydrateStoryContext } from '../util/hydrateStoryContext';
+import { isNormalNumber } from '../util/isNormalNumber';
+import { isNotNil } from '../util/isNotNil';
+import { filter, find, map, repeat, zipObject } from '../util/iterables';
+import { getUserLanguages } from '../util/userLanguages';
+import type { ConversationModel } from './conversations';
 
-import type { ReactionType } from '../types/Reactions';
-import type { ServiceIdString } from '../types/ServiceId';
-import { normalizeServiceId } from '../types/ServiceId';
-import { isAciString } from '../util/isAciString';
-import * as reactionUtil from '../reactions/util';
-import * as Errors from '../types/errors';
-import type { AttachmentType } from '../types/Attachment';
-import { isImage, isVideo } from '../types/Attachment';
-import { stringToMIMEType } from '../types/MIME';
-import * as MIME from '../types/MIME';
+import { SeenStatus } from '../MessageSeenStatus';
+import { parseBoostBadgeListFromServer } from '../badges/parseBadgesFromServer';
+import type { ConversationQueueJobData } from '../jobs/conversationJobQueue';
+import {
+  conversationJobQueue,
+  conversationQueueJobEnum,
+} from '../jobs/conversationJobQueue';
+import { viewOnceOpenJobQueue } from '../jobs/viewOnceOpenJobQueue';
+import * as log from '../logging/log';
+import type { ReactionAttributesType } from '../messageModifiers/Reactions';
 import { ReadStatus } from '../messages/MessageReadStatus';
 import type { SendStateByConversationId } from '../messages/MessageSendState';
 import {
@@ -62,10 +61,8 @@ import {
   sendStateReducer,
   someSendStatus,
 } from '../messages/MessageSendState';
-import { getMessageById } from '../messages/getMessageById';
 import {
   getContact,
-  getPaymentEventNotificationText,
   getSource,
   getSourceServiceId,
   isCustomError,
@@ -81,14 +78,12 @@ import { isNewReactionReplacingPrevious } from '../reactions/util';
 import { markRead, markViewed } from '../services/MessageUpdater';
 import { scheduleOptimizeFTS } from '../services/ftsOptimizer';
 import {
-  isDirectConversation,
-  isGroup,
-  isGroupV1,
-  isMe,
-} from '../util/whatTypeOfConversation';
-import { handleMessageSend } from '../util/handleMessageSend';
-import { getSendOptions } from '../util/getSendOptions';
-import { modifyTargetMessage } from '../util/modifyTargetMessage';
+  NotificationType,
+  notificationService,
+} from '../services/notifications';
+import { getStoryDataFromMessageAttributes } from '../services/storyLoader';
+import dataInterface from '../sql/Client';
+import { isInCall } from '../state/selectors/calling';
 import {
   getMessagePropStatus,
   hasErrors,
@@ -112,11 +107,12 @@ import {
   isUniversalTimerNotification,
   isUnsupportedMessage,
   isVerifiedChange,
-  isConversationMerge,
 } from '../state/selectors/message';
-import type { ReactionAttributesType } from '../messageModifiers/Reactions';
-import { isInCall } from '../state/selectors/calling';
-import { ReactionSource } from '../reactions/ReactionSource';
+import type { AttachmentType } from '../types/Attachment';
+import { isImage, isVideo } from '../types/Attachment';
+import type { RawBodyRange } from '../types/BodyRange';
+import { BodyRange } from '../types/BodyRange';
+import type { EmbeddedContactWithHydratedAvatar } from '../types/EmbeddedContact';
 import * as LinkPreview from '../types/LinkPreview';
 import * as MIME from '../types/MIME';
 import { stringToMIMEType } from '../types/MIME';
@@ -124,52 +120,42 @@ import type { ReactionType } from '../types/Reactions';
 import type { ServiceIdString } from '../types/ServiceId';
 import { normalizeServiceId } from '../types/ServiceId';
 import type { StickerWithHydratedData } from '../types/Stickers';
-import * as Stickers from '../types/Stickers';
 import * as Errors from '../types/errors';
 import type {
   LinkPreviewType,
   LinkPreviewWithHydratedData,
 } from '../types/message/LinkPreviews';
-import * as log from '../logging/log';
-import { cleanupMessage, deleteMessageData } from '../util/cleanup';
-import {
-  getContact,
-  getSource,
-  getSourceServiceId,
-  isCustomError,
-  messageHasPaymentEvent,
-  isQuoteAMatch,
-} from '../messages/helpers';
-import { viewOnceOpenJobQueue } from '../jobs/viewOnceOpenJobQueue';
-import { getMessageIdForLogging } from '../util/idForLogging';
-import { hasAttachmentDownloads } from '../util/hasAttachmentDownloads';
-import { queueAttachmentDownloads } from '../util/queueAttachmentDownloads';
-import { findStoryMessages } from '../util/findStoryMessage';
-import { getStoryDataFromMessageAttributes } from '../services/storyLoader';
-import type { ConversationQueueJobData } from '../jobs/conversationJobQueue';
-import { shouldDownloadStory } from '../util/shouldDownloadStory';
-import type { EmbeddedContactWithHydratedAvatar } from '../types/EmbeddedContact';
-import { SeenStatus } from '../MessageSeenStatus';
-import { isNewReactionReplacingPrevious } from '../reactions/util';
-import { parseBoostBadgeListFromServer } from '../badges/parseBadgesFromServer';
-import type { StickerWithHydratedData } from '../types/Stickers';
 import {
   addToAttachmentDownloadQueue,
   shouldUseAttachmentDownloadQueue,
 } from '../util/attachmentDownloadQueue';
-import dataInterface from '../sql/Client';
+import { cleanupMessage, deleteMessageData } from '../util/cleanup';
+import { findStoryMessages } from '../util/findStoryMessage';
+import { getMessageAuthorText } from '../util/getMessageAuthorText';
+import { getNotificationDataForMessage } from '../util/getNotificationDataForMessage';
+import { getNotificationTextForMessage } from '../util/getNotificationTextForMessage';
+import { getOwn } from '../util/getOwn';
 import { getQuoteBodyText } from '../util/getQuoteBodyText';
-import { shouldReplyNotifyUser } from '../util/shouldReplyNotifyUser';
-import type { RawBodyRange } from '../types/BodyRange';
-import { BodyRange } from '../types/BodyRange';
+import { getSendOptions } from '../util/getSendOptions';
+import { getSenderIdentifier } from '../util/getSenderIdentifier';
+import { handleMessageSend } from '../util/handleMessageSend';
+import { hasAttachmentDownloads } from '../util/hasAttachmentDownloads';
+import { getMessageIdForLogging } from '../util/idForLogging';
+import { isAciString } from '../util/isAciString';
 import {
   queueUpdateMessage,
   saveNewMessageBatcher,
 } from '../util/messageBatcher';
-import { getSenderIdentifier } from '../util/getSenderIdentifier';
-import { getNotificationDataForMessage } from '../util/getNotificationDataForMessage';
-import { getNotificationTextForMessage } from '../util/getNotificationTextForMessage';
-import { getMessageAuthorText } from '../util/getMessageAuthorText';
+import { modifyTargetMessage } from '../util/modifyTargetMessage';
+import { queueAttachmentDownloads } from '../util/queueAttachmentDownloads';
+import { shouldDownloadStory } from '../util/shouldDownloadStory';
+import { shouldReplyNotifyUser } from '../util/shouldReplyNotifyUser';
+import {
+  isDirectConversation,
+  isGroup,
+  isGroupV1,
+  isMe,
+} from '../util/whatTypeOfConversation';
 
 /* eslint-disable more/no-then */
 
@@ -2240,14 +2226,14 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
             message.get('sent_at') > conversationTimestamp) &&
           messageHasPaymentEvent(message.attributes)
         ) {
-          if (!message.getNotificationText().startsWith('$$')) {
+if (!message.getNotificationText().startsWith('$$')) {
           conversation.set({
             lastMessage: message.getNotificationText(),
             lastMessageAuthor: getMessageAuthorText(message.attributes),
             timestamp: message.get('sent_at'),
           });
         }
-        }
+}
 
         message = window.MessageCache.__DEPRECATED$register(
           message.id,

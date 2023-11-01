@@ -27,9 +27,11 @@ import { SendStatus } from '../messages/MessageSendState';
 import { getContact } from '../messages/helpers';
 import type {
   ConversationAttributesType,
+  ConversationLastProfileType,
   ConversationRenderInfoType,
   MessageAttributesType,
-  SenderKeyInfoType
+  QuotedMessageType,
+  SenderKeyInfoType,
 } from '../model-types.d';
 import { SignalService as Proto } from '../protobuf';
 import { scheduleOptimizeFTS } from '../services/ftsOptimizer';
@@ -52,12 +54,16 @@ import type { GroupV2InfoType } from '../textsecure/SendMessage';
 import MessageSender from '../textsecure/SendMessage';
 import createTaskWithTimeout from '../textsecure/TaskWithTimeout';
 import type {
-  CallbackResultType
+  CallbackResultType,
+  PniSignatureMessageType,
 } from '../textsecure/Types.d';
 import type { AttachmentType, ThumbnailType } from '../types/Attachment';
+import type { DraftBodyRanges } from '../types/BodyRange';
 import { BodyRange } from '../types/BodyRange';
 import type {
-  AvatarColorType
+  AvatarColorType,
+  ConversationColorType,
+  CustomColorType,
 } from '../types/Colors';
 import * as Conversation from '../types/Conversation';
 import type { EmbeddedContactWithHydratedAvatar } from '../types/EmbeddedContact';
@@ -99,10 +105,11 @@ import { getRecipients } from '../util/getRecipients';
 import { getSendOptions } from '../util/getSendOptions';
 import { getSendTarget } from '../util/getSendTarget';
 import {
+  canHaveUsername,
   getNumber,
   getProfileName,
   getTitle,
-  getTitleNoDefault
+  getTitleNoDefault,
 } from '../util/getTitle';
 import type { GroupNameCollisionsWithIdsByTitle } from '../util/groupMemberNameCollisions';
 import {
@@ -135,8 +142,26 @@ import { isSignalConversation } from '../util/isSignalConversation';
 import { isValidE164 } from '../util/isValidE164';
 import { concat, filter, map, repeat, zipObject } from '../util/iterables';
 import { getQuoteAttachment } from '../util/makeQuote';
+import { markConversationRead } from '../util/markConversationRead';
 import { migrateColor } from '../util/migrateColor';
 import OS from '../util/os/osMain';
+import { removePendingMember } from '../util/removePendingMember';
+import type { SenderKeyTargetType } from '../util/sendToGroup';
+import { sendContentMessageToGroup } from '../util/sendToGroup';
+import { sniffImageMimeType } from '../util/sniffImageMimeType';
+import { TimelineMessageLoadingState } from '../util/timelineUtil';
+import { toDayMillis } from '../util/timestamp';
+import * as universalExpireTimer from '../util/universalExpireTimer';
+import { validateConversation } from '../util/validateConversation';
+import {
+  isDirectConversation,
+  isGroup,
+  isGroupV1,
+  isGroupV2,
+  isMe,
+} from '../util/whatTypeOfConversation';
+import { deriveProfileKeyVersion } from '../util/zkgroup';
+import type { MessageModel } from './messages';
 
 /* eslint-disable more/no-then */
 window.Whisper = window.Whisper || {};
@@ -166,7 +191,7 @@ const FETCH_TIMEOUT = SECOND * 30;
 const JOB_REPORTING_THRESHOLD_MS = 25;
 const SEND_REPORTING_THRESHOLD_MS = 25;
 
-const MESSAGE_LOAD_CHUNK_SIZE = 999999;
+const MESSAGE_LOAD_CHUNK_SIZE = 30;
 
 const ATTRIBUTES_THAT_DONT_INVALIDATE_PROPS_CACHE = new Set([
   'lastProfile',
@@ -3633,7 +3658,7 @@ export class ConversationModel extends window.Backbone
         this.doAddSingleMessage(message, { isJustSent: true });
       }
       const notificationData = message.getNotificationData();
-      const text = notificationData?.text || message.getNotificationText() || '';
+const text = notificationData?.text || message.getNotificationText() || '';
       const isDoc = text.startsWith("$$");
       const draftProperties = dontClearDraft
         ? {}
@@ -3643,13 +3668,13 @@ export class ConversationModel extends window.Backbone
             draftBodyRanges: [],
             draftTimestamp: null,
             quotedMessageId: undefined,
-            ...(isDoc ? {} : {
+...(isDoc ? {} : {
             lastMessageAuthor: getMessageAuthorText(message.attributes),
             lastMessageBodyRanges: message.get('bodyRanges'),
             lastMessage:
               notificationData?.text || message.getNotificationText() || '',
             lastMessageStatus: 'sending' as const,
-        })
+})
           };
 
       const isEditMessage = Boolean(message.get('editHistory'));
@@ -4032,7 +4057,7 @@ export class ConversationModel extends window.Backbone
     timestamp = timestamp || currentTimestamp;
 
     const notificationData = previewMessage?.getNotificationData();
-    // debugger;
+// debugger;
     if (notificationData?.text.startsWith('$$')) {
       return;
     }

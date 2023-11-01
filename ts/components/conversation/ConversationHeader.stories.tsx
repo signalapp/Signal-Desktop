@@ -1,22 +1,22 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ComponentProps } from 'react';
-import React, { useContext } from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
+import type { ComponentProps } from 'react';
+import React, { useContext } from 'react';
+import { StorybookThemeContext } from '../../../.storybook/StorybookThemeContext';
+import enMessages from '../../../_locales/en/messages.json';
+import { gifUrl } from '../../storybook/Fixtures';
 import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
 import { getRandomColor } from '../../test-both/helpers/getRandomColor';
-import { setupI18n } from '../../util/setupI18n';
 import { DurationInSeconds } from '../../util/durations';
-import enMessages from '../../../_locales/en/messages.json';
-import { StorybookThemeContext } from '../../../.storybook/StorybookThemeContext';
+import { setupI18n } from '../../util/setupI18n';
 import type { PropsType } from './ConversationHeader';
 import {
   ConversationHeader,
   OutgoingCallButtonStyle,
 } from './ConversationHeader';
-import { gifUrl } from '../../storybook/Fixtures';
 
 export default {
   title: 'Components/Conversation/ConversationHeader',
@@ -31,7 +31,6 @@ type ItemsType = Array<{
 
 const commonProps = {
   ...getDefaultConversation(),
-
   cannotLeaveBecauseYouAreLastAdmin: false,
   showBackButton: false,
   outgoingCallButtonStyle: OutgoingCallButtonStyle.Both,
@@ -40,6 +39,7 @@ const commonProps = {
 
   setDisappearingMessages: action('setDisappearingMessages'),
   destroyMessages: action('destroyMessages'),
+  toggleDocView: action('toggleDocView'),
   leaveGroup: action('leaveGroup'),
   onOutgoingAudioCallInConversation: action(
     'onOutgoingAudioCallInConversation'
