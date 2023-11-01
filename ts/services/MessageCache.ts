@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import cloneDeep from 'lodash/cloneDeep';
+import { throttle } from 'lodash';
+import LRU from 'lru-cache';
 import type { MessageAttributesType } from '../model-types.d';
 import type { MessageModel } from '../models/messages';
 import * as Errors from '../types/errors';
@@ -17,6 +19,7 @@ import { softAssert, strictAssert } from '../util/assert';
 import { isStory } from '../messages/helpers';
 import { getStoryDataFromMessageAttributes } from './storyLoader';
 
+const MAX_THROTTLED_REDUX_UPDATERS = 200;
 export class MessageCache {
   private state = {
     messages: new Map<string, MessageAttributesType>(),
@@ -198,28 +201,7 @@ export class MessageCache {
 
     this.markModelStale(nextMessageAttributes);
 
-    if (window.reduxActions) {
-      if (isStory(nextMessageAttributes)) {
-        const storyData = getStoryDataFromMessageAttributes({
-          ...nextMessageAttributes,
-        });
-
-        if (!storyData) {
-          return;
-        }
-
-        window.reduxActions.stories.storyChanged(storyData);
-
-        // We don't want messageChanged to run
-        return;
-      }
-
-      window.reduxActions.conversations.messageChanged(
-        messageId,
-        nextMessageAttributes.conversationId,
-        nextMessageAttributes
-      );
-    }
+    this.throttledUpdateRedux(nextMessageAttributes);
 
     if (skipSaveToDatabase) {
       return;
@@ -228,6 +210,49 @@ export class MessageCache {
       window.Signal.Data.saveMessage(messageAttributes, {
         ourAci: window.textsecure.storage.user.getCheckedAci(),
       })
+    );
+  }
+
+  private throttledReduxUpdaters = new LRU<string, typeof this.updateRedux>({
+    max: MAX_THROTTLED_REDUX_UPDATERS,
+  });
+
+  private throttledUpdateRedux(attributes: MessageAttributesType) {
+    let updater = this.throttledReduxUpdaters.get(attributes.id);
+    if (!updater) {
+      updater = throttle(this.updateRedux.bind(this), 200, {
+        leading: true,
+        trailing: true,
+      });
+      this.throttledReduxUpdaters.set(attributes.id, updater);
+    }
+
+    updater(attributes);
+  }
+
+  private updateRedux(attributes: MessageAttributesType) {
+    if (!window.reduxActions) {
+      return;
+    }
+    if (isStory(attributes)) {
+      const storyData = getStoryDataFromMessageAttributes({
+        ...attributes,
+      });
+
+      if (!storyData) {
+        return;
+      }
+
+      window.reduxActions.stories.storyChanged(storyData);
+
+      // We don't want messageChanged to run
+      return;
+    }
+
+    window.reduxActions.conversations.messageChanged(
+      attributes.id,
+      attributes.conversationId,
+      attributes
     );
   }
 
