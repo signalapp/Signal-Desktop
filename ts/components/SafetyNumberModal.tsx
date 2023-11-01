@@ -3,7 +3,6 @@
 
 import React, { useState, useCallback } from 'react';
 
-import { SafetyNumberMode } from '../types/safetyNumber';
 import { isSafetyNumberNotAvailable } from '../util/isSafetyNumberNotAvailable';
 import { Modal } from './Modal';
 import type { PropsType as SafetyNumberViewerPropsType } from './SafetyNumberViewer';
@@ -24,11 +23,10 @@ export function SafetyNumberModal({
   markHasCompletedSafetyNumberOnboarding,
   ...safetyNumberViewerProps
 }: PropsType): JSX.Element | null {
-  const { contact, safetyNumberMode } = safetyNumberViewerProps;
+  const { contact } = safetyNumberViewerProps;
 
   const [isOnboarding, setIsOnboarding] = useState(
-    safetyNumberMode !== SafetyNumberMode.JustE164 &&
-      !hasCompletedSafetyNumberOnboarding
+    !hasCompletedSafetyNumberOnboarding
   );
 
   const showOnboarding = useCallback(() => {
@@ -40,14 +38,10 @@ export function SafetyNumberModal({
     markHasCompletedSafetyNumberOnboarding();
   }, [setIsOnboarding, markHasCompletedSafetyNumberOnboarding]);
 
-  const missingRequiredE164 =
-    safetyNumberMode !== SafetyNumberMode.DefaultACIAndMaybeE164 &&
-    !contact.e164;
-
   let title: string | undefined;
   let content: JSX.Element;
   let hasXButton = true;
-  if (missingRequiredE164 || isSafetyNumberNotAvailable(contact)) {
+  if (isSafetyNumberNotAvailable(contact)) {
     content = (
       <SafetyNumberNotReady
         i18n={i18n}

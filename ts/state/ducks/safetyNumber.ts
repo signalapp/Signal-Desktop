@@ -15,7 +15,6 @@ import {
 import * as log from '../../logging/log';
 import * as Errors from '../../types/errors';
 import type { StateType as RootStateType } from '../reducer';
-import { getSafetyNumberMode } from '../selectors/items';
 
 export type SafetyNumberContactType = ReadonlyDeep<{
   safetyNumbers: ReadonlyArray<SafetyNumberType>;
@@ -82,12 +81,9 @@ function clearSafetyNumber(contactId: string): ClearSafetyNumberActionType {
 function generate(
   contact: ConversationType
 ): ThunkAction<void, RootStateType, unknown, GenerateFulfilledActionType> {
-  return async (dispatch, getState) => {
+  return async dispatch => {
     try {
-      const safetyNumbers = await generateSafetyNumbers(
-        contact,
-        getSafetyNumberMode(getState(), { now: Date.now() })
-      );
+      const safetyNumbers = await generateSafetyNumbers(contact);
       dispatch({
         type: GENERATE_FULFILLED,
         payload: {
@@ -112,7 +108,7 @@ function toggleVerified(
   unknown,
   ToggleVerifiedPendingActionType | ToggleVerifiedFulfilledActionType
 > {
-  return async (dispatch, getState) => {
+  return async dispatch => {
     dispatch({
       type: TOGGLE_VERIFIED_PENDING,
       payload: {
@@ -132,10 +128,7 @@ function toggleVerified(
     } catch (err) {
       if (err.name === 'OutgoingIdentityKeyError') {
         await reloadProfiles(contact.id);
-        const safetyNumbers = await generateSafetyNumbers(
-          contact,
-          getSafetyNumberMode(getState(), { now: Date.now() })
-        );
+        const safetyNumbers = await generateSafetyNumbers(contact);
 
         dispatch({
           type: TOGGLE_VERIFIED_FULFILLED,

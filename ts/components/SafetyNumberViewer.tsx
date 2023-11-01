@@ -12,10 +12,7 @@ import { Emojify } from './conversation/Emojify';
 import type { LocalizerType } from '../types/Util';
 import type { SafetyNumberType } from '../types/safetyNumber';
 import { SAFETY_NUMBER_MIGRATION_URL } from '../types/support';
-import {
-  SafetyNumberIdentifierType,
-  SafetyNumberMode,
-} from '../types/safetyNumber';
+import { SafetyNumberIdentifierType } from '../types/safetyNumber';
 import { arrow } from '../util/keyboard';
 
 export type PropsType = {
@@ -23,7 +20,6 @@ export type PropsType = {
   generateSafetyNumber: (contact: ConversationType) => void;
   i18n: LocalizerType;
   onClose: () => void;
-  safetyNumberMode: SafetyNumberMode;
   safetyNumbers?: ReadonlyArray<SafetyNumberType>;
   toggleVerified: (contact: ConversationType) => void;
   showOnboarding?: () => void;
@@ -35,7 +31,6 @@ export function SafetyNumberViewer({
   generateSafetyNumber,
   i18n,
   onClose,
-  safetyNumberMode,
   safetyNumbers,
   toggleVerified,
   showOnboarding,
@@ -115,8 +110,6 @@ export function SafetyNumberViewer({
     ? i18n('icu:SafetyNumberViewer__clearVerification')
     : i18n('icu:SafetyNumberViewer__markAsVerified');
 
-  const isMigrationVisible = safetyNumberMode !== SafetyNumberMode.JustE164;
-
   const visibleSafetyNumber = safetyNumbers.at(selectedIndex);
   if (!visibleSafetyNumber) {
     return null;
@@ -188,54 +181,44 @@ export function SafetyNumberViewer({
 
   return (
     <div className="module-SafetyNumberViewer">
-      {isMigrationVisible && (
-        <div className="module-SafetyNumberViewer__migration">
-          <div className="module-SafetyNumberViewer__migration__icon" />
+      <div className="module-SafetyNumberViewer__migration">
+        <div className="module-SafetyNumberViewer__migration__icon" />
 
-          <div className="module-SafetyNumberViewer__migration__text">
-            <p>
-              <Intl i18n={i18n} id="icu:SafetyNumberViewer__migration__text" />
-            </p>
-            <p>
-              <a
-                href={SAFETY_NUMBER_MIGRATION_URL}
-                rel="noreferrer"
-                target="_blank"
-                onClick={e => {
-                  if (showOnboarding) {
-                    e.preventDefault();
-                    showOnboarding();
-                  }
-                }}
-              >
-                <Intl
-                  i18n={i18n}
-                  id="icu:SafetyNumberViewer__migration__learn_more"
-                />
-              </a>
-            </p>
-          </div>
+        <div className="module-SafetyNumberViewer__migration__text">
+          <p>
+            <Intl i18n={i18n} id="icu:SafetyNumberViewer__migration__text" />
+          </p>
+          <p>
+            <a
+              href={SAFETY_NUMBER_MIGRATION_URL}
+              rel="noreferrer"
+              target="_blank"
+              onClick={e => {
+                if (showOnboarding) {
+                  e.preventDefault();
+                  showOnboarding();
+                }
+              }}
+            >
+              <Intl
+                i18n={i18n}
+                id="icu:SafetyNumberViewer__migration__learn_more"
+              />
+            </a>
+          </p>
         </div>
-      )}
+      </div>
 
       {safetyNumberCard}
 
       {safetyNumbers.length > 1 && carousel}
 
       <div className="module-SafetyNumberViewer__help">
-        {isMigrationVisible ? (
-          <Intl
-            i18n={i18n}
-            id="icu:SafetyNumberViewer__hint--migration"
-            components={{ name: boldName }}
-          />
-        ) : (
-          <Intl
-            i18n={i18n}
-            id="icu:SafetyNumberViewer__hint--normal"
-            components={{ name: boldName }}
-          />
-        )}
+        <Intl
+          i18n={i18n}
+          id="icu:SafetyNumberViewer__hint--migration"
+          components={{ name: boldName }}
+        />
         <br />
         <a href={SAFETY_NUMBER_MIGRATION_URL} rel="noreferrer" target="_blank">
           <Intl
