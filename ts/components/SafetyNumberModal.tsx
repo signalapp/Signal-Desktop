@@ -1,42 +1,24 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useState, useCallback } from 'react';
+import React from 'react';
 
 import { isSafetyNumberNotAvailable } from '../util/isSafetyNumberNotAvailable';
 import { Modal } from './Modal';
 import type { PropsType as SafetyNumberViewerPropsType } from './SafetyNumberViewer';
 import { SafetyNumberViewer } from './SafetyNumberViewer';
-import { SafetyNumberOnboarding } from './SafetyNumberOnboarding';
 import { SafetyNumberNotReady } from './SafetyNumberNotReady';
 
 type PropsType = {
   toggleSafetyNumberModal: () => unknown;
-  hasCompletedSafetyNumberOnboarding: boolean;
-  markHasCompletedSafetyNumberOnboarding: () => unknown;
 } & Omit<SafetyNumberViewerPropsType, 'onClose'>;
 
 export function SafetyNumberModal({
   i18n,
   toggleSafetyNumberModal,
-  hasCompletedSafetyNumberOnboarding,
-  markHasCompletedSafetyNumberOnboarding,
   ...safetyNumberViewerProps
 }: PropsType): JSX.Element | null {
   const { contact } = safetyNumberViewerProps;
-
-  const [isOnboarding, setIsOnboarding] = useState(
-    !hasCompletedSafetyNumberOnboarding
-  );
-
-  const showOnboarding = useCallback(() => {
-    setIsOnboarding(true);
-  }, [setIsOnboarding]);
-
-  const hideOnboarding = useCallback(() => {
-    setIsOnboarding(false);
-    markHasCompletedSafetyNumberOnboarding();
-  }, [setIsOnboarding, markHasCompletedSafetyNumberOnboarding]);
 
   let title: string | undefined;
   let content: JSX.Element;
@@ -49,8 +31,6 @@ export function SafetyNumberModal({
       />
     );
     hasXButton = false;
-  } else if (isOnboarding) {
-    content = <SafetyNumberOnboarding i18n={i18n} onClose={hideOnboarding} />;
   } else {
     title = i18n('icu:SafetyNumberModal__title');
 
@@ -58,7 +38,6 @@ export function SafetyNumberModal({
       <SafetyNumberViewer
         i18n={i18n}
         onClose={toggleSafetyNumberModal}
-        showOnboarding={showOnboarding}
         {...safetyNumberViewerProps}
       />
     );
