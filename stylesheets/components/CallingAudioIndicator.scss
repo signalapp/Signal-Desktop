@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 .CallingAudioIndicator {
-  $size: 20px;
+  $size: 28px;
 
   display: flex;
   align-items: center;
@@ -14,11 +14,11 @@
   border-radius: calc($size / 2);
 
   &--with-content {
-    background: $color-black-alpha-30;
+    background: rgba($color-gray-80, 0.7);
   }
 
   &__content {
-    $size: 14px;
+    $size: 16px;
     width: $size;
     height: $size;
     /* Center Lottie animation */
@@ -33,4 +33,18 @@
       );
     }
   }
+}
+
+.module-ongoing-call__footer__local-preview .CallingAudioIndicator {
+  position: absolute;
+  top: 6px;
+  inset-inline-end: 6px;
+  z-index: $z-index-base;
+}
+
+.module-ongoing-call__group-call-remote-participant .CallingAudioIndicator {
+  position: absolute;
+  top: 8px;
+  inset-inline-end: 8px;
+  z-index: $z-index-base;
 }

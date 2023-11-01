@@ -300,21 +300,23 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
           style={containerStyles}
         >
           {!props.isInPip && (
-            <div
-              className={classNames(
-                'module-ongoing-call__group-call-remote-participant__info'
-              )}
-            >
-              <ContactName
-                module="module-ongoing-call__group-call-remote-participant__info__contact-name"
-                title={title}
-              />
+            <>
               <CallingAudioIndicator
                 hasAudio={hasRemoteAudio}
                 audioLevel={props.audioLevel}
                 shouldShowSpeaking={isSpeaking}
               />
-            </div>
+              <div
+                className={classNames(
+                  'module-ongoing-call__group-call-remote-participant__info'
+                )}
+              >
+                <ContactName
+                  module="module-ongoing-call__group-call-remote-participant__info__contact-name"
+                  title={title}
+                />
+              </div>
+            </>
           )}
           {wantsToShowVideo && (
             <canvas

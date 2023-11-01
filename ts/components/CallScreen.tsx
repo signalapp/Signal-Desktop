@@ -581,21 +581,21 @@ export function CallScreen({
             </Button>
           </div>
         </div>
-        <div
-          className={classNames(
-            'module-ongoing-call__footer__local-preview',
-            `module-ongoing-call__footer__local-preview--${
-              localPreviewNode ? 'active' : 'inactive'
-            }`
-          )}
-        >
-          {localPreviewNode}
-          <CallingAudioIndicator
-            hasAudio={hasLocalAudio}
-            audioLevel={localAudioLevel}
-            shouldShowSpeaking={isSpeaking}
-          />
-        </div>
+        {localPreviewNode ? (
+          <div className="module-ongoing-call__footer__local-preview module-ongoing-call__footer__local-preview--active">
+            {localPreviewNode}
+            {!isSendingVideo && (
+              <div className="CallingStatusIndicator CallingStatusIndicator--Video" />
+            )}
+            <CallingAudioIndicator
+              hasAudio={hasLocalAudio}
+              audioLevel={localAudioLevel}
+              shouldShowSpeaking={isSpeaking}
+            />
+          </div>
+        ) : (
+          <div className="module-ongoing-call__footer__local-preview" />
+        )}
       </div>
     </div>
   );
