@@ -86,6 +86,8 @@ const IPC: IPCType = {
     ipc.send('draw-attention');
   },
   getAutoLaunch: () => ipc.invoke('get-auto-launch'),
+  getMediaAccessStatus: mediaType =>
+    ipc.invoke('get-media-access-status', mediaType),
   getMediaPermissions: () => ipc.invoke('settings:get:mediaPermissions'),
   getMediaCameraPermissions: () =>
     ipc.invoke('settings:get:mediaCameraPermissions'),

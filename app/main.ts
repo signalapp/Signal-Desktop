@@ -2653,6 +2653,15 @@ async function ensureFilePermissions(onlyFiles?: Array<string>) {
   getLogger().info(`Finish ensuring permissions in ${Date.now() - start}ms`);
 }
 
+ipc.handle('get-media-access-status', async (_event, value) => {
+  // This function is not supported on Linux
+  if (!systemPreferences.getMediaAccessStatus) {
+    return undefined;
+  }
+
+  return systemPreferences.getMediaAccessStatus(value);
+});
+
 ipc.handle('get-auto-launch', async () => {
   return app.getLoginItemSettings(await getDefaultLoginItemSettings())
     .openAtLogin;

@@ -383,6 +383,10 @@ export class CallingClass {
     });
 
     void this.cleanExpiredGroupCallRingsAndLoop();
+
+    if (process.platform === 'darwin') {
+      drop(this.enumerateMediaDevices());
+    }
   }
 
   private attemptToGiveOurServiceIdToRingRtc(): void {
@@ -2432,6 +2436,23 @@ export class CallingClass {
     setTimeout(() => {
       void this.cleanExpiredGroupCallRingsAndLoop();
     }, CLEAN_EXPIRED_GROUP_CALL_RINGS_INTERVAL);
+  }
+
+  // MacOS: Preload devices to work around delay when first entering call lobby
+  // https://bugs.chromium.org/p/chromium/issues/detail?id=1287628
+  private async enumerateMediaDevices(): Promise<void> {
+    try {
+      const microphoneStatus = await window.IPC.getMediaAccessStatus(
+        'microphone'
+      );
+      if (microphoneStatus !== 'granted') {
+        return;
+      }
+
+      drop(window.navigator.mediaDevices.enumerateDevices());
+    } catch (error) {
+      log.error('enumerateMediaDevices failed:', Errors.toLogFormat(error));
+    }
   }
 }
 

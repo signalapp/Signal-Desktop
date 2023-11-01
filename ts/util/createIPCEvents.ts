@@ -108,6 +108,9 @@ export type IPCEventsCallbacksType = {
   deleteAllMyStories: () => Promise<void>;
   editCustomColor: (colorId: string, customColor: CustomColorType) => void;
   getConversationsWithCustomColor: (x: string) => Array<ConversationType>;
+  getMediaAccessStatus: (
+    mediaType: 'screen' | 'microphone' | 'camera'
+  ) => Promise<string | unknown>;
   installStickerPack: (packId: string, key: string) => Promise<void>;
   isFormattingFlagEnabled: () => boolean;
   isPhoneNumberSharingEnabled: () => boolean;
@@ -609,6 +612,11 @@ export function createIPCEvents(
       showWhatsNewModal();
     },
 
+    getMediaAccessStatus: async (
+      mediaType: 'screen' | 'microphone' | 'camera'
+    ) => {
+      return window.IPC.getMediaAccessStatus(mediaType);
+    },
     getMediaPermissions: window.IPC.getMediaPermissions,
     getMediaCameraPermissions: window.IPC.getMediaCameraPermissions,
 
