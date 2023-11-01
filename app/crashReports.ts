@@ -117,7 +117,7 @@ export function setup(getLogger: () => LoggerType, forceEnable = false): void {
         prefix: 'desktop-crash-',
       });
 
-      logger.info('crashReports: upload complete');
+      logger.info(`crashReports: upload complete, ${url}`);
       clipboard.writeText(url);
     } finally {
       await eraseDumps(logger, pendingDumps);
