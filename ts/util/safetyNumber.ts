@@ -11,10 +11,7 @@ import { uuidToBytes } from './uuidToBytes';
 import * as log from '../logging/log';
 import * as Bytes from '../Bytes';
 import type { SafetyNumberType } from '../types/safetyNumber';
-import {
-  SafetyNumberIdentifierType,
-  SafetyNumberMode,
-} from '../types/safetyNumber';
+import { SafetyNumberIdentifierType } from '../types/safetyNumber';
 import { isAciString } from './isAciString';
 
 const ITERATION_COUNT = 5200;
@@ -25,10 +22,9 @@ const SERVICE_ID_VERSION = 2;
 const BLOCK_SIZE = 5;
 
 export async function generateSafetyNumbers(
-  contact: ConversationType,
-  mode: SafetyNumberMode
+  contact: ConversationType
 ): Promise<ReadonlyArray<SafetyNumberType>> {
-  const logId = `generateSafetyNumbers(${contact.id}, ${mode})`;
+  const logId = `generateSafetyNumbers(${contact.id})`;
   log.info(`${logId}: starting`);
 
   const { storage } = window.textsecure;
@@ -57,24 +53,10 @@ export async function generateSafetyNumbers(
   const ourKey = PublicKey.deserialize(Buffer.from(ourKeyBuffer));
   const theirKey = PublicKey.deserialize(Buffer.from(theirKeyBuffer));
 
-  let identifierTypes: ReadonlyArray<SafetyNumberIdentifierType>;
-  if (mode === SafetyNumberMode.DefaultE164AndThenACI) {
-    // Important: order matters, legacy safety number should be displayed first.
-    identifierTypes = [
-      SafetyNumberIdentifierType.E164Identifier,
-      SafetyNumberIdentifierType.ACIIdentifier,
-    ];
-    // Controlled by 'desktop.safetyNumberAci'
-  } else if (mode === SafetyNumberMode.JustE164) {
-    identifierTypes = [SafetyNumberIdentifierType.E164Identifier];
-  } else if (mode === SafetyNumberMode.DefaultACIAndMaybeE164) {
-    identifierTypes = [
-      SafetyNumberIdentifierType.ACIIdentifier,
-      SafetyNumberIdentifierType.E164Identifier,
-    ];
-  } else {
-    throw missingCaseError(mode);
-  }
+  const identifierTypes = [
+    SafetyNumberIdentifierType.ACIIdentifier,
+    SafetyNumberIdentifierType.E164Identifier,
+  ];
 
   return identifierTypes
     .map(identifierType => {

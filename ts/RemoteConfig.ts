@@ -31,8 +31,6 @@ export type ConfigKeyType =
   | 'desktop.pnp'
   | 'desktop.pnp.accountE164Deprecation'
   | 'desktop.retryRespondMaxAge'
-  | 'desktop.safetyNumberAci'
-  | 'desktop.safetyNumberAci.beta'
   | 'desktop.senderKey.retry'
   | 'desktop.senderKey.send'
   | 'desktop.senderKeyMaxAge'
@@ -50,8 +48,7 @@ export type ConfigKeyType =
   | 'global.groupsv2.groupSizeHardLimit'
   | 'global.groupsv2.maxGroupSize'
   | 'global.nicknames.max'
-  | 'global.nicknames.min'
-  | 'global.safetyNumberAci';
+  | 'global.nicknames.min';
 
 type ConfigValueType = {
   name: ConfigKeyType;

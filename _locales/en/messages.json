@@ -724,7 +724,7 @@
   },
   "icu:SafetyNumberViewer__hint--normal": {
     "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code with their device.",
-    "description": "Safety number viewer, text of the hint after migration period"
+    "description": "(Deleted 11/01/2023). Safety number viewer, text of the hint after migration period"
   },
   "icu:SafetyNumberOnboarding__title": {
     "messageformat": "Changes to safety numbers",

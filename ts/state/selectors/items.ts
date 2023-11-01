@@ -5,7 +5,6 @@ import { createSelector } from 'reselect';
 import { isInteger } from 'lodash';
 
 import { ITEM_NAME as UNIVERSAL_EXPIRE_TIMER_ITEM } from '../../util/universalExpireTimer';
-import { SafetyNumberMode } from '../../types/safetyNumber';
 import { innerIsBucketValueEnabled } from '../../RemoteConfig';
 import type { ConfigKeyType, ConfigMapType } from '../../RemoteConfig';
 import type { StateType } from '../reducer';
@@ -18,7 +17,7 @@ import type { AciString } from '../../types/ServiceId';
 import { DEFAULT_CONVERSATION_COLOR } from '../../types/Colors';
 import { getPreferredReactionEmoji as getPreferredReactionEmojiFromStoredValue } from '../../reactions/preferredReactionEmoji';
 import { isBeta } from '../../util/version';
-import { DurationInSeconds, SECOND } from '../../util/durations';
+import { DurationInSeconds } from '../../util/durations';
 import { generateUsernameLink } from '../../util/sgnlHref';
 import * as Bytes from '../../Bytes';
 import { getUserNumber, getUserACI } from './user';
@@ -164,40 +163,6 @@ export const getStoriesEnabled = createSelector(
     }
 
     return false;
-  }
-);
-
-export const getSafetyNumberMode = createSelector(
-  getRemoteConfig,
-  getServerTimeSkew,
-  (_state: StateType, { now }: { now: number }) => now,
-  (
-    remoteConfig: ConfigMapType,
-    serverTimeSkew: number,
-    now: number
-  ): SafetyNumberMode => {
-    if (
-      !isRemoteConfigFlagEnabled(remoteConfig, 'desktop.safetyNumberAci') &&
-      !(
-        isRemoteConfigFlagEnabled(
-          remoteConfig,
-          'desktop.safetyNumberAci.beta'
-        ) && isBeta(window.getVersion())
-      )
-    ) {
-      return SafetyNumberMode.JustE164;
-    }
-
-    const timestampInSeconds = remoteConfig['global.safetyNumberAci']?.value;
-    if (typeof timestampInSeconds !== 'number') {
-      return SafetyNumberMode.DefaultE164AndThenACI;
-    }
-
-    // Note: serverTimeSkew is a difference between server time and local time,
-    // so we have to add local time to it to correct it for a skew.
-    return now + serverTimeSkew >= timestampInSeconds * SECOND
-      ? SafetyNumberMode.DefaultACIAndMaybeE164
-      : SafetyNumberMode.DefaultE164AndThenACI;
   }
 );
 
