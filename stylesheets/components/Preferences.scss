@@ -25,7 +25,7 @@
 
   &__page-selector {
     padding-top: calc(24px + var(--title-bar-drag-area-height));
-    min-width: 240px;
+    min-width: min(34%, 240px);
     @include light-theme {
       background: $color-gray-02;
     }
