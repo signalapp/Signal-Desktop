@@ -693,23 +693,23 @@
   },
   "icu:SafetyNumberViewer__migration__text": {
     "messageformat": "安全號碼正在更新中。",
-    "description": "An explanatory note in SafetyNumberViewer describing the safety number migration process."
+    "description": "(Deleted 11/01/2023) An explanatory note in SafetyNumberViewer describing the safety number migration process."
   },
   "icu:SafetyNumberViewer__migration__learn_more": {
     "messageformat": "了解更多",
-    "description": "A link text in SafetyNumberViewer describing the safety number migration process."
+    "description": "(Deleted 11/01/2023) A link text in SafetyNumberViewer describing the safety number migration process."
   },
   "icu:SafetyNumberViewer__card__prev": {
     "messageformat": "上一個安全碼",
-    "description": "An ARIA label for safety number navigation button."
+    "description": "(Deleted 11/01/2023) An ARIA label for safety number navigation button."
   },
   "icu:SafetyNumberViewer__card__next": {
     "messageformat": "下一個安全碼",
-    "description": "An ARIA label for safety number navigation button."
+    "description": "(Deleted 11/01/2023) An ARIA label for safety number navigation button."
   },
   "icu:SafetyNumberViewer__carousel__dot": {
     "messageformat": "安全碼版本 {total,number} 中的第 {index,number}",
-    "description": "An ARIA label for safety number carousel button."
+    "description": "(Deleted 11/01/2023) An ARIA label for safety number carousel button."
   },
   "icu:SafetyNumberViewer__markAsVerified": {
     "messageformat": "標記為已驗證",
@@ -719,33 +719,41 @@
     "messageformat": "清除驗證碼",
     "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
+  "icu:SafetyNumberViewer__hint": {
+    "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code with their device.",
+    "description": "Safety number viewer, text of the hint"
+  },
+  "icu:SafetyNumberViewer__learn_more": {
+    "messageformat": "Learn more",
+    "description": "Text of 'Learn more' button of SafetyNumberViewerModal modal"
+  },
   "icu:SafetyNumberViewer__hint--migration": {
     "messageformat": "若要驗證你與 {name} 之間的端對端加密，請比對上方色卡與對方裝置上的色卡是否匹配，以及比較數字。如果這些無法匹配，請嘗試另一組安全碼。只需要匹配一對。",
-    "description": "Safety number viewer, text of the hint during migration period"
+    "description": "(Deleted 11/01/2023). Safety number viewer, text of the hint during migration period"
   },
   "icu:SafetyNumberViewer__hint--normal": {
     "messageformat": "若要驗證你與 {name} 之間的端對端加密，請比較上方數字與對方裝置上的數字是否一樣。對方亦可使用其裝置掃瞄你的二維碼。",
-    "description": "Safety number viewer, text of the hint after migration period"
+    "description": "(Deleted 11/01/2023). Safety number viewer, text of the hint after migration period"
   },
   "icu:SafetyNumberOnboarding__title": {
     "messageformat": "安全號碼變更",
-    "description": "Title of Safety number onboarding modal"
+    "description": "(Deleted 11/01/2023) Title of Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__p1": {
     "messageformat": "安全號碼會在過渡期間進行更新，以啟用 Signal 即將推出的隱私功能。",
-    "description": "Paragraph 1 of Safety number onboarding modal"
+    "description": "(Deleted 11/01/2023) Paragraph 1 of Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__p2": {
     "messageformat": "要驗證安全碼，請將色卡與聯絡人的裝置配對。如果這些無法匹配，請嘗試另一組安全碼。只需要匹配一對。",
-    "description": "Paragraph 2 of Safety number onboarding modal"
+    "description": "(Deleted 11/01/2023) Paragraph 2 of Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__help": {
     "messageformat": "需要幫助嗎？",
-    "description": "Text of a secondary button in Safety number onboarding modal"
+    "description": "(Deleted 11/01/2023) Text of a secondary button in Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__close": {
     "messageformat": "收到",
-    "description": "Text of a secondary button in Safety number onboarding modal"
+    "description": "(Deleted 11/01/2023) Text of a secondary button in Safety number onboarding modal"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "你與此人交換訊息後，會為其建立一個安全號碼。",
@@ -1388,15 +1396,27 @@
   },
   "icu:deleteMessages": {
     "messageformat": "刪除",
-    "description": "Menu item for deleting messages, title case."
+    "description": "(deleted 2023/10/26) Menu item for deleting messages, title case."
+  },
+  "icu:deleteMessagesInConversation": {
+    "messageformat": "Delete messages",
+    "description": "Menu item for deleting all messages in a conversation from your device"
   },
   "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
     "messageformat": "是否刪除聊天？",
-    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
+    "description": "(deleted 2023/10/26) Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__title": {
+    "messageformat": "Delete messages?",
+    "description": "Title for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
     "messageformat": "此聊天將從此裝置上刪除。",
-    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
+    "description": "(deleted 2023/10/26) Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
+    "messageformat": "Messages in this chat will be deleted from this device. You can still search for this chat after you delete messages.",
+    "description": "Description for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "離開對話群組",
@@ -1489,6 +1509,14 @@
   "icu:ConversationMerge--explainer-dialog--line-2": {
     "messageformat": "兩組聊天的訊息紀錄已在此處合併。",
     "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
+    "messageformat": "{phoneNumber} 是屬於 {conversationTitle}。你們都是 {sharedGroup} 的成員。",
+    "description": "Shown when we've discovered a phone number for a contact you've been communicating with."
+  },
+  "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
+    "messageformat": "{phoneNumber} 是屬於 {conversationTitle}",
+    "description": "Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "icu:quoteThumbnailAlt": {
     "messageformat": "引用訊息的縮圖",
@@ -1639,7 +1667,7 @@
   },
   "icu:calling__start": {
     "messageformat": "開始通話",
-    "description": "Button label in the call lobby for starting a call"
+    "description": "(deleted 2023/10/13) Button label in the call lobby for starting a call"
   },
   "icu:calling__join": {
     "messageformat": "加入通話",
@@ -1653,13 +1681,29 @@
     "messageformat": "麥克風依通話大小而靜音",
     "description": "Shown in a call lobby toast if there are a lot of people already on the call"
   },
+  "icu:calling__toasts--aria-label": {
+    "messageformat": "來電通知",
+    "description": "Aria label for region of toasts shown during a call (for, e.g. reconnecting, person joined, audio device changed notifications)"
+  },
   "icu:calling__call-is-full": {
     "messageformat": "通話人數已滿",
     "description": "Text in the call lobby when you can't join because the call is full"
   },
+  "icu:CallingLobbyJoinButton--join": {
+    "messageformat": "Join",
+    "description": "Button label in the call lobby for joining a call"
+  },
+  "icu:CallingLobbyJoinButton--start": {
+    "messageformat": "Start",
+    "description": "Button label in the call lobby for starting a call"
+  },
+  "icu:CallingLobbyJoinButton--call-full": {
+    "messageformat": "Call full",
+    "description": "Button in the call lobby when you can't join because the call is full"
+  },
   "icu:calling__button--video__label": {
     "messageformat": "相機",
-    "description": "Label under the video button"
+    "description": "(deleted 2023/10/13) Label under the video button"
   },
   "icu:calling__button--video-disabled": {
     "messageformat": "相機已關閉",
@@ -1675,7 +1719,7 @@
   },
   "icu:calling__button--audio__label": {
     "messageformat": "靜音對話",
-    "description": "Label under the audio button"
+    "description": "(deleted 2023/10/13) Label under the audio button"
   },
   "icu:calling__button--audio-disabled": {
     "messageformat": "麥克風已關閉",
@@ -1691,7 +1735,7 @@
   },
   "icu:calling__button--presenting__label": {
     "messageformat": "分享",
-    "description": "Label under the share screen button"
+    "description": "(deleted 2023/10/13) Label under the share screen button"
   },
   "icu:calling__button--presenting-disabled": {
     "messageformat": "展示已關閉",
@@ -1707,7 +1751,7 @@
   },
   "icu:calling__button--ring__label": {
     "messageformat": "撥電話",
-    "description": "Label under the ring button"
+    "description": "(deleted 2023/10/13) Label under the ring button"
   },
   "icu:calling__button--ring__disabled-because-group-is-too-large": {
     "messageformat": "群組太大，無法給參與者打電話。",
@@ -1719,6 +1763,14 @@
   },
   "icu:calling__button--ring__on": {
     "messageformat": "開啟通話",
+    "description": "Button tooltip label for turning ringing on"
+  },
+  "icu:CallingButton__ring-off": {
+    "messageformat": "Turn off ringing",
+    "description": "Button tooltip label for turning ringing off"
+  },
+  "icu:CallingButton--ring-on": {
+    "messageformat": "Turn on ringing",
     "description": "Button tooltip label for turning ringing on"
   },
   "icu:calling__your-video-is-off": {
@@ -2293,6 +2345,10 @@
   },
   "icu:ToastManager__CannotEditMessage": {
     "messageformat": "編輯只能在你傳送此訊息後的 3 小時內套用。",
+    "description": "(deleted 2023/10/26) Error message when you try to send an edit after message becomes too old"
+  },
+  "icu:ToastManager__CannotEditMessage_24": {
+    "messageformat": "編輯只能在你傳送此訊息後的 24 小時內套用。",
     "description": "Error message when you try to send an edit after message becomes too old"
   },
   "icu:startConversation--username-not-found": {
@@ -3498,7 +3554,39 @@
   },
   "icu:callDuration": {
     "messageformat": "Signal {duration}",
-    "description": "Shown in the call screen to indicate how long the call has been connected"
+    "description": "(deleted 2023/10/13) Shown in the call screen to indicate how long the call has been connected"
+  },
+  "icu:CallControls__InfoDisplay--participants": {
+    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} people}}",
+    "description": "Shown in the call screen and lobby for group calls to specify the number of members in the call or in the group. Count is at always at least 1."
+  },
+  "icu:CallControls__InfoDisplay--audio-call": {
+    "messageformat": "Audio call",
+    "description": "Shown in the call lobby for a direct 1:1 call when the caller's video is disabled, to specify that an audio call will be placed when clicking the Start button."
+  },
+  "icu:CallControls__JoinLeaveButton--hangup-1-1": {
+    "messageformat": "End",
+    "description": "Title for the hangup button for a direct 1:1 call with only 2 participants."
+  },
+  "icu:CallControls__JoinLeaveButton--hangup-group": {
+    "messageformat": "Leave",
+    "description": "Title for the hangup button for a group call."
+  },
+  "icu:CallControls__MutedToast--muted": {
+    "messageformat": "Mic off",
+    "description": "Shown in a call when the user mutes their audio input using the Mute toggle button."
+  },
+  "icu:CallControls__MutedToast--unmuted": {
+    "messageformat": "Mic on",
+    "description": "Shown in a call when the user is muted and then unmutes their audio input using the Mute toggle button."
+  },
+  "icu:CallControls__RingingToast--ringing-on": {
+    "messageformat": "Ringing on",
+    "description": "Shown in a group call lobby when call ringing is disabled, then the user enables ringing using the Ringing toggle button."
+  },
+  "icu:CallControls__RingingToast--ringing-off": {
+    "messageformat": "Ringing off",
+    "description": "Shown in a group call lobby when call ringing is enabled, then the user disables ringing using the Ringing toggle button."
   },
   "icu:callingDeviceSelection__settings": {
     "messageformat": "設定",
@@ -6808,13 +6896,10 @@
     "messageformat": "細微的調整、問題修復和效能改善。感謝各位使用 Signal！",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.35--0": {
-    "messageformat": "錯誤修復和效能改進。"
+  "icu:WhatsNew__v6.37--0": {
+    "messageformat": "• 我們提供了新方式來讓你的 Signal 聯絡人更整潔。現在，如想移除舊的聯絡人，你可以長按新聊天畫面上聯絡人清單中的姓名並選擇「移除」選項。"
   },
-  "icu:WhatsNew__v6.36--0": {
-    "messageformat": "我們更新了用戶界面，可更清楚顯示出群組視訊通話正在重新連線。你從此不用再擔心畫面定格究竟是大家的惡作劇，還是訊號接收不良，因為那將改為模糊縮圖。"
-  },
-  "icu:WhatsNew__v6.36--1": {
-    "messageformat": "系統匣圖示在 Ubuntu Linux 上將不再以像素化顯示。"
+  "icu:WhatsNew__v6.38--0": {
+    "messageformat": "This release includes an updated design for Signal voice and video calls. Now the calling user interface will still look fantastic even if your camera isn't on and you can't stare at your own beautiful reflection."
   }
 }

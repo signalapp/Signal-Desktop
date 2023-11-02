@@ -693,23 +693,23 @@
   },
   "icu:SafetyNumberViewer__migration__text": {
     "messageformat": "ਸੁਰੱਖਿਆ ਨੰਬਰਾਂ ਨੂੰ ਅੱਪਡੇਟ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ।",
-    "description": "An explanatory note in SafetyNumberViewer describing the safety number migration process."
+    "description": "(Deleted 11/01/2023) An explanatory note in SafetyNumberViewer describing the safety number migration process."
   },
   "icu:SafetyNumberViewer__migration__learn_more": {
     "messageformat": "ਹੋਰ ਜਾਣੋ",
-    "description": "A link text in SafetyNumberViewer describing the safety number migration process."
+    "description": "(Deleted 11/01/2023) A link text in SafetyNumberViewer describing the safety number migration process."
   },
   "icu:SafetyNumberViewer__card__prev": {
     "messageformat": "ਪਿਛਲਾ ਸੁਰੱਖਿਆ ਨੰਬਰ",
-    "description": "An ARIA label for safety number navigation button."
+    "description": "(Deleted 11/01/2023) An ARIA label for safety number navigation button."
   },
   "icu:SafetyNumberViewer__card__next": {
     "messageformat": "ਅਗਲਾ ਸੁਰੱਖਿਆ ਨੰਬਰ",
-    "description": "An ARIA label for safety number navigation button."
+    "description": "(Deleted 11/01/2023) An ARIA label for safety number navigation button."
   },
   "icu:SafetyNumberViewer__carousel__dot": {
     "messageformat": "ਸੁਰੱਖਿਆ ਨੰਬਰ ਦਾ ਵਰਜ਼ਨ, {total,number} ਵਿੱਚੋਂ {index,number}",
-    "description": "An ARIA label for safety number carousel button."
+    "description": "(Deleted 11/01/2023) An ARIA label for safety number carousel button."
   },
   "icu:SafetyNumberViewer__markAsVerified": {
     "messageformat": "ਤਸਦੀਕਸ਼ੁਦਾ ਵਜੋਂ ਚਿੰਨ੍ਹ ਲਗਾਓ",
@@ -719,33 +719,41 @@
     "messageformat": "ਤਸਦੀਕ ਨੂੰ ਹਟਾਓ",
     "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
+  "icu:SafetyNumberViewer__hint": {
+    "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code with their device.",
+    "description": "Safety number viewer, text of the hint"
+  },
+  "icu:SafetyNumberViewer__learn_more": {
+    "messageformat": "Learn more",
+    "description": "Text of 'Learn more' button of SafetyNumberViewerModal modal"
+  },
   "icu:SafetyNumberViewer__hint--migration": {
     "messageformat": "{name} ਦੇ ਨਾਲ ਸਿਰੇ-ਤੋਂ-ਸਿਰੇ ਤੱਕ ਇਨਕ੍ਰਿਪਸ਼ਨ ਦੀ ਤਸਦੀਕ ਕਰਨ ਲਈ, ਉੱਪਰ ਦਿੱਤੇ ਰੰਗੀਨ ਕਾਰਡ ਨੂੰ ਉਹਨਾਂ ਦੇ ਡਿਵਾਈਸ ਨਾਲ ਮਿਲਾਓ ਅਤੇ ਨੰਬਰਾਂ ਦੀ ਤੁਲਨਾ ਕਰੋ। ਜੇਕਰ ਇਹ ਮੇਲ ਨਹੀਂ ਖਾਂਦੇ, ਤਾਂ ਸੁਰੱਖਿਆ ਨੰਬਰਾਂ ਦੀ ਦੂਜੀ ਜੋੜੀ ਨੂੰ ਮਿਲਾ ਕੇ ਦੇਖੋ। ਸਿਰਫ਼ ਇੱਕ ਜੋੜੀ ਦੇ ਮੇਲ ਖਾਣ ਦੀ ਲੋੜ ਹੈ।",
-    "description": "Safety number viewer, text of the hint during migration period"
+    "description": "(Deleted 11/01/2023). Safety number viewer, text of the hint during migration period"
   },
   "icu:SafetyNumberViewer__hint--normal": {
     "messageformat": "{name} ਦੇ ਨਾਲ ਸਿਰੇ-ਤੋਂ-ਸਿਰੇ ਤੱਕ ਇਨਕ੍ਰਿਪਸ਼ਨ ਦੀ ਤਸਦੀਕ ਕਰਨ ਲਈ, ਉੱਪਰ ਦਿੱਤੇ ਨੰਬਰਾਂ ਨੂੰ ਉਹਨਾਂ ਦੇ ਡਿਵਾਈਸ ਵਿੱਚ ਦਿਖਾਏ ਨੰਬਰਾਂ ਦੇ ਨਾਲ ਮਿਲਾਓ। ਉਹ ਆਪਣੇ ਡਿਵਾਈਸ ਨਾਲ ਤੁਹਾਡੇ ਕੋਡ ਨੂੰ ਵੀ ਸਕੈਨ ਕਰ ਸਕਦੇ ਹਨ।",
-    "description": "Safety number viewer, text of the hint after migration period"
+    "description": "(Deleted 11/01/2023). Safety number viewer, text of the hint after migration period"
   },
   "icu:SafetyNumberOnboarding__title": {
     "messageformat": "ਸੁਰੱਖਿਆ ਨੰਬਰਾਂ ਵਿੱਚ ਬਦਲਾਅ",
-    "description": "Title of Safety number onboarding modal"
+    "description": "(Deleted 11/01/2023) Title of Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__p1": {
     "messageformat": "Signal ਵਿੱਚ ਆਉਣ ਵਾਲੇ ਪਰਦੇਦਾਰੀ ਫੀਚਰਾਂ ਨੂੰ ਸਮਰੱਥ ਬਣਾਉਣ ਲਈ ਸੁਰੱਖਿਆ ਨੰਬਰਾਂ ਨੂੰ ਅੱਪਡੇਟ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ।\n\n",
-    "description": "Paragraph 1 of Safety number onboarding modal"
+    "description": "(Deleted 11/01/2023) Paragraph 1 of Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__p2": {
     "messageformat": "ਸੁਰੱਖਿਆ ਨੰਬਰਾਂ ਦੀ ਤਸਦੀਕ ਕਰਨ ਲਈ, ਰੰਗੀਨ ਕਾਰਡ ਨੂੰ ਆਪਣੇ ਸੰਪਰਕ ਦੇ ਡਿਵਾਈਸ ਨਾਲ ਮਿਲਾਓ। ਜੇਕਰ ਇਹ ਮੇਲ ਨਹੀਂ ਖਾਂਦੇ, ਤਾਂ ਸੁਰੱਖਿਆ ਨੰਬਰਾਂ ਦੀ ਦੂਜੀ ਜੋੜੀ ਨੂੰ ਮਿਲਾ ਕੇ ਦੇਖੋ। ਸਿਰਫ਼ ਇੱਕ ਜੋੜੀ ਦੇ ਮੇਲ ਖਾਣ ਦੀ ਲੋੜ ਹੈ।",
-    "description": "Paragraph 2 of Safety number onboarding modal"
+    "description": "(Deleted 11/01/2023) Paragraph 2 of Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__help": {
     "messageformat": "ਮਦਦ ਚਾਹੀਦੀ ਹੈ?",
-    "description": "Text of a secondary button in Safety number onboarding modal"
+    "description": "(Deleted 11/01/2023) Text of a secondary button in Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__close": {
     "messageformat": "ਸਮਝ ਗਏ",
-    "description": "Text of a secondary button in Safety number onboarding modal"
+    "description": "(Deleted 11/01/2023) Text of a secondary button in Safety number onboarding modal"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "ਜਦੋਂ ਤੁਸੀਂ ਇਸ ਵਿਅਕਤੀ ਨੂੰ ਸੁਨੇਹੇ ਭੇਜੋਗੇ ਜਾਂ ਪ੍ਰਾਪਤ ਕਰੋਗੇ ਤਾਂ ਇਹਨਾਂ ਨਾਲ ਇੱਕ ਸੁਰੱਖਿਆ ਨੰਬਰ ਬਣਾਇਆ ਜਾਵੇਗਾ।",
@@ -1388,15 +1396,27 @@
   },
   "icu:deleteMessages": {
     "messageformat": "ਮਿਟਾਓ",
-    "description": "Menu item for deleting messages, title case."
+    "description": "(deleted 2023/10/26) Menu item for deleting messages, title case."
+  },
+  "icu:deleteMessagesInConversation": {
+    "messageformat": "Delete messages",
+    "description": "Menu item for deleting all messages in a conversation from your device"
   },
   "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
     "messageformat": "ਕੀ ਚੈਟ ਨੂੰ ਮਿਟਾਉਣਾ ਹੈ?",
-    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
+    "description": "(deleted 2023/10/26) Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__title": {
+    "messageformat": "Delete messages?",
+    "description": "Title for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
     "messageformat": "ਇਸ ਚੈਟ ਨੂੰ ਇਸ ਡਿਵਾਈਸ ਵਿੱਚੋਂ ਮਿਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ।",
-    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
+    "description": "(deleted 2023/10/26) Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
+    "messageformat": "Messages in this chat will be deleted from this device. You can still search for this chat after you delete messages.",
+    "description": "Description for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "ਗਰੁੱਪ ਛੱਡੋ",
@@ -1489,6 +1509,14 @@
   "icu:ConversationMerge--explainer-dialog--line-2": {
     "messageformat": "ਤੁਹਾਡੀਆਂ ਦੋਵਾਂ ਚੈਟਾਂ ਦੇ ਪੁਰਾਣੇ ਸੁਨੇਹਿਆਂ ਨੂੰ ਇੱਥੇ ਇਕੱਠਾ ਕਰ ਦਿੱਤਾ ਗਿਆ ਹੈ।",
     "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
+    "messageformat": "{phoneNumber} ਨੰਬਰ {conversationTitle} ਦਾ ਹੈ। ਤੁਸੀਂ ਦੋਵੇਂ {sharedGroup} ਦੇ ਮੈਂਬਰ ਹੋ।",
+    "description": "Shown when we've discovered a phone number for a contact you've been communicating with."
+  },
+  "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
+    "messageformat": "{phoneNumber} ਨੰਬਰ {conversationTitle} ਦਾ ਹੈ",
+    "description": "Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "icu:quoteThumbnailAlt": {
     "messageformat": "ਹਵਾਲਾ ਦਿੱਤੇ ਸੁਨੇੇਹੇ ਤੋਂ ਚਿੱਤਰ ਦਾ ਥੰਬਨੇਲ",
@@ -1639,7 +1667,7 @@
   },
   "icu:calling__start": {
     "messageformat": "ਕਾਲ ਸ਼ੁਰੂ ਕਰੋ",
-    "description": "Button label in the call lobby for starting a call"
+    "description": "(deleted 2023/10/13) Button label in the call lobby for starting a call"
   },
   "icu:calling__join": {
     "messageformat": "ਕਾਲ 'ਚ ਹਿੱਸਾ ਲਵੋ",
@@ -1653,13 +1681,29 @@
     "messageformat": "ਕਾਲ ਵਿੱਚ ਬਹੁਤ ਜ਼ਿਆਦਾ ਲੋਕ ਹੋਣ ਕਾਰਨ ਮਾਈਕ੍ਰੋਫ਼ੋਨ ਮਿਊਟ ਕੀਤਾ ਗਿਆ",
     "description": "Shown in a call lobby toast if there are a lot of people already on the call"
   },
+  "icu:calling__toasts--aria-label": {
+    "messageformat": "ਕਾਲ ਸੂਚਨਾਵਾਂ",
+    "description": "Aria label for region of toasts shown during a call (for, e.g. reconnecting, person joined, audio device changed notifications)"
+  },
   "icu:calling__call-is-full": {
     "messageformat": "ਕਾਲ ਭਰੀ ਹੋਈ ਹੈ",
     "description": "Text in the call lobby when you can't join because the call is full"
   },
+  "icu:CallingLobbyJoinButton--join": {
+    "messageformat": "Join",
+    "description": "Button label in the call lobby for joining a call"
+  },
+  "icu:CallingLobbyJoinButton--start": {
+    "messageformat": "Start",
+    "description": "Button label in the call lobby for starting a call"
+  },
+  "icu:CallingLobbyJoinButton--call-full": {
+    "messageformat": "Call full",
+    "description": "Button in the call lobby when you can't join because the call is full"
+  },
   "icu:calling__button--video__label": {
     "messageformat": "ਕੈਮਰਾ",
-    "description": "Label under the video button"
+    "description": "(deleted 2023/10/13) Label under the video button"
   },
   "icu:calling__button--video-disabled": {
     "messageformat": "ਕੈਮਰਾ ਅਸਮਰੱਥ ਹੈ",
@@ -1675,7 +1719,7 @@
   },
   "icu:calling__button--audio__label": {
     "messageformat": "ਮਿਊਟ ਕਰੋ",
-    "description": "Label under the audio button"
+    "description": "(deleted 2023/10/13) Label under the audio button"
   },
   "icu:calling__button--audio-disabled": {
     "messageformat": "ਮਾਈਕਰੋਫ਼ੋਨ ਅਸਮਰੱਥ",
@@ -1691,7 +1735,7 @@
   },
   "icu:calling__button--presenting__label": {
     "messageformat": "ਸਾਂਝਾ ਕਰੋ",
-    "description": "Label under the share screen button"
+    "description": "(deleted 2023/10/13) Label under the share screen button"
   },
   "icu:calling__button--presenting-disabled": {
     "messageformat": "ਪੇਸ਼ ਕਰਨਾ ਅਸਮਰੱਥ ਹੈ",
@@ -1707,7 +1751,7 @@
   },
   "icu:calling__button--ring__label": {
     "messageformat": "ਰਿੰਗ",
-    "description": "Label under the ring button"
+    "description": "(deleted 2023/10/13) Label under the ring button"
   },
   "icu:calling__button--ring__disabled-because-group-is-too-large": {
     "messageformat": "ਭਾਗੀਦਾਰਾਂ ਨੂੰ ਕਾਲ ਕਰਨ ਲਈ ਗਰੁੱਪ ਬਹੁਤ ਵੱਡਾ ਹੈ।",
@@ -1719,6 +1763,14 @@
   },
   "icu:calling__button--ring__on": {
     "messageformat": "ਰਿੰਗ ਕਰਨੀ ਸਮਰੱਥ ਕਰੋ",
+    "description": "Button tooltip label for turning ringing on"
+  },
+  "icu:CallingButton__ring-off": {
+    "messageformat": "Turn off ringing",
+    "description": "Button tooltip label for turning ringing off"
+  },
+  "icu:CallingButton--ring-on": {
+    "messageformat": "Turn on ringing",
     "description": "Button tooltip label for turning ringing on"
   },
   "icu:calling__your-video-is-off": {
@@ -2293,6 +2345,10 @@
   },
   "icu:ToastManager__CannotEditMessage": {
     "messageformat": "ਇਸ ਸੁਨੇਹੇ ਨੂੰ ਭੇਜੇ ਜਾਣ ਤੋਂ 3 ਘੰਟੇ ਦੇ ਅੰਦਰ-ਅੰਦਰ ਹੀ ਸੋਧਿਆ ਜਾ ਸਕਦਾ ਹੈ।",
+    "description": "(deleted 2023/10/26) Error message when you try to send an edit after message becomes too old"
+  },
+  "icu:ToastManager__CannotEditMessage_24": {
+    "messageformat": "ਇਸ ਸੁਨੇਹੇ ਨੂੰ ਭੇਜੇ ਜਾਣ ਤੋਂ 24 ਘੰਟੇ ਦੇ ਅੰਦਰ-ਅੰਦਰ ਹੀ ਇਸਨੂੰ ਸੋਧਿਆ ਜਾ ਸਕਦਾ ਹੈ।",
     "description": "Error message when you try to send an edit after message becomes too old"
   },
   "icu:startConversation--username-not-found": {
@@ -3498,7 +3554,39 @@
   },
   "icu:callDuration": {
     "messageformat": "Signal {duration}",
-    "description": "Shown in the call screen to indicate how long the call has been connected"
+    "description": "(deleted 2023/10/13) Shown in the call screen to indicate how long the call has been connected"
+  },
+  "icu:CallControls__InfoDisplay--participants": {
+    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} people}}",
+    "description": "Shown in the call screen and lobby for group calls to specify the number of members in the call or in the group. Count is at always at least 1."
+  },
+  "icu:CallControls__InfoDisplay--audio-call": {
+    "messageformat": "Audio call",
+    "description": "Shown in the call lobby for a direct 1:1 call when the caller's video is disabled, to specify that an audio call will be placed when clicking the Start button."
+  },
+  "icu:CallControls__JoinLeaveButton--hangup-1-1": {
+    "messageformat": "End",
+    "description": "Title for the hangup button for a direct 1:1 call with only 2 participants."
+  },
+  "icu:CallControls__JoinLeaveButton--hangup-group": {
+    "messageformat": "Leave",
+    "description": "Title for the hangup button for a group call."
+  },
+  "icu:CallControls__MutedToast--muted": {
+    "messageformat": "Mic off",
+    "description": "Shown in a call when the user mutes their audio input using the Mute toggle button."
+  },
+  "icu:CallControls__MutedToast--unmuted": {
+    "messageformat": "Mic on",
+    "description": "Shown in a call when the user is muted and then unmutes their audio input using the Mute toggle button."
+  },
+  "icu:CallControls__RingingToast--ringing-on": {
+    "messageformat": "Ringing on",
+    "description": "Shown in a group call lobby when call ringing is disabled, then the user enables ringing using the Ringing toggle button."
+  },
+  "icu:CallControls__RingingToast--ringing-off": {
+    "messageformat": "Ringing off",
+    "description": "Shown in a group call lobby when call ringing is enabled, then the user disables ringing using the Ringing toggle button."
   },
   "icu:callingDeviceSelection__settings": {
     "messageformat": "ਸੈਟਿੰਗਾਂ",
@@ -6808,13 +6896,10 @@
     "messageformat": "ਛੋਟੇ-ਮੋਟੇ ਸੁਧਾਰ, ਖ਼ਰਾਬੀਆਂ ਨੂੰ ਦਰੁਸਤ ਅਤੇ ਪ੍ਰਦਰਸ਼ਨ ਨੂੰ ਬਿਹਤਰ ਬਣਾਇਆ ਗਿਆ ਹੈ। Signal ਦੀ ਵਰਤੋਂ ਕਰਨ ਲਈ ਤੁਹਾਡਾ ਧੰਨਵਾਦ!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.35--0": {
-    "messageformat": "ਖ਼ਰਾਬੀਆਂ ਨੂੰ ਠੀਕ ਕੀਤਾ ਗਿਆ ਹੈ ਅਤੇ ਵਰਤੋਂਕਾਰ ਇੰਟਰਫੇਸ ਵਿੱਚ ਸੁਧਾਰ ਕੀਤਾ ਗਿਆ ਹੈ।"
+  "icu:WhatsNew__v6.37--0": {
+    "messageformat": "ਹੁਣ ਤੁਸੀਂ ਕਿਸੇ ਵੀ ਪੁਰਾਣੇ ਸੰਪਰਕ ਨੂੰ ਆਸਾਨੀ ਨਾਲ ਹਟਾ ਸਕਦੇ ਹੋ। ਨਵੀਂ ਚੈਟ ਸਕ੍ਰੀਨ 'ਤੇ ਸੰਪਰਕ ਸੂਚੀ ਵਿੱਚ ਉਹਨਾਂ ਦੇ ਨਾਮ ਦੇ ਅੱਗੇ ਦਿੱਤੇ ਤਿੰਨ-ਬਿੰਦੂਆਂ 'ਤੇ ਕਲਿੱਕ ਕਰੋ ਅਤੇ \"ਹਟਾਓ\" ਨੂੰ ਚੁਣੋ।"
   },
-  "icu:WhatsNew__v6.36--0": {
-    "messageformat": "ਅਸੀਂ ਗਰੁੱਪ ਵੀਡੀਓ ਕਾਲ ਦੇ ਦੁਬਾਰਾ ਕਨੈਕਟ ਹੋਣ ਵਾਲੀ ਸਕ੍ਰੀਨ ਨੂੰ ਬਿਹਤਰ ਢੰਗ ਨਾਲ ਦਰਸਾਉਣ ਲਈ ਯੂਜ਼ਰ ਇੰਟਰਫੇਸ ਨੂੰ ਅੱਪਡੇਟ ਕੀਤਾ ਹੈ।"
-  },
-  "icu:WhatsNew__v6.36--1": {
-    "messageformat": "ਸਿਸਟਮ ਟ੍ਰੇਅ ਆਈਕਨ ਹੁਣ Ubuntu Linux 'ਤੇ ਪਿਕਸਲੇਡ ਨਹੀਂ ਦਿਖਾਈ ਦੇਵੇਗਾ।"
+  "icu:WhatsNew__v6.38--0": {
+    "messageformat": "This release includes an updated design for Signal voice and video calls. Now the calling user interface will still look fantastic even if your camera isn't on and you can't stare at your own beautiful reflection."
   }
 }

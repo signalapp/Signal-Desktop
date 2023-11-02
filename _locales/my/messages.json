@@ -693,23 +693,23 @@
   },
   "icu:SafetyNumberViewer__migration__text": {
     "messageformat": "လုံခြုံရေးနံပါတ်များကို အပ်ဒိတ်ပြုလုပ်နေပါသည်။",
-    "description": "An explanatory note in SafetyNumberViewer describing the safety number migration process."
+    "description": "(Deleted 11/01/2023) An explanatory note in SafetyNumberViewer describing the safety number migration process."
   },
   "icu:SafetyNumberViewer__migration__learn_more": {
     "messageformat": "ထပ်မံလေ့လာရန်",
-    "description": "A link text in SafetyNumberViewer describing the safety number migration process."
+    "description": "(Deleted 11/01/2023) A link text in SafetyNumberViewer describing the safety number migration process."
   },
   "icu:SafetyNumberViewer__card__prev": {
     "messageformat": "ယခင် လုံခြုံရေးနံပါတ်",
-    "description": "An ARIA label for safety number navigation button."
+    "description": "(Deleted 11/01/2023) An ARIA label for safety number navigation button."
   },
   "icu:SafetyNumberViewer__card__next": {
     "messageformat": "နောက်လာမည့် လုံခြုံရေးနံပါတ်",
-    "description": "An ARIA label for safety number navigation button."
+    "description": "(Deleted 11/01/2023) An ARIA label for safety number navigation button."
   },
   "icu:SafetyNumberViewer__carousel__dot": {
     "messageformat": "လုံခြုံရေးနံပါတ် ဗားရှင်း၊ {total,number} ခုထဲမှ {index,number} ခုမြောက်",
-    "description": "An ARIA label for safety number carousel button."
+    "description": "(Deleted 11/01/2023) An ARIA label for safety number carousel button."
   },
   "icu:SafetyNumberViewer__markAsVerified": {
     "messageformat": "အတည်ပြုပြီး အမှတ်အသား",
@@ -719,33 +719,41 @@
     "messageformat": "အတည်ပြုမှု ရှင်းလင်းရန်",
     "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
+  "icu:SafetyNumberViewer__hint": {
+    "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code with their device.",
+    "description": "Safety number viewer, text of the hint"
+  },
+  "icu:SafetyNumberViewer__learn_more": {
+    "messageformat": "Learn more",
+    "description": "Text of 'Learn more' button of SafetyNumberViewerModal modal"
+  },
   "icu:SafetyNumberViewer__hint--migration": {
     "messageformat": "{name} နှင့် ဟိုဘက်သည်ဘက် ကုဒ်ပြောင်းဝှက်ထားခြင်းကို စိစစ်အတည်ပြုရန် အထက်ပါ အရောင်ကတ်ပြားကို ၎င်း၏စက်နှင့် ယှဉ်ကြည့်ပြီး နံပါတ်များကို နှိုင်းယှဉ်ပါ။ ထိုနံပါတ်များ မကိုက်ညီပါက လုံခြုံရေးနံပါတ် နောက်တစ်တွဲဖြင့် စမ်းကြည့်ပါ။ နံပါတ်အတွဲတစ်တွဲသာလျှင် ကိုက်ညီရန် လိုအပ်ပါသည်။",
-    "description": "Safety number viewer, text of the hint during migration period"
+    "description": "(Deleted 11/01/2023). Safety number viewer, text of the hint during migration period"
   },
   "icu:SafetyNumberViewer__hint--normal": {
     "messageformat": "{name} နှင့် ဟိုဘက်သည်ဘက် ကုဒ်ပြောင်းဝှက်ထားခြင်းကို စိစစ်အတည်ပြုရန် အထက်ပါနံပါတ်များကို ၎င်း၏စက်နှင့် နှိုင်းယှဉ်ပါ။ ၎င်းအနေဖြင့် သင့်ကုဒ်ကိုလည်း ၎င်း၏စက်ဖြင့် စကန်ဖတ်နိုင်ပါသည်။",
-    "description": "Safety number viewer, text of the hint after migration period"
+    "description": "(Deleted 11/01/2023). Safety number viewer, text of the hint after migration period"
   },
   "icu:SafetyNumberOnboarding__title": {
     "messageformat": "လုံခြုံရေးနံပါတ်များဆိုင်ရာ အပြောင်းအလဲများ",
-    "description": "Title of Safety number onboarding modal"
+    "description": "(Deleted 11/01/2023) Title of Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__p1": {
     "messageformat": "Signal တွင် ပါဝင်လာမည့် ကိုယ်ပိုင်အချက်အလက်ဆိုင်ရာ အင်္ဂါရပ်များကို ဖွင့်နိုင်ရန်အတွက် လုံခြုံရေးနံပါတ်များကို အကူးအပြောင်းကာလတစ်ခုအတွင်း အပ်ဒိတ်ပြုလုပ်နေပါသည်။",
-    "description": "Paragraph 1 of Safety number onboarding modal"
+    "description": "(Deleted 11/01/2023) Paragraph 1 of Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__p2": {
     "messageformat": "လုံခြုံရေးနံပါတ်များကို စိစစ်အတည်ပြုရန် အရောင်ကတ်ပြားကို သင့်အဆက်အသွယ်၏စက်နှင့် ယှဉ်ကြည့်ပါ။ ထိုနံပါတ်များ မကိုက်ညီပါက လုံခြုံရေးနံပါတ် နောက်တစ်တွဲဖြင့် စမ်းကြည့်ပါ။ နံပါတ်အတွဲတစ်တွဲသာလျှင် ကိုက်ညီရန် လိုအပ်ပါသည်။",
-    "description": "Paragraph 2 of Safety number onboarding modal"
+    "description": "(Deleted 11/01/2023) Paragraph 2 of Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__help": {
     "messageformat": "အကူအညီ လိုအပ်ပါသလား?",
-    "description": "Text of a secondary button in Safety number onboarding modal"
+    "description": "(Deleted 11/01/2023) Text of a secondary button in Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__close": {
     "messageformat": "ရပြီ",
-    "description": "Text of a secondary button in Safety number onboarding modal"
+    "description": "(Deleted 11/01/2023) Text of a secondary button in Safety number onboarding modal"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "ဤပုဂ္ဂိုလ်နှင့် သင် မက်ဆေ့ချ်များ အပြန်အလှန်ပေးပို့ပြီးသောအခါ ၎င်းနှင့်သက်ဆိုင်သော လုံခြုံရေးနံပါတ်တစ်ခုကို ဖန်တီးလိုက်ပါမည်။",
@@ -1388,15 +1396,27 @@
   },
   "icu:deleteMessages": {
     "messageformat": "ဖျက်ရန်",
-    "description": "Menu item for deleting messages, title case."
+    "description": "(deleted 2023/10/26) Menu item for deleting messages, title case."
+  },
+  "icu:deleteMessagesInConversation": {
+    "messageformat": "Delete messages",
+    "description": "Menu item for deleting all messages in a conversation from your device"
   },
   "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
     "messageformat": "ချက်(တ်)ကို ဖျက်မည်လား။",
-    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
+    "description": "(deleted 2023/10/26) Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__title": {
+    "messageformat": "Delete messages?",
+    "description": "Title for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
     "messageformat": "ဤချက်(တ်)ကို ယခုစက်မှ ဖျက်လိုက်ပါမည်။",
-    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
+    "description": "(deleted 2023/10/26) Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
+    "messageformat": "Messages in this chat will be deleted from this device. You can still search for this chat after you delete messages.",
+    "description": "Description for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "အဖွဲ့မှ ထွက်မည်",
@@ -1489,6 +1509,14 @@
   "icu:ConversationMerge--explainer-dialog--line-2": {
     "messageformat": "ချက်(တ်)နှစ်ခုလုံးအတွက် သင့်မက်ဆေ့ချ်မှတ်တမ်းကို ဤနေရာတွင် ပေါင်းစည်းထားပါသည်။",
     "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
+    "messageformat": "{phoneNumber} ကို {conversationTitle} က ပိုင်ဆိုင်ပါသည်။ သင်တို့သည် {sharedGroup} အဖွဲ့ဝင်များ ဖြစ်ပါသည်။",
+    "description": "Shown when we've discovered a phone number for a contact you've been communicating with."
+  },
+  "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
+    "messageformat": "{phoneNumber} ကို {conversationTitle} က ပိုင်ဆိုင်ပါသည်",
+    "description": "Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "icu:quoteThumbnailAlt": {
     "messageformat": "Quote လုပ်ထားသော မက်ဆေ့ချ်မှ ပုံကြမ်း",
@@ -1639,7 +1667,7 @@
   },
   "icu:calling__start": {
     "messageformat": "ခေါ်ဆိုမှု စတင်မယ်",
-    "description": "Button label in the call lobby for starting a call"
+    "description": "(deleted 2023/10/13) Button label in the call lobby for starting a call"
   },
   "icu:calling__join": {
     "messageformat": "ခေါ်ဆိုမှုထဲဝင်မယ်",
@@ -1653,13 +1681,29 @@
     "messageformat": "ကောလ် အရွယ်အစားကြောင့် မိုက်ခရိုဖုန်း အသံပိတ်ထားသည်",
     "description": "Shown in a call lobby toast if there are a lot of people already on the call"
   },
+  "icu:calling__toasts--aria-label": {
+    "messageformat": "ကောလ် အသိပေးချက်များ",
+    "description": "Aria label for region of toasts shown during a call (for, e.g. reconnecting, person joined, audio device changed notifications)"
+  },
   "icu:calling__call-is-full": {
     "messageformat": "ခေါ်ဆိုမှုပြည့်သွားတယ်",
     "description": "Text in the call lobby when you can't join because the call is full"
   },
+  "icu:CallingLobbyJoinButton--join": {
+    "messageformat": "Join",
+    "description": "Button label in the call lobby for joining a call"
+  },
+  "icu:CallingLobbyJoinButton--start": {
+    "messageformat": "Start",
+    "description": "Button label in the call lobby for starting a call"
+  },
+  "icu:CallingLobbyJoinButton--call-full": {
+    "messageformat": "Call full",
+    "description": "Button in the call lobby when you can't join because the call is full"
+  },
   "icu:calling__button--video__label": {
     "messageformat": "ကင်မရာ",
-    "description": "Label under the video button"
+    "description": "(deleted 2023/10/13) Label under the video button"
   },
   "icu:calling__button--video-disabled": {
     "messageformat": "ကင်မရာ ပိတ်ထားသည်",
@@ -1675,7 +1719,7 @@
   },
   "icu:calling__button--audio__label": {
     "messageformat": "အသံပိတ်ရန်",
-    "description": "Label under the audio button"
+    "description": "(deleted 2023/10/13) Label under the audio button"
   },
   "icu:calling__button--audio-disabled": {
     "messageformat": "မိုက်ခရိုဖုန်း ပိတ်ထားသည်",
@@ -1691,7 +1735,7 @@
   },
   "icu:calling__button--presenting__label": {
     "messageformat": "ဝေမျှမယ်",
-    "description": "Label under the share screen button"
+    "description": "(deleted 2023/10/13) Label under the share screen button"
   },
   "icu:calling__button--presenting-disabled": {
     "messageformat": "ပြသမှု ပိတ်ထားသည်",
@@ -1707,7 +1751,7 @@
   },
   "icu:calling__button--ring__label": {
     "messageformat": "ဖုန်းခေါ်ရန်",
-    "description": "Label under the ring button"
+    "description": "(deleted 2023/10/13) Label under the ring button"
   },
   "icu:calling__button--ring__disabled-because-group-is-too-large": {
     "messageformat": "ပါဝင်သူများကို ဖုန်းခေါ်ရန် အဖွဲ့သည် ကြီးလွန်းနေပါသည်။",
@@ -1719,6 +1763,14 @@
   },
   "icu:calling__button--ring__on": {
     "messageformat": "အချက်ပေးမြည်သံကို ဖွင့်ရန်",
+    "description": "Button tooltip label for turning ringing on"
+  },
+  "icu:CallingButton__ring-off": {
+    "messageformat": "Turn off ringing",
+    "description": "Button tooltip label for turning ringing off"
+  },
+  "icu:CallingButton--ring-on": {
+    "messageformat": "Turn on ringing",
     "description": "Button tooltip label for turning ringing on"
   },
   "icu:calling__your-video-is-off": {
@@ -2293,6 +2345,10 @@
   },
   "icu:ToastManager__CannotEditMessage": {
     "messageformat": "ထိုမက်ဆေ့ချ်ကို ပေးပို့ခဲ့ချိန်မှ 3 နာရီအတွင်း၌သာ တည်းဖြတ်မှု လုပ်နိုင်ပါသည်။",
+    "description": "(deleted 2023/10/26) Error message when you try to send an edit after message becomes too old"
+  },
+  "icu:ToastManager__CannotEditMessage_24": {
+    "messageformat": "ထိုမက်ဆေ့ချ်ကို ပေးပို့ခဲ့ချိန်မှ 24 နာရီအတွင်း၌သာ တည်းဖြတ်မှု လုပ်နိုင်ပါသည်။",
     "description": "Error message when you try to send an edit after message becomes too old"
   },
   "icu:startConversation--username-not-found": {
@@ -3498,7 +3554,39 @@
   },
   "icu:callDuration": {
     "messageformat": "Signal {duration}",
-    "description": "Shown in the call screen to indicate how long the call has been connected"
+    "description": "(deleted 2023/10/13) Shown in the call screen to indicate how long the call has been connected"
+  },
+  "icu:CallControls__InfoDisplay--participants": {
+    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} people}}",
+    "description": "Shown in the call screen and lobby for group calls to specify the number of members in the call or in the group. Count is at always at least 1."
+  },
+  "icu:CallControls__InfoDisplay--audio-call": {
+    "messageformat": "Audio call",
+    "description": "Shown in the call lobby for a direct 1:1 call when the caller's video is disabled, to specify that an audio call will be placed when clicking the Start button."
+  },
+  "icu:CallControls__JoinLeaveButton--hangup-1-1": {
+    "messageformat": "End",
+    "description": "Title for the hangup button for a direct 1:1 call with only 2 participants."
+  },
+  "icu:CallControls__JoinLeaveButton--hangup-group": {
+    "messageformat": "Leave",
+    "description": "Title for the hangup button for a group call."
+  },
+  "icu:CallControls__MutedToast--muted": {
+    "messageformat": "Mic off",
+    "description": "Shown in a call when the user mutes their audio input using the Mute toggle button."
+  },
+  "icu:CallControls__MutedToast--unmuted": {
+    "messageformat": "Mic on",
+    "description": "Shown in a call when the user is muted and then unmutes their audio input using the Mute toggle button."
+  },
+  "icu:CallControls__RingingToast--ringing-on": {
+    "messageformat": "Ringing on",
+    "description": "Shown in a group call lobby when call ringing is disabled, then the user enables ringing using the Ringing toggle button."
+  },
+  "icu:CallControls__RingingToast--ringing-off": {
+    "messageformat": "Ringing off",
+    "description": "Shown in a group call lobby when call ringing is enabled, then the user disables ringing using the Ringing toggle button."
   },
   "icu:callingDeviceSelection__settings": {
     "messageformat": "အပြင်အဆင်များ",
@@ -6808,13 +6896,10 @@
     "messageformat": "အနေအထား ပြုပြင်မှုလေးများ၊ ချို့ယွင်းချက် ပြင်ဆင်မှုများနှင့် စွမ်းဆောင်ရည် မြှင့်တင်မှုများ။ Signal ကို သုံးသည့်အတွက် ကျေးဇူးတင်ပါသည်။",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.35--0": {
-    "messageformat": "ချွတ်ယွင်းချက် ပြင်ဆင်မှုများနှင့် အသုံးပြုသူကြားခံစနစ် တိုးတက်မှုများ။"
+  "icu:WhatsNew__v6.37--0": {
+    "messageformat": "ယခုဆိုလျှင် အဆက်အသွယ်ဟောင်းတစ်ခုကို အလွယ်တကူဖယ်ရှားနိုင်ပါပြီ။ ချက်(တ်) မျက်နှာပြင်အသစ်ပေါ်တွင် အဆက်အသွယ်စာရင်းထဲမှ အဆက်အသွယ်ဟောင်းတစ်ခု၏ အမည်ဘေးရှိ အစက်သုံးစက်ကို နှိပ်ပြီး \"ဖယ်ရှားရန်\" ကို ရွေးလိုက်ရုံပင် ဖြစ်ပါသည်။"
   },
-  "icu:WhatsNew__v6.36--0": {
-    "messageformat": "အဖွဲ့ ဗီဒီယိုကောလ်တွင် ပြန်လည်ချိတ်ဆက်နေသည့်အခါ ပိုမိုကောင်းမွန်စွာ ဖော်ပြနိုင်ရန် အသုံးပြုသူ ကြားခံမျက်နှာပြင်ကို အပ်ဒိတ်လုပ်ထားပါသည်။"
-  },
-  "icu:WhatsNew__v6.36--1": {
-    "messageformat": "Ubuntu Linux တွင် စနစ် Tray အိုင်ကွန်သည် Pixel များဖြင့်ဖွဲ့စည်းထားသည့် ခပ်ဝါးဝါးပုံစံ ဖြစ်နေတော့မည်မဟုတ်ပါ။"
+  "icu:WhatsNew__v6.38--0": {
+    "messageformat": "This release includes an updated design for Signal voice and video calls. Now the calling user interface will still look fantastic even if your camera isn't on and you can't stare at your own beautiful reflection."
   }
 }
