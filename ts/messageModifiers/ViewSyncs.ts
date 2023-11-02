@@ -15,6 +15,7 @@ import { markViewed } from '../services/MessageUpdater';
 import { notificationService } from '../services/notifications';
 import { queueAttachmentDownloads } from '../util/queueAttachmentDownloads';
 import { queueUpdateMessage } from '../util/messageBatcher';
+import { generateCacheKey } from './generateCacheKey';
 
 export type ViewSyncAttributesType = {
   envelopeId: string;
@@ -26,10 +27,15 @@ export type ViewSyncAttributesType = {
   viewedAt: number;
 };
 
-const viewSyncs = new Map<number, ViewSyncAttributesType>();
+const viewSyncs = new Map<string, ViewSyncAttributesType>();
 
 function remove(sync: ViewSyncAttributesType): void {
-  viewSyncs.delete(sync.timestamp);
+  viewSyncs.delete(
+    generateCacheKey({
+      sender: sync.senderId,
+      timestamp: sync.timestamp,
+    })
+  );
   sync.removeFromMessageReceiverCache();
 }
 
@@ -68,7 +74,13 @@ export function forMessage(
 }
 
 export async function onSync(sync: ViewSyncAttributesType): Promise<void> {
-  viewSyncs.set(sync.timestamp, sync);
+  viewSyncs.set(
+    generateCacheKey({
+      sender: sync.senderId,
+      timestamp: sync.timestamp,
+    }),
+    sync
+  );
 
   const logId = `ViewSyncs.onSync(timestamp=${sync.timestamp})`;
 
