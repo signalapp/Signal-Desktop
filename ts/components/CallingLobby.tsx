@@ -277,50 +277,54 @@ export function CallingLobby({
           {i18n('icu:calling__your-video-is-off')}
         </div>
 
-        <div className="module-calling__spacer module-CallingLobby__CallControls-spacer" />
-
-        <div className="CallControls">
-          <div className="CallControls__InfoDisplay">
-            <div className="CallControls__CallTitle">{conversation.title}</div>
-            <div className="CallControls__Status">{callStatus}</div>
+        <div className="CallingLobby__Footer">
+          <div className="module-calling__spacer CallControls__OuterSpacer" />
+          <div className="CallControls">
+            <div className="CallControls__InfoDisplay">
+              <div className="CallControls__CallTitle">
+                {conversation.title}
+              </div>
+              <div className="CallControls__Status">{callStatus}</div>
+            </div>
+            <CallingButtonToastsContainer
+              hasLocalAudio={hasLocalAudio}
+              outgoingRing={outgoingRing}
+              i18n={i18n}
+            />
+            <div className="CallControls__ButtonContainer">
+              <CallingButton
+                buttonType={videoButtonType}
+                i18n={i18n}
+                onClick={toggleVideo}
+                tooltipDirection={TooltipPlacement.Top}
+              />
+              <CallingButton
+                buttonType={audioButtonType}
+                i18n={i18n}
+                onClick={toggleAudio}
+                tooltipDirection={TooltipPlacement.Top}
+              />
+              <CallingButton
+                buttonType={ringButtonType}
+                i18n={i18n}
+                isVisible={isRingButtonVisible}
+                onClick={toggleOutgoingRing}
+                tooltipDirection={TooltipPlacement.Top}
+              />
+            </div>
+            <div className="CallControls__JoinLeaveButtonContainer">
+              <CallingLobbyJoinButton
+                disabled={!canJoin}
+                i18n={i18n}
+                onClick={() => {
+                  setIsCallConnecting(true);
+                  onJoinCall();
+                }}
+                variant={callingLobbyJoinButtonVariant}
+              />
+            </div>
           </div>
-          <CallingButtonToastsContainer
-            hasLocalAudio={hasLocalAudio}
-            outgoingRing={outgoingRing}
-            i18n={i18n}
-          />
-          <div className="CallControls__ButtonContainer">
-            <CallingButton
-              buttonType={videoButtonType}
-              i18n={i18n}
-              onClick={toggleVideo}
-              tooltipDirection={TooltipPlacement.Top}
-            />
-            <CallingButton
-              buttonType={audioButtonType}
-              i18n={i18n}
-              onClick={toggleAudio}
-              tooltipDirection={TooltipPlacement.Top}
-            />
-            <CallingButton
-              buttonType={ringButtonType}
-              i18n={i18n}
-              isVisible={isRingButtonVisible}
-              onClick={toggleOutgoingRing}
-              tooltipDirection={TooltipPlacement.Top}
-            />
-          </div>
-          <div className="CallControls__JoinLeaveButtonContainer">
-            <CallingLobbyJoinButton
-              disabled={!canJoin}
-              i18n={i18n}
-              onClick={() => {
-                setIsCallConnecting(true);
-                onJoinCall();
-              }}
-              variant={callingLobbyJoinButtonVariant}
-            />
-          </div>
+          <div className="module-calling__spacer CallControls__OuterSpacer" />
         </div>
       </div>
     </FocusTrap>
