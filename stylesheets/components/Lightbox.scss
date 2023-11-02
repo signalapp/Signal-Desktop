@@ -105,6 +105,12 @@
       position: absolute;
       top: 0;
       width: 100%;
+
+      // Prevent nav buttons from overlapping video controls in small viewports
+      @media (max-height: 500px) {
+        inset-inline-start: 40px;
+        width: calc(100% - 80px);
+      }
     }
 
     height: auto;
@@ -192,12 +198,16 @@
     --height: 224px;
     position: absolute;
     top: calc(50% - var(--height) / 2);
-    width: 25%;
-    max-width: 96px;
     height: var(--height);
 
     // We need this so that the buttons stack above the container
     z-index: $z-index-above-base;
+
+    // Added extended click zone only when it wouldn't overlap video controls
+    @media (min-height: 500px) {
+      width: 25%;
+      max-width: 96px;
+    }
   }
 
   &__nav-next {
