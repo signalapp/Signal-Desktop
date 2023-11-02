@@ -7,7 +7,6 @@ import type { Meta } from '@storybook/react';
 import type { PropsType } from './SafetyNumberViewer';
 import { SafetyNumberViewer } from './SafetyNumberViewer';
 import { setupI18n } from '../util/setupI18n';
-import { SafetyNumberIdentifierType } from '../types/safetyNumber';
 import enMessages from '../../_locales/en/messages.json';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 
@@ -69,13 +68,13 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   contact: overrideProps.contact || contactWithAllData,
   generateSafetyNumber: action('generate-safety-number'),
   i18n,
-  safetyNumbers: overrideProps.safetyNumbers ?? [
-    {
-      identifierType: SafetyNumberIdentifierType.ACIIdentifier,
-      numberBlocks: generateNumberBlocks(),
-      qrData: generateQRData(),
-    },
-  ],
+  safetyNumber:
+    'safetyNumber' in overrideProps
+      ? overrideProps.safetyNumber
+      : {
+          numberBlocks: generateNumberBlocks(),
+          qrData: generateQRData(),
+        },
   toggleVerified: action('toggle-verified'),
   verificationDisabled:
     overrideProps.verificationDisabled !== undefined
@@ -90,27 +89,6 @@ export default {
 
 export function SafetyNumber(): JSX.Element {
   return <SafetyNumberViewer {...createProps({})} />;
-}
-
-export function SafetyNumberE164Transition(): JSX.Element {
-  return (
-    <SafetyNumberViewer
-      {...createProps({
-        safetyNumbers: [
-          {
-            identifierType: SafetyNumberIdentifierType.E164Identifier,
-            numberBlocks: generateNumberBlocks(),
-            qrData: generateQRData(),
-          },
-          {
-            identifierType: SafetyNumberIdentifierType.ACIIdentifier,
-            numberBlocks: generateNumberBlocks(),
-            qrData: generateQRData(),
-          },
-        ],
-      })}
-    />
-  );
 }
 
 export function SafetyNumberNotVerified(): JSX.Element {
@@ -166,11 +144,12 @@ export function JustNumber(): JSX.Element {
   );
 }
 
-export function NoPhoneNumberCannotVerify(): JSX.Element {
+export function NoACICannotVerify(): JSX.Element {
   return (
     <SafetyNumberViewer
       {...createProps({
         contact: contactWithNothing,
+        safetyNumber: undefined,
       })}
     />
   );

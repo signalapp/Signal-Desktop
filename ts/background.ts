@@ -964,6 +964,10 @@ export async function startApp(): Promise<void> {
         await window.Signal.Data.removeAllProfileKeyCredentials();
       }
 
+      if (window.isBeforeVersion(lastVersion, 'v6.38.0-beta.1')) {
+        await window.storage.remove('hasCompletedSafetyNumberOnboarding');
+      }
+
       // This one should always be last - it could restart the app
       if (window.isBeforeVersion(lastVersion, 'v5.30.0-alpha')) {
         await deleteAllLogs();

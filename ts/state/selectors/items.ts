@@ -93,12 +93,6 @@ export const getHasCompletedUsernameLinkOnboarding = createSelector(
     Boolean(state.hasCompletedUsernameLinkOnboarding)
 );
 
-export const getHasCompletedSafetyNumberOnboarding = createSelector(
-  getItems,
-  (state: ItemsStateType): boolean =>
-    Boolean(state.hasCompletedSafetyNumberOnboarding)
-);
-
 export const getUsernameLinkColor = createSelector(
   getItems,
   (state: ItemsStateType): number | undefined => state.usernameLinkColor
