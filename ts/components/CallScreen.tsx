@@ -518,9 +518,7 @@ export function CallScreen({
       {remoteParticipantsElement}
       {lonelyInCallNode}
       <div className="module-ongoing-call__footer">
-        {/* This layout-only element is not ideal.
-            See the comment in _modules.css for more. */}
-        <div className="module-ongoing-call__footer__local-preview-offset" />
+        <div className="module-calling__spacer CallControls__OuterSpacer" />
         <div
           className={classNames(
             'CallControls',

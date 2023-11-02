@@ -3708,7 +3708,7 @@ button.module-image__border-overlay:focus {
 }
 
 .module-ongoing-call {
-  $local-preview-width: 107px;
+  $local-preview-width: 108px;
   $local-preview-height: 80px;
 
   &__remote-video-enabled {
@@ -4013,18 +4013,10 @@ button.module-image__border-overlay:focus {
       justify-content: center;
     }
 
-    // This layout-only element is not ideal, but lets us keep the actions centered until
-    //   until they'd overlap with the video, at which point they start to move.
-    &__local-preview-offset {
-      flex: 1 0;
-      max-width: $local-preview-width;
-      margin-inline-start: 16px;
-      visibility: hidden;
-    }
-
     &__local-preview {
       border-radius: 10px;
       display: flex;
+      flex-shrink: 0;
       height: $local-preview-height;
       margin-block-end: 16px;
       margin-inline: 0 16px;
