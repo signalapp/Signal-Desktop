@@ -24,6 +24,7 @@ import { getSourceServiceId } from '../messages/helpers';
 import { queueUpdateMessage } from '../util/messageBatcher';
 import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp';
 import { getMessageIdForLogging } from '../util/idForLogging';
+import { generateCacheKey } from './generateCacheKey';
 
 const { deleteSentProtoRecipient } = dataInterface;
 
@@ -78,7 +79,12 @@ const deleteSentProtoBatcher = createWaitBatcher({
 });
 
 function remove(receipt: MessageReceiptAttributesType): void {
-  receipts.delete(receipt.envelopeId);
+  receipts.delete(
+    generateCacheKey({
+      sender: receipt.sourceServiceId,
+      timestamp: receipt.messageSentAt,
+    })
+  );
   receipt.removeFromMessageReceiverCache();
 }
 
@@ -341,7 +347,13 @@ async function updateMessageSendState(
 export async function onReceipt(
   receipt: MessageReceiptAttributesType
 ): Promise<void> {
-  receipts.set(receipt.envelopeId, receipt);
+  receipts.set(
+    generateCacheKey({
+      sender: receipt.sourceServiceId,
+      timestamp: receipt.messageSentAt,
+    }),
+    receipt
+  );
 
   const { messageSentAt, sourceConversationId, sourceServiceId, type } =
     receipt;
