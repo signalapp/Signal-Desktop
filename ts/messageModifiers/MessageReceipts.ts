@@ -271,7 +271,7 @@ async function updateMessageSendState(
 
   const editMessageTimestamp = message.get('editMessageTimestamp');
   if (
-    messageSentAt === message.get('timestamp') ||
+    (!editMessageTimestamp && messageSentAt === message.get('timestamp')) ||
     messageSentAt === editMessageTimestamp
   ) {
     const oldSendStateByConversationId =
