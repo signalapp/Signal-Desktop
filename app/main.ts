@@ -100,15 +100,6 @@ import { createTemplate } from './menu';
 import { installFileHandler, installWebHandler } from './protocol_filter';
 import OS from '../ts/util/os/osMain';
 import { isProduction } from '../ts/util/version';
-import {
-  isSgnlHref,
-  isCaptchaHref,
-  isSignalHttpsLink,
-  parseSgnlHref,
-  parseCaptchaHref,
-  parseSignalHttpsLink,
-  rewriteSignalHrefsIfNecessary,
-} from '../ts/util/sgnlHref';
 import { clearTimeoutIfNecessary } from '../ts/util/clearTimeoutIfNecessary';
 import { toggleMaximizedBrowserWindow } from '../ts/util/toggleMaximizedBrowserWindow';
 import { ChallengeMainHandler } from '../ts/main/challengeMain';
@@ -124,6 +115,8 @@ import { load as loadLocale } from './locale';
 import type { LoggerType } from '../ts/types/Logging';
 import { HourCyclePreference } from '../ts/types/I18N';
 import { DBVersionFromFutureError } from '../ts/sql/migrations';
+import type { ParsedSignalRoute } from '../ts/util/signalRoutes';
+import { parseSignalRoute } from '../ts/util/signalRoutes';
 
 const STICKER_CREATOR_PARTITION = 'sticker-creator';
 
@@ -270,18 +263,10 @@ if (!process.mas) {
         return;
       }
 
-      const incomingCaptchaHref = getIncomingCaptchaHref(argv);
-      if (incomingCaptchaHref) {
-        const { captcha } = parseCaptchaHref(incomingCaptchaHref, getLogger());
-        challengeHandler.handleCaptcha(captcha);
-        return true;
+      const route = maybeGetIncomingSignalRoute(argv);
+      if (route != null) {
+        handleSignalRoute(route);
       }
-      // Are they trying to open a sgnl:// href?
-      const incomingHref = getIncomingHref(argv);
-      if (incomingHref) {
-        handleSgnlHref(incomingHref);
-      }
-      // Handled
       return true;
     });
   }
@@ -475,23 +460,21 @@ async function handleUrl(rawTarget: string) {
     return;
   }
 
-  const target = rewriteSignalHrefsIfNecessary(rawTarget);
+  const signalRoute = parseSignalRoute(rawTarget);
+
+  // We only want to specially handle urls that aren't requesting the dev server
+  if (signalRoute != null) {
+    handleSignalRoute(signalRoute);
+    return;
+  }
 
   const { protocol, hostname } = parsedUrl;
   const isDevServer =
     process.env.SIGNAL_ENABLE_HTTP && hostname === 'localhost';
-  // We only want to specially handle urls that aren't requesting the dev server
-  if (
-    isSgnlHref(target, getLogger()) ||
-    isSignalHttpsLink(target, getLogger())
-  ) {
-    handleSgnlHref(target);
-    return;
-  }
 
   if ((protocol === 'http:' || protocol === 'https:') && !isDevServer) {
     try {
-      await shell.openExternal(target);
+      await shell.openExternal(rawTarget);
     } catch (error) {
       getLogger().error(`Failed to open url: ${Errors.toLogFormat(error)}`);
     }
@@ -1127,9 +1110,9 @@ async function readyForUpdates() {
   isReadyForUpdates = true;
 
   // First, install requested sticker pack
-  const incomingHref = getIncomingHref(process.argv);
+  const incomingHref = maybeGetIncomingSignalRoute(process.argv);
   if (incomingHref) {
-    handleSgnlHref(incomingHref);
+    handleSignalRoute(incomingHref);
   }
 
   // Second, start checking for app updates
@@ -2199,18 +2182,10 @@ app.on('will-finish-launching', () => {
   // https://stackoverflow.com/a/43949291
   app.on('open-url', (event, incomingHref) => {
     event.preventDefault();
-
-    if (isCaptchaHref(incomingHref, getLogger())) {
-      const { captcha } = parseCaptchaHref(incomingHref, getLogger());
-      challengeHandler.handleCaptcha(captcha);
-
-      // Show window after handling captcha
-      showWindow();
-
-      return;
+    const route = parseSignalRoute(incomingHref);
+    if (route != null) {
+      handleSignalRoute(route);
     }
-
-    handleSgnlHref(incomingHref);
   });
 });
 
@@ -2521,78 +2496,71 @@ ipc.on('preferences-changed', () => {
   }
 });
 
-function getIncomingHref(argv: Array<string>) {
-  return argv.find(arg => isSgnlHref(arg, getLogger()));
+function maybeGetIncomingSignalRoute(argv: Array<string>) {
+  for (const arg of argv) {
+    const route = parseSignalRoute(arg);
+    if (route != null) {
+      return route;
+    }
+  }
+  return null;
 }
 
-function getIncomingCaptchaHref(argv: Array<string>) {
-  return argv.find(arg => isCaptchaHref(arg, getLogger()));
-}
+function handleSignalRoute(route: ParsedSignalRoute) {
+  const log = getLogger();
 
-function handleSgnlHref(incomingHref: string) {
-  let command;
-  let args;
-  let hash;
-
-  if (isSgnlHref(incomingHref, getLogger())) {
-    ({ command, args, hash } = parseSgnlHref(incomingHref, getLogger()));
-  } else if (isSignalHttpsLink(incomingHref, getLogger())) {
-    ({ command, args, hash } = parseSignalHttpsLink(incomingHref, getLogger()));
+  if (mainWindow == null || !mainWindow.webContents) {
+    log.error('handleSignalRoute: mainWindow is null or missing webContents');
+    return;
   }
 
-  if (mainWindow && mainWindow.webContents) {
-    if (command === 'addstickers') {
-      getLogger().info('Opening sticker pack from sgnl protocol link');
-      const packId = args?.get('pack_id');
-      const packKeyHex = args?.get('pack_key');
-      const packKey = packKeyHex
-        ? Buffer.from(packKeyHex, 'hex').toString('base64')
-        : '';
-      mainWindow.webContents.send('show-sticker-pack', { packId, packKey });
-    } else if (command === 'art-auth') {
-      const token = args?.get('token');
-      const pubKeyBase64 = args?.get('pub_key');
+  log.info('handleSignalRoute: Matched signal route:', route.key);
 
-      mainWindow.webContents.send('authorize-art-creator', {
-        token,
-        pubKeyBase64,
-      });
-    } else if (command === 'signal.group' && hash) {
-      getLogger().info('Showing group from sgnl protocol link');
-      mainWindow.webContents.send('show-group-via-link', { hash });
-    } else if (command === 'signal.me' && hash) {
-      getLogger().info('Showing conversation from sgnl protocol link');
-      mainWindow.webContents.send('show-conversation-via-signal.me', { hash });
-    } else if (
-      command === 'show-conversation' &&
-      args &&
-      args.get('conversationId')
-    ) {
-      getLogger().info('Showing conversation from notification');
-      mainWindow.webContents.send('show-conversation-via-notification', {
-        conversationId: args.get('conversationId'),
-        messageId: args.get('messageId'),
-        storyId: args.get('storyId'),
-      });
-    } else if (
-      command === 'start-call-lobby' &&
-      args &&
-      args.get('conversationId')
-    ) {
-      getLogger().info('Starting call lobby from notification');
-      mainWindow.webContents.send('start-call-lobby', {
-        conversationId: args.get('conversationId'),
-      });
-    } else if (command === 'show-window') {
-      mainWindow.webContents.send('show-window');
-    } else if (command === 'set-is-presenting') {
-      mainWindow.webContents.send('set-is-presenting');
-    } else {
-      getLogger().info('Showing warning that we cannot process link');
-      mainWindow.webContents.send('unknown-sgnl-link');
-    }
+  if (route.key === 'artAddStickers') {
+    mainWindow.webContents.send('show-sticker-pack', {
+      packId: route.args.packId,
+      packKey: Buffer.from(route.args.packKey, 'hex').toString('base64'),
+    });
+  } else if (route.key === 'artAuth') {
+    mainWindow.webContents.send('authorize-art-creator', {
+      token: route.args.token,
+      pubKeyBase64: route.args.pubKey,
+    });
+  } else if (route.key === 'groupInvites') {
+    mainWindow.webContents.send('show-group-via-link', {
+      value: route.args.inviteCode,
+    });
+  } else if (route.key === 'contactByPhoneNumber') {
+    mainWindow.webContents.send('show-conversation-via-signal.me', {
+      kind: 'phoneNumber',
+      value: route.args.phoneNumber,
+    });
+  } else if (route.key === 'contactByEncryptedUsername') {
+    mainWindow.webContents.send('show-conversation-via-signal.me', {
+      kind: 'encryptedUsername',
+      value: route.args.encryptedUsername,
+    });
+  } else if (route.key === 'showConversation') {
+    mainWindow.webContents.send('show-conversation-via-notification', {
+      conversationId: route.args.conversationId,
+      messageId: route.args.messageId,
+      storyId: route.args.storyId,
+    });
+  } else if (route.key === 'startCallLobby') {
+    mainWindow.webContents.send('start-call-lobby', {
+      conversationId: route.args.conversationId,
+    });
+  } else if (route.key === 'showWindow') {
+    mainWindow.webContents.send('show-window');
+  } else if (route.key === 'setIsPresenting') {
+    mainWindow.webContents.send('set-is-presenting');
+  } else if (route.key === 'captcha') {
+    challengeHandler.handleCaptcha(route.args.captchaId);
+    // Show window after handling captcha
+    showWindow();
   } else {
-    getLogger().error('Unhandled sgnl link');
+    log.info('handleSignalRoute: Unknown signal route:', route.key);
+    mainWindow.webContents.send('unknown-sgnl-link');
   }
 }
 

@@ -289,24 +289,18 @@ ipc.on('delete-all-data', async () => {
 });
 
 ipc.on('show-sticker-pack', (_event, info) => {
-  const { packId, packKey } = info;
-  const { showStickerPack } = window.Events;
-  if (showStickerPack) {
-    showStickerPack(packId, packKey);
-  }
+  window.Events.showStickerPack?.(info.packId, info.packKey);
 });
 
 ipc.on('show-group-via-link', (_event, info) => {
-  const { hash } = info;
-  const { showGroupViaLink } = window.Events;
-  if (showGroupViaLink) {
-    void showGroupViaLink(hash);
-  }
+  strictAssert(typeof info.value === 'string', 'Got an invalid value over IPC');
+  drop(window.Events.showGroupViaLink?.(info.value));
 });
 
 ipc.on('open-art-creator', () => {
   drop(window.Events.openArtCreator());
 });
+
 window.openArtCreator = ({
   username,
   password,
@@ -318,8 +312,7 @@ window.openArtCreator = ({
 };
 
 ipc.on('authorize-art-creator', (_event, info) => {
-  const { token, pubKeyBase64 } = info;
-  window.Events.authorizeArtCreator?.({ token, pubKeyBase64 });
+  window.Events.authorizeArtCreator?.(info);
 });
 
 ipc.on('start-call-lobby', (_event, { conversationId }) => {
@@ -328,9 +321,11 @@ ipc.on('start-call-lobby', (_event, { conversationId }) => {
     isVideoCall: true,
   });
 });
+
 ipc.on('show-window', () => {
   window.IPC.showWindow();
 });
+
 ipc.on('set-is-presenting', () => {
   window.reduxActions?.calling?.setPresenting();
 });
@@ -345,12 +340,13 @@ ipc.on(
   }
 );
 ipc.on('show-conversation-via-signal.me', (_event, info) => {
-  const { hash } = info;
-  strictAssert(typeof hash === 'string', 'Got an invalid hash over IPC');
+  const { kind, value } = info;
+  strictAssert(typeof kind === 'string', 'Got an invalid kind over IPC');
+  strictAssert(typeof value === 'string', 'Got an invalid value over IPC');
 
   const { showConversationViaSignalDotMe } = window.Events;
   if (showConversationViaSignalDotMe) {
-    void showConversationViaSignalDotMe(hash);
+    void showConversationViaSignalDotMe(kind, value);
   }
 });
 

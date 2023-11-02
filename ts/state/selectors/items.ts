@@ -18,9 +18,9 @@ import { DEFAULT_CONVERSATION_COLOR } from '../../types/Colors';
 import { getPreferredReactionEmoji as getPreferredReactionEmojiFromStoredValue } from '../../reactions/preferredReactionEmoji';
 import { isBeta } from '../../util/version';
 import { DurationInSeconds } from '../../util/durations';
-import { generateUsernameLink } from '../../util/sgnlHref';
 import * as Bytes from '../../Bytes';
 import { getUserNumber, getUserACI } from './user';
+import { contactByEncryptedUsernameRoute } from '../../util/signalRoutes';
 
 const DEFAULT_PREFERRED_LEFT_PANE_WIDTH = 320;
 
@@ -112,7 +112,9 @@ export const getUsernameLink = createSelector(
 
     const content = Bytes.concatenate([entropy, serverId]);
 
-    return generateUsernameLink(Bytes.toBase64(content));
+    return contactByEncryptedUsernameRoute
+      .toWebUrl({ encryptedUsername: Bytes.toBase64(content) })
+      .toString();
   }
 );
 

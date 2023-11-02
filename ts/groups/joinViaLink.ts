@@ -30,11 +30,11 @@ import { isGroupV1 } from '../util/whatTypeOfConversation';
 import { longRunningTaskWrapper } from '../util/longRunningTaskWrapper';
 import { sleep } from '../util/sleep';
 
-export async function joinViaLink(hash: string): Promise<void> {
+export async function joinViaLink(value: string): Promise<void> {
   let inviteLinkPassword: string;
   let masterKey: string;
   try {
-    ({ inviteLinkPassword, masterKey } = parseGroupLink(hash));
+    ({ inviteLinkPassword, masterKey } = parseGroupLink(value));
   } catch (error: unknown) {
     const errorString = Errors.toLogFormat(error);
     log.error(`joinViaLink: Failed to parse group link ${errorString}`);

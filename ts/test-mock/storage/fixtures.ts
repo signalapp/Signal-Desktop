@@ -2,13 +2,22 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import createDebug from 'debug';
-import type { Group, PrimaryDevice } from '@signalapp/mock-server';
+import type {
+  Group,
+  PrimaryDevice,
+  Server,
+  StorageStateRecord,
+} from '@signalapp/mock-server';
 import { StorageState, Proto } from '@signalapp/mock-server';
+import path from 'path';
+import fs from 'fs/promises';
+import { range } from 'lodash';
 import { App } from '../playwright';
 import { Bootstrap } from '../bootstrap';
 import type { BootstrapOptions } from '../bootstrap';
 import { MY_STORY_ID } from '../../types/Stories';
 import { uuidToBytes } from '../../util/uuidToBytes';
+import { artAddStickersRoute } from '../../util/signalRoutes';
 
 export const debug = createDebug('mock:test:storage');
 
@@ -122,4 +131,78 @@ export async function initStorage(
     await bootstrap.saveLogs();
     throw error;
   }
+}
+
+export const FIXTURES = path.join(__dirname, '..', '..', '..', 'fixtures');
+
+export const EMPTY = new Uint8Array(0);
+
+export type StickerPackType = Readonly<{
+  id: Buffer;
+  key: Buffer;
+  stickerCount: number;
+}>;
+
+export const STICKER_PACKS: ReadonlyArray<StickerPackType> = [
+  {
+    id: Buffer.from('c40ed069cdc2b91eccfccf25e6bcddfc', 'hex'),
+    key: Buffer.from(
+      'cefadd6e81c128680aead1711eb5c92c10f63bdfbc78528a4519ba682de396e4',
+      'hex'
+    ),
+    stickerCount: 1,
+  },
+  {
+    id: Buffer.from('ae8fedafda4768fd3384d4b3b9db963d', 'hex'),
+    key: Buffer.from(
+      '53f4aa8b95e1c2e75afab2328fe67eb6d7affbcd4f50cd4da89dfc325dbc73ca',
+      'hex'
+    ),
+    stickerCount: 1,
+  },
+];
+
+export function getStickerPackLink(pack: StickerPackType): string {
+  return artAddStickersRoute
+    .toWebUrl({
+      packId: pack.id.toString('hex'),
+      packKey: pack.key.toString('hex'),
+    })
+    .toString();
+}
+
+export function getStickerPackRecordPredicate(
+  pack: StickerPackType
+): (record: StorageStateRecord) => boolean {
+  return ({ type, record }: StorageStateRecord): boolean => {
+    if (type !== IdentifierType.STICKER_PACK) {
+      return false;
+    }
+    return pack.id.equals(record.stickerPack?.packId ?? EMPTY);
+  };
+}
+
+export async function storeStickerPacks(
+  server: Server,
+  stickerPacks: ReadonlyArray<StickerPackType>
+): Promise<void> {
+  await Promise.all(
+    stickerPacks.map(async ({ id, stickerCount }) => {
+      const hexId = id.toString('hex');
+
+      await server.storeStickerPack({
+        id,
+        manifest: await fs.readFile(
+          path.join(FIXTURES, `stickerpack-${hexId}.bin`)
+        ),
+        stickers: await Promise.all(
+          range(0, stickerCount).map(async index =>
+            fs.readFile(
+              path.join(FIXTURES, `stickerpack-${hexId}-${index}.bin`)
+            )
+          )
+        ),
+      });
+    })
+  );
 }

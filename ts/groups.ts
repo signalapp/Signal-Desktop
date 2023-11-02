@@ -95,6 +95,7 @@ import { ReadStatus } from './messages/MessageReadStatus';
 import { SeenStatus } from './MessageSeenStatus';
 import { incrementMessageCounter } from './util/incrementMessageCounter';
 import { sleep } from './util/sleep';
+import { groupInvitesRoute } from './util/signalRoutes';
 
 type AccessRequiredEnum = Proto.AccessControl.AccessRequired;
 
@@ -383,16 +384,16 @@ export function buildGroupLink(
     },
   }).finish();
 
-  const hash = toWebSafeBase64(Bytes.toBase64(bytes));
+  const inviteCode = toWebSafeBase64(Bytes.toBase64(bytes));
 
-  return `https://signal.group/#${hash}`;
+  return groupInvitesRoute.toWebUrl({ inviteCode }).toString();
 }
 
-export function parseGroupLink(hash: string): {
+export function parseGroupLink(value: string): {
   masterKey: string;
   inviteLinkPassword: string;
 } {
-  const base64 = fromWebSafeBase64(hash);
+  const base64 = fromWebSafeBase64(value);
   const buffer = Bytes.fromBase64(base64);
 
   const inviteLinkProto = Proto.GroupInviteLink.decode(buffer);

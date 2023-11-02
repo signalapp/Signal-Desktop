@@ -136,6 +136,13 @@ export class App extends EventEmitter {
     return this.app.firstWindow();
   }
 
+  public async openSignalRoute(url: URL | string): Promise<void> {
+    const window = await this.getWindow();
+    await window.evaluate(
+      `window.SignalCI.openSignalRoute(${JSON.stringify(url.toString())})`
+    );
+  }
+
   // EventEmitter types
 
   public override on(type: 'close', callback: () => void): this;

@@ -181,6 +181,7 @@
     "semver": "5.7.2",
     "split2": "4.0.0",
     "type-fest": "3.5.0",
+    "urlpattern-polyfill": "9.0.0",
     "uuid": "3.3.2",
     "uuid-browser": "3.1.0",
     "websocket": "1.0.34",

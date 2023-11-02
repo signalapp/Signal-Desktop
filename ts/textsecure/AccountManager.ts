@@ -52,12 +52,12 @@ import { isMoreRecentThan, isOlderThan } from '../util/timestamp';
 import { ourProfileKeyService } from '../services/ourProfileKey';
 import { assertDev, strictAssert } from '../util/assert';
 import { getRegionCodeForNumber } from '../util/libphonenumberUtil';
-import { getProvisioningUrl } from '../util/getProvisioningUrl';
 import { isNotNil } from '../util/isNotNil';
 import { missingCaseError } from '../util/missingCaseError';
 import { SignalService as Proto } from '../protobuf';
 import * as log from '../logging/log';
 import type { StorageAccessType } from '../types/Storage';
+import { linkDeviceRoute } from '../util/signalRoutes';
 
 type StorageKeyByServiceIdKind = {
   [kind in ServiceIdKind]: keyof StorageAccessType;
@@ -358,7 +358,12 @@ export default class AccountManager extends EventTarget {
           if (!uuid) {
             throw new Error('registerSecondDevice: expected a UUID');
           }
-          const url = getProvisioningUrl(uuid, pubKey);
+          const url = linkDeviceRoute
+            .toAppUrl({
+              uuid,
+              pubKey: Bytes.toBase64(pubKey),
+            })
+            .toString();
 
           window.SignalCI?.setProvisioningURL(url);
 

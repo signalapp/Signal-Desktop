@@ -9,11 +9,11 @@ import createDebug from 'debug';
 
 import * as durations from '../../util/durations';
 import { uuidToBytes } from '../../util/uuidToBytes';
-import { generateUsernameLink } from '../../util/sgnlHref';
 import { MY_STORY_ID } from '../../types/Stories';
 import { Bootstrap } from '../bootstrap';
 import type { App } from '../bootstrap';
 import { bufferToUuid } from '../helpers';
+import { contactByEncryptedUsernameRoute } from '../../util/signalRoutes';
 
 export const debug = createDebug('mock:test:username');
 
@@ -310,9 +310,14 @@ describe('pnp/username', function (this: Mocha.Suite) {
       CARL_USERNAME
     );
 
-    const linkUrl = generateUsernameLink(
-      Buffer.concat([entropy, uuidToBytes(serverId)]).toString('base64')
-    );
+    const linkUrl = contactByEncryptedUsernameRoute
+      .toWebUrl({
+        encryptedUsername: Buffer.concat([
+          entropy,
+          uuidToBytes(serverId),
+        ]).toString('base64'),
+      })
+      .toString();
 
     debug('sending link to Note to Self');
     await phone.sendText(desktop, linkUrl, {
