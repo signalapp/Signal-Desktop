@@ -693,23 +693,23 @@
   },
   "icu:SafetyNumberViewer__migration__text": {
     "messageformat": "안전 번호가 업데이트됩니다.",
-    "description": "An explanatory note in SafetyNumberViewer describing the safety number migration process."
+    "description": "(Deleted 11/01/2023) An explanatory note in SafetyNumberViewer describing the safety number migration process."
   },
   "icu:SafetyNumberViewer__migration__learn_more": {
     "messageformat": "더 알아보기",
-    "description": "A link text in SafetyNumberViewer describing the safety number migration process."
+    "description": "(Deleted 11/01/2023) A link text in SafetyNumberViewer describing the safety number migration process."
   },
   "icu:SafetyNumberViewer__card__prev": {
     "messageformat": "이전 안전 번호",
-    "description": "An ARIA label for safety number navigation button."
+    "description": "(Deleted 11/01/2023) An ARIA label for safety number navigation button."
   },
   "icu:SafetyNumberViewer__card__next": {
     "messageformat": "다음 안전 번호",
-    "description": "An ARIA label for safety number navigation button."
+    "description": "(Deleted 11/01/2023) An ARIA label for safety number navigation button."
   },
   "icu:SafetyNumberViewer__carousel__dot": {
     "messageformat": "안전 번호 버전, {index,number}/{total,number}",
-    "description": "An ARIA label for safety number carousel button."
+    "description": "(Deleted 11/01/2023) An ARIA label for safety number carousel button."
   },
   "icu:SafetyNumberViewer__markAsVerified": {
     "messageformat": "검증으로 표시",
@@ -719,33 +719,41 @@
     "messageformat": "인증 초기화하기",
     "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
+  "icu:SafetyNumberViewer__hint": {
+    "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code with their device.",
+    "description": "Safety number viewer, text of the hint"
+  },
+  "icu:SafetyNumberViewer__learn_more": {
+    "messageformat": "Learn more",
+    "description": "Text of 'Learn more' button of SafetyNumberViewerModal modal"
+  },
   "icu:SafetyNumberViewer__hint--migration": {
     "messageformat": "{name} 님과의 엔드투엔드 암호화를 검증하려면 상기 컬러 카드와 상대방 기기를 비교하여 해당 번호가 일치하는지 확인하세요. 일치하지 않으면 다른 안전 번호 쌍을 시도해 보세요. 한 쌍만 일치하면 됩니다.",
-    "description": "Safety number viewer, text of the hint during migration period"
+    "description": "(Deleted 11/01/2023). Safety number viewer, text of the hint during migration period"
   },
   "icu:SafetyNumberViewer__hint--normal": {
     "messageformat": "{name} 님과의 엔드투엔드 암호화를 검증하려면 상기 번호를 상대방 기기의 번호와 비교하세요. 상대방 기기로 귀하의 코드를 스캔할 수도 있습니다.",
-    "description": "Safety number viewer, text of the hint after migration period"
+    "description": "(Deleted 11/01/2023). Safety number viewer, text of the hint after migration period"
   },
   "icu:SafetyNumberOnboarding__title": {
     "messageformat": "안전 번호 변경",
-    "description": "Title of Safety number onboarding modal"
+    "description": "(Deleted 11/01/2023) Title of Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__p1": {
     "messageformat": "전환 기간에 안전 번호가 업데이트 되어 앞으로 Signal에서 예정된 개인정보 보호 기능이 활성화됩니다.",
-    "description": "Paragraph 1 of Safety number onboarding modal"
+    "description": "(Deleted 11/01/2023) Paragraph 1 of Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__p2": {
     "messageformat": "안전 번호를 검증하려면 컬러 카드가 연락처 기기의 컬러 카드와 일치하는지 확인하세요. 일치하지 않으면 다른 안전 번호 쌍을 시도해 보세요. 한 쌍만 일치하면 됩니다.",
-    "description": "Paragraph 2 of Safety number onboarding modal"
+    "description": "(Deleted 11/01/2023) Paragraph 2 of Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__help": {
     "messageformat": "도움이 필요하신가요?",
-    "description": "Text of a secondary button in Safety number onboarding modal"
+    "description": "(Deleted 11/01/2023) Text of a secondary button in Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__close": {
     "messageformat": "확인",
-    "description": "Text of a secondary button in Safety number onboarding modal"
+    "description": "(Deleted 11/01/2023) Text of a secondary button in Safety number onboarding modal"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "메시지를 주고받은 후 상대와의 메시지 보안을 위한 안전 번호가 생성됩니다.",
@@ -1388,15 +1396,27 @@
   },
   "icu:deleteMessages": {
     "messageformat": "삭제",
-    "description": "Menu item for deleting messages, title case."
+    "description": "(deleted 2023/10/26) Menu item for deleting messages, title case."
+  },
+  "icu:deleteMessagesInConversation": {
+    "messageformat": "Delete messages",
+    "description": "Menu item for deleting all messages in a conversation from your device"
   },
   "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
     "messageformat": "대화를 삭제하시겠습니까?",
-    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
+    "description": "(deleted 2023/10/26) Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__title": {
+    "messageformat": "Delete messages?",
+    "description": "Title for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
     "messageformat": "이 기기에서 이 대화를 삭제합니다.",
-    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
+    "description": "(deleted 2023/10/26) Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
+    "messageformat": "Messages in this chat will be deleted from this device. You can still search for this chat after you delete messages.",
+    "description": "Description for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "그룹 나가기",
@@ -1489,6 +1509,14 @@
   "icu:ConversationMerge--explainer-dialog--line-2": {
     "messageformat": "두 대화의 메시지 기록이 여기에 병합됩니다.",
     "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
+    "messageformat": "{phoneNumber}번은 {conversationTitle} 님의 전화번호입니다. 두 사람 다 {sharedGroup}의 멤버입니다.",
+    "description": "Shown when we've discovered a phone number for a contact you've been communicating with."
+  },
+  "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
+    "messageformat": "{phoneNumber}번은 {conversationTitle} 님의 전화번호입니다.",
+    "description": "Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "icu:quoteThumbnailAlt": {
     "messageformat": "인용된 메시지의 이미지 섬네일",
@@ -1639,7 +1667,7 @@
   },
   "icu:calling__start": {
     "messageformat": "전화 시작하기",
-    "description": "Button label in the call lobby for starting a call"
+    "description": "(deleted 2023/10/13) Button label in the call lobby for starting a call"
   },
   "icu:calling__join": {
     "messageformat": "전화 참여하기",
@@ -1653,13 +1681,29 @@
     "messageformat": "통화 규모로 인해 마이크가 음소거 처리되었습니다.",
     "description": "Shown in a call lobby toast if there are a lot of people already on the call"
   },
+  "icu:calling__toasts--aria-label": {
+    "messageformat": "전화 알림",
+    "description": "Aria label for region of toasts shown during a call (for, e.g. reconnecting, person joined, audio device changed notifications)"
+  },
   "icu:calling__call-is-full": {
     "messageformat": "통화 참가자 수 최대",
     "description": "Text in the call lobby when you can't join because the call is full"
   },
+  "icu:CallingLobbyJoinButton--join": {
+    "messageformat": "Join",
+    "description": "Button label in the call lobby for joining a call"
+  },
+  "icu:CallingLobbyJoinButton--start": {
+    "messageformat": "Start",
+    "description": "Button label in the call lobby for starting a call"
+  },
+  "icu:CallingLobbyJoinButton--call-full": {
+    "messageformat": "Call full",
+    "description": "Button in the call lobby when you can't join because the call is full"
+  },
   "icu:calling__button--video__label": {
     "messageformat": "카메라",
-    "description": "Label under the video button"
+    "description": "(deleted 2023/10/13) Label under the video button"
   },
   "icu:calling__button--video-disabled": {
     "messageformat": "카메라 비활성화",
@@ -1675,7 +1719,7 @@
   },
   "icu:calling__button--audio__label": {
     "messageformat": "음소거",
-    "description": "Label under the audio button"
+    "description": "(deleted 2023/10/13) Label under the audio button"
   },
   "icu:calling__button--audio-disabled": {
     "messageformat": "마이크 비활성화",
@@ -1691,7 +1735,7 @@
   },
   "icu:calling__button--presenting__label": {
     "messageformat": "공유",
-    "description": "Label under the share screen button"
+    "description": "(deleted 2023/10/13) Label under the share screen button"
   },
   "icu:calling__button--presenting-disabled": {
     "messageformat": "표시 비활성화됨",
@@ -1707,7 +1751,7 @@
   },
   "icu:calling__button--ring__label": {
     "messageformat": "전화벨",
-    "description": "Label under the ring button"
+    "description": "(deleted 2023/10/13) Label under the ring button"
   },
   "icu:calling__button--ring__disabled-because-group-is-too-large": {
     "messageformat": "단체 참여자가 너무 많아 통화를 진행할 수 없습니다.",
@@ -1719,6 +1763,14 @@
   },
   "icu:calling__button--ring__on": {
     "messageformat": "전화벨 사용",
+    "description": "Button tooltip label for turning ringing on"
+  },
+  "icu:CallingButton__ring-off": {
+    "messageformat": "Turn off ringing",
+    "description": "Button tooltip label for turning ringing off"
+  },
+  "icu:CallingButton--ring-on": {
+    "messageformat": "Turn on ringing",
     "description": "Button tooltip label for turning ringing on"
   },
   "icu:calling__your-video-is-off": {
@@ -2293,6 +2345,10 @@
   },
   "icu:ToastManager__CannotEditMessage": {
     "messageformat": "메시지 수정은 발송 시간으로부터 3시간 이내로 제한됩니다.",
+    "description": "(deleted 2023/10/26) Error message when you try to send an edit after message becomes too old"
+  },
+  "icu:ToastManager__CannotEditMessage_24": {
+    "messageformat": "메시지 수정은 발송 시간으로부터 24시간 이내에 해야 합니다.",
     "description": "Error message when you try to send an edit after message becomes too old"
   },
   "icu:startConversation--username-not-found": {
@@ -3498,7 +3554,39 @@
   },
   "icu:callDuration": {
     "messageformat": "Signal {duration}",
-    "description": "Shown in the call screen to indicate how long the call has been connected"
+    "description": "(deleted 2023/10/13) Shown in the call screen to indicate how long the call has been connected"
+  },
+  "icu:CallControls__InfoDisplay--participants": {
+    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} people}}",
+    "description": "Shown in the call screen and lobby for group calls to specify the number of members in the call or in the group. Count is at always at least 1."
+  },
+  "icu:CallControls__InfoDisplay--audio-call": {
+    "messageformat": "Audio call",
+    "description": "Shown in the call lobby for a direct 1:1 call when the caller's video is disabled, to specify that an audio call will be placed when clicking the Start button."
+  },
+  "icu:CallControls__JoinLeaveButton--hangup-1-1": {
+    "messageformat": "End",
+    "description": "Title for the hangup button for a direct 1:1 call with only 2 participants."
+  },
+  "icu:CallControls__JoinLeaveButton--hangup-group": {
+    "messageformat": "Leave",
+    "description": "Title for the hangup button for a group call."
+  },
+  "icu:CallControls__MutedToast--muted": {
+    "messageformat": "Mic off",
+    "description": "Shown in a call when the user mutes their audio input using the Mute toggle button."
+  },
+  "icu:CallControls__MutedToast--unmuted": {
+    "messageformat": "Mic on",
+    "description": "Shown in a call when the user is muted and then unmutes their audio input using the Mute toggle button."
+  },
+  "icu:CallControls__RingingToast--ringing-on": {
+    "messageformat": "Ringing on",
+    "description": "Shown in a group call lobby when call ringing is disabled, then the user enables ringing using the Ringing toggle button."
+  },
+  "icu:CallControls__RingingToast--ringing-off": {
+    "messageformat": "Ringing off",
+    "description": "Shown in a group call lobby when call ringing is enabled, then the user disables ringing using the Ringing toggle button."
   },
   "icu:callingDeviceSelection__settings": {
     "messageformat": "설정",
@@ -6808,13 +6896,10 @@
     "messageformat": "사소한 변경 사항과 버그 수정 및 성능 개선. Signal을 이용해 주셔서 감사합니다!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.35--0": {
-    "messageformat": "• 버그 수정 및 사용자 인터페이스 개선."
+  "icu:WhatsNew__v6.37--0": {
+    "messageformat": "이제 이전 연락처를 쉽게 제거할 수 있습니다. 새 대화창의 연락처 목록에서 지우고 싶은 상대방의 이름 옆에 있는 점 3개를 클릭하고 '제거'를 선택하면 됩니다."
   },
-  "icu:WhatsNew__v6.36--0": {
-    "messageformat": "그룹 화상 통화가 다시 연결되는 시점이 더 잘 표시되도록 사용자 인터페이스를 업데이트했습니다. 이제 모두가 동시에 갑자기 동작을 멈추는 척하는 짓궂은 장난처럼 보였던 섬네일 대신 흐릿한 섬네일을 볼 수 있습니다."
-  },
-  "icu:WhatsNew__v6.36--1": {
-    "messageformat": "시스템 트레이 아이콘은 이제 더 이상 Ubuntu Linux에 흐릿하게 표시되지 않습니다."
+  "icu:WhatsNew__v6.38--0": {
+    "messageformat": "This release includes an updated design for Signal voice and video calls. Now the calling user interface will still look fantastic even if your camera isn't on and you can't stare at your own beautiful reflection."
   }
 }

@@ -693,23 +693,23 @@
   },
   "icu:SafetyNumberViewer__migration__text": {
     "messageformat": "பாதுகாப்பு எண்கள் புதுப்பிக்கப்படுகின்றன.",
-    "description": "An explanatory note in SafetyNumberViewer describing the safety number migration process."
+    "description": "(Deleted 11/01/2023) An explanatory note in SafetyNumberViewer describing the safety number migration process."
   },
   "icu:SafetyNumberViewer__migration__learn_more": {
     "messageformat": "மேலும் அறிக",
-    "description": "A link text in SafetyNumberViewer describing the safety number migration process."
+    "description": "(Deleted 11/01/2023) A link text in SafetyNumberViewer describing the safety number migration process."
   },
   "icu:SafetyNumberViewer__card__prev": {
     "messageformat": "முந்தைய பாதுகாப்பு எண்",
-    "description": "An ARIA label for safety number navigation button."
+    "description": "(Deleted 11/01/2023) An ARIA label for safety number navigation button."
   },
   "icu:SafetyNumberViewer__card__next": {
     "messageformat": "அடுத்த பாதுகாப்பு எண்",
-    "description": "An ARIA label for safety number navigation button."
+    "description": "(Deleted 11/01/2023) An ARIA label for safety number navigation button."
   },
   "icu:SafetyNumberViewer__carousel__dot": {
     "messageformat": "பாதுகாப்பு எண் பதிப்பு, {index,number} / {total,number}",
-    "description": "An ARIA label for safety number carousel button."
+    "description": "(Deleted 11/01/2023) An ARIA label for safety number carousel button."
   },
   "icu:SafetyNumberViewer__markAsVerified": {
     "messageformat": "சரிபார்க்கப்பட்டதாகக் குறி",
@@ -719,33 +719,41 @@
     "messageformat": "சரிபார்ப்பை நீக்கு",
     "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
+  "icu:SafetyNumberViewer__hint": {
+    "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code with their device.",
+    "description": "Safety number viewer, text of the hint"
+  },
+  "icu:SafetyNumberViewer__learn_more": {
+    "messageformat": "Learn more",
+    "description": "Text of 'Learn more' button of SafetyNumberViewerModal modal"
+  },
   "icu:SafetyNumberViewer__hint--migration": {
     "messageformat": "{name} இன் எண்ட்-டு-எண்ட் என்க்ரிப்ஷனைச் சரிபார்க்க, மேலே உள்ள வண்ண அட்டையை அவற்றின் டிவைஸ் உடன் பொருத்தி எண்களை ஒப்பிடவும். இவை பொருந்தவில்லை என்றால், மற்ற பாதுகாப்பு எண்கள் ஜோடியை முயற்சிக்கவும். ஒரு ஜோடி மட்டுமே பொருந்த வேண்டும்.",
-    "description": "Safety number viewer, text of the hint during migration period"
+    "description": "(Deleted 11/01/2023). Safety number viewer, text of the hint during migration period"
   },
   "icu:SafetyNumberViewer__hint--normal": {
     "messageformat": "{name} இன் எண்ட்-டு-எண்ட் என்க்ரிப்ஷனைச் சரிபார்க்க, மேலே உள்ள எண்களை அவற்றின் டிவைஸ் உடன் ஒப்பிடவும். அவர்கள் தங்கள் டிவைசில் இருக்கும் உங்கள் குறியீட்டை ஸ்கேன் செய்யலாம்.",
-    "description": "Safety number viewer, text of the hint after migration period"
+    "description": "(Deleted 11/01/2023). Safety number viewer, text of the hint after migration period"
   },
   "icu:SafetyNumberOnboarding__title": {
     "messageformat": "பாதுகாப்பு எண்களில் மாற்றங்கள்",
-    "description": "Title of Safety number onboarding modal"
+    "description": "(Deleted 11/01/2023) Title of Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__p1": {
     "messageformat": "Signal இல் வரவிருக்கும் தனியுரிமை அம்சங்களை இயக்க, பாதுகாப்பு எண்கள் குறிப்பிட்ட நிலை மாற்றப்படும் காலத்தில் புதுப்பிக்கப்படவுள்ளன.",
-    "description": "Paragraph 1 of Safety number onboarding modal"
+    "description": "(Deleted 11/01/2023) Paragraph 1 of Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__p2": {
     "messageformat": "பாதுகாப்பு எண்களைச் சரிபார்க்க, உங்கள் தொடர்பின் டிவைஸ் உடன் வண்ண அட்டையைப் பொருத்தவும். இவை பொருந்தவில்லை என்றால், மற்ற பாதுகாப்பு எண்கள் ஜோடியை முயற்சிக்கவும். ஒரு ஜோடி மட்டுமே பொருந்த வேண்டும்.",
-    "description": "Paragraph 2 of Safety number onboarding modal"
+    "description": "(Deleted 11/01/2023) Paragraph 2 of Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__help": {
     "messageformat": "உங்களுக்கு உதவி வேண்டுமா?",
-    "description": "Text of a secondary button in Safety number onboarding modal"
+    "description": "(Deleted 11/01/2023) Text of a secondary button in Safety number onboarding modal"
   },
   "icu:SafetyNumberOnboarding__close": {
     "messageformat": "அறிந்துகொண்டேன்",
-    "description": "Text of a secondary button in Safety number onboarding modal"
+    "description": "(Deleted 11/01/2023) Text of a secondary button in Safety number onboarding modal"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "இவருடன் நீங்கள் செய்திகளைப் பரிமாறிய பிறகு அவருடன் ஒரு பாதுகாப்பு எண் உருவாக்கப்படும்.",
@@ -1388,15 +1396,27 @@
   },
   "icu:deleteMessages": {
     "messageformat": "நீக்கு",
-    "description": "Menu item for deleting messages, title case."
+    "description": "(deleted 2023/10/26) Menu item for deleting messages, title case."
+  },
+  "icu:deleteMessagesInConversation": {
+    "messageformat": "Delete messages",
+    "description": "Menu item for deleting all messages in a conversation from your device"
   },
   "icu:ConversationHeader__DeleteMessagesConfirmation__title": {
     "messageformat": "சாட்டை நீக்க வேண்டுமா?",
-    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
+    "description": "(deleted 2023/10/26) Conversation Header > Delete Action > Delete Messages Confirmation Modal > Title"
+  },
+  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__title": {
+    "messageformat": "Delete messages?",
+    "description": "Title for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__DeleteMessagesConfirmation__description": {
     "messageformat": "இது அரட்டை இந்த டிவைசிலிருந்து நீக்கப்படும்.",
-    "description": "Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
+    "description": "(deleted 2023/10/26) Conversation Header > Delete Action > Delete Messages Confirmation Modal > Description"
+  },
+  "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description": {
+    "messageformat": "Messages in this chat will be deleted from this device. You can still search for this chat after you delete messages.",
+    "description": "Description for confirmation modal to delete all messages in a conversation"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "குழுவிலுருந்து விலகு",
@@ -1489,6 +1509,14 @@
   "icu:ConversationMerge--explainer-dialog--line-2": {
     "messageformat": "இரண்டு சாட்களுக்கான உங்கள் மெசேஜ் வரலாறு இங்கே இணைக்கப்பட்டுள்ளது.",
     "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
+  "icu:PhoneNumberDiscovery--notification--withSharedGroup": {
+    "messageformat": "{phoneNumber} {conversationTitle} க்கு சொந்தமானது. நீங்கள் இருவரும் {sharedGroup} இன் உறுப்பினர்கள்.",
+    "description": "Shown when we've discovered a phone number for a contact you've been communicating with."
+  },
+  "icu:PhoneNumberDiscovery--notification--noSharedGroup": {
+    "messageformat": "{phoneNumber} {conversationTitle} க்கு சொந்தமானது",
+    "description": "Shown when we've discovered a phone number for a contact you've been communicating with, but you have no shared groups."
   },
   "icu:quoteThumbnailAlt": {
     "messageformat": "மேற்கோள் செய்தியிலிருந்து படத்தின் சிறு உருவம்",
@@ -1639,7 +1667,7 @@
   },
   "icu:calling__start": {
     "messageformat": "அழைப்பைத் தொடங்கு",
-    "description": "Button label in the call lobby for starting a call"
+    "description": "(deleted 2023/10/13) Button label in the call lobby for starting a call"
   },
   "icu:calling__join": {
     "messageformat": "அழைப்பில் சேர்",
@@ -1653,13 +1681,29 @@
     "messageformat": "அழைப்பின் அளவு காரணமாக மைக்ரோஃபோன் ஒலியடக்கப்பட்டது",
     "description": "Shown in a call lobby toast if there are a lot of people already on the call"
   },
+  "icu:calling__toasts--aria-label": {
+    "messageformat": "அழைப்பு அறிவிப்புகள்",
+    "description": "Aria label for region of toasts shown during a call (for, e.g. reconnecting, person joined, audio device changed notifications)"
+  },
   "icu:calling__call-is-full": {
     "messageformat": "அழைப்பு நிரம்பியுள்ளது",
     "description": "Text in the call lobby when you can't join because the call is full"
   },
+  "icu:CallingLobbyJoinButton--join": {
+    "messageformat": "Join",
+    "description": "Button label in the call lobby for joining a call"
+  },
+  "icu:CallingLobbyJoinButton--start": {
+    "messageformat": "Start",
+    "description": "Button label in the call lobby for starting a call"
+  },
+  "icu:CallingLobbyJoinButton--call-full": {
+    "messageformat": "Call full",
+    "description": "Button in the call lobby when you can't join because the call is full"
+  },
   "icu:calling__button--video__label": {
     "messageformat": "புகைப்பட கருவி",
-    "description": "Label under the video button"
+    "description": "(deleted 2023/10/13) Label under the video button"
   },
   "icu:calling__button--video-disabled": {
     "messageformat": "புகைப்பட கருவி முடக்கப்பட்டது",
@@ -1675,7 +1719,7 @@
   },
   "icu:calling__button--audio__label": {
     "messageformat": "ஒலியடக்கு",
-    "description": "Label under the audio button"
+    "description": "(deleted 2023/10/13) Label under the audio button"
   },
   "icu:calling__button--audio-disabled": {
     "messageformat": "மைக்ரோஃபோன் முடக்கப்பட்டது",
@@ -1691,7 +1735,7 @@
   },
   "icu:calling__button--presenting__label": {
     "messageformat": "பகிர்",
-    "description": "Label under the share screen button"
+    "description": "(deleted 2023/10/13) Label under the share screen button"
   },
   "icu:calling__button--presenting-disabled": {
     "messageformat": "வழங்குதல் முடக்கப்பட்டது",
@@ -1707,7 +1751,7 @@
   },
   "icu:calling__button--ring__label": {
     "messageformat": "அழை",
-    "description": "Label under the ring button"
+    "description": "(deleted 2023/10/13) Label under the ring button"
   },
   "icu:calling__button--ring__disabled-because-group-is-too-large": {
     "messageformat": "எண்ணிக்கை கூடியதால் குழுவில் உள்ள அனைவரையும் அழைக்க இயலாது",
@@ -1719,6 +1763,14 @@
   },
   "icu:calling__button--ring__on": {
     "messageformat": "அழைப்பை இயக்கு",
+    "description": "Button tooltip label for turning ringing on"
+  },
+  "icu:CallingButton__ring-off": {
+    "messageformat": "Turn off ringing",
+    "description": "Button tooltip label for turning ringing off"
+  },
+  "icu:CallingButton--ring-on": {
+    "messageformat": "Turn on ringing",
     "description": "Button tooltip label for turning ringing on"
   },
   "icu:calling__your-video-is-off": {
@@ -2293,6 +2345,10 @@
   },
   "icu:ToastManager__CannotEditMessage": {
     "messageformat": "நீங்கள் இந்த மெசேஜை அனுப்பியதிலிருந்து 3 மணிநேரத்திற்குள் மட்டுமே திருத்தங்களைப் பயன்படுத்த முடியும்.",
+    "description": "(deleted 2023/10/26) Error message when you try to send an edit after message becomes too old"
+  },
+  "icu:ToastManager__CannotEditMessage_24": {
+    "messageformat": "நீங்கள் இந்த மெசேஜை அனுப்பியதிலிருந்து 24 மணிநேரத்திற்குள் மட்டுமே திருத்தங்களைச் செய்ய முடியும்.",
     "description": "Error message when you try to send an edit after message becomes too old"
   },
   "icu:startConversation--username-not-found": {
@@ -3498,7 +3554,39 @@
   },
   "icu:callDuration": {
     "messageformat": "Signal சிக்னல் அழைப்பு காலம் {duration}",
-    "description": "Shown in the call screen to indicate how long the call has been connected"
+    "description": "(deleted 2023/10/13) Shown in the call screen to indicate how long the call has been connected"
+  },
+  "icu:CallControls__InfoDisplay--participants": {
+    "messageformat": "{count, plural, one {{count,number} person} other {{count,number} people}}",
+    "description": "Shown in the call screen and lobby for group calls to specify the number of members in the call or in the group. Count is at always at least 1."
+  },
+  "icu:CallControls__InfoDisplay--audio-call": {
+    "messageformat": "Audio call",
+    "description": "Shown in the call lobby for a direct 1:1 call when the caller's video is disabled, to specify that an audio call will be placed when clicking the Start button."
+  },
+  "icu:CallControls__JoinLeaveButton--hangup-1-1": {
+    "messageformat": "End",
+    "description": "Title for the hangup button for a direct 1:1 call with only 2 participants."
+  },
+  "icu:CallControls__JoinLeaveButton--hangup-group": {
+    "messageformat": "Leave",
+    "description": "Title for the hangup button for a group call."
+  },
+  "icu:CallControls__MutedToast--muted": {
+    "messageformat": "Mic off",
+    "description": "Shown in a call when the user mutes their audio input using the Mute toggle button."
+  },
+  "icu:CallControls__MutedToast--unmuted": {
+    "messageformat": "Mic on",
+    "description": "Shown in a call when the user is muted and then unmutes their audio input using the Mute toggle button."
+  },
+  "icu:CallControls__RingingToast--ringing-on": {
+    "messageformat": "Ringing on",
+    "description": "Shown in a group call lobby when call ringing is disabled, then the user enables ringing using the Ringing toggle button."
+  },
+  "icu:CallControls__RingingToast--ringing-off": {
+    "messageformat": "Ringing off",
+    "description": "Shown in a group call lobby when call ringing is enabled, then the user disables ringing using the Ringing toggle button."
   },
   "icu:callingDeviceSelection__settings": {
     "messageformat": "அமைப்புகள்",
@@ -6808,13 +6896,10 @@
     "messageformat": "சிறு மாற்றங்கள், பிழை திருத்தங்கள் மற்றும் செயல்திறன் மேம்பாடுகள். சிக்னலைப் பயன்படுத்தியதற்கு நன்றி!",
     "description": "Release notes for releases that only include bug fixes"
   },
-  "icu:WhatsNew__v6.35--0": {
-    "messageformat": "இதை ஒருபோதும் செய்யக்கூடாது எனத் தீர்மானித்துள்ளோம், அதாவது மற்ற செயலிகளைப் போல் சோம்பலான ரிலீஸ் குறிப்புகளைப் போல் இருக்கக்கூடாது என்று, ஆனால் இந்தப் புதுப்பிப்பில் நிஜமாகவே \"பிழை திருத்தங்களும் UX மேம்படுத்தல்களும்\" உள்ளன."
+  "icu:WhatsNew__v6.37--0": {
+    "messageformat": "உங்கள் Signal தொடர்புகளை அழகாகவும் நேர்த்தியாகவும் வைத்திருக்க ஒரு புதிய வழியைச் சேர்த்துள்ளோம். இப்போது நீங்கள் ஒரு பழைய தொடர்பை எளிதாக அகற்றலாம். புதிய அரட்டை திரையின் தொடர்பு பட்டியலில் அவர்களின் பெயருக்கு அடுத்துள்ள மூன்று புள்ளிகளைக் கிளிக் செய்து \"நீக்கு\" என்பதைத் தேர்ந்தெடுக்கவும்."
   },
-  "icu:WhatsNew__v6.36--0": {
-    "messageformat": "ஒரு குரூப் வீடியோ அழைப்பு எப்போது மீண்டும் இணைக்கப்படுகிறது என்பதைக் குறிக்க பயனர் இடைமுகத்தைப் புதுப்பித்துள்ளோம். எல்லாமே உறைந்ததுபோல் திகைக்கச் செய்த தோற்றத்துக்குப் பதில் இப்போது மங்கலான சிறுபடங்களைப் பார்ப்பீர்கள்."
-  },
-  "icu:WhatsNew__v6.36--1": {
-    "messageformat": "குறைந்த தெளிவுத்திறன் கொண்ட திரையில் பழைய ஸ்மார்ட் ஃபிரிட்ஜில் Ubuntu Linux இயங்கிக் கொண்டிருந்தால் ஒழிய, Ubuntu Linux இல் சிஸ்டம் டிரே ஐகான் இனி பிக்சலேட்டடாகத் தோன்றாது."
+  "icu:WhatsNew__v6.38--0": {
+    "messageformat": "This release includes an updated design for Signal voice and video calls. Now the calling user interface will still look fantastic even if your camera isn't on and you can't stare at your own beautiful reflection."
   }
 }
