@@ -25,7 +25,7 @@ export async function sign(
   const target = await realpath(configuration.path);
 
   // The script will update the file in-place
-  const returnCode = execSync(`bash ${scriptPath} ${target}`, {
+  const returnCode = execSync(`bash "${scriptPath}" "${target}"`, {
     stdio: [null, process.stdout, process.stderr],
   });
 
