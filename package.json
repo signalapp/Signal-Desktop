@@ -385,6 +385,7 @@
       "signingHashAlgorithms": [
         "sha256"
       ],
+      "sign": "./ts/scripts/sign-windows.js",
       "publisherName": "Signal Messenger, LLC",
       "icon": "build/icons/win/icon.ico",
       "publish": [
