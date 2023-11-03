@@ -22,7 +22,7 @@ export async function sign(
     );
   }
 
-  const target = realpath(configuration.path);
+  const target = await realpath(configuration.path);
 
   // The script will update the file in-place
   execSync(`bash ${scriptPath} ${target}`, {
