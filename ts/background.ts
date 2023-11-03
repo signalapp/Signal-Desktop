@@ -51,6 +51,7 @@ import { senderCertificateService } from './services/senderCertificate';
 import { GROUP_CREDENTIALS_KEY } from './services/groupCredentialFetcher';
 import * as KeyboardLayout from './services/keyboardLayout';
 import * as StorageService from './services/storage';
+import { usernameIntegrity } from './services/usernameIntegrity';
 import { RoutineProfileRefresher } from './routineProfileRefresh';
 import { isOlderThan, toDayMillis } from './util/timestamp';
 import { isValidReactionEmoji } from './reactions/isValidReactionEmoji';
@@ -2051,6 +2052,8 @@ export async function startApp(): Promise<void> {
 
       void routineProfileRefresher.start();
     }
+
+    drop(usernameIntegrity.start());
   }
 
   let initialStartupCount = 0;

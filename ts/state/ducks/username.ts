@@ -18,6 +18,7 @@ import { assertDev } from '../../util/assert';
 import type { StateType as RootStateType } from '../reducer';
 import type { PromiseAction } from '../util';
 import { getMe } from '../selectors/conversations';
+import { getUsernameCorrupted } from '../selectors/items';
 import {
   UsernameEditState,
   UsernameLinkState,
@@ -248,9 +249,10 @@ export function deleteUsername({
 > {
   return (dispatch, getState) => {
     const me = getMe(getState());
+    const isUsernameCorrupted = getUsernameCorrupted(getState());
     const username = me.username ?? defaultUsername;
 
-    if (!username) {
+    if (!username && !isUsernameCorrupted) {
       return;
     }
 
@@ -568,7 +570,7 @@ export function reducer(
   if (action.type === 'username/RESET_USERNAME_LINK_REJECTED') {
     return {
       ...state,
-      linkState: UsernameLinkState.Ready,
+      linkState: UsernameLinkState.Error,
     };
   }
 

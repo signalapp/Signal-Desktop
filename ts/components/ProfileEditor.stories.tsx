@@ -37,9 +37,15 @@ export default {
         Deleting: UsernameEditState.Deleting,
       },
     },
+    usernameCorrupted: {
+      control: 'boolean',
+    },
     usernameLinkState: {
       control: { type: 'select' },
       options: [UsernameLinkState.Ready, UsernameLinkState.Updating],
+    },
+    usernameLinkCorrupted: {
+      control: 'boolean',
     },
   },
   args: {

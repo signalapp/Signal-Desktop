@@ -93,6 +93,16 @@ export const getHasCompletedUsernameLinkOnboarding = createSelector(
     Boolean(state.hasCompletedUsernameLinkOnboarding)
 );
 
+export const getUsernameCorrupted = createSelector(
+  getItems,
+  (state: ItemsStateType): boolean => Boolean(state.usernameCorrupted)
+);
+
+export const getUsernameLinkCorrupted = createSelector(
+  getItems,
+  (state: ItemsStateType): boolean => Boolean(state.usernameLinkCorrupted)
+);
+
 export const getUsernameLinkColor = createSelector(
   getItems,
   (state: ItemsStateType): number | undefined => state.usernameLinkColor

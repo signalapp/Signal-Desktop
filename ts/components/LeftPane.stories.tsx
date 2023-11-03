@@ -158,6 +158,8 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
     hasRelinkDialog: false,
     hasUpdateDialog: false,
     unsupportedOSDialogType: undefined,
+    usernameCorrupted: false,
+    usernameLinkCorrupted: false,
     isUpdateDownloaded,
     navTabsCollapsed: false,
 
@@ -269,6 +271,7 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
       'toggleConversationInChooseMembers'
     ),
     toggleNavTabsCollapse: action('toggleNavTabsCollapse'),
+    toggleProfileEditor: action('toggleProfileEditor'),
     updateSearchTerm: action('updateSearchTerm'),
 
     ...overrideProps,
@@ -297,6 +300,42 @@ export function InboxNoConversations(): JSX.Element {
           archivedConversations: [],
           isAboutToSearch: false,
         },
+      })}
+    />
+  );
+}
+
+export function InboxUsernameCorrupted(): JSX.Element {
+  return (
+    <LeftPaneInContainer
+      {...useProps({
+        modeSpecificProps: {
+          ...defaultSearchProps,
+          mode: LeftPaneMode.Inbox,
+          pinnedConversations: [],
+          conversations: [],
+          archivedConversations: [],
+          isAboutToSearch: false,
+        },
+        usernameCorrupted: true,
+      })}
+    />
+  );
+}
+
+export function InboxUsernameLinkCorrupted(): JSX.Element {
+  return (
+    <LeftPaneInContainer
+      {...useProps({
+        modeSpecificProps: {
+          ...defaultSearchProps,
+          mode: LeftPaneMode.Inbox,
+          pinnedConversations: [],
+          conversations: [],
+          archivedConversations: [],
+          isAboutToSearch: false,
+        },
+        usernameLinkCorrupted: true,
       })}
     />
   );
