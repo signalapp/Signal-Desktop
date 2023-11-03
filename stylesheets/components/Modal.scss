@@ -187,8 +187,8 @@
     padding-inline: 16px;
     gap: 8px;
 
-    .module-Button {
-      margin-inline-start: 8px;
+    .module-Button:not(:first-child) {
+      margin-inline-start: 4px;
     }
 
     &--one-button-per-line {

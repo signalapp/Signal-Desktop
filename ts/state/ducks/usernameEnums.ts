@@ -18,6 +18,7 @@ export enum UsernameEditState {
 export enum UsernameLinkState {
   Ready = 'Ready',
   Updating = 'Updating',
+  Error = 'Error',
 }
 
 //

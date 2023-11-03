@@ -178,6 +178,28 @@
     }
   }
 
+  &__error-icon {
+    -webkit-mask-size: 100%;
+    display: block;
+    height: 24px;
+    width: 24px;
+    margin: 4px;
+
+    @include light-theme {
+      @include color-svg(
+        '../images/icons/v3/error/error-circle.svg',
+        $color-accent-red
+      );
+    }
+
+    @include dark-theme {
+      @include color-svg(
+        '../images/icons/v3/error/error-circle.svg',
+        $color-accent-red
+      );
+    }
+  }
+
   &__username-link {
     &__tooltip {
       padding: 12px;
@@ -232,6 +254,14 @@
 
         @include color-svg('../images/icons/v3/x/x.svg', $color-gray-45);
       }
+    }
+  }
+
+  &__reset-username-modal__ModalHost__width-container {
+    max-width: 438px;
+
+    .module-Modal__button-footer {
+      justify-content: space-between;
     }
   }
 }

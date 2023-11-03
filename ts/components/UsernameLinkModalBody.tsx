@@ -26,6 +26,7 @@ export type PropsType = Readonly<{
   link?: string;
   username: string;
   colorId?: number;
+  usernameLinkCorrupted: boolean;
   usernameLinkState: UsernameLinkState;
 
   setUsernameLinkColor: (colorId: number) => void;
@@ -486,6 +487,7 @@ export function UsernameLinkModalBody({
   i18n,
   link,
   username,
+  usernameLinkCorrupted,
   usernameLinkState,
   colorId: initialColorId = ColorEnum.UNKNOWN,
 
@@ -499,6 +501,7 @@ export function UsernameLinkModalBody({
   const [pngData, setPngData] = useState<Uint8Array | undefined>();
   const [showColors, setShowColors] = useState(false);
   const [confirmReset, setConfirmReset] = useState(false);
+  const [showError, setShowError] = useState(false);
   const [colorId, setColorId] = useState(initialColorId);
 
   const { fg: fgColor, bg: bgColor } = COLOR_MAP.get(colorId) ?? DEFAULT_PRESET;
@@ -621,13 +624,36 @@ export function UsernameLinkModalBody({
     resetUsernameLink();
   }, [resetUsernameLink]);
 
+  useEffect(() => {
+    if (!usernameLinkCorrupted) {
+      return;
+    }
+
+    resetUsernameLink();
+  }, [usernameLinkCorrupted, resetUsernameLink]);
+
+  useEffect(() => {
+    if (usernameLinkState !== UsernameLinkState.Error) {
+      return;
+    }
+
+    setShowError(true);
+  }, [usernameLinkState]);
+
+  const onClearError = useCallback(() => {
+    setShowError(false);
+  }, []);
+
+  const isResettingLink =
+    usernameLinkCorrupted || usernameLinkState !== UsernameLinkState.Ready;
+
   const info = (
     <>
       <div className={classnames(`${CLASS}__actions`)}>
         <button
           className={`${CLASS}__actions__save`}
           type="button"
-          disabled={!link}
+          disabled={!link || isResettingLink}
           onClick={onSave}
         >
           <i />
@@ -648,11 +674,19 @@ export function UsernameLinkModalBody({
         <button
           className={classnames(`${CLASS}__link__icon`)}
           type="button"
-          disabled={!link}
+          disabled={!link || isResettingLink}
           onClick={onCopyLink}
           aria-label={i18n('icu:UsernameLinkModalBody__copy')}
         />
-        <div className={classnames(`${CLASS}__link__text`)}>{link}</div>
+        <div
+          className={classnames(`${CLASS}__link__text`, {
+            [`${CLASS}__link__text--resetting`]: isResettingLink,
+          })}
+        >
+          {isResettingLink
+            ? i18n('icu:UsernameLinkModalBody__resetting-link')
+            : link}
+        </div>
       </div>
 
       <div className={classnames(`${CLASS}__help`)}>
@@ -677,6 +711,29 @@ export function UsernameLinkModalBody({
     </>
   );
 
+  let linkImage: JSX.Element | undefined;
+  if (usernameLinkState === UsernameLinkState.Ready && link) {
+    linkImage = (
+      <>
+        <Blotches
+          className={`${CLASS}__card__qr__blotches`}
+          link={link}
+          color={fgColor}
+        />
+        <div className={`${CLASS}__card__qr__logo`} />
+      </>
+    );
+  } else if (usernameLinkState === UsernameLinkState.Error) {
+    linkImage = <i className={`${CLASS}__card__qr__error-icon`} />;
+  } else {
+    linkImage = (
+      <Spinner
+        moduleClassName={`${CLASS}__card__qr__spinner`}
+        svgSize="small"
+      />
+    );
+  }
+
   return (
     <div className={`${CLASS}__container`}>
       <div className={CLASS}>
@@ -686,23 +743,7 @@ export function UsernameLinkModalBody({
           })}
           ref={onCardRef}
         >
-          <div className={`${CLASS}__card__qr`}>
-            {usernameLinkState === UsernameLinkState.Ready && link ? (
-              <>
-                <Blotches
-                  className={`${CLASS}__card__qr__blotches`}
-                  link={link}
-                  color={fgColor}
-                />
-                <div className={`${CLASS}__card__qr__logo`} />
-              </>
-            ) : (
-              <Spinner
-                moduleClassName={`${CLASS}__card__qr__spinner`}
-                svgSize="small"
-              />
-            )}
-          </div>
+          <div className={`${CLASS}__card__qr`}>{linkImage}</div>
           <div className={`${CLASS}__card__username`}>
             {!showColors && (
               <button
@@ -730,6 +771,18 @@ export function UsernameLinkModalBody({
             ]}
           >
             {i18n('icu:UsernameLinkModalBody__reset__confirm')}
+          </ConfirmationDialog>
+        )}
+
+        {showError && (
+          <ConfirmationDialog
+            i18n={i18n}
+            dialogName="UsernameLinkModal__error"
+            onClose={onClearError}
+            cancelButtonVariant={ButtonVariant.Secondary}
+            cancelText={i18n('icu:ok')}
+          >
+            {i18n('icu:UsernameLinkModalBody__error__text')}
           </ConfirmationDialog>
         )}
 

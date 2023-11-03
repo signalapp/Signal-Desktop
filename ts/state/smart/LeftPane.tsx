@@ -40,6 +40,8 @@ import { hasNetworkDialog } from '../selectors/network';
 import {
   getPreferredLeftPaneWidth,
   getUsernamesEnabled,
+  getUsernameCorrupted,
+  getUsernameLinkCorrupted,
   getNavTabsCollapsed,
 } from '../selectors/items';
 import {
@@ -203,6 +205,8 @@ const getModeSpecificProps = (
 const mapStateToProps = (state: StateType) => {
   const hasUpdateDialog = isUpdateDialogVisible(state);
   const hasUnsupportedOS = isOSUnsupported(state);
+  const usernameCorrupted = getUsernameCorrupted(state);
+  const usernameLinkCorrupted = getUsernameLinkCorrupted(state);
 
   let hasExpiredDialog = false;
   let unsupportedOSDialogType: 'error' | 'warning' | undefined;
@@ -223,6 +227,8 @@ const mapStateToProps = (state: StateType) => {
     hasUpdateDialog,
     isUpdateDownloaded: isUpdateDownloaded(state),
     unsupportedOSDialogType,
+    usernameCorrupted,
+    usernameLinkCorrupted,
 
     modeSpecificProps: getModeSpecificProps(state),
     navTabsCollapsed: getNavTabsCollapsed(state),

@@ -132,7 +132,7 @@ export async function lookupConversationWithoutServiceId(
   }
 }
 
-async function checkForUsername(
+export async function checkForUsername(
   username: string
 ): Promise<FoundUsernameType | undefined> {
   let hash: Buffer;

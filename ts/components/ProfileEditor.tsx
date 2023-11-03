@@ -82,10 +82,12 @@ export type PropsDataType = {
   phoneNumber?: string;
   userAvatarData: ReadonlyArray<AvatarDataType>;
   username?: string;
+  usernameCorrupted: boolean;
   usernameEditState: UsernameEditState;
   usernameLinkState: UsernameLinkState;
   usernameLinkColor?: number;
   usernameLink?: string;
+  usernameLinkCorrupted: boolean;
 } & Pick<EmojiButtonProps, 'recentEmojis' | 'skinTone'>;
 
 type PropsActionType = {
@@ -169,10 +171,12 @@ export function ProfileEditor({
   skinTone,
   userAvatarData,
   username,
+  usernameCorrupted,
   usernameEditState,
   usernameLinkState,
   usernameLinkColor,
   usernameLink,
+  usernameLinkCorrupted,
 }: PropsType): JSX.Element {
   const focusInputRef = useRef<HTMLInputElement | null>(null);
   const [editState, setEditState] = useState<EditState>(EditState.None);
@@ -208,6 +212,7 @@ export function ProfileEditor({
     familyName,
     firstName,
   });
+  const [isResettingUsername, setIsResettingUsername] = useState(false);
 
   // Reset username edit state when leaving
   useEffect(() => {
@@ -530,6 +535,7 @@ export function ProfileEditor({
         link={usernameLink}
         username={username ?? ''}
         colorId={usernameLinkColor}
+        usernameLinkCorrupted={usernameLinkCorrupted}
         usernameLinkState={usernameLinkState}
         setUsernameLinkColor={setUsernameLinkColor}
         resetUsernameLink={resetUsernameLink}
@@ -542,6 +548,7 @@ export function ProfileEditor({
     let maybeUsernameRows: JSX.Element | undefined;
     if (isUsernameFlagEnabled) {
       let actions: JSX.Element | undefined;
+      let alwaysShowActions = false;
 
       if (usernameEditState === UsernameEditState.Deleting) {
         actions = (
@@ -579,7 +586,15 @@ export function ProfileEditor({
           },
         ];
 
-        if (username) {
+        if (usernameCorrupted) {
+          actions = (
+            <i
+              className="ProfileEditor__error-icon"
+              title={i18n('icu:ProfileEditor__username__error-icon')}
+            />
+          );
+          alwaysShowActions = true;
+        } else if (username) {
           actions = (
             <ContextMenu
               i18n={i18n}
@@ -593,7 +608,18 @@ export function ProfileEditor({
       }
 
       let maybeUsernameLinkRow: JSX.Element | undefined;
-      if (username) {
+      if (username && !usernameCorrupted) {
+        let linkActions: JSX.Element | undefined;
+
+        if (usernameLinkCorrupted) {
+          linkActions = (
+            <i
+              className="ProfileEditor__error-icon"
+              title={i18n('icu:ProfileEditor__username-link__error-icon')}
+            />
+          );
+        }
+
         maybeUsernameLinkRow = (
           <PanelRow
             className="ProfileEditor__row"
@@ -604,6 +630,8 @@ export function ProfileEditor({
             onClick={() => {
               setEditState(EditState.UsernameLink);
             }}
+            alwaysShowActions
+            actions={linkActions}
           />
         );
 
@@ -647,8 +675,16 @@ export function ProfileEditor({
             icon={
               <i className="ProfileEditor__icon--container ProfileEditor__icon ProfileEditor__icon--username" />
             }
-            label={username || i18n('icu:ProfileEditor--username')}
+            label={
+              (!usernameCorrupted && username) ||
+              i18n('icu:ProfileEditor--username')
+            }
             onClick={() => {
+              if (usernameCorrupted) {
+                setIsResettingUsername(true);
+                return;
+              }
+
               openUsernameReservationModal();
               if (username || hasCompletedUsernameOnboarding) {
                 setEditState(EditState.Username);
@@ -656,6 +692,7 @@ export function ProfileEditor({
                 setEditState(EditState.UsernameOnboarding);
               }
             }}
+            alwaysShowActions={alwaysShowActions}
             actions={actions}
           />
           {maybeUsernameLinkRow}
@@ -771,6 +808,36 @@ export function ProfileEditor({
           onClose={() => setConfirmDiscardAction(undefined)}
         />
       )}
+
+      {isResettingUsername && (
+        <ConfirmationDialog
+          dialogName="ProfileEditor.confirmResetUsername"
+          moduleClassName="ProfileEditor__reset-username-modal"
+          i18n={i18n}
+          onClose={() => setIsResettingUsername(false)}
+          actions={[
+            {
+              text: i18n(
+                'icu:ProfileEditor--username--corrupted--delete-button'
+              ),
+              action: () => deleteUsername(),
+            },
+            {
+              text: i18n(
+                'icu:ProfileEditor--username--corrupted--create-button'
+              ),
+              style: 'affirmative',
+              action: () => {
+                openUsernameReservationModal();
+                setEditState(EditState.Username);
+              },
+            },
+          ]}
+        >
+          {i18n('icu:ProfileEditor--username--corrupted--body')}
+        </ConfirmationDialog>
+      )}
+
       <div className="ProfileEditor">{content}</div>
     </>
   );
