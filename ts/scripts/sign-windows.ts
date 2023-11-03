@@ -25,7 +25,11 @@ export async function sign(
   const target = await realpath(configuration.path);
 
   // The script will update the file in-place
-  execSync(`bash ${scriptPath} ${target}`, {
+  const returnCode = execSync(`bash ${scriptPath} ${target}`, {
     stdio: [null, process.stdout, process.stderr],
   });
+
+  if (returnCode) {
+    throw new Error(`sign-windows: Script returned code ${returnCode}`);
+  }
 }
