@@ -221,6 +221,7 @@ export type PropsData = {
   isSpoilerExpanded?: Record<number, boolean>;
   direction: DirectionType;
   timestamp: number;
+  receivedAtMS?: number;
   status?: MessageStatusType;
   contact?: EmbeddedContactType;
   author: Pick<

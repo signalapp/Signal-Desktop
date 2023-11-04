@@ -44,8 +44,8 @@ export function SmartTypingBubble({
     if ('author' in lastItem.data) {
       lastItemAuthorId = lastItem.data.author?.id;
     }
-    if ('timestamp' in lastItem.data) {
-      lastItemTimestamp = lastItem.data.timestamp;
+    if ('receivedAtMS' in lastItem.data) {
+      lastItemTimestamp = lastItem.data.receivedAtMS;
     }
   }
 
