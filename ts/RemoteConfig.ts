@@ -17,7 +17,7 @@ import { getCountryCode } from './types/PhoneNumber';
 export type ConfigKeyType =
   | 'cds.disableCompatibilityMode'
   | 'desktop.announcementGroup'
-  | 'desktop.calling.audioLevelForSpeaking'
+  | 'desktop.calling.sendScreenShare1800'
   | 'desktop.cdsi.returnAcisWithoutUaks'
   | 'desktop.clientExpiration'
   | 'desktop.editMessageSend'
