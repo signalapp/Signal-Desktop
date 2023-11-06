@@ -336,6 +336,18 @@
     "messageformat": "படிக்காததாகக் குறிக்கப்பட்டது",
     "description": "Nav Tabs > Unread badge > when conversation is marked unread > Accessibility Text"
   },
+  "icu:NavTabs__ItemLabel--Chats": {
+    "messageformat": "சாட்ஸ்",
+    "description": "Nav Tabs > Chats Button > Label & Accessibility Text"
+  },
+  "icu:NavTabs__ItemLabel--Calls": {
+    "messageformat": "அழைப்புகள்",
+    "description": "Nav Tabs > Calls Button > Label & Accessibility Text"
+  },
+  "icu:NavTabs__ItemLabel--Stories": {
+    "messageformat": "ஸ்டோரீஸ்",
+    "description": "Nav Tabs > Stories Button > Label & Accessibility Text"
+  },
   "icu:NavTabs__ItemLabel--Settings": {
     "messageformat": "அமைப்புகள்",
     "description": "Nav Tabs > Settings Button > Label & Accessibility Text"

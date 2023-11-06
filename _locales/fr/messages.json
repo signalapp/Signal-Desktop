@@ -336,6 +336,18 @@
     "messageformat": "Marqué comme non lu",
     "description": "Nav Tabs > Unread badge > when conversation is marked unread > Accessibility Text"
   },
+  "icu:NavTabs__ItemLabel--Chats": {
+    "messageformat": "Conversations",
+    "description": "Nav Tabs > Chats Button > Label & Accessibility Text"
+  },
+  "icu:NavTabs__ItemLabel--Calls": {
+    "messageformat": "Appels",
+    "description": "Nav Tabs > Calls Button > Label & Accessibility Text"
+  },
+  "icu:NavTabs__ItemLabel--Stories": {
+    "messageformat": "Stories",
+    "description": "Nav Tabs > Stories Button > Label & Accessibility Text"
+  },
   "icu:NavTabs__ItemLabel--Settings": {
     "messageformat": "Paramètres",
     "description": "Nav Tabs > Settings Button > Label & Accessibility Text"

@@ -336,6 +336,18 @@
     "messageformat": "Означено како непрочитано",
     "description": "Nav Tabs > Unread badge > when conversation is marked unread > Accessibility Text"
   },
+  "icu:NavTabs__ItemLabel--Chats": {
+    "messageformat": "Разговори",
+    "description": "Nav Tabs > Chats Button > Label & Accessibility Text"
+  },
+  "icu:NavTabs__ItemLabel--Calls": {
+    "messageformat": "Повици",
+    "description": "Nav Tabs > Calls Button > Label & Accessibility Text"
+  },
+  "icu:NavTabs__ItemLabel--Stories": {
+    "messageformat": "Приказни",
+    "description": "Nav Tabs > Stories Button > Label & Accessibility Text"
+  },
   "icu:NavTabs__ItemLabel--Settings": {
     "messageformat": "Поставувања",
     "description": "Nav Tabs > Settings Button > Label & Accessibility Text"

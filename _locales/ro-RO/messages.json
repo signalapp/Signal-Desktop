@@ -336,6 +336,18 @@
     "messageformat": "Marchează necitit",
     "description": "Nav Tabs > Unread badge > when conversation is marked unread > Accessibility Text"
   },
+  "icu:NavTabs__ItemLabel--Chats": {
+    "messageformat": "Conversații",
+    "description": "Nav Tabs > Chats Button > Label & Accessibility Text"
+  },
+  "icu:NavTabs__ItemLabel--Calls": {
+    "messageformat": "Apeluri",
+    "description": "Nav Tabs > Calls Button > Label & Accessibility Text"
+  },
+  "icu:NavTabs__ItemLabel--Stories": {
+    "messageformat": "Povești",
+    "description": "Nav Tabs > Stories Button > Label & Accessibility Text"
+  },
   "icu:NavTabs__ItemLabel--Settings": {
     "messageformat": "Setări",
     "description": "Nav Tabs > Settings Button > Label & Accessibility Text"

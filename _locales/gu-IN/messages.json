@@ -336,6 +336,18 @@
     "messageformat": "ન વાંચેલ તરીકે માર્ક કરો",
     "description": "Nav Tabs > Unread badge > when conversation is marked unread > Accessibility Text"
   },
+  "icu:NavTabs__ItemLabel--Chats": {
+    "messageformat": "ચેટ",
+    "description": "Nav Tabs > Chats Button > Label & Accessibility Text"
+  },
+  "icu:NavTabs__ItemLabel--Calls": {
+    "messageformat": "કૉલ્સ",
+    "description": "Nav Tabs > Calls Button > Label & Accessibility Text"
+  },
+  "icu:NavTabs__ItemLabel--Stories": {
+    "messageformat": "સ્ટોરી",
+    "description": "Nav Tabs > Stories Button > Label & Accessibility Text"
+  },
   "icu:NavTabs__ItemLabel--Settings": {
     "messageformat": "સેટિંગ્સ",
     "description": "Nav Tabs > Settings Button > Label & Accessibility Text"
